@@ -19,12 +19,20 @@ _Avoid_: companion, assistant (as a proper name)
 ## Playing
 
 **Play Session**:
-A short stretch (typically 15–30 minutes) where the player is actively at the game, as opposed to AFK.
+A stretch where the player is actively at the game, as opposed to AFK; usually 15–30 minutes, sometimes hours of active play.
 _Avoid_: login, run
 
 **AFK Stretch**:
 The hours between Play Sessions when characters progress unattended on whatever they were last set up to do.
 _Avoid_: idle time, offline
+
+**AFK Setup**:
+The end state of a Play Session: every character assigned to its best activity (map, skill, production) for the coming AFK Stretch, and stocked resources spent.
+_Avoid_: loadout, AFK config
+
+**Meta Path**:
+The single reference route through the game (class choices, character order, per-world milestones) that the community currently considers most efficient; all advice measures progress against it.
+_Avoid_: build guide, playstyle, meta (bare)
 
 ## Advice
 
@@ -43,3 +51,7 @@ _Avoid_: save, profile, data
 **Next Action**:
 One concrete, cited instruction the player can carry out in the game right now, with a one-line why.
 _Avoid_: tip, suggestion, recommendation
+
+**Goal**:
+A milestone on the Meta Path that takes more than one Next Action to reach, from minutes to several Play Sessions; it always shows exactly one Next Action, the one that moves it forward.
+_Avoid_: quest (in-game quests are a different thing), task, project

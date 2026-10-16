@@ -1,0 +1,3 @@
+# Source precedence: most official, then most recent
+
+When Sources disagree, the Knowledge Base takes them in this order: game data (as extracted by Toolbox) > the IdleOn wiki, if edited after the relevant patch > dated community guides (Reddit, Steam, the community progression guide) > anything else; within a tier, the newer wins. Every entry records the patch it was verified against, so superseded mechanics (e.g. class-change level requirements that moved) surface as stale rather than as confident advice. This exists because AI research tends to return outdated stats and older mechanics under the same names.
