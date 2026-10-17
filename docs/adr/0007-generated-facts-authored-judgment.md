@@ -1,0 +1,3 @@
+# Game facts are generated; only community judgment is hand-written
+
+Knowledge Base entries that state game facts (kill-count Milestones, Upgrade Vault gates, stamp costs and cap steps, quest requirements and rewards, card set sizes, unlock levels) are generated from IdleOn Toolbox's extracted game data each time the parser fork re-syncs. Only judgment is authored by hand (Priority Lists, Builds, the Meta Path and Roles, the "why" lines), and authored entries reference generated ones by id. We chose this because the game patches every 1–2 weeks: hand-copied facts would rot silently, while generated ones stay correct with no human work, leaving people to maintain only what is genuinely opinion.

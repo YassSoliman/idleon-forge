@@ -38,6 +38,14 @@ _Avoid_: AFK activity, job
 A per-character assignment that runs alongside the AFK Target (traps, a cog-board seat, worship charge, an alchemy cauldron); empty ones are lost value.
 _Avoid_: side job, secondary AFK
 
+**Stage**:
+An account-level label (e.g. W2-mid) derived from the Account State using Meta Path milestones; Priority Lists are keyed by Stage, and per-character differences come from class and level filters instead.
+_Avoid_: progress level, tier, phase
+
+**Role**:
+The job the Meta Path assigns a class (e.g. Squire = Construction carry, Wizard = Worship), used to judge Purpose and better-fit suggestions.
+_Avoid_: archetype, specialization
+
 **Meta Path**:
 The single reference route through the game (class choices, character order, per-world milestones) that the community currently considers most efficient; all advice measures progress against it.
 _Avoid_: build guide, playstyle, meta (bare)
