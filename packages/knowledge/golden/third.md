@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #76ea6859 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry
+# golden v1: third · knowledge #edf53166 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -36,11 +36,11 @@
 10 · Fighting Green Mushroom · Spore Meadows · Spend 11 anvil points on Speed
 
 ### Account · nothing to fix
-- Grow · Switch on a Refinery salt: Switch on Nullo Salt in the Refinery [Toolbox hasMissingMats · 2.3.540]
-- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [Toolbox getHighscores: Spiketrap best round · 2.3.540]
-- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [Toolbox dailyShipments alert · 2.3.540]
-- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [Toolbox getHoopsData · 2.3.540]
-- Extra · Gems unspent: 4,103 gems unspent [Priority verification 7.5: the first gem buy is contested · 2.3.540]
+- Grow · Switch on a Refinery salt: Switch on Nullo Salt in the Refinery [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Gems unspent: 4,103 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
 show more (2)
 If you have time
