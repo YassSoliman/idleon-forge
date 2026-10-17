@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "checkJs": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "types": [
+      "node"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@mantine/hooks": [
+        "shims/mantine-hooks.ts"
+      ],
+      "@components/constants": [
+        "shims/components-constants.ts"
+      ],
+      "@utility/analytics": [
+        "shims/analytics.ts"
+      ],
+      "@utility/clipboard": [
+        "shims/clipboard.ts"
+      ],
+      "@parsers/*": [
+        "vendor/parsers/*"
+      ],
+      "@utility/*": [
+        "vendor/utility/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "shims/**/*.ts",
+    "vendor/parsers/**/*.ts",
+    "vendor/data/website-data.d.ts"
+  ]
+}

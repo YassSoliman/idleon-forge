@@ -1,0 +1,25 @@
+{
+  "name": "@idleon-forge/parser-spike",
+  "version": "0.0.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "description": "Throwaway spike: IdleOn Toolbox parsers run standalone outside Next.js.",
+  "type": "module",
+  "scripts": {
+    "sync": "bash scripts/sync.sh",
+    "build": "node scripts/build.mjs",
+    "parse": "node dist/run.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "smoke": "bash scripts/smoke.sh"
+  },
+  "dependencies": {
+    "core-js": "^3.39.0",
+    "date-fns": "^2.28.0",
+    "lodash.merge": "^4.6.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "typescript": "^5.9.0",
+    "@types/node": "^22.0.0"
+  }
+}
