@@ -1,0 +1,75 @@
+{
+  "characters": [
+    {
+      "class": "Wizard",
+      "label": "C1",
+      "level": 73
+    },
+    {
+      "class": "Squire",
+      "label": "C2",
+      "level": 51
+    },
+    {
+      "class": "Bowman",
+      "label": "C3",
+      "level": 60
+    },
+    {
+      "class": "Squire",
+      "label": "C4",
+      "level": 85
+    },
+    {
+      "class": "Barbarian",
+      "label": "C5",
+      "level": 56
+    },
+    {
+      "class": "Shaman",
+      "label": "C6",
+      "level": 54
+    }
+  ],
+  "consent": "https://github.com/YassSoliman/idleon-forge/pull/46#issuecomment-6239147770",
+  "description": "W3-early account, 6 characters, two Squires",
+  "exportedOn": "2026-10-17",
+  "gameVersion": "2.3.540",
+  "id": "scrubbed-w3",
+  "now": "2026-10-17T16:12:33.140Z",
+  "owner": "joseph",
+  "parserCommit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+  "scrubber": {
+    "matchedPolicyHash": "9224a3be",
+    "matchedRules": [
+      "cards1",
+      "char-names",
+      "cog-player",
+      "cog-shape",
+      "data-guild-strings",
+      "gaming",
+      "guild-id",
+      "guild-member-b",
+      "guild-member-name",
+      "holes",
+      "letter-number",
+      "ninja",
+      "obol-locked",
+      "optlacc",
+      "pets-none",
+      "player-stuff",
+      "quest-label",
+      "quest-step",
+      "server-vars",
+      "sneaking-progress",
+      "spelunk",
+      "summon-boss",
+      "territory",
+      "tournament-leaderboard",
+      "tournament-match",
+      "tournament-user",
+      "uq-text"
+    ],
+    "version": 1
+  }
+}

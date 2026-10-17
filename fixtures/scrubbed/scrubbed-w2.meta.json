@@ -1,0 +1,66 @@
+{
+  "characters": [
+    {
+      "class": "Barbarian",
+      "label": "C1",
+      "level": 60
+    },
+    {
+      "class": "Squire",
+      "label": "C2",
+      "level": 43
+    },
+    {
+      "class": "Shaman",
+      "label": "C3",
+      "level": 44
+    },
+    {
+      "class": "Bowman",
+      "label": "C4",
+      "level": 54
+    },
+    {
+      "class": "Wizard",
+      "label": "C5",
+      "level": 56
+    }
+  ],
+  "consent": "https://github.com/YassSoliman/idleon-forge/pull/43#issuecomment-6238552996",
+  "description": "Early account at W2-late, 5 characters",
+  "exportedOn": "2026-10-17",
+  "gameVersion": "2.3.540",
+  "id": "scrubbed-w2",
+  "now": "2026-10-17T15:47:05.447Z",
+  "owner": "yasser",
+  "parserCommit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+  "scrubber": {
+    "matchedPolicyHash": "0cbbd748",
+    "matchedRules": [
+      "cards1",
+      "char-names",
+      "cog-player",
+      "companion-e",
+      "data-guild-strings",
+      "gaming",
+      "guild-id",
+      "holes",
+      "letter-number",
+      "ninja",
+      "obol-locked",
+      "optlacc",
+      "pets-none",
+      "player-stuff",
+      "quest-label",
+      "quest-step",
+      "server-vars",
+      "sneaking-progress",
+      "spelunk",
+      "summon-boss",
+      "territory",
+      "tournament-leaderboard",
+      "uq-text"
+    ],
+    "version": 1
+  }
+}
