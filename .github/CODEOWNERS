@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Last matching pattern wins. Owners need write access. (M12 FR-27, TR-18, D6; M11 Final rulings RT-4, D-6)
+*                                @YassSoliman
+/packages/knowledge/             @YassSoliman @JoKhalil
+/packages/knowledge/detectors/   @YassSoliman
+/packages/knowledge/generators/  @YassSoliman
+/packages/knowledge/src/         @YassSoliman
+/fixtures/scrubbed/              @YassSoliman @JoKhalil
+/.github/                        @YassSoliman
+/packages/toolbox-parsers/       @YassSoliman
