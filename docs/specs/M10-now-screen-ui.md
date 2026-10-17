@@ -1,6 +1,6 @@
 # M10 Now screen UI
 
-Spec for [#38](https://github.com/YassSoliman/idleon-forge/issues/38). Status: **draft**, waiting on grilling and a red-team pass.
+Spec for [#38](https://github.com/YassSoliman/idleon-forge/issues/38). Status: **ready**. Section 8 ruled by Yasser on 2026-10-17 (every recommendation accepted); red-teamed, see section 10.
 
 Grounded in:
 - [#10 How the Now screen behaves](https://github.com/YassSoliman/idleon-forge/issues/10): the 16 decisions.
@@ -48,16 +48,16 @@ The Now screen is the only thing a player looks at during a Play Session. It sit
 - **FR-3** The header shows the ActiveOn wordmark, a "last cloud save Ns ago" chip (marked "pasted" for pasted saves), and the Expected Return chips.
 
 **Roster (A)**
-- **FR-4** The Roster is an ordered list with one row per character, in the engine's Visit Order. Each row shows: its Visit Order number; the character's name, class and level; its AFK Target and map ("Mining Copper · Tunnels Entrance"); a "● playing" marker on the character currently being played; a Verdict pill; and one summary line.
+- **FR-4** The Roster is an ordered list with one row per character, in the engine's Visit Order. Each row shows: its Visit Order number; the character's name, then class and level (D5); its AFK Target and map ("Mining Copper · Tunnels Entrance"); a "● playing" marker on the character currently being played; a Verdict pill; and one summary line.
 - **FR-5** The summary line is, in priority order: the first Verdict blocker ("Food runs out in about 2h"); for Unknown, the reason ("What is this character for?" or "Can't tell from the save"); otherwise the top Next Action; otherwise "Nothing to do here".
 - **FR-6** Tapping or activating a row opens that character in Focus.
 
 **Verdict**
-- **FR-7** The Verdict pill reads exactly "Ready", "Fix before you leave" or "Unknown". It is always shown as text, never as colour alone.
+- **FR-7** The Verdict pill reads exactly "Ready", "Fix before you leave" or "Unknown", or "Ready · n skipped" when the character counts as Ready only because n blockers were skipped (D2). It is always shown as text, never as colour alone.
 - **FR-8** The Verdict reflects only AFK safety against the current Expected Return plus whether the character serves a worthwhile Purpose (glossary). Unspent things never change it. M10 never computes it; it renders `verdict` from the engine as is, apart from the skip rule in D2.
 
 **Progress bar (B)**
-- **FR-9** Above the Roster, a segmented bar with one segment per character, in Visit Order and coloured by Verdict, plus a label: "N of M Ready", with "fix K before you leave" on the right. When the condition in FR-25 holds, the label becomes "safe to log off".
+- **FR-9** Above the Roster, a segmented bar with one segment per character, in Visit Order and coloured by Verdict, plus a label: "N of M Ready", followed by "fix K before you leave" and "U Unknown" when non-zero (D4). When the condition in FR-25 holds, the label becomes "safe to log off", still followed by "U Unknown" when any remain.
 
 **Focus (C)**
 - **FR-10** Focus shows one large card for one character:
@@ -75,7 +75,7 @@ The Now screen is the only thing a player looks at during a Play Session. It sit
 - **FR-11** The Purpose list shows each Goal the current activity advances, with its current value, its next Milestone and, when the engine provides one, an ETA ("13k Poop kills · next 100k · about 40h"). When the engine marks `stopHere`, it shows "consider stopping here". A character whose Verdict is Unknown for lack of Purpose shows "What is this character for?" and the engine's single suggestion.
 - **FR-12** "Next: switch to <name> →" moves Focus to the next character in Visit Order that has anything to do (a Verdict other than Ready, or at least one visible Goal). On the last one, it reads "Last one: check the Account list ↓" and scrolls to the Account section. It never touches the game.
 - **FR-13** "← All characters" (and the browser Back button) returns to the Roster and puts keyboard focus back on the row the player opened.
-- **FR-14** Auto-open and follow: see D1. Recommended behaviour: on first load, and whenever a new save shows the player switched character, Focus opens on the character being played. A save that does not change the played character never moves the view.
+- **FR-14** **Focus follows the game (D1).** On first load in live mode, Focus opens on the character being played. Whenever a new save shows that the played character changed, Focus moves to the newly played character, whether the player was on the Roster or on another character's Focus. A save that does not change the played character never moves the view; if the player went back to the Roster, it stays there until the next switch. Paste mode never auto-opens or follows (section 6).
 
 **Goals and Next Actions**
 - **FR-15** Every Next Action shows: a category tag and Goal title ("Spend · Talents"); the action text; "Why: …"; a Source label; and the controls Skip today, Not for me and Report this.
@@ -94,13 +94,13 @@ The Now screen is the only thing a player looks at during a Play Session. It sit
 **Account, Active Play, gaps**
 - **FR-23** The Account section is headed "Account · any character" and lists account Goals under FR-15/16.
 - **FR-24** "If you have time" lists the Active Play suggestions with their time estimate ("about 1h of hands-on play") and the character they apply to, if any. They never affect a Verdict or the progress bar.
-- **FR-25** **All set:** when no character's Verdict is "Fix before you leave" (whether Unknown also blocks is D4), a banner says "All set: safe to log off", followed by when the first thing fills up or runs out ("First thing fills up in about 9h: <name>'s inventory"), or "Nothing fills up before you're back" when the engine reports nothing.
+- **FR-25** **All set:** when no character's Verdict is "Fix before you leave" and no character is Unknown with reason `cannot-tell` (D4), a banner says "All set: safe to log off", followed by when the first thing fills up or runs out ("First thing fills up in about 9h: <name>'s inventory"), or "Nothing fills up before you're back" when the engine reports nothing.
 - **FR-26** "Not covered yet: <System>, <System>…" lists the Systems unlocked on the account that have no active Knowledge Base entries. It is one collapsed line at the end of the Account section, and expands to the full list.
 
 **Controls**
 - **FR-27** **Expected Return:** chips "2h 4h 8h 12h 24h", preceded by "Back in about". The default is the engine's learned value when save history exists, shown as its own chip if it isn't one of these (for example "≈6h"), otherwise 8h. Picking one re-runs the engine and updates every Verdict within the budget in TR-12. The choice holds for the current Play Session (TR-8).
-- **FR-28** **Skip today** hides that Goal (and its Next Action) on that character until the skip expires (D3). The next-ranked Goal moves up into view. A "n skipped · undo" link at the end of the list brings it back.
-- **FR-29** **Not for me** hides that Goal on that character until the game version changes (the next patch). It is listed under "Hidden until next patch (n) · undo" in Focus.
+- **FR-28** **Skip today** hides that Goal (and its Next Action) on that character until the account's next game daily reset, or local midnight if M1 doesn't expose the reset time (D3). The next-ranked Goal moves up into view. A "n skipped · undo" link at the end of the list brings it back. Skip today is also offered on Verdict blockers; skipping every blocker of a character makes it count as Ready, shown as "Ready · n skipped" (D2).
+- **FR-29** **Not for me** hides that Goal on that character until the game version changes (the next patch). It is listed under "Hidden until next patch (n) · undo" in Focus. It is never offered on a Verdict blocker (D2).
 - **FR-30** **Report this** on any Next Action, Purpose line, Higher-leverage line or Spend Plan line: before M13 ships, it opens a pre-filled GitHub `kb-correction` issue in a new tab; after M13, it opens M13's Suggestion form with type "Something's wrong". Either way it attaches only the payload in TR-10 and says "This will be posted publicly on GitHub".
 - **FR-31** **Suggestion entry point (M13):** a "Suggest" link in the footer opens M13's form with type Idea. Focus has a "Something confusing here?" link that opens it with type Confusing. Both pass a `SuggestionContext` (TR-10). While signed out, or in paste mode, they fall back to the GitHub `idea` issue form.
 
@@ -180,6 +180,7 @@ As a player in a Play Session, I want Next Actions to tick off by themselves whe
 As a player in a Play Session, I want to skip or hide a Next Action, so that the list stays relevant.
 - Given Goal G is visible on character 2 / When the player presses Skip today / Then G is hidden, the next Goal moves into view, "1 skipped · undo" appears, and a second open tab hides G within 1 s.
 - Given G is hidden with Not for me at game version 2.3.540 / When a save with version 2.3.541 arrives / Then G is visible again.
+- Given G was skipped with the account's daily reset at 20:00 / When the clock passes 20:00 (including after local midnight) / Then G is visible again; and given M1 exposes no reset time, it returns at local midnight (D3).
 
 **US-12 Report wrong advice.**
 As a player in a Play Session, I want to report a wrong Next Action in two taps, so that it gets fixed for everyone.
@@ -214,6 +215,16 @@ As a player in a Play Session, I want an ordered list of what to buy with my coi
 **US-19 See a better option.**
 As a player in a Play Session, I want to be told when another activity or character clearly does this job better, so that I don't waste an AFK Stretch.
 - Given `higher-leverage-character`, where character 4 is the better fit for character 1's Goal / When Focus opens on character 1 / Then one Higher-leverage line names character 4 with its why and Source, and tapping the name opens Focus on character 4.
+
+**US-20 Get past a wrong blocker.**
+As a player in a Play Session, I want to skip a blocker I know is wrong, so that one bad Check doesn't keep me from "safe to log off".
+- Given `blocker-overflow` reduced to one character with a single blocker B / When the player presses Skip today on B / Then the pill reads "Ready · 1 skipped", the character counts as Ready in the progress bar, and B offers Report this but no Not for me (D2).
+- Given that character has 2 blockers and only one is skipped / When the screen renders / Then the pill still reads "Fix before you leave".
+
+**US-21 "All set" ignores Purpose questions, not safety doubts.**
+As a player in a Play Session, I want "safe to log off" to mean safe, so that I can trust it.
+- Given 4 Ready characters and 1 Unknown `no-purpose` / When the screen renders / Then the "All set" banner shows and the label reads "safe to log off · 1 Unknown" (D4).
+- Given 4 Ready and 1 Unknown `cannot-tell` / When the screen renders / Then no "All set" banner shows.
 
 ## 5. Technical requirements
 
@@ -406,7 +417,7 @@ The engine runs **in the parse Web Worker**, right after a successful parse, bec
 - Namespaced by account: `activeon:<uidHash>:` where `uidHash` is the first 12 hex characters of SHA-256(uid). Paste mode uses `activeon:paste:`. No uid, name or save data is stored in a key or value.
 - Keys:
   - `expectedReturn` = `{seconds, chosenAt}`, valid until the next Play Session start;
-  - `skips` = `{[key]: expiresAt}`;
+  - `skips` = `{[key]: expiresAt}`, where `expiresAt` is the account's next game daily reset, or the next local midnight if M1 doesn't expose it (D3);
   - `dismissals` = `{[key]: gameVersion}`;
   - `whatsNew` = `{app, knowledge}`, the versions last seen.
 - Every read and write is wrapped in try/catch. If storage is unavailable, M10 works with in-memory defaults.
@@ -538,22 +549,15 @@ It is committed per fixture under `packages/engine/test/now/__snapshots__/`. Nam
 
 The engine's ranking (#26) and the `EngineResult` shape are shared contracts. A change to TR-2 needs a note on this spec and on the producer module's spec.
 
-## 8. Open decisions for Yasser
+## 8. Decisions
 
-❓ D1 - Roster or Focus as the resting view, and does Focus follow the game? #10 says the played character's row "opens on its own"; #12 says tapping a row opens Focus. Options: (a) the Roster is always the resting view and the played row only gets a "● playing" marker; (b) Focus opens on the played character at load and **follows** each character switch the save reveals, and the player can go back to the Roster, which then stays put until the next switch; (c) Focus opens at load but never follows.
-➡️ (b). The game cloud-saves instantly on a character switch, so when you change character in the game the screen arrives on that character's card by itself. That pairs with "Next: switch to X →" and is the closest thing to a guided session without touching the game. Saves that don't change the played character never move the view, so it doesn't fight you.
+Ruled by Yasser on 2026-10-17 (PR #44): every recommendation accepted as written.
 
-❓ D2 - Can a Verdict blocker be skipped? Options: (a) no controls on blockers except Report this; (b) Skip today is allowed and the character counts as Ready, with a "Ready · 1 skipped" pill, but Not for me is not offered on blockers; (c) Skip is allowed but the Verdict stays "Fix before you leave".
-➡️ (b). A wrong blocker otherwise makes "All set" unreachable for the whole session, which is the failure the done bar most wants to avoid. Showing "1 skipped" keeps it honest, and refusing a patch-long Not for me on a safety warning stops it being silenced for weeks. Wrong blockers still go through Report this.
-
-❓ D3 - How long does "Skip today" last? Options: (a) until local midnight; (b) until the account's next game daily reset (a per-account countdown, #15); (c) a fixed 12 h; (d) until the next Play Session starts.
-➡️ (b), falling back to (a) if M1 doesn't expose the reset time. A Play Session often spans local midnight; the game's own reset is when dailies and keys come back, so "today" means the game's day. (d) is tempting but would bring a skipped item straight back after a short break.
-
-❓ D4 - Does an Unknown Verdict block "All set: safe to log off"? Options: (a) strict, so every character must be Ready; (b) only "Fix before you leave" blocks, and the banner adds "(2 Unknown)"; (c) Unknown for `cannot-tell` blocks, but Unknown for `no-purpose` or `not-covered` doesn't.
-➡️ (c). The banner promises safety to log off. "Can't tell from the save" is a genuine safety doubt, but "What is this character for?" is a Purpose question, not a safety one. And while M3–M9 are still being built, everything is `not-covered`, which under (a) would mean the banner never appears. The progress bar still reads "3 of 5 Ready · 2 Unknown", so nothing is hidden.
-
-❓ D5 - Character names or class names on rows? The prototype showed only classes; real rows can show the in-game names. Options: (a) name, then class and level; (b) class and level only, with the name in Focus; (c) a toggle.
-➡️ (a). Names are how players think of their characters ("switch to Grumbo"), and two Squires on Joseph's account are ambiguous by class alone. Names never leave the device (TR-10), and snapshots replace them (TR-15), so the only exposure is screen sharing, which is the player's choice.
+- **D1 - Focus is the resting view and follows the game.** Focus opens on the played character at load and moves to each newly played character a save reveals; the player can go back to the Roster, which then stays put until the next switch. Saves that don't change the played character never move the view. *Why:* the game cloud-saves on a character switch, so the screen arrives on the right card by itself; with "Next: switch to X →" it is the closest thing to a guided session without touching the game. Touches FR-10, FR-12, FR-14, US-3, TR-5.
+- **D2 - Blockers can be skipped, not dismissed.** Skip today is allowed on a Verdict blocker; a character whose every blocker is skipped counts as Ready, shown as "Ready · n skipped". Not for me is never offered on a blocker; Report this always is. *Why:* a wrong blocker otherwise makes "All set" unreachable for the session; "n skipped" keeps it honest; refusing a patch-long dismissal stops a safety warning being silenced for weeks. Touches FR-7, FR-8, FR-28, FR-29, US-20, TR-3.
+- **D3 - Skip today lasts until the account's next game daily reset**, falling back to local midnight if M1 doesn't expose the reset time. *Why:* a Play Session often spans local midnight, and the game's reset is when dailies come back; "until next session" would bring an item straight back after a short break. Touches FR-28, TR-8, US-11.
+- **D4 - Only "Fix before you leave" and Unknown `cannot-tell` block "All set".** Unknown for `no-purpose` or `not-covered` does not. *Why:* the banner promises safety; "can't tell from the save" is a safety doubt, "what is this character for?" is not, and during the build order everything is `not-covered`, so a strict rule would never show the banner. The progress label still shows the Unknown count. Touches FR-9, FR-25, US-21, TR-3.
+- **D5 - Rows show the character's name, then class and level.** *Why:* players think in names ("switch to Grumbo"), and two Squires are ambiguous by class alone. Names never leave the device (TR-10) and snapshots replace them (TR-15). Touches FR-4, US-1.
 
 ## 9. Red-team notes
 
