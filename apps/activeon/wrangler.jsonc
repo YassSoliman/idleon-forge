@@ -1,0 +1,14 @@
+{
+  // ActiveOn is an assets-only Worker: static files in SPA mode, no Worker script, no bindings.
+  // https://developers.cloudflare.com/workers/static-assets/routing/single-page-application/
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "activeon",
+  "compatibility_date": "2026-10-17",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  },
+  "workers_dev": true,
+  // Per-PR Worker Previews are a follow-up (see the slice 1 PR).
+  "preview_urls": false
+}
