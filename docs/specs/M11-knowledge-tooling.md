@@ -39,7 +39,7 @@ Players never see M11 directly, but everything they read comes through it. It is
 **Entries and schema**
 - **FR-1** Every entry is one of seven types: `goal`, `contribution`, `check`, `priority` (Priority List), `build`, `acquisition` or `metapath` (Meta Path). An entry of any other type fails `kb check`.
 - **FR-2** Every entry has `id`, `system`, `type`, `title`, `text` (a template with slots), `why`, `sources[]` (at least one), `appliesTo`, `confidence` (H/M/L) and `status` (active / contested / retired). A missing or empty field fails CI, and the error names the file, the line and the field.
-- **FR-3** Every Source has an https URL, a title, an ADR 0004 tier (1–4), a verified date and the game version it was verified on. Tier 2 and tier 3 Sources must also carry `claimDate`, the date of the claim itself, not the page (#3).
+- **FR-3** Every Source has an https URL, a title, an ADR 0004 tier (1–4), a verified date and the game version it was verified on. Tier 2 and tier 3 Sources must also carry `claimDate`, the date of the claim itself, not the page (#3). A tier 1 Source must be a permalink to game data: a Toolbox file at a 40-character commit sha. Our own dossiers are cited as tier 4 for the write-up, next to the tier 1 Toolbox link they rely on (red-team R17).
 - **FR-4** Entry ids are unique across authored and generated entries, follow `<system>.<type>.<slug>`, and their middle segment matches `type`.
 - **FR-5** Every id an entry references (`extends`, `goal`, Priority List tiers, `replacedBy`, Acquisition `requires`) resolves to an existing entry of an allowed type. A Priority List cannot reference a retired entry. A dangling reference fails CI.
 - **FR-6** An entry with `status: contested` carries at least two `contested.sides`, each with its own Sources. A contested entry can never be a Check with `effect: blocker`; CI rejects that combination.
@@ -51,30 +51,30 @@ Players never see M11 directly, but everything they read comes through it. It is
 - **FR-10** Every registered Detector is referenced by at least one entry. An orphan Detector fails CI.
 - **FR-11** Every Detector declares at least one `fires` example and one `silent` example, and at least one of the two is a real save (public or scrubbed) rather than a mutated one. A generic test runs every example, and the job fails if any result differs from what the example declares.
 - **FR-12** A Detector is deterministic. It gets the same result twice in a row on the same input. It throws if it touches `Date`, `Math.random`, `performance` or a global. It reads only the Account State fields it declares in `reads`, and a tracking proxy in tests enforces that.
-- **FR-13** A Detector that can't tell from the data returns `unknown` for that subject. It never guesses `fires` or `silent`. If a Detector throws at runtime, the engine records `unknown` for that entry, and a CI test still catches the throw before merge.
+- **FR-13** A Detector that can't tell from the data returns `unknown` for that subject. It never guesses `fires` or `silent`. If a Detector throws at runtime, the engine records `unknown` for that entry, and a CI test still catches the throw before merge. Only a throw in a blocker Check's Detector makes the Verdict Unknown; any other throw drops that entry's line.
 
 **Generated facts (ADR 0007)**
 - **FR-14** `kb generate` rebuilds every generated entry from the pinned Toolbox data. It runs at the end of `pnpm sync-parsers`, and its output is committed to `packages/knowledge/generated/`.
 - **FR-15** CI regenerates the facts and fails if the committed output differs ("generated facts are out of date; run `pnpm kb generate`").
 - **FR-16** A generated entry's Source is tier 1. Its URL points to the Toolbox file at the pinned commit, and its verified date and game version come from `UPSTREAM`.
 - **FR-17** In authored YAML, a numeric literal equal to a value in a generated fact that the entry references fails CI ("hand-copied fact; use a slot"). Authored Acquisitions can't carry `chance`, and authored Goals that `extend` a generated Goal can't redefine `milestones`.
-- **FR-18** `kb generate` prints a fact diff (added, removed, changed ids with old → new values, and possible renames) for the sync PR body. A removed generated id that an authored entry still references fails the sync PR.
+- **FR-18** `kb generate` prints a fact diff (added, removed, changed ids with old → new values, identical changes grouped across entries, and possible renames) for the sync PR body. A generator that fails, or that drops an id an authored entry still references, never blocks the parser update: its last good output is **held** (TR-10), the sync PR stays mergeable, and the held facts are labelled with their older game version until the hold is cleared.
 
 **Lifecycle**
-- **FR-19** An entry is **Stale** when its newest Source's game version is 10 or more game versions behind the current one, counted on the ordered patch list taken from Toolbox's patch notes, or when the staleness pass has flagged it (`stale:` block). Generated entries are never Stale by age, because they are rebuilt at every sync.
+- **FR-19** An entry is **Stale** when its newest authored Source's game version is 10 or more game versions behind the current one, counted on the deduplicated patch list (TR-11), or when the staleness pass has flagged it (`stale:` block). Only the entry's own Sources count (plus, for a contested entry, its sides' Sources); a generated Source inherited through `extends` never makes an authored entry fresh. Generated entries are never Stale by age, because they are rebuilt at every sync.
 - **FR-20** Stale entries are still served. They rank below fresh entries at the same Priority List position and carry a Stale flag for the UI.
 - **FR-21** `retired` entries are kept in YAML, which keeps their ids resolvable for old reports, but they are excluded from the runtime bundle. `retired.replacedBy` maps old ids to new ones.
-- **FR-22** The compiled bundle carries a Knowledge Base version `YYYY.MM.DD[.n]` plus a content hash, and a manifest (`id → content hash`) for every active and contested entry.
-- **FR-23** `diffManifests(old, new)` returns the entries that were added, changed and retired between two versions, for "What's new: advice changes".
-- **FR-24** The System registry lists every System in scope for the MVP. `coverage(state)` returns the unlocked Systems that have no active authored entry, for "Not covered yet: …". Generated facts alone never count as coverage and never appear on the Now screen by themselves; they are used only through authored entries that reference them (D5).
+- **FR-22** The compiled bundle carries a Knowledge Base version `YYYY.MM.DD[.n]` plus a content hash, a manifest (`id → content hash`) for every active and contested **authored** entry, and a `retired` map (`id → {title, replacedBy}`) for retired authored entries. A content hash covers what a player sees (text, why, values, milestones, tiers and the facts the entry extends), never provenance (`verified` dates, Source URLs, `generatedBy`), so a sync that moves no fact changes no hash.
+- **FR-23** `diffManifests(old, new)` returns the authored entries that were added, changed and retired between two versions, with their titles (retired titles come from the `retired` map), for "What's new: advice changes". Generated ids never appear in it (D5).
+- **FR-24** The System registry lists every System in scope for the MVP. `coverage(state)` returns the unlocked Systems that have no active or contested authored entry, for "Not covered yet: …". Generated facts alone never count as coverage and never appear on the Now screen by themselves; they are used only through authored entries that reference them (D5).
 
 **Fixtures and goldens**
-- **FR-25** `kb scrub` turns a private "Copy for support" export into a fixture with character names replaced by `Char1…CharN`, account identifiers and third-party names removed, and no string left that the scrub policy doesn't cover. Its parse must match the original's (TR-14).
+- **FR-25** `kb scrub` turns a private "Copy for support" export into a fixture with character names replaced by `Char1…CharN`, other players' names replaced by pseudonyms (`Member1…`, `Opponent1…`) or blanked, account identifiers removed, and no string left that a value-checked policy rule doesn't cover. Toolbox's full parse of it must match the original's, outside a declared list of scrubbed paths that no Account State field may read (TR-14).
 - **FR-26** `kb golden` renders a deterministic golden snapshot per fixture (public, scrubbed, and private when present). CI fails when a committed golden differs from the rendered one. `kb golden -u` rewrites them.
-- **FR-27** No committed file (fixture, golden, YAML, test) contains a real character name, guild name, account id or email. The local denylist gate and the CI structural gate both enforce it.
+- **FR-27** No scrubbed fixture, golden, YAML entry or Detector example contains a real character name, guild name, other player's name, account id or email. The local denylist gate (seeded automatically by every scrub) and the CI gates enforce it: the structural gate on scrubbed fixtures, and the golden slot check (every string slot in a golden is a `_lookups` value or matches `^C\d+$`). Toolbox's public saves are already public and exempt; they never feed a golden's text except through slots that pass that check.
 
 **Workflow**
-- **FR-28** A Knowledge Base PR can't merge without: a green `kb check`, updated goldens, a red-team review with no open blocking findings (run by the stronger model when the PR adds or changes a Verdict blocker or a Stage Priority List; D7), and approval from Yasser or Joseph through CODEOWNERS on `packages/knowledge/` or `fixtures/scrubbed/`. Either one's approval is enough (D6).
+- **FR-28** A Knowledge Base PR can't merge without: a green `kb check`, updated goldens, a red-team review with no open blocking findings when the PR changes authored entries or Detectors (a sync PR that only regenerates facts and goldens needs none; its fact diff and `## Verdict changes` go to player review instead), run by the stronger model when the PR adds or changes a Verdict blocker or a Stage Priority List (D7), and approval from Yasser or Joseph through CODEOWNERS on `packages/knowledge/` or `fixtures/scrubbed/`. Either one's approval is enough (D6).
 - **FR-29** `reportContext()` returns exactly `{entryId, kbVersion, gameVersion, parserCommit, stage, class, level}` and nothing else.
 
 ## 4. User stories
@@ -93,22 +93,22 @@ As a player in a Play Session, I want advice from an old patch marked Stale and 
 
 **US-3: disagreements are shown honestly.**
 As a player in a Play Session, I want advice the community disagrees on to show both sides, so that I can choose, and never get it as my top action or a reason I can't log off.
-- **Given** `scrubbed-w3` and a contested Priority List item (for example the first Gem Shop buy) **When** the engine runs **Then** the golden shows it with `[contested]` and both sides' text and Sources, and it is never in position 1 of any character or of the Account section.
+- **Given** `scrubbed-w3` and a contested Priority List item (for example the first Gem Shop buy, `gemshop.goal.first-buy`, a Goal with `status: contested`) **When** the engine runs **Then** the golden shows it with `[contested]` and both sides' text and Sources, and it is never in position 1 of any character or of the Account section. *CI variant:* the same on `scrubbed-w2`, with the item placed at position 1 of the W2-late list.
 - **Given** a Check with `effect: blocker` and `status: contested` **When** `kb check` runs **Then** it fails with "a contested entry cannot be a Verdict blocker".
 
 **US-4: game numbers stay right after a patch.**
 As a player in a Play Session, I want kill Milestones and costs to match the current game, so that "next Milestone at 100k" is true today.
-- **Given** a parser sync whose Toolbox data changes one Death Note rank threshold (synthetic data slice in the generator test) **When** `kb generate` runs **Then** `generated/deathnote.json` changes that one value, the fact diff lists it, and the `scrubbed-w3` golden shows the new Milestone, with no authored YAML edited.
-- **Given** an authored entry that references a generated id the new data no longer produces **When** `kb generate` runs in the sync PR **Then** the PR fails and names the authored file and id.
+- **Given** a parser sync whose Toolbox data changes one Death Note rank threshold (synthetic data slice in the generator test) **When** `kb generate` runs **Then** `generated/deathnote.json` changes that threshold in every ladder that uses it, the fact diff lists it once as a grouped change ("104 entries: milestone 2, 100000 → 120000"), and the `scrubbed-w3` golden (CI variant: `scrubbed-w2`) shows the new Milestone, with no authored YAML edited.
+- **Given** an authored entry that references a generated id the new data no longer produces **When** `kb generate` runs in the sync PR **Then** the generator's previous output is held, the PR body names the authored file and id under "Held facts", and the parser update stays mergeable.
 
 **US-5: ActiveOn says what it doesn't know.**
 As a player in a Play Session, I want a list of the unlocked Systems ActiveOn has no advice for yet, so that I don't mistake silence for "nothing to do".
-- **Given** `scrubbed-w3`, and a registry in which Trapping is unlocked on the account but has no active entries **When** the engine runs **Then** the golden's Account section ends with `Not covered yet: Trapping`.
+- **Given** `scrubbed-w3`, and a registry in which Trapping is unlocked on the account but has no active entries **When** the engine runs **Then** the golden's Account section ends with `Not covered yet: Trapping`. *CI variant:* `scrubbed-w2` with a registry in which a W2 System it has unlocked has no entries.
 - **Given** `scrubbed-w2` (Post Office not unlocked) and no Post Office entries **When** the engine runs **Then** Post Office is not listed.
 
 **US-6: I know which advice version I am on.**
 As a player in a Play Session, I want the Knowledge Base version shown, so that a report or a chat with Joseph refers to the same advice.
-- **Given** a build whose newest commit touching `packages/knowledge/` is dated 2026-10-17, the second such commit that day **When** the bundle compiles **Then** `kbVersion.display` is `knowledge 2026.10.17.2`, and the golden header shows the same string.
+- **Given** injected git metadata in which the newest commit touching `packages/knowledge/` is dated 2026-10-17, the second such commit that day **When** the deploy build compiles the bundle **Then** `kbVersion.display` is `knowledge 2026.10.17.2`. Goldens never show the date version; their header shows the content hash only (TR-15), so a merge never turns them red.
 
 **US-7: advice changes are announced.**
 As a player in a Play Session, I want "What's new" to list the advice that changed since my last visit, so that I'm not surprised when a Next Action changes.
@@ -120,7 +120,7 @@ As a player in a Play Session, I want "Report this" to send just enough to fix t
 
 **US-9: no wrong Verdict blocker reaches us.**
 As a player in a Play Session, I want every change to Verdicts reviewed on my own account before it ships, so that "Fix before you leave" is never wrong (the #13 done bar).
-- **Given** a PR that changes a blocker Check **When** CI runs **Then** it fails until the goldens are updated, and the updated `scrubbed-w2` and `scrubbed-w3` goldens list every changed Verdict under `## Verdict changes` at the top of the diff.
+- **Given** a PR that changes a blocker Check **When** CI runs **Then** it fails until the goldens are updated, and the CI job summary (`$GITHUB_STEP_SUMMARY`, from `kb golden --diff-base origin/main`) lists every changed Verdict on every scrubbed fixture under `## Verdict changes`, before any other diff.
 
 **Contributor stories** (they protect the player stories above)
 - **US-10.** As a Knowledge Base contributor, I want to add a Detector and see right away whether it fires where it should. **Given** a new Detector with `examples.fires` on `scrubbed-w2` and no `silent` example **When** `kb check` runs **Then** it fails with "detector <id>: needs at least one silent example".
@@ -146,10 +146,12 @@ packages/knowledge/                     runtime package, imported by packages/en
   src/stale.ts, src/version.ts, src/coverage.ts, src/report.ts
   src/index.ts                          runtime surface: loadKnowledge(), render(), isStale(), coverage(), diffManifests(), reportContext()
   dist/knowledge.json                   compiled bundle (build output, gitignored)
+  golden/<fixture>.md                   committed goldens for public and scrubbed fixtures (data only, never bundled;
+                                        here so they sit under the co-owned path, D6)
+  majors.yaml                           game versions that count as major patches (TR-11, D2)
 packages/kb-tools/                      dev only, private, never imported by apps/*
   src/cli.ts                            `pnpm kb <command>`
-  src/generate.ts, compile.ts, check.ts, golden.ts, scrub/*.ts
-  golden/<fixture>.md                   committed goldens for public and scrubbed fixtures
+  src/generate.ts, compile.ts, check.ts, golden.ts, scrub/*.ts   (the golden harness lives here; it only writes into knowledge/golden/)
 fixtures/scrubbed/<id>.json             committed scrubbed fixtures
 fixtures/scrubbed/<id>.meta.json        their metadata (TR-14)
 fixtures/private/                       gitignored: real saves, denylist.txt, golden/<id>.md
@@ -303,11 +305,15 @@ export const CheckEntry = Base.extend({
 
 const TierItem = z.union([
   EntryId,
-  z.strictObject({
-    ref: EntryId,
-    verification: z.enum(['confirmed', 'corrected', 'contested', 'unverified']),
-    sources: z.array(Source).default([]),
-  }),
+  z
+    .strictObject({
+      ref: EntryId,
+      verification: z.enum(['confirmed', 'corrected', 'contested', 'unverified']),
+      sources: z.array(Source).default([]),
+      /** Required when verification is 'contested' and the referenced entry isn't itself contested. */
+      sides: z.array(Side).min(2).optional(),
+    })
+    .refine((t) => t.verification !== 'contested' || t.sides !== undefined, 'a contested item needs at least 2 sides'),
   /** Splice in a shared block (another Priority List with list: 'block'), e.g. #26's never-skip position-1 block. */
   z.strictObject({ include: EntryId }),
 ]);
@@ -371,7 +377,8 @@ export const MetaPathEntry = Base.extend({
         note: Template.optional(),
         status: z.enum(['active', 'contested']).default('active'),
         sides: z.array(Side).min(2).optional(),
-      }),
+      })
+      .refine((sl) => (sl.status === 'contested') === (sl.sides !== undefined), 'a contested slot needs sides, and only a contested slot has them'),
     )
     .optional(),
   roles: z.array(z.strictObject({ id: RoleId, classLine: ClassName, does: Template })).optional(),
@@ -523,6 +530,11 @@ An authored Goal adds judgment on top of a generated ladder, without copying any
   sources:
     - url: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/worship-trapping-death-note.md#death-note
       title: W3 dossier, Death Note (from N.js)
+      tier: 4   # our own write-up; the tier 1 claim is the Toolbox permalink below
+      verified: 2026-10-17
+      gameVersion: 2.3.540
+    - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/deathNote.ts
+      title: IdleOn Toolbox, Death Note multikill
       tier: 1
       verified: 2026-10-17
       gameVersion: 2.3.540
@@ -566,8 +578,8 @@ An authored Goal adds judgment on top of a generated ladder, without copying any
   why: An empty big-bubble slot is free value lost on every AFK hour.
   sources:
     - url: https://github.com/YassSoliman/idleon-forge/blob/research/w2-systems/docs/research/systems/2026-10-17-w2-systems.md#bubbles
-      title: W2 dossier, Bubbles (game data; Toolbox missingBubbles)
-      tier: 1
+      title: W2 dossier, Bubbles
+      tier: 4   # our own write-up; a real entry adds the Toolbox permalink for missingBubbles as its tier 1 Source
       verified: 2026-10-17
       gameVersion: 2.3.540
       verification: unverified
@@ -891,7 +903,7 @@ Rules for Detectors:
 
 ### TR-6 Templates
 
-- **Syntax:** `{slot}` or `{slot:format}`. Formats: `int` (12,345), `compact` (13k, 1.2M), `pct` (12%), `coins` (Toolbox's coin tiers), `duration` (3 h 20 min, from ms), `name` (humanizes a Toolbox identifier: `Poopy_Sewers` → "Poopy Sewers"), `date`.
+- **Syntax:** `{slot}` or `{slot:format}`. Formats: `int` (12,345), `compact` (13k, 1.2M), `pct` (12%), `coins` (Toolbox's coin tiers), `duration` (from ms, rounded to coarse buckets so small upstream formula changes don't move the text: under 1 h in 10 min steps, under 24 h in whole hours, then in days), `name` (humanizes a Toolbox identifier: `Poopy_Sewers` → "Poopy Sewers"), `date`.
 - **Slots resolve from four places, in order:** the Detector finding's `slots`; the engine built-ins (`character`, `class`, `level`, `value`, `next`, `eta`, `stage`, `preset`); the entry's `values`; and the referenced facts (`extends`).
 - **Compile-time check:** every slot in `text` and `why` must be provided by one of those four places, and must have a format compatible with its declared type (a number slot can't take `name`). An unknown slot fails `kb check`.
 - **The character display label is never stored.** `{character}` is filled at render time by M10 from the save. Goldens fill it with `C1…Cn` (TR-15).
@@ -914,7 +926,8 @@ interface CompiledKnowledge {
   entries: Record<string, Entry>; // active + contested only
   byType: Record<EntryType, string[]>;
   priorityByStage: Record<StageId, { goals?: string; spend?: string; leverage?: string }>;
-  manifest: Record<string, string>; // id -> sha256(canonical JSON)[0..8]
+  manifest: Record<string, string>; // authored id -> sha256(canonical player-visible fields)[0..8] (FR-22)
+  retired: Record<string, { title: string; replacedBy?: string }>; // retired authored entries, for What's new and "Not for me"
 }
 ```
 
@@ -923,11 +936,11 @@ Compiling is deterministic: keys are sorted and the output carries no timestamp 
 ### TR-8 Cross-entry validation (`kb check`)
 
 `kb check` runs all of these, and `pnpm test` runs it in CI:
-- ids are unique across authored and generated entries (FR-4), and every reference resolves to an allowed type (FR-5). Allowed targets: `extends` → a generated entry of the same type; `Contribution.goal` and `Check.goal` → a Goal; Priority List items → a Goal, Check or Acquisition; `include` → a `block` Priority List (no cycles); `replacedBy` → any non-retired entry.
+- ids are unique across authored and generated entries (FR-4), and every reference resolves to an allowed type (FR-5). Allowed targets: `extends` → a generated entry of the same type; `Contribution.goal` and `Check.goal` → a Goal; Priority List items → a Goal, Check or Acquisition (a contested item is a contested entry, or an item with `verification: contested` and its own `sides`); `include` → a `block` Priority List (no cycles); `replacedBy` → any non-retired entry.
 - Detector refs resolve, are of the right kind, and their `params` parse (FR-9). No orphan Detectors (FR-10).
 - Template slots resolve (TR-6).
 - Class names, talent names, monster, map and item rawNames all exist in `generated/_lookups.json`. A Build's talents belong to its class's talent tabs.
-- No hand-copied facts (FR-17): numeric literals in authored `text`, `why`, `values` and `milestones` are compared with the numeric values of the facts the entry references. A match is an error. Any other literal with 3 or more digits is a warning the reviewer must acknowledge in the PR.
+- No hand-copied facts (FR-17): numeric literals in authored `text`, `why`, `values`, `milestones` and Detector `params` are compared with the numeric values of the facts the entry references, ignoring 0, 1 and 2. A match is an error. Any other literal with 3 or more digits is a warning the reviewer must acknowledge in the PR. Under `detectors/**`, a lint rule warns on numeric literals of 2 or more digits that aren't in a named `params` default, because thresholds belong in entry params.
 - Every non-block Priority List covers a Stage, and every Stage in `STAGES` has a `goals` list, otherwise a warning until the M2–M9 content lands. Within a list, an item appears at most once after `include`s are expanded.
 - The single-entry rules (TR-2 `entryRules`), including the blocker rules (FR-6, FR-7).
 - A Meta Path `milestones` entry's Detector ids are of kind `milestone`.
@@ -939,13 +952,13 @@ Each error prints `path:line id: message`, and the command exits non-zero. Warni
 
 - `systems.yaml` lists every System in the MVP coverage: W1–W3 plus the W4 entry, the dossier Systems, around 45. Each has `unlocked` (`always` or a milestone Detector).
 - `coverage(state, kb)` returns the Systems whose `unlocked` Detector says `yes` (or that are `always` unlocked) and that have no active or contested entry, sorted by world then name. An `unknown` unlock is treated as unlocked, which errs toward listing.
-- A System counts as covered when it has at least one non-generated active entry. Generated facts alone don't count (D5).
+- A System counts as covered when it has at least one authored (non-generated) active or contested entry. Generated facts alone don't count (D5).
 
 ### TR-10 Codegen of facts at parser re-sync (ADR 0007)
 
 **When it runs**
-- `scripts/sync.sh` gains one final step: `pnpm kb generate`. The weekly sync PR (#14 item 11) therefore carries the parser diff, the regenerated `generated/*.json`, the fact diff in its body and the golden diffs.
-- `fetch-data.sh` also fetches `/data/patch-notes.js`, so `generate` can build `_patches.json` without a full sync.
+- `scripts/sync.sh` gains two final steps: `pnpm kb generate`, then `pnpm kb golden -u`. The weekly sync PR (#14 item 11) therefore carries the parser diff, the regenerated `generated/*.json`, the fact diff and any held facts in its body, and the golden diffs. The weekly Action (M12) opens it with a token that triggers CI; a PR opened with the default `GITHUB_TOKEN` runs no workflows.
+- `fetch-data.sh` also fetches `/data/patch-notes.js`, so `generate` can build `_patches.json` without a full sync. The file is a JSX module (it imports React and `@mui/material`), so the `_patches` generator extracts `gameVer` and `date` with a regex, as `sync.sh` already does, and never imports it.
 - CI runs `pnpm kb generate --check`, which regenerates into a temp dir and diffs against the committed files (FR-15).
 
 **Inputs**
@@ -978,8 +991,11 @@ export interface Generator {
 - **Template text in generated entries is the generator's own,** factual and neutral ("{value:compact} Poop kills; next Death Note rank at {next:compact}"). A generated `why` states only what the game says the reward does. Judgment belongs to authored entries that `extend` it.
 - **Trimmed output.** A generator emits only the fields its entries need. `monsterDrops.json` alone is 4 MB, so the obol generator emits only obol rows.
 - **Lookups:** `generated/_lookups.json` holds name tables (classes and their promotion tree from `classPromotions`, talent names per tab, item, monster and map rawNames). It's used by `kb check` only, and never shipped.
-- **Renames:** when an id disappears and a new id appears with the same `title` or display name, the fact diff prints `possible rename: old → new`. The sync PR fixes the authored references in the same PR.
-- **A failing generator** (new data shape, missing key) fails the sync PR with the generator name and input path. The previous `generated/*.json` stays on `main`.
+- **Renames:** when an id disappears and a new id appears with the same `title` or display name, the fact diff prints `possible rename: old → new`. A sync PR may then change authored YAML in exactly one way: a mechanical id substitution that follows a printed rename. That is the one exception to TR-19 A1's separation of generator and authored changes, and it is listed in the PR body. Anything else waits for its own authored PR while the old id is held.
+- **A failing generator never blocks the parser update.** When a generator throws (new data shape, missing key), or drops an id that authored YAML still references, `kb generate` keeps that generator's last good output (or just the dropped entries), with its old `generatedBy.commit` and Source, and records a **hold** in `generated/_held.json`: `{generator, ids, reason, issue, since}`. CI accepts held output only when it matches the hold record. Lines that use a held fact show `[facts behind]` with the older game version in the UI and in goldens. A hold older than 2 syncs fails CI, so it can't be forgotten. The parser bump that M1 needs on patch day therefore always merges on its own.
+- **Generator tests don't break on balance changes.** Each generator has one test on a small, checked-in synthetic data slice with a hand-checked expected output (it proves the generator reads `value`, not `desc`), plus invariant tests on the live pinned data (ladders ascend, no duplicate ids, every id resolves, counts within a range). A real balance change moves the fact diff, never a test.
+- **Normalisation:** world numbers are 1-based in entries (Toolbox data is 0-based). Placeholder rows (map names such as `Z` or `PlayerSelect`, maps with no enemies) are filtered before slugging, so the collision rule applies only to real rows.
+- **Shared tables:** a value copied into many entries from one upstream table (for example `DEATH_NOTE_RANKS` into every monster's ladder) shows in the fact diff as one grouped change.
 
 **MVP generators** (W1–W3 plus W4 entry, per ADR 0007's list)
 
@@ -1000,9 +1016,11 @@ The meaning of each raw field (for example `mapPortals` values) is confirmed in 
 
 ### TR-11 Staleness
 
-- `isStale(entry, currentGameVersion, patches)` is true when the entry's `stale` block is set (and its `flaggedAt` ≤ current), or when `index(current) − index(max source gameVersion) ≥ 10` on `patches`. Generated entries return false.
-- **"Current" game version:** the save's `serverBuild`, mapped to a game version through `patches` when it's known. Otherwise the parser pin's `gameVersion`. If the save is newer than the pin, M1/M10 show the "parser not caught up" banner, and staleness is computed against the pin, so entries aren't all marked stale just because the parser lags.
-- **Unknown game versions:** a Source game version missing from `patches` (a typo, or a pre-history patch) fails `kb check`.
+- `isStale(entry, currentGameVersion, patches)` is true when the entry's `stale` block is set (and its `flaggedAt` ≤ current), or when `index(current) − index(max authored source gameVersion) ≥ 10` on `patches` (FR-19). Generated entries return false. Toolbox's notes list 42 distinct versions since October 2024; 10 versions back from 2.3.540 is 2.3.507 (May 2026), about four and a half months.
+- **`_patches.json`:** the distinct `gameVer` values from Toolbox's patch notes (120 Toolbox releases carried only 42 distinct game versions at pin `6c37e3d`), deduplicated, oldest first, with letter suffixes normalised (`2.0.493a` → `2.0.493`). It skips game versions Toolbox never wrote notes for (for example 2.3.532–2.3.539).
+- **"Current" game version:** the parser pin's `gameVersion`. A save's `serverBuild` is an integer (`GameVERSION`, such as 141) with no mapping to a game version in Toolbox data, so it is not used for staleness. Whether a save is newer than the pin is M1's call ("parser not caught up" banner), from a build → version table M1 maintains, and staleness is never computed against the save.
+- **Source game versions:** any `x.y.z` version is accepted, and is indexed at the newest listed version at or below it, so a Source verified on an unlisted in-game version (2.3.535) still counts. A version newer than the pin, or malformed, fails `kb check`.
+- **Major patches (D2):** `packages/knowledge/majors.yaml` lists the game versions that count as major patches (a new world or a system overhaul). It is authored judgment, and the staleness pass proposes additions from the patch notes. "Dated after the current major patch" means a `claimDate` on or after the newest listed major patch's date.
 - **The staleness pass (#17)** runs in an agent session when a sync PR lands with a new game version:
   1. Read the new patch-notes entries.
   2. List entries whose System, entities or rawNames appear in them (a deterministic `kb facts --mentions <patch>` query does this).
@@ -1025,9 +1043,9 @@ There is no numeric weight anywhere. The schema has no field to hold one (FR-8).
 ### TR-13 Versioning, manifest and "What's new"
 
 - **Version id:** `YYYY.MM.DD.n+hash`. The date is the UTC date of the newest commit on the build's history that touches `packages/knowledge/`. `n` is that commit's ordinal among same-day commits touching the package, and `.n` is omitted when n = 1. `hash` is the first 8 hex digits of the compiled entries' sha256. The CI deploy job checks out with enough history (`fetch-depth: 0`). A build outside git (a tarball) uses `0000.00.00+hash`.
-- **Display:** `knowledge 2026.10.17` (or `knowledge 2026.10.17.2`), in the footer (M10/M12) and in every golden header.
-- **Manifest:** `id → hash8` for every shipped entry. The app stores the last-seen manifest in localStorage (about 20 bytes × entries; around 30 KB at 1,500 entries).
-- **`diffManifests(prev, next)`** returns `{added, changed, retired}` with titles. A generated-only change (a fact moved at a sync) counts as `changed` for the entries that extend it.
+- **Display:** `knowledge 2026.10.17` (or `knowledge 2026.10.17.2`), in the footer (M10/M12). It is computed only in the deploy build, which checks out `main` with `fetch-depth: 0`. PR CI runs on a synthetic merge commit with shallow history, and squash merges renumber `.n`, so goldens and tests never include it: goldens show `knowledge #<contentHash8>`, and US-6 is tested with injected git metadata.
+- **Manifest:** `id → hash8` for every shipped authored entry, hashed over player-visible fields only (FR-22). The app stores the last-seen manifest in localStorage (about 20 bytes × entries; around 30 KB at 1,500 entries).
+- **`diffManifests(prev, next)`** returns `{added, changed, retired}` with titles. A generated fact that moved at a sync changes the hash of every authored entry that extends it, so those entries show as `changed`. A sync that moves no fact changes nothing.
 - **Advice changes and code changes are listed separately** (#11 item 13): "What's new" shows the code changelog (Conventional Commits, M12) apart from these advice changes.
 
 ### TR-14 The scrubbed-fixture tool (`pnpm kb scrub`)
@@ -1036,29 +1054,35 @@ There is no numeric weight anywhere. The schema has no field to hold one (FR-8).
 
 **Input:** a Toolbox "Copy for support" export (#9). Its top-level keys are `accountCreateTime, charNames, companion, data, extraData, guildData, lastUpdated, serverVars, tournament`.
 
-**Policy** (`packages/kb-tools/src/scrub/policy.ts`) is a table from path pattern to action: `keep`, `blank` (a string becomes `""`, a number becomes 0), `drop`, `rename-chars` or `review`. Every string leaf in the output must be covered by a rule.
+**Policy** (`packages/kb-tools/src/scrub/policy.ts`) is a table of rules. Each rule is a path pattern, an action (`keep`, `blank`, `drop`, `rename-chars`, `pseudonym`, `review`), and, for `keep` on string leaves, the values it allows: a `_lookups` table name, a value set or a regex. A path-only `keep` on strings is rejected by the policy's own schema, because a path that holds an id today can hold a name tomorrow (`data.OptLacc[37]` holds another guild member's name in a public save). Every string leaf in the output must be covered by a rule. `blank` keeps the type: a string becomes `""`, a number 0, an array `[]`, an object `{}`.
 
 | Path | Action | Why |
 |---|---|---|
 | top-level keys other than the 9 above | **fail** | a new export format must be reviewed |
 | `charNames[i]` | `rename-chars` → `Char{i+1}` | names |
-| every string anywhere that equals or contains an original character name, including inside JSON-encoded strings such as `data.CogO` | replaced with the mapped `Char{n}` | names hidden in nested strings (found in `CogO` on the W2 save) |
-| `companion.e` | `blank` | account-level identifier |
-| `guildData.id`, `guildData.members` | `blank` / `{}` | guild identity and other players |
-| `data.Guild` string leaves | `blank` unless allowlisted | guild name |
-| `tournament.user`, `tournament.match`, `tournament.leaderboard` | `drop` | other players and the account's own identity |
-| `serverVars.Comp_RaffleWinners`, any `serverVars.*Chat*`, any `serverVars.*Twitch*` | `blank` | third-party names and broadcast strings |
+| known name positions: `data.CogO` (`Player_<name>`), the player entries in `tournament.match.d` | structured replace with the mapped `Char{n}` | names inside game strings (found in `CogO` on the W2 save) |
+| any other string leaf, or JSON-decoded token, that **equals** an original character name | replaced with the mapped `Char{n}` | exact matches only: substring replacement corrupts game ids (a public save's spelunking item `Knightly_Twohander` contains the character name `Two`, and the bubble `Call_Me_Bob` would break for a character named Bob) |
+| `companion.e` | `keep` (value regex `^[\d,]*$`) | the equipped companion (`misc.ts:1387` splits it), not an identifier |
+| `guildData.id` | `blank` | guild identity |
+| `guildData.members[*].a` | `pseudonym` → `Member{n}` | other players' names; numbers kept so the guild parse still runs (`guild.ts:127` maps over the array) |
+| `guildData.members[*].b` | `blank` | |
+| `data.Guild` string leaves | `blank` unless value-allowlisted | guild name |
+| `tournament.user` | numbers `keep`, strings `blank` | `tournament.ts` reads `user.r` and `user.l` |
+| `tournament.match.d` | decoded; own characters `Char{n}`, opponents `pseudonym` → `Opponent{n}`, battle tokens value-allowlisted | other players' names |
+| `tournament.leaderboard` | `blank` (`[]`) | other players |
+| `serverVars.*` | `keep` only for the keys in `SERVER_VARS_READ`, value-checked; every other key `blank` | server-wide broadcast data that names other players and guilds (`*Chat*`, `Comp_RaffleWinners`, `GuildRank`, `hr_w`, test strings). `SERVER_VARS_READ` is generated at each sync from the `serverVars` keys the vendored parsers read; a newly read key stops the scrub until reviewed |
+| `data.OptLacc[i]` string slots | `blank` unless `i` is in the reviewed `OPTLACC_STRING_KEEP` list (the slots parsers read as strings, such as 169 and 172) | free-text slots (`[37]` above) |
 | `data.PlayerStuff_*`, `data.SteamAchieve` | `review` (keep numeric leaves; strings must pass the scan below) | may carry platform data |
 | `accountCreateTime`, `lastUpdated`, timers in `data` | `keep` | the parser's time math depends on them (see red-team note 5) |
-| everything else | `keep`, then scanned | |
+| everything else | numbers `keep`; strings only through a value-checked `keep`, then scanned | |
 
 **Steps**
 1. Read the export. Fail on an unknown top-level key.
-2. Build the name map (`charNames[i]` → `Char{i+1}`), and load `fixtures/private/denylist.txt` if present. The denylist (gitignored) holds real names, guild names, emails and account ids, one per line.
+2. Build the pseudonym map: `charNames[i]` → `Char{i+1}`, guild members → `Member{n}`, tournament opponents → `Opponent{n}`. Append every original name to `fixtures/private/denylist.txt` (gitignored, created if absent), so anyone who has scrubbed a save gets the pre-commit gate. The denylist also holds guild names, emails and account ids added by hand, one per line.
 3. Walk every leaf. JSON-encoded string values are decoded, walked and re-encoded with the same formatting. Apply the policy.
-4. **Unknown-string scan.** Every remaining string leaf must be one of: numeric-looking; a game identifier in `_lookups` (item, monster, map, class, talent rawNames) or Toolbox's known enum strings; on the per-path allowlist; or shorter than 3 characters. Anything else is listed with its path, and the tool stops. The fix is to add a policy rule, never to skip the check.
-5. **Denylist gate.** The output, serialized, must contain no denylist line (case-insensitive, as a substring). The same gate runs over `packages/kb-tools/golden/` and `fixtures/scrubbed/`.
-6. **Parse equivalence.** Parse the original and the scrubbed export with the same `now` (the export's `lastUpdated`). The two Account States must be deep-equal after mapping `name` fields. The engine output, rendered as a golden, must also be equal after mapping names. Any difference stops the tool and prints the first differing paths. This guarantees that scrubbing never changes the advice.
+4. **Unknown-string scan.** Every remaining string leaf must be one of: numeric-looking (digits and `,;:._x+-`); a value its rule allows (a `_lookups` table, a value set or a regex); a pseudonym; or shorter than 3 characters. `_lookups` covers items, monsters, maps, classes, talents, cards, cogs, quests, pets, and the sentinel values `Blank`, `Null` and `LockedInvSpace`. On the public saves, item, monster, map, class and talent names alone leave several hundred distinct values unexplained (844 on `latest`), so the scrub ships with those tables in place. Anything else is listed, grouped by path, and the tool stops. The fix is a value-checked rule or a new lookup table, never a path-only `keep` and never skipping the check.
+5. **Denylist gate.** No string leaf of the output, and no decoded token, may equal a denylist line (case-insensitive) or contain it as a whole word (split on non-letters and on case changes). A denylist line that is also a `_lookups` value is checked as a whole-leaf match only, so a character named after an item doesn't block the scrub. The same gate runs over `packages/knowledge/golden/` and `fixtures/scrubbed/`.
+6. **Parse equivalence.** Parse the original and the scrubbed export with the same `now` (the export's `lastUpdated`), the same seeded `Math.random`, and `TZ=UTC`. Toolbox's **full** `parseData` output (not just the Account State, which today exposes only a slice of it) must be deep-equal after applying the pseudonym map, outside the declared `SCRUBBED_OUTPUT_PATHS` (guild id, tournament player names, blanked serverVars text). An Account State contract test fails if any Account State field is derived from a path on that list. The engine output, rendered as a golden, must also be equal. Any difference stops the tool and prints the first differing paths. Together these guarantee that scrubbing never changes the advice, now and as Account State grows, without re-reading the raw save.
 7. Write `fixtures/scrubbed/<id>.json` (pretty-printed, sorted keys) and `<id>.meta.json`:
 
 ```json
@@ -1069,7 +1093,7 @@ There is no numeric weight anywhere. The schema has no field to hold one (FR-8).
   "exportedOn": "2026-10-17",
   "parserCommit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
   "gameVersion": "2.3.540",
-  "scrubber": { "version": 1, "policyHash": "1c0ffee2" },
+  "scrubber": { "version": 1, "matchedPolicyHash": "1c0ffee2" },
   "owner": "yasser",
   "consent": "https://github.com/YassSoliman/idleon-forge/pull/<n>#issuecomment-<id>",
   "characters": [
@@ -1079,13 +1103,13 @@ There is no numeric weight anywhere. The schema has no field to hold one (FR-8).
 }
 ```
 
-**CI structural gate** (the denylist is private, so CI checks structure instead): every `fixtures/scrubbed/*.json` must have `charNames` all matching `^Char\d+$`, an empty `companion.e`, no `tournament.user` or `tournament.match`, a `scrubber.policyHash` equal to the current policy's hash, and a non-empty `consent` link to the save owner's own comment or approval (D1). A policy change forces a re-scrub.
+**CI structural gate** (the denylist is private, so CI checks structure instead): every `fixtures/scrubbed/*.json` must have `charNames` all matching `^Char\d+$`, `guildData.members[*].a` all matching `^Member\d+$`, an empty `guildData.id`, `tournament.leaderboard` empty, only `SERVER_VARS_READ` keys non-blank in `serverVars`, a `scrubber.matchedPolicyHash` equal to the hash of the current versions of the rules that matched it, and a non-empty `consent` link (D1). CI can't tell whose comment the link points to, so the code-owner reviewer confirms it is the save owner's. Editing a rule that matched a fixture forces a re-scrub of that fixture; editing other rules doesn't. A re-scrub needs the owner's raw save, so only the owner can run it.
 
 **Locally,** a `pre-commit` hook in `.githooks/`, enabled by `pnpm install` through `core.hooksPath`, runs the denylist gate on staged files whenever `fixtures/private/denylist.txt` exists.
 
 ### TR-15 The golden snapshot format
 
-**One file per fixture:** `packages/kb-tools/golden/<fixture>.md`, committed for public and scrubbed fixtures. Private fixtures write to `fixtures/private/golden/<id>.md` (gitignored). A golden is Markdown-flavoured plain text. It is deterministic, it is sorted wherever the engine output has no order, and it never contains a name, because characters are always `C1…Cn` in save order whatever the fixture.
+**One file per fixture:** `packages/knowledge/golden/<fixture>.md`, committed for public and scrubbed fixtures. Private fixtures write to `fixtures/private/golden/<id>.md` (gitignored). A golden is Markdown-flavoured plain text. It is deterministic, it is sorted wherever the engine output has no order, and it never contains a name, because characters are always `C1…Cn` in save order whatever the fixture.
 
 **Fixed run parameters:** `now` from the fixture's meta (public fixtures: their `lastUpdated`), Expected Return of 8 h, empty save history.
 
@@ -1099,7 +1123,7 @@ There is no numeric weight anywhere. The schema has no field to hold one (FR-8).
 Until the engine modules (M2–M9) exist, sections 2–4 show `(engine not built)`, and the Findings table alone is the golden.
 
 ```
-# golden: scrubbed-w2 · knowledge 2026.10.17.2 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T11:48:00Z · return 8h · stage W2-late
+# golden v1: scrubbed-w2 · knowledge #3f9a1c2e · parser 6c37e3d (game 2.3.540) · now 2026-10-17T11:48:00Z · return 8h · stage W2-late
 
 ## Verdict changes
 
@@ -1110,15 +1134,15 @@ visit order: C4, C1, C2, C3, C5
 ### C4 · Shaman 44 · Fix before you leave
 - [blocker] Assign C4 to a cauldron  ⟨alchemy.check.empty-cauldron · T1 2.3.540⟩
 - [goal 1] Big bubbles: 0 of 2 equipped → Equip Call Me Bob in big-bubble slot 1  ⟨alchemy.goal.big-bubbles-equipped · alchemy.check.empty-big-bubble-slot · T1 2.3.540⟩
-- [purpose] Fighting Jar Bridge: Jar kills 41k, next 100k in ~9 h  ⟨deathnote.contribution.fight-jar · T1⟩
-- [contested] First Gem Shop buy: Infinity Hammer | Crystal 3D Printer and card slots  ⟨gemshop.priority.first-buy · T3 2026-09-23 | T3 2026-10-11⟩
+- [purpose] Fighting Jar Bridge: Jar kills 41k, next 100k in ~9 h  ⟨deathnote.contribution.fight-jar · T1 gen⟩
+- [contested] First Gem Shop buy: Infinity Hammer | Crystal 3D Printer and card slots  ⟨gemshop.goal.first-buy · T3 2026-09-23 | T3 2026-10-11⟩
 
 ### C1 · Blood_Berserker 60 · Ready
 - [goal 1] … ⟨…⟩
 - [stale] … ⟨… · T3 2.3.520 · stale⟩
 
 ### Account
-- [goal 1] Upgrade Vault: buy Bigger Damage → Monster Tax  ⟨vault.priority.spend-w2 · T1⟩
+- [goal 1] Upgrade Vault: buy Bigger Damage → Monster Tax  ⟨vault.priority.spend-w2 · T1 gen⟩
 
 ## Not covered yet
 Arcade
@@ -1131,16 +1155,26 @@ Arcade
 | deathnote.goal.poop-small | deathnote/kills-of-monster | account | value | value=13021 |
 ```
 
+**Golden slot check:** every string slot printed in a golden must be a `_lookups` value, a pseudonym or `C<n>` (FR-27). A Detector that passes a free string from the save (such as `CogO`'s `Player_<name>`) fails here.
+
 **Harness:** `pnpm kb golden` renders every fixture and compares. On a difference it prints a unified diff and fails. `-u` rewrites the files, and `--only <id>` limits the run. In PR CI, `--diff-base origin/main` also renders the base branch's goldens and fills `## Verdict changes` in the job summary (`$GITHUB_STEP_SUMMARY`), so no bot token or PR comment is needed.
 
-**Format version:** the header gains `· golden v1`. A format change bumps it and regenerates every golden in its own PR.
+**Format version:** the header starts `# golden v1`. A format change bumps it and regenerates every golden in its own PR.
+
+**What keeps goldens stable** (they should change only when advice changes):
+- The header shows `knowledge #<contentHash8>`, never the date version (TR-13), so merges and rebases don't touch it.
+- A line citing a generated Source prints `T1 gen`; the parser pin and game version appear once, in the header. A sync therefore changes one header line per golden, plus the lines whose facts actually moved.
+- Durations use the coarse `duration` buckets (TR-6).
+- Parsing runs with the frozen clock, a seeded `Math.random` (Toolbox's construction optimizer calls it), `TZ=UTC` and the `en-US` locale.
+- **Public fixtures are pinned by content.** `sync.sh` deletes and recopies Toolbox's public saves, and Toolbox may rename or replace them. `packages/account-state/fixtures/public/manifest.json` maps each of our fixture ids to its upstream path and sha256. A sync that changes or removes a pinned file reports "public fixture changed upstream" in the PR body. Fixtures that a Detector example or a golden relies on are kept as frozen copies under our id until a PR moves those examples.
+- **Retiring a scrubbed fixture (D4) is a migration:** the PR that drops one first moves every Detector example whose only real-save example used it, and `kb check` fails on an example that names a missing fixture.
 
 ### TR-16 CI
 
 The existing `CI` job (lint, typecheck, test, build) gains:
 - `pnpm kb generate --check`, then `pnpm kb check --strict`, then `pnpm kb golden` (inside `pnpm test`), then the structural privacy gate.
-- A cache of the parsed fixtures, keyed by `UPSTREAM` plus the fixture hashes.
-- CODEOWNERS (D6): `packages/knowledge/ @YassSoliman @<joseph>` and `fixtures/scrubbed/ @YassSoliman @<joseph>`, with branch protection requiring one code-owner approval, so either one suffices. Every other path (`packages/kb-tools/`, the scrub policy, CI) stays `@YassSoliman` only. `<joseph>` is filled in once Joseph is added as a collaborator (#7).
+- A cache of the parsed fixtures, keyed by `UPSTREAM`, the fixture hashes, and the hashes of the parser bundle, the Account State adapter and the frozen-clock shim, so an adapter change can't be served stale results.
+- CODEOWNERS (D6): `packages/knowledge/ @YassSoliman @<joseph>` and `fixtures/scrubbed/ @YassSoliman @<joseph>`, with branch protection requiring one code-owner approval, so either one suffices. Every other path (`packages/kb-tools/`, the scrub policy, CI) stays `@YassSoliman` only. `<joseph>` is filled in once Joseph is added as a collaborator (#7). Goldens live in `packages/knowledge/golden/`, so a Knowledge Base PR never needs a Yasser-only path. GitHub doesn't let an author approve their own PR, so an agent PR opened under Yasser's account needs Joseph's approval until agents get their own identity (see section 10, R8).
 - The PR template gains a "Knowledge Base" block: entries added, changed and retired; Sources table; golden summary per fixture; hand-copied-fact warnings acknowledged; red-team status.
 
 ### TR-17 Performance budgets
@@ -1212,15 +1246,15 @@ The red team posts findings as one PR review, each with a severity: `blocking` (
 | **Loading** | The bundle is a static chunk cached by the SPA. Its first load happens alongside the parser bundle and never blocks sign-in. |
 | **Offline** | The Knowledge Base ships with the app, with no network fetch, so it works offline once loaded. |
 | **Broken parse / empty account** | The engine doesn't run (M1 `EmptyAccountError`), so no Detector sees a broken state. |
-| **Parser section failed** (`AccountState.warnings`) | Detectors that read that section return `unknown` with `parser-section-failed`. Verdicts become Unknown, never Ready. |
+| **Parser section failed** (`AccountState.warnings`) | M1 makes warnings structured (`{section, message}[]`; today they are plain strings) and maps each Account State field to the parser section it comes from. A Detector whose `reads` touch a failed section returns `unknown` with `parser-section-failed`, and for blocker Checks the Verdict becomes Unknown, never Ready. |
 | **Save newer than the parser pin** | "Parser not caught up" banner (M1/M10). Staleness is computed against the pin. Generated facts keep the pin's values and label their Source with the pin version, so the player sees which game version the numbers come from. |
 | **Sync PR changes a fact an authored entry relies on** | The fact diff, the golden diff and CI (dangling reference) make it visible. Authored entries extend facts by id, so they inherit the new value without an edit. |
-| **Sync PR drops a generated id** | It fails until the authored references are moved, using the `possible rename` hint. |
-| **Generator meets a new data shape** | The sync PR fails, naming the generator and input. `main` keeps working on the old pin. |
+| **Sync PR drops a generated id that authored entries reference** | The old entry is held and the parser update still merges. The references move, using the `possible rename` hint, in the same PR (mechanical substitution only) or in a follow-up before the hold expires after 2 syncs. |
+| **Generator meets a new data shape** | That generator's last good output is held (TR-10), the sync PR names it under "Held facts", and the parser update still merges. Lines using held facts show `[facts behind]` with the older game version. |
 | **Entry Stale** | Still shown, ranked below fresh entries at equal position, with a Stale badge. |
 | **Every entry in a Stage list is Stale** (a long gap without re-verification) | Still shown, in order. The golden header gains `stale: N of M`, so a PR reviewer sees the drift. |
 | **Contested blocker attempted** | Rejected by schema (FR-6). |
-| **Detector throws at runtime** (a shape CI never saw) | The engine catches it per Detector, records `unknown` plus a warning with the Detector id, and the character's Verdict becomes Unknown. It never crashes and never says Ready. |
+| **Detector throws at runtime** (a shape CI never saw) | The engine catches it per Detector and records `unknown` plus a warning with the Detector id. If the Detector belongs to a blocker Check, the character's Verdict becomes Unknown; otherwise that entry's line is dropped. It never crashes and never says Ready because of a throw. |
 | **Detector reads a field the adapter dropped after a sync** | The contract test fails in the sync PR. At runtime the read returns `unknown`. |
 | **System with no entries** | Listed under "Not covered yet" if it's unlocked. Hidden if locked. |
 | **Retired entry still referenced in a player's "Not for me" list** (M10 storage) | `replacedBy` maps the old id. With no replacement, the stored preference is dropped. |
@@ -1239,7 +1273,7 @@ The red team posts findings as one PR review, each with a severity: `blocking` (
 
 | Module | What M11 needs from it | What it needs from M11 |
 |---|---|---|
-| **M1 Sync & Account State** | `AccountState`, `HistoryEntry`, `parseSave(envelope, { now })`, `account.gameVersion.{serverBuild, parserTarget}`, the contract-test harness, and new fields as Detectors need them | `generated/_patches.json` (to map `serverBuild` to a game version) and the scrubbed fixtures for its contract tests |
+| **M1 Sync & Account State** | `AccountState`, `HistoryEntry`, `parseSave(envelope, { now })`, `account.gameVersion.{serverBuild, parserTarget}`, the build → game version table for the "parser not caught up" banner, structured `warnings` (`{section, message}`) with a field → section map, a seedable `Math.random` in the frozen-clock shim, the contract-test harness, and new fields as Detectors need them | `generated/_patches.json` (to map `serverBuild` to a game version) and the scrubbed fixtures for its contract tests |
 | **M2 Stage & Meta Path** | `STAGES` (in `packages/knowledge/src/stages.ts`) and the Stage Detector built from Meta Path `milestones` | the `metapath` and `priority` entry types, `milestone` Detectors, and `priorityByStage` |
 | **M3 AFK Safety** | Verdict-blocker Checks and their content | `check` entries with `effect: blocker`, `usesExpectedReturn`, `CheckFinding.at` |
 | **M4 Purpose & Milestones** | Goal and Contribution content | `goal`, `contribution`, generated Goal ladders, `etaMs` from kills/h |
@@ -1273,9 +1307,39 @@ Ruled by Yasser on 2026-10-17: every recommendation accepted as written, with D1
 2. **A generator reads the label instead of the value.** Toolbox data mixes display text and numbers, and some text is wrong (bribe Insider Trading reads "5%" with `value: 8`). A generator that parses descriptions ships wrong facts with tier-1 authority. *Defence:* the "numbers from value fields only" rule; a hand-checked value assertion per generator; and the fact diff in every sync PR.
 3. **Detectors overfit to 13 fixtures.** Two early-game real saves and eleven late-game public ones can't show every account shape, so a Detector can fire wrongly on Joseph's next save or a public user's. *Defence:* `unknown` for missing data; the all-optional-fields-removed test; red-team mutations (boundary, missing field, wrong class); blockers needing H and a tier ≤ 2 Source (D3); per-Detector runtime isolation (a throw means Unknown, never Ready); and Report this closing the loop with the entry id.
 4. **A scrubbed fixture leaks a name.** Names hide in nested JSON strings (`CogO`), and third-party names sit in server variables (raffle winners). A denylist-only scrub would miss a new field. *Defence:* the allowlist policy with mandatory coverage of every string leaf, the unknown-string scan, the local denylist gate plus pre-commit hook, the CI structural gate, the policy hash forcing a re-scrub, and goldens that use `C1…Cn` by construction.
-5. **Kept timestamps fingerprint the account.** `accountCreateTime` and timers are kept because the parser's time math needs them. With names removed, re-identification would need outside data. *Defence:* that is accepted and documented here, and D1 asks for explicit consent. If it's ever judged too much, the fix is a uniform shift of every epoch field with a matching shift of `now`, verified by the same parse-equivalence check. It isn't in the MVP because a missed timer field would silently change advice.
+5. **Kept timestamps fingerprint the account, and the fixture is attributable anyway.** `accountCreateTime` and timers are kept because the parser's time math needs them. The fixture is not anonymous: its `owner` field, its consent link and this spec say whose save it is. What the scrub removes is the in-game identity (character, guild and other players' names, ids) that would let someone find the account in-game or in leaderboards. *Defence:* that is accepted, stated plainly in the consent request (D1), and documented here. If it's ever judged too much, the fix is a uniform shift of every epoch field with a matching shift of `now`, verified by the same parse-equivalence check. It isn't in the MVP because a missed timer field would silently change advice.
 6. **Golden fatigue.** A sync PR changes 13 goldens, and reviewers rubber-stamp them, so a wrong blocker slips through. *Defence:* `## Verdict changes` comes first in the job summary; the Findings table is sorted and stable, so diffs are small; generator PRs are separate from authored PRs; the PR template asks for a one-line summary per fixture; and Verdict-blocker PRs get the stronger red team (D7).
 7. **Staleness turns everything grey.** At 1–2 week patches, "10 patches" is 10–20 weeks, so most community entries could go Stale within a season, and the badge stops meaning anything. *Defence:* Stale only demotes within a position and never hides an entry; the targeted staleness pass flags the entries a patch actually touched; re-verification is cheap (a new Source line); and the golden header counts Stale entries, so drift shows up in review. If the badge still proves too noisy, the threshold is one constant to tune.
 8. **The red team shares the author's blind spots.** Same model, same Sources, same mistakes. *Defence:* fresh context without the author's reasoning; a checklist that forces actions (open each URL, write mutations, compare with #26's worked examples) rather than opinions; a stronger model for blockers and Stage lists (D7); and the final gate is a human player on their own fresh save.
 9. **ids churn and break reports and preferences.** An upstream rename or a slug change breaks "Not for me" and old reports. *Defence:* ids come from rawNames, not positions; the `possible rename` hint; retired entries keep their ids and carry `replacedBy`; and Knowledge Base version plus game version travel with every report.
 10. **Templates render wrong numbers.** Milliseconds shown as hours, or "13021" where "13k" was meant, or the reverse. Wrong-looking advice is as damaging as wrong advice. *Defence:* typed slot schemas per Detector, compile-time format checks, and goldens that show the rendered text, so every format change is visible in review.
+
+## 10. Red-team log
+
+An independent agent (fresh context, given only this spec, the glossary, the ADRs and read access to the slice-1 code and Toolbox's public saves) reviewed the spec on 2026-10-17 after the decisions were folded in, with extra weight on the scrub allowlist, codegen drift on patch day and golden brittleness. Each finding was then checked against the vendored parsers, the public saves, `sync.sh`, `fetch-data.sh`, `ci.yml` and Toolbox's `patch-notes.js` at pin `6c37e3d`. Totals: 22 findings (1 P0, 11 P1, 8 P2, 2 P3). 20 were fixed in full, and 2 were fixed in part, with the rest deferred to Yasser. Two proposed fixes were rejected (in R3 and R22) and replaced or dropped, with the reason given.
+
+| # | Sev | Finding | Verdict | How |
+|---|---|---|---|---|
+| R1 | P0 | Other players' names fall outside the policy (`data.OptLacc[37]` holds a guild member's name in a public save; `serverVars.GuildRank` is a guild leaderboard), and the string scan pushes authors toward path-wide `keep` rules that would pass them | fixed | TR-14: value-checked rules only (a path-only `keep` is rejected), serverVars kept only for keys the parsers read, `OptLacc` string slots blanked unless reviewed, wider `_lookups`, and an auto-seeded denylist |
+| R2 | P1 | `companion.e` is the equipped companion (`misc.ts:1387`), not an identifier; blanking it changes the parse and the CI gate required it empty | fixed | Kept with a value regex; removed from the structural gate |
+| R3 | P1 | Parse equivalence can't hold: blanking `guildData.members` and dropping `tournament.user/match` changes Toolbox's output, and Account State is only a slice of it | fixed | Members and opponents pseudonymised with numbers kept; equivalence runs on the full `parseData` output outside the declared `SCRUBBED_OUTPUT_PATHS`, and a contract test bans Account State from reading those paths. *Rejected:* an owner `kb scrub --verify` on every sync PR, which the contract test makes unnecessary |
+| R4 | P1 | `serverBuild` is an integer with no mapping in patch notes; the notes have 120 releases but only 42 distinct game versions, with gaps and a `2.0.493a`; the file is JSX | fixed | TR-11: current = the pin's version; patches deduplicated and normalised; unlisted Source versions indexed at the nearest lower version; regex extraction; M1 owns the build → version table |
+| R5 | P1 | The date version in golden headers can't match itself (shallow synthetic merge commit; squash renumbers `.n`) | fixed | Goldens show the content hash only; the date version is computed in the deploy build only; US-6 uses injected git metadata |
+| R6 | P1 | Provenance in generated entries makes every sync change every hash | fixed | FR-22: hashes cover player-visible fields only; generated ids are left out of the manifest and of What's new |
+| R7 | P1 | The parser sync is held hostage by the knowledge tooling (failing generator, dropped id, red-team rule, generator value tests, no `golden -u`, `GITHUB_TOKEN` PRs skip CI); and TR-10 contradicts TR-19 A1 | fixed | Per-generator holds with `[facts behind]` and a 2-sync expiry; sync runs `kb golden -u`; fact-only sync PRs skip the red team; generator tests run on synthetic slices plus invariants; a CI-triggering token (M12); the rename substitution is the single stated exception to A1 |
+| R8 | P1 | Goldens sat on a Yasser-only path, so Joseph's approval alone could never suffice; Yasser can't approve agent PRs opened under his own account | fixed in part | Goldens moved to `packages/knowledge/golden/`. The agent identity (a bot account or GitHub App) is deferred to Yasser |
+| R9 | P1 | US-9 put `## Verdict changes` in the committed golden; TR-15 says it lives only in the job summary | fixed | US-9 now points at `$GITHUB_STEP_SUMMARY` |
+| R10 | P1 | A contested Priority List item had nowhere to keep its sides; the example used a `priority` id as an item; a contested Meta Path slot could skip `sides` | fixed | `TierItem.sides` with a refine, the example becomes `gemshop.goal.first-buy`, and a slot refine ties `status: contested` to `sides` |
+| R11 | P1 | Retired titles and `replacedBy` weren't in the bundle | fixed | A `retired` map in the bundle (FR-22, TR-7) |
+| R12 | P1 | "A policy change forces a re-scrub" fights frozen fixtures and private raw saves | fixed in part | The hash covers only the rules that matched each fixture, and only the owner can re-scrub. Where raw saves live and whether a re-scrub needs fresh consent are deferred to Yasser |
+| R13 | P2 | Substring name replacement hits game ids (a public save's `Knightly_Twohander` contains the character name `Two`) | fixed | Exact matches plus known name positions only; the denylist matches whole words and treats lookup values as whole-leaf matches |
+| R14 | P2 | Goldens churn for reasons unrelated to advice (T1 version on every line, recopied public fixtures, ETAs, the cache key, `Math.random`, TZ) | fixed | `T1 gen` lines; a public-fixture manifest pinned by sha256; coarse durations; a wider cache key; seeded `Math.random`, `TZ=UTC`, `en-US` |
+| R15 | P2 | Staleness was undefined for inherited, item-level and contested Sources, and "major patch" was undefined | fixed | FR-19 counts only authored Sources; `majors.yaml` defines major patches |
+| R16 | P2 | The hand-copied-fact check skipped `params` and Detector code, and small integers gave false positives | fixed | TR-8 scans `params`, ignores 0–2, and adds a lint for 2+ digit literals in `detectors/**` |
+| R17 | P2 | Our own dossiers on mutable branches were cited as tier 1, so a blocker could meet D3 with our own write-up | fixed | FR-3: tier 1 only for Toolbox permalinks at a sha; the TR-3 examples now cite dossiers as tier 4 |
+| R18 | P2 | Detectors can't tell which parser section failed (`warnings: string[]`) | fixed | M1 dependency: structured warnings and a field → section map (§6, §7) |
+| R19 | P2 | Generator assumptions vs data: placeholder map names collide, `DEATH_NOTE_RANKS` is one global table, worlds are 0-based | fixed | TR-10 normalisation rules; grouped fact-diff lines; US-4 reworded |
+| R20 | P2 | Stories depended on `scrubbed-w3` (not in CI until consent), and dropping a fixture could orphan Detector examples | fixed | CI variants on `scrubbed-w2` for US-3, US-4 and US-5; fixture retirement as a migration |
+| R21 | P3 | FR-27 couldn't be met as written, and goldens had no check on string slots | fixed | FR-27 scoped (public Toolbox saves exempt); a golden slot check added |
+| R22 | P3 | Note 5 wrongly implied anonymity; FR-24 and TR-9 disagreed on contested coverage; any throw made a Verdict Unknown; CI can't verify whose consent it is; the cited "section 10" didn't exist | fixed | Note 5 rewritten, coverage aligned, throws scoped to blockers, the reviewer confirms consent. *Rejected:* the missing section 10, which is this section |
+
