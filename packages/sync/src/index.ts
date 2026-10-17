@@ -76,6 +76,19 @@ export {
   saveOutcome,
 } from './patch';
 export {
+  createProofRing,
+  memoryProofStore,
+  openProofStore,
+  PROOF_MIN_EXPIRED_MS,
+  PROOF_RING_SIZE,
+  type ProofRing,
+  type ProofRingOptions,
+  type ProofStore,
+  pickProof,
+  readTokenTimes,
+  type TokenEntry,
+} from './proof';
+export {
   createSession,
   type GoogleSignInOptions,
   onUserChanged,
@@ -83,4 +96,5 @@ export {
   type SignedInUser,
   signInWithGoogleDevice,
   signOut,
+  watchIdTokens,
 } from './session';
