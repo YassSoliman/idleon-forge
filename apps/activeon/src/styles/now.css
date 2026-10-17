@@ -387,6 +387,16 @@ label.chip {
   font-size: 11px;
   color: var(--unk);
 }
+/* Goal.details: per-character lines under an account Goal, collapsed by default. */
+.goal-details summary {
+  cursor: pointer;
+  min-height: 24px;
+}
+.goal-details ul {
+  margin: 2px 0 0;
+  padding-left: 18px;
+  overflow-wrap: anywhere;
+}
 /* #74 item 5: quiet facts under the character, never tasks. */
 .info-lines {
   list-style: none;

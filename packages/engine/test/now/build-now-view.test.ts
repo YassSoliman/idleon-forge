@@ -434,6 +434,23 @@ describe('US-15 game patch', () => {
   });
 });
 
+describe('Goal.details (#70 A2, A3)', () => {
+  it('an account Goal carries one detail line per character, in order, keyed per character', () => {
+    const r = fixture('mid-session');
+    const g = r.account.goals[0] as Goal;
+    g.details = [
+      { subject: 'c3', text: 'Barbarian Lv 51: 2 into Capacity' },
+      { subject: 'c0', text: 'Bowman Lv 60: 1 into Capacity' },
+    ];
+    const v = view(r);
+    expect(v.account.goals[0]?.details).toEqual([
+      { key: `${g.id}#c3`, text: 'Barbarian Lv 51: 2 into Capacity' },
+      { key: `${g.id}#c0`, text: 'Bowman Lv 60: 1 into Capacity' },
+    ]);
+    expect(view(fixture('mid-session')).account.goals[0]?.details).toEqual([]);
+  });
+});
+
 describe('#74 item 5 info lines', () => {
   it('a module info line shows on its character card, with no controls and no Verdict change', () => {
     const r = fixture('mid-session');

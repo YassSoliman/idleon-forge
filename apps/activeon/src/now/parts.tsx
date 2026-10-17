@@ -158,13 +158,30 @@ export function ActionControls({
 }
 
 /** The one shared component for a Next Action (TR-4). */
+/** Goal.details: per-character lines under an account Goal, collapsed by default (#70 A2, A3). */
+export function GoalDetails({ details }: { details: GoalView['details'] }) {
+  if (details.length === 0) return null;
+  return (
+    <details className="goal-details small muted">
+      <summary>show details ({details.length})</summary>
+      <ul>
+        {details.map((d) => (
+          <li key={d.key}>{d.text}</li>
+        ))}
+      </ul>
+    </details>
+  );
+}
+
 export function NextActionItem({
   action,
   milestone,
+  details = [],
   first,
 }: {
   action: NextActionView;
   milestone?: string | null;
+  details?: GoalView['details'];
   first?: boolean;
 }) {
   return (
@@ -173,6 +190,7 @@ export function NextActionItem({
       <p className="na-text">{action.text}</p>
       {milestone ? <p className="small muted">{milestone}</p> : null}
       <p className="why small">Why: {action.why}</p>
+      <GoalDetails details={details} />
       <div className="na-meta">
         <SourceLabel source={action.source} />
         {action.contested ? <ContestedBadge contested={action.contested} /> : null}
@@ -216,7 +234,12 @@ export function GoalList({
       <ul className="goals">
         {goals.map((g, n) => (
           <li key={g.action.key}>
-            <NextActionItem action={g.action} milestone={g.milestone} first={highlightFirst && n === 0} />
+            <NextActionItem
+              action={g.action}
+              milestone={g.milestone}
+              details={g.details}
+              first={highlightFirst && n === 0}
+            />
           </li>
         ))}
       </ul>
