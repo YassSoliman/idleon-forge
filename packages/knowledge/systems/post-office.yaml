@@ -22,6 +22,7 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/postoffice.ts#L10", title: "Toolbox getPlayerPostOffice", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/post-office.md", title: "W1 dossier: Post Office unlock quest", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Post_Office", title: "IdleOn Wiki: Post Office", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: post-office.check.daily-orders
     system: post-office
     type: check
@@ -41,6 +42,7 @@ entries:
     status: active
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L584", title: "Toolbox dailyShipments alert", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Post_Office#Orders", title: "IdleOn Wiki: Post Office, orders", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: post-office.check.spend-boxes
     system: post-office
     type: check
@@ -60,3 +62,4 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/characters.js#L135", title: "Toolbox Post Office unspentPoints alert", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://www.reddit.com/r/idleon/comments/1tyi01h/comment/oq3xa0r/", title: "r/idleon: 200 in combat, then the main skills, then combat again (PV 3.5)", tier: 3, claimDate: 2026-06-06, verified: 2026-10-17, gameVersion: 2.3.540, verification: confirmed }
+      - { url: "https://idleon.wiki/wiki/Post_Office", title: "IdleOn Wiki: Post Office", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }

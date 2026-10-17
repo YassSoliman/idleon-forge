@@ -20,6 +20,7 @@ entries:
         tier: 1
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Trapping", title: "IdleOn Wiki: Trapping", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: H
     status: active
@@ -39,6 +40,7 @@ entries:
         tier: 1
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Trapping", title: "IdleOn Wiki: Trapping", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: H
     status: active

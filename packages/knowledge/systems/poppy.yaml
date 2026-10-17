@@ -19,3 +19,4 @@ entries:
     status: active
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/kangaroo.ts#L104", title: "Toolbox getKangaroo: pendingFish", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Poppy_the_Kangaroo_Mouse%27s_Fish_Pond", title: "IdleOn Wiki: Poppy the Kangaroo Mouse's Fish Pond", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }

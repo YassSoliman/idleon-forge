@@ -25,3 +25,6 @@ entries:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L599", title: "Toolbox enhanceKeysObject: keys a day, day counters, 3-day bank", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L2097", title: "Toolbox areKeysOverdue", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.14: key quests on every character", tier: 3, claimDate: 2026-09-25, verified: 2026-10-17, gameVersion: 2.3.540, verification: confirmed }
+      - { url: "https://idleon.wiki/wiki/Djonnut", title: "IdleOn Wiki: Djonnut", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Bellows", title: "IdleOn Wiki: Bellows", tier: 2, claimDate: 2026-10-01, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Forest_Villa_Key", title: "IdleOn Wiki: Forest Villa Key", tier: 2, claimDate: 2026-09-12, verified: 2026-10-17, gameVersion: 2.3.540 }

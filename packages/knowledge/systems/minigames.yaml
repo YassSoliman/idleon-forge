@@ -23,6 +23,7 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L513", title: "Toolbox getCurrencies: the minigame play pool", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/account-wide/docs/research/systems/account-wide/minigames.md", title: "Minigames dossier: highscore Milestones", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Mining#Mining_Minigame", title: "IdleOn Wiki: Mining, mining minigame", tier: 2, claimDate: 2026-10-06, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: minigames.check.spiketrap
     system: minigames
     type: check
@@ -42,6 +43,8 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts#L40", title: "Toolbox getHighscores: Spiketrap best round", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/account-wide/docs/research/systems/account-wide/minigames.md", title: "Minigames dossier: Spiketrap daily gems at the top of the hour", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Daily_Checklist", title: "IdleOn Wiki: Daily Checklist", tier: 4, claimDate: 2026-03-24, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Secrets", title: "IdleOn Wiki: Secrets", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: minigames.check.darts-play
     system: minigames
     type: check
@@ -61,6 +64,7 @@ entries:
     notes: "Once per Play Session (M6 D3)."
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts#L80", title: "Toolbox getDartsData", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Minigames#Throwy_Darts", title: "IdleOn Wiki: Minigames, Throwy Darts", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: minigames.check.hoops-play
     system: minigames
     type: check
@@ -80,6 +84,7 @@ entries:
     notes: "Once per Play Session (M6 D3)."
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts#L99", title: "Toolbox getHoopsData", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Minigames#Swishy_Hoops", title: "IdleOn Wiki: Minigames, Swishy Hoops", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: minigames.check.darts-spend
     system: minigames
     type: check
@@ -99,6 +104,7 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts#L80", title: "Toolbox getDartsData: costs and unlock thresholds", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/account-wide/docs/research/systems/account-wide/minigames.md", title: "Minigames dossier: Darts upgrade order", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Minigames#Throwy_Darts", title: "IdleOn Wiki: Minigames, Throwy Darts", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: minigames.check.hoops-spend
     system: minigames
     type: check
@@ -117,3 +123,4 @@ entries:
     notes: "Stock only (M6 FR-15, R1): Toolbox prices Hoops with the Darts formula, floor(2 + L/12), against the game's floor(3 + L/8)."
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts#L99", title: "Toolbox getHoopsData", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Minigames#Swishy_Hoops", title: "IdleOn Wiki: Minigames, Swishy Hoops", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }

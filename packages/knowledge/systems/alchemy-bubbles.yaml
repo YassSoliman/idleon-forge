@@ -22,6 +22,7 @@ entries:
     status: active
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L653", title: "Toolbox applyNewBubbleChances: expected new bubbles per cauldron", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Alchemy#Brewing", title: "IdleOn Wiki: Alchemy, brewing", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: alchemy-bubbles.check.spend-brew-big
     system: alchemy-bubbles
     type: check
@@ -40,6 +41,7 @@ entries:
     notes: "The same Check as spend-brew when a firing cauldron's next bubble fits an AFK Target in use (FR-16's why line); exactly one of the two fires."
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L653", title: "Toolbox applyNewBubbleChances: expected new bubbles per cauldron", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Alchemy#Brewing", title: "IdleOn Wiki: Alchemy, brewing", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: alchemy-bubbles.check.fill-slot
     system: alchemy-bubbles
     type: check
@@ -60,6 +62,7 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/characters.js#L110", title: "Toolbox missingBubbles: slot count and Sheepie", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w2-systems/docs/research/systems/2026-10-17-w2-systems.md", title: "W2 dossier: AFK Setup big-bubble pairing", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Alchemy", title: "IdleOn Wiki: Alchemy", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: alchemy-bubbles.check.wrong-fit
     system: alchemy-bubbles
     type: check
@@ -79,3 +82,4 @@ entries:
     notes: "Only when a better unlocked bubble exists (R10). Call Me Bob/Ash/Pope are never swapped until M2's Roles are readable."
     sources:
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w2-systems/docs/research/systems/2026-10-17-w2-systems.md", title: "W2 dossier: AFK Setup big-bubble pairing", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Alchemy", title: "IdleOn Wiki: Alchemy", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }

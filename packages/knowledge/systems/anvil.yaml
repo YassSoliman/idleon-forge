@@ -16,6 +16,7 @@ entries:
         tier: 1
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Smithing#Anvil_Production", title: "IdleOn Wiki: Smithing, anvil production", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: H
     status: active
@@ -42,6 +43,7 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/characters.js#L30", title: "Toolbox anvil unspentPoints alert", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 3.1: all points into Speed", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: confirmed }
+      - { url: "https://idleon.wiki/wiki/Smithing#Anvil_Production", title: "IdleOn Wiki: Smithing, anvil production", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: anvil.check.spend-points-capacity
     system: anvil
     type: check
@@ -61,3 +63,4 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/characters.js#L30", title: "Toolbox anvil unspentPoints alert", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 3.1: all points into Speed", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: confirmed }
+      - { url: "https://idleon.wiki/wiki/Smithing#Anvil_Production", title: "IdleOn Wiki: Smithing, anvil production", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }

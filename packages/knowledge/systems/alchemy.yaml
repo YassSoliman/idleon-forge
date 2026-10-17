@@ -14,6 +14,7 @@ entries:
         tier: 1
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Alchemy#Brewing", title: "IdleOn Wiki: Alchemy, brewing", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: H
     status: active
@@ -33,6 +34,7 @@ entries:
         tier: 1
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Alchemy#Liquids", title: "IdleOn Wiki: Alchemy, liquids", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: H
     status: active

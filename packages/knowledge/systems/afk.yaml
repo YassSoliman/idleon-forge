@@ -21,6 +21,7 @@ entries:
         tier: 4
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Game_Mechanics_AFK", title: "IdleOn Wiki: Game Mechanics AFK", tier: 4, claimDate: 2025-04-26, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: H
     status: active
@@ -47,6 +48,8 @@ entries:
         tier: 1
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Game_Mechanics_AFK#Fighting_AFK_gains", title: "IdleOn Wiki: Game Mechanics AFK, fighting AFK gains", tier: 4, claimDate: 2025-04-26, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Food", title: "IdleOn Wiki: Food", tier: 2, claimDate: 2026-09-13, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: H
     status: active
@@ -73,6 +76,8 @@ entries:
         tier: 4
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Game_Mechanics_AFK#Food_Consumption", title: "IdleOn Wiki: Game Mechanics AFK, food consumption", tier: 4, claimDate: 2025-04-26, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Food", title: "IdleOn Wiki: Food", tier: 2, claimDate: 2026-09-13, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: H
     status: active
@@ -98,6 +103,8 @@ entries:
         tier: 4
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Game_Mechanics_AFK#Food_Consumption", title: "IdleOn Wiki: Game Mechanics AFK, food consumption", tier: 4, claimDate: 2025-04-26, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Food", title: "IdleOn Wiki: Food", tier: 2, claimDate: 2026-09-13, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: H
     status: active
@@ -119,6 +126,7 @@ entries:
         tier: 1
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Storage#Capacity_Pouches", title: "IdleOn Wiki: Storage, capacity pouches", tier: 2, claimDate: 2026-09-20, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: H
     status: active
