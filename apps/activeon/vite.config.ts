@@ -2,9 +2,10 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { bundleGuards } from './bundle-guards.ts';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), bundleGuards()],
   build: {
     target: 'es2022',
     // The parser bundle is one ~6 MB module by design; it only ever loads inside the Web Worker.

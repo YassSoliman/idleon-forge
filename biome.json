@@ -23,7 +23,47 @@
   },
   "linter": {
     "enabled": true,
-    "rules": { "preset": "recommended" }
+    "rules": {
+      "preset": "recommended",
+      "style": {
+        "noRestrictedImports": {
+          "level": "error",
+          "options": {
+            "paths": {
+              "firebase/firestore": {
+                "importNames": [
+                  "setDoc",
+                  "updateDoc",
+                  "addDoc",
+                  "deleteDoc",
+                  "writeBatch",
+                  "runTransaction",
+                  "deleteField"
+                ],
+                "message": "ActiveOn is read-only: never write to the game's Firestore (M1 TR-21)."
+              },
+              "firebase/database": {
+                "importNames": [
+                  "set",
+                  "update",
+                  "push",
+                  "remove",
+                  "setWithPriority",
+                  "setPriority",
+                  "runTransaction",
+                  "onDisconnect"
+                ],
+                "message": "ActiveOn is read-only: never write to the game's Realtime Database (M1 TR-21)."
+              },
+              "firebase/functions": "ActiveOn is read-only: no callable Functions (M1 TR-21).",
+              "@firebase/firestore": "Import firebase/firestore, which the read-only lint rule covers.",
+              "@firebase/database": "Import firebase/database, which the read-only lint rule covers.",
+              "@firebase/functions": "ActiveOn is read-only: no callable Functions (M1 TR-21)."
+            }
+          }
+        }
+      }
+    }
   },
   "assist": { "actions": { "source": { "organizeImports": "on" } } }
 }
