@@ -6,6 +6,7 @@
 // the Play Session, D6), drops what the player skipped or dismissed, and caps what is left.
 
 import { playerSources } from '@idleon-forge/knowledge/player-sources';
+import { toolboxPage } from '@idleon-forge/knowledge/toolbox-site';
 import type {
   ActivePlay,
   CharacterResult,
@@ -120,21 +121,25 @@ export function safeHref(url: string): string | null {
   }
 }
 
-export function sourceView(sources: readonly SourceRef[], stale: boolean): SourceView {
+/**
+ * `entryId` names the entry (or `<entryId>@<subject>` key) the Sources belong to; it picks the Toolbox
+ * website page (#74 follow-up) for the credit, and for the link when no wiki or guide covers the entry.
+ */
+export function sourceView(sources: readonly SourceRef[], stale: boolean, entryId?: string): SourceView {
   const [best, ...rest] = playerSources(sources);
   const toolbox = sources.find((s) => s.tier === 1);
-  return {
-    text: best ? best.label : null,
-    href: best ? safeHref(best.url) : null,
-    credit: toolbox ? `Calculated by IdleOn Toolbox · ${toolbox.gameVersion}` : null,
-    stale,
-    more: rest.map((s) => ({
-      text: s.label,
-      href: safeHref(s.url),
-      tier: s.tier,
-      verifiedOn: s.verifiedOn,
-    })),
-  };
+  const site = toolbox && entryId ? toolboxPage(entryId.split('@')[0] ?? '') : null;
+  const more = rest.map((s) => ({
+    text: s.label,
+    href: safeHref(s.url),
+    tier: s.tier,
+    verifiedOn: s.verifiedOn,
+  }));
+  const credit = toolbox ? `Calculated by IdleOn Toolbox · ${toolbox.gameVersion}` : null;
+  if (best)
+    return { text: best.label, href: safeHref(best.url), credit, creditHref: site?.url ?? null, stale, more };
+  // No wiki or guide: link the Toolbox page itself; the credit beside it stays text (one link, not two).
+  return { text: site?.title ?? null, href: site?.url ?? null, credit, creditHref: null, stale, more };
 }
 
 function actionView(
@@ -149,13 +154,13 @@ function actionView(
     tag: `${CATEGORY_TAG[category]} · ${title}`,
     text: a.text,
     why: a.why,
-    source: sourceView(a.sources, a.stale),
+    source: sourceView(a.sources, a.stale, a.entryId),
     stale: a.stale,
     contested: a.contested
       ? {
           sides: a.contested.sides.map((s) => ({
             text: s.text,
-            sources: s.sources.map((x) => sourceView([x], false)),
+            sources: s.sources.map((x) => sourceView([x], false, a.entryId)),
           })),
         }
       : null,
@@ -481,7 +486,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
           text: `${base}${behind}${stop}`,
           stopHere: l.milestone?.stopHere ?? false,
           badges: l.badges,
-          source: l.sources.length ? sourceView(l.sources, l.badges.includes('stale')) : null,
+          source: l.sources.length ? sourceView(l.sources, l.badges.includes('stale'), l.goalId) : null,
         };
       }),
       goals: p.shown.map(goalView),
@@ -500,7 +505,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       info: (c.info ?? []).map((l) => ({
         key: l.key,
         text: l.text,
-        source: l.sources.length ? sourceView(l.sources, false) : null,
+        source: l.sources.length ? sourceView(l.sources, false, l.key) : null,
       })),
       done: c.doneThisSession.map((d) => doneView(d, ui.tzOffsetMinutes)),
       next:
@@ -622,7 +627,7 @@ function higherLeverageView(h: HigherLeverage, nameOf: (i: number) => string): H
     kind: h.kind,
     text: h.text,
     why: h.why,
-    source: sourceView(h.sources, h.stale),
+    source: sourceView(h.sources, h.stale, h.textEntryId),
     stale: h.stale,
     partner: h.partnerIndex === null ? null : { index: h.partnerIndex, name: nameOf(h.partnerIndex) },
     decidedBy: { position: 'list position', 'milestone-eta': 'Milestone ETA', 'goal-count': 'Goals served' }[
@@ -641,7 +646,7 @@ function activePlayView(a: ActivePlay, nameOf: (i: number) => string): ActivePla
     estimate: `${aboutDuration(a.estimateSeconds)} of hands-on play`,
     who: a.subject === 'account' ? null : nameOf(Number(a.subject.slice(1))),
     subject: a.subject,
-    source: a.sources.length ? sourceView(a.sources, false) : null,
+    source: a.sources.length ? sourceView(a.sources, false, a.key) : null,
   };
 }
 
@@ -723,7 +728,7 @@ function spendPlanView(
       statusText,
       runningTotal,
       note,
-      source: l.sources.length ? sourceView(l.sources, l.stale) : null,
+      source: l.sources.length ? sourceView(l.sources, l.stale, l.entryId) : null,
       stale: l.stale,
       contested: l.contested,
     };
@@ -755,7 +760,7 @@ function spendPlanView(
           tag: 'Spend · Spend coins',
           text: firstBuy.text,
           why: firstBuy.why,
-          source: sourceView(firstBuy.sources, firstBuy.stale),
+          source: sourceView(firstBuy.sources, firstBuy.stale, firstBuy.entryId),
           stale: firstBuy.stale,
           contested: null,
           controls: { skip: false, notForMe: false, report: true },

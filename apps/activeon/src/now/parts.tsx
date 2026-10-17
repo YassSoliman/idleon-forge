@@ -18,8 +18,9 @@ export function ExternalLink({ href, children }: { href: string; children: React
 
 /**
  * The Source line (FR-18, FR-19, #74): the best player-facing Source as a link named for its page
- * ("IdleOn Wiki: Smithing"), then the Toolbox credit as plain muted text, never a link to code. With no
- * player-facing Source there is no link, only the credit. "+n" lists the other player Sources in Focus.
+ * ("IdleOn Wiki: Smithing"), then the muted Toolbox credit, linked to the Toolbox website page, never to
+ * code. With no wiki or guide, the link is that Toolbox page ("IdleOn Toolbox: Anvil") and the credit
+ * stays text. "+n" lists the other player Sources in Focus.
  */
 export function SourceLabel({ source, more = true }: { source: SourceView; more?: boolean }) {
   const [open, setOpen] = useState(false);
@@ -40,7 +41,13 @@ export function SourceLabel({ source, more = true }: { source: SourceView; more?
       {source.credit ? (
         <span className="src-credit muted">
           {source.text ? ' · ' : ''}
-          {source.credit}
+          {source.creditHref ? (
+            <a className="muted" href={source.creditHref} target="_blank" rel="noopener noreferrer">
+              {source.credit}
+            </a>
+          ) : (
+            source.credit
+          )}
         </span>
       ) : null}
       {source.stale ? <span className="src-stale"> · Stale</span> : null}

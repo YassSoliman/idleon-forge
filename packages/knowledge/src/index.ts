@@ -46,6 +46,13 @@ export {
   TemplateError,
   type TemplatePart,
 } from './template';
+export {
+  TOOLBOX_ENTRY_PAGES,
+  TOOLBOX_PAGES,
+  TOOLBOX_SITE,
+  type ToolboxPage,
+  toolboxPage,
+} from './toolbox-site';
 export * from './types';
 export {
   type CompiledKnowledge,
