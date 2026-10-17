@@ -14,7 +14,8 @@ export interface RenderTextOptions {
   includeNotCovered?: boolean;
 }
 
-const src = (s: SourceView) => `[${s.text}]`;
+const src = (s: SourceView) =>
+  `[${[s.text, s.credit, s.stale ? 'Stale' : null].filter(Boolean).join(' · ') || 'no player source'}]`;
 
 function goalLine(g: GoalView, indent = ''): string[] {
   const a = g.action;
@@ -54,6 +55,7 @@ export function renderNowText(view: NowView, options: RenderTextOptions = {}): s
     if (f.higherLeverage) lines.push(`Better fit: ${f.higherLeverage.text} ${src(f.higherLeverage.source)}`);
     if (f.higherLeverageNote) lines.push(f.higherLeverageNote);
     for (const a of f.activePlay) lines.push(`active play: ${a.text} · ${a.estimate}`);
+    for (const l of f.info) lines.push(`info: ${l.text}`);
     if (f.done.length)
       lines.push(
         `Done this session (${f.done.length}): ${f.done.map((d) => `~~${d.text}~~ ${d.time}`).join('; ')}`,

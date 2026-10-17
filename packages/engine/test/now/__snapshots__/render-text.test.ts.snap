@@ -48,13 +48,13 @@ exports[`renderNowText on the view fixtures > account-stockpile 1`] = `
 
 ### Account · fix 2 before you leave
 Fix before you leave
-- Fix · Arcade: Claim Arcade balls: full for 48h [wiki · 2.3.540]
-- Fix · Alchemy: Spend Water: at cap [wiki · 2.3.540]
-- Spend · Gem Shop: Buy gem shop item 1 [wiki · 2.3.540]
-- Spend · Gem Shop: Buy gem shop item 2 [wiki · 2.3.540]
-- Spend · Gem Shop: Buy gem shop item 3 [wiki · 2.3.540]
-- Spend · Gem Shop: Buy gem shop item 4 [wiki · 2.3.540]
-- Spend · Gem Shop: Buy gem shop item 5 [wiki · 2.3.540]
+- Fix · Arcade: Claim Arcade balls: full for 48h [wiki]
+- Fix · Alchemy: Spend Water: at cap [wiki]
+- Spend · Gem Shop: Buy gem shop item 1 [wiki]
+- Spend · Gem Shop: Buy gem shop item 2 [wiki]
+- Spend · Gem Shop: Buy gem shop item 3 [wiki]
+- Spend · Gem Shop: Buy gem shop item 4 [wiki]
+- Spend · Gem Shop: Buy gem shop item 5 [wiki]
 show more (2)
 "
 `;
@@ -183,7 +183,7 @@ exports[`renderNowText on the view fixtures > mid-session 1`] = `
 5 · Choppin Oak · Spore Meadows · Spend 12 talent points on Bowman talents
 
 ### Account · nothing to fix
-- Spend · Gem Shop: Spend 400 gems on a storage chest [wiki · 2.3.540]
+- Spend · Gem Shop: Spend 400 gems on a storage chest [wiki]
 If you have time
 - Play the Hoops minigame · about 1h of hands-on play
 "

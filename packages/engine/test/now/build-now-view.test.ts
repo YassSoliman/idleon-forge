@@ -3,9 +3,9 @@
 // M10 user stories asserted on NowView, over the synthetic view fixtures (M10 §4).
 import { describe, expect, it } from 'vitest';
 import { invariantViolations } from '../../src/core/invariants';
-import { buildNowView, displayOrder, NOT_COVERED_BANNER } from '../../src/now/build-now-view';
+import { buildNowView, displayOrder, NOT_COVERED_BANNER, sourceView } from '../../src/now/build-now-view';
 import { EMPTY_PREFS, nextLocalMidnight } from '../../src/now/prefs';
-import type { Goal } from '../../src/result';
+import type { Goal, SourceRef } from '../../src/result';
 import { FIXTURE_IDS, fixture, skipNow, uiFor, view } from './helpers';
 
 const H = 3600;
@@ -72,11 +72,18 @@ describe('US-2 know where to go next', () => {
     const v = view(r, { focus: 0, visited: new Set([3, 0]) });
     expect(v.focus?.next).toEqual({ index: 1, text: 'Next: switch to Birch →' });
   });
-  it('names the worst unvisited character wherever Focus opened, with "k of M · n left"', () => {
+  it('names the worst unvisited character wherever Focus opened; the last position reads "last one"', () => {
     const v = view(r, { focus: 2 });
     expect(v.focus?.next.index).toBe(3);
-    // 4 others, minus index 4 (Ready, nothing to do).
-    expect(v.focus?.position).toBe('5 of 5 in your Visit Order · 3 left');
+    // "n left" counts after this position, so the last one never reads "5 of 5 · 4 left" (#74 item 4).
+    expect(v.focus?.position).toBe('5 of 5 in your Visit Order · last one');
+  });
+  it('"n left" counts unvisited characters after this position that have something to do', () => {
+    // Position 2 of [3,0,4,1,2]: after it come 4 (Ready, nothing to do), 1 and 2.
+    expect(view(r, { focus: 0 }).focus?.position).toBe('2 of 5 in your Visit Order · 2 left');
+    expect(view(r, { focus: 0, visited: new Set([1]) }).focus?.position).toBe(
+      '2 of 5 in your Visit Order · 1 left',
+    );
   });
   it('playing a different character than suggested only marks that one visited', () => {
     const v = view(r, { focus: 1, visited: new Set([1]) });
@@ -141,7 +148,7 @@ describe('US-4 understand what a character is for', () => {
     const v = view(fixture('no-purpose'), { focus: 0 });
     expect(v.focus?.unknown?.text).toBe('What is this character for?');
     expect(v.focus?.unknown?.suggestion?.text).toBe('Send this character to fight Frogs for Class XP');
-    expect(v.focus?.unknown?.suggestion?.source.text).toBe('wiki · 2.3.540');
+    expect(v.focus?.unknown?.suggestion?.source.text).toBe('wiki');
     expect(v.focus?.higherLeverage).toBeNull();
   });
   it('stopHere shows "consider stopping here"; parser-behind shows "may be out of date"', () => {
@@ -179,16 +186,70 @@ describe('US-5 do one thing at a time', () => {
 });
 
 describe('US-6 check the Source', () => {
-  it('"wiki · 2.3.540" links the wiki; "+1" lists the guide', () => {
+  it('links the wiki; "+1" lists the guide', () => {
     const v = view(fixture('mid-session'), { focus: 2 });
     const a = v.focus?.goals[1]?.action;
-    expect(a?.source).toMatchObject({ text: 'wiki · 2.3.540', href: 'https://idleon.wiki/wiki/Stamps' });
-    expect(a?.source.more.map((m) => m.text)).toEqual(['guide · 2.3.531']);
+    expect(a?.source).toMatchObject({ text: 'wiki', href: 'https://idleon.wiki/wiki/Stamps', credit: null });
+    expect(a?.source.more.map((m) => m.text)).toEqual(['guide']);
   });
-  it('a Stale label ends with "· Stale"; a non-https URL is plain text', () => {
+  it('a Stale Source is flagged; a non-https URL is never a link', () => {
     const v = view(fixture('stale'), { focus: 0 });
-    expect(v.focus?.goals[0]?.action.source.text).toBe('wiki · 2.3.540 · Stale');
+    expect(v.focus?.goals[0]?.action.source).toMatchObject({ text: 'wiki', stale: true });
     expect(v.focus?.goals[1]?.action.source.href).toBeNull();
+  });
+});
+
+describe('#74 player-facing Sources', () => {
+  const src = (label: string, url: string, tier: 1 | 2 | 3 | 4, claimDate?: string): SourceRef => ({
+    label,
+    url,
+    tier,
+    verifiedOn: '2026-10-17',
+    gameVersion: '2.3.540',
+    ...(claimDate ? { claimDate } : {}),
+  });
+  const toolbox = src(
+    'Toolbox getTimeTillCap',
+    'https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/anvil.ts',
+    1,
+  );
+  it('a tier 1 Source is an unlinked credit, never the link', () => {
+    const v = sourceView(
+      [toolbox, src('IdleOn Wiki: Smithing', 'https://idleon.wiki/wiki/Smithing', 2)],
+      false,
+    );
+    expect(v).toMatchObject({
+      text: 'IdleOn Wiki: Smithing',
+      href: 'https://idleon.wiki/wiki/Smithing',
+      credit: 'Calculated by IdleOn Toolbox · 2.3.540',
+    });
+  });
+  it('with no tier 2+ Source there is no link, only the Toolbox credit', () => {
+    expect(sourceView([toolbox], false)).toMatchObject({ text: null, href: null, more: [] });
+  });
+  it('never links a GitHub file, whatever its tier', () => {
+    const dossier = src('W3 dossier', 'https://github.com/YassSoliman/idleon-forge/blob/main/docs/x.md', 4);
+    const gist = src('progression gist', 'https://gist.github.com/someone/abc', 3, '2026-09-18');
+    const v = sourceView([toolbox, dossier, gist], false);
+    expect(v.href).toBeNull();
+    expect(v.more).toEqual([]);
+  });
+  it('orders the wiki first, then the newest dated guide or thread, then the rest', () => {
+    const v = sourceView(
+      [
+        src('patch notes', 'https://store.steampowered.com/news/app/1476970', 4),
+        src('older thread', 'https://www.reddit.com/r/idleon/comments/a/', 3, '2026-06-01'),
+        src('newer thread', 'https://www.reddit.com/r/idleon/comments/b/', 3, '2026-09-01'),
+        src('IdleOn Wiki: Worship', 'https://idleon.wiki/wiki/Worship', 2, '2026-10-07'),
+      ],
+      false,
+    );
+    expect([v.text, ...v.more.map((m) => m.text)]).toEqual([
+      'IdleOn Wiki: Worship',
+      'newer thread',
+      'older thread',
+      'patch notes',
+    ]);
   });
 });
 
@@ -198,10 +259,7 @@ describe('US-7 see when sources disagree', () => {
     const goals = v.focus?.goals ?? [];
     expect(goals[0]?.action.contested).toBeNull();
     const c = goals.find((g) => g.action.contested);
-    expect(c?.action.contested?.sides.map((s) => s.sources[0]?.text)).toEqual([
-      'wiki · 2.3.540',
-      'guide · 2.3.531',
-    ]);
+    expect(c?.action.contested?.sides.map((s) => s.sources[0]?.text)).toEqual(['wiki', 'guide']);
   });
 });
 
@@ -335,6 +393,28 @@ describe('US-15 game patch', () => {
     const v = view(r);
     expect(v.banners.filter((b) => b.kind === 'patch')).toEqual([]);
     expect(`${v.footer.game} · ${v.footer.parserTarget}`).toBe('game build 143 · parser targets 2.3.540');
+  });
+  it('the footer says "knowledge" once, whether or not the version carries the word (#74 item 4)', () => {
+    const r = fixture('mid-session');
+    expect(view(r).footer.knowledge).toBe('knowledge 2026.10.17');
+    r.versions.knowledge = 'knowledge 2026.10.17.03';
+    expect(view(r).footer.knowledge).toBe('knowledge 2026.10.17.03');
+  });
+});
+
+describe('#74 item 5 info lines', () => {
+  it('a module info line shows on its character card, with no controls and no Verdict change', () => {
+    const r = fixture('mid-session');
+    const before = view(r, { focus: 2 });
+    const c = r.characters.find((x) => x.index === 2);
+    if (!c) throw new Error('fixture has no character 2');
+    c.info = [{ key: 'anvil.info.full-in@c2', text: 'Anvil full in 6 h', sources: [] }];
+    const v = view(r, { focus: 2 });
+    expect(v.focus?.info).toEqual([
+      { key: 'anvil.info.full-in@c2', text: 'Anvil full in 6 h', source: null },
+    ]);
+    expect(v.focus?.pill).toEqual(before.focus?.pill);
+    expect(view(fixture('mid-session'), { focus: 2 }).focus?.info).toEqual([]);
   });
 });
 

@@ -80,6 +80,16 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
         </p>
       </div>
 
+      {card.info.length > 0 ? (
+        <ul className="info-lines small muted" aria-label="Info">
+          {card.info.map((l) => (
+            <li key={l.key}>
+              {l.text} {l.source ? <SourceLabel source={l.source} more={false} /> : null}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+
       <div className={`verdict ${card.pill.kind}`}>
         <Pill pill={card.pill} />
         {card.unknown ? (

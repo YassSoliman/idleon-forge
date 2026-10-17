@@ -5,12 +5,17 @@
 import type { Category, Done, Provenance, SpendStatus, Subject, VerdictKind } from '../result';
 
 export interface SourceView {
-  /** "wiki · 2.3.540", plus " · Stale" when Stale (FR-18, FR-19). */
-  text: string;
-  /** The https URL, or null when the URL isn't https (rendered as plain text, TR-13). */
+  /**
+   * The best player-facing Source's title, e.g. "IdleOn Wiki: Smithing" (#74): the wiki first, then the
+   * newest dated guide or thread, then anything else. Null when the entry has none; never a GitHub file.
+   */
+  text: string | null;
+  /** The https URL of that Source, or null (rendered as plain text, TR-13). */
   href: string | null;
+  /** "Calculated by IdleOn Toolbox · 2.3.540" when a tier 1 Source backs the entry. Never a link. */
+  credit: string | null;
   stale: boolean;
-  /** Every Source after the first, for the "+n" list in Focus. */
+  /** Every other player-facing Source, for the "+n" list in Focus. */
   more: { text: string; href: string | null; tier: number; verifiedOn: string }[];
 }
 
@@ -115,7 +120,7 @@ export interface FocusCard {
   activity: string;
   map: string | null;
   strip: StripItem[];
-  /** "7 of 11 in your Visit Order · 10 left". */
+  /** "7 of 11 in your Visit Order · 4 left" (counted after this position), or "11 of 11 … · last one". */
   position: string;
   /** "you are on this character", "Next up", or null. */
   playing: string | null;
@@ -137,6 +142,8 @@ export interface FocusCard {
   /** "comparisons paused: …" or "comparisons unavailable" in place of the line (FR-21). */
   higherLeverageNote: string | null;
   activePlay: ActivePlayView[];
+  /** Muted info lines under the character, in module order (#74 item 5). */
+  info: { key: string; text: string; source: SourceView | null }[];
   done: DoneView[];
   next: { index: number | null; text: string };
 }

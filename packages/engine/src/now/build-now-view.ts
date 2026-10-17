@@ -4,6 +4,8 @@
 // wording of the Now screen happens here, so the components and the golden text can't drift from
 // the engine (red-team #5). It never ranks: it replays the engine's order (and the order frozen for
 // the Play Session, D6), drops what the player skipped or dismissed, and caps what is left.
+
+import { playerSources } from '@idleon-forge/knowledge/player-sources';
 import type {
   ActivePlay,
   CharacterResult,
@@ -119,14 +121,15 @@ export function safeHref(url: string): string | null {
 }
 
 export function sourceView(sources: readonly SourceRef[], stale: boolean): SourceView {
-  const [first, ...rest] = sources;
-  const label = (s: SourceRef) => `${s.label} · ${s.gameVersion}`;
+  const [best, ...rest] = playerSources(sources);
+  const toolbox = sources.find((s) => s.tier === 1);
   return {
-    text: first ? `${label(first)}${stale ? ' · Stale' : ''}` : 'no source',
-    href: first ? safeHref(first.url) : null,
+    text: best ? best.label : null,
+    href: best ? safeHref(best.url) : null,
+    credit: toolbox ? `Calculated by IdleOn Toolbox · ${toolbox.gameVersion}` : null,
     stale,
     more: rest.map((s) => ({
-      text: label(s),
+      text: s.label,
       href: safeHref(s.url),
       tier: s.tier,
       verifiedOn: s.verifiedOn,
@@ -412,7 +415,9 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
     if (!p) return null;
     const c = p.c;
     const k = order.indexOf(i) + 1;
-    const left = order.filter((j) => j !== i && !ui.visited.has(j) && hasAnything(j)).length;
+    // "n left" counts what is still to do after this position, so it never exceeds the positions left
+    // ("5 of 5 · 4 left" read as a contradiction); the last position reads "last one".
+    const left = order.slice(k).filter((j) => !ui.visited.has(j) && hasAnything(j)).length;
     const nextTarget = order.find((j) => j !== i && !ui.visited.has(j) && hasAnything(j)) ?? null;
     const playing =
       ui.playing?.index === i
@@ -440,7 +445,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
           current: j === i,
         };
       }),
-      position: `${k} of ${total} in your Visit Order · ${left} left`,
+      position: `${k} of ${total} in your Visit Order · ${k === total ? 'last one' : `${left} left`}`,
       playing,
       left: leftFrom
         ? {
@@ -492,6 +497,11 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
             ? 'comparisons unavailable'
             : null,
       activePlay: c.activePlay.map((a) => activePlayView(a, nameOf)),
+      info: (c.info ?? []).map((l) => ({
+        key: l.key,
+        text: l.text,
+        source: l.sources.length ? sourceView(l.sources, false) : null,
+      })),
       done: c.doneThisSession.map((d) => doneView(d, ui.tzOffsetMinutes)),
       next:
         nextTarget === null
@@ -594,7 +604,8 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
     expectedReturn: { chips },
     footer: {
       app: `ActiveOn ${ui.appVersion}`,
-      knowledge: `knowledge ${result.versions.knowledge}`,
+      // versions.knowledge is the Knowledge Base's display string, already "knowledge 2026.10.17.NN".
+      knowledge: `knowledge ${result.versions.knowledge.replace(/^knowledge /, '')}`,
       game: `game build ${build ?? '?'}`,
       parserTarget: `parser targets ${result.versions.parserTarget}`,
       failedChecks: result.diagnostics.failedDetectors.length,

@@ -2,11 +2,14 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // The Now screen in the DOM (M10 §4 "screen" assertions, TR-14 semantics, TR-15 axe on each state).
+
+import type { SourceView } from '@idleon-forge/engine/now';
 import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CantRead } from '../src/components/CantRead';
 import { NowScreen as NowScreenWith } from '../src/now/NowScreen';
+import { SourceLabel } from '../src/now/parts';
 import { fixture, props, renderNow, saveOf } from './now-helpers';
 
 beforeEach(() => {
@@ -139,11 +142,44 @@ describe('US-6 Sources open in a new tab', () => {
     const r = fixture('stale');
     window.history.replaceState(null, '', '/?c=0');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const link = screen.getByRole('link', { name: 'wiki · 2.3.540 · Stale' });
+    const link = screen.getByRole('link', { name: 'wiki' });
     expect(link.getAttribute('target')).toBe('_blank');
     expect(link.getAttribute('rel')).toBe('noopener noreferrer');
-    expect(screen.queryByRole('link', { name: 'guide · 2.3.531' })).toBeNull();
-    expect(screen.getByText('guide · 2.3.531')).toBeTruthy();
+    expect(screen.getAllByText('· Stale').length).toBeGreaterThan(0);
+    // The non-https guide is never a link (TR-13), and not a player-facing Source (#74).
+    expect(screen.queryByRole('link', { name: 'guide' })).toBeNull();
+  });
+});
+
+describe('#74 player-facing Sources', () => {
+  const view = (over: Partial<SourceView>): SourceView => ({
+    text: null,
+    href: null,
+    credit: null,
+    stale: false,
+    more: [],
+    ...over,
+  });
+  it('links the page by name and shows the Toolbox credit as plain text', () => {
+    render(
+      <SourceLabel
+        source={view({
+          text: 'IdleOn Wiki: Smithing',
+          href: 'https://idleon.wiki/wiki/Smithing',
+          credit: 'Calculated by IdleOn Toolbox · 2.3.540',
+        })}
+      />,
+    );
+    const links = screen.getAllByRole('link');
+    expect(links.map((l) => [l.textContent, l.getAttribute('href')])).toEqual([
+      ['IdleOn Wiki: Smithing', 'https://idleon.wiki/wiki/Smithing'],
+    ]);
+    expect(screen.getByText(/Calculated by IdleOn Toolbox · 2\.3\.540/).closest('a')).toBeNull();
+  });
+  it('with no tier 2+ Source: no link, only the credit', () => {
+    render(<SourceLabel source={view({ credit: 'Calculated by IdleOn Toolbox · 2.3.540' })} />);
+    expect(screen.queryAllByRole('link')).toEqual([]);
+    expect(screen.getByText('Calculated by IdleOn Toolbox · 2.3.540')).toBeTruthy();
   });
 });
 
