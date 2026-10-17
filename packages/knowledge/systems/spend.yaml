@@ -1,0 +1,1121 @@
+# M7 Spend Plan (docs/specs/M7-spend-plan.md TR-6): the Spend Checks, the shared frame block and one
+# Spend Priority List per Stage. Positions follow the Spend frame: 1 guards, 2 one-offs, 3-4 stamps
+# (carry stamps first), 5 engine rows to the Stage's checkpoint, 6 cheap capped rows, 7 statue Gold
+# (W2+), 8 the Stage's band table, last the unlock fuel. Orders are unverified (PV 7.6, 3.6, 4.4), so
+# items are confidence L unless PV confirmed them (bribes 3.2, statues 3.7: M).
+#
+# Item conventions the engine reads (packages/engine/src/spend/candidates.ts):
+#  - An item whose slug starts with "every-" sweeps its sink: every purchase of that sink not claimed by
+#    an earlier item. Its ref is any Acquisition of the sink (the reference rule needs one).
+#  - Every list has the frame's 9 positions; the first (W1-early) names the whole frame and later lists
+#    name one anchor item per position plus their own engine rows and band table. carryForward items of
+#    earlier lists keep their frame position in later lists.
+#  - Bribe sweeps: target "next" covers the sets up to the Stage's world, "levels: N" N sets further. Stamp items: target "next" is the cap raise
+#    (then the new levels), "to-max" the coin levels below the cap.
+#  - One list per band of Stages (W1-early; W1-mid to W2-early; W2-mid to W2-late; W3; W4-entry), the
+#    Vault dossier's stage tables. A Stage without its own list uses the nearest earlier Stage's list.
+#  - Happy Doggy (row 19) is never an item; it is bought only as unlock fuel.
+system: spend
+entries:
+  - id: spend.check.duplicate-entries
+    system: spend
+    type: check
+    title: Duplicate Entries before tickets
+    subject: account
+    effect: next-action
+    category: spendable
+    detector: { id: spend/duplicate-entries-guard }
+    text: "Buy Duplicate Entries (Vault) on {payer} before you redeem Colosseum tickets: {coins:coins}"
+    why: "Doubles every Colosseum ticket you redeem; {tickets} are waiting at the NPCs. Collecting them is fine, redeeming before it loses half."
+    notes: "Ship gate (FR-12, RT-1) settled in N.js v1.23: the doubling applies when a ticket item is redeemed onto the account (TixCol drop, VaultUpgBonus 52), not on NPC collection. So collect anyway; buy it before you redeem."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/ca0bbe5be17250f2b6d382b3cec59ba6ce58efb0/docs/research/systems/account-wide/upgrade-vault.md", title: "Vault dossier, min-max by stage", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+  - id: spend.check.hydrogen-hold
+    system: spend
+    type: check
+    title: Hold stamp cap raises for the Hydrogen discount
+    subject: account
+    effect: next-action
+    category: spendable
+    detector: { id: spend/stamp-hydrogen }
+    text: "Hold stamp cap raises: discount {discount}%, {needed}% needed for {stamp}, about {days} days"
+    why: "Any cap raise resets the Hydrogen discount, and only the first raise gets it; {stamp} fits in an inventory once the discount reaches {needed}%."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Atom_Collider", title: "IdleOn wiki, Atom Collider (Hydrogen)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+  - id: spend.check.stamp-not-ready
+    system: spend
+    type: check
+    title: Stamp cap raises that need materials or carry capacity
+    subject: account
+    effect: next-action
+    category: nice
+    detector: { id: spend/stamp-raise-ready }
+    text: "{count} stamp cap raises need more of their material or more carry capacity"
+    why: "A cap raise needs its material in storage and one character able to carry it; until then it is not a Spend line."
+    values:
+      raise: "Stamp cap raises that need farming or carry capacity"
+      guilding: "Guilding Tools (Yum-Yum Grotto shop) for statue Gold"
+      forge: "Forge upgrades"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+  - id: spend.priority.w1-early
+    system: spend
+    type: priority
+    list: spend
+    stage: W1-early
+    title: W1-early Spend Plan order
+    text: "Spend Plan for W1-early"
+    why: "Coin sinks in Leverage order for a W1-early account: guards, one-offs, stamps, engine rows, capped rows, statues, the band table, unlock fuel."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/ca0bbe5be17250f2b6d382b3cec59ba6ce58efb0/docs/research/systems/account-wide/upgrade-vault.md", title: "Vault dossier, min-max by stage", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/590b9e2b576d2f7d5d28c8120b259342ef13b7a2/docs/research/2026-10-17-priority-verification.md", title: "Priority verification (bribes 3.2, stamps 3.6, statues 3.7, Vault 7.6)", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+    appliesTo: { stages: [W1-early] }
+    confidence: L
+    status: active
+    tiers:
+      - - item: duplicate-entries
+          ref: upgrade-vault.acquisition.row-52
+          spend: { sink: vault, target: { kind: once }, reserve: true }
+          text: "Buy Duplicate Entries (Vault) on {payer} before you redeem Colosseum tickets: {coins:coins}"
+          why: "Doubles every Colosseum ticket you redeem"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+      - - item: massive-whirl
+          ref: upgrade-vault.acquisition.row-7
+          spend: { sink: vault, target: { kind: once } }
+          text: "Buy {name} on {payer}: {coins:coins}"
+          why: "A one-off skill upgrade, cheap next to its effect; +1 toward the next unlock"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: rapid-arrows
+          ref: upgrade-vault.acquisition.row-8
+          spend: { sink: vault, target: { kind: once } }
+          text: "Buy {name} on {payer}: {coins:coins}"
+          why: "A one-off skill upgrade, cheap next to its effect; +1 toward the next unlock"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: dual-fireballs
+          ref: upgrade-vault.acquisition.row-9
+          spend: { sink: vault, target: { kind: once } }
+          text: "Buy {name} on {payer}: {coins:coins}"
+          why: "A one-off skill upgrade, cheap next to its effect; +1 toward the next unlock"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: insider-trading
+          ref: bribes.acquisition.bribe-0
+          spend: { sink: bribe, target: { kind: once } }
+          text: "Buy the bribe {name} on {payer}: {coins:coins}"
+          why: "Cheaper stamp coin costs for every stamp level after it"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps#Bribes", title: "IdleOn wiki, Bribes", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+          carryForward: true
+        - item: changing-the-code
+          ref: bribes.acquisition.bribe-15
+          spend: { sink: bribe, target: { kind: once }, reserve: true }
+          text: "Buy the bribe {name} on {payer}: {coins:coins}"
+          why: "A permanent bonus worth saving for; worth holding coins back when close"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps#Bribes", title: "IdleOn wiki, Bribes", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+          carryForward: true
+        - item: every-bribe
+          ref: bribes.acquisition.bribe-1
+          spend: { sink: bribe, target: { kind: next } }
+          text: "Buy the bribe {name} on {payer}: {coins:coins}"
+          why: "Bribes of the sets you have open are one-time buys with a permanent bonus"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps#Bribes", title: "IdleOn wiki, Bribes", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+          carryForward: true
+      - - item: lil-mining-baggy
+          ref: stamps.acquisition.stamp-b4
+          spend: { sink: stamp, target: { kind: next } }
+          text: "Raise the {name} cap, then buy Lv {from}→{to} on {payer}: about {coins:coins}"
+          why: "A carry stamp: more carry capacity makes every later cap raise fit"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: matty-bag
+          ref: stamps.acquisition.stamp-b8
+          spend: { sink: stamp, target: { kind: next } }
+          text: "Raise the {name} cap, then buy Lv {from}→{to} on {payer}: about {coins:coins}"
+          why: "A carry stamp: more carry capacity makes every later cap raise fit"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: mason-jar
+          ref: stamps.acquisition.stamp-c2
+          spend: { sink: stamp, target: { kind: next } }
+          text: "Raise the {name} cap, then buy Lv {from}→{to} on {payer}: about {coins:coins}"
+          why: "A carry stamp: more carry capacity makes every later cap raise fit"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: every-stamp-raise
+          ref: stamps.acquisition.stamp-a1
+          spend: { sink: stamp, target: { kind: next } }
+          text: "Raise the {name} cap, then buy Lv {from}→{to} on {payer}: about {coins:coins}"
+          why: "A stamp at its cap stops levelling until you raise it; the new levels cost coins"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: every-stamp-level
+          ref: stamps.acquisition.stamp-a1
+          spend: { sink: stamp, target: { kind: to-max } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Stamp levels below the cap cost only coins and add account-wide bonuses"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: major-discount
+          ref: upgrade-vault.acquisition.row-13
+          spend: { sink: vault, target: { kind: to-level, level: 20 }, openEnded: true }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Cheaper Vault rows 0-32; keep it about a third of your spend"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: bullseye-gated
+          ref: upgrade-vault.acquisition.row-4
+          spend: { sink: vault, target: { kind: to-level, level: 100 }, gate: spend/combat-row-gate }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Your pusher misses on the frontier map; accuracy first"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: steel-guard-gated
+          ref: upgrade-vault.acquisition.row-5
+          spend: { sink: vault, target: { kind: to-level, level: 50 }, gate: spend/combat-row-gate }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Your pusher takes too much damage on the frontier map"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: max-weapon-craft
+          ref: upgrade-vault.acquisition.row-10
+          spend: { sink: vault, target: { kind: to-max } }
+          text: "Max {name} ({from}→{to}) on {payer}: {coins:coins}"
+          why: "Crafted weapons hit harder; cheap to max"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: max-baby-on-board
+          ref: upgrade-vault.acquisition.row-12
+          spend: { sink: vault, target: { kind: to-max } }
+          text: "Max {name} ({from}→{to}) on {payer}: {coins:coins}"
+          why: "More Class EXP for your lowest-level character; cheap to max"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: max-knockout
+          ref: upgrade-vault.acquisition.row-15
+          spend: { sink: vault, target: { kind: to-max } }
+          text: "Max {name} ({from}→{to}) on {payer}: {coins:coins}"
+          why: "Total damage per knockout on the ladder; cheap to max"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: next-statue-gold
+          ref: statues.acquisition.statue-0
+          spend: { sink: statue-gold, target: { kind: once } }
+          text: "Turn the {name} statue Gold (cost not checked, see the price in game)"
+          why: "A Gold statue makes its bonus account-wide; Gold them in order"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Statues#Gold_Statues", title: "IdleOn wiki, Gold Statues", tier: 2, claimDate: 2026-10-14, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+          carryForward: true
+      - - item: bigger-damage
+          ref: upgrade-vault.acquisition.row-0
+          spend: { sink: vault, target: { kind: to-level, level: 25 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Cheapest damage, and Scripticus asks for Vault levels"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: monster-tax
+          ref: upgrade-vault.acquisition.row-2
+          spend: { sink: vault, target: { kind: to-level, level: 25 }, openEnded: true }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "More coins from every kill"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: natural-talent
+          ref: upgrade-vault.acquisition.row-1
+          spend: { sink: vault, target: { kind: to-level, level: 25 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Talent points for tab 1"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: wicked-smart
+          ref: upgrade-vault.acquisition.row-3
+          spend: { sink: vault, target: { kind: to-level, level: 20 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Class EXP, so more talent points"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: evolving-talent
+          ref: upgrade-vault.acquisition.row-6
+          spend: { sink: vault, target: { kind: to-level, level: 10 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Tab 2 talent points once you have a class"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: bored-to-death
+          ref: upgrade-vault.acquisition.row-14
+          spend: { sink: vault, target: { kind: to-level, level: 5 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "More coins per power of 10 of Bean kills"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: every-p2w
+          ref: alchemy-p2w.acquisition.cauldron-power-speed
+          spend: { sink: p2w, target: { kind: next } }
+          text: "Buy {name} Lv {from}→{to} on {payer}: {coins:coins}"
+          why: "Pay 2 Win upgrades speed up brewing and liquids for coins"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Alchemy#Pay_2_Win", title: "IdleOn wiki, Alchemy Pay 2 Win", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: vial-attempts
+          ref: alchemy-p2w.acquisition.vials-attempts
+          spend: { sink: p2w, target: { kind: next } }
+          text: "Buy {name} Lv {from}→{to} (cost not checked, see the price in game)"
+          why: "More daily attempts to discover vials"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Alchemy#Pay_2_Win", title: "IdleOn wiki, Alchemy Pay 2 Win", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: every-later-bribe
+          ref: bribes.acquisition.bribe-1
+          spend: { sink: bribe, target: { kind: levels, levels: 1 } }
+          text: "Buy the bribe {name} on {payer}: {coins:coins}"
+          why: "A bribe from a later set, once the earlier buys are done"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps#Bribes", title: "IdleOn wiki, Bribes", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+          carryForward: true
+        - item: every-anvil
+          ref: upgrade-vault.acquisition.row-24
+          spend: { sink: anvil, target: { kind: next } }
+          text: "Buy the next Anvil coin point on {count} characters: {coins:coins} in all"
+          why: "Each character buys its own Anvil points with its own coins; points go into Speed"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Smithing#Anvil_Production", title: "IdleOn wiki, Anvil points", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+      - - item: unlock-fuel
+          ref: upgrade-vault.acquisition.row-0
+          spend: { sink: vault, target: { kind: cheapest-until-unlock } }
+          text: "{levels} more Vault levels to unlock {unlocks}: about {coins:coins}, cheapest levels first"
+          why: "Every Vault level counts toward the next unlock"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+  - id: spend.priority.w1-mid
+    system: spend
+    type: priority
+    list: spend
+    stage: W1-mid
+    title: W1-mid Spend Plan order
+    text: "Spend Plan for W1-mid"
+    why: "Coin sinks in Leverage order for a W1-mid account: guards, one-offs, stamps, engine rows, capped rows, statues, the band table, unlock fuel."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/ca0bbe5be17250f2b6d382b3cec59ba6ce58efb0/docs/research/systems/account-wide/upgrade-vault.md", title: "Vault dossier, min-max by stage", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/590b9e2b576d2f7d5d28c8120b259342ef13b7a2/docs/research/2026-10-17-priority-verification.md", title: "Priority verification (bribes 3.2, stamps 3.6, statues 3.7, Vault 7.6)", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+    appliesTo: { stages: [W1-mid] }
+    confidence: L
+    status: active
+    tiers:
+      - - item: duplicate-entries
+          ref: upgrade-vault.acquisition.row-52
+          spend: { sink: vault, target: { kind: once }, reserve: true }
+          text: "Buy Duplicate Entries (Vault) on {payer} before you redeem Colosseum tickets: {coins:coins}"
+          why: "Doubles every Colosseum ticket you redeem"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+      - - item: insider-trading
+          ref: bribes.acquisition.bribe-0
+          spend: { sink: bribe, target: { kind: once } }
+          text: "Buy the bribe {name} on {payer}: {coins:coins}"
+          why: "Cheaper stamp coin costs for every stamp level after it"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps#Bribes", title: "IdleOn wiki, Bribes", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+          carryForward: true
+      - - item: lil-mining-baggy
+          ref: stamps.acquisition.stamp-b4
+          spend: { sink: stamp, target: { kind: next } }
+          text: "Raise the {name} cap, then buy Lv {from}→{to} on {payer}: about {coins:coins}"
+          why: "A carry stamp: more carry capacity makes every later cap raise fit"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: every-stamp-raise
+          ref: stamps.acquisition.stamp-a1
+          spend: { sink: stamp, target: { kind: next } }
+          text: "Raise the {name} cap, then buy Lv {from}→{to} on {payer}: about {coins:coins}"
+          why: "A stamp at its cap stops levelling until you raise it; the new levels cost coins"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: major-discount
+          ref: upgrade-vault.acquisition.row-13
+          spend: { sink: vault, target: { kind: to-level, level: 30 }, openEnded: true }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Cheaper Vault rows 0-32; keep it about a third of your spend"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: vault-mastery
+          ref: upgrade-vault.acquisition.row-32
+          spend: { sink: vault, target: { kind: to-level, level: 10 }, openEnded: true }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Multiplies every blue Vault row"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: bullseye-gated
+          ref: upgrade-vault.acquisition.row-4
+          spend: { sink: vault, target: { kind: to-level, level: 100 }, gate: spend/combat-row-gate }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Your pusher misses on the frontier map; accuracy first"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: steel-guard-gated
+          ref: upgrade-vault.acquisition.row-5
+          spend: { sink: vault, target: { kind: to-level, level: 50 }, gate: spend/combat-row-gate }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Your pusher takes too much damage on the frontier map"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: max-boss-decimation
+          ref: upgrade-vault.acquisition.row-22
+          spend: { sink: vault, target: { kind: to-max } }
+          text: "Max {name} ({from}→{to}) on {payer}: {coins:coins}"
+          why: "More damage to bosses; cheap to max"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: max-sleepy-time
+          ref: upgrade-vault.acquisition.row-23
+          spend: { sink: vault, target: { kind: to-max } }
+          text: "Max {name} ({from}→{to}) on {payer}: {coins:coins}"
+          why: "+1% AFK gains per level, for fighting and skilling; cheap to max"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: max-drops-for-days
+          ref: upgrade-vault.acquisition.row-18
+          spend: { sink: vault, target: { kind: to-max } }
+          text: "Max {name} ({from}→{to}) on {payer}: {coins:coins}"
+          why: "+1% Drop Rate per level; cheap to max"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: next-statue-gold
+          ref: statues.acquisition.statue-0
+          spend: { sink: statue-gold, target: { kind: once } }
+          text: "Turn the {name} statue Gold (cost not checked, see the price in game)"
+          why: "A Gold statue makes its bonus account-wide; Gold them in order"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Statues#Gold_Statues", title: "IdleOn wiki, Gold Statues", tier: 2, claimDate: 2026-10-14, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+          carryForward: true
+      - - item: monster-tax-50
+          ref: upgrade-vault.acquisition.row-2
+          spend: { sink: vault, target: { kind: to-level, level: 50 }, openEnded: true }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "More coins from every kill"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: bigger-damage-50
+          ref: upgrade-vault.acquisition.row-0
+          spend: { sink: vault, target: { kind: to-level, level: 50 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Damage, cheap well past 50"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: max-dirty-money
+          ref: upgrade-vault.acquisition.row-31
+          spend: { sink: vault, target: { kind: to-max } }
+          text: "Max {name} ({from}→{to}) on {payer}: {coins:coins}"
+          why: "More coins per power of 10 of Poop kills"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: stamp-bonanza
+          ref: upgrade-vault.acquisition.row-16
+          spend: { sink: vault, target: { kind: to-level, level: 25 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Multiplies the stamp bonuses you have"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: statue-bonanza
+          ref: upgrade-vault.acquisition.row-25
+          spend: { sink: vault, target: { kind: to-level, level: 25 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Multiplies the statue bonuses you have"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: go-go-secret-owl
+          ref: upgrade-vault.acquisition.row-21
+          spend: { sink: vault, target: { kind: to-level, level: 25 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Faster Owl"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: production-revolution
+          ref: upgrade-vault.acquisition.row-24
+          spend: { sink: vault, target: { kind: to-level, level: 25 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Faster Anvil production"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: mining-payday
+          ref: upgrade-vault.acquisition.row-17
+          spend: { sink: vault, target: { kind: to-level, level: 25 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Coins scaled by ores mined"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: liquid-knowledge
+          ref: upgrade-vault.acquisition.row-28
+          spend: { sink: vault, target: { kind: to-level, level: 50 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Alchemy EXP for W2 skills"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: bug-knowledge
+          ref: upgrade-vault.acquisition.row-29
+          spend: { sink: vault, target: { kind: to-level, level: 50 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Catching EXP for W2 skills"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: fish-knowledge
+          ref: upgrade-vault.acquisition.row-30
+          spend: { sink: vault, target: { kind: to-level, level: 50 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Fishing EXP for W2 skills"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: unlock-fuel
+          ref: upgrade-vault.acquisition.row-0
+          spend: { sink: vault, target: { kind: cheapest-until-unlock } }
+          text: "{levels} more Vault levels to unlock {unlocks}: about {coins:coins}, cheapest levels first"
+          why: "Every Vault level counts toward the next unlock"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+  - id: spend.priority.w2-mid
+    system: spend
+    type: priority
+    list: spend
+    stage: W2-mid
+    title: W2-mid Spend Plan order
+    text: "Spend Plan for W2-mid"
+    why: "Coin sinks in Leverage order for a W2-mid account: guards, one-offs, stamps, engine rows, capped rows, statues, the band table, unlock fuel."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/ca0bbe5be17250f2b6d382b3cec59ba6ce58efb0/docs/research/systems/account-wide/upgrade-vault.md", title: "Vault dossier, min-max by stage", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/590b9e2b576d2f7d5d28c8120b259342ef13b7a2/docs/research/2026-10-17-priority-verification.md", title: "Priority verification (bribes 3.2, stamps 3.6, statues 3.7, Vault 7.6)", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+    appliesTo: { stages: [W2-mid] }
+    confidence: L
+    status: active
+    tiers:
+      - - item: duplicate-entries
+          ref: upgrade-vault.acquisition.row-52
+          spend: { sink: vault, target: { kind: once }, reserve: true }
+          text: "Buy Duplicate Entries (Vault) on {payer} before you redeem Colosseum tickets: {coins:coins}"
+          why: "Doubles every Colosseum ticket you redeem"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+      - - item: insider-trading
+          ref: bribes.acquisition.bribe-0
+          spend: { sink: bribe, target: { kind: once } }
+          text: "Buy the bribe {name} on {payer}: {coins:coins}"
+          why: "Cheaper stamp coin costs for every stamp level after it"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps#Bribes", title: "IdleOn wiki, Bribes", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+          carryForward: true
+      - - item: lil-mining-baggy
+          ref: stamps.acquisition.stamp-b4
+          spend: { sink: stamp, target: { kind: next } }
+          text: "Raise the {name} cap, then buy Lv {from}→{to} on {payer}: about {coins:coins}"
+          why: "A carry stamp: more carry capacity makes every later cap raise fit"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: every-stamp-raise
+          ref: stamps.acquisition.stamp-a1
+          spend: { sink: stamp, target: { kind: next } }
+          text: "Raise the {name} cap, then buy Lv {from}→{to} on {payer}: about {coins:coins}"
+          why: "A stamp at its cap stops levelling until you raise it; the new levels cost coins"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: major-discount
+          ref: upgrade-vault.acquisition.row-13
+          spend: { sink: vault, target: { kind: to-level, level: 50 }, openEnded: true }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Cheaper Vault rows 0-32; keep it about a third of your spend"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: vault-mastery
+          ref: upgrade-vault.acquisition.row-32
+          spend: { sink: vault, target: { kind: to-level, level: 20 }, openEnded: true }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Multiplies every blue Vault row"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: bullseye-gated
+          ref: upgrade-vault.acquisition.row-4
+          spend: { sink: vault, target: { kind: to-level, level: 100 }, gate: spend/combat-row-gate }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Your pusher misses on the frontier map; accuracy first"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: steel-guard-gated
+          ref: upgrade-vault.acquisition.row-5
+          spend: { sink: vault, target: { kind: to-level, level: 50 }, gate: spend/combat-row-gate }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Your pusher takes too much damage on the frontier map"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: max-bubble-money
+          ref: upgrade-vault.acquisition.row-37
+          spend: { sink: vault, target: { kind: to-max } }
+          text: "Max {name} ({from}→{to}) on {payer}: {coins:coins}"
+          why: "More coins per bubble level; one of the largest W2 coin rows"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: max-weapon-craft
+          ref: upgrade-vault.acquisition.row-10
+          spend: { sink: vault, target: { kind: to-max } }
+          text: "Max {name} ({from}→{to}) on {payer}: {coins:coins}"
+          why: "Crafted weapons hit harder; cheap to max"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: next-statue-gold
+          ref: statues.acquisition.statue-0
+          spend: { sink: statue-gold, target: { kind: once } }
+          text: "Turn the {name} statue Gold (cost not checked, see the price in game)"
+          why: "A Gold statue makes its bonus account-wide; Gold them in order"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Statues#Gold_Statues", title: "IdleOn wiki, Gold Statues", tier: 2, claimDate: 2026-10-14, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+          carryForward: true
+      - - item: straight-to-storage
+          ref: upgrade-vault.acquisition.row-36
+          spend: { sink: vault, target: { kind: once } }
+          text: "Buy {name} on {payer}: {coins:coins}"
+          why: "Drops go straight to storage while AFK"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: recipe-for-profit
+          ref: upgrade-vault.acquisition.row-34
+          spend: { sink: vault, target: { kind: to-level, level: 20 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "More coins per Taskboard recipe unlocked"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: drip-drip-drip
+          ref: upgrade-vault.acquisition.row-38
+          spend: { sink: vault, target: { kind: to-level, level: 20 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "More Alchemy liquid; liquids gate bubble upgrades"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: active-learning
+          ref: upgrade-vault.acquisition.row-39
+          spend: { sink: vault, target: { kind: to-level, level: 25 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Class EXP from kills while active"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: stunning-talent
+          ref: upgrade-vault.acquisition.row-40
+          spend: { sink: vault, target: { kind: to-level, level: 25 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Tab 3 talent points once you have subclasses"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: vial-overtune
+          ref: upgrade-vault.acquisition.row-42
+          spend: { sink: vault, target: { kind: to-level, level: 2 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Multiplies every vial; the third level is steep"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: active-murdering
+          ref: upgrade-vault.acquisition.row-43
+          spend: { sink: vault, target: { kind: to-level, level: 25 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Faster portals while active"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: card-retirement
+          ref: upgrade-vault.acquisition.row-44
+          spend: { sink: vault, target: { kind: once } }
+          text: "Buy {name} on {payer}: {coins:coins}"
+          why: "Passive card drop rate cards"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: bug-power-en-masse
+          ref: upgrade-vault.acquisition.row-41
+          spend: { sink: vault, target: { kind: to-level, level: 10 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Total damage from bugs caught"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: unlock-fuel
+          ref: upgrade-vault.acquisition.row-0
+          spend: { sink: vault, target: { kind: cheapest-until-unlock } }
+          text: "{levels} more Vault levels to unlock {unlocks}: about {coins:coins}, cheapest levels first"
+          why: "Every Vault level counts toward the next unlock"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+  - id: spend.priority.w3-early
+    system: spend
+    type: priority
+    list: spend
+    stage: W3-early
+    title: W3-early Spend Plan order
+    text: "Spend Plan for W3-early"
+    why: "Coin sinks in Leverage order for a W3-early account: guards, one-offs, stamps, engine rows, capped rows, statues, the band table, unlock fuel."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/ca0bbe5be17250f2b6d382b3cec59ba6ce58efb0/docs/research/systems/account-wide/upgrade-vault.md", title: "Vault dossier, min-max by stage", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/590b9e2b576d2f7d5d28c8120b259342ef13b7a2/docs/research/2026-10-17-priority-verification.md", title: "Priority verification (bribes 3.2, stamps 3.6, statues 3.7, Vault 7.6)", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+    appliesTo: { stages: [W3-early] }
+    confidence: L
+    status: active
+    tiers:
+      - - item: duplicate-entries
+          ref: upgrade-vault.acquisition.row-52
+          spend: { sink: vault, target: { kind: once }, reserve: true }
+          text: "Buy Duplicate Entries (Vault) on {payer} before you redeem Colosseum tickets: {coins:coins}"
+          why: "Doubles every Colosseum ticket you redeem"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+      - - item: insider-trading
+          ref: bribes.acquisition.bribe-0
+          spend: { sink: bribe, target: { kind: once } }
+          text: "Buy the bribe {name} on {payer}: {coins:coins}"
+          why: "Cheaper stamp coin costs for every stamp level after it"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps#Bribes", title: "IdleOn wiki, Bribes", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+          carryForward: true
+      - - item: lil-mining-baggy
+          ref: stamps.acquisition.stamp-b4
+          spend: { sink: stamp, target: { kind: next } }
+          text: "Raise the {name} cap, then buy Lv {from}→{to} on {payer}: about {coins:coins}"
+          why: "A carry stamp: more carry capacity makes every later cap raise fit"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: every-stamp-raise
+          ref: stamps.acquisition.stamp-a1
+          spend: { sink: stamp, target: { kind: next } }
+          text: "Raise the {name} cap, then buy Lv {from}→{to} on {payer}: about {coins:coins}"
+          why: "A stamp at its cap stops levelling until you raise it; the new levels cost coins"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: major-discount
+          ref: upgrade-vault.acquisition.row-13
+          spend: { sink: vault, target: { kind: to-level, level: 65 }, openEnded: true }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Cheaper Vault rows 0-32; keep it about a third of your spend"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: vault-mastery
+          ref: upgrade-vault.acquisition.row-32
+          spend: { sink: vault, target: { kind: to-level, level: 25 }, openEnded: true }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Multiplies every blue Vault row"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: bullseye-gated
+          ref: upgrade-vault.acquisition.row-4
+          spend: { sink: vault, target: { kind: to-level, level: 100 }, gate: spend/combat-row-gate }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Your pusher misses on the frontier map; accuracy first"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: steel-guard-gated
+          ref: upgrade-vault.acquisition.row-5
+          spend: { sink: vault, target: { kind: to-level, level: 50 }, gate: spend/combat-row-gate }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Your pusher takes too much damage on the frontier map"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: max-bubble-money
+          ref: upgrade-vault.acquisition.row-37
+          spend: { sink: vault, target: { kind: to-max } }
+          text: "Max {name} ({from}→{to}) on {payer}: {coins:coins}"
+          why: "More coins per bubble level; one of the largest W2 coin rows"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: max-weapon-craft
+          ref: upgrade-vault.acquisition.row-10
+          spend: { sink: vault, target: { kind: to-max } }
+          text: "Max {name} ({from}→{to}) on {payer}: {coins:coins}"
+          why: "Crafted weapons hit harder; cheap to max"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: next-statue-gold
+          ref: statues.acquisition.statue-0
+          spend: { sink: statue-gold, target: { kind: once } }
+          text: "Turn the {name} statue Gold (cost not checked, see the price in game)"
+          why: "A Gold statue makes its bonus account-wide; Gold them in order"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Statues#Gold_Statues", title: "IdleOn wiki, Gold Statues", tier: 2, claimDate: 2026-10-14, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+          carryForward: true
+      - - item: buildie-sheepie
+          ref: upgrade-vault.acquisition.row-48
+          spend: { sink: vault, target: { kind: to-level, level: 10 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Construction speed, the main W3 bottleneck"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: critters-n-souls
+          ref: upgrade-vault.acquisition.row-50
+          spend: { sink: vault, target: { kind: to-level, level: 50 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Trapping and Worship"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: all-armoured-up
+          ref: upgrade-vault.acquisition.row-46
+          spend: { sink: vault, target: { kind: to-level, level: 25 }, gate: spend/combat-row-gate }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Equipment defence for W3 walls"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: daily-mailbox
+          ref: upgrade-vault.acquisition.row-47
+          spend: { sink: vault, target: { kind: to-level, level: 5 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "More Post Office boxes per day"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: quest-kapow
+          ref: upgrade-vault.acquisition.row-49
+          spend: { sink: vault, target: { kind: to-level, level: 50 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Raises the Quest star talent max level"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: special-talent
+          ref: upgrade-vault.acquisition.row-53
+          spend: { sink: vault, target: { kind: to-level, level: 25 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Star Talent points"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: unlock-fuel
+          ref: upgrade-vault.acquisition.row-0
+          spend: { sink: vault, target: { kind: cheapest-until-unlock } }
+          text: "{levels} more Vault levels to unlock {unlocks}: about {coins:coins}, cheapest levels first"
+          why: "Every Vault level counts toward the next unlock"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+  - id: spend.priority.w4-entry
+    system: spend
+    type: priority
+    list: spend
+    stage: W4-entry
+    title: W4-entry Spend Plan order
+    text: "Spend Plan for W4-entry"
+    why: "Coin sinks in Leverage order for a W4-entry account: guards, one-offs, stamps, engine rows, capped rows, statues, the band table, unlock fuel."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/ca0bbe5be17250f2b6d382b3cec59ba6ce58efb0/docs/research/systems/account-wide/upgrade-vault.md", title: "Vault dossier, min-max by stage", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/590b9e2b576d2f7d5d28c8120b259342ef13b7a2/docs/research/2026-10-17-priority-verification.md", title: "Priority verification (bribes 3.2, stamps 3.6, statues 3.7, Vault 7.6)", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+    appliesTo: { stages: [W4-entry] }
+    confidence: L
+    status: active
+    tiers:
+      - - item: duplicate-entries
+          ref: upgrade-vault.acquisition.row-52
+          spend: { sink: vault, target: { kind: once }, reserve: true }
+          text: "Buy Duplicate Entries (Vault) on {payer} before you redeem Colosseum tickets: {coins:coins}"
+          why: "Doubles every Colosseum ticket you redeem"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+      - - item: insider-trading
+          ref: bribes.acquisition.bribe-0
+          spend: { sink: bribe, target: { kind: once } }
+          text: "Buy the bribe {name} on {payer}: {coins:coins}"
+          why: "Cheaper stamp coin costs for every stamp level after it"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps#Bribes", title: "IdleOn wiki, Bribes", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+          carryForward: true
+      - - item: lil-mining-baggy
+          ref: stamps.acquisition.stamp-b4
+          spend: { sink: stamp, target: { kind: next } }
+          text: "Raise the {name} cap, then buy Lv {from}→{to} on {payer}: about {coins:coins}"
+          why: "A carry stamp: more carry capacity makes every later cap raise fit"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: every-stamp-raise
+          ref: stamps.acquisition.stamp-a1
+          spend: { sink: stamp, target: { kind: next } }
+          text: "Raise the {name} cap, then buy Lv {from}→{to} on {payer}: about {coins:coins}"
+          why: "A stamp at its cap stops levelling until you raise it; the new levels cost coins"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: major-discount
+          ref: upgrade-vault.acquisition.row-13
+          spend: { sink: vault, target: { kind: to-level, level: 80 }, openEnded: true }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Cheaper Vault rows 0-32; keep it about a third of your spend"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: vault-mastery
+          ref: upgrade-vault.acquisition.row-32
+          spend: { sink: vault, target: { kind: to-level, level: 30 }, openEnded: true }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Multiplies every blue Vault row"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: bullseye-gated
+          ref: upgrade-vault.acquisition.row-4
+          spend: { sink: vault, target: { kind: to-level, level: 100 }, gate: spend/combat-row-gate }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Your pusher misses on the frontier map; accuracy first"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: steel-guard-gated
+          ref: upgrade-vault.acquisition.row-5
+          spend: { sink: vault, target: { kind: to-level, level: 50 }, gate: spend/combat-row-gate }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Your pusher takes too much damage on the frontier map"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: max-bubble-money
+          ref: upgrade-vault.acquisition.row-37
+          spend: { sink: vault, target: { kind: to-max } }
+          text: "Max {name} ({from}→{to}) on {payer}: {coins:coins}"
+          why: "More coins per bubble level; one of the largest W2 coin rows"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: max-weapon-craft
+          ref: upgrade-vault.acquisition.row-10
+          spend: { sink: vault, target: { kind: to-max } }
+          text: "Max {name} ({from}→{to}) on {payer}: {coins:coins}"
+          why: "Crafted weapons hit harder; cheap to max"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: next-statue-gold
+          ref: statues.acquisition.statue-0
+          spend: { sink: statue-gold, target: { kind: once } }
+          text: "Turn the {name} statue Gold (cost not checked, see the price in game)"
+          why: "A Gold statue makes its bonus account-wide; Gold them in order"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Statues#Gold_Statues", title: "IdleOn wiki, Gold Statues", tier: 2, claimDate: 2026-10-14, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
+          carryForward: true
+      - - item: kitchen-dream-mare
+          ref: upgrade-vault.acquisition.row-54
+          spend: { sink: vault, target: { kind: to-level, level: 25 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Cooking speed"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: lab-knowledge
+          ref: upgrade-vault.acquisition.row-55
+          spend: { sink: vault, target: { kind: to-level, level: 25 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Lab EXP"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: cooking-knowledge
+          ref: upgrade-vault.acquisition.row-60
+          spend: { sink: vault, target: { kind: to-level, level: 50 } }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Cooking EXP; accelerates with level"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: vault-mastery-ii
+          ref: upgrade-vault.acquisition.row-61
+          spend: { sink: vault, target: { kind: to-level, level: 10 }, openEnded: true }
+          text: "Level {name} {from}→{to} on {payer}: {coins:coins}"
+          why: "Multiplies every green Vault row"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+      - - item: unlock-fuel
+          ref: upgrade-vault.acquisition.row-0
+          spend: { sink: vault, target: { kind: cheapest-until-unlock } }
+          text: "{levels} more Vault levels to unlock {unlocks}: about {coins:coins}, cheapest levels first"
+          why: "Every Vault level counts toward the next unlock"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: M
