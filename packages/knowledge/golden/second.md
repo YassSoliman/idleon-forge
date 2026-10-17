@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #6b7ada89 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry
+# golden v1: second · knowledge #9a245e61 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -141,8 +141,18 @@ Laboratory
 | anvil.check.caps-before-return | anvil/caps-before-return | C7 | unknown (field-missing) |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C8 | unknown (field-missing) |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C9 | fires | fromEmpty=41311459 fullIn=20190639 product=Thread |
+| anvil.check.fill-time | anvil/fill-time | C1 | unknown (field-missing) |  |
+| anvil.check.fill-time | anvil/fill-time | C10 | fires | fullIn=68958189 |
+| anvil.check.fill-time | anvil/fill-time | C2 | unknown (field-missing) |  |
+| anvil.check.fill-time | anvil/fill-time | C3 | unknown (field-missing) |  |
+| anvil.check.fill-time | anvil/fill-time | C4 | fires | fullIn=89426313 |
+| anvil.check.fill-time | anvil/fill-time | C5 | fires | fullIn=8792410 |
+| anvil.check.fill-time | anvil/fill-time | C6 | unknown (field-missing) |  |
+| anvil.check.fill-time | anvil/fill-time | C7 | unknown (field-missing) |  |
+| anvil.check.fill-time | anvil/fill-time | C8 | unknown (field-missing) |  |
+| anvil.check.fill-time | anvil/fill-time | C9 | fires | fullIn=20190639 |
+| anvil.check.respec | anvil/respec | — | silent |  |
 | anvil.check.spend-points | anvil/points | — | silent |  |
-| anvil.check.spend-points-capacity | anvil/points | — | silent |  |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |

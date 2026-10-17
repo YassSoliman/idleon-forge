@@ -1,4 +1,4 @@
-# golden v1: speedrun-rank1 · knowledge #6b7ada89 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry
+# golden v1: speedrun-rank1 · knowledge #9a245e61 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -17,23 +17,23 @@
 ### C1 · Death Bringer 1780 · Fix before you leave
 4 · Doing nothing · Shimmerfin Grove · Send Death Bringer Lv 1,780 to an AFK Target before you leave
 
+### C6 · Wind Walker 1775 · Fix before you leave
+5 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
+
 ### C11 · Divine Knight 1771 · Fix before you leave
-5 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about 20 min after you collect)
+6 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about 20 min after you collect)
 
 ### C2 · Arcane Cultist 1769 · Fix before you leave
-6 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
+7 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C10 · Siege Breaker 1763 · Fix before you leave
-7 · Fighting Gloomie Mushroom · The Hole · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
-
-### C3 · Siege Breaker 1647 · Fix before you leave
-8 · Spelunking Fearful Tunnel · Refraction Bend · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
-
-### C6 · Wind Walker 1775 · Fix before you leave
-9 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
+8 · Fighting Gloomie Mushroom · The Hole · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C8 · Voidwalker 1754 · Fix before you leave
-10 · Catching Litterbug · Plastic Basin · Collect Purple Screw from the anvil (time to cap: now; it refills about 20 min after you collect)
+9 · Catching Litterbug · Plastic Basin · Collect Purple Screw from the anvil (time to cap: now; it refills about 20 min after you collect)
+
+### C3 · Siege Breaker 1647 · Fix before you leave
+10 · Spelunking Fearful Tunnel · Refraction Bend · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C5 · Elemental Sorcerer 1700 · Fix before you leave
 11 · In the Lab · Outer World Town · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
@@ -44,7 +44,7 @@
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (6)
+show more (7)
 
 ## Not covered yet
 Cards
@@ -136,16 +136,19 @@ Laboratory
 | anvil.check.caps-before-return | anvil/caps-before-return | C7 | fires | fromEmpty=597292 fullIn=0 product=Purple_Screw |
 | anvil.check.caps-before-return | anvil/caps-before-return | C8 | fires | fromEmpty=1096812 fullIn=0 product=Purple_Screw |
 | anvil.check.caps-before-return | anvil/caps-before-return | C9 | fires | fromEmpty=448146 fullIn=0 product=Purple_Screw |
-| anvil.check.spend-points | anvil/points | — | silent |  |
-| anvil.check.spend-points-capacity | anvil/points | C1 | fires | points=14 product=Purple_Screw |
-| anvil.check.spend-points-capacity | anvil/points | C10 | fires | points=468 product=Purple_Screw |
-| anvil.check.spend-points-capacity | anvil/points | C11 | fires | points=9 product=Purple_Screw |
-| anvil.check.spend-points-capacity | anvil/points | C2 | fires | points=2 product=Purple_Screw |
-| anvil.check.spend-points-capacity | anvil/points | C3 | fires | points=123 product=Thingymabob |
-| anvil.check.spend-points-capacity | anvil/points | C4 | fires | points=17 product=Purple_Screw |
-| anvil.check.spend-points-capacity | anvil/points | C5 | fires | points=20 product=Purple_Screw |
-| anvil.check.spend-points-capacity | anvil/points | C7 | fires | points=1 product=Purple_Screw |
-| anvil.check.spend-points-capacity | anvil/points | C9 | fires | points=13 product=Purple_Screw |
+| anvil.check.fill-time | anvil/fill-time | — | silent |  |
+| anvil.check.respec | anvil/respec | — | silent |  |
+| anvil.check.spend-points | anvil/points | C1 | fires | capacity=0 points=14 speed=14 |
+| anvil.check.spend-points | anvil/points | C10 | fires | capacity=0 points=470 speed=470 |
+| anvil.check.spend-points | anvil/points | C11 | fires | capacity=0 points=15 speed=15 |
+| anvil.check.spend-points | anvil/points | C2 | fires | capacity=0 points=3 speed=3 |
+| anvil.check.spend-points | anvil/points | C3 | fires | capacity=0 points=125 speed=125 |
+| anvil.check.spend-points | anvil/points | C4 | fires | capacity=0 points=18 speed=18 |
+| anvil.check.spend-points | anvil/points | C5 | fires | capacity=0 points=20 speed=20 |
+| anvil.check.spend-points | anvil/points | C6 | fires | capacity=0 points=4 speed=4 |
+| anvil.check.spend-points | anvil/points | C7 | fires | capacity=0 points=1 speed=1 |
+| anvil.check.spend-points | anvil/points | C9 | fires | capacity=0 points=14 speed=14 |
+| anvil.check.spend-points | anvil/points | account | fires | count=10 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |

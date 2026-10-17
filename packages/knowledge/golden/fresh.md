@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #6b7ada89 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry
+# golden v1: fresh · knowledge #9a245e61 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -18,11 +18,10 @@
 Unknown: can't tell from the save
 - Spend · Collect banked Colosseum tickets: Collect 9 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-- Extra · Gems unspent: 4,500 gems unspent [IdleOn Wiki: Gem Shop]
-  sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
-show more (4)
+show more (6)
 
 ## Not covered yet
 Cards
@@ -74,10 +73,13 @@ Laboratory
 | alchemy.check.liquid-cap | alchemy/liquid-cap | account | pass |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C1 | unknown (field-missing) |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C2 | unknown (field-missing) |  |
-| anvil.check.spend-points | anvil/points | C1 | fires | points=5 |
-| anvil.check.spend-points | anvil/points | C2 | fires | points=4 |
-| anvil.check.spend-points | anvil/points | C3 | fires | points=1 |
-| anvil.check.spend-points-capacity | anvil/points | — | silent |  |
+| anvil.check.fill-time | anvil/fill-time | C1 | unknown (field-missing) |  |
+| anvil.check.fill-time | anvil/fill-time | C2 | unknown (field-missing) |  |
+| anvil.check.respec | anvil/respec | — | silent |  |
+| anvil.check.spend-points | anvil/points | C1 | unknown (field-missing) |  |
+| anvil.check.spend-points | anvil/points | C2 | fires | capacity=0 points=4 speed=4 |
+| anvil.check.spend-points | anvil/points | C3 | fires | capacity=0 points=1 speed=1 |
+| anvil.check.spend-points | anvil/points | account | fires | count=2 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | unknown (field-missing) |  |
 | boss-keys.check.collect | boss-keys/banked | C2 | fires | chizoar=6 daysLost=50 efaunt=6 forestVilla=6 total=18 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=3 daysLost=50 total=9 |
@@ -103,7 +105,7 @@ Laboratory
 | minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
 | minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=18 |
 | pets.check.free-pull | pets/free-pull | account | unknown (field-missing) |  |
-| pets.check.mart-gems | pets/mart-gems | — | silent |  |
+| pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=183 |
 | poppy.check.open | poppy/pending-fish | — | silent |  |
 | post-office.check.daily-orders | post-office/state | account | fires | companies=6 |
 | post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=16630 |

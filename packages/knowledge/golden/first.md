@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #6b7ada89 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry
+# golden v1: first · knowledge #9a245e61 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -24,7 +24,7 @@
 6 · Fighting Purp Mushroom · Spaceway Raceway · Collect 2 boss keys
 
 ### C4 · Divine Knight 86 · Ready
-7 · Fighting Purp Mushroom · Spaceway Raceway · Spend 1 anvil points on Speed
+7 · Fighting Purp Mushroom · Spaceway Raceway · Spend 4 Post Office boxes: Civil War Memory Box first
 
 ### Account · nothing to fix
 - Grow · Switch on a Refinery salt: Switch on Explosive Salts in the Refinery [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
@@ -32,7 +32,7 @@
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 13 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (4)
+show more (6)
 
 ## Not covered yet
 Cards
@@ -100,8 +100,18 @@ Laboratory
 | anvil.check.caps-before-return | anvil/caps-before-return | C5 | fires | fromEmpty=117980523 fullIn=0 product=Chain_Link |
 | anvil.check.caps-before-return | anvil/caps-before-return | C6 | pass |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C7 | pass |  |
-| anvil.check.spend-points | anvil/points | C4 | fires | points=1 |
-| anvil.check.spend-points-capacity | anvil/points | — | silent |  |
+| anvil.check.fill-time | anvil/fill-time | C1 | fires | fullIn=36662143 |
+| anvil.check.fill-time | anvil/fill-time | C2 | fires | fullIn=221235814 |
+| anvil.check.fill-time | anvil/fill-time | C3 | fires | fullIn=715619332 |
+| anvil.check.fill-time | anvil/fill-time | C4 | fires | fullIn=93034136 |
+| anvil.check.fill-time | anvil/fill-time | C6 | fires | fullIn=51886616 |
+| anvil.check.fill-time | anvil/fill-time | C7 | fires | fullIn=40205386 |
+| anvil.check.respec | anvil/respec | C6 | fires | capacity=0 morePct=25 speed=210 times=1.25 |
+| anvil.check.respec | anvil/respec | account | fires | count=1 hours=8 mixedPct=1 morePct=25 times=1.25 |
+| anvil.check.spend-points | anvil/points | C3 | fires | capacity=0 points=15 speed=15 |
+| anvil.check.spend-points | anvil/points | C4 | fires | capacity=0 points=1 speed=1 |
+| anvil.check.spend-points | anvil/points | C7 | fires | capacity=0 points=1 speed=1 |
+| anvil.check.spend-points | anvil/points | account | fires | count=3 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | C1 | fires | chizoar=0 daysLost=0 efaunt=2 forestVilla=0 total=2 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=2 daysLost=48 total=9 |

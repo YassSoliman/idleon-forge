@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #6b7ada89 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry
+# golden v1: highend · knowledge #9a245e61 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -43,8 +43,8 @@
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-- Extra · Open Poppy's pond: Open Poppy's pond to convert your fish [IdleOn Wiki: Poppy the Kangaroo Mouse's Fish Pond · Calculated by IdleOn Toolbox · 2.3.540]
-show more (5)
+- Spend · Spend anvil points: Unspent anvil points on 11 characters → Speed and Capacity [IdleOn Wiki: Smithing, anvil points · Calculated by IdleOn Toolbox · 2.3.540]
+show more (7)
 If you have time
 - Use today's 20 minigame plays · about 10m of hands-on play
 
@@ -132,18 +132,24 @@ Laboratory
 | anvil.check.caps-before-return | anvil/caps-before-return | C7 | fires | fromEmpty=158223 fullIn=0 product=Thingymabob |
 | anvil.check.caps-before-return | anvil/caps-before-return | C8 | fires | fromEmpty=411744 fullIn=0 product=Thingymabob |
 | anvil.check.caps-before-return | anvil/caps-before-return | C9 | fires | fromEmpty=129118 fullIn=0 product=Thingymabob |
-| anvil.check.spend-points | anvil/points | — | silent |  |
-| anvil.check.spend-points-capacity | anvil/points | C1 | fires | points=62 product=Thingymabob |
-| anvil.check.spend-points-capacity | anvil/points | C10 | fires | points=923 product=Thingymabob |
-| anvil.check.spend-points-capacity | anvil/points | C11 | fires | points=11 product=Thingymabob |
-| anvil.check.spend-points-capacity | anvil/points | C2 | fires | points=2 product=Thingymabob |
-| anvil.check.spend-points-capacity | anvil/points | C3 | fires | points=59 product=Thingymabob |
-| anvil.check.spend-points-capacity | anvil/points | C4 | fires | points=82 product=Thingymabob |
-| anvil.check.spend-points-capacity | anvil/points | C5 | fires | points=44 product=Thingymabob |
-| anvil.check.spend-points-capacity | anvil/points | C6 | fires | points=1024 product=Thingymabob |
-| anvil.check.spend-points-capacity | anvil/points | C7 | fires | points=63 product=Thingymabob |
-| anvil.check.spend-points-capacity | anvil/points | C8 | fires | points=1 product=Thingymabob |
-| anvil.check.spend-points-capacity | anvil/points | C9 | fires | points=60 product=Thingymabob |
+| anvil.check.fill-time | anvil/fill-time | — | silent |  |
+| anvil.check.respec | anvil/respec | C11 | fires | capacity=154 morePct=461 speed=0 times=5.61 |
+| anvil.check.respec | anvil/respec | C2 | fires | capacity=121 morePct=56 speed=2619 times=1.56 |
+| anvil.check.respec | anvil/respec | C3 | fires | capacity=121 morePct=30 speed=1166 times=1.3 |
+| anvil.check.respec | anvil/respec | C9 | fires | capacity=121 morePct=39 speed=1206 times=1.39 |
+| anvil.check.respec | anvil/respec | account | fires | count=4 hours=8 mixedPct=1 morePct=46 times=1.46 |
+| anvil.check.spend-points | anvil/points | C1 | fires | capacity=62 points=62 speed=0 |
+| anvil.check.spend-points | anvil/points | C10 | fires | capacity=62 points=923 speed=861 |
+| anvil.check.spend-points | anvil/points | C11 | fires | capacity=11 points=11 speed=0 |
+| anvil.check.spend-points | anvil/points | C2 | fires | capacity=23 points=23 speed=0 |
+| anvil.check.spend-points | anvil/points | C3 | fires | capacity=60 points=60 speed=0 |
+| anvil.check.spend-points | anvil/points | C4 | fires | capacity=0 points=82 speed=82 |
+| anvil.check.spend-points | anvil/points | C5 | fires | capacity=45 points=45 speed=0 |
+| anvil.check.spend-points | anvil/points | C6 | fires | capacity=0 points=1024 speed=1024 |
+| anvil.check.spend-points | anvil/points | C7 | fires | capacity=63 points=63 speed=0 |
+| anvil.check.spend-points | anvil/points | C8 | fires | capacity=0 points=1 speed=1 |
+| anvil.check.spend-points | anvil/points | C9 | fires | capacity=60 points=60 speed=0 |
+| anvil.check.spend-points | anvil/points | account | fires | count=11 hours=8 manyMixed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |

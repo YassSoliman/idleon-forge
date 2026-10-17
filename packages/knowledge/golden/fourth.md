@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #6b7ada89 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry
+# golden v1: fourth · knowledge #9a245e61 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -68,8 +68,10 @@ Laboratory
 | alchemy.check.liquid-cap | alchemy/liquid-cap | account | pass |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C1 | unknown (field-missing) |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C2 | unknown (field-missing) |  |
-| anvil.check.spend-points | anvil/points | C2 | fires | points=1 |
-| anvil.check.spend-points-capacity | anvil/points | — | silent |  |
+| anvil.check.fill-time | anvil/fill-time | C1 | unknown (field-missing) |  |
+| anvil.check.fill-time | anvil/fill-time | C2 | unknown (field-missing) |  |
+| anvil.check.respec | anvil/respec | — | silent |  |
+| anvil.check.spend-points | anvil/points | C2 | unknown (field-missing) |  |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |

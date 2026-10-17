@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #6b7ada89 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early
+# golden v1: scrubbed-w3 · knowledge #9a245e61 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early
 
 ## Verdict changes
 
@@ -27,9 +27,9 @@
 - Grow · Get the fuel to run a Refinery salt: Get 1 more Bullfrog Horn to run Explosive Salts [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Collect banked Colosseum tickets: Collect 4 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (7)
+show more (10)
 If you have time
 - Use today's 4 minigame plays · about 10m of hands-on play
 
@@ -101,8 +101,11 @@ Shrines
 | anvil.check.caps-before-return | anvil/caps-before-return | C4 | fires | fromEmpty=18509032 fullIn=0 product=Thread |
 | anvil.check.caps-before-return | anvil/caps-before-return | C5 | fires | fromEmpty=20337884 fullIn=0 product=Thread |
 | anvil.check.caps-before-return | anvil/caps-before-return | C6 | fires | fromEmpty=9607482 fullIn=0 product=Thread |
-| anvil.check.spend-points | anvil/points | — | silent |  |
-| anvil.check.spend-points-capacity | anvil/points | C3 | fires | points=3 product=Leather_Hide |
+| anvil.check.fill-time | anvil/fill-time | — | silent |  |
+| anvil.check.respec | anvil/respec | C1 | fires | capacity=23 morePct=30 speed=7 times=1.3 |
+| anvil.check.respec | anvil/respec | account | fires | count=1 hours=8 mixedPct=1 morePct=30 times=1.3 |
+| anvil.check.spend-points | anvil/points | C3 | fires | capacity=0 points=3 speed=3 |
+| anvil.check.spend-points | anvil/points | account | fires | count=1 hours=8 oneSpeed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | C4 | fires | chizoar=0 daysLost=0 efaunt=2 forestVilla=4 total=6 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=1 daysLost=2 total=4 |
@@ -128,7 +131,7 @@ Shrines
 | minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
 | minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
 | pets.check.free-pull | pets/free-pull | account | pass |  |
-| pets.check.mart-gems | pets/mart-gems | — | silent |  |
+| pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=241 |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
 | post-office.check.daily-orders | post-office/state | — | silent |  |
 | post-office.check.spend-boxes | post-office/state | — | silent |  |
