@@ -82,6 +82,11 @@ describe('across all public saves', () => {
   const states = publicSaves.map((f) => accountStateOf(readSave(PUBLIC_DIR, f)));
   const all = states.flatMap((s) => s.characters);
 
+  it('keeps every Account State under the 200 KB history cap (TR-16)', () => {
+    const largest = Math.max(...states.map((s) => new TextEncoder().encode(JSON.stringify(s)).length));
+    expect(largest).toBeLessThan(200 * 1024);
+  });
+
   it('has the 11 public saves', () => {
     expect(publicSaves).toHaveLength(11);
   });

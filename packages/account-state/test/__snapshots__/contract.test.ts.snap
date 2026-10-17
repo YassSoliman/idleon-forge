@@ -4,6 +4,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
 {
   "account": {
     "currentWorld": 4,
+    "dailyResetAt": 1717855602338,
     "finishedWorlds": [
       1,
       2,
@@ -223,6 +224,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
 {
   "account": {
     "currentWorld": 6,
+    "dailyResetAt": 1716004502424,
     "finishedWorlds": [
       1,
       2,
@@ -318,6 +320,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
 {
   "account": {
     "currentWorld": 6,
+    "dailyResetAt": 1787267977716,
     "finishedWorlds": [
       1,
       2,
@@ -447,6 +450,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
 {
   "account": {
     "currentWorld": 7,
+    "dailyResetAt": 1786398548584,
     "finishedWorlds": [
       1,
       2,
@@ -877,6 +881,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
 {
   "account": {
     "currentWorld": 7,
+    "dailyResetAt": 1791710109522,
     "finishedWorlds": [
       1,
       2,
@@ -1254,6 +1259,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
 {
   "account": {
     "currentWorld": 7,
+    "dailyResetAt": 1787301418368,
     "finishedWorlds": [
       1,
       2,
@@ -1627,6 +1633,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
 {
   "account": {
     "currentWorld": 7,
+    "dailyResetAt": 1787819949211,
     "finishedWorlds": [
       1,
       2,
@@ -2004,6 +2011,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
 {
   "account": {
     "currentWorld": 6,
+    "dailyResetAt": 1717868593314,
     "finishedWorlds": [
       1,
       2,
@@ -2398,6 +2406,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
 {
   "account": {
     "currentWorld": 7,
+    "dailyResetAt": 1786561474356,
     "finishedWorlds": [
       1,
       2,
@@ -2820,6 +2829,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
 {
   "account": {
     "currentWorld": 6,
+    "dailyResetAt": 1717715907932,
     "finishedWorlds": [
       1,
       2,
@@ -3202,6 +3212,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
 {
   "account": {
     "currentWorld": 7,
+    "dailyResetAt": 1787819949211,
     "finishedWorlds": [
       1,
       2,

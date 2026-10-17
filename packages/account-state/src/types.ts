@@ -7,8 +7,11 @@
 // `humanize()` to display them.
 import type { SideReadName } from '@idleon-forge/toolbox-parsers';
 
-/** Bumped whenever a field is added, renamed or changes meaning. 1 was slice 1's unversioned shape. */
-export const SCHEMA_VERSION = 2;
+/**
+ * Bumped whenever a field is added, renamed or changes meaning. 1 was slice 1's unversioned shape.
+ * 3: `account.dailyResetAt` (for M10's Skip today rule).
+ */
+export const SCHEMA_VERSION = 3;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -65,6 +68,12 @@ export interface AccountSummary {
   lastCloudSave: number | null;
   /** Seconds between `lastCloudSave` and `AccountState.asOf` (never negative). */
   secondsSinceLastSave: number | null;
+  /**
+   * When the game's daily reset that this save was counting down to happens (epoch ms):
+   * `TimeAway.GlobalTime + TimeAway.ShopRestock`. The time of day differs per account. Read it with
+   * `nextDailyReset(state, now)`, which rolls it forward in 24 h steps.
+   */
+  dailyResetAt: number | null;
   gameVersion: {
     /** The game server's build (`_vars.GameVERSION`) at the last `_vars` read, e.g. 142; not in the save. */
     serverBuild: number | null;
