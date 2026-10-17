@@ -18,3 +18,7 @@ packages/toolbox-parsers/vendor/data/
 
 # Agent worktrees (local only)
 .claude/worktrees/
+
+# Generated at build time by packages/release (M12 TR-3).
+apps/*/public/version.json
+apps/*/public/whats-new.json

@@ -1,0 +1,261 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# A Worker Preview per same-repo PR, pr-<N>-activeon.idleon.workers.dev, deleted when the PR closes
+# (M12 FR-7 to FR-12, TR-13). Previews sit behind Cloudflare Access (one-time email PIN; Final rulings
+# RT-11). Not a required check: fork PRs never get one.
+#
+# Never runs for: fork PRs (no secrets, FR-10), Dependabot (no environment secrets, RT-20), or the
+# parser-sync PR while it is a draft (its first Preview comes from Yasser's "Ready for review", FR-17).
+# Not used, ever: pull_request_target, or workflow_run with a checkout of PR code.
+#
+# Same shape as deploy.yml: `build` never names the Cloudflare token; `deploy` installs with
+# --ignore-scripts and runs only `pnpm exec wrangler` on the built dist/ (TR-1).
+# Environment "preview": secrets CLOUDFLARE_API_TOKEN (its own token, D4), CLOUDFLARE_ACCOUNT_ID,
+# VITE_GOOGLE_OAUTH_CLIENT_SECRET; the six VITE_* variables, copied from production.
+name: Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, closed]
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: Same-repo PR number to (re)build a Preview for
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    name: Resolve PR
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      pr: ${{ steps.r.outputs.pr }}
+      sha: ${{ steps.r.outputs.sha }}
+      action: ${{ steps.r.outputs.action }}
+    steps:
+      - id: r
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+          ACTOR: ${{ github.actor }}
+          INPUT_PR: ${{ inputs.pr }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          DRAFT: ${{ github.event.pull_request.draft }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          out() { echo "$1=$2" >>"$GITHUB_OUTPUT"; echo "$1=$2"; }
+          if [ "$EVENT" = workflow_dispatch ]; then
+            [[ "$INPUT_PR" =~ ^[0-9]+$ ]] || { echo "::error::pr must be a number"; exit 1; }
+            info=$(gh pr view "$INPUT_PR" -R "$REPO" --json isCrossRepository,headRepositoryOwner,headRefOid,state)
+            if [ "$(jq -r .isCrossRepository <<<"$info")" != false ] || [ "$(jq -r .headRepositoryOwner.login <<<"$info")" != YassSoliman ]; then
+              echo "::error::PR #$INPUT_PR is not a same-repo PR; no Preview for forks (FR-10)"; exit 1
+            fi
+            [ "$(jq -r .state <<<"$info")" = OPEN ] || { echo "::error::PR #$INPUT_PR is not open"; exit 1; }
+            out pr "$INPUT_PR"; out sha "$(jq -r .headRefOid <<<"$info")"; out action deploy
+            exit 0
+          fi
+          out pr "$PR_NUMBER"; out sha "$HEAD_SHA"
+          if [ "$HEAD_REPO" != "$REPO" ]; then echo "Fork PR: CI only, no Preview."; out action skip; exit 0; fi
+          if [ "$ACTION" = closed ]; then out action cleanup; exit 0; fi
+          if [ "$ACTOR" = 'dependabot[bot]' ]; then echo "Dependabot: no Preview (RT-20)."; out action skip; exit 0; fi
+          if [ "$HEAD_REF" = chore/parser-sync ] && [ "$DRAFT" = true ]; then
+            echo "Draft parser sync: no Preview until it is marked ready (FR-17)."; out action skip; exit 0
+          fi
+          out action deploy
+
+  build:
+    name: Build Preview
+    needs: resolve
+    if: needs.resolve.outputs.action == 'deploy'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    environment: preview
+    permissions:
+      contents: read
+    steps:
+      # The PR head, never the synthetic merge ref; full history for BuildInfo (TR-4, RT-13).
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          fetch-depth: 0
+          filter: blob:none
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - run: pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm build
+        env:
+          VITE_DEPLOY_CHANNEL: preview
+          VITE_PR_NUMBER: ${{ needs.resolve.outputs.pr }}
+          VITE_FIREBASE_API_KEY: ${{ vars.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ vars.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_DATABASE_URL: ${{ vars.VITE_FIREBASE_DATABASE_URL }}
+          VITE_FIREBASE_PROJECT_ID: ${{ vars.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ vars.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_GOOGLE_OAUTH_CLIENT_ID: ${{ vars.VITE_GOOGLE_OAUTH_CLIENT_ID }}
+          VITE_GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.VITE_GOOGLE_OAUTH_CLIENT_SECRET }}
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: preview-dist
+          path: apps/activeon/dist
+          if-no-files-found: error
+          retention-days: 3
+
+  deploy:
+    name: Deploy Preview
+    needs: [resolve, build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    environment: preview
+    permissions:
+      contents: read
+      pull-requests: write
+    concurrency:
+      group: preview-pr-${{ needs.resolve.outputs.pr }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - name: Refuse a Wrangler build key
+        run: |
+          if grep -Eq '^[[:space:]]*"build"[[:space:]]*:' apps/activeon/wrangler.jsonc; then
+            echo "::error::apps/activeon/wrangler.jsonc has a build key; Wrangler would run it next to the token"
+            exit 1
+          fi
+      - run: pnpm install --frozen-lockfile --ignore-scripts --filter @idleon-forge/activeon...
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: preview-dist
+          path: apps/activeon/dist
+      - name: Deploy the Preview
+        working-directory: apps/activeon
+        env:
+          PR: ${{ needs.resolve.outputs.pr }}
+          SHA: ${{ needs.resolve.outputs.sha }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          pnpm exec wrangler preview --name "pr-$PR" --ignore-base-config --json \
+            --message "PR #$PR ${SHA::7}" >"$RUNNER_TEMP/preview.out"
+          # Wrangler prints progress lines before the JSON on stdout; keep from the first "{" line on.
+          sed -n '/^{/,$p' "$RUNNER_TEMP/preview.out" >"$RUNNER_TEMP/preview.json"
+          url=$(jq -r '.preview.urls[0] // empty' "$RUNNER_TEMP/preview.json" || true)
+          if ! [[ "$url" =~ ^https://[a-z0-9-]+\.idleon\.workers\.dev$ ]]; then
+            # The output holds no secret (ids, names, URLs); show it so a format change is easy to fix.
+            echo "::error::no Preview URL in wrangler's JSON (.preview.urls[0]); got '${url}'"
+            cat "$RUNNER_TEMP/preview.out"
+            exit 1
+          fi
+          echo "url=$url" >>"$GITHUB_ENV"
+          echo "Preview: $url"
+      - name: Comment the Preview URL
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ needs.resolve.outputs.pr }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          v=apps/activeon/dist/version.json
+          # Only BuildInfo fields, reduced to safe characters, never PR text (TR-20).
+          clean() { jq -r "$1" "$v" | tr -cd 'A-Za-z0-9.+_-'; }
+          body=$(printf '<!-- activeon-preview -->\n**Preview of PR #%s:** %s\n\n| | |\n|---|---|\n| Commit | `%s` |\n| Build | `%s` |\n| Knowledge | `%s` |\n| Game version | `%s` |\n\nBehind Cloudflare Access: sign in with the one-time email PIN. Sign in to IdleOn on a Preview only after reading its diff (FR-12).' \
+            "$PR" "$url" "$(clean .commit)" "$(clean .app)" "$(clean .knowledge)" "$(clean .parsers.gameVersion)")
+          id=$(gh api "repos/$REPO/issues/$PR/comments" --paginate --jq '.[] | select(.body | contains("<!-- activeon-preview -->")) | .id' | head -1)
+          if [ -n "$id" ]; then
+            gh api -X PATCH "repos/$REPO/issues/comments/$id" -f body="$body" >/dev/null
+          else
+            gh api -X POST "repos/$REPO/issues/$PR/comments" -f body="$body" >/dev/null
+          fi
+
+  build-failed:
+    name: Report a failed Preview build
+    needs: [resolve, build]
+    if: failure() && needs.build.result == 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ needs.resolve.outputs.pr }}
+          SHA: ${{ needs.resolve.outputs.sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          note="**Preview build failed on \`${SHA::7}\`.** The previous Preview (if any) is stale."
+          id=$(gh api "repos/$REPO/issues/$PR/comments" --paginate --jq '.[] | select(.body | contains("<!-- activeon-preview -->")) | .id' | head -1)
+          if [ -n "$id" ]; then
+            old=$(gh api "repos/$REPO/issues/comments/$id" --jq .body | grep -v '^\*\*Preview build failed' || true)
+            gh api -X PATCH "repos/$REPO/issues/comments/$id" -f body="$(printf '%s\n\n%s' "$old" "$note")" >/dev/null
+          else
+            gh api -X POST "repos/$REPO/issues/$PR/comments" -f body="$(printf '<!-- activeon-preview -->\n%s' "$note")" >/dev/null
+          fi
+
+  cleanup:
+    name: Delete Preview
+    needs: resolve
+    if: needs.resolve.outputs.action == 'cleanup'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: preview
+    permissions:
+      contents: read
+      pull-requests: write
+    concurrency:
+      group: preview-pr-${{ needs.resolve.outputs.pr }}
+      cancel-in-progress: true
+    steps:
+      # main's reviewed code and lockfile, not the closed PR's.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - run: pnpm install --frozen-lockfile --ignore-scripts --filter @idleon-forge/activeon...
+      - name: Delete the Preview
+        working-directory: apps/activeon
+        env:
+          PR: ${{ needs.resolve.outputs.pr }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if out=$(pnpm exec wrangler preview delete --name "pr-$PR" --skip-confirmation 2>&1); then
+            echo "$out"
+          elif grep -qi 'not found\|does not exist' <<<"$out"; then
+            echo "No Preview pr-$PR to delete."
+          else
+            echo "$out"; exit 1
+          fi
+      - name: Mark the comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ needs.resolve.outputs.pr }}
+          REPO: ${{ github.repository }}
+        run: |
+          id=$(gh api "repos/$REPO/issues/$PR/comments" --paginate --jq '.[] | select(.body | contains("<!-- activeon-preview -->")) | .id' | head -1)
+          [ -z "$id" ] || gh api -X PATCH "repos/$REPO/issues/comments/$id" \
+            -f body="$(printf '<!-- activeon-preview -->\nPreview of PR #%s deleted (PR closed).' "$PR")" >/dev/null

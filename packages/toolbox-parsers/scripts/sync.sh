@@ -16,7 +16,7 @@ read_pin
 want="${1:-$commit}"
 
 fixtures=../account-state/fixtures/public
-checkout_upstream "$repo" "$want" \
+checkout_upstream "$fetch_url" "$want" \
   /parsers/ /utility/ /polyfills.js /LICENSE \
   /data/website-data/ /data/website-data.d.ts /data/sprite-manifest.json /data/patch-notes.js \
   /data/raw.json /__test__/fixtures/
@@ -57,7 +57,9 @@ printf 'repo=%s\ncommit=%s\ncommitDate=%s\ntoolboxVersion=%s\ngameVersion=%s\n' 
   "$repo" "$commit" "$date" "$tbver" "$gamever" >UPSTREAM
 
 rm -f vendor/data/.commit
-bash scripts/fetch-data.sh
+ALLOW_NEW_DATA_DIGEST=1 bash scripts/fetch-data.sh
+# Pin vendor/data/ by content (M12 TR-15 step 4); fetch-data.sh verifies it from now on.
+printf 'dataDigest=%s\n' "$(node scripts/data-digest.mjs vendor/data)" >>UPSTREAM
 
 # The builds this pin parses cleanly ship in the bundle (M1 FR-29): build, measure, rebuild.
 node scripts/build.mjs

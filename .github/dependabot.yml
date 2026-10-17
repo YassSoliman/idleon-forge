@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Keeps the SHA-pinned actions current (M12 TR-1, TR-20). Titles start with "ci(deps):" so they pass
+# the PR title check (RT-20). npm dependencies are upgraded by hand, one reviewed PR at a time.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+      include: scope
+    groups:
+      actions:
+        patterns: ['*']

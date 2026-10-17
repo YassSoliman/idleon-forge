@@ -16,7 +16,8 @@
     "fetch-data": "bash scripts/fetch-data.sh",
     "build": "bash scripts/fetch-data.sh && node scripts/build.mjs",
     "typecheck": "bash scripts/fetch-data.sh && tsc -p tsconfig.json && tsc -p tsconfig.test.json",
-    "sync": "bash scripts/sync.sh"
+    "sync": "bash scripts/sync.sh",
+    "tripwire": "node scripts/tripwire.mjs"
   },
   "dependencies": {
     "core-js": "^3.39.0",

@@ -1,0 +1,201 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Weekly (and on demand) re-sync of IdleOn Toolbox's parsers, as one reviewed PR (M12 FR-13 to FR-18,
+# TR-15). Three jobs, so upstream code never runs with write access and its output can only change an
+# allowlisted set of paths:
+#   mirror   fast-forwards YassSoliman/IdleonToolbox from upstream (D7). No checkout, no code.
+#   sync     runs upstream code (sync.sh, tests, build) with a read-only token and no secrets, and
+#            uploads sync.patch + sync-report.md.
+#   open-pr  checks the patch's paths, applies it, and pushes and opens the draft PR as the Forge Bot,
+#            so the pull_request checks run on it. Runs no repository scripts and no upstream code.
+# Only a human merges a sync PR (FR-18); the Preview starts when Yasser marks it ready (FR-17).
+name: Parser sync
+
+on:
+  schedule:
+    - cron: '0 13 * * 1' # Mondays 13:00 UTC
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Upstream commit (40-character SHA) or HEAD
+        required: false
+        default: HEAD
+
+permissions:
+  contents: read
+
+concurrency:
+  group: parser-sync
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    name: Update the Toolbox mirror
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: mirror
+    permissions: {}
+    steps:
+      - name: Fast-forward YassSoliman/IdleonToolbox from upstream
+        env:
+          GH_TOKEN: ${{ secrets.MIRROR_TOKEN }}
+        run: |
+          set -euo pipefail
+          [ -n "$GH_TOKEN" ] || { echo "::error::MIRROR_TOKEN is not set in the mirror environment"; exit 1; }
+          if ! out=$(gh api -X POST repos/YassSoliman/IdleonToolbox/merge-upstream -f branch=main 2>&1); then
+            echo "::error::merge-upstream failed (a 409 means upstream rewrote history; decide by hand): $out"
+            exit 1
+          fi
+          type=$(jq -r .merge_type <<<"$out")
+          echo "merge_type=$type"
+          case "$type" in
+            fast-forward|none) echo "Mirror is current." ;;
+            *) echo "::error::merge-upstream answered merge_type=$type; the mirror must only fast-forward"; exit 1 ;;
+          esac
+
+  sync:
+    name: Sync and check
+    needs: mirror
+    if: always() && needs.mirror.result != 'cancelled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.sync.outputs.changed }}
+      failed: ${{ steps.sync.outputs.failed }}
+      title: ${{ steps.sync.outputs.title }}
+    steps:
+      - name: Validate the ref
+        env:
+          REF: ${{ inputs.ref || 'HEAD' }}
+        run: |
+          [[ "$REF" =~ ^(HEAD|[0-9a-f]{40})$ ]] || { echo "::error::ref must be HEAD or a 40-character SHA"; exit 1; }
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+          filter: blob:none
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      # No cache anywhere in this job: it runs upstream code (RT-2).
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - run: pnpm install --frozen-lockfile
+      - id: sync
+        name: Sync, check, write the patch and report
+        env:
+          REF: ${{ inputs.ref || 'HEAD' }}
+          MIRROR_OK: ${{ needs.mirror.result == 'success' }}
+          GH_TOKEN: ${{ github.token }}
+          OUT: ${{ runner.temp }}/sync-out
+        run: bash scripts/parser-sync.sh
+      - if: steps.sync.outputs.changed == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: parser-sync
+          path: ${{ runner.temp }}/sync-out
+          if-no-files-found: error
+          retention-days: 30
+
+  open-pr:
+    name: Open or update the sync PR
+    needs: sync
+    if: always() && needs.sync.result == 'success' && needs.sync.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # The Forge Bot's key lives only here (ruling N2): main only, used by this job alone.
+    environment: forge-bot
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: parser-sync
+          path: ${{ runner.temp }}/sync-out
+      - name: Refuse paths outside the sync allowlist (RT-1)
+        env:
+          PATCH: ${{ runner.temp }}/sync-out/sync.patch
+        run: |
+          set -euo pipefail
+          allow='^(packages/toolbox-parsers/vendor/(parsers|utility)/.+|packages/toolbox-parsers/vendor/(polyfills\.js|LICENSE)|packages/toolbox-parsers/(UPSTREAM|VERIFIED_BUILDS|SYNC-FAILED)|packages/account-state/fixtures/public/[^/]+\.json|packages/account-state/test/__snapshots__/.+|packages/knowledge/generated/.+)$'
+          bad=$(git apply --numstat "$PATCH" | cut -f3- | grep -Ev "$allow" || true)
+          if [ -n "$bad" ]; then
+            echo "::error::the sync patch touches paths outside the allowlist; nothing pushed:"
+            echo "$bad"
+            exit 1
+          fi
+          if grep -Eq '^[-+]repo=' "$PATCH"; then
+            echo "::error::the sync patch changes UPSTREAM repo=; nothing pushed"
+            exit 1
+          fi
+          git apply --check "$PATCH"
+      - id: bot
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          app-id: ${{ vars.FORGE_BOT_APP_ID }}
+          private-key: ${{ secrets.FORGE_BOT_PRIVATE_KEY }}
+          repositories: idleon-forge
+      - name: Push and open the draft PR as the Forge Bot
+        env:
+          GH_TOKEN: ${{ steps.bot.outputs.token }}
+          BOT: ${{ steps.bot.outputs.app-slug }}[bot]
+          REPO: ${{ github.repository }}
+          TITLE: ${{ needs.sync.outputs.title }}
+          FAILED: ${{ needs.sync.outputs.failed }}
+          OUT: ${{ runner.temp }}/sync-out
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          branch=chore/parser-sync
+          [[ "$TITLE" =~ ^chore\(parsers\):\ sync\ Toolbox\ to\ [0-9a-f]{7}\ \(game\ [0-9.]+\)$ ]] || { echo "::error::unexpected title"; exit 1; }
+          remote="https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git"
+
+          pr=$(gh pr list -R "$REPO" --head "$branch" --state open --json number,isDraft --jq '.[0] // empty')
+          if [ -n "$pr" ] && [ "$(jq -r .isDraft <<<"$pr")" = false ]; then
+            gh pr comment "$(jq -r .number <<<"$pr")" -R "$REPO" --body "Sync skipped: PR under review. ($RUN_URL)"
+            exit 0
+          fi
+          if git fetch -q "$remote" "+refs/heads/$branch:refs/remotes/origin/$branch" 2>/dev/null; then
+            others=$(git log "origin/main..origin/$branch" --format='%an' | grep -vxF "$BOT" || true)
+            if [ -n "$others" ]; then
+              [ -z "$pr" ] || gh pr comment "$(jq -r .number <<<"$pr")" -R "$REPO" \
+                --body "Sync skipped: this branch has manual commits; merge or close it first. ($RUN_URL)"
+              exit 0
+            fi
+          fi
+
+          bot_id=$(gh api "users/${BOT/\[bot\]/%5Bbot%5D}" --jq .id)
+          git switch -q -c "$branch"
+          git apply "$OUT/sync.patch"
+          git add -A
+          git -c user.name="$BOT" -c user.email="${bot_id}+${BOT}@users.noreply.github.com" commit -q -m "$TITLE"
+          git push -q --force "$remote" "HEAD:refs/heads/$branch"
+
+          gh label create area:parser -R "$REPO" --color 1d76db --description "Toolbox parsers and their sync" 2>/dev/null || true
+          gh label create do-not-merge -R "$REPO" --color b60205 --description "Merge gate stays red while set" 2>/dev/null || true
+
+          body="$OUT/body.md"
+          if [ "$(wc -c <"$OUT/sync-report.md")" -gt 60000 ]; then
+            { head -c 59000 "$OUT/sync-report.md"; printf '\n\n…truncated. Full report: the parser-sync artifact of %s\n' "$RUN_URL"; } >"$body"
+          else
+            { cat "$OUT/sync-report.md"; printf '\n\nRun: %s\n' "$RUN_URL"; } >"$body"
+          fi
+          if [ -z "$pr" ]; then
+            gh pr create -R "$REPO" --draft --base main --head "$branch" --title "$TITLE" --body-file "$body" --label area:parser
+            number=$(gh pr list -R "$REPO" --head "$branch" --state open --json number --jq '.[0].number')
+          else
+            number=$(jq -r .number <<<"$pr")
+            gh pr edit "$number" -R "$REPO" --title "$TITLE" --body-file "$body" --add-label area:parser
+          fi
+          if [ "$FAILED" = true ]; then
+            gh pr edit "$number" -R "$REPO" --add-label do-not-merge
+          else
+            gh pr edit "$number" -R "$REPO" --remove-label do-not-merge 2>/dev/null || true
+          fi
+          echo "Sync PR: #$number"

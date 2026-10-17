@@ -1,11 +1,18 @@
 # SPDX-License-Identifier: GPL-3.0-only
-# Deploys ActiveOn to Cloudflare Workers (static assets, SPA mode) on every push to main.
-# Runs in the GitHub "production" environment, which should only allow the main branch.
-# Needs, in that environment:
-#   secrets  CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, VITE_GOOGLE_OAUTH_CLIENT_SECRET
-#   vars     VITE_FIREBASE_API_KEY, VITE_FIREBASE_AUTH_DOMAIN, VITE_FIREBASE_DATABASE_URL,
-#            VITE_FIREBASE_PROJECT_ID, VITE_FIREBASE_STORAGE_BUCKET, VITE_GOOGLE_OAUTH_CLIENT_ID
-# Without the VITE_* values the site deploys with the paste fallback only. See docs/setup/.
+# Deploys ActiveOn to Cloudflare Workers (static assets, SPA mode) on every push to main (M12 FR-1 to
+# FR-5, TR-1, TR-2). Both jobs run in the GitHub "production" environment, which only main may use and
+# which admins can't bypass (FR-2).
+#
+# Two jobs, so no repository, upstream or dependency code ever runs where the Cloudflare token is
+# readable (RT-2):
+#   build   lint, typecheck, test, build with the VITE_* values. Never names CLOUDFLARE_API_TOKEN.
+#   deploy  same commit, no cache, install with --ignore-scripts, then only `pnpm exec wrangler` on
+#           the built dist/. The token is named in that one step.
+#
+# Environment "production": secrets CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID,
+# VITE_GOOGLE_OAUTH_CLIENT_SECRET; variables VITE_FIREBASE_API_KEY, VITE_FIREBASE_AUTH_DOMAIN,
+# VITE_FIREBASE_DATABASE_URL, VITE_FIREBASE_PROJECT_ID, VITE_FIREBASE_STORAGE_BUCKET,
+# VITE_GOOGLE_OAUTH_CLIENT_ID, PRODUCTION_URL. See docs/setup/deploy.md.
 name: Deploy
 
 on:
@@ -16,32 +23,40 @@ on:
 permissions:
   contents: read
 
+# FR-5: one deploy at a time; GitHub keeps only the newest pending run, so production ends on main's head.
 concurrency:
   group: deploy-production
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    name: Deploy ActiveOn
+  build:
+    name: Build ActiveOn
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: production
     steps:
-      - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          filter: blob:none
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      # No pnpm-store cache: the parser sync runs upstream code on the default branch and could seed one (RT-2).
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .nvmrc
-          cache: pnpm
-      - uses: actions/cache@v6
+      # Verified against UPSTREAM dataDigest= by fetch-data.sh before it is trusted (TR-15).
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: packages/toolbox-parsers/vendor/data
           key: toolbox-data-${{ hashFiles('packages/toolbox-parsers/UPSTREAM') }}
       - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
       - run: pnpm test
       - name: Build
         run: pnpm build
         env:
+          VITE_DEPLOY_CHANNEL: production
           VITE_FIREBASE_API_KEY: ${{ vars.VITE_FIREBASE_API_KEY }}
           VITE_FIREBASE_AUTH_DOMAIN: ${{ vars.VITE_FIREBASE_AUTH_DOMAIN }}
           VITE_FIREBASE_DATABASE_URL: ${{ vars.VITE_FIREBASE_DATABASE_URL }}
@@ -49,9 +64,61 @@ jobs:
           VITE_FIREBASE_STORAGE_BUCKET: ${{ vars.VITE_FIREBASE_STORAGE_BUCKET }}
           VITE_GOOGLE_OAUTH_CLIENT_ID: ${{ vars.VITE_GOOGLE_OAUTH_CLIENT_ID }}
           VITE_GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.VITE_GOOGLE_OAUTH_CLIENT_SECRET }}
+      - name: Budgets (TR-12)
+        run: node packages/release/bin/check-budgets.ts apps/activeon/dist
+      - name: Check the stamp matches this commit
+        run: jq -e --arg c "$GITHUB_SHA" '.commit == $c and .channel == "production"' apps/activeon/dist/version.json
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: activeon-dist
+          path: apps/activeon/dist
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy:
+    name: Deploy ActiveOn
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - name: Refuse a Wrangler build key
+        run: |
+          if grep -Eq '^[[:space:]]*"build"[[:space:]]*:' apps/activeon/wrangler.jsonc; then
+            echo "::error::apps/activeon/wrangler.jsonc has a build key; Wrangler would run it next to the token"
+            exit 1
+          fi
+      # Only Wrangler and its dependencies, no lifecycle scripts (RT-26).
+      - run: pnpm install --frozen-lockfile --ignore-scripts --filter @idleon-forge/activeon...
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: activeon-dist
+          path: apps/activeon/dist
       - name: Deploy to Cloudflare Workers
         working-directory: apps/activeon
-        run: pnpm exec wrangler deploy
+        run: pnpm exec wrangler deploy --message "main ${GITHUB_SHA::7}"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      # FR-4: production serves this commit, and a deep link serves the SPA.
+      - name: Smoke check
+        env:
+          PRODUCTION_URL: ${{ vars.PRODUCTION_URL }}
+        run: |
+          for _ in $(seq 1 12); do
+            if curl -fsS "$PRODUCTION_URL/version.json" -H 'Cache-Control: no-cache' | jq -e --arg c "$GITHUB_SHA" '.commit == $c' >/dev/null; then
+              ok=1; break
+            fi
+            sleep 5
+          done
+          [ "${ok:-}" = 1 ] || { echo "::error::$PRODUCTION_URL/version.json does not show $GITHUB_SHA after 60 s"; exit 1; }
+          code=$(curl -sS -o /tmp/deep.html -w '%{http_code}' "$PRODUCTION_URL/some/deep/link")
+          if [ "$code" != 200 ] || ! grep -qi '<html' /tmp/deep.html; then echo "::error::deep link returned $code"; exit 1; fi
+          echo "production serves ${GITHUB_SHA::7}"

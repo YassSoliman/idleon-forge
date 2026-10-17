@@ -1,0 +1,39 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Makes do-not-merge enforced, not cosmetic (M12 FR-16, TR-1, RT-16): fails while the PR carries the
+# do-not-merge label, or while the tree holds the parser sync's failure marker SYNC-FAILED.
+# The job name "Merge gate" is a required check.
+name: Merge gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    name: Merge gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          sparse-checkout: packages/toolbox-parsers
+      - name: Check the label and the failure marker
+        env:
+          LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+        run: |
+          rc=0
+          if printf '%s' "$LABELS" | jq -e 'index("do-not-merge")' >/dev/null; then
+            echo "::error title=Merge gate::This PR is labelled do-not-merge."
+            rc=1
+          fi
+          if [ -f packages/toolbox-parsers/SYNC-FAILED ]; then
+            echo "::error title=Merge gate::packages/toolbox-parsers/SYNC-FAILED exists: a parser sync check failed."
+            sed 's/^/  /' packages/toolbox-parsers/SYNC-FAILED
+            rc=1
+          fi
+          [ $rc -eq 0 ] && echo "Merge gate open."
+          exit $rc

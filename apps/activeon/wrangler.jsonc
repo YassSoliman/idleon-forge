@@ -1,6 +1,7 @@
 {
   // ActiveOn is an assets-only Worker: static files in SPA mode, no Worker script, no bindings.
   // https://developers.cloudflare.com/workers/static-assets/routing/single-page-application/
+  // Never add a "build" key: deploy jobs refuse it, because Wrangler would run it next to the token (M12 TR-1).
   "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "activeon",
   "compatibility_date": "2026-10-17",
@@ -9,6 +10,7 @@
     "not_found_handling": "single-page-application"
   },
   "workers_dev": true,
-  // Per-PR Worker Previews are a follow-up (see the slice 1 PR).
-  "preview_urls": false
+  // Per-PR Worker Previews (M12 TR-13): pr-<N>-activeon.idleon.workers.dev, behind Cloudflare Access.
+  "preview_urls": true,
+  "previews": {}
 }
