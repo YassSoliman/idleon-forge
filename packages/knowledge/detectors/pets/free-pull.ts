@@ -26,7 +26,7 @@ export default defineDetector({
   },
   run({ state, now }, { periodMs }) {
     const pets = state.account.pets;
-    if (!isKnown(state, 'account.pets') || pets === null)
+    if (!isKnown(state, 'account.pets') || pets == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];

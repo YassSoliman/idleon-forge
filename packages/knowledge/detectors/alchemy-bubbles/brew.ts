@@ -68,7 +68,7 @@ export default defineDetector({
   },
   run({ state }, { minExpected, variant, pairing }) {
     const alchemy = state.account.alchemy;
-    if (!isKnown(state, 'account.alchemy') || alchemy === null)
+    if (!isKnown(state, 'account.alchemy') || alchemy == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];
@@ -87,7 +87,7 @@ export default defineDetector({
       const types = Object.entries(pairing)
         .filter(([, raws]) => raws.includes(next.rawName))
         .map(([type]) => type);
-      const fits = state.characters.filter((ch) => ch.afkType !== null && types.includes(ch.afkType)).length;
+      const fits = state.characters.filter((ch) => ch.afkType != null && types.includes(ch.afkType)).length;
       if (fits > 0) {
         slots.bigBubble = next.name;
         slots.bigFits = fits;

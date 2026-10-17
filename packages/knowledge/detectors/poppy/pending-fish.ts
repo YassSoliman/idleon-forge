@@ -27,7 +27,7 @@ export default defineDetector({
   run({ state, history }, { sessionGapMs }) {
     const poppy = state.account.poppy;
     const saved = state.account.lastCloudSave;
-    if (!isKnown(state, 'account.poppy') || poppy === null || saved === null)
+    if (!isKnown(state, 'account.poppy') || poppy == null || saved == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];

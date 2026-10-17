@@ -5,7 +5,7 @@
 // instead (FR-23), which this Detector does not decide. TODO(M3): read anvilCapsBeforeReturn.
 import { z } from 'zod';
 import { characterSubject, isKnown, withCharacter } from '../../src/helpers';
-import { defineDetector } from '../../src/types';
+import { type CheckFinding, defineDetector } from '../../src/types';
 
 export default defineDetector({
   id: 'anvil/points',
@@ -27,9 +27,9 @@ export default defineDetector({
     ],
   },
   run({ state }) {
-    return state.characters.flatMap((c) => {
+    return state.characters.flatMap((c): CheckFinding[] => {
       const v = c.anvilPointsAvailable;
-      if (!isKnown(state, `characters[${c.index}].anvilPointsAvailable`) || v === null)
+      if (!isKnown(state, `characters[${c.index}].anvilPointsAvailable`) || v == null)
         return [
           {
             subject: characterSubject(c.index),

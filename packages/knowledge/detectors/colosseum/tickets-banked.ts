@@ -42,13 +42,13 @@ export default defineDetector({
     const unknown = [
       { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
     ];
-    if (!isKnown(state, 'account.colosseumTickets') || tickets === null) return unknown;
+    if (!isKnown(state, 'account.colosseumTickets') || tickets == null) return unknown;
     const resetsNow = resetsSinceSave(state, now);
     const resetsRet = resetsSinceSave(state, now + expectedReturnMs);
     const firstReset = countdownEnd(state, state.account.dailyResetInSeconds);
-    if (resetsNow === null || resetsRet === null || firstReset === null) return unknown;
+    if (resetsNow == null || resetsRet == null || firstReset == null) return unknown;
 
-    const reachable = tickets.filter((t) => t.reachable && t.daysSincePickup !== null);
+    const reachable = tickets.filter((t) => t.reachable && t.daysSincePickup != null);
     let fires = false;
     let urgency: 'losing-now' | 'lost-before-return' | 'banked' = 'banked';
     const deadlines: number[] = [];

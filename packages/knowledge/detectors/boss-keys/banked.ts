@@ -3,8 +3,9 @@
 // M6 FR-7, TR-6: boss keys banked at their NPC. Each key type with keys a day fires when its counter is
 // at `fireAtDays` or more, or when the resets before the player's return push it past the bank cap
 // (the counter is never capped; only the banked amount is). Key types firing for the same character
-// merge into one finding, placed on a character who can collect (TR-7): the last-played character if
-// eligible, else the highest-level eligible one, ties to the lowest index.
+// merge into one finding, placed on a character who can collect (TR-7, M2's `npcDialog`: Dog Bone > 5,
+// Djonnut > 6, Bellows > 8.5; stricter than the earner rule for Djonnut, R1): the last-played character
+// if eligible, else the highest-level eligible one, ties to the lowest index.
 import { countdownEnd, DAILY_RESET_PERIOD_MS as DAY_MS, resetsSinceSave } from '@idleon-forge/account-state';
 import { z } from 'zod';
 import { accountSubject, characterSubject, isKnown, withAccount } from '../../src/helpers';
@@ -17,6 +18,10 @@ export default defineDetector({
   params: z.strictObject({
     fireAtDays: z.int().min(1).default(2),
     bankCapDays: z.int().min(1).default(3),
+    /** Dialogue a character needs past each key's NPC to collect it (Toolbox enhanceKeysObject, R1). */
+    collectAbove: z
+      .strictObject({ 'forest-villa': z.number(), efaunt: z.number(), chizoar: z.number() })
+      .default({ 'forest-villa': 5, efaunt: 6, chizoar: 8.5 }),
   }),
   slots: z
     .strictObject({
@@ -34,6 +39,7 @@ export default defineDetector({
     'lastPlayedCharacterIndex',
     'characters[*].index',
     'characters[*].level',
+    'characters[*].npcDialog',
     'diagnostics',
   ],
   examples: {
@@ -48,9 +54,9 @@ export default defineDetector({
     ],
     unknown: [{ fixture: 'scrubbed-w2', mutate: (s) => withAccount(s, { keys: null }) }],
   },
-  run({ state, now, expectedReturnMs }, { fireAtDays, bankCapDays }) {
+  run({ state, now, expectedReturnMs }, { fireAtDays, bankCapDays, collectAbove }) {
     const { keys } = state.account;
-    if (!isKnown(state, 'account.keys') || keys === null)
+    if (!isKnown(state, 'account.keys') || keys == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];
@@ -58,16 +64,22 @@ export default defineDetector({
     const ret = now + expectedReturnMs;
     const resetsRet = resetsSinceSave(state, ret);
     const firstReset = countdownEnd(state, state.account.dailyResetInSeconds);
-    if (resetsNow === null || resetsRet === null || firstReset === null)
+    if (resetsNow == null || resetsRet == null || firstReset == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];
     const nextReset = firstReset + resetsNow * DAY_MS;
 
     const level = (i: number) => state.characters.find((c) => c.index === i)?.level ?? 0;
+    const NPC = { 'forest-villa': 'Dog_Bone', efaunt: 'Djonnut', chizoar: 'Bellows' } as const;
+    const collectorsOf = (id: keyof typeof NPC) =>
+      state.characters
+        .filter((c) => isKnown(state, `characters[${c.index}].npcDialog`))
+        .filter((c) => (c.npcDialog?.[NPC[id]] ?? 0) > collectAbove[id])
+        .map((c) => c.index);
     const place = (collectors: number[]): number | null => {
       const last = state.lastPlayedCharacterIndex;
-      if (last !== null && collectors.includes(last)) return last;
+      if (last != null && collectors.includes(last)) return last;
       const sorted = [...collectors].sort((a, b) => level(b) - level(a) || a - b);
       return sorted[0] ?? null;
     };
@@ -81,12 +93,12 @@ export default defineDetector({
     };
     const byCharacter = new Map<number, Hit[]>();
     for (const k of keys) {
-      if (k.perDay <= 0 || k.daysSincePickup === null) continue;
+      if (k.perDay <= 0 || k.daysSincePickup == null) continue;
       const days = k.daysSincePickup + resetsNow;
       const daysAtReturn = k.daysSincePickup + resetsRet;
       if (days < fireAtDays && daysAtReturn <= bankCapDays) continue;
-      const who = place(k.collectors);
-      if (who === null) continue;
+      const who = place(collectorsOf(k.id));
+      if (who == null) continue;
       const hit: Hit =
         days > bankCapDays
           ? { id: k.id, amount: 0, lost: days - bankCapDays, urgency: 'losing-now' }

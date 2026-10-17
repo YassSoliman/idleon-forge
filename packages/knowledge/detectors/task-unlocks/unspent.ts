@@ -28,7 +28,7 @@ export default defineDetector({
   },
   run({ state }) {
     const tu = state.account.taskUnlocks;
-    if (!isKnown(state, 'account.taskUnlocks') || tu === null)
+    if (!isKnown(state, 'account.taskUnlocks') || tu == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];

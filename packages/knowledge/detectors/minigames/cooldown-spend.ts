@@ -37,7 +37,7 @@ export default defineDetector({
   },
   run({ state }, { game }) {
     const mg = state.account.minigames;
-    if (!isKnown(state, 'account.minigames') || mg === null)
+    if (!isKnown(state, 'account.minigames') || mg == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];
@@ -54,7 +54,7 @@ export default defineDetector({
         },
       ];
     }
-    const costs = g.nextCosts.filter((c): c is number => c !== null);
+    const costs = g.nextCosts.filter((c): c is number => c != null);
     if (costs.length === 0) return [];
     const cost = Math.min(...costs);
     if (g.points < cost) return [];

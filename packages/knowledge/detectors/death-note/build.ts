@@ -20,7 +20,13 @@ export default defineDetector({
     saltRawName: z.string().default('Refinery2'),
   }),
   slots: z.strictObject({ cost: z.number(), held: z.number() }).partial(),
-  reads: ['account.deathNoteBuilding', 'account.salts', 'account.currentWorld', 'diagnostics'],
+  reads: [
+    'account.deathNoteBuilding',
+    'account.buildings',
+    'account.salts',
+    'account.currentWorld',
+    'diagnostics',
+  ],
   examples: {
     fires: [
       // W3-early: Lv 0, in a build slot, 0 of 10 Explosive Salts.
@@ -59,17 +65,21 @@ export default defineDetector({
   },
   run({ state }, { form, minWorld, saltRawName }) {
     const { deathNoteBuilding: dn, salts, currentWorld } = state.account;
+    // The level is M2's `buildings.deathNote` (the one building-level field).
+    const level = state.account.buildings?.deathNote;
     const known =
       isKnown(state, 'account.deathNoteBuilding') &&
+      isKnown(state, 'account.buildings') &&
       isKnown(state, 'account.salts') &&
-      dn !== null &&
-      salts !== null &&
-      currentWorld !== null;
+      dn != null &&
+      salts != null &&
+      level != null &&
+      currentWorld != null;
     if (!known)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];
-    if (currentWorld < minWorld || dn.level >= 1) return [];
+    if (currentWorld < minWorld || level >= 1) return [];
     if (!salts.some((s) => s.rawName === saltRawName && s.unlocked)) return [];
     if (form === 'slot') {
       if (dn.inBuildSlot) return [];

@@ -50,21 +50,26 @@ export default defineDetector({
   },
   run({ state }, { form, minWorld }) {
     const { salts, currentWorld } = state.account;
-    if (!isKnown(state, 'account.salts') || salts === null || currentWorld === null)
+    if (!isKnown(state, 'account.salts') || salts == null || currentWorld == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];
     if (currentWorld < minWorld) return [];
+    // M6's part of each shared salt entry (SaltState) is set by the adapter; without it, unknown.
+    if (salts.some((s) => s.active === undefined || s.missingFuel === undefined || s.name === undefined))
+      return [
+        { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
+      ];
     const off = salts.filter((s) => s.unlocked && !s.active);
     const first = off[0];
     if (!first) return [];
-    const short = first.missingFuel[0];
+    const short = first.missingFuel?.[0];
     if ((form === 'fuel') !== (short !== undefined)) return [];
     return [
       {
         subject: accountSubject,
         slots: {
-          salt: first.name,
+          salt: first.name ?? '',
           offSalts: off.length,
           ...(short ? { material: short.name, more: short.need - short.have } : {}),
         },

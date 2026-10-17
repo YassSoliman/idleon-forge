@@ -42,7 +42,7 @@ export default defineDetector({
   run({ state, now, expectedReturnMs }, { funguyChoppinScore, mageChoppinStep, mageLine }) {
     const mg = state.account.minigames;
     const reset = dailyResetAfter(state, now);
-    if (!isKnown(state, 'account.minigames') || mg === null || reset === null)
+    if (!isKnown(state, 'account.minigames') || mg == null || reset == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];
@@ -53,7 +53,7 @@ export default defineDetector({
     if (!mg.funguyChoppinDone && choppin < funguyChoppinScore) target = funguyChoppinScore;
     else if (state.characters.some((c) => mageLine.includes(c.class)))
       target = (Math.floor(choppin / mageChoppinStep) + 1) * mageChoppinStep;
-    if (target === null) return [];
+    if (target == null) return [];
     return [
       {
         subject: accountSubject,

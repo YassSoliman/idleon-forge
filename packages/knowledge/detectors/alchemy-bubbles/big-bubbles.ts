@@ -91,9 +91,9 @@ export default defineDetector({
       isKnown(state, 'account.alchemy') &&
       isKnown(state, 'account.bigBubbleSlots') &&
       isKnown(state, 'account.pets') &&
-      alchemy !== null &&
-      bigBubbleSlots !== null &&
-      pets !== null;
+      alchemy != null &&
+      bigBubbleSlots != null &&
+      pets != null;
     if (!known)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
@@ -102,10 +102,10 @@ export default defineDetector({
     const names = new Map(alchemy.unlockedBubbles.map((b) => [b.rawName, b.name]));
     const out = [];
     for (const c of state.characters) {
-      if (!isKnown(state, `characters[${c.index}].bigBubbles`) || c.afkType === null) continue;
-      const slots = c.bigBubbles.slice(0, bigBubbleSlots);
+      if (!isKnown(state, `characters[${c.index}].bigBubbles`) || c.afkType == null) continue;
+      const slots = (c.bigBubbles ?? []).slice(0, bigBubbleSlots);
       while (slots.length < bigBubbleSlots) slots.push(null);
-      const equipped = slots.filter((b): b is string => b !== null);
+      const equipped = slots.filter((b): b is string => b != null);
       const uses = [...(pairing[c.afkType] ?? []), ...(pairing.anvil ?? [])];
       const candidates = uses.filter((r) => names.has(r) && !equipped.includes(r));
       if (mode === 'fill') {

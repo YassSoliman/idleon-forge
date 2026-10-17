@@ -31,14 +31,14 @@ export default defineDetector({
   },
   run({ state, now, expectedReturnMs }) {
     const pm = state.account.petMart;
-    if (!isKnown(state, 'account.petMart') || pm === null)
+    if (!isKnown(state, 'account.petMart') || pm == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];
     if (!pm.unlocked) return [];
     const resets = resetsSinceSave(state, now);
     const reset = dailyResetAfter(state, now);
-    if (resets === null || reset === null)
+    if (resets == null || reset == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];

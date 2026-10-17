@@ -28,7 +28,7 @@ export default defineDetector({
     const alchemy = state.account.alchemy;
     const resets = resetsSinceSave(state, now);
     const reset = dailyResetAfter(state, now);
-    if (!isKnown(state, 'account.alchemy') || alchemy === null || resets === null || reset === null)
+    if (!isKnown(state, 'account.alchemy') || alchemy == null || resets == null || reset == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];

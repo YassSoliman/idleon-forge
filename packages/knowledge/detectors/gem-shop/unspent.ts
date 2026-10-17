@@ -71,9 +71,9 @@ export default defineDetector({
       isKnown(state, 'account.gems') &&
       isKnown(state, 'account.gemPurchases') &&
       isKnown(state, 'account.currentWorld') &&
-      gems !== null &&
-      gemPurchases !== null &&
-      currentWorld !== null;
+      gems != null &&
+      gemPurchases != null &&
+      currentWorld != null;
     if (!known)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },

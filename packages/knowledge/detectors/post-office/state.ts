@@ -68,7 +68,7 @@ export default defineDetector({
   run({ state, now, expectedReturnMs }, { part, unlockLevel }) {
     const po = state.account.postOffice;
     const highest = state.account.highestLevel;
-    if (!isKnown(state, 'account.postOffice') || po === null || highest === null)
+    if (!isKnown(state, 'account.postOffice') || po == null || highest == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];
@@ -106,7 +106,7 @@ export default defineDetector({
     // orders: refreshed on the Post Office's own timer; after a refresh since the save, every company is open again.
     const first = countdownEnd(state, po.refreshInSeconds);
     const saved = state.account.lastCloudSave;
-    if (first === null || saved === null)
+    if (first == null || saved == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];

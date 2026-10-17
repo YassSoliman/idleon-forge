@@ -49,7 +49,7 @@ export default defineDetector({
   run({ state, now, history }, { game, sessionGapMs }) {
     const mg = state.account.minigames;
     const saved = state.account.lastCloudSave;
-    if (!isKnown(state, 'account.minigames') || mg === null || saved === null)
+    if (!isKnown(state, 'account.minigames') || mg == null || saved == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];

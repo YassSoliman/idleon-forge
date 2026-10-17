@@ -98,13 +98,13 @@ export default defineDetector({
   },
   run({ state }, { world, order, row }) {
     const merits = state.account.merits;
-    if (!isKnown(state, 'account.merits') || merits === null)
+    if (!isKnown(state, 'account.merits') || merits == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];
     const w = merits.find((m) => m.world === world);
     if (!w || w.unspent <= 0) return [];
-    const real = w.rows.filter((r) => r.cost !== null && r.level < r.max);
+    const real = w.rows.filter((r) => r.cost != null && r.level < r.max);
     if (real.length === 0) return [];
     const cheapest = Math.min(...real.map((r) => r.cost as number));
     if (w.unspent < cheapest) return [];
@@ -113,7 +113,7 @@ export default defineDetector({
     for (const item of order) {
       const i = ROW_INDEX[item.row];
       const r = i === undefined ? undefined : w.rows[i];
-      if (!r || r.cost === null) continue;
+      if (!r || r.cost == null) continue;
       const target = item.upTo === 'characters' ? state.characters.length : (item.upTo ?? r.max);
       if (r.level >= Math.min(target, r.max)) continue;
       if (w.unspent >= r.cost) {
@@ -121,7 +121,7 @@ export default defineDetector({
         break;
       }
     }
-    if (row !== undefined ? first !== row : first !== null) return [];
+    if (row !== undefined ? first !== row : first != null) return [];
     return [
       {
         subject: accountSubject,

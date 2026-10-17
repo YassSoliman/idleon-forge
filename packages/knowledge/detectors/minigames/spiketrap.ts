@@ -30,7 +30,7 @@ export default defineDetector({
   },
   run({ state, now }, { windowMinutes, maxGems }) {
     const mg = state.account.minigames;
-    if (!isKnown(state, 'account.minigames') || mg === null)
+    if (!isKnown(state, 'account.minigames') || mg == null)
       return [
         { subject: accountSubject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const },
       ];
@@ -43,7 +43,7 @@ export default defineDetector({
     return [
       {
         subject: accountSubject,
-        slots: { gems: maxGems, minutes: Math.ceil((topOfHour - now) / 60_000) },
+        slots: { gems: maxGems, minutes: Math.round((topOfHour - now) / 60_000) },
         result: 'fires' as const,
         urgency: 'lost-before-return' as const,
         deadline: topOfHour,

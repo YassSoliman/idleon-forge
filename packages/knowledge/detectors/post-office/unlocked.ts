@@ -27,7 +27,7 @@ export default defineDetector({
   },
   run({ state }) {
     const po = state.account.postOffice;
-    if (!isKnown(state, 'account.postOffice') || po === null)
+    if (!isKnown(state, 'account.postOffice') || po == null)
       return [{ subject: accountSubject, slots: {}, reached: 'unknown' as const }];
     return [
       { subject: accountSubject, slots: {}, reached: po.unlocked ? ('yes' as const) : ('no' as const) },
