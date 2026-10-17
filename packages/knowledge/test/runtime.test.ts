@@ -176,6 +176,7 @@ const state = (world: number | null): AccountState =>
       finishedWorlds: [],
       lastCloudSave: 0,
       secondsSinceLastSave: 0,
+      dailyResetInSeconds: null,
       gameVersion: { serverBuild: 1, saveVersion: 1, parserTarget: '2.3.540' },
     },
     characters: [],

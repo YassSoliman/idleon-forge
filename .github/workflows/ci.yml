@@ -40,7 +40,7 @@ jobs:
           path: packages/toolbox-parsers/vendor/data
           key: toolbox-data-${{ hashFiles('packages/toolbox-parsers/UPSTREAM') }}
       # Parsed fixtures and Toolbox's patch notes at the pin (M11 TR-16), keyed by what changes a parse.
-      - uses: actions/cache@v6
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: packages/kb-tools/.cache
           key: kb-${{ hashFiles('packages/toolbox-parsers/UPSTREAM', 'packages/account-state/src/**', 'packages/account-state/fixtures/public/*.json', 'fixtures/scrubbed/*.json', 'packages/kb-tools/src/parse.ts') }}
