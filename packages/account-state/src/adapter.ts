@@ -42,10 +42,16 @@ function toFood(raw: unknown, path: string): FoodStack[] {
   return stacks;
 }
 
-function toCharacter(raw: Dict, index: number, asOf: number): CharacterState {
+/** Warning added when names are missing, which happens for a bare save pasted without `charNames`. */
+export const UNNAMED_WARNING = 'Character names are not in this save, so characters are numbered instead.';
+
+function toCharacter(raw: Dict, index: number, asOf: number, warnings: string[]): CharacterState {
   const at = `characters[${index}]`;
-  const { name, class: cls, level, afkType, afkTarget, currentMap } = raw;
-  if (typeof name !== 'string' || name === '') fail(`${at}.name`, 'a name', name);
+  const { class: cls, level, afkType, afkTarget, currentMap } = raw;
+  // Without charNames, Toolbox names characters by slot number.
+  const named = typeof raw.name === 'string' && raw.name !== '';
+  const name = named ? (raw.name as string) : `Character ${index + 1}`;
+  if (!named && !warnings.includes(UNNAMED_WARNING)) warnings.push(UNNAMED_WARNING);
   if (typeof cls !== 'string' || cls === '') fail(`${at}.class`, 'a class name', cls);
   const lv = finite(level);
   if (lv === null || lv < 0) fail(`${at}.level`, 'a level', level);
@@ -89,7 +95,7 @@ export function toAccountState(parsed: ParsedSave): AccountState {
       warnings.push(`Character ${index + 1} has no save data and was skipped.`);
       return;
     }
-    states.push(toCharacter(raw, index, asOf));
+    states.push(toCharacter(raw, index, asOf, warnings));
   });
   if (states.length === 0) throw new EmptyAccountError('The save has no characters with data.');
 

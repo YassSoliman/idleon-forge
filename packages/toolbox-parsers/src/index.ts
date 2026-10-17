@@ -39,7 +39,9 @@ export const parseSave: typeof ParseSaveDecl = (envelope, options) => {
       parseData(
         // biome-ignore lint/suspicious/noExplicitAny: Toolbox's own input types are generated, not ours.
         envelope.data as any,
-        envelope.charNames ?? [],
+        // Leave undefined when absent: Toolbox then reads the character slots off the save itself.
+        // biome-ignore lint/suspicious/noExplicitAny: see above.
+        envelope.charNames as any,
         // biome-ignore lint/suspicious/noExplicitAny: see above.
         (envelope.companion ?? null) as any,
         // biome-ignore lint/suspicious/noExplicitAny: see above.

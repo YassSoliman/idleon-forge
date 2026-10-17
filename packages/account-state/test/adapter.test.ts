@@ -2,7 +2,7 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 import type { ParsedSave } from '@idleon-forge/toolbox-parsers';
 import { describe, expect, it } from 'vitest';
-import { AccountShapeError, EmptyAccountError, humanize, toAccountState } from '../src';
+import { AccountShapeError, EmptyAccountError, humanize, toAccountState, UNNAMED_WARNING } from '../src';
 import { accountStateOf, NOW, PUBLIC_DIR, readSave } from './helpers';
 
 const parsed = (over: Partial<ParsedSave> = {}): ParsedSave => ({
@@ -73,6 +73,13 @@ describe('toAccountState', () => {
     const state = toAccountState({ ...base, characters: [...base.characters, { name: 'Stub' }] });
     expect(state.characters).toHaveLength(1);
     expect(state.warnings).toEqual(['Character 2 has no save data and was skipped.']);
+  });
+
+  it('numbers characters when the save carries no names (a bare paste)', () => {
+    const [c] = parsed().characters;
+    const state = toAccountState(parsed({ characters: [{ ...c, name: undefined }] }));
+    expect(state.characters[0]?.name).toBe('Character 1');
+    expect(state.warnings).toEqual([UNNAMED_WARNING]);
   });
 
   it('fails loudly when upstream renames a field', () => {

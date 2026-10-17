@@ -45,8 +45,9 @@ describe.each(publicSaves)('public save %s', (file) => {
     expectValid(state);
   });
 
-  it('parses every parser section', () => {
-    expect(state.warnings.filter((w) => w.startsWith('Parser section'))).toEqual([]);
+  it('parses every parser section and finds every name', () => {
+    // Skipped stub characters are expected in a few saves; anything else is a contract break.
+    expect(state.warnings.filter((w) => !w.endsWith('has no save data and was skipped.'))).toEqual([]);
   });
 
   it('matches the recorded shape (review the diff after a re-sync)', () => {
