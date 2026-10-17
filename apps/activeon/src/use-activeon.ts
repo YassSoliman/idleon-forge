@@ -4,26 +4,28 @@
 // fallback. Nothing here writes to the game; nothing leaves the browser except the reads themselves.
 import type { AccountState } from '@idleon-forge/account-state';
 import {
+  type BuildMark,
+  buildOf,
+  cloudSaveTimeOf,
   createSession,
   type DeviceCode,
   DeviceFlowError,
   type ListenerStatus,
   listenToSave,
   onUserChanged,
+  openSaveHistory,
+  type PatchStatus,
+  patchStatus,
   readSyncConfig,
+  type SaveHistory,
   type Session,
   type SignedInUser,
+  saveOutcome,
   signInWithGoogleDevice,
   signOut,
 } from '@idleon-forge/sync';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import {
-  clearLocalData,
-  forgetSession,
-  hadSession,
-  rememberSession,
-  requestPersistentStorage,
-} from './storage';
+import { forgetSession, hadSession, rememberSession, requestPersistentStorage } from './storage';
 import { createParserClient, type ParserClient } from './worker/parser-client';
 import type { ParseFailureKind, ParseInput } from './worker/protocol';
 
@@ -42,7 +44,14 @@ export type SaveState =
   | { status: 'waiting' }
   | { status: 'parsing'; source: SaveSource }
   | { status: 'ready'; state: AccountState; source: SaveSource }
-  | { status: 'broken'; kind: ParseFailureKind; message: string; source: SaveSource };
+  | {
+      status: 'broken';
+      kind: ParseFailureKind;
+      message: string;
+      source: SaveSource;
+      /** The failed save's build, when the raw save had one (for the patch banner). */
+      build?: BuildMark | null;
+    };
 
 /** The live listener, as the screen shows it. A sync problem never hides a roster already showing. */
 export type SyncState =
@@ -57,6 +66,16 @@ export interface SignOutOptions {
   clearData: boolean;
 }
 
+export interface ClearOptions {
+  /** Also sign out after clearing (FR-23). */
+  alsoSignOut: boolean;
+}
+
+/** The patch signal (FR-29, D3): the build the screen reflects, and whether to warn about it. */
+export interface PatchSignal extends PatchStatus {
+  build: BuildMark | null;
+}
+
 export interface ActiveOn {
   auth: AuthState;
   save: SaveState;
@@ -69,11 +88,32 @@ export interface ActiveOn {
   lastGood: { state: AccountState; source: SaveSource } | null;
   /** A failed paste while a roster is showing: reported in the paste form, the roster stays (FR-20). */
   pasteError: string | null;
+  /** This account's save history while signed in (null otherwise). Re-query when `historyVersion` moves. */
+  history: SaveHistory | null;
+  /** Bumped after every stored save and every clear. */
+  historyVersion: number;
+  /** "History can't be saved in this browser window", once, when IndexedDB is unavailable (FR-25). */
+  historyNote: string | null;
+  /** Whether the game patched past the parser, for the banner and the footer (FR-29, D3). */
+  patch: PatchSignal | null;
   signIn(): void;
   cancelSignIn(): void;
   signOut(options: SignOutOptions): void;
+  /** Clear my data (FR-23): this account's history and preferences on this browser. */
+  clearMyData(options: ClearOptions): Promise<void>;
   paste(text: string): void;
 }
+
+export const HISTORY_UNAVAILABLE = "History can't be saved in this browser window.";
+
+/** Other tabs drop their in-memory preferences when one tab clears (M10 TR-8). */
+const broadcastCleared = () => {
+  try {
+    const channel = new BroadcastChannel('activeon');
+    channel.postMessage('cleared');
+    channel.close();
+  } catch {}
+};
 
 export const SESSION_CLEARED = "Your browser cleared this site's data, so you were signed out.";
 export const SESSION_EXPIRED = 'Your sign-in has expired. Sign in again.';
@@ -93,6 +133,12 @@ export function useActiveOn(): ActiveOn {
   const [lastSnapshotAt, setLastSnapshotAt] = useState<number | null>(null);
   const [pasteError, setPasteError] = useState<string | null>(null);
   const [online, setOnline] = useState(() => (typeof navigator === 'undefined' ? true : navigator.onLine));
+  const [history, setHistory] = useState<SaveHistory | null>(null);
+  const [historyVersion, setHistoryVersion] = useState(0);
+  const [historyNote, setHistoryNote] = useState<string | null>(null);
+  const [verified, setVerified] = useState<BuildMark | null>(null);
+  const [cleanBuild, setCleanBuild] = useState<{ commit: string; build: BuildMark | null } | null>(null);
+  const historyRef = useRef<{ uid: string; history: SaveHistory } | null>(null);
 
   const saveRef = useRef(save);
   const setSave = useCallback((next: SaveState | ((prev: SaveState) => SaveState)) => {
@@ -125,6 +171,16 @@ export function useActiveOn(): ActiveOn {
     };
   }, []);
 
+  /** Stores a live save parsed at its own cloud-save time (FR-21). Never blocks the screen. */
+  const store = useCallback(async (state: AccountState, input: ParseInput) => {
+    const h = historyRef.current;
+    if (!h || input.kind !== 'envelope') return;
+    try {
+      await h.history.put(h.uid, state, input.envelope);
+      if (historyRef.current === h) setHistoryVersion((v) => v + 1);
+    } catch {}
+  }, []);
+
   const runParse = useCallback(
     async (input: ParseInput, source: SaveSource) => {
       const client = parser.current;
@@ -132,7 +188,17 @@ export function useActiveOn(): ActiveOn {
       const seq = ++parseSeq.current;
       if (source === 'paste') setPasteError(null);
       setSave((prev) => (prev.status === 'ready' ? prev : { status: 'parsing', source }));
-      const result = await client.parse(input);
+      // A second parse at the save's own time, only for a live save history doesn't have yet (TR-4).
+      let withHistory = false;
+      const h = historyRef.current;
+      if (h && input.kind === 'envelope') {
+        const savedAt = cloudSaveTimeOf(input.envelope);
+        withHistory = savedAt !== null && !(await h.history.has(h.uid, savedAt).catch(() => true));
+      }
+      const result = await client.parse(input, { withHistory });
+      if (!('superseded' in result) && result.verifiedBuilds) setVerified(result.verifiedBuilds);
+      if (!('superseded' in result) && result.ok && result.historyState)
+        void store(result.historyState, input);
       if ('superseded' in result || seq !== parseSeq.current) return; // a newer save superseded this one
       if (result.ok) {
         setSave({ status: 'ready', state: result.state, source });
@@ -144,9 +210,9 @@ export function useActiveOn(): ActiveOn {
         setPasteError(result.kind === 'input' ? PASTE_INPUT_ERROR : result.message);
         return;
       }
-      setSave({ status: 'broken', kind: result.kind, message: result.message, source });
+      setSave({ status: 'broken', kind: result.kind, message: result.message, source, build: result.build });
     },
-    [setSave],
+    [setSave, store],
   );
 
   // Restore a persisted session, and follow sign-in / sign-out.
@@ -228,6 +294,56 @@ export function useActiveOn(): ActiveOn {
     };
   }, [session, uid, runParse, endLive, setSave]);
 
+  // Open this account's save history while signed in (FR-21, FR-22).
+  useEffect(() => {
+    if (!uid) return;
+    let active = true;
+    void openSaveHistory().then((h) => {
+      if (!active) return;
+      historyRef.current = { uid, history: h };
+      setHistory(h);
+      setHistoryNote(h.persistent ? null : HISTORY_UNAVAILABLE);
+    });
+    return () => {
+      active = false;
+      historyRef.current = null;
+      setHistory(null);
+      setCleanBuild(null);
+    };
+  }, [uid]);
+
+  // The newest build this browser parsed cleanly at the current parser pin, read once per pin, so a
+  // new build's footer note doesn't vanish the moment its first clean save is stored (D3).
+  const commit =
+    (save.status === 'ready' ? save.state : lastGood?.state)?.diagnostics.parserPin.commit ?? null;
+  useEffect(() => {
+    if (!history || !uid || commit === null) return;
+    if (cleanBuild?.commit === commit) return;
+    let active = true;
+    void history
+      .cleanBuild(uid, commit)
+      .catch(() => null)
+      .then((build) => {
+        if (active) setCleanBuild({ commit, build });
+      });
+    return () => {
+      active = false;
+    };
+  }, [history, uid, commit, cleanBuild]);
+
+  const patch = useMemo<PatchSignal | null>(() => {
+    const cleanBuilds = cleanBuild?.build ? [cleanBuild.build] : [];
+    if (save.status === 'ready') {
+      const build = buildOf(save.state);
+      return { build, ...patchStatus({ build, outcome: saveOutcome(save.state), verified, cleanBuilds }) };
+    }
+    if (save.status === 'broken' && save.kind !== 'input') {
+      const build = save.build ?? null;
+      return { build, ...patchStatus({ build, outcome: 'failed', verified, cleanBuilds }) };
+    }
+    return null;
+  }, [save, verified, cleanBuild]);
+
   const signIn = useCallback(() => {
     if (!session) return;
     signInAbort.current?.abort();
@@ -252,6 +368,19 @@ export function useActiveOn(): ActiveOn {
     signInAbort.current = null;
   }, []);
 
+  /** Deletes the signed-in account's history and preferences on this browser (FR-23). */
+  const clearAccountData = useCallback(async () => {
+    const h = historyRef.current;
+    if (h) {
+      try {
+        await h.history.clear(h.uid);
+      } catch {}
+    }
+    broadcastCleared();
+    setCleanBuild(null);
+    setHistoryVersion((v) => v + 1);
+  }, []);
+
   const doSignOut = useCallback(
     ({ clearData }: SignOutOptions) => {
       if (!session) return;
@@ -259,10 +388,21 @@ export function useActiveOn(): ActiveOn {
       // sign-out can't repaint the roster (FR-6, RT-23).
       endLive();
       forgetSession();
-      if (clearData) void clearLocalData();
-      signOut(session).catch((err) => setAuth({ status: 'signed-out', error: message(err) }));
+      // With the box checked, the clear runs first, while the history still knows the account (FR-6).
+      const cleared = clearData ? clearAccountData() : Promise.resolve();
+      void cleared.then(() =>
+        signOut(session).catch((err) => setAuth({ status: 'signed-out', error: message(err) })),
+      );
     },
-    [session, endLive],
+    [session, endLive, clearAccountData],
+  );
+
+  const clearMyData = useCallback(
+    async ({ alsoSignOut }: ClearOptions) => {
+      await clearAccountData();
+      if (alsoSignOut) doSignOut({ clearData: false });
+    },
+    [clearAccountData, doSignOut],
   );
 
   const paste = useCallback((text: string) => void runParse({ kind: 'text', text }, 'paste'), [runParse]);
@@ -275,9 +415,14 @@ export function useActiveOn(): ActiveOn {
     lastSnapshotAt,
     lastGood,
     pasteError,
+    history,
+    historyVersion,
+    historyNote,
+    patch,
     signIn,
     cancelSignIn,
     signOut: doSignOut,
+    clearMyData,
     paste,
   };
 }
