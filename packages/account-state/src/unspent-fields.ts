@@ -13,16 +13,19 @@ export const UNSPENT_FIELD_SOURCES: Record<string, string> = {
   'account.highestLevel': 'characters[i].level',
   'account.alchemy':
     'account.alchemy.cauldrons, .bubbles, .bubblesFlat, .vials, .p2w.vialsAttempts; storage, inventories',
-  'account.bigBubbleSlots': 'account.bribes[Changing_the_Code].done, account.accountOptions[89]',
+  'account.bigBubbleSlots':
+    'account.bribes[Changing_the_Code].done, account.accountOptions (OLA.ARENA_MAX_WAVE)',
   'account.merits': 'account.tasks[4], account.tasks[2], account.meritsDescriptions',
   'account.taskUnlocks': 'account.taskUnlocks',
   'account.gems': 'account.currencies.gems',
   'account.gemPurchases': 'account.gemShopPurchases',
-  'account.keys': 'account.currencies.KeysAll, account.accountOptions[16,31,80], characters[i].npcDialog',
-  'account.colosseumTickets': 'account.accountOptions[15,35,56], account.finishedWorlds',
+  'account.keys':
+    'account.currencies.KeysAll, account.accountOptions (OLA.KEYS_*_DAYS), characters[i].npcDialog',
+  'account.colosseumTickets': 'account.accountOptions (OLA.TICKETS_*_DAYS), account.finishedWorlds',
   'account.minigames': 'account.accountOptions, account.currencies.minigamePlays, account.highscores',
   'account.pets': 'account.companions (companion side read)',
-  'account.petMart': 'account.accountOptions[516], account.tournament.global.S, account.serverVars.GemPM_x',
+  'account.petMart':
+    'account.accountOptions (OLA.PET_MART_LAST_CLAIMED_DAY), account.tournament.global.S, account.serverVars.GemPM_x',
   'account.postOffice':
     'characters[i].questComplete.Postboy_Pablob1, account.postOfficeShipments, account.timeAway.PostOfficeRefresh',
   'account.poppy': 'account.kangaroo',
