@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M6 Unspent & idle: boss keys banked at Dog Bone, Djonnut and Bellows (M6 FR-7, TR-6, TR-7).
+system: boss-keys
+entries:
+  - id: boss-keys.check.collect
+    system: boss-keys
+    type: check
+    title: Collect banked boss keys
+    subject: character
+    effect: next-action
+    needsCharacter: true
+    usesExpectedReturn: true
+    category: spendable
+    priority: { frame: by-urgency }
+    effortSeconds: 60
+    detector: { id: boss-keys/banked, params: { fireAtDays: 2 } }
+    text: "Collect {total:int} boss keys"
+    why: "Keys bank at their NPC for 3 days at most, and anything past that is lost. Forest Villa {forestVilla:int}, Efaunt's Tomb {efaunt:int}, Chizoar's Cavern {chizoar:int}; days already lost: {daysLost:int}."
+    doneWhen: { field: "account.keys[*].daysSincePickup", change: lower }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "fireAtDays is judgment (Toolbox alerts at 3, M6 fires a day earlier). Collector thresholds are stricter than earner ones (M6 R1, TR-7). TODO(M2): read collectors from npcDialog once M2 merges."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L599", title: "Toolbox enhanceKeysObject: keys a day, day counters, 3-day bank", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L2097", title: "Toolbox areKeysOverdue", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.14: key quests on every character", tier: 3, claimDate: 2026-09-25, verified: 2026-10-17, gameVersion: 2.3.540, verification: confirmed }

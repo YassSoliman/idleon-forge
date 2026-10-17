@@ -11,7 +11,8 @@
     "./result": "./src/result.ts",
     "./metapath": "./src/metapath/index.ts",
     "./afk": "./src/afk/index.ts",
-    "./detectors": "./detectors/index.ts"
+    "./detectors": "./detectors/index.ts",
+    "./unspent": "./src/unspent/index.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json"

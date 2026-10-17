@@ -1,0 +1,81 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M6 Unspent & idle: banked brew and big-bubble slots (M6 FR-16, FR-24, TR-4).
+# The big-bubble pairing table (TR-4, confidence M) is the Detectors' `pairing` param default, by
+# rawName: Mining Wyoming Blood; Fishing Sploosh Sploosh; Choppin Molto Loggo; Catching Bug²; Fighting
+# Grind Time, Kill Per Kill, Level Up Gift, Big Game Hunter; every character Hammer Hammer.
+system: alchemy-bubbles
+entries:
+  - id: alchemy-bubbles.check.spend-brew
+    system: alchemy-bubbles
+    type: check
+    title: Spend banked brew
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 120
+    detector: { id: alchemy-bubbles/brew, params: { variant: plain } }
+    text: "Spend banked brew in {cauldrons:int} cauldrons: about {bubbles:int} new bubbles"
+    why: "Brew sitting in a cauldron turns into new bubbles only when you spend it."
+    doneWhen: { field: "account.alchemy.cauldrons[*].unlockedBubbles", change: higher }
+    appliesTo: { stages: [{ from: W2-early, to: W4-entry }] }
+    confidence: H
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L653", title: "Toolbox applyNewBubbleChances: expected new bubbles per cauldron", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: alchemy-bubbles.check.spend-brew-big
+    system: alchemy-bubbles
+    type: check
+    title: Spend banked brew for a big bubble
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 120
+    detector: { id: alchemy-bubbles/brew, params: { variant: big } }
+    text: "Spend banked brew in {cauldrons:int} cauldrons: about {bubbles:int} new bubbles"
+    why: "The next new bubble, {bigBubble:name}, is a big bubble for {bigFits:int} of your characters."
+    doneWhen: { field: "account.alchemy.cauldrons[*].unlockedBubbles", change: higher }
+    appliesTo: { stages: [{ from: W2-early, to: W4-entry }] }
+    confidence: H
+    status: active
+    notes: "The same Check as spend-brew when a firing cauldron's next bubble fits an AFK Target in use (FR-16's why line); exactly one of the two fires."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L653", title: "Toolbox applyNewBubbleChances: expected new bubbles per cauldron", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: alchemy-bubbles.check.fill-slot
+    system: alchemy-bubbles
+    type: check
+    title: Fill a big-bubble slot
+    subject: character
+    effect: next-action
+    needsCharacter: true
+    category: compounding
+    effortSeconds: 30
+    detector: { id: alchemy-bubbles/big-bubbles, params: { mode: fill } }
+    text: "Equip {bubble:name} in a big-bubble slot"
+    why: "Empty big-bubble slots on this character: {empty:int}. This bubble's own text names this character's AFK Target, or its anvil."
+    doneWhen: { field: "characters[*].bigBubbles", change: changed }
+    appliesTo: { stages: [{ from: W2-early, to: W4-entry }] }
+    confidence: M
+    status: active
+    notes: "Silent with Sheepie (all big bubbles count as equipped); unknown without companion data. Slots: 1, plus the Changing the Code bribe, plus Breeding arena wave 100."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/characters.js#L110", title: "Toolbox missingBubbles: slot count and Sheepie", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w2-systems/docs/research/systems/2026-10-17-w2-systems.md", title: "W2 dossier: AFK Setup big-bubble pairing", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: alchemy-bubbles.check.wrong-fit
+    system: alchemy-bubbles
+    type: check
+    title: Swap a big bubble that does nothing here
+    subject: character
+    effect: next-action
+    needsCharacter: true
+    category: compounding
+    effortSeconds: 30
+    detector: { id: alchemy-bubbles/big-bubbles, params: { mode: swap } }
+    text: "Swap {from:name} for {bubble:name}"
+    why: "{from:name} only works for a different AFK Target; {bubble:name} works for this character's."
+    doneWhen: { field: "characters[*].bigBubbles", change: changed }
+    appliesTo: { stages: [{ from: W2-early, to: W4-entry }] }
+    confidence: M
+    status: active
+    notes: "Only when a better unlocked bubble exists (R10). Call Me Bob/Ash/Pope are never swapped until M2's Roles are readable."
+    sources:
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w2-systems/docs/research/systems/2026-10-17-w2-systems.md", title: "W2 dossier: AFK Setup big-bubble pairing", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }

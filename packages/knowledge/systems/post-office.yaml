@@ -1,0 +1,62 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M6 Unspent & idle: the Post Office (M6 FR-22, FR-26, FR-27). Its System unlock rule is the
+# post-office/unlocked Milestone Detector (systems.yaml).
+system: post-office
+entries:
+  - id: post-office.check.unlock
+    system: post-office
+    type: check
+    title: Unlock the Post Office
+    subject: character
+    effect: next-action
+    needsCharacter: true
+    category: compounding
+    effortSeconds: 60
+    detector: { id: post-office/state, params: { part: unlock } }
+    text: "Finish Postboy Pablob's quest: 5 Empty Boxes from Anvil Tab 2"
+    why: "The Post Office starts earning boxes only after this quest. Boxes already waiting on this character: {boxes:int}."
+    doneWhen: { field: "account.postOffice.unlocked", becomes: true }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/postoffice.ts#L10", title: "Toolbox getPlayerPostOffice", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/post-office.md", title: "W1 dossier: Post Office unlock quest", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: post-office.check.daily-orders
+    system: post-office
+    type: check
+    title: Fill today's Post Office orders
+    subject: account
+    effect: next-action
+    usesExpectedReturn: true
+    category: spendable
+    priority: { frame: by-urgency }
+    effortSeconds: 60
+    detector: { id: post-office/state, params: { part: orders } }
+    text: "Fill today's Post Office orders from storage"
+    why: "Companies with no order done today: {companies:int}. Orders refresh on the Post Office's own timer."
+    doneWhen: { field: "account.postOffice.companiesNotDoneToday", change: lower }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L584", title: "Toolbox dailyShipments alert", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: post-office.check.spend-boxes
+    system: post-office
+    type: check
+    title: Spend Post Office boxes
+    subject: character
+    effect: next-action
+    needsCharacter: true
+    category: spendable
+    effortSeconds: 60
+    detector: { id: post-office/state, params: { part: boxes } }
+    text: "Spend {boxes:int} Post Office boxes: Civil War Memory Box first"
+    why: "Boxes do nothing until spent. The usual order is Civil War, then the class's main skill box, then Civil War again."
+    doneWhen: { field: "characters[*].postOfficeUnspent", change: lower }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/characters.js#L135", title: "Toolbox Post Office unspentPoints alert", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://www.reddit.com/r/idleon/comments/1tyi01h/comment/oq3xa0r/", title: "r/idleon: 200 in combat, then the main skills, then combat again (PV 3.5)", tier: 3, claimDate: 2026-06-06, verified: 2026-10-17, gameVersion: 2.3.540, verification: confirmed }

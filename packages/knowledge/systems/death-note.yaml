@@ -1,0 +1,42 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M6 Unspent & idle: the Death Note building at Lv 0 once Explosive Salt is unlocked (M6 FR-32, D6).
+system: death-note
+entries:
+  - id: death-note.check.build
+    system: death-note
+    type: check
+    title: Pay for the Death Note's first level
+    subject: account
+    effect: next-action
+    category: compounding
+    priority: { frame: by-urgency }
+    effortSeconds: 60
+    detector: { id: death-note/build, params: { form: salts } }
+    text: "Refine {cost:int} Explosive Salts for the Death Note's first level (have {held:int})"
+    why: "Until the Death Note building reaches Lv 1, your fighters' kills earn no multikill."
+    doneWhen: { field: "account.deathNoteBuilding.level", change: higher }
+    appliesTo: { stages: [{ from: W3-early, to: W4-entry }] }
+    confidence: H
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/construction.ts#L389", title: "Toolbox getTowers: level, build slot and item cost", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/worship-trapping-death-note.md", title: "W3 dossier: Death Note", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: death-note.check.build-slot
+    system: death-note
+    type: check
+    title: Start building the Death Note
+    subject: account
+    effect: next-action
+    category: compounding
+    priority: { frame: by-urgency }
+    effortSeconds: 60
+    detector: { id: death-note/build, params: { form: slot } }
+    text: "Put the Death Note in a Construction build slot"
+    why: "Until the Death Note building reaches Lv 1, your fighters' kills earn no multikill."
+    doneWhen: { field: "account.deathNoteBuilding.inBuildSlot", becomes: true }
+    appliesTo: { stages: [{ from: W3-early, to: W4-entry }] }
+    confidence: H
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/construction.ts#L389", title: "Toolbox getTowers: level, build slot and item cost", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/worship-trapping-death-note.md", title: "W3 dossier: Death Note", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }

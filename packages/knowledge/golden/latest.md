@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #73181c3c · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry
+# golden v1: latest · knowledge #8400ca3c · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -46,36 +46,24 @@ Fix before you leave
 ## Not covered yet
 Cards
 Classes and subclasses
-Companions and pets
-Gem Shop
-Merit Shop
-Minigames
 Obols
 Portals and map doors
 Skills, doors and tools
 Spend Plan
 Talent presets
 Talents
-Tasks
 Upgrade Vault
-Boss keys
 Bribes
-Colosseum
 Forge
-Poppy
-Post Office
 Quests
 Stamps
 Statues
 The Owl
-Alchemy bubbles
 Alchemy Pay 2 Win
-Alchemy vials
 Islands
 3D Printer
 Atom Collider
 Construction
-Death Note
 Equinox
 Prayers
 Salt Lick
@@ -105,6 +93,11 @@ Laboratory
 | afk.check.no-afk-target | afk/no-afk-target | C8 | pass |  |
 | afk.check.no-afk-target | afk/no-afk-target | C9 | fires |  |
 | afk.check.skiller-carry | afk/skiller-carry | — | silent |  |
+| alchemy-bubbles.check.fill-slot | alchemy-bubbles/big-bubbles | — | silent |  |
+| alchemy-bubbles.check.spend-brew | alchemy-bubbles/brew | account | fires | bubbles=19 cauldrons=4 |
+| alchemy-bubbles.check.spend-brew-big | alchemy-bubbles/brew | — | silent |  |
+| alchemy-bubbles.check.wrong-fit | alchemy-bubbles/big-bubbles | — | silent |  |
+| alchemy-vials.check.daily-attempts | alchemy-vials/attempts | — | silent |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C1 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C10 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C11 | pass |  |
@@ -128,8 +121,59 @@ Laboratory
 | anvil.check.caps-before-return | anvil/caps-before-return | C7 | fires | fromEmpty=5937236 fullIn=0 product=PVC_Pipe |
 | anvil.check.caps-before-return | anvil/caps-before-return | C8 | fires | fromEmpty=591510 fullIn=0 product=Lugi_Bracket |
 | anvil.check.caps-before-return | anvil/caps-before-return | C9 | fires | fromEmpty=4358149 fullIn=0 product=Purple_Screw |
+| anvil.check.spend-points | anvil/points | — | silent |  |
+| anvil.check.spend-points-capacity | anvil/points | C1 | fires | points=157 product=Boring_Brick |
+| anvil.check.spend-points-capacity | anvil/points | C10 | fires | points=16 product=Chain_Link |
+| anvil.check.spend-points-capacity | anvil/points | C3 | fires | points=31 product=Purple_Screw |
+| anvil.check.spend-points-capacity | anvil/points | C4 | fires | points=4 product=Trusty_Nails |
+| anvil.check.spend-points-capacity | anvil/points | C5 | fires | points=66 product=Purple_Screw |
+| anvil.check.spend-points-capacity | anvil/points | C6 | fires | points=1 product=Thread |
+| anvil.check.spend-points-capacity | anvil/points | C7 | fires | points=21 product=PVC_Pipe |
+| anvil.check.spend-points-capacity | anvil/points | C8 | fires | points=159 product=Lugi_Bracket |
+| anvil.check.spend-points-capacity | anvil/points | C9 | fires | points=2 product=Purple_Screw |
 | arcade.check.balls-cap | arcade/balls-cap | account | fires | capsIn=0 fullFor=662513255 |
+| boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
+| death-note.check.build | death-note/build | — | silent |  |
+| death-note.check.build-slot | death-note/build | — | silent |  |
+| gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
+| gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
+| gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=29763382 price=875 |
+| merit-shop.check.spend-w1 | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-arcade-balls | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-boss-gems | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-efaunt-recipes | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-obols | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-respawn | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w3 | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w4 | merit-shop/unspent | — | silent |  |
+| minigames.check.daily-plays | minigames/daily-plays | account | pass |  |
+| minigames.check.darts-play | minigames/cooldown-play | account | fires |  |
+| minigames.check.darts-spend | minigames/cooldown-spend | — | silent |  |
+| minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
+| minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=12 |
+| minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
+| pets.check.free-pull | pets/free-pull | account | fires | hoursClaimable=4 |
+| pets.check.mart-gems | pets/mart-gems | — | silent |  |
+| poppy.check.open | poppy/pending-fish | account | fires |  |
+| post-office.check.daily-orders | post-office/state | account | fires | companies=6 |
+| post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=484039 |
+| post-office.check.spend-boxes | post-office/state | C10 | fires | boxes=476673 |
+| post-office.check.spend-boxes | post-office/state | C11 | fires | boxes=490839 |
+| post-office.check.spend-boxes | post-office/state | C2 | fires | boxes=483536 |
+| post-office.check.spend-boxes | post-office/state | C3 | fires | boxes=483489 |
+| post-office.check.spend-boxes | post-office/state | C4 | fires | boxes=483478 |
+| post-office.check.spend-boxes | post-office/state | C5 | fires | boxes=483315 |
+| post-office.check.spend-boxes | post-office/state | C6 | fires | boxes=483378 |
+| post-office.check.spend-boxes | post-office/state | C7 | fires | boxes=482608 |
+| post-office.check.spend-boxes | post-office/state | C8 | fires | boxes=482514 |
+| post-office.check.spend-boxes | post-office/state | C9 | fires | boxes=456865 |
+| post-office.check.unlock | post-office/state | — | silent |  |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | fires | dryIn=398 |
+| refinery.check.salt-fuel | refinery/salt-off | account | fires | material=Magmaspike more=50 offSalts=1 salt=Anionic_Salt |
+| refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -150,7 +194,7 @@ Laboratory
 | systems.yaml#lab | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
-| systems.yaml#post-office | worlds/reached | account | reached yes |  |
+| systems.yaml#post-office | post-office/unlocked | account | reached yes |  |
 | systems.yaml#prayers | worlds/reached | account | reached yes |  |
 | systems.yaml#printer | worlds/reached | account | reached yes |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
@@ -161,6 +205,7 @@ Laboratory
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
+| task-unlocks.check.spend | task-unlocks/unspent | — | silent |  |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | pass |  |
 | trapping.check.finishes-early | trapping/finishes-early | C9 | pass |  |
 | trapping.check.slots-and-timers | trapping/slots-and-timers | C1 | fires | idleFor=1138240 traps=6 |

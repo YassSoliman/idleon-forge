@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M6 Unspent & idle: Poppy's unconverted fish (M6 FR-18).
+system: poppy
+entries:
+  - id: poppy.check.open
+    system: poppy
+    type: check
+    title: Open Poppy's pond
+    subject: account
+    effect: next-action
+    category: nice
+    effortSeconds: 30
+    detector: { id: poppy/pending-fish }
+    text: "Open Poppy's pond to convert your fish"
+    why: "Fish Poppy caught while you were away convert only when you open the pond."
+    doneWhen: { field: "account.poppy.pendingFish", change: lower }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/kangaroo.ts#L104", title: "Toolbox getKangaroo: pendingFish", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

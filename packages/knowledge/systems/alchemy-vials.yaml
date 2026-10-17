@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M6 Unspent & idle: unused daily vial attempts (M6 FR-9, TR-6, D5).
+system: alchemy-vials
+entries:
+  - id: alchemy-vials.check.daily-attempts
+    system: alchemy-vials
+    type: check
+    title: Use your vial attempts
+    subject: account
+    effect: next-action
+    usesExpectedReturn: true
+    category: spendable
+    priority: { frame: by-urgency }
+    effortSeconds: 60
+    detector: { id: alchemy-vials/attempts }
+    text: "Use your {attempts:int} vial attempts on the W2 town cauldron"
+    why: "Vial attempts refill at the daily reset and don't bank, and you hold the ingredient of a vial you haven't unlocked yet."
+    doneWhen: { field: "account.alchemy.vialAttempts.current", change: lower }
+    appliesTo: { stages: [{ from: W2-early, to: W4-entry }] }
+    confidence: H
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L495", title: "Toolbox vialsAttempts alert: attempts left and a locked vial's item held", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L291", title: "Toolbox p2w.vialsAttempts", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

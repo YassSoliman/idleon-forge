@@ -1,0 +1,44 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M6 Unspent & idle: the free daily pet pull and the Pet Mart's free gems (M6 FR-12, FR-13, TR-6).
+system: pets
+entries:
+  - id: pets.check.free-pull
+    system: pets
+    type: check
+    title: Claim the free pet pull
+    subject: account
+    effect: next-action
+    category: spendable
+    priority: { frame: by-urgency }
+    effortSeconds: 20
+    detector: { id: pets/free-pull }
+    text: "Claim your free pet pull at Doggy"
+    why: "The free pull has been claimable for about {hoursClaimable:int}h, and a missed day is not given back."
+    doneWhen: { field: "account.pets.freeClaimAnchor", change: higher }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "The 594,000,000 ms period is a Toolbox-code constant (getNextCompanionClaim, found by experiment); it is the Detector's periodMs default."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/helpers.js#L1178", title: "Toolbox getNextCompanionClaim: anchor + period", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: pets.check.mart-gems
+    system: pets
+    type: check
+    title: Claim the free Pet Mart gems
+    subject: account
+    effect: next-action
+    usesExpectedReturn: true
+    category: nice
+    priority: { frame: by-urgency }
+    effortSeconds: 20
+    detector: { id: pets/mart-gems }
+    text: "Claim today's free Pet Mart gems"
+    why: "The Pet Mart gives a few free gems each shop day; today's (day {shopDay:int}) are not claimed yet."
+    doneWhen: { field: "account.petMart.lastClaimedShopDay", change: higher }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "Gated off (M6 Final rulings): fires only once account.petMart.unlocked is true, which stays false until the unlock is confirmed in game. Game code (N.js 2.3.540) puts the claim on the Tournament menu's Pet Mart tab, opened from Quick Ref slot 13, which is enabled unconditionally."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L264", title: "Toolbox petMartGems alert: GemPM_x, shop day, OLA[516]", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-7/tournament.ts#L138", title: "Toolbox getTournament: Pet Mart shop day", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

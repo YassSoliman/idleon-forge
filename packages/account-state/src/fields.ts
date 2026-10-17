@@ -6,6 +6,12 @@
 // ending in `_*` means that key for every character slot with data.
 import type { SideReadName } from '@idleon-forge/toolbox-parsers';
 import type { AccountState } from './types';
+import {
+  UNSPENT_FIELD_RAW_KEYS,
+  UNSPENT_FIELD_SECTIONS,
+  UNSPENT_FIELD_SIDE_READS,
+  UNSPENT_FIELD_SOURCES,
+} from './unspent-fields';
 
 /** How a raw save value must look to count as present. Firestore keeps many values as JSON strings. */
 export type RawKind = 'number' | 'string' | 'json';
@@ -62,6 +68,7 @@ export const FIELD_SOURCES: Record<string, string> = {
   'account.afk.liquids': 'account.alchemy.liquids, account.alchemy.liquidCauldrons[].maxLiquid',
   'account.afk.salts': 'getSaltMatsTimeLeft',
   'account.afk.storageFreeSlots': 'account.storage.slots, account.storage.list',
+  ...UNSPENT_FIELD_SOURCES,
 };
 
 /** The raw save keys each field depends on. A missing or unparseable key makes the field Unknown. */
@@ -90,6 +97,7 @@ export const FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {
   'characters[].afk': [raw('PTimeAway_{i}', 'number')],
   'characters[].afk.food': [raw('EquipOrder_{i}', 'json'), raw('EquipQTY_{i}', 'json')],
   'account.afk': [raw('TimeAway', 'json')],
+  ...UNSPENT_FIELD_RAW_KEYS,
 };
 
 /** The account sections `getMaxDamage` reads at the pin (damage.ts, 6c37e3d), for `account.frontier`. */
@@ -153,12 +161,14 @@ export const FIELD_SECTIONS: Record<string, string[]> = {
   'account.afk.liquids': ['alchemy', 'alchemy.liquidCauldrons'],
   'account.afk.salts': ['refinery', 'storage'],
   'account.afk.storageFreeSlots': ['storage'],
+  ...UNSPENT_FIELD_SECTIONS,
 };
 
 /** The side reads each field depends on. */
 export const FIELD_SIDE_READS: Record<string, SideReadName[]> = {
   'account.gameVersion.serverBuild': ['serverVars'],
   'characters[].name': ['charNames'],
+  ...UNSPENT_FIELD_SIDE_READS,
 };
 
 /** `characters[3].foodStacks[0].item` -> `characters[].foodStacks[].item`. */
