@@ -119,6 +119,31 @@ describe('the harness catches what the rules forbid', () => {
   });
 });
 
+describe('performance (TR-17)', () => {
+  it('runs every Detector on highend within 50 ms p95 (per Detector over 5 ms is reported only)', async () => {
+    const { makeContext, runDetector } = await import('@idleon-forge/knowledge');
+    const f = fixtureById('highend');
+    if (!f) throw new Error('highend fixture missing');
+    const ctx = makeContext(stateOf(f), null, { now: f.now });
+    const all = Object.values(regs.knowledge);
+    const params = (d: AnyDetector) => d.examples.fires[0]?.params ?? d.examples.silent[0]?.params ?? {};
+    const times: number[] = [];
+    for (let i = 0; i < 40; i++) {
+      const t = performance.now();
+      for (const d of all) runDetector(d, ctx, params(d));
+      times.push(performance.now() - t);
+    }
+    times.sort((a, b) => a - b);
+    expect(times[Math.floor(times.length * 0.95)]).toBeLessThan(50);
+    for (const d of all) {
+      const t = performance.now();
+      runDetector(d, ctx, params(d));
+      const ms = performance.now() - t;
+      if (ms > 5) console.warn(`Detector ${d.id} took ${ms.toFixed(1)} ms on highend (budget 5 ms)`);
+    }
+  });
+});
+
 describe('harness helpers', () => {
   it('records the paths a Detector reads, with [*] for array items', () => {
     const seen = new Set<string>();
