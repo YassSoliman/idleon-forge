@@ -102,13 +102,20 @@ export async function runCheckCommand(opts: { strict: boolean; examples: boolean
   for (const i of issues) {
     const fatal = i.level === 'error' || (strictFail && i.code === 'literal-3-digits');
     if (fatal) errors++;
-    if (i.code !== 'pending-detector' || process.env.KB_VERBOSE)
+    if ((i.code !== 'pending-detector' && i.code !== 'pending-entry') || process.env.KB_VERBOSE)
       console[fatal ? 'error' : 'log'](formatIssue(i));
   }
   const pending = issues.filter((i) => i.code === 'pending-detector').length;
   if (pending)
     console.log(
       `${pending} Detector ids used only by generated entries are not registered yet (warning; KB_VERBOSE=1 lists them)`,
+    );
+  const pendingEntries = new Set(
+    issues.filter((i) => i.code === 'pending-entry').map((i) => /references (\S+),/.exec(i.message)?.[1]),
+  ).size;
+  if (pendingEntries)
+    console.log(
+      `${pendingEntries} entry ids named by Priority Lists are not in the Knowledge Base yet (warning; their owner modules add them; KB_VERBOSE=1 lists them)`,
     );
   const failed = harness.filter((h) => h.status === 'fail');
   const skipped = harness.filter((h) => h.status === 'skipped');
