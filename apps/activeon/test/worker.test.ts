@@ -79,6 +79,19 @@ describe('handleParseRequest (the paste fallback path)', () => {
     expect(res.ok && res.historyState).toBeUndefined();
   });
 
+  it('sends the bundle verifiedBuilds with every answer, for the patch rule (FR-29)', () => {
+    const envelope = JSON.parse(publicSave('fresh.json'));
+    const res = handleParseRequest({ id: 9, now: NOW, input: { kind: 'envelope', envelope } });
+    expect(res.verifiedBuilds).toEqual({ serverBuild: expect.any(Number), saveVersion: expect.any(Number) });
+  });
+
+  it('reports the build of a save that failed outright, read from the raw save', () => {
+    const envelope = { data: { CSver: 35.01, hello: 'world' }, serverVars: { GameVERSION: 150 } };
+    const res = handleParseRequest({ id: 10, now: NOW, input: { kind: 'envelope', envelope } });
+    expect(res).toMatchObject({ ok: false, kind: 'empty', build: { serverBuild: 150, saveVersion: 35.01 } });
+    expect(res.verifiedBuilds?.serverBuild).toEqual(expect.any(Number));
+  });
+
   it('answers the reserved what-if request without running it', () => {
     const res = handleRequest({ id: 8, type: 'what-if', query: { kind: 'damage' }, now: NOW });
     expect(res).toMatchObject({ id: 8, ok: false, kind: 'input' });

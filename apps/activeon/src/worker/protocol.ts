@@ -46,9 +46,32 @@ export type WorkerRequest = ParseRequest | WhatIfRequest;
 /** Why a save could not be read: bad paste, the parser gave up, the output changed shape, a crash or a hang. */
 export type ParseFailureKind = 'input' | 'empty' | 'shape' | 'crash' | 'timeout';
 
+/** A server build and save format (M1 FR-29). Either may be unknown. */
+export interface BuildMark {
+  serverBuild: number | null;
+  saveVersion: number | null;
+}
+
 export type ParseResponse =
-  | { id: number; ok: true; state: AccountState; historyState?: AccountState; ms: number }
-  | { id: number; ok: false; kind: ParseFailureKind; message: string; ms: number };
+  | {
+      id: number;
+      ok: true;
+      state: AccountState;
+      historyState?: AccountState;
+      /** The parser bundle's `verifiedBuilds`, for the patch rule (the UI can't import the bundle). */
+      verifiedBuilds?: BuildMark;
+      ms: number;
+    }
+  | {
+      id: number;
+      ok: false;
+      kind: ParseFailureKind;
+      message: string;
+      /** The failed save's build, read from the raw save, when it got that far. */
+      build?: BuildMark | null;
+      verifiedBuilds?: BuildMark;
+      ms: number;
+    };
 
 /** What a parse resolves to on the UI thread: a response, or `superseded` when a newer save replaced it. */
 export type ParseResult = ParseResponse | { superseded: true };
