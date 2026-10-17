@@ -3,7 +3,13 @@
 // Toolbox runtime functions the Account State needs beyond `parseData()`, gathered in one object so the
 // parse worker can inject them (account-state never imports this package's runtime, ADR 0006). Each
 // module appends its entries here; nothing in vendor/ is edited.
+import { getAfkGain, getDropRate } from '../vendor/parsers/character';
 import { getMaxDamage } from '../vendor/parsers/damage';
+import { getMaxClaimTime } from '../vendor/parsers/dungeons';
+import { getItemCapacity } from '../vendor/parsers/misc';
+import { getPlayerAnvil, getTimeTillCap } from '../vendor/parsers/world-1/anvil';
+import { getPrayerBonusAndCurse } from '../vendor/parsers/world-3/prayers';
+import { getSaltMatsTimeLeft } from '../vendor/parsers/world-3/refinery';
 import { frontierRates, onMap } from './frontier-rates';
 
 export const toolboxCalls = {
@@ -13,4 +19,13 @@ export const toolboxCalls = {
   frontierRates,
   /** M2 TR-2: the clone itself, for the identity contract test. */
   onMap,
+  // M3 AFK Safety (TR-2). They read the clock: call them inside withFrozenClock(now, ...).
+  getAfkGain,
+  getDropRate,
+  getPlayerAnvil,
+  getTimeTillCap,
+  getMaxClaimTime,
+  getSaltMatsTimeLeft,
+  getPrayerBonusAndCurse,
+  getItemCapacity,
 };
