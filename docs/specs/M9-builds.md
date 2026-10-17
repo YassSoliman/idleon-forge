@@ -67,18 +67,19 @@ Character-level requirements apply to every character with talent data. "Fightin
 **Drift and next points**
 
 - **FR-11** For each classified preset, M9 walks the matching Build's applicable steps (TR-5) and picks the preset's **next step**. That is the first unmet step flagged `core` in any tab (in tab order), or, if every core step is met, the first unmet step in the lowest tab. A step is unmet when its talent is below its target.
-- **FR-12** If the next step is `core` (e.g. the Idle fighting talent to 50, Big Pick on a mining preset), M9 emits a Goal "Next talent points: <talent> to <target>" with category `compounding`. Otherwise the same Goal has category `nice`, unless decision D6 says otherwise.
+- **FR-12** If the next step is `core` (e.g. the Idle fighting talent to 50, Big Pick on a mining preset), M9 emits a Goal "Next talent points: <talent> to <target>" with category `compounding`, placed at position 3 of the Stage's Priority List (D3).
+- **FR-12a** If the next step is not `core`, the same Goal is emitted only when the character has new points (D6): its class level is higher than in the **baseline** save and the preset's spend in tabs 1–3 is unchanged from it. The baseline is the last stored Account State before the current Play Session started (M1 `SaveHistory.previous(uid, s.lastCloudSave)` where `s = sessionStart(uid, now)`), passed to the engine as an input. It is then `compounding`, placed at the bottom of the Stage's list (D3). With no baseline (first save, pasted save) a non-core next step is never shown.
 
 **Attack bar**
 
-- **FR-13** When fighting AFK on a fighting preset, M9 counts attack talents on the active bar (Printer Sampling and Roll Da Dice do not count). With fewer than 2, it emits the attack-bar Goal (severity per decision D1), naming the Build's attacks that are levelled but missing from the bar.
+- **FR-13** When fighting AFK on a fighting preset, M9 counts attack talents on the active bar (Printer Sampling and Roll Da Dice do not count). With 0, it emits a **blocker** "Put your attacks on the bar before you leave"; with exactly 1, a `compounding` Goal (D1). Both name the Build's attacks that are levelled but missing from the bar.
 - **FR-14** When skilling AFK on a skilling preset of a class whose Build lists a skill attack for that skill (Big Pick for mining, Log On Logs for choppin), and that attack is not on the bar, M9 emits a `compounding` Goal to put it on the bar.
 
 **Reset suggestions**
 
 - **FR-15** M9 suggests a Talent Point Reset Potion for a preset only when all of these hold:
   1. the preset is `fighting` or `skilling`;
-  2. its **wrong-role points** reach the threshold set by decision D2. Wrong-role points are points in talents that appear in the *other* role's Build for the class but not in this one, plus points above the target on steps marked `hardCap`;
+  2. its **wrong-role points** are at least **30** (D2). Wrong-role points are points in talents that appear in the *other* role's Build for the class but not in this one, plus points above the target on steps marked `hardCap`;
   3. the account owns at least one potion, or 10 fragments (storage plus inventories);
   4. the Build is not Stale and not Contested.
 - **FR-16** The suggestion's Next Action gives the exact order: swap to that preset if needed, use the potion (it resets the active preset only), spend along the Build, swap back to the preset the AFK Target needs.
@@ -87,11 +88,12 @@ Character-level requirements apply to every character with talent data. "Fightin
 
 **Output, limits, coverage**
 
-- **FR-19** M9 emits at most **one blocker and two Goals per character**: one "Talent presets" Goal (FR-7, FR-8 or FR-9, first that fires) and one "Talents" Goal (FR-15, then FR-13/FR-14, then FR-12, first that fires).
+- **FR-19** M9 emits at most **one blocker and two Goals per character**. The blocker is FR-3/FR-4 or the 0-attack case of FR-13 (they cannot both fire: one needs the wrong preset active, the other the right one). The Goals are one "Talent presets" Goal (FR-7, FR-8 or FR-9, first that fires) and one "Talents" Goal (FR-15, then FR-13/FR-14, then FR-12/FR-12a, first that fires).
 - **FR-20** Every M9 Next Action has at least one Source and carries provenance: the entry ids, plus the Account State fields read.
 - **FR-21** Characters whose class has no Build (Journeyman line), and elite tab 4, produce no Goals. The engine lists them under "Not covered yet: <class> talent builds" / "elite talent builds".
 - **FR-22** A Build whose newest Source is Stale is still used for FR-3 to FR-14 (ranked below fresh entries, with the Stale mark). It is never used for FR-15.
-- **FR-23** M9 output depends only on the Account State, the Knowledge Base, the Stage, and (for D6 only) the previous save. Two runs on the same inputs give identical output.
+- **FR-23** M9 output depends only on the Account State, the Knowledge Base, the Stage, and (for FR-12a only) the baseline save. Two runs on the same inputs give identical output.
+- **FR-24** Next Actions name presets by role only: "your fighting preset", "your skilling preset", or "your other preset" when the other preset is `empty`, `incomplete` or `unclassified` (D5). They never say "preset 1/2". The in-game label may be added in brackets only once Yasser has confirmed it in game; it is a single Knowledge Base string, empty until then.
 
 ## 4. User stories
 
@@ -139,7 +141,8 @@ Each "Then" is asserted on the engine output (`EngineResult`) and on the golden 
 
 - **Given** the W2-late account / **When** the engine runs / **Then** no FR-13 or FR-14 Goal shows (every fighter has at least 4 attacks on its bar; the mining Squire has Big Pick on its bar).
 - **Given** the W3-early Bowman Lv 60 (only Printer Sampling on the active bar) / **When** the engine runs / **Then** FR-13 does not fire, because the active preset is the skilling one and US-1 owns this character.
-- **Given** a synthetic AFK fighter on a fighting preset with 0 attacks on its bar / **When** the engine runs / **Then** the attack-bar Goal fires with the severity set by D1, naming the levelled attacks that are missing.
+- **Given** a synthetic AFK fighter on a fighting preset with 0 attacks on its bar / **When** the engine runs / **Then** its Verdict is "Fix before you leave" with the blocker "Put your attacks on the bar before you leave", naming the levelled attacks that are missing (D1).
+- **Given** the same fighter with exactly 1 attack on its bar / **When** the engine runs / **Then** no blocker shows and its "Talents" Goal is the `compounding` attack-bar Goal (D1).
 
 ### US-6 When to use a reset potion
 
@@ -156,7 +159,7 @@ Each "Then" is asserted on the engine output (`EngineResult`) and on the golden 
 *As a player in a Play Session, I want every talent instruction to show its Source and how current it is, so that I can trust it or report it.*
 
 - **Given** any M9 Next Action on either fixture / **When** I tap its Source label / **Then** I see the Toolbox community build it comes from, with its last-edited date (e.g. 2026-10-12 for the Barbarian Build) and the patch it was verified on.
-- **Given** a Hunter (no fixture has one; synthetic) / **When** the engine runs / **Then** its M9 Goals carry the Stale mark and rank below fresh Goals of the same category (FR-22, decision D4).
+- **Given** a Hunter (no fixture has one; synthetic) / **When** the engine runs / **Then** its M9 Goals come only from the data-backed steps (Idle Shooting to 50, Eagle Eye), carry the Stale mark, rank below fresh Goals of the same category, and never include a reset (FR-22, D4).
 - **Given** the public `highend.json` save (11 characters, all elite or later classes) / **When** the engine runs / **Then** tabs 1–3 are checked against their subclass lines' Builds, no Detector throws, and the Now screen lists "Not covered yet: elite talent builds".
 - **Given** I press Report this on an M9 Next Action / **When** the pre-filled issue opens / **Then** it contains the entry id, the Knowledge Base version, the game version, the Stage, and the character's class and level, and nothing about names or other characters.
 
@@ -305,11 +308,11 @@ These are the fire/doesn't-fire tests (#11 item 12). The exact text is pinned by
   | Class line | Fighting Build source | Skilling Build (serves) | Freshness |
   |---|---|---|---|
   | Beginner (Lv 1–14, one preset) | "Early game dmg", 2026-05-14 | — | fresh |
-  | Warrior / Archer / Mage (before subclass) | v1.23 community builds, matching the 2026 core | mining / catching or smithing / choppin | **Stale** |
+  | Warrior / Archer / Mage (before subclass) | Data-backed steps only (D4): the 2026 common core (Gilded Sword, Sharpened Axe, Idle fighting talent 50, attacks) | mining / catching / choppin: efficiency talent, Idle Skilling or Active AFK'er, skill attack (Big Pick, Log On Logs) | **Stale** (D4) |
   | Barbarian | Sir_Grimtide 2026-10-12 | fishing (FISHING) | fresh |
   | Squire | Sir_Grimtide 2026-10-10 | mining + construction (MINING) | fresh |
   | Bowman | Sir_Grimtide 2026-10-12 (Idle Shooting, not the guide's "Idle Brawling" typo) | catching (CATCHING) | fresh |
-  | Hunter | v1.40b community | trapping (`serves: []`: used while claiming traps, never an AFK Target; FR-3's skilling side still accepts it as "a skilling preset") | **Stale** (D4) |
+  | Hunter | Data-backed steps only (D4): the common core with Idle Shooting to 50 | trapping, Eagle Eye only (PV 5.14) (`serves: []`: used while claiming traps, never an AFK Target; FR-3's skilling side still accepts it as "a skilling preset") | **Stale** (D4) |
   | Wizard | Sir_Grimtide 2026-10-13 | choppin + worship (CHOPPIN) | fresh |
   | Shaman | Sir_Grimtide 2026-10-15 | alchemy + choppin (CHOPPIN) | fresh |
 
@@ -331,8 +334,8 @@ These are the fire/doesn't-fire tests (#11 item 12). The exact text is pinned by
   | `check.talent-presets.empty` | `builds.presetEmpty` | `talents.other`, `level` | `{ role, pointsAtLeast, firstSteps[] }` | compounding |
   | `check.talent-presets.incomplete` | `builds.presetEmpty` (mode) | same | same | compounding |
   | `check.talent-presets.behind` | `builds.presetBehind` | both presets | `{ presetRole, pointsAtLeast, tabs[], firstSteps[] }` | spendable |
-  | `check.talents.next-step` | `builds.nextStep` | preset, Build, Stage, M5 hit chance (optional) | `{ talent, target, current, tab, core }` | compounding if core, else nice (D6) |
-  | `check.talents.attack-bar` | `builds.attackBar` | `attackBar`, `afkType`, generated `isAttack` | `{ attacksOnBar, missing[] }` | per D1 |
+  | `check.talents.next-step` | `builds.nextStep` | preset, Build, Stage, M5 hit chance (optional), baseline save (non-core only) | `{ talent, target, current, tab, core }` | compounding (non-core only after a level-up, D6) |
+  | `check.talents.attack-bar` | `builds.attackBar` | `attackBar`, `afkType`, generated `isAttack` | `{ attacksOnBar, missing[] }` | blocker at 0, compounding at 1 (D1) |
   | `check.talents.skill-attack` | `builds.skillAttack` | `attackBar`, `afkType`, Build `skillAttack` | `{ talent }` | compounding |
   | `check.talent-resets.reset` | `builds.resetCandidate` | preset, both Builds, `resetItems`, Build status | `{ presetRole, wrongRolePoints, talents[], potionsOwned }` | compounding |
 
@@ -344,7 +347,7 @@ These are the fire/doesn't-fire tests (#11 item 12). The exact text is pinned by
   - `talent-group.tab2-granting`: Back To Basics, Previous Points, Earlier Education;
   - `item.ResetCompleted`, `item.ResetFrag` (10 make 1);
   - `acquisition.talent-reset-potion`: the 9 W1–W3 quest sources (Promotheus ×3, Hamish ×1, Speccius ×1, Lord of the Hunt ×4) and the gem price (200 gems, 10 per week). It is shown only as the why of FR-18-adjacent text, never as a Goal.
-- **TR-11 Priority List placement** (authored, per decision D3). M9's Goals enter the Stage lists of LM §3: the empty or incomplete preset as **3e**, points left behind as part of **3h**, and W1-early's existing position 7 ("Talent core") becomes `check.talents.next-step`. The positions of core next steps and resets in the other Stages are set by D3.
+- **TR-11 Priority List placement** (authored, D3). M9's Goals enter the Stage lists of LM §3: the empty or incomplete preset as **3e**, points left behind as part of **3h**, and core next steps (`check.talents.next-step` with `core`) and reset suggestions at **position 3** in every Stage from W1-early to W4-entry. W1-early's existing position 7 ("Talent core") is replaced by that position-3 item. Non-core next steps go at the bottom of every Stage's list.
 
 ### Performance
 
@@ -370,7 +373,7 @@ These are the fire/doesn't-fire tests (#11 item 12). The exact text is pinned by
 | Class Lv < 15 | One preset. Only drift and attack bar (FR-2). |
 | Beginner (Lv < 10) | Beginner Build: Gilded Sword and Sharpened Axe split, Sleepin' On The Job if AFK. |
 | Base class, not yet subclassed (W2-early) | Stale base-class Builds. The subclass quest is M2's Goal, not M9's. |
-| Just subclassed: tab 3 at 0 on both presets | The lower bound can't see it. The next step on tab 3 is still the first Build step (FR-12), so the player is pointed there. If D6 is adopted, the level-up signal also fires. |
+| Just subclassed: tab 3 at 0 on both presets | The lower bound can't see it. The next step on tab 3 is still the first Build step (FR-11), so the player is pointed there if it is core; if it isn't, the FR-12a level-up signal shows it once history has a baseline. |
 | Elite class (W4-entry) | Tabs 1–3 against the subclass Build. Tab 4 "Not covered yet". |
 | Journeyman line | "Not covered yet: Journeyman talent builds". No Goals. |
 | AFK Target with no role (Nothing, Lab, Cooking, Divinity, …) | No wrong-preset check. The other rules still run. |
@@ -383,14 +386,14 @@ These are the fire/doesn't-fire tests (#11 item 12). The exact text is pinned by
 | Offline | No new saves. M9 output for the last good save stays on screen (M10). |
 | Multiple tabs | The engine is pure, so every tab shows the same output. M9 has no state to conflict. |
 | Second account in the same browser | One account per browser (#10). M9 is per Account State. |
-| Pasted save (no history) | All M9 rules work without history, except D6's level-up signal. |
+| Pasted save (no history) | All M9 rules work without history, except FR-12a: non-core next steps never show (D6). |
 | Contested Build step (two Sources disagree) | The step keeps the badge and is never a core step or used for wrong-role points. The Goal is never the top action (#11 item 5). |
 
 ## 7. Dependencies
 
 | Module | M9 uses | Interface |
 |---|---|---|
-| M1 Sync & Account State | Talent and preset fields, raw inactive attack bar, reset items, `diagnostics.failedSections`, `FIELD_SOURCES` for provenance; `SaveHistory.previous` for D6 only | TR-3, TR-4 added through M1 TR-11 (`schemaVersion` bump, contract snapshot) |
+| M1 Sync & Account State | Talent and preset fields, raw inactive attack bar, reset items, `diagnostics.failedSections`, `FIELD_SOURCES` for provenance; `SaveHistory.previous` and `sessionStart` for FR-12a only | TR-3, TR-4 added through M1 TR-11 (`schemaVersion` bump, contract snapshot) |
 | M2 Stage & Meta Path | Stage id (Build `appliesTo`, `stageAtLeast`); Roles (which skill a class's skilling preset serves); Course Correction owns the Swap Token | `stage.id`; Meta Path Roles entry |
 | M3 AFK Safety | Combines M9's blocker with its own into the Verdict; food and capping are M3's | `Goal` with `category: 'blocker'` |
 | M4 Purpose & Milestones | None. M9 does not change Purpose; a wrong preset does not change what the activity serves | — |
@@ -403,25 +406,16 @@ These are the fire/doesn't-fire tests (#11 item 12). The exact text is pinned by
 | M12 Release | Knowledge Base version and "What's new" list Build changes | changelog |
 | M13 Suggestions | Context fields (class, level, entry id) | ADR 0008 context |
 
-## 8. Open decisions for Yasser
+## 8. Decisions
 
-❓ D1 - Empty attack bar: blocker or Goal?: When a character is AFK fighting on its fighting preset with fewer than 2 attacks on the bar, should the Verdict be "Fix before you leave" (a blocker), or should it be a compounding Goal that leaves the Verdict alone? Neither fixture has this case today. Options: (a) always a blocker; (b) always a Goal; (c) a blocker at 0 attacks, a Goal at 1.
-➡️ (c). Attacks add to AFK damage only while they are on the bar. With none there, the AFK Stretch is badly weakened, which is the kind of "weak setup" #10 lets the Verdict judge. One attack is merely suboptimal, and a blocker there would make Ready rare for no good reason.
+Ruled by Yasser on 2026-10-17 (PR #49): every recommendation accepted as written.
 
-❓ D2 - Reset threshold: How many wrong-role points on one preset justify suggesting a Talent Point Reset Potion? Options: (a) any; (b) 30 points (about 10 class levels' worth of one tab); (c) 20% of the preset's spent points; (d) never suggest resets in the MVP.
-➡️ (b) 30, and only with a potion or 10 fragments already owned. Both accounts own potions (3 and 10), so the suggestion can be acted on. Counting only wrong-role points (fighting talents on a skilling preset and the reverse, plus hard-capped surplus) means a talent the guide simply forgot to list can never trigger a reset. Neither fixture reaches 30 today, which is the right outcome: their gaps are unspent points and missing presets, not bad allocations.
-
-❓ D3 - Where Build Goals rank in each Stage: LM places the empty second preset (3e) and unspent points (3h) in every Stage's position 3, and the talent core only in W1-early (position 7). Where do the "core next step" (e.g. Idle fighting talent at 0) and the reset suggestion go in W1-mid to W4-entry? Options: (a) position 3 (free value: the points are already earned); (b) just after the Stage's System items; (c) the bottom, as a nice-to-have.
-➡️ (a) for core next steps and resets, and (c) for non-core next steps. A core step changes AFK gains for the whole next Stretch and costs nothing but a few clicks, which is the definition of position 3. Non-core pointers are useful but low-stakes and would otherwise crowd the 3-Goal cap.
-
-❓ D4 - Hunter and base-class Builds are only Stale: The only Hunter builds, and the Warrior/Archer/Mage pre-subclass ones, are 2021–22 community guides (v1.23/v1.40b). Should M9 (a) ship them Stale, with the Stale mark and no reset suggestions, (b) ship only their data-backed steps (Idle Shooting 50; Eagle Eye on the skilling preset, PV 5.14), or (c) mark the Hunter "Not covered yet" until a 2026 Source exists?
-➡️ (b). Both accounts' next new character is a Hunter (PV ruling), so (c) would leave the next character uncoached exactly when it matters. The full stale order risks advising talents that have since changed. Ship the core steps that game data and PV confirm, tagged Stale, and ask Joseph or Yasser to transcribe a current Hunter build when they make one.
-
-❓ D5 - What to call the presets on screen: The game labels the two presets in a way the dossier read only from minified code ("0"/"1" labels drawn from Lv 30, confidence M). Should Next Actions say (a) "preset 1 / preset 2", (b) the in-game label, whatever it is, or (c) only "your fighting preset / your skilling preset / your other preset"?
-➡️ (c), plus the in-game label in brackets once you confirm it with a glance in game. Role names are what the player needs, and they don't break if the label reading is wrong.
-
-❓ D6 - Make "next talent points" contextual?: The non-core "Next talent points: X to N" pointer is true at all times, but only actionable when the character has new points to spend. With save history, M9 could promote it only when the character gained class levels since the previous Play Session and the preset's spend did not change. Options: (a) always show it as a nice-to-have; (b) show it only after a level-up with no spend since, as compounding; (c) never show non-core pointers.
-➡️ (b). A level-up with unchanged spend is a reliable sign of new, unspent points (every class level gives points to each unlocked tab, H), so the pointer appears exactly when it's useful. It is hidden otherwise, which keeps the Goal cap for real work. It needs `SaveHistory.previous` and falls back to (c) on a pasted save.
+- **D1 - Attack bar: a blocker at 0 attacks, a Goal at 1.** An AFK fighter on its fighting preset with no counted attack on the bar gets a Verdict blocker; with exactly 1 it gets a `compounding` Goal. *Why:* attacks add to AFK damage only while on the bar, so an empty bar badly weakens the whole AFK Stretch, the kind of weak setup #10 lets the Verdict judge; one attack is merely suboptimal, and a blocker there would make Ready rare for no good reason. Touches FR-13, FR-19, US-5, TR-8.
+- **D2 - Reset threshold: 30 wrong-role points, with a potion or 10 fragments already owned.** *Why:* 30 points is about 10 class levels' worth of one tab; both accounts own potions, so the suggestion can be acted on; counting only wrong-role points (the other role's Build talents plus hard-capped surplus) means a talent a guide forgot to list can never trigger a reset. Neither fixture reaches 30 today, which is right: their gaps are unspent points and missing presets, not bad allocations. Touches FR-15, US-6.
+- **D3 - Placement: core next steps and resets at position 3 of every Stage's list; non-core next steps at the bottom.** *Why:* a core step changes AFK gains for the whole next Stretch and costs a few clicks, the definition of position 3 (free value: the points are already earned); non-core pointers are useful but low-stakes and would otherwise crowd the 3-Goal cap. Touches FR-12, TR-11.
+- **D4 - Hunter and pre-subclass base classes ship only their data-backed steps, tagged Stale.** The Hunter Builds carry Idle Shooting to 50 (fighting) and Eagle Eye (skilling, PV 5.14); the Warrior, Archer and Mage Builds carry the 2026 common core (Gilded Sword, Sharpened Axe, the Idle fighting talent to 50; the class efficiency talent and Idle Skilling or Active AFK'er) plus the skill attack. Every such Build is Stale, so it never drives a reset. A current Hunter build is to be transcribed by Joseph or Yasser when they make one. *Why:* both accounts' next new character is a Hunter (PV ruling), so "Not covered yet" would leave it uncoached exactly when it matters, while the full 2021–22 order risks advising talents that have since changed. Touches the Build set table (TR-5), FR-1, FR-22, US-7.
+- **D5 - On screen, presets are named by role: "your fighting preset", "your skilling preset", "your other preset".** The in-game label is added in brackets only after Yasser confirms it with a glance in game; until then no label is shown. *Why:* role names are what the player needs, and they don't break if the label reading (M confidence, from minified code) is wrong. Touches FR-3, FR-7, FR-16, FR-24.
+- **D6 - Non-core "next talent points" appear only after a level-up with no spend since.** The pointer shows, as `compounding`, only when the character gained class levels since the last save before the current Play Session and the preset's spend did not change. Without that history (first save, pasted save) it never shows. Core next steps are unaffected. *Why:* every class level gives points to each unlocked tab (H), so a level-up with unchanged spend is a reliable sign of new points, and the pointer appears exactly when it is useful while leaving the Goal cap for real work otherwise. Touches FR-12, FR-23, TR-8, section 6.
 
 ## 9. Red-team notes
 
@@ -455,7 +449,7 @@ These are the fire/doesn't-fire tests (#11 item 12). The exact text is pinned by
 - M9 never suggests the Swap Token or gem purchases (FR-17), and never suggests a reset for a wrong or empty preset.
 
 **R7. Noise drowns the Now screen.** The W2-late account has 5 characters with up to 4 M9 findings each.
-- *Defence:* M9 emits at most one blocker and two Goals per character (FR-19), suppresses everything else under a blocker (FR-6), and caps non-core pointers (D6).
+- *Defence:* M9 emits at most one blocker and two Goals per character (FR-19), suppresses everything else under a blocker (FR-6), and shows non-core pointers only after a level-up with no spend since (D6).
 - The golden summary in §4 shows at most 2 M9 Goals on any fixture character.
 
 **R8. Privacy leak through Report this or provenance.** Talent allocations are harmless, but names and whole saves are not.
