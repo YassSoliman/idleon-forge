@@ -50,8 +50,10 @@ sync_rc=$?
 
 # --- 2. Pin provenance: the commit must be on upstream main, not only in some fork (RT-7).
 sha=$(key commit "$P/UPSTREAM")
+# compare/<sha>...main is "ahead" when main contains sha (or "identical" when sha is main's head);
+# a commit only in a fork gives "diverged" or an error. (The spec's "behind" is the inverse.)
 status=$(gh api "repos/$UPSTREAM_REPO/compare/$sha...main" --jq .status 2>/dev/null || echo error)
-if [ "$status" != behind ] && [ "$status" != identical ]; then
+if [ "$status" != ahead ] && [ "$status" != identical ]; then
   echo "::error::$sha is not on upstream main (compare status: $status); not opening a PR"
   git checkout -q -- . && git clean -qfd -- "$P" packages/account-state
   output changed false
