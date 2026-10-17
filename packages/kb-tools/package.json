@@ -1,0 +1,22 @@
+{
+  "name": "@idleon-forge/kb-tools",
+  "version": "0.1.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "description": "Dev-only Knowledge Base tooling: the kb CLI (generate, compile, check, golden, scrub, facts, new, privacy). Never shipped.",
+  "type": "module",
+  "scripts": {
+    "kb": "tsx src/cli.ts",
+    "build": "tsx src/cli.ts compile",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@idleon-forge/account-state": "workspace:*",
+    "@idleon-forge/knowledge": "workspace:*",
+    "@idleon-forge/toolbox-parsers": "workspace:*",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.15",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.7"
+  }
+}
