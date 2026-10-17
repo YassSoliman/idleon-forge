@@ -13,6 +13,7 @@ import { getPrayerBonusAndCurse } from '../vendor/parsers/world-3/prayers';
 import { getSaltMatsTimeLeft } from '../vendor/parsers/world-3/refinery';
 import { frontierRates, onMap } from './frontier-rates';
 import { shopStockAll } from './shop-stock';
+import { stampEvaluations, vaultLadders } from './spend';
 
 export const toolboxCalls = {
   /** Toolbox damage, hit chance, survivability and kill rates for one character (vendor/parsers/damage.ts). */
@@ -37,4 +38,7 @@ export const toolboxCalls = {
   getCardSets,
   /** Every town shop's stock from raw `ShopStock`, item by item (Toolbox's `getShops` keeps only a whitelist). */
   shopStockAll,
+  // M7 Spend Plan (TR-4): Vault cost ladders and the stamp re-evaluation. Anvil coin points use getPlayerAnvil.
+  vaultLadders,
+  stampEvaluations,
 };

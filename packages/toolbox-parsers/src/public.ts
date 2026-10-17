@@ -20,8 +20,10 @@ export type {
   RawSaveEnvelope,
   SideReadName,
   SideReadReport,
+  StampEvaluation,
   ToolboxCalls,
   UpstreamPin,
+  VaultCostRun,
   VerifiedBuilds,
 } from './types';
 
