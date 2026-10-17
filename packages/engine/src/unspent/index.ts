@@ -140,8 +140,19 @@ function goalOf(entry: CheckEntryT, f: Fired, d: AnyDetector, kb: UnspentKnowled
   };
 }
 
-/** The M6 engine module over a compiled (or test-loaded) Knowledge Base and the Detector registry. */
-export function createUnspentModule(kb: UnspentKnowledge, registry: DetectorRegistry): EngineModule {
+export interface UnspentModuleDeps {
+  kb: UnspentKnowledge;
+  registry: DetectorRegistry;
+  /** The Stage, from M2's `runMetaPath(...).stage`; without it the module detects it from the facts. */
+  stage?: (state: AccountState) => { id: StageId } | null;
+}
+
+/**
+ * The M6 engine module over the compiled Knowledge Base and the Detector registry the worker loads,
+ * built like M3's `createAfkSafetyModule`. The core's DEFAULT_MODULES and the parse worker register it.
+ */
+export function createUnspentModule(deps: UnspentModuleDeps): EngineModule {
+  const { kb, registry } = deps;
   const entries = Object.values(kb.entries)
     .filter((e): e is CheckEntryT => e.type === 'check' && UNSPENT_SYSTEMS.includes(e.system))
     .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
@@ -157,7 +168,7 @@ export function createUnspentModule(kb: UnspentKnowledge, registry: DetectorRegi
         history: input.history.entries,
         expectedReturnMs: input.options.expectedReturnSeconds * 1000,
       });
-      const stage = stageOrNull(state, kb);
+      const stage = deps.stage ? (deps.stage(state)?.id ?? null) : stageOrNull(state, kb);
       const account: ModuleGoal[] = [];
       const byCharacter = new Map<number, ModuleGoal[]>();
       const accountPlay: ActivePlay[] = [];

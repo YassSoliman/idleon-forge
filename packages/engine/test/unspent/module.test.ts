@@ -10,7 +10,7 @@ import { input, PUBLIC_SAVES, publicState } from '../core/helpers';
 import { loadKb, scrubbed, stateOf } from '../metapath/helpers';
 
 const kb = loadKb();
-const m6 = createUnspentModule(kb, detectors);
+const m6 = createUnspentModule({ kb, registry: detectors });
 const w2 = stateOf(scrubbed('scrubbed-w2'));
 const w3 = stateOf(scrubbed('scrubbed-w3'));
 const at = (s: typeof w2) => s.account.lastCloudSave as number;
