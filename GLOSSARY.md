@@ -27,8 +27,16 @@ The hours between Play Sessions when characters progress unattended on whatever 
 _Avoid_: idle time, offline
 
 **AFK Setup**:
-The end state of a Play Session: every character assigned to its best activity (map, skill, production) for the coming AFK Stretch, and stocked resources spent.
+The end state of a Play Session: every character on its best AFK Target and every Parallel Slot filled, with stocked resources spent.
 _Avoid_: loadout, AFK config
+
+**AFK Target**:
+The one activity a character progresses while away, one of the game's AFK types (Fighting, Mining, Choppin, Fishing, Catching, Cooking, Lab, Divinity, Spelunking).
+_Avoid_: AFK activity, job
+
+**Parallel Slot**:
+A per-character assignment that runs alongside the AFK Target (traps, a cog-board seat, worship charge, an alchemy cauldron); empty ones are lost value.
+_Avoid_: side job, secondary AFK
 
 **Meta Path**:
 The single reference route through the game (class choices, character order, per-world milestones) that the community currently considers most efficient; all advice measures progress against it.
