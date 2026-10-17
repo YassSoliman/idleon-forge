@@ -5,7 +5,7 @@
 // follow state, FR-14; the frozen Visit Order, D6) and the player's preferences (TR-8). It never
 // orders or filters advice itself: `buildNowView` does.
 import type { AccountState } from '@idleon-forge/account-state';
-import { buildNowView, type NowView, nextLocalMidnight } from '@idleon-forge/engine/now';
+import { buildNowView, invariantViolations, type NowView, nextLocalMidnight } from '@idleon-forge/engine/now';
 import type { EngineResult } from '@idleon-forge/engine/result';
 import type { SaveKind } from '@idleon-forge/sync';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -83,6 +83,12 @@ export function NowScreen(props: NowScreenProps) {
     [props.result, props.parserBehind],
   );
   const prefs = useNowPrefsStore(namespace);
+  // TR-9: invariants log once per result in dev builds; production renders anyway.
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    const v = invariantViolations(props.result);
+    if (v.length) console.warn(`EngineResult invariants (TR-9):\n${v.join('\n')}`);
+  }, [props.result]);
   const live = save.source === 'live';
   const lastCloudSave = save.state.account.lastCloudSave;
   const names = useMemo(() => result.characters.map((c) => c.name), [result]);
