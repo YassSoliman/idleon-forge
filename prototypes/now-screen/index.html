@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ActiveOn Now prototype</title>
+<!--
+  PROTOTYPE, throwaway. Branch prototype/now-screen only; never merge to main.
+  Question: what should the Now screen look like? (ticket: Rough Now screen on fake data)
+  Three structurally different variants, switchable via ?variant=A|B|C, the floating bar, or the arrow keys.
+  ?state=normal|allset|broken simulates the main screen states.
+  Real accounts load from accounts.local.js (gitignored); otherwise a fictional sample. Every piece of ADVICE is mock.
+  Run: open prototypes/now-screen/index.html
+-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#eef2f6; --surface:#fff; --sunk:#e2e8ef; --fg:#18233a; --muted:#56637a; --line:#cdd6e1;
+  --coin:#b86e0c; --coin-soft:#f6e6cc; --ok:#0f7d72; --ok-soft:#d5efeb; --bad:#b4372f; --bad-soft:#f6dcd9; --unk:#6b6f85; --unk-soft:#e6e7ef;
+  --display:"Pixelify Sans","Courier New",monospace; --body:"Atkinson Hyperlegible",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#111826; --surface:#1a2436; --sunk:#0c121d; --fg:#e6ecf5; --muted:#9aa8bf; --line:#2c3a52;
+  --coin:#f0a63a; --coin-soft:#3a2c14; --ok:#3fc7b7; --ok-soft:#123632; --bad:#ff8a80; --bad-soft:#3d1c1a; --unk:#aab0c8; --unk-soft:#262b3d; color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--body);padding:16px 16px 96px}
+.app{max-width:480px;margin:0 auto;display:grid;gap:12px}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:500;line-height:1.2}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+.mono{font-family:var(--mono);font-size:12px}
+.muted{color:var(--muted)}
+.mockbanner{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center}
+
+/* shared bits */
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.top h1{font-size:20px;font-weight:700}
+.top h1 span{color:var(--coin)}
+.sync{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:999px;background:var(--ok-soft);color:var(--ok);white-space:nowrap}
+.sync.old{background:var(--coin-soft);color:var(--coin)}
+.return{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.return button{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:2px 8px;font-size:12px}
+.return button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.pill{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.pill.ready{background:var(--ok-soft);color:var(--ok)}
+.pill.fix{background:var(--bad-soft);color:var(--bad)}
+.pill.unknown{background:var(--unk-soft);color:var(--unk)}
+.src{font-family:var(--mono);font-size:10.5px;color:var(--coin);background:var(--coin-soft);padding:1px 6px;border-radius:4px;border:0}
+.src.stale{color:var(--unk);background:var(--unk-soft)}
+.na{display:grid;gap:3px}
+.na b{line-height:1.3}
+.na .why{font-size:13px;color:var(--muted)}
+.na .row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.ghost{border:0;background:none;color:var(--muted);font-size:12px;padding:0;text-decoration:underline;text-underline-offset:2px}
+.goaltag{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.allset{background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:12px 14px;display:grid;gap:2px}
+.allset b{font-family:var(--display);font-weight:500;font-size:18px}
+.broken{background:var(--bad-soft);color:var(--bad);border-radius:10px;padding:14px;display:grid;gap:8px}
+.broken b{font-family:var(--display);font-weight:500;font-size:18px}
+.broken textarea{width:100%;min-height:60px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:12px var(--mono);padding:6px}
+.section-h{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:4px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+
+/* A: Roster */
+.roster{display:grid;gap:6px}
+.r{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.r>button{width:100%;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:center;padding:10px 12px;border:0;background:none;text-align:left}
+.r .n{font-family:var(--display);font-size:15px;color:var(--muted)}
+.r .who{display:grid;line-height:1.25;min-width:0}
+.r .who b{font-family:var(--display);font-weight:500;font-size:16px}
+.r .who span{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.r .playing{font-family:var(--mono);font-size:10px;color:var(--coin);margin-left:6px}
+.r .body{padding:0 12px 12px 44px;display:grid;gap:10px}
+.r .issue{font-size:13px;color:var(--bad);font-weight:700}
+
+/* B: Runway */
+.runway-head{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px}
+.prog{display:grid;gap:4px}
+.prog .track{height:10px;background:var(--sunk);border-radius:999px;overflow:hidden;display:flex}
+.prog .seg{height:100%;background:var(--ok);border-right:2px solid var(--surface)}
+.prog .seg.fix{background:var(--bad)}
+.prog .lbl{display:flex;justify-content:space-between;font-size:13px}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.steps>li{display:grid;grid-template-columns:28px 1fr;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.steps .box{width:20px;height:20px;border:2px solid var(--line);border-radius:5px;margin-top:2px;display:grid;place-items:center;font-size:12px}
+.steps li.done .box{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.steps li.done .na b{text-decoration:line-through;color:var(--muted)}
+.steps .charhead{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;padding:14px 0 2px;border-bottom:0}
+.steps .charhead b{font-family:var(--display);font-weight:500;font-size:16px}
+
+/* C: Focus */
+.strip{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.strip button{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 2px;display:grid;justify-items:center;gap:2px;font-size:11px;color:var(--muted)}
+.strip button b{font-family:var(--display);font-weight:500;font-size:12px;color:var(--fg)}
+.strip button .dot{width:8px;height:8px;border-radius:50%}
+.strip button[aria-current="true"]{border-color:var(--fg);box-shadow:0 0 0 1px var(--fg) inset}
+.dot.ready{background:var(--ok)}.dot.fix{background:var(--bad)}.dot.unknown{background:var(--unk)}
+.focus{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:14px}
+.focus .hero{display:grid;gap:4px}
+.focus .hero h2{font-size:28px}
+.focus .verdictbig{border-radius:10px;padding:10px 12px;font-weight:700}
+.verdictbig.ready{background:var(--ok-soft);color:var(--ok)}.verdictbig.fix{background:var(--bad-soft);color:var(--bad)}
+.focus .first{border:2px solid var(--coin);border-radius:10px;padding:12px;display:grid;gap:4px}
+.focus .first .goaltag{color:var(--coin)}
+.focus .first b{font-size:17px}
+.focus .rest{display:grid;gap:10px}
+.next{width:100%;border:0;border-radius:10px;padding:12px;background:var(--fg);color:var(--bg);font-weight:700}
+.acct-collapsed{display:flex;justify-content:space-between;align-items:center;padding:10px 14px}
+
+/* prototype switcher: deliberately not part of the design */
+.pbar{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;background:#111;color:#fff;border-radius:999px;padding:6px 8px;box-shadow:0 6px 24px rgba(0,0,0,.35);font:12px/1 ui-monospace,monospace;z-index:9;max-width:calc(100vw - 16px);flex-wrap:wrap;justify-content:center}
+.pbar button{background:#333;color:#fff;border:0;border-radius:999px;padding:6px 10px}
+.pbar .lab{padding:0 6px;white-space:nowrap}
+.pbar select{background:#333;color:#fff;border:0;border-radius:999px;padding:5px 8px;font:inherit}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<div class="pbar" role="toolbar" aria-label="Prototype controls">
+  <button id="prev" aria-label="Previous variant">←</button>
+  <span class="lab" id="vlabel"></span>
+  <button id="next" aria-label="Next variant">→</button>
+  <select id="acct" aria-label="Account"></select>
+  <select id="state" aria-label="Screen state">
+    <option value="normal">mid-session</option>
+    <option value="allset">all set</option>
+    <option value="broken">can't read save</option>
+  </select>
+</div>
+
+<script src="accounts.local.js"></script>
+<script>
+// Characters come from accounts.local.js (gitignored, real saves). Without it, this fictional sample is shown.
+const SAMPLE = { label:'Sample', chars:[
+  { id:'mage', cls:'Wizard', lv:40, map:'Frog Fields', doing:'Fighting Frogs', verdict:'fix', issue:'Food runs out in ~2h', playing:true,
+    goals:[{ kind:'blocker', goal:'AFK Setup', na:'Equip a bigger food stack', why:'It runs out before your Expected Return.', src:'wiki', patch:'v1.23', stale:false }] },
+  { id:'warrior', cls:'Barbarian', lv:45, map:'Encroaching Forest', doing:'Fighting Bloques', verdict:'ready', playing:false, goals:[] },
+  { id:'archer', cls:'Bowman', lv:38, map:'Tunnels Entrance', doing:'Mining Copper', verdict:'ready', playing:false,
+    goals:[{ kind:'spendable', goal:'Talents', na:'Spend 4 talent points', why:'Next in your build order.', src:'guide', patch:'v1.22', stale:true }] } ],
+  account:[{ kind:'compounding', goal:'Stamps', na:'Upgrade the cheapest damage stamp you can afford', why:'Stamps boost every character at once.', src:'guide', patch:'v1.22', stale:false }] };
+const ACCOUNTS = window.ACCOUNTS || { sample: SAMPLE };
+let CHARS, ACCOUNT;
+const KIND = { blocker:'Fix', compounding:'Compounding', spendable:'Spend', nice:'Nice to have' };
+const order = c => (c.verdict==='fix'?0:1)*10 - c.goals.length;   // Visit Order: worst Verdict first, then most to spend
+const VLABEL = { ready:'Ready', fix:'Fix before you leave', unknown:'Unknown' };
+
+const P = new URLSearchParams(location.search);
+let variant = (P.get('variant')||'A').toUpperCase();
+let state = P.get('state')||'normal';
+let acct = ACCOUNTS[P.get('account')] ? P.get('account') : Object.keys(ACCOUNTS)[0];
+let ret = '8h', openId, done = new Set(), focusId;
+function loadAcct(){ ({chars:CHARS, account:ACCOUNT} = ACCOUNTS[acct]); openId = (CHARS.find(c=>c.playing)||CHARS[0]).id; done = new Set(); focusId = ordered()[0].id; }
+const VARIANTS = { A:'Roster', B:'Runway', C:'Focus' };
+
+function chars(){ return state==='allset' ? CHARS.map(c=>({...c,verdict:'ready',issue:null,goals:c.goals.filter(g=>g.kind!=='blocker')})) : CHARS; }
+function ordered(){ const cs=chars(); return [...cs].sort((a,b)=>order(a)-order(b)); }
+const esc = s => String(s).replace(/[&<>"]/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+
+function header(){
+  return `<div class="top"><h1>Active<span>On</span></h1><span class="sync">last cloud save 40s ago</span></div>
+  <div class="return">Back in about <span>${['2h','4h','8h','12h'].map(v=>`<button data-ret="${v}" aria-pressed="${v===ret}">${v}</button>`).join(' ')}</span></div>`;
+}
+function naHTML(g){
+  return `<div class="na"><span class="goaltag">${KIND[g.kind]} · ${esc(g.goal)}</span><b>${esc(g.na)}</b><span class="why">Why: ${esc(g.why)}</span>
+  <span class="row"><button class="src ${g.stale?'stale':''}" title="source and patch">${esc(g.src)} · ${g.patch}${g.stale?' · Stale':''}</button>
+  <button class="ghost">Skip today</button><button class="ghost">Not for me</button><button class="ghost">Report this</button></span></div>`;
+}
+function allset(){ return `<div class="allset"><b>All set: safe to log off</b><span>First thing fills up in about 9h (Squire's inventory).</span></div>`; }
+function broken(){ return `<div class="broken"><b>Can't read your save right now</b><span>The game may have just patched. Last good save: today 14:02. No advice is shown until we can read it again.</span><label class="mono" for="paste">Or paste Raw Game JSON from Toolbox:</label><textarea id="paste" placeholder="{ … }"></textarea></div>`; }
+function accountBlock(){
+  return `<p class="section-h">Account</p><div class="card" style="padding:12px;display:grid;gap:12px">${ACCOUNT.map(naHTML).join('')}</div>`;
+}
+function activeBlock(cs){
+  const a = cs.filter(c=>c.active);
+  if(!a.length) return '';
+  return `<p class="section-h">If you have time</p><div class="card" style="padding:12px;display:grid;gap:10px">${a.map(c=>`<div class="na"><span class="goaltag">Active play · ${c.cls}</span><b>${esc(c.active.na)}</b><span class="why">${c.active.est} of hands-on play. Doesn't affect any Verdict.</span></div>`).join('')}</div>`;
+}
+
+// ---------- Variant A: Roster (the spec, literally) ----------
+function A(){
+  const cs = ordered();
+  return header() + (state==='allset'?allset():'') + `<div class="roster">` + cs.map((c,i)=>{
+    const open = c.id===openId;
+    return `<div class="r"><button data-open="${c.id}" aria-expanded="${open}"><span class="n">${i+1}</span>
+      <span class="who"><b>${c.cls} <span class="mono muted">lv ${c.lv}</span>${c.playing?'<span class="playing">● playing</span>':''}</b><span>${esc(c.doing)} · ${esc(c.map)}</span></span>
+      <span class="pill ${c.verdict}">${VLABEL[c.verdict]}</span></button>
+      ${open?`<div class="body">${c.issue?`<p class="issue">${esc(c.issue)}</p>`:''}${c.goals.length?c.goals.slice(0,3).map(naHTML).join(''):'<p class="muted">Nothing to do here.</p>'}</div>`:''}</div>`;
+  }).join('') + `</div>` + accountBlock() + activeBlock(cs);
+}
+
+// ---------- Variant B: Runway (one checklist for the whole session) ----------
+function B(){
+  const cs = ordered();
+  const steps = []; cs.forEach(c=>{ steps.push({head:c}); c.goals.slice(0,3).forEach((g,j)=>steps.push({g,key:c.id+j})); });
+  steps.push({acct:true}); ACCOUNT.forEach((g,j)=>steps.push({g,key:'acct'+j}));
+  const ready = cs.filter(c=>c.verdict==='ready').length;
+  const head = `<div class="runway-head">${header()}
+    <div class="prog"><div class="lbl"><b>${ready} of ${cs.length} characters Ready</b><span class="muted">${ready===cs.length?'safe to log off':'fix '+(cs.length-ready)+' before you leave'}</span></div>
+    <div class="track">${cs.map(c=>`<span class="seg ${c.verdict==='fix'?'fix':''}" style="width:${100/cs.length}%"></span>`).join('')}</div></div></div>`;
+  return head + (state==='allset'?allset():'') + `<ol class="steps">` + steps.map(s=>{
+    if(s.head) return `<li class="charhead"><b>${s.head.cls} <span class="mono muted">lv ${s.head.lv}</span></b><span class="pill ${s.head.verdict}">${VLABEL[s.head.verdict]}</span></li>`;
+    if(s.acct) return `<li class="charhead"><b>Account</b><span class="mono muted">any character</span></li>`;
+    const d = done.has(s.key);
+    return `<li class="${d?'done':''}"><button class="box" data-done="${s.key}" aria-label="Simulate the next save confirming this">${d?'✓':''}</button>${naHTML(s.g)}</li>`;
+  }).join('') + `</ol><p class="mockbanner">In the real app a box ticks itself when the next save confirms it. Tap a box to simulate that.</p>` + activeBlock(cs);
+}
+
+// ---------- Variant C: Focus (just the character you're on) ----------
+function C(){
+  const cs = ordered(); const c = cs.find(x=>x.id===focusId)||cs[0]; const idx = cs.indexOf(c);
+  const [first,...rest] = c.goals;
+  return header() + (state==='allset'?allset():'') +
+  `<div class="strip">${cs.map((x,i)=>`<button data-focus="${x.id}" aria-current="${x.id===c.id}"><span class="dot ${x.verdict}"></span><b>${x.cls.slice(0,4)}</b>${i+1}</button>`).join('')}</div>
+  <div class="focus"><div class="hero"><span class="mono muted">${idx+1} of ${cs.length} in your Visit Order${c.playing?' · you are on this character':''}</span><h2>${c.cls} <span class="mono muted">lv ${c.lv}</span></h2><span class="muted">${esc(c.doing)} · ${esc(c.map)}</span></div>
+    <div class="verdictbig ${c.verdict}">${VLABEL[c.verdict]}${c.issue?': '+esc(c.issue):''}</div>
+    ${first?`<div class="first">${naHTML(first)}</div>`:'<p class="muted">Nothing to do on this character.</p>'}
+    ${rest.length?`<div class="rest">${rest.slice(0,2).map(naHTML).join('')}</div>`:''}
+    ${c.active?`<p class="muted" style="font-size:13px">If you have time: ${esc(c.active.na)} (${c.active.est})</p>`:''}
+    <button class="next" data-next>${idx<cs.length-1?'Next: switch to '+cs[idx+1].cls+' →':'Last one: check the Account list ↓'}</button></div>
+  <details class="card"><summary class="acct-collapsed"><b style="font-family:var(--display);font-weight:500">Account</b><span class="mono muted">${ACCOUNT.length} things · any character</span></summary><div style="padding:0 12px 12px;display:grid;gap:12px">${ACCOUNT.map(naHTML).join('')}</div></details>`;
+}
+
+function render(){
+  const app = document.getElementById('app');
+  app.innerHTML = (state==='broken' ? header()+broken() : ({A,B,C}[variant]||A)()) + `<p class="mockbanner">PROTOTYPE · ${ACCOUNTS===window.ACCOUNTS?'real characters from '+ACCOUNTS[acct].label+"'s save":'fictional sample'}, mock advice</p>`;
+  document.getElementById('vlabel').textContent = `${variant} (${VARIANTS[variant]})`;
+  document.getElementById('state').value = state;
+  document.title = (state==='normal'?'(3) ':'') + 'ActiveOn Now prototype';
+}
+function setURL(){ const q=new URLSearchParams({variant,state,account:acct}); history.replaceState(null,'','?'+q); }
+function cycle(d){ const k=Object.keys(VARIANTS); variant=k[(k.indexOf(variant)+d+k.length)%k.length]; setURL(); render(); }
+document.getElementById('prev').onclick=()=>cycle(-1);
+document.getElementById('next').onclick=()=>cycle(1);
+document.getElementById('state').onchange=e=>{ state=e.target.value; setURL(); render(); };
+document.addEventListener('keydown',e=>{ if(e.target.closest('input,textarea,select,[contenteditable]')) return; if(e.key==='ArrowLeft')cycle(-1); if(e.key==='ArrowRight')cycle(1); });
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-open],[data-ret],[data-done],[data-focus],[data-next]'); if(!t) return;
+  if(t.dataset.open) openId = openId===t.dataset.open?null:t.dataset.open;
+  if(t.dataset.ret) ret=t.dataset.ret;
+  if(t.dataset.done){ const k=t.dataset.done; done.has(k)?done.delete(k):done.add(k); }
+  if(t.dataset.focus) focusId=t.dataset.focus;
+  if(t.hasAttribute('data-next')){ const cs=ordered(); const i=cs.findIndex(x=>x.id===focusId); if(i<cs.length-1) focusId=cs[i+1].id; }
+  render();
+});
+const acctSel=document.getElementById('acct');
+acctSel.innerHTML=Object.entries(ACCOUNTS).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('');
+acctSel.value=acct; acctSel.onchange=e=>{ acct=e.target.value; loadAcct(); setURL(); render(); };
+loadAcct();
+render();
+</script>
+</body>
+</html>
