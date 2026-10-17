@@ -32,9 +32,28 @@ entries:
     needsCharacter: true
     category: spendable
     effortSeconds: 30
-    detector: { id: anvil/points }
+    detector: { id: anvil/points, params: { form: speed } }
     text: "Spend {points:int} anvil points on Speed"
     why: "Unspent anvil points do nothing; Speed makes every anvil product faster."
+    doneWhen: { field: "characters[*].anvilPointsAvailable", change: lower }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/characters.js#L30", title: "Toolbox anvil unspentPoints alert", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 3.1: all points into Speed", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: confirmed }
+  - id: anvil.check.spend-points-capacity
+    system: anvil
+    type: check
+    title: Spend anvil points on Capacity
+    subject: character
+    effect: next-action
+    needsCharacter: true
+    category: spendable
+    effortSeconds: 30
+    detector: { id: anvil/points, params: { form: capacity } }
+    text: "Spend {points:int} anvil points on Capacity"
+    why: "{product:name} reaches anvil capacity before you are back, so more Capacity keeps it producing while you are away."
     doneWhen: { field: "characters[*].anvilPointsAvailable", change: lower }
     appliesTo: { stages: all }
     confidence: H
