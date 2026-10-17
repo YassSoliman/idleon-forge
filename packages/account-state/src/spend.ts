@@ -38,6 +38,8 @@ const arr = (v: unknown): unknown[] | null => {
 
 /** M7 scope: Vault rows 0-61 (W1-W4), book bribes 0-25 (sets 1-4). */
 export const SPEND_VAULT_ROWS = 62;
+/** TR-4 partial-fill checkpoints (cumulative +k levels). */
+export const LADDER_CHECKPOINTS: readonly number[] = [1, 2, 3, 5, 10, 15, 20, 25];
 const GUILDING_TOOLS = 'SmithingHammerChisel2';
 const OLA_GILDED_STAMPS = 154;
 
@@ -92,11 +94,13 @@ function vault(input: SpendReadInput): VaultState | null {
     const ladder: VaultRow['ladder'] = [];
     if (buyable && level < maxLevel) {
       let sum = 0;
-      for (let j = 0; j < Math.min(run.costs.length, maxLevel - level); j++) {
+      const reach = Math.min(run.costs.length, maxLevel - level);
+      for (let j = 0; j < reach; j++) {
         const c = run.costs[j];
         if (c === undefined || !Number.isFinite(c)) break;
         sum += c;
-        ladder.push({ k: j + 1, coins: sum });
+        // TR-2: the checkpoints of TR-4, plus the last level the ladder reaches.
+        if (LADDER_CHECKPOINTS.includes(j + 1) || j + 1 === reach) ladder.push({ k: j + 1, coins: sum });
       }
     }
     rows.push({
@@ -156,7 +160,7 @@ function stamps(input: SpendReadInput): StampState[] | null {
               materialName: s.materialName,
               materialType: s.equip ? 'Equip' : 'Material',
               atDiscount: price(s) as RaisePrice,
-              atZero: price(zeroBy.get(s.rawName)) ?? (price(s) as RaisePrice),
+              atZero: reducer > 0 ? price(zeroBy.get(s.rawName)) : null,
               gilded: price(gildBy.get(s.rawName)),
               ownedInStorage: s.ownedMats,
               ownedAnywhere: held.get(s.material) ?? 0,

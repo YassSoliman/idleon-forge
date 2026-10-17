@@ -249,7 +249,7 @@ describe("US-4 Don't waste the Hydrogen discount (synthetic: Hydrogen Lv 5, raw 
     const priceOf = (ref: string) => stamps.find((s) => stampRef(s.id) === ref)?.raise;
     const [first, ...rest] = steps;
     expect(first?.material?.amount).toBe(priceOf(first?.ref ?? '')?.atDiscount.cost);
-    for (const s of rest) expect(s.material?.amount).toBe(priceOf(s.ref)?.atZero.cost);
+    for (const s of rest) expect(s.material?.amount).toBe(priceOf(s.ref)?.atZero?.cost);
   });
 
   it('AC-4.2 a stamp waiting to fit within 7 days holds the batch; coin levels stay buyable', () => {
@@ -347,7 +347,7 @@ describe('US-7 The plan keeps up with what I bought', () => {
     for (const w of p.wallets) expect(w.planned).toBeLessThanOrEqual(w.coins + 1e-6);
   });
 
-  it('AC-7.2 Duplicate Entries at Lv 1: no longer first, and the Bowman pays lines below', () => {
+  it('AC-7.2 Duplicate Entries at Lv 1: no longer first, and its ~100M on the Bowman is free', () => {
     const s = spendStateOf(scrubbedFile('scrubbed-w3'), (d) => {
       const v = (typeof d.UpgVault === 'string' ? JSON.parse(d.UpgVault) : d.UpgVault) as number[];
       v[52] = 1;
@@ -356,7 +356,8 @@ describe('US-7 The plan keeps up with what I bought', () => {
     const p = planOf(s);
     expect(p.lines[0]?.entryId).not.toMatch(/#duplicate-entries$/);
     expect(vaultStep(p, 52)).toBeUndefined();
-    expect(p.lines.some((l) => l.payer === W3_BOWMAN)).toBe(true);
+    const bowman = p.wallets.find((w) => w.holder === W3_BOWMAN);
+    expect((bowman?.coins ?? 0) - (bowman?.planned ?? 0)).toBeGreaterThan(1e8);
   });
 });
 

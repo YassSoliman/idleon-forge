@@ -70,7 +70,7 @@ export {
   killsLeftTable,
 } from './frontier';
 // M7 Spend Plan (M7 TR-2)
-export { SPEND_VAULT_ROWS } from './spend';
+export { LADDER_CHECKPOINTS, SPEND_VAULT_ROWS } from './spend';
 export type {
   AnvilCoinPoint,
   BribeState,

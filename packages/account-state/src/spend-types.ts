@@ -28,9 +28,9 @@ export interface VaultRow {
   /** Toolbox `costToMax`. */
   costToMax: number;
   /**
-   * Cumulative coins for +k levels, k = 1 .. min(25, maxLevel - level): the sum of Toolbox's per-level
-   * `cost` at L .. L+k-1 from the worker re-parses (TR-4). `ladder[0] = { k: 1, coins: nextCost }`.
-   * Empty when the row is maxed or locked.
+   * Cumulative coins for +k levels at the TR-4 checkpoints k in {1, 2, 3, 5, 10, 15, 20, 25} (and the last
+   * level the ladder reaches, when the row maxes sooner): the sum of Toolbox's per-level `cost` at
+   * L .. L+k-1 from the worker re-parses. `ladder[0] = { k: 1, coins: nextCost }`. Empty when maxed or locked.
    */
   ladder: { k: number; coins: number }[];
 }
@@ -62,8 +62,8 @@ export interface StampRaise {
   materialType: 'Material' | 'Equip' | (string & {});
   /** At the current Hydrogen discount, never gilded (the parsed save's own price is gilded, TR-4). */
   atDiscount: RaisePrice;
-  /** At 0% discount: the price of every raise after the first in a Hydrogen batch (FR-11). Equals atDiscount at 0%. */
-  atZero: RaisePrice;
+  /** At 0% discount: the price of every raise after the first in a Hydrogen batch (FR-11); null at 0% (then atDiscount). */
+  atZero: RaisePrice | null;
   /** With one Gilded Stamp (x0.05), only when the account holds one (OLA[154] > 0). */
   gilded: RaisePrice | null;
   /** Toolbox `ownedMats` (storage only). */

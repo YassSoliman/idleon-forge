@@ -144,7 +144,7 @@ function vaultTarget(item: ResolvedSpendItem, row: VaultRow): number | null {
 
 /** Coins for +k levels: the ladder when it reaches, costToMax for the whole way, else null (beyond the ladder). */
 function vaultCost(row: VaultRow, k: number): number | null {
-  const step = row.ladder[k - 1];
+  const step = row.ladder.find((x) => x.k === k);
   if (step) return step.coins;
   if (row.level + k === row.maxLevel && finite(row.costToMax) && row.costToMax > 0) return row.costToMax;
   return null;
@@ -168,7 +168,8 @@ export function vaultCandidates(item: ResolvedSpendItem, ctx: CandidateContext):
   // A target past the ladder's reach is cut to it (the rest stays a later line), unless it is the max.
   let k = to - row.level;
   if (vaultCost(row, k) === null) {
-    k = Math.min(k, row.ladder.length);
+    // Cut to the largest ladder checkpoint below the target; the rest stays a later line.
+    k = row.ladder.filter((x) => x.k < k).at(-1)?.k ?? 0;
     to = row.level + k;
   }
   const coins = vaultCost(row, k);
@@ -185,11 +186,9 @@ export function vaultCandidates(item: ResolvedSpendItem, ctx: CandidateContext):
     coins,
     steps: [step(to, coins)],
   });
-  c.partial = CHECKPOINTS.filter((x) => x < k)
-    .flatMap((x) => {
-      const p = row.ladder[x - 1];
-      return p ? [{ coins: p.coins, steps: [step(row.level + x, p.coins)] }] : [];
-    })
+  c.partial = row.ladder
+    .filter((x) => x.k < k && (CHECKPOINTS as readonly number[]).includes(x.k))
+    .map((p) => ({ coins: p.coins, steps: [step(row.level + p.k, p.coins)] }))
     .reverse();
   c.fields = [
     `account.spend.vault.rows[${index}].level`,
@@ -212,8 +211,11 @@ export function unlockFuel(spend: SpendInputs): { levels: number; coinsAbout: nu
   const marginals: number[] = [];
   for (const row of vault.rows) {
     if (!row.buyable) continue;
+    // Between two checkpoints each level counts as the interval's average: an estimate ("about").
     row.ladder.forEach((s, i) => {
-      marginals.push(s.coins - (i === 0 ? 0 : (row.ladder[i - 1]?.coins ?? 0)));
+      const prev = i === 0 ? { k: 0, coins: 0 } : (row.ladder[i - 1] as { k: number; coins: number });
+      const n = s.k - prev.k;
+      for (let j = 0; j < n; j++) marginals.push((s.coins - prev.coins) / n);
     });
   }
   marginals.sort((a, b) => a - b);
@@ -325,7 +327,12 @@ function raiseCandidates(item: ResolvedSpendItem, ctx: CandidateContext, stamps:
   for (const s of byCost) {
     const r = s.raise as StampRaise;
     const first = !firstTaken;
-    const variant = gildedHeld && first && r.gilded ? r.gilded : batching && !first ? r.atZero : r.atDiscount;
+    const variant =
+      gildedHeld && first && r.gilded
+        ? r.gilded
+        : batching && !first
+          ? (r.atZero ?? r.atDiscount)
+          : r.atDiscount;
     const verdict = raiseReady(s, variant, discount);
     if (verdict === 'ready') {
       ready.push({ s, price: variant.cost });
