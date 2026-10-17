@@ -37,27 +37,27 @@ Players never see M11 directly, but everything they read comes through it. It is
 ## 3. Functional requirements
 
 **Entries and schema**
-- **FR-1** Every entry is one of seven types: `goal`, `contribution`, `check`, `priority` (Priority List), `build`, `acquisition` or `metapath` (Meta Path). An entry of any other type fails `kb check`.
+- **FR-1** Every entry is one of seven types: `goal`, `contribution`, `check`, `priority` (Priority List), `build`, `acquisition` or `metapath` (Meta Path). An entry of any other type fails `kb check`. Fact tables (TR-2a) are not entries: they hold game facts that entries and Detectors read, so the seven types stand.
 - **FR-2** Every entry has `id`, `system`, `type`, `title`, `text` (a template with slots), `why`, `sources[]` (at least one), `appliesTo`, `confidence` (H/M/L) and `status` (active / contested / retired). A missing or empty field fails CI, and the error names the file, the line and the field.
 - **FR-3** Every Source has an https URL, a title, an ADR 0004 tier (1–4), a verified date and the game version it was verified on. Tier 2 and tier 3 Sources must also carry `claimDate`, the date of the claim itself, not the page (#3). A tier 1 Source must be a permalink to game data: a Toolbox file at a 40-character commit sha. Our own dossiers are cited as tier 4 for the write-up, next to the tier 1 Toolbox link they rely on (red-team R17).
-- **FR-4** Entry ids are unique across authored and generated entries, follow `<system>.<type>.<slug>`, and their middle segment matches `type`.
+- **FR-4** Entry ids are unique across authored and generated entries, follow `<system>.<type>.<slug>`, and their middle segment matches `type`. System ids and slugs are lower-case kebab. Detector ids follow `<system>/<name>` and fact table ids `<system>.fact.<slug>` (TR-2a). These three formats bind every module spec (M2–M9 were aligned to them in the 2026-10-17 consistency pass).
 - **FR-5** Every id an entry references (`extends`, `goal`, Priority List tiers, `replacedBy`, Acquisition `requires`) resolves to an existing entry of an allowed type. A Priority List cannot reference a retired entry. A dangling reference fails CI.
 - **FR-6** An entry with `status: contested` carries at least two `contested.sides`, each with its own Sources. A contested entry can never be a Check with `effect: blocker`; CI rejects that combination.
 - **FR-7** A Check with `effect: blocker` (a Verdict blocker) needs `confidence: H` and at least one tier 1 or tier 2 Source (game data or code, or a wiki edit made after the patch; D3). CI enforces it.
 - **FR-8** Priority Lists hold ordered tiers of entry ids (ties allowed) and contain no numeric weight, score or rank field anywhere. Any unknown key fails CI (strict schema).
 
 **Detectors**
-- **FR-9** Every `detector.id` in YAML resolves to a registered Detector of the kind that entry type needs, and the entry's `params` pass that Detector's params schema.
-- **FR-10** Every registered Detector is referenced by at least one entry. An orphan Detector fails CI.
+- **FR-9** Every `detector.id` in YAML resolves to a registered Detector of the kind that entry type needs, and the entry's `params` pass that Detector's params schema. Ids resolve against two registries: the Knowledge Base registry (`packages/knowledge/detectors`) and the engine registry of **engine Detectors** (`kind: 'engine'`, `packages/engine`, TR-4), whose output shape is defined by their module spec (M2 Stage, roster and pusher; M5 options; M7 spend lines).
+- **FR-10** Every registered Detector, in either registry, is referenced by at least one entry. An orphan Detector fails CI.
 - **FR-11** Every Detector declares at least one `fires` example and one `silent` example, and at least one of the two is a real save (public or scrubbed) rather than a mutated one. A generic test runs every example, and the job fails if any result differs from what the example declares.
 - **FR-12** A Detector is deterministic. It gets the same result twice in a row on the same input. It throws if it touches `Date`, `Math.random`, `performance` or a global. It reads only the Account State fields it declares in `reads`, and a tracking proxy in tests enforces that.
-- **FR-13** A Detector that can't tell from the data returns `unknown` for that subject. It never guesses `fires` or `silent`. If a Detector throws at runtime, the engine records `unknown` for that entry, and a CI test still catches the throw before merge. Only a throw in a blocker Check's Detector makes the Verdict Unknown; any other throw drops that entry's line.
+- **FR-13** A Detector that can't tell from the data returns `unknown` for that subject. It never guesses `fires` or `silent`. If a Detector throws at runtime, the engine records `unknown` for that entry, and a CI test still catches the throw before merge. Only a throw in a blocker Check's Detector makes the Verdict Unknown (`affectsVerdict`, TR-2b); any other throw drops that entry's line and is counted in the footer (M10 FR-39, M6 R9).
 
 **Generated facts (ADR 0007)**
 - **FR-14** `kb generate` rebuilds every generated entry from the pinned Toolbox data. It runs at the end of `pnpm sync-parsers`, and its output is committed to `packages/knowledge/generated/`.
 - **FR-15** CI regenerates the facts and fails if the committed output differs ("generated facts are out of date; run `pnpm kb generate`").
 - **FR-16** A generated entry's Source is tier 1. Its URL points to the Toolbox file at the pinned commit, and its verified date and game version come from `UPSTREAM`.
-- **FR-17** In authored YAML, a numeric literal equal to a value in a generated fact that the entry references fails CI ("hand-copied fact; use a slot"). Authored Acquisitions can't carry `chance`, and authored Goals that `extend` a generated Goal can't redefine `milestones`.
+- **FR-17** In authored YAML, a numeric literal equal to a value in a generated fact or fact table that the entry references fails CI ("hand-copied fact; use a slot"). Authored Acquisitions can't carry `chance`, and authored Goals that `extend` a generated Goal can't redefine `milestones`.
 - **FR-18** `kb generate` prints a fact diff (added, removed, changed ids with old → new values, identical changes grouped across entries, and possible renames) for the sync PR body. A generator that fails, or that drops an id an authored entry still references, never blocks the parser update: its last good output is **held** (TR-10), the sync PR stays mergeable, and the held facts are labelled with their older game version until the hold is cleared.
 
 **Lifecycle**
@@ -74,12 +74,12 @@ Players never see M11 directly, but everything they read comes through it. It is
 - **FR-27** No scrubbed fixture, golden, YAML entry or Detector example contains a real character name, guild name, other player's name, account id or email. The local denylist gate (seeded automatically by every scrub) and the CI gates enforce it: the structural gate on scrubbed fixtures, and the golden slot check (every string slot in a golden is a `_lookups` value or matches `^C\d+$`). Toolbox's public saves are already public and exempt; they never feed a golden's text except through slots that pass that check.
 
 **Workflow**
-- **FR-28** A Knowledge Base PR can't merge without: a green `kb check`, updated goldens, a red-team review with no open blocking findings when the PR changes authored entries or Detectors (a sync PR that only regenerates facts and goldens needs none; its fact diff and `## Verdict changes` go to player review instead), run by the stronger model when the PR adds or changes a Verdict blocker or a Stage Priority List (D7), and approval from Yasser or Joseph through CODEOWNERS on `packages/knowledge/` or `fixtures/scrubbed/`. Either one's approval is enough (D6).
-- **FR-29** `reportContext()` returns exactly `{entryId, kbVersion, gameVersion, parserCommit, stage, class, level}` and nothing else.
+- **FR-28** A Knowledge Base PR can't merge without: a green `kb check`, updated goldens, a red-team review with no open blocking findings when the PR changes authored entries or Detectors (a sync PR that only regenerates facts and goldens needs none; its fact diff and `## Verdict changes` go to player review instead), run by the stronger model when the PR adds or changes a Verdict blocker or a Stage Priority List (D7), and approval from Yasser or Joseph through CODEOWNERS on the paths Joseph co-owns: the YAML entries, generated facts and goldens under `packages/knowledge/`, and `fixtures/scrubbed/`. Either one's approval is enough there (D6). `packages/knowledge/{detectors,generators,src}` need Yasser (Final rulings RT-4).
+- **FR-29** `entryReportFields(output)` (renamed from `reportContext()`, so that only M13 uses the name `ReportContext`) returns exactly `{entryIds, detectorIds, fieldPaths, stale, contested}` and nothing else: the provenance part of M13's `ReportContext` (M13 TR-3). Versions come from M12's `BuildInfo`, the Stage from M2, and class and level from M1's `accountReportFields(state)`. What leaves the device is only M13's `SuggestionContext` (ADR 0008).
 
 ## 4. User stories
 
-Fixture ids: `scrubbed-w2` (Yasser's save, W2-late, 5 characters) and `scrubbed-w3` (Joseph's save, W3-early, 6 characters, two Squires) are the scrubbed fixtures (TR-14). They are shorthand for the dated ids `scrubbed-w2-2026-10` and `scrubbed-w3-2026-10` (D4). `scrubbed-w3` is committed only in a PR that records Joseph's explicit consent (D1); until then, the stories that use it run locally as `private:joseph-w3` and are reported as skipped in CI. `highend`, `fresh` and the other public ids are Toolbox's public saves. Unless a story says otherwise, "engine runs" means at the fixture's `now`, with an Expected Return of 8 h and no save history.
+Fixture ids: `scrubbed-w2` (Yasser's save, W2-late, 5 characters) and `scrubbed-w3` (Joseph's save, W3-early, 6 characters, two Squires) are the scrubbed fixtures (TR-14). They are shorthand for the dated ids `scrubbed-w2-2026-10` and `scrubbed-w3-2026-10` (D4). Joseph has consented (relayed by Yasser on 2026-10-17, M1 Final rulings D1), so `scrubbed-w3` is committed in the PR that adds it, which records that consent (D1). Until that PR merges, the stories that use it run locally as `private:joseph-w3` and are reported as skipped in CI. `highend`, `fresh` and the other public ids are Toolbox's public saves. Unless a story says otherwise, "engine runs" means at the fixture's `now`, with an Expected Return of 8 h and no save history.
 
 **US-1: every piece of advice is cited.**
 As a player in a Play Session, I want every Next Action to show where it came from, so that I can trust it or check it myself.
@@ -98,7 +98,7 @@ As a player in a Play Session, I want advice the community disagrees on to show 
 
 **US-4: game numbers stay right after a patch.**
 As a player in a Play Session, I want kill Milestones and costs to match the current game, so that "next Milestone at 100k" is true today.
-- **Given** a parser sync whose Toolbox data changes one Death Note rank threshold (synthetic data slice in the generator test) **When** `kb generate` runs **Then** `generated/deathnote.json` changes that threshold in every ladder that uses it, the fact diff lists it once as a grouped change ("104 entries: milestone 2, 100000 → 120000"), and the `scrubbed-w3` golden (CI variant: `scrubbed-w2`) shows the new Milestone, with no authored YAML edited.
+- **Given** a parser sync whose Toolbox data changes one Death Note rank threshold (synthetic data slice in the generator test) **When** `kb generate` runs **Then** `generated/death-note.json` changes that threshold in every ladder that uses it, the fact diff lists it once as a grouped change ("104 entries: milestone 2, 100000 → 120000"), and the `scrubbed-w3` golden (CI variant: `scrubbed-w2`) shows the new Milestone, with no authored YAML edited.
 - **Given** an authored entry that references a generated id the new data no longer produces **When** `kb generate` runs in the sync PR **Then** the generator's previous output is held, the PR body names the authored file and id under "Held facts", and the parser update stays mergeable.
 
 **US-5: ActiveOn says what it doesn't know.**
@@ -116,7 +116,7 @@ As a player in a Play Session, I want "What's new" to list the advice that chang
 
 **US-8: reporting wrong advice leaks nothing.**
 As a player in a Play Session, I want "Report this" to send just enough to fix the entry, so that I can report freely without sharing my account.
-- **Given** `scrubbed-w2` and a Next Action on character 2 produced by entry X **When** `reportContext()` runs for it **Then** the payload's keys are exactly `entryId, kbVersion, gameVersion, parserCommit, stage, class, level`, and no value matches any `charNames` entry of the fixture.
+- **Given** `scrubbed-w2` and a Next Action on character 2 produced by entry X **When** `entryReportFields()` runs for it **Then** the payload's keys are exactly `entryIds, detectorIds, fieldPaths, stale, contested`, and no value matches any `charNames` entry of the fixture. (The full report is M13's `SuggestionContext`; M13 US-3 tests it end to end.)
 
 **US-9: no wrong Verdict blocker reaches us.**
 As a player in a Play Session, I want every change to Verdicts reviewed on my own account before it ships, so that "Fix before you leave" is never wrong (the #13 done bar).
@@ -135,6 +135,8 @@ packages/knowledge/                     runtime package, imported by packages/en
   systems.yaml                          System registry (TR-9)
   systems/<system>.yaml                 authored entries, one file per System
   generated/<system>.json               generated fact entries (committed, never hand-edited)
+  generated/<system>.facts.json         generated fact tables (TR-2a; committed, never hand-edited)
+  systems/<system>.facts.yaml           authored tier-2 fact tables, each with a cited Source (TR-2a)
   generated/_patches.json               ordered game versions from Toolbox patch notes
   generated/_lookups.json               validation tables: talent, item, monster, map, class names (not shipped)
   detectors/<system>/<name>.ts          Detectors, one per file, plus a co-located <name>.test.ts if needed
@@ -144,10 +146,11 @@ packages/knowledge/                     runtime package, imported by packages/en
   src/types.ts                          z.infer types, Detector types (TR-4)
   src/template.ts                       template parser and renderer (TR-6)
   src/stale.ts, src/version.ts, src/coverage.ts, src/report.ts
-  src/index.ts                          runtime surface: loadKnowledge(), render(), isStale(), coverage(), diffManifests(), reportContext()
+  src/index.ts                          runtime surface: loadKnowledge(), render(), isStale(), coverage(), diffManifests(), entryReportFields()
   dist/knowledge.json                   compiled bundle (build output, gitignored)
   golden/<fixture>.md                   committed goldens for public and scrubbed fixtures (data only, never bundled;
-                                        here so they sit under the co-owned path, D6)
+                                        here so they sit under the co-owned path, D6); their `## Now` section is
+                                        M10's renderNowText output (TR-15)
   majors.yaml                           game versions that count as major patches (TR-11, D2)
 packages/kb-tools/                      dev only, private, never imported by apps/*
   src/cli.ts                            `pnpm kb <command>`
@@ -260,11 +263,15 @@ const Base = z.strictObject({
 // ---------- the seven types ----------
 const Milestone = z.strictObject({ at: z.number().positive(), reward: Template });
 
+/** M10 TR-2 `Category` minus 'blocker'. A display label only: it never orders anything (M2 TR-14, M6 D1). */
+export const Category = z.enum(['compounding', 'spendable', 'nice']);
+/** FieldPath (TR-4) as a schema, for doneWhen. */
+const FieldPathSchema = z.string().min(1).max(200);
+
 export const GoalEntry = Base.extend({
   type: z.literal('goal'),
   scope: z.enum(['character', 'account']),
-  /** #10 ranking inside a character: blockers, then compounding, then spendables, then nice-to-haves. */
-  rankClass: z.enum(['compounding', 'spendable', 'nice-to-have']),
+  category: Category,
   unit: z.string().min(1).max(24),
   progress: DetectorRef, // a 'progress' Detector
   /** Inherit the Milestone ladder (a game fact) from a generated Goal. Exactly one of extends / milestones. */
@@ -283,11 +290,19 @@ export const ContributionEntry = Base.extend({
       target: RawName.optional(),
     })
     .refine((a) => (a.afkType === undefined) !== (a.slot === undefined), 'exactly one of afkType or slot'),
-  goal: EntryId, // the Goal this activity advances; one activity serving several Goals = several Contributions
+  /** The Goal this activity advances; one activity serving several Goals = several Contributions. Exactly one of goal / goalFamily. */
+  goal: EntryId.optional(),
+  /** A generated Goal family prefix, e.g. "upgrade-vault.goal.kill-row" (M4 TR-4). `kb compile` expands it into one concrete
+   *  Contribution per generated Goal in the family, id `<system>.contribution.<slug>-<goal-slug>`, so runtime only sees `goal`. */
+  goalFamily: z.string().regex(new RegExp(`^${SLUG}\\.goal\\.${SLUG}$`)).optional(),
   detector: DetectorRef, // a 'contribution' Detector
   /** #11 item 8: fighting gets an ETA from Toolbox kills per hour; skilling is yes/no only. */
   eta: z.enum(['kills-per-hour', 'none']),
-});
+  /** The stop-here suggestion text at a Milestone (M4 FR-13). */
+  stopHere: Template.optional(),
+  /** With status 'contested': whether Sources disagree on the order only, or on usefulness itself (M4 FR-15). */
+  contestedOn: z.enum(['order', 'usefulness']).optional(),
+}).refine((c) => (c.goal === undefined) !== (c.goalFamily === undefined), 'exactly one of goal or goalFamily');
 
 export const CheckEntry = Base.extend({
   type: z.literal('check'),
@@ -301,6 +316,36 @@ export const CheckEntry = Base.extend({
   /** Whether the Detector uses the Expected Return (fills or runs out before the player is back). */
   usesExpectedReturn: z.boolean().default(false),
   activePlay: ActivePlay.optional(),
+  /** Display label for a next-action Check's Goal (M10). */
+  category: Category.optional(),
+  /** M6: the frame position follows the finding's urgency (1 when losing-now or lost-before-return, else 3; M2 TR-13). */
+  priority: z.strictObject({ frame: z.literal('by-urgency') }).optional(),
+  /** M6 TR-9: authored effort, the "cheapest" tie-break ({unit: 'hours', amount: effortSeconds / 3600}, M2 TR-14). */
+  effortSeconds: z.int().positive().optional(),
+  /** M6 TR-8: done only on this explicit field change in a later save, never on "stopped firing". */
+  doneWhen: z
+    .strictObject({
+      field: FieldPathSchema,
+      becomes: z.union([z.number(), z.string(), z.boolean()]).optional(),
+      change: z.enum(['lower', 'higher', 'changed']).optional(),
+    })
+    .optional(),
+  /** Derived at compile time: true exactly for effect 'blocker'. YAML may state it only as an assertion, which CI checks (M6 R9). */
+  affectsVerdict: z.boolean().optional(),
+});
+
+/** M7 TR-6: what a Spend Plan item buys. */
+const SpendBlock = z.strictObject({
+  sink: z.enum(['vault', 'stamp', 'bribe', 'statue-gold', 'p2w', 'anvil']),
+  target: z.strictObject({
+    kind: z.enum(['once', 'to-level', 'to-max', 'levels', 'next', 'cheapest-until-unlock']),
+    level: z.int().positive().optional(),
+    levels: z.int().positive().optional(),
+  }),
+  reserve: z.boolean().default(false), // M7 D2
+  openEnded: z.boolean().default(false), // M7 D6, FR-24
+  gate: DetectorId.nullable().default(null), // e.g. 'spend/combat-row-gate'
+  shareCap: z.number().positive().max(1).nullable().default(null), // open-ended items default to 1/3 in the engine (M7 FR-24)
 });
 
 const TierItem = z.union([
@@ -308,40 +353,68 @@ const TierItem = z.union([
   z
     .strictObject({
       ref: EntryId,
-      verification: z.enum(['confirmed', 'corrected', 'contested', 'unverified']),
+      verification: z.enum(['confirmed', 'corrected', 'contested', 'unverified']).optional(),
       sources: z.array(Source).default([]),
       /** Required when verification is 'contested' and the referenced entry isn't itself contested. */
       sides: z.array(Side).min(2).optional(),
+      /** M6: listed once, in the never-skip block; the engine moves it to position 3 when its urgency is 'banked' (M2 TR-13). */
+      byUrgency: z.boolean().optional(),
+      /** M8 D5, M7: still ranks, after the last authored position, in later Stage lists that don't list it (M2 TR-13). */
+      carryForward: z.boolean().optional(),
     })
     .refine((t) => t.verification !== 'contested' || t.sides !== undefined, 'a contested item needs at least 2 sides'),
-  /** Splice in a shared block (another Priority List with list: 'block'), e.g. #26's never-skip position-1 block. */
+  /** Splice in a shared block (another Priority List with list: 'block'), e.g. #26's never-skip position-1 block.
+   *  An include contributes all of the block's items to this ONE position, as a tie; blocks never shift later positions. */
   z.strictObject({ include: EntryId }),
+  /** M7: one Spend Plan item, only inside a list: 'spend'. Its stable key is `${listId}#${item}` (M7 SpendLine.entryId). */
+  z.strictObject({
+    item: z.string().regex(new RegExp(`^${SLUG}$`)), // unique within its list
+    ref: EntryId, // a generated Acquisition, e.g. upgrade-vault.acquisition.row-23
+    spend: SpendBlock,
+    text: Template,
+    why: Template,
+    sources: z.array(Source).min(1),
+    confidence: z.enum(['H', 'M', 'L']),
+    verification: z.enum(['confirmed', 'corrected', 'contested', 'unverified']).optional(),
+    carryForward: z.boolean().optional(),
+  }),
 ]);
 export const PriorityEntry = Base.extend({
   type: z.literal('priority'),
-  /** 'block' lists are only included by other lists; they have no Stage of their own. */
-  list: z.enum(['goals', 'spend', 'leverage', 'block']),
+  /** 'block' lists are only included by other lists; they have no Stage of their own.
+   *  'order' lists are System-internal orderings (merit rows, gem buys, stamp acquisition, card sets, card lists); their Stage is optional. */
+  list: z.enum(['goals', 'spend', 'leverage', 'block', 'order']),
   stage: StageId.optional(),
   /** Ordered positions; each position is a tie of one or more items. No weights, ever. */
   tiers: z.array(z.array(TierItem).min(1)).min(1),
 });
 
+/** M9 TR-5 owns this shape (role-keyed presets, per-tab steps, conditions, the attack bar). Builds carry no Detector:
+ *  M9's Checks (`builds/*`) read them. */
+export const StepCondition = z.union([
+  z.strictObject({ kind: z.literal('stageAtLeast'), stage: StageId }),
+  z.strictObject({ kind: z.literal('accuracyShort') }),
+]);
+export const BuildStep = z.strictObject({
+  talent: RawName, // a generated talent fact, checked against talents.fact tables
+  target: z.union([z.int().positive(), z.literal('max')]),
+  tie: z.string().optional(),
+  core: z.boolean().optional(), // only the steps M9 TR-5 lists; CI enforces (M9 TR-15)
+  hardCap: z.boolean().optional(),
+  when: z.array(StepCondition).optional(),
+  breakpoints: z.array(z.int().positive()).optional(),
+});
 export const BuildEntry = Base.extend({
   type: z.literal('build'),
-  class: ClassName,
-  preset: z.union([z.literal(1), z.literal(2)]),
-  role: RoleId.optional(),
-  order: z
-    .array(
-      z.strictObject({
-        talent: RawName, // e.g. REFINERY_THROTTLE; checked against generated talents
-        level: z.union([z.int().positive(), z.literal('max')]),
-        note: Template.optional(),
-      }),
-    )
-    .min(1),
-  stars: z.array(RawName).default([]),
-  detector: DetectorRef.default({ id: 'builds/talent-drift', params: {} }),
+  classLine: ClassName, // e.g. "Squire"
+  role: z.enum(['fighting', 'skilling']),
+  serves: z.array(z.enum(AFK_TYPES)), // e.g. ["MINING"]; [] for the Hunter's trapping preset
+  variant: z.literal('afk'),
+  /** The role's talents for classification (M9 TR-6), not only the steps. */
+  tags: z.array(RawName).min(1),
+  tabs: z.array(z.strictObject({ tab: z.union([z.literal(1), z.literal(2), z.literal(3)]), steps: z.array(BuildStep).min(1) })).min(1),
+  attacks: z.array(RawName).default([]),
+  onePointOk: z.array(RawName).default([]),
 });
 
 const Requirement = z.union([EntryId, z.strictObject({ text: Template })]);
@@ -367,7 +440,8 @@ export const AcquisitionEntry = Base.extend({
 
 export const MetaPathEntry = Base.extend({
   type: z.literal('metapath'),
-  part: z.enum(['slots', 'roles', 'milestones']),
+  /** M2 TR-7 adds stages, pusher-rule and gate-chain. */
+  part: z.enum(['slots', 'roles', 'milestones', 'stages', 'pusher-rule', 'gate-chain']),
   slots: z
     .array(
       z.strictObject({
@@ -381,7 +455,33 @@ export const MetaPathEntry = Base.extend({
       .refine((sl) => (sl.status === 'contested') === (sl.sides !== undefined), 'a contested slot needs sides, and only a contested slot has them'),
     )
     .optional(),
-  roles: z.array(z.strictObject({ id: RoleId, classLine: ClassName, does: Template })).optional(),
+  roles: z
+    .array(
+      z.strictObject({
+        id: RoleId,
+        classLine: ClassName,
+        does: Template,
+        activeFrom: StageId, // M2 TR-9, e.g. construction-builder from W3-early
+        owns: z.array(z.string()).default([]), // AFK types or Parallel Slots, e.g. "parallel:cog-seat"
+        visitHint: z.enum(['pool-after', 'cooldown', 'skip-trap-stop']).optional(), // M2 TR-12
+      }),
+    )
+    .optional(),
+  /** M2 TR-4/TR-5: the 10 Stages; thresholds are referenced by fact id, never typed in. */
+  stages: z
+    .array(z.strictObject({ id: StageId, rule: z.string().min(1), needs: z.array(Template).default([]), factRefs: z.array(z.string()).default([]) }))
+    .optional(),
+  /** M2 TR-10, D1: the incumbent margin (1.25). */
+  pusherRule: z.strictObject({ margin: z.number().min(1) }).optional(),
+  /** M2 TR-11: the ordered gate steps of one or more worlds. */
+  gateChain: z
+    .array(
+      z.strictObject({
+        world: z.int().min(1).max(4),
+        steps: z.array(z.strictObject({ kind: z.enum(['route', 'quest', 'boss', 'crystal', 'gatekeeper']), ref: z.string().optional() })).min(1),
+      }),
+    )
+    .optional(),
   milestones: z
     .array(
       z.strictObject({
@@ -404,7 +504,7 @@ export const AuthoredFile = z.strictObject({
 });
 
 const GeneratedBy = z.strictObject({
-  generator: z.string(), // e.g. "deathnote"
+  generator: z.string(), // e.g. "death-note"
   inputs: z.array(z.string()).min(1), // e.g. ["parsers/world-3/deathNote.ts#DEATH_NOTE_RANKS", "website-data/shared-data.json#deathNote"]
   commit: z.string().regex(/^[0-9a-f]{40}$/),
 });
@@ -421,6 +521,25 @@ export const GeneratedEntry = z
     }),
   ])
   .superRefine(entryRules);
+
+// ---------- fact tables (TR-2a): game facts that are not entries ----------
+export const FactId = z.string().regex(new RegExp(`^${SLUG}\\.fact\\.${SLUG}$`), 'fact id must be <system>.fact.<slug>');
+export const FactTable = z
+  .strictObject({
+    id: FactId,
+    system: SystemId,
+    /** 'authored' = a tier 2–3 fact not yet generatable (ADR 0007), e.g. metapath.fact.family-slots, stamps.fact.unobtainable. */
+    origin: z.enum(['generated', 'authored']),
+    title: z.string().min(1).max(80),
+    /** Validated by the schema its generator declares, or by a zod schema co-located with the authored file. */
+    rows: z.unknown(),
+    sources: z.array(Source).min(1),
+    generatedBy: GeneratedBy.optional(),
+  })
+  .refine((f) => (f.origin === 'generated') === (f.generatedBy !== undefined), 'generatedBy only, and always, on generated tables')
+  .refine((f) => f.origin === 'generated' ? f.sources.every((s) => s.tier === 1) : f.sources.every((s) => s.tier === 2 || s.tier === 3), {
+    message: 'generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate',
+  });
 
 // ---------- single-entry rules ----------
 type EntryShape = z.infer<
@@ -456,10 +575,17 @@ function entryRules(e: EntryShape, ctx: z.RefinementCtx) {
       ctx.addIssue({ code: 'custom', path: ['appliesTo'], message: 'appliesTo.stages must be [stage]' });
   }
   if (e.type === 'metapath') {
-    const present = (['slots', 'roles', 'milestones'] as const).filter((k) => e[k] !== undefined);
-    if (present.length !== 1 || present[0] !== e.part)
-      ctx.addIssue({ code: 'custom', path: ['part'], message: `part "${e.part}" needs exactly the "${e.part}" array` });
+    const fieldOf = { slots: 'slots', roles: 'roles', milestones: 'milestones', stages: 'stages', 'pusher-rule': 'pusherRule', 'gate-chain': 'gateChain' } as const;
+    const present = (Object.values(fieldOf) as (keyof typeof e)[]).filter((k) => e[k] !== undefined);
+    if (present.length !== 1 || present[0] !== fieldOf[e.part])
+      ctx.addIssue({ code: 'custom', path: ['part'], message: `part "${e.part}" needs exactly the "${fieldOf[e.part]}" field` });
   }
+  if (e.type === 'contribution' && e.contestedOn !== undefined && e.status !== 'contested')
+    ctx.addIssue({ code: 'custom', path: ['contestedOn'], message: 'contestedOn only on a contested entry' });
+  if (e.type === 'check' && e.affectsVerdict !== undefined && e.affectsVerdict !== (e.effect === 'blocker'))
+    ctx.addIssue({ code: 'custom', path: ['affectsVerdict'], message: 'affectsVerdict is true exactly for effect: blocker' });
+  if (e.type === 'check' && e.priority?.frame === 'by-urgency' && e.effect === 'blocker')
+    ctx.addIssue({ code: 'custom', path: ['priority'], message: 'Verdict blockers are not list items' });
 }
 
 export type Entry = z.infer<typeof AuthoredEntry> | z.infer<typeof GeneratedEntry>;
@@ -478,17 +604,49 @@ Notes on the schema:
 - **`STAGES` ownership:** M2 owns the Stage list. To keep `knowledge` from importing `engine` (TR-1), M2 publishes `STAGES` from `packages/knowledge/src/stages.ts`, the one file M2 owns inside this package, and `engine` re-exports it.
 - **YAML parsing:** use the `yaml` package with `{ schema: 'core', merge: false, maxAliasCount: 0, uniqueKeys: true, prettyErrors: true }`. Anchors, aliases and merge keys are rejected, so every entry reads on its own. Each file is capped at 256 KB. Every zod issue is mapped back to its YAML line through the parser's source ranges.
 - **File order:** inside a file, entries are sorted by type, then id. `kb check --fix` re-sorts.
+- **`category`** replaces the earlier `rankClass` (its `nice-to-have` value is now `nice`, matching M10 TR-2). It is a display label only and never orders anything (TR-12).
+
+### TR-2a Fact tables
+
+Many modules need game facts that are tables rather than Goals or Acquisitions: M2's class tree, family slots, world gates and routes; M3's Unending Energy cap and trap tables; M5's map graph, Lab nodes and skill classes; M6's bubble, merit, gem-shop, salt and building catalogues; M8's shop towns and unobtainable stamps; M9's talent facts and groups. These are **fact tables** (`FactTable` above), not entries, so FR-1's seven types stand.
+
+- **Ids:** `<system>.fact.<slug>` (for example `classes.fact.class-tree`, `portals.fact.world-routes`, `upgrade-vault.fact.kill-slots`, `talents.fact.bubble-capped`). The rename map from the earlier `gen.*` and ad hoc ids is in each module spec and in the spec index.
+- **Where:** generated tables in `generated/<system>.facts.json`, written by generators (TR-10) with a tier 1 Source; authored tier-2 tables in `systems/<system>.facts.yaml`, each with a cited Source and `origin: authored`, for facts that live in game code Toolbox doesn't export yet (M2 TR-7). Switching a table from authored to generated keeps its id, so no reference changes.
+- **Access:** Detectors read them through `ctx.facts.get(id)` (which returns entries or fact tables); templates reach their values through slots; entries reference them by id in `values` or Detector `params`. FR-5 and FR-17 cover them (dangling ids fail; hand-copied values fail).
+- **Shipped:** fact tables that a shipped entry or Detector references are compiled into the bundle (`facts` in TR-7). `generated/_lookups.json` stays validation-only and is never shipped.
+- **Toolbox-code constants** (M6 TR-5: the 3-day bank cap, the pet free-pull period, minigame unlock thresholds) are authored fact rows whose Source is the Toolbox file and line at the pin; M12's re-sync diffs those exact lines.
+
+### TR-2b Additions requested by M2–M9
+
+Folded into TR-2 and TR-4 in the 2026-10-17 consistency pass, with the spec that asked:
+
+| Addition | Where | Asked by |
+|---|---|---|
+| `category` (`compounding`/`spendable`/`nice`, display only) replaces `rankClass` | GoalEntry, CheckEntry | M6 D1, M10 TR-2, M2 TR-14 |
+| `goalFamily` with compile-time expansion; `stopHere: Template`; `contestedOn: 'order' \| 'usefulness'` | ContributionEntry | M4 TR-4, FR-13, FR-15 |
+| `priority: { frame: 'by-urgency' }`, `effortSeconds`, `doneWhen`, derived `affectsVerdict` | CheckEntry | M6 TR-2, TR-8, TR-9, R9 |
+| `urgency`, `deadline`, `doneKey`, `nextChangeAt` on findings | CheckFinding | M6 TR-2, FR-28 |
+| `fixHolds`, `demotedBecause` on `fires`; a `pass` result with `nextAt` | CheckFinding | M3 TR-4, FR-11 |
+| `list: 'order'`; TierItem `byUrgency` and `carryForward`; an `include` is one position (a tie) | PriorityEntry | M6, M8 D5, M7, M2 TR-13 |
+| the `spend` TierItem (`item`, `ref`, `spend` block, its own text, why and Sources) | PriorityEntry with `list: 'spend'` | M7 TR-6 |
+| Build entry replaced by the role-keyed shape; no Build Detector | BuildEntry | M9 TR-5 |
+| Meta Path parts `stages`, `pusher-rule`, `gate-chain`; role `activeFrom`, `owns`, `visitHint` | MetaPathEntry | M2 TR-7, TR-9, TR-12 |
+| fact tables | TR-2a | M2, M3, M5, M6, M7, M8, M9 |
+| engine Detectors (`kind: 'engine'`), resolved against the engine registry | TR-4, FR-9 | M2, M5, M7 |
+| `HistoryEntry` (M1 TR-14) as `DetectorContext.history` | TR-4 | M1, M3, M6 |
+| generators listed in TR-10 | TR-10 | M2, M3, M4, M5, M6, M7, M8, M9 |
+| CI warning when `appliesTo` names a Stage whose list doesn't reference the entry | TR-8 | M2 FR-21 |
 
 ### TR-3 One example entry of each type
 
 These examples fix the shape. Their content is illustrative and gets drafted for real by the pipeline (TR-19). URLs marked `# illustrative` are placeholders that a real entry must replace.
 
-**Goal (generated).** `generated/deathnote.json`, one of 104 normal-monster ladders. The thresholds are Toolbox's exported `DEATH_NOTE_RANKS` at pin `6c37e3d`.
+**Goal (generated).** `generated/death-note.json`, one of 104 normal-monster ladders. The thresholds are Toolbox's exported `DEATH_NOTE_RANKS` at pin `6c37e3d`.
 
 ```json
 {
-  "id": "deathnote.goal.poop-small",
-  "system": "deathnote",
+  "id": "death-note.goal.poop-small",
+  "system": "death-note",
   "type": "goal",
   "origin": "generated",
   "title": "Death Note: Poop",
@@ -503,16 +661,16 @@ These examples fix the shape. Their content is illustrative and gets drafted for
   "confidence": "H",
   "status": "active",
   "scope": "account",
-  "rankClass": "compounding",
+  "category": "compounding",
   "unit": "kills",
-  "progress": { "id": "deathnote/kills-of-monster", "params": { "monster": "poopSmall" } },
+  "progress": { "id": "death-note/kills-of-monster", "params": { "monster": "poopSmall" } },
   "milestones": [
     { "at": 25000, "reward": "rank 1" }, { "at": 100000, "reward": "rank 2" }, { "at": 250000, "reward": "rank 3" },
     { "at": 500000, "reward": "rank 4" }, { "at": 1000000, "reward": "rank 5" }, { "at": 5000000, "reward": "rank 7" },
     { "at": 100000000, "reward": "rank 10" }
   ],
   "generatedBy": {
-    "generator": "deathnote",
+    "generator": "death-note",
     "inputs": ["parsers/world-3/deathNote.ts#DEATH_NOTE_RANKS", "website-data/shared-data.json#deathNote"],
     "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1"
   }
@@ -522,9 +680,9 @@ These examples fix the shape. Their content is illustrative and gets drafted for
 An authored Goal adds judgment on top of a generated ladder, without copying any number:
 
 ```yaml
-- id: deathnote.goal.w1-skulls
+- id: death-note.goal.w1-skulls
   title: Death Note skulls on W1 monsters
-  extends: deathnote.goal.poop-small
+  extends: death-note.goal.poop-small
   text: "{value:compact} Poop kills; next rank at {next:compact}, about {eta:duration} away"
   why: Multikill is on once the Death Note building is Lv 1, so every rank compounds AFK kills.
   sources:
@@ -542,15 +700,15 @@ An authored Goal adds judgment on top of a generated ladder, without copying any
   confidence: H
   status: active
   scope: account
-  rankClass: compounding
+  category: compounding
   unit: kills
-  progress: { id: deathnote/kills-of-monster, params: { monster: poopSmall } }
+  progress: { id: death-note/kills-of-monster, params: { monster: poopSmall } }
 ```
 
 **Contribution.** Fighting on a map advances that map's Death Note Goal, with an ETA from Toolbox kills per hour.
 
 ```yaml
-- id: deathnote.contribution.fight-poop
+- id: death-note.contribution.fight-poop
   title: Fighting Poop fills its Death Note
   text: "Advances Poop kills: {value:compact} of {next:compact}"
   why: AFK fighting on Poopy Sewers is the only way to add Poop kills.
@@ -564,7 +722,7 @@ An authored Goal adds judgment on top of a generated ladder, without copying any
   confidence: H
   status: active
   activity: { afkType: FIGHTING, map: Poopy_Sewers, target: poopSmall }
-  goal: deathnote.goal.w1-skulls
+  goal: death-note.goal.w1-skulls
   detector: { id: fighting/on-target, params: { target: poopSmall } }
   eta: kills-per-hour
 ```
@@ -609,10 +767,10 @@ An authored Goal adds judgment on top of a generated ladder, without copying any
   detector: { id: afk/no-afk-target }
 ```
 
-**Priority List.** The W3-early list from #26 §3.7 (excerpt), showing a shared block, ties, item-level verification and a contested item.
+**Priority List.** The W3-early list from #26 §3.7 (excerpt), showing the shared blocks, ties, item-level verification and a contested item. M2 owns the real list files and their ids (M2 TR-7, TR-13); item ids below other than M2's are illustrative.
 
 ```yaml
-- id: account.priority.w3-early
+- id: metapath.priority.w3-early
   title: W3-early priorities
   text: "Priorities for {stage}"
   why: Systems in Leverage order for an account entering World 3.
@@ -629,9 +787,9 @@ An authored Goal adds judgment on top of a generated ladder, without copying any
   list: goals
   stage: W3-early
   tiers:
-    - [{ include: account.priority.never-skip }]
-    - [push.goal.next-portal]
-    - [{ include: account.priority.free-value-fills }]
+    - [{ include: metapath.priority.never-skip }]          # position 1: the whole block, as one tie
+    - [metapath.goal.push]                                 # position 2
+    - [{ include: metapath.priority.free-value-fills }]    # position 3: the whole block, as one tie
     - [{ ref: quests.goal.hoggindaz-1-5, verification: confirmed }]
     - [{ ref: construction.goal.printer-cruncher-arm, verification: corrected }]
     - [construction.goal.printer-samples]
@@ -642,32 +800,36 @@ An authored Goal adds judgment on top of a generated ladder, without copying any
     - [{ ref: shrines.goal.first-shrines, verification: contested }]
 ```
 
-**Build.**
+**Build.** The shape is M9's (M9 TR-5, which has the full Barbarian example); abridged:
 
 ```yaml
-- id: builds.build.squire-preset-2-construction
-  title: Squire skilling preset
-  text: "Preset {preset:int}: {talent:name} to {target}"
-  why: The second preset is the class's skilling job; a Squire builds and refines.
+- id: talents.build.squire-skilling
+  title: Squire skilling build
+  text: "Next talent points: {talent} to {target}"
+  why: A Squire's skilling preset mines and runs the Refinery talents.
   sources:
-    - url: https://idleontoolbox.com/guides   # illustrative
-      title: IdleOn Toolbox community build guide, Squire
+    - url: https://idleontoolbox.com/tools/builds   # illustrative
+      title: Toolbox community build, Squire mining
       tier: 3
-      claimDate: 2026-10-01
+      claimDate: 2026-10-10
       verified: 2026-10-17
       gameVersion: 2.3.540
       verification: unverified
-  appliesTo: { stages: [{ from: W2-mid, to: W4-entry }], classes: [Squire] }
-  confidence: M
+  appliesTo: { stages: [{ from: W2-early, to: W4-entry }], classes: [Squire], levels: { min: 15 } }
+  confidence: L
   status: active
-  class: Squire
-  preset: 2
-  role: construction-builder
-  order:
-    - { talent: REFINERY_THROTTLE, level: max }
-    - { talent: REDOX_RATES, level: max }
-    - { talent: SHARPER_SAWS, level: 50 }
-  stars: []
+  classLine: Squire
+  role: skilling
+  serves: [MINING]
+  variant: afk
+  tags: [BRUTE_EFFICIENCY, BIG_PICK, REFINERY_THROTTLE, REDOX_RATES]   # abridged
+  tabs:
+    - tab: 2
+      steps:
+        - { talent: BIG_PICK, target: max, core: true }
+        - { talent: REFINERY_THROTTLE, target: max, when: [{ kind: stageAtLeast, stage: W3-early }] }
+  attacks: []
+  onePointOk: []
 ```
 
 **Acquisition.** An authored method on top of a generated drop-rate Acquisition.
@@ -748,7 +910,8 @@ An authored Goal adds judgment on top of a generated ladder, without copying any
 // SPDX-License-Identifier: GPL-3.0-only
 // packages/knowledge/src/types.ts (Detector part)
 import type { z } from 'zod';
-import type { AccountState, HistoryEntry } from '@idleon-forge/account-state'; // HistoryEntry: owned by M1
+import type { Entry, FactTable } from './schema'; // FactTable: z.infer of the TR-2 schema
+import type { AccountState, HistoryEntry } from '@idleon-forge/account-state'; // HistoryEntry: M1 TR-14, Pick<SaveRecord, 'lastCloudSave' | 'receivedAt' | 'state'>
 
 /** Dot path into AccountState with [*] for arrays, e.g. "characters[*].afkType", "account.towers.data[*].level". */
 export type FieldPath = string;
@@ -763,11 +926,13 @@ export interface DetectorContext {
   readonly now: number;
   /** The player's Expected Return (ms), default 8 h. Only Checks with usesExpectedReturn should read it. */
   readonly expectedReturnMs: number;
-  /** Read-only access to compiled entries by id, e.g. a generated ladder or rate. */
-  readonly facts: { get(id: string): Readonly<Entry> | undefined };
+  /** Read-only access to compiled entries and fact tables (TR-2a) by id, e.g. a generated ladder or a route table. */
+  readonly facts: { get(id: string): Readonly<Entry | FactTable> | undefined };
 }
 
-export type DetectorKind = 'check' | 'contribution' | 'progress' | 'milestone' | 'build' | 'acquisition';
+/** 'engine': an engine Detector in packages/engine (M2 Stage/roster/pusher, M5 options, M7 spend lines), whose finding
+ *  shape its module spec defines. Builds have no Detector kind: M9's Checks read Build entries. */
+export type DetectorKind = 'check' | 'contribution' | 'progress' | 'milestone' | 'acquisition' | 'engine';
 
 interface FindingBase {
   subject: Subject;
@@ -775,7 +940,24 @@ interface FindingBase {
   slots: Record<string, SlotValue>;
 }
 export type CheckFinding = FindingBase & (
-  | { result: 'fires'; /** epoch ms when the problem bites, for "fills in 3 h" */ at?: number }
+  | {
+      result: 'fires';
+      /** epoch ms when the problem bites, for "fills in 3 h" (at <= now: already biting) */
+      at?: number;
+      /** M3 FR-7 (c): would the fix hold until the return? */
+      fixHolds?: boolean;
+      demotedBecause?: 'not-quick' | 'not-fillable' | 'fix-does-not-hold' | 'effect-next-action' | null;
+      /** M6 TR-9: drives the by-urgency frame position and the urgency tie-break (M2 TR-14). */
+      urgency?: 'losing-now' | 'lost-before-return' | 'banked';
+      /** epoch ms the value starts to be lost (M6 TR-6). */
+      deadline?: number;
+      /** M6 TR-8: identifies the done check across saves. */
+      doneKey?: string;
+      /** M6 FR-28: the next moment this answer can change without a new save; the engine re-runs at the earliest. */
+      nextChangeAt?: number;
+    }
+  /** Optional: a Detector may still return nothing for a silent subject. M3 FR-11 uses nextAt for first fill. */
+  | { result: 'pass'; /** epoch ms when it would start to fire, e.g. a cap after the return */ nextAt?: number; nextChangeAt?: number }
   | { result: 'unknown'; reason: UnknownReason }
 );
 export type ContributionFinding = FindingBase & {
@@ -785,12 +967,8 @@ export type ContributionFinding = FindingBase & {
 };
 export type ProgressFinding = FindingBase & ({ value: number } | { value: null; reason: UnknownReason });
 export type MilestoneFinding = FindingBase & { reached: 'yes' | 'no' | 'unknown' };
-export type BuildFinding = FindingBase & {
-  preset: 1 | 2;
-  drift: 'none' | 'behind' | 'off-build' | 'unknown';
-  /** Talent rawNames that differ from the Build's order. */
-  differs: string[];
-};
+/** An engine Detector's output; its shape is fixed by its module spec (M2 StageResult/MetaPathResult, M5 HigherLeverageOption, M7 spend facts). */
+export type EngineFinding = unknown;
 export type AcquisitionFinding = FindingBase & {
   owned: 'yes' | 'no' | 'unknown';
   requirementsMet: 'yes' | 'no' | 'unknown';
@@ -803,8 +981,8 @@ interface FindingByKind {
   contribution: ContributionFinding;
   progress: ProgressFinding;
   milestone: MilestoneFinding;
-  build: BuildFinding;
   acquisition: AcquisitionFinding;
+  engine: EngineFinding;
 }
 
 export interface FixtureExample {
@@ -850,8 +1028,9 @@ Which Detector kind each entry type needs:
 |---|---|---|---|
 | Goal | `progress` | progress | returns the current value; the engine places it on the Milestone ladder |
 | Contribution | `detector` | contribution | `advances: yes` for a character whose activity serves the Goal |
-| Check | `detector` | check | `result: fires` for each subject with the problem |
-| Build | `detector` | build | `drift` other than `none` |
+| Check | `detector` | check, or engine (M5 leverage Checks, M7 spend Checks) | `result: fires` for each subject with the problem |
+| Build | none | | read by M9's `builds/*` Check Detectors |
+| Meta Path stages, roster, pusher; Spend Plan items | `detector` (engine) | engine | the module's own typed output (M2, M7) |
 | Acquisition | `detector` | acquisition | `owned` / `requirementsMet` |
 | Meta Path milestones, System `unlocked` | `detector` | milestone | `reached: yes` |
 | Priority List | none | | lists are data only |
@@ -888,6 +1067,7 @@ export default defineDetector({
 ```
 
 Rules for Detectors:
+- **Engine Detectors** follow every rule below (purity, declared `reads`, no clock), are registered in `packages/engine`'s registry under the same id format, and use their module's golden tests as their examples (FR-11).
 - **What they read:** only the Account State, never the raw Toolbox output. A Detector that needs a field M1's adapter doesn't expose yet adds that field to `@idleon-forge/account-state`, with a contract test, in the same PR (an M1 interface change). Hypothetical numbers ("this character on that map", #16) are computed in the parser worker and exposed as Account State fields. Detectors never call Toolbox functions.
 - **What they hold:** no words a player reads and no Source. Those belong in the entry. A Detector's string slots are game identifiers (rawNames) that the template formats.
 - **Purity is enforced three ways.** Biome `noRestrictedGlobals` bans `Date`, `Math.random`, `performance`, `globalThis` and `window` under `detectors/**`. The example harness runs each Detector twice and deep-compares the results. It also runs once with `globalThis.Date` replaced by a function that throws.
@@ -924,6 +1104,7 @@ interface CompiledKnowledge {
   patches: string[]; // ordered game versions, oldest first (from generated/_patches.json)
   systems: SystemDef[];
   entries: Record<string, Entry>; // active + contested only
+  facts: Record<string, FactTable>; // fact tables referenced by a shipped entry or Detector (TR-2a)
   byType: Record<EntryType, string[]>;
   priorityByStage: Record<StageId, { goals?: string; spend?: string; leverage?: string }>;
   manifest: Record<string, string>; // authored id -> sha256(canonical player-visible fields)[0..8] (FR-22)
@@ -941,7 +1122,10 @@ Compiling is deterministic: keys are sorted and the output carries no timestamp 
 - Template slots resolve (TR-6).
 - Class names, talent names, monster, map and item rawNames all exist in `generated/_lookups.json`. A Build's talents belong to its class's talent tabs.
 - No hand-copied facts (FR-17): numeric literals in authored `text`, `why`, `values`, `milestones` and Detector `params` are compared with the numeric values of the facts the entry references, ignoring 0, 1 and 2. A match is an error. Any other literal with 3 or more digits is a warning the reviewer must acknowledge in the PR. Under `detectors/**`, a lint rule warns on numeric literals of 2 or more digits that aren't in a named `params` default, because thresholds belong in entry params.
-- Every non-block Priority List covers a Stage, and every Stage in `STAGES` has a `goals` list, otherwise a warning until the M2–M9 content lands. Within a list, an item appears at most once after `include`s are expanded.
+- Every `goals` and `spend` Priority List covers a Stage, and every Stage in `STAGES` has a `goals` list, otherwise a warning until the M2–M9 content lands. Within a list, an item appears at most once after `include`s are expanded; a `byUrgency` item (listed once, in the never-skip block, and moved to position 3 by the engine when `banked`) counts as one position. `byUrgency` is allowed only inside `metapath.priority.never-skip`.
+- A warning when an entry's `appliesTo` names a Stage whose `goals` list doesn't reference it, directly, through a block or by `carryForward` (M2 FR-21). Verdict blockers are exempt (they are never list items).
+- `spend` TierItems appear only in `list: spend`, their `ref` resolves to a generated Acquisition, and `item` slugs are unique within the list.
+- Fact table ids resolve (FR-5), every authored fact table has a tier 2–3 Source with `claimDate`, and a Build step's talent exists in the talent fact tables.
 - The single-entry rules (TR-2 `entryRules`), including the blocker rules (FR-6, FR-7).
 - A Meta Path `milestones` entry's Detector ids are of kind `milestone`.
 - The structural privacy gate (TR-16).
@@ -957,7 +1141,7 @@ Each error prints `path:line id: message`, and the command exits non-zero. Warni
 ### TR-10 Codegen of facts at parser re-sync (ADR 0007)
 
 **When it runs**
-- `scripts/sync.sh` gains two final steps: `pnpm kb generate`, then `pnpm kb golden -u`. The weekly sync PR (#14 item 11) therefore carries the parser diff, the regenerated `generated/*.json`, the fact diff and any held facts in its body, and the golden diffs. The weekly Action (M12) opens it with a token that triggers CI; a PR opened with the default `GITHUB_TOKEN` runs no workflows.
+- `scripts/sync.sh` gains two final steps: `pnpm kb generate`, then `pnpm kb golden -u`. The weekly sync PR (#14 item 11) therefore carries the parser diff, the regenerated `generated/*.json`, the fact diff and any held facts in its body, and the golden diffs. The weekly Action (M12) opens it with a Forge Bot installation token, so CI runs on it; a PR opened with the default `GITHUB_TOKEN` runs no workflows (Final rulings RT-1, M12 TR-15).
 - `fetch-data.sh` also fetches `/data/patch-notes.js`, so `generate` can build `_patches.json` without a full sync. The file is a JSX module (it imports React and `@mui/material`), so the `_patches` generator extracts `gameVer` and `date` with a regex, as `sync.sh` already does, and never imports it.
 - CI runs `pnpm kb generate --check`, which regenerates into a temp dir and diffs against the committed files (FR-15).
 
@@ -999,18 +1183,31 @@ export interface Generator {
 
 **MVP generators** (W1–W3 plus W4 entry, per ADR 0007's list)
 
-| Generator | Toolbox input | Emits |
-|---|---|---|
-| `deathnote` | `shared-data#deathNote`, `DEATH_NOTE_RANKS`, `MINI_BOSS_DEATH_NOTE_RANKS` | a Goal ladder per monster |
-| `vault` | `shared-data#upgradeVault` | Acquisitions with `unlockLevel` gates (total vault levels, #24) and `maxLevel` |
-| `stamps` | `stamps.json` | Acquisitions with `itemReq`, cost bases and the material-cap step |
-| `quests` | `quests.json` | Acquisitions with quest requirements and rewards, for the W1–W3 NPCs |
-| `cards` | `cards.json`, `shared-data#cardSets` | Goal ladders for card set tiers (set size from cards per category) |
-| `classes` | `classPromotions.json` | Acquisitions for subclass and elite unlocks, plus the class lookup tree |
-| `portals` | `shared-data#mapPortals`, `mapNames`, `mapEnemies` | Goal ladders for portal kill requirements up to the W4 entry |
-| `obols` | `monsterDrops.json` (obol rows), `shared-data#obols` | Acquisitions with drop rates per monster |
-| `_patches` | `patch-notes.js` | the ordered game-version list |
-| `_lookups` | `talents.json`, `items.json`, `monsters.json`, `shared-data#mapNames` | name tables |
+| Generator | Toolbox input | Emits | For |
+|---|---|---|---|
+| `death-note` | `shared-data#deathNote`, `DEATH_NOTE_RANKS`, `MINI_BOSS_DEATH_NOTE_RANKS` | a Goal ladder per monster (`death-note.goal.<mob>`) | M4 |
+| `upgrade-vault` | `shared-data#upgradeVault` | Acquisitions `upgrade-vault.acquisition.row-<i>` with `unlockLevel` gates (total vault levels, #24) and `maxLevel` | M7 |
+| `vault-kills` | the `VaultKillzTotal` map list and the 5 scaled rows | kill-row Goal ladders (`upgrade-vault.goal.kill-row-map-<i>`) and the map → slot table `upgrade-vault.fact.kill-slots` | M4 |
+| `stamps` | `stamps.json`, `shared-data#shops`, `quests.json`, `monsterDrops.json`, `crafts.json`, `items.json` | Acquisitions `stamps.acquisition.<slug>` with `itemReq`, cost bases, the material-cap step and M8's routes (TR-8 rules there: route worlds from `npcPlacements`, one-level craft) | M7, M8 |
+| `quests` | `quests.json` | Acquisitions with quest requirements and rewards, for the W1–W3 NPCs; `quests.fact.gate-quests` (Dog Bone, Djonnut, Hoggindaz, Bellows, Gobo) | M2, M8 |
+| `cards` | `cards.json`, `shared-data#cardSets`, `monsterDrops.json` | Goal ladders for card set tiers; card Acquisitions with base chance and set membership | M8 |
+| `card-levels` | `cards.json` perTier, `monsterDrops.json` base chance | per-card Goal ladders `cards.goal.<card>` | M4 |
+| `classes` | `classPromotions.json` | subclass and elite Acquisitions; `classes.fact.class-tree` (tier, line, swap sibling) | M2, M9 |
+| `class-gates` | `expReq`, talent and obol data | the `classes.goal.level` ladder with labelled level gates | M4 |
+| `portals` | `shared-data#mapPortals`, `mapPortalDestinations`, `mapNames`, `mapEnemies` | portal Goal ladders (one step per door) and the route path `portals.fact.world-routes` | M2, M4 |
+| `world-gates` | `quests.ts` `isWorldFinished` (exported constant), `items.json` Crystal1–3 | `metapath.fact.world-gates`; authored tier 2 until the constant is exported | M2 |
+| `skill-doors` | `mapPortals` on skilling maps, filtered by destination world | `skills.goal.door-<skill>` ladders | M4 |
+| `tools` | `items.json` tools (`lvReqToEquip`), anvil recipes | `skills.goal.tool-<skill>` | M4 |
+| `maps`, `lab-nodes`, `skill-classes` | `mapNames`, `mapEnemiesArray`, `monsters`, `mapPortals`, `mapPortalDestinations`, Toolbox's exported `getFilteredPortals`; `labBonuses`, `jewels`; `talents.json` | fact tables `maps.fact.maps`, `lab.fact.lab-nodes`, `talents.fact.skill-classes` | M5 |
+| `bribes`, `statues`, `alchemy-p2w` | `shared-data#bribes`, `statues`, `CAULDRONS_MAX_LEVELS` | Acquisitions `bribes.acquisition.bribe-<i>` (with `soldBy`, `codeValue`), `statues.acquisition.statue-<i>`, `alchemy-p2w.acquisition.<group>-<upgrade>` | M7 |
+| `talents` | `talents.json`, `items.json`, `quests.json`, `gemShop.json` | `talents.fact.*`: per-talent facts with `isAttack`, `skillAttackFor`, value tables from Toolbox's growth function; the groups `talents.fact.tab2-granting` and `talents.fact.bubble-capped`; reset items | M9 |
+| `obols` | `monsterDrops.json` (obol rows), `shared-data#obols` | Acquisitions with drop rates per monster; slot gates and shapes | M8 |
+| `afk` facts | prayer data, `trapsInfo`, items data, `items.json` `Type` | `prayers.fact.unending-energy-cap` (parsed from the curse text; generation fails loudly if it no longer parses), `trapping.fact.trap-durations`, `trapping.fact.trap-set-capacity`, `afk.fact.food-kinds` | M3 |
+| `w2-w3` catalogues | `website-data` | bubble catalogue, merit rows (null-cost placeholders dropped), gem shop items, Post Office unlock, salt catalogue, Construction building catalogue | M6 |
+| `_patches` | `patch-notes.js` | the ordered game-version list | M11 |
+| `_lookups` | `talents.json`, `items.json`, `monsters.json`, `shared-data#mapNames` | name tables (validation only) | M11 |
+
+Exported parser constants the generators need, and until then authored tier-2 fact tables under the same ids (M2 TR-7): the town-unlock class-level gates (`metapath.fact.town-unlocks`), the Obol Altar level (`obols.fact.obol-altar`), the gatekeeper NPCs, and family slot levels (`metapath.fact.family-slots`). M6's Toolbox-code constants are authored fact rows (TR-2a), diffed by M12 at each re-sync. A generator's owner module writes or reviews its expected-value test.
 
 The meaning of each raw field (for example `mapPortals` values) is confirmed in that generator's test against a known save before the generator merges.
 
@@ -1018,7 +1215,7 @@ The meaning of each raw field (for example `mapPortals` values) is confirmed in 
 
 - `isStale(entry, currentGameVersion, patches)` is true when the entry's `stale` block is set (and its `flaggedAt` ≤ current), or when `index(current) − index(max authored source gameVersion) ≥ 10` on `patches` (FR-19). Generated entries return false. Toolbox's notes list 42 distinct versions since October 2024; 10 versions back from 2.3.540 is 2.3.507 (May 2026), about four and a half months.
 - **`_patches.json`:** the distinct `gameVer` values from Toolbox's patch notes (120 Toolbox releases carried only 42 distinct game versions at pin `6c37e3d`), deduplicated, oldest first, with letter suffixes normalised (`2.0.493a` → `2.0.493`). It skips game versions Toolbox never wrote notes for (for example 2.3.532–2.3.539).
-- **"Current" game version:** the parser pin's `gameVersion`. A save's `serverBuild` is an integer (`GameVERSION`, such as 141) with no mapping to a game version in Toolbox data, so it is not used for staleness. Whether a save is newer than the pin is M1's call ("parser not caught up" banner), from a build → version table M1 maintains, and staleness is never computed against the save.
+- **"Current" game version:** the parser pin's `gameVersion`. A save's `serverBuild` is an integer (`GameVERSION`, such as 141) with no mapping to a game version in Toolbox data, so it is not used for staleness. Whether a save is newer than the pin is M1's call ("parser not caught up" banner), made by M1's `verifiedBuilds` rule (M1 FR-29, D3), which never compares a build with a game version. Staleness is never computed against the save.
 - **Source game versions:** any `x.y.z` version is accepted, and is indexed at the newest listed version at or below it, so a Source verified on an unlisted in-game version (2.3.535) still counts. A version newer than the pin, or malformed, fails `kb check`.
 - **Major patches (D2):** `packages/knowledge/majors.yaml` lists the game versions that count as major patches (a new world or a system overhaul). It is authored judgment, and the staleness pass proposes additions from the patch notes. "Dated after the current major patch" means a `claimDate` on or after the newest listed major patch's date.
 - **The staleness pass (#17)** runs in an agent session when a sync PR lands with a new game version:
@@ -1030,13 +1227,11 @@ The meaning of each raw field (for example `mapPortals` values) is confirmed in 
 
 ### TR-12 Ranking contract (consumed by `packages/engine`)
 
-The engine implements #11 item 6. M11 guarantees the data it needs:
-1. **Verdict blockers first:** Checks with `effect: blocker` (never contested, by FR-6).
-2. **Then position** in the Stage's `goals` Priority List, after `include`s are expanded. Ties share a position. A Goal not in the list ranks after every listed one.
-3. **Then the arithmetic tie-breaks:** cheapest, then closest Milestone (the smallest `(next − value) / next`), then most Goals per activity (count of `advances: yes` Contributions).
-4. **Stale demotion:** within an equal position, fresh before Stale. Across positions, Stale doesn't reorder (FR-20).
-5. **Contested items** are never position 1 in any section. The engine skips them for the top slot and shows them later with both sides.
-6. `rankClass` orders within a character as #10 item 5 says (compounding, spendable, nice-to-have) and is used only between Goals that the Stage list leaves unranked.
+The engine implements #11 item 6 with M2's `compareGoals` (M2 TR-14), which owns the order: blockers, list position, urgency and deadline, fresh before Stale, cheapest, closest Milestone ETA, most Goals served, then id; Contested items are moved below the first non-contested one. M11 guarantees the data it needs:
+1. **Verdict blockers:** Checks with `effect: blocker` (never contested, by FR-6); they are never list items.
+2. **Positions** in the Stage's `goals` Priority List after `include`s are expanded: an `include` is one position, a tie of all the block's items, so blocks never shift later positions. `byUrgency` and `carryForward` flags are kept in the compiled list for the engine (M2 TR-13). A Goal not in the list ranks after every listed one.
+3. **Stale and Contested flags** per entry (FR-19, FR-6), and `effortSeconds` for the cheapest tie-break.
+4. `category` is a display label only and never orders anything (M6 D1; it replaces the earlier `rankClass`, which ordered by #10 item 5, superseded by #11 item 6 per M2 TR-14).
 
 There is no numeric weight anywhere. The schema has no field to hold one (FR-8).
 
@@ -1103,7 +1298,7 @@ There is no numeric weight anywhere. The schema has no field to hold one (FR-8).
 }
 ```
 
-**CI structural gate** (the denylist is private, so CI checks structure instead): every `fixtures/scrubbed/*.json` must have `charNames` all matching `^Char\d+$`, `guildData.members[*].a` all matching `^Member\d+$`, an empty `guildData.id`, `tournament.leaderboard` empty, only `SERVER_VARS_READ` keys non-blank in `serverVars`, a `scrubber.matchedPolicyHash` equal to the hash of the current versions of the rules that matched it, and a non-empty `consent` link (D1). CI can't tell whose comment the link points to, so the code-owner reviewer confirms it is the save owner's. Editing a rule that matched a fixture forces a re-scrub of that fixture; editing other rules doesn't. A re-scrub needs the owner's raw save, so only the owner can run it.
+**CI structural gate** (the denylist is private, so CI checks structure instead): every `fixtures/scrubbed/*.json` must have `charNames` all matching `^Char\d+$`, `guildData.members[*].a` all matching `^Member\d+$`, an empty `guildData.id`, `tournament.leaderboard` empty, only `SERVER_VARS_READ` keys non-blank in `serverVars`, a `scrubber.matchedPolicyHash` equal to the hash of the current versions of the rules that matched it, and a non-empty `consent` link (D1). CI can't tell whose comment the link points to, so the code-owner reviewer confirms it is the save owner's. Consent relayed by Yasser (Joseph's, M1 Final rulings D1) is linked to that ruling. Editing a rule that matched a fixture forces a re-scrub of that fixture; editing other rules doesn't. A re-scrub needs the owner's raw save, so only the owner can run it. Raw saves stay with their owners (plus an owner-controlled encrypted backup), never in the repo (Final rulings RT-2). A re-scrub that only removes more needs no new consent; if anything new is kept, the owner is asked again, and `kb scrub` prints the diff of kept fields against the previous scrub so this is visible (Final rulings RT-3).
 
 **Locally,** a `pre-commit` hook in `.githooks/`, enabled by `pnpm install` through `core.hooksPath`, runs the denylist gate on staged files whenever `fixtures/private/denylist.txt` exists.
 
@@ -1116,7 +1311,7 @@ There is no numeric weight anywhere. The schema has no field to hold one (FR-8).
 **Sections, in order**
 1. A header line.
 2. `## Verdict changes`, filled only by `kb golden --diff-base <ref>` in PR CI, so reviewers see Verdict flips first. It's empty in the committed file.
-3. The Now-screen block: the progress bar, Visit Order, then one block per character and the Account section, in engine order, each line with its entry id and Source tag.
+3. The Now-screen block: the progress bar, Visit Order, then one block per character and the Account section, in engine order, each line with its entry id and Source tag. This section is M10's `renderNowText(buildNowView(…))` output (M10 TR-15), so there is one golden format; M10's hand-written view fixtures keep their own component snapshots.
 4. `## Not covered yet`.
 5. `## Findings`: every Detector finding, including ones not shown on the Now screen, as one sorted table. This catches Detector changes the top-3 cut would hide.
 
@@ -1134,7 +1329,7 @@ visit order: C4, C1, C2, C3, C5
 ### C4 · Shaman 44 · Fix before you leave
 - [blocker] Assign C4 to a cauldron  ⟨alchemy.check.empty-cauldron · T1 2.3.540⟩
 - [goal 1] Big bubbles: 0 of 2 equipped → Equip Call Me Bob in big-bubble slot 1  ⟨alchemy.goal.big-bubbles-equipped · alchemy.check.empty-big-bubble-slot · T1 2.3.540⟩
-- [purpose] Fighting Jar Bridge: Jar kills 41k, next 100k in ~9 h  ⟨deathnote.contribution.fight-jar · T1 gen⟩
+- [purpose] Fighting Jar Bridge: Jar kills 41k, next 100k in ~9 h  ⟨death-note.contribution.fight-jar · T1 gen⟩
 - [contested] First Gem Shop buy: Infinity Hammer | Crystal 3D Printer and card slots  ⟨gemshop.goal.first-buy · T3 2026-09-23 | T3 2026-10-11⟩
 
 ### C1 · Blood_Berserker 60 · Ready
@@ -1142,7 +1337,7 @@ visit order: C4, C1, C2, C3, C5
 - [stale] … ⟨… · T3 2.3.520 · stale⟩
 
 ### Account
-- [goal 1] Upgrade Vault: buy Bigger Damage → Monster Tax  ⟨vault.priority.spend-w2 · T1 gen⟩
+- [goal 1] Spend coins: buy Bigger Damage on C1 → Monster Tax  ⟨spend.goal.plan · spend.priority.w2-late#bigger-damage · T1 gen⟩
 
 ## Not covered yet
 Arcade
@@ -1152,7 +1347,7 @@ Arcade
 |---|---|---|---|---|
 | afk.check.no-afk-target | afk/no-afk-target | — | silent | |
 | alchemy.check.empty-big-bubble-slot | alchemy/empty-big-bubble-slot | C1 | fires | bubble=Call_Me_Bob slot=1 |
-| deathnote.goal.poop-small | deathnote/kills-of-monster | account | value | value=13021 |
+| death-note.goal.poop-small | death-note/kills-of-monster | account | value | value=13021 |
 ```
 
 **Golden slot check:** every string slot printed in a golden must be a `_lookups` value, a pseudonym or `C<n>` (FR-27). A Detector that passes a free string from the save (such as `CogO`'s `Player_<name>`) fails here.
@@ -1174,7 +1369,17 @@ Arcade
 The existing `CI` job (lint, typecheck, test, build) gains:
 - `pnpm kb generate --check`, then `pnpm kb check --strict`, then `pnpm kb golden` (inside `pnpm test`), then the structural privacy gate.
 - A cache of the parsed fixtures, keyed by `UPSTREAM`, the fixture hashes, and the hashes of the parser bundle, the Account State adapter and the frozen-clock shim, so an adapter change can't be served stale results.
-- CODEOWNERS (D6): `packages/knowledge/ @YassSoliman @<joseph>` and `fixtures/scrubbed/ @YassSoliman @<joseph>`, with branch protection requiring one code-owner approval, so either one suffices. Every other path (`packages/kb-tools/`, the scrub policy, CI) stays `@YassSoliman` only. `<joseph>` is filled in once Joseph is added as a collaborator (#7). Goldens live in `packages/knowledge/golden/`, so a Knowledge Base PR never needs a Yasser-only path. GitHub doesn't let an author approve their own PR, so an agent PR opened under Yasser's account needs Joseph's approval until agents get their own identity (see section 10, R8).
+- CODEOWNERS (D6, narrowed by Final rulings RT-4), with branch protection requiring one code-owner approval, so either one suffices on the co-owned paths (the last matching pattern wins):
+
+  ```
+  /packages/knowledge/             @YassSoliman @JoKhalil
+  /packages/knowledge/detectors/   @YassSoliman
+  /packages/knowledge/generators/  @YassSoliman
+  /packages/knowledge/src/         @YassSoliman
+  /fixtures/scrubbed/              @YassSoliman @JoKhalil
+  ```
+
+  Joseph co-owns the YAML entries (`systems/`, `systems.yaml`, `majors.yaml`), the generated facts (`generated/`) and the goldens (`golden/`), plus the scrubbed fixtures. The code paths above, `packages/kb-tools/`, the scrub policy and CI stay `@YassSoliman` only. `JoKhalil` takes effect once Joseph accepts the collaborator invite (#7, M12 Appendix A step 4); M12 TR-18 carries the same block. Goldens live in `packages/knowledge/golden/`, so a content-only Knowledge Base PR never needs a Yasser-only path. GitHub doesn't let an author approve their own PR, so agent PRs are opened by the Forge Bot GitHub App (`idleon-forge-bot`, live; `scripts/forge-bot-token.sh` gives an agent a 1-hour bot token), and Yasser approves them (Final rulings RT-1).
 - The PR template gains a "Knowledge Base" block: entries added, changed and retired; Sources table; golden summary per fixture; hand-copied-fact warnings acknowledged; red-team status.
 
 ### TR-17 Performance budgets
@@ -1195,7 +1400,7 @@ The existing `CI` job (lint, typecheck, test, build) gains:
 - **Untrusted YAML:** the safe parser options in TR-2 (no aliases, no custom tags) and the size caps. The app never parses YAML; it loads only compiled JSON produced in CI.
 - **Untrusted text:** templates reject `<` and `>`, M10 renders text nodes only, and Source links open with `rel="noopener noreferrer"` and must be https.
 - **Detector code is code.** CODEOWNERS review, import restrictions and banned globals apply. Detectors can't reach network, storage or the DOM, because Biome bans those globals under `detectors/**` and the worker has no DOM.
-- **Privacy gates:** scrub policy plus unknown-string scan plus denylist (local), the structural gate (CI), goldens with `C1…Cn` labels by construction, and `reportContext()` with a whitelist and a test against the fixture's `charNames` (FR-29).
+- **Privacy gates:** scrub policy plus unknown-string scan plus denylist (local), the structural gate (CI), goldens with `C1…Cn` labels by construction, and `entryReportFields()` with a whitelist and a test against the fixture's `charNames` (FR-29); the full report payload is M13's `SuggestionContext`, scrubbed and previewed by M13.
 - **Content licence:** entries paraphrase and cite. They never paste guide text (`note` ≤ 200 characters). AutoReview tiers are cited, not copied (#3).
 
 ### TR-19 Agent authoring and red-team workflow
@@ -1236,7 +1441,7 @@ The red team posts findings as one PR review, each with a severity: `blocking` (
 
 **D. The staleness pass** (TR-11) and **offline rule mining** (#17) both open PRs that enter at step A6: they produce entries and flags, then run red team and player review like any other PR.
 
-**E. After merge.** The deploy carries the new Knowledge Base version. Reports and Suggestions about an entry (M13) reopen the loop at step A1, with the entry id, Knowledge Base version and game version from `reportContext()`.
+**E. After merge.** The deploy carries the new Knowledge Base version. Reports and Suggestions about an entry (M13) reopen the loop at step A1, with the entry ids from `entryReportFields()` and the versions from `BuildInfo`, as carried in M13's `SuggestionContext`.
 
 ## 6. States and edge cases
 
@@ -1246,7 +1451,7 @@ The red team posts findings as one PR review, each with a severity: `blocking` (
 | **Loading** | The bundle is a static chunk cached by the SPA. Its first load happens alongside the parser bundle and never blocks sign-in. |
 | **Offline** | The Knowledge Base ships with the app, with no network fetch, so it works offline once loaded. |
 | **Broken parse / empty account** | The engine doesn't run (M1 `EmptyAccountError`), so no Detector sees a broken state. |
-| **Parser section failed** (`AccountState.warnings`) | M1 makes warnings structured (`{section, message}[]`; today they are plain strings) and maps each Account State field to the parser section it comes from. A Detector whose `reads` touch a failed section returns `unknown` with `parser-section-failed`, and for blocker Checks the Verdict becomes Unknown, never Ready. |
+| **Parser section failed, or a field fails its presence check** | M1 reports it in `diagnostics.failedSections` and `diagnostics.unknownFields`, and `isKnown(state, path)` answers false through `FIELD_SECTIONS` and `FIELD_RAW_KEYS` (M1 FR-16, TR-11). `AccountState.warnings` stay display-only and are never read. A Detector whose `reads` touch an unknown path returns `unknown` with `parser-section-failed` or `field-missing`, and for blocker Checks the Verdict becomes Unknown, never Ready. |
 | **Save newer than the parser pin** | "Parser not caught up" banner (M1/M10). Staleness is computed against the pin. Generated facts keep the pin's values and label their Source with the pin version, so the player sees which game version the numbers come from. |
 | **Sync PR changes a fact an authored entry relies on** | The fact diff, the golden diff and CI (dangling reference) make it visible. Authored entries extend facts by id, so they inherit the new value without an edit. |
 | **Sync PR drops a generated id that authored entries reference** | The old entry is held and the parser update still merges. The references move, using the `possible rename` hint, in the same PR (mechanical substitution only) or in a follow-up before the hold expires after 2 syncs. |
@@ -1265,7 +1470,7 @@ The red team posts findings as one PR review, each with a severity: `blocking` (
 | **Scrub on a save with a new string field** | Stops with the field path (US-11). |
 | **Scrubbed fixture falls behind the parser** | Each sync re-parses the scrubbed fixtures. Goldens change in the sync PR and are reviewed like any fact change. |
 | **Our accounts move past a fixture's Stage** | The fixture stays, frozen. A new dated fixture is added for the new world or Stage, and the oldest is dropped past about 6 (D4). |
-| **Joseph hasn't consented yet** | `scrubbed-w3` isn't committed. Its stories and examples run locally as `private:joseph-w3` and are reported as skipped in CI (D1). |
+| **`scrubbed-w3` not committed yet** | Joseph has consented (M1 Final rulings D1). Until the PR that adds the fixture merges, its stories and examples run locally as `private:joseph-w3` and are reported as skipped in CI (D1). |
 | **Private fixture absent** (CI, contributors) | `private:` examples and goldens are skipped and reported. Public and scrubbed coverage still gates the merge. |
 | **Clock-dependent output** (timers, "fills in 3 h") | Always relative to the fixture `now`. Goldens are stable across days. |
 
@@ -1273,19 +1478,19 @@ The red team posts findings as one PR review, each with a severity: `blocking` (
 
 | Module | What M11 needs from it | What it needs from M11 |
 |---|---|---|
-| **M1 Sync & Account State** | `AccountState`, `HistoryEntry`, `parseSave(envelope, { now })`, `account.gameVersion.{serverBuild, parserTarget}`, the build → game version table for the "parser not caught up" banner, structured `warnings` (`{section, message}`) with a field → section map, a seedable `Math.random` in the frozen-clock shim, the contract-test harness, and new fields as Detectors need them | `generated/_patches.json` (to map `serverBuild` to a game version) and the scrubbed fixtures for its contract tests |
-| **M2 Stage & Meta Path** | `STAGES` (in `packages/knowledge/src/stages.ts`) and the Stage Detector built from Meta Path `milestones` | the `metapath` and `priority` entry types, `milestone` Detectors, and `priorityByStage` |
-| **M3 AFK Safety** | Verdict-blocker Checks and their content | `check` entries with `effect: blocker`, `usesExpectedReturn`, `CheckFinding.at` |
-| **M4 Purpose & Milestones** | Goal and Contribution content | `goal`, `contribution`, generated Goal ladders, `etaMs` from kills/h |
-| **M5 Higher-leverage options** | leverage lists | `priority` with `list: leverage`, the `contribution` count tie-break |
-| **M6 Unspent & idle** | free-value and never-skip Checks | `check` with `effect: next-action`, `block` Priority Lists |
-| **M7 Spend Plan** | spend lists | `priority` with `list: spend`, and generated costs and gates (vault, stamps) |
-| **M8 Collections** | card, obol and stamp content | `acquisition` (authored and generated), and card set ladders |
-| **M9 Builds** | Build content | `build` entries and the `builds/talent-drift` Detector kind |
-| **M10 Now screen UI** | none | rendered text, Source labels (tier, game version, URL), Stale and Contested flags with sides, `coverage()`, `version.display` |
-| **M12 Release** | the deploy job with `fetch-depth: 0`, the weekly sync Action running `kb generate` | `version`, `manifest`, `diffManifests()`, the budget check |
-| **M13 Suggestions** | the delivery of Report this and Suggestions | `reportContext()`; Suggestions that become Knowledge Base changes enter TR-19 step A1 |
-| **`packages/engine`** (shared by M2–M9) | the ranking (TR-12), the per-Detector error isolation, the rendering of golden sections 2–4 | the compiled bundle, `DetectorRegistry`, `render()` |
+| **M1 Sync & Account State** | `AccountState`, `HistoryEntry` (M1 TR-14), `parseSave(envelope, { now })`, `account.gameVersion.{serverBuild, parserTarget}`, `diagnostics` and `isKnown` with `FIELD_SECTIONS` / `FIELD_RAW_KEYS` (M1 TR-11), `verifiedBuilds` for the "parser not caught up" banner (M1 FR-29; builds are never mapped to game versions), a seedable `Math.random` in the frozen-clock shim, the contract-test harness, and new fields as Detectors need them | the scrub tool and the scrubbed fixtures (TR-14, which meets M1 TR-17's scrub requirements) for its contract tests |
+| **M2 Stage & Meta Path** | `STAGES` (in `packages/knowledge/src/stages.ts`), the list files and their order, `compareGoals` (M2 TR-14) | the `metapath` type with the `stages`, `pusher-rule` and `gate-chain` parts and the role fields; `priority` with blocks, `byUrgency`, `carryForward` and one-position includes; engine Detectors; fact tables and generators (`classes`, `portals` with `mapPortalDestinations`, `world-gates`, `quests`, town-unlock and Obol Altar constants); the `appliesTo`-without-list warning; `priorityByStage` |
+| **M3 AFK Safety** | Verdict-blocker Checks and their content | `check` entries with `effect: blocker`, `usesExpectedReturn`, `CheckFinding.at`, `fixHolds`, `demotedBecause`, the `pass` result with `nextAt`; its generated facts (TR-10) |
+| **M4 Purpose & Milestones** | Goal and Contribution content | `goal`, `contribution` with `goalFamily`, `stopHere`, `contestedOn`; the `death-note`, `vault-kills`, `card-levels`, `class-gates`, `skill-doors`, `tools` and `portals` generators; `etaMs` from kills/h |
+| **M5 Higher-leverage options** | leverage Checks | `check` entries backed by engine Detectors (`leverage/*`); the `maps`, `lab-nodes` and `skill-classes` fact tables |
+| **M6 Unspent & idle** | free-value and never-skip Checks | `check` with `effect: next-action`, `priority: { frame: by-urgency }`, `effortSeconds`, `doneWhen`, derived `affectsVerdict`; findings with `urgency`, `deadline`, `doneKey`, `nextChangeAt`; `block` Priority Lists; `order` lists (merit rows, gem buys); its catalogue facts and authored Toolbox-code constants |
+| **M7 Spend Plan** | spend lists | `priority` with `list: spend` and the `spend` TierItem; engine Detectors (`spend/*`); the `upgrade-vault`, `stamps`, `bribes`, `statues` and `alchemy-p2w` Acquisitions |
+| **M8 Collections** | card, obol and stamp content | `acquisition` (authored and generated) with M8's route data, card set ladders, `order` lists, authored fact tables (`stamps.fact.*`) |
+| **M9 Builds** | Build content | `build` entries in M9 TR-5's shape (no Build Detector), the `talents` fact tables |
+| **M10 Now screen UI** | `renderNowText` for golden section 3 | rendered text, Source labels (tier, game version, URL), Stale and Contested flags with sides, `coverage()`, `version.display` |
+| **M12 Release** | the deploy job with `fetch-depth: 0`, the weekly sync Action running `kb generate` with a Forge Bot token, the CODEOWNERS block (TR-16) | `version`, `manifest`, `diffManifests()`, the budget check |
+| **M13 Suggestions** | the delivery of Report this and Suggestions; `ReportContext` and `SuggestionContext` | `entryReportFields()`; Suggestions that become Knowledge Base changes enter TR-19 step A1 |
+| **`packages/engine`** (shared by M2–M9; its core is built with M10) | `compareGoals` (M2), the per-Detector error isolation, the engine Detector registry, the rendering of golden sections 2–4 | the compiled bundle, `DetectorRegistry`, `render()` |
 
 **Build order:** M11 follows M1 (#13). The tooling, schema, generators, scrub and Findings-only goldens can all ship before M2–M9. Each later module adds content and upgrades golden sections 2–4.
 
@@ -1293,12 +1498,12 @@ The red team posts findings as one PR review, each with a severity: `blocking` (
 
 Ruled by Yasser on 2026-10-17: every recommendation accepted as written, with D1 and D6 confirmed in detail.
 
-- **D-1 Joseph's save becomes a committed scrubbed fixture, only with his explicit consent.** `scrubbed-w3` is scrubbed from Joseph's W3 save (6 characters, two Squires) and committed only in a PR that records Joseph's consent in its description (a link to his comment, or his approval on that PR). Until then it runs locally only, as `private:joseph-w3`. *Why:* the #13 done bar needs a golden for both accounts, and the W3-early and two-Squire cases have no other real fixture (the public saves are all W4–W7). The scrub removes names and identifiers. What stays (class, level, progress, and timestamps, see red-team note 5) is already summarised in public issues, and consent covers it.
+- **D-1 Joseph's save becomes a committed scrubbed fixture, only with his explicit consent.** `scrubbed-w3` is scrubbed from Joseph's W3 save (6 characters, two Squires) and committed only in a PR that records Joseph's consent in its description (a link to his comment, his approval on that PR, or, as happened, consent relayed by Yasser on 2026-10-17, M1 Final rulings D1). Until that PR merges it runs locally only, as `private:joseph-w3`. *Why:* the #13 done bar needs a golden for both accounts, and the W3-early and two-Squire cases have no other real fixture (the public saves are all W4–W7). The scrub removes names and identifiers. What stays (class, level, progress, and timestamps, see red-team note 5) is already summarised in public issues, and consent covers it.
 - **D-2 Facts follow ADR 0004 strictly; judgment is Contested when post-patch Sources disagree.** Facts take the newest Source within a tier. Judgment entries (Priority Lists, Builds, the Meta Path) are Contested whenever two or more Sources dated after the current major patch disagree, whatever their tier or order. ADR 0004 gains a one-line amendment saying so (in this PR). *Why:* recency settles facts, because a newer patch changes the game, but it doesn't settle opinion. A newer Reddit comment isn't more right than AutoReview. This also matches what #26 and #27 already did.
 - **D-3 A Verdict blocker needs a tier 1 or 2 Source**, on top of `confidence: H` and never being contested (FR-7, enforced in `entryRules`). *Why:* blockers are AFK-safety mechanics (food, caps, an empty AFK Target, the wrong preset), and game data or code can establish all of them. A wrong blocker is the one failure the done bar names. Requiring a `private:` example as well would block contributors who don't have our saves.
 - **D-4 Scrubbed fixtures are frozen and dated.** A new dated fixture is added at each new world or Stage (`scrubbed-w2-2026-10`, `scrubbed-w3-2026-12`, …), capped at about 6, dropping the oldest. Existing ones are never replaced by fresh exports. *Why:* early-game goldens are our only early-game regression tests, and the public saves start at W4. Frozen fixtures still re-parse at every sync, so they keep testing the current parser.
 - **D-5 Generated facts are dormant data.** A generated entry that no authored entry references never shows on the Now screen by itself and doesn't count as coverage (FR-24, TR-9). *Why:* hundreds of generated ladders would bury the Priority List order (judgment) under raw facts. ADR 0007 already frames generated entries as what authored ones reference, and "Not covered yet" stays honest.
-- **D-6 Joseph co-owns `packages/knowledge/` and `fixtures/scrubbed/`.** He is added as a collaborator (#7) and listed in CODEOWNERS for those two paths, and approval from either Yasser or Joseph is enough to merge there (TR-16, FR-28). Every other path stays Yasser-only. *Why:* player review is the gate that matters for advice, and Joseph's account is the off-meta test case.
+- **D-6 Joseph co-owns `packages/knowledge/` and `fixtures/scrubbed/`.** He is added as a collaborator (#7) and listed in CODEOWNERS for those two paths, and approval from either Yasser or Joseph is enough to merge there (TR-16, FR-28). Every other path stays Yasser-only. *Narrowed by Final rulings RT-4:* inside `packages/knowledge/`, `detectors/`, `generators/` and `src/` stay Yasser-only. *Why:* player review is the gate that matters for advice, and Joseph's account is the off-meta test case.
 - **D-7 The red team is a fresh session of the author's model by default, and a stronger model for blockers and Stage lists.** A PR that adds or changes a Verdict blocker or a Stage Priority List gets a different, stronger model (TR-19 B). *Why:* fresh context with a forced re-derivation checklist catches most errors cheaply. The expensive independent pass is kept for the two places where a wrong entry hurts most: the done bar's blockers, and the order that drives every Next Action.
 
 ## 9. Red-team notes
@@ -1323,25 +1528,34 @@ An independent agent (fresh context, given only this spec, the glossary, the ADR
 | R1 | P0 | Other players' names fall outside the policy (`data.OptLacc[37]` holds a guild member's name in a public save; `serverVars.GuildRank` is a guild leaderboard), and the string scan pushes authors toward path-wide `keep` rules that would pass them | fixed | TR-14: value-checked rules only (a path-only `keep` is rejected), serverVars kept only for keys the parsers read, `OptLacc` string slots blanked unless reviewed, wider `_lookups`, and an auto-seeded denylist |
 | R2 | P1 | `companion.e` is the equipped companion (`misc.ts:1387`), not an identifier; blanking it changes the parse and the CI gate required it empty | fixed | Kept with a value regex; removed from the structural gate |
 | R3 | P1 | Parse equivalence can't hold: blanking `guildData.members` and dropping `tournament.user/match` changes Toolbox's output, and Account State is only a slice of it | fixed | Members and opponents pseudonymised with numbers kept; equivalence runs on the full `parseData` output outside the declared `SCRUBBED_OUTPUT_PATHS`, and a contract test bans Account State from reading those paths. *Rejected:* an owner `kb scrub --verify` on every sync PR, which the contract test makes unnecessary |
-| R4 | P1 | `serverBuild` is an integer with no mapping in patch notes; the notes have 120 releases but only 42 distinct game versions, with gaps and a `2.0.493a`; the file is JSX | fixed | TR-11: current = the pin's version; patches deduplicated and normalised; unlisted Source versions indexed at the nearest lower version; regex extraction; M1 owns the build → version table |
+| R4 | P1 | `serverBuild` is an integer with no mapping in patch notes; the notes have 120 releases but only 42 distinct game versions, with gaps and a `2.0.493a`; the file is JSX | fixed | TR-11: current = the pin's version; patches deduplicated and normalised; unlisted Source versions indexed at the nearest lower version; regex extraction; M1 owns the build → version table. *Corrected in the consistency pass:* M1 never maps builds to versions (M1 D3); "newer than the pin" is M1's `verifiedBuilds` rule (FR-29) |
 | R5 | P1 | The date version in golden headers can't match itself (shallow synthetic merge commit; squash renumbers `.n`) | fixed | Goldens show the content hash only; the date version is computed in the deploy build only; US-6 uses injected git metadata |
 | R6 | P1 | Provenance in generated entries makes every sync change every hash | fixed | FR-22: hashes cover player-visible fields only; generated ids are left out of the manifest and of What's new |
 | R7 | P1 | The parser sync is held hostage by the knowledge tooling (failing generator, dropped id, red-team rule, generator value tests, no `golden -u`, `GITHUB_TOKEN` PRs skip CI); and TR-10 contradicts TR-19 A1 | fixed | Per-generator holds with `[facts behind]` and a 2-sync expiry; sync runs `kb golden -u`; fact-only sync PRs skip the red team; generator tests run on synthetic slices plus invariants; a CI-triggering token (M12); the rename substitution is the single stated exception to A1 |
-| R8 | P1 | Goldens sat on a Yasser-only path, so Joseph's approval alone could never suffice; Yasser can't approve agent PRs opened under his own account | fixed in part | Goldens moved to `packages/knowledge/golden/`. The agent identity (a bot account or GitHub App) is deferred to Yasser |
+| R8 | P1 | Goldens sat on a Yasser-only path, so Joseph's approval alone could never suffice; Yasser can't approve agent PRs opened under his own account | fixed in part | Goldens moved to `packages/knowledge/golden/`. The agent identity (a bot account or GitHub App) is deferred to Yasser. *Ruled (Final rulings RT-1):* the Forge Bot GitHub App, now live (TR-16) |
 | R9 | P1 | US-9 put `## Verdict changes` in the committed golden; TR-15 says it lives only in the job summary | fixed | US-9 now points at `$GITHUB_STEP_SUMMARY` |
 | R10 | P1 | A contested Priority List item had nowhere to keep its sides; the example used a `priority` id as an item; a contested Meta Path slot could skip `sides` | fixed | `TierItem.sides` with a refine, the example becomes `gemshop.goal.first-buy`, and a slot refine ties `status: contested` to `sides` |
 | R11 | P1 | Retired titles and `replacedBy` weren't in the bundle | fixed | A `retired` map in the bundle (FR-22, TR-7) |
-| R12 | P1 | "A policy change forces a re-scrub" fights frozen fixtures and private raw saves | fixed in part | The hash covers only the rules that matched each fixture, and only the owner can re-scrub. Where raw saves live and whether a re-scrub needs fresh consent are deferred to Yasser |
+| R12 | P1 | "A policy change forces a re-scrub" fights frozen fixtures and private raw saves | fixed in part | The hash covers only the rules that matched each fixture, and only the owner can re-scrub. Where raw saves live and whether a re-scrub needs fresh consent are deferred to Yasser. *Ruled (Final rulings RT-2, RT-3):* raw saves stay with their owners plus an encrypted backup; a remove-only re-scrub needs no re-consent (TR-14) |
 | R13 | P2 | Substring name replacement hits game ids (a public save's `Knightly_Twohander` contains the character name `Two`) | fixed | Exact matches plus known name positions only; the denylist matches whole words and treats lookup values as whole-leaf matches |
 | R14 | P2 | Goldens churn for reasons unrelated to advice (T1 version on every line, recopied public fixtures, ETAs, the cache key, `Math.random`, TZ) | fixed | `T1 gen` lines; a public-fixture manifest pinned by sha256; coarse durations; a wider cache key; seeded `Math.random`, `TZ=UTC`, `en-US` |
 | R15 | P2 | Staleness was undefined for inherited, item-level and contested Sources, and "major patch" was undefined | fixed | FR-19 counts only authored Sources; `majors.yaml` defines major patches |
 | R16 | P2 | The hand-copied-fact check skipped `params` and Detector code, and small integers gave false positives | fixed | TR-8 scans `params`, ignores 0–2, and adds a lint for 2+ digit literals in `detectors/**` |
 | R17 | P2 | Our own dossiers on mutable branches were cited as tier 1, so a blocker could meet D3 with our own write-up | fixed | FR-3: tier 1 only for Toolbox permalinks at a sha; the TR-3 examples now cite dossiers as tier 4 |
-| R18 | P2 | Detectors can't tell which parser section failed (`warnings: string[]`) | fixed | M1 dependency: structured warnings and a field → section map (§6, §7) |
+| R18 | P2 | Detectors can't tell which parser section failed (`warnings: string[]`) | fixed | M1 dependency: met by M1 TR-11's `diagnostics` and `isKnown` with `FIELD_SECTIONS` (§6, §7); `warnings` stay display-only |
 | R19 | P2 | Generator assumptions vs data: placeholder map names collide, `DEATH_NOTE_RANKS` is one global table, worlds are 0-based | fixed | TR-10 normalisation rules; grouped fact-diff lines; US-4 reworded |
 | R20 | P2 | Stories depended on `scrubbed-w3` (not in CI until consent), and dropping a fixture could orphan Detector examples | fixed | CI variants on `scrubbed-w2` for US-3, US-4 and US-5; fixture retirement as a migration |
 | R21 | P3 | FR-27 couldn't be met as written, and goldens had no check on string slots | fixed | FR-27 scoped (public Toolbox saves exempt); a golden slot check added |
 | R22 | P3 | Note 5 wrongly implied anonymity; FR-24 and TR-9 disagreed on contested coverage; any throw made a Verdict Unknown; CI can't verify whose consent it is; the cited "section 10" didn't exist | fixed | Note 5 rewritten, coverage aligned, throws scoped to blockers, the reviewer confirms consent. *Rejected:* the missing section 10, which is this section |
+
+## Consistency pass (2026-10-17)
+
+- **Schema hub updated in place** (TR-2, TR-4, TR-2b): `category` replaces `rankClass`; M9's role-keyed Build shape replaces the old one (no Build Detector kind); M4's `goalFamily`, `stopHere`, `contestedOn`; M6's `by-urgency`, `effortSeconds`, `doneWhen`, derived `affectsVerdict`; M3's and M6's finding fields and a `pass` result; `order` lists, `byUrgency`, `carryForward` and M7's `spend` TierItem; M2's Meta Path parts and role fields.
+- **Fact tables** (TR-2a, `<system>.fact.<slug>`) and **engine Detectors** (`kind: 'engine'`) give the ad hoc `gen.*` ids and the module-specific Detectors of M2, M5 and M7 one valid home without adding an entry type.
+- **Generators table** now lists every generator M2–M9 asked for, with its owner; `deathnote` → `death-note`, `vault` → `upgrade-vault` to match M4 and M6.
+- **Ranking:** M2's `compareGoals` owns the order (TR-12); an `include` is one position.
+- **Names:** `reportContext()` → `entryReportFields()` (M13 owns `ReportContext`); M1 dependencies use `diagnostics`/`isKnown` and `verifiedBuilds` (no build → version table, M1 D3); `HistoryEntry` is defined in M1 TR-14.
+- **Final rulings folded in:** Forge Bot for agent PRs and the sync PR (RT-1), raw saves and re-scrub consent (RT-2, RT-3), Joseph's narrowed co-ownership with the CODEOWNERS block (RT-4), and Joseph's consent for `scrubbed-w3` (M1 Final rulings D1).
 
 ## Final rulings (Yasser, 2026-10-17)
 
