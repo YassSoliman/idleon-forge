@@ -63,8 +63,20 @@ ActiveOn's single working view during a Play Session: one row per character plus
 _Avoid_: dashboard, home, feed
 
 **Verdict**:
-A character's AFK-safety state, one of Ready, Fix before you leave, or Unknown; it judges only whether the character can be left for the AFK Stretch, never what is left to spend.
+A character's state for the coming AFK Stretch, one of Ready (safe to leave and serving a worthwhile Purpose), Fix before you leave, or Unknown (no Purpose found, or the data can't tell).
 _Avoid_: status, health, score
+
+**Purpose**:
+The set of Goals a character's current activity is advancing, each with its next Milestone; always derived from the Account State, never typed in by the player.
+_Avoid_: intent, job, role
+
+**Milestone**:
+A threshold within a Goal (e.g. 10k, then 100k kills of one monster) at which its reward steps up; the point where ActiveOn may suggest stopping and moving on.
+_Avoid_: tier, checkpoint
+
+**Leverage**:
+How much a Goal is worth pursuing now, ranked from Sources and the Meta Path; a Higher-leverage option is a different activity or character that advances more, or more valuable, Goals.
+_Avoid_: value, efficiency, ROI
 
 **Expected Return**:
 How long the player expects to be away, used to judge what will fill up or run out before the next Play Session.
@@ -77,6 +89,10 @@ _Avoid_: route, queue
 **Active Play suggestion**:
 An optional Goal that needs hands-on play (often an hour or more); it never affects a Verdict.
 _Avoid_: active goal, grind task
+
+**Spend Plan**:
+The ordered list of purchases that stocked currency should go to right now (Upgrade Vault, stamps, other coin sinks), with each cost checked against what the account has.
+_Avoid_: shopping list, budget
 
 **Stale**:
 Said of a Knowledge Base entry verified on a patch older than the current one; still shown, ranked below fresh entries.
