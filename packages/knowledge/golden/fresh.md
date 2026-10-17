@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #76ea6859 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry
+# golden v1: fresh · knowledge #edf53166 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -16,11 +16,11 @@
 
 ### Account · Unknown
 Unknown: can't tell from the save
-- Spend · Collect banked Colosseum tickets: Collect 9 Colosseum tickets [Toolbox enhanceColoTickets: day counters, one a day, 3-day bank · 2.3.540]
-- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [Toolbox getHighscores: Spiketrap best round · 2.3.540]
-- Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [Toolbox vialsAttempts alert: attempts left and a locked vial's item held · 2.3.540]
-- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [Toolbox dailyShipments alert · 2.3.540]
-- Extra · Gems unspent: 4,500 gems unspent [Priority verification 7.5: the first gem buy is contested · 2.3.540]
+- Spend · Collect banked Colosseum tickets: Collect 9 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Gems unspent: 4,500 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
 show more (4)
 

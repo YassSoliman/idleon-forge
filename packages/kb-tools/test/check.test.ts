@@ -8,7 +8,7 @@ import { fullCheck } from '../src/commands';
 import { formatIssue, type Issue } from '../src/issues';
 import { loadSource } from '../src/load';
 import { loadYaml, YamlError } from '../src/yaml';
-import { entry, file, kbTree, SRC3, testRegistries } from './kb-tree';
+import { entry, file, kbTree, SRC1, SRC3, testRegistries } from './kb-tree';
 
 const run = async (files: Record<string, string>, extra?: Record<string, unknown>) => {
   const issues = await checkSource(loadSource(kbTree(files)), testRegistries(extra));
@@ -267,6 +267,24 @@ describe('kb check on a throwaway tree', () => {
     expect(has(issues, /Source game version 2\.3\.999 is newer than the parser pin/)).toBe(true);
   });
 
+  it('warns, not fails, on an entry with no player-facing Source (#74)', async () => {
+    const research = `{ url: https://github.com/YassSoliman/idleon-forge/blob/main/docs/research/x.md, title: dossier, tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }`;
+    const toolboxOnly = await run({ 'systems/afk.yaml': file('afk', blocker()) });
+    const noPlayer = (issues: Issue[]) =>
+      issues.filter((i) => i.code === 'no-player-source' && i.id === 'afk.check.no-target');
+    expect(noPlayer(toolboxOnly).map((i) => i.level)).toEqual(['warning']);
+    expect(errors(toolboxOnly).filter((m) => !m.includes('orphan'))).toEqual([]);
+    // A GitHub file is provenance, not a page a player reads, whatever its tier.
+    const githubOnly = await run({
+      'systems/afk.yaml': file('afk', blocker({ sources: `[${SRC1}, ${research}]` })),
+    });
+    expect(noPlayer(githubOnly)).toHaveLength(1);
+    const withThread = await run({
+      'systems/afk.yaml': file('afk', blocker({ sources: `[${SRC1}, ${SRC3}]` })),
+    });
+    expect(noPlayer(withThread)).toEqual([]);
+  });
+
   it('a file must be named after its system', async () => {
     const issues = await run({ 'systems/wrong.yaml': file('afk', blocker()) });
     expect(has(issues, /system must be "wrong"/)).toBe(true);
@@ -292,6 +310,8 @@ describe('kb check on the real Knowledge Base', () => {
     const { issues, harness } = await fullCheck({ examples: true });
     expect(errors(issues)).toEqual([]);
     expect(harness.filter((h) => h.status === 'fail')).toEqual([]);
+    // #74: every authored entry carries a Source a player can read.
+    expect(issues.filter((i) => i.code === 'no-player-source').map(formatIssue)).toEqual([]);
     expect(harness.filter((h) => h.status === 'pass').length).toBeGreaterThan(0);
   });
 });

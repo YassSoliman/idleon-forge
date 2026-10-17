@@ -24,6 +24,8 @@ entries:
     notes: "R6: PV 7.1's corrected W1 order (Hemoglobin x3, Amarok recipes, boss keys, respawn, ...) uses guide nicknames; map it to w1-* row ids after an in-game review, then add row entries like W2's."
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tasks/Blunder_Hills", title: "IdleOn Wiki: Tasks/Blunder Hills, Merit Shop tab", tier: 2, claimDate: 2026-10-15, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1908399039", title: "Idleon Incomplete Guide: World 1", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: merit-shop.check.spend-w2
     system: merit-shop
     type: check
@@ -42,6 +44,8 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.2: the W2 merit order", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: corrected, note: "Obol x1, AFK gains to the character count, respawn, boss gems, obol drop rate, arcade balls, Efaunt recipes; skip Convert Better." }
+      - { url: "https://idleon.wiki/wiki/Tasks/Yum_Yum_Desert", title: "IdleOn Wiki: Tasks/Yum Yum Desert, Merit Shop tab", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1600175189", title: "Idleon Incomplete Guide: World 2", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: merit-shop.check.spend-w2-obols
     system: merit-shop
     type: check
@@ -60,6 +64,8 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.2: the W2 merit order", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: corrected, note: "Obol x1, AFK gains to the character count, respawn, boss gems, obol drop rate, arcade balls, Efaunt recipes; skip Convert Better." }
+      - { url: "https://idleon.wiki/wiki/Tasks/Yum_Yum_Desert", title: "IdleOn Wiki: Tasks/Yum Yum Desert, Merit Shop tab", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1600175189", title: "Idleon Incomplete Guide: World 2", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: merit-shop.check.spend-w2-afk-gains
     system: merit-shop
     type: check
@@ -78,6 +84,8 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.2: the W2 merit order", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: corrected, note: "Obol x1, AFK gains to the character count, respawn, boss gems, obol drop rate, arcade balls, Efaunt recipes; skip Convert Better." }
+      - { url: "https://idleon.wiki/wiki/Tasks/Yum_Yum_Desert", title: "IdleOn Wiki: Tasks/Yum Yum Desert, Merit Shop tab", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1600175189", title: "Idleon Incomplete Guide: World 2", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: merit-shop.check.spend-w2-respawn
     system: merit-shop
     type: check
@@ -96,6 +104,8 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.2: the W2 merit order", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: corrected, note: "Obol x1, AFK gains to the character count, respawn, boss gems, obol drop rate, arcade balls, Efaunt recipes; skip Convert Better." }
+      - { url: "https://idleon.wiki/wiki/Tasks/Yum_Yum_Desert", title: "IdleOn Wiki: Tasks/Yum Yum Desert, Merit Shop tab", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1600175189", title: "Idleon Incomplete Guide: World 2", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: merit-shop.check.spend-w2-boss-gems
     system: merit-shop
     type: check
@@ -114,6 +124,8 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.2: the W2 merit order", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: corrected, note: "Obol x1, AFK gains to the character count, respawn, boss gems, obol drop rate, arcade balls, Efaunt recipes; skip Convert Better." }
+      - { url: "https://idleon.wiki/wiki/Tasks/Yum_Yum_Desert", title: "IdleOn Wiki: Tasks/Yum Yum Desert, Merit Shop tab", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1600175189", title: "Idleon Incomplete Guide: World 2", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: merit-shop.check.spend-w2-arcade-balls
     system: merit-shop
     type: check
@@ -132,6 +144,8 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.2: the W2 merit order", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: corrected, note: "Obol x1, AFK gains to the character count, respawn, boss gems, obol drop rate, arcade balls, Efaunt recipes; skip Convert Better." }
+      - { url: "https://idleon.wiki/wiki/Tasks/Yum_Yum_Desert", title: "IdleOn Wiki: Tasks/Yum Yum Desert, Merit Shop tab", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1600175189", title: "Idleon Incomplete Guide: World 2", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: merit-shop.check.spend-w2-efaunt-recipes
     system: merit-shop
     type: check
@@ -150,6 +164,8 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.2: the W2 merit order", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: corrected, note: "Obol x1, AFK gains to the character count, respawn, boss gems, obol drop rate, arcade balls, Efaunt recipes; skip Convert Better." }
+      - { url: "https://idleon.wiki/wiki/Tasks/Yum_Yum_Desert", title: "IdleOn Wiki: Tasks/Yum Yum Desert, Merit Shop tab", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1600175189", title: "Idleon Incomplete Guide: World 2", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: merit-shop.check.spend-w3
     system: merit-shop
     type: check
@@ -175,6 +191,7 @@ entries:
             - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/2026-10-17-w3-systems.md", title: "W3 dossier merit order", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540, verification: contested }
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tasks/Frostbite_Tundra", title: "IdleOn Wiki: Tasks/Frostbite Tundra, Merit Shop tab", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: merit-shop.check.spend-w4
     system: merit-shop
     type: check
@@ -193,3 +210,5 @@ entries:
     notes: "PV 7.4's corrected W4 order is not mapped to w4-* rows yet."
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tasks/Hyperion_Nebula", title: "IdleOn Wiki: Tasks/Hyperion Nebula, Merit Shop tab", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1880636113", title: "Idleon Incomplete Guide: World 4", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }

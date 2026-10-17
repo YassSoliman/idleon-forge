@@ -22,6 +22,8 @@ export interface SourceRef {
   tier: 1 | 2 | 3 | 4;
   /** ISO date. */
   verifiedOn: string;
+  /** ISO date of the claim (wiki revision, comment date); orders tier 3 Sources newest first (#74). */
+  claimDate?: string;
   /** "2.3.540". */
   gameVersion: string;
 }
@@ -113,6 +115,16 @@ export interface ActivePlay {
   subject: Subject;
   sources: SourceRef[];
 }
+/**
+ * A quiet per-character fact that is not a task, e.g. "Anvil full in 6 h" (#74 item 5). Never affects a
+ * Verdict, never ranks, has no controls; the Now screen shows it muted under the character.
+ */
+export interface InfoLine {
+  /** Stable across saves: `${entryId}@${subject}`. */
+  key: string;
+  text: string;
+  sources: SourceRef[];
+}
 export interface Done {
   key: string;
   text: string;
@@ -144,6 +156,8 @@ export interface CharacterResult {
   /** From M7 SpendPlan.perCharacter: buy and move-coins lines paid by this character (M7 FR-23, D5). */
   spendChip: { lines: number; coins: number } | null;
   activePlay: ActivePlay[];
+  /** Quiet info lines from the modules (M3's anvil fill time first); optional until a module emits one. */
+  info?: InfoLine[];
   doneThisSession: Done[];
   firstFill: Fill | null;
 }

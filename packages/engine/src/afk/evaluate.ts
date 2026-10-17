@@ -91,6 +91,7 @@ const sourceRef = (s: SourceT): SourceRef => ({
   url: s.url,
   tier: s.tier,
   verifiedOn: s.verified,
+  ...(s.claimDate ? { claimDate: s.claimDate } : {}),
   gameVersion: s.gameVersion,
 });
 

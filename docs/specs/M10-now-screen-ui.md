@@ -63,7 +63,7 @@ The Now screen is the only thing a player looks at during a Play Session. It sit
 **Focus (C)**
 - **FR-10** Focus shows one large card for one character:
   - a Verdict strip (one labelled item per character in Visit Order, TR-14) for jumping between characters;
-  - "k of M in your Visit Order · n left", where n counts characters not yet visited this Play Session that still have something to do (FR-12), plus "you are on this character" when it is the one being played;
+  - "k of M in your Visit Order · n left", where n counts the characters after this position not yet visited this Play Session that still have something to do (FR-12), or "last one" on the last position (#74), plus "you are on this character" when it is the one being played;
   - after an auto-follow, a one-line "Left <name>: n done · <its Verdict>" with a "← back" link, so the result on the character just left is never lost (FR-14);
   - name, class, level, activity and map;
   - the Verdict block with every blocker;
@@ -147,7 +147,7 @@ As a player in a Play Session, I want one row per character with a clear Verdict
 As a player in a Play Session, I want the characters numbered in Visit Order with a "Next" button, so that I don't have to plan the order myself.
 - Given `mid-session` with `visitOrder = [3,0,4,1,2]` / When the screen renders / Then row 1 is character index 3 and row 5 is index 2; M10 doesn't re-sort.
 - Given Focus is open on Visit Order position 2, positions 1 and 2 are visited, and position 3 is Ready with no visible Goals / When the player presses "Next: switch to …" / Then Focus opens position 4.
-- Given Focus auto-opened on position 7 of 11 at load, and nothing is visited yet / When the screen renders / Then the button names position 1, and the card reads "7 of 11 in your Visit Order · 10 left" (minus any with nothing to do).
+- Given Focus auto-opened on position 7 of 11 at load, and nothing is visited yet / When the screen renders / Then the button names position 1, and the card reads "7 of 11 in your Visit Order · 4 left": "n left" counts the unvisited characters after this position that have something to do, and the last position reads "last one" (owner ruling, #74).
 - Given the button names position 1 / When the next save shows the player switched to position 5 instead / Then Focus follows to 5, position 5 is visited, and the button still names position 1.
 - Given every other character with anything to do is visited / When the screen renders / Then the button reads "Last one: check the Account list ↓".
 - Given the Play Session opened with `visitOrder = [3,0,4,1,2]` / When a later save in the same session reports `visitOrder = [0,3,4,2,1]` / Then the Roster, the progress segments and Next still use [3,0,4,1,2], while each row's Verdict updates (D6); and when a save starts a new Play Session, the new session's first `visitOrder` is used.

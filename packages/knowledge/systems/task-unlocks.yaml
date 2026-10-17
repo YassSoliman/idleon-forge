@@ -19,3 +19,4 @@ entries:
     status: active
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: unlock points owned and recipes unlocked", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tasks/Unlocks", title: "IdleOn Wiki: Tasks/Unlocks", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }

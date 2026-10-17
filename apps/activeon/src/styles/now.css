@@ -375,6 +375,24 @@ label.chip {
   background: var(--unk-soft);
   color: var(--unk);
 }
+.src-wrap {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* #74: the Toolbox credit is plain text, never a link. */
+.src-credit {
+  font-size: 11px;
+}
+.src-stale {
+  font-size: 11px;
+  color: var(--unk);
+}
+/* #74 item 5: quiet facts under the character, never tasks. */
+.info-lines {
+  list-style: none;
+  margin: 4px 0 8px;
+  padding: 0;
+}
 .src-more {
   margin: 4px 0 0;
   padding-left: 18px;

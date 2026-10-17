@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #76ea6859 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late
+# golden v1: scrubbed-w2 · knowledge #edf53166 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late
 
 ## Verdict changes
 
@@ -22,13 +22,13 @@
 
 ### Account · fix 2 before you leave
 Fix before you leave
-- Fix · Water at cap: Spend Water (bubbles, vials or the Liquid Shop): it's at cap (32 of 32) and may refill before you're back [IdleOn Toolbox, alchemy liquids and liquidCauldrons maxLiquid · 2.3.540]
-- Fix · Arcade balls stop building: Claim Arcade balls before you leave (time to the claim cap: now) [IdleOn Toolbox, getMaxClaimTime and getArcadeBallsToClaim · 2.3.540]
-- Spend · Claim the free pet pull: Claim your free pet pull at Doggy [Toolbox getNextCompanionClaim: anchor + period · 2.3.540]
-- Spend · Collect banked Colosseum tickets: Collect 5 Colosseum tickets [Toolbox enhanceColoTickets: day counters, one a day, 3-day bank · 2.3.540]
-- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [Toolbox getHighscores: Spiketrap best round · 2.3.540]
-- Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [Toolbox getDartsData · 2.3.540]
-- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [Toolbox getHoopsData · 2.3.540]
+- Fix · Water at cap: Spend Water (bubbles, vials or the Liquid Shop): it's at cap (32 of 32) and may refill before you're back [IdleOn Wiki: Alchemy, liquids · Calculated by IdleOn Toolbox · 2.3.540]
+- Fix · Arcade balls stop building: Claim Arcade balls before you leave (time to the claim cap: now) [IdleOn Wiki: Arcade · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Collect banked Colosseum tickets: Collect 5 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 show more (8)
 
 ## Not covered yet

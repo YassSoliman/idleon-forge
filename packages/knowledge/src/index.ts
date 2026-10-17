@@ -8,6 +8,7 @@ import type { CompiledKnowledge } from './version';
 
 export { coverage, coveredSystems, systemUnlocked } from './coverage';
 export * from './helpers';
+export { isPlayerSource, playerSources, type SourceLike } from './player-sources';
 export { type EntryReportFields, entryReportFields, type ReportableOutput } from './report';
 export {
   type ContextOptions,

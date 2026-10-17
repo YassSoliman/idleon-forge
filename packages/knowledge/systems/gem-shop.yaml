@@ -29,6 +29,7 @@ entries:
             - { url: "https://www.reddit.com/r/idleon/comments/1wxle7j/comment/pdw6ghp/", title: "r/idleon: card slots and the 3D printer first", tier: 3, claimDate: 2026-10-04, verified: 2026-10-17, gameVersion: 2.3.540, verification: contested }
     sources:
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.5: the first gem buy is contested", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: contested }
+      - { url: "https://idleon.wiki/wiki/Gem_Shop", title: "IdleOn Wiki: Gem Shop", tier: 2, claimDate: 2026-10-14, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: gem-shop.check.printer-progress
     system: gem-shop
     type: check
@@ -48,6 +49,8 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L513", title: "Toolbox currencies.gems", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://www.reddit.com/r/idleon/comments/1uopts0/comment/ovu2pju/", title: "r/idleon: just made it to World 3, buy the 3D printer first", tier: 3, claimDate: 2026-07-06, verified: 2026-10-17, gameVersion: 2.3.540, verification: confirmed }
+      - { url: "https://idleon.wiki/wiki/Gem_Shop", title: "IdleOn Wiki: Gem Shop", tier: 2, claimDate: 2026-10-14, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/3D_Printer", title: "IdleOn Wiki: 3D Printer", tier: 2, claimDate: 2026-10-14, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: gem-shop.check.printer-buy
     system: gem-shop
     type: check
@@ -66,3 +69,5 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L513", title: "Toolbox currencies.gems", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://www.reddit.com/r/idleon/comments/1uopts0/comment/ovu2pju/", title: "r/idleon: just made it to World 3, buy the 3D printer first", tier: 3, claimDate: 2026-07-06, verified: 2026-10-17, gameVersion: 2.3.540, verification: confirmed }
+      - { url: "https://idleon.wiki/wiki/Gem_Shop", title: "IdleOn Wiki: Gem Shop", tier: 2, claimDate: 2026-10-14, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/3D_Printer", title: "IdleOn Wiki: 3D Printer", tier: 2, claimDate: 2026-10-14, verified: 2026-10-17, gameVersion: 2.3.540 }

@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #76ea6859 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry
+# golden v1: highend · knowledge #edf53166 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -39,11 +39,11 @@
 11 · Spelunking Buried Church · Middle of Nowhere · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### Account · nothing to fix
-- Spend · Claim the free pet pull: Claim your free pet pull at Doggy [Toolbox getNextCompanionClaim: anchor + period · 2.3.540]
-- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [Toolbox dailyShipments alert · 2.3.540]
-- Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [Toolbox getDartsData · 2.3.540]
-- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [Toolbox getHoopsData · 2.3.540]
-- Extra · Open Poppy's pond: Open Poppy's pond to convert your fish [Toolbox getKangaroo: pendingFish · 2.3.540]
+- Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Open Poppy's pond: Open Poppy's pond to convert your fish [IdleOn Wiki: Poppy the Kangaroo Mouse's Fish Pond · Calculated by IdleOn Toolbox · 2.3.540]
 show more (5)
 If you have time
 - Use today's 20 minigame plays · about 10m of hands-on play

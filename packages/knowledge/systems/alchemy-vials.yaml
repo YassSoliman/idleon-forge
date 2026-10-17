@@ -22,3 +22,5 @@ entries:
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L495", title: "Toolbox vialsAttempts alert: attempts left and a locked vial's item held", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L291", title: "Toolbox p2w.vialsAttempts", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Alchemy/Vials", title: "IdleOn Wiki: Alchemy/Vials", tier: 2, claimDate: 2026-09-29, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Daily_Checklist", title: "IdleOn Wiki: Daily Checklist", tier: 4, claimDate: 2026-03-24, verified: 2026-10-17, gameVersion: 2.3.540 }

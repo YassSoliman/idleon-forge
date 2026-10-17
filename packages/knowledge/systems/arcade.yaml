@@ -16,6 +16,8 @@ entries:
         tier: 1
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Arcade", title: "IdleOn Wiki: Arcade", tier: 2, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Daily_Checklist", title: "IdleOn Wiki: Daily Checklist", tier: 4, claimDate: 2026-03-24, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: H
     status: active

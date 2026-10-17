@@ -16,20 +16,34 @@ export function ExternalLink({ href, children }: { href: string; children: React
   );
 }
 
-/** "wiki · 2.3.540" linking the top Source; "+n" lists the rest in Focus (FR-18, FR-19). */
+/**
+ * The Source line (FR-18, FR-19, #74): the best player-facing Source as a link named for its page
+ * ("IdleOn Wiki: Smithing"), then the Toolbox credit as plain muted text, never a link to code. With no
+ * player-facing Source there is no link, only the credit. "+n" lists the other player Sources in Focus.
+ */
 export function SourceLabel({ source, more = true }: { source: SourceView; more?: boolean }) {
   const [open, setOpen] = useState(false);
   const id = useId();
   const cls = `src${source.stale ? ' stale' : ''}`;
+  if (!source.text && !source.credit && !source.stale) return null;
   return (
     <span className="src-wrap">
-      {source.href ? (
-        <a className={cls} href={source.href} target="_blank" rel="noopener noreferrer">
-          {source.text}
-        </a>
-      ) : (
-        <span className={cls}>{source.text}</span>
-      )}
+      {source.text ? (
+        source.href ? (
+          <a className={cls} href={source.href} target="_blank" rel="noopener noreferrer">
+            {source.text}
+          </a>
+        ) : (
+          <span className={cls}>{source.text}</span>
+        )
+      ) : null}
+      {source.credit ? (
+        <span className="src-credit muted">
+          {source.text ? ' · ' : ''}
+          {source.credit}
+        </span>
+      ) : null}
+      {source.stale ? <span className="src-stale"> · Stale</span> : null}
       {more && source.more.length > 0 ? (
         <>
           <button
@@ -37,6 +51,7 @@ export function SourceLabel({ source, more = true }: { source: SourceView; more?
             className="ghost tiny"
             aria-expanded={open}
             aria-controls={id}
+            aria-label={`${source.more.length} more source${source.more.length === 1 ? '' : 's'}`}
             onClick={() => setOpen((o) => !o)}
           >
             +{source.more.length}
@@ -46,9 +61,7 @@ export function SourceLabel({ source, more = true }: { source: SourceView; more?
               {source.more.map((m) => (
                 <li key={`${m.text}${m.href}`}>
                   {m.href ? <ExternalLink href={m.href}>{m.text}</ExternalLink> : m.text}{' '}
-                  <span className="muted">
-                    tier {m.tier} · verified {m.verifiedOn}
-                  </span>
+                  <span className="muted">verified {m.verifiedOn}</span>
                 </li>
               ))}
             </ul>
@@ -69,7 +82,7 @@ export function ContestedBadge({ contested }: { contested: NonNullable<NextActio
           <li key={s.text}>
             {s.text}{' '}
             {s.sources.map((src) => (
-              <SourceLabel key={src.text} source={src} more={false} />
+              <SourceLabel key={`${src.href}${src.text}${src.credit}`} source={src} more={false} />
             ))}
           </li>
         ))}

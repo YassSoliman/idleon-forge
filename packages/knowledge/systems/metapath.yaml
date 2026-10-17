@@ -31,6 +31,8 @@ entries:
         tier: 4
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Worlds", title: "IdleOn Wiki: Worlds", tier: 2, claimDate: 2026-10-04, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Portal_Requirements", title: "IdleOn Wiki: Portal Requirements", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: M
     status: active
@@ -110,6 +112,8 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Classes", title: "IdleOn Wiki: Classes", tier: 2, claimDate: 2026-10-13, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Character_Creation", title: "IdleOn Wiki: Character Creation", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: M
     status: active
@@ -209,6 +213,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Barbarian", title: "IdleOn Wiki: Barbarian", tier: 2, claimDate: 2026-09-03, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all, classes: [Barbarian] }
     confidence: M
     status: active
@@ -239,6 +244,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Squire", title: "IdleOn Wiki: Squire", tier: 2, claimDate: 2026-09-03, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all, classes: [Squire] }
     confidence: H
     status: active
@@ -269,6 +275,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Bowman", title: "IdleOn Wiki: Bowman", tier: 2, claimDate: 2026-09-03, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all, classes: [Bowman] }
     confidence: M
     status: active
@@ -296,6 +303,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Hunter", title: "IdleOn Wiki: Hunter", tier: 2, claimDate: 2026-09-03, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all, classes: [Hunter] }
     confidence: M
     status: active
@@ -324,6 +332,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Shaman", title: "IdleOn Wiki: Shaman", tier: 2, claimDate: 2026-09-03, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all, classes: [Shaman] }
     confidence: M
     status: active
@@ -351,6 +360,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Wizard", title: "IdleOn Wiki: Wizard", tier: 2, claimDate: 2026-09-03, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all, classes: [Wizard] }
     confidence: M
     status: active
@@ -380,6 +390,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Journeyman", title: "IdleOn Wiki: Journeyman", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all, classes: [Journeyman] }
     confidence: M
     status: active
@@ -433,6 +444,7 @@ entries:
         verified: 2026-10-17
         gameVersion: 2.3.540
         note: Push with one character; the class is contested (Barbarian vs Squire, then DK vs ES)
+      - { url: "https://idleon.wiki/wiki/Portal_Requirements", title: "IdleOn Wiki: Portal Requirements", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: M
     status: active
@@ -466,6 +478,9 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Worlds", title: "IdleOn Wiki: Worlds", tier: 2, claimDate: 2026-10-04, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Portal_Requirements", title: "IdleOn Wiki: Portal Requirements", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Quests", title: "IdleOn Wiki: Quests", tier: 2, claimDate: 2026-09-18, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [{ from: W1-early, to: W1-late }] }
     confidence: M
     status: active
@@ -498,6 +513,9 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Worlds", title: "IdleOn Wiki: Worlds", tier: 2, claimDate: 2026-10-04, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Portal_Requirements", title: "IdleOn Wiki: Portal Requirements", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Quests", title: "IdleOn Wiki: Quests", tier: 2, claimDate: 2026-09-18, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [{ from: W2-early, to: W2-late }] }
     confidence: M
     status: active
@@ -531,6 +549,9 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Worlds", title: "IdleOn Wiki: Worlds", tier: 2, claimDate: 2026-10-04, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Portal_Requirements", title: "IdleOn Wiki: Portal Requirements", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Quests", title: "IdleOn Wiki: Quests", tier: 2, claimDate: 2026-09-18, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [{ from: W3-early, to: W3-late }] }
     confidence: M
     status: active
@@ -563,6 +584,9 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Worlds", title: "IdleOn Wiki: Worlds", tier: 2, claimDate: 2026-10-04, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Portal_Requirements", title: "IdleOn Wiki: Portal Requirements", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Quests", title: "IdleOn Wiki: Quests", tier: 2, claimDate: 2026-09-18, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [W4-entry] }
     confidence: M
     status: active
@@ -605,6 +629,8 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Portal_Requirements", title: "IdleOn Wiki: Portal Requirements", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Worlds", title: "IdleOn Wiki: Worlds", tier: 2, claimDate: 2026-10-04, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: M
     status: active
@@ -637,6 +663,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Classes", title: "IdleOn Wiki: Classes", tier: 2, claimDate: 2026-10-13, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [{ from: W2-early, to: W4-entry }] }
     confidence: H
     status: active
@@ -667,6 +694,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Hoggindaz", title: "IdleOn Wiki: Hoggindaz", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [{ from: W3-early, to: W3-late }] }
     confidence: H
     status: active
@@ -697,6 +725,8 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Classes", title: "IdleOn Wiki: Classes", tier: 2, claimDate: 2026-10-13, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1880636113", title: "Idleon Incomplete Guide: World 4", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [W4-entry] }
     confidence: L
     status: active
@@ -729,6 +759,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Character_Creation", title: "IdleOn Wiki: Character Creation", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: M
     status: active
@@ -759,6 +790,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Sub_Class_Swap_Token", title: "IdleOn Wiki: Sub Class Swap Token", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [{ from: W2-late, to: W4-entry }] }
     confidence: M
     status: active
@@ -792,6 +824,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Daily_Checklist", title: "IdleOn Wiki: Daily Checklist", tier: 4, claimDate: 2026-03-24, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: M
     status: active
@@ -829,6 +862,9 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Obols", title: "IdleOn Wiki: Obols", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/3D_Printer", title: "IdleOn Wiki: 3D Printer", tier: 2, claimDate: 2026-10-14, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: M
     status: active
@@ -889,6 +925,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1908399039", title: "Idleon Incomplete Guide: World 1", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [W1-early] }
     confidence: M
     status: active
@@ -919,6 +956,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1908399039", title: "Idleon Incomplete Guide: World 1", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [W1-mid] }
     confidence: M
     status: active
@@ -949,6 +987,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1908399039", title: "Idleon Incomplete Guide: World 1", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [W1-late] }
     confidence: M
     status: active
@@ -979,6 +1018,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1600175189", title: "Idleon Incomplete Guide: World 2", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [W2-early] }
     confidence: M
     status: active
@@ -1010,6 +1050,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1600175189", title: "Idleon Incomplete Guide: World 2", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [W2-mid] }
     confidence: M
     status: active
@@ -1041,6 +1082,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1600175189", title: "Idleon Incomplete Guide: World 2", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [W2-late] }
     confidence: M
     status: active
@@ -1072,6 +1114,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1135281522", title: "Idleon Incomplete Guide: World 3", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [W3-early] }
     confidence: M
     status: active
@@ -1103,6 +1146,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1135281522", title: "Idleon Incomplete Guide: World 3", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [W3-mid] }
     confidence: M
     status: active
@@ -1134,6 +1178,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1135281522", title: "Idleon Incomplete Guide: World 3", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [W3-late] }
     confidence: M
     status: active
@@ -1165,6 +1210,7 @@ entries:
         claimDate: 2026-10-17
         verified: 2026-10-17
         gameVersion: 2.3.540
+      - { url: "https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview#gid=1880636113", title: "Idleon Incomplete Guide: World 4", tier: 3, claimDate: 2026-08-25, verified: 2026-10-17, gameVersion: 2.3.540 }
     appliesTo: { stages: [W4-entry] }
     confidence: M
     status: active

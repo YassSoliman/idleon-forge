@@ -18,6 +18,7 @@ const sourcesOf = (e: Entry): SourceRef[] =>
     url: s.url,
     tier: s.tier,
     verifiedOn: s.verified,
+    ...(s.claimDate ? { claimDate: s.claimDate } : {}),
     gameVersion: s.gameVersion,
   }));
 

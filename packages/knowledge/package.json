@@ -10,6 +10,7 @@
     "./schema": "./src/schema.ts",
     "./types": "./src/types.ts",
     "./stages": "./src/stages.ts",
+    "./player-sources": "./src/player-sources.ts",
     "./helpers": "./src/helpers.ts",
     "./detectors": "./detectors/index.ts",
     "./detectors-registry": "./detectors/registry.ts",

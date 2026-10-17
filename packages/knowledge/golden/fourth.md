@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #76ea6859 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry
+# golden v1: fourth · knowledge #edf53166 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -12,12 +12,12 @@
 2 · Fighting Woodlin Spirit · Edge of the Valley · Can't tell from the save
 
 ### Account · nothing to fix
-- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [Toolbox getHighscores: Spiketrap best round · 2.3.540]
-- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [Toolbox getHoopsData · 2.3.540]
-- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [Toolbox dailyShipments alert · 2.3.540]
-- Extra · Gems unspent: 999 gems unspent [Priority verification 7.5: the first gem buy is contested · 2.3.540]
+- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Gems unspent: 999 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
-- Spend · Spend W1 merits: Spend 12 W1 merits [Toolbox getTasks: merits and their levels · 2.3.540]
+- Spend · Spend W1 merits: Spend 12 W1 merits [IdleOn Wiki: Tasks/Blunder Hills, Merit Shop tab · Calculated by IdleOn Toolbox · 2.3.540]
 show more (5)
 
 ## Not covered yet

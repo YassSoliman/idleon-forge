@@ -18,7 +18,7 @@ describe('renderNowText on the view fixtures', () => {
   it('renders the Focus card too, still without names', () => {
     const r = fixture('mid-session');
     const text = renderNowText(view(r, { focus: 2, leftFrom: 3 }));
-    expect(text).toContain('FOCUS <c2> · 5 of 5 in your Visit Order · 3 left');
+    expect(text).toContain('FOCUS <c2> · 5 of 5 in your Visit Order · last one');
     expect(text).toContain('Left <c3> ✓ 1 done · Fix before you leave');
     expect(text).toContain('Next: switch to <c3> →');
     for (const c of r.characters) expect(text).not.toContain(c.name);

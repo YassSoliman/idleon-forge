@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #76ea6859 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry
+# golden v1: second · knowledge #edf53166 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -36,11 +36,11 @@
 10 · Fighting Penguin · Signature Slopes · Spend 316 Post Office boxes: Civil War Memory Box first
 
 ### Account · nothing to fix
-- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [Toolbox getHoopsData · 2.3.540]
-- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [Toolbox dailyShipments alert · 2.3.540]
-- Extra · Gems unspent: 4,645 gems unspent [Priority verification 7.5: the first gem buy is contested · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Gems unspent: 4,645 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
-- Spend · Spend task unlock points: Spend 644 task unlock points [Toolbox getTasks: unlock points owned and recipes unlocked · 2.3.540]
+- Spend · Spend task unlock points: Spend 644 task unlock points [IdleOn Wiki: Tasks/Unlocks · Calculated by IdleOn Toolbox · 2.3.540]
 
 ## Not covered yet
 Cards
