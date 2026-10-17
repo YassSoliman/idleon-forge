@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #7c60e3cb · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage (engine not built)
+# golden v1: fresh · knowledge #6f7605ea · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage (engine not built)
 
 ## Verdict changes
 
@@ -17,7 +17,6 @@
 ### Account · nothing to fix
 
 ## Not covered yet
-AFK safety
 Cards
 Classes and subclasses
 Companions and pets
@@ -32,7 +31,6 @@ Talent presets
 Talents
 Tasks
 Upgrade Vault
-Anvil
 Boss keys
 Bribes
 Colosseum
@@ -44,10 +42,8 @@ Stamps
 Statues
 The Owl
 Alchemy bubbles
-Alchemy cauldrons and liquids
 Alchemy Pay 2 Win
 Alchemy vials
-Arcade
 Islands
 3D Printer
 Atom Collider
@@ -55,11 +51,8 @@ Construction
 Death Note
 Equinox
 Prayers
-Refinery
 Salt Lick
 Shrines
-Trapping
-Worship
 Breeding
 Cooking
 Laboratory
@@ -67,6 +60,21 @@ Laboratory
 ## Findings
 | entry | detector | subject | result | slots |
 |---|---|---|---|---|
+| afk.check.dies-fixable-by-food | afk/dies-fixable-by-food | — | silent |  |
+| afk.check.health-food-runs-out | afk/health-food-runs-out | — | silent |  |
+| afk.check.low-food-untimed | afk/low-food-untimed | — | silent |  |
+| afk.check.no-afk-target | afk/no-afk-target | C1 | fires |  |
+| afk.check.no-afk-target | afk/no-afk-target | C2 | fires |  |
+| afk.check.no-afk-target | afk/no-afk-target | C3 | fires |  |
+| afk.check.skiller-carry | afk/skiller-carry | — | silent |  |
+| alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C1 | unknown (field-missing) |  |
+| alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C2 | pass |  |
+| alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C3 | pass |  |
+| alchemy.check.liquid-cap | alchemy/liquid-cap | account | pass |  |
+| anvil.check.caps-before-return | anvil/caps-before-return | C1 | unknown (field-missing) |  |
+| anvil.check.caps-before-return | anvil/caps-before-return | C2 | unknown (field-missing) |  |
+| arcade.check.balls-cap | arcade/balls-cap | account | unknown (field-missing) |  |
+| refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | fires | dryIn=19181 |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -98,3 +106,11 @@ Laboratory
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
+| trapping.check.finishes-early | trapping/finishes-early | C1 | unknown (field-missing) |  |
+| trapping.check.finishes-early | trapping/finishes-early | C2 | pass |  |
+| trapping.check.finishes-early | trapping/finishes-early | C3 | fires | finishesIn=28300723 |
+| trapping.check.slots-and-timers | trapping/slots-and-timers | C1 | unknown (field-missing) |  |
+| worship.check.charge-caps-no-skull | worship/charge-caps-no-skull | C1 | unknown (field-missing) |  |
+| worship.check.charge-caps-skull | worship/charge-caps-skull | C1 | unknown (field-missing) |  |
+| worship.check.charge-caps-skull | worship/charge-caps-skull | C2 | pass |  |
+| worship.check.charge-caps-skull | worship/charge-caps-skull | C3 | pass |  |
