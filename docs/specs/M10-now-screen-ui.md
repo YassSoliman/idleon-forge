@@ -514,7 +514,7 @@ The screen state is a pure function of `(SaveState, EngineResult | error)`:
 
 `signed-out` → `waiting` → `parsing` → `broken` (FR-38) | `engine-error` (FR-39) | `ok`.
 
-Banner order: new version available (M12 FR-24), patch (FR-35), offline or sync error (section 6), all set (FR-25). At most one of each. At 320 px, when more than two show, only the first two are expanded and the rest collapse to one line each.
+Banner order: new version available (M12 FR-24), patch (FR-35), "Can't tell where your account is on the route" (M2 FR-3: the Stage is `null` with certainty `unknown`; only Verdict blockers render under it), offline or sync error (section 6), all set (FR-25). At most one of each. At 320 px, when more than two show, only the first two are expanded and the rest collapse to one line each.
 
 ### TR-12 Performance budgets
 Measured with the largest public save (11 characters). Engine timings are `vitest bench` runs in Node, kept apart from render timings so shared CI runners don't flake; CI fails at 2× the budget and logs anything over it:
@@ -589,6 +589,7 @@ ACCOUNT
 | **Higher-leverage comparisons paused or unavailable** (`higherLeverageStatus`) | Focus shows "comparisons paused: game updated, parser not caught up" or "comparisons unavailable" in place of the line (FR-21). |
 | **Stale patch** (new build with failed sections, M1 D3(b)) | FR-35 banner; advice still shown. A new build with no failed sections gets the footer note only. |
 | **Game build unknown** (`_vars` side read failed) | Footer shows "game build ?"; dismissals are kept as they are; no patch banner. |
+| **Stage unknown** (M2 FR-3: `finishedWorlds` unreadable) | Banner "Can't tell where your account is on the route" (TR-11). Only Verdict blockers render; no Goals, Spend Plan or Higher-leverage lines. |
 | **Knowledge Base entries Stale** | FR-19 marking; no banner. |
 | **Nothing covered yet** (M10 ships before M3–M9) | Every Verdict is Unknown, with reason `not-covered` ("Not covered yet: AFK safety"). The progress bar is hidden while every Unknown is `not-covered`. "Not covered yet" lists every System. This is honest and expected during the build order. |
 | **All Ready** | FR-25 banner; the progress bar label reads "safe to log off". |
