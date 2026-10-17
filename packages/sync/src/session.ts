@@ -20,7 +20,13 @@ import {
 import { type Database, getDatabase } from 'firebase/database';
 import { type Firestore, getFirestore } from 'firebase/firestore';
 import type { SyncConfig } from './config';
-import { type DeviceCode, type FlowDeps, pollForIdToken, requestDeviceCode } from './google-device';
+import {
+  type DeviceCode,
+  DeviceFlowError,
+  type FlowDeps,
+  pollForIdToken,
+  requestDeviceCode,
+} from './google-device';
 
 const APP_NAME = 'activeon';
 
@@ -79,6 +85,8 @@ export async function signInWithGoogleDevice(
     ...deps,
     ...(signal ? { signal } : {}),
   });
+  // Cancelled after Google answered but before the exchange: don't sign in anyway (FR-2, RT-23).
+  if (signal?.aborted) throw new DeviceFlowError('aborted', 'Sign-in was cancelled.');
   const result = await signInWithCredential(session.auth, GoogleAuthProvider.credential(idToken));
   return toUser(result.user);
 }

@@ -16,7 +16,21 @@ export {
   pollForIdToken,
   requestDeviceCode,
 } from './google-device';
-export { listenToSave, type SaveListener } from './listen';
+export {
+  BACKOFF_MS,
+  firebaseSaveSource,
+  isAuthError,
+  type ListenDeps,
+  type ListenerStatus,
+  listenToSave,
+  type ReadResult,
+  type SaveListener,
+  type SaveSnapshot,
+  type SaveSource,
+  SERVER_VARS_MAX_AGE_MS,
+  slotsInSave,
+  watchSave,
+} from './listen';
 export {
   createSession,
   type GoogleSignInOptions,

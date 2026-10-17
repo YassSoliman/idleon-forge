@@ -2,7 +2,7 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // Assembles the parser input from the save document and the side reads, the same way Toolbox's
 // firebase/index.js subscribe() callback does.
-import type { RawSaveEnvelope } from '@idleon-forge/toolbox-parsers';
+import type { RawSaveEnvelope, SideReadName } from '@idleon-forge/toolbox-parsers';
 
 export interface SideReads {
   /** Firestore `_data/{uid}`. */
@@ -27,6 +27,8 @@ export interface SideReads {
   accountCreateTime: number | null;
   /** When this snapshot arrived (epoch ms). */
   capturedAt: number;
+  /** Side reads that errored (not merely absent), passed through to the Account State (FR-17). */
+  failedSideReads?: SideReadName[];
 }
 
 const tryToParse = (v: unknown): unknown => {
@@ -70,5 +72,6 @@ export function assembleEnvelope(r: SideReads): RawSaveEnvelope {
   };
   if (r.serverVars) envelope.serverVars = r.serverVars;
   if (r.accountCreateTime !== null) envelope.accountCreateTime = r.accountCreateTime;
+  if (r.failedSideReads) envelope.sideReadReport = { failed: [...r.failedSideReads] };
   return envelope;
 }
