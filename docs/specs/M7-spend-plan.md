@@ -648,3 +648,19 @@ Independent red-team pass on 2026-10-17, run after the decisions were folded in,
 - Fixtures: `fixtures/private/*.parsed.json` (gitignored), read 2026-10-17. Aggregates only.
 
 Verified 2026-10-17 against game v1.23 (Toolbox gameVer 2.3.540). Stale against any later patch.
+
+## Final rulings (Yasser, 2026-10-17)
+
+These supersede anything above that conflicts with them.
+
+> **In-game facts (Yasser, 2026-10-17):**
+> - Each character holds its own coins. Coins put in the storage vault are shared.
+> - Coins can be deposited to storage from **anywhere** via the codex, so any character can reach storage without walking to a chest.
+> - The bank moves coins between characters (confirmed).
+> - There is no separate "shared money" toggle to worry about beyond storage.
+> 
+> **For D1:** a "deposit to storage, then withdraw on the buyer" step is cheap and works from any character.
+
+> **Ruled by Yasser (2026-10-17), all as recommended:**
+> - **RT-1 (tickets):** check in game code where doubling happens; this ships as a gate. If doubling happens on collection and a wallet (or wallet + bank) can afford Duplicate Entries, say "buy Duplicate Entries first, then collect". Otherwise collect anyway.
+> - **RT-2 (reserve):** hold coins back only while the shortfall is ≤ 50% of the item's cost. Further away, show it as "save-for" without holding anything.
