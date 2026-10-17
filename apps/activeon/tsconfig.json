@@ -12,6 +12,7 @@
     "test/**/*.ts",
     "test/**/*.tsx",
     "vite.config.ts",
-    "bundle-guards.ts"
+    "bundle-guards.ts",
+    "knowledge-bundle.ts"
   ]
 }

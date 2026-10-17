@@ -18,6 +18,7 @@
     "@fontsource/pixelify-sans": "^5.3.0",
     "@idleon-forge/account-state": "workspace:*",
     "@idleon-forge/engine": "workspace:*",
+    "@idleon-forge/knowledge": "workspace:*",
     "@idleon-forge/sync": "workspace:*",
     "@idleon-forge/toolbox-parsers": "workspace:*",
     "react": "^19.3.1",

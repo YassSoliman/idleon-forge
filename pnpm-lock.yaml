@@ -38,6 +38,9 @@ importers:
       '@idleon-forge/engine':
         specifier: workspace:*
         version: link:../../packages/engine
+      '@idleon-forge/knowledge':
+        specifier: workspace:*
+        version: link:../../packages/knowledge
       '@idleon-forge/sync':
         specifier: workspace:*
         version: link:../../packages/sync

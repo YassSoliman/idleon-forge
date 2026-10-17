@@ -124,7 +124,8 @@ describe('handleParseRequest (the paste fallback path)', () => {
     if (!('state' in res) || !res.ok || !res.result || 'error' in res.result)
       throw new Error('expected a result');
     expect(res.result.characters.every((c) => c.verdict.unknownReason === 'not-covered')).toBe(true);
-    expect(res.result.versions.knowledge).toBe('k1');
+    // The shipped bundle's own version wins over BuildInfo's once it loads (M10 FR-26).
+    expect(res.result.versions.knowledge).toMatch(/^knowledge \d{4}\.\d{2}\.\d{2}/);
     expect(res.result.sessionStartedAt).toBe(5);
     expect(structuredClone(res.result)).toEqual(res.result);
     const again = handle({ id: 12, type: 'rerun', expectedReturnSeconds: 4 * 3600, now: NOW });

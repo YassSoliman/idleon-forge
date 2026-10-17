@@ -3,6 +3,8 @@
 // What the worker does with one request, as a plain function so tests can run it without a Worker.
 // The engine runs here too, right after a clean parse (M10 TR-6): it keeps the last parsed state, so
 // an Expected Return change re-runs only the dependent stage.
+
+import knowledgeText from 'virtual:activeon-knowledge';
 import {
   AccountShapeError,
   type AccountState,
@@ -10,6 +12,13 @@ import {
   toAccountState,
 } from '@idleon-forge/account-state';
 import { createEngine, type Engine, type KnowledgePort } from '@idleon-forge/engine';
+import {
+  type CompiledKnowledge,
+  coverage,
+  type DetectorRegistry,
+  loadKnowledge,
+} from '@idleon-forge/knowledge';
+import { detectors as knowledgeDetectors } from '@idleon-forge/knowledge/detectors';
 import {
   InvalidSaveInputError,
   type ParseOptions,
@@ -54,15 +63,36 @@ const rawBuild = (envelope: RawSaveEnvelope | null): BuildMark | null =>
     ? { serverBuild: num(envelope.serverVars?.GameVERSION), saveVersion: num(envelope.data?.CSver) }
     : null;
 
-/**
- * The Knowledge Base the engine sees. Until M11's compiled bundle ships, its version is BuildInfo's
- * and `coverage()` lists nothing beyond the gaps the engine adds itself ("AFK safety"). After M11
- * merges this becomes `loadKnowledge` + `coverage` (cross-module note in the M10 PR).
- */
-const knowledgeOf = (call: EngineCall): KnowledgePort => ({
-  version: call.knowledgeVersion,
-  coverage: () => [],
-});
+/** The compiled Knowledge Base shipped in this chunk (knowledge-bundle.ts), loaded on first use. */
+let knowledge: { kb: CompiledKnowledge | null; error: string | null } | null = null;
+export function shippedKnowledge(): { kb: CompiledKnowledge | null; error: string | null } {
+  if (!knowledge) {
+    try {
+      knowledge = { kb: loadKnowledge(knowledgeText), error: null };
+    } catch (err) {
+      // A broken bundle: no advice from it (M11 TR-7); the engine still runs and shows the gap.
+      knowledge = { kb: null, error: err instanceof Error ? err.message : String(err) };
+    }
+  }
+  return knowledge;
+}
+
+/** Detector registries `coverage()` evaluates System unlocks with. */
+export const REGISTRIES: readonly DetectorRegistry[] = [knowledgeDetectors];
+
+/** The Knowledge Base the engine sees (M10 FR-26): the shipped bundle's version and coverage(). */
+export function knowledgeOf(
+  call: EngineCall,
+  kb: CompiledKnowledge | null = shippedKnowledge().kb,
+): KnowledgePort {
+  if (!kb) return { version: call.knowledgeVersion, coverage: () => [], kb: null };
+  return {
+    version: kb.version.display,
+    kb,
+    coverage: (state) =>
+      coverage(state, kb, REGISTRIES, { now: state.asOf }).map((s) => ({ systemId: s.id, label: s.name })),
+  };
+}
 
 const errorText = (err: unknown) => (err instanceof Error ? `${err.name}: ${err.message}` : 'unknown error');
 

@@ -7,12 +7,6 @@
 import type { DetectorRegistry } from '../src/types';
 import { buildRegistry } from './registry';
 
-declare global {
-  interface ImportMeta {
-    glob<T>(pattern: string | string[], options: { eager: true }): Record<string, T>;
-  }
-}
-
 export { buildRegistry, detectorIdFromPath, isDetectorPath, RegistryError } from './registry';
 
 export const detectors: DetectorRegistry = buildRegistry(
