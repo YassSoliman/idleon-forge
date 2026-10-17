@@ -82,6 +82,7 @@ describe('toAccountState', () => {
       gateQuests: {},
       worldCrystals: { desertTopaz: 0, glacierQuartz: 0, galaxialAmethyst: 0 },
       frontier: null,
+      afk: null,
     });
     expect(state.characters).toEqual([
       {
@@ -98,6 +99,7 @@ describe('toAccountState', () => {
         classIndex: null,
         npcDialog: {},
         nextPortal: null,
+        afk: null,
       },
     ]);
     expect(state.schemaVersion).toBe(SCHEMA_VERSION);

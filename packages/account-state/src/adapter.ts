@@ -7,7 +7,8 @@
 // no report, and an id it doesn't know resolves to undefined. So every field is checked against the
 // raw save keys it comes from (fields.ts) and every id against what Toolbox resolved, and a field that
 // fails is null (never a default) and listed in diagnostics.unknownFields (M1 FR-16, FR-19a, TR-11).
-import type { ParsedSave, RawSaveEnvelope } from '@idleon-forge/toolbox-parsers';
+import type { ParsedSave, RawSaveEnvelope, ToolboxCalls } from '@idleon-forge/toolbox-parsers';
+import { type AfkFactsInput, accountAfkFacts, characterAfkFacts } from './afk-facts';
 import { FIELD_RAW_KEYS, type RawKind } from './fields';
 import { metaPathAccountFields, metaPathCharacterFields } from './metapath-fields';
 import {
@@ -79,6 +80,15 @@ export interface ToAccountStateOptions {
   source?: 'live' | 'paste';
   /** The worker's frontier step (M2 TR-2, `computeFrontier`). Default null: not computed. */
   frontier?: Frontier | null;
+  /**
+   * M3 AFK Safety (TR-2): Toolbox's functions, from the parser bundle (`toolboxCalls`,
+   * `withFrozenClock`). Only the parse worker may load the bundle, so they arrive injected. Without
+   * them `characters[].afk` and `account.afk` are null and M3's Checks say Unknown.
+   */
+  toolbox?: {
+    calls: ToolboxCalls;
+    withFrozenClock: <T>(now: number, f: () => T) => T;
+  };
 }
 
 class Collector {
@@ -228,6 +238,7 @@ function toCharacter(
       foodStacks,
       secondsSinceLastSave: seconds,
       ...metaPath,
+      afk: null,
     },
   };
 }
@@ -371,6 +382,24 @@ export function toAccountState(
   if (frontier !== null && !c.checkRaw('account.frontier', 'account.frontier', null, withData))
     frontier = null;
 
+  // ---- M3 AFK Safety (M3 TR-2) ----
+  let accountAfk: AccountState['account']['afk'] = null;
+  if (options.toolbox) {
+    const input: AfkFactsInput = {
+      parsed,
+      calls: options.toolbox.calls,
+      withFrozenClock: options.toolbox.withFrozenClock,
+      asOf,
+      lastCloudSave,
+    };
+    for (const st of states) {
+      if (!c.checkRaw('characters[].afk', `characters[${st.index}].afk`, st.index)) continue;
+      st.afk = characterAfkFacts(input, st.index);
+      if (st.afk === null) c.unknown(`characters[${st.index}].afk`);
+    }
+    if (c.checkRaw('account.afk', 'account.afk', null)) accountAfk = accountAfkFacts(input);
+  }
+
   const diagnostics: ParseDiagnostics = {
     failedSections,
     failedSideReads: [...new Set(envelope.sideReadReport?.failed ?? [])],
@@ -401,6 +430,7 @@ export function toAccountState(
       gameVersion: { serverBuild, saveVersion, parserTarget: meta.parserGameVersion },
       ...metaPath,
       frontier,
+      afk: accountAfk,
     },
     characters: states,
     lastPlayedCharacterIndex,
