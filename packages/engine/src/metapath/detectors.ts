@@ -51,7 +51,7 @@ export const rosterDetector = defineDetector({
   system: 'metapath',
   params: none,
   slots: noSlots,
-  reads: [...STAGE_READS, 'account.familyLevel'],
+  reads: [...STAGE_READS, 'account.accountLevel'],
   examples: { fires: [{ fixture: 'scrubbed-w2', expect: { missingLines: ['Hunter'] } }], silent: [] },
   run: ({ state, facts }) => [analyzeRoster(state, facts, detectStage(state, facts).id)],
 });

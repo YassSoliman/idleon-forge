@@ -85,10 +85,7 @@ export function metaPathAccountFields({
   account,
   characters,
   failedSections,
-}: MetaPathAccountInput): Pick<
-  AccountSummary,
-'buildings' | 'salts' | 'gateQuests' | 'worldCrystals'
-> {
+}: MetaPathAccountInput): Pick<AccountSummary, 'buildings' | 'salts' | 'gateQuests' | 'worldCrystals'> {
   // towers.data is an ARRAY of { name, level } (M2 TR-3, red-team F13); absent = level 0.
   let buildings: AccountSummary['buildings'] = null;
   if (!failed(failedSections, 'towers')) {

@@ -281,7 +281,10 @@ export function rosterGoals(roster: RosterResult, stage: StageResult): MetaPathG
       subject: { kind: 'account' },
       slots: { line: n.line, baseClass: n.baseClass, slotNumber: n.slotNumber },
       order: 0,
-      provenance: { entryIds: [ENTRY.slotPlan], fields: ['account.familyLevel', 'characters[*].classIndex'] },
+      provenance: {
+        entryIds: [ENTRY.slotPlan],
+        fields: ['account.accountLevel', 'characters[*].classIndex'],
+      },
     });
   if (roster.swapToken && stageIndex(stage.id) >= stageIndex('W2-late'))
     out.push({

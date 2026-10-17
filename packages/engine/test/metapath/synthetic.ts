@@ -36,7 +36,7 @@ export function char(
 export function account(characters: CharacterState[], patch: Partial<AccountSummary> = {}): AccountState {
   const finished = patch.finishedWorlds ?? [];
   return {
-    schemaVersion: 4,
+    schemaVersion: 5,
     asOf: 0,
     account: {
       currentWorld: (finished.length ? Math.max(...finished) : 0) + 1,
@@ -45,7 +45,7 @@ export function account(characters: CharacterState[], patch: Partial<AccountSumm
       secondsSinceLastSave: 0,
       dailyResetInSeconds: null,
       gameVersion: { serverBuild: 1, saveVersion: 1, parserTarget: '2.3.540' },
-      familyLevel: characters.reduce((s, c) => s + c.level, 0),
+      accountLevel: characters.reduce((s, c) => s + c.level, 0),
       buildings: { deathNote: 0, printer3d: 0, atomCollider: 0 },
       salts: [],
       gateQuests: {},

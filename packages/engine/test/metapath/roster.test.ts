@@ -39,7 +39,7 @@ describe.each(w2)('S4/S5/S7 on the W2-late account (%s)', (file) => {
   });
 
   it('S4: with family level 300 the note becomes the Make a Hunter Goal', () => {
-    const r = run({ ...state, account: { ...state.account, familyLevel: 300 } });
+    const r = run({ ...state, account: { ...state.account, accountLevel: 300 } });
     const g = r.goals.find((x) => x.entryId === 'metapath.goal.next-character');
     expect(g?.slots).toEqual({ line: 'Hunter', baseClass: 'Archer', slotNumber: 6 });
   });
@@ -119,7 +119,7 @@ describe('FR-6, FR-8, FR-10 (synthetic)', () => {
     });
     const r = analyzeRoster(s, facts(), 'W2-late');
     expect(r.swapToken).toEqual({ characterIndex: 1, from: 'Squire', to: 'Barbarian' });
-    const goals = runMetaPath({ ...s, account: { ...s.account, familyLevel: 150 } }, kb(), NOW).goals;
+    const goals = runMetaPath({ ...s, account: { ...s.account, accountLevel: 150 } }, kb(), NOW).goals;
     expect(goals.find((g) => g.entryId === 'metapath.goal.swap-token')?.subject).toEqual({
       kind: 'character',
       index: 1,

@@ -114,7 +114,7 @@ export function analyzeRoster(state: AccountState, kb: FactLookup, stage: StageI
   const missingLines = lineNames.filter((l) => !held.has(l));
 
   // Family slots (FR-9): slot 1 is always open.
-  const familyLevel = state.account.familyLevel ?? null;
+  const familyLevel = state.account.accountLevel ?? null;
   const gates = familySlots(kb);
   const slotsUnlocked =
     familyLevel === null ? null : 1 + gates.filter((g) => g.familyLevel <= familyLevel).length;

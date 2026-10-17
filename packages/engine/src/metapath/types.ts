@@ -89,6 +89,7 @@ export interface NextCharacter {
   line: string;
   /** The class to pick at level 10 (Warrior, Archer, Mage), or Journeyman. */
   baseClass: string;
+  /** The family level (`account.accountLevel`, the sum of class levels). */
   familyLevel: number | null;
   /** The slot number the new character takes (1-based count of characters after it). */
   slotNumber: number;
