@@ -86,6 +86,15 @@ describe('across all public saves', () => {
     for (const s of states) expect(s.account.dailyResetInSeconds).toEqual(expect.any(Number));
   });
 
+  it('reads the total account level as the sum of every class level (issue #60)', () => {
+    for (const s of states) {
+      expect(s.account.accountLevel).toEqual(expect.any(Number));
+      // Readable characters are a lower bound: Toolbox also counts any it could read and we couldn't.
+      const sum = s.characters.reduce((n, c) => n + c.level, 0);
+      expect(s.account.accountLevel).toBeGreaterThanOrEqual(sum);
+    }
+  });
+
   it('keeps every Account State under the 200 KB history cap (TR-16)', () => {
     const largest = Math.max(...states.map((s) => new TextEncoder().encode(JSON.stringify(s)).length));
     expect(largest).toBeLessThan(200 * 1024);

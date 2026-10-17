@@ -3,7 +3,30 @@
 ## Verdict changes
 
 ## Now
-(engine not built)
+! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+
+### C1 · Blood Berserker 96 · Unknown
+1 · Fighting Purp Mushroom · Spaceway Raceway · Not covered yet: AFK safety
+
+### C2 · Bubonic Conjuror 87 · Unknown
+2 · In the Lab · Outer World Town · Not covered yet: AFK safety
+
+### C5 · Elemental Sorcerer 87 · Unknown
+3 · In the Lab · Outer World Town · Not covered yet: AFK safety
+
+### C6 · Beast Master 87 · Unknown
+4 · In the Lab · Outer World Town · Not covered yet: AFK safety
+
+### C3 · Siege Breaker 86 · Unknown
+5 · In the Lab · Outer World Town · Not covered yet: AFK safety
+
+### C4 · Divine Knight 86 · Unknown
+6 · Fighting Purp Mushroom · Spaceway Raceway · Not covered yet: AFK safety
+
+### C7 · Maestro 73 · Unknown
+7 · Doing nothing · YumYum Grotto · Not covered yet: AFK safety
+
+### Account · nothing to fix
 
 ## Not covered yet
 AFK safety

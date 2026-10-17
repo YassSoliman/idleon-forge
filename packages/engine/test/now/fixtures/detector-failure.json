@@ -1,0 +1,101 @@
+{
+  "asOf": 1792260000000,
+  "lastPlayedCharacterIndex": null,
+  "sessionStartedAt": 1792257600000,
+  "expectedReturn": {
+    "usedSeconds": 28800,
+    "learnedSeconds": null
+  },
+  "stage": {
+    "id": "w2-mid",
+    "label": "W2-mid"
+  },
+  "characters": [
+    {
+      "index": 0,
+      "name": "Alder",
+      "classId": "Squire",
+      "classLabel": "Squire",
+      "level": 43,
+      "activityLabel": "Mining Copper",
+      "mapLabel": "Tunnels Entrance",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "unknown",
+        "blockerKeys": [],
+        "unknownReason": "cannot-tell",
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    },
+    {
+      "index": 1,
+      "name": "Birch",
+      "classId": "Shaman",
+      "classLabel": "Shaman",
+      "level": 44,
+      "activityLabel": "Fighting Poop",
+      "mapLabel": "Poopy Sewers",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    }
+  ],
+  "visitOrder": [
+    0,
+    1
+  ],
+  "account": {
+    "goals": [],
+    "blockerKeys": [],
+    "safety": "safe",
+    "spendPlan": null,
+    "activePlay": [],
+    "doneThisSession": []
+  },
+  "firstFill": null,
+  "alreadyFull": 0,
+  "higherLeverageStatus": "ok",
+  "notCovered": [],
+  "versions": {
+    "knowledge": "2026.10.17",
+    "gameBuild": 142,
+    "parserTarget": "2.3.540",
+    "parserBehind": false
+  },
+  "diagnostics": {
+    "failedDetectors": [
+      {
+        "detectorId": "afk/food-runs-out",
+        "entryIds": [
+          "afk.check.health-food-runs-out"
+        ],
+        "message": "TypeError"
+      },
+      {
+        "detectorId": "boss-keys/collect",
+        "entryIds": [
+          "boss-keys.check.collect"
+        ],
+        "message": "TypeError"
+      }
+    ]
+  }
+}

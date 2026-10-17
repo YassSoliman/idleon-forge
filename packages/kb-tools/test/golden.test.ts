@@ -112,9 +112,9 @@ describe('golden content', () => {
     expect([...a.keys()].filter((k) => a.get(k) !== b.get(k))).toEqual(['C4']);
   });
 
-  it('uses the engine stub until M10 ships renderNowText', () => {
+  it('uses the M10 engine (packages/engine/src/golden.ts) now that it ships renderNowText', () => {
     expect(STUB_ENGINE.renderNow({} as never)).toBe('(engine not built)');
-    expect(ctx.engine).toBe(STUB_ENGINE);
+    expect(ctx.engine).not.toBe(STUB_ENGINE);
   });
 });
 

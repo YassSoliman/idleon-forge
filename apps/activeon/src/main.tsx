@@ -13,6 +13,7 @@ import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/600.css';
 import './styles/tokens.css';
 import './styles/app.css';
+import './styles/now.css';
 
 const root = document.getElementById('root');
 if (!root) throw new Error('#root is missing from index.html');

@@ -1,0 +1,255 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`goldenEngine (M11 TR-15 hook) > is stable for one fixture 1`] = `
+"! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+
+### C1 · Blood Berserker 96 · Unknown
+1 · Fighting Purp Mushroom · Spaceway Raceway · Not covered yet: AFK safety
+
+### C2 · Bubonic Conjuror 87 · Unknown
+2 · In the Lab · Outer World Town · Not covered yet: AFK safety
+
+### C5 · Elemental Sorcerer 87 · Unknown
+3 · In the Lab · Outer World Town · Not covered yet: AFK safety
+
+### C6 · Beast Master 87 · Unknown
+4 · In the Lab · Outer World Town · Not covered yet: AFK safety
+
+### C3 · Siege Breaker 86 · Unknown
+5 · In the Lab · Outer World Town · Not covered yet: AFK safety
+
+### C4 · Divine Knight 86 · Unknown
+6 · Fighting Purp Mushroom · Spaceway Raceway · Not covered yet: AFK safety
+
+### C7 · Maestro 73 · Unknown
+7 · Doing nothing · YumYum Grotto · Not covered yet: AFK safety
+
+### Account · nothing to fix
+"
+`;
+
+exports[`renderNowText on the view fixtures > account-stockpile 1`] = `
+"5 of 5 Ready · fix 2 in Account
+
+### <c0> · Squire 43 · Ready
+1 · Mining Copper · Tunnels Entrance · Nothing to do here
+
+### <c1> · Shaman 44 · Ready
+2 · Fighting Poop · Poopy Sewers · Nothing to do here
+
+### <c2> · Bowman 38 · Ready
+3 · Choppin Oak · Spore Meadows · Nothing to do here
+
+### <c3> · Barbarian 51 · Ready
+4 · Fishing Goldfish · Fishing Camp · Nothing to do here
+
+### <c4> · Wizard 40 · Ready
+5 · Catching Fly · Bug Meadow · Nothing to do here
+
+### Account · fix 2 before you leave
+Fix before you leave
+- Fix · Arcade: Claim Arcade balls: full for 48h [wiki · 2.3.540]
+- Fix · Alchemy: Spend Water: at cap [wiki · 2.3.540]
+- Spend · Gem Shop: Buy gem shop item 1 [wiki · 2.3.540]
+- Spend · Gem Shop: Buy gem shop item 2 [wiki · 2.3.540]
+- Spend · Gem Shop: Buy gem shop item 3 [wiki · 2.3.540]
+- Spend · Gem Shop: Buy gem shop item 4 [wiki · 2.3.540]
+- Spend · Gem Shop: Buy gem shop item 5 [wiki · 2.3.540]
+show more (2)
+"
+`;
+
+exports[`renderNowText on the view fixtures > all-set 1`] = `
+"! All set: safe to log off. First thing fills up in about 9h: <c2>'s inventory
+safe to log off
+
+### <c0> · Squire 43 · Ready
+1 · Mining Copper · Tunnels Entrance · Nothing to do here
+
+### <c1> · Shaman 44 · Ready
+2 · Fighting Poop · Poopy Sewers · Nothing to do here
+
+### <c2> · Bowman 38 · Ready
+3 · Choppin Oak · Spore Meadows · Nothing to do here
+
+### <c3> · Barbarian 51 · Ready
+4 · Fishing Goldfish · Fishing Camp · Nothing to do here
+
+### <c4> · Wizard 40 · Ready
+5 · Catching Fly · Bug Meadow · Nothing to do here
+
+### Account · nothing to fix
+"
+`;
+
+exports[`renderNowText on the view fixtures > blocker-overflow 1`] = `
+"1 of 2 Ready · fix 1 before you leave
+
+### <c0> · Squire 43 · Fix before you leave
+1 · Mining Copper · Tunnels Entrance · Set an AFK target
+
+### <c1> · Shaman 44 · Ready
+2 · Fighting Poop · Poopy Sewers · Nothing to do here
+
+### Account · nothing to fix
+"
+`;
+
+exports[`renderNowText on the view fixtures > cannot-tell 1`] = `
+"4 of 5 Ready · 1 Unknown
+
+### <c4> · Wizard 40 · Unknown
+1 · Catching Fly · Bug Meadow · Can't tell from the save
+
+### <c0> · Squire 43 · Ready
+2 · Mining Copper · Tunnels Entrance · Nothing to do here
+
+### <c1> · Shaman 44 · Ready
+3 · Fighting Poop · Poopy Sewers · Nothing to do here
+
+### <c2> · Bowman 38 · Ready
+4 · Choppin Oak · Spore Meadows · Nothing to do here
+
+### <c3> · Barbarian 51 · Ready
+5 · Fishing Goldfish · Fishing Camp · Nothing to do here
+
+### Account · nothing to fix
+"
+`;
+
+exports[`renderNowText on the view fixtures > contested 1`] = `
+"! All set: safe to log off. Nothing fills up before you're back
+safe to log off
+
+### <c0> · Squire 43 · Ready
+1 · Mining Copper · Tunnels Entrance · Buy the Target Stamp
+
+### Account · nothing to fix
+"
+`;
+
+exports[`renderNowText on the view fixtures > detector-failure 1`] = `
+"1 of 2 Ready · 1 Unknown
+
+### <c0> · Squire 43 · Unknown
+1 · Mining Copper · Tunnels Entrance · Can't tell from the save
+
+### <c1> · Shaman 44 · Ready
+2 · Fighting Poop · Poopy Sewers · Nothing to do here
+
+### Account · nothing to fix
+"
+`;
+
+exports[`renderNowText on the view fixtures > higher-leverage-character 1`] = `
+"! All set: safe to log off. Nothing fills up before you're back
+safe to log off
+
+### <c0> · Squire 43 · Ready
+1 · Mining Copper · Tunnels Entrance · Nothing to do here
+
+### <c1> · Shaman 44 · Ready
+2 · Fighting Poop · Poopy Sewers · Nothing to do here
+
+### <c2> · Bowman 38 · Ready
+3 · Choppin Oak · Spore Meadows · Nothing to do here
+
+### <c3> · Barbarian 51 · Ready
+4 · Fishing Goldfish · Fishing Camp · Nothing to do here
+
+### <c4> · Wizard 40 · Ready
+5 · Catching Fly · Bug Meadow · Nothing to do here
+
+### Account · nothing to fix
+"
+`;
+
+exports[`renderNowText on the view fixtures > mid-session 1`] = `
+"3 of 5 Ready · fix 1 before you leave · 1 Unknown
+
+### <c3> · Barbarian 51 · Fix before you leave
+1 · Fishing Goldfish · Fishing Camp · Food runs out in about 2h
+
+### <c0> · Squire 43 · Unknown
+2 · Mining Copper · Tunnels Entrance · Can't tell from the save
+
+### <c4> · Wizard 40 · Ready
+3 · Catching Fly · Bug Meadow · Nothing to do here
+
+### <c1> · Shaman 44 · Ready
+4 · Fighting Poop · Poopy Sewers · Collect 2 Amarok keys before they cap
+
+### <c2> · Bowman 38 · Ready
+5 · Choppin Oak · Spore Meadows · Spend 12 talent points on Bowman talents
+
+### Account · nothing to fix
+- Spend · Gem Shop: Spend 400 gems on a storage chest [wiki · 2.3.540]
+If you have time
+- Play the Hoops minigame · about 1h of hands-on play
+"
+`;
+
+exports[`renderNowText on the view fixtures > no-purpose 1`] = `
+"! All set: safe to log off. Nothing fills up before you're back
+safe to log off · 1 Unknown
+
+### <c0> · Squire 43 · Unknown
+1 · Mining Copper · Tunnels Entrance · What is this character for?
+
+### <c1> · Shaman 44 · Ready
+2 · Fighting Poop · Poopy Sewers · Nothing to do here
+
+### Account · nothing to fix
+"
+`;
+
+exports[`renderNowText on the view fixtures > not-covered 1`] = `
+"! All set: safe to log off. Nothing fills up before you're back
+safe to log off
+
+### <c0> · Squire 43 · Ready
+1 · Mining Copper · Tunnels Entrance · Nothing to do here
+
+### <c1> · Shaman 44 · Ready
+2 · Fighting Poop · Poopy Sewers · Nothing to do here
+
+### Account · nothing to fix
+Not covered yet: Construction, Worship
+"
+`;
+
+exports[`renderNowText on the view fixtures > spend-plan 1`] = `
+"! All set: safe to log off. Nothing fills up before you're back
+safe to log off
+
+### <c0> · Squire 43 · Ready
+1 · Mining Copper · Tunnels Entrance · Nothing to do here · Spend here: 3 buys, ~4M → Spend Plan
+
+### <c1> · Shaman 44 · Ready
+2 · Fighting Poop · Poopy Sewers · Nothing to do here
+
+### <c2> · Bowman 38 · Ready
+3 · Choppin Oak · Spore Meadows · Nothing to do here · Spend here: 1 buy, ~300k → Spend Plan
+
+### Account · nothing to fix
+Spend coins: 4 buys now on 2 characters
+  1. Vault upgrade 1 · Lv 1 → 4 · 1.2M coins · <c0> (Squire lv43) · buy · total 1.2M on <c0>
+  2. Vault upgrade 2 · Lv 2 → 5 · 800k coins · <c0> (Squire lv43) · buy · total 2M on <c0>
+  3. Vault upgrade 3 · Lv 3 → 6 · 2M coins · <c0> (Squire lv43) · withdraw 1.5M from storage on <c0>, then buy · total 4M on <c0>
+  4. Vault upgrade 4 · Lv 4 → 7 · 300k coins · <c2> (Bowman lv38) · buy · total 300k on <c2>
+  5. Vault upgrade 5 · Lv 5 → 8 · cost not checked, see the price in game · save for it: 5M short
+  show more (1)
+  can't price Statue Gold right now
+"
+`;
+
+exports[`renderNowText on the view fixtures > stale 1`] = `
+"! All set: safe to log off. Nothing fills up before you're back
+safe to log off
+
+### <c0> · Squire 43 · Ready
+1 · Mining Copper · Tunnels Entrance · Equip a card set
+
+### Account · nothing to fix
+"
+`;

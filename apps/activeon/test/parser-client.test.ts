@@ -3,12 +3,12 @@
 // The parser client's queueing, timeout and restart rules (M1 TR-5, FR-10, RT-11) with a fake Worker.
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createParserClient, type WorkerLike } from '../src/worker/parser-client';
-import type { ParseRequest, ParseResponse, WorkerRequest } from '../src/worker/protocol';
+import type { ParseRequest, WorkerRequest, WorkerResponse } from '../src/worker/protocol';
 
 class FakeWorker implements WorkerLike {
   readonly received: WorkerRequest[] = [];
   terminated = false;
-  private onMessage: ((e: MessageEvent<ParseResponse>) => void) | null = null;
+  private onMessage: ((e: MessageEvent<WorkerResponse>) => void) | null = null;
   private onError: ((e: ErrorEvent) => void) | null = null;
 
   postMessage(message: WorkerRequest) {
@@ -18,27 +18,31 @@ class FakeWorker implements WorkerLike {
     this.terminated = true;
   }
   addEventListener(type: 'message' | 'error', listener: (e: never) => void) {
-    if (type === 'message') this.onMessage = listener as (e: MessageEvent<ParseResponse>) => void;
+    if (type === 'message') this.onMessage = listener as (e: MessageEvent<WorkerResponse>) => void;
     else this.onError = listener as (e: ErrorEvent) => void;
   }
   /** Answers the newest request it received. */
   answer(ok = true) {
     const req = this.received.at(-1);
     if (!req) throw new Error('nothing to answer');
-    const data: ParseResponse = ok
-      ? { id: req.id, ok: true, state: { asOf: req.now } as never, ms: 1 }
-      : { id: req.id, ok: false, kind: 'empty', message: 'no', ms: 1 };
-    this.onMessage?.({ data } as MessageEvent<ParseResponse>);
+    const data: WorkerResponse =
+      req.type === 'rerun'
+        ? { id: req.id, ok: true, rerun: true, result: { error: 'test' }, ms: 1 }
+        : ok
+          ? { id: req.id, ok: true, state: { asOf: req.now } as never, ms: 1 }
+          : { id: req.id, ok: false, kind: 'empty', message: 'no', ms: 1 };
+    this.onMessage?.({ data } as MessageEvent<WorkerResponse>);
   }
   fail(message = 'boom') {
     this.onError?.({ message, preventDefault() {} } as ErrorEvent);
   }
 }
 
-function setup(timeoutMs = 15_000) {
+function setup(timeoutMs = 15_000, checkUpdated?: () => Promise<boolean>) {
   const workers: FakeWorker[] = [];
   const client = createParserClient({
     timeoutMs,
+    ...(checkUpdated ? { checkUpdated } : {}),
     createWorker: () => {
       const w = new FakeWorker();
       workers.push(w);
@@ -147,5 +151,55 @@ describe('createParserClient', () => {
     const { client, current } = setup();
     void client.parse(input(1), { now: 5, withHistory: true });
     expect(current().received[0]).toMatchObject({ type: 'parse', now: 5, withHistory: true });
+  });
+
+  const engine = {
+    expectedReturnSeconds: 8 * 3600,
+    sessionStartedAt: null,
+    learnedExpectedReturnSeconds: null,
+    knowledgeVersion: 'k',
+  };
+
+  it('re-runs coalesce, newest wins, behind the request in flight (M10 TR-6)', async () => {
+    const { client, current } = setup();
+    const a = client.parse(input(1), { engine });
+    const r1 = client.rerun(4 * 3600);
+    const r2 = client.rerun(12 * 3600);
+    await expect(r1).resolves.toEqual({ superseded: true });
+    current().answer();
+    await expect(a).resolves.toMatchObject({ ok: true });
+    expect(current().received.at(-1)).toMatchObject({ type: 'rerun', expectedReturnSeconds: 12 * 3600 });
+    current().answer();
+    await expect(r2).resolves.toMatchObject({ ok: true, rerun: true });
+  });
+
+  it('a re-run behind a pending parse folds into it and never displaces the save', async () => {
+    const { client, current } = setup();
+    void client.parse(input(1), { engine });
+    const b = client.parse(input(2), { engine });
+    await expect(client.rerun(2 * 3600)).resolves.toEqual({ superseded: true });
+    current().answer();
+    await vi.advanceTimersByTimeAsync(0);
+    expect(current().received.at(-1)).toMatchObject({
+      type: 'parse',
+      input: input(2),
+      engine: { expectedReturnSeconds: 2 * 3600 },
+    });
+    current().answer();
+    await expect(b).resolves.toMatchObject({ ok: true });
+  });
+
+  it('a worker error after a deploy is "updated", not a broken save (M12 TR-10)', async () => {
+    const { client, current } = setup(15_000, async () => true);
+    const a = client.parse(input(1));
+    current().fail('chunk 404');
+    await expect(a).resolves.toMatchObject({ ok: false, kind: 'updated' });
+  });
+
+  it('a worker error with the same build live stays a crash', async () => {
+    const { client, current } = setup(15_000, async () => false);
+    const a = client.parse(input(1));
+    current().fail('boom');
+    await expect(a).resolves.toMatchObject({ ok: false, kind: 'crash', message: 'boom' });
   });
 });

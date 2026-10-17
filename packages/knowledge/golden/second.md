@@ -3,7 +3,39 @@
 ## Verdict changes
 
 ## Now
-(engine not built)
+! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+
+### C3 · Bubonic Conjuror 567 · Unknown
+1 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
+
+### C2 · Divine Knight 544 · Unknown
+2 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
+
+### C6 · Siege Breaker 530 · Unknown
+3 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
+
+### C8 · Elemental Sorcerer 525 · Unknown
+4 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
+
+### C7 · Voidwalker 510 · Unknown
+5 · Fighting Skydoggie Spirit · Dozey Dogpark · Not covered yet: AFK safety
+
+### C1 · Beast Master 507 · Unknown
+6 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
+
+### C9 · Hunter 503 · Unknown
+7 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
+
+### C4 · Blood Berserker 501 · Unknown
+8 · Fighting The Rift · The Rift · Not covered yet: AFK safety
+
+### C5 · Wizard 501 · Unknown
+9 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
+
+### C10 · Barbarian 501 · Unknown
+10 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
+
+### Account · nothing to fix
 
 ## Not covered yet
 AFK safety

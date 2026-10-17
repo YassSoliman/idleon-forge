@@ -1,0 +1,290 @@
+{
+  "asOf": 1792260000000,
+  "lastPlayedCharacterIndex": null,
+  "sessionStartedAt": 1792257600000,
+  "expectedReturn": {
+    "usedSeconds": 28800,
+    "learnedSeconds": null
+  },
+  "stage": {
+    "id": "w2-mid",
+    "label": "W2-mid"
+  },
+  "characters": [
+    {
+      "index": 0,
+      "name": "Alder",
+      "classId": "Squire",
+      "classLabel": "Squire",
+      "level": 43,
+      "activityLabel": "Mining Copper",
+      "mapLabel": "Tunnels Entrance",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "fix",
+        "blockerKeys": [
+          "afk.check.no-afk-target@c0",
+          "afk.check.health-food-runs-out@c0",
+          "afk.check.fighter-inventory-full@c0",
+          "afk.check.dies-fixable-by-food@c0"
+        ],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [
+        {
+          "id": "afk.goal.no-afk-target",
+          "title": "AFK Setup",
+          "system": "afk",
+          "category": "blocker",
+          "nextAction": {
+            "key": "afk.check.no-afk-target@c0",
+            "entryId": "afk.check.no-afk-target",
+            "text": "Set an AFK target",
+            "why": "Because set an afk target pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "afk.check.no-afk-target"
+              ],
+              "fields": [
+                "characters[0].level"
+              ]
+            }
+          },
+          "milestone": null
+        },
+        {
+          "id": "afk.goal.health-food-runs-out",
+          "title": "AFK Setup",
+          "system": "afk",
+          "category": "blocker",
+          "nextAction": {
+            "key": "afk.check.health-food-runs-out@c0",
+            "entryId": "afk.check.health-food-runs-out",
+            "text": "Food runs out in about 1h",
+            "why": "Because food runs out in about 1h pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "afk.check.health-food-runs-out"
+              ],
+              "fields": [
+                "characters[0].level"
+              ]
+            }
+          },
+          "milestone": null
+        },
+        {
+          "id": "afk.goal.fighter-inventory-full",
+          "title": "AFK Setup",
+          "system": "afk",
+          "category": "blocker",
+          "nextAction": {
+            "key": "afk.check.fighter-inventory-full@c0",
+            "entryId": "afk.check.fighter-inventory-full",
+            "text": "Inventory fills in about 3h",
+            "why": "Because inventory fills in about 3h pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "afk.check.fighter-inventory-full"
+              ],
+              "fields": [
+                "characters[0].level"
+              ]
+            }
+          },
+          "milestone": null
+        },
+        {
+          "id": "afk.goal.dies-fixable-by-food",
+          "title": "AFK Setup",
+          "system": "afk",
+          "category": "blocker",
+          "nextAction": {
+            "key": "afk.check.dies-fixable-by-food@c0",
+            "entryId": "afk.check.dies-fixable-by-food",
+            "text": "Dies to the map; equip health food",
+            "why": "Because dies to the map; equip health food pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "afk.check.dies-fixable-by-food"
+              ],
+              "fields": [
+                "characters[0].level"
+              ]
+            }
+          },
+          "milestone": null
+        },
+        {
+          "id": "stamps.goal.shop-now",
+          "title": "Stamps",
+          "system": "stamps",
+          "category": "spendable",
+          "nextAction": {
+            "key": "stamps.check.shop-now@c0",
+            "entryId": "stamps.check.shop-now",
+            "text": "Buy the Target Stamp",
+            "why": "Because buy the target stamp pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "stamps.check.shop-now"
+              ],
+              "fields": [
+                "characters[0].level"
+              ]
+            }
+          },
+          "milestone": null
+        },
+        {
+          "id": "cards.goal.empty-slots",
+          "title": "Cards",
+          "system": "cards",
+          "category": "compounding",
+          "nextAction": {
+            "key": "cards.check.empty-slots@c0",
+            "entryId": "cards.check.empty-slots",
+            "text": "Fill 2 card slots",
+            "why": "Because fill 2 card slots pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "cards.check.empty-slots"
+              ],
+              "fields": [
+                "characters[0].level"
+              ]
+            }
+          },
+          "milestone": null
+        }
+      ],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    },
+    {
+      "index": 1,
+      "name": "Birch",
+      "classId": "Shaman",
+      "classLabel": "Shaman",
+      "level": 44,
+      "activityLabel": "Fighting Poop",
+      "mapLabel": "Poopy Sewers",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    }
+  ],
+  "visitOrder": [
+    0,
+    1
+  ],
+  "account": {
+    "goals": [],
+    "blockerKeys": [],
+    "safety": "safe",
+    "spendPlan": null,
+    "activePlay": [],
+    "doneThisSession": []
+  },
+  "firstFill": null,
+  "alreadyFull": 0,
+  "higherLeverageStatus": "ok",
+  "notCovered": [],
+  "versions": {
+    "knowledge": "2026.10.17",
+    "gameBuild": 142,
+    "parserTarget": "2.3.540",
+    "parserBehind": false
+  },
+  "diagnostics": {
+    "failedDetectors": []
+  }
+}

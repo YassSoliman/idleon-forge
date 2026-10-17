@@ -44,7 +44,8 @@ export const STALE_SNAPSHOT_MS = 6 * 60_000;
 /** A last cloud save older than this means the game is probably closed (FR-27). */
 export const GAME_CLOSED_MS = 30 * 60_000;
 
-export const HINT_SWITCH = 'No new save for a while: switch character in the game to refresh.';
+export const HINT_SWITCH =
+  'No new save for a while: press Cloud Save or switch character in the game to refresh.';
 export const HINT_OPEN_GAME = 'Open the game and switch character to refresh.';
 
 export interface FreshnessInput {

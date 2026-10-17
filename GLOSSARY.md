@@ -122,6 +122,22 @@ _Avoid_: shopping list, budget
 Said of a Knowledge Base entry verified on a patch older than the current one; still shown, ranked below fresh entries.
 _Avoid_: outdated, expired
 
+**Roster**:
+The Now screen's list view: one numbered row per character in Visit Order, each with its Verdict and one summary line.
+_Avoid_: character list, overview
+
+**Focus**:
+The Now screen's one-character card: Verdict, Purpose, up to three Goals and "Next: switch to …". Keyboard focus is always written out as "keyboard focus".
+_Avoid_: detail view, character page
+
+**Verdict strip**:
+The row of labelled links at the top of Focus, one per character in Visit Order, for jumping between characters.
+_Avoid_: dots, tabs
+
+**Account section**:
+The part of the Now screen for account-wide Goals any character can do: stockpile blockers first, then Goals, the Spend Plan and "Not covered yet".
+_Avoid_: global tasks, shared list
+
 ## Knowledge Base entries
 
 **Entry**:

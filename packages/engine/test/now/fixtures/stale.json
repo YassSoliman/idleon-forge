@@ -1,0 +1,129 @@
+{
+  "asOf": 1792260000000,
+  "lastPlayedCharacterIndex": null,
+  "sessionStartedAt": 1792257600000,
+  "expectedReturn": {
+    "usedSeconds": 28800,
+    "learnedSeconds": null
+  },
+  "stage": {
+    "id": "w2-mid",
+    "label": "W2-mid"
+  },
+  "characters": [
+    {
+      "index": 0,
+      "name": "Alder",
+      "classId": "Squire",
+      "classLabel": "Squire",
+      "level": 43,
+      "activityLabel": "Mining Copper",
+      "mapLabel": "Tunnels Entrance",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [
+        {
+          "id": "cards.goal.no-set",
+          "title": "Cards",
+          "system": "cards",
+          "category": "compounding",
+          "nextAction": {
+            "key": "cards.check.no-set@c0",
+            "entryId": "cards.check.no-set",
+            "text": "Equip a card set",
+            "why": "Because equip a card set pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": true,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "cards.check.no-set"
+              ],
+              "fields": [
+                "characters[0].level"
+              ]
+            }
+          },
+          "milestone": null
+        },
+        {
+          "id": "obols.goal.altar",
+          "title": "Obols",
+          "system": "obols",
+          "category": "compounding",
+          "nextAction": {
+            "key": "obols.check.altar@c0",
+            "entryId": "obols.check.altar",
+            "text": "Hand in a pickle at the Obol Altar",
+            "why": "Because hand in a pickle at the obol altar pays off now.",
+            "sources": [
+              {
+                "label": "guide",
+                "url": "http://example.org/not-https",
+                "tier": 3,
+                "verifiedOn": "2026-09-12",
+                "gameVersion": "2.3.531"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "obols.check.altar"
+              ],
+              "fields": [
+                "characters[0].level"
+              ]
+            }
+          },
+          "milestone": null
+        }
+      ],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    }
+  ],
+  "visitOrder": [
+    0
+  ],
+  "account": {
+    "goals": [],
+    "blockerKeys": [],
+    "safety": "safe",
+    "spendPlan": null,
+    "activePlay": [],
+    "doneThisSession": []
+  },
+  "firstFill": null,
+  "alreadyFull": 0,
+  "higherLeverageStatus": "ok",
+  "notCovered": [],
+  "versions": {
+    "knowledge": "2026.10.17",
+    "gameBuild": 142,
+    "parserTarget": "2.3.540",
+    "parserBehind": false
+  },
+  "diagnostics": {
+    "failedDetectors": []
+  }
+}

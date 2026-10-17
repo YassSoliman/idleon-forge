@@ -3,7 +3,42 @@
 ## Verdict changes
 
 ## Now
-(engine not built)
+! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+
+### C9 · Royal Guardian 1307 · Unknown
+1 · Doing nothing · Blunder Hills · Not covered yet: AFK safety
+
+### C2 · Death Bringer 1292 · Unknown
+2 · Doing nothing · Shimmerfin Grove · Not covered yet: AFK safety
+
+### C1 · Siege Breaker 1291 · Unknown
+3 · Cooking · Outer World Town · Not covered yet: AFK safety
+
+### C6 · Wind Walker 1280 · Unknown
+4 · Fighting Pirate Underling · Pirate Upper Deck · Not covered yet: AFK safety
+
+### C10 · Bubonic Conjuror 1268 · Unknown
+5 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
+
+### C8 · Siege Breaker 1261 · Unknown
+6 · Cooking · Outer World Town · Not covered yet: AFK safety
+
+### C3 · Elemental Sorcerer 1259 · Unknown
+7 · Cooking · Outer World Town · Not covered yet: AFK safety
+
+### C4 · Divine Knight 1240 · Unknown
+8 · Cooking · Outer World Town · Not covered yet: AFK safety
+
+### C5 · Arcane Cultist 1231 · Unknown
+9 · Cooking · Outer World Town · Not covered yet: AFK safety
+
+### C11 · Beginner 1224 · Unknown
+10 · Cooking · Outer World Town · Not covered yet: AFK safety
+
+### C7 · Voidwalker 1158 · Unknown
+11 · Divinity · Magma Rivertown · Not covered yet: AFK safety
+
+### Account · nothing to fix
 
 ## Not covered yet
 AFK safety

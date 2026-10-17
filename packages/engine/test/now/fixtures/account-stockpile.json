@@ -1,0 +1,459 @@
+{
+  "asOf": 1792260000000,
+  "lastPlayedCharacterIndex": null,
+  "sessionStartedAt": 1792257600000,
+  "expectedReturn": {
+    "usedSeconds": 28800,
+    "learnedSeconds": null
+  },
+  "stage": {
+    "id": "w2-mid",
+    "label": "W2-mid"
+  },
+  "characters": [
+    {
+      "index": 0,
+      "name": "Alder",
+      "classId": "Squire",
+      "classLabel": "Squire",
+      "level": 43,
+      "activityLabel": "Mining Copper",
+      "mapLabel": "Tunnels Entrance",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    },
+    {
+      "index": 1,
+      "name": "Birch",
+      "classId": "Shaman",
+      "classLabel": "Shaman",
+      "level": 44,
+      "activityLabel": "Fighting Poop",
+      "mapLabel": "Poopy Sewers",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    },
+    {
+      "index": 2,
+      "name": "Cedar",
+      "classId": "Bowman",
+      "classLabel": "Bowman",
+      "level": 38,
+      "activityLabel": "Choppin Oak",
+      "mapLabel": "Spore Meadows",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    },
+    {
+      "index": 3,
+      "name": "Dahlia",
+      "classId": "Barbarian",
+      "classLabel": "Barbarian",
+      "level": 51,
+      "activityLabel": "Fishing Goldfish",
+      "mapLabel": "Fishing Camp",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    },
+    {
+      "index": 4,
+      "name": "Elm",
+      "classId": "Wizard",
+      "classLabel": "Wizard",
+      "level": 40,
+      "activityLabel": "Catching Fly",
+      "mapLabel": "Bug Meadow",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    }
+  ],
+  "visitOrder": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "account": {
+    "goals": [
+      {
+        "id": "arcade.goal.balls-cap",
+        "title": "Arcade",
+        "system": "arcade",
+        "category": "blocker",
+        "nextAction": {
+          "key": "arcade.check.balls-cap@account",
+          "entryId": "arcade.check.balls-cap",
+          "text": "Claim Arcade balls: full for 48h",
+          "why": "Because claim arcade balls: full for 48h pays off now.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "stale": false,
+          "contested": null,
+          "confidence": "H",
+          "provenance": {
+            "entryIds": [
+              "arcade.check.balls-cap"
+            ],
+            "fields": [
+              "characters[ccount].level"
+            ]
+          }
+        },
+        "milestone": null
+      },
+      {
+        "id": "alchemy.goal.liquid-cap",
+        "title": "Alchemy",
+        "system": "alchemy",
+        "category": "blocker",
+        "nextAction": {
+          "key": "alchemy.check.liquid-cap@account",
+          "entryId": "alchemy.check.liquid-cap",
+          "text": "Spend Water: at cap",
+          "why": "Because spend water: at cap pays off now.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "stale": false,
+          "contested": null,
+          "confidence": "H",
+          "provenance": {
+            "entryIds": [
+              "alchemy.check.liquid-cap"
+            ],
+            "fields": [
+              "characters[ccount].level"
+            ]
+          }
+        },
+        "milestone": null
+      },
+      {
+        "id": "gem-shop.goal.item-0",
+        "title": "Gem Shop",
+        "system": "gem-shop",
+        "category": "spendable",
+        "nextAction": {
+          "key": "gem-shop.check.item-0@account",
+          "entryId": "gem-shop.check.item-0",
+          "text": "Buy gem shop item 1",
+          "why": "Because buy gem shop item 1 pays off now.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "stale": false,
+          "contested": null,
+          "confidence": "H",
+          "provenance": {
+            "entryIds": [
+              "gem-shop.check.item-0"
+            ],
+            "fields": [
+              "characters[ccount].level"
+            ]
+          }
+        },
+        "milestone": null
+      },
+      {
+        "id": "gem-shop.goal.item-1",
+        "title": "Gem Shop",
+        "system": "gem-shop",
+        "category": "spendable",
+        "nextAction": {
+          "key": "gem-shop.check.item-1@account",
+          "entryId": "gem-shop.check.item-1",
+          "text": "Buy gem shop item 2",
+          "why": "Because buy gem shop item 2 pays off now.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "stale": false,
+          "contested": null,
+          "confidence": "H",
+          "provenance": {
+            "entryIds": [
+              "gem-shop.check.item-1"
+            ],
+            "fields": [
+              "characters[ccount].level"
+            ]
+          }
+        },
+        "milestone": null
+      },
+      {
+        "id": "gem-shop.goal.item-2",
+        "title": "Gem Shop",
+        "system": "gem-shop",
+        "category": "spendable",
+        "nextAction": {
+          "key": "gem-shop.check.item-2@account",
+          "entryId": "gem-shop.check.item-2",
+          "text": "Buy gem shop item 3",
+          "why": "Because buy gem shop item 3 pays off now.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "stale": false,
+          "contested": null,
+          "confidence": "H",
+          "provenance": {
+            "entryIds": [
+              "gem-shop.check.item-2"
+            ],
+            "fields": [
+              "characters[ccount].level"
+            ]
+          }
+        },
+        "milestone": null
+      },
+      {
+        "id": "gem-shop.goal.item-3",
+        "title": "Gem Shop",
+        "system": "gem-shop",
+        "category": "spendable",
+        "nextAction": {
+          "key": "gem-shop.check.item-3@account",
+          "entryId": "gem-shop.check.item-3",
+          "text": "Buy gem shop item 4",
+          "why": "Because buy gem shop item 4 pays off now.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "stale": false,
+          "contested": null,
+          "confidence": "H",
+          "provenance": {
+            "entryIds": [
+              "gem-shop.check.item-3"
+            ],
+            "fields": [
+              "characters[ccount].level"
+            ]
+          }
+        },
+        "milestone": null
+      },
+      {
+        "id": "gem-shop.goal.item-4",
+        "title": "Gem Shop",
+        "system": "gem-shop",
+        "category": "spendable",
+        "nextAction": {
+          "key": "gem-shop.check.item-4@account",
+          "entryId": "gem-shop.check.item-4",
+          "text": "Buy gem shop item 5",
+          "why": "Because buy gem shop item 5 pays off now.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "stale": false,
+          "contested": null,
+          "confidence": "H",
+          "provenance": {
+            "entryIds": [
+              "gem-shop.check.item-4"
+            ],
+            "fields": [
+              "characters[ccount].level"
+            ]
+          }
+        },
+        "milestone": null
+      },
+      {
+        "id": "gem-shop.goal.item-5",
+        "title": "Gem Shop",
+        "system": "gem-shop",
+        "category": "spendable",
+        "nextAction": {
+          "key": "gem-shop.check.item-5@account",
+          "entryId": "gem-shop.check.item-5",
+          "text": "Buy gem shop item 6",
+          "why": "Because buy gem shop item 6 pays off now.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "stale": false,
+          "contested": null,
+          "confidence": "H",
+          "provenance": {
+            "entryIds": [
+              "gem-shop.check.item-5"
+            ],
+            "fields": [
+              "characters[ccount].level"
+            ]
+          }
+        },
+        "milestone": null
+      },
+      {
+        "id": "gem-shop.goal.item-6",
+        "title": "Gem Shop",
+        "system": "gem-shop",
+        "category": "spendable",
+        "nextAction": {
+          "key": "gem-shop.check.item-6@account",
+          "entryId": "gem-shop.check.item-6",
+          "text": "Buy gem shop item 7",
+          "why": "Because buy gem shop item 7 pays off now.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "stale": false,
+          "contested": null,
+          "confidence": "H",
+          "provenance": {
+            "entryIds": [
+              "gem-shop.check.item-6"
+            ],
+            "fields": [
+              "characters[ccount].level"
+            ]
+          }
+        },
+        "milestone": null
+      }
+    ],
+    "blockerKeys": [
+      "arcade.check.balls-cap@account",
+      "alchemy.check.liquid-cap@account"
+    ],
+    "safety": "unsafe",
+    "spendPlan": null,
+    "activePlay": [],
+    "doneThisSession": []
+  },
+  "firstFill": null,
+  "alreadyFull": 0,
+  "higherLeverageStatus": "ok",
+  "notCovered": [],
+  "versions": {
+    "knowledge": "2026.10.17",
+    "gameBuild": 142,
+    "parserTarget": "2.3.540",
+    "parserBehind": false
+  },
+  "diagnostics": {
+    "failedDetectors": []
+  }
+}

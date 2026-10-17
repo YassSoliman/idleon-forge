@@ -41,6 +41,7 @@ function stateAt(
       lastCloudSave: t,
       secondsSinceLastSave: 0,
       dailyResetInSeconds: 3600,
+      accountLevel: 30,
       gameVersion: { serverBuild: 142, saveVersion: 34.05, parserTarget: '2.3.540' },
     },
     characters: savedAt.map((at, index) => ({

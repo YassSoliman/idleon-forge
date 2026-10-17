@@ -3,7 +3,27 @@
 ## Verdict changes
 
 ## Now
-(engine not built)
+! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+
+### C4 · Squire 85 · Unknown
+1 · Fighting Thermister · Thermonuclear Climb · Not covered yet: AFK safety
+
+### C1 · Wizard 73 · Unknown
+2 · Fighting Sir Stache · The Stache Split · Not covered yet: AFK safety
+
+### C3 · Bowman 60 · Unknown
+3 · Fighting Sand Giant · Sands of Time · Not covered yet: AFK safety
+
+### C5 · Barbarian 56 · Unknown
+4 · Fishing Small Fish · Salty Shores · Not covered yet: AFK safety
+
+### C6 · Shaman 54 · Unknown
+5 · Fighting Sand Castle · Shifty Sandbox · Not covered yet: AFK safety
+
+### C2 · Squire 51 · Unknown
+6 · Mining Gold · Freefall Caverns · Not covered yet: AFK safety
+
+### Account · nothing to fix
 
 ## Not covered yet
 AFK safety

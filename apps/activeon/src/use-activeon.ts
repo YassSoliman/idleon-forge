@@ -6,21 +6,27 @@ import type { AccountState } from '@idleon-forge/account-state';
 import {
   type BuildMark,
   buildOf,
+  classifySave,
   cloudSaveTimeOf,
   createProofRing,
   createSession,
+  DEFAULT_EXPECTED_RETURN_MS,
   type DeviceCode,
   DeviceFlowError,
   type ListenerStatus,
+  learnedExpectedReturn,
   listenToSave,
+  localOffsetAt,
   onUserChanged,
   openProofStore,
   openSaveHistory,
   type PatchStatus,
+  PLAY_SESSION_GAP_MS,
   type ProofRing,
   patchStatus,
   readSyncConfig,
   type SaveHistory,
+  type SaveKind,
   type Session,
   type SignedInUser,
   saveOutcome,
@@ -29,9 +35,10 @@ import {
   watchIdTokens,
 } from '@idleon-forge/sync';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { buildInfo, liveBuildDiffers } from './now/release';
 import { forgetSession, hadSession, rememberSession, requestPersistentStorage } from './storage';
 import { createParserClient, type ParserClient } from './worker/parser-client';
-import type { ParseFailureKind, ParseInput } from './worker/protocol';
+import type { EngineCall, EngineOutcome, ParseFailureKind, ParseInput } from './worker/protocol';
 
 export type AuthState =
   | { status: 'unconfigured'; missing: string[] }
@@ -47,7 +54,19 @@ export type SaveState =
   | { status: 'none' }
   | { status: 'waiting' }
   | { status: 'parsing'; source: SaveSource }
-  | { status: 'ready'; state: AccountState; source: SaveSource }
+  | {
+      status: 'ready';
+      state: AccountState;
+      source: SaveSource;
+      /** The engine's result for this state (M10 TR-6), or why it threw (FR-39). */
+      result: EngineOutcome | null;
+      /** Counts clean saves, so the screen can react once to each (FR-14). */
+      seq: number;
+      /** How this live save relates to the previous one (M1 `classifySave`, FR-14 ruling). */
+      kind: SaveKind;
+      /** The slot this save stamped (M1 `stampedSlot`). */
+      slot: number | null;
+    }
   | {
       status: 'broken';
       kind: ParseFailureKind;
@@ -82,6 +101,16 @@ export interface PatchSignal extends PatchStatus {
 
 export interface ActiveOn {
   auth: AuthState;
+  /** The signed-in uid, for the preference namespace (never displayed, never sent). */
+  uid: string | null;
+  /** Expected Return in seconds as the engine uses it: the player's choice, else learned, else 8 h (FR-27). */
+  expectedReturnSeconds: number;
+  /** The player's choice for this Play Session, or null for the default (TR-8). */
+  setExpectedReturn(seconds: number | null): void;
+  /** An Expected Return re-run is in flight ("updating…", TR-6). */
+  updating: boolean;
+  /** A newer ActiveOn build replaced this one's chunks (M12 TR-10). */
+  updated: boolean;
   save: SaveState;
   sync: SyncState;
   /** The browser's own online flag (FR-28). */
@@ -144,7 +173,16 @@ export function useActiveOn(): ActiveOn {
   const [historyNote, setHistoryNote] = useState<string | null>(null);
   const [verified, setVerified] = useState<BuildMark | null>(null);
   const [cleanBuild, setCleanBuild] = useState<{ commit: string; build: BuildMark | null } | null>(null);
+  const [chosenReturn, setChosenReturn] = useState<number | null>(null);
+  const [learnedReturn, setLearnedReturn] = useState<number | null>(null);
+  const [updating, setUpdating] = useState(false);
+  const [updated, setUpdated] = useState(false);
   const historyRef = useRef<{ uid: string; history: SaveHistory } | null>(null);
+  const expectedReturnSeconds = chosenReturn ?? learnedReturn ?? DEFAULT_EXPECTED_RETURN_MS / 1000;
+  const returnRef = useRef(expectedReturnSeconds);
+  returnRef.current = expectedReturnSeconds;
+  const lastLive = useRef<AccountState | null>(null);
+  const seqRef = useRef(0);
   // One ring per tab, over its own IndexedDB store; it only ever holds this account's ID tokens.
   const proof = useMemo(() => {
     const store = openProofStore();
@@ -170,7 +208,7 @@ export function useActiveOn(): ActiveOn {
   const restoring = useRef(true);
 
   useEffect(() => {
-    parser.current = createParserClient();
+    parser.current = createParserClient({ checkUpdated: liveBuildDiffers });
     return () => {
       parser.current?.dispose();
       parser.current = null;
@@ -206,19 +244,62 @@ export function useActiveOn(): ActiveOn {
       setSave((prev) => (prev.status === 'ready' ? prev : { status: 'parsing', source }));
       // A second parse at the save's own time, only for a live save history doesn't have yet (TR-4).
       let withHistory = false;
+      let sessionStartedAt: number | null = null;
+      let learned: number | null = null;
       const h = historyRef.current;
       if (h && input.kind === 'envelope') {
         const savedAt = cloudSaveTimeOf(input.envelope);
         withHistory = savedAt !== null && !(await h.history.has(h.uid, savedAt).catch(() => true));
+        if (savedAt !== null) {
+          // The Play Session this save belongs to (M1 TR-15): a 15-minute gap after the newest stored
+          // save starts a new one at this save.
+          const latest = await h.history.latest(h.uid).catch(() => null);
+          const start = await h.history.sessionStart(h.uid, savedAt).catch(() => null);
+          sessionStartedAt =
+            latest && savedAt - latest.lastCloudSave >= PLAY_SESSION_GAP_MS
+              ? savedAt
+              : (start?.lastCloudSave ?? savedAt);
+        }
+        const sessions = await h.history.playSessions(h.uid).catch(() => []);
+        const ms = learnedExpectedReturn({
+          sessions,
+          now: Date.now(),
+          timeZoneOffsetMin: localOffsetAt,
+        }).learnedMs;
+        learned = ms === null ? null : Math.round(ms / 1000);
+        setLearnedReturn(learned);
       }
-      const result = await client.parse(input, { withHistory });
+      const engine: EngineCall = {
+        expectedReturnSeconds: returnRef.current,
+        sessionStartedAt,
+        learnedExpectedReturnSeconds: learned,
+        knowledgeVersion: buildInfo.knowledge,
+      };
+      const result = await client.parse(input, { withHistory, engine });
       if (!('superseded' in result) && result.verifiedBuilds) setVerified(result.verifiedBuilds);
       if (!('superseded' in result) && result.ok && result.historyState)
         void store(result.historyState, input);
       if ('superseded' in result || seq !== parseSeq.current) return; // a newer save superseded this one
       if (result.ok) {
-        setSave({ status: 'ready', state: result.state, source });
+        const cls =
+          source === 'live'
+            ? classifySave(lastLive.current, result.state)
+            : { kind: 'first' as const, slot: null };
+        if (source === 'live') lastLive.current = result.state;
+        setSave({
+          status: 'ready',
+          state: result.state,
+          source,
+          result: result.result ?? null,
+          seq: ++seqRef.current,
+          kind: cls.kind,
+          slot: cls.slot,
+        });
         setLastGood({ state: result.state, source });
+        return;
+      }
+      if (result.kind === 'updated') {
+        setUpdated(true);
         return;
       }
       // A bad paste while a roster is showing stays in the paste form (FR-20, RT-12).
@@ -266,6 +347,7 @@ export function useActiveOn(): ActiveOn {
     setSave({ status: 'none' });
     setLastGood(null);
     setLastSnapshotAt(null);
+    lastLive.current = null;
   }, [setSave]);
 
   // While signed in, listen to the save.
@@ -431,8 +513,33 @@ export function useActiveOn(): ActiveOn {
 
   const paste = useCallback((text: string) => void runParse({ kind: 'text', text }, 'paste'), [runParse]);
 
+  const rerunSeq = useRef(0);
+  const setExpectedReturn = useCallback(
+    (seconds: number | null) => {
+      setChosenReturn(seconds);
+      const target = seconds ?? learnedReturn ?? DEFAULT_EXPECTED_RETURN_MS / 1000;
+      returnRef.current = target;
+      const client = parser.current;
+      if (!client || saveRef.current.status !== 'ready') return;
+      const seq = ++rerunSeq.current;
+      setUpdating(true);
+      void client.rerun(target).then((r) => {
+        if (seq !== rerunSeq.current) return;
+        setUpdating(false);
+        if ('superseded' in r || !r.ok) return;
+        setSave((prev) => (prev.status === 'ready' ? { ...prev, result: r.result } : prev));
+      });
+    },
+    [learnedReturn, setSave],
+  );
+
   return {
     auth,
+    uid,
+    expectedReturnSeconds,
+    setExpectedReturn,
+    updating,
+    updated,
     save,
     sync,
     online,
