@@ -7,13 +7,17 @@ import type { Category, Done, Provenance, SpendStatus, Subject, VerdictKind } fr
 export interface SourceView {
   /**
    * The best player-facing Source's title, e.g. "IdleOn Wiki: Smithing" (#74): the wiki first, then the
-   * newest dated guide or thread, then anything else. Null when the entry has none; never a GitHub file.
+   * newest dated guide or thread, then anything else. With none, the Toolbox website page the number comes
+   * from ("IdleOn Toolbox: Anvil"). Null when neither exists; never a GitHub file.
    */
   text: string | null;
   /** The https URL of that Source, or null (rendered as plain text, TR-13). */
   href: string | null;
-  /** "Calculated by IdleOn Toolbox · 2.3.540" when a tier 1 Source backs the entry. Never a link. */
+  /** "Calculated by IdleOn Toolbox · 2.3.540" when a tier 1 Source backs the entry. */
   credit: string | null;
+  /** The Toolbox website page for the credit (idleontoolbox.com), never its code; null when the main link
+   *  already is that page, or Toolbox has no page for the System. */
+  creditHref: string | null;
   stale: boolean;
   /** Every other player-facing Source, for the "+n" list in Focus. */
   more: { text: string; href: string | null; tier: number; verifiedOn: string }[];

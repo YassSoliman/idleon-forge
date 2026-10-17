@@ -227,6 +227,38 @@ describe('#74 player-facing Sources', () => {
   it('with no tier 2+ Source there is no link, only the Toolbox credit', () => {
     expect(sourceView([toolbox], false)).toMatchObject({ text: null, href: null, more: [] });
   });
+  it('with no wiki or guide, links the Toolbox website page for the System (#74 follow-up)', () => {
+    expect(sourceView([toolbox], false, 'anvil.check.caps-before-return@c2')).toEqual({
+      text: 'IdleOn Toolbox: Anvil',
+      href: 'https://idleontoolbox.com/account/world-1/anvil',
+      credit: 'Calculated by IdleOn Toolbox · 2.3.540',
+      creditHref: null,
+      stale: false,
+      more: [],
+    });
+  });
+  it('with a wiki link, the credit links the Toolbox page; an entry override wins over its System', () => {
+    const wiki = src('IdleOn Wiki: Daily Checklist', 'https://idleon.wiki/wiki/Daily_Checklist', 4);
+    expect(sourceView([toolbox, wiki], false, 'pets.check.mart-gems')).toMatchObject({
+      text: 'IdleOn Wiki: Daily Checklist',
+      href: 'https://idleon.wiki/wiki/Daily_Checklist',
+      creditHref: 'https://idleontoolbox.com/account/misc/tournament',
+    });
+    expect(sourceView([toolbox, wiki], false, 'pets.check.free-pull').creditHref).toBe(
+      'https://idleontoolbox.com/account/prem-currency/pets',
+    );
+  });
+  it('a System Toolbox does not compute gets no Toolbox link; a judgment entry gets no credit', () => {
+    expect(sourceView([toolbox], false, 'metapath.goal.push')).toMatchObject({
+      text: null,
+      creditHref: null,
+    });
+    const guide = src('guide', 'https://www.reddit.com/r/idleon/comments/a/', 3, '2026-09-01');
+    expect(sourceView([guide], false, 'anvil.check.spend-points')).toMatchObject({
+      credit: null,
+      creditHref: null,
+    });
+  });
   it('never links a GitHub file, whatever its tier', () => {
     const dossier = src('W3 dossier', 'https://github.com/YassSoliman/idleon-forge/blob/main/docs/x.md', 4);
     const gist = src('progression gist', 'https://gist.github.com/someone/abc', 3, '2026-09-18');

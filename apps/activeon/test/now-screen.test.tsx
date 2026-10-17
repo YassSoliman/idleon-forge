@@ -156,6 +156,7 @@ describe('#74 player-facing Sources', () => {
     text: null,
     href: null,
     credit: null,
+    creditHref: null,
     stale: false,
     more: [],
     ...over,
@@ -176,7 +177,37 @@ describe('#74 player-facing Sources', () => {
     ]);
     expect(screen.getByText(/Calculated by IdleOn Toolbox · 2\.3\.540/).closest('a')).toBeNull();
   });
-  it('with no tier 2+ Source: no link, only the credit', () => {
+  it('the credit links the Toolbox website page, never its code (#74 follow-up)', () => {
+    render(
+      <SourceLabel
+        source={view({
+          text: 'IdleOn Wiki: Smithing',
+          href: 'https://idleon.wiki/wiki/Smithing',
+          credit: 'Calculated by IdleOn Toolbox · 2.3.540',
+          creditHref: 'https://idleontoolbox.com/account/world-1/anvil',
+        })}
+      />,
+    );
+    const credit = screen.getByRole('link', { name: 'Calculated by IdleOn Toolbox · 2.3.540' });
+    expect(credit.getAttribute('href')).toBe('https://idleontoolbox.com/account/world-1/anvil');
+    expect(credit.getAttribute('rel')).toBe('noopener noreferrer');
+    expect(screen.queryAllByRole('link').some((l) => /github/.test(l.getAttribute('href') ?? ''))).toBe(
+      false,
+    );
+  });
+  it('with no wiki or guide: one link to the Toolbox page, the credit as text', () => {
+    render(
+      <SourceLabel
+        source={view({
+          text: 'IdleOn Toolbox: Anvil',
+          href: 'https://idleontoolbox.com/account/world-1/anvil',
+          credit: 'Calculated by IdleOn Toolbox · 2.3.540',
+        })}
+      />,
+    );
+    expect(screen.getAllByRole('link').map((l) => l.textContent)).toEqual(['IdleOn Toolbox: Anvil']);
+  });
+  it('with no tier 2+ Source and no Toolbox page: no link, only the credit', () => {
     render(<SourceLabel source={view({ credit: 'Calculated by IdleOn Toolbox · 2.3.540' })} />);
     expect(screen.queryAllByRole('link')).toEqual([]);
     expect(screen.getByText('Calculated by IdleOn Toolbox · 2.3.540')).toBeTruthy();
