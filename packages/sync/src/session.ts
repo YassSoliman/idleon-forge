@@ -13,6 +13,7 @@ import {
   indexedDBLocalPersistence,
   initializeAuth,
   onAuthStateChanged,
+  onIdTokenChanged,
   signInWithCredential,
   type Unsubscribe,
   type User,
@@ -93,4 +94,17 @@ export async function signInWithGoogleDevice(
 
 export function signOut(session: Session): Promise<void> {
   return firebaseSignOut(session.auth);
+}
+
+/**
+ * Hands every ID token Firebase issues (sign-in, restore, each hourly refresh) to `onToken`, for the
+ * M13 proof-of-sign-in ring (TR-4). The token never leaves the browser from here.
+ */
+export function watchIdTokens(session: Session, onToken: (token: string) => void): Unsubscribe {
+  return onIdTokenChanged(session.auth, (u) => {
+    if (!u) return;
+    u.getIdToken()
+      .then(onToken)
+      .catch(() => {});
+  });
 }

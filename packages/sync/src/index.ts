@@ -10,12 +10,46 @@ export {
 } from './config';
 export { assembleEnvelope, type SideReads } from './envelope';
 export {
+  DEFAULT_EXPECTED_RETURN_MS,
+  HOUR_MS,
+  type LearnedReturn,
+  learnedExpectedReturn,
+  localOffsetAt,
+  type ReturnGap,
+  returnGaps,
+  TIME_OF_DAY_WINDOW_MS,
+  type TimeZoneOffset,
+} from './expected-return';
+export {
   type DeviceCode,
   DeviceFlowError,
   type DeviceFlowErrorCode,
   pollForIdToken,
   requestDeviceCode,
 } from './google-device';
+export {
+  AUTOSAVE_KEEP_EVERY_MS,
+  cloudSaveTimeOf,
+  HISTORY_DB,
+  HISTORY_DB_VERSION,
+  HISTORY_RETENTION_MS,
+  type HistoryEntry,
+  type HistoryMeta,
+  LOW_QUOTA_BYTES,
+  type OpenHistoryOptions,
+  openSaveHistory,
+  PLAY_SESSION_GAP_MS,
+  type PlaySession,
+  preferencePrefix,
+  readRaw,
+  type SaveHistory,
+  type SaveIndexRow,
+  type SaveRecord,
+  STORAGE_PREFIX,
+  toPlaySessions,
+  uidHash,
+  usualGap,
+} from './history';
 export {
   BACKOFF_MS,
   firebaseSaveSource,
@@ -32,6 +66,30 @@ export {
   watchSave,
 } from './listen';
 export {
+  type BuildMark,
+  buildOf,
+  PATCH_BANNER,
+  PATCH_FOOTER_NOTE,
+  type PatchStatus,
+  patchStatus,
+  type SaveOutcome,
+  saveOutcome,
+} from './patch';
+export {
+  createProofRing,
+  memoryProofStore,
+  openProofStore,
+  PROOF_MIN_EXPIRED_MS,
+  PROOF_RING_SIZE,
+  type ProofRing,
+  type ProofRingOptions,
+  type ProofStore,
+  pickProof,
+  readTokenTimes,
+  type TokenEntry,
+} from './proof';
+export { classifySave, type SaveClass, type SaveKind, stampedSlot } from './save-kind';
+export {
   createSession,
   type GoogleSignInOptions,
   onUserChanged,
@@ -39,4 +97,5 @@ export {
   type SignedInUser,
   signInWithGoogleDevice,
   signOut,
+  watchIdTokens,
 } from './session';

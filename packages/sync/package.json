@@ -12,7 +12,11 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
+    "@idleon-forge/account-state": "workspace:*",
     "@idleon-forge/toolbox-parsers": "workspace:*",
     "firebase": "^12.19.0"
+  },
+  "devDependencies": {
+    "fake-indexeddb": "^6.2.6"
   }
 }
