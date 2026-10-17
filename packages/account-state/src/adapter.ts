@@ -19,6 +19,7 @@ import {
   type ParseDiagnostics,
   SCHEMA_VERSION,
 } from './types';
+import { readUnspentAccount, readUnspentCharacter } from './unspent';
 
 /** The parse produced no account. Toolbox swallows its own errors, so this is the failure signal. */
 export class EmptyAccountError extends Error {
@@ -239,6 +240,7 @@ function toCharacter(
       secondsSinceLastSave: seconds,
       ...metaPath,
       afk: null,
+      ...readUnspentCharacter(raw),
     },
   };
 }
@@ -381,6 +383,11 @@ export function toAccountState(
   let frontier = options.frontier ?? null;
   if (frontier !== null && !c.checkRaw('account.frontier', 'account.frontier', null, withData))
     frontier = null;
+  // M6 TR-3: the unspent-and-idle fields (unspent.ts).
+  const unspent = readUnspentAccount(
+    { account, characters, withData, levels: states.map((s) => s.level), finishedWorlds, currentWorld },
+    c,
+  );
 
   // ---- M3 AFK Safety (M3 TR-2) ----
   let accountAfk: AccountState['account']['afk'] = null;
@@ -431,6 +438,9 @@ export function toAccountState(
       ...metaPath,
       frontier,
       afk: accountAfk,
+      ...unspent,
+      // One salt list: M6's entries carry M2's rawName/unlocked plus the fuel state (M6 TR-3).
+      salts: metaPath.salts === null ? null : (unspent.salts ?? metaPath.salts ?? null),
     },
     characters: states,
     lastPlayedCharacterIndex,

@@ -38,7 +38,8 @@ describe('M2 fields on the scrubbed W2-late save', () => {
 
   it('buildings, salts and world crystals', () => {
     expect(state.account.buildings).toEqual({ deathNote: 0, printer3d: 0, atomCollider: 0 });
-    expect(state.account.salts?.[5]).toEqual({ rawName: 'Refinery6', unlocked: false });
+    // M6 TR-3 extends each entry (name, active, rank, missingFuel); M2's part is rawName and unlocked.
+    expect(state.account.salts?.[5]).toMatchObject({ rawName: 'Refinery6', unlocked: false });
     expect(state.account.worldCrystals?.glacierQuartz).toBe(0);
     expect(state.account.frontier).toBeNull();
   });

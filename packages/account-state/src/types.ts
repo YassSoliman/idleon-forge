@@ -7,6 +7,7 @@
 // `humanize()` to display them.
 import type { SideReadName } from '@idleon-forge/toolbox-parsers';
 import type { AccountAfkFacts, CharacterAfkFacts } from './afk-types';
+import type { SaltState, UnspentAccountFields, UnspentCharacterFields } from './unspent-types';
 
 /**
  * Bumped whenever a field is added, renamed or changes meaning. 1 was slice 1's unversioned shape.
@@ -15,8 +16,10 @@ import type { AccountAfkFacts, CharacterAfkFacts } from './afk-types';
  * 5: the M2 Stage & Meta Path fields (M2 TR-3): `classIndex`, `npcDialog`, `nextPortal`, `buildings`,
  *    `salts`, `gateQuests`, `worldCrystals`, `frontier`. M2's family level is `accountLevel`.
  * 6: `characters[].afk` and `account.afk` (M3 TR-2).
+ * 7: M6 TR-3's unspent-and-idle fields (the `UnspentAccountFields` and `UnspentCharacterFields` blocks;
+ *    M6's `salts` entries add `name`, `active`, `rank` and `missingFuel` to M2's shared list).
  */
-export const SCHEMA_VERSION = 6;
+export const SCHEMA_VERSION = 7;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -40,7 +43,7 @@ export interface FoodStack {
   amount: number;
 }
 
-export interface CharacterState {
+export interface CharacterState extends UnspentCharacterFields {
   /** Slot in the save (0-based), stable across saves. Field paths use it: `characters[<index>].level`. */
   index: number;
   name: string;
@@ -147,7 +150,7 @@ export interface GateQuestProgress {
   inProgressBy: number[];
 }
 
-export interface AccountSummary {
+export interface AccountSummary extends UnspentAccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;
   /** Worlds whose exit has been used (a character met the gatekeeper past it), ascending. */
@@ -180,8 +183,12 @@ export interface AccountSummary {
   // other packages' tests stay valid. Read them as `?? null`.
   /** The one building-level field (M4 and M6 read the Death Note from here). A tower absent from Toolbox's array is 0; null only when the towers section failed. */
   buildings?: { deathNote: number | null; printer3d: number | null; atomCollider: number | null } | null;
-  /** The one salt list, in Refinery order (index 5 = Nullo). M6 TR-3 extends it. null when the refinery section failed. */
-  salts?: Array<{ rawName: string; unlocked: boolean }> | null;
+  /**
+   * The one salt list, in Refinery order (index 5 = Nullo). M2 sets `rawName` and `unlocked`; M6 TR-3
+   * extends each entry with `name`, `active`, `rank` and `missingFuel` (unspent.ts). null when the
+   * refinery section failed.
+   */
+  salts?: SaltState[] | null;
   /** Per gate quest (Dog Bone, Djonnut, Hoggindaz, Bellows, Gobo). null when the quests section failed. */
   gateQuests?: Partial<Record<GateQuestId, GateQuestProgress>> | null;
   /** Counts in storage plus every inventory. null when the storage section failed. */

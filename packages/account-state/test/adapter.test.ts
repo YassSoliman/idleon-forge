@@ -31,6 +31,35 @@ const envelope = (over: Record<string, unknown> = {}): RawSaveEnvelope => ({
 });
 const toAccountState = (p: ParsedSave, env = envelope()) => adapt(p, env);
 
+const UNSPENT_ACCOUNT_KEYS = [
+  'highestLevel',
+  'alchemy',
+  'bigBubbleSlots',
+  'merits',
+  'taskUnlocks',
+  'gems',
+  'gemPurchases',
+  'keys',
+  'colosseumTickets',
+  'minigames',
+  'pets',
+  'petMart',
+  'postOffice',
+  'poppy',
+  'deathNoteBuilding',
+] as const;
+/** Slice 1's account fields only (M6's block is tested in unspent.test.ts). */
+const withoutUnspent = (a: object) =>
+  Object.fromEntries(
+    Object.entries(a).filter(([k]) => !(UNSPENT_ACCOUNT_KEYS as readonly string[]).includes(k)),
+  );
+const withoutUnspentCharacter = (c: object) =>
+  Object.fromEntries(
+    Object.entries(c).filter(
+      ([k]) => !['bigBubbles', 'postOfficeUnspent', 'anvilPointsAvailable'].includes(k),
+    ),
+  );
+
 const parsed = (over: Partial<ParsedSave> = {}): ParsedSave => ({
   account: {
     currentWorld: 2,
@@ -68,7 +97,8 @@ const parsed = (over: Partial<ParsedSave> = {}): ParsedSave => ({
 describe('toAccountState', () => {
   it('projects the minimal fields', () => {
     const state = toAccountState(parsed());
-    expect(state.account).toEqual({
+    // M6's unspent-and-idle fields have their own test below; this one pins slice 1's fields.
+    expect(withoutUnspent(state.account)).toEqual({
       currentWorld: 2,
       dailyResetInSeconds: 3600,
       accountLevel: 3,
@@ -84,7 +114,7 @@ describe('toAccountState', () => {
       frontier: null,
       afk: null,
     });
-    expect(state.characters).toEqual([
+    expect(state.characters.map(withoutUnspentCharacter)).toEqual([
       {
         index: 0,
         name: 'Test',
@@ -110,8 +140,9 @@ describe('toAccountState', () => {
       skippedCharacters: [],
       unreadableCharacters: [],
       unknownIds: { monsters: [], maps: [], items: [], classes: [] },
-      // The synthetic parse has no server vars, and its raw save no KillsLeft2Advance (M2 TR-3).
-      unknownFields: ['characters[0].nextPortal', 'account.gameVersion.serverBuild'],
+      // The synthetic parse has no server vars, its raw save no KillsLeft2Advance (M2 TR-3), and none of
+      // the sections M6's fields read.
+      unknownFields: expect.arrayContaining(['characters[0].nextPortal', 'account.gameVersion.serverBuild']),
       unnamed: false,
       parserPin: { commit: 'abc123', gameVersion: '2.3.540' },
       source: 'paste',
