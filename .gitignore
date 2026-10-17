@@ -7,3 +7,4 @@ dist/
 # Raw game saves are personal data: never commit them. Use fixtures/scrubbed/ for shareable ones.
 fixtures/private/
 *.raw.json
+prototypes/*/accounts.local.js
