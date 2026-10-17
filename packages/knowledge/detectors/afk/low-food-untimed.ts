@@ -7,7 +7,7 @@
 import type { AccountState, CharacterState } from '@idleon-forge/account-state';
 import { z } from 'zod';
 import { characterSubject, isKnown, withCharacter, withUnknown } from '../../src/helpers';
-import { defineDetector, type HistoryEntry } from '../../src/types';
+import { type CheckFinding, defineDetector, type HistoryEntry } from '../../src/types';
 
 const FULL = 1e2;
 /** An example threshold, the same as the entry's. */
@@ -74,7 +74,7 @@ export default defineDetector({
     ],
   },
   run({ state, history }, { lowStack: threshold }) {
-    return state.characters.flatMap((c) => {
+    return state.characters.flatMap((c): CheckFinding[] => {
       if (c.afkType !== 'FIGHTING') return [];
       const subject = characterSubject(c.index);
       const f = c.afk?.fighting;

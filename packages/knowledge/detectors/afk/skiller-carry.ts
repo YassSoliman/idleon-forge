@@ -7,7 +7,7 @@
 import type { AccountState, CharacterAfkFacts } from '@idleon-forge/account-state';
 import { z } from 'zod';
 import { characterSubject, isKnown, withCharacter, withUnknown } from '../../src/helpers';
-import { defineDetector } from '../../src/types';
+import { type CheckFinding, defineDetector } from '../../src/types';
 
 const SKILLS = new Set(['MINING', 'CHOPPIN', 'FISHING', 'CATCHING']);
 
@@ -59,7 +59,7 @@ export default defineDetector({
   },
   run({ state }) {
     const storageFree = state.account.afk?.storageFreeSlots ?? null;
-    return state.characters.flatMap((c) => {
+    return state.characters.flatMap((c): CheckFinding[] => {
       if (!c.afkType || !SKILLS.has(c.afkType)) return [];
       const subject = characterSubject(c.index);
       const inv = c.afk?.inventory;

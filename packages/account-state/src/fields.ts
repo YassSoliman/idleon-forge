@@ -49,7 +49,8 @@ export const FIELD_SOURCES: Record<string, string> = {
   // ---- M3 AFK Safety (M3 TR-2) ----
   'characters[].afk': 'characters[i].afkTime (afkSince)',
   'characters[].afk.food': 'characters[i].food',
-  'characters[].afk.fighting': 'getMaxDamage(character), getMaxDamage({ ...character, food: [] }) and a food clone',
+  'characters[].afk.fighting':
+    'getMaxDamage(character), getMaxDamage({ ...character, food: [] }) and a food clone',
   'characters[].afk.inventory': 'characters[i].inventory, inventorySlots, getItemCapacity',
   'characters[].afk.anvil': 'getPlayerAnvil, getTimeTillCap (with and without fromZero)',
   'characters[].afk.worship': 'characters[i].worship (getPlayerWorship), characters[i].tools',

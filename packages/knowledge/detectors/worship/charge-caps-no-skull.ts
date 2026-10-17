@@ -6,7 +6,7 @@
 // getPlayerWorship charge, max and rate; gated on World 2 finished.
 import { z } from 'zod';
 import { characterSubject, isKnown, withUnknown } from '../../src/helpers';
-import { defineDetector } from '../../src/types';
+import { type CheckFinding, defineDetector } from '../../src/types';
 
 const HOUR = 3.6e6;
 const WORLD = 2;
@@ -38,7 +38,7 @@ export default defineDetector({
     if (!isKnown(state, 'account.finishedWorlds')) return [];
     if (!state.account.finishedWorlds.includes(WORLD)) return [];
     const returnAt = now + expectedReturnMs;
-    return state.characters.flatMap((c) => {
+    return state.characters.flatMap((c): CheckFinding[] => {
       const subject = characterSubject(c.index);
       const w = c.afk?.worship;
       if (!isKnown(state, `characters[${c.index}].afk.worship`) || !c.afk)

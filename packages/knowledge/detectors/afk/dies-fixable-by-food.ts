@@ -10,7 +10,7 @@
 import type { AccountState, CharacterAfkFacts } from '@idleon-forge/account-state';
 import { z } from 'zod';
 import { characterSubject, isKnown, withCharacter, withUnknown } from '../../src/helpers';
-import { defineDetector } from '../../src/types';
+import { type CheckFinding, defineDetector } from '../../src/types';
 
 const FULL = 1e2;
 
@@ -56,7 +56,7 @@ export default defineDetector({
     ],
   },
   run({ state }) {
-    return state.characters.flatMap((c) => {
+    return state.characters.flatMap((c): CheckFinding[] => {
       if (c.afkType !== 'FIGHTING') return [];
       const subject = characterSubject(c.index);
       const f = c.afk?.fighting;

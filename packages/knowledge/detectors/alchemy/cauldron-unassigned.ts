@@ -6,7 +6,7 @@
 import type { AccountState } from '@idleon-forge/account-state';
 import { z } from 'zod';
 import { characterSubject, isKnown, withCharacter, withUnknown } from '../../src/helpers';
-import { defineDetector } from '../../src/types';
+import { type CheckFinding, defineDetector } from '../../src/types';
 
 const WORLD = 2;
 
@@ -37,7 +37,7 @@ export default defineDetector({
   },
   run({ state }) {
     if (!isKnown(state, 'account.currentWorld') || (state.account.currentWorld ?? 0) < WORLD) return [];
-    return state.characters.flatMap((c) => {
+    return state.characters.flatMap((c): CheckFinding[] => {
       const subject = characterSubject(c.index);
       const assigned = c.afk?.cauldronAssigned;
       if (

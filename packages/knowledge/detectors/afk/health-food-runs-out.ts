@@ -12,7 +12,7 @@
 import type { AccountState, CharacterState } from '@idleon-forge/account-state';
 import { z } from 'zod';
 import { characterSubject, isKnown, withCharacter, withUnknown } from '../../src/helpers';
-import { defineDetector, type HistoryEntry } from '../../src/types';
+import { type CheckFinding, defineDetector, type HistoryEntry } from '../../src/types';
 
 const HOUR = 3.6e6;
 const MINUTE = 6e4;
@@ -129,7 +129,7 @@ export default defineDetector({
   },
   run({ state, history, now, expectedReturnMs }, p) {
     const returnAt = now + expectedReturnMs;
-    return state.characters.flatMap((c) => {
+    return state.characters.flatMap((c): CheckFinding[] => {
       if (c.afkType !== 'FIGHTING') return [];
       const subject = characterSubject(c.index);
       const f = c.afk?.fighting;

@@ -10,7 +10,7 @@
 //   - Fills after the return: pass, with nextAt for "first thing fills up" (FR-11).
 import { z } from 'zod';
 import { characterSubject, isKnown, withCharacter, withUnknown } from '../../src/helpers';
-import { defineDetector } from '../../src/types';
+import { type CheckFinding, defineDetector } from '../../src/types';
 
 export default defineDetector({
   id: 'anvil/caps-before-return',
@@ -49,7 +49,7 @@ export default defineDetector({
   },
   run({ state, now, expectedReturnMs }) {
     const returnAt = now + expectedReturnMs;
-    return state.characters.flatMap((c) => {
+    return state.characters.flatMap((c): CheckFinding[] => {
       const subject = characterSubject(c.index);
       const anvil = c.afk?.anvil;
       if (!isKnown(state, `characters[${c.index}].afk.anvil`) || !anvil)
