@@ -322,6 +322,13 @@ export function toAccountState(
     c.unknown('account.dailyResetInSeconds');
   }
 
+  // Total account level (issue #60): Toolbox sums every character's level. Display only.
+  let accountLevel = finite(account.accountLevel);
+  if (!c.checkRaw('account.accountLevel', 'account.accountLevel', null, withData) || accountLevel === null) {
+    c.unknown('account.accountLevel');
+    accountLevel = null;
+  }
+
   const saveVersion = c.checkRaw('account.gameVersion.saveVersion', 'account.gameVersion.saveVersion', null)
     ? meta.saveVersion
     : null;
@@ -364,6 +371,7 @@ export function toAccountState(
       lastCloudSave,
       secondsSinceLastSave: secondsBetween(lastCloudSave, asOf),
       dailyResetInSeconds,
+      accountLevel,
       gameVersion: { serverBuild, saveVersion, parserTarget: meta.parserGameVersion },
     },
     characters: states,

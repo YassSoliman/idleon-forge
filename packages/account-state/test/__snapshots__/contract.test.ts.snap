@@ -3,6 +3,7 @@
 exports[`public save first.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
 {
   "account": {
+    "accountLevel": 602,
     "currentWorld": 4,
     "dailyResetInSeconds": 61106.3149971962,
     "finishedWorlds": [
@@ -223,6 +224,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
 exports[`public save fourth.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
 {
   "account": {
+    "accountLevel": 477,
     "currentWorld": 6,
     "dailyResetInSeconds": 72227.93901824951,
     "finishedWorlds": [
@@ -319,6 +321,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
 exports[`public save fresh.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
 {
   "account": {
+    "accountLevel": 1013,
     "currentWorld": 6,
     "dailyResetInSeconds": 16674.59600110352,
     "finishedWorlds": [
@@ -449,6 +452,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
 exports[`public save highend.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
 {
   "account": {
+    "accountLevel": 19185,
     "currentWorld": 7,
     "dailyResetInSeconds": 1543.0130362510681,
     "finishedWorlds": [
@@ -880,6 +884,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
 exports[`public save latest.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
 {
   "account": {
+    "accountLevel": 13811,
     "currentWorld": 7,
     "dailyResetInSeconds": 51090.541995704174,
     "finishedWorlds": [
@@ -1258,6 +1263,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
 exports[`public save latest-2026-08.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
 {
   "account": {
+    "accountLevel": 13810,
     "currentWorld": 7,
     "dailyResetInSeconds": 84056.69799226522,
     "finishedWorlds": [
@@ -1632,6 +1638,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
 exports[`public save multikill-pin.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
 {
   "account": {
+    "accountLevel": 13810,
     "currentWorld": 7,
     "dailyResetInSeconds": 59914.879991948605,
     "finishedWorlds": [
@@ -2010,6 +2017,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
 exports[`public save second.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
 {
   "account": {
+    "accountLevel": 5189,
     "currentWorld": 6,
     "dailyResetInSeconds": 41883.07497119925,
     "finishedWorlds": [
@@ -2405,6 +2413,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
 exports[`public save speedrun-rank1.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
 {
   "account": {
+    "accountLevel": 19351,
     "currentWorld": 7,
     "dailyResetInSeconds": 83526.69399833679,
     "finishedWorlds": [
@@ -2828,6 +2837,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
 exports[`public save third.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
 {
   "account": {
+    "accountLevel": 5532,
     "currentWorld": 6,
     "dailyResetInSeconds": 12019.833936452676,
     "finishedWorlds": [
@@ -3211,6 +3221,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
 exports[`public save toolbox-raw.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
 {
   "account": {
+    "accountLevel": 13810,
     "currentWorld": 7,
     "dailyResetInSeconds": 59914.879991948605,
     "finishedWorlds": [

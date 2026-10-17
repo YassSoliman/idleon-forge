@@ -36,6 +36,7 @@ const parsed = (over: Partial<ParsedSave> = {}): ParsedSave => ({
     currentWorld: 2,
     finishedWorlds: { World1: true, World2: false },
     timeAway: { GlobalTime: 1000, ShopRestock: 3600 },
+    accountLevel: 3,
   },
   characters: [
     {
@@ -70,6 +71,7 @@ describe('toAccountState', () => {
     expect(state.account).toEqual({
       currentWorld: 2,
       dailyResetInSeconds: 3600,
+      accountLevel: 3,
       finishedWorlds: [1],
       lastCloudSave: 1_000_000,
       secondsSinceLastSave: 60,

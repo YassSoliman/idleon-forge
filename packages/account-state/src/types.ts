@@ -10,8 +10,9 @@ import type { SideReadName } from '@idleon-forge/toolbox-parsers';
 /**
  * Bumped whenever a field is added, renamed or changes meaning. 1 was slice 1's unversioned shape.
  * 3: `account.dailyResetInSeconds` (M6 TR-3; also M10's Skip today rule).
+ * 4: `account.accountLevel` (issue #60, the M10 header).
  */
-export const SCHEMA_VERSION = 3;
+export const SCHEMA_VERSION = 4;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -74,6 +75,11 @@ export interface AccountSummary {
    * reset time with `nextDailyReset(state, now)`, which rolls it forward in 24 h steps.
    */
   dailyResetInSeconds: number | null;
+  /**
+   * Total account level: the sum of every character's class level (Toolbox's `account.accountLevel`).
+   * Display only (the M10 header, issue #60). null when Toolbox gave no number.
+   */
+  accountLevel: number | null;
   gameVersion: {
     /** The game server's build (`_vars.GameVERSION`) at the last `_vars` read, e.g. 142; not in the save. */
     serverBuild: number | null;
