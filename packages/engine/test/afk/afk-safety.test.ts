@@ -321,7 +321,7 @@ describe('US-11 the overall verdict', () => {
   it('W3-early at 8 h: all 6 Ready, no account blocker, first fill the Bowman Lv 60 anvil, 4 already full', () => {
     const r = evaluate(W3());
     const out = toModuleOutput(r, kb);
-    expect(out.characters.map((c) => c.verdict.kind)).toEqual([
+    expect((out.characters ?? []).map((c) => c.verdict?.kind)).toEqual([
       'ready',
       'ready',
       'ready',
@@ -329,20 +329,26 @@ describe('US-11 the overall verdict', () => {
       'ready',
       'ready',
     ]);
-    expect(out.account.blockerKeys).toEqual([]);
+    expect(out.account?.blockerKeys).toEqual([]);
     expect(out.firstFill?.label).toBe("Bowman Lv 60's anvil");
     expect(out.alreadyFull).toBe(4);
   });
 
   it('W2-late at 8 h: the Barbarian Lv 60 is Fix (food and its full anvil), 4 Ready, 2 account blockers', () => {
     const out = toModuleOutput(evaluate(W2()), kb);
-    expect(out.characters.map((c) => c.verdict.kind)).toEqual(['fix', 'ready', 'ready', 'ready', 'ready']);
+    expect((out.characters ?? []).map((c) => c.verdict?.kind)).toEqual([
+      'fix',
+      'ready',
+      'ready',
+      'ready',
+      'ready',
+    ]);
     // Both bite now; the present-state food Check ranks first on the tie (FR-10).
-    expect(out.characters[0]?.verdict.blockerKeys).toEqual([
+    expect(out.characters?.[0]?.verdict?.blockerKeys).toEqual([
       'afk.check.dies-fixable-by-food@c0',
       'anvil.check.caps-before-return@c0',
     ]);
-    expect(out.account.blockerKeys).toHaveLength(2);
+    expect(out.account?.blockerKeys).toHaveLength(2);
   });
 });
 

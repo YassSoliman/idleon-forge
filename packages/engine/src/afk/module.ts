@@ -1,64 +1,22 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M3 as an engine module: turns `evaluateAfkSafety` into what the engine core merges (M10 TR-6).
-// It is the one module that composes Verdicts (`covers: ['afk-safety', 'verdict']`).
-//
-// TODO(M10): `EngineInput`, `ModuleOutput` and `EngineModule` below are minimal structural copies of
-// M10's `packages/engine/src/core/module.ts`; swap them for imports when M10 merges.
+// M3 as an engine module (M10 TR-6, `EngineModule`): turns `evaluateAfkSafety` into what the engine
+// core merges. It is the one module that composes Verdicts (`covers: ['afk-safety', 'verdict']`), and
+// it depends on the Expected Return, so the core re-runs it when a chip changes.
+// The core's DEFAULT_MODULES and the parse worker register modules; this file only builds it, from
+// the compiled Knowledge Base and the Detector registry the worker loads.
 import type { AccountState } from '@idleon-forge/account-state';
-import type { CompiledKnowledge, DetectorRegistry, HistoryEntry } from '@idleon-forge/knowledge';
+import type { DetectorRegistry } from '@idleon-forge/knowledge';
+import type { EngineModule, ModuleGoal, ModuleOutput } from '../core/module';
 import { type AfkSafetyInput, evaluateAfkSafety } from './evaluate';
 import { HOUR_MS } from './expected-return';
-import type {
-  AfkSafetyResult,
-  ExpectedReturn,
-  Fill,
-  Goal,
-  PurposeStatus,
-  Safety,
-  SafetyFinding,
-  StageLike,
-  Verdict,
-} from './types';
+import type { AfkSafetyResult, ExpectedReturn, PurposeStatus, SafetyFinding, StageLike } from './types';
 import { composeVerdict } from './verdict';
 
-/** TODO(M10): M10 `EngineInput` (the fields this module reads). */
-export interface EngineInputLike {
-  state: AccountState;
-  history: {
-    entries: readonly HistoryEntry[];
-    sessionStartedAt: number | null;
-    learnedExpectedReturnSeconds: number | null;
-  };
-  now: number;
-  options: { expectedReturnSeconds: number };
-}
-
-interface ModuleGoal {
-  goal: Goal;
-}
-
-/** TODO(M10): M10 `ModuleOutput` (the fields this module sets). */
-export interface ModuleOutputLike {
-  characters: Array<{ index: number; verdict: Verdict; goals: ModuleGoal[]; firstFill: Fill | null }>;
-  account: { goals: ModuleGoal[]; blockerKeys: string[]; safety: Safety };
-  alreadyFull: number;
-  firstFill: Fill | null;
-}
-
-/** TODO(M10): M10 `EngineModule`. */
-export interface EngineModuleLike {
-  id: string;
-  covers: readonly ('afk-safety' | 'verdict' | 'stage')[];
-  dependsOnExpectedReturn: boolean;
-  affectsVerdict: boolean;
-  run(input: EngineInputLike): ModuleOutputLike;
-}
-
 export interface AfkSafetyModuleDeps {
-  kb: AfkSafetyInput['kb'] & Pick<CompiledKnowledge, 'entries'>;
+  kb: AfkSafetyInput['kb'];
   registry: DetectorRegistry;
-  /** TODO(M2): the Stage, from M2's module output. */
+  /** The Stage, from M2's `runMetaPath(...).stage`; without it `appliesTo.stages` is not filtered. */
   stage?: (state: AccountState) => StageLike | null;
   /** TODO(M4): a character's Purpose status; until M4 ships, 'not-implemented' (D4). */
   purpose?: (index: number) => PurposeStatus | 'not-implemented';
@@ -83,7 +41,7 @@ export function toModuleOutput(
   result: AfkSafetyResult,
   kb: AfkSafetyModuleDeps['kb'],
   purpose: AfkSafetyModuleDeps['purpose'] = () => 'not-implemented',
-): ModuleOutputLike {
+): ModuleOutput {
   return {
     characters: result.characters.map((c) => {
       const blockerKeys = c.findings.filter((f) => f.role === 'blocker').map((f) => f.key);
@@ -104,27 +62,28 @@ export function toModuleOutput(
   };
 }
 
-export function createAfkSafetyModule(deps: AfkSafetyModuleDeps): EngineModuleLike {
+/** The Expected Return M10 resolved (its chips, TR-8), labelled with where it came from. */
+export function expectedReturnOf(usedSeconds: number, learnedSeconds: number | null): ExpectedReturn {
+  const usedMs = Math.round(usedSeconds * 1000);
+  const learnedMs = learnedSeconds === null ? null : Math.max(HOUR_MS, Math.round(learnedSeconds * 1000));
+  return { usedMs, learnedMs, source: learnedMs === usedMs ? 'learned' : 'player' };
+}
+
+export function createAfkSafetyModule(deps: AfkSafetyModuleDeps): EngineModule {
   return {
     id: 'afk-safety',
     covers: ['afk-safety', 'verdict'],
     dependsOnExpectedReturn: true,
     affectsVerdict: true,
     run(input) {
-      const learnedS = input.history.learnedExpectedReturnSeconds;
-      const usedMs = Math.round(input.options.expectedReturnSeconds * 1000);
-      const learnedMs = learnedS === null ? null : Math.max(HOUR_MS, Math.round(learnedS * 1000));
-      // M10 resolves the chip choice (TR-8); the source only labels where the value came from.
-      const expectedReturn: ExpectedReturn = {
-        usedMs,
-        learnedMs,
-        source: learnedMs === usedMs ? 'learned' : 'player',
-      };
       const result = evaluateAfkSafety({
         state: input.state,
         history: input.history.entries,
         now: input.now,
-        expectedReturn,
+        expectedReturn: expectedReturnOf(
+          input.options.expectedReturnSeconds,
+          input.history.learnedExpectedReturnSeconds,
+        ),
         kb: deps.kb,
         registry: deps.registry,
         stage: deps.stage?.(input.state) ?? null,

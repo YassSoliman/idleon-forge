@@ -80,7 +80,7 @@ export interface AfkSafetyInput {
   kb: Pick<CompiledKnowledge, 'entries' | 'facts' | 'byType' | 'patches'>;
   /** The Knowledge Base Detector registry (`@idleon-forge/knowledge/detectors`). */
   registry: DetectorRegistry;
-  /** TODO(M2): M2's StageResult. Without a Stage, `appliesTo.stages` is not filtered. */
+  /** M2's StageResult (its id). Without a Stage, `appliesTo.stages` is not filtered. */
   stage?: StageLike | null;
 }
 
@@ -104,7 +104,7 @@ function stageApplies(entry: CheckEntry, stage: StageId | null): boolean {
 
 function characterApplies(entry: CheckEntry, cls: string, level: number): boolean {
   const { classes, levels } = entry.appliesTo;
-  // TODO(M2): match promoted classes through `classes.fact.class-tree`; exact names until then.
+  // Exact class names: no M3 entry restricts classes. Match promotions (classes.fact.class-tree) when one does.
   if (classes && !classes.includes(cls)) return false;
   if (levels?.min !== undefined && level < levels.min) return false;
   if (levels?.max !== undefined && level > levels.max) return false;

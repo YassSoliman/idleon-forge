@@ -19,9 +19,7 @@ export {
 export {
   type AfkSafetyModuleDeps,
   createAfkSafetyModule,
-  type EngineInputLike,
-  type EngineModuleLike,
-  type ModuleOutputLike,
+  expectedReturnOf,
   toModuleOutput,
 } from './module';
 export type * from './types';

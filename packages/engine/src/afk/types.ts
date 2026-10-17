@@ -1,68 +1,25 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M3 AFK Safety's engine API (M3 TR-3), plus minimal local copies of the shapes other modules own and
-// that are not on main yet. Each copy is marked with its owner so the rebase is a swap of imports:
-//   TODO(M10): `packages/engine/src/result.ts` (EngineResult's NextAction, Verdict, Fill, SourceRef, ...).
-//   TODO(M2):  `StageResult` (only its Stage id is read here).
-//   TODO(M4):  `PurposeStatus`.
-import type { StageId } from '@idleon-forge/knowledge';
+// M3 AFK Safety's engine API (M3 TR-3). The shapes other modules own come from them: M10's
+// EngineResult types (../result) and M2's StageResult (../metapath). M4's PurposeStatus is not on
+// main yet, so a minimal local copy stays, marked TODO(M4).
+import type { StageResult } from '../metapath/types';
+import type { Fill, NextAction, Subject } from '../result';
 
-// ---------- M10 TR-2 shapes (TODO(M10): import from '../result') ----------
+export type {
+  Category,
+  Fill,
+  Goal,
+  NextAction,
+  Provenance,
+  SourceRef,
+  Subject,
+  Verdict,
+  VerdictKind,
+} from '../result';
 
-/** 'account' or `c<index>`, where index is CharacterState.index. Never a name. */
-export type Subject = 'account' | `c${number}`;
-export type Category = 'blocker' | 'compounding' | 'spendable' | 'nice';
-export type VerdictKind = 'ready' | 'fix' | 'unknown';
-
-export interface SourceRef {
-  label: string;
-  url: string;
-  tier: 1 | 2 | 3 | 4;
-  verifiedOn: string;
-  gameVersion: string;
-}
-export interface Provenance {
-  entryIds: string[];
-  fields: string[];
-}
-export interface NextAction {
-  /** `${entryId}@${subject}`. */
-  key: string;
-  entryId: string;
-  text: string;
-  why: string;
-  sources: SourceRef[];
-  stale: boolean;
-  contested: null | { sides: { text: string; sources: SourceRef[] }[] };
-  confidence: 'H' | 'M' | 'L';
-  provenance: Provenance;
-}
-export interface Goal {
-  id: string;
-  title: string;
-  system: string;
-  category: Category;
-  nextAction: NextAction;
-  milestone: null;
-}
-export interface Verdict {
-  kind: VerdictKind;
-  blockerKeys: string[];
-  unknownReason: null | 'no-purpose' | 'cannot-tell' | 'not-covered';
-  suggestion: NextAction | null;
-}
-export interface Fill {
-  label: string;
-  at: number;
-  subject: Subject;
-}
-
-// ---------- M2 / M4 (TODO(M2), TODO(M4)) ----------
-
-/** TODO(M2): M2 TR-4 `StageResult`; M3 reads only the Stage id, for `appliesTo.stages`. */
-export interface StageLike {
-  id: StageId | null;
-}
+/** The part of M2's StageResult M3 reads: the Stage id, for `appliesTo.stages`. */
+export type StageLike = Pick<StageResult, 'id'>;
 
 /** TODO(M4): M4 TR-3 `PurposeStatus`. Until M4 ships the engine passes 'not-implemented' (D4). */
 export type PurposeStatus = 'serving' | 'not-covered' | 'exhausted' | 'none' | 'no-activity' | 'cannot-tell';
