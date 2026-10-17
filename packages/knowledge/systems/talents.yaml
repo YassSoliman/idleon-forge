@@ -123,7 +123,7 @@ entries:
     appliesTo: { stages: [{ from: "W1-early", to: "W4-entry" }], classes: ["Warrior"], levels: { min: 10 } }
     confidence: L
     status: active
-    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/pull/77" }
 
   - id: talents.build.warrior-skilling
     system: "talents"
@@ -152,7 +152,7 @@ entries:
     appliesTo: { stages: [{ from: "W1-early", to: "W4-entry" }], classes: ["Warrior"], levels: { min: 10 } }
     confidence: L
     status: active
-    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/pull/77" }
 
   - id: talents.build.barbarian-fighting
     system: "talents"
@@ -374,7 +374,7 @@ entries:
     appliesTo: { stages: [{ from: "W1-early", to: "W4-entry" }], classes: ["Archer"], levels: { min: 10 } }
     confidence: L
     status: active
-    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/pull/77" }
 
   - id: talents.build.archer-skilling
     system: "talents"
@@ -400,7 +400,7 @@ entries:
     appliesTo: { stages: [{ from: "W1-early", to: "W4-entry" }], classes: ["Archer"], levels: { min: 10 } }
     confidence: L
     status: active
-    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/pull/77" }
 
   - id: talents.build.bowman-fighting
     system: "talents"
@@ -520,7 +520,7 @@ entries:
     appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Hunter"] }
     confidence: L
     status: active
-    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/pull/77" }
 
   - id: talents.build.hunter-skilling
     system: "talents"
@@ -545,7 +545,7 @@ entries:
     appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Hunter"] }
     confidence: L
     status: active
-    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/pull/77" }
 
   - id: talents.build.mage-fighting
     system: "talents"
@@ -577,7 +577,7 @@ entries:
     appliesTo: { stages: [{ from: "W1-early", to: "W4-entry" }], classes: ["Mage"], levels: { min: 10 } }
     confidence: L
     status: active
-    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/pull/77" }
 
   - id: talents.build.mage-skilling
     system: "talents"
@@ -607,7 +607,7 @@ entries:
     appliesTo: { stages: [{ from: "W1-early", to: "W4-entry" }], classes: ["Mage"], levels: { min: 10 } }
     confidence: L
     status: active
-    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/pull/77" }
 
   - id: talents.build.wizard-fighting
     system: "talents"
