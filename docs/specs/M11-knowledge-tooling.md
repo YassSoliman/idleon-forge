@@ -1343,3 +1343,12 @@ An independent agent (fresh context, given only this spec, the glossary, the ADR
 | R21 | P3 | FR-27 couldn't be met as written, and goldens had no check on string slots | fixed | FR-27 scoped (public Toolbox saves exempt); a golden slot check added |
 | R22 | P3 | Note 5 wrongly implied anonymity; FR-24 and TR-9 disagreed on contested coverage; any throw made a Verdict Unknown; CI can't verify whose consent it is; the cited "section 10" didn't exist | fixed | Note 5 rewritten, coverage aligned, throws scoped to blockers, the reviewer confirms consent. *Rejected:* the missing section 10, which is this section |
 
+## Final rulings (Yasser, 2026-10-17)
+
+These supersede anything above that conflicts with them.
+
+> **Ruled by Yasser (2026-10-17), all as recommended:**
+> - **RT-1:** agent PRs come from a GitHub App ("Forge Bot"), so Yasser can approve them. The same App token lets the sync PR trigger CI. Yasser is creating it from the setup runbook.
+> - **RT-2:** raw saves stay with their owners, plus an owner-controlled encrypted backup, never in the repo.
+> - **RT-3:** a re-scrub that only removes more doesn't need re-consent. Ask again if anything new is kept; the tool prints the diff.
+> - **RT-4:** Joseph co-owns the YAML entries, generated facts and snapshots. `packages/knowledge/{detectors,generators,src}` stay Yasser-only.
