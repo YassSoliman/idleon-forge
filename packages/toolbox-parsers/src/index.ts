@@ -8,6 +8,7 @@ import { parseData } from '../vendor/parsers/index';
 import { withFrozenClock } from './frozen-clock';
 import type {
   parseSave as ParseSaveDecl,
+  toolboxCalls as ToolboxCallsDecl,
   upstream as UpstreamDecl,
   verifiedBuilds as VerifiedBuildsDecl,
 } from './public';
@@ -16,6 +17,10 @@ import type { UpstreamPin, VerifiedBuilds } from './types';
 
 export { InvalidSaveInputError, normalizeEnvelope, parseEnvelopeText } from './envelope';
 export { withFrozenClock } from './frozen-clock';
+
+import { toolboxCalls as calls } from './calls';
+
+export const toolboxCalls: typeof ToolboxCallsDecl = calls as unknown as typeof ToolboxCallsDecl;
 
 declare const __UPSTREAM__: UpstreamPin;
 declare const __VERIFIED_BUILDS__: VerifiedBuilds;

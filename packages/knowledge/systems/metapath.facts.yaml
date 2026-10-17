@@ -1,0 +1,56 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Authored tier-2/3 game facts M2 needs that Toolbox's data files don't carry yet (M2 TR-5, TR-7, red-team
+# F14). They live in game code (N.js) or the wiki; each moves to a generator under the same id once one
+# can read it, so no reference changes.
+system: metapath
+facts:
+  - id: metapath.fact.family-slots
+    system: metapath
+    origin: authored
+    title: Family level that opens each character slot
+    rows:
+      - { slot: 2, familyLevel: 8 }
+      - { slot: 3, familyLevel: 30 }
+      - { slot: 4, familyLevel: 70 }
+      - { slot: 5, familyLevel: 150 }
+      - { slot: 6, familyLevel: 300 }
+      - { slot: 7, familyLevel: 500 }
+      - { slot: 8, familyLevel: 750 }
+      - { slot: 9, familyLevel: 1100 }
+      - { slot: 10, familyLevel: 1500 }
+      - { slot: 11, familyLevel: 5000 }
+    sources:
+      - url: https://idleon.wiki/wiki/Character_Creation
+        title: IdleOn wiki, Character Creation (family level per slot)
+        tier: 2
+        claimDate: 2026-10-07
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/account-wide/docs/research/systems/account-wide/companions-guild-family.md#family-level-unlocks
+        title: Account-wide dossier, family level unlocks
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+        note: Matches Toolbox's newCharacters alert; the 11th slot value conflicts between Sources (#26 Q9)
+    notes: Slot 1 is always open. Authored until a data field is found (M2 TR-7).
+
+  - id: metapath.fact.town-unlocks
+    system: metapath
+    origin: authored
+    title: Highest class level that opens W1 town Systems
+    rows: { stamps: 14, forge: 18, statues: 22, tasks: 28, post-office: 50 }
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/amarok-and-quests.md#w1-quests-and-town-unlocks-that-gate-systems
+        title: W1 dossier, town unlock thresholds (N.js)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/post-office.md
+        title: W1 dossier, Post Office unlock
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    notes: The Stage rules read stamps (W1-mid), tasks (W1-late) and post-office (W2-late).

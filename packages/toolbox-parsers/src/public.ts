@@ -2,16 +2,25 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // The package's type entry point (package.json "types"). The runtime is dist/index.js, bundled from
 // src/index.ts, which pulls in the vendored parsers; consumers never typecheck those.
-import type { ParsedSave, ParseOptions, RawSaveEnvelope, UpstreamPin, VerifiedBuilds } from './types';
+import type {
+  ParsedSave,
+  ParseOptions,
+  RawSaveEnvelope,
+  ToolboxCalls,
+  UpstreamPin,
+  VerifiedBuilds,
+} from './types';
 
 export { InvalidSaveInputError, normalizeEnvelope, parseEnvelopeText } from './envelope';
 export { withFrozenClock } from './frozen-clock';
 export type {
+  MapKillRate,
   ParsedSave,
   ParseOptions,
   RawSaveEnvelope,
   SideReadName,
   SideReadReport,
+  ToolboxCalls,
   UpstreamPin,
   VerifiedBuilds,
 } from './types';
@@ -28,3 +37,6 @@ export declare const upstream: UpstreamPin;
 
 /** The newest game builds this parser pin has parsed cleanly (see `VerifiedBuilds`). */
 export declare const verifiedBuilds: VerifiedBuilds;
+
+/** Toolbox runtime functions beyond `parseData()` (src/calls.ts). Worker only: the runtime patches prototypes. */
+export declare const toolboxCalls: ToolboxCalls;

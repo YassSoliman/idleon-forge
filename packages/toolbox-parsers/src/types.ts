@@ -98,3 +98,25 @@ export interface VerifiedBuilds {
   serverBuild: number;
   saveVersion: number;
 }
+
+/** One character's kill rate on one map, from `toolboxCalls.frontierRates` (M2 TR-2). */
+export interface MapKillRate {
+  characterIndex: number;
+  finalKillsPerHour: number;
+  /** Unfloored, for M2 FR-13 ordering only. */
+  killsPerHour: number;
+  /** % 0..100, Toolbox's unit. */
+  hitChance: number;
+  /** % 0..100, Toolbox's unit. */
+  survivability: number;
+}
+
+/** Toolbox runtime functions beyond `parseData()`, injected by the parse worker (see src/calls.ts). */
+export interface ToolboxCalls {
+  /** Toolbox's damage and kill-rate math for one character, as Toolbox's own types (untyped) return it. */
+  getMaxDamage(character: unknown, characters: unknown[], account: unknown): Record<string, unknown>;
+  /** M2 TR-2: every character's kill rate on `mapIndex`, through the clone, at `parsed.meta.now`. */
+  frontierRates(parsed: ParsedSave, mapIndex: number): MapKillRate[];
+  /** M2 TR-2: the clone of a Toolbox character moved to `mapIndex`. */
+  onMap(character: Record<string, unknown>, mapIndex: number): Record<string, unknown>;
+}

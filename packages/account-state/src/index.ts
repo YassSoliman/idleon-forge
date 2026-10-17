@@ -25,17 +25,34 @@ export {
   FIELD_SECTIONS,
   FIELD_SIDE_READS,
   FIELD_SOURCES,
+  FRONTIER_SECTIONS,
   fieldTemplate,
   isKnown,
   type RawKeySpec,
   type RawKind,
 } from './fields';
+// M2 Stage & Meta Path (M2 TR-2, TR-3)
+export {
+  computeFrontier,
+  type FrontierInput,
+  type FrontierRates,
+  killsLeftOn,
+  killsLeftTable,
+} from './frontier';
 export type {
   AccountState,
   AccountSummary,
   CharacterState,
   FoodStack,
+  Frontier,
+  FrontierFight,
+  GateNpc,
+  GateQuestId,
+  GateQuestNpc,
+  GateQuestProgress,
   KnownAfkType,
+  NextPortal,
   ParseDiagnostics,
+  RouteDoor,
 } from './types';
-export { KNOWN_AFK_TYPES, SCHEMA_VERSION } from './types';
+export { GATE_NPCS, GATE_QUEST_NPCS, KNOWN_AFK_TYPES, SCHEMA_VERSION } from './types';
