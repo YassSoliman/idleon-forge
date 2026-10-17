@@ -93,10 +93,19 @@ importers:
       '@idleon-forge/account-state':
         specifier: workspace:*
         version: link:../account-state
+      '@idleon-forge/knowledge':
+        specifier: workspace:*
+        version: link:../knowledge
+      zod:
+        specifier: ^4.6.7
+        version: 4.6.7
     devDependencies:
       '@idleon-forge/toolbox-parsers':
         specifier: workspace:*
         version: link:../toolbox-parsers
+      yaml:
+        specifier: ^2.9.1
+        version: 2.9.1
 
   packages/kb-tools:
     dependencies:
