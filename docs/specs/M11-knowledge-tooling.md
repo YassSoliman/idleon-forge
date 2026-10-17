@@ -1,6 +1,6 @@
 # M11 Knowledge tooling
 
-Spec for [#39](https://github.com/YassSoliman/idleon-forge/issues/39), part of map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Status: **draft**, waiting on the open decisions (section 8) and a red-team pass.
+Spec for [#39](https://github.com/YassSoliman/idleon-forge/issues/39), part of map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Status: **ready**. Section 8 was ruled by Yasser on 2026-10-17 (every recommendation accepted), and the red-team pass is logged in section 10.
 
 It builds on these resolutions. Terms come from [`GLOSSARY.md`](../../GLOSSARY.md).
 - [#11 Knowledge Base shape and authoring pipeline](https://github.com/YassSoliman/idleon-forge/issues/11): the 7 entry types, YAML plus TypeScript Detectors, required fields, ranking, Stage, Contested, staleness, the pipeline, golden snapshots and versioning.
@@ -43,7 +43,7 @@ Players never see M11 directly, but everything they read comes through it. It is
 - **FR-4** Entry ids are unique across authored and generated entries, follow `<system>.<type>.<slug>`, and their middle segment matches `type`.
 - **FR-5** Every id an entry references (`extends`, `goal`, Priority List tiers, `replacedBy`, Acquisition `requires`) resolves to an existing entry of an allowed type. A Priority List cannot reference a retired entry. A dangling reference fails CI.
 - **FR-6** An entry with `status: contested` carries at least two `contested.sides`, each with its own Sources. A contested entry can never be a Check with `effect: blocker`; CI rejects that combination.
-- **FR-7** A Check with `effect: blocker` (a Verdict blocker) needs `confidence: H` and an evidence bar (D3). CI enforces it.
+- **FR-7** A Check with `effect: blocker` (a Verdict blocker) needs `confidence: H` and at least one tier 1 or tier 2 Source (game data or code, or a wiki edit made after the patch; D3). CI enforces it.
 - **FR-8** Priority Lists hold ordered tiers of entry ids (ties allowed) and contain no numeric weight, score or rank field anywhere. Any unknown key fails CI (strict schema).
 
 **Detectors**
@@ -66,7 +66,7 @@ Players never see M11 directly, but everything they read comes through it. It is
 - **FR-21** `retired` entries are kept in YAML, which keeps their ids resolvable for old reports, but they are excluded from the runtime bundle. `retired.replacedBy` maps old ids to new ones.
 - **FR-22** The compiled bundle carries a Knowledge Base version `YYYY.MM.DD[.n]` plus a content hash, and a manifest (`id → content hash`) for every active and contested entry.
 - **FR-23** `diffManifests(old, new)` returns the entries that were added, changed and retired between two versions, for "What's new: advice changes".
-- **FR-24** The System registry lists every System in scope for the MVP. `coverage(state)` returns the unlocked Systems that have no active entry, for "Not covered yet: …".
+- **FR-24** The System registry lists every System in scope for the MVP. `coverage(state)` returns the unlocked Systems that have no active authored entry, for "Not covered yet: …". Generated facts alone never count as coverage and never appear on the Now screen by themselves; they are used only through authored entries that reference them (D5).
 
 **Fixtures and goldens**
 - **FR-25** `kb scrub` turns a private "Copy for support" export into a fixture with character names replaced by `Char1…CharN`, account identifiers and third-party names removed, and no string left that the scrub policy doesn't cover. Its parse must match the original's (TR-14).
@@ -74,12 +74,12 @@ Players never see M11 directly, but everything they read comes through it. It is
 - **FR-27** No committed file (fixture, golden, YAML, test) contains a real character name, guild name, account id or email. The local denylist gate and the CI structural gate both enforce it.
 
 **Workflow**
-- **FR-28** A Knowledge Base PR can't merge without: a green `kb check`, updated goldens, a red-team review with no open blocking findings, and approval from Yasser or Joseph through CODEOWNERS on `packages/knowledge/`.
+- **FR-28** A Knowledge Base PR can't merge without: a green `kb check`, updated goldens, a red-team review with no open blocking findings (run by the stronger model when the PR adds or changes a Verdict blocker or a Stage Priority List; D7), and approval from Yasser or Joseph through CODEOWNERS on `packages/knowledge/` or `fixtures/scrubbed/`. Either one's approval is enough (D6).
 - **FR-29** `reportContext()` returns exactly `{entryId, kbVersion, gameVersion, parserCommit, stage, class, level}` and nothing else.
 
 ## 4. User stories
 
-Fixture ids: `scrubbed-w2` (W2-late, 5 characters) and `scrubbed-w3` (W3-early, 6 characters, two Squires) are the scrubbed fixtures (TR-14; `scrubbed-w3` depends on D1). `highend`, `fresh` and the other public ids are Toolbox's public saves. Unless a story says otherwise, "engine runs" means at the fixture's `now`, with an Expected Return of 8 h and no save history.
+Fixture ids: `scrubbed-w2` (Yasser's save, W2-late, 5 characters) and `scrubbed-w3` (Joseph's save, W3-early, 6 characters, two Squires) are the scrubbed fixtures (TR-14). They are shorthand for the dated ids `scrubbed-w2-2026-10` and `scrubbed-w3-2026-10` (D4). `scrubbed-w3` is committed only in a PR that records Joseph's explicit consent (D1); until then, the stories that use it run locally as `private:joseph-w3` and are reported as skipped in CI. `highend`, `fresh` and the other public ids are Toolbox's public saves. Unless a story says otherwise, "engine runs" means at the fixture's `now`, with an Expected Return of 8 h and no save history.
 
 **US-1: every piece of advice is cited.**
 As a player in a Play Session, I want every Next Action to show where it came from, so that I can trust it or check it myself.
@@ -439,7 +439,8 @@ function entryRules(e: EntryShape, ctx: z.RefinementCtx) {
     if (e.status === 'contested') ctx.addIssue({ code: 'custom', path: ['status'], message: 'a contested entry cannot be a Verdict blocker' });
     if (e.confidence !== 'H') ctx.addIssue({ code: 'custom', path: ['confidence'], message: 'Verdict blockers need confidence H' });
     if (e.activePlay) ctx.addIssue({ code: 'custom', path: ['activePlay'], message: 'Active Play suggestions never affect a Verdict' });
-    // D3 evidence bar is checked here once decided.
+    if (!e.sources.some((s) => s.tier <= 2))
+      ctx.addIssue({ code: 'custom', path: ['sources'], message: 'Verdict blockers need a tier 1 or 2 Source (D3)' });
   }
   if (e.type === 'priority') {
     if ((e.list === 'block') !== (e.stage === undefined))
@@ -1069,6 +1070,8 @@ There is no numeric weight anywhere. The schema has no field to hold one (FR-8).
   "parserCommit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
   "gameVersion": "2.3.540",
   "scrubber": { "version": 1, "policyHash": "1c0ffee2" },
+  "owner": "yasser",
+  "consent": "https://github.com/YassSoliman/idleon-forge/pull/<n>#issuecomment-<id>",
   "characters": [
     { "label": "C1", "class": "Blood_Berserker", "level": 60 },
     { "label": "C2", "class": "Wizard", "level": 56 }
@@ -1076,7 +1079,7 @@ There is no numeric weight anywhere. The schema has no field to hold one (FR-8).
 }
 ```
 
-**CI structural gate** (the denylist is private, so CI checks structure instead): every `fixtures/scrubbed/*.json` must have `charNames` all matching `^Char\d+$`, an empty `companion.e`, no `tournament.user` or `tournament.match`, and a `scrubber.policyHash` equal to the current policy's hash. A policy change forces a re-scrub.
+**CI structural gate** (the denylist is private, so CI checks structure instead): every `fixtures/scrubbed/*.json` must have `charNames` all matching `^Char\d+$`, an empty `companion.e`, no `tournament.user` or `tournament.match`, a `scrubber.policyHash` equal to the current policy's hash, and a non-empty `consent` link to the save owner's own comment or approval (D1). A policy change forces a re-scrub.
 
 **Locally,** a `pre-commit` hook in `.githooks/`, enabled by `pnpm install` through `core.hooksPath`, runs the denylist gate on staged files whenever `fixtures/private/denylist.txt` exists.
 
@@ -1137,7 +1140,7 @@ Arcade
 The existing `CI` job (lint, typecheck, test, build) gains:
 - `pnpm kb generate --check`, then `pnpm kb check --strict`, then `pnpm kb golden` (inside `pnpm test`), then the structural privacy gate.
 - A cache of the parsed fixtures, keyed by `UPSTREAM` plus the fixture hashes.
-- CODEOWNERS: `packages/knowledge/ @YassSoliman` plus Joseph per D6, and `fixtures/scrubbed/ @YassSoliman`.
+- CODEOWNERS (D6): `packages/knowledge/ @YassSoliman @<joseph>` and `fixtures/scrubbed/ @YassSoliman @<joseph>`, with branch protection requiring one code-owner approval, so either one suffices. Every other path (`packages/kb-tools/`, the scrub policy, CI) stays `@YassSoliman` only. `<joseph>` is filled in once Joseph is added as a collaborator (#7).
 - The PR template gains a "Knowledge Base" block: entries added, changed and retired; Sources table; golden summary per fixture; hand-copied-fact warnings acknowledged; red-team status.
 
 ### TR-17 Performance budgets
@@ -1173,18 +1176,18 @@ Every route into the Knowledge Base goes through the same pipeline (#11 item 11)
    - Fill `text`, `why` and `appliesTo`.
    - Add Sources with `claimDate` and the #27 `verification`.
    - Set `confidence`: H for game data or code, M for one current tier-3 Source, L for unverified dossier reasoning.
-   - Set `status`. Apply ADR 0004 for facts. Apply the D2 rule for judgment, and mark the entry contested with both sides when it applies.
+   - Set `status`. Apply ADR 0004 strictly for facts (the newer Source wins within a tier). For judgment entries (Priority Lists, Builds, the Meta Path), mark the entry contested with both sides whenever two or more Sources dated after the current major patch disagree, whatever their tiers or dates (D2).
 5. **Write or extend Detectors** with params, slots and `reads`, plus at least one `fires` and one `silent` example on real fixtures (scrubbed or public), then mutations for the edge cases. If a field is missing, extend the Account State adapter with a contract test.
 6. **Run** `pnpm kb check --strict && pnpm kb golden -u && pnpm test`. Read every golden diff as a player would.
 7. **Self-check** against the red-team checklist below. Fix what it finds.
 8. **Open a draft PR** with the template's Knowledge Base block filled in. List any `private:` example results in the PR as aggregates only (fires on 2 of 6 characters), never with names.
 
 **B. Red team (a second agent, fresh context, D7)**
-The red-team agent gets only the PR diff, the dossier link, the fixtures and this checklist, not the author's reasoning. It must do each step, not just read:
+By default the red team is the same model as the author, in a fresh session with this brief. A PR that adds or changes a Verdict blocker or a Stage Priority List gets a different, stronger model instead, and the PR template records which one ran. The red-team agent gets only the PR diff, the dossier link, the fixtures and this checklist, not the author's reasoning. It must do each step, not just read:
 1. **Re-derive each claim from its Source.** Open every URL. Confirm the claim, its date (`claimDate`, not page date) and its tier. Flag a Source older than the current patch that describes a mechanic the patch notes touch.
 2. **Hunt for hand-copied facts.** Any number in YAML that Toolbox data holds is a defect.
 3. **Try to make it fire wrongly.** Write at least 3 mutations per Detector: a missing field (expect `unknown`), a boundary value (exactly at the threshold), and a character of a class the entry doesn't apply to. Run them with `pnpm kb try <detector> <fixture> --mutate <file>`, a throwaway script that is never committed.
-4. **Verdict safety.** For each blocker, ask: can this say "Fix before you leave" on an account that is actually safe? Check it against both scrubbed goldens. The evidence bar is D3.
+4. **Verdict safety.** For each blocker, ask: can this say "Fix before you leave" on an account that is actually safe? Check it against every scrubbed golden. Confirm it has a tier 1 or 2 Source that establishes the mechanic itself, not just a related one (D3).
 5. **Contested handling.** Same-tier disagreement that isn't marked; a contested item at position 1; a "corrected" #27 row ignored.
 6. **Wording.** Templates follow GLOSSARY terms, `why` is one line, there is no hype, and the text is understandable without the dossier.
 7. **Privacy.** No names, no account data, no quotes from private saves in the PR text or the goldens.
@@ -1227,6 +1230,8 @@ The red team posts findings as one PR review, each with a severity: `blocking` (
 | **Manifest missing** (first visit, cleared storage) | "What's new: advice changes" is skipped, not shown as "everything changed". |
 | **Scrub on a save with a new string field** | Stops with the field path (US-11). |
 | **Scrubbed fixture falls behind the parser** | Each sync re-parses the scrubbed fixtures. Goldens change in the sync PR and are reviewed like any fact change. |
+| **Our accounts move past a fixture's Stage** | The fixture stays, frozen. A new dated fixture is added for the new world or Stage, and the oldest is dropped past about 6 (D4). |
+| **Joseph hasn't consented yet** | `scrubbed-w3` isn't committed. Its stories and examples run locally as `private:joseph-w3` and are reported as skipped in CI (D1). |
 | **Private fixture absent** (CI, contributors) | `private:` examples and goldens are skipped and reported. Public and scrubbed coverage still gates the merge. |
 | **Clock-dependent output** (timers, "fills in 3 h") | Always relative to the fixture `now`. Goldens are stable across days. |
 
@@ -1250,28 +1255,17 @@ The red team posts findings as one PR review, each with a severity: `blocking` (
 
 **Build order:** M11 follows M1 (#13). The tooling, schema, generators, scrub and Findings-only goldens can all ship before M2–M9. Each later module adds content and upgrades golden sections 2–4.
 
-## 8. Open decisions for Yasser
+## 8. Decisions
 
-❓ D1 - Publish a scrubbed copy of Joseph's save: #14 settled a scrubbed W2 fixture from Yasser's save. Should Joseph's W3 save (6 characters, two Squires) also be scrubbed and committed to the public repo, or (b) stay private, with W3 coverage in CI coming only from mutated W2 or public saves?
-➡️ (a), with Joseph's explicit consent recorded in the PR that adds it. The #13 done bar ("no wrong Verdict blocker on either golden snapshot") needs a golden for both accounts, and the W3-early and two-Squire cases have no other real fixture (the public saves are all W4–W7). The scrub removes names and identifiers. What stays (class, level, progress) is already summarised in public issues.
+Ruled by Yasser on 2026-10-17: every recommendation accepted as written, with D1 and D6 confirmed in detail.
 
-❓ D2 - When is judgment Contested? ADR 0004 says "within a tier, the newer wins", but #26 and #27 mark several tier-3 disagreements as contested (first Gem Shop buy, pusher, cogs, prayers). Options: (a) apply ADR 0004 strictly everywhere, so newer always wins and opinions are only contested across tiers; (b) facts follow ADR 0004 strictly, while judgment entries (Priority Lists, Builds, Meta Path) are Contested whenever two or more Sources dated after the current major patch disagree, whatever their order; (c) leave it to each author.
-➡️ (b). Recency settles facts, because a newer patch changes the game, but it doesn't settle opinion: a newer Reddit comment isn't more right than AutoReview. (b) also matches what #26 and #27 already did. It needs a one-line amendment to ADR 0004.
-
-❓ D3 - The evidence bar for a Verdict blocker: beyond `confidence: H` and never contested, should a blocker also need (a) nothing more; (b) at least one tier 1 or 2 Source (game data, code, or a post-patch wiki edit); or (c) (b) plus a `private:` fires example on one of the real accounts, confirmed by the player in review?
-➡️ (b). Blockers are AFK-safety mechanics (food, caps, an empty AFK Target, the wrong preset). Game data or code can establish all of them, and a wrong blocker is the one failure the done bar names. (c) would block contributors who don't have our saves.
-
-❓ D4 - Fixture refresh: as our accounts progress, should the scrubbed fixtures (a) be replaced by fresh exports, so the W2 coverage disappears when Yasser reaches W3; or (b) be kept frozen, with new dated fixtures added at each new world or Stage (`scrubbed-w2-2026-10`, `scrubbed-w3-2026-12`, …), capped at about 6, dropping the oldest?
-➡️ (b). Early-game goldens are our only early-game regression tests, and the public saves start at W4. Frozen fixtures still re-parse at every sync, so they keep testing the current parser.
-
-❓ D5 - Dormant generated facts: should generated entries that no authored entry references (for example the Death Note ladder of every one of 104 monsters) (a) appear on the Now screen on their own as Goals, or (b) stay dormant data, used only through authored entries, and not count as coverage?
-➡️ (b). Showing hundreds of generated ladders would bury the Priority List order (judgment) under raw facts. ADR 0007 already frames generated entries as what authored ones reference. "Not covered yet" then stays honest.
-
-❓ D6 - Joseph's merge rights: #11 says only Yasser and Joseph merge Knowledge Base PRs, but Joseph isn't a collaborator yet (#7), and CODEOWNERS lists only Yasser. Add Joseph as a collaborator and co-owner of `packages/knowledge/` (approval from either suffices), or keep Yasser as the sole approver for now?
-➡️ Add Joseph as a co-owner of `packages/knowledge/` and `fixtures/scrubbed/` only, with approval from either one sufficing. Player review is the gate that matters there, and Joseph's account is the off-meta test case. Code paths stay Yasser-only.
-
-❓ D7 - The red-team agent: (a) the same model as the author in a fresh session with the adversarial brief; (b) a different, stronger model for every Knowledge Base PR; or (c) (a) by default, and (b) only for PRs that add or change a Verdict blocker or a Stage Priority List?
-➡️ (c). Fresh context with a forced re-derivation checklist catches most errors cheaply. The expensive independent pass is reserved for the two places where a wrong entry hurts most (the done bar's blockers, and the order that drives every Next Action).
+- **D-1 Joseph's save becomes a committed scrubbed fixture, only with his explicit consent.** `scrubbed-w3` is scrubbed from Joseph's W3 save (6 characters, two Squires) and committed only in a PR that records Joseph's consent in its description (a link to his comment, or his approval on that PR). Until then it runs locally only, as `private:joseph-w3`. *Why:* the #13 done bar needs a golden for both accounts, and the W3-early and two-Squire cases have no other real fixture (the public saves are all W4–W7). The scrub removes names and identifiers. What stays (class, level, progress, and timestamps, see red-team note 5) is already summarised in public issues, and consent covers it.
+- **D-2 Facts follow ADR 0004 strictly; judgment is Contested when post-patch Sources disagree.** Facts take the newest Source within a tier. Judgment entries (Priority Lists, Builds, the Meta Path) are Contested whenever two or more Sources dated after the current major patch disagree, whatever their tier or order. ADR 0004 gains a one-line amendment saying so (in this PR). *Why:* recency settles facts, because a newer patch changes the game, but it doesn't settle opinion. A newer Reddit comment isn't more right than AutoReview. This also matches what #26 and #27 already did.
+- **D-3 A Verdict blocker needs a tier 1 or 2 Source**, on top of `confidence: H` and never being contested (FR-7, enforced in `entryRules`). *Why:* blockers are AFK-safety mechanics (food, caps, an empty AFK Target, the wrong preset), and game data or code can establish all of them. A wrong blocker is the one failure the done bar names. Requiring a `private:` example as well would block contributors who don't have our saves.
+- **D-4 Scrubbed fixtures are frozen and dated.** A new dated fixture is added at each new world or Stage (`scrubbed-w2-2026-10`, `scrubbed-w3-2026-12`, …), capped at about 6, dropping the oldest. Existing ones are never replaced by fresh exports. *Why:* early-game goldens are our only early-game regression tests, and the public saves start at W4. Frozen fixtures still re-parse at every sync, so they keep testing the current parser.
+- **D-5 Generated facts are dormant data.** A generated entry that no authored entry references never shows on the Now screen by itself and doesn't count as coverage (FR-24, TR-9). *Why:* hundreds of generated ladders would bury the Priority List order (judgment) under raw facts. ADR 0007 already frames generated entries as what authored ones reference, and "Not covered yet" stays honest.
+- **D-6 Joseph co-owns `packages/knowledge/` and `fixtures/scrubbed/`.** He is added as a collaborator (#7) and listed in CODEOWNERS for those two paths, and approval from either Yasser or Joseph is enough to merge there (TR-16, FR-28). Every other path stays Yasser-only. *Why:* player review is the gate that matters for advice, and Joseph's account is the off-meta test case.
+- **D-7 The red team is a fresh session of the author's model by default, and a stronger model for blockers and Stage lists.** A PR that adds or changes a Verdict blocker or a Stage Priority List gets a different, stronger model (TR-19 B). *Why:* fresh context with a forced re-derivation checklist catches most errors cheaply. The expensive independent pass is kept for the two places where a wrong entry hurts most: the done bar's blockers, and the order that drives every Next Action.
 
 ## 9. Red-team notes
 
