@@ -569,3 +569,10 @@ Everything PR #28 must change to meet this spec, for the implementing PR. The sp
 - [ ] CI: a check that the main chunk contains no parser runtime (TR-1), and the repo-wide Firebase write-API import ban plus bundle check (TR-21, RT-3).
 - [ ] `.gitignore` comment says `fixtures/scrubbed/`; TR-17 puts scrubbed saves in `packages/account-state/fixtures/scrubbed/`. Align them.
 
+
+## 12. Final rulings (Yasser, 2026-10-17)
+
+- **D1:** Joseph consented (relayed by Yasser) to his save being used and to a scrubbed copy in the public repo. The scrubber requirements in this spec (names in cog data, guild member names) apply before commit.
+- **RT-4:** Play Sessions are measured from cloud-save timing for the MVP; autosave-while-idle and no-autosave-in-dungeons misreads are known limits. Later: count a session only while ActiveOn is open and visible.
+- **RT-3:** parser re-sync PRs (M12) never auto-merge; a human always reviews them. The parser worker's network lock (TR-25) stays.
+- **In-game facts confirmed by Yasser:** a character switch updates the page within seconds (character-switch check, qualitative); session survives reload.
