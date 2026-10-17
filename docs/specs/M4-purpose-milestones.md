@@ -1,6 +1,6 @@
 # M4 Purpose & Milestones
 
-Spec for [#32](https://github.com/YassSoliman/idleon-forge/issues/32), part of map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Status: **draft**, waiting for the open decisions in section 8 to be grilled, then a red-team pass, then merge. Terms follow [GLOSSARY.md](../../GLOSSARY.md).
+Spec for [#32](https://github.com/YassSoliman/idleon-forge/issues/32), part of map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Status: **ready**. Section 8 decisions ruled by Yasser on 2026-10-17; red-team pass logged in section 10. Terms follow [GLOSSARY.md](../../GLOSSARY.md).
 
 **Inputs this spec is built from:**
 - Now screen behaviour ([#10](https://github.com/YassSoliman/idleon-forge/issues/10)) and the prototype resolution that introduced Purpose ([#12](https://github.com/YassSoliman/idleon-forge/issues/12)).
@@ -48,7 +48,7 @@ When a player looks at a character, M4 answers "what is this character doing for
 - **FR-4 Fighting ETA.** For a fighting Goal, ETA = (next Milestone − projected value) ÷ rate. The rate is the sum of Toolbox `finalKillsPerHour` over every character whose activity feeds the same counter. Per-character counters (portal kills) use only that character's rate. ETA is shown rounded (minutes under 1 h, then hours to 1 decimal place under 10 h, then whole hours, then days), capped at "30+ days".
 - **FR-5 Zero rate.** If the rate is 0 (the character cannot kill the target, or survivability is 0), the Goal shows "not progressing", carries no ETA, and does not count as worthwhile.
 - **FR-6 Skilling yes/no.** A skilling Goal shows progress (e.g. Mining level 20, EXP 8.9k of 21.8k) and the next gate, but never an ETA or a per-hour number.
-- **FR-7 Worthwhile test.** A Goal instance is worthwhile when all of these hold: its entry status is `active` or `contested` (not `retired`); its Contribution's own `worthwhile` rule passes (TR-4); for a fighting Goal, the rate is above 0 and the ETA to the next Milestone is within the entry's horizon (TR-5). A character's Purpose is **serving** when at least one Goal instance is worthwhile.
+- **FR-7 Worthwhile test.** A Goal instance is worthwhile when all of these hold: its entry status is `active` or `contested` (not `retired`); its Contribution's own `worthwhile` rule passes (TR-4); for a fighting Goal, the rate is above 0 and the ETA to the next Milestone is within the **effective horizon**. The effective horizon is the entry's `horizonHours` (default 24 h when the entry sets none), raised to the Expected Return when that is longer (D1). Entries marked "none" in TR-4 have no horizon test. A character's Purpose is **serving** when at least one Goal instance is worthwhile.
 - **FR-8 Purpose status.** Each character gets exactly one status:
   - `serving`: at least one worthwhile Goal;
   - `exhausted`: Goals matched, none worthwhile;
@@ -59,12 +59,12 @@ When a player looks at a character, M4 answers "what is this character doing for
   Only `serving` lets the Verdict be Ready. Every other status makes it Unknown, never Fix before you leave.
 - **FR-9 Projection.** A character's AFK kills reach the save only when that character is next claimed. For fighting counters, the projected value = saved value + rate × hours since that character's last save (`secondsSinceLastSave`), and progress shows a leading "~". The saved value is available on tap. Projection never crosses a Milestone that history has not confirmed for the "Reached" line (FR-12).
 - **FR-10 Ranking within a Purpose.** Goal instances are ordered by: the Stage Priority List position of the Goal's item (M2), then closest Milestone (smallest ETA; yes/no Goals after timed ones), then most Goals served by the same activity, then entry id. Stale entries rank below fresh ones at the same position. There are no numeric weights.
-- **FR-11 Display budget.** M4 marks the top-ranked Goal instance as the row headline and the top 3 as the Focus card's Purpose block. The rest go behind "show more". How this block relates to the 3-Goal Next Action cap is D4.
+- **FR-11 Display budget.** M4 marks the top-ranked Goal instance as the row headline and the top 3 as the Focus card's Purpose block. The rest go behind "show more". The Purpose block is separate from the "at most 3 Goals per character" Next Action cap (#10 item 5): Purpose lines describe what the character already does and need no action, so they never count against it. The stop-here suggestion (FR-13) is an action and counts as one of the 3 (D4).
 - **FR-12 Milestone reached.** When save history shows a Goal's counter crossed a Milestone between the previous save and this one, M4 emits one `MilestoneCrossing` ("Reached 10,000 Poop kills: Dirty Money steps up"). It shows for that save only.
 - **FR-13 Stop-here suggestion.** M4 emits a stop-here suggestion for a character when both hold:
   - (a) its top worthwhile fighting Goal will reach its next Milestone within the Expected Return, or reached one since the previous save (FR-12);
-  - (b) after that Milestone, no Goal instance of the activity stays worthwhile, because the following Milestone's ETA is beyond the horizon.
-  The text: "Poop kills reach 10,000 in ~4.9 h. The next step, 100,000, is ~63 h away. Consider stopping here." It names the Goal, both Milestones and both ETAs. It links to M5's option when M5 has one. It never changes the Verdict (D2). It supports Skip today and Not for me (M10).
+  - (b) after that Milestone, no Goal instance of the activity stays worthwhile, because the following Milestone's ETA is beyond the effective horizon (FR-7, D1).
+  The text: "Poop kills reach 10,000 in ~4.9 h. The next step, 100,000, is ~63 h away. Consider stopping here." It names the Goal, both Milestones and both ETAs. It links to M5's option when M5 has one. It never changes the Verdict: a Purpose that runs out before the Expected Return keeps a Ready Verdict, and the advice lives only in this line (D2). It counts as one of the 3 Next Actions (D4). It supports Skip today and Not for me (M10).
 - **FR-14 No-Purpose prompt.** For `exhausted`, `none` and `no-activity`, M4 emits the prompt "What is this character for?" with the reason (e.g. "Poop card is maxed and Class EXP here is under half your best map"). M5 supplies the one suggestion. Until M5 ships, M4 falls back to the class's Role from the Meta Path (M2): "Squires usually do Construction". For `not-covered`, M4 emits "Not covered yet: <System>" instead, and no suggestion.
 - **FR-15 Contested and Stale.** A Contribution whose *order* is contested still counts as worthwhile, shows the "sources disagree" badge, and is never the row headline when an uncontested worthwhile Goal exists. A Contribution whose *usefulness itself* is contested (`status: contested` with `contestedOn: usefulness`) is shown but never makes a Purpose `serving`. Stale entries show the Stale badge and rank below fresh ones (FR-10).
 - **FR-16 Provenance.** Every Goal instance, stop-here and prompt records the Knowledge Base entry ids, the Account State field paths and the Toolbox functions it used (#14 item 4). Report this sends the entry id, Knowledge Base version, game version, Stage, class and level only (#11 item 15).
@@ -258,7 +258,7 @@ The Verdict composer (M3/M10) reads `status`: `serving` is required for Ready, a
 
 | Contribution (authored) | Activity | Detector | Worthwhile rule | Horizon | Priority item (M2) |
 |---|---|---|---|---|---|
-| `contrib.fight.push-portal` | FIGHTING, character is M2's pusher, map on the push route | `purpose.pushPortal` | rate > 0 | none (always worthwhile) | position 2 |
+| `contrib.fight.push-portal` | FIGHTING, character is M2's pusher, map on the push route (D5: no other character's portal is ever worthwhile) | `purpose.pushPortal` | rate > 0 | none (always worthwhile) | position 2 |
 | `contrib.fight.vault-kill-row` | FIGHTING on maps 8/13/14/24/101 | `purpose.vaultKillRow` | the scaled row's level ≥ 1 | 24 h | Vault table rows (W1-late 9 …) |
 | `contrib.fight.death-note` | FIGHTING on a Death Note mob, Stage ≥ W3-early | `purpose.deathNoteSkull` | building Lv ≥ 1; character overkills (Toolbox kill-per-kill > 1) | 48 h | W3-mid 6, W3-late 6 |
 | `contrib.fight.card` | FIGHTING or skilling on a target with a card | `purpose.cardLevel` | 0 copies owned (5× chance), **or** the card is on the class's card list (authored, M8) and below max | 24 h on the upper-bound ETA | W1-early 8 |
@@ -269,7 +269,7 @@ The Verdict composer (M3/M10) reads `status`: `serving` is required for Ready, a
 | `contrib.skill.role` | the Role skill of the class (Meta Path, M2) | `purpose.roleSkill` | the skill is the class's Role skill | yes/no | unlisted |
 | `contrib.lab.chain` | LABORATORY, Stage W4-entry | `purpose.labChain` | the character is connected in the Lab chain | yes/no | W4-entry 4 |
 
-Whether skilling with *only* `contrib.skill.role` matching counts as `serving` is D6.
+Skilling with *only* `contrib.skill.role` matching counts as `serving` (D6). Skilling outside the Role with no live door, tool or stamp Goal is `exhausted`.
 
 **TR-5 Detectors.** Every Detector is `(ctx, character, params, ladder) => GoalProgress | null`, where `ctx = { state, history, stage, now }`. A Detector returns `null` when it does not apply, and throws `DetectorDataError` on a missing field (FR-18).
 
@@ -340,25 +340,16 @@ Each Detector gets fires and doesn't-fire tests on both private fixtures (local 
 | **M11** Knowledge tooling | schema additions (TR-4), the Goal-ladder generators, CI source checks, Detector test harness | YAML schema, generator scripts |
 | **M13** Suggestions | "Report this" on a Purpose files with the TR-9 payload | report payload |
 
-## 8. Open decisions for Yasser
+## 8. Decisions
 
-❓ D1 - Stop-here horizon: when is the next Milestone "too far" to keep going? (a) one global number of hours (e.g. 24 h); (b) a multiple of the Expected Return (e.g. 3×); (c) per-entry authored hours, with a default.
-➡️ (c), with a default of **24 h** of AFK, and never below the current Expected Return. The right horizon is System judgment: Vault kill rows are "worth it only to cross the next power of 10 cheaply", while Death Note skulls are a multi-session Goal (48 h). The floor at the Expected Return stops a "stop here" from firing on something that finishes while you sleep anyway.
+Ruled by Yasser on 2026-10-17 ([PR #47](https://github.com/YassSoliman/idleon-forge/pull/47)): every recommendation accepted as written.
 
-❓ D2 - Does a Purpose that runs out before the Expected Return change the Verdict? (a) No, it's a suggestion line and the Verdict stays Ready; (b) it becomes Fix before you leave; (c) Ready with a warning style.
-➡️ (a). #10 keeps the Verdict for AFK safety plus "serving a worthwhile Purpose", and the character *is* serving one until the Milestone. Making it a blocker would turn every Vault step into a red row and train players to ignore Fix. The stop-here line plus M5's option carries the advice.
-
-❓ D3 - When does Class EXP count as a worthwhile Purpose ("XP: too low for your level")? (a) EXP/h here ≥ 50% of the character's best opened map; (b) ≥ 75%; (c) Class EXP never counts on its own.
-➡️ (a), **50%**. Every fighter earns EXP, so (c) would make many plain levelling fighters Unknown. 75% would flag near-equal maps on noise in an unverified-at-W1–W3 rate (#16 caveat 1). Under half is clearly wrong. That is what the prototype's "too low for your level" meant, and M5 then names the better map.
-
-❓ D4 - Is the Purpose block part of the "at most 3 Goals per character" cap (#10 item 5)? (a) Separate: a one-line Purpose headline on the row, up to 3 Purpose lines in Focus, and the 3-Goal cap stays for Next Actions; (b) Purpose Goals count against the 3.
-➡️ (a). Purpose describes what the character is already doing and needs no action, while the 3-Goal cap exists to limit what the player must *do*. Mixing them would push real Next Actions behind "show more". The stop-here line, which *is* an action, counts as one of the 3.
-
-❓ D5 - Do portal Goals count for characters other than the pusher? (a) Pusher only (the push route, Priority position 2); (b) any character, when the portal ETA is within the horizon; (c) never as worthwhile, display only.
-➡️ (a). The 2026 norm is one pusher (PV cross-cutting 1). A side-map portal on another character (e.g. the W2-late Barbarian's 2,814 of 20,000 on Poopy Sewers) is not Leverage by any Source. Other characters' portal progress still shows in Focus, under "show more".
-
-❓ D6 - When is a skilling activity `serving`? (a) Only when a concrete Goal is live: next door not reached, tool-chain ingredient, or stamp shortfall; (b) also when the skill is the class's Role skill (e.g. Barbarian fishing, Squire mining is not); (c) any skilling counts.
-➡️ (b). (c) makes every skiller Ready and hides drift. (a) alone would mark a Role-correct skiller "What is this character for?" once it passes its last door before W4. The Role keeps that case Ready, and M5 still compares efficiency for "better fit".
+- **D1 Stop-here horizon: per-entry authored hours, default 24 h, never below the Expected Return.** *Why:* the right horizon is System judgment. Vault kill rows are "worth it only to cross the next power of 10 cheaply" (24 h), while Death Note skulls are a multi-session Goal (48 h). The floor at the Expected Return stops a stop-here from firing on something that finishes while the player sleeps anyway. Applied in FR-7, FR-13 and TR-4.
+- **D2 A Purpose that runs out before the Expected Return does not change the Verdict.** It is a suggestion line and the Verdict stays Ready. *Why:* #10 keeps the Verdict for AFK safety plus "serving a worthwhile Purpose", and the character *is* serving one until the Milestone. A blocker would turn every Vault step into a red row and train players to ignore Fix. The stop-here line plus M5's option carries the advice. Applied in FR-13 and US-2.
+- **D3 Class EXP counts as worthwhile when this map's EXP/h is at least 50% of the character's best opened map.** *Why:* every fighter earns EXP, so "never counts" would make plain levelling fighters Unknown. 75% would flag near-equal maps on noise in a rate not yet live-checked at W1–W3 (#16 caveat 1). Under half is clearly wrong, which is what the prototype's "too low for your level" meant, and M5 then names the better map. Applied in TR-4, TR-5 and US-5.
+- **D4 The Purpose block is separate from the 3-Goal Next Action cap.** One Purpose headline on the row, up to 3 Purpose lines in Focus; the cap of 3 stays for Next Actions. The stop-here line, which is an action, counts as one of the 3. *Why:* Purpose describes what the character already does and needs no action, while the cap limits what the player must *do*. Mixing them would push real Next Actions behind "show more". Applied in FR-11 and FR-13.
+- **D5 Portal Goals are worthwhile for the pusher only, on the push route (Priority position 2).** Other characters' portal progress shows in Focus under "show more", never worthwhile. *Why:* the 2026 norm is one pusher (PV cross-cutting 1). A side-map portal on another character (the W2-late Barbarian's 2,814 of 20,000 on Poopy Sewers) is not Leverage by any Source. Applied in TR-4, US-3 and US-6.
+- **D6 A skilling activity is `serving` when a concrete Goal is live (door not reached, tool-chain ingredient, stamp shortfall) or when the skill is the class's Role skill.** *Why:* "any skilling counts" makes every skiller Ready and hides drift. Concrete Goals alone would mark a Role-correct skiller "What is this character for?" once it passes its last door before W4. The Role keeps that case Ready, and M5 still compares efficiency for "better fit". Applied in TR-4 and US-4.
 
 ## 9. Red-team notes
 
