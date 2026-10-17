@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forge Live Checks</title>
+<style>
+:root{--bg:#eef2f6;--card:#fff;--fg:#18233a;--muted:#56637a;--line:#cdd6e1;--accent:#0f7d72;--accent-soft:#d5efeb;--warn:#9a5b08;--warn-soft:#f6e6cc;--code:#e2e8ef}
+@media (prefers-color-scheme:dark){:root{--bg:#111826;--card:#1a2436;--fg:#e6ecf5;--muted:#9aa8bf;--line:#2c3a52;--accent:#3fc7b7;--accent-soft:#123632;--warn:#f0a63a;--warn-soft:#3a2c14;--code:#0c121d;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;padding:32px 16px 64px}
+main{max-width:760px;margin:0 auto;display:grid;gap:20px}
+h1{margin:0;font-size:28px}h2{margin:0;font-size:20px}p{margin:0}
+.muted{color:var(--muted)}
+section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:14px}
+.tag{justify-self:start;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.note{background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:10px 12px;font-size:14px}
+ol{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+ol li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+ol li input{width:20px;height:20px;margin-top:2px;accent-color:var(--accent)}
+ol li label{cursor:pointer}
+ol li.done label{color:var(--muted);text-decoration:line-through}
+code{font:13px ui-monospace,Menlo,monospace;background:var(--code);padding:1px 6px;border-radius:4px;word-break:break-all}
+pre{margin:0;background:var(--code);border-radius:8px;padding:10px 12px;overflow-x:auto;font:13px ui-monospace,Menlo,monospace}
+table{border-collapse:collapse;width:100%;font-size:14px}
+td,th{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
+th{color:var(--muted);font-weight:600}
+</style>
+</head>
+<body>
+<main>
+  <header style="display:grid;gap:6px">
+    <h1>Forge live checks</h1>
+    <p class="muted">Three items Claude can't do alone. About 5 minutes of your attention; part 2 then runs on its own for roughly 75 minutes in the background.</p>
+    <p class="note">Never paste tokens or codes into chat. The only thing you type into Claude is the short phrase at the end of each part.</p>
+  </header>
+
+  <section>
+    <span class="tag">Part 1 · ~2 min</span>
+    <h2>Toolbox mirror token</h2>
+    <p class="muted">Lets the weekly sync keep our backup copy of IdleOn Toolbox up to date. It can only touch that one mirror repo.</p>
+    <ol>
+      <li><input type="checkbox" id="m1"><label for="m1">Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a> (fine-grained token).</label></li>
+      <li><input type="checkbox" id="m2"><label for="m2"><b>Name:</b> <code>forge-mirror</code>. <b>Expiration:</b> 90 days. <b>Resource owner:</b> YassSoliman.</label></li>
+      <li><input type="checkbox" id="m3"><label for="m3"><b>Repository access:</b> Only select repositories → <code>YassSoliman/IdleonToolbox</code> (only that one).</label></li>
+      <li><input type="checkbox" id="m4"><label for="m4"><b>Repository permissions:</b>
+        <table><tr><th>Permission</th><th>Access</th></tr>
+        <tr><td>Contents</td><td>Read and write</td></tr>
+        <tr><td>Workflows</td><td>Read and write</td></tr>
+        <tr><td>Metadata</td><td>Read-only (automatic)</td></tr></table></label></li>
+      <li><input type="checkbox" id="m5"><label for="m5">Generate token → copy it.</label></li>
+      <li><input type="checkbox" id="m6"><label for="m6">Paste it after the <code>=</code> in this file, then save:
+        <pre>open -e ~/.config/idleon-forge/mirror.env</pre></label></li>
+      <li><input type="checkbox" id="m7"><label for="m7">Tell Claude: <b>"mirror token in"</b>. Claude pushes it to the GitHub <code>mirror</code> environment.</label></li>
+    </ol>
+  </section>
+
+  <section>
+    <span class="tag">Part 2 · ~3 min of you, then ~75 min on its own</span>
+    <h2>Character-switch recording + token-expiry check</h2>
+    <p class="muted">One local script does both. It records your raw save each time it changes (for the "Focus follows the game" feature), then keeps your original login token until it expires and checks that the game's database refuses it 1, 5 and 15 minutes later (the safety margin the Suggestions feature relies on). Read-only, your own account, nothing leaves your Mac.</p>
+    <ol>
+      <li><input type="checkbox" id="s1"><label for="s1">Open IdleOn and log in. Stand on any character (call it A).</label></li>
+      <li><input type="checkbox" id="s2"><label for="s2">Run <code>python3 scripts/dev/live-checks.py</code> (or ask Claude to). It prints a short Google code.</label></li>
+      <li><input type="checkbox" id="s3"><label for="s3">Open <a href="https://www.google.com/device" target="_blank" rel="noopener">google.com/device</a>, enter the code, and sign in with the Google account you play with.</label></li>
+      <li><input type="checkbox" id="s4"><label for="s4">When Claude says <b>"recording"</b>: switch to character <b>B</b>, wait ~20 seconds, switch to character <b>C</b>, wait ~20 seconds. (Example: Barbarian → Squire → Wizard.)</label></li>
+      <li><input type="checkbox" id="s5"><label for="s5">Tell Claude which three characters you used, in order. That's it. Keep playing or close the game; the expiry checks need nothing from you and Claude reports the result in about 75 minutes.</label></li>
+    </ol>
+  </section>
+
+  <section>
+    <span class="tag">Part 3</span>
+    <h2>Nothing else</h2>
+    <p class="muted">Part 2 covers both of the "by hand" checks the specs asked for. Results stay in <code>fixtures/private/live-checks/</code> (gitignored) and only the outcome is recorded on the specs.</p>
+  </section>
+</main>
+<script>
+const KEY='forge-live-checks';let s={};try{s=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+document.querySelectorAll('ol li input').forEach(cb=>{const li=cb.closest('li');cb.checked=!!s[cb.id];li.classList.toggle('done',cb.checked);
+cb.addEventListener('change',()=>{s[cb.id]=cb.checked;li.classList.toggle('done',cb.checked);try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}})});
+</script>
+</body>
+</html>
