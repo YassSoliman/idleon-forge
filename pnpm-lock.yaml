@@ -73,6 +73,16 @@ importers:
         specifier: workspace:*
         version: link:../toolbox-parsers
 
+  packages/engine:
+    dependencies:
+      '@idleon-forge/account-state':
+        specifier: workspace:*
+        version: link:../account-state
+    devDependencies:
+      '@idleon-forge/toolbox-parsers':
+        specifier: workspace:*
+        version: link:../toolbox-parsers
+
   packages/kb-tools:
     dependencies:
       '@idleon-forge/account-state':

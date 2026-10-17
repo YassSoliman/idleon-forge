@@ -1,0 +1,156 @@
+{
+  "asOf": 1792260000000,
+  "lastPlayedCharacterIndex": null,
+  "sessionStartedAt": 1792257600000,
+  "expectedReturn": {
+    "usedSeconds": 28800,
+    "learnedSeconds": null
+  },
+  "stage": {
+    "id": "w2-mid",
+    "label": "W2-mid"
+  },
+  "characters": [
+    {
+      "index": 0,
+      "name": "Alder",
+      "classId": "Squire",
+      "classLabel": "Squire",
+      "level": 43,
+      "activityLabel": "Mining Copper",
+      "mapLabel": "Tunnels Entrance",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [
+        {
+          "id": "stamps.goal.shop-now",
+          "title": "Stamps",
+          "system": "stamps",
+          "category": "spendable",
+          "nextAction": {
+            "key": "stamps.check.shop-now@c0",
+            "entryId": "stamps.check.shop-now",
+            "text": "Buy the Target Stamp",
+            "why": "Because buy the target stamp pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "stamps.check.shop-now"
+              ],
+              "fields": [
+                "characters[0].level"
+              ]
+            }
+          },
+          "milestone": null
+        },
+        {
+          "id": "talents.goal.squire-build",
+          "title": "Talents",
+          "system": "talents",
+          "category": "spendable",
+          "nextAction": {
+            "key": "talents.check.squire-build@c0",
+            "entryId": "talents.check.squire-build",
+            "text": "Max Firebrand next",
+            "why": "Because max firebrand next pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": {
+              "sides": [
+                {
+                  "text": "Firebrand first for AFK damage",
+                  "sources": [
+                    {
+                      "label": "wiki",
+                      "url": "https://idleon.wiki/wiki/Stamps",
+                      "tier": 2,
+                      "verifiedOn": "2026-10-01",
+                      "gameVersion": "2.3.540"
+                    }
+                  ]
+                },
+                {
+                  "text": "Shockwave first for clear speed",
+                  "sources": [
+                    {
+                      "label": "guide",
+                      "url": "https://example.org/idleon-guide",
+                      "tier": 3,
+                      "verifiedOn": "2026-09-12",
+                      "gameVersion": "2.3.531"
+                    }
+                  ]
+                }
+              ]
+            },
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "talents.check.squire-build"
+              ],
+              "fields": [
+                "characters[0].level"
+              ]
+            }
+          },
+          "milestone": null
+        }
+      ],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    }
+  ],
+  "visitOrder": [
+    0
+  ],
+  "account": {
+    "goals": [],
+    "blockerKeys": [],
+    "safety": "safe",
+    "spendPlan": null,
+    "activePlay": [],
+    "doneThisSession": []
+  },
+  "firstFill": null,
+  "alreadyFull": 0,
+  "higherLeverageStatus": "ok",
+  "notCovered": [],
+  "versions": {
+    "knowledge": "2026.10.17",
+    "gameBuild": 142,
+    "parserTarget": "2.3.540",
+    "parserBehind": false
+  },
+  "diagnostics": {
+    "failedDetectors": []
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@idleon-forge/engine",
+  "version": "0.1.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "description": "The ActiveOn advice engine: the core (merge, rank, dedupe, Visit Order, EngineResult) and the Now screen view model (buildNowView, renderNowText).",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./now": "./src/now/index.ts",
+    "./result": "./src/result.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@idleon-forge/account-state": "workspace:*"
+  },
+  "devDependencies": {
+    "@idleon-forge/toolbox-parsers": "workspace:*"
+  }
+}

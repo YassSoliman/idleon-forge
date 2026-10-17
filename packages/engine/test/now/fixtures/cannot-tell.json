@@ -1,0 +1,158 @@
+{
+  "asOf": 1792260000000,
+  "lastPlayedCharacterIndex": null,
+  "sessionStartedAt": 1792257600000,
+  "expectedReturn": {
+    "usedSeconds": 28800,
+    "learnedSeconds": null
+  },
+  "stage": {
+    "id": "w2-mid",
+    "label": "W2-mid"
+  },
+  "characters": [
+    {
+      "index": 0,
+      "name": "Alder",
+      "classId": "Squire",
+      "classLabel": "Squire",
+      "level": 43,
+      "activityLabel": "Mining Copper",
+      "mapLabel": "Tunnels Entrance",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    },
+    {
+      "index": 1,
+      "name": "Birch",
+      "classId": "Shaman",
+      "classLabel": "Shaman",
+      "level": 44,
+      "activityLabel": "Fighting Poop",
+      "mapLabel": "Poopy Sewers",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    },
+    {
+      "index": 2,
+      "name": "Cedar",
+      "classId": "Bowman",
+      "classLabel": "Bowman",
+      "level": 38,
+      "activityLabel": "Choppin Oak",
+      "mapLabel": "Spore Meadows",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    },
+    {
+      "index": 3,
+      "name": "Dahlia",
+      "classId": "Barbarian",
+      "classLabel": "Barbarian",
+      "level": 51,
+      "activityLabel": "Fishing Goldfish",
+      "mapLabel": "Fishing Camp",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    },
+    {
+      "index": 4,
+      "name": "Elm",
+      "classId": "Wizard",
+      "classLabel": "Wizard",
+      "level": 40,
+      "activityLabel": "Catching Fly",
+      "mapLabel": "Bug Meadow",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "unknown",
+        "blockerKeys": [],
+        "unknownReason": "cannot-tell",
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    }
+  ],
+  "visitOrder": [
+    4,
+    0,
+    1,
+    2,
+    3
+  ],
+  "account": {
+    "goals": [],
+    "blockerKeys": [],
+    "safety": "safe",
+    "spendPlan": null,
+    "activePlay": [],
+    "doneThisSession": []
+  },
+  "firstFill": null,
+  "alreadyFull": 0,
+  "higherLeverageStatus": "ok",
+  "notCovered": [],
+  "versions": {
+    "knowledge": "2026.10.17",
+    "gameBuild": 142,
+    "parserTarget": "2.3.540",
+    "parserBehind": false
+  },
+  "diagnostics": {
+    "failedDetectors": []
+  }
+}

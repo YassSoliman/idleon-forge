@@ -1,0 +1,649 @@
+{
+  "asOf": 1792260000000,
+  "lastPlayedCharacterIndex": null,
+  "sessionStartedAt": 1792257600000,
+  "expectedReturn": {
+    "usedSeconds": 28800,
+    "learnedSeconds": null
+  },
+  "stage": {
+    "id": "w2-mid",
+    "label": "W2-mid"
+  },
+  "characters": [
+    {
+      "index": 0,
+      "name": "Alder",
+      "classId": "Squire",
+      "classLabel": "Squire",
+      "level": 43,
+      "activityLabel": "Mining Copper",
+      "mapLabel": "Tunnels Entrance",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "unknown",
+        "blockerKeys": [],
+        "unknownReason": "cannot-tell",
+        "suggestion": null
+      },
+      "purpose": [
+        {
+          "goalId": "death-note.goal.poop",
+          "title": "Poop kills",
+          "worthwhile": true,
+          "milestone": {
+            "unit": "Poop kills",
+            "current": 13204,
+            "next": 100000,
+            "etaSeconds": 144000,
+            "stopHere": false
+          },
+          "badges": [],
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "provenance": {
+            "entryIds": [
+              "death-note.contribution.kills"
+            ],
+            "fields": [
+              "characters[0].afkTarget"
+            ]
+          }
+        },
+        {
+          "goalId": "classes.goal.level",
+          "title": "Fighting XP: too low for your level",
+          "worthwhile": false,
+          "milestone": null,
+          "badges": [],
+          "sources": [
+            {
+              "label": "game data",
+              "url": "https://github.com/Morta1/IdleonToolbox",
+              "tier": 1,
+              "verifiedOn": "2026-10-10",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "provenance": {
+            "entryIds": [
+              "classes.contribution.exp"
+            ],
+            "fields": [
+              "characters[0].level"
+            ]
+          }
+        }
+      ],
+      "goals": [
+        {
+          "id": "alchemy-bubbles.goal.fill-slot",
+          "title": "Bubbles",
+          "system": "alchemy-bubbles",
+          "category": "compounding",
+          "nextAction": {
+            "key": "alchemy-bubbles.check.fill-slot@c0",
+            "entryId": "alchemy-bubbles.check.fill-slot",
+            "text": "Put a big bubble in your empty slot",
+            "why": "Because put a big bubble in your empty slot pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "alchemy-bubbles.check.fill-slot"
+              ],
+              "fields": [
+                "characters[0].level"
+              ]
+            }
+          },
+          "milestone": null
+        }
+      ],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    },
+    {
+      "index": 1,
+      "name": "Birch",
+      "classId": "Shaman",
+      "classLabel": "Shaman",
+      "level": 44,
+      "activityLabel": "Fighting Poop",
+      "mapLabel": "Poopy Sewers",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [
+        {
+          "id": "boss-keys.goal.collect",
+          "title": "Boss keys",
+          "system": "boss-keys",
+          "category": "nice",
+          "nextAction": {
+            "key": "boss-keys.check.collect@c1",
+            "entryId": "boss-keys.check.collect",
+            "text": "Collect 2 Amarok keys before they cap",
+            "why": "Because collect 2 amarok keys before they cap pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "boss-keys.check.collect"
+              ],
+              "fields": [
+                "characters[1].level"
+              ]
+            }
+          },
+          "milestone": null
+        }
+      ],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    },
+    {
+      "index": 2,
+      "name": "Cedar",
+      "classId": "Bowman",
+      "classLabel": "Bowman",
+      "level": 38,
+      "activityLabel": "Choppin Oak",
+      "mapLabel": "Spore Meadows",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [
+        {
+          "id": "talents.goal.spend-talents",
+          "title": "Talents",
+          "system": "talents",
+          "category": "spendable",
+          "nextAction": {
+            "key": "talents.check.spend-talents@c2",
+            "entryId": "talents.check.spend-talents",
+            "text": "Spend 12 talent points on Bowman talents",
+            "why": "Because spend 12 talent points on bowman talents pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "talents.check.spend-talents"
+              ],
+              "fields": [
+                "characters[2].level"
+              ]
+            }
+          },
+          "milestone": null
+        },
+        {
+          "id": "stamps.goal.shop-now",
+          "title": "Stamps",
+          "system": "stamps",
+          "category": "spendable",
+          "nextAction": {
+            "key": "stamps.check.shop-now@c2",
+            "entryId": "stamps.check.shop-now",
+            "text": "Buy the Target Stamp at the stamp shop",
+            "why": "Because buy the target stamp at the stamp shop pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              },
+              {
+                "label": "guide",
+                "url": "https://example.org/idleon-guide",
+                "tier": 3,
+                "verifiedOn": "2026-09-12",
+                "gameVersion": "2.3.531"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "stamps.check.shop-now"
+              ],
+              "fields": [
+                "characters[2].level"
+              ]
+            }
+          },
+          "milestone": null
+        },
+        {
+          "id": "cards.goal.empty-slots",
+          "title": "Cards",
+          "system": "cards",
+          "category": "compounding",
+          "nextAction": {
+            "key": "cards.check.empty-slots@c2",
+            "entryId": "cards.check.empty-slots",
+            "text": "Equip a card in your 3 empty card slots",
+            "why": "Because equip a card in your 3 empty card slots pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "cards.check.empty-slots"
+              ],
+              "fields": [
+                "characters[2].level"
+              ]
+            }
+          },
+          "milestone": null
+        },
+        {
+          "id": "obols.goal.stored",
+          "title": "Obols",
+          "system": "obols",
+          "category": "compounding",
+          "nextAction": {
+            "key": "obols.check.stored@c2",
+            "entryId": "obols.check.stored",
+            "text": "Equip the 2 obols sitting in storage",
+            "why": "Because equip the 2 obols sitting in storage pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "obols.check.stored"
+              ],
+              "fields": [
+                "characters[2].level"
+              ]
+            }
+          },
+          "milestone": null
+        },
+        {
+          "id": "post-office.goal.spend-boxes",
+          "title": "Post Office",
+          "system": "post-office",
+          "category": "spendable",
+          "nextAction": {
+            "key": "post-office.check.spend-boxes@c2",
+            "entryId": "post-office.check.spend-boxes",
+            "text": "Spend 40 Post Office box points",
+            "why": "Because spend 40 post office box points pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "post-office.check.spend-boxes"
+              ],
+              "fields": [
+                "characters[2].level"
+              ]
+            }
+          },
+          "milestone": null
+        },
+        {
+          "id": "minigames.goal.daily-plays",
+          "title": "Minigames",
+          "system": "minigames",
+          "category": "nice",
+          "nextAction": {
+            "key": "minigames.check.daily-plays@c2",
+            "entryId": "minigames.check.daily-plays",
+            "text": "Play your 3 Choppin minigame plays",
+            "why": "Because play your 3 choppin minigame plays pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "minigames.check.daily-plays"
+              ],
+              "fields": [
+                "characters[2].level"
+              ]
+            }
+          },
+          "milestone": null
+        }
+      ],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    },
+    {
+      "index": 3,
+      "name": "Dahlia",
+      "classId": "Barbarian",
+      "classLabel": "Barbarian",
+      "level": 51,
+      "activityLabel": "Fishing Goldfish",
+      "mapLabel": "Fishing Camp",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "fix",
+        "blockerKeys": [
+          "afk.check.health-food-runs-out@c3"
+        ],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [
+        {
+          "id": "afk.goal.health-food-runs-out",
+          "title": "AFK Setup",
+          "system": "afk",
+          "category": "blocker",
+          "nextAction": {
+            "key": "afk.check.health-food-runs-out@c3",
+            "entryId": "afk.check.health-food-runs-out",
+            "text": "Food runs out in about 2h",
+            "why": "Because food runs out in about 2h pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "afk.check.health-food-runs-out"
+              ],
+              "fields": [
+                "characters[3].level"
+              ]
+            }
+          },
+          "milestone": null
+        },
+        {
+          "id": "anvil.goal.spend-points",
+          "title": "Anvil",
+          "system": "anvil",
+          "category": "spendable",
+          "nextAction": {
+            "key": "anvil.check.spend-points@c3",
+            "entryId": "anvil.check.spend-points",
+            "text": "Spend 5 Anvil points on capacity",
+            "why": "Because spend 5 anvil points on capacity pays off now.",
+            "sources": [
+              {
+                "label": "wiki",
+                "url": "https://idleon.wiki/wiki/Stamps",
+                "tier": 2,
+                "verifiedOn": "2026-10-01",
+                "gameVersion": "2.3.540"
+              }
+            ],
+            "stale": false,
+            "contested": null,
+            "confidence": "H",
+            "provenance": {
+              "entryIds": [
+                "anvil.check.spend-points"
+              ],
+              "fields": [
+                "characters[3].level"
+              ]
+            }
+          },
+          "milestone": null
+        }
+      ],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [
+        {
+          "key": "merit-shop.check.spend-w1@c3",
+          "text": "Spend your W1 merit points",
+          "confirmedAt": 1792258800000
+        }
+      ],
+      "firstFill": null
+    },
+    {
+      "index": 4,
+      "name": "Elm",
+      "classId": "Wizard",
+      "classLabel": "Wizard",
+      "level": 40,
+      "activityLabel": "Catching Fly",
+      "mapLabel": "Bug Meadow",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [
+        {
+          "goalId": "skills.goal.door-catching",
+          "title": "Catching door",
+          "worthwhile": true,
+          "milestone": {
+            "unit": "Catching levels",
+            "current": 30,
+            "next": 30,
+            "etaSeconds": null,
+            "stopHere": true
+          },
+          "badges": [
+            "parser-behind"
+          ],
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "provenance": {
+            "entryIds": [
+              "skills.contribution.door"
+            ],
+            "fields": [
+              "characters[4].afkTarget"
+            ]
+          }
+        }
+      ],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    }
+  ],
+  "visitOrder": [
+    3,
+    0,
+    4,
+    1,
+    2
+  ],
+  "account": {
+    "goals": [
+      {
+        "id": "gem-shop.goal.unspent",
+        "title": "Gem Shop",
+        "system": "gem-shop",
+        "category": "spendable",
+        "nextAction": {
+          "key": "gem-shop.check.unspent@account",
+          "entryId": "gem-shop.check.unspent",
+          "text": "Spend 400 gems on a storage chest",
+          "why": "Because spend 400 gems on a storage chest pays off now.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "stale": false,
+          "contested": null,
+          "confidence": "H",
+          "provenance": {
+            "entryIds": [
+              "gem-shop.check.unspent"
+            ],
+            "fields": [
+              "characters[ccount].level"
+            ]
+          }
+        },
+        "milestone": null
+      }
+    ],
+    "blockerKeys": [],
+    "safety": "safe",
+    "spendPlan": null,
+    "activePlay": [
+      {
+        "key": "minigames.check.daily-plays@account",
+        "text": "Play the Hoops minigame",
+        "estimateSeconds": 3600,
+        "subject": "account",
+        "sources": [
+          {
+            "label": "wiki",
+            "url": "https://idleon.wiki/wiki/Stamps",
+            "tier": 2,
+            "verifiedOn": "2026-10-01",
+            "gameVersion": "2.3.540"
+          }
+        ]
+      }
+    ],
+    "doneThisSession": []
+  },
+  "firstFill": {
+    "label": "inventory",
+    "at": 1792278000000,
+    "subject": "c2"
+  },
+  "alreadyFull": 0,
+  "higherLeverageStatus": "ok",
+  "notCovered": [],
+  "versions": {
+    "knowledge": "2026.10.17",
+    "gameBuild": 142,
+    "parserTarget": "2.3.540",
+    "parserBehind": false
+  },
+  "diagnostics": {
+    "failedDetectors": []
+  }
+}

@@ -1,0 +1,403 @@
+{
+  "asOf": 1792260000000,
+  "lastPlayedCharacterIndex": null,
+  "sessionStartedAt": 1792257600000,
+  "expectedReturn": {
+    "usedSeconds": 28800,
+    "learnedSeconds": null
+  },
+  "stage": {
+    "id": "w2-mid",
+    "label": "W2-mid"
+  },
+  "characters": [
+    {
+      "index": 0,
+      "name": "Alder",
+      "classId": "Squire",
+      "classLabel": "Squire",
+      "level": 43,
+      "activityLabel": "Mining Copper",
+      "mapLabel": "Tunnels Entrance",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": {
+        "lines": 3,
+        "coins": 4000000
+      },
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    },
+    {
+      "index": 1,
+      "name": "Birch",
+      "classId": "Shaman",
+      "classLabel": "Shaman",
+      "level": 44,
+      "activityLabel": "Fighting Poop",
+      "mapLabel": "Poopy Sewers",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": null,
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    },
+    {
+      "index": 2,
+      "name": "Cedar",
+      "classId": "Bowman",
+      "classLabel": "Bowman",
+      "level": 38,
+      "activityLabel": "Choppin Oak",
+      "mapLabel": "Spore Meadows",
+      "isPlaying": false,
+      "verdict": {
+        "kind": "ready",
+        "blockerKeys": [],
+        "unknownReason": null,
+        "suggestion": null
+      },
+      "purpose": [],
+      "goals": [],
+      "higherLeverage": null,
+      "spendChip": {
+        "lines": 1,
+        "coins": 300000
+      },
+      "activePlay": [],
+      "doneThisSession": [],
+      "firstFill": null
+    }
+  ],
+  "visitOrder": [
+    0,
+    1,
+    2
+  ],
+  "account": {
+    "goals": [],
+    "blockerKeys": [],
+    "safety": "safe",
+    "spendPlan": {
+      "stage": "w2-mid",
+      "wallets": [
+        {
+          "holder": 0,
+          "coins": 5000000,
+          "planned": 4000000
+        },
+        {
+          "holder": 2,
+          "coins": 400000,
+          "planned": 300000
+        },
+        {
+          "holder": "bank",
+          "coins": 1500000,
+          "planned": 1500000
+        }
+      ],
+      "lines": [
+        {
+          "id": "spend.priority.w2-mid#item-1:upgrade-vault.acquisition.row-1:1->4",
+          "entryId": "spend.priority.w2-mid#item-1",
+          "position": 1,
+          "status": "buy",
+          "steps": [
+            {
+              "sink": "vault",
+              "ref": "upgrade-vault.acquisition.row-1",
+              "fromLevel": 1,
+              "toLevel": 4,
+              "coins": 1200000
+            }
+          ],
+          "coins": 1200000,
+          "payer": 0,
+          "text": "Vault upgrade 1",
+          "reportText": "Vault upgrade 1",
+          "why": "Cheapest damage per coin at this Stage.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "confidence": "H",
+          "contested": false,
+          "stale": false,
+          "provenance": {
+            "fields": [
+              "account.upgradeVault"
+            ],
+            "entries": [
+              "spend.priority.w2-mid#item-1"
+            ]
+          }
+        },
+        {
+          "id": "spend.priority.w2-mid#item-2:upgrade-vault.acquisition.row-2:2->5",
+          "entryId": "spend.priority.w2-mid#item-2",
+          "position": 2,
+          "status": "buy",
+          "steps": [
+            {
+              "sink": "vault",
+              "ref": "upgrade-vault.acquisition.row-2",
+              "fromLevel": 2,
+              "toLevel": 5,
+              "coins": 800000
+            }
+          ],
+          "coins": 800000,
+          "payer": 0,
+          "text": "Vault upgrade 2",
+          "reportText": "Vault upgrade 2",
+          "why": "Cheapest damage per coin at this Stage.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "confidence": "H",
+          "contested": false,
+          "stale": false,
+          "provenance": {
+            "fields": [
+              "account.upgradeVault"
+            ],
+            "entries": [
+              "spend.priority.w2-mid#item-2"
+            ]
+          }
+        },
+        {
+          "id": "spend.priority.w2-mid#item-3:upgrade-vault.acquisition.row-3:3->6",
+          "entryId": "spend.priority.w2-mid#item-3",
+          "position": 3,
+          "status": "move-coins",
+          "steps": [
+            {
+              "sink": "vault",
+              "ref": "upgrade-vault.acquisition.row-3",
+              "fromLevel": 3,
+              "toLevel": 6,
+              "coins": 2000000
+            }
+          ],
+          "coins": 2000000,
+          "payer": 0,
+          "text": "Vault upgrade 3",
+          "reportText": "Vault upgrade 3",
+          "why": "Cheapest damage per coin at this Stage.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "confidence": "H",
+          "contested": false,
+          "stale": false,
+          "provenance": {
+            "fields": [
+              "account.upgradeVault"
+            ],
+            "entries": [
+              "spend.priority.w2-mid#item-3"
+            ]
+          },
+          "transfer": {
+            "fromBank": 1500000
+          }
+        },
+        {
+          "id": "spend.priority.w2-mid#item-4:upgrade-vault.acquisition.row-4:4->7",
+          "entryId": "spend.priority.w2-mid#item-4",
+          "position": 4,
+          "status": "buy",
+          "steps": [
+            {
+              "sink": "vault",
+              "ref": "upgrade-vault.acquisition.row-4",
+              "fromLevel": 4,
+              "toLevel": 7,
+              "coins": 300000
+            }
+          ],
+          "coins": 300000,
+          "payer": 2,
+          "text": "Vault upgrade 4",
+          "reportText": "Vault upgrade 4",
+          "why": "Cheapest damage per coin at this Stage.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "confidence": "H",
+          "contested": false,
+          "stale": false,
+          "provenance": {
+            "fields": [
+              "account.upgradeVault"
+            ],
+            "entries": [
+              "spend.priority.w2-mid#item-4"
+            ]
+          }
+        },
+        {
+          "id": "spend.priority.w2-mid#item-5:upgrade-vault.acquisition.row-5:5->8",
+          "entryId": "spend.priority.w2-mid#item-5",
+          "position": 5,
+          "status": "save-for",
+          "steps": [
+            {
+              "sink": "vault",
+              "ref": "upgrade-vault.acquisition.row-5",
+              "fromLevel": 5,
+              "toLevel": 8,
+              "coins": null
+            }
+          ],
+          "coins": null,
+          "payer": null,
+          "text": "Vault upgrade 5",
+          "reportText": "Vault upgrade 5",
+          "why": "Cheapest damage per coin at this Stage.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "confidence": "H",
+          "contested": false,
+          "stale": false,
+          "provenance": {
+            "fields": [
+              "account.upgradeVault"
+            ],
+            "entries": [
+              "spend.priority.w2-mid#item-5"
+            ]
+          },
+          "shortfall": {
+            "coins": 5000000,
+            "closest": 0
+          }
+        },
+        {
+          "id": "spend.priority.w2-mid#item-6:upgrade-vault.acquisition.row-6:6->9",
+          "entryId": "spend.priority.w2-mid#item-6",
+          "position": 6,
+          "status": "unpriced",
+          "steps": [
+            {
+              "sink": "vault",
+              "ref": "upgrade-vault.acquisition.row-6",
+              "fromLevel": 6,
+              "toLevel": 9,
+              "coins": null
+            }
+          ],
+          "coins": null,
+          "payer": null,
+          "text": "Vault upgrade 6",
+          "reportText": "Vault upgrade 6",
+          "why": "Cheapest damage per coin at this Stage.",
+          "sources": [
+            {
+              "label": "wiki",
+              "url": "https://idleon.wiki/wiki/Stamps",
+              "tier": 2,
+              "verifiedOn": "2026-10-01",
+              "gameVersion": "2.3.540"
+            }
+          ],
+          "confidence": "H",
+          "contested": false,
+          "stale": false,
+          "provenance": {
+            "fields": [
+              "account.upgradeVault"
+            ],
+            "entries": [
+              "spend.priority.w2-mid#item-6"
+            ]
+          }
+        }
+      ],
+      "visibleCount": 5,
+      "perCharacter": [
+        {
+          "characterIndex": 0,
+          "lines": 3,
+          "coins": 4000000
+        },
+        {
+          "characterIndex": 2,
+          "lines": 1,
+          "coins": 300000
+        }
+      ],
+      "unlockFuel": null,
+      "notCovered": [],
+      "empty": null,
+      "unavailable": [
+        "statue-gold"
+      ]
+    },
+    "activePlay": [],
+    "doneThisSession": []
+  },
+  "firstFill": null,
+  "alreadyFull": 0,
+  "higherLeverageStatus": "ok",
+  "notCovered": [],
+  "versions": {
+    "knowledge": "2026.10.17",
+    "gameBuild": 142,
+    "parserTarget": "2.3.540",
+    "parserBehind": false
+  },
+  "diagnostics": {
+    "failedDetectors": []
+  }
+}
