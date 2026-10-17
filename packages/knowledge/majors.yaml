@@ -3,4 +3,9 @@
 # Authored judgment, cited in the PR that adds a row; the staleness pass proposes additions from the
 # patch notes. "Dated after the current major patch" means a Source claimDate on or after the newest
 # listed major's date. Each row: { gameVersion: x.y.z, date: YYYY-MM-DD, what: <one line> }.
-majors: []
+# Source: https://idleon.wiki/wiki/Changelog/2025 and https://idleon.wiki/wiki/Changelog/2026 (checked 2026-10-17).
+# Version numbering restarted at v1.00 with World 7.
+majors:
+  - { gameVersion: 1.0.0, date: 2025-11-06, what: World 7 }
+  - { gameVersion: 1.5.0, date: 2026-02-20, what: "World 7, Part II: Murky Trenches, Research skill, Tournaments; breeding Pets renamed Mobs" }
+  - { gameVersion: 1.20.0, date: 2026-08-26, what: "Royal Guardian, a new Masterclass" }
