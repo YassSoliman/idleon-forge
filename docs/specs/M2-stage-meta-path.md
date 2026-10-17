@@ -545,3 +545,14 @@ Independent red-team run on 2026-10-17 against this spec, the glossary and ADRs 
 | F21 | P3 | "Strongest candidate" undefined when every rate floors to 0 | Fixed | Unfloored `killsPerHour`, then hit, survivability, level, index (FR-13) |
 | F22 | P3 | `GateNpc` hand-written and over-broad | Fixed | Trimmed to the five read NPCs, tied to `gen.world-gates` (TR-3) |
 | F23 | P3 | No privacy holes; `evidence.value: unknown` open-ended | Fixed | Typed to numbers, booleans, index arrays (TR-4) |
+
+## Final rulings (Yasser, 2026-10-17)
+
+These supersede anything above that conflicts with them.
+
+> **D4 note:** superseded by M6-D4, which Yasser accepted. Skill-minigame plays are shown only when they'd be lost before the Expected Return **and** a highscore Milestone is open, as an *If you have time* item, not at position 1. Seconds-long claims (Darts, the Random Event) stay at position 1.
+
+> **Ruled by Yasser (2026-10-17), all as recommended:**
+> - **F2:** a faster character behind on portals is never the pusher. A "catch up" Goal can come later via M5.
+> - **F17:** if an account has two Squires and no Barbarian, recommend the swap token to turn the 2nd Squire into a Barbarian.
+> - **Journeyman:** counts as a base class (gets a Maestro subclass Goal, not counted as subclassed).
