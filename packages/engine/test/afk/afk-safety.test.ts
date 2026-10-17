@@ -119,7 +119,7 @@ describe('US-4 anvil that caps, and anvil that cannot be helped', () => {
     const barb = charOf(r, 0).findings.find((f) => f.entryId === 'anvil.check.caps-before-return');
     expect(barb?.role).toBe('blocker');
     expect(barb?.nextAction.text).toMatch(
-      /^Collect Thread from the anvil: full in now, and it fills again about 3 h/,
+      /^Collect Thread from the anvil \(time to cap: now; it refills about 3 h after you collect\)/,
     );
     for (const i of [1, 2, 3, 4]) {
       const f = charOf(r, i).findings.find((x) => x.entryId === 'anvil.check.caps-before-return');

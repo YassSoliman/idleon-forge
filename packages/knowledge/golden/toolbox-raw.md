@@ -1,4 +1,4 @@
-# golden v1: toolbox-raw · knowledge #6f7605ea · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage (engine not built)
+# golden v1: toolbox-raw · knowledge #3f060777 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage (engine not built)
 
 ## Verdict changes
 

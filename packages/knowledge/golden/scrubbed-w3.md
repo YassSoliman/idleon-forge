@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #6f7605ea · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage (engine not built)
+# golden v1: scrubbed-w3 · knowledge #3f060777 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage (engine not built)
 
 ## Verdict changes
 

@@ -7,7 +7,7 @@ entries:
     system: worship
     type: check
     title: Worship charge fills while you're away
-    text: "Spend worship charge (or let the Wizard's Charge Syphon take it): it is full in {fullIn:duration} ({charge:int} of {max:int})"
+    text: "Spend worship charge, or let the Wizard's Charge Syphon take it ({charge:int} of {max:int}; time to cap: {fullIn:duration})"
     values: { fill: worship charge }
     why: Charge stops building at its maximum, so a full bar wastes every hour you're away.
     sources:
@@ -28,7 +28,7 @@ entries:
     system: worship
     type: check
     title: Worship charge is full
-    text: "Worship charge is full in {fullIn:duration}: spend it or Syphon it"
+    text: "Spend worship charge or Syphon it (time to cap: {fullIn:duration})"
     values: { fill: worship charge }
     why: Without a skull the bar is small, so this is worth a minute when you have one, but it never blocks.
     sources:

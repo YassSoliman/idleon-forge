@@ -6,7 +6,7 @@ entries:
     system: anvil
     type: check
     title: Anvil fills while you're away
-    text: "Collect {product:name} from the anvil: full in {fullIn:duration}, and it fills again about {fromEmpty:duration} after you collect"
+    text: "Collect {product:name} from the anvil (time to cap: {fullIn:duration}; it refills about {fromEmpty:duration} after you collect)"
     values: { fill: anvil }
     why: Anvil production stops at capacity, so every hour past it is lost production and Smithing EXP. When it refills before you're back even after collecting, Capacity points are the real fix.
     sources:
