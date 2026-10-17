@@ -1,0 +1,31 @@
+{
+  // The Suggestions Worker (M13 TR-2): a separate Worker from the app's assets Worker, so PR Previews
+  // of the app never run with the GitHub App key. No Previews of this Worker either.
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "activeon-suggestions",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-17",
+  "workers_dev": true,
+  "preview_urls": false,
+  // TR-14: our own one-line logs only; invocation logs record URLs and request metadata.
+  "observability": {
+    "enabled": true,
+    "logs": { "enabled": true, "invocation_logs": false }
+  },
+  "vars": {
+    // Real filing stays off until the by-hand ID-token expiry check is done (M13 Verify before build).
+    // Dry runs (Preview origins, or the X-Suggestions-Dry-Run: 1 header) work while it is off.
+    "SUGGESTIONS_ENABLED": "false",
+    "SUGGESTIONS_PAUSED": "false"
+  },
+  // Secrets, set with `wrangler secret put`: GH_APP_ID, GH_INSTALLATION_ID, GH_APP_PRIVATE_KEY (PKCS#8),
+  // TURNSTILE_SECRET, SUGGESTER_PEPPER, MAINTAINER_IDS.
+  // Burst brakes (TR-11, D7). Periods can only be 10 or 60 s.
+  "ratelimits": [
+    { "name": "RL_CREATE_SUB", "namespace_id": "1301", "simple": { "limit": 1, "period": 60 } },
+    { "name": "RL_CREATE_IP", "namespace_id": "1302", "simple": { "limit": 5, "period": 60 } },
+    { "name": "RL_MINE_SUB", "namespace_id": "1303", "simple": { "limit": 10, "period": 60 } },
+    { "name": "RL_MINE_IP", "namespace_id": "1304", "simple": { "limit": 20, "period": 60 } },
+    { "name": "RL_MINE_GLOBAL", "namespace_id": "1305", "simple": { "limit": 60, "period": 60 } }
+  ]
+}
