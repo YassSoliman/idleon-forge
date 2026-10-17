@@ -1,0 +1,28 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M9 Builds (docs/specs/M9-builds.md): when a Talent Point Reset Potion clearly pays (FR-15 to FR-18).
+# Never for a wrong or empty preset, never a gem purchase, never star talents, never the Swap Token.
+system: talent-resets
+entries:
+  - id: talent-resets.check.reset
+    system: talent-resets
+    type: check
+    title: Reset a preset with a reset potion
+    text: "Reset your {role} preset with a Talent Point Reset Potion (you have {owned:int}): check it shows {checkTalent} at {checkLevel:int}, use the potion, then spend from {firstStep} on"
+    values:
+      text-swap-frag: "Reset your {role} preset with a Talent Point Reset Potion (you have {fragments:int} fragments): swap to it, check it shows {checkTalent} at {checkLevel:int}, combine 10 fragments, use the potion, spend from {firstStep} on"
+      text-swap: "Reset your {role} preset with a Talent Point Reset Potion (you have {owned:int}): swap to it, check it shows {checkTalent} at {checkLevel:int}, use the potion, spend from {firstStep} on, then swap back"
+      text-frag: "Reset your {role} preset with a Talent Point Reset Potion (you have {fragments:int} fragments): check it shows {checkTalent} at {checkLevel:int}, combine 10 fragments, use the potion, spend from {firstStep} on"
+      goal: Talents
+    why: "{points:int} points sit in talents of the {otherRole} build ({talents}). A potion resets only the open preset, and never star talents."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Talent_Point_Reset_Potion", title: "IdleOn Wiki: Talent Point Reset Potion", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.531 }
+      - { url: "https://idleon.wiki/wiki/Changelog/2022", title: "IdleOn Wiki: Changelog 2022 (a reset potion no longer resets the other preset)", tier: 2, claimDate: 2026-03-28, verified: 2026-10-17, gameVersion: 2.0.495 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json", title: "IdleOn Toolbox game data: items (ResetCompleted, ResetFrag)", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+    appliesTo: { stages: all, levels: { min: 15 } }
+    confidence: L
+    status: active
+    subject: character
+    effect: next-action
+    category: compounding
+    detector: { id: builds/reset-candidate, params: { minWrongRolePoints: 30 } }
+    notes: D2. minWrongRolePoints is judgment. Wrong-role points are points in talents of the other role's Build that this Build does not list; bubble-capped and accuracy steps never count. Needs a potion or 10 fragments, a fresh uncontested Build and no tab-4 points.

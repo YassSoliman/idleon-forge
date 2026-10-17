@@ -1,0 +1,105 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M9 Builds (docs/specs/M9-builds.md): the talent preset Checks (TR-8). The wrong-preset blocker goes
+# through M3's blocker pipeline; the rest are the character's "Talent presets" Goal (FR-19). Presets are
+# named by role only, never "preset 1/2" (FR-24, D5). Point counts are lower bounds (FR-10, TR-7).
+system: talent-presets
+entries:
+  - id: talent-presets.check.wrong-preset
+    system: talent-presets
+    type: check
+    title: AFK on the wrong talent preset
+    text: "Swap to your {toRole} preset before you leave"
+    why: "This AFK Target needs {toRole} talents, and your other preset has them. Swapping presets is free and instant, and it lasts the whole stretch."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts", title: "IdleOn Toolbox, selectedTalentPreset and talentPreset", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks (one preset for fighting, one for skilling)", tier: 2, claimDate: 2025-12-24, verified: 2026-10-17, gameVersion: 2.0.48 }
+    appliesTo: { stages: all, levels: { min: 15 } }
+    confidence: H
+    status: active
+    subject: character
+    effect: blocker
+    detector: { id: builds/wrong-preset }
+    notes: FR-3. Fires only when the other preset is classified as the role the AFK Target needs; an unclassified active preset never blocks (FR-5).
+
+  - id: talent-presets.check.empty
+    system: talent-presets
+    type: check
+    title: Second talent preset not set up
+    text: "Set up your second preset for {role}: start with {firstSteps}. At least {points:int} points are waiting"
+    values:
+      text-current: "Set up your current preset for {role}: start with {firstSteps}. At least {points:int} points are waiting"
+      text-swap-back: "Set up your second preset for {role}: start with {firstSteps}. At least {points:int} points are waiting, then swap back to your {backRole} preset"
+      goal: Talent presets
+    why: "Each preset spends all your talent points on its own, so a second preset for {role} costs nothing but a few minutes."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts", title: "IdleOn Toolbox, talentPreset (SLpre)", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks (one preset for fighting, one for skilling)", tier: 2, claimDate: 2025-12-24, verified: 2026-10-17, gameVersion: 2.0.48 }
+    appliesTo: { stages: all, levels: { min: 15 } }
+    confidence: M
+    status: active
+    subject: character
+    effect: next-action
+    category: compounding
+    detector: { id: builds/preset-empty, params: { mode: empty } }
+
+  - id: talent-presets.check.incomplete
+    system: talent-presets
+    type: check
+    title: Talent preset half set up
+    text: "Finish your {role} preset: start with {firstSteps}. At least {points:int} points are waiting"
+    values:
+      text-swap-back: "Finish your {role} preset: start with {firstSteps}. At least {points:int} points are waiting, then swap back to your {backRole} preset"
+      goal: Talent presets
+    why: "Its first two tabs have no points yet. Each preset spends all your talent points on its own."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts", title: "IdleOn Toolbox, talentPreset (SLpre)", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks (one preset for fighting, one for skilling)", tier: 2, claimDate: 2025-12-24, verified: 2026-10-17, gameVersion: 2.0.48 }
+    appliesTo: { stages: all, levels: { min: 15 } }
+    confidence: M
+    status: active
+    subject: character
+    effect: next-action
+    category: compounding
+    detector: { id: builds/preset-empty, params: { mode: incomplete } }
+
+  - id: talent-presets.check.same-role
+    system: talent-presets
+    type: check
+    title: Both talent presets have the same role
+    text: "Neither preset is set up for {role}: follow the {build} on your other preset"
+    values:
+      text-reset: "Neither preset is set up for {role}: reset your other preset with a Talent Point Reset Potion, then spend it along the {build}"
+      goal: Talent presets
+    why: "Both presets hold {otherRole} talents, so this character has nothing to swap to for {role}."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts", title: "IdleOn Toolbox, talentPreset (SLpre)", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks (one preset for fighting, one for skilling)", tier: 2, claimDate: 2025-12-24, verified: 2026-10-17, gameVersion: 2.0.48 }
+    appliesTo: { stages: all, levels: { min: 15 } }
+    confidence: M
+    status: active
+    subject: character
+    effect: next-action
+    category: compounding
+    detector: { id: builds/preset-empty, params: { mode: same-role } }
+    notes: FR-4. The reset wording needs a potion or 10 fragments and a Build that is neither Stale nor Contested (FR-15 conditions 3 and 4).
+
+  - id: talent-presets.check.behind
+    system: talent-presets
+    type: check
+    title: Talent points left behind on a preset
+    text: "Spend at least {points:int} talent points on your {role} preset ({tabs}), starting with {firstSteps}"
+    values:
+      text-no-build: "Spend at least {points:int} talent points on your {role} preset ({tabs})"
+      goal: Talent presets
+    why: "Both presets share one point budget per tab, and your other preset spends more there, so these points are already earned."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/talents.ts", title: "IdleOn Toolbox, talent levels per preset", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks (one preset for fighting, one for skilling)", tier: 2, claimDate: 2025-12-24, verified: 2026-10-17, gameVersion: 2.0.48 }
+    appliesTo: { stages: all, levels: { min: 15 } }
+    confidence: M
+    status: active
+    subject: character
+    effect: next-action
+    category: spendable
+    detector: { id: builds/preset-behind, params: { minPoints: 10 } }
+    notes: FR-9, TR-7. A lower bound from comparing the presets per tab (tab 2 adjusted by the tab-2-granting talents); never an exact count (FR-10). minPoints is judgment.

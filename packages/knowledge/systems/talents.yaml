@@ -1,0 +1,805 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M9 Builds (docs/specs/M9-builds.md): the role-keyed Builds (TR-5) and the talent Checks (TR-8).
+# Builds are authored judgment transcribed from dated community builds; every talent reference is a
+# Toolbox rawName checked against generated talent data. Only the Idle fighting talent to 50 and the
+# served skill's skill attack are `core`; only accuracy-stat steps are `hardCap` (TR-5).
+system: talents
+entries:
+  - id: talents.check.next-step
+    system: talents
+    type: check
+    title: Next talent points
+    text: "Next talent points: {talent} to {target:int}"
+    values:
+      text-on-other: "Next talent points: {talent} to {target:int} on your {preset} preset"
+      goal: Talents
+      unit: steps of the build
+    why: "{talent} is at {current:int}: the first open step of the {build} for this preset."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/talents.ts", title: "IdleOn Toolbox, talent levels per preset", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks (one preset for fighting, one for skilling)", tier: 2, claimDate: 2025-12-24, verified: 2026-10-17, gameVersion: 2.0.48 }
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    subject: character
+    effect: next-action
+    category: compounding
+    detector: { id: builds/next-step }
+    notes: The Build entry's own dated Sources are added to each Next Action at run time. Core steps rank at position 3 only while that tab's lower bound of unspent points is above 0 (Final rulings RT1).
+
+  - id: talents.check.attack-bar
+    system: talents
+    type: check
+    title: Attacks missing from the bar
+    text: "Put your attacks on the bar before you leave: {missing}"
+    values:
+      text-none-levelled: "Level an attack and put it on the bar"
+      text-one-attack: "Put more attacks on the bar: only one is on it, and {missing} are levelled on this preset"
+      goal: Talents
+    why: "Attacks add to AFK damage only while they are on the bar. Buffs such as Firmly Grasp It and Printer Sampling don't count."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts", title: "IdleOn Toolbox, getTalentEffectOnKills (AFK attacks on the bar)", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks (attacks on the hotbar affect offline gains)", tier: 2, claimDate: 2025-12-24, verified: 2026-10-17, gameVersion: 2.0.48 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: character
+    effect: blocker
+    detector: { id: builds/attack-bar }
+    notes: D1. A blocker at 0 attacks with a levelled attack on the preset (quick, fillable, holds the stretch); the 1-attack and none-levelled cases are Goals the M9 module emits from the same entry's text variants.
+
+  - id: talents.check.skill-attack
+    system: talents
+    type: check
+    title: Skill attack missing from the bar
+    text: "Put {talent} on the bar: it only helps {skill} while it is there"
+    values: { goal: Talents }
+    why: "A skill attack boosts its skill's AFK gains from the attack bar, like a fighting attack does for kills."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents (AFKactivity)", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks (attacks on the hotbar affect offline gains)", tier: 2, claimDate: 2025-12-24, verified: 2026-10-17, gameVersion: 2.0.48 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    subject: character
+    effect: next-action
+    category: compounding
+    detector: { id: builds/skill-attack }
+    notes: The on-bar effect is read from game data (AFKactivity); confirming it in N.js is still open (spec TR-10), hence confidence M.
+
+  - id: talents.build.beginner-fighting
+    system: "talents"
+    type: "build"
+    title: "Beginner damage build"
+    text: "Follow the Beginner damage build"
+    why: "Split the early points between the two damage talents, then the AFK talent, per the current early-game build."
+    classLine: "Beginner"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    variant: afk
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "SLEEPIN'_ON_THE_JOB", "KNUCKLEBUSTER"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: 10, tie: "a" }
+          - { talent: "SHARPENED_AXE", target: 10, tie: "a" }
+          - { talent: "SLEEPIN'_ON_THE_JOB", target: "max" }
+    attacks: []
+    onePointOk: []
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=0mzeGL", title: "ExpCatcher, Early game damage until specific classes (Toolbox community builds)", tier: 3, claimDate: "2026-05-14", verified: "2026-10-17", gameVersion: "2.3.505" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W1-early", to: "W4-entry" }], classes: ["Beginner"], levels: { max: 14 } }
+    confidence: L
+    status: active
+
+  - id: talents.build.warrior-fighting
+    system: "talents"
+    type: "build"
+    title: "Warrior fighting build (data-backed core)"
+    text: "Follow the Warrior fighting build"
+    why: "The core every current fighting build shares: the two damage talents, 50 in the Idle fighting talent, about 25 in each attack."
+    classLine: "Warrior"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    variant: afk
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_BRAWLING", "MEAT_SHANK", "CRITIKILL", "BOOK_OF_THE_WISE", "POWER_STRIKE", "WHIRL", "DOUBLE_STRIKE", "CARRY_A_BIG_STICK", "STRENGTH_IN_NUMBERS", "HEALTH_OVERDRIVE"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: "max" }
+          - { talent: "SHARPENED_AXE", target: "max" }
+          - { talent: "IDLE_BRAWLING", target: 50, core: true }
+      - tab: 2
+        steps:
+          - { talent: "POWER_STRIKE", target: 25, tie: "a" }
+          - { talent: "WHIRL", target: 25, tie: "a" }
+    attacks: ["POWER_STRIKE", "WHIRL"]
+    onePointOk: ["FIRMLY_GRASP_IT"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=ih5wAK", title: "Sir_Grimtide, Barbarian/Fishing (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=CngknO", title: "Sir_Grimtide, Squire/Mining+Construction (Toolbox community builds)", tier: 3, claimDate: "2026-10-10", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W1-early", to: "W4-entry" }], classes: ["Warrior"], levels: { min: 10 } }
+    confidence: L
+    status: active
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+
+  - id: talents.build.warrior-skilling
+    system: "talents"
+    type: "build"
+    title: "Warrior mining build (data-backed core)"
+    text: "Follow the Warrior mining build"
+    why: "The efficiency talent, then Idle Skilling, and Big Pick on the bar while mining."
+    classLine: "Warrior"
+    role: "skilling"
+    serves: ["MINING"]
+    variant: afk
+    tags: ["BRUTE_EFFICIENCY", "IDLE_SKILLING", "BIG_PICK", "COPPER_COLLECTOR", "MOTHERLODE_MINER", "TOOL_PROFICIENCY", "HAUNGRY_FOR_GOLD", "TEMPESTUOUS_EMOTIONS"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "BRUTE_EFFICIENCY", target: "max" }
+          - { talent: "IDLE_SKILLING", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "BIG_PICK", target: "max", core: true }
+    attacks: []
+    onePointOk: ["FIRMLY_GRASP_IT"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=CngknO", title: "Sir_Grimtide, Squire/Mining+Construction (Toolbox community builds)", tier: 3, claimDate: "2026-10-10", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W1-early", to: "W4-entry" }], classes: ["Warrior"], levels: { min: 10 } }
+    confidence: L
+    status: active
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+
+  - id: talents.build.barbarian-fighting
+    system: "talents"
+    type: "build"
+    title: "Barbarian fighting build"
+    text: "Follow the Barbarian fighting build"
+    why: "Damage first, then 50 in the Idle fighting talent, per the most-liked current Barbarian build."
+    classLine: "Barbarian"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    variant: afk
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_BRAWLING", "MEAT_SHANK", "CRITIKILL", "BOOK_OF_THE_WISE", "POWER_STRIKE", "WHIRL", "DOUBLE_STRIKE", "CARRY_A_BIG_STICK", "STRENGTH_IN_NUMBERS", "HEALTH_BOOSTER", "HEALTH_OVERDRIVE", "BEAR_SWIPE", "AXE_HURL", "MOCKING_SHOUT", "NO_PAIN_NO_GAIN", "APOCALYPSE_ZOW", "MONSTER_DECIMATOR", "BEEFY_BOTTLES"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: "max" }
+          - { talent: "SHARPENED_AXE", target: "max" }
+          - { talent: "IDLE_BRAWLING", target: 50, core: true }
+          - { talent: "MEAT_SHANK", target: "max" }
+          - { talent: "HEALTH_BOOSTER", target: "max" }
+          - { talent: "FIST_OF_RAGE", target: "max" }
+          - { talent: "BOOK_OF_THE_WISE", target: "max", hardCap: true, when: [{ kind: "accuracyShort" }] }
+      - tab: 2
+        steps:
+          - { talent: "POWER_STRIKE", target: 25, tie: "a" }
+          - { talent: "WHIRL", target: 25, tie: "a" }
+          - { talent: "DOUBLE_STRIKE", target: 45, tie: "a" }
+          - { talent: "FIRMLY_GRASP_IT", target: 1, tie: "a" }
+          - { talent: "CARRY_A_BIG_STICK", target: "max" }
+          - { talent: "STRENGTH_IN_NUMBERS", target: "max" }
+          - { talent: "HEALTH_OVERDRIVE", target: "max" }
+          - { talent: "'STR'ESS_TESTED_GARB", target: "max", tie: "b" }
+          - { talent: "ABSOLUTE_UNIT", target: "max", tie: "b" }
+      - tab: 3
+        steps:
+          - { talent: "BEAR_SWIPE", target: 25, tie: "a" }
+          - { talent: "AXE_HURL", target: 25, tie: "a" }
+          - { talent: "NO_PAIN_NO_GAIN", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-entry" }] }
+          - { talent: "STR_SUMMORE", target: "max" }
+          - { talent: "APOCALYPSE_ZOW", target: "max", breakpoints: [33, 66, 99, 132] }
+          - { talent: "BACK_TO_BASICS", target: "max" }
+          - { talent: "MONSTER_DECIMATOR", target: "max" }
+          - { talent: "FISTFUL_OF_OBOL", target: "max", tie: "c" }
+          - { talent: "STRONGEST_STATUES", target: "max", tie: "c" }
+    attacks: ["POWER_STRIKE", "WHIRL", "BEAR_SWIPE", "AXE_HURL"]
+    onePointOk: ["FIRMLY_GRASP_IT"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=ih5wAK", title: "Sir_Grimtide, Barbarian/Fishing (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Barbarian"] }
+    confidence: L
+    status: active
+
+  - id: talents.build.barbarian-skilling
+    system: "talents"
+    type: "build"
+    title: "Barbarian fishing build"
+    text: "Follow the Barbarian fishing build"
+    why: "Efficiency and Idle Skilling first, then the fishing talents with Worming Undercover on the bar, per the most-liked current Barbarian build."
+    classLine: "Barbarian"
+    role: "skilling"
+    serves: ["FISHING"]
+    variant: afk
+    tags: ["BRUTE_EFFICIENCY", "IDLE_SKILLING", "BIG_PICK", "COPPER_COLLECTOR", "MOTHERLODE_MINER", "TOOL_PROFICIENCY", "HAUNGRY_FOR_GOLD", "TEMPESTUOUS_EMOTIONS", "WORMING_UNDERCOVER", "BOBBIN'_BOBBERS", "ALL_FISH_DIET", "CATCHING_SOME_ZZZ'S"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "BRUTE_EFFICIENCY", target: "max" }
+          - { talent: "IDLE_SKILLING", target: "max" }
+          - { talent: "FIST_OF_RAGE", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "ABSOLUTE_UNIT", target: "max" }
+          - { talent: "FIRMLY_GRASP_IT", target: "max" }
+          - { talent: "'STR'ESS_TESTED_GARB", target: "max" }
+          - { talent: "HAUNGRY_FOR_GOLD", target: "max" }
+          - { talent: "TEMPESTUOUS_EMOTIONS", target: "max" }
+      - tab: 3
+        steps:
+          - { talent: "WORMING_UNDERCOVER", target: "max", core: true }
+          - { talent: "BOBBIN'_BOBBERS", target: "max" }
+          - { talent: "ALL_FISH_DIET", target: "max" }
+          - { talent: "CATCHING_SOME_ZZZ'S", target: "max" }
+          - { talent: "STR_SUMMORE", target: "max" }
+          - { talent: "STRONGEST_STATUES", target: "max" }
+          - { talent: "FISTFUL_OF_OBOL", target: "max" }
+    attacks: []
+    onePointOk: []
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=ih5wAK", title: "Sir_Grimtide, Barbarian/Fishing (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Barbarian"] }
+    confidence: L
+    status: active
+
+  - id: talents.build.squire-fighting
+    system: "talents"
+    type: "build"
+    title: "Squire fighting build"
+    text: "Follow the Squire fighting build"
+    why: "Damage first, then 50 in the Idle fighting talent, per the most-liked current Squire build."
+    classLine: "Squire"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    variant: afk
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_BRAWLING", "MEAT_SHANK", "CRITIKILL", "BOOK_OF_THE_WISE", "POWER_STRIKE", "WHIRL", "DOUBLE_STRIKE", "CARRY_A_BIG_STICK", "STRENGTH_IN_NUMBERS", "PRECISION_POWER", "SHOCKWAVE_SLASH", "DAGGERANG", "BRICKY_SKIN", "BALANCED_SPIRIT", "MASTERY_UP", "BLOCKY_BOTTLES"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: "max" }
+          - { talent: "SHARPENED_AXE", target: "max" }
+          - { talent: "IDLE_BRAWLING", target: 50, core: true }
+          - { talent: "MEAT_SHANK", target: "max" }
+          - { talent: "HEALTH_BOOSTER", target: "max" }
+          - { talent: "FIST_OF_RAGE", target: "max" }
+          - { talent: "BOOK_OF_THE_WISE", target: "max", hardCap: true, when: [{ kind: "accuracyShort" }] }
+          - { talent: "IDLE_BRAWLING", target: "max" }
+          - { talent: "LUCKY_CLOVER", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "POWER_STRIKE", target: 54, tie: "a" }
+          - { talent: "WHIRL", target: 54, tie: "a" }
+          - { talent: "DOUBLE_STRIKE", target: 45, tie: "a" }
+          - { talent: "FIRMLY_GRASP_IT", target: 1, tie: "a" }
+          - { talent: "CARRY_A_BIG_STICK", target: "max" }
+          - { talent: "STRENGTH_IN_NUMBERS", target: "max" }
+          - { talent: "HEALTH_OVERDRIVE", target: "max" }
+          - { talent: "'STR'ESS_TESTED_GARB", target: "max", tie: "b" }
+          - { talent: "ABSOLUTE_UNIT", target: "max", tie: "b" }
+      - tab: 3
+        steps:
+          - { talent: "PRECISION_POWER", target: "max" }
+          - { talent: "STR_SUMMORE", target: "max" }
+          - { talent: "BACK_TO_BASICS", target: "max" }
+          - { talent: "SHOCKWAVE_SLASH", target: 1, tie: "a" }
+          - { talent: "DAGGERANG", target: 1, tie: "a" }
+          - { talent: "BRICKY_SKIN", target: 1, tie: "a" }
+          - { talent: "BLOCKY_BOTTLES", target: "max" }
+    attacks: ["POWER_STRIKE", "WHIRL"]
+    onePointOk: ["FIRMLY_GRASP_IT", "SHOCKWAVE_SLASH", "DAGGERANG", "BRICKY_SKIN"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=CngknO", title: "Sir_Grimtide, Squire/Mining+Construction (Toolbox community builds)", tier: 3, claimDate: "2026-10-10", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Squire"] }
+    confidence: L
+    status: active
+
+  - id: talents.build.squire-skilling
+    system: "talents"
+    type: "build"
+    title: "Squire mining and construction build"
+    text: "Follow the Squire mining and construction build"
+    why: "Efficiency and Idle Skilling first, Big Pick on the bar, then the refinery and construction talents from World 3, per the most-liked current Squire build."
+    classLine: "Squire"
+    role: "skilling"
+    serves: ["MINING"]
+    variant: afk
+    tags: ["BRUTE_EFFICIENCY", "IDLE_SKILLING", "BIG_PICK", "COPPER_COLLECTOR", "MOTHERLODE_MINER", "TOOL_PROFICIENCY", "HAUNGRY_FOR_GOLD", "TEMPESTUOUS_EMOTIONS", "REFINERY_THROTTLE", "REDOX_RATES", "SHARPER_SAWS"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "BRUTE_EFFICIENCY", target: "max" }
+          - { talent: "IDLE_SKILLING", target: "max" }
+          - { talent: "FIST_OF_RAGE", target: "max" }
+          - { talent: "HEALTH_BOOSTER", target: "max" }
+          - { talent: "LUCKY_CLOVER", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "BIG_PICK", target: "max", core: true }
+          - { talent: "COPPER_COLLECTOR", target: "max" }
+          - { talent: "TOOL_PROFICIENCY", target: "max" }
+          - { talent: "MOTHERLODE_MINER", target: "max" }
+          - { talent: "HEALTH_OVERDRIVE", target: "max" }
+          - { talent: "ABSOLUTE_UNIT", target: "max" }
+          - { talent: "HAUNGRY_FOR_GOLD", target: "max" }
+          - { talent: "FIRMLY_GRASP_IT", target: 1 }
+      - tab: 3
+        steps:
+          - { talent: "REFINERY_THROTTLE", target: "max", when: [{ kind: "stageAtLeast", stage: "W3-early" }] }
+          - { talent: "REDOX_RATES", target: "max", when: [{ kind: "stageAtLeast", stage: "W3-early" }] }
+          - { talent: "SHARPER_SAWS", target: "max", when: [{ kind: "stageAtLeast", stage: "W3-early" }] }
+          - { talent: "SHIELDIEST_STATUES", target: "max" }
+          - { talent: "STR_SUMMORE", target: "max" }
+    attacks: []
+    onePointOk: ["FIRMLY_GRASP_IT"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=CngknO", title: "Sir_Grimtide, Squire/Mining+Construction (Toolbox community builds)", tier: 3, claimDate: "2026-10-10", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Squire"] }
+    confidence: L
+    status: active
+
+  - id: talents.build.archer-fighting
+    system: "talents"
+    type: "build"
+    title: "Archer fighting build (data-backed core)"
+    text: "Follow the Archer fighting build"
+    why: "The core every current fighting build shares: the two damage talents, 50 in the Idle fighting talent, about 25 in each attack."
+    classLine: "Archer"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    variant: afk
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_SHOOTING", "FEATHERWEIGHT", "I_SEE_YOU", "FIST_OF_RAGE", "PIERCING_ARROW", "KUNG_FU_KICK", "STRAFE", "HAVE_ANOTHER!", "HIGH_POLYMER_LIMBS", "VEINS_OF_THE_INFERNAL", "HEMA_OVERDRIVE", "ROBBINGHOOD"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: "max" }
+          - { talent: "SHARPENED_AXE", target: "max" }
+          - { talent: "IDLE_SHOOTING", target: 50, core: true }
+      - tab: 2
+        steps:
+          - { talent: "PIERCING_ARROW", target: 25, tie: "a" }
+          - { talent: "KUNG_FU_KICK", target: 25, tie: "a" }
+    attacks: ["PIERCING_ARROW", "KUNG_FU_KICK"]
+    onePointOk: []
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=b0sGrY", title: "Sir_Grimtide, Bowman/Catching (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W1-early", to: "W4-entry" }], classes: ["Archer"], levels: { min: 10 } }
+    confidence: L
+    status: active
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+
+  - id: talents.build.archer-skilling
+    system: "talents"
+    type: "build"
+    title: "Archer catching build (data-backed core)"
+    text: "Follow the Archer catching build"
+    why: "The efficiency talent, then the main-stat talent: the Archer line has no Idle Skilling talent."
+    classLine: "Archer"
+    role: "skilling"
+    serves: ["CATCHING"]
+    variant: afk
+    tags: ["ELUSIVE_EFFICIENCY", "BROKEN_TIME", "FOCUSED_SOUL", "ACME_ANVIL", "YEA_I_ALREADY_KNOW", "GODLY_CREATION", "SMELTIN'_ERRYDAY"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "ELUSIVE_EFFICIENCY", target: "max" }
+          - { talent: "QUICKNESS_BOOTS", target: "max" }
+    attacks: []
+    onePointOk: []
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=b0sGrY", title: "Sir_Grimtide, Bowman/Catching (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W1-early", to: "W4-entry" }], classes: ["Archer"], levels: { min: 10 } }
+    confidence: L
+    status: active
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+
+  - id: talents.build.bowman-fighting
+    system: "talents"
+    type: "build"
+    title: "Bowman fighting build"
+    text: "Follow the Bowman fighting build"
+    why: "Damage first, then 50 in the Idle fighting talent, per the most-liked current Bowman build."
+    classLine: "Bowman"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    variant: afk
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_SHOOTING", "FEATHERWEIGHT", "I_SEE_YOU", "FIST_OF_RAGE", "PIERCING_ARROW", "KUNG_FU_KICK", "STRAFE", "HAVE_ANOTHER!", "HIGH_POLYMER_LIMBS", "VEINS_OF_THE_INFERNAL", "HEMA_OVERDRIVE", "ROBBINGHOOD", "SPEEDNA", "VELOCITY_VESSELS", "MAGIC_SHORTBOW", "HOMING_ARROWS", "EXTENDO_RANGEO", "FLAX_INSTASTRING"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: "max" }
+          - { talent: "SHARPENED_AXE", target: "max" }
+          - { talent: "IDLE_SHOOTING", target: 50, core: true }
+          - { talent: "FEATHERWEIGHT", target: "max" }
+          - { talent: "QUICKNESS_BOOTS", target: "max" }
+          - { talent: "FIST_OF_RAGE", target: "max", hardCap: true, when: [{ kind: "accuracyShort" }] }
+          - { talent: "IDLE_SHOOTING", target: "max" }
+          - { talent: "LUCKY_CLOVER", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "HIGH_POLYMER_LIMBS", target: "max" }
+          - { talent: "STRAFE", target: "max" }
+          - { talent: "VEINS_OF_THE_INFERNAL", target: "max" }
+          - { talent: "PIERCING_ARROW", target: 40, tie: "a" }
+          - { talent: "KUNG_FU_KICK", target: 10, tie: "a" }
+          - { talent: "HAVE_ANOTHER!", target: 40 }
+          - { talent: "GARB_OF_UN'AGI'NG_QUALITY", target: "max" }
+          - { talent: "SANIC_SPEED", target: "max" }
+      - tab: 3
+        steps:
+          - { talent: "SPEEDNA", target: "max" }
+          - { talent: "AGI_AGAIN", target: "max" }
+          - { talent: "VELOCITY_VESSELS", target: "max" }
+          - { talent: "SHWIFTY_STATUES", target: "max" }
+          - { talent: "PREVIOUS_POINTS", target: "max" }
+          - { talent: "MAGIC_SHORTBOW", target: 50, tie: "a" }
+          - { talent: "HOMING_ARROWS", target: 20, tie: "a" }
+          - { talent: "FLAX_INSTASTRING", target: 1 }
+          - { talent: "SHOEFUL_OF_OBOL", target: "max" }
+    attacks: ["PIERCING_ARROW", "KUNG_FU_KICK", "MAGIC_SHORTBOW", "HOMING_ARROWS"]
+    onePointOk: []
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=b0sGrY", title: "Sir_Grimtide, Bowman/Catching (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Bowman"] }
+    confidence: L
+    status: active
+    notes: "The guide links Idle Brawling (a Warrior talent) on tab 1; the Archer-line talent is Idle Shooting, which it names later in the same tab."
+
+  - id: talents.build.bowman-skilling
+    system: "talents"
+    type: "build"
+    title: "Bowman catching build"
+    text: "Follow the Bowman catching build"
+    why: "Efficiency and the main-stat talent first, then the anvil and catching talents, per the most-liked current Bowman build."
+    classLine: "Bowman"
+    role: "skilling"
+    serves: ["CATCHING"]
+    variant: afk
+    tags: ["ELUSIVE_EFFICIENCY", "BROKEN_TIME", "FOCUSED_SOUL", "ACME_ANVIL", "YEA_I_ALREADY_KNOW", "GODLY_CREATION", "SMELTIN'_ERRYDAY", "TELEKI'NET'IC_LOGS", "BRIAR_PATCH_RUNNER", "BUG_ENTHUSIAST", "SUNSET_ON_THE_HIVES"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "ELUSIVE_EFFICIENCY", target: "max" }
+          - { talent: "QUICKNESS_BOOTS", target: "max" }
+          - { talent: "BROKEN_TIME", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "GARB_OF_UN'AGI'NG_QUALITY", target: "max" }
+          - { talent: "SANIC_SPEED", target: "max" }
+          - { talent: "FOCUSED_SOUL", target: "max" }
+          - { talent: "ACME_ANVIL", target: "max" }
+          - { talent: "YEA_I_ALREADY_KNOW", target: "max" }
+          - { talent: "GODLY_CREATION", target: "max" }
+      - tab: 3
+        steps:
+          - { talent: "TELEKI'NET'IC_LOGS", target: "max" }
+          - { talent: "BRIAR_PATCH_RUNNER", target: "max" }
+          - { talent: "BUG_ENTHUSIAST", target: "max" }
+          - { talent: "SUNSET_ON_THE_HIVES", target: "max" }
+          - { talent: "AGI_AGAIN", target: "max" }
+          - { talent: "SHWIFTY_STATUES", target: "max" }
+    attacks: []
+    onePointOk: []
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=b0sGrY", title: "Sir_Grimtide, Bowman/Catching (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Bowman"] }
+    confidence: L
+    status: active
+
+  - id: talents.build.hunter-fighting
+    system: "talents"
+    type: "build"
+    title: "Hunter fighting build (data-backed core)"
+    text: "Follow the Hunter fighting build"
+    why: "50 in the Idle fighting talent, the one step every current fighting build agrees on."
+    classLine: "Hunter"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    variant: afk
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_SHOOTING", "FEATHERWEIGHT", "I_SEE_YOU", "FIST_OF_RAGE", "PIERCING_ARROW", "KUNG_FU_KICK", "STRAFE", "HAVE_ANOTHER!", "HIGH_POLYMER_LIMBS", "VEINS_OF_THE_INFERNAL", "HEMA_OVERDRIVE", "ROBBINGHOOD", "360_NOSCOPE", "BEAR_TRAP", "UWU_RAWRRR", "STOP_RIGHT_THERE", "HAVE_ANOTHER..._AGAIN!", "LOOTY_MC_SHOOTY", "VISIBILITY_VESSELS"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "IDLE_SHOOTING", target: 50, core: true }
+    attacks: ["PIERCING_ARROW", "KUNG_FU_KICK"]
+    onePointOk: []
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=b0sGrY", title: "Sir_Grimtide, Bowman/Catching (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Hunter"] }
+    confidence: L
+    status: active
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+
+  - id: talents.build.hunter-skilling
+    system: "talents"
+    type: "build"
+    title: "Hunter trapping build (data-backed core)"
+    text: "Follow the Hunter trapping build"
+    why: "Eagle Eye claims and resets every trap for every character; it can live on the second preset."
+    classLine: "Hunter"
+    role: "skilling"
+    serves: []
+    variant: afk
+    tags: ["ELUSIVE_EFFICIENCY", "BROKEN_TIME", "FOCUSED_SOUL", "ACME_ANVIL", "YEA_I_ALREADY_KNOW", "GODLY_CREATION", "SMELTIN'_ERRYDAY", "EAGLE_EYE", "INVASIVE_SPECIES", "SHROOM_BAIT", "REFLECTIVE_EYESIGHT"]
+    tabs:
+      - tab: 3
+        steps:
+          - { talent: "EAGLE_EYE", target: "max" }
+    attacks: []
+    onePointOk: []
+    sources:
+      - { url: "https://idleon.wiki/wiki/Trapping", title: "IdleOn Wiki: Trapping (Eagle Eye on a second talent preset)", tier: 2, claimDate: "2026-10-07", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Hunter"] }
+    confidence: L
+    status: active
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+
+  - id: talents.build.mage-fighting
+    system: "talents"
+    type: "build"
+    title: "Mage fighting build (data-backed core)"
+    text: "Follow the Mage fighting build"
+    why: "The core every current fighting build shares: the two damage talents, 50 in the Idle fighting talent, about 25 in each attack."
+    classLine: "Mage"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    variant: afk
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_CASTING", "OVERCLOCKED_ENERGY", "FARSIGHT", "QUICKNESS_BOOTS", "POWER_OVERWHELMING", "KNOWLEDGE_IS_POWER", "ENERGY_BOLT", "MINI_FIREBALL", "CHOPPIN_IT_UP_EZ"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: "max" }
+          - { talent: "SHARPENED_AXE", target: "max" }
+          - { talent: "IDLE_CASTING", target: 50, core: true }
+      - tab: 2
+        steps:
+          - { talent: "ENERGY_BOLT", target: 25, tie: "a" }
+          - { talent: "MINI_FIREBALL", target: 25, tie: "a" }
+    attacks: ["ENERGY_BOLT", "MINI_FIREBALL"]
+    onePointOk: ["TELEPORT"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=qncFFv", title: "Sir_Grimtide, Wizard/Worship (Toolbox community builds)", tier: 3, claimDate: "2026-10-13", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=K4c9A0", title: "Sir_Grimtide, Shaman/Alchemy (Toolbox community builds)", tier: 3, claimDate: "2026-10-15", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W1-early", to: "W4-entry" }], classes: ["Mage"], levels: { min: 10 } }
+    confidence: L
+    status: active
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+
+  - id: talents.build.mage-skilling
+    system: "talents"
+    type: "build"
+    title: "Mage choppin build (data-backed core)"
+    text: "Follow the Mage choppin build"
+    why: "The efficiency talent, then Active AFK'er, and Log On Logs on the bar while chopping."
+    classLine: "Mage"
+    role: "skilling"
+    serves: ["CHOPPIN"]
+    variant: afk
+    tags: ["SMART_EFFICIENCY", "ACTIVE_AFK'ER", "LOG_ON_LOGS", "LEAF_THIEF", "DEFORESTING_ALL_DOUBT", "FREE_MEAL", "INNER_PEACE"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "SMART_EFFICIENCY", target: "max" }
+          - { talent: "ACTIVE_AFK'ER", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "LOG_ON_LOGS", target: "max", core: true }
+    attacks: []
+    onePointOk: ["TELEPORT"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=qncFFv", title: "Sir_Grimtide, Wizard/Worship (Toolbox community builds)", tier: 3, claimDate: "2026-10-13", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=K4c9A0", title: "Sir_Grimtide, Shaman/Alchemy (Toolbox community builds)", tier: 3, claimDate: "2026-10-15", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W1-early", to: "W4-entry" }], classes: ["Mage"], levels: { min: 10 } }
+    confidence: L
+    status: active
+    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/issues/37" }
+
+  - id: talents.build.wizard-fighting
+    system: "talents"
+    type: "build"
+    title: "Wizard fighting build"
+    text: "Follow the Wizard fighting build"
+    why: "Damage first, then 50 in the Idle fighting talent, per the most-liked current Wizard build."
+    classLine: "Wizard"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    variant: afk
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_CASTING", "OVERCLOCKED_ENERGY", "FARSIGHT", "QUICKNESS_BOOTS", "POWER_OVERWHELMING", "KNOWLEDGE_IS_POWER", "ENERGY_BOLT", "MINI_FIREBALL", "CHOPPIN_IT_UP_EZ", "PAPERWORK,_GREAT...", "ICE_SHARDS", "FLOOR_IS_LAVA", "TORNADO", "MANA_IS_LIFE", "SPEEDY_BOOK", "FUSCIA_FLASKS", "OCCULT_OBOLS"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: "max" }
+          - { talent: "SHARPENED_AXE", target: "max" }
+          - { talent: "IDLE_CASTING", target: 50, core: true }
+          - { talent: "OVERCLOCKED_ENERGY", target: "max" }
+          - { talent: "MANA_BOOSTER", target: "max" }
+          - { talent: "QUICKNESS_BOOTS", target: "max", hardCap: true, when: [{ kind: "accuracyShort" }] }
+          - { talent: "BOOK_OF_THE_WISE", target: "max" }
+          - { talent: "IDLE_CASTING", target: "max" }
+          - { talent: "FARSIGHT", target: "max" }
+          - { talent: "LUCKY_CLOVER", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "POWER_OVERWHELMING", target: "max" }
+          - { talent: "KNOWLEDGE_IS_POWER", target: "max", tie: "a" }
+          - { talent: "MANA_OVERDRIVE", target: "max", tie: "a" }
+          - { talent: "ENERGY_BOLT", target: 10, tie: "b" }
+          - { talent: "MINI_FIREBALL", target: 40, tie: "b" }
+          - { talent: "INDIVIDUAL_INSIGHT", target: "max", tie: "c" }
+          - { talent: "UNT'WIS'TED_ROBES", target: "max", tie: "c" }
+          - { talent: "CHOPPIN_IT_UP_EZ", target: "max" }
+      - tab: 3
+        steps:
+          - { talent: "PAPERWORK,_GREAT...", target: "max" }
+          - { talent: "WIS_WUMBO", target: "max" }
+          - { talent: "ICE_SHARDS", target: 20, tie: "a" }
+          - { talent: "FLOOR_IS_LAVA", target: 20, tie: "a" }
+          - { talent: "TORNADO", target: 20, tie: "a" }
+          - { talent: "MANA_IS_LIFE", target: 20, tie: "a" }
+          - { talent: "FUSCIA_FLASKS", target: "max" }
+          - { talent: "EARLIER_EDUCATION", target: "max" }
+          - { talent: "NEARBY_OUTLET", target: "max" }
+          - { talent: "OCCULT_OBOLS", target: "max" }
+    attacks: ["ENERGY_BOLT", "MINI_FIREBALL", "ICE_SHARDS", "FLOOR_IS_LAVA", "TORNADO"]
+    onePointOk: ["TELEPORT"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=qncFFv", title: "Sir_Grimtide, Wizard/Worship (Toolbox community builds)", tier: 3, claimDate: "2026-10-13", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Wizard"] }
+    confidence: L
+    status: active
+
+  - id: talents.build.wizard-skilling
+    system: "talents"
+    type: "build"
+    title: "Wizard choppin and worship build"
+    text: "Follow the Wizard choppin and worship build"
+    why: "Efficiency and Active AFK'er first, Log On Logs on the bar, then the worship talents from World 3, per the most-liked current Wizard build."
+    classLine: "Wizard"
+    role: "skilling"
+    serves: ["CHOPPIN"]
+    variant: afk
+    tags: ["SMART_EFFICIENCY", "ACTIVE_AFK'ER", "LOG_ON_LOGS", "LEAF_THIEF", "DEFORESTING_ALL_DOUBT", "FREE_MEAL", "INNER_PEACE", "CHARGE_SYPHON", "SOOOULS", "BLESS_UP"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "SMART_EFFICIENCY", target: "max" }
+          - { talent: "ACTIVE_AFK'ER", target: "max" }
+          - { talent: "BOOK_OF_THE_WISE", target: "max" }
+          - { talent: "MANA_BOOSTER", target: "max" }
+          - { talent: "LUCKY_CLOVER", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "LOG_ON_LOGS", target: "max", core: true }
+          - { talent: "LEAF_THIEF", target: "max" }
+          - { talent: "DEFORESTING_ALL_DOUBT", target: "max" }
+          - { talent: "INDIVIDUAL_INSIGHT", target: "max" }
+          - { talent: "UNT'WIS'TED_ROBES", target: "max" }
+          - { talent: "MANA_OVERDRIVE", target: "max" }
+      - tab: 3
+        steps:
+          - { talent: "CHARGE_SYPHON", target: "max", when: [{ kind: "stageAtLeast", stage: "W3-early" }] }
+          - { talent: "SOOOULS", target: "max", when: [{ kind: "stageAtLeast", stage: "W3-early" }] }
+          - { talent: "NEARBY_OUTLET", target: "max", when: [{ kind: "stageAtLeast", stage: "W3-early" }] }
+          - { talent: "WIS_WUMBO", target: "max" }
+          - { talent: "STARING_STATUES", target: "max" }
+          - { talent: "EARLIER_EDUCATION", target: "max" }
+    attacks: []
+    onePointOk: ["TELEPORT"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=qncFFv", title: "Sir_Grimtide, Wizard/Worship (Toolbox community builds)", tier: 3, claimDate: "2026-10-13", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Wizard"] }
+    confidence: L
+    status: active
+
+  - id: talents.build.shaman-fighting
+    system: "talents"
+    type: "build"
+    title: "Shaman fighting build"
+    text: "Follow the Shaman fighting build"
+    why: "Damage first, then 50 in the Idle fighting talent, per the most-liked current Shaman build."
+    classLine: "Shaman"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    variant: afk
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_CASTING", "OVERCLOCKED_ENERGY", "FARSIGHT", "QUICKNESS_BOOTS", "POWER_OVERWHELMING", "KNOWLEDGE_IS_POWER", "ENERGY_BOLT", "MINI_FIREBALL", "CHOPPIN_IT_UP_EZ", "VIRILE_VIALS", "CRAZY_CONCOCTIONS", "AUSPICIOUS_AURA", "SIZZLING_SKULL", "FANTASIA_FLASKS", "CRANIUM_COOKING", "TENTEYECLE", "INSTANT_INVINCIBILITY"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: "max" }
+          - { talent: "SHARPENED_AXE", target: "max" }
+          - { talent: "IDLE_CASTING", target: 50, core: true }
+          - { talent: "OVERCLOCKED_ENERGY", target: "max" }
+          - { talent: "MANA_BOOSTER", target: "max" }
+          - { talent: "QUICKNESS_BOOTS", target: "max", hardCap: true, when: [{ kind: "accuracyShort" }] }
+          - { talent: "BOOK_OF_THE_WISE", target: "max" }
+          - { talent: "FARSIGHT", target: "max" }
+          - { talent: "IDLE_CASTING", target: "max" }
+          - { talent: "LUCKY_CLOVER", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "POWER_OVERWHELMING", target: "max" }
+          - { talent: "KNOWLEDGE_IS_POWER", target: "max", tie: "a" }
+          - { talent: "MANA_OVERDRIVE", target: "max", tie: "a" }
+          - { talent: "ENERGY_BOLT", target: 10, tie: "b" }
+          - { talent: "MINI_FIREBALL", target: 40, tie: "b" }
+          - { talent: "INDIVIDUAL_INSIGHT", target: "max", tie: "c" }
+          - { talent: "UNT'WIS'TED_ROBES", target: "max", tie: "c" }
+          - { talent: "CHOPPIN_IT_UP_EZ", target: "max" }
+      - tab: 3
+        steps:
+          - { talent: "VIRILE_VIALS", target: "max" }
+          - { talent: "WIS_WUMBO", target: "max" }
+          - { talent: "EARLIER_EDUCATION", target: "max" }
+          - { talent: "CRAZY_CONCOCTIONS", target: 20, tie: "a" }
+          - { talent: "AUSPICIOUS_AURA", target: 20, tie: "a" }
+          - { talent: "SIZZLING_SKULL", target: 20, tie: "a" }
+          - { talent: "FANTASIA_FLASKS", target: "max" }
+          - { talent: "CRANIUM_COOKING", target: "max" }
+          - { talent: "BUSY_BREWIN'", target: "max" }
+    attacks: ["ENERGY_BOLT", "MINI_FIREBALL", "CRAZY_CONCOCTIONS", "AUSPICIOUS_AURA", "SIZZLING_SKULL"]
+    onePointOk: ["TELEPORT"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=K4c9A0", title: "Sir_Grimtide, Shaman/Alchemy (Toolbox community builds)", tier: 3, claimDate: "2026-10-15", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Shaman"] }
+    confidence: L
+    status: active
+
+  - id: talents.build.shaman-skilling
+    system: "talents"
+    type: "build"
+    title: "Shaman alchemy and choppin build"
+    text: "Follow the Shaman alchemy and choppin build"
+    why: "Efficiency first, Log On Logs on the bar, then the alchemy talents, per the most-liked current Shaman build."
+    classLine: "Shaman"
+    role: "skilling"
+    serves: ["CHOPPIN"]
+    variant: afk
+    tags: ["SMART_EFFICIENCY", "ACTIVE_AFK'ER", "LOG_ON_LOGS", "LEAF_THIEF", "DEFORESTING_ALL_DOUBT", "FREE_MEAL", "INNER_PEACE", "BUBBLE_BREAKTHROUGH", "SHARING_SOME_SMARTS"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "SMART_EFFICIENCY", target: "max" }
+          - { talent: "BOOK_OF_THE_WISE", target: "max" }
+          - { talent: "ACTIVE_AFK'ER", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "LOG_ON_LOGS", target: "max", core: true }
+          - { talent: "LEAF_THIEF", target: "max" }
+          - { talent: "DEFORESTING_ALL_DOUBT", target: "max" }
+          - { talent: "INDIVIDUAL_INSIGHT", target: "max" }
+          - { talent: "MANA_OVERDRIVE", target: "max" }
+          - { talent: "INNER_PEACE", target: "max" }
+      - tab: 3
+        steps:
+          - { talent: "BUBBLE_BREAKTHROUGH", target: "max" }
+          - { talent: "BUSY_BREWIN'", target: "max" }
+          - { talent: "SHARING_SOME_SMARTS", target: "max" }
+          - { talent: "WIS_WUMBO", target: "max" }
+          - { talent: "EARLIER_EDUCATION", target: "max" }
+    attacks: []
+    onePointOk: ["TELEPORT"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=K4c9A0", title: "Sir_Grimtide, Shaman/Alchemy (Toolbox community builds)", tier: 3, claimDate: "2026-10-15", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Shaman"] }
+    confidence: L
+    status: active
+
