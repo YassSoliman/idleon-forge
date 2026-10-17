@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Response headers for the static site (Workers static assets). M1 TR-25.
+# The page may reach only our origin, Google's OAuth endpoints, and the game's Firebase. The Realtime
+# Database SDK falls back to long-polling through an injected script and iframe on networks without
+# WebSockets, hence *.firebaseio.com in script-src and frame-src.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://*.firebaseio.com; worker-src 'self'; connect-src 'self' https://oauth2.googleapis.com https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com; frame-src https://*.firebaseio.com; img-src 'self' data:; font-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+
+# The parse worker runs ~6 MB of vendored upstream code on our origin, where the Firebase session is
+# in reach. A worker loaded from a URL takes the policy of its own response: with no network it can't
+# send anything anywhere or write to the save. The /* policy also matches here; the two values are
+# joined with a comma, which a browser enforces as two policies (both must allow a request), so the
+# worker's effective connect-src is still 'none'.
+/assets/parse.worker-*
+  Content-Security-Policy: default-src 'none'; script-src 'self'; connect-src 'none'

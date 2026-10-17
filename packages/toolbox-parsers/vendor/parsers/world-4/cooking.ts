@@ -1,0 +1,1236 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { atomsInfo, cookingMenu, monsters, randomList, randomList2, bonuses, spiceNames, gameTables } from '@website-data';
+import { liveEntries } from '@parsers/catalog';
+import { getStampsBonusByEffect, getStampsBonusByStat } from '@parsers/world-1/stamps';
+import { getStatsFromGear } from '@parsers/items';
+import { cleanUnderscore, commaNotation, growth, lavaLog, notateNumber, tryToParse } from '@utility/helpers';
+import { getPostOfficeBonus } from '@parsers/world-3/postoffice';
+import { getSaltLickBonus } from '@parsers/world-3/saltLick';
+import { getJewelBonus, getLabBonus } from '@parsers/world-4/lab';
+import { getBubbleBonus, getSigilBonus, getVialsBonusByEffect, getVialsBonusByStat } from '@parsers/world-2/alchemy';
+import { getEventShopBonus, getLoggedInSkillLevel, isArenaBonusActive, isMasteryBonusUnlocked, isCompanionBonusActive, isCompanionLvl2Active, isBundlePurchased } from '@parsers/misc';
+import { getPaletteBonus } from '@parsers/world-5/gaming';
+import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
+import { getArmoryUpgradeBonus } from '@parsers/class-specific/royalGuardian';
+import { getSushiBonus } from '@parsers/world-7/sushiStation';
+import { getAchievementStatus } from '@parsers/achievements';
+import { isArtifactAcquired } from '@parsers/world-5/sailing';
+import { getPetArenaCrucBonus, getShinyBonus } from '@parsers/world-4/breeding';
+import { getMenagerieBoost, isMenagerieUnlockOwned } from '@parsers/world-7/menagerie';
+import { getClamWorkBonus } from '@parsers/world-7/clamWork';
+import { isSuperbitUnlocked } from '@parsers/world-5/gaming';
+import { getTalentBonus, getVoidWalkerTalentEnhancements, getBestActiveCharacter, getHighestTalentAcrossCharacters, getOwnOrHighestTalent, checkCharClass, CLASSES } from '@parsers/talents';
+import { EQUINOX_CLOUD, getCloudBonus, getEquinoxBonus } from '@parsers/world-3/equinox';
+import LavaRand from '@utility/lavaRand';
+import { allProwess, efficiencyGroupNames, getAllBaseSkillEffBreakdown, getAllEffBreakdown } from '@parsers/efficiency';
+import {
+  additiveGroup,
+  createBreakdown,
+  evaluateBreakdownNode,
+  flat,
+  info,
+  multiplier,
+  NUMBERED_GROUP,
+  percent,
+  productGroup,
+  sumGroup
+} from '@parsers/breakdown';
+import type { StatBreakdown } from '@parsers/breakdown';
+import { getCardBonusByEffect } from '@parsers/cards';
+import { getArcadeBonus } from '@parsers/world-2/arcade';
+import { getWinnerBonus } from '@parsers/world-6/summoning';
+import { getIsland } from '@parsers/world-2/islands';
+import { getStarSignBonus } from '@parsers/starSigns';
+import { isJadeBonusUnlocked } from '@parsers/world-6/sneaking';
+import { getMeritocracyBonus, getVoteBonus } from '@parsers/world-2/voteBallot';
+import { getMonumentBonus } from '@parsers/world-5/caverns/bravery';
+import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
+import { getFountainBonusTotal } from '@parsers/world-5/caverns/the-fountain';
+import { getLampBonus } from '@parsers/world-5/caverns/the-lamp';
+import { getUpgradeVaultBonus } from '@parsers/misc/upgradeVault';
+import { getJellyBonus } from '@parsers/world-7/jellyOperator';
+import { getGrimoireBonus } from '@parsers/class-specific/grimoire';
+import { getArmorSetBonus } from '@parsers/world-3/armorSmithy';
+import { getObolsBonus } from '@parsers/obols';
+import { getButtonBonus } from '@parsers/world-7/button';
+
+export const spicesNames = spiceNames;
+
+export const getCooking = (idleonData: any, account: any, characters?: any) => {
+  const cookingRaw = tryToParse(idleonData?.Cooking) || idleonData?.Cooking;
+  const mealsRaw = tryToParse(idleonData?.Meals) || idleonData?.Meals;
+  const territoryRaw = tryToParse(idleonData?.Territory) || idleonData?.Territory;
+  const cookMasterRaw = tryToParse(idleonData?.CookMaster) || idleonData?.CookMaster;
+  return parseCooking(mealsRaw, territoryRaw, cookingRaw, account, cookMasterRaw, characters);
+}
+
+const parseCooking = (mealsRaw: any, territoryRaw: any, cookingRaw: any, account: any, cookMasterRaw?: any, characters?: any) => {
+  const meals = getMeals(mealsRaw, account, cookMasterRaw);
+  const spices = getSpices(mealsRaw, territoryRaw, account);
+  const mealMaxLevel = getMealMaxLevel(account);
+  // Depends on account.research / gaming / saltLick / arcade / alchemy / grimoire / companions,
+  // which are produced later in the same serialization step; the 3-pass serializeData resolves it.
+  const cookingMastery = getCookingMastery(cookMasterRaw, mealsRaw, account, characters);
+
+  return {
+    meals,
+    spices,
+    mealMaxLevel,
+    cookingMastery
+  }
+}
+
+// Cooking Mastery "yellow" node multiplier for a single meal: BonusMultiCook(mealIndex).
+// game: "BonusMultiCook"
+export const getMealNodeMulti = (nodeLevel: number) => 1 + nodeLevel / (nodeLevel + 5);
+
+const getSpices = (mealsRaw: any, territoryRaw: any, account: any) => {
+  const toClaim = territoryRaw?.reduce((res: any, territory: any, index: any) => {
+    const [progress, , , spiceName, amount] = territory;
+    return [
+      ...res,
+      {
+        progress,
+        amount,
+        rawName: spiceName,
+        name: spicesNames[index]
+      }
+    ]
+  }, []);
+
+  const available = mealsRaw?.[3]?.filter((spiceAmount: any) => spiceAmount > 0).map((amount: any, index: any) => ({
+    amount,
+    toClaim: toClaim?.[index]?.amount,
+    rawName: `CookingSpice${index}`,
+    name: spicesNames[index]
+  }));
+
+  const numberOfClaims = account?.accountOptions?.[100];
+  return {
+    toClaim,
+    available,
+    numberOfClaims
+  }
+}
+
+const getMeals = (mealsRaw: any, account: any, cookMasterRaw?: any) => {
+  const mealsLevelsListRaw = mealsRaw?.[0];
+  const mealsQuantityListRaw = mealsRaw?.[2];
+  const shinyMealBonus = getShinyBonus(account?.breeding?.pets, 'Bonuses_from_All_Meals');
+  return liveEntries<any>(cookingMenu).map(({ entry, index }) => {
+    const mealLevel = mealsLevelsListRaw?.[index] ?? 0;
+    const levelCost = getMealLevelCost(mealLevel, account?.achievements, account);
+    const cookingMasteryNodeLevel = cookMasterRaw?.[0]?.[index] ?? 0;
+    return {
+      index,
+      level: mealLevel,
+      amount: parseFloat(mealsQuantityListRaw?.[index]) || 0,
+      shinyMulti: shinyMealBonus,
+      levelCost,
+      cookingMasteryNode: {
+        level: cookingMasteryNodeLevel,
+        multi: getMealNodeMulti(cookingMasteryNodeLevel)
+      },
+      ...entry
+    }
+  });
+}
+
+export const applyMealsMulti = (meals: any, multiplier: any) => {
+  return meals?.map((meal: any) => ({ ...meal, multiplier: 1 + multiplier / 100 }));
+}
+
+
+// game: SkillStats("CookingEfficiency"): base efficiency * every multiplier
+export const getCookingEffParts = (character: any, characters: any, account: any, playerInfo: any) => {
+  const talents = character?.flatTalents;
+  const chows = character?.chow?.finished?.[0] ?? 1;
+  const { value: multiplierGear } = getStatsFromGear(character, 67, account);
+  const { value: baseGear } = getStatsFromGear(character, 62, account);
+  const names = efficiencyGroupNames('cooking');
+  const tree = [
+    sumGroup(names.base, [
+      flat('Base', 250, { note: 'Every character starts at 250' }),
+      flat('Strength', Math.pow(character?.stats?.strength, .6) * (1 + getTalentBonus(talents, 'SKILL_STRENGTHEN') / 100)),
+      flat('Stamp', getStampsBonusByStat(account, 'CookingEff', character)),
+      flat('Gear', baseGear),
+      flat('Obols', getObolsBonus(character?.obols, bonuses?.etcBonuses?.[62])),
+      // game: RiftStuff("RiftSkillBonus,9", 1) - the efficiency bonus, not the EXP one
+      flat('Skill mastery', 10 * isMasteryBonusUnlocked(account?.rift, account?.totalSkillsLevels?.cooking?.rank, 1)),
+      flat('Post office', getPostOfficeBonus(character?.postOffice, 'Chefs_Essentials', 0)),
+      getAllBaseSkillEffBreakdown(character, account, characters, playerInfo)
+    ]),
+    productGroup(names.bonuses, [
+      getAllEffBreakdown(character, characters, account),
+      additiveGroup(NUMBERED_GROUP, [
+        percent('Apocalypse Chow talent', getTalentBonus(talents, 'APOCALYPSE_CHOW') * chows),
+        percent('Brute Efficiency talent', getTalentBonus(talents, 'BRUTE_EFFICIENCY')),
+        percent('Gear', multiplierGear),
+        percent('Obols', getObolsBonus(character?.obols, bonuses?.etcBonuses?.[67]))
+      ])
+    ])
+  ];
+  return { value: evaluateBreakdownNode(tree[0]) * evaluateBreakdownNode(tree[1]), tree };
+}
+
+export const getCookingEff = (character: any, characters: any, account: any, playerInfo: any) =>
+  getCookingEffParts(character, characters, account, playerInfo).value;
+
+export const getCookingProwess = (character: any, account: any, _unused2?: any) => {
+  return allProwess(character, account);
+}
+
+export const getSpiceUpgradeCost = (upgradeLevel: any) => {
+  return (upgradeLevel
+    + 1 + Math.floor(Math.max(0, upgradeLevel - 10) / 2)
+    + Math.pow(Math.max(0, upgradeLevel - 30), 1.2))
+    * Math.pow(1.02, Math.max(0, upgradeLevel - 60))
+}
+
+export const getMealsBonusByEffectOrStat = (account: any, effectName: any, statName: any, _unused3?: any) => {
+  return account?.cooking?.meals?.reduce((sum: any, meal: any) => {
+    const { effect, stat } = meal;
+    if (effectName) {
+      if (!effect.includes(effectName)) return sum;
+    } else {
+      if (stat !== statName) return sum;
+    }
+    return sum + (getMealBonus(account, meal).value || 0);
+  }, 0) ?? 0;
+}
+
+// game: DNSM MealBonusesS (-6) - BonusMultiCook(meal) * CookingMealBonusMultioo * RibbonBonus * level * base.
+// PxLine meals skip every multiplier. `level` defaults to the meal's own, pass level + 1 for a preview.
+export const getMealBonus = (account: any, meal: any, level: number = meal?.level ?? 0): {
+  value: number;
+  breakdown: StatBreakdown
+} => {
+  const base = level * (meal?.baseStat ?? 0);
+  const statName = cleanUnderscore(meal?.name ?? 'Meal') ?? '';
+  if (meal?.stat === 'PxLine') {
+    return { value: base, breakdown: createBreakdown(statName, formatMealBonus(base), [flat('Meal level bonus', base)]) };
+  }
+  const blackDiamondRhinestone = getJewelBonus(account?.lab?.jewels, 16) ?? 0;
+  const shinyMealBonus = getShinyBonus(account?.breeding?.pets, 'Bonuses_from_All_Meals');
+  const winBonus = getWinnerBonus(account, '<x Meal Bonuses');
+  const companion162 = isCompanionBonusActive(account, 162) ? (account?.companions?.list?.at(162)?.bonus ?? 0) : 0;
+  const ribbonRank = account?.grimoire?.ribbons?.[28 + meal?.index] ?? 0;
+  const ribbonBonus = getRibbonBonus(account, ribbonRank);
+  const nodeMulti = meal?.cookingMasteryNode?.multi ?? 1;
+  const tree = [
+    flat('Meal level bonus', base),
+    additiveGroup('All meal bonuses', [
+      percent('Black Diamond Rhinestone (Jewel)', blackDiamondRhinestone),
+      percent('Shiny Pets', shinyMealBonus)
+    ]),
+    multiplier('Winner Bonus (Summoning)', 1 + winBonus / 100),
+    multiplier('Wickerlight Spirit (Companion)', 1 + (25 * companion162) / 100),
+    multiplier(`Ribbon (Rank ${ribbonRank})`, ribbonBonus),
+    multiplier(`Cooking Mastery node (Lv. ${meal?.cookingMasteryNode?.level ?? 0})`, nodeMulti)
+  ];
+  const value = (1 + (blackDiamondRhinestone + shinyMealBonus) / 100)
+    * (1 + winBonus / 100)
+    * (1 + (25 * companion162) / 100)
+    * ribbonBonus
+    * nodeMulti
+    * base;
+  return { value, breakdown: createBreakdown(statName, formatMealBonus(value), tree) };
+}
+
+// Same notation the meal cards print the bonus with
+export const formatMealBonus = (value: number) => value < 1e7 ? commaNotation(value) : notateNumber(value, 'Big');
+
+
+// game: "RibbonBonus"
+export const getRibbonBonus = (account: any, t: any) => {
+  const armorSetBonus = getArmorSetBonus(account, 'EMPEROR_SET');
+  const cloudBonus73 = getCloudBonus(account?.equinox?.challenges, EQUINOX_CLOUD.RIBBON_MULTI);
+  const rank = t ?? 0;
+  return 1 + (Math.floor(5 * rank + Math.floor(rank / 2) *
+    (4 + 6.5 * Math.floor(rank / 5))) + Math.floor(rank / 4) * (armorSetBonus / 4)
+    + Math.floor(rank / 10) * cloudBonus73 + Math.floor(rank / 20) * getJellyBonus(account, 60)) / 100;
+}
+
+export const COOKING_MASTERY_RANK_THRESHOLDS: number[] = gameTables.cookingRankRequirement;
+
+export interface CookingMasteryCategory {
+  index: number;
+  name: string;
+  points: number;
+  baseMulti: number;
+  mult: number;
+  bonusAmount: number;
+  sourceValue: number | null;
+  isExpBoost: boolean;
+  unlockLevel: number;
+  unlocked: boolean;
+  label: string;
+  description: string;
+}
+
+// Category labels + description templates. These are inline UI strings from the game's render
+// loop (N.js ~line 98188 / 98201) - they are NOT part of any data-returning function, so the
+// z-processing section/VM extractor cannot pull them (it only evaluates data functions, not
+// draw-loop literals). They are therefore maintained here by hand, indexed in category order:
+// SALTY, SPICY, SWEET, SMOKY, SOUR, SAVORY.
+// The per-unit % ({) is Math.round(mult) and each source ($) uses the same notation the game does
+// (see N.js:98201): NotateNumber 'Big' for ladles/ribbons/rank, plain rounding for Cooking LV /
+// Divorce Cake level, and NotateNumber 'Small' for the Smoky ribbon-rank chance.
+const COOKING_MASTERY_CATEGORY_INFO: { label: string; desc: (category: CookingMasteryCategory) => string }[] = [
+  {
+    label: 'EXP boost via Ladle',
+    desc: (c) => `+${Math.round(c.mult)}% Cooking Mastery EXP per POW 10 Ladles you've ever used, currently ${notateNumber(c.sourceValue, 'Big')} ladles used.`
+  },
+  {
+    label: 'EXP boost via account Cooking LV',
+    desc: (c) => `+${Math.round(c.mult)}% Cooking Mastery EXP per Cooking LV of your entire account above 1000, currently LV ${Math.round(c.sourceValue ?? 0)}. Multiplicative with the other categories.`
+  },
+  {
+    label: 'EXP boost via Divorce Cake Level',
+    desc: (c) => `+${Math.round(c.mult)}% Cooking Mastery EXP per level of your Divorce Cake meal above Lv.75, yours is Lv ${Math.round(c.sourceValue ?? 0)}.`
+  },
+  {
+    label: 'Boosts daily Ribbon gains',
+    desc: (c) => `+${notateNumber(c.bonusAmount, 'Small')}% chance daily ribbons are +1 rank higher than they otherwise would've been.`
+  },
+  {
+    label: 'EXP boost via total Ribbon Ranks',
+    desc: (c) => `+${Math.round(c.mult)}% Cooking Mastery EXP per total Rank of all your Ribbons across all meals, currently ${notateNumber(c.sourceValue, 'Big')}.`
+  },
+  {
+    label: 'EXP boost via Mastery Rank',
+    desc: (c) => `+${Math.round(c.mult)}% Cooking Mastery EXP per Cooking Mastery Rank you are, currently Rank ${notateNumber(c.sourceValue, 'Big')}.`
+  }
+];
+
+export interface CookingMastery {
+  level: number;
+  exp: number;
+  expReq: number;
+  expRate: number;
+  rank: number;
+  rankThresholds: number[];
+  nextRankLevel: number | null;
+  points: {
+    base: number;
+    gridBonus: number;
+    categorySpent: number;
+    categoryLeft: number;
+    nodeSpent: number;
+    nodeLeft: number;
+  };
+  categories: CookingMasteryCategory[];
+  expRateBreakdown: StatBreakdown;
+  ribbons: CookingRibbons;
+  dailyRibbons: DailyRibbonInputs;
+}
+
+// Ribbon[0..27] is the Ribbon Shelf (0 = empty slot), Ribbon[28 + mealIndex] is the rank applied
+// to that meal. The game's total (DNSM.CkMst_RbLvT) sums the meal ranks only, shelf excluded.
+export const RIBBON_SHELF_SLOTS = 28;
+// CookingR('RibbonsMaxLV') - a constant 25 in the game.
+export const RIBBON_MAX_RANK = 25;
+
+export interface CookingRibbons {
+  total: number;
+  highest: number;
+  lowest: number;
+  ribbonedMeals: number;
+  totalMeals: number;
+  shelf: number[];
+  maxRank: number;
+  // How many meals carry each rank, indexed by rank (index 0 = meals without a ribbon).
+  rankCounts: number[];
+}
+
+export const getCookingMastery = (cookMasterRaw: any, mealsRaw: any, account: any, characters?: any): CookingMastery | null => {
+  const cookMaster = cookMasterRaw;
+  // Cooking Mastery is unlocked via Rift 61; bail out for accounts that don't have it yet.
+  if (!cookMaster || !cookMaster?.[1]) return null;
+
+  const level = cookMaster?.[1]?.[0] ?? 0;
+  const exp = cookMaster?.[1]?.[1] ?? 0;
+  const expReq = 100 * Math.pow(2.5, level) * Math.pow(5, Math.max(0, level - 40));
+
+  const categoryNames = randomList2?.[9] ?? [];
+  const categoryMultipliers = randomList2?.[8] ?? [];
+
+  // Shared bonus inputs (all reused from existing parsers).
+  // Rift Spooker companion - upgraded (Spooker+) carries bonus 1.5, so 4x EXP and 7.5 PTS.
+  const companion87 = isCompanionBonusActive(account, 87) ? (account?.companions?.list?.at(87)?.bonus ?? 0) : 0;
+  // Event shop 54 "Bejeweled Ladle" - +5 Purple and Yellow PTS, same bracket as Rift Spooker.
+  const bejeweledLadle = getEventShopBonus(account, 54);
+  const gridBonusExp = account?.research?.gridSquares?.[190]?.bonuses?.[0] ?? 0; // Masterius Cookerius (EXP)
+  const gridBonusPts = account?.research?.gridSquares?.[190]?.bonuses?.[1] ?? 0; // Masterius Cookerius (extra points)
+  const superbit68 = isSuperbitUnlocked(account, 'Cooking_Master') ? 1 : 0;
+  const arcadeBonus = getArcadeBonus(account?.arcade?.shop, 'Cook_Mastery_EXP')?.bonus ?? 0;
+  const saltLickBonus = getSaltLickBonus(account?.saltLick, 10);
+  const vialBonus = getVialsBonusByStat(account?.alchemy?.vials, '7cookmastery');
+  const greenWaterCookMastery = getFountainBonusTotal(account?.hole?.holesObject, 2, 17); // Cooky (Green Water)
+  const menagerieBoost = getMenagerieBoost(account, 21);
+
+  // mult(t) === BonusAmountcook(t, 0) === RandoListo2[8][t] * CookMaster[2][t]
+  const categoryMult = (t: number) => (Number(categoryMultipliers?.[t]) || 0) * (cookMaster?.[2]?.[t] ?? 0);
+
+  const meal73Level = mealsRaw?.[0]?.[73] ?? 0;
+  const ladlesUsed = cookMaster?.[1]?.[3] ?? 0;
+  const sumCookingLevels = characters?.reduce((sum: number, char: any) =>
+    sum + (char?.skillsInfo?.cooking?.level || 0), 0) ?? 0;
+  const mealRibbonRanks = (account?.grimoire?.ribbons ?? [])
+    .slice(RIBBON_SHELF_SLOTS)
+    .map((rank: any) => Number(rank) || 0);
+  const ribbonSum = mealRibbonRanks.reduce((sum: number, rank: number) => sum + rank, 0);
+  const ribbonedMeals = mealRibbonRanks.filter((rank: number) => rank > 0);
+  const ribbons: CookingRibbons = {
+    total: ribbonSum,
+    highest: ribbonedMeals.length > 0 ? Math.max(...ribbonedMeals) : 0,
+    lowest: ribbonedMeals.length > 0 ? Math.min(...ribbonedMeals) : 0,
+    ribbonedMeals: ribbonedMeals.length,
+    totalMeals: mealRibbonRanks.length,
+    shelf: (account?.grimoire?.ribbons ?? [])
+      .slice(0, RIBBON_SHELF_SLOTS)
+      .map((rank: any) => Number(rank) || 0),
+    maxRank: RIBBON_MAX_RANK,
+    rankCounts: mealRibbonRanks.reduce((counts: number[], rank: number) => {
+      if (rank >= 0 && rank <= RIBBON_MAX_RANK) counts[rank] += 1;
+      return counts;
+    }, new Array(RIBBON_MAX_RANK + 1).fill(0))
+  };
+
+  // The live source amount each category scales with (null = no player-facing source, e.g. SMOKY).
+  const categorySource = (t: number): number | null => {
+    if (t === 0) return ladlesUsed;          // Ladles ever used
+    if (t === 1) return sumCookingLevels;    // account Cooking LV
+    if (t === 2) return meal73Level;         // Divorce Cake meal level
+    if (t === 4) return ribbonSum;           // total Ribbon Ranks
+    if (t === 5) return level + 1;           // Cooking Mastery Rank (game shows level + 1)
+    return null;                             // SMOKY (t=3): a ribbon-rank chance, no scaling source
+  };
+
+  // BonusAmountcook(t, 99) - the actual % each category contributes to the EXP rate.
+  const bonusAmount = (t: number) => {
+    const m = categoryMult(t);
+    if (t === 0) return lavaLog(cookMaster?.[1]?.[3] ?? 0) * m;
+    if (t === 1) return Math.max(0, sumCookingLevels - 1000) * m;
+    if (t === 2) return Math.max(0, meal73Level - 75) * m;
+    if (t === 3) return getSmokyRibbonBonus(m);
+    if (t === 4) return ribbonSum * m;
+    return (level + 1) * m;
+  };
+
+  const categories: CookingMasteryCategory[] = (categoryNames as any[]).map((name: string, index: number) => {
+    const unlockLevel = COOKING_MASTERY_RANK_THRESHOLDS[index] ?? 0; // RankREQcook(index)
+    const info = COOKING_MASTERY_CATEGORY_INFO[index];
+    const category: CookingMasteryCategory = {
+      index,
+      name,
+      points: cookMaster?.[2]?.[index] ?? 0,
+      baseMulti: Number(categoryMultipliers?.[index]) || 0,
+      mult: categoryMult(index),
+      bonusAmount: bonusAmount(index),
+      sourceValue: categorySource(index),
+      isExpBoost: index !== 3, // SMOKY boosts daily ribbon rank chance, not EXP
+      unlockLevel,
+      unlocked: level >= unlockLevel,
+      label: info?.label ?? '',
+      description: ''
+    };
+    category.description = info?.desc?.(category) ?? '';
+    return category;
+  });
+
+  // EXP rate excludes category index 3 from the multiplicative product (matches the game).
+  const expRateCategoryKeys = [0, 1, 2, 4, 5];
+  const expRateCategoryProduct = expRateCategoryKeys.reduce((prod, k) => prod * (1 + bonusAmount(k) / 100), 1);
+  const baseExpRate = 2;
+  // game: "Summoning2:ExpRateCook"
+  const expRate = baseExpRate
+    * expRateCategoryProduct
+    * (1 + gridBonusExp / 100)
+    * (1 + (40 * superbit68) / 100)
+    * (1 + 2 * companion87)
+    * (1 + greenWaterCookMastery / 100)
+    * (1 + menagerieBoost / 100)
+    * (1 + (vialBonus + arcadeBonus + saltLickBonus) / 100);
+
+  const categorySpent = (cookMaster?.[2] ?? []).reduce((sum: number, v: any) => sum + (Number(v) || 0), 0);
+  const nodeSpent = (cookMaster?.[0] ?? []).reduce((sum: number, v: any) => sum + (Number(v) || 0), 0);
+  const basePoints = level + (1 + 5 * bejeweledLadle + 5 * companion87);
+  // game: PtsLeftCook_P (purple, CookMaster[2]) adds jelly 13, PtsLeftCook_Y (yellow, CookMaster[0]) adds jelly 5.
+  const purplePoints = basePoints + getJellyBonus(account, 13);
+  const yellowPoints = basePoints + getJellyBonus(account, 5);
+
+  // Only the first 6 thresholds are used by the game (one per flavor category); 150/250/500 are unused.
+  const categoryUnlockLevels = COOKING_MASTERY_RANK_THRESHOLDS.slice(0, 6);
+  const rank = categoryUnlockLevels.filter((threshold) => threshold <= level).length - 1;
+  const nextRankLevel = categoryUnlockLevels.find((threshold) => threshold > level) ?? null;
+
+  const expRateBreakdown = createBreakdown('Cooking Mastery EXP rate', notateNumber(expRate, 'Big'), [
+    flat('Base', baseExpRate),
+    productGroup(NUMBERED_GROUP, [
+      ...expRateCategoryKeys.map((k) => multiplier(`${categoryNames?.[k] ?? `Category ${k}`} bonus`, 1 + bonusAmount(k) / 100)),
+      multiplier('Research Grid (Masterius Cookerius)', 1 + gridBonusExp / 100),
+      multiplier('Superbit (Cooking Master)', 1 + (40 * superbit68) / 100),
+      multiplier('Rift Spooker (Companion)', 1 + 2 * companion87),
+      multiplier('Green Water (Fountain)', 1 + greenWaterCookMastery / 100),
+      multiplier('Menagerie Boost', 1 + menagerieBoost / 100),
+      additiveGroup(NUMBERED_GROUP, [
+        percent('Vial', vialBonus),
+        percent('Arcade', arcadeBonus),
+        percent('Salt Lick', saltLickBonus)
+      ])
+    ])
+  ]);
+
+  return {
+    level,
+    exp,
+    expReq,
+    expRate,
+    rank,
+    rankThresholds: categoryUnlockLevels,
+    nextRankLevel,
+    points: {
+      base: basePoints,
+      gridBonus: gridBonusPts,
+      categorySpent,
+      // The game rounds the whole remainder (Rift Spooker+ contributes a fractional 7.5 PTS).
+      categoryLeft: Math.max(0, Math.round(purplePoints - categorySpent)),
+      nodeSpent,
+      nodeLeft: Math.max(0, Math.round(yellowPoints + gridBonusPts - nodeSpent))
+    },
+    categories,
+    expRateBreakdown,
+    ribbons,
+    dailyRibbons: getDailyRibbonInputs(account, characters, {
+      bonus: bonusAmount(3),
+      baseMulti: Number(categoryMultipliers?.[3]) || 0,
+      points: cookMaster?.[2]?.[3] ?? 0,
+      allPoints: categorySpent + Math.max(0, Math.round(purplePoints - categorySpent)),
+      unlocked: level >= (COOKING_MASTERY_RANK_THRESHOLDS[3] ?? 0)
+    })
+  };
+};
+
+// BonusAmountcook(3): the SMOKY category's % bonus for a category multiplier of baseMulti * points.
+// game: "BonusAmountcook"
+export const getSmokyRibbonBonus = (multiplier: number) => multiplier > 0 ? (multiplier / (25 + multiplier)) * 250 : 0;
+
+export interface DailyRibbonSmoky {
+  bonus: number;
+  baseMulti: number;
+  points: number;
+  allPoints: number;
+  unlocked: boolean;
+}
+
+export interface DailyRibbonInputs {
+  unlocked: boolean;
+  meritocracy: number;
+  connoisseur: number;
+  bundleDeathBringer: number;
+  bundleBoaring: number;
+  bundleAnniversary: number;
+  legendTalent: number;
+  talent: number;
+  palette: number;
+  grimoire: number;
+  sushi: number;
+  armory: number;
+  elegantRibbons: number;
+  binGoosey: number;
+  binGooseyUpgraded: number;
+  smoky: DailyRibbonSmoky;
+}
+
+export interface DailyRibbons {
+  unlocked: boolean;
+  count: { min: number; max: number; expected: number; chances: { count: number; chance: number }[] };
+  // Chance for each rank, indexed by rank (index 0 is always 0).
+  rankChances: number[];
+  expectedRank: number;
+  smokyBonus: number;
+  countBreakdown: StatBreakdown;
+  rankBreakdown: StatBreakdown;
+}
+
+// Inputs for the daily Ribbon Shelf roll (N.js daily reset, the block after Grimoire upgrade 5).
+export const getDailyRibbonInputs = (account: any, characters: any, smoky: DailyRibbonSmoky): DailyRibbonInputs => {
+  const bundleDeathBringer = isBundlePurchased(account, 'bun_v') ? 1 : 0;
+  const bundleBoaring = isBundlePurchased(account, 'ban_f') ? 1 : 0;
+  const grimoire = getGrimoireBonus(account?.grimoire?.upgrades, 5);
+  const connoisseur = getEventShopBonus(account, 13);
+  return {
+    unlocked: grimoire >= 1 || !!bundleDeathBringer || !!bundleBoaring || connoisseur === 1,
+    meritocracy: getMeritocracyBonus(account, 11) || 0,
+    connoisseur,
+    bundleDeathBringer,
+    bundleBoaring,
+    bundleAnniversary: isBundlePurchased(account, 'ban_a') ? 1 : 0,
+    legendTalent: getLegendTalentBonus(account, 13) || 0,
+    talent: getHighestTalentAcrossCharacters(characters, 'RIBBON_WINNING', getBestActiveCharacter(characters)) || 0,
+    palette: getPaletteBonus(account, 33),
+    grimoire,
+    sushi: getSushiBonus(account, 14),
+    armory: getArmoryUpgradeBonus(account, 82),
+    elegantRibbons: getEventShopBonus(account, 51),
+    binGoosey: isCompanionBonusActive(account, 169) ? 1 : 0,
+    binGooseyUpgraded: isCompanionLvl2Active(account, 169) ? 1 : 0,
+    smoky
+  };
+};
+
+// floor(base + rand), rand in [0, 1): base's integer part, +1 with chance equal to its fraction.
+const floorWithRandom = (base: number): { value: number; chance: number }[] => {
+  const whole = Math.floor(base);
+  const fraction = base - whole;
+  return fraction > 0
+    ? [{ value: whole, chance: 1 - fraction }, { value: whole + 1, chance: fraction }]
+    : [{ value: whole, chance: 1 }];
+};
+
+const shiftRanks = (ranks: number[], outcomes: { add: number; chance: number }[]) => {
+  const next = new Array(ranks.length + Math.max(...outcomes.map(({ add }) => add), 0)).fill(0);
+  ranks.forEach((chance, rank) => {
+    if (!chance) return;
+    outcomes.forEach(({ add, chance: outcomeChance }) => next[rank + add] += chance * outcomeChance);
+  });
+  return next;
+};
+
+type RankOutcome = { add: number; chance: number };
+
+const expectedAdd = (outcomes: RankOutcome[]) => outcomes.reduce((sum, { add, chance }) => sum + add * chance, 0);
+
+// Exact odds of the daily ribbon roll. smokyBonus overrides the Smoky % for what-if previews.
+export const calcDailyRibbons = (inputs: DailyRibbonInputs, smokyBonus: number = inputs?.smoky?.bonus ?? 0): DailyRibbons => {
+  const flatCount = 1 + 3 * inputs.connoisseur + Math.min(5, 5 * inputs.bundleDeathBringer)
+    + Math.min(5, 5 * inputs.bundleBoaring) + inputs.legendTalent + inputs.talent / 100;
+  const meritocracyMulti = 1 + inputs.meritocracy / 100;
+
+  // floor(M * (flat + rand + min(3, floor(rand + palette / 100))))
+  const countChances = new Map<number, number>();
+  floorWithRandom(inputs.palette / 100).forEach(({ value, chance }) => {
+    const low = meritocracyMulti * (flatCount + Math.min(3, value));
+    const high = low + meritocracyMulti;
+    for (let count = Math.floor(low); count < high; count++) {
+      const overlap = Math.min(high, count + 1) - Math.max(low, count);
+      if (overlap > 0) countChances.set(count, (countChances.get(count) ?? 0) + chance * overlap / meritocracyMulti);
+    }
+  });
+  const counts = [...countChances.entries()]
+    .map(([count, chance]) => ({ count, chance }))
+    .filter(({ chance }) => chance > 1e-12)
+    .sort((a, b) => a.count - b.count);
+  const unlocked = inputs.unlocked;
+
+  // Rank starts at 1 and gets 7 rolls of +1. Misses on the first two rolls are free, any later
+  // miss ends the streak.
+  const streakChance = Math.min(0.65, 0.1 + (inputs.grimoire + 15 * inputs.bundleDeathBringer) / 100);
+  const freeRoll: RankOutcome[] = [{ add: 0, chance: 1 - streakChance }, { add: 1, chance: streakChance }];
+  const streak: RankOutcome[] = Array.from({ length: 6 }, (_, hits) => ({
+    add: hits,
+    chance: Math.pow(streakChance, hits) * (hits < 5 ? 1 - streakChance : 1)
+  }));
+  const armoryChance = Math.min(1, Math.max(0, (inputs.armory + 25 * inputs.elegantRibbons) / 100));
+  const bonusRolls: { name: string; outcomes: RankOutcome[] }[] = [
+    { name: 'Sushi', outcomes: inputs.sushi >= 1 ? [{ add: 0, chance: 0.9 }, { add: 1, chance: 0.1 }] : [] },
+    { name: '5th Anniversary (Bundle)', outcomes: inputs.bundleAnniversary >= 1 ? [{ add: 1, chance: 1 }] : [] },
+    {
+      name: 'Smoky (Cooking Mastery)',
+      outcomes: smokyBonus > 0
+        ? floorWithRandom(smokyBonus / 100).map(({ value, chance }) => ({ add: Math.min(3, value), chance }))
+        : []
+    },
+    {
+      name: 'Ribbonic Guardian (Armory) + Elegant Ribbons (Event Shop)',
+      outcomes: armoryChance > 0 ? [{ add: 0, chance: 1 - armoryChance }, { add: 1, chance: armoryChance }] : []
+    },
+    {
+      name: 'Bin Goosey (Companion)',
+      outcomes: inputs.binGoosey ? [
+        { add: 5 + 3 * inputs.binGooseyUpgraded, chance: 0.1 },
+        { add: 3 + inputs.binGooseyUpgraded, chance: 0.9 * 0.45 },
+        { add: 1, chance: 0.9 * 0.55 }
+      ] : []
+    }
+  ];
+  const ranks = [freeRoll, freeRoll, streak, ...bonusRolls.map(({ outcomes }) => outcomes)]
+    .filter((outcomes) => outcomes.length > 0)
+    .reduce(shiftRanks, [0, 1]);
+  // The game turns any roll above Rank 20 into a Rank 2 ribbon.
+  const rankChances = new Array(Math.max(21, ranks.length)).fill(0);
+  ranks.forEach((chance, rank) => rankChances[rank > 20 ? 2 : rank] += chance);
+  while (rankChances.length > 21 && !rankChances[rankChances.length - 1]) rankChances.pop();
+
+  const expectedCount = unlocked ? counts.reduce((sum, { count, chance }) => sum + count * chance, 0) : 0;
+  const expectedRank = rankChances.reduce((sum, chance, rank) => sum + rank * chance, 0);
+  const uncappedRank = 1 + 2 * expectedAdd(freeRoll) + expectedAdd(streak)
+    + bonusRolls.reduce((sum, { outcomes }) => sum + expectedAdd(outcomes), 0);
+
+  return {
+    unlocked,
+    count: unlocked ? {
+      min: counts[0]?.count ?? 0,
+      max: counts.at(-1)?.count ?? 0,
+      expected: expectedCount,
+      chances: counts
+    } : { min: 0, max: 0, expected: 0, chances: [] },
+    rankChances,
+    expectedRank,
+    smokyBonus,
+    countBreakdown: createBreakdown('Ribbons per day', notateNumber(expectedCount, 'Small'),
+      unlocked ? getRibbonCountTree(inputs, expectedCount) : [info('Daily ribbons', 0, { formatted: 'Locked' })],
+      { combine: 'sum' }),
+    // Average ranks each source adds, so the lines sum to the average rank
+    rankBreakdown: createBreakdown('Average daily ribbon rank', notateNumber(expectedRank, 'Small'), [
+      flat('Starting rank', 1),
+      sumGroup('Extra ranks', [
+        flat('Ribbon Winning (Grimoire)', 2 * expectedAdd(freeRoll) + expectedAdd(streak)),
+        ...bonusRolls.map(({ name, outcomes }) => flat(name, expectedAdd(outcomes))),
+        flat('Above Rank 20 becomes Rank 2', expectedRank < uncappedRank - 1e-9 ? expectedRank - uncappedRank : 0)
+      ], { note: 'Average' })
+    ], { combine: 'sum' })
+  };
+};
+
+// The random 0 to 1 the game adds before rounding the count down
+const AVERAGE_DAILY_RIBBON_ROLL = 0.5;
+
+// Average ribbons per source before the count is rounded down, then the rounding itself
+const getRibbonCountTree = (inputs: DailyRibbonInputs, expectedCount: number) => {
+  const paletteAverage = floorWithRandom(inputs.palette / 100)
+    .reduce((sum, { value, chance }) => sum + Math.min(3, value) * chance, 0);
+  const rolled = productGroup('Ribbons rolled', [
+    sumGroup(NUMBERED_GROUP, [
+      flat('Base', 1),
+      flat('Ribbon Connoisseur (Event Shop)', 3 * inputs.connoisseur),
+      flat('Death Bringer (Bundle)', Math.min(5, 5 * inputs.bundleDeathBringer)),
+      flat('Boaring (Bundle)', Math.min(5, 5 * inputs.bundleBoaring)),
+      flat('Blue Ribbon Certification (Legend Talent)', inputs.legendTalent),
+      flat('Ribbon Winning (Talent)', inputs.talent / 100, { note: 'Every 100% is one ribbon' }),
+      flat('Balmy Red (Palette)', paletteAverage, { note: 'Average, at most 3' }),
+      flat('Daily roll', AVERAGE_DAILY_RIBBON_ROLL, { note: 'Average' })
+    ]),
+    multiplier('Meritocracy', 1 + inputs.meritocracy / 100)
+  ], { unit: 'flat' });
+  return [
+    rolled,
+    flat('Rounded down', expectedCount - evaluateBreakdownNode(rolled), { note: 'Partial ribbons are dropped' })
+  ];
+};
+
+export const getKitchens = (idleonData: any, characters: any, account: any) => {
+  const cookingRaw = tryToParse(idleonData?.Cooking) || idleonData?.Cooking;
+  const atomsRaw = tryToParse(idleonData?.Atoms) || idleonData?.Atoms;
+  return parseKitchens(cookingRaw, atomsRaw, characters, account);
+}
+
+export const parseKitchens = (cookingRaw: any, atomsRaw: any, characters: any, account?: any, options?: any) => {
+  const { characterIndex, enableNanoChip } = options || {};
+  const arenaWave = account?.accountOptions?.[89];
+  const waveReqs = randomList?.[53];
+  const globalKitchenUpgrades = cookingRaw?.reduce((sum: any, table: any) => {
+    const [speedLv, fireLv, luckLv] = table.slice(6, 9);
+    return sum + speedLv + fireLv + luckLv
+  }, 0);
+  const diamondMeals = account?.cooking?.meals?.reduce((res: any, { level }: any) => level >= 11 ? res + 1 : res, 0);
+  const voidMeals = account?.cooking?.meals?.reduce((res: any, { level }: any) => level >= 30 ? res + 1 : res, 0);
+  const totalMeals = account?.cooking?.meals?.reduce((res: any, { level }: any) => res + level, 0);
+  return cookingRaw?.map((table: any, kitchenIndex: any) => {
+    const [status, foodIndex, spice1, spice2, spice3, spice4, speedLv, fireLv, luckLv, , currentProgress] = table;
+    if (status <= 0) return null;
+    const cookingSpeedJewelMultiplier = getJewelBonus(account?.lab?.jewels, 14); // meal cooking speed
+    const cookingSpeedFromJewel = Math.floor(globalKitchenUpgrades / 25) * (cookingSpeedJewelMultiplier || 0);
+
+    const cookingSpeedStamps = getStampsBonusByEffect(account, 'Meal_Cooking_Speed');
+    const cookingSpeedVials = getVialsBonusByStat(account?.alchemy?.vials, 'MealCook');
+    const turtleVial = getVialsBonusByStat(account?.alchemy?.vials, '6turtle');
+    const extraCookingSpeedVials = getVialsBonusByStat(account?.alchemy?.vials, '6CookSpd');
+    const cookingSpeedMeals = getMealsBonusByEffectOrStat(account, null, 'Mcook');
+    // Event shop 53 "Dough Roller" - one flag worth a flat 2x meal speed.
+    const doughRoller = getEventShopBonus(account, 53);
+    const diamondChef = getBubbleBonus(account, 'DIAMOND_CHEF', false);
+    const kitchenEffMeals = getMealsBonusByEffectOrStat(account, null, 'KitchenEff');
+    const trollCard = account?.cards?.Massive_Troll; // Kitchen Eff card
+    const trollCardStars = trollCard?.stars ?? 0;
+    const trollBonus = trollCardStars === 0 ? 0 : trollCardStars + 1;
+    const amethystRhinestone = getJewelBonus(account?.lab?.jewels, 0);
+    const isRichelin = kitchenIndex < account?.gemShopPurchases?.find((value: any, index: any) => index === 120);
+    const triagulonArtifactBonus = isArtifactAcquired(account?.sailing?.artifacts, 'Triagulon')?.bonus ?? 0;
+    const richelinBonus = isRichelin ? 2 : 0;
+    const bubbleBonus = Math.pow(diamondChef, diamondMeals);
+    const firstAchievement = getAchievementStatus(account?.achievements, 225);
+    const secondAchievement = getAchievementStatus(account?.achievements, 224);
+    const marshmallowBonus = getMealsBonusByEffectOrStat(account, null, 'zMealFarm');
+    const cardCookingMulti = getCardBonusByEffect(account?.cards, 'Cooking_Spd_Multi_(Passive)');
+    const arcadeBonus = getArcadeBonus(account?.arcade?.shop, 'Cooking_Speed')?.bonus ?? 0;
+    const winnerBonus = getWinnerBonus(account, '<x Cooking SPD');
+    // game: Lv0[16], the farming level of the logged-in character (or the one picked to simulate)
+    const farmingLevel = characters?.[characterIndex]
+      ? characters?.[characterIndex]?.skillsInfo?.farming?.level ?? 0
+      : getLoggedInSkillLevel(characters, 'farming');
+    let starSignBonus;
+    if (characters?.[characterIndex]) {
+      starSignBonus = getStarSignBonus(characters?.[characterIndex], account, 'Cooking_SPD', enableNanoChip);
+    } else {
+      // game: DNSM.StarSigns of the logged-in character
+      starSignBonus = getStarSignBonus(getBestActiveCharacter(characters), account, 'Cooking_SPD') ?? 0;
+    }
+    const superbit = isSuperbitUnlocked(account, 'MSA_Mealing');
+    let superbitBonus = 0;
+    if (superbit) {
+      superbitBonus = superbit?.bonus;
+    }
+
+    const voidWalkerEnhancementEclipse = getHighestTalentAcrossCharacters(characters, 'ENHANCEMENT_ECLIPSE', getBestActiveCharacter(characters));
+    // game: TalentCalc(59) for the logged-in character (or the one picked to simulate)
+    const loggedInCharacter = characters?.[characterIndex] ?? getBestActiveCharacter(characters);
+    const voidWalkerBloodMarrow = getOwnOrHighestTalent(characters, 'BLOOD_MARROW', loggedInCharacter);
+    const voidWalkerBonusTalent = Math.pow(Math.min(1.012, 1 + voidWalkerBloodMarrow / 100), totalMeals);
+    const voidWalkerEnhancement = getVoidWalkerTalentEnhancements(characters, account, voidWalkerEnhancementEclipse, 146);
+    const voidWalkerApocalypseBonus = Math.max(1, voidWalkerEnhancement as number);
+
+    const voidPlateChefIndex = atomsInfo.findIndex(({ name }) => name === 'Fluoride_-_Void_Plate_Chef');
+    let voidPlateChefBonus = 0;
+    const voidPlateChefLevel = atomsRaw?.[voidPlateChefIndex];
+    if (voidPlateChefLevel) {
+      voidPlateChefBonus = Math.pow(1 + atomsInfo?.[voidPlateChefIndex]?.baseBonus * voidPlateChefLevel / 100, voidMeals);
+    }
+
+    const voteBonus = getVoteBonus(account, 13);
+    const holesObject = account?.hole?.holesObject;
+    const monumentBonus = getMonumentBonus({ holesObject, t: 0, i: 2 });
+    const schematicBonus = getSchematicBonus({ holesObject, t: 56, i: 0 });
+    const lampBonus = getLampBonus({ holesObject, t: 0, i: 0, account });
+    const upgradeVaultBonus = getUpgradeVaultBonus(account?.upgradeVault?.upgrades, 54);
+
+    const kitchenEffMultiplier = kitchenEffMeals * Math.floor((speedLv + fireLv + luckLv) / 10);
+    const marshmallowMultiplier = marshmallowBonus * Math.ceil((farmingLevel + 1) / 50);
+    const achievementBonus = Math.min(6 * trollBonus + (20 * firstAchievement + 10 * secondAchievement), 100);
+    const buttonBonus = getButtonBonus(account, 7);
+    const clamWorkMulti = 1 + 9 * getClamWorkBonus(account, 10);
+    const crucibleMulti = 9 * getPetArenaCrucBonus(account, 5) + 20 * getPetArenaCrucBonus(account, 12) + 1;
+    const menagerieBoost = getMenagerieBoost(account, 4);
+
+    const baseMealSpeed = 10;
+    // game: "CookingR:CookingSPEED"
+    const mealSpeed = baseMealSpeed
+      * (1 + voidWalkerBonusTalent / 100)
+      * Math.max(1, account?.farming?.cropDepot?.cookingSpeed?.value)
+      * Math.max(1, voidWalkerApocalypseBonus)
+      * (1 + doughRoller)
+      * (1 + richelinBonus)
+      * (1 + voteBonus / 100)
+      * (1 + upgradeVaultBonus / 100)
+      * (1 + marshmallowMultiplier / 100)
+      * Math.max(1, bubbleBonus)
+      * Math.max(1, voidPlateChefBonus)
+      * (1 + superbitBonus / 100)
+      * (1 + speedLv / 10)
+      * (1 + triagulonArtifactBonus / 100)
+      * (1 + arcadeBonus / 100)
+      * (1 + turtleVial / 100)
+      * (1 + cookingSpeedVials / 100)
+      * (1 + (cookingSpeedStamps
+        + Math.max(0, cookingSpeedFromJewel)) / 100)
+      * (1 + cookingSpeedMeals / 100)
+      * (1 + starSignBonus / 100)
+      * (1 + winnerBonus / 100)
+      * (1 + monumentBonus / 100)
+      * Math.max(1, schematicBonus)
+      * (1 + cardCookingMulti / 100)
+      * (1 + lampBonus / 100)
+      * (1 + extraCookingSpeedVials / 100)
+      * Math.max(1, amethystRhinestone)
+      * (1 + achievementBonus / 100)
+      * (1 + kitchenEffMultiplier / 100)
+      * (1 + buttonBonus / 100)
+      * clamWorkMulti
+      * crucibleMulti
+      * (1 + menagerieBoost / 100);
+
+    const mealSpeedBreakdown = createBreakdown('Meal speed', notateNumber(mealSpeed, 'Big'), [
+      flat('Base', baseMealSpeed),
+      productGroup(NUMBERED_GROUP, [
+        multiplier('Blood Marrow (Talent)', 1 + voidWalkerBonusTalent / 100),
+        multiplier('Crop Depot', Math.max(1, account?.farming?.cropDepot?.cookingSpeed?.value)),
+        multiplier('Enhancement Eclipse', Math.max(1, voidWalkerApocalypseBonus)),
+        multiplier('Dough Roller (Event Shop)', 1 + doughRoller),
+        multiplier('Richelin Kitchen', 1 + richelinBonus),
+        multiplier('Vote Bonus', 1 + voteBonus / 100),
+        multiplier('Upgrade Vault', 1 + upgradeVaultBonus / 100),
+        multiplier('Marshmallow (Meal)', 1 + marshmallowMultiplier / 100),
+        multiplier('Diamond Chef (Bubble)', Math.max(1, bubbleBonus)),
+        multiplier('Void Plate Chef (Atom)', Math.max(1, voidPlateChefBonus)),
+        multiplier('Superbit', 1 + superbitBonus / 100),
+        multiplier('Speed Level', 1 + speedLv / 10),
+        multiplier('Triagulon (Artifact)', 1 + triagulonArtifactBonus / 100),
+        multiplier('Arcade', 1 + arcadeBonus / 100),
+        multiplier('Turtle Vial', 1 + turtleVial / 100),
+        multiplier('Cooking Speed Vials', 1 + cookingSpeedVials / 100),
+        additiveGroup(NUMBERED_GROUP, [
+          percent('Stamps', cookingSpeedStamps),
+          percent('Jewel', Math.max(0, cookingSpeedFromJewel))
+        ]),
+        multiplier('Meals (Cooking Speed)', 1 + cookingSpeedMeals / 100),
+        multiplier('Star Sign', 1 + starSignBonus / 100),
+        multiplier('Winner Bonus', 1 + winnerBonus / 100),
+        multiplier('Monument', 1 + monumentBonus / 100),
+        multiplier('Schematic', Math.max(1, schematicBonus)),
+        multiplier('Card (Cooking Multi)', 1 + cardCookingMulti / 100),
+        multiplier('Lamp', 1 + lampBonus / 100),
+        multiplier('Extra Vials', 1 + extraCookingSpeedVials / 100),
+        multiplier('Amethyst Rhinestone', Math.max(1, amethystRhinestone)),
+        multiplier('Troll Card + Achievements', 1 + achievementBonus / 100, { note: 'At most +100%' }),
+        multiplier('Kitchen Eff (Meal)', 1 + kitchenEffMultiplier / 100),
+        multiplier('Button', 1 + buttonBonus / 100),
+        multiplier('Clam Work', clamWorkMulti),
+        multiplier('Pet Arena Crucible', crucibleMulti),
+        multiplier('Menagerie Boost', 1 + menagerieBoost / 100)
+      ])
+    ]);
+    // Fire Speed
+    const recipeSpeedVials = getVialsBonusByEffect(account?.alchemy?.vials, 'Recipe_Cooking_Speed');
+    const recipeSpeedStamps = getStampsBonusByEffect(account, 'New_Recipe_Cooking_Speed');
+    const recipeSpeedMeals = getMealsBonusByEffectOrStat(account, null, 'Rcook');
+    const fireTrollBonus = Math.min(6 * trollBonus, 50);
+
+    const baseFireSpeed = 5;
+    const fireSpeed = baseFireSpeed
+      * (1 + (isRichelin ? 1 : 0))
+      * (1 + voteBonus / 100)
+      * Math.max(1, bubbleBonus)
+      * Math.max(1, voidPlateChefBonus)
+      * (1 + superbitBonus / 100)
+      * (1 + fireLv / 10)
+      * (1 + recipeSpeedVials / 100)
+      * (1 + recipeSpeedStamps / 100)
+      * (1 + recipeSpeedMeals / 100)
+      * (1 + fireTrollBonus / 100)
+      * (1 + kitchenEffMultiplier / 100);
+
+    const fireSpeedBreakdown = createBreakdown('Fire speed', notateNumber(fireSpeed, 'Big'), [
+      flat('Base', baseFireSpeed),
+      productGroup(NUMBERED_GROUP, [
+        multiplier('Richelin Kitchen', 1 + (isRichelin ? 1 : 0)),
+        multiplier('Vote Bonus', 1 + voteBonus / 100),
+        multiplier('Diamond Chef (Bubble)', Math.max(1, bubbleBonus)),
+        multiplier('Void Plate Chef (Atom)', Math.max(1, voidPlateChefBonus)),
+        multiplier('Superbit', 1 + superbitBonus / 100),
+        multiplier('Fire Level', 1 + fireLv / 10),
+        multiplier('Recipe Speed Vials', 1 + recipeSpeedVials / 100),
+        multiplier('Recipe Speed Stamps', 1 + recipeSpeedStamps / 100),
+        multiplier('Recipe Speed Meals', 1 + recipeSpeedMeals / 100),
+        multiplier('Troll Card', 1 + fireTrollBonus / 100, { note: 'At most +50%' }),
+        multiplier('Kitchen Eff (Meal)', 1 + kitchenEffMultiplier / 100)
+      ])
+    ]);
+
+    // New Recipe Luck
+    const mealLuck = 1 + Math.pow(5 * luckLv, 0.85) / 100;
+
+    // Spices Cost
+    const kitchenCostVials = getVialsBonusByEffect(account?.alchemy?.vials, null, 'Kcosts');
+    const kitchenCostMeals = getMealsBonusByEffectOrStat(account, null, 'KitchC');
+    const arenaBonusActive = isArenaBonusActive(arenaWave, waveReqs, 7);
+    const sigilBonus = getSigilBonus(account?.alchemy?.p2w?.sigils, 'GARLIC_GLOVE');
+
+    const fractalIsland = getIsland(account, 'Fractal');
+    const reductionUnlocked = fractalIsland?.shop?.find(({
+      effect,
+      unlocked
+    }: any) => effect.includes('Kitchen_Upgrade_Costs') && unlocked);
+
+    const baseMath = 1 / ((1 + (kitchenCostVials
+      + sigilBonus) / 100)
+      * (1 + (reductionUnlocked ? 30 : 0) / 100)
+      * (1 + kitchenCostMeals / 100)
+      * (1 + (isRichelin ? 40 : 0) / 100)
+      * (1 + .5 * (arenaBonusActive ? 1 : 0)));
+
+    const speedCost = 1 + baseMath * getSpiceUpgradeCost(speedLv);
+    const fireCost = 1 + baseMath * getSpiceUpgradeCost(fireLv);
+    const luckCost = 1 + baseMath * getSpiceUpgradeCost(luckLv);
+
+    const spices = [spice1, spice2, spice3, spice4].filter((spice) => spice !== -1);
+    const spicesValues = spices.map((spiceValue) => parseInt(randomList[49]?.[spiceValue]));
+    const possibleMeals = getMealsFromSpiceValues(randomList[49], spicesValues).filter((foodIndex) => foodIndex > 0).map((foodIndex) => ({
+      index: foodIndex,
+      rawName: cookingMenu?.[foodIndex]?.rawName,
+      cookReq: cookingMenu?.[foodIndex]?.cookReq
+    }));
+
+    return {
+      status,
+      meal: {
+        ...(cookingMenu?.[foodIndex] || {}),
+        ...(account?.cooking?.meals?.[foodIndex] || {})
+      },
+      luckLv,
+      fireLv,
+      speedLv,
+      currentProgress,
+      mealSpeed,
+      mealSpeedBreakdown,
+      mealLuck,
+      fireSpeed,
+      fireSpeedBreakdown,
+      speedCost,
+      fireCost,
+      luckCost,
+      ...(status === 3 ? { spices } : {}),
+      ...(status === 3 ? { possibleMeals } : {})
+    }
+  }).filter((kitchen: any) => kitchen);
+}
+
+export const getMealsFromSpiceValues = (spiceValues: any, valueOfSpices: any) => {
+  const possibleMeals: any[] = [];
+  // Each spice value is also a possible meal.
+  valueOfSpices.forEach((value: any) => {
+    if (!possibleMeals.includes(value)) {
+      possibleMeals.push(value);
+    }
+  });
+  // the sum of spice indexes is a possible meal.
+  const spiceValuesArr = spiceValues.map((num: any) => parseFloat(num));
+  const sum = valueOfSpices.reduce((sum: any, value: any) => sum + spiceValuesArr.indexOf(value), 0);
+  if (!spiceValues.includes(sum)) {
+    possibleMeals.push(sum);
+  }
+
+  // if we have 3 or more spices, add sum - 1.
+  if (valueOfSpices.length > 2 && !possibleMeals.includes(sum - 1) && !spiceValuesArr.includes(sum - 1)) {
+    possibleMeals.push(sum - 1);
+  }
+  // if we have more than one spice, add sum + 1.
+  if (valueOfSpices.length > 1 && !possibleMeals.includes(sum + 1) && !spiceValuesArr.includes(sum + 1)) {
+    possibleMeals.push(sum + 1);
+  }
+
+  // return sorted by lowest meal to highest.
+  return possibleMeals.sort((meal1, meal2) => meal1 < meal2 ? -1 : 1);
+}
+
+
+export const calcMealTime = (maxLevel: any, meal: any, totalMealSpeed: any, achievements: any, equinoxUpgrades: any, account: any) => {
+  const { amount, level, cookReq } = meal;
+  if (level >= maxLevel) return 0;
+  let amountNeeded = 0;
+  for (let i = level; i < maxLevel; i++) {
+    amountNeeded += getMealLevelCost(i, achievements, account, equinoxUpgrades);
+  }
+  amountNeeded -= amount;
+  if (amountNeeded < 0) return 0;
+  return calcTimeToNextLevel(amountNeeded, cookReq, totalMealSpeed);
+}
+
+export const DEFAULT_MEAL_MAX_LEVEL = 30;
+// game: "CookingR:CookingMealMaxLVlol"
+export const getMealMaxLevel = (account: any) => {
+  const causticolumnArtifact = isArtifactAcquired(account?.sailing?.artifacts, 'Causticolumn');
+  const firstJadeUnlocked = isJadeBonusUnlocked(account, 'Papa_Blob\'s_Quality_Guarantee');
+  const secondJadeUnlocked = isJadeBonusUnlocked(account, 'Chef_Geustloaf\'s_Cutting_Edge_Philosophy');
+  const grimoireBonus = getGrimoireBonus(account?.grimoire?.upgrades, 26);
+  const loreBoss = account?.spelunking?.loreBosses?.[5]?.defeated ? 1 : 0;
+  return DEFAULT_MEAL_MAX_LEVEL
+    + (Math.min(20, grimoireBonus))
+    + 10 * (isMenagerieUnlockOwned(account, 20) ? 1 : 0)
+    + (causticolumnArtifact?.bonus ?? 0)
+    + (firstJadeUnlocked ? 10 : 0)
+    + (secondJadeUnlocked ? 10 : 0)
+    + (30 * loreBoss)
+}
+export const getMealLevelCost = (level: any, achievements: any, account?: any, localEquinoxUpgrades?: any) => {
+  const foodLustChallenge = getCloudBonus(account?.equinox?.challenges, EQUINOX_CLOUD.FOOD_LUST_DISCOUNT);
+  const companion162 = isCompanionBonusActive(account, 162) ? (account?.companions?.list?.at(162)?.bonus ?? 0) : 0;
+
+  return Math.max(0.001, 1 / Math.max(1, 5 * companion162))
+    * Math.pow(10, 22 * Math.floor((level + 1e3) / 1111))
+    * (1 / Math.min(5, Math.max(1, 1 + (10 * getAchievementStatus(achievements, 233)) / 100)))
+    * Math.max(0.001, Math.pow(Math.max(0.58, 0.8 - 0.22 * foodLustChallenge),
+      Math.min(account?.accountOptions?.[193] ?? 0,
+        getEquinoxBonus(localEquinoxUpgrades || account?.equinox?.upgrades, 'Food_Lust')))) *
+    (10 + (level
+      + Math.pow(level, 2)))
+    * Math.pow(1.2 + 0.05 * level,
+      level)
+    * Math.pow(1 + 0.4 * Math.floor((level + 1e3) / 1111),
+      level)
+}
+
+export const calcTimeToNextLevel = (amountNeeded: any, cookReq: any, totalMealSpeed: any) => {
+  return amountNeeded * cookReq / totalMealSpeed;
+}
+
+// Kitchens with status 3 are idle and add no speed.
+export const getTotalMealSpeed = (kitchens: any) => {
+  return kitchens?.reduce((sum: number, kitchen: any) => sum + (kitchen?.status === 3 ? 0 : (kitchen?.mealSpeed ?? 0)), 0) ?? 0;
+}
+
+export const getHighestOverflowingLadle = (characters: any) => {
+  const bloodBerserkers = characters?.filter((character: any) => checkCharClass(character?.class, CLASSES.Blood_Berserker));
+  return bloodBerserkers?.reduce((res: any, { talents, name }: any) => {
+    const overflowingLadle = talents?.[3]?.orderedTalents.find((talent: any) => talent?.name === 'OVERFLOWING_LADLE');
+    const lv = overflowingLadle?.level > overflowingLadle?.maxLevel
+      ? overflowingLadle?.level
+      : overflowingLadle?.maxLevel;
+    const bonus = growth(overflowingLadle?.funcX, lv, overflowingLadle?.x1, overflowingLadle?.x2, false);
+    if (bonus > res.value) {
+      return { value: bonus, character: name };
+    }
+    return res;
+  }, { value: 0, character: '' }) ?? { value: 0, character: '' };
+}
+
+export interface NoMealLeftBehindProc {
+  index: number;
+  name: string;
+  rawName: string;
+  fromLevel: number;
+  toLevel: number;
+  ladles: number;
+}
+
+// The daily meal level-up fires if either source is owned, and their levels stack onto one meal.
+export const getNoMealLeftBehindLevels = (account: any) => {
+  return (isJadeBonusUnlocked(account, 'No_Meal_Left_Behind') ? 1 : 0)
+    + (isBundlePurchased(account, 'bun_s') ? 2 : 0);
+}
+
+// The game only ever considers meals at level 2 or higher.
+export const NO_MEAL_LEFT_BEHIND_MIN_LEVEL = 2;
+// Since 2.3.540 the daily levels never raise a meal past 150, whatever the meal max level is.
+export const NO_MEAL_LEFT_BEHIND_MAX_LEVEL = 150;
+
+// No Meal Left Behind hands the day's free levels to the lowest-level meal and picks its target
+// again the next day, so the upcoming procs have to be simulated. Sorting once by level implies one
+// proc per meal and hides the runs where a single low meal soaks up procs until it catches up.
+// game: "Design_23_23_EveryScene:Every1sec" (the daily No Meal Left Behind pick)
+export const getNoMealLeftBehindQueue = (meals: any[], mealMaxLevel: any, procCount: any, {
+  achievements,
+  account,
+  equinoxUpgrades,
+  mealSpeed,
+  overflowMulti = 1
+}: any = {}): NoMealLeftBehindProc[] => {
+  const levelsPerProc = getNoMealLeftBehindLevels(account);
+  if (levelsPerProc === 0) return [];
+  // The pick still compares against the meal max level, so a lowest meal at 150 keeps getting picked and gains nothing.
+  const levelCap = Math.min(NO_MEAL_LEFT_BEHIND_MAX_LEVEL, Number(mealMaxLevel) || 0);
+  const state = meals
+    ?.filter((meal: any) => meal?.level >= NO_MEAL_LEFT_BEHIND_MIN_LEVEL && meal?.level < mealMaxLevel)
+    ?.map(({ index, name, rawName, level, amount, cookReq }: any) => ({
+      index,
+      name,
+      rawName,
+      level,
+      cookReq,
+      remaining: amount
+    })) ?? [];
+  const queue: NoMealLeftBehindProc[] = [];
+  for (let proc = 0; proc < procCount; proc++) {
+    // Ties go to the meal furthest down the book, matching the game's pick.
+    const target = state
+      .filter(({ level }: any) => level < mealMaxLevel)
+      .sort((a: any, b: any) => a.level === b.level ? b.index - a.index : a.level - b.level)
+      .at(0);
+    if (!target) break;
+    // All of the day's levels land on the same meal before the next pick happens.
+    const gained = Math.max(0, Math.min(levelsPerProc, levelCap - target.level));
+    // Every later proc would land on this same meal for nothing
+    if (gained === 0) break;
+    let ladles = 0;
+    for (let step = 0; step < gained; step++) {
+      const levelCost = getMealLevelCost(target.level + step, achievements, account, equinoxUpgrades);
+      ladles += calcTimeToNextLevel(Math.max(0, levelCost - target.remaining), target.cookReq, mealSpeed) / overflowMulti;
+      target.remaining = Math.max(0, target.remaining - levelCost);
+    }
+    queue.push({
+      index: target.index,
+      name: target.name,
+      rawName: target.rawName,
+      fromLevel: target.level,
+      toLevel: target.level + gained,
+      ladles
+    });
+    target.level += gained;
+  }
+  return queue;
+}
+
+export const getTotalKitchenLevels = (kitchens: any) => {
+  return kitchens?.reduce((sum: any, { speedLv, luckLv, fireLv }: any) => {
+    return sum + speedLv + luckLv + fireLv;
+  }, 0);
+}
+export const maxNumberOfSpiceClicks = 100;
+
+export const getChipsAndJewels = (account: any, size = 10) => {
+  if (!account) return [];
+  const { serverVars, timeAway, lab } = account || {};
+  const chips = lab?.chips;
+  const jewels = lab?.jewels;
+
+  const seed = Math.floor(timeAway?.GlobalTime / 604800);
+  const rotations = [];
+  for (let i = 0; i < size; i++) {
+    let rotation: any[] = [];
+    const firstRng = new LavaRand(Math.round((seed + i)));
+    const firstRandom = Math.floor(1E3 * firstRng.rand());
+    rotation.push(Math.round(firstRandom - Math.floor(firstRandom / (chips.length - 10)) * (chips.length - 10)));
+    const secondRng = new LavaRand(Math.round((seed + i) + 500));
+    const secondRandom = Math.floor(1E3 * secondRng.rand());
+    rotation.push(Math.round(secondRandom - Math.floor(secondRandom / chips.length) * chips.length));
+    const thirdRng = new LavaRand(Math.round((seed + i) + 1E3));
+    const thirdRandom = Math.floor(1E3 * thirdRng.rand());
+    rotation.push(Math.round(thirdRandom - Math.floor(thirdRandom / jewels.length) * jewels.length));
+    for (let b = 0; 3 > b; b++) {
+      const tempRotation = [];
+      for (let f = 0; 2 > f; f++) {
+        const anotherRng = new LavaRand(Math.round((seed + i) + 500 * b + (-1 + 2 * f)));
+        const anotherRandom = Math.floor(1E3 * anotherRng.rand());
+        const index = 2 === b
+          ? Math.round(anotherRandom - Math.floor(anotherRandom / jewels.length) * jewels.length)
+          : Math.round(anotherRandom - Math.floor(anotherRandom / (chips.length - 10 * (1 - b))) * (chips.length - Math.round(10 * (1 - b))));
+        tempRotation.push(index);
+      }
+      if (tempRotation[0] === rotation[b])
+        for (let e = 0; 100 > e; e++) {
+          const yetAnotherRng = new LavaRand(Math.round((seed + i) + 500 * b + 765 * (e + 1)));
+          const yetAnotherRandom = Math.floor(1E3 * yetAnotherRng.rand());
+          const index = 2 === b
+            ? Math.round(yetAnotherRandom - Math.floor(yetAnotherRandom / jewels.length) * jewels.length)
+            : Math.round(yetAnotherRandom - Math.floor(yetAnotherRandom / (chips.length - 10 * (1 - b))) * (chips.length - Math.round(10 * (1 - b))));
+          if (tempRotation[0] !== index && tempRotation[1] !== index) {
+            rotation[b] = index;
+            break
+          }
+        }
+    }
+
+    for (let b = 0; 3 > b; b++) {
+      if (-1 !== serverVars.ChipRepo?.[b]) {
+        rotation[b] = serverVars.ChipRepo?.[b];
+      }
+      const unlocked = isJadeBonusUnlocked(account, 'Laboratory_Bling');
+      if ((rotation[b] >= 21 && rotation[b] <= 23) || (rotation[b] >= 18 && rotation[b] <= 20 && !unlocked)) {
+        rotation[b] = Math.max(1, rotation[b] - 10);
+      }
+    }
+
+    const dateInMs = Math.floor((seed + i) * 604800 * 1000);
+    rotation = rotation.map((rotationIndex, index) => index === 2 ? jewels[rotationIndex] : chips[rotationIndex])
+
+    rotations.push({ items: rotation, date: new Date(dateInMs) });
+  }
+
+  return rotations;
+}
+
+export const calcTotalMeals = (meals: any) => {
+  return meals?.reduce((res: any, { level }: any) => res + level, 0);
+}

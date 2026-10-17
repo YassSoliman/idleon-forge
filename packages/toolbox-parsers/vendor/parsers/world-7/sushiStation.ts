@@ -1,0 +1,459 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { tryToParse, commaNotation, notateNumber, lavaLog, lavaLog2, GAME_LN10 } from '@utility/helpers';
+import { sumSaveArray } from '@parsers/world-7/saveTotals';
+import { research as researchData, superbitsUpgrades, sushiUpgrades as sushiUpgradesData } from '@website-data';
+import { getArcadeBonus } from '@parsers/world-2/arcade';
+import { getResearchGridBonus } from '@parsers/world-7/research';
+import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
+import { getAtomBonus } from '@parsers/world-3/atomCollider';
+import { isSuperbitUnlocked } from '@parsers/world-5/gaming';
+import { isBundlePurchased, getEventShopBonus } from '@parsers/misc';
+import { getButtonBonus } from '@parsers/world-7/button';
+import { getJellyBonus } from '@parsers/world-7/jellyOperator';
+import { DOUBLER_SPELUNK_ROW, getDoublerMulti } from '@parsers/world-7/menagerie';
+
+// The highest sushi tier index: research row 30 is the game's sushi name table, one entry per
+// tier, so the last valid index is its length - 1.
+// game: "MaxTier" (a literal there; the name table here follows it)
+const MAX_TIER = ((researchData as any[])?.[30]?.length ?? 1) - 1;
+
+const getRawSushi = (idleonData: any) => {
+  const raw = tryToParse(idleonData?.Sushi) || idleonData?.Sushi;
+  return Array.isArray(raw) ? raw : [];
+};
+
+// Both the spark and overtuned multis are `coefficient * ln(raw / scale)` percentages, and the
+// game renders them as Math.round(100 * (1 + pct / 100)) / 100 - so the displayed multiplier
+// ticks up every whole percent. Inverting gives the raw amount each next tick needs.
+const SPARK_COEFFICIENT = 0.2 / Math.log(2) + 1 / GAME_LN10;
+const OVERTUNED_COEFFICIENT = 5 / Math.log(2) + 10 / GAME_LN10;
+
+const getNextBreakpoints = (currentPct: number, coefficient: number, scale: number, raw: number, perHr: number,
+                            hoursOffset = 0, count = 3) => {
+  const nextStep = Math.floor(currentPct + 0.5) + 1;
+  return Array.from({ length: count }, (_, i) => {
+    const step = nextStep + i;
+    const required = scale * Math.exp((step - 0.5) / coefficient);
+    const remaining = Math.max(0, required - raw);
+    return {
+      multi: (100 + step) / 100,
+      required,
+      remaining,
+      hours: perHr > 0 ? hoursOffset + remaining / perHr : null
+    };
+  });
+};
+
+// game: "SushiStuff:UpgradeQTY" (2x when a Menagerie doubler sits on it, Spelunk[52])
+const getUpgradeQTY = (idleonData: any, upgradeLevels: number[], idx: number) => {
+  const upgrade = (sushiUpgradesData as any)?.[idx];
+  if (!upgrade) return 0;
+  const bonusPerLevel = Number(upgrade?.[3]) || 0;
+  const level = Number(upgradeLevels?.[idx]) || 0;
+  return getDoublerMulti(idleonData, DOUBLER_SPELUNK_ROW.sushi, idx) * bonusPerLevel * level;
+};
+
+const getUpgLvREQ = (t: number) => {
+  return Math.floor(1 + (Math.min(2, t) + Math.min(4, t) + (3 * t
+    - Math.max(0, t - 4) - Math.max(0, t - 8)
+    + (Math.floor(t / 6) + Math.floor(t / 17)))));
+};
+
+export const getSushiStation = (idleonData: any, account: any) => {
+  const raw = getRawSushi(idleonData);
+  const unlocked = raw.length > 0;
+
+  const slotTiers: number[] = raw[0] ?? [];
+  const slotEffects: number[] = raw[1] ?? [];
+  const upgradeLevels: number[] = raw[2] ?? [];
+  const fireplaceTypes: number[] = raw[3] ?? [];
+  const miscState: number[] = raw[4] ?? [];
+  const uniqueSushiTracking: number[] = raw[5] ?? [];
+  const knowledgeXP: number[] = raw[6] ?? [];
+  const knowledgeLevels: number[] = raw[7] ?? [];
+
+  // Misc state
+  const fuel = Number(miscState[0]) || 0;
+  const overtunedValue = Number(miscState[1]) || 0;
+  const sparks = Number(miscState[2]) || 0;
+  const bucks = Number(miscState[3]) || 0;
+  const shakerUses = [
+    Number(miscState[5]) || 0,
+    Number(miscState[6]) || 0,
+    Number(miscState[7]) || 0
+  ];
+  // Combo Meter (2.3.530, upgrade 39): combining sushi builds a combo, and the best one ever
+  // reached pays a permanent Bucks multiplier. Cooking new sushi or stalling ends the combo.
+  const bestCombo = Number(miscState[8]) || 0;
+  const comboUnlocked = (Number(upgradeLevels?.[39]) || 0) >= 1;
+
+  // Unique sushi count (consecutive discovered types)
+  let uniqueSushi = 0;
+  for (let i = 0; i <= MAX_TIER; i++) {
+    if ((uniqueSushiTracking[i] ?? -1) >= 0) {
+      uniqueSushi = i + 1;
+    } else {
+      break;
+    }
+  }
+
+  // Static data references
+  const sushiNames: string[] = (researchData as any)?.[30] ?? [];
+  const upgradeOrdering: number[] = (researchData as any)?.[32] ?? [];
+  const knowledgeCategories: number[] = (researchData as any)?.[33] ?? [];
+  const knowledgeCategoryDescriptions: string[] = (researchData as any)?.[34] ?? [];
+  const knowledgeBonusValues: number[] = (researchData as any)?.[35] ?? [];
+  const rogDescriptions: string[] = (researchData as any)?.[36] ?? [];
+  const rogValues: number[] = (researchData as any)?.[37] ?? [];
+
+  // Bundle bonus
+  const bonVBundle = isBundlePurchased(account, 'bon_v') ? 1 : 0;
+  const banJBundle = isBundlePurchased(account, 'ban_j') ? 1 : 0;
+
+  // --- Knowledge ---
+  const getKnowledgeBonusSpecific = (sushiIdx: number) => {
+    const categoryIdx = Number(knowledgeCategories?.[sushiIdx]) || 0;
+    const bonusVal = Number(knowledgeBonusValues?.[categoryIdx]) || 0;
+    const knowledgeLv = Number(knowledgeLevels?.[sushiIdx]) || 0;
+    const uniqueTrack = Number(uniqueSushiTracking?.[sushiIdx]) || 0;
+    return Math.max(0, bonusVal * knowledgeLv * Math.min(2, 1 + uniqueTrack) * (1 + sushiIdx / 30));
+  };
+
+  // Knowledge totals by category
+  const numCategories = (researchData as any)?.[34]?.length ?? 0;
+  const knowledgeTotals: number[] = new Array(Math.max(numCategories, 11)).fill(0);
+  for (let i = 0; i <= MAX_TIER; i++) {
+    const cat = Number(knowledgeCategories?.[i]) || 0;
+    knowledgeTotals[cat] += getKnowledgeBonusSpecific(i);
+  }
+
+  // --- Upgrades ---
+  const upgrades = upgradeOrdering?.map((upgIdx: any, visualPos: number) => {
+    const idx = Number(upgIdx) || 0;
+    const upgrade = (sushiUpgradesData as any)?.[idx];
+    if (!upgrade) return null;
+    const level = Number(upgradeLevels?.[idx]) || 0;
+    const maxLevel = Number(upgrade?.[1]) || 0;
+    const costExponent = Number(upgrade?.[2]) || 1;
+    const bonusPerLevel = Number(upgrade?.[3]) || 0;
+    const costDN = Number(upgrade?.[4]) || 0;
+    const name = String(upgrade?.[0] ?? `Upgrade_${visualPos}`).replace(/_/g, ' ');
+    const doubled = getDoublerMulti(idleonData, DOUBLER_SPELUNK_ROW.sushi, idx) > 1;
+    const upgradeQTY = getUpgradeQTY(idleonData, upgradeLevels, idx);
+    const rawDesc = upgrade?.slice?.(5)?.join?.(' ') ?? '';
+    const desc = rawDesc
+      .replace(/_/g, ' ')
+      .replace(/\{/g, '' + commaNotation(upgradeQTY))
+      .replace(/\}/g, '' + notateNumber(1 + upgradeQTY / 100, 'MultiplierInfo'))
+      .replace(/@/g, '\n');
+
+    // UpgCost calculation
+    const upgQTY36 = getUpgradeQTY(idleonData, upgradeLevels, 36);
+    const rogDiscount = Math.max(getSushiBonus(account, 26), getSushiBonus(account, 44));
+    const knowledgeDiscount = knowledgeTotals[6] ?? 0;
+    const cost = Math.max(0.1, costDN || 1)
+      * (5 + visualPos + Math.pow(Math.max(0, visualPos - 1), 2))
+      * Math.pow(1.5 + Math.max(0, visualPos - 3) / 16, Math.max(0, visualPos - 4))
+      * Math.pow(1.3, Math.max(0, visualPos - 20))
+      * (1 / (1 + upgQTY36 / 100))
+      * Math.max(0.1, 1 - rogDiscount / 100)
+      * (1 / (1 + knowledgeDiscount / 100))
+      * (1 / (1 + getJellyBonus(account, 18) / 100))
+      * Math.pow(costExponent, level);
+
+    return {
+      name,
+      description: desc,
+      level,
+      maxLevel: maxLevel > 998 ? Infinity : maxLevel,
+      cost,
+      bonusPerLevel,
+      doubled,
+      upgradeQTY,
+      lvReq: getUpgLvREQ(visualPos),
+      visualIndex: visualPos,
+      upgradeIndex: idx
+    };
+  }).filter(Boolean) ?? [];
+
+  // --- Fuel ---
+  const fuelCap = (200 + (knowledgeTotals[3] ?? 0))
+    * (1 + Math.min(1, bonVBundle))
+    * (1 + (getUpgradeQTY(idleonData, upgradeLevels, 1) + getUpgradeQTY(idleonData, upgradeLevels, 2)
+      + getUpgradeQTY(idleonData, upgradeLevels, 3) + getUpgradeQTY(idleonData, upgradeLevels, 4)
+      + getUpgradeQTY(idleonData, upgradeLevels, 5)) / 100)
+    * (1 + (Number(upgradeLevels?.[2]) || 0) / 100)
+    * (1 + (Number(upgradeLevels?.[3]) || 0) / 100)
+    * (1 + (Number(upgradeLevels?.[4]) || 0) / 100)
+    * (1 + (Number(upgradeLevels?.[5]) || 0) / 100);
+
+  // Fireplace spark multi
+  const fireplaceSparkMulti = sparks > 0
+    ? 0.2 * lavaLog2(sparks) + lavaLog(sparks)
+    : 0;
+
+  // Each purple (Potassium) fireplace generates 1 spark per second
+  const potassiumCount = fireplaceTypes.slice(0, 15).filter((type: number) => type === 4).length;
+  const sparksPerHr = 3600 * potassiumCount;
+
+  // Orange fire sum (for fuel gen)
+  let orangeFireSum = 0;
+  for (let i = 0; i < 120; i++) {
+    if ((slotTiers[i] ?? -1) >= 0 && fireplaceTypes[i % 15] === 0) {
+      const fireplaceEffBase = (1 + (knowledgeTotals[9] ?? 0) / 100)
+        * (1 + fireplaceSparkMulti / 100);
+      orangeFireSum += ((slotTiers[i] ?? 0) + 1) * fireplaceEffBase;
+    }
+  }
+
+  const fuelGen = 50
+    * (1 + Math.min(1, bonVBundle))
+    * (1 + (getUpgradeQTY(idleonData, upgradeLevels, 8) + getUpgradeQTY(idleonData, upgradeLevels, 9)
+      + getUpgradeQTY(idleonData, upgradeLevels, 10) + getUpgradeQTY(idleonData, upgradeLevels, 11)
+      + getUpgradeQTY(idleonData, upgradeLevels, 12)) / 100)
+    * (1 + orangeFireSum / 100)
+    * (1 + (knowledgeTotals[4] ?? 0) / 100)
+    * (1 + getKnowledgeBonusSpecific(27) / 100)
+    * (1 + getKnowledgeBonusSpecific(36) / 100)
+    * (1 + getKnowledgeBonusSpecific(45) / 100)
+    * (1 + (Number(upgradeLevels?.[9]) || 0) / 100)
+    * (1 + (Number(upgradeLevels?.[10]) || 0) / 100)
+    * (1 + (Number(upgradeLevels?.[11]) || 0) / 100)
+    * (1 + (Number(upgradeLevels?.[12]) || 0) / 100);
+
+  // --- Currency ---
+  const overtunedMulti = overtunedValue > 1e6
+    ? 5 * lavaLog2(overtunedValue / 1e6) + 10 * lavaLog(overtunedValue / 1e6)
+    : 0;
+
+  // Overtuned Fuel (upgrade 28) converts every point of fuel generated while at max capacity,
+  // so once fuel sits at the cap the whole fuel generation feeds the overtuned total.
+  const overtunedUnlocked = (Number(upgradeLevels?.[28]) || 0) >= 1;
+  const overtunedPerHr = overtunedUnlocked ? fuelGen : 0;
+  const hoursToFuelCap = fuelGen > 0 && fuel < fuelCap ? (fuelCap - fuel) / fuelGen : 0;
+
+  // Currency multiplier - full formula matching game's customBlock_SushiStuff("CurrencyMulti")
+  const arcadeBonus67 = getArcadeBonus(account?.arcade?.shop, 'Sushi_Bucks')?.bonus ?? 0;
+  const superbit67 = isSuperbitUnlocked(account, (superbitsUpgrades as any)?.[67]?.name) ? 1 : 0;
+  const researchGrid189 = getResearchGridBonus(account, 189, 0) ?? 0;
+  const mineheadBonus11 = getMineheadBonusQTY(account, 11) ?? 0;
+  const atomBonus14 = getAtomBonus(account, 'Phosphorus_-_Sushi_Bucks_Generator') ?? 0;
+  const sailingArt39 = Number(account?.sailing?.artifacts?.[39]?.acquired) || 0;
+
+  const eventShopBonus45 = getEventShopBonus(account, 45);
+  // game: "ComboMulti" - min(10, best^0.3) from the early curve, plus a second term that approaches
+  // +90 as the best combo runs away past 1500, so the whole thing tops out just under 101x.
+  const comboOverflow = Math.max(0, bestCombo - 1500);
+  const comboMulti = 1 + Math.min(10, Math.pow(bestCombo, 0.3))
+    + (comboOverflow / (20000 + comboOverflow)) * 90;
+  const currencyMulti = (1 + arcadeBonus67 / 100)
+    * (1 + (100 * eventShopBonus45) / 100)
+    * comboMulti
+    * Math.pow(1.1, uniqueSushi)
+    * (1 + Math.min(1, bonVBundle))
+    * (1 + (getUpgradeQTY(idleonData, upgradeLevels, 30) + getUpgradeQTY(idleonData, upgradeLevels, 31)
+      + getUpgradeQTY(idleonData, upgradeLevels, 32) + getUpgradeQTY(idleonData, upgradeLevels, 33)
+      + getUpgradeQTY(idleonData, upgradeLevels, 34) + 100 * superbit67) / 100)
+    * (1 + (knowledgeTotals[0] ?? 0) / 100)
+    * (1 + researchGrid189 / 100)
+    * (1 + getUpgradeQTY(idleonData, upgradeLevels, 40) / 100)
+    * Math.max(1, Math.min(1.25, 1 + mineheadBonus11 / 100))
+    * (1 + (getUpgradeQTY(idleonData, upgradeLevels, 41) + getUpgradeQTY(idleonData, upgradeLevels, 43)) / 100)
+    * (1 + overtunedMulti / 100)
+    * (1 + atomBonus14 / 100)
+    * (1 + getButtonBonus(account, 2) / 100)
+    * (1 + banJBundle)
+    * (1 + (100 * sailingArt39) / 100);
+
+  // Currency per tier
+  const getCurrencyPerTier = (tier: number) => {
+    if (tier < 0) return 0;
+    if (tier < 10) {
+      return Number('1 3 8 20 50 115 250 560 1220 2650'.split(' ')[tier]) || 0;
+    }
+    if (tier < 16) return Math.pow(2.46 - tier / 100, tier) + (5 * tier + Math.pow(tier, 2));
+    return Math.pow(2.31, tier);
+  };
+
+  // Slot effect & fireplace effect helpers
+  const slotEffectBase = 1 + (knowledgeTotals[8] ?? 0) / 100;
+  const fireplaceEffectBase = (1 + (knowledgeTotals[9] ?? 0) / 100)
+    * (1 + fireplaceSparkMulti / 100);
+
+  // Currency per slot
+  const getCurrencyPerSlot = (slotIdx: number) => {
+    const tier = slotTiers[slotIdx] ?? -1;
+    if (tier < 0) return 0;
+    let multi = 1;
+    if ((slotEffects[slotIdx] ?? -1) === 1) {
+      multi *= (1 + 50 * slotEffectBase / 100);
+    }
+    if ((fireplaceTypes[slotIdx % 15] ?? -1) === 1) {
+      multi *= (1 + 150 * fireplaceEffectBase / 100);
+    }
+    return multi * currencyMulti * getCurrencyPerTier(tier);
+  };
+
+  // Total currency per hour
+  let currencyPerHR = 0;
+  for (let i = 0; i < 120; i++) {
+    if ((slotTiers[i] ?? -1) >= 0) {
+      currencyPerHR += getCurrencyPerSlot(i);
+    }
+  }
+
+  // --- Slots ---
+  const slots = slotTiers.slice(0, 120).map((tier: number, i: number) => ({
+    tier,
+    slotEffect: slotEffects[i] ?? -1,
+    fireplaceType: fireplaceTypes[i % 15] ?? -1,
+    currencyPerSlot: tier >= 0 ? getCurrencyPerSlot(i) : 0
+  }));
+
+  // --- Cooking ---
+  const maxCookTier = Math.round(getUpgradeQTY(idleonData, upgradeLevels, 6));
+  const bonusCookTierPCT = getUpgradeQTY(idleonData, upgradeLevels, 7) + (knowledgeTotals[2] ?? 0);
+  const perfectOdds = (idx: number) =>
+    ((0.6 * Math.pow(0.81, idx)) / (1 + idx / 8))
+    * (1 + (knowledgeTotals[10] ?? 0) / 100);
+
+  // --- Knowledge per sushi type ---
+  const knowledge = sushiNames.map((name: string, i: number) => {
+    const cat = Number(knowledgeCategories?.[i]) || 0;
+    const bonus = getKnowledgeBonusSpecific(i);
+    const catDesc = String(knowledgeCategoryDescriptions?.[cat] ?? '')
+      .replace(/_/g, ' ')
+      .replace(/\{/g, '' + commaNotation(bonus))
+      .replace(/\}/g, '' + notateNumber(1 + bonus / 100, 'MultiplierInfo'))
+      .replace(/\^/g, '' + commaNotation(bonus));
+    return {
+      name: String(name ?? '').replace(/_/g, ' '),
+      rawName: name,
+      level: Number(knowledgeLevels?.[i]) || 0,
+      xp: Number(knowledgeXP?.[i]) || 0,
+      xpReq: (() => { const lv = Number(knowledgeLevels?.[i]) || 0; return (3 + (lv + Math.pow(lv, 1.5))) * Math.pow(1.5, Math.max(0, lv - 2)); })(),
+      bonusSpecific: bonus,
+      bonusDescription: catDesc,
+      category: cat,
+      discovered: (uniqueSushiTracking[i] ?? -1) >= 0,
+      perfecto: (uniqueSushiTracking[i] ?? 0) >= 1,
+      perfectOdds: (uniqueSushiTracking[i] ?? 0) >= 1 ? undefined : perfectOdds(i),
+      highestTier: uniqueSushiTracking[i] ?? -1
+    };
+  });
+
+  // --- Knowledge summary (aggregate bonuses per category) ---
+  const knowledgeSummary = knowledgeCategoryDescriptions.map((desc: string, i: number) => {
+    const total = knowledgeTotals[i] ?? 0;
+    const label = String(desc ?? '')
+      .replace(/_/g, ' ')
+      .replace(/\{/g, '' + commaNotation(total))
+      .replace(/\}/g, '' + notateNumber(1 + total / 100, 'MultiplierInfo'))
+      .replace(/\^/g, '' + commaNotation(total));
+    const sources: { index: number; name: string; bonus: number; level: number; perfecto: boolean }[] = [];
+    for (let s = 0; s <= MAX_TIER; s++) {
+      if ((Number(knowledgeCategories?.[s]) || 0) === i && (uniqueSushiTracking[s] ?? -1) >= 0) {
+        sources.push({
+          index: s,
+          name: String(sushiNames[s] ?? '').replace(/_/g, ' '),
+          bonus: getKnowledgeBonusSpecific(s),
+          level: Number(knowledgeLevels?.[s]) || 0,
+          perfecto: (uniqueSushiTracking[s] ?? 0) >= 1
+        });
+      }
+    }
+    return { label, value: total, category: i, sources };
+  });
+
+  // --- Rest of game bonuses ---
+  const rogBonuses = rogDescriptions?.map((desc: string, i: number) => {
+    const rawVal = Number(rogValues?.[i]) || 0;
+    const bonusDesc = String(desc ?? '')
+      .replace(/_/g, ' ')
+      .replace(/\{/g, '' + commaNotation(rawVal))
+      .replace(/\}/g, '' + notateNumber(1 + rawVal / 100, 'MultiplierInfo'))
+      .replace(/@/g, '\n');
+    return {
+      index: i,
+      name: String(sushiNames[i] ?? '').replace(/_/g, ' '),
+      description: bonusDesc,
+      value: uniqueSushi > i ? rawVal : 0,
+      rawValue: rawVal,
+      unlocked: uniqueSushi > i
+    };
+  }) ?? [];
+
+  const nextUnperfectedIdx = knowledge.findIndex(k => k.discovered && !k.perfecto);
+
+  // --- Fireplaces ---
+  const fireplaces = fireplaceTypes.map((type: number, i: number) => ({
+    index: i,
+    type,
+    active: type >= 0
+  }));
+
+  return {
+    unlocked,
+    uniqueSushi,
+    fuel: { current: fuel, cap: fuelCap, generation: fuelGen },
+    currency: {
+      bucks, currencyMulti, currencyPerHR, overtunedMulti,
+      combo: {
+        best: bestCombo,
+        multi: comboMulti,
+        unlocked: comboUnlocked
+      },
+      overtuned: {
+        value: overtunedValue,
+        multi: overtunedMulti,
+        perHr: overtunedPerHr,
+        unlocked: overtunedUnlocked,
+        hoursToFuelCap,
+        nextBreakpoints: getNextBreakpoints(overtunedMulti, OVERTUNED_COEFFICIENT, 1e6, overtunedValue,
+          overtunedPerHr, hoursToFuelCap)
+      }
+    },
+    sparks,
+    sparkBonus: {
+      multi: fireplaceSparkMulti,
+      perHr: sparksPerHr,
+      potassiumCount,
+      nextBreakpoints: getNextBreakpoints(fireplaceSparkMulti, SPARK_COEFFICIENT, 1, sparks, sparksPerHr)
+    },
+    slots,
+    upgrades,
+    knowledge,
+    knowledgeTotals,
+    rogBonuses,
+    fireplaces,
+    sushiCooking: {
+      maxCookTier,
+      bonusCookTierPCT,
+      perfectOdds: nextUnperfectedIdx >= 0 ? perfectOdds(nextUnperfectedIdx) : 0,
+      nextUnperfectedIdx
+    },
+    knowledgeSummary,
+    shakerUses,
+    slotsOwned: 10,
+    // the leaderboard totals: Sushi[2] upgrades, Sushi[7] knowledge, Sushi[5] >= 1 perfectos
+    saveTotals: {
+      upgradeLevels: sumSaveArray(upgradeLevels),
+      knowledgeLevels: sumSaveArray(knowledgeLevels),
+      perfectos: Array.isArray(uniqueSushiTracking) ? uniqueSushiTracking.filter((value) => Number(value) >= 1).length : 0
+    },
+  };
+};
+
+/**
+ * Returns the Rest of game (sushi) bonus value for a given index.
+ * Game: customBlock_SushiStuff("RoG_BonusQTY", index, 0)
+ * If uniqueSushi > index, returns research[37][index]; else 0.
+ */
+// game: "SushiStuff:RoG_BonusQTY"
+export const getSushiBonus = (account: any, index: number): number => {
+  const uniqueSushi = account?.sushiStation?.uniqueSushi ?? 0;
+  if (uniqueSushi <= index) return 0;
+  return Number((researchData as any)?.[37]?.[index]) || 0;
+};

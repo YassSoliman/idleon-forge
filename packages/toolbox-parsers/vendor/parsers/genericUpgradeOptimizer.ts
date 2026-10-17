@@ -1,0 +1,527 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+// Generic Upgrade Optimizer
+// Consolidates the simulation logic for Compass, Grimoire, and Tesseract optimizers
+
+// How much of an upgrade's resource is held. null when the shape gives no single answer.
+function getHeldAmount(upgrade: any, resources: any, resourceNames: any, resourceType: any): number | null {
+  // Array of objects with value property
+  if (Array.isArray(resources) && resources.length > 0 && typeof resources[0] === 'object' && resources[0] !== null && 'value' in resources[0]) {
+    let resourceObj = null;
+    if (resourceType !== undefined) {
+      resourceObj = resources[resourceType];
+    }
+    if (!resourceObj && upgrade.name) {
+      resourceObj = resources.find(r => r.name === upgrade.name);
+    }
+    if (!resourceObj) resourceObj = resources[0];
+    return resourceObj?.value ?? null;
+  }
+  // Array of numbers (assume x3 is the index)
+  if (Array.isArray(resources)) {
+    if (resourceType !== undefined && resources[resourceType] !== undefined) {
+      return resources[resourceType];
+    }
+    // fallback: just use first resource
+    return resources[0] ?? null;
+  }
+  // Object (resourceNames or keys)
+  if (typeof resources === 'object' && resources !== null) {
+    let key = null;
+    if (resourceNames && resourceType !== undefined && resourceNames[resourceType] !== undefined) {
+      key = resourceNames[resourceType];
+    }
+    else if (upgrade.name && resources[upgrade.name] !== undefined) {
+      key = upgrade.name;
+    }
+    return key ? (resources[key] ?? 0) : null;
+  }
+  if (typeof resources === 'number') {
+    return resources;
+  }
+  return null;
+}
+
+function isUpgradeAffordable(upgrade: any, cost: any, simulatedResources: any, resourceNames: any, resourceType: any) {
+  const held = getHeldAmount(upgrade, simulatedResources, resourceNames, resourceType);
+  if (held !== null) return held >= cost;
+  // Object with no matching key: pass if any resource is sufficient
+  if (typeof simulatedResources === 'object' && simulatedResources !== null && !Array.isArray(simulatedResources)) {
+    return Object.values(simulatedResources).some((val: any) => val >= cost);
+  }
+  return false;
+}
+
+// Several masterclass upgrades (Singulon Hoarding and friends) scale with the amount of resource
+// you're currently holding, so spending lowers them. heldResourceOptionBase is the accountOptions
+// index of the first resource color, letting the simulation deplete the held amounts as it buys.
+function buildSimulatedAccount(account: any, spentByResource: any, heldResourceOptionBase: any) {
+  if (heldResourceOptionBase === undefined || heldResourceOptionBase === null) return account;
+  const entries = Object.entries(spentByResource).filter(([, spent]: any) => spent > 0);
+  if (entries.length === 0) return account;
+  const accountOptions = [...(account?.accountOptions || [])];
+  entries.forEach(([resourceKey, spent]: any) => {
+    const optionIndex = heldResourceOptionBase + Number(resourceKey);
+    if (!Number.isFinite(optionIndex)) return;
+    accountOptions[optionIndex] = Math.max(0, (account?.accountOptions?.[optionIndex] ?? 0) - spent);
+  });
+  return { ...account, accountOptions };
+}
+
+function addSpending(spentByResource: any, resourceKey: any, cost: any) {
+  return { ...spentByResource, [resourceKey]: (spentByResource[resourceKey] ?? 0) + cost };
+}
+
+export function getOptimizedGenericUpgrades({
+                                              character,
+                                              account,
+                                              category = 'damage',
+                                              maxUpgrades = 100,
+                                              categoryInfo,
+                                              getUpgrades,
+                                              getResources,
+                                              getCurrentStats,
+                                              getUpgradeCost,
+                                              updateResourcesAfterUpgrade,
+                                              resourceNames,
+                                              heldResourceOptionBase,
+                                              getUnlockedIndices,
+                                              extraArgs = {}
+                                            }: any) {
+  // Extract onlyAffordable from extraArgs, defaulting to false
+  const { onlyAffordable = false, masterClassReduction = 0 } = extraArgs;
+  let reductionsRemaining = masterClassReduction;
+  // Which resource color an upgrade is paid with. Every UI wrapper supplies getResourceType;
+  // the x3/boneType save fields cover direct parser calls that don't.
+  const resourceTypeOf = (upgrade: any) => {
+    if (extraArgs?.getResourceType) return extraArgs.getResourceType(upgrade);
+    if (upgrade?.x3 !== undefined) return upgrade.x3;
+    if (upgrade?.boneType !== undefined) return upgrade.boneType;
+    return upgrade?.name || 0;
+  };
+  // Effective resource-per-hour for an upgrade's color; 1 when RPH mode is off or has no entry,
+  // so dividing by it is a no-op.
+  const resourcePerHourOf = (upgrade: any) => {
+    const rph = extraArgs.resourcePerHour?.[resourceTypeOf(upgrade)];
+    return rph > 0 ? rph : 1;
+  };
+  // RPH mode skips colors the player earns none of per hour.
+  const isResourceEarnable = (upgrade: any) => (!extraArgs.resourcePerHour
+    || extraArgs.resourcePerHour[resourceTypeOf(upgrade)] !== 0);
+  // Deep clone upgrades and resources to avoid mutating input data
+  let simulatedUpgrades = JSON.parse(JSON.stringify(getUpgrades(account)));
+  let simulatedResources = JSON.parse(JSON.stringify(getResources(account)));
+
+  // Unlock gates are driven by levels bought (total levels in the tree for Grimoire/Tesseract, the
+  // path's root upgrade for Compass), so buying anything can bring new upgrades in range mid-walk.
+  // getUnlockedIndices is re-run every step; without it we fall back to the static `unlocked` flag.
+  const resolveUnlocked = (upgrades: any) => (getUnlockedIndices
+    ? getUnlockedIndices(upgrades, { account, extraArgs })
+    : null);
+  let unlockedIndices = resolveUnlocked(simulatedUpgrades);
+  const isUpgradeUnlocked = (upgrade: any) => (unlockedIndices
+    ? unlockedIndices.has(upgrade.index)
+    : !!upgrade.unlocked);
+  // Locked right now in game, so the UI can mark the row instead of reading as "buy this today"
+  const initiallyLocked = new Set<any>(simulatedUpgrades
+    .filter((upgrade: any) => !isUpgradeUnlocked(upgrade))
+    .map((upgrade: any) => upgrade.index));
+  // index -> number of purchases that had to happen first before it came in range
+  const unlockStep: any = {};
+  // index -> hour the purchase that opened it lands, so held stock can't make a locked row ready sooner
+  const unlockReadyHours: any = {};
+  const trackUnlocks = (step: number) => {
+    if (initiallyLocked.size === 0) return;
+    simulatedUpgrades.forEach((upgrade: any) => {
+      if (!initiallyLocked.has(upgrade.index)) return;
+      if (unlockStep[upgrade.index] !== undefined) return;
+      if (isUpgradeUnlocked(upgrade)) {
+        unlockStep[upgrade.index] = step;
+        unlockReadyHours[upgrade.index] = results[step - 1]?.readyInHours ?? 0;
+      }
+    });
+  };
+  const unlockInfo = (upgrade: any) => (initiallyLocked.has(upgrade.index)
+    ? { lockedNow: true, unlocksAfterStep: unlockStep[upgrade.index] ?? null }
+    : { lockedNow: false, unlocksAfterStep: null });
+
+  // Resource spent so far in the simulation, per resource type. Feeds the held-resource bonuses.
+  let spentByResource: any = {};
+  let simAccount = account;
+
+  // Track current stats for comparison
+  let currentStats = getCurrentStats(simulatedUpgrades, character, simAccount, extraArgs);
+
+  // The dust/tachyon multiplier itself scales with the upgrade tree being simulated, so every
+  // read grafts the candidate levels onto the account it's asked about. null = the category has
+  // no such multiplier. The result stat is renamed so the UI can tell it from the raw resource.
+  const resourceMultiplierStat = category === 'dust' ? 'extraDust' : category === 'tachyons' ? 'extraTachyon' : null;
+  const getResourceMultiplier = (acct: any, upgrades: any) => {
+    if (category === 'dust' && typeof extraArgs.getExtraDust === 'function') {
+      return extraArgs.getExtraDust(character, { ...acct, compass: { ...acct.compass, upgrades } }).value;
+    }
+    if (category === 'tachyons' && typeof extraArgs.getExtraTachyon === 'function') {
+      return extraArgs.getExtraTachyon(character, { ...acct, tesseract: { ...acct.tesseract, upgrades } }).value;
+    }
+    return null;
+  };
+  let currentResourceMultiplier = getResourceMultiplier(simAccount, simulatedUpgrades);
+
+  // Summed % change across the category's stats, the same measure an upgrade's efficiency uses
+  const totalPercentChange = (toStats: any, toResourceMultiplier: any) => categoryInfo.stats.reduce((sum: number, stat: any) => {
+    let currentValue;
+    let newValue;
+    if (stat === category && toResourceMultiplier !== null) {
+      currentValue = currentResourceMultiplier;
+      newValue = toResourceMultiplier;
+    }
+    else {
+      currentValue = currentStats[stat] || 0;
+      newValue = toStats[stat] || 0;
+    }
+    return sum + (currentValue > 0 ? ((newValue - currentValue) / currentValue) * 100 : 0);
+  }, 0);
+
+  // What holding more of each resource is worth with no purchase, so it can be set against buying.
+  // perHour is one hour of that resource's RPH; perTenfold (a 10x bigger stash) needs no RPH.
+  const tracksHeldResource = heldResourceOptionBase !== undefined && heldResourceOptionBase !== null;
+  const holdRates = !tracksHeldResource || category === 'all' || !resourceNames
+    ? []
+    : Object.entries(resourceNames).map(([resourceKey, name]: any) => {
+      const optionIndex = heldResourceOptionBase + Number(resourceKey);
+      const held = account?.accountOptions?.[optionIndex] ?? 0;
+      const gainWithHeld = (amount: number) => {
+        const accountOptions = [...(account?.accountOptions || [])];
+        accountOptions[optionIndex] = amount;
+        const heldAccount = { ...account, accountOptions };
+        return totalPercentChange(
+          getCurrentStats(simulatedUpgrades, character, heldAccount, extraArgs),
+          getResourceMultiplier(heldAccount, simulatedUpgrades)
+        );
+      };
+      const rph = extraArgs.resourcePerHour?.[resourceKey];
+      return {
+        resourceType: Number(resourceKey),
+        name,
+        held,
+        perTenfold: gainWithHeld(Math.max(held, 1) * 10),
+        perHour: rph > 0 ? gainWithHeld(held + rph) : null
+      };
+    }).filter((rate: any) => rate.perTenfold > 0);
+
+  const results: any = [];
+  results.holdRates = holdRates;
+  // Why the walk stopped, so the UI can tell "nothing left to buy" apart from "holding beats buying"
+  let stoppedReason = null;
+
+  // In RPH mode an upgrade's place in the plan is the hour it can be paid for. By default every
+  // resource fills in parallel from what is held now (Royal Guardian outposts bank passively).
+  // sharedFarmingTime is for resources that all come out of one pool of active play time (Compass,
+  // Grimoire, Tesseract): farming one delays the rest, so the hours of every purchase add up.
+  const initialResources = getResources(account);
+  const sharedFarmingTime = !!extraArgs.sharedFarmingTime;
+  let farmedHours = 0;
+  const hoursUntilReady = (upgrade: any, cost: number) => {
+    const resourceType = resourceTypeOf(upgrade);
+    const held = getHeldAmount(upgrade, initialResources, resourceNames, resourceType) ?? 0;
+    const spent = spentByResource[resourceType] ?? 0;
+    const unlockHours = unlockReadyHours[upgrade.index] ?? 0;
+    if (sharedFarmingTime) {
+      // only the part held stock no longer covers has to be farmed
+      const shortfall = Math.max(0, spent + cost - held) - Math.max(0, spent - held);
+      return Math.max(farmedHours + shortfall / resourcePerHourOf(upgrade), unlockHours);
+    }
+    return Math.max(0, (spent + cost - held) / resourcePerHourOf(upgrade), unlockHours);
+  };
+
+  // Refactored 'all' category: simulate sequential cheapest upgrades
+  if (category === 'all') {
+    for (let step = 0; step < maxUpgrades; step++) {
+      unlockedIndices = resolveUnlocked(simulatedUpgrades);
+      trackUnlocks(step);
+      // Find all available upgrades (unlocked, not maxed, affordable if needed)
+      const availableUpgrades = simulatedUpgrades.filter((upgrade: any) => {
+        if (upgrade.level >= upgrade.x4) return false;
+        if (!isUpgradeUnlocked(upgrade)) return false;
+        if (onlyAffordable) {
+          const cost = getUpgradeCost(upgrade, upgrade.index, {
+            account: simAccount,
+            upgrades: simulatedUpgrades,
+            ...extraArgs,
+            forceLegendTalent: reductionsRemaining > 0
+          });
+          if (!isUpgradeAffordable(upgrade, cost, simulatedResources, resourceNames, resourceTypeOf(upgrade))) return false;
+        }
+        return isResourceEarnable(upgrade);
+      });
+      if (availableUpgrades.length === 0) {
+        stoppedReason = 'no-candidates';
+        break;
+      }
+
+      // Cheapest upgrade by cost, or in RPH mode the one ready soonest (ties: fewest hours of income)
+      let cheapestUpgrade = availableUpgrades[0];
+      let minReadyHours = Infinity;
+      let minEffectiveCost = Infinity;
+      for (const u of availableUpgrades) {
+        const cost = getUpgradeCost(u, u.index, {
+          account: simAccount,
+          upgrades: simulatedUpgrades,
+          ...extraArgs,
+          forceLegendTalent: reductionsRemaining > 0
+        });
+        const readyHours = extraArgs.resourcePerHour ? hoursUntilReady(u, cost) : 0;
+        const effectiveCost = cost / resourcePerHourOf(u);
+        if (readyHours < minReadyHours || (readyHours === minReadyHours && effectiveCost < minEffectiveCost)) {
+          minReadyHours = readyHours;
+          minEffectiveCost = effectiveCost;
+          cheapestUpgrade = u;
+        }
+      }
+
+      // Get the actual cost BEFORE level increment
+      const actualCost = getUpgradeCost(cheapestUpgrade, cheapestUpgrade.index, {
+        account: simAccount,
+        upgrades: simulatedUpgrades,
+        ...extraArgs,
+        forceLegendTalent: reductionsRemaining > 0
+      });
+      const readyInHours = extraArgs.resourcePerHour ? hoursUntilReady(cheapestUpgrade, actualCost) : null;
+      if (sharedFarmingTime && readyInHours !== null) farmedHours = readyInHours;
+
+      // Apply the upgrade
+      const idx = simulatedUpgrades.findIndex((u: any) => u.index === cheapestUpgrade.index);
+      simulatedUpgrades[idx] = { ...simulatedUpgrades[idx], level: simulatedUpgrades[idx].level + 1 };
+
+      // Optionally update resources
+      if (updateResourcesAfterUpgrade && resourceNames) {
+        let tempResources = JSON.parse(JSON.stringify(simulatedResources));
+        updateResourcesAfterUpgrade(tempResources, cheapestUpgrade, resourceNames, actualCost);
+        simulatedResources = tempResources;
+      }
+
+      // Deplete the held resource so hoarding-based bonuses (and costs) reflect the purchase
+      spentByResource = addSpending(spentByResource, resourceTypeOf(cheapestUpgrade), actualCost);
+      simAccount = buildSimulatedAccount(account, spentByResource, heldResourceOptionBase);
+
+      // Recalculate cost for all upgrades after this purchase
+      simulatedUpgrades = simulatedUpgrades.map((upgrade: any) => {
+        const cost = getUpgradeCost(upgrade, upgrade.index, {
+          account: simAccount,
+          upgrades: simulatedUpgrades,
+          ...extraArgs
+        });
+        return { ...upgrade, cost };
+      });
+
+      // Add to results
+      results.push({
+        ...cheapestUpgrade,
+        ...unlockInfo(cheapestUpgrade),
+        level: cheapestUpgrade.level + 1,
+        cost: actualCost,
+        readyInHours,
+        hadReduction: reductionsRemaining > 0
+      });
+      reductionsRemaining = Math.max(0, reductionsRemaining - 1);
+    }
+
+    results.stoppedReason = stoppedReason;
+    return results;
+  }
+
+  for (let step = 0; step < maxUpgrades; step++) {
+    unlockedIndices = resolveUnlocked(simulatedUpgrades);
+    trackUnlocks(step);
+    let bestUpgrade = null;
+    let bestEfficiency = 0;
+    let bestStatChanges = null;
+    let bestTotalChange = 0;
+    let bestNewStats = null;
+    let bestNewResourceMultiplier: any = null;
+    let bestTempUpgrades = null;
+    let bestCost = 0;
+    let leastBadCandidate: any = null;
+
+    // Find available upgrades for this category
+    const availableUpgrades = simulatedUpgrades.filter((upgrade: any) => {
+      if (!categoryInfo.upgradeIndices.includes(upgrade.index)) return false;
+      if (upgrade.level >= upgrade.x4) return false;
+      if (!isUpgradeUnlocked(upgrade)) return false; // Only unlocked upgrades
+      // If onlyAffordable is true, check if upgrade is affordable with current simulatedResources
+      if (onlyAffordable) {
+        const cost = getUpgradeCost(upgrade, upgrade.index, {
+          account: simAccount,
+          upgrades: simulatedUpgrades,
+          ...extraArgs,
+          forceLegendTalent: reductionsRemaining > 0
+        });
+        if (!isUpgradeAffordable(upgrade, cost, simulatedResources, resourceNames, resourceTypeOf(upgrade))) return false;
+      }
+      return isResourceEarnable(upgrade);
+    });
+
+    for (const upgrade of availableUpgrades) {
+      // Deep clone upgrades for simulation
+      const tempUpgrades = JSON.parse(JSON.stringify(simulatedUpgrades));
+      // Apply upgrade by creating a new object
+      const idx = tempUpgrades.findIndex((u: any) => u.index === upgrade.index);
+      tempUpgrades[idx] = { ...tempUpgrades[idx], level: tempUpgrades[idx].level + 1 };
+
+      // Paying for the upgrade lowers the held resource, which lowers the hoarding bonuses,
+      // so the stats after the purchase have to be read from a depleted account
+      const upgradeCostForStats = getUpgradeCost(upgrade, upgrade.index, {
+        account: simAccount,
+        upgrades: simulatedUpgrades,
+        ...extraArgs,
+        forceLegendTalent: reductionsRemaining > 0
+      });
+      const candidateAccount = buildSimulatedAccount(
+        account,
+        addSpending(spentByResource, resourceTypeOf(upgrade), upgradeCostForStats),
+        heldResourceOptionBase
+      );
+      const newStats = getCurrentStats(tempUpgrades, character, candidateAccount, extraArgs);
+      const newResourceMultiplier = getResourceMultiplier(candidateAccount, tempUpgrades);
+
+      // Calculate stat changes
+      const statChanges = categoryInfo.stats.map((stat: any) => {
+        if (stat === category && newResourceMultiplier !== null) {
+          const change = newResourceMultiplier - currentResourceMultiplier;
+          return {
+            stat: resourceMultiplierStat,
+            change,
+            percentChange: currentResourceMultiplier > 0 ? (change / currentResourceMultiplier) * 100 : 0
+          };
+        }
+        const currentValue = currentStats[stat] || 0;
+        const newValue = newStats[stat] || 0;
+        return {
+          stat,
+          change: newValue - currentValue,
+          percentChange: currentValue > 0 ? ((newValue - currentValue) / currentValue) * 100 : 0
+        };
+      });
+
+      // Calculate total efficiency with master class reduction
+      const totalStatChange = statChanges.reduce((sum: any, change: any) => sum + change.percentChange, 0);
+      const cost = upgradeCostForStats;
+      const efficiency = totalStatChange / (cost / resourcePerHourOf(upgrade));
+
+      if (efficiency > bestEfficiency) {
+        bestUpgrade = upgrade;
+        bestEfficiency = efficiency;
+        bestStatChanges = statChanges;
+        bestTotalChange = totalStatChange;
+        bestNewStats = newStats;
+        bestNewResourceMultiplier = newResourceMultiplier;
+        bestTempUpgrades = tempUpgrades;
+        bestCost = cost;
+      }
+      if (!leastBadCandidate || totalStatChange > leastBadCandidate.totalStatChange) {
+        leastBadCandidate = { tempUpgrades, totalStatChange };
+      }
+    }
+
+    if (bestUpgrade && bestEfficiency > 0) {
+      // Create a snapshot for the result
+      const upgradeSnapshot = { ...bestUpgrade, level: bestUpgrade.level + 1 };
+      const cost = bestCost;
+
+      // The same purchase measured against an untouched stash. The gap between gross and net is
+      // the bonus given up by spending down hoarding-scaled upgrades.
+      const grossStats = tracksHeldResource
+        ? getCurrentStats(bestTempUpgrades, character, simAccount, extraArgs)
+        : bestNewStats;
+      const grossResourceMultiplier = tracksHeldResource
+        ? getResourceMultiplier(simAccount, bestTempUpgrades)
+        : bestNewResourceMultiplier;
+
+      const statChangesWithHoarding = (bestStatChanges as any[]).map((statChange: any) => {
+        let grossValue;
+        let currentValue;
+        if (statChange.stat === resourceMultiplierStat) {
+          grossValue = grossResourceMultiplier;
+          currentValue = currentResourceMultiplier;
+        }
+        else {
+          grossValue = grossStats[statChange.stat] || 0;
+          currentValue = currentStats[statChange.stat] || 0;
+        }
+        const grossChange = grossValue - currentValue;
+        const grossPercentChange = currentValue > 0 ? (grossChange / currentValue) * 100 : 0;
+        return {
+          ...statChange,
+          grossChange,
+          grossPercentChange,
+          hoardingChange: grossChange - statChange.change,
+          hoardingPercentChange: grossPercentChange - statChange.percentChange
+        };
+      });
+      const totalHoardingChange = statChangesWithHoarding.reduce((sum: number, change: any) => sum + change.hoardingPercentChange, 0);
+
+      results.push({
+        ...upgradeSnapshot,
+        ...unlockInfo(bestUpgrade),
+        efficiency: bestEfficiency,
+        statChanges: statChangesWithHoarding,
+        totalStatChange: bestTotalChange,
+        totalHoardingChange,
+        cost,
+        hadReduction: reductionsRemaining > 0
+      });
+      reductionsRemaining = Math.max(0, reductionsRemaining - 1);
+
+      // Use the bestTempUpgrades as the new simulatedUpgrades (no mutation)
+      simulatedUpgrades = bestTempUpgrades;
+
+      // Optionally update resources (deep clone before passing)
+      if (updateResourcesAfterUpgrade && resourceNames) {
+        let tempResources = JSON.parse(JSON.stringify(simulatedResources));
+        updateResourcesAfterUpgrade(tempResources, bestUpgrade, resourceNames, cost);
+        simulatedResources = tempResources;
+      }
+
+      // Deplete the held resource so hoarding-based bonuses reflect the purchase
+      spentByResource = addSpending(spentByResource, resourceTypeOf(bestUpgrade), cost);
+      simAccount = buildSimulatedAccount(account, spentByResource, heldResourceOptionBase);
+
+      // Update current stats for next iteration
+      currentStats = bestNewStats;
+      currentResourceMultiplier = bestNewResourceMultiplier;
+
+      // Recalculate all upgrade costs after this purchase (no mutation)
+      simulatedUpgrades = simulatedUpgrades.map((upgrade: any) => {
+        const cost = getUpgradeCost(upgrade, upgrade.index, {
+          account: simAccount,
+          upgrades: simulatedUpgrades,
+          ...extraArgs
+        });
+        return { ...upgrade, cost };
+      });
+    }
+    else {
+      // Nothing worth buying. Separate "there is nothing left" from "buying would cost more
+      // hoarding bonus than it gains", which is a hold signal rather than a dead end.
+      if (availableUpgrades.length === 0) {
+        stoppedReason = 'no-candidates';
+      }
+      else if (tracksHeldResource && leastBadCandidate) {
+        const grossTotal = totalPercentChange(
+          getCurrentStats(leastBadCandidate.tempUpgrades, character, simAccount, extraArgs),
+          getResourceMultiplier(simAccount, leastBadCandidate.tempUpgrades)
+        );
+        // the upgrade would help on its own, so the held-resource loss is what sank it
+        stoppedReason = grossTotal > 0 ? 'hoarding' : 'no-gain';
+      }
+      else {
+        stoppedReason = 'no-gain';
+      }
+      break;
+    }
+  }
+
+  results.stoppedReason = stoppedReason;
+  return results;
+}

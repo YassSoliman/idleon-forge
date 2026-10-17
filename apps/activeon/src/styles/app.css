@@ -1,0 +1,320 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* One narrow column (Now screen decision: at most ~480 px at every screen size). */
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+}
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: 15px / 1.5 var(--body);
+  padding: 16px;
+}
+.app {
+  max-width: var(--column);
+  margin: 0 auto;
+  display: grid;
+  gap: 12px;
+}
+h1,
+h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 500;
+  line-height: 1.2;
+}
+p {
+  margin: 0;
+}
+a {
+  color: var(--coin);
+}
+button,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+:focus-visible {
+  outline: 2px solid var(--coin);
+  outline-offset: 2px;
+}
+code,
+.mono {
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.muted {
+  color: var(--muted);
+}
+.small {
+  font-size: 13px;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+/* Header */
+.top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 4px 8px;
+}
+.top h1 {
+  font-size: 20px;
+  font-weight: 700;
+}
+.top h1 span {
+  color: var(--coin);
+}
+.sync {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--ok-soft);
+  color: var(--ok);
+  white-space: nowrap;
+}
+.sync.old {
+  background: var(--coin-soft);
+  color: var(--coin);
+}
+.sync.none {
+  background: var(--unk-soft);
+  color: var(--unk);
+}
+.sync.warn {
+  background: var(--bad-soft);
+  color: var(--bad);
+}
+.top-status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px;
+}
+/* Fixed-width digits, so the ticking age never shifts the layout. */
+.num {
+  font-variant-numeric: tabular-nums;
+}
+.hint {
+  grid-column: 1 / -1;
+  font-size: 13px;
+  color: var(--coin);
+}
+.hint:empty {
+  margin: -4px 0 0;
+}
+
+/* Sign-in */
+.signin {
+  padding: 12px 14px;
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+.signin.row {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+.primary {
+  border: 0;
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  background: var(--fg);
+  color: var(--bg);
+  font-weight: 700;
+}
+.ghost {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.small-btn {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+.code-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.user-code {
+  font-family: var(--mono);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--coin-soft);
+  color: var(--coin);
+}
+.error {
+  color: var(--bad);
+  font-size: 13px;
+}
+.confirm {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px 12px 10px;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+  grid-column: 1 / -1;
+  justify-self: stretch;
+}
+.confirm legend {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0 4px;
+}
+.confirm-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Characters */
+.section-h {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 4px 0 6px;
+}
+.roster {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.r {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  display: grid;
+  gap: 4px;
+}
+.r .who {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+.r .who b {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.r .who span {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.r .doing {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+}
+.r .doing span:last-child {
+  text-align: right;
+}
+.r.unknown {
+  border-style: dashed;
+}
+.r .who .pill.unk {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--unk-soft);
+  color: var(--unk);
+}
+.acct {
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+/* Can't read */
+.broken {
+  background: var(--bad-soft);
+  color: var(--bad);
+  border-radius: var(--radius);
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+}
+.broken-title {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 18px;
+}
+.broken .detail {
+  overflow-wrap: anywhere;
+  opacity: 0.85;
+}
+.broken .paste label {
+  color: var(--fg);
+}
+
+/* Paste fallback */
+.fallback {
+  padding: 10px 14px;
+}
+.fallback summary {
+  cursor: pointer;
+  font-size: 14px;
+}
+.fallback[open] summary {
+  margin-bottom: 8px;
+}
+.paste {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+.paste textarea {
+  width: 100%;
+  min-height: 90px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--fg);
+  font: 12px var(--mono);
+  padding: 6px;
+  resize: vertical;
+}
+
+.foot {
+  text-align: center;
+  margin-top: 12px;
+}

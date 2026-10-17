@@ -1,0 +1,253 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { holesInfo } from '@website-data';
+import { getCosmoBonus, getMeasurementBonus, getStudyBonus } from '@parsers/world-5/hole';
+import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
+import { fillArrayToLength, MAX_CHARACTERS, notateNumber } from '@utility/helpers';
+import { getWinnerBonus } from '@parsers/world-6/summoning';
+import { getJarBonus } from '@parsers/world-5/caverns/the-jars';
+import { getArcadeBonus } from '@parsers/world-2/arcade';
+import { getAchievementStatus } from '@parsers/achievements';
+import { isSuperbitUnlocked } from '@parsers/world-5/gaming';
+import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
+import { getMeritocracyBonus } from '@parsers/world-2/voteBallot';
+import { getCompassBonus } from '@parsers/class-specific/compass';
+import { isCompanionBonusActive } from '@parsers/misc';
+import { getFountainBonusTotal } from '@parsers/world-5/caverns/the-fountain';
+import { NUMBERED_GROUP, additiveGroup, createBreakdown, flat, flatLines, listGroup, multiplier, percent } from '@parsers/breakdown';
+import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
+
+// The enemy HP list starts at the first level your min damage can't one-shot
+const ENEMY_HP_LEVELS_SHOWN = 20;
+
+export const getBraveryEnemyHp = (level: number) => (10 + 15 * (level - 1)) * Math.pow(1.3, level - 1);
+
+const getFirstUnkillableLevel = (minDamage: number) => {
+  const damage = Number.isFinite(minDamage) ? minDamage : 0;
+  let level = 1;
+  while (getBraveryEnemyHp(level) <= damage) level++;
+  return level;
+}
+
+
+export const getBravery = (holesObject: any, accountData: any) => {
+  const maxRethrow = getMaxRerolls(holesObject);
+  const maxRetelling = getMonumentHourBonus({ holesObject, t: 0, i: 4 });
+  const min = getBraveryMinDamage(holesObject, accountData);
+  const max = getBraveryMaxDamage(holesObject, accountData);
+  const rewardMulti = getMonumentMultiReward(holesObject, 0, accountData) || 0;
+  const timeForNextFight = 72E3 * (1 - rewardMulti);
+  const opalChance = Math.min(0.5, Math.pow(0.5, holesObject?.opalsPerCavern?.[3])
+    * (1 + getMonumentBonus({ holesObject, t: 0, i: 5 }) / 100));
+  const ownedSwords = Math.round(Math.min(9, 3 + (2 * getMonumentHourBonus({ holesObject, t: 0, i: 1 })
+    + (getMonumentHourBonus({ holesObject, t: 0, i: 3 })
+      + (getMonumentHourBonus({ holesObject, t: 0, i: 5 })
+        + getMonumentHourBonus({ holesObject, t: 0, i: 7 }))))));
+  const firstLevel = getFirstUnkillableLevel(min);
+  const hps = fillArrayToLength(ENEMY_HP_LEVELS_SHOWN).map((_, index) => ({
+    name: `Level ${firstLevel + index}`,
+    value: getBraveryEnemyHp(firstLevel + index)
+  }));
+  const hpsBreakdown = createBreakdown('Enemy HP',
+    `Lv. ${firstLevel}: ${notateNumber(hps[0].value, 'Big')}`, flatLines(hps), { combine: 'list' });
+  const multiplier = getMonumentMultiplier({ holesObject, t: 0 });
+  const selfMultiplier = applyMonumentFountain(1, holesObject, 0);
+  const bonuses = holesInfo?.[32]
+    ?.slice(0, 10)
+    ?.filter((name: any) => !name.includes('Monument_'))
+    .map((description: any, index: any) => {
+      const level = holesObject?.braveryBonuses?.[index];
+      const bonus = getMonumentBonus({ holesObject, t: 0, i: index });
+      const scalingValue = parseFloat(holesInfo?.[37]?.[index]);
+      const isSoftCap = scalingValue >= 30;
+      const capMultiplier = index === 9 ? selfMultiplier : multiplier;
+      const effectiveCap = isSoftCap ? scalingValue * capMultiplier : null;
+      return {
+        description: description.replace(/_/g, ' ').replace(/\|/g, ' ').replace('{', Math.round(bonus)).replace('}', notateNumber(1 + bonus / 100, 'MultiplierInfo')),
+        level,
+        bonus,
+        scalingValue,
+        cap: effectiveCap,
+        progression: isSoftCap ? (bonus / effectiveCap!) * 100 : null,
+        levelToReachCap: isSoftCap ? Math.ceil(250 * (10 * scalingValue * capMultiplier - 1)) : null
+      }
+    })
+  const hours = holesObject?.braveryMonument?.[0] || 0;
+  const hoursRewards = holesInfo?.[31]?.slice(0, 8);
+  const hoursBreakpoints = holesInfo?.[30]?.map((hours: any, index: any) => ({
+    hours,
+    reward: hoursRewards?.[index]
+  }));
+  const nextHourBreakpoint = hoursBreakpoints.find(({ hours: reqHours }: any) => hours < reqHours);
+
+  const afkPercent = getMonumentAfkBonus(holesObject, accountData);
+  const bonusLvsMultiplier = getAllMonumentsBonusLvs(accountData);
+  return {
+    damage: { min, max },
+    ownedSwords,
+    maxRethrow,
+    maxRetelling,
+    opalChance,
+    hps,
+    hpsBreakdown,
+    bonuses,
+    bonusLvsMultiplier,
+    hours,
+    nextHourBreakpoint,
+    timeForNextFight,
+    rewardMulti,
+    afkPercent,
+    monumentAfkReq: getMonumentAfkReq(afkPercent?.value, nextHourBreakpoint?.hours, hours, afkPercent?.multi)
+  };
+}
+
+export const getMonumentAfkBonus = (holesObject: any, accountData: any) => {
+  const winBonus = getWinnerBonus(accountData, '+{% Monument AFK');
+  const arcadeBonus = getArcadeBonus(accountData?.arcade?.shop, 'Monument_AFK')?.bonus;
+
+  const afkPercent = getMonumentBonus({ holesObject, t: 0, i: 8 })
+    + (getMonumentBonus({ holesObject, t: 1, i: 8 })
+      + getMonumentBonus({ holesObject, t: 2, i: 8 })
+      + (winBonus
+        + (getJarBonus({ holesObject, i: 19, account: accountData })
+          / 1 + (getSchematicBonus({ holesObject, t: 81, i: 20 })
+            + (getMeasurementBonus({ holesObject, accountData, t: 11 })
+              + (arcadeBonus
+                + 10 * getAchievementStatus(accountData?.achievements, 311) + getCompassBonus(accountData, 55)))))));
+
+  // game: MonumentHRbonusMULTI, applied on top of (1 + value / 100) when AFK hours are granted
+  const multi = 1 + getMineheadBonusQTY(accountData, 19) / 100;
+  const effectiveValue = ((1 + afkPercent / 100) * multi - 1) * 100;
+
+  return {
+    value: afkPercent,
+    multi,
+    // What the AFK hours actually get, Minehead multiplier included
+    effectiveValue,
+    breakdown: createBreakdown('Monument Afk bonus', `${notateNumber(effectiveValue, 'MultiplierInfo')}%`, [
+      additiveGroup(NUMBERED_GROUP, [
+        percent('Monument', getMonumentBonus({ holesObject, t: 0, i: 8 })
+          + getMonumentBonus({ holesObject, t: 1, i: 8 })
+          + getMonumentBonus({ holesObject, t: 2, i: 8 })),
+        percent('Summoning', winBonus),
+        percent('Jar', getJarBonus({ holesObject, i: 19, account: accountData })),
+        percent('Schematic', getSchematicBonus({ holesObject, t: 81, i: 20 })),
+        percent('Measurement', getMeasurementBonus({ holesObject, accountData, t: 11 })),
+        percent('Arcade', arcadeBonus || 0),
+        percent('Achievement', 10 * getAchievementStatus(accountData?.achievements, 311)),
+        percent('Compass', getCompassBonus(accountData, 55))
+      ]),
+      multiplier('Minehead', multi)
+    ]),
+    expression: `braveryAfkBonus
++ justiceAfkBonus
++ wisdomAfkBonus
++ winBonus
++ (
+  minecraftGemBonus / 1
+  + (
+    rockSmartSchematicBonus
+    + measurementBonus
+    + arcadeBonus
+    + 10 * achievementBonus
+  )
+)`
+  }
+}
+export const getMonumentAfkReq = (afkPercent: any, requiredHours: any, ownedAfkHours = 0, afkMulti = 1) => {
+  if (!requiredHours) return null;
+  const remainingHours = Math.max(0, requiredHours - ownedAfkHours);
+  const realHoursNeeded = Math.ceil(remainingHours / ((1 + afkPercent / 100) * afkMulti));
+  return createBreakdown('Monument AFK Hours Req', realHoursNeeded, [
+    listGroup('Hours per character', Array.from({ length: MAX_CHARACTERS }, (_, index) => {
+      const characters = index + 1;
+      return flat(`${characters} character${characters > 1 ? 's' : ''}`, Math.ceil(realHoursNeeded / characters));
+    }), { note: 'AFK hours each character needs when several share the work' })
+  ], { combine: 'list' });
+}
+
+export const getMonumentMaxLinearTime = (holesObject: any, t: any, accountData: any) => {
+  const legendTalentBonus = getLegendTalentBonus(accountData, 27);
+  const superbitBonus = isSuperbitUnlocked(accountData, 'Monument_Infimulti') ? 1 : 0;
+
+  return 1 === t ? 86400 * (2 + (getSchematicBonus({ holesObject, t: 70, i: 2 })
+      + getSchematicBonus({ holesObject, t: 96, i: 2 })
+      + 10 * superbitBonus) +
+    (14 * getStudyBonus(holesObject, 9, 99) + legendTalentBonus / 24))
+    : 86400 * (2 + (getSchematicBonus({ holesObject, t: 70, i: 2 })
+      + getSchematicBonus({ holesObject, t: 96, i: 2 }) +
+      (10 * superbitBonus + legendTalentBonus / 24)));
+}
+
+export const getMonumentMultiReward = (holesObject: any, t: any, accountData: any) => {
+  const maxLinearTime = getMonumentMaxLinearTime(holesObject, t, accountData)
+
+  return (Math.min(holesObject?.extraCalculations?.[Math.round(11 + t)], maxLinearTime) / 72e3
+    + (Math.pow(1 + Math.max(0, holesObject?.extraCalculations?.[Math.round(11 + t)] - maxLinearTime) / 72e3, 0.3) - 1))
+    * (1 + getMeritocracyBonus(accountData, 7) / 100)
+    * (1 + getLegendTalentBonus(accountData, 27) / 100);
+}
+
+const getBraveryMinDamage = (holesObject: any, accountData: any) => {
+  return 3 + Math.floor(holesObject?.braveryMonument?.[0] / 6)
+    * getSchematicBonus({ holesObject, t: 24, i: 1 })
+    + (getStudyBonus(holesObject, 3, 0) / 100)
+    * getBraveryMaxDamage(holesObject, accountData);
+}
+
+const getBraveryMaxDamage = (holesObject: any, accountData: any) => {
+  return (25 + 10 * Math.floor(holesObject?.braveryMonument?.[0] / 6)
+    * getSchematicBonus({ holesObject, t: 24, i: 1 }))
+    * (1 + getMeasurementBonus({ holesObject, accountData, t: 1 }) / 100)
+    * (1 + (getSchematicBonus({ holesObject, t: 40, i: 10 }) * 0) / 100) * (1 + (10 * 0) / 100);
+}
+
+export const getMonumentHourBonus = ({ holesObject, t, i }: any) => {
+  return holesObject?.braveryMonument?.[Math.round(1 + 2 * t)] > i ? 1 : 0;
+}
+
+const getMaxRerolls = (holesObject: any) => {
+  return Math.round(5 * getMonumentHourBonus({ holesObject, t: 0, i: 2 }) + 10 * getMonumentHourBonus({
+    holesObject,
+    t: 0,
+    i: 6
+  }));
+}
+
+// Apply the per-monument fountain factor (only for t = 0/1/2) and clamp to >= 1.
+export const applyMonumentFountain = (base: number, holesObject: any, t: any) => {
+  const withFountain = (t === 0 || t === 1 || t === 2)
+    ? base * (1 + getFountainBonusTotal(holesObject, t, 13) / 100)
+    : base;
+  return Math.max(1, withFountain);
+}
+
+// 'MonumentROGbonuses' == e
+export const getMonumentBonus = ({ holesObject, t, i }: any): number => {
+  // Monument-multi upgrade itself (i = 9) only gets the fountain factor — adding
+  // cosmo or its own i=9 contribution would be self-referential.
+  const finalResult = i === 9
+    ? applyMonumentFountain(1, holesObject, t)
+    : getMonumentMultiplier({ holesObject, t });
+
+  const holesInfoValue = Number(holesInfo[37]?.[Math.round(10 * t + i)]);
+  const holesValue = holesObject?.braveryBonuses?.[Math.round(10 * t + i)];
+
+  if (holesInfoValue < 30) {
+    return holesValue * holesInfoValue * finalResult;
+  }
+  return 0.1 * Math.ceil((holesValue / (250 + holesValue)) * 10 * holesInfoValue * finalResult);
+}
+
+export const getMonumentMultiplier = ({ holesObject, t }: any): number => {
+  const base = 1 + getMonumentBonus({ holesObject, t, i: 9 }) / 100
+    + getCosmoBonus({ majik: holesObject?.holeMajiks, t: 0, i: 0 }) / 100;
+  return applyMonumentFountain(base, holesObject, t);
+}
+
+// game: "AllMonuments_BonusLVs"
+export const getAllMonumentsBonusLvs = (account: any): number => {
+  const bonus = isCompanionBonusActive(account, 135) ? (account?.companions?.list?.at(135)?.bonus ?? 0) : 0;
+  return Math.max(1, 1 + bonus / 100);
+};

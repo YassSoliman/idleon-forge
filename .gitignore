@@ -4,10 +4,17 @@ dist/
 .env*
 !.env.example
 .wrangler/
-# Raw game saves are personal data: never commit them. Use fixtures/scrubbed/ for shareable ones.
-fixtures/private/
+*.tsbuildinfo
+# Raw game saves are personal data: never commit them. Shareable scrubbed copies go in
+# packages/account-state/fixtures/scrubbed/ (M1 TR-17).
+# (No trailing slash, so a symlinked fixtures/private is ignored too.)
+fixtures/private
 *.raw.json
+*.parsed.json
 prototypes/*/accounts.local.js
+# Toolbox checkout used by the parser sync, and the game data rebuilt from the pin at build time.
+packages/toolbox-parsers/.upstream/
+packages/toolbox-parsers/vendor/data/
 
 # Agent worktrees (local only)
 .claude/worktrees/

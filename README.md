@@ -4,7 +4,31 @@ Open-source, read-only companion tools ("Mods") for [Legends of IdleOn](https://
 
 The first Mod is **ActiveOn**: a coach that sits next to the game during a play session and tells you, per character, what to do next and why, so every character is set up right before you go AFK. *Play the game, not the spreadsheet.*
 
-> Status: **planning**. The way to the MVP is being charted as a [Wayfinder map](../../issues?q=label%3Awayfinder%3Amap) of decision tickets in this repo's Issues.
+## Status
+
+**Early build.** The first slice works: sign in with Google (or paste your save JSON) and see your
+account live: every character's class, level, what it is doing and where, with "last cloud save Ns
+ago". It gives **no advice yet**; the advice engine and Knowledge Base are the next slices. The way to
+the MVP is charted as a [Wayfinder map](../../issues?q=label%3Awayfinder%3Amap) of decision tickets.
+
+## Run it locally
+
+You need Node 22 and pnpm 9 (`corepack enable` gives you pnpm).
+
+```sh
+git clone https://github.com/YassSoliman/idleon-forge.git
+cd idleon-forge
+pnpm install
+pnpm dev        # http://localhost:5173
+```
+
+Without any config, ActiveOn runs in paste mode: in [IdleOn Toolbox](https://www.idleontoolbox.com),
+use "Copy for support", then paste into ActiveOn. To enable **Sign in with Google**, copy
+`apps/activeon/.env.example` to `apps/activeon/.env.local` and fill it in as described in
+[`docs/setup/live-sign-in.md`](docs/setup/live-sign-in.md).
+
+Checks: `pnpm lint && pnpm typecheck && pnpm test && pnpm build`. Contributors and AI agents: start at
+[`AGENTS.md`](AGENTS.md).
 
 ## Principles
 

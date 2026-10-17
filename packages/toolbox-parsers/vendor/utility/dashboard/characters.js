@@ -1,0 +1,482 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { differenceInHours, differenceInMinutes, isPast } from 'date-fns';
+import { carryBags, items, randomList } from '@website-data';
+import { getExpReq, isArenaBonusActive, isCompanionBonusActive } from '../../parsers/misc';
+import { getPlayerAnvil, getTimeTillCap } from '@parsers/world-1/anvil';
+import { isMeditatingOnClaim } from '@parsers/world-5/divinity';
+import {
+  checkCharClass,
+  CLASSES,
+  getTalentBonus,
+  getTalentBonusIfActive,
+  isBookEligibleTalent,
+  relevantTalents
+} from '../../parsers/talents';
+import { getAllTools } from '../../parsers/items';
+import { cleanUnderscore } from '@utility/helpers';
+
+export const anvilAlerts = (account, characters, character, lastUpdated, options) => {
+  const alerts = {};
+  if (options?.anvil?.missingHammers?.checked) {
+    const hammerBubble = character?.equippedBubbles?.find(({ bubbleName }) => bubbleName === 'HAMMER_HAMMER');
+    const maxProducts = hammerBubble ? 3 : 2;
+    const {
+      production: prod
+    } = getPlayerAnvil(characters?.[character?.playerId], characters, account);
+    const production = prod?.filter(({ hammers }) => hammers > 0);
+    const numOfHammers = production?.reduce((res, { hammers }) => res + hammers, 0);
+    alerts.missingHammers = maxProducts - numOfHammers;
+  }
+
+  if (options?.anvil?.unspentPoints?.checked && character?.anvil?.anvilStats?.availablePoints >= options?.anvil?.unspentPoints?.props?.value) {
+    alerts.unspentPoints = character?.anvil?.anvilStats?.availablePoints;
+  }
+  if (options?.anvil?.anvilOverdue?.checked) {
+    const { anvil: anvilOption } = options || {};
+    const {
+      stats,
+      production
+    } = getPlayerAnvil(characters?.[character?.playerId], characters, account);
+    const allProgress = production?.filter(({ hammers }) => hammers > 0)?.map((slot) => {
+      const tillCap = getTimeTillCap({
+        ...slot,
+        stats,
+        afkTime: character?.afkTime
+      }) * 1000;
+      return {
+        date: new Date().getTime() + tillCap,
+        name: items?.[slot?.rawName]?.displayName,
+        rawName: slot?.rawName
+      };
+    })
+    alerts.anvilOverdue = allProgress?.map(({ date, name, rawName }) => {
+      const d = new Date(date - 1);
+      return { diff: differenceInMinutes(d, new Date()), name, rawName };
+    }).filter(({ diff }) => diff <= anvilOption?.anvilOverdue?.props?.value);
+  }
+  return alerts;
+}
+export const worshipAlerts = (account, characters, character, lastUpdated, options) => {
+  const alerts = {};
+  if (!account?.finishedWorlds?.World2) return alerts;
+  if (options?.worship?.unendingEnergy?.checked) {
+    const timePassed = new Date().getTime() + (character?.afkTime - lastUpdated);
+    const minutes = differenceInMinutes(new Date(), new Date(timePassed));
+    if (minutes >= 5) {
+      const hasUnendingEnergy = character?.activePrayers?.find(({ name }) => name === 'Unending_Energy');
+      const hours = differenceInHours(new Date(), new Date(timePassed));
+      alerts.unendingEnergy = hasUnendingEnergy && hours > 10;
+    }
+  }
+  if (options?.worship?.chargeOverdue?.checked) {
+    const fivePercent = 5 * character?.worship?.maxCharge / 100;
+    alerts.chargeOverdue = character?.worship?.currentCharge >= character?.worship?.maxCharge - fivePercent;
+  }
+  return alerts;
+}
+export const trapsAlerts = (account, characters, character, lastUpdated, options) => {
+  const alerts = {};
+  if (!account?.finishedWorlds?.World2) return alerts;
+  if (options?.traps?.missingTraps?.checked) {
+    const traps = account?.traps?.[character?.playerId];
+    const usedTrap = character?.tools?.[4]?.rawName !== 'Blank' ? character?.tools?.[4] : null;
+    const callMeAshBubble = account?.alchemy?.bubbles?.quicc?.find(({ bubbleName }) => bubbleName === 'CALL_ME_ASH')?.level;
+    const plusOneTrap = callMeAshBubble > 0 ? 1 : 0;
+    const maxTraps = usedTrap
+      ? parseInt(usedTrap?.rawName?.charAt(usedTrap?.rawName?.length - 1) ?? 0) + plusOneTrap
+      : traps?.length;
+    alerts.missingTraps = traps?.length < Math.min(maxTraps, 8);
+  }
+  if (options?.traps?.trapsOverdue?.checked) {
+    alerts.trapsOverdue = account?.traps?.[character?.playerId].some((slot) => isPast(slot?.timeLeft));
+  }
+  return alerts;
+}
+// Picnic Stowaway's repeatable daily questline is Picnic_Stowaway4 through Picnic_Stowaway12. The
+// daily reset clamps NPCdialogue.Picnic_Stowaway back down to 20 and sets every one of those quests
+// to -1 on every character, so a character with any of them completed (1) has already fed him today.
+const PICNIC_DAILY_QUESTS = [4, 5, 6, 7, 8, 9, 10, 11, 12];
+const PICNIC_QUESTLINE_DIALOG = 20;
+
+export const questsAlerts = (account, characters, character, lastUpdated, options) => {
+  const alerts = {};
+  if (options?.quests?.picnicDaily?.checked) {
+    const questlineUnlocked = character?.npcDialog?.Picnic_Stowaway >= PICNIC_QUESTLINE_DIALOG;
+    const picnicQuests = character?.quests?.Picnic_Stowaway;
+    alerts.picnicDaily = questlineUnlocked
+      && !PICNIC_DAILY_QUESTS.some((questIndex) => picnicQuests?.[questIndex] === 1);
+  }
+  return alerts;
+}
+export const alchemyAlerts = (account, characters, character, lastUpdated, options) => {
+  const alerts = {};
+  if (options?.alchemy?.missingBubbles?.checked) {
+    const arenaWave = account?.accountOptions?.[89];
+    const waveReqs = randomList?.[53];
+    const arenaBonusUnlock = isArenaBonusActive(arenaWave, waveReqs, 11);
+    const maxEquippedBubbles = arenaBonusUnlock ? 3 : 2;
+    const sheepieCompanion = isCompanionBonusActive(account, 4);
+    if (!sheepieCompanion) {
+      alerts.missingBubbles = character?.equippedBubbles?.length < maxEquippedBubbles;
+    }
+  }
+  if (options?.alchemy?.noActivity?.checked && account?.alchemy?.activities?.[character?.playerId]?.activity === -1) {
+    alerts.noActivity = true;
+  }
+  return alerts;
+}
+export const obolsAlerts = (account, characters, character, lastUpdated, options) => {
+  const alerts = {};
+  if (!account?.finishedWorlds?.World1) return alerts;
+  if (options?.obols?.missingObols?.checked) {
+    alerts.missingObols = character?.obols?.list?.filter(({ rawName }) => rawName === 'Blank')
+  }
+  return alerts;
+}
+export const postOfficeAlerts = (account, characters, character, lastUpdated, options) => {
+  const alerts = {};
+  if (!account?.finishedWorlds?.World1) return alerts;
+  if (options?.postOffice?.unspentPoints?.checked) {
+    const value = parseInt(options?.postOffice?.unspentPoints?.props?.value);
+    alerts.unspentPoints = character?.postOffice?.unspentPoints > (value ?? 0) && character?.postOffice.boxes.some(({
+      level,
+      maxLevel
+    }) => level < maxLevel);
+  }
+  return alerts;
+}
+export const starSignsAlerts = (account, characters, character, lastUpdated, options) => {
+  const alerts = {};
+  if (options?.starSigns?.missingStarSigns?.checked) {
+    const allStarSignsInfinite = account?.starSigns?.filter(({ starName }) => !starName.includes('Filler') && !starName.includes('Unknown')).every(({ isInfiniteStar }) => isInfiniteStar);
+    const maxStarSigns = account?.starSigns?.reduce((res, { starName, unlocked }) => {
+      if (starName.includes('Chronus_Cosmos') && unlocked) {
+        return res < 2 ? 2 : res;
+      }
+      else if (starName.includes('Hydron_Cosmos') && unlocked) {
+        return res < 3 ? 3 : res;
+      }
+      return res;
+    }, 1);
+    if (!allStarSignsInfinite) {
+      alerts.missingStarSigns = maxStarSigns - character?.starSigns?.length;
+    }
+  }
+  return alerts;
+}
+export const crystalCountdownAlerts = (account, characters, character, lastUpdated, options) => {
+  return crystalCooldownSkillsReady(character, options)
+}
+export const toolsAlerts = (account, characters, character) => {
+  return hasAvailableToolUpgrade(character, account)
+}
+export const talentsAlerts = (account, characters, character, lastUpdated, options) => {
+  const alerts = {
+    talents: isTalentReady(character, options)
+  };
+  if (options?.talents?.superTalentLeftToSpend?.checked) {
+    const superTalentLeftToSpend = character?.superTalentLeftToSpend ?? 0;
+    if (superTalentLeftToSpend > 0) {
+      alerts.superTalentLeftToSpend = superTalentLeftToSpend;
+    }
+  }
+  if (options?.talents?.unmaxedTalents?.checked) {
+    alerts.unmaxedTalents = getUnmaxedTalents(character);
+  }
+  if (options?.talents?.libraryUpgradableTalents?.checked) {
+    alerts.libraryUpgradableTalents = getLibraryUpgradableTalents(character);
+  }
+  return alerts;
+}
+
+// Class talents only - star talents have no per-talent cap to fill or book to raise. Placeholder
+// tiles ('Blank', locked slots) carry a non numeric skillIndex or no maxLevel, so they're skipped.
+const getRealTalents = (character) => character?.flatTalents?.filter(({ skillIndex, name, maxLevel }) =>
+  name && maxLevel > 0 && Number.isFinite(Number(skillIndex))) || [];
+
+// Talents with points left to spend - the white tier of the Talents page level color legend.
+const getUnmaxedTalents = (character) => getRealTalents(character)
+  .filter(({ baseLevel, maxLevel }) => baseLevel < maxLevel)
+  .map(({ name, skillIndex, baseLevel, maxLevel }) => ({ name, skillIndex, level: baseLevel, target: maxLevel }));
+
+// Talents already at their cap that a Talent Book Library book could raise further - the blue tier
+// of the level color legend.
+const getLibraryUpgradableTalents = (character) => {
+  const maxBookLv = character?.maxBookLv ?? 0;
+  return getRealTalents(character)
+    .filter(({ skillIndex, baseLevel, maxLevel }) => baseLevel >= maxLevel
+      && maxLevel < maxBookLv
+      && isBookEligibleTalent(skillIndex))
+    .map(({ name, skillIndex, maxLevel }) => ({ name, skillIndex, level: maxLevel, target: maxBookLv }));
+}
+export const isTalentReady = (character, options) => {
+  const { talents } = options;
+  const { afkTime, cooldowns, flatTalents } = character;
+  const timePassed = (new Date().getTime() - afkTime) / 1000;
+  if (!cooldowns || !talents?.talents?.checked) return [];
+  return Object.entries(cooldowns || {})?.reduce((res, [tId, talentCd]) => {
+    if (!relevantTalents[tId]) return res;
+    const talent = flatTalents?.find(({ talentId }) => parseInt(tId) === talentId);
+    const configTalents = Object.entries(talents?.talents?.props?.value || {})?.reduce((res, [name, val]) => ({
+      ...res,
+      [name.camelToTitleCase()?.replace(/ /g, '_')?.toUpperCase()]: val
+    }), {});
+    if (!talent || !configTalents?.[talent?.name]) return res;
+    const actualCd = talentCd - timePassed;
+    const cooldown = actualCd < 0 ? actualCd : new Date().getTime() + actualCd * 1000;
+    if (!talents?.alwaysShowTalents?.checked && !isPast(cooldown)) return res;
+    return [...res,
+    { name: talent?.name, skillIndex: talent?.skillIndex, cooldown }];
+  }, []);
+}
+export const crystalCooldownSkillsReady = (character, options) => {
+  // -1 != e.indexOf("Crystal")
+  if (checkCharClass(character?.class, CLASSES.Maestro) && options?.crystalCountdown?.skills?.checked) {
+    return Object.entries(character?.skillsInfo || {})?.reduce((res, [name, data]) => {
+      if (data?.index < 10 && name !== 'character' && options?.crystalCountdown?.skills?.props?.value?.[data?.icon]) {
+        const crystalCountdown = getTalentBonus(character?.flatTalents, 'CRYSTAL_COUNTDOWN');
+        const expReq = getExpReq(data?.index, data?.level);
+        const reduction = (1 - data?.expReq / expReq) * 100;
+        const ready = reduction > 0;
+        return [...res, {
+          name, ...data,
+          crystalCountdown,
+          reduction: data?.level > 0 ? reduction : 0,
+          ready: data?.level > 0 ? ready : false
+        }]
+      }
+      return res;
+    }, []);
+  }
+}
+export const hasAvailableToolUpgrade = (character) => {
+  const rawTools = getAllTools();
+  const charTools = character?.tools?.slice(0, 7);
+  const skills = [
+    character?.skillsInfo?.mining?.level, character?.skillsInfo?.chopping?.level,
+    character?.skillsInfo?.fishing?.level, character?.skillsInfo?.catching?.level,
+    character?.skillsInfo?.trapping?.level, character?.skillsInfo?.worship?.level,
+    character?.level
+  ];
+  return charTools?.reduce((alerts, tool, index) => {
+    const skillLv = skills?.[index];
+    const toolList = rawTools?.[index] || [];
+    const bestInSlot = Array.isArray(toolList)
+      ? toolList?.findLast(({ lvReqToEquip }) => skillLv >= lvReqToEquip)
+      : null;
+    if (bestInSlot && bestInSlot?.rawName !== tool?.rawName) {
+      alerts.push(bestInSlot)
+    }
+    return alerts;
+  }, []);
+}
+export const getDivinityAlert = (account, characters, character, lastUpdated, options) => {
+  if (!options.divinityStyle.checked) return null;
+  const isMeditating = isMeditatingOnClaim(character, account);
+  if (isMeditating && character?.skillsInfo?.divinity?.level >= 80 && character?.divStyle?.name !== 'Mindful') {
+    return { text: 'doesn\'t have mindful style equipped', icon: 'Div_Style_7' };
+  }
+  else if (!isMeditating && character?.skillsInfo?.divinity?.level >= 40 && character?.divStyle?.name !== 'TranQi') {
+    return { text: 'doesn\'t have tranQi style equipped', icon: 'Div_Style_5' };
+  }
+  return null;
+};
+// character.equipment holds both gear pages back to back - indices 0-7 are the first page, which is
+// the only one this alert looks at. Page 2 (keychains, trophy, cape...), tools and food are left out
+// on purpose: they're legitimately empty for most accounts.
+const EQUIPMENT_SLOTS = [
+  { index: 0, group: 'armor', label: 'Helmet' },
+  { index: 1, group: 'weapon', label: 'Weapon' },
+  { index: 2, group: 'armor', label: 'Shirt' },
+  { index: 3, group: 'amulet', label: 'Pendant' },
+  { index: 4, group: 'armor', label: 'Pants' },
+  { index: 5, group: 'rings', label: 'Ring' },
+  { index: 6, group: 'armor', label: 'Shoes' },
+  { index: 7, group: 'rings', label: 'Ring' }
+];
+
+export const getEquipmentAlert = (account, characters, character, lastUpdated, options) => {
+  const alerts = {};
+  if (options?.equipment?.availableUpgradesSlots?.checked) {
+    alerts.availableUpgradesSlots = [...(character?.equipment || []),
+    ...(character?.tools || [])].reduce((result, item) => {
+      return item?.Upgrade_Slots_Left > 0 && item?.Type !== 'PREMIUM_HELMET' && item?.Type !== 'CHAT_RING' && !item?.Premiumified
+        ? [...result, item]
+        : result;
+    }, [])
+  }
+  if (options?.equipment?.emptyGearSlots?.checked) {
+    const enabledGroups = options?.equipment?.emptyGearSlots?.props?.value || {};
+    alerts.emptyGearSlots = EQUIPMENT_SLOTS.reduce((result, { index, group, label }) => {
+      return enabledGroups?.[group] && character?.equipment?.[index]?.rawName === 'Blank'
+        ? [...result, label]
+        : result;
+    }, []);
+  }
+  return alerts;
+};
+// MaxCarryCap also holds Quests/fillerz/Statues pseudo-bags that have no upgrade path.
+const NON_UPGRADABLE_CARRY_BAGS = ['Quests', 'fillerz', 'Statues'];
+export const bagsAlerts = (account, characters, character, lastUpdated, options) => {
+  const alerts = {};
+  if (options?.bags?.unmaxedBags?.checked) {
+    alerts.unmaxedBags = Object.entries(character?.maxCarryCap || {})
+      .filter(([bagType]) => !NON_UPGRADABLE_CARRY_BAGS.includes(bagType) && carryBags?.[bagType])
+      .map(([bagType, capacity]) => {
+        const tiers = Object.keys(carryBags?.[bagType]).map(Number).sort((a, b) => a - b);
+        const maxCapacity = tiers[tiers.length - 1];
+        if (capacity >= maxCapacity) return null;
+        const currentBag = carryBags?.[bagType]?.[capacity];
+        return {
+          bagType,
+          capacity,
+          maxCapacity,
+          rawName: currentBag?.rawName ?? carryBags?.[bagType]?.[maxCapacity]?.rawName
+        };
+      })
+      .filter(Boolean);
+  }
+  return alerts;
+};
+export const cardsAlert = (account, characters, character, lastUpdated, options) => {
+  const alerts = {}
+  if (options?.cards?.cardSet?.checked) {
+    const equippedCardSet = character?.cards?.cardSet;
+    const cardSetEffect = cleanUnderscore(equippedCardSet?.effect).replace('{', '');
+    const dbWithWraith = checkCharClass(character?.class, CLASSES.Death_Bringer) && character?.activeBuffs?.find(({ name }) => name === 'WRAITH_FORM') !== -1;
+    if (character?.level >= 50 && equippedCardSet?.rawName === 'CardSet0') {
+      alerts.cardSet = {
+        text: `${character.name} has Blunder hill card set equipped which is for level < 50`
+      };
+    }
+    else if (character.afkType === 'FIGHTING' && (equippedCardSet?.rawName === 'CardSet2'
+      || equippedCardSet?.rawName === 'CardSet3'
+      || equippedCardSet?.rawName === 'CardSet5'
+      || equippedCardSet?.rawName === 'CardSet7') && !dbWithWraith) {
+      alerts.cardSet = {
+        text: `${character.name} is fighting but has skilling card set (${cardSetEffect})`
+      };
+    }
+    else if (character.afkType !== 'FIGHTING' && character.afkType !== 'Nothing' && character.afkType !== 'Paying_Respect'
+      && (equippedCardSet?.rawName === 'CardSet4'
+        || equippedCardSet?.rawName === 'CardSet6'
+        || equippedCardSet?.rawName === 'CardSet8'
+        || equippedCardSet?.rawName === 'CardSet7'
+        || equippedCardSet?.rawName === 'CardSet26'
+      )) {
+      alerts.cardSet = {
+        text: `${character.name} is skilling but has fighting card set (${cardSetEffect})`
+      };
+    }
+    // const hasEmptySlots = character?.cards?.equippedCards?.filter(({ cardName }) => !cardName);
+    // if (hasEmptySlots) {
+    //   alerts.emptyCards = true;
+    // }
+    // alerts.cardSet = character?.level >= 50 && character?.cards?.cardSet?.rawName === 'CardSet0';
+  }
+  if (options?.cards?.passiveCards?.checked) {
+    const hasPassiveCardsEquipped = character?.cards?.equippedCards?.filter(({ effect }) => effect?.includes('(Passive)') || effect?.includes('(P)'));
+    if (hasPassiveCardsEquipped?.length > 0) {
+      alerts.passiveCards = true;
+    }
+  }
+  return alerts;
+}
+// The game lays the inventory out as one 4x4 page per bag, so a raw slot index maps straight onto
+// the bag and grid position the item sits at in game.
+const INVENTORY_COLUMNS = 4;
+const INVENTORY_BAG_SIZE = 16;
+
+export const getInventoryLocation = (slot) => {
+  if (!Number.isInteger(slot) || slot < 0) return '';
+  const slotInBag = slot % INVENTORY_BAG_SIZE;
+  const bag = Math.floor(slot / INVENTORY_BAG_SIZE) + 1;
+  const row = Math.floor(slotInBag / INVENTORY_COLUMNS) + 1;
+  const column = (slotInBag % INVENTORY_COLUMNS) + 1;
+  return `bag ${bag}, row ${row}, col ${column}`;
+};
+
+// Maps a ring's unique stat tag to the betterRing option that turns it on and off. Only stats
+// listed here are optional - anything else always counts towards a ring's score.
+const RING_STAT_OPTIONS = {
+  '%_ARCANIST_ACC': 'arcanistAccuracy',
+  '%_EXTRA_TACHYONS': 'extraTachyons'
+};
+
+export const classSpecificAlerts = (account, characters, character, lastUpdated, options) => {
+  const alerts = {};
+  const wrongItems = {};
+  const acFormActive = getTalentBonusIfActive(character?.activeBuffs, 'ARCANIST_FORM');
+  const isArcaneCultist = checkCharClass(character?.class, CLASSES.Arcane_Cultist);
+  const wwFormActive = getTalentBonusIfActive(character?.activeBuffs, 'TEMPEST_FORM');
+  const isWindWalker = checkCharClass(character?.class, CLASSES.Wind_Walker);
+  if (options?.classSpecific?.wrongItems?.checked) {
+    if (!acFormActive && isArcaneCultist) {
+      const hasWeapon = character?.equipment?.[1]?.rawName?.includes('EquipmentWandsArc');
+      const hasRings = character?.equipment?.[5]?.rawName?.includes('EquipmentRingsArc') || character?.equipment?.[7]?.rawName?.includes('EquipmentRingsArc');
+      wrongItems.acWeapon = hasWeapon ? character?.equipment?.[1]?.rawName : '';
+      wrongItems.acRings = hasRings ? character?.equipment?.[5]?.rawName : '';
+    }
+    if (!wwFormActive && isWindWalker) {
+      const hasWeapon = character?.equipment?.[1]?.rawName?.includes('EquipmentBowsTempest');
+      const hasRings = character?.equipment?.[5]?.rawName?.includes('EquipmentRingsTempest') || character?.equipment?.[7]?.rawName?.includes('EquipmentRingsTempest');
+      wrongItems.wwWeapon = hasWeapon ? character?.equipment?.[1]?.rawName : '';
+      wrongItems.wwRings = hasRings ? character?.equipment?.[5]?.rawName : '';
+    }
+  }
+  if (options?.classSpecific?.betterWeapon?.checked) {
+    if (isWindWalker && wwFormActive) {
+      const weapons = character.inventory.filter(({ rawName }) => rawName.includes('EquipmentBowsTempest'));
+      const equippedWeapon = character?.equipment?.[1];
+      alerts.betterWeapon = weapons.find((invWeapon) => {
+        const isSameElement = invWeapon?.UQ1txt === equippedWeapon?.UQ1txt;
+        return isSameElement && invWeapon?.Weapon_Power > equippedWeapon?.Weapon_Power;
+      });
+    }
+    if (isArcaneCultist && acFormActive) {
+      const weapons = character.inventory.filter(({ rawName }) => rawName.includes('EquipmentWandsArc'));
+      const equippedWeaponWP = calcTotalAcWandDamage(character?.equipment?.[1]) || 0;
+      alerts.betterWeapon = weapons.find((invWeapon) => {
+        return calcTotalAcWandDamage(invWeapon) > equippedWeaponWP;
+      });
+    }
+  }
+  if (options?.classSpecific?.betterRing?.checked) {
+    // A ring's worth is its combined unique stat values (UQ1val + UQ2val). "Better" means a ring
+    // of the same type (rawName) with a higher combined value than the one equipped. The Arcane
+    // Cultist ring is the only one rolling two stats, and its accuracy roll matters far less than
+    // its tachyon one, so each of its stats can be left out of the score. Tempest rings roll a
+    // single stat, which isn't listed here and so always counts.
+    const enabledRingStats = options?.classSpecific?.betterRing?.props?.value || {};
+    const statCounts = (uqTxt) => {
+      const optionName = RING_STAT_OPTIONS[uqTxt];
+      return optionName ? enabledRingStats[optionName] !== false : true;
+    };
+    const ringScore = (ring) => (statCounts(ring?.UQ1txt) ? ring?.UQ1val ?? 0 : 0)
+      + (statCounts(ring?.UQ2txt) ? ring?.UQ2val ?? 0 : 0);
+    const equippedRings = [character?.equipment?.[5], character?.equipment?.[7]].filter(Boolean);
+    const findBetterRing = (family) => {
+      const invRings = character.inventory.filter(({ rawName }) => rawName?.includes(family));
+      return invRings.find((invRing) => equippedRings.some((equipped) =>
+        equipped?.rawName === invRing?.rawName && ringScore(invRing) > ringScore(equipped)));
+    };
+    if (isArcaneCultist && acFormActive) {
+      alerts.betterRing = findBetterRing('EquipmentRingsArc');
+    }
+    if (isWindWalker && wwFormActive) {
+      alerts.betterRing = findBetterRing('EquipmentRingsTempest');
+    }
+  }
+  if (Object.keys(wrongItems).length) {
+    alerts.wrongItems = wrongItems;
+  }
+
+  return alerts;
+}
+
+const calcTotalAcWandDamage = (weapon) => {
+  const baseDamage = Math.pow(1.04, weapon?.Weapon_Power);
+  return baseDamage * (1 + weapon?.UQ1val / 100);
+}

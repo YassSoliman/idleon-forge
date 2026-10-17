@@ -1,0 +1,97 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import {
+  applyMonumentFountain,
+  getMonumentAfkBonus,
+  getMonumentAfkReq,
+  getMonumentBonus,
+  getMonumentHourBonus,
+  getMonumentMultiReward,
+  getMonumentMultiplier,
+  getAllMonumentsBonusLvs
+} from '@parsers/world-5/caverns/bravery';
+import { lavaLog, notateNumber } from '@utility/helpers';
+import { holesInfo } from '@website-data';
+import { getStudyBonus } from '@parsers/world-5/hole';
+
+export const getWisdom = (holesObject: any,  accountData: any) => {
+  const opalChance = Math.min(0.5, Math.pow(0.5, holesObject?.opalsPerCavern?.[12])
+    * (1 + getMonumentBonus({ holesObject, t: 2, i: 5 }) / 100));
+  const rewardMulti = getMonumentMultiReward(holesObject, 2, accountData) || 0;
+  const timeForNextFight = 72E3 * (1 - rewardMulti);
+  const hours = holesObject?.braveryMonument?.[4] || 0;
+  const hoursRewards = holesInfo?.[31]?.slice(16);
+  const hoursBreakpoints = holesInfo?.[30]?.map((hours: any, index: any) => ({
+    hours,
+    reward: hoursRewards?.[index]
+  }));
+  const nextHourBreakpoint = hoursBreakpoints.find(({ hours: reqHours }: any) => hours < reqHours);
+  const multiplier = getMonumentMultiplier({ holesObject, t: 2 });
+  const selfMultiplier = applyMonumentFountain(1, holesObject, 2);
+  const bonuses = holesInfo?.[32]
+    ?.slice(20)
+    ?.filter((name: any) => !name.includes('Monument_'))
+    .map((description: any, index: any) => {
+      const level = holesObject?.braveryBonuses?.[20 + index];
+      const bonus = getMonumentBonus({ holesObject, t: 2, i: index });
+      const scalingValue = parseFloat(holesInfo?.[37]?.[20 + index]);
+      const isSoftCap = scalingValue >= 30;
+      const capMultiplier = index === 9 ? selfMultiplier : multiplier;
+      const effectiveCap = isSoftCap ? scalingValue * capMultiplier : null;
+      return {
+        description: description.replace(/_/g, ' ')
+          .replace(/\|/g, ' ')
+          .replace('{', Math.round(bonus))
+          .replace('}', notateNumber(1 + bonus / 100, 'MultiplierInfo')),
+        level,
+        bonus,
+        scalingValue,
+        cap: effectiveCap,
+        progression: isSoftCap ? (bonus / effectiveCap!) * 100 : null,
+        levelToReachCap: isSoftCap ? Math.ceil(250 * (10 * scalingValue * capMultiplier - 1)) : null
+      }
+    })
+  const afkPercent = getMonumentAfkBonus(holesObject, accountData);
+  const bonusLvsMultiplier = getAllMonumentsBonusLvs(accountData);
+  return {
+    rewardMulti,
+    hours,
+    hoursRewards,
+    hoursBreakpoints,
+    nextHourBreakpoint,
+    bonuses,
+    bonusLvsMultiplier,
+    timeForNextFight,
+    opalChance,
+    afkPercent,
+    attempts: getAttempts(holesObject),
+    attemptsGainPerRound: getAttemptsGainPerRound(holesObject),
+    timePerMatch: getTimePerMatch(),
+    instantMatches: getInstantMatch(holesObject),
+    monumentAfkReq: getMonumentAfkReq(afkPercent?.value, nextHourBreakpoint?.hours, hours, afkPercent?.multi)
+  };
+}
+
+const getAttempts = (holesObject: any, t?: any) => {
+  return 1 === t
+    ? 30 : Math.round(5 + getStudyBonus(holesObject, 12, 0)
+      + (4 * getMonumentHourBonus({ holesObject, t: 2, i: 4 })
+        + Math.floor(2 * lavaLog(holesObject?.braveryMonument?.[4]))));
+}
+
+const getAttemptsGainPerRound = (holesObject: any, t?: any) => {
+  return 1 === t
+    ? 0 : Math.round(2 * getMonumentHourBonus({ holesObject, t: 2, i: 1 })
+      + getMonumentHourBonus({ holesObject, t: 2, i: 6 }));
+}
+
+const getTimePerMatch = (t?: any) => {
+  return 1 === t ? 1e3 : 12.6;
+}
+const getInstantMatch = (holesObject: any, t?: any) => {
+  return 1 === t
+    ? 0
+    : Math.round(4 * getMonumentHourBonus({ holesObject, t: 2, i: 3 })
+      + 5 * getMonumentHourBonus({ holesObject, t: 2, i: 7 }));
+}

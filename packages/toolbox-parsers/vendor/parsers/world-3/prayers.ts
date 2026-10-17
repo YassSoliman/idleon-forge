@@ -1,0 +1,83 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { tryToParse } from '@utility/helpers';
+import { calculateItemTotalAmount } from '@parsers/items';
+import { gameTables, items, prayers } from '@website-data';
+import { isSuperbitUnlocked } from '@parsers/world-5/gaming';
+import { liveEntries } from '@parsers/catalog';
+import type { IdleonData, Account } from '../types';
+
+export const getPrayers = (idleonData: IdleonData, storage: any[]) => {
+  const prayersRaw = idleonData?.PrayersUnlocked || tryToParse(idleonData?.PrayOwned);
+  return parsePrayers(prayersRaw, storage);
+}
+
+const parsePrayers = (prayersRaw: any[] | undefined, storage: any[]) => {
+  return liveEntries<any>(prayers).map(({ entry, index }) => {
+    const reqItem = entry?.soul;
+    const totalAmount = calculateItemTotalAmount(storage, items?.[reqItem]?.displayName, true);
+    return {
+      ...entry,
+      totalAmount,
+      level: prayersRaw?.[index] ?? 0
+    };
+  });
+}
+
+export const getPrayerBonusAndCurse = (prayers: any[], prayerName: string, account?: Account, forcePrayer: boolean = false) => {
+  // _customBlock_prayersReal gates the no-prayers-equipped path on superbit 9 or 39, then adds a
+  // fifth of the bonus for each of the three superbits, so all three stack to 3/5ths.
+  const superbit9 = isSuperbitUnlocked(account, 'No_more_Praying') ? 1 : 0;
+  const superbit39 = isSuperbitUnlocked(account, 'Prayers_Begone') ? 1 : 0;
+  const superbit53 = isSuperbitUnlocked(account, 'Prayers_Aint_Meta') ? 1 : 0;
+  let prayer;
+  const useSuperbit = (superbit9 || superbit39) && (!prayers || prayers?.length === 0);
+
+  if (useSuperbit) {
+    prayer = (account?.prayers as any[])?.find(({ name }: any) => name === prayerName);
+  } else {
+    prayer = prayers?.find(({ name }) => name === prayerName);
+
+    // If prayer is not found in active prayers but forcePrayer is true, look in account prayers
+    if (!prayer && forcePrayer) {
+      prayer = (account?.prayers as any[])?.find(({ name }: any) => name === prayerName);
+    }
+  }
+
+  if (!prayer) return { bonus: 0, curse: 0 };
+
+  const bonus = prayer.x1 + (prayer.x1 * (prayer.level - 1)) / 10;
+  const curse = prayer.x2 + (prayer.x2 * (prayer.level - 1)) / 10;
+
+  // If the prayer is being forced, treat it as if it's active (not using superbit rules)
+  const isForcedPrayer = forcePrayer && !prayers?.find(({ name }) => name === prayerName);
+
+  if (useSuperbit) {
+    // prayerIndex 5 never gets the superbit bonus, and the prayer has to be levelled at all
+    const eligible = prayer.prayerIndex !== 5 && prayer.level > 0.5;
+    const superbitMulti = .2 * superbit9 + .2 * superbit39 + .2 * superbit53;
+    return { bonus: eligible ? Math.round(superbitMulti * bonus) : 0, curse: 0 };
+  }
+
+  return {
+    bonus: Math.round(bonus),
+    curse: Math.round(isForcedPrayer ? 0 : curse)
+  }
+}
+
+// game: WorshipStuff("PrayerCost"), gameTables.prayerCost. One prayer (prayerCost.special) grows on a steeper curve than the rest past the pivot.
+export const calcPrayerCost = (prayer: any) => {
+  const { level, costMulti, prayerIndex } = prayer;
+  const { earlyBelow, early, special, late, cap } = gameTables.prayerCost;
+  if (level < earlyBelow) {
+    return Math.round(costMulti * (1 + (early.base + prayerIndex / early.divisor) * level));
+  }
+  const curve = prayerIndex === special.index ? special : late;
+  return Math.round(Math.min(cap, costMulti * (1 + (curve.base + prayerIndex / curve.divisor) * level)
+    * Math.pow(curve.growth, level - curve.pivot)));
+}
+
+export const calcTotalPrayersLevel = (prayers: any[]) => {
+  return prayers?.reduce((res, { level }) => res + level, 0)
+}

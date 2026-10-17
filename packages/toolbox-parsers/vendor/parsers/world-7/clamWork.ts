@@ -1,0 +1,368 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import type { IdleonData, Account } from '../types';
+import { tryToParse, notateNumber, commaNotation } from '@utility/helpers';
+import { generalSpelunky, gameTables } from '@website-data';
+import { getOptimizedGenericUpgrades } from '@parsers/genericUpgradeOptimizer';
+import { getScurgeExp, getScurgeLevel, getScurgeUpgradeLevel, isMenagerieUnlockOwned } from '@parsers/world-7/menagerie';
+
+const CLAM_UPGRADE_COUNT = 9;
+// Clam upgrade levels live at accountOptions[455 + index].
+const CLAM_LEVEL_OPTION_BASE = 455;
+// MULTI-SCALPING scales with the multikill of whoever is parked at the Clamworks, which is not
+// derivable from the account alone. 1000 is the neutral value: it makes the bonus fall back to
+// one point per level, which is what the page showed before the multikill input existed.
+export const DEFAULT_CLAM_MULTIKILL = 1000;
+
+// 18 names: the first 9 are the pearl upgrades (page 1), the next 9 the Scurge upgrades (page 2, 2.3.540)
+const clamWorkNames: string[] = gameTables.clamWorkBonusNames;
+const pearlUpgradeNames = clamWorkNames.slice(0, CLAM_UPGRADE_COUNT);
+const scurgeUpgradeNames = clamWorkNames.slice(CLAM_UPGRADE_COUNT, 2 * CLAM_UPGRADE_COUNT);
+
+// game: "MenagerieStuff:ScurgeUpg_LvREQ"
+const SCURGE_UPGRADE_LEVEL_REQ: number[] = gameTables.scurgeUpgradeLevelReq;
+// game: "Thingies:Clam_Cost" page 1 returns "111111111".split("")[t]: every Scurge upgrade costs 1 point
+const SCURGE_UPGRADE_COST = '111111111'.split('').map(Number);
+const SCURGE_MENAGERIE_UNLOCK = 4;
+
+// The Clam Work page-2 (Scurge) state the page-1 formulas read: upgrade levels Menagerie[5] and Scurge LV Menagerie[0][8]
+export interface ScurgeState {
+  levels: number[];
+  level: number;
+}
+
+const NO_SCURGE: ScurgeState = { levels: [], level: 0 };
+
+export const getScurgeState = (account: Account): ScurgeState => ({
+  levels: Array.from({ length: CLAM_UPGRADE_COUNT }, (_, index) => getScurgeUpgradeLevel(account, index)),
+  level: getScurgeLevel(account)
+});
+
+export const CLAM_WORK_UPGRADE_CATEGORIES = {
+  pearlGain: {
+    name: 'Pearl Gain',
+    stats: ['pearlGain'],
+    upgradeIndices: [0, 1, 2, 3, 5, 6, 7]
+  },
+  costReduction: {
+    name: 'Cost Reduction',
+    stats: ['costReduction'],
+    upgradeIndices: [4, 8]
+  }
+};
+
+export const pearlNames = { 0: 'Pearls' };
+
+export const getClamWork = (idleonData: IdleonData, account: Account) => {
+  const spelunkingRaw = tryToParse((idleonData as any)?.Spelunk);
+  return parseClamWork(account, spelunkingRaw);
+}
+
+export const getClamLevels = (account: Account): number[] => Array.from(
+  { length: CLAM_UPGRADE_COUNT },
+  (_, index) => (account as any)?.accountOptions?.[CLAM_LEVEL_OPTION_BASE + index] ?? 0
+);
+
+const getWorkerClass = (account: Account): number => (account as any)?.accountOptions?.[464] ?? 0;
+
+// Rebuilds the whole page view for a given multikill, so the multikill input drives the header
+// cards and the upgrade list, not just the optimizer.
+export const parseClamWork = (account: Account, spelunkingRaw?: any, multiKill: number = DEFAULT_CLAM_MULTIKILL) => {
+  const workerClass = getWorkerClass(account);
+  const upgradesUnlocked = (account as any)?.accountOptions?.[465] ?? 0;
+  const levels = getClamLevels(account);
+  const scurgeState = getScurgeState(account);
+  const promotionChance = 0.5 / (2 + workerClass);
+  const promotionCost = getClamPromotionCost(workerClass);
+  const clamHp = getClamHp(workerClass);
+  const mobs = getClamMobs(levels);
+  const blackPearlValue = getBlackPearlValue(levels);
+  const pearlValue = getClamPearlValue(levels, multiKill, scurgeState);
+  const ownedPearls = (account as any)?.accountOptions?.[454] ?? 0;
+
+  const clamWorkDescriptions = generalSpelunky?.[27];
+  const classExpMulti = getClamClassExpMulti(workerClass);
+  const compensations = generalSpelunky?.[30].map((comp: string, index: number) => {
+    return {
+      // Only the 9th compensation carries a placeholder, and it's the class exp multi.
+      name: comp.replace(/\}/g, `${classExpMulti}`),
+      unlocked: getClamWorkBonus(account, index),
+    }
+
+  });
+  const upgrades = pearlUpgradeNames.map((name: string, index: number) => {
+    const bonus = getClamBonus(levels, index, multiKill);
+    const description = formatClamWorkDescription(clamWorkDescriptions?.[index] ?? '',
+      index, { bonus, mobs, pearlValue, blackPearlValue });
+    const requiredPearls = getClamPearlUpgReq(workerClass, index);
+    return {
+      name,
+      description,
+      requiredPearls,
+      bonus,
+      index,
+      level: levels[index],
+      // No x4: clam upgrades have no max level. It has to stay absent rather than null or
+      // Infinity - `level >= null` is true at level 0, and JSON cloning turns Infinity into null.
+      cost: getClamCost(levels, index, workerClass, scurgeState),
+      unlocked: index <= upgradesUnlocked
+    }
+  });
+
+  const scurge = getScurge(account, scurgeState, clamWorkDescriptions);
+
+  return {
+    workerClass,
+    promotionChance,
+    promotionCost,
+    clamHp,
+    mobs,
+    pearlValue,
+    blackPearlValue,
+    upgrades,
+    ownedPearls,
+    pearls: [{ name: 'Pearls', value: ownedPearls }],
+    compensations,
+    scurge,
+    respawn: 60
+  };
+}
+
+// game: "MenagerieStuff:ScurgeEXPgain". The last factor counts the other real players on the Clamworks map,
+// which the save does not hold, so it is read solo (no extra players).
+const getScurgeExpGain = (scurgeState: ScurgeState): number =>
+  (1 + getScurgeBonus(scurgeState, 0))
+  * (1 + getScurgeBonus(scurgeState, 4) / 100)
+  * (1 + getScurgeBonus(scurgeState, 2) / 100);
+
+// game: "MenagerieStuff:ScurgeStartingEXP"
+const getScurgeStartingExp = (scurgeState: ScurgeState): number => {
+  const level = scurgeState.levels?.[6] ?? 0;
+  return Math.max(0, Math.min(0.8, (level / (level + 25)) * 0.75));
+};
+
+// game: "MenagerieStuff:ScurgePTS_Left" = Menagerie[0][8] - sum(Clam_Cost(i, 1) * Menagerie[5][i])
+const getScurgePointsLeft = (scurgeState: ScurgeState): number => Math.round(SCURGE_UPGRADE_COST
+  .reduce((left, cost, index) => left - cost * (scurgeState.levels?.[index] ?? 0), scurgeState.level));
+
+// Clam Work page 2, behind Menagerie unlock 4. Levels Menagerie[5], 1 point per level from Scurge LV.
+const getScurge = (account: Account, scurgeState: ScurgeState, descriptions: string[] | undefined) => {
+  const level = scurgeState.level;
+  const expGain = getScurgeExpGain(scurgeState);
+  const startingExp = getScurgeStartingExp(scurgeState);
+  const upgrades = scurgeUpgradeNames.map((name: string, index: number) => {
+    const bonus = getScurgeBonus(scurgeState, index);
+    const levelReq = SCURGE_UPGRADE_LEVEL_REQ[index] ?? 0;
+    return {
+      name,
+      index,
+      level: scurgeState.levels?.[index] ?? 0,
+      bonus,
+      levelReq,
+      unlocked: level >= levelReq,
+      cost: SCURGE_UPGRADE_COST[index] ?? 1,
+      description: formatScurgeDescription(descriptions?.[index + CLAM_UPGRADE_COUNT] ?? '', index,
+        { bonus, expGain, startingExp, scurgeState })
+    };
+  });
+  return {
+    // game: "MenagerieStuff:ScurgeUnlocked"
+    unlocked: isMenagerieUnlockOwned(account, SCURGE_MENAGERIE_UNLOCK),
+    level,
+    exp: getScurgeExp(account),
+    // game: "MenagerieStuff:ScurgeEXP_Req"
+    expReq: (50 + 15 * level) * Math.pow(1.08, level),
+    expGain,
+    startingExp,
+    pointsLeft: getScurgePointsLeft(scurgeState),
+    upgrades
+  };
+};
+
+// Game rounds the drawn multiplier to 2 decimals. The max(0) matches the exp formula itself
+// (N.js: 1 + Math.max(0, 5 * (workerClass - 8)) / 100), so a locked compensation reads 1x rather
+// than the sub-1 number the game's draw code would produce for a class below 9.
+const getClamClassExpMulti = (workerClass: number): number =>
+  Math.round(100 * (1 + Math.max(0, 5 * (workerClass - 8)) / 100)) / 100;
+
+// game: "ClamWorkBonus"
+export const getClamWorkBonus = (account: Account, index: number): number => {
+  return (account as any)?.accountOptions?.[464] > index ? 1 : 0;
+};
+
+export const getClamHp = (workerClass: number): number => 1e16 * Math.pow(30, workerClass);
+
+const getClamMobs = (levels: number[]): number => Math.min(25, 2 + (levels[1] ?? 0));
+
+const getClamPromotionCost = (workerClass: number): number => 1e5 * Math.pow(10, workerClass);
+
+const getClamPearlUpgReq = (workerClass: number, index: number): number => 20 * Math.pow(10 + 3 * workerClass, index - 1);
+
+// game: "Thingies:Clam_Cost" (page 0; page 1 is SCURGE_UPGRADE_COST)
+export const getClamCost = (levels: number[], index: number, workerClass: number, scurgeState: ScurgeState = NO_SCURGE): number => {
+  if (index === 9) return getClamPromotionCost(workerClass);
+
+  const multi = parseFloat(generalSpelunky[29]?.[index] ?? 0);
+  const upgradeLevel = levels[index] ?? 0;
+  const discount = (1 / (1 + getClamBonus(levels, 4) / 100))
+    * (1 / (1 + getScurgeBonus(scurgeState, 3) / 100))
+    * (1 / (1 + ((scurgeState.levels?.[index] ?? 0) * getScurgeBonus(scurgeState, 5)) / 100))
+    * (1 / (1 + getClamBonus(levels, 8) / 100));
+
+  if (index === 0) {
+    return discount * (Math.pow(multi, upgradeLevel)
+      + (3 * upgradeLevel) + Math.pow(upgradeLevel, 2.5));
+  }
+  return discount * ((getClamPearlUpgReq(workerClass, index) / 5)
+    * Math.pow(multi, upgradeLevel)
+    + (2 * upgradeLevel)
+    + Math.pow(upgradeLevel, 1.5));
+}
+
+// game: "Thingies:ClamBonuses" page 1 (i == 1): Spelunky[28][t + 9] * Menagerie[5][t]
+export const getScurgeBonus = (scurgeState: ScurgeState, index: number): number =>
+  parseFloat(generalSpelunky[28]?.[index + CLAM_UPGRADE_COUNT] ?? 0) * (scurgeState.levels?.[index] ?? 0);
+
+// Index 3 (MULTI-SCALPING) scales with the multikill of the character farming the Clamworks, hence the parameter.
+// game: "Thingies:ClamBonuses" page 0
+export const getClamBonus = (levels: number[], index: number, multiKill: number = DEFAULT_CLAM_MULTIKILL): number => {
+  const upgradeLevel = levels[index] ?? 0;
+  const perLevel = parseFloat(generalSpelunky[28]?.[index] ?? 0);
+  if (index === 3) return (multiKill / 1000) * perLevel * upgradeLevel;
+  return perLevel * upgradeLevel;
+}
+
+const getBlackPearlValue = (levels: number[]): number => 50 + getClamBonus(levels, 5);
+
+// game: "Thingies:ClamPearlValue"
+const getClamPearlValue = (levels: number[], multiKill: number = DEFAULT_CLAM_MULTIKILL, scurgeState: ScurgeState = NO_SCURGE): number => {
+  return (1 + getClamBonus(levels, 0))
+    * (1 + getClamBonus(levels, 3, multiKill) / 100)
+    * (1 + getClamBonus(levels, 7) / 100)
+    * (1 + getScurgeBonus(scurgeState, 1) / 100)
+    * (1 + (getScurgeBonus(scurgeState, 8) * scurgeState.level) / 100);
+}
+
+// Relative pearl income: mobs on the map x pearl value x the 10x roll x drop chance. Proportional
+// to pearls per hour, so it ranks upgrades correctly. Drop rate and the Clamworks AFK penalty are
+// flat multipliers on top and cancel out of the comparison.
+const getClamPearlGain = (levels: number[], workerClass: number, multiKill: number = DEFAULT_CLAM_MULTIKILL,
+                          scurgeState: ScurgeState = NO_SCURGE): number => {
+  const dropMulti = (1 + getClamBonus(levels, 6) / 100) * Math.pow(0.66, workerClass);
+  const pearlChance = 0.005 * dropMulti;
+  // Pure pearls only enter the drop table once PURE_PEARLS is bought at least once.
+  const purePearlChance = (levels[5] ?? 0) > 0 ? 25e-6 * dropMulti : 0;
+  const tenXChance = 1 - 1 / (1 + getClamBonus(levels, 2) / 100);
+  const tenXValue = 1 + 9 * tenXChance;
+
+  return getClamMobs(levels)
+    * getClamPearlValue(levels, multiKill, scurgeState)
+    * tenXValue
+    * (pearlChance + purePearlChance * getBlackPearlValue(levels));
+}
+
+// The divisor FRUGALITY and ANTI_INFLATION apply to every upgrade cost. Ranking this directly
+// gives "% cheaper per pearl spent", which is what those two upgrades actually buy.
+const getClamCostReduction = (levels: number[]): number => {
+  return (1 + getClamBonus(levels, 4) / 100) * (1 + getClamBonus(levels, 8) / 100);
+}
+
+export const getOptimizedClamWorkUpgrades = (character: any, account: any, category: string = 'pearlGain', maxUpgrades: number = 100, options: any = {}) => {
+  const workerClass = getWorkerClass(account);
+  const multiKill = options?.multiKill ?? DEFAULT_CLAM_MULTIKILL;
+  const scurgeState = getScurgeState(account);
+  const levelsOf = (upgrades: any) => upgrades.map((upgrade: any) => upgrade?.level ?? 0);
+
+  return getOptimizedGenericUpgrades({
+    character,
+    account,
+    category,
+    maxUpgrades,
+    categoryInfo: (CLAM_WORK_UPGRADE_CATEGORIES as Record<string, any>)[category],
+    getUpgrades: (acc: any) => acc?.clamWork?.upgrades || [],
+    getResources: (acc: any) => acc?.clamWork?.pearls || [],
+    getCurrentStats: (upgrades: any) => {
+      const levels = levelsOf(upgrades);
+      return {
+        pearlGain: getClamPearlGain(levels, workerClass, multiKill, scurgeState),
+        costReduction: getClamCostReduction(levels)
+      };
+    },
+    getUpgradeCost: (upgrade: any, index: any, { upgrades }: any) => getClamCost(levelsOf(upgrades), index, workerClass, scurgeState),
+    updateResourcesAfterUpgrade: (resources: any, upgrade: any, resourceNames: any, cost: any) => {
+      if (resources[0]) resources[0].value -= cost;
+    },
+    resourceNames: pearlNames,
+    extraArgs: options
+  });
+}
+
+interface ClamWorkDescriptionData {
+  bonus: number;
+  mobs: number;
+  pearlValue: number;
+  blackPearlValue: number;
+}
+
+const formatClamWorkDescription = (description: string, index: number, { bonus, mobs, pearlValue, blackPearlValue }: ClamWorkDescriptionData): string => {
+  if (!description) return description;
+  let text = description;
+  if (index === 5) {
+    if (blackPearlValue < 100) {
+      return "Upgrade_this_once_to_add_Pure_Pearls_to_the_Clam's_Drop_Table...";
+    }
+  }
+
+  const multiplier = 1 + bonus / 100;
+  const multiplierFormatted = notateNumber(multiplier, 'MultiplierInfo');
+  text = text.replace(/\}/g, multiplierFormatted as string);
+
+  // Replace $ with special values based on index
+  if (text.includes('$')) {
+    let dollarValue = '';
+
+    if (index === 0) {
+      dollarValue = '' + notateNumber(pearlValue, 'Big');
+    } else if (index === 1) {
+      dollarValue = '' + Math.floor(mobs);
+    } else if (index === 2 || index === 4) {
+      const chance = Math.floor(1e4 * (1 - 1 / (1 + bonus / 100))) / 100;
+      dollarValue = '' + chance;
+    } else if (index === 5) {
+      dollarValue = '' + Math.floor(blackPearlValue);
+    } else {
+      dollarValue = '' + Math.floor(bonus);
+    }
+    text = text.replace(/\$/g, dollarValue);
+  }
+
+  return text;
+};
+
+interface ScurgeDescriptionData {
+  bonus: number;
+  expGain: number;
+  startingExp: number;
+  scurgeState: ScurgeState;
+}
+
+// game: the Clam Work draw loop with GenINFO[179] == 1 (page 2)
+const formatScurgeDescription = (description: string, index: number,
+                                 { bonus, expGain, startingExp, scurgeState }: ScurgeDescriptionData): string => {
+  if (!description) return description;
+  let text = description.replace(/\}/g, String(notateNumber(1 + bonus / 100, 'MultiplierInfo')).replace(/#/g, ''));
+  if (index === 0) {
+    text = text.replace('$', 1e6 > expGain ? commaNotation(expGain) : String(notateNumber(expGain, 'Big')));
+  } else if (index === 2) {
+    text = text.replace('$', String(notateNumber(Math.pow(100, scurgeState.levels?.[2] ?? 0), 'Big')));
+  } else if (index === 3) {
+    text = text.replace('$', '' + Math.floor(1e4 * (1 - 1 / (1 + bonus / 100))) / 100);
+  } else if (index === 6) {
+    text = text.replace('$', '' + Math.floor(1e4 * startingExp) / 100);
+  } else if (index === 7) {
+    // solo: no other real players on the map
+    text = text.replace('$', String(notateNumber(1, 'MultiplierInfo')).replace(/#/g, ''));
+  }
+  return text;
+};

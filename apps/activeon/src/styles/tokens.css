@@ -1,0 +1,46 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* Design tokens, ported from the Now-screen prototype (branch prototype/now-screen). */
+:root {
+  --bg: #eef2f6;
+  --surface: #fff;
+  --sunk: #e2e8ef;
+  --fg: #18233a;
+  --muted: #56637a;
+  --line: #cdd6e1;
+  --coin: #915709; /* 4.79:1 on --coin-soft (was #b86e0c, 3.24:1) */
+  --coin-soft: #f6e6cc;
+  --ok: #0e7369; /* 4.73:1 on --ok-soft (was #0f7d72, 4.14:1) */
+  --ok-soft: #d5efeb;
+  --bad: #b4372f;
+  --bad-soft: #f6dcd9;
+  --unk: #606478; /* 4.74:1 on --unk-soft (was #6b6f85, 4.02:1) */
+  --unk-soft: #e6e7ef;
+
+  --display: "Pixelify Sans", "Courier New", monospace;
+  --body: "Atkinson Hyperlegible", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --radius: 10px;
+  --column: 480px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111826;
+    --surface: #1a2436;
+    --sunk: #0c121d;
+    --fg: #e6ecf5;
+    --muted: #9aa8bf;
+    --line: #2c3a52;
+    --coin: #f0a63a;
+    --coin-soft: #3a2c14;
+    --ok: #3fc7b7;
+    --ok-soft: #123632;
+    --bad: #ff8a80;
+    --bad-soft: #3d1c1a;
+    --unk: #aab0c8;
+    --unk-soft: #262b3d;
+    color-scheme: dark;
+  }
+}

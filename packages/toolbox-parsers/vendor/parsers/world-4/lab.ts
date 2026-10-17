@@ -1,0 +1,444 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { growth, tryToParse } from '@utility/helpers';
+import { chips, classes, jewels, labBonuses, merits, randomList, talents } from '@website-data';
+import { liveEntries } from '@parsers/catalog';
+import { getMealsBonusByEffectOrStat } from '@parsers/world-4/cooking';
+import { getCardBonusByEffect } from '@parsers/cards';
+import { calculateAfkTime, isArenaBonusActive, isMasteryBonusUnlocked } from '@parsers/misc';
+import { getShinyBonus } from '@parsers/world-4/breeding';
+import { checkCharClass, CLASSES, getTalentBonus, getBestActiveCharacter, getHighestTalentAcrossCharacters } from '@parsers/talents';
+import { getEquinoxBonus } from '@parsers/world-3/equinox';
+import { getWinnerBonus } from '@parsers/world-6/summoning';
+import { calculateItemTotalAmount, getStatsFromGear } from '@parsers/items';
+import { efficiencyGroupNames, getAllBaseSkillEffBreakdown, getAllEffBreakdown } from '@parsers/efficiency';
+import { NUMBERED_GROUP, additiveGroup, evaluateBreakdownNode, flat, multiplier, percent, productGroup, sumGroup } from '@parsers/breakdown';
+import { getPostOfficeBonus } from '@parsers/world-3/postoffice';
+import { GOD_INDEX, isMajorDivinityActive } from '@parsers/world-5/divinity';
+
+// Game: MainframeBonus(n) adds MainframeBonus(100 + jewel) to these connected bonuses
+// (Animal Farm, No Bubble Left Behind, Fungi Finger, Banking Fury, Slab Sovereignty, Depot Studies)
+const LAB_BONUS_JEWEL_BOOSTS: Record<number, number> = { 0: 1, 3: 7, 9: 13, 11: 17, 15: 18, 17: 20 };
+// Bonuses whose description spells the multiplier out ("1.25x higher")
+const MULTIPLIER_TEXT_LAB_BONUSES = [15, 17];
+// Game: MainframeBonus(100 + n) doubles these jewels while every partner jewel is active
+const JEWEL_SET_PARTNERS: Record<number, number[]> = { 0: [1, 2], 3: [4, 5, 6], 10: [7, 8, 9], 12: [11, 13, 14, 15] };
+
+export const getLab = (idleonData: any, charactersData: any, account: any, updatedCharactersData?: any) => {
+  const labRaw = tryToParse(idleonData?.Lab) || idleonData?.Lab;
+  return parseLab(labRaw, charactersData, account, updatedCharactersData);
+}
+
+const parseLab = (labRaw: any, charactersData: any, account: any, updatedCharactersData: any) => {
+  if (!labRaw) {
+    return {
+      playersCords: [],
+      playersChips: [],
+      connectedPlayers: [],
+      jewels: liveEntries<any>(jewels as any[]).map(({ entry }) => ({ ...entry, acquired: false, active: false })),
+      chips: liveEntries<any>(chips as any[]).map(({ entry }) => ({ ...entry, repoAmount: 0, amount: 0, totalAmount: 0 })),
+      labBonuses: liveEntries<any>(labBonuses as any[]).map(({ entry }) => ({ ...entry, active: false })),
+      totalRawChips: 0,
+      currentRotation: []
+    };
+  }
+  const arenaWave = account?.accountOptions?.[89];
+  const waveReqs = randomList?.[53];
+  const [cords] = labRaw;
+  const chipRepo = labRaw[15];
+  const jewelsRaw = labRaw[14];
+  const currentRotation = labRaw[13];
+  const playerChipsRaw = labRaw?.slice(1, charactersData?.length + 1);
+  let playerCordsChunk = 2, playersCords: any[] = [];
+  for (let i = 0; i < cords.length; i += playerCordsChunk) {
+    const [x, y] = cords.slice(i, i + playerCordsChunk);
+    playersCords = [...playersCords, {
+      x: Math.round(x),
+      y: Math.round(y),
+      playerId: i / 2,
+      playerName: charactersData?.[i / 2]?.name,
+      class: classes[charactersData?.[i / 2]?.CharacterClass]
+    }];
+  }
+  playersCords = playersCords?.filter((player) => player?.playerName);
+  let jewelsList = account?.lab?.jewels || jewelsRaw?.map((jewel: any, index: any) => {
+    return {
+      ...(jewels?.[index] || {}),
+      acquired: jewel === 1,
+      rawName: `ConsoleJwl${index}`
+    }
+  }).filter(({ name }: any) => name);
+
+  // W7 swaps the bonus text on some chips (e.g. Silkrode Nanochip/Motherboard).
+  // finishedWorlds.World6 is populated on later serializeData passes.
+  const isWorld7Unlocked = !!(account as any)?.finishedWorlds?.World6;
+  const chipsData: any[] = isWorld7Unlocked
+    ? (chips as any[]).map((chip: any) => (chip?.extraDescription
+      ? { ...chip, bonus: chip.extraDescription }
+      : chip))
+    : (chips as any[]);
+
+  const playersChips = playerChipsRaw?.map((pChips: any) => {
+    return pChips.map((chip: any) => {
+      if (chipsData?.[chip]) return { ...chipsData?.[chip], chipIndex: chip }
+      return chip;
+    });
+  });
+  const soupedUpSlots = (account?.gemShopPurchases?.find((value: any, index: any) => index === 123) ?? 0) * 2;
+  // King Doot inside Bonus_MAJOR reads the logged-in character's divinity level for every tube.
+  // Raw save characters carry PlayerAwayTime, not the parsed afkTime getBestActiveCharacter orders by.
+  const loggedInCharacter = getBestActiveCharacter(updatedCharactersData)
+    ?? getBestActiveCharacter(charactersData?.map((character: any) => ({ ...character, afkTime: calculateAfkTime(character?.PlayerAwayTime) })));
+  const isArctisMajorActive = (character: any) => isMajorDivinityActive(character, account, GOD_INDEX.Arctis, loggedInCharacter);
+  // Game: contains(labAfkList, n) || Divinity("Bonus_MAJOR", n, 2) - Arctis is god bonus index 2.
+  const isInTube = (character: any) => character?.AFKtarget === 'Laboratory' || isArctisMajorActive(character);
+  const labAfkPlayerIds = charactersData?.reduce((res: any[], character: any) => character?.AFKtarget === 'Laboratory'
+    ? [...res, character?.playerId]
+    : res, []) ?? [];
+  let playersInTubes = [...charactersData].filter(isInTube)
+    .map((character: any) => ({
+      playerId: character?.playerId,
+      name: character?.name,
+      x: playersCords?.[character?.playerId]?.x,
+      y: playersCords?.[character?.playerId]?.y
+    }));
+  // game: "BonusLineWidth" - a player AFK in the lab is souped by its rank among the lab-AFK
+  // players, everyone else by its raw player index.
+  const soupedTubePlayerIds = charactersData?.reduce((res: any[], character: any) => {
+    const playerId = character?.playerId;
+    const afkRank = labAfkPlayerIds.indexOf(playerId);
+    const souped = afkRank !== -1
+      ? afkRank < soupedUpSlots
+      : playerId < soupedUpSlots && isArctisMajorActive(character);
+    return souped ? [...res, playerId] : res;
+  }, []) ?? [];
+
+  const chipList: any[] = structuredClone(chipsData);
+  chipRepo?.map((chipCount: any, chipIndex: any) => {
+    if (chipIndex < chipsData.length) {
+      const playerUsedCount = playersChips.flatMap((chips: any) => chips).reduce((sum: any, chip: any) => sum + (chip.index === chipList[chipIndex].index
+        ? 1
+        : 0), 0);
+      chipList[chipIndex].repoAmount = chipCount - playerUsedCount;
+      chipList[chipIndex].amount = playerUsedCount;
+      chipList[chipIndex].totalAmount = chipCount;
+    }
+  });
+  const calculatedTaskConnectionRange = (account?.tasks?.[2]?.[3]?.[4] ?? 0) * merits?.[3]?.[4]?.bonusPerLevel;
+  const buboPlayers = charactersData.filter(({ CharacterClass }: any) => CharacterClass === 36);
+  let buboPlayer = buboPlayers?.reduce((prev: any, current: any) => {
+    return prev?.SkillLevels[536] > current?.SkillLevels[536] ? prev : current;
+  }, buboPlayers?.[0]);
+  if (buboPlayer) {
+    buboPlayer = { ...buboPlayer, ...playersCords?.[buboPlayer?.playerId] }
+  }
+
+  const equinoxConnectionRangeBonus = getEquinoxBonus(account?.equinox?.upgrades, 'Laboratory_Fuse');
+  const winnerBonus = getWinnerBonus(account, '+{ Lab Con Range');
+
+  let foundNewConnection = true;
+  let counter = 0;
+  let labBonusesList = structuredClone(labBonuses);
+  let connectedPlayers: any[] = [];
+  while (foundNewConnection) {
+    foundNewConnection = false;
+    counter += 1;
+    playersInTubes = calcPlayerLineWidth(playersInTubes, labBonusesList, jewelsList,
+      playersChips, account, account?.cards, soupedTubePlayerIds, arenaWave, waveReqs, buboPlayer, charactersData, updatedCharactersData);
+
+    if (playersInTubes.length > 0 && connectedPlayers.length === 0) {
+      const prismPlayer = getPrismPlayerConnection(playersInTubes);
+      if (prismPlayer) {
+        connectedPlayers.push(prismPlayer);
+      }
+    }
+
+    for (let i = 0; i < playersInTubes.length; i++) {
+      let newPlayer: any, newPlayerConnection;
+      if (i < connectedPlayers.length) {
+        newPlayer = checkPlayerConnection(playersInTubes, connectedPlayers, connectedPlayers?.[i]);
+        if (newPlayer && !connectedPlayers.find((player) => player.playerId === newPlayer.playerId)) {
+          newPlayerConnection = true;
+          connectedPlayers = [...connectedPlayers, newPlayer];
+        }
+        const spelunkerObolMulti = getLabBonus(labBonusesList, 8); // gem multi
+        const pyriteRhombolBonus = getJewelBonus(jewelsList, 9, spelunkerObolMulti); // range bonus
+        const viralConnectionBonus = getLabBonus(labBonusesList, 13); // range bonus
+        let labBonuses = checkConnection(labBonusesList, pyriteRhombolBonus, viralConnectionBonus, calculatedTaskConnectionRange, equinoxConnectionRangeBonus, winnerBonus, connectedPlayers?.[i], false);
+        labBonusesList = labBonuses.resArr;
+        const firstLabNewConnection = labBonuses.newConnection;
+        let jewels = checkConnection(jewelsList, pyriteRhombolBonus, viralConnectionBonus, calculatedTaskConnectionRange, equinoxConnectionRangeBonus, winnerBonus, connectedPlayers?.[i], true);
+        jewelsList = jewels.resArr;
+        const firstJewelNewConnection = jewels.newConnection;
+        if (jewelsList?.[16]?.acquired && !jewelsList?.[16]?.active) {
+          jewelsList[16].active = true;
+          playersInTubes = calcPlayerLineWidth(playersInTubes, labBonusesList, jewelsList,
+            playersChips, account, account?.cards, soupedTubePlayerIds, arenaWave, waveReqs, buboPlayer, charactersData, updatedCharactersData);
+          jewelsList[16].active = false;
+        }
+        labBonuses = checkConnection(labBonusesList, pyriteRhombolBonus, viralConnectionBonus, calculatedTaskConnectionRange, equinoxConnectionRangeBonus, winnerBonus, connectedPlayers?.[i], false);
+        labBonusesList = labBonuses.resArr;
+        jewels = checkConnection(jewelsList, pyriteRhombolBonus, viralConnectionBonus, calculatedTaskConnectionRange, equinoxConnectionRangeBonus, winnerBonus, connectedPlayers?.[i], true);
+        jewelsList = jewels.resArr;
+        foundNewConnection = !foundNewConnection
+          ? newPlayerConnection || firstLabNewConnection || firstJewelNewConnection || jewels?.newConnection || labBonuses?.newConnection
+          : foundNewConnection;
+      }
+    }
+  }
+
+  // Game: lab8 = LabMainBonus[8][5] + JewelDesc[19][12]/100
+  // Jewel 19 (Pure Opal Navette) adds its raw base bonus to spelunker obol
+  const jewel19RawBonus = jewelsList?.[19]?.active ? (jewelsList?.[19]?.bonus ?? 0) : 0;
+  labBonusesList = labBonusesList.map((bonus: any, index: any) => {
+    if (index !== 8) return bonus;
+    return { ...bonus, bonusOn: bonus?.bonusOn + jewel19RawBonus / 100 };
+  });
+  const spelunkerObolMulti = getLabBonus(labBonusesList, 8);
+  // Game: jewel bonus = JewelDesc[n][12] * MainframeBonus(8) - pure spelunker multiplier
+  jewelsList = jewelsList.map((jewel: any, index: any) => ({
+    ...jewel,
+    multiplier: index === 19 ? 1 : spelunkerObolMulti
+  }));
+
+  // Game: MainframeBonus(n) = LabMainBonus[n][5] + MainframeBonus(100 + jewel) while connected
+  labBonusesList = labBonusesList.map((bonus: any, index: any) => {
+    const jewelIndex = LAB_BONUS_JEWEL_BOOSTS[index];
+    if (jewelIndex === undefined) return bonus;
+    const jewelBoost = getJewelBonus(jewelsList, jewelIndex);
+    const updatedBonus = bonus?.bonusOn + jewelBoost;
+    const baseMulti = (1 + bonus?.bonusOn / 100).toFixed(2);
+    return {
+      ...bonus,
+      bonusOn: updatedBonus,
+      jewelBoost,
+      description: MULTIPLIER_TEXT_LAB_BONUSES.includes(index)
+        ? bonus?.description?.replace(baseMulti, (1 + updatedBonus / 100).toFixed(2))
+        : bonus?.description
+    };
+  })
+
+  const totalSpeciesUnlocked = account?.breeding?.pets?.flat()?.filter((pet: any) => pet?.unlocked)?.length ?? 0;
+  const animalFarmMulti = labBonusesList?.[0]?.bonusOn;
+  labBonusesList = applyBonusDesc(labBonusesList, totalSpeciesUnlocked * animalFarmMulti, 0, animalFarmMulti);
+
+  // Game uses the persistent GreenStacks registry length (permanent since 2.3.508), not the live storage count.
+  // Fall back to the live count for older saves that don't have the registry.
+  const greenStacks = account?.storage?.greenStacks?.length
+    ?? account?.storage?.list?.filter((item: any) => item.amount >= 1e7).length
+    ?? 0;
+  const bankerFuryMulti = labBonusesList?.[11]?.bonusOn;
+  labBonusesList = applyBonusDesc(labBonusesList, greenStacks * bankerFuryMulti, 11, bankerFuryMulti)
+
+  const greenMushroomKilled = Math.floor(account?.deathNote?.[0]?.mobs?.[0].kills / 1e6);
+  labBonusesList = applyBonusDesc(labBonusesList, greenMushroomKilled * labBonusesList?.[9]?.bonusOn, 9);
+
+  playersCords = playersCords?.map((player, index) => {
+    const p = playersInTubes?.find(({ playerId }) => playerId === index);
+    return {
+      ...player,
+      lineWidth: (p as any)?.lineWidth || (player as any)?.lineWidth || 0,
+      soupedUp: index < soupedUpSlots
+    }
+  })
+
+  return {
+    playersCords,
+    playersChips: playersChips ?? [],
+    connectedPlayers,
+    jewels: jewelsList,
+    chips: chipList,
+    labBonuses: labBonusesList,
+    totalRawChips: chipRepo.reduce((res: any, amount: any) => res + Math.max(0, amount), 0),
+    currentRotation
+  };
+}
+
+export const isGodEnabledBySorcerer = (character: any, godSlot: any) => {
+  if (checkCharClass(character?.class, CLASSES.Elemental_Sorcerer)) {
+    const polytheism = character.flatTalents?.find(({ talentId }: any) => talentId === 505);
+    return polytheism?.level % 10 === godSlot;
+  }
+}
+
+export const applyBonusDesc = (labBonusesList: any, bonusDesc: any, index: any, extraData: any = '') => {
+  return labBonusesList?.map((bonus: any, ind: any) => ind === index ? {
+    ...bonus,
+    bonusOn: bonusDesc,
+    extraData,
+    bonusDesc
+  } : bonus);
+}
+
+const isJewelActive = (jewels: any, index: number) => !!jewels?.find((jewel: any) => jewel.index === index)?.active;
+
+// game: MainframeBonus(100 + index)
+export const getJewelBonus = (jewels: any, index: any, multiplier = 1) => {
+  const jewel = jewels?.find((jewel: any) => jewel.index === index) || {};
+  if (!jewel?.active) return 0;
+  const isSetComplete = JEWEL_SET_PARTNERS[index]?.every((partner) => isJewelActive(jewels, partner));
+  return jewel?.bonus * (jewel?.multiplier || multiplier) * (isSetComplete ? 2 : 1);
+}
+
+export const getLabBonus = (labBonuses: any, index: any) => {
+  const bonus = labBonuses?.find((bonus: any) => bonus.index === index) || {};
+  return (bonus?.active ? bonus?.bonusOn : bonus?.bonusOff) ?? 0;
+}
+
+const getDistance = (x1: any, y1: any, x2: any, y2: any) => {
+  return .9604339 * Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2)) + .397824735 * Math.min(Math.abs(x1 - x2), Math.abs(y1 - y2));
+}
+
+const getRange = (connectionBonus: any, viralRangeBonus: any, taskConnectionRange: any, equinoxConnectionRangeBonus: any, winnerBonus: any, index: any, isJewel: any) => {
+  if ((!isJewel && (index === 13 || index === 8)) || ((index === 9 && isJewel) || (index === 19 && isJewel))) {
+    return 80;
+  }
+  if (isJewel && (index === 21 || index === 22 || index === 23)) {
+    return 100;
+  }
+  return Math.floor((80 * (1 + (connectionBonus + viralRangeBonus) / 100)) + taskConnectionRange + equinoxConnectionRangeBonus + winnerBonus);
+}
+
+export const calcPlayerLineWidth = (playersInTubes: any, labBonuses: any, jewels: any, chips: any, account: any, cards: any, soupedTubePlayerIds: any, arenaWave: any, waveReqs: any, buboPlayer: any, charactersData: any, updatedCharactersData: any) => {
+  return playersInTubes?.map((character: any) => {
+    const petArenaBonus = isArenaBonusActive(arenaWave, waveReqs, 13) ? 1 : 0;
+    const realCharacter = charactersData?.find(({ name }: any) => name === character?.name);
+    const lineWidth = getPlayerLineWidth(character,
+      realCharacter?.Lv0?.[12], // lab skill
+      soupedTubePlayerIds?.includes(realCharacter?.playerId),
+      labBonuses,
+      jewels,
+      chips?.[character?.playerId],
+      account,
+      cards,
+      petArenaBonus,
+      buboPlayer,
+      updatedCharactersData
+    );
+    return { ...character, lineWidth };
+  })
+}
+
+export const getPlayerLineWidth = (playerCords: any, labLevel: any, soupedTube: any, labBonuses: any, jewels: any, chips: any, account: any, cards: any, petArenaBonus: any, buboPlayer: any, updatedCharactersData: any) => {
+  const spelunkerObolMulti = getLabBonus(labBonuses, 8);
+  const labSkillLevel = labLevel ?? 0;
+  let baseLineWidth = 50 + 2 * labSkillLevel;
+  const { acquired, x, y } = jewels[5];
+  if (acquired) {
+    if (getDistance(x, y, playerCords.x, playerCords.y) < 150) {
+      baseLineWidth *= 1.25;
+    }
+  }
+  const bonusLineWidth = soupedTube ? 30 : 0;
+  const conductiveMotherboardBonus = chips?.reduce((res: any, chip: any) => chip.index === 6 ? res + chip.baseVal : res, 0);
+  const blackDiamondRhinstone = getJewelBonus(jewels, 16, spelunkerObolMulti);
+  const mealPxBonus = getMealsBonusByEffectOrStat(account, null, 'PxLine', blackDiamondRhinstone);
+  const mealLinePctBonus = getMealsBonusByEffectOrStat(account, null, 'LinePct', blackDiamondRhinstone);
+  const lineWidthCards = getCardBonusByEffect(cards, 'Line_Width_(Passive)');
+  // Line Width in Lab
+  const shinyLabBonus = getShinyBonus(account?.breeding?.pets, 'Line_Width_in_Lab');
+
+  let purpleTubeBonus = 0;
+  if (playerCords?.x >= buboPlayer?.x) {
+    // 535 is PURPLE_TUBE; 536 is GREEN_TUBE, whose level was previously fed into purple's growth
+    const purpleTubeLevel = buboPlayer.SkillLevels[535] || 0;
+    const purpleTubeData = (talents as Record<string, any>)?.[CLASSES.Bubonic_Conjuror]?.['PURPLE_TUBE'] || {};
+    if (updatedCharactersData) {
+      purpleTubeBonus = getHighestTalentAcrossCharacters(updatedCharactersData, 'PURPLE_TUBE', getBestActiveCharacter(updatedCharactersData))
+    } else {
+      purpleTubeBonus = growth(purpleTubeData?.funcX, purpleTubeLevel, purpleTubeData?.x1, purpleTubeData?.x2, false) ?? 0;
+    }
+  }
+  return Math.floor((baseLineWidth + mealPxBonus + Math.min(lineWidthCards, 50)) *
+    (1 + ((purpleTubeBonus + mealLinePctBonus) + ((conductiveMotherboardBonus) + (20 * petArenaBonus) + shinyLabBonus + bonusLineWidth)) / 100));
+}
+
+const getPrismPlayerConnection = (playersInTubes: any) => {
+  for (let i = 0; i < playersInTubes.length; i++) {
+    const { x, y, lineWidth } = playersInTubes[i];
+    const dist = getDistance(43, 229, x, y);
+    if (dist < lineWidth) {
+      return playersInTubes[i];
+    }
+  }
+  return null;
+}
+
+const checkPlayerConnection = (playersInTubes: any, connectedPlayers: any, playerCords: any) => {
+  for (let i = 0; i < playersInTubes.length; i++) {
+    const { x, y, lineWidth } = playersInTubes[i];
+    const inRange = getDistance(playerCords.x, playerCords.y, x, y) < lineWidth;
+    if (!connectedPlayers.find((player: any) => player.playerId === playersInTubes[i].playerId) && inRange) {
+      return playersInTubes[i];
+    }
+  }
+  return null;
+}
+
+// Check connection for jewels / bonuses
+const checkConnection = (array: any, connectionRangeBonus: any, viralRangeBonus: any, taskConnectionRange: any, equinoxConnectionRangeBonus: any, winnerBonus: any, playerCords: any, acquirable: any) => {
+  return array?.reduce((res: any, object: any, index: any) => {
+    let newConnection = false;
+    const range = getRange(connectionRangeBonus, viralRangeBonus, taskConnectionRange, equinoxConnectionRangeBonus, winnerBonus, index, acquirable);
+    const distance = getDistance(playerCords.x, playerCords.y, object.x, object.y);
+    const inRange = distance < range;
+    if (inRange && !object.active && (!acquirable || acquirable && object.acquired)) {
+      object.active = true;
+      newConnection = true;
+    }
+    return { resArr: [...res.resArr, object], newConnection: res.newConnection || newConnection }
+  }, { resArr: [], newConnection: false });
+};
+
+export const getPlayerLabChipBonus = (character: any, account: any, chipIndex: any) => {
+  return account?.lab?.playersChips?.[character?.playerId]?.reduce((sum: any, chip: any) => {
+    return chip?.index === chipIndex ? sum + chip?.baseVal : sum;
+  }, 0) ?? 0;
+}
+
+export const getRequirementAmount = (name: any, rawName: any, account: any) => {
+  let totalAmount;
+  if (rawName.includes('Spice')) {
+    const spice = account?.cooking?.spices?.available?.find(({ rawName: sRawName }: any) => sRawName === rawName);
+    totalAmount = spice?.amount || 0;
+  } else if (rawName.includes('CookingM')) {
+    const meal = account?.cooking?.meals?.find(({ name: mName }: any) => mName === name)
+    totalAmount = meal?.amount || 0;
+  } else {
+    totalAmount = calculateItemTotalAmount(account?.storage?.list, rawName, true, true);
+  }
+  return totalAmount;
+}
+
+// game: SkillStats("LaboratoryEfficiency")
+// game: SkillStats("LaboratoryEfficiency"): base efficiency * every multiplier
+export const getLabEfficiencyParts = (character: any, characters: any, account: any, playerInfo: any) => {
+  const talents = character?.flatTalents;
+  const { value: baseGear } = getStatsFromGear(character, 63, account);
+  const { value: multiplierGear } = getStatsFromGear(character, 66, account);
+  const names = efficiencyGroupNames('laboratory');
+  const tree = [
+    sumGroup(names.base, [
+      flat('Base', 200, { note: 'Every character starts at 200' }),
+      flat('Wisdom', Math.pow(character?.stats?.wisdom, 0.6) * (1 + getTalentBonus(talents, 'SKILL_WIZ') / 100)),
+      flat('Gear', baseGear),
+      flat('Post office', getPostOfficeBonus(character?.postOffice, 'Science_Spare_Parts', 0)),
+      getAllBaseSkillEffBreakdown(character, account, characters, playerInfo)
+    ]),
+    productGroup(names.bonuses, [
+      getAllEffBreakdown(character, characters, account),
+      additiveGroup(NUMBERED_GROUP, [
+        percent('Upload Squared talent', getTalentBonus(talents, 'UPLOAD_SQUARED')),
+        percent('Gear', multiplierGear),
+        // game: RiftStuff("RiftSkillBonus,11", 1) - the lab's second mastery bonus
+        percent('Skill mastery', 10 * isMasteryBonusUnlocked(account?.rift, account?.totalSkillsLevels?.laboratory?.rank, 1))
+      ]),
+      multiplier('Smart Efficiency talent', 1 + getTalentBonus(talents, 'SMART_EFFICIENCY') / 100)
+    ])
+  ];
+  return { value: evaluateBreakdownNode(tree[0]) * evaluateBreakdownNode(tree[1]), tree };
+}
+
+export const getLabEfficiency = (character: any, characters: any, account: any, playerInfo: any) =>
+  getLabEfficiencyParts(character, characters, account, playerInfo).value;

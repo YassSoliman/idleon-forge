@@ -1,0 +1,218 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { lavaLog, notateNumber, tryToParse } from '@utility/helpers';
+import { GOD_INDEX, isMajorDivinityActive } from '@parsers/world-5/divinity';
+import { getArtifactFormBonus } from '@parsers/world-5/sailing';
+import { getBestActiveCharacter, getHighestTalentAcrossCharacters } from '@parsers/talents';
+import { getEventShopBonus, getSkillMasteryBonusByIndex, isCompanionBonusActive } from '@parsers/misc';
+import { getAtomColliderThreshold } from '@parsers/world-3/atomCollider';
+import { getCharmBonus } from '@parsers/world-6/sneaking';
+import { getVoteBonus } from '@parsers/world-2/voteBallot';
+import { getCompassBonus } from '@parsers/class-specific/compass';
+import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
+import { items, refinery } from '@website-data';
+import type { IdleonData, Account } from '../types';
+import { NUMBERED_GROUP, additiveGroup, createBreakdown, evaluateBreakdownNode, flat, listGroup, multiplier, percent, productGroup } from '@parsers/breakdown';
+
+// The sample multipliers stacked on top of the printer multi
+const WIRED_IN_PRINTER_MULTI = 2;
+const HARRIEP_PRINTER_MULTI = 3;
+
+// WorkbenchStuff("ExtraPrinting", t): Wired In (MainframeBonus(1) == 2) doubles a character's samples
+// while it is AFK in the lab or has Arctis's major bonus. Being connected in the lab is not required.
+export const isPrinterWiredIn = (character: any, account: any, loggedInCharacter?: any) =>
+  !!account?.lab?.labBonuses?.find((bonus: any) => bonus.name === 'Wired_In')?.active
+  && (character?.afkTarget === 'Laboratory' || isMajorDivinityActive(character, account, GOD_INDEX.Arctis, loggedInCharacter));
+
+export const getPrinter = (idleonData: IdleonData, charactersData: any[], accountData: Account) => {
+  const rawPrinter = tryToParse(idleonData?.Print) || idleonData?.Printer;
+  const rawExtraPrinter = tryToParse(idleonData?.PrinterXtra) || idleonData?.PrinterXtra;
+  return parsePrinter(rawPrinter, rawExtraPrinter, charactersData, accountData);
+}
+
+const parsePrinter = (rawPrinter: any[], rawExtraPrinter: any[], charactersData: any[], accountData: Account) => {
+  const { value: extraPrinting, multipliers: printerMultipliers } = getPrinterMulti(accountData, charactersData);
+  const printData = rawPrinter?.slice(5, rawPrinter?.length); // REMOVE 5 '0' ELEMENTS
+  const printExtra = rawExtraPrinter;
+  // There are 14 items per character
+  // Every 2 items represent an item and it's value in the printer.
+  // The first 5 pairs represent the stored samples in the printer.
+  // The last 2 pairs represent the samples in production.
+  const chunk = 14;
+  const extraChunk = 10;
+  const loggedInCharacter = getBestActiveCharacter(charactersData);
+  return charactersData.map((charData, charIndex) => {
+    const harriepMajor = isMajorDivinityActive(charData, accountData, GOD_INDEX.Harriep, loggedInCharacter);
+    const wiredIn = isPrinterWiredIn(charData, accountData, loggedInCharacter) ? WIRED_IN_PRINTER_MULTI : 1;
+    let relevantPrinterData = printData?.slice(
+      charIndex * chunk,
+      charIndex * chunk + chunk
+    );
+    if (printExtra) {
+      const relevantExtraPrinterData = printExtra?.slice(
+        charIndex * extraChunk,
+        charIndex * extraChunk + extraChunk
+      )
+      relevantPrinterData.splice(-4, 0, relevantExtraPrinterData);
+      relevantPrinterData = relevantPrinterData.flat();
+    }
+    return relevantPrinterData?.reduce(
+      (result, printItem, sampleIndex, array) => {
+        if (sampleIndex % 2 === 0) {
+          const sample = array
+            .slice(sampleIndex, sampleIndex + 2)
+            .map((item, sampleIndex) => sampleIndex === 0 ? item : item);
+          let boostedValue = sample[1];
+          const harriep = harriepMajor ? HARRIEP_PRINTER_MULTI : 1;
+          boostedValue *= extraPrinting * wiredIn * harriep;
+
+          const breakdown = createBreakdown('Printer output', notateNumber(boostedValue, 'Big'), [
+            flat('Sample', sample[1]),
+            productGroup(NUMBERED_GROUP, [
+              multiplier('Wired In (Lab)', wiredIn),
+              multiplier('Harriep (Major god)', harriep),
+              printerMultipliers
+            ])
+          ]);
+
+          return [...result, {
+            item: sample[0],
+            value: sample[1],
+            active: sampleIndex >= relevantPrinterData.length - 4,
+            boostedValue,
+            breakdown,
+            expression: ``
+          }];
+        }
+        return result;
+      }, []);
+  });
+}
+
+export const getPrinterMulti = (accountData: Account, charactersData: any[]) => {
+  const goldRelicBonus = getArtifactFormBonus(accountData?.sailing?.artifacts, 'Gold_Relic');
+  const daysSinceLastSample = accountData?.accountOptions?.[125] ?? 0;
+  const orbOfRemembranceKills = accountData?.accountOptions?.[138] ?? 0;
+  // getbonus2(1, 178, -1): every Divine Knight's base level plus the ACTIVE character's added levels
+  const highestKingOfRemembrance = getHighestTalentAcrossCharacters(charactersData, 'KING_OF_THE_REMEMBERED',
+    getBestActiveCharacter(charactersData)) ?? 0;
+
+  // The game applies RiftSkillETC ungated here - it already returns its base 7 when the rift is too low
+  const skillMasteryBonus = getSkillMasteryBonusByIndex(accountData?.totalSkillsLevels, accountData?.rift, 3);
+
+  // this._DNprint = .1 + m._customBlock_WorkbenchStuff("ExtraPrinting", this._DRI, 0)
+  const charmBonus = getCharmBonus(accountData, 'Lolly_Flower');
+  const voteBonus = (1 + getVoteBonus(accountData, 11) / 100);
+  const companionBonus = 1 + Number(accountData?.accountOptions?.[354] ?? 0) * isCompanionBonusActive(accountData, 17) / 100;
+  const compassBonus = 1 + (Number(accountData?.accountOptions?.[364] ?? 0) * getCompassBonus(accountData, 43)) / 100;
+  // Legend talent "Yet Another Printer Multi" (index 17): +x% printer output per day for 20 days, resets on sample.
+  // The printer screen lists it, but AdditionExtraPrinting (what the printing uses) never multiplies it in.
+  const legendTalentDays = Number(accountData?.accountOptions?.[479]) || 0;
+  const legendTalentBonus = getLegendTalentBonus(accountData, 17) ?? 0;
+  const yetAnotherPrinterMulti = 1 + (legendTalentDays * legendTalentBonus) / 100;
+  const multipliers = productGroup('Printer multi', [
+    multiplier('Gold Relic', 1 + (Number(daysSinceLastSample) * (2 + goldRelicBonus)) / 100),
+    multiplier('King of the Remembered (Divine Knight)', 1 + (highestKingOfRemembrance * lavaLog(orbOfRemembranceKills)) / 100),
+    // The game adds these two in one factor
+    additiveGroup(NUMBERED_GROUP, [
+      percent('Skill mastery', skillMasteryBonus),
+      percent('Lolly Flower (Charm)', charmBonus)
+    ]),
+    multiplier('Vote', voteBonus),
+    multiplier('Winter event', 1 + (2 * Number(accountData?.accountOptions?.[323] ?? 0) * getEventShopBonus(accountData, 4)) / 100),
+    multiplier('Companion', companionBonus),
+    multiplier('Compass', compassBonus),
+    listGroup('Not applied by the game', [
+      multiplier('Yet Another Printer Multi (Legend talent)', yetAnotherPrinterMulti, { note: 'Shown on the printer screen only' })
+    ])
+  ]);
+  const extraPrinting = evaluateBreakdownNode(multipliers);
+
+  return {
+    multipliers,
+    breakdown: createBreakdown('Printer Multiplier', `${notateNumber(extraPrinting, 'MultiplierInfo')}x`, multipliers.children),
+    params: {
+      daysSinceLastSample,
+      highestKingOfRemembrance,
+      skillMasteryBonus,
+      charmBonus,
+      voteBonus,
+      orbOfRemembranceKills,
+      goldRelicBonus,
+      companionBonus,
+      compassBonus,
+      legendTalentDays,
+      legendTalentBonus,
+    },
+    value: extraPrinting,
+    expression: `(1 + (daysSinceLastSample * (2 + goldRelicBonus)) / 100)
+* (1 + (highestKingOfRemembrance * lavaLog(orbOfRemembranceKills)) / 100)
+* (1 + (skillMasteryBonus + charmBonus) / 100)
+* voteBonus
+* (1 + (2 * accountData?.accountOptions?.[323] * getEventShopBonus(accountData, 4)) / 100)
+* companionBonus
+* compassBonus`
+  }
+}
+export const calcTotals = (account: Account, showAlertWhenFull: any) => {
+  const { printer, storage } = account || {};
+  const atomThreshold = getAtomColliderThreshold(Number(account?.accountOptions?.[133]));
+  let totals = printer?.reduce((res: any, character: any) => {
+    character.forEach(({ boostedValue, item, active }: any) => {
+      if (item !== 'Blank' && active) {
+        if (res?.[item]) {
+          res[item] = { ...res[item], boostedValue: boostedValue + res[item]?.boostedValue };
+        } else {
+          const storageItem = storage?.list.find(({ rawName }: any) => rawName === item)?.amount;
+          res[item] = { boostedValue, atomable: (storageItem ?? 0) >= atomThreshold - (atomThreshold * .01), storageItem };
+        }
+      }
+    })
+    return res;
+  }, {});
+  totals = calcAtoms(totals, atomThreshold, showAlertWhenFull);
+  const totalAtoms = Object.entries(totals)?.reduce((sum: any, [, slot]: any) => sum + (slot?.atoms ?? 0), 0);
+  return { ...totals, atom: { boostedValue: totalAtoms, atoms: totalAtoms } }
+}
+
+const calcAtoms = (totals: Record<string, any> = {}, atomThreshold: number, showAlertWhenFull: any) => {
+  return Object.entries(totals)?.reduce((sum: Record<string, any>, [key, slot]) => {
+    const { boostedValue, atomable, storageItem } = slot;
+    let val = boostedValue, hasAtoms;
+    if (showAlertWhenFull?.checked) {
+      hasAtoms = atomable;
+    } else {
+      const printingMoreThanThreshold = boostedValue >= atomThreshold && !atomable;
+      const storageAndPrintingMoreThanThreshold = boostedValue > atomThreshold - storageItem && !atomable;
+      if (printingMoreThanThreshold) {
+        val = boostedValue - atomThreshold;
+      } else if (storageAndPrintingMoreThanThreshold) {
+        const diff = atomThreshold - storageItem;
+        val = boostedValue - diff;
+      } else {
+        val = boostedValue
+      }
+      hasAtoms = printingMoreThanThreshold || storageAndPrintingMoreThanThreshold || atomable;
+    }
+
+    sum[key] = {
+      ...slot,
+      ...(hasAtoms ? { atoms: val / 10e6 } : {})
+    }
+    return sum;
+  }, {});
+}
+
+// Materials people park in the printer on purpose: the long standing defaults, plus every
+// refinery salt cost - the refinery eats those continuously, so their atom alerts are noise.
+const DEFAULT_PRINTER_EXCLUSIONS = ['Copper', 'OakTree', 'Grasslands1', 'Bug1', 'Fish1'];
+
+export const getPrinterExclusions = () => {
+  const refineryCosts = Object.values(refinery as any)
+    .flatMap((salt: any) => (salt?.cost ?? []).map(({ rawName }: any) => rawName))
+    .filter((rawName: string) => !/^Refinery\d+$/.test(rawName) // the salts themselves can't be printed
+      && rawName !== 'FillerMaterial' // placeholder cost on unreleased salts
+      && (items as any)?.[rawName]?.typeGen !== 'bBar'); // bars come from the forge, never from a sample
+  return ([...new Set([...DEFAULT_PRINTER_EXCLUSIONS, ...refineryCosts])] as any).toSimpleObject();
+}

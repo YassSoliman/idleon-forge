@@ -1,0 +1,17 @@
+{
+  "name": "@idleon-forge/account-state",
+  "version": "0.1.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "description": "Typed Account State adapter over IdleOn Toolbox's parser output, with contract tests.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@idleon-forge/toolbox-parsers": "workspace:*"
+  }
+}

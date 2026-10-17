@@ -1,0 +1,156 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+// Extracts each page's <NextSeo> title/description into data/page-seo.js.
+//
+// A data page renders DataLoadingWrapper's loader at build time, so its own <NextSeo> never runs
+// and the export would carry no title. _app.jsx renders this map in its <Head> instead, and
+// generating it from the pages themselves keeps the two copies identical: the client swaps in the
+// page's own NextSeo, and a mismatch would mean crawlers and users see different titles.
+//
+// Pages generated from a dynamic route need an OVERRIDES entry: their real title comes from
+// static props, but extractSeo can't parse a non-literal title= and would report them as
+// problems.
+//
+// Run: node utility/generate-page-seo.mjs
+// Drift is caught by __test__/page-seo.test.js; e2e/static-head.spec.js checks the served bytes.
+
+import { readdirSync, readFileSync, writeFileSync, statSync } from 'fs';
+import { join, relative, sep } from 'path';
+
+const PAGES_DIR = 'pages';
+const OUT_FILE = join('data', 'page-seo.js');
+const SKIP = new Set(['_app.jsx', '_document.jsx', '_error.jsx']);
+
+// Routes whose <NextSeo> can't be read off the page. Three of them build the title from data
+// fetched at runtime (?id=...), so one exported file serves many entities and there is no single
+// correct static title - these are the generic fallback a crawler sees before the client swaps in
+// the specific one. Where the page already has its own fallback string, it is copied verbatim.
+const OVERRIDES = {
+  '/404': { description: 'This page could not be found.' },
+  // The three wiki routes serve every system page, listing, entity and moved-URL redirect between them. Their real
+  // titles come from static props and there is no single literal for extractSeo to read. These are the generic
+  // strings, kept only so the map has an entry; every exported page carries its own.
+  '/wiki/[kind]/[slug]/[entity]': {
+    title: 'Wiki | Idleon Toolbox',
+    description: 'A Legends of Idleon game system entry, and everything it connects to.'
+  },
+  '/wiki/[kind]/[slug]': {
+    title: 'Wiki | Idleon Toolbox',
+    description: 'A Legends of Idleon item, monster, NPC, quest, shop or area, and everything it connects to.'
+  },
+  '/wiki/[kind]': {
+    title: 'Wiki | Idleon Toolbox',
+    description: 'Browse a Legends of Idleon wiki category or game system, and every page in it.'
+  },
+  '/guilds/detail': {
+    title: 'Guild History | Idleon Toolbox',
+    description: 'Weekly GP progress and contributors for Legends of Idleon guilds.'
+  },
+  // Both are noindex through getStaticProps as well; repeated here because extractSeo cannot read
+  // it off a page whose <NextSeo> it already cannot parse, and a map that disagrees invites a
+  // future edit to "fix" it.
+  '/tools/builds/edit': {
+    title: 'Edit build | Idleon Toolbox',
+    description: 'Edit one of your Legends of Idleon builds.',
+    noindex: true
+  },
+  '/tools/builds/view': {
+    title: 'Build | Idleon Toolbox',
+    description: 'Community build for Legends of Idleon',
+    noindex: true
+  },
+  '/tools/builds/my-builds': { description: 'Your saved and liked Legends of Idleon builds.' },
+  // One route pattern, one page per class and one per published build. Each supplies its real
+  // title and description through static props, which _app prefers over this map; these are the
+  // fallback only.
+  '/tools/builds/[slug]': {
+    title: 'Idleon Builds by Class | Idleon Toolbox',
+    description: 'Community builds for every Legends of Idleon class and subclass.'
+  }
+};
+
+function walk(dir) {
+  return readdirSync(dir).flatMap((entry) => {
+    const full = join(dir, entry);
+    if (statSync(full).isDirectory()) return entry === 'api' ? [] : walk(full);
+    return /\.(jsx|tsx)$/.test(entry) && !SKIP.has(entry) ? [full] : [];
+  });
+}
+
+function toRoute(file) {
+  const rel = relative(PAGES_DIR, file).split(sep).join('/').replace(/\.(jsx|tsx)$/, '');
+  if (rel === 'index') return '/';
+  return '/' + rel.replace(/\/index$/, '');
+}
+
+// Pull one attribute out of the <NextSeo .../> element. Only plain double-quoted literals are
+// supported; anything dynamic is reported rather than silently dropped.
+function attr(tag, name) {
+  const m = tag.match(new RegExp(`\\b${name}\\s*=\\s*"([^"]*)"`));
+  return m ? m[1] : null;
+}
+
+export function extractSeo(source) {
+  const start = source.indexOf('<NextSeo');
+  if (start === -1) return null;
+  // NextSeo is always self-closing in this codebase; stop at the first '/>' after it.
+  const end = source.indexOf('/>', start);
+  if (end === -1) return null;
+  const tag = source.slice(start, end);
+  const title = attr(tag, 'title');
+  if (!title) return null;
+  const description = attr(tag, 'description');
+  // Absent rather than falsy, so this matches the shape the generator writes out and the two can
+  // be compared directly in __test__/page-seo.test.js.
+  return {
+    title,
+    ...(description ? { description } : {}),
+    ...(/\bnoindex(\s*=\s*\{true\})?/.test(tag) ? { noindex: true } : {})
+  };
+}
+
+export function collect() {
+  const entries = [];
+  const problems = [];
+  for (const file of walk(PAGES_DIR).sort()) {
+    const route = toRoute(file);
+    const seo = { ...extractSeo(readFileSync(file, 'utf8')), ...OVERRIDES[route] };
+    if (!seo.title) {
+      problems.push(`${file}: no parseable <NextSeo title="..."> and no override`);
+      continue;
+    }
+    if (!seo.description) problems.push(`${file}: no description and no override`);
+    entries.push([route, seo]);
+  }
+  return { entries, problems };
+}
+
+function main() {
+  const { entries, problems } = collect();
+
+  const body = entries
+    .map(([route, { title, description, noindex }]) => {
+      const parts = [`title: ${JSON.stringify(title)}`];
+      if (description) parts.push(`description: ${JSON.stringify(description)}`);
+      if (noindex) parts.push('noindex: true');
+      return `  ${JSON.stringify(route)}: { ${parts.join(', ')} }`;
+    })
+    .join(',\n');
+
+  writeFileSync(
+    OUT_FILE,
+    `// GENERATED by utility/generate-page-seo.mjs - do not edit by hand.\n` +
+    `// Source of truth is each page's own <NextSeo>. Re-run the generator after changing one.\n` +
+    `export const PAGE_SEO = {\n${body}\n};\n`,
+    'utf8'
+  );
+
+  console.log(`wrote ${OUT_FILE} - ${entries.length} routes`);
+  if (problems.length) {
+    console.log(`\n${problems.length} page(s) need attention:`);
+    problems.forEach((p) => console.log(`  ${p}`));
+  }
+}
+
+if (process.argv[1] && process.argv[1].endsWith('generate-page-seo.mjs')) main();

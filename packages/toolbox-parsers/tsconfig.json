@@ -1,0 +1,30 @@
+{
+  // The vendored parsers are typechecked with Toolbox's own settings (strict), not the repo's stricter
+  // base: we never edit vendor/, so we only check that it still compiles against our shims.
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "checkJs": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "types": [],
+    "baseUrl": ".",
+    "paths": {
+      "@mantine/hooks": ["shims/mantine-hooks.ts"],
+      "@components/constants": ["shims/components-constants.ts"],
+      "@utility/analytics": ["shims/analytics.ts"],
+      "@utility/clipboard": ["shims/clipboard.ts"],
+      "@parsers/safeSection": ["shims/safe-section.ts"],
+      "@parsers/*": ["vendor/parsers/*"],
+      "@utility/*": ["vendor/utility/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "shims/**/*.ts", "vendor/parsers/**/*.ts", "vendor/data/website-data.d.ts"]
+}

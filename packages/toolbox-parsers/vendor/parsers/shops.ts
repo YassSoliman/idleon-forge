@@ -1,0 +1,59 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { tryToParse } from '@utility/helpers';
+import { shops } from '@website-data';
+import type { IdleonData } from './types';
+
+export const getShops = (idleonData: IdleonData): any[][] => {
+  const shopsRaw = idleonData?.ShopStock || tryToParse(idleonData?.ShopStock);
+  return parseShops(shopsRaw);
+}
+
+export const parseShops = (shopsRaw: any[] | undefined): any[][] => {
+  const shopIndexes = Object.keys(shops).map(Number).sort((a, b) => a - b);
+  return shopIndexes.map((shopIndex) => {
+    const shopObject = shopsRaw?.[shopIndex];
+    if (!shopObject) return [];
+    return Object.values(shopObject).reduce((res: any[], item: any, itemIndex: number) => {
+      const isIncluded = (shopMapping as any)?.[shopIndex]?.[itemIndex];
+      const amount = parseInt(item) || 0;
+      return amount > 0 && isIncluded ? [...res,
+      {
+        amount: item, ...shops[shopIndex]?.items?.[itemIndex],
+        shopName: shops[shopIndex]?.name
+      }] : res;
+    }, []);
+  });
+}
+
+export const getRawShopItems = (): Record<string, boolean> => {
+  return (Object.entries(shops)?.reduce((res: any[], [key, { items }]: [string, any]) => {
+    const filtered = items?.filter((_: any, index: number) => (shopMapping as any)?.[key]?.[index])?.map(({ rawName }: any) => rawName);
+    return [...res, ...filtered]
+  }, []) as any).toSimpleObject();
+}
+
+export const shopMapping: Record<number, Record<number, boolean>> = {
+  0: ([3, 8, 13, 14, 17, 23] as any).toSimpleObject(), // 'Blunder_Hills'
+  1: ([2, 8, 9, 13] as any).toSimpleObject(), // 'Encroaching_Forest_Villas'
+  2: ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 18, 19] as any).toSimpleObject(), // 'YumYum_Grotto'
+  3: ([12] as any).toSimpleObject(), // 'Faraway_Piers'
+  4: ([0, 1, 2, 8, 9, 10, 19, 22] as any).toSimpleObject(), // 'Frostbite_Towndra'
+  5: ([2, 3, 4, 8, 9, 10, 11] as any).toSimpleObject(), // 'Hyperion_Nebula'
+  6: ([0, 1, 2, 3, 4, 5] as any).toSimpleObject(), // 'Smolderin\'_Plateau',
+  7: ([0, 1, 2, 3, 4, 5, 6, 7] as any).toSimpleObject(), // 'Spirited_Valley',
+  8: ([2, 3, 5, 6, 7] as any).toSimpleObject() //'Shimmerfin_Deep'
+};
+
+export const shopNameMapping: Record<number, string> = {
+  0: 'Blunder_Hills',
+  1: 'Encroaching_Forest_Villas',
+  2: 'YumYum_Grotto',
+  3: 'Faraway_Piers',
+  4: 'Frostbite_Towndra',
+  5: 'Hyperion_Nebula',
+  6: 'Smolderin\'_Plateau',
+  7: 'Spirited_Valley',
+  8: 'Shimmerfin_Deep'
+}

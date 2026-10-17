@@ -1,0 +1,1941 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { createRange, lavaLog, notateNumber, number2letter, tryToParse } from '@utility/helpers';
+import { filteredGemShopItems, filteredLootyItems, keysMap, unrealisticGreenstackItems } from './parseMaps';
+import {
+  bonuses,
+  bundles as bundlesData,
+  cards as cardsData,
+  companions,
+  deathNote,
+  generalSpelunky,
+  items,
+  killRoySkullShop,
+  mapEnemiesArray,
+  mapNames,
+  monsters,
+  ninjaExtraInfo,
+  randomList,
+  rawMapNames,
+  slab
+} from '@website-data';
+import { checkCharClass, CLASSES, getTalentBonus, mainStatMap, talentPagesMap, getHighestTalentAcrossCharacters, getBestActiveCharacter, getLastBloodBerserkerLine } from './talents';
+import { getMealsBonusByEffectOrStat } from './world-4/cooking';
+import { getBubbleBonus, getSigilBonus, getVialsBonusByEffect, getVialsBonusByStat } from './world-2/alchemy';
+import { getStampsBonusByEffect } from './world-1/stamps';
+import { getAchievementStatus } from './achievements';
+import { getAtomBonus } from './world-3/atomCollider';
+import { getPrayerBonusAndCurse } from './world-3/prayers';
+import { getShrineBonus } from './world-3/shrines';
+import { isSuperbitUnlocked } from './world-5/gaming';
+import { getStatsFromGear } from './items';
+import LavaRand from '../utility/lavaRand';
+import { isPast } from 'date-fns';
+import { getGuildBonusBonus } from './guild';
+import { getStarSignBonus } from './starSigns';
+import { getPlayerFoodBonus } from './character';
+import { getCharmBonus, isJadeBonusUnlocked } from '@parsers/world-6/sneaking';
+import { getBribeBonus } from '@parsers/world-1/bribes';
+import { getMeritocracyBonus, getVoteBonus } from '@parsers/world-2/voteBallot';
+import { getUpgradeVaultBonus } from '@parsers/misc/upgradeVault';
+import { getArmorSetBonus } from '@parsers/world-3/armorSmithy';
+import { hasClearedMap } from '@parsers/portals';
+import { getObolsBonus } from '@parsers/obols';
+import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
+import { calcCardBonus, getCardBonusByEffect, getCardLevel } from '@parsers/cards';
+import { getTesseractBonus } from '@parsers/class-specific/tesseract';
+import { getArmoryUpgradeBonus, getOrbletMarketBonus } from '@parsers/class-specific/royalGuardian';
+import { getPaletteBonus } from '@parsers/world-5/gaming';
+import { getAccountMinorDivinityBonus, GOD_INDEX } from '@parsers/world-5/divinity';
+import { getSpelunkingBonus } from '@parsers/world-7/spelunking';
+import { getButtonBonus } from '@parsers/world-7/button';
+import { getJellyBonus } from '@parsers/world-7/jellyOperator';
+import { getWinnerBonus } from '@parsers/world-6/summoning';
+import { isArtifactAcquired } from '@parsers/world-5/sailing';
+import { getSaltLickBonus } from '@parsers/world-3/saltLick';
+import { additiveGroup, createBreakdown, flat, gearGroup, multiplier, NUMBERED_GROUP, percent, productGroup, sumGroup } from '@parsers/breakdown';
+import { getCharacterFamilyBonus } from './family';
+
+export const getRawRefinerySalts = () => {
+  return Object.keys(items).filter(key => /^Refinery\d+$/.test(key)).reduce((res, key) => ({ ...res, [key]: true }), {});
+}
+
+export const getDoubleStatueDrop = (account: any, character: any, characters: any) => {
+  const tesseractBonus = getTesseractBonus(account, 18);
+  const paletteBonus = getPaletteBonus(account, 19);
+  const divinityMinorBonus = getAccountMinorDivinityBonus(account, characters, GOD_INDEX.Kattlekruk);
+  const talentBonus = getTalentBonus(character?.flatStarTalents, 'STATUE_METALLURGY');
+  
+  const value = tesseractBonus + talentBonus + paletteBonus + Math.min(10, divinityMinorBonus);
+  return {
+    value,
+    breakdown: createBreakdown('Double Statue Drop Chance', `${notateNumber(value, 'MultiplierInfo')}%`, [
+      percent('Tesseract', tesseractBonus),
+      percent('Statue Metallurgy (Talent)', talentBonus),
+      percent('Palette', paletteBonus),
+      percent('Divinity', Math.min(10, divinityMinorBonus))
+    ], { combine: 'sum' }),
+    expression: `tesseractBonus + talentBonus + paletteBonus + Math.min(10, divinityMinorBonus)`
+  };
+}
+
+const DOUBLE_AINT_ENOUGH_LEGEND = 2;
+const GREY_HARDHAT_SHOP_UPG = 48;
+const DOUBLE_DROP_BUNDLE = 'bon_k';
+
+// How many statues / golden foods a 2x drop gives: Math.round(2 + (LegendPTS_bonus(2) [+ ShopUpgBonus(48)]) / 100),
+// then x2 from bon_k (which also doubles drops that did not roll the 2x)
+const getDoubleDropSize = (account: any, statName: string, includeHardhat: boolean) => {
+  const legendBonus = getLegendTalentBonus(account, DOUBLE_AINT_ENOUGH_LEGEND) ?? 0;
+  const hardhatBonus = includeHardhat ? getSpelunkingBonus(account, GREY_HARDHAT_SHOP_UPG) ?? 0 : 0;
+  const bundleMulti = isBundlePurchased(account, DOUBLE_DROP_BUNDLE) ? 2 : 1;
+  const baseSize = Math.round(2 + (legendBonus + hardhatBonus) / 100);
+  const value = baseSize * bundleMulti;
+  return {
+    value,
+    breakdown: createBreakdown(statName, `${value}x`, [
+      sumGroup('2x Drop Size', [
+        flat('Base', 2),
+        flat('Double Aint Enough (Legend Talent)', legendBonus / 100),
+        ...(includeHardhat ? [flat('Grey Hardhat', hardhatBonus / 100)] : [])
+      ], { round: 'round' }),
+      multiplier('Bundle', bundleMulti)
+    ]),
+    expression: includeHardhat
+      ? `Math.round(2 + (legendBonus + greyHardhat) / 100) * bundleMulti`
+      : `Math.round(2 + legendBonus / 100) * bundleMulti`
+  };
+}
+
+export const getDoubleStatueDropSize = (account: any) => getDoubleDropSize(account, 'Double Statue Drop Size', true);
+
+export const getDoubleGoldenFoodDropSize = (account: any) => getDoubleDropSize(account, 'Double Golden Food Drop Size', false);
+
+export const getDoubleGoldenFoodDrop = (account: any) => {
+  const tesseractBonus = getTesseractBonus(account, 30);
+  const paletteBonus = getPaletteBonus(account, 24);
+  const bigFishBonus = getAdviceFishBonus(account, 5);
+
+  const value = tesseractBonus + paletteBonus + bigFishBonus;
+  return {
+    value,
+    breakdown: createBreakdown('Double Golden Food Drop Chance', `${notateNumber(value, 'MultiplierInfo')}%`, [
+      percent('Tesseract', tesseractBonus),
+      percent('Palette', paletteBonus),
+      percent('Big Fish', bigFishBonus)
+    ], { combine: 'sum' }),
+    expression: `tesseractBonus + paletteBonus + bigFishBonus`
+  };
+}
+
+export const getFriendBonusStats = (account: any = {}) => {
+  const FRIEND_BONUS_NAMES = [
+    '% Total Damage',
+    '% Class EXP gain',
+    '% Skill Efficiency',
+    '% Drop Rate',
+    '% Skill EXP gain',
+    '% more Coins',
+    '% Extra Kills'
+  ];
+  const companionList = account?.companions?.list;
+  const hasMrPig = isCompanionBonusActive(account, 30);
+  const hasSpearfish = isCompanionBonusActive(account, 44);
+
+  const slots = Math.round(
+    Math.min(
+      20,
+      2
+      + (hasSpearfish ? companionList?.[44]?.bonus ?? 0 : 0)
+      + 2 * (hasMrPig ? companionList?.[30]?.bonus ?? 0 : 0)
+      + (getEventShopBonus(account, 22) ? 1 : 0)
+    )
+  );
+
+  // Pet Mart+: Spearfish (44) upgraded adds a flat +25% Friend Bonuses factor (CompLV2 flag, not scaled).
+  const spearfishLvl2Bonus = isCompanionLvl2Active(account, 44) ? 25 : 0;
+  const extraMultiplier = 1 + (100 * (hasMrPig ? companionList?.[30]?.bonus ?? 0 : 0) + spearfishLvl2Bonus) / 100;
+  const rawFriendBonuses = account?.accountOptions?.[476];
+  const bonuses = FRIEND_BONUS_NAMES.map((name, statIndex) => ({
+    statIndex,
+    name,
+    level: 0,
+    friendName: '',
+    value: 0
+  }));
+
+  if (rawFriendBonuses && `${rawFriendBonuses}` !== '0') {
+    const entries = `${rawFriendBonuses}`.split(';').filter(Boolean);
+    const entriesToRead = Math.min(slots, entries.length);
+
+    for (let i = 0; i < entriesToRead; i++) {
+      const [statIndexRaw, levelRaw, friendName] = `${entries[i]}`.split(',');
+      const statIndex = Number(statIndexRaw);
+      const level = Number(levelRaw);
+      const baseValue = Number.isFinite(statIndex) && statIndex < FRIEND_BONUS_NAMES.length
+        ? getFriendBonusQuantity(statIndex, level)
+        : 0;
+      const totalValue = baseValue * extraMultiplier;
+
+      if (Number.isFinite(statIndex) && statIndex < bonuses.length) {
+        bonuses[statIndex] = {
+          statIndex,
+          name: FRIEND_BONUS_NAMES[statIndex] || '',
+          level,
+          friendName,
+          value: totalValue
+        };
+      }
+    }
+  }
+
+  return {
+    slots,
+    multiplier: extraMultiplier,
+    bonuses
+  };
+}
+
+
+const getFriendBonusQuantity = (statIndex: any, level = 0) => {
+  const cappedLevel = Math.min(30000, Math.max(0, level));
+  const scaling = Math.min(1.5, 0.25 + (cappedLevel / (cappedLevel + 12000)) * 1.5);
+
+  switch (statIndex) {
+    case 0:
+      return 100 * scaling;
+    case 1:
+      return 30 * scaling;
+    case 2:
+      return 50 * scaling;
+    case 3:
+      return 25 * scaling;
+    case 4:
+      return 30 * scaling;
+    case 5:
+      return 40 * scaling;
+    case 6:
+      return 10 * scaling;
+    default:
+      return 0;
+  }
+}
+
+export const getFriendBonus = (account: any, index: any) => {
+  return account?.friendBonusStats?.bonuses?.[index]?.value ?? 0;
+}
+
+export const getAdviceFish = (idleonData: any) => {
+  const rawSpelunking = tryToParse(idleonData?.Spelunk) || [];
+  const adviceUpgrades = generalSpelunky?.[18] || [];
+  const upgrades = adviceUpgrades.map((upgrade: any, index: any) => {
+    const [name, description, x2, x3, filler] = upgrade.split(',');
+    const level = rawSpelunking?.[11]?.[index] ?? 0;
+    return {
+      level,
+      cost: Math.pow(1.15, level) * Math.pow(10.01, x3),
+      bonus: level / (100 + level) * parseFloat(x2),
+      name,
+      description,
+      x2: parseFloat(x2),
+      x3: parseFloat(x3),
+      filler
+    }
+  });
+  return {
+    upgrades
+  };
+}
+
+export const getAdviceFishBonus = (account: any, upgradeIndex: any) => {
+  return account?.adviceFish?.upgrades?.[upgradeIndex]?.bonus ?? 0;
+}
+
+// game: "GuaranteedCrystalMobs"
+export const getGuaranteedCrystalMobs = (account: any) => {
+  const meritocracyBonus = getMeritocracyBonus(account, 15);
+  const legendPTSBonus = getLegendTalentBonus(account, 37);
+  const sigilBonus = getSigilBonus(account?.alchemy?.p2w?.sigils, 'SHINY_BEACON');
+  const taskBonus = account?.tasks?.[2]?.[3]?.[0];
+  const achievementBonus = getAchievementStatus(account?.achievements, 285);
+
+  return Math.ceil((1 + meritocracyBonus / 100)
+    * (1 + legendPTSBonus / 100) * (sigilBonus
+      + (taskBonus + 4 * achievementBonus)))
+}
+
+// Daily Shopping Spree (legend talent 23): true while today's discounted purchases aren't used up.
+export const hasMasterclassDailyDiscount = (account: any): boolean =>
+  account?.accountOptions?.[480] < getLegendTalentBonus(account, 23);
+
+// game: "AllMasterclassCostReduxPrefix" - the pre-2.3.525 whole formula, now just the first factor.
+const getAllMasterclassCostReduxPrefix = (account: any, forceLegendTalent: any) => {
+  const hasBonusBundle = isBundlePurchased(account, 'bon_p');
+  const hasLegendTalent = forceLegendTalent === undefined
+    ? hasMasterclassDailyDiscount(account)
+    : forceLegendTalent;
+  return hasLegendTalent
+    ? (hasBonusBundle ? 0.05 : 0.2)
+    : (hasBonusBundle ? 0.25 : 1);
+}
+
+// Game: "AllMasterclassCostRedux" - applied alone by the Royal Armory (ArmoryUpgCost never touches
+// First3MC_CostRedux below). The orblet BARGAIN upgrade (index 7) is new in 2.3.525 and discounts
+// every masterclass, armory included, so it belongs here rather than in the "first 3" factor.
+// game: "AllMasterclassCostRedux"
+export const getAllMasterclassCostRedux = (account: any, forceLegendTalent: any) => {
+  const orbletBargain = getOrbletMarketBonus(account, 7);
+  return getAllMasterclassCostReduxPrefix(account, forceLegendTalent) * (1 / (1 + orbletBargain / 100));
+}
+
+// Game: "First3MC_CostRedux" - Grimoire/Compass/Tesseract only. RoyalG[3][2] is the selected
+// Outpost ROG-bonus stat index (0-3) - the game multiplies it straight into ArmoryUpgBonus(79)
+// ("Compounding Outposting"), which reads like a copy-paste of the stat selector used elsewhere,
+// but it is the live formula.
+// game: "First3MC_CostRedux"
+const getFirst3MasterclassCostRedux = (account: any) => {
+  const selectedRogIndex = account?.royalGuardian?.raw?.[3]?.[2] ?? 0;
+  const armoryBonus79 = getArmoryUpgradeBonus(account, 79);
+  return (1 / (1 + (account?.accountOptions?.[499] ?? 0) / 100))
+    * (1 / (1 + (selectedRogIndex * armoryBonus79) / 100));
+}
+
+// Combined value for the three "first 3" masterclasses (Grimoire, Compass, Tesseract) - the only
+// consumers of First3MC_CostRedux. Name/signature kept as-is so existing call sites are unaffected.
+export const getMasterclassCostReduction = (account: any, forceLegendTalent: any) => {
+  return getAllMasterclassCostRedux(account, forceLegendTalent) * getFirst3MasterclassCostRedux(account);
+}
+
+// "minBookLv" / "maxBookLv" - the SkillLevelsMAX range the passive Library can raise a talent into.
+// Only talents with skillIndex < 615 (main class talents, not star talents) are eligible, EXCEPT
+// skillIndex [10, 11, 12, 23, 75, 79, 86, 87, 266, 267, 446, 447] (STR/AGI/WIS/LUK and their paired
+// Basics-tab talents), which the game explicitly excludes via CustomLists.RANDOlist[16] - see
+// BOOK_INELIGIBLE_INDICES in components/characters/Talents.jsx.
+// TASK_SHOP_BOOK_LV_PER_MERIT is CustomLists.TaskShopDesc[2][2][11], a static game constant
+// (verified live: "+{ Max possible Lv of Talent books from the Talent Book Library", BonusPerLv = 2).
+const TASK_SHOP_BOOK_LV_PER_MERIT = 2;
+export const getBookLvRange = (account: any) => {
+  const atomLevel = account?.atoms?.atoms?.[7]?.level ?? 0;
+  const minBookLv = Math.round(101
+    + 5 * (account?.gemShopPurchases?.[113] ?? 0)
+    + getBribeBonus(account?.bribes, 'Library_Double_Agent')
+    + atomLevel);
+  const maxBookLv = Math.round(125
+    + (isArtifactAcquired(account?.sailing?.artifacts, 'Fury_Relic')?.bonus ?? 0)
+    + getWinnerBonus(account, '+{ Library Max')
+    + 10 * Math.min(atomLevel, 1)
+    + Math.min(5, Math.max(0, 5 * getAchievementStatus(account?.achievements, 145)))
+    + getSaltLickBonus(account?.saltLick, 4)
+    + TASK_SHOP_BOOK_LV_PER_MERIT * (account?.tasks?.[2]?.[2]?.[2] ?? 0));
+  return { minBookLv, maxBookLv };
+}
+
+export const getLibraryBookTimes = (idleonData: any, characters: any, account: any) => {
+  const { bookCount, libTime, breakdown } = calcBookCount(account, characters, idleonData);
+  let breakpoints = [16, 18, 20].map((maxCount) => {
+    return {
+      breakpoint: maxCount,
+      time: calcTimeToXBooks(bookCount, maxCount, account, characters, idleonData) - libTime
+    }
+  })
+  breakpoints = [...breakpoints,
+  ...[20, 40, 60, 80, 100].map((maxCount) => ({
+    breakpoint: 0,
+    label: `0 to ${maxCount}`,
+    time: calcTimeToXBooks(0, maxCount, account, characters, idleonData)
+  }))]
+  return {
+    bookCount,
+    next: getTimeToNextBooks(bookCount, account, characters, idleonData)?.value - libTime,
+    breakdown,
+    breakpoints
+  }
+}
+
+const calcBookCount = (account: any, characters: any, idleonData: any) => {
+  const baseBookCount = account?.accountOptions?.[55] ?? 0;
+  const timeAway = account?.timeAway;
+  let libTime = timeAway?.BookLib ?? 0;
+  let afk = timeAway ? (new Date).getTime() / 1e3 - timeAway.GlobalTime : 0;
+  let bookCount = baseBookCount;
+  if (afk > 300) libTime += afk;
+  const { breakdown } = getTimeToNextBooks(bookCount, account, characters, idleonData);
+  while (libTime > getTimeToNextBooks(bookCount, account, characters, idleonData)?.value) {
+    libTime -= getTimeToNextBooks(bookCount, account, characters, idleonData)?.value;
+    bookCount += 1;
+  }
+  return { bookCount, libTime, breakdown };
+}
+
+const calcTimeToXBooks = (bookCount: any, maxCount: any, account: any, characters: any, idleonData: any) => {
+  let time = 0;
+  for (let i = bookCount; i < maxCount; i++) {
+    time += getTimeToNextBooks(i, account, characters, idleonData)?.value;
+  }
+  return time;
+}
+
+const LIBRARY_BASE_CHECKOUT_HOURS = 4;
+
+//  "BookReqTime"
+// game: "BookReqTime"
+export const getTimeToNextBooks = (bookCount: any, account: any, characters: any, idleonData: any) => {
+  const towersLevels = tryToParse(idleonData?.Tower) || idleonData?.Tower;
+  const mealBonus = getMealsBonusByEffectOrStat(account, null, 'Lib');
+  const bubbleBonus = getBubbleBonus(account, 'IGNORE_OVERDUES', false);
+  const vialBonus = getVialsBonusByEffect(account?.alchemy?.vials, 'Talent_Book_Library');
+  const stampBonus = getStampsBonusByEffect(account, 'Talent_Book_Library_Refresh_Speed')
+  const libraryTowerLevel = towersLevels?.[1] ?? 0;
+  const libraryBooker = getAtomBonus(account, 'Oxygen_-_Library_Booker');
+  const superbit = isSuperbitUnlocked(account, 'Library_Checkouts');
+  let superbitBonus = 0;
+  if (superbit) {
+    superbitBonus = superbit?.totalBonus;
+  }
+  const achievementBonus = Math.min(30, Math.max(0, 30 * getAchievementStatus(account?.achievements, 145)));
+  const bonusMultiplier = (1 + mealBonus / 100)
+    * (1 + libraryBooker / 100)
+    * (1 + (5 * libraryTowerLevel
+      + bubbleBonus
+      + (vialBonus
+        + (stampBonus
+          + achievementBonus
+          + superbitBonus))) / 100);
+  const baseFactor = LIBRARY_BASE_CHECKOUT_HOURS * (3600 / bonusMultiplier);
+  const bookCountFactor = 1 + 10 * Math.pow(bookCount, 1.4) / 100;
+  const unrounded = baseFactor * bookCountFactor;
+  const math = Math.round(unrounded)
+
+  // The base time over the speed, times the book count factor, rounded
+  const breakdown = createBreakdown('Library Checkout Time', math, [
+    productGroup('Base checkout time', [
+      flat('Base time', LIBRARY_BASE_CHECKOUT_HOURS * 3600, { formatted: `${LIBRARY_BASE_CHECKOUT_HOURS}h` }),
+      additiveGroup('Books checked out', [percent('Book count', 10 * Math.pow(bookCount, 1.4))],
+        { note: 'Each book makes the next one slower' })
+    ], { unit: 'flat' }),
+    productGroup('Checkout speed', [
+      multiplier('Meal Bonus', 1 + mealBonus / 100),
+      multiplier('Atom Bonus', 1 + libraryBooker / 100),
+      additiveGroup(NUMBERED_GROUP, [
+        percent('Tower Bonus', 5 * libraryTowerLevel),
+        percent('Bubble Bonus', bubbleBonus),
+        percent('Vial Bonus', vialBonus),
+        percent('Stamp Bonus', stampBonus),
+        percent('Achievement Bonus', achievementBonus),
+        percent('Superbit Bonus', superbitBonus)
+      ])
+    ], { note: 'Higher means faster checkouts' })
+  ], { combine: 'divide', round: 'round' });
+  return {
+    value: math,
+    breakdown,
+    baseFactor
+  };
+}
+
+export const hasItemDropped = (account: any, itemName: any) => {
+  return account?.looty?.lootyRaw?.includes(itemName);
+}
+
+// Equipment - tools, armor, weapons, carry bags. A typeGen starting with 'a' is gear: it takes its
+// own qty-1 inventory slot and never stacks, which is what separates it from every consumable.
+export const isEquipmentItem = (item: any): boolean =>
+  typeof item?.typeGen === 'string' && item.typeGen.charAt(0) === 'a';
+
+// Greenstack = 10,000,000+ of a single item in the Storage Chest (game registers it with no item-type
+// check). The Storage Chest is NOT carry-capped, so any item that stacks there can reach the threshold.
+// An item is greenstackable iff it can sit in the Storage Chest as a stack:
+//   1. not equipment - see isEquipmentItem, gear never stacks;
+//   2. actually depositable - the game's pickup code banks some drops by name and never puts them in
+//      the inventory, and dungeon drops of the types below evaporate or stay in the dungeon.
+// Type CURRENCY is only a label, the game never checks it: Zenith Cluster and Orblet are CURRENCY
+// and sit in the chest like any other item.
+const NON_STORABLE_TYPES = new Set(['DUNGEON_EVAPORATE', 'DUNGEON_FOOD', 'DUNGEON_ITEM']);
+const NON_STORABLE_ITEMS = new Set([
+  'Motherlode', 'Bug14', 'MotherlodeTREE', 'Fish14', // hole resources
+  'LootDice', 'DungCredits1', 'DungCredits2', 'DungEnhancer0', 'DungEnhancer1', 'DungEnhancer2',
+  'XP', 'XPskill', 'Cash', 'Cashb'
+]);
+export const isGreenstackable = (item: any): boolean =>
+  typeof item?.typeGen === 'string' && !isEquipmentItem(item) && !NON_STORABLE_TYPES.has(item?.Type)
+  && !NON_STORABLE_ITEMS.has(item?.rawName);
+
+// Slab's "Missing greenstacks": stackable, not stacked yet, and reasonably reachable
+export const isMissingGreenstack = (slabItem: any): boolean =>
+  !!slabItem?.greenstackable && !slabItem?.greenStacked && !slabItem?.unobtainable && !slabItem?.unrealisticGreenstack;
+
+export const getSlab = (idleonData: any) => {
+  const lootyRaw = idleonData?.Cards?.[1] || tryToParse(idleonData?.Cards1);
+  const greenStacks = tryToParse(idleonData?.GreenStacks) || idleonData?.GreenStacks || [];
+  const greenStacksSet = new Set(greenStacks);
+  const allItems = structuredClone((items)); // Deep clone
+  const forcedNames = {
+    'Motherlode': 'Motherlode_x1',
+    'Island0': 'Island0_x1',
+    'Dust0': 'Dust0_x1',
+    'Dust1': 'Dust1_x1',
+    'Dust2': 'Dust2_x1',
+    'Dust3': 'Dust3_x1',
+    'Dust4': 'Dust4_x1',
+    'Dust5': 'Dust5_x1'
+  }
+  const slabItems = slab?.map((name) => ({
+    name: allItems?.[name]?.displayName,
+    rawName: (forcedNames as Record<string, any>)?.[name] || name,
+    itemRawName: name,
+    obtained: lootyRaw?.includes(name),
+    greenStacked: greenStacksSet.has(name),
+    greenstackable: isGreenstackable(allItems?.[name]),
+    onRotation: filteredGemShopItems?.[name],
+    unobtainable: filteredLootyItems?.[name],
+    unrealisticGreenstack: unrealisticGreenstackItems?.[name]
+  }));
+  const missingItems = slabItems?.filter(({ obtained, unobtainable }) => !obtained && !unobtainable)?.length;
+  // The game counts every registered greenstack, so an unrealistic or unobtainable item the account
+  // did stack counts toward both sides; the rest stay out so 100% remains reachable.
+  const greenstackableItems = slabItems?.filter(({ greenstackable, greenStacked, unobtainable, unrealisticGreenstack }) =>
+    greenstackable && (greenStacked || (!unobtainable && !unrealisticGreenstack)));
+  const greenstackableCount = greenstackableItems?.length ?? 0;
+  const greenstackableStackedCount = greenstackableItems?.filter(({ greenStacked }) => greenStacked)?.length ?? 0;
+
+  return {
+    slabItems,
+    lootyRaw,
+    lootedItems: lootyRaw?.length ?? 0,
+    missingItems,
+    greenStacks,
+    greenStackedCount: greenStacks?.length ?? 0,
+    greenstackableCount,
+    greenstackableStackedCount,
+    totalItems: slab?.length,
+    rawLootedItems: lootyRaw?.length ?? 0
+  };
+};
+
+export const getCurrencies = (account: any, idleonData: any, processedData: any) => {
+  const keys = idleonData?.CurrenciesOwned?.['KeysAll'] || idleonData?.CYKeysAll;
+  if (idleonData?.CurrenciesOwned) {
+    return {
+      ...idleonData?.CurrenciesOwned,
+      KeysAll: getKeysObject(keys)
+    };
+  }
+  const normalCandyTimes = {
+    '1_HR_Time_Candy': 1,
+    '2_HR_Time_Candy': 2,
+    '4_HR_Time_Candy': 4,
+    '12_HR_Time_Candy': 12,
+    '24_HR_Time_Candy': 24,
+    '72_HR_Time_Candy': 72
+  };
+
+  const specialCandy = {
+    'Steamy_Time_Candy': { min: 1 / 6, max: 24 },
+    'Spooky_Time_Candy': { min: 1 / 3, max: 12 },
+    'Cosmic_Time_Candy': { min: 5, max: 500 }
+  };
+  const allItems = [...account?.storage?.list,
+  ...(processedData?.charactersData || [])?.map(({ inventory }: any) => inventory)?.flat()];
+  const allCandies = allItems?.filter(({ Type } = {}) => Type === 'TIME_CANDY');
+  const guaranteedCandies = allCandies?.reduce((sum: any, { displayName, amount }: any) => {
+    if ((specialCandy as Record<string, any>)[displayName]) return sum;
+    const hours = (normalCandyTimes as Record<string, any>)[displayName];
+    return sum + (hours * amount);
+  }, 0);
+  const specialCandies = allCandies?.reduce((sum: any, { displayName, amount }: any) => {
+    const hours = (specialCandy as Record<string, any>)[displayName];
+    if (!hours) return sum;
+
+    return {
+      min: sum?.min + (hours?.min * amount),
+      max: sum?.max + (hours?.max * amount)
+    }
+  }, { min: 0, max: 0 })
+
+  return {
+    candies: { guaranteed: guaranteedCandies, special: specialCandies },
+    WorldTeleports: idleonData?.CYWorldTeleports ?? 0,
+    KeysAll: getKeysObject(keys),
+    ColosseumTickets: idleonData?.CYColosseumTickets ?? 0,
+    ObolFragments: idleonData?.CYObolFragments ?? 0,
+    SilverPens: idleonData?.CYSilverPens ?? 0,
+    GoldPens: idleonData?.CYGoldPens ?? 0,
+    DeliveryBoxComplete: idleonData?.CYDeliveryBoxComplete ?? 0,
+    DeliveryBoxStreak: idleonData?.CYDeliveryBoxStreak ?? 0,
+    DeliveryBoxMisc: idleonData?.CYDeliveryBoxMisc ?? 0,
+    minigamePlays: account?.accountOptions?.[33] ?? 0
+  };
+};
+
+export const enhanceColoTickets = (tickets: any, characters: any, account: any) => {
+  const npcs = {
+    0: { name: 'Typhoon', dialogThreshold: 3, daysSinceIndex: 15 },
+    1: { name: 'Centurion', dialogThreshold: 4, daysSinceIndex: 35 },
+    2: { name: 'Lonely_Hunter', dialogThreshold: 6, daysSinceIndex: 56 }
+  }
+  const allTickets = Object.entries(npcs).reduce((res: any[], [, npc]: [string, any], index: any) => {
+    // const amountPerDay = getAmountPerDay(npc, characters);
+    const daysSincePickup = account?.accountOptions?.[npc?.daysSinceIndex];
+    return [...res,
+    {
+      rawName: `TixEZ${index}`,
+      amountPerDay: 1,
+      daysSincePickup,
+      amount: tickets,
+      totalAmount: Math.min(daysSincePickup ?? 0, 3)
+    }];
+  }, [])
+  return {
+    allTickets,
+    totalAmount: tickets
+  }
+}
+
+const getKeysObject = (keys: any) => {
+  return Object.entries(keysMap).map(([indexStr, info]) => ({
+    amount: keys?.[Number(indexStr)] ?? 0,
+    ...(info as Record<string, any>)
+  }));
+}
+
+export const enhanceKeysObject = (keysAll: any, characters: any, account: any) => {
+  const npcs = {
+    0: { name: 'Dog_Bone', dialogThreshold: 5, daysSinceIndex: 16 },
+    1: { name: 'Djonnut', dialogThreshold: 6, daysSinceIndex: 31 },
+    2: { name: 'Bellows', dialogThreshold: 8.5, daysSinceIndex: 80 },
+    3: {}
+  }
+  return keysAll.map((key: any, keyIndex: any) => {
+    const amountPerDay = getAmountPerDay((npcs as Record<string, any>)?.[keyIndex], characters);
+    const daysSincePickup = account?.accountOptions?.[(npcs as Record<string, any>)?.[keyIndex]?.daysSinceIndex];
+    const totalAmount = Math.min(daysSincePickup ?? 0, 3) * amountPerDay;
+    return { ...key, amountPerDay, daysSincePickup, totalAmount };
+  });
+}
+
+const getAmountPerDay = ({ name, dialogThreshold }: any = {}, characters: any) => {
+  return characters.reduce((res: any, { npcDialog }: any) => {
+    if (dialogThreshold === undefined) return res;
+    return npcDialog?.[name] > dialogThreshold ? res + 1 : res;
+  }, 0);
+}
+
+// The save's BundlesReceived map, which is the only source of truth for ownership. The bundle
+// catalog cannot be: it is built for display and has missed bundles the game knows (bon_w/x/y had no
+// row until they did, so their +1000 base carry capacity was silently dropped).
+export const getOwnedBundles = (idleonData: any): Record<string, boolean> => {
+  const bundlesRaw = tryToParse(idleonData?.BundlesReceived) || idleonData?.BundlesReceived || {};
+  return Object.fromEntries(Object.entries(bundlesRaw).map(([name, value]) => [name, Number(value) > 0]));
+};
+
+export const getBundles = (idleonData: any) => {
+  const ownedBundles = getOwnedBundles(idleonData);
+
+  if (!bundlesData) return [];
+
+  // Get all bundles from website-data and check ownership status.
+  // bin_* are the Pet Mart "evolving" packs: they carry a display name, the companion they grant
+  // and their two currency amounts, none of which the older bun_/bon_ bundles have.
+  return Object.keys(bundlesData)
+    .map((bundleName) => {
+      const bundle = (bundlesData as Record<string, any>)[bundleName];
+      return {
+        name: bundleName,
+        owned: !!ownedBundles[bundleName],
+        price: bundle.price,
+        // The Starter Pack offer (bon_w/x/y) is drawn from OffersBG<card>.png, not <key>.png.
+        ...(bundle.image ? { image: bundle.image } : {}),
+        ...(bundle.starterOffer ? { starterOffer: true } : {}),
+        ...(bundle.evolving ? {
+          evolving: true,
+          displayName: bundle.name,
+          gems: bundle.gems,
+          petCrystals: bundle.petCrystals,
+          companionIndex: bundle.companionIndex
+        } : {})
+      };
+    })
+    .sort((a, b) => {
+      // Sort by bundle type (bun_, then bon_, then the evolving bin_ packs) then by letter
+      const bundleType = (name: string) => name.startsWith('bun_') ? 0 : name.startsWith('bon_') ? 1 : name.startsWith('bin_') ? 3 : 2;
+      const aType = bundleType(a.name);
+      const bType = bundleType(b.name);
+      if (aType !== bType) return aType - bType;
+      return a.name.localeCompare(b.name);
+    });
+};
+
+export const isBundlePurchased = (account: any, name: string): boolean => {
+  return account?.bundlesOwned?.[name] === true;
+}
+
+export const isArenaBonusActive = (arenaWave: any, waveReq: any, bonusNumber: any) => {
+  const waveReqArray = Array.isArray(waveReq) ? waveReq : waveReq?.split(' ');
+  if (bonusNumber > waveReqArray?.length) {
+    return false;
+  }
+  return arenaWave >= waveReqArray?.[bonusNumber];
+};
+
+export const calculateAfkTime = (playerTime: any, _unused1?: any) => {
+  return parseFloat(playerTime) * 1e3;
+};
+
+export const getAllCapsBonus = (guildBonus: any, telekineticStorageBonus: any, shrineBonus: any, zergPrayer: any, ruckSackPrayer: any, bribeCapBonus: any) => {
+  return (1 + (guildBonus + telekineticStorageBonus) / 100) * (1 + shrineBonus / 100) * (1 + bribeCapBonus / 100) * Math.max(1 - zergPrayer / 100, 0.4) * (1 + ruckSackPrayer / 100);
+};
+
+export const getMaterialCapacity = (bag: any, capacities: any) => {
+  const {
+    allCapacity,
+    mattyBagStampBonus,
+    gemShopCarryBonus,
+    masonJarStampBonus,
+    extraBagsTalentBonus,
+    starSignExtraCap
+  } = capacities;
+
+  const bCraftCap = bag?.capacity;
+
+  return Math.floor(bCraftCap
+    * (1 + mattyBagStampBonus / 100)
+    * (1 + (25 * gemShopCarryBonus) / 100)
+    * (1 + (masonJarStampBonus
+      + starSignExtraCap) / 100)
+    * (1 + extraBagsTalentBonus / 100) * allCapacity)
+};
+
+// game: RunCodeOfTypeXforThingY("Stat2num", stat), which switches curves at exactly 1000
+const STAT_CURVE_SWITCH = 1000;
+export const getStatCurveValue = (stat = 0) => {
+  if (stat < STAT_CURVE_SWITCH) return (Math.pow(stat + 1, 0.37) - 1) / 40;
+  return ((stat - STAT_CURVE_SWITCH) / (stat + 2500)) * 0.5 + 0.297;
+};
+
+// game: AnvilProduceStats("ProdSpdBonusFromAGI")
+export const getSpeedBonusFromAgility = (agility = 0) => getStatCurveValue(agility) * 2 + 1;
+
+export const getHighestLevelOf = (characters: any, className: any) => {
+  const classes = characters?.filter((character: any) => checkCharClass(character?.class, className));
+  return classes?.reduce((res: any, { level }: any) => {
+    if (level > res) {
+      return level;
+    }
+    return res;
+  }, 0);
+}
+
+
+
+export const getCharacterByHighestLevel = (characters: any, className: any) => {
+  let filteredObjects = characters.filter((obj: any) => obj.class === className);
+  return filteredObjects.reduce((maxObj: any, currentObj: any) => {
+    return currentObj.level > maxObj.level ? currentObj : maxObj;
+  }, filteredObjects[0]);
+};
+
+export const getCharacterByHighestSkillLevel = (characters: any, className: any, skillName: any) => {
+  if (!characters) return null;
+  let array;
+  if (className) {
+    const allClasses = talentPagesMap?.[className];
+    array = characters.filter((obj: any) => allClasses.includes(obj.class))
+  }
+  else {
+    array = characters;
+  }
+  return array.reduce((maxObj: any, currentObj: any) => {
+    return currentObj?.skillsInfo?.[skillName]?.level > maxObj?.skillsInfo?.[skillName]?.level ? currentObj : maxObj;
+  }, array[0]);
+};
+
+export const getHighestLevelCharacter = (characters: any) => {
+  const levels = characters?.map(({ level }: any) => level ?? 0) ?? [];
+  return Math.max(0, ...levels);
+};
+
+export const getHighestCharacterSkill = (characters: any = [], skillName: any) => {
+  const levels = characters?.map(({ skillsInfo }: any) => skillsInfo?.[skillName]?.level ?? 0);
+  return Math.max(0, ...levels);
+};
+
+// GA.Lv0[skill] in an account-wide game formula is the LOGGED-IN character's level, not the best one
+// on the account. getBestActiveCharacter recovers that character from the newest PTimeAway stamp.
+export const getLoggedInSkillLevel = (characters: any = [], skillName: any) => {
+  const activeCharacter = getBestActiveCharacter(characters);
+  return activeCharacter
+    ? activeCharacter?.skillsInfo?.[skillName]?.level ?? 0
+    : getHighestCharacterSkill(characters, skillName);
+};
+
+export const calculateLeaderboard = (characters: any) => {
+  const leaderboardObject = characters.reduce((res: any, { name, skillsInfo }: any) => {
+    if (!skillsInfo) return res;
+    for (const [skillName, skillLevel] of Object.entries(skillsInfo)) {
+      if (!res[skillName]) {
+        res[skillName] = { ...res[skillName], [name]: skillLevel };
+      }
+      else {
+        const joined = { ...res[skillName], [name]: skillLevel };
+        let lowestIndex = Object.keys(joined).length;
+        res[skillName] = Object.entries(joined)
+          .sort(
+            ([, a]: [string, any], [, b]: [string, any]) =>
+              b.level - a.level || b.exp - a.exp
+          )
+          .reduceRight((res: any, [charName, charSkillLevel]: [string, any]) => {
+            return { ...res, [charName]: { ...(charSkillLevel as any), rank: lowestIndex-- } };
+          }, {} as any);
+      }
+    }
+    return res;
+  }, {});
+  return Object.entries(leaderboardObject)?.reduce((res: any, [skillName, characters]: [string, any]) => {
+    const charsObjects = Object.entries(characters).reduce((response: any, [charName, charSkill]: [string, any]) => {
+      return { ...response, [charName]: { [skillName]: charSkill } };
+    }, {} as any);
+    return Object.entries(charsObjects).reduce((response: any, [charName, charSkill]: [string, any]) => {
+      return { ...response, [charName]: { ...(res[charName] || {}), ...(charSkill as any) } };
+    }, {} as any);
+  }, {} as any);
+};
+
+export const calculateTotalSkillsLevel = (characters: any) => {
+  const allSkills = characters?.reduce((res: any, { skillsInfo }: any) => {
+    if (!skillsInfo) return res;
+    for (const [skillName, skillData] of Object.entries(skillsInfo) as [string, any][]) {
+      if (res?.[skillName]) {
+        res[skillName] = { ...res[skillName], level: res[skillName].level + (skillData?.level ?? 0) }
+      }
+      else {
+        res[skillName] = { level: skillData?.level, index: skillData?.index - 1, icon: skillData?.icon };
+      }
+    }
+    return res;
+  }, {})
+  return Object.entries(allSkills)?.reduce((res: any, [skillName, skillVal]: [string, any]) => {
+    const { level } = skillVal;
+    const rank = getSkillRank(level);
+    return {
+      ...res, [skillName]: {
+        ...res?.[skillName],
+        rank,
+        color: getSkillRankColor(level)
+      }
+    };
+  }, allSkills);
+}
+
+export const getSkillRankColor = (level: any) => {
+  return level < 300 ? 'white' : level >= 300 && level < 400 ? '#ffc277' : level >= 400 && level < 600
+    ? '#cadadb'
+    : level >= 600 && level < 1000 ? 'gold' : '#56ccff'
+}
+
+const getSkillRank = (level: any) => {
+  return 150 > level ? 0 : 200 > level ? 1 : 300 > level ? 2 : 400 > level ? 3 : 500 > level ? 4 : 750 > level
+    ? 5
+    : 1e3 > level ? 6 : 7;
+}
+
+export const isMasteryBonusUnlocked = (rift: any, skillRank: any, bonusIndex: any) => {
+  return rift?.currentRift < 15 ? 0 : skillRank > bonusIndex ? 1 : 0;
+}
+
+// TalentCalc(-4): a skill's card bonus comes from the equipped cards until its rift mastery tier 2,
+// then from every owned card of that skill instead (RiftSkillBonus,N zeroes the equipped copies).
+export const getSkillCardBonus = (character: any, account: any, skillName: string, effectName: string) =>
+  isMasteryBonusUnlocked(account?.rift, account?.totalSkillsLevels?.[skillName]?.rank, 2)
+    ? getCardBonusByEffect(account?.cards, effectName)
+    : getCardBonusByEffect(character?.cards?.equippedCards, effectName);
+
+const getSkillRankByIndex = (skills: any, index: any) => {
+  for (const [, skillData] of Object.entries(skills) as [string, any][]) {
+    if (skillData?.level > 0 && skillData?.index === index) {
+      return skillData?.rank;
+    }
+  }
+  return null;
+}
+
+export const getSkillMasteryBonusByIndex = (skills: any, rift: any, riftBonusIndex: any) => {
+  const array = new Array(18).fill(1);
+  return array.reduce((sum, skill, index) => {
+    const skillRank = getSkillRankByIndex(skills, index);
+    if (riftBonusIndex === 1) {
+      sum += 10 * isMasteryBonusUnlocked(rift, skillRank, Math.round(riftBonusIndex + 2));
+    }
+    else if (riftBonusIndex === 3) {
+      sum += isMasteryBonusUnlocked(rift, skillRank, Math.round(riftBonusIndex + 2));
+    }
+    else if (riftBonusIndex === 4) {
+      sum += 25 * isMasteryBonusUnlocked(rift, skillRank, Math.round(riftBonusIndex + 2));
+    }
+    else if (index !== 0 && index !== 2 && index !== 3 && index !== 5 && index !== 6 && index !== 8) {
+      sum += 5 * isMasteryBonusUnlocked(rift, skillRank, Math.round(riftBonusIndex + 2));
+    }
+    return sum;
+  }, 7);
+};
+
+export const getExpReq = (skillIndex: any, t: any) => {
+  return 0 === skillIndex ?
+    (15 + Math.pow(t, 1.9) + 11 * t) * Math.pow(1.208 - Math.min(0.164, (0.215 * t) / (t + 100)), t) - 15 :
+    2 === skillIndex
+      ? (15 + Math.pow(t, 2) + 13 * t) * Math.pow(1.225 - Math.min(0.114, (0.135 * t) / (t + 50)), t) - 26
+      :
+      8 === skillIndex ? (71 > t
+        ? ((10 + Math.pow(t, 2.81) + 4 * t) * Math.pow(1.117 - (0.135 * t) / (t + 5), t) - 6) * (1 + Math.pow(t, 1.72) / 300)
+        :
+        (((10 + Math.pow(t, 2.81) + 4 * t) * Math.pow(1.003, t) - 6) / 2.35) * (1 + Math.pow(t, 1.72) / 300)) :
+        9 === skillIndex
+          ? (15 + Math.pow(t, 1.3) + 6 * t) * Math.pow(1.17 - Math.min(0.07, (0.135 * t) / (t + 50)), t) - 26
+          :
+          (15 + Math.pow(t, 2) + 15 * t) * Math.pow(1.225 - Math.min(0.18, (0.135 * t) / (t + 50)), t) - 30;
+}
+
+export const getGiantMobChance = (character: any, account: any) => {
+  const giantsAlreadySpawned = account?.accountOptions?.[57];
+  // const tachionOfTitansPrayer = getPrayerBonusAndCurse(character?.activePrayers, 'Tachion_of_the_Titans')?.bonus > 5;
+  const glitterbugPrayer = getPrayerBonusAndCurse(character?.activePrayers, 'Glitterbug', account)?.curse;
+  const crescentShrineBonus = getShrineBonus(account?.shrines, 6, character?.mapIndex, account?.cards, account?.sailing?.artifacts);
+  const giantMobVial = getVialsBonusByStat(account?.alchemy?.vials, 'GiantMob');
+  let chance;
+  if (giantsAlreadySpawned < 5) {
+    chance = (1 / ((100 + 50 * Math.pow(giantsAlreadySpawned + 1, 2)) * (1 + glitterbugPrayer / 100))) * (1 + (crescentShrineBonus + giantMobVial) / 100);
+  }
+  else {
+    chance = (1 / (2 * Math.pow(giantsAlreadySpawned + 1, 1.95)
+      * (1 + glitterbugPrayer / 100)
+      * Math.pow(giantsAlreadySpawned + 1, 1.5 + giantsAlreadySpawned / 15)))
+      * (1 + (crescentShrineBonus + giantMobVial) / 100);
+  }
+  return {
+    chance,
+    giantsAlreadySpawned,
+    crescentShrineBonus,
+    giantMobVial,
+    glitterbugPrayer
+  }
+}
+
+export const getGoldenFoodMulti = (character: any, account: any, characters: any) => {
+  const theFamilyGuy = getTalentBonus(character?.flatTalents, 'THE_FAMILY_GUY');
+  // FamBonusQTYs[66], the Shaman family bonus, as the played character sees it.
+  const familyBonus = getCharacterFamilyBonus(character, CLASSES.Shaman);
+  const obolsBonus = getObolsBonus(character?.obols, bonuses?.etcBonuses?.[8]);
+  const { value: gearGoldFoodBonus, newBreakdown: equipmentBonusBreakdown } = getStatsFromGear(character, 8, account);
+  const hungryForGoldTalentBonus = getTalentBonus(character?.flatTalents, 'HAUNGRY_FOR_GOLD');
+  const goldenAppleStamp = getStampsBonusByEffect(account, 'Effect_from_Golden_Food._Sparkle_sparkle!');
+  const goldenFoodAchievement = getAchievementStatus(account?.achievements, 37);
+  const goldenFoodBubbleBonus = getBubbleBonus(account, 'SHIMMERON', false, mainStatMap?.[character?.class] === 'strength');
+  const goldenFoodSigilBonus = getSigilBonus(account?.alchemy?.p2w?.sigils, 'EMOJI_VEGGIE');
+  const charmBonus = getCharmBonus(account, 'Gumm_Stick');
+  const mealBonus = getMealsBonusByEffectOrStat(account, null, 'zGoldFood');
+  const starSignBonus = getStarSignBonus(character, account, 'Golden_Food');
+  const bribeBonus = getBribeBonus(account?.bribes, 'Gold_from_Lead');
+  const achievementBonus = getAchievementStatus(account?.achievements, 380);
+  const secondAchievementBonus = getAchievementStatus(account?.achievements, 383);
+  const voteBonus = getVoteBonus(account, 26);
+  const companionBonus = isCompanionBonusActive(account, 48) ? account?.companions?.list?.at(48)?.bonus : 0;
+  const companionBonus155 = isCompanionBonusActive(account, 155) ? account?.companions?.list?.at(155)?.bonus : 0;
+  // Verminous carries its bonus (1 base, 2 upgraded) into BOTH brackets: 1e4x additive and 50x
+  // multiplicative, so one pet is worth +10000% and 1.50x, two levels worth +20000% and 2x.
+  const companionBonus174 = isCompanionBonusActive(account, 174) ? account?.companions?.list?.at(174)?.bonus : 0;
+  const legendTalentBonus = getLegendTalentBonus(account, 25);
+  // Two cards carry the Gold_Food_Effect_(Passive) tag and the game caps each one separately
+  // (min(4 * CardLv(cropfallEvent1), 50) + min(5 * CardLv(anni5Event1), 50)), so the pair can
+  // reach +100. Summing them through getCardBonusByEffect and capping the total at 50 halved it.
+  const goldenFoodCardBonus = (rawName: string) => {
+    const card = account?.cards?.[(cardsData as Record<string, any>)?.[rawName]?.displayName];
+    return card?.amount > 0 ? Math.min(calcCardBonus(card), 50) : 0;
+  };
+  const cardBonus = goldenFoodCardBonus('cropfallEvent1') + goldenFoodCardBonus('anni5Event1');
+  const vaultBonus86 = getUpgradeVaultBonus(account?.upgradeVault?.upgrades, 86);
+  const jellyBonus = getJellyBonus(account, 10) + getJellyBonus(account, 51);
+
+  // game: getbonus2(1, 209, -1) * CalcTalentMAP[209], the wows of the last Blood Berserker line character
+  const apocalypseWow = getHighestTalentAcrossCharacters(characters, 'APOCALYPSE_WOW', character);
+  const apocalypses = getLastBloodBerserkerLine(characters)?.wow?.finished?.at(0) || 0;
+  const armorSetBonus = getArmorSetBonus(account, 'SECRET_SET');
+  const value = (1 + (armorSetBonus + 50 * companionBonus174) / 100)
+    * (Math.max(familyBonus, 1)
+      + ((gearGoldFoodBonus + obolsBonus)
+        + (hungryForGoldTalentBonus
+          + (goldenAppleStamp
+            + (goldenFoodAchievement
+              + (goldenFoodBubbleBonus
+                + goldenFoodSigilBonus) + mealBonus + starSignBonus + bribeBonus + charmBonus
+              + (2 * achievementBonus + 3 * secondAchievementBonus + voteBonus + apocalypseWow * apocalypses + companionBonus + legendTalentBonus + cardBonus + companionBonus155 + 1e4 * companionBonus174 + vaultBonus86 + jellyBonus))))) / 100);
+
+  // The family bonus is already a factor (at least 1); as a percent line it adds its part above 1
+  const familyFactor = Math.max(familyBonus, 1);
+  const breakdown = createBreakdown('Golden food multi', notateNumber(Math.max(0, 100 * (value - 1)), 'MultiplierInfo'), [
+    additiveGroup(NUMBERED_GROUP, [
+      percent('Family Bonus', 100 * (familyFactor - 1), {
+        note: theFamilyGuy ? 'Boosted by The Family Guy talent' : undefined
+      }),
+      gearGroup(equipmentBonusBreakdown),
+      percent('Obols', obolsBonus),
+      percent('Talent', hungryForGoldTalentBonus),
+      percent('Stamp', goldenAppleStamp),
+      percent('Achievement', goldenFoodAchievement),
+      percent('Bubble', goldenFoodBubbleBonus),
+      percent('Sigil', goldenFoodSigilBonus),
+      percent('Meal', mealBonus),
+      percent('Star Sign', starSignBonus),
+      percent('Bribe', bribeBonus),
+      percent('Charm', charmBonus),
+      percent('Achievements', 2 * achievementBonus + 3 * secondAchievementBonus),
+      percent('Vote', voteBonus),
+      percent('Apocalypse Wow', apocalypseWow * apocalypses),
+      percent('Purp Mushroom Companion', companionBonus),
+      percent('Legend Talent', legendTalentBonus),
+      percent('Card', cardBonus),
+      percent('Vanillie Companion', companionBonus155),
+      percent('Verminous Companion', 1e4 * companionBonus174),
+      percent('Vault Upgrade', vaultBonus86),
+      percent('Jelly Operator', jellyBonus)
+    ]),
+    productGroup(NUMBERED_GROUP, [
+      additiveGroup(NUMBERED_GROUP, [
+        percent('Armor Set', armorSetBonus),
+        percent('Verminous Companion', 50 * companionBonus174)
+      ])
+    ])
+  ]);
+
+  return {
+    value,
+    breakdown,
+    expression: `(1 + armorSetBonus / 100)
+* (Math.max(familyBonus, 1)
++ (gearGoldFoodBonus
++ (hungryForGoldTalentBonus
++ (goldenAppleStamp
++ (goldenFoodAchievement
++ (goldenFoodBubbleBonus
++ goldenFoodSigilBonus) 
++ mealBonus 
++ starSignBonus
++ bribeBonus 
++ charmBonus
++ (2 * achievementBonus + 3 * secondAchievementBonus
++ voteBonus
++ apocalypseWow * apocalypses
++ companionBonus155))))) / 100)`
+  };
+}
+
+// How much of a golden food you have to OWN to raise it to the next beanstalk rank, indexed by its
+// current rank. Rank 3 is maxed, so there's no fourth entry.
+export const BEANSTALK_BREAKPOINTS = [10000, 100000, 1e6];
+
+const goldenFoodEffects: Record<string, string> = (() => {
+  const map: Record<string, string> = {};
+  for (const item of Object.values(items as Record<string, any>)) {
+    if (item?.Type === 'GOLDEN_FOOD' && item?.displayName) map[item.displayName] = item.Effect;
+  }
+  return map;
+})();
+
+// The game's GoldFoodBonuses() keys off a food's Effect, not its name, so every golden food sharing
+// that Effect feeds the same stat. Two foods carry DropRatez - Golden_Cake and Golden_Sugar_Cookie -
+// and matching on the name alone dropped whichever one wasn't hardcoded at the call site.
+export const getGoldenFoodBonus = (foodName: any, character: any, account: any, characters: any) => {
+  if (!character) return 0;
+  const effect = goldenFoodEffects?.[foodName];
+  if (!effect) return 0;
+  const goldenFoodMulti = getGoldenFoodMulti(character, account, characters);
+  const foodBonus = (amount: any, quantity: any) => !amount || !quantity
+    ? 0
+    : amount * goldenFoodMulti?.value * 0.05 * lavaLog(1 + quantity) * (1 + lavaLog(1 + quantity) / 2.14);
+
+  // Equipped slots: the game walks every food slot and adds each GOLDEN_FOOD whose Effect matches.
+  const baseBonus = (character?.food ?? []).reduce((sum: number, food: any) => food?.Type === 'GOLDEN_FOOD'
+  && food?.Effect === effect
+    ? sum + foodBonus(food?.Amount, food?.amount)
+    : sum, 0);
+  if (!isJadeBonusUnlocked(account, 'Gold_Food_Beanstalk')) return baseBonus;
+
+  // Beanstalk: the game stops at the FIRST food with a matching Effect and only counts it when it's
+  // actually on the stalk. It breaks either way, so a later food sharing that Effect never counts.
+  const beanstalkData = account?.sneaking?.beanstalkData;
+  const beanstalkGoldenFoods = ninjaExtraInfo[29]?.filter((str: any) => isNaN(str));
+  const index = beanstalkGoldenFoods?.findIndex((gFood: any) => items?.[gFood]?.Effect === effect) ?? -1;
+  if (index === -1) return baseBonus;
+  const rank = beanstalkData?.[index] ?? 0;
+  if (rank <= 0) return baseBonus;
+  return baseBonus + foodBonus(items?.[beanstalkGoldenFoods[index]]?.Amount, 1e3 * Math.pow(10, rank));
+};
+
+// GoldFoodBonuses returns the bonus itself for additive effects (BaseDamage, Defence, SkillExp, AllAFK,
+// DropRatez...) and 1 + bonus / 100 for the rest (Damage, MaxHPpct, MiningEff, FishingEff, HealthFoods).
+export const getGoldenFoodMultiplier = (foodName: any, character: any, account: any, characters: any) =>
+  1 + (getGoldenFoodBonus(foodName, character, account, characters) || 0) / 100;
+
+export const getRandomEvents = (account: any) => {
+  if (!account) return [];
+  const { serverVars, timeAway } = account || {};
+  const eventList = []
+  const seed = Math.round(Math.floor(timeAway?.GlobalTime / 3600));
+  for (let i = 0; i < 100; i++) {
+    const actualSeed = seed + i + serverVars?.RandEvntHr;
+    const eventRng = new LavaRand(actualSeed);
+    const eventRandom = eventRng.rand();
+    const eventType = getEventType(eventRandom);
+    const mapRng = new LavaRand(actualSeed + 1);
+    const mapRandom = mapRng.rand();
+    const eventMaps = getEventMaps(eventType);
+    if (eventMaps.length === 0) continue;
+    const mapIndex = Math.min(Math.floor(mapRandom * eventMaps.length), eventMaps.length - 1);
+    const realMapIndex = rawMapNames?.indexOf(eventMaps?.[mapIndex]);
+    if (realMapIndex === -1) continue;
+    const mapName = mapNames?.[realMapIndex];
+    const eventName = getEventName(eventType);
+    const dateInMs = (seed + i) * 3600 * 1000;
+    if (isPast(dateInMs + 3600 * 1000)) continue;
+    eventList.push({ mapName, eventName, date: dateInMs })
+  }
+  return eventList;
+}
+
+const getEventMaps = (eventType: any) => {
+  const [world1, world2, world3] = randomList.slice(68, 71)
+  let events: any[] = [];
+  if (0 === eventType || 1 === eventType || 3 === eventType || 4 === eventType) {
+    events = events.concat(world1)
+  }
+  if (0 === eventType || 1 === eventType || 3 === eventType) {
+    events = events.concat(world2)
+  }
+  if (0 === eventType || 2 === eventType) {
+    events = events.concat(world3)
+  }
+  return events;
+}
+
+const getEventName = (eventType: any) => {
+  const eventNames = {
+    0: 'Meteorite',
+    1: 'Mega_Grumblo',
+    2: 'Glacial_Guild',
+    3: 'Snake_Swarm',
+    4: 'Angry_Frogs'
+  }
+  return (eventNames as Record<string, any>)?.[eventType] ?? '';
+}
+
+const getEventType = (index: any) => {
+  return .045 > index ? 0 : .087 > index ? 1 : .129 > index ? 2 : .171 > index ? 3 : .213 > index ? 4 : -1
+}
+
+export const getHighestCapacityCharacter = (item: any, characters: any, account: any, forceMaxCapacity: any) => {
+  const ranked = (characters ?? []).map((character: any) => {
+    const itemCapacity = item?.itemType === 'Equip'
+      ? 1
+      : getItemCapacity(item?.typeGen, character, account, forceMaxCapacity)?.value;
+    return {
+      capacityPerSlot: itemCapacity,
+      maxCapacity: character?.inventorySlots * itemCapacity,
+      character: character?.name,
+      skillsInfoArray: character?.skillsInfoArray
+    };
+  }).filter(({ maxCapacity }: any) => maxCapacity > 0)
+    .sort((a: any, b: any) => b.maxCapacity - a.maxCapacity);
+  return {
+    ...(ranked[0] ?? { capacityPerSlot: 0, maxCapacity: 0, character: '' }),
+    // VMan's Extra Bags always wins, so the runners-up show who can realistically carry it
+    topCharacters: ranked.slice(0, 3).map(({ character, maxCapacity }: any) => ({ character, maxCapacity }))
+  };
+}
+export const getAllCap = (character: any, account: any, forceMaxCapacity: any) => {
+  const guildBonus = getGuildBonusBonus(account?.guild?.guildBonuses, 2);
+  const talentBonus = getTalentBonus(character?.flatStarTalents, 'TELEKINETIC_STORAGE');
+  const shrineBonus = getShrineBonus(account?.shrines, 3, character?.mapIndex, account?.cards, account?.sailing?.artifacts);
+  const prayerCurse = forceMaxCapacity
+    ? 0
+    : getPrayerBonusAndCurse(character?.activePrayers, 'Zerg_Rushogen', account)?.curse;
+  const prayerBonus = getPrayerBonusAndCurse(character?.activePrayers, 'Ruck_Sack', account, forceMaxCapacity)?.bonus;
+  const bribeBonus = account?.bribes?.[23]?.done ? account?.bribes?.[23]?.value : 0;
+  const companionBonus = isCompanionBonusActive(account, 18) ? account?.companions?.list?.at(18)?.bonus : 0;
+  // Pet Mart+: Dedotated_Ram (2) upgraded adds a flat +30% Carry Capacity term (CompLV2 flag * 30).
+  const ramLvl2Bonus = isCompanionLvl2Active(account, 2) ? 30 : 0;
+
+  return {
+    value: (1 + (guildBonus + talentBonus) / 100)
+      * (1 + companionBonus / 100)
+      * (1 + shrineBonus / 100) * Math.max(1 - prayerCurse / 100, 0.4)
+      * (1 + (prayerBonus + bribeBonus + ramLvl2Bonus) / 100),
+    breakdown: [
+      { value: guildBonus, name: 'Guild' },
+      { value: talentBonus, name: 'Talent' },
+      { value: shrineBonus, name: 'Shrine' },
+      { value: prayerBonus + (-prayerCurse), name: 'Prayer' },
+      { value: bribeBonus, name: 'Bribe' },
+      { value: companionBonus, name: 'Companion' },
+      { value: ramLvl2Bonus, name: 'Companion Lv2' }
+    ]
+  }
+}
+// Every fixed "d" type cap (currency, quest, statue, orbs, stones, the rest): 999999999 since 2.3.540
+const D_TYPE_CAPACITY = 999999999;
+// game: "MaxCapacity"
+export const getItemCapacity = (type = '', character: any, account?: any, forceMaxCapacity?: any) => {
+  const gemshop = account?.gemShopPurchases?.find((value: any, index: any) => index === 58);
+  const hasNanoChip = account?.lab?.playersChips.flat().concat(account?.lab?.chips).find(({ name }: any) => name === 'Silkrode_Nanochip');
+  const starSignBonus = getStarSignBonus(character, account, 'Carry_Cap', forceMaxCapacity && hasNanoChip, forceMaxCapacity);
+  const minCapStamps = getStampsBonusByEffect(account, 'Carrying_Capacity_for_Mining_Items', character);
+  const chopCapStamps = getStampsBonusByEffect(account, 'Carrying_Capacity_for_Choppin\'_Items', character);
+  const fishCapStamps = getStampsBonusByEffect(account, 'Carry_Capacity_for_Fishing_Items', character);
+  const catchCapStamps = getStampsBonusByEffect(account, 'Carry_Capacity_for_Catching_Items', character);
+  const matCapStamps = getStampsBonusByEffect(account, 'Carrying_Capacity_for_Material_Items', character);
+  const allCarryStamps = getStampsBonusByEffect(account, 'Carry_Capacity_for_ALL_item_types!');
+  const talentBonus = getTalentBonus(character?.flatTalents, 'EXTRA_BAGS', false, false, character?.addedLevels, true, forceMaxCapacity);
+  const upgradeVaultBonus = getUpgradeVaultBonus(account?.upgradeVault?.upgrades, 11);
+  const bundleCapW = isBundlePurchased(account, 'bon_w') ? 1 : 0;
+  const bundleCapX = isBundlePurchased(account, 'bon_x') ? 1 : 0;
+  const bundleCapY = isBundlePurchased(account, 'bon_y') ? 1 : 0;
+  const bundleCapacity = 1000 * (bundleCapW + bundleCapX + bundleCapY);
+  const allCap = getAllCap(character, account, forceMaxCapacity);
+  const hardCap = 205e7;
+  // return Math.floor((v._customBlock_MaxCapacity("AllCapBASE")
+  //     + c.asNumber(a.engine.getGameAttribute("MaxCarryCap").h.bCraft))
+  //   * (1 + k._customBlock_StampBonusOfTypeX("MatCap") / 100)
+  //   * (1 + 25 * c.asNumber(a.engine.getGameAttribute("GemItemsPurchased")[58]) / 100)
+  //   * (1 + (k._customBlock_StampBonusOfTypeX("AllCarryCap")
+  //     + c.asNumber(a.engine.getGameAttribute("DNSM").h.StarSigns.h.CarryCap)) / 100) *
+  //   (1 + k._customBlock_GetTalentNumber(1, 78) / 100
+  //   ) * v._customBlock_MaxCapacity("AllCapBonuses"));
+
+  const allCapBase = upgradeVaultBonus + bundleCapacity;
+  let value, breakdown = [
+    { title: 'Base' },
+    { name: '' },
+    ...allCap?.breakdown,
+    { value: upgradeVaultBonus, name: 'Upgrade Vault' },
+    { value: bundleCapacity, name: 'Bundle Capacity' },
+    { name: '' }
+  ];
+  if ('bOre' === type || 'bBar' === type || 'cOil' === type) {
+    value = Math.floor(Math.min(hardCap, (allCapBase + character?.maxCarryCap?.Mining) * (1 + minCapStamps / 100) * (1 + (25 * gemshop) / 100) * (1 + (allCarryStamps + starSignBonus) / 100) * allCap?.value));
+    breakdown = [
+      ...breakdown,
+      { title: 'Mining' },
+      { name: '' },
+      { value: character?.maxCarryCap?.Mining, name: 'Base Bag' },
+      { value: minCapStamps, name: 'Stamps' },
+      { value: gemshop, name: 'Gemshop' },
+      { value: allCarryStamps, name: 'All Stamps' },
+      { value: starSignBonus, name: 'Star Sign' }
+    ]
+  }
+  else if ('dFish' === type) {
+    value = Math.floor(Math.min(hardCap, (allCapBase + character?.maxCarryCap?.Fishing) * (1 + (25 * gemshop) / 100) * (1 + fishCapStamps / 100) * (1 + (allCarryStamps + starSignBonus) / 100) * allCap?.value));
+    breakdown = [
+      ...breakdown,
+      { title: 'Fishing' },
+      { name: '' },
+      { value: character?.maxCarryCap?.Fishing, name: 'Base Bag' },
+      { value: fishCapStamps, name: 'Stamps' },
+      { value: gemshop, name: 'Gemshop' },
+      { value: allCarryStamps, name: 'All Stamps' },
+      { value: starSignBonus, name: 'Star Sign' }
+    ]
+  }
+  else if ('dBugs' === type) {
+    value = Math.floor(Math.min(hardCap, (allCapBase + character?.maxCarryCap?.Bugs) * (1 + (25 * gemshop) / 100) * (1 + catchCapStamps / 100) * (1 + (allCarryStamps + starSignBonus) / 100) * allCap?.value));
+    breakdown = [
+      ...breakdown,
+      { title: 'Catching' },
+      { name: '' },
+      { value: character?.maxCarryCap?.Bugs, name: 'Base Bag' },
+      { value: catchCapStamps, name: 'Stamps' },
+      { value: gemshop, name: 'Gemshop' },
+      { value: allCarryStamps, name: 'All Stamps' },
+      { value: starSignBonus, name: 'Star Sign' }
+    ]
+  }
+  else if ('bLog' === type || 'bLeaf' === type) {
+    value = Math.floor(Math.min(hardCap, (allCapBase + character?.maxCarryCap?.Chopping) * (1 + chopCapStamps / 100) * (1 + (25 * gemshop) / 100) * (1 + (allCarryStamps + starSignBonus) / 100) * allCap?.value));
+    breakdown = [
+      ...breakdown,
+      { title: 'Chopping' },
+      { name: '' },
+      { value: character?.maxCarryCap?.Chopping, name: 'Base Bag' },
+      { value: chopCapStamps, name: 'Stamps' },
+      { value: gemshop, name: 'Gemshop' },
+      { value: allCarryStamps, name: 'All Stamps' },
+      { value: starSignBonus, name: 'Star Sign' }
+    ]
+  }
+  else if ('cFood' === type) {
+    value = Math.floor(Math.min(hardCap, (allCapBase + character?.maxCarryCap?.Foods) * (1 + (25 * gemshop) / 100) * (1 + (allCarryStamps + starSignBonus) / 100) * allCap?.value));
+    breakdown = [
+      ...breakdown,
+      { title: 'Food' },
+      { name: '' },
+      { value: character?.maxCarryCap?.Foods, name: 'Base Bag' },
+      { value: gemshop, name: 'Gemshop' },
+      { value: allCarryStamps, name: 'All Stamps' },
+      { value: starSignBonus, name: 'Star Sign' }
+    ]
+  }
+  else if ('dCritters' === type) {
+    value = Math.floor(Math.min(hardCap, (allCapBase + character?.maxCarryCap?.Critters) * (1 + (25 * gemshop) / 100) * (1 + (allCarryStamps + starSignBonus) / 100) * allCap?.value));
+    breakdown = [
+      ...breakdown,
+      { title: 'Critters' },
+      { name: '' },
+      { value: character?.maxCarryCap?.Critters, name: 'Base Bag' },
+      { value: gemshop, name: 'Gemshop' },
+      { value: allCarryStamps, name: 'All Stamps' },
+      { value: starSignBonus, name: 'Star Sign' }
+    ]
+  }
+  else if ('dSouls' === type) {
+    value = Math.floor(Math.min(hardCap, (allCapBase + character?.maxCarryCap?.Souls) * (1 + (25 * gemshop) / 100) * (1 + (allCarryStamps + starSignBonus) / 100) * allCap?.value));
+    breakdown = [
+      ...breakdown,
+      { title: 'Souls' },
+      { name: '' },
+      { value: character?.maxCarryCap?.Souls, name: 'Base Bag' },
+      { value: gemshop, name: 'Gemshop' },
+      { value: allCarryStamps, name: 'All Stamps' },
+      { value: starSignBonus, name: 'Star Sign' }
+    ]
+  }
+  else if ('dCurrency' === type || 'dQuest' === type || 'dStatueStone' === type) {
+    value = D_TYPE_CAPACITY;
+  }
+  else if ('bCraft' === type) {
+    value = Math.floor(Math.min(hardCap, (allCapBase + character?.maxCarryCap?.bCraft)
+      * (1 + matCapStamps / 100) * (1 + (25 * gemshop) / 100)
+      * (1 + (allCarryStamps + starSignBonus) / 100) * (1 + talentBonus / 100) * allCap?.value));
+    breakdown = [
+      ...breakdown,
+      { title: 'Materials' },
+      { name: '' },
+      { value: character?.maxCarryCap?.bCraft, name: 'Base Bag' },
+      { value: matCapStamps, name: 'Stamps' },
+      { value: gemshop, name: 'Gemshop' },
+      { value: allCarryStamps, name: 'All Stamps' },
+      { value: talentBonus, name: 'Talent' },
+      { value: starSignBonus, name: 'Star Sign' }
+    ]
+  }
+  else if ('dExpOrb' === type || 'dStone' === type || 'dFishToolkit' === type) {
+    value = D_TYPE_CAPACITY;
+  }
+  else if ('fillerz' === type) {
+    value = character?.maxCarryCap?.fillerz;
+  }
+  else if ('d' === type.charAt(0)) {
+    value = D_TYPE_CAPACITY;
+  }
+  else {
+    value = 2;
+  }
+
+  return {
+    value,
+    breakdown
+  };
+}
+
+export const getTypeGen = (type: any) => {
+  const capacities = {
+    bCraft: 'bCraft',
+    Foods: 'cFood',
+    Mining: 'bOre',
+    Quests: 'dQuest',
+    Statues: 'dStatueStone',
+    Chopping: 'bLog',
+    Fishing: 'dFish',
+    Bugs: 'dBugs',
+    Critters: 'dCritters',
+    Souls: 'dSouls'
+  }
+  return (capacities as Record<string, any>)?.[type];
+}
+
+export const getFoodBonus = (character: any, account: any, bonusName: any, ignoreFoodBonus = false) => {
+  const foodBonus = getPlayerFoodBonus(character, account);
+  return character?.food?.reduce((res: any, {
+    Amount,
+    Effect
+  }: any) => res + (Effect === bonusName ? Amount * (ignoreFoodBonus ? 1 : foodBonus) : 0), 0) ?? 0;
+}
+
+export const getHealthFoodBonus = (character: any, account: any, bonusName: any) => {
+  const foodBonus = getPlayerFoodBonus(character, account, true);
+  return character?.food?.reduce((res: any, {
+    Trigger,
+    Amount,
+    Cooldown,
+    Effect
+  }: any) => res + (Trigger > 0 && Effect === bonusName ? Amount * foodBonus / Math.max(Cooldown, 1) * 3600 : 0), 0) ?? 0;
+}
+
+export const getMinigameScore = (account: any, bonusName: any) => {
+  return account?.highscores?.minigameHighscores?.find(({ name }: any) => name === bonusName)?.score || 0;
+}
+
+export const getCompanions = (companionObject: any = {}, accountOptions: any = [], simulatedIndices: any = []) => {
+  const maxStorage = companionObject?.p ?? 60;
+  const [companionIndex] = companionObject?.e?.split(',') || [];
+  const companion = companions?.[companionIndex];
+  const ownedCompanions = companionObject?.l?.reduce((result: any, comp: any) => {
+    const [companionIndex, isTradable, , , levelRaw] = `${comp}`.split(',');
+    const current = result[companionIndex] || {
+      count: 0,
+      tradableCount: 0,
+      nonTradableCount: 0,
+      upgradedCount: 0,
+      upgradedTradableCount: 0,
+      level: 0
+    };
+    const tradable = isTradable === '1';
+    // Field index 4 is the Pet Mart+ upgrade level; the game keeps the max across owned copies.
+    // Absent/malformed (pre-patch saves) must resolve to 0, never NaN.
+    const parsedLevel = Number(levelRaw);
+    const level = Number.isFinite(parsedLevel) ? parsedLevel : 0;
+    // Tradability belongs to a copy, not to the pet: the upgraded copy can be the untradable one
+    // while a base copy is tradable, so the + counts are tracked per copy.
+    const copyUpgraded = level >= 1;
+    return {
+      ...result,
+      [companionIndex]: {
+        count: current.count + 1,
+        tradableCount: current.tradableCount + (tradable ? 1 : 0),
+        nonTradableCount: current.nonTradableCount + (tradable ? 0 : 1),
+        upgradedCount: current.upgradedCount + (copyUpgraded ? 1 : 0),
+        upgradedTradableCount: current.upgradedTradableCount + (copyUpgraded && tradable ? 1 : 0),
+        level: Math.max(current.level, level)
+      }
+    }
+  }, {});
+
+  // Pet Bonus Token: opt[606] is a comma-list of companion indices the player spent a token on.
+  // The game grants each such companion's full bonus (CompanionDB[i][2]) as if owned, even
+  // without owning the pet. Tokens owned live in opt[605] and opt[615] (see tokensOwned below).
+  // The game gates the list on `"" != opt[606]`, a LOOSE compare: a numeric 0 (untouched slot)
+  // is empty, but the string "0" is a token spent on companion index 0. Test before stringifying,
+  // since `${0}` and `${'0'}` are indistinguishable afterwards.
+  // Two separate token grants, each a 0/1 flag: opt[605] and opt[615] (the Quest119 drop).
+  // Game: Math.round(Math.min(1, opt[605]) + Math.min(1, opt[615])), so the max owned is 2.
+  // game: "Stuff2:PetBonusTokensOwned"
+  const tokensOwned = Math.min(1, Number(accountOptions?.[605]) || 0)
+    + Math.min(1, Number(accountOptions?.[615]) || 0);
+  const rawTokensValue = accountOptions?.[606] ?? '';
+  // Since 2.3.540 the game wipes opt[606] every 5 seconds when it lists more companions than tokens owned
+  // (String(opt[606]).split(",").length > 0.5 + tokensOwned), so such a list grants nothing.
+  // game: "Design_23_23_EveryScene:Every5secs"
+  const tokenListWiped = `${rawTokensValue}`.split(',').length > 0.5 + tokensOwned;
+  const rawTokens = rawTokensValue != '' && !tokenListWiped ? `${rawTokensValue}` : '';
+  const tokenIndices = rawTokens === ''
+    ? []
+    : rawTokens.split(',').map((value: any) => Number(value)).filter((value: any) => Number.isFinite(value));
+  const tokenIndexSet = new Set(tokenIndices);
+
+  // "What if I owned this pet" simulation: the user ticks unowned companions on the pets page and
+  // the whole site is parsed as if their bonus were active, exactly like a Pet Bonus Token does.
+  const simulatedIndexSet = new Set(
+    (Array.isArray(simulatedIndices) ? simulatedIndices : [])
+      .filter((value: any) => Number.isInteger(value) && value >= 0)
+  );
+
+  const updatedCompanions = companions?.map((comp: any, index) => {
+    const owned = (ownedCompanions?.[index]?.count || 0) > 0;
+    const viaToken = !owned && tokenIndexSet.has(index);
+    const simulated = !owned && !viaToken && simulatedIndexSet.has(index);
+    // Pet Mart+ (patch 2.3.525): a companion upgraded to level >= 1 uses upgradedBonus instead of
+    // bonus. Only owned copies carry a level - the "what if I owned this pet"
+    // simulation stays base-bonus-only, matching a Pet Bonus Token (see getCompanions doc above).
+    const level = ownedCompanions?.[index]?.level ?? 0;
+    const upgraded = level >= 1;
+    return {
+      ...comp,
+      acquired: owned || viaToken || simulated,
+      viaToken,
+      simulated,
+      copies: ownedCompanions?.[index]?.count ?? 0,
+      tradableCount: ownedCompanions?.[index]?.tradableCount ?? 0,
+      nonTradableCount: ownedCompanions?.[index]?.nonTradableCount ?? 0,
+      upgradedCount: ownedCompanions?.[index]?.upgradedCount ?? 0,
+      upgradedTradableCount: ownedCompanions?.[index]?.upgradedTradableCount ?? 0,
+      level,
+      upgraded,
+      bonus: upgraded ? (comp?.upgradedBonus ?? comp?.bonus) : comp?.bonus,
+      // Game: Stuff2("PetTournyPOW") reads CompanionDB[9] for an upgraded copy, [7] otherwise.
+      tourPower: upgraded ? (comp?.upgradedTourPower ?? comp?.tourPower) : comp?.tourPower
+    }
+  })
+
+  const tokensUsed = tokenIndices.length;
+
+  return {
+    totalBoxesOpened: companionObject?.x,
+    currentCompanion: companion,
+    list: updatedCompanions,
+    // NOT the last claim time. The free pet went weekly -> daily server-side without changing the
+    // deadline formula: the server still answers getFreeCompanionRemainingTime with
+    // max(0, `t` + 594000000 - now), and on claim it writes `t` = claimTime - 511200000 so that
+    // deadline lands 23h out. So `t` reads ~5.9 days stale by design - do not "correct" it, and do
+    // not use `d` (a dead legacy field that a real claim leaves untouched). Verified live: claiming
+    // moved `t` to now - 511200000 and the server deadline to that + 594000000, i.e. now + 23h.
+    freeClaimAnchor: companionObject?.t,
+    petCrystals: companionObject?.s,
+    maxStorage,
+    tokens: {
+      owned: tokensOwned,
+      used: tokensUsed,
+      remaining: Math.max(0, tokensOwned - tokensUsed),
+      usedIndices: tokenIndices
+    }
+  };
+}
+
+export const isCompanionBonusActive = (account: any, index: any) => {
+  return account?.companions?.list?.at(index)?.acquired;
+}
+
+// Pet Mart+ flag (game: _customBlock_CompLV2): true only when the companion is
+// both acquired and upgraded to level >= 1. Formulas multiply this flag by their own constant.
+export const isCompanionLvl2Active = (account: any, index: any) => {
+  const companion = account?.companions?.list?.at(index);
+  return companion?.acquired && (companion?.level ?? 0) >= 1;
+}
+
+export const getRandomEventItems = (account: any) => {
+  const list = randomList.slice(82, 87).flat();
+  const uniqueLooty = new Set(account?.looty?.lootyRaw);
+  return list.reduce((count, value) => {
+    return uniqueLooty.has(value) ? count + 1 : count;
+  }, 0);
+}
+const getDays = (name: any, daysSince: any) => {
+  const days = {
+    mini3b: Math.min(10, Math.floor(Math.pow((daysSince < 3 ? 3 : daysSince) - 3, .55))),
+    mini4b: Math.min(8, Math.floor(Math.pow((daysSince < 3 ? 3 : daysSince) - 3, .5))),
+    mini5a: Math.min(6, Math.floor(Math.pow((daysSince < 3 ? 3 : daysSince) - 3, .5))),
+    mini6a: Math.min(6, Math.floor(Math.pow((daysSince < 3 ? 3 : daysSince) - 3, .5)))
+  }
+  return (days as Record<string, any>)[name];
+}
+const getDaysTillNext = (name: any, daysSinceLastKill: any, currentCount: any) => {
+  return createRange(1, 100).find(value => {
+    const countOnDay = getDays(name, daysSinceLastKill + value);
+    if (countOnDay > currentCount) {
+      return value;
+    }
+  })
+}
+
+export const getMiniBossesData = (account: any) => {
+  const daysSinceSlush = account?.accountOptions?.[96] ?? 0;
+  const daysSinceMush = account?.accountOptions?.[98] ?? 0;
+  const daysSinceMagmus = account?.accountOptions?.[225] ?? 0;
+  const daysSinceSpiritlord = account?.accountOptions?.[226] ?? 0;
+
+  const max = [10, 8, 6, 6];
+  const quantity = [
+    getDays('mini3b', daysSinceSlush),
+    getDays('mini4b', daysSinceMush),
+    getDays('mini5a', daysSinceMagmus),
+    getDays('mini6a', daysSinceSpiritlord)
+  ]
+  return [
+    {
+      current: quantity[0],
+      maxed: quantity[0] >= max[0],
+      rawName: 'mini3b',
+      name: 'Dilapidated_Slush',
+      unlocked: account?.finishedWorlds?.World3,
+      daysTillNext: getDaysTillNext('mini3b', daysSinceSlush, quantity[0])
+    },
+    {
+      current: quantity[1],
+      maxed: quantity[1] >= max[1],
+      rawName: 'mini4b',
+      name: 'Mutated_Mush',
+      unlocked: account?.finishedWorlds?.World2,
+      daysTillNext: getDaysTillNext('mini4b', daysSinceMush, quantity[1])
+    },
+    {
+      current: quantity[2],
+      maxed: quantity[2] >= max[2],
+      rawName: 'mini5a',
+      name: 'Domeo_Magmus',
+      unlocked: account?.finishedWorlds?.World4,
+      daysTillNext: getDaysTillNext('mini5a', daysSinceMagmus, quantity[2])
+    },
+    {
+      current: quantity[3],
+      maxed: quantity[3] >= max[3],
+      rawName: 'mini6a',
+      name: 'Demented_Spiritlord',
+      unlocked: account?.finishedWorlds?.World5,
+      daysTillNext: getDaysTillNext('mini6a', daysSinceSpiritlord, quantity[3])
+    }
+  ].filter(({ unlocked }) => unlocked);
+}
+
+export const getKillRoy = (idleonData: any, charactersData: any, accountData: any, serverVars: any) => {
+  const skulls = accountData?.accountOptions?.[105] ?? 0;
+  const killRoyKills = tryToParse(idleonData?.KRbest);
+  // game: RiftStuff("KillroyDMG") sums KRbest over the Death Note mobs only; KRbest also holds the
+  // summoning trial keys (SummzTrz0-6), which never count
+  const totalKills = deathNote.reduce((sum: number, { rawName }: any) => sum + (Number(killRoyKills?.[rawName]) || 0), 0);
+  const totalDamageMulti = 1 + Math.floor(Math.pow(totalKills as number, 0.4)) / 100;
+  const unlockedThirdKillRoy = accountData?.accountOptions?.[227] === 1;
+  const rooms = unlockedThirdKillRoy ? 3 : 2;
+  const killRoyClasses = getKillRoyClasses(rooms, accountData, serverVars);
+  const upgrades = [
+    {
+      level: accountData?.accountOptions?.[106],
+      description: 'Increases your maximum time in room. Base time is 100 seconds.',
+      upgrade: '+1 Second Timer'
+    },
+    {
+      level: accountData?.accountOptions?.[107],
+      description: 'Increases chance for Talent Point drop, depends on how many Talent Point drops already got',
+      upgrade: '+ Talent Drops'
+    },
+    {
+      level: accountData?.accountOptions?.[108],
+      description: 'Increases chance of dropping skulls by mobs',
+      upgrade: '+1% Bonus Skulls'
+    },
+    {
+      level: accountData?.accountOptions?.[109],
+      description: 'Faster Respawn'
+    },
+    {
+      level: accountData?.accountOptions?.[110],
+      description: 'Mobs can drop Dungeon Credits now',
+      upgrade: 'Dungeon Drops'
+    },
+    {
+      level: accountData?.accountOptions?.[111],
+      description: 'Mobs can drop Pearls now',
+      upgrade: 'Pearl Drops'
+    }
+  ];
+
+  // Mapping for permanent upgrade indices to account options (for levels)
+  // Shop items 10-19 correspond to indices 0-9 in the slice
+  const permanentUpgradeLevelMap: Record<number, number | null> = {
+    0: 227,  // Shop 10: Unlock 3rd Killroy fight
+    1: 228,  // Shop 11: Artifact Find Chance
+    2: null, // Shop 12: Gaming nugget (fixed reward, no level)
+    3: 229,  // Shop 13: Crop Evolution Chance
+    4: 230,  // Shop 14: Jade Gain
+    5: 467,  // Shop 15: Gallery Grade (requires 2+ levels for special effect)
+    6: 468,  // Shop 16: Masterclass drops
+    7: 469,  // Shop 17: World 7 skill EXP
+    8: 470,  // Shop 18: Daily coral gain
+    9: 471   // Shop 19: Mystery bonus
+  };
+
+  // Mapping for permanent upgrade indices to bonus calculation indices
+  // Only items that show a calculated bonus need a mapping
+  const permanentUpgradeBonusMap: Record<number, number> = {
+    1: 0,  // Shop 11: Artifact Find Chance
+    3: 1,  // Shop 13: Crop Evolution Chance
+    4: 2,  // Shop 14: Jade Gain
+    5: 3,  // Shop 15: Gallery multiplier
+    6: 4,  // Shop 16: Masterclass drops
+    7: 5,  // Shop 17: World 7 skill EXP
+    8: 6,  // Shop 18: Daily coral gain
+    9: 7   // Shop 19: Mystery bonus
+  };
+
+  // Decay-based asymptotic cap info (bonus = base + scale * L/(decay+L)).
+  // 3rd fight (i=0) and nugget (i=2) are flat unlocks with no cap.
+  // format: 'mult' = "Xx" multiplier, 'addMult' = "+0.XXx" additive multiplier (Gallery),
+  //         'pct' = "+X%" additive percent (Coral).
+  const permanentUpgradeCapMap: Record<number, { decay: number; cap: number; format: 'mult' | 'addMult' | 'pct' }> = {
+    1: { decay: 300, cap: 2, format: 'mult' },
+    3: { decay: 300, cap: 10, format: 'mult' },
+    4: { decay: 300, cap: 3, format: 'mult' },
+    5: { decay: 200, cap: 10, format: 'addMult' },
+    6: { decay: 200, cap: 2.3, format: 'mult' },
+    7: { decay: 150, cap: 1.8, format: 'mult' },
+    8: { decay: 250, cap: 25, format: 'pct' },
+    9: { decay: 200, cap: 3, format: 'mult' }
+  };
+
+  const formatBonus = (value: number, format: 'mult' | 'addMult' | 'pct') => {
+    if (format === 'mult') return `${Math.floor(value * 100) / 100}x`;
+    if (format === 'addMult') return `+${(value / 100).toFixed(2)}x`;
+    return `+${Math.floor(value * 100) / 100}%`;
+  };
+
+  // The curve is asymptotic, so the cap is never actually reached.
+  // Inverting L/(decay+L) = percent gives the level needed for a given % of the cap.
+  // Game's skull shop description rounds shops 11-14 down and 16-19 up.
+  const roundUpDescription = new Set([6, 7, 8, 9]);
+  const formatDescriptionBonus = (value: number, i: number) => {
+    const round = roundUpDescription.has(i) ? Math.ceil : Math.floor;
+    return String(round(value * 100) / 100);
+  };
+
+  // The game feeds these "x" bonuses in as percentages: 1.42x applies as x1.0142 / +1.42%.
+  const formatAppliedMulti = (value: number) => `x${Math.round((1 + value / 100) * 10000) / 10000}`;
+  const formatAppliedPct = (value: number) => `+${Math.round(value * 100) / 100}%`;
+  const getAppliedBonuses = (i: number, bonus: number, cap: number) => {
+    if (i === 6) {
+      return [{ name: 'Masterclass drops', value: formatAppliedMulti(bonus), max: formatAppliedMulti(cap) }];
+    }
+    if (i === 7) {
+      return [
+        { name: 'Research EXP', value: formatAppliedMulti(bonus), max: formatAppliedMulti(cap) },
+        { name: 'Spelunking EXP', value: formatAppliedPct(bonus), max: formatAppliedPct(cap) }
+      ];
+    }
+    return null;
+  };
+
+  const breakpointPercents = [50, 75, 90, 95, 99];
+  const getDecayBreakpointLevel = (percent: number, decay: number) => Math.ceil((decay * percent) / (100 - percent));
+
+  const permanentUpgrades = killRoySkullShop?.slice(10)?.map((upgrade, i) => {
+    const levelOption = permanentUpgradeLevelMap[i];
+    const bonusIndex = permanentUpgradeBonusMap[i];
+    const capInfo = permanentUpgradeCapMap[i];
+
+    const level = levelOption !== null ? (accountData?.accountOptions?.[levelOption] ?? 0) : 0;
+    const bonus = bonusIndex !== undefined ? getKillRoyShopBonus(accountData, bonusIndex) : 1;
+    const progress = capInfo ? (level / (level + capInfo.decay)) * 100 : null;
+    const bonusDisplay = capInfo ? formatBonus(bonus, capInfo.format) : null;
+    const capDisplay = capInfo ? formatBonus(capInfo.cap, capInfo.format) : null;
+
+    // 'mult' bonuses start at 1x, the additive ones at 0.
+    const bonusBase = capInfo?.format === 'mult' ? 1 : 0;
+    const breakpoints = capInfo ? breakpointPercents.map((percent) => {
+      const breakpointLevel = getDecayBreakpointLevel(percent, capInfo.decay);
+      return {
+        percent,
+        level: breakpointLevel,
+        bonusDisplay: formatBonus(bonusBase + (capInfo.cap - bonusBase) * (percent / 100), capInfo.format)
+      };
+    }) : null;
+    const nextBreakpoint = breakpoints?.find((breakpoint) => breakpoint.level > level) ?? null;
+
+    // Special case: Shop 15 (Gallery) changes description when level >= 2
+    let description = upgrade?.description;
+    let replacementChar = '{';
+
+    if (i === 5 && level >= 2) {
+      description = `Permanently_boosts_your_Gallery_Multiplier_by_+${Math.floor(bonus) / 100}x`;
+    }
+
+    return {
+      ...upgrade,
+      level,
+      bonus,
+      progress,
+      bonusDisplay,
+      capDisplay,
+      breakpoints,
+      nextBreakpoint,
+      appliedBonuses: capInfo ? getAppliedBonuses(i, bonus, capInfo.cap) : null,
+      description: description?.replace(replacementChar, formatDescriptionBonus(bonus, i))
+    }
+  });
+  return {
+    list: deathNote.map((monster) => {
+      const monsterWithIcon = {
+        ...monster,
+        icon: `Mface${monsters?.[monster.rawName].MonsterFace}`,
+        name: monsters?.[monster.rawName]?.Name
+      };
+      return killRoyKills?.[monster.rawName] ? ({
+        ...monsterWithIcon,
+        killRoyKills: killRoyKills?.[monster.rawName] ?? 0
+      }) : monsterWithIcon
+    }),
+    permanentUpgrades,
+    totalKills,
+    totalDamageMulti,
+    rooms,
+    killRoyClasses,
+    upgrades,
+    skulls
+  };
+}
+
+export const getKillroyBonus = (account: any, index: any) => {
+  return account?.killroy?.permanentUpgrades?.[index]?.bonus;
+}
+
+// game: "AllMasterclassDropz" - shared multiplier applied to AC Tachyons, WW Dust and DB Bones.
+export const getAllMasterclassDropz = (character: any, account: any) => {
+  // game KillroyBonuses(4) takes a BONUS index; getKillroyBonus takes a permanent upgrade slot
+  // (slot 4 is Jade Gain, the Masterclass drops upgrade is slot 6 = bonus 4)
+  const killroy = getKillRoyShopBonus(account, 4);
+  const spelunkShop = getSpelunkingBonus(account, 49) ?? 0; // Turquoise Hardhat
+  const vial = getVialsBonusByStat(account?.alchemy?.vials, '7masta') ?? 0;
+  const button = getButtonBonus(account, 4) ?? 0;
+  const companion = isCompanionBonusActive(account, 38) ? (account?.companions?.list?.at(38)?.bonus ?? 0) : 0;
+  const { value: gear101 } = getStatsFromGear(character, 101, account);
+  const { value: gear106 } = getStatsFromGear(character, 106, account);
+  // Game: CardLv("fm_rat") - the Royal Guardian rat monster's card, capped at 25. Deliberately the
+  // raw card level (getCardLevel), not calcCardBonus - see the game function mapping doc for why a
+  // card's `effect` tag can't be trusted for this.
+  const ratCard = Math.min(getCardLevel(account?.cards, 'fm_rat'), 25);
+
+  const value = (1 + killroy / 100)
+    * (1 + spelunkShop / 100)
+    * (1 + vial / 100)
+    * (1 + button / 100)
+    * (1 + companion)
+    * (1 + gear101 / 100)
+    * (1 + gear106 / 100)
+    * (1 + ratCard / 100);
+
+  const breakdown = productGroup('All Masterclass drops', [
+    multiplier('Killroy', 1 + killroy / 100),
+    multiplier('Spelunking Shop (Turquoise Hardhat)', 1 + spelunkShop / 100),
+    multiplier('Vial', 1 + vial / 100),
+    multiplier('Button', 1 + button / 100),
+    multiplier('Companion', 1 + companion),
+    multiplier('Gear (Masterclass drops)', 1 + gear101 / 100),
+    multiplier('Gear (Bonus MC drops)', 1 + gear106 / 100),
+    multiplier('Card (Verminous)', 1 + ratCard / 100)
+  ]);
+
+  return { value, breakdown };
+}
+
+export const getKillRoyShopBonus = (account: any, index: any) => {
+  const opt228 = account?.accountOptions?.[228] ?? 0;
+  const opt229 = account?.accountOptions?.[229] ?? 0;
+  const opt230 = account?.accountOptions?.[230] ?? 0;
+  const opt467 = account?.accountOptions?.[467] ?? 0;
+  const opt468 = account?.accountOptions?.[468] ?? 0;
+  const opt469 = account?.accountOptions?.[469] ?? 0;
+  const opt470 = account?.accountOptions?.[470] ?? 0;
+  const opt471 = account?.accountOptions?.[471] ?? 0;
+  return 0 === index
+    ? 1 + opt228 / (300 + opt228)
+    : 1 === index
+      ? 1 + (opt229 / (300 + opt229)) * 9
+      : 2 === index
+        ? 1 + (opt230 / (300 + opt230)) * 2
+        : 3 === index
+          ? (opt467 / (200 + opt467)) * 10
+          : 4 === index
+            ? 1 + (opt468 / (200 + opt468)) * 1.3
+            : 5 === index
+              ? 1 + (opt469 / (150 + opt469)) * 0.8
+              : 6 === index
+                ? (opt470 / (250 + opt470)) * 25
+                : 7 === index
+                  ? 1 + (opt471 / (200 + opt471)) * 2
+                  : 1
+}
+
+export const calcTotalQuestCompleted = (characters: any) => {
+  const mappedQuests = characters.reduce((result: any, { questComplete }: any) => {
+    Object.entries(questComplete || {})?.forEach(([key, value]) => {
+      if (!result[key] && value === 1) {
+        result[key] = 1;
+      }
+    }, 0)
+    return result;
+  }, {});
+  return Object.values(mappedQuests).reduce((sum: any, level: any) => sum + level, 0);
+}
+
+export const getKillroySchedule = (account: any, characters: any, serverVars: any) => {
+  const unlockedThirdKillRoy = account?.accountOptions?.[227] === 1;
+  const rooms = unlockedThirdKillRoy ? 3 : 2;
+  const schedule = [];
+  for (let i = 0; i < 20; i++) {
+    schedule.push(getKillRoyClasses(rooms, account, serverVars, true, i, characters));
+  }
+
+  return schedule;
+}
+
+export const getKillRoyClasses = (rooms: any, account: any, serverVars: any, ignoreSkipConditions = false, iteration = 0, characters?: any) => {
+  const classes = [];
+  const monstersList = [];
+  const done = account?.accountOptions?.[113];
+  const skipConditions = {
+    1: [0],
+    21: [0, 1],
+    321: [0, 1, 2]
+  };
+  // Game: 0 >= KillsLeft2Advance[200][0], ie. Magma Rivertown (the World 5 town) has been reached.
+  const unlockedMap = characters?.some((character: any) => hasClearedMap(character, 200));
+  const baseSeed = Math.floor((account?.timeAway?.GlobalTime + Math.round((account?.timeAway?.ShopRestock + 86400 * account?.accountOptions?.[39]))) / 604800);
+  for (let i = 0; i < rooms; i++) {
+    if (!ignoreSkipConditions && (skipConditions as Record<string, any>)[done] && (skipConditions as Record<string, any>)[done].includes(i)) {
+      continue;
+    }
+    const seed = Math.round(baseSeed + iteration + (50 * i + (serverVars?.KillroySwap ?? 0)));
+    const rng = new LavaRand(seed);
+    const random = 3 * rng.rand();
+    const classIndex = Math.max(0, Math.min(3, Math.ceil(random - Math.floor(i / 2))));
+    classes.push(classIndex);
+  }
+  for (let i = 0; i < rooms; i++) {
+    const seed = Math.round(baseSeed + iteration + (50 * i + (serverVars?.KillroySwap ?? 0)));
+    const rng = new LavaRand(seed);
+    const random = Math.floor(1e3 * rng.rand());
+    if (random < 300 || i === 0) {
+      const monsterList = randomList[Math.round(68 + i)];
+      const baseIndex = Math.floor(random / monsterList.length);
+      const monsterIndex = Math.round(random - baseIndex * monsterList.length);
+      monstersList.push(monsterList[monsterIndex]);
+    }
+    else {
+      if (random < 400 && unlockedMap) {
+        const monsterList = randomList[72];
+        const baseIndex = Math.floor(random / monsterList.length);
+        const monsterIndex = Math.round(random - baseIndex * monsterList.length);
+        monstersList.push(monsterList[monsterIndex])
+      }
+      else if (random < 500 && account?.summoning?.summoningStuff?.[2] >= 4) {
+        const monsterList = randomList[99];
+        const baseIndex = Math.floor(random / monsterList.length);
+        const monsterIndex = Math.round(random - baseIndex * monsterList.length);
+        monstersList.push(monsterList[monsterIndex]);
+      }
+      else {
+        const monsterList = randomList[Math.round(69 + i)];
+        const baseIndex = Math.floor(random / monsterList.length);
+        const monsterIndex = Math.round(random - baseIndex * monsterList.length);
+        monstersList.push(monsterList[monsterIndex]);
+      }
+    }
+  }
+  if (ignoreSkipConditions) {
+    return {
+      monsters: monstersList.map((mapName) => monsters[mapEnemiesArray[rawMapNames.indexOf(mapName)]]),
+      classes: classes.map((classIndex) => ({
+        className: classIndex === 0 ? CLASSES.Beginner : classIndex === 1 ? CLASSES.Warrior : classIndex === 2
+          ? CLASSES.Archer
+          : CLASSES.Mage,
+        classIndex: classIndex === 0 ? 1 : classIndex === 1 ? 6 : classIndex === 2 ? 18 : 30
+      })),
+      date: Math.floor((baseSeed + iteration - 1) * 604800 * 1000)
+    };
+  }
+
+  return classes.map((classIndex) => {
+    return classIndex === 0 ? CLASSES.Beginner : classIndex === 1 ? CLASSES.Warrior : classIndex === 2
+      ? CLASSES.Archer
+      : CLASSES.Mage
+  });
+}
+
+// a.engine.getGameAttribute("OptionsListAccount")[310] - event currency
+export const getEventShopBonus = (account: any, bonusId: any): number => {
+  if (!account?.accountOptions?.[311]) return 0;
+  return -1 !== (account?.accountOptions?.[311]).indexOf(number2letter[bonusId]) ? 1 : 0;
+}
