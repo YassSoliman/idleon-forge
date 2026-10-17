@@ -44,6 +44,17 @@
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Spend anvil points: Unspent anvil points on 11 characters → Speed and Capacity [IdleOn Wiki: Smithing, anvil points · Calculated by IdleOn Toolbox · 2.3.540]
+  · Siege Breaker Lv 1291: 163 into Speed, 0 into Capacity
+  · Death Bringer Lv 1292: 7 into Speed, 0 into Capacity
+  · Elemental Sorcerer Lv 1259: 95 into Speed, 0 into Capacity
+  · Divine Knight Lv 1240: 57 into Speed, 0 into Capacity
+  · Arcane Cultist Lv 1231: 96 into Speed, 0 into Capacity
+  · Wind Walker Lv 1280: 43 into Speed, 0 into Capacity
+  · Voidwalker Lv 1157: 40 into Speed, 0 into Capacity
+  · Siege Breaker Lv 1261: 153 into Speed, 107 into Capacity
+  · Royal Guardian Lv 1307: 2 into Speed, 0 into Capacity
+  · Bubonic Conjuror Lv 1268: 0 into Speed, 62 into Capacity
+  · Beginner Lv 1224: 1 into Speed, 0 into Capacity
 show more (6)
 
 ## Not covered yet
