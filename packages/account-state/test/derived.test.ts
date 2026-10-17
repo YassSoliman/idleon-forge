@@ -61,12 +61,6 @@ describe('daily reset (for M10 Skip today)', () => {
     expect(s.account.dailyResetInSeconds).toBeNull();
     expect(isKnown(s, 'account.dailyResetInSeconds')).toBe(false);
   });
-
-  it('every public save has one', () => {
-    for (const f of listJson(PUBLIC_DIR)) {
-      expect(accountStateOf(readSave(PUBLIC_DIR, f)).account.dailyResetInSeconds).toEqual(expect.any(Number));
-    }
-  });
 });
 
 describe('active character (US-5)', () => {

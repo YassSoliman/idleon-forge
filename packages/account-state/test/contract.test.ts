@@ -82,6 +82,10 @@ describe('across all public saves', () => {
   const states = publicSaves.map((f) => accountStateOf(readSave(PUBLIC_DIR, f)));
   const all = states.flatMap((s) => s.characters);
 
+  it('reads the daily reset countdown from every public save', () => {
+    for (const s of states) expect(s.account.dailyResetInSeconds).toEqual(expect.any(Number));
+  });
+
   it('keeps every Account State under the 200 KB history cap (TR-16)', () => {
     const largest = Math.max(...states.map((s) => new TextEncoder().encode(JSON.stringify(s)).length));
     expect(largest).toBeLessThan(200 * 1024);
