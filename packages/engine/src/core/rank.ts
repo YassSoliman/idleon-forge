@@ -4,9 +4,11 @@
 // subject key for the last tie; the contested rule (FR-20) is one move after the sort. Dedupe follows
 // M11 §6: for the same `system` and subject a blocker wins over another module's Goal; otherwise two
 // Goals with the same subject and rendered text are one.
+
+import { compareGoals } from '../metapath/priority';
+import type { Rankable, ResolvedPriorityList } from '../metapath/types';
 import type { Goal } from '../result';
 import type { RankHints } from './module';
-import { compareGoals, type Rankable, type ResolvedPriorityList } from './stubs/compare-goals';
 
 export interface TaggedGoal {
   goal: Goal;

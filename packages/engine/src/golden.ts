@@ -3,9 +3,8 @@
 // The engine side of M11's golden harness (M11 TR-15, M10 TR-15). M11's `kb golden` loads this file
 // (packages/engine/src/golden.ts) and calls `goldenEngine.renderNow(input)` for each fixture's
 // `## Now` section: renderNowText(buildNowView(engine(fixture), emptyPrefs, { focus: null })).
-// The input type mirrors M11's `GoldenInput` structurally, so this file doesn't import
-// `@idleon-forge/knowledge` (it may run before M11 merges).
 import type { AccountState } from '@idleon-forge/account-state';
+import type { CompiledKnowledge } from '@idleon-forge/knowledge';
 import { runEngine } from './core/engine';
 import { buildNowView, DEFAULT_UI } from './now/build-now-view';
 import { EMPTY_PREFS } from './now/prefs';
@@ -15,7 +14,8 @@ import type { EngineResult } from './result';
 /** The fields of M11's `GoldenInput` this engine reads. */
 export interface GoldenInput {
   state: AccountState;
-  kb: { version: { display: string } };
+  /** M11's compiled bundle; tests may pass only its version (no Stage then). */
+  kb: { version: { display: string } } & Partial<Omit<CompiledKnowledge, 'version'>>;
   now: number;
   expectedReturnMs: number;
 }
@@ -30,7 +30,11 @@ export function goldenResult(input: GoldenInput): EngineResult {
     state: input.state,
     history: { entries: [], sessionStartedAt: null, learnedExpectedReturnSeconds: null },
     // The golden file has its own "Not covered yet" section from M11's coverage().
-    knowledge: { version: input.kb.version.display, coverage: () => [] },
+    knowledge: {
+      version: input.kb.version.display,
+      coverage: () => [],
+      kb: input.kb.entries ? (input.kb as CompiledKnowledge) : null,
+    },
     now: input.now,
     options: { expectedReturnSeconds: Math.round(input.expectedReturnMs / 1000) },
   });
@@ -46,7 +50,6 @@ export const saveOrderLabel = (state: AccountState) => (index: number) => {
 };
 
 export const goldenEngine: GoldenEngine = {
-  // M2 owns the Stage; until it ships the header keeps "(engine not built)".
   stage: (input) => {
     const s = goldenResult(input).stage;
     return s.id === 'not-covered' ? null : s.id;

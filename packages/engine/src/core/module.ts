@@ -5,6 +5,7 @@
 // ranks (M2's `compareGoals`), dedupes, orders the visit and assembles `EngineResult` (TR-2).
 import type { AccountState } from '@idleon-forge/account-state';
 import type { CompiledKnowledge } from '@idleon-forge/knowledge';
+import type { Rankable, ResolvedPriorityList, VisitHint } from '../metapath/types';
 import type {
   ActivePlay,
   Done,
@@ -17,7 +18,6 @@ import type {
   SpendPlan,
   Verdict,
 } from '../result';
-import type { Rankable, ResolvedPriorityList, VisitHint } from './stubs/compare-goals';
 
 /** One save of M1's history as the engine sees it (M1 `HistoryEntry`), oldest first. */
 export interface EngineHistoryEntry {

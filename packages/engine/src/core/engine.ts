@@ -8,6 +8,9 @@
 // The Expected Return split (TR-6): `run` keeps the output of modules that don't depend on Expected
 // Return, so `rerun` re-runs only the dependent ones (M3's Verdicts, firstFill, M6 urgencies) and
 // re-assembles, including Visit Order.
+
+import { metaPathModule } from '../metapath/module';
+import { EMPTY_PRIORITY_LIST } from '../metapath/priority';
 import type {
   CharacterResult,
   Done,
@@ -20,7 +23,6 @@ import type {
 import { activityLabel, classLabel, mapLabel } from './labels';
 import type { EngineInput, EngineModule, ModuleOutput } from './module';
 import { rankGoals, type TaggedGoal } from './rank';
-import { EMPTY_PRIORITY_LIST } from './stubs/compare-goals';
 import { visitOrder } from './visit-order';
 
 /** The System M3 covers; listed under "Not covered yet" until a module covers AFK safety. */
@@ -28,8 +30,8 @@ export const AFK_SAFETY_NOT_COVERED: NotCoveredItem = { systemId: 'afk', label: 
 /** The Stage before M2 ships (no "Can't tell where your account is" banner: that is id 'unknown'). */
 export const STAGE_NOT_COVERED: EngineResult['stage'] = { id: 'not-covered', label: 'Stage not covered yet' };
 
-/** Modules register here as they ship (M2–M9). Empty until then. */
-export const DEFAULT_MODULES: readonly EngineModule[] = [];
+/** Modules register here as they ship (M2–M9). */
+export const DEFAULT_MODULES: readonly EngineModule[] = [metaPathModule];
 
 export interface Engine {
   run(input: EngineInput): EngineResult;
