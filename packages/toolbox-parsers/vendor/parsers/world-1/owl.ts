@@ -1,0 +1,176 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { owlData, gameTables } from '@website-data';
+import { isCompanionBonusActive } from '@parsers/misc';
+import { getUpgradeVaultBonus } from '@parsers/misc/upgradeVault';
+import { getGambitBonus } from '@parsers/world-5/caverns/gambit';
+import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
+import { getMeritocracyBonus } from '@parsers/world-2/voteBallot';
+import { getFountainBonusTotal } from '@parsers/world-5/caverns/the-fountain';
+import { getClickerCheapener } from '@parsers/world-7/menagerie';
+import { getPetArenaCrucBonus } from '@parsers/world-4/breeding';
+
+// Menagerie boost 16 makes Orion's first upgrade cheaper
+const ORION_CHEAPENER_BOOST = 16;
+
+export const getOwl = (idleonData: any, accountData: any) => {
+  return parseOwl(accountData);
+}
+
+const megaFeathersDesc = [
+  'Multiplies_all_Feather_generation_by_10x._Multiplicative,_so_extra_powerful!',
+  'Boosts_all_of_Orion\'s_Bonuses_by_double_their_base_amount.',
+  'All_upgrades_cost_1%_less_feathers_per_LV_of_Feather_Generation.',
+  'Instead_of_double,_all_of_Orion\'s_Bonuses_are_now_triple.',
+  'The_Feather_Cheapener_upgrades_now_give_+2_and_+4_Feathers/sec_each_LV,_respectively.',
+  'Forget_triple,_Orion\'s_Bonuses_are_now_quadruple!',
+  'The_upgrade_Feather_Restart_now_gives_a_5x_feather_bonus_instead_of_the_previous_3x.',
+  'Quadruple?_Pfft_more_like_Noobruple,_Orion\'s_Bonuses_are_now_Quintuple_at_big,_that\'s_5x!',
+  'The_cost_of_Feather_Generation_upgrade_now_goes_up_25%_slower.',
+  'Orion\'s_bonuses_are_now_{x_higher_than_they_were_at_first.'
+]
+
+const parseOwl = (account: any) => {
+  const feathers = account?.accountOptions?.[253];
+  const progress = account?.accountOptions?.[263];
+  const upgrades = owlData.map((upgrade, i) => {
+    const commonFactor = (1 / (1 + (10 * (account?.accountOptions?.[257] ?? 0)) / 100))
+      * (1 / (1 + (20 * (account?.accountOptions?.[261] ?? 0)) / 100))
+      * (1 / (1 + (getMegaFeather(account, 2) * (account?.accountOptions?.[254] ?? 0)) / 100))
+      * getClickerCheapener(account, ORION_CHEAPENER_BOOST, i)
+      * (upgrade?.x1);
+
+    // game: "Summoning:OwlCost"
+    const cost = 0 === i
+      ? commonFactor
+      * (account?.accountOptions?.[254 + i] ?? 0)
+      * Math.pow(Math.max(1.05, (upgrade?.x2) - 0.025 * getMegaFeather(account, 8)), (account?.accountOptions?.[254 + i] ?? 0))
+      : commonFactor
+      * Math.pow((upgrade?.x2), (account?.accountOptions?.[254 + i] ?? 0));
+
+    let description = upgrade?.desc;
+
+    const megaFeather6 = getMegaFeather(account, 6) || 0;
+    const option258 = account?.accountOptions?.[258] || 0;
+    const bonus1 = Math.pow(Math.round(3 + 2 * megaFeather6), option258 + 1);
+
+    const option254PlusI = account?.accountOptions?.[254 + i] || 0;
+    const multiplier = gameTables.owlBonusPerFeather[i] || 0;
+    const bonus2 = multiplier * option254PlusI;
+    const bonus3 = Math.floor(1e4 * (1 - 1 / (1 + 10 * option254PlusI / 100))) / 100;
+
+    description = description
+      .replace('{', '' + bonus1)
+      .replace('}', '' + bonus2)
+      .replace('@', '' + bonus3);
+
+
+    if (i === 0 && getMegaFeather(account, 2) === 1) {
+      const option254 = account?.accountOptions?.[254] || 0;
+      const costReductionBonus = Math.floor(
+        1e4 * (1 - 1 / (1 + getMegaFeather(account, 2) * option254 / 100))
+      ) / 100;
+      description += ', and lowers all costs by ' + costReductionBonus + '%';
+    }
+
+    const level = account?.accountOptions?.[254 + i]
+    const nextLvReq = owlData?.[i + 1]?.x3;
+    return {
+      ...upgrade,
+      desc: description,
+      cost,
+      level,
+      nextLvReq,
+      unlocked: progress > upgrade?.x3
+    }
+  });
+  const nextLvReqIndex = upgrades?.findIndex(({ level, x3 }) => progress < x3);
+  const nextLvReq = owlData?.[nextLvReqIndex]?.x3 || 0;
+  const vaultUpgradeBonus = getUpgradeVaultBonus(account?.upgradeVault?.upgrades, 21);
+  const meritocracyBonus = getMeritocracyBonus(account, 12);
+
+  const fountainOrionBonus = getFountainBonusTotal(account?.hole?.holesObject, 0, 18);
+  // game: "Summoning2:OwlFeatherRate"
+  const featherRate = (
+    (1 + 9 * getMegaFeather(account, 0)) *
+    (1 + fountainOrionBonus / 100) *
+    (1 + 4 * getPetArenaCrucBonus(account, 1)) *
+    (1 + vaultUpgradeBonus / 100) *
+    (1 + meritocracyBonus / 100) *
+    (1 + getGambitBonus(account, 8) / 100) *
+    ((account?.accountOptions?.[254] ?? 0)
+      + (5 * (account?.accountOptions?.[259] ?? 0)
+        + (2 * getMegaFeather(account, 4) * (account?.accountOptions?.[257] ?? 0) + 4 * getMegaFeather(account, 4) * (account?.accountOptions?.[261] ?? 0))
+      )
+    ) * (1 + (5 * (account?.accountOptions?.[256] ?? 0)) / 100)
+    * Math.pow(3 + 2 * getMegaFeather(account, 6), (account?.accountOptions?.[258] ?? 0)) * (1 + ((account?.accountOptions?.[264] ?? 0) * (account?.accountOptions?.[260] ?? 0)) / 100)
+  );
+  const totalFeatherBonus = 100 * getMegaFeather(account, 1)
+    + (100 * getMegaFeather(account, 3)
+      + (100 * getMegaFeather(account, 5)
+        + (100 * getMegaFeather(account, 7)
+          + (100 * Math.min(1, getMegaFeather(account, 9))
+            + 50 * Math.max(0, getMegaFeather(account, 9) - 1)))));
+
+  const legendTalentBonus = getLegendTalentBonus(account, 26) || 0;
+  const companionBonus = isCompanionBonusActive(account, 51) ? account?.companions?.list?.at(51)?.bonus : 0;
+
+  // 1. Extract the shared logic into a single multiplier
+  const multiplier = (1 + totalFeatherBonus / 100) * (1 + legendTalentBonus / 100) * (1 + companionBonus);
+  const upgradeLevel = account?.accountOptions?.[255] || 0;
+
+// 2. Define the unique traits for the middle section
+  const owlStats = [
+    { name: 'Class XP', base: 5, offset: 0, percentage: true },
+    { name: 'Base DMG', base: 10, offset: 1, percentage: false },
+    { name: 'Total DMG', base: 2, offset: 2, percentage: true },
+    { name: 'Skill XP', base: 4, offset: 3, percentage: true },
+    { name: 'Drop Rate', base: 1, offset: 4, percentage: true },
+    { name: 'All Stats', base: 2, offset: 5, percentage: false }
+  ];
+
+// 3. Assemble the full bonuses array
+  const bonuses = [
+    { name: 'Feather/sec', bonus: featherRate },
+
+    ...owlStats.map(stat => ({
+      name: stat.name,
+      bonus: stat.base * multiplier * Math.max(0, Math.ceil((upgradeLevel - stat.offset) / 6)),
+      percentage: stat.percentage
+    })),
+
+    { name: 'Shiny Feather', bonus: account?.accountOptions?.[264] ?? 0 }
+  ];
+
+  const megaFeathers = megaFeathersDesc.map((description, index) => ({
+    description,
+    unlocked: index + 1 <= account?.accountOptions?.[262],
+    ...(index === 9 ? {
+      // game: ActorEvents_670 _event_6 draws (OLA[262] - 9) + "_Megafeather" once 9 < OLA[262] (2.3.540, was 10)
+      amount: (account?.accountOptions?.[262] ?? 0) - 9,
+      totalBonus: 1 + totalFeatherBonus / 100
+    } : {})
+  }));
+  return {
+    upgrades,
+    bonuses,
+    feathers,
+    progress,
+    nextLvReq,
+    megaFeathers,
+    featherRate,
+    restartMulti: Math.pow(3 + 2
+      * getMegaFeather(account, 6), (account?.accountOptions?.[258] ?? 0) + 1)
+  }
+}
+
+const getMegaFeather = (account: any, i: any) => {
+  return (account?.accountOptions?.[262]) > i ? (9 === i
+    ? (account?.accountOptions?.[262]) - 9
+    : 1) : 0;
+}
+
+export const getOwlBonus = (bonuses: any, bonusName: any) => {
+  return bonuses?.find(({ name }: any) => name === bonusName)?.bonus;
+}

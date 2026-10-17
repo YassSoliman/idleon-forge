@@ -1,0 +1,6053 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+// Auto-generated
+// Do not edit manually
+//
+// These types represent the PARSED output of serializeData / initializeCharacter,
+// not the raw Firebase data (which is in IdleonData).
+
+export interface Account {
+  charactersLevels: {
+      level: number;
+      class: string;
+    }[];
+  accountCreateTime: number;
+  companions: {
+    totalBoxesOpened: number;
+    currentCompanion: {
+      name: string;
+      rawName: string;
+      effect: string;
+      bonus: number;
+      x: string;
+      y: string;
+      z: string;
+      filler: string;
+      tourPower: number;
+      upgradeCost: number;
+      upgradedTourPower: number;
+      upgradedEffect: string;
+      upgradedBonus: number;
+    };
+    list: {
+        name?: string;
+        rawName: string;
+        effect: string;
+        bonus: number;
+        x: string;
+        y: string;
+        z: string;
+        filler: string;
+        tourPower: number;
+        upgradeCost: number | null;
+        upgradedTourPower: number;
+        upgradedEffect: string;
+        upgradedBonus: number;
+        acquired: boolean;
+        viaToken: boolean;
+        simulated: boolean;
+        copies: number;
+        tradableCount: number;
+        nonTradableCount: number;
+        upgradedCount: number;
+        upgradedTradableCount: number;
+        level: number;
+        upgraded: boolean;
+      }[];
+    freeClaimAnchor: number;
+    petCrystals: number;
+    maxStorage: number;
+    tokens: {
+      owned: number;
+      used: number;
+      remaining: number;
+      usedIndices: number[];
+    };
+  };
+  bundles: {
+      name: string;
+      owned: boolean;
+      price?: number;
+      image?: string;
+      starterOffer?: boolean;
+      evolving?: boolean;
+      displayName?: string;
+      gems?: number;
+      petCrystals?: number;
+      companionIndex?: number;
+    }[];
+  bundlesOwned: {
+    bun_a: boolean;
+    bun_b: boolean;
+    bun_c: boolean;
+    bun_d: boolean;
+    bun_e: boolean;
+    bun_f: boolean;
+    bun_g: boolean;
+    bun_h: boolean;
+    bun_i: boolean;
+    bun_j: boolean;
+    bun_k: boolean;
+    bun_l: boolean;
+    bun_m: boolean;
+    bun_n: boolean;
+    bun_o: boolean;
+    bun_p: boolean;
+    bun_q: boolean;
+    bun_r: boolean;
+    bun_s: boolean;
+    bun_t: boolean;
+    bun_u: boolean;
+    bun_v: boolean;
+    bun_w: boolean;
+    bun_y: boolean;
+    bun_z: boolean;
+  };
+  serverVars: Record<string, any>;
+  accountOptions: number[];
+  menagerieSave: any[];
+  menagerieNightmarinerLevels: number;
+  gemShopPurchases: number[];
+  bribes: {
+      name: string;
+      desc: string;
+      npc: string;
+      price: number;
+      effectName: string;
+      value: number;
+      done: boolean;
+    }[];
+  timeAway: {
+    GlobalTime: number;
+    Arcade: number;
+    Player: number;
+    Construction: number;
+    Cauldron: number;
+    Printer: number;
+    Cooking: number;
+    DailyRewards: number;
+    BookLib: number;
+    Pets: number;
+    ShopRestock: number;
+    PostOfficeRefresh: number;
+    Forge: number;
+    Sailing: number;
+    Lab: null;
+  };
+  obols: {
+    inventory: (string[])[];
+    list: {
+        displayName: string;
+        rawName: string;
+        shape: string;
+        levelReq: number;
+        sellPrice: number;
+        typeGen: string;
+        ID: number;
+        Type: string;
+        lvReqToCraft: number;
+        lvReqToEquip: number;
+        Class: string;
+        Speed: number;
+        Reach: number;
+        STR: number;
+        AGI: number;
+        WIS: number;
+        LUK: number;
+        Defence: number;
+        UQ1txt: number | string;
+        UQ1val: number;
+        UQ2txt: number;
+        UQ2val: number;
+        Upgrade_Slots_Left: number;
+        itemType: string;
+        Weapon_Power: number;
+        SuperFunItemDisplayType?: string;
+        changes?: Record<string, any>[] | any[];
+        rerolled: boolean;
+      }[];
+    stats: {
+      STR: {
+        familyBonus: number;
+      };
+      AGI: {
+        familyBonus: number;
+      };
+      WIS: {
+        familyBonus: number;
+      };
+      LUK: {
+        familyBonus: number;
+      };
+      Defence: {
+        familyBonus: number;
+      };
+      Weapon_Power: {
+        familyBonus: number;
+      };
+      _BASE_DAMAGE: {
+        familyBonus: number;
+      };
+      '%_DROP_RATE': {
+        familyBonus: number;
+      };
+      '%_MULTIKILL_PER_TIER': {
+        familyBonus: number;
+      };
+      '%_ALL_STATS': {
+        familyBonus: number;
+      };
+    };
+  };
+  looty: {
+    slabItems: {
+        name?: string;
+        rawName: string;
+        itemRawName: string;
+        obtained: boolean;
+        greenStacked: boolean;
+        greenstackable: boolean;
+        unrealisticGreenstack?: boolean;
+        unobtainable?: boolean;
+        onRotation?: boolean;
+      }[];
+    lootyRaw: string[];
+    lootedItems: number;
+    missingItems: number;
+    greenStacks: string[];
+    greenStackedCount: number;
+    greenstackableCount: number;
+    greenstackableStackedCount: number;
+    totalItems: number;
+    rawLootedItems: number;
+  };
+  tasks: ((number[])[] | number[] | null)[];
+  tasksDescriptions: ({
+        name: string;
+        description: string;
+        filler1: string;
+        x: string;
+        filler2: string;
+        breakpoints: string[];
+        stat: number;
+        level: number;
+        maxLevel: number;
+        requirement: null | number;
+        meritReward: number;
+      }[])[];
+  meritsDescriptions: ({
+        descLine1: string;
+        descLine2: string;
+        num1: number;
+        num2: number;
+        num3: number;
+        totalLevels: number;
+        meritCost: number | null;
+        text1: string;
+        text2: string;
+        extraStr: string;
+        icon: string;
+        bonusPerLevel: number;
+        level: number;
+        description: string;
+      }[])[];
+  unlockedRecipes: number;
+  taskUnlocks: {
+    taskUnlocksList: ({
+          unlocks: Record<string, any>[];
+          unlocked: number;
+        }[])[];
+    unlockedRecipes: number;
+    unlockPointsOwned: number;
+    currentPoints: number;
+    pointsReq: number;
+  };
+  postOfficeShipments: {
+      index: number;
+      totalShipments: number;
+      streak: number;
+      completedAnOrder: number;
+      shield: number;
+    }[];
+  towers: {
+    data: {
+        index: number;
+        desc: string;
+        itemReq: Record<string, any>[];
+        maxLevel: number;
+        bonusInc: number;
+        costInc: number[];
+        name: string;
+        level: number;
+        nextLevel: boolean;
+        progress: number;
+        inProgress: boolean;
+        slot: number;
+      }[];
+    buildMultiplier: string[];
+    wizardOverLevels: number;
+    totalLevels: number;
+    totalWaves: number;
+    towersTwo: number;
+  };
+  achievements: {
+      name: string;
+      rawName: string;
+      quantity: number;
+      desc: string;
+      rewards: string[];
+      misc: string;
+      visualIndex: number;
+      steamExclusive: boolean;
+      secretAchievement: boolean;
+      steamIndex?: number;
+      gems?: number;
+      candy?: {
+        rawName: string;
+        quantity: number;
+      };
+      completed: boolean;
+      currentQuantity?: number;
+    }[];
+  rift: {
+    list: {
+        monsterName: string;
+        task: string;
+        icon: string;
+        riftBonus?: string;
+        riftBonusIcon?: string;
+        riftDescription?: string;
+      }[];
+    currentRift: number;
+    currentProgress: number;
+    chars: string;
+  };
+  weeklyBossesRaw: Record<string, number>;
+  constellations: {
+      rawIndex: number;
+      mapIndex: number;
+      requiredPlayers: number;
+      points: number;
+      name: string;
+      requirement: string;
+      location: string;
+      completedChars: string;
+      done: boolean;
+    }[];
+  rawConstellationsDone: number;
+  shopStock: ({
+        amount: number;
+        name: string;
+        rawName: string;
+        shopName: string;
+      }[])[];
+  traps: ({
+        name: string;
+        rawName: string;
+        crittersQuantity: number;
+        trapType: number;
+        trapExp: number;
+        timeLeft: number;
+        trapData: {
+          trapTime: number;
+          quantity: number;
+          exp: number;
+          trapType: number;
+        };
+      }[])[];
+  totems: {
+      monsterRawName: string;
+      monsterName: string;
+      minEfficiency: number;
+      skillReq: number;
+      chargeReq: number;
+      name?: string;
+      maxWave: number;
+      waveMulti: number;
+      expReward: number;
+      map: string;
+    }[];
+  adviceFish: {
+    upgrades: {
+        level: number;
+        cost: number;
+        bonus: number;
+        name: string;
+        description: string;
+        x2: number;
+        x3: number;
+        filler: string;
+      }[];
+  };
+  guild: {
+    unlocked: boolean;
+    id: string;
+    guildBonuses: {
+        name: string;
+        xPos: number;
+        yPos: number;
+        bonus: string;
+        x1: number;
+        x2: number;
+        func: string;
+        maxLevel: number;
+        reqIndex: number;
+        reqLevel: number;
+        gpBaseCost: number;
+        gpIncrease: number;
+        level: number;
+      }[];
+    guildTasks: {
+      daily: {
+          task: string;
+          requirement: number;
+          gp: number;
+          progress: number;
+        }[];
+      weekly: {
+          task: string;
+          requirement: number;
+          gp: number;
+          progress: number;
+        }[];
+    };
+    members: {
+        name: string;
+        level: number;
+        gpEarned: number;
+        wantedBonus: {
+          name: string;
+          xPos: number;
+          yPos: number;
+          bonus: string;
+          x1: number;
+          x2: number;
+          func: string;
+          maxLevel: number;
+          reqIndex: number;
+          reqLevel: number;
+          gpBaseCost: number;
+          gpIncrease: number;
+          level: number;
+        } | number;
+        rank: number;
+      }[];
+    maxMembers: number;
+    level: number;
+    levelReq: number;
+    totalGp: number;
+  };
+  talentPoints: number[];
+  tournamentServerData: null;
+  alchemy: {
+    p2w: {
+      cauldrons: {
+          name: string;
+          speed: Record<string, any>;
+          newBubble: Record<string, any>;
+          boostReq: Record<string, any>;
+        }[];
+      liquids: {
+          name: string;
+          regen: Record<string, any>;
+          capacity: Record<string, any>;
+          players: Record<string, any>[] | any[];
+        }[];
+      vials: {
+        attempts: number;
+        rng: number;
+      };
+      player: {
+        speedLv: number;
+        speed: number;
+        extraExpLv: number;
+        extraExp: number;
+      };
+      sigils: {
+          name: string;
+          unlockCost: number;
+          boostCost: number;
+          jadeCost: number;
+          unlockBonus: number;
+          boostBonus: number;
+          jadeBonus: number;
+          etherealCost: number;
+          etherealBonus: number;
+          eclecticCost: number;
+          eclecticBonus: number;
+          filler: string;
+          effect: string;
+          unlocked: number;
+          progress: number;
+          bonus: number;
+          characters: any[] | Record<string, any>[];
+          index: number;
+          nextCost: null | number;
+          chargeRate: number;
+        }[];
+      totalEtherealSigils: number;
+      totalEclecticSigils: number;
+      vialsAttempts: {
+        current: number;
+        max: number;
+      };
+      sigilSpeed: {
+        value: number;
+        breakdown: {
+          statName: string;
+          totalValue: string;
+          tree: Record<string, any>[];
+        };
+      };
+    };
+    bubbles: {
+      power: {
+          level: number;
+          index: number;
+          rawName: string;
+          bubbleIndex: string;
+          bubbleName: string;
+          x1: number;
+          x2: number;
+          func: string;
+          desc: string;
+          stat: string;
+          cauldron: string;
+          itemReq: Record<string, any>[];
+        }[];
+      quicc: {
+          level: number;
+          index: number;
+          rawName: string;
+          bubbleIndex: string;
+          bubbleName: string;
+          x1: number;
+          x2: number;
+          func: string;
+          desc: string;
+          stat: string;
+          cauldron: string;
+          itemReq: Record<string, any>[];
+        }[];
+      'high-iq': {
+          level: number;
+          index: number;
+          rawName: string;
+          bubbleIndex: string;
+          bubbleName: string;
+          x1: number;
+          x2: number;
+          func: string;
+          desc: string;
+          stat: string;
+          cauldron: string;
+          itemReq: Record<string, any>[];
+        }[];
+      kazam: {
+          level: number;
+          index: number;
+          rawName: string;
+          bubbleIndex: string;
+          bubbleName: string;
+          x1: number;
+          x2: number;
+          func: string;
+          desc: string;
+          stat: string;
+          cauldron: string;
+          itemReq: Record<string, any>[];
+        }[];
+    };
+    bubblesFlat: {
+        level: number;
+        index: number;
+        rawName: string;
+        bubbleIndex: string;
+        bubbleName: string;
+        x1: number;
+        x2: number;
+        func: string;
+        desc: string;
+        stat: string;
+        cauldron: string;
+        itemReq: Record<string, any>[];
+      }[];
+    vials: {
+        name: string;
+        mainItem: string;
+        discoveryScore: number;
+        desc: string;
+        func: string;
+        stat: string;
+        x1: number;
+        x2: number;
+        itemReq: Record<string, any>[];
+        level: number;
+        multiplier: number;
+      }[];
+    cauldrons: {
+      power: {
+        progress: number;
+        req: number;
+        attempts: number;
+        unlockedBubbles: number;
+        players: any[];
+        boosts: {
+          speed: Record<string, any>;
+          luck: Record<string, any>;
+          cost: Record<string, any>;
+          extra: Record<string, any>;
+        };
+        newBubble: {
+          chance: number;
+          multi: number;
+          expectedBubbles: number;
+          talentCharacter: string;
+          breakdown: Record<string, any>[];
+        };
+        brewSpeed: {
+          value: number;
+          multi: number;
+          breakdown: Record<string, any>;
+        };
+      };
+      quicc: {
+        progress: number;
+        req: number;
+        attempts: number;
+        unlockedBubbles: number;
+        players: any[];
+        boosts: {
+          speed: Record<string, any>;
+          luck: Record<string, any>;
+          cost: Record<string, any>;
+          extra: Record<string, any>;
+        };
+        newBubble: {
+          chance: number;
+          multi: number;
+          expectedBubbles: number;
+          talentCharacter: string;
+          breakdown: Record<string, any>[];
+        };
+        brewSpeed: {
+          value: number;
+          multi: number;
+          breakdown: Record<string, any>;
+        };
+      };
+      'high-iq': {
+        progress: number;
+        req: number;
+        attempts: number;
+        unlockedBubbles: number;
+        players: any[];
+        boosts: {
+          speed: Record<string, any>;
+          luck: Record<string, any>;
+          cost: Record<string, any>;
+          extra: Record<string, any>;
+        };
+        newBubble: {
+          chance: number;
+          multi: number;
+          expectedBubbles: number;
+          talentCharacter: string;
+          breakdown: Record<string, any>[];
+        };
+        brewSpeed: {
+          value: number;
+          multi: number;
+          breakdown: Record<string, any>;
+        };
+      };
+      kazam: {
+        progress: number;
+        req: number;
+        attempts: number;
+        unlockedBubbles: number;
+        players: any[];
+        boosts: {
+          speed: Record<string, any>;
+          luck: Record<string, any>;
+          cost: Record<string, any>;
+          extra: Record<string, any>;
+        };
+        newBubble: {
+          chance: number;
+          multi: number;
+          expectedBubbles: number;
+          talentCharacter: string;
+          breakdown: Record<string, any>[];
+        };
+        brewSpeed: {
+          value: number;
+          multi: number;
+          breakdown: Record<string, any>;
+        };
+      };
+    };
+    cauldronsInfo: (number[])[];
+    multiplierArray: number[];
+    liquids: number[];
+    activities: {
+        activity: number;
+        index: number;
+      }[];
+    totalBubbleLevelsTill100: number;
+    prismaFragments: number;
+    prismaBubbles: string;
+    liquidCauldrons: {
+        isDragonic: boolean;
+        maxLiquid: number;
+        maxLiquidBreakdown: {
+          statName: string;
+          totalValue: number;
+          tree: Record<string, any>[];
+          round: string;
+        };
+        decantCap: {
+          level: number;
+          progress: number;
+          req: number;
+        };
+        decantRate: {
+          level: number;
+          progress: number;
+          req: number;
+        };
+      }[];
+  };
+  armorSmithy: {
+    sets: {
+        setName: string;
+        armors: string[];
+        tools: string[] | any[];
+        weapons: any[] | string[];
+        requiredTools: number;
+        requiredWeapon: number;
+        bonusValue: number;
+        description: string;
+        description2: string;
+        unlocked: boolean;
+        equipped: boolean;
+      }[];
+    days: number;
+    smithyUnlocked: number;
+    unlockedSets: string[];
+    isSmithyUnlocked: boolean;
+  };
+  equippedBubbles: ({
+        level: number;
+        index: number;
+        rawName: string;
+        bubbleIndex: string;
+        bubbleName: string;
+        x1: number;
+        x2: number;
+        func: string;
+        desc: string;
+        stat: string;
+        cauldron: string;
+        itemReq: Record<string, any>[];
+      }[])[];
+  storage: {
+    list: {
+        displayName: string;
+        sellPrice: number;
+        typeGen: string;
+        ID: number;
+        Type: string;
+        lvReqToCraft: number | string;
+        desc_line1?: string | number;
+        desc_line2?: string;
+        desc_line3?: string;
+        desc_line4?: string;
+        desc_line5?: string;
+        desc_line6?: string;
+        desc_line7?: string;
+        desc_line8?: string;
+        Effect?: string;
+        Amount?: number;
+        Trigger?: number;
+        Cooldown?: number;
+        itemType: string;
+        rawName: string;
+        maxUpgradeSlots: number;
+        owner: string;
+        name: string;
+        type: string;
+        subType: string;
+        slot: number;
+        amount: number;
+        misc: string;
+        description: string;
+        Defence?: number;
+        STR?: number;
+        WIS?: number;
+        Weapon_Power?: number;
+        LUK?: number;
+        Reach?: number;
+        AGI?: number;
+        UQ1txt?: number | string;
+        Speed?: number;
+        changes?: any[] | Record<string, any>[];
+        Upgrade_Slots_Left?: number;
+        Power?: number;
+        UQ1val?: number;
+        UQ2val?: number;
+        UQ2txt?: number | string;
+        lvReqToEquip?: number;
+        Class?: string;
+      }[];
+    slots: {
+      value: number;
+      breakdown: {
+        statName: string;
+        totalValue: number;
+        tree: Record<string, any>[];
+        combine: string;
+      };
+    };
+    storageChests: {
+        rawName: string;
+        displayName: string;
+        sellPrice: number;
+        typeGen: string;
+        ID: number;
+        Type: string;
+        lvReqToCraft: number;
+        lvReqToEquip: number;
+        Class: string;
+        Speed: number;
+        Reach: number;
+        Weapon_Power: number;
+        STR: number;
+        AGI: number;
+        WIS: number;
+        LUK: number;
+        Defence: number;
+        UQ1txt: number;
+        UQ1val: number;
+        UQ2txt: number;
+        UQ2val: number;
+        Upgrade_Slots_Left: number;
+        itemType: string;
+        capacity: number;
+        amount: number;
+        unlocked: boolean;
+      }[];
+    greenStacks: string[];
+  };
+  saltLick: {
+      name: string;
+      rawName: string;
+      desc: string;
+      baseCost: number;
+      increment: number;
+      baseBonus: number;
+      maxLevel: number;
+      totalAmount: number;
+      level: number;
+      unlocked: boolean;
+    }[];
+  dungeons: {
+    upgrades: {
+        effect: string;
+        x1: number;
+        x2: number;
+        func: string;
+        bonusName: string;
+        type: string;
+        level: number;
+      }[];
+    insideUpgrades: {
+        effect: string;
+        x1: number;
+        x2: number;
+        func: string;
+        bonusName: string;
+        type: string;
+        level: number;
+      }[];
+    credits: number;
+    flurbos: number;
+    boostedRuns: number;
+    progress: number;
+    rankReq: string;
+    rank: number;
+    rngItems: {
+        name: string;
+        bonus: string;
+        increment: number;
+        rarity: string;
+        desc: string;
+        levelText: string;
+        baseValue: number;
+        maxLevel: number;
+        level: number;
+      }[];
+    statBoosts: {
+        section: string;
+        levelReq: number;
+        bonuses: Record<string, any>[];
+      }[];
+  };
+  prayers: {
+      name: string;
+      effect: string;
+      curse: string;
+      id: number;
+      x1: number;
+      x2: number;
+      prayerIndex: number;
+      soul: string;
+      maxLevel: number;
+      unlockZone: string;
+      costMulti: number;
+      unlockWave: number;
+      totalAmount: number;
+      level: number;
+    }[];
+  cards: Record<string, {
+      rawName: string;
+      displayName: string;
+      cardIndex: string;
+      visualIndex: number;
+      effect: string;
+      bonus: number;
+      perTier: number;
+      category: string;
+      amount: number;
+      stars: number;
+      nextLevelReq: number;
+    }>;
+  currencies: {
+    candies: {
+      guaranteed: number;
+      special: {
+        min: number;
+        max: number;
+      };
+    };
+    WorldTeleports: number;
+    KeysAll: {
+        amount: number;
+        name: string;
+        rawName: string;
+        amountPerDay: number;
+        daysSincePickup?: number;
+        totalAmount: number;
+      }[];
+    ColosseumTickets: {
+      allTickets: {
+          rawName: string;
+          amountPerDay: number;
+          daysSincePickup: number;
+          amount: number;
+          totalAmount: number;
+        }[];
+      totalAmount: number;
+    };
+    ObolFragments: number;
+    SilverPens: number;
+    GoldPens: number;
+    DeliveryBoxComplete: number;
+    DeliveryBoxStreak: number;
+    DeliveryBoxMisc: number;
+    minigamePlays: number;
+    rawMoney: number;
+    bankMoney: number;
+    money: (number[])[];
+    gems: number;
+    penPals: number;
+  };
+  stamps: {
+    combat: {
+        displayName: string;
+        rawName: string;
+        func: string;
+        x1: number;
+        x2: number;
+        reqItemMultiplicationLevel: number;
+        baseMatCost: number;
+        baseCoinCost: number;
+        powCoinBase: number;
+        powMatBase: number;
+        skillIndex: number;
+        effect: string;
+        placeholderEffect: string;
+        stat: string;
+        itemReq: {
+          name: string;
+          rawName: string;
+        } | {
+          name: string;
+          rawName: string;
+          materials: Record<string, any>[];
+        };
+        level: number;
+        maxLevel: number;
+        materials: any[] | Record<string, any>[];
+        ownedMats: number;
+        greenStackOwnedMats: number;
+        category: string;
+        multiplier: number;
+        bestCharacter: {
+          capacityPerSlot: number;
+          maxCapacity: number;
+          character: string;
+          skillsInfoArray: Record<string, any>[];
+          topCharacters: Record<string, any>[];
+        };
+        goldCost: number;
+        materialCost: number;
+        enoughPlayerStorage: boolean;
+        greenStackHasMaterials: boolean;
+        hasMaterials: boolean;
+        hasMoney: boolean;
+        minReduction: null;
+        futureCosts: Record<string, any>[];
+      }[];
+    skills: {
+        displayName: string;
+        rawName: string;
+        func: string;
+        x1: number;
+        x2: number;
+        reqItemMultiplicationLevel: number;
+        baseMatCost: number;
+        baseCoinCost: number;
+        powCoinBase: number;
+        powMatBase: number;
+        skillIndex: number;
+        effect: string;
+        placeholderEffect: string;
+        stat: string;
+        itemReq: {
+          name: string;
+          rawName: string;
+        } | {
+          name: string;
+          rawName: string;
+          materials: Record<string, any>[];
+        };
+        level: number;
+        maxLevel: number;
+        materials: any[] | Record<string, any>[];
+        ownedMats: number;
+        greenStackOwnedMats: number;
+        category: string;
+        multiplier: number;
+        bestCharacter: {
+          capacityPerSlot: number;
+          maxCapacity: number;
+          character: string;
+          skillsInfoArray: Record<string, any>[];
+          topCharacters: Record<string, any>[];
+        };
+        goldCost: number;
+        materialCost: number;
+        enoughPlayerStorage: boolean;
+        greenStackHasMaterials: boolean;
+        hasMaterials: boolean;
+        hasMoney: boolean;
+        minReduction: null;
+        futureCosts: Record<string, any>[];
+      }[];
+    misc: {
+        displayName: string;
+        rawName: string;
+        func: string;
+        x1: number;
+        x2: number;
+        reqItemMultiplicationLevel: number;
+        baseMatCost: number;
+        baseCoinCost: number;
+        powCoinBase: number;
+        powMatBase: number;
+        skillIndex: number;
+        effect: string;
+        placeholderEffect: string;
+        stat: string;
+        itemReq: {
+          name: string;
+          rawName: string;
+        } | {
+          name: string;
+          rawName: string;
+          materials: Record<string, any>[];
+        };
+        level: number;
+        maxLevel: number;
+        materials: any[];
+        ownedMats: number;
+        greenStackOwnedMats: number;
+        category: string;
+        bestCharacter: {
+          capacityPerSlot: number;
+          maxCapacity: number;
+          character: string;
+          skillsInfoArray: Record<string, any>[];
+          topCharacters: Record<string, any>[];
+        };
+        goldCost: number | null;
+        materialCost: number;
+        enoughPlayerStorage: boolean;
+        greenStackHasMaterials: boolean;
+        hasMaterials: boolean;
+        hasMoney: boolean;
+        minReduction: null;
+        futureCosts: Record<string, any>[];
+      }[];
+  };
+  breeding: {
+    rawFencePets: ((string | number)[])[];
+    eggsPowerRange: {
+        minPower: number;
+        maxPower: number;
+      }[];
+    passivesTotals: {
+      '+{%_Faster_Shiny_Mob_Lv_Up_Rate': number;
+      '+{_Infinite_Star_Signs': number;
+      '+{%_Total_Damage': number;
+      '+{%_Faster_Refinery_Speed': number;
+      '+{%_Bonuses_from_All_Meals': number;
+      '+{%_Drop_Rate': number;
+      '+{%_Multikill_Per_Tier': number;
+      '+{_Base_Efficiency_for_All_Skills': number;
+      '+{_Base_AGI': number;
+      '+{%_Class_EXP': number;
+      '+{_Tab_1_Talent_Pts': number;
+      '+{%_Line_Width_in_Lab': number;
+      '+{_Base_STR': number;
+      '+{%_Higher_Artifact_Find_Chance': number;
+      '+{%_Skill_EXP': number;
+      '+{%_Lower_Minimum_Travel_Time_for_Sailing': number;
+    };
+    storedPets: {
+        name: string;
+        level: number | string;
+        power: number;
+      }[];
+    eggs: number[];
+    eggCapacity: number;
+    genetics: number[];
+    deadCells: number;
+    speciesUnlocks: number[];
+    fencePets: {
+        monsterName: string;
+        monsterRawName: string;
+        passiveIndex: string;
+        passive: string;
+        icon: string;
+        baseValue: number;
+        gene: {
+          name: string;
+          abilityType: number;
+          combatAbility: string;
+          bonusAbility: string;
+          index: number;
+        };
+        world: string;
+        level: number;
+        shinyLevel: number;
+        shinyProgress: number;
+        breedingProgress: number;
+        shinyGoal: number;
+        rawPassive: string;
+        passiveValue: number;
+        unlocked: boolean;
+      }[];
+    fencePetsObject: {
+      Pet11: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      mushG: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      w4c4: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      bloque: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      potato: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      snowball: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      goblinG: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      Pet1: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      potatoB: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      slimeG: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      frogBIG: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      penguin: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      pincermin: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      snakeG: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      acorn: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      sheep: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      mamoth: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+      plank: {
+        amount: number;
+        shiny: number;
+        breedability: number;
+      };
+    };
+    maxArenaLevel: number;
+    maxCrucibleLevel: number;
+    maxShinyLevel: number;
+    shinyOverLevels: number;
+    timeToNextEgg: number;
+    petUpgrades: {
+        name: string;
+        filler: string;
+        material: string;
+        foodIndex: null | number;
+        baseMatCost: number;
+        costMatScale: number;
+        baseCost: number;
+        costScale: number;
+        maxLevel: number;
+        description: string;
+        boostEffect: string;
+        bonusQuantity: number;
+        upgradeIndex: number;
+        level: number;
+      }[];
+    arenaBonuses: {
+        bonus: string;
+        wave: number;
+        type: string;
+      }[];
+    unlockedBreedingMulti: {
+      second: boolean;
+      third: boolean;
+      fourth: boolean;
+      fifth: boolean;
+    };
+    pets: ({
+          monsterName: string;
+          monsterRawName: string;
+          passiveIndex: string;
+          passive: string;
+          icon: string;
+          baseValue: number;
+          gene: Record<string, any>;
+          world: string;
+          level: number;
+          shinyLevel: number;
+          shinyProgress: number;
+          breedingProgress: number;
+          shinyGoal: number;
+          rawPassive: string;
+          passiveValue: number;
+          unlocked: boolean;
+          breedingLevel: number;
+          breedingGoal: number;
+          breedingMultipliers: Record<string, any>;
+        }[])[];
+    territories: {
+        territoryName?: string;
+        background: string;
+        powerReq: number;
+        fightPower: number;
+        enemyAttack: number;
+        battleName: string;
+        f1: string;
+        f2: string;
+        f3: string;
+        enemies: Record<string, any>[];
+        team: Record<string, any>[];
+        forageSpeed: number;
+        reqProgress: number;
+        currentProgress?: number;
+      }[];
+    foragingRounds: number[];
+    currentProgress: number[];
+    totalShinyLevels: number;
+    totalBreedabilityLv: number;
+  };
+  cooking: {
+    meals: {
+        index: number;
+        level: number;
+        amount: number;
+        shinyMulti: number;
+        levelCost: number;
+        cookingMasteryNode: {
+          level: number;
+          multi: number;
+        };
+        name: string;
+        cookReq: number;
+        rawName: string;
+        baseStat: number;
+        effect: string;
+        description: string;
+        stat: string;
+        multiplier: number;
+      }[];
+    spices: {
+      toClaim: {
+          progress: number;
+          amount: number;
+          rawName: string;
+          name?: string;
+        }[];
+      available: {
+          amount: number;
+          toClaim: number;
+          rawName: string;
+          name?: string;
+        }[];
+      numberOfClaims: number;
+    };
+    mealMaxLevel: number;
+    cookingMastery: {
+      level: number;
+      exp: number;
+      expReq: number;
+      expRate: number;
+      rank: number;
+      rankThresholds: number[];
+      nextRankLevel: number;
+      points: {
+        base: number;
+        gridBonus: number;
+        categorySpent: number;
+        categoryLeft: number;
+        nodeSpent: number;
+        nodeLeft: number;
+      };
+      categories: {
+          index: number;
+          name: string;
+          points: number;
+          baseMulti: number;
+          mult: number;
+          bonusAmount: number;
+          sourceValue: number | null;
+          isExpBoost: boolean;
+          unlockLevel: number;
+          unlocked: boolean;
+          label: string;
+          description: string;
+        }[];
+      expRateBreakdown: {
+        statName: string;
+        totalValue: string;
+        tree: Record<string, any>[];
+      };
+      ribbons: {
+        total: number;
+        highest: number;
+        lowest: number;
+        ribbonedMeals: number;
+        totalMeals: number;
+        shelf: number[];
+        maxRank: number;
+        rankCounts: number[];
+      };
+      dailyRibbons: {
+        unlocked: boolean;
+        meritocracy: number;
+        connoisseur: number;
+        bundleDeathBringer: number;
+        bundleBoaring: number;
+        bundleAnniversary: number;
+        legendTalent: number;
+        talent: number;
+        palette: number;
+        grimoire: number;
+        sushi: number;
+        armory: number;
+        elegantRibbons: number;
+        binGoosey: number;
+        binGooseyUpgraded: number;
+        smoky: {
+          bonus: number;
+          baseMulti: number;
+          points: number;
+          allPoints: number;
+          unlocked: boolean;
+        };
+      };
+    };
+    kitchens: {
+        status: number;
+        meal: {
+          name: string;
+          cookReq: number;
+          rawName: string;
+          baseStat: number;
+          effect: string;
+          description: string;
+          stat: string;
+          index: number;
+          level: number;
+          amount: number;
+          shinyMulti: number;
+          levelCost: number;
+          cookingMasteryNode: Record<string, any>;
+          multiplier: number;
+        };
+        luckLv: number;
+        fireLv: number;
+        speedLv: number;
+        currentProgress?: number;
+        mealSpeed: number;
+        mealSpeedBreakdown: {
+          statName: string;
+          totalValue: string;
+          tree: Record<string, any>[];
+        };
+        mealLuck: number;
+        fireSpeed: number;
+        fireSpeedBreakdown: {
+          statName: string;
+          totalValue: string;
+          tree: Record<string, any>[];
+        };
+        speedCost: number;
+        fireCost: number;
+        luckCost: number;
+      }[];
+  };
+  divinity: {
+    linkedDeities: number[];
+    linkedStyles: number[];
+    deities: {
+        name: string;
+        majorBonus: string;
+        minorBonus: string;
+        blessing: string;
+        minorBonusMultiplier: number;
+        godIndex: string;
+        blessingMultiplier: number;
+        x4: number;
+        x5: number;
+        x7: null;
+        x8: number;
+        x9: number;
+        x10: number;
+        x11: number;
+        x12: number;
+        rawName: string;
+        level: number;
+        blessingBonus: number;
+        unlocked: boolean;
+        maxLevel: number;
+        cost: {
+          type: string;
+          cost: number;
+          nextLevelCost: number;
+          costToMax: number;
+          currency: number;
+        } | {
+          type: string;
+          cost: number;
+          nextLevelCost: number;
+          costToMax: number;
+          currency: Record<string, any>;
+        };
+      }[];
+    blessingLevels: number[];
+    unlockedDeities: number;
+    godRank: number;
+    divinityPoints: number;
+    unlocked: boolean;
+  };
+  sneaking: {
+    totalNinjaUpgradeLevels: number;
+    sneakingExpThing: number;
+    jadeEmporium: {
+        name: string;
+        x1: number;
+        x2: number;
+        x3: number;
+        filler1: string;
+        filler2: string;
+        description: string;
+        originalIndex: number;
+        index: number;
+        unlocked: boolean;
+        cost: number;
+        bonus: number;
+      }[];
+    jadeCoins: string;
+    upgrades: {
+        x0: number;
+        x1: number;
+        x2: number;
+        x3: number;
+        name: string;
+        modifier: number | null;
+        description: string;
+        x7: number;
+        x8: number;
+        x9: number;
+        x10: number;
+        x11: number;
+        level?: number;
+        omnijadeLevels: number;
+        value: number;
+        isUnlocked: boolean;
+        isSpecialUpgrade: boolean;
+        prerequisiteIndex: number | null;
+        unlockOrder: null | number;
+        position: {
+          locked: Record<string, any>;
+          unlocked: Record<string, any>;
+        };
+        size: {
+          width: number;
+          height: number;
+        };
+      }[];
+    characterEquipments: ({
+          rawName: string;
+          type: number;
+          subType: number;
+          name: string;
+          description: string;
+          filler?: string;
+          level: number;
+          symbolBonus: number;
+          symbolLevel: number;
+          rawValue: number;
+          value: number;
+          x3?: number;
+          x5?: number;
+        }[])[];
+    inventory: {
+        rawName: string;
+        type: number;
+        subType: number;
+        x3: number;
+        x5: number;
+        name: string;
+        description: string;
+        level: number;
+        symbolBonus: number;
+        symbolLevel: number;
+        rawValue: number;
+        value: number;
+      }[];
+    players: {
+        equipment: Record<string, any>[];
+        floor: number;
+        activityInfo: number;
+      }[];
+    pristineCharms: {
+        rawName: string;
+        x1: number;
+        x2: number;
+        name: string;
+        x3: number;
+        description: string;
+        bonus: string;
+        unlocked: number;
+        value: number;
+        baseValue: number;
+      }[];
+    dropList: ({
+          rawName: string;
+          type: number;
+          subType: number;
+          name: string;
+          description: string;
+          filler: string;
+          dropChance: string;
+        }[])[];
+    doorsCurrentHp: (number | string)[];
+    doorMaxHps: number[];
+    beanstalkData: number[];
+    totalJadeEmporiumUnlocked: number;
+    unlockedFloors: number;
+    gemStones: {
+        rawName: string;
+        type: number;
+        subType: number;
+        x3: number;
+        x5: number;
+        name: string;
+        description: string;
+        unlocked?: string;
+        baseValue: number;
+        bonus: number;
+        maxBonus: number;
+        displayBonus: number;
+        displayMaxBonus: number;
+        notatedBonus: string;
+        saturationPct: number;
+      }[];
+    lastLooted: number;
+    ninjaMasteryBonuses: {
+        index: number;
+        description: string;
+        bonus?: string;
+      }[];
+    ninjaMastery: number;
+    itemsMaxLevel: {
+        name: string;
+        value: number;
+      }[];
+    itemsMaxLevelBreakdown: {
+      statName: string;
+      totalValue: string;
+      tree: {
+          name: string;
+          value: number;
+          unit: string;
+          formatted: string;
+        }[];
+      combine: string;
+    };
+    dailyCharmRollCount: number;
+    remainingPristineRolls: number;
+    remainingSymbolRolls: number;
+    pristineCharmChance: number;
+    detection: {
+      ninjas: {
+          playerIndex: number;
+          name: string;
+          floor: number;
+          baseStealth: number;
+          floorMateBonus: number;
+          stealth: number;
+          detection: number;
+        }[];
+      flowerStacks: number[];
+      flowerBonus: number;
+      mastery: number;
+    };
+  };
+  farming: {
+    plot: {
+        seed: {
+          name: string;
+          seedId: number;
+          cropIdMin: number;
+          cropIdMax: number;
+          lvlReq: number;
+          nextCropChance: number;
+          nextCropDecay: number;
+        };
+        index: number;
+        rank: number;
+        rankProgress: number;
+        rankRequirement: number;
+        seedType: number;
+        baseCropType: number;
+        cropType: number;
+        cropQuantity: number;
+        cropProgress: number;
+        progress: number;
+        growthReq: number;
+        isLocked: number;
+        currentOG: number;
+        cropRawName: string;
+        seedRawName: string;
+        nextOGChance: number;
+        nextOGEta: number;
+        growthRate: number;
+        ogMulti: number;
+        timeLeft: number;
+        maxTimeLeft: number;
+      }[];
+    crop: Record<string, number>;
+    market: {
+        name: string;
+        bonus: string;
+        cropId: number;
+        cropIdIncrement: number;
+        cost: number;
+        costExponent: number;
+        cropReq: number;
+        maxLvl: number;
+        bonusPerLvl: number;
+        level: number;
+        type: number;
+        nextUpgrades: any[] | Record<string, any>[];
+        costToMax: number;
+        baseValue: number;
+        value: number;
+      }[];
+    exoticMarket: {
+        name: string;
+        bonus: string;
+        x2: number;
+        baseValue: number;
+        type: number;
+        x5: number;
+        level: number;
+        value: number;
+        isOrganic: boolean;
+        maxValue: number | null;
+        percentOfCap: number | null;
+        isCapped: boolean;
+        thresholdLevel: number | null;
+        thresholdMissingLevels: number | null;
+        index: number;
+        isAvailableThisWeek: boolean;
+        displayText: string;
+      }[];
+    totalExoticLevels: number;
+    cropsFound: number;
+    cropsOnVine: number;
+    instaGrow: number;
+    beanTrade: number;
+    ranks: {
+        name: string;
+        description: string;
+        bonus: number;
+        base: number;
+        upgradeLevel: number;
+        unlockAt: number;
+        exoticMulti: number;
+        maxLevel: null | number;
+      }[];
+    totalPoints: number;
+    usedPoints: number;
+    availablePoints: number;
+    fifthColumnMaxLevel: number;
+    rankMulti: number;
+    hasLandRank: number;
+    totalRanks: number;
+    exoticMarkeMaxPurchases: number;
+    pctExoticPurchasesFree: number;
+    exoticMarketUpgradesPurchased: number;
+    cropDepot: {
+      damage: {
+        name: string;
+        value: number;
+      };
+      gamingEvo: {
+        name: string;
+        value: number;
+      };
+      jadeCoin: {
+        name: string;
+        value: number;
+      };
+      cookingSpeed: {
+        name: string;
+        value: number;
+      };
+      cash: {
+        name: string;
+        value: number;
+      };
+      shiny: {
+        name: string;
+        value: number;
+      };
+      critters: {
+        name: string;
+        value: number;
+      };
+      dropRate: {
+        name: string;
+        value: number;
+      };
+      spelunky: {
+        name: string;
+        value: number;
+      };
+      researchExp: {
+        name: string;
+        value: number;
+      };
+    };
+    maxTimes: {
+        value: number;
+        breakdown: {
+          statName: string;
+          totalValue: number;
+          tree: Record<string, any>[];
+        };
+      }[];
+    stickers: {
+        name: string;
+        description: string;
+        count: number;
+        bonus: number;
+        odds: number;
+        baseBonus: number;
+      }[];
+    totalStickers: number;
+    dmgMulti: number;
+    stickersUnlocked: number;
+    stats: {
+      growthSpeed: {
+        statName: string;
+        totalValue: number;
+        tree: Record<string, any>[];
+      };
+      ogChance: {
+        statName: string;
+        totalValue: number;
+        tree: Record<string, any>[];
+      };
+      landRankExp: {
+        statName: string;
+        totalValue: number;
+        tree: Record<string, any>[];
+      };
+      cropsOnVine: {
+        statName: string;
+        totalValue: number;
+        tree: Record<string, any>[];
+      };
+      cropValue: {
+        statName: string;
+        totalValue: number;
+        tree: Record<string, any>[];
+        combine: string;
+      };
+      magicBean: {
+        statName: string;
+        totalValue: number;
+        tree: Record<string, any>[];
+      };
+    };
+  };
+  summoning: {
+    upgrades: Record<string, any>;
+    winnerBonuses: {
+        bonusId: number;
+        bonus: string;
+        value: number;
+        baseValue: number;
+      }[];
+    essences: number[];
+    totalUpgradesLevels: number;
+    familiarsOwned: number;
+    allBattles: ({
+          enemyId: string;
+          xOff: number;
+          yOff: number;
+          width: number;
+          territoryName: string;
+          bonusId: number;
+          bonus: Record<string, any>;
+          bonusQty: number;
+          difficulty: number;
+          won: boolean;
+          icon: string;
+        }[])[];
+    armyHealth: number;
+    armyDamage: number;
+    summoningStuff: number[];
+    highestEndlessLevel: number;
+    totalWins: number;
+    summoningStones: {
+        name: string;
+        monsterIcon: string;
+        stoneName: string;
+        kills: number;
+        index: number;
+        bonus: string;
+        bossHp: number;
+        nextLevelHps: number[];
+        mapName: string;
+        mapMonsterName: string;
+        mapMonsterIcon: string;
+      }[];
+    totalSummoningStonesKills: number;
+    upgradesLevels: number[];
+    careerWins: Record<string, number>;
+    essenceGain: {
+        index: number;
+        colour: string;
+        unlocked: boolean;
+        value: number;
+        breakdown: {
+          statName: string;
+          totalValue: number;
+          tree: Record<string, any>[];
+        };
+      }[];
+  };
+  statues: {
+      index: number;
+      name: string;
+      effect: string;
+      dk: number;
+      bonus: number;
+      flairShardIndex: number;
+      rawName: string;
+      level: number;
+      progress: number;
+      onyxStatue: boolean;
+      zenithStatue: boolean;
+      statueIndex: number;
+      talentMulti: number;
+      onyxMulti: number;
+      zenithMulti: number;
+      eventBonusMulti: number;
+      meritocracyMulti: number;
+      dragonMulti: number;
+      upgradeVaultMulti: number;
+    }[];
+  hole: {
+    villagers: {
+        index: number;
+        name: string;
+        exp: string;
+        expReq: string;
+        readyToLevel: boolean;
+        level: number;
+        opalInvested: number;
+        expRate: {
+          value: number;
+          breakdown: Record<string, any>;
+        };
+        timeLeft: number;
+      }[];
+    unlockedCaverns: number;
+    charactersCavernLocation: number[];
+    engineerBonuses: {
+        name: string;
+        x1: number;
+        x2: number;
+        x3: number;
+        x4: number | string;
+        description: string;
+        unlocked: number;
+        index: string;
+        totalBonus: number;
+        scaling: boolean;
+        owned: number;
+        cost: number;
+      }[];
+    unlockedSchematics: number;
+    totalSchematics: number;
+    blindingLanterns: {
+      used: number;
+      max: number;
+      remaining: number;
+    };
+    caverns: {
+      theWell: {
+        rockLayerIndex: number;
+        sediments: (null | Record<string, any>)[];
+        buckets: number[];
+        fillRate: number;
+        bucketRates: number[];
+        totalFillRate: number;
+        goldenBucketsOwned: number;
+        goldenBucketMulti: number;
+        opalCost: string;
+        expandWhenFull: number;
+      };
+      motherlode: {
+        miningEff: string;
+        layer: number;
+        ores: {
+          mined: string;
+          required: string;
+          maxed: boolean;
+        };
+      };
+      theDen: {
+        bestScore: string;
+        nextOpalAt: number;
+        ampMulti: number;
+        amplifiers: Record<string, any>[];
+        ownedAmps: number;
+      };
+      bravery: {
+        damage: {
+          min: number;
+          max: number;
+        };
+        ownedSwords: number;
+        maxRethrow: number;
+        maxRetelling: number;
+        opalChance: number;
+        hps: Record<string, any>[];
+        hpsBreakdown: {
+          statName: string;
+          totalValue: string;
+          tree: Record<string, any>[];
+          combine: string;
+        };
+        bonuses: Record<string, any>[];
+        bonusLvsMultiplier: number;
+        hours: number;
+        timeForNextFight: number;
+        rewardMulti: number;
+        afkPercent: {
+          value: number;
+          multi: number;
+          effectiveValue: number;
+          breakdown: Record<string, any>;
+          expression: string;
+        };
+        monumentAfkReq: null;
+      };
+      theBell: {
+        bellMethodsOwned: number;
+        newMethodChance: number;
+        bells: Record<string, any>[];
+        improvementMethods: Record<string, any>[];
+        bellBonuses: Record<string, any>[];
+        rings: number;
+        pings: number;
+      };
+      theHarp: {
+        stringSlots: number;
+        stringTypes: number;
+        uniqueStringTypes: number;
+        newNoteCost: number;
+        powerRate: number;
+        power: number;
+        harpExpGain: number;
+        chords: Record<string, any>[];
+        opalChance: number;
+        notes: number[];
+        stringNotes: number[];
+      };
+      theLamp: {
+        wishes: Record<string, any>[];
+        wishPerDay: number;
+        currentWishes: number;
+      };
+      theHive: {
+        fishingEff: string;
+        layer: number;
+        bugs: {
+          mined: string;
+          required: string;
+          maxed: boolean;
+        };
+      };
+      grotto: {
+        monarchHp: number;
+        mushroomKillsLeft: number;
+        mushroomKills: number;
+        mushroomKillsReq: number;
+        layer: number;
+      };
+      justice: {
+        rewardMulti: number;
+        hours: number;
+        hoursRewards: string[];
+        hoursBreakpoints: Record<string, any>[];
+        bonuses: Record<string, any>[];
+        bonusLvsMultiplier: number;
+        timeForNextFight: number;
+        coins: number;
+        health: number;
+        popularity: number;
+        dismissals: number;
+        opalChance: number;
+        monumentAfkReq: null;
+      };
+      theJars: {
+        unlockedSlots: number;
+        opalChance: number;
+        newJarCost: number;
+        rupieValue: {
+          value: number;
+          breakdown: Record<string, any>;
+        };
+        rupieExtraChance: {
+          value: number;
+          breakdown: Record<string, any>;
+        };
+        jarAesthetic: number;
+        activeSlots: Record<string, any>[];
+        rupies: number[];
+        perHour: {
+          value: number;
+          breakdown: Record<string, any>;
+        };
+        jars: Record<string, any>[];
+        totalJars: number;
+        jarInventory: Record<string, any>[];
+        totalJarQuantity: number;
+        totalEnhancingLevels: number;
+        collectibles: Record<string, any>[];
+      };
+      evertree: {
+        choppingEff: string;
+        layer: number;
+        logs: {
+          chopped: string;
+          required: string;
+          maxed: boolean;
+        };
+      };
+      wisdom: {
+        rewardMulti: number;
+        hours: number;
+        hoursRewards: string[];
+        hoursBreakpoints: Record<string, any>[];
+        nextHourBreakpoint: {
+          hours: string;
+          reward: string;
+        };
+        bonuses: Record<string, any>[];
+        bonusLvsMultiplier: number;
+        timeForNextFight: number;
+        opalChance: number;
+        afkPercent: {
+          value: number;
+          multi: number;
+          effectiveValue: number;
+          breakdown: Record<string, any>;
+          expression: string;
+        };
+        attempts: number;
+        attemptsGainPerRound: number;
+        timePerMatch: number;
+        instantMatches: number;
+        monumentAfkReq: {
+          statName: string;
+          totalValue: number;
+          tree: Record<string, any>[];
+          combine: string;
+        };
+      };
+      gambit: {
+        pointsMulti: number;
+        basePoints: number;
+        points: number;
+        bonuses: Record<string, any>[];
+        times: number[];
+        totalTime: number;
+        summoningDoublers: {
+          appointed: number;
+          total: number;
+        };
+      };
+      theTemple: {
+        bonuses: Record<string, any>[];
+        layer: number;
+        torches: number;
+        extraTorchChance: {
+          value: number;
+          breakdown: Record<string, any>;
+        };
+      };
+      theFountain: {
+        waters: Record<string, any>[];
+        watersOwned: number;
+        currentWaterType: number;
+        marbleCurrency: number;
+        desiredCurrency: number;
+        fountainSpeedBonus: number;
+        currencies: Record<string, any>[];
+        currencyAllMulti: number;
+        marblePerFill: number;
+        fountainBars: Record<string, any>[];
+        spacesOwned: number;
+        maxStackSize: number;
+      };
+      theBottomlessTrench: {
+        fishingEff: string;
+        layer: number;
+        fish: {
+          caught: string;
+          required: string;
+          maxed: boolean;
+        };
+      };
+      crystalGlunkoCove: {
+        upgrades: Record<string, any>[];
+        shapes: Record<string, any>[];
+        dropRate: number;
+        afkGains: number;
+        multiKillTier: number;
+        multiKillBase: number;
+        respawn: number;
+        doublePickup: number;
+        bdig: number;
+        pdig: number;
+      };
+    };
+    totalResources: number;
+    totalLayerResources: number;
+    totalOpalsFound: number;
+    totalVillagersLevels: number;
+    holesObject: {
+      charactersCavernLocation: number[];
+      villagersLevels: number[];
+      villagersExp: number[];
+      opalsInvested: number[];
+      holeMajiks: number[];
+      villageMajiks: number[];
+      idleonMajiks: number[];
+      opalsPerCavern: number[];
+      sedimentMulti: number[];
+      wellSediment: number[];
+      wellBuckets: number[];
+      extraCalculations: number[];
+      dawgDenAmplifierLevels: number[];
+      engineerSchematics: number[];
+      braveryMonument: number[];
+      braveryBonuses: number[];
+      bellImprovementMethods: number[];
+      bellRingLevels: number[];
+      bellRelated: number[];
+      harpRelated: number[];
+      harpStringNotes: number[];
+      wishesUsed: number[];
+      measurementBuffLevels: number[];
+      parallelVillagersGemShop: number[];
+      jarStuff: number[];
+      jarProgress: number[];
+      studyStuff: number[];
+      studyProgress: number[];
+      gambitStuff: number[];
+      fountainCoinSpaces: (number[])[];
+      fountainSpaceFilled: number[];
+      fountainUpgradeLevels: (number[])[];
+      fountainMarbleizeLevels: (number[])[];
+      fountainBarProgress: number[];
+      fountainCoinFlags: number[];
+    };
+    majiks: ({
+          x0: number;
+          x1: number;
+          name: string;
+          description: string;
+          level: number;
+          maxLevel: number;
+          bonus: number;
+          godsLinks: any[];
+          hasDoot: boolean;
+        }[])[];
+    cosmoSchematics: number;
+    godsLinks: any[];
+    measurements: {
+        description: string;
+        baseBonus: number;
+        totalBonus: number;
+        multi: number;
+        level: number;
+        cost: number;
+        owned: number;
+        icon: string;
+        measuredBy: {
+          label: string;
+          value: number;
+        } | {
+          label: string;
+          value: string;
+        };
+        measureIndex: number;
+      }[];
+    studies: {
+      studyPerHour: number;
+      studies: {
+          name: string;
+          description: string;
+          listIndex: number;
+          active: boolean;
+          peripheralVisionActive: boolean;
+          progress: number;
+          req: number;
+          location: string;
+          bonus: number;
+          level: number;
+          readyToLevel: boolean;
+        }[];
+    };
+    leastOpalInvestedVillager: number;
+  };
+  lab: {
+    playersCords: {
+        x: number;
+        y: number;
+        playerId: number;
+        playerName: string;
+        class: string;
+        lineWidth: number;
+        soupedUp: boolean;
+      }[];
+    playersChips: ({
+          index: number;
+          name: string;
+          bonus: string;
+          bool1: string;
+          stat: string;
+          baseVal: number;
+          requirements: Record<string, any>[];
+          description: string;
+          extraDescription: string;
+          rawName: string;
+          chipIndex: number;
+        }[])[];
+    connectedPlayers: {
+        playerId: number;
+        name: string;
+        x: number;
+        y: number;
+        lineWidth: number;
+      }[];
+    jewels: {
+        index: number;
+        name: string;
+        bonus: number;
+        x: number;
+        y: number;
+        range: number;
+        requirements: Record<string, any>[];
+        effect: string;
+        description: string;
+        acquired: boolean;
+        rawName: string;
+        multiplier: number;
+        active?: boolean;
+      }[];
+    chips: {
+        index: number;
+        name: string;
+        bonus: string;
+        bool1: string;
+        stat: string;
+        baseVal: number;
+        requirements: Record<string, any>[];
+        description: string;
+        extraDescription: string;
+        rawName: string;
+        repoAmount: number;
+        amount: number;
+        totalAmount: number;
+      }[];
+    labBonuses: {
+        index: number;
+        x: number;
+        y: number;
+        range: number;
+        bonusOn: number;
+        bonusOff: number;
+        name: string;
+        description: string;
+        active: boolean;
+        jewelBoost?: number;
+        extraData?: number | string;
+        bonusDesc?: number;
+      }[];
+    totalRawChips: number;
+    currentRotation: number[];
+  };
+  shrines: {
+      mapId: number;
+      shrineLevel: number;
+      name: string;
+      rawName: string;
+      bonus: number;
+      progress: number;
+      desc: string;
+      worldTour: boolean;
+      crystalShrineBonus: number;
+      shrineTowerValue: number;
+    }[];
+  statueGrades: number[];
+  zenith: {
+    market: {
+        name: string;
+        x1: number;
+        x2: number;
+        x3: number;
+        x4: number;
+        x5: number;
+        description: string;
+        bonus: number;
+        cost: number;
+        level: number;
+        costToMax: number;
+      }[];
+    clusters: number;
+  };
+  arcade: {
+    shop: {
+        effect: string;
+        x1: number;
+        x2: number;
+        func: string;
+        bonusName: string;
+        level: number;
+        active: boolean;
+        rotationIndex: number;
+        bonus: number;
+        iconName: string;
+      }[];
+    balls: number;
+    goldBalls: number;
+    royalBalls: number;
+    omegaBalls: number;
+    totalUpgradeLevels: number;
+    goldBallMulti: {
+      value: number;
+      breakdown: {
+        statName: string;
+        totalValue: string;
+        tree: Record<string, any>[];
+      };
+    };
+  };
+  equinox: {
+    currentCharge: number;
+    chargeRequired: number;
+    chargeRate: number;
+    timeToFull: number;
+    challenges: {
+        label: string;
+        goal: number;
+        reward: string;
+        current: number;
+        active: boolean;
+        locked: boolean;
+      }[];
+    upgrades: {
+        name: string;
+        bonus: number;
+        desc: string[];
+        lvl: number;
+        maxLvl: number;
+        unlocked: boolean;
+      }[];
+    completedClouds: number;
+    rawDream: number[];
+    breakdown: {
+      statName: string;
+      totalValue: string;
+      tree: {
+          name: string;
+          value?: number;
+          unit?: string;
+          note?: string;
+          combine?: string;
+          children?: Record<string, any>[];
+        }[];
+      round: string;
+    };
+    expression: string;
+    unlocked: boolean;
+  };
+  starSigns: {
+      starName: string;
+      cost: number;
+      bonuses: {
+          bonus: number;
+          effect: string;
+          rawName: string;
+        }[] | null;
+      tree: string;
+      indexedStarName: string;
+      unlocked: boolean;
+      isInfiniteStar: boolean;
+      description?: string;
+    }[];
+  grimoire: {
+    totalUpgradeLevels: number;
+    bones: number[];
+    upgrades: {
+        name: string;
+        x1: number;
+        x2: number;
+        boneType: number;
+        x4: number;
+        x5: number;
+        unlockLevel: number;
+        x7: number;
+        x8: number;
+        description: string;
+        index: number;
+        level: number;
+        cost: number;
+        unlocked: boolean;
+        bonus: number;
+        monsterProgress?: string;
+      }[];
+    totalBonesCollected: number;
+    monsterDrops: {
+        Name: string;
+        AFKtype: string;
+        MonsterFace: number;
+        MonsterOffsetX: number;
+        MonsterOffsetY: number;
+        HeightOfMonster: number;
+        MonsterMoving: number;
+        MovingFrame: number;
+        DeathFrame: number;
+        RespawnTime: number;
+        MonsterHPTotal: number;
+        Type: string;
+        SpecialType: string;
+        ExpGiven: number;
+        ExpType: number;
+        Defence: number;
+        MoveSPEED: number;
+        Damages: number[];
+        mapIndex: number;
+        worldIndex: number;
+        sprite?: string;
+        spriteAcross?: number;
+        spriteDown?: number;
+        spriteNumFrames?: number;
+        durations?: number[];
+        rawName: string;
+        mapName: string;
+        boneType: number;
+        boneQuantity: number;
+      }[];
+    ribbons: number[];
+  };
+  compass: {
+    upgrades: {
+        name: string;
+        x1: number;
+        x2: number;
+        x3: number;
+        x4: number;
+        x5: number;
+        x6: number;
+        x7: number;
+        x8: number;
+        x9: number;
+        x10: number;
+        description: string;
+        baseIconIndex: null | number;
+        level: number;
+        shapeIcon: string;
+        index: number;
+        bonus: number;
+        nextLevelBonus: number;
+        bonusDiff: number;
+        cost: number;
+        isMulti: boolean;
+        smallNotation: boolean;
+        extraData?: string;
+      }[];
+    groupedUpgrades: {
+        path: string;
+        list: Record<string, any>[];
+      }[];
+    abominations: {
+        name: string;
+        x1: number;
+        x2: number;
+        x3: number;
+        x4: number;
+        x5: number;
+        x6: number;
+        x7: number;
+        x8: number;
+        x9: number;
+        x10: number;
+        x11: number;
+        x12: number;
+        unlocked: number;
+        hp: number;
+        weakness: {
+          name: string;
+          index: number;
+        };
+        map: string;
+        world: number;
+      }[];
+    medallions: {
+        Name: string;
+        AFKtype: string;
+        MonsterFace: number;
+        MonsterOffsetX: number;
+        MonsterOffsetY: number;
+        HeightOfMonster: number;
+        MonsterMoving: number;
+        MovingFrame: number;
+        DeathFrame: number;
+        RespawnTime: number;
+        MonsterHPTotal: number;
+        Type: string;
+        SpecialType: string;
+        ExpGiven: number;
+        ExpType: number;
+        Defence: number;
+        MoveSPEED: number;
+        Damages: number[];
+        mapIndex?: number;
+        worldIndex?: number;
+        sprite: string;
+        spriteAcross: number;
+        spriteDown: number;
+        spriteNumFrames: number;
+        durations?: number[];
+        rawName: string;
+        imageName: string;
+        acquired?: boolean;
+        weakness: number;
+        drops: Record<string, any>[] | any[];
+        dustType: number;
+        dustBaseQuantity: number;
+        description?: string;
+        spriteFrame?: number;
+      }[];
+    maps: {
+        mapIndex: string;
+        mapName: string;
+        portals: Record<string, any>[];
+        monster: {
+          Name: string;
+          AFKtype: string;
+          MonsterFace: number;
+          MonsterOffsetX: number;
+          MonsterOffsetY: number;
+          HeightOfMonster: number;
+          MonsterMoving: number;
+          MovingFrame: number;
+          DeathFrame: number;
+          RespawnTime: number;
+          MonsterHPTotal: number;
+          Type: string;
+          SpecialType: string;
+          ExpGiven: number;
+          ExpType: number;
+          Defence: number;
+          MoveSPEED: number;
+          Damages: number[];
+          mapIndex: number;
+          worldIndex: number;
+          sprite: string;
+          spriteAcross: number;
+          spriteDown: number;
+          spriteNumFrames: number;
+          durations: number[];
+        } | {
+          Name: string;
+          AFKtype: string;
+          MonsterFace: number;
+          MonsterOffsetX: number;
+          MonsterOffsetY: number;
+          HeightOfMonster: number;
+          MonsterMoving: number;
+          MovingFrame: number;
+          DeathFrame: number;
+          RespawnTime: number;
+          MonsterHPTotal: number;
+          Type: string;
+          SpecialType: string;
+          ExpGiven: number;
+          ExpType: number;
+          Defence: number;
+          MoveSPEED: number;
+          Damages: number[];
+          mapIndex: number;
+          worldIndex: number;
+        };
+        afkType: string;
+        unlocked: boolean;
+      }[];
+    totalAcquiredMedallions: number;
+    totalKilledAbominations: number;
+    dusts: {
+        value: number;
+        name: string;
+      }[];
+    exaltedStamps: {
+      combat: Record<string, any>;
+      skills: Record<string, any>;
+      misc: Record<string, any>;
+    };
+    usedExaltedStamps: number;
+    remainingExaltedStamps: number;
+    totalUpgradeLevels: number;
+    totalDustsCollected: number;
+    topOfTheMorninKills: string;
+  };
+  tesseract: {
+    upgrades: {
+        name: string;
+        x1: number;
+        x2: number;
+        x3: number;
+        x4: number;
+        x5: number;
+        x6: number;
+        x7: number;
+        x8: number;
+        description: string;
+        level: number;
+        index: number;
+        unlocked: boolean;
+        bonus: number;
+        nextLevelBonus: number;
+        bonusDiff: number;
+        cost: number;
+      }[];
+    tachyons: {
+        value: number;
+        name: string;
+      }[];
+    totalTachyons: number;
+    totalUpgradeLevels: number;
+    crystalChargeReq: number;
+    weaponDropChance: number;
+    weaponQuality: number;
+    ringDropChance: number;
+    ringQuality: number;
+    unlockedPortals: Record<string, any>;
+    mapBonusRaw: (number[])[];
+  };
+  royalGuardian: {
+    unlocked: boolean;
+    hasRoyalGuardian: boolean;
+    deployments: {
+        world: number;
+        slot: number;
+        job: number;
+        jobName: string;
+        mapIndex: number;
+        mapName: string;
+        targetClaimed: boolean;
+        idle: boolean;
+        unassigned: boolean;
+        hasClearableMap: boolean;
+      }[];
+    raw: (number[])[];
+    rawMaps: (number[])[];
+    armory: {
+      upgrades: {
+          index: number;
+          name: string;
+          baseCost: number;
+          costScaling: number;
+          costResourceIndex: number;
+          maxLevel: number;
+          bonusPerLevel: number;
+          unlockTotalLevels: number;
+          x7: number;
+          x8: number;
+          description: string;
+          level: number;
+          bonus: number;
+          shelfUnlockTotalLevels: number;
+          unlocked: boolean;
+          maxed: boolean;
+          slot: number;
+          cost: number;
+          costResourceRawName: string;
+        }[];
+      totalLevels: number;
+      unlockedSlots: number;
+      slotToId: number[];
+    };
+    royalStatues: {
+        index: number;
+        rawName: string;
+        description: string;
+        level: number;
+        bonus: number;
+        baseBonus: number;
+        bonusPerLevel: number;
+        upgradeOdds: number;
+        cost: number;
+        costItem: string;
+        named: boolean;
+      }[];
+    statueFlair: {
+      unlocked: boolean;
+      maxLevel: number;
+      statues: {
+          index: number;
+          name: string;
+          level: number;
+          maxLevel: number;
+          cost: number;
+          bonus: number;
+          expMulti: number;
+          shardIndex: number;
+          costItem: string;
+        }[];
+      marbleTotals: {
+          shardIndex: number;
+          costItem: string;
+          name: string;
+          owned: number;
+          statuesLeft: number;
+          tiers: number[];
+        }[];
+    };
+    orbletMarket: {
+        index: number;
+        name: string;
+        baseCost: number;
+        costScaling: number;
+        maxLevel: number;
+        bonusPerLevel: number;
+        x5: number;
+        description: string;
+        level: number;
+        bonus: number;
+        cost: number;
+        maxed: boolean;
+      }[];
+    orblets: number;
+    guardian: {
+      militiaClearRate: number;
+      activeKillClear: number;
+      ratRespawn: number;
+      ratDamage: number;
+      regalChance: number;
+      regalMobs: number;
+      regalMobsPurified: number;
+      orbletMultiDrop: number;
+      parchmentDropChance: number;
+      marbleDropChance: number[];
+      marblesDropped: number;
+      marbleEarlyBoost: number;
+      marbleDropChanceEffective: number[];
+      royalRadius: number;
+    };
+    resources: {
+        index: number;
+        world: number;
+        connectedMaps: number[] | any[];
+        connectedMap: number;
+        x: number;
+        y: number;
+        resourceIndex: number;
+        empty: boolean;
+        nodeLevel: number;
+        collected: number;
+        maxQuantity: number;
+        stored: number;
+        rawName: string;
+        connected: boolean;
+        anchorX: number;
+        anchorY: number;
+        connectedMapName: string;
+        exhausted: boolean;
+        fillPercent: number;
+        drainRate: number;
+        hoursToEmpty: number | null;
+      }[];
+    clearingMaps: {
+        mapIndex: number;
+        name: string;
+        monsterRawName: string | null;
+        monsterName: string | null;
+        world: number;
+        kills: number;
+        killsRequired: number;
+        progress: number;
+        militiaUnits: number;
+        militiaRate: number;
+        bankedSeconds: number;
+        bankedKills: number;
+        hoursToClear: number | null;
+      }[];
+    outposts: {
+        mapIndex: number;
+        expandedBarracks: number;
+        advancedLogistics: number;
+        greaterEducation: number;
+        ranks: number[];
+        rankExp: number[];
+        purified: boolean;
+        boosted: boolean;
+        isSupport: boolean;
+        supportLinks: any[] | number[];
+        unitConfiguration: string;
+        killsRequired: number;
+        raw: number[];
+        name: string;
+        monsterRawName: string | null;
+        monsterName: string | null;
+        world: number;
+        mode: number;
+        modeName: string;
+        units: number[];
+        unitSlots: number[];
+        unitCounts: number[];
+        passiveUnits: number[];
+        supports: number;
+        resourceRate: number;
+        range: number;
+        rangeUncapped: number;
+        rangeWithoutGuards: number;
+        links: any[] | Record<string, any>[];
+        ptsLeft: number;
+        ptsSpent: number;
+        ptsTotal: number;
+        rankBars: Record<string, any>[];
+        upgrades: Record<string, any>[];
+        connectedNodes: any[] | Record<string, any>[];
+        mapX: number;
+        mapY: number;
+        onKingdomMap: boolean;
+        reachableNodes: number[];
+        baseRange: number;
+        militaryRangePerRank: number;
+        nodeRankNeeds: Record<string, any>[];
+        hoursToNodeCap: null | number;
+        freshNodeInReach: boolean;
+      }[];
+    resourcePerHour: Record<string, number>;
+    outpostStats: {
+      built: number;
+      savageMulti: number;
+      typesUnlocked: number;
+      typesAllowed: number[];
+      slotsByWorld: Record<string, number>;
+      typesUsedByWorld: Record<string, any>;
+      unitsUnlocked: number;
+      unitNames: string[];
+      workerRateBonus: number;
+      guardRangeBonus: number;
+      peacetimeMilitia: boolean;
+      restockUnlocked: boolean;
+      gedUnlocked: boolean;
+      barsUnlocked: boolean[];
+      worldsUnlocked: number;
+      totalUpgradeLevels: number;
+      purifiedMaps: number;
+      totalNodeLevels: number;
+      resourceLogTotal: number;
+      selectedRogIndex: number;
+      rogBonuses: {
+          index: number;
+          name: string;
+          selected: boolean;
+          value: number;
+        }[];
+    };
+  };
+  speedrun: {
+    bosses: {
+        mapIndex: number;
+        name: string;
+        world: number;
+        difficulty: number;
+        difficultyName: string;
+        portals: number;
+        payoutBossName?: string;
+      }[];
+  };
+  finishedWorlds: {
+    World1: boolean;
+    World2: boolean;
+    World3: boolean;
+    World4: boolean;
+    World5: boolean;
+    World6: boolean;
+    World7: boolean;
+  };
+  currentWorld: number;
+  totalSkillsLevels: {
+    character: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    mining: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    smithing: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    chopping: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    fishing: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    alchemy: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    catching: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    trapping: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    construction: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    worship: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    cooking: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    breeding: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    laboratory: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    sailing: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    divinity: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    gaming: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    farming: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    sneaking: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    summoning: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    spelunking: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+    research: {
+      level: number;
+      index: number;
+      icon: string;
+      rank: number;
+      color: string;
+    };
+  };
+  highestSummoningLevel: number;
+  atoms: {
+    particles: number;
+    atoms: {
+        level: number;
+        maxLevel: number;
+        rawName: string;
+        name: string;
+        desc: string;
+        baseBonus: number;
+        x1: number;
+        x2: number;
+        x3: number;
+        cost: number;
+        nextLeveCost: number;
+        costToMax: number;
+        value: number;
+        bonus: number;
+      }[];
+    totalAtomsAvailable: number;
+    stampReducer: number;
+  };
+  spelunking: Record<string, any>;
+  hatRack: {
+    bonusMulti: number;
+    hatBonuses: {
+        name: string;
+        value: number;
+      }[];
+    hatsUsed: {
+        displayName: string;
+        sellPrice: number;
+        typeGen: string;
+        ID: number;
+        Type: string;
+        lvReqToCraft: number;
+        lvReqToEquip: number;
+        Class: string;
+        Speed: number;
+        Reach: number;
+        Weapon_Power: number;
+        STR: number;
+        AGI: number;
+        WIS: number;
+        LUK: number;
+        Defence: number;
+        UQ1txt: number | string;
+        UQ1val: number | string;
+        UQ2txt: number;
+        UQ2val: number;
+        Upgrade_Slots_Left: number;
+        itemType: string;
+        rawName: string;
+        hatIndex: number;
+        hatMultiplier: number;
+      }[];
+    allPremiumHelmets: {
+        displayName: string;
+        sellPrice: number;
+        typeGen: string;
+        ID: number;
+        Type: string;
+        lvReqToCraft: number;
+        lvReqToEquip: number;
+        Class: string;
+        Speed: number;
+        Reach: number;
+        Weapon_Power: number;
+        STR: number;
+        AGI: number;
+        WIS: number;
+        LUK: number;
+        Defence: number;
+        UQ1txt: number | string;
+        UQ1val: number | string;
+        UQ2txt: number | string;
+        UQ2val: number;
+        Upgrade_Slots_Left: number;
+        itemType: string;
+        rawName: string;
+        hatMultiplier?: number;
+        isAcquired: boolean;
+      }[];
+    totalHats: number;
+  };
+  gaming: {
+    palette: {
+        x0?: number;
+        x1?: number;
+        x2?: number;
+        name?: string;
+        x4?: number;
+        x5?: number;
+        x6?: number;
+        x7?: number;
+        x8?: number;
+        x9?: number;
+        description?: string;
+        level?: number;
+        bonus?: number;
+        blackStars?: number;
+        blackStarMulti?: number;
+        active?: boolean;
+        chance?: number;
+      }[];
+    paletteFinalBonus: number;
+    paletteLuck: {
+      value: number;
+      breakdown: {
+        statName: string;
+        totalValue: string;
+        tree: Record<string, any>[];
+      };
+    };
+    bestNugget: number;
+    bits: number;
+    envelopes: number;
+    ratTokens: number;
+    snailLevel: number;
+    snailEncouragement: number;
+    squirrelMulti: number;
+    elegantShellRank: number;
+    fertilizerUpgrades: {
+        name: string;
+        description: string;
+        level: number;
+        bonus: string;
+        cost: number;
+      }[];
+    availableSprouts: number;
+    availableDrops: number;
+    sproutsCapacity: string;
+    imports: {
+        boxName: string;
+        boxDescription: string;
+        name: string;
+        majorBonus: string;
+        minorBonus: string;
+        description: string;
+        x1: number;
+        x2: number;
+        level: number;
+        rawName: string;
+        bonus?: number;
+        cost: number;
+        acquired: boolean;
+        saveSprinklerChance?: number;
+        maxNuggetValue?: number;
+        acornShop?: Record<string, any>[];
+      }[];
+    lastShovelClicked: number;
+    goldNuggets: number;
+    lastAcornClicked: number;
+    acorns: number;
+    nuggetsBreakpoints: {
+        time: number;
+        amount: number;
+      }[];
+    acornsBreakpoints: {
+        time: number;
+        amount: number;
+      }[];
+    superbitsUpgrades: {
+        description: string;
+        index: number;
+        x1: number;
+        x2: number;
+        name: string;
+        originalIndex: number;
+        unlocked: boolean;
+        cost: number;
+        isDuper: boolean;
+        isZuper: boolean;
+        bonus: number;
+        totalBonus: number;
+        additionalInfo?: string;
+      }[];
+    mutations: {
+        name: string;
+        index: number;
+        description: string;
+      }[];
+    unlockedMutations: number;
+    mutationCost: number;
+    dna: number;
+    newMutationChance: number;
+    mutationChanceBreakpoints: {
+        value: number;
+        chance: number;
+      }[];
+    logBook: {
+        rawName: string;
+        unlocked: boolean;
+        crowned: boolean;
+      }[];
+    poingHighscore: number;
+    poingMulti: number;
+    totalPlantsPicked: number;
+    selectedSlots: number;
+    ratKingCrownsClaimed: number;
+    ratKing: {
+      crownsCount: number;
+      kingRatUnlocked: boolean;
+      ratBitMulti: number;
+      ratCurrencyGain: number;
+      ratCrownOdds: number;
+      shopUpgrades: {
+          name: string;
+          level: number;
+          bonus: number;
+          cost: number;
+        }[];
+    };
+    unlocked: boolean;
+  };
+  sailing: {
+    unlocked: boolean;
+    maxChests: number;
+    artifacts: {
+        name: string;
+        x1: string;
+        baseFindChance: number;
+        description: string;
+        baseBonus: number;
+        ancientFormDescription: string;
+        ancientMultiplier: number;
+        eldritchFormDescription: string;
+        eldritchMultiplier: number;
+        sovereignFormDescription: string;
+        sovereignMultiplier: number;
+        omnipotentFormDescription: string;
+        omnipotentMultiplier: number;
+        transcendentFormDescription: string;
+        transcendentMultiplier: number;
+        verisimilitudeFormDescription: string;
+        verisimilitudeMultiplier: number;
+        bonus: number;
+        acquired: number;
+        rawName: string;
+        additionalData?: string | Record<string, any>[];
+      }[];
+    lootPile: {
+        amount: number;
+        rawName: string;
+      }[];
+    chests: any[];
+    rareTreasureChance: number;
+    trades: {
+        amount: number;
+        rawName: string;
+        date: string;
+        moneyValue: number;
+        lootItemCost: number;
+      }[];
+    timeToFullChests: number;
+    captains: {
+        captainIndex: string;
+        captainType: number;
+        level: number;
+        firstBonusIndex: number;
+        secondBonusIndex: number;
+        firstBonusDescription: string;
+        secondBonusDescription: string;
+        firstBonusValue: number;
+        secondBonusValue: number;
+        exp: string;
+        firstBonus: number;
+        secondBonus: number;
+        expReq: string;
+      }[];
+    boats: {
+        rawName: string;
+        level: number;
+        artifactChance: {
+          value: string;
+          rawValue: number;
+          breakdown: Record<string, any>;
+        };
+        captainIndex: number;
+        captainMappedIndex: string;
+        lootLevel: number;
+        speedLevel: number;
+        boatIndex: number;
+        island: {
+          name: string;
+          distance: number;
+          unlockReq: number;
+          cloudsUnlocked: number;
+          xyPointer: string;
+          expPerTrip: number;
+          numberOfArtifacts: number;
+        };
+        islandIndex: number;
+        distanceTraveled: number;
+        resources: Record<string, any>[];
+        breakpointResources: Record<string, any>[];
+        loot: {
+          value: number;
+          nextLevelValue: number;
+          nextBreakpointValue: number;
+        } | {
+          value: number;
+          nextLevelValue: number;
+        };
+        speed: {
+          raw: number;
+          value: number;
+          nextLevelValue: number;
+          nextBreakpointValue: number;
+        } | {
+          raw: number;
+          value: number;
+          nextLevelValue: number;
+        };
+        maxTime: number;
+        timeLeft: number;
+      }[];
+    lootMulti: {
+      value: number;
+      breakdown: {
+        statName: string;
+        totalValue: string;
+        tree: Record<string, any>[];
+      };
+    };
+    shopCaptains: {
+        captainIndex: string;
+        captainType: number;
+        level: number;
+        firstBonusIndex: number;
+        secondBonusIndex: number;
+        firstBonusDescription: string;
+        secondBonusDescription: string;
+        firstBonusValue: number;
+        secondBonusValue: number;
+        exp: string;
+        firstBonus: number;
+        secondBonus: number;
+        expReq: string;
+        cost: number;
+      }[];
+    captainsOnBoats: {
+      A: number;
+      C: number;
+      T: number;
+      L: number;
+      M: number;
+      H: number;
+      F: number;
+      K: number;
+      D: number;
+      B: number;
+      J: number;
+      E: number;
+      G: number;
+      N: number;
+      O: number;
+      P: number;
+      Q: number;
+      R: number;
+      S: number;
+      I: number;
+    };
+    minimumTravelTime: number;
+    minimumTravelTimeBreakdown: {
+        name: string;
+        value: number;
+      }[];
+  };
+  accountLevel: number;
+  highscores: {
+    coloHighscores: {
+        name: string;
+        score: number;
+      }[];
+    minigameHighscores: {
+        name: string;
+        score: number;
+        totalPoints?: number;
+        upgrades?: Record<string, any>[];
+      }[];
+  };
+  forge: {
+    list: {
+        isBrimestone: boolean;
+        speed: number;
+        ore: {
+          rawName: string;
+          amount: number;
+          quantity: number;
+          timeTillEmpty: number;
+          owner: string;
+        };
+        barrel: {
+          rawName: string;
+          amount: number;
+          quantity: number;
+          owner: string;
+        };
+        bar: {
+          rawName: string;
+          amount: number;
+          quantity: number;
+          owner: string;
+        };
+      }[];
+    upgrades: {
+        name: string;
+        maxLevel: number;
+        description: string;
+        level: number;
+        costMulti?: number;
+      }[];
+    oreCapacity: {
+      value: number;
+      breakdown: {
+        statName: string;
+        totalValue: string;
+        tree: Record<string, any>[];
+        max: number;
+      };
+    };
+  };
+  refinery: {
+    salts: {
+        saltName: string;
+        cost: Record<string, any>[];
+        rawName: string;
+        powerCap: number;
+        refined: number;
+        rank: number;
+        active: number;
+        autoRefinePercentage: number;
+        unlocked: boolean;
+      }[];
+    refinerySaltTaskLevel: number;
+    timePastCombustion: number;
+    timePastSynthesis: number;
+    timePastPolymerize: number;
+    totalLevels: number;
+    refineryStorage: {
+        rawName: string;
+        name: string;
+        amount: number;
+        owner: string;
+      }[];
+  };
+  printer: ({
+        item: string;
+        value: number;
+        active: boolean;
+        boostedValue: number;
+        breakdown: {
+          statName: string;
+          totalValue: string;
+          tree: Record<string, any>[];
+        };
+        expression: string;
+      }[])[];
+  quests: {
+    Blunder_Hills: {
+        name: string;
+        index: number;
+        npcQuests: Record<string, any>[];
+      }[];
+    Yum_Yum_Desert: {
+        name: string;
+        index: number;
+        npcQuests: Record<string, any>[];
+      }[];
+    Frostbite_Tundra: {
+        name: string;
+        index: number;
+        npcQuests: Record<string, any>[];
+      }[];
+    Hyperion_Nebula: {
+        name: string;
+        index: number;
+        npcQuests: Record<string, any>[];
+      }[];
+    Spirited_Valley: {
+        name: string;
+        index: number;
+        npcQuests: Record<string, any>[];
+      }[];
+    'Smolderin\'_Plateau': {
+        name: string;
+        index: number;
+        npcQuests: Record<string, any>[];
+      }[];
+    Shimmerfin_Deep: {
+        name: string;
+        index: number;
+        npcQuests: Record<string, any>[];
+      }[];
+  };
+  totalQuestsCompleted: number;
+  islands: {
+    islandsUnlocked: number;
+    bottles: number;
+    bottlesPerDay: number;
+    trashPerDay: number;
+    trashPerDaysAfk: number;
+    numberOfDaysAfk: number;
+    allShimmerBonus: number;
+    list: {
+        name: string;
+        description: string;
+        preUnlockCost: number;
+        baseCost: number;
+        unlocked: boolean;
+        cost: number;
+        trash?: number;
+        learnMore?: boolean;
+        shop?: Record<string, any>[];
+        unclaimedDays?: number;
+        maxDays?: number;
+        mobsWaiting?: number;
+        currentTrial?: string;
+        bestDpsEver?: string;
+        shimmerCurrency?: number;
+        hoursAfk?: number;
+      }[];
+  };
+  deathNote: Record<string, {
+      rank: number;
+      mobs: {
+          rawName: string;
+          displayName: string;
+          kills: number;
+        }[];
+    }>;
+  topKilledMonsters: {
+      enemy: string;
+      kills: number;
+    }[];
+  killroy: {
+    list: {
+        rawName: string;
+        name: string;
+        world: number;
+        icon: string;
+        killRoyKills?: number;
+      }[];
+    permanentUpgrades: {
+        description: string;
+        x1: number;
+        x2: number;
+        x3: number;
+        bonusName: string;
+        level: number;
+        bonus: number;
+        progress: null | number;
+        bonusDisplay: null | string;
+        capDisplay: null | string;
+        breakpoints: null | Record<string, any>[];
+        nextBreakpoint: null | {
+          percent: number;
+          level: number;
+          bonusDisplay: string;
+        };
+        appliedBonuses: null | Record<string, any>[];
+      }[];
+    totalKills: number;
+    totalDamageMulti: number;
+    rooms: number;
+    killRoyClasses: string[];
+    upgrades: {
+        level: number;
+        description: string;
+        upgrade?: string;
+      }[];
+    skulls: number;
+  };
+  anvil: {
+      anvilProduction: (number[])[];
+      anvilStats: {
+        availablePoints: number;
+        pointsFromCoins: number;
+        pointsFromMats: number;
+        pointsFromAcme: number;
+        xpPoints: number;
+        speedPoints: number;
+        capPoints: number;
+      };
+      anvilSelected: number[];
+    }[];
+  libraryTimes: {
+    bookCount: number;
+    next: number;
+    breakdown: {
+      statName: string;
+      totalValue: number;
+      tree: {
+          name: string;
+          combine: string;
+          children: Record<string, any>[];
+          unit?: string;
+          note?: string;
+        }[];
+      combine: string;
+      round: string;
+    };
+    breakpoints: {
+        breakpoint: number;
+        time: number;
+        label?: string;
+      }[];
+  };
+  construction: {
+    totalBuildRate: number;
+    totalExpRate: number;
+    totalFlaggyRate: number;
+    totalPlayerExpRate: number;
+    board: {
+        currentAmount: number;
+        requiredAmount: number;
+        flagPlaced: boolean;
+        cog: {
+          name: string;
+          stats: Record<string, any>;
+          originalIndex: number;
+        };
+        flagSpeedBoost: number;
+        affectedBy: number[];
+        affects: any[] | number[];
+        flagSpeed: number;
+      }[];
+    baseBoard: {
+        currentAmount: number;
+        requiredAmount: number;
+        flagPlaced: boolean;
+        cog: {
+          name: string;
+          stats: Record<string, any>;
+          originalIndex: number;
+        };
+      }[];
+    spareCogs: {
+        name: string;
+        stats: Record<string, never> | {
+          a: Record<string, any>;
+          b: Record<string, any>;
+          c: Record<string, any>;
+        };
+        originalIndex: number;
+      }[];
+    boardMultipliers: {
+      flaggy: number;
+      exp: number;
+    };
+    playersBuildRate: number;
+    extraBuildSpeedMulti: number;
+    extraConExpMulti: number;
+    menagerieConExpBonus: number;
+    leftColumn: {
+        currentAmount: number;
+        requiredAmount: number;
+        flagPlaced: boolean;
+        cog: {
+          name: string;
+          stats: Record<string, any>;
+          originalIndex: number;
+        };
+        affectedBy: any[];
+        affects: any[];
+      }[];
+    rightColumn: {
+        currentAmount: number;
+        requiredAmount: number;
+        flagPlaced: boolean;
+        cog: {
+          name: string;
+          stats: Record<string, any>;
+          originalIndex: number;
+        } | {
+          name: string;
+          stats: Record<string, never>;
+          originalIndex: number;
+        };
+        affectedBy: any[];
+        affects: any[];
+      }[];
+    smallCogs: {
+      upgrades: {
+          name: string;
+          originalIndex: number;
+          typeIndex: number;
+          type: string;
+          typeLabel: string;
+          bonus: number;
+          replaces: Record<string, any>;
+          slotIndex: number;
+          slotLabel: string;
+          gainPercent: number;
+        }[];
+      spares: {
+          name: string;
+          originalIndex: number;
+          typeIndex: number;
+          type: string;
+          typeLabel: string;
+          bonus: number;
+        }[];
+      freeSlots: number;
+    };
+    cogstruction: {
+      cogData: string;
+      empties: string;
+    };
+  };
+  shrinesExpBonus: {
+    total: number[];
+    breakdown: Record<string, any>;
+  };
+  msaTotalizer: {
+    damage: {
+      name: string;
+      value: number;
+    };
+    sailing: {
+      name: string;
+      value: number;
+    };
+    classExp: {
+      name: string;
+      value: number;
+    };
+    cookingSpeed: {
+      name: string;
+      value: number;
+    };
+    bit: {
+      name: string;
+      value: number;
+    };
+    skillExp: {
+      name: string;
+      value: number;
+    };
+    farmingExp: {
+      name: string;
+      value: number;
+    };
+    jadeCoin: {
+      name: string;
+      value: number;
+    };
+    essence: {
+      name: string;
+      value: number;
+    };
+    spelunkingPow: {
+      name: string;
+      value: number;
+    };
+    researchExp: {
+      name: string;
+      value: number;
+    };
+  };
+  tome: {
+    tome: {
+        name: string;
+        info: string;
+        x1: number;
+        x2: number;
+        x3: number;
+        x4: null | number;
+        tomeLvReq: number;
+        index: number;
+        quantity: number;
+        points: number;
+        maxPoints: number;
+        color: string;
+        requiredQuantities: {
+          silver: number;
+          gold: number;
+          blue: number;
+        };
+      }[];
+    bonuses: {
+        name: string;
+        bonus: number;
+        isMulti: boolean;
+        icon?: string;
+      }[];
+    totalPoints: number;
+    tops: number[];
+    top: number;
+    nametagClaim: {
+      tomeUnlocked: boolean;
+      available: number;
+      claimed: number;
+      rewardTier: number;
+    };
+  };
+  owl: {
+    upgrades: {
+        name: string;
+        desc: string;
+        bonus: string;
+        x1: number;
+        x2: number;
+        x3: number;
+        cost: number;
+        level: number;
+        nextLvReq?: number;
+        unlocked: boolean;
+      }[];
+    bonuses: {
+        name: string;
+        bonus: number;
+        percentage?: boolean;
+      }[];
+    feathers: number;
+    progress: number;
+    nextLvReq: number;
+    megaFeathers: {
+        description: string;
+        unlocked: boolean;
+        amount?: number;
+        totalBonus?: number;
+      }[];
+    featherRate: number;
+    restartMulti: number;
+  };
+  kangaroo: {
+    resetBonuses: {
+        desc: string;
+        level: number;
+      }[];
+    upgrades: {
+        name: string;
+        desc: string;
+        bonus: string;
+        x1: number;
+        x2: number;
+        x3: number;
+        x6: number;
+        cost: number;
+        level: number;
+        nextLvReq?: number;
+        unlocked: boolean;
+      }[];
+    bonuses: {
+        name: string;
+        bonus: number;
+        percentage?: boolean;
+      }[];
+    fish: number;
+    pendingFish: number;
+    totalFish: number;
+    progress: number;
+    megaFish: {
+        description: string;
+        unlocked: boolean;
+        amount?: number;
+        totalBonus?: number;
+      }[];
+    fishRate: number;
+    tarFishRate: number;
+    tarFishOwned: number;
+    pendingTarFish: number;
+    totalTarFishOwned: number;
+    totalMulti: string;
+    allMultipliers: {
+        multi: string;
+        amount: string;
+      }[];
+    tarUpgrades: {
+        name: string;
+        desc: string;
+        bonus: string;
+        _: string;
+        x1: number;
+        x2: number;
+        x6: number;
+        cost: number;
+        level: number;
+        unlocked: boolean;
+      }[];
+    shinyProgress: number;
+    shinyRate: number;
+    shinyRatePercent: number;
+    avgResetPoints: number;
+  };
+  voteBallot: {
+    bonuses: {
+        '0': string;
+        '1': string;
+        '2': string;
+        icon: string;
+        active: boolean;
+        selected: boolean;
+        percent: number;
+        bonus: number;
+      }[];
+    meritocracyBonuses: {
+        description: string;
+        value: number;
+        extra: number;
+        icon: string;
+        active: boolean;
+        selected: boolean;
+        percent: number;
+        bonus: number;
+      }[];
+    voteMulti: number;
+    voteMultiBreakdown: {
+      statName: string;
+      totalValue: number;
+      tree: {
+          name: string;
+          value?: number;
+          unit?: string;
+          combine?: string;
+          children?: Record<string, any>[];
+        }[];
+    };
+    meritocracyMult: number;
+    meritocracyMultBreakdown: {
+      statName: string;
+      totalValue: number;
+      tree: {
+          name: string;
+          value?: number;
+          unit?: string;
+          combine?: string;
+          children?: Record<string, any>[];
+        }[];
+    };
+    selectedBonus: {
+      '0': string;
+      '1': string;
+      '2': string;
+      icon: string;
+      active: boolean;
+      selected: boolean;
+      percent: number;
+      bonus: number;
+      index: number;
+    };
+    selectedMeritocracyBonus: {
+      description: string;
+      value: number;
+      extra: number;
+      icon: string;
+      active: boolean;
+      selected: boolean;
+      percent: number;
+      bonus: number;
+      index: number;
+    };
+  };
+  upgradeVault: {
+    upgrades: {
+        name: string;
+        x1: number;
+        x2: number;
+        x3: number;
+        maxLevel: number;
+        x5: number;
+        unlockLevel: number;
+        x7: number;
+        x8: number;
+        description: string;
+        level: number;
+        unlocked: boolean;
+        cost: number;
+        costToMax: number;
+        bonus: number;
+      }[];
+    totalUpgradeLevels: number;
+    vaultTotalKills: number[];
+    costReduction: {
+      totalMulti: number;
+      cheaperFactor: number;
+      breakdown: {
+        statName: string;
+        totalValue: string;
+        tree: Record<string, any>[];
+      };
+    };
+  };
+  emperor: {
+    highestEmperorShowdown: number;
+    bossHp: number[];
+    bonuses: {
+        bonus: string;
+        baseBonus: string;
+        totalBonus: number;
+        rawIndex: number;
+        icon: string;
+        value: string;
+        indexes: number[];
+      }[];
+    bonusMulti: {
+      statName: string;
+      totalValue: number;
+      tree: {
+          name: string;
+          value: number;
+          unit: string;
+        }[];
+      combine: string;
+    };
+    upcomingBonuses: {
+        level: number;
+        bonus: string;
+        rawIndex: number;
+        icon: string;
+      }[];
+    dailyAttempts: number;
+    attempts: number;
+    maxAttempts: number;
+  };
+  legendTalents: {
+    talents: {
+        name: string;
+        x1: number;
+        x2: number;
+        bonus: number;
+        description: string;
+        originalIndex: number;
+        level: number;
+        index: number;
+        maxLevel: number;
+        baseMaxLevel: number;
+        fever: null | {
+          color: string;
+          gridIndex: number;
+          level: number;
+          maxLevel: number;
+        };
+        menagerieMaxLevelBonus: number;
+      }[];
+    pointsLeftToSpend: number;
+    pointsOwned: {
+      value: number;
+      breakdown: {
+        statName: string;
+        totalValue: number;
+        tree: Record<string, any>[];
+        combine: string;
+      };
+    };
+    pointsSpent: number;
+    maxSpendable: number;
+  };
+  gallery: {
+    rawSpelunk: (number[])[];
+    bonusMulti: number;
+    trophyBonuses: {
+        name: string;
+        value: number;
+      }[];
+    nametagBonuses: {
+        name: string;
+        value: number;
+      }[];
+    podiumsOwned: number;
+    lv2PodiumsOwned: number;
+    lv3PodiumsOwned: number;
+    lv4PodiumsOwned: number;
+    trophiesUsed: {
+        displayName?: string;
+        sellPrice?: number;
+        typeGen?: string;
+        ID?: number;
+        Type?: string;
+        lvReqToCraft?: number;
+        lvReqToEquip?: number;
+        Class?: string;
+        Speed?: number;
+        Reach?: number;
+        Weapon_Power?: number;
+        STR?: number;
+        AGI?: number;
+        WIS?: number;
+        LUK?: number;
+        Defence?: number;
+        UQ1txt?: string;
+        UQ1val?: string;
+        UQ2txt?: string | number;
+        UQ2val?: string | number;
+        Upgrade_Slots_Left?: number;
+        itemType?: string;
+        rawName?: string;
+        podiumLevel: number;
+        podiumMultiplier?: number;
+        isEmpty?: boolean;
+        trophyIndex?: number;
+      }[];
+    nametagsUsed: {
+        displayName: string;
+        sellPrice: number;
+        typeGen: string;
+        ID: number;
+        Type: string;
+        lvReqToCraft: number;
+        lvReqToEquip: number;
+        Class: string;
+        Speed: number;
+        Reach: number;
+        Weapon_Power: number;
+        STR: number;
+        AGI: number;
+        WIS: number;
+        LUK: number;
+        Defence: number;
+        UQ1txt: string;
+        UQ1val: string;
+        UQ2txt: number | string;
+        UQ2val: number | string;
+        Upgrade_Slots_Left: number;
+        itemType: string;
+        rawName: string;
+        level: number;
+        nametagMultiplier: number;
+      }[];
+    inventoryTrophies: any[];
+    allTrophies: {
+        displayName: string;
+        sellPrice: number;
+        typeGen: string;
+        ID: number;
+        Type: string;
+        lvReqToCraft: number;
+        lvReqToEquip: number;
+        Class: string;
+        Speed: number;
+        Reach: number;
+        Weapon_Power: number;
+        STR: number;
+        AGI: number;
+        WIS: number;
+        LUK: number;
+        Defence: number;
+        UQ1txt: string;
+        UQ1val: string | number;
+        UQ2txt: number | string;
+        UQ2val: number | string;
+        Upgrade_Slots_Left: number;
+        itemType: string;
+        rawName: string;
+        podiumLevel?: number;
+        podiumMultiplier?: number;
+        isAcquired: boolean;
+      }[];
+    allNametags: {
+        displayName: string;
+        sellPrice: number;
+        typeGen: string;
+        ID: number;
+        Type: string;
+        lvReqToCraft: number;
+        lvReqToEquip: number;
+        Class: string;
+        Speed: number;
+        Reach: number;
+        Weapon_Power: number;
+        STR: number;
+        AGI: number;
+        WIS: number;
+        LUK: number;
+        Defence: number;
+        UQ1txt: string;
+        UQ1val: string | number;
+        UQ2txt: number | string;
+        UQ2val: number | string;
+        Upgrade_Slots_Left: number;
+        itemType: string;
+        rawName: string;
+        level?: number;
+        nametagMultiplier?: number;
+        isAcquired: boolean;
+      }[];
+  };
+  coralReef: {
+    coralKidUpgrades: {
+        index: number;
+        page: number;
+        level: number;
+        description: string;
+        cost: number;
+        costItem: null | string;
+        bonus: number;
+      }[];
+    coralKidUpgradeLevelTotal: number;
+    dancingCoral: {
+        index: number;
+        level: number;
+        unlocked: boolean;
+        coralName: string;
+        description: string;
+        dropResource: string;
+        cost: number;
+        bonus: number;
+        tower: {
+          index: number;
+          desc: string;
+          itemReq: Record<string, any>[];
+          maxLevel: number;
+          bonusInc: number;
+          costInc: number[];
+          name: string;
+          level: number;
+          nextLevel: boolean;
+          progress: number;
+          inProgress: boolean;
+          slot: number;
+        };
+        towerEffect: string;
+      }[];
+    reefUpgrades: {
+        index: number;
+        level: number;
+        name: string;
+        x1: number;
+        x2: number;
+        exponent: number;
+        x4: number;
+        x5: number;
+        x6: number;
+        x7: number;
+        x8: number;
+        x9: number;
+        x10: number;
+        x11: number;
+        x12: number;
+        description: string;
+        cost: number;
+        bonus: number;
+        extraData?: Record<string, any>[];
+      }[];
+    grindTimeDaily: number;
+    unlockedCorals: number;
+    ownedCorals: number;
+    reefDayGains: {
+      value: number;
+      breakdown: {
+        statName: string;
+        totalValue: string;
+        tree: Record<string, any>[];
+      };
+    };
+  };
+  clamWork: {
+    workerClass: number;
+    promotionChance: number;
+    promotionCost: number;
+    clamHp: number;
+    mobs: number;
+    pearlValue: number;
+    blackPearlValue: number;
+    upgrades: {
+        name: string;
+        description: string;
+        requiredPearls: number;
+        bonus: number;
+        index: number;
+        level: number;
+        cost: number;
+        unlocked: boolean;
+      }[];
+    ownedPearls: number;
+    pearls: {
+        name: string;
+        value: number;
+      }[];
+    compensations: {
+        name: string;
+        unlocked: number;
+      }[];
+    scurge: {
+      unlocked: boolean;
+      level: number;
+      exp: number;
+      expReq: number;
+      expGain: number;
+      startingExp: number;
+      pointsLeft: number;
+      upgrades: {
+          name: string;
+          index: number;
+          level: number;
+          bonus: number;
+          levelReq: number;
+          unlocked: boolean;
+          cost: number;
+          description: string;
+        }[];
+    };
+    respawn: number;
+  };
+  minehead: {
+    opponentsBeat: number;
+    mineCurrency: number;
+    bestHit: number;
+    dailyTriesLeft: number;
+    dailyTriesMax: number;
+    maxHP_You: number;
+    baseDMG: number;
+    currencyGain: number;
+    currencyGainBreakdown: {
+      statName: string;
+      totalValue: number;
+      tree: {
+          name: string;
+          value?: number;
+          unit?: string;
+          combine?: string;
+          children?: Record<string, any>[];
+        }[];
+    };
+    upgrades: {
+        index: number;
+        name: string;
+        level: number;
+        maxLevel: number;
+        isMaxed: boolean;
+        researchLvReq: number;
+        isLocked: boolean;
+        bonusPerLevel: number;
+        doubled: boolean;
+        upgradeQTY: number;
+        cost: number;
+        canAfford: boolean;
+        description: string;
+      }[];
+    opponents: {
+        index: number;
+        name: string;
+        ordinal: string;
+        title: string;
+        maxHP: number;
+        minesCount: number;
+        bonusValue: number;
+        bonusDescription: string;
+        beaten: boolean;
+      }[];
+    glimbo: {
+        index: number;
+        rawItemName: string;
+        itemName: string;
+        trades: number;
+        cost: number;
+        vaultIdx: number;
+        upgradeName: string;
+        baseMaxLevel: number;
+        currentMaxLevel: number;
+        nextMaxLevel: number;
+        nextBonusGain: number;
+        flag: boolean;
+      }[];
+    glimboTotalTrades: number;
+  };
+  tournament: {
+    divisionIndex: number;
+    playerName: null;
+    divisionName: string;
+    divisionScale: number;
+    divisionNames: string[];
+    playerRank: null;
+    tournamentDay: number;
+    matchDay: number;
+    registrationCount: number;
+    matches: any[];
+    leaderboard: any[];
+    petMart: {
+      shopDay: number;
+      petCrystals: number;
+      offers: any[];
+      plusOffers: any[];
+    };
+    global: null;
+  };
+  research: Record<string, any>;
+  button: {
+    totalPresses: number;
+    instaSkipsLeft: number;
+    instaSkipsPerWeek: number;
+    currentTask: {
+      index: number;
+      description: string;
+      requirement: number;
+      futureRequirements: number[];
+      progress: number;
+      isReady: boolean;
+      bonusIdx: number;
+      pressNumber: number;
+    };
+    bonusMulti: number;
+    bonuses: {
+        name: string;
+        value: number;
+        displayFormat: string;
+        displayValue: string;
+        bonusPerPress: number;
+        level: number;
+      }[];
+    activeBonusIndex: number;
+    pressesIntoCurrentBonus: number;
+    taskSequence: {
+        index: number;
+        description: string;
+        requirement: number | null;
+        futureRequirements: any;
+        progress: number | string;
+        isReady: boolean;
+        bonusIdx: number;
+        pressNumber: number;
+      }[];
+  };
+  sushiStation: {
+    unlocked: boolean;
+    uniqueSushi: number;
+    fuel: {
+      current: number;
+      cap: number;
+      generation: number;
+    };
+    currency: {
+      bucks: number;
+      currencyMulti: number;
+      currencyPerHR: number;
+      overtunedMulti: number;
+      combo: {
+        best: number;
+        multi: number;
+        unlocked: boolean;
+      };
+      overtuned: {
+        value: number;
+        multi: number;
+        perHr: number;
+        unlocked: boolean;
+        hoursToFuelCap: number;
+        nextBreakpoints: Record<string, any>[];
+      };
+    };
+    sparks: number;
+    sparkBonus: {
+      multi: number;
+      perHr: number;
+      potassiumCount: number;
+      nextBreakpoints: {
+          multi: number;
+          required: number;
+          remaining: number;
+          hours: null;
+        }[];
+    };
+    slots: {
+        tier: number;
+        slotEffect: number;
+        fireplaceType: number;
+        currencyPerSlot: number;
+      }[];
+    upgrades: {
+        name: string;
+        description: string;
+        level: number;
+        maxLevel: null | number;
+        cost: number;
+        bonusPerLevel: number;
+        doubled: boolean;
+        upgradeQTY: number;
+        lvReq: number;
+        visualIndex: number;
+        upgradeIndex: number;
+      }[];
+    knowledge: {
+        name: string;
+        rawName: string;
+        level: number;
+        xp: number;
+        xpReq: number;
+        bonusSpecific: number;
+        bonusDescription: string;
+        category: number;
+        discovered: boolean;
+        perfecto: boolean;
+        perfectOdds?: number;
+        highestTier: number;
+      }[];
+    knowledgeTotals: number[];
+    rogBonuses: {
+        index: number;
+        name: string;
+        description: string;
+        value: number;
+        rawValue: number;
+        unlocked: boolean;
+      }[];
+    fireplaces: {
+        index: number;
+        type: number;
+        active: boolean;
+      }[];
+    sushiCooking: {
+      maxCookTier: number;
+      bonusCookTierPCT: number;
+      perfectOdds: number;
+      nextUnperfectedIdx: number;
+    };
+    knowledgeSummary: {
+        label: string;
+        value: number;
+        category: number;
+        sources: Record<string, any>[];
+      }[];
+    shakerUses: number[];
+    slotsOwned: number;
+    saveTotals: {
+      upgradeLevels: number;
+      knowledgeLevels: number;
+      perfectos: number;
+    };
+  };
+  jellyOperator: {
+    unlocked: boolean;
+    save: {
+      misc: number[];
+      cellLevels: number[];
+      upgradeLevels: number[];
+      slotGroups: number[];
+      placement: number[];
+      doubledUpgrades: any[];
+      legendTalent41Level: number;
+    };
+    boardDps: number;
+    layout: {
+      columns: number;
+      rows: number;
+      theme: number;
+      openSlots: number[];
+      units: {
+          slot: number;
+          type: number;
+          name: string;
+          footprint: Record<string, any>[];
+          speedBoost: number;
+          proximityBoost: number;
+          stars: number;
+          dps: number;
+          col: number;
+          row: number;
+          colSpan: number;
+          rowSpan: number;
+        }[];
+      markers: {
+          col: number;
+          row: number;
+          slot: number;
+          speed: boolean;
+          star: boolean;
+          proximity: boolean;
+        }[];
+      passives: {
+        damage: number;
+        speed: number;
+        stars: number;
+      };
+      emptySlots: number;
+      virusesAllowed: number;
+      virusesPlaced: number;
+      boss: {
+        col: number;
+        row: number;
+        colSpan: number;
+        rowSpan: number;
+        index: number;
+        name: string;
+        hp: number;
+      };
+    };
+    obstructionsDefeated: number;
+    operationsLeft: number;
+    dailyOperations: number;
+    bloodcells: number;
+    bloodcellResources: {
+        name: string;
+        value: number;
+      }[];
+    bloodcellDaily: number;
+    bloodcellMulti: number;
+    bloodcellMultiSources: {
+        name: string;
+        value: number;
+      }[];
+    bloodcellMultiBreakdown: {
+      statName: string;
+      totalValue: string;
+      tree: {
+          name: string;
+          value: number;
+          unit: string;
+        }[];
+    };
+    dpsRecord: number;
+    dpsMulti: number;
+    cellDamageMulti: number;
+    cellExpMulti: number;
+    cellLevelTotal: number;
+    upgradeLevelTotal: number;
+    unitsOwned: number;
+    slotsOwned: number;
+    slotPurchasesLeft: number;
+    upgrades: {
+        id: number;
+        position: number;
+        name: string;
+        description: string;
+        level: number;
+        maxLevel: number | null;
+        bonus: number;
+        doubled: boolean;
+        cost: number;
+        lvReq: number;
+        unlocked: boolean;
+      }[];
+    cells: {
+        index: number;
+        name: string;
+        unlocked: boolean;
+        level: number;
+        expReq: number;
+        damage: number;
+        dps: number;
+        passive: string;
+        effect: string;
+      }[];
+    obstructions: {
+        index: number;
+        name: string;
+        description: string;
+        value: number;
+        defeated: boolean;
+        placeholder: boolean;
+        hp: number;
+        time: number;
+        attackCooldown: number;
+      }[];
+    organelleSpeed: number;
+  };
+  menagerie: {
+    unlocked: boolean;
+    rank: number;
+    shells: number;
+    shellReq: number;
+    lumi: number;
+    lumiRate: number;
+    lumiRateBreakdown: {
+      statName: string;
+      totalValue: number;
+      tree: {
+          name: string;
+          combine: string;
+          children: Record<string, any>[];
+        }[];
+    };
+    missions: {
+        index: number;
+        name: string;
+        description: string;
+        claims: number;
+        progress: number;
+        requirement: number;
+        isLogScale: boolean;
+        canClaim: boolean;
+        visible: boolean;
+      }[];
+    unlocks: {
+        index: number;
+        name: string;
+        tooltip: string;
+        cost: number;
+        owned: boolean;
+        affordable: boolean;
+        visible: boolean;
+      }[];
+    boosts: {
+        index: number;
+        description: string;
+        level: number;
+        value: number;
+        perLevel: number;
+        cost: number;
+        affordable: boolean;
+        visible: boolean;
+      }[];
+    visible: {
+      missions: number;
+      unlocks: number;
+      boosts: number;
+    };
+    jellies: {
+      sideUnlocked: {
+          name: string;
+          unlocked: boolean;
+        }[];
+      pink: {
+        levels: number[];
+        costs: number[];
+        bonus: number;
+      };
+      ladle: number;
+      red: {
+        level: number;
+        readingMulti: number;
+        chaptersTracked: number;
+        chapterSlots: number;
+      };
+      silver: {
+        levels: number[];
+        maxLevels: number[];
+        costs: number[];
+        obolMulti: number;
+        obolAutoTrashRate: number;
+      };
+      yellow: {
+        levels: number[];
+        requirement: number;
+        progress: number;
+        bonuses: number[];
+      };
+      green: {
+        nametagsDeposited: number;
+        nametagsRequired: number;
+      };
+    };
+    scurge: {
+      unlocked: boolean;
+      exp: number;
+      level: number;
+      expReq: number;
+      upgrades: {
+          index: number;
+          level: number;
+          levelReq: number;
+        }[];
+      startingExp: number;
+    };
+    doublers: {
+      minehead: {
+        owned: number;
+        left: number;
+        eligible: number[];
+      };
+      sushi: {
+        owned: number;
+        left: number;
+        eligible: number[];
+      };
+      jellyOperator: {
+        owned: number;
+        left: number;
+        eligible: number[];
+      };
+      blackStars: {
+        owned: number;
+        left: number;
+      };
+      organicLabels: {
+        owned: number;
+        left: number;
+      };
+      omnijade: {
+        owned: number;
+        left: number;
+      };
+    };
+    nightmariner: {
+      totalLevels: number;
+      bonuses: number[];
+    };
+    omegaArcadeBallChance: number;
+  };
+  bubba: {
+    upgrades: {
+        name: string;
+        description: string;
+        x1: number;
+        x2: number;
+        x3: number;
+        x4: number;
+        x5: number;
+        x6: number;
+        level: number;
+        prestige: number;
+        realLV: number;
+        cost: number;
+        bonus: number;
+        unlocked: boolean;
+      }[];
+    meatSlices: number;
+    meatsliceRate: number;
+    progress: number;
+    progressReq: number;
+    bonuses: {
+      buildRate: {
+        name: string;
+        bonus: number;
+        isNegative: boolean;
+      };
+      critterGain: {
+        name: string;
+        bonus: number;
+        isNegative: boolean;
+      };
+      soulGain: {
+        name: string;
+        bonus: number;
+        isNegative: boolean;
+      };
+      totalDamage: {
+        name: string;
+        bonus: number;
+        isNegative: boolean;
+      };
+      allKills: {
+        name: string;
+        bonus: number;
+        isNegative: boolean;
+      };
+      expMulti: {
+        name: string;
+        bonus: number;
+        isNegative: boolean;
+      };
+      atomCost: {
+        name: string;
+        bonus: number;
+        isNegative: boolean;
+      };
+    };
+    totalUpgTypesAvailable: number;
+    megafleshOwned: number;
+    megaFlesh: {
+        description: string;
+        unlocked: boolean;
+        totalBonus?: string;
+        amount?: number;
+      }[];
+    smokerUnlocked: boolean;
+    smokerSeconds: number;
+  };
+  friendBonusStats: {
+    slots: number;
+    multiplier: number;
+    bonuses: {
+        statIndex: number;
+        name: string;
+        level: number;
+        friendName: string;
+        value: number;
+      }[];
+  };
+  [key: string]: any;
+}
+
+export interface Character {
+  playerId: number;
+  name: string;
+  classIndex: number;
+  class: string;
+  afkTime: number;
+  afkTarget: string;
+  afkType: string;
+  monsterFace: number;
+  targetMonster: string;
+  mapIndex: number;
+  currentMap: string;
+  money: number;
+  cooldowns: Record<string, number>;
+  fishingKit: {
+    bait: {
+      name: string;
+      depth1: number;
+      depth2: number;
+      depth3: number;
+      depth4: number;
+      exp: number;
+      speed: number;
+      pow: number;
+    };
+    line: {
+      name: string;
+      depth1: number;
+      depth2: number;
+      depth3: number;
+      depth4: number;
+      exp: number;
+      speed: number;
+      pow: number;
+    };
+  };
+  stats: {
+    strength: number;
+    agility: number;
+    wisdom: number;
+    luck: number;
+    level: number;
+  };
+  level: number;
+  invBagsUsed: {
+      displayName: string;
+      sellPrice: number;
+      typeGen: string;
+      ID: number;
+      Type: string;
+      lvReqToCraft: number;
+      lvReqToEquip: number;
+      Class: string;
+      Speed: number;
+      Reach: number;
+      Weapon_Power: number;
+      STR: number;
+      AGI: number;
+      WIS: number;
+      LUK: number;
+      Defence: number;
+      UQ1txt: number;
+      UQ1val: number;
+      UQ2txt: number;
+      UQ2val: number;
+      Upgrade_Slots_Left: number;
+      itemType: string;
+      capacity: number;
+      rawName: string;
+      acquired?: boolean;
+    }[];
+  maxCarryCap: {
+    Mining: number;
+    Chopping: number;
+    Souls: number;
+    Quests: number;
+    Fishing: number;
+    fillerz: number;
+    Critters: number;
+    Foods: number;
+    bCraft: number;
+    Bugs: number;
+    Statues: number;
+  };
+  carryCapBags: {
+      displayName: string;
+      sellPrice: number;
+      typeGen: string;
+      ID: number;
+      Type: string;
+      lvReqToCraft: number;
+      lvReqToEquip: number;
+      Class: string;
+      Speed: number;
+      Reach: number;
+      Weapon_Power: number;
+      STR: number;
+      AGI: number;
+      WIS: number;
+      LUK: number;
+      Defence: number;
+      UQ1txt: number;
+      UQ1val: number;
+      UQ2txt: number;
+      UQ2val: number;
+      Upgrade_Slots_Left: number;
+      itemType: string;
+      capacity: number;
+      rawName: string;
+      capacityPerSlot: number;
+      breakdown: {
+          title?: string;
+          name?: string;
+          value?: number;
+        }[];
+      maxCapacity: number;
+    }[];
+  statues: (number[])[];
+  equipment: {
+      name?: string;
+      rawName: string;
+      owner: string;
+      displayName?: string;
+      sellPrice?: number;
+      typeGen?: string;
+      ID?: number;
+      Type?: string;
+      lvReqToCraft?: number;
+      lvReqToEquip?: number;
+      Class?: string;
+      Speed?: number;
+      Reach?: number;
+      Weapon_Power?: number;
+      STR?: number;
+      AGI?: number;
+      WIS?: number;
+      LUK?: number;
+      Defence?: number;
+      UQ1txt?: string;
+      UQ1val?: number;
+      UQ2txt?: string | number;
+      UQ2val?: number;
+      Upgrade_Slots_Left?: number;
+      itemType?: string;
+      Power?: number;
+      changes?: any;
+      maxUpgradeSlots?: number;
+      misc: string;
+    }[];
+  tools: {
+      name?: string;
+      rawName: string;
+      owner: string;
+      displayName?: string;
+      sellPrice?: number;
+      typeGen?: string;
+      ID?: number;
+      Type?: string;
+      lvReqToCraft?: number;
+      lvReqToEquip?: number;
+      Class?: string;
+      Speed?: number;
+      Reach?: number;
+      Weapon_Power?: number;
+      STR?: number;
+      AGI?: number;
+      WIS?: number;
+      LUK?: number;
+      Defence?: number;
+      UQ1txt?: number | string;
+      UQ1val?: number;
+      UQ2txt?: number | string;
+      UQ2val?: number;
+      Upgrade_Slots_Left?: number;
+      itemType?: string;
+      Power?: number;
+      changes?: any;
+      maxUpgradeSlots?: number;
+      misc: string;
+    }[];
+  food: {
+      name?: string;
+      rawName: string;
+      owner: string;
+      amount: number;
+      displayName?: string;
+      sellPrice?: number;
+      typeGen?: string;
+      ID?: number;
+      Type?: string;
+      lvReqToCraft?: number;
+      desc_line1?: string;
+      desc_line2?: string;
+      desc_line3?: string;
+      desc_line4?: string;
+      desc_line5?: string;
+      desc_line6?: string;
+      desc_line7?: string;
+      desc_line8?: string;
+      Effect?: string;
+      Amount?: number;
+      Trigger?: number;
+      Cooldown?: number;
+      itemType?: string;
+    }[];
+  inventory: {
+      displayName: string;
+      sellPrice: number;
+      typeGen: string;
+      ID: number;
+      Type: string;
+      lvReqToCraft: number;
+      lvReqToEquip: number;
+      Class: string;
+      Speed: number;
+      Reach: number;
+      Weapon_Power: number;
+      STR: number;
+      AGI: number;
+      WIS: number;
+      LUK: number;
+      Defence: number;
+      UQ1txt: string;
+      UQ1val: number;
+      UQ2txt: number | string;
+      UQ2val: number;
+      Upgrade_Slots_Left: number;
+      itemType: string;
+      rawName: string;
+      Power?: number;
+      changes: any;
+      maxUpgradeSlots: number;
+      owner: string;
+      name: string;
+      type: string;
+      subType: string;
+      slot: number;
+      amount: number;
+      misc: string;
+      description: string;
+    }[];
+  inventorySlots: number;
+  starSigns: {
+      starName: string;
+      cost: number;
+      bonuses: {
+          bonus: number;
+          effect: string;
+          rawName: string;
+        }[];
+      tree: string;
+    }[];
+  equippedBubbles: {
+      level: number;
+      index: number;
+      rawName: string;
+      bubbleIndex: string;
+      bubbleName: string;
+      x1: number;
+      x2: number;
+      func: string;
+      desc: string;
+      stat: string;
+      cauldron: string;
+      itemReq: {
+          rawName: string;
+          name?: string;
+          baseCost: number;
+        }[];
+    }[];
+  skillsInfo: {
+    character: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    mining: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    smithing: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    chopping: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    fishing: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    alchemy: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    catching: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    trapping: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    construction: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    worship: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    cooking: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    breeding: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    laboratory: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    sailing: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    divinity: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    gaming: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    farming: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    sneaking: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    summoning: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    spelunking: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+    research: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      rank: number;
+    };
+  };
+  skillsInfoArray: {
+      level: number;
+      exp: number;
+      expReq: number;
+      icon: string;
+      index: number;
+      skillName: string;
+    }[];
+  selectedTalentPreset: number;
+  superTalentLeftToSpend: number;
+  talentPreset: {
+    talents: Record<string, {
+        name: string;
+        id: number;
+        orderedTalents: Record<string, any>[];
+      }>;
+    flatTalents: Record<string, {
+        name: string;
+        id: number;
+        orderedTalents: Record<string, any>[];
+      }>;
+    starTalents: {
+      orderedTalents: {
+          talentId: number;
+          name: string;
+          description: string;
+          x1: number;
+          x2: number;
+          funcX: string;
+          y1: null | number;
+          y2: null | number;
+          funcY: string;
+          lvlUpText: string;
+          skillIndex: number;
+          level: number;
+          maxLevel: number;
+          K?: number;
+          D?: number;
+          s?: number;
+          cooldown?: number;
+          castTime?: number;
+          manaCost?: number;
+          inputReq?: number;
+          AFKrange?: number;
+          AFKtype?: string;
+          AFKactivity?: number;
+        }[];
+    };
+    flatStarTalents: {
+        talentId: number;
+        name: string;
+        description: string;
+        x1: number;
+        x2: number;
+        funcX: string;
+        y1: null | number;
+        y2: null | number;
+        funcY: string;
+        lvlUpText: string;
+        skillIndex: number;
+        level: number;
+        maxLevel: number;
+        K?: number;
+        D?: number;
+        s?: number;
+        cooldown?: number;
+        castTime?: number;
+        manaCost?: number;
+        inputReq?: number;
+        AFKrange?: number;
+        AFKtype?: string;
+        AFKactivity?: number;
+      }[];
+    addedLevels: number;
+    addedLevelsBreakdown: {
+      statName: string;
+      totalValue: number;
+      tree: {
+          name: string;
+          value?: number;
+          unit?: string;
+          combine?: string;
+          children?: Record<string, any>[];
+        }[];
+      combine: string;
+    };
+  };
+  maxBookLv: number;
+  talents: Record<string, {
+      name: string;
+      id: number;
+      orderedTalents: {
+          talentId: number;
+          name: string;
+          description: string;
+          x1: number;
+          x2: number;
+          funcX: string;
+          y1: null;
+          y2: null;
+          funcY: string;
+          lvlUpText: string;
+          skillIndex: number;
+          level: number;
+          maxLevel: number;
+          baseLevel: number;
+          isSuperTalent: boolean;
+        }[] | {
+          talentId: number;
+          name: string;
+          description: string;
+          x1: number;
+          x2: number;
+          funcX: string;
+          y1: number | null;
+          y2: number | null;
+          funcY: string;
+          lvlUpText: string;
+          skillIndex: number;
+          K?: number;
+          D?: number;
+          s?: number;
+          cooldown?: number;
+          castTime?: number;
+          manaCost?: number;
+          inputReq?: number;
+          AFKrange?: number;
+          AFKtype?: string;
+          AFKactivity?: number;
+          level: number;
+          maxLevel: number;
+          baseLevel: number;
+          isSuperTalent: boolean;
+        }[] | {
+          talentId: number;
+          name: string;
+          description: string;
+          x1: number;
+          x2: number;
+          funcX: string;
+          y1: null | number;
+          y2: null | number;
+          funcY: string;
+          lvlUpText: string;
+          skillIndex: number;
+          K?: number;
+          D?: number;
+          s?: number;
+          cooldown?: number;
+          castTime?: number;
+          manaCost?: number;
+          inputReq?: number;
+          AFKrange?: number;
+          AFKtype?: string;
+          AFKactivity?: number;
+          level: number;
+          maxLevel: number;
+          baseLevel: number;
+          isSuperTalent: boolean;
+        }[];
+    }>;
+  flatTalents: {
+      talentId: number;
+      name: string;
+      description: string;
+      x1: number;
+      x2: number;
+      funcX: string;
+      y1: null | number;
+      y2: null | number;
+      funcY: string;
+      lvlUpText: string;
+      skillIndex: number;
+      level: number;
+      maxLevel: number;
+      baseLevel: number;
+      isSuperTalent: boolean;
+      K?: number;
+      D?: number;
+      s?: number;
+      cooldown?: number;
+      castTime?: number;
+      manaCost?: number;
+      inputReq?: number;
+      AFKrange?: number;
+      AFKtype?: string;
+      AFKactivity?: number;
+    }[];
+  starTalents: {
+    orderedTalents: {
+        talentId: number;
+        name: string;
+        description: string;
+        x1: number;
+        x2: number;
+        funcX: string;
+        y1: null | number;
+        y2: null | number;
+        funcY: string;
+        lvlUpText: string;
+        skillIndex: number;
+        level: number;
+        maxLevel: number;
+        K?: number;
+        D?: number;
+        s?: number;
+        cooldown?: number;
+        castTime?: number;
+        manaCost?: number;
+        inputReq?: number;
+        AFKrange?: number;
+        AFKtype?: string;
+        AFKactivity?: number;
+      }[];
+  };
+  flatStarTalents: {
+      talentId: number;
+      name: string;
+      description: string;
+      x1: number;
+      x2: number;
+      funcX: string;
+      y1: null | number;
+      y2: null | number;
+      funcY: string;
+      lvlUpText: string;
+      skillIndex: number;
+      level: number;
+      maxLevel: number;
+      K?: number;
+      D?: number;
+      s?: number;
+      cooldown?: number;
+      castTime?: number;
+      manaCost?: number;
+      inputReq?: number;
+      AFKrange?: number;
+      AFKtype?: string;
+      AFKactivity?: number;
+    }[];
+  activeBuffs: any[];
+  activePrayers: {
+      name: string;
+      effect: string;
+      curse: string;
+      id: number;
+      x1: number;
+      x2: number;
+      prayerIndex: number;
+      soul: string;
+      maxLevel: number;
+      unlockZone: string;
+      costMulti: number;
+      unlockWave: number;
+      totalAmount: number;
+      level: number;
+    }[];
+  postOffice: {
+    boxes: {
+        name: string;
+        upgradeLevels: number[];
+        upgrades: Record<string, any>[];
+        maxLevel: number;
+        level: number;
+      }[];
+    totalOrders: number;
+    totalPointsSpent: number;
+    unspentPoints: number;
+  };
+  selectedCardPreset: number;
+  cardPresets: ({
+        cardName: string;
+        rawName: string;
+        displayName: string;
+        cardIndex: string;
+        visualIndex: number;
+        effect: string;
+        bonus: number;
+        perTier: number;
+        category: string;
+        amount: number;
+        stars: number;
+        nextLevelReq: number;
+      }[])[];
+  cards: {
+    cardSet: {
+      name: string;
+      effect: string;
+      bonus: number;
+      rawName: string;
+      stars: number;
+    };
+    equippedCards: {
+        cardName: string;
+        rawName: string;
+        displayName: string;
+        cardIndex: string;
+        visualIndex: number;
+        effect: string;
+        bonus: number;
+        perTier: number;
+        category: string;
+        amount: number;
+        stars: number;
+        nextLevelReq: number;
+        legendBonus: number;
+      }[];
+  };
+  obols: {
+    inventory: any[];
+    list: {
+        displayName: string;
+        rawName: string;
+        index: number;
+        shape: string;
+        levelReq: number;
+        sellPrice: number;
+        typeGen: string;
+        ID: number;
+        Type: string;
+        lvReqToCraft: number;
+        lvReqToEquip: number;
+        Class: string;
+        Speed: number;
+        Reach: number;
+        STR: number;
+        AGI: number;
+        WIS: number;
+        LUK: number;
+        Defence: number;
+        UQ1txt: string | number;
+        UQ1val: number;
+        UQ2txt: number;
+        UQ2val: number;
+        Upgrade_Slots_Left: number;
+        itemType: string;
+        Weapon_Power: number;
+        rerolled: boolean;
+        changes?: any[] | Record<string, any>[];
+        SuperFunItemDisplayType?: string;
+      }[];
+    stats: {
+      STR: {
+        personalBonus: number;
+        familyBonus: number;
+      };
+      AGI: {
+        personalBonus: number;
+        familyBonus: number;
+      };
+      WIS: {
+        personalBonus: number;
+        familyBonus: number;
+      };
+      LUK: {
+        personalBonus: number;
+        familyBonus: number;
+      };
+      Defence: {
+        personalBonus: number;
+        familyBonus: number;
+      };
+      '%_XP_FROM_MONSTERS': {
+        personalBonus: number;
+      };
+      Weapon_Power: {
+        personalBonus: number;
+        familyBonus: number;
+      };
+      '%_TOTAL_DAMAGE': {
+        personalBonus: number;
+      };
+      _BASE_DAMAGE: {
+        personalBonus: number;
+        familyBonus: number;
+      };
+      '%_BUILD_SPD': {
+        personalBonus: number;
+      };
+      '%_DROP_RATE': {
+        personalBonus: number;
+        familyBonus: number;
+      };
+      '%_MULTIKILL': {
+        personalBonus: number;
+      };
+      '%_MONEY': {
+        personalBonus: number;
+      };
+      '%_MULTIKILL_PER_TIER': {
+        familyBonus: number;
+      };
+      '%_ALL_STATS': {
+        familyBonus: number;
+      };
+    };
+  };
+  worship: {
+    maxCharge: number;
+    chargeRate: number;
+    currentCharge: number;
+  };
+  quests: Record<string, {
+      '1'?: number;
+      '2'?: number;
+      '3'?: number;
+      '4'?: number;
+      '5'?: number;
+      '6'?: number;
+      '7'?: number;
+      '8'?: number;
+      '9'?: number;
+      '10'?: number;
+      '11'?: number;
+      '12'?: number;
+      '13'?: number;
+    }>;
+  nonConsumeChance: number;
+  kills: number[];
+  nextPortal: {
+    goal: number;
+    current: number;
+    currentIcon: string;
+    multiCharLock: null;
+  };
+  zow: {
+    finished: number[];
+    list: {
+        mapName: string;
+        afkTarget: string;
+        kills: number;
+        monsterFace: number;
+        name: string;
+        afkType: string;
+        done: boolean[];
+      }[];
+  };
+  chow: {
+    finished: number[];
+    list: {
+        mapName: string;
+        afkTarget: string;
+        kills: number;
+        monsterFace: number;
+        name: string;
+        afkType: string;
+        done: boolean[];
+      }[];
+  };
+  wow: {
+    finished: number[];
+    list: {
+        mapName: string;
+        afkTarget: string;
+        kills: number;
+        monsterFace: number;
+        name: string;
+        afkType: string;
+        done: boolean[];
+      }[];
+  };
+  linkedDeity: number;
+  deityMinorBonus: number;
+  divStyle: {
+    name: string;
+    description: string;
+    index: number;
+    divPerHour: number;
+  };
+  rgTalentAddedLevelsCap: number;
+  familyGuyWithoutFamily: {
+    baseLevel: number;
+    level: number;
+    funcX: string;
+    x1: number;
+    x2: number;
+  };
+  familyBonuses: {
+    Archer: number;
+    Bowman: number;
+    Siege_Breaker: number;
+    Warrior: number;
+    Barbarian: number;
+    Blood_Berserker: number;
+    Death_Bringer: number;
+    Mage: number;
+    Wizard: number;
+    Elemental_Sorcerer: number;
+    Squire: number;
+    Divine_Knight: number;
+    Shaman: number;
+    Bubonic_Conjuror: number;
+    Arcane_Cultist: number;
+    Hunter: number;
+    Beast_Master: number;
+    Wind_Walker: number;
+    Journeyman: number;
+    Maestro: number;
+    Voidwalker: number;
+    Royal_Guardian: number;
+  };
+  addedLevelsBreakdown: {
+    statName: string;
+    totalValue: number;
+    tree: {
+        name: string;
+        value?: number;
+        unit?: string;
+        combine?: string;
+        children?: Record<string, any>[];
+      }[];
+    combine: string;
+  };
+  addedLevels: number;
+  superTalentsInfo: {
+    talents: {
+        talentIndex: number;
+        presetIndex: number;
+      }[];
+    bonus: number;
+  };
+  talentsLoadout: {
+      talentId: number;
+      name: string;
+      description: string;
+      x1: number;
+      x2: number;
+      funcX: string;
+      y1: number | null;
+      y2: number | null;
+      funcY: string;
+      lvlUpText: string;
+      skillIndex: number;
+      K: number;
+      D: number;
+      s: number;
+      cooldown: number;
+      castTime: number;
+      manaCost: number;
+      inputReq: number;
+      AFKrange: number;
+      AFKtype: string;
+      AFKactivity: number;
+      level: number;
+      maxLevel: number;
+      baseLevel?: number;
+      isSuperTalent?: boolean;
+    }[];
+  npcDialog: Record<string, number>;
+  questComplete: Record<string, number>;
+  questCompleted: number;
+  printerSample: number;
+  anvil: {
+    anvilProduction: (number[])[];
+    anvilStats: {
+      availablePoints: number;
+      pointsFromCoins: number;
+      pointsFromMats: number;
+      pointsFromAcme: number;
+      xpPoints: number;
+      speedPoints: number;
+      capPoints: number;
+    };
+    anvilSelected: number[];
+  };
+  crystalSpawnChance: {
+    breakdown: {
+      statName: string;
+      totalValue: string;
+      tree: {
+          name: string;
+          combine?: string;
+          children?: Record<string, any>[];
+          unit?: string;
+          value?: number;
+          note?: string;
+        }[];
+      combine: string;
+    };
+    value: number;
+    effectiveValue: number;
+    cap: number;
+    capped: boolean;
+    embiggener: number;
+    expression: string;
+  };
+  constructionSpeed: number;
+  constructionExpPerHour: number;
+  gallery: {
+    bonusMulti: number;
+    trophyBonuses: {
+        name: string;
+        value: number;
+      }[];
+    nametagBonuses: {
+        name: string;
+        value: number;
+      }[];
+  };
+  [key: string]: any;
+}

@@ -1,0 +1,511 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { arenaBonuses, monsters, petGenes, petStats, petUpgrades, randomList, territory } from '@website-data';
+import { createRange, notateNumber, tryToParse } from '@utility/helpers';
+import { getBubbleBonus, getVialsBonusByEffect } from '@parsers/world-2/alchemy';
+import { getStampsBonusByEffect } from '@parsers/world-1/stamps';
+import { getJewelBonus, getLabBonus } from '@parsers/world-4/lab';
+import { getMealsBonusByEffectOrStat, getTotalKitchenLevels } from '@parsers/world-4/cooking';
+import { getAchievementStatus } from '@parsers/achievements';
+import { getStarSignBonus } from '@parsers/starSigns';
+import { getWinnerBonus } from '@parsers/world-6/summoning';
+import { getLampBonus } from '@parsers/world-5/caverns/the-lamp';
+import { getUpgradeVaultBonus } from '@parsers/misc/upgradeVault';
+import { getLoggedInSkillLevel } from '@parsers/misc';
+import { CLASSES, getBestActiveCharacter, getHighestTalentAcrossCharacters } from '@parsers/talents';
+import { getArcadeBonus } from '@parsers/world-2/arcade';
+import { getSushiBonus } from '@parsers/world-7/sushiStation';
+import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
+import { NUMBERED_GROUP, additiveGroup, createBreakdown, multiplier, percent } from '@parsers/breakdown';
+import { isMenagerieUnlockOwned } from '@parsers/world-7/menagerie';
+
+// Crucible (hard arena) waves cleared, OptionsListAccount[628], against the randomList[115] wave list:
+// the count of waves reached in order, only once the Menagerie unlock 8 is owned.
+// game: "TalentCalc:arenaCruc"
+export const getArenaCrucibleCount = (account: any): number => {
+  if (!isMenagerieUnlockOwned(account, 8)) return 0;
+  const bestWave = Number(account?.accountOptions?.[628]) || 0;
+  const waves: any[] = (randomList as any)?.[115] ?? [];
+  const index = waves.findIndex((wave) => bestWave < Number(wave));
+  return index === -1 ? waves.length : index;
+};
+
+// game: "Breeding:PetArenaCrucBonus"
+export const getPetArenaCrucBonus = (account: any, index: number): number => getArenaCrucibleCount(account) > index ? 1 : 0;
+
+export const getBreeding = (idleonData: any, account: any, processedData: any) => {
+  const breedingRaw = tryToParse(idleonData?.Breeding) || idleonData?.Breeding;
+  const petsRaw = tryToParse(idleonData?.Pets) || idleonData?.Pets;
+  const petsStoredRaw = tryToParse(idleonData?.PetsStored) || idleonData?.PetsStored;
+  const territoryRaw = tryToParse(idleonData?.Territory) || idleonData?.Territory;
+  const cookingRaw = tryToParse(idleonData?.Cooking) || idleonData?.Cooking;
+  return parseBreeding(breedingRaw, territoryRaw, petsRaw, petsStoredRaw, cookingRaw, account, processedData);
+}
+
+const parseBreeding = (breedingRaw: any, territoryRaw: any, petsRaw: any, petsStoredRaw: any, cookingRaw: any, account: any, processedData: any) => {
+  const eggs = breedingRaw?.[0];
+  const genetics = breedingRaw?.[3]?.slice(0, 4)
+  const deadCells = breedingRaw?.[3]?.[8];
+  const speciesUnlocks = breedingRaw?.[1];
+  const petUpgradesList = breedingRaw?.[2]?.map((upgradeLevel: any, index: any) => {
+    const upgrade = petUpgrades[index] || {};
+    const maxLevel = index === 6
+      ? (upgrade.maxLevel ?? 0) + getMineheadBonusQTY(account, 3)
+      : upgrade.maxLevel;
+    return {
+      ...upgrade,
+      level: upgradeLevel,
+      maxLevel
+    }
+  })
+  const unlockedBreedingMulti = {
+    second: petUpgradesList?.[2]?.level > 0,
+    third: petUpgradesList?.[4]?.level > 0,
+    fourth: petUpgradesList?.[6]?.level > 0,
+    fifth: petUpgradesList?.[9]?.level > 0
+  }
+  const storedPets = petsStoredRaw?.map(([name, level, power]: any) => {
+    return { name, level, power }
+  });
+  const petsLevels = breedingRaw?.slice(4, 8);
+  const shinyPetsLevels = breedingRaw?.slice(22, 26);
+  const breedingPetsLevels = breedingRaw?.slice(13, 17);
+  const baseFenceSlots = breedingRaw?.[2]?.[4];
+  const fenceSlots = Math.round(5 + baseFenceSlots + 2 * (account?.gemShopPurchases?.find((value: any, index: any) => index === 125) ?? 0));
+  const rawFencePets = petsRaw?.slice(0, fenceSlots) ?? [];
+  const fencePetsObject = rawFencePets.reduce((res: any, [petName, type]: any) => {
+    if (!res[petName]) {
+      res[petName] = {
+        amount: 0,
+        shiny: 0,
+        breedability: 0
+      };
+    }
+
+    res[petName].amount += 1;
+    if (type === 4) res[petName].breedability += 1;
+    if (type === 5) res[petName].shiny += 1;
+
+    return res;
+  }, {});
+
+  const foragingRounds = territoryRaw?.map(([, round]: any) => round);
+  const currentProgress = territoryRaw?.map(([progress]: any) => progress);
+  const teams = petsRaw?.slice(27)?.map(([name, x1, x2, x3]: any) => {
+    const gene = petGenes?.[x1];
+    const realName = monsters?.[name]?.Name;
+    return { name, realName, x1, power: x2, x3, gene };
+  })?.toChunks(4);
+  const terri = territory.filter((_, index) => index !== 14);
+  // TotalTrekkingREQ reads TerritoryInfo[TerritoryID(i, 42)], which is row i itself: the requirement skips no row, even
+  // though the name and battle skip the old Arena row 14.
+  const requirementRows = territory;
+  const territories = terri?.map((territory, index) => {
+    const team = teams?.[index] || [];
+    const previousTeam = teams?.[index - 1] || [];
+    const nextTeam = teams?.[index + 1] || [];
+    const vaultBonus = 1 + getUpgradeVaultBonus(account?.upgradeVault?.upgrades, 56) / 100;
+    const forageSpeed = team?.reduce((sum: any, teamMember: any, position: any) => sum + getForageSpeed({
+      team,
+      previousTeam,
+      teamMember,
+      position
+    }), 0) * vaultBonus;
+    const teamPower = team?.reduce((sum: any, teamMember: any) => sum + getFightPower(teamMember), 0);
+    const fleeters = team?.filter((teamMember: any) => teamMember?.gene?.name === 'Fleeter')?.length;
+    let miasmas = team?.filter((teamMember: any) => teamMember?.gene?.name === 'Miasma');
+    if (miasmas?.length) {
+      const geneNames = team?.map(({ gene }: any) => gene?.name);
+      const allUnique = new Set(geneNames).size === geneNames?.length;
+      miasmas = allUnique ? 4 : 1;
+    }
+    else {
+      miasmas = 1;
+    }
+    const topAndBottomRows = [...team, ...previousTeam, ...nextTeam];
+    const badumdums = topAndBottomRows?.filter((teamMember) => teamMember?.gene?.name === 'Badumdum')?.length;
+    const tsars = topAndBottomRows?.filter((teamMember) => teamMember?.gene?.name === 'Tsar')?.length;
+    const math = forageSpeed * Math.pow(1.3, fleeters) * Math.pow(1.2, badumdums) * getCombatMixGeneMulti(team) * miasmas;
+    const teamFightPower = (teamPower + forageSpeed * index) * Math.pow(1.5, tsars) * (1 + getSushiBonus(account, 10) / 100);
+    const totalForageSpeed = teamFightPower < territory.fightPower ? 0 : math;
+    const bonus = 1 + .02 / (team?.filter((teamMember: any) => teamMember?.gene?.name === 'Monolithic')?.length / 5 + 1);
+    const powerReq = requirementRows?.[index]?.powerReq;
+    const roundsForTerritory = foragingRounds?.[index] ?? 0;
+    const reqProgress = (powerReq + roundsForTerritory) * Math.pow(bonus, roundsForTerritory);
+    return { ...territory, team, forageSpeed: totalForageSpeed, reqProgress, currentProgress: currentProgress?.[index] }
+  });
+
+  const fencePets: any[] = [], passivesTotals: Record<string, any> = {};
+  let totalShinyLevels = 0;
+  let shinyOverLevels = 0;
+  const maxShinyLevel = getMaxShinyLevel(account);
+  const pets = petStats?.map((petList, worldIndex) => {
+    const speciesUnlocked = speciesUnlocks?.[worldIndex];
+    return petList?.map((pet, petIndex) => {
+      const shinyLevel = getShinyLevel(shinyPetsLevels, worldIndex, petIndex, maxShinyLevel);
+      // Tome calc
+      totalShinyLevels += shinyLevel === 0 ? 1 : shinyLevel;
+      // game: "Breeding:SpecialzOverLVL"
+      shinyOverLevels += Math.max(0, shinyLevel - BASE_MAX_SHINY_LEVEL);
+
+      const shinyGoal = getLevelGoal(shinyLevel, true);
+      const passiveValue = Math.round(pet?.baseValue * shinyLevel);
+      const petInfo = {
+        ...pet,
+        world: 'World' + (worldIndex + 1),
+        level: petsLevels?.[worldIndex]?.[petIndex] ?? 0,
+        shinyLevel,
+        shinyProgress: shinyPetsLevels?.[worldIndex]?.[petIndex] ?? 0,
+        breedingProgress: breedingPetsLevels?.[worldIndex]?.[petIndex] ?? 0,
+        shinyGoal,
+        rawPassive: pet?.passive,
+        passive: pet?.passive?.replace('{', String(passiveValue)),
+        passiveValue,
+        unlocked: petIndex < speciesUnlocked
+      }
+
+      if (passivesTotals?.[pet?.passive]) {
+        passivesTotals[pet?.passive] += passiveValue;
+      }
+      else if (passiveValue > 0) {
+        passivesTotals[pet?.passive] = passiveValue;
+      }
+      if (fencePetsObject?.[pet?.monsterRawName]) {
+        fencePets.push(petInfo);
+      }
+      return petInfo;
+    })
+  });
+
+  // game: "TotalEggCapacity" = 3 + Egg_Capacity upgrade level + Royal Egg Cap gem
+  // purchases + World 4 merit 3, up to 15. Breeding[0] holds 20 slots; the ones at or past it are locked.
+  const eggCapacity = Math.round(3 + calcUpgradeBonus(petUpgradesList?.[2], 2, account)
+    + (account?.gemShopPurchases?.[119] ?? 0) + (account?.tasks?.[2]?.[3]?.[2] ?? 0));
+
+  return {
+    rawFencePets,
+    eggsPowerRange: getEggsPowerRange(processedData?.charactersData),
+    passivesTotals,
+    storedPets,
+    eggs,
+    eggCapacity,
+    genetics,
+    deadCells,
+    speciesUnlocks,
+    fencePets,
+    fencePetsObject,
+    maxArenaLevel: account?.accountOptions?.[89],
+    // Crucible (hard arena) best wave, OptionsListAccount[628]
+    maxCrucibleLevel: account?.accountOptions?.[628] ?? 0,
+    maxShinyLevel,
+    shinyOverLevels,
+    timeToNextEgg: (account?.accountOptions?.[87] ?? 0) * 1000,
+    petUpgrades: petUpgradesList,
+    arenaBonuses,
+    unlockedBreedingMulti,
+    pets,
+    territories,
+    foragingRounds,
+    currentProgress,
+    totalShinyLevels
+  };
+}
+
+// game: "Breeding:SpecialPassives" ("Lv"): one threshold per level past 1, 19 + 10 more with Menagerie unlock 11
+const getShinyLevel = (shinyPetsLevels: any, worldIndex: any, petIndex: any, maxShinyLevel: number = BASE_MAX_SHINY_LEVEL) => {
+  const shinyLevel = new Array(Math.max(0, maxShinyLevel - 1)).fill(1)?.reduce((sum, _, index) => shinyPetsLevels?.[worldIndex]?.[petIndex] > Math.floor((1 + Math.pow(index + 1, 1.6)) * Math.pow(1.7, index + 1))
+    ? index + 2
+    : sum, 0)
+  return shinyPetsLevels?.[worldIndex]?.[petIndex] === 0 ? 0 : shinyLevel === 0 ? 1 : shinyLevel;
+}
+
+export const BASE_MAX_SHINY_LEVEL = 20;
+// Menagerie unlock 11 raises the shiny cap by 10
+export const getMaxShinyLevel = (account: any) => BASE_MAX_SHINY_LEVEL + 10 * (isMenagerieUnlockOwned(account, 11) ? 1 : 0);
+export const MAX_BREEDABILITY_LEVEL = 9;
+
+// Both shiny and breedability goals are absolute thresholds on the raw progress counter,
+// not per-level increments, so the goal for a level is a single term and never a sum.
+const getLevelGoal = (level: number, isShiny: boolean) => isShiny
+  ? Math.floor((1 + Math.pow(level, 1.6)) * Math.pow(1.7, level))
+  : Math.pow(Math.pow(Math.E, Math.pow(level, 1.25)), 1 / 0.725) - 1;
+
+export const addBreedingChance = (idleonData: any, account: any) => {
+  const breedingRaw = tryToParse(idleonData?.Breeding) || idleonData?.Breeding;
+  let totalBreedabilityLv = 0;
+  const pets = account?.breeding?.pets?.map((petList: any, worldIndex: any) => {
+    return petList?.map((pet: any, petIndex: any) => {
+      const totalKitchenLevels = getTotalKitchenLevels(account?.cooking?.kitchens)
+      const breedingMultipliers = getBreedingMulti(account, breedingRaw, worldIndex, petIndex, account?.breeding?.unlockedBreedingMulti, totalKitchenLevels);
+      const breedingLevel = Math.min(MAX_BREEDABILITY_LEVEL, Math.floor(Math.pow(breedingMultipliers?.second - 1, .8)) + 1);
+      const breedingGoal = getLevelGoal(breedingLevel, false);
+      totalBreedabilityLv += breedingLevel;
+      return {
+        ...pet,
+        breedingLevel,
+        breedingGoal,
+        breedingMultipliers
+      }
+    })
+  })
+  return {
+    ...account?.breeding,
+    pets,
+    totalBreedabilityLv
+  }
+}
+
+const getBaseBreedChance = (breedingRaw: any, worldIndex: any, petIndex: any) => {
+  const baseChances = randomList[54];
+  return petIndex + 2 > breedingRaw?.[1]?.[worldIndex]
+    ? 1 / Math.max(1, Number(baseChances[petStats[worldIndex][petIndex].passiveIndex as unknown as number]))
+    : 1
+}
+
+const getBreedingMulti = (account: any, breedingRaw: any, worldIndex: any, petIndex: any, unlockedBreedingMulti: any, totalKitchenLevels: any) => {
+  const first = 1 + Math.ceil(100 * Math.pow((breedingRaw?.[(4 + worldIndex) | 0]?.[petIndex] ?? 0) / 10, 1.9)) / 100;
+  const second = (unlockedBreedingMulti?.second
+    ? 1 + Math.log(Math.max(1, Math.pow(breedingRaw?.[(worldIndex + 13) | 0][petIndex] + 1, 0.725)))
+    : 1)
+  const third = (unlockedBreedingMulti?.third
+    ? 1 + (0.25 * Math.pow(breedingRaw?.[0]?.[0], 1.4) + Math.pow(breedingRaw?.[0]?.[0] / 3, 6))
+    : 1);
+  const fourth = (unlockedBreedingMulti?.fourth
+    ? (0 === worldIndex
+      ? 1
+      : 1 + 0.1 * worldIndex
+      + Math.max(1, Math.min(3, 1 + 0.15 * (breedingRaw?.[2]?.[7])))
+      * Math.pow((breedingRaw?.[1]?.[(worldIndex - 1) | 0])
+        / (petStats[worldIndex - 1].length -
+          petStats[worldIndex - 1].length / 2), 3))
+    : 1)
+  const fifth = (unlockedBreedingMulti?.fifth
+    ? Math.max(1, Math.pow(account?.accountOptions?.[86] + 1, 0.3))
+    : 1);
+
+  const baseBreedingChance = getBaseBreedChance(breedingRaw, worldIndex, petIndex);
+  const gemShopBonus = account?.gemShopPurchases?.find((value: any, index: any) => index === 119) ?? 0;
+  const vialBonus = getVialsBonusByEffect(account?.alchemy?.vials, null, 'NewPet');
+  const bubbleBonus = getBubbleBonus(account, 'PETTING_THE_RIFT', false);
+  const stampBonus = getStampsBonusByEffect(account, 'New_Pet_Chance');
+  const mealBonus = getMealsBonusByEffectOrStat(account, null, 'Npet');
+  const breedingBonus = calcUpgradeBonus(account?.breeding?.petUpgrades?.[9], 9, account);
+  const rawCurrentRift = account?.rift?.currentRift;
+  const currentRift = Number.isFinite(rawCurrentRift) ? rawCurrentRift : 0;
+  const totalChance = (1 + (10 * gemShopBonus) / 100)
+    * (1 + (vialBonus
+      + bubbleBonus
+      * currentRift) / 100)
+    * (1 + stampBonus / 100)
+    * (1 + mealBonus / 100) * Math.pow(Math.max(1, breedingBonus),
+      totalKitchenLevels / 100)
+    * baseBreedingChance
+    * first
+    * second
+    * third
+    * fourth
+    * fifth;
+
+  return {
+    first,
+    second,
+    third,
+    fourth,
+    fifth,
+    totalChance
+  }
+}
+
+export const getShinyBonus = (pets: any, passiveName: any) => {
+  return pets?.reduce((sum: any, world: any) => sum + world?.reduce((innerSum: any, {
+    passive,
+    passiveValue
+  }: any) => innerSum + (passive.includes(passiveName) && passiveValue), 0), 0);
+}
+
+export const getTimeToLevel = (pet: any, multi: any, copies: any, targetLevel: any, isShiny: any, maxShinyLevel: number = BASE_MAX_SHINY_LEVEL) => {
+  const currentLevel = isShiny ? pet?.shinyLevel : pet?.breedingLevel;
+  const currentProgress = isShiny ? pet?.shinyProgress : pet?.breedingProgress;
+  const target = Math.min(isShiny ? maxShinyLevel : MAX_BREEDABILITY_LEVEL, Number(targetLevel) || 0);
+
+  if (currentLevel >= target) return 0;
+
+  const goal = getLevelGoal(target - 1, isShiny);
+
+  return ((goal - currentProgress) / multi / (copies || 1)) * 8.64e+7;
+}
+
+export const calcUpgradeBonus = (upgrade: any, upgradeIndex: any, account: any) => {
+  const level = upgrade?.level ?? 0;
+  if (0 === upgradeIndex || 2 === upgradeIndex || 4 === upgradeIndex) {
+    return level;
+  }
+  if (1 === upgradeIndex) {
+    return 4 * level;
+  }
+  if (3 === upgradeIndex) {
+    return 25 * level;
+  }
+  if (5 === upgradeIndex) {
+    return (1 + 0.25 * level) * Math.min(2, Math.max(1, 1 + 0.1 * getAchievementStatus(account?.achievements, 221)));
+  }
+  if (6 === upgradeIndex) {
+    return 6 * level;
+  }
+  if (7 === upgradeIndex) {
+    return 1 + 0.15 * level;
+  }
+  if (8 === upgradeIndex) {
+    return 1 + 2 * level;
+  }
+  if (9 === upgradeIndex) {
+    return 1 + 0.02 * level;
+  }
+  if (10 === upgradeIndex) {
+    return 10 * level;
+  }
+  if (11 === upgradeIndex) {
+    return Math.ceil(12 * Math.pow(level, 0.698));
+  }
+  if (12 === upgradeIndex) {
+    return 5 * level;
+  }
+  return 0;
+}
+
+// game: TotalTrekkingHR. Each Flashy gives x1.5 on a team with no combat pet, each Fastidious x1.5 on a team with one;
+// an empty slot ("none") is no combat pet.
+export const getCombatMixGeneMulti = (team: any[]) => {
+  const hasCombatPet = team?.some((teamMember: any) => teamMember?.name !== 'none' && teamMember?.gene?.abilityType === 0);
+  const count = (gene: string) => team?.filter((teamMember: any) => teamMember?.gene?.name === gene)?.length ?? 0;
+  return Math.pow(1.5, hasCombatPet ? count('Fastidious') : count('Flashy'));
+}
+
+export const getForageSpeed = ({ team, previousTeam, teamMember, position }: any) => {
+  if (teamMember?.gene?.abilityType === 1) {
+    switch (teamMember?.gene?.name) {
+      case 'Forager':
+        return 2 * teamMember?.power;
+      case 'Targeter':
+        if (previousTeam?.[position]?.gene?.name === 'Targeter')
+          return 5 * teamMember?.power;
+        break;
+      case 'Opticular':
+        if (team?.every((member: any) => member.power <= teamMember.power))
+          return 3 * teamMember?.power;
+        break;
+      case 'Borger':
+        if (previousTeam.some((member: any) => member?.gene?.name === 'Forager')) {
+          return 10 * teamMember?.power
+        }
+    }
+    return teamMember?.power;
+  }
+  return 0;
+}
+
+export const getFightPower = (teamMember: any) => {
+  return teamMember?.gene?.abilityType === 0 ? teamMember?.gene?.name === 'Mercenary'
+    ? 2 * teamMember.power
+    : teamMember.power : 0;
+}
+
+export const calcHighestPower = (breeding: any) => {
+  const teams = breeding?.territories?.reduce((result: any, { team }: any) => ([...result, ...team]), []) ?? [];
+  const fence = breeding?.rawFencePets?.map(([, , power]: any) => power) ?? [];
+  const mappedPets = [...(breeding?.storedPets || []), ...teams].map(({ power }: any) => power);
+  return Math.max(0, ...mappedPets, ...fence);
+}
+
+export const calcBreedabilityMulti = (account: any, characters: any) => {
+  const breedingBonus = calcUpgradeBonus(account?.breeding?.petUpgrades?.[3], 3, account);
+  // game: DNSM.StarSigns of the logged-in character
+  const starSignBonus = getStarSignBonus(getBestActiveCharacter(characters), account, 'Breedable_Spd') ?? 0;
+  const mealBonus = getMealsBonusByEffectOrStat(account, null, 'Breed')
+  const lampBonus = getLampBonus({ holesObject: account?.hole?.holesObject, t: 0, i: 1, account });
+  const arcadeBonus = getArcadeBonus(account?.arcade?.shop, 'Breedability_Rate')?.bonus ?? 0;
+  const cropDepotShinyBonus = account?.farming?.cropDepot?.shiny?.value ?? 0;
+
+  const achievementBonus = 20 * getAchievementStatus(account?.achievements, 218);
+  const value = (1 + (breedingBonus + (mealBonus
+      + (achievementBonus + starSignBonus))) / 100)
+    * (1 + cropDepotShinyBonus / 100)
+    * (1 + lampBonus / 100)
+    * (1 + arcadeBonus / 100);
+  return {
+    value,
+    breakdown: createBreakdown('Breedability multi', notateNumber(value, 'MultiplierInfo'), [
+      additiveGroup(NUMBERED_GROUP, [
+        percent('Breeding bonus', breedingBonus),
+        percent('Meal bonus', mealBonus),
+        percent('Achievement bonus', achievementBonus),
+        percent('Starsign bonus', starSignBonus)
+      ]),
+      multiplier('Crop bonus', 1 + cropDepotShinyBonus / 100),
+      multiplier('Lamp bonus', 1 + lampBonus / 100),
+      multiplier('Arcade bonus', 1 + arcadeBonus / 100)
+    ])
+  }
+}
+// game: "Breeding:ShinySpdMulti"
+export const calcShinyLvMulti = (account: any, characters: any) => {
+  const spelunkerObolMulti = getLabBonus(account?.lab?.labBonuses, 8); // gem multi
+  const emeraldUlthuriteBonus = getJewelBonus(account?.lab?.jewels, 15, spelunkerObolMulti);
+  const fasterShinyLevelBonus = getShinyBonus(account?.breeding?.pets, 'Faster_Shiny_Mob_Lv_Up_Rate');
+  const starSign = getStarSignBonus(getBestActiveCharacter(characters), account, 'Shiny_Mob_LV_spd') ?? 0;
+  const summoningBonus = getWinnerBonus(account, '<x Shiny EXP', false);
+  const lampBonus = getLampBonus({ holesObject: account?.hole?.holesObject, t: 0, i: 1, account });
+  const breedingBonus = calcUpgradeBonus(account?.breeding?.petUpgrades?.[12], 12, account);
+  const cropDepotShinyBonus = account?.farming?.cropDepot?.shiny?.value ?? 0;
+  const shinyOverLevelBonus = 10 * (account?.breeding?.shinyOverLevels ?? 0);
+
+  const value = (1 + (emeraldUlthuriteBonus
+      + (fasterShinyLevelBonus
+        + (cropDepotShinyBonus
+          + starSign + breedingBonus))) / 100)
+    * (1 + summoningBonus / 100)
+    * (1 + shinyOverLevelBonus / 100)
+    * (1 + lampBonus / 100);
+
+  return {
+    value,
+    breakdown: createBreakdown('Shiny level multiplier', notateNumber(value, 'MultiplierInfo'), [
+      additiveGroup(NUMBERED_GROUP, [
+        percent('Jewel bonus', emeraldUlthuriteBonus),
+        percent('Shiny bonus', fasterShinyLevelBonus),
+        percent('Starsign bonus', starSign),
+        percent('Crop bonus', cropDepotShinyBonus),
+        percent('Breeding bonus', breedingBonus)
+      ]),
+      multiplier('Summoning bonus', 1 + summoningBonus / 100),
+      multiplier('Shiny levels past 20', 1 + shinyOverLevelBonus / 100),
+      multiplier('Lamp bonus', 1 + lampBonus / 100)
+    ])
+  };
+}
+
+export const getEggsPowerRange = (characters: any) => {
+  // game: PetQTYonBreed reads Lv0[11], the logged-in character's breeding level, whatever its class
+  const breedingLevel = getLoggedInSkillLevel(characters, 'breeding');
+  // Game maxes this talent across all characters (getbonus2(1, 373, -1)); decayMulti already includes the base 1
+  const baseTalentBonus = getHighestTalentAcrossCharacters(characters, 'CURVITURE_OF_THE_PAW', getBestActiveCharacter(characters));
+  const base = Math.pow(4 * breedingLevel + Math.pow(breedingLevel / 2, 3), 0.85);
+  const talentBonus = Math.min(2.1, Math.max(1, baseTalentBonus));
+  const breedingBonus = Math.min(1.2 + breedingLevel / 12, 4);
+  // eggLevel is the egg's tier as stored in the save (1-11, matching PetEgg1-PetEgg11)
+  return createRange(1, 11).map((eggLevel) => {
+    const eggLvScale = 0.2 * eggLevel + 0.3 * Math.floor((eggLevel + 1) / 4) + 1;
+
+    return {
+      minPower: base
+        * talentBonus
+        * eggLvScale
+        * (breedingBonus * Math.pow(2.71828, -10 * Math.max(0.1, 1 - ((eggLevel + 4) / 12) * 0.9)) + 1),
+      maxPower: base
+        * talentBonus
+        * eggLvScale
+        * (breedingBonus * Math.pow(2.71828, -10 * 0) + 1)
+    }
+  })
+}

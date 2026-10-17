@@ -1,0 +1,1188 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { format, getDaysInMonth, getDaysInYear, intervalToDuration, isValid } from 'date-fns';
+import { drawerPages, simulatedCompanionsKey } from '@components/constants';
+import { readLocalStorageValue } from '@mantine/hooks';
+import merge from 'lodash.merge';
+import { copyText } from '@utility/clipboard';
+import { errorMessage, trackEvent } from '@utility/analytics';
+
+export const getTabs = (array, label, tabName, nestedTabName) => {
+  const navItem = array.find((item) => item.label === label);
+
+  if (!navItem) return [];
+
+  // If we're looking for a specific tab's nested tabs
+  if (tabName) {
+    const nestedItems = navItem.nestedTabs?.filter((item) => item.tab === tabName);
+
+    // If we're looking for a specific nested tab's nested tabs
+    if (nestedTabName) {
+      const deepNestedItem = nestedItems?.find((item) => item.nestedTab === nestedTabName);
+      return deepNestedItem?.nestedTabs || [];
+    }
+
+    // Just return the nested tab names for the specified tab
+    return nestedItems?.map(({ nestedTab }) => nestedTab) || [];
+  }
+
+  // Return top-level tabs
+  return navItem.tabs?.map((item) => item?.tab || item) || [];
+};
+
+export const downloadFile = (data, filename) => {
+  const blob = new Blob([data], { type: 'text/json' });
+  const link = document.createElement('a');
+
+  link.download = filename;
+  link.href = window.URL.createObjectURL(blob);
+  link.dataset.downloadurl = ['text/json', link.download, link.href].join(':');
+
+  const evt = new MouseEvent('click', {
+    view: window,
+    bubbles: true,
+    cancelable: true
+  });
+
+  link.dispatchEvent(evt);
+  link.remove()
+}
+
+export const sortKeys = (obj) => {
+  if (obj === null || typeof obj !== 'object') return obj;
+  if (Array.isArray(obj)) return obj.map(sortKeys);
+  return Object.keys(obj).sort().reduce((sorted, key) => {
+    sorted[key] = sortKeys(obj[key]);
+    return sorted;
+  }, {});
+};
+
+// Calculating days manually because of JS limitation for dates https://262.ecma-international.org/5.1/#sec-15.9.1.1
+const msPerDay = 8.64e+7;
+export const getTimeAsDays = (time) => {
+  return Math.ceil(time * 3600 * 1000 / msPerDay);
+}
+export const eventsColors = {
+  'Meteorite': '#f8e8b7',
+  'Mega_Grumblo': '#e6b471',
+  'Glacial_Guild': '#65b8d6',
+  'Snake_Swarm': '#3f9c61',
+  'Angry_Frogs': '#f6b5f8'
+}
+
+export const
+  number2letter = [
+    "_",
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "肥",
+    "肢",
+    "肖",
+    "肋",
+    "肉",
+    "職",
+    "耐",
+    "者",
+    "箱",
+    "管",
+    "算",
+    "箔",
+    "策",
+    "答",
+    "筒",
+    "筍",
+    "白",
+    "発",
+    "癒",
+    "痛",
+    "痕",
+    "病",
+    "疾",
+    "疲",
+    "潤",
+    "潜",
+    "漬",
+    "漠",
+    "演",
+    "漏",
+    "漁",
+    "滞",
+    "毎",
+    "殻",
+    "殺",
+    "段",
+    "殖",
+    "残",
+    "歳",
+    "歯",
+    "歩",
+    "武",
+    "歓",
+    "欲",
+    "次",
+    "欠",
+    "櫛",
+    "機",
+    "色",
+    "村",
+    "材",
+    "杉",
+    "本",
+    "末",
+    "未",
+    "木",
+    "授",
+    "掃",
+    "捧",
+    "彼",
+    "役",
+    "影",
+    "彫",
+    "彩",
+    "胃",
+    "堪",
+    "城",
+    "坑",
+    "努",
+    "助",
+    "加",
+    "功",
+    "力",
+    "創",
+    "割",
+    "借",
+    "候",
+    "倒",
+    "老",
+    "個",
+    "景",
+    "是",
+    "明",
+    "昇",
+    "早",
+    "既",
+    "掴",
+    "担",
+    "想",
+    "扉",
+    "戻",
+    "懸",
+    "懲",
+    "憩",
+    "態",
+    "感",
+    "蛮",
+    "蛍",
+    "虫",
+    "虚",
+    "蘇",
+    "薬",
+    "薄",
+    "蔵"
+];
+
+/** @returns {any} */
+export const tryToParse = (str) => {
+  try {
+    return JSON.parse(str);
+  } catch (err) {
+    return str;
+  }
+};
+
+export const findNameCombination = (arr, str) => {
+  if (!arr) return [];
+  let result = [];
+
+  function find(str, combination) {
+    if (str === '') {
+      result.push(combination);
+      return;
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+      if (str?.startsWith(arr[i]?.name)) {
+        find(str.slice(arr[i]?.name?.length), [...combination, arr[i]]);
+      }
+    }
+  }
+
+  find(str, []);
+
+  return result.flat();
+}
+
+export const createArrayOfArrays = (array) => {
+  return array?.map((object) => {
+    if (!Array.isArray(object)) {
+      delete object?.length;
+    }
+    return Object.values(object);
+  });
+};
+
+export const createIndexedArray = (object) => {
+  const keys = Object.keys(object).map(Number).filter(k => !isNaN(k));
+  if (!keys.length) return Object.values(object);
+  const highest = Math.max(...keys);
+  let result = [];
+  for (let i = 0; i <= highest; i++) {
+    if (i in object) {
+      result[i] = object[i];
+    }
+    else {
+      result[i] = {};
+    }
+  }
+  return result;
+};
+
+export { growth } from './wiki/growth.mjs';
+
+// game: _customBlock_getLOG divides by ln(10) truncated to 2.30259, not the exact 2.302585...
+export const GAME_LN10 = 2.30259;
+
+export const lavaLog = (num) => {
+  return Math.log(Math.max(num, 1)) / GAME_LN10;
+};
+
+export const lavaLog2 = (num) => {
+  return Math.log(Math.max(num, 1)) / Math.log(2);
+};
+
+export const round = (num) => {
+  return Math.round((num + Number.EPSILON) * 100) / 100;
+};
+
+export const createRange = (start, end) => {
+  const result = [];
+  for (let i = start; i <= end; i++) {
+    result.push(i);
+  }
+  return result;
+}
+export const cloneObject = (data) => {
+  try {
+    return structuredClone(data);
+  } catch (err) {
+    return data;
+  }
+};
+
+export const cleanUnderscore = (str) => {
+  try {
+    if (!str) return '';
+    return String(str)?.replace(/_/g, ' ');
+  } catch (err) {
+    console.log(`Error in cleanUnderscore for ${str}`, err);
+  }
+};
+
+// Star sign bonuses use "{" as a value placeholder, but decimal-valued bonuses
+// use the "{.{" token pair instead, so both have to be substituted.
+export const formatStarSignBonus = (rawName, bonus) => {
+  if (!rawName) return '';
+  return String(rawName).replace('{.{', bonus).replace(/{/g, bonus);
+};
+
+export const getNumberWithOrdinal = (n) => {
+  const s = ['th', 'st', 'nd', 'rd'], v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+export const kFormatter = (num, digits = 1) => {
+  if (num === undefined) return null;
+  const si = [
+    { value: 1, symbol: '' },
+    { value: 1e3, symbol: 'k' },
+    { value: 1e6, symbol: 'M' },
+    { value: 1e9, symbol: 'B' },
+    { value: 1e12, symbol: 'T' },
+    { value: 1e15, symbol: 'Q' },
+    { value: 1e18, symbol: 'QQ' }
+  ];
+  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+  let i;
+  for (i = si.length - 1; i > 0; i--) {
+    if (num >= si[i].value) {
+      break;
+    }
+  }
+  return (num / si[i].value).toFixed(digits).replace(rx, '$1') + si[i].symbol;
+};
+
+// Port of the game's cash multiplier label (the MonsterCash text in N.js). Past 1e16 it hands off to
+// NotateNumber, which has no tier above QQ and prints e notation from 1e21 on.
+export const cashFormatter = (value) => {
+  if (value > 1e16) return notateNumber(value, 'Big');
+  if (value > 1e10) return Math.floor(value / 1e8) / 10 + 'B';
+  if (value > 1e7) return Math.floor(value / 1e5) / 10 + 'M';
+  return notateNumber(value, 'MultiplierInfo');
+}
+
+function splitDecimal(numStr, allowNegative = true) {
+  const hasNegation = numStr[0] === '-';
+  const addNegation = hasNegation && allowNegative;
+  numStr = numStr.replace('-', '');
+
+  const parts = numStr.split('.');
+  const beforeDecimal = parts[0];
+  const afterDecimal = parts[1] || '';
+
+  return {
+    beforeDecimal,
+    afterDecimal,
+    hasNegation,
+    addNegation
+  };
+}
+
+function applyThousandSeparator(
+  str,
+  thousandSeparator
+) {
+  const thousandsGroupRegex = /(\d)(?=(\d{3})+(?!\d))/g;
+  let index = str.search(/[1-9]/);
+  index = index === -1 ? str.length : index;
+  return (
+    str.substring(0, index) +
+    str.substring(index, str.length).replace(thousandsGroupRegex, '$1' + thousandSeparator)
+  );
+}
+
+export const numberWithCommas = (numStr, isFloat = true) => {
+  // Number#toString switches to exponential notation at 1e21, which the grouping below would mangle
+  numStr = typeof numStr === 'number' && Number.isFinite(numStr) && Math.abs(numStr) >= 1e21
+    ? BigInt(Math.round(numStr)).toString()
+    : String(numStr);
+  const hasDecimalSeparator = numStr.indexOf('.') !== -1;
+  let { beforeDecimal, afterDecimal } = splitDecimal(numStr); // eslint-disable-line prefer-const
+  beforeDecimal = applyThousandSeparator(beforeDecimal, ',');
+  numStr = beforeDecimal + ((isFloat && hasDecimalSeparator && '.') || '') + (isFloat ? afterDecimal : '');
+  return numStr;
+}
+
+export const pascalCase = (str) => {
+  return str
+    ?.split(/_/g)
+    .map((word) => word.toLowerCase().charAt(0).toUpperCase() + word.substr(1).toLowerCase())
+    .join('_');
+};
+
+export const getCoinsArray = (coins) => {
+  if (!Number.isFinite(coins)) return [];
+  const highestCoinIndex = 30;
+  let n = BigInt(Math.floor(coins)).toString();
+
+  let ret = new Map();
+  let i = 1;
+  while (n.length > 0 && i < highestCoinIndex) {
+    if (n.length < 2) {
+      ret.set(i, Number(n));
+      n = '';
+      break;
+    }
+    const quantity = Number(n.slice(-2));
+    ret.set(i, quantity);
+    n = n.slice(0, -2);
+    i += 1
+  }
+
+  if (n.length > 0) {
+    ret.set(highestCoinIndex, Number(n));
+  }
+
+  if (ret.size === 0) {
+    ret.set(1, 0);
+  }
+
+  ret = new Map([...ret].sort((a, b) => a[0] - b[0]).reverse())
+  return Array.from(ret);
+};
+
+export const getBitIndex = (e) => {
+  let bits = e, num = 0;
+  for (let i = 0; i < 5; i++) {
+    if (bits > 1e18) {
+      bits /= 1e18;
+      num++;
+    }
+  }
+  return num;
+}
+// game: "NotateNumber"
+// Straight port of _customBlock_NotateNumber (N.js:68770). Every branch is a chain of `limit > e`
+// tests that assumes a positive number - the game only ever notates magnitudes, so a negative falls
+// through to `Math.floor(e)` and prints raw digits. Callers that can produce a signed value must
+// notate `Math.abs()` and render the sign themselves.
+export const notateNumber = (e, s) => {
+  // The game prints NaNEInfinity here (a Bits bubble's cost overflows past ~Lv 1000).
+  if (e === Infinity) return '∞';
+  if (s === 'bits') {
+    let bits = e, t = 0;
+    for (let i = 0; i < 5; i++) {
+      if (bits > 1e18) {
+        bits /= 1e18;
+        t++;
+      }
+    }
+    return 1e4 > bits
+      ? Math.floor(bits)
+      : 1e5 > bits
+        ? Math.floor(bits / 100) / 10 + 'K'
+        : 1e6 > bits
+          ? Math.floor(bits / 1e3) + 'K'
+          : 1e7 > bits
+            ? Math.floor(bits / 1e4) / 100 + 'M'
+            : 1e8 > bits
+              ? Math.floor(bits / 1e5) / 10 + 'M'
+              : 1e9 > bits
+                ? Math.floor(bits / 1e6) + 'M'
+                : 1e10 > bits
+                  ? Math.floor(bits / 1e7) / 100 + 'B'
+                  : 1e11 > bits
+                    ? Math.floor(bits / 1e8) / 10 + 'B'
+                    : 1e12 > bits
+                      ? Math.floor(bits / 1e9) + 'B'
+                      : 1e13 > bits
+                        ? Math.floor(bits / 1e10) / 100 + 'T'
+                        : 1e14 > bits
+                          ? Math.floor(bits / 1e11) / 10 + 'T'
+                          : 1e15 > bits
+                            ? Math.floor(bits / 1e12) + 'T'
+                            : 1e16 > bits
+                              ? Math.floor(bits / 1e13) / 100 + 'Q'
+                              : 1e17 > bits
+                                ? Math.floor(bits / 1e14) / 10 + 'Q'
+                                : 1e18 > bits
+                                  ? Math.floor(bits / 1e15) + 'Q'
+                                  : Math.floor(bits /
+                                    Math.pow(10, Math.floor(lavaLog(bits))) * 100)
+                                  / 100 + 'e' + Math.floor(lavaLog(bits))
+  }
+  return 'Whole' === s ? (1e4 > e ? '' + Math.floor(e)
+    : 1e6 > e ? Math.floor(e / 1e3) + 'K'
+      : 1e7 > e ? Math.floor(e / 1e5) / 10 + 'M'
+        : 1e9 > e ? Math.floor(e / 1e6) + 'M'
+          : 1e10 > e ? Math.floor(e / 1e8) / 10 + 'B'
+            : Math.floor(e / 1e9) + 'B')
+    : 'MultiplierInfo' === s ? (1e6 < e
+      ? (0 === Math.round((e / 1e6) * 100) % 100 ? Math.round(e / 1e6) + '.00M'
+        : 0 === Math.round((e / 1e6) * 100) % 10 ? Math.round((e / 1e6) * 10) / 10 + '0M'
+          : Math.round((e / 1e6) * 100) / 100 + 'M')
+      : 0 === (10 * e) % 10 ? Math.round(e) + '.00'
+        : 0 === (100 * e) % 10 ? Math.round(10 * e) / 10 + '0'
+          : Math.round(100 * e) / 100 + '')
+      : 'ThreeDecimals' === s ? '' + parseFloat((Math.round(1000 * e) / 1000).toFixed(3))
+        : 'Micro' === s ? (10 < e ? '' + Math.round(e)
+          : 0.1 < e ? '' + Math.round(10 * e) / 10
+            : 0.01 < e ? '' + Math.round(100 * e) / 100
+              : '' + Math.round(1e3 * e) / 1e3)
+          : 100 > e ? ('Small' === s ? (1 > e ? '' + Math.round(100 * e) / 100
+            : '' + Math.round(10 * e) / 10)
+            : 'Smallish' === s ? (10 > e ? '' + Math.round(10 * e) / 10
+              : '' + Math.round(e))
+              : 'Smaller' === s ? (10 > e ? '' + Math.round(100 * e) / 100
+                : '' + Math.round(10 * e) / 10)
+                : '' + Math.floor(e))
+            : 1e3 > e ? '' + Math.floor(e)
+              : 1e4 > e ? ('Bigish' === s ? '' + Math.floor(e)
+                : Math.ceil(e / 10) / 100 + 'K')
+                : 1e5 > e ? Math.ceil(e / 100) / 10 + 'K'
+                  : 1e6 > e ? Math.ceil(e / 1e3) + 'K'
+                    : 1e7 > e ? Math.ceil(e / 1e4) / 100 + 'M'
+                      : 1e8 > e ? Math.ceil(e / 1e5) / 10 + 'M'
+                        : 1e9 > e ? Math.ceil(e / 1e6) + 'M'
+                          : 1e10 > e ? Math.ceil(e / 1e7) / 100 + 'B'
+                            : 1e11 > e ? Math.ceil(e / 1e8) / 10 + 'B'
+                              : 1e12 > e ? Math.ceil(e / 1e9) + 'B'
+                                : 1e13 > e ? Math.ceil(e / 1e10) / 100 + 'T'
+                                  : 1e14 > e ? Math.ceil(e / 1e11) / 10 + 'T'
+                                    : 1e15 > e ? Math.ceil(e / 1e12) + 'T'
+                                      : 1e16 > e ? Math.ceil(e / 1e13) / 100 + 'Q'
+                                        : 1e17 > e ? Math.ceil(e / 1e14) / 10 + 'Q'
+                                          : 1e18 > e ? Math.ceil(e / 1e15) + 'Q'
+                                            : 1e19 > e ? Math.ceil(e / 1e16) / 100 + 'QQ'
+                                              : 1e20 > e ? Math.ceil(e / 1e17) / 10 + 'QQ'
+                                                : 1e21 > e ? Math.ceil(e / 1e18) + 'QQ'
+                                                  : 'TinyE' === s
+                                      ? '' + Math.floor(e / Math.pow(10, Math.floor(lavaLog(e))) * 10) / 10 + ('e' + Math.floor(lavaLog(e)))
+                                      // 2.3.540: the default exponent is a lowercase 'e'; 'LargeE' keeps the old 'E'
+                                      : '' + Math.floor(e / Math.pow(10, Math.floor(lavaLog(e))) * 100) / 100 + (('LargeE' === s ? 'E' : 'e') + Math.floor(lavaLog(e)))
+}
+export const commaNotation = (number) => {
+  // Initialize variables
+  let formattedNumber = '';
+
+  // The game shortens past 1e9 so the digit string never reaches exponential notation
+  let roundedNumberAsString = '' + Math.round(number);
+  let suffix = '';
+  if (number > 1e9) {
+    roundedNumberAsString = '' + Math.round(number / 1e6);
+    suffix = 'M';
+    if (number > 1e15) {
+      roundedNumberAsString = '' + Math.round(number / 1e12);
+      suffix = 'T';
+      if (number > 1e21) {
+        roundedNumberAsString = '' + Math.round(number / 1e18);
+        suffix = 'QQ';
+      }
+    }
+  }
+
+  // Calculate number of commas needed
+  const numberOfCommas = Math.floor((roundedNumberAsString.length - 1) / 3) + 1;
+
+  // Calculate number of digits after last comma
+  const digitsAfterLastComma = roundedNumberAsString.length - 3 * Math.floor((roundedNumberAsString.length - 1) / 3);
+
+  // Iterate over the number of commas and format the number
+  for (let i = 0; i < numberOfCommas; i++) {
+    if (i === 0) {
+      formattedNumber = roundedNumberAsString.substring(0, digitsAfterLastComma);
+    }
+    else {
+      formattedNumber += ',' + roundedNumberAsString.substring(digitsAfterLastComma + 3 * (i - 1), digitsAfterLastComma + 3 * i);
+    }
+  }
+
+  // Return formatted number
+  return formattedNumber + suffix;
+}
+
+
+export const constellationIndexes = (str) => {
+  const indexes = { _: 0, a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, h: 8, i: 9 };
+  return str
+    ?.split('')
+    ?.map((char) => indexes?.[char])
+    .sort((a, b) => a - b)
+    .map((ind) => ind + 1)
+    .join(',');
+};
+
+export const worlds = {
+  0: 'Blunder Hills',
+  1: 'Yum Yum Desert',
+  2: 'Frostbite Tundra',
+  3: 'Hyperion Nebula',
+  4: 'Smolderin\' Plateau',
+  5: 'Spirited Valley',
+  6: 'World 7'
+};
+
+const maxTimeValue = 9.007199254740992e+15;
+export const getDuration = (start, end) => {
+  if (!isValid(start) || !isValid(end)) {
+    return 0;
+  }
+  if (start > maxTimeValue || end > maxTimeValue) {
+    return {};
+  }
+  try {
+    const parsedStartTime = new Date(start);
+    const parsedEndTime = new Date(end);
+    let duration = intervalToDuration({ start: parsedStartTime, end: parsedEndTime });
+    if (duration?.years) {
+      const daysInYear = getDaysInYear(new Date());
+      duration.days = duration.days + daysInYear * duration?.years;
+      duration.years = 0;
+    }
+    if (duration?.months) {
+      const daysInMonth = getDaysInMonth(new Date());
+      duration.days = duration.days + daysInMonth * duration?.months;
+      duration.months = 0;
+    }
+    return duration;
+  } catch (err) {
+    console.error('getDuration -> Error occurred when trying to format date', start, end);
+    return {};
+  }
+};
+
+// Hours left before the game's daily reset. timeAway.ShopRestock is a countdown in seconds, captured
+// at the moment the save was taken, so a stale save has to have the elapsed time taken back off it
+// (timeAway.GlobalTime is when that snapshot happened). Null once the save is older than the reset
+// it was counting down to, because then there is nothing left to read a deadline off.
+export const hoursUntilDailyReset = (account, now = Date.now()) => {
+  const restock = account?.timeAway?.ShopRestock;
+  const savedAt = account?.timeAway?.GlobalTime;
+  if (!Number.isFinite(restock) || !Number.isFinite(savedAt)) return null;
+  const elapsed = Math.max(0, now / 1000 - savedAt);
+  const remaining = restock - elapsed;
+  return remaining > 0 ? remaining / 3600 : null;
+};
+
+export const totalHoursBetweenDates = (start, end) => {
+  try {
+    const duration = intervalToDuration({ start, end });
+
+    // Convert years, months, and days into hours
+    const yearsToHours = duration.years * 365.25 * 24; // considering leap years
+    const monthsToHours = duration.months * 30.44 * 24; // average month length
+    const daysToHours = duration.days * 24;
+
+    // Calculate the total hours
+    return yearsToHours + monthsToHours + daysToHours + duration.hours;
+  } catch (e) {
+    console.error('totalHoursBetweenDates -> Error occurred when trying to format date', start, end);
+    return {};
+  }
+}
+
+// Character slots the game currently sells. Its unlock table is
+// [0, 8, 30, 70, 150, 300, 500, 750, 1100, 1500, 5e3, 99999, ...] indexed by how many characters
+// you own - index 10 costs 5000 combined levels for the 11th, and 99999 past that means locked.
+// Bump this when that sentinel moves.
+export const MAX_CHARACTERS = 11;
+
+export const fillArrayToLength = (length, array, defaultValue = {}) => {
+  return [...new Array(length)].map((item, index) => {
+    return array !== undefined ? array?.[index] ?? defaultValue : defaultValue;
+  });
+};
+
+export const splitTime = (numberOfHours) => {
+  const days = Math.floor(numberOfHours / 24);
+  const remainder = numberOfHours % 24;
+  const hours = Math.floor(remainder);
+  const minutes = Math.floor(60 * (remainder - hours));
+  return `${days}d:${hours}h:${minutes}m`;
+};
+
+export const randomFloatBetween = function (e, t) {
+  return e <= t ? e + Math.random() * (t - e) : t + Math.random() * (e - t)
+}
+
+export const flatten = (obj, out) => {
+  Object.keys(obj).forEach(key => {
+    if (typeof obj[key] == 'object') {
+      out = flatten(obj[key], out) //recursively call for nested
+    }
+    else {
+      out[key] = obj[key] //direct assign for values
+    }
+  });
+  return out;
+}
+
+export const sections = [
+  { name: 'Stats' },
+  { name: 'Talents' },
+  { name: 'Cards' },
+  { name: 'Prayers' },
+  { name: 'Equipment' },
+  { name: 'Inventory' },
+  { name: 'Bags' },
+  { name: 'Obols' },
+  { name: 'Obols Stats' },
+  { name: 'Skills' },
+  { name: 'Star Signs' },
+  { name: 'Post Office' },
+  { name: 'Anvil Details' },
+  { name: 'Chips' },
+  { name: 'Equipped Bubbles' }
+];
+
+export const isProd = process.env.NODE_ENV === 'production';
+
+export const getRandomNumbersArray = (length, max) => {
+  const arr = [];
+  while (arr.length < length) {
+    const r = Math.floor(Math.random() * max);
+    if (arr.indexOf(r) === -1) arr.push(r);
+  }
+  return arr;
+}
+export const shouldDisplayDrawer = (pathname = '') => {
+  return drawerPages.includes(pathname?.split('/').at(1))
+}
+
+export const UNKNOWN_TIME = '-';
+export const isUnknownTime = (ms) => typeof ms !== 'number' || !Number.isFinite(ms);
+
+export const getRealDateInMs = (ms, shouldFormat = true, formatString = 'dd/MM/yyyy HH:mm:ss') => {
+  const dateInMs = ms;
+  if (shouldFormat) {
+    if (isUnknownTime(dateInMs)) return UNKNOWN_TIME;
+    return isValid(new Date(dateInMs))
+      ? format(dateInMs, formatString)
+      : `${notateNumber(getTimeAsDays(dateInMs))} days`;
+  }
+  return dateInMs;
+}
+
+export const msToDate = (ms) => {
+  // Calculate the number of hours, minutes, and seconds
+  const hours = Math.floor(ms / (1000 * 60 * 60));
+  const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((ms % (1000 * 60)) / 1000);
+  const milliseconds = Math.floor(ms % 1000);
+
+  // Format each component to be two digits
+  const formattedHours = String(hours).padStart(2, '0');
+  const formattedMinutes = String(minutes).padStart(2, '0');
+  const formattedSeconds = String(seconds).padStart(2, '0');
+  const formattedMilliseconds = String(milliseconds).padStart(3, '0');
+
+  // Determine the formatted string based on the time
+  if (ms < 60000) {
+    // Include milliseconds if the time is under one minute
+    return `${formattedSeconds}s:${formattedMilliseconds}ms`;
+  }
+  else {
+    // Regular format for time above one minute
+    return `${formattedHours}h:${formattedMinutes}m:${formattedSeconds}s`;
+  }
+}
+
+const SECONDS_IN = { minute: 60, hour: 3600, day: 86400, year: 31536000 };
+
+/**
+ * A single rounded unit for spans that can reach centuries, where msToDate's hours-only format
+ * stops being readable. Anything past a human lifetime reads as "never".
+ */
+export const secondsToCoarseDuration = (seconds) => {
+  if (!(seconds > 0)) return null;
+  if (seconds < SECONDS_IN.hour) return `${Math.max(1, Math.round(seconds / SECONDS_IN.minute))}m`;
+  if (seconds < SECONDS_IN.day) return `${Math.round(seconds / SECONDS_IN.hour)}h`;
+  if (seconds < SECONDS_IN.year) return `${Math.round(seconds / SECONDS_IN.day)}d`;
+  const years = seconds / SECONDS_IN.year;
+  if (years >= 100) return 'never';
+  return `${years < 10 ? years.toFixed(1) : Math.round(years)}y`;
+}
+
+/**
+ * Up to the two largest units ("2d 5h", "3m 12s") for compact countdowns and split times.
+ * minUnit floors the precision: 'minute' turns sub-minute spans into "1m" instead of seconds.
+ */
+export const secondsToShortDuration = (seconds, { minUnit = 'second' } = {}) => {
+  if (!Number.isFinite(seconds)) return '-';
+  const floorSeconds = minUnit === 'minute' ? SECONDS_IN.minute : 1;
+  if (seconds < floorSeconds) return minUnit === 'minute' ? '1m' : '<1s';
+  const units = [
+    { label: 'd', size: SECONDS_IN.day },
+    { label: 'h', size: SECONDS_IN.hour },
+    { label: 'm', size: SECONDS_IN.minute },
+    { label: 's', size: 1 }
+  ].filter(({ size }) => size >= floorSeconds);
+  const first = units.findIndex(({ size }) => seconds >= size);
+  const major = units[first];
+  const minor = units[first + 1];
+  if (!minor) return `${Math.round(seconds / major.size)}${major.label}`;
+  let majorValue = Math.floor(seconds / major.size);
+  let minorValue = Math.round((seconds % major.size) / minor.size);
+  if (minorValue * minor.size >= major.size) {
+    majorValue += 1;
+    minorValue = 0;
+  }
+  return minorValue > 0 ? `${majorValue}${major.label} ${minorValue}${minor.label}` : `${majorValue}${major.label}`;
+}
+
+export const fillMissingTalents = (arr) => {
+  const talentIds = arr.map(obj => obj.talentId);
+  const minTalentId = Math.min(...talentIds);
+  const maxTalentId = Math.max(...talentIds);
+
+  const missingNumbers = Array.from({ length: maxTalentId - minTalentId + 1 }, (_, i) => i + minTalentId)
+    .filter(num => !talentIds.includes(num))
+    .map(talentId => ({ talentId }));
+
+  return arr.concat(missingNumbers)
+}
+
+export const removeDuplicatesByKey = (array, key) => {
+  const uniqueKeys = new Set();
+  return array.filter(obj => {
+    const keyValue = obj[key];
+    if (!uniqueKeys.has(keyValue)) {
+      uniqueKeys.add(keyValue);
+      return true;
+    }
+    return false;
+  });
+}
+
+export const groupByKey = (array, callback) => {
+  return array.reduce(function (groups, item) {
+    const key = callback(item);
+
+    if (!groups[key]) {
+      groups[key] = [];
+    }
+
+    groups[key].push(item);
+    return groups;
+  }, {})
+}
+
+export const migrateConfig = (type, baseConfig, userConfig, baseVersion, userVersion) => {
+  if (baseVersion !== userVersion) {
+    if (type === 'account') {
+      return merge(baseConfig, renameSettingInPostOffice(userConfig));
+    }
+    else {
+      return merge(baseConfig, userConfig);
+    }
+  }
+  return merge(baseConfig, userConfig);
+}
+
+function renameSettingInPostOffice(obj) {
+  if (obj?.['World 2']?.postOffice && obj?.['World 2']?.postOffice.options) {
+    obj['World 2'].postOffice.options = obj?.['World 2']?.postOffice.options.map(option => {
+      if (option.name === 'shields') {
+        return { ...option, name: 'dailyShipments', category: 'dailyShipments' };
+      }
+      return option;
+    }).filter((option) => option.name !== 'postOffice');
+  }
+  return obj;
+}
+
+export const handleCopyToClipboard = async (data, beautify = true) => {
+  const text = beautify ? JSON.stringify(data, null, 2) : data;
+  return copyText(text);
+};
+
+export const handleDownload = (jsonData, fileName) => {
+  const blob = new Blob([JSON.stringify(jsonData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${fileName}.json`;
+  document.body.appendChild(a);
+  a.click();
+
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+const sanitizeRawData = (data) => {
+  if (!data?.MapBon) return data;
+  const mapBon = typeof data.MapBon === 'string' ? tryToParse(data.MapBon) : data.MapBon;
+  if (!Array.isArray(mapBon)) return data;
+  return {
+    ...data,
+    MapBon: mapBon.map((entry) => Array.isArray(entry) ? entry.slice(0, 3) : entry)
+  };
+};
+
+export const setRawJson = (payload) => {
+  const serialized = JSON.stringify(payload);
+  try {
+    sessionStorage.setItem('rawJson', serialized);
+    return true;
+  } catch (error) {
+    try {
+      sessionStorage.removeItem('rawJson');
+      sessionStorage.setItem('rawJson', serialized);
+      return true;
+    } catch (retryError) {
+      console.error('Could not cache raw save data in sessionStorage:', retryError);
+      return false;
+    }
+  }
+};
+
+export const copyForSupport = async (account, characters) => {
+  const { expandLeaderboardInfo } = await import('../services/leaderboardInfo');
+  const data = JSON.parse(sessionStorage.getItem('rawJson'));
+  const extraData = expandLeaderboardInfo(account, characters);
+  const sanitized = { ...data, data: sanitizeRawData(data?.data) };
+  return copyText(JSON.stringify(sortKeys({ ...sanitized, extraData }), null, 2));
+};
+
+export const copyRawData = async () => {
+  const data = JSON.parse(sessionStorage.getItem('rawJson'));
+  return copyText(JSON.stringify(sortKeys(sanitizeRawData(data?.data)), null, 2));
+};
+
+export const handleLoadJson = async (dispatch) => {
+  try {
+    const content = JSON.parse(await navigator.clipboard.readText());
+    let { data = content, charNames, companion, guildData, serverVars = {}, accountCreateTime, tournament } = content;
+    const { parseData } = await import('@parsers/index');
+    const parsedData = parseData(data, charNames, companion, guildData, serverVars, accountCreateTime, tournament, {
+      simulatedCompanions: readLocalStorageValue({ key: simulatedCompanionsKey, defaultValue: [] })
+    });
+    const lastUpdated = new Date().getTime();
+    localStorage.setItem('lastUpdated', JSON.stringify(lastUpdated));
+    // console.log('Manual Import', { ...parsedData, lastUpdated, manualImport: true });
+    setRawJson({
+      data,
+      charNames,
+      companion,
+      guildData,
+      serverVars,
+      accountCreateTime,
+      tournament,
+      lastUpdated
+    });
+    dispatch({ type: 'data', data: { ...parsedData, lastUpdated, manualImport: true, emptyAccount: false } });
+
+    if (typeof window.gtag !== 'undefined') {
+      window.gtag('event', 'save_imported', {
+        event_category: 'engagement',
+        event_label: 'manual',
+        value: parsedData?.characters?.length ?? 0
+      });
+    }
+  } catch (e) {
+    console.error('Error while trying to manual import', e);
+    trackEvent('import_failed', { import_source: 'manual', error_message: errorMessage(e) });
+  }
+}
+
+export const isValidUrl = (url) => {
+  try {
+    new URL(url)
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+
+export const worldsArray = ['World 1', 'World 2', 'World 3', 'World 4', 'World 5', 'World 6', 'World 7'];
+export const prefix = isProd ? '/' : '/';
+
+export const excludedPortals = {
+  0: [0],
+  9: [0],
+  17: [0],
+  24: [1],
+  27: [0],
+  28: [0],
+  30: [0],
+  31: [0],
+  38: [0],
+  60: [1],
+  65: [0],
+  69: [0],
+  113: [0],
+  117: [0],
+  120: [0],
+  166: [0],
+  213: [0],
+  264: [0]
+}
+
+// Parses shorthand notations like '12B', '2QQ', '3.2QQQ' into numbers
+// Also handles locale-specific thousands separators like '12.000.000' (German) or '12,000,000' (US)
+// Supports various international formats:
+// - US: '12,000.5' or '12,000'
+// - German/European: '12.000,5' or '12.000'
+// - French: '12 000,5' or '12 000'
+// - Decimal with comma: '12,5' (12.5)
+// - Decimal with period: '12.5' (12.5)
+export function parseShorthandNumber(input) {
+  if (typeof input !== 'string') return NaN;
+
+  const multipliers = {
+    '': 1,
+    k: 1e3,
+    m: 1e6,
+    b: 1e9,
+    t: 1e12,
+    q: 1e15
+  };
+
+  // First, extract any suffix and convert to lowercase
+  const lowerInput = input.trim().toLowerCase();
+
+  // Extract suffix (k, m, b, t, q, etc.) before cleaning
+  const suffixMatch = lowerInput.match(/([kmbtq]+)$/);
+  const suffix = suffixMatch ? suffixMatch[1] : '';
+  const withoutSuffix = suffixMatch ? lowerInput.slice(0, -suffix.length) : lowerInput;
+
+  // Now remove everything except digits, commas, and periods
+  // This is more robust than trying to list all possible separator characters
+  const cleaned = withoutSuffix.replace(/[^\d.,]/g, '');
+
+  const numberPart = cleaned;
+
+  // Validate that numberPart contains only digits, commas, and periods
+  if (!/^[\d.,]+$/.test(numberPart)) return NaN;
+
+  // Count occurrences of comma and period
+  const commaCount = (numberPart.match(/,/g) || []).length;
+  const periodCount = (numberPart.match(/\./g) || []).length;
+  const hasComma = commaCount > 0;
+  const hasPeriod = periodCount > 0;
+
+  let normalizedNumber = numberPart;
+
+  // Strategy: Determine which character is the decimal separator
+  if (hasComma && hasPeriod) {
+    // Both present: the last one is typically the decimal separator
+    const lastCommaIndex = numberPart.lastIndexOf(',');
+    const lastPeriodIndex = numberPart.lastIndexOf('.');
+
+    if (lastCommaIndex > lastPeriodIndex) {
+      // Comma is decimal separator (e.g., '12.000,5')
+      normalizedNumber = numberPart.replace(/\./g, '').replace(',', '.');
+    }
+    else {
+      // Period is decimal separator (e.g., '12,000.5')
+      normalizedNumber = numberPart.replace(/,/g, '');
+    }
+  }
+  else if (hasComma && !hasPeriod) {
+    // Only comma: determine if it's decimal or thousands separator
+    if (commaCount === 1) {
+      // Single comma: check context
+      const commaIndex = numberPart.indexOf(',');
+      const digitsAfterComma = numberPart.length - commaIndex - 1;
+      const digitsBeforeComma = commaIndex;
+
+      // Heuristic for determining separator type:
+      // 1. Exactly 3 digits after + 1-3 digits before = proper thousands separator
+      // 2. 1-2 digits after = decimal separator
+      // 3. 4+ digits after = likely misplaced thousands separator from editing (e.g., '131,3133' when typing '1313133')
+      //    Remove separator and treat as whole number
+      // 4. 3 digits after + 4+ digits before = decimal separator
+
+      const isProperThousandsSeparator = digitsAfterComma === 3 && digitsBeforeComma >= 1 && digitsBeforeComma <= 3;
+      const isMisplacedSeparator = digitsAfterComma >= 4;
+
+      if (isProperThousandsSeparator) {
+        // Thousands separator (e.g., '1,234', '12,345', '123,456')
+        normalizedNumber = numberPart.replace(',', '');
+      }
+      else if (isMisplacedSeparator) {
+        // Misplaced thousands separator from editing (e.g., '131,3133' → '1313133')
+        normalizedNumber = numberPart.replace(',', '');
+      }
+      else {
+        // Decimal separator (e.g., '12,5' or '123,45' or '1234,567')
+        normalizedNumber = numberPart.replace(',', '.');
+      }
+    }
+    else {
+      // Multiple commas: all are thousands separators (e.g., '1,234,567')
+      normalizedNumber = numberPart.replace(/,/g, '');
+    }
+  }
+  else if (hasPeriod && !hasComma) {
+    // Only period: determine if it's decimal or thousands separator
+    if (periodCount === 1) {
+      // Single period: check context
+      const periodIndex = numberPart.indexOf('.');
+      const digitsAfterPeriod = numberPart.length - periodIndex - 1;
+      const digitsBeforePeriod = periodIndex;
+
+      // Same heuristic as comma
+      const isProperThousandsSeparator = digitsAfterPeriod === 3 && digitsBeforePeriod >= 1 && digitsBeforePeriod <= 3;
+      const isMisplacedSeparator = digitsAfterPeriod >= 4;
+
+      if (isProperThousandsSeparator) {
+        // Thousands separator (e.g., '1.234', '12.345', '123.456')
+        normalizedNumber = numberPart.replace('.', '');
+      }
+      else if (isMisplacedSeparator) {
+        // Misplaced thousands separator from editing (e.g., '131.3133' → '1313133')
+        normalizedNumber = numberPart.replace('.', '');
+      }
+      else {
+        // Decimal separator (e.g., '12.5' or '123.45' or '1234.567')
+        normalizedNumber = numberPart; // Already correct
+      }
+    }
+    else {
+      // Multiple periods: all are thousands separators (e.g., '1.234.567')
+      normalizedNumber = numberPart.replace(/\./g, '');
+    }
+  }
+  // else: no comma or period, numberPart is already normalized
+
+  const num = parseFloat(normalizedNumber);
+  if (isNaN(num)) return NaN;
+
+  // Handle repeated Qs (QQ = 1e18, etc.)
+  if (suffix.startsWith('q') && suffix.length > 1) {
+    let base = 1e15;
+    for (let i = 1; i < suffix.length; i++) {
+      base *= 1e3;
+    }
+    return num * base;
+  }
+
+  return num * (multipliers[suffix] || 1);
+}
+
+export const worldColor = ['#64b564', '#f1ac45', '#00bcd4', '#864ede', '#de4e4e', '#5FF1B4FF', '#40e0d0'];
+// The free pet claim went weekly -> daily ("The weekly 'Free Pet' chance is now daily. FOREVER."),
+// but the deadline formula did not change with it. The game computes the window server-side and
+// getFreeCompanionRemainingTime still answers max(0, anchor + 594000000 - now); the daily cadence
+// comes from the server back-dating the anchor by 511200000 (594000000 - 23h) on every claim, so
+// the deadline lands 23h out. Two consequences worth spelling out, because both have already caused
+// a wrong fix here: the anchor reads ~5.9 days stale on a freshly claimed account (that is correct,
+// not drift), and pairing it with a 23h or 24h window puts the deadline permanently in the past,
+// which is what pinned the timer on "Go claim!".
+//
+// Verified against a live account by claiming the Pet Mart free pet and re-reading the save:
+//   before  anchor 1788156047455  server deadline 1788750047455  (= anchor + 594000000)
+//   after   anchor 1788343832258  server deadline 1788937832258  (= anchor + 594000000)
+//   after claim: anchor === claimTime - 511200000, deadline - now === 82776948 (~23h)
+// The `d` field is a dead legacy timestamp - a real claim leaves it untouched - so it must not be
+// used here. See getCompanions in parsers/misc.ts.
+const FREE_COMPANION_CLAIM_ANCHOR_OFFSET_MS = 594000000;
+export const getNextCompanionClaim = (account) => {
+  // The anchor is absolute, so it's compared against the browser clock rather than GlobalTime -
+  // GlobalTime is the save snapshot's clock and drifts behind real time between uploads.
+  const anchor = account?.companions?.freeClaimAnchor ?? 0;
+  if (!isFinite(anchor)) return new Date().getTime();
+  return anchor + FREE_COMPANION_CLAIM_ANCHOR_OFFSET_MS;
+};

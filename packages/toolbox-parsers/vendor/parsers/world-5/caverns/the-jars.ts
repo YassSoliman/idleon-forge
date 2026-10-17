@@ -1,0 +1,381 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { holesInfo, superbitsUpgrades } from '@website-data';
+import { getPaletteBonus, isSuperbitUnlocked } from '@parsers/world-5/gaming';
+import { getExoticMarketBonus } from '@parsers/world-6/farming';
+import { getSchematicBonus } from '@parsers/world-5/caverns/the-well';
+import { getFountainBonusTotal } from '@parsers/world-5/caverns/the-fountain';
+import { cleanUnderscore, createRange, lavaLog, notateNumber, numberWithCommas } from '@utility/helpers';
+import { getCosmoBonus, getMeasurementBonus, getStudyBonus } from '@parsers/world-5/hole';
+import { getBellBonus } from '@parsers/world-5/caverns/the-bell';
+import { getStampsBonusByEffect } from '@parsers/world-1/stamps';
+import { getLampBonus } from '@parsers/world-5/caverns/the-lamp';
+import { getMonumentBonus } from '@parsers/world-5/caverns/bravery';
+import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
+import { getCglunkoBonus } from '@parsers/world-5/caverns/crystal-glunko-cove';
+import { NUMBERED_GROUP, additiveGroup, createBreakdown, flat, listGroup, multiplier, percent, productGroup, sumGroup } from '@parsers/breakdown';
+
+
+const jarNames = [
+  'Simple Jar',
+  'Tall Jar',
+  'Ornate Jar',
+  'Great Jar',
+  'Enchanted Jar',
+  'Artisan Jar',
+  'Epic Jar',
+  'Gilded  Jar',
+  'Ceremony Jar',
+  'Heirloom Jar'
+]
+
+export const getTheJars = (holesObject: any, jarsRaw: any, accountData: any) => {
+  const jarEffects = holesInfo?.[65];
+  const jarTypes = Math.round(holesObject?.extraCalculations?.[37]);
+  const unlockedSlots = getJarSlots({ holesObject });
+  const opalChance = getOpalChance({ holesObject, account: accountData });
+  const newCollectibleChance = getNewCollectibleChance(holesObject, accountData);
+  const newJarCost = getNewJarCost({ holesObject });
+  const enchant = getEnchantChance({ holesObject, account: accountData });
+  const rupieValue = getRupieValue({ holesObject, accountData });
+  const rupieExtraChance = getRupieExtraChance(holesObject);
+  const jarAesthetic = getJarAesthetic({ holesObject });
+  const jarInventory = getJarInventory(jarsRaw);
+  const jars = jarNames.map((name, index) => {
+    const bonus = index === 1 ? notateNumber(100 * opalChance, 'Small') : index === 2
+      ? notateNumber(100 * newCollectibleChance, 'Small')
+      : index === 4 ? enchant.label : ''
+    return {
+      name,
+      effect: cleanUnderscore(jarEffects?.[index])!.replace('{', String(bonus)),
+      unlocked: index <= jarTypes,
+      req: getProductionReq({ holesObject, i: index }),
+      destroyed: holesObject?.extraCalculations?.slice(40, 50)?.[index] || 0,
+      owned: jarInventory?.[index],
+      // Enchanted Jar (index 4): expose precise odds, per-tier scaling and source breakdown
+      enchant: index === 4 ? enchant : undefined
+    }
+  });
+  const totalEnhancingLevels = (holesObject?.jarStuff?.slice(0, 40) ?? [])
+    .reduce((sum: number, level: any) => sum + (level >= 2 ? level - 1 : 0), 0);
+  const activeSlots = createRange(0, unlockedSlots - 1).map((_, index) => {
+    return {
+      progress: holesObject?.jarProgress?.[index + 3],
+      jarType: holesObject?.jarProgress?.[index],
+      req: jars?.[holesObject?.jarProgress?.[index]]?.req
+    }
+  });
+  let rupies = createRange(0, 9).map((index) => {
+    return holesObject?.wellSediment?.slice(20)?.[index] ?? '0';
+  });
+  const whiteDarkRupies = createRange(0, 1).map((index) => {
+    return holesObject?.extraCalculations?.slice(38)?.[index] ?? '0';
+  })
+  rupies = [...rupies, ...whiteDarkRupies];
+
+  const collectibles = Array.from({ length: 40 }, (_, index) => holesObject?.jarStuff?.[index]).map((level: any, index: any) => {
+    const [name, bonusModifier, , description] = holesInfo?.[67]?.[index]?.split('|') ?? [];
+    const bonus = getJarBonus({ holesObject, i: index, account: accountData });
+    return {
+      level,
+      bonus,
+      name: (cleanUnderscore(name) as any).toLowerCase().capitalizeAllWords(),
+      bonusModifier,
+      description: description.replace('{', String(bonus)).replace('}', String(1 + bonus / 100)),
+      doubled: holesObject?.extraCalculations?.[62] === index
+    }
+  });
+
+  const perHour = getProductionPerHour({ holesObject, accountData, collectibles });
+
+  return {
+    unlockedSlots,
+    opalChance,
+    newJarCost,
+    rupieValue,
+    rupieExtraChance,
+    jarAesthetic,
+    activeSlots,
+    rupies,
+    perHour,
+    jars,
+    totalJars: jarsRaw?.length,
+    jarInventory,
+    totalJarQuantity: jarInventory.reduce((sum, { quantity }) => sum + quantity, 0),
+    totalEnhancingLevels,
+    collectibles
+  }
+}
+
+// A raw Jars entry is [typeIndex, tierExponent, x, y, roll]. The tier exponent is
+// what the game raises 10 to when a jar is broken (rupie value, opal odds and
+// enchant odds all scale by 10^exponent), so one jar is worth 10^exponent
+// base-tier jars. Displayed tier is 1-based, hence exponent 0 is "T1".
+const getJarInventory = (jarsRaw: any) => {
+  const inventory = jarNames.map(() => ({ total: 0, quantity: 0, tiers: [] as { tier: number, count: number }[] }));
+  (jarsRaw ?? []).forEach((jar: any) => {
+    const entry = inventory?.[Math.round(parseFloat(jar?.[0]))];
+    if (!entry) return;
+    const tier = Math.round(parseFloat(jar?.[1])) + 1;
+    entry.total += 1;
+    entry.quantity += Math.pow(10, tier - 1);
+    const existing = entry.tiers.find((t) => t.tier === tier);
+    if (existing) {
+      existing.count += 1;
+    }
+    else {
+      entry.tiers.push({ tier, count: 1 });
+    }
+  });
+  inventory.forEach(({ tiers }) => tiers.sort((a, b) => a.tier - b.tier));
+  return inventory;
+}
+
+const getRupieValue = ({ holesObject, accountData }: any) => {
+  const stampBonus = getStampsBonusByEffect(accountData, 'more_Resources_from_all_Caverns') || 0;
+  const schematicBonus1 = getSchematicBonus({ holesObject, t: 62, i: 1 });
+  const schematicBonus2 = getSchematicBonus({ holesObject, t: 65, i: 2 });
+  const schematicBonus3 = getSchematicBonus({ holesObject, t: 68, i: 4 });
+  const accountOptionBonus = Math.max(1, Math.pow(1.5, accountData?.accountOptions?.[355] ?? 0));
+  const lampBonus = 1 + getLampBonus({ holesObject, t: 99, i: 0, account: accountData }) / 400;
+  const monumentBonus = 1 + getMonumentBonus({ holesObject, t: 2, i: 1 }) / 100;
+  const measurementBonus1 = getMeasurementBonus({ holesObject, accountData, t: 10 });
+  const measurementBonus2 = getMeasurementBonus({ holesObject, accountData, t: 14 });
+  const schematicBonus4 = Math.max(1, getSchematicBonus({ holesObject, t: 80, i: 1 })
+    * Math.pow(1.1, holesObject?.extraCalculations?.[5]));
+  const extraCalcBonus = 1 + holesObject?.extraCalculations?.[60] / 100;
+  const jarBonus1 = 1 + getJarBonus({ holesObject, i: 3, account: accountData }) / 100;
+  const jarBonus2 = 1 + getJarBonus({ holesObject, i: 17, account: accountData }) / 100;
+  const jarBonus3 = 1 + getJarBonus({ holesObject, i: 28, account: accountData }) / 100;
+  const jarBonus4 = 1 + (getJarBonus({ holesObject, i: 0, account: accountData })
+    + getJarBonus({ holesObject, i: 6, account: accountData })
+    + getJarBonus({ holesObject, i: 13, account: accountData })
+    + getJarBonus({ holesObject, i: 21, account: accountData })
+    + getJarBonus({ holesObject, i: 33, account: accountData })) / 100;
+  const stampBonusMultiplier = 1 + stampBonus / 100;
+  const cavernicusBonus = 1 + getCglunkoBonus(accountData, 14) / 100;
+
+  const value = (1 + schematicBonus1 + schematicBonus2 + schematicBonus3)
+    * accountOptionBonus
+    * lampBonus
+    * monumentBonus
+    * (1 + (measurementBonus1 + measurementBonus2) / 100)
+    * schematicBonus4
+    * extraCalcBonus
+    * jarBonus1
+    * jarBonus2
+    * jarBonus3
+    * jarBonus4
+    * stampBonusMultiplier
+    * cavernicusBonus;
+
+  const breakdown = createBreakdown('Rupie value', notateNumber(value, 'MultiplierInfo'), [
+    sumGroup('Base rupie value', [
+      flat('Base', 1),
+      flat('Schematics', schematicBonus1 + schematicBonus2 + schematicBonus3)
+    ]),
+    productGroup(NUMBERED_GROUP, [
+      multiplier('Rupie Slug (Gem shop)', accountOptionBonus),
+      multiplier('Lamp', lampBonus),
+      multiplier('Monument', monumentBonus),
+      multiplier('Measurements', 1 + (measurementBonus1 + measurementBonus2) / 100),
+      multiplier('Schematic', schematicBonus4),
+      multiplier('Gilded Jars', extraCalcBonus),
+      multiplier('Collectibles', jarBonus1 * jarBonus2 * jarBonus3 * jarBonus4),
+      multiplier('Stamps', stampBonusMultiplier),
+      multiplier('Crystal Glunko Cove', cavernicusBonus)
+    ])
+  ]);
+
+  return { value, breakdown };
+}
+
+const BELL_EXTRA_RUPIE_BONUS = 4;
+const HOLE_MAJIK = 0;
+const RUPIES_EVERYWHERE_MAJIK = 3;
+const BIG_JAR_MACH_IV_SCHEMATIC = 64;
+const BIG_JAR_MACH_IV_BONUS = 50;
+
+// game: "JarRupieExtraChance". The game returns it as a fraction; a broken jar gives
+// floor(1 + chance + random) rupies, so 350% means 4 or 5 rupies per jar. Kept here in percent.
+export const getRupieExtraChance = (holesObject: any) => {
+  const bell = getBellBonus({ holesObject, t: BELL_EXTRA_RUPIE_BONUS });
+  const majik = getCosmoBonus({ majik: holesObject?.holeMajiks, t: HOLE_MAJIK, i: RUPIES_EVERYWHERE_MAJIK });
+  const schematic = getSchematicBonus({ holesObject, t: BIG_JAR_MACH_IV_SCHEMATIC, i: BIG_JAR_MACH_IV_BONUS });
+  const value = (bell || 0) + (majik || 0) + (schematic || 0);
+  const breakdown = createBreakdown('Extra rupie chance', `${numberWithCommas(value)}%`, [
+    percent('The Bell', bell || 0),
+    percent('Rupies Everywhere (Majik)', majik || 0),
+    percent('Big Jar Mach IV (Schematic)', schematic || 0)
+  ], { combine: 'sum' });
+  return { value, breakdown };
+}
+
+const getProductionPerHour = ({ holesObject, accountData, collectibles }: any) => {
+  const base = 36e3;
+  const jarBonus1 = getJarBonus({ holesObject, i: 1, account: accountData });
+  const jarBonus15 = getJarBonus({ holesObject, i: 15, account: accountData });
+  const jarBonus24 = getJarBonus({ holesObject, i: 24, account: accountData });
+  const measurementBonus = getMeasurementBonus({ holesObject, accountData, t: 12 });
+  const collectibleMultiplier = 1 + (jarBonus1 + jarBonus15 + jarBonus24 + measurementBonus) / 100;
+
+  const schematicBonus = getSchematicBonus({ holesObject, t: 72, i: 10 });
+  const whiteRupies = holesObject?.extraCalculations?.[38];
+  const whiteRupiesMultiplier = 1 + (schematicBonus * lavaLog(whiteRupies)) / 100;
+
+  const value = base * collectibleMultiplier * whiteRupiesMultiplier;
+
+  const breakdown = createBreakdown('Progress per hour', notateNumber(value, 'Big'), [
+    flat('Base rate', base),
+    productGroup(NUMBERED_GROUP, [
+      additiveGroup(NUMBERED_GROUP, [
+        percent(collectibles?.[1]?.name ?? 'Collectible', jarBonus1),
+        percent(collectibles?.[15]?.name ?? 'Collectible', jarBonus15),
+        percent(collectibles?.[24]?.name ?? 'Collectible', jarBonus24),
+        percent('Measurement', measurementBonus)
+      ]),
+      multiplier('White Rupies (Schematic)', whiteRupiesMultiplier)
+    ])
+  ]);
+
+  return { value, breakdown };
+}
+
+const getJarAesthetic = ({ holesObject }: any) => {
+  const result = getSchematicBonus({ holesObject, t: 62, i: 1 }) +
+    (getSchematicBonus({ holesObject, t: 63, i: 1 }) +
+      (getSchematicBonus({ holesObject, t: 64, i: 1 }) +
+        (getSchematicBonus({ holesObject, t: 65, i: 1 }) +
+          (getSchematicBonus({ holesObject, t: 66, i: 1 }) +
+            (getSchematicBonus({ holesObject, t: 67, i: 1 }) +
+              getSchematicBonus({ holesObject, t: 68, i: 1 }))))));
+
+  return Math.round(Math.min(result, 7));
+}
+
+const getJarSlots = ({ holesObject }: any) => {
+  return 1 === getSchematicBonus({ holesObject, t: 66, i: 1 })
+    ? 3 :
+    1 === getSchematicBonus({ holesObject, t: 63, i: 1 })
+      ? 2 : 1
+}
+
+const getProductionReq = ({ holesObject, i }: any) => {
+  return (1e3 + 2e3 * i)
+    / ((1 + getSchematicBonus({ holesObject, t: 67, i: 30 }) / 100)
+      * (1 + (getSchematicBonus({ holesObject, t: 74, i: 5 })
+        * lavaLog(holesObject?.extraCalculations[Math.round(Math.max(0, i - 1) + 40)])) / 100))
+}
+
+const getNewJarCost = ({ holesObject }: any) => {
+  return 50 * Math.pow(1 + holesObject?.extraCalculations?.[37], 1.5)
+    * Math.pow(4.8, holesObject?.extraCalculations?.[37]);
+}
+
+const getOpalChance = ({ holesObject, account }: any) => {
+  return 0.25
+    * Math.pow(0.43, holesObject?.opalsPerCavern?.[10])
+    * (1 + getJarBonus({ holesObject, i: 2, account }) / 100)
+    * (1 + getJarBonus({ holesObject, i: 14, account }) / 100)
+    * (1 + getJarBonus({ holesObject, i: 27, account }) / 100);
+}
+
+export const getJarBonus = ({ holesObject, i, account }: any) => {
+  const all = holesInfo?.[67]?.[i];
+  const legendTalentBonus = getLegendTalentBonus(account, 29);
+  return holesObject?.jarStuff?.[i] * parseFloat(all.split('|')[1]) * (1 + legendTalentBonus / 100);
+}
+
+const RUPIE_TYPES = 10;
+const RUPIE_SEDIMENT_OFFSET = 20;
+const COLLECTIBLE_COUNT = 40;
+const JAR_JAR_COLLECTIBLE_SUPERBIT = 32;
+
+// Digits across the ten rupie types (Holes[9][20..29]): Collect 'Em All gives 1.02x per digit
+export const getRupieDigits = (holesObject: any) => Array.from({ length: RUPIE_TYPES }, (_, i) =>
+  Math.ceil(lavaLog(holesObject?.wellSediment?.[RUPIE_SEDIMENT_OFFSET + i] || 0)))
+  .reduce((sum, digits) => sum + digits, 0);
+
+// game: "JarNewCollectibleChance"
+export const getNewCollectibleChance = (holesObject: any, account: any) => {
+  const collectEmAll = getSchematicBonus({ holesObject, t: 76, i: 1 }) === 1 ? getRupieDigits(holesObject) : 0;
+  const jarJarCollectible = isSuperbitUnlocked(account, superbitsUpgrades?.[JAR_JAR_COLLECTIBLE_SUPERBIT]?.name)
+    ? Math.pow(1.05, account?.spelunking?.discoveriesCount ?? 0)
+    : 0;
+  const multi = (1 + getJarBonus({ holesObject, i: 7, account }) / 100)
+    * Math.max(1, Math.pow(1.02, collectEmAll))
+    * (1 + getJarBonus({ holesObject, i: 25, account }) / 100)
+    * (1 + getPaletteBonus(account, 2) / 100)
+    * (1 + getExoticMarketBonus(account, 52) / 100)
+    * Math.max(1, jarJarCollectible);
+
+  const found = Array.from({ length: COLLECTIBLE_COUNT }, (_, i) => holesObject?.jarStuff?.[i])
+    .filter((level) => level >= 1).length;
+  if (found === 0) {
+    return 0.25;
+  }
+  return (0.2 * multi) / ((1 + Math.pow(found, 1.9)) * Math.pow(1.5, Math.max(0, found - 16)));
+}
+
+// Format a probability (0-1) as a percentage string that stays useful even for
+// tiny values. The game floors anything under 0.01% to "0%"; we keep precision.
+const formatEnchantPercent = (chance: number) => {
+  const percentage = 100 * chance;
+  if (percentage === 0) return '0';
+  if (percentage >= 0.01) return notateNumber(percentage, 'Small');
+  // Below 0.01%: show meaningful precision via scientific notation.
+  return percentage.toExponential(4);
+}
+
+const getEnchantChance = ({ holesObject, account }: any) => {
+  let enhancingLevels = 0;
+
+  for (let i = 0; i < 40; i++) {
+    const holeValue = holesObject?.jarStuff?.[i];
+    if (holeValue >= 2) {
+      enhancingLevels += (holeValue - 1);
+    }
+  }
+
+  // Each source below mirrors a multiplicative term in the game formula.
+  const base = 0.35 / (1 + (Math.pow(enhancingLevels, 1.23) + Math.pow(1.1, enhancingLevels)));
+  const jarBonus9 = getJarBonus({ holesObject, i: 9, account });
+  const jarBonus18 = getJarBonus({ holesObject, i: 18, account });
+  const jarBonus26 = getJarBonus({ holesObject, i: 26, account });
+  const jarBonus34 = getJarBonus({ holesObject, i: 34, account });
+  const collectiblesMulti = (1 + jarBonus9 / 100) * (1 + jarBonus18 / 100)
+    * (1 + jarBonus26 / 100) * (1 + jarBonus34 / 100);
+  const engineerMulti = Math.max(1, getSchematicBonus({ holesObject, t: 73, i: 1 }) *
+    Math.pow(1.1, lavaLog(holesObject?.extraCalculations?.[39])));
+  // Game: (1 + StudyBolaiaBonuses(10,0)/100). Older code double-wrapped this.
+  const studyMulti = 1 + getStudyBonus(holesObject, 10, 0) / 100;
+  const fountainMulti = 1 + getFountainBonusTotal(holesObject, 2, 15) / 100;
+
+  const value = base * collectiblesMulti * engineerMulti * studyMulti * fountainMulti;
+
+  // Higher tier jars roll the enchant 10x more often per tier, so effective odds
+  // scale by 10^(tier-1) (capped at 100%). Lets players target a tier.
+  const tiers = createRange(1, 10).map((tier) => ({
+    tier,
+    chance: Math.min(1, value * Math.pow(10, tier - 1)),
+    label: formatEnchantPercent(Math.min(1, value * Math.pow(10, tier - 1)))
+  }));
+
+  const breakdown = createBreakdown('Enchant chance', `${formatEnchantPercent(value)}%`, [
+    flat('Base', base, {
+      formatted: `${formatEnchantPercent(base)}%`,
+      note: `After ${enhancingLevels} enhancing levels`
+    }),
+    productGroup(NUMBERED_GROUP, [
+      multiplier('Collectibles', collectiblesMulti),
+      multiplier('Engineer (Schematic)', engineerMulti),
+      multiplier('Study', studyMulti),
+      multiplier('Fountain', fountainMulti)
+    ]),
+    listGroup('Enchant chance by tier', tiers.map(({ tier, chance, label }) => flat(`T${tier}`, chance, { formatted: `${label}%` })),
+      { note: 'Each tier rolls 10x more often, up to 100%' })
+  ]);
+
+  return { value, label: formatEnchantPercent(value), tiers, breakdown };
+}

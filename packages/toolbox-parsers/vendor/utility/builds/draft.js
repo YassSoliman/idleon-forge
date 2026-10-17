@@ -1,0 +1,61 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+// localStorage-backed draft persistence for the builds create/edit form.
+// Stores one draft at a time per user-session (most recent wins).
+
+const KEY = 'builds-draft';
+const MAX_AGE_MS = 1000 * 60 * 60 * 24 * 7; // 7 days
+
+const canUseStorage = () =>
+  typeof window !== 'undefined' && window.localStorage != null;
+
+export const saveDraft = (draft) => {
+  if (!canUseStorage()) return;
+  try {
+    const payload = {
+      savedAt: Date.now(),
+      draft
+    };
+    window.localStorage.setItem(KEY, JSON.stringify(payload));
+  } catch (err) {
+    // Quota exceeded / private mode — swallow
+    console.warn('[builds] draft save failed:', err);
+  }
+};
+
+export const loadDraft = () => {
+  if (!canUseStorage()) return null;
+  try {
+    const raw = window.localStorage.getItem(KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed?.savedAt || !parsed?.draft) return null;
+    if (Date.now() - parsed.savedAt > MAX_AGE_MS) {
+      window.localStorage.removeItem(KEY);
+      return null;
+    }
+    return parsed;
+  } catch (err) {
+    console.warn('[builds] draft load failed:', err);
+    return null;
+  }
+};
+
+export const clearDraft = () => {
+  if (!canUseStorage()) return;
+  try {
+    window.localStorage.removeItem(KEY);
+  } catch {
+    /* noop */
+  }
+};
+
+// Simple debouncer so callers don't have to import lodash just for this.
+export const makeDebouncedSaver = (delayMs = 1000) => {
+  let timer = null;
+  return (draft) => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => saveDraft(draft), delayMs);
+  };
+};

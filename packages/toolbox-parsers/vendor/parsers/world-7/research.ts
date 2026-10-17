@@ -1,0 +1,805 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { commaNotation, notateNumber, tryToParse } from '@utility/helpers';
+import {
+  mapEnemiesArray,
+  mapNames,
+  monsters,
+  research as researchData,
+  researchGridSquares,
+  researchOccurrences
+} from '@website-data';
+
+import { getZenithBonus } from '@parsers/world-1/statues';
+import { getSlabBonus, isArtifactAcquired } from '@parsers/world-5/sailing';
+import { getDancingCoralBonus } from '@parsers/world-7/coralReef';
+import { getMealsBonusByEffectOrStat } from '@parsers/world-4/cooking';
+import { getLoggedInSkillLevel, isCompanionBonusActive, isCompanionLvl2Active, getEventShopBonus, isBundlePurchased } from '@parsers/misc';
+import { calcCardBonus, getCardBonusByEffect, getCardLevel } from '@parsers/cards';
+import { getGambitBonus } from '@parsers/world-5/caverns/gambit';
+import { getMineheadBonusQTY, getMineheadGlimboTotalTrades } from '@parsers/world-7/minehead';
+import { getStickerBonus, STICKER_CONTEXT } from '@parsers/world-6/farming';
+import { getArmorSetBonus } from '@parsers/world-3/armorSmithy';
+import { getSushiBonus } from '@parsers/world-7/sushiStation';
+import { getJellyBonus } from '@parsers/world-7/jellyOperator';
+import { getButtonBonus } from '@parsers/world-7/button';
+import { getKillRoyShopBonus } from '@parsers/misc';
+import { isJadeBonusUnlocked } from '@parsers/world-6/sneaking';
+import { EQUINOX_CLOUD, getCloudBonus, getEquinoxBonus } from '@parsers/world-3/equinox';
+import { getFountainBonusTotal } from '@parsers/world-5/caverns/the-fountain';
+import { getOutpostRogBonus } from '@parsers/class-specific/royalGuardian';
+import { getCglunkoBonus } from '@parsers/world-5/caverns/crystal-glunko-cove';
+import { getSpelunkingBonus } from '@parsers/world-7/spelunking';
+import { getArcadeBonus } from '@parsers/world-2/arcade';
+import { NUMBERED_GROUP, additiveGroup, createBreakdown, multiplier, percent } from '@parsers/breakdown';
+import { isKingDootActive } from '@parsers/world-5/divinity';
+import { getBestActiveCharacter } from '@parsers/talents';
+import { getPetArenaCrucBonus } from '@parsers/world-4/breeding';
+import { getClamWorkBonus } from '@parsers/world-7/clamWork';
+import { getMenagerieBoost } from '@parsers/world-7/menagerie';
+
+// Save key for Research: game may use idleonData.Research or similar
+const getRawResearch = (idleonData: any) => {
+  const raw = tryToParse(idleonData?.Research) || idleonData?.Research;
+  return Array.isArray(raw) ? raw : [];
+};
+
+// Game's ExpReq0[20] formula; A_ResXP is a server var (1.01 at time of writing)
+export const getResearchExpReq = (level: number, aResXP: number = 1) => {
+  return 10 * Math.max(0, level - 1)
+    + 10 * (1 + Math.pow(level, 1 + (level / 10) * 0.4) / 10) * Math.pow(1.1, level)
+    * Math.pow(Math.max(1, aResXP), Math.max(0, level - 20));
+};
+
+export const getResearch = (idleonData: any, account: any, characters: any, serverVars?: any) => {
+  const raw = getRawResearch(idleonData);
+  // game: ResearchStuff reads Lv0[20], the logged-in character's research level
+  const researchLevel = getLoggedInSkillLevel(characters, 'research');
+
+  const gridLevels = raw[0] ?? [];
+  // raw[1] = grid index -> observation bonus category index (-1 = none, 0..9 = which category from researchData[5]).
+  // Game uses Research[1][t] directly as index into CustomLists.Research[5] for the observation bonus %.
+  const gridShapeIndex = raw[1] ?? []; // 240 entries: observation bonus category index per cell (-1 or 0..9)
+  const gridObservationIndex = gridShapeIndex; // raw[1] IS the observation index directly
+  const occurrenceFoundState = raw[2] ?? [];
+  const observationInsightExp = raw[3] ?? []; // current insight EXP per observation (progress to next level)
+  const observationInsight = raw[4] ?? []; // insight level per observation
+  // raw[5] = 80 shapes × 4: [pixelX, pixelY, observationIndex, type] per shape. Type: 0=Magnifying Glass (Research EXP), 1=Optical Monocle (Insight), 2=Kaleidoscope.
+  const shapePlacements = raw[5] ?? [];
+  const optionsListAccount = account?.accountOptions ?? [];
+  // raw[9] = sticker level per sticker type (farming: indices 0–4)
+  const dailyRollsLeft = Number(raw[7]?.[2]) || 0;
+  const stickerLevels = (raw[9] ?? []).map((v: any) => Number(v) || 0);
+  const totalStickers = stickerLevels.reduce((sum: any, v: any) => sum + v, 0);
+  // raw[11] = King Rat Crowns list (1 string entry per unique crown). Used for grid 67/68/107 mode-2 bonus.
+  const kingRatCrowns = raw[11] ?? [];
+
+  const research = {
+    gridLevels,
+    gridObservationIndex,
+    occurrenceFoundState,
+    observationInsightExp,
+    observationInsight,
+    shapePlacements,
+    kingRatCrowns,
+    researchLevel,
+    optionsListAccount,
+    researchKalMap: buildResearchKalMap(shapePlacements),
+    stickerLevels,
+    totalStickers,
+    // Companions(0) reads the logged-in character's divinity level
+    kingDootActive: isKingDootActive(getBestActiveCharacter(characters), account)
+  };
+
+  const occurrencesToBeFound = getOccurrencesToBeFound(researchLevel, occurrenceFoundState);
+  const totalOccurrencesFound = getTotalOccurrencesFound(research, occurrencesToBeFound);
+  (research as any).totalOccurrencesFound = totalOccurrencesFound;
+
+  // Sum of all observation insight levels (Research[4]) for observations >= 1
+  const totalObsLVs = (observationInsight).slice(0, occurrencesToBeFound).reduce((sum: any, v: any) => {
+    const n = Number(v) || 0;
+    return sum + (n >= 1 ? n : 0);
+  }, 0);
+  (research as any).totalObsLVs = totalObsLVs;
+
+  const gridPTSpent = gridLevels.reduce((sum: any, level: any) => sum + (Number(level) || 0), 0);
+  const gridBonus50Lv = getResearchGridBonusInternal(account, research, 50, 1);
+  const companion153 = isCompanionBonusActive(account, 153) ? (account?.companions?.list?.at(153)?.bonus ?? 0) : 0;
+  // Pet Mart+: Rift_Stalker (153) upgraded adds another 5 Research grid points earned (CompLV2 flag * 5).
+  const companion153Lvl2Bonus = isCompanionLvl2Active(account, 153) ? 5 : 0;
+  const fangAcquired = isArtifactAcquired(account?.sailing?.artifacts, 'Fang_of_the_Gods')?.acquired ?? 0;
+  // game: W7 merit 3 ("+{ Research PTS."), 1 per level.
+  const meritBonus = account?.tasks?.[2]?.[6]?.[3] ?? 0;
+  const banKBundle = isBundlePurchased(account, 'ban_k') ? 1 : 0;
+  // game: "ResearchStuff:Grid_PTSearned"
+  const gridPTSearned = Math.floor(
+    researchLevel + (10 * companion153 + companion153Lvl2Bonus + Math.floor(researchLevel / 10) * Math.round(1 + (Math.min(1, Math.floor(researchLevel / 60)) + gridBonus50Lv)) + getSushiBonus(account, 3) + getSushiBonus(account, 13) + Math.min(10, Math.round(fangAcquired)) + meritBonus + getJellyBonus(account, 4) + getJellyBonus(account, 57) + 5 * banKBundle)
+  );
+  const gridPTSavailable = Math.round(gridPTSearned - gridPTSpent);
+
+  // Map grid index -> shape type (0=Magnifying Glass (Research EXP), 1=Optical Monocle (Insight), 2=Kaleidoscope). Game stores cell->shape in raw[1], type in raw[5][4*shapeIndex+3].
+  const gridIndexToPlacementType: Record<number, any> = {};
+  const gridCellCount = (researchGridSquares || []).length;
+  for (let gridCellIndex = 0; gridCellIndex < gridCellCount; gridCellIndex++) {
+    const shapeIndexOnCell = gridShapeIndex[gridCellIndex];
+    if (shapeIndexOnCell != null && Number(shapeIndexOnCell) >= 0) {
+      const lensType = shapePlacements[4 * shapeIndexOnCell + 3];
+      if (lensType !== undefined && lensType !== null) gridIndexToPlacementType[gridCellIndex] = Number(lensType);
+    }
+  }
+
+  const gridSquares = (researchGridSquares || []).map((square, index) => {
+    const level = Number(gridLevels[index]) || 0;
+    const maxLv = square?.maxLv != null ? Number(square.maxLv) : (square as any)?.col != null
+      ? Number((square as any).col)
+      : square?.x4 != null ? Number(square.x4) : 1;
+    const bonus = getResearchGridBonusInternal(account, research, index, 0);
+    const bonus1 = getResearchGridBonusInternal(account, research, index, 1);
+    const bonus2 = getResearchGridBonusInternal(account, research, index, 2);
+    const bonuses = [bonus, bonus1, bonus2];
+    const canUpgrade = level < maxLv && gridPTSavailable > 0;
+    const description = getResearchGridSquareDescription(account, research, index, square?.description ?? '');
+    const canSelect = getResearchGridCanSelect(research, index);
+    const gridRow = Math.floor(index / 20);
+    const gridCol = index % 20;
+    const placementType = gridIndexToPlacementType[index] ?? null; // 0=Magnifying Glass (Research EXP), 1=Optical Monocle (Insight), 2=Kaleidoscope
+    const shapeIndexOnCell = gridShapeIndex[index];
+    const placementShapeIndex =
+      shapeIndexOnCell != null && Number(shapeIndexOnCell) >= 0 ? Number(shapeIndexOnCell) : null;
+
+    // CustomLists.Research[5] = shape bonus % per shape index (e.g. "25 15 50 ..." => first shape +25% = 1.25x, second +15% = 1.15x)
+    const shapeBonusPct = researchData[5];
+
+    // When cell is affected by a shape: multiplier from CustomLists.Research[5][shapeIndex] (bonus % per shape).
+    let shapeAffectMultiplier = null;
+    if (placementShapeIndex != null && shapeBonusPct.length > 0) {
+      const pct = shapeBonusPct[placementShapeIndex];
+      if (pct != null && !Number.isNaN(pct)) shapeAffectMultiplier = 1 + Number(pct) / 100;
+    }
+    return {
+      ...square,
+      index,
+      level,
+      maxLv,
+      bonus,
+      bonuses,
+      canUpgrade,
+      canSelect,
+      gridRow,
+      gridCol,
+      placementType,
+      placementShapeIndex, // which shape (0, 1, 2, ...) is on this cell; used for per-shape color
+      shapeAffectMultiplier, // when affected by a shape: multiplier (e.g. 1.15 for +15%)
+      description
+    };
+  });
+
+  const { value: researchEXPmulti, breakdown: researchEXPmultiBreakdown } = getResearchEXPmulti(account, research);
+  let researchEXPrateTOT = 0;
+  for (let obsIndex = 0; obsIndex < occurrencesToBeFound; obsIndex++) {
+    researchEXPrateTOT += getResearchEXPrateObj(account, research, obsIndex);
+  }
+  researchEXPrateTOT *= researchEXPmulti;
+  const { value: researchAFKrate, breakdown: researchAFKrateBreakdown } = getResearchAFKrate(account, research);
+  // Offline time banks into Research[7][3] at the AFK rate, only while the logged-in character's research level
+  // (Lv0[20]) is above 0; claiming it pays ResearchEXPrateTOT per banked hour
+  const researchEXPrateAFK = researchLevel > 0 ? researchEXPrateTOT * researchAFKrate / 100 : 0;
+
+  // exp and expReq must come from the same character: a stale character still on the previous level
+  // has a higher exp than a fresh one that just leveled, and mixing the two shrinks the EXP left.
+  const researchSkill = (characters ?? [])
+    .map(({ skillsInfo }: any) => skillsInfo?.research)
+    .filter((skill: any) => skill)
+    .reduce((best: any, skill: any) => !best
+    || skill.level > best.level
+    || (skill.level === best.level && (skill.exp ?? 0) > (best.exp ?? 0)) ? skill : best, null);
+  const researchEXP = researchSkill?.exp ?? 0;
+  const researchEXPreq = researchSkill?.expReq ?? 0;
+  const researchEXPleft = Math.max(0, researchEXPreq - researchEXP);
+  const researchEXPpercent = researchEXPreq > 0 ? Math.min(100, (researchEXP / researchEXPreq) * 100) : 0;
+  // Registering for the tournament banks 12hrs of research gains, once per tournament day
+  // (event shop 46 -> Research[7][3] + 43200), so daily registration is worth a flat 1.5x rate.
+  const researchRegistrantOwned = getEventShopBonus(account, 46) ? 1 : 0;
+  const timeToLevel = researchEXPrateTOT > 0 ? researchEXPleft / researchEXPrateTOT : null;
+  const timeToLevelRegistrant = researchEXPrateTOT > 0 ? researchEXPleft / (researchEXPrateTOT * 1.5) : null;
+
+  const gridBonus51Lv = getResearchGridBonusInternal(account, research, 51, 1);
+  const gridBonus90Lv = getResearchGridBonusInternal(account, research, 90, 1);
+  const gridBonus91Lv = getResearchGridBonusInternal(account, research, 91, 1);
+
+  const loreBoss6 = account?.spelunking?.loreBosses?.[6]?.defeated;
+  const loreBoss7 = account?.spelunking?.loreBosses?.[7]?.defeated;
+  const companion54 = isCompanionBonusActive(account, 54) ? 1 : 0;
+  // game: "ResearchStuff:ShapesOwned"
+  const shapesOwned = Math.min(
+    10,
+    Math.round(
+      (isBundlePurchased(account, 'ban_m') ? 1 : 0) +
+      (getEventShopBonus(account, 36) ? 1 : 0) +
+      Math.min(1, Math.max(0, Math.floor(researchLevel / 20) * companion54)) +
+      Math.min(1, Math.floor(researchLevel / 20) * (loreBoss7 ? 1 : 0)) +
+      (Math.min(1, Math.floor(researchLevel / 20)) +
+        Math.min(1, Math.floor(researchLevel / 30)) +
+        Math.min(1, Math.floor(researchLevel / 50)) +
+        Math.min(1, Math.floor(researchLevel / 80)) +
+        Math.min(1, Math.floor(researchLevel / 110)))
+    )
+  );
+
+  const grid49 = getResearchGridBonusInternal(account, research, 49, 0) >= 1;
+  const grid89 = getResearchGridBonusInternal(account, research, 89, 0) >= 1;
+  const grid109 = getResearchGridBonusInternal(account, research, 109, 0);
+  const grid128 = getResearchGridBonusInternal(account, research, 128, 0);
+  const grid170 = getResearchGridBonusInternal(account, research, 170, 0);
+  const opt501 = optionsListAccount?.[501];
+
+  // Per-observation data for UI (panel with insight progress, rates, etc.)
+  const occurrencesList = researchOccurrences || [];
+  const shapePlacementsList = shapePlacements ?? [];
+  const numShapeSlots = Math.round(shapePlacementsList.length / 4);
+  const observations = [];
+  for (let observationIndex = 0; observationIndex < occurrencesList.length; observationIndex++) {
+    const occurrenceData = occurrencesList[observationIndex];
+    // Placeholder entries in the game data ("Name" / "desc") aren't real observations yet, skip them
+    if (occurrenceData?.name === 'Name') continue;
+    const found = (Number(research?.occurrenceFoundState?.[observationIndex]) || 0) >= 1;
+    const insightLevel = Number(research?.observationInsight?.[observationIndex]) || 0;
+    const insightExp = Number(research?.observationInsightExp?.[observationIndex]) || 0;
+    const insightExpREQ = getObservationInsightExpREQ(observationIndex, insightLevel);
+    const realInsightExpRate = getObservationInsightExpRate(account, research, observationIndex);
+    const insightExpRate = realInsightExpRate * researchEXPmulti;
+    const researchEXPrate = getResearchEXPrateObj(account, research, observationIndex) * researchEXPmulti;
+    // Lenses on this observation: type 0 = Magnifying Glass (Research EXP), 1 = Optical Monocle (Insight), 2 = Kaleidoscope
+    const lensTypes: any[] = [];
+    for (let shapeSlotIndex = 0; shapeSlotIndex < numShapeSlots; shapeSlotIndex++) {
+      if (Number(shapePlacementsList[4 * shapeSlotIndex + 2]) === observationIndex) {
+        const lensType = Number(shapePlacementsList[4 * shapeSlotIndex + 3]);
+        if (!lensTypes.includes(lensType)) lensTypes.push(lensType);
+      }
+    }
+    const mapId = occurrenceData?.mapId;
+    const mapName = mapId != null ? ((mapNames as any)?.[mapId] ?? (mapNames as any)?.[String(mapId)]) : null;
+    const mapMobKey = mapId != null ? ((mapEnemiesArray as any)?.[mapId] ?? (mapEnemiesArray as any)?.[String(mapId)]) : null;
+    const mapMob = mapMobKey != null ? (monsters?.[mapMobKey]?.Name ?? null) : null;
+    const mapMobFace = mapMobKey != null ? (monsters?.[mapMobKey]?.MonsterFace ?? null) : null;
+
+    observations.push({
+      index: observationIndex,
+      found,
+      unlocked: observationIndex < occurrencesToBeFound,
+      name: occurrenceData?.name,
+      researchLvReq: occurrenceData?.researchLvReq ?? 0,
+      description: occurrenceData?.description,
+      mapName,
+      mapMob,
+      mapMobFace,
+      insightLevel,
+      insightExp,
+      insightExpREQ,
+      insightExpRate,
+      realInsightExpRate,
+      researchEXPrate,
+      lensTypes, // 0 = Magnifying Glass (Research EXP), 1 = Optical Monocle (Insight), 2 = Kaleidoscope
+      canLevelUp: found && researchLevel >= (occurrenceData?.researchLvReq ?? 0) && gridBonus91Lv >= 1
+    });
+  }
+
+  // "You'll get +N Point(s) when you reach Research LV. X"
+  const pointsGainAtNextLv = 1 + Math.floor((researchLevel % 10) / 9);
+  const nextUnlockResearchLv = 10 * (Math.floor(researchLevel / 10) + 1);
+  let researchEXPtoNextUnlock = researchEXPleft;
+  for (let lv = researchLevel + 1; lv < nextUnlockResearchLv; lv++) {
+    researchEXPtoNextUnlock += getResearchExpReq(lv, serverVars?.A_ResXP);
+  }
+  const timeToNextUnlock = researchEXPrateTOT > 0 ? researchEXPtoNextUnlock / researchEXPrateTOT : null;
+  const timeToNextUnlockRegistrant = researchEXPrateTOT > 0 ? researchEXPtoNextUnlock / (researchEXPrateTOT * 1.5) : null;
+  const gridCanWeUseButton0 = getResearchGridCanWeUseButton(researchLevel, shapesOwned, 0);
+  const gridCanWeUseButton1 = getResearchGridCanWeUseButton(researchLevel, shapesOwned, 1);
+
+  const farmingStickerDMGUnlocked = getResearchGridBonusInternal(account, research, 47, 0) >= 1 ? 1 : 0;
+
+  const opticalMonocleOwned = Math.round(gridBonus91Lv);
+  const kaleidoscopeOwned = Math.round(getResearchGridBonusInternal(account, research, 72, 1) + (getEventShopBonus(account, 33) ? 1 : 0));
+  const magnifiersOwned = getMagnifiersOwned(account, research, researchLevel, gridBonus91Lv);
+
+  return {
+    gridSquares,
+    observations,
+    occurrencesToBeFound,
+    totalOccurrencesFound,
+    maxRoll: Math.floor(100 + gridBonus51Lv + getSushiBonus(account, 30) + getJellyBonus(account, 12)),
+    minRoll: Math.floor(1 + Math.min((optionsListAccount?.[514] ?? 0) * getResearchGridBonusInternal(account, research, 31, 1), getResearchGridBonusInternal(account, research, 31, 2))),
+    rollsPerDay: Math.round(3 + gridBonus90Lv + 3 * (getEventShopBonus(account, 35) ? 1 : 0) + getSushiBonus(account, 2)),
+    dailyRollsLeft,
+    canLevelUpObservations: gridBonus91Lv >= 1 ? 1 : 0,
+    opticalMonocleOwned,
+    kaleidoscopeOwned,
+    magnifiersOwned,
+    // Lens slots holding a Magnifying Glass (type 0). The game never stores this directly: MagnifiersOwned
+    // is the total slot count across all three lens types, so the glasses are whatever's left over.
+    magnifyingGlassOwned: Math.max(0, magnifiersOwned - kaleidoscopeOwned - opticalMonocleOwned),
+    magnifiersPerSlot: Math.min(
+      4,
+      Math.round(
+        1 +
+        Math.min(1, Math.floor(researchLevel / 40)) +
+        Math.min(1, Math.floor(researchLevel / 70)) +
+        Math.min(1, Math.floor(researchLevel / 120))
+      )
+    ),
+    researchEXPmulti,
+    researchEXPmultiBreakdown,
+    researchEXPrateTOT,
+    researchAFKrate,
+    researchAFKrateBreakdown,
+    researchEXPrateAFK,
+    gridPTSearned,
+    gridPTSpent,
+    gridPTSavailable,
+    shapesOwned,
+    canRotateShapes: researchLevel >= 90 ? 1 : 0,
+    postyNotesOwned: Math.min(14, Math.floor(researchLevel / 10)),
+    postyNotes: (researchData?.[6] ?? []).map((desc: string, index: number) => ({
+      index,
+      description: desc,
+      unlockLevel: (index + 1) * 10,
+      unlocked: researchLevel >= (index + 1) * 10
+    })),
+    transcendentArtifactsUnlocked: grid109 >= 1 ? 1 : 0,
+    greenSigilsUnlocked: grid128 >= 1 && loreBoss6 ? 1 : 0,
+    greenSigilTrueDMG:
+      grid128 >= 1 && loreBoss6
+        ? 1 + (getResearchGridBonusInternal(account, research, 127, 0) * account?.alchemy?.p2w?.totalEclecticSigils) / 100
+        : 1,
+    refineryTab3Unlocked: grid49 ? 1 : 0,
+    refineryTabsOwned: Math.round(2 + (grid49 ? 1 : 0)),
+    tinyCogsUnlocked: grid89 ? 1 : 0,
+    tinyCogsPerDay: Math.round(((grid89 ? 1 : 0) + getSushiBonus(account, 40)) * Math.max(1, 1 + (getEventShopBonus(account, 39) ? 1 : 0))),
+    farmingStickersUnlocked: getResearchGridBonusInternal(account, research, 88, 0) >= 1 ? 1 : 0,
+    farmingStickerDMG_unlocked: farmingStickerDMGUnlocked,
+    totalStickers,
+    stickerLevels,
+    kingRatUnlocked: getResearchGridBonusInternal(account, research, 108, 0) >= 1 ? 1 : 0,
+    zuperBitsUnlocked: getResearchGridBonusInternal(account, research, 87, 0) >= 1 ? 1 : 0,
+    smallCogSlotsUnlocked: grid89 ? 1 : 0,
+    msaBonusRewards: grid170 >= 1 && opt501 === 0 ? 1 + grid170 / 100 : 1,
+    pointsGainAtNextLv,
+    nextUnlockResearchLv,
+    gridCanWeUseButton0,
+    gridCanWeUseButton1,
+    researchLevel,
+    researchEXP,
+    researchEXPreq,
+    researchEXPpercent,
+    researchRegistrantOwned,
+    timeToLevel,
+    timeToLevelRegistrant,
+    timeToNextUnlock,
+    timeToNextUnlockRegistrant
+  };
+};
+
+export const getResearchGridBonus = (account: any, gridIndex: any, mode: any) => {
+  return account?.research?.gridSquares?.[gridIndex]?.bonuses?.[mode] ?? 0;
+}
+
+// Game: Grid_Bonus_Allmulti = 1 + (Companions(55) + 5 * min(1, Research[0][173] * Companions(0)) + CloudBonus(71) + CloudBonus(72) + CloudBonus(76) + RoG_BonusQTY(53)) / 100
+// game: "Grid_Bonus_Allmulti"
+export function getGridBonusAllmulti(account: any, research: any) {
+  const companion55 = isCompanionBonusActive(account, 55) ? (account?.companions?.list?.at(55)?.bonus ?? 0) : 0;
+  const companion0Active = research?.kingDootActive ? 1 : 0;
+  const gridLevel173 = Number(research?.gridLevels?.[173]) || 0;
+  const challenges = account?.equinox?.challenges;
+  const clouds = getCloudBonus(challenges, EQUINOX_CLOUD.RESEARCH_GRID_1)
+    + getCloudBonus(challenges, EQUINOX_CLOUD.RESEARCH_GRID_2)
+    + getCloudBonus(challenges, EQUINOX_CLOUD.RESEARCH_GRID_3);
+  const sushiBonus53 = getSushiBonus(account, 53);
+  return 1 + (companion55 + 5 * Math.min(1, gridLevel173 * companion0Active) + clouds + sushiBonus53) / 100;
+}
+
+function getResearchGridBonusInternal(account: any, research: any, gridIndex: any, mode: any): any {
+  const gridLevels = research?.gridLevels ?? [];
+  const gridObservationIndex = research?.gridObservationIndex ?? [];
+  const squares = researchGridSquares || [];
+  const square = squares[gridIndex];
+  // Game ResGridSquares[t][1]=maxLv, [t][2]=baseBonus. Z-processing exports as maxLv/baseBonus (fallback to col/row, x4/x5 for older website-data).
+  const maxLv = square != null ? (square.maxLv != null ? Number(square.maxLv) : (square as any).col != null
+    ? Number((square as any).col)
+    : square.x4 != null ? Number(square.x4) : 1) : 1;
+  const baseBonus = square != null ? (square.baseBonus != null ? Number(square.baseBonus) : (square as any).row != null
+    ? Number((square as any).row)
+    : square.x5 != null ? Number(square.x5) : 0) : 0;
+  const level = Number(gridLevels[gridIndex]) || 0;
+
+  if (mode === 1) {
+    return level;
+  }
+  if (mode === 2) {
+    if (gridIndex === 31) {
+      return 25 * level;
+    }
+    if (gridIndex === 67 || gridIndex === 68 || gridIndex === 107) {
+      // Game uses avar_Research[11].length (King Rat Crowns count), NOT shapePlacements.length
+      return (getResearchGridBonusInternal(account, research, gridIndex, 0) * (research?.kingRatCrowns?.length ?? 0));
+    }
+    if (gridIndex === 94) {
+      return getResearchGridBonusInternal(account, research, gridIndex, 0) * (research?.totalObsLVs ?? 0);
+    }
+    if (gridIndex === 112) {
+      return getResearchGridBonusInternal(account, research, gridIndex, 0) * (research?.totalOccurrencesFound ?? 0);
+    }
+    if (gridIndex === 151) {
+      return research?.optionsListAccount?.[500] ?? 0;
+    }
+    if (gridIndex === 168) {
+      return getResearchGridBonusInternal(account, research, gridIndex, 0) * Math.floor(getMineheadGlimboTotalTrades(account) / 100);
+    }
+    return getResearchGridBonusInternal(account, research, gridIndex, 0);
+  }
+
+  const obsIndex = gridObservationIndex[gridIndex];
+  const allMulti = getGridBonusAllmulti(account, research);
+  if (obsIndex == null || Number(obsIndex) < 0) {
+    return baseBonus * level * Math.max(1, allMulti);
+  }
+  // Game: CustomLists.Research[5][Research[1][t]] / 100 - static observation bonus percentages
+  const observationBonuses = (researchData[5] ?? []).map(Number);
+  const observationBonusPct = observationBonuses[Number(obsIndex)] ?? 0;
+  return baseBonus * level * (1 + observationBonusPct / 100) * Math.max(1, allMulti);
+}
+
+/**
+ * Parses a Research grid square description template (ResGridSquares[t][5]).
+ * Game placeholders: { = bonus (mode 0), } = 1+bonus/100 mult, $ = bonus mode 2 raw, ^ = 1+bonus2/100 mult, & = opt499%, | = level.
+ */
+export function getResearchGridSquareDescription(account: any, research: any, gridIndex: any, template: any) {
+  const desc = template != null && typeof template === 'string' ? template : '';
+
+  const bonus0 = Math.round(100 * getResearchGridBonusInternal(account, research, gridIndex, 0)) / 100;
+  const bonus2 = getResearchGridBonusInternal(account, research, gridIndex, 2);
+  const level = Math.round(getResearchGridBonusInternal(account, research, gridIndex, 1));
+  const opt499 = research?.optionsListAccount?.[499] ?? 0;
+
+  const bonus0Str = bonus0 > 100 ? commaNotation(bonus0) : notateNumber(bonus0, 'Small');
+  const mult0Str = (notateNumber(1 + bonus0 / 100, 'MultiplierInfo') as string).replace(/#/g, '');
+  const bonus2Str = commaNotation(bonus2);
+  const mult2Str = (notateNumber(1 + bonus2 / 100, 'MultiplierInfo') as string).replace(/#/g, '');
+  const opt499Str = Math.floor(10000 * (1 - 1 / (1 + opt499 / 100))) / 100;
+  const levelStr = level;
+
+  const replacePlaceholder = (str: any, placeholder: any, value: any) => str.split(placeholder).join(value);
+  let result = desc;
+  result = replacePlaceholder(result, '{', bonus0Str);
+  result = replacePlaceholder(result, '}', mult0Str);
+  result = replacePlaceholder(result, '$', bonus2Str);
+  result = replacePlaceholder(result, '^', mult2Str);
+  result = replacePlaceholder(result, '&', opt499Str);
+  result = replacePlaceholder(result, '|', levelStr);
+  return result;
+}
+
+// Game: _customBlock_ResearchStuff("MagnifiersOwned"). Despite the name this is the TOTAL number of lens
+// slots, covering all three lens types (Magnifying Glass, Optical Monocle, Kaleidoscope) - the game adds
+// KaleidoscopeOwned and OpticalMonocleOwned into the total, then draws ResMagni{type}.png for each slot.
+// game: "MagnifiersOwned"
+function getMagnifiersOwned(account: any, research: any, researchLevel: any, gridBonus91Lv: any) {
+  const kaleidoscopeOwned = Math.round(getResearchGridBonusInternal(account, research, 72, 1) + (getEventShopBonus(account, 33) ? 1 : 0));
+  const opticalMonocleOwned = Math.round(gridBonus91Lv);
+  const mineheadBonus =
+    getMineheadBonusQTY(account, 2) + getMineheadBonusQTY(account, 12) + getMineheadBonusQTY(account, 20);
+  const eventShopMagnifier = getEventShopBonus(account, 34) ? 1 : 0;
+  const companion153 = isCompanionBonusActive(account, 153) ? (account?.companions?.list?.at(153)?.bonus ?? 0) : 0;
+  const levelMilestones =
+    Math.min(1, Math.floor(researchLevel / 10)) +
+    Math.min(1, Math.floor(researchLevel / 100)) +
+    Math.min(1, Math.floor(researchLevel / 130)) +
+    Math.min(1, Math.floor(researchLevel / 140));
+  return Math.min(80, Math.round(1 + (kaleidoscopeOwned + opticalMonocleOwned) + (mineheadBonus + eventShopMagnifier + companion153) + levelMilestones + getSushiBonus(account, 8)));
+}
+
+function getOccurrencesToBeFound(researchLevel: any, occurrenceFoundState: any) {
+  if (researchLevel < 1) return 0;
+  if (occurrenceFoundState?.[0] === 0) return 1;
+  return Math.min(
+    43,
+    5 * Math.floor((researchLevel + 10) / 10) -
+    Math.floor(researchLevel / 20) -
+    Math.floor(researchLevel / 30) -
+    Math.floor(researchLevel / 50)
+  );
+}
+
+function getTotalOccurrencesFound(research: any, maxOccurrences: any) {
+  const occurrenceFoundState = research?.occurrenceFoundState ?? [];
+  let foundCount = 0;
+  for (let obsIndex = 0; obsIndex < maxOccurrences; obsIndex++) {
+    if (Number(occurrenceFoundState[obsIndex]) >= 1) foundCount++;
+  }
+  return foundCount;
+}
+
+function getKaleiMultiBase(account: any, research: any) {
+  const gridBonus52 = getResearchGridBonusInternal(account, research, 52, 0);
+  const gridBonus72 = getResearchGridBonusInternal(account, research, 72, 0);
+  const opticalMonocle = Number(isJadeBonusUnlocked(account, 'Optimal_Optometry'));
+  return (30 + gridBonus52 + gridBonus72 + 6 * opticalMonocle + getJellyBonus(account, 25)) / 100;
+}
+
+function buildResearchKalMap(shapePlacements: any) {
+  const kaleidoscopeNeighborCount: Record<string, any> = {};
+  const numShapeSlots = Math.round((shapePlacements?.length ?? 0) / 4);
+  for (let shapeSlotIndex = 0; shapeSlotIndex < numShapeSlots; shapeSlotIndex++) {
+    const lensType = Number(shapePlacements?.[4 * shapeSlotIndex + 3]);
+    const observationIndex = shapePlacements?.[4 * shapeSlotIndex + 2];
+    if (lensType !== 2 || observationIndex == null || observationIndex < 0) continue;
+    const obsIndex = Number(observationIndex);
+    if (obsIndex % 8 !== 7) kaleidoscopeNeighborCount[String(obsIndex + 1)] = (kaleidoscopeNeighborCount[String(obsIndex + 1)] ?? 0) + 1;
+    if (obsIndex % 8 !== 0) kaleidoscopeNeighborCount[String(obsIndex - 1)] = (kaleidoscopeNeighborCount[String(obsIndex - 1)] ?? 0) + 1;
+    if (obsIndex > 7) kaleidoscopeNeighborCount[String(obsIndex - 8)] = (kaleidoscopeNeighborCount[String(obsIndex - 8)] ?? 0) + 1;
+    if (obsIndex < 72) kaleidoscopeNeighborCount[String(obsIndex + 8)] = (kaleidoscopeNeighborCount[String(obsIndex + 8)] ?? 0) + 1;
+  }
+  return kaleidoscopeNeighborCount;
+}
+
+function getKaleiMultiTot(account: any, research: any, observationIndex: any) {
+  const shapePlacements = research?.shapePlacements ?? [];
+  let kaleidoscopeNeighborCount = research?.researchKalMap;
+  if (kaleidoscopeNeighborCount == null) {
+    kaleidoscopeNeighborCount = buildResearchKalMap(shapePlacements);
+  }
+  const baseMultiplier = getKaleiMultiBase(account, research);
+  const adjacentKaleidoscopeCount = kaleidoscopeNeighborCount[String(observationIndex)] ?? 0;
+  return 1 + adjacentKaleidoscopeCount * baseMultiplier;
+}
+
+function getResearchEXPrateObj(account: any, research: any, observationIndex: any) {
+  const shapePlacements = research?.shapePlacements ?? [];
+  const observationInsight = research?.observationInsight ?? [];
+  const numShapeSlots = Math.round((shapePlacements?.length ?? 0) / 4);
+  let magnifierCountOnObservation = 0;
+  for (let shapeSlotIndex = 0; shapeSlotIndex < numShapeSlots; shapeSlotIndex++) {
+    const slotType = Number(shapePlacements?.[4 * shapeSlotIndex + 3]);
+    const slotObsIndex = Number(shapePlacements?.[4 * shapeSlotIndex + 2]);
+    if (slotType === 0 && slotObsIndex === observationIndex) magnifierCountOnObservation++;
+  }
+  const baseRate = magnifierCountOnObservation * ((4 + (observationIndex / 2 + Math.floor(observationIndex / 4))) * (1 + Math.pow(observationIndex, 1 + (observationIndex / 15) * 0.4) / 10) + (Math.pow(observationIndex, 1.5) + 1.5 * observationIndex));
+  const grid93Bonus = getResearchGridBonusInternal(account, research, 93, 0);
+  const insightLevel = Number(observationInsight[observationIndex]) || 0;
+  const kaleidoscopeMultiplier = getKaleiMultiTot(account, research, observationIndex);
+  return baseRate * (1 + (grid93Bonus * insightLevel) / 100) * kaleidoscopeMultiplier;
+}
+
+/** EXP required for next observation insight level. Game: (2+0.7*t)*pow(1.75+t/200, level)*(1+pow(t,2)/100)+level */
+function getObservationInsightExpREQ(observationIndex: any, insightLevel: any) {
+  const currentInsightLevel = Number(insightLevel) || 0;
+  return (2 + 0.7 * observationIndex) * Math.pow(1.75 + observationIndex / 200, currentInsightLevel) * (1 + Math.pow(observationIndex, 2) / 100) + currentInsightLevel;
+}
+
+/** Insight EXP rate per hour for an observation (kaleidoscopes on this observation * 3 * (1+(grid92+grid91)/100) * Kalei_MultiTot). */
+// game: "Kalei_MultiTot"
+function getObservationInsightExpRate(account: any, research: any, observationIndex: any) {
+  const shapePlacements = research?.shapePlacements ?? [];
+  const numShapeSlots = Math.round((shapePlacements?.length ?? 0) / 4);
+  let opticalMonocleCountOnObservation = 0;
+  for (let shapeSlotIndex = 0; shapeSlotIndex < numShapeSlots; shapeSlotIndex++) {
+    const slotType = Number(shapePlacements?.[4 * shapeSlotIndex + 3]);
+    const slotObsIndex = Number(shapePlacements?.[4 * shapeSlotIndex + 2]);
+    if (slotType === 1 && slotObsIndex === observationIndex) opticalMonocleCountOnObservation++;
+  }
+  const grid92Bonus = getResearchGridBonusInternal(account, research, 92, 0);
+  const grid91Bonus = getResearchGridBonusInternal(account, research, 91, 0);
+  const opticalMonocle = Number(isJadeBonusUnlocked(account, 'Optimal_Optometry'));
+  const kaleidoscopeMultiplier = getKaleiMultiTot(account, research, observationIndex);
+  return 3 * opticalMonocleCountOnObservation * (1 + (grid92Bonus + grid91Bonus) / 100) * (1 + 35 * opticalMonocle / 100) * (1 + getJellyBonus(account, 7) / 100) * kaleidoscopeMultiplier;
+}
+
+/** Grid_CanWeSelect: whether this grid square can be selected in the UI. */
+// game: "Grid_CanWeSelect"
+function getResearchGridCanSelect(research: any, gridIndex: any) {
+  const gridLevels = research?.gridLevels ?? [];
+  const level = Number(gridLevels[gridIndex]) || 0;
+  const square = (researchGridSquares || [])[gridIndex];
+  const name = square?.name;
+  if ((gridIndex % 20 >= 9 && gridIndex % 20 <= 10 && gridIndex >= 100 && gridIndex <= 140) || level >= 1) return true;
+  if (name === 'Name') return false;
+  const lastGridIndex = (researchGridSquares || []).length - 1;
+  const clampGridIndex = (index: any) => Math.max(0, Math.min(lastGridIndex, Math.round(index)));
+  if (gridIndex >= 20 && (Number(gridLevels[clampGridIndex(gridIndex - 20)]) || 0) >= 1) return true;
+  if (gridIndex % 20 !== 0 && (Number(gridLevels[clampGridIndex(gridIndex - 1)]) || 0) >= 1) return true;
+  if (gridIndex % 20 !== 19 && (Number(gridLevels[clampGridIndex(gridIndex + 1)]) || 0) >= 1) return true;
+  if (gridIndex < 220 && (Number(gridLevels[clampGridIndex(gridIndex + 20)]) || 0) >= 1) return true;
+  return false;
+}
+
+/** Grid_CanWeUseButton(0) = researchLevel >= 10, (1) = researchLevel >= 20 || shapesOwned >= 1 */
+// game: "Grid_CanWeUseButton"
+function getResearchGridCanWeUseButton(researchLevel: any, shapesOwned: any, buttonIndex: any) {
+  if (buttonIndex === 0) return researchLevel >= 10 ? 1 : 0;
+  if (buttonIndex === 1) return (researchLevel >= 20 || (shapesOwned ?? 0) >= 1) ? 1 : 0;
+  return 0;
+}
+
+const RESEARCH_XP_ARCADE_BONUS = 63;
+
+// game: "ResearchStuff:ResearchEXPmulti"
+function getResearchEXPmulti(account: any, research: any) {
+  const mealResearchXP = getMealsBonusByEffectOrStat(account, null, 'ResearchXP') ?? 0;
+  const dancingCoral = getDancingCoralBonus(account, 4, 0) ?? 0;
+  // game: FarmingStuffs("StickerBonus", 1, 99) in the sum and ("StickerBonus", 1, 100) as its own multiplier:
+  // Menagerie unlock 22 moves the sticker from one to the other
+  const stickerBonus = getStickerBonus(account, 1, STICKER_CONTEXT.ADDITIVE);
+  const stickerMultiBonus = getStickerBonus(account, 1, STICKER_CONTEXT.MULTIPLIER);
+  const cropDepot = account?.farming?.cropDepot?.researchExp?.value ?? 0;
+  const grid50 = getResearchGridBonusInternal(account, research, 50, 0);
+  const grid90 = getResearchGridBonusInternal(account, research, 90, 0);
+  const grid110 = getResearchGridBonusInternal(account, research, 110, 0);
+  const grid112_2 = getResearchGridBonusInternal(account, research, 112, 2);
+  const zenith = getZenithBonus(account, 8) ?? 0;
+  const msaBonus = account?.msaTotalizer?.researchExp?.value ?? 0;
+  const slab = getSlabBonus(account, 7) ?? 0;
+  const tomeLoreEpi = account?.spelunking?.loreBonuses?.[7]?.bonus ?? 0;
+  // Research EXP passive cards (w7b1, w7b4, w7b8 Glowfish), plus w7a11 (Gallery_Bonus passive) which the game also adds here
+  const cardResearchBonus = getCardBonusByEffect(account?.cards, 'Research_EXP_(Passive)');
+  const cardGalleryBonus = getCardBonusByEffect(account?.cards, 'Gallery_Bonus_(Passive)');
+  // Game caps each card individually: w7b1/w7a11 at 10, Eggroll (w7b4) at 15, Glowfish (w7b8) at 20
+  const eggrollOverflow = Math.max(0, calcCardBonus(account?.cards?.Eggroll) - 15);
+  const glowfishOverflow = Math.max(0, calcCardBonus(account?.cards?.Glowfish) - 20);
+  const cardBonus = cardResearchBonus + cardGalleryBonus - eggrollOverflow - glowfishOverflow;
+  // game: ShopUpgBonus(63, 0) - Spelunking shop upgrade, not a card bonus; it just sits as the
+  // last term of the same additive sum right after the card terms (task D5).
+  const spelunkingShopUpg63 = getSpelunkingBonus(account, 63);
+  const arcade63 = getArcadeBonus(account?.arcade?.shop, RESEARCH_XP_ARCADE_BONUS)?.bonus ?? 0;
+  // game: 25 * Breeding("PetArenaCrucBonus", "0", 2, 0) + 35 * Breeding("PetArenaCrucBonus", "0", 8, 0)
+  const crucibleBonus = 25 * getPetArenaCrucBonus(account, 2) + 35 * getPetArenaCrucBonus(account, 8);
+  const clamWork9Factor = 1 + 0.25 * getClamWorkBonus(account, 9);
+  const menagerieBoost3 = getMenagerieBoost(account, 3);
+  const grid70 = getResearchGridBonusInternal(account, research, 70, 0);
+  const grid31 = getResearchGridBonusInternal(account, research, 31, 0);
+  const grid51 = getResearchGridBonusInternal(account, research, 51, 0);
+  const grid94_2 = getResearchGridBonusInternal(account, research, 94, 2);
+  const prehistoricSetBonus = Math.min(50, getArmorSetBonus(account, 'PREHISTORIC_SET'));
+  const killroyResearchBonus = 1 + getKillRoyShopBonus(account, 5) / 100;
+  const companion52 = isCompanionBonusActive(account, 52) ? (account?.companions?.list?.at(52)?.bonus ?? 0) : 0;
+
+  const additive =
+    stickerBonus +
+    mealResearchXP +
+    dancingCoral +
+    cropDepot +
+    grid50 +
+    grid90 +
+    grid110 +
+    grid112_2 +
+    zenith +
+    msaBonus +
+    slab +
+    tomeLoreEpi +
+    cardBonus +
+    grid31 +
+    grid51 +
+    grid94_2 +
+    prehistoricSetBonus +
+    spelunkingShopUpg63 +
+    crucibleBonus;
+
+  const additiveFactor = 1 + additive / 100;
+  const grid70Factor = 1 + grid70 / 100;
+  const companion153 = isCompanionBonusActive(account, 153) ? (account?.companions?.list?.at(153)?.bonus ?? 0) : 0;
+  // Pet Mart+: Rift_Stalker (153) upgraded adds +1 (CompLV2 flag) into its own factor; Neonscale (54)
+  // upgraded contributes a brand new 1.15x factor (1 + 0.15 * CompLV2 flag).
+  const companion153Lvl2Bonus = isCompanionLvl2Active(account, 153) ? 1 : 0;
+  const companion54Lvl2Factor = 1 + 0.15 * (isCompanionLvl2Active(account, 54) ? 1 : 0);
+  const companionFactor = Math.max(1, (1 + companion52) * (1 + companion153 + companion153Lvl2Bonus) * companion54Lvl2Factor);
+  const nonstopStudies = getEquinoxBonus(account?.equinox?.upgrades, 'Nonstop_Studies');
+  const nonstopFactor = 1 + nonstopStudies / 100;
+  const holesObject = account?.hole?.holesObject;
+  const greenWaterFactor = 1 + getFountainBonusTotal(holesObject, 2, 16) / 100; // Pen N Paper (Green Water)
+  const cglunkoFactor = 1 + getCglunkoBonus(account, 11) / 100; // Researchy (Crystal Glunko Cove)
+  const outpostRogFactor = Math.max(1, getOutpostRogBonus(account, 1));
+  const jellyFactor = [0, 23, 46, 54].reduce((product, index) => product * (1 + getJellyBonus(account, index) / 100), 1);
+  const value = additiveFactor * grid70Factor * (1 + stickerMultiBonus / 100) * clamWork9Factor * nonstopFactor
+    * companionFactor * (1 + getSushiBonus(account, 0) / 100) * (1 + getButtonBonus(account, 0) / 100)
+    * (1 + arcade63 / 100) * killroyResearchBonus * greenWaterFactor * cglunkoFactor * jellyFactor
+    * (1 + menagerieBoost3 / 100) * outpostRogFactor;
+
+  const breakdown = createBreakdown('Research EXP Multi', value, [
+    additiveGroup(NUMBERED_GROUP, [
+      percent('Sticker', stickerBonus),
+      percent('Meal', mealResearchXP),
+      percent('Dancing Coral', dancingCoral),
+      percent('Crop Depot', cropDepot),
+      percent('Pts Every Ten', grid50),
+      percent('Observationalistic', grid90),
+      percent('All Night Studying', grid110),
+      percent('See \'Em All', grid112_2),
+      percent('Zenith', zenith),
+      percent('MSA', msaBonus),
+      percent('Slab', slab),
+      percent('Tome', tomeLoreEpi),
+      percent('Card', cardBonus),
+      percent('Grid 31', grid31),
+      percent('Sharp Eye', grid51),
+      percent('Obs Levels (Grid 94)', grid94_2),
+      percent('Prehistoric Set', prehistoricSetBonus),
+      percent('Spelunking Shop', spelunkingShopUpg63),
+      percent('Crucible', crucibleBonus)
+    ]),
+    multiplier('Takin\' Notes', grid70Factor),
+    multiplier('Sticker', 1 + stickerMultiBonus / 100),
+    multiplier('Clam Work', clamWork9Factor),
+    multiplier('Nonstop Studies', nonstopFactor),
+    multiplier('Companions', companionFactor),
+    multiplier('Sushi Station', 1 + getSushiBonus(account, 0) / 100),
+    multiplier('Button Bonus', 1 + getButtonBonus(account, 0) / 100),
+    multiplier('Arcade', 1 + arcade63 / 100),
+    multiplier('Killroy Research', killroyResearchBonus),
+    multiplier('Pen N Paper (Green Water)', greenWaterFactor),
+    multiplier('Researchy (Crystal Glunko Cove)', cglunkoFactor),
+    multiplier('Jelly Operator', jellyFactor),
+    multiplier('Menagerie', 1 + menagerieBoost3 / 100),
+    multiplier('Royal Guardian Outpost', outpostRogFactor)
+  ]);
+
+  return { value, breakdown };
+}
+
+// game: AFKgainrates("Research"), shown as ResearchStuff("AFKgainsRatePCT")
+const RESEARCH_AFK_BASE_PCT = 1;
+const RESEARCH_AFK_CAP_PCT = 100;
+const RIP_TIDE_COMPANION = 28;
+const RIFT_STALKER_COMPANION = 153;
+const RIFT_STALKER_AFK_PCT = 20;
+const RIFT_STALKER_UPGRADED_AFK_PCT = 10;
+const RESEARCH_AFK_GAMBIT_BONUS = 15;
+const RESEARCH_AFK_MINEHEAD_OPPONENTS = [1, 10];
+const POWERED_DOWN_RESEARCH_GRID = 71;
+const RESEARCH_AFK_GAINS_GRID = 111;
+const ENDER_PEARL_MAX_TIER = 6;
+const PIRATE_DECKHAND_MAX_LEVEL = 10;
+const PROFESSIONAL_PAPERS_GEM_SHOP = 45;
+const PROFESSIONAL_PAPERS_PCT = 2;
+const RESEARCH_AFK_SUSHI_BONUSES = [4, 24];
+
+function getResearchAFKrate(account: any, research: any) {
+  const ripTide = isCompanionBonusActive(account, RIP_TIDE_COMPANION)
+    ? (account?.companions?.list?.at(RIP_TIDE_COMPANION)?.bonus ?? 0)
+    : 0;
+  const riftStalker = RIFT_STALKER_AFK_PCT * (isCompanionBonusActive(account, RIFT_STALKER_COMPANION)
+      ? (account?.companions?.list?.at(RIFT_STALKER_COMPANION)?.bonus ?? 0)
+      : 0)
+    + RIFT_STALKER_UPGRADED_AFK_PCT * (isCompanionLvl2Active(account, RIFT_STALKER_COMPANION) ? 1 : 0);
+  const gambit = getGambitBonus(account, RESEARCH_AFK_GAMBIT_BONUS);
+  const minehead = RESEARCH_AFK_MINEHEAD_OPPONENTS.map((index) => ({
+    name: account?.minehead?.opponents?.[index]?.name || `Opponent ${index + 1}`,
+    value: getMineheadBonusQTY(account, index)
+  }));
+  const poweredDownResearch = getResearchGridBonusInternal(account, research, POWERED_DOWN_RESEARCH_GRID, 0);
+  const researchAfkGainsGrid = getResearchGridBonusInternal(account, research, RESEARCH_AFK_GAINS_GRID, 0);
+  const enderPearl = Math.min(ENDER_PEARL_MAX_TIER,
+    Math.round(isArtifactAcquired(account?.sailing?.artifacts, 'Ender_Pearl')?.acquired ?? 0));
+  const pirateDeckhand = Math.min(getCardLevel(account?.cards, 'w7b11'), PIRATE_DECKHAND_MAX_LEVEL);
+  const professionalPapers = PROFESSIONAL_PAPERS_PCT * (account?.gemShopPurchases?.[PROFESSIONAL_PAPERS_GEM_SHOP] ?? 0);
+  const sushi = RESEARCH_AFK_SUSHI_BONUSES.reduce((sum, index) => sum + getSushiBonus(account, index), 0);
+
+  const bonuses = ripTide + riftStalker + gambit + minehead.reduce((sum, { value }) => sum + value, 0)
+    + poweredDownResearch + researchAfkGainsGrid + enderPearl + pirateDeckhand + professionalPapers + sushi;
+  const value = Math.min(RESEARCH_AFK_CAP_PCT, RESEARCH_AFK_BASE_PCT + bonuses);
+
+  const breakdown = createBreakdown('Research AFK Gains', `${notateNumber(value, 'MultiplierInfo')}%`, [
+    percent('Base', RESEARCH_AFK_BASE_PCT),
+    percent('RIP Tide (Companion)', ripTide),
+    percent('Rift Stalker (Companion)', riftStalker),
+    percent('Gambit', gambit),
+    ...minehead.map(({ name, value }) => percent(`${name} (Minehead)`, value)),
+    percent('Powered Down Research (Grid)', poweredDownResearch),
+    percent('Research AFK Gains (Grid)', researchAfkGainsGrid),
+    percent('Ender Pearl (Artifact)', enderPearl),
+    percent('Pirate Deckhand (Card)', pirateDeckhand),
+    percent('Professional Papers (Gem Shop)', professionalPapers),
+    percent('Sushi Station', sushi)
+  ], { combine: 'sum', max: RESEARCH_AFK_CAP_PCT });
+
+  return { value, breakdown };
+}
+

@@ -1,0 +1,94 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+// Slugs, hrefs and metadata for /tools/builds/<slug>.
+//
+// Dependency-free ESM on purpose — utility/generate-sitemap.mjs imports this and is a plain
+// Node script that cannot resolve Next aliases or TypeScript.
+
+const MAX_TITLE_SLUG = 60;
+
+export const titleSlug = (title) =>
+  String(title || '')
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, MAX_TITLE_SLUG)
+    .replace(/-+$/, '');
+
+// The shortId is lowercased because output: 'export' writes one file per slug and local exports
+// run on a case-insensitive filesystem, where 'frZFgN-x' and 'FRzfGn-x' would overwrite each
+// other while staying distinct on GitHub Pages. The title suffix is never omitted: a shortId
+// that happened to spell a class name would otherwise produce that class page's URL.
+export const buildToSlug = (build) => {
+  const id = String(build?.shortId || '').toLowerCase();
+  const rest = titleSlug(build?.title);
+  return rest ? `${id}-${rest}` : `${id}-build`;
+};
+
+export const buildStaticHref = (build) => `/tools/builds/${buildToSlug(build)}`;
+
+export const staticIdSet = (builds) =>
+  new Set((builds || []).map((b) => String(b?.shortId || '').toLowerCase()));
+
+// A build published after the last deploy has no exported page — fallback: false makes that a
+// hard 404 — so it keeps the runtime route instead.
+export const buildHref = (build, staticIds) =>
+  staticIds?.has(String(build?.shortId || '').toLowerCase())
+    ? buildStaticHref(build)
+    : `/tools/builds/view?id=${build?.shortId}`;
+
+// Two entries claiming one path means one page silently replaces the other in out/. Fail the
+// build rather than deploy whichever won.
+export function assertNoSlugCollisions(classSlugs, buildSlugs) {
+  const seen = new Set(classSlugs);
+  const clashes = [];
+  for (const slug of buildSlugs) {
+    if (seen.has(slug)) clashes.push(slug);
+    seen.add(slug);
+  }
+  if (clashes.length) {
+    throw new Error(
+      `Build slugs collide with an existing page path: ${[...new Set(clashes)].join(', ')}`
+    );
+  }
+}
+
+// -- Metadata ----------------------------------------------------------------
+
+export function toBuildSummary(build) {
+  return {
+    shortId: build.shortId,
+    title: build.title,
+    class: build.class,
+    subclass: build.subclass,
+    ownerName: build.ownerName,
+    tags: build.tags,
+    likeCount: build.likeCount
+  };
+}
+
+export function findInManifest(manifest, shortId) {
+  if (!shortId) return null;
+  return (manifest || []).find((entry) => entry.shortId === shortId) || null;
+}
+
+// The subclass alone, not "Barbarian Warrior" — the family adds no search value and produces
+// nonsense like "Journeyman Beginner". Falls back to the family for builds with no subclass.
+const classLabel = (summary) => (summary.subclass || summary.class || '').replace(/_/g, ' ');
+
+// Class first, user title second. Build titles are free text and frequently useless as keywords
+// ("Laealwaysforgets 2", "The build thus far.."); leading with them pushed the term the page
+// actually targets past Google's ~60-char cutoff on 52 of 111 builds.
+export function buildSeoTitle(summary) {
+  if (!summary) return 'Build | Idleon Toolbox';
+  return `${classLabel(summary)} Build — ${summary.title} | Idleon Toolbox`;
+}
+
+export function buildSeoDescription(summary) {
+  if (!summary) return 'Community build for Legends of Idleon';
+  const tags = (summary.tags || []).join(', ');
+  const tagPart = tags ? ` — ${tags}.` : '.';
+  return `${summary.title} by ${summary.ownerName}. ${classLabel(summary)} build for Legends of Idleon${tagPart} ${summary.likeCount || 0} likes.`;
+}

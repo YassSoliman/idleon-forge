@@ -1,0 +1,173 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { tryToParse, notateNumber } from '@utility/helpers';
+import { bonuses as bonusNames, items, itemsArray, gameTables } from '@website-data';
+import { getEventShopBonus, isCompanionBonusActive } from '@parsers/misc';
+import { getMineheadBonusQTY } from '@parsers/world-7/minehead';
+import { getSushiBonus } from '@parsers/world-7/sushiStation';
+import { hasClearedMap } from '@parsers/portals';
+
+// The rack lists its totals as the base stats first, then the etc bonuses by id
+const HAT_BONUS_ORDER: string[] = [
+  ...gameTables.galleryBonusStats,
+  ...Object.entries(bonusNames.etcBonuses as Record<string, string>)
+    .sort(([a], [b]) => Number(a) - Number(b))
+    .map(([, name]) => name)
+];
+const hatBonusOrder = (name: string) => {
+  const index = HAT_BONUS_ORDER.indexOf(name);
+  return index === -1 ? HAT_BONUS_ORDER.length : index;
+};
+
+export const getHatRack = (idleonData: any, account: any) => {
+  const rawSpelunk = tryToParse(idleonData?.Spelunk);
+  return parseHatRack(rawSpelunk, account);
+}
+
+const parseHatRack = (rawSpelunk: any, account: any) => {
+  const bonusMulti = getHatRackBonusMulti(rawSpelunk, account);
+  const { bonuses: hatBonuses, items: hatsUsed } = getHatBonuses(rawSpelunk, account);
+  const allPremiumHelmets = getAllPremiumHelmets(rawSpelunk, account);
+
+  return {
+    bonusMulti,
+    hatBonuses,
+    hatsUsed,
+    allPremiumHelmets,
+    totalHats: rawSpelunk?.[46]?.length || 0
+  }
+}
+
+// game: "HatrackBonusMulti"
+export const getHatRackBonusMulti = (rawSpelunk: any, account: any) => {
+  const hatCount = rawSpelunk?.[46]?.length || 0;
+  const eventShopBonus = getEventShopBonus(account, 30);
+  const mineheadBonus = getMineheadBonusQTY(account, 21);
+  const sushiBonus = getSushiBonus(account, 36);
+  const companion31 = isCompanionBonusActive(account, 31) ? (account?.companions?.list?.at(31)?.bonus ?? 0) : 0;
+  return 1 + (hatCount + companion31 + 10 * eventShopBonus + mineheadBonus + sushiBonus) / 100;
+}
+
+export const getHatBonuses = (rawSpelunk: any, account: any) => {
+  const rawHats = rawSpelunk?.[46];
+  const hatCount = rawHats?.length || 0;
+  const hatBonusesObj: Record<string, any> = {};
+  const hatsUsedList: any[] = [];
+  const bonusMulti = getHatRackBonusMulti(rawSpelunk, account);
+
+  for (let hatIndex = 0; hatIndex < hatCount; hatIndex++) {
+    const hatName = rawHats[hatIndex];
+    if (hatName) {
+      const hat = items?.[hatName];
+      if (hat) {
+        // Build modified item with bonus values
+        const modifiedItem: any = { ...hat };
+        if (hat.UQ1txt && hat.UQ1txt as any != '0' && hat.UQ1val && hat.UQ1val != 0) {
+          modifiedItem.UQ1val = notateNumber(hat.UQ1val * bonusMulti, 'MultiplierInfo');
+        }
+        if (hat.UQ2txt && hat.UQ2txt as any != '0' && hat.UQ2val && hat.UQ2val != 0) {
+          modifiedItem.UQ2val = notateNumber(hat.UQ2val * bonusMulti, 'MultiplierInfo');
+        }
+        modifiedItem.hatIndex = hatIndex;
+        modifiedItem.hatMultiplier = bonusMulti;
+        hatsUsedList.push(modifiedItem);
+
+        // Aggregate UQ bonuses
+        for (let uqIndex = 0; uqIndex < 2; uqIndex++) {
+          const uqTextKey = 'UQ' + Math.round(uqIndex + 1) + 'txt';
+          const uqValueKey = 'UQ' + Math.round(uqIndex + 1) + 'val';
+          const uqText = (hat as any)?.[uqTextKey];
+          const uqValue = (hat as any)?.[uqValueKey];
+
+          if (uqText && uqText != '0') {
+            const bonusPropertyName = '' + uqText;
+            const bonusPropertyValue = uqValue * bonusMulti;
+            hatBonusesObj[bonusPropertyName] = (hatBonusesObj[bonusPropertyName] ?? 0) + bonusPropertyValue;
+          }
+        }
+
+        // Aggregate stat bonuses
+        const stats: string[] = gameTables.galleryBonusStats;
+        for (let statIndex = 0; statIndex < stats.length; statIndex++) {
+          const statName = stats[statIndex];
+          const statValue = (hat as any)?.[statName];
+          if (statValue) {
+            const statBonusValue = statValue * bonusMulti;
+            hatBonusesObj[statName] = (hatBonusesObj[statName] ?? 0) + statBonusValue;
+          }
+        }
+      }
+    }
+  }
+
+  return {
+    bonuses: Object.entries(hatBonusesObj)
+      .map(([name, value]) => ({ name, value }))
+      .sort((a, b) => hatBonusOrder(a.name) - hatBonusOrder(b.name)),
+    items: hatsUsedList
+  };
+}
+
+// game: 0 >= KillsLeft2Advance[map][0] of the character whose stats are being built. No kills data
+// counts as cleared here.
+export const isMapClearedBy = (character: any, mapIndex: number) => {
+  if (!character?.kills) return true;
+  return hasClearedMap(character, mapIndex);
+}
+
+// game: Gallery("PremHatBonusesSystemON")
+const HAT_RACK_UNLOCK_MAP = 50;
+export const isHatRackActive = (character: any) => isMapClearedBy(character, HAT_RACK_UNLOCK_MAP);
+
+export const getHatRackBonus = (account: any, bonusName: any) => {
+  return account?.hatRack?.hatBonuses?.find((bonus: any) => bonus.name === bonusName)?.value ?? 0;
+}
+
+// Mirrors the game's deposit-eligibility filter at N.js:118436 — cosmetic-only hats
+// (e.g. tournament rewards EquipmentHats136-138) carry lvReqToCraft = 69420 as a sentinel
+// and are not counted toward the rack.
+export const isHatRackEligible = (item: any): boolean => {
+  return item?.Type === 'PREMIUM_HELMET'
+    && item?.typeGen === 'aHelmetMTX'
+    && Number(item?.lvReqToCraft) !== 69420;
+}
+
+const getAllPremiumHelmets = (rawSpelunk: any, account: any) => {
+  const rawHats = rawSpelunk?.[46] || [];
+  const hatsUsedSet = new Set(rawHats);
+  const bonusMulti = getHatRackBonusMulti(rawSpelunk, account);
+
+  const allPremiumHelmets = itemsArray
+    .filter(isHatRackEligible)
+    .map((item) => {
+      const isAcquired = hatsUsedSet.has(item.rawName);
+      const modifiedItem: any = { ...item };
+
+      if (isAcquired) {
+        // Apply bonus multiplier for acquired hats
+        if (item.UQ1txt && item.UQ1txt as any != '0' && item.UQ1val && item.UQ1val != 0) {
+          modifiedItem.UQ1val = notateNumber(Number(item.UQ1val) * bonusMulti, 'MultiplierInfo');
+        }
+        if (item.UQ2txt && item.UQ2txt as any != '0' && item.UQ2val && item.UQ2val != 0) {
+          modifiedItem.UQ2val = notateNumber(item.UQ2val * bonusMulti, 'MultiplierInfo');
+        }
+        modifiedItem.hatMultiplier = bonusMulti;
+      }
+
+      return {
+        ...modifiedItem,
+        isAcquired
+      };
+    })
+    .sort((a, b) => {
+      // Sort by acquired status first (acquired first), then by ID
+      if (a.isAcquired !== b.isAcquired) {
+        return Number(b.isAcquired) - Number(a.isAcquired);
+      }
+      return (a.ID || 0) - (b.ID || 0);
+    });
+
+  return allPremiumHelmets;
+}
+

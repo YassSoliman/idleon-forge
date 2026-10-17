@@ -1,0 +1,492 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { items, monsterDrops, quests } from '@website-data';
+import { cloneObject } from '@utility/helpers';
+import { isGreenstackable } from './misc';
+import { unrealisticGreenstackItems } from './parseMaps';
+import type { Character, Account } from './types';
+
+// Drops tagged with a quest (e.g. Mutton4) only roll while the killing character has that quest
+// in progress (QuestComplete == 0); a character that finished it can never get them again.
+// Keyed by quest key -> the greenstackable items it gates, so the quest page can warn before
+// a player finishes the quest on every character.
+// Built on first use: misc.ts sits in an import cycle with this file, so isGreenstackable is not
+// initialised yet while this module evaluates.
+let missableQuestDrops: Record<string, string[]> | undefined;
+const getMissableQuestDrops = (): Record<string, string[]> => {
+  missableQuestDrops ??= Object.values(monsterDrops as Record<string, any[]>)
+    .flat()
+    .reduce((res: Record<string, string[]>, { questLink, rawName }: any) => {
+      if (!questLink || questLink === 'N/A' || res[questLink]?.includes(rawName)) return res;
+      const item = (items as Record<string, any>)?.[rawName];
+      if (!isGreenstackable(item) || unrealisticGreenstackItems?.[rawName]) return res;
+      return { ...res, [questLink]: [...(res[questLink] || []), rawName] };
+    }, {});
+  return missableQuestDrops;
+};
+
+export const isWorldFinished = (characters: Character[], accountData: Account, worldIndex: number): boolean => {
+  // A world counts as finished once its exit has been used: either a character has talked to the
+  // gatekeeper NPC standing past it, or (world 6) the account flag for restoring the world 7 portal is set.
+  const worldGatekeeper: Record<number, string | number | undefined> = {
+    1: 'Builder_Bird',
+    2: 'Constructor_Crow',
+    3: 'Carpenter_Cardinal',
+    4: 'Muhmuguh',
+    5: 'Lafu_Shi',
+    6: (accountData as any)?.accountOptions?.[408]
+  }
+  const gatekeeper = worldGatekeeper?.[worldIndex];
+  if (gatekeeper === undefined || gatekeeper === null) return false;
+  if (typeof gatekeeper !== 'string' || !isNaN(gatekeeper as any)) return parseFloat(gatekeeper as any) > 0;
+  return !!characters?.some(({ npcDialog }: any) => npcDialog?.[gatekeeper]);
+}
+
+export const getQuests = (characters: Character[]): Record<string, any[]> => {
+  const questsKeys = Object.keys(quests);
+  let mappedQuests: Record<string, any[]> = questsKeys?.reduce((res: Record<string, any[]>, npcName: string) => {
+    const npcQuests = cloneObject(quests[npcName]);
+    const worldName = (worldNpcMap as any)?.[npcName]?.world;
+    const npcIndex = (worldNpcMap as any)?.[npcName]?.index;
+    if (!worldName) return res;
+    for (let i = 0; i < characters?.length; i++) {
+      const rawQuest = cloneObject((characters as any)?.[i]?.quests?.[npcName]) || {};
+      const questIndices = Object.keys(rawQuest).filter((questIndex) => npcQuests[questIndex]);
+      // The game lets a handful of quests be re-opened to reclaim their reward item, and Complete
+      // Class Redo re-opens the class-choice ones (Promotheus2, Scripticus8) on its own. Their raw
+      // 0 is indistinguishable from a quest that was never finished, so the tell is a later quest
+      // from the same npc being turned in - those chains only ever move forward, so the earlier
+      // one must have been completed once already.
+      const status: Record<string, number> = questIndices?.reduce((res: Record<string, number>, questIndex: string, j: number) => {
+        const raw = rawQuest[questIndex];
+        const reclaimed = raw === 0
+          && npcQuests[questIndex]?.Reclaimable
+          && questIndices.slice(j + 1).some((later) => rawQuest[later] === 1);
+        return { ...res, [questIndex]: reclaimed ? 1 : raw };
+      }, {});
+      // `marker` is the one quest this character currently stands on - the single avatar drawn
+      // under the NPC's list. Quests aren't strictly sequential: a later one can be turned in
+      // while an earlier one is still open (repeatable/trophy quests) or was never unlocked.
+      // It walks forward with every quest the character has touched, except that an accepted
+      // but unfinished quest holds onto it - that's the one they still have to do.
+      let marker: string | undefined;
+      let claimedByUnfinished = false;
+      for (let j = 0; j < questIndices?.length; j++) {
+        const questIndex = questIndices[j];
+        const questStatus = status[questIndex];
+        if (questStatus === 1) {
+          npcQuests[questIndex].completed = [...(npcQuests[questIndex]?.completed || []), {
+            charIndex: i,
+            status: questStatus
+          }];
+        }
+        if (marker !== undefined && status[marker] === 0) continue;
+        if (questStatus === 1) {
+          marker = questIndex;
+        } else if (!claimedByUnfinished) {
+          marker = questIndex;
+          claimedByUnfinished = true;
+        }
+      }
+      if (marker !== undefined) {
+        npcQuests[marker].progress = [...(npcQuests[marker]?.progress || []), {
+          charIndex: i,
+          status: status[marker]
+        }];
+      }
+    }
+    return {
+      ...res,
+      [worldName]: [
+        ...(res?.[worldName] || []),
+        {
+          name: npcName,
+          index: npcIndex,
+          npcQuests: Object.entries(npcQuests)
+            .filter(([key]) => !isNaN(key as any))
+            .map(([key, value]: [string, any]) => ({ ...value, missableDrops: getMissableQuestDrops()[npcName + key] || [] }))
+        }
+      ]
+    };
+  }, {});
+  for (const mappedQuest in mappedQuests) {
+    let val = mappedQuests[mappedQuest];
+    val?.sort((a: any, b: any) => a?.index - b?.index);
+  }
+  return mappedQuests;
+}
+
+export const getPlayerQuests = (quests: Record<string, any>): Record<string, any> => {
+  return Object.keys(quests).reduce((res: Record<string, any>, key: string) => {
+    let [npcName, questIndex] = key.split(/([0-9]+)/);
+    if (key.includes('Fishpaste')) {
+      npcName = 'Fishpaste97';
+    }
+    return { ...res, [npcName]: { ...(res?.[npcName] || {}), [questIndex]: quests[key] } }
+  }, {});
+}
+
+export const worldNpcMap: Record<string, { world: string; index?: number }> = {
+  'Scripticus': {
+    world: 'Blunder_Hills',
+    index: 0
+  },
+  'Glumlee': {
+    world: 'Blunder_Hills',
+    index: 1
+  },
+  'Krunk': {
+    world: 'Blunder_Hills',
+    index: 2
+  },
+  'Mutton': {
+    world: 'Blunder_Hills',
+    index: 3
+  },
+  'Woodsman': {
+    world: 'Blunder_Hills',
+    index: 4
+  },
+  'Hamish': {
+    world: 'Blunder_Hills',
+    index: 5
+  },
+  'Toadstall': {
+    world: 'Blunder_Hills',
+    index: 6
+  },
+  'Picnic_Stowaway': {
+    world: 'Blunder_Hills',
+    index: 7
+  },
+  'Promotheus': {
+    world: 'Blunder_Hills',
+    index: 8
+  },
+  'Typhoon': {
+    world: 'Blunder_Hills',
+    index: 9
+  },
+  'Sprout': {
+    world: 'Blunder_Hills',
+    index: 10
+  },
+  'Dazey': {
+    world: 'Blunder_Hills',
+    index: 11
+  },
+  'Telescope': {
+    world: 'Blunder_Hills',
+    index: 12
+  },
+  'Stiltzcho': {
+    world: 'Blunder_Hills',
+    index: 13
+  },
+  'Funguy': {
+    world: 'Blunder_Hills',
+    index: 14
+  },
+  'Tiki_Chief': {
+    world: 'Blunder_Hills',
+    index: 15
+  },
+  'Dog_Bone': {
+    world: 'Blunder_Hills',
+    index: 16
+  },
+  'Papua_Piggea': {
+    world: 'Blunder_Hills',
+    index: 17
+  },
+  'TP_Pete': {
+    world: 'Blunder_Hills',
+    index: 18
+  },
+  'Meel': {
+    world: 'Blunder_Hills',
+    index: 19
+  },
+  'Obol_Altar': {
+    world: 'Blunder_Hills',
+    index: 20
+  },
+  'Cowbo_Jones': {
+    world: 'Yum_Yum_Desert',
+    index: 0
+  },
+  'Fishpaste97': {
+    world: 'Yum_Yum_Desert',
+    index: 1
+  },
+  'Scubidew': {
+    world: 'Yum_Yum_Desert',
+    index: 2
+  },
+  'Whattso': {
+    world: 'Yum_Yum_Desert',
+    index: 3
+  },
+  'Bandit_Bob': {
+    world: 'Yum_Yum_Desert',
+    index: 4
+  },
+  'Carpetiem': {
+    world: 'Yum_Yum_Desert',
+    index: 5
+  },
+  'Centurion': {
+    world: 'Yum_Yum_Desert',
+    index: 6
+  },
+  'Goldric': {
+    world: 'Yum_Yum_Desert',
+    index: 7
+  },
+  'Snake_Jar': {
+    world: 'Yum_Yum_Desert',
+    index: 8
+  },
+  'Speccius': {
+    world: 'Yum_Yum_Desert',
+    index: 9
+  },
+  'XxX_Cattleprod_XxX': {
+    world: 'Yum_Yum_Desert',
+    index: 10
+  },
+  'Loominadi': {
+    world: 'Yum_Yum_Desert',
+    index: 11
+  },
+  'Wellington': {
+    world: 'Yum_Yum_Desert',
+    index: 12
+  },
+  'Djonnut': {
+    world: 'Yum_Yum_Desert',
+    index: 13
+  },
+  'Walupiggy': {
+    world: 'Yum_Yum_Desert',
+    index: 14
+  },
+  'Gangster_Gus': {
+    world: 'Yum_Yum_Desert',
+    index: 15
+  },
+  'Omar_Da_Ogar': {
+    world: 'Yum_Yum_Desert',
+    index: 16
+  },
+  'Hoggindaz': {
+    world: 'Frostbite_Tundra',
+    index: 0
+  },
+  'Worldo': {
+    world: 'Frostbite_Tundra',
+    index: 1
+  },
+  'Lord_of_the_Hunt': {
+    world: 'Frostbite_Tundra',
+    index: 2
+  },
+  'Lonely_Hunter': {
+    world: 'Frostbite_Tundra',
+    index: 3
+  },
+  'Snouts': {
+    world: 'Frostbite_Tundra',
+    index: 4
+  },
+  'Shuvelle': {
+    world: 'Frostbite_Tundra',
+    index: 5
+  },
+  'Yondergreen': {
+    world: 'Frostbite_Tundra',
+    index: 6
+  },
+  'Crystalswine': {
+    world: 'Frostbite_Tundra',
+    index: 7
+  },
+  'Bill_Brr': {
+    world: 'Frostbite_Tundra',
+    index: 8
+  },
+  'Bellows': {
+    world: 'Frostbite_Tundra',
+    index: 9
+  },
+  'Gobo': {
+    world: 'Hyperion_Nebula',
+    index: 0
+  },
+  'Oinkin': {
+    world: 'Hyperion_Nebula',
+    index: 1
+  },
+  'Eliteus': {
+    world: 'Hyperion_Nebula',
+    index: 2
+  },
+  'Capital_P': {
+    world: 'Hyperion_Nebula',
+    index: 3
+  },
+  'Blobbo': {
+    world: 'Hyperion_Nebula',
+    index: 4
+  },
+  'Royal_Worm': {
+    world: 'Hyperion_Nebula',
+    index: 5
+  },
+  'Monolith': {
+    world: 'Hyperion_Nebula',
+    index: 6
+  },
+  'Rift_Ripper': {
+    world: 'Hyperion_Nebula',
+    index: 7
+  },
+  'Nebula_Neddy': {
+    world: 'Hyperion_Nebula',
+    index: 8
+  },
+  'Muhmuguh': {
+    world: "Smolderin'_Plateau",
+    index: 0
+  },
+  'Slargon': {
+    world: "Smolderin'_Plateau",
+    index: 1
+  },
+  'Pirate_Porkchop': {
+    world: "Smolderin'_Plateau",
+    index: 2
+  },
+  'Poigu': {
+    world: "Smolderin'_Plateau",
+    index: 3
+  },
+  'Tired_Mole': {
+    world: "Smolderin'_Plateau",
+    index: 4
+  },
+  'Lava_Larry': {
+    world: "Smolderin'_Plateau",
+    index: 5
+  },
+  'Lafu_Shi': {
+    world: 'Spirited_Valley',
+    index: 0
+  },
+  'Hoov': {
+    world: 'Spirited_Valley',
+    index: 1
+  },
+  'Masterius': {
+    world: 'Spirited_Valley',
+    index: 2
+  },
+  'Woodlin_Elder': {
+    world: 'Spirited_Valley',
+    index: 3
+  },
+  'Sussy_Gene': {
+    world: 'Spirited_Valley',
+    index: 4
+  },
+  'Potti': {
+    world: 'Spirited_Valley',
+    index: 5
+  },
+  'Spirit_Sungmin': {
+    world: 'Spirited_Valley',
+    index: 6
+  },
+  'Sad_Urie': {
+    world: 'Shimmerfin_Deep',
+    index: 0
+  },
+  'Snootie': {
+    world: 'Shimmerfin_Deep',
+    index: 1
+  },
+  'Bloo_Radley': {
+    world: 'Shimmerfin_Deep',
+    index: 2
+  },
+  'Toobus_Goobus': {
+    world: 'Shimmerfin_Deep',
+    index: 3
+  },
+  'Zenelith': {
+    world: 'Shimmerfin_Deep',
+    index: 4
+  },
+  'Wavey_Wayne': {
+    world: 'Shimmerfin_Deep',
+    index: 5
+  },
+  'Town_Marble': {
+    world: ''
+  },
+  'Mr_Pigibank': {
+    world: ''
+  },
+  'Secretkeeper': {
+    world: ''
+  },
+  'Bushlyte': {
+    world: ''
+  },
+  'Rocklyte': {
+    world: ''
+  },
+  'Builder_Bird': {
+    world: ''
+  },
+  'Postboy_Pablob': {
+    world: ''
+  },
+  'Desert_Davey': {
+    world: ''
+  },
+  'Giftmas_Blobulyte': {
+    world: ''
+  },
+  'Loveulyte': {
+    world: ''
+  },
+  'Constructor_Crow': {
+    world: ''
+  },
+  'Carpenter_Cardinal': {
+    world: ''
+  },
+  'Iceland_Irwin': {
+    world: ''
+  },
+  'Egggulyte': {
+    world: ''
+  },
+  'Cactolyte': {
+    world: ''
+  },
+  'Coastiolyte': {
+    world: ''
+  },
+  'Nebulyte': {
+    world: ''
+  },
+  'Bubbulyte': {
+    world: ''
+  },
+  'Falloween_Pumpkin': {
+    world: ''
+  }
+};

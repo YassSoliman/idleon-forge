@@ -1,0 +1,60 @@
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
+// Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
+import { tryToParse } from '@utility/helpers';
+import { achievements } from '@website-data';
+import type { IdleonData } from './types';
+
+export interface Achievement {
+  steamIndex?: number;
+  completed: boolean;
+  currentQuantity?: number;
+  [key: string]: unknown;
+}
+
+export const getAchievements = (idleonData: IdleonData): Achievement[] | undefined => {
+  const achievementsRaw = tryToParse(idleonData?.AchieveReg) || idleonData?.AchieveReg;
+  const steamAchievementsRaw = tryToParse(idleonData?.SteamAchieve) || idleonData?.SteamAchieve;
+  return parseAchievements(achievementsRaw, steamAchievementsRaw);
+}
+
+const parseAchievements = (achievementsRaw: any, steamAchievementsRaw: any): Achievement[] | undefined => {
+  return achievements?.map((achievement, index) => {
+    const { steamIndex } = achievement;
+    // The game reads completion from AchieveReg alone (AchieveStatus, the achievements page, superbit 0). A
+    // finished Steam achievement only adds 2 to its linked entry, which is not enough for Big Mobs Eek (5).
+    const completed = achievementsRaw?.[index] === -1;
+    // Most Steam-linked entries sit at 0 until the Steam side finishes, so the Steam counter is the useful progress
+    const currentQuantity = steamIndex ? steamAchievementsRaw?.[steamIndex] : achievementsRaw?.[index];
+    return { ...achievement, completed, ...(!completed && currentQuantity >= 0 ? { currentQuantity } : {}) }
+  });
+}
+
+export const getAchievementStatus = (achievements: Achievement[] | undefined, achievementIndex: number): number => {
+  const achievement = achievements?.[achievementIndex];
+  if (!achievement || !achievement.completed) return 0;
+
+  switch (achievementIndex) {
+    case 4:
+    case 27:
+    case 37:
+    case 44:
+    case 107:
+    case 109:
+    case 117:
+      return 5;
+    case 108:
+      return 10;
+    case 99:
+    case 104:
+    case 112:
+      return 20;
+    default:
+      return 1;
+  }
+}
+
+
+export const calcTotalAchievements = (achievements: Achievement[]): number => {
+  return achievements.reduce((sum, { completed }) => completed ? sum + 1 : sum, 0);
+}
