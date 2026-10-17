@@ -185,6 +185,6 @@ export interface UnspentCharacterFields {
   bigBubbles?: Array<string | null>;
   /** `postOffice.unspentPoints`. */
   postOfficeUnspent?: number | null;
-  /** `anvil.anvilStats.availablePoints`. */
+  /** Unspent anvil points, recomputed as the game does (#70); the stored `availablePoints` without every source. */
   anvilPointsAvailable?: number | null;
 }

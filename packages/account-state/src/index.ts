@@ -11,10 +11,21 @@ export {
   toAccountState,
   UNNAMED_WARNING,
 } from './adapter';
-export { AFK_HORIZON_MS, MAX_FOODS_TRIED } from './afk-facts';
+export {
+  AFK_HORIZON_MS,
+  ANVIL_EXHAUSTIVE_MAX,
+  ANVIL_PLAN_WINDOWS_MS,
+  ANVIL_SCAN_RADIUS,
+  anvilPlanWindow,
+  bestAnvilSplit,
+  MAX_FOODS_TRIED,
+} from './afk-facts';
 export type {
   AccountAfkFacts,
+  AfkAnvilPlan,
   AfkAnvilProduct,
+  AfkAnvilSplit,
+  AfkAnvilWindowPlan,
   AfkFighting,
   AfkFood,
   AfkFoodKind,

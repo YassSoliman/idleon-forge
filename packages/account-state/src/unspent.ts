@@ -467,11 +467,40 @@ export function readUnspentAccount(
   };
 }
 
+/**
+ * Unspent anvil points (M6 FR-23, #70). The game recomputes `availablePoints` only while the anvil tab is
+ * open, so the stored value is stale after a Smithing level-up. This is the game's own sum: Smithing
+ * level + Acme Anvil + coin points + material points - (Exp + Speed + Capacity). Without every source
+ * it is the stored value.
+ */
+function anvilUnspent(raw: Dict): number | null {
+  const st = isDict(raw.anvil) && isDict(raw.anvil.anvilStats) ? raw.anvil.anvilStats : null;
+  if (!st) return null;
+  const skills = isDict(raw.skillsInfo) ? raw.skillsInfo : null;
+  const smithing = skills && isDict(skills.smithing) ? finite(skills.smithing.level) : null;
+  const parts = [
+    st.pointsFromCoins,
+    st.pointsFromMats,
+    st.pointsFromAcme ?? 0,
+    st.xpPoints,
+    st.speedPoints,
+    st.capPoints,
+  ].map(finite);
+  const [coins, mats, acme, xp, speed, cap] = parts;
+  if (smithing === null || parts.some((v) => v === null)) return finite(st.availablePoints);
+  return (
+    smithing +
+    (coins as number) +
+    (mats as number) +
+    (acme as number) -
+    ((xp as number) + (speed as number) + (cap as number))
+  );
+}
+
 /** The M6 character fields. */
 export function readUnspentCharacter(raw: Dict): UnspentCharacterFields {
   const po = isDict(raw.postOffice) ? finite(raw.postOffice.unspentPoints) : null;
-  const anvil =
-    isDict(raw.anvil) && isDict(raw.anvil.anvilStats) ? finite(raw.anvil.anvilStats.availablePoints) : null;
+  const anvil = anvilUnspent(raw);
   return {
     bigBubbles: list(raw.equippedBubbles).map((b) =>
       isDict(b) && typeof b.rawName === 'string' && b.rawName !== '' ? b.rawName : null,
