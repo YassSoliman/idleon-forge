@@ -7,13 +7,13 @@
   --fg: #18233a;
   --muted: #56637a;
   --line: #cdd6e1;
-  --coin: #b86e0c;
+  --coin: #915709; /* 4.79:1 on --coin-soft (was #b86e0c, 3.24:1) */
   --coin-soft: #f6e6cc;
-  --ok: #0f7d72;
+  --ok: #0e7369; /* 4.73:1 on --ok-soft (was #0f7d72, 4.14:1) */
   --ok-soft: #d5efeb;
   --bad: #b4372f;
   --bad-soft: #f6dcd9;
-  --unk: #6b6f85;
+  --unk: #606478; /* 4.74:1 on --unk-soft (was #6b6f85, 4.02:1) */
   --unk-soft: #e6e7ef;
 
   --display: "Pixelify Sans", "Courier New", monospace;
