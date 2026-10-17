@@ -7,14 +7,17 @@ import {
   type BuildMark,
   buildOf,
   cloudSaveTimeOf,
+  createProofRing,
   createSession,
   type DeviceCode,
   DeviceFlowError,
   type ListenerStatus,
   listenToSave,
   onUserChanged,
+  openProofStore,
   openSaveHistory,
   type PatchStatus,
+  type ProofRing,
   patchStatus,
   readSyncConfig,
   type SaveHistory,
@@ -23,6 +26,7 @@ import {
   saveOutcome,
   signInWithGoogleDevice,
   signOut,
+  watchIdTokens,
 } from '@idleon-forge/sync';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { forgetSession, hadSession, rememberSession, requestPersistentStorage } from './storage';
@@ -96,6 +100,8 @@ export interface ActiveOn {
   historyNote: string | null;
   /** Whether the game patched past the parser, for the banner and the footer (FR-29, D3). */
   patch: PatchSignal | null;
+  /** Proof of sign-in for Suggestions (M13 TR-4): `getSignInProof()`, `onProofReady(cb)`. */
+  proof: ProofRing;
   signIn(): void;
   cancelSignIn(): void;
   signOut(options: SignOutOptions): void;
@@ -139,6 +145,16 @@ export function useActiveOn(): ActiveOn {
   const [verified, setVerified] = useState<BuildMark | null>(null);
   const [cleanBuild, setCleanBuild] = useState<{ commit: string; build: BuildMark | null } | null>(null);
   const historyRef = useRef<{ uid: string; history: SaveHistory } | null>(null);
+  // One ring per tab, over its own IndexedDB store; it only ever holds this account's ID tokens.
+  const proof = useMemo(() => {
+    const store = openProofStore();
+    return createProofRing({
+      store: {
+        load: () => store.then((s) => s.load()),
+        save: (entries) => store.then((s) => s.save(entries)),
+      },
+    });
+  }, []);
 
   const saveRef = useRef(save);
   const setSave = useCallback((next: SaveState | ((prev: SaveState) => SaveState)) => {
@@ -273,6 +289,7 @@ export function useActiveOn(): ActiveOn {
         case 'auth-expired':
           endLive();
           forgetSession();
+          void proof.clear();
           setAuth({ status: 'signed-out', error: SESSION_EXPIRED });
           signOut(session).catch(() => {});
           return;
@@ -292,7 +309,13 @@ export function useActiveOn(): ActiveOn {
       stop();
       if (stopListener.current === stop) stopListener.current = null;
     };
-  }, [session, uid, runParse, endLive, setSave]);
+  }, [session, uid, runParse, endLive, setSave, proof]);
+
+  // Every ID token Firebase issues goes into the proof ring (M13 TR-4); nothing leaves the browser.
+  useEffect(() => {
+    if (!session) return;
+    return watchIdTokens(session, (token) => void proof.record(token));
+  }, [session, proof]);
 
   // Open this account's save history while signed in (FR-21, FR-22).
   useEffect(() => {
@@ -388,13 +411,14 @@ export function useActiveOn(): ActiveOn {
       // sign-out can't repaint the roster (FR-6, RT-23).
       endLive();
       forgetSession();
+      void proof.clear();
       // With the box checked, the clear runs first, while the history still knows the account (FR-6).
       const cleared = clearData ? clearAccountData() : Promise.resolve();
       void cleared.then(() =>
         signOut(session).catch((err) => setAuth({ status: 'signed-out', error: message(err) })),
       );
     },
-    [session, endLive, clearAccountData],
+    [session, endLive, clearAccountData, proof],
   );
 
   const clearMyData = useCallback(
@@ -419,6 +443,7 @@ export function useActiveOn(): ActiveOn {
     historyVersion,
     historyNote,
     patch,
+    proof,
     signIn,
     cancelSignIn,
     signOut: doSignOut,
