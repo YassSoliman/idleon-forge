@@ -516,3 +516,11 @@ An independent red-team ran on 2026-10-17 against this spec (with D1–D6 folded
 | 24 | P2 | TR-6's "≥ 80% on both fixtures" quoted the dossier's tag-share metric, not TR-6's overlap metric. | Fixed | TR-6 now uses the dossier's metric (#7), with a fixture test pinning all 17 classifiable presets. |
 | 25 | P3 | Nits: per-step Contested isn't representable; FR-18's "Focus provenance" had nowhere to live; the gem price display was undefined; `star` steps were unused; the `afkType` names were wrong; a `null` afkType had no rule. | Fixed | Contested is per Build (section 6). FR-18 goes to diagnostics. The Acquisition shows quest sources only. `star` dropped from the Build shape. Real `afkType` names, with `null` meaning no role. |
 | 26 | P3 | The spec quotes per-character class, level and talent figures from private accounts while claiming "only aggregates". | Fixed | The Fixtures line now says exactly what is quoted (no names, saves gitignored). Rejected: rounding the numbers, since the goldens need exact values and no names are present. |
+
+## Final rulings (Yasser, 2026-10-17)
+
+These supersede anything above that conflicts with them.
+
+> **In-game fact (Yasser, 2026-10-17):** the game just calls them "presets", with no per-preset label. **D5:** on screen, use role names only ("your fighting preset", "your skilling preset", "your other preset"), with no bracketed in-game label.
+
+> **Ruled by Yasser (2026-10-17):** RT1: a core next step keeps position 3 only when that tab's unspent-points lower bound is above 0 or FR-12a's level-up signal fires. Otherwise it goes to the bottom of the list.
