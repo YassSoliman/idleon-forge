@@ -276,6 +276,13 @@ describe('US-9 and US-10 Post Office and anvil points', () => {
     ).toEqual(['Bowman 60']);
     expect(fired(run('anvil/points', w2))).toEqual([]);
   });
+  it('FR-23: Capacity instead once M3 reports a product capping before the return (8.5 h after the save)', () => {
+    const later = savedAt(w3) + 8.5 * HOUR;
+    expect(fired(run('anvil/points', w3, { now: later }))).toEqual([]);
+    expect(one(run('anvil/points', w3, { now: later, params: { form: 'capacity' } }))).toMatchObject({
+      slots: { points: 3, product: 'Leather_Hide' },
+    });
+  });
 });
 
 describe('US-11 Poppy', () => {
@@ -423,23 +430,28 @@ describe('authored constants match the generated facts at the pin', () => {
 describe('US-12 M6 never touches a Verdict', () => {
   it('every M6 entry is a next-action Check (never a blocker)', async () => {
     const { loadSource } = await import('../src/load');
-    const m6 = loadSource().authored.filter((e) =>
-      [
-        'boss-keys',
-        'colosseum',
-        'alchemy-bubbles',
-        'alchemy-vials',
-        'merit-shop',
-        'task-unlocks',
-        'gem-shop',
-        'pets',
-        'minigames',
-        'post-office',
-        'anvil',
-        'poppy',
-        'refinery',
-        'death-note',
-      ].includes(e.value.system),
+    const m6 = loadSource().authored.filter(
+      (e) =>
+        [
+          'boss-keys',
+          'colosseum',
+          'alchemy-bubbles',
+          'alchemy-vials',
+          'merit-shop',
+          'task-unlocks',
+          'gem-shop',
+          'pets',
+          'minigames',
+          'post-office',
+          'anvil',
+          'poppy',
+          'refinery',
+          'death-note',
+        ].includes(e.value.system) &&
+        // M3 shares the anvil and refinery Systems; only M6's own Detectors count here.
+        e.value.type === 'check' &&
+        Object.hasOwn(detectors, e.value.detector.id) &&
+        !['anvil/caps-before-return', 'refinery/fuel-runs-out'].includes(e.value.detector.id),
     );
     expect(m6.length).toBeGreaterThan(20);
     for (const e of m6) expect(e.value.type === 'check' && e.value.effect, e.value.id).toBe('next-action');
