@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
-# Deploys ActiveOn to Cloudflare Workers (static assets, SPA mode) on every push to main (M12 FR-1 to
-# FR-5, TR-1, TR-2). Both jobs run in the GitHub "production" environment, which only main may use and
+# Deploys ActiveOn to Cloudflare Workers (static assets, SPA mode) from main (M12 FR-1 to FR-5, TR-1,
+# TR-2). Owner ruling 2026-10-17: releases are batched, so a merge to main no longer deploys. Run this
+# workflow by hand (Actions > Deploy > Run workflow, or `gh workflow run deploy.yml --ref main`) when a
+# release is ready and QA'd locally. Both jobs run in the GitHub "production" environment, which only main may use and
 # which admins can't bypass (FR-2).
 #
 # Two jobs, so no repository, upstream or dependency code ever runs where the Cloudflare token is
@@ -16,8 +18,6 @@
 name: Deploy
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
