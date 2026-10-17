@@ -310,17 +310,16 @@ export function toAccountState(
 
   // The daily reset: ShopRestock is a countdown in seconds, taken at GlobalTime (Toolbox's
   // hoursUntilDailyReset reads it the same way).
-  let dailyResetAt: number | null = null;
+  let dailyResetInSeconds: number | null = null;
   const restock = finite(timeAway.ShopRestock);
   if (
-    c.checkRaw('account.dailyResetAt', 'account.dailyResetAt', null) &&
-    lastCloudSave !== null &&
+    c.checkRaw('account.dailyResetInSeconds', 'account.dailyResetInSeconds', null) &&
     restock !== null &&
     restock >= 0
   ) {
-    dailyResetAt = Math.round(lastCloudSave + restock * 1000);
+    dailyResetInSeconds = restock;
   } else {
-    c.unknown('account.dailyResetAt');
+    c.unknown('account.dailyResetInSeconds');
   }
 
   const saveVersion = c.checkRaw('account.gameVersion.saveVersion', 'account.gameVersion.saveVersion', null)
@@ -364,7 +363,7 @@ export function toAccountState(
       finishedWorlds,
       lastCloudSave,
       secondsSinceLastSave: secondsBetween(lastCloudSave, asOf),
-      dailyResetAt,
+      dailyResetInSeconds,
       gameVersion: { serverBuild, saveVersion, parserTarget: meta.parserGameVersion },
     },
     characters: states,

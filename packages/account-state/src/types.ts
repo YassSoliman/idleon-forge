@@ -9,7 +9,7 @@ import type { SideReadName } from '@idleon-forge/toolbox-parsers';
 
 /**
  * Bumped whenever a field is added, renamed or changes meaning. 1 was slice 1's unversioned shape.
- * 3: `account.dailyResetAt` (for M10's Skip today rule).
+ * 3: `account.dailyResetInSeconds` (M6 TR-3; also M10's Skip today rule).
  */
 export const SCHEMA_VERSION = 3;
 
@@ -69,11 +69,11 @@ export interface AccountSummary {
   /** Seconds between `lastCloudSave` and `AccountState.asOf` (never negative). */
   secondsSinceLastSave: number | null;
   /**
-   * When the game's daily reset that this save was counting down to happens (epoch ms):
-   * `TimeAway.GlobalTime + TimeAway.ShopRestock`. The time of day differs per account. Read it with
-   * `nextDailyReset(state, now)`, which rolls it forward in 24 h steps.
+   * Seconds from `lastCloudSave` to the game's next daily reset (`TimeAway.ShopRestock`, a countdown
+   * taken at the save). The time of day differs per account. Shape owned with M6 (M6 TR-3); read the
+   * reset time with `nextDailyReset(state, now)`, which rolls it forward in 24 h steps.
    */
-  dailyResetAt: number | null;
+  dailyResetInSeconds: number | null;
   gameVersion: {
     /** The game server's build (`_vars.GameVERSION`) at the last `_vars` read, e.g. 142; not in the save. */
     serverBuild: number | null;

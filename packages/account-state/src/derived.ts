@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // Small, pure readings of an Account State that several modules need and that depend on the clock:
-// which character the player is on, the next daily reset, and the context a report may carry.
-import type { SideReadName } from '@idleon-forge/toolbox-parsers';
+// which character the player is on, the next daily reset, and what a report may carry.
 import type { AccountState } from './types';
 
 /**
@@ -30,43 +29,42 @@ export function activeCharacterIndex(
 export const DAILY_RESET_PERIOD_MS = 24 * 3600 * 1000;
 
 /**
- * The next game daily reset after `now` (epoch ms): the reset the save was counting down to
- * (`account.dailyResetAt`), rolled forward in 24 h steps until it is after `now` (the rolling rule M6
- * uses). Null only when the save has no countdown. For M10's Skip today rule (M10 D3).
+ * The next game daily reset after `now` (epoch ms): `lastCloudSave + dailyResetInSeconds`, rolled
+ * forward in 24 h steps until it is after `now` (the rolling rule M6 TR-3 uses). Null only when the
+ * save has no countdown or no save time. For M10's Skip today rule (M10 D3).
  */
 export function nextDailyReset(state: AccountState, now: number): number | null {
-  const at = state.account.dailyResetAt;
-  if (at === null) return null;
+  const { lastCloudSave, dailyResetInSeconds } = state.account;
+  if (lastCloudSave === null || dailyResetInSeconds === null) return null;
+  const at = lastCloudSave + Math.round(dailyResetInSeconds * 1000);
   if (at > now) return at;
   return at + (Math.floor((now - at) / DAILY_RESET_PERIOD_MS) + 1) * DAILY_RESET_PERIOD_MS;
 }
 
 /**
- * The only facts about a save that may leave the device with a report or Suggestion (M1 TR-22): the
- * game and parser versions, which parser sections and side reads failed, and the class and level of
- * the character the report is about. Never names, uid, email or the save. Stage is added by M2.
+ * The Account-State part of a Suggestion or Report this context (M1 TR-22, M13 `SuggestionContext`,
+ * ADR 0008): the save's server build, its age, and the class and level of the character in question.
+ * Nothing else: never names, uid, email, `charNames`, the save, or `diagnostics.failedSections`.
  */
-export interface ReportContext {
-  gameVersion: { serverBuild: number | null; saveVersion: number | null; parserTarget: string };
-  parserPin: { commit: string; gameVersion: string };
-  failedSections: string[];
-  failedSideReads: SideReadName[];
+export interface AccountReportFields {
+  /** `account.gameVersion.serverBuild`. */
+  gameBuild: number | null;
+  /** Seconds between the last cloud save and `now`, never negative; null without a save time. */
+  saveAgeSeconds: number | null;
+  /** The character in question; null when none is given or the slot isn't a readable character. */
   character: { class: string; level: number } | null;
 }
 
-export function reportContext(state: AccountState, characterIndex: number | null = null): ReportContext {
-  const { gameVersion } = state.account;
-  const d = state.diagnostics;
+export function accountReportFields(
+  state: AccountState,
+  characterIndex: number | null = null,
+  now: number = state.asOf,
+): AccountReportFields {
+  const saved = state.account.lastCloudSave;
   const c = characterIndex === null ? undefined : state.characters.find((x) => x.index === characterIndex);
   return {
-    gameVersion: {
-      serverBuild: gameVersion.serverBuild,
-      saveVersion: gameVersion.saveVersion,
-      parserTarget: gameVersion.parserTarget,
-    },
-    parserPin: { commit: d.parserPin.commit, gameVersion: d.parserPin.gameVersion },
-    failedSections: [...d.failedSections],
-    failedSideReads: [...d.failedSideReads],
+    gameBuild: state.account.gameVersion.serverBuild,
+    saveAgeSeconds: saved === null ? null : Math.max(0, Math.floor((now - saved) / 1000)),
     character: c ? { class: c.class, level: c.level } : null,
   };
 }

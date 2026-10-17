@@ -13,11 +13,11 @@ export {
 } from './adapter';
 export {
   ACTIVE_CHARACTER_FRESH_MS,
+  type AccountReportFields,
+  accountReportFields,
   activeCharacterIndex,
   DAILY_RESET_PERIOD_MS,
   nextDailyReset,
-  type ReportContext,
-  reportContext,
 } from './derived';
 export {
   declaredField,

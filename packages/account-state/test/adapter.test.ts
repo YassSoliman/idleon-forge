@@ -69,7 +69,7 @@ describe('toAccountState', () => {
     const state = toAccountState(parsed());
     expect(state.account).toEqual({
       currentWorld: 2,
-      dailyResetAt: 4_600_000,
+      dailyResetInSeconds: 3600,
       finishedWorlds: [1],
       lastCloudSave: 1_000_000,
       secondsSinceLastSave: 60,
