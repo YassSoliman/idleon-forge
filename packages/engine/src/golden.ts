@@ -6,6 +6,7 @@
 import type { AccountState } from '@idleon-forge/account-state';
 import type { CompiledKnowledge, DetectorRegistry } from '@idleon-forge/knowledge';
 import { createAfkSafetyModule } from './afk/module';
+import { createBuildsModule } from './builds/module';
 import { DEFAULT_MODULES, runEngine } from './core/engine';
 import type { EngineModule } from './core/module';
 import { lookupOf } from './metapath/knowledge';
@@ -48,6 +49,7 @@ function goldenModules(input: GoldenInput): readonly EngineModule[] {
         return stage.id ? { id: stage.id } : null;
       },
     }),
+    createBuildsModule({ kb }),
   ];
 }
 

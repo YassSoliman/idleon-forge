@@ -143,6 +143,7 @@ describe('engine Detectors through the M11 contract', () => {
 describe('the engine Detector registry', () => {
   it('registers the 7 M2 Detectors by file convention', async () => {
     const { engineDetectors } = await import('../../detectors');
-    expect(Object.keys(engineDetectors).sort()).toEqual(Object.keys(METAPATH_DETECTORS).sort());
+    const metapath = Object.keys(engineDetectors).filter((id) => id.startsWith('metapath/'));
+    expect(metapath.sort()).toEqual(Object.keys(METAPATH_DETECTORS).sort());
   });
 });

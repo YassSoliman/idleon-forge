@@ -329,7 +329,8 @@ describe('US-8 empty Parallel Slots and idle traps', () => {
   it('a trap finishing in 3 h against 8 h is a Next Action; a finished trap blocks', () => {
     const running = charOf(evaluate(trap(3)), 4);
     expect(nextActions(running.findings)).toContain('trapping.check.finishes-early');
-    expect(blockers(running.findings)).toEqual([]);
+    // This fisher is also on its fighting preset: M9's wrong-preset blocker joins the pipeline (M9 US-1).
+    expect(blockers(running.findings)).toEqual(['talent-presets.check.wrong-preset']);
     const done = charOf(evaluate(trap(-1)), 4);
     expect(blockers(done.findings)).toContain('trapping.check.slots-and-timers');
   });
@@ -363,21 +364,24 @@ describe('US-10 when the save cannot tell', () => {
       account: { ...s.account, afk: null },
     };
     const r = evaluate(bare);
-    for (const c of r.characters) expect(c.safety).toBe('unknown');
+    // M9's wrong-preset blockers read talents, not AFK facts, so those two rows stay Fix (M9 US-1).
+    for (const c of r.characters)
+      expect(c.safety).toBe(c.index === 2 || c.index === 4 ? 'unsafe' : 'unknown');
     expect(r.account.safety).toBe('unknown');
   });
 });
 
 describe('US-11 the overall verdict', () => {
-  it('W3-early at 8 h: all 6 Ready, no account blocker, first fill the Bowman Lv 60 anvil, 4 already full', () => {
+  it('W3-early at 8 h: 4 Ready and 2 on the wrong talent preset, no account blocker, first fill the Bowman Lv 60 anvil, 4 already full', () => {
     const r = evaluate(W3());
     const out = toModuleOutput(r, kb);
+    // The Bowman Lv 60 and the fishing Barbarian Lv 56 are on the wrong preset (M9 US-1).
     expect((out.characters ?? []).map((c) => c.verdict?.kind)).toEqual([
       'ready',
       'ready',
+      'fix',
       'ready',
-      'ready',
-      'ready',
+      'fix',
       'ready',
     ]);
     expect(out.account?.blockerKeys).toEqual([]);

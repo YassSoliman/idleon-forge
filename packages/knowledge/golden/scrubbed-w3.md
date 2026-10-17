@@ -1,24 +1,24 @@
-# golden v1: scrubbed-w3 · knowledge #9a245e61 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early
+# golden v1: scrubbed-w3 · knowledge #a2b88cbf · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 8 of 117
 
 ## Verdict changes
 
 ## Now
 0 of 6 Ready · fix 6 before you leave
 
-### C4 · Squire 85 · Fix before you leave
-1 · Fighting Thermister · Thermonuclear Climb · Collect Thread from the anvil (time to cap: now; it refills about 5 h after you collect)
-
 ### C6 · Shaman 54 · Fix before you leave
-2 · Fighting Sand Castle · Shifty Sandbox · Collect Thread from the anvil (time to cap: now; it refills about 3 h after you collect)
+1 · Fighting Sand Castle · Shifty Sandbox · Collect Thread from the anvil (time to cap: now; it refills about 3 h after you collect)
 
-### C3 · Bowman 60 · Fix before you leave
-3 · Fighting Sand Giant · Sands of Time · Collect Leather Hide from the anvil (time to cap: now; it refills about 8 h after you collect)
-
-### C5 · Barbarian 56 · Fix before you leave
-4 · Fishing Small Fish · Salty Shores · Collect Thread from the anvil (time to cap: now; it refills about 6 h after you collect)
+### C4 · Squire 85 · Fix before you leave
+2 · Fighting Thermister · Thermonuclear Climb · Collect Thread from the anvil (time to cap: now; it refills about 5 h after you collect)
 
 ### C2 · Squire 51 · Fix before you leave
-5 · Mining Gold · Freefall Caverns · Collect Thread from the anvil (time to cap: now; it refills about 2 h after you collect)
+3 · Mining Gold · Freefall Caverns · Collect Thread from the anvil (time to cap: now; it refills about 2 h after you collect)
+
+### C3 · Bowman 60 · Fix before you leave
+4 · Fighting Sand Giant · Sands of Time · Collect Leather Hide from the anvil (time to cap: now; it refills about 8 h after you collect)
+
+### C5 · Barbarian 56 · Fix before you leave
+5 · Fishing Small Fish · Salty Shores · Collect Thread from the anvil (time to cap: now; it refills about 6 h after you collect)
 
 ### C1 · Wizard 73 · Fix before you leave
 6 · Fighting Sir Stache · The Stache Split · Collect Thread from the anvil (time to cap: now; it refills about 5 h after you collect)
@@ -40,8 +40,6 @@ Obols
 Portals and map doors
 Skills, doors and tools
 Spend Plan
-Talent presets
-Talents
 Upgrade Vault
 Bribes
 Forge
