@@ -38,3 +38,28 @@ export function describeActivity(c: Pick<CharacterState, 'afkType' | 'afkTarget'
   const redundant = [label, humanize(c.afkType)].some((l) => l.toLowerCase().includes(target.toLowerCase()));
   return redundant ? label : `${label} · ${target}`;
 }
+
+/** No snapshot for this long during live sync: hint to refresh (FR-26; the game saves every ~4 min). */
+export const STALE_SNAPSHOT_MS = 6 * 60_000;
+/** A last cloud save older than this means the game is probably closed (FR-27). */
+export const GAME_CLOSED_MS = 30 * 60_000;
+
+export const HINT_SWITCH = 'No new save for a while: switch character in the game to refresh.';
+export const HINT_OPEN_GAME = 'Open the game and switch character to refresh.';
+
+export interface FreshnessInput {
+  now: number;
+  source: 'live' | 'paste' | null;
+  /** The save's own last cloud save (epoch ms). */
+  lastCloudSave: number | null;
+  /** When the last live snapshot arrived (epoch ms, local clock). */
+  lastSnapshotAt: number | null;
+}
+
+/** The refresh hint under the header, or null (FR-26, FR-27). Only for live sync. */
+export function freshnessHint({ now, source, lastCloudSave, lastSnapshotAt }: FreshnessInput): string | null {
+  if (source !== 'live') return null;
+  if (lastCloudSave !== null && now - lastCloudSave > GAME_CLOSED_MS) return HINT_OPEN_GAME;
+  if (lastSnapshotAt !== null && now - lastSnapshotAt > STALE_SNAPSHOT_MS) return HINT_SWITCH;
+  return null;
+}

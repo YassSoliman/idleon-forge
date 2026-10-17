@@ -4,13 +4,16 @@ import { type FormEvent, useId, useState } from 'react';
 
 interface Props {
   busy: boolean;
+  /** A failed paste while a roster is showing: reported here, and the roster stays (FR-20). */
+  error: string | null;
   onPaste(text: string): void;
 }
 
 /** The raw-JSON fallback: works without signing in, from IdleOn Toolbox's "Copy for support". */
-export function PasteSave({ busy, onPaste }: Props) {
+export function PasteSave({ busy, error, onPaste }: Props) {
   const [text, setText] = useState('');
   const id = useId();
+  const errorId = useId();
   const submit = (e: FormEvent) => {
     e.preventDefault();
     if (text.trim()) onPaste(text);
@@ -28,7 +31,14 @@ export function PasteSave({ busy, onPaste }: Props) {
         placeholder='{"data": { … }, "charNames": [ … ] }'
         spellCheck={false}
         autoComplete="off"
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? errorId : undefined}
       />
+      {error ? (
+        <p id={errorId} className="error" role="alert">
+          {error}
+        </p>
+      ) : null}
       <button type="submit" className="primary" disabled={busy || text.trim() === ''}>
         {busy ? 'Reading…' : 'Read this save'}
       </button>

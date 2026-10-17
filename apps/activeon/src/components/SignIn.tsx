@@ -1,19 +1,66 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-import { useState } from 'react';
-import { formatAge } from '../format';
-import type { AuthState } from '../use-activeon';
+import { useId, useState } from 'react';
+import type { AuthState, SignOutOptions, SyncState } from '../use-activeon';
+import { Countdown } from './Ticking';
 
 interface Props {
   auth: AuthState;
-  now: number;
+  sync: SyncState;
   waitingForSave: boolean;
   onSignIn(): void;
   onCancel(): void;
-  onSignOut(): void;
+  onSignOut(options: SignOutOptions): void;
 }
 
-export function SignIn({ auth, now, waitingForSave, onSignIn, onCancel, onSignOut }: Props) {
+export const WRONG_ACCOUNT =
+  'No characters found for this account. Is this the Google account you play with?';
+
+/** Sign out, after a confirmation with "Also clear my data on this browser", unchecked (FR-6, D4). */
+function SignOutControl({
+  onSignOut,
+  label = 'Sign out',
+}: {
+  onSignOut: Props['onSignOut'];
+  label?: string;
+}) {
+  const [confirming, setConfirming] = useState(false);
+  const [clearData, setClearData] = useState(false);
+  const id = useId();
+  if (!confirming) {
+    return (
+      <button type="button" className="ghost" onClick={() => setConfirming(true)}>
+        {label}
+      </button>
+    );
+  }
+  return (
+    <fieldset className="confirm">
+      <legend>Sign out of ActiveOn?</legend>
+      <label htmlFor={id} className="small">
+        <input id={id} type="checkbox" checked={clearData} onChange={(e) => setClearData(e.target.checked)} />{' '}
+        Also clear my data on this browser
+      </label>
+      <div className="confirm-row">
+        <button type="button" className="primary" onClick={() => onSignOut({ clearData })}>
+          Sign out
+        </button>
+        <button
+          type="button"
+          className="ghost"
+          onClick={() => {
+            setConfirming(false);
+            setClearData(false);
+          }}
+        >
+          Cancel
+        </button>
+      </div>
+    </fieldset>
+  );
+}
+
+export function SignIn({ auth, sync, waitingForSave, onSignIn, onCancel, onSignOut }: Props) {
   const [copied, setCopied] = useState(false);
 
   switch (auth.status) {
@@ -62,7 +109,6 @@ export function SignIn({ auth, now, waitingForSave, onSignIn, onCancel, onSignOu
       );
     case 'device-code': {
       const { code } = auth;
-      const left = Math.max(0, (code.expiresAt - now) / 1000);
       const copy = () => {
         navigator.clipboard
           ?.writeText(code.userCode)
@@ -86,8 +132,8 @@ export function SignIn({ auth, now, waitingForSave, onSignIn, onCancel, onSignOu
               {copied ? 'Copied' : 'Copy'}
             </button>
           </div>
-          <p className="muted small" aria-live="polite">
-            Waiting for you to approve on Google… (code expires in {formatAge(left)})
+          <p className="muted small">
+            Waiting for you to approve on Google… (code expires in <Countdown until={code.expiresAt} />)
           </p>
           <button type="button" className="ghost" onClick={onCancel}>
             Cancel
@@ -96,15 +142,29 @@ export function SignIn({ auth, now, waitingForSave, onSignIn, onCancel, onSignOu
       );
     }
     case 'signed-in':
+      if (sync.status === 'wrong-account') {
+        // FR-5: the message and the way out, together.
+        return (
+          <section className="card signin" aria-label="Signed in">
+            <p className="error" role="alert">
+              {WRONG_ACCOUNT}
+            </p>
+            <p className="small muted">Signed in{auth.user.email ? ` as ${auth.user.email}` : ''}.</p>
+            <SignOutControl onSignOut={onSignOut} label="Sign out and use another account" />
+          </section>
+        );
+      }
       return (
         <section className="card signin row" aria-label="Signed in">
           <p className="small">
             Signed in{auth.user.email ? ` as ${auth.user.email}` : ''}
-            {waitingForSave ? <span className="muted"> · waiting for your save…</span> : null}
+            {sync.status === 'reconnecting' && waitingForSave ? (
+              <span className="muted"> · reconnecting…</span>
+            ) : waitingForSave ? (
+              <span className="muted"> · waiting for your save…</span>
+            ) : null}
           </p>
-          <button type="button" className="ghost" onClick={onSignOut}>
-            Sign out
-          </button>
+          <SignOutControl onSignOut={onSignOut} />
         </section>
       );
   }

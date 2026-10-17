@@ -96,10 +96,27 @@ code,
   background: var(--unk-soft);
   color: var(--unk);
 }
+.sync.warn {
+  background: var(--bad-soft);
+  color: var(--bad);
+}
+.top-status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px;
+}
+/* Fixed-width digits, so the ticking age never shifts the layout. */
+.num {
+  font-variant-numeric: tabular-nums;
+}
 .hint {
   grid-column: 1 / -1;
   font-size: 13px;
   color: var(--coin);
+}
+.hint:empty {
+  margin: -4px 0 0;
 }
 
 /* Sign-in */
@@ -156,6 +173,26 @@ code,
   color: var(--bad);
   font-size: 13px;
 }
+.confirm {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px 12px 10px;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+  grid-column: 1 / -1;
+  justify-self: stretch;
+}
+.confirm legend {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0 4px;
+}
+.confirm-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
 /* Characters */
 .section-h {
@@ -210,6 +247,17 @@ code,
 }
 .r .doing span:last-child {
   text-align: right;
+}
+.r.unknown {
+  border-style: dashed;
+}
+.r .who .pill.unk {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--unk-soft);
+  color: var(--unk);
 }
 .acct {
   margin-top: 8px;

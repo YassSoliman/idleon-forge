@@ -7,6 +7,7 @@ import {
   createSession,
   type DeviceCode,
   DeviceFlowError,
+  type ListenerStatus,
   listenToSave,
   onUserChanged,
   readSyncConfig,
@@ -16,6 +17,13 @@ import {
   signOut,
 } from '@idleon-forge/sync';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  clearLocalData,
+  forgetSession,
+  hadSession,
+  rememberSession,
+  requestPersistentStorage,
+} from './storage';
 import { createParserClient, type ParserClient } from './worker/parser-client';
 import type { ParseFailureKind, ParseInput } from './worker/protocol';
 
@@ -34,18 +42,42 @@ export type SaveState =
   | { status: 'waiting' }
   | { status: 'parsing'; source: SaveSource }
   | { status: 'ready'; state: AccountState; source: SaveSource }
-  | { status: 'broken'; kind: ParseFailureKind | 'sync'; message: string; source: SaveSource };
+  | { status: 'broken'; kind: ParseFailureKind; message: string; source: SaveSource };
+
+/** The live listener, as the screen shows it. A sync problem never hides a roster already showing. */
+export type SyncState =
+  | { status: 'off' }
+  | { status: 'connecting' }
+  | { status: 'live' }
+  | { status: 'reconnecting'; attempt: number; retryInMs: number }
+  | { status: 'wrong-account' };
+
+export interface SignOutOptions {
+  /** Also clear this browser's ActiveOn data (FR-6, D4). Off by default. */
+  clearData: boolean;
+}
 
 export interface ActiveOn {
   auth: AuthState;
   save: SaveState;
+  sync: SyncState;
+  /** The browser's own online flag (FR-28). */
+  online: boolean;
+  /** When the last live snapshot arrived (epoch ms, local clock), for the stale hint (FR-26). */
+  lastSnapshotAt: number | null;
   /** The last save that parsed cleanly, kept while a newer one is broken. */
   lastGood: { state: AccountState; source: SaveSource } | null;
+  /** A failed paste while a roster is showing: reported in the paste form, the roster stays (FR-20). */
+  pasteError: string | null;
   signIn(): void;
   cancelSignIn(): void;
-  signOut(): void;
+  signOut(options: SignOutOptions): void;
   paste(text: string): void;
 }
+
+export const SESSION_CLEARED = "Your browser cleared this site's data, so you were signed out.";
+export const SESSION_EXPIRED = 'Your sign-in has expired. Sign in again.';
+export const PASTE_INPUT_ERROR = "That doesn't look like an IdleOn save.";
 
 const message = (err: unknown) => (err instanceof Error ? err.message : String(err));
 
@@ -55,12 +87,25 @@ export function useActiveOn(): ActiveOn {
   const [auth, setAuth] = useState<AuthState>(() =>
     config.ok ? { status: 'restoring' } : { status: 'unconfigured', missing: config.missing },
   );
-  const [save, setSave] = useState<SaveState>({ status: 'none' });
+  const [save, setSaveState] = useState<SaveState>({ status: 'none' });
+  const [sync, setSync] = useState<SyncState>({ status: 'off' });
   const [lastGood, setLastGood] = useState<ActiveOn['lastGood']>(null);
+  const [lastSnapshotAt, setLastSnapshotAt] = useState<number | null>(null);
+  const [pasteError, setPasteError] = useState<string | null>(null);
+  const [online, setOnline] = useState(() => (typeof navigator === 'undefined' ? true : navigator.onLine));
+
+  const saveRef = useRef(save);
+  const setSave = useCallback((next: SaveState | ((prev: SaveState) => SaveState)) => {
+    const value = typeof next === 'function' ? next(saveRef.current) : next;
+    saveRef.current = value;
+    setSaveState(value);
+  }, []);
 
   const parser = useRef<ParserClient | null>(null);
   const parseSeq = useRef(0);
   const signInAbort = useRef<AbortController | null>(null);
+  const stopListener = useRef<(() => void) | null>(null);
+  const restoring = useRef(true);
 
   useEffect(() => {
     parser.current = createParserClient();
@@ -70,62 +115,118 @@ export function useActiveOn(): ActiveOn {
     };
   }, []);
 
-  const runParse = useCallback(async (input: ParseInput, source: SaveSource) => {
-    const client = parser.current;
-    if (!client) return;
-    const seq = ++parseSeq.current;
-    setSave((prev) => (prev.status === 'ready' ? prev : { status: 'parsing', source }));
-    const result = await client.parse(input);
-    if (seq !== parseSeq.current) return; // a newer save superseded this one
-    if (result.ok) {
-      setSave({ status: 'ready', state: result.state, source });
-      setLastGood({ state: result.state, source });
-    } else {
-      setSave({ status: 'broken', kind: result.kind, message: result.message, source });
-    }
+  useEffect(() => {
+    const update = () => setOnline(navigator.onLine);
+    window.addEventListener('online', update);
+    window.addEventListener('offline', update);
+    return () => {
+      window.removeEventListener('online', update);
+      window.removeEventListener('offline', update);
+    };
   }, []);
+
+  const runParse = useCallback(
+    async (input: ParseInput, source: SaveSource) => {
+      const client = parser.current;
+      if (!client) return;
+      const seq = ++parseSeq.current;
+      if (source === 'paste') setPasteError(null);
+      setSave((prev) => (prev.status === 'ready' ? prev : { status: 'parsing', source }));
+      const result = await client.parse(input);
+      if ('superseded' in result || seq !== parseSeq.current) return; // a newer save superseded this one
+      if (result.ok) {
+        setSave({ status: 'ready', state: result.state, source });
+        setLastGood({ state: result.state, source });
+        return;
+      }
+      // A bad paste while a roster is showing stays in the paste form (FR-20, RT-12).
+      if (source === 'paste' && saveRef.current.status === 'ready') {
+        setPasteError(result.kind === 'input' ? PASTE_INPUT_ERROR : result.message);
+        return;
+      }
+      setSave({ status: 'broken', kind: result.kind, message: result.message, source });
+    },
+    [setSave],
+  );
 
   // Restore a persisted session, and follow sign-in / sign-out.
   useEffect(() => {
     if (!session) return;
-    return onUserChanged(session, (user) =>
+    return onUserChanged(session, (user) => {
+      const first = restoring.current;
+      restoring.current = false;
+      if (user) {
+        rememberSession();
+        setAuth({ status: 'signed-in', user });
+        return;
+      }
+      // FR-4: a session we had before is gone without a sign-out (Safari's 7-day rule, cleared storage).
+      const cleared = first && hadSession();
+      forgetSession();
       setAuth((prev) => {
-        if (user) return { status: 'signed-in', user };
-        // Signed out; keep any in-flight device-code UI.
-        return prev.status === 'device-code' || prev.status === 'requesting-code'
-          ? prev
-          : { status: 'signed-out', error: null };
-      }),
-    );
+        // Keep in-flight device-code UI, and a sign-out that already carries its reason.
+        if (
+          prev.status === 'device-code' ||
+          prev.status === 'requesting-code' ||
+          prev.status === 'signed-out'
+        )
+          return prev;
+        return { status: 'signed-out', error: cleared ? SESSION_CLEARED : null };
+      });
+    });
   }, [session]);
+
+  const endLive = useCallback(() => {
+    stopListener.current?.();
+    stopListener.current = null;
+    parseSeq.current++; // a parse still in flight can't repaint the roster
+    setSync({ status: 'off' });
+    setSave({ status: 'none' });
+    setLastGood(null);
+    setLastSnapshotAt(null);
+  }, [setSave]);
 
   // While signed in, listen to the save.
   const uid = auth.status === 'signed-in' ? auth.user.uid : null;
   useEffect(() => {
     if (!session || !uid) return;
-    let cancelled = false;
-    let unsubscribe: (() => void) | null = null;
+    let active = true;
+    requestPersistentStorage();
     setSave((prev) => (prev.status === 'none' ? { status: 'waiting' } : prev));
-    listenToSave(session, uid, {
-      onEnvelope: (envelope) => {
-        if (!cancelled) void runParse({ kind: 'envelope', envelope }, 'live');
-      },
-      onError: (err) => {
-        if (!cancelled) setSave({ status: 'broken', kind: 'sync', message: message(err), source: 'live' });
-      },
-    })
-      .then((unsub) => {
-        if (cancelled) unsub();
-        else unsubscribe = unsub;
-      })
-      .catch((err) => {
-        if (!cancelled) setSave({ status: 'broken', kind: 'sync', message: message(err), source: 'live' });
-      });
-    return () => {
-      cancelled = true;
-      unsubscribe?.();
+    const onStatus = (s: ListenerStatus) => {
+      if (!active) return;
+      switch (s.kind) {
+        case 'connecting':
+          return setSync({ status: 'connecting' });
+        case 'live':
+          return setSync({ status: 'live' });
+        case 'reconnecting':
+          return setSync({ status: 'reconnecting', attempt: s.attempt, retryInMs: s.retryInMs });
+        case 'wrong-account':
+          return setSync({ status: 'wrong-account' });
+        case 'auth-expired':
+          endLive();
+          forgetSession();
+          setAuth({ status: 'signed-out', error: SESSION_EXPIRED });
+          signOut(session).catch(() => {});
+          return;
+      }
     };
-  }, [session, uid, runParse]);
+    const stop = listenToSave(session, uid, {
+      onEnvelope: (envelope) => {
+        if (!active) return;
+        setLastSnapshotAt(Date.now());
+        void runParse({ kind: 'envelope', envelope }, 'live');
+      },
+      onStatus,
+    });
+    stopListener.current = stop;
+    return () => {
+      active = false;
+      stop();
+      if (stopListener.current === stop) stopListener.current = null;
+    };
+  }, [session, uid, runParse, endLive, setSave]);
 
   const signIn = useCallback(() => {
     if (!session) return;
@@ -151,15 +252,32 @@ export function useActiveOn(): ActiveOn {
     signInAbort.current = null;
   }, []);
 
-  const doSignOut = useCallback(() => {
-    if (!session) return;
-    parseSeq.current++;
-    setSave({ status: 'none' });
-    setLastGood(null);
-    signOut(session).catch((err) => setAuth({ status: 'signed-out', error: message(err) }));
-  }, [session]);
+  const doSignOut = useCallback(
+    ({ clearData }: SignOutOptions) => {
+      if (!session) return;
+      // Stop the listener first, synchronously, so a snapshot arriving before Firebase reports the
+      // sign-out can't repaint the roster (FR-6, RT-23).
+      endLive();
+      forgetSession();
+      if (clearData) void clearLocalData();
+      signOut(session).catch((err) => setAuth({ status: 'signed-out', error: message(err) }));
+    },
+    [session, endLive],
+  );
 
   const paste = useCallback((text: string) => void runParse({ kind: 'text', text }, 'paste'), [runParse]);
 
-  return { auth, save, lastGood, signIn, cancelSignIn, signOut: doSignOut, paste };
+  return {
+    auth,
+    save,
+    sync,
+    online,
+    lastSnapshotAt,
+    lastGood,
+    pasteError,
+    signIn,
+    cancelSignIn,
+    signOut: doSignOut,
+    paste,
+  };
 }
