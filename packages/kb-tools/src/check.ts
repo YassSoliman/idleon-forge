@@ -15,6 +15,7 @@ import {
   FACT_ID_RE,
   type FactTableT,
   FORMAT_TYPE,
+  isPlayerSource,
   parseTemplate,
   STAGES,
   type StageId,
@@ -569,6 +570,17 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
         );
     });
   }
+
+  // ---- Player-facing Sources (#74): a warning, so a module can land and backfill ----
+  for (const e of src.authored)
+    if (!e.value.sources.some(isPlayerSource))
+      warn(
+        e.file,
+        e.lineOf(['sources']),
+        e.value.id,
+        'no tier 2–4 Source a player can read (the IdleOn Wiki, a dated guide or thread, patch notes); the Now screen shows no link',
+        'no-player-source',
+      );
 
   // ---- Source game versions (TR-11): never newer than the pin ----
   for (const e of src.authored) {
