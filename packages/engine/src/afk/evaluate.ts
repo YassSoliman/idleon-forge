@@ -10,6 +10,7 @@ import {
   type CompiledKnowledge,
   type DetectorRegistry,
   type Entry,
+  findDetector,
   type HistoryEntry,
   isStale,
   type Subject as KbSubject,
@@ -21,6 +22,7 @@ import {
   type StageId,
   stagesBetween,
 } from '@idleon-forge/knowledge';
+import { BUILDS_DETECTORS } from '../builds/detectors';
 import { returnAtOf } from './expected-return';
 import type {
   AfkSafetyResult,
@@ -59,6 +61,9 @@ export const AFK_SAFETY_ENTRIES: readonly string[] = [
   'refinery.check.fuel-runs-out',
 ];
 
+/** The engine Detectors behind other modules' blocker Checks (M9 TR-8: wrong preset, 0 attacks). */
+export const BLOCKER_ENGINE_DETECTORS: DetectorRegistry = BUILDS_DETECTORS;
+
 /** Present-state Checks rank before stockpile Checks on a tie (FR-10, and section 6 "two fixes that conflict"). */
 const PRESENT_STATE = new Set([
   'afk.check.no-afk-target',
@@ -80,6 +85,11 @@ export interface AfkSafetyInput {
   kb: Pick<CompiledKnowledge, 'entries' | 'facts' | 'byType' | 'patches'>;
   /** The Knowledge Base Detector registry (`@idleon-forge/knowledge/detectors`). */
   registry: DetectorRegistry;
+  /**
+   * Engine Detectors behind other modules' `effect: blocker` Checks, looked up after `registry`. They
+   * return M11 CheckFindings, so the blocker rule treats them like M3's own. Default: M9's `builds/*`.
+   */
+  engineRegistry?: DetectorRegistry;
   /** M2's StageResult (its id). Without a Stage, `appliesTo.stages` is not filtered. */
   stage?: StageLike | null;
 }
@@ -232,7 +242,11 @@ export function evaluateAfkSafety(input: AfkSafetyInput): AfkSafetyResult {
   const cannotTell = new Set<Subject>();
 
   for (const entry of checks) {
-    const detector = registry[entry.detector.id];
+    const detector = findDetector(
+      entry.detector.id,
+      registry,
+      input.engineRegistry ?? BLOCKER_ENGINE_DETECTORS,
+    );
     const run = detector
       ? runDetector(detector, ctx, entry.detector.params)
       : { ok: false as const, error: 'Detector not registered', detectorId: entry.detector.id };
@@ -275,7 +289,10 @@ export function evaluateAfkSafety(input: AfkSafetyInput): AfkSafetyResult {
       continue;
     }
     const { role, fixHolds, demotedBecause } = classify(entry, finding, now);
-    const fields = [...(input.registry[entry.detector.id]?.reads ?? [])];
+    const fields = [
+      ...(findDetector(entry.detector.id, input.registry, input.engineRegistry ?? BLOCKER_ENGINE_DETECTORS)
+        ?.reads ?? []),
+    ];
     const f: SafetyFinding = {
       key: `${entry.id}@${subject}`,
       entryId: entry.id,
