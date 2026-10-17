@@ -8,3 +8,6 @@ dist/
 fixtures/private/
 *.raw.json
 prototypes/*/accounts.local.js
+
+# Agent worktrees (local only)
+.claude/worktrees/
