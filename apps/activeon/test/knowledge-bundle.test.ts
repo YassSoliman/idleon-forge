@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { checkChunk } from '../bundle-guards';
 import { knowledgeBundle } from '../knowledge-bundle';
-import { handleRequest, knowledgeOf, shippedKnowledge } from '../src/worker/handle-request';
+import { frontierOf, handleRequest, knowledgeOf, shippedKnowledge } from '../src/worker/handle-request';
 
 const NOW = Date.UTC(2026, 9, 17, 12);
 const save = readFileSync(
@@ -20,6 +20,27 @@ const call = {
   learnedExpectedReturnSeconds: null,
   knowledgeVersion: 'buildinfo',
 };
+
+const w3 = readFileSync(
+  fileURLToPath(new URL('../../../fixtures/scrubbed/scrubbed-w3.json', import.meta.url)),
+  'utf8',
+);
+
+describe('the frontier step in the parse worker (M2 TR-2)', () => {
+  it('computes the frontier with Toolbox kill rates for the current save', () => {
+    const res = handleRequest({ type: 'parse', id: 2, now: NOW, input: { kind: 'text', text: w3 } });
+    if (!res.ok) throw new Error(res.message);
+    const f = res.state.account.frontier;
+    expect([f?.mapName, f?.kind]).toEqual(['Thermonuclear_Climb', 'uncleared']);
+    expect(Math.max(...(f?.fights ?? []).map((x) => x.finalKillsPerHour))).toBe(1065);
+  });
+
+  it('is null without a Knowledge Base', () => {
+    const res = handleRequest({ type: 'parse', id: 3, now: NOW, input: { kind: 'text', text: w3 } });
+    if (!res.ok) throw new Error(res.message);
+    expect(frontierOf({ ...res.state, account: {}, characters: [] } as never, { data: {} }, null)).toBeNull();
+  });
+});
 
 describe('the shipped Knowledge Base', () => {
   it('loads, with the Meta Path entries and fact tables', () => {

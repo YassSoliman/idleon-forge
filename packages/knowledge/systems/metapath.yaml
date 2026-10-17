@@ -84,6 +84,7 @@ entries:
             metapath.fact.world-gates,
             portals.fact.world-routes,
             metapath.fact.family-slots,
+            maps.fact.maps,
           ]
 
   # ---------------------------------------------------------------- Slot plan (M2 TR-8)

@@ -8,10 +8,13 @@ import knowledgeText from 'virtual:activeon-knowledge';
 import {
   AccountShapeError,
   type AccountState,
+  computeFrontier,
   EmptyAccountError,
+  type Frontier,
   toAccountState,
 } from '@idleon-forge/account-state';
 import { createEngine, type Engine, type KnowledgePort } from '@idleon-forge/engine';
+import { frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
 import {
   type CompiledKnowledge,
   coverage,
@@ -21,10 +24,12 @@ import {
 import { detectors as knowledgeDetectors } from '@idleon-forge/knowledge/detectors';
 import {
   InvalidSaveInputError,
+  type ParsedSave,
   type ParseOptions,
   parseEnvelopeText,
   parseSave,
   type RawSaveEnvelope,
+  toolboxCalls,
   verifiedBuilds,
 } from '@idleon-forge/toolbox-parsers';
 import type {
@@ -94,6 +99,32 @@ export function knowledgeOf(
   };
 }
 
+/**
+ * M2 TR-2: the frontier door on the current world's route path, with every character's Toolbox kill
+ * rate there (the getMaxDamage clone, in the parse's frozen clock). null without a Knowledge Base, past
+ * World 4, or when anything throws: a fallback is never used for a kill rate.
+ */
+export function frontierOf(
+  parsed: ParsedSave,
+  envelope: RawSaveEnvelope,
+  kb: CompiledKnowledge | null,
+): Frontier | null {
+  if (!kb) return null;
+  try {
+    const world = num(parsed.account.currentWorld);
+    if (world === null || world < 1 || world > 4) return null;
+    const route = frontierRoute(lookupOf(kb), world);
+    if (!route) return null;
+    return computeFrontier(parsed, envelope, {
+      world,
+      route,
+      rates: (map) => toolboxCalls.frontierRates(parsed, map),
+    });
+  } catch {
+    return null;
+  }
+}
+
 const errorText = (err: unknown) => (err instanceof Error ? `${err.name}: ${err.message}` : 'unknown error');
 
 /** Runs the engine without ever failing the parse: a throw becomes `{ error }` (FR-39). */
@@ -157,12 +188,22 @@ export function handleRequest(
     envelope = input.kind === 'text' ? parseEnvelopeText(input.text) : input.envelope;
     const env = envelope;
     const source = input.kind === 'text' ? 'paste' : 'live';
-    const parseAt = (at: number) =>
-      toAccountState(parseSave(env, { now: at, consoleErrors: options.consoleErrors }), env, { source });
-    const state = parseAt(now);
+    // The frontier (kill rates on one map) is for the current save only, not the history parse.
+    const parseAt = (at: number, withFrontier: boolean) => {
+      const parsed = parseSave(env, { now: at, consoleErrors: options.consoleErrors });
+      const frontier = withFrontier ? frontierOf(parsed, env, shippedKnowledge().kb) : null;
+      return toAccountState(parsed, env, {
+        source,
+        frontier,
+        // TODO(M3): toolbox: toolboxCalls
+      });
+    };
+    const state = parseAt(now, true);
     const savedAt = state.account.lastCloudSave;
     const historyState =
-      request.withHistory && source === 'live' && savedAt !== null ? { historyState: parseAt(savedAt) } : {};
+      request.withHistory && source === 'live' && savedAt !== null
+        ? { historyState: parseAt(savedAt, false) }
+        : {};
     const result = request.engine ? { result: runEngineSafely(engine, state, request.engine, now) } : {};
     return { id, ok: true, state, ...historyState, ...result, verifiedBuilds: verified, ms: ms() };
   } catch (err) {
