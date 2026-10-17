@@ -3,7 +3,42 @@
 ## Verdict changes
 
 ## Now
-(engine not built)
+! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+
+### C4 · Divine Knight 1819 · Unknown
+1 · Doing nothing · Shimmerfin Grove · Not covered yet: AFK safety
+
+### C8 · Voidwalker 1764 · Unknown
+2 · Spelunking C1 Way Opening · Coralcave Perimeter · Not covered yet: AFK safety
+
+### C5 · Arcane Cultist 1762 · Unknown
+3 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+
+### C6 · Wind Walker 1744 · Unknown
+4 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+
+### C9 · Arcane Cultist 1743 · Unknown
+5 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+
+### C10 · Wind Walker 1742 · Unknown
+6 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+
+### C3 · Elemental Sorcerer 1734 · Unknown
+7 · Spelunking Buried Church · Middle of Nowhere · Not covered yet: AFK safety
+
+### C7 · Divine Knight 1734 · Unknown
+8 · Doing nothing · Blunder Hills · Not covered yet: AFK safety
+
+### C2 · Siege Breaker 1725 · Unknown
+9 · Spelunking Buried Church · Middle of Nowhere · Not covered yet: AFK safety
+
+### C11 · Beginner 1717 · Unknown
+10 · Paying respect Bravery · The Hole · Not covered yet: AFK safety
+
+### C1 · Death Bringer 1701 · Unknown
+11 · Cooking · Outer World Town · Not covered yet: AFK safety
+
+### Account · nothing to fix
 
 ## Not covered yet
 AFK safety

@@ -3,7 +3,18 @@
 ## Verdict changes
 
 ## Now
-(engine not built)
+! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+
+### C2 · Blood Berserker 534 · Unknown
+1 · Doing nothing · Spirit Village · Not covered yet: AFK safety
+
+### C1 · Siege Breaker 478 · Unknown
+2 · Doing nothing · Frostbite Towndra · Not covered yet: AFK safety
+
+### C3 · Beginner 1 · Unknown
+3 · Doing nothing · Blunder Hills · Not covered yet: AFK safety
+
+### Account · nothing to fix
 
 ## Not covered yet
 AFK safety

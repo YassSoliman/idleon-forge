@@ -3,7 +3,42 @@
 ## Verdict changes
 
 ## Now
-(engine not built)
+! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+
+### C7 · Divine Knight 1822 · Unknown
+1 · Doing nothing · Frostbite Towndra · Not covered yet: AFK safety
+
+### C4 · Divine Knight 1787 · Unknown
+2 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+
+### C9 · Arcane Cultist 1783 · Unknown
+3 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+
+### C1 · Death Bringer 1780 · Unknown
+4 · Doing nothing · Shimmerfin Grove · Not covered yet: AFK safety
+
+### C6 · Wind Walker 1775 · Unknown
+5 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+
+### C11 · Divine Knight 1771 · Unknown
+6 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+
+### C2 · Arcane Cultist 1769 · Unknown
+7 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+
+### C10 · Siege Breaker 1763 · Unknown
+8 · Fighting Gloomie Mushroom · The Hole · Not covered yet: AFK safety
+
+### C8 · Voidwalker 1754 · Unknown
+9 · Catching Litterbug · Plastic Basin · Not covered yet: AFK safety
+
+### C5 · Elemental Sorcerer 1700 · Unknown
+10 · In the Lab · Outer World Town · Not covered yet: AFK safety
+
+### C3 · Siege Breaker 1647 · Unknown
+11 · Spelunking Fearful Tunnel · Refraction Bend · Not covered yet: AFK safety
+
+### Account · nothing to fix
 
 ## Not covered yet
 AFK safety

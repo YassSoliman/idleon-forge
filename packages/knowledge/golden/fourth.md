@@ -3,7 +3,15 @@
 ## Verdict changes
 
 ## Now
-(engine not built)
+! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+
+### C1 · Voidwalker 476 · Unknown
+1 · Fighting Woodlin Spirit · Edge of the Valley · Not covered yet: AFK safety
+
+### C2 · Beginner 1 · Unknown
+2 · Doing nothing · Blunder Hills · Not covered yet: AFK safety
+
+### Account · nothing to fix
 
 ## Not covered yet
 AFK safety

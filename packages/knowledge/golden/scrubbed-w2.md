@@ -3,7 +3,24 @@
 ## Verdict changes
 
 ## Now
-(engine not built)
+! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+
+### C1 · Barbarian 60 · Unknown
+1 · Fighting Poop · Poopy Sewers · Not covered yet: AFK safety
+
+### C5 · Wizard 56 · Unknown
+2 · Fighting Snelbie · Djonnuttown · Not covered yet: AFK safety
+
+### C4 · Bowman 54 · Unknown
+3 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
+
+### C3 · Shaman 44 · Unknown
+4 · Fighting Slime · Jungle Perimeter · Not covered yet: AFK safety
+
+### C2 · Squire 43 · Unknown
+5 · Mining Copper · Tunnels Entrance · Not covered yet: AFK safety
+
+### Account · nothing to fix
 
 ## Not covered yet
 AFK safety

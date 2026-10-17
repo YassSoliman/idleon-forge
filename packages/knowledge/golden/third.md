@@ -3,7 +3,39 @@
 ## Verdict changes
 
 ## Now
-(engine not built)
+! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+
+### C4 · Divine Knight 655 · Unknown
+1 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
+
+### C3 · Bubonic Conjuror 568 · Unknown
+2 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
+
+### C5 · Beast Master 561 · Unknown
+3 · Fighting Minichief Spirit · Chieftain Stairway · Not covered yet: AFK safety
+
+### C8 · Divine Knight 558 · Unknown
+4 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
+
+### C9 · Elemental Sorcerer 552 · Unknown
+5 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
+
+### C6 · Elemental Sorcerer 545 · Unknown
+6 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
+
+### C2 · Siege Breaker 527 · Unknown
+7 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
+
+### C7 · Voidwalker 523 · Unknown
+8 · Mining Godshard · Motherlode Pit · Not covered yet: AFK safety
+
+### C10 · Siege Breaker 522 · Unknown
+9 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
+
+### C1 · Blood Berserker 521 · Unknown
+10 · Cooking · Outer World Town · Not covered yet: AFK safety
+
+### Account · nothing to fix
 
 ## Not covered yet
 AFK safety
