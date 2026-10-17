@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #73181c3c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early
+# golden v1: scrubbed-w3 · knowledge #8400ca3c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early
 
 ## Verdict changes
 
@@ -28,36 +28,24 @@
 ## Not covered yet
 Cards
 Classes and subclasses
-Companions and pets
-Gem Shop
-Merit Shop
-Minigames
 Obols
 Portals and map doors
 Skills, doors and tools
 Spend Plan
 Talent presets
 Talents
-Tasks
 Upgrade Vault
-Boss keys
 Bribes
-Colosseum
 Forge
-Poppy
-Post Office
 Quests
 Stamps
 Statues
 The Owl
-Alchemy bubbles
 Alchemy Pay 2 Win
-Alchemy vials
 Islands
 3D Printer
 Atom Collider
 Construction
-Death Note
 Equinox
 Prayers
 Salt Lick
@@ -86,6 +74,12 @@ Shrines
 | afk.check.no-afk-target | afk/no-afk-target | C6 | pass |  |
 | afk.check.skiller-carry | afk/skiller-carry | C2 | pass |  |
 | afk.check.skiller-carry | afk/skiller-carry | C5 | pass |  |
+| alchemy-bubbles.check.fill-slot | alchemy-bubbles/big-bubbles | C6 | fires | bubble=HAMMER_HAMMER empty=2 |
+| alchemy-bubbles.check.fill-slot | alchemy-bubbles/big-bubbles | C6 | fires | bubble=LEVEL_UP_GIFT empty=2 |
+| alchemy-bubbles.check.spend-brew | alchemy-bubbles/brew | account | fires | bubbles=7 cauldrons=4 |
+| alchemy-bubbles.check.spend-brew-big | alchemy-bubbles/brew | — | silent |  |
+| alchemy-bubbles.check.wrong-fit | alchemy-bubbles/big-bubbles | C1 | fires | bubble=HAMMER_HAMMER from=MOLTO_LOGGO |
+| alchemy-vials.check.daily-attempts | alchemy-vials/attempts | — | silent |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C1 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C2 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C3 | pass |  |
@@ -99,8 +93,41 @@ Shrines
 | anvil.check.caps-before-return | anvil/caps-before-return | C4 | fires | fromEmpty=18509032 fullIn=0 product=Thread |
 | anvil.check.caps-before-return | anvil/caps-before-return | C5 | fires | fromEmpty=20337884 fullIn=0 product=Thread |
 | anvil.check.caps-before-return | anvil/caps-before-return | C6 | fires | fromEmpty=9607482 fullIn=0 product=Thread |
+| anvil.check.spend-points | anvil/points | — | silent |  |
+| anvil.check.spend-points-capacity | anvil/points | C3 | fires | points=3 product=Leather_Hide |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
+| boss-keys.check.collect | boss-keys/banked | C4 | fires | chizoar=0 daysLost=0 efaunt=2 forestVilla=4 total=6 |
+| colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=1 daysLost=2 total=4 |
+| death-note.check.build | death-note/build | account | fires | cost=10 held=0 |
+| death-note.check.build-slot | death-note/build | — | silent |  |
+| gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
+| gem-shop.check.printer-progress | gem-shop/unspent | account | fires | gems=365 price=875 |
+| gem-shop.check.unspent | gem-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w1 | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-arcade-balls | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-boss-gems | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-efaunt-recipes | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-obols | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-respawn | merit-shop/unspent | account | fires | unspent=1 world=2 |
+| merit-shop.check.spend-w3 | merit-shop/unspent | account | fires | unspent=3 world=3 |
+| merit-shop.check.spend-w4 | merit-shop/unspent | — | silent |  |
+| minigames.check.daily-plays | minigames/daily-plays | account | fires | choppinTarget=125 plays=4 |
+| minigames.check.darts-play | minigames/cooldown-play | account | fires |  |
+| minigames.check.darts-spend | minigames/cooldown-spend | — | silent |  |
+| minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
+| minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
+| minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
+| pets.check.free-pull | pets/free-pull | account | pass |  |
+| pets.check.mart-gems | pets/mart-gems | — | silent |  |
+| poppy.check.open | poppy/pending-fish | account | fires |  |
+| post-office.check.daily-orders | post-office/state | — | silent |  |
+| post-office.check.spend-boxes | post-office/state | — | silent |  |
+| post-office.check.unlock | post-office/state | C4 | fires | boxes=4 |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | pass |  |
+| refinery.check.salt-fuel | refinery/salt-off | account | fires | material=Bullfrog_Horn more=1 offSalts=1 salt=Explosive_Salts |
+| refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -121,7 +148,7 @@ Shrines
 | systems.yaml#lab | worlds/reached | account | reached no |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
-| systems.yaml#post-office | worlds/reached | account | reached yes |  |
+| systems.yaml#post-office | post-office/unlocked | account | reached no |  |
 | systems.yaml#prayers | worlds/reached | account | reached yes |  |
 | systems.yaml#printer | worlds/reached | account | reached yes |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
@@ -132,6 +159,7 @@ Shrines
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
+| task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=10 |
 | trapping.check.finishes-early | trapping/finishes-early | — | silent |  |
 | trapping.check.slots-and-timers | trapping/slots-and-timers | — | silent |  |
 | worship.check.charge-caps-no-skull | worship/charge-caps-no-skull | C1 | pass |  |

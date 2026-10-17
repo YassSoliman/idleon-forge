@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #73181c3c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late
+# golden v1: scrubbed-w2 · knowledge #8400ca3c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late
 
 ## Verdict changes
 
@@ -28,31 +28,20 @@ Fix before you leave
 ## Not covered yet
 Cards
 Classes and subclasses
-Companions and pets
-Gem Shop
-Merit Shop
-Minigames
 Obols
 Portals and map doors
 Skills, doors and tools
 Spend Plan
 Talent presets
 Talents
-Tasks
 Upgrade Vault
-Boss keys
 Bribes
-Colosseum
 Forge
-Poppy
-Post Office
 Quests
 Stamps
 Statues
 The Owl
-Alchemy bubbles
 Alchemy Pay 2 Win
-Alchemy vials
 Islands
 
 ## Findings
@@ -76,6 +65,11 @@ Islands
 | afk.check.no-afk-target | afk/no-afk-target | C4 | pass |  |
 | afk.check.no-afk-target | afk/no-afk-target | C5 | pass |  |
 | afk.check.skiller-carry | afk/skiller-carry | C2 | pass |  |
+| alchemy-bubbles.check.fill-slot | alchemy-bubbles/big-bubbles | C2 | fires | bubble=WYOMING_BLOOD empty=2 |
+| alchemy-bubbles.check.spend-brew | alchemy-bubbles/brew | — | silent |  |
+| alchemy-bubbles.check.spend-brew-big | alchemy-bubbles/brew | account | fires | bigBubble=LEVEL_UP_GIFT bigFits=4 bubbles=10 cauldrons=3 |
+| alchemy-bubbles.check.wrong-fit | alchemy-bubbles/big-bubbles | — | silent |  |
+| alchemy-vials.check.daily-attempts | alchemy-vials/attempts | account | fires | attempts=11 |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C1 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C2 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C3 | pass |  |
@@ -87,8 +81,41 @@ Islands
 | anvil.check.caps-before-return | anvil/caps-before-return | C3 | fires | fromEmpty=6352294 fullIn=5716316 product=Thread |
 | anvil.check.caps-before-return | anvil/caps-before-return | C4 | fires | fromEmpty=7355512 fullIn=6511814 product=Thread |
 | anvil.check.caps-before-return | anvil/caps-before-return | C5 | fires | fromEmpty=21754983 fullIn=20847580 product=Thread |
+| anvil.check.spend-points | anvil/points | — | silent |  |
+| anvil.check.spend-points-capacity | anvil/points | — | silent |  |
 | arcade.check.balls-cap | arcade/balls-cap | account | fires | capsIn=0 fullFor=173852724 |
+| boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=1 daysLost=1 total=5 |
+| death-note.check.build | death-note/build | — | silent |  |
+| death-note.check.build-slot | death-note/build | — | silent |  |
+| gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
+| gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
+| gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=628 price=875 |
+| merit-shop.check.spend-w1 | merit-shop/unspent | account | fires | unspent=12 world=1 |
+| merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-arcade-balls | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-boss-gems | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-efaunt-recipes | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-obols | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-respawn | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w3 | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w4 | merit-shop/unspent | — | silent |  |
+| minigames.check.daily-plays | minigames/daily-plays | account | pass |  |
+| minigames.check.darts-play | minigames/cooldown-play | account | fires |  |
+| minigames.check.darts-spend | minigames/cooldown-spend | account | fires | cost=2 points=29 |
+| minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
+| minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=7 |
+| minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=13 |
+| pets.check.free-pull | pets/free-pull | account | fires | hoursClaimable=15 |
+| pets.check.mart-gems | pets/mart-gems | — | silent |  |
+| poppy.check.open | poppy/pending-fish | account | fires |  |
+| post-office.check.daily-orders | post-office/state | — | silent |  |
+| post-office.check.spend-boxes | post-office/state | — | silent |  |
+| post-office.check.unlock | post-office/state | C1 | fires | boxes=0 |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | — | silent |  |
+| refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
+| refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -109,7 +136,7 @@ Islands
 | systems.yaml#lab | worlds/reached | account | reached no |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
-| systems.yaml#post-office | worlds/reached | account | reached yes |  |
+| systems.yaml#post-office | post-office/unlocked | account | reached no |  |
 | systems.yaml#prayers | worlds/reached | account | reached no |  |
 | systems.yaml#printer | worlds/reached | account | reached no |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
@@ -120,6 +147,7 @@ Islands
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached no |  |
 | systems.yaml#worship | worlds/reached | account | reached no |  |
+| task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=2 |
 | trapping.check.finishes-early | trapping/finishes-early | — | silent |  |
 | trapping.check.slots-and-timers | trapping/slots-and-timers | — | silent |  |
 | worship.check.charge-caps-no-skull | worship/charge-caps-no-skull | — | silent |  |

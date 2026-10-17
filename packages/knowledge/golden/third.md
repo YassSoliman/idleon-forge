@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #73181c3c · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry
+# golden v1: third · knowledge #8400ca3c · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -40,36 +40,24 @@
 ## Not covered yet
 Cards
 Classes and subclasses
-Companions and pets
-Gem Shop
-Merit Shop
-Minigames
 Obols
 Portals and map doors
 Skills, doors and tools
 Spend Plan
 Talent presets
 Talents
-Tasks
 Upgrade Vault
-Boss keys
 Bribes
-Colosseum
 Forge
-Poppy
-Post Office
 Quests
 Stamps
 Statues
 The Owl
-Alchemy bubbles
 Alchemy Pay 2 Win
-Alchemy vials
 Islands
 3D Printer
 Atom Collider
 Construction
-Death Note
 Equinox
 Prayers
 Salt Lick
@@ -116,6 +104,11 @@ Laboratory
 | afk.check.no-afk-target | afk/no-afk-target | C8 | pass |  |
 | afk.check.no-afk-target | afk/no-afk-target | C9 | pass |  |
 | afk.check.skiller-carry | afk/skiller-carry | C7 | pass |  |
+| alchemy-bubbles.check.fill-slot | alchemy-bubbles/big-bubbles | — | silent |  |
+| alchemy-bubbles.check.spend-brew | alchemy-bubbles/brew | — | silent |  |
+| alchemy-bubbles.check.spend-brew-big | alchemy-bubbles/brew | — | silent |  |
+| alchemy-bubbles.check.wrong-fit | alchemy-bubbles/big-bubbles | — | silent |  |
+| alchemy-vials.check.daily-attempts | alchemy-vials/attempts | — | silent |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C1 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C10 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C2 | pass |  |
@@ -137,8 +130,56 @@ Laboratory
 | anvil.check.caps-before-return | anvil/caps-before-return | C7 | pass |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C8 | fires | fromEmpty=86417577 fullIn=10755799 product=Thread |
 | anvil.check.caps-before-return | anvil/caps-before-return | C9 | pass |  |
+| anvil.check.spend-points | anvil/points | C1 | fires | points=11 |
+| anvil.check.spend-points | anvil/points | C10 | fires | points=28 |
+| anvil.check.spend-points | anvil/points | C3 | fires | points=10 |
+| anvil.check.spend-points | anvil/points | C5 | fires | points=26 |
+| anvil.check.spend-points | anvil/points | C7 | fires | points=1 |
+| anvil.check.spend-points | anvil/points | C9 | fires | points=11 |
+| anvil.check.spend-points-capacity | anvil/points | C6 | fires | points=12 product=Thread |
+| anvil.check.spend-points-capacity | anvil/points | C8 | fires | points=13 product=Thread |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
+| boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
+| death-note.check.build | death-note/build | — | silent |  |
+| death-note.check.build-slot | death-note/build | — | silent |  |
+| gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
+| gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
+| gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=4103 price=875 |
+| merit-shop.check.spend-w1 | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-arcade-balls | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-boss-gems | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-efaunt-recipes | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-obols | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-respawn | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w3 | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w4 | merit-shop/unspent | — | silent |  |
+| minigames.check.daily-plays | minigames/daily-plays | account | fires | choppinTarget=150 plays=21 |
+| minigames.check.darts-play | minigames/cooldown-play | — | silent |  |
+| minigames.check.darts-spend | minigames/cooldown-spend | — | silent |  |
+| minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
+| minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
+| minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=0 |
+| pets.check.free-pull | pets/free-pull | account | pass |  |
+| pets.check.mart-gems | pets/mart-gems | account | unknown (field-missing) |  |
+| poppy.check.open | poppy/pending-fish | — | silent |  |
+| post-office.check.daily-orders | post-office/state | account | fires | companies=6 |
+| post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=6441 |
+| post-office.check.spend-boxes | post-office/state | C10 | fires | boxes=6441 |
+| post-office.check.spend-boxes | post-office/state | C2 | fires | boxes=6441 |
+| post-office.check.spend-boxes | post-office/state | C3 | fires | boxes=6441 |
+| post-office.check.spend-boxes | post-office/state | C4 | fires | boxes=6441 |
+| post-office.check.spend-boxes | post-office/state | C5 | fires | boxes=6441 |
+| post-office.check.spend-boxes | post-office/state | C6 | fires | boxes=6441 |
+| post-office.check.spend-boxes | post-office/state | C7 | fires | boxes=6441 |
+| post-office.check.spend-boxes | post-office/state | C8 | fires | boxes=6441 |
+| post-office.check.spend-boxes | post-office/state | C9 | fires | boxes=6441 |
+| post-office.check.unlock | post-office/state | — | silent |  |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | pass |  |
+| refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
+| refinery.check.salt-off | refinery/salt-off | account | fires | offSalts=1 salt=Nullo_Salt |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -159,7 +200,7 @@ Laboratory
 | systems.yaml#lab | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
-| systems.yaml#post-office | worlds/reached | account | reached yes |  |
+| systems.yaml#post-office | post-office/unlocked | account | reached yes |  |
 | systems.yaml#prayers | worlds/reached | account | reached yes |  |
 | systems.yaml#printer | worlds/reached | account | reached yes |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
@@ -170,6 +211,7 @@ Laboratory
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
+| task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=294 |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | fires | finishesIn=8156804 |
 | trapping.check.finishes-early | trapping/finishes-early | C10 | fires | finishesIn=15372232 |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | fires | finishesIn=15370232 |

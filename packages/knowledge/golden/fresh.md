@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #73181c3c · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry
+# golden v1: fresh · knowledge #8400ca3c · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -21,36 +21,24 @@ Unknown: can't tell from the save
 ## Not covered yet
 Cards
 Classes and subclasses
-Companions and pets
-Gem Shop
-Merit Shop
-Minigames
 Obols
 Portals and map doors
 Skills, doors and tools
 Spend Plan
 Talent presets
 Talents
-Tasks
 Upgrade Vault
-Boss keys
 Bribes
-Colosseum
 Forge
-Poppy
-Post Office
 Quests
 Stamps
 Statues
 The Owl
-Alchemy bubbles
 Alchemy Pay 2 Win
-Alchemy vials
 Islands
 3D Printer
 Atom Collider
 Construction
-Death Note
 Equinox
 Prayers
 Salt Lick
@@ -69,14 +57,56 @@ Laboratory
 | afk.check.no-afk-target | afk/no-afk-target | C2 | fires |  |
 | afk.check.no-afk-target | afk/no-afk-target | C3 | fires |  |
 | afk.check.skiller-carry | afk/skiller-carry | — | silent |  |
+| alchemy-bubbles.check.fill-slot | alchemy-bubbles/big-bubbles | account | unknown (field-missing) |  |
+| alchemy-bubbles.check.spend-brew | alchemy-bubbles/brew | account | fires | bubbles=7 cauldrons=3 |
+| alchemy-bubbles.check.spend-brew-big | alchemy-bubbles/brew | — | silent |  |
+| alchemy-bubbles.check.wrong-fit | alchemy-bubbles/big-bubbles | account | unknown (field-missing) |  |
+| alchemy-vials.check.daily-attempts | alchemy-vials/attempts | account | fires | attempts=18 |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C1 | unknown (field-missing) |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C2 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C3 | pass |  |
 | alchemy.check.liquid-cap | alchemy/liquid-cap | account | pass |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C1 | unknown (field-missing) |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C2 | unknown (field-missing) |  |
+| anvil.check.spend-points | anvil/points | C1 | fires | points=5 |
+| anvil.check.spend-points | anvil/points | C2 | fires | points=4 |
+| anvil.check.spend-points | anvil/points | C3 | fires | points=1 |
+| anvil.check.spend-points-capacity | anvil/points | — | silent |  |
 | arcade.check.balls-cap | arcade/balls-cap | account | unknown (field-missing) |  |
+| boss-keys.check.collect | boss-keys/banked | C2 | fires | chizoar=6 daysLost=50 efaunt=6 forestVilla=6 total=18 |
+| colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=3 daysLost=50 total=9 |
+| death-note.check.build | death-note/build | — | silent |  |
+| death-note.check.build-slot | death-note/build | — | silent |  |
+| gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
+| gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
+| gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=4500 price=875 |
+| merit-shop.check.spend-w1 | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2 | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-afk-gains | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-arcade-balls | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-boss-gems | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-efaunt-recipes | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-obols | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w2-respawn | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w3 | merit-shop/unspent | — | silent |  |
+| merit-shop.check.spend-w4 | merit-shop/unspent | account | fires | unspent=7 world=4 |
+| minigames.check.daily-plays | minigames/daily-plays | — | silent |  |
+| minigames.check.darts-play | minigames/cooldown-play | — | silent |  |
+| minigames.check.darts-spend | minigames/cooldown-spend | — | silent |  |
+| minigames.check.hoops-play | minigames/cooldown-play | — | silent |  |
+| minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
+| minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=18 |
+| pets.check.free-pull | pets/free-pull | account | unknown (field-missing) |  |
+| pets.check.mart-gems | pets/mart-gems | — | silent |  |
+| poppy.check.open | poppy/pending-fish | — | silent |  |
+| post-office.check.daily-orders | post-office/state | account | fires | companies=6 |
+| post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=16630 |
+| post-office.check.spend-boxes | post-office/state | C2 | fires | boxes=16127 |
+| post-office.check.spend-boxes | post-office/state | C3 | fires | boxes=23430 |
+| post-office.check.unlock | post-office/state | — | silent |  |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | fires | dryIn=19181 |
+| refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
+| refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -97,7 +127,7 @@ Laboratory
 | systems.yaml#lab | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
-| systems.yaml#post-office | worlds/reached | account | reached yes |  |
+| systems.yaml#post-office | post-office/unlocked | account | reached yes |  |
 | systems.yaml#prayers | worlds/reached | account | reached yes |  |
 | systems.yaml#printer | worlds/reached | account | reached yes |  |
 | systems.yaml#quests | worlds/reached | account | reached yes |  |
@@ -108,6 +138,7 @@ Laboratory
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
+| task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=180 |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | unknown (field-missing) |  |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | pass |  |
 | trapping.check.finishes-early | trapping/finishes-early | C3 | fires | finishesIn=28300723 |
