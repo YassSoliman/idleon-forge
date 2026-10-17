@@ -55,3 +55,29 @@ _Avoid_: tip, suggestion, recommendation
 **Goal**:
 A milestone on the Meta Path that takes more than one Next Action to reach, from minutes to several Play Sessions; it always shows exactly one Next Action, the one that moves it forward.
 _Avoid_: quest (in-game quests are a different thing), task, project
+
+## The Now screen
+
+**Now screen**:
+ActiveOn's single working view during a Play Session: one row per character plus an Account section.
+_Avoid_: dashboard, home, feed
+
+**Verdict**:
+A character's AFK-safety state, one of Ready, Fix before you leave, or Unknown; it judges only whether the character can be left for the AFK Stretch, never what is left to spend.
+_Avoid_: status, health, score
+
+**Expected Return**:
+How long the player expects to be away, used to judge what will fill up or run out before the next Play Session.
+_Avoid_: AFK timer, session length
+
+**Visit Order**:
+The suggested order to switch through characters in a Play Session: worst Verdict first, then most to spend.
+_Avoid_: route, queue
+
+**Active Play suggestion**:
+An optional Goal that needs hands-on play (often an hour or more); it never affects a Verdict.
+_Avoid_: active goal, grind task
+
+**Stale**:
+Said of a Knowledge Base entry verified on a patch older than the current one; still shown, ranked below fresh entries.
+_Avoid_: outdated, expired
