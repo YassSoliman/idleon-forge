@@ -5,7 +5,8 @@ dist/
 !.env.example
 .wrangler/
 *.tsbuildinfo
-# Raw game saves are personal data: never commit them. Use fixtures/scrubbed/ for shareable ones.
+# Raw game saves are personal data: never commit them. Shareable scrubbed copies go in
+# packages/account-state/fixtures/scrubbed/ (M1 TR-17).
 # (No trailing slash, so a symlinked fixtures/private is ignored too.)
 fixtures/private
 *.raw.json
