@@ -4,7 +4,13 @@
 // parseSave, plus a seeded Math.random (Toolbox's construction optimizer calls it) and TZ=UTC.
 import type { AccountState } from '@idleon-forge/account-state';
 import { toAccountState } from '@idleon-forge/account-state';
-import { normalizeEnvelope, type ParsedSave, parseSave } from '@idleon-forge/toolbox-parsers';
+import {
+  normalizeEnvelope,
+  type ParsedSave,
+  parseSave,
+  toolboxCalls,
+  withFrozenClock,
+} from '@idleon-forge/toolbox-parsers';
 
 /** mulberry32: a tiny seeded PRNG, enough to make Toolbox's random calls repeatable. */
 export function seededRandom(seed: number): () => number {
@@ -45,5 +51,8 @@ export function parseExport(raw: unknown, now: number): ParsedSave {
 export function accountStateOfExport(raw: unknown, now: number): AccountState {
   const envelope = normalizeEnvelope(raw);
   const parsed = deterministic(() => parseSave(envelope, { now }));
-  return toAccountState(parsed, envelope, { source: 'paste' });
+  return toAccountState(parsed, envelope, {
+    source: 'paste',
+    toolbox: { calls: toolboxCalls, withFrozenClock },
+  });
 }
