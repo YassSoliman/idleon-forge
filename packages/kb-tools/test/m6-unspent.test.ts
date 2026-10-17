@@ -101,11 +101,13 @@ describe('US-2 free dailies', () => {
     expect(minutes).toBe(11 * 60 + 13);
     expect(fired(run('pets/free-pull', w3, { now: savedAt(w3) + 12 * HOUR }))).toHaveLength(1);
   });
-  it('Pet Mart gems: gated off on both accounts; with the gate open, claimable (shop day 241)', () => {
-    expect(fired(run('pets/mart-gems', w2))).toEqual([]);
-    expect(fired(run('pets/mart-gems', w3))).toEqual([]);
-    const open = withAccount(w2, { petMart: { ...(w2.account.petMart ?? fail('petMart')), unlocked: true } });
-    expect(one(run('pets/mart-gems', open))).toMatchObject({ slots: { shopDay: 241 } });
+  it('Pet Mart gems: on since the in-game check (#34); W2-late claimable (shop day 241); a closed gate is silent', () => {
+    expect(w2.account.petMart?.unlocked).toBe(true);
+    expect(one(run('pets/mart-gems', w2))).toMatchObject({ slots: { shopDay: 241 } });
+    const closed = withAccount(w2, {
+      petMart: { ...(w2.account.petMart ?? fail('petMart')), unlocked: false },
+    });
+    expect(fired(run('pets/mart-gems', closed))).toEqual([]);
   });
   it('W2-late: 11 vial attempts, banked at 8 h (reset ~23 h 43 m away), lost-before-return at 24 h', () => {
     expect(one(run('alchemy-vials/attempts', w2))).toMatchObject({

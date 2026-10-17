@@ -4328,7 +4328,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       "currentShopDay": 183,
       "gemsOffered": true,
       "lastClaimedShopDay": 0,
-      "unlocked": false,
+      "unlocked": true,
     },
     "pets": null,
     "poppy": {
@@ -6201,7 +6201,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "currentShopDay": 174,
       "gemsOffered": true,
       "lastClaimedShopDay": 174,
-      "unlocked": false,
+      "unlocked": true,
     },
     "pets": {
       "freeClaimAnchor": 1,
@@ -8543,7 +8543,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "currentShopDay": 234,
       "gemsOffered": true,
       "lastClaimedShopDay": 192,
-      "unlocked": false,
+      "unlocked": true,
     },
     "pets": {
       "freeClaimAnchor": 1791050573034,
@@ -10846,7 +10846,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "currentShopDay": 183,
       "gemsOffered": true,
       "lastClaimedShopDay": 48,
-      "unlocked": false,
+      "unlocked": true,
     },
     "pets": {
       "freeClaimAnchor": 1786861667745,
@@ -13134,7 +13134,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "currentShopDay": 189,
       "gemsOffered": true,
       "lastClaimedShopDay": 48,
-      "unlocked": false,
+      "unlocked": true,
     },
     "pets": {
       "freeClaimAnchor": 1787205122344,
@@ -17694,7 +17694,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "currentShopDay": 174,
       "gemsOffered": true,
       "lastClaimedShopDay": 174,
-      "unlocked": false,
+      "unlocked": true,
     },
     "pets": {
       "freeClaimAnchor": 1774125412966,
@@ -22237,7 +22237,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "currentShopDay": 189,
       "gemsOffered": true,
       "lastClaimedShopDay": 48,
-      "unlocked": false,
+      "unlocked": true,
     },
     "pets": {
       "freeClaimAnchor": 1787205122344,

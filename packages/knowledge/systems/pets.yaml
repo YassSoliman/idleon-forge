@@ -40,7 +40,7 @@ entries:
     appliesTo: { stages: all }
     confidence: M
     status: active
-    notes: "Gated off (M6 Final rulings): fires only once account.petMart.unlocked is true, which stays false until the unlock is confirmed in game. Game code (N.js 2.3.540) puts the claim on the Tournament menu's Pet Mart tab, opened from Quick Ref slot 13, which is enabled unconditionally."
+    notes: "On since 2026-10-17: Yasser confirmed in game that Codex -> Quick Ref -> Tournament -> Pet Mart is reachable on a W2-late account (M6 Final rulings, #34). Game code (N.js 2.3.540) puts the claim on the Tournament menu's Pet Mart tab, opened from Quick Ref slot 13, which is enabled unconditionally."
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L264", title: "Toolbox petMartGems alert: GemPM_x, shop day, OLA[516]", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-7/tournament.ts#L138", title: "Toolbox getTournament: Pet Mart shop day", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

@@ -90,14 +90,14 @@ export const OLA_INDICES: readonly number[] = Object.values(OLA)
   .sort((a, b) => a - b);
 
 /**
- * The Pet Mart gem claim (M6 FR-13) stays off until Yasser confirms it in game (M6 Final rulings).
+ * The Pet Mart gem claim (M6 FR-13) is on: Yasser confirmed in game on 2026-10-17 that Codex -> Quick Ref
+ * -> Tournament -> Pet Mart is reachable on the W2-late account (M6 Final rulings, #34).
  * What the game code says (N.js at 2.3.540, read 2026-10-17): the claim sits on the Pet Mart tab of the
  * Tournament menu (MenuType2 98), which the Quick Ref opens from its slot 13, and that slot is enabled
- * unconditionally (`_GenINFO[54][13]=1`); the claim needs OLA[516] < shop day, shop day ≥ 1 and
- * GemPM_x ≥ 0.1, exactly the Toolbox rule. So the code shows no progress gate; the in-game check is
- * still owed before the gate opens.
+ * unconditionally (`_GenINFO[54][13]=1`); the claim needs OLA[516] < shop day, shop day >= 1 and
+ * GemPM_x >= 0.1, exactly the Toolbox rule. So there is no progress gate.
  */
-export const PET_MART_UNLOCK_VERIFIED = false;
+export const PET_MART_UNLOCK_VERIFIED = true;
 
 /** The Breeding arena wave that adds the third big-bubble slot: website-data randomList[53][11] = 100. */
 export const ARENA_THIRD_BUBBLE_WAVE = 100;

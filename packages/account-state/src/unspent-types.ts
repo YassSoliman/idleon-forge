@@ -95,8 +95,8 @@ export interface PetsState {
 
 export interface PetMartState {
   /**
-   * Whether the Pet Mart gem claim is reachable on this account. False until its unlock condition is
-   * verified in game (M6 Final rulings): see `PET_MART_UNLOCK_VERIFIED` in unspent.ts.
+   * Whether the Pet Mart gem claim is reachable on this account: true since the in-game check
+   * (M6 Final rulings, #34); see `PET_MART_UNLOCK_VERIFIED` in unspent.ts.
    */
   unlocked: boolean;
   /** OLA[516]. */
