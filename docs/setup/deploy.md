@@ -33,10 +33,8 @@ Workers Builds to this Worker: it would be a second deploy path outside the GitH
 | `MIRROR_TOKEN` | `mirror` | Fine-grained PAT, `YassSoliman/IdleonToolbox` only, Contents + Workflows: Read and write | 12 months | 11 months after creation |
 
 Workers Scripts: Edit is account-wide; the IdleOn account holds only the Forge's Workers, which is the
-whole blast radius. The production token is verified Workers-only (2026-10-17). `wrangler preview`
-was verified on 2026-10-17 with the local admin token; the first Preview run of `preview.yml`
-confirms the Workers-only preview token is enough (if it asks for **Account Settings: Read**, add
-that and note it here). Rotation:
+whole blast radius. Verified 2026-10-17: the production token deploys and the preview token runs
+`wrangler preview` (PR #57) with Workers Scripts: Edit alone. Rotation:
 [`release.md`](release.md#token-rotation).
 
 ## Manual deploy (owner only)
