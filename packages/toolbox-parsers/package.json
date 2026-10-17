@@ -1,0 +1,30 @@
+{
+  "name": "@idleon-forge/toolbox-parsers",
+  "version": "0.1.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "description": "IdleOn Toolbox's save parsers, vendored at a pinned commit and runnable outside Next.js.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/public.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "sideEffects": true,
+  "scripts": {
+    "fetch-data": "bash scripts/fetch-data.sh",
+    "build": "bash scripts/fetch-data.sh && node scripts/build.mjs",
+    "typecheck": "bash scripts/fetch-data.sh && tsc -p tsconfig.json && tsc -p tsconfig.test.json",
+    "sync": "bash scripts/sync.sh"
+  },
+  "dependencies": {
+    "core-js": "^3.39.0",
+    "date-fns": "^2.28.0",
+    "lodash.merge": "^4.6.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "typescript": "~5.9.3"
+  }
+}
