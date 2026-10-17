@@ -113,3 +113,37 @@ _Avoid_: shopping list, budget
 **Stale**:
 Said of a Knowledge Base entry verified on a patch older than the current one; still shown, ranked below fresh entries.
 _Avoid_: outdated, expired
+
+## Knowledge Base entries
+
+**Entry**:
+One versioned, cited unit of the Knowledge Base, of one of the types below.
+_Avoid_: rule (bare), record, row
+
+**Contribution**:
+An entry linking an activity (an AFK Target or Parallel Slot) to a Goal it advances; Purpose is derived from Contributions.
+_Avoid_: link, mapping
+
+**Check**:
+An entry that detects a problem or opportunity in the Account State and turns it into a Verdict blocker or a Next Action.
+_Avoid_: alert, rule, trigger
+
+**Detector**:
+The small, tested piece of code a Check or Contribution points to that reads the Account State; the entry around it holds all the human-facing words, numbers and Sources.
+_Avoid_: rule function, handler
+
+**Priority List**:
+An ordered, Source-backed list for one stage (ties allowed), used to rank Goals, the Spend Plan and Leverage; never numeric weights.
+_Avoid_: tier list, weights, score
+
+**Build**:
+An entry giving the talent order for one class and one talent preset.
+_Avoid_: spec, loadout
+
+**Acquisition**:
+An entry describing how to obtain something (a stamp, card, obol, item) and what it needs.
+_Avoid_: unlock guide, how-to
+
+**Contested**:
+The status of an entry whose Sources disagree; shown with both sides and a "sources disagree" badge, never as a Verdict blocker or the top action.
+_Avoid_: disputed, uncertain
