@@ -49,6 +49,7 @@ export default defineGenerator({
     'website-data/shared-data.json#starSigns',
     'website-data/shared-data.json#cardSets',
     'website-data/shared-data.json#spelunkingRocks',
+    'website-data/cauldrons.json',
   ],
   run({ data }) {
     const promotions = data.classPromotions as Record<string, ClassPromotion>;
@@ -62,6 +63,7 @@ export default defineGenerator({
     const monsters = data.monsters as Record<string, { Name?: string }>;
     const items = data.items as Record<string, { displayName?: string }>;
     const cards = data.cards as Record<string, { displayName?: string }>;
+    const cauldrons = data.cauldrons as Record<string, { bubbleName?: string }[]>;
     return {
       classes: sorted(Object.keys(promotions)),
       classTree: classTreeOf(promotions),
@@ -92,6 +94,8 @@ export default defineGenerator({
       ),
       starSigns: sorted((data.starSigns as { starName?: string }[]).map((s) => s.starName ?? '')),
       spelunking: sorted((data.spelunkingRocks as { name?: string }[][]).flat().map((r) => r?.name ?? '')),
+      // Bubble names, for M6's big-bubble and brew slots (the golden's string-slot check, FR-27).
+      bubbles: sorted(Object.values(cauldrons).flatMap((c) => c.map((b) => b.bubbleName ?? ''))),
       sentinels: ['Blank', 'LockedInvSpace', 'Null'],
     };
   },
