@@ -6,6 +6,10 @@
 read_pin() {
   repo=$(grep -E '^repo=' UPSTREAM | cut -d= -f2-)
   commit=$(grep -E '^commit=' UPSTREAM | cut -d= -f2-)
+  dataDigest=$(grep -E '^dataDigest=' UPSTREAM | cut -d= -f2- || true)
+  # repo= is the mirror (M12 D7). UPSTREAM_FETCH_URL fetches from elsewhere (upstream itself, when the
+  # mirror is behind) without changing what UPSTREAM records.
+  fetch_url="${UPSTREAM_FETCH_URL:-$repo}"
 }
 
 # checkout_upstream <repo> <commit-or-HEAD> <path>...   -> sets $resolved to the full commit SHA
@@ -15,6 +19,8 @@ checkout_upstream() {
   if [ ! -d .upstream/.git ]; then
     git init --quiet .upstream
     git -C .upstream remote add origin "$url"
+  else
+    git -C .upstream remote set-url origin "$url"
   fi
   git -C .upstream sparse-checkout set --no-cone "$@"
   git -C .upstream fetch --quiet --depth=1 --filter=blob:none origin "$want"
