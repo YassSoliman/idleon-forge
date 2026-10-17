@@ -82,7 +82,7 @@ entries:
     effect: next-action
     category: compounding
     effortSeconds: 300
-    detector: { id: anvil/respec, params: { minGain: 0.25, price: 1200000, shopWorld: 3 } }
+    detector: { id: anvil/respec, params: { minGain: 0.25, shopWorld: 3 } }
     text: "Whetstone respec → about {times:int}× {product:name} at {hours:int} h"
     values:
       text-pct: "Whetstone respec → about {morePct:pct} more {product:name} at {hours:int} h"

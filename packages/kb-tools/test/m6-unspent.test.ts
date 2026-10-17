@@ -324,7 +324,7 @@ describe('US-9 and US-10 Post Office and anvil points', () => {
 
 describe('#70 A3 the Whetstone respec', () => {
   it('W3-early: the Wizard Lv 73 gains about 30% from 7 Speed / 23 Capacity at 8 h', () => {
-    const fs = fired(run('anvil/respec', w3, { params: { minGain: 0.25, price: 1_200_000, shopWorld: 3 } }));
+    const fs = fired(run('anvil/respec', w3, { params: { minGain: 0.25, shopWorld: 3 } }));
     const account = fs.find((f) => f.subject.kind === 'account');
     expect(account?.slots).toMatchObject({ count: 1, hours: 8, mixedPct: 1 });
     expect(Math.round(Number(account?.slots.morePct))).toBe(30);

@@ -90,8 +90,13 @@ export default defineDetector({
     }
     if (rows.length === 0) return [];
     rows.sort((a, b) => b.best / b.base - a.best / a.base || a.index - b.index);
-    const times = rows.reduce((n, r) => n + r.best, 0) / rows.reduce((n, r) => n + r.base, 0);
-    const morePct = (times - 1) * 100;
+    // Rounded so the slots stay stable: the text shows whole percent or whole multiples anyway.
+    const ratio = (best: number, base: number) => Math.round((best / base) * 100) / 100;
+    const times = ratio(
+      rows.reduce((n, r) => n + r.best, 0),
+      rows.reduce((n, r) => n + r.base, 0),
+    );
+    const morePct = Math.round((times - 1) * 100);
     const [product] = [...products];
     const mixed = products.size !== 1 || product === undefined;
     // "about 2x" reads well from 2x up; below that the text says "about 60% more" (one flag per variant).
@@ -118,8 +123,8 @@ export default defineDetector({
           slots: {
             speed: r.speed,
             capacity: r.capacity,
-            times: r.best / r.base,
-            morePct: (r.best / r.base - 1) * 100,
+            times: ratio(r.best, r.base),
+            morePct: Math.round((ratio(r.best, r.base) - 1) * 100),
           },
           result: 'fires',
           urgency: 'banked',
