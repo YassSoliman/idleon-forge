@@ -1,0 +1,47 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M3 AFK Safety: worship charge caps (docs/specs/M3-afk-safety.md FR-19, D2). Split into two entries
+# because one entry has one effect (RT-12): a blocker with a skull, a Next Action without one.
+system: worship
+entries:
+  - id: worship.check.charge-caps-skull
+    system: worship
+    type: check
+    title: Worship charge fills while you're away
+    text: "Spend worship charge (or let the Wizard's Charge Syphon take it): it is full in {fullIn:duration} ({charge:int} of {max:int})"
+    values: { fill: worship charge }
+    why: Charge stops building at its maximum, so a full bar wastes every hour you're away.
+    sources:
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts
+        title: IdleOn Toolbox, getPlayerWorship (charge, max and rate)
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: character
+    effect: blocker
+    usesExpectedReturn: true
+    detector: { id: worship/charge-caps-skull }
+
+  - id: worship.check.charge-caps-no-skull
+    system: worship
+    type: check
+    title: Worship charge is full
+    text: "Worship charge is full in {fullIn:duration}: spend it or Syphon it"
+    values: { fill: worship charge }
+    why: Without a skull the bar is small, so this is worth a minute when you have one, but it never blocks.
+    sources:
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts
+        title: IdleOn Toolbox, getPlayerWorship (charge, max and rate)
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: character
+    effect: next-action
+    category: nice
+    usesExpectedReturn: true
+    detector: { id: worship/charge-caps-no-skull }

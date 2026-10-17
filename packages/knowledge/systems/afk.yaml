@@ -1,0 +1,126 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M3 AFK Safety: the per-character Checks of an AFK Stretch (docs/specs/M3-afk-safety.md, FR-12 to
+# FR-17). Every word, effect and threshold here is authored judgment; every number a player reads
+# comes from a Detector slot (Toolbox values plus arithmetic, ADR 0005).
+system: afk
+entries:
+  - id: afk.check.no-afk-target
+    system: afk
+    type: check
+    title: No AFK Target
+    text: "Send {class} Lv {level} to an AFK Target before you leave"
+    why: A character with no AFK Target earns nothing while you're away.
+    sources:
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts
+        title: IdleOn Toolbox, character afkType and afkTarget
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M3-afk-safety.md
+        title: M3 AFK Safety spec, FR-12
+        tier: 4
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: character
+    effect: blocker
+    detector: { id: afk/no-afk-target }
+
+  - id: afk.check.dies-fixable-by-food
+    system: afk
+    type: check
+    title: Dies on its map, and owned food fixes it
+    text: "Equip or swap in {food:name} before you leave: {class} is at {survivability:pct} survivability, and you own {owned:int}"
+    why: Below full survivability the character keeps dying and respawning while you're away. One health food you already own makes it survive.
+    sources:
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts
+        title: IdleOn Toolbox, getMaxDamage and getSurvivability
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts
+        title: IdleOn Toolbox, getHealthFoodBonus
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: character
+    effect: blocker
+    detector: { id: afk/dies-fixable-by-food }
+    notes: Names the largest fixing stack, not the smallest the spec says (a 1-food stack would "fix" the row and run out in minutes). Needs Yasser.
+
+  - id: afk.check.health-food-runs-out
+    system: afk
+    type: check
+    title: Health food runs out before you're back
+    text: "Add more health food from storage: it runs out in about {runsOutIn:duration} ({left:int} left)"
+    values: { fill: health food }
+    why: This fighter only survives with health food. Once it runs out, it starts dying and its AFK gains drop.
+    sources:
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts
+        title: IdleOn Toolbox, survivability with and without food
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M3-afk-safety.md
+        title: M3 AFK Safety spec, FR-14, D1 and TR-6 (food use observed from your own saves)
+        tier: 4
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: character
+    effect: blocker
+    usesExpectedReturn: true
+    detector: { id: afk/health-food-runs-out }
+
+  - id: afk.check.low-food-untimed
+    system: afk
+    type: check
+    title: Low on health food
+    text: "Low food: {left:int} left; can't time it yet"
+    why: This fighter only survives with health food, and the stack is small. ActiveOn can time it after your next session.
+    sources:
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts
+        title: IdleOn Toolbox, survivability with and without food
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M3-afk-safety.md
+        title: M3 AFK Safety spec, Final rulings RT-5
+        tier: 4
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: character
+    effect: next-action
+    category: nice
+    detector: { id: afk/low-food-untimed, params: { lowStack: 25 } }
+    notes: lowStack 25 is judgment (the spec fixes no number), for player review.
+
+  - id: afk.check.skiller-carry
+    system: afk
+    type: check
+    title: Carry cap full while skilling
+    text: "Deposit to storage: {item:name} is at its carry cap ({cap:int}) and the bag has no free slot"
+    why: With the stack full and no free slot, everything this character gathers is lost until you deposit.
+    sources:
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts
+        title: IdleOn Toolbox, getItemCapacity
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: character
+    effect: blocker
+    detector: { id: afk/skiller-carry }
+    notes: The carry-cap category per item (TR-12 item 2) is unverified; on the W3-early save three full log stacks read 251 against a Toolbox cap of 313, so this errs towards silence.

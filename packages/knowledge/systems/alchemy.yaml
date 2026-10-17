@@ -1,0 +1,41 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M3 AFK Safety: cauldron assignment and liquids at cap (docs/specs/M3-afk-safety.md FR-22, FR-25).
+system: alchemy
+entries:
+  - id: alchemy.check.cauldron-unassigned
+    system: alchemy
+    type: check
+    title: Not brewing
+    text: "Assign {class} Lv {level} to a cauldron before you leave"
+    why: A character assigned to no cauldron adds no brewing while you're away.
+    sources:
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts
+        title: IdleOn Toolbox, alchemy activities
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: character
+    effect: blocker
+    detector: { id: alchemy/cauldron-unassigned }
+
+  - id: alchemy.check.liquid-cap
+    system: alchemy
+    type: check
+    title: Water at cap
+    text: "Spend Water (bubbles, vials or the Liquid Shop): it's at cap ({current:int} of {max:int}) and may refill before you're back"
+    why: A liquid stops regenerating at its cap, so every hour at cap is lost Water.
+    sources:
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts
+        title: IdleOn Toolbox, alchemy liquids and liquidCauldrons maxLiquid
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: account
+    effect: blocker
+    detector: { id: alchemy/liquid-cap }
