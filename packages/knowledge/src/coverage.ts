@@ -18,7 +18,7 @@ export function systemUnlocked(
 ): 'yes' | 'no' | 'unknown' {
   if (system.unlocked === 'always') return 'yes';
   const detector = findDetector(system.unlocked.id, ...registries);
-  if (!detector || detector.kind !== 'milestone') return 'unknown';
+  if (detector?.kind !== 'milestone') return 'unknown';
   const run = runDetector(detector, makeContext(state, kb, opts), system.unlocked.params);
   if (!run.ok) return 'unknown';
   const account = (run.findings as readonly MilestoneFinding[]).find((f) => f.subject.kind === 'account');
