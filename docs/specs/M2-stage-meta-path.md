@@ -17,7 +17,7 @@ Markers: **[new]** specified here for the first time; **[from #26]** taken as-is
 
 ## 1. Purpose
 
-M2 answers "where is my account on the route, and who on my team does what?" From the save alone, it places the whole account on one **Stage** (W1-early … W4-entry). It knows the **Meta Path**: which classes the account should have in which slots, the **Role** each class plays, and the per-world milestones that open the next world. It picks the **pusher**, the one character that should be opening the next portal, using Toolbox's kill-rate numbers rather than opinion. And it hands the rest of the engine the Stage's **Priority List**, so that every Goal from every module is ranked the same way: never-skip things first, then the push, then free empty slots, then the Stage's own System items. The player sees M2 mostly indirectly, as the order of their advice. Directly, they see the push Goal ("Open World 3: finish Djonnut's quest 2 on your Barbarian"), the next-character Goal ("your next character should be a Hunter, 43 family levels away"), the subclass and elite Goals, and the Stage label in reports.
+M2 answers "where is my account on the route, and who on my team does what?" From the save alone, it places the whole account on one **Stage** (W1-early … W4-entry). It knows the **Meta Path**: which classes the account should have in which slots, the **Role** each class plays, and the per-world milestones that open the next world. It picks the **pusher**, the one character that should be opening the next portal, using Toolbox's kill-rate numbers rather than opinion. And it hands the rest of the engine the Stage's **Priority List**, so that every Goal from every module is ranked the same way: never-skip things first, then the push, then free empty slots, then the Stage's own System items. The player sees M2 mostly indirectly, as the order of their advice. Directly, they see the push Goal ("Open World 3: finish Djonnut's quest 2 on your Barbarian"), the next-character Goal ("your next character should be a Hunter, 43 family levels away"), the subclass and elite Goals, and the Stage label in the Now-screen header ("World 2 · late", D5).
 
 ## 2. Scope / Out of scope
 
@@ -47,8 +47,8 @@ M2 answers "where is my account on the route, and who on my team does what?" Fro
 - **FR-1** The engine derives exactly one Stage per Account State, from the 10 values in TR-4, evaluated by the rules in TR-5. The same Account State and Knowledge Base always give the same Stage.
 - **FR-2** The Stage carries its evidence: the rule that matched and the field values that decided it (provenance, #14 item 4 and #17). A Report this or a Suggestion carries the Stage id only.
 - **FR-3** When a field that decides between two Stages in the same world is unknown (its parser section failed, per M1 `diagnostics.failedSections`), the Stage is the **earliest** Stage of that world consistent with the known fields, and its certainty is `partial`. When `finishedWorlds` itself is unknown, the Stage is `null` with certainty `unknown`: only Stage-independent output (Verdict blockers) is shown, plus "Can't tell where your account is on the route".
-- **FR-4** The Stage includes what the account needs to reach the next Stage (`next.needs`, one line per unmet condition), or `null` at W4-entry.
-- **FR-5** An account past the coverage of the 10 Stages (World 4 finished, or later) is flagged `coverage: 'beyond'` and handled per D2.
+- **FR-4** The Stage includes what the account needs to reach the next Stage (`next.needs`, one line per unmet condition), or `null` at W4-entry. The Stage `label` and `next.needs` are shown to the player as a small header label that opens `next.needs` on tap (D5); M10 owns the placement.
+- **FR-5** An account past the coverage of the 10 Stages (World 4 finished, or later) is flagged `coverage: 'beyond'` and treated as `W4-entry` (D2). It gets the "Not covered yet: Worlds 5–7" banner and only Stage-independent advice: Verdict blockers, the position-1 never-skip items and the position-3 free-value fills. No push, next-character, elite or world-tutorial Goal is produced, and no W4-entry System item from position 4 on.
 
 **Meta Path and roster**
 - **FR-6** Each character is mapped to one Meta Path slot (TR-8): the highest-level character of each subclass line takes that line's slot in 1–6, a duplicate Squire line takes slot 8, a Journeyman takes slot 7, and other duplicates take slots 9–10 (contested) or "off-path".
@@ -90,7 +90,7 @@ As a player in a Play Session, I want ActiveOn to know my Stage without asking m
 - Given the W2-late account / When the engine runs / Then `next.needs` reads "A character talks to Constructor Crow (finishes World 2)". Given the W3-early account / Then it lists "Build the Death Note to level 1" and "Finish Hoggindaz 5 on any character", and does not list the 3D Printer (already level 4).
 - Given the W3-early account with only the `towers` parser section marked failed / When the engine runs / Then the Stage is still `W3-early` with certainty `certain`, because nobody has completed Hoggindaz 5, which decides the rule whatever the buildings are.
 - Given a copy of the W3-early account with Hoggindaz 5 marked complete and the `towers` section marked failed / When the engine runs / Then the Stage is `W3-early` (the earliest Stage still possible) with certainty `partial`, and `buildings.deathNote` and `buildings.printer3d` are named in the evidence as unknown.
-- Given Toolbox's public W7 save `highend.json` / When the engine runs / Then the Stage has `coverage: 'beyond'` and is handled per D2. No push Goal, next-character Goal or elite Goal is produced.
+- Given Toolbox's public W7 save `highend.json` / When the engine runs / Then the Stage is `W4-entry` with `coverage: 'beyond'` (D2), the "Not covered yet: Worlds 5–7" banner is requested, and no push Goal, next-character Goal, elite Goal or position-4+ item is produced. Verdict blockers and position-1 and position-3 items still rank.
 
 **S2. Know who should push**
 As a player in a Play Session, I want to be told which character opens the next portal, so that I don't spread my fighting across five half-pushers.
@@ -330,7 +330,7 @@ As a player in a Play Session, I want to be told when a character is due for its
   ```
 
 - **TR-13** Shared frame **[from #26 §3.0]**, as the `priority.frame` entry:
-  - **position 1, never-skip:** the M6 entries 1a–1i (keys, daily unbanked plays, daily Alchemy buys, capped stockpiles, weekly, salts, Death Note Lv 1, Equinox bar, W4 shop dailies). Minigame membership is D4;
+  - **position 1, never-skip:** the M6 entries 1a–1i (keys; 1b daily unbanked claims, now only the Random Event and Darts and Hoops on cooldown; daily Alchemy buys, capped stockpiles, weekly, salts, Death Note Lv 1, Equinox bar, W4 shop dailies). Skill-minigame plays, which #26 drafted into 1b, are **not** here (D4, superseded by M6-D4): M6's `minigames.daily-plays` fires only when the plays would be lost before the Expected Return and a highscore Milestone is open, and M10 shows it under "If you have time", outside the ranked list;
   - **position 2:** `metapath.goal.push`;
   - **position 3, free-value fills:** the M6 and M8 entries 3a–3h (obols, cards, big bubbles, tools, second preset, constellation, Parallel Slot fills, unspent points).
 
@@ -406,7 +406,7 @@ As a player in a Play Session, I want to be told when a character is due for its
 | **Pusher is AFK skilling, or on an old map** | Still the pusher. Whether its current activity is worthwhile is M4's call, and the move is M5's. M2 never moves characters. |
 | **Pusher also holds the Construction Role** (W3 fixture: Squire 85) | No conflict: the cog seat is a Parallel Slot and coexists with fighting (glossary). |
 | **Two characters tie on everything** | TR-10 step 4, then TR-14 step 7: deterministic by level, then index. |
-| **Account past W4-entry, or a W5–W7 public save** | `coverage: 'beyond'`, per D2. |
+| **Account past W4-entry, or a W5–W7 public save** | Treated as `W4-entry` with `coverage: 'beyond'` and the "Not covered yet: Worlds 5–7" banner (D2). Only Verdict blockers and positions 1 and 3 rank. |
 | **Duplicate Barbarian when the account wants a 2nd Squire** | The only case where the Swap Token is suggested (FR-10), as a Goal at W2-late or later with the sibling rule shown in its why. |
 | **11 characters** | Slot 11 is Beginner by plan. An 11th character with a class is "off-path" with no advice, unless it is a Journeyman or Squire filling an empty plan slot. |
 
@@ -416,7 +416,7 @@ As a player in a Play Session, I want to be told when a character is due for its
 |---|---|---|
 | **M1 Sync & Account State** | The TR-3 fields through its TR-11 growth process. The frontier step in the parse worker (TR-2), after the clean parse, before `postMessage`. `diagnostics.failedSections` and `isKnown()` for certainty. | `stage.id` for `reportContext`. |
 | **M11 Knowledge tooling** | The YAML schema with the `meta-path` and `priority-list` entry types. The generators for the TR-7 generated entries. The CI checks (unknown Detector id, an entry at two positions, `appliesTo` without a list reference, every entry has a Source). | Entry ids and Detector ids to register. |
-| **M10 Now screen UI** | Where to show the Stage label, the push Goal, roster notes and the "beyond coverage" state (D5). | `EngineResult.stage`, the ranked order through `compareGoals`, Account-section notes. |
+| **M10 Now screen UI** | Where to show the Stage header label and its `next.needs` tap (D5), the push Goal, roster notes and the "Not covered yet: Worlds 5–7" banner (D2). | `EngineResult.stage`, the ranked order through `compareGoals`, Account-section notes. |
 | **M13 Suggestions** | — | the Stage id in `SuggestionContext`. |
 | **M3 AFK Safety** | Which Goals are Verdict blockers (category `blocker`). | Stage, so blockers can filter by `appliesTo`. |
 | **M4 Purpose & Milestones** | `goalsServed` per activity for tie-break 6. | Stage, Roles, the pusher (the push Goal is a Purpose for the pusher). |
@@ -425,22 +425,15 @@ As a player in a Play Session, I want to be told when a character is due for its
 | **M7 Spend Plan, M8 Collections, M9 Builds** | Their entries at positions 4+. | Stage, the list, the comparator. |
 | **Engine core** | Visit Order computation that consumes `VisitHint`s. | `visitHints`. |
 
-## 8. Open decisions for Yasser
+## 8. Decisions
 
-❓ D1 - Pusher stickiness: when a different character edges out the current pusher on kill rate, should ActiveOn switch the pusher? Options: (a) always the highest kill rate, switching on every small change; (b) keep the incumbent (the character furthest along the current world's route) unless a challenger has at least 25% more final kills/h on the frontier map; (c) keep the incumbent unless it is beaten by 50%.
-➡️ (b), 25%. Toolbox's numbers on maps everyone one-shots are within a few percent of each other: on the W2 fixture's Djonnuttown, four characters land within 6% (874–929/h). Pure argmax would flip the pusher between saves on noise, telling the player to move their portal progress to a different character. 25% is far above that noise, and both fixtures' real choices (Squire 85 vs 472/h; Barbarian 1,680 vs 1,496/h) are unaffected. The margin is an authored number in `metapath.pusher-rule`, so it can be tuned in one place.
+Ruled by Yasser on 2026-10-17 (PR #48): every recommendation accepted as written, with D4 superseded by M6-D4.
 
-❓ D2 - Accounts past W4-entry (World 4 finished, or any W5–W7 save): (a) treat them as W4-entry with a "Not covered yet: Worlds 5–7" banner, and still show Stage-independent advice (Verdict blockers, position-1 never-skip, position-3 free-value fills) but no push, next-character or elite Goals; (b) add an 11th Stage "Beyond" with an empty list; (c) show no advice at all.
-➡️ (a). It keeps the 10 Stage values the glossary and #26 define, needs no new list, and still helps the public W5–W7 saves (and Joseph, once he is past W4) with the time-gated and empty-slot items, which are Stage-independent. It is honest about the gap through #11 item 14's "Not covered yet". (c) wastes value that is certainly right, and (b) is (a) with a glossary change for nothing.
-
-❓ D3 - Stage regression from a new character: #26's W2-early rule fires on "any character still on a base class". An account at W2-mid that levels a new Archer to 10 would drop back to W2-early. Options: (a) keep #26's rule (the Stage regresses, which also reshuffles every list); (b) change W2-early to "maxLv < 30 or no character is subclassed yet", and let the per-character subclass Goal handle new characters at every Stage; (c) use save history to make the Stage never go down.
-➡️ (b). The Stage is meant to be account-level, with per-character differences coming from filters (glossary). One new character should not reshuffle the whole account's priorities. (b) keeps the Stage a pure function of one save (unlike (c)) and gives the same answer as #26 on both fixtures.
-
-❓ D4 - Minigame plays in never-skip (#26 Q8): should "use your unbanked skill minigame plays (only while a highscore Milestone is open)" sit at position 1, above the push, in a 15-minute session? (a) yes, position 1 as #26 drafted; (b) position 3, with the free-value fills; (c) an Active Play suggestion only, never in the ranked list.
-➡️ (b). The plays are lost at reset, so they belong high, but each one takes active minutes, unlike collecting keys or spending Water. In a short session, ranking them above the push risks the session going to minigames. Position 3 still puts them above every System item, and the Random Event and Darts cooldowns, which take seconds, stay at position 1. This is a judgment call that you and Joseph should make as players.
-
-❓ D5 - Showing the Stage to the player: (a) internal only (reports and Suggestions); (b) a small label in the Now-screen header ("World 2 · late"), with a tap showing `next.needs` ("A character talks to Constructor Crow"); (c) a full Account-section line every session.
-➡️ (b). It costs one line, explains why the advice changes when the player crosses a gate, and lets a player spot a wrong Stage at a glance, which then goes through Report this. (c) is noise once the player knows it. M10 owns the placement; M2 provides `label` and `next.needs` either way.
+- **D1. Pusher stickiness: keep the incumbent unless a challenger has at least 25% more final kills/h on the frontier map.** Why: on maps everyone one-shots, Toolbox's kill rates sit within a few percent (the W2 fixture's Djonnuttown: four characters within 6%, 874–929/h), so a pure argmax would flip the pusher between saves on noise and tell the player to move portal progress to another character. 25% is far above that noise and leaves both fixtures' real choices unchanged (Squire 85 at 1,065 vs 472/h; Barbarian 60 at 1,680 vs 1,496/h). The margin is an authored number in `metapath.pusher-rule`, tunable in one place. Applied in TR-10.
+- **D2. Accounts past W4-entry are treated as W4-entry with a "Not covered yet: Worlds 5–7" banner.** They still get Stage-independent advice (Verdict blockers, position-1 never-skip, position-3 free-value fills), but no push, next-character, elite or world-tutorial Goal and no position-4+ System items. Why: it keeps the 10 Stage values the glossary and #26 define, needs no new list, still helps W5–W7 saves with the time-gated and empty-slot items, and is honest about the gap through #11 item 14's "Not covered yet". Applied in FR-5, S1, §6.
+- **D3. W2-early is "maxLv < 30 or no character is subclassed yet".** New base-class characters are handled by the per-character subclass Goal at every Stage. Why: the Stage is account-level, with per-character differences coming from filters (glossary). One new character should not reshuffle the whole account's priorities, and this keeps the Stage a pure function of one save. It matches #26 on both fixtures. Applied in TR-5, FR-15, S7.
+- **D4. Skill-minigame plays are not a never-skip item (superseded by M6-D4).** They are shown only when they would be lost before the Expected Return **and** a highscore Milestone is open, as an "If you have time" item, not at position 1 and not in the ranked list. Seconds-long claims (Darts, the Random Event) stay at position 1. Why: a play is worth minutes of AFK harvest; its value is in one-time Milestones, and each takes active minutes, so ranking them above the push would let a 15-minute session go to minigames. M6 owns the entry and its gate. Applied in TR-13.
+- **D5. The Stage is shown as a small label in the Now-screen header ("World 2 · late"); a tap shows `next.needs`.** Why: one line explains why the advice changes when the player crosses a gate and lets a player spot a wrong Stage at a glance, which then goes through Report this. A full Account-section line every session is noise. M10 owns the placement; M2 provides `label` and `next.needs`. Applied in §1, FR-4, §7.
 
 ## 9. Red-team notes
 
