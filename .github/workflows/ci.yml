@@ -39,10 +39,30 @@ jobs:
         with:
           path: packages/toolbox-parsers/vendor/data
           key: toolbox-data-${{ hashFiles('packages/toolbox-parsers/UPSTREAM') }}
+      # Parsed fixtures and Toolbox's patch notes at the pin (M11 TR-16), keyed by what changes a parse.
+      - uses: actions/cache@v6
+        with:
+          path: packages/kb-tools/.cache
+          key: kb-${{ hashFiles('packages/toolbox-parsers/UPSTREAM', 'packages/account-state/src/**', 'packages/account-state/fixtures/public/*.json', 'fixtures/scrubbed/*.json', 'packages/kb-tools/src/parse.ts') }}
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test
+      # M11 TR-16: generated facts are current, kb check --strict, goldens with the Verdict changes
+      # in the job summary, then the privacy gates.
+      - name: Knowledge Base
+        run: |
+          pnpm kb generate --check
+          pnpm kb check --strict
+          git fetch --no-tags --depth=1 origin "${GITHUB_BASE_REF:-main}"
+          pnpm kb golden --diff-base FETCH_HEAD
+      # Scrubbed fixtures and goldens: only pseudonyms where names were, no guild id or uid-shaped
+      # string, reviewed serverVars only, a current policy hash and a consent link. KB_DENYLIST
+      # (optional, one name per line) adds the name grep; without it the structural gates still run.
+      - name: Privacy gate
+        run: pnpm kb privacy
+        env:
+          KB_DENYLIST: ${{ secrets.KB_DENYLIST }}
       - run: pnpm build
       - name: Write-call tripwire (TR-14)
         run: node packages/toolbox-parsers/scripts/tripwire.mjs
