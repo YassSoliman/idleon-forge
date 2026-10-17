@@ -59,7 +59,7 @@ A player arrives at a Play Session with coins piled up on several characters and
   3. the smallest wallet that covers the cost, which keeps big wallets for big buys.
 
   The rule is deterministic. Ties go to the lower character index.
-- **FR-7 Pooling** (D1). If no wallet covers a line but the bank plus one wallet does, the line becomes `move-coins`: "withdraw N from storage on <class Lv>, then buy". N is the line's cost minus that wallet's remaining balance, and it is deducted from the bank's running balance. The wallet is chosen by FR-6 among those the bank can top up. Moving coins between two characters through the bank (deposit on one, withdraw on another) is suggested only for lines flagged `reserve` (FR-22). The plan never treats all coins as one pool.
+- **FR-7 Pooling** (D1). If no wallet covers a line but the bank plus one wallet does, the line becomes `move-coins`: "withdraw N from storage on <class Lv>, then buy". N is the line's cost minus that wallet's remaining balance, and it is deducted from the bank's running balance. The wallet is chosen by FR-6 among those the bank can top up. Moving coins between two characters through the bank (deposit on one, withdraw on another) is suggested only for lines flagged `reserve` (FR-22). The plan never treats all coins as one pool. Each character holds its own coins and coins in storage are shared; any character can deposit to storage from anywhere through the codex, so a "deposit to storage, then withdraw on the buyer" step is cheap and works from any character (Final rulings, in-game facts).
 - **FR-8 Done and filtering.** A candidate is dropped when its target is already met (`level >= target`, `level >= maxLevel`, or bribe `done`), or its sink or row is not yet unlocked. This applies even when Toolbox still reports a non-zero `cost` for it: on both fixtures, maxed Vault rows such as Weapon Craft 5/5 and Knockout! 5/5 still carry a `cost`. A line also disappears once a later save shows it bought. There is no manual "done" ([#10](https://github.com/YassSoliman/idleon-forge/issues/10) item 8).
 - **FR-9 Grouping.** Lines of the same sink, at the same list position, paid from the same wallet, are shown as one expandable line ("Raise 7 stamp caps, then buy their new levels, about 10.1M"). The group's cost is the sum of its parts.
 - **FR-10 Stamp cap raises.** For a stamp at its cap, the plan emits the material step before the coin step:
@@ -70,7 +70,7 @@ A player arrives at a Play Session with coins piled up on several characters and
     - for materials of type `Equip`, the count held in storage plus inventories is ≥ the cost. Toolbox's `checkHasMaterials` checks the craft recipe's other ingredients for Equip materials but does not count the item itself.
   - **Doer:** the character who carries the material. That is the line's wallet if its carry capacity for the material (Toolbox `bestCharacter.topCharacters`, the top 3 only) is ≥ the material cost, else Toolbox's `bestCharacter`. A wallet outside the top 3 counts as unable to carry. Capacity is Toolbox's empty-inventory figure, so the material step says "free up inventory space first" when the doer is not the best carrier.
   - **Coin step:** the new levels, priced with Toolbox `futureCosts[0].goldCost`, but only when that entry is the very next tier (`level === stamp.level + capStep`) at the current discount (`reduction === stampReducer`). Toolbox otherwise returns a later tier, a projected discount, or a single-level fallback; such a raise is not ready.
-  - **Not ready:** a stamp whose material is missing, or too big for any character to carry, is not a Spend line. It is reported to M6 and M4 as a Goal (farm the material, or raise carry capacity).
+  - **Not ready:** a stamp whose material is missing, or too big for any character to carry, is not a Spend line. For the MVP it is listed under "Not covered yet" (farm the material, or raise carry capacity), because no module owns those Goals (M6 Final rulings RT1). M7 still emits the `SpendHandoff` record (section 7) so a later Goal can pick it up.
 - **FR-11 Hydrogen batching.** When the Hydrogen atom is above Lv 0 (`atoms.atoms[0].level > 0`), whatever the current discount:
   - **Only the first raise gets the discount.** Toolbox computes it as `min(90, Hydrogen baseBonus × level × days since the last cap raise)` (`OLA[134]`), and any raise resets the day count. So within a batch, raise 1 is priced at the current discount and every later raise at 0%.
   - All ready cap raises collapse into one batch line, ordered so the raise that gains most from the discount (the highest material cost, or the one that fits only with it) goes first. The others are ready only if they fit at 0%. The engine never emits a single cap raise on its own while other raises are ready.
@@ -80,7 +80,10 @@ A player arrives at a Play Session with coins piled up on several characters and
   - **Gilded Stamps** (`OLA[154] > 0`, W4 Rift 26): the next raise uses one, so it goes first and goes to the stamp with the highest material cost (stamps dossier). The other raises are priced without it.
 - **FR-12 Irreversible-order guard.** While Vault row 52 (Duplicate Entries) is buyable and at Lv 0, Duplicate Entries is position 1, whatever the ticket count. Its line reads "buy Duplicate Entries before you collect or redeem more Colosseum tickets". It is flagged `reserve` (D2).
   - **Ticket counts:** `currencies.ColosseumTickets.totalAmount` is the raw `CYColosseumTickets` balance, not tickets waiting to be received. The tickets banked at the three NPCs are `allTickets[].totalAmount`. The why quotes the NPC-banked count only, and never says "unredeemed".
-  - **Build-time verification (ship gate):** find in N.js where the doubling applies (on NPC collection, or on redeeming ticket items). The answer sets the guard's wording and how M6's "Collect N Colosseum tickets" Goal interacts with it (section 7; open product question, section 10 row 6).
+  - **Build-time verification (ship gate):** find in game code (N.js) where the doubling applies (on NPC collection, or on redeeming ticket items). The answer sets the wording (Final rulings RT-1):
+    - doubling on **collection**, and a wallet (or one wallet plus the bank, FR-7) can afford Duplicate Entries: the line reads "buy Duplicate Entries first, then collect your Colosseum tickets";
+    - doubling on **redeeming**, or Duplicate Entries unaffordable: the player is told to collect anyway, and the line reads "buy Duplicate Entries before you redeem Colosseum tickets".
+    - M6's "Collect N Colosseum tickets" Goal is never suppressed: collecting is always right in the second case, and in the first the Spend line comes first by position.
 - **FR-13 Unlock fuel.** After the authored lines, one final line says how many Vault levels remain to the next unlock (`nextUnlock.unlockLevel − totalUpgradeLevels`). It also gives the cheapest-first coin estimate for them from the cost ladders (TR-4), labelled "about".
 - **FR-14 Unpriced sinks** (D3). Statue Gold, Pay 2 Win Player upgrades and vial upgrades (Toolbox's `p2w.vials` holds levels only), and Anvil coin points if the worker import of TR-4 fails, show as `unpriced`: "cost not checked, see the price in game". It is never deducted from a wallet and never counted as affordable. At the same list position it ranks below priced lines. Because an unpriced buy does spend real coins, the expanded plan shows "totals below assume you skip the unchecked items" under the first unpriced line.
 - **FR-15 Visible length.**
@@ -91,7 +94,7 @@ A player arrives at a Play Session with coins piled up on several characters and
   - **No priced line affordable:** "Nothing worth buying yet", with the cheapest next line, its shortfall, and the character closest to affording it.
   - **No sink unlocked yet** (highest class level < 14 and the Vault untouched): only the Vault, which is open from the start.
   - **Nothing left to buy:** "Spend Plan empty".
-- **FR-18 Skip and Not for me.** Each line supports the two manual controls from [#10](https://github.com/YassSoliman/idleon-forge/issues/10) item 8, with M10's expiry rules, keyed by `entryId + ref` (a grouped line by its `entryId` alone), so a partial buy that changes `fromLevel` does not bring a hidden line back:
+- **FR-18 Skip and Not for me.** Each line supports the two manual controls from [#10](https://github.com/YassSoliman/idleon-forge/issues/10) item 8, with M10's expiry rules, keyed by `entryId + ref`, where `entryId` is the Spend item's key `${listId}#${itemSlug}` (TR-6; a grouped line by its `entryId` alone), so a partial buy that changes `fromLevel` does not bring a hidden line back:
   - **Skip today** hides it until the next local midnight or the end of the Play Session in which it was skipped, whichever is later (M10 FR-28).
   - **Not for me** hides it until the save's game build changes (M10 FR-29).
 
@@ -105,10 +108,10 @@ A player arrives at a Play Session with coins piled up on several characters and
 
   It never sends names, wallet balances or save data. M13 attaches the line's rendered text, so M7 provides a **report rendering** of each line: the full text with every coin amount rounded to 2 significant figures, and with the shortfall, the "withdraw N from storage" amount and any running balance removed. Cost minus shortfall would otherwise give the wallet's exact balance.
 - **FR-20 Not covered.** Out-of-scope sinks that hold value on this account (for example, Forge upgrades) show in the "Not covered yet" list ([#11](https://github.com/YassSoliman/idleon-forge/issues/11) item 14). They never become a line.
-- **FR-21 Combat-row gate.** Vault combat rows (Bullseye 4, Steel Guard 5, All Armoured Up 46) enter the engine-row position only when their gate Check fires. For Bullseye, the gate is the pusher's Toolbox hit chance below 100% on the next map (M2 pusher; Leverage model W1-late 10; PV cross-cutting 3). Otherwise they sit in the band-table position. M5 builds last, so until it ships `hitChanceOnNextMap` returns null, the gate never fires, and these rows always sit in the band table.
-- **FR-22 Reserve** (D2). When a line flagged `reserve` is not affordable by any wallet, nor by one wallet plus the bank (FR-7), it becomes `save-for`:
+- **FR-21 Combat-row gate.** Vault combat rows (Bullseye 4, Steel Guard 5, All Armoured Up 46) enter the engine-row position only when their gate Check fires. For Bullseye, the gate is the pusher's Toolbox hit chance below 100% on the frontier map: `account.frontier.fights[pusher].hitChance < 100` (% 0..100), where the pusher is `MetaPathResult.pusher.index` (M2 TR-3, TR-4a; Leverage model W1-late 10; PV cross-cutting 3). M2 computes this in the parse worker, so the gate works from M2's build on and does not wait for M5. When `frontier` or the pusher is null, the gate does not fire and the rows sit in the band-table position.
+- **FR-22 Reserve** (D2, narrowed by Final rulings RT-2). When a line flagged `reserve` is not affordable by any wallet, nor by one wallet plus the bank (FR-7), it becomes `save-for`:
   - its *closest* character is the wallet with the smallest shortfall (ties to the lower index);
-  - that wallet's remaining balance, up to the line's cost (never more), is held back from every line ranked below it, whatever its position;
+  - only while that shortfall is **at most 50% of the line's cost**, that wallet's remaining balance, up to the line's cost (never more), is held back from every line ranked below it, whatever its position. When the shortfall is above 50%, the line is `save-for` without holding anything back (Final rulings RT-2);
   - when two `reserve` lines are both short, the higher-ranked one picks its wallet first, and the second picks among what is left;
   - the line shows the shortfall against that character.
 
@@ -131,7 +134,7 @@ Coin figures are Toolbox numbers from the fixtures, rounded or bucketed. Golden 
 |---|---|---|
 | Wallets (bucketed) | Barbarian Lv 60: ~90M; Wizard Lv 56, Shaman Lv 44, Squire Lv 43: under 1M each; Bowman Lv 54: under 1K. Bank: ~100M | Squire Lv 85, Wizard Lv 73: over 2B each; Shaman Lv 54: ~0.9B; Bowman Lv 60: ~0.7B; Barbarian Lv 56 and Squire Lv 51: under 10K. Bank: 0 |
 | Vault | total levels 1,724; next unlock at 1,780 | total levels 2,497; next unlock at 2,530 |
-| Stamps | 7 levelled, all at cap | 17 levelled, all at cap |
+| Stamps | 8 collected: 7 levelled, all at cap, plus the Bullseye Stamp at Lv 0 of 5 (M8 FR-2) | 17 levelled, all at cap |
 | Bribes | 20 bought (sets 1–3 complete) | 22 bought |
 | Statue Gold | 5 statues | 13 statues |
 | Hydrogen | 0 (no Atom Collider) | 0 (no Atom Collider) |
@@ -171,13 +174,13 @@ As a player in a Play Session, I want each purchase tied to the character who ho
 
 As a player in a Play Session, I want to know which stamp caps I can raise now and what the new levels cost, so that my stamps keep levelling instead of sitting at their caps.
 
-- **AC-3.1** Given the W2-late account / When the engine runs / Then the stamp lines contain no coin-only level buy, because all 7 levelled stamps are at their cap.
-- **AC-3.2** Given the W2-late account / When the engine runs / Then one grouped line reads "Raise 2 stamp caps, then buy their new levels" (Shield Stamp and Hatchet Stamp), about 1.3M in coins. Target Stamp is not ready: its raise needs ~9.1K Thread at the non-gilded rate, more than the Thread in storage and more than the best carrier holds, so it goes to M4/M6 as a Goal. A golden test fails if any material amount equals the gilded value (457 Thread for Target Stamp) while `OLA[154] = 0`.
+- **AC-3.1** Given the W2-late account / When the engine runs / Then the only coin-only stamp level buy is the Bullseye Stamp, collected at Lv 0 of a cap of 5 (its coin levels below the cap, M8 FR-2), because the 7 levelled stamps are all at their cap.
+- **AC-3.2** Given the W2-late account / When the engine runs / Then one grouped line reads "Raise 2 stamp caps, then buy their new levels" (Shield Stamp and Hatchet Stamp), about 1.3M in coins. Target Stamp is not ready: its raise needs ~9.1K Thread at the non-gilded rate, more than the Thread in storage and more than the best carrier holds, so it is listed under Not covered yet (M6 Final rulings RT1). A golden test fails if any material amount equals the gilded value (457 Thread for Target Stamp) while `OLA[154] = 0`.
 - **AC-3.3** Given the W3-early account / When the engine runs / Then the stamp lines are split this way:
   - **Ready (9 of 17 at-cap stamps):** the materials are in storage and fit one character's carry capacity, at the non-gilded rate.
   - **Twin Ores Stamp and Cool Diggy Tool Stamp:** these need an equipment item (Thief Hood, Iron Hatchet). Toolbox reports `hasMaterials` true for them with 0 counted. They are not marked ready unless storage plus inventories hold the item (FR-10).
   - **The other at-cap stamps** (Vendor Stamp among them) are not Spend lines: material missing or too big to carry.
-  - **Vendor Stamp:** it lacks ~100 Cue Tape, so it is not a Spend line. It is handed to M6 and M4 as a Goal.
+  - **Vendor Stamp:** it lacks ~100 Cue Tape, so it is not a Spend line. It is listed under Not covered yet (M6 Final rulings RT1), with a `stamp-material` `SpendHandoff`.
 - **AC-3.4** Given the W3-early account / When the engine runs / Then the doers of the material steps are the Wizard Lv 73 or the Squire Lv 85 (Toolbox's highest-capacity characters for those materials), unless the line's wallet can carry the amount itself (FR-10).
 
 ### US-4 Don't waste the Hydrogen discount
@@ -195,7 +198,8 @@ As a player in a Play Session in late W3, I want cap raises batched around the H
 As a player in a Play Session, I want a warning before I lose value permanently, so that one wrong click doesn't cost me days.
 
 - **AC-5.1** Given the W3-early account / When the engine runs / Then the Duplicate Entries line carries the why "doubles every Colosseum ticket you receive; 4 are waiting at the NPCs" (the NPC-banked count, not `ColosseumTickets.totalAmount`). It cites the Vault dossier (game data: row 52) and the community advice to buy it before redeeming tickets.
-- **AC-5.2** Given a synthetic W3-early account with every wallet below 100M and the bank at 0 / When the engine runs / Then Duplicate Entries is a `save-for` line showing its shortfall against the character closest to it, and no line below it spends that character's coins (FR-22).
+- **AC-5.2** Given a synthetic W3-early account with every wallet below 100M, the closest wallet holding 60M, and the bank at 0 / When the engine runs / Then Duplicate Entries is a `save-for` line showing its 40M shortfall against that character, and no line below it spends that character's coins (shortfall ≤ 50% of the cost, FR-22).
+- **AC-5.3** Given the same account with the closest wallet holding 30M / When the engine runs / Then Duplicate Entries is a `save-for` line showing its 70M shortfall, and the lines below it may spend that character's coins (shortfall above 50%, nothing held, Final rulings RT-2).
 
 ### US-6 Trust each line
 
@@ -265,7 +269,7 @@ export interface Wallet {
 }
 
 export interface VaultRow {
-  index: number;            // 0-based row index, also the generated fact id `vault.row.<index>`
+  index: number;            // 0-based row index; the generated Acquisition is `upgrade-vault.acquisition.row-<index>`
   level: number;
   maxLevel: number;         // Toolbox `maxLevel` (includes bundle and Glimbo)
   /** Game rule, not Toolbox's `unlocked`: row i is buyable when at least i+1 rows have unlockLevel <= total. */
@@ -318,7 +322,7 @@ export interface P2wUpgrade {
 export interface SpendInputs {
   wallets: Wallet[];
   vault: VaultState;
-  stamps: StampState[];     // owned stamps only (level > 0)
+  stamps: StampState[];     // every collected stamp (cap > 0 or level > 0), Lv 0 included (M8 FR-2); the one per-stamp list M4 and M8 read too
   bribes: BribeState[];
   statueGold: StatueGoldState[];
   p2w: P2wUpgrade[];           // priced cauldron and liquid upgrades only; vials and Player upgrades are unpriced (FR-14)
@@ -341,7 +345,7 @@ export type SpendStatus = 'buy' | 'move-coins' | 'save-for' | 'hold' | 'unpriced
 
 export interface SpendStep {           // one purchase inside a line (a group has several)
   sink: SpendSink;
-  ref: string;                          // generated fact id, e.g. "vault.row.23", "stamp.StampA4", "bribe.20"
+  ref: string;                          // generated Acquisition id, e.g. "upgrade-vault.acquisition.row-23", "stamps.acquisition.stamp-a4", "bribes.acquisition.bribe-20"
   fromLevel: number | null;
   toLevel: number | null;
   coins: number | null;                 // null when unpriced
@@ -350,7 +354,7 @@ export interface SpendStep {           // one purchase inside a line (a group ha
 
 export interface SpendLine {
   id: string;                           // `${entryId}:${ref}:${fromLevel}->${toLevel}`; Skip and Not for me key on entryId + ref (FR-18)
-  entryId: string;                      // Spend Priority List item id
+  entryId: string;                      // Spend item key `${listId}#${itemSlug}`, e.g. "spend.priority.w2-late#max-sleepy-time" (TR-6)
   position: number;                     // list position (ties share a number)
   status: SpendStatus;
   steps: SpendStep[];
@@ -404,63 +408,76 @@ export interface SpendPlan {
 
 ### TR-5 Detectors (typed TypeScript, [#11](https://github.com/YassSoliman/idleon-forge/issues/11) item 2)
 
-Every Detector receives `(state, history, now)` and returns typed facts. None returns words; words live in the entries.
+These are **engine Detectors** (M11 TR-4, `kind: 'engine'`): pure functions in `packages/engine/src/spend/`, registered under `<system>/<name>` ids, following M11's purity and `reads` rules. Every Detector receives `(state, history, now)` and returns typed facts. None returns words; words live in the entries.
 
 | Detector id | Inputs (Account State fields) | Output |
 |---|---|---|
-| `spend.wallets` | `characters[].money`, `currencies.bankMoney` | `Wallet[]`, sorted by index, bank last |
-| `spend.vault.candidates` | `vault.rows`, `vault.totalLevels` | buyable, not-maxed rows with ladder |
-| `spend.vault.unlockFuel` | `vault.nextUnlock`, `vault.totalLevels`, ladders | levels remaining, cheapest-first coin estimate (greedy on ladder marginals) |
-| `spend.stamp.coinLevels` | `stamps[]` with `level < cap` | stamps with coin levels to buy |
-| `spend.stamp.raiseReady` | `stamps[].raise` | ready raises, doer index, Equip check result (FR-10) |
-| `spend.stamp.hydrogen` | `hydrogen`, `stamps[].raise.minReduction` | `{ batching: boolean, hold: { neededPct, days } \| null }` (D4) |
-| `spend.bribe.available` | `bribes[].status`, generated `soldBy` | bribes with status 0 sold by the book (indices 0–25) |
-| `spend.statueGold.next` | `statueGold[]`, Guilding Tools owned (any grade ≥ 1, or the item in storage) | next statue index without Gold |
-| `spend.p2w.candidates` | `p2w[]` | unlocked, not-maxed upgrades |
-| `spend.guard.duplicateEntries` | `vault.rows[52]`, `colosseumTickets.bankedAtNpcs` | fires when buyable and Lv 0; reports the NPC-banked count |
-| `spend.anvil.coinPoints` | `anvilCoinPoints[]` | per-character next coin point and its cost |
-| `spend.gate.combatRow` | M2 pusher id; Toolbox hit chance on the pusher's next map (M2/M5) | `{ bullseye: boolean, defence: boolean }` |
+| `spend/wallets` | `characters[].money`, `currencies.bankMoney` | `Wallet[]`, sorted by index, bank last |
+| `spend/vault-candidates` | `vault.rows`, `vault.totalLevels` | buyable, not-maxed rows with ladder |
+| `spend/vault-unlock-fuel` | `vault.nextUnlock`, `vault.totalLevels`, ladders | levels remaining, cheapest-first coin estimate (greedy on ladder marginals) |
+| `spend/stamp-coin-levels` | `stamps[]` with `level < cap` | stamps with coin levels to buy |
+| `spend/stamp-raise-ready` | `stamps[].raise` | ready raises, doer index, Equip check result (FR-10) |
+| `spend/stamp-hydrogen` | `hydrogen`, `stamps[].raise.minReduction` | `{ batching: boolean, hold: { neededPct, days } \| null }` (D4) |
+| `spend/bribe-available` | `bribes[].status`, generated `soldBy` | bribes with status 0 sold by the book (indices 0–25) |
+| `spend/statue-gold-next` | `statueGold[]`, Guilding Tools owned (any grade ≥ 1, or the item in storage) | next statue index without Gold |
+| `spend/p2w-candidates` | `p2w[]` | unlocked, not-maxed upgrades |
+| `spend/duplicate-entries-guard` | `vault.rows[52]`, `colosseumTickets.bankedAtNpcs` | fires when buyable and Lv 0; reports the NPC-banked count |
+| `spend/anvil-coin-points` | `anvilCoinPoints[]` | per-character next coin point and its cost |
+| `spend/combat-row-gate` | `MetaPathResult.pusher`; `account.frontier.fights[pusher].hitChance` (M2 TR-3, % 0..100) | `{ bullseye: boolean, defence: boolean }` |
 
 Each Detector has a fires / doesn't-fire test on both private fixtures and on at least one public save ([#11](https://github.com/YassSoliman/idleon-forge/issues/11) item 12). The private-fixture tests run locally only ([#14](https://github.com/YassSoliman/idleon-forge/issues/14) item 7). CI runs on the public saves and the scrubbed W2 save.
 
 ### TR-6 Knowledge Base entries ([#11](https://github.com/YassSoliman/idleon-forge/issues/11) shape)
 
-**Generated (ADR 0007),** rebuilt at every parser re-sync from Toolbox data. Never hand-edited.
+**Generated (ADR 0007),** rebuilt at every parser re-sync from Toolbox data. Never hand-edited. They are generated Acquisitions (M11 TR-10 generators `upgrade-vault`, `bribes`, `stamps`, `statues`, `alchemy-p2w`); M11 owns the paths.
 
 | File | Entry ids | Fields (beyond #11's required set) | Generated from |
 |---|---|---|---|
-| `systems/upgrade-vault.generated.yaml` | `vault.row.<0..89>` | `name`, `unlockLevel`, `maxLevel`, `oneOff` (maxLevel == 1), `majorDiscountApplies` (index < 33), `masteryTier` | Toolbox `shared-data.json` `upgradeVault` |
-| `systems/bribes.generated.yaml` | `bribe.<0..40>` | `name`, `set`, `soldBy` (`book`, `garbage-tuna`, `jade-emporium`, from the bribe text), `price`, `codeValue` (e.g. 8 for Insider Trading, not the 5 in its text), `opensSet` | Toolbox `shared-data.json` `bribes` |
-| `systems/stamps.generated.yaml` | `stamp.<rawName>` | `capStep`, `material`, `tab`, `obtainable` from Toolbox data only | Toolbox `stamps.json` |
-| `systems/statues.generated.yaml` | `statue.<0..31>` | `name`, `goldOrder` (index order) | Toolbox `statues` |
-| `systems/alchemy-p2w.generated.yaml` | `p2w.<group>.<upgrade>` | `maxLevel`, `unlockAlchemyLevel` (20/35/80 for the liquids) | Toolbox `CAULDRONS_MAX_LEVELS`, alchemy data |
+| `generated/upgrade-vault.json` | `upgrade-vault.acquisition.row-<0..89>` | `name`, `unlockLevel`, `maxLevel`, `oneOff` (maxLevel == 1), `majorDiscountApplies` (index < 33), `masteryTier` | Toolbox `shared-data.json` `upgradeVault` |
+| `generated/bribes.json` | `bribes.acquisition.bribe-<0..40>` | `name`, `set`, `soldBy` (`book`, `garbage-tuna`, `jade-emporium`, from the bribe text), `price`, `codeValue` (e.g. 8 for Insider Trading, not the 5 in its text), `opensSet` | Toolbox `shared-data.json` `bribes` |
+| `generated/stamps.json` | `stamps.acquisition.<slug of rawName>`, e.g. `stamps.acquisition.stamp-a1` (shared with M8) | `capStep`, `material`, `tab`, `obtainable` from Toolbox data only | Toolbox `stamps.json` |
+| `generated/statues.json` | `statues.acquisition.statue-<0..31>` | `name`, `goldOrder` (index order) | Toolbox `statues` |
+| `generated/alchemy-p2w.json` | `alchemy-p2w.acquisition.<group>-<upgrade>` | `maxLevel`, `unlockAlchemyLevel` (20/35/80 for the liquids) | Toolbox `CAULDRONS_MAX_LEVELS`, alchemy data |
 
-**Authored overlay:** the wiki's 7-stamp unobtainable list, where Toolbox's own list has typos, lives in `systems/stamps.overrides.yaml` as an authored entry with its cited Source (wiki, tier 2). It is applied on top of the generated file and never edits it (ADR 0004, ADR 0007). A re-sync PR that makes Toolbox's list agree shows the overlay as removable.
+**Authored overlay:** the wiki's 7-stamp unobtainable list, where Toolbox's own list has typos, is the authored fact table `stamps.fact.unobtainable` (M11 fact tables; owned by M8, M7 reads it), with its cited Source (wiki, tier 2). It is applied on top of the generated file and never edits it (ADR 0004, ADR 0007). A re-sync PR that makes Toolbox's list agree shows the overlay as removable.
 
-**Authored (judgment):** one Spend Priority List per Stage, in `packages/knowledge/priority-lists/spend.yaml`. M11 owns the final path.
+**Authored (judgment):** one Spend Priority List per Stage, `spend.priority.<stage>` (M11 `priority` entry with `list: spend`), each including the shared Spend frame block `spend.priority.frame` (`list: block`). M11 owns the file path. Spend items are not entries: each is a `spend` TierItem inside the list (M11 TR-2), carrying its own words and Sources. An item's slug is unique within its list, and its stable key is `${listId}#${itemSlug}`; that key is `SpendLine.entryId`. The tier an item sits in is its position.
 
-Each item is a #11 Priority List item plus a `spend` block:
+Example (one tier of the W2-late list):
 
 ```yaml
-- id: spend.w2-late.vault.sleepy-time
-  type: priority-list-item
-  list: spend.w2-late
-  position: 5
-  spend:
-    sink: vault
-    ref: vault.row.23            # generated id
-    target: { kind: max }        # once | to-level | to-max | levels | next | cheapest-until-unlock
-    reserve: false               # D2
-    openEnded: false             # D6, FR-24
-    gate: null                   # e.g. spend.gate.combatRow.bullseye
-    shareCap: null               # D6: open-ended items default to 0.33 of the account's coins (FR-24)
-  text: "Max Sleepy Time ({from}→{to}) on {payer}: {coins}"
-  why: "+1% AFK gains per level, for fighting and skilling; cheap to max"
+- id: spend.priority.w2-late
+  system: spend
+  type: priority
+  list: spend
+  stage: W2-late
+  title: W2-late Spend Plan order
+  text: "Spend Plan for {stage}"
+  why: "Coin sinks in Leverage order for a late-W2 account."
   sources:
-    - { url: "https://github.com/YassSoliman/idleon-forge/blob/<commit>/docs/research/systems/account-wide/upgrade-vault.md", tier: 3, verified: 2026-10-17, gameVersion: "2.3.540" } # pinned commit URL, never a branch URL
-  appliesTo: { stage: [W2-early, W2-mid, W2-late] }
-  confidence: L                  # PV 7.6: Vault order unverified
+    - { url: "https://github.com/YassSoliman/idleon-forge/blob/<commit>/docs/research/systems/account-wide/upgrade-vault.md", title: "Vault dossier, stage tables", tier: 4, verified: 2026-10-17, gameVersion: "2.3.540" } # pinned commit URL, never a branch URL
+  appliesTo: { stages: [W2-late] }
+  confidence: L
   status: active
+  tiers:
+    - [{ include: spend.priority.frame }]   # position 1: the frame block (guard), one position as a tie (M11 include rule)
+    # positions 2–4: one-off unlocks, stamps, engine rows, authored per list in the frame's order
+    # …
+    - - item: max-sleepy-time               # key: spend.priority.w2-late#max-sleepy-time
+        ref: upgrade-vault.acquisition.row-23  # generated Acquisition
+        spend:
+          sink: vault
+          target: { kind: to-max }          # once | to-level | to-max | levels | next | cheapest-until-unlock
+          reserve: false                    # D2
+          openEnded: false                  # D6, FR-24
+          gate: null                        # e.g. spend/combat-row-gate
+          shareCap: null                    # D6: open-ended items default to 0.33 of the paying wallet (FR-24)
+        text: "Max Sleepy Time ({from}→{to}) on {payer}: {coins}"
+        why: "+1% AFK gains per level, for fighting and skilling; cheap to max"
+        sources:
+          - { url: "https://github.com/YassSoliman/idleon-forge/blob/<commit>/docs/research/systems/account-wide/upgrade-vault.md", title: "Vault dossier, Sleepy Time", tier: 4, verified: 2026-10-17, gameVersion: "2.3.540" }
+        confidence: L                       # PV 7.6: Vault order unverified
+        carryForward: true                  # earlier bands' unfinished items carry forward (M2 TR-13)
 ```
 
 **The shared Spend frame** (every Stage; an item fires only once its sink is unlocked). It mirrors the Leverage model's shared frame, applied to coins:
@@ -476,17 +493,17 @@ Each item is a #11 Priority List item plus a `spend` block:
 | 7 | **The Stage's band table:** the remaining Vault rows from the dossier's stage tables; Pay 2 Win basics (cauldron Speed and New Bubble, Water Regen and Capacity, vial Attempts); bribes of later-labelled sets | unverified (PV 7.6, 4.4) |
 | 8 | **Unlock fuel** (FR-13) | rule 1 of the Vault dossier (M) |
 
-The per-Stage lists fill this frame with targets from the Vault dossier's stage tables: early W1 → `W1-*`, mid W1 to early W2 → `W1-late`/`W2-early`, late W2 → `W2-mid`/`W2-late`, W3 → `W3-*`. Earlier bands' unfinished items carry forward. **Sources:** each line cites the most official Source for its fact (game data via the dossier's code reference, tier 1) and the community Source for its order. Links are to pinned commits, not research branches, so they survive branch clean-up. **Never-buy rule:** Happy Doggy (row 19) is never an authored item. It can only be bought as unlock fuel (no gameplay read in N.js v1.23).
+The frame is the block `spend.priority.frame`. Note: M11's include rule makes a whole block one position; the Spend frame's 8 positions are therefore authored directly in each Stage list's first tiers (the block holds only the position-1 guard that every list repeats), so positions 1–8 keep the meaning above. The per-Stage lists fill this frame with targets from the Vault dossier's stage tables: early W1 → `W1-*`, mid W1 to early W2 → `W1-late`/`W2-early`, late W2 → `W2-mid`/`W2-late`, W3 → `W3-*`. Earlier bands' unfinished items carry forward (`carryForward: true`, M2 TR-13's carry-forward rule). **Sources:** each line cites the most official Source for its fact (game data via the dossier's code reference, tier 1) and the community Source for its order. Links are to pinned commits, not research branches, so they survive branch clean-up. **Never-buy rule:** Happy Doggy (row 19) is never an authored item. It can only be bought as unlock fuel (no gameplay read in N.js v1.23).
 
 **Authored Checks:**
 
 | Check | Detector | Purpose |
 |---|---|---|
-| `spend.guard.duplicate-entries` | `spend.guard.duplicateEntries` | FR-12 line plus the why |
-| `spend.hydrogen.hold` | `spend.stamp.hydrogen` | FR-11 hold notice (D4) |
-| `spend.stamp.not-ready` | `spend.stamp.raiseReady` (negative) | hands "farm the material" or "raise carry capacity" Goals to M6/M4 |
+| `spend.check.duplicate-entries` | `spend/duplicate-entries-guard` | FR-12 line plus the why |
+| `spend.check.hydrogen-hold` | `spend/stamp-hydrogen` | FR-11 hold notice (D4) |
+| `spend.check.stamp-not-ready` | `spend/stamp-raise-ready` (negative) | lists "farm the material" or "raise carry capacity" under Not covered yet for the MVP (M6 Final rulings RT1), and emits the `SpendHandoff` record |
 
-Coins sitting idle needs no separate Check. M6 routes coins to M7 and has no coins Check, so the Spend Plan's own first `buy` line is the "coins idle" nudge: M10 shows the plan as one Account Goal whose Next Action is that line.
+Coins sitting idle needs no separate Check. M6 routes coins to M7 and has no coins Check, so the Spend Plan's own first `buy` line is the "coins idle" nudge: M10 shows the plan as one Account Goal, `spend.goal.plan` ("Spend coins"), whose Next Action is that line. M2 places `spend.goal.plan` in each Stage goals list at that list's first coin-sink position (M2 TR-13); this Spend list orders only the lines inside it.
 
 ### TR-7 Storage
 
@@ -531,7 +548,7 @@ These are measured on both private fixtures and the largest public save, on a 20
 | **Save lag** (game saves every ~4 min; the player buys in between) | The plan reflects the last save. The header says "as of save Ns ago". Buying out of order is fine: the next save recomputes. A purchase already made shows until that save arrives (no manual done, [#10](https://github.com/YassSoliman/idleon-forge/issues/10) item 8). |
 | **Multiple tabs** | Each tab computes the same plan from the same save. Skip today and Not for me sync through the `storage` event. |
 | **Second account** | One account per browser ([#10](https://github.com/YassSoliman/idleon-forge/issues/10) item 16). Skip/Not for me keys include the account id, so a sign-out and sign-in to another account never leaks state. |
-| **Shared-money toggle** (v1.07 Advanced Features, "money is shared between characters") | Its save flag and exact effect are unverified (Vault dossier, L). Until a Detector reads it, wallets follow `characters[].money`. If all characters but one read 0 while that one holds coins, that is consistent with either model and is shown as is. Finding its flag is a **ship gate** for M7 (section 9, note 1). Runtime guard until then: if two or more wallets hold the same non-zero balance, the plan treats them as one wallet (the coins are counted once) and logs a warning. |
+| **Shared money** | There is no separate "shared money" toggle to worry about beyond storage: each character holds its own coins, and only coins in storage are shared (Final rulings, in-game facts). Wallets follow `characters[].money`, plus the bank. The earlier ship gate and the identical-wallets runtime guard are dropped. |
 | **Rows 5/6 at totals 75–79** | Toolbox's `unlocked` disagrees with the game's count rule. `VaultRow.buyable` uses the game rule (Vault dossier, Toolbox gaps). |
 | **Maxed rows with a Toolbox `cost`** | Dropped (FR-8). |
 | **Locked P2W liquids** (`level == -1`) | Dropped (AC-8.2). |
@@ -539,7 +556,7 @@ These are measured on both private fixtures and the largest public save, on a 20
 | **Very large numbers** (≥ 1e15) | Stored as JS numbers; ladders past 1e15 are allowed. Display uses M10's game-style notation. `NaN` or `Infinity` costs drop the line, with a warning in `state.warnings`. |
 | **Coins below every line** | Empty state (FR-17). |
 | **Stamps not unlocked** (highest class level < 14) | No stamp or bribe lines (AC-9.2). |
-| **No Guilding Tools** (no statue at Gold and the item not owned) | No statue Gold line. A Goal goes to M4: "buy Guilding Tools (Yum-Yum Grotto shop)". |
+| **No Guilding Tools** (no statue at Gold and the item not owned) | No statue Gold line. "Buy Guilding Tools (Yum-Yum Grotto shop)" is listed under Not covered yet for the MVP (no module owns that Goal, M6 Final rulings RT1); M7 emits a `guilding-tools` `SpendHandoff`. |
 | **Hydrogen unlocked but discount 0** (raised today) | Batching on (FR-11 needs only Hydrogen Lv > 0); the hold rule still applies. The plan says "discount resets on any raise: do all raises in this session". |
 | **Gilded Stamps held** (`OLA[154] > 0`) | The first raise is gilded and goes to the costliest stamp; later raises are priced without it (FR-11). |
 | **Several unpriced lines** | "Totals below assume you skip the unchecked items" (FR-14). |
@@ -551,13 +568,12 @@ These are measured on both private fixtures and the largest public save, on a 20
 | Module | What M7 needs from it | Interface |
 |---|---|---|
 | **M1 Sync & Account State** | The `SpendInputs` projection (TR-2) and the worker-side Vault ladders (TR-4) | `AccountState.spend: SpendInputs`; contract tests in `packages/account-state/test` |
-| **M2 Stage & Meta Path** | The Stage id that keys the Spend Priority List; the pusher, for the Bullseye gate | `stage(state): StageId`; `pusher(state): { characterIndex, nextMap }` |
-| **M5 Higher-leverage options** (or M2, wherever the `getMaxDamage` clone lives) | The pusher's hit chance on the next map, for FR-21 | `hitChanceOnNextMap(state, characterIndex): number \| null`. Null means the gate does not fire, and the combat row stays at position 7. |
-| **M4 Purpose & Milestones** | Takes M7's not-ready stamp raises and the Guilding Tools gap as Goals | M7 emits `SpendHandoff { kind: 'stamp-material' \| 'stamp-carry' \| 'guilding-tools', ref, shortfall }[]` |
-| **M6 Unspent & idle** | Lists no coin purchases (M6 routes coins to M7), which avoids double advice. Its "Collect N Colosseum tickets" Goal must agree with FR-12 once the doubling point is verified (open, section 10 row 6). | M6 `spendCount` + M7 `perCharacter` feed Visit Order together (FR-16) |
-| **M10 Now screen UI** | Renders the Spend Plan as one Account-section block plus the per-character chip (D5, FR-23), the 5-line cap, groups, status pills, Source links, Skip today, Not for me and Report this | `SpendPlan` (TR-3) is the source of truth. **M10 must be amended** before M7 builds: M10's TR `SpendPlan { currency, owned, lines: { cost, cumulative, affordable } }` and FR-22's single running total predate per-wallet payers, `move-coins`, `hold`, nullable `unpriced` costs and the D5 chip. A running total is shown per paying wallet, never across wallets. |
+| **M2 Stage & Meta Path** | The Stage id that keys the Spend Priority List; the pusher and its frontier hit chance, for the Bullseye gate (FR-21); the position of `spend.goal.plan` in each Stage goals list | `MetaPathResult.stage.id`, `MetaPathResult.pusher` (M2 TR-4a); `account.frontier.fights[pusher].hitChance` (M2 TR-3) |
+| **M4 Purpose & Milestones** | None for the MVP: no module has a Goal family for not-ready stamp raises or the Guilding Tools gap, so they go under Not covered yet (M6 Final rulings RT1). M7 still emits the handoff records for a later Goal | M7 emits `SpendHandoff { kind: 'stamp-material' \| 'stamp-carry' \| 'guilding-tools', ref, shortfall }[]` |
+| **M6 Unspent & idle** | Lists no coin purchases (M6 routes coins to M7), which avoids double advice. Its "Collect N Colosseum tickets" Goal is never suppressed; FR-12's wording follows the ruled doubling check (Final rulings RT-1). | M6 `spendCount` + M7 `perCharacter` feed Visit Order together (FR-16) |
+| **M10 Now screen UI** | Renders the Spend Plan as one Account-section block plus the per-character chip (D5, FR-23), the 5-line cap, groups, status pills, Source links, Skip today, Not for me and Report this | `SpendPlan` (TR-3) is the source of truth. Done in this pass: M10 TR-2 imports this `SpendPlan` (its own shape is deleted), FR-22 is rewritten with per-wallet running totals and status pills, and `CharacterResult.spendChip` carries the D5 chip. A running total is shown per paying wallet, never across wallets. |
 | **M10 / M3 Visit Order** | "Most to spend" | `SpendPlan.perCharacter` lines + M6 `spendCount` |
-| **M11 Knowledge tooling** | Schema for the `spend` block, the generated-fact pipeline for the 5 generated files, and CI source enforcement | JSON Schema in `packages/knowledge/schema` |
+| **M11 Knowledge tooling** | The `spend` TierItem in `list: spend` Priority Lists, the `carryForward` flag, engine Detector registration, the generators for the 5 generated Acquisition sets (`upgrade-vault`, `bribes`, `stamps`, `statues`, `alchemy-p2w`), and CI source enforcement (all now in M11 TR-2, TR-2b, TR-10) | zod schema in `packages/knowledge/src/schema.ts` |
 | **M12 Release** | "What's new" lines when the Spend lists change | changelog entries from Knowledge Base PRs |
 | **M13 Suggestions** | Report this on a Spend line | FR-19 payload; `SpendLine.reportText` as the rendered text |
 
@@ -565,8 +581,8 @@ These are measured on both private fixtures and the largest public save, on a 20
 
 Ruled by Yasser on 2026-10-17 ([PR #51](https://github.com/YassSoliman/idleon-forge/pull/51)): every recommendation accepted as written. The FRs, TRs and stories above already apply them.
 
-- **D1 - Coins on several characters: plan per character, pool through the bank only when needed.** The plan keeps one wallet per character plus the bank. A line becomes `move-coins` ("withdraw N from storage on <class Lv>, then buy") only when no single wallet covers it but one wallet plus the bank does (FR-7). *Why:* it keeps a 15-minute session to the fewest character switches (on both fixtures one or two characters hold most of the coins), and it still unlocks big one-off buys no single character can afford. One account-wide pool, like Toolbox, would call things affordable that need steps the player isn't shown.
-- **D2 - Saving up: only for `reserve` items.** When a line flagged `reserve` in the Knowledge Base is unaffordable everywhere, it becomes `save-for`, and the coins of the character closest to affording it are held back from every line ranked below it (FR-22). Every other unaffordable line is simply skipped, and cheaper lines below it stay buyable. The `reserve` items today: Duplicate Entries before tickets and Changing the Code (the Crystal 3D Printer joins only if gems ever enter the plan). *Why:* only a handful of buys deserve it. Always stopping at the first unaffordable line would freeze the plan behind one big item, and never saving leaves players forever just short of the buys the community says matter most.
+- **D1 - Coins on several characters: plan per character, pool through the bank only when needed.** The plan keeps one wallet per character plus the bank. A line becomes `move-coins` ("withdraw N from storage on <class Lv>, then buy") only when no single wallet covers it but one wallet plus the bank does (FR-7). *Why:* it keeps a 15-minute session to the fewest character switches (on both fixtures one or two characters hold most of the coins), and it still unlocks big one-off buys no single character can afford. One account-wide pool, like Toolbox, would call things affordable that need steps the player isn't shown. *In-game facts (Final rulings):* coins put in storage are shared and can be deposited from any character through the codex, so a deposit-then-withdraw step is cheap.
+- **D2 - Saving up: only for `reserve` items.** When a line flagged `reserve` in the Knowledge Base is unaffordable everywhere, it becomes `save-for`, and the coins of the character closest to affording it are held back from every line ranked below it (FR-22). Every other unaffordable line is simply skipped, and cheaper lines below it stay buyable. The hold applies only while the shortfall is at most 50% of the item's cost (Final rulings RT-2). The `reserve` items today: Duplicate Entries before tickets and Changing the Code (the Crystal 3D Printer joins only if gems ever enter the plan). *Why:* only a handful of buys deserve it. Always stopping at the first unaffordable line would freeze the plan behind one big item, and never saving leaves players forever just short of the buys the community says matter most.
 - **D3 - Sinks Toolbox doesn't price: show them as `unpriced`.** Statue Gold and Alchemy Pay 2 Win Player upgrades show as "cost not checked, see the price in game" lines, never deducted from a wallet (FR-14). Forge upgrades go under "Not covered yet" (FR-20). Anvil coin points use Toolbox's `getPlayerAnvil` from the parse worker if it can be imported; otherwise they are `unpriced` too. No cost formulas of our own: amending ADR 0005 stays in reserve. *Why:* statue Gold is a confirmed priority (PV 3.7) and Player upgrades a cheap community one, and the game shows the price on the button. Writing formulas would reopen the upkeep cost ADR 0005 exists to avoid.
 - **D4 - Hydrogen discount: hold only for a raise that will fit within 7 days.** Ready cap raises are held (`hold`) only while some at-cap stamp whose material is too big for any character to carry today would fit at a discount reachable within K = 7 days. Otherwise every ready raise is bought now, in one session (FR-11). *Why:* always waiting for 90% can mean months at a low Hydrogen level (1% a day), and raising whenever anything is ready wastes the discount's real job, which is making otherwise-impossible raises fit in an inventory. Toolbox already computes each stamp's `minReduction`, so the rule is pure arithmetic, and the hold notice shows the days left so the player can override by just raising.
 - **D5 - Placement: one Account block plus a chip per paying character.** The Spend Plan is one block in the Now screen's Account section, each line naming its character. Each paying character's row also gets a one-line chip, "Spend here: N buys, ~X → Spend Plan" (FR-23). *Why:* the order across characters is the whole point of a Spend Plan, and splitting it across rows would lose it. The chip still honours #10 item 6 (an account-wide task that needs a character shows on that character's row) and feeds Visit Order. This binds M10.
@@ -574,7 +590,7 @@ Ruled by Yasser on 2026-10-17 ([PR #51](https://github.com/YassSoliman/idleon-fo
 
 ## 9. Risk notes
 
-1. **It tells you to buy something you can't afford on the character you're playing.** Toolbox's `rawMoney` and `hasMoney` add up every character plus the bank. Its own comment assumes coins move freely between characters. A plan built on them would show "affordable" for buys that need several switches and transfers. *Defence:* per-character wallets (FR-2, FR-5), D1's explicit move-coins step, and AC-2.1 and AC-2.5. *Residual risk:* the shared-money toggle (v1.07) is unverified. A build task must find its save flag on a save with the toggle on before M7 ships. If it is on, wallets collapse into one.
+1. **It tells you to buy something you can't afford on the character you're playing.** Toolbox's `rawMoney` and `hasMoney` add up every character plus the bank. Its own comment assumes coins move freely between characters. A plan built on them would show "affordable" for buys that need several switches and transfers. *Defence:* per-character wallets (FR-2, FR-5), D1's explicit move-coins step, and AC-2.1 and AC-2.5. Yasser confirmed in game that each character holds its own coins, storage is shared and reachable from any character through the codex, and there is no separate shared-money toggle (Final rulings), so the earlier residual risk is closed.
 2. **Toolbox numbers that look valid but aren't.** Seven traps found on the fixtures (the last two by the red-team, section 10):
    - maxed Vault rows still carry a `cost`;
    - locked Pay 2 Win liquids are level −1 with a 2.1K price;
@@ -602,7 +618,7 @@ Ruled by Yasser on 2026-10-17 ([PR #51](https://github.com/YassSoliman/idleon-fo
 7. **The plan lags reality.** The game cloud-saves about every 4 minutes, so a player buying from the list sees bought items linger, and may think the list is wrong. *Defence:* the "as of save Ns ago" header; M10's "switch character to refresh" hint after ~4 min ([#10](https://github.com/YassSoliman/idleon-forge/issues/10) item 12); no manual done (it would drift from the save); conservative pricing (no re-pricing, overstated stamp totals), so a lagging plan never over-promises. A coin-income ETA from the save history is deliberately left out. Spending between saves would make it lie.
 8. **Overload in a 15-minute session.** Five sinks with dozens of rows could produce a 40-line list. *Defence:* 5 visible lines (FR-15), grouping by sink and wallet (FR-9), the chip per character (D5), and unlock fuel collapsed to one line (FR-13).
 9. **Privacy leak.** Balances and class levels could identify a player in a public issue. *Defence:* Report this sends class, level, Stage and a 2-significant-figure cost, never names or balances (FR-19). The plan stores no names (TR-2). No balance from a private fixture is committed (TR-9); this spec quotes only rounded aggregates.
-10. **Double advice with M6.** "You have 91M idle" in M6 and "buy these" in M7 would say the same thing twice, or contradict each other if they count coins differently. *Defence:* section 7's boundary. M6 owns the idle-coins Check and links to the plan, and M7 owns every coin purchase. Both read `SpendPlan.perCharacter`, so they count coins the same way.
+10. **Double advice with M6.** "You have 91M idle" in M6 and "buy these" in M7 would say the same thing twice, or contradict each other if they count coins differently. *Defence:* section 7's boundary. M6 has no coins Check; M7 owns its own idle-coins pointer, the plan's first `buy` line (M6 Final rulings RT1, TR-6), and every coin purchase. Visit Order adds M6 `spendCount` and `SpendPlan.perCharacter`, so coins are counted once.
 
 ## 10. Red-team log
 
@@ -615,14 +631,14 @@ Independent red-team pass on 2026-10-17, run after the decisions were folded in,
 | 3 | P1 | `minReduction` is null in the parsed save, and Toolbox returns `{ reduction }` | Fixed | Worker call with `withMinReduction = true`, unwrapping `.reduction` (TR-1, TR-2) |
 | 4 | P1 | `futureCosts[0]` can be a later tier, a projected discount or a fallback | Fixed | Accepted only at the next tier and the current discount; otherwise not ready (FR-10) |
 | 5 | P1 | Only the first raise in a batch gets the Hydrogen discount; the daily rate is `baseBonus × level`; the section 6 contradiction | Fixed | FR-11 rewritten: first raise discounted, the others priced at 0%, costliest first, batching on at discount 0, Gilded handling. AC-4.x updated |
-| 6 | P1 | `ColosseumTickets.totalAmount` is the `CY` balance, not unreceived tickets; M6 says "collect tickets" | Fixed; one part deferred | The guard fires on row 52 alone, quotes the NPC-banked count and never says "unredeemed" (FR-12, AC-1.1, AC-5.1). Where the doubling applies is a ship-gate check. The M6 interaction goes to Yasser |
+| 6 | P1 | `ColosseumTickets.totalAmount` is the `CY` balance, not unreceived tickets; M6 says "collect tickets" | Fixed; one part deferred | The guard fires on row 52 alone, quotes the NPC-banked count and never says "unredeemed" (FR-12, AC-1.1, AC-5.1). Where the doubling applies is a ship-gate check. The M6 interaction goes to Yasser. Ruled (Final rulings RT-1): check in game code where doubling happens (ship gate); if on collection and Duplicate Entries is affordable, "buy Duplicate Entries first, then collect"; otherwise collect anyway (FR-12) |
 | 7 | P1 | Vial upgrades have no Toolbox price | Fixed | Vials are `unpriced` (scope, FR-14, TR-2, TR-4, AC-8.4) |
 | 8 | P1 | M10's `SpendPlan` shape and single running total contradict TR-3 and D5 | Fixed | TR-3 is declared the source of truth, with the M10 amendment listed in section 7. M10's own spec must follow before M7 builds |
 | 9 | P1 | Balances leak through Report this text (cost − shortfall) and committed goldens; the spec printed fixture balances | Fixed | `reportText` with no shortfall or transfer and costs at 2 s.f. (FR-19, TR-3). Private goldens are gitignored (TR-9). Fixture table bucketed |
-| 10 | P1 | The shared-money toggle could count pooled coins once per character (suspicion) | Fixed | The flag check is now an M7 ship gate, plus a runtime guard that merges identical non-zero wallets (section 6) |
+| 10 | P1 | The shared-money toggle could count pooled coins once per character (suspicion) | Fixed | The flag check is now an M7 ship gate, plus a runtime guard that merges identical non-zero wallets (section 6). Superseded (Final rulings): there is no shared-money toggle beyond storage, so the gate and guard are dropped |
 | 11 | P1 | No behaviour for a failed or missing section; a failed Vault would read as level 0 | Fixed | FR-25 partial data, `SpendPlan.unavailable`, a section 6 row, AC-1.7 |
 | 12 | P2 | The 1/3 share cap was ambiguous and missed D6's own example; "open-ended" was undefined | Fixed | The cap is per paying wallet with the bank excluded, matching D6's 52M-of-92M case. An authored `openEnded` flag (FR-24, AC-11.1) |
-| 13 | P2 | `reserve` rules: position ≥ 3 loophole, competing reserves, single-wallet freeze | Fixed; one part deferred | It reserves only the cost amount, protects every lower line, and the higher rank picks first (FR-22). The single-wallet fallback goes to Yasser |
+| 13 | P2 | `reserve` rules: position ≥ 3 loophole, competing reserves, single-wallet freeze | Fixed; one part deferred | It reserves only the cost amount, protects every lower line, and the higher rank picks first (FR-22). The single-wallet fallback goes to Yasser. Ruled (Final rulings RT-2): hold coins only while the shortfall is ≤ 50% of the item's cost; further away, `save-for` without holding (FR-22, AC-5.3) |
 | 14 | P2 | Skip/Not for me expiry and keys disagreed with M10, and ids were unstable | Fixed | M10 FR-28/29 expiry rules, keyed by `entryId + ref` (FR-18, TR-3) |
 | 15 | P2 | "Most to spend" had two owners, and the idle-coins Check had none | Fixed | Visit Order sums M6 `spendCount` and M7 lines (FR-16). The plan's first buy line is the idle nudge (TR-6) |
 | 16 | P2 | The Anvil note was inaccurate, and Anvil had no FR/TR | Fixed; claim rejected | `getPlayerAnvil` does exist (`parsers/world-1/anvil.ts:118`, exported), so the "no such function" part is rejected. The gap is fixed: Anvil coin points are priced per character (scope, TR-1, TR-2, TR-4, AC-8.4) |
@@ -648,6 +664,15 @@ Independent red-team pass on 2026-10-17, run after the decisions were folded in,
 - Fixtures: `fixtures/private/*.parsed.json` (gitignored), read 2026-10-17. Aggregates only.
 
 Verified 2026-10-17 against game v1.23 (Toolbox gameVer 2.3.540). Stale against any later patch.
+
+## Consistency pass (2026-10-17)
+
+- Final rulings folded into the body: no shared-money toggle beyond storage (§6 row, risk note 1, red-team row 10), cheap deposit from any character through the codex (FR-7, D1), the ticket-doubling wording (FR-12, red-team row 6) and the 50% reserve rule (FR-22, D2, AC-5.2, new AC-5.3).
+- Ids follow M11: generated Acquisitions (`upgrade-vault.acquisition.row-<i>`, `bribes.acquisition.bribe-<i>`, `stamps.acquisition.<slug>`, `statues.acquisition.statue-<i>`, `alchemy-p2w.acquisition.<group>-<upgrade>`), engine Detectors `spend/<name>`, Checks `spend.check.*`, lists `spend.priority.<stage>` with the frame block `spend.priority.frame`, and the Account Goal `spend.goal.plan`. Spend items are `spend` TierItems keyed `${listId}#${itemSlug}` (M11 TR-2).
+- The Bullseye gate reads M2's frontier hit chance (`account.frontier.fights[pusher].hitChance`, % 0..100), so it works from M2's build on; the M5 dependency is gone (FR-21, TR-5, §7).
+- M8 → M7: the W2-late account has 8 collected stamps, the Bullseye Stamp at Lv 0 of 5 is a coin-level line, and `SpendInputs.stamps` lists every collected stamp, Lv 0 included (fixture table, AC-3.1, TR-2). M4 and M8 read this one stamp list.
+- Not-ready stamp raises and the Guilding Tools gap go under Not covered yet for the MVP, since no module owns those Goals (M6 Final rulings RT1); `SpendHandoff` stays for later.
+- M10's Spend Plan interface and FR-22 now follow TR-3 (done in M10).
 
 ## Final rulings (Yasser, 2026-10-17)
 
