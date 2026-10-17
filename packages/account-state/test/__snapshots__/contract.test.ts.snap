@@ -1,0 +1,3362 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`public save first.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
+{
+  "account": {
+    "currentWorld": 4,
+    "finishedWorlds": [
+      1,
+      2,
+      3,
+    ],
+    "gameVersion": {
+      "parserTarget": "2.3.540",
+      "saveVersion": 17.05,
+      "serverBuild": 80,
+    },
+    "lastCloudSave": 1717794496023,
+    "secondsSinceLastSave": 74443903,
+  },
+  "characters": [
+    {
+      "afkTarget": "Purp_Mushroom",
+      "afkType": "FIGHTING",
+      "class": "Blood_Berserker",
+      "currentMap": "Spaceway_Raceway",
+      "foodStacks": [
+        {
+          "amount": 89,
+          "item": "Golden_Nomwich",
+        },
+        {
+          "amount": 263,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 81,
+          "item": "Golden_Meat_Pie",
+        },
+        {
+          "amount": 198,
+          "item": "Golden_Jam",
+        },
+      ],
+      "index": 0,
+      "level": 96,
+      "secondsSinceLastSave": 74444708,
+    },
+    {
+      "afkTarget": "Laboratory",
+      "afkType": "LABORATORY",
+      "class": "Bubonic_Conjuror",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 34,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 7,
+          "item": "Golden_Meat_Pie",
+        },
+        {
+          "amount": 44,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 396,
+          "item": "Kebab_Sticks",
+        },
+      ],
+      "index": 1,
+      "level": 87,
+      "secondsSinceLastSave": 74444227,
+    },
+    {
+      "afkTarget": "Laboratory",
+      "afkType": "LABORATORY",
+      "class": "Siege_Breaker",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 1,
+          "item": "Golden_Meat_Pie",
+        },
+        {
+          "amount": 2,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 1,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 177,
+          "item": "Mountain_Bread",
+        },
+      ],
+      "index": 2,
+      "level": 86,
+      "secondsSinceLastSave": 74444475,
+    },
+    {
+      "afkTarget": "Purp_Mushroom",
+      "afkType": "FIGHTING",
+      "class": "Divine_Knight",
+      "currentMap": "Spaceway_Raceway",
+      "foodStacks": [
+        {
+          "amount": 1,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 2,
+          "item": "Golden_Meat_Pie",
+        },
+        {
+          "amount": 143,
+          "item": "Icing_Ironbite",
+        },
+      ],
+      "index": 3,
+      "level": 86,
+      "secondsSinceLastSave": 74444484,
+    },
+    {
+      "afkTarget": "Laboratory",
+      "afkType": "LABORATORY",
+      "class": "Elemental_Sorcerer",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 9,
+          "item": "Golden_Nomwich",
+        },
+        {
+          "amount": 1,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 2,
+          "item": "Golden_Meat_Pie",
+        },
+        {
+          "amount": 129,
+          "item": "Mountain_Bread",
+        },
+      ],
+      "index": 4,
+      "level": 87,
+      "secondsSinceLastSave": 74444473,
+    },
+    {
+      "afkTarget": "Laboratory",
+      "afkType": "LABORATORY",
+      "class": "Beast_Master",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 2,
+          "item": "Mountain_Bread",
+        },
+        {
+          "amount": 8,
+          "item": "Golden_Nomwich",
+        },
+      ],
+      "index": 5,
+      "level": 87,
+      "secondsSinceLastSave": 74444471,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Maestro",
+      "currentMap": "YumYum_Grotto",
+      "foodStacks": [
+        {
+          "amount": 44,
+          "item": "Golden_Ham",
+        },
+        {
+          "amount": 3,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 8,
+          "item": "Golden_Meat_Pie",
+        },
+        {
+          "amount": 15,
+          "item": "Golden_Nomwich",
+        },
+      ],
+      "index": 6,
+      "level": 73,
+      "secondsSinceLastSave": 74443905,
+    },
+  ],
+  "warnings": [],
+}
+`;
+
+exports[`public save fourth.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
+{
+  "account": {
+    "currentWorld": 6,
+    "finishedWorlds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+    ],
+    "gameVersion": {
+      "parserTarget": "2.3.540",
+      "saveVersion": 17.05,
+      "serverBuild": 79,
+    },
+    "lastCloudSave": 1715932274485,
+    "secondsSinceLastSave": 76306125,
+  },
+  "characters": [
+    {
+      "afkTarget": "Woodlin_Spirit",
+      "afkType": "FIGHTING",
+      "class": "Voidwalker",
+      "currentMap": "Edge_of_the_Valley",
+      "foodStacks": [
+        {
+          "amount": 239129,
+          "item": "Potent_Speed_Potion",
+        },
+        {
+          "amount": 236154,
+          "item": "Potent_Strength_Potion",
+        },
+        {
+          "amount": 5041,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 106017,
+          "item": "Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 129937,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 7344,
+          "item": "Golden_Kebabs",
+        },
+      ],
+      "index": 0,
+      "level": 476,
+      "secondsSinceLastSave": 76306126,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Beginner",
+      "currentMap": "Blunder_Hills",
+      "foodStacks": [],
+      "index": 1,
+      "level": 1,
+      "secondsSinceLastSave": 140174772,
+    },
+  ],
+  "warnings": [
+    "Character 3 has no save data and was skipped.",
+    "Character 4 has no save data and was skipped.",
+  ],
+}
+`;
+
+exports[`public save fresh.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
+{
+  "account": {
+    "currentWorld": 6,
+    "finishedWorlds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+    ],
+    "gameVersion": {
+      "parserTarget": "2.3.540",
+      "saveVersion": 32.05,
+      "serverBuild": 136,
+    },
+    "lastCloudSave": 1787251303120,
+    "secondsSinceLastSave": 4987096,
+  },
+  "characters": [
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Siege_Breaker",
+      "currentMap": "Frostbite_Towndra",
+      "foodStacks": [
+        {
+          "amount": 4379,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 211,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+        {
+          "amount": 21964,
+          "item": "Quotient_EXP_Potion",
+        },
+      ],
+      "index": 0,
+      "level": 478,
+      "secondsSinceLastSave": 76729560,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Blood_Berserker",
+      "currentMap": "Spirit_Village",
+      "foodStacks": [
+        {
+          "amount": 29793,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 2100,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 19980,
+          "item": "Small_Life_Potion",
+        },
+        {
+          "amount": 177,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 1,
+      "level": 534,
+      "secondsSinceLastSave": 4987097,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Beginner",
+      "currentMap": "Blunder_Hills",
+      "foodStacks": [
+        {
+          "amount": 14941,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 11573,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 27777,
+          "item": "Potent_Speed_Potion",
+        },
+        {
+          "amount": 32310,
+          "item": "Potent_Strength_Potion",
+        },
+        {
+          "amount": 696,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 2,
+      "level": 1,
+      "secondsSinceLastSave": 4987522,
+    },
+  ],
+  "warnings": [
+    "Character 4 has no save data and was skipped.",
+  ],
+}
+`;
+
+exports[`public save highend.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
+{
+  "account": {
+    "currentWorld": 7,
+    "finishedWorlds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+    ],
+    "gameVersion": {
+      "parserTarget": "2.3.540",
+      "saveVersion": 32.05,
+      "serverBuild": 136,
+    },
+    "lastCloudSave": 1786397005571,
+    "secondsSinceLastSave": 5841394,
+  },
+  "characters": [
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Death_Bringer",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 23299909,
+          "item": "Golden_Ham",
+        },
+        {
+          "amount": 23299909,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 23299909,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 23299909,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 23299909,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 23299909,
+          "item": "Golden_Dumpling",
+        },
+      ],
+      "index": 0,
+      "level": 1701,
+      "secondsSinceLastSave": 5854900,
+    },
+    {
+      "afkTarget": "Buried_Church",
+      "afkType": "SPELUNKING",
+      "class": "Siege_Breaker",
+      "currentMap": "Middle_of_Nowhere",
+      "foodStacks": [
+        {
+          "amount": 21959562,
+          "item": "Golden_Ham",
+        },
+        {
+          "amount": 21995992,
+          "item": "Buttered_Toasted_Butter",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+      ],
+      "index": 1,
+      "level": 1725,
+      "secondsSinceLastSave": 5841854,
+    },
+    {
+      "afkTarget": "Buried_Church",
+      "afkType": "SPELUNKING",
+      "class": "Elemental_Sorcerer",
+      "currentMap": "Middle_of_Nowhere",
+      "foodStacks": [
+        {
+          "amount": 21959562,
+          "item": "Golden_Ham",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Cake",
+        },
+      ],
+      "index": 2,
+      "level": 1734,
+      "secondsSinceLastSave": 5842271,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Divine_Knight",
+      "currentMap": "Shimmerfin_Grove",
+      "foodStacks": [
+        {
+          "amount": 23087216,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 984796,
+          "item": "Midnight_Cookie",
+        },
+        {
+          "amount": 23087216,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 23299909,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 22286801,
+          "item": "Golden_Meat_Pie",
+        },
+        {
+          "amount": 23087216,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+      ],
+      "index": 3,
+      "level": 1819,
+      "secondsSinceLastSave": 5841395,
+    },
+    {
+      "afkTarget": "Trench_Fish",
+      "afkType": "FIGHTING",
+      "class": "Arcane_Cultist",
+      "currentMap": "Deep_End_of_the_Koipond",
+      "foodStacks": [
+        {
+          "amount": 21959562,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 22050666,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Ham",
+        },
+        {
+          "amount": 22328650,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Saltwater_Taffy",
+        },
+      ],
+      "index": 4,
+      "level": 1762,
+      "secondsSinceLastSave": 5842319,
+    },
+    {
+      "afkTarget": "Trench_Fish",
+      "afkType": "FIGHTING",
+      "class": "Wind_Walker",
+      "currentMap": "Deep_End_of_the_Koipond",
+      "foodStacks": [
+        {
+          "amount": 21959562,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Saltwater_Taffy",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Ham",
+        },
+      ],
+      "index": 5,
+      "level": 1744,
+      "secondsSinceLastSave": 5842283,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Divine_Knight",
+      "currentMap": "Blunder_Hills",
+      "foodStacks": [
+        {
+          "amount": 22286801,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 5419412,
+          "item": "Icing_Ironbite",
+        },
+      ],
+      "index": 6,
+      "level": 1734,
+      "secondsSinceLastSave": 5841608,
+    },
+    {
+      "afkTarget": "One_Way_Opening",
+      "afkType": "SPELUNKING",
+      "class": "Voidwalker",
+      "currentMap": "Coralcave_Perimeter",
+      "foodStacks": [
+        {
+          "amount": 23602360,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 23602360,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 23602360,
+          "item": "Golden_Saltwater_Taffy",
+        },
+        {
+          "amount": 23602360,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 23602360,
+          "item": "Golden_Ham",
+        },
+        {
+          "amount": 23602360,
+          "item": "Golden_Cheese",
+        },
+      ],
+      "index": 7,
+      "level": 1764,
+      "secondsSinceLastSave": 5845344,
+    },
+    {
+      "afkTarget": "Trench_Fish",
+      "afkType": "FIGHTING",
+      "class": "Arcane_Cultist",
+      "currentMap": "Deep_End_of_the_Koipond",
+      "foodStacks": [
+        {
+          "amount": 21883685,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 21883685,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 222221,
+          "item": "Soulble_Gum",
+        },
+        {
+          "amount": 21883685,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 21883685,
+          "item": "Golden_Ham",
+        },
+        {
+          "amount": 21883685,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+      ],
+      "index": 8,
+      "level": 1743,
+      "secondsSinceLastSave": 5842312,
+    },
+    {
+      "afkTarget": "Trench_Fish",
+      "afkType": "FIGHTING",
+      "class": "Wind_Walker",
+      "currentMap": "Deep_End_of_the_Koipond",
+      "foodStacks": [
+        {
+          "amount": 21959562,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Ham",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Saltwater_Taffy",
+        },
+        {
+          "amount": 21959562,
+          "item": "Golden_Cheese",
+        },
+      ],
+      "index": 9,
+      "level": 1742,
+      "secondsSinceLastSave": 5854723,
+    },
+    {
+      "afkTarget": "Bravery",
+      "afkType": "Paying_Respect",
+      "class": "Beginner",
+      "currentMap": "The_Hole",
+      "foodStacks": [
+        {
+          "amount": 21997501,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 21997501,
+          "item": "Golden_Ham",
+        },
+        {
+          "amount": 21997501,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 21997501,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 21997501,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 21997501,
+          "item": "Golden_Saltwater_Taffy",
+        },
+      ],
+      "index": 10,
+      "level": 1717,
+      "secondsSinceLastSave": 5848520,
+    },
+  ],
+  "warnings": [],
+}
+`;
+
+exports[`public save latest.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
+{
+  "account": {
+    "currentWorld": 7,
+    "finishedWorlds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+    ],
+    "gameVersion": {
+      "parserTarget": "2.3.540",
+      "saveVersion": 33.05,
+      "serverBuild": 141,
+    },
+    "lastCloudSave": 1791659018980,
+    "secondsSinceLastSave": 579381,
+  },
+  "characters": [
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Siege_Breaker",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 4439,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 66,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 16638,
+          "item": "Raw_Nigiri",
+        },
+        {
+          "amount": 23472864,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 80,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 211,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 0,
+      "level": 1291,
+      "secondsSinceLastSave": 1371560,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Death_Bringer",
+      "currentMap": "Shimmerfin_Grove",
+      "foodStacks": [
+        {
+          "amount": 29116534,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 99934,
+          "item": "Dumpling",
+        },
+        {
+          "amount": 2100,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 566395,
+          "item": "Small_Life_Potion",
+        },
+        {
+          "amount": 338900,
+          "item": "Hot_Dog",
+        },
+        {
+          "amount": 177,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 1,
+      "level": 1292,
+      "secondsSinceLastSave": 1371519,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Elemental_Sorcerer",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 14941,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 2186981,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 23112750,
+          "item": "Potent_Speed_Potion",
+        },
+        {
+          "amount": 696,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 2,
+      "level": 1259,
+      "secondsSinceLastSave": 1371345,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Divine_Knight",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 678,
+          "item": "Golden_Peanut",
+        },
+        {
+          "amount": 2142276,
+          "item": "Decent_Life_Potion",
+        },
+        {
+          "amount": 3886,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 219219,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 6115,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 13043,
+          "item": "Golden_Nigiri",
+        },
+      ],
+      "index": 3,
+      "level": 1240,
+      "secondsSinceLastSave": 1371322,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Arcane_Cultist",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 49,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+        {
+          "amount": 82,
+          "item": "Golden_Bread",
+        },
+        {
+          "amount": 24455494,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 2840,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+      ],
+      "index": 4,
+      "level": 1231,
+      "secondsSinceLastSave": 1371285,
+    },
+    {
+      "afkTarget": "Pirate_Underling",
+      "afkType": "FIGHTING",
+      "class": "Wind_Walker",
+      "currentMap": "Pirate_Upper_Deck",
+      "foodStacks": [
+        {
+          "amount": 20736847,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 210,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 2830,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 21741561,
+          "item": "Average_Speed_Potion",
+        },
+      ],
+      "index": 5,
+      "level": 1280,
+      "secondsSinceLastSave": 579382,
+    },
+    {
+      "afkTarget": "Divinity",
+      "afkType": "DIVINITY",
+      "class": "Voidwalker",
+      "currentMap": "Magma_Rivertown",
+      "foodStacks": [
+        {
+          "amount": 33425,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1008,
+          "item": "Golden_Ham",
+        },
+        {
+          "amount": 2579832,
+          "item": "Average_Speed_Potion",
+        },
+        {
+          "amount": 510396,
+          "item": "Dumpling",
+        },
+        {
+          "amount": 540571,
+          "item": "Mountain_Bread",
+        },
+        {
+          "amount": 468206,
+          "item": "Cheezy_Pizza",
+        },
+      ],
+      "index": 6,
+      "level": 1158,
+      "secondsSinceLastSave": 1371241,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Siege_Breaker",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 2011125,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 14,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 2,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 3915,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1391270,
+          "item": "Potent_Speed_Potion",
+        },
+      ],
+      "index": 7,
+      "level": 1261,
+      "secondsSinceLastSave": 1371221,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Royal_Guardian",
+      "currentMap": "Blunder_Hills",
+      "foodStacks": [
+        {
+          "amount": 330413,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1861,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 149,
+          "item": "Golden_Bread",
+        },
+        {
+          "amount": 4249,
+          "item": "Golden_Nigiri",
+        },
+        {
+          "amount": 5403,
+          "item": "Golden_Saltwater_Taffy",
+        },
+        {
+          "amount": 32800688,
+          "item": "Decent_Strength_Potion",
+        },
+      ],
+      "index": 8,
+      "level": 1307,
+      "secondsSinceLastSave": 601278,
+    },
+    {
+      "afkTarget": "Green_Mushroom",
+      "afkType": "FIGHTING",
+      "class": "Bubonic_Conjuror",
+      "currentMap": "Spore_Meadows",
+      "foodStacks": [
+        {
+          "amount": 18939,
+          "item": "Raw_Nigiri",
+        },
+        {
+          "amount": 5204,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 18994,
+          "item": "Dumpling",
+        },
+        {
+          "amount": 503873,
+          "item": "Golden_Saltwater_Taffy",
+        },
+        {
+          "amount": 16,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 1479170,
+          "item": "Quotient_EXP_Potion",
+        },
+      ],
+      "index": 9,
+      "level": 1268,
+      "secondsSinceLastSave": 1371178,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Beginner",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [],
+      "index": 10,
+      "level": 1224,
+      "secondsSinceLastSave": 1340238,
+    },
+  ],
+  "warnings": [],
+}
+`;
+
+exports[`public save latest-2026-08.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
+{
+  "account": {
+    "currentWorld": 7,
+    "finishedWorlds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+    ],
+    "gameVersion": {
+      "parserTarget": "2.3.540",
+      "saveVersion": 32.05,
+      "serverBuild": 136,
+    },
+    "lastCloudSave": 1787217361670,
+    "secondsSinceLastSave": 5021038,
+  },
+  "characters": [
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Siege_Breaker",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 4439,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 66,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 16638,
+          "item": "Raw_Nigiri",
+        },
+        {
+          "amount": 23472864,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 80,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 211,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 0,
+      "level": 1291,
+      "secondsSinceLastSave": 11339773,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Death_Bringer",
+      "currentMap": "Blunder_Hills",
+      "foodStacks": [
+        {
+          "amount": 29116537,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 99934,
+          "item": "Dumpling",
+        },
+        {
+          "amount": 2100,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 567263,
+          "item": "Small_Life_Potion",
+        },
+        {
+          "amount": 338900,
+          "item": "Hot_Dog",
+        },
+        {
+          "amount": 177,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 1,
+      "level": 1292,
+      "secondsSinceLastSave": 9132028,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Elemental_Sorcerer",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 14941,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 2186981,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 23112750,
+          "item": "Potent_Speed_Potion",
+        },
+        {
+          "amount": 696,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 2,
+      "level": 1259,
+      "secondsSinceLastSave": 11339487,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Divine_Knight",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 678,
+          "item": "Golden_Peanut",
+        },
+        {
+          "amount": 2142276,
+          "item": "Decent_Life_Potion",
+        },
+        {
+          "amount": 3886,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 219219,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 6115,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 13043,
+          "item": "Golden_Nigiri",
+        },
+      ],
+      "index": 3,
+      "level": 1240,
+      "secondsSinceLastSave": 11339351,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Arcane_Cultist",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 49,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+        {
+          "amount": 82,
+          "item": "Golden_Bread",
+        },
+        {
+          "amount": 24455494,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 2840,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+      ],
+      "index": 4,
+      "level": 1231,
+      "secondsSinceLastSave": 9177781,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Wind_Walker",
+      "currentMap": "Frostbite_Towndra",
+      "foodStacks": [
+        {
+          "amount": 20745812,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 210,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 2830,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 21741561,
+          "item": "Average_Speed_Potion",
+        },
+      ],
+      "index": 5,
+      "level": 1280,
+      "secondsSinceLastSave": 5021038,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Voidwalker",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 33425,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1008,
+          "item": "Golden_Ham",
+        },
+        {
+          "amount": 2580683,
+          "item": "Average_Speed_Potion",
+        },
+        {
+          "amount": 510396,
+          "item": "Dumpling",
+        },
+        {
+          "amount": 540571,
+          "item": "Mountain_Bread",
+        },
+        {
+          "amount": 468206,
+          "item": "Cheezy_Pizza",
+        },
+      ],
+      "index": 6,
+      "level": 1157,
+      "secondsSinceLastSave": 11309371,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Siege_Breaker",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 2011125,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 14,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 2,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 3915,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1391270,
+          "item": "Potent_Speed_Potion",
+        },
+      ],
+      "index": 7,
+      "level": 1261,
+      "secondsSinceLastSave": 11339004,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Divine_Knight",
+      "currentMap": "Shimmerfin_Grove",
+      "foodStacks": [
+        {
+          "amount": 330413,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1861,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 149,
+          "item": "Golden_Bread",
+        },
+        {
+          "amount": 4249,
+          "item": "Golden_Nigiri",
+        },
+        {
+          "amount": 5403,
+          "item": "Golden_Saltwater_Taffy",
+        },
+      ],
+      "index": 8,
+      "level": 1307,
+      "secondsSinceLastSave": 5035759,
+    },
+    {
+      "afkTarget": "Green_Mushroom",
+      "afkType": "FIGHTING",
+      "class": "Bubonic_Conjuror",
+      "currentMap": "Spore_Meadows",
+      "foodStacks": [
+        {
+          "amount": 18939,
+          "item": "Raw_Nigiri",
+        },
+        {
+          "amount": 5204,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 18994,
+          "item": "Dumpling",
+        },
+        {
+          "amount": 503873,
+          "item": "Golden_Saltwater_Taffy",
+        },
+        {
+          "amount": 16,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 1506772,
+          "item": "Quotient_EXP_Potion",
+        },
+      ],
+      "index": 9,
+      "level": 1268,
+      "secondsSinceLastSave": 5719296,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Beginner",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [],
+      "index": 10,
+      "level": 1224,
+      "secondsSinceLastSave": 11338668,
+    },
+  ],
+  "warnings": [],
+}
+`;
+
+exports[`public save multikill-pin.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
+{
+  "account": {
+    "currentWorld": 7,
+    "finishedWorlds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+    ],
+    "gameVersion": {
+      "parserTarget": "2.3.540",
+      "saveVersion": 33.05,
+      "serverBuild": 137,
+    },
+    "lastCloudSave": 1787760034331,
+    "secondsSinceLastSave": 4478365,
+  },
+  "characters": [
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Siege_Breaker",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 4439,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 66,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 16638,
+          "item": "Raw_Nigiri",
+        },
+        {
+          "amount": 23472864,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 80,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 211,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 0,
+      "level": 1291,
+      "secondsSinceLastSave": 4690673,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Death_Bringer",
+      "currentMap": "Shimmerfin_Grove",
+      "foodStacks": [
+        {
+          "amount": 29116537,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 99934,
+          "item": "Dumpling",
+        },
+        {
+          "amount": 2100,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 567263,
+          "item": "Small_Life_Potion",
+        },
+        {
+          "amount": 338900,
+          "item": "Hot_Dog",
+        },
+        {
+          "amount": 177,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 1,
+      "level": 1292,
+      "secondsSinceLastSave": 4840286,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Elemental_Sorcerer",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 14941,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 2186981,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 23112750,
+          "item": "Potent_Speed_Potion",
+        },
+        {
+          "amount": 696,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 2,
+      "level": 1259,
+      "secondsSinceLastSave": 4840233,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Divine_Knight",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 678,
+          "item": "Golden_Peanut",
+        },
+        {
+          "amount": 2142276,
+          "item": "Decent_Life_Potion",
+        },
+        {
+          "amount": 3886,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 219219,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 6115,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 13043,
+          "item": "Golden_Nigiri",
+        },
+      ],
+      "index": 3,
+      "level": 1240,
+      "secondsSinceLastSave": 4840142,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Arcane_Cultist",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 49,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+        {
+          "amount": 82,
+          "item": "Golden_Bread",
+        },
+        {
+          "amount": 24455494,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 2840,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+      ],
+      "index": 4,
+      "level": 1231,
+      "secondsSinceLastSave": 4839945,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Wind_Walker",
+      "currentMap": "Frostbite_Towndra",
+      "foodStacks": [
+        {
+          "amount": 20745812,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 210,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 2830,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 21741561,
+          "item": "Average_Speed_Potion",
+        },
+      ],
+      "index": 5,
+      "level": 1280,
+      "secondsSinceLastSave": 4825722,
+    },
+    {
+      "afkTarget": "Medium_Fish",
+      "afkType": "FISHING",
+      "class": "Voidwalker",
+      "currentMap": "YumYum_Islands",
+      "foodStacks": [
+        {
+          "amount": 33425,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1008,
+          "item": "Golden_Ham",
+        },
+        {
+          "amount": 2580683,
+          "item": "Average_Speed_Potion",
+        },
+        {
+          "amount": 510396,
+          "item": "Dumpling",
+        },
+        {
+          "amount": 540571,
+          "item": "Mountain_Bread",
+        },
+        {
+          "amount": 468206,
+          "item": "Cheezy_Pizza",
+        },
+      ],
+      "index": 6,
+      "level": 1157,
+      "secondsSinceLastSave": 4745622,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Siege_Breaker",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 2011125,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 14,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 2,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 3915,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1391270,
+          "item": "Potent_Speed_Potion",
+        },
+      ],
+      "index": 7,
+      "level": 1261,
+      "secondsSinceLastSave": 4839733,
+    },
+    {
+      "afkTarget": "Verminous",
+      "afkType": "FIGHTING",
+      "class": "Royal_Guardian",
+      "currentMap": "The_Royal_Castle",
+      "foodStacks": [
+        {
+          "amount": 330413,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1861,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 149,
+          "item": "Golden_Bread",
+        },
+        {
+          "amount": 4249,
+          "item": "Golden_Nigiri",
+        },
+        {
+          "amount": 5403,
+          "item": "Golden_Saltwater_Taffy",
+        },
+        {
+          "amount": 32802089,
+          "item": "Decent_Strength_Potion",
+        },
+      ],
+      "index": 8,
+      "level": 1307,
+      "secondsSinceLastSave": 4478366,
+    },
+    {
+      "afkTarget": "Green_Mushroom",
+      "afkType": "FIGHTING",
+      "class": "Bubonic_Conjuror",
+      "currentMap": "Spore_Meadows",
+      "foodStacks": [
+        {
+          "amount": 18939,
+          "item": "Raw_Nigiri",
+        },
+        {
+          "amount": 5204,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 18994,
+          "item": "Dumpling",
+        },
+        {
+          "amount": 503873,
+          "item": "Golden_Saltwater_Taffy",
+        },
+        {
+          "amount": 16,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 1500001,
+          "item": "Quotient_EXP_Potion",
+        },
+      ],
+      "index": 9,
+      "level": 1268,
+      "secondsSinceLastSave": 4650362,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Beginner",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [],
+      "index": 10,
+      "level": 1224,
+      "secondsSinceLastSave": 4838443,
+    },
+  ],
+  "warnings": [],
+}
+`;
+
+exports[`public save second.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
+{
+  "account": {
+    "currentWorld": 6,
+    "finishedWorlds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+    ],
+    "gameVersion": {
+      "parserTarget": "2.3.540",
+      "saveVersion": 17.05,
+      "serverBuild": 80,
+    },
+    "lastCloudSave": 1717826710239,
+    "secondsSinceLastSave": 74411689,
+  },
+  "characters": [
+    {
+      "afkTarget": "Penguin",
+      "afkType": "FIGHTING",
+      "class": "Beast_Master",
+      "currentMap": "Signature_Slopes",
+      "foodStacks": [
+        {
+          "amount": 163165,
+          "item": "Raw_Nigiri",
+        },
+        {
+          "amount": 1,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 14,
+          "item": "Golden_Nomwich",
+        },
+        {
+          "amount": 245,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1220,
+          "item": "Golden_Meat_Pie",
+        },
+        {
+          "amount": 201,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 0,
+      "level": 507,
+      "secondsSinceLastSave": 74413951,
+    },
+    {
+      "afkTarget": "Penguin",
+      "afkType": "FIGHTING",
+      "class": "Divine_Knight",
+      "currentMap": "Signature_Slopes",
+      "foodStacks": [
+        {
+          "amount": 1504,
+          "item": "Sheepie_Dairy",
+        },
+        {
+          "amount": 2754,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 414,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 2166,
+          "item": "Golden_Nomwich",
+        },
+        {
+          "amount": 37,
+          "item": "Golden_Peanut",
+        },
+        {
+          "amount": 2411,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+      ],
+      "index": 1,
+      "level": 544,
+      "secondsSinceLastSave": 74412050,
+    },
+    {
+      "afkTarget": "Penguin",
+      "afkType": "FIGHTING",
+      "class": "Bubonic_Conjuror",
+      "currentMap": "Signature_Slopes",
+      "foodStacks": [
+        {
+          "amount": 135918,
+          "item": "Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 10917,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 14627,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 5426,
+          "item": "Golden_Nomwich",
+        },
+        {
+          "amount": 7469,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 5269,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 2,
+      "level": 567,
+      "secondsSinceLastSave": 74412139,
+    },
+    {
+      "afkTarget": "The_Rift",
+      "afkType": "FIGHTING",
+      "class": "Blood_Berserker",
+      "currentMap": "The_Rift",
+      "foodStacks": [
+        {
+          "amount": 479,
+          "item": "Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 4,
+          "item": "Golden_Bread",
+        },
+        {
+          "amount": 12,
+          "item": "Golden_Nomwich",
+        },
+        {
+          "amount": 582,
+          "item": "Golden_Meat_Pie",
+        },
+        {
+          "amount": 663,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+      ],
+      "index": 3,
+      "level": 501,
+      "secondsSinceLastSave": 74411906,
+    },
+    {
+      "afkTarget": "Penguin",
+      "afkType": "FIGHTING",
+      "class": "Wizard",
+      "currentMap": "Signature_Slopes",
+      "foodStacks": [
+        {
+          "amount": 189,
+          "item": "Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 241,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 10,
+          "item": "Golden_Nomwich",
+        },
+        {
+          "amount": 56,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+        {
+          "amount": 582,
+          "item": "Golden_Meat_Pie",
+        },
+      ],
+      "index": 4,
+      "level": 501,
+      "secondsSinceLastSave": 74422337,
+    },
+    {
+      "afkTarget": "Penguin",
+      "afkType": "FIGHTING",
+      "class": "Siege_Breaker",
+      "currentMap": "Signature_Slopes",
+      "foodStacks": [
+        {
+          "amount": 911,
+          "item": "Raw_Nigiri",
+        },
+        {
+          "amount": 2,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 1000,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 7,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 1092,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+        {
+          "amount": 521,
+          "item": "Golden_Cheese",
+        },
+      ],
+      "index": 5,
+      "level": 530,
+      "secondsSinceLastSave": 74411689,
+    },
+    {
+      "afkTarget": "Skydoggie_Spirit",
+      "afkType": "FIGHTING",
+      "class": "Voidwalker",
+      "currentMap": "Dozey_Dogpark",
+      "foodStacks": [
+        {
+          "amount": 11297,
+          "item": "Potent_Speed_Potion",
+        },
+        {
+          "amount": 5,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 2411,
+          "item": "Golden_Meat_Pie",
+        },
+        {
+          "amount": 527,
+          "item": "Golden_Nomwich",
+        },
+        {
+          "amount": 10,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 2442,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+      ],
+      "index": 6,
+      "level": 510,
+      "secondsSinceLastSave": 74430498,
+    },
+    {
+      "afkTarget": "Penguin",
+      "afkType": "FIGHTING",
+      "class": "Elemental_Sorcerer",
+      "currentMap": "Signature_Slopes",
+      "foodStacks": [
+        {
+          "amount": 232952,
+          "item": "Dumpling",
+        },
+        {
+          "amount": 2049,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 2251,
+          "item": "Golden_Nomwich",
+        },
+        {
+          "amount": 870,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 6737,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 258,
+          "item": "Golden_Bread",
+        },
+      ],
+      "index": 7,
+      "level": 525,
+      "secondsSinceLastSave": 74414440,
+    },
+    {
+      "afkTarget": "Penguin",
+      "afkType": "FIGHTING",
+      "class": "Hunter",
+      "currentMap": "Signature_Slopes",
+      "foodStacks": [
+        {
+          "amount": 19173,
+          "item": "Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 297,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 12,
+          "item": "Golden_Nomwich",
+        },
+        {
+          "amount": 2401,
+          "item": "Golden_Bread",
+        },
+        {
+          "amount": 490,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 8,
+      "level": 503,
+      "secondsSinceLastSave": 74432759,
+    },
+    {
+      "afkTarget": "Penguin",
+      "afkType": "FIGHTING",
+      "class": "Barbarian",
+      "currentMap": "Signature_Slopes",
+      "foodStacks": [
+        {
+          "amount": 2260,
+          "item": "Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 2980,
+          "item": "Golden_Meat_Pie",
+        },
+        {
+          "amount": 1098,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 45,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+        {
+          "amount": 268,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+      ],
+      "index": 9,
+      "level": 501,
+      "secondsSinceLastSave": 74432810,
+    },
+  ],
+  "warnings": [],
+}
+`;
+
+exports[`public save speedrun-rank1.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
+{
+  "account": {
+    "currentWorld": 7,
+    "finishedWorlds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+    ],
+    "gameVersion": {
+      "parserTarget": "2.3.540",
+      "saveVersion": 32.05,
+      "serverBuild": 136,
+    },
+    "lastCloudSave": 1786477947662,
+    "secondsSinceLastSave": 5760452,
+  },
+  "characters": [
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Death_Bringer",
+      "currentMap": "Shimmerfin_Grove",
+      "foodStacks": [
+        {
+          "amount": 24109486,
+          "item": "Golden_Nigiri",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 24109486,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 24109486,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 5197588,
+          "item": "Coldseeker_Bullet",
+        },
+        {
+          "amount": 24109486,
+          "item": "Golden_Dumpling",
+        },
+      ],
+      "index": 0,
+      "level": 1780,
+      "secondsSinceLastSave": 5760852,
+    },
+    {
+      "afkTarget": "Trench_Fish",
+      "afkType": "FIGHTING",
+      "class": "Arcane_Cultist",
+      "currentMap": "Deep_End_of_the_Koipond",
+      "foodStacks": [
+        {
+          "amount": 24455308,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Nigiri",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 99899,
+          "item": "Coldseeker_Bullet",
+        },
+      ],
+      "index": 1,
+      "level": 1769,
+      "secondsSinceLastSave": 5762548,
+    },
+    {
+      "afkTarget": "Fearful_Tunnel",
+      "afkType": "SPELUNKING",
+      "class": "Siege_Breaker",
+      "currentMap": "Refraction_Bend",
+      "foodStacks": [
+        {
+          "amount": 20419395,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 5397654,
+          "item": "Golden_Saltwater_Taffy",
+        },
+        {
+          "amount": 20419395,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 20419395,
+          "item": "Golden_Ham",
+        },
+        {
+          "amount": 5397654,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 20419395,
+          "item": "Golden_Nigiri",
+        },
+      ],
+      "index": 2,
+      "level": 1647,
+      "secondsSinceLastSave": 5762952,
+    },
+    {
+      "afkTarget": "Trench_Fish",
+      "afkType": "FIGHTING",
+      "class": "Divine_Knight",
+      "currentMap": "Deep_End_of_the_Koipond",
+      "foodStacks": [
+        {
+          "amount": 24455308,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Nigiri",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 24100692,
+          "item": "Coldseeker_Bullet",
+        },
+      ],
+      "index": 3,
+      "level": 1787,
+      "secondsSinceLastSave": 5761569,
+    },
+    {
+      "afkTarget": "Laboratory",
+      "afkType": "LABORATORY",
+      "class": "Elemental_Sorcerer",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 22302394,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 22302394,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 22302394,
+          "item": "Golden_Ham",
+        },
+        {
+          "amount": 22302394,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+      ],
+      "index": 4,
+      "level": 1700,
+      "secondsSinceLastSave": 7055867,
+    },
+    {
+      "afkTarget": "Trench_Fish",
+      "afkType": "FIGHTING",
+      "class": "Wind_Walker",
+      "currentMap": "Deep_End_of_the_Koipond",
+      "foodStacks": [
+        {
+          "amount": 24455308,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 24109342,
+          "item": "Coldseeker_Bullet",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 24109486,
+          "item": "Midnight_Cookie",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+      ],
+      "index": 5,
+      "level": 1775,
+      "secondsSinceLastSave": 5762362,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Divine_Knight",
+      "currentMap": "Frostbite_Towndra",
+      "foodStacks": [
+        {
+          "amount": 109941,
+          "item": "Cherry_Choco",
+        },
+        {
+          "amount": 5755521,
+          "item": "Midnight_Cookie",
+        },
+        {
+          "amount": 18101528,
+          "item": "Coldseeker_Bullet",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+      ],
+      "index": 6,
+      "level": 1822,
+      "secondsSinceLastSave": 5760453,
+    },
+    {
+      "afkTarget": "Litterbug",
+      "afkType": "CATCHING",
+      "class": "Voidwalker",
+      "currentMap": "Plastic_Basin",
+      "foodStacks": [
+        {
+          "amount": 24137859,
+          "item": "Golden_Nigiri",
+        },
+        {
+          "amount": 24137859,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 24137859,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 24137859,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 24137184,
+          "item": "Buttered_Toasted_Butter",
+        },
+        {
+          "amount": 24137859,
+          "item": "Golden_Ham",
+        },
+      ],
+      "index": 7,
+      "level": 1754,
+      "secondsSinceLastSave": 5762714,
+    },
+    {
+      "afkTarget": "Trench_Fish",
+      "afkType": "FIGHTING",
+      "class": "Arcane_Cultist",
+      "currentMap": "Deep_End_of_the_Koipond",
+      "foodStacks": [
+        {
+          "amount": 24455308,
+          "item": "Golden_Nigiri",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 5395468,
+          "item": "Coldseeker_Bullet",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Cake",
+        },
+      ],
+      "index": 8,
+      "level": 1783,
+      "secondsSinceLastSave": 5762255,
+    },
+    {
+      "afkTarget": "Gloomie_Mushroom",
+      "afkType": "FIGHTING",
+      "class": "Siege_Breaker",
+      "currentMap": "The_Hole",
+      "foodStacks": [
+        {
+          "amount": 5467993,
+          "item": "Coldseeker_Bullet",
+        },
+        {
+          "amount": 5469389,
+          "item": "Potent_Strength_Potion",
+        },
+        {
+          "amount": 24112910,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 24112910,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 24112910,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 24112910,
+          "item": "Golden_Nigiri",
+        },
+      ],
+      "index": 9,
+      "level": 1763,
+      "secondsSinceLastSave": 5776420,
+    },
+    {
+      "afkTarget": "Trench_Fish",
+      "afkType": "FIGHTING",
+      "class": "Divine_Knight",
+      "currentMap": "Deep_End_of_the_Koipond",
+      "foodStacks": [
+        {
+          "amount": 24102410,
+          "item": "Golden_Nigiri",
+        },
+        {
+          "amount": 24102410,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 24102410,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 998338,
+          "item": "Coldseeker_Bullet",
+        },
+        {
+          "amount": 24102410,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 24455308,
+          "item": "Golden_Cake",
+        },
+      ],
+      "index": 10,
+      "level": 1771,
+      "secondsSinceLastSave": 5762203,
+    },
+  ],
+  "warnings": [],
+}
+`;
+
+exports[`public save third.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
+{
+  "account": {
+    "currentWorld": 6,
+    "finishedWorlds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+    ],
+    "gameVersion": {
+      "parserTarget": "2.3.540",
+      "saveVersion": 17.05,
+      "serverBuild": 80,
+    },
+    "lastCloudSave": 1717703888098,
+    "secondsSinceLastSave": 74534511,
+  },
+  "characters": [
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Blood_Berserker",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 25000,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 100000,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 25000,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 312427,
+          "item": "Potent_Speed_Potion",
+        },
+        {
+          "amount": 250,
+          "item": "Golden_Kebabs",
+        },
+      ],
+      "index": 0,
+      "level": 521,
+      "secondsSinceLastSave": 74552934,
+    },
+    {
+      "afkTarget": "Green_Mushroom",
+      "afkType": "FIGHTING",
+      "class": "Siege_Breaker",
+      "currentMap": "Spore_Meadows",
+      "foodStacks": [
+        {
+          "amount": 243938,
+          "item": "Potent_Speed_Potion",
+        },
+        {
+          "amount": 339250,
+          "item": "Average_Speed_Potion",
+        },
+        {
+          "amount": 270177,
+          "item": "Decent_Speed_Potion",
+        },
+        {
+          "amount": 25000,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 100000,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 38468,
+          "item": "Golden_Cheese",
+        },
+      ],
+      "index": 1,
+      "level": 527,
+      "secondsSinceLastSave": 74554685,
+    },
+    {
+      "afkTarget": "Green_Mushroom",
+      "afkType": "FIGHTING",
+      "class": "Bubonic_Conjuror",
+      "currentMap": "Spore_Meadows",
+      "foodStacks": [
+        {
+          "amount": 349338,
+          "item": "Potent_Strength_Potion",
+        },
+        {
+          "amount": 280130,
+          "item": "Potent_Speed_Potion",
+        },
+        {
+          "amount": 100000,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1000,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 25000,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 25000,
+          "item": "Golden_Cheese",
+        },
+      ],
+      "index": 2,
+      "level": 568,
+      "secondsSinceLastSave": 74554671,
+    },
+    {
+      "afkTarget": "Green_Mushroom",
+      "afkType": "FIGHTING",
+      "class": "Divine_Knight",
+      "currentMap": "Spore_Meadows",
+      "foodStacks": [
+        {
+          "amount": 27849,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 25000,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 25000,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 2132875,
+          "item": "Potent_Speed_Potion",
+        },
+        {
+          "amount": 1000,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 100000,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+      ],
+      "index": 3,
+      "level": 655,
+      "secondsSinceLastSave": 74552636,
+    },
+    {
+      "afkTarget": "Minichief_Spirit",
+      "afkType": "FIGHTING",
+      "class": "Beast_Master",
+      "currentMap": "Chieftain_Stairway",
+      "foodStacks": [
+        {
+          "amount": 155374,
+          "item": "Golden_Nigiri",
+        },
+        {
+          "amount": 100000,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 25000,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 1000,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 266151,
+          "item": "Potent_Speed_Potion",
+        },
+        {
+          "amount": 511,
+          "item": "Critter_Numnums",
+        },
+      ],
+      "index": 4,
+      "level": 561,
+      "secondsSinceLastSave": 74534512,
+    },
+    {
+      "afkTarget": "Green_Mushroom",
+      "afkType": "FIGHTING",
+      "class": "Elemental_Sorcerer",
+      "currentMap": "Spore_Meadows",
+      "foodStacks": [
+        {
+          "amount": 13,
+          "item": "Saucy_Logfries",
+        },
+        {
+          "amount": 41,
+          "item": "Soulble_Gum",
+        },
+        {
+          "amount": 25000,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 100000,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 250,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 25000,
+          "item": "Golden_Cheese",
+        },
+      ],
+      "index": 5,
+      "level": 545,
+      "secondsSinceLastSave": 74554624,
+    },
+    {
+      "afkTarget": "Godshard",
+      "afkType": "MINING",
+      "class": "Voidwalker",
+      "currentMap": "Motherlode_Pit",
+      "foodStacks": [
+        {
+          "amount": 25000,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 100000,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 25000,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 343316,
+          "item": "Icing_Ironbite",
+        },
+        {
+          "amount": 317289,
+          "item": "Potent_Strength_Potion",
+        },
+      ],
+      "index": 6,
+      "level": 523,
+      "secondsSinceLastSave": 74552823,
+    },
+    {
+      "afkTarget": "Green_Mushroom",
+      "afkType": "FIGHTING",
+      "class": "Divine_Knight",
+      "currentMap": "Spore_Meadows",
+      "foodStacks": [
+        {
+          "amount": 342787,
+          "item": "Potent_Speed_Potion",
+        },
+        {
+          "amount": 25000,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 250,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 100000,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 25000,
+          "item": "Golden_Dumpling",
+        },
+      ],
+      "index": 7,
+      "level": 558,
+      "secondsSinceLastSave": 74554179,
+    },
+    {
+      "afkTarget": "Green_Mushroom",
+      "afkType": "FIGHTING",
+      "class": "Elemental_Sorcerer",
+      "currentMap": "Spore_Meadows",
+      "foodStacks": [
+        {
+          "amount": 25000,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 39,
+          "item": "Soulble_Gum",
+        },
+        {
+          "amount": 25000,
+          "item": "Golden_Cheese",
+        },
+        {
+          "amount": 1000,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 100000,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 12372,
+          "item": "Potent_Speed_Potion",
+        },
+      ],
+      "index": 8,
+      "level": 552,
+      "secondsSinceLastSave": 74554542,
+    },
+    {
+      "afkTarget": "Green_Mushroom",
+      "afkType": "FIGHTING",
+      "class": "Siege_Breaker",
+      "currentMap": "Spore_Meadows",
+      "foodStacks": [
+        {
+          "amount": 269958,
+          "item": "Potent_Speed_Potion",
+        },
+        {
+          "amount": 270180,
+          "item": "Decent_Speed_Potion",
+        },
+        {
+          "amount": 295053,
+          "item": "Average_Speed_Potion",
+        },
+        {
+          "amount": 25000,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 100000,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 25000,
+          "item": "Golden_Cheese",
+        },
+      ],
+      "index": 9,
+      "level": 522,
+      "secondsSinceLastSave": 74554579,
+    },
+  ],
+  "warnings": [],
+}
+`;
+
+exports[`public save toolbox-raw.json > matches the recorded shape (review the diff after a re-sync) 1`] = `
+{
+  "account": {
+    "currentWorld": 7,
+    "finishedWorlds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+    ],
+    "gameVersion": {
+      "parserTarget": "2.3.540",
+      "saveVersion": 33.05,
+      "serverBuild": 137,
+    },
+    "lastCloudSave": 1787760034331,
+    "secondsSinceLastSave": 4478365,
+  },
+  "characters": [
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Siege_Breaker",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 4439,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 66,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 16638,
+          "item": "Raw_Nigiri",
+        },
+        {
+          "amount": 23472864,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 80,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 211,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 0,
+      "level": 1291,
+      "secondsSinceLastSave": 4690673,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Death_Bringer",
+      "currentMap": "Shimmerfin_Grove",
+      "foodStacks": [
+        {
+          "amount": 29116537,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 99934,
+          "item": "Dumpling",
+        },
+        {
+          "amount": 2100,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 567263,
+          "item": "Small_Life_Potion",
+        },
+        {
+          "amount": 338900,
+          "item": "Hot_Dog",
+        },
+        {
+          "amount": 177,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 1,
+      "level": 1292,
+      "secondsSinceLastSave": 4840286,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Elemental_Sorcerer",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 14941,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 2186981,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 23112750,
+          "item": "Potent_Speed_Potion",
+        },
+        {
+          "amount": 696,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+      ],
+      "index": 2,
+      "level": 1259,
+      "secondsSinceLastSave": 4840233,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Divine_Knight",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 678,
+          "item": "Golden_Peanut",
+        },
+        {
+          "amount": 2142276,
+          "item": "Decent_Life_Potion",
+        },
+        {
+          "amount": 3886,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 219219,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 6115,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 13043,
+          "item": "Golden_Nigiri",
+        },
+      ],
+      "index": 3,
+      "level": 1240,
+      "secondsSinceLastSave": 4840142,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Arcane_Cultist",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 49,
+          "item": "Golden_Hampter_Gummy_Candy",
+        },
+        {
+          "amount": 82,
+          "item": "Golden_Bread",
+        },
+        {
+          "amount": 24455494,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 2840,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+      ],
+      "index": 4,
+      "level": 1231,
+      "secondsSinceLastSave": 4839945,
+    },
+    {
+      "afkTarget": null,
+      "afkType": "Nothing",
+      "class": "Wind_Walker",
+      "currentMap": "Frostbite_Towndra",
+      "foodStacks": [
+        {
+          "amount": 20745812,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 210,
+          "item": "Golden_Kebabs",
+        },
+        {
+          "amount": 2830,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 21741561,
+          "item": "Average_Speed_Potion",
+        },
+      ],
+      "index": 5,
+      "level": 1280,
+      "secondsSinceLastSave": 4825722,
+    },
+    {
+      "afkTarget": "Medium_Fish",
+      "afkType": "FISHING",
+      "class": "Voidwalker",
+      "currentMap": "YumYum_Islands",
+      "foodStacks": [
+        {
+          "amount": 33425,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1008,
+          "item": "Golden_Ham",
+        },
+        {
+          "amount": 2580683,
+          "item": "Average_Speed_Potion",
+        },
+        {
+          "amount": 510396,
+          "item": "Dumpling",
+        },
+        {
+          "amount": 540571,
+          "item": "Mountain_Bread",
+        },
+        {
+          "amount": 468206,
+          "item": "Cheezy_Pizza",
+        },
+      ],
+      "index": 6,
+      "level": 1157,
+      "secondsSinceLastSave": 4745622,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Siege_Breaker",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [
+        {
+          "amount": 2011125,
+          "item": "Quotient_EXP_Potion",
+        },
+        {
+          "amount": 14,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 2,
+          "item": "Golden_Cake",
+        },
+        {
+          "amount": 3915,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1391270,
+          "item": "Potent_Speed_Potion",
+        },
+      ],
+      "index": 7,
+      "level": 1261,
+      "secondsSinceLastSave": 4839733,
+    },
+    {
+      "afkTarget": "Verminous",
+      "afkType": "FIGHTING",
+      "class": "Royal_Guardian",
+      "currentMap": "The_Royal_Castle",
+      "foodStacks": [
+        {
+          "amount": 330413,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 1861,
+          "item": "Golden_Jam",
+        },
+        {
+          "amount": 149,
+          "item": "Golden_Bread",
+        },
+        {
+          "amount": 4249,
+          "item": "Golden_Nigiri",
+        },
+        {
+          "amount": 5403,
+          "item": "Golden_Saltwater_Taffy",
+        },
+        {
+          "amount": 32802089,
+          "item": "Decent_Strength_Potion",
+        },
+      ],
+      "index": 8,
+      "level": 1307,
+      "secondsSinceLastSave": 4478366,
+    },
+    {
+      "afkTarget": "Green_Mushroom",
+      "afkType": "FIGHTING",
+      "class": "Bubonic_Conjuror",
+      "currentMap": "Spore_Meadows",
+      "foodStacks": [
+        {
+          "amount": 18939,
+          "item": "Raw_Nigiri",
+        },
+        {
+          "amount": 5204,
+          "item": "Golden_Grilled_Cheese_Nomwich",
+        },
+        {
+          "amount": 18994,
+          "item": "Dumpling",
+        },
+        {
+          "amount": 503873,
+          "item": "Golden_Saltwater_Taffy",
+        },
+        {
+          "amount": 16,
+          "item": "Golden_Dumpling",
+        },
+        {
+          "amount": 1500001,
+          "item": "Quotient_EXP_Potion",
+        },
+      ],
+      "index": 9,
+      "level": 1268,
+      "secondsSinceLastSave": 4650362,
+    },
+    {
+      "afkTarget": "Cooking",
+      "afkType": "COOKING",
+      "class": "Beginner",
+      "currentMap": "Outer_World_Town",
+      "foodStacks": [],
+      "index": 10,
+      "level": 1224,
+      "secondsSinceLastSave": 4838443,
+    },
+  ],
+  "warnings": [],
+}
+`;
