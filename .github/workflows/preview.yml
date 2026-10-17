@@ -159,8 +159,13 @@ jobs:
             --message "PR #$PR ${SHA::7}" >"$RUNNER_TEMP/preview.out"
           # Wrangler prints progress lines before the JSON on stdout; keep from the first "{" line on.
           sed -n '/^{/,$p' "$RUNNER_TEMP/preview.out" >"$RUNNER_TEMP/preview.json"
-          url=$(jq -r '.preview.urls[0] // empty' "$RUNNER_TEMP/preview.json")
-          [[ "$url" =~ ^https://[a-z0-9-]+\.idleon\.workers\.dev$ ]] || { echo "::error::no Preview URL in wrangler's JSON (.preview.urls[0])"; exit 1; }
+          url=$(jq -r '.preview.urls[0] // empty' "$RUNNER_TEMP/preview.json" || true)
+          if ! [[ "$url" =~ ^https://[a-z0-9-]+\.idleon\.workers\.dev$ ]]; then
+            # The output holds no secret (ids, names, URLs); show it so a format change is easy to fix.
+            echo "::error::no Preview URL in wrangler's JSON (.preview.urls[0]); got '${url}'"
+            cat "$RUNNER_TEMP/preview.out"
+            exit 1
+          fi
           echo "url=$url" >>"$GITHUB_ENV"
           echo "Preview: $url"
       - name: Comment the Preview URL
