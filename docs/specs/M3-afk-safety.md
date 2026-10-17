@@ -596,3 +596,13 @@ Independent red-team on 2026-10-17, charged to find false blockers and false "Re
 | RT-23 | P3 | `Paying_Respect` (W5 monuments, deliberate) counted as "No AFK Target" | Fixed | Removed from FR-12 and TR-4. |
 | RT-24 | P3 | A Stale entry still blocks, which can be a false blocker on patch day | Deferred | Needs Yasser: FR-30's trade-off is a product call. |
 
+## Final rulings (Yasser, 2026-10-17)
+
+These supersede anything above that conflicts with them.
+
+> **Ruled by Yasser (2026-10-17), all as recommended:**
+> - **RT-5:** low food on day one shows the "Low food: N left; can't time it yet" Next Action. It's not a blocker.
+> - **RT-6:** the learned-return fallback is the larger of 8 h and the all-gap value, using the 75th percentile.
+> - **RT-10:** "Forge slot empty" is an M3 Check: a blocker when ore is owned, otherwise a Next Action. Refinery storage goes under Not covered yet.
+> - **RT-24:** a Stale entry blocks only while its fixture examples pass at the current parser pin; otherwise it becomes a Next Action.
+> - **RT-14:** a cap that is already full now, with a quick fix, always blocks and shows "fills again in about X".
