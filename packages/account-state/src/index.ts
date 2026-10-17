@@ -33,6 +33,14 @@ export type {
   AfkWorship,
   CharacterAfkFacts,
 } from './afk-types';
+export type {
+  CardLoadout,
+  CardSetState,
+  CardState,
+  CollectionsAccountFields,
+  CollectionsCharacterFields,
+  ObolSlot,
+} from './collections-types';
 export {
   ACTIVE_CHARACTER_FRESH_MS,
   type AccountReportFields,
