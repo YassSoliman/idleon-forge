@@ -1,0 +1,60 @@
+{
+  "description": "IdleOn Forge fixture ids for Toolbox's public saves, pinned by sha256 (M11 TR-15). Written by `pnpm kb fixtures --pin`; keep it when re-syncing.",
+  "fixtures": {
+    "first": {
+      "file": "first.json",
+      "upstream": "__test__/fixtures/first.json",
+      "sha256": "bb3a79dad39a0937083a051ca0ef2e82e9dec3ec6c712b0dc8e6281b5cf5df35"
+    },
+    "fourth": {
+      "file": "fourth.json",
+      "upstream": "__test__/fixtures/fourth.json",
+      "sha256": "dcb82dff74a875f414ac4a54ef0cd7f5b04ed30522a4e5f59284b32b6c954527"
+    },
+    "fresh": {
+      "file": "fresh.json",
+      "upstream": "__test__/fixtures/fresh.json",
+      "sha256": "bfaca16cb9a06fdf1c2eaf8d87793d12218e874ca317e01a22bad5eb3c020487"
+    },
+    "highend": {
+      "file": "highend.json",
+      "upstream": "__test__/fixtures/highend.json",
+      "sha256": "9a5d1499dfdc19522c2f0caf6c02dfd2c8c4dd28d4e6619e0789db7934ebcad3"
+    },
+    "latest-2026-08": {
+      "file": "latest-2026-08.json",
+      "upstream": "__test__/fixtures/latest-2026-08.json",
+      "sha256": "9d45d029260cefb5845ba2963610d600330b72171708b5da6b7ac9e338f99a64"
+    },
+    "latest": {
+      "file": "latest.json",
+      "upstream": "__test__/fixtures/latest.json",
+      "sha256": "1adadb72dc0645352a8fca7bb79d95cef6ad1f1b7935a7d2abab0f59d31917b1"
+    },
+    "multikill-pin": {
+      "file": "multikill-pin.json",
+      "upstream": "__test__/fixtures/multikill-pin.json",
+      "sha256": "f992a0998fb6275d31b219227e5ef44cee4ab63933ddfac2c81d1abe35041e65"
+    },
+    "second": {
+      "file": "second.json",
+      "upstream": "__test__/fixtures/second.json",
+      "sha256": "6802d03b7d67913b2b7973b8a49c957991936b3463d1b395db316f1da7354276"
+    },
+    "speedrun-rank1": {
+      "file": "speedrun-rank1.json",
+      "upstream": "__test__/fixtures/speedrun-rank1.json",
+      "sha256": "e68d963d0c9d0e030244959ae695dd4d377f740cf38ff2d792080e616eda149b"
+    },
+    "third": {
+      "file": "third.json",
+      "upstream": "__test__/fixtures/third.json",
+      "sha256": "fab7ac8456ddf1cf9dc11a8f4ebbb22ff5b364f8984fa2d9b14116b5eaf7f826"
+    },
+    "toolbox-raw": {
+      "file": "toolbox-raw.json",
+      "upstream": "data/raw.json",
+      "sha256": "f992a0998fb6275d31b219227e5ef44cee4ab63933ddfac2c81d1abe35041e65"
+    }
+  }
+}
