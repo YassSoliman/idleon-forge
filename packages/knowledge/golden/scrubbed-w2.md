@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #6b7ada89 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late
+# golden v1: scrubbed-w2 · knowledge #9a245e61 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late
 
 ## Verdict changes
 
@@ -12,13 +12,13 @@
 2 · Mining Copper · Tunnels Entrance · Equip Wyoming blood in a big-bubble slot
 
 ### C5 · Wizard 56 · Ready
-3 · Fighting Snelbie · Djonnuttown · Collect Thread from the anvil (time to cap: 6 h; it refills about 6 h after you collect)
+3 · Fighting Snelbie · Djonnuttown · Low food: 88 left; can't time it yet
 
 ### C4 · Bowman 54 · Ready
-4 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 2 h; it refills about 2 h after you collect)
+4 · Fighting Green Mushroom · Spore Meadows · Nothing to do here
 
 ### C3 · Shaman 44 · Ready
-5 · Fighting Slime · Jungle Perimeter · Collect Thread from the anvil (time to cap: 2 h; it refills about 2 h after you collect)
+5 · Fighting Slime · Jungle Perimeter · Nothing to do here
 
 ### Account · fix 2 before you leave
 Fix before you leave
@@ -29,7 +29,7 @@ Fix before you leave
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (8)
+show more (9)
 
 ## Not covered yet
 Cards
@@ -83,12 +83,16 @@ Islands
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C5 | pass |  |
 | alchemy.check.liquid-cap | alchemy/liquid-cap | account | fires | current=32 max=32 |
 | anvil.check.caps-before-return | anvil/caps-before-return | C1 | fires | fromEmpty=9921071 fullIn=0 product=Thread |
-| anvil.check.caps-before-return | anvil/caps-before-return | C2 | fires | fromEmpty=5478419 fullIn=4895608 product=Thread |
-| anvil.check.caps-before-return | anvil/caps-before-return | C3 | fires | fromEmpty=6352294 fullIn=5716316 product=Thread |
-| anvil.check.caps-before-return | anvil/caps-before-return | C4 | fires | fromEmpty=7355512 fullIn=6511814 product=Thread |
-| anvil.check.caps-before-return | anvil/caps-before-return | C5 | fires | fromEmpty=21754983 fullIn=20847580 product=Thread |
+| anvil.check.caps-before-return | anvil/caps-before-return | C2 | pass |  |
+| anvil.check.caps-before-return | anvil/caps-before-return | C3 | pass |  |
+| anvil.check.caps-before-return | anvil/caps-before-return | C4 | pass |  |
+| anvil.check.caps-before-return | anvil/caps-before-return | C5 | pass |  |
+| anvil.check.fill-time | anvil/fill-time | C2 | fires | fullIn=4895608 |
+| anvil.check.fill-time | anvil/fill-time | C3 | fires | fullIn=5716316 |
+| anvil.check.fill-time | anvil/fill-time | C4 | fires | fullIn=6511814 |
+| anvil.check.fill-time | anvil/fill-time | C5 | fires | fullIn=20847580 |
+| anvil.check.respec | anvil/respec | — | silent |  |
 | anvil.check.spend-points | anvil/points | — | silent |  |
-| anvil.check.spend-points-capacity | anvil/points | — | silent |  |
 | arcade.check.balls-cap | arcade/balls-cap | account | fires | capsIn=0 fullFor=173852724 |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=1 daysLost=1 total=5 |
@@ -114,7 +118,7 @@ Islands
 | minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=7 |
 | minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=13 |
 | pets.check.free-pull | pets/free-pull | account | fires | hoursClaimable=15 |
-| pets.check.mart-gems | pets/mart-gems | — | silent |  |
+| pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=241 |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
 | post-office.check.daily-orders | post-office/state | — | silent |  |
 | post-office.check.spend-boxes | post-office/state | — | silent |  |

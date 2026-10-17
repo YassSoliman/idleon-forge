@@ -1,18 +1,18 @@
-# golden v1: third · knowledge #6b7ada89 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry
+# golden v1: third · knowledge #9a245e61 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
 ## Now
 5 of 10 Ready · fix 4 before you leave · 1 Unknown
 
+### C4 · Divine Knight 655 · Fix before you leave
+1 · Fighting Green Mushroom · Spore Meadows · Collect Trusty Nails from the anvil (time to cap: 3 h; it refills about 24 h after you collect)
+
 ### C8 · Divine Knight 558 · Fix before you leave
-1 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 3 h; it refills about 1 d after you collect)
+2 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 3 h; it refills about 1 d after you collect)
 
 ### C6 · Elemental Sorcerer 545 · Fix before you leave
-2 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 4 h; it refills about 1 d after you collect)
-
-### C4 · Divine Knight 655 · Fix before you leave
-3 · Fighting Green Mushroom · Spore Meadows · Collect Trusty Nails from the anvil (time to cap: 3 h; it refills about 24 h after you collect)
+3 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 4 h; it refills about 1 d after you collect)
 
 ### C2 · Siege Breaker 527 · Fix before you leave
 4 · Fighting Green Mushroom · Spore Meadows · Spend worship charge, or let the Wizard's Charge Syphon take it (15,042 of 15,042; time to cap: now)
@@ -21,28 +21,27 @@
 5 · Cooking · Outer World Town · Not covered yet: AFK safety
 
 ### C3 · Bubonic Conjuror 568 · Ready
-6 · Fighting Green Mushroom · Spore Meadows · Spend 10 anvil points on Speed
+6 · Fighting Green Mushroom · Spore Meadows · Spend 6,441 Post Office boxes: Civil War Memory Box first
 
 ### C5 · Beast Master 561 · Ready
-7 · Fighting Minichief Spirit · Chieftain Stairway · Spend 26 anvil points on Speed
+7 · Fighting Minichief Spirit · Chieftain Stairway · Spend 6,441 Post Office boxes: Civil War Memory Box first
 
 ### C7 · Voidwalker 523 · Ready
-8 · Mining Godshard · Motherlode Pit · Spend 1 anvil points on Speed
+8 · Mining Godshard · Motherlode Pit · Spend 6,441 Post Office boxes: Civil War Memory Box first
 
 ### C10 · Siege Breaker 522 · Ready
-9 · Fighting Green Mushroom · Spore Meadows · Spend 28 anvil points on Speed
+9 · Fighting Green Mushroom · Spore Meadows · Spend 6,441 Post Office boxes: Civil War Memory Box first
 
 ### C9 · Elemental Sorcerer 552 · Ready
-10 · Fighting Green Mushroom · Spore Meadows · Spend 11 anvil points on Speed
+10 · Fighting Green Mushroom · Spore Meadows · Spend 6,441 Post Office boxes: Civil War Memory Box first
 
 ### Account · nothing to fix
 - Grow · Switch on a Refinery salt: Switch on Nullo Salt in the Refinery [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-- Extra · Gems unspent: 4,103 gems unspent [IdleOn Wiki: Gem Shop]
-  sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
-show more (2)
+- Spend · Spend anvil points: Unspent anvil points on 9 characters → Speed [IdleOn Wiki: Smithing, anvil points · Calculated by IdleOn Toolbox · 2.3.540]
+show more (4)
 If you have time
 - Use today's 21 minigame plays · about 10m of hands-on play
 
@@ -139,14 +138,30 @@ Laboratory
 | anvil.check.caps-before-return | anvil/caps-before-return | C7 | pass |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C8 | fires | fromEmpty=86417577 fullIn=10755799 product=Thread |
 | anvil.check.caps-before-return | anvil/caps-before-return | C9 | pass |  |
-| anvil.check.spend-points | anvil/points | C1 | fires | points=11 |
-| anvil.check.spend-points | anvil/points | C10 | fires | points=28 |
-| anvil.check.spend-points | anvil/points | C3 | fires | points=10 |
-| anvil.check.spend-points | anvil/points | C5 | fires | points=26 |
-| anvil.check.spend-points | anvil/points | C7 | fires | points=1 |
-| anvil.check.spend-points | anvil/points | C9 | fires | points=11 |
-| anvil.check.spend-points-capacity | anvil/points | C6 | fires | points=12 product=Thread |
-| anvil.check.spend-points-capacity | anvil/points | C8 | fires | points=13 product=Thread |
+| anvil.check.fill-time | anvil/fill-time | C1 | fires | fullIn=77476048 |
+| anvil.check.fill-time | anvil/fill-time | C10 | fires | fullIn=46804225 |
+| anvil.check.fill-time | anvil/fill-time | C2 | fires | fullIn=86211558 |
+| anvil.check.fill-time | anvil/fill-time | C3 | fires | fullIn=76304949 |
+| anvil.check.fill-time | anvil/fill-time | C4 | fires | fullIn=9710384 |
+| anvil.check.fill-time | anvil/fill-time | C5 | fires | fullIn=410168757 |
+| anvil.check.fill-time | anvil/fill-time | C6 | fires | fullIn=14451579 |
+| anvil.check.fill-time | anvil/fill-time | C7 | fires | fullIn=58130279 |
+| anvil.check.fill-time | anvil/fill-time | C8 | fires | fullIn=10755799 |
+| anvil.check.fill-time | anvil/fill-time | C9 | fires | fullIn=30086858 |
+| anvil.check.respec | anvil/respec | C10 | fires | capacity=224 morePct=30 speed=1470 times=1.3 |
+| anvil.check.respec | anvil/respec | C2 | fires | capacity=210 morePct=32 speed=1521 times=1.32 |
+| anvil.check.respec | anvil/respec | C5 | fires | capacity=37 morePct=45 speed=1658 times=1.45 |
+| anvil.check.respec | anvil/respec | account | fires | count=3 hours=8 mixedPct=1 morePct=36 times=1.36 |
+| anvil.check.spend-points | anvil/points | C1 | fires | capacity=0 points=11 speed=11 |
+| anvil.check.spend-points | anvil/points | C10 | fires | capacity=0 points=28 speed=28 |
+| anvil.check.spend-points | anvil/points | C3 | fires | capacity=0 points=10 speed=10 |
+| anvil.check.spend-points | anvil/points | C4 | fires | capacity=0 points=1 speed=1 |
+| anvil.check.spend-points | anvil/points | C5 | fires | capacity=0 points=27 speed=27 |
+| anvil.check.spend-points | anvil/points | C6 | fires | capacity=0 points=12 speed=12 |
+| anvil.check.spend-points | anvil/points | C7 | fires | capacity=0 points=1 speed=1 |
+| anvil.check.spend-points | anvil/points | C8 | fires | capacity=0 points=13 speed=13 |
+| anvil.check.spend-points | anvil/points | C9 | fires | capacity=0 points=11 speed=11 |
+| anvil.check.spend-points | anvil/points | account | fires | count=9 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |

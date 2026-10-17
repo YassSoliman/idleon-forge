@@ -58,6 +58,57 @@ export interface AfkAnvilProduct {
   fromEmptyMs: number;
 }
 
+/** A split of anvil points between Speed and Capacity, and what it makes over the plan window. */
+export interface AfkAnvilSplit {
+  speed: number;
+  capacity: number;
+  /** Items made over the window from empty, summed over producing products: sum of min(rate x T, capacity). */
+  output: number;
+}
+
+/**
+ * The anvil point plan (#70 A2, A3; M3 FR-18, M6 FR-23 Final rulings). Every split is scored with
+ * Toolbox's own `getPlayerAnvil` at counterfactual points (ADR 0005: Toolbox numbers, plain
+ * arithmetic), materials objective only (A4: Exp points are held, never moved).
+ */
+export interface AfkAnvilPlan {
+  /** Smithing level, the first source of anvil points. */
+  smithingLevel: number;
+  xpPoints: number;
+  speedPoints: number;
+  capPoints: number;
+  /**
+   * Unspent points, recomputed as the game does when the anvil tab opens: Smithing level + Acme Anvil
+   * + coin points + material points - (Exp + Speed + Capacity). The stored `availablePoints` is stale
+   * when Smithing levelled since the tab was last open. Can be negative (Acme Anvil reset).
+   */
+  unspent: number;
+  /** Products with at least one hammer: rawName and display name. */
+  products: Array<{ item: string; name: string }>;
+  /**
+   * One plan per "Back in about" window (`ANVIL_PLAN_WINDOWS_MS`, the Expected Return chips), shortest
+   * first; the Detectors take the one for the player's Expected Return (`anvilPlanWindow`).
+   */
+  windows: AfkAnvilWindowPlan[];
+}
+
+/** The anvil plan for one window T (from empty: just collected). */
+export interface AfkAnvilWindowPlan {
+  windowMs: number;
+  /** The current split. */
+  current: AfkAnvilSplit;
+  /**
+   * The best placement of the unspent points on top of the current split (points added to each
+   * stat); null when nothing is unspent. Ties go to Speed.
+   */
+  spend: AfkAnvilSplit | null;
+  /**
+   * The best full reallocation of Speed + Capacity + unspent after an Anvil Reset Whetstone, Exp kept
+   * (totals per stat). Ties go to Speed.
+   */
+  respec: AfkAnvilSplit;
+}
+
 export interface AfkWorship {
   /** Toolbox `getPlayerWorship` at parse time (projected to `asOf`). */
   charge: number;
@@ -89,6 +140,8 @@ export interface CharacterAfkFacts {
   inventory: AfkInventory | null;
   /** Products with at least one hammer; null when Toolbox's anvil numbers aren't finite. */
   anvil: AfkAnvilProduct[] | null;
+  /** The anvil point plan (#70); null when Toolbox's anvil numbers aren't finite. */
+  anvilPlan?: AfkAnvilPlan | null;
   worship: AfkWorship | null;
   /** Equipped prayers with their bonus (`getPrayerBonusAndCurse`). */
   prayers: Array<{ name: string; bonus: number }> | null;
@@ -109,4 +162,6 @@ export interface AccountAfkFacts {
   salts: Array<{ salt: string; dryAt: number }> | null;
   /** Free storage chest slots, for the deposit fixes. */
   storageFreeSlots: number | null;
+  /** Coins on the account (Toolbox `currencies.rawMoney`: bank plus characters), for the Whetstone gate (#70 A3). */
+  coins?: number | null;
 }

@@ -4,9 +4,10 @@
 // (Toolbox getTimeTillCap). One finding per character, about its earliest product to cap.
 //   - Full now (capAt <= now): the blocker rule's already-full exception applies (FR-7), whether or not
 //     collecting covers the stretch; the text adds how long it takes to fill again from empty.
-//   - Fills before the return: the fix holds only if every such product, collected now, takes at least
-//     the stretch to fill from empty (getTimeTillCap fromZero >= returnAt - now). Otherwise it is one
-//     quiet Next Action (D7): Capacity points are the real fix.
+//   - Fills before the return: it fires only if the fix holds, i.e. every such product, collected now,
+//     takes at least the stretch to fill from empty (getTimeTillCap fromZero >= returnAt - now).
+//     Otherwise collecting changes nothing for this stretch, so it passes (#70 A5): the account-level
+//     point plan (anvil/points, anvil/respec) covers caps that refill before the return.
 //   - Fills after the return: pass, with nextAt for "first thing fills up" (FR-11).
 import { z } from 'zod';
 import { characterSubject, isKnown, withCharacter, withUnknown } from '../../src/helpers';
@@ -23,11 +24,23 @@ export default defineDetector({
     // US-4: the W2-late Barbarian Lv 60 is full now (1,069/1,069); the other four fill within 8 h.
     fires: [
       { fixture: 'scrubbed-w2', subject: characterSubject(0) },
-      { fixture: 'scrubbed-w2', subject: characterSubject(4) },
+      // Fills before an 8 h return, and collecting now lasts the stretch (here 10 h from empty).
+      {
+        fixture: 'scrubbed-w2',
+        subject: characterSubject(4),
+        mutate: (s) => {
+          const afk = s.characters[4]?.afk;
+          if (!afk?.anvil) return s;
+          const anvil = afk.anvil.map((p) => ({ ...p, fromEmptyMs: 10 * 3_600_000 }));
+          return withCharacter(s, 4, { afk: { ...afk, anvil } });
+        },
+      },
     ],
     // US-4's W3-early Bowman Lv 60 caps at about 8.2 h, after an 8 h return: here, a product that caps
-    // a day after the save.
+    // a day after the save. And #70 A5: the W2-late Squire Lv 43 fills in about 1.4 h and refills in about
+    // 1.5 h after collecting, so collecting changes nothing for an 8 h stretch.
     silent: [
+      { fixture: 'scrubbed-w2', subject: characterSubject(1) },
       {
         fixture: 'scrubbed-w2',
         subject: characterSubject(3),
@@ -62,6 +75,8 @@ export default defineDetector({
         return [{ subject, slots: {}, result: 'pass' as const, nextAt: first.capAt }];
       const firing = byCap.filter((p) => p.capAt < returnAt);
       const fixHolds = firing.every((p) => p.fromEmptyMs >= returnAt - now);
+      // #70 A5: not full now and refills before the return anyway: no per-character line.
+      if (!fixHolds && first.capAt > now) return [{ subject, slots: {}, result: 'pass' as const }];
       return [
         {
           subject,
@@ -73,7 +88,6 @@ export default defineDetector({
           result: 'fires' as const,
           at: first.capAt,
           fixHolds,
-          ...(fixHolds || first.capAt <= now ? {} : { demotedBecause: 'fix-does-not-hold' as const }),
         },
       ];
     });

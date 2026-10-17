@@ -10,7 +10,10 @@
 import type { ParsedSave, ToolboxCalls } from '@idleon-forge/toolbox-parsers';
 import type {
   AccountAfkFacts,
+  AfkAnvilPlan,
   AfkAnvilProduct,
+  AfkAnvilSplit,
+  AfkAnvilWindowPlan,
   AfkFighting,
   AfkFood,
   AfkFoodKind,
@@ -31,6 +34,28 @@ const arr = (v: unknown): unknown[] => (Array.isArray(v) ? v : []);
 export const AFK_HORIZON_MS = 30 * 24 * 3_600_000;
 /** At most this many distinct owned health foods are tried in the survivability clone (TR-2, TR-8). */
 export const MAX_FOODS_TRIED = 4;
+
+/**
+ * The windows the anvil plan is made for (#70 A2, A3): the "Back in about" chips (M10
+ * EXPECTED_RETURN_CHIPS, 2/4/8/12/24 h), so the plan follows the player's Expected Return with no
+ * re-parse. The default Expected Return is 8 h.
+ */
+export const ANVIL_PLAN_WINDOWS_MS: readonly number[] = [2, 4, 8, 12, 24].map((h) => h * 3_600_000);
+
+/**
+ * The plan for an Expected Return: the window closest to it, the shorter one on a tie (a learned
+ * 10 h plans for 8 h). Null without a plan.
+ */
+export function anvilPlanWindow(
+  plan: AfkAnvilPlan | null | undefined,
+  expectedReturnMs: number,
+): AfkAnvilWindowPlan | null {
+  let best: AfkAnvilWindowPlan | null = null;
+  for (const w of plan?.windows ?? [])
+    if (best === null || Math.abs(w.windowMs - expectedReturnMs) < Math.abs(best.windowMs - expectedReturnMs))
+      best = w;
+  return best;
+}
 
 const FOOD_KINDS: Record<string, AfkFoodKind> = {
   HEALTH_FOOD: 'health',
@@ -199,6 +224,163 @@ function anvilOf(c: Dict, characters: unknown[], account: Dict, calls: ToolboxCa
   });
 }
 
+/** Budgets up to this many points are scored at every integer split (#70 A2); larger ones are narrowed first. */
+export const ANVIL_EXHAUSTIVE_MAX = 300;
+/** Around the narrowed optimum, every split this far either side is still scored (rounding, ties). */
+export const ANVIL_SCAN_RADIUS = 8;
+
+const tolOf = (v: number) => 1e-9 * Math.max(1, Math.abs(v));
+
+/**
+ * The best split of `budget` points added on top of `base` (Speed, Capacity), by brute force over the
+ * integer splits (#70 A2, ADR 0005: no closed form). `score(speed, capacity)` is the window output.
+ * Ties go to Speed: spare Capacity does nothing inside the window.
+ *
+ * Up to `ANVIL_EXHAUSTIVE_MAX` points every split is scored. Above that (late game, over a thousand
+ * points, where each score is a Toolbox call of about 0.15 ms), the output is concave in the split
+ * (each product's min(rate x T, capacity) is a min of a rising and a falling line, and a sum of concave
+ * terms is concave), so a binary search finds where it stops rising and where its plateau ends, and
+ * every split within `ANVIL_SCAN_RADIUS` of either end is then scored exhaustively.
+ */
+export function bestAnvilSplit(
+  base: { speed: number; capacity: number },
+  budget: number,
+  score: (speed: number, capacity: number) => number,
+): AfkAnvilSplit {
+  const f = (x: number) => score(base.speed + x, base.capacity + (budget - x));
+  let xs: number[] = Array.from({ length: budget + 1 }, (_, x) => x);
+  if (budget > ANVIL_EXHAUSTIVE_MAX) {
+    // The first x where f stops rising strictly.
+    let lo = 0;
+    let hi = budget;
+    while (lo < hi) {
+      const m = (lo + hi) >> 1;
+      if (f(m + 1) > f(m) + tolOf(f(m))) lo = m + 1;
+      else hi = m;
+    }
+    const peak = lo;
+    const top = f(peak);
+    // The last x still level with the peak: the plateau's Speed end.
+    let a = peak;
+    let b = budget;
+    while (a < b) {
+      const m = (a + b + 1) >> 1;
+      if (f(m) >= top - tolOf(top)) a = m;
+      else b = m - 1;
+    }
+    // Both ends of the plateau, each with its neighbourhood; inside a plateau every split scores the
+    // same (concavity), so its middle needs no scoring.
+    xs = [];
+    for (let x = Math.max(0, peak - ANVIL_SCAN_RADIUS); x <= Math.min(budget, peak + ANVIL_SCAN_RADIUS); x++)
+      xs.push(x);
+    for (
+      let x = Math.max(peak + ANVIL_SCAN_RADIUS + 1, a - ANVIL_SCAN_RADIUS);
+      x <= Math.min(budget, a + ANVIL_SCAN_RADIUS);
+      x++
+    )
+      xs.push(x);
+  }
+  let best: AfkAnvilSplit | null = null;
+  for (const x of xs) {
+    const output = f(x);
+    // Later x has more Speed, so a tie (within float noise) moves to it.
+    if (best === null || output >= best.output - tolOf(best.output))
+      best = { speed: base.speed + x, capacity: base.capacity + (budget - x), output };
+  }
+  return best ?? { ...base, output: f(0) };
+}
+
+/**
+ * The anvil point plan (#70 A2, A3), scored with Toolbox's `getPlayerAnvil` on a clone whose
+ * `anvil.anvilStats` carries counterfactual Speed and Capacity points. `anvilSpeed` reads only
+ * `speedPoints` and `anvilCapacity` only `capPoints` (vendor/parsers/world-1/anvil.ts getPlayerAnvil),
+ * so one call at (k, k) gives both numbers for k points; calls are made on demand and kept. Output over T from empty is the sum over producing
+ * products of min(anvilSpeed x hammers x T / requiredAmount, anvilCapacity).
+ */
+function anvilPlanOf(
+  c: Dict,
+  characters: unknown[],
+  account: Dict,
+  calls: ToolboxCalls,
+): AfkAnvilPlan | null {
+  return attempt((): AfkAnvilPlan | null => {
+    const anvil = isDict(c.anvil) ? c.anvil : null;
+    const st = anvil && isDict(anvil.anvilStats) ? anvil.anvilStats : null;
+    const skills = isDict(c.skillsInfo) ? c.skillsInfo : {};
+    const smithingLevel = num(isDict(skills.smithing) ? skills.smithing.level : null);
+    if (!anvil || !st || smithingLevel === null) return null;
+    const [xp, speed, cap, coins, mats, acme] = [
+      st.xpPoints,
+      st.speedPoints,
+      st.capPoints,
+      st.pointsFromCoins,
+      st.pointsFromMats,
+      st.pointsFromAcme ?? 0,
+    ].map(num);
+    if (xp == null || speed == null || cap == null || coins == null || mats == null || acme == null)
+      return null;
+    if ([xp, speed, cap].some((v) => v < 0 || !Number.isInteger(v))) return null;
+    const unspent = smithingLevel + acme + coins + mats - (xp + speed + cap);
+    const pool = speed + cap + Math.max(0, unspent);
+    if (!Number.isInteger(pool) || pool > 100_000) return null;
+
+    // One call at (k, k) gives anvilSpeed for k Speed points and anvilCapacity for k Capacity points.
+    const memo = new Map<number, { speed: number; capacity: number; pa: Dict }>();
+    const at = (k: number) => {
+      const hit = memo.get(k);
+      if (hit) return hit;
+      const clone = { ...c, anvil: { ...anvil, anvilStats: { ...st, speedPoints: k, capPoints: k } } };
+      const pa = calls.getPlayerAnvil(clone, characters, account) as Dict;
+      const stats = isDict(pa.stats) ? pa.stats : {};
+      const v = num(stats.anvilSpeed);
+      const cp = num(stats.anvilCapacity);
+      if (v === null || cp === null || v <= 0 || cp <= 0) throw new Error('anvil numbers are not finite');
+      const row = { speed: v, capacity: cp, pa };
+      memo.set(k, row);
+      return row;
+    };
+    const products: Array<{ item: string; name: string; hammers: number; required: number }> = [];
+    for (const p of arr(at(speed).pa.production)) {
+      const hammers = isDict(p) ? (num(p.hammers) ?? 0) : 0;
+      if (!isDict(p) || hammers <= 0) continue;
+      const required = num(p.requiredAmount);
+      if (required === null || required <= 0) return null;
+      const item = String(p.rawName);
+      products.push({
+        item,
+        name: typeof p.displayName === 'string' ? p.displayName : item,
+        hammers,
+        required,
+      });
+    }
+    products.sort((a, b) => a.item.localeCompare(b.item));
+    const windows: AfkAnvilWindowPlan[] = [];
+    for (const windowMs of ANVIL_PLAN_WINDOWS_MS) {
+      const hours = windowMs / 3_600_000;
+      const score = (s: number, k: number): number => {
+        const v = at(s).speed;
+        const cp = at(k).capacity;
+        return products.reduce((sum, p) => sum + Math.min((v * p.hammers * hours) / p.required, cp), 0);
+      };
+      const current = { speed, capacity: cap, output: score(speed, cap) };
+      const spend = unspent > 0 ? bestAnvilSplit({ speed, capacity: cap }, unspent, score) : null;
+      const respec = bestAnvilSplit({ speed: 0, capacity: 0 }, pool, score);
+      const splits = [current, respec, ...(spend ? [spend] : [])];
+      if (splits.some((x) => !Number.isFinite(x.output))) return null;
+      windows.push({ windowMs, current, spend, respec });
+    }
+    return {
+      smithingLevel,
+      xpPoints: xp,
+      speedPoints: speed,
+      capPoints: cap,
+      unspent,
+      products: products.map(({ item, name }) => ({ item, name })),
+      windows,
+    };
+  });
+}
+
 function worshipOf(c: Dict): AfkWorship | null {
   const w = isDict(c.worship) ? c.worship : null;
   const charge = num(w?.currentCharge);
@@ -277,6 +459,7 @@ export function characterAfkFacts(input: AfkFactsInput, index: number): Characte
       fighting: attempt(() => fightingOf(c, characters, account, calls, blankFoodSlot, bonus)),
       inventory: attempt(() => inventoryOf(c, account, calls)),
       anvil: anvilOf(c, characters, account, calls, asOf),
+      anvilPlan: anvilPlanOf(c, characters, account, calls),
       worship: attempt(() => worshipOf(c)),
       prayers: prayersOf(c, account, calls),
       traps: lastCloudSave === null ? null : trapsOf(account, index, lastCloudSave, asOf),
@@ -329,6 +512,12 @@ export function accountAfkFacts(input: AfkFactsInput): AccountAfkFacts {
       return slots === null ? null : Math.max(0, slots - used);
     });
 
-    return { projectedAt: asOf, arcade, liquids, salts, storageFreeSlots };
+    const currencies = isDict(account.currencies) ? account.currencies : null;
+    const coins = attempt(
+      () => num(currencies?.rawMoney),
+      (v) => v !== null && v >= 0,
+    );
+
+    return { projectedAt: asOf, arcade, liquids, salts, storageFreeSlots, coins };
   });
 }

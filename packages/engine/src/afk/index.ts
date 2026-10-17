@@ -16,6 +16,7 @@ export {
   resolveExpectedReturn,
   returnAtOf,
 } from './expected-return';
+export { AFK_INFO_ENTRIES, afkInfoLines } from './info';
 export {
   type AfkSafetyModuleDeps,
   createAfkSafetyModule,

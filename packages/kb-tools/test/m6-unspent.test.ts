@@ -101,11 +101,13 @@ describe('US-2 free dailies', () => {
     expect(minutes).toBe(11 * 60 + 13);
     expect(fired(run('pets/free-pull', w3, { now: savedAt(w3) + 12 * HOUR }))).toHaveLength(1);
   });
-  it('Pet Mart gems: gated off on both accounts; with the gate open, claimable (shop day 241)', () => {
-    expect(fired(run('pets/mart-gems', w2))).toEqual([]);
-    expect(fired(run('pets/mart-gems', w3))).toEqual([]);
-    const open = withAccount(w2, { petMart: { ...(w2.account.petMart ?? fail('petMart')), unlocked: true } });
-    expect(one(run('pets/mart-gems', open))).toMatchObject({ slots: { shopDay: 241 } });
+  it('Pet Mart gems: on since the in-game check (#34); W2-late claimable (shop day 241); a closed gate is silent', () => {
+    expect(w2.account.petMart?.unlocked).toBe(true);
+    expect(one(run('pets/mart-gems', w2))).toMatchObject({ slots: { shopDay: 241 } });
+    const closed = withAccount(w2, {
+      petMart: { ...(w2.account.petMart ?? fail('petMart')), unlocked: false },
+    });
+    expect(fired(run('pets/mart-gems', closed))).toEqual([]);
   });
   it('W2-late: 11 vial attempts, banked at 8 h (reset ~23 h 43 m away), lost-before-return at 24 h', () => {
     expect(one(run('alchemy-vials/attempts', w2))).toMatchObject({
@@ -270,18 +272,86 @@ describe('US-9 and US-10 Post Office and anvil points', () => {
     expect(po(open, 'boxes')).toHaveLength(6);
     expect(po(open, 'unlock')).toEqual([]);
   });
-  it('W3-early: only the Bowman Lv 60 has 3 anvil points; W2-late none', () => {
-    expect(
-      fired(run('anvil/points', w3)).map((f) => f.subject.kind === 'character' && label(w3, f.subject.index)),
-    ).toEqual(['Bowman 60']);
+  it('W3-early: one account line for the Bowman Lv 60, who holds 3 anvil points; W2-late none (#70 A2)', () => {
+    const fs = fired(run('anvil/points', w3));
+    const account = fs.find((f) => f.subject.kind === 'account');
+    expect(account?.slots).toEqual({ count: 1, hours: 8, oneSpeed: 1 });
+    const detail = fs.filter((f) => f.subject.kind === 'character');
+    expect(detail.map((f) => f.subject.kind === 'character' && label(w3, f.subject.index))).toEqual([
+      'Bowman 60',
+    ]);
+    // The brute force puts all 3 into Speed for an 8 h window (Toolbox getPlayerAnvil, ties to Speed).
+    expect(detail[0]?.slots).toEqual({ points: 3, speed: 3, capacity: 0 });
     expect(fired(run('anvil/points', w2))).toEqual([]);
   });
-  it('FR-23: Capacity instead once M3 reports a product capping before the return (8.5 h after the save)', () => {
-    const later = savedAt(w3) + 8.5 * HOUR;
-    expect(fired(run('anvil/points', w3, { now: later }))).toEqual([]);
-    expect(one(run('anvil/points', w3, { now: later, params: { form: 'capacity' } }))).toMatchObject({
-      slots: { points: 3, product: 'Leather_Hide' },
+  it('follows the Expected Return ("Back in about"): the hours in the line are the window planned for', () => {
+    for (const er of [2, 4, 8, 12, 24]) {
+      const account = fired(run('anvil/points', w3, { er })).find((f) => f.subject.kind === 'account');
+      expect(account?.slots.hours).toBe(er);
+    }
+  });
+  it('FR-23 (#70 A2): the stat named is the split the plan found; several characters are one line', () => {
+    const bowman = w3.characters.find((c) => c.index === 2);
+    const afk = bowman?.afk ?? fail('afk');
+    const plan = afk.anvilPlan ?? fail('plan');
+    // Every window's spend is overridden, so the result is the same at any Expected Return.
+    const spendAll = (p: typeof plan, speed: number, capacity: number, unspent = p.unspent) => ({
+      ...p,
+      unspent,
+      windows: p.windows.map((w) => ({ ...w, spend: { speed, capacity, output: 1 } })),
     });
+    const capacity = withCharacter(w3, 2, {
+      afk: { ...afk, anvilPlan: spendAll(plan, plan.speedPoints, plan.capPoints + 3) },
+    });
+    expect(fired(run('anvil/points', capacity)).find((f) => f.subject.kind === 'account')?.slots).toEqual({
+      count: 1,
+      hours: 8,
+      oneCapacity: 1,
+    });
+    const wizard = w3.characters.find((c) => c.index === 0)?.afk ?? fail('afk');
+    const wplan = wizard.anvilPlan ?? fail('plan');
+    const two = withCharacter(capacity, 0, {
+      afk: {
+        ...wizard,
+        anvilPlan: spendAll(wplan, wplan.speedPoints + 2, wplan.capPoints, 2),
+      },
+    });
+    const fs = fired(run('anvil/points', two));
+    expect(fs.filter((f) => f.subject.kind === 'account')).toHaveLength(1);
+    expect(fs.find((f) => f.subject.kind === 'account')?.slots).toEqual({ count: 2, hours: 8, manyMixed: 1 });
+  });
+});
+
+describe('#70 A3 the Whetstone respec', () => {
+  it('W3-early: the Wizard Lv 73 gains about 30% from 7 Speed / 23 Capacity at 8 h', () => {
+    const fs = fired(run('anvil/respec', w3, { params: { minGain: 0.25, shopWorld: 3 } }));
+    const account = fs.find((f) => f.subject.kind === 'account');
+    expect(account?.slots).toMatchObject({ count: 1, hours: 8, mixedPct: 1 });
+    expect(Math.round(Number(account?.slots.morePct))).toBe(30);
+    const detail = fs.filter((f) => f.subject.kind === 'character');
+    expect(detail.map((f) => f.subject.kind === 'character' && label(w3, f.subject.index))).toEqual([
+      'Wizard 73',
+    ]);
+    expect(detail[0]?.slots).toMatchObject({ speed: 7, capacity: 23 });
+  });
+  it('W2-late: silent until the W3 town shop is reached; then about 2x Thread on 4 characters', () => {
+    expect(fired(run('anvil/respec', w2))).toEqual([]);
+    const reached = withAccount(w2, { currentWorld: 3 });
+    const fs = fired(run('anvil/respec', reached));
+    const account = fs.find((f) => f.subject.kind === 'account');
+    expect(account?.slots).toMatchObject({ count: 4, hours: 8, product: 'Thread' });
+    expect(Number(account?.slots.times)).toBeCloseTo(2.49, 2);
+    // Best gain first; the Wizard Lv 56 (+16%) is under the 25% bar.
+    const order = fs
+      .filter((f) => f.subject.kind === 'character')
+      .map((f) => f.subject.kind === 'character' && label(w2, f.subject.index));
+    expect(order).toEqual(['Squire 43', 'Shaman 44', 'Bowman 54', 'Barbarian 60']);
+    const barbarian = fs.find((f) => f.subject.kind === 'character' && f.subject.index === 0);
+    expect(barbarian?.slots).toMatchObject({ speed: 25, capacity: 56 });
+  });
+  it('needs the coins for a Whetstone', () => {
+    const poor = withAccount(w3, { afk: { ...(w3.account.afk ?? fail('afk')), coins: 1_199_999 } });
+    expect(fired(run('anvil/respec', poor))).toEqual([]);
   });
 });
 
@@ -451,7 +521,9 @@ describe('US-12 M6 never touches a Verdict', () => {
         // M3 shares the anvil and refinery Systems; only M6's own Detectors count here.
         e.value.type === 'check' &&
         Object.hasOwn(detectors, e.value.detector.id) &&
-        !['anvil/caps-before-return', 'refinery/fuel-runs-out'].includes(e.value.detector.id),
+        !['anvil/caps-before-return', 'anvil/fill-time', 'refinery/fuel-runs-out'].includes(
+          e.value.detector.id,
+        ),
     );
     expect(m6.length).toBeGreaterThan(20);
     for (const e of m6) expect(e.value.type === 'check' && e.value.effect, e.value.id).toBe('next-action');

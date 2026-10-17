@@ -165,30 +165,29 @@ describe('US-2 food that runs out overnight', () => {
   });
 });
 
-describe('US-4 anvil that caps, and anvil that cannot be helped', () => {
-  it('W2-late at 8 h: the Barbarian Lv 60 is full now and blocks; the other four are one Next Action each', () => {
+describe('US-4 anvil that caps, and anvil that cannot be helped (#70 A5)', () => {
+  it('W2-late at 8 h: the Barbarian Lv 60 is full now and blocks; the other four show no anvil line', () => {
     const r = evaluate(W2());
     const barb = charOf(r, 0).findings.find((f) => f.entryId === 'anvil.check.caps-before-return');
     expect(barb?.role).toBe('blocker');
     expect(barb?.nextAction.text).toMatch(
       /^Collect Thread from the anvil \(time to cap: now; it refills about 3 h after you collect\)/,
     );
-    for (const i of [1, 2, 3, 4]) {
-      const f = charOf(r, i).findings.find((x) => x.entryId === 'anvil.check.caps-before-return');
-      expect(f?.role).toBe('next-action');
-      expect(f?.demotedBecause).toBe('fix-does-not-hold');
-    }
+    // They refill before an 8 h return even after collecting: collecting changes nothing, so no line.
+    for (const i of [1, 2, 3, 4])
+      expect(charOf(r, i).findings.map((x) => x.entryId)).not.toContain('anvil.check.caps-before-return');
   });
 
-  it('W2-late at 2 h: the Barbarian still blocks; the Shaman and Squire stay Next Actions; the Bowman edge is pinned', () => {
+  it('W2-late at 2 h: the Barbarian still blocks; the Shaman and Squire show nothing; the Bowman edge is pinned', () => {
     const r = evaluate(W2(), 2);
     expect(blockers(charOf(r, 0).findings)).toContain('anvil.check.caps-before-return');
     for (const i of [1, 2])
-      expect(nextActions(charOf(r, i).findings)).toContain('anvil.check.caps-before-return');
+      expect(charOf(r, i).findings.map((x) => x.entryId)).not.toContain('anvil.check.caps-before-return');
     const bowman = W2().characters[3]?.afk?.anvil?.[0];
     const f = charOf(r, 3).findings.find((x) => x.entryId === 'anvil.check.caps-before-return');
-    expect(f?.role).toBe((bowman?.fromEmptyMs ?? 0) >= 2 * HOUR_MS ? 'blocker' : 'next-action');
+    // 7,355,512 ms from empty >= 2 h: collecting now lasts the stretch, so it blocks.
     expect(bowman?.fromEmptyMs).toBe(7355512);
+    expect(f?.role).toBe('blocker');
   });
 
   it("W3-early at 8 h: no anvil blocker, and the first fill is the Bowman Lv 60's anvil at about 8.2 h", () => {
@@ -438,6 +437,10 @@ describe('TR-11 properties', () => {
         if (prev)
           for (const [key, p] of prev) {
             const n = now.get(key);
+            // #70 A5: an anvil cap that is not full now leaves once collecting no longer lasts the stretch.
+            const anvilLeft =
+              key.startsWith('anvil.check.caps-before-return@') && p.at !== null && p.at > s.asOf;
+            if (!n && anvilLeft) continue;
             expect(n, `${key} vanished at ${h} h`).toBeDefined();
             if (n && p.role !== n.role) {
               expect(p.role).toBe('blocker');

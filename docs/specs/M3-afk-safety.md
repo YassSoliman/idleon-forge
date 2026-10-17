@@ -643,3 +643,14 @@ These supersede anything above that conflicts with them.
 - **Effect on the fixtures:**
   - The W2-late Barbarian Lv 60 is now told to equip Meat Pie (500 a bite against about 722 max HP). Under the spec's old rule it would have been Magic Meatloaf ×1.
   - US-1 changes on both accounts. The W3-early Wizard Lv 73 (153 against a cap of 419) and Squire Lv 85 (146 against 313), and the W2-late Wizard Lv 56 (88 against 184), now get the "Low food" Next Action. It is never a blocker.
+
+> **Ruled by Yasser (2026-10-17, [#70](https://github.com/YassSoliman/idleon-forge/issues/70)): anvil noise, A1 and A5.** These supersede FR-18's third bullet, D7's per-character Next Action and US-4's "one Next Action each":
+> - **A1, fill-time line:** each character with a hammer on a product that is not full shows a quiet line, "Anvil full in X at current speed". It is not a Goal or a Next Action.
+> - **A5, noise:** a per-character anvil item appears only when it changes that character's outcome: the product is full now (RT-14), or collecting now keeps it producing until the return.
+
+**FR-18, as built:**
+- **Blocks** when the product is full now ("fills again in about X"), or when it fills before the return and collecting now lasts the stretch (`fromEmptyMs >= returnAt - now`). Unchanged.
+- **Otherwise silent per character.** A product that is not full yet and refills before the return even after collecting gets no line on that character. It is a `pass` with no `nextAt`, so it never becomes the first fill. The account-level anvil plan in M6 (FR-23, Final rulings) covers it: unspent points, or a Whetstone re-split.
+- **Fill-time line (A1):** entry `anvil.check.fill-time`, Detector `anvil/fill-time`, fed by `characters[].afk.anvil[].capAt`. M3's module renders it as `CharacterContribution.info`, which the core passes to `CharacterResult.info` (M10's slot from #75). It is silent when the product is full now, because the blocker says so. It never touches a Verdict, `firstFill` or `alreadyFull`. M6 never runs M3's entries.
+- **TR-11 monotonicity** now has one exception: an anvil cap that is not full now may leave the Findings at a longer return, once collecting no longer lasts the stretch.
+- **Effect on the fixtures:** on W2-late at 8 h, only the Barbarian Lv 60's full anvil is a per-character item. The Squire Lv 43, Shaman Lv 44, Bowman Lv 54 and Wizard Lv 56 show "Anvil full in 1 h / 2 h / 2 h / 6 h at current speed" instead. At 2 h the Bowman Lv 54 blocks (7,355,512 ms from empty is at least 2 h), and the Squire and Shaman show nothing. On W3-early every product is full now, so all six keep their blocker and show no fill-time line.

@@ -33,7 +33,8 @@ export const UNSPENT_FIELD_SOURCES: Record<string, string> = {
     'account.towers.data[Death_Note], account.storage, account.refinery.refineryStorage',
   'characters[].bigBubbles': 'characters[i].equippedBubbles',
   'characters[].postOfficeUnspent': 'characters[i].postOffice.unspentPoints',
-  'characters[].anvilPointsAvailable': 'characters[i].anvil.anvilStats.availablePoints',
+  'characters[].anvilPointsAvailable':
+    'characters[i].skillsInfo.smithing.level + anvil.anvilStats (pointsFromCoins, pointsFromMats, pointsFromAcme) - spent; else availablePoints',
 };
 
 export const UNSPENT_FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {

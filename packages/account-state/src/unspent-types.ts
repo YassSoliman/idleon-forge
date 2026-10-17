@@ -95,8 +95,8 @@ export interface PetsState {
 
 export interface PetMartState {
   /**
-   * Whether the Pet Mart gem claim is reachable on this account. False until its unlock condition is
-   * verified in game (M6 Final rulings): see `PET_MART_UNLOCK_VERIFIED` in unspent.ts.
+   * Whether the Pet Mart gem claim is reachable on this account: true since the in-game check
+   * (M6 Final rulings, #34); see `PET_MART_UNLOCK_VERIFIED` in unspent.ts.
    */
   unlocked: boolean;
   /** OLA[516]. */
@@ -185,6 +185,6 @@ export interface UnspentCharacterFields {
   bigBubbles?: Array<string | null>;
   /** `postOffice.unspentPoints`. */
   postOfficeUnspent?: number | null;
-  /** `anvil.anvilStats.availablePoints`. */
+  /** Unspent anvil points, recomputed as the game does (#70); the stored `availablePoints` without every source. */
   anvilPointsAvailable?: number | null;
 }

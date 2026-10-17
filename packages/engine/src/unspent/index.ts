@@ -20,10 +20,12 @@ import {
   type StageId,
   stagesBetween,
 } from '@idleon-forge/knowledge';
+import { AFK_SAFETY_ENTRIES, characterBuiltins, textOf } from '../afk/evaluate';
+import { AFK_INFO_ENTRIES } from '../afk/info';
 import type { CharacterContribution, EngineInput, EngineModule, ModuleGoal } from '../core/module';
 import { lookupOf } from '../metapath/knowledge';
 import { detectStage } from '../metapath/stage';
-import type { ActivePlay, Category, Goal, Milestone, SourceRef, Subject } from '../result';
+import type { ActivePlay, Category, Goal, GoalDetail, Milestone, SourceRef, Subject } from '../result';
 
 /** The Systems whose Check entries this module runs (M6 TR-1). */
 export const UNSPENT_SYSTEMS: readonly string[] = [
@@ -42,6 +44,9 @@ export const UNSPENT_SYSTEMS: readonly string[] = [
   'refinery',
   'death-note',
 ];
+
+/** M3's entries share Systems with M6 (anvil, refinery) but are M3's alone: M6 never runs them (#70 A5). */
+const M3_ENTRIES: ReadonlySet<string> = new Set([...AFK_SAFETY_ENTRIES, ...AFK_INFO_ENTRIES]);
 
 /** Entries whose Goal carries a Milestone (TR-10): the printer progress line, in gems. */
 const MILESTONE_ENTRIES: Readonly<Record<string, { unit: string; current: string; next: string }>> = {
@@ -89,8 +94,27 @@ function stageOrNull(state: AccountState, kb: UnspentKnowledge): StageId | null 
   }
 }
 
+/**
+ * An account entry's character findings are its per-character detail (#70 A2, A3), rendered with the
+ * entry's `values.detail` template, in the Detector's order. Without the template there is no detail.
+ */
+function detailsOf(entry: CheckEntryT, findings: readonly Fired[], state: AccountState): GoalDetail[] {
+  const template = entry.values.detail;
+  if (typeof template !== 'string') return [];
+  return findings.map((f) => {
+    const subject = subjectKey(f);
+    return { subject, text: render(template, f.slots, characterBuiltins(state, subject), entry.values) };
+  });
+}
+
 /** One Goal per firing finding of one entry. */
-function goalOf(entry: CheckEntryT, f: Fired, d: AnyDetector, kb: UnspentKnowledge): ModuleGoal {
+function goalOf(
+  entry: CheckEntryT,
+  f: Fired,
+  d: AnyDetector,
+  kb: UnspentKnowledge,
+  details: GoalDetail[] = [],
+): ModuleGoal {
   const subject = subjectKey(f);
   const scope = [f.slots, entry.values] as const;
   const m = MILESTONE_ENTRIES[entry.id];
@@ -109,7 +133,7 @@ function goalOf(entry: CheckEntryT, f: Fired, d: AnyDetector, kb: UnspentKnowled
     nextAction: {
       key: `${entry.id}@${subject}`,
       entryId: entry.id,
-      text: render(entry.text, ...scope),
+      text: render(textOf(entry, f.slots), ...scope),
       why: render(entry.why, ...scope),
       sources,
       stale: kb.stale?.includes(entry.id) ?? false,
@@ -126,6 +150,7 @@ function goalOf(entry: CheckEntryT, f: Fired, d: AnyDetector, kb: UnspentKnowled
       provenance: { entryIds: [entry.id], fields: [...(kb.readsOf?.[d.id] ?? d.reads)] },
     },
     milestone,
+    ...(details.length ? { details } : {}),
   };
   const byUrgency = entry.priority?.frame === 'by-urgency';
   const urgency = byUrgency ? (f.urgency ?? 'banked') : null;
@@ -156,6 +181,7 @@ export function createUnspentModule(deps: UnspentModuleDeps): EngineModule {
   const { kb, registry } = deps;
   const entries = Object.values(kb.entries)
     .filter((e): e is CheckEntryT => e.type === 'check' && UNSPENT_SYSTEMS.includes(e.system))
+    .filter((e) => !M3_ENTRIES.has(e.id))
     .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
   return {
     id: 'unspent-idle',
@@ -179,9 +205,21 @@ export function createUnspentModule(deps: UnspentModuleDeps): EngineModule {
         if (d?.kind !== 'check') continue;
         const run = runDetector(d, ctx, entry.detector.params);
         if (!run.ok) continue; // FR-3: a broken Check drops its line; never a Verdict (R9).
-        for (const f of run.findings as readonly CheckFinding[]) {
-          if (f.result !== 'fires') continue;
-          const g = goalOf(entry, f, d, kb);
+        const fired = (run.findings as readonly CheckFinding[]).filter(
+          (f): f is Fired => f.result === 'fires',
+        );
+        // An account entry's character findings are detail on its Goal, never Goals of their own.
+        const asDetail = entry.subject === 'account';
+        const details = asDetail
+          ? detailsOf(
+              entry,
+              fired.filter((f) => f.subject.kind === 'character'),
+              state,
+            )
+          : [];
+        for (const f of fired) {
+          if (asDetail && f.subject.kind !== 'account') continue;
+          const g = goalOf(entry, f, d, kb, f.subject.kind === 'account' ? details : []);
           if (f.subject.kind === 'account') account.push(g);
           else byCharacter.set(f.subject.index, [...(byCharacter.get(f.subject.index) ?? []), g]);
           if (entry.activePlay && f.subject.kind === 'account')

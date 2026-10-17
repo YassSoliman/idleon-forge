@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #6b7ada89 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry
+# golden v1: latest · knowledge #9a245e61 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -8,32 +8,32 @@
 ### C9 · Royal Guardian 1307 · Fix before you leave
 1 · Doing nothing · Blunder Hills · Send Royal Guardian Lv 1,307 to an AFK Target before you leave
 
+### C2 · Death Bringer 1292 · Fix before you leave
+2 · Doing nothing · Shimmerfin Grove · Send Death Bringer Lv 1,292 to an AFK Target before you leave
+
 ### C1 · Siege Breaker 1291 · Fix before you leave
-2 · Cooking · Outer World Town · Collect Boring Brick from the anvil (time to cap: now; it refills about under 10 min after you collect)
+3 · Cooking · Outer World Town · Collect Boring Brick from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C6 · Wind Walker 1280 · Fix before you leave
-3 · Fighting Pirate Underling · Pirate Upper Deck · Collect Thread from the anvil (time to cap: now; it refills about under 10 min after you collect)
+4 · Fighting Pirate Underling · Pirate Upper Deck · Collect Thread from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C10 · Bubonic Conjuror 1268 · Fix before you leave
-4 · Fighting Green Mushroom · Spore Meadows · Collect Chain Link from the anvil (time to cap: now; it refills about under 10 min after you collect)
+5 · Fighting Green Mushroom · Spore Meadows · Collect Chain Link from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C8 · Siege Breaker 1261 · Fix before you leave
-5 · Cooking · Outer World Town · Collect Lugi Bracket from the anvil (time to cap: now; it refills about under 10 min after you collect)
+6 · Cooking · Outer World Town · Collect Lugi Bracket from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C4 · Divine Knight 1240 · Fix before you leave
-6 · Cooking · Outer World Town · Collect Trusty Nails from the anvil (time to cap: now; it refills about under 10 min after you collect)
+7 · Cooking · Outer World Town · Collect Trusty Nails from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C5 · Arcane Cultist 1231 · Fix before you leave
-7 · Cooking · Outer World Town · Collect Purple Screw from the anvil (time to cap: now; it refills about 60 min after you collect)
-
-### C7 · Voidwalker 1158 · Fix before you leave
-8 · Divinity · Magma Rivertown · Collect PVC Pipe from the anvil (time to cap: now; it refills about 2 h after you collect)
-
-### C2 · Death Bringer 1292 · Fix before you leave
-9 · Doing nothing · Shimmerfin Grove · Send Death Bringer Lv 1,292 to an AFK Target before you leave
+8 · Cooking · Outer World Town · Collect Purple Screw from the anvil (time to cap: now; it refills about 60 min after you collect)
 
 ### C11 · Beginner 1224 · Fix before you leave
-10 · Cooking · Outer World Town · Collect Thread from the anvil (time to cap: now; it refills about under 10 min after you collect)
+9 · Cooking · Outer World Town · Collect Thread from the anvil (time to cap: now; it refills about under 10 min after you collect)
+
+### C7 · Voidwalker 1158 · Fix before you leave
+10 · Divinity · Magma Rivertown · Collect PVC Pipe from the anvil (time to cap: now; it refills about 2 h after you collect)
 
 ### C3 · Elemental Sorcerer 1259 · Fix before you leave
 11 · Cooking · Outer World Town · Collect Purple Screw from the anvil (time to cap: now; it refills about 3 h after you collect)
@@ -45,8 +45,8 @@ Fix before you leave
 - Grow · Get the fuel to run a Refinery salt: Get 50 more Magmaspike to run Anionic Salt [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (5)
+- Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
+show more (8)
 
 ## Not covered yet
 Cards
@@ -126,16 +126,21 @@ Laboratory
 | anvil.check.caps-before-return | anvil/caps-before-return | C7 | fires | fromEmpty=5937236 fullIn=0 product=PVC_Pipe |
 | anvil.check.caps-before-return | anvil/caps-before-return | C8 | fires | fromEmpty=591510 fullIn=0 product=Lugi_Bracket |
 | anvil.check.caps-before-return | anvil/caps-before-return | C9 | fires | fromEmpty=4358149 fullIn=0 product=Purple_Screw |
-| anvil.check.spend-points | anvil/points | — | silent |  |
-| anvil.check.spend-points-capacity | anvil/points | C1 | fires | points=157 product=Boring_Brick |
-| anvil.check.spend-points-capacity | anvil/points | C10 | fires | points=16 product=Chain_Link |
-| anvil.check.spend-points-capacity | anvil/points | C3 | fires | points=31 product=Purple_Screw |
-| anvil.check.spend-points-capacity | anvil/points | C4 | fires | points=4 product=Trusty_Nails |
-| anvil.check.spend-points-capacity | anvil/points | C5 | fires | points=66 product=Purple_Screw |
-| anvil.check.spend-points-capacity | anvil/points | C6 | fires | points=1 product=Thread |
-| anvil.check.spend-points-capacity | anvil/points | C7 | fires | points=21 product=PVC_Pipe |
-| anvil.check.spend-points-capacity | anvil/points | C8 | fires | points=159 product=Lugi_Bracket |
-| anvil.check.spend-points-capacity | anvil/points | C9 | fires | points=2 product=Purple_Screw |
+| anvil.check.fill-time | anvil/fill-time | — | silent |  |
+| anvil.check.respec | anvil/respec | C10 | fires | capacity=217 morePct=86 speed=712 times=1.86 |
+| anvil.check.respec | anvil/respec | account | fires | count=1 hours=8 morePct=86 pct=1 product=Chain_Link times=1.86 |
+| anvil.check.spend-points | anvil/points | C1 | fires | capacity=0 points=164 speed=164 |
+| anvil.check.spend-points | anvil/points | C10 | fires | capacity=63 points=63 speed=0 |
+| anvil.check.spend-points | anvil/points | C11 | fires | capacity=0 points=1 speed=1 |
+| anvil.check.spend-points | anvil/points | C2 | fires | capacity=0 points=7 speed=7 |
+| anvil.check.spend-points | anvil/points | C3 | fires | capacity=0 points=95 speed=95 |
+| anvil.check.spend-points | anvil/points | C4 | fires | capacity=0 points=58 speed=58 |
+| anvil.check.spend-points | anvil/points | C5 | fires | capacity=0 points=96 speed=96 |
+| anvil.check.spend-points | anvil/points | C6 | fires | capacity=0 points=1 speed=1 |
+| anvil.check.spend-points | anvil/points | C7 | fires | capacity=0 points=44 speed=44 |
+| anvil.check.spend-points | anvil/points | C8 | fires | capacity=107 points=277 speed=170 |
+| anvil.check.spend-points | anvil/points | C9 | fires | capacity=0 points=3 speed=3 |
+| anvil.check.spend-points | anvil/points | account | fires | count=11 hours=8 manyMixed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | fires | capsIn=0 fullFor=662513255 |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
@@ -161,7 +166,7 @@ Laboratory
 | minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=12 |
 | minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
 | pets.check.free-pull | pets/free-pull | account | fires | hoursClaimable=4 |
-| pets.check.mart-gems | pets/mart-gems | — | silent |  |
+| pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=234 |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
 | post-office.check.daily-orders | post-office/state | account | fires | companies=6 |
 | post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=484039 |

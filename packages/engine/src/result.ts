@@ -58,6 +58,12 @@ export interface Milestone {
   etaSeconds: number | null;
   stopHere: boolean;
 }
+/** One character's part of an account-level Goal (#70 A2, A3: "Bowman Lv 60: 2 into Speed, 1 into Capacity"). */
+export interface GoalDetail {
+  subject: Subject;
+  /** Template already filled by the engine. */
+  text: string;
+}
 export interface Goal {
   /** Goal entry id. */
   id: string;
@@ -69,6 +75,8 @@ export interface Goal {
   /** Exactly one (glossary). */
   nextAction: NextAction;
   milestone: Milestone | null;
+  /** Account Goals only: per-character detail, in the order to act on (#70 A2, A3). */
+  details?: GoalDetail[];
 }
 export interface PurposeLine {
   goalId: string;

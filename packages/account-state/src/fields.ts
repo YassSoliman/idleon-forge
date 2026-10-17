@@ -59,6 +59,8 @@ export const FIELD_SOURCES: Record<string, string> = {
     'getMaxDamage(character), getMaxDamage({ ...character, food: [] }) and a food clone',
   'characters[].afk.inventory': 'characters[i].inventory, inventorySlots, getItemCapacity',
   'characters[].afk.anvil': 'getPlayerAnvil, getTimeTillCap (with and without fromZero)',
+  'characters[].afk.anvilPlan':
+    'characters[i].anvil.anvilStats, skillsInfo.smithing.level, getPlayerAnvil at counterfactual points (#70)',
   'characters[].afk.worship': 'characters[i].worship (getPlayerWorship), characters[i].tools',
   'characters[].afk.prayers': 'characters[i].activePrayers, getPrayerBonusAndCurse',
   'characters[].afk.traps': 'account.traps[i] (timeLeft, re-anchored to the cloud save)',
@@ -68,6 +70,7 @@ export const FIELD_SOURCES: Record<string, string> = {
   'account.afk.liquids': 'account.alchemy.liquids, account.alchemy.liquidCauldrons[].maxLiquid',
   'account.afk.salts': 'getSaltMatsTimeLeft',
   'account.afk.storageFreeSlots': 'account.storage.slots, account.storage.list',
+  'account.afk.coins': 'account.currencies.rawMoney',
   ...UNSPENT_FIELD_SOURCES,
 };
 
@@ -153,6 +156,7 @@ export const FIELD_SECTIONS: Record<string, string[]> = {
   'characters[].afk.fighting': [...FRONTIER_SECTIONS, 'storage'],
   'characters[].afk.inventory': ['stamps', 'gemShopPurchases', 'lab', 'upgradeVault', 'bundlesOwned'],
   'characters[].afk.anvil': ['stamps', 'alchemy', 'statues', 'starSigns', 'upgradeVault'],
+  'characters[].afk.anvilPlan': ['stamps', 'alchemy', 'statues', 'starSigns', 'upgradeVault'],
   'characters[].afk.worship': ['alchemy', 'cards', 'stamps', 'upgradeVault', 'arcade'],
   'characters[].afk.prayers': ['prayers'],
   'characters[].afk.traps': ['traps'],

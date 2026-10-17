@@ -7,7 +7,16 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { normalizeEnvelope, parseSave, toolboxCalls, withFrozenClock } from '@idleon-forge/toolbox-parsers';
 import { describe, expect, it } from 'vitest';
-import { type AccountState, AFK_HORIZON_MS, isKnown, toAccountState } from '../src';
+import {
+  type AccountState,
+  AFK_HORIZON_MS,
+  ANVIL_EXHAUSTIVE_MAX,
+  ANVIL_PLAN_WINDOWS_MS,
+  anvilPlanWindow,
+  bestAnvilSplit,
+  isKnown,
+  toAccountState,
+} from '../src';
 import { listJson, PUBLIC_DIR, readSave } from './helpers';
 
 const SCRUBBED = fileURLToPath(new URL('../../../fixtures/scrubbed/', import.meta.url));
@@ -73,6 +82,86 @@ describe('AFK facts on the scrubbed W2-late save', () => {
     const bare = stateOf(raw, now, false);
     expect(bare.account.afk).toBeNull();
     expect(bare.characters.every((c) => c.afk === null)).toBe(true);
+  });
+});
+
+describe('the anvil point plan (#70) on the scrubbed W2-late save', () => {
+  const { raw, now } = scrubbed('scrubbed-w2');
+  const state = stateOf(raw, now);
+  const plans = state.characters.map((c) => c.afk?.anvilPlan);
+  const at = (h: number) => plans.map((p) => anvilPlanWindow(p, h * 3_600_000));
+
+  it('recomputes unspent points: 0 everywhere; Exp untouched; one plan per "Back in about" chip', () => {
+    expect(plans.map((p) => p?.unspent)).toEqual([0, 0, 0, 0, 0]);
+    expect(plans.every((p) => p?.xpPoints === 0)).toBe(true);
+    expect(
+      plans.every((p) => p?.windows.map((w) => w.windowMs).join() === ANVIL_PLAN_WINDOWS_MS.join()),
+    ).toBe(true);
+    expect(at(8).every((w) => w?.spend === null)).toBe(true);
+  });
+
+  it('finds the 8 h Whetstone split per character (research: Barbarian 62/19 -> 25/56, about 1.9x Thread)', () => {
+    const splits = plans.map((p, i) => [
+      p?.speedPoints,
+      p?.capPoints,
+      at(8)[i]?.respec.speed,
+      at(8)[i]?.respec.capacity,
+    ]);
+    expect(splits).toEqual([
+      [62, 19, 25, 56],
+      [76, 4, 25, 55],
+      [83, 11, 30, 64],
+      [88, 15, 37, 66],
+      [39, 50, 28, 61],
+    ]);
+    const gains = at(8).map(
+      (w) => Math.round(((w?.respec.output ?? 0) / (w?.current.output ?? 1)) * 100) / 100,
+    );
+    expect(gains).toEqual([1.94, 3.12, 2.71, 2.46, 1.16]);
+    expect(plans[0]?.products).toEqual([{ item: 'CraftMat1', name: 'Thread' }]);
+  });
+
+  it('follows the Expected Return: 2 h puts the Barbarian at 70 Speed / 11 Capacity; 24 h all Capacity', () => {
+    expect([at(2)[0]?.respec.speed, at(2)[0]?.respec.capacity]).toEqual([70, 11]);
+    expect([at(24)[0]?.respec.speed, at(24)[0]?.respec.capacity]).toEqual([0, 81]);
+    // A learned 10 h is between two chips: the shorter one; 9 h is nearest 8 h.
+    expect(anvilPlanWindow(plans[0], 10 * 3_600_000)?.windowMs).toBe(8 * 3_600_000);
+    expect(anvilPlanWindow(plans[0], 9 * 3_600_000)?.windowMs).toBe(8 * 3_600_000);
+    expect(anvilPlanWindow(null, 8 * 3_600_000)).toBeNull();
+  });
+
+  it('reads the account coins for the Whetstone gate', () => {
+    expect(state.account.afk?.coins).toBeGreaterThan(1_200_000);
+  });
+});
+
+describe('bestAnvilSplit', () => {
+  // A concave window output: one product, speed rises 30 per point, capacity 50 per point, cap rounding.
+  const score = (rate: number) => (s: number, k: number) =>
+    Math.min(((100 + 2 * s) * rate) / 100, Math.round(1000 * (2 + 0.1 * k)));
+  const scan = (budget: number, f: (s: number, k: number) => number) => {
+    let best = { speed: -1, output: -1 };
+    for (let x = 0; x <= budget; x++) {
+      const out = f(x, budget - x);
+      if (out >= best.output - 1e-9 * Math.max(1, best.output)) best = { speed: x, output: out };
+    }
+    return best;
+  };
+
+  it('scores every split up to the exhaustive limit, ties to Speed', () => {
+    expect(bestAnvilSplit({ speed: 0, capacity: 0 }, 10, () => 5)).toMatchObject({ speed: 10, capacity: 0 });
+    expect(bestAnvilSplit({ speed: 3, capacity: 4 }, 2, (s) => s)).toMatchObject({ speed: 5, capacity: 4 });
+  });
+
+  it.each([500, 1300, 2700])('narrows a %i-point budget to the same split as a full scan', (budget) => {
+    for (const rate of [800, 5000, 40_000, 400_000]) {
+      const f = score(rate);
+      const got = bestAnvilSplit({ speed: 0, capacity: 0 }, budget, f);
+      expect(budget).toBeGreaterThan(ANVIL_EXHAUSTIVE_MAX);
+      expect(got.speed).toBe(scan(budget, f).speed);
+    }
+    // A flat output (nothing producing) goes all to Speed.
+    expect(bestAnvilSplit({ speed: 0, capacity: 0 }, budget, () => 0).speed).toBe(budget);
   });
 });
 

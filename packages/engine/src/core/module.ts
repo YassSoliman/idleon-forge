@@ -13,6 +13,7 @@ import type {
   Fill,
   Goal,
   HigherLeverage,
+  InfoLine,
   NotCoveredItem,
   PurposeLine,
   SpendPlan,
@@ -74,6 +75,8 @@ export interface CharacterContribution {
   activePlay?: ActivePlay[];
   doneThisSession?: Done[];
   firstFill?: Fill | null;
+  /** Quiet per-character lines (#70 A1, M3). */
+  info?: InfoLine[];
   /** M6 `spendCount` (FR-28): feeds Visit Order. */
   spendCount?: number;
 }

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M6 FR-13, TR-6: today's free Pet Mart gems. Gated off (M6 Final rulings): it runs only once
-// `petMart.unlocked` is true, which the adapter keeps false until the unlock is confirmed in game.
-// Then the game's own rule: the server offers them, the shop day is at least 1, and today's are not
+// M6 FR-13, TR-6: today's free Pet Mart gems. It runs only when `petMart.unlocked` is true; the adapter
+// sets it since Yasser confirmed the Pet Mart reachable in game (M6 Final rulings, #34).
+// The game's own rule: the server offers them, the shop day is at least 1, and today's are not
 // claimed (N.js, Toolbox petMartGems). After a daily reset since the save they are offered again.
 import { dailyResetAfter, resetsSinceSave } from '@idleon-forge/account-state';
 import { z } from 'zod';
@@ -17,16 +17,16 @@ export default defineDetector({
   slots: z.strictObject({ shopDay: z.number() }).partial(),
   reads: ['account.petMart', 'account.lastCloudSave', 'account.dailyResetInSeconds', 'diagnostics'],
   examples: {
-    fires: [
+    // The W2-late account: shop day 241, never claimed.
+    fires: [{ fixture: 'scrubbed-w2', expect: { slots: { shopDay: 241 } } }],
+    // A closed gate stays silent.
+    silent: [
       {
         fixture: 'scrubbed-w2',
         mutate: (s) =>
-          withAccount(s, { petMart: s.account.petMart && { ...s.account.petMart, unlocked: true } }),
-        expect: { slots: { shopDay: 241 } },
+          withAccount(s, { petMart: s.account.petMart && { ...s.account.petMart, unlocked: false } }),
       },
     ],
-    // The gate defaults off on both accounts.
-    silent: [{ fixture: 'scrubbed-w2' }, { fixture: 'scrubbed-w3' }],
     unknown: [{ fixture: 'scrubbed-w2', mutate: (s) => withAccount(s, { petMart: null }) }],
   },
   run({ state, now, expectedReturnMs }) {

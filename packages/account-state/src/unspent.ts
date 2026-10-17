@@ -90,14 +90,14 @@ export const OLA_INDICES: readonly number[] = Object.values(OLA)
   .sort((a, b) => a - b);
 
 /**
- * The Pet Mart gem claim (M6 FR-13) stays off until Yasser confirms it in game (M6 Final rulings).
+ * The Pet Mart gem claim (M6 FR-13) is on: Yasser confirmed in game on 2026-10-17 that Codex -> Quick Ref
+ * -> Tournament -> Pet Mart is reachable on the W2-late account (M6 Final rulings, #34).
  * What the game code says (N.js at 2.3.540, read 2026-10-17): the claim sits on the Pet Mart tab of the
  * Tournament menu (MenuType2 98), which the Quick Ref opens from its slot 13, and that slot is enabled
- * unconditionally (`_GenINFO[54][13]=1`); the claim needs OLA[516] < shop day, shop day ≥ 1 and
- * GemPM_x ≥ 0.1, exactly the Toolbox rule. So the code shows no progress gate; the in-game check is
- * still owed before the gate opens.
+ * unconditionally (`_GenINFO[54][13]=1`); the claim needs OLA[516] < shop day, shop day >= 1 and
+ * GemPM_x >= 0.1, exactly the Toolbox rule. So there is no progress gate.
  */
-export const PET_MART_UNLOCK_VERIFIED = false;
+export const PET_MART_UNLOCK_VERIFIED = true;
 
 /** The Breeding arena wave that adds the third big-bubble slot: website-data randomList[53][11] = 100. */
 export const ARENA_THIRD_BUBBLE_WAVE = 100;
@@ -467,11 +467,40 @@ export function readUnspentAccount(
   };
 }
 
+/**
+ * Unspent anvil points (M6 FR-23, #70). The game recomputes `availablePoints` only while the anvil tab is
+ * open, so the stored value is stale after a Smithing level-up. This is the game's own sum: Smithing
+ * level + Acme Anvil + coin points + material points - (Exp + Speed + Capacity). Without every source
+ * it is the stored value.
+ */
+function anvilUnspent(raw: Dict): number | null {
+  const st = isDict(raw.anvil) && isDict(raw.anvil.anvilStats) ? raw.anvil.anvilStats : null;
+  if (!st) return null;
+  const skills = isDict(raw.skillsInfo) ? raw.skillsInfo : null;
+  const smithing = skills && isDict(skills.smithing) ? finite(skills.smithing.level) : null;
+  const parts = [
+    st.pointsFromCoins,
+    st.pointsFromMats,
+    st.pointsFromAcme ?? 0,
+    st.xpPoints,
+    st.speedPoints,
+    st.capPoints,
+  ].map(finite);
+  const [coins, mats, acme, xp, speed, cap] = parts;
+  if (smithing === null || parts.some((v) => v === null)) return finite(st.availablePoints);
+  return (
+    smithing +
+    (coins as number) +
+    (mats as number) +
+    (acme as number) -
+    ((xp as number) + (speed as number) + (cap as number))
+  );
+}
+
 /** The M6 character fields. */
 export function readUnspentCharacter(raw: Dict): UnspentCharacterFields {
   const po = isDict(raw.postOffice) ? finite(raw.postOffice.unspentPoints) : null;
-  const anvil =
-    isDict(raw.anvil) && isDict(raw.anvil.anvilStats) ? finite(raw.anvil.anvilStats.availablePoints) : null;
+  const anvil = anvilUnspent(raw);
   return {
     bigBubbles: list(raw.equippedBubbles).map((b) =>
       isDict(b) && typeof b.rawName === 'string' && b.rawName !== '' ? b.rawName : null,

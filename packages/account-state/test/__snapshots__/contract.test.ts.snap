@@ -1350,7 +1350,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "afk": null,
       "afkTarget": "Laboratory",
       "afkType": "LABORATORY",
-      "anvilPointsAvailable": -109,
+      "anvilPointsAvailable": 15,
       "bigBubbles": [
         "aUpgradesY8",
         "aUpgradesG2",
@@ -1527,7 +1527,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
-      "anvilPointsAvailable": 0,
+      "anvilPointsAvailable": 1,
       "bigBubbles": [
         null,
         null,
@@ -4328,7 +4328,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       "currentShopDay": 183,
       "gemsOffered": true,
       "lastClaimedShopDay": 0,
-      "unlocked": false,
+      "unlocked": true,
     },
     "pets": null,
     "poppy": {
@@ -4467,7 +4467,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
-      "anvilPointsAvailable": 5,
+      "anvilPointsAvailable": 6,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -6201,7 +6201,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "currentShopDay": 174,
       "gemsOffered": true,
       "lastClaimedShopDay": 174,
-      "unlocked": false,
+      "unlocked": true,
     },
     "pets": {
       "freeClaimAnchor": 1,
@@ -6391,7 +6391,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "afk": null,
       "afkTarget": "Buried_Church",
       "afkType": "SPELUNKING",
-      "anvilPointsAvailable": 2,
+      "anvilPointsAvailable": 23,
       "bigBubbles": [
         "aUpgradesY8",
         null,
@@ -6448,7 +6448,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "afk": null,
       "afkTarget": "Buried_Church",
       "afkType": "SPELUNKING",
-      "anvilPointsAvailable": 59,
+      "anvilPointsAvailable": 60,
       "bigBubbles": [
         "aUpgradesY8",
         null,
@@ -6562,7 +6562,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "afk": null,
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
-      "anvilPointsAvailable": 44,
+      "anvilPointsAvailable": 45,
       "bigBubbles": [
         "aUpgradesY8",
         null,
@@ -8543,7 +8543,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "currentShopDay": 234,
       "gemsOffered": true,
       "lastClaimedShopDay": 192,
-      "unlocked": false,
+      "unlocked": true,
     },
     "pets": {
       "freeClaimAnchor": 1791050573034,
@@ -8683,7 +8683,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 157,
+      "anvilPointsAvailable": 164,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -8740,7 +8740,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
-      "anvilPointsAvailable": 0,
+      "anvilPointsAvailable": 7,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -8797,7 +8797,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 31,
+      "anvilPointsAvailable": 95,
       "bigBubbles": [
         "aUpgradesG22",
         "aUpgradesP22",
@@ -8846,7 +8846,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 4,
+      "anvilPointsAvailable": 58,
       "bigBubbles": [
         "aUpgradesG22",
         "aUpgradesP22",
@@ -8903,7 +8903,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 66,
+      "anvilPointsAvailable": 96,
       "bigBubbles": [
         "aUpgradesG18",
         "aUpgradesG22",
@@ -9001,7 +9001,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "afk": null,
       "afkTarget": "Divinity",
       "afkType": "DIVINITY",
-      "anvilPointsAvailable": 21,
+      "anvilPointsAvailable": 44,
       "bigBubbles": [
         "aUpgradesG22",
         "aUpgradesY21",
@@ -9058,7 +9058,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 159,
+      "anvilPointsAvailable": 277,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -9111,7 +9111,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
-      "anvilPointsAvailable": 2,
+      "anvilPointsAvailable": 3,
       "bigBubbles": [
         "aUpgradesY8",
         "aUpgradesY21",
@@ -9168,7 +9168,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
-      "anvilPointsAvailable": 16,
+      "anvilPointsAvailable": 63,
       "bigBubbles": [
         "aUpgradesP7",
         "aUpgradesY15",
@@ -9225,7 +9225,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 0,
+      "anvilPointsAvailable": 1,
       "bigBubbles": [
         null,
         null,
@@ -10846,7 +10846,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "currentShopDay": 183,
       "gemsOffered": true,
       "lastClaimedShopDay": 48,
-      "unlocked": false,
+      "unlocked": true,
     },
     "pets": {
       "freeClaimAnchor": 1786861667745,
@@ -10975,7 +10975,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 157,
+      "anvilPointsAvailable": 162,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -11032,7 +11032,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
-      "anvilPointsAvailable": 0,
+      "anvilPointsAvailable": 7,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -11089,7 +11089,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 31,
+      "anvilPointsAvailable": 95,
       "bigBubbles": [
         "aUpgradesG22",
         "aUpgradesP22",
@@ -11138,7 +11138,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 4,
+      "anvilPointsAvailable": 54,
       "bigBubbles": [
         "aUpgradesG22",
         "aUpgradesP22",
@@ -11195,7 +11195,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 66,
+      "anvilPointsAvailable": 96,
       "bigBubbles": [
         "aUpgradesG18",
         "aUpgradesG22",
@@ -11244,7 +11244,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
-      "anvilPointsAvailable": 0,
+      "anvilPointsAvailable": 42,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -11293,7 +11293,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 21,
+      "anvilPointsAvailable": 25,
       "bigBubbles": [
         "aUpgradesG22",
         "aUpgradesY21",
@@ -11350,7 +11350,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 159,
+      "anvilPointsAvailable": 257,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -11403,7 +11403,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
-      "anvilPointsAvailable": 0,
+      "anvilPointsAvailable": 1,
       "bigBubbles": [
         "aUpgradesY8",
         "aUpgradesY21",
@@ -11456,7 +11456,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
-      "anvilPointsAvailable": 16,
+      "anvilPointsAvailable": 62,
       "bigBubbles": [
         "aUpgradesP7",
         "aUpgradesY15",
@@ -13134,7 +13134,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "currentShopDay": 189,
       "gemsOffered": true,
       "lastClaimedShopDay": 48,
-      "unlocked": false,
+      "unlocked": true,
     },
     "pets": {
       "freeClaimAnchor": 1787205122344,
@@ -13270,7 +13270,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 157,
+      "anvilPointsAvailable": 163,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -13327,7 +13327,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
-      "anvilPointsAvailable": 0,
+      "anvilPointsAvailable": 7,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -13384,7 +13384,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 31,
+      "anvilPointsAvailable": 95,
       "bigBubbles": [
         "aUpgradesG22",
         "aUpgradesP22",
@@ -13433,7 +13433,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 4,
+      "anvilPointsAvailable": 57,
       "bigBubbles": [
         "aUpgradesG22",
         "aUpgradesP22",
@@ -13490,7 +13490,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 66,
+      "anvilPointsAvailable": 96,
       "bigBubbles": [
         "aUpgradesG18",
         "aUpgradesG22",
@@ -13539,7 +13539,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
-      "anvilPointsAvailable": 0,
+      "anvilPointsAvailable": 43,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -13588,7 +13588,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "afk": null,
       "afkTarget": "Medium_Fish",
       "afkType": "FISHING",
-      "anvilPointsAvailable": 21,
+      "anvilPointsAvailable": 40,
       "bigBubbles": [
         "aUpgradesG22",
         "aUpgradesY21",
@@ -13641,7 +13641,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 159,
+      "anvilPointsAvailable": 260,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -13747,7 +13747,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
-      "anvilPointsAvailable": 16,
+      "anvilPointsAvailable": 62,
       "bigBubbles": [
         "aUpgradesP7",
         "aUpgradesY15",
@@ -13804,7 +13804,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 0,
+      "anvilPointsAvailable": 1,
       "bigBubbles": [
         null,
         null,
@@ -17694,7 +17694,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "currentShopDay": 174,
       "gemsOffered": true,
       "lastClaimedShopDay": 174,
-      "unlocked": false,
+      "unlocked": true,
     },
     "pets": {
       "freeClaimAnchor": 1774125412966,
@@ -17898,7 +17898,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
-      "anvilPointsAvailable": 2,
+      "anvilPointsAvailable": 3,
       "bigBubbles": [
         "aUpgradesP11",
         "aUpgradesG2",
@@ -17955,7 +17955,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": "Fearful_Tunnel",
       "afkType": "SPELUNKING",
-      "anvilPointsAvailable": 123,
+      "anvilPointsAvailable": 125,
       "bigBubbles": [
         "aUpgradesP11",
         "aUpgradesG2",
@@ -18012,7 +18012,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
-      "anvilPointsAvailable": 17,
+      "anvilPointsAvailable": 18,
       "bigBubbles": [
         "aUpgradesP11",
         "aUpgradesG2",
@@ -18118,7 +18118,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
-      "anvilPointsAvailable": 0,
+      "anvilPointsAvailable": 4,
       "bigBubbles": [
         "aUpgradesP11",
         "aUpgradesG2",
@@ -18289,7 +18289,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
-      "anvilPointsAvailable": 13,
+      "anvilPointsAvailable": 14,
       "bigBubbles": [
         "aUpgradesP11",
         "aUpgradesG2",
@@ -18346,7 +18346,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": "Gloomie_Mushroom",
       "afkType": "FIGHTING",
-      "anvilPointsAvailable": 468,
+      "anvilPointsAvailable": 470,
       "bigBubbles": [
         "aUpgradesP11",
         "aUpgradesG2",
@@ -18399,7 +18399,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "afk": null,
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
-      "anvilPointsAvailable": 9,
+      "anvilPointsAvailable": 15,
       "bigBubbles": [
         null,
         null,
@@ -20259,7 +20259,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
-      "anvilPointsAvailable": 0,
+      "anvilPointsAvailable": 1,
       "bigBubbles": [
         "aUpgradesG2",
         "aUpgradesO11",
@@ -20316,7 +20316,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "afk": null,
       "afkTarget": "Minichief_Spirit",
       "afkType": "FIGHTING",
-      "anvilPointsAvailable": 26,
+      "anvilPointsAvailable": 27,
       "bigBubbles": [
         "aUpgradesG2",
         "aUpgradesG11",
@@ -22237,7 +22237,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "currentShopDay": 189,
       "gemsOffered": true,
       "lastClaimedShopDay": 48,
-      "unlocked": false,
+      "unlocked": true,
     },
     "pets": {
       "freeClaimAnchor": 1787205122344,
@@ -22373,7 +22373,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 157,
+      "anvilPointsAvailable": 163,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -22430,7 +22430,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
-      "anvilPointsAvailable": 0,
+      "anvilPointsAvailable": 7,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -22487,7 +22487,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 31,
+      "anvilPointsAvailable": 95,
       "bigBubbles": [
         "aUpgradesG22",
         "aUpgradesP22",
@@ -22536,7 +22536,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 4,
+      "anvilPointsAvailable": 57,
       "bigBubbles": [
         "aUpgradesG22",
         "aUpgradesP22",
@@ -22593,7 +22593,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 66,
+      "anvilPointsAvailable": 96,
       "bigBubbles": [
         "aUpgradesG18",
         "aUpgradesG22",
@@ -22642,7 +22642,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
-      "anvilPointsAvailable": 0,
+      "anvilPointsAvailable": 43,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -22691,7 +22691,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "afk": null,
       "afkTarget": "Medium_Fish",
       "afkType": "FISHING",
-      "anvilPointsAvailable": 21,
+      "anvilPointsAvailable": 40,
       "bigBubbles": [
         "aUpgradesG22",
         "aUpgradesY21",
@@ -22744,7 +22744,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 159,
+      "anvilPointsAvailable": 260,
       "bigBubbles": [
         "aUpgradesP22",
         "aUpgradesG22",
@@ -22850,7 +22850,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
-      "anvilPointsAvailable": 16,
+      "anvilPointsAvailable": 62,
       "bigBubbles": [
         "aUpgradesP7",
         "aUpgradesY15",
@@ -22907,7 +22907,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
-      "anvilPointsAvailable": 0,
+      "anvilPointsAvailable": 1,
       "bigBubbles": [
         null,
         null,

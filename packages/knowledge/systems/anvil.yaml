@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-only
-# M3 AFK Safety: the anvil production cap (docs/specs/M3-afk-safety.md FR-18, D7, Final rulings RT-14).
-# M6 Unspent & idle: unspent anvil points (M6 FR-23).
+# M3 AFK Safety: the anvil production cap (docs/specs/M3-afk-safety.md FR-18, D7, Final rulings RT-14, #70 A1 and A5).
+# M6 Unspent & idle: the anvil point plan (M6 FR-23, Final rulings #70 A2 to A4).
 system: anvil
 entries:
   - id: anvil.check.caps-before-return
@@ -9,14 +9,20 @@ entries:
     title: Anvil fills while you're away
     text: "Collect {product:name} from the anvil (time to cap: {fullIn:duration}; it refills about {fromEmpty:duration} after you collect)"
     values: { fill: anvil }
-    why: Anvil production stops at capacity, so every hour past it is lost production and Smithing EXP. When it refills before you're back even after collecting, Capacity points are the real fix.
+    why: Anvil production stops at capacity, so every hour past it is lost production and Smithing EXP.
+    notes: "#70 A5: fires only when it changes the outcome: the product is full now (RT-14), or collecting now keeps it producing until the return. A cap that refills before the return even after collecting is not a per-character line; the account-level point plan (anvil.check.spend-points, anvil.check.respec) covers it."
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/anvil.ts
         title: IdleOn Toolbox, getTimeTillCap and getAnvilFutureProduction
         tier: 1
         verified: 2026-10-17
         gameVersion: 2.3.540
-      - { url: "https://idleon.wiki/wiki/Smithing#Anvil_Production", title: "IdleOn Wiki: Smithing, anvil production", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - url: https://idleon.wiki/wiki/Smithing#Anvil_Production
+        title: "IdleOn Wiki: Smithing, anvil production"
+        tier: 2
+        claimDate: 2026-10-05
+        verified: 2026-10-17
+        gameVersion: 2.3.540
     appliesTo: { stages: all }
     confidence: H
     status: active
@@ -24,43 +30,71 @@ entries:
     effect: blocker
     usesExpectedReturn: true
     detector: { id: anvil/caps-before-return }
+  - id: anvil.check.fill-time
+    system: anvil
+    type: check
+    title: Anvil fill time
+    subject: character
+    effect: next-action
+    category: nice
+    detector: { id: anvil/fill-time }
+    text: "Anvil full in {fullIn:duration} at current speed"
+    why: "Anvil production stops at capacity; this is when the first product with a hammer on it gets there."
+    notes: "#70 A1: a quiet per-character info line, never a Goal or Next Action. M3's module emits it as CharacterResult.info; M6 does not run it."
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/anvil.ts", title: "IdleOn Toolbox, getTimeTillCap", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Smithing#Anvil_Production", title: "IdleOn Wiki: Smithing, anvil production", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
   - id: anvil.check.spend-points
     system: anvil
     type: check
     title: Spend anvil points
-    subject: character
+    subject: account
     effect: next-action
-    needsCharacter: true
     category: spendable
     effortSeconds: 30
-    detector: { id: anvil/points, params: { form: speed } }
-    text: "Spend {points:int} anvil points on Speed"
-    why: "Unspent anvil points do nothing; Speed makes every anvil product faster."
+    detector: { id: anvil/points }
+    text: "Unspent anvil points on {count:int} characters → Speed"
+    values:
+      text-many-capacity: "Unspent anvil points on {count:int} characters → Capacity"
+      text-many-mixed: "Unspent anvil points on {count:int} characters → Speed and Capacity"
+      text-one-speed: "Unspent anvil points on 1 character → Speed"
+      text-one-capacity: "Unspent anvil points on 1 character → Capacity"
+      text-one-mixed: "Unspent anvil points on 1 character → Speed and Capacity"
+      detail: "{character}: {speed:int} into Speed, {capacity:int} into Capacity"
+    why: "Unspent anvil points do nothing. The split makes the most items in {hours:int} h from empty: Speed until a product would fill sooner, Capacity after that."
+    notes: "#70 A2: one account line replaces the per-character Goals. The split is a brute force over every integer split, scored with Toolbox getPlayerAnvil (characters[].afk.anvilPlan.spend); ties go to Speed. Exp points are never touched (A4)."
     doneWhen: { field: "characters[*].anvilPointsAvailable", change: lower }
     appliesTo: { stages: all }
     confidence: H
     status: active
     sources:
-      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/characters.js#L30", title: "Toolbox anvil unspentPoints alert", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/anvil.ts", title: "IdleOn Toolbox, getPlayerAnvil anvilSpeed and anvilCapacity", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Smithing#Anvil_Points", title: "IdleOn Wiki: Smithing, anvil points", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 3.1: all points into Speed", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: confirmed }
-      - { url: "https://idleon.wiki/wiki/Smithing#Anvil_Production", title: "IdleOn Wiki: Smithing, anvil production", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
-  - id: anvil.check.spend-points-capacity
+  - id: anvil.check.respec
     system: anvil
     type: check
-    title: Spend anvil points on Capacity
-    subject: character
+    title: Re-split anvil points
+    subject: account
     effect: next-action
-    needsCharacter: true
-    category: spendable
-    effortSeconds: 30
-    detector: { id: anvil/points, params: { form: capacity } }
-    text: "Spend {points:int} anvil points on Capacity"
-    why: "{product:name} reaches anvil capacity before you are back, so more Capacity keeps it producing while you are away."
-    doneWhen: { field: "characters[*].anvilPointsAvailable", change: lower }
+    category: compounding
+    effortSeconds: 300
+    detector: { id: anvil/respec, params: { minGain: 0.25, shopWorld: 3 } }
+    text: "Whetstone respec → about {times:int}× {product:name} at {hours:int} h"
+    values:
+      text-pct: "Whetstone respec → about {morePct:pct} more {product:name} at {hours:int} h"
+      text-mixed: "Whetstone respec → about {times:int}× anvil output at {hours:int} h"
+      text-mixed-pct: "Whetstone respec → about {morePct:pct} more anvil output at {hours:int} h"
+      detail: "{character}: respec to {speed:int} Speed / {capacity:int} Capacity, about {morePct:pct} more"
+    why: "Points only move with an Anvil Reset Whetstone: 1.2M coins at the Frostbite Towndra shop, one a day, and it resets Exp too. This split fills right at {hours:int} h, wasting no Speed or Capacity. Start with the first character."
+    notes: "#70 A3: account-level, planned against the typical AFK length (8 h until a pref exists), shown only when a character gains at least 25%, the W3 town shop is reached (currentWorld >= 3) and coins >= 1.2M. Price and daily stock of 1: wiki Vendors, Frostbite Towndra row 23."
     appliesTo: { stages: all }
     confidence: H
     status: active
     sources:
-      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/characters.js#L30", title: "Toolbox anvil unspentPoints alert", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
-      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 3.1: all points into Speed", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: confirmed }
-      - { url: "https://idleon.wiki/wiki/Smithing#Anvil_Production", title: "IdleOn Wiki: Smithing, anvil production", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/anvil.ts", title: "IdleOn Toolbox, getPlayerAnvil anvilSpeed and anvilCapacity", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Smithing#Anvil_Points", title: "IdleOn Wiki: Smithing, anvil points and the Anvil Reset Whetstone", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Vendors", title: "IdleOn Wiki: Vendors, Frostbite Towndra (Whetstone: 1 platinum 20 gold, 1 a day)", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
