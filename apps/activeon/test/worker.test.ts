@@ -4,7 +4,11 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { handleParseRequest } from '../src/worker/handle-request';
+import { handleRequest } from '../src/worker/handle-request';
+import type { ParseInput } from '../src/worker/protocol';
+
+const handleParseRequest = (r: { id: number; now: number; input: ParseInput; withHistory?: boolean }) =>
+  handleRequest({ type: 'parse', ...r });
 
 const NOW = Date.UTC(2026, 9, 17, 12);
 const publicSave = (name: string) =>
@@ -38,6 +42,46 @@ describe('handleParseRequest (the paste fallback path)', () => {
     const envelope = JSON.parse(publicSave('fresh.json'));
     const res = handleParseRequest({ id: 2, now: NOW, input: { kind: 'envelope', envelope } });
     expect(res.ok && res.state.characters.length).toBeGreaterThan(0);
+    expect(res.ok && res.state.diagnostics.source).toBe('live');
+    expect(res.ok && res.historyState).toBeUndefined();
+  });
+
+  it('marks a paste as a paste', () => {
+    const res = handleParseRequest({
+      id: 4,
+      now: NOW,
+      input: { kind: 'text', text: publicSave('fresh.json') },
+    });
+    expect(res.ok && res.state.diagnostics.source).toBe('paste');
+  });
+
+  it('also parses a live save at its own cloud-save time for history (FR-21, TR-4)', () => {
+    const envelope = JSON.parse(publicSave('fresh.json'));
+    const res = handleParseRequest({
+      id: 5,
+      now: NOW,
+      withHistory: true,
+      input: { kind: 'envelope', envelope },
+    });
+    if (!res.ok || !res.historyState) throw new Error('expected a history state');
+    expect(res.state.asOf).toBe(NOW);
+    expect(res.historyState.asOf).toBe(res.state.account.lastCloudSave);
+    expect(res.historyState.account.secondsSinceLastSave).toBe(0);
+  });
+
+  it('never stores a paste in history, even when asked (D2)', () => {
+    const res = handleParseRequest({
+      id: 6,
+      now: NOW,
+      withHistory: true,
+      input: { kind: 'text', text: publicSave('fresh.json') },
+    });
+    expect(res.ok && res.historyState).toBeUndefined();
+  });
+
+  it('answers the reserved what-if request without running it', () => {
+    const res = handleRequest({ id: 8, type: 'what-if', query: { kind: 'damage' }, now: NOW });
+    expect(res).toMatchObject({ id: 8, ok: false, kind: 'input' });
   });
 
   it.each([
@@ -46,6 +90,6 @@ describe('handleParseRequest (the paste fallback path)', () => {
     ['something that is not a save', '{"data":{"hello":"world"}}', 'empty'],
   ])('reports %s as "%s"', (_label, text, kind) => {
     const res = handleParseRequest({ id: 3, now: NOW, input: { kind: 'text', text } });
-    expect(res).toMatchObject({ id: 3, ok: false, kind });
+    expect(res).toMatchObject({ id: 3, ok: false, kind, ms: expect.any(Number) });
   });
 });

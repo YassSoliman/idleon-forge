@@ -11,16 +11,44 @@ export type ParseInput =
   /** Text pasted by the player (Toolbox's "Copy for support" JSON, or a bare save). */
   | { kind: 'text'; text: string };
 
+/**
+ * Reserved for M5 (#16): run a Toolbox function on a modified copy of a character from the last clean
+ * parse (e.g. getMaxDamage with another map or target). Defined by M5's spec; M1 only reserves it.
+ */
+export interface WhatIfQuery {
+  kind: string;
+  [key: string]: unknown;
+}
+
 export interface ParseRequest {
   id: number;
+  type: 'parse';
   input: ParseInput;
   /** The clock to parse at (epoch ms). */
   now: number;
+  /**
+   * Also parse at `now = lastCloudSave` and return that state as `historyState`, for save history
+   * (M1 FR-21): the account as it was at that save, independent of when a tab parsed it. Set it only
+   * for a live save that is new to history; it costs a second parse.
+   */
+  withHistory?: boolean;
 }
 
-/** Why a save could not be read: bad paste, the parser gave up, or the output changed shape. */
-export type ParseFailureKind = 'input' | 'empty' | 'shape' | 'crash';
+export interface WhatIfRequest {
+  id: number;
+  type: 'what-if';
+  query: WhatIfQuery;
+  now: number;
+}
+
+export type WorkerRequest = ParseRequest | WhatIfRequest;
+
+/** Why a save could not be read: bad paste, the parser gave up, the output changed shape, a crash or a hang. */
+export type ParseFailureKind = 'input' | 'empty' | 'shape' | 'crash' | 'timeout';
 
 export type ParseResponse =
-  | { id: number; ok: true; state: AccountState; ms: number }
-  | { id: number; ok: false; kind: ParseFailureKind; message: string };
+  | { id: number; ok: true; state: AccountState; historyState?: AccountState; ms: number }
+  | { id: number; ok: false; kind: ParseFailureKind; message: string; ms: number };
+
+/** What a parse resolves to on the UI thread: a response, or `superseded` when a newer save replaced it. */
+export type ParseResult = ParseResponse | { superseded: true };
