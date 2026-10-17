@@ -1,4 +1,4 @@
-# golden v1: toolbox-raw · knowledge #edf53166 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry
+# golden v1: toolbox-raw · knowledge #6b7ada89 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
