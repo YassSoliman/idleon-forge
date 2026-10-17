@@ -1,0 +1,70 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M8 Collections: obols (docs/specs/M8-collections.md FR-20 to FR-23, TR-4). The Obol Altar quest first,
+# then stored obols into empty slots of the same shape, family slots first. M6 owns the W2 obol merit
+# (merit-shop.check.spend-w2-obols); M8 only says why obols aren't dropping (D6). Obol min-maxing
+# (rerolls, combining) is a follow-up. The engine module is packages/engine/src/collections (obols/state).
+system: obols
+entries:
+  - id: obols.check.altar
+    system: obols
+    type: check
+    title: Open the Obol Altar
+    subject: character
+    effect: next-action
+    category: compounding
+    needsCharacter: true
+    effortSeconds: 300
+    detector: { id: obols/state, params: { view: altar } }
+    text: "{action}"
+    why: "Obol slots stay closed until one character finishes the Obol Altar's quest; {stored:int} stored {storedWord} wait for it."
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "FR-20: the quest is account-wide; the pick is the highest character with it accepted, else the highest character at Lv 30+. The NPC's world is from npcPlacements (W2)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Obol_Altar", title: "IdleOn Wiki: Obol Altar (Bob Joe Pickle, class Lv 30, account-wide)", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json", title: "Toolbox game data: quests (Obol_Altar1)", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+
+  - id: obols.check.stored
+    system: obols
+    type: check
+    title: Equip stored obols
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 60
+    detector: { id: obols/state, params: { view: stored } }
+    text: "Equip {count:int} stored {obolsWord} in {where}{merit}"
+    why: "Any obol beats an empty slot; family slots count for every character, so they fill first."
+    values:
+      groupText: "Equip stored {shape} obols in the personal slots of {characters:int} characters: {who}{merit}"
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "FR-21; PV 2.5 (confirmed). Only once the altar quest is done (FR-20)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Obols", title: "IdleOn Wiki: Obols (personal and family slots by shape)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 2.5: any stat beats an empty slot", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: confirmed }
+
+  - id: obols.goal.slots
+    system: obols
+    type: goal
+    title: Obol slots
+    scope: account
+    category: nice
+    unit: family level
+    progress: { id: obols/state, params: { view: slots } }
+    milestones:
+      - { at: 60, reward: "first family obol slot" }
+      - { at: 200, reward: "first family square slot" }
+      - { at: 400, reward: "first family hexagon slot" }
+      - { at: 650, reward: "first family sparkle slot" }
+    text: "{line}"
+    why: "Family obol slots open with family level (the sum of every character's class level); obols drop from regular monsters only after the W2 merit."
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "FR-22 (no Milestone when the save's lock disagrees with the gate: anomaly rule, R10) and FR-23 (links M6's merit-shop.check.spend-w2-obols). Show-more line (nice, unlisted)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Obols", title: "IdleOn Wiki: Obols (slot gates; the merit 'Monsters now drop Obols')", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "Toolbox game data: obol slot gates", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

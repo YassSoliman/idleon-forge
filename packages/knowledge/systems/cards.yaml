@@ -1,0 +1,203 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M8 Collections: cards, card sets and card presets (docs/specs/M8-collections.md FR-13 to FR-19, TR-4,
+# TR-9). M8 owns every card, card-set and card-preset Check (D6); M4 owns card Purpose lines and reads the
+# per-class card lists (FR-18). The card orders (the preset matrix and the class lists) are the authored
+# table cards.fact.card-preferences in cards.facts.yaml, by card rawName, so the ~70 card Acquisitions
+# don't ship in the bundle (TR-12, kb-budget.json); M4 can make them Priority Lists when it ships them.
+# Card presets live here too (one System, `cards`). The engine module is packages/engine/src/collections (Detectors cards/slots, cards/set,
+# cards/preset). A Check that would repeat across characters renders `values.groupText` once, in the
+# Account section, naming each character by class and level (#70 A5).
+system: cards
+entries:
+  - id: cards.check.empty-slots
+    system: cards
+    type: check
+    title: Fill empty card slots
+    subject: character
+    effect: next-action
+    category: compounding
+    effortSeconds: 60
+    detector: { id: cards/slots, params: { view: empty } }
+    text: "Equip {count:int} {cardsWord} in your empty card slots: {cards}"
+    why: "An empty card slot gives nothing; these are your best owned cards for {activity}, highest level first, and a card can sit on several characters at once."
+    values:
+      groupText: "Equip {cards} in the empty card slots of {characters:int} characters: {who}"
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "FR-13. Slots = 4 + Extra Card Slot purchases (gemShopPurchases[63]). The card order is PV 2.1 (unverified); the empty-slot rule itself is mechanical (H)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540, note: "4 card slots per preset, 4 more from the Gem Shop." }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/cards-obols/docs/research/systems/2026-10-17-cards-obols.md#card-presets", title: "Cards and obols dossier: the preset matrix", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: unverified }
+
+  - id: cards.check.passive-slot
+    system: cards
+    type: check
+    title: A passive card in a slot
+    subject: character
+    effect: next-action
+    category: compounding
+    effortSeconds: 60
+    detector: { id: cards/slots, params: { view: passive } }
+    text: "Replace the {passive} card (passive, it works unequipped) and fill your open slots: {cards}"
+    why: "Passive cards give their bonus without being equipped, so the slot is free for a card that needs it."
+    values:
+      groupText: "Replace the passive {passive} card on {characters:int} characters ({who}) with {cards}"
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "FR-16 (Toolbox's passiveCards alert)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards (passive cards)", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540, note: "Cards marked (Passive) give their bonus without being equipped." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/cards.json", title: "Toolbox game data: cards", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+
+  - id: cards.check.no-set
+    system: cards
+    type: check
+    title: Equip a card set
+    subject: character
+    effect: next-action
+    category: compounding
+    effortSeconds: 30
+    detector: { id: cards/set, params: { view: no-set } }
+    text: "Equip the {set} card set (tier {tier:int}, {bonus})"
+    why: "No card set is equipped, and this one fits what the character is doing; equipping it is free."
+    values:
+      groupText: "Equip the {set} card set (tier {tier:int}, {bonus}) on {characters:int} characters: {who}"
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    notes: "FR-14 with D3's pusher rule. The set order is PV 2.2 (unverified), so confidence L."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards, card sets", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540, note: "Blunder Hills EXP below Lv 50, Yum Yum food effect, Easy Resources skill efficiency, Frostbite DEF and ACC." }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 2.2: card set by activity", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: unverified }
+
+  - id: cards.check.set-mismatch
+    system: cards
+    type: check
+    title: Swap the card set
+    subject: character
+    effect: next-action
+    category: compounding
+    effortSeconds: 30
+    detector: { id: cards/set, params: { view: set-mismatch } }
+    text: "Swap the {current} card set for {set} (tier {tier:int}, {bonus})"
+    why: "The equipped set doesn't fit what this character is doing now; this one does."
+    values:
+      groupText: "Swap the {current} card set for {set} (tier {tier:int}, {bonus}) on {characters:int} characters: {who}"
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    notes: "FR-14 (Toolbox's cardsAlert set-vs-activity rule) and D3 (the pusher takes Frostbite while it misses)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards, card sets", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M8-collections.md#8-decisions", title: "M8 spec, D3: Frostbite only for the pusher while it misses", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: unverified }
+
+  - id: cards.check.blunder-50
+    system: cards
+    type: check
+    title: Blunder Hills set past Lv 50
+    subject: character
+    effect: next-action
+    category: compounding
+    effortSeconds: 30
+    detector: { id: cards/set, params: { view: blunder-50 } }
+    text: "Swap the Blunder Hills card set (no EXP bonus from Lv 50) for {set} (tier {tier:int}, {bonus})"
+    why: "The Blunder Hills set's EXP bonus only applies below Lv 50, so it gives this character nothing."
+    values:
+      groupText: "Swap the Blunder Hills card set for {set} (tier {tier:int}, {bonus}) on {characters:int} characters past Lv 50: {who}"
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "FR-15 (Toolbox's cardSet Lv 50 alert)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards (Blunder Hills: +XP% if below Lv 50)", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "Toolbox game data: cardSets", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+
+  - id: cards.check.preset-mismatch
+    system: cards
+    type: check
+    title: Switch card preset
+    subject: character
+    effect: next-action
+    category: compounding
+    effortSeconds: 30
+    detector: { id: cards/preset, params: { view: switch } }
+    text: "Switch to card preset {n:int} ({activity})"
+    why: "The active card preset is for a different activity; preset {n:int} fits what this character is doing."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "FR-17 (keyword rule, M). Card preset, never talent preset (R9)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards (card presets from Lv 15)", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/cards-obols/docs/research/systems/2026-10-17-cards-obols.md#card-presets", title: "Cards and obols dossier: card presets", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540 }
+
+  - id: cards.check.preset-fill
+    system: cards
+    type: check
+    title: Fill an empty card preset
+    subject: character
+    effect: next-action
+    category: compounding
+    effortSeconds: 120
+    detector: { id: cards/preset, params: { view: fill } }
+    text: "Fill card preset {n:int} for {activity}{top}, then switch to it"
+    why: "The active card preset is for a different activity and no preset fits; preset {n:int} is empty, so nothing you saved is overwritten."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "FR-17's fill case. Never suggests overwriting a non-empty preset, and only unlocked presets (2 + gemShopPurchases[66])."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards (card presets from Lv 15)", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/cards-obols/docs/research/systems/2026-10-17-cards-obols.md#card-presets", title: "Cards and obols dossier: card presets", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540 }
+
+  # ---- FR-14, D3: the card set per activity (set Goals from generators/cards.gen.ts) ----
+  - id: cards.priority.set-for-fighting
+    system: cards
+    type: priority
+    title: Card set for fighters below Lv 50
+    list: order
+    text: "Blunder Hills, then Yum Yum Desert"
+    why: "Blunder Hills' EXP bonus is the biggest lever below Lv 50."
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    sources:
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/cards-obols/docs/research/systems/2026-10-17-cards-obols.md#card-presets", title: "Cards and obols dossier: the preset matrix", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: unverified }
+      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards, card sets", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+    tiers:
+      - [cards.goal.set-card-set0]
+      - [cards.goal.set-card-set1]
+  - id: cards.priority.set-for-fighting-50
+    system: cards
+    type: priority
+    title: Card set for fighters from Lv 50
+    list: order
+    text: "Yum Yum Desert, then Frostbite Tundra"
+    why: "Yum Yum's food effect for every fighter; Frostbite's accuracy only for the pusher while it misses (D3)."
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    sources:
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M8-collections.md#8-decisions", title: "M8 spec, D3", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: unverified }
+      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards, card sets", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+    tiers:
+      - [cards.goal.set-card-set1]
+      - [cards.goal.set-card-set4]
+  - id: cards.priority.set-for-skilling
+    system: cards
+    type: priority
+    title: Card set for skillers
+    list: order
+    text: "Easy Resources, then Medium Resources"
+    why: "Easy Resources gives skill efficiency and reaches its first tier early; Medium Resources needs 31 cards for its first."
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    sources:
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/cards-obols/docs/research/systems/2026-10-17-cards-obols.md#card-presets", title: "Cards and obols dossier: the preset matrix", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: unverified }
+      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards, card sets", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+    tiers:
+      - [cards.goal.set-card-set2]
+      - [cards.goal.set-card-set3]

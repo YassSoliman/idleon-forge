@@ -1,0 +1,44 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Authored tier-2 stamp facts for M8 (TR-4) that generated data can't give. M7 reads the unobtainable
+# table too. stamps.fact.shop-towns (TR-3) isn't needed at this pin: every generated shop route already
+# carries its town's world.
+system: stamps
+facts:
+  - id: stamps.fact.unobtainable
+    system: stamps
+    origin: authored
+    title: Stamps that can't be obtained
+    rows: [StampA43, StampB28, StampB29, StampB33, StampB35, StampC13, StampC17]
+    sources:
+      - url: https://idleon.wiki/wiki/Stamps
+        title: "IdleOn Wiki: Stamps, the Unobtainable section"
+        tier: 2
+        claimDate: 2026-10-05
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+        note: "Splosion, Shiny Crab, Gear, SpoOoky, Prayday, Talent I and Talent V. Toolbox's own list misses Splosion (a typo)."
+    notes: "TR-8 rule 4: applied on top of the generated data.obtainable flag. 128 stamps minus these 7 leaves 121 obtainable."
+  - id: stamps.fact.shared-resources
+    system: stamps
+    origin: authored
+    title: Items a stamp hand-in uses that also pay for another System
+    rows:
+      Refinery1: Construction
+      Refinery2: Construction
+      Refinery3: Construction
+      Refinery4: Construction
+    sources:
+      - url: https://idleon.wiki/wiki/Refinery
+        title: "IdleOn Wiki: Refinery"
+        tier: 2
+        claimDate: 2026-10-07
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+        note: "Salts are used in Construction to upgrade buildings, crafting and alchemy."
+      - url: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M8-collections.md#8-decisions
+        title: "M8 spec, D4: hand-ins that eat contested resources are shown, with a note"
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    notes: "D4: the hand-in is still shown, with \"uses X, which also pays for Y\". Rows are item rawName -> the System it also pays for."
