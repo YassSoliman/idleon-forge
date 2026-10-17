@@ -1,0 +1,49 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M3 AFK Safety: traps (docs/specs/M3-afk-safety.md FR-21, RT-1). Branch (i), empty trap slots, waits
+# for the per-set trap count (trapping.fact.trap-set-capacity).
+system: trapping
+entries:
+  - id: trapping.check.slots-and-timers
+    system: trapping
+    type: check
+    title: Finished traps sit idle
+    text: "Collect and re-place your {traps:int} finished traps, sized to your return, then close the game fully"
+    why: A finished trap catches nothing until it is collected and placed again. Trap timers stop on the character-select screen, so close the game fully afterwards.
+    sources:
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/traps.ts
+        title: IdleOn Toolbox, getTraps (time left per placed trap)
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/characters.js
+        title: IdleOn Toolbox, the trapsOverdue alert
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: character
+    effect: blocker
+    detector: { id: trapping/slots-and-timers }
+
+  - id: trapping.check.finishes-early
+    system: trapping
+    type: check
+    title: Traps finish before you're back
+    text: "Traps finish in about {finishesIn:duration}, then sit idle until you're back"
+    why: Pulling a running trap early gives up what it has built, so next time place traps sized to how long you'll be away.
+    sources:
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/traps.ts
+        title: IdleOn Toolbox, getTraps (time left per placed trap)
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: character
+    effect: next-action
+    category: nice
+    usesExpectedReturn: true
+    detector: { id: trapping/finishes-early }

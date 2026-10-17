@@ -4,6 +4,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
 {
   "account": {
     "accountLevel": 602,
+    "afk": null,
     "buildings": {
       "atomCollider": 0,
       "deathNote": 6,
@@ -298,6 +299,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
   },
   "characters": [
     {
+      "afk": null,
       "afkTarget": "Purp_Mushroom",
       "afkType": "FIGHTING",
       "class": "Blood_Berserker",
@@ -339,6 +341,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74444708,
     },
     {
+      "afk": null,
       "afkTarget": "Laboratory",
       "afkType": "LABORATORY",
       "class": "Bubonic_Conjuror",
@@ -379,6 +382,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74444227,
     },
     {
+      "afk": null,
       "afkTarget": "Laboratory",
       "afkType": "LABORATORY",
       "class": "Siege_Breaker",
@@ -418,6 +422,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74444475,
     },
     {
+      "afk": null,
       "afkTarget": "Purp_Mushroom",
       "afkType": "FIGHTING",
       "class": "Divine_Knight",
@@ -453,6 +458,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74444484,
     },
     {
+      "afk": null,
       "afkTarget": "Laboratory",
       "afkType": "LABORATORY",
       "class": "Elemental_Sorcerer",
@@ -493,6 +499,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74444473,
     },
     {
+      "afk": null,
       "afkTarget": "Laboratory",
       "afkType": "LABORATORY",
       "class": "Beast_Master",
@@ -524,6 +531,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74444471,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Maestro",
@@ -591,6 +599,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
 {
   "account": {
     "accountLevel": 477,
+    "afk": null,
     "buildings": {
       "atomCollider": 1,
       "deathNote": 51,
@@ -805,6 +814,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
   },
   "characters": [
     {
+      "afk": null,
       "afkTarget": "Woodlin_Spirit",
       "afkType": "FIGHTING",
       "class": "Voidwalker",
@@ -854,6 +864,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 76306126,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Beginner",
@@ -906,6 +917,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
 {
   "account": {
     "accountLevel": 1013,
+    "afk": null,
     "buildings": {
       "atomCollider": 67,
       "deathNote": 51,
@@ -1141,6 +1153,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
   },
   "characters": [
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Siege_Breaker",
@@ -1178,6 +1191,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 76729560,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Blood_Berserker",
@@ -1219,6 +1233,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 4987097,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Beginner",
@@ -1292,6 +1307,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
 {
   "account": {
     "accountLevel": 19185,
+    "afk": null,
     "buildings": {
       "atomCollider": 200,
       "deathNote": 51,
@@ -1674,6 +1690,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
   },
   "characters": [
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Death_Bringer",
@@ -1723,6 +1740,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "secondsSinceLastSave": 5854900,
     },
     {
+      "afk": null,
       "afkTarget": "Buried_Church",
       "afkType": "SPELUNKING",
       "class": "Siege_Breaker",
@@ -1772,6 +1790,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "secondsSinceLastSave": 5841854,
     },
     {
+      "afk": null,
       "afkTarget": "Buried_Church",
       "afkType": "SPELUNKING",
       "class": "Elemental_Sorcerer",
@@ -1821,6 +1840,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "secondsSinceLastSave": 5842271,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Divine_Knight",
@@ -1870,6 +1890,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "secondsSinceLastSave": 5841395,
     },
     {
+      "afk": null,
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Arcane_Cultist",
@@ -1919,6 +1940,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "secondsSinceLastSave": 5842319,
     },
     {
+      "afk": null,
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Wind_Walker",
@@ -1968,6 +1990,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "secondsSinceLastSave": 5842283,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Divine_Knight",
@@ -2017,6 +2040,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "secondsSinceLastSave": 5841608,
     },
     {
+      "afk": null,
       "afkTarget": "One_Way_Opening",
       "afkType": "SPELUNKING",
       "class": "Voidwalker",
@@ -2062,6 +2086,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "secondsSinceLastSave": 5845344,
     },
     {
+      "afk": null,
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Arcane_Cultist",
@@ -2111,6 +2136,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "secondsSinceLastSave": 5842312,
     },
     {
+      "afk": null,
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Wind_Walker",
@@ -2159,6 +2185,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "secondsSinceLastSave": 5854723,
     },
     {
+      "afk": null,
       "afkTarget": "Bravery",
       "afkType": "Paying_Respect",
       "class": "Beginner",
@@ -2231,6 +2258,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
 {
   "account": {
     "accountLevel": 13811,
+    "afk": null,
     "buildings": {
       "atomCollider": 160,
       "deathNote": 51,
@@ -2618,6 +2646,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
   },
   "characters": [
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
@@ -2667,6 +2696,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 1371560,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Death_Bringer",
@@ -2716,6 +2746,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 1371519,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Elemental_Sorcerer",
@@ -2757,6 +2788,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 1371345,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Divine_Knight",
@@ -2806,6 +2838,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 1371322,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Arcane_Cultist",
@@ -2847,6 +2880,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 1371285,
     },
     {
+      "afk": null,
       "afkTarget": "Pirate_Underling",
       "afkType": "FIGHTING",
       "class": "Wind_Walker",
@@ -2888,6 +2922,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 579382,
     },
     {
+      "afk": null,
       "afkTarget": "Divinity",
       "afkType": "DIVINITY",
       "class": "Voidwalker",
@@ -2937,6 +2972,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 1371241,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
@@ -2982,6 +3018,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 1371221,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Royal_Guardian",
@@ -3031,6 +3068,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 601278,
     },
     {
+      "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Bubonic_Conjuror",
@@ -3080,6 +3118,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 1371178,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Beginner",
@@ -3129,6 +3168,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
 {
   "account": {
     "accountLevel": 13810,
+    "afk": null,
     "buildings": {
       "atomCollider": 152,
       "deathNote": 51,
@@ -3516,6 +3556,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
   },
   "characters": [
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
@@ -3565,6 +3606,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "secondsSinceLastSave": 11339773,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Death_Bringer",
@@ -3614,6 +3656,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "secondsSinceLastSave": 9132028,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Elemental_Sorcerer",
@@ -3655,6 +3698,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "secondsSinceLastSave": 11339487,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Divine_Knight",
@@ -3704,6 +3748,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "secondsSinceLastSave": 11339351,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Arcane_Cultist",
@@ -3745,6 +3790,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "secondsSinceLastSave": 9177781,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Wind_Walker",
@@ -3786,6 +3832,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "secondsSinceLastSave": 5021038,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Voidwalker",
@@ -3835,6 +3882,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "secondsSinceLastSave": 11309371,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
@@ -3880,6 +3928,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "secondsSinceLastSave": 11339004,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Divine_Knight",
@@ -3925,6 +3974,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "secondsSinceLastSave": 5035759,
     },
     {
+      "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Bubonic_Conjuror",
@@ -3974,6 +4024,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "secondsSinceLastSave": 5719296,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Beginner",
@@ -4023,6 +4074,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
 {
   "account": {
     "accountLevel": 13810,
+    "afk": null,
     "buildings": {
       "atomCollider": 156,
       "deathNote": 51,
@@ -4410,6 +4462,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
   },
   "characters": [
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
@@ -4459,6 +4512,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "secondsSinceLastSave": 4690673,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Death_Bringer",
@@ -4508,6 +4562,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "secondsSinceLastSave": 4840286,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Elemental_Sorcerer",
@@ -4549,6 +4604,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "secondsSinceLastSave": 4840233,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Divine_Knight",
@@ -4598,6 +4654,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "secondsSinceLastSave": 4840142,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Arcane_Cultist",
@@ -4639,6 +4696,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "secondsSinceLastSave": 4839945,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Wind_Walker",
@@ -4680,6 +4738,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "secondsSinceLastSave": 4825722,
     },
     {
+      "afk": null,
       "afkTarget": "Medium_Fish",
       "afkType": "FISHING",
       "class": "Voidwalker",
@@ -4725,6 +4784,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "secondsSinceLastSave": 4745622,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
@@ -4770,6 +4830,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "secondsSinceLastSave": 4839733,
     },
     {
+      "afk": null,
       "afkTarget": "Verminous",
       "afkType": "FIGHTING",
       "class": "Royal_Guardian",
@@ -4815,6 +4876,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "secondsSinceLastSave": 4478366,
     },
     {
+      "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Bubonic_Conjuror",
@@ -4864,6 +4926,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "secondsSinceLastSave": 4650362,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Beginner",
@@ -4913,6 +4976,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
 {
   "account": {
     "accountLevel": 5189,
+    "afk": null,
     "buildings": {
       "atomCollider": 50,
       "deathNote": 51,
@@ -5295,6 +5359,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
   },
   "characters": [
     {
+      "afk": null,
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Beast_Master",
@@ -5344,6 +5409,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 74413951,
     },
     {
+      "afk": null,
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Divine_Knight",
@@ -5393,6 +5459,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 74412050,
     },
     {
+      "afk": null,
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Bubonic_Conjuror",
@@ -5442,6 +5509,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 74412139,
     },
     {
+      "afk": null,
       "afkTarget": "The_Rift",
       "afkType": "FIGHTING",
       "class": "Blood_Berserker",
@@ -5491,6 +5559,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 74411906,
     },
     {
+      "afk": null,
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Wizard",
@@ -5540,6 +5609,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 74422337,
     },
     {
+      "afk": null,
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Siege_Breaker",
@@ -5589,6 +5659,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 74411689,
     },
     {
+      "afk": null,
       "afkTarget": "Skydoggie_Spirit",
       "afkType": "FIGHTING",
       "class": "Voidwalker",
@@ -5638,6 +5709,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 74430498,
     },
     {
+      "afk": null,
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Elemental_Sorcerer",
@@ -5687,6 +5759,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 74414440,
     },
     {
+      "afk": null,
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Hunter",
@@ -5736,6 +5809,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 74432759,
     },
     {
+      "afk": null,
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Barbarian",
@@ -5812,6 +5886,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
 {
   "account": {
     "accountLevel": 19351,
+    "afk": null,
     "buildings": {
       "atomCollider": 200,
       "deathNote": 51,
@@ -6227,6 +6302,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
   },
   "characters": [
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Death_Bringer",
@@ -6276,6 +6352,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "secondsSinceLastSave": 5760852,
     },
     {
+      "afk": null,
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Arcane_Cultist",
@@ -6325,6 +6402,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "secondsSinceLastSave": 5762548,
     },
     {
+      "afk": null,
       "afkTarget": "Fearful_Tunnel",
       "afkType": "SPELUNKING",
       "class": "Siege_Breaker",
@@ -6374,6 +6452,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "secondsSinceLastSave": 5762952,
     },
     {
+      "afk": null,
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Divine_Knight",
@@ -6423,6 +6502,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "secondsSinceLastSave": 5761569,
     },
     {
+      "afk": null,
       "afkTarget": "Laboratory",
       "afkType": "LABORATORY",
       "class": "Elemental_Sorcerer",
@@ -6464,6 +6544,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "secondsSinceLastSave": 7055867,
     },
     {
+      "afk": null,
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Wind_Walker",
@@ -6513,6 +6594,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "secondsSinceLastSave": 5762362,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Divine_Knight",
@@ -6562,6 +6644,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "secondsSinceLastSave": 5760453,
     },
     {
+      "afk": null,
       "afkTarget": "Litterbug",
       "afkType": "CATCHING",
       "class": "Voidwalker",
@@ -6611,6 +6694,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "secondsSinceLastSave": 5762714,
     },
     {
+      "afk": null,
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Arcane_Cultist",
@@ -6660,6 +6744,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "secondsSinceLastSave": 5762255,
     },
     {
+      "afk": null,
       "afkTarget": "Gloomie_Mushroom",
       "afkType": "FIGHTING",
       "class": "Siege_Breaker",
@@ -6705,6 +6790,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "secondsSinceLastSave": 5776420,
     },
     {
+      "afk": null,
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Divine_Knight",
@@ -6779,6 +6865,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
 {
   "account": {
     "accountLevel": 5532,
+    "afk": null,
     "buildings": {
       "atomCollider": 81,
       "deathNote": 51,
@@ -7174,6 +7261,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
   },
   "characters": [
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Blood_Berserker",
@@ -7219,6 +7307,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74552934,
     },
     {
+      "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Siege_Breaker",
@@ -7268,6 +7357,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74554685,
     },
     {
+      "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Bubonic_Conjuror",
@@ -7317,6 +7407,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74554671,
     },
     {
+      "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Divine_Knight",
@@ -7366,6 +7457,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74552636,
     },
     {
+      "afk": null,
       "afkTarget": "Minichief_Spirit",
       "afkType": "FIGHTING",
       "class": "Beast_Master",
@@ -7415,6 +7507,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74534512,
     },
     {
+      "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Elemental_Sorcerer",
@@ -7464,6 +7557,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74554624,
     },
     {
+      "afk": null,
       "afkTarget": "Godshard",
       "afkType": "MINING",
       "class": "Voidwalker",
@@ -7505,6 +7599,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74552823,
     },
     {
+      "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Divine_Knight",
@@ -7550,6 +7645,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74554179,
     },
     {
+      "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Elemental_Sorcerer",
@@ -7599,6 +7695,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74554542,
     },
     {
+      "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Siege_Breaker",
@@ -7675,6 +7772,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
 {
   "account": {
     "accountLevel": 13810,
+    "afk": null,
     "buildings": {
       "atomCollider": 156,
       "deathNote": 51,
@@ -8062,6 +8160,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
   },
   "characters": [
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
@@ -8111,6 +8210,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "secondsSinceLastSave": 4690673,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Death_Bringer",
@@ -8160,6 +8260,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "secondsSinceLastSave": 4840286,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Elemental_Sorcerer",
@@ -8201,6 +8302,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "secondsSinceLastSave": 4840233,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Divine_Knight",
@@ -8250,6 +8352,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "secondsSinceLastSave": 4840142,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Arcane_Cultist",
@@ -8291,6 +8394,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "secondsSinceLastSave": 4839945,
     },
     {
+      "afk": null,
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Wind_Walker",
@@ -8332,6 +8436,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "secondsSinceLastSave": 4825722,
     },
     {
+      "afk": null,
       "afkTarget": "Medium_Fish",
       "afkType": "FISHING",
       "class": "Voidwalker",
@@ -8377,6 +8482,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "secondsSinceLastSave": 4745622,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
@@ -8422,6 +8528,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "secondsSinceLastSave": 4839733,
     },
     {
+      "afk": null,
       "afkTarget": "Verminous",
       "afkType": "FIGHTING",
       "class": "Royal_Guardian",
@@ -8467,6 +8574,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "secondsSinceLastSave": 4478366,
     },
     {
+      "afk": null,
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Bubonic_Conjuror",
@@ -8516,6 +8624,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "secondsSinceLastSave": 4650362,
     },
     {
+      "afk": null,
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Beginner",

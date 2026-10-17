@@ -46,6 +46,22 @@ export const FIELD_SOURCES: Record<string, string> = {
   'account.gateQuests': 'account.quests',
   'account.worldCrystals': 'account.storage.list, characters[i].inventory',
   'account.frontier': 'getMaxDamage on a frontier clone, KillsLeft2Advance (M2 TR-2)',
+  // ---- M3 AFK Safety (M3 TR-2) ----
+  'characters[].afk': 'characters[i].afkTime (afkSince)',
+  'characters[].afk.food': 'characters[i].food',
+  'characters[].afk.fighting':
+    'getMaxDamage(character), getMaxDamage({ ...character, food: [] }) and a food clone',
+  'characters[].afk.inventory': 'characters[i].inventory, inventorySlots, getItemCapacity',
+  'characters[].afk.anvil': 'getPlayerAnvil, getTimeTillCap (with and without fromZero)',
+  'characters[].afk.worship': 'characters[i].worship (getPlayerWorship), characters[i].tools',
+  'characters[].afk.prayers': 'characters[i].activePrayers, getPrayerBonusAndCurse',
+  'characters[].afk.traps': 'account.traps[i] (timeLeft, re-anchored to the cloud save)',
+  'characters[].afk.cauldronAssigned': 'account.alchemy.activities',
+  'account.afk': 'account.timeAway.GlobalTime (projectedAt)',
+  'account.afk.arcade': 'account.timeAway.Arcade, getMaxClaimTime',
+  'account.afk.liquids': 'account.alchemy.liquids, account.alchemy.liquidCauldrons[].maxLiquid',
+  'account.afk.salts': 'getSaltMatsTimeLeft',
+  'account.afk.storageFreeSlots': 'account.storage.slots, account.storage.list',
 };
 
 /** The raw save keys each field depends on. A missing or unparseable key makes the field Unknown. */
@@ -70,6 +86,10 @@ export const FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {
   'characters[].npcDialog': [raw('NPCdialogue_{i}', 'json')],
   'characters[].nextPortal': [raw('KLA_{i}', 'json'), raw('CurrentMap_{i}', 'number')],
   'account.frontier': [raw('KLA_*', 'json')],
+  // ---- M3 AFK Safety (M3 TR-2) ----
+  'characters[].afk': [raw('PTimeAway_{i}', 'number')],
+  'characters[].afk.food': [raw('EquipOrder_{i}', 'json'), raw('EquipQTY_{i}', 'json')],
+  'account.afk': [raw('TimeAway', 'json')],
 };
 
 /** The account sections `getMaxDamage` reads at the pin (damage.ts, 6c37e3d), for `account.frontier`. */
@@ -121,6 +141,18 @@ export const FIELD_SECTIONS: Record<string, string[]> = {
   'account.worldCrystals': ['storage'],
   /** The sections Toolbox's damage.ts reads off the account at the pin (M2 TR-2); a kill rate is never taken from a fallback. */
   'account.frontier': FRONTIER_SECTIONS,
+  // ---- M3 AFK Safety (M3 TR-2): getMaxDamage reads the same sections as M2's frontier ----
+  'characters[].afk.fighting': [...FRONTIER_SECTIONS, 'storage'],
+  'characters[].afk.inventory': ['stamps', 'gemShopPurchases', 'lab', 'upgradeVault', 'bundlesOwned'],
+  'characters[].afk.anvil': ['stamps', 'alchemy', 'statues', 'starSigns', 'upgradeVault'],
+  'characters[].afk.worship': ['alchemy', 'cards', 'stamps', 'upgradeVault', 'arcade'],
+  'characters[].afk.prayers': ['prayers'],
+  'characters[].afk.traps': ['traps'],
+  'characters[].afk.cauldronAssigned': ['alchemy'],
+  'account.afk.arcade': ['arcade', 'stamps'],
+  'account.afk.liquids': ['alchemy', 'alchemy.liquidCauldrons'],
+  'account.afk.salts': ['refinery', 'storage'],
+  'account.afk.storageFreeSlots': ['storage'],
 };
 
 /** The side reads each field depends on. */

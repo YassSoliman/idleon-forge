@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M3 AFK Safety: the anvil production cap (docs/specs/M3-afk-safety.md FR-18, D7, Final rulings RT-14).
+system: anvil
+entries:
+  - id: anvil.check.caps-before-return
+    system: anvil
+    type: check
+    title: Anvil fills while you're away
+    text: "Collect {product:name} from the anvil (time to cap: {fullIn:duration}; it refills about {fromEmpty:duration} after you collect)"
+    values: { fill: anvil }
+    why: Anvil production stops at capacity, so every hour past it is lost production and Smithing EXP. When it refills before you're back even after collecting, Capacity points are the real fix.
+    sources:
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/anvil.ts
+        title: IdleOn Toolbox, getTimeTillCap and getAnvilFutureProduction
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: character
+    effect: blocker
+    usesExpectedReturn: true
+    detector: { id: anvil/caps-before-return }

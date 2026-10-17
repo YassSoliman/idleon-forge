@@ -50,7 +50,7 @@ describe('golden content', () => {
     if (!w2) throw new Error('scrubbed-w2 missing');
     const text = renderFixture(w2, ctx);
     const section = text.split('## Not covered yet\n')[1]?.split('\n\n')[0] ?? '';
-    expect(section.split('\n')).toEqual(expect.arrayContaining(['Alchemy bubbles', 'Arcade']));
+    expect(section.split('\n')).toEqual(expect.arrayContaining(['Alchemy bubbles', 'Alchemy vials']));
     expect(section).not.toContain('Death Note');
     expect(section).not.toContain('Trapping');
   });

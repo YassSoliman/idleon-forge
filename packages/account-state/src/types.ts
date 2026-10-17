@@ -6,6 +6,7 @@
 // String identifiers (class, map, AFK target, food) are Toolbox's, e.g. "Siege_Breaker"; use
 // `humanize()` to display them.
 import type { SideReadName } from '@idleon-forge/toolbox-parsers';
+import type { AccountAfkFacts, CharacterAfkFacts } from './afk-types';
 
 /**
  * Bumped whenever a field is added, renamed or changes meaning. 1 was slice 1's unversioned shape.
@@ -13,8 +14,9 @@ import type { SideReadName } from '@idleon-forge/toolbox-parsers';
  * 4: `account.accountLevel` (issue #60, the M10 header).
  * 5: the M2 Stage & Meta Path fields (M2 TR-3): `classIndex`, `npcDialog`, `nextPortal`, `buildings`,
  *    `salts`, `gateQuests`, `worldCrystals`, `frontier`. M2's family level is `accountLevel`.
+ * 6: `characters[].afk` and `account.afk` (M3 TR-2).
  */
-export const SCHEMA_VERSION = 5;
+export const SCHEMA_VERSION = 6;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -69,6 +71,10 @@ export interface CharacterState {
   npcDialog?: Partial<Record<GateNpc, number>>;
   /** Toolbox `nextPortal` on the character's current fighting map: its first door. null off a fighting map. */
   nextPortal?: NextPortal | null;
+
+  // ---- M3 AFK Safety (M3 TR-2). Set by the adapter; optional only so hand-built states stay valid. ----
+  /** Built in the parse worker from Toolbox's functions; null when they weren't supplied or the character's AFK start is unknown. */
+  afk?: CharacterAfkFacts | null;
 }
 
 /** The NPCs a Stage rule (M2 TR-5) or the TR-6a cross-check reads, plus Bellows (M6 TR-7, Chizoar keys). */
@@ -182,6 +188,10 @@ export interface AccountSummary {
   worldCrystals?: { desertTopaz: number; glacierQuartz: number; galaxialAmethyst: number } | null;
   /** Computed in the worker (M2 TR-2). null before it runs, when a damage-relevant section failed, or when it threw. */
   frontier?: Frontier | null;
+
+  // ---- M3 AFK Safety (M3 TR-2). Set by the adapter; optional only so hand-built states stay valid. ----
+  /** The account-wide stockpiles that cap; null when Toolbox's functions weren't supplied to the adapter. */
+  afk?: AccountAfkFacts | null;
 }
 
 /** Structured, machine-readable problems with one read (M1 FR-16, FR-17, FR-19a, FR-19b). */

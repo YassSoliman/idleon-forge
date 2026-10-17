@@ -119,4 +119,17 @@ export interface ToolboxCalls {
   frontierRates(parsed: ParsedSave, mapIndex: number): MapKillRate[];
   /** M2 TR-2: the clone of a Toolbox character moved to `mapIndex`. */
   onMap(character: Record<string, unknown>, mapIndex: number): Record<string, unknown>;
+  // ---- M3 AFK Safety (TR-2): Toolbox's own functions, unmodified; untyped in, untyped out ----
+  getAfkGain(character: unknown, characters: unknown[], account: unknown): unknown;
+  getDropRate(character: unknown, account: unknown, characters: unknown[]): unknown;
+  /** Anvil production and stats (anvilSpeed, anvilCapacity) for one character. */
+  getPlayerAnvil(character: unknown, characters: unknown[], account: unknown): unknown;
+  /** Seconds until an anvil product caps (`fromZero`: from empty). */
+  getTimeTillCap(args: Record<string, unknown>): unknown;
+  /** Seconds (48 h plus stamps). */
+  getMaxClaimTime(account: unknown): unknown;
+  getSaltMatsTimeLeft(account: unknown, characters: unknown[]): unknown;
+  getPrayerBonusAndCurse(prayers: unknown, prayerName: string, account?: unknown): unknown;
+  /** `{ value }`: the carry cap for an item's `typeGen`. */
+  getItemCapacity(type: unknown, character: unknown, account?: unknown): unknown;
 }

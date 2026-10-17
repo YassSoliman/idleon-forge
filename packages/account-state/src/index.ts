@@ -11,6 +11,17 @@ export {
   toAccountState,
   UNNAMED_WARNING,
 } from './adapter';
+export { AFK_HORIZON_MS, MAX_FOODS_TRIED } from './afk-facts';
+export type {
+  AccountAfkFacts,
+  AfkAnvilProduct,
+  AfkFighting,
+  AfkFood,
+  AfkFoodKind,
+  AfkInventory,
+  AfkWorship,
+  CharacterAfkFacts,
+} from './afk-types';
 export {
   ACTIVE_CHARACTER_FRESH_MS,
   type AccountReportFields,

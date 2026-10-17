@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M3 AFK Safety: the Arcade ball claim cap (docs/specs/M3-afk-safety.md FR-24). M3 owns this blocker;
+# M6 has no Arcade Check.
+system: arcade
+entries:
+  - id: arcade.check.balls-cap
+    system: arcade
+    type: check
+    title: Arcade balls stop building
+    text: "Claim Arcade balls before you leave (time to the claim cap: {capsIn:duration})"
+    values: { fill: Arcade balls }
+    why: Balls stop building once the time since your last claim passes the max claim time, so a full claim wastes every hour you're away.
+    sources:
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/dungeons.ts
+        title: IdleOn Toolbox, getMaxClaimTime and getArcadeBallsToClaim
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: account
+    effect: blocker
+    usesExpectedReturn: true
+    detector: { id: arcade/balls-cap }
