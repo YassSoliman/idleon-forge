@@ -770,3 +770,18 @@ Then, once the M12 PR with CODEOWNERS and the new workflows is merged:
 - **Normal:** revert PR → merge → deploy.
 
 **Token rotation:** create the new token (Appendix A step 3), replace the environment secret, re-run the last Deploy, and delete the old token.
+
+## Final rulings (Yasser, 2026-10-17)
+
+These supersede anything above that conflicts with them.
+
+> **Rulings (Yasser, 2026-10-17):**
+> - **RT-10:** yes. IdleOn Forge moves to its own **free** Cloudflare account before the first deploy. Yasser is creating it. The deploy token is a custom token with **Workers Scripts: Edit** only. The production URL becomes `activeon.<new-subdomain>.workers.dev`, updated once known. The old business-account token is deleted afterwards.
+> - **RT-11:** yes. Previews sit behind Cloudflare Access (free, one-time email PIN, Yasser and Joseph) once it's confirmed working on Preview URLs. Until then: never sign in on a Preview whose diff you haven't read.
+
+> **RT-10 done (2026-10-17):**
+> - Forge resources now live in a separate Cloudflare account, **IdleOn**, under Yasser's login.
+> - The CI token is scoped to that account only. Verified: it sees only IdleOn and gets an auth error on the business account.
+> - The production environment secrets now point at IdleOn.
+> - The workers.dev subdomain is `idleon`, so production is **`activeon.idleon.workers.dev`**.
+> - A separate local-only `LOCAL_CLOUDFLARE_ADMIN_TOKEN` (never in CI) covers setup tasks: Turnstile, Access, the Suggestions Worker.
