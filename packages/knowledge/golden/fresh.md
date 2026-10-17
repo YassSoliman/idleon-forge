@@ -16,7 +16,13 @@
 
 ### Account · Unknown
 Unknown: can't tell from the save
-- Extra · Refinery runs dry: Refinery runs dry in about under 10 min: top up the salt's materials [IdleOn Toolbox, getSaltMatsTimeLeft · 2.3.540]
+- Spend · Collect banked Colosseum tickets: Collect 9 Colosseum tickets [Toolbox enhanceColoTickets: day counters, one a day, 3-day bank · 2.3.540]
+- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [Toolbox getHighscores: Spiketrap best round · 2.3.540]
+- Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [Toolbox vialsAttempts alert: attempts left and a locked vial's item held · 2.3.540]
+- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [Toolbox dailyShipments alert · 2.3.540]
+- Extra · Gems unspent: 4,500 gems unspent [Priority verification 7.5: the first gem buy is contested · 2.3.540]
+  sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
+show more (4)
 
 ## Not covered yet
 Cards

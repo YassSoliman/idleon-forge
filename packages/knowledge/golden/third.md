@@ -5,14 +5,14 @@
 ## Now
 5 of 10 Ready · fix 4 before you leave · 1 Unknown
 
-### C4 · Divine Knight 655 · Fix before you leave
-1 · Fighting Green Mushroom · Spore Meadows · Collect Trusty Nails from the anvil (time to cap: 3 h; it refills about 24 h after you collect)
-
 ### C8 · Divine Knight 558 · Fix before you leave
-2 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 3 h; it refills about 1 d after you collect)
+1 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 3 h; it refills about 1 d after you collect)
 
 ### C6 · Elemental Sorcerer 545 · Fix before you leave
-3 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 4 h; it refills about 1 d after you collect)
+2 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 4 h; it refills about 1 d after you collect)
+
+### C4 · Divine Knight 655 · Fix before you leave
+3 · Fighting Green Mushroom · Spore Meadows · Collect Trusty Nails from the anvil (time to cap: 3 h; it refills about 24 h after you collect)
 
 ### C2 · Siege Breaker 527 · Fix before you leave
 4 · Fighting Green Mushroom · Spore Meadows · Spend worship charge, or let the Wizard's Charge Syphon take it (15,042 of 15,042; time to cap: now)
@@ -21,21 +21,30 @@
 5 · Cooking · Outer World Town · Not covered yet: AFK safety
 
 ### C3 · Bubonic Conjuror 568 · Ready
-6 · Fighting Green Mushroom · Spore Meadows · Traps finish in about 2 h, then sit idle until you're back
+6 · Fighting Green Mushroom · Spore Meadows · Spend 10 anvil points on Speed
 
 ### C5 · Beast Master 561 · Ready
-7 · Fighting Minichief Spirit · Chieftain Stairway · Traps finish in about 4 h, then sit idle until you're back
+7 · Fighting Minichief Spirit · Chieftain Stairway · Spend 26 anvil points on Speed
 
 ### C7 · Voidwalker 523 · Ready
-8 · Mining Godshard · Motherlode Pit · Traps finish in about 2 h, then sit idle until you're back
+8 · Mining Godshard · Motherlode Pit · Spend 1 anvil points on Speed
 
 ### C10 · Siege Breaker 522 · Ready
-9 · Fighting Green Mushroom · Spore Meadows · Traps finish in about 4 h, then sit idle until you're back
+9 · Fighting Green Mushroom · Spore Meadows · Spend 28 anvil points on Speed
 
 ### C9 · Elemental Sorcerer 552 · Ready
-10 · Fighting Green Mushroom · Spore Meadows · Traps finish in about 2 h, then sit idle until you're back
+10 · Fighting Green Mushroom · Spore Meadows · Spend 11 anvil points on Speed
 
 ### Account · nothing to fix
+- Grow · Switch on a Refinery salt: Switch on Nullo Salt in the Refinery [Toolbox hasMissingMats · 2.3.540]
+- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [Toolbox getHighscores: Spiketrap best round · 2.3.540]
+- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [Toolbox dailyShipments alert · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [Toolbox getHoopsData · 2.3.540]
+- Extra · Gems unspent: 4,103 gems unspent [Priority verification 7.5: the first gem buy is contested · 2.3.540]
+  sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
+show more (2)
+If you have time
+- Use today's 21 minigame plays · about 10m of hands-on play
 
 ## Not covered yet
 Cards

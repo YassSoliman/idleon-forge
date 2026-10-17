@@ -11,31 +11,36 @@
 ### C5 · Wizard 501 · Fix before you leave
 2 · Fighting Penguin · Signature Slopes · Collect Thread from the anvil (time to cap: 2 h; it refills about 1 d after you collect)
 
-### C3 · Bubonic Conjuror 567 · Unknown
+### C6 · Siege Breaker 530 · Unknown
 3 · Fighting Penguin · Signature Slopes · Can't tell from the save
 
-### C2 · Divine Knight 544 · Unknown
-4 · Fighting Penguin · Signature Slopes · Can't tell from the save
-
-### C6 · Siege Breaker 530 · Unknown
-5 · Fighting Penguin · Signature Slopes · Can't tell from the save
-
 ### C7 · Voidwalker 510 · Unknown
-6 · Fighting Skydoggie Spirit · Dozey Dogpark · Can't tell from the save
+4 · Fighting Skydoggie Spirit · Dozey Dogpark · Can't tell from the save
 
 ### C1 · Beast Master 507 · Unknown
+5 · Fighting Penguin · Signature Slopes · Can't tell from the save
+
+### C3 · Bubonic Conjuror 567 · Unknown
+6 · Fighting Penguin · Signature Slopes · Can't tell from the save
+
+### C2 · Divine Knight 544 · Unknown
 7 · Fighting Penguin · Signature Slopes · Can't tell from the save
 
 ### C8 · Elemental Sorcerer 525 · Unknown
 8 · Fighting Penguin · Signature Slopes · Can't tell from the save
 
 ### C4 · Blood Berserker 501 · Ready
-9 · Fighting The Rift · The Rift · Traps finish in about 2 h, then sit idle until you're back
+9 · Fighting The Rift · The Rift · Spend 270 Post Office boxes: Civil War Memory Box first
 
 ### C10 · Barbarian 501 · Ready
-10 · Fighting Penguin · Signature Slopes · Traps finish in about 2 h, then sit idle until you're back
+10 · Fighting Penguin · Signature Slopes · Spend 316 Post Office boxes: Civil War Memory Box first
 
 ### Account · nothing to fix
+- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [Toolbox getHoopsData · 2.3.540]
+- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [Toolbox dailyShipments alert · 2.3.540]
+- Extra · Gems unspent: 4,645 gems unspent [Priority verification 7.5: the first gem buy is contested · 2.3.540]
+  sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
+- Spend · Spend task unlock points: Spend 644 task unlock points [Toolbox getTasks: unlock points owned and recipes unlocked · 2.3.540]
 
 ## Not covered yet
 Cards

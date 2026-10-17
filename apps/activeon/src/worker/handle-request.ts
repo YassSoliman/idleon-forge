@@ -22,6 +22,7 @@ import {
 } from '@idleon-forge/engine';
 import { createAfkSafetyModule } from '@idleon-forge/engine/afk';
 import { detectStage, frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
+import { createUnspentModule } from '@idleon-forge/engine/unspent';
 import {
   type CompiledKnowledge,
   coverage,
@@ -143,6 +144,14 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
   return [
     metaPathModule,
     createAfkSafetyModule({ kb, registry: knowledgeDetectors, stage: (state) => detectStage(state, facts) }),
+    createUnspentModule({
+      kb,
+      registry: knowledgeDetectors,
+      stage: (state) => {
+        const stage = detectStage(state, facts);
+        return stage.id ? { id: stage.id } : null;
+      },
+    }),
   ];
 }
 

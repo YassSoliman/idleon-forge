@@ -14,6 +14,7 @@ import { buildNowView, DEFAULT_UI } from './now/build-now-view';
 import { EMPTY_PREFS } from './now/prefs';
 import { renderNowText } from './now/render-text';
 import type { EngineResult } from './result';
+import { createUnspentModule } from './unspent';
 
 /** The fields of M11's `GoldenInput` this engine reads. */
 export interface GoldenInput {
@@ -39,6 +40,14 @@ function goldenModules(input: GoldenInput): readonly EngineModule[] {
   return [
     ...DEFAULT_MODULES,
     createAfkSafetyModule({ kb, registry: input.registries.knowledge, stage: (s) => detectStage(s, facts) }),
+    createUnspentModule({
+      kb,
+      registry: input.registries.knowledge,
+      stage: (s) => {
+        const stage = detectStage(s, facts);
+        return stage.id ? { id: stage.id } : null;
+      },
+    }),
   ];
 }
 

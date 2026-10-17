@@ -8,14 +8,14 @@
 ### C4 · Squire 85 · Fix before you leave
 1 · Fighting Thermister · Thermonuclear Climb · Collect Thread from the anvil (time to cap: now; it refills about 5 h after you collect)
 
+### C6 · Shaman 54 · Fix before you leave
+2 · Fighting Sand Castle · Shifty Sandbox · Collect Thread from the anvil (time to cap: now; it refills about 3 h after you collect)
+
 ### C3 · Bowman 60 · Fix before you leave
-2 · Fighting Sand Giant · Sands of Time · Collect Leather Hide from the anvil (time to cap: now; it refills about 8 h after you collect)
+3 · Fighting Sand Giant · Sands of Time · Collect Leather Hide from the anvil (time to cap: now; it refills about 8 h after you collect)
 
 ### C5 · Barbarian 56 · Fix before you leave
-3 · Fishing Small Fish · Salty Shores · Collect Thread from the anvil (time to cap: now; it refills about 6 h after you collect)
-
-### C6 · Shaman 54 · Fix before you leave
-4 · Fighting Sand Castle · Shifty Sandbox · Collect Thread from the anvil (time to cap: now; it refills about 3 h after you collect)
+4 · Fishing Small Fish · Salty Shores · Collect Thread from the anvil (time to cap: now; it refills about 6 h after you collect)
 
 ### C2 · Squire 51 · Fix before you leave
 5 · Mining Gold · Freefall Caverns · Collect Thread from the anvil (time to cap: now; it refills about 2 h after you collect)
@@ -24,6 +24,14 @@
 6 · Fighting Sir Stache · The Stache Split · Collect Thread from the anvil (time to cap: now; it refills about 5 h after you collect)
 
 ### Account · nothing to fix
+- Grow · Get the fuel to run a Refinery salt: Get 1 more Bullfrog Horn to run Explosive Salts [Toolbox hasMissingMats · 2.3.540]
+- Spend · Collect banked Colosseum tickets: Collect 4 Colosseum tickets [Toolbox enhanceColoTickets: day counters, one a day, 3-day bank · 2.3.540]
+- Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [Toolbox getTowers: level, build slot and item cost · 2.3.540]
+- Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [Toolbox getDartsData · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [Toolbox getHoopsData · 2.3.540]
+show more (7)
+If you have time
+- Use today's 4 minigame plays · about 10m of hands-on play
 
 ## Not covered yet
 Cards
