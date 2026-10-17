@@ -14,12 +14,15 @@
   Cache-Control: public, max-age=31536000, immutable
 
 # The page may reach only our origin, Google's OAuth endpoints, Firebase Auth / Firestore, and the
-# game's own Realtime Database host (never *.firebaseio.com, which admits any project's database,
-# RT-9). The RTDB SDK falls back to long-polling through an injected script and iframe on networks
-# without WebSockets, hence the RTDB host in script-src and frame-src. If the SDK is redirected to an
-# s-* shard host, it is added here by name after it shows up on a Preview sign-in.
+# game's Realtime Database. The RTDB SDK connects to idlemmo.firebaseio.com and is then REDIRECTED to a
+# per-user shard host (e.g. s-gke-usc1-nssi4-13.firebaseio.com, seen live 2026-10-17); shards differ
+# per player and change over time, so naming them breaks sign-in for anyone on a new shard. CSP can only
+# wildcard the leftmost label, so *.firebaseio.com is the narrowest rule that works. Trade-off (RT-9):
+# it would admit another project's RTDB, which matters only alongside an XSS, which the rest of this
+# policy (no inline script, 'self' scripts) is there to prevent. The SDK's long-polling fallback uses an
+# injected script and iframe, hence the same host in script-src and frame-src.
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://idlemmo.firebaseio.com; worker-src 'self'; connect-src 'self' https://oauth2.googleapis.com https://*.googleapis.com https://idlemmo.firebaseio.com wss://idlemmo.firebaseio.com; frame-src https://idlemmo.firebaseio.com; img-src 'self' data:; font-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://*.firebaseio.com; worker-src 'self'; connect-src 'self' https://oauth2.googleapis.com https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com; frame-src https://*.firebaseio.com; img-src 'self' data:; font-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
   X-Robots-Tag: noindex
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
