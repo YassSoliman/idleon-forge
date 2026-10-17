@@ -373,3 +373,11 @@ An independent red-team pass ran on 2026-10-17 against this spec, the glossary a
 | RT-28 | P3 | A just-sent item can be missing from "Your suggestions" | Fixed | TR-9 merges just-sent items; TR-12 inserts new issues into the cache |
 | RT-29 | P3 | Cloudflare invocation logs record URLs and metadata | Fixed | TR-14: invocation logs off, endpoint logged without the number |
 | RT-30 | P3 | A proof is replayable for 7 days and holders of a player's idlemmo tokens (Toolbox, Efficiency, AutoReview) can act as them | Accepted | Written into TR-4 as residual risk; impact limited to public data and a spent cap |
+
+## 11. Final rulings (Yasser, 2026-10-17)
+
+- **RT-7:** keep D2 (Suggestions on this repo) for the MVP; revisit only if the App key leaks.
+- **RT-12:** only Google- and Steam-provider sign-ins may submit; no pre-publication hold. Revisit both at public alpha.
+- **RT-16:** "Attach the numbers" is ticked by default for *Something's wrong* only, unticked for *Idea* and *Confusing*; values are not rounded.
+- **RT-20:** Suggestions sent from PR Preview builds are dry-run: full validation, fake issue returned, nothing written to GitHub.
+- **Before ship:** manually confirm the game's database refuses an ID token 1, 5 and 15 minutes after expiry (the 15-minute margin rests on it).
