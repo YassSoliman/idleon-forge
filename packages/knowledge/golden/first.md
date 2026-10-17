@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #21125508 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage (engine not built)
+# golden v1: first · knowledge #7c60e3cb · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage (engine not built)
 
 ## Verdict changes
 
@@ -35,7 +35,6 @@ Classes and subclasses
 Companions and pets
 Gem Shop
 Merit Shop
-Meta Path
 Minigames
 Obols
 Portals and map doors

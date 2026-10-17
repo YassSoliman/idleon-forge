@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Authored tier-3 Obol facts. M2 reads the altar level for its W2-mid Stage rule (M2 TR-5); M8 owns the
+# rest of the obols System and may add tables here.
+system: obols
+facts:
+  - id: obols.fact.obol-altar
+    system: obols
+    origin: authored
+    title: Highest class level that opens the Obol Altar
+    rows: { level: 30 }
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/cards-obols/docs/research/systems/2026-10-17-cards-obols.md#obols
+        title: Cards and obols dossier, Obols unlocks
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    notes: Authored until M11 can read the threshold from an exported parser constant (M2 TR-7).

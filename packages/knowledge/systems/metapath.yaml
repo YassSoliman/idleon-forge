@@ -1,0 +1,574 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# The Meta Path (M2 TR-7): the Stage table, the slot plan, the Roles, the pusher rule and the per-world
+# gate chain. Judgment, authored (ADR 0007). Thresholds and game names are referenced by fact id, never
+# typed in. M2's Goals (push, subclass, world tutorial, elite, next character) and the Priority Lists
+# come in a later PR: today's schema cannot reference an engine Detector from a Goal (see the M2 PR).
+system: metapath
+entries:
+  # ---------------------------------------------------------------- Stages (M2 TR-4, TR-5, FR-4)
+  - id: metapath.metapath.stages
+    system: metapath
+    type: metapath
+    title: The ten Stages
+    text: "{stage}"
+    why: Where the account is on the route decides how every Goal is ranked.
+    values:
+      check-towers: "Check the Death Note and 3D Printer levels (couldn't read them)"
+      check-quests: "Check the World 3 tutorial quests (couldn't read them)"
+      check-refinery: "Check the Refinery salts (couldn't read them)"
+      check-storage: "Check your Galaxial Amethyst count (couldn't read it)"
+      check-characters: "Check your characters in game (couldn't read them all)"
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 1 (Stage definitions)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+        note: The ten Stages and their gates; M2 TR-5 changes W2-early (D3) and W3-late (Galaxial Amethyst)
+      - url: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M2-stage-meta-path.md
+        title: M2 spec, TR-5 rule table
+        tier: 4
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    part: stages
+    stages:
+      - id: W1-early
+        rule: w1-early
+        factRefs: [metapath.fact.town-unlocks]
+      - id: W1-mid
+        rule: w1-mid
+        needs: ["Reach level {level:int} on any character"]
+        factRefs: [metapath.fact.town-unlocks]
+      - id: W1-late
+        rule: w1-late
+        needs: ["Reach level {level:int} on any character, or start Dog Bone's quests"]
+        factRefs: [metapath.fact.town-unlocks]
+      - id: W2-early
+        rule: w2-early
+        needs: ["A character talks to Builder Bird (finishes World 1)"]
+        factRefs: [metapath.fact.world-gates]
+      - id: W2-mid
+        rule: w2-mid
+        needs:
+          - "Reach level {level:int} on any character"
+          - "Take a subclass at Speccius on any character"
+        factRefs: [obols.fact.obol-altar, classes.fact.class-tree]
+      - id: W2-late
+        rule: w2-late
+        needs: ["Reach level {level:int} on any character, or start Djonnut's quests"]
+        factRefs: [metapath.fact.town-unlocks]
+      - id: W3-early
+        rule: w3-early
+        needs: ["A character talks to Constructor Crow (finishes World 2)"]
+        factRefs: [metapath.fact.world-gates]
+      - id: W3-mid
+        rule: w3-mid
+        needs:
+          - "Build the Death Note to level 1"
+          - "Build the 3D Printer to level 1"
+          - "Finish Hoggindaz 5 on any character"
+        factRefs: [quests.fact.gate-quests]
+      - id: W3-late
+        rule: w3-late
+        needs: ["Unlock Nullo Salt, or get a Galaxial Amethyst from Chizoar"]
+        factRefs: [refinery.fact.salts, metapath.fact.world-gates]
+      - id: W4-entry
+        rule: w4-entry
+        needs: ["A character talks to Carpenter Cardinal (finishes World 3)"]
+        factRefs:
+          [
+            metapath.fact.world-gates,
+            portals.fact.world-routes,
+            metapath.fact.family-slots,
+          ]
+
+  # ---------------------------------------------------------------- Slot plan (M2 TR-8)
+  - id: metapath.metapath.slot-plan
+    system: metapath
+    type: metapath
+    title: Character slot plan
+    text: "Slot plan for {stage}"
+    why: One character of each subclass covers every Role; the later slots double the strongest ones.
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, roster adjudication
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+        note: One of each subclass first; Journeyman only after; 2nd Squire to Royal Guardian; never a 2nd Siege Breaker
+        verification: confirmed
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 4.1 (slot plan)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    part: slots
+    slots:
+      - { slot: 1, classLine: Barbarian, note: "One of each subclass in slots 1 to 6; slot 1 is a Warrior" }
+      - { slot: 2, classLine: Squire }
+      - { slot: 3, classLine: Bowman }
+      - { slot: 4, classLine: Hunter }
+      - { slot: 5, classLine: Shaman }
+      - { slot: 6, classLine: Wizard }
+      - { slot: 7, classLine: Journeyman, note: "Only once slots 1 to 6 are all present" }
+      - { slot: 8, classLine: Squire, note: "2nd Squire, on to Divine Knight and Royal Guardian" }
+      - slot: { from: 9, to: 10 }
+        classLine: Arcane_Cultist
+        status: contested
+        sides:
+          - position: "A 2nd Arcane Cultist"
+            sources:
+              - url: https://www.reddit.com/r/idleon/comments/1w7xfz2/
+                title: "What's the best class setup after the Royal Guardian release?"
+                tier: 3
+                claimDate: 2026-09-05
+                verified: 2026-10-17
+                gameVersion: 2.3.540
+          - position: "A 2nd Death Bringer or a 2nd Elemental Sorcerer"
+            sources:
+              - url: https://www.reddit.com/r/idleon/comments/1we5y9c/
+                title: What should be my 8th character class
+                tier: 3
+                claimDate: 2026-09-12
+                verified: 2026-10-17
+                gameVersion: 2.3.540
+      - slot: { from: 9, to: 10 }
+        classLine: Death_Bringer
+        status: contested
+        sides:
+          - position: "A 2nd Arcane Cultist"
+            sources:
+              - url: https://www.reddit.com/r/idleon/comments/1w7xfz2/
+                title: "What's the best class setup after the Royal Guardian release?"
+                tier: 3
+                claimDate: 2026-09-05
+                verified: 2026-10-17
+                gameVersion: 2.3.540
+          - position: "A 2nd Death Bringer or a 2nd Elemental Sorcerer"
+            sources:
+              - url: https://www.reddit.com/r/idleon/comments/1we5y9c/
+                title: What should be my 8th character class
+                tier: 3
+                claimDate: 2026-09-12
+                verified: 2026-10-17
+                gameVersion: 2.3.540
+      - slot: { from: 9, to: 10 }
+        classLine: Elemental_Sorcerer
+        status: contested
+        sides:
+          - position: "A 2nd Arcane Cultist"
+            sources:
+              - url: https://www.reddit.com/r/idleon/comments/1w7xfz2/
+                title: "What's the best class setup after the Royal Guardian release?"
+                tier: 3
+                claimDate: 2026-09-05
+                verified: 2026-10-17
+                gameVersion: 2.3.540
+          - position: "A 2nd Death Bringer or a 2nd Elemental Sorcerer"
+            sources:
+              - url: https://www.reddit.com/r/idleon/comments/1we5y9c/
+                title: What should be my 8th character class
+                tier: 3
+                claimDate: 2026-09-12
+                verified: 2026-10-17
+                gameVersion: 2.3.540
+      - { slot: 11, classLine: Beginner, note: "Left a Beginner" }
+
+  # ---------------------------------------------------------------- Roles (M2 TR-9, FR-7, FR-23, FR-24)
+  # A Role attaches to its line's highest-level character. A role id ending in -2nd attaches to the
+  # slot-8 duplicate instead. pusher-candidate Roles are never shown: they name the classes the pusher
+  # rule's Sources argue for; the pusher itself is chosen by kill rate (M2 TR-10).
+  - id: metapath.metapath.role-barbarian
+    system: metapath
+    type: metapath
+    title: Barbarian line Roles
+    text: "{class} · AFK fighting and Fishing"
+    why: Barbarians fight and fish well AFK.
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 4.2 (Roles)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, roster and Roles
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all, classes: [Barbarian] }
+    confidence: M
+    status: active
+    part: roles
+    roles:
+      - { id: pusher-candidate, classLine: Barbarian, does: "Can push portals", activeFrom: W1-early, owns: [FIGHTING] }
+      - { id: afk-fighting, classLine: Barbarian, does: "Fights AFK", activeFrom: W1-early, owns: [FIGHTING] }
+      - { id: fishing, classLine: Barbarian, does: "Fishes", activeFrom: W1-early, owns: [FISHING] }
+      - { id: cooking, classLine: Blood_Berserker, does: "Cooks", activeFrom: W4-entry, owns: [COOKING] }
+
+  - id: metapath.metapath.role-squire
+    system: metapath
+    type: metapath
+    title: Squire line Roles
+    text: "{class} · Construction builder"
+    why: Squires add the most build rate on the Cog Board and run Refinery Throttle.
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, PV 5.6
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+        note: PV 5.6, 2 Squire builders confirmed
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 4.2 (Roles)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all, classes: [Squire] }
+    confidence: H
+    status: active
+    part: roles
+    roles:
+      - { id: pusher-candidate, classLine: Squire, does: "Can push portals", activeFrom: W1-early, owns: [FIGHTING] }
+      - { id: construction-builder, classLine: Squire, does: "Builds on the Cog Board", activeFrom: W3-early, owns: ["parallel:cog"] }
+      - { id: refinery-throttle, classLine: Squire, does: "Runs Refinery Throttle", activeFrom: W3-early, visitHint: cooldown }
+      - { id: construction-builder-2nd, classLine: Squire, does: "Builds on the Cog Board (2nd Squire)", activeFrom: W3-early, owns: ["parallel:cog"] }
+      - { id: rift-8, classLine: Divine_Knight, does: "Clears Rift 8", activeFrom: W4-entry }
+
+  - id: metapath.metapath.role-bowman
+    system: metapath
+    type: metapath
+    title: Bowman line Roles
+    text: "{class} · Catching and Archer-line Smithing"
+    why: Bowmen catch bugs and carry the Archer anvil talents.
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 4.2 (Roles)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, roster and Roles
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all, classes: [Bowman] }
+    confidence: M
+    status: active
+    part: roles
+    roles:
+      - { id: catching, classLine: Bowman, does: "Catches bugs", activeFrom: W2-early, owns: [CATCHING] }
+      - { id: archer-smithing, classLine: Bowman, does: "Smiths with the Archer-line anvil talents", activeFrom: W1-early }
+
+  - id: metapath.metapath.role-hunter
+    system: metapath
+    type: metapath
+    title: Hunter line Roles
+    text: "{class} · Trapping and Tower Defence"
+    why: A Hunter with Eagle Eye traps for the whole account and plays Tower Defence.
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 4.2 (Roles)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, roster and Roles
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all, classes: [Hunter] }
+    confidence: M
+    status: active
+    part: roles
+    roles:
+      - { id: trapping, classLine: Hunter, does: "Traps with Eagle Eye", activeFrom: W3-early, owns: ["parallel:trap"], visitHint: skip-trap-stop }
+      - { id: tower-defence, classLine: Hunter, does: "Plays Tower Defence", activeFrom: W3-early }
+      - { id: breeding, classLine: Beast_Master, does: "Breeds pets", activeFrom: W4-entry }
+
+  - id: metapath.metapath.role-shaman
+    system: metapath
+    type: metapath
+    title: Shaman line Roles
+    text: "{class} · Alchemy brewer"
+    why: Shamans brew the most Alchemy.
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 4.2 (Roles)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, roster and Roles
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all, classes: [Shaman] }
+    confidence: M
+    status: active
+    part: roles
+    roles:
+      - { id: alchemy, classLine: Shaman, does: "Brews Alchemy", activeFrom: W2-early, owns: ["parallel:cauldron"] }
+      - { id: lab-split, classLine: Bubonic_Conjuror, does: "Splits the Lab connection", activeFrom: W4-entry, owns: [LABORATORY] }
+
+  - id: metapath.metapath.role-wizard
+    system: metapath
+    type: metapath
+    title: Wizard line Roles
+    text: "{class} · Worship and prayer slots"
+    why: Wizards pool Worship charge with Charge Syphon and hold the prayer slots.
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 4.2 (Roles)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, roster and Roles
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all, classes: [Wizard] }
+    confidence: M
+    status: active
+    part: roles
+    roles:
+      - { id: worship, classLine: Wizard, does: "Worships, pooling charge with Charge Syphon", activeFrom: W3-early, owns: ["parallel:worship"], visitHint: pool-after }
+      - { id: prayer-slots, classLine: Wizard, does: "Holds the prayer slots", activeFrom: W3-early }
+      - { id: choppin, classLine: Wizard, does: "Chops", activeFrom: W1-early, owns: [CHOPPIN] }
+      - { id: pusher-candidate, classLine: Elemental_Sorcerer, does: "Can push portals", activeFrom: W4-entry, owns: [FIGHTING] }
+
+  - id: metapath.metapath.role-journeyman
+    system: metapath
+    type: metapath
+    title: Journeyman line Roles
+    text: "{class} · 3D Printer"
+    why: A Maestro raises the 3D Printer sample size and runs Printer Go Brrr.
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 4.2 (Roles)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, roster and Roles
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all, classes: [Journeyman] }
+    confidence: M
+    status: active
+    part: roles
+    roles:
+      - { id: printer-sample-size, classLine: Maestro, does: "Raises the 3D Printer sample size", activeFrom: W3-early, owns: ["parallel:printer"] }
+      - { id: printer-go-brrr, classLine: Maestro, does: "Runs Printer Go Brrr", activeFrom: W3-early, visitHint: cooldown }
+
+  # ---------------------------------------------------------------- Pusher rule (M2 TR-10, D1, FR-14)
+  - id: metapath.metapath.pusher-rule
+    system: metapath
+    type: metapath
+    title: Who pushes portals
+    text: "ActiveOn picks the pusher by kill rate on the frontier map"
+    why: Pushing with one character opens the next world soonest; Sources disagree on the class, so kill rate decides.
+    values:
+      source-line: "ActiveOn picked by kill rate on {map:name}, as each character is currently equipped"
+    sources:
+      - url: https://my.visme.co/view/dwonr73g-idleon-academy-the-beginning
+        title: Idleon Academy, push with a Barbarian
+        tier: 3
+        claimDate: 2025-09-23
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+        note: Barbarian side
+      - url: https://www.reddit.com/r/idleon/comments/1vgv4hu/comment/p20kc31/
+        title: "Reddit: first with Barbarian, then with Elemental Sorcerer"
+        tier: 3
+        claimDate: 2026-08-06
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+        note: Barbarian side
+      - url: https://docs.google.com/spreadsheets/d/13izR4-8rod7O2wo-ecXZ2_R_01jyIc4GsQwODxaBEFs/htmlview
+        title: Idleon Incomplete Guide, push with a Squire
+        tier: 3
+        claimDate: 2026-08-25
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+        note: Squire side; the guide is undated, written before 2026-08-25
+      - url: https://gist.github.com/shnaps/161a370ed795e6141e0553eb30ddc8fa
+        title: shnaps progression gist
+        tier: 3
+        claimDate: 2026-09-18
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+        note: Squire side
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, cross-cutting 1 and 2
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+        note: Push with one character; the class is contested (Barbarian vs Squire, then DK vs ES)
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    part: pusher-rule
+    pusherRule: { margin: 1.25 }
+    notes: >-
+      M2 D1: keep the incumbent unless a challenger has at least margin x its final kills per hour on the
+      frontier door. The margin is far above the few-percent noise of one-shot maps.
+
+  # ---------------------------------------------------------------- Gate chains (M2 TR-11)
+  # Step refs: route = npc:<NPC whose map ends the route path> or map:<index>; quest = a Toolbox quest
+  # name from quests.fact.gate-quests; boss = the boss name (met when the world's crystal count > 0);
+  # crystal = the item rawName (metapath.fact.world-gates); gatekeeper = the NPC that finishes the world.
+  - id: metapath.metapath.gate-chain-w1
+    system: metapath
+    type: metapath
+    title: World 1 gate chain
+    text: "Open World 2"
+    why: Dog Bone's keys open Amarok, whose Desert Topaz lets Builder Bird take you to World 2.
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3, position 2
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, PV 3.8, 4.8 and 6.1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [{ from: W1-early, to: W1-late }] }
+    confidence: M
+    status: active
+    part: gate-chain
+    gateChain:
+      - world: 1
+        steps:
+          - { kind: route, ref: "npc:Dog_Bone" }
+          - { kind: quest, ref: Dog_Bone1 }
+          - { kind: boss, ref: Amarok }
+          - { kind: crystal, ref: Crystal1 }
+          - { kind: gatekeeper, ref: Builder_Bird }
+
+  - id: metapath.metapath.gate-chain-w2
+    system: metapath
+    type: metapath
+    title: World 2 gate chain
+    text: "Open World 3"
+    why: Djonnut 1 and 2, then Efaunt, give the Glacier Quartz for Constructor Crow.
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3, position 2
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, PV 3.8, 4.8 and 6.1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [{ from: W2-early, to: W2-late }] }
+    confidence: M
+    status: active
+    part: gate-chain
+    gateChain:
+      - world: 2
+        steps:
+          - { kind: route, ref: "npc:Djonnut" }
+          - { kind: quest, ref: Djonnut1 }
+          - { kind: quest, ref: Djonnut2 }
+          - { kind: boss, ref: Efaunt }
+          - { kind: crystal, ref: Crystal2 }
+          - { kind: gatekeeper, ref: Constructor_Crow }
+
+  - id: metapath.metapath.gate-chain-w3
+    system: metapath
+    type: metapath
+    title: World 3 gate chain
+    text: "Push World 3"
+    why: Chizoar drops the Galaxial Amethyst; with Hoggindaz 9 done, Carpenter Cardinal opens World 4.
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3, position 2
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, PV 3.8, 4.8 and 6.1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [{ from: W3-early, to: W3-late }] }
+    confidence: M
+    status: active
+    part: gate-chain
+    gateChain:
+      - world: 3
+        steps:
+          - { kind: route, ref: "npc:Bellows" }
+          - { kind: boss, ref: Chizoar }
+          - { kind: crystal, ref: Crystal3 }
+          - { kind: quest, ref: Hoggindaz9 }
+          - { kind: gatekeeper, ref: Carpenter_Cardinal }
+
+  - id: metapath.metapath.gate-chain-w4
+    system: metapath
+    type: metapath
+    title: World 4 entry gate chain
+    text: "Start World 4"
+    why: Portals onward are blocked until Gobo's quests are done; map 4 holds the elite class NPC.
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3, position 2
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, PV 3.8, 4.8 and 6.1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [W4-entry] }
+    confidence: M
+    status: active
+    part: gate-chain
+    gateChain:
+      - world: 4
+        steps:
+          - { kind: quest, ref: Gobo1 }
+          - { kind: quest, ref: Gobo2 }
+          - { kind: quest, ref: Gobo3 }
+          - { kind: quest, ref: Gobo4 }
+          - { kind: quest, ref: Gobo5 }
+          - { kind: route, ref: "map:154" }
