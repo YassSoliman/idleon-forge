@@ -12,7 +12,7 @@ Terms follow [`GLOSSARY.md`](../../GLOSSARY.md). This spec rests on [ADR 0002](.
 
 ## 1. Purpose
 
-Between Play Sessions an IdleOn account quietly piles up things that are worth something only once the player uses them: brew sitting in the cauldrons, boss keys and Colosseum tickets waiting at their NPCs, merits and task unlock points nobody spent, Darts and Hoops points, a free daily pet pull, Post Office boxes, an empty second talent preset, a big-bubble slot with nothing in it. Some of it is lost for good if it waits too long (keys and tickets stop banking after 3 days, Arcade balls stop after about 48 h, daily minigame plays and vial attempts reset). Both of our accounts leak value exactly this way. M6 finds every one of these in the save, says what to do with it in one concrete Next Action, and ranks it so that whatever will be lost before the player's Expected Return comes first. It never changes a Verdict: unspent stock is a Goal, not an AFK-safety problem.
+Between Play Sessions an IdleOn account quietly piles up things that are worth something only once the player uses them: brew sitting in the cauldrons, boss keys and Colosseum tickets waiting at their NPCs, merits and task unlock points nobody spent, Darts and Hoops points, a free daily pet pull, Post Office boxes, an empty second talent preset, a big-bubble slot with nothing in it. Some of it is lost for good if it waits too long (keys and tickets stop banking after 3 days, Arcade balls stop after about 48 h, daily minigame plays and vial attempts reset). On a W3 account the Refinery and Construction add two more: a salt that is unlocked but switched off, and a Death Note building still at level 0, so multikill pays nothing. Both of our accounts leak value exactly this way. M6 finds every one of these in the save, says what to do with it in one concrete Next Action, and ranks it so that whatever will be lost before the player's Expected Return comes first. It never changes a Verdict: unspent stock is a Goal, not an AFK-safety problem.
 
 ## 2. Scope / Out of scope
 
@@ -27,6 +27,7 @@ Between Play Sessions an IdleOn account quietly piles up things that are worth s
 | **Unspent points and currencies** | Merits per world; task unlock points; gems; Post Office boxes (per character); anvil points (per character) | Account, or the character holding them |
 | **Empty or mis-fitted slots** | Big-bubble slots that are empty, or hold a bubble that does nothing for the character's AFK Target; an empty second talent preset | The character |
 | **Idle system** | Post Office unlockable but not unlocked; unlocked but today's orders not filled | The character with the quest in progress, then Account |
+| **W3 idle systems** (D6) | A Refinery salt unlocked but switched off; the Death Note building at Lv 0 once Explosive Salt is unlocked | Account |
 
 ### Out of scope (and who owns it)
 
@@ -35,8 +36,8 @@ Between Play Sessions an IdleOn account quietly piles up things that are worth s
 - **Cards, card presets, card sets, obols** (Leverage fills 3a, 3b): **M8 Collections**.
 - **Talent Build content**, unspent talent points inside a preset that is already in use, the wrong preset on an AFK Target, and reset suggestions: **M9 Builds**. M6 only flags a second preset with zero points spent and hands the "what to put in it" to M9.
 - **Tools, constellations, star signs** (fills 3d, 3f): not M6.
-- **W3 time-gated Systems:** salts, the Death Note building, the Equinox bar. They are position-1 items in the Leverage model but are Construction and Refinery work, not banked stock. See D6.
-- **Weekly and event items** (Killroy, Bonus Ballot, weekly bosses, Random Events), Tournament and Raid registration, Pet Bonus Tokens, Pet Crystal spending, Orion upgrades, Arcade gold-ball spending, Liquid Shop dailies and the Bargain Tag: not in the MVP M6. They appear in "Not covered yet" (M10 FR-26). See D6.
+- **The rest of the Refinery and Construction:** manual Refine of a full bar and rank-ups (Leverage 1f), Auto Refine on Redox or Dioxide, salt balance, fuel running dry (M3 FR-26), unpaid build bars, build slots and the build order (Leverage W3-early 5), and Death Note mob ranks (M4 `contrib.fight.death-note`). M6 owns only the two D6 Checks. The Equinox bar stays out (D6).
+- **Weekly and event items** (Killroy, Bonus Ballot, weekly bosses, Random Events), Tournament and Raid registration, Pet Bonus Tokens, Pet Crystal spending, Orion upgrades, Arcade gold-ball spending, the Equinox bar, Liquid Shop dailies and the Bargain Tag: not in the MVP M6. They appear in "Not covered yet" (M10 FR-26), to be assigned after the first 5 sessions (D6).
 - **Writing any game formula.** Darts, Hoops, Arcade and bubble costs are read from Toolbox where Toolbox computes them, and otherwise not used (ADR 0005). Where Toolbox has no number, M6 states the stock, not the purchase.
 
 ## 3. Functional requirements
@@ -78,7 +79,7 @@ Between Play Sessions an IdleOn account quietly piles up things that are worth s
 
 - **FR-19 Merits.** For each world with unspent merits ≥ the cheapest unmaxed row's cost, "Spend N W<w> merits: first <row>", where <row> is the first unmaxed row of that world's merit Priority List that the merits cover. A world whose list is Contested (W3, PV 7.3) shows the badge and both sides, and is never the first Goal.
 - **FR-20 Task unlock points.** When `unlockPointsOwned − unlockedRecipes > 0` and an open Unlocks column has an unbought row, "Spend N task unlock points".
-- **FR-21 Gems.** See D2. In every option: a Gem Goal names a purchase only when gems ≥ its price, and a purchase whose order is Contested (PV 7.5) carries the badge.
+- **FR-21 Gems (D2).** When `gems > 0`: from Stage W2-late on, if the Crystal 3D Printer is not owned, "Crystal 3D Printer: N of 875 gems" (`nice`, with a Milestone, TR-10) while gems < 875, and "Buy the Crystal 3D Printer (875 gems)" (`spendable`) once gems ≥ 875. Before W2-late, or once the printer is owned, "N gems unspent" with the "sources disagree" badge and both PV 7.5 sides (Infinity Hammer first; Extra Card Slots and the Crystal 3D Printer first). A Gem Goal names a purchase only when gems ≥ its price, and the Contested form is never position 1 or the first Account Goal. Prices come from the generated gem shop facts (TR-5), never from this spec.
 - **FR-22 Post Office boxes.** Once the Post Office is unlocked, for each character with `postOffice.unspentPoints > 0`, "Spend N Post Office boxes" on that character, naming the class's first box from the authored order (PV 3.5).
 - **FR-23 Anvil points.** For each character with `anvilStats.availablePoints > 0`, "Spend N anvil points on Speed" on that character (PV 3.1). Capacity is named instead only when M3 reports an anvil product capping before the return.
 
@@ -97,6 +98,11 @@ Between Play Sessions an IdleOn account quietly piles up things that are worth s
 - **FR-28** Each time-sensitive Check (keys, tickets, daily resets, pet pull, Darts and Hoops cooldowns, Spiketrap, Arcade) returns `nextChangeAt`, the next moment its answer can change without a new save. The engine re-runs M6 at the earliest one, so a pet pull that becomes claimable mid-session appears without waiting for a save.
 - **FR-29** Done is detected per Check from a later save by an explicit field change (TR-8), never from "the Check stopped firing". A Goal that stops firing only because time moved (Spiketrap's window closed) disappears without being marked done.
 - **FR-30** M6 reports, per character, `spendCount`: the number of its non-`nice` M6 Goals. The engine uses it for the "then most to spend" part of Visit Order.
+
+**W3 idle systems (D6)**
+
+- **FR-31 Salt switched off.** From Stage W3-early on (the account has finished W2, so the Refinery is reachable), for each salt that is unlocked and not active, "Switch on <salt> in the Refinery" (Account). Several off salts merge into one Goal naming them in Refinery order. Urgency `losing-now` (an off salt makes no power while the account is away). When the Death Note Check also fires and Explosive is the salt that is off, the why line says the Death Note's first level is paid in Explosive Salt. M6 never advises Auto Refine, ranks or fuel (§2).
+- **FR-32 Death Note building.** From Stage W3-early on, when Explosive Salt is unlocked and the Death Note building is at Lv 0: if it is not in a build slot, "Put the Death Note in a Construction build slot"; if it is building, "Keep building the Death Note to Lv 1: multikill is off until then". Urgency `losing-now` (every fighter's kills earn no multikill until Lv 1). Account. It stops firing once the building is Lv ≥ 1.
 
 ## 4. User stories
 
@@ -140,7 +146,6 @@ Between Play Sessions an IdleOn account quietly piles up things that are worth s
 - Given the W3-early account / When the engine runs / Then it shows "Spend 1 W2 merit: All Yum-Yum Desert mobs respawn faster" (the first unmaxed row of PV 7.2's corrected order: Obol and AFK gains are maxed), "Spend 10 task unlock points", and a W3 merits Goal "Spend 3 W3 merits" with the "sources disagree" badge (Telekinetic and Library vs Build/Food slots, PV 7.3) that is never first in the Account section.
 
 **US-7 Unspent gems.** As a player in a Play Session, I want to know my gems are idle and what the community buys, so that I'm not hoarding them for nothing.
-These criteria assume D2's recommended option; the golden snapshot follows whatever D2 decides.
 - Given the W2-late account (628 gems, nothing bought; Stage W2-late) / When the engine runs / Then the Account section shows "Crystal 3D Printer: 628 of 875 gems" in category `nice`, with no buy Next Action and no Contested first-buy line at position 1.
 - Given the W3-early account (365 gems, no Crystal 3D Printer) / When the engine runs / Then it shows "Crystal 3D Printer: 365 of 875 gems", category `nice`.
 - Given a W2-mid account with 400 gems and nothing bought / When the engine runs / Then it shows "400 gems unspent" with the "sources disagree" badge and both sides (Infinity Hammer first; Extra Card Slots and the Crystal 3D Printer first), never as the first Account Goal.
@@ -173,6 +178,12 @@ These criteria assume D2's recommended option; the golden snapshot follows whate
 - Given the scrubbed W2 save (companion data removed) / When the engine runs / Then no pet Goal shows, `diagnostics.failedDetectors` lists the two pet Detectors with "companion data unavailable", and no Verdict changes.
 - Given the W3-early account with the `alchemy` parser section forced to fail / When the engine runs / Then no brew, vial or bubble Goal shows, and those Detectors are listed as unknown.
 
+**US-14 Switch the W3 engine on (D6).** As a player in a Play Session, I want to be told when a salt is switched off or the Death Note building is still at level 0, so that the Refinery and multikill start paying while I'm away.
+- Given the W3-early account / When the engine runs / Then the Account section shows "Switch on Explosive Salt in the Refinery" with urgency `losing-now`, and its why line says the Death Note's first level is paid in Explosive Salt. Redox (active) is not named.
+- Given the W3-early account / When the engine runs / Then the Account section shows "Keep building the Death Note to Lv 1: multikill is off until then" (the building is Lv 0 and in a build slot), urgency `losing-now`.
+- Given the W2-late account / When the engine runs / Then neither Goal shows, although the save lists Redox as unlocked and inactive: the Stage is W2-late, and the Refinery is a W3 System.
+- Given the W3-early account / When a later save shows Explosive active / Then the salt Goal moves to "Done this session"; when a later save shows the Death Note at Lv 1, so does the Death Note Goal.
+
 ## 5. Technical requirements
 
 ### TR-1 Package boundaries
@@ -180,7 +191,7 @@ These criteria assume D2's recommended option; the golden snapshot follows whate
 | Package | M6 parts |
 |---|---|
 | `packages/account-state` | The fields in TR-3, added through M1's TR-11 process (`types.ts`, `adapter.ts`, `FIELD_SOURCES`, `FIELD_SECTIONS`, `schemaVersion` bump). |
-| `packages/knowledge` | `systems/{boss-keys,colosseum,alchemy-bubbles,alchemy-vials,merit-shop,task-unlocks,gem-shop,pets,minigames,talent-presets,post-office,anvil,arcade,poppy}.yaml` (authored entries) and the generated facts they reference (TR-5). |
+| `packages/knowledge` | `systems/{boss-keys,colosseum,alchemy-bubbles,alchemy-vials,merit-shop,task-unlocks,gem-shop,pets,minigames,talent-presets,post-office,anvil,arcade,poppy,refinery,death-note}.yaml` (authored entries) and the generated facts they reference (TR-5). |
 | `packages/engine` | `src/detectors/m6/*.ts` (one file per Detector, TR-6), registered in the Detector registry by id. No Toolbox import: Detectors read only the Account State (M1 TR-11). |
 | `apps/activeon` | Nothing M6-specific. M10 renders M6 Goals like any other. |
 
@@ -251,6 +262,8 @@ export interface AccountSummary {
   postOffice: null | { unlocked: boolean; questInProgressOn: number[]; companiesNotDoneToday: number };
   arcade: null | { lastClaimAt: number; maxClaimSeconds: number; balls: number };   // timeAway.Arcade; Toolbox dungeons.ts max claim
   poppy: null | { unlocked: boolean; pendingFish: number };  // kangaroo
+  salts: null | Array<{ rawName: string; unlocked: boolean; active: boolean }>;   // refinery.salts[i].{rawName,unlocked,active} (D6)
+  deathNoteBuilding: null | { level: number; inBuildSlot: boolean };              // towers.data[name=Death_Note].{level,inProgress} (D6)
 }
 
 export interface CooldownGame {
@@ -298,6 +311,8 @@ Shape per [#11](https://github.com/YassSoliman/idleon-forge/issues/11): YAML, on
 | `anvil.spend-points` | Check | `m6.anvil-points` | A (Speed first, PV 3.1) | Fill 3h |
 | `arcade.open` | Check | `m6.arcade` | A; G (48 h base; stamp hours come from Toolbox per account) | Leverage 1d |
 | `poppy.open` | Check | `m6.poppy` | A | `nice` |
+| `refinery.salt-off` | Check | `m6.salt-off` | A (why); G (salt display names, Refinery order) | Leverage 1f, D6; `appliesTo.stage: ">=W3-early"` |
+| `death-note.build` | Check | `m6.death-note-build` | A (why); G (building index and name) | Leverage 1g, D6; `appliesTo.stage: ">=W3-early"` |
 
 **Example (authored), `packages/knowledge/systems/boss-keys.yaml`:**
 
@@ -340,7 +355,7 @@ Shape per [#11](https://github.com/YassSoliman/idleon-forge/issues/11): YAML, on
 
 ### TR-5 Generated facts M6 needs (ADR 0007)
 
-Produced by M11's generator from the pinned Toolbox data at every re-sync, into `packages/knowledge/generated/`: bubble catalogue (name, cauldron, index, active/passive); merit rows per world (id, text, cost, max); gem shop items (index, price, increment, max); Darts and Hoops upgrade unlock thresholds; key and ticket bank caps (3 days); pet free-pull period (594,000,000 ms); Post Office unlock (highest Lv 50, quest `Postboy_Pablob1`); talent preset unlock level (15). An authored entry referencing a generated id that disappears after a re-sync fails CI (M11).
+Produced by M11's generator from the pinned Toolbox data at every re-sync, into `packages/knowledge/generated/`: bubble catalogue (name, cauldron, index, active/passive); merit rows per world (id, text, cost, max); gem shop items (index, price, increment, max); Darts and Hoops upgrade unlock thresholds; key and ticket bank caps (3 days); pet free-pull period (594,000,000 ms); Post Office unlock (highest Lv 50, quest `Postboy_Pablob1`); talent preset unlock level (15); Refinery salt catalogue (raw name, display name, order); Construction building catalogue (index, name; the Death Note is index 2). An authored entry referencing a generated id that disappears after a re-sync fails CI (M11).
 
 ### TR-6 Detector logic (each one, with its done predicate)
 
@@ -367,12 +382,14 @@ Time at `now`: for any counter saved at `lastCloudSave`, the Detector uses `elap
 | `m6.anvil-points` | per character `anvilPointsAvailable > 0` | `banked` | none | value lower |
 | `m6.arcade` | `now − lastClaimAt ≥ maxClaimSeconds` (`losing-now`) or will be before return (`lost-before-return`) | as stated | `lastClaimAt + maxClaimSeconds` | `lastClaimAt` increased |
 | `m6.poppy` | `unlocked && pendingFish > 0` and not converted since `history.sessionStart` | `banked` | none | `pendingFish` dropped |
+| `m6.salt-off` | Stage ≥ W3-early, and any salt with `unlocked && !active` | `losing-now` | none | every salt it named is `active` |
+| `m6.death-note-build` | Stage ≥ W3-early, Explosive (`salts[1]`) unlocked, `deathNoteBuilding.level == 0` | `losing-now` | none | `level ≥ 1` |
 
-Each Detector also checks its unlock: keys need the quest line, Darts needs a best score > 0 or the item, the Arcade needs class Lv 8, Poppy needs the Secret Map (its upgrades or totals are non-zero), vials and bubbles need W2. A not-yet-unlocked System is silent, not unknown.
+Each Detector also checks its unlock: keys need the quest line, Darts needs a best score > 0 or the item, the Arcade needs class Lv 8, Poppy needs the Secret Map (its upgrades or totals are non-zero), vials and bubbles need W2, salts and the Death Note need Stage ≥ W3-early (the save reports the first salt as unlocked on every account, so `unlocked` alone is not a gate). A not-yet-unlocked System is silent, not unknown.
 
 ### TR-7 Placement (#10 item 6)
 
-- A Goal that any character can do goes to the Account section: tickets, vials, brew, merits, unlock points, gems, pets, Darts, Hoops, Spiketrap, plays, Arcade, Poppy, Post Office orders.
+- A Goal that any character can do goes to the Account section: tickets, vials, brew, merits, unlock points, gems, pets, Darts, Hoops, Spiketrap, plays, Arcade, Poppy, Post Office orders, salts, the Death Note building.
 - A Goal that needs a specific character goes on that character: big bubbles, presets, Post Office boxes, anvil points (their own), the Post Office quest (the character with it in progress), and **keys**, which go to a character eligible to collect (Dog Bone dialogue > 5 for Forest Villa; Djonnut > 6 for Efaunt, the collector threshold, which is stricter than the > 5 that earns keys, R1; Bellows > 8.5 for Chizoar).
 - **Choosing that character** must not depend on Visit Order (Visit Order uses M6's `spendCount`, so that would loop): the active character (M1 `activeCharacterIndex`) if eligible, else the eligible character with the highest level, ties to the lowest index.
 
@@ -384,8 +401,8 @@ Each entry carries `doneWhen`, evaluated by the engine on the first save newer t
 
 - M6 never emits `category: 'blocker'`.
 - **Priority List position** (the Leverage model's shared frame, §3.0): `losing-now` and `lost-before-return` items take **position 1** (never-skip); `banked` items take **position 3** (free-value fills; spending stock costs nothing). Merits and gems name *what* to buy from their own per-world and gem Priority Lists, but the Goal itself sits at position 3. Within position 1, `losing-now` precedes `lost-before-return` (authored sub-order, a tie otherwise).
-- **Tie-breaks** (#11 item 6, in order): cheapest = lowest `effortSeconds` (authored per entry: pet pull 20 s, Pet Mart gems 20 s, tickets 60 s, keys 60 s, Arcade 90 s, vials 60 s, Darts and Hoops play 120 s, brew 120 s, merits 60 s, unlock points 60 s, Post Office boxes 60 s, anvil points 30 s, bubbles 30 s, preset 300 s, Spiketrap 180 s, plays 600 s); then closest Milestone (none of M6's has one, so skipped); then most Goals per activity; then entry id, so the order is total and stable.
-- **Categories** are display tags only (D1): `spendable` for banked currency and claims (keys, tickets, vials, plays, pets, Darts/Hoops, brew, merits, unlocks, gems, Post Office boxes and orders, anvil points, Arcade); `compounding` for slots and presets and the Post Office unlock; `nice` for Spiketrap, Poppy, skill-minigame plays, and a gem Goal with no affordable buy.
+- **Tie-breaks** (#11 item 6, in order): cheapest = lowest `effortSeconds` (authored per entry: pet pull 20 s, Pet Mart gems 20 s, tickets 60 s, keys 60 s, Arcade 90 s, vials 60 s, Darts and Hoops play 120 s, brew 120 s, merits 60 s, unlock points 60 s, Post Office boxes 60 s, anvil points 30 s, bubbles 30 s, preset 300 s, Spiketrap 180 s, plays 600 s, salt switch 30 s, Death Note 60 s); then closest Milestone (none of M6's has one, so skipped); then most Goals per activity; then entry id, so the order is total and stable.
+- **Categories** are display tags only (D1): `spendable` for banked currency and claims (keys, tickets, vials, plays, pets, Darts/Hoops, brew, merits, unlocks, gems, Post Office boxes and orders, anvil points, Arcade); `compounding` for slots and presets, the Post Office unlock, salts and the Death Note building; `nice` for Spiketrap, Poppy, skill-minigame plays, and a gem Goal with no affordable buy.
 - **Contested** entries (W3 merits, the first gem buy) are never position 1 and never the first Account Goal (#11 item 5; M10 TR-9 asserts it).
 - **Stale** entries rank below fresh ones at the same position (#10 item 10).
 
@@ -421,6 +438,7 @@ All M6 Detectors together: ≤ 3 ms on an 11-character Account State on a mid-ra
 | Partial parse (e.g. `alchemy` failed) | Other Goals show; no brew, vial or bubble Goals | Those Detectors return `unknown`; listed in `failedDetectors`; **no Verdict changes** (R9) |
 | Side read failed (companion, tournament, server vars) | No pet or Pet Mart Goals | `unknown`, same |
 | Fresh account (W1-early) | Only Darts/Hoops (if found) and keys (once Dog Bone is done) | Unlock checks; locked Systems are silent |
+| W2 account whose save lists Redox as unlocked | No salt Goal | Stage gate ≥ W3-early (TR-6), not the `unlocked` flag alone |
 | Nothing unspent | No M6 Goals; the Account section may be empty | Normal |
 | Stale save (game closed for 9 h) | Time-based Goals reflect `now`, not the save time | TR-6 elapsed and reset-crossing rules |
 | A daily reset happened after the save | Vial attempts and plays shown as refilled; banked days +1 | TR-6 |
@@ -453,25 +471,16 @@ All M6 Detectors together: ≤ 3 ms on an 11-character Account State on a mid-ra
 | **M12 Release** | The weekly parser re-sync runs M6's OLA contract test. | CI |
 | **M13 Suggestions** | Report this on M6 Goals. | M10 TR-10 |
 
-## 8. Open decisions for Yasser
+## 8. Decisions
 
-❓ D1 - Ranking order vs category: #10 item 5 ranks a character's list as AFK blockers, then compounding, then spendables, then nice-to-haves. #11 item 6 ranks by Verdict blockers, then Stage Priority List position, then arithmetic tie-breaks. They disagree for M6 (a lost-today pet pull is "spendable" but position 1; an empty bubble slot is "compounding" but position 3). Options: (a) #11's order everywhere, with the category kept as a display tag; (b) #10's category order, with Priority List position only inside a category; (c) category order for characters, #11 for the Account section.
-➡️ (a). #11 is the later and more specific ruling, and the Leverage model and both worked examples are built on it. It is also what makes "will be lost before you're back" rise to the top, which is the point of M6. Categories stay useful as the tag M10 shows ("Spend · Keys"). This is engine-wide, so it binds M3–M9 too.
+Ruled by Yasser on 2026-10-17 (PR #53): every recommendation accepted as written.
 
-❓ D2 - Unspent gems: what should M6 say to an account holding gems? The first Gem Shop buy is Contested (PV 7.5: Infinity Hammer vs Extra Card Slots and the Crystal 3D Printer). Options: (a) show only "N gems unspent" with both sides behind the "sources disagree" badge, never top; (b) recommend the overlap (Extra Card Slot, which both sides buy within their first two) as a normal Next Action; (c) from W2-late on, show only "save for the Crystal 3D Printer (875)" (both sides agree on it by W3), with progress; (d) leave gems out of M6.
-➡️ (a) for W1 to W2-mid, plus (c) from W2-late: a `nice` progress Goal "Crystal 3D Printer: N of 875 gems" while short, and a normal Next Action "Buy the Crystal 3D Printer" once gems ≥ 875. That gives an agreed action when one exists and never presents a disputed buy as advice. (b) is tempting, but "both list it in their first two" is our inference, not a Source's ruling.
-
-❓ D3 - Darts and Hoops: how often should M6 say "play"? Each play takes a minute or two and the cooldown grows from 90 s to 15 min per play in a day. Options: (a) once per Play Session; (b) every time the cooldown is up during a session; (c) never prompt the play, only the point spending.
-➡️ (a). Darts is the highest-Leverage minigame (it feeds the Upgrade Vault and tab-1 talent points), so one nudge per session is worth it; a prompt every 90 s to 15 min during a 20-minute session would be noise, and the player can keep playing without being told. The spend Goal still fires whenever points cover the next level.
-
-❓ D4 - Skill-minigame plays (the 5-a-day shared pool): the Leverage model asks (its Q8) whether they belong in position 1 for a 15-minute session. Options: (a) position 1 whenever plays remain; (b) only when the daily reset falls before the Expected Return and an open highscore Milestone exists, as a `nice` Goal plus an "If you have time" entry; (c) never.
-➡️ (b). The dossier shows a play is worth only minutes of AFK harvest; its value is in one-time Milestones (quests, achievements, class talents). Showing it only when the plays will actually be lost, and only with a Milestone to chase, keeps a short session focused on the quick claims.
-
-❓ D5 - Daily items that will refill before you're back (vial attempts, Pet Mart gems, Post Office orders): should M6 show them when the daily reset falls after the Expected Return? Options: (a) always show, at position 3 (`banked`), and raise them to position 1 when the reset falls before the return; (b) show only when they'd be lost before the return.
-➡️ (a). They're quick and free, and "use them now" is never wrong; the urgency rule already lifts them when they'd be lost. With (b), the W2-late account's 11 unused vial attempts would stay hidden at the default 8 h return even though using them takes a minute.
-
-❓ D6 - Systems the leverage model ranks as never-skip or free value but no module spec owns: salts and the Death Note building (W3), the Equinox bar, weekly items (Killroy, Bonus Ballot, weekly bosses), Random Events, Tournament and Raid registration, Pet Bonus Tokens, Pet Crystal buys, Orion upgrades, Arcade gold balls, Liquid Shop dailies and the Bargain Tag. Options: (a) add them all to M6 now; (b) add only salts and the Death Note to M6 (W3 never-skip, and the W3-early account needs both); (c) leave all of them in "Not covered yet" for the MVP and assign them after the first 5 sessions.
-➡️ (b), with the rest in "Not covered yet". The W3-early account's top two leverage-model items are the salts and the Death Note building, and nothing else owns them; they fit M6's "idle system" group (a salt unlocked but switched off, a building at Lv 0). The others either need numbers Toolbox doesn't compute (Arcade gold-ball costs), detection that's still wrong (the Equinox mirror, leverage Q3), or are weekly and low-Leverage for W1–W3. If (b), M6 gains two Checks: `refinery.salt-off` (an unlocked salt not active) and `death-note.build` (building Lv 0 once Explosive salt is unlocked), both position 1.
+- **D1 - Rank by #11's order everywhere; category is a display tag.** Verdict blockers, then the Stage Priority List position, then the arithmetic tie-breaks, for both character rows and the Account section. `spendable`, `compounding` and `nice` only label a Goal ("Spend · Keys"). *Why:* #11 is the later and more specific ruling, the Leverage model and both worked examples are built on it, and it is what lifts "will be lost before you're back" to the top, which is the point of M6. It is engine-wide, so it binds M3–M9 too. Touches FR-2, FR-5, TR-9, US-12.
+- **D2 - Gems: a Contested count early, an agreed printer goal from W2-late.** From W1 to W2-mid, M6 shows only "N gems unspent" with both PV 7.5 sides behind the "sources disagree" badge, never first. From W2-late on, it shows a `nice` progress Goal "Crystal 3D Printer: N of 875 gems" while gems are short, and a normal Next Action "Buy the Crystal 3D Printer (875 gems)" once gems cover it. Once the printer is owned, the account falls back to the Contested count. *Why:* it gives an agreed action when one exists and never presents a disputed buy as advice; recommending the overlap (an Extra Card Slot) would be our inference, not a Source's ruling. Touches FR-21, TR-4, TR-6, TR-9, TR-10, US-7.
+- **D3 - Prompt a Darts or Hoops play once per Play Session.** After the first play the "Play" Goal does not return in that Play Session, even when the cooldown ends. The spend Goal still fires whenever points cover the next level. *Why:* Darts is the highest-Leverage minigame (it feeds the Upgrade Vault and tab-1 talent points), so one nudge per session is worth it; a prompt every 90 s to 15 min would be noise. Touches FR-14, TR-6, TR-8, US-3.
+- **D4 - Skill-minigame plays fire only when they would be lost and a Milestone is open.** The Check fires when the daily reset falls before the Expected Return and an open highscore Milestone exists, as a `nice` Goal plus an Active Play ("If you have time") entry. *Why:* a play is worth only minutes of AFK harvest; its value is in one-time Milestones (quests, achievements, class talents), and a short session should stay on the quick claims. Touches FR-10, TR-4, TR-6, TR-10, US-2.
+- **D5 - Daily items that refill before you're back still show, at position 3.** Vial attempts, Pet Mart gems and Post Office orders show as `banked` (position 3) when the daily reset falls after the Expected Return, and rise to position 1 (`lost-before-return`) when it falls before. *Why:* they are quick and free, and "use them now" is never wrong; hiding them would keep the W2-late account's 11 unused vial attempts out of sight at the default 8 h return. Touches FR-9, FR-13, FR-27, TR-6, US-2.
+- **D6 - Salts and the Death Note building join M6; the rest wait in "Not covered yet".** M6 gains two W3 Checks, both position 1: `refinery.salt-off` (a salt unlocked on a W3 account but switched off) and `death-note.build` (the Death Note building at Lv 0 once Explosive Salt is unlocked). Weekly items (Killroy, Bonus Ballot, weekly bosses), Random Events, Tournament and Raid registration, Pet Bonus Tokens, Pet Crystal buys, Orion upgrades, Arcade gold balls, the Equinox bar, Liquid Shop dailies and the Bargain Tag stay out of the MVP and appear in "Not covered yet" (M10 FR-26), to be assigned after the first 5 sessions. *Why:* they are the W3-early account's top two Leverage-model items (1f, 1g) and nothing else owns them; the others need numbers Toolbox doesn't compute (gold-ball costs), detection that is still wrong (the Equinox mirror, Leverage Q3), or are weekly and low-Leverage for W1–W3. Touches §1, §2, FR-31, FR-32, TR-1, TR-3, TR-4, TR-5, TR-6, TR-7, TR-9, US-14, §6.
 
 ## 9. Red-team notes
 
