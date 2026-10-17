@@ -45,4 +45,3 @@ entries:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L264", title: "Toolbox petMartGems alert: GemPM_x, shop day, OLA[516]", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-7/tournament.ts#L138", title: "Toolbox getTournament: Pet Mart shop day", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Daily_Checklist", title: "IdleOn Wiki: Daily Checklist", tier: 4, claimDate: 2026-03-24, verified: 2026-10-17, gameVersion: 2.3.540 }
-      - { url: "https://idleon.wiki/wiki/Pet_Mart", title: "IdleOn Wiki: Pet Mart", tier: 2, claimDate: 2026-10-14, verified: 2026-10-17, gameVersion: 2.3.540 }
