@@ -131,11 +131,15 @@ const idsIn = (content: string | null, key: 'entries' | 'facts'): string[] =>
  * Regenerates everything into memory. A generator that throws keeps its committed files and records a
  * hold; one that drops ids authored YAML still references keeps those entries and records a hold for them.
  */
-export async function generateAll(opts: { root?: string; only?: string[] } = {}): Promise<GeneratedFiles> {
+export async function generateAll(
+  opts: { root?: string; only?: string[]; generators?: readonly Generator[] } = {},
+): Promise<GeneratedFiles> {
   const root = opts.root ?? KNOWLEDGE;
   const dir = layoutOf(root).generatedDir;
   const pin = readPin();
-  const generators = (await discoverGenerators()).filter((g) => !opts.only || opts.only.includes(g.name));
+  const generators = (opts.generators ?? (await discoverGenerators())).filter(
+    (g) => !opts.only || opts.only.includes(g.name),
+  );
   const refs = authoredReferences(root);
   const previousHolds = (JSON.parse(readExisting(dir, '_held.json') ?? '{"holds":[]}') as { holds: Hold[] })
     .holds;
@@ -322,8 +326,10 @@ export function factDiff(oldFiles: Map<string, string>, newFiles: Map<string, st
 export function formatFactDiff(d: FactDiff, held: readonly Hold[] = []): string {
   const lines: string[] = ['## Fact diff', ''];
   if (d.added.length + d.removed.length + d.changes.size === 0) lines.push('No generated fact changed.');
-  if (d.added.length) lines.push(`Added (${d.added.length}): ${d.added.join(', ')}`);
-  if (d.removed.length) lines.push(`Removed (${d.removed.length}): ${d.removed.join(', ')}`);
+  const some = (ids: string[]) =>
+    ids.length > 30 ? `${ids.slice(0, 30).join(', ')} and ${ids.length - 30} more` : ids.join(', ');
+  if (d.added.length) lines.push(`Added (${d.added.length}): ${some(d.added)}`);
+  if (d.removed.length) lines.push(`Removed (${d.removed.length}): ${some(d.removed)}`);
   for (const [change, ids] of [...d.changes].sort(([x], [y]) => x.localeCompare(y)))
     lines.push(ids.length > 1 ? `- ${ids.length} entries: ${change}` : `- ${ids[0]}: ${change}`);
   for (const r of d.renames) lines.push(`- ${r}`);
