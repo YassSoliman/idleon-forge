@@ -1,0 +1,37 @@
+# SPDX-License-Identifier: GPL-3.0-only
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint, typecheck, test, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      # Toolbox's game data is rebuilt from the pinned commit; cache it per pin.
+      - uses: actions/cache@v6
+        with:
+          path: packages/toolbox-parsers/vendor/data
+          key: toolbox-data-${{ hashFiles('packages/toolbox-parsers/UPSTREAM') }}
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
