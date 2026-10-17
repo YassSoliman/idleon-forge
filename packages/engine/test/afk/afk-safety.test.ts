@@ -14,17 +14,35 @@ import { blockers, charOf, evaluate, kb, nextActions, patchAfk, W2, W3 } from '.
 // W3-early save order: Wizard Lv 73, Squire Lv 51, Bowman Lv 60, Squire Lv 85, Barbarian Lv 56, Shaman Lv 54.
 
 describe('US-1 a fighter that would die', () => {
-  it('blocks the W2-late Barbarian Lv 60 on owned food that fixes it, with its Source', () => {
+  it('blocks the W2-late Barbarian Lv 60 on the most efficient owned food (R-FOOD-1), with its Source', () => {
     const r = evaluate(W2());
     const c = charOf(r, 0);
     expect(c.safety).toBe('unsafe');
     const f = c.findings.find((x) => x.entryId === 'afk.check.dies-fixable-by-food');
     expect(f?.role).toBe('blocker');
-    expect(f?.nextAction.text).toMatch(
-      /^Equip or swap in .+ before you leave: Barbarian is at 78% survivability/,
+    // Max HP about 722: Meat Pie (500 a bite) is the smallest heal that refills most of it. Magic
+    // Meatloaf (2000) overheals, and Kebab Sticks (300) and Hot Dog (50) refill too little.
+    expect(f?.nextAction.text).toBe(
+      'Equip or swap in Meat Pie before you leave: Barbarian is at 78% survivability, and you own 105',
     );
     expect(f?.nextAction.sources[0]?.tier).toBe(1);
     expect(f?.nextAction.sources[0]?.url).toContain('parsers/damage.ts');
+  });
+
+  it('says stock up when no owned stack lasts the return (R-FOOD-1), and stays a blocker', () => {
+    const s = W2();
+    const r8 = evaluate(s, 8, { history: eatingHistory(s, 0, 30) });
+    const f = charOf(r8, 0).findings.find((x) => x.entryId === 'afk.check.dies-fixable-by-food');
+    // 30 Meat Pie an hour is 15,000 HP an hour: 105 Meat Pie last about 3.5 h, under 8 h, and no other
+    // owned stack lasts longer, so the efficient food is named with a stock-up.
+    expect(f?.role).toBe('blocker');
+    expect(f?.nextAction.text).toBe(
+      'Equip Meat Pie before you leave, and stock up on it: your 105 last about 4 h, less than your return (Barbarian is at 78% survivability)',
+    );
+    // At a 2 h return the same stack lasts: plain equip text.
+    const r2 = evaluate(s, 2, { history: eatingHistory(s, 0, 30) });
+    const g = charOf(r2, 0).findings.find((x) => x.entryId === 'afk.check.dies-fixable-by-food');
+    expect(g?.nextAction.text).toMatch(/^Equip or swap in Meat Pie before you leave/);
   });
 
   it('shows no food blocker on the W2-late Shaman, Bowman or Wizard', () => {
@@ -33,25 +51,59 @@ describe('US-1 a fighter that would die', () => {
       expect(blockers(charOf(r, i).findings).filter((x) => x.startsWith('afk.'))).toEqual([]);
   });
 
-  it('shows no food blocker on the W3-early account, and no low-food line (stacks above lowStack)', () => {
+  it('flags low food under 60% of the food carry cap (R-FOOD-2), as Next Actions only', () => {
     const r = evaluate(W3());
-    for (const c of r.characters) {
-      expect(c.findings.map((f) => f.entryId).filter((x) => x.includes('food'))).toEqual([]);
+    // Wizard Lv 73: 153 against a cap of 419 (threshold 251). Squire Lv 85: 146 against 313 (188).
+    for (const i of [0, 3]) {
+      const f = charOf(r, i).findings.find((x) => x.entryId === 'afk.check.low-food-untimed');
+      expect(f?.role).toBe('next-action');
+      expect(charOf(r, i).safety).toBe('safe');
     }
+    for (const c of r.characters) expect(blockers(c.findings).filter((x) => x.includes('food'))).toEqual([]);
   });
 
-  it('gives the W3-early Squire Lv 85 a low-food Next Action on a small stack, without changing its Verdict', () => {
+  it('falls back to 50 when the food cap is unknown or contradicted by the save', () => {
     const s = W3();
-    const afk = s.characters[3]?.afk;
-    const food = (afk?.food ?? []).map((f) => (f.kind === 'health' ? { ...f, amount: 7 } : f));
-    const r = evaluate(patchAfk(s, 3, { food }));
-    const c = charOf(r, 3);
-    const f = c.findings.find((x) => x.entryId === 'afk.check.low-food-untimed');
-    expect(f?.role).toBe('next-action');
-    expect(f?.nextAction.text).toBe("Low food: 7 left; can't time it yet");
-    expect(c.safety).toBe('safe');
+    const f = s.characters[3]?.afk?.fighting;
+    const food = (s.characters[3]?.afk?.food ?? []).map((x) =>
+      x.kind === 'health' ? { ...x, amount: 60 } : x,
+    );
+    const noCap = f ? patchAfk(s, 3, { food, fighting: { ...f, foodCap: null } }) : s;
+    expect(charOf(evaluate(noCap), 3).findings.map((x) => x.entryId)).not.toContain(
+      'afk.check.low-food-untimed',
+    );
+    const low = (s.characters[3]?.afk?.food ?? []).map((x) =>
+      x.kind === 'health' ? { ...x, amount: 40 } : x,
+    );
+    const r = evaluate(f ? patchAfk(s, 3, { food: low, fighting: { ...f, foodCap: null } }) : s);
+    expect(
+      charOf(r, 3).findings.find((x) => x.entryId === 'afk.check.low-food-untimed')?.nextAction.text,
+    ).toBe("Low food: 40 left; can't time it yet");
   });
 });
+
+/** Three earlier 2 h AFK Stretches of `index` with Meat Pie equipped, eating `perHour` (R-FOOD-1). */
+function eatingHistory(s: AccountState, index: number, perHour: number): HistoryEntry[] {
+  const since = s.characters.find((c) => c.index === index)?.afk?.afkSince ?? s.asOf;
+  const at = (k: number): HistoryEntry => {
+    const afkSince = since - k * 2 * HOUR_MS;
+    const pie = {
+      slot: 2,
+      item: 'FoodHealth7',
+      kind: 'health' as const,
+      amount: 100 + perHour * 2 * k,
+      healPerBite: 500,
+    };
+    const c = s.characters.find((x) => x.index === index);
+    const state = patchAfk(s, index, { afkSince, food: [...(c?.afk?.food ?? []), pie] });
+    return {
+      lastCloudSave: afkSince,
+      receivedAt: afkSince,
+      state: { ...state, account: { ...state.account, lastCloudSave: afkSince } },
+    };
+  };
+  return [at(3), at(2), at(1)];
+}
 
 /** Two earlier AFK Stretches of `index`, 2 h each, eating `perHour` health food (US-2). */
 function foodHistory(s: AccountState, index: number, perHour: number): HistoryEntry[] {

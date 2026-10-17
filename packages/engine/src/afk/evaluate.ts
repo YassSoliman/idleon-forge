@@ -147,6 +147,20 @@ function builtins(state: AccountState, subject: Subject): Record<string, SlotVal
   return { class: humanize(c.class), level: c.level, character: `${humanize(c.class)} Lv ${c.level}` };
 }
 
+/**
+ * The entry's text, or one of its authored variants: `values['text-stock-up']` applies when the
+ * finding's `stockUp` slot is 1 (M3 R-FOOD-1), and so on for any `text-<kebab-name>` / `<camelName>`
+ * pair. Every word stays in the entry; the Detector only picks which of its texts applies.
+ */
+export function textOf(entry: Pick<CheckEntry, 'text' | 'values'>, slots: Record<string, SlotValue>): string {
+  for (const [key, template] of Object.entries(entry.values)) {
+    if (!key.startsWith('text-') || typeof template !== 'string') continue;
+    const flag = key.slice(5).replace(/-([a-z])/g, (_, ch: string) => ch.toUpperCase());
+    if (slots[flag] === 1) return template;
+  }
+  return entry.text;
+}
+
 function nextActionOf(
   entry: CheckEntry,
   subject: Subject,
@@ -159,7 +173,7 @@ function nextActionOf(
   return {
     key: `${entry.id}@${subject}`,
     entryId: entry.id,
-    text: render(entry.text, ...scopes),
+    text: render(textOf(entry, slots), ...scopes),
     why: render(entry.why, ...scopes),
     sources: entry.sources.map(sourceRef),
     stale,

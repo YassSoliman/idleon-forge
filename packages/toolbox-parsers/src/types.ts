@@ -132,4 +132,6 @@ export interface ToolboxCalls {
   getPrayerBonusAndCurse(prayers: unknown, prayerName: string, account?: unknown): unknown;
   /** `{ value }`: the carry cap for an item's `typeGen`. */
   getItemCapacity(type: unknown, character: unknown, account?: unknown): unknown;
+  /** Food effect multiplier (`isHealth`: the health-food one), M3 R-FOOD-1. */
+  getPlayerFoodBonus(character: unknown, account: unknown, isHealth?: boolean): unknown;
 }

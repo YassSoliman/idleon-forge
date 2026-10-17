@@ -38,6 +38,17 @@ describe('AFK facts on the scrubbed W2-late save', () => {
     expect(barbarian?.afk?.blankFoodSlot).toBe(true);
   });
 
+  it('reads heal per bite, max HP and the food carry cap (R-FOOD-1, R-FOOD-2)', () => {
+    const f = barbarian?.afk?.fighting;
+    expect(f?.maxHp).toBeCloseTo(722.5, 0);
+    expect(f?.foodCap).toBe(274);
+    const pie = f?.fixingFoods.find((x) => x.item === 'FoodHealth7');
+    expect(pie?.healPerBite).toBe(500);
+    const wizard = state.characters.find((c) => c.class === 'Wizard');
+    expect(wizard?.afk?.food.find((x) => x.kind === 'health')?.healPerBite).toBe(500);
+    expect(wizard?.afk?.food.find((x) => x.kind === 'boost')?.healPerBite).toBeNull();
+  });
+
   it('reads the full anvil product and how long it takes to refill from empty', () => {
     const [p] = barbarian?.afk?.anvil ?? [];
     expect(p?.amount).toBe(p?.capacity);

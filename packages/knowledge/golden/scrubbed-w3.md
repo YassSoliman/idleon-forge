@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #8400ca3c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early
+# golden v1: scrubbed-w3 · knowledge #76ea6859 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early
 
 ## Verdict changes
 
@@ -70,9 +70,9 @@ Shrines
 | afk.check.health-food-runs-out | afk/health-food-runs-out | C3 | pass |  |
 | afk.check.health-food-runs-out | afk/health-food-runs-out | C4 | unknown (needs-history) |  |
 | afk.check.health-food-runs-out | afk/health-food-runs-out | C6 | pass |  |
-| afk.check.low-food-untimed | afk/low-food-untimed | C1 | pass |  |
+| afk.check.low-food-untimed | afk/low-food-untimed | C1 | fires | left=153 threshold=251 |
 | afk.check.low-food-untimed | afk/low-food-untimed | C3 | pass |  |
-| afk.check.low-food-untimed | afk/low-food-untimed | C4 | pass |  |
+| afk.check.low-food-untimed | afk/low-food-untimed | C4 | fires | left=146 threshold=188 |
 | afk.check.low-food-untimed | afk/low-food-untimed | C6 | pass |  |
 | afk.check.no-afk-target | afk/no-afk-target | C1 | pass |  |
 | afk.check.no-afk-target | afk/no-afk-target | C2 | pass |  |

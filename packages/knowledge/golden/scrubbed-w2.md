@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #8400ca3c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late
+# golden v1: scrubbed-w2 · knowledge #76ea6859 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late
 
 ## Verdict changes
 
@@ -53,7 +53,7 @@ Islands
 ## Findings
 | entry | detector | subject | result | slots |
 |---|---|---|---|---|
-| afk.check.dies-fixable-by-food | afk/dies-fixable-by-food | C1 | fires | food=Meat_Pie owned=105 survivability=78 |
+| afk.check.dies-fixable-by-food | afk/dies-fixable-by-food | C1 | fires | food=Meat_Pie owned=105 stockUp=0 survivability=78 |
 | afk.check.dies-fixable-by-food | afk/dies-fixable-by-food | C3 | pass |  |
 | afk.check.dies-fixable-by-food | afk/dies-fixable-by-food | C4 | pass |  |
 | afk.check.dies-fixable-by-food | afk/dies-fixable-by-food | C5 | pass |  |
@@ -64,7 +64,7 @@ Islands
 | afk.check.low-food-untimed | afk/low-food-untimed | C1 | pass |  |
 | afk.check.low-food-untimed | afk/low-food-untimed | C3 | pass |  |
 | afk.check.low-food-untimed | afk/low-food-untimed | C4 | pass |  |
-| afk.check.low-food-untimed | afk/low-food-untimed | C5 | pass |  |
+| afk.check.low-food-untimed | afk/low-food-untimed | C5 | fires | left=88 threshold=110 |
 | afk.check.no-afk-target | afk/no-afk-target | C1 | pass |  |
 | afk.check.no-afk-target | afk/no-afk-target | C2 | pass |  |
 | afk.check.no-afk-target | afk/no-afk-target | C3 | pass |  |
