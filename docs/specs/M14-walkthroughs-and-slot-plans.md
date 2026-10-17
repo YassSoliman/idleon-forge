@@ -1,6 +1,6 @@
 # M14 Walkthroughs & Parallel Slot Plans
 
-Spec for the owner's request of 2026-10-17 ("every Goal like the Post Office should come with a step-by-step walkthrough … and advise which chars to put where at any given time"), plus a co-player's point that nobody knows what to put in the 3D Printer, part of map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Status: **red-teamed, awaiting the owner's answers** (section 10). Open questions for the owner are in section 8, each with a recommended answer. Terms follow [GLOSSARY.md](../../GLOSSARY.md); decisions follow [ADRs 0001–0008](../adr/).
+Spec for the owner's request of 2026-10-17 ("every Goal like the Post Office should come with a step-by-step walkthrough … and advise which chars to put where at any given time"), plus a co-player's point that nobody knows what to put in the 3D Printer, part of map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Status: **ready**. Red-teamed (section 10); the owner ruled on every open question on 2026-10-17 (**Final rulings**, at the end, which supersede anything above them). Terms follow [GLOSSARY.md](../../GLOSSARY.md); decisions follow [ADRs 0001–0008](../adr/).
 
 **Inputs this spec is built from:**
 - The specs it builds on: M2 (frontier rates, pusher, Roles, `compareGoals`), M3 (AFK safety, `dropRate`, anvil, `printer.check.sample-blank`), M4 (Purpose, Contributions, the quest-item follow-up in its red-team note 10), M5 (reachability, `leverage/survivable`, one Move per destination), M6 (`post-office.check.unlock`), M8 (stamp routes, the holdings rule TR-6), M10 (Goal cards), M11 (schema, generators, `PARALLEL_SLOTS`, the illustrative `construction.goal.printer-*` ids).
@@ -376,7 +376,10 @@ M10 TR-2 gains `Goal.walkthrough?: WalkthroughView` (steps, collapsed line, tree
 | **M11** | schema additions (TR-4), the `items` generator, wiki-link check (TR-9), the fact tables | schema, generators |
 | **M13** | Report this on a step | `ReportContext` |
 
-## 8. Open questions for Yasser
+## 8. Open questions for Yasser (ruled)
+
+All nine were ruled on 2026-10-17 exactly as recommended; see **Final rulings**. The questions stay here for the reasoning.
+
 
 ❓ Q1 - Where this lives: a new module M14 "Walkthroughs & Parallel Slot Plans", or folded into M4 (Purpose already owns Goal ladders and Contributions), M5 (Moves) or M8 (Acquisitions and stamp routes)?
 ➡️ A new module, M14. M4 answers "what does this character's activity serve?", M5 "is there something better for this one character?", M8 "which collectibles can I get?". None of them owns "break this Goal into materials, and spread the materials across characters", which is account-wide and cuts across all three. M14 reuses each one's pieces instead of copying them: M8's holdings rule and quest status, M5's reachability, survivability and one-Move-per-map, M4's Contribution mechanism (so an assigned character reads as serving), and M2's ranking. Folding it into M4 would make M4's per-character Purpose account-wide; into M8 would make every Goal a "collection".
@@ -503,5 +506,21 @@ The W2-late account has no printer (US-4).
 - [ ] Quest hand-in reads the character's inventory, not storage (wiki or N.js), so the withdraw step is right.
 - [ ] TR-7's anvil contract test against `getTimeTillCap`; the drop arithmetic is checked in M3's calibration Play Session.
 - [ ] `getPrinterMulti` with the three day counters zeroed reproduces the in-game bonus after a sample (FR-27a), checked once in game.
-- [ ] The Liquid Shop daily price (Q6): one in-game check.
+- [ ] **By Yasser, in game (Final rulings):** the Liquid Shop's Distilled Water price after a few buys (Q6).
 - [ ] `SUPPLY_MAPS_PER_LEAF = 3` within TR-8's budget on `highend.json`.
+
+## Final rulings (Yasser, 2026-10-17)
+
+These supersede anything above that conflicts with them.
+
+> **Ruled by Yasser (2026-10-17, relayed by the coordinator on PR #79): yes to all nine open questions, exactly as recommended.**
+
+- **R-Q1 Module home:** a new module, M14, reusing M2, M4, M5 and M8's pieces instead of extending one of them.
+- **R-Q2 Terms:** Walkthrough, Requirement Tree, Demand, Supply, Bottleneck and Parallel Slot Plan, as in `GLOSSARY.md`.
+- **R-Q3 Build order:** Phase 1 is step 8, right after M6 and before M4; Phases 2–3 come after M5 (README build order).
+- **R-Q4 Skilling pace:** yes/no in Phase 1; rates observed from save history in Phase 2, labelled as measured. The 500-item threshold (FR-14) decides until then.
+- **R-Q5 Row Next Actions:** a planned move shows on the character's row only when its Purpose isn't serving or the Walkthrough's parent outranks everything it serves, at most one per character (FR-21).
+- **R-Q6 Liquid Shop:** summing the growing price is allowed as arithmetic on game data, with the wiki cited, counting only the Water held now. **Yasser does the in-game price check** before the first golden.
+- **R-Q7 Default printing:** none in Phase 1 (Demand-driven changes only, otherwise keep); an authored per-Stage list in Phase 3.
+- **R-Q8 Launch opt-ins:** `post-office.check.unlock`, M2's gate-chain quests, M8's quest-toward stamps and M4's tool-chain Goals; gear waits for Phase 3.
+- **R-Q9 Role holders:** never moved off their Role activity in Phase 1 (FR-18); revisited once M5 ships.

@@ -232,7 +232,7 @@ Facts each module must check before (or in) its first build PR. Open facts, not 
 - [ ] Whether the drop rate applies again inside nested drop tables (until then "at most").
 - [ ] TR-7's contract tests: drop rate vs M3 `dropsPerHour`, anvil hours vs `getTimeTillCap`, sample-size reproduction.
 - [ ] Which characters hold the printer's player slots below a full building level.
-- [ ] **By Yasser or Joseph, one minute in game:** the Liquid Shop's Distilled Water price after a few buys (Q6).
+- [ ] **By Yasser, one minute in game:** the Liquid Shop's Distilled Water price after a few buys (M14 Final rulings R-Q6).
 - [ ] `MAX_SUPPLY_MAPS = 12` within TR-8 on `highend.json`.
 
 **M12**
@@ -307,5 +307,4 @@ Genuine conflicts or open choices the pass did not settle. Each has a recommenda
 ❓ **N4. Does M3's RT-14 ("a cap that is already full now, with a quick fix, always blocks") also cover skull-less worship?** The pass read RT-14 as changing only the blocker rule's "fix holds" condition for `effect: blocker` Checks, so D2's skull-less worship (an `effect: next-action` entry) stays a Next Action at 50/50, while a full anvil and Water at cap now block. If RT-14 was meant for every cap, it reverses D2 and turns 4 of 6 W3-early rows red every session.
 ➡️ Confirm the narrow reading and keep D2.
 
-❓ **N5. M14's open questions (Q1–Q9).** Module home, glossary terms, build position, skilling pace, row Next Actions, Liquid Shop arithmetic, default printing, launch opt-ins, Role holders. Each has a recommendation in [M14 section 8](M14-walkthroughs-and-slot-plans.md#8-open-questions-for-yasser).
-➡️ Accept the recommendations.
+✅ **N5. M14's open questions (Q1–Q9): resolved.** Yasser accepted every recommendation on 2026-10-17; see [M14 Final rulings](M14-walkthroughs-and-slot-plans.md#final-rulings-yasser-2026-10-17). He does the Liquid Shop price check in game (Q6).
