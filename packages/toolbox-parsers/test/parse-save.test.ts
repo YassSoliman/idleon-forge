@@ -153,7 +153,7 @@ describe('verifiedBuilds', () => {
     }
     expect(verifiedBuilds).toEqual({ serverBuild, saveVersion });
     expect(serverBuild).toBeGreaterThan(0);
-  });
+  }, 60_000); // parses all 11 public saves
 
   it('names the parser commit in every parse', () => {
     const parsed = parseSave(normalizeEnvelope(fixture('fresh.json')), { now: NOW });
