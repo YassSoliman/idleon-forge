@@ -11,7 +11,7 @@ ENVIRONMENT="${ENVIRONMENT:-production}"
 perm=$(stat -f '%Lp' "$FILE" 2>/dev/null || stat -c '%a' "$FILE")
 [ "$perm" = "600" ] || { echo "Refusing: $FILE must be chmod 600 (is $perm)"; exit 1; }
 while IFS= read -r line || [ -n "$line" ]; do
-  case "$line" in ''|\#*) continue ;; esac
+  case "$line" in ''|\#*|LOCAL_*) continue ;; esac   # LOCAL_* keys stay on this machine, never pushed
   key="${line%%=*}"; val="${line#*=}"
   [ -n "$val" ] || { echo "skip $key (empty)"; continue; }
   printf '%s' "$val" | gh secret set "$key" -R "$REPO" --env "$ENVIRONMENT" >/dev/null

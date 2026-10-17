@@ -31,6 +31,14 @@ Already set by Claude (public values copied from IdleOn Toolbox): the six `VITE_
 | `TURNSTILE_SECRET_KEY` | Cloudflare dashboard → **Turnstile → Add widget** (domain: the workers.dev host) → copy the **Secret key**. The **Site key** is public and goes in as a variable instead. |
 | `SUGGESTIONS_GITHUB_TOKEN` | GitHub → Settings → Developer settings → **Fine-grained tokens → Generate** → Repository access: only `YassSoliman/idleon-forge` → Permissions: **Issues: Read and write** (nothing else) → expiry 90 days. |
 
+### Local-only (never pushed to GitHub)
+
+Keys prefixed `LOCAL_` stay in the file and are skipped by the script. Use them for setup tokens that only an operator machine needs.
+
+| Key | Where to get it |
+|---|---|
+| `LOCAL_CLOUDFLARE_ADMIN_TOKEN` | Cloudflare → **IdleOn account** → My Profile → API Tokens → Create Token → Custom: Account Resources **IdleOn only**; permissions **Workers Scripts: Edit**, **Turnstile: Edit**, **Access: Apps and Policies: Edit**, **Access: Organizations, Identity Providers, and Groups: Edit**, **Account Settings: Read**. Lets Claude Code create the Turnstile widget, the Preview Access gate and the Suggestions Worker without clicks. Never goes to CI. |
+
 ## 3. Push them
 
 ```sh
