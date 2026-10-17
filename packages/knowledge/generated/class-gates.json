@@ -1,0 +1,1186 @@
+{
+  "entries": [
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "gates": [
+          {
+            "kind": "obol-slot",
+            "level": 25,
+            "shapes": [
+              "Circle"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 32,
+            "shapes": [
+              "Square"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 40,
+            "shapes": [
+              "Circle"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 48,
+            "shapes": [
+              "Circle"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 60,
+            "shapes": [
+              "Square"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 70,
+            "shapes": [
+              "Circle"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 80,
+            "shapes": [
+              "Circle"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 90,
+            "shapes": [
+              "Square"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 98,
+            "shapes": [
+              "Circle"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 105,
+            "shapes": [
+              "Hexagon"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 112,
+            "shapes": [
+              "Circle"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 120,
+            "shapes": [
+              "Square"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 130,
+            "shapes": [
+              "Circle"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 140,
+            "shapes": [
+              "Square"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 152,
+            "shapes": [
+              "Circle"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 170,
+            "shapes": [
+              "Circle"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 180,
+            "shapes": [
+              "Hexagon"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 190,
+            "shapes": [
+              "Square"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 210,
+            "shapes": [
+              "Circle"
+            ]
+          },
+          {
+            "kind": "obol-slot",
+            "level": 250,
+            "shapes": [
+              "Sparkle"
+            ]
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "class-gates",
+        "inputs": [
+          "website-data/shared-data.json#obols"
+        ]
+      },
+      "id": "classes.goal.level",
+      "milestones": [
+        {
+          "at": 2,
+          "reward": "level 2"
+        },
+        {
+          "at": 3,
+          "reward": "level 3"
+        },
+        {
+          "at": 4,
+          "reward": "level 4"
+        },
+        {
+          "at": 5,
+          "reward": "level 5"
+        },
+        {
+          "at": 6,
+          "reward": "level 6"
+        },
+        {
+          "at": 7,
+          "reward": "level 7"
+        },
+        {
+          "at": 8,
+          "reward": "level 8"
+        },
+        {
+          "at": 9,
+          "reward": "level 9"
+        },
+        {
+          "at": 10,
+          "reward": "level 10"
+        },
+        {
+          "at": 11,
+          "reward": "level 11"
+        },
+        {
+          "at": 12,
+          "reward": "level 12"
+        },
+        {
+          "at": 13,
+          "reward": "level 13"
+        },
+        {
+          "at": 14,
+          "reward": "level 14"
+        },
+        {
+          "at": 15,
+          "reward": "level 15"
+        },
+        {
+          "at": 16,
+          "reward": "level 16"
+        },
+        {
+          "at": 17,
+          "reward": "level 17"
+        },
+        {
+          "at": 18,
+          "reward": "level 18"
+        },
+        {
+          "at": 19,
+          "reward": "level 19"
+        },
+        {
+          "at": 20,
+          "reward": "level 20"
+        },
+        {
+          "at": 21,
+          "reward": "level 21"
+        },
+        {
+          "at": 22,
+          "reward": "level 22"
+        },
+        {
+          "at": 23,
+          "reward": "level 23"
+        },
+        {
+          "at": 24,
+          "reward": "level 24"
+        },
+        {
+          "at": 25,
+          "reward": "level 25: personal obol slot (Circle)"
+        },
+        {
+          "at": 26,
+          "reward": "level 26"
+        },
+        {
+          "at": 27,
+          "reward": "level 27"
+        },
+        {
+          "at": 28,
+          "reward": "level 28"
+        },
+        {
+          "at": 29,
+          "reward": "level 29"
+        },
+        {
+          "at": 30,
+          "reward": "level 30"
+        },
+        {
+          "at": 31,
+          "reward": "level 31"
+        },
+        {
+          "at": 32,
+          "reward": "level 32: personal obol slot (Square)"
+        },
+        {
+          "at": 33,
+          "reward": "level 33"
+        },
+        {
+          "at": 34,
+          "reward": "level 34"
+        },
+        {
+          "at": 35,
+          "reward": "level 35"
+        },
+        {
+          "at": 36,
+          "reward": "level 36"
+        },
+        {
+          "at": 37,
+          "reward": "level 37"
+        },
+        {
+          "at": 38,
+          "reward": "level 38"
+        },
+        {
+          "at": 39,
+          "reward": "level 39"
+        },
+        {
+          "at": 40,
+          "reward": "level 40: personal obol slot (Circle)"
+        },
+        {
+          "at": 41,
+          "reward": "level 41"
+        },
+        {
+          "at": 42,
+          "reward": "level 42"
+        },
+        {
+          "at": 43,
+          "reward": "level 43"
+        },
+        {
+          "at": 44,
+          "reward": "level 44"
+        },
+        {
+          "at": 45,
+          "reward": "level 45"
+        },
+        {
+          "at": 46,
+          "reward": "level 46"
+        },
+        {
+          "at": 47,
+          "reward": "level 47"
+        },
+        {
+          "at": 48,
+          "reward": "level 48: personal obol slot (Circle)"
+        },
+        {
+          "at": 49,
+          "reward": "level 49"
+        },
+        {
+          "at": 50,
+          "reward": "level 50"
+        },
+        {
+          "at": 51,
+          "reward": "level 51"
+        },
+        {
+          "at": 52,
+          "reward": "level 52"
+        },
+        {
+          "at": 53,
+          "reward": "level 53"
+        },
+        {
+          "at": 54,
+          "reward": "level 54"
+        },
+        {
+          "at": 55,
+          "reward": "level 55"
+        },
+        {
+          "at": 56,
+          "reward": "level 56"
+        },
+        {
+          "at": 57,
+          "reward": "level 57"
+        },
+        {
+          "at": 58,
+          "reward": "level 58"
+        },
+        {
+          "at": 59,
+          "reward": "level 59"
+        },
+        {
+          "at": 60,
+          "reward": "level 60: personal obol slot (Square)"
+        },
+        {
+          "at": 61,
+          "reward": "level 61"
+        },
+        {
+          "at": 62,
+          "reward": "level 62"
+        },
+        {
+          "at": 63,
+          "reward": "level 63"
+        },
+        {
+          "at": 64,
+          "reward": "level 64"
+        },
+        {
+          "at": 65,
+          "reward": "level 65"
+        },
+        {
+          "at": 66,
+          "reward": "level 66"
+        },
+        {
+          "at": 67,
+          "reward": "level 67"
+        },
+        {
+          "at": 68,
+          "reward": "level 68"
+        },
+        {
+          "at": 69,
+          "reward": "level 69"
+        },
+        {
+          "at": 70,
+          "reward": "level 70: personal obol slot (Circle)"
+        },
+        {
+          "at": 71,
+          "reward": "level 71"
+        },
+        {
+          "at": 72,
+          "reward": "level 72"
+        },
+        {
+          "at": 73,
+          "reward": "level 73"
+        },
+        {
+          "at": 74,
+          "reward": "level 74"
+        },
+        {
+          "at": 75,
+          "reward": "level 75"
+        },
+        {
+          "at": 76,
+          "reward": "level 76"
+        },
+        {
+          "at": 77,
+          "reward": "level 77"
+        },
+        {
+          "at": 78,
+          "reward": "level 78"
+        },
+        {
+          "at": 79,
+          "reward": "level 79"
+        },
+        {
+          "at": 80,
+          "reward": "level 80: personal obol slot (Circle)"
+        },
+        {
+          "at": 81,
+          "reward": "level 81"
+        },
+        {
+          "at": 82,
+          "reward": "level 82"
+        },
+        {
+          "at": 83,
+          "reward": "level 83"
+        },
+        {
+          "at": 84,
+          "reward": "level 84"
+        },
+        {
+          "at": 85,
+          "reward": "level 85"
+        },
+        {
+          "at": 86,
+          "reward": "level 86"
+        },
+        {
+          "at": 87,
+          "reward": "level 87"
+        },
+        {
+          "at": 88,
+          "reward": "level 88"
+        },
+        {
+          "at": 89,
+          "reward": "level 89"
+        },
+        {
+          "at": 90,
+          "reward": "level 90: personal obol slot (Square)"
+        },
+        {
+          "at": 91,
+          "reward": "level 91"
+        },
+        {
+          "at": 92,
+          "reward": "level 92"
+        },
+        {
+          "at": 93,
+          "reward": "level 93"
+        },
+        {
+          "at": 94,
+          "reward": "level 94"
+        },
+        {
+          "at": 95,
+          "reward": "level 95"
+        },
+        {
+          "at": 96,
+          "reward": "level 96"
+        },
+        {
+          "at": 97,
+          "reward": "level 97"
+        },
+        {
+          "at": 98,
+          "reward": "level 98: personal obol slot (Circle)"
+        },
+        {
+          "at": 99,
+          "reward": "level 99"
+        },
+        {
+          "at": 100,
+          "reward": "level 100"
+        },
+        {
+          "at": 101,
+          "reward": "level 101"
+        },
+        {
+          "at": 102,
+          "reward": "level 102"
+        },
+        {
+          "at": 103,
+          "reward": "level 103"
+        },
+        {
+          "at": 104,
+          "reward": "level 104"
+        },
+        {
+          "at": 105,
+          "reward": "level 105: personal obol slot (Hexagon)"
+        },
+        {
+          "at": 106,
+          "reward": "level 106"
+        },
+        {
+          "at": 107,
+          "reward": "level 107"
+        },
+        {
+          "at": 108,
+          "reward": "level 108"
+        },
+        {
+          "at": 109,
+          "reward": "level 109"
+        },
+        {
+          "at": 110,
+          "reward": "level 110"
+        },
+        {
+          "at": 111,
+          "reward": "level 111"
+        },
+        {
+          "at": 112,
+          "reward": "level 112: personal obol slot (Circle)"
+        },
+        {
+          "at": 113,
+          "reward": "level 113"
+        },
+        {
+          "at": 114,
+          "reward": "level 114"
+        },
+        {
+          "at": 115,
+          "reward": "level 115"
+        },
+        {
+          "at": 116,
+          "reward": "level 116"
+        },
+        {
+          "at": 117,
+          "reward": "level 117"
+        },
+        {
+          "at": 118,
+          "reward": "level 118"
+        },
+        {
+          "at": 119,
+          "reward": "level 119"
+        },
+        {
+          "at": 120,
+          "reward": "level 120: personal obol slot (Square)"
+        },
+        {
+          "at": 121,
+          "reward": "level 121"
+        },
+        {
+          "at": 122,
+          "reward": "level 122"
+        },
+        {
+          "at": 123,
+          "reward": "level 123"
+        },
+        {
+          "at": 124,
+          "reward": "level 124"
+        },
+        {
+          "at": 125,
+          "reward": "level 125"
+        },
+        {
+          "at": 126,
+          "reward": "level 126"
+        },
+        {
+          "at": 127,
+          "reward": "level 127"
+        },
+        {
+          "at": 128,
+          "reward": "level 128"
+        },
+        {
+          "at": 129,
+          "reward": "level 129"
+        },
+        {
+          "at": 130,
+          "reward": "level 130: personal obol slot (Circle)"
+        },
+        {
+          "at": 131,
+          "reward": "level 131"
+        },
+        {
+          "at": 132,
+          "reward": "level 132"
+        },
+        {
+          "at": 133,
+          "reward": "level 133"
+        },
+        {
+          "at": 134,
+          "reward": "level 134"
+        },
+        {
+          "at": 135,
+          "reward": "level 135"
+        },
+        {
+          "at": 136,
+          "reward": "level 136"
+        },
+        {
+          "at": 137,
+          "reward": "level 137"
+        },
+        {
+          "at": 138,
+          "reward": "level 138"
+        },
+        {
+          "at": 139,
+          "reward": "level 139"
+        },
+        {
+          "at": 140,
+          "reward": "level 140: personal obol slot (Square)"
+        },
+        {
+          "at": 141,
+          "reward": "level 141"
+        },
+        {
+          "at": 142,
+          "reward": "level 142"
+        },
+        {
+          "at": 143,
+          "reward": "level 143"
+        },
+        {
+          "at": 144,
+          "reward": "level 144"
+        },
+        {
+          "at": 145,
+          "reward": "level 145"
+        },
+        {
+          "at": 146,
+          "reward": "level 146"
+        },
+        {
+          "at": 147,
+          "reward": "level 147"
+        },
+        {
+          "at": 148,
+          "reward": "level 148"
+        },
+        {
+          "at": 149,
+          "reward": "level 149"
+        },
+        {
+          "at": 150,
+          "reward": "level 150"
+        },
+        {
+          "at": 151,
+          "reward": "level 151"
+        },
+        {
+          "at": 152,
+          "reward": "level 152: personal obol slot (Circle)"
+        },
+        {
+          "at": 153,
+          "reward": "level 153"
+        },
+        {
+          "at": 154,
+          "reward": "level 154"
+        },
+        {
+          "at": 155,
+          "reward": "level 155"
+        },
+        {
+          "at": 156,
+          "reward": "level 156"
+        },
+        {
+          "at": 157,
+          "reward": "level 157"
+        },
+        {
+          "at": 158,
+          "reward": "level 158"
+        },
+        {
+          "at": 159,
+          "reward": "level 159"
+        },
+        {
+          "at": 160,
+          "reward": "level 160"
+        },
+        {
+          "at": 161,
+          "reward": "level 161"
+        },
+        {
+          "at": 162,
+          "reward": "level 162"
+        },
+        {
+          "at": 163,
+          "reward": "level 163"
+        },
+        {
+          "at": 164,
+          "reward": "level 164"
+        },
+        {
+          "at": 165,
+          "reward": "level 165"
+        },
+        {
+          "at": 166,
+          "reward": "level 166"
+        },
+        {
+          "at": 167,
+          "reward": "level 167"
+        },
+        {
+          "at": 168,
+          "reward": "level 168"
+        },
+        {
+          "at": 169,
+          "reward": "level 169"
+        },
+        {
+          "at": 170,
+          "reward": "level 170: personal obol slot (Circle)"
+        },
+        {
+          "at": 171,
+          "reward": "level 171"
+        },
+        {
+          "at": 172,
+          "reward": "level 172"
+        },
+        {
+          "at": 173,
+          "reward": "level 173"
+        },
+        {
+          "at": 174,
+          "reward": "level 174"
+        },
+        {
+          "at": 175,
+          "reward": "level 175"
+        },
+        {
+          "at": 176,
+          "reward": "level 176"
+        },
+        {
+          "at": 177,
+          "reward": "level 177"
+        },
+        {
+          "at": 178,
+          "reward": "level 178"
+        },
+        {
+          "at": 179,
+          "reward": "level 179"
+        },
+        {
+          "at": 180,
+          "reward": "level 180: personal obol slot (Hexagon)"
+        },
+        {
+          "at": 181,
+          "reward": "level 181"
+        },
+        {
+          "at": 182,
+          "reward": "level 182"
+        },
+        {
+          "at": 183,
+          "reward": "level 183"
+        },
+        {
+          "at": 184,
+          "reward": "level 184"
+        },
+        {
+          "at": 185,
+          "reward": "level 185"
+        },
+        {
+          "at": 186,
+          "reward": "level 186"
+        },
+        {
+          "at": 187,
+          "reward": "level 187"
+        },
+        {
+          "at": 188,
+          "reward": "level 188"
+        },
+        {
+          "at": 189,
+          "reward": "level 189"
+        },
+        {
+          "at": 190,
+          "reward": "level 190: personal obol slot (Square)"
+        },
+        {
+          "at": 191,
+          "reward": "level 191"
+        },
+        {
+          "at": 192,
+          "reward": "level 192"
+        },
+        {
+          "at": 193,
+          "reward": "level 193"
+        },
+        {
+          "at": 194,
+          "reward": "level 194"
+        },
+        {
+          "at": 195,
+          "reward": "level 195"
+        },
+        {
+          "at": 196,
+          "reward": "level 196"
+        },
+        {
+          "at": 197,
+          "reward": "level 197"
+        },
+        {
+          "at": 198,
+          "reward": "level 198"
+        },
+        {
+          "at": 199,
+          "reward": "level 199"
+        },
+        {
+          "at": 200,
+          "reward": "level 200"
+        },
+        {
+          "at": 201,
+          "reward": "level 201"
+        },
+        {
+          "at": 202,
+          "reward": "level 202"
+        },
+        {
+          "at": 203,
+          "reward": "level 203"
+        },
+        {
+          "at": 204,
+          "reward": "level 204"
+        },
+        {
+          "at": 205,
+          "reward": "level 205"
+        },
+        {
+          "at": 206,
+          "reward": "level 206"
+        },
+        {
+          "at": 207,
+          "reward": "level 207"
+        },
+        {
+          "at": 208,
+          "reward": "level 208"
+        },
+        {
+          "at": 209,
+          "reward": "level 209"
+        },
+        {
+          "at": 210,
+          "reward": "level 210: personal obol slot (Circle)"
+        },
+        {
+          "at": 211,
+          "reward": "level 211"
+        },
+        {
+          "at": 212,
+          "reward": "level 212"
+        },
+        {
+          "at": 213,
+          "reward": "level 213"
+        },
+        {
+          "at": 214,
+          "reward": "level 214"
+        },
+        {
+          "at": 215,
+          "reward": "level 215"
+        },
+        {
+          "at": 216,
+          "reward": "level 216"
+        },
+        {
+          "at": 217,
+          "reward": "level 217"
+        },
+        {
+          "at": 218,
+          "reward": "level 218"
+        },
+        {
+          "at": 219,
+          "reward": "level 219"
+        },
+        {
+          "at": 220,
+          "reward": "level 220"
+        },
+        {
+          "at": 221,
+          "reward": "level 221"
+        },
+        {
+          "at": 222,
+          "reward": "level 222"
+        },
+        {
+          "at": 223,
+          "reward": "level 223"
+        },
+        {
+          "at": 224,
+          "reward": "level 224"
+        },
+        {
+          "at": 225,
+          "reward": "level 225"
+        },
+        {
+          "at": 226,
+          "reward": "level 226"
+        },
+        {
+          "at": 227,
+          "reward": "level 227"
+        },
+        {
+          "at": 228,
+          "reward": "level 228"
+        },
+        {
+          "at": 229,
+          "reward": "level 229"
+        },
+        {
+          "at": 230,
+          "reward": "level 230"
+        },
+        {
+          "at": 231,
+          "reward": "level 231"
+        },
+        {
+          "at": 232,
+          "reward": "level 232"
+        },
+        {
+          "at": 233,
+          "reward": "level 233"
+        },
+        {
+          "at": 234,
+          "reward": "level 234"
+        },
+        {
+          "at": 235,
+          "reward": "level 235"
+        },
+        {
+          "at": 236,
+          "reward": "level 236"
+        },
+        {
+          "at": 237,
+          "reward": "level 237"
+        },
+        {
+          "at": 238,
+          "reward": "level 238"
+        },
+        {
+          "at": 239,
+          "reward": "level 239"
+        },
+        {
+          "at": 240,
+          "reward": "level 240"
+        },
+        {
+          "at": 241,
+          "reward": "level 241"
+        },
+        {
+          "at": 242,
+          "reward": "level 242"
+        },
+        {
+          "at": 243,
+          "reward": "level 243"
+        },
+        {
+          "at": 244,
+          "reward": "level 244"
+        },
+        {
+          "at": 245,
+          "reward": "level 245"
+        },
+        {
+          "at": 246,
+          "reward": "level 246"
+        },
+        {
+          "at": 247,
+          "reward": "level 247"
+        },
+        {
+          "at": 248,
+          "reward": "level 248"
+        },
+        {
+          "at": 249,
+          "reward": "level 249"
+        },
+        {
+          "at": 250,
+          "reward": "level 250: personal obol slot (Sparkle)"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "classes/level",
+        "params": {}
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: obols.character levelReq",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "classes",
+      "text": "Level {value:int}; next level gate at {next:int}",
+      "title": "Class level",
+      "type": "goal",
+      "unit": "level",
+      "values": {},
+      "why": "Class levels give talent points, and some levels open personal obol slots."
+    }
+  ],
+  "generator": "class-gates",
+  "system": "classes"
+}

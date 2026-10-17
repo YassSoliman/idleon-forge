@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-3.0-only
+# The local denylist gate (M11 TR-14): when fixtures/private/denylist.txt exists (every `pnpm kb scrub`
+# seeds it), no staged file may contain a name from it. Enabled by `pnpm install` (core.hooksPath).
+set -euo pipefail
+root="$(git rev-parse --show-toplevel)"
+if [ -f "$root/fixtures/private/denylist.txt" ] && [ -d "$root/packages/kb-tools" ]; then
+  exec pnpm --silent kb privacy --staged
+fi

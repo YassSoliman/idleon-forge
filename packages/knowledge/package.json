@@ -1,0 +1,27 @@
+{
+  "name": "@idleon-forge/knowledge",
+  "version": "0.1.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "description": "The Knowledge Base: entry schema, Detector contract and registry, generated facts, the compiled runtime bundle.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema.ts",
+    "./types": "./src/types.ts",
+    "./stages": "./src/stages.ts",
+    "./helpers": "./src/helpers.ts",
+    "./detectors": "./detectors/index.ts",
+    "./detectors-registry": "./detectors/registry.ts",
+    "./generators": "./generators/types.ts",
+    "./generators/*": "./generators/*.ts",
+    "./detectors/*": "./detectors/*.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@idleon-forge/account-state": "workspace:*",
+    "zod": "^4.6.7"
+  }
+}

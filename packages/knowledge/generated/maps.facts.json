@@ -1,0 +1,2756 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "maps",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#rawMapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "parsers/portals.ts#getFilteredPortals"
+        ]
+      },
+      "id": "maps.fact.maps",
+      "origin": "generated",
+      "rows": [
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": 50,
+              "requirement": 1
+            },
+            {
+              "destination": 1,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 0,
+          "listed": false,
+          "name": "Blunder_Hills",
+          "rawName": "GrasslandaTown",
+          "target": null,
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 2,
+              "requirement": 21
+            }
+          ],
+          "expGiven": 2,
+          "index": 1,
+          "listed": true,
+          "name": "Spore_Meadows",
+          "rawName": "GrasslandsA",
+          "target": "mushG",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 14,
+              "requirement": 25
+            }
+          ],
+          "expGiven": 10,
+          "index": 2,
+          "listed": true,
+          "name": "Froggy_Fields",
+          "rawName": "GrasslandsB",
+          "target": "frogG",
+          "world": 1
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": 0,
+              "requirement": 150
+            },
+            {
+              "destination": null,
+              "requirement": 10
+            }
+          ],
+          "expGiven": null,
+          "index": 3,
+          "listed": false,
+          "name": "JungleZ",
+          "rawName": "JungleZ",
+          "target": null,
+          "world": 1
+        },
+        {
+          "afkType": "MINING",
+          "doors": [
+            {
+              "destination": 7,
+              "requirement": 10
+            }
+          ],
+          "expGiven": 2,
+          "index": 6,
+          "listed": true,
+          "name": "Tunnels_Entrance",
+          "rawName": "MininggA",
+          "target": "Copper",
+          "world": 1
+        },
+        {
+          "afkType": "MINING",
+          "doors": [
+            {
+              "destination": 10,
+              "requirement": 25
+            },
+            {
+              "destination": 43,
+              "requirement": 81
+            }
+          ],
+          "expGiven": 5,
+          "index": 7,
+          "listed": true,
+          "name": "Freefall_Caverns",
+          "rawName": "MininggB",
+          "target": "Iron",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 15,
+              "requirement": 20000
+            }
+          ],
+          "expGiven": 220,
+          "index": 8,
+          "listed": true,
+          "name": "Poopy_Sewers",
+          "rawName": "SewerA",
+          "target": "poopSmall",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 38,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 220,
+          "index": 9,
+          "listed": true,
+          "name": "The_Office",
+          "rawName": "SewerC",
+          "target": "poopSmall",
+          "world": 1
+        },
+        {
+          "afkType": "MINING",
+          "doors": [
+            {
+              "destination": 11,
+              "requirement": 40
+            }
+          ],
+          "expGiven": 30,
+          "index": 10,
+          "listed": true,
+          "name": "The_Ol'_Straightaway",
+          "rawName": "MininggC",
+          "target": "Plat",
+          "world": 1
+        },
+        {
+          "afkType": "MINING",
+          "doors": [
+            {
+              "destination": 35,
+              "requirement": 50
+            },
+            {
+              "destination": 12,
+              "requirement": 60
+            }
+          ],
+          "expGiven": 185,
+          "index": 11,
+          "listed": true,
+          "name": "Echoing_Egress",
+          "rawName": "MininggD",
+          "target": "Void",
+          "world": 1
+        },
+        {
+          "afkType": "MINING",
+          "doors": [
+            {
+              "destination": 32,
+              "requirement": 60
+            }
+          ],
+          "expGiven": 500,
+          "index": 12,
+          "listed": true,
+          "name": "Slip_Slidy_Ledges",
+          "rawName": "MininggE",
+          "target": "Starfire",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 18,
+              "requirement": 2500
+            },
+            {
+              "destination": 30,
+              "requirement": 50000
+            }
+          ],
+          "expGiven": 120,
+          "index": 13,
+          "listed": true,
+          "name": "The_Base_Of_The_Bark",
+          "rawName": "TreeInteriorA",
+          "target": "branch",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 16,
+              "requirement": 50
+            },
+            {
+              "destination": 17,
+              "requirement": 2000
+            }
+          ],
+          "expGiven": 18,
+          "index": 14,
+          "listed": true,
+          "name": "Valley_Of_The_Beans",
+          "rawName": "GrasslandsC",
+          "target": "beanG",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 9,
+              "requirement": 35000
+            }
+          ],
+          "expGiven": 330,
+          "index": 15,
+          "listed": true,
+          "name": "Rats_Nest",
+          "rawName": "SewerB",
+          "target": "ratB",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 19,
+              "requirement": 60
+            },
+            {
+              "destination": 13,
+              "requirement": 3000
+            }
+          ],
+          "expGiven": 24,
+          "index": 16,
+          "listed": true,
+          "name": "Jungle_Perimeter",
+          "rawName": "JungleA",
+          "target": "slimeG",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 47,
+          "index": 17,
+          "listed": true,
+          "name": "Birch_Enclave",
+          "rawName": "GrasslandsD",
+          "target": "mushR",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 31,
+              "requirement": 5000
+            }
+          ],
+          "expGiven": 190,
+          "index": 18,
+          "listed": true,
+          "name": "Hollowed_Trunk",
+          "rawName": "TreeInteriorB",
+          "target": "acorn",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 24,
+              "requirement": 90
+            }
+          ],
+          "expGiven": 30,
+          "index": 19,
+          "listed": true,
+          "name": "Winding_Willows",
+          "rawName": "JungleB",
+          "target": "snakeG",
+          "world": 1
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": 21,
+              "requirement": 7
+            }
+          ],
+          "expGiven": null,
+          "index": 20,
+          "listed": false,
+          "name": "TutorialA",
+          "rawName": "TutorialA",
+          "target": null,
+          "world": 1
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": 22,
+              "requirement": 5
+            }
+          ],
+          "expGiven": null,
+          "index": 21,
+          "listed": false,
+          "name": "TutorialB",
+          "rawName": "TutorialB",
+          "target": null,
+          "world": 1
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 22,
+          "listed": false,
+          "name": "TutorialC",
+          "rawName": "TutorialC",
+          "target": null,
+          "world": 1
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 23,
+          "listed": false,
+          "name": "TutorialD",
+          "rawName": "TutorialD",
+          "target": null,
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 26,
+              "requirement": 120
+            },
+            {
+              "destination": 37,
+              "requirement": 2000
+            }
+          ],
+          "expGiven": 38,
+          "index": 24,
+          "listed": true,
+          "name": "Vegetable_Patch",
+          "rawName": "JungleC",
+          "target": "carrotO",
+          "world": 1
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 25,
+          "listed": false,
+          "name": "JungleX",
+          "rawName": "JungleX",
+          "target": null,
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 27,
+              "requirement": 130
+            }
+          ],
+          "expGiven": 50,
+          "index": 26,
+          "listed": true,
+          "name": "Forest_Outskirts",
+          "rawName": "ForestA",
+          "target": "goblinG",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 37,
+              "requirement": 30
+            },
+            {
+              "destination": 28,
+              "requirement": 4200
+            }
+          ],
+          "expGiven": 75,
+          "index": 27,
+          "listed": true,
+          "name": "Encroaching_Forest_Villas",
+          "rawName": "ForestB",
+          "target": "plank",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 95,
+          "index": 28,
+          "listed": true,
+          "name": "Tucked_Away",
+          "rawName": "ForestC",
+          "target": "frogBIG",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 75,
+          "index": 29,
+          "listed": false,
+          "name": "End_Of_The_Road",
+          "rawName": "ForestBOSS",
+          "target": "plank",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 190,
+          "index": 30,
+          "listed": true,
+          "name": "The_Roots",
+          "rawName": "TreeInteriorD",
+          "target": "acorn",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 300,
+          "index": 31,
+          "listed": true,
+          "name": "Where_the_Branches_End",
+          "rawName": "TreeInteriorC",
+          "target": "mushW",
+          "world": 1
+        },
+        {
+          "afkType": "MINING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 1600,
+          "index": 32,
+          "listed": false,
+          "name": "Motherlode_Pit",
+          "rawName": "MininggF",
+          "target": "Godshard",
+          "world": 1
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 33,
+          "listed": false,
+          "name": "How_Did_u_get_here",
+          "rawName": "NOTHINGLOL",
+          "target": null,
+          "world": 1
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 34,
+          "listed": false,
+          "name": "Miningg1",
+          "rawName": "Miningg1",
+          "target": null,
+          "world": 1
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 35,
+          "listed": false,
+          "name": "Miningg2",
+          "rawName": "Miningg2",
+          "target": null,
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 10,
+          "index": 36,
+          "listed": false,
+          "name": "Dewdrop_Colosseum",
+          "rawName": "ColosseumA",
+          "target": "frogG",
+          "world": 1
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 37,
+          "listed": false,
+          "name": "Spike_Surprise",
+          "rawName": "JungleGAME",
+          "target": null,
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 1000,
+          "index": 38,
+          "listed": true,
+          "name": "Meel's_Crypt",
+          "rawName": "SewerD",
+          "target": "poopD",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 10,
+          "index": 39,
+          "listed": false,
+          "name": "Grandfrog's_Backyard",
+          "rawName": "GrasslandsE",
+          "target": "frogG",
+          "world": 1
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 10,
+          "index": 40,
+          "listed": false,
+          "name": "Grandfrog's_Gazebo",
+          "rawName": "Dungeon1",
+          "target": "frogG",
+          "world": 1
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 41,
+          "listed": false,
+          "name": "Pet_Park",
+          "rawName": "GrasslandsF",
+          "target": null,
+          "world": 1
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 42,
+          "listed": false,
+          "name": "Grand_Owl_Perch",
+          "rawName": "GrasslandsG",
+          "target": null,
+          "world": 1
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 43,
+          "listed": false,
+          "name": "The_Royal_Castle",
+          "rawName": "GrasslandsH",
+          "target": null,
+          "world": 1
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": 100,
+              "requirement": 1
+            },
+            {
+              "destination": 51,
+              "requirement": 0
+            },
+            {
+              "destination": 0,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 50,
+          "listed": false,
+          "name": "YumYum_Grotto",
+          "rawName": "zDesertaTown",
+          "target": null,
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 52,
+              "requirement": 100
+            }
+          ],
+          "expGiven": 150,
+          "index": 51,
+          "listed": true,
+          "name": "Jar_Bridge",
+          "rawName": "zDesertCalmA",
+          "target": "jarSand",
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 53,
+              "requirement": 120
+            },
+            {
+              "destination": 67,
+              "requirement": 1000
+            }
+          ],
+          "expGiven": 180,
+          "index": 52,
+          "listed": true,
+          "name": "The_Mimic_Hole",
+          "rawName": "zDesertCalmB",
+          "target": "mimicA",
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 57,
+              "requirement": 150
+            }
+          ],
+          "expGiven": 210,
+          "index": 53,
+          "listed": true,
+          "name": "Dessert_Dunes",
+          "rawName": "zDesertCalmC",
+          "target": "crabcake",
+          "world": 2
+        },
+        {
+          "afkType": "FISHING",
+          "doors": [
+            {
+              "destination": 55,
+              "requirement": 15
+            }
+          ],
+          "expGiven": 6,
+          "index": 54,
+          "listed": true,
+          "name": "Salty_Shores",
+          "rawName": "zFishingA",
+          "target": "FishSmall",
+          "world": 2
+        },
+        {
+          "afkType": "FISHING",
+          "doors": [
+            {
+              "destination": 61,
+              "requirement": 30
+            }
+          ],
+          "expGiven": 6,
+          "index": 55,
+          "listed": true,
+          "name": "Faraway_Piers",
+          "rawName": "zFishingB",
+          "target": "FishSmall",
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 58,
+              "requirement": 200
+            }
+          ],
+          "expGiven": 240,
+          "index": 57,
+          "listed": true,
+          "name": "The_Grandioso_Canyon",
+          "rawName": "zDesertMildA",
+          "target": "coconut",
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 59,
+              "requirement": 250
+            }
+          ],
+          "expGiven": 265,
+          "index": 58,
+          "listed": true,
+          "name": "Shifty_Sandbox",
+          "rawName": "zDesertMildB",
+          "target": "sandcastle",
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 60,
+              "requirement": 300
+            }
+          ],
+          "expGiven": 290,
+          "index": 59,
+          "listed": true,
+          "name": "Pincer_Plateau",
+          "rawName": "zDesertMildC",
+          "target": "pincermin",
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 62,
+              "requirement": 500
+            },
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 310,
+          "index": 60,
+          "listed": true,
+          "name": "Slamabam_Straightaway",
+          "rawName": "zDesertMildD",
+          "target": "potato",
+          "world": 2
+        },
+        {
+          "afkType": "FISHING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 30
+            }
+          ],
+          "expGiven": 50,
+          "index": 61,
+          "listed": true,
+          "name": "Deepwater_Docks",
+          "rawName": "zFishingC",
+          "target": "FishMed",
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 63,
+              "requirement": 1000
+            }
+          ],
+          "expGiven": 350,
+          "index": 62,
+          "listed": true,
+          "name": "The_Ring",
+          "rawName": "zDesertNightA",
+          "target": "steak",
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 64,
+              "requirement": 2000
+            }
+          ],
+          "expGiven": 380,
+          "index": 63,
+          "listed": true,
+          "name": "Up_Up_Down_Down",
+          "rawName": "zDesertNightB",
+          "target": "moonman",
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 65,
+              "requirement": 3000
+            }
+          ],
+          "expGiven": 410,
+          "index": 64,
+          "listed": true,
+          "name": "Sands_of_Time",
+          "rawName": "zDesertNightC",
+          "target": "sandgiant",
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 1
+            }
+          ],
+          "expGiven": 460,
+          "index": 65,
+          "listed": true,
+          "name": "Djonnuttown",
+          "rawName": "zDesertNightD",
+          "target": "snailZ",
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 460,
+          "index": 66,
+          "listed": false,
+          "name": "Efaunt's_Tomb",
+          "rawName": "zDesertNightZboss",
+          "target": "snailZ",
+          "world": 2
+        },
+        {
+          "afkType": "CATCHING",
+          "doors": [
+            {
+              "destination": 70,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 6,
+          "index": 67,
+          "listed": false,
+          "name": "Bandit_Bob's_Hideout",
+          "rawName": "zDesertCavernA",
+          "target": "Bug2",
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 180,
+          "index": 68,
+          "listed": false,
+          "name": "Sandstone_Colosseum",
+          "rawName": "ColosseumB",
+          "target": "mimicA",
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 410,
+          "index": 69,
+          "listed": true,
+          "name": "Mummy_Memorial",
+          "rawName": "zDesertMummy",
+          "target": "sandgiant",
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 180,
+          "index": 70,
+          "listed": false,
+          "name": "Heaty_Hole",
+          "rawName": "zDesertCavernB",
+          "target": "mimicA",
+          "world": 2
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 180,
+          "index": 71,
+          "listed": false,
+          "name": "Gravel_Tomb",
+          "rawName": "Dungeon2",
+          "target": "mimicA",
+          "world": 2
+        },
+        {
+          "afkType": "FISHING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 50,
+          "index": 72,
+          "listed": false,
+          "name": "YumYum_Islands",
+          "rawName": "zFishingD",
+          "target": "FishMed",
+          "world": 2
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 73,
+          "listed": false,
+          "name": "The_Oasis",
+          "rawName": "zDesertCalmD",
+          "target": null,
+          "world": 2
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": 150,
+              "requirement": 1
+            },
+            {
+              "destination": 102,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 100,
+          "listed": false,
+          "name": "Frostbite_Towndra",
+          "rawName": "ySnowaTown",
+          "target": null,
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 103,
+              "requirement": 1000
+            }
+          ],
+          "expGiven": 620,
+          "index": 101,
+          "listed": true,
+          "name": "Steep_Sheep_Ledge",
+          "rawName": "ySnowA1",
+          "target": "sheep",
+          "world": 3
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 4000
+            }
+          ],
+          "expGiven": null,
+          "index": 102,
+          "listed": false,
+          "name": "Trappers_Folley",
+          "rawName": "ySnowZ1",
+          "target": null,
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 104,
+              "requirement": 2000
+            }
+          ],
+          "expGiven": 700,
+          "index": 103,
+          "listed": true,
+          "name": "Snowfield_Outskirts",
+          "rawName": "ySnowA2",
+          "target": "flake",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 105,
+              "requirement": 3000
+            },
+            {
+              "destination": 116,
+              "requirement": 100000
+            }
+          ],
+          "expGiven": 800,
+          "index": 104,
+          "listed": true,
+          "name": "The_Stache_Split",
+          "rawName": "ySnowA3",
+          "target": "stache",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 106,
+              "requirement": 4000
+            }
+          ],
+          "expGiven": 940,
+          "index": 105,
+          "listed": true,
+          "name": "Refrigeration_Station",
+          "rawName": "ySnowB1",
+          "target": "bloque",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 107,
+              "requirement": 6000
+            }
+          ],
+          "expGiven": 1030,
+          "index": 106,
+          "listed": true,
+          "name": "Mamooooth_Mountain",
+          "rawName": "ySnowB2",
+          "target": "mamoth",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 108,
+              "requirement": 8000
+            }
+          ],
+          "expGiven": 1130,
+          "index": 107,
+          "listed": true,
+          "name": "Rollin'_Tundra",
+          "rawName": "ySnowB3",
+          "target": "snowball",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 109,
+              "requirement": 11000
+            }
+          ],
+          "expGiven": 1250,
+          "index": 108,
+          "listed": true,
+          "name": "Signature_Slopes",
+          "rawName": "ySnowB4",
+          "target": "penguin",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 110,
+              "requirement": 15000
+            }
+          ],
+          "expGiven": 1370,
+          "index": 109,
+          "listed": true,
+          "name": "Thermonuclear_Climb",
+          "rawName": "ySnowB5",
+          "target": "thermostat",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 111,
+              "requirement": 18000
+            }
+          ],
+          "expGiven": 1570,
+          "index": 110,
+          "listed": true,
+          "name": "Waterlogged_Entrance",
+          "rawName": "ySnowC1",
+          "target": "glass",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 112,
+              "requirement": 22000
+            }
+          ],
+          "expGiven": 1690,
+          "index": 111,
+          "listed": true,
+          "name": "Cryo_Catacombs",
+          "rawName": "ySnowC2",
+          "target": "snakeB",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 113,
+              "requirement": 35000
+            }
+          ],
+          "expGiven": 1780,
+          "index": 112,
+          "listed": true,
+          "name": "Overpass_of_Sound",
+          "rawName": "ySnowC3",
+          "target": "speaker",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 120000
+            }
+          ],
+          "expGiven": 1900,
+          "index": 113,
+          "listed": true,
+          "name": "Crystal_Basecamp",
+          "rawName": "ySnowC4",
+          "target": "eye",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 1000
+            }
+          ],
+          "expGiven": 1900,
+          "index": 114,
+          "listed": false,
+          "name": "Chizoar's_Cavern",
+          "rawName": "ySnowCBOSS",
+          "target": "eye",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 1000
+            }
+          ],
+          "expGiven": 700,
+          "index": 115,
+          "listed": false,
+          "name": "Coldsnap_Colosseum",
+          "rawName": "ColosseumC",
+          "target": "flake",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 117,
+              "requirement": 250000
+            }
+          ],
+          "expGiven": 3500,
+          "index": 116,
+          "listed": true,
+          "name": "Wam_Wonderland",
+          "rawName": "ySnowD1",
+          "target": "ram",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 6000,
+          "index": 117,
+          "listed": true,
+          "name": "Hell_Hath_Frozen_Over",
+          "rawName": "ySnowD2",
+          "target": "skele2",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 620,
+          "index": 118,
+          "listed": false,
+          "name": "Inside_the_Igloo",
+          "rawName": "ySnowA4",
+          "target": "sheep",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 620,
+          "index": 119,
+          "listed": false,
+          "name": "Igloo's_Basement",
+          "rawName": "Dungeon3",
+          "target": "sheep",
+          "world": 3
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 3500,
+          "index": 120,
+          "listed": true,
+          "name": "Equinox_Valley",
+          "rawName": "ySnowD3",
+          "target": "ram",
+          "world": 3
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": 200,
+              "requirement": 1
+            },
+            {
+              "destination": 151,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 150,
+          "listed": false,
+          "name": "Outer_World_Town",
+          "rawName": "xSpaceaaTown",
+          "target": null,
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 152,
+              "requirement": 5000
+            }
+          ],
+          "expGiven": 2350,
+          "index": 151,
+          "listed": true,
+          "name": "Spaceway_Raceway",
+          "rawName": "xSpaceA1",
+          "target": "mushP",
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 153,
+              "requirement": 12000
+            }
+          ],
+          "expGiven": 3000,
+          "index": 152,
+          "listed": true,
+          "name": "TV_Outpost",
+          "rawName": "xSpaceA2",
+          "target": "w4a2",
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 154,
+              "requirement": 18000
+            }
+          ],
+          "expGiven": 4000,
+          "index": 153,
+          "listed": true,
+          "name": "Donut_Drive-In",
+          "rawName": "xSpaceA3",
+          "target": "w4a3",
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 155,
+              "requirement": 25000
+            }
+          ],
+          "expGiven": 4800,
+          "index": 154,
+          "listed": true,
+          "name": "Outskirts_of_Fallstar_Isle",
+          "rawName": "xSpaceA4",
+          "target": "demonP",
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 156,
+              "requirement": 40000
+            }
+          ],
+          "expGiven": 7600,
+          "index": 155,
+          "listed": true,
+          "name": "Mountainous_Deugh",
+          "rawName": "xSpaceB1",
+          "target": "w4b2",
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 157,
+              "requirement": 60000
+            }
+          ],
+          "expGiven": 8750,
+          "index": 156,
+          "listed": true,
+          "name": "Wurm_Highway",
+          "rawName": "xSpaceB2",
+          "target": "w4b1",
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 158,
+              "requirement": 90000
+            }
+          ],
+          "expGiven": 10800,
+          "index": 157,
+          "listed": true,
+          "name": "Jelly_Cube_Bridge",
+          "rawName": "xSpaceB3",
+          "target": "w4b3",
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 159,
+              "requirement": 120000
+            }
+          ],
+          "expGiven": 14000,
+          "index": 158,
+          "listed": true,
+          "name": "Cocoa_Tunnel",
+          "rawName": "xSpaceB4",
+          "target": "w4b4",
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 160,
+              "requirement": 150000
+            }
+          ],
+          "expGiven": 17500,
+          "index": 159,
+          "listed": true,
+          "name": "Standstill_Plains",
+          "rawName": "xSpaceB5",
+          "target": "w4b5",
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 161,
+              "requirement": 190000
+            }
+          ],
+          "expGiven": 23400,
+          "index": 160,
+          "listed": true,
+          "name": "Shelled_Shores",
+          "rawName": "xSpaceC1",
+          "target": "w4c1",
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 162,
+              "requirement": 250000
+            }
+          ],
+          "expGiven": 27600,
+          "index": 161,
+          "listed": true,
+          "name": "The_Untraveled_Octopath",
+          "rawName": "xSpaceC2",
+          "target": "w4c2",
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 163,
+              "requirement": 300000
+            }
+          ],
+          "expGiven": 30000,
+          "index": 162,
+          "listed": true,
+          "name": "Flamboyant_Bayou",
+          "rawName": "xSpaceC3",
+          "target": "w4c3",
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 350000
+            }
+          ],
+          "expGiven": 33000,
+          "index": 163,
+          "listed": true,
+          "name": "Enclave_of_Eyes",
+          "rawName": "xSpaceC4",
+          "target": "w4c4",
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 250
+            }
+          ],
+          "expGiven": 2350,
+          "index": 164,
+          "listed": false,
+          "name": "Astro_Colosseum",
+          "rawName": "ColosseumD",
+          "target": "mushP",
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 700
+            }
+          ],
+          "expGiven": 33000,
+          "index": 165,
+          "listed": false,
+          "name": "Enclave_a_la_Troll",
+          "rawName": "xSpaceCBOSS",
+          "target": "w4c4",
+          "world": 4
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 100
+            }
+          ],
+          "expGiven": 100,
+          "index": 166,
+          "listed": true,
+          "name": "The_Rift",
+          "rawName": "xSpaceRift",
+          "target": "riftAll",
+          "world": 4
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": 250,
+              "requirement": 1
+            },
+            {
+              "destination": 201,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 200,
+          "listed": false,
+          "name": "Magma_Rivertown",
+          "rawName": "wLavaaTown",
+          "target": null,
+          "world": 5
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 202,
+              "requirement": 15000
+            }
+          ],
+          "expGiven": 40000,
+          "index": 201,
+          "listed": true,
+          "name": "Naut_Sake_Perimeter",
+          "rawName": "wLavaA1",
+          "target": "w5a1",
+          "world": 5
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 203,
+              "requirement": 25000
+            }
+          ],
+          "expGiven": 54000,
+          "index": 202,
+          "listed": true,
+          "name": "Niagrilled_Falls",
+          "rawName": "wLavaA2",
+          "target": "w5a2",
+          "world": 5
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 204,
+              "requirement": 40000
+            }
+          ],
+          "expGiven": 91000,
+          "index": 203,
+          "listed": true,
+          "name": "The_Killer_Roundabout",
+          "rawName": "wLavaA3",
+          "target": "w5a3",
+          "world": 5
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 205,
+              "requirement": 50000
+            }
+          ],
+          "expGiven": 135000,
+          "index": 204,
+          "listed": true,
+          "name": "Cracker_Jack_Lake",
+          "rawName": "wLavaA4",
+          "target": "w5a4",
+          "world": 5
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 206,
+              "requirement": 75000
+            }
+          ],
+          "expGiven": 185000,
+          "index": 205,
+          "listed": true,
+          "name": "The_Great_Molehill",
+          "rawName": "wLavaA5",
+          "target": "w5a5",
+          "world": 5
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 207,
+              "requirement": 100000
+            }
+          ],
+          "expGiven": 275000,
+          "index": 206,
+          "listed": true,
+          "name": "Erruption_River",
+          "rawName": "wLavaB1",
+          "target": "w5b1",
+          "world": 5
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 208,
+              "requirement": 200000
+            }
+          ],
+          "expGiven": 400000,
+          "index": 207,
+          "listed": true,
+          "name": "Mount_Doomish",
+          "rawName": "wLavaB2",
+          "target": "w5b2",
+          "world": 5
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 209,
+              "requirement": 300000
+            }
+          ],
+          "expGiven": 550000,
+          "index": 208,
+          "listed": true,
+          "name": "OJ_Bay",
+          "rawName": "wLavaB3",
+          "target": "w5b3",
+          "world": 5
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 210,
+              "requirement": 450000
+            }
+          ],
+          "expGiven": 780000,
+          "index": 209,
+          "listed": true,
+          "name": "Lampar_Lake",
+          "rawName": "wLavaB4",
+          "target": "w5b4",
+          "world": 5
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 211,
+              "requirement": 600000
+            }
+          ],
+          "expGiven": 900000,
+          "index": 210,
+          "listed": true,
+          "name": "Spitfire_River",
+          "rawName": "wLavaB5",
+          "target": "w5b5",
+          "world": 5
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 212,
+              "requirement": 1000000
+            }
+          ],
+          "expGiven": 1000000,
+          "index": 211,
+          "listed": true,
+          "name": "Miner_Mole_Outskirts",
+          "rawName": "wLavaB6",
+          "target": "w5b6",
+          "world": 5
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 213,
+              "requirement": 3000000
+            }
+          ],
+          "expGiven": 1150000,
+          "index": 212,
+          "listed": true,
+          "name": "Crawly_Catacombs",
+          "rawName": "wLavaC1",
+          "target": "w5c1",
+          "world": 5
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 60000
+            }
+          ],
+          "expGiven": 1250000,
+          "index": 213,
+          "listed": true,
+          "name": "The_Worm_Nest",
+          "rawName": "wLavaC2",
+          "target": "w5c2",
+          "world": 5
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 100
+            }
+          ],
+          "expGiven": 1000000,
+          "index": 214,
+          "listed": false,
+          "name": "KattleKruk's_Volcano",
+          "rawName": "wLavaCBOSS",
+          "target": "w5b6",
+          "world": 5
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 54000,
+          "index": 215,
+          "listed": false,
+          "name": "Molten_Colosseum",
+          "rawName": "ColosseumE",
+          "target": "w5a2",
+          "world": 5
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 216,
+          "listed": false,
+          "name": "The_Hole",
+          "rawName": "wLavaAhole",
+          "target": null,
+          "world": 5
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": 300,
+              "requirement": 1
+            },
+            {
+              "destination": 251,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 250,
+          "listed": false,
+          "name": "Spirit_Village",
+          "rawName": "vSpiritaTown",
+          "target": null,
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 252,
+              "requirement": 30000
+            }
+          ],
+          "expGiven": 2400000,
+          "index": 251,
+          "listed": true,
+          "name": "Gooble_Goop_Creek",
+          "rawName": "vSpiritA1",
+          "target": "w6a1",
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 253,
+              "requirement": 50000
+            }
+          ],
+          "expGiven": 3400000,
+          "index": 252,
+          "listed": true,
+          "name": "Picnic_Bridgeways",
+          "rawName": "vSpiritA2",
+          "target": "w6a2",
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 254,
+              "requirement": 100000
+            }
+          ],
+          "expGiven": 5000000,
+          "index": 253,
+          "listed": true,
+          "name": "Irrigation_Station",
+          "rawName": "vSpiritA3",
+          "target": "w6a3",
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 255,
+              "requirement": 250000
+            }
+          ],
+          "expGiven": 7000000,
+          "index": 254,
+          "listed": true,
+          "name": "Troll_Playground",
+          "rawName": "vSpiritA4",
+          "target": "w6a4",
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 256,
+              "requirement": 400000
+            }
+          ],
+          "expGiven": 9200000,
+          "index": 255,
+          "listed": true,
+          "name": "Edge_of_the_Valley",
+          "rawName": "vSpiritA5",
+          "target": "w6a5",
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 257,
+              "requirement": 1100000
+            }
+          ],
+          "expGiven": 15100000,
+          "index": 256,
+          "listed": true,
+          "name": "Bamboo_Laboredge",
+          "rawName": "vSpiritB1",
+          "target": "w6b1",
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 258,
+              "requirement": 3200000
+            }
+          ],
+          "expGiven": 19000000,
+          "index": 257,
+          "listed": true,
+          "name": "Lightway_Path",
+          "rawName": "vSpiritB2",
+          "target": "w6b2",
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 259,
+              "requirement": 8000000
+            }
+          ],
+          "expGiven": 27500000,
+          "index": 258,
+          "listed": true,
+          "name": "Troll_Broodnest",
+          "rawName": "vSpiritB3",
+          "target": "w6b3",
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 260,
+              "requirement": 12000000
+            }
+          ],
+          "expGiven": 36000000,
+          "index": 259,
+          "listed": true,
+          "name": "Above_the_Clouds",
+          "rawName": "vSpiritB4",
+          "target": "w6b4",
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 261,
+              "requirement": 25000000
+            }
+          ],
+          "expGiven": 54000000,
+          "index": 260,
+          "listed": true,
+          "name": "Sleepy_Skyline",
+          "rawName": "vSpiritC1",
+          "target": "w6c1",
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 262,
+              "requirement": 70000000
+            }
+          ],
+          "expGiven": 75000000,
+          "index": 261,
+          "listed": true,
+          "name": "Dozey_Dogpark",
+          "rawName": "vSpiritC2",
+          "target": "w6c2",
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 263,
+              "requirement": 100000000
+            }
+          ],
+          "expGiven": 120000000,
+          "index": 262,
+          "listed": true,
+          "name": "Yolkrock_Basin",
+          "rawName": "vSpiritD1",
+          "target": "w6d1",
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 264,
+              "requirement": 150000000
+            }
+          ],
+          "expGiven": 180000000,
+          "index": 263,
+          "listed": true,
+          "name": "Chieftain_Stairway",
+          "rawName": "vSpiritD2",
+          "target": "w6d2",
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 100
+            }
+          ],
+          "expGiven": 250000000,
+          "index": 264,
+          "listed": true,
+          "name": "Emperor's_Castle_Doorstep",
+          "rawName": "vSpiritD3",
+          "target": "w6d3",
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 3400000,
+          "index": 265,
+          "listed": false,
+          "name": "Whimsical_Colosseum",
+          "rawName": "ColosseumF",
+          "target": "w6a2",
+          "world": 6
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 250000000,
+          "index": 266,
+          "listed": false,
+          "name": "Emperor's_Castle",
+          "rawName": "vSpiritCBOSS",
+          "target": "w6d3",
+          "world": 6
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": -1,
+              "requirement": 1
+            },
+            {
+              "destination": 301,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 300,
+          "listed": false,
+          "name": "Shimmerfin_Grove",
+          "rawName": "uAquaaTown",
+          "target": null,
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 302,
+              "requirement": 100000
+            }
+          ],
+          "expGiven": 500000000,
+          "index": 301,
+          "listed": true,
+          "name": "Refraction_Bend",
+          "rawName": "uAquaA1",
+          "target": "w7a1",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 303,
+              "requirement": 250000
+            }
+          ],
+          "expGiven": 900000000,
+          "index": 302,
+          "listed": true,
+          "name": "Doodle_Reef",
+          "rawName": "uAquaA2",
+          "target": "w7a2",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 307,
+              "requirement": 10000000
+            },
+            {
+              "destination": 304,
+              "requirement": 1500000
+            }
+          ],
+          "expGiven": 1300000000,
+          "index": 303,
+          "listed": true,
+          "name": "Seaweed_Street",
+          "rawName": "uAquaA3",
+          "target": "w7a3",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 305,
+              "requirement": 5000000
+            }
+          ],
+          "expGiven": 4500000000,
+          "index": 304,
+          "listed": true,
+          "name": "Barnacle_Curb",
+          "rawName": "uAquaA4",
+          "target": "w7a4",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 315,
+              "requirement": 20000000
+            },
+            {
+              "destination": 306,
+              "requirement": 1000000
+            }
+          ],
+          "expGiven": 15000000000,
+          "index": 305,
+          "listed": true,
+          "name": "Balloon_Bay",
+          "rawName": "uAquaA5",
+          "target": "w7a5",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 1500000000,
+          "index": 306,
+          "listed": true,
+          "name": "The_Clamworks",
+          "rawName": "uAquaA6",
+          "target": "w7a6",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 310,
+              "requirement": 250000000
+            },
+            {
+              "destination": 308,
+              "requirement": 20000000
+            }
+          ],
+          "expGiven": 23000000000,
+          "index": 307,
+          "listed": true,
+          "name": "Plastic_Basin",
+          "rawName": "uAquaA7",
+          "target": "w7a7",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 309,
+              "requirement": 60000000
+            }
+          ],
+          "expGiven": 55000000000,
+          "index": 308,
+          "listed": true,
+          "name": "Puffpuff_Overpass",
+          "rawName": "uAquaA8",
+          "target": "w7a8",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 60000000000,
+          "index": 309,
+          "listed": true,
+          "name": "Pinpoint_Summit",
+          "rawName": "uAquaA9",
+          "target": "w7a9",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 311,
+              "requirement": 500000000
+            },
+            {
+              "destination": 310,
+              "requirement": 75000000
+            }
+          ],
+          "expGiven": 40000000000,
+          "index": 310,
+          "listed": true,
+          "name": "Middle_of_Nowhere",
+          "rawName": "uAquaA10",
+          "target": "w7a10",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 312,
+              "requirement": 1000000000
+            }
+          ],
+          "expGiven": 130000000000,
+          "index": 311,
+          "listed": true,
+          "name": "Coralcave_Outskirts",
+          "rawName": "uAquaA11",
+          "target": "w7a11",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 300000000000,
+          "index": 312,
+          "listed": true,
+          "name": "Coralcave_Perimeter",
+          "rawName": "uAquaA12",
+          "target": "w7a12",
+          "world": 7
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 313,
+          "listed": false,
+          "name": "Unused",
+          "rawName": "uAquaA13",
+          "target": null,
+          "world": 7
+        },
+        {
+          "afkType": null,
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": null,
+          "index": 314,
+          "listed": false,
+          "name": "Unused",
+          "rawName": "uAquaA14",
+          "target": null,
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 316,
+              "requirement": 2000000
+            }
+          ],
+          "expGiven": 30000000000,
+          "index": 315,
+          "listed": true,
+          "name": "Deep_End_of_the_Koipond",
+          "rawName": "uAquaB1",
+          "target": "w7b1",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 317,
+              "requirement": 6000000
+            }
+          ],
+          "expGiven": 60000000000,
+          "index": 316,
+          "listed": true,
+          "name": "Minefield",
+          "rawName": "uAquaB2",
+          "target": "w7b2",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 325,
+              "requirement": 1000000000
+            },
+            {
+              "destination": 318,
+              "requirement": 40000000
+            }
+          ],
+          "expGiven": 150000000000,
+          "index": 317,
+          "listed": true,
+          "name": "Pirate_Upper_Deck",
+          "rawName": "uAquaB3",
+          "target": "w7b3",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 319,
+              "requirement": 60000000
+            }
+          ],
+          "expGiven": 400000000000,
+          "index": 318,
+          "listed": true,
+          "name": "Sushi_Perimeter",
+          "rawName": "uAquaB4",
+          "target": "w7b4",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 320,
+              "requirement": 125000000
+            }
+          ],
+          "expGiven": 1500000000000,
+          "index": 319,
+          "listed": true,
+          "name": "Jellofish_Fields",
+          "rawName": "uAquaB5",
+          "target": "w7b5",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 321,
+              "requirement": 250000000
+            }
+          ],
+          "expGiven": 2500000000000,
+          "index": 320,
+          "listed": true,
+          "name": "Where_the_Kelp_Meets_Trench",
+          "rawName": "uAquaB6",
+          "target": "w7b6",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 322,
+              "requirement": 350000000
+            }
+          ],
+          "expGiven": 6000000000000,
+          "index": 321,
+          "listed": true,
+          "name": "Trench_Precipice",
+          "rawName": "uAquaB7",
+          "target": "w7b7",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 323,
+              "requirement": 500000000
+            }
+          ],
+          "expGiven": 22000000000000,
+          "index": 322,
+          "listed": true,
+          "name": "The_Glowing_Underbelly",
+          "rawName": "uAquaB8",
+          "target": "w7b8",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 324,
+              "requirement": 750000000
+            }
+          ],
+          "expGiven": 28000000000000,
+          "index": 323,
+          "listed": true,
+          "name": "Ancient_Fissure",
+          "rawName": "uAquaB9",
+          "target": "w7b9",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 324,
+              "requirement": 1000000000
+            }
+          ],
+          "expGiven": 35000000000000,
+          "index": 324,
+          "listed": true,
+          "name": "Molten_Edge",
+          "rawName": "uAquaB10",
+          "target": "w7b10",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": 326,
+              "requirement": 2000000000
+            }
+          ],
+          "expGiven": 6000000000000,
+          "index": 325,
+          "listed": true,
+          "name": "Pirate_Mess_Hall",
+          "rawName": "uAquaB11",
+          "target": "w7b11",
+          "world": 7
+        },
+        {
+          "afkType": "FIGHTING",
+          "doors": [
+            {
+              "destination": null,
+              "requirement": 0
+            }
+          ],
+          "expGiven": 15000000000000,
+          "index": 326,
+          "listed": true,
+          "name": "Dreadnaught_Chamber",
+          "rawName": "uAquaB12",
+          "target": "w7b12",
+          "world": 7
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox: map data and getFilteredPortals",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/portals.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "maps",
+      "title": "Maps: world, AFK target, doors and destinations"
+    }
+  ],
+  "generator": "maps",
+  "system": "maps"
+}

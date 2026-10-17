@@ -1,0 +1,585 @@
+{
+  "entries": [
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "monsters": [
+          {
+            "chance": 0.0007,
+            "maps": [],
+            "monster": "wolfA",
+            "world": null
+          },
+          {
+            "chance": 0.0033,
+            "maps": [],
+            "monster": "wolfB",
+            "world": null
+          },
+          {
+            "chance": 0.0085,
+            "maps": [],
+            "monster": "wolfC",
+            "world": null
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "obols",
+        "inputs": [
+          "website-data/monsterDrops.json",
+          "website-data/shared-data.json#obols",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "obols.acquisition.obol-amarok-a-drop",
+      "origin": "generated",
+      "rates": {
+        "wolfA": 0.0007,
+        "wolfB": 0.0033,
+        "wolfC": 0.0085
+      },
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monsterDrops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "obols",
+      "text": "Granite Obol of Amarok's Stare drops from monsters",
+      "thing": {
+        "kind": "obol",
+        "rawName": "ObolAmarokA"
+      },
+      "title": "Obol drop: Granite Obol of Amarok's Stare",
+      "type": "acquisition",
+      "values": {
+        "name": "Granite_Obol_of_Amarok's_Stare",
+        "shape": "Hexagon"
+      },
+      "why": "This obol drops from the listed monsters at a small base chance."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "monsters": [
+          {
+            "chance": 0.00001,
+            "maps": [
+              28
+            ],
+            "monster": "frogBIG",
+            "world": 1
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "obols",
+        "inputs": [
+          "website-data/monsterDrops.json",
+          "website-data/shared-data.json#obols",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "obols.acquisition.obol-bronze-pop-drop",
+      "origin": "generated",
+      "rates": {
+        "frogBIG": 0.00001
+      },
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monsterDrops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "obols",
+      "text": "Bronze Obol of Pop drops from monsters",
+      "thing": {
+        "kind": "obol",
+        "rawName": "ObolBronzePop"
+      },
+      "title": "Obol drop: Bronze Obol of Pop",
+      "type": "acquisition",
+      "values": {
+        "name": "Bronze_Obol_of_Pop",
+        "shape": "Circle"
+      },
+      "why": "This obol drops from the listed monsters at a small base chance."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "monsters": [
+          {
+            "chance": 0.0008,
+            "maps": [],
+            "monster": "Boss3A",
+            "world": null
+          },
+          {
+            "chance": 0.002,
+            "maps": [],
+            "monster": "Boss3B",
+            "world": null
+          },
+          {
+            "chance": 0.01,
+            "maps": [],
+            "monster": "Boss3C",
+            "world": null
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "obols",
+        "inputs": [
+          "website-data/monsterDrops.json",
+          "website-data/shared-data.json#obols",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "obols.acquisition.obol-chizoar-a-drop",
+      "origin": "generated",
+      "rates": {
+        "Boss3A": 0.0008,
+        "Boss3B": 0.002,
+        "Boss3C": 0.01
+      },
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monsterDrops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "obols",
+      "text": "Frozen Obol of Chizoar's Rage drops from monsters",
+      "thing": {
+        "kind": "obol",
+        "rawName": "ObolChizoarA"
+      },
+      "title": "Obol drop: Frozen Obol of Chizoar's Rage",
+      "type": "acquisition",
+      "values": {
+        "name": "Frozen_Obol_of_Chizoar's_Rage",
+        "shape": "Hexagon"
+      },
+      "why": "This obol drops from the listed monsters at a small base chance."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "monsters": [
+          {
+            "chance": 0.001,
+            "maps": [],
+            "monster": "Boss2A",
+            "world": null
+          },
+          {
+            "chance": 0.003,
+            "maps": [],
+            "monster": "Boss2B",
+            "world": null
+          },
+          {
+            "chance": 0.018,
+            "maps": [],
+            "monster": "Boss2C",
+            "world": null
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "obols",
+        "inputs": [
+          "website-data/monsterDrops.json",
+          "website-data/shared-data.json#obols",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "obols.acquisition.obol-efaunt-a-drop",
+      "origin": "generated",
+      "rates": {
+        "Boss2A": 0.001,
+        "Boss2B": 0.003,
+        "Boss2C": 0.018
+      },
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monsterDrops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "obols",
+      "text": "Skeletal Obol of Efaunt's Gaze drops from monsters",
+      "thing": {
+        "kind": "obol",
+        "rawName": "ObolEfauntA"
+      },
+      "title": "Obol drop: Skeletal Obol of Efaunt's Gaze",
+      "type": "acquisition",
+      "values": {
+        "name": "Skeletal_Obol_of_Efaunt's_Gaze",
+        "shape": "Hexagon"
+      },
+      "why": "This obol drops from the listed monsters at a small base chance."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "monsters": [
+          {
+            "chance": 0.00004,
+            "maps": [],
+            "monster": "Boss6",
+            "world": null
+          },
+          {
+            "chance": 0.00004,
+            "maps": [],
+            "monster": "Boss6A",
+            "world": null
+          },
+          {
+            "chance": 0.00004,
+            "maps": [],
+            "monster": "Boss6B",
+            "world": null
+          },
+          {
+            "chance": 0.00004,
+            "maps": [],
+            "monster": "Boss6C",
+            "world": null
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "obols",
+        "inputs": [
+          "website-data/monsterDrops.json",
+          "website-data/shared-data.json#obols",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "obols.acquisition.obol-emp-drop",
+      "origin": "generated",
+      "rates": {
+        "Boss6": 0.00004,
+        "Boss6A": 0.00004,
+        "Boss6B": 0.00004,
+        "Boss6C": 0.00004
+      },
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monsterDrops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "obols",
+      "text": "Gilded Obol of the Emperor drops from monsters",
+      "thing": {
+        "kind": "obol",
+        "rawName": "ObolEmp"
+      },
+      "title": "Obol drop: Gilded Obol of the Emperor",
+      "type": "acquisition",
+      "values": {
+        "name": "Gilded_Obol_of_the_Emperor",
+        "shape": "Sparkle"
+      },
+      "why": "This obol drops from the listed monsters at a small base chance."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "monsters": [
+          {
+            "chance": 0.00005,
+            "maps": [],
+            "monster": "Boss5A",
+            "world": null
+          },
+          {
+            "chance": 0.00022,
+            "maps": [],
+            "monster": "Boss5B",
+            "world": null
+          },
+          {
+            "chance": 0.0014,
+            "maps": [],
+            "monster": "Boss5C",
+            "world": null
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "obols",
+        "inputs": [
+          "website-data/monsterDrops.json",
+          "website-data/shared-data.json#obols",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "obols.acquisition.obol-kruk-drop",
+      "origin": "generated",
+      "rates": {
+        "Boss5A": 0.00005,
+        "Boss5B": 0.00022,
+        "Boss5C": 0.0014
+      },
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monsterDrops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "obols",
+      "text": "Molten Obol of Dead Divine drops from monsters",
+      "thing": {
+        "kind": "obol",
+        "rawName": "ObolKruk"
+      },
+      "title": "Obol drop: Molten Obol of Dead Divine",
+      "type": "acquisition",
+      "values": {
+        "name": "Molten_Obol_of_Dead_Divine",
+        "shape": "Sparkle"
+      },
+      "why": "This obol drops from the listed monsters at a small base chance."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "monsters": [
+          {
+            "chance": 0.0003,
+            "maps": [],
+            "monster": "mini5a",
+            "world": null
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "obols",
+        "inputs": [
+          "website-data/monsterDrops.json",
+          "website-data/shared-data.json#obols",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "obols.acquisition.obol-lava-drop",
+      "origin": "generated",
+      "rates": {
+        "mini5a": 0.0003
+      },
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monsterDrops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "obols",
+      "text": "Magma Obol of Big Time Domeo drops from monsters",
+      "thing": {
+        "kind": "obol",
+        "rawName": "ObolLava"
+      },
+      "title": "Obol drop: Magma Obol of Big Time Domeo",
+      "type": "acquisition",
+      "values": {
+        "name": "Magma_Obol_of_Big_Time_Domeo",
+        "shape": "Hexagon"
+      },
+      "why": "This obol drops from the listed monsters at a small base chance."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "monsters": [
+          {
+            "chance": 0.004,
+            "maps": [],
+            "monster": "mini3a",
+            "world": null
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "obols",
+        "inputs": [
+          "website-data/monsterDrops.json",
+          "website-data/shared-data.json#obols",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "obols.acquisition.obol-slush-drop",
+      "origin": "generated",
+      "rates": {
+        "mini3a": 0.004
+      },
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monsterDrops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "obols",
+      "text": "Slushy Obol of Much Dilapidation drops from monsters",
+      "thing": {
+        "kind": "obol",
+        "rawName": "ObolSlush"
+      },
+      "title": "Obol drop: Slushy Obol of Much Dilapidation",
+      "type": "acquisition",
+      "values": {
+        "name": "Slushy_Obol_of_Much_Dilapidation",
+        "shape": "Hexagon"
+      },
+      "why": "This obol drops from the listed monsters at a small base chance."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "monsters": [
+          {
+            "chance": 0.0002,
+            "maps": [],
+            "monster": "Boss4A",
+            "world": null
+          },
+          {
+            "chance": 0.0008,
+            "maps": [],
+            "monster": "Boss4B",
+            "world": null
+          },
+          {
+            "chance": 0.007,
+            "maps": [],
+            "monster": "Boss4C",
+            "world": null
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "obols",
+        "inputs": [
+          "website-data/monsterDrops.json",
+          "website-data/shared-data.json#obols",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "obols.acquisition.obol-troll-drop",
+      "origin": "generated",
+      "rates": {
+        "Boss4A": 0.0002,
+        "Boss4B": 0.0008,
+        "Boss4C": 0.007
+      },
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monsterDrops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "obols",
+      "text": "Jagged Obol of Massive Trolling drops from monsters",
+      "thing": {
+        "kind": "obol",
+        "rawName": "ObolTroll"
+      },
+      "title": "Obol drop: Jagged Obol of Massive Trolling",
+      "type": "acquisition",
+      "values": {
+        "name": "Jagged_Obol_of_Massive_Trolling",
+        "shape": "Sparkle"
+      },
+      "why": "This obol drops from the listed monsters at a small base chance."
+    }
+  ],
+  "generator": "obols",
+  "system": "obols"
+}

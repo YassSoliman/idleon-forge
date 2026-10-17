@@ -1,0 +1,1915 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.fact.world-routes",
+      "origin": "generated",
+      "rows": [
+        {
+          "paths": {
+            "0": [],
+            "1": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              }
+            ],
+            "2": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 1,
+                "requirement": 21
+              }
+            ],
+            "13": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 1,
+                "requirement": 21
+              },
+              {
+                "door": 0,
+                "mapIndex": 2,
+                "requirement": 25
+              },
+              {
+                "door": 0,
+                "mapIndex": 14,
+                "requirement": 50
+              },
+              {
+                "door": 1,
+                "mapIndex": 16,
+                "requirement": 3000
+              }
+            ],
+            "14": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 1,
+                "requirement": 21
+              },
+              {
+                "door": 0,
+                "mapIndex": 2,
+                "requirement": 25
+              }
+            ],
+            "16": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 1,
+                "requirement": 21
+              },
+              {
+                "door": 0,
+                "mapIndex": 2,
+                "requirement": 25
+              },
+              {
+                "door": 0,
+                "mapIndex": 14,
+                "requirement": 50
+              }
+            ],
+            "17": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 1,
+                "requirement": 21
+              },
+              {
+                "door": 0,
+                "mapIndex": 2,
+                "requirement": 25
+              },
+              {
+                "door": 1,
+                "mapIndex": 14,
+                "requirement": 2000
+              }
+            ],
+            "18": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 1,
+                "requirement": 21
+              },
+              {
+                "door": 0,
+                "mapIndex": 2,
+                "requirement": 25
+              },
+              {
+                "door": 0,
+                "mapIndex": 14,
+                "requirement": 50
+              },
+              {
+                "door": 1,
+                "mapIndex": 16,
+                "requirement": 3000
+              },
+              {
+                "door": 0,
+                "mapIndex": 13,
+                "requirement": 2500
+              }
+            ],
+            "19": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 1,
+                "requirement": 21
+              },
+              {
+                "door": 0,
+                "mapIndex": 2,
+                "requirement": 25
+              },
+              {
+                "door": 0,
+                "mapIndex": 14,
+                "requirement": 50
+              },
+              {
+                "door": 0,
+                "mapIndex": 16,
+                "requirement": 60
+              }
+            ],
+            "24": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 1,
+                "requirement": 21
+              },
+              {
+                "door": 0,
+                "mapIndex": 2,
+                "requirement": 25
+              },
+              {
+                "door": 0,
+                "mapIndex": 14,
+                "requirement": 50
+              },
+              {
+                "door": 0,
+                "mapIndex": 16,
+                "requirement": 60
+              },
+              {
+                "door": 0,
+                "mapIndex": 19,
+                "requirement": 90
+              }
+            ],
+            "26": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 1,
+                "requirement": 21
+              },
+              {
+                "door": 0,
+                "mapIndex": 2,
+                "requirement": 25
+              },
+              {
+                "door": 0,
+                "mapIndex": 14,
+                "requirement": 50
+              },
+              {
+                "door": 0,
+                "mapIndex": 16,
+                "requirement": 60
+              },
+              {
+                "door": 0,
+                "mapIndex": 19,
+                "requirement": 90
+              },
+              {
+                "door": 0,
+                "mapIndex": 24,
+                "requirement": 120
+              }
+            ],
+            "27": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 1,
+                "requirement": 21
+              },
+              {
+                "door": 0,
+                "mapIndex": 2,
+                "requirement": 25
+              },
+              {
+                "door": 0,
+                "mapIndex": 14,
+                "requirement": 50
+              },
+              {
+                "door": 0,
+                "mapIndex": 16,
+                "requirement": 60
+              },
+              {
+                "door": 0,
+                "mapIndex": 19,
+                "requirement": 90
+              },
+              {
+                "door": 0,
+                "mapIndex": 24,
+                "requirement": 120
+              },
+              {
+                "door": 0,
+                "mapIndex": 26,
+                "requirement": 130
+              }
+            ],
+            "28": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 1,
+                "requirement": 21
+              },
+              {
+                "door": 0,
+                "mapIndex": 2,
+                "requirement": 25
+              },
+              {
+                "door": 0,
+                "mapIndex": 14,
+                "requirement": 50
+              },
+              {
+                "door": 0,
+                "mapIndex": 16,
+                "requirement": 60
+              },
+              {
+                "door": 0,
+                "mapIndex": 19,
+                "requirement": 90
+              },
+              {
+                "door": 0,
+                "mapIndex": 24,
+                "requirement": 120
+              },
+              {
+                "door": 0,
+                "mapIndex": 26,
+                "requirement": 130
+              },
+              {
+                "door": 1,
+                "mapIndex": 27,
+                "requirement": 4200
+              }
+            ],
+            "30": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 1,
+                "requirement": 21
+              },
+              {
+                "door": 0,
+                "mapIndex": 2,
+                "requirement": 25
+              },
+              {
+                "door": 0,
+                "mapIndex": 14,
+                "requirement": 50
+              },
+              {
+                "door": 1,
+                "mapIndex": 16,
+                "requirement": 3000
+              },
+              {
+                "door": 1,
+                "mapIndex": 13,
+                "requirement": 50000
+              }
+            ],
+            "31": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 1,
+                "requirement": 21
+              },
+              {
+                "door": 0,
+                "mapIndex": 2,
+                "requirement": 25
+              },
+              {
+                "door": 0,
+                "mapIndex": 14,
+                "requirement": 50
+              },
+              {
+                "door": 1,
+                "mapIndex": 16,
+                "requirement": 3000
+              },
+              {
+                "door": 0,
+                "mapIndex": 13,
+                "requirement": 2500
+              },
+              {
+                "door": 0,
+                "mapIndex": 18,
+                "requirement": 5000
+              }
+            ],
+            "37": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 1,
+                "requirement": 21
+              },
+              {
+                "door": 0,
+                "mapIndex": 2,
+                "requirement": 25
+              },
+              {
+                "door": 0,
+                "mapIndex": 14,
+                "requirement": 50
+              },
+              {
+                "door": 0,
+                "mapIndex": 16,
+                "requirement": 60
+              },
+              {
+                "door": 0,
+                "mapIndex": 19,
+                "requirement": 90
+              },
+              {
+                "door": 1,
+                "mapIndex": 24,
+                "requirement": 2000
+              }
+            ],
+            "39": [
+              {
+                "door": 1,
+                "mapIndex": 0,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 1,
+                "requirement": 21
+              },
+              {
+                "door": 1,
+                "mapIndex": 2,
+                "requirement": 0
+              }
+            ]
+          },
+          "town": 0,
+          "world": 1
+        },
+        {
+          "paths": {
+            "50": [],
+            "51": [
+              {
+                "door": 1,
+                "mapIndex": 50,
+                "requirement": 0
+              }
+            ],
+            "52": [
+              {
+                "door": 1,
+                "mapIndex": 50,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 51,
+                "requirement": 100
+              }
+            ],
+            "53": [
+              {
+                "door": 1,
+                "mapIndex": 50,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 51,
+                "requirement": 100
+              },
+              {
+                "door": 0,
+                "mapIndex": 52,
+                "requirement": 120
+              }
+            ],
+            "57": [
+              {
+                "door": 1,
+                "mapIndex": 50,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 51,
+                "requirement": 100
+              },
+              {
+                "door": 0,
+                "mapIndex": 52,
+                "requirement": 120
+              },
+              {
+                "door": 0,
+                "mapIndex": 53,
+                "requirement": 150
+              }
+            ],
+            "58": [
+              {
+                "door": 1,
+                "mapIndex": 50,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 51,
+                "requirement": 100
+              },
+              {
+                "door": 0,
+                "mapIndex": 52,
+                "requirement": 120
+              },
+              {
+                "door": 0,
+                "mapIndex": 53,
+                "requirement": 150
+              },
+              {
+                "door": 0,
+                "mapIndex": 57,
+                "requirement": 200
+              }
+            ],
+            "59": [
+              {
+                "door": 1,
+                "mapIndex": 50,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 51,
+                "requirement": 100
+              },
+              {
+                "door": 0,
+                "mapIndex": 52,
+                "requirement": 120
+              },
+              {
+                "door": 0,
+                "mapIndex": 53,
+                "requirement": 150
+              },
+              {
+                "door": 0,
+                "mapIndex": 57,
+                "requirement": 200
+              },
+              {
+                "door": 0,
+                "mapIndex": 58,
+                "requirement": 250
+              }
+            ],
+            "60": [
+              {
+                "door": 1,
+                "mapIndex": 50,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 51,
+                "requirement": 100
+              },
+              {
+                "door": 0,
+                "mapIndex": 52,
+                "requirement": 120
+              },
+              {
+                "door": 0,
+                "mapIndex": 53,
+                "requirement": 150
+              },
+              {
+                "door": 0,
+                "mapIndex": 57,
+                "requirement": 200
+              },
+              {
+                "door": 0,
+                "mapIndex": 58,
+                "requirement": 250
+              },
+              {
+                "door": 0,
+                "mapIndex": 59,
+                "requirement": 300
+              }
+            ],
+            "62": [
+              {
+                "door": 1,
+                "mapIndex": 50,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 51,
+                "requirement": 100
+              },
+              {
+                "door": 0,
+                "mapIndex": 52,
+                "requirement": 120
+              },
+              {
+                "door": 0,
+                "mapIndex": 53,
+                "requirement": 150
+              },
+              {
+                "door": 0,
+                "mapIndex": 57,
+                "requirement": 200
+              },
+              {
+                "door": 0,
+                "mapIndex": 58,
+                "requirement": 250
+              },
+              {
+                "door": 0,
+                "mapIndex": 59,
+                "requirement": 300
+              },
+              {
+                "door": 0,
+                "mapIndex": 60,
+                "requirement": 500
+              }
+            ],
+            "63": [
+              {
+                "door": 1,
+                "mapIndex": 50,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 51,
+                "requirement": 100
+              },
+              {
+                "door": 0,
+                "mapIndex": 52,
+                "requirement": 120
+              },
+              {
+                "door": 0,
+                "mapIndex": 53,
+                "requirement": 150
+              },
+              {
+                "door": 0,
+                "mapIndex": 57,
+                "requirement": 200
+              },
+              {
+                "door": 0,
+                "mapIndex": 58,
+                "requirement": 250
+              },
+              {
+                "door": 0,
+                "mapIndex": 59,
+                "requirement": 300
+              },
+              {
+                "door": 0,
+                "mapIndex": 60,
+                "requirement": 500
+              },
+              {
+                "door": 0,
+                "mapIndex": 62,
+                "requirement": 1000
+              }
+            ],
+            "64": [
+              {
+                "door": 1,
+                "mapIndex": 50,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 51,
+                "requirement": 100
+              },
+              {
+                "door": 0,
+                "mapIndex": 52,
+                "requirement": 120
+              },
+              {
+                "door": 0,
+                "mapIndex": 53,
+                "requirement": 150
+              },
+              {
+                "door": 0,
+                "mapIndex": 57,
+                "requirement": 200
+              },
+              {
+                "door": 0,
+                "mapIndex": 58,
+                "requirement": 250
+              },
+              {
+                "door": 0,
+                "mapIndex": 59,
+                "requirement": 300
+              },
+              {
+                "door": 0,
+                "mapIndex": 60,
+                "requirement": 500
+              },
+              {
+                "door": 0,
+                "mapIndex": 62,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 63,
+                "requirement": 2000
+              }
+            ],
+            "65": [
+              {
+                "door": 1,
+                "mapIndex": 50,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 51,
+                "requirement": 100
+              },
+              {
+                "door": 0,
+                "mapIndex": 52,
+                "requirement": 120
+              },
+              {
+                "door": 0,
+                "mapIndex": 53,
+                "requirement": 150
+              },
+              {
+                "door": 0,
+                "mapIndex": 57,
+                "requirement": 200
+              },
+              {
+                "door": 0,
+                "mapIndex": 58,
+                "requirement": 250
+              },
+              {
+                "door": 0,
+                "mapIndex": 59,
+                "requirement": 300
+              },
+              {
+                "door": 0,
+                "mapIndex": 60,
+                "requirement": 500
+              },
+              {
+                "door": 0,
+                "mapIndex": 62,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 63,
+                "requirement": 2000
+              },
+              {
+                "door": 0,
+                "mapIndex": 64,
+                "requirement": 3000
+              }
+            ],
+            "67": [
+              {
+                "door": 1,
+                "mapIndex": 50,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 51,
+                "requirement": 100
+              },
+              {
+                "door": 1,
+                "mapIndex": 52,
+                "requirement": 1000
+              }
+            ],
+            "69": [
+              {
+                "door": 1,
+                "mapIndex": 50,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 51,
+                "requirement": 100
+              },
+              {
+                "door": 0,
+                "mapIndex": 52,
+                "requirement": 120
+              },
+              {
+                "door": 0,
+                "mapIndex": 53,
+                "requirement": 150
+              },
+              {
+                "door": 0,
+                "mapIndex": 57,
+                "requirement": 200
+              },
+              {
+                "door": 0,
+                "mapIndex": 58,
+                "requirement": 250
+              },
+              {
+                "door": 0,
+                "mapIndex": 59,
+                "requirement": 300
+              },
+              {
+                "door": 0,
+                "mapIndex": 60,
+                "requirement": 500
+              },
+              {
+                "door": 0,
+                "mapIndex": 62,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 63,
+                "requirement": 2000
+              },
+              {
+                "door": 1,
+                "mapIndex": 64,
+                "requirement": 0
+              }
+            ],
+            "70": [
+              {
+                "door": 1,
+                "mapIndex": 50,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 51,
+                "requirement": 100
+              },
+              {
+                "door": 1,
+                "mapIndex": 52,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 67,
+                "requirement": 0
+              }
+            ]
+          },
+          "town": 50,
+          "world": 2
+        },
+        {
+          "paths": {
+            "100": [],
+            "101": [
+              {
+                "door": null,
+                "mapIndex": 100,
+                "requirement": 0
+              }
+            ],
+            "102": [
+              {
+                "door": 1,
+                "mapIndex": 100,
+                "requirement": 0
+              }
+            ],
+            "103": [
+              {
+                "door": null,
+                "mapIndex": 100,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 101,
+                "requirement": 1000
+              }
+            ],
+            "104": [
+              {
+                "door": null,
+                "mapIndex": 100,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 101,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 103,
+                "requirement": 2000
+              }
+            ],
+            "105": [
+              {
+                "door": null,
+                "mapIndex": 100,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 101,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 103,
+                "requirement": 2000
+              },
+              {
+                "door": 0,
+                "mapIndex": 104,
+                "requirement": 3000
+              }
+            ],
+            "106": [
+              {
+                "door": null,
+                "mapIndex": 100,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 101,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 103,
+                "requirement": 2000
+              },
+              {
+                "door": 0,
+                "mapIndex": 104,
+                "requirement": 3000
+              },
+              {
+                "door": 0,
+                "mapIndex": 105,
+                "requirement": 4000
+              }
+            ],
+            "107": [
+              {
+                "door": null,
+                "mapIndex": 100,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 101,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 103,
+                "requirement": 2000
+              },
+              {
+                "door": 0,
+                "mapIndex": 104,
+                "requirement": 3000
+              },
+              {
+                "door": 0,
+                "mapIndex": 105,
+                "requirement": 4000
+              },
+              {
+                "door": 0,
+                "mapIndex": 106,
+                "requirement": 6000
+              }
+            ],
+            "108": [
+              {
+                "door": null,
+                "mapIndex": 100,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 101,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 103,
+                "requirement": 2000
+              },
+              {
+                "door": 0,
+                "mapIndex": 104,
+                "requirement": 3000
+              },
+              {
+                "door": 0,
+                "mapIndex": 105,
+                "requirement": 4000
+              },
+              {
+                "door": 0,
+                "mapIndex": 106,
+                "requirement": 6000
+              },
+              {
+                "door": 0,
+                "mapIndex": 107,
+                "requirement": 8000
+              }
+            ],
+            "109": [
+              {
+                "door": null,
+                "mapIndex": 100,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 101,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 103,
+                "requirement": 2000
+              },
+              {
+                "door": 0,
+                "mapIndex": 104,
+                "requirement": 3000
+              },
+              {
+                "door": 0,
+                "mapIndex": 105,
+                "requirement": 4000
+              },
+              {
+                "door": 0,
+                "mapIndex": 106,
+                "requirement": 6000
+              },
+              {
+                "door": 0,
+                "mapIndex": 107,
+                "requirement": 8000
+              },
+              {
+                "door": 0,
+                "mapIndex": 108,
+                "requirement": 11000
+              }
+            ],
+            "110": [
+              {
+                "door": null,
+                "mapIndex": 100,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 101,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 103,
+                "requirement": 2000
+              },
+              {
+                "door": 0,
+                "mapIndex": 104,
+                "requirement": 3000
+              },
+              {
+                "door": 0,
+                "mapIndex": 105,
+                "requirement": 4000
+              },
+              {
+                "door": 0,
+                "mapIndex": 106,
+                "requirement": 6000
+              },
+              {
+                "door": 0,
+                "mapIndex": 107,
+                "requirement": 8000
+              },
+              {
+                "door": 0,
+                "mapIndex": 108,
+                "requirement": 11000
+              },
+              {
+                "door": 0,
+                "mapIndex": 109,
+                "requirement": 15000
+              }
+            ],
+            "111": [
+              {
+                "door": null,
+                "mapIndex": 100,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 101,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 103,
+                "requirement": 2000
+              },
+              {
+                "door": 0,
+                "mapIndex": 104,
+                "requirement": 3000
+              },
+              {
+                "door": 0,
+                "mapIndex": 105,
+                "requirement": 4000
+              },
+              {
+                "door": 0,
+                "mapIndex": 106,
+                "requirement": 6000
+              },
+              {
+                "door": 0,
+                "mapIndex": 107,
+                "requirement": 8000
+              },
+              {
+                "door": 0,
+                "mapIndex": 108,
+                "requirement": 11000
+              },
+              {
+                "door": 0,
+                "mapIndex": 109,
+                "requirement": 15000
+              },
+              {
+                "door": 0,
+                "mapIndex": 110,
+                "requirement": 18000
+              }
+            ],
+            "112": [
+              {
+                "door": null,
+                "mapIndex": 100,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 101,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 103,
+                "requirement": 2000
+              },
+              {
+                "door": 0,
+                "mapIndex": 104,
+                "requirement": 3000
+              },
+              {
+                "door": 0,
+                "mapIndex": 105,
+                "requirement": 4000
+              },
+              {
+                "door": 0,
+                "mapIndex": 106,
+                "requirement": 6000
+              },
+              {
+                "door": 0,
+                "mapIndex": 107,
+                "requirement": 8000
+              },
+              {
+                "door": 0,
+                "mapIndex": 108,
+                "requirement": 11000
+              },
+              {
+                "door": 0,
+                "mapIndex": 109,
+                "requirement": 15000
+              },
+              {
+                "door": 0,
+                "mapIndex": 110,
+                "requirement": 18000
+              },
+              {
+                "door": 0,
+                "mapIndex": 111,
+                "requirement": 22000
+              }
+            ],
+            "113": [
+              {
+                "door": null,
+                "mapIndex": 100,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 101,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 103,
+                "requirement": 2000
+              },
+              {
+                "door": 0,
+                "mapIndex": 104,
+                "requirement": 3000
+              },
+              {
+                "door": 0,
+                "mapIndex": 105,
+                "requirement": 4000
+              },
+              {
+                "door": 0,
+                "mapIndex": 106,
+                "requirement": 6000
+              },
+              {
+                "door": 0,
+                "mapIndex": 107,
+                "requirement": 8000
+              },
+              {
+                "door": 0,
+                "mapIndex": 108,
+                "requirement": 11000
+              },
+              {
+                "door": 0,
+                "mapIndex": 109,
+                "requirement": 15000
+              },
+              {
+                "door": 0,
+                "mapIndex": 110,
+                "requirement": 18000
+              },
+              {
+                "door": 0,
+                "mapIndex": 111,
+                "requirement": 22000
+              },
+              {
+                "door": 0,
+                "mapIndex": 112,
+                "requirement": 35000
+              }
+            ],
+            "116": [
+              {
+                "door": null,
+                "mapIndex": 100,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 101,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 103,
+                "requirement": 2000
+              },
+              {
+                "door": 1,
+                "mapIndex": 104,
+                "requirement": 100000
+              }
+            ],
+            "117": [
+              {
+                "door": null,
+                "mapIndex": 100,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 101,
+                "requirement": 1000
+              },
+              {
+                "door": 0,
+                "mapIndex": 103,
+                "requirement": 2000
+              },
+              {
+                "door": 1,
+                "mapIndex": 104,
+                "requirement": 100000
+              },
+              {
+                "door": 0,
+                "mapIndex": 116,
+                "requirement": 250000
+              }
+            ],
+            "118": [
+              {
+                "door": 3,
+                "mapIndex": 100,
+                "requirement": 0
+              }
+            ]
+          },
+          "town": 100,
+          "world": 3
+        },
+        {
+          "paths": {
+            "150": [],
+            "151": [
+              {
+                "door": 1,
+                "mapIndex": 150,
+                "requirement": 0
+              }
+            ],
+            "152": [
+              {
+                "door": 1,
+                "mapIndex": 150,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 151,
+                "requirement": 5000
+              }
+            ],
+            "153": [
+              {
+                "door": 1,
+                "mapIndex": 150,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 151,
+                "requirement": 5000
+              },
+              {
+                "door": 0,
+                "mapIndex": 152,
+                "requirement": 12000
+              }
+            ],
+            "154": [
+              {
+                "door": 1,
+                "mapIndex": 150,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 151,
+                "requirement": 5000
+              },
+              {
+                "door": 0,
+                "mapIndex": 152,
+                "requirement": 12000
+              },
+              {
+                "door": 0,
+                "mapIndex": 153,
+                "requirement": 18000
+              }
+            ],
+            "155": [
+              {
+                "door": 1,
+                "mapIndex": 150,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 151,
+                "requirement": 5000
+              },
+              {
+                "door": 0,
+                "mapIndex": 152,
+                "requirement": 12000
+              },
+              {
+                "door": 0,
+                "mapIndex": 153,
+                "requirement": 18000
+              },
+              {
+                "door": 0,
+                "mapIndex": 154,
+                "requirement": 25000
+              }
+            ],
+            "156": [
+              {
+                "door": 1,
+                "mapIndex": 150,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 151,
+                "requirement": 5000
+              },
+              {
+                "door": 0,
+                "mapIndex": 152,
+                "requirement": 12000
+              },
+              {
+                "door": 0,
+                "mapIndex": 153,
+                "requirement": 18000
+              },
+              {
+                "door": 0,
+                "mapIndex": 154,
+                "requirement": 25000
+              },
+              {
+                "door": 0,
+                "mapIndex": 155,
+                "requirement": 40000
+              }
+            ],
+            "157": [
+              {
+                "door": 1,
+                "mapIndex": 150,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 151,
+                "requirement": 5000
+              },
+              {
+                "door": 0,
+                "mapIndex": 152,
+                "requirement": 12000
+              },
+              {
+                "door": 0,
+                "mapIndex": 153,
+                "requirement": 18000
+              },
+              {
+                "door": 0,
+                "mapIndex": 154,
+                "requirement": 25000
+              },
+              {
+                "door": 0,
+                "mapIndex": 155,
+                "requirement": 40000
+              },
+              {
+                "door": 0,
+                "mapIndex": 156,
+                "requirement": 60000
+              }
+            ],
+            "158": [
+              {
+                "door": 1,
+                "mapIndex": 150,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 151,
+                "requirement": 5000
+              },
+              {
+                "door": 0,
+                "mapIndex": 152,
+                "requirement": 12000
+              },
+              {
+                "door": 0,
+                "mapIndex": 153,
+                "requirement": 18000
+              },
+              {
+                "door": 0,
+                "mapIndex": 154,
+                "requirement": 25000
+              },
+              {
+                "door": 0,
+                "mapIndex": 155,
+                "requirement": 40000
+              },
+              {
+                "door": 0,
+                "mapIndex": 156,
+                "requirement": 60000
+              },
+              {
+                "door": 0,
+                "mapIndex": 157,
+                "requirement": 90000
+              }
+            ],
+            "159": [
+              {
+                "door": 1,
+                "mapIndex": 150,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 151,
+                "requirement": 5000
+              },
+              {
+                "door": 0,
+                "mapIndex": 152,
+                "requirement": 12000
+              },
+              {
+                "door": 0,
+                "mapIndex": 153,
+                "requirement": 18000
+              },
+              {
+                "door": 0,
+                "mapIndex": 154,
+                "requirement": 25000
+              },
+              {
+                "door": 0,
+                "mapIndex": 155,
+                "requirement": 40000
+              },
+              {
+                "door": 0,
+                "mapIndex": 156,
+                "requirement": 60000
+              },
+              {
+                "door": 0,
+                "mapIndex": 157,
+                "requirement": 90000
+              },
+              {
+                "door": 0,
+                "mapIndex": 158,
+                "requirement": 120000
+              }
+            ],
+            "160": [
+              {
+                "door": 1,
+                "mapIndex": 150,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 151,
+                "requirement": 5000
+              },
+              {
+                "door": 0,
+                "mapIndex": 152,
+                "requirement": 12000
+              },
+              {
+                "door": 0,
+                "mapIndex": 153,
+                "requirement": 18000
+              },
+              {
+                "door": 0,
+                "mapIndex": 154,
+                "requirement": 25000
+              },
+              {
+                "door": 0,
+                "mapIndex": 155,
+                "requirement": 40000
+              },
+              {
+                "door": 0,
+                "mapIndex": 156,
+                "requirement": 60000
+              },
+              {
+                "door": 0,
+                "mapIndex": 157,
+                "requirement": 90000
+              },
+              {
+                "door": 0,
+                "mapIndex": 158,
+                "requirement": 120000
+              },
+              {
+                "door": 0,
+                "mapIndex": 159,
+                "requirement": 150000
+              }
+            ],
+            "161": [
+              {
+                "door": 1,
+                "mapIndex": 150,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 151,
+                "requirement": 5000
+              },
+              {
+                "door": 0,
+                "mapIndex": 152,
+                "requirement": 12000
+              },
+              {
+                "door": 0,
+                "mapIndex": 153,
+                "requirement": 18000
+              },
+              {
+                "door": 0,
+                "mapIndex": 154,
+                "requirement": 25000
+              },
+              {
+                "door": 0,
+                "mapIndex": 155,
+                "requirement": 40000
+              },
+              {
+                "door": 0,
+                "mapIndex": 156,
+                "requirement": 60000
+              },
+              {
+                "door": 0,
+                "mapIndex": 157,
+                "requirement": 90000
+              },
+              {
+                "door": 0,
+                "mapIndex": 158,
+                "requirement": 120000
+              },
+              {
+                "door": 0,
+                "mapIndex": 159,
+                "requirement": 150000
+              },
+              {
+                "door": 0,
+                "mapIndex": 160,
+                "requirement": 190000
+              }
+            ],
+            "162": [
+              {
+                "door": 1,
+                "mapIndex": 150,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 151,
+                "requirement": 5000
+              },
+              {
+                "door": 0,
+                "mapIndex": 152,
+                "requirement": 12000
+              },
+              {
+                "door": 0,
+                "mapIndex": 153,
+                "requirement": 18000
+              },
+              {
+                "door": 0,
+                "mapIndex": 154,
+                "requirement": 25000
+              },
+              {
+                "door": 0,
+                "mapIndex": 155,
+                "requirement": 40000
+              },
+              {
+                "door": 0,
+                "mapIndex": 156,
+                "requirement": 60000
+              },
+              {
+                "door": 0,
+                "mapIndex": 157,
+                "requirement": 90000
+              },
+              {
+                "door": 0,
+                "mapIndex": 158,
+                "requirement": 120000
+              },
+              {
+                "door": 0,
+                "mapIndex": 159,
+                "requirement": 150000
+              },
+              {
+                "door": 0,
+                "mapIndex": 160,
+                "requirement": 190000
+              },
+              {
+                "door": 0,
+                "mapIndex": 161,
+                "requirement": 250000
+              }
+            ],
+            "163": [
+              {
+                "door": 1,
+                "mapIndex": 150,
+                "requirement": 0
+              },
+              {
+                "door": 0,
+                "mapIndex": 151,
+                "requirement": 5000
+              },
+              {
+                "door": 0,
+                "mapIndex": 152,
+                "requirement": 12000
+              },
+              {
+                "door": 0,
+                "mapIndex": 153,
+                "requirement": 18000
+              },
+              {
+                "door": 0,
+                "mapIndex": 154,
+                "requirement": 25000
+              },
+              {
+                "door": 0,
+                "mapIndex": 155,
+                "requirement": 40000
+              },
+              {
+                "door": 0,
+                "mapIndex": 156,
+                "requirement": 60000
+              },
+              {
+                "door": 0,
+                "mapIndex": 157,
+                "requirement": 90000
+              },
+              {
+                "door": 0,
+                "mapIndex": 158,
+                "requirement": 120000
+              },
+              {
+                "door": 0,
+                "mapIndex": 159,
+                "requirement": 150000
+              },
+              {
+                "door": 0,
+                "mapIndex": 160,
+                "requirement": 190000
+              },
+              {
+                "door": 0,
+                "mapIndex": 161,
+                "requirement": 250000
+              },
+              {
+                "door": 0,
+                "mapIndex": 162,
+                "requirement": 300000
+              }
+            ]
+          },
+          "town": 150,
+          "world": 4
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "portals",
+      "title": "Shortest door paths from each town, W1–W4"
+    }
+  ],
+  "generator": "portals",
+  "system": "portals"
+}

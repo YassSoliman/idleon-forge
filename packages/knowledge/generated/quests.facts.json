@@ -1,0 +1,879 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "quests",
+        "inputs": [
+          "website-data/quests.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/crafts.json",
+          "website-data/items.json"
+        ]
+      },
+      "id": "quests.fact.gate-quests",
+      "origin": "generated",
+      "rows": {
+        "Bellows": {
+          "steps": [
+            {
+              "consumes": false,
+              "custom": [
+                {
+                  "desc": "Neyeptunes Killed:",
+                  "value": 50
+                }
+              ],
+              "inventorySpacesNeeded": 1,
+              "map": 113,
+              "npc": "Bellows",
+              "questKey": "1",
+              "questName": "Bellows1",
+              "questOrder": 0,
+              "questType": "Custom",
+              "requires": [],
+              "rewards": [
+                {
+                  "amount": 1,
+                  "rawName": "Key3"
+                }
+              ],
+              "title": "Poking Some Eyes Out",
+              "world": 3
+            },
+            {
+              "consumes": false,
+              "custom": [
+                {
+                  "desc": "Single Kill XP:",
+                  "value": 3200
+                }
+              ],
+              "inventorySpacesNeeded": 1,
+              "map": 113,
+              "npc": "Bellows",
+              "questKey": "2",
+              "questName": "Bellows2",
+              "questOrder": 1,
+              "questType": "Custom",
+              "requires": [],
+              "rewards": [
+                {
+                  "amount": 2,
+                  "rawName": "Key3"
+                }
+              ],
+              "title": "Eyexperience",
+              "world": 3
+            },
+            {
+              "consumes": false,
+              "custom": [
+                {
+                  "desc": "Giant Eye's Killed:",
+                  "value": 1
+                }
+              ],
+              "inventorySpacesNeeded": 1,
+              "map": 113,
+              "npc": "Bellows",
+              "questKey": "3",
+              "questName": "Bellows3",
+              "questOrder": 2,
+              "questType": "Custom",
+              "requires": [],
+              "rewards": [
+                {
+                  "amount": 2,
+                  "rawName": "Key3"
+                }
+              ],
+              "title": "Veyebing",
+              "world": 3
+            },
+            {
+              "consumes": false,
+              "custom": [],
+              "inventorySpacesNeeded": 1,
+              "map": 113,
+              "npc": "Bellows",
+              "questKey": "4",
+              "questName": "Bellows4",
+              "questOrder": 3,
+              "questType": "ItemsAndSpaceRequired",
+              "requires": [
+                {
+                  "amount": 4,
+                  "kind": "item",
+                  "name": "Black Lense",
+                  "rawName": "SnowC4a"
+                },
+                {
+                  "amount": 14000,
+                  "kind": "item",
+                  "name": "Contact Lense",
+                  "rawName": "SnowC4"
+                }
+              ],
+              "rewards": [
+                {
+                  "amount": 1,
+                  "rawName": "NPCtoken33"
+                }
+              ],
+              "title": "Optometric Hoarder",
+              "world": 3
+            }
+          ],
+          "world": 3
+        },
+        "Djonnut": {
+          "steps": [
+            {
+              "consumes": true,
+              "custom": [],
+              "inventorySpacesNeeded": 1,
+              "map": 65,
+              "npc": "Djonnut",
+              "questKey": "1",
+              "questName": "Djonnut1",
+              "questOrder": 0,
+              "questType": "ItemsAndSpaceRequired",
+              "requires": [
+                {
+                  "amount": 10,
+                  "kind": "item",
+                  "name": "Shrapshell",
+                  "rawName": "DesertC4"
+                },
+                {
+                  "amount": 1,
+                  "kind": "item",
+                  "name": "Kebab Sticks",
+                  "rawName": "FoodHealth6"
+                },
+                {
+                  "amount": 1,
+                  "kind": "item",
+                  "name": "Meat Pie",
+                  "rawName": "FoodHealth7"
+                }
+              ],
+              "rewards": [
+                {
+                  "amount": 5,
+                  "rawName": "Key2"
+                }
+              ],
+              "title": "Genie Dieting",
+              "world": 2
+            },
+            {
+              "consumes": false,
+              "custom": [
+                {
+                  "desc": "Moonmen Defeated:",
+                  "value": 4000
+                },
+                {
+                  "desc": "Ghosts Collected:",
+                  "value": 1
+                }
+              ],
+              "inventorySpacesNeeded": 1,
+              "map": 65,
+              "npc": "Djonnut",
+              "questKey": "2",
+              "questName": "Djonnut2",
+              "questOrder": 1,
+              "questType": "Custom",
+              "requires": [],
+              "rewards": [
+                {
+                  "amount": 5,
+                  "rawName": "Key2"
+                }
+              ],
+              "title": "I'm Blue Dabadedada",
+              "world": 2
+            },
+            {
+              "consumes": true,
+              "custom": [],
+              "inventorySpacesNeeded": 2,
+              "map": 65,
+              "npc": "Djonnut",
+              "questKey": "3",
+              "questName": "Djonnut3",
+              "questOrder": 2,
+              "questType": "ItemsAndSpaceRequired",
+              "requires": [
+                {
+                  "amount": 2500,
+                  "kind": "item",
+                  "name": "Melty Cube",
+                  "rawName": "SnowA2"
+                },
+                {
+                  "amount": 2500,
+                  "kind": "item",
+                  "name": "Sticky Stick",
+                  "rawName": "SnowB1"
+                },
+                {
+                  "amount": 2500,
+                  "kind": "item",
+                  "name": "Mamooth Tusk",
+                  "rawName": "SnowB2"
+                }
+              ],
+              "rewards": [
+                {
+                  "amount": 5,
+                  "rawName": "Key2"
+                },
+                {
+                  "amount": 1,
+                  "rawName": "NPCtoken25"
+                }
+              ],
+              "title": "The Blue New World",
+              "world": 2
+            }
+          ],
+          "world": 2
+        },
+        "Dog_Bone": {
+          "steps": [
+            {
+              "consumes": true,
+              "custom": [],
+              "inventorySpacesNeeded": 1,
+              "map": 27,
+              "npc": "Dog_Bone",
+              "questKey": "1",
+              "questName": "Dog_Bone1",
+              "questOrder": 0,
+              "questType": "ItemsAndSpaceRequired",
+              "requires": [
+                {
+                  "amount": 3,
+                  "kind": "item",
+                  "name": "Wood Board Bone",
+                  "rawName": "Quest12"
+                }
+              ],
+              "rewards": [
+                {
+                  "amount": 6,
+                  "rawName": "Key1"
+                }
+              ],
+              "title": "Why he Die???",
+              "world": 1
+            },
+            {
+              "consumes": false,
+              "custom": [],
+              "inventorySpacesNeeded": 2,
+              "map": 27,
+              "npc": "Dog_Bone",
+              "questKey": "2",
+              "questName": "Dog_Bone2",
+              "questOrder": 1,
+              "questType": "ItemsAndSpaceRequired",
+              "requires": [
+                {
+                  "amount": 25,
+                  "kind": "item",
+                  "name": "Amarok Slab",
+                  "rawName": "Quest17"
+                }
+              ],
+              "rewards": [
+                {
+                  "amount": 1,
+                  "rawName": "NPCtoken13"
+                },
+                {
+                  "amount": 5,
+                  "rawName": "Key1"
+                }
+              ],
+              "title": "Bow Wow going Dow..n!",
+              "world": 1
+            }
+          ],
+          "world": 1
+        },
+        "Gobo": {
+          "steps": [
+            {
+              "consumes": false,
+              "custom": [
+                {
+                  "desc": "Breed Green Mushroom:",
+                  "value": 1
+                }
+              ],
+              "inventorySpacesNeeded": 2,
+              "map": 150,
+              "npc": "Gobo",
+              "questKey": "1",
+              "questName": "Gobo1",
+              "questOrder": 0,
+              "questType": "Custom",
+              "requires": [],
+              "rewards": [
+                {
+                  "amount": 3,
+                  "rawName": "PetEgg"
+                },
+                {
+                  "amount": 3,
+                  "rawName": "PetEgg"
+                }
+              ],
+              "title": "Breeding in Outer Space",
+              "world": 4
+            },
+            {
+              "consumes": false,
+              "custom": [
+                {
+                  "desc": "Pet Battle Won:",
+                  "value": 1
+                }
+              ],
+              "inventorySpacesNeeded": 2,
+              "map": 150,
+              "npc": "Gobo",
+              "questKey": "2",
+              "questName": "Gobo2",
+              "questOrder": 1,
+              "questType": "Custom",
+              "requires": [],
+              "rewards": [
+                {
+                  "amount": 3,
+                  "rawName": "PetEgg"
+                },
+                {
+                  "amount": 3,
+                  "rawName": "PetEgg"
+                }
+              ],
+              "title": "Intense Mob Fighting",
+              "world": 4
+            },
+            {
+              "consumes": false,
+              "custom": [
+                {
+                  "desc": "Breed Squirrel:",
+                  "value": 1
+                },
+                {
+                  "desc": "Claim Spice:",
+                  "value": 1
+                }
+              ],
+              "inventorySpacesNeeded": 3,
+              "map": 150,
+              "npc": "Gobo",
+              "questKey": "3",
+              "questName": "Gobo3",
+              "questOrder": 2,
+              "questType": "Custom",
+              "requires": [],
+              "rewards": [
+                {
+                  "amount": 4,
+                  "rawName": "Ladle"
+                },
+                {
+                  "amount": 4,
+                  "rawName": "Ladle"
+                },
+                {
+                  "amount": 3,
+                  "rawName": "PetEgg"
+                }
+              ],
+              "title": "Squirrel Tactics",
+              "world": 4
+            },
+            {
+              "consumes": false,
+              "custom": [
+                {
+                  "desc": "Start Recipe:",
+                  "value": 1
+                },
+                {
+                  "desc": "Finish Recipe:",
+                  "value": 1
+                },
+                {
+                  "desc": "AFK in Kitchen Area",
+                  "value": 15
+                }
+              ],
+              "inventorySpacesNeeded": 2,
+              "map": 150,
+              "npc": "Gobo",
+              "questKey": "4",
+              "questName": "Gobo4",
+              "questOrder": 3,
+              "questType": "Custom",
+              "requires": [],
+              "rewards": [
+                {
+                  "amount": 5,
+                  "rawName": "Ladle"
+                },
+                {
+                  "amount": 4,
+                  "rawName": "PetEgg"
+                }
+              ],
+              "title": "Spicy Cooking",
+              "world": 4
+            },
+            {
+              "consumes": false,
+              "custom": [
+                {
+                  "desc": "Upload Player to Lab:",
+                  "value": 1
+                },
+                {
+                  "desc": "Light up 1st Bonus:",
+                  "value": 1
+                }
+              ],
+              "inventorySpacesNeeded": 2,
+              "map": 150,
+              "npc": "Gobo",
+              "questKey": "5",
+              "questName": "Gobo5",
+              "questOrder": 4,
+              "questType": "Custom",
+              "requires": [],
+              "rewards": [
+                {
+                  "amount": 6,
+                  "rawName": "Ladle"
+                },
+                {
+                  "amount": 5,
+                  "rawName": "PetEgg"
+                }
+              ],
+              "title": "Lab Experimentation, Ft. You",
+              "world": 4
+            }
+          ],
+          "world": 4
+        },
+        "Hoggindaz": {
+          "steps": [
+            {
+              "consumes": false,
+              "custom": [
+                {
+                  "desc": "Refinery Turned On:",
+                  "value": 1
+                },
+                {
+                  "desc": "Hours of Redox Fuel:",
+                  "value": 24
+                }
+              ],
+              "inventorySpacesNeeded": 2,
+              "map": 100,
+              "npc": "Hoggindaz",
+              "questKey": "1",
+              "questName": "Hoggindaz1",
+              "questOrder": 0,
+              "questType": "Custom",
+              "requires": [],
+              "rewards": [
+                {
+                  "amount": 3,
+                  "rawName": "PremiumGem"
+                }
+              ],
+              "title": "Turn ON for what???",
+              "world": 3
+            },
+            {
+              "consumes": false,
+              "custom": [
+                {
+                  "desc": "Buy Trap from Shop:",
+                  "value": 1
+                },
+                {
+                  "desc": "Place a Trap in Jungle:",
+                  "value": 1
+                }
+              ],
+              "inventorySpacesNeeded": 2,
+              "map": 100,
+              "npc": "Hoggindaz",
+              "questKey": "2",
+              "questName": "Hoggindaz2",
+              "questOrder": 1,
+              "questType": "Custom",
+              "requires": [],
+              "rewards": [
+                {
+                  "amount": 1,
+                  "rawName": "Timecandy1"
+                },
+                {
+                  "amount": 4,
+                  "rawName": "PremiumGem"
+                }
+              ],
+              "title": "Trapping with the Lord",
+              "world": 3
+            },
+            {
+              "consumes": false,
+              "custom": [
+                {
+                  "desc": "3D Printer Built:",
+                  "value": 1
+                },
+                {
+                  "desc": "Wizard Defender Built:",
+                  "value": 1
+                },
+                {
+                  "desc": "Cogs Made:",
+                  "value": 1
+                }
+              ],
+              "inventorySpacesNeeded": 2,
+              "map": 100,
+              "npc": "Hoggindaz",
+              "questKey": "3",
+              "questName": "Hoggindaz3",
+              "questOrder": 2,
+              "questType": "Custom",
+              "requires": [],
+              "rewards": [
+                {
+                  "amount": 1,
+                  "rawName": "TalentBook1"
+                },
+                {
+                  "amount": 2,
+                  "rawName": "PremiumGem"
+                }
+              ],
+              "title": "Constructing a Tower",
+              "world": 3
+            },
+            {
+              "consumes": false,
+              "custom": [
+                {
+                  "desc": "Summon Goblin Gorefest:",
+                  "value": 1
+                },
+                {
+                  "desc": "Place Wizard Towers:",
+                  "value": 4
+                }
+              ],
+              "inventorySpacesNeeded": 2,
+              "map": 100,
+              "npc": "Hoggindaz",
+              "questKey": "4",
+              "questName": "Hoggindaz4",
+              "questOrder": 3,
+              "questType": "Custom",
+              "requires": [],
+              "rewards": [
+                {
+                  "amount": 1,
+                  "rawName": "Timecandy1"
+                },
+                {
+                  "amount": 2,
+                  "rawName": "PremiumGem"
+                }
+              ],
+              "title": "Monke Tower Time!",
+              "world": 3
+            },
+            {
+              "consumes": false,
+              "custom": [
+                {
+                  "desc": "Take Samples:",
+                  "value": 2
+                }
+              ],
+              "inventorySpacesNeeded": 2,
+              "map": 100,
+              "npc": "Hoggindaz",
+              "questKey": "5",
+              "questName": "Hoggindaz5",
+              "questOrder": 4,
+              "questType": "Custom",
+              "requires": [],
+              "rewards": [
+                {
+                  "amount": 1,
+                  "rawName": "TalentBook1"
+                },
+                {
+                  "amount": 2,
+                  "rawName": "PremiumGem"
+                }
+              ],
+              "title": "Taking Samples",
+              "world": 3
+            },
+            {
+              "consumes": true,
+              "custom": [],
+              "inventorySpacesNeeded": 1,
+              "map": 100,
+              "npc": "Hoggindaz",
+              "questKey": "6",
+              "questName": "Hoggindaz6",
+              "questOrder": 5,
+              "questType": "ItemsAndSpaceRequired",
+              "requires": [
+                {
+                  "amount": 1,
+                  "kind": "item",
+                  "name": "Shuvelle's Vote",
+                  "rawName": "Quest59"
+                }
+              ],
+              "rewards": [
+                {
+                  "amount": 3,
+                  "rawName": "Timecandy2"
+                }
+              ],
+              "title": "Voter Recognition",
+              "world": 3
+            },
+            {
+              "consumes": true,
+              "custom": [],
+              "inventorySpacesNeeded": 1,
+              "map": 100,
+              "npc": "Hoggindaz",
+              "questKey": "7",
+              "questName": "Hoggindaz7",
+              "questOrder": 6,
+              "questType": "ItemsAndSpaceRequired",
+              "requires": [
+                {
+                  "amount": 1,
+                  "kind": "item",
+                  "name": "Yondergreens Vote",
+                  "rawName": "Quest60"
+                }
+              ],
+              "rewards": [
+                {
+                  "amount": 2,
+                  "rawName": "Timecandy3"
+                }
+              ],
+              "title": "Voter Appeasement",
+              "world": 3
+            },
+            {
+              "consumes": true,
+              "custom": [],
+              "inventorySpacesNeeded": 1,
+              "map": 100,
+              "npc": "Hoggindaz",
+              "questKey": "8",
+              "questName": "Hoggindaz8",
+              "questOrder": 7,
+              "questType": "ItemsAndSpaceRequired",
+              "requires": [
+                {
+                  "amount": 1,
+                  "kind": "item",
+                  "name": "Bill Brr's Vote",
+                  "rawName": "Quest61"
+                }
+              ],
+              "rewards": [
+                {
+                  "amount": 1,
+                  "rawName": "Timecandy4"
+                }
+              ],
+              "title": "Voter Apathy",
+              "world": 3
+            },
+            {
+              "consumes": false,
+              "custom": [
+                {
+                  "desc": "Chizoar Defeated:",
+                  "value": 1
+                }
+              ],
+              "inventorySpacesNeeded": 3,
+              "map": 100,
+              "npc": "Hoggindaz",
+              "questKey": "9",
+              "questName": "Hoggindaz9",
+              "questOrder": 8,
+              "questType": "Custom",
+              "requires": [],
+              "rewards": [
+                {
+                  "amount": 1,
+                  "rawName": "NPCtoken32"
+                },
+                {
+                  "amount": 2,
+                  "rawName": "ExpBalloon3"
+                },
+                {
+                  "amount": 4,
+                  "rawName": "ExpBalloon2"
+                }
+              ],
+              "title": "Chizoar No More",
+              "world": 3
+            },
+            {
+              "consumes": true,
+              "custom": [],
+              "inventorySpacesNeeded": 1,
+              "map": 100,
+              "npc": "Hoggindaz",
+              "questKey": "10",
+              "questName": "Hoggindaz10",
+              "questOrder": 9,
+              "questType": "ItemsAndSpaceRequired",
+              "requires": [
+                {
+                  "amount": 1,
+                  "craft": {
+                    "lvReqToCraft": 50,
+                    "materials": [
+                      {
+                        "amount": 1,
+                        "name": "Easy FB Tundra NPC Token",
+                        "rawName": "NPCtoken39"
+                      },
+                      {
+                        "amount": 1,
+                        "name": "Med FB Tundra NPC Token",
+                        "rawName": "NPCtoken40"
+                      },
+                      {
+                        "amount": 1,
+                        "name": "Hard FB Tundra NPC Token",
+                        "rawName": "NPCtoken41"
+                      }
+                    ]
+                  },
+                  "kind": "item",
+                  "name": "Tundra NPC Completion Token",
+                  "rawName": "BadgeI1"
+                },
+                {
+                  "amount": 1,
+                  "craft": {
+                    "lvReqToCraft": 50,
+                    "materials": [
+                      {
+                        "amount": 12500,
+                        "name": "Frigid Soul",
+                        "rawName": "Soul4"
+                      },
+                      {
+                        "amount": 4,
+                        "name": "Jade Scarab",
+                        "rawName": "Critter8A"
+                      },
+                      {
+                        "amount": 1,
+                        "name": "Refurbished Cog",
+                        "rawName": "Quest58"
+                      }
+                    ]
+                  },
+                  "kind": "item",
+                  "name": "Tundra Skills Completion Token",
+                  "rawName": "BadgeI2"
+                },
+                {
+                  "amount": 1,
+                  "craft": {
+                    "lvReqToCraft": 50,
+                    "materials": [
+                      {
+                        "amount": 1,
+                        "name": "Chizoar Helmet",
+                        "rawName": "EquipmentHats68"
+                      },
+                      {
+                        "amount": 1,
+                        "name": "Neutron Ice Ring",
+                        "rawName": "EquipmentRings23"
+                      },
+                      {
+                        "amount": 10,
+                        "name": "Nullo Salt",
+                        "rawName": "Refinery6"
+                      },
+                      {
+                        "amount": 60,
+                        "name": "Black Lense",
+                        "rawName": "SnowC4a"
+                      }
+                    ]
+                  },
+                  "kind": "item",
+                  "name": "Tundra Misc Completion Token",
+                  "rawName": "BadgeI3"
+                }
+              ],
+              "rewards": [
+                {
+                  "amount": 1,
+                  "rawName": "Trophy15"
+                }
+              ],
+              "title": "The Fresh Prince of the Tundra",
+              "world": 3
+            }
+          ],
+          "world": 3
+        }
+      },
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: quests",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "quests",
+      "title": "World gate NPC quests"
+    }
+  ],
+  "generator": "quests",
+  "system": "quests"
+}

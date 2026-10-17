@@ -1,0 +1,6 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Game versions that count as major patches (M11 TR-11, D2): a new world or a system overhaul.
+# Authored judgment, cited in the PR that adds a row; the staleness pass proposes additions from the
+# patch notes. "Dated after the current major patch" means a Source claimDate on or after the newest
+# listed major's date. Each row: { gameVersion: x.y.z, date: YYYY-MM-DD, what: <one line> }.
+majors: []

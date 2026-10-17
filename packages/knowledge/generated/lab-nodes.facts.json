@@ -1,0 +1,409 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "lab-nodes",
+        "inputs": [
+          "website-data/shared-data.json#labBonuses",
+          "website-data/shared-data.json#jewels"
+        ]
+      },
+      "id": "lab.fact.lab-nodes",
+      "origin": "generated",
+      "rows": [
+        {
+          "index": 0,
+          "kind": "bonus",
+          "name": "Animal_Farm",
+          "range": 90,
+          "slug": "animal-farm",
+          "x": 91,
+          "y": 353
+        },
+        {
+          "index": 1,
+          "kind": "bonus",
+          "name": "Wired_In",
+          "range": 90,
+          "slug": "wired-in",
+          "x": 250,
+          "y": 310
+        },
+        {
+          "index": 2,
+          "kind": "bonus",
+          "name": "Gilded_Cyclical_Tubing",
+          "range": 90,
+          "slug": "gilded-cyclical-tubing",
+          "x": 356,
+          "y": 147
+        },
+        {
+          "index": 3,
+          "kind": "bonus",
+          "name": "No_Bubble_Left_Behind",
+          "range": 90,
+          "slug": "no-bubble-left-behind",
+          "x": 450,
+          "y": 220
+        },
+        {
+          "index": 4,
+          "kind": "bonus",
+          "name": "Killer's_Brightside",
+          "range": 90,
+          "slug": "killer-s-brightside",
+          "x": 538,
+          "y": 362
+        },
+        {
+          "index": 5,
+          "kind": "bonus",
+          "name": "Shrine_World_Tour",
+          "range": 90,
+          "slug": "shrine-world-tour",
+          "x": 651,
+          "y": 200
+        },
+        {
+          "index": 6,
+          "kind": "bonus",
+          "name": "Viaduct_of_the_Gods",
+          "range": 90,
+          "slug": "viaduct-of-the-gods",
+          "x": 753,
+          "y": 113
+        },
+        {
+          "index": 7,
+          "kind": "bonus",
+          "name": "Certified_Stamp_Book",
+          "range": 90,
+          "slug": "certified-stamp-book",
+          "x": 824,
+          "y": 377
+        },
+        {
+          "index": 8,
+          "kind": "bonus",
+          "name": "Spelunker_Obol",
+          "range": 90,
+          "slug": "spelunker-obol",
+          "x": 945,
+          "y": 326
+        },
+        {
+          "index": 9,
+          "kind": "bonus",
+          "name": "Fungi_Finger_Pocketer",
+          "range": 90,
+          "slug": "fungi-finger-pocketer",
+          "x": 990,
+          "y": 148
+        },
+        {
+          "index": 10,
+          "kind": "bonus",
+          "name": "My_1st_Chemistry_Set",
+          "range": 90,
+          "slug": "my-1st-chemistry-set",
+          "x": 1177,
+          "y": 163
+        },
+        {
+          "index": 11,
+          "kind": "bonus",
+          "name": "Unadulterated_Banking_Fury",
+          "range": 90,
+          "slug": "unadulterated-banking-fury",
+          "x": 1300,
+          "y": 380
+        },
+        {
+          "index": 12,
+          "kind": "bonus",
+          "name": "Sigils_of_Olden_Alchemy",
+          "range": 90,
+          "slug": "sigils-of-olden-alchemy",
+          "x": 400,
+          "y": 390
+        },
+        {
+          "index": 13,
+          "kind": "bonus",
+          "name": "Viral_Connection",
+          "range": 90,
+          "slug": "viral-connection",
+          "x": 1430,
+          "y": 265
+        },
+        {
+          "index": 14,
+          "kind": "bonus",
+          "name": "Artifact_Attraction",
+          "range": 90,
+          "slug": "artifact-attraction",
+          "x": 1530,
+          "y": 105
+        },
+        {
+          "index": 15,
+          "kind": "bonus",
+          "name": "Slab_Sovereignty",
+          "range": 90,
+          "slug": "slab-sovereignty",
+          "x": 1630,
+          "y": 365
+        },
+        {
+          "index": 16,
+          "kind": "bonus",
+          "name": "Spiritual_Growth",
+          "range": 90,
+          "slug": "spiritual-growth",
+          "x": 1790,
+          "y": 250
+        },
+        {
+          "index": 17,
+          "kind": "bonus",
+          "name": "Depot_Studies_PhD",
+          "range": 90,
+          "slug": "depot-studies-ph-d",
+          "x": 1950,
+          "y": 195
+        },
+        {
+          "index": 0,
+          "kind": "jewel",
+          "name": "Amethyst_Rhinestone",
+          "range": 90,
+          "slug": "amethyst-rhinestone",
+          "x": 76,
+          "y": 134
+        },
+        {
+          "index": 1,
+          "kind": "jewel",
+          "name": "Purple_Navette",
+          "range": 90,
+          "slug": "purple-navette",
+          "x": 164,
+          "y": 412
+        },
+        {
+          "index": 2,
+          "kind": "jewel",
+          "name": "Purple_Rhombol",
+          "range": 90,
+          "slug": "purple-rhombol",
+          "x": 163,
+          "y": 218
+        },
+        {
+          "index": 3,
+          "kind": "jewel",
+          "name": "Sapphire_Rhinestone",
+          "range": 90,
+          "slug": "sapphire-rhinestone",
+          "x": 246,
+          "y": 110
+        },
+        {
+          "index": 4,
+          "kind": "jewel",
+          "name": "Sapphire_Navette",
+          "range": 90,
+          "slug": "sapphire-navette",
+          "x": 277,
+          "y": 394
+        },
+        {
+          "index": 5,
+          "kind": "jewel",
+          "name": "Sapphire_Rhombol",
+          "range": 90,
+          "slug": "sapphire-rhombol",
+          "x": 470,
+          "y": 294
+        },
+        {
+          "index": 6,
+          "kind": "jewel",
+          "name": "Sapphire_Pyramite",
+          "range": 90,
+          "slug": "sapphire-pyramite",
+          "x": 490,
+          "y": 112
+        },
+        {
+          "index": 7,
+          "kind": "jewel",
+          "name": "Pyrite_Rhinestone",
+          "range": 90,
+          "slug": "pyrite-rhinestone",
+          "x": 552,
+          "y": 163
+        },
+        {
+          "index": 8,
+          "kind": "jewel",
+          "name": "Pyrite_Navette",
+          "range": 90,
+          "slug": "pyrite-navette",
+          "x": 646,
+          "y": 407
+        },
+        {
+          "index": 9,
+          "kind": "jewel",
+          "name": "Pyrite_Rhombol",
+          "range": 90,
+          "slug": "pyrite-rhombol",
+          "x": 680,
+          "y": 319
+        },
+        {
+          "index": 10,
+          "kind": "jewel",
+          "name": "Pyrite_Pyramite",
+          "range": 90,
+          "slug": "pyrite-pyramite",
+          "x": 847,
+          "y": 105
+        },
+        {
+          "index": 11,
+          "kind": "jewel",
+          "name": "Emerald_Rhinestone",
+          "range": 90,
+          "slug": "emerald-rhinestone",
+          "x": 998,
+          "y": 404
+        },
+        {
+          "index": 12,
+          "kind": "jewel",
+          "name": "Emerald_Navette",
+          "range": 90,
+          "slug": "emerald-navette",
+          "x": 1079,
+          "y": 233
+        },
+        {
+          "index": 13,
+          "kind": "jewel",
+          "name": "Emerald_Rhombol",
+          "range": 90,
+          "slug": "emerald-rhombol",
+          "x": 1085,
+          "y": 121
+        },
+        {
+          "index": 14,
+          "kind": "jewel",
+          "name": "Emerald_Pyramite",
+          "range": 90,
+          "slug": "emerald-pyramite",
+          "x": 1167,
+          "y": 390
+        },
+        {
+          "index": 15,
+          "kind": "jewel",
+          "name": "Emerald_Ulthurite",
+          "range": 90,
+          "slug": "emerald-ulthurite",
+          "x": 1300,
+          "y": 208
+        },
+        {
+          "index": 16,
+          "kind": "jewel",
+          "name": "Black_Diamond_Rhinestone",
+          "range": 90,
+          "slug": "black-diamond-rhinestone",
+          "x": 1365,
+          "y": 100
+        },
+        {
+          "index": 17,
+          "kind": "jewel",
+          "name": "Black_Diamond_Ulthurite",
+          "range": 90,
+          "slug": "black-diamond-ulthurite",
+          "x": 1389,
+          "y": 408
+        },
+        {
+          "index": 18,
+          "kind": "jewel",
+          "name": "Pure_Opal_Rhinestone",
+          "range": 90,
+          "slug": "pure-opal-rhinestone",
+          "x": 1619,
+          "y": 203
+        },
+        {
+          "index": 19,
+          "kind": "jewel",
+          "name": "Pure_Opal_Navette",
+          "range": 80,
+          "slug": "pure-opal-navette",
+          "x": 1846,
+          "y": 410
+        },
+        {
+          "index": 20,
+          "kind": "jewel",
+          "name": "Pure_Opal_Rhombol",
+          "range": 90,
+          "slug": "pure-opal-rhombol",
+          "x": 2040,
+          "y": 96
+        },
+        {
+          "index": 21,
+          "kind": "jewel",
+          "name": "Deadly_Wrath_Jewel",
+          "range": 100,
+          "slug": "deadly-wrath-jewel",
+          "x": 1815,
+          "y": 96
+        },
+        {
+          "index": 22,
+          "kind": "jewel",
+          "name": "North_Winds_Jewel",
+          "range": 100,
+          "slug": "north-winds-jewel",
+          "x": 1728,
+          "y": 421
+        },
+        {
+          "index": 23,
+          "kind": "jewel",
+          "name": "Eternal_Energy_Jewel",
+          "range": 100,
+          "slug": "eternal-energy-jewel",
+          "x": 2042,
+          "y": 410
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: labBonuses, jewels",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "lab",
+      "title": "Lab mainframe bonuses and jewels: names and positions"
+    }
+  ],
+  "generator": "lab-nodes",
+  "system": "lab"
+}

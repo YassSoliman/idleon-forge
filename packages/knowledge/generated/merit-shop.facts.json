@@ -1,0 +1,430 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "merit-shop",
+        "inputs": [
+          "website-data/shared-data.json#merits"
+        ]
+      },
+      "id": "merit-shop.fact.rows",
+      "origin": "generated",
+      "rows": [
+        {
+          "cost": 1,
+          "id": "w1-task-sa1",
+          "max": 5,
+          "slot": 0,
+          "text": "Inventory_Bag_}_is_applied_to_everyone,_but_only_if_your_1st_character_has_it.",
+          "world": 1
+        },
+        {
+          "cost": 1,
+          "id": "w1-task-sa2",
+          "max": 10,
+          "slot": 1,
+          "text": "All_Blunder_Hills_Monsters_respawn_+{%_faster._This_boosts_AFK_kills_per_hour!",
+          "world": 1
+        },
+        {
+          "cost": 1,
+          "id": "w1-task-sb5",
+          "max": 12,
+          "slot": 2,
+          "text": "+{%_EXP_Gain_for_the_lowest_leveled_character_in_your_family.",
+          "world": 1
+        },
+        {
+          "cost": 2,
+          "id": "w1-task-sbb1",
+          "max": 10,
+          "slot": 3,
+          "text": "Sets_the_Max_Lv._to_{_For_the_'Goblet_of_Hemoglobin'_Talent._Helps_survivability!",
+          "world": 1
+        },
+        {
+          "cost": 1,
+          "id": "w1-task-sb4",
+          "max": 10,
+          "slot": 4,
+          "text": "Bosses_can_now_drop_Boss_Keys._4%_higher_key_drop_chance_per_purchase!",
+          "world": 1
+        },
+        {
+          "cost": 2,
+          "id": "w1-smithing-recipes1",
+          "max": 5,
+          "slot": 5,
+          "text": "Unlocks_recipe_to_craft_Amarok_}._Descline2",
+          "world": 1
+        },
+        {
+          "cost": 3,
+          "id": "w1-talent-book1",
+          "max": 6,
+          "slot": 6,
+          "text": "+{%_higher_chance_for_Minibosses_in_world_1_to_drop_new_Star_Talents.",
+          "world": 1
+        },
+        {
+          "cost": 1,
+          "id": "w2-task-sb3",
+          "max": 7,
+          "slot": 0,
+          "text": "Monsters_now_drop_Obols._+5%_drop_rate_per_purchase!",
+          "world": 2
+        },
+        {
+          "cost": 1,
+          "id": "w2-task-sb2",
+          "max": 10,
+          "slot": 1,
+          "text": "All_Yum-Yum_Desert_Mobs_respawn_+{%_faster._This_boosts_AFK_kills_per_hour!",
+          "world": 2
+        },
+        {
+          "cost": 1,
+          "id": "w2-task-sa3",
+          "max": 10,
+          "slot": 2,
+          "text": "+2%_AFK_Gains_for_your_first_{_characters_in_your_family.",
+          "world": 2
+        },
+        {
+          "cost": 1,
+          "id": "w2-task-sb1",
+          "max": 10,
+          "slot": 3,
+          "text": "Boosts_Max_Lv._to_{_for_'Convert_Better_Darnit'_Talent.",
+          "world": 2
+        },
+        {
+          "cost": 1,
+          "id": "w2-task-sa4",
+          "max": 8,
+          "slot": 4,
+          "text": "World_bosses_can_now_drop_gems._+7%_gem_drop_rate_per_purchase!",
+          "world": 2
+        },
+        {
+          "cost": 2,
+          "id": "w2-smithing-recipes2",
+          "max": 5,
+          "slot": 5,
+          "text": "Unlocks_recipe_to_craft_Efaunt_}._Descline2",
+          "world": 2
+        },
+        {
+          "cost": 3,
+          "id": "w2-talent-book1",
+          "max": 8,
+          "slot": 6,
+          "text": "+{%_higher_chance_for_Minibosses_in_world_2_to_drop_new_Star_Talents.",
+          "world": 2
+        },
+        {
+          "cost": 2,
+          "id": "w2-task-sbb2",
+          "max": 5,
+          "slot": 7,
+          "text": "+{%_arcade_ball_gain_rate,_so_you_can_get_them_balls_launchin!",
+          "world": 2
+        },
+        {
+          "cost": 3,
+          "id": "w3-task-sc1",
+          "max": 4,
+          "slot": 0,
+          "text": "1st,_3rd_purchase_give_+1_Build_Slot,_2nd,_4th_purchase_give_+1_Food_Slot.",
+          "world": 3
+        },
+        {
+          "cost": 1,
+          "id": "w3-task-sc2",
+          "max": 10,
+          "slot": 1,
+          "text": "All_Frostbite_Tundra_Mobs_respawn_+{%_faster._This_boosts_AFK_kills_per_hour!",
+          "world": 3
+        },
+        {
+          "cost": 2,
+          "id": "w3-task-sc3",
+          "max": 5,
+          "slot": 2,
+          "text": "+{_Max_possible_Lv_of_Talent_books_from_the_Talent_Book_Library.",
+          "world": 3
+        },
+        {
+          "cost": 1,
+          "id": "w3-task-sc5",
+          "max": 10,
+          "slot": 3,
+          "text": "Boosts_Max_Lv._to_{_for_'Telekinetic_Storage'_Talent._Easy_item_depositing!",
+          "world": 3
+        },
+        {
+          "cost": 1,
+          "id": "w3-task-sc4",
+          "max": 10,
+          "slot": 4,
+          "text": "+0.5%_Printer_Sample_Size_per_purchase._Make_the_Federal_Reserve_jealous!",
+          "world": 3
+        },
+        {
+          "cost": 2,
+          "id": "w3-smithing-recipes3",
+          "max": 5,
+          "slot": 5,
+          "text": "Unlocks_recipe_to_craft_Chizoar_}._Descline2",
+          "world": 3
+        },
+        {
+          "cost": 2,
+          "id": "w3-task-sc6",
+          "max": 5,
+          "slot": 6,
+          "text": "Refinery_Salt_Costs_don't_scale_beyond_power_output._+1_Salt_Type_Per_Purchase.",
+          "world": 3
+        },
+        {
+          "cost": 3,
+          "id": "w4-task-sbd2",
+          "max": 3,
+          "slot": 0,
+          "text": "The_first_+{_kills_each_day_are_guaranteed_to_spawn_a_crystal_monster",
+          "world": 4
+        },
+        {
+          "cost": 1,
+          "id": "w4-task-sbd1",
+          "max": 10,
+          "slot": 1,
+          "text": "All_Hyperion_Nebula_Mobs_respawn_+{%_faster._This_boosts_AFK_kills_per_hour!",
+          "world": 4
+        },
+        {
+          "cost": 6,
+          "id": "w4-task-sbd4",
+          "max": 2,
+          "slot": 2,
+          "text": "+{_egg_capacity_in_the_Nest._Those_Mobs_wont_hatch_themselves_after_all!",
+          "world": 4
+        },
+        {
+          "cost": 1,
+          "id": "w4-task-sbd5",
+          "max": 5,
+          "slot": 3,
+          "text": "Boosts_Max_Lv._to_{_for_'Spice_Spillage'_Talent._Convenient_Spice_claiming!",
+          "world": 4
+        },
+        {
+          "cost": 2,
+          "id": "w4-task-sbd3",
+          "max": 8,
+          "slot": 4,
+          "text": "+{_connection_range_in_the_Lab,_so_players_can_connect_from_farther_away!",
+          "world": 4
+        },
+        {
+          "cost": 2,
+          "id": "w4-smithing-recipes4",
+          "max": 4,
+          "slot": 5,
+          "text": "Unlocks_recipe_to_craft_Troll_}._Descline2",
+          "world": 4
+        },
+        {
+          "cost": 5,
+          "id": "w4-task-sbd6",
+          "max": 3,
+          "slot": 6,
+          "text": "+{_Bubbles_upgraded_by_'No_Bubble_Left_Behind'_per_day._Bubble_blowin'_baby!",
+          "world": 4
+        },
+        {
+          "cost": 1,
+          "id": "w5-talent-point4",
+          "max": 20,
+          "slot": 0,
+          "text": "+{_Talent_Pts_for_Tab_4,_so_you_can_max_out_those_Elite_Class_talents!",
+          "world": 5
+        },
+        {
+          "cost": 1,
+          "id": "w5-task-se1",
+          "max": 10,
+          "slot": 1,
+          "text": "All_Smolderin_Plateau_Mobs_respawn_+{%_faster._This_boosts_AFK_kills_per_hour!",
+          "world": 5
+        },
+        {
+          "cost": 2,
+          "id": "w5-task-se2",
+          "max": 7,
+          "slot": 2,
+          "text": "+{_Loot_Pile_Capacity._More_sailing_chest_storage_ain't_bad,_eh?",
+          "world": 5
+        },
+        {
+          "cost": 1,
+          "id": "w5-task-se4",
+          "max": 10,
+          "slot": 3,
+          "text": "Boosts_Max_Lv._to_{_for_'Stat_Overload'_Talent._Get_those_10k_stats!",
+          "world": 5
+        },
+        {
+          "cost": 2,
+          "id": "w5-task-se3",
+          "max": 5,
+          "slot": 4,
+          "text": "+{%_EXP_for_Sailing,_Divinity,_and_Gaming_skills._Experience_POINTS!!!",
+          "world": 5
+        },
+        {
+          "cost": 2,
+          "id": "w5-smithing-recipes5",
+          "max": 9,
+          "slot": 5,
+          "text": "Unlocks_recipe_to_craft_Kattle_}._Descline2",
+          "world": 5
+        },
+        {
+          "cost": 3,
+          "id": "w5-task-se5",
+          "max": 4,
+          "slot": 6,
+          "text": "+{%_reduction_in_Atom_Upgrade_Costs,_so_you_can_upgrade_Atoms_more!!",
+          "world": 5
+        },
+        {
+          "cost": 1,
+          "id": "w6-talent-point5",
+          "max": 20,
+          "slot": 0,
+          "text": "+{_Talent_Pts_for_the_5th_tab,_which_is_the_Master_Class's_tab!",
+          "world": 6
+        },
+        {
+          "cost": 1,
+          "id": "w6-task-sz1",
+          "max": 10,
+          "slot": 1,
+          "text": "All_Spirited_Valley_Mobs_respawn_+{%_faster._This_boosts_AFK_kills_per_hour!",
+          "world": 6
+        },
+        {
+          "cost": 2,
+          "id": "w6-task-sz2",
+          "max": 15,
+          "slot": 2,
+          "text": "+{%_Farming_EXP_and_OG_chance,_and_the_first_3_purchases_give_+1_Land_Plot.",
+          "world": 6
+        },
+        {
+          "cost": 1,
+          "id": "w6-task-sz3",
+          "max": 20,
+          "slot": 3,
+          "text": "+{%_Jade_Gain,_permanently.__",
+          "world": 6
+        },
+        {
+          "cost": 2,
+          "id": "w6-task-sz4",
+          "max": 10,
+          "slot": 4,
+          "text": "+{%_Larger_bonuses_to_all_your_Winner's_Bonuses_from_Summoning",
+          "world": 6
+        },
+        {
+          "cost": 2,
+          "id": "w6-smithing-recipes6",
+          "max": 4,
+          "slot": 5,
+          "text": "Unlocks_recipe_to_craft_Emperor_}._Descline2",
+          "world": 6
+        },
+        {
+          "cost": 3,
+          "id": "w6-blank",
+          "max": 4,
+          "slot": 6,
+          "text": "IDK_YET_Descline2",
+          "world": 6
+        },
+        {
+          "cost": 1,
+          "id": "w7-tasksy1",
+          "max": 15,
+          "slot": 0,
+          "text": "+{%_Spelunking_POW,_but_like,_it's_a_multiplier!",
+          "world": 7
+        },
+        {
+          "cost": 1,
+          "id": "w7-tasksy2",
+          "max": 10,
+          "slot": 1,
+          "text": "All_Shimmerfin_Deep_Mobs_respawn_+{%_faster._This_boosts_AFK_kills_per_hour!",
+          "world": 7
+        },
+        {
+          "cost": 1,
+          "id": "w7-tasksy3",
+          "max": 5,
+          "slot": 2,
+          "text": "+{_max_Stamina_for_all_characters_in_Spelunking!",
+          "world": 7
+        },
+        {
+          "cost": 2,
+          "id": "w7-tasksy4",
+          "max": 5,
+          "slot": 3,
+          "text": "+{_Research_PTS._Save_these_PTS_for_an_emergency_only!",
+          "world": 7
+        },
+        {
+          "cost": 1,
+          "id": "w7-tasksy5",
+          "max": 10,
+          "slot": 4,
+          "text": "+{%_Minehead_Currency_Gain!_This_is_a_multiplier_too!!!",
+          "world": 7
+        },
+        {
+          "cost": 2,
+          "id": "w7-smithing-recipes7",
+          "max": 4,
+          "slot": 5,
+          "text": "Unlocks_recipe_to_craft_Nautilus_}._Descline2",
+          "world": 7
+        },
+        {
+          "cost": 3,
+          "id": "w7-blank",
+          "max": 4,
+          "slot": 6,
+          "text": "IDK_YET_Descline2",
+          "world": 7
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: merits",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "merit-shop",
+      "title": "Merit shop rows by world: cost and max level"
+    }
+  ],
+  "generator": "merit-shop",
+  "system": "merit-shop"
+}

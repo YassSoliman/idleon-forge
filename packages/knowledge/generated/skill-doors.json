@@ -1,0 +1,176 @@
+{
+  "entries": [
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "from": 54,
+            "level": 15,
+            "to": 55
+          },
+          {
+            "door": 0,
+            "from": 55,
+            "level": 30,
+            "to": 61
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "skill-doors",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "skills.goal.door-fishing",
+      "milestones": [
+        {
+          "at": 15,
+          "reward": "door to Faraway Piers"
+        },
+        {
+          "at": 30,
+          "reward": "door to Deepwater Docks"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "skills/level",
+        "params": {
+          "skill": "fishing"
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals on skilling maps",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "skills",
+      "text": "Fishing level {value:int}; next door at level {next:int}",
+      "title": "Fishing level doors",
+      "type": "goal",
+      "unit": "level",
+      "values": {
+        "skill": "fishing"
+      },
+      "why": "Fishing level opens the doors to the next fishing maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "from": 6,
+            "level": 10,
+            "to": 7
+          },
+          {
+            "door": 0,
+            "from": 7,
+            "level": 25,
+            "to": 10
+          },
+          {
+            "door": 0,
+            "from": 10,
+            "level": 40,
+            "to": 11
+          },
+          {
+            "door": 1,
+            "from": 11,
+            "level": 60,
+            "to": 12
+          },
+          {
+            "door": 0,
+            "from": 12,
+            "level": 60,
+            "to": 32
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "skill-doors",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "skills.goal.door-mining",
+      "milestones": [
+        {
+          "at": 10,
+          "reward": "door to Freefall Caverns"
+        },
+        {
+          "at": 25,
+          "reward": "door to The Ol' Straightaway"
+        },
+        {
+          "at": 40,
+          "reward": "door to Echoing Egress"
+        },
+        {
+          "at": 60,
+          "reward": "door to Slip Slidy Ledges and door to Motherlode Pit"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "skills/level",
+        "params": {
+          "skill": "mining"
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals on skilling maps",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "skills",
+      "text": "Mining level {value:int}; next door at level {next:int}",
+      "title": "Mining level doors",
+      "type": "goal",
+      "unit": "level",
+      "values": {
+        "skill": "mining"
+      },
+      "why": "Mining level opens the doors to the next mining maps."
+    }
+  ],
+  "generator": "skill-doors",
+  "system": "skills"
+}

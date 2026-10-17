@@ -1,0 +1,4146 @@
+{
+  "entries": [
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-0",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 0: Bigger Damage",
+      "thing": {
+        "kind": "other",
+        "rawName": "Bigger_Damage"
+      },
+      "title": "Upgrade Vault: Bigger Damage",
+      "type": "acquisition",
+      "values": {
+        "index": 0,
+        "maxLevel": 500,
+        "name": "Bigger_Damage",
+        "unlockLevel": 0
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-1",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 1: Natural Talent",
+      "thing": {
+        "kind": "other",
+        "rawName": "Natural_Talent"
+      },
+      "title": "Upgrade Vault: Natural Talent",
+      "type": "acquisition",
+      "values": {
+        "index": 1,
+        "maxLevel": 200,
+        "name": "Natural_Talent",
+        "unlockLevel": 7
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-10",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 10: Weapon Craft",
+      "thing": {
+        "kind": "other",
+        "rawName": "Weapon_Craft"
+      },
+      "title": "Upgrade Vault: Weapon Craft",
+      "type": "acquisition",
+      "values": {
+        "index": 10,
+        "maxLevel": 5,
+        "name": "Weapon_Craft",
+        "unlockLevel": 115
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-11",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 11: Carry Capacity",
+      "thing": {
+        "kind": "other",
+        "rawName": "Carry_Capacity"
+      },
+      "title": "Upgrade Vault: Carry Capacity",
+      "type": "acquisition",
+      "values": {
+        "index": 11,
+        "maxLevel": 100,
+        "name": "Carry_Capacity",
+        "unlockLevel": 130
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-12",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 12: Baby on Board",
+      "thing": {
+        "kind": "other",
+        "rawName": "Baby_on_Board"
+      },
+      "title": "Upgrade Vault: Baby on Board",
+      "type": "acquisition",
+      "values": {
+        "index": 12,
+        "maxLevel": 50,
+        "name": "Baby_on_Board",
+        "unlockLevel": 180
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-13",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 13: Major Discount",
+      "thing": {
+        "kind": "other",
+        "rawName": "Major_Discount"
+      },
+      "title": "Upgrade Vault: Major Discount",
+      "type": "acquisition",
+      "values": {
+        "index": 13,
+        "maxLevel": 80,
+        "name": "Major_Discount",
+        "unlockLevel": 240
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-14",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 14: Bored to Death",
+      "thing": {
+        "kind": "other",
+        "rawName": "Bored_to_Death"
+      },
+      "title": "Upgrade Vault: Bored to Death",
+      "type": "acquisition",
+      "values": {
+        "index": 14,
+        "maxLevel": 10,
+        "name": "Bored_to_Death",
+        "unlockLevel": 280
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-15",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 15: Knockout!",
+      "thing": {
+        "kind": "other",
+        "rawName": "Knockout!"
+      },
+      "title": "Upgrade Vault: Knockout!",
+      "type": "acquisition",
+      "values": {
+        "index": 15,
+        "maxLevel": 5,
+        "name": "Knockout!",
+        "unlockLevel": 330
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-16",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 16: Stamp Bonanza",
+      "thing": {
+        "kind": "other",
+        "rawName": "Stamp_Bonanza"
+      },
+      "title": "Upgrade Vault: Stamp Bonanza",
+      "type": "acquisition",
+      "values": {
+        "index": 16,
+        "maxLevel": 100,
+        "name": "Stamp_Bonanza",
+        "unlockLevel": 370
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-17",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 17: Mining Payday$",
+      "thing": {
+        "kind": "other",
+        "rawName": "Mining_Payday$"
+      },
+      "title": "Upgrade Vault: Mining Payday$",
+      "type": "acquisition",
+      "values": {
+        "index": 17,
+        "maxLevel": 100,
+        "name": "Mining_Payday$",
+        "unlockLevel": 410
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-18",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 18: Drops for Days",
+      "thing": {
+        "kind": "other",
+        "rawName": "Drops_for_Days"
+      },
+      "title": "Upgrade Vault: Drops for Days",
+      "type": "acquisition",
+      "values": {
+        "index": 18,
+        "maxLevel": 50,
+        "name": "Drops_for_Days",
+        "unlockLevel": 450
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-19",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 19: Happy Doggy",
+      "thing": {
+        "kind": "other",
+        "rawName": "Happy_Doggy"
+      },
+      "title": "Upgrade Vault: Happy Doggy",
+      "type": "acquisition",
+      "values": {
+        "index": 19,
+        "maxLevel": 100,
+        "name": "Happy_Doggy",
+        "unlockLevel": 480
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-2",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 2: Monster Tax",
+      "thing": {
+        "kind": "other",
+        "rawName": "Monster_Tax"
+      },
+      "title": "Upgrade Vault: Monster Tax",
+      "type": "acquisition",
+      "values": {
+        "index": 2,
+        "maxLevel": 500,
+        "name": "Monster_Tax",
+        "unlockLevel": 13
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-20",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 20: Slice N Dice",
+      "thing": {
+        "kind": "other",
+        "rawName": "Slice_N_Dice"
+      },
+      "title": "Upgrade Vault: Slice N Dice",
+      "type": "acquisition",
+      "values": {
+        "index": 20,
+        "maxLevel": 100,
+        "name": "Slice_N_Dice",
+        "unlockLevel": 550
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-21",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 21: Go Go Secret Owl",
+      "thing": {
+        "kind": "other",
+        "rawName": "Go_Go_Secret_Owl"
+      },
+      "title": "Upgrade Vault: Go Go Secret Owl",
+      "type": "acquisition",
+      "values": {
+        "index": 21,
+        "maxLevel": 100,
+        "name": "Go_Go_Secret_Owl",
+        "unlockLevel": 600
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-22",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 22: Boss Decimation",
+      "thing": {
+        "kind": "other",
+        "rawName": "Boss_Decimation"
+      },
+      "title": "Upgrade Vault: Boss Decimation",
+      "type": "acquisition",
+      "values": {
+        "index": 22,
+        "maxLevel": 25,
+        "name": "Boss_Decimation",
+        "unlockLevel": 630
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-23",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 23: Sleepy Time",
+      "thing": {
+        "kind": "other",
+        "rawName": "Sleepy_Time"
+      },
+      "title": "Upgrade Vault: Sleepy Time",
+      "type": "acquisition",
+      "values": {
+        "index": 23,
+        "maxLevel": 20,
+        "name": "Sleepy_Time",
+        "unlockLevel": 680
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-24",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 24: Production Revolution",
+      "thing": {
+        "kind": "other",
+        "rawName": "Production_Revolution"
+      },
+      "title": "Upgrade Vault: Production Revolution",
+      "type": "acquisition",
+      "values": {
+        "index": 24,
+        "maxLevel": 100,
+        "name": "Production_Revolution",
+        "unlockLevel": 750
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-25",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 25: Statue Bonanza",
+      "thing": {
+        "kind": "other",
+        "rawName": "Statue_Bonanza"
+      },
+      "title": "Upgrade Vault: Statue Bonanza",
+      "type": "acquisition",
+      "values": {
+        "index": 25,
+        "maxLevel": 50,
+        "name": "Statue_Bonanza",
+        "unlockLevel": 810
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-26",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 26: Beeg Forge",
+      "thing": {
+        "kind": "other",
+        "rawName": "Beeg_Forge"
+      },
+      "title": "Upgrade Vault: Beeg Forge",
+      "type": "acquisition",
+      "values": {
+        "index": 26,
+        "maxLevel": 100,
+        "name": "Beeg_Forge",
+        "unlockLevel": 860
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-27",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 27: Stick Snapping",
+      "thing": {
+        "kind": "other",
+        "rawName": "Stick_Snapping"
+      },
+      "title": "Upgrade Vault: Stick Snapping",
+      "type": "acquisition",
+      "values": {
+        "index": 27,
+        "maxLevel": 50,
+        "name": "Stick_Snapping",
+        "unlockLevel": 900
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-28",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 28: Liquid Knowledge",
+      "thing": {
+        "kind": "other",
+        "rawName": "Liquid_Knowledge"
+      },
+      "title": "Upgrade Vault: Liquid Knowledge",
+      "type": "acquisition",
+      "values": {
+        "index": 28,
+        "maxLevel": 100,
+        "name": "Liquid_Knowledge",
+        "unlockLevel": 930
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-29",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 29: Bug Knowledge",
+      "thing": {
+        "kind": "other",
+        "rawName": "Bug_Knowledge"
+      },
+      "title": "Upgrade Vault: Bug Knowledge",
+      "type": "acquisition",
+      "values": {
+        "index": 29,
+        "maxLevel": 100,
+        "name": "Bug_Knowledge",
+        "unlockLevel": 950
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-3",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 3: Wicked Smart",
+      "thing": {
+        "kind": "other",
+        "rawName": "Wicked_Smart"
+      },
+      "title": "Upgrade Vault: Wicked Smart",
+      "type": "acquisition",
+      "values": {
+        "index": 3,
+        "maxLevel": 500,
+        "name": "Wicked_Smart",
+        "unlockLevel": 42
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-30",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 30: Fish Knowledge",
+      "thing": {
+        "kind": "other",
+        "rawName": "Fish_Knowledge"
+      },
+      "title": "Upgrade Vault: Fish Knowledge",
+      "type": "acquisition",
+      "values": {
+        "index": 30,
+        "maxLevel": 100,
+        "name": "Fish_Knowledge",
+        "unlockLevel": 980
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-31",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 31: Dirty Money",
+      "thing": {
+        "kind": "other",
+        "rawName": "Dirty_Money"
+      },
+      "title": "Upgrade Vault: Dirty Money",
+      "type": "acquisition",
+      "values": {
+        "index": 31,
+        "maxLevel": 25,
+        "name": "Dirty_Money",
+        "unlockLevel": 1000
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": true,
+        "majorDiscountApplies": true,
+        "masteryTier": null,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-32",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 32: Vault Mastery",
+      "thing": {
+        "kind": "other",
+        "rawName": "Vault_Mastery"
+      },
+      "title": "Upgrade Vault: Vault Mastery",
+      "type": "acquisition",
+      "values": {
+        "index": 32,
+        "maxLevel": 50,
+        "name": "Vault_Mastery",
+        "unlockLevel": 1050
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-33",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 33: Storage Slots",
+      "thing": {
+        "kind": "other",
+        "rawName": "Storage Slots"
+      },
+      "title": "Upgrade Vault: Storage Slots",
+      "type": "acquisition",
+      "values": {
+        "index": 33,
+        "maxLevel": 24,
+        "name": "Storage Slots",
+        "unlockLevel": 1100
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-34",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 34: Recipe for Profit",
+      "thing": {
+        "kind": "other",
+        "rawName": "Recipe_for_Profit"
+      },
+      "title": "Upgrade Vault: Recipe for Profit",
+      "type": "acquisition",
+      "values": {
+        "index": 34,
+        "maxLevel": 50,
+        "name": "Recipe_for_Profit",
+        "unlockLevel": 1140
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-35",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 35: Schoolin' the Fish$",
+      "thing": {
+        "kind": "other",
+        "rawName": "Schoolin'_the_Fish$"
+      },
+      "title": "Upgrade Vault: Schoolin' the Fish$",
+      "type": "acquisition",
+      "values": {
+        "index": 35,
+        "maxLevel": 20,
+        "name": "Schoolin'_the_Fish$",
+        "unlockLevel": 1210
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": true
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-36",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 36: Straight to Storage",
+      "thing": {
+        "kind": "other",
+        "rawName": "Straight_to_Storage"
+      },
+      "title": "Upgrade Vault: Straight to Storage",
+      "type": "acquisition",
+      "values": {
+        "index": 36,
+        "maxLevel": 1,
+        "name": "Straight_to_Storage",
+        "unlockLevel": 1260
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-37",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 37: Bubble Money",
+      "thing": {
+        "kind": "other",
+        "rawName": "Bubble_Money"
+      },
+      "title": "Upgrade Vault: Bubble Money",
+      "type": "acquisition",
+      "values": {
+        "index": 37,
+        "maxLevel": 10,
+        "name": "Bubble_Money",
+        "unlockLevel": 1320
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-38",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 38: Drip Drip Drip",
+      "thing": {
+        "kind": "other",
+        "rawName": "Drip_Drip_Drip"
+      },
+      "title": "Upgrade Vault: Drip Drip Drip",
+      "type": "acquisition",
+      "values": {
+        "index": 38,
+        "maxLevel": 20,
+        "name": "Drip_Drip_Drip",
+        "unlockLevel": 1400
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-39",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 39: Active Learning",
+      "thing": {
+        "kind": "other",
+        "rawName": "Active_Learning"
+      },
+      "title": "Upgrade Vault: Active Learning",
+      "type": "acquisition",
+      "values": {
+        "index": 39,
+        "maxLevel": 100,
+        "name": "Active_Learning",
+        "unlockLevel": 1470
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-4",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 4: Bullseye",
+      "thing": {
+        "kind": "other",
+        "rawName": "Bullseye"
+      },
+      "title": "Upgrade Vault: Bullseye",
+      "type": "acquisition",
+      "values": {
+        "index": 4,
+        "maxLevel": 500,
+        "name": "Bullseye",
+        "unlockLevel": 49
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-40",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 40: Stunning Talent",
+      "thing": {
+        "kind": "other",
+        "rawName": "Stunning_Talent"
+      },
+      "title": "Upgrade Vault: Stunning Talent",
+      "type": "acquisition",
+      "values": {
+        "index": 40,
+        "maxLevel": 100,
+        "name": "Stunning_Talent",
+        "unlockLevel": 1540
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-41",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 41: Bug Power En Masse$",
+      "thing": {
+        "kind": "other",
+        "rawName": "Bug_Power_En_Masse$"
+      },
+      "title": "Upgrade Vault: Bug Power En Masse$",
+      "type": "acquisition",
+      "values": {
+        "index": 41,
+        "maxLevel": 20,
+        "name": "Bug_Power_En_Masse$",
+        "unlockLevel": 1620
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-42",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 42: Vial Overtune",
+      "thing": {
+        "kind": "other",
+        "rawName": "Vial_Overtune"
+      },
+      "title": "Upgrade Vault: Vial Overtune",
+      "type": "acquisition",
+      "values": {
+        "index": 42,
+        "maxLevel": 3,
+        "name": "Vial_Overtune",
+        "unlockLevel": 1700
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-43",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 43: Active Murdering",
+      "thing": {
+        "kind": "other",
+        "rawName": "Active_Murdering"
+      },
+      "title": "Upgrade Vault: Active Murdering",
+      "type": "acquisition",
+      "values": {
+        "index": 43,
+        "maxLevel": 100,
+        "name": "Active_Murdering",
+        "unlockLevel": 1780
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": true
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-44",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 44: Card Retirement",
+      "thing": {
+        "kind": "other",
+        "rawName": "Card_Retirement"
+      },
+      "title": "Upgrade Vault: Card Retirement",
+      "type": "acquisition",
+      "values": {
+        "index": 44,
+        "maxLevel": 1,
+        "name": "Card_Retirement",
+        "unlockLevel": 1850
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-45",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 45: Go Go Secret Kangaroo Mouse",
+      "thing": {
+        "kind": "other",
+        "rawName": "Go_Go_Secret_Kangaroo_Mouse"
+      },
+      "title": "Upgrade Vault: Go Go Secret Kangaroo Mouse",
+      "type": "acquisition",
+      "values": {
+        "index": 45,
+        "maxLevel": 250,
+        "name": "Go_Go_Secret_Kangaroo_Mouse",
+        "unlockLevel": 1920
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-46",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 46: All Armoured Up",
+      "thing": {
+        "kind": "other",
+        "rawName": "All_Armoured_Up"
+      },
+      "title": "Upgrade Vault: All Armoured Up",
+      "type": "acquisition",
+      "values": {
+        "index": 46,
+        "maxLevel": 100,
+        "name": "All_Armoured_Up",
+        "unlockLevel": 2000
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-47",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 47: Daily Mailbox",
+      "thing": {
+        "kind": "other",
+        "rawName": "Daily_Mailbox"
+      },
+      "title": "Upgrade Vault: Daily Mailbox",
+      "type": "acquisition",
+      "values": {
+        "index": 47,
+        "maxLevel": 10,
+        "name": "Daily_Mailbox",
+        "unlockLevel": 2080
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-48",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 48: Buildie Sheepie",
+      "thing": {
+        "kind": "other",
+        "rawName": "Buildie_Sheepie"
+      },
+      "title": "Upgrade Vault: Buildie Sheepie",
+      "type": "acquisition",
+      "values": {
+        "index": 48,
+        "maxLevel": 20,
+        "name": "Buildie_Sheepie",
+        "unlockLevel": 2160
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-49",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 49: Quest KAPOW!",
+      "thing": {
+        "kind": "other",
+        "rawName": "Quest_KAPOW!"
+      },
+      "title": "Upgrade Vault: Quest KAPOW!",
+      "type": "acquisition",
+      "values": {
+        "index": 49,
+        "maxLevel": 200,
+        "name": "Quest_KAPOW!",
+        "unlockLevel": 2240
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-5",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 5: Steel Guard",
+      "thing": {
+        "kind": "other",
+        "rawName": "Steel_Guard"
+      },
+      "title": "Upgrade Vault: Steel Guard",
+      "type": "acquisition",
+      "values": {
+        "index": 5,
+        "maxLevel": 100,
+        "name": "Steel_Guard",
+        "unlockLevel": 80
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-50",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 50: Critters 'n Souls",
+      "thing": {
+        "kind": "other",
+        "rawName": "Critters_'n_Souls"
+      },
+      "title": "Upgrade Vault: Critters 'n Souls",
+      "type": "acquisition",
+      "values": {
+        "index": 50,
+        "maxLevel": 300,
+        "name": "Critters_'n_Souls",
+        "unlockLevel": 2320
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-51",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 51: Slight Do-Over",
+      "thing": {
+        "kind": "other",
+        "rawName": "Slight_Do-Over"
+      },
+      "title": "Upgrade Vault: Slight Do-Over",
+      "type": "acquisition",
+      "values": {
+        "index": 51,
+        "maxLevel": 20,
+        "name": "Slight_Do-Over",
+        "unlockLevel": 2400
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": true
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-52",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 52: Duplicate Entries",
+      "thing": {
+        "kind": "other",
+        "rawName": "Duplicate_Entries"
+      },
+      "title": "Upgrade Vault: Duplicate Entries",
+      "type": "acquisition",
+      "values": {
+        "index": 52,
+        "maxLevel": 1,
+        "name": "Duplicate_Entries",
+        "unlockLevel": 2470
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-53",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 53: Special Talent",
+      "thing": {
+        "kind": "other",
+        "rawName": "Special_Talent"
+      },
+      "title": "Upgrade Vault: Special Talent",
+      "type": "acquisition",
+      "values": {
+        "index": 53,
+        "maxLevel": 150,
+        "name": "Special_Talent",
+        "unlockLevel": 2530
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-54",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 54: Kitchen Dream-mare",
+      "thing": {
+        "kind": "other",
+        "rawName": "Kitchen_Dream-mare"
+      },
+      "title": "Upgrade Vault: Kitchen Dream-mare",
+      "type": "acquisition",
+      "values": {
+        "index": 54,
+        "maxLevel": 500,
+        "name": "Kitchen_Dream-mare",
+        "unlockLevel": 2600
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-55",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 55: Lab Knowledge",
+      "thing": {
+        "kind": "other",
+        "rawName": "Lab_Knowledge"
+      },
+      "title": "Upgrade Vault: Lab Knowledge",
+      "type": "acquisition",
+      "values": {
+        "index": 55,
+        "maxLevel": 100,
+        "name": "Lab_Knowledge",
+        "unlockLevel": 2700
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-56",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 56: Foraging Forever",
+      "thing": {
+        "kind": "other",
+        "rawName": "Foraging_Forever"
+      },
+      "title": "Upgrade Vault: Foraging Forever",
+      "type": "acquisition",
+      "values": {
+        "index": 56,
+        "maxLevel": 250,
+        "name": "Foraging_Forever",
+        "unlockLevel": 2850
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-57",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 57: Teh TOM",
+      "thing": {
+        "kind": "other",
+        "rawName": "Teh_TOM"
+      },
+      "title": "Upgrade Vault: Teh TOM",
+      "type": "acquisition",
+      "values": {
+        "index": 57,
+        "maxLevel": 500,
+        "name": "Teh_TOM",
+        "unlockLevel": 3000
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-58",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 58: Pet Punchies",
+      "thing": {
+        "kind": "other",
+        "rawName": "Pet_Punchies"
+      },
+      "title": "Upgrade Vault: Pet Punchies",
+      "type": "acquisition",
+      "values": {
+        "index": 58,
+        "maxLevel": 250,
+        "name": "Pet_Punchies",
+        "unlockLevel": 3100
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-59",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 59: Breeding Knowledge",
+      "thing": {
+        "kind": "other",
+        "rawName": "Breeding_Knowledge"
+      },
+      "title": "Upgrade Vault: Breeding Knowledge",
+      "type": "acquisition",
+      "values": {
+        "index": 59,
+        "maxLevel": 100,
+        "name": "Breeding_Knowledge",
+        "unlockLevel": 3200
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-6",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 6: Evolving Talent",
+      "thing": {
+        "kind": "other",
+        "rawName": "Evolving_Talent"
+      },
+      "title": "Upgrade Vault: Evolving Talent",
+      "type": "acquisition",
+      "values": {
+        "index": 6,
+        "maxLevel": 200,
+        "name": "Evolving_Talent",
+        "unlockLevel": 75
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 2,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-60",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 60: Cooking Knowledge",
+      "thing": {
+        "kind": "other",
+        "rawName": "Cooking_Knowledge"
+      },
+      "title": "Upgrade Vault: Cooking Knowledge",
+      "type": "acquisition",
+      "values": {
+        "index": 60,
+        "maxLevel": 500,
+        "name": "Cooking_Knowledge",
+        "unlockLevel": 3300
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": true,
+        "majorDiscountApplies": false,
+        "masteryTier": null,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-61",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 61: Vault Mastery II",
+      "thing": {
+        "kind": "other",
+        "rawName": "Vault_Mastery_II"
+      },
+      "title": "Upgrade Vault: Vault Mastery II",
+      "type": "acquisition",
+      "values": {
+        "index": 61,
+        "maxLevel": 50,
+        "name": "Vault_Mastery_II",
+        "unlockLevel": 3400
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-62",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 62: Speedy Sailing",
+      "thing": {
+        "kind": "other",
+        "rawName": "Speedy_Sailing"
+      },
+      "title": "Upgrade Vault: Speedy Sailing",
+      "type": "acquisition",
+      "values": {
+        "index": 62,
+        "maxLevel": 100,
+        "name": "Speedy_Sailing",
+        "unlockLevel": 3800
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-63",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 63: Artifact Find Chance",
+      "thing": {
+        "kind": "other",
+        "rawName": "Artifact_Find_Chance"
+      },
+      "title": "Upgrade Vault: Artifact Find Chance",
+      "type": "acquisition",
+      "values": {
+        "index": 63,
+        "maxLevel": 250,
+        "name": "Artifact_Find_Chance",
+        "unlockLevel": 3900
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-64",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 64: Skulltrick",
+      "thing": {
+        "kind": "other",
+        "rawName": "Skulltrick"
+      },
+      "title": "Upgrade Vault: Skulltrick",
+      "type": "acquisition",
+      "values": {
+        "index": 64,
+        "maxLevel": 100,
+        "name": "Skulltrick",
+        "unlockLevel": 4050
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-65",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 65: Go Go Bubba the Seal",
+      "thing": {
+        "kind": "other",
+        "rawName": "Go_Go_Bubba_the_Seal"
+      },
+      "title": "Upgrade Vault: Go Go Bubba the Seal",
+      "type": "acquisition",
+      "values": {
+        "index": 65,
+        "maxLevel": 500,
+        "name": "Go_Go_Bubba_the_Seal",
+        "unlockLevel": 4100
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-66",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 66: Ocean Knowledge",
+      "thing": {
+        "kind": "other",
+        "rawName": "Ocean_Knowledge"
+      },
+      "title": "Upgrade Vault: Ocean Knowledge",
+      "type": "acquisition",
+      "values": {
+        "index": 66,
+        "maxLevel": 100,
+        "name": "Ocean_Knowledge",
+        "unlockLevel": 4300
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-67",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 67: Sailing Loot",
+      "thing": {
+        "kind": "other",
+        "rawName": "Sailing_Loot"
+      },
+      "title": "Upgrade Vault: Sailing Loot",
+      "type": "acquisition",
+      "values": {
+        "index": 67,
+        "maxLevel": 200,
+        "name": "Sailing_Loot",
+        "unlockLevel": 4400
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-68",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 68: Mega Bits",
+      "thing": {
+        "kind": "other",
+        "rawName": "Mega_Bits"
+      },
+      "title": "Upgrade Vault: Mega Bits",
+      "type": "acquisition",
+      "values": {
+        "index": 68,
+        "maxLevel": 300,
+        "name": "Mega_Bits",
+        "unlockLevel": 4500
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-69",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 69: Gamer Knowledge",
+      "thing": {
+        "kind": "other",
+        "rawName": "Gamer_Knowledge"
+      },
+      "title": "Upgrade Vault: Gamer Knowledge",
+      "type": "acquisition",
+      "values": {
+        "index": 69,
+        "maxLevel": 100,
+        "name": "Gamer_Knowledge",
+        "unlockLevel": 4650
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": true
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-7",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 7: Massive Whirl",
+      "thing": {
+        "kind": "other",
+        "rawName": "Massive_Whirl"
+      },
+      "title": "Upgrade Vault: Massive Whirl",
+      "type": "acquisition",
+      "values": {
+        "index": 7,
+        "maxLevel": 1,
+        "name": "Massive_Whirl",
+        "unlockLevel": 95
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-70",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 70: Collection Cashout",
+      "thing": {
+        "kind": "other",
+        "rawName": "Collection_Cashout"
+      },
+      "title": "Upgrade Vault: Collection Cashout",
+      "type": "acquisition",
+      "values": {
+        "index": 70,
+        "maxLevel": 20,
+        "name": "Collection_Cashout",
+        "unlockLevel": 4750
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-71",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 71: Divinity Points",
+      "thing": {
+        "kind": "other",
+        "rawName": "Divinity_Points"
+      },
+      "title": "Upgrade Vault: Divinity Points",
+      "type": "acquisition",
+      "values": {
+        "index": 71,
+        "maxLevel": 100,
+        "name": "Divinity_Points",
+        "unlockLevel": 4800
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-72",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 72: Divine Knowledge",
+      "thing": {
+        "kind": "other",
+        "rawName": "Divine_Knowledge"
+      },
+      "title": "Upgrade Vault: Divine Knowledge",
+      "type": "acquisition",
+      "values": {
+        "index": 72,
+        "maxLevel": 100,
+        "name": "Divine_Knowledge",
+        "unlockLevel": 4900
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-73",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 73: Smarter Villagers",
+      "thing": {
+        "kind": "other",
+        "rawName": "Smarter_Villagers"
+      },
+      "title": "Upgrade Vault: Smarter Villagers",
+      "type": "acquisition",
+      "values": {
+        "index": 73,
+        "maxLevel": 50,
+        "name": "Smarter_Villagers",
+        "unlockLevel": 5000
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-74",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 74: Super Slab",
+      "thing": {
+        "kind": "other",
+        "rawName": "Super_Slab"
+      },
+      "title": "Upgrade Vault: Super Slab",
+      "type": "acquisition",
+      "values": {
+        "index": 74,
+        "maxLevel": 20,
+        "name": "Super_Slab",
+        "unlockLevel": 5100
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-75",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 75: Better Captains",
+      "thing": {
+        "kind": "other",
+        "rawName": "Better_Captains"
+      },
+      "title": "Upgrade Vault: Better Captains",
+      "type": "acquisition",
+      "values": {
+        "index": 75,
+        "maxLevel": 100,
+        "name": "Better_Captains",
+        "unlockLevel": 5200
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-76",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 76: Big Blessings",
+      "thing": {
+        "kind": "other",
+        "rawName": "Big_Blessings"
+      },
+      "title": "Upgrade Vault: Big Blessings",
+      "type": "acquisition",
+      "values": {
+        "index": 76,
+        "maxLevel": 30,
+        "name": "Big_Blessings",
+        "unlockLevel": 5300
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-77",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 77: Farming Knowledge",
+      "thing": {
+        "kind": "other",
+        "rawName": "Farming_Knowledge"
+      },
+      "title": "Upgrade Vault: Farming Knowledge",
+      "type": "acquisition",
+      "values": {
+        "index": 77,
+        "maxLevel": 100,
+        "name": "Farming_Knowledge",
+        "unlockLevel": 5700
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-78",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 78: Croppius Evolvius",
+      "thing": {
+        "kind": "other",
+        "rawName": "Croppius_Evolvius"
+      },
+      "title": "Upgrade Vault: Croppius Evolvius",
+      "type": "acquisition",
+      "values": {
+        "index": 78,
+        "maxLevel": 250,
+        "name": "Croppius_Evolvius",
+        "unlockLevel": 5800
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-79",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 79: Properly Funded Research",
+      "thing": {
+        "kind": "other",
+        "rawName": "Properly_Funded_Research"
+      },
+      "title": "Upgrade Vault: Properly Funded Research",
+      "type": "acquisition",
+      "values": {
+        "index": 79,
+        "maxLevel": 10,
+        "name": "Properly_Funded_Research",
+        "unlockLevel": 5900
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": true
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-8",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 8: Rapid Arrows",
+      "thing": {
+        "kind": "other",
+        "rawName": "Rapid_Arrows"
+      },
+      "title": "Upgrade Vault: Rapid Arrows",
+      "type": "acquisition",
+      "values": {
+        "index": 8,
+        "maxLevel": 1,
+        "name": "Rapid_Arrows",
+        "unlockLevel": 97
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-80",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 80: Raw Damage",
+      "thing": {
+        "kind": "other",
+        "rawName": "Raw_Damage"
+      },
+      "title": "Upgrade Vault: Raw Damage",
+      "type": "acquisition",
+      "values": {
+        "index": 80,
+        "maxLevel": 500,
+        "name": "Raw_Damage",
+        "unlockLevel": 6000
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-81",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 81: Finders Keepers",
+      "thing": {
+        "kind": "other",
+        "rawName": "Finders_Keepers"
+      },
+      "title": "Upgrade Vault: Finders Keepers",
+      "type": "acquisition",
+      "values": {
+        "index": 81,
+        "maxLevel": 250,
+        "name": "Finders_Keepers",
+        "unlockLevel": 6200
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-82",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 82: Sneaking Knowledge",
+      "thing": {
+        "kind": "other",
+        "rawName": "Sneaking_Knowledge"
+      },
+      "title": "Upgrade Vault: Sneaking Knowledge",
+      "type": "acquisition",
+      "values": {
+        "index": 82,
+        "maxLevel": 100,
+        "name": "Sneaking_Knowledge",
+        "unlockLevel": 6400
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-83",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 83: White Essentials",
+      "thing": {
+        "kind": "other",
+        "rawName": "White_Essentials"
+      },
+      "title": "Upgrade Vault: White Essentials",
+      "type": "acquisition",
+      "values": {
+        "index": 83,
+        "maxLevel": 200,
+        "name": "White_Essentials",
+        "unlockLevel": 6500
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-84",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 84: Summoning Knowledge",
+      "thing": {
+        "kind": "other",
+        "rawName": "Summoning_Knowledge"
+      },
+      "title": "Upgrade Vault: Summoning Knowledge",
+      "type": "acquisition",
+      "values": {
+        "index": 84,
+        "maxLevel": 100,
+        "name": "Summoning_Knowledge",
+        "unlockLevel": 6750
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-85",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 85: Bigger Better Beans",
+      "thing": {
+        "kind": "other",
+        "rawName": "Bigger_Better_Beans"
+      },
+      "title": "Upgrade Vault: Bigger Better Beans",
+      "type": "acquisition",
+      "values": {
+        "index": 85,
+        "maxLevel": 50,
+        "name": "Bigger_Better_Beans",
+        "unlockLevel": 6900
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-86",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 86: 24 Karat Foods",
+      "thing": {
+        "kind": "other",
+        "rawName": "24_Karat_Foods"
+      },
+      "title": "Upgrade Vault: 24 Karat Foods",
+      "type": "acquisition",
+      "values": {
+        "index": 86,
+        "maxLevel": 50,
+        "name": "24_Karat_Foods",
+        "unlockLevel": 7000
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-87",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 87: Rest of the Essentials",
+      "thing": {
+        "kind": "other",
+        "rawName": "Rest_of_the_Essentials"
+      },
+      "title": "Upgrade Vault: Rest of the Essentials",
+      "type": "acquisition",
+      "values": {
+        "index": 87,
+        "maxLevel": 200,
+        "name": "Rest_of_the_Essentials",
+        "unlockLevel": 7100
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": false,
+        "masteryTier": 3,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-88",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 88: Topheavy Charms",
+      "thing": {
+        "kind": "other",
+        "rawName": "Topheavy_Charms"
+      },
+      "title": "Upgrade Vault: Topheavy Charms",
+      "type": "acquisition",
+      "values": {
+        "index": 88,
+        "maxLevel": 100,
+        "name": "Topheavy_Charms",
+        "unlockLevel": 7300
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": true,
+        "majorDiscountApplies": false,
+        "masteryTier": null,
+        "oneOff": false
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-89",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 89: Vault Mastery III",
+      "thing": {
+        "kind": "other",
+        "rawName": "Vault_Mastery_III"
+      },
+      "title": "Upgrade Vault: Vault Mastery III",
+      "type": "acquisition",
+      "values": {
+        "index": 89,
+        "maxLevel": 50,
+        "name": "Vault_Mastery_III",
+        "unlockLevel": 7500
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "isMasteryRow": false,
+        "majorDiscountApplies": true,
+        "masteryTier": 1,
+        "oneOff": true
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "upgrade-vault",
+        "inputs": [
+          "website-data/shared-data.json#upgradeVault"
+        ]
+      },
+      "id": "upgrade-vault.acquisition.row-9",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: upgradeVault",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "Upgrade Vault row 9: Dual Fireballs",
+      "thing": {
+        "kind": "other",
+        "rawName": "Dual_Fireballs"
+      },
+      "title": "Upgrade Vault: Dual Fireballs",
+      "type": "acquisition",
+      "values": {
+        "index": 9,
+        "maxLevel": 1,
+        "name": "Dual_Fireballs",
+        "unlockLevel": 99
+      },
+      "why": "A Vault row unlocks once the account has bought enough Vault levels in total."
+    }
+  ],
+  "generator": "upgrade-vault",
+  "system": "upgrade-vault"
+}

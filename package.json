@@ -15,7 +15,10 @@
     "lint": "biome check .",
     "format": "biome check --write .",
     "typecheck": "pnpm -r typecheck",
-    "sync-parsers": "bash packages/toolbox-parsers/scripts/sync.sh"
+    "sync-parsers": "bash packages/toolbox-parsers/scripts/sync.sh",
+    "kb": "pnpm --silent --filter @idleon-forge/kb-tools kb",
+    "kb:generate": "pnpm --silent --filter @idleon-forge/kb-tools kb generate",
+    "prepare": "git config core.hooksPath .githooks 2>/dev/null || true"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",

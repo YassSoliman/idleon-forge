@@ -1,0 +1,184 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "skill-classes",
+        "inputs": [
+          "website-data/talents.json",
+          "website-data/classPromotions.json"
+        ]
+      },
+      "id": "talents.fact.skill-classes",
+      "origin": "generated",
+      "rows": [
+        {
+          "class": "Arcane_Cultist",
+          "skills": {
+            "CHOPPIN": [
+              "LOG_ON_LOGS"
+            ]
+          }
+        },
+        {
+          "class": "Archer",
+          "skills": {}
+        },
+        {
+          "class": "Barbarian",
+          "skills": {
+            "FISHING": [
+              "WORMING_UNDERCOVER"
+            ],
+            "MINING": [
+              "BIG_PICK"
+            ]
+          }
+        },
+        {
+          "class": "Beast_Master",
+          "skills": {}
+        },
+        {
+          "class": "Beginner",
+          "skills": {}
+        },
+        {
+          "class": "Blood_Berserker",
+          "skills": {
+            "FISHING": [
+              "WORMING_UNDERCOVER"
+            ],
+            "MINING": [
+              "BIG_PICK"
+            ]
+          }
+        },
+        {
+          "class": "Bowman",
+          "skills": {}
+        },
+        {
+          "class": "Bubonic_Conjuror",
+          "skills": {
+            "CHOPPIN": [
+              "LOG_ON_LOGS"
+            ]
+          }
+        },
+        {
+          "class": "Death_Bringer",
+          "skills": {
+            "FISHING": [
+              "WORMING_UNDERCOVER"
+            ],
+            "MINING": [
+              "BIG_PICK"
+            ]
+          }
+        },
+        {
+          "class": "Divine_Knight",
+          "skills": {
+            "MINING": [
+              "BIG_PICK"
+            ]
+          }
+        },
+        {
+          "class": "Elemental_Sorcerer",
+          "skills": {
+            "CHOPPIN": [
+              "LOG_ON_LOGS"
+            ]
+          }
+        },
+        {
+          "class": "Hunter",
+          "skills": {}
+        },
+        {
+          "class": "Journeyman",
+          "skills": {}
+        },
+        {
+          "class": "Maestro",
+          "skills": {}
+        },
+        {
+          "class": "Mage",
+          "skills": {
+            "CHOPPIN": [
+              "LOG_ON_LOGS"
+            ]
+          }
+        },
+        {
+          "class": "Royal_Guardian",
+          "skills": {
+            "MINING": [
+              "BIG_PICK"
+            ]
+          }
+        },
+        {
+          "class": "Shaman",
+          "skills": {
+            "CHOPPIN": [
+              "LOG_ON_LOGS"
+            ]
+          }
+        },
+        {
+          "class": "Siege_Breaker",
+          "skills": {}
+        },
+        {
+          "class": "Squire",
+          "skills": {
+            "MINING": [
+              "BIG_PICK"
+            ]
+          }
+        },
+        {
+          "class": "Voidwalker",
+          "skills": {}
+        },
+        {
+          "class": "Warrior",
+          "skills": {
+            "MINING": [
+              "BIG_PICK"
+            ]
+          }
+        },
+        {
+          "class": "Wind_Walker",
+          "skills": {}
+        },
+        {
+          "class": "Wizard",
+          "skills": {
+            "CHOPPIN": [
+              "LOG_ON_LOGS"
+            ]
+          }
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: talents",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "talents",
+      "title": "Skill attacks by class"
+    }
+  ],
+  "generator": "skill-classes",
+  "system": "talents"
+}

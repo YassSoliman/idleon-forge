@@ -1,0 +1,84 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "refinery",
+        "inputs": [
+          "website-data/shared-data.json#refinery"
+        ]
+      },
+      "id": "refinery.fact.salts",
+      "origin": "generated",
+      "rows": [
+        {
+          "id": "redox-salts",
+          "name": "Redox_Salts",
+          "order": 0,
+          "rawName": "Refinery1"
+        },
+        {
+          "id": "explosive-salts",
+          "name": "Explosive_Salts",
+          "order": 1,
+          "rawName": "Refinery2"
+        },
+        {
+          "id": "spontaneity-salts",
+          "name": "Spontaneity_Salts",
+          "order": 2,
+          "rawName": "Refinery3"
+        },
+        {
+          "id": "dioxide-synthesis",
+          "name": "Dioxide_Synthesis",
+          "order": 3,
+          "rawName": "Refinery4"
+        },
+        {
+          "id": "purple-salt",
+          "name": "Purple_Salt",
+          "order": 4,
+          "rawName": "Refinery5"
+        },
+        {
+          "id": "nullo-salt",
+          "name": "Nullo_Salt",
+          "order": 5,
+          "rawName": "Refinery6"
+        },
+        {
+          "id": "crosslink-salt",
+          "name": "Crosslink_Salt",
+          "order": 6,
+          "rawName": "Refinery7"
+        },
+        {
+          "id": "propagated-salt",
+          "name": "Propagated_Salt",
+          "order": 7,
+          "rawName": "Refinery8"
+        },
+        {
+          "id": "anionic-salt",
+          "name": "Anionic_Salt",
+          "order": 8,
+          "rawName": "Refinery9"
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: refinery",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "refinery",
+      "title": "Refinery salts in order"
+    }
+  ],
+  "generator": "refinery",
+  "system": "refinery"
+}

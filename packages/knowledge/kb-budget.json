@@ -1,0 +1,5 @@
+{
+  "description": "M11 TR-17: the shipped bundle budget at MVP coverage. kb compile fails at +20 % over bundleBytes.",
+  "bundleBytes": 409600,
+  "bundleGzipBytes": 122880
+}

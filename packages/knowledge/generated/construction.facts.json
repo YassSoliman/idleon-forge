@@ -1,0 +1,192 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "construction",
+        "inputs": [
+          "website-data/shared-data.json#towers"
+        ]
+      },
+      "id": "construction.fact.buildings",
+      "origin": "generated",
+      "rows": [
+        {
+          "id": "3-d-printer",
+          "index": 0,
+          "maxLevel": 11,
+          "rawName": "3D_Printer"
+        },
+        {
+          "id": "talent-book-library",
+          "index": 1,
+          "maxLevel": 101,
+          "rawName": "Talent_Book_Library"
+        },
+        {
+          "id": "death-note",
+          "index": 2,
+          "maxLevel": 51,
+          "rawName": "Death_Note"
+        },
+        {
+          "id": "salt-lick",
+          "index": 3,
+          "maxLevel": 11,
+          "rawName": "Salt_Lick"
+        },
+        {
+          "id": "chest-space",
+          "index": 4,
+          "maxLevel": 25,
+          "rawName": "Chest_Space"
+        },
+        {
+          "id": "cost-cruncher",
+          "index": 5,
+          "maxLevel": 60,
+          "rawName": "Cost_Cruncher"
+        },
+        {
+          "id": "trapper-drone",
+          "index": 6,
+          "maxLevel": 15,
+          "rawName": "Trapper_Drone"
+        },
+        {
+          "id": "automation-arm",
+          "index": 7,
+          "maxLevel": 5,
+          "rawName": "Automation_Arm"
+        },
+        {
+          "id": "atom-collider",
+          "index": 8,
+          "maxLevel": 200,
+          "rawName": "Atom_Collider"
+        },
+        {
+          "id": "pulse-mage",
+          "index": 9,
+          "maxLevel": 50,
+          "rawName": "Pulse_Mage"
+        },
+        {
+          "id": "fireball-lobber",
+          "index": 10,
+          "maxLevel": 50,
+          "rawName": "Fireball_Lobber"
+        },
+        {
+          "id": "boulder-roller",
+          "index": 11,
+          "maxLevel": 50,
+          "rawName": "Boulder_Roller"
+        },
+        {
+          "id": "frozone-malone",
+          "index": 12,
+          "maxLevel": 50,
+          "rawName": "Frozone_Malone"
+        },
+        {
+          "id": "stormcaller",
+          "index": 13,
+          "maxLevel": 50,
+          "rawName": "Stormcaller"
+        },
+        {
+          "id": "party-starter",
+          "index": 14,
+          "maxLevel": 50,
+          "rawName": "Party_Starter"
+        },
+        {
+          "id": "kraken-cosplayer",
+          "index": 15,
+          "maxLevel": 50,
+          "rawName": "Kraken_Cosplayer"
+        },
+        {
+          "id": "poisonic-elder",
+          "index": 16,
+          "maxLevel": 50,
+          "rawName": "Poisonic_Elder"
+        },
+        {
+          "id": "voidinator",
+          "index": 17,
+          "maxLevel": 50,
+          "rawName": "Voidinator"
+        },
+        {
+          "id": "woodular-shrine",
+          "index": 18,
+          "maxLevel": 100,
+          "rawName": "Woodular_Shrine"
+        },
+        {
+          "id": "isaccian-shrine",
+          "index": 19,
+          "maxLevel": 100,
+          "rawName": "Isaccian_Shrine"
+        },
+        {
+          "id": "crystal-shrine",
+          "index": 20,
+          "maxLevel": 100,
+          "rawName": "Crystal_Shrine"
+        },
+        {
+          "id": "pantheon-shrine",
+          "index": 21,
+          "maxLevel": 100,
+          "rawName": "Pantheon_Shrine"
+        },
+        {
+          "id": "clover-shrine",
+          "index": 22,
+          "maxLevel": 100,
+          "rawName": "Clover_Shrine"
+        },
+        {
+          "id": "summereading-shrine",
+          "index": 23,
+          "maxLevel": 100,
+          "rawName": "Summereading_Shrine"
+        },
+        {
+          "id": "crescent-shrine",
+          "index": 24,
+          "maxLevel": 100,
+          "rawName": "Crescent_Shrine"
+        },
+        {
+          "id": "undead-shrine",
+          "index": 25,
+          "maxLevel": 100,
+          "rawName": "Undead_Shrine"
+        },
+        {
+          "id": "primordial-shrine",
+          "index": 26,
+          "maxLevel": 100,
+          "rawName": "Primordial_Shrine"
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: towers",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "construction",
+      "title": "Construction buildings: index and max level"
+    }
+  ],
+  "generator": "construction",
+  "system": "construction"
+}
