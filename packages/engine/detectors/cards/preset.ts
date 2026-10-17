@@ -1,0 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Copyright (C) 2026 IdleOn Forge contributors.
+// M8 engine Detector cards/preset; defined in src/collections/detectors.ts. It reads 'cards.fact.activity-keywords', 'cards.fact.card-preferences'
+// and 'cards.fact.slots'.
+export { cardPresetDetector as default } from '../../src/collections/detectors';
