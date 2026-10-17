@@ -186,6 +186,7 @@ function goalView(g: Goal): GoalView {
     // D2, D9: blockers can be skipped, never dismissed; Report this everywhere.
     action: actionView(g.nextAction, g.title, g.category, { skip: true, notForMe: !blocker, report: true }),
     milestone: milestoneText(g.milestone),
+    details: (g.details ?? []).map((d) => ({ key: `${g.id}#${d.subject}`, text: d.text })),
   };
 }
 
@@ -767,6 +768,7 @@ function spendPlanView(
           provenance: { entryIds: firstBuy.provenance.entries, fields: firstBuy.provenance.fields },
         },
         milestone: null,
+        details: [],
       }
     : null;
   return {

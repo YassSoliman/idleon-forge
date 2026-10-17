@@ -21,6 +21,7 @@ function goalLine(g: GoalView, indent = ''): string[] {
   const a = g.action;
   const out = [`${indent}- ${a.tag}: ${a.text} ${src(a.source)}`];
   if (g.milestone) out.push(`${indent}  ${g.milestone}`);
+  for (const d of g.details) out.push(`${indent}  · ${d.text}`);
   if (a.contested)
     out.push(`${indent}  sources disagree: ${a.contested.sides.map((s) => s.text).join(' | ')}`);
   return out;

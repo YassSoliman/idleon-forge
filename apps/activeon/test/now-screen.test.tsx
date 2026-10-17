@@ -151,6 +151,29 @@ describe('US-6 Sources open in a new tab', () => {
   });
 });
 
+describe('Goal.details under an account Goal', () => {
+  it('renders collapsed behind "show details (n)", and opens to one line per character', () => {
+    const r = fixture('mid-session');
+    const g = r.account.goals[0];
+    if (!g) throw new Error('fixture has no account Goal');
+    g.details = [
+      { subject: 'c3', text: 'Barbarian Lv 51: 2 into Capacity' },
+      { subject: 'c0', text: 'Bowman Lv 60: 1 into Capacity' },
+    ];
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const summary = screen.getByText('show details (2)');
+    const box = summary.closest('details');
+    expect(box?.open).toBe(false);
+    fireEvent.click(summary);
+    expect(box?.open).toBe(true);
+    expect(
+      within(box as HTMLElement)
+        .getAllByRole('listitem')
+        .map((li) => li.textContent),
+    ).toEqual(['Barbarian Lv 51: 2 into Capacity', 'Bowman Lv 60: 1 into Capacity']);
+  });
+});
+
 describe('#74 player-facing Sources', () => {
   const view = (over: Partial<SourceView>): SourceView => ({
     text: null,

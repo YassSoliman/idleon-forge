@@ -326,6 +326,14 @@ export interface Goal {
   category: Category;       // display label only; never orders anything (M2 TR-14, M6 D1)
   nextAction: NextAction;   // exactly one (glossary)
   milestone: Milestone | null;
+  /** Account Goals only: per-character detail, in the order to act on (#70 A2, A3), e.g. under
+   *  "Unspent anvil points on 4 characters → Capacity", one "Bowman Lv 60: 2 into Speed, 1 into Capacity"
+   *  line per character. Optional: absent means none. */
+  details?: GoalDetail[];
+}
+export interface GoalDetail {
+  subject: Subject;
+  text: string;             // template already filled by the engine
 }
 export interface PurposeLine {
   goalId: string;
@@ -361,6 +369,7 @@ export interface HigherLeverage {
   provenance: Provenance;
 }
 export interface ActivePlay { key: string; text: string; estimateSeconds: number; subject: Subject; sources: SourceRef[] }
+export interface InfoLine { key: string; text: string; sources: SourceRef[] }  // key: `${entryId}@${subject}`
 export interface Done { key: string; text: string; confirmedAt: number }
 export interface Fill { label: string; at: number; subject: Subject }
 
@@ -378,6 +387,10 @@ export interface CharacterResult {
   /** From M7 SpendPlan.perCharacter: buy and move-coins lines paid by this character (M7 FR-23, D5). */
   spendChip: { lines: number; coins: number } | null;
   activePlay: ActivePlay[];
+  /** Quiet per-character facts that are not tasks, e.g. M3's "Anvil full in 6 h at current speed" (#70 A1,
+   *  #74 item 5). The engine core passes each module's lines through in module order; they never rank,
+   *  never affect a Verdict and have no controls. Optional: absent means none. */
+  info?: InfoLine[];
   doneThisSession: Done[];
   firstFill: Fill | null;
 }
@@ -424,7 +437,8 @@ Engine input, as an amendment to #14's signature: `(accountState, history, knowl
 3. Applies the skip rules to Verdicts (D2 for blockers, D7 for a `cannot-tell` Unknown, keyed `unknown@c<index>`), and computes the progress segments and counts, the unskipped account blocker count (D9), `allSet` (FR-25 plus D4, D7, D9), and `nextInOrder` for Focus (FR-12).
 4. Computes the "new since unfocused" set (FR-34) from the previous key set, which the caller passes in `prefs.seenKeys`.
 5. Computes `nextInOrder` and "n left" from `ui.visited` (the set of indexes that were the played character since `sessionStartedAt`, kept by the caller in session state), and the "Left <name>" line from `ui.leftFrom`.
-6. Returns `nextExpiry`, the earliest time a skip can expire or the session can end (the later of a skip's midnight and the current session's possible end, last cloud save + 15 min), so the caller can schedule a rebuild (TR-5).
+6. Passes `CharacterResult.info` through to `FocusCard.info` (`{ key, text, source }`), rendered as a muted list under the character's name, and `Goal.details` through to `GoalView.details` (`{ key: ${goalId}#${subject}, text }`), rendered under the Goal's Why as a muted list collapsed behind "show details (n)" (native `<details>`, so it is keyboard and screen-reader operable). Neither is capped, ranked or counted; the plain-text render (TR-15) prints each info line as `info: <text>` and each detail as an indented `· <text>`.
+7. Returns `nextExpiry`, the earliest time a skip can expire or the session can end (the later of a skip's midnight and the current session's possible end, last cloud save + 15 min), so the caller can schedule a rebuild (TR-5).
 
 ```ts
 export interface NowView {

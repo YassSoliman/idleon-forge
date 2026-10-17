@@ -52,6 +52,8 @@ export interface GoalView {
   action: NextActionView;
   /** "13k Poop kills · next 100k · about 40h", or null. */
   milestone: string | null;
+  /** Account Goals: one line per character, in the order to act on (Goal.details, #70 A2, A3). */
+  details: { key: string; text: string }[];
 }
 
 export interface PillView {
