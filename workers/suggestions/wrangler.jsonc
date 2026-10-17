@@ -13,9 +13,10 @@
     "logs": { "enabled": true, "invocation_logs": false }
   },
   "vars": {
-    // Real filing stays off until the by-hand ID-token expiry check is done (M13 Verify before build).
-    // Dry runs (Preview origins, or the X-Suggestions-Dry-Run: 1 header) work while it is off.
-    "SUGGESTIONS_ENABLED": "false",
+    // On since 2026-10-17: the by-hand ID-token expiry check passed (an expired token was refused
+    // at +1, +5 and +15 min; M13 Verify before build). SUGGESTIONS_PAUSED is the kill switch.
+    // Dry runs (Preview origins, or the X-Suggestions-Dry-Run: 1 header) work either way.
+    "SUGGESTIONS_ENABLED": "true",
     "SUGGESTIONS_PAUSED": "false"
   },
   // Secrets, set with `wrangler secret put`: GH_APP_ID, GH_INSTALLATION_ID, GH_APP_PRIVATE_KEY (PKCS#8),
