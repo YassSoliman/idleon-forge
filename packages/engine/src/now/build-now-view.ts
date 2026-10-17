@@ -193,6 +193,8 @@ const doneView = (d: Done, tz: number): DoneView => ({ ...d, time: clockTime(d.c
 interface Filtered {
   blockers: Goal[];
   skippedBlockers: number;
+  /** Every skipped key on this subject (blockers and Goals), for "n skipped · undo". */
+  skippedKeys: string[];
   goals: Goal[];
   skipped: number;
   dismissed: Goal[];
@@ -227,19 +229,30 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
 
   const filter = (goals: Goal[], blockerKeys: readonly string[]): Filtered => {
     const blockerSet = new Set(blockerKeys);
-    const out: Filtered = { blockers: [], skippedBlockers: 0, goals: [], skipped: 0, dismissed: [] };
+    const out: Filtered = {
+      blockers: [],
+      skippedBlockers: 0,
+      skippedKeys: [],
+      goals: [],
+      skipped: 0,
+      dismissed: [],
+    };
     for (const g of goals) {
       const key = g.nextAction.key;
       if (g.category === 'blocker' || blockerSet.has(key)) {
-        if (skipped(key)) out.skippedBlockers++;
-        else out.blockers.push(g);
+        if (skipped(key)) {
+          out.skippedBlockers++;
+          out.skippedKeys.push(key);
+        } else out.blockers.push(g);
         continue;
       }
       // Stage unknown (M2 FR-3): only Verdict blockers render.
       if (stageUnknown) continue;
       if (dismissed(key)) out.dismissed.push(g);
-      else if (skipped(key)) out.skipped++;
-      else out.goals.push(g);
+      else if (skipped(key)) {
+        out.skipped++;
+        out.skippedKeys.push(key);
+      } else out.goals.push(g);
     }
     return out;
   };
@@ -469,6 +482,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       goals: p.shown.map(goalView),
       hiddenCount: p.hidden,
       skippedCount: p.f.skipped,
+      skippedKeys: p.f.skippedKeys,
       dismissed: p.f.dismissed.map((g) => ({ key: g.nextAction.key, text: g.nextAction.text })),
       higherLeverage: hl && !dismissed(hl.key) ? higherLeverageView(hl, nameOf) : null,
       higherLeverageNote:
@@ -567,6 +581,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       goals: accountShown.map(goalView),
       hiddenCount: acct.goals.length - accountShown.length,
       skippedCount: acct.skipped,
+      skippedKeys: [...acct.skippedKeys, ...(safetySkipped ? ['unknown@account'] : [])],
       dismissed: acct.dismissed.map((g) => ({ key: g.nextAction.key, text: g.nextAction.text })),
       spendPlan,
       done: result.account.doneThisSession.map((d) => doneView(d, ui.tzOffsetMinutes)),
@@ -647,11 +662,13 @@ function spendPlanView(
     return c ? `${c.name} (${c.classLabel} lv${c.level})` : nameOf(i);
   };
   let skippedCount = 0;
+  const skippedKeys: string[] = [];
   const live = plan.lines.filter((l) => {
     const key = spendLineKey(l);
     if (dismissed(key)) return false;
     if (skipped(key)) {
       skippedCount++;
+      skippedKeys.push(key);
       return false;
     }
     return true;
@@ -741,6 +758,7 @@ function spendPlanView(
     lines: shown,
     hiddenCount: views.length - shown.length,
     skippedCount,
+    skippedKeys,
     summary,
     unavailable: plan.unavailable.map((s) => `can't price ${SINK_LABEL[s] ?? s} right now`),
   };

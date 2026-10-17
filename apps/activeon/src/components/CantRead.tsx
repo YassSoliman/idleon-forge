@@ -18,6 +18,7 @@ const EXPLAIN: Record<Props['failure']['kind'], string> = {
   shape: 'The parser changed shape under us. This needs a fix on our side.',
   crash: 'Something went wrong while reading the save.',
   timeout: 'Reading the save took too long. The next save will try again.',
+  updated: 'ActiveOn was updated. Reload to continue.',
 };
 
 /** Shown instead of any characters when the latest save failed to parse (never advise from it). */

@@ -129,6 +129,8 @@ export interface FocusCard {
   goals: GoalView[];
   hiddenCount: number;
   skippedCount: number;
+  /** Every skipped key here (blockers, Goals, a skipped Unknown is separate), for undo. */
+  skippedKeys: string[];
   /** Not for me, until the next patch: "Hidden until next patch (n) · undo". */
   dismissed: { key: string; text: string }[];
   higherLeverage: HigherLeverageView | null;
@@ -181,6 +183,7 @@ export interface SpendPlanView {
   lines: SpendLineView[];
   hiddenCount: number;
   skippedCount: number;
+  skippedKeys: string[];
   /** "4 buys now on 2 characters", or the empty state. */
   summary: string;
   /** "can't price Statue Gold right now" per unavailable sink. */
@@ -214,6 +217,7 @@ export interface NowView {
     goals: GoalView[];
     hiddenCount: number;
     skippedCount: number;
+    skippedKeys: string[];
     dismissed: { key: string; text: string }[];
     spendPlan: SpendPlanView | null;
     done: DoneView[];

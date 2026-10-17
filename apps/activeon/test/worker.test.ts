@@ -4,7 +4,7 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { handleRequest } from '../src/worker/handle-request';
+import { createRequestHandler, handleRequest } from '../src/worker/handle-request';
 import type { ParseInput } from '../src/worker/protocol';
 
 const handleParseRequest = (r: { id: number; now: number; input: ParseInput; withHistory?: boolean }) =>
@@ -104,5 +104,52 @@ describe('handleParseRequest (the paste fallback path)', () => {
   ])('reports %s as "%s"', (_label, text, kind) => {
     const res = handleParseRequest({ id: 3, now: NOW, input: { kind: 'text', text } });
     expect(res).toMatchObject({ id: 3, ok: false, kind, ms: expect.any(Number) });
+  });
+
+  it('runs the engine after a clean parse; every Verdict is Unknown not-covered before M3 (M10 TR-6)', () => {
+    const handle = createRequestHandler();
+    const envelope = JSON.parse(publicSave('fresh.json'));
+    const res = handle({
+      id: 11,
+      type: 'parse',
+      now: NOW,
+      input: { kind: 'envelope', envelope },
+      engine: {
+        expectedReturnSeconds: 8 * 3600,
+        sessionStartedAt: 5,
+        learnedExpectedReturnSeconds: null,
+        knowledgeVersion: 'k1',
+      },
+    });
+    if (!('state' in res) || !res.ok || !res.result || 'error' in res.result)
+      throw new Error('expected a result');
+    expect(res.result.characters.every((c) => c.verdict.unknownReason === 'not-covered')).toBe(true);
+    expect(res.result.versions.knowledge).toBe('k1');
+    expect(res.result.sessionStartedAt).toBe(5);
+    expect(structuredClone(res.result)).toEqual(res.result);
+    const again = handle({ id: 12, type: 'rerun', expectedReturnSeconds: 4 * 3600, now: NOW });
+    expect(again).toMatchObject({
+      ok: true,
+      rerun: true,
+      result: { expectedReturn: { usedSeconds: 4 * 3600 } },
+    });
+  });
+
+  it('a re-run before any parse says so', () => {
+    expect(
+      createRequestHandler()({ id: 1, type: 'rerun', expectedReturnSeconds: 1, now: NOW }),
+    ).toMatchObject({
+      ok: false,
+      rerun: true,
+    });
+  });
+
+  it('a parse without an engine call runs no engine', () => {
+    const res = handleParseRequest({
+      id: 13,
+      now: NOW,
+      input: { kind: 'text', text: publicSave('fresh.json') },
+    });
+    expect(res.ok && res.result).toBeUndefined();
   });
 });
