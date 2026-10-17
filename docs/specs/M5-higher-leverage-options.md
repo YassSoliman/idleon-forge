@@ -582,3 +582,11 @@ An independent reviewer red-teamed this spec on 2026-10-17 against the Toolbox s
 | RT-21 | P2 | (verification pass) The test Knowledge Base stubbed the W2-late pusher as the Wizard Lv 56, while M2's own rule names the Barbarian Lv 60 | fixed | §4 stub follows M2's fixture result |
 
 Verified 2026-10-17 against game v1.23 (Toolbox pins `f1e4240`, game 2.3.531, for the measured numbers, and `6827d3f`, game 2.3.540, for the dossiers). Stale against any later patch.
+
+## Final rulings (Yasser, 2026-10-17)
+
+These supersede anything above that conflicts with them.
+
+> **Ruled by Yasser (2026-10-17), all as recommended:**
+> - **RT-8:** count only what each character adds. At most one Move per destination per save (biggest gain, then lower index). A Goal whose next Milestone is past M4's stop-here point doesn't hold a character.
+> - **RT-10:** Role fit is scoped to the four gathering skills for the MVP.
