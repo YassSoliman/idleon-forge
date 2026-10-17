@@ -30,10 +30,11 @@ The Now screen is the only thing a player looks at during a Play Session. It sit
 - Freshness: "last cloud save Ns ago", the switch-character hint, a new-items count in the tab title, and the "game updated, parser not caught up" banner.
 - "What's new since your last visit" (once per new version), and the Knowledge Base version in the footer.
 - All screen states, accessibility (WCAG 2.2 AA), and responsive behaviour from 320 to 480 px of column.
-- The **view-model contract** (`EngineResult` → `buildNowView` → `NowView`), plus a plain-text renderer used for the golden Now-screen snapshots.
+- The **view-model contract** (`EngineResult` → `buildNowView` → `NowView`), plus a plain-text renderer (`renderNowText`) that produces the `## Now` section of M11's golden snapshots (TR-15).
+- **The engine core**, built with M10 in `packages/engine/src/core/` (consistency pass: M2 §2 and the first draft of this section both disclaimed it, so it had no owner). It runs every module in the worker (TR-6), merges their Goals, ranks them with M2's `compareGoals` (M2 TR-14), dedupes (same `system` and subject: an M3 blocker wins over another module's Goal; otherwise same subject and rendered text, M11 §6), computes Visit Order (worst Verdict first, then most to spend = M6 `spendCount` plus M7 `perCharacter.lines`, then M2 `visitHints`) and assembles `EngineResult` (TR-2). It decides no advice of its own: every Goal, Verdict and option comes from M2–M9.
 
 ### Out of scope
-- Computing any advice: Verdicts (M3), Purpose and Milestones (M4), Higher-leverage options (M5), unspent and idle (M6), the Spend Plan (M7), Collections (M8), Builds (M9), Stage (M2). M10 renders their output and defines the shape it must take.
+- Computing any advice: Verdicts (M3), Purpose and Milestones (M4), Higher-leverage options (M5), unspent and idle (M6), the Spend Plan (M7), Collections (M8), Builds (M9), Stage and ranking (M2). M10 renders their output and defines the shape it must take; the engine core (in scope above) only merges, orders and assembles it.
 - Sign-in, the save listener, parsing, save history storage (M1). M10 consumes `SaveState` and `AccountState` as slice 1 already exposes them.
 - The Suggestion form, its Worker and "Your suggestions" list (M13). M10 only provides the entry points and the context object.
 - Generating the changelog and the Knowledge Base version string (M12, M11). M10 reads them.
@@ -48,7 +49,7 @@ The Now screen is the only thing a player looks at during a Play Session. It sit
 - **FR-3** The header shows the ActiveOn wordmark, a "last cloud save Ns ago" chip (marked "pasted" for pasted saves), the Expected Return chips, and the "Suggest" control (M13 FR-1).
 
 **Roster (A)**
-- **FR-4** The Roster is an ordered list with one row per character, in the engine's Visit Order. The order is frozen for the Play Session (D6). Each row shows: its Visit Order number; the character's name, then class and level (D5); its AFK Target and map ("Mining Copper · Tunnels Entrance"); a "● playing" marker on the character currently being played (live mode, and only while the last save is under 30 min old; see FR-14); a Verdict pill; and one summary line.
+- **FR-4** The Roster is an ordered list with one row per character, in the engine's Visit Order. The order is frozen for the Play Session (D6). Each row shows: its Visit Order number; the character's name, then class and level (D5); its AFK Target and map ("Mining Copper · Tunnels Entrance"); a "● playing" marker on M1's last-played character (`lastPlayedCharacterIndex`, M1 FR-19; live mode, and only while the last cloud save is under the auto-open threshold T, see FR-14); a Verdict pill; one summary line; and, when M7's Spend Plan has `buy` or `move-coins` lines paid from this character, the chip "Spend here: N buys, ~X → Spend Plan" (`spendChip`, M7 D5 and FR-23), which jumps to the Spend Plan in the Account section.
 - **FR-5** The summary line is, in priority order: the first Verdict blocker ("Food runs out in about 2h"); for Unknown, the reason ("What is this character for?" or "Can't tell from the save"); otherwise the top Next Action; otherwise "Nothing to do here".
 - **FR-6** Tapping or activating a row opens that character in Focus.
 
@@ -73,12 +74,13 @@ The Now screen is the only thing a player looks at during a Play Session. It sit
   - that character's Active Play suggestions;
   - "Done this session (n)";
   - a "Next: switch to <name> →" button.
-- **FR-11** The Purpose list shows each Goal the current activity advances, with its current value, its next Milestone and, when the engine provides one, an ETA ("13k Poop kills · next 100k · about 40h"). When the engine marks `stopHere`, it shows "consider stopping here". A character whose Verdict is Unknown for lack of Purpose shows "What is this character for?" and the engine's single suggestion.
-- **FR-12** "Next: switch to <name> →" names the first character in Visit Order, counted from the top and skipping the one on screen, that has **not been visited** this Play Session and has anything to do (a Verdict other than Ready, or at least one visible Goal). A character is visited once it has been the played character in this Play Session (from M1's `activeCharacterIndex`; in paste mode, once the player has opened its Focus). Pressing it opens that character's Focus. Visit Order here is the order frozen for the Play Session (D6), so the target never jumps because a save reshuffled the engine's ranking. So Next always leads to the worst unvisited character, wherever Focus opened, and switching in the game to a different character than suggested only marks that one visited. When no such character is left, it reads "Last one: check the Account list ↓" and scrolls to the Account section. It never touches the game.
+- **FR-11** The Purpose list shows each Goal the current activity advances, with its current value, its next Milestone and, when the engine provides one, an ETA ("13k Poop kills · next 100k · about 40h"). When the engine marks `stopHere`, it shows "consider stopping here". A line whose `badges` include `parser-behind` shows "may be out of date" next to its ETA (M4 §6: generated ladders can lag a patch until the next parser re-sync); `stale` and `contested` badges render as in FR-19 and FR-20. A character whose Verdict is Unknown for lack of Purpose shows "What is this character for?" with M4's reason and the engine's single suggestion, `Verdict.suggestion`: M5's `unknown-purpose` option (M5 FR-13) rendered as a Next Action, or M4's active-Role fallback before M5 ships (M4 FR-14). It is never repeated as a Higher-leverage line.
+- **FR-12** "Next: switch to <name> →" names the first character in Visit Order, counted from the top and skipping the one on screen, that has **not been visited** this Play Session and has anything to do (a Verdict other than Ready, or at least one visible Goal). A character is visited once it has been the played character in this Play Session (from M1's `lastPlayedCharacterIndex`; in paste mode, once the player has opened its Focus). Pressing it opens that character's Focus. Visit Order here is the order frozen for the Play Session (D6), so the target never jumps because a save reshuffled the engine's ranking. So Next always leads to the worst unvisited character, wherever Focus opened, and switching in the game to a different character than suggested only marks that one visited. When no such character is left, it reads "Last one: check the Account list ↓" and scrolls to the Account section. It never touches the game.
 - **FR-13** "← All characters" (and the browser Back button) returns to the Roster and puts keyboard focus on the row of the character that was in Focus, however it was opened.
 - **FR-14** **Focus follows the game (D1).**
-  - *Signal.* The played character is M1's `activeCharacterIndex` (newest per-character save stamp, null when unsure). A "switch" is a save whose non-null `activeCharacterIndex` differs from the last non-null one. Null never moves the view.
-  - *First load.* In live mode, when the last save is under 30 min old, Focus opens on the played character. Otherwise (game probably closed, M1 FR-27) the Roster shows, with no "● playing" marker and no "you are on this character".
+  - *Signal.* The played character is M1's `lastPlayedCharacterIndex` (M1 FR-19, TR-12: the newest per-character save stamp within 30 s of the account's cloud save, null on a tie; renamed from this spec's earlier `activeCharacterIndex`). A "switch" is a save whose non-null `lastPlayedCharacterIndex` differs from the last non-null one. Null never moves the view.
+  - *Auto-open threshold T (open).* M1 FR-19 says a row opens on its own only while the last cloud save is under **5 minutes** old; this spec's red-team #17 chose **30 minutes** (M1 FR-27's "game probably closed" age). The two are not reconciled yet: see the spec index, Needs Yasser. Every "under T" below means whichever value is ruled; the build takes T from one constant.
+  - *First load.* In live mode, when the last cloud save is under T old, Focus opens on the played character. Otherwise (game probably closed, M1 FR-27) the Roster shows, with no "● playing" marker and no "you are on this character".
   - *Follow.* On a switch, Focus moves to the newly played character, whether the player was on the Roster or on another character's Focus, and shows the "Left <name>" line (FR-10). A save that does not change the played character never moves the view; if the player went back to the Roster, it stays there until the next switch.
   - *Never mid-interaction.* If keyboard focus is inside the Focus card, an expander or "+n" list is open, or a confirmation or the M13 form is open, the card is not swapped. A "Now playing <name> · go" chip appears at the top of Focus instead, and the switch is announced (TR-14). Following never moves keyboard focus or calls `window.focus()`, and keeps the scroll anchored (no jump of the Account section).
   - *History.* Auto-follow and first load use `history.replaceState`; only player-initiated opens push (TR-5).
@@ -97,27 +99,28 @@ The Now screen is the only thing a player looks at during a Play Session. It sit
 - **FR-20** A Contested entry carries a "sources disagree" badge and an expander that shows both sides, each with its own Sources. It is never shown as a Verdict blocker or as the first Goal (the engine guarantees this; M10 asserts it in a dev-mode check, TR-9).
 
 **Higher-leverage option and Spend Plan**
-- **FR-21** When the engine provides one, Focus shows a single Higher-leverage line ("Better fit: <other character> suits this XP and hits the same 100k Goal"), with its why, Source, Not for me and Report this. When the option names another character, tapping that name opens its Focus.
-- **FR-22** The Spend Plan appears in the Account section as one Goal ("Spend coins"), whose Next Action is the first purchase. Expanding it shows the full ordered list. Each line shows the item, its cost, the running total, and an "affordable" or "short by X" mark checked against the coins in the save. It closes with "N of M affordable now".
+- **FR-21** When the engine provides one (`higherLeverage`, M5 TR-2), Focus shows a single Higher-leverage line ("Better fit: <other character> suits this XP and hits the same 100k Goal"), with its why, Source, Not for me and Report this. It offers no Skip today. A Hand-off or Role fit (`kind: 'handoff' | 'role-fit'`) shows on both characters of the pair with the same `key`, so Not for me on either hides it on both (M5 FR-14, FR-17); the other character is named from the local Account State through `partnerIndex`, and tapping the name opens its Focus. Expanding the line shows its numbers, the step that decided it (`decidedBy`) and up to 2 "also considered" alternatives with their reasons (M5 FR-15). A Stale option carries the Stale mark. When `higherLeverageStatus` is `paused-parser-behind` or `unavailable`, Focus shows "comparisons paused: game updated, parser not caught up" or "comparisons unavailable" in that place (M5 US-13, §6). An `unknown-purpose` option is not shown here; it is `Verdict.suggestion` (FR-11).
+- **FR-22** The Spend Plan is M7's `SpendPlan` (M7 TR-3, the source of truth; this spec no longer defines its own). It appears in the Account section as one Goal (`spend.goal.plan`, "Spend coins") whose Next Action is the first `buy` or `move-coins` line. Expanding it shows the ordered lines, at most 5 visible, then "show more" (M7 FR-15; a grouped line counts as one). Each line shows the item with its from → to level, its cost (or "cost not checked, see the price in game" for `unpriced`), the paying character (class and level from the engine, the name joined in the UI), a status pill (`buy`, `move-coins` "withdraw N from storage on <character>, then buy", `save-for` with its shortfall, `hold` with the Hydrogen notice, `unpriced`), and a running total **per paying wallet**, never across wallets (M7 D1, §7). Under the first `unpriced` line it adds "totals below assume you skip the unchecked items" (M7 FR-14). It closes with "N buys now on K characters", or M7's empty state ("Nothing worth buying yet" with the cheapest next line and its shortfall, "Spend Plan empty", M7 FR-17), plus "can't price <sink> right now" for each sink in `unavailable` (M7 FR-25). Skip today and Not for me key on M7's `entryId` (`${listId}#${itemSlug}`) plus `ref` (M7 FR-18).
 
 **Account, Active Play, gaps**
-- **FR-23** The Account section is headed "Account · any character" and lists account Goals under FR-15/16. Account stockpile blockers (M3 FR-24/FR-25, `account.blockerKeys`) lead it, under a "Fix before you leave" sub-heading, in engine rank order and uncapped (D9). They never change any character's Verdict or Roster row. Skip today is offered on them and Not for me is not, as for character blockers (D2).
+- **FR-23** The Account section is headed "Account · any character" and lists account Goals under FR-15/16. Account stockpile blockers (M3 FR-24/FR-25, `account.blockerKeys`; a liquid that is at cap now blocks, M3 Final rulings RT-14) lead it, under a "Fix before you leave" sub-heading, in engine rank order and uncapped (D9). They never change any character's Verdict or Roster row. Skip today is offered on them and Not for me is not, as for character blockers (D2).
 - **FR-24** "If you have time" lists the Active Play suggestions with their time estimate ("about 1h of hands-on play") and the character they apply to, if any. They never affect a Verdict or the progress bar.
-- **FR-25** **All set:** when no character's Verdict is "Fix before you leave", no character is Unknown with reason `cannot-tell` that was not skipped (D4, D7), and no account stockpile blocker is firing unskipped (D9), a banner says "All set: safe to log off", adds "(n skipped)" when any character blocker, `cannot-tell` Unknown or account stockpile blocker was skipped to get there (D2, D7, D9), and is followed by when the first thing fills up or runs out ("First thing fills up in about 9h: <name>'s inventory"), or "Nothing fills up before you're back" when the engine reports nothing. **Exception:** while any character is Unknown `not-covered` because AFK safety itself is not covered (M3 not shipped, or not covering it), the banner never says "safe to log off". It reads "Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet", and the progress label does not switch to "safe to log off". This wording stays until AFK safety is covered (D4, R1). D4 still holds: `not-covered` does not block the banner.
-- **FR-26** "Not covered yet: <System>, <System>…" lists the Systems unlocked on the account that have no active Knowledge Base entries. It is one collapsed line at the end of the Account section, and expands to the full list.
+- **FR-25** **All set:** when no character's Verdict is "Fix before you leave", no character is Unknown with reason `cannot-tell` that was not skipped (D4, D7), account safety (`account.safety`, M3 FR-8) is not `unknown` unless skipped (D7, key `unknown@account`: an Arcade or alchemy section that failed to parse never yields "safe to log off", M3 RT-2), and no account stockpile blocker is firing unskipped (D9), a banner says "All set: safe to log off", adds "(n skipped)" when any character blocker, `cannot-tell` Unknown, account Unknown or account stockpile blocker was skipped to get there (D2, D7, D9), and is followed by when the first thing fills up or runs out ("First thing fills up in about 9h: <name>'s inventory"), or "Nothing fills up before you're back" when the engine reports nothing. When `alreadyFull` > 0 it adds "· n already full" (M3 FR-11: Findings already at cap that are Next Actions, such as skull-less worship at 50/50), so the banner never implies nothing is full. **Exception:** while any character is Unknown `not-covered` because AFK safety itself is not covered (M3 not shipped, or not covering it), the banner never says "safe to log off". It reads "Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet", and the progress label does not switch to "safe to log off". This wording stays until AFK safety is covered (D4, R1). D4 still holds: `not-covered` does not block the banner.
+- **FR-26** "Not covered yet: <System>, <System>…" lists the Systems unlocked on the account that have no active Knowledge Base entries (M11 `coverage()`), plus the items modules emit for gaps that are not whole Systems (`notCovered` entries with a pseudo `systemId`): M2 "Worlds 5–7", M3 "AFK safety for Lab, Cooking and Breeding" and "Refinery storage", M6 D6 items and the unowned leftovers of M6 Final rulings RT1 (unfillable slots, caps and printer levels to raise, salt rank-ups, tools, constellations), M7 "Forge upgrades", M9 "elite talent builds" and the like. It is one collapsed line at the end of the Account section, and expands to the full list.
 
 **Controls**
 - **FR-27** **Expected Return:** chips "2h 4h 8h 12h 24h", preceded by "Back in about". The default is the engine's learned value when save history exists, shown as its own chip if it isn't one of these (for example "≈6h"), otherwise 8h. Picking one re-runs the engine and updates every Verdict within the budget in TR-12. The choice holds for the current Play Session (TR-8).
 - **FR-28** **Skip today** hides that Goal (and its Next Action) on that character until the next local midnight or the end of the Play Session in which it was skipped, whichever is later (D3). The session ends when M1 starts a new one (M1 TR-15: 15 min or more with no cloud save). The next-ranked Goal moves up into view. A "n skipped · undo" link at the end of the list brings it back. Skip today is also offered on:
   - Verdict blockers; skipping every blocker of a character makes it count as Ready, shown as "Ready · n skipped" (D2);
   - an Unknown `cannot-tell` Verdict, in the Verdict block in Focus; the character then shows "Unknown · skipped" and no longer blocks "All set" (D7). It stays Unknown in the progress count;
+  - account safety `unknown` (M3 FR-8), at the head of the Account section, keyed `unknown@account`, under the same D7 rules;
   - account stockpile blockers (D9).
 - **FR-29** **Not for me** hides that Goal on that character until the save's game build changes (the next patch); a save with no known build keeps it hidden. It is listed under "Hidden until next patch (n) · undo" in Focus. It is never offered on a Verdict blocker, a `cannot-tell` Unknown or an account stockpile blocker (D2, D7, D9).
 - **FR-30** **Report this** on any Next Action, Purpose line, Higher-leverage line or Spend Plan line: before M13 ships, it opens a pre-filled GitHub `kb-correction` issue in a new tab; after M13, it opens M13's Suggestion form with type "Something's wrong". Either way it attaches only the payload in TR-10 and says "This will be posted publicly on GitHub".
 - **FR-31** **Suggestion entry point (M13):** the "Suggest" control in the header (FR-3) opens M13's form with type Idea. Focus has a "Something confusing here?" link that opens it with type Confusing. Both pass a `SuggestionContext` (TR-10). Signed-out and paste-mode behaviour is M13's (FR-7/D6: shown disabled, "Sign in to send suggestions"). Before M13 ships, both open the GitHub `idea` issue form. Suggest stays available on the "Can't read your save" screen (M13 section 6).
 
 **Freshness and done**
-- **FR-32** The cloud-save chip updates every second. After 240 s with no new save in live mode, it switches to the warning style and shows "No new save for a while: press Cloud Save or switch character in the game to refresh" in a `role="status"` element that announces once. (Slice 1 has the 240 s hint; the wording and role are new.) If the last save is over 30 min old at open, M1 FR-27's "Open the game and switch character to refresh" applies.
+- **FR-32** The cloud-save chip updates every second. After **6 minutes** with no new snapshot received in live mode (M1 FR-26: the timer runs from the last snapshot received, and the game's own save period is about 4 minutes, so slice 1's 240 s hint flashed on every cycle, M1 RT-14), it switches to the warning style and shows "No new save for a while: press Cloud Save or switch character in the game to refresh" in a `role="status"` element that announces once. If the last save is over 30 min old at open, M1 FR-27's "Open the game and switch character to refresh" applies.
 - **FR-33** A Next Action disappears when a later save confirms it is done. It then appears under "Done this session (n)" on its character, or in the Account section, struck through, with the time it was confirmed.
 - **FR-34** While the ActiveOn window doesn't have focus (`!document.hasFocus()`, which covers a visible window beside the game, not only a hidden tab), the document title becomes "(n) ActiveOn", where n is the number of Next Actions that have appeared since the window last had focus. It resets to "ActiveOn" on focus. There is no sound and no pop-up.
 
@@ -128,7 +131,7 @@ The Now screen is the only thing a player looks at during a Play Session. It sit
 
 **Errors and data**
 - **FR-38** **Can't read your save:** on any parse failure (input, empty, shape or crash), the screen shows "Can't read your save right now", the time of the last good save, and the raw-JSON paste box. No Roster, Focus, Account section or progress bar is rendered: advice is never shown from a broken parse. A **sync error** (listener or token problem, with the last good save intact) is treated like Offline (section 6): the last good advice stays, with its age and a banner, because nothing about that save is broken.
-- **FR-39** **Can't work out advice:** if the engine throws as a whole, the screen shows "Can't work out advice right now", the Roster with names and activities only (no Verdicts), and a Report this button that sends versions and the error class. If only some Detectors fail, the affected characters show Unknown ("Can't tell from the save") and the rest render normally.
+- **FR-39** **Can't work out advice:** if the engine throws as a whole, the screen shows "Can't work out advice right now", the Roster with names and activities only (no Verdicts), and a Report this button that sends versions and the error class. If only some Detectors fail, only a failure in a Detector of a blocker Check (`effect: blocker`, compiled `affectsVerdict`, M11 FR-13) turns that character Unknown ("Can't tell from the save"); any other failed Detector only drops its own line (M6 R9: unspent-stock Detectors never change a Verdict), and every failure is counted in the footer (section 6). The rest render normally.
 - **FR-40** "Clear my data" in the footer opens a confirmation, then deletes save history (via M1), every M10 preference (TR-8), tells other open tabs to drop theirs (TR-8), and offers to sign out too (M1 FR-23).
 
 ## 4. User stories
@@ -157,8 +160,9 @@ As a player in a Play Session, I want the screen to follow me when I switch char
 - Given the recorded switch fixture sequence (FR-14 gate) A → B → C / When the snapshots arrive in order / Then Focus lands on B, then C, each within one save of the switch, and never moves back to A.
 - Given Focus on character 2 follows a switch from character 2 to 4 / When it renders / Then character 4's card shows "Left <c2>: n done · <c2's Verdict> · ← back", and the history length is unchanged (replaceState).
 - Given keyboard focus is on a Skip today button in character 2's card / When a save shows a switch to character 4 / Then the card stays on character 2, a "Now playing <c4> · go" chip appears, keyboard focus does not move, and the live region announces it once.
-- Given a save where `activeCharacterIndex` is null / When it arrives / Then the view does not move.
-- Given the app opens and the last save is 45 min old / When the screen renders / Then the Roster shows, with no "● playing" marker.
+- Given a save where `lastPlayedCharacterIndex` is null / When it arrives / Then the view does not move.
+- Given the app opens and the last save is 45 min old (older than T under either open value) / When the screen renders / Then the Roster shows, with no "● playing" marker.
+- Given the app opens and the last save is 10 min old / When the screen renders / Then the outcome depends on the open threshold T (FR-14): Focus with T = 30 min, the Roster with T = 5 min. This criterion is pinned once T is ruled.
 - Given any state / When the screen renders / Then there is no "Following the game" toggle (D8).
 
 **US-4 Understand what a character is for.**
@@ -209,7 +213,7 @@ As a player in a Play Session, I want to skip or hide a Next Action, so that the
 
 **US-12 Report wrong advice.**
 As a player in a Play Session, I want to report a wrong Next Action in two taps, so that it gets fixed for everyone.
-- Given a Next Action from entry `stamps.cheapest-damage` on a Squire level 43, with Stage `W2-mid` / When the player presses Report this (pre-M13) / Then a new tab opens on `github.com/YassSoliman/idleon-forge/issues/new?template=kb-correction.yml&…`, and its body contains the entry id, Knowledge Base version, game build, Stage, "Squire", "43" and the action text, but no character name and no save data; and the whole URL is at most 7,500 bytes.
+- Given a Next Action from entry `stamps.check.cheapest-damage` on a Squire level 43, with Stage `W2-mid` / When the player presses Report this (pre-M13) / Then a new tab opens on `github.com/YassSoliman/idleon-forge/issues/new?template=kb-correction.yml&…`, and its body contains the entry id, Knowledge Base version, game build, Stage, "Squire", "43" and the action text, but no character name and no save data; and the whole URL is at most 7,500 bytes.
 
 **US-13 Suggest something.**
 As a player in a Play Session, I want a Suggest button always at hand, so that I can send an idea without leaving the game.
@@ -236,7 +240,8 @@ As a player in a Play Session, I want to know which Systems ActiveOn doesn't cov
 
 **US-18 Spend my coins in the right order.**
 As a player in a Play Session, I want an ordered list of what to buy with my coins, so that I spend them well in one go.
-- Given `spend-plan` with 4 items, the first 2 affordable / When the player expands "Spend coins" / Then the 4 lines show in order with their costs and running totals, lines 1–2 are marked affordable, lines 3–4 show "short by …", and the footer reads "2 of 4 affordable now".
+- Given `spend-plan` (an M7 `SpendPlan`, M7 TR-3) with 6 lines: two `buy` paid by character 0, one `move-coins` paid by character 0 with a bank top-up, one `buy` paid by character 2, one `save-for` and one `unpriced` / When the player expands "Spend coins" / Then the first 5 lines show in order and the 6th sits behind "show more (1)"; each shows its item, cost, payer and status pill; the running total restarts for each paying wallet (character 0's three lines, then character 2's one, never one total across wallets); the `move-coins` line reads "withdraw N from storage on <c0>, then buy"; the `save-for` line shows its shortfall; the `unpriced` line reads "cost not checked, see the price in game" with "totals below assume you skip the unchecked items"; and the footer reads "4 buys now on 2 characters".
+- Given the same fixture / When the Roster renders / Then character 0's row carries "Spend here: 3 buys, ~X → Spend Plan", character 2's "Spend here: 1 buy, ~Y → Spend Plan", and no other row has a chip (M7 FR-23).
 
 **US-19 See a better option.**
 As a player in a Play Session, I want to be told when another activity or character clearly does this job better, so that I don't waste an AFK Stretch.
@@ -251,6 +256,8 @@ As a player in a Play Session, I want to skip a blocker I know is wrong, so that
 As a player in a Play Session, I want "safe to log off" to mean safe, so that I can trust it.
 - Given 4 Ready characters and 1 Unknown `no-purpose` / When the screen renders / Then the "All set" banner shows and the label reads "safe to log off · 1 Unknown" (D4).
 - Given 4 Ready and 1 Unknown `cannot-tell` / When the screen renders / Then no "All set" banner shows.
+- Given 5 Ready characters and `account.safety` = `unknown` (an Arcade section that failed to parse) / When the screen renders / Then no "All set" banner shows; after Skip today on the account Unknown it shows with "(1 skipped)" (FR-25, M3 FR-8).
+- Given `all-set` with `alreadyFull` = 4 / When the screen renders / Then the banner adds "· 4 already full" (FR-25, M3 FR-11).
 - Given view fixture `cannot-tell` (4 Ready and 1 Unknown `cannot-tell`) / When the player presses Skip today in that character's Verdict block / Then its pill reads "Unknown · skipped", the "All set" banner shows with "(1 skipped)", the label reads "safe to log off · 1 Unknown", and the block offers Report this but no Not for me (D7).
 
 **US-22 Account stockpiles block "All set".**
@@ -292,7 +299,9 @@ export interface SourceRef {
 export interface Provenance { entryIds: string[]; fields: string[] }
 
 export interface NextAction {
-  /** Stable across saves for the same entry and subject: `${entryId}@${subject}`. Keys done/skip/dismiss. */
+  /** Stable across saves for the same entry and subject: `${entryId}@${subject}`. Keys done/skip/dismiss.
+   *  A stop-here suggestion adds `#${milestone}` (M4 TR-3, TR-8), so dismissing one Milestone's
+   *  suggestion never hides the next one's. */
   key: string;
   entryId: string;
   text: string;             // template already filled by the engine
@@ -314,7 +323,7 @@ export interface Goal {
   id: string;               // Goal entry id
   title: string;            // "Talents", "AFK Setup"
   system: string;
-  category: Category;
+  category: Category;       // display label only; never orders anything (M2 TR-14, M6 D1)
   nextAction: NextAction;   // exactly one (glossary)
   milestone: Milestone | null;
 }
@@ -323,6 +332,8 @@ export interface PurposeLine {
   title: string;
   worthwhile: boolean;
   milestone: Milestone | null;
+  /** M4 GoalInstance badges; 'parser-behind' renders "may be out of date" next to the ETA (FR-11). */
+  badges: ('contested' | 'stale' | 'parser-behind')[];
   sources: SourceRef[];
   provenance: Provenance;
 }
@@ -331,15 +342,21 @@ export interface Verdict {
   /** Keys of the Goals (category 'blocker') that make this 'fix', in rank order. */
   blockerKeys: string[];
   unknownReason: null | 'no-purpose' | 'cannot-tell' | 'not-covered';
-  /** For 'no-purpose': the single suggestion. */
+  /** For 'no-purpose': the single suggestion (M5 `unknown-purpose` option, or M4's Role fallback). */
   suggestion: NextAction | null;
 }
+/** M5 TR-2 `HigherLeverageOption` plus rendered strings. An 'unknown-purpose' option renders as Verdict.suggestion instead. */
 export interface HigherLeverage {
-  kind: 'activity' | 'character';
+  kind: 'move' | 'handoff' | 'role-fit';
+  optionId: string;                 // M5 `hl:<kind>:<characterIndex>:<destKey>[:<partnerIndex>]`
+  textEntryId: string;              // e.g. leverage.check.move
+  key: string;                      // `${textEntryId}@${optionId}` (M5 FR-17); the same on both characters of a pair
   text: string;
   why: string;
-  targetCharacter: number | null;   // CharacterState.index when kind === 'character'
-  key: string;
+  partnerIndex: number | null;      // CharacterState.index of the other character (handoff, role-fit)
+  decidedBy: 'position' | 'milestone-eta' | 'goal-count';
+  stale: boolean;
+  alsoConsidered: { text: string; reason: string }[];   // at most 2 (M5 FR-15)
   sources: SourceRef[];
   provenance: Provenance;
 }
@@ -353,21 +370,23 @@ export interface CharacterResult {
   classId: string; classLabel: string; level: number;
   activityLabel: string;    // "Mining Copper", "Fighting Poop", "Nothing"
   mapLabel: string | null;
-  isPlaying: boolean;       // index === EngineResult.activeCharacterIndex
+  isPlaying: boolean;       // index === EngineResult.lastPlayedCharacterIndex
   verdict: Verdict;
   purpose: PurposeLine[];
   goals: Goal[];            // ranked, uncapped; blockers first
   higherLeverage: HigherLeverage | null;
+  /** From M7 SpendPlan.perCharacter: buy and move-coins lines paid by this character (M7 FR-23, D5). */
+  spendChip: { lines: number; coins: number } | null;
   activePlay: ActivePlay[];
   doneThisSession: Done[];
   firstFill: Fill | null;
 }
-export interface SpendLine { key: string; label: string; cost: number; cumulative: number; affordable: boolean; sources: SourceRef[] }
-export interface SpendPlan { currency: 'coins'; owned: number; lines: SpendLine[] }
+// The Spend Plan is M7's type (M7 TR-3). M10 imports it and defines no Spend Plan type of its own.
+import type { SpendPlan } from '@idleon-forge/engine/spend';
 
 export interface EngineResult {
   asOf: number;
-  activeCharacterIndex: number | null;  // from M1; null when unsure, never moves the view
+  lastPlayedCharacterIndex: number | null;  // M1 FR-19; null on a tie, never moves the view
   sessionStartedAt: number | null;      // from M1 SaveHistory.sessionStart (TR-7)
   expectedReturn: { usedSeconds: number; learnedSeconds: number | null };
   stage: { id: string; label: string };
@@ -377,11 +396,18 @@ export interface EngineResult {
     goals: Goal[];                    // ranked, uncapped, stockpile blockers first; the Spend Plan is not in here
     /** Keys of account Goals (category 'blocker') from M3's account-level Checks, in rank order (D9). Never part of a character Verdict. */
     blockerKeys: string[];
-    spendPlan: SpendPlan | null;
+    /** M3 FR-8 account safety. 'unknown' blocks All set like a cannot-tell Unknown (FR-25, skip key unknown@account). */
+    safety: 'safe' | 'unsafe' | 'unknown' | 'not-covered';
+    spendPlan: SpendPlan | null;      // M7 TR-3
     activePlay: ActivePlay[];
     doneThisSession: Done[];
   };
   firstFill: Fill | null;             // earliest across the account
+  /** M3 FR-11: Findings already at cap that are Next Actions (e.g. skull-less worship at 50/50). */
+  alreadyFull: number;
+  /** M5 TR-2 HigherLeverageResult.status. */
+  higherLeverageStatus: 'ok' | 'paused-parser-behind' | 'unavailable';
+  /** Unlocked Systems with no entries (M11 coverage()), plus module-emitted gaps with a pseudo systemId (FR-26). */
   notCovered: { systemId: string; label: string }[];
   versions: { knowledge: string; gameBuild: number | null; parserTarget: string; parserBehind: boolean };  // parserBehind per M1 D3(b)
   diagnostics: { failedDetectors: { detectorId: string; entryIds: string[]; message: string }[] };
@@ -448,7 +474,7 @@ export interface NowView {
 - `useNow` moves from `<App>` into `<SaveAge>`, so the per-second tick re-renders only the chip, not the whole tree (slice 1 re-renders the whole app every second).
 
 ### TR-6 Where the engine runs
-The engine runs **in the parse Web Worker**, right after a successful parse, because M5's hypotheticals call Toolbox math (`getMaxDamage` on a cloned character, #16), which lives in the worker bundle. Every parse request carries the current `expectedReturnSeconds`, so the first result never flips on load. The worker keeps the last parsed state and the engine's Expected-Return-independent output, and on a `{kind:'rerun', expectedReturnSeconds}` message re-runs only the Expected-Return-dependent stage (M3's Verdicts, `firstFill`, Visit Order), not M5's hypotheticals. Re-runs are coalesced (newest wins) and queue behind a parse in flight; meanwhile the chips show the new choice pressed and "updating…" appears (`role="status"`). `EngineResult` must survive `structuredClone` (no functions, Maps, class instances or Dates). Extend `ParseResponse` with `result: EngineResult | { error: string }`.
+The engine core (section 2, `packages/engine/src/core/`, built with M10) is what runs here; until M2–M9 land it emits the "Nothing covered yet" result of section 6. The engine runs **in the parse Web Worker**, right after a successful parse, because M5's hypotheticals call Toolbox math (`getMaxDamage` on a cloned character, #16), which lives in the worker bundle. Every parse request carries the current `expectedReturnSeconds`, so the first result never flips on load. The worker keeps the last parsed state and the engine's Expected-Return-independent output, and on a `{kind:'rerun', expectedReturnSeconds}` message re-runs only the Expected-Return-dependent stage (M3's Verdicts, `firstFill`, `alreadyFull`, M6 urgencies, Visit Order), not M5's hypotheticals, which are computed once per parse (M5 TR-3). Re-runs are coalesced (newest wins) and queue behind a parse in flight; meanwhile the chips show the new choice pressed and "updating…" appears (`role="status"`). `EngineResult` must survive `structuredClone` (no functions, Maps, class instances or Dates). Extend `ParseResponse` with `result: EngineResult | { error: string }`.
 
 ### TR-7 Done, playing, session
 - `isPlaying`, `doneThisSession` and `learnedSeconds` come from the engine and M1 (save history). M10 doesn't diff saves itself.
@@ -547,7 +573,7 @@ ACCOUNT
 - Spend · Stamps: Upgrade … [wiki · 2.3.540]
 ```
 
-It is committed per **public or view fixture** under `packages/engine/test/now/__snapshots__/`. Snapshots of `fixtures/private/*` saves are written to the gitignored `__snapshots__/private/`, and CI fails if a committed snapshot names a private fixture: even without names, Stage, levels and coin amounts from a friend's account must not reach the public repo. Names are replaced by `<c{index}>` in every snapshot. Knowledge Base PRs show advice diffs through these files (#11.12). Component tests (Vitest + Testing Library + jsdom) cover the user stories on the view fixtures, and axe runs on each state.
+**Where the files live (aligned with M11 TR-15).** For real saves (public and scrubbed fixtures) this text is the `## Now` section of M11's one golden file per fixture, `packages/knowledge/golden/<fixture>.md`, rendered by M11's `kb golden` harness; there is no second golden for those saves. Private saves go only to M11's gitignored `fixtures/private/golden/<id>.md`, and CI fails if a committed golden names a private fixture: even without names, Stage, levels and coin amounts from a friend's account must not reach the public repo. In goldens, characters are labelled `C1…Cn` in save order (M11 TR-15's golden slot check), never by name. M10's own hand-written view fixtures (`packages/engine/test/now/fixtures/*.json`, synthetic data only) keep component snapshots under `packages/engine/test/now/__snapshots__/`, with names replaced by `<c{index}>`. Knowledge Base PRs show advice diffs through M11's goldens (#11.12). Component tests (Vitest + Testing Library + jsdom) cover the user stories on the view fixtures, and axe runs on each state.
 
 ## 6. States and edge cases
 
@@ -558,7 +584,9 @@ It is committed per **public or view fixture** under `packages/engine/test/now/_
 | **Parsing / engine running** | First load: skeleton rows. Later saves: the current view stays, with no flicker, and a small "updating…" next to the age chip. A newer save supersedes an older parse (slice-1 sequence guard). |
 | **Broken parse** (input / empty / shape / crash) | FR-38. Nothing advice-shaped renders, even with a last good save. Suggest stays available. |
 | **Engine throws** | FR-39. Error boundary; names and activities only. |
-| **Some Detectors fail** | Those characters show Unknown ("Can't tell from the save"). The `diagnostics` count shows in the footer: "2 checks failed · Report". |
+| **Some Detectors fail** | A failed Detector of a blocker Check turns its character Unknown ("Can't tell from the save"); any other failed Detector only drops its line (FR-39, M11 FR-13, M6 R9). The `diagnostics` count shows in the footer: "2 checks failed · Report". |
+| **Account safety unknown** (an account-level section such as the Arcade failed, M3 FR-8) | No All-set banner; an "Unknown: can't tell from the save" item heads the Account section with Skip today and Report this, no Not for me (FR-25, D7). |
+| **Higher-leverage comparisons paused or unavailable** (`higherLeverageStatus`) | Focus shows "comparisons paused: game updated, parser not caught up" or "comparisons unavailable" in place of the line (FR-21). |
 | **Stale patch** (new build with failed sections, M1 D3(b)) | FR-35 banner; advice still shown. A new build with no failed sections gets the footer note only. |
 | **Game build unknown** (`_vars` side read failed) | Footer shows "game build ?"; dismissals are kept as they are; no patch banner. |
 | **Knowledge Base entries Stale** | FR-19 marking; no banner. |
@@ -570,7 +598,7 @@ It is committed per **public or view fixture** under `packages/engine/test/now/_
 | **New character created mid-session** | A new row is appended at the end of the frozen Visit Order (D6); it takes its ranked place from the next Play Session. No skips carry over, because keys use the index. |
 | **Character deleted or reordered** (indexes shift) | Skips and dismissals keyed to a missing index are pruned; a shifted index may misapply one skip until it expires. Accepted risk, see red team #7. |
 | **Offline or sync error** (`navigator.onLine === false`, the Firestore listener reports offline, or a sync error with a good last save) | Banner: "Offline: showing your last save from 14:02." (or "Can't reach your save right now: showing your last save from 14:02."). Advice stays, with its age; Report and Suggest fall back to "Copy report text". |
-| **Game closed** (last save over 30 min old at open) | Roster, not Focus; no "● playing" marker; M1 FR-27's hint. Following starts with the first switch. |
+| **Game closed** (last save older than the auto-open threshold T at open; T is open, 5 or 30 min, FR-14) | Roster, not Focus; no "● playing" marker; M1 FR-27's hint once the save is over 30 min old. Following starts with the first switch. |
 | **Save very old** (age > Expected Return) | The age chip turns to the warning style; advice is still shown, since the AFK Setup it judges is still in place. |
 | **Paste mode** | The "pasted" chip; no "playing" marker and no auto-follow, since there is no live switch; "visited" means opened by hand (FR-12); the paste preference namespace (TR-8); Suggest per M13 D6. |
 | **Multiple tabs** | Each tab runs its own listener and worker (accepted cost). Preferences sync through `storage` events. Only M1 decides who writes save history. |
@@ -587,14 +615,14 @@ It is committed per **public or view fixture** under `packages/engine/test/now/_
 
 | Module | M10 needs | Interface |
 |---|---|---|
-| **M1 Sync & Account State** | `SaveState`, `lastGood`, `activeCharacterIndex`, the game build and M1's "newer than any build parsed cleanly" flag for `parserBehind` (M1 D3), save history for done, learned Expected Return, `SaveHistory.sessionStart` (M1 TR-15), "clear my data" (M1 FR-23). **Gaps for M1:** a request to expose the account's game daily-reset time (R3; D3 uses local midnight until a later ruling replaces it), and the recorded A → B → C switch fixture (FR-14 gate). | `useActiveOn()`, `AccountState`, `SaveHistory` |
-| **M11 Knowledge tooling** | Knowledge Base version string, System registry with display labels (for Not covered yet), Source schema incl. https-only URLs. | `@idleon-forge/knowledge` exports `version`, `systems` |
-| **M2 Stage & Meta Path** | `stage` for the view and the report payload. | in `EngineResult` |
-| **M3 AFK Safety** | Verdicts, blockers, `firstFill`, Expected Return as an input, and the account-level stockpile blockers (M3 FR-24/FR-25) as `account.blockerKeys` per M3 D3 (D9 here). | `Verdict`, `Fill`, `AfkSafetyResult.account` |
-| **M4 Purpose & Milestones** | `purpose`, `Milestone`, `no-purpose` suggestion. | `PurposeLine` |
-| **M5 Higher-leverage options** | `higherLeverage`. | `HigherLeverage` |
-| **M6 Unspent & idle** | Goals and Next Actions of category spendable and compounding. | `Goal` |
-| **M7 Spend Plan** | `spendPlan`. | `SpendPlan` |
+| **M1 Sync & Account State** | `SaveState`, `lastGood`, `lastPlayedCharacterIndex` (M1 FR-19, renamed from this spec's earlier `activeCharacterIndex`), the game build and M1's "newer than any build parsed cleanly" flag for `parserBehind` (M1 D3), save history for done, learned Expected Return, `SaveHistory.sessionStart` (M1 TR-15), "clear my data" (M1 FR-23), and the 6-minute stale-save rule (M1 FR-26). The daily-reset time asked for in R3 already exists as M6's `account.dailyResetInSeconds` (M6 TR-3); D3 keeps local midnight until a later ruling replaces it. **Still open with M1:** the recorded A → B → C switch fixture (FR-14 gate) and the auto-open threshold T (FR-14, Needs Yasser). | `useActiveOn()`, `AccountState`, `SaveHistory` |
+| **M11 Knowledge tooling** | Knowledge Base version string, System registry with display labels (for Not covered yet), Source schema incl. https-only URLs, `coverage()`, the compiled `affectsVerdict` flag (FR-39), and the golden harness whose `## Now` section M10's `renderNowText` produces (TR-15). | `@idleon-forge/knowledge` exports `version`, `systems`, `coverage`; `kb golden` |
+| **M2 Stage & Meta Path** | `stage` for the view and the report payload; `compareGoals` and `visitHints` for the engine core (section 2). | `MetaPathResult` (M2 TR-4a), in `EngineResult` |
+| **M3 AFK Safety** | Verdicts, blockers, `firstFill`, `alreadyFull`, account safety, Expected Return as an input, and the account-level stockpile blockers (M3 FR-24/FR-25) as `account.blockerKeys` per M3 D3 (D9 here). | `Verdict`, `Fill`, `AfkSafetyResult.account`, `EngineResult.account.safety`, `alreadyFull` |
+| **M4 Purpose & Milestones** | `purpose` with its badges (`parser-behind` → "may be out of date"), `Milestone`, the `no-purpose` prompt and Role fallback, and stop-here keys with the `#milestone` suffix (M4 TR-8). | `PurposeLine`, `NextAction.key` |
+| **M5 Higher-leverage options** | `higherLeverage` (M5 TR-2 option plus rendered strings), `higherLeverageStatus`, and the `unknown-purpose` option as `Verdict.suggestion`. | `HigherLeverage` (TR-2) |
+| **M6 Unspent & idle** | Goals and Next Actions of category spendable, compounding and nice; `spendCount` for Visit Order; `nextChangeAt` timers for engine re-runs. | `Goal` |
+| **M7 Spend Plan** | `spendPlan` as M7 defines it, and `perCharacter` for the Roster chip and Visit Order (FR-4, FR-22). | M7 TR-3 `SpendPlan` (imported) |
 | **M8 Collections, M9 Builds** | Goals and Next Actions; Contested items (for example 2nd Squire builds). | `Goal` |
 | **M12 Release** | App version, `whats-new.json` per M12 TR-7 (entries with ids, newest first, in three groups), and the "New version available, reload" signal (M12 FR-24). | static assets |
 | **M13 Suggestions** | `openSuggestionForm(type, context, prefill?)`, the signed-in check, and the `ReportContext` / `SuggestionContext` types, builders and name scrub from `packages/suggestions` (M13 TR-1). M10 supplies the inputs (TR-10). Until M13 ships, M10 uses the GitHub issue-form fallback. | `packages/suggestions`, `apps/activeon/src/suggestions/` |
@@ -661,7 +689,7 @@ Independent red-team run on 2026-10-17 against this spec, the glossary, the ADRs
 | 14 | P1 | 300 ms Expected Return budget unrealistic (full engine re-run, worker contention); first result flips on load. | Fixed | TR-6: Expected Return in every parse request, re-run only the dependent stage, coalesced; TR-12 splits Node bench from render, adds a 200 KB result cap. |
 | 15 | P1 | Verdict strip as `<nav>` + arrow keys doesn't work in browse mode; dots are colour-only; "6 + 5" wrap contradicts the prototype. | Fixed | TR-14: list of labelled links, `aria-current`, Tab only; FR-10; section 6 wrap rule rewritten. |
 | 16 | P1 | One save or chip tap can flip many Verdicts, queueing many announcements; auto-follow isn't announced. | Fixed | TR-14: one batched, debounced sentence per result, silent while unfocused. |
-| 17 | P1 | Opening with the game closed lands on a stale "you are on this character" card. | Fixed | FR-14 and FR-4: auto-open and "● playing" only when the last save is under 30 min old (M1 FR-27); section 6 row; US-3 case. |
+| 17 | P1 | Opening with the game closed lands on a stale "you are on this character" card. | Fixed | FR-14 and FR-4: auto-open and "● playing" only when the last save is under 30 min old (consistency pass: M1 FR-19 says 5 min; now an open threshold T, Needs Yasser) (M1 FR-27); section 6 row; US-3 case. |
 | 18 | P2 | Skipped blockers make All set and Visit Order look dishonest. | Fixed | FR-25 adds "(n blockers skipped)". Moving skipped-Ready characters down the order rejected: ordering stays engine-owned (section 9 #5). |
 | 19 | P2 | A transient sync error blanks all advice, while offline keeps it. | Fixed | FR-38 and section 6 treat a sync error with a good last save like offline. |
 | 20 | P2 | Account work has no refresh path but "switch character", which triggers a follow. | Fixed | FR-32 names the in-game Cloud Save button; FR-14 anchors scroll. |
@@ -671,4 +699,15 @@ Independent red-team run on 2026-10-17 against this spec, the glossary, the ADRs
 | 24 | P2 | The tab-title count never fires beside the game, because the window stays visible. | Fixed | FR-34 counts while `!document.hasFocus()`. |
 | 25 | P3 | Roster, Focus, Verdict strip and Account section aren't glossary terms; "Focus" collides with keyboard focus. | Fixed | Section header lists them as local terms, to be added to the glossary with the build; "keyboard focus" spelt out. |
 | 26 | P3 | WCAG details: 1.4.11 for segments, `role="status"` for the hint, radio group for chips, pill fit at 320 px. | Fixed | TR-14 and FR-32. |
+
+## Consistency pass (2026-10-17)
+
+The cross-spec pass changed this spec as follows. Nothing here reverses a ruling in section 8.
+
+- **`EngineResult` (TR-2) follows its producers.** M7's `SpendPlan` is imported instead of the local one (M7 TR-3, M7 §7), and FR-22, US-18 and the `spend-plan` view fixture follow it: per-wallet running totals, status pills, 5 visible lines, the empty states, and the per-character Roster chip (`spendChip`, M7 D5). `HigherLeverage` is M5's option plus rendered strings (M5 TR-2, RT-14), with `higherLeverageStatus`; an `unknown-purpose` option renders as `Verdict.suggestion`. `account.safety` and `alreadyFull` come from M3 (FR-8, FR-11), `PurposeLine.badges` and the `#milestone` key suffix from M4 (§6, TR-8).
+- **M1 names and rules.** `activeCharacterIndex` is renamed `lastPlayedCharacterIndex` everywhere (M1 FR-19); the stale-save hint is 6 minutes from the last snapshot received, not 240 s (M1 FR-26, RT-14). The auto-open threshold is left open: M1 FR-19 says 5 minutes, this spec said 30 (FR-14, Needs Yasser in the spec index).
+- **All set** also waits on account safety `unknown` (skippable, `unknown@account`) and shows the already-full count (FR-25, US-21).
+- **Partial Detector failures** turn a character Unknown only for blocker Checks (FR-39, M11 FR-13, M6 R9).
+- **Not covered yet** carries module-emitted gaps that are not whole Systems (FR-26).
+- **Ownership.** The engine core (merge, ranking with M2's `compareGoals`, dedupe, Visit Order, `EngineResult` assembly) is built with M10 (section 2, TR-6); it was disclaimed by both M2 and M10. Golden files are M11's (`packages/knowledge/golden/`); M10 supplies `renderNowText` for their `## Now` section (TR-15).
 
