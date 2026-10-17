@@ -16,6 +16,8 @@ export interface Wallet {
 export interface VaultRow {
   /** 0-based row index; the generated Acquisition is `upgrade-vault.acquisition.row-<index>`. */
   index: number;
+  /** Toolbox `name`, e.g. "Sleepy_Time" (a game name, never a character's). */
+  name: string;
   level: number;
   /** Toolbox `maxLevel` (includes bundle and Glimbo). */
   maxLevel: number;
@@ -36,7 +38,7 @@ export interface VaultRow {
 export interface VaultState {
   totalLevels: number;
   /** The first row whose unlock threshold is above the total; null when every row is open. */
-  nextUnlock: { index: number; at: number } | null;
+  nextUnlock: { index: number; at: number; name: string } | null;
   /** Rows 0-61 (W1-W4, M7 scope). */
   rows: VaultRow[];
 }
@@ -54,6 +56,8 @@ export interface RaisePrice {
 export interface StampRaise {
   /** Item rawName. */
   material: string;
+  /** Toolbox item name, e.g. "Spore_Cap". */
+  materialName: string;
   /** Toolbox item type of the material: 'Equip' items are not counted by `hasMaterials` (FR-10). */
   materialType: 'Material' | 'Equip' | (string & {});
   /** At the current Hydrogen discount, never gilded (the parsed save's own price is gilded, TR-4). */
@@ -79,6 +83,8 @@ export interface StampRaise {
 export interface StampState {
   /** Toolbox rawName, e.g. "StampA1". */
   id: string;
+  /** Toolbox displayName, e.g. "Sword_Stamp". */
+  name: string;
   level: number;
   /** Toolbox maxLevel (the cap). */
   cap: number;
@@ -95,6 +101,14 @@ export interface StampState {
 /** Raw `BribeStatus[i]`: -1 locked, 0 available, 1 bought. */
 export interface BribeState {
   index: number;
+  /** Toolbox `name`, e.g. "Insider_Trading". */
+  name: string;
+  /**
+   * The bribe set (1-based) in Toolbox's book order: a set ends with its "The Art of the ..." bribe,
+   * which opens the next one. Plain counting over Toolbox's list; a test checks it against the generated
+   * `bribes.acquisition.*` `set` facts.
+   */
+  set: number;
   status: -1 | 0 | 1;
   /** Toolbox `price`. */
   price: number;
@@ -112,6 +126,8 @@ export interface AnvilCoinPoint {
 
 export interface StatueGoldState {
   index: number;
+  /** Toolbox `name`, e.g. "KACHOW". */
+  name: string;
   /** Raw `StuG`: 0 none, 1 Gold, 2 Onyx, 3 Zenith. */
   grade: number;
 }

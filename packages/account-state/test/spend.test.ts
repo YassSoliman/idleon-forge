@@ -3,7 +3,7 @@
 // M7 TR-2 / TR-4 contract tests: the SpendInputs projection with the worker's Toolbox calls, on the public
 // saves, the scrubbed saves and (locally) the private ones. A re-sync that breaks a ladder identity or the
 // non-gilded stamp prices fails here. Assertions are on rules, never on a private save's balances.
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { normalizeEnvelope, parseSave, toolboxCalls, withFrozenClock } from '@idleon-forge/toolbox-parsers';
 import { describe, expect, it } from 'vitest';
@@ -93,6 +93,17 @@ describe.each(saves)('%s', (_label, path) => {
   it('never carries a character name', () => {
     const text = JSON.stringify(spend);
     for (const c of state.characters) if (c.name.length > 3) expect(text).not.toContain(`"${c.name}"`);
+  });
+});
+
+describe('bribe sets (TR-4)', () => {
+  it('match the generated bribes.acquisition.* set facts', () => {
+    const gen = JSON.parse(
+      readFileSync(fileURLToPath(new URL('../../knowledge/generated/bribes.json', import.meta.url)), 'utf8'),
+    ) as { entries: { values: { index: number; set: number } }[] };
+    const { state } = withToolbox(readSave(PUBLIC_DIR, 'latest.json'));
+    const sets = new Map((state.account.spend?.bribes ?? []).map((b) => [b.index, b.set]));
+    for (const e of gen.entries) expect(sets.get(e.values.index)).toBe(e.values.set);
   });
 });
 

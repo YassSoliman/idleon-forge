@@ -77,7 +77,11 @@ function vault(input: SpendReadInput): VaultState | null {
   const ups = uv.upgrades as Dict[];
   const total = finite(uv.totalUpgradeLevels) ?? nums.reduce((s, x) => s + x, 0);
   const rows: VaultRow[] = [];
-  const unlockAt = runs.map((r, k) => ({ index: r.index, at: finite(ups[k]?.unlockLevel) ?? 0 }));
+  const unlockAt = runs.map((r, k) => ({
+    index: r.index,
+    at: finite(ups[k]?.unlockLevel) ?? 0,
+    name: typeof ups[k]?.name === 'string' ? (ups[k]?.name as string) : `Row_${r.index}`,
+  }));
   const open = unlockAt.filter((u) => u.at <= total).length;
   runs.forEach((run, k) => {
     if (run.index >= SPEND_VAULT_ROWS) return;
@@ -97,6 +101,7 @@ function vault(input: SpendReadInput): VaultState | null {
     }
     rows.push({
       index: run.index,
+      name: typeof u.name === 'string' ? u.name : `Row_${run.index}`,
       level,
       maxLevel,
       buyable,
@@ -139,6 +144,7 @@ function stamps(input: SpendReadInput): StampState[] | null {
       const atCap = s.level >= s.maxLevel;
       return {
         id: s.rawName,
+        name: s.name,
         level: s.level,
         cap: s.maxLevel,
         capStep: s.capStep,
@@ -147,6 +153,7 @@ function stamps(input: SpendReadInput): StampState[] | null {
         raise: atCap
           ? {
               material: s.material,
+              materialName: s.materialName,
               materialType: s.equip ? 'Equip' : 'Material',
               atDiscount: price(s) as RaisePrice,
               atZero: price(zeroBy.get(s.rawName)) ?? (price(s) as RaisePrice),
@@ -186,13 +193,20 @@ function bribes(input: SpendReadInput): BribeState[] | null {
   const status = arr(input.data.BribeStatus);
   const list = (input.parsed.account as Dict).bribes;
   if (!status || failed(input, 'bribes') || !Array.isArray(list)) return null;
+  let set = 1;
   return list.map((b, index) => {
     const s = finite(status[index]);
-    return {
+    const name = String((b as Dict | undefined)?.name ?? '');
+    const out: BribeState = {
       index,
+      name,
+      set,
       status: s === 1 ? 1 : s === 0 ? 0 : -1,
       price: finite((b as Dict | undefined)?.price) ?? 0,
     };
+    // "The Art of the ..." closes its set and opens the next (Toolbox's book order).
+    if (name.startsWith('The_Art_of_the_')) set++;
+    return out;
   });
 }
 
@@ -200,7 +214,11 @@ function statueGold(input: SpendReadInput): StatueGoldState[] | null {
   const raw = arr(input.data.StuG);
   const statues = (input.parsed.account as Dict).statues;
   if (!raw || failed(input, 'statues') || !Array.isArray(statues)) return null;
-  return statues.map((_, index) => ({ index, grade: finite(raw[index]) ?? 0 }));
+  return statues.map((st, index) => ({
+    index,
+    name: String((st as Dict | undefined)?.name ?? `Statue_${index}`),
+    grade: finite(raw[index]) ?? 0,
+  }));
 }
 
 const slug = (name: unknown) =>

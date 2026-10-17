@@ -15,7 +15,7 @@ export const SPEND_FIELD_SOURCES: Record<string, string> = {
   'account.spend.p2w': 'account.alchemy.p2w.cauldrons, .liquids, .vials',
   'account.spend.anvilCoinPoints': 'getPlayerAnvil(...).stats.anvilCost (nextCoinUpgrade, coinsToMax)',
   'account.spend.hydrogen': 'account.atoms.atoms[0] (level, baseBonus), account.atoms.stampReducer',
-  'account.spend.gildedStamps': 'account.accountOptions[154]',
+  'account.spend.gildedStamps': 'account.accountOptions (OLA 154, Gilded Stamps held)',
   'account.spend.colosseumTickets': 'CYColosseumTickets, account.currencies.ColosseumTickets.allTickets',
   'account.spend.highestClassLevel': 'characters[i].level',
 };
