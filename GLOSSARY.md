@@ -38,6 +38,14 @@ _Avoid_: AFK activity, job
 A per-character assignment that runs alongside the AFK Target (traps, a cog-board seat, worship charge, an alchemy cauldron); empty ones are lost value.
 _Avoid_: side job, secondary AFK
 
+**Stage**:
+An account-level label (e.g. W2-mid) derived from the Account State using Meta Path milestones; Priority Lists are keyed by Stage, and per-character differences come from class and level filters instead.
+_Avoid_: progress level, tier, phase
+
+**Role**:
+The job the Meta Path assigns a class (e.g. Squire = Construction carry, Wizard = Worship), used to judge Purpose and better-fit suggestions.
+_Avoid_: archetype, specialization
+
 **Meta Path**:
 The single reference route through the game (class choices, character order, per-world milestones) that the community currently considers most efficient; all advice measures progress against it.
 _Avoid_: build guide, playstyle, meta (bare)
@@ -113,3 +121,43 @@ _Avoid_: shopping list, budget
 **Stale**:
 Said of a Knowledge Base entry verified on a patch older than the current one; still shown, ranked below fresh entries.
 _Avoid_: outdated, expired
+
+## Knowledge Base entries
+
+**Entry**:
+One versioned, cited unit of the Knowledge Base, of one of the types below.
+_Avoid_: rule (bare), record, row
+
+**Contribution**:
+An entry linking an activity (an AFK Target or Parallel Slot) to a Goal it advances; Purpose is derived from Contributions.
+_Avoid_: link, mapping
+
+**Check**:
+An entry that detects a problem or opportunity in the Account State and turns it into a Verdict blocker or a Next Action.
+_Avoid_: alert, rule, trigger
+
+**Detector**:
+The small, tested piece of code a Check or Contribution points to that reads the Account State; the entry around it holds all the human-facing words, numbers and Sources.
+_Avoid_: rule function, handler
+
+**Priority List**:
+An ordered, Source-backed list for one stage (ties allowed), used to rank Goals, the Spend Plan and Leverage; never numeric weights.
+_Avoid_: tier list, weights, score
+
+**Build**:
+An entry giving the talent order for one class and one talent preset.
+_Avoid_: spec, loadout
+
+**Acquisition**:
+An entry describing how to obtain something (a stamp, card, obol, item) and what it needs.
+_Avoid_: unlock guide, how-to
+
+**Contested**:
+The status of an entry whose Sources disagree; shown with both sides and a "sources disagree" badge, never as a Verdict blocker or the top action.
+_Avoid_: disputed, uncertain
+
+## Feedback
+
+**Suggestion**:
+A player's in-app request (Idea, Something's wrong, or Confusing) written as When I'm… / I want… / So that…, filed as a GitHub issue and turned into a user story, a spec change, a Knowledge Base entry, or a wontfix.
+_Avoid_: feedback, ticket, feature request

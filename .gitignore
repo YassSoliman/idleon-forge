@@ -15,3 +15,6 @@ prototypes/*/accounts.local.js
 # Toolbox checkout used by the parser sync, and the game data rebuilt from the pin at build time.
 packages/toolbox-parsers/.upstream/
 packages/toolbox-parsers/vendor/data/
+
+# Agent worktrees (local only)
+.claude/worktrees/
