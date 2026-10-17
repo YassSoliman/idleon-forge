@@ -3,35 +3,48 @@
 // Runtime entry, bundled by scripts/build.mjs into dist/index.js. Importing it applies Toolbox's
 // prototype polyfills (String/Array helpers the parsers rely on), so load it in a Web Worker.
 import '../vendor/polyfills.js';
+import { setSectionReporter } from '../shims/safe-section';
 import { parseData } from '../vendor/parsers/index';
 import { withFrozenClock } from './frozen-clock';
-import type { parseSave as ParseSaveDecl, upstream as UpstreamDecl } from './public';
-import type { UpstreamPin } from './types';
+import type {
+  parseSave as ParseSaveDecl,
+  upstream as UpstreamDecl,
+  verifiedBuilds as VerifiedBuildsDecl,
+} from './public';
+import { finalFailures, truncateMessage } from './section-outcomes';
+import type { UpstreamPin, VerifiedBuilds } from './types';
 
 export { InvalidSaveInputError, normalizeEnvelope, parseEnvelopeText } from './envelope';
 export { withFrozenClock } from './frozen-clock';
 
 declare const __UPSTREAM__: UpstreamPin;
+declare const __VERIFIED_BUILDS__: VerifiedBuilds;
 export const upstream: typeof UpstreamDecl = __UPSTREAM__;
+export const verifiedBuilds: typeof VerifiedBuildsDecl = __VERIFIED_BUILDS__;
 
 const SECTION_FAILED = /section "([^"]+)" failed/;
 
 export const parseSave: typeof ParseSaveDecl = (envelope, options) => {
   const now = options.now instanceof Date ? options.now.getTime() : options.now;
   if (!Number.isFinite(now)) throw new TypeError('parseSave: options.now must be a valid time');
+  const full = options.consoleErrors === 'full';
 
   // Toolbox reports failures only through console.error: per-section (safeSection) and top-level
-  // (parseData's catch-all). Capture both while the parse runs, and pass anything else through.
-  const failedSections: string[] = [];
+  // (parseData's catch-all). The section shim reports every run's outcome; console.error is still
+  // captured so the section messages (which dump the error object) never reach the console.
+  const outcomes: Array<[string, boolean]> = [];
   let error: string | null = null;
   const realError = console.error;
   console.error = (msg?: unknown, ...rest: unknown[]) => {
-    const section = typeof msg === 'string' ? SECTION_FAILED.exec(msg) : null;
-    if (section?.[1]) failedSections.push(section[1]);
-    else if (msg === 'Error while parsing data')
-      error = rest[0] instanceof Error ? rest[0].message : String(rest[0]);
-    else realError(msg, ...rest);
+    if (typeof msg === 'string' && SECTION_FAILED.test(msg)) return;
+    if (msg === 'Error while parsing data') {
+      error = truncateMessage(rest[0]);
+      return;
+    }
+    if (full) realError(msg, ...rest);
+    else realError(`[parsers] ${truncateMessage(msg)}`);
   };
+  setSectionReporter((name, ok) => outcomes.push([name, ok]));
 
   let parsed: { account: unknown; characters: unknown };
   try {
@@ -56,19 +69,21 @@ export const parseSave: typeof ParseSaveDecl = (envelope, options) => {
     );
   } finally {
     console.error = realError;
+    setSectionReporter(null);
   }
 
   const csver = Number(envelope.data.CSver);
   return {
     account: (parsed.account ?? {}) as Record<string, unknown>,
     characters: (Array.isArray(parsed.characters) ? parsed.characters : []) as Record<string, unknown>[],
-    failedSections,
+    failedSections: finalFailures(outcomes),
     error,
     meta: {
       now,
       saveVersion: Number.isFinite(csver) ? csver : null,
       capturedAt: envelope.lastUpdated ?? null,
       parserGameVersion: upstream.gameVersion,
+      parserCommit: upstream.commit,
     },
   };
 };

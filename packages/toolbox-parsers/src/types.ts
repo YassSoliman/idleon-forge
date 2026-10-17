@@ -24,6 +24,19 @@ export interface RawSaveEnvelope {
   tournament?: unknown;
   /** When this envelope was captured (epoch ms), as Toolbox records it. */
   lastUpdated?: number;
+  /**
+   * Not Toolbox's: which side reads errored (as opposed to returning nothing) when the live listener
+   * assembled this envelope. The parser ignores it; the Account State lists it in its diagnostics.
+   */
+  sideReadReport?: SideReadReport;
+}
+
+/** The side reads the live listener makes, by the name the Account State reports them under. */
+export type SideReadName = 'charNames' | 'serverVars' | 'companion' | 'guild' | 'tournament';
+
+export interface SideReadReport {
+  /** Side reads that errored (network, permissions, timeout), not ones that were merely absent. */
+  failed: SideReadName[];
 }
 
 export interface ParseOptions {
@@ -32,6 +45,12 @@ export interface ParseOptions {
    * to this value for the duration of the parse. Same envelope + same `now` = same output.
    */
   now: Date | number;
+  /**
+   * What happens to Toolbox `console.error` messages that are not section failures: `'truncated'`
+   * (the default, for production) passes on at most 200 characters of text and never an object dump,
+   * so a save can't end up in a DevTools screenshot; `'full'` passes them on as they are (development).
+   */
+  consoleErrors?: 'truncated' | 'full';
 }
 
 export interface ParsedSave {
@@ -39,7 +58,10 @@ export interface ParsedSave {
   account: Record<string, unknown>;
   /** Toolbox's characters. Characters with no save data come back as stubs without `class`. */
   characters: Record<string, unknown>[];
-  /** Parser sections that threw and fell back (Toolbox's `safeSection`), in order. */
+  /**
+   * Parser sections that threw and fell back (Toolbox's `safeSection`) on their last run, each once,
+   * in the order they first ran. A weak signal: most patch breakage doesn't throw.
+   */
   failedSections: string[];
   /** The top-level error `parseData()` caught and swallowed, if any (then `account` is `{}`). */
   error: string | null;
@@ -52,6 +74,8 @@ export interface ParsedSave {
     capturedAt: number | null;
     /** The game version the parser pin targets (`UpstreamPin.gameVersion`). */
     parserGameVersion: string;
+    /** The Toolbox commit of the parser pin (`UpstreamPin.commit`). */
+    parserCommit: string;
   };
 }
 
@@ -63,4 +87,14 @@ export interface UpstreamPin {
   toolboxVersion: string;
   /** The game version Toolbox's patch notes tag this commit with, e.g. "2.3.540". */
   gameVersion: string;
+}
+
+/**
+ * The newest game builds this parser pin has parsed cleanly: the highest server build (`GameVERSION`)
+ * and save format (`CSver`) among the public fixtures that parse with no failed section. Written by
+ * `scripts/verified-builds.mjs` during the parser sync and shipped in the bundle (FR-29).
+ */
+export interface VerifiedBuilds {
+  serverBuild: number;
+  saveVersion: number;
 }

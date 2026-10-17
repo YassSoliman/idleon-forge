@@ -21,12 +21,20 @@ for (const key of ['repo', 'commit', 'commitDate', 'toolboxVersion', 'gameVersio
   if (!upstream[key]) throw new Error(`UPSTREAM is missing "${key}"; run pnpm sync-parsers`);
 }
 
+// VERIFIED_BUILDS is written by scripts/verified-builds.mjs during the parser sync.
+const verifiedBuilds = JSON.parse(readFileSync(path.join(root, 'VERIFIED_BUILDS'), 'utf8'));
+for (const key of ['serverBuild', 'saveVersion']) {
+  if (!Number.isFinite(verifiedBuilds[key])) throw new Error(`VERIFIED_BUILDS is missing "${key}"`);
+}
+
 // Exact specifiers first (UI-coupled modules -> shims), then Toolbox's prefix aliases -> vendor/.
 const exact = {
   '@mantine/hooks': s('mantine-hooks.ts'),
   '@components/constants': s('components-constants.ts'),
   '@utility/analytics': s('analytics.ts'),
   '@utility/clipboard': s('clipboard.ts'),
+  // Same behaviour as upstream's, plus a per-run outcome report (final-pass failures, TR-3).
+  '@parsers/safeSection': s('safe-section.ts'),
   '@website-data': v('data/website-data/index.js'),
 };
 const prefixes = [
@@ -71,7 +79,7 @@ const result = await build({
   minify: true,
   legalComments: 'inline',
   banner: { js: banner },
-  define: { __UPSTREAM__: JSON.stringify(upstream) },
+  define: { __UPSTREAM__: JSON.stringify(upstream), __VERIFIED_BUILDS__: JSON.stringify(verifiedBuilds) },
   metafile: true,
   logLevel: 'warning',
   plugins: [aliasPlugin],

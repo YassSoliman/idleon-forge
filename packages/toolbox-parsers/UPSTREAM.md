@@ -12,7 +12,10 @@ them. IdleOn Forge redistributes their code under the same licence and changes n
 - **Modifications (GPL-3.0 section 5(a)):** none to upstream's code. `scripts/sync.sh` prepends a
   three-line origin notice to every vendored source file, and at build time `scripts/build.mjs`
   redirects Toolbox's path aliases to `vendor/` and its six UI-coupled imports to the stubs in
-  [`shims/`](shims/). The built bundle opens with a licence banner naming upstream and the commit.
+  [`shims/`](shims/). It also redirects `@parsers/safeSection` to
+  [`shims/safe-section.ts`](shims/safe-section.ts), which behaves the same and additionally reports
+  each section's outcome, so a section is listed as failed only when its last pass failed. The built
+  bundle opens with a licence banner naming upstream and the commit.
 - **No endorsement:** Toolbox does not accept PRs and is not affiliated with IdleOn Forge. Report
   parser bugs you hit through ActiveOn to us, not to Toolbox, unless you can reproduce them on
   idleontoolbox.com.
@@ -24,6 +27,7 @@ them. IdleOn Forge redistributes their code under the same licence and changes n
 | `vendor/parsers/`, `vendor/utility/`, `vendor/polyfills.js`, `vendor/LICENSE` | Yes | ~3 MB of source; a re-sync is a reviewable diff |
 | `vendor/data/` (`website-data/`, `website-data.d.ts`, `sprite-manifest.json`) | No, gitignored | ~9 MB of generated game data that churns by megabytes a month; `scripts/fetch-data.sh` rebuilds it from the pinned commit before every build and typecheck |
 | `../account-state/fixtures/public/*.json` | Yes | Toolbox's 11 public saves, the contract-test inputs |
+| `VERIFIED_BUILDS` | Yes | The highest `GameVERSION` and `CSver` among those saves that parse cleanly at this pin, written by `scripts/verified-builds.mjs` during the sync and shipped in the bundle as `verifiedBuilds` |
 
 ## Re-syncing after a game patch
 

@@ -58,5 +58,10 @@ printf 'repo=%s\ncommit=%s\ncommitDate=%s\ntoolboxVersion=%s\ngameVersion=%s\n' 
 
 rm -f vendor/data/.commit
 bash scripts/fetch-data.sh
+
+# The builds this pin parses cleanly ship in the bundle (M1 FR-29): build, measure, rebuild.
+node scripts/build.mjs
+node scripts/verified-builds.mjs
+node scripts/build.mjs
 echo "vendored $(find vendor/parsers -name '*.ts' | wc -l | tr -d ' ') parser files @ ${commit} (Toolbox ${tbver}, game ${gamever}, ${date})"
 echo "next: pnpm test && git diff --stat -- packages/toolbox-parsers packages/account-state/fixtures"

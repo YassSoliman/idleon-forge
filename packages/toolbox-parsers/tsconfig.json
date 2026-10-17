@@ -21,6 +21,7 @@
       "@components/constants": ["shims/components-constants.ts"],
       "@utility/analytics": ["shims/analytics.ts"],
       "@utility/clipboard": ["shims/clipboard.ts"],
+      "@parsers/safeSection": ["shims/safe-section.ts"],
       "@parsers/*": ["vendor/parsers/*"],
       "@utility/*": ["vendor/utility/*"]
     }
