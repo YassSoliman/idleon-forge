@@ -146,30 +146,35 @@ Fixtures: the **W2-late account** (5 characters, highest Lv 60, Stage W2-late) a
 ```ts
 interface CharacterState {
   // existing: index, name, class, level, afkType, afkTarget, currentMap, foodStacks, secondsSinceLastSave
-  classIndex: number;
+  classIndex: number | null;               // shared with M2 TR-3; null when Toolbox leaves it unset
   mapIndex: number | null;
   targetMonster: string | null;            // saved raw target; never re-derived from the map (#16 caveat 4)
   classExp: { level: number; exp: number; expReq: number } | null;
   skills: Record<SkillKey, { level: number; exp: number; expReq: number }> | null;
   mapKills: number[] | null;               // Toolbox kills[mapIndex], per character, lifetime
-  nextPortal: { door: number; current: number; goal: number } | null; // Toolbox nextPortal: the first unopened door
-  fighting: FightingRate | null;           // identity call on the current map; null unless afkType === 'FIGHTING'
+  nextPortal: { door: number; current: number; goal: number } | null; // one shape shared with M2 TR-3: Toolbox nextPortal, the first unopened door
+  fighting: FightingRate | null;           // identity call on the current map; null unless afkType === 'FIGHTING'. M4 owns this field; M3 (afk.fighting extras), M8 read it
   tools: string[] | null;                  // raw item names, 'Blank' removed
 }
+/** The one current-map fighting shape (M4 owns). Every survivability and hit chance in the engine is % 0..100 (Toolbox's unit). */
 interface FightingRate {
   finalKillsPerHour: number;  // Toolbox getMaxDamage().finalKillsPerHour
+  killsPerHour: number;       // unfloored, for ordering only
   expPerKill: number;         // monsters[target].ExpGiven × getClassExpMulti(clone)
-  survivability: number;
+  survivability: number;      // % 0..100
+  hitChance: number;          // % 0..100
 }
 interface AccountState {
   // existing …
   deathNote: Record<string, { mobs: { rawName: string; kills: number }[] }> | null; // look up by rawName === target
-  deathNoteBuildingLevel: number | null;   // towers Death_Note level
+  // The Death Note building level is M2's `account.buildings.deathNote` (M2 TR-3); M4 adds no field of its own for it.
   vault: { killTotals: Record<number, number>; rows: { name: string; level: number; maxLevel: number }[] } | null;
                                            // killTotals keyed by map index through the generated map → slot table
                                            // (`upgrade-vault.fact.kill-slots`); raw VaultKillzTotal slots are never read by index
-  cards: Record<string, { amount: number; stars: number; nextLevelReq: number; perTier: number }> | null;
-  stamps: { rawName: string; itemReq: string; materialCost: number; ownedMats: number }[] | null; // bestCharacter stripped (privacy)
+  /** One field shared with M8 (which adds `effect`). */
+  cards: Record<string, { amount: number; stars: number; nextLevelReq: number; perTier: number; effect: string }> | null;
+  // Stamp material shortfalls read M7's `account.spend.stamps[].raise` (M7 TR-2: material, `cost` from the worker
+  // re-evaluation, `ownedInStorage`), never the parsed save's `materialCost`, which is priced at the Gilded rate (×0.05, M7 FR-10).
   lab: { connected: boolean[] } | null;    // per character index; null below W4 or when unread
 }
 ```
@@ -220,14 +225,11 @@ interface Purpose {
 interface StopHere { contributionId: string; goalId: string; at: number; etaAt: Eta; following: number; etaFollowing: Eta; provenance: Provenance }
 interface MilestoneCrossing { goalId: string; milestone: number; provenance: Provenance }
 
-/** What M4 reads from M2 (M2 FR-7, FR-11, FR-12, TR-9, TR-10, TR-14). Plain data, structured-cloneable. */
-interface MetaPathInput {
-  stage: StageResult;                         // M2 TR-4
-  list: ResolvedPriorityList;                 // for compareGoals
-  pusher: { index: number; frontierMap: number } | null;
-  pushGoal: { entryId: string; current: number; goal: number; etaSeconds: number | null } | null;
-  roles: Record<number, { role: string; afkType: string | null; active: boolean }[]>; // per character index
-}
+/** What M4 reads from M2: a Pick of M2's MetaPathResult (M2 TR-4a). Plain data, structured-cloneable.
+ *  stage (M2 TR-4); list: ResolvedPriorityList for compareGoals; pusher { index, frontierMap } | null;
+ *  pushGoal { entryId: 'metapath.goal.push', characterIndex, current, goal, etaSeconds } | null;
+ *  roles: per character index, { role, afkType, active }[]. */
+type MetaPathInput = Pick<MetaPathResult, 'stage' | 'list' | 'pusher' | 'pushGoal' | 'roles'>;
 
 function derivePurposes(input: {
   state: AccountState;
@@ -292,12 +294,12 @@ Choppin and Catching have no level doors (skills dossier, cross-cutting fact 2),
 | `portals.contribution.push` | FIGHTING, the character is M2's pusher and on M2's frontier map (D5: no other character's portal is ever worthwhile) | `portals/push` | kills-per-hour (M2's ETA, copied) | rate > 0 | none (always worthwhile) | position 2 (M2's push Goal) |
 | `upgrade-vault.contribution.kill-row` | FIGHTING on maps 8/13/14/24/101 | `upgrade-vault/kill-row` | kills-per-hour | the scaled row's level ≥ 1 | 24 h | Vault table rows (W1-late 9 …) |
 | `death-note.contribution.skull` | FIGHTING on a Death Note mob, Stage ≥ W3-early | `death-note/skull` | kills-per-hour | Death Note building Lv ≥ 1 | 48 h | W3-mid 6, W3-late 6 |
-| `cards.contribution.fight` | FIGHTING on a target with a card | `cards/fight-level` | kills-per-hour | 0 copies owned (5× chance), **or** the card is on the class's card list (authored, M8) and below max | 24 h, on the mean-at-base-rate ETA | W1-early 8 |
+| `cards.contribution.fight` | FIGHTING on a target with a card | `cards/fight-level` | kills-per-hour | 0 copies owned (5× chance), **or** the card is on the class's card list (authored by M8 as `cards.priority.list-<class>`) and below max | 24 h, on the mean-at-base-rate ETA | W1-early 8 |
 | `cards.contribution.skill` | MINING / CHOPPIN / FISHING / CATCHING on a node with a card | `cards/skill-first-copy` | none | 0 copies owned (yes/no, FR-6) | yes/no | W1-early 8 |
 | `classes.contribution.exp` | FIGHTING | `classes/exp` | kills-per-hour | this map's EXP/h ≥ 50% of `bestExpPerHour` (D3) | none | unlisted |
 | `skills.contribution.door` | MINING / FISHING | `skills/door` | none | skill level below the next door | yes/no | unlisted |
 | `skills.contribution.tool` | gathering | `skills/tool-chain` | none | the target's resource is an ingredient of the next tool the skill level allows, and the character lacks that tool | yes/no | 3d |
-| `stamps.contribution.material` | gathering | `stamps/material` | none | an owned stamp's next cap raise needs this resource and `materialCost > ownedMats` | yes/no | W1 stamp items |
+| `stamps.contribution.material` | gathering | `stamps/material` | none | an owned stamp's next cap raise needs this resource and `raise.cost > raise.ownedInStorage` (M7's worker-re-evaluated price) | yes/no | W1 stamp items |
 | `roles.contribution.skill` | the AFK type of one of the character's **active** M2 Roles | `roles/skill` | none | the character holds an active Role owning this AFK type (`meta.roles`) | yes/no | unlisted |
 | `lab.contribution.chain` | LABORATORY, Stage W4-entry | `lab/chain` | none | `lab.connected[i]` | yes/no | W4-entry 4 |
 
@@ -310,13 +312,13 @@ Skilling with *only* the Role Contribution matching counts as `serving` (D6). Sk
 | `purpose/activity-of` (engine helper, not an entry Detector) | `afkType`, `mapIndex`, `targetMonster` | `ActivityRef` |
 | `portals/push` | `nextPortal`, `fighting.finalKillsPerHour` (engine copies `meta.pushGoal`) | per-character progress |
 | `upgrade-vault/kill-row` | `vault.killTotals[map]`, the row's level, every character's `fighting` on the same map | account progress, summed rate |
-| `death-note/skull` | the mob in `deathNote[w].mobs` with `rawName === target`, `deathNoteBuildingLevel`, every feeder's rate | account progress, summed rate, banked flag |
+| `death-note/skull` | the mob in `deathNote[w].mobs` with `rawName === target`, `buildings.deathNote` (M2 TR-3), every feeder's rate | account progress, summed rate, banked flag |
 | `cards/fight-level` | `cards[card].amount/stars/nextLevelReq`, base chance (generated), feeders' rates | copies; mean ETA = gap ÷ (Σ rate × base chance × (5 if amount = 0)); `bound: 'mean-at-base-rate'` |
 | `cards/skill-first-copy` | `cards[card].amount` | yes/no |
 | `classes/exp` | `classExp`, `fighting.expPerKill`, `fighting.finalKillsPerHour` (ratio against `bestExpPerHour` applied by the engine) | level progress; ETA = (expReq − exp) ÷ (rate × expPerKill) |
 | `skills/door` | `skills[skill]`, generated door list | level progress, yes/no |
 | `skills/tool-chain` | `tools`, `skills[skill].level`, generated tool table | yes/no |
-| `stamps/material` | `stamps[].itemReq/materialCost/ownedMats` | shortfall count, yes/no |
+| `stamps/material` | `spend.stamps[].raise.{material,cost,ownedInStorage}` (M7 TR-2, worker re-evaluated, never the gilded parsed value) | shortfall count, yes/no |
 | `roles/skill` | `afkType` (Role match applied by the engine from `meta.roles`) | yes/no |
 | `lab/chain` | `lab.connected` | yes/no |
 | `purpose/milestone-crossed` (engine helper) | `history.sessionStart`, same Goal counter | `MilestoneCrossing[]` |
@@ -329,7 +331,7 @@ Each Detector gets fires and doesn't-fire tests on both private fixtures (local 
 
 **TR-8 Storage.** M4 stores nothing. The caller resolves the session-start state from M1's `SaveHistory` before calling M4. Skip today and Not for me on stop-here suggestions are M10's, keyed by the stop-here `NextAction.key` (`${contributionId}@${subject}#${milestone}`, TR-3), so a dismissal never hides the next Milestone's suggestion. M10's key today is `${entryId}@${subject}`; the `#milestone` suffix is an M10 change (section 7).
 
-**TR-9 Security and privacy.** Outputs carry the character index, never names. The UI joins names locally. `stamps[].bestCharacter` (a name, #16) is stripped in the Account State. Provenance records field paths and entry ids, never save values. Template slots never hold a character name (FR-16). Nothing in M4 leaves the device; what Report this sends is M13's `ReportContext`, previewed to the player.
+**TR-9 Security and privacy.** Outputs carry the character index, never names. The UI joins names locally. Toolbox's stamp `bestCharacter` (a name, #16) never enters the Account State: M7's `spend.stamps[].raise.carriers` joins carriers to indices inside the adapter (M7 TR-2). Provenance records field paths and entry ids, never save values. Template slots never hold a character name (FR-16). Nothing in M4 leaves the device; what Report this sends is M13's `ReportContext`, previewed to the player.
 
 **TR-10 Golden snapshots.** The golden Now-screen snapshot per fixture (#11 item 12) includes every character's `Purpose` (status, headline, top 3, stop-here). Any Knowledge Base PR that changes a Purpose shows up in the snapshot diff.
 
@@ -364,13 +366,14 @@ Each Detector gets fires and doesn't-fire tests on both private fixtures (local 
 | Module | What M4 needs | Interface |
 |---|---|---|
 | **M1** Sync & Account State | the TR-2 fields (via TR-11 growth, `null` when absent); `fighting` identity rates; `SaveHistory` previous and `sessionStart` states; `diagnostics.failedSections`, `isKnown`; the FR-29 parser-behind signal | `AccountState`, `SaveHistory` |
-| **M2** Stage & Meta Path | Stage; the pusher and frontier map; the push Goal's entry id, counts and ETA; per-character Roles with `active`; the resolved Priority List and `compareGoals` | `MetaPathInput` (TR-3), assembled from M2 FR-7, FR-11, FR-12, TR-9, TR-10, TR-14. **M2 change:** expose `pusher`, `pushGoal` and per-character `roles` as plain data on its result |
+| **M2** Stage & Meta Path | Stage; the pusher and frontier map; the push Goal's entry id, counts and ETA; per-character Roles with `active`; the resolved Priority List and `compareGoals` | `MetaPathInput` (TR-3), a Pick of M2's `MetaPathResult`. The M2 change this spec asked for (expose `pusher`, `pushGoal` and per-character `roles` as plain data) is done in M2 TR-4a |
 | **M3** AFK Safety | consumes `Purpose.status` to compose the Verdict (safety blockers first, then Purpose); takes `suggestedTarget` for FR-12 | `Purpose[]` |
 | **M5** Higher-leverage options | consumes `exhausted`/`none`/stop-here reasons; supplies the one suggestion M4 links to; supplies `bestExpPerHour` from its reachability sweep and hypothetical rates for `goalsServedBy` | `purposeOf`, `goalsServedBy`, `activitiesServing` (TR-3, M5 TR-9) |
 | **M7** Spend Plan | when a Vault kill row is at Lv 0, M7 owns "buy the row"; M4 marks the Goal `rule` not-worthwhile | shared entry ids |
-| **M8** Collections | authors the per-class card lists that `cards.contribution.fight` reads; owns card equip actions | `cardList(class, stage)` entries |
-| **M10** Now screen UI | renders the Purpose lines, Focus block, stop-here, prompts, badges; owns Skip and Not for me. **M10 change:** NextAction keys may carry a `#milestone` suffix (TR-8), and a `parser-behind` badge | `CharacterResult` mapping (TR-3) |
-| **M11** Knowledge tooling | **schema additions:** `goalFamily` with compile-time expansion, `stopHere: Template`, `contestedOn`. **New generators:** `vault-kills` (with the map → slot table), `card-levels`, `class-gates`, `skill-doors`, `tools`. CI source checks, Detector test harness | YAML schema, generator scripts |
+| **M7** Spend Plan | (also) the worker-re-evaluated stamp raise prices M4's material Contribution reads | `AccountState.spend.stamps[].raise` (M7 TR-2) |
+| **M8** Collections | authors the per-class card lists that `cards.contribution.fight` reads; owns card equip actions; adds `effect` to the shared `cards` field | `cardList(class, stage)` entries (`cards.priority.list-<class>`) |
+| **M10** Now screen UI | renders the Purpose lines, Focus block, stop-here, prompts, badges; owns Skip and Not for me. The M10 change this spec asked for is done: `NextAction.key` carries a `#milestone` suffix for stop-here (TR-8), and `PurposeLine.badges` includes `parser-behind`, shown as "may be out of date" next to ETAs (M10 TR-2) | `CharacterResult` mapping (TR-3) |
+| **M11** Knowledge tooling | The schema additions and generators this spec asked for are in M11 (TR-2, TR-2b, TR-10): `goalFamily` with compile-time expansion, `stopHere: Template`, `contestedOn`; generators `vault-kills` (with the map → slot table), `card-levels`, `class-gates`, `skill-doors`, `tools`. CI source checks, Detector test harness | YAML schema, generator scripts |
 | **M13** Suggestions | "Report this" on a Purpose line or stop-here files M13's `ReportContext` | `ReportContext` |
 
 ## 8. Decisions
@@ -392,7 +395,7 @@ Ruled by Yasser on 2026-10-17 ([PR #47](https://github.com/YassSoliman/idleon-fo
 4. **Stale counts for unvisited characters.** The cloud save holds kills only up to that character's last claim, so a fighter left 20 h shows yesterday's progress. *Defence:* FR-9 projection from `now`, capped by AFK-time caps and clamped at the next Milestone, "~" labels, and "Reached" only on saved values.
 5. **Patch breakage.** A patch moves a Vault row, adds Death Note ranks, or renames `nextPortal`. *Defence:* ladders are generated at every re-sync (ADR 0007), so they rot only between a patch and the next re-sync. In that window generated entries carry no Stale badge (M11 FR-19), so M4 flags every Goal `parser-behind` while M1's banner shows (section 6). Renames reach M4 as `null`, not as errors (M1 TR-11), and every Detector fails closed on `null` or unknown fields (FR-18).
 6. **Account-wide counters treated per character.** Vault and Death Note kills are summed over characters. An ETA using one character's rate is wrong when two farm the same mob. *Defence:* summed feeder rates (FR-4), and every feeder row shows the same Goal and ETA.
-7. **Privacy leak.** Toolbox embeds a character name in `stamps[].bestCharacter`, and provenance could copy save values into a Report. *Defence:* stripped in M1 (TR-2), outputs keyed by index (TR-9), provenance holds paths not values, templates have no name slot (FR-16), and Report this sends M13's previewed `ReportContext`, whose values the player can untick (M13 D3).
+7. **Privacy leak.** Toolbox embeds a character name in `stamps[].bestCharacter`, and provenance could copy save values into a Report. *Defence:* never copied into the Account State (M7 TR-2 joins carriers to indices in the adapter; TR-9), outputs keyed by index (TR-9), provenance holds paths not values, templates have no name slot (FR-16), and Report this sends M13's previewed `ReportContext`, whose values the player can untick (M13 D3).
 8. **Stop-here nagging.** If it fires every save until the character moves, players learn to ignore it. *Defence:* Skip today and Not for me are keyed to that Milestone (TR-8), so one tap silences it until the next Milestone, and it never changes the Verdict (D2).
 9. **Repeating the prototype's mistake.** The Copper Squire was told to mine Iron because of XP. *Defence:* skilling is never judged on EXP or rates (FR-6). Purposes come from material, door, tool and Role Contributions (US-4). "Better" skilling choices are M5's, and only when Toolbox efficiency agrees.
 10. **Missing Goal families make a real Purpose look empty.** The cases are quest-item farming (Kebab Sticks), boss-key routes, and crystal mobs for statues. *Defence:* Class EXP matches every fighter, so these show `exhausted` (or `serving` if D3 passes) with a reason naming what was checked (FR-8), rather than a bare judgment. M13 Suggestions and Report this feed new Contributions through the #11 pipeline, and the quest-item family is the first follow-up (out of scope, section 2).
@@ -427,3 +430,11 @@ Independent red-team pass on 2026-10-17, after the section 8 decisions were fold
 | RT-20 | P3 | Card level thresholds were off by one ("more than 11") | fixed | Steps at perTier × k + 1. US-3 text corrected |
 | RT-21 | P3 | "Closest Milestone" had three definitions, and one tie-break was constant | fixed | FR-10 uses M2 `compareGoals` |
 | RT-22 | P3 | Nits: Obol Altar gate, `deathNote` lookup, Vault slots, days threshold, header "section 10", D5 example, second account, TR-7 wording | fixed (one rejected) | Gate moved to account gates, lookup by `rawName`, generated map → slot table, days from 72 h, D5 example corrected (the Barbarian *is* the W2-late pusher; map 8 just isn't the frontier), the M1 FR-22 row and TR-7 corrected. The "section 10 missing" nit is rejected: this section is it |
+
+## Consistency pass (2026-10-17)
+
+- `CharacterState.fighting: FightingRate` is the one current-map fighting shape (M4 owns it); it gains `killsPerHour` and `hitChance`, and survivability and hit chance are % 0..100 everywhere. M3's `afk.fighting` keeps only its extras and M5's `FightRate` maps onto it (TR-2).
+- Shared fields with one owner: `classIndex: number | null` and `nextPortal { door, current, goal }` are shared with M2 TR-3; the Death Note building level is M2's `account.buildings.deathNote` (the `deathNoteBuildingLevel` field is dropped); `cards` is shared with M8, which adds `effect` (TR-2, TR-5).
+- The `stamps[]` field is dropped. `stamps.contribution.material` reads M7's `account.spend.stamps[].raise`, because the parsed save prices every raise at the Gilded rate, 20× too low on both fixtures (M7 FR-10). Without this, the Copper-for-stamps Purpose would almost never fire.
+- `MetaPathInput` is now a `Pick` of M2's `MetaPathResult` (M2 TR-4a); `pushGoal` carries the pusher's `characterIndex`.
+- The asks this spec made of other modules have landed: M2 TR-4a (pusher, push Goal, Roles as data), M10 TR-2 (`#milestone` key suffix, `parser-behind` badge shown as "may be out of date"), M11 TR-2/TR-2b/TR-10 (`goalFamily`, `stopHere`, `contestedOn`, the five generators). M8's card lists are cited by their id, `cards.priority.list-<class>`.

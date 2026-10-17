@@ -43,7 +43,7 @@ M12 is how a change reaches a Play Session. A player (Yasser or Joseph) should a
 - **Generating Knowledge Base fact entries at re-sync** (ADR 0007). M11 owns the generator; M12 only calls it inside the sync workflow.
 - **The Suggestions Worker's code and runtime secrets** (M13, ADR 0008). M12 only provides the deploy and preview pipeline that M13's Worker plugs into.
 - **Previews for fork PRs.** Ruled out for the MVP in #6. Fork contributors run `pnpm dev` locally and attach screenshots. The gated `workflow_run` design in the hosting research §5 stays on file for later.
-- **A custom domain and branding.** Per map #1, the app starts on `*.workers.dev` and the domain is picked before public alpha. D3 settles the one origin choice that cannot wait: production is `https://activeon.yasser-380.workers.dev` until then.
+- **A custom domain and branding.** Per map #1, the app starts on `*.workers.dev` and the domain is picked before public alpha. The one origin choice that cannot wait is settled by the Final rulings (RT-10, superseding D3): the Forge has its own free Cloudflare account, **IdleOn**, with the `workers.dev` subdomain `idleon`, so production is `https://activeon.idleon.workers.dev` until then.
 - **Semver releases, GitHub Releases, tags and npm publishing.** No package is published, and every merge is a release.
 - **Analytics and error telemetry** (#14, item 13).
 - **Notifications on deploy** (push, Discord). Players learn about changes through What's new.
@@ -53,7 +53,7 @@ M12 is how a change reaches a Play Session. A player (Yasser or Joseph) should a
 
 **Production deploy**
 
-- **FR-1** Every push to `main` deploys ActiveOn to production at `https://activeon.yasser-380.workers.dev` (D3) within 15 minutes (p95), with no manual step.
+- **FR-1** Every push to `main` deploys ActiveOn to production at `https://activeon.idleon.workers.dev` (Final rulings RT-10) within 15 minutes (p95), with no manual step.
 - **FR-2** Production deploys run only from `main`. A deploy job started from any other ref (including `workflow_dispatch` on a branch) is refused by the `production` environment's branch rule before it can read a secret.
 - **FR-3** A deploy runs lint, typecheck, test and build first, and deploys nothing if any of them fails. The previous production version stays live.
 - **FR-4** After deploying, the workflow fetches `<production URL>/version.json` and fails, with a visible red run, unless `commit` equals the commit it just deployed. It also checks that a deep link (`/some/deep/link`) returns 200 HTML.
@@ -67,7 +67,7 @@ M12 is how a change reaches a Play Session. A player (Yasser or Joseph) should a
 - **FR-9** The Preview is deleted when the PR is closed or merged.
 - **FR-10** A PR from a fork gets CI (with no secrets) but no Preview, and no job in it can read a Cloudflare token.
 - **FR-11** A Preview build shows a persistent "Preview of PR #N, not the live app" badge, so a tester never mistakes it for production.
-- **FR-12** A Preview has working live sign-in (the same `VITE_*` config as production), so Joseph can test a PR against his real account. A Preview URL is public and guessable (RT-11); until Yasser rules on gating it, the rule is: never sign in on a Preview of code you haven't read the diff of, and never on a parser-sync Preview before the vendor diff and tripwire are reviewed (Appendix C).
+- **FR-12** A Preview has working live sign-in (the same `VITE_*` config as production), so Joseph can test a PR against his real account. A Preview URL is public and guessable (RT-11). Ruled (Final rulings RT-11): Previews sit behind Cloudflare Access (free, one-time email PIN, Yasser and Joseph only) once it is confirmed working on Preview URLs. Access is **not enabled yet**: it needs Yasser's one-time Zero Trust "Enable Access" on the IdleOn account, after which the Access app and policy can be set up with `LOCAL_CLOUDFLARE_ADMIN_TOKEN` (TR-16). Until then the rule is: never sign in on a Preview of code you haven't read the diff of, and never on a parser-sync Preview before the vendor diff and tripwire are reviewed (Appendix C).
 
 **Parser re-sync**
 
@@ -98,7 +98,7 @@ M12 is how a change reaches a Play Session. A player (Yasser or Joseph) should a
 
 - **FR-25** Every PR title is a valid Conventional Commit, with type in `feat | fix | perf | refactor | docs | test | build | ci | chore | revert | spec` and an optional scope and `!`. A required check fails otherwise.
 - **FR-26** `main` accepts changes only through PRs that pass the required checks. Direct pushes to `main` are refused for everyone, the owner and agents running with his credentials included (D5). The required checks have **no bypass at all**, the owner included, so `gh pr merge --admin` cannot ship a red PR (RT-3, TR-18). A PR from anyone other than the owner needs a code owner's approval, and an approval is dismissed when new commits are pushed.
-- **FR-27** `.github/CODEOWNERS` exists, owns itself, and owns `.github/` with the owner alone. Joseph co-owns `packages/knowledge/` only (D6).
+- **FR-27** `.github/CODEOWNERS` exists, owns itself, and owns `.github/` with the owner alone. Joseph co-owns `packages/knowledge/` (D6) except its `detectors/`, `generators/` and `src/` (M11 Final rulings RT-4), plus `fixtures/scrubbed/` (M11 D-6); everything else is Yasser's alone.
 - **FR-28** PRs land as merge commits only (D1). Squash and rebase merges are disabled.
 - **FR-29** The What's new line comes from an optional `What's-new:` line in the PR body, falling back to `feat`, `fix` and `perf` titles. The PR title check warns, without failing, when a `feat` or `fix` PR has no such line (D2).
 
@@ -157,7 +157,7 @@ As a player in a Play Session, I want ActiveOn to track game patches on its own 
 **US-6 Joseph tries a change before it lands.**
 As a player in a Play Session (Joseph), I want to open any PR's change on its own URL with my real account, so that I can say "this is right for my W3 account" before it affects my sessions.
 
-- Given Joseph has write access and pushes branch `kb/w3-refinery` and opens PR #60, When the Preview workflow finishes, Then PR #60 has one comment with `https://pr-60-activeon.yasser-380.workers.dev`, and that URL shows the "Preview of PR #60" badge.
+- Given Joseph has write access and pushes branch `kb/w3-refinery` and opens PR #60, When the Preview workflow finishes, Then PR #60 has one comment with `https://pr-60-activeon.idleon.workers.dev`, and that URL shows the "Preview of PR #60" badge.
 - Given that Preview, When Joseph signs in with Google on it, Then live sync works exactly as on production. His production sign-in is untouched, because the Preview is a different origin with its own storage.
 - Given PR #60 is merged or closed, When the cleanup job runs, Then the Preview URL stops serving PR #60's build.
 - Given a fork PR #61, When workflows run, Then CI runs, no Preview is created, and no Cloudflare secret is available to any job.
@@ -171,7 +171,7 @@ All workflows live in `.github/workflows/` and start with `# SPDX-License-Identi
 | File | Trigger | Environment | Purpose |
 |---|---|---|---|
 | `ci.yml` (exists) | `pull_request` (types `opened, synchronize, reopened, ready_for_review`), `push` to `main`, `workflow_dispatch` | none | lint → typecheck → test → build, plus the bundle budget (TR-12). The job name `Lint, typecheck, test, build` is a required check. |
-| `pr-title.yml` (new) | `pull_request` (types `opened, edited, synchronize, reopened, ready_for_review`; `ready_for_review` is how the bot-opened sync PR gets the check, RT-4) | none | FR-25, plus the `What's-new:` line's length (≤ 120 characters) and the D2 warning. A ~30-line inline script reading the title and body from `env:`, no third-party action. Its job name `PR title` is a required check. |
+| `pr-title.yml` (new) | `pull_request` (types `opened, edited, synchronize, reopened, ready_for_review`; the Forge Bot opens the sync PR, so `opened` fires on it, and `ready_for_review` stays as a backstop, RT-4) | none | FR-25, plus the `What's-new:` line's length (≤ 120 characters) and the D2 warning. A ~30-line inline script reading the title and body from `env:`, no third-party action. Its job name `PR title` is a required check. |
 | `merge-gate.yml` (new) | `pull_request` (types `opened, synchronize, reopened, ready_for_review, labeled, unlabeled`) | none | Fails while the PR carries `do-not-merge`, or while the tree holds the sync's failure marker `packages/toolbox-parsers/SYNC-FAILED` (TR-15). Job name `Merge gate` is a required check. |
 | `deploy.yml` (exists, amended) | `push` to `main`, `workflow_dispatch` | `production` (deploy job only) | FR-1 to FR-5 |
 | `preview.yml` (new) | `pull_request` (types `opened, synchronize, reopened, ready_for_review, closed`), `workflow_dispatch` (input `pr`) | `preview` (deploy and cleanup jobs only) | FR-7 to FR-12 |
@@ -242,7 +242,7 @@ export interface BuildInfo {
 ### TR-5 Merge method and history shape
 
 - The repository allows **merge commits only** (D1). History is read as `git log --first-parent main`, so each PR is one entry and the atomic commits inside it stay on `main`.
-- The merge commit message setting is **"Pull request title and description"** (API: `merge_commit_title=PR_TITLE`, `merge_commit_message=PR_BODY`). Today it is `MERGE_MESSAGE` / `PR_TITLE`, which would drop the PR body and every `What's-new:` line, so it must change before the first M12 merge (Appendix A step 10). The merge commit's subject is then `<PR title> (#N)` and its body is the PR body, so the generator never calls the GitHub API.
+- The merge commit message setting is **"Pull request title and description"** (API: `merge_commit_title=PR_TITLE`, `merge_commit_message=PR_BODY`). Today (verified 2026-10-17 through the API) it is still `MERGE_MESSAGE` / `PR_TITLE`, which would drop the PR body and every `What's-new:` line, so it must change to `PR_TITLE` / `PR_BODY` before the first M12 merge (Appendix A step 10). Squash and rebase merges are also still enabled today. The merge commit's subject is then `<PR title> (#N)` and its body is the PR body, so the generator never calls the GitHub API.
 
 ### TR-6 Knowledge Base version
 
@@ -379,7 +379,7 @@ A budget is raised only by a PR that changes the number and says why.
   - Posts one comment carrying the hidden marker `<!-- activeon-preview -->`, created or updated through the REST API by that marker. Never `gh pr comment --edit-last`, which would overwrite whichever `github-actions[bot]` comment came last (M11's snapshot diff, the sync's notices) (RT-14). The body holds the URL, the commit and BuildInfo's `knowledge` and `gameVersion`, nothing taken from PR text (TR-20).
   - `cloudflare/wrangler-action` is an allowed alternative if it is pinned by commit SHA.
 - **Job `cleanup`:** runs on `closed` from the same repo, in the same environment, with the same deploy-job rules. `pnpm exec wrangler preview delete --name pr-<N> --skip-confirmation`, tolerating "not found".
-- **`apps/activeon/wrangler.jsonc`:** set `"preview_urls": true` and add the Previews block from the hosting research §1. Previews stay on `workers.dev` for good (free `noindex`, no wildcard certificate). The setting is per Worker, so the 4 other Workers on the `yasser-380` subdomain are unaffected. It also exposes a version-preview URL for each production version; those serve the same reviewed code as production, so they add no new exposure.
+- **`apps/activeon/wrangler.jsonc`:** set `"preview_urls": true` and add the Previews block from the hosting research §1. Previews stay on `workers.dev` for good (free `noindex`, no wildcard certificate). The setting is per Worker; the IdleOn account holds only the Forge's own Workers. It also exposes a version-preview URL for each production version; those serve the same reviewed code as production, so they add no new exposure.
 - **Wrangler** stays a devDependency at `^4.151.1`, resolved to exactly 4.151.1 by `pnpm-lock.yaml` and installed with `--frozen-lockfile`. A unit test in `packages/release` asserts that the resolved version is ≥ 4.136.3, so a lockfile downgrade fails CI. Wrangler is upgraded only by a PR that changes the lockfile.
 - **Preview name:** `pr-<N>`. With the Worker named `activeon`, the label `pr-<N>-activeon` stays far under 63 characters for any realistic N.
 - **Not used:** `pull_request_target`, and `workflow_run` with a checkout of PR code.
@@ -418,15 +418,14 @@ The workflow runs in three jobs, so upstream code never runs with write access, 
 
 **The sync allowlist** (RT-1): `packages/toolbox-parsers/vendor/parsers/**`, `vendor/utility/**`, `vendor/polyfills.js`, `vendor/LICENSE`, `packages/toolbox-parsers/UPSTREAM`, `packages/toolbox-parsers/SYNC-FAILED`, `packages/account-state/fixtures/public/*.json`, `packages/account-state/test/__snapshots__/**`, and M11's generated-output directory under `packages/knowledge/` once it exists.
 
-**Job 2, `open-pr`** (`needs: sync`, `if: needs.sync.outputs.changed == 'true'`, `permissions: contents: write, pull-requests: write, actions: write`):
+**Job 2, `open-pr`** (`needs: sync`, `if: needs.sync.outputs.changed == 'true'`, `permissions: contents: read`; writes go through the Forge Bot token, step 3):
 
 1. Check out `main`. Download the artifact. **Before applying,** list the patch's paths (`git apply --numstat`) and refuse, with a red run naming them, if any path is outside the allowlist or if `UPSTREAM`'s `repo=` line changed. Then `git apply`. **This job runs no repository scripts and no upstream code.**
-2. **Don't overwrite review.** If an open sync PR exists and is **not a draft** (Yasser is reviewing it), or if `git log origin/main..origin/chore/parser-sync` has commits not authored by `github-actions[bot]`, the job pushes nothing and comments "Sync skipped: PR under review" or "Sync skipped: this branch has manual commits; merge or close it first" (RT-15).
-3. Otherwise commit as `github-actions[bot]` with the PR title as the message, and force-push to `chore/parser-sync`.
-4. Create the labels if missing (`gh label create area:parser … || true`, same for `do-not-merge`; neither exists on 2026-10-17, RT-6). Then `gh pr create --draft` or `gh pr edit` with the report as the body, capped at 60,000 characters (GitHub's limit is 65,536) with a link to the full report artifact, and apply `area:parser`, plus `do-not-merge` when any check or the tripwire failed.
-5. Pushes made with `GITHUB_TOKEN` do not start `pull_request` workflows, so the job dispatches **only** `ci.yml` (`gh workflow run ci.yml --ref chore/parser-sync`); `workflow_dispatch` is the documented exception that `GITHUB_TOKEN` may trigger. It does **not** dispatch `preview.yml` (FR-17).
-   - The required checks attach by name to the head commit. `Lint, typecheck, test, build` comes from the dispatched CI. `PR title` and `Merge gate` read the `pull_request` event and can't be dispatched, so they first run when Yasser marks the draft ready (`ready_for_review` is in both workflows' types), which also starts the Preview and re-runs CI under a human actor. **(M: confirm on the first sync PR that all three checks attach.)**
-6. The PR stays a **draft** until Yasser has read it (Appendix C).
+2. **Don't overwrite review.** If an open sync PR exists and is **not a draft** (Yasser is reviewing it), or if `git log origin/main..origin/chore/parser-sync` has commits not authored by the Forge Bot (`idleon-forge-bot[bot]`), the job pushes nothing and comments "Sync skipped: PR under review" or "Sync skipped: this branch has manual commits; merge or close it first" (RT-15).
+3. Otherwise mint a Forge Bot installation token (`actions/create-github-app-token`, pinned by SHA, from `FORGE_BOT_APP_ID` and `FORGE_BOT_PRIVATE_KEY`; M11 Final rulings RT-1), commit as the bot with the PR title as the message, and force-push to `chore/parser-sync` with that token. The token is named only in this job's push and PR steps.
+4. Create the labels if missing (`gh label create area:parser … || true`, same for `do-not-merge`; neither exists on 2026-10-17, RT-6). Then `gh pr create --draft` or `gh pr edit` (as the bot) with the report as the body, capped at 60,000 characters (GitHub's limit is 65,536) with a link to the full report artifact, and apply `area:parser`, plus `do-not-merge` when any check or the tripwire failed.
+5. Because the push and the PR come from the Forge Bot, not `GITHUB_TOKEN`, the `pull_request` workflows run on the sync PR as on any other: `Lint, typecheck, test, build`, `PR title` and `Merge gate` all attach to the head commit without a dispatch. This replaces the earlier `GITHUB_TOKEN` + `gh workflow run ci.yml` workaround. `preview.yml` still skips the sync PR while it is a draft (FR-17): its first Preview comes from the `ready_for_review` event Yasser fires after reading the vendor diff. **(M: confirm on the first sync PR that all three checks attach.)**
+6. The PR stays a **draft** until Yasser has read it (Appendix C). Since the bot is the author, Yasser can approve it.
 
 Further rules:
 
@@ -436,34 +435,40 @@ Further rules:
 
 ### TR-16 Secrets, variables and environments
 
-Every value lives in an **environment**, never at repository level, so no workflow job outside an environment (CI, the PR title check, the sync jobs 1 and 2) can read any of them.
+Every value lives in an **environment**, never at repository level, so no workflow job outside an environment (CI, the PR title check, the sync job 1) can read any of them. **Open (Needs Yasser, spec index):** the Forge Bot's `FORGE_BOT_PRIVATE_KEY` (secret) and `FORGE_BOT_APP_ID` (variable) are repository-level today; this section's rule wants them in an environment (`forge-bot`, restricted to `main`, used by sync job 2 only). Until ruled, a same-repo branch workflow that names the key could read it.
 
 | Name | Kind | Environment | Today (2026-10-17) | Used by | Notes |
 |---|---|---|---|---|---|
-| `CLOUDFLARE_API_TOKEN` | secret | `production` | **exists** | `deploy.yml` | Production token. Created from the "Edit Cloudflare Workers" template per today's secrets runbook, so it is wider than TR-17: replace it with the TR-17 token (Appendix A step 3). |
-| `CLOUDFLARE_ACCOUNT_ID` | secret | `production` | **exists** | `deploy.yml` | Not sensitive; kept as a secret where it already is. |
+| `CLOUDFLARE_API_TOKEN` | secret | `production` | **exists, replaced** | `deploy.yml` | Production token: a custom account token on the **IdleOn** account only, **Workers Scripts: Edit** only (TR-17, Final rulings RT-10). Verified: it sees only IdleOn and gets an auth error on the business account. |
+| `CLOUDFLARE_ACCOUNT_ID` | secret | `production` | **exists** (IdleOn) | `deploy.yml` | Not sensitive; kept as a secret where it already is. Points at the IdleOn account. |
 | `VITE_GOOGLE_OAUTH_CLIENT_SECRET` | secret | `production` | **exists** | `deploy.yml` build step | Public by nature (it ships in every tool's bundle, ours included), but kept out of the repo and out of logs. |
 | `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_DATABASE_URL`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_GOOGLE_OAUTH_CLIENT_ID` | variables | `production` | **exist (all six)** | `deploy.yml` build step | Public game values (`docs/setup/live-sign-in.md`). |
-| `PRODUCTION_URL` | variable | `production` | new | deploy smoke step | `https://activeon.yasser-380.workers.dev` (D3) |
+| `PRODUCTION_URL` | variable | `production` | new | deploy smoke step | `https://activeon.idleon.workers.dev` (Final rulings RT-10) |
 | `CLOUDFLARE_API_TOKEN` | secret | `preview` | new | `preview.yml` | A **separate** token with the same scope, revocable on its own (D4). |
 | `CLOUDFLARE_ACCOUNT_ID`, `VITE_GOOGLE_OAUTH_CLIENT_SECRET` | secrets | `preview` | new | `preview.yml` | Same values as production. |
 | The six `VITE_*` variables | variables | `preview` | new | `preview.yml` build step | Copied from production (Appendix A step 8), so a Preview signs in exactly like production (FR-12). |
 | `MIRROR_TOKEN` | secret | `mirror` (new, `main` only) | new | `parser-sync.yml` job 0 | Fine-grained, Contents and Workflows: Read and write on `YassSoliman/IdleonToolbox` only, 12-month expiry (D7, TR-15). |
+| `FORGE_BOT_PRIVATE_KEY` | secret | **repository level today** (open, see above) | **exists** | `parser-sync.yml` job 2 | Private key of the GitHub App `idleon-forge-bot` (live), which opens agent PRs and the sync PR (M11 Final rulings RT-1). |
+| `FORGE_BOT_APP_ID` | variable | **repository level today** (open, see above) | **exists** | `parser-sync.yml` job 2 | The Forge Bot's App id. Not sensitive. |
+| `LOCAL_CLOUDFLARE_ADMIN_TOKEN` | local only | none (never in GitHub or CI) | **exists** | Yasser's machine, setup tasks | A separate IdleOn-account token for setup tasks only: Turnstile, Cloudflare Access, the Suggestions Worker (Final rulings RT-10). Lives in `secrets.env` under the `LOCAL_` prefix, which `push-secrets.sh` never pushes. |
+| `LOCAL_SUGGESTIONS_APP_ID` and the Suggestions App key | local only | none (never in GitHub) | **exist** | `wrangler secret put` for M13's Worker | The GitHub App `idleon-forge-suggestions` (Issues only) is created; its key and id stay on Yasser's machine and reach only the Worker's secrets (M13 TR-13). |
 
-- **Seeding:** `scripts/push-secrets.sh` already pushes secrets to `production` from `~/.config/idleon-forge/secrets.env` without printing them. M12 amends it so that `ENVIRONMENT=preview scripts/push-secrets.sh ~/.config/idleon-forge/preview.env` seeds the preview environment, and so that keys named `VITE_*` that do not end in `_SECRET` are set with `gh variable set` instead of `gh secret set` (they are variables in both environments).
-- **No other secrets.** Jobs 1 and 2 of the sync workflow use only `GITHUB_TOKEN`.
-- **M13's runtime secrets never enter GitHub.** Today's secrets runbook lists `TURNSTILE_SECRET_KEY` and `SUGGESTIONS_GITHUB_TOKEN` under "Needed later" in the same `secrets.env` that `push-secrets.sh` sends to `production`, which would put an issue-writing token next to the deploy job (RT-18). M12 moves those rows to a "`wrangler secret put` only, never in `secrets.env`" section, and `push-secrets.sh` refuses any key other than the TR-16 names.
+- **Seeding:** `scripts/push-secrets.sh` already pushes secrets from `~/.config/idleon-forge/secrets.env` without printing them, already takes the target environment from `ENVIRONMENT` (so `ENVIRONMENT=preview scripts/push-secrets.sh ~/.config/idleon-forge/preview.env` seeds the preview environment once it exists), and already skips every `LOCAL_*` key. Still to do in the M12 PR: keys named `VITE_*` that do not end in `_SECRET` are set with `gh variable set` instead of `gh secret set` (they are variables in both environments), and the script refuses any key other than the TR-16 names. The `preview` environment does not exist yet (2026-10-17).
+- **Agent PRs.** `scripts/forge-bot-token.sh` prints a 1-hour Forge Bot installation token (App id from the local `LOCAL_FORGE_BOT_APP_ID`, key from `~/.config/idleon-forge/forge-bot.pem`), so agents open PRs as the bot and Yasser can approve them: `GH_TOKEN=$(scripts/forge-bot-token.sh) gh pr create …`.
+- **No other secrets.** Job 1 of the sync workflow uses only `GITHUB_TOKEN`; job 2 uses the Forge Bot token (TR-15).
+- **M13's runtime secrets never enter GitHub.** Today's secrets runbook (`docs/setup/secrets-runbook.md`, 2026-10-17) still describes the old template token and lists `TURNSTILE_SECRET_KEY` and `SUGGESTIONS_GITHUB_TOKEN` under "Needed later" in the same `secrets.env` that `push-secrets.sh` sends to `production`, which would put an issue-writing token next to the deploy job (RT-18). M12 moves those rows to a "`wrangler secret put` only, never in `secrets.env`" section, and `push-secrets.sh` refuses any key other than the TR-16 names.
 - **M13's Worker runtime secrets** (GitHub issue token, Turnstile secret) are set by the owner with `wrangler secret put` directly in Cloudflare and never pass through GitHub. Previews do not inherit production secrets (hosting research §2), so a Suggestions Worker preview cannot file real issues; M13 must make it fail closed.
 
 ### TR-17 Cloudflare API token scope
 
-- Account API token, custom, on the one account only.
-- **Account → Workers Scripts: Edit.** Add **Account → Account Settings: Read** only if `wrangler deploy` asks for it.
+- Account API token, custom, on the Forge's own Cloudflare account **IdleOn** only (Final rulings RT-10).
+- **Account → Workers Scripts: Edit** only. Add **Account → Account Settings: Read** only if `wrangler deploy` asks for it.
 - No zone permissions, no KV, R2, D1 or Queues, no User permissions.
 - An expiry of 12 months, with the renewal date written in `docs/setup/deploy.md`.
-- **Workers Scripts: Edit is account-wide.** It covers every Worker script on the account: at least the 4 other Workers on `yasser-380.workers.dev`, plus any Worker on the account that serves another domain through a route or custom domain. Either ActiveOn token can overwrite or delete all of them. Cloudflare cannot scope the permission to one script, so this is part of D4's accepted blast radius (TR-20), and moving the Forge to its own Cloudflare account is an open question for Yasser (RT-10).
-- Until Appendix A step 3 replaces it, the existing production token (the "Edit Cloudflare Workers" template, which the runbook pairs with "All zones") also holds Workers Routes on every zone. Replacing it is the first M12 setup step, not a later clean-up.
-- `docs/setup/secrets-runbook.md` today tells the owner to create the token from **My Profile → API Tokens** with the "Edit Cloudflare Workers" template. M12 rewrites that row to this section's custom **account** token, so the runbook and the spec give one instruction.
+- **Workers Scripts: Edit is account-wide**, and Cloudflare cannot scope it to one script. Because the IdleOn account holds only the Forge's own Workers (ActiveOn, and later M13's Suggestions Worker), that is the whole blast radius of either token (D4, TR-20).
+- **Done (2026-10-17):** the production environment's `CLOUDFLARE_API_TOKEN` is already this token, and it was verified to see only IdleOn (an auth error on the business account). The old business-account token is deleted afterwards (Final rulings RT-10). The `preview` token is still to create (Appendix A step 3).
+- Setup tasks that need more (Turnstile, Access, the Suggestions Worker) use the separate local-only `LOCAL_CLOUDFLARE_ADMIN_TOKEN`, never CI (TR-16).
+- `docs/setup/secrets-runbook.md` today still tells the owner to create the token from **My Profile → API Tokens** with the "Edit Cloudflare Workers" template. M12 rewrites that row to this section's custom IdleOn **account** token, so the runbook and the spec give one instruction.
 - **Verify** the minimal scope with a real `wrangler deploy` and `wrangler preview` (first-deploy checklist steps 3 and 13). If a permission is missing, add it, then record the final list in `docs/setup/deploy.md`.
 
 ### TR-18 Branch protection and CODEOWNERS (target state)
@@ -473,13 +478,17 @@ Every value lives in an **environment**, never at repository level, so no workfl
 ```
 # SPDX-License-Identifier: GPL-3.0-only
 # Last matching pattern wins. Owners need write access.
-*                     @YassSoliman
-/packages/knowledge/  @YassSoliman @JoKhalil
-/.github/             @YassSoliman
-/packages/toolbox-parsers/  @YassSoliman
+*                                @YassSoliman
+/packages/knowledge/             @YassSoliman @JoKhalil
+/packages/knowledge/detectors/   @YassSoliman
+/packages/knowledge/generators/  @YassSoliman
+/packages/knowledge/src/         @YassSoliman
+/fixtures/scrubbed/              @YassSoliman @JoKhalil
+/.github/                        @YassSoliman
+/packages/toolbox-parsers/       @YassSoliman
 ```
 
-The `/packages/knowledge/` co-ownership is D6. The path is `packages/knowledge` (as in #14's package list), not `packages/knowledge-base` as in the open-source research. `JoKhalil` is not a collaborator yet (2026-10-17), so his entry does nothing until he accepts the Write invite (Appendix A step 4).
+The `/packages/knowledge/` co-ownership is D6, narrowed by M11 Final rulings RT-4: Joseph co-owns the YAML entries, the generated facts and the snapshots, while `detectors/`, `generators/` and `src/` stay Yasser-only. `/fixtures/scrubbed/` is co-owned per M11 D-6. The path is `packages/knowledge` (as in #14's package list), not `packages/knowledge-base` as in the open-source research. `JoKhalil` is not a collaborator yet (2026-10-17), so his entry does nothing until he accepts the Write invite (Appendix A step 4).
 
 Rules on `main` move to **two rulesets** (D5). The rulesets API answers on this repository (`GET /repos/YassSoliman/idleon-forge/rulesets` returns `[]`), so option (b) is available. A bypass actor skips *every* rule in a ruleset, so a single ruleset with Yasser on its bypass list would let him, and every agent using his credentials, merge a red PR with `gh pr merge --admin` (RT-3). The checks therefore live in a ruleset nobody bypasses. Once both are active, the classic protection is deleted so the rules don't stack.
 
@@ -501,20 +510,21 @@ Rules on `main` move to **two rulesets** (D5). The rulesets API answers on this 
 | Require approval of the most recent push | off | off | With two people, it would block the owner's own fix-ups (research §5) |
 | Require conversation resolution | **on** | off | Cheap; review comments can't be lost |
 
-The bypass on `main-review` exists because Yasser can't approve his own PRs and Joseph doesn't review code. It lets Yasser merge his own and agents' PRs without an approval, never without green checks. The cost: if GitHub Actions itself is down, nothing merges; production rollback (Appendix C) doesn't need a merge.
+The bypass on `main-review` exists because Yasser can't approve his own PRs and Joseph doesn't review code. Agent PRs are opened as the Forge Bot (TR-16), so Yasser can approve those normally; the bypass covers his own PRs. It lets Yasser merge without an approval, never without green checks. Today (2026-10-17) no ruleset exists yet. The cost: if GitHub Actions itself is down, nothing merges; production rollback (Appendix C) doesn't need a merge.
 
 Repository settings:
 
 | Setting | Target | Today |
 |---|---|---|
-| Merge methods | **merge commits only** (D1) | merge, squash and rebase all enabled |
-| Merge commit message | **"Pull request title and description"** (`PR_TITLE` / `PR_BODY`) | `MERGE_MESSAGE` / `PR_TITLE` |
-| Automatically delete head branches | on | off |
+| Merge methods | **merge commits only** (D1) | merge, squash and rebase all enabled (verified 2026-10-17) |
+| Merge commit message | **"Pull request title and description"** (`PR_TITLE` / `PR_BODY`), so the PR body and its `What's-new:` line reach the merge commit (TR-5) | `MERGE_MESSAGE` / `PR_TITLE` (verified 2026-10-17) |
+| Automatically delete head branches | on | off (verified 2026-10-17) |
 | Actions → Workflow permissions | "Read repository contents", plus "Allow GitHub Actions to create and approve pull requests" **on** (TR-15) | read; create-PRs off |
 | Actions → Fork pull request workflows | "Require approval for all external contributors" | default |
 | Actions → Allowed actions | **"Allow select actions"**: `actions/*`, `pnpm/action-setup`, `cloudflare/wrangler-action` only | all actions allowed |
 | Actions → "Require actions to be pinned to a full-length commit SHA" | **on** | off (`sha_pinning_required: false`) |
-| Environment `production` → "Allow administrators to bypass configured protection rules" | **off**, so the `main`-only rule binds the owner and his agents too (FR-2) | **on** |
+| Environment `production` → "Allow administrators to bypass configured protection rules" | **off**, so the `main`-only rule binds the owner and his agents too (FR-2) | **on** (verified 2026-10-17; still to switch off) |
+| Environment `preview` | exists, per TR-16 | does not exist yet |
 
 ### TR-19 PR template release fields
 
@@ -535,7 +545,7 @@ The generator treats an empty `What's-new:` line as absent.
 
 - No user data passes through any release path. BuildInfo and the feed are built from git, and no saves, tokens or names are involved.
 - Only `deploy.yml` (production environment, `main` only) and `preview.yml` (preview environment, same-repo PRs only) read a Cloudflare token.
-- **Anyone with write access can write a branch whose workflow uses the preview token** (D4, accepted). The preview token has the same Cloudflare power as production's, because Cloudflare cannot scope a token to previews or to one Worker. That power covers ActiveOn production **and every other Worker on the account** (the 4 on `yasser-380.workers.dev` and any serving other domains, TR-17). The practical rule: write access is granted only to people the owner would trust to deploy production and to touch those Workers. Today that is Joseph only; revisit before a third person gets write access.
+- **Anyone with write access can write a branch whose workflow uses the preview token** (D4, accepted). The preview token has the same Cloudflare power as production's, because Cloudflare cannot scope a token to previews or to one Worker. Since the Forge moved to its own IdleOn account (Final rulings RT-10), that power covers only the Forge's own Workers: ActiveOn production and, later, the Suggestions Worker (TR-17). The practical rule: write access is granted only to people the owner would trust to deploy production and to touch those Workers. Today that is Joseph only; revisit before a third person gets write access.
 - Pin **every** action by full commit SHA, `actions/*` and `pnpm/action-setup` included (a moved tag runs in the same job as the build), enforced by the repository's SHA-pinning setting and the allowed-actions list (TR-18). Dependabot for `github-actions` keeps the SHAs current weekly (TR-1) (RT-19).
 - Dependency install scripts never run in a job that names a token (`--ignore-scripts` in every `deploy` job, TR-1).
 - `gh pr comment` bodies are built from BuildInfo only, never from PR titles or branch names. That prevents script injection through `${{ }}` interpolation of untrusted fields; untrusted fields are passed through `env:` when they are needed at all.
@@ -560,14 +570,14 @@ The generator treats an empty `What's-new:` line as absent.
 | **PR closed while a preview deploy is running** | `concurrency` with `cancel-in-progress` cancels the deploy, then cleanup runs. If an orphan survives, Cloudflare's 500-preview limit evicts the oldest (hosting research §7). The owner may delete orphans by hand. |
 | **PR reopened** | `reopened` re-creates the preview under the same name. |
 | **Fork PR** | CI only. No preview, no comment (a fork token can't comment). Contributor docs explain why. No secret or variable is reachable: every value is environment-scoped (TR-16), and no fork-triggered job runs in an environment. |
-| **A stranger opens a Preview URL** | Preview URLs are public and sequential, and the repo is public. A stranger can load any Preview and sign in with their own account. Open question for Yasser (RT-11, final report); until ruled, previews of unreviewed code are the accepted state and FR-12's sign-in rule applies to us. |
+| **A stranger opens a Preview URL** | Preview URLs are public and sequential, and the repo is public. Ruled (Final rulings RT-11): Previews go behind Cloudflare Access (email PIN, Yasser and Joseph) once it works on Preview URLs. Access is not enabled yet (Yasser's one-time Zero Trust "Enable Access"); until then a stranger can load any Preview and sign in with their own account, and FR-12's sign-in rule applies to us. |
 | **First-time contributor from a fork** | Workflows wait for the owner's approval (repository setting). |
 | **Joseph's preview login** | Each `pr-<N>` origin has its own IndexedDB, so Joseph signs in once per PR. His production session is unaffected. |
 | **Sync: no upstream change** | Green, no PR (FR-14). |
 | **Sync: upstream broken** | PR with `do-not-merge` (FR-16). |
 | **Sync: upstream force-pushed, deleted or made private** | Builds keep working: `fetch-data.sh` reads the pinned SHA from the mirror (D7), which still holds it. Job 0's merge-upstream fails (force-push) or upstream disappears, the scheduled run goes red, and GitHub emails the owner. The owner decides whether to follow the rewritten upstream (re-point the mirror by hand) or stay pinned. |
 | **Sync: the mirror itself is unreachable** | Same as an upstream outage before D7: cold builds fail until it is back; the 7-day CI cache covers warm ones. |
-| **Sync: a PR is already open and a human pushed fix-ups to it** | The next scheduled run would force-push and erase them. Rule: if `origin/main..chore/parser-sync` has commits not authored by `github-actions[bot]`, job 2 does not push. It comments "Sync skipped: this branch has manual commits; merge or close it first." |
+| **Sync: a PR is already open and a human pushed fix-ups to it** | The next scheduled run would force-push and erase them. Rule: if `origin/main..chore/parser-sync` has commits not authored by the Forge Bot, job 2 does not push. It comments "Sync skipped: this branch has manual commits; merge or close it first." |
 | **Sync: Yasser is mid-review when upstream moves** | Job 2 never pushes to a sync PR that is out of draft (TR-15). Yasser merges with `gh pr merge --merge --match-head-commit <reviewed sha>`, so a commit he didn't read can't ride along (RT-15). |
 | **Sync: upstream is mid-update on patch day** (parsers updated, `patch-notes.js` not yet, or the reverse) | The PR title's game version comes from `patch-notes.js`, so it may name the old version. The patch-day runbook waits for a commit whose patch notes name the new version; a too-early sync PR is closed, not merged. |
 | **Sync: `MIRROR_TOKEN` expired** | Job 0 fails; job 1 still runs against upstream and opens the PR with the failure marker, so the patch is visible but can't merge until the mirror is current (TR-15). |
@@ -588,7 +598,7 @@ The generator treats an empty `What's-new:` line as absent.
 | **M1 Sync & Account State** | The save's game version, to compare with `BuildInfo.parsers.gameVersion` for the "parser not caught up" banner. M1 owns the comparison. | `BuildInfo.parsers` |
 | **M10 Now screen UI** | Renders What's new (TR-8 rules), the footer, the update banner (`updateAvailable` and its reason), and the Preview badge (FR-11). | `__BUILD_INFO__`, `whats-new.json`, `useUpdateAvailable()` |
 | **M11 Knowledge tooling** | `pnpm kb:generate` (deterministic, no network beyond the pinned Toolbox data) and its diff summary for the sync PR body. The `packages/knowledge/` path. The golden-snapshot diff on KB PRs (M11 posts it; M12 does not). | `BuildInfo.knowledge` for each entry's provenance; the sync workflow that runs the generator |
-| **M13 Suggestions** | Its Worker as a second deployable: `apps/<suggestions-worker>/wrangler.jsonc`, a deploy job in `deploy.yml` filtered by path, its own preview handling, and runtime secrets set in Cloudflare (TR-16). | The pipeline; BuildInfo for Suggestion context |
+| **M13 Suggestions** | Its Worker as a second deployable: `apps/<suggestions-worker>/wrangler.jsonc`, a deploy job in `deploy.yml` filtered by path, its own preview handling, and runtime secrets set in Cloudflare (TR-16). The Worker (`activeon-suggestions`) lives on the IdleOn account; its CORS origins are `https://activeon.idleon.workers.dev` and `https://pr-*-activeon.idleon.workers.dev`. Its GitHub App is `idleon-forge-suggestions` (key and id local, set with `wrangler secret put`). | The pipeline; BuildInfo for Suggestion context |
 | **M2 to M9** | Nothing directly. Their changes reach players through this pipeline, and their PRs carry `What's-new:` lines. | Previews for player review of each module |
 
 The only shared interface is `@idleon-forge/release` (types only on the app side).
@@ -599,10 +609,10 @@ Ruled by Yasser on 2026-10-17 on PR #45: every recommendation accepted as writte
 
 - **D1 Merge method: merge commits only.** History is read as `git log --first-parent main` (TR-5). *Why:* it keeps the atomic Conventional Commits AGENTS.md asks for, still gives one changelog line per PR, and needs no GitHub API call at build time. Squash and rebase are disabled (FR-28, TR-18).
 - **D2 The What's new line: optional `What's-new:` line in the PR body**, falling back to `feat`, `fix` and `perf` titles; the PR title check prints a non-blocking warning when a `feat` or `fix` PR has none (FR-29, TR-1, TR-7). *Why:* developer titles read badly to players, but a mandatory line would add a gate to every agent PR, and `What's-new: none` already covers the noise case.
-- **D3 Keep the account's `workers.dev` subdomain `yasser-380`.** Production is `https://activeon.yasser-380.workers.dev` until a Forge domain is bought; Previews are `https://pr-<N>-activeon.yasser-380.workers.dev` (FR-1, TR-16, Appendix A). *Why:* 4 other Workers already live on `yasser-380`, and renaming it would move all of them; the recommendation said keep it in that case. Changing ActiveOn's origin later still signs every player out, so the domain move is planned for before public alpha, not after.
+- **D3 Keep the account's `workers.dev` subdomain `yasser-380`.** Production is `https://activeon.yasser-380.workers.dev` until a Forge domain is bought; Previews are `https://pr-<N>-activeon.yasser-380.workers.dev` (FR-1, TR-16, Appendix A). *Why:* 4 other Workers already live on `yasser-380`, and renaming it would move all of them; the recommendation said keep it in that case. Changing ActiveOn's origin later still signs every player out, so the domain move is planned for before public alpha, not after. **Superseded by Final rulings RT-10:** the Forge moved to its own Cloudflare account, IdleOn, whose subdomain is `idleon`, so production is `https://activeon.idleon.workers.dev` and Previews are `https://pr-<N>-activeon.idleon.workers.dev`.
 - **D4 Preview token blast radius: accepted.** Two Cloudflare tokens (`production` and `preview` environments) so either can be revoked alone, no required reviewer on `preview`, and write access only for people trusted with production, today Joseph (TR-16, TR-20). *Why:* a reviewer gate would make Joseph wait on Yasser for every push, which defeats "Joseph tries a change before it lands". Revisit before a third person gets write access.
 - **D5 The owner goes through PRs too: a ruleset with Yasser on the bypass list in "For pull requests only" mode** (FR-26, TR-18). The rulesets API answers on this repo, so the "else (a)" fallback is not needed. *Why:* it closes the one path where an agent running as Yasser pushes untested code straight to the live URL, at no cost to how he works.
-- **D6 Joseph co-owns `/packages/knowledge/`.** He can approve and merge Knowledge Base PRs, which deploys; code, parser and `.github/` PRs need Yasser (FR-27, TR-18, Appendix B). *Why:* it matches #11 ("only Yasser and Joseph merge Knowledge Base changes for now") and puts Knowledge Base review where Joseph's W3 account makes him the better judge.
+- **D6 Joseph co-owns `/packages/knowledge/`.** He can approve and merge Knowledge Base PRs, which deploys; code, parser and `.github/` PRs need Yasser (FR-27, TR-18, Appendix B). *Why:* it matches #11 ("only Yasser and Joseph merge Knowledge Base changes for now") and puts Knowledge Base review where Joseph's W3 account makes him the better judge. *Narrowed by M11 Final rulings RT-4:* `packages/knowledge/{detectors,generators,src}` stay Yasser-only; Joseph also co-owns `fixtures/scrubbed/` (M11 D-6).
 - **D7 Mirror Toolbox at `YassSoliman/IdleonToolbox`.** `UPSTREAM`'s `repo=` points at the fork, and `parser-sync.yml` fast-forwards the fork from upstream before pinning (TR-15 job 0), so every pinned SHA is preserved. Labelled "mirror, not maintained", Actions disabled. *Why:* it removes the only external dependency that can stop us shipping even a Knowledge Base fix, for one fork and a one-line change; Toolbox accepts no PRs, so a public fork has no social downside.
 
 ## 9. Threat notes (drafting)
@@ -617,7 +627,7 @@ Ruled by Yasser on 2026-10-17 on PR #45: every recommendation accepted as writte
 
    Residual risk: a reviewer skims a 3,000-line vendor diff. The PR body puts the tripwire result and the files outside `parsers/` at the top.
 2. **Same-repo write access equals a production deploy.** Any collaborator can edit `preview.yml` on a branch and use the preview token against production. Defences: two tokens (one is revocable alone), minimal token scope (TR-17), and write access only for production-trusted people (D4). This is stated plainly instead of implying previews are sandboxed.
-3. **The owner's own credentials bypass every gate.** Agents run as Yasser, and Yasser is an admin. Defence: D5 (a ruleset with PR-only bypass) and the `production` environment's admin bypass turned off (TR-18). Until Appendix A step 11 is done, AGENTS.md's "never push to `main`" is the only guard, and it is prose, not enforcement.
+3. **The owner's own credentials bypass every gate.** Agents run as Yasser, and Yasser is an admin (agents now open PRs as the Forge Bot, TR-16, but may still hold Yasser's credentials locally). Defence: D5 (a ruleset with PR-only bypass) and the `production` environment's admin bypass turned off (TR-18). Until Appendix A step 11 is done, AGENTS.md's "never push to `main`" is the only guard, and it is prose, not enforcement.
 4. **What's new lies or leaks.** A commit title can be wrong, jargon, or contain a character name. Defences:
    - only `feat`, `fix` and `perf` reach players by default (FR-22);
    - an explicit `What's-new:` line overrides the title (TR-7);
@@ -626,7 +636,7 @@ Ruled by Yasser on 2026-10-17 on PR #45: every recommendation accepted as writte
 
    A wrong entry is fixed forward with a `What's-new:` PR, never by rewriting history.
 5. **A long Play Session on a stale tab gives yesterday's advice, or dies on a missing chunk.** Defences: the version check on focus and every 15 minutes (TR-9), chunk-load failures turned into the update banner (TR-10), no auto-reload mid-session, and `index.html` served `no-cache` so a reload always gets the new build.
-6. **The sync PR never gets CI, so it sits unmerged or gets merged blind.** `GITHUB_TOKEN` pushes don't trigger workflows. Defences: dispatching `ci.yml` (TR-15, job 2 step 5); `ready_for_review`, which Yasser fires after reading the diff and which starts `PR title`, `Merge gate` and the Preview; and the required check, which blocks merge until CI is green (an admin bypass is a visible, deliberate act).
+6. **The sync PR never gets CI, so it sits unmerged or gets merged blind.** `GITHUB_TOKEN` pushes don't trigger workflows. Defences: job 2 pushes and opens the PR as the Forge Bot, so CI, `PR title` and `Merge gate` run on it like any PR (TR-15, job 2 step 5); `ready_for_review`, which Yasser fires after reading the diff, starts the Preview; and the required checks block merge until green (with `main-checks` nobody can bypass them).
 7. **Scheduled syncs stop silently.** GitHub disables cron after 60 days without activity. Defences: the M1 "parser not caught up" banner is player-visible, and patch day has a manual runbook. In practice, active development keeps the schedule alive.
 8. **A CSP or header change breaks sign-in in production.** Defences: headers ship through the same Preview path, and TR-11 requires a real sign-in on a Preview before any header PR merges. Rollback (FR-6) takes under 5 minutes.
 9. **A Knowledge Base version can't be reproduced.** If it came from wall-clock time or a counter file, two builds of the same commit would disagree. Defence: it is a pure function of first-parent git history (TR-6), unit-tested on synthetic histories. BuildInfo uses the commit date, not the build time.
@@ -647,8 +657,8 @@ On 2026-10-17 an independent reviewer that had not seen the drafting attacked th
 | RT-7 | P1 | `${{ inputs.ref }}` was interpolated into the shell, and GitHub's fork network serves third-party fork commits by SHA (the reviewer showed this live) | Fixed | `env:` plus regex validation, and a `compare/<sha>...main` provenance check against upstream (TR-15 steps 1 and 3, US-5) |
 | RT-8 | P1 | merge-upstream can make a merge commit, and a Contents-only token can't move the branch over upstream workflow edits (upstream changed `.github/workflows` twice on 2026-10-07) | Fixed | `merge_type` must be `fast-forward` or `none`, a linear-history ruleset on the mirror, and Workflows: write on `MIRROR_TOKEN` (M: confirm on the first upstream workflow change) (TR-15, Appendix A steps 5 and 6) |
 | RT-9 | P1 | Vendored code in the parser Worker can read the Firebase session in IndexedDB, and `*.firebaseio.com` plus shared Firebase hosts make `connect-src` no barrier | Fixed | Worker-only CSP `connect-src 'none'`, network and storage globals deleted before the vendored bundle loads, a pinned RTDB host, no `blob:`, and the tripwire run on un-minified sources (TR-11, TR-14) |
-| RT-10 | P1 | Workers Scripts: Edit covers every Worker on the account, not just the 4 on `yasser-380`, and the existing template token also holds Routes on every zone | **Deferred** (needs Yasser) | Spec states the full blast radius and makes replacing the token the first setup step (TR-17, TR-20). Moving to a dedicated Cloudflare account is Yasser's call |
-| RT-11 | P1 | Preview URLs are public and sequential, and serve unreviewed code with live sign-in | **Deferred** (needs Yasser) | Interim: never sign in on an unread diff, no sync Preview before review (FR-12, Appendix B, C). Whether to gate Previews (Cloudflare Access) is Yasser's call. Sub-claim rejected: version-preview URLs serve already-reviewed production code, so they add no exposure (TR-13) |
+| RT-10 | P1 | Workers Scripts: Edit covers every Worker on the account, not just the 4 on `yasser-380`, and the existing template token also holds Routes on every zone | **Deferred**, then **done** (Final rulings RT-10) | The Forge moved to its own free Cloudflare account IdleOn (subdomain `idleon`); the CI token is Workers Scripts: Edit on IdleOn only, verified; TR-17 and TR-20 rewritten |
+| RT-11 | P1 | Preview URLs are public and sequential, and serve unreviewed code with live sign-in | **Deferred** (needs Yasser) | Interim: never sign in on an unread diff, no sync Preview before review (FR-12, Appendix B, C). Ruled (Final rulings RT-11): Cloudflare Access gates Previews once it works on Preview URLs; Access still needs Yasser's one-time "Enable Access". Sub-claim rejected: version-preview URLs serve already-reviewed production code, so they add no exposure (TR-13) |
 | RT-12 | P2 | Rule order skipped the "Game patch support" entry for `chore(parsers)` merges | Fixed | The game-patch rule runs first; curly apostrophes and CRLF are tolerated (TR-7) |
 | RT-13 | P2 | `git log … main` fails on PR checkouts, and Previews built `refs/pull/N/merge`, not the head | Fixed | `origin/main`, `--no-renames`, `fetch-depth: 0`, and checkout of `head.sha` or `headRefOid` (TR-3, TR-4, TR-13) |
 | RT-14 | P2 | `gh pr comment --edit-last` overwrites other bot comments | Fixed | A hidden-marker comment updated through the API (TR-13) |
@@ -670,15 +680,16 @@ On 2026-10-17 an independent reviewer that had not seen the drafting attacked th
 
 ## Appendix A: first-deploy checklist for Yasser
 
-Do these in order. Each step says where. Steps 1 to 10 are one-time setup; 11 to 16 verify it. **Already done on 2026-10-17:** the `production` environment exists, locked to `main`, holding `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `VITE_GOOGLE_OAUTH_CLIENT_SECRET` and the six `VITE_*` variables (pushed with `scripts/push-secrets.sh`). The steps below say what changes.
+Do these in order. Each step says where. Steps 1 to 10 are one-time setup; 11 to 16 verify it. **Already done on 2026-10-17:** the `production` environment exists, locked to `main`, holding `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `VITE_GOOGLE_OAUTH_CLIENT_SECRET` and the six `VITE_*` variables (pushed with `scripts/push-secrets.sh`); the Forge has its own Cloudflare account **IdleOn** (subdomain `idleon`) and the production token is the Workers-only IdleOn token (Final rulings RT-10); `LOCAL_CLOUDFLARE_ADMIN_TOKEN` exists locally; the Forge Bot GitHub App `idleon-forge-bot` is live (`FORGE_BOT_PRIVATE_KEY`, `FORGE_BOT_APP_ID` at repository level); the Suggestions GitHub App `idleon-forge-suggestions` exists (key and id local). The steps below say what changes.
 
-**Cloudflare** (dash.cloudflare.com)
+**Cloudflare** (dash.cloudflare.com, IdleOn account)
 
-1. **Subdomain:** nothing to do. It is `yasser-380` and stays (D3). Production will be `https://activeon.yasser-380.workers.dev`.
-2. **Account ID:** already in `production`. Keep it at hand for the preview environment (step 8).
-3. **Manage account → Account API tokens → Create token → Custom token**, twice (TR-17):
-   - `activeon-production`: Account → Workers Scripts → Edit, on this account only, expiring in 12 months. It **replaces** the existing production token, which was made from the "Edit Cloudflare Workers" template and is wider than TR-17. Push it with `scripts/push-secrets.sh`, then delete the old token in Cloudflare;
-   - `activeon-preview`: the same permissions, its own expiry.
+1. **Subdomain:** nothing to do. It is `idleon` (Final rulings RT-10). Production will be `https://activeon.idleon.workers.dev`.
+2. **Account ID:** already in `production` (IdleOn). Keep it at hand for the preview environment (step 8).
+3. **Manage account → Account API tokens → Create token → Custom token** (TR-17):
+   - `activeon-production`: **done** (Workers Scripts: Edit on IdleOn only, verified). Delete the old business-account token if not yet done;
+   - `activeon-preview`: the same permissions, its own expiry. Still to create.
+3a. **Zero Trust → Enable Access** (one time, free plan), then the Preview Access app and policy for Yasser's and Joseph's emails (Final rulings RT-11), which an agent can set up with `LOCAL_CLOUDFLARE_ADMIN_TOKEN`. Confirm it works on a `pr-<N>-activeon.idleon.workers.dev` URL before relying on it.
 
    Copy each token once, straight into the `chmod 600` file the secrets runbook describes, never into chat. Do **not** connect Workers Builds (Workers & Pages → the Worker → Settings → Builds must stay disconnected).
 
@@ -690,7 +701,7 @@ Do these in order. Each step says where. Steps 1 to 10 are one-time setup; 11 to
 7. **Settings → Environments → `production`** (exists):
    - Deployment branches: already **Selected branches → `main`**; keep it;
    - untick **"Allow administrators to bypass configured protection rules"** (today: ticked);
-   - add the environment variable `PRODUCTION_URL` = `https://activeon.yasser-380.workers.dev`.
+   - add the environment variable `PRODUCTION_URL` = `https://activeon.idleon.workers.dev`.
 8. **Settings → Environments → New environment `preview`:**
    - Deployment branches: **All branches** (the fork guard is in the workflow);
    - no required reviewers (D4);
@@ -715,28 +726,28 @@ Then, once the M12 PR with CODEOWNERS and the new workflows is merged:
     Activate both, then delete the classic rule under Settings → Branches. Also under Settings → Actions → General: **Allow select actions** (`actions/*`, `pnpm/action-setup`, `cloudflare/wrangler-action`) and tick **Require actions to be pinned to a full-length commit SHA**.
 12. **Settings → Code security:** enable **Private vulnerability reporting** (from #7, needed by `SECURITY.md`).
 13. **Actions → Deploy → Run workflow** on `main`. Then:
-    - open `https://activeon.yasser-380.workers.dev`;
+    - open `https://activeon.idleon.workers.dev`;
     - check `/version.json` shows the `main` commit;
     - sign in with Google and confirm live sync, timing the first save-to-screen latency (still unmeasured, from #5).
 14. **Verify assets roll over:** keep a tab open, merge any small PR, and wait for the deploy. In the old tab, the update banner appears within 15 minutes or on focus. Then force the parser worker to restart (the dev tools' "terminate worker", or reload with the network throttled) and confirm the chunk-load path shows the banner, not a blank screen (TR-10). Record the result in `docs/setup/deploy.md`.
 15. **Open a throwaway same-repo PR:**
-    - the Preview comment appears with `https://pr-<N>-activeon.yasser-380.workers.dev`;
+    - the Preview comment appears with `https://pr-<N>-activeon.idleon.workers.dev`;
     - the badge shows "Preview of PR #N";
     - live sign-in works on the Preview;
     - closing the PR deletes the Preview.
 
     Then **Actions → Parser sync → Run workflow** twice:
     - with no input, to confirm the mirror job is green and the sync reports "no change" at the current pin;
-    - with `ref` = an older upstream commit on `main`, to exercise the PR path once: the labels get created, the draft PR opens with its report, CI attaches, and marking it ready brings `PR title`, `Merge gate` and the Preview. Then close that PR unmerged.
+    - with `ref` = an older upstream commit on `main`, to exercise the PR path once: the labels get created, the draft PR opens as the Forge Bot with its report, CI, `PR title` and `Merge gate` attach, and marking it ready brings the Preview. Then close that PR unmerged.
 16. **Calendar:** a reminder 11 months out to rotate both Cloudflare tokens (step 3) and the mirror token (step 6), and update the environment secrets.
 
 ## Appendix B: how Joseph gets previews
 
 - **Once:** accept the collaborator invite (Appendix A step 4). He needs no Cloudflare account.
-- **For his own changes:** clone `YassSoliman/idleon-forge` (not a fork), `git switch -c kb/<topic>`, push, and open a draft PR. Within about 10 minutes the PR has a comment with `https://pr-<N>-activeon.yasser-380.workers.dev`. Each push updates the same URL.
+- **For his own changes:** clone `YassSoliman/idleon-forge` (not a fork), `git switch -c kb/<topic>`, push, and open a draft PR. Within about 10 minutes the PR has a comment with `https://pr-<N>-activeon.idleon.workers.dev`. Each push updates the same URL.
 - **For Yasser's or an agent's PRs:** watch the repo (Watch → All activity, or Custom → Pull requests), open the Preview link from the PR comment, and say on the PR what he tried ("Preview checked").
-- **On a Preview:** sign in only on a PR whose diff he (or Yasser) has read; Preview URLs are public and run unreviewed code (FR-12). A "Preview of PR #N" badge is always visible. It is a separate origin, so he signs in with Google once per PR, and his production sign-in and history are untouched. What's new there starts empty.
-- **Reviews:** under D6, his approval counts on Knowledge Base PRs written by Yasser or an agent, and he can merge those. His **own** Knowledge Base PRs still need Yasser's approval (GitHub never lets an author approve their own PR), and so does any PR that also touches a path outside `packages/knowledge/` (the last matching CODEOWNERS pattern wins, RT-23). Code, parser and `.github/` PRs need Yasser.
+- **On a Preview:** sign in only on a PR whose diff he (or Yasser) has read; Preview URLs are public and run unreviewed code until Cloudflare Access is enabled, after which he gets a one-time email PIN (FR-12, Final rulings RT-11). A "Preview of PR #N" badge is always visible. It is a separate origin, so he signs in with Google once per PR, and his production sign-in and history are untouched. What's new there starts empty.
+- **Reviews:** under D6, his approval counts on Knowledge Base PRs written by Yasser or an agent, and he can merge those. His **own** Knowledge Base PRs still need Yasser's approval (GitHub never lets an author approve their own PR), and so does any PR that also touches a path he doesn't co-own (anything outside `packages/knowledge/` and `fixtures/scrubbed/`, or inside `packages/knowledge/{detectors,generators,src}`; the last matching CODEOWNERS pattern wins, RT-23). Code, parser and `.github/` PRs need Yasser.
 - **Forks don't get previews:** if Joseph ever works from a fork, the Preview won't appear. Push branches to the main repo instead.
 
 ## Appendix C: release runbooks
@@ -770,6 +781,15 @@ Then, once the M12 PR with CODEOWNERS and the new workflows is merged:
 - **Normal:** revert PR → merge → deploy.
 
 **Token rotation:** create the new token (Appendix A step 3), replace the environment secret, re-run the last Deploy, and delete the old token.
+
+## Consistency pass (2026-10-17)
+
+- Folded Final rulings RT-10 and RT-11 into the body: the IdleOn Cloudflare account and `idleon` subdomain everywhere (production `https://activeon.idleon.workers.dev`, Previews `https://pr-<N>-activeon.idleon.workers.dev`), the Workers-only IdleOn CI token (TR-17, TR-20 blast radius now only the Forge's Workers), D3 marked superseded, and Cloudflare Access as the Preview gate, not enabled yet (FR-12, §6, Appendix A step 3a, B).
+- Recorded the facts now true: `LOCAL_CLOUDFLARE_ADMIN_TOKEN` (local only), the live Forge Bot App `idleon-forge-bot` with `FORGE_BOT_PRIVATE_KEY` / `FORGE_BOT_APP_ID` and `scripts/forge-bot-token.sh` for agent PRs, and the Suggestions App `idleon-forge-suggestions` (local key, `LOCAL_SUGGESTIONS_APP_ID`) (TR-16).
+- TR-15 job 2 now pushes and opens the sync PR as the Forge Bot (M11 Final rulings RT-1), so `pull_request` checks run without the `ci.yml` dispatch workaround; the draft and no-automatic-Preview rules (FR-17) stay.
+- Left open, not picked: the Forge Bot key is a repository-level secret, against TR-16's "environments only" rule (spec index, Needs Yasser).
+- Added today's verified repository state: merge commit message still `MERGE_MESSAGE` / `PR_TITLE` (must keep the PR body), squash and rebase still on, production admin bypass still on, no rulesets, no `preview` environment; `push-secrets.sh` already takes `ENVIRONMENT=preview` and skips `LOCAL_*`, but not yet the variables split or the key allow-list; the secrets runbook still needs its token row rewritten.
+- CODEOWNERS aligned with M11 Final rulings RT-4 and M11 D-6: Joseph co-owns `packages/knowledge/` except `detectors/`, `generators/`, `src/`, plus `fixtures/scrubbed/` (FR-27, TR-18, D6, Appendix B).
 
 ## Final rulings (Yasser, 2026-10-17)
 

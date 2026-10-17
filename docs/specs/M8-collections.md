@@ -36,7 +36,7 @@ Stamps, cards and obols are three collections that each give permanent power. Bo
 
 **Out of scope:**
 - **Buying stamp levels with coins, and raising stamp caps with materials.** That is the M7 Spend Plan, including Hydrogen-atom batching and Gilded Stamps. M8 hands M7 one fact: a stamp that is collected but at Lv 0 (TR-5) is a spendable.
-- **Merits** (the W2 "Monsters now drop Obols" merit), **daily Liquid Shop obol buys** and **Gem Shop purchases** (card slots, card presets, obol stacks, storage). These belong to M6 and M7. M8 shows them only as the reason a route is blocked ("obols don't drop until the W2 obol merit"). The Gem Shop first buy is Contested (PV 7.5).
+- **Merits** (the W2 "Monsters now drop Obols" merit) and **gems** (the gem count and the Crystal 3D Printer Goal) belong to M6. **Daily Liquid Shop obol buys** are "Not covered yet" in the MVP (M6 D6), and Gem Shop card slots, card presets, obol stacks and storage have no buy advice beyond M6's gem Goal. M8 shows them only as the reason a route is blocked ("obols don't drop until the W2 obol merit"). The Gem Shop first buy is Contested (PV 7.5).
 - **Obol min-maxing:** rerolls, combining, the drop-rate best-in-slot ladder, destroying for fragments. The ladder is in the dossier; it becomes an M8 follow-up once the free-value fills are shipped (post-MVP, so no decision was needed).
 - **Moving a character to another map for a card or a stamp drop.** That is a Higher-leverage option (M5). M8 only reports what the *current* activity yields.
 - **Talent presets and builds** (M9). M8 checks only *card* presets.
@@ -47,7 +47,7 @@ Stamps, cards and obols are three collections that each give permanent power. Bo
 
 Stamps
 - **FR-1** For every obtainable stamp, M8 computes one **acquisition status**: `owned`, `now`, `active`, `toward`, `later` or `unknown`, from the best of its routes, ranked `now` > `active` > `toward` > `later` (TR-5). `later` covers every obtainable, unowned stamp whose best route is not `now`, `active` or `toward`: an unreached world, a locked system, a quest two or more steps away, or a drop on a map no character is on. "Obtainable" means it is in the generated stamp list and not on the authored unobtainable list (TR-8).
-- **FR-2** A stamp counts as **owned** when its `maxLevel > 0` or its `level > 0`. A stamp with `maxLevel > 0` and `level == 0` is collected but gives nothing yet. M8 emits no action for it. It is a stamp below its cap, so M7's coin-level rule (M7 FR-20 scope) prices it; M8 only exposes the list (TR-5).
+- **FR-2** A stamp counts as **owned** (collected) when its `maxLevel > 0` or its `level > 0`; M7's `SpendInputs.stamps` list holds exactly these, Lv 0 included, and M8 reads it (M7 TR-2). A stamp with `maxLevel > 0` and `level == 0` is collected but gives nothing yet. M8 emits no action for it. It is a stamp below its cap, so M7's coin-level rule (M7 FR-20 scope) prices it; M8 only exposes the list (TR-5).
 - **FR-2a** **Held stamp item:** an unowned stamp whose item (`Stamp*` rawName) is in a character's inventory or in chest storage is `now`. The Next Action is "Use the <stamp> you're carrying" on that character's row, or "Take the <stamp> from storage and use it" in the Account section. This beats every other route.
 - **FR-3** A **shop** route is `now` when the shop's town is in a world the account has reached (world ≤ `currentWorld`), the stamp is in stock (raw `ShopStock` > 0, TR-15), and, when a price is known, some wallet (a character's `money` or the bank, as in M7 FR-2) covers it. If the price is missing from generated data (the pinned `shops` entries carry only `name` and `rawName`), the route is `now` with "costs coins" and no number, affordability is not checked, and confidence drops to M (TR-8). A stamp out of stock is `toward` with "sold out; the shop restocks".
 - **FR-4** A **quest hand-in** route (`ItemsAndSpaceRequired`) is `now` when all of these hold:
@@ -76,8 +76,8 @@ Cards and card presets
 - **FR-15** **Blunder Hills past Lv 50:** the Blunder Hills set equipped on a character at Lv ≥ 50 gives nothing. The Next Action swaps it per FR-14.
 - **FR-16** **Passive card in a slot:** a passive card (its effect contains `(Passive)`) equipped in a slot gets a Next Action to replace it, because it works without being equipped.
 - **FR-17** **Preset mismatch:** when the active preset's cards fit another activity (by effect keyword, TR-9) and another preset fits the AFK Target, the Next Action is "Switch to card preset N". When no preset fits, it is "Fill card preset N (empty) for <activity>, then switch to it". N is limited to unlocked presets: the 2 base presets (from class Lv 15) plus `gemShopPurchases[66]` (Card Presets, `GemQ9`); the save always holds 7 preset arrays, so the array length is never used. `selectedCardPreset` is 0-based, and texts show it plus 1. M8 never suggests overwriting a non-empty preset; with no empty unlocked preset, it suggests nothing.
-- **FR-18** **Card data for M4:** M4 owns card Purpose lines, card Goals and their ETAs (M4 `contrib.fight.card`, `purpose.cardLevel`). M8 supplies two inputs:
-  - the authored `cardList(class, stage)` entries (`cards.list.<class>`): the cards worth levelling for each class at each Stage, from the dossier preset matrix;
+- **FR-18** **Card data for M4:** M4 owns card Purpose lines, card Goals and their ETAs (M4 `cards.contribution.fight`, `cards.contribution.skill`, and the generated card ladders `cards.goal.<card>`). M8 supplies two inputs:
+  - the authored `cardList(class, stage)` lists (`cards.priority.list-<class>`, `list: order`): the cards worth levelling for each class at each Stage, from the dossier preset matrix;
   - the generated card Acquisitions (base drop chance, set membership).
 
   M8 emits no card Purpose line of its own, so a card M4 judges not worth farming never shows from M8 either.
@@ -87,7 +87,7 @@ Obols
 - **FR-20** **Altar locked:** the Obol Altar quest (`Obol_Altar1`, 1 Bob Joe Pickle) is account-wide: it is done when any character's status is 1. When the highest character is Lv ≥ 30 and it isn't done, the Next Action is the hand-in, using FR-4 and the FR-5 buy-then-hand-in route (the pickle is sold in the YumYum Grotto shop and isn't craftable). The NPC's world comes from `npcPlacements` (map 50, W2), not from Toolbox's quest grouping, which files it under Blunder Hills. While the altar is locked, FR-21 and FR-22 don't fire; the obol Goal says "<k> stored obols wait for the Obol Altar".
 - **FR-21** **Stored obols** (only once the altar is done, FR-20): for each obol in storage with an empty, unlocked slot of the same shape, M8 emits one Next Action per destination: "Equip <k> stored obols in family <shape> slots". Family slots are filled first, then personal slots. Within personal slots, characters are taken in Visit Order. Any stat beats an empty slot (PV 2.5, confirmed).
 - **FR-22** **Next slot Milestones:** the obol Goal carries a Milestone for the next family slot and, per character, the next personal slot. Each is the lowest-gated slot the save still marks `ObolLocked*`, with its shape and gate (family level or character level). The gap is arithmetic, and there is no ETA. **Anomaly rule:** if that locked slot's gate is already met (the W3 fixture shows the family slot gated at 350 locked at family level 379), M8 shows no Milestone for it. It records a diagnostic and claims nothing, because the save's lock state and the gate table disagree, and M8 can't tell which is right.
-- **FR-23** **Why obols aren't dropping:** while the W2 obol merit is at 0, the obol Goal says "regular monsters don't drop obols until the W2 merit 'Monsters now drop Obols'" (bosses and the Gigafrog drop theirs regardless, per `monsterDrops.json`). It links to M6's merit Goal rather than issuing its own action (D6).
+- **FR-23** **Why obols aren't dropping:** while the W2 obol merit is at 0, the obol Goal says "regular monsters don't drop obols until the W2 merit 'Monsters now drop Obols'" (bosses and the Gigafrog drop theirs regardless, per `monsterDrops.json`). It links to M6's merit Goal `merit-shop.check.spend-w2` rather than issuing its own action (D6).
 
 All modules' shared rules
 - **FR-24** Every M8 Next Action has a Source label (#10 item 10). Generated entries cite Toolbox game data (tier 1) with the parser pin's game version. Authored orders cite their dossier and PV row, with their status (confirmed, unverified or contested).
@@ -143,7 +143,7 @@ Each story's acceptance criteria are written as **Given fixture / When engine ru
 - Given either fixture / When the engine runs / Then no preset action appears on any character whose cards already fit its AFK Target.
 
 **US-7 Card lists for M4.** As a player in a Play Session, I want a character's Purpose to count card progress only for cards worth having for its class, so that I know when to stop farming a map for its card.
-- Given either fixture / When the engine runs / Then every class present has a `cards.list.<class>` entry for the account's Stage, and M4's card Purpose lines (M4 US-5, US-6) read it. M8 itself emits no card Purpose line, so the W2-late Bowman Lv 54 on Green Mushrooms and the Shaman Lv 44 on Slimes show exactly what M4's golden snapshot pins.
+- Given either fixture / When the engine runs / Then every class present has a `cards.priority.list-<class>` entry for the account's Stage, and M4's card Purpose lines (M4 US-5, US-6) read it. M8 itself emits no card Purpose line, so the W2-late Bowman Lv 54 on Green Mushrooms and the Shaman Lv 44 on Slimes show exactly what M4's golden snapshot pins.
 
 **US-8 Spare obols into empty slots.** As a player in a Play Session, I want stored obols placed in empty slots, family slots first, so that obols I already own stop sitting idle.
 - Given the W3-early account (Obol Altar quest accepted on the Wizard Lv 73 and the Squire Lv 85, done on no character; 4 Silver circle obols in storage; obol merit 7 of 7) / When the engine runs / Then the Squire Lv 85 row shows "Buy a Bob Joe Pickle at the YumYum Grotto shop and give it to the Obol Altar" (FR-20, highest level of the two). The obol Goal reads "4 stored obols wait for the Obol Altar". No stored-obol placement and no next-slot Milestone appear until a save shows the altar done.
@@ -157,7 +157,7 @@ Each story's acceptance criteria are written as **Given fixture / When engine ru
 ## 5. Technical requirements
 
 ### Package boundaries
-- **TR-1** M8 lives in `packages/engine/src/collections/`, with Detectors in `detectors/` and pure helpers in `routes.ts`. Its Knowledge Base entries live in `packages/knowledge/systems/{stamps,cards,card-presets,obols}.yaml` (authored) and in the M11 generator's output for those Systems (generated; M11 sets the path, e.g. `packages/knowledge/generated/<system>.json`). M8 imports only the `account-state` and `knowledge` types, plus the engine's Detector interface (M11). It never imports Toolbox at runtime.
+- **TR-1** M8 lives in `packages/engine/src/collections/`, with Detectors in `detectors/` and pure helpers in `routes.ts`. Its Knowledge Base entries live in `packages/knowledge/systems/{stamps,cards,card-presets,obols}.yaml` (authored) and in the M11 generator's output for those Systems (generated; M11 sets the path, e.g. `packages/knowledge/generated/<system>.json`; the authored fact tables in `systems/<system>.facts.yaml`, M11 TR-2). M8 imports only the `account-state` and `knowledge` types, plus the engine's Detector interface (M11). It never imports Toolbox at runtime.
 - **TR-2** M8's Detectors run in the parse Web Worker with the rest of the engine (M10 TR-6). They read only the Account State, the save history, `now` and the Knowledge Base (#11 item 2).
 
 ### Knowledge Base entries (the #11 shape)
@@ -166,7 +166,7 @@ Each story's acceptance criteria are written as **Given fixture / When engine ru
 
   | System | Entry type | Count (pin 6827d3f) | Generated from |
   |---|---|---|---|
-  | `stamps` | Acquisition | 128 in data; 121 obtainable after the authored override (TR-8) | `stamps.json` (catalogue); `shared-data.json` `shops` (shop routes; the pinned entries have no world or price, so town → world comes from `npcPlacements` map worlds where a town map exists, else from the authored `stamps.shop-towns` override with a Source, checked by a contract test against Toolbox's index → world mapping); `quests.json` (`rewards` with `rawName` `Stamp*`, plus `itemReq`, `customArray`, `Type`, `InventorySpacesNeeded`); `monsterDrops.json` (drop routes, `effectiveChance`); `crafts.json` (one-level craft for quest items); `items.json` (names, shop price if present) |
+  | `stamps` | Acquisition | 128 in data; 121 obtainable after the authored override (TR-8) | `stamps.json` (catalogue); `shared-data.json` `shops` (shop routes; the pinned entries have no world or price, so town → world comes from `npcPlacements` map worlds where a town map exists, else from the authored fact table `stamps.fact.shop-towns` with a Source, checked by a contract test against Toolbox's index → world mapping); `quests.json` (`rewards` with `rawName` `Stamp*`, plus `itemReq`, `customArray`, `Type`, `InventorySpacesNeeded`); `monsterDrops.json` (drop routes, `effectiveChance`); `crafts.json` (one-level craft for quest items); `items.json` (names, shop price if present) |
   | `cards` | Acquisition | about 150 W1–W3 plus boss cards; the W4+ ones as `later` | `cards.json`, `monsterDrops.json` (card entries with base chance), `shared-data.json` `cardSets` (set membership and size) |
   | `quests` (routes only) | route data inside the stamp entries | Obol Altar and every stamp-reward quest | `quests.json`; NPC world from `npcPlacements` |
   | `obols` | Acquisition | the W1–W3 obol sources | `monsterDrops.json` (boss and Gigafrog obols), `shared-data.json` `liquidsShop`, `obols` (personal and family slot gates and shapes), `gemShop.json` (marked `kind: gemShop`; info only) |
@@ -175,7 +175,7 @@ Each story's acceptance criteria are written as **Given fixture / When engine ru
   A generated entry looks like this (YAML view of the JSON the generator writes):
 
   ```yaml
-  id: stamps.acq.StampA4
+  id: stamps.acquisition.stamp-a4
   system: stamps
   type: acquisition
   generated: true
@@ -207,24 +207,25 @@ Each story's acceptance criteria are written as **Given fixture / When engine ru
   | `stamps.goal.collect` | Goal | the header line (US-4) and the Milestone "stamps owned / obtainable" | W1 stamps dossier; AutoReview tiers (L) |
   | `stamps.check.shop-now` | Check → Goal FR-11 | the text templates for the shop bundle | dossier H |
   | `stamps.check.handin-now` | Check | the hand-in and craft-then-hand-in templates | dossier H |
+  | `stamps.check.held-now` | Check | FR-2a, a stamp item already held | dossier H |
   | `stamps.check.quest-toward` | Check | the gap template, the shared-resource note (D4) | dossier H |
-  | `stamps.activeplay.<npc><n>` | Check (Active Play) | one per W1–W3 custom stamp quest: a one-line "how" hint and a time estimate, citing the wiki (D2). About 9 entries: Cattleprod 1–2, Wellington 1 and 3, Fishpaste97 2, Tiki Chief 2, Crystalswine 4 and 6, Snouts 3. Papua Piggea 4 is a measured threshold, so it is a `toward` route (FR-6) | wiki quest pages (tier 2), authored estimate (L) |
-  | `stamps.pl.acquire` | Priority List | the stamp order *within* M8: carry stamps (Matty Bag, Lil' Mining Baggy, Choppin' Bag, Mason Jar), then Anvil Zoomer, Fishing Rod, Catch Net, then the rest; ties broken by effort (shop < hand-in < craft-then-hand-in < active < toward) | dossier "Min-max by stage" (L); PV 3.6 **unverified** |
-  | `stamps.shop-towns` | Fact override | town → world for each shop index, only where generated map data can't give it (TR-3) | wiki town pages (tier 2) |
-  | `stamps.shared-resources` | Fact override | items a hand-in consumes that also pay for another System, with that System (D4): e.g. Redox Salts → Construction | W3 dossier (M) |
-  | `stamps.unobtainable` | Fact override | the wiki's list of 7 unobtainable stamps (Toolbox's list has a typo) | wiki Stamps (tier 2), rev. 2026-10-05 |
+  | `stamps.check.activeplay-<npc>-<n>` | Check (Active Play) | one per W1–W3 custom stamp quest: a one-line "how" hint and a time estimate, citing the wiki (D2). About 9 entries: Cattleprod 1–2, Wellington 1 and 3, Fishpaste97 2, Tiki Chief 2, Crystalswine 4 and 6, Snouts 3. Papua Piggea 4 is a measured threshold, so it is a `toward` route (FR-6) | wiki quest pages (tier 2), authored estimate (L) |
+  | `stamps.priority.acquire` | Priority List (`list: order`) | the stamp order *within* M8: carry stamps (Matty Bag, Lil' Mining Baggy, Choppin' Bag, Mason Jar), then Anvil Zoomer, Fishing Rod, Catch Net, then the rest; ties broken by effort (shop < hand-in < craft-then-hand-in < active < toward) | dossier "Min-max by stage" (L); PV 3.6 **unverified** |
+  | `stamps.fact.shop-towns` | Authored fact table (M11) | town → world for each shop index, only where generated map data can't give it (TR-3) | wiki town pages (tier 2) |
+  | `stamps.fact.shared-resources` | Authored fact table (M11) | items a hand-in consumes that also pay for another System, with that System (D4): e.g. Redox Salts → Construction | W3 dossier (M) |
+  | `stamps.fact.unobtainable` | Authored fact table (M11) | the wiki's list of 7 unobtainable stamps (Toolbox's list has a typo); M7 reads the same table | wiki Stamps (tier 2), rev. 2026-10-05 |
   | `cards.check.empty-slots` | Check | FR-13 | dossier H; PV 2.1 unverified (order) |
   | `cards.check.no-set` / `cards.check.set-mismatch` / `cards.check.blunder-50` / `cards.check.passive-slot` | Check | FR-14–FR-16 | dossier H (Toolbox `cardsAlert` rules) |
   | `cards.check.preset-mismatch` | Check | FR-17 | dossier M (keyword rule) |
-  | `cards.pl.set-for-activity` | Priority List | per `afkType`: FIGHTING Lv < 50: Blunder Hills > Yum Yum; FIGHTING Lv ≥ 50: Yum Yum > Frostbite (pusher rule, D3); MINING / CHOPPIN / FISHING / CATCHING: Easy Resources > Medium Resources | dossier (O); PV 2.2 **unverified** |
-  | `cards.matrix.<afkType>` | Priority List | the dossier's preset matrix: preferred card effects per activity, in order | dossier (O) |
-  | `cards.list.<class>` | Priority List | `cardList(class, stage)` for M4's `contrib.fight.card` (FR-18) | dossier preset matrix (O); PV 2.1 unverified |
+  | `cards.priority.set-for-activity` | Priority List (`list: order`) | per `afkType`: FIGHTING Lv < 50: Blunder Hills > Yum Yum; FIGHTING Lv ≥ 50: Yum Yum > Frostbite (pusher rule, D3); MINING / CHOPPIN / FISHING / CATCHING: Easy Resources > Medium Resources | dossier (O); PV 2.2 **unverified** |
+  | `cards.priority.matrix-<afk-type>` | Priority List (`list: order`) | the dossier's preset matrix: preferred card effects per activity, in order | dossier (O) |
+  | `cards.priority.list-<class>` | Priority List (`list: order`) | `cardList(class, stage)` for M4's `cards.contribution.fight` (FR-18) | dossier preset matrix (O); PV 2.1 unverified |
   | `cards.goal.set-tier` | Goal | FR-19 | dossier H |
   | `obols.check.altar` | Check | FR-20 | dossier H |
   | `obols.check.stored` | Check | FR-21 | dossier H; PV 2.5 **confirmed** |
   | `obols.goal.slots` | Goal | FR-22, FR-23 | dossier H |
 
-  M8 does not author Stage positions. M2 owns the per-Stage Priority Lists. M8's Goals enter them through the ids that the Leverage model already uses (3a `obols.check.stored`; 3b `cards.check.*`; W1-mid 5 and W2-early 11 `stamps.goal.collect`). Per D5, M2 also places `stamps.check.shop-now`, `stamps.check.handin-now` and the FR-2a held-item check at position 3 (as 3i, after the existing 3a–3h) on every Stage, and carries `stamps.check.quest-toward` and the Active Play stamp checks forward to the end of each later Stage list. Per D6, M11's CI rule "one Check per fact id" keeps M6 from emitting the card and stored-obol Checks.
+  M8 does not author Stage positions. M2 owns the per-Stage Priority Lists. M8's Goals enter them through the ids that the Leverage model already uses (3a `obols.check.stored`; 3b `cards.check.*`; W1-mid 5 and W2-early 11 `stamps.goal.collect`). Per D5, M2 places `stamps.check.shop-now`, `stamps.check.handin-now` and `stamps.check.held-now` at position 3 (as 3i, after the existing 3a–3h) on every Stage, and carries `stamps.check.quest-toward` and the Active Play stamp checks forward to the end of each later Stage list (`carryForward`); both are now in M2 TR-13. Per D6, M11's CI rule "one Check per fact id" keeps M6 from emitting the card and stored-obol Checks.
 
 ### Detectors
 
@@ -232,13 +233,13 @@ Each story's acceptance criteria are written as **Given fixture / When engine ru
 
   | Detector id | Inputs (Account State paths, added via M1 TR-11) | Output |
   |---|---|---|
-  | `collections.stampStatus` | `stamps[rawName].{level,maxLevel}`; per-character quest status (TR-15); `holdings` (TR-6); `characters[].money` and the bank; shop stock; `account.currentWorld`; free inventory slots and carry capacity (TR-15); characters' Smithing levels; `finalKillsPerHour` per character (M2/M4 worker field); refinery cycle output; the generated stamp Acquisitions. Sections: stamps, quests, storage, refinery, inventories, currencies, shopStock | `StampAcquisition[]` (TR-7), one per obtainable stamp |
-  | `collections.stampLv0` | `stamps[rawName].{level,maxLevel}` | the list of collected Lv 0 stamps, for M7 |
-  | `collections.cardSlots` | `characters[].cards.equippedCards[]` (real entries only), `account.gemShopPurchases[63]`, `account.cards[*].{amount,stars,effect}`, `characters[].afkType`. Sections: cards, gemShopPurchases | per character: open slots and suggested cards |
-  | `collections.cardSet` | `characters[].cards.set`, `account.cardSetTotals` (Toolbox `getCardSets`), `characters[].{level,afkType}`, pusher index (M2), pusher's frontier hit chance (M2 field, D3) | per character: `{current, recommended, reason}` or none |
-  | `collections.cardPreset` | `characters[].{selectedCardPreset (0-based), cardPresets[][], afkType, level}`, `account.gemShopPurchases[66]` | per character: `switch(n)`, `fill(n)` or none |
-  | `collections.cardList` | Stage id (M2), the class of each character, `cards.list.<class>` | `cardList(class, stage)` for M4 |
-  | `collections.obols` | family slots `account.obols.list[]`, stored obols (raw `ObolInvOr`; TR-15), personal slots `characters[].obols.list[]`, `account.accountLevel`, `characters[].level`, `account.obolMeritLevel`, altar quest status on every character, highest level, shop stock for the pickle. Sections: obols, quests, shopStock | the altar action, the stored-obol placements, the next-slot Milestones |
+  | `stamps/status` | `stamps[rawName].{level,maxLevel}`; per-character quest status (TR-15); `holdings` (TR-6); `characters[].money` and the bank; shop stock; `account.currentWorld`; free inventory slots and carry capacity (TR-15); characters' Smithing levels; `finalKillsPerHour` per character (M2/M4 worker field); refinery cycle output; the generated stamp Acquisitions. Sections: stamps, quests, storage, refinery, inventories, currencies, shopStock | `StampAcquisition[]` (TR-7), one per obtainable stamp |
+  | `stamps/lv0` | `stamps[rawName].{level,maxLevel}` | the list of collected Lv 0 stamps, for M7 |
+  | `cards/slots` | `characters[].cards.equippedCards[]` (real entries only), `account.gemShopPurchases[63]`, `account.cards[*].{amount,stars,effect}`, `characters[].afkType`. Sections: cards, gemShopPurchases | per character: open slots and suggested cards |
+  | `cards/set` | `characters[].cards.set`, `account.cardSetTotals` (Toolbox `getCardSets`), `characters[].{level,afkType}`, pusher index (M2), pusher's frontier hit chance (M2 field, D3) | per character: `{current, recommended, reason}` or none |
+  | `cards/preset` | `characters[].{selectedCardPreset (0-based), cardPresets[][], afkType, level}`, `account.gemShopPurchases[66]` | per character: `switch(n)`, `fill(n)` or none |
+  | `cards/list` | Stage id (M2), the class of each character, `cards.priority.list-<class>` | `cardList(class, stage)` for M4 |
+  | `obols/state` | family slots `account.obols.list[]`, stored obols (raw `ObolInvOr`; TR-15), personal slots `characters[].obols.list[]`, `account.accountLevel`, `characters[].level`, `account.obolMeritLevel`, altar quest status on every character, highest level, shop stock for the pickle. Sections: obols, quests, shopStock | the altar action, the stored-obol placements, the next-slot Milestones |
 
   Every Detector is pure, `(ctx) => result`. Each has fires / doesn't-fire tests on both private fixtures (local only) and on the public and scrubbed CI saves (#14 item 7, #11 item 12).
 
@@ -273,7 +274,7 @@ Each story's acceptance criteria are written as **Given fixture / When engine ru
   }
 
   export interface StampAcquisition {
-    entryId: string;                    // stamps.acq.<rawName>
+    entryId: string;                    // stamps.acquisition.<slug of rawName>
     rawName: string;
     status: AcqStatus;
     best: RouteEval | null;
@@ -297,7 +298,7 @@ Each story's acceptance criteria are written as **Given fixture / When engine ru
   1. Emit one Acquisition per stamp in `stamps.json`, card in `cards.json`, and obol source.
   2. Route world = the world of the shop's town (TR-3), the quest NPC's map from `npcPlacements` (never Toolbox's quest-grouping key), or the drop map (`mapDetails`).
   3. Write the craft recipe for every quest `itemReq` item that has one in `crafts.json` (one level deep).
-  4. Apply `stamps.unobtainable` (authored) after generation.
+  4. Apply the authored fact table `stamps.fact.unobtainable` after generation.
   5. Shop price: use the Toolbox shop or item price field if one exists at the pin; else write `price: null`. Verifying which field holds the buy price is a build task. `items.json` `sellPrice` is **not** assumed to be the buy price.
   6. Fail the generation (CI red) if a `Stamp*` reward rawName is not in `stamps.json`, or if any authored M8 entry references a generated id that no longer exists (M11 FR-5). The sync PR's diff (rule 7) names the authored entries to update.
   7. Diff output: the parser-sync PR lists added, removed and changed Acquisition routes, so that a patch moving a stamp is reviewed by a human (#14 item 11).
@@ -318,7 +319,7 @@ Each story's acceptance criteria are written as **Given fixture / When engine ru
   | free inventory slots | `characters[].inventorySlots` minus non-blank `inventory[]` entries | no `freeInventorySlots` field exists |
   | carry capacity | `characters[].carryCapBags[].capacityPerSlot` | `maxCarryCap` is unscaled |
   | bank coins | `currencies.bankMoney` | never `rawMoney` (M7 FR-2) |
-  | `finalKillsPerHour` | worker-computed Toolbox `getMaxDamage` output (M2/M4) | not in the parsed save |
+  | `finalKillsPerHour` | `CharacterState.fighting.finalKillsPerHour`, the worker-computed identity call (M4 TR-2) | not in the parsed save |
 
 ### Storage
 - **TR-10** M8 stores nothing of its own. Done detection and "done this session" use M1's save history. Skip and "Not for me" are M10 presentation state, keyed by `NextAction.key = <entryId>@<subject>`.
@@ -364,12 +365,12 @@ Each story's acceptance criteria are written as **Given fixture / When engine ru
 
 | Module | What M8 needs from it | Interface |
 |---|---|---|
-| **M1** Sync & Account State | New Account State fields via TR-11:<br>• `stamps` (level, maxLevel);<br>• per-character quest status for stamp-reward NPCs;<br>• `holdings` sources (storage, refinery storage, inventories), free inventory slots;<br>• per-character `money`;<br>• `cards` (amount, stars, nextLevelReq, effect), per-character equipped cards, set, presets, `selectedCardPreset`;<br>• `gemShopPurchases[63]`;<br>• family and personal obol lists with shape and `levelReq`, obol storage;<br>• the obol merit level; `accountLevel`;<br>• card set totals (Toolbox `getCardSets`, precomputed in the adapter);<br>• `FIELD_SECTIONS` for each, plus `isKnown`. | `AccountState`, `isKnown`, `diagnostics.failedSections` |
-| **M11** Knowledge tooling | The Detector interface and registry; the YAML schema (with `generated`, `target`, `routes`); the generator plug-in hook for TR-8; CI rules (sources required, dangling-id check); golden snapshot harness. | Detector `(ctx) => result`; generator plug-in API |
-| **M2** Stage & Meta Path | The Stage id; the per-Stage Priority List positions for M8's Goals, including the new position 3i for `now` stamps on every Stage, and a carry-forward rule for earlier Stage items (D5), which M2's list schema (TR-13) doesn't have yet; the pusher's character index and its frontier hit chance (for D3). | `stage.id`, `PriorityList`, `pusher` |
-| **M4** Purpose & Milestones | Owns card Purpose lines and card Goals; reads M8's `cardList(class, stage)` entries and generated card Acquisitions (FR-18); supplies `finalKillsPerHour` for the current map (M8 reads the same field). | `cardList(class, stage)`, `Milestone` |
-| **M6** Unspent & idle | Owns the obol merit, the Liquid Shop daily obols and the gems. M8 links to its Goal ids for FR-23. M6 must **not** also emit empty card-slot, card-set or stored-obol Checks (D6). | Goal id references |
-| **M7** Spend Plan | Owns all stamp levelling and cap raises, including collected stamps at Lv 0 (below cap, so M7's coin-level rule covers them). M8 exposes `lv0ForSpendPlan` for M7's tests. M7's W2-late table ("7 levelled, all at cap") must count the Bullseye Stamp (Lv 0 of 5) as a coin-level line. | `string[]` of stamp rawNames |
+| **M1** Sync & Account State | New Account State fields via TR-11:<br>• `stamps` (level, maxLevel): one per-stamp list, M7's `SpendInputs.stamps` (every collected stamp, Lv 0 included);<br>• per-character quest status for stamp-reward NPCs;<br>• `holdings` sources (storage, refinery storage, inventories), free inventory slots;<br>• per-character `money`;<br>• `cards` (amount, stars, nextLevelReq, perTier, effect; one shared `account.cards` field with M4), per-character equipped cards, set, presets, `selectedCardPreset`;<br>• `gemShopPurchases[63]`;<br>• family and personal obol lists with shape and `levelReq`, obol storage;<br>• the obol merit level; `accountLevel`;<br>• card set totals (Toolbox `getCardSets`, precomputed in the adapter);<br>• `FIELD_SECTIONS` for each, plus `isKnown`. | `AccountState`, `isKnown`, `diagnostics.failedSections` |
+| **M11** Knowledge tooling | The Detector interface and registry; the YAML schema (with `generated`, `target`, `routes`), authored fact tables (`stamps.fact.*`) and `list: order` Priority Lists; the generator plug-in hook for TR-8 (now in M11 TR-10); CI rules (sources required, dangling-id check); golden snapshot harness. | Detector `(ctx) => result`; generator plug-in API |
+| **M2** Stage & Meta Path | The Stage id; the per-Stage Priority List positions for M8's Goals, including the new position 3i for `now` stamps on every Stage, and the carry-forward rule for earlier Stage items (D5), both now in M2 TR-13; the pusher's character index and its frontier hit chance (for D3, `account.frontier.fights[pusher].hitChance`, % 0..100). | `MetaPathResult.stage.id`, `MetaPathResult.list`, `MetaPathResult.pusher` (M2 TR-4a) |
+| **M4** Purpose & Milestones | Owns card Purpose lines and card Goals; reads M8's `cardList(class, stage)` lists (`cards.priority.list-<class>`) and generated card Acquisitions (FR-18); supplies `finalKillsPerHour` for the current map through `CharacterState.fighting` (M4 TR-2; M8 reads the same field). | `cardList(class, stage)`, `Milestone` |
+| **M6** Unspent & idle | Owns the obol merit and the gems. Liquid Shop daily obols are Not covered yet in the MVP (M6 D6), so FR-23 links only `merit-shop.check.spend-w2`. M6 must **not** also emit empty card-slot, card-set or stored-obol Checks (D6). | Goal id references |
+| **M7** Spend Plan | Owns all stamp levelling and cap raises, including collected stamps at Lv 0 (below cap, so M7's coin-level rule covers them). M8 exposes `lv0ForSpendPlan` for M7's tests. Done in this pass: M7's W2-late table now counts the Bullseye Stamp (Lv 0 of 5) as a coin-level line (M7 fixture table, AC-3.1). | `string[]` of stamp rawNames |
 | **M9** Builds | None directly. Talent-preset checks are M9's; M8's preset Check is only about cards. The texts must not collide ("card preset" vs "talent preset" everywhere). | — |
 | **M10** Now screen UI | Renders M8's Goals, Next Actions, Active Play items and show-more lines; caps; "show more"; done this session. | M10 TR-2 types |
 | **M5** Higher-leverage options | Its W3 fixture gives the Squire Lv 85's 36% hit chance used in US-5. May later use M8's card and stamp drop Acquisitions to propose "move to map X for its card". Not needed for the MVP. | Acquisition entries |
@@ -394,7 +395,7 @@ Ruled by Yasser on 2026-10-17 (PR #50): every recommendation accepted as written
 
 **R3. Patch breakage: a stamp moves, a quest changes, a shop restocks.** *Defence:* the facts are generated (ADR 0007), so a re-sync fixes them with no human work. TR-8 rule 7 makes the change visible in the parser-sync PR. TR-8 rule 6 fails CI on dangling ids. Stale entries rank below fresh ones.
 
-**R4. Toolbox's own data bugs leaking into advice.** Known cases: the unobtainable-stamp list typo; the trap and Equinox quirks (not M8's); the Toolbox "daily keys off by one" (not M8's); raw carry values that look unscaled. *Defence:* `stamps.unobtainable` is an authored override with a tier-2 Source. The carry caveat degrades to "check carry capacity" at confidence M rather than inventing a number (TR-6).
+**R4. Toolbox's own data bugs leaking into advice.** Known cases: the unobtainable-stamp list typo; the trap and Equinox quirks (not M8's); the Toolbox "daily keys off by one" (not M8's); raw carry values that look unscaled. *Defence:* `stamps.fact.unobtainable` is an authored fact table with a tier-2 Source. The carry caveat degrades to "check carry capacity" at confidence M rather than inventing a number (TR-6).
 
 **R5. Card advice that is opinion presented as fact.** The set and card orders are unverified (PV 2.1, 2.2). *Defence:* every card order entry is confidence L with "unverified" in its Source label. Only the mechanical checks (empty slot, passive card, Blunder past 50, set vs activity per Toolbox's own alert) are H. D3 keeps the pusher's set choice deterministic.
 
@@ -416,7 +417,7 @@ Independent red-team run on 2026-10-17 against this spec (with D1–D6 folded in
 
 | # | Sev | Finding | Verdict | How |
 |---|---|---|---|---|
-| 1 | P0 | The W3 fixture never did the Obol Altar quest (status 0 on two characters, −1 on four, 0 obols equipped anywhere), so "equip your 4 stored obols" asks for the impossible. | Fixed | FR-20 is account-wide and gates FR-21/FR-22; US-8 W3 now expects the altar hand-in; §6 row. The Leverage model's W3 row ("equip the 4 stored obols") needs the same correction (deferred to its owner). |
+| 1 | P0 | The W3 fixture never did the Obol Altar quest (status 0 on two characters, −1 on four, 0 obols equipped anywhere), so "equip your 4 stored obols" asks for the impossible. | Fixed | FR-20 is account-wide and gates FR-21/FR-22; US-8 W3 now expects the altar hand-in; §6 row. The Leverage model's W3 row ("equip the 4 stored obols") needs the same correction (deferred to its owner). Recorded in M2 TR-13, "Corrections to the Leverage model": 3a fires only once the Obol Altar quest is done. |
 | 2 | P1 | The Bob Joe Pickle isn't craftable; it's sold in the YumYum Grotto shop, and Toolbox files the altar under Blunder Hills while `npcPlacements` puts it on map 50. | Fixed | `buyThenQuest` route (FR-5, TR-7); NPC world from `npcPlacements` (FR-20, TR-8 rule 2). |
 | 3 | P1 | Stamp items already held aren't offered (the W3 Wizard Lv 73 carries 3 Duplogs Stamps; that stamp is uncollected). | Fixed | FR-2a `held` route, US-1 case, §6 row. |
 | 4 | P1 | `toward`/`later` undefined for most stamps; hand totals untestable; Manamoar (Mutton 2 accepted, 0 of 300) missed. | Fixed | FR-1 makes `later` the remainder; FR-8 lists exactly what is `toward`; US-3 totals are script-computed and pinned in the golden snapshot. |
@@ -424,13 +425,13 @@ Independent red-team run on 2026-10-17 against this spec (with D1–D6 folded in
 | 6 | P1 | A card can be equipped on several characters at once (W2 fixture), so "unequipped cards" is the wrong model; the W3 Squire Lv 51 (3 of 4 slots) was missed. | Fixed | FR-13 counts cards not in this character's slots; padding rule; US-5 case. |
 | 7 | P1 | D3 makes the W3 Squire Lv 85 (pusher, 36% hit) take Frostbite, but US-5 said no set action. | Fixed | US-5 expects Frostbite; FR-14 tier-0 and null fallback to Yum Yum (W2 pusher case). |
 | 8 | P1 | D5's "3c" is already big bubbles, and M2 has no carry-forward. | Fixed | Stamps take the new 3i; the M2 row records the carry-forward rule M2 must add. |
-| 9 | P1 | M4 already owns card Purpose lines and reads an M8 `cardList`; M8's US-7 contradicted M4 US-5. | Fixed | FR-18 and US-7 now supply `cardList(class, stage)` and Acquisitions only; `collections.cardList` replaces `mapCard`. |
-| 10 | P1 | M7 has no Lv 0 stamp input, and its W2 table says "7 levelled, all at cap" while Bullseye is Lv 0 of 5. | Fixed in part | FR-2 and the M7 row state M7's below-cap coin rule covers it; correcting M7's fixture table is deferred to M7. |
+| 9 | P1 | M4 already owns card Purpose lines and reads an M8 `cardList`; M8's US-7 contradicted M4 US-5. | Fixed | FR-18 and US-7 now supply `cardList(class, stage)` and Acquisitions only; `cards/list` replaces `mapCard`. |
+| 10 | P1 | M7 has no Lv 0 stamp input, and its W2 table says "7 levelled, all at cap" while Bullseye is Lv 0 of 5. | Fixed in part | FR-2 and the M7 row state M7's below-cap coin rule covers it; correcting M7's fixture table is deferred to M7. Done in M7 (consistency pass). |
 | 11 | P2 | `finalKillsPerHour` isn't in the parsed save; drops on maps nobody fights have no rate. | Fixed | FR-8 names the M2/M4 worker field; such drops are `later` with no ETA; TR-15. |
 | 12 | P2 | Carry model wrong: Toolbox already gives scaled `carryCapBags[].capacityPerSlot`; the limit is slots × capacity. | Fixed | TR-6 requires `ceil(N ÷ capacityPerSlot)` free slots; look-ahead caveat. |
 | 13 | P2 | Pinned shop entries have no price; the bank is in the save and is a wallet in M7. | Fixed | FR-3 "costs coins" without an affordability check; bank counted; §6 row rewritten. |
 | 14 | P2 | Shop stock isn't checked, and Toolbox's parsed `shopStock` drops the stamp items. | Fixed | FR-3 reads raw `ShopStock`; sold out is `toward`; TR-15. |
-| 15 | P2 | Shops carry no world; the town order in the bundle was undefined. | Fixed | TR-3 town → world source plus the `stamps.shop-towns` override with a contract test; FR-11 town order; US-1 reordered. |
+| 15 | P2 | Shops carry no world; the town order in the bundle was undefined. | Fixed | TR-3 town → world source plus the `stamps.fact.shop-towns` fact table with a contract test; FR-11 town order; US-1 reordered. |
 | 16 | P2 | Field-name traps (padded `equippedCards`, 0-based preset, `stars` = tier − 1, quest paths and keys, obol list names, no `freeInventorySlots`). | Fixed | New TR-15 field map; TR-5 inputs corrected. |
 | 17 | P2 | Seven preset arrays always exist; locked presets could be suggested. | Fixed | FR-17 limits N to 2 + `gemShopPurchases[66]`. |
 | 18 | P2 | Craft-then-hand-in ignores the Smithing level (Copper Chopper needs 15). | Fixed | FR-5 requires a character with the level; names the crafter. |
@@ -446,3 +447,11 @@ Independent red-team run on 2026-10-17 against this spec (with D1–D6 folded in
 | 28 | P3 | Index 63 is `GemP3` (Extra Card Slot); `GemQ9` is index 66. | Fixed | TR-3 and FR-13/FR-17 corrected. |
 | 29 | P3 | Highest class level can pick a character without the items or slots. | Fixed | FR-10 order: holder, free slots, level, index. |
 | 30 | P3 | The class and level roster plus exact counts could identify a private account. | Rejected | No names are published (TR-13), every spec uses class and level the same way, and exact counts are needed for the golden snapshots. |
+
+## Consistency pass (2026-10-17)
+
+- Ids follow M11: generated `stamps.acquisition.<slug>` (was `stamps.acq.<rawName>`), Detectors `stamps/status`, `stamps/lv0`, `cards/slots`, `cards/set`, `cards/preset`, `cards/list`, `obols/state`, ordering lists `stamps.priority.acquire`, `cards.priority.set-for-activity`, `cards.priority.matrix-<afk-type>`, `cards.priority.list-<class>` (`list: order`), authored fact tables `stamps.fact.shop-towns`, `stamps.fact.shared-resources`, `stamps.fact.unobtainable` (M7 reads the last one), and the held-item Check `stamps.check.held-now`.
+- M2 now carries 3i and the carry-forward rule (M2 TR-13), and records the Obol Altar correction to the Leverage model's W3 obol row (red-team #1).
+- M7 now counts the Bullseye Stamp at Lv 0 (red-team #10); M7's `SpendInputs.stamps` is the one per-stamp list and holds every collected stamp, Lv 0 included.
+- M4 citations updated (`cards.contribution.fight`, `cards.goal.<card>`); `account.cards` is one field shared with M4; kill rates come from `CharacterState.fighting` (M4 TR-2).
+- Liquid Shop daily obols are Not covered yet (M6 D6), so FR-23 links only the W2 merit Goal `merit-shop.check.spend-w2`.

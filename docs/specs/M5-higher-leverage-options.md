@@ -1,6 +1,6 @@
 # M5 Higher-leverage options
 
-Spec for [#33](https://github.com/YassSoliman/idleon-forge/issues/33), part of map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Terms follow [GLOSSARY.md](../../GLOSSARY.md). Status: **decisions ruled (section 8), red-teamed (section 10); ready to build once M1–M4 merge.** M5 is last in the build order (#13), so it builds on M1–M4.
+Spec for [#33](https://github.com/YassSoliman/idleon-forge/issues/33), part of map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Terms follow [GLOSSARY.md](../../GLOSSARY.md). Status: **decisions ruled (section 8), red-teamed (section 10), Final rulings and the cross-spec consistency pass folded in; ready to build once M1–M4 merge.** M5 is last in the build order (#13), so it builds on M1–M4.
 
 **Inputs this spec rests on:**
 - Now screen behaviour (#10) and the prototype resolution (#12, items 1–3: Purpose, Ready, one Higher-leverage line).
@@ -30,7 +30,7 @@ While the player is switching through characters in a Play Session, M5 answers o
   - reachability;
   - AFK safety, delegated to M3;
   - Contested and Stale handling.
-- **The hypothetical layer.** A small set of Toolbox-computed "what if" numbers, produced in the parse Worker before the engine runs and added to the Account State. It is the only place M5 touches Toolbox, and M4's `bestOpenedExpPerHour` reads the same sweep (RT-3, RT-4).
+- **The hypothetical layer.** A small set of Toolbox-computed "what if" numbers, produced in the parse Worker before the engine runs and added to the Account State. It is the only place M5 touches Toolbox, and M4's `bestExpPerHour` (M4 TR-6) reads the same sweep (RT-3, RT-4).
 - The data M5 adds to the Knowledge Base, and the Detectors it needs.
 
 **Out of scope**
@@ -41,7 +41,7 @@ While the player is switching through characters in a Play Session, M5 answers o
 - **Course Correction:** making a new character, or the Sub Class Swap Token. These are Meta Path Goals owned by M2.
 - **Skilling rates.** Toolbox has no resources-per-hour or skill-EXP-per-hour figures, and ADR 0005 forbids writing our own (see D5).
 - **Chains of three or more characters swapping.** Only single Moves and two-character Hand-offs are evaluated.
-- **Laboratory as a Move destination.** M5 can compute what a character's removal costs the Lab chain, but not what adding one gains (M4's `contrib.lab.chain` needs the character connected). Lab candidates wait for an "add to Lab" re-run after the MVP (RT-18).
+- **Laboratory as a Move destination.** M5 can compute what a character's removal costs the Lab chain, but not what adding one gains (M4's `lab.contribution.chain` needs the character connected). Lab candidates wait for an "add to Lab" re-run after the MVP (RT-18).
 - **Role fit for fighting Roles** (e.g. a Barbarian's "AFK fighting"). Levelling is per character, so there is no shared Goal to compare; only skill Roles are evaluated in the MVP (RT-10).
 - **Any LLM at advice time** ([ADR 0002](../adr/0002-deterministic-advice-ai-built-knowledge.md)).
 
@@ -58,6 +58,8 @@ While the player is switching through characters in a Play Session, M5 answers o
 
 **Comparison** (#11 item 6: blockers, then Priority List position, then arithmetic tie-breaks; no weights)
 - **FR-3 Goals served.** For the baseline and each candidate, M5 gets the set of Goals it advances from M4's Contributions. Each Goal comes with its Stage Priority List position (M2) and its next-Milestone ETA. Only Goals M4 counts as **worthwhile** for that activity are counted (M4 FR-5 zero rate, D3 50% rule); a Goal that would be "not progressing" on the candidate serves nothing (RT-9). For fighting candidates, the ETA is arithmetic: the gap ÷ the sum of the Toolbox `finalKillsPerHour` of every character who would be contributing after the move. Skilling Contributions are yes/no and carry no ETA (#11 item 8; D5).
+  - **Count only what each character adds** (Final rulings RT-8). On an account-wide counter, a character's share is its marginal contribution: the ETA with it contributing compared with the ETA without it. A character whose removal leaves the Goal's ETA within M4's effective horizon (M4 FR-7) does not "lose" that Goal by moving.
+  - **A Goal past its stop-here point never holds a character** (Final rulings RT-8). When M4 marks a Goal instance with a stop-here (M4 FR-13 (b): after the next Milestone, the following one is beyond the effective horizon) and the next Milestone is reached or will be reached before the Expected Return, that Goal does not count in the baseline as a reason to stay.
 - **FR-4 Comparison order.** A candidate beats the baseline only by winning the first of these steps that decides:
   1. **Best position:** the lowest position among the Goals served. Lower wins. A candidate that serves any Goal beats a baseline that serves none.
   2. **Closest Milestone:** only for a Goal at that best position that **both sides serve** (D1: "same Goal, sooner Milestone"). The candidate wins if its ETA for that Goal ≤ the baseline's ETA ÷ `clearMargin` (D1: 1.25); the baseline wins if its ETA is shorter at all. If the gain is inside the margin, or either side has no ETA, or no shared Goal exists, the step does not decide and the comparison moves to step 3. Two different Goals are never compared by ETA (RT-9).
@@ -76,14 +78,14 @@ While the player is switching through characters in a Play Session, M5 answers o
   - **Rates distrusted.** When the server build is not in the pin's `verifiedBuilds` (M1 FR-29, regardless of failed sections), or TR-5's identity check fails, FR-4 step 2 and FR-5 are skipped, because they need Toolbox rates. Survivability comes from the same model, so every **fighting** candidate is also suppressed (reason `parser-behind`). Only position or Goal-count wins between non-fighting activities can show. The two version numbers are never compared directly (M1 D3, RT-5).
 
 **Option kinds**
-- **FR-10 Move.** The best surviving candidate under FR-4 becomes the character's Move option. Ties are broken by the lower map index, then the lower skill index, so the result is deterministic.
+- **FR-10 Move.** The best surviving candidate under FR-4 becomes the character's Move option. Ties are broken by the lower map index, then the lower skill index, so the result is deterministic. **At most one Move per destination per save** (Final rulings RT-8): when several characters' Moves name the same destination, only the one with the biggest gain keeps it (the earliest deciding FR-4 step, then the largest margin on that step), ties to the lower character index; the others fall back to their next-best surviving candidate, or to none, with "also considered: one Move per destination".
 - **FR-11 Hand-off.** For a character `c` whose Move is blocked only because it would drop a Goal `g` (it wins FR-4 once `g` is removed from the baseline), M5 looks for a partner `c'`. It offers "`c'` is a better fit for `<activity>`" when all of these hold:
   - (a) `c'` has a Move into `c`'s current activity, computed by FR-10 against the current Account State, **or** `c'` is already on that activity (a half-followed Hand-off still frees `c`, RT-8);
   - (b) `c'` would reach `g`'s next Milestone within the Expected Return (D4: the Expected Return is the tolerance);
   - (c) `c`'s freed Move clears FR-4 once `g` is still served by `c'`.
 
   Among several partners, the shortest ETA for `g` wins, then the lower character index. Only pairs are evaluated.
-- **FR-12 Role fit.** It follows leverage model §4.3, for **skill** AFK Targets only (Mining, Choppin, Fishing, Catching; fighting Roles are out of scope, RT-10). It is offered when:
+- **FR-12 Role fit.** It follows leverage model §4.3, for **skill** AFK Targets only: the four gathering skills Mining, Choppin, Fishing and Catching (Final rulings RT-10; fighting Roles are out of scope). It is offered when:
   - (a) M2's `roleOwnersOf(activity)` names a character `o` (not `c`) whose Role owns `c`'s current AFK Target;
   - (b) `o` is not the pusher and is on an activity that is not its own Role;
   - (c) Toolbox agrees: `o`'s `getSkillEfficiency(skill)` and `getAfkGain({...o, afkType})` are both higher than `c`'s;
@@ -92,7 +94,7 @@ While the player is switching through characters in a Play Session, M5 answers o
   - (f) FR-6 to FR-9 pass for both characters.
 
   An owner appears in at most one Role-fit pair per save (the `c` with the lowest efficiency, then the lower index).
-- **FR-13 Unknown-Purpose suggestion.** When M4's Purpose is `exhausted`, `none` or `no-activity` (Verdict Unknown, "What is this character for?"), M5 supplies exactly one suggestion. For `not-covered` and `cannot-tell` it supplies none, matching M4 FR-14 (RT-17). The suggestion is the best candidate against an empty baseline, where candidates are ranked against each other by FR-4's steps (position, then the shared-Goal ETA, then Goal count, then FR-10's index tie-break). If no candidate serves any Goal, it suggests the AFK Target that the character's own Role owns, but only if that target passes FR-2, the level gate, and FR-6 to FR-9. Otherwise there is no suggestion. It never changes the Verdict (D3).
+- **FR-13 Unknown-Purpose suggestion.** When M4's Purpose is `exhausted`, `none` or `no-activity` (Verdict Unknown, "What is this character for?"), M5 supplies exactly one suggestion. For `not-covered` and `cannot-tell` it supplies none, matching M4 FR-14 (RT-17). The suggestion is the best candidate against an empty baseline, where candidates are ranked against each other by FR-4's steps (position, then the shared-Goal ETA, then Goal count, then FR-10's index tie-break). If no candidate serves any Goal, it suggests the AFK Target that the character's own Role owns, but only if that target passes FR-2, the level gate, and FR-6 to FR-9. Otherwise there is no suggestion. It never changes the Verdict (D3). M10 renders it as the Verdict's single suggestion (`Verdict.suggestion`, M10 FR-11), not as a Higher-leverage line.
 
 **Output and display**
 - **FR-14 One option per character.** Each character has at most one Higher-leverage option (#12 item 3); M10 decides where it renders (M10 FR-21: in Focus). The priority is Hand-off, then Role fit, then Move, because a Hand-off or Role fit carries a Move inside it. The line has a Source label like every Next Action (#10 item 10). A Hand-off or Role fit is attached to both characters, sharing one option id. The engine output names the other character only by `partnerIndex`; M10 renders that character's name from the local Account State and links to its Focus (M10 FR-21), so two characters of the same class and level are never confused (RT-20).
@@ -108,7 +110,7 @@ While the player is switching through characters in a Play Session, M5 answers o
   - the option id (kind, slot indices and destination key);
   - the Knowledge Base entry ids that decided it.
 
-  It never sends names, save data, or the partner's class and level (#11 item 15, ADR 0008). Adding the two identifiers to M1 TR-22's allow-list is an M5 dependency (§7, RT-15).
+  It never sends names, save data, or the partner's class and level (#11 item 15, ADR 0008). The two identifiers are on the allow-list: M13's `ReportContext` carries `entryIds` and an optional `optionId`, M1 TR-22 and ADR 0008 list them (consistency pass, RT-15).
 - **FR-19 Determinism.** The same Account State, save history, Knowledge Base and `now` always produce byte-identical M5 output. Golden snapshots enforce this (TR-12).
 
 ## 4. User stories
@@ -201,19 +203,23 @@ These characters' current maps earn under half of their best reachable map's EXP
 |---|---|---|
 | `packages/account-state` (runs in the parse Worker) | `hypotheticals/`: the clone helpers, rate table, reachability and Lab removal. Only this code imports Toolbox. Its output is plain data on the Account State | ADR 0006: Toolbox stays in the Worker. ADR 0005: Toolbox numbers only |
 | `packages/engine` | `higher-leverage/`: candidate building, FR-4 comparison, the gates and option assembly. A pure function | #14 item 4 |
-| `packages/knowledge` | `systems/leverage.yaml`: M5's Checks and parameters; generated `gen/maps.json`, `gen/lab-nodes.json`, `gen/skill-classes.json` | #11, ADR 0007 |
+| `packages/knowledge` | `systems/leverage.yaml`: M5's Checks and parameters; generated fact tables `maps.fact.maps`, `lab.fact.lab-nodes`, `talents.fact.skill-classes` (`generated/<system>.facts.json`, M11) | #11, ADR 0007 |
 | `apps/activeon` | Renders the option and the Focus card section (M10 FR-21). No logic | M10 |
 
 **TR-2 Engine output types.**
 
 ```ts
 // packages/engine/src/higher-leverage/types.ts
-export type ActivityRef =
+/** M5's local view of an AFK Target. M4's `ActivityRef` (M4 TR-3) is the shared type; see the mapping below. */
+export type MoveTarget =
   | { kind: 'fight'; mapIndex: number; targetMonster: string }
   | { kind: 'skill'; afkType: 'MINING' | 'CHOPPIN' | 'FISHING' | 'CATCHING'; target: string }
   | { kind: 'lab' }
   | { kind: 'other'; afkType: string }   // COOKING, DIVINITY, SPELUNKING, … : baseline only, never a candidate
   | { kind: 'none' };                     // Nothing / Paying_Respect only
+/** toActivityRef(t): fight → { kind: 'afk', afkType: 'FIGHTING', mapIndex, target: targetMonster, skill: null };
+ *  skill → { kind: 'afk', afkType, mapIndex: null, target, skill }; lab → { kind: 'afk', afkType: 'LABORATORY', mapIndex: null, target: null, skill: null };
+ *  other → { kind: 'afk', afkType, mapIndex: null, target: null, skill: null }; none → { kind: 'none' }. */
 
 export interface GoalServed {
   goalId: string;              // Knowledge Base Goal entry id
@@ -229,7 +235,7 @@ export type RejectReason =
   | 'lab-one-per-save' | 'owner-loses-goal';
 
 export interface Considered {
-  to: ActivityRef;
+  to: MoveTarget;
   reason: RejectReason;
   detail?: string;             // e.g. lost goal id, or "Wired_In, Gilded_Cyclical_Tubing"
 }
@@ -240,8 +246,8 @@ export interface HigherLeverageOption {
   kind: 'move' | 'handoff' | 'role-fit' | 'unknown-purpose';
   characterIndex: number;
   partnerIndex?: number;
-  from: ActivityRef;
-  to: ActivityRef;
+  from: MoveTarget;
+  to: MoveTarget;
   decidedBy: 'position' | 'milestone-eta' | 'goal-count';
   baseline: GoalServed[];
   candidate: GoalServed[];
@@ -261,12 +267,13 @@ export interface HigherLeverageOption {
 export interface HigherLeverageResult {
   byCharacter: Record<number, HigherLeverageOption | null>;
   status: 'ok' | 'paused-parser-behind' | 'unavailable';
-  // M10 renders this through its `HigherLeverage` view type; M10's type gains
-  // alsoConsidered, stale, decidedBy and status in the same PR that lands M5 (RT-14).
+  // M10 renders this through its `HigherLeverage` view type (M10 TR-2), which carries kind, optionId,
+  // textEntryId, partnerIndex, decidedBy, stale and alsoConsidered, plus EngineResult.higherLeverageStatus (RT-14).
+  // An 'unknown-purpose' option renders as M10's Verdict.suggestion instead (FR-13).
 }
 ```
 
-**TR-3 Hypothetical layer (Worker side).** It is computed right after the parse, from the same Toolbox objects, and **before** the engine runs, inside the same parse response (M10: the engine runs in the parse Worker and returns one `EngineResult`). There is no second message, so a Verdict that depends on M4's `bestOpenedExpPerHour` never flips when M5's data lands (RT-4). M1's reserved `what-if` message is not used by the MVP; this sweep is part of the parse response, and M2's one-map `account.frontier` is reused rather than recomputed (RT-3).
+**TR-3 Hypothetical layer (Worker side).** It is computed right after the parse, from the same Toolbox objects, and **before** the engine runs, inside the same parse response (M10: the engine runs in the parse Worker and returns one `EngineResult`). There is no second message, so a Verdict that depends on M4's `bestExpPerHour` never flips when M5's data lands (RT-4). M1's reserved `what-if` message is not used by the MVP; this sweep is part of the parse response, and M2's one-map `account.frontier` is reused rather than recomputed (RT-3).
 
 ```ts
 // packages/account-state/src/types.ts (addition, owned with M1)
@@ -307,7 +314,7 @@ export interface Hypotheticals {
   - Toolbox's `shared` damage cache is reused across maps for the same character.
 - **Gates:** `getMaxDamage` is called only for `FIGHTING` targets. Its kill numbers for ore or fish "monsters" are never stored.
 - **Lab removal:** `getLab(raw, rawCharacters with c's AFKtarget changed, { ...structuredClone(account), lab: undefined }, characters)`, then a comparison of `labBonuses[].active` and `jewels[].active` against the live parse. `lab` must be cleared: Toolbox reuses `account.lab.jewels` when present (`world-4/lab.ts`, `jewelsList = account?.lab?.jewels || …`) and its `checkConnection` only ever sets `active = true` on those shared objects, so a re-run on the live account keeps every lit jewel lit (under-counting lost jewels and, through jewel range bonuses, lost nodes) and mutates the live state (RT-2). The first draft measured ≤ 1 ms per character; re-measure with the clone.
-- **Units:** survivability and hit chance stay in Toolbox's percent (0..100), the unit M3 uses. M2's `Frontier` stores 0..1; M5 converts on read (RT-6).
+- **Units:** survivability and hit chance stay in Toolbox's percent (0..100), the unit M3 uses. M2's `Frontier` uses the same percent (consistency pass), so nothing is converted (RT-6).
 
 **TR-4 Reachability Detector.** `reachableFightingMaps(c)` reads the raw `KillsLeft2Advance` (not Toolbox's `character.kills`, which keeps door 0 only) and contains:
 - the current map;
@@ -316,7 +323,7 @@ export interface Hypotheticals {
 - never a map in Toolbox's boss, colosseum and quest exclusion list (`getFilteredPortals` in `portals.ts`: Igloo maps, Efaunt's Tomb, Grandfrog maps, Gravel Tomb, Heaty Hole, End of the Road, Colosseums, …);
 - only maps in worlds ≤ `currentWorld`.
 
-The portal graph and the exclusion list are generated facts (ADR 0007, `gen/maps.json`): the exclusion list is produced by calling Toolbox's exported `getFilteredPortals` at generation time, so it re-syncs with the pin like the rest. Toolbox's door data has no door into some entry maps (Poopy Sewers 8, Steep Sheep Ledge 101, Chizoar's Cavern, …); those maps are reachable only once the character has killed there. That costs suggestions, never correctness (FR-2, RT-13).
+The portal graph and the exclusion list are generated facts (ADR 0007, fact table `maps.fact.maps`): the exclusion list is produced by calling Toolbox's exported `getFilteredPortals` at generation time, so it re-syncs with the pin like the rest. Toolbox's door data has no door into some entry maps (Poopy Sewers 8, Steep Sheep Ledge 101, Chizoar's Cavern, …); those maps are reachable only once the character has killed there. That costs suggestions, never correctness (FR-2, RT-13).
 
 Contract tests, on all 11 public saves and both private fixtures:
 - every fighting character's current map is in its own set;
@@ -332,38 +339,39 @@ Contract tests, on all 11 public saves and both private fixtures:
 
 | Entry | Type | Generated or authored | Detector | Notes |
 |---|---|---|---|---|
-| `gen.maps.*` (index, name, world, AFK type, targets, `ExpGiven`, door requirements, destinations) | (fact table used by Contributions) | **Generated** from Toolbox `mapNames`, `mapEnemiesArray`, `monsters`, `mapPortals`, `mapPortalDestinations` | n/a | Re-generated at each parser re-sync |
-| `gen.lab-nodes.*` (node and jewel names, positions) | fact table | **Generated** from Toolbox `labBonuses`, `jewels` | n/a | For "would switch off" text |
-| `gen.skill-classes.*` (class line → skill talents) | fact table | **Generated** from `talents.json` | n/a | Feeds the Role table's checks |
-| `meta-path.roles` (`owns: [afkType or system]`) | Meta Path | **Authored** (M2) | n/a | Leverage model §4.2 |
-| `leverage.move` | Check | **Authored** | `higherLeverage.move` | Text: "Move to {to}: {because}" |
-| `leverage.handoff` | Check | **Authored** | `higherLeverage.handoff` | Text: "{partner} is a better fit for {activity}: {because}" |
-| `leverage.role-fit` | Check | **Authored** | `higherLeverage.roleFit` | Text: "{partner} owns {skill} on the Meta Path: efficiency {a} vs {b}" |
-| `leverage.unknown-purpose` | Check | **Authored** | `higherLeverage.unknownPurpose` | Text: "Nothing here advances a Goal. Try {to}: {because}" |
-| `leverage.lab-chain` | Check (suppressing guard) | **Authored** | `labChainSafe` | Sources: W4 Lab dossier (connection rules, H); skills dossier |
+| `maps.fact.maps` (index, name, world, AFK type, targets, `ExpGiven`, door requirements, destinations) | (fact table used by Contributions) | **Generated** from Toolbox `mapNames`, `mapEnemiesArray`, `monsters`, `mapPortals`, `mapPortalDestinations` | n/a | Re-generated at each parser re-sync |
+| `lab.fact.lab-nodes` (node and jewel names, positions) | fact table | **Generated** from Toolbox `labBonuses`, `jewels` | n/a | For "would switch off" text |
+| `talents.fact.skill-classes` (class line → skill talents) | fact table | **Generated** from `talents.json` | n/a | Feeds the Role table's checks |
+| `metapath.metapath.role-<class-line>` (`owns: [afkType or system]`) | Meta Path | **Authored** (M2) | n/a | Leverage model §4.2 |
+| `leverage.check.move` | Check | **Authored** | `leverage/move` (engine Detector) | Text: "Move to {to}: {because}" |
+| `leverage.check.handoff` | Check | **Authored** | `leverage/handoff` (engine Detector) | Text: "{partner} is a better fit for {activity}: {because}" |
+| `leverage.check.role-fit` | Check | **Authored** | `leverage/role-fit` (engine Detector) | Text: "{partner} owns {skill} on the Meta Path: efficiency {a} vs {b}" |
+| `leverage.check.unknown-purpose` | Check | **Authored** | `leverage/unknown-purpose` (engine Detector) | Text: "Nothing here advances a Goal. Try {to}: {because}" |
+| `leverage.check.lab-chain` | Check (suppressing guard) | **Authored** | `leverage/lab-chain-safe` (engine Detector) | Sources: W4 Lab dossier (connection rules, H); skills dossier |
 | Contributions with an `activity` key | Contribution | M4 authors them; map-to-mob kill Contributions are **generated** | M4's | M5 needs `activitiesServing(goalId)` (TR-9) |
 
 Example (authored):
 
 ```yaml
-- id: leverage.move
+- id: leverage.check.move
   system: leverage
   type: check
-  detector: higherLeverage.move
+  detector: { id: leverage/move, params: { clearMargin: 1.25, survivableFloor: 95 } }  # D1, TR-8
   text: "Move to {to.name}: {because}"
+  title: Better AFK Target
   why: "Same character, somewhere it can reach, that advances a higher-ranked Goal or reaches the same Milestone clearly sooner."
-  params:
-    clearMargin: 1.25        # D1
   sources:
     - url: https://github.com/YassSoliman/idleon-forge/issues/12
-      tier: project-ruling
+      title: "Project ruling #12: one Higher-leverage line"
+      tier: 4   # our own ruling (M11 FR-3 tiers 1–4)
       verified: 2026-10-17
       gameVersion: 2.3.540
     - url: https://github.com/YassSoliman/idleon-forge/blob/research/hypothetical-math/docs/research/2026-10-17-hypothetical-math.md
-      tier: 1   # Toolbox game-data numbers
+      title: Hypothetical-math spike (Toolbox numbers)
+      tier: 4   # our write-up; a real entry adds the Toolbox permalink as its tier 1 Source (M11 FR-3)
       verified: 2026-10-17
       gameVersion: 2.3.531
-  appliesTo: { stages: all, classes: all }
+  appliesTo: { stages: all }
   confidence: M
   status: active
 ```
@@ -374,25 +382,25 @@ A `because` slot is filled from the deciding step, for example "about 15× the c
 
 | Detector | Inputs | Output |
 |---|---|---|
-| `reachableFightingMaps` (account-state) | Toolbox character, `gen.maps` | `number[]` |
-| `fightRates` (account-state) | Toolbox objects, candidate map list | `FightRate[]` |
-| `labRemoval` (account-state) | raw save, raw characters, parsed account | `LabRemoval` |
-| `higherLeverage.move` | Account State + hypotheticals, M4 Purpose, M2 positions and pusher, M3 `AfkSafetyResult`, Knowledge Base, `now`, Expected Return | `HigherLeverageOption \| null` per character |
-| `higherLeverage.handoff` | the same, plus every character's Move result | option or null |
-| `higherLeverage.roleFit` | the same, plus M2 `roleOwnersOf` and `gen.skill-classes` | option or null |
-| `higherLeverage.unknownPurpose` | the same, plus M4's Unknown flag | option or null |
-| `labChainSafe` | `LabRemoval` | `true` / `false` (false also when `lostNodes` or `lostJewels` is null) |
-| `higherLeverage.survivable` | baseline and candidate `FightRate` | `true` / `false` (TR-8) |
+| `reachableFightingMaps` (worker function, account-state) | Toolbox character, `maps.fact.maps` | `number[]` |
+| `fightRates` (worker function, account-state) | Toolbox objects, candidate map list | `FightRate[]` |
+| `labRemoval` (worker function, account-state) | raw save, raw characters, parsed account | `LabRemoval` |
+| `leverage/move` | Account State + hypotheticals, M4 Purpose, M2 `MetaPathResult` (positions and pusher), M3 `AfkSafetyResult`, Knowledge Base, `now`, Expected Return | `HigherLeverageOption \| null` per character |
+| `leverage/handoff` | the same, plus every character's Move result | option or null |
+| `leverage/role-fit` | the same, plus M2 `roleOwnersOf` and `talents.fact.skill-classes` | option or null |
+| `leverage/unknown-purpose` | the same, plus M4's Unknown flag | option or null |
+| `leverage/lab-chain-safe` | `LabRemoval` | `true` / `false` (false also when `lostNodes` or `lostJewels` is null) |
+| `leverage/survivable` | baseline and candidate `FightRate` | `true` / `false` (TR-8) |
 
-**TR-8 AFK-safety rule.** M3 exposes only `AfkSafetyResult` for the current state (M3 §7); there is no hypothetical M3 check (RT-3). M5 therefore owns one Detector, `higherLeverage.survivable(baseline: FightRate, candidate: FightRate): boolean`, true when `candidate.survivability >= 95` or `candidate.survivability >= baseline.survivability` (both %, current food). `survivableFloor: 95` lives in `leverage.move.params`. M5 also reads the current `AfkSafetyResult`: it never proposes a Move for a character whose current M3 result is a blocker that the Move does not address (the Fix comes first).
+**TR-8 AFK-safety rule.** M3 exposes only `AfkSafetyResult` for the current state (M3 §7); there is no hypothetical M3 check (RT-3). M5 therefore owns one Detector, `leverage/survivable(baseline: FightRate, candidate: FightRate): boolean`, true when `candidate.survivability >= 95` or `candidate.survivability >= baseline.survivability` (both %, current food). `survivableFloor: 95` lives in the `leverage.check.move` entry's `detector.params`. M5 also reads the current `AfkSafetyResult`: it never proposes a Move for a character whose current M3 result is a blocker that the Move does not address (the Fix comes first).
 
-**TR-9 M4 and M2 interfaces.**
-- M4 `purposeOf(characterIndex): GoalServed[] | { unknown: 'exhausted' | 'none' | 'no-activity' | 'not-covered' | 'cannot-tell' }`.
-- M4 `goalsServedBy(activity: ActivityRef, contributors: number[], rates: FightRate[]): GoalServed[]`: M4's pure Contribution Detectors evaluated on a hypothetical activity, with M5's `FightRate` passed in (M4 itself never calls `getMaxDamage`, M4 TR-6). Only worthwhile Goals are returned (FR-3).
-- M4 `activitiesServing(goalId): ActivityRef[]`.
-- M2 `stage`, `positionOf(goalId)`, `pusherIndex: number | null`, `roleOwnersOf(activity)` (M2 FR-23), `account.frontier`.
+**TR-9 M4 and M2 interfaces** (as defined in M4 TR-3 and M2 TR-4a):
+- M4 `purposeOf(i)` is `derivePurposes(input)[i]`, a `Purpose` read from the same `EngineResult`. Its `status` gives the Unknown reason (`exhausted`, `none`, `no-activity`, `not-covered`, `cannot-tell`). M5 maps each worthwhile `GoalInstance` to a `GoalServed`: `goalId`; `position` = `positionOf(meta.list, goalId)`; `contested` and `stale` from its `badges`; `etaHours` = `eta.seconds / 3600` when `eta.kind === 'time'`, else null.
+- M4 `goalsServedBy(activity: ActivityRef, contributors: number[], rates: Record<number, FightingRate | null>, input: DeriveInput): GoalInstance[]`: M4's pure Contribution Detectors evaluated on a hypothetical activity. M5 passes `toActivityRef(candidate)` and builds `rates` from its `FightRate` for that map (same fields as M4's `FightingRate`: `finalKillsPerHour`, `killsPerHour`, `expPerKill` = `classExpPerHour ÷ finalKillsPerHour`, `survivability`, `hitChance`). M4 itself never calls `getMaxDamage` (M4 TR-6). M5 keeps only worthwhile instances (FR-3).
+- M4 `activitiesServing(goalId, kb): ActivityRef[]`.
+- M2 `MetaPathResult` (M2 TR-4a): `stage`, `list` with `positionOf(list, goalId)`, `pusher?.index`, `roleOwnersOf(activity)` (M2 FR-23), and `account.frontier` (M2 TR-3).
 
-The M2 names are taken from M2's spec. `goalsServedBy` and `activitiesServing` are **not yet in M4's spec**: M4 must export them (its Detectors are already pure) before M5's build starts. That is a blocking dependency (§7, RT-3).
+Both M4 exports are in M4's spec (M4 TR-3), so this is no longer a blocking dependency (RT-3).
 
 **TR-10 Performance budgets** (measured 2026-10-17 on Node 22, M-series laptop):
 - **Measured:** a parse takes ~0.5 s. An unshared `getMaxDamage` clone costs ~1.4 ms. A 6-character sweep over ~75 maps took ~0.7 s without the `shared` cache. Lab removal takes ≤ 1 ms per character (first-draft re-run).
@@ -426,7 +434,7 @@ The M2 names are taken from M2's spec. `goalsServedBy` and `activitiesServing` a
 | **Hypotheticals unavailable** (Toolbox threw, section failed) | `status: 'unavailable'`. Position-decided options would need Goal sets only, but rate data is also needed for AFK-safety checks, so M5 emits **nothing** and the Focus card says "comparisons unavailable". M4 skips its Class-EXP Contribution in the same case (M4 TR-6) |
 | **Identity check fails** (clone drift) | FR-9 "rates distrusted": rate steps off and fighting candidates suppressed (TR-5) |
 | **Server build not in `verifiedBuilds`** | FR-9 "rates distrusted", even when the save parses cleanly; M1's footer or banner rule is unchanged |
-| **Character on Cooking, Divinity, Spelunking or another non-candidate AFK type** | `ActivityRef` kind `other`: a real baseline whose Goals come from M4. If M4 has no Contribution for it, M4 says `not-covered` and M5 stays silent (FR-13). Never treated as `none` (RT-11) |
+| **Character on Cooking, Divinity, Spelunking or another non-candidate AFK type** | `MoveTarget` kind `other` (M4 `ActivityRef` `{ kind: 'afk', afkType }`): a real baseline whose Goals come from M4. If M4 has no Contribution for it, M4 says `not-covered` and M5 stays silent (FR-13). Never treated as `none` (RT-11) |
 | **Stale Knowledge Base entry decides** | Shown with the Stale badge, ranked below fresh options (glossary: Stale) |
 | **Contested entry decides** | Never the line; badge in "also considered" |
 | **Character with no AFK Target** (`Nothing`, `Paying_Respect`) | Baseline is empty. FR-13 suggestion if M4 marks it Unknown |
@@ -438,7 +446,7 @@ The M2 names are taken from M2's spec. `goalsServedBy` and `activitiesServing` a
 | **Lab re-run fails** | `lostNodes: null`, so the Move is suppressed (fail closed) |
 | **Arctis (W5) keeps a character in the chain** | The re-run shows nothing lost, so moving is allowed (US-9, `speedrun-rank1.json`) |
 | **No pusher** (M2 returns null) | FR-7 is vacuous |
-| **Two characters get the same destination** | Allowed in the MVP. An account-wide kill Goal sums contributors, so each row's ETA assumes only that character moves (FR-3). The Focus card says "if only this character moves". Whether to cap it at one Move per destination is open (RT-8, Needs Yasser) |
+| **Two characters get the same destination** | At most one Move per destination per save: the biggest gain keeps it, ties to the lower index; the others fall back or stay silent (FR-10, Final rulings RT-8). Each character is credited only with what it adds to an account-wide counter (FR-3) |
 | **A Hand-off partner is also a Hand-off holder** | Only pairs: a character appears in at most one Hand-off, chosen by FR-11's tie-break. The other keeps its Move |
 | **Save arrives mid-session; option flips** | Recomputed per save. FR-4's margin and the fixed tie-breaks keep it stable. No hysteresis state in the MVP (red-team R6) |
 | **Player follows the advice** | The next cloud save (instant on character switch, #5) shows the new AFK Target, so the line disappears (FR-17) |
@@ -453,14 +461,14 @@ The M2 names are taken from M2's spec. `goalsServedBy` and `activitiesServing` a
 
 | Module | M5 needs | Interface |
 |---|---|---|
-| **M1 Sync & Account State** | The Worker computes the `hypotheticals` section inside the parse response, before the engine; Toolbox objects stay in the Worker; contract tests; `verifiedBuilds`; the TR-22 report allow-list gains `optionId` and `entryIds` (FR-18). The reserved `what-if` message is unused by the MVP | `AccountState.hypotheticals` (TR-3); FR-29; TR-22 |
-| **M2 Stage & Meta Path** | Stage; each Goal's Priority List position; the pusher; the Role-owner lookup; the frontier fights | `stage`, `positionOf`, `pusherIndex`, `roleOwnersOf`, `account.frontier` (TR-9) |
+| **M1 Sync & Account State** | The Worker computes the `hypotheticals` section inside the parse response, before the engine; Toolbox objects stay in the Worker; contract tests; `verifiedBuilds`; the report allow-list carries `optionId` and `entryIds` (FR-18; now in M1 TR-22 and M13 `ReportContext`). The reserved `what-if` message is unused by the MVP | `AccountState.hypotheticals` (TR-3); FR-29; TR-22 |
+| **M2 Stage & Meta Path** | Stage; each Goal's Priority List position; the pusher; the Role-owner lookup; the frontier fights (survivability and hit chance in %, like M5) | `MetaPathResult` (M2 TR-4a): `stage`, `positionOf(list, id)`, `pusher`, `roleOwnersOf`; `account.frontier` (TR-9) |
 | **M3 AFK Safety** | The current `AfkSafetyResult`; Expected Return. No hypothetical check (TR-8) | `AfkSafetyResult`; `expectedReturnHours` |
-| **M4 Purpose & Milestones** | Goals served per activity, ETAs, the Unknown reason, inverse Contribution lookup; Class XP as a Goal (D2); `bestOpenedExpPerHour` read from M5's sweep. **Blocking:** M4 must export `goalsServedBy` and `activitiesServing` | `purposeOf`, `goalsServedBy`, `activitiesServing` (TR-9) |
+| **M4 Purpose & Milestones** | Goals served per activity, ETAs, the Unknown reason, inverse Contribution lookup; Class XP as a Goal (D2); `bestExpPerHour` read from M5's sweep; stop-here marks (FR-3, RT-8) | `purposeOf`, `goalsServedBy`, `activitiesServing` (M4 TR-3, TR-9) |
 | **M6 Unspent & idle** | Boundary only: Parallel Slots are M6's | none |
 | **M8 Collections, M9 Builds** | Card, obol and build Goals reach M5 only through M4's Goal sets; preset swaps stay out | none |
-| **M10 Now screen UI** | Renders the one option per character in Focus (M10 FR-21), on both characters of a pair, with "also considered"; owns Not for me storage; its `HigherLeverage` type gains the TR-2 fields | `HigherLeverageResult` (TR-2) |
-| **M11 Knowledge tooling** | Compiles `leverage.yaml`; generates `gen/maps.json`, `gen/lab-nodes.json`, `gen/skill-classes.json`; schema for `params` | Knowledge Base build |
+| **M10 Now screen UI** | Renders the one option per character in Focus (M10 FR-21), on both characters of a pair, with "also considered"; the `unknown-purpose` option as `Verdict.suggestion`; owns Not for me storage. Its `HigherLeverage` type now carries the TR-2 fields (done in M10 TR-2) | `HigherLeverageResult` (TR-2) |
+| **M11 Knowledge tooling** | Compiles `leverage.yaml`; generates the fact tables `maps.fact.maps`, `lab.fact.lab-nodes`, `talents.fact.skill-classes` (M11 TR-10); schema for `params`; engine Detector registry for `leverage/*` | Knowledge Base build |
 | **M12 Release** | Golden snapshots, budget check in CI | TR-12 |
 | **M13 Suggestions** | Attaches the option id to "Confusing" or "Something's wrong" Suggestions | FR-18 fields |
 
@@ -468,7 +476,7 @@ The M2 names are taken from M2's spec. `goalsServedBy` and `activitiesServing` a
 
 Ruled by Yasser on 2026-10-17 ([PR #52 comment](https://github.com/YassSoliman/idleon-forge/pull/52#issuecomment-6238791932)): every recommendation accepted as written.
 
-- **D1: `clearMargin` = 1.25×.** When a rate decides (same Goal, sooner Milestone), the alternative must be at least 1.25× better. Why: Toolbox's `finalKillsPerHour` is a model, "a floor, not a prediction", never verified live at W1–W3 (hypothetical-math §5); a smaller margin would sit inside the model's likely error and make lines flicker between saves. At 1.25× the W2-late Wizard Lv 56 (1.22×) and the W3-early Bowman Lv 60 (1.04×) stay quiet, and the lines that fire on the fixtures (15.5×, 214×) are unambiguous. It lives in `leverage.move.params`, so changing it is a one-line Knowledge Base PR. Applies to FR-4 step 2, FR-7, FR-12(c).
+- **D1: `clearMargin` = 1.25×.** When a rate decides (same Goal, sooner Milestone), the alternative must be at least 1.25× better. Why: Toolbox's `finalKillsPerHour` is a model, "a floor, not a prediction", never verified live at W1–W3 (hypothetical-math §5); a smaller margin would sit inside the model's likely error and make lines flicker between saves. At 1.25× the W2-late Wizard Lv 56 (1.22×) and the W3-early Bowman Lv 60 (1.04×) stay quiet, and the lines that fire on the fixtures (15.5×, 214×) are unambiguous. It lives in the `leverage.check.move` entry's `detector.params`, so changing it is a one-line Knowledge Base PR. Applies to FR-4 step 2, FR-7, FR-12(c).
 - **D2: Class XP ("level this character") sits at the bottom of every Stage Priority List.** XP decides only when nothing else does. Why: it matches the 2026 push-first norm (#27) and the #12 lesson (Copper beat Iron because the Goal mattered, not the XP), while still letting the obviously wasted cases through (US-2: 15× and 214×). Not making it a Goal would silence exactly the lines players most need; a mid-list position would let XP override real System Goals such as Dirty Money (US-5). Applies to FR-5 and the test Knowledge Base.
 - **D3: A Higher-leverage option never affects the Verdict.** The Verdict stays AFK safety plus "some worthwhile Purpose". Why: #10 defines the Verdict as AFK safety and #12 makes Ready mean "safe and serving a worthwhile Purpose"; a "better" line is advice, not a blocker, and making it one would put the noisiest, model-dependent part of the engine into the one signal that must never be wrong. If a Goal truly makes the current activity worthless, that is M4's call. Applies to FR-13 and FR-16.
 - **D4: Hand-off tolerance is the Expected Return.** A partner qualifies when it reaches the Goal's next Milestone within the Expected Return. Why: it uses a number the player already gave (one tap, or the learned gap, #10 item 4) and matches how the player experiences it ("the Milestone still lands before I'm back"). "At least as fast" would almost never fire, because the holder is usually the stronger character; a 1.5× ratio would be arbitrary. Applies to FR-11(b).
@@ -555,20 +563,20 @@ Ruled by Yasser on 2026-10-17 ([PR #52 comment](https://github.com/YassSoliman/i
 
 ## 10. Red-team log
 
-An independent reviewer red-teamed this spec on 2026-10-17 against the Toolbox source at pin `f1e4240`, the research branches and the M1–M4, M10 and M13 specs. Every finding was checked against the code or the sibling spec before a verdict. RT-21 came from that verification pass. Totals: **P0 3, P1 10, P2 6, P3 2.** 19 fixed, 1 fixed in part and deferred (RT-8, needs a ruling), and 1 fixed with one sub-point rejected (RT-20).
+An independent reviewer red-teamed this spec on 2026-10-17 against the Toolbox source at pin `f1e4240`, the research branches and the M1–M4, M10 and M13 specs. Every finding was checked against the code or the sibling spec before a verdict. RT-21 came from that verification pass. Totals: **P0 3, P1 10, P2 6, P3 2.** 19 fixed, 1 fixed in part and deferred (RT-8, since ruled in the Final rulings), and 1 fixed with one sub-point rejected (RT-20).
 
 | # | Sev | Finding | Verdict | How |
 |---|---|---|---|---|
 | RT-1 | P0 | Reachability counted maps nobody can reach: `hasClearedMap` is true for every character on maps whose door-0 requirement is 0, door 0 opened door 1, and boss, colosseum and quest maps (Igloo, Efaunt's Tomb, …) were included | fixed | TR-4 reads raw `KillsLeft2Advance` per door, drops `hasClearedMap`, excludes Toolbox's `getFilteredPortals` list (generated); new contract tests; US-2 and US-8 rewritten |
 | RT-2 | P0 | The Lab re-run reuses `account.lab.jewels` and only ever sets `active = true`, so lost jewels always read 0, lost nodes are under-counted, and the live state is mutated | fixed | TR-3 calls `getLab` on `structuredClone(account)` with `lab` cleared; US-9 re-baselined, with a jewel-loss test and a no-mutation test |
-| RT-3 | P0 | M5 relied on interfaces M3 and M4 do not define (`checkHypothetical`, `goalsServedBy`) and on a second Worker message M1 does not have | fixed | TR-8 drops the M3 hypothetical check for an M5-owned survivability Detector; TR-9 makes M4's two exports a blocking dependency; TR-3 puts the sweep in the parse response and reuses M2's frontier; §7 updated |
+| RT-3 | P0 | M5 relied on interfaces M3 and M4 do not define (`checkHypothetical`, `goalsServedBy`) and on a second Worker message M1 does not have | fixed | TR-8 drops the M3 hypothetical check for an M5-owned survivability Detector; TR-9 makes M4's two exports a blocking dependency (now in M4 TR-3, consistency pass); TR-3 puts the sweep in the parse response and reuses M2's frontier; §7 updated |
 | RT-4 | P1 | M4's 50% Class-EXP rule reads M5's sweep, so a late second message could flip Verdicts, and US-2's characters are really M4 `exhausted` cases | fixed | TR-3: sweep before the engine, one response; US-2 and US-12 rewritten as FR-13 Unknown-Purpose suggestions |
 | RT-5 | P1 | "Game version newer than the pin" compares numbers M1 says are never compared; the identity check cannot catch a formula change; survivability was still trusted when rates were not | fixed | FR-9 triggers on "server build not in `verifiedBuilds`" and also suppresses fighting candidates; TR-5 states what it catches; US-13 and R5 updated |
 | RT-6 | P1 | M3 deliberately does not block an unfixable death, so delegating AFK safety to M3 inverted the intent; survivability units clashed (% vs 0..1) | fixed | FR-8 and TR-8: unconditional M5 rule (≥ 95% or ≥ baseline); all survivability in % |
 | RT-7 | P1 | Shrinking the candidate set when over budget made output device-dependent, breaking FR-19; budget unmeasured on a late save | fixed | FR-1 and TR-10: fixed candidate subset; budget confirmed on `highend.json` in the first build PR; changes are reviewed, never runtime |
-| RT-8 | P1 | Piling on and never releasing: every XP-only character gets the same Move, a holder is never freed, a half-followed Hand-off strands the holder, and position ignores how far off the Milestone is | fixed in part, deferred | FR-11(a) accepts a partner already on the activity; FR-3 counts only M4-worthwhile Goals. Marginal-contribution counting and one-Move-per-destination need a product ruling (Needs Yasser) |
+| RT-8 | P1 | Piling on and never releasing: every XP-only character gets the same Move, a holder is never freed, a half-followed Hand-off strands the holder, and position ignores how far off the Milestone is | fixed in part, deferred | FR-11(a) accepts a partner already on the activity; FR-3 counts only M4-worthwhile Goals. Marginal-contribution counting and one-Move-per-destination need a product ruling (Needs Yasser). **Ruled (Final rulings):** count only what each character adds, at most one Move per destination per save, a Goal past its stop-here point doesn't hold a character (FR-3, FR-10, §6) |
 | RT-9 | P1 | FR-4 step 2 compared ETAs of different Goals, and it was unclear whether a baseline win or an in-margin gain decides | fixed | Step 2 only on a Goal both sides serve (D1's "same Goal"); "first step with a winner decides, for either side"; only worthwhile Goals count |
-| RT-10 | P1 | Role fit for fighting compared per-character levelling, one owner could pair with many rows, the owner's own Goals were not checked, and the displaced character had no destination | fixed | FR-12: skills only (fighting Roles out of scope), `roleOwnersOf`, FR-4 check on the owner, one pair per owner, destination rule |
+| RT-10 | P1 | Role fit for fighting compared per-character levelling, one owner could pair with many rows, the owner's own Goals were not checked, and the displaced character had no destination | fixed | FR-12: skills only (fighting Roles out of scope), `roleOwnersOf`, FR-4 check on the owner, one pair per owner, destination rule. **Ruled (Final rulings):** the four gathering skills for the MVP |
 | RT-11 | P1 | Cooking, Divinity and Spelunking fell through to `none`, an empty baseline that any Goal beats | fixed | `ActivityRef` kind `other`; §6 row; M4 `not-covered` leads to silence |
 | RT-12 | P1 | Lab removals were checked one at a time; following two "safe" moves could still break the chain | fixed | FR-6: at most one Lab-leaving option per save; US-9 case |
 | RT-13 | P1 | Toolbox's door data has no door into Poopy Sewers, Steep Sheep Ledge and others, so the "if reachable" branches were settled by missing data, and the stories had two outcomes | fixed | TR-4 states the fail-closed behaviour; US-2, US-6 and US-8 use derived states with a fixed reachable set, one outcome each |
@@ -582,6 +590,15 @@ An independent reviewer red-teamed this spec on 2026-10-17 against the Toolbox s
 | RT-21 | P2 | (verification pass) The test Knowledge Base stubbed the W2-late pusher as the Wizard Lv 56, while M2's own rule names the Barbarian Lv 60 | fixed | §4 stub follows M2's fixture result |
 
 Verified 2026-10-17 against game v1.23 (Toolbox pins `f1e4240`, game 2.3.531, for the measured numbers, and `6827d3f`, game 2.3.540, for the dossiers). Stale against any later patch.
+
+## Consistency pass (2026-10-17)
+
+- Final rulings RT-8 and RT-10 folded into FR-3, FR-10, FR-12, §6 and the red-team log: marginal contribution only, one Move per destination per save, a Goal past its stop-here point doesn't hold a character, Role fit on the four gathering skills.
+- Ids follow M11: Checks `leverage.check.*`, engine Detectors `leverage/*`, fact tables `maps.fact.maps`, `lab.fact.lab-nodes`, `talents.fact.skill-classes`, Roles from M2's `metapath.metapath.role-<class-line>`. `reachableFightingMaps`, `fightRates` and `labRemoval` are worker functions, not Detectors.
+- M5's AFK-Target type is renamed `MoveTarget`, with a stated mapping to M4's shared `ActivityRef` (M4 TR-3).
+- TR-9 is aligned to M4 TR-3 (`purposeOf`, `goalsServedBy` with `Record<number, FightingRate | null>`, `activitiesServing`) and to M2's `MetaPathResult` (M2 TR-4a); `bestOpenedExpPerHour` is `bestExpPerHour` (M4 TR-6). The M4 dependency is no longer blocking.
+- Survivability and hit chance are % everywhere, including M2's `Frontier`, so M5 converts nothing.
+- The report allow-list (`optionId`, `entryIds`) and M10's `HigherLeverage` type are now in M1 TR-22, M13 `ReportContext` and M10 TR-2; the `unknown-purpose` option renders as M10's `Verdict.suggestion`.
 
 ## Final rulings (Yasser, 2026-10-17)
 

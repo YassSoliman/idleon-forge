@@ -2,7 +2,7 @@
 
 Spec for [#31](https://github.com/YassSoliman/idleon-forge/issues/31), part of the map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Build order: M1 → M11 → M2 → M10 → M13 → **M3** → M6 → M4 → M7 → M8 → M9 → M5, with M12 alongside ([#13](https://github.com/YassSoliman/idleon-forge/issues/13)).
 
-Status: **ready**. Section 8 ruled by Yasser on 2026-10-17 (every recommendation accepted); red-teamed, see section 10. Four red-team findings wait on Yasser (RT-5, RT-6, RT-10, RT-24, plus the product half of RT-14).
+Status: **ready**. Section 8 ruled by Yasser on 2026-10-17 (every recommendation accepted); red-teamed, see section 10. The red-team findings that waited on Yasser (RT-5, RT-6, RT-10, RT-24 and the product half of RT-14) were ruled on 2026-10-17 (Final rulings) and are folded into the text below.
 
 Terms follow [`GLOSSARY.md`](../../GLOSSARY.md) exactly. Decisions this spec rests on:
 - [ADR 0002](../adr/0002-deterministic-advice-ai-built-knowledge.md): deterministic advice.
@@ -25,7 +25,7 @@ Before a player logs off, M3 answers one question per character: *if I leave now
 **In scope**
 - The **Expected Return** model: the default, the value learned from save history, the player's per-session choice, and the return time it implies. The chips are drawn by M10.
 - **Per-character AFK-safety Checks** (FR-12 to FR-23): no AFK Target, survival and food, inventory and carry space, anvil production cap, worship charge cap, Unending Energy, traps, cauldron assignment and 3D Printer sample.
-- **Account-level stockpile Checks** (FR-24 to FR-27): Arcade balls, liquids, Refinery fuel and the Cog Board.
+- **Account-level stockpile Checks** (FR-24 to FR-27a): Arcade balls, liquids, Refinery fuel, the Cog Board and empty Forge slots (FR-27a, Final rulings RT-10).
 - The **blocker rule**: when a firing Check is a Verdict blocker, a Next Action, or nothing (FR-6, FR-7).
 - The **Verdict composer**: safety from M3, plus Purpose status from M4, gives Ready, Fix before you leave or Unknown (FR-9).
 - **First fill**: when the first fixable thing fills up or runs out after the return, for the All-set banner (FR-11).
@@ -42,6 +42,7 @@ Before a player logs off, M3 answers one question per character: *if I leave now
 - **Notifications** when something fills: not in the MVP (map, "Not yet specified").
 - **W4 Systems:** Lab chain breaks, kitchen and nest caps. Breeding's `capacity × egg time` cap is the first candidate after the MVP. W4-entry accounts get the W1–W3 Checks only, plus a "Not covered yet: Lab, Cooking, Breeding (AFK safety)" line through M10 FR-26.
 - **Character-select pause of trap timers:** it can't be detected from the save. It is covered by the trap fix text only (FR-21).
+- **Refinery storage and full power:** listed under "Not covered yet" for the MVP (Final rulings RT-10).
 
 ## 3. Functional requirements
 
@@ -50,8 +51,8 @@ Before a player logs off, M3 answers one question per character: *if I leave now
 - **FR-1 Resolution order.** The Expected Return used by the engine is, in order: (1) the player's choice for the current Play Session; (2) the learned value (FR-2); (3) **8 h** (#10 item 4). The engine output reports both the used and the learned value (M10 `EngineResult.expectedReturn`).
 - **FR-2 Learned value.** The learned value comes from M1's Play Sessions:
   1. Take the gaps between the end of one Play Session and the start of the next, over the last 30 days.
-  2. Keep the gaps whose leaving time of day is within ±2 h of the current local time of day (D5). If fewer than 3 match, use all gaps.
-  3. Take the median of the last 10 kept gaps, and round it **up** to a whole hour (minimum 1 h).
+  2. Keep the gaps whose leaving time of day is within ±2 h of the current local time of day (D5).
+  3. If at least 3 gaps match, take the median of the last 10 kept gaps. If fewer than 3 match, take the **larger of 8 h and the 75th percentile of all gaps** in the 30 days (Final rulings RT-6), so a daytime-heavy history never shortens an overnight return. Round the result **up** to a whole hour (minimum 1 h).
   4. With fewer than 3 gaps in total, there is no learned value.
 - **FR-3 Choice lifetime.** A chip choice holds until the next Play Session starts (M1 TR-15: a gap of 15 min or more). It is stored per account under M10's preference namespace (TR-9). It is shared across tabs of the same browser, and the last write wins.
 - **FR-4 Return time.** `returnAt = now + expectedReturn`, where `now` is the skew-corrected clock of TR-7. The engine re-evaluates when a new save arrives, when the Expected Return changes, and on a 60 s tick. That way countdowns stay true, and leaving 20 minutes after picking a chip still judges the right return time.
@@ -69,8 +70,9 @@ Before a player logs off, M3 answers one question per character: *if I leave now
   - **(a) Quick fix.** The fix is an in-game action the player can do this Play Session in about a minute: collect, spend, equip something already owned, assign, place or unequip. Farming, crafting and buying are not quick fixes.
   - **(b) Fillable.** Everything the fix needs is in the save now: the item is owned, the slot exists, the station has room.
   - **(c) The fix works for the whole stretch.** Its Detector reports `fixHolds: true`: if the fix were applied now, the Check would pass until `returnAt`. For example, an anvil product that would fill within the stretch even after being collected fails (c).
+  - **Exception to (c), already full now (Final rulings RT-14).** When the problem is already biting (`at ≤ now`: the cap is full now) and (a) and (b) hold, the Check blocks even if the fix does not hold for the whole stretch. Its text adds "fills again in about X", or "it may refill before you're back" when no rate is known. This changes condition (c) only: an entry with `effect: next-action` (for example skull-less worship, D2) is never a blocker.
 
-  A firing Check that fails (a), (b) or (c), or whose entry has `effect: next-action`, is shown as a **Next Action** (M10 category `nice`) on the row, with its reason ("fills in about 2.8 h even if collected"). It never changes the Verdict (D7).
+  A firing Check that fails (a), (b) or (c) (outside the exception above), or whose entry has `effect: next-action`, is shown as a **Next Action** (M10 category `nice`) on the row, with its reason ("fills in about 2.8 h even if collected"). It never changes the Verdict (D7).
 - **FR-8 Safety per character.**
   - `unsafe` if at least one blocker fires.
   - Otherwise `unknown` if at least one applicable blocker Check is `unknown` for a reason other than `needs-history`. `needs-history` Checks fall back as FR-14 and FR-17 describe, and never make a character Unknown.
@@ -111,6 +113,7 @@ Each one is a Check entry in the Knowledge Base (TR-5), with the Detector named 
   - Applies only to a fighter whose survivability without food is under 100% while its survivability with food is 100% (TR-2 `survivabilityNoFood`).
   - It fires when the observed consumption (TR-6) empties the health-food stacks before `returnAt`.
   - Without an observed rate, it fires only when such a fighter has **no** health food equipped (D1). Otherwise it passes and shows "food estimate after your next session".
+  - **Low food before any history (Final rulings RT-5).** Without an observed rate, a fighter of that kind whose equipped health food is below the entry's authored `params.lowStack` threshold (judgment, set in the entry and checked by the red team; the spec fixes no number) gets the Next Action "Low food: N left; can't time it yet" (`afk.check.low-food-untimed`). It is never a blocker. Once a rate exists, the timed rule above replaces it.
 - **FR-15 Boost food runs out (Next Action only).** A boost-food stack that observed consumption empties before `returnAt` gives a Next Action: "Life potions run out in about 5 h". Golden food is never consumed and is ignored.
 - **FR-16 Inventory full for a fighter.**
   - It blocks when the inventory has 0 free slots **and** at least one of the monster's drops that is expected at least once per hour has no non-full stack in the bag. A full bag whose every common drop still stacks loses nothing (RT-11). The fix "Deposit to storage" is fillable only when storage has free slots (`AccountAfkFacts.storageFreeSlots`).
@@ -121,8 +124,9 @@ Each one is a Check entry in the Knowledge Base (TR-5), with the Detector named 
   - The fix is "Deposit to storage". It holds when the empty room after depositing outlasts the stretch.
 - **FR-18 Anvil production caps before the return (blocks if fixable).**
   - It fires per product with hammers when Toolbox's time to cap ends before `returnAt`.
-  - It blocks only if the time to cap **from empty** (Toolbox `getTimeTillCap(..., fromZero)`) is at least `returnAt − now`, so collecting now really covers the stretch.
-  - Otherwise it is a Next Action: "Anvil fills in about 2.8 h even if collected; Capacity points would help". The capacity Goal is M6 or M7.
+  - It blocks if the time to cap **from empty** (Toolbox `getTimeTillCap(..., fromZero)`) is at least `returnAt − now`, so collecting now really covers the stretch.
+  - It also blocks when the product is **full now** (FR-7's exception, Final rulings RT-14): "Collect anvil production: it's full now; fills again in about {fromEmpty}".
+  - Otherwise (not yet full, and it would refill within the stretch even from empty) it is a Next Action: "Anvil fills in about 2.8 h even if collected; Capacity points would help". The capacity Goal is not in the MVP (it goes under "Not covered yet", M6 Final rulings RT1).
 - **FR-19 Worship charge caps before the return.**
   - It fires when the projected charge reaches the maximum before `returnAt`, or is already at it. The time is `(max − current) / ratePerHour`, from Toolbox `getPlayerWorship`.
   - It applies once `finishedWorlds` includes World 2 (Toolbox's gate).
@@ -148,19 +152,20 @@ Each one is a Check entry in the Knowledge Base (TR-5), with the Detector named 
 
 These have `subject: account`. They never change a character's Verdict. They head the Account section as "Fix before you leave", and the All-set banner needs none of them firing (D3).
 
-- **FR-24 Arcade balls cap (blocks).** It applies once the Arcade is unlocked (W2-early). The cap is at `timeAway.Arcade + getMaxClaimTime` (48 h plus up to 10 h from stamps; Toolbox returns seconds, TR-2 stores ms). M3 owns this blocker (M10 FR-23, D9). M6's Arcade Goal (M6 FR-17) must dedupe against it, and M6 US-11's 58 h maximum is wrong for these fixtures (both have the Ball Timer stamp at 0, so 48 h) (RT-20). It fires when that is before `returnAt` or already past. The fix is "Claim Arcade balls", and it holds when `getMaxClaimTime ≥ returnAt − now`.
+- **FR-24 Arcade balls cap (blocks).** It applies once the Arcade is unlocked (W2-early). The cap is at `timeAway.Arcade + getMaxClaimTime` (48 h plus up to 10 h from stamps; Toolbox returns seconds, TR-2 stores ms). M3 owns this blocker (M10 FR-23, D9). M6 has no Arcade Check (removed in M6's red-team, finding 6), so there is nothing to dedupe. The cap is 48 h on both fixtures (the Ball Timer stamp is at 0) (RT-20). It fires when that is before `returnAt` or already past. The fix is "Claim Arcade balls", and it holds when `getMaxClaimTime ≥ returnAt − now`.
 - **FR-25 Liquid at cap (blocks when the fix is shown to hold).** It applies to Water from W2-early, and to each other liquid once its unlock is verified (TR-12 item 6). It fires when `current ≥ maxLiquid` (truly capped, so regeneration has stopped), using the cauldron's `maxLiquid` field. The fix is "Spend {liquid} (bubbles, vials or the Liquid Shop)".
-  - No regeneration rate is in Toolbox. Without an observed rate (TR-6), whether spending covers the stretch can't be shown, so FR-7 (c) fails and it is a **Next Action**: "Water is at cap: spend it; it may refill before you're back".
-  - With an observed rate, it **blocks** when `maxLiquid / rate ≥ returnAt − now`, and it also fires when the liquid fills before `returnAt`.
+  - At cap now, it **blocks** under FR-7's already-full exception (Final rulings RT-14), with or without a rate: "Spend Water: it's at cap; it may refill before you're back" (with a rate, "fills again in about X").
+  - No regeneration rate is in Toolbox. Before the cap, it can fire only with an observed rate (TR-6): it fires when the liquid fills before `returnAt`, and blocks when `maxLiquid / rate ≥ returnAt − now` (otherwise a Next Action).
   - Toolbox's own `liquids` alert is not used: at this pin it compares against the cauldron object instead of `maxLiquid`, so it never fires, and its threshold is a user setting (90%), not a game rule (RT-4).
 - **FR-26 Refinery runs dry (Next Action).** It applies from W3-early. It fires per active salt when Toolbox's `getSaltMatsTimeLeft` hours end before `returnAt`. It is a Next Action, because more fuel means farming or printing, which is not a quick fix.
 - **FR-27 Cog Board seat free (Next Action, confidence M).** It applies from W3-early. It fires when the board has an unlocked empty square and at least one character's player cog is off the board. It stays a Next Action until it is verified that off-board player cogs add no build rate (red-team 9).
+- **FR-27a Forge slot empty (Final rulings RT-10).** It applies once the Forge is unlocked (highest class level ≥ 18). It fires when a Forge slot is empty. It **blocks** when the account owns ore that slot can smelt (the fix "Put ore in the empty Forge slot" is quick and fillable, and the slot then smelts for the stretch); otherwise it is a Next Action ("A Forge slot is empty; get ore to fill it"). Entry `forge.check.slot-empty`, Detector `forge/slot-empty`, `subject: account`. The Forge slot facts are a TR-2 addition, and how the save marks a slot empty and which ore fits it is a verification before build (TR-12 item 8).
 
 ### Output, text and lifecycle
 
 - **FR-28 Wording.** Every Finding renders its entry's `text`, `why` and fix with filled slots, at least one Source and an "about Nh"/"now" time. Times under 1 h show minutes. Times are rounded and prefixed "about", never shown to the second.
 - **FR-29 Done from the save.** A blocker disappears when a later save makes its Check pass (#10 item 8). M3 keeps no "done" state of its own. M10 shows it under "done this session" from M1's previous state.
-- **FR-30 Contested and Stale.** A Contested Check can never block (M11 FR-6, CI). A Stale Check still blocks, because a missed food run-out costs more than a stale wording, but it carries the Stale badge and ranks after fresh blockers with the same `at`.
+- **FR-30 Contested and Stale.** A Contested Check can never block (M11 FR-6, CI). A Stale Check still blocks **only while its Detector's fixture examples pass at the current parser pin** (the parser-sync PR runs them, M11 FR-11); it then carries the Stale badge and ranks after fresh blockers with the same `at`. When any of its examples fails at the current pin, it is shown as a Next Action with the Stale badge instead (Final rulings RT-24).
 - **FR-31 Determinism and provenance.** The same Account State, history, Knowledge Base, Expected Return and `now` give byte-identical output. Every Finding records the entry id and the Account State fields it read (M10 `Provenance`).
 
 ## 4. User stories
@@ -170,7 +175,8 @@ Unless a story says otherwise, `now` is the fixture's own cloud-save time, histo
 **US-1. A fighter that would die.** As a player in a Play Session, I want to be told when a character will keep dying while I'm away and I already own the food that fixes it, so that I don't lose a night of kills.
 - **Given** the W2-late account, Barbarian Lv 60, fighting on Poopy Sewers: survivability 78% (53% with no food), no health food equipped, Blank food slots, and 4 kinds of health food in storage (largest stack 105), each of which lifts survivability to 100% in the clone. **When** the engine runs **Then** the row is "Fix before you leave", with the blocker "Equip or swap in a health food before you leave", naming the lowest stack that still reaches 100%, and Source "game data (Toolbox survivability)".
 - **Given** the same account **When** the engine runs **Then** no food blocker shows on the Shaman Lv 44 or the Bowman Lv 54 (100% with and without food), nor on the Wizard Lv 56 (100%, with 88 health food equipped).
-- **Given** the W3-early account **When** the engine runs **Then** no food blocker shows on any character. All four fighters are at 100%. The Wizard Lv 73 (62% without food) and the Squire Lv 85 (45% without) carry 153 and 146 health food, and there is no history, so FR-14 passes with "food estimate after your next session".
+- **Given** the W3-early account **When** the engine runs **Then** no food blocker shows on any character. All four fighters are at 100%. The Wizard Lv 73 (62% without food) and the Squire Lv 85 (45% without) carry 153 and 146 health food, and there is no history, so FR-14 passes with "food estimate after your next session". Both stacks are above the entry's `lowStack`, so no low-food Next Action shows (FR-14, Final rulings RT-5).
+- **Given** a mutation of the W3-early account where the Squire Lv 85 carries a health food stack below `lowStack`, and no history **When** the engine runs **Then** its row shows the Next Action "Low food: N left; can't time it yet", and its Verdict is not changed by it.
 
 **US-2. Food that runs out overnight.** As a player in a Play Session, I want to know if a character's health food runs out before I'm back, so that I can top it up.
 - **Given** the W3-early account, with a synthetic history in which the Squire Lv 85's health food fell by 20 per AFK hour over two earlier stretches, and an Expected Return of 8 h **When** the engine runs **Then** the Squire Lv 85 shows "Fix before you leave: health food runs out in about 7.3 h" (146 ÷ 20), with the fix "Add more health food from storage" (the synthetic storage holds 500, enough for the stretch, so the fix holds).
@@ -179,10 +185,11 @@ Unless a story says otherwise, `now` is the fixture's own cloud-save time, histo
 **US-3. Picking how long I'll be away.** As a player in a Play Session, I want to tap how long I'll be away, so that every Verdict judges the right stretch.
 - **Given** no save history **When** the engine runs **Then** `expectedReturn.usedSeconds` is 28,800 and `learnedSeconds` is null.
 - **Given** history with 10 gaps, of which the 4 that left within 2 h of the current time of day have gaps of 8.5 h, 9 h, 9.2 h and 7.9 h **When** the engine runs **Then** the learned value is 9 h (the median 8.75 h, rounded up). The used value is 9 h until the player picks a chip.
+- **Given** history with 10 gaps, of which only 2 left within 2 h of the current time of day, and whose 75th percentile over all 10 gaps is 6.4 h **When** the engine runs **Then** the learned value is 8 h (the larger of 8 h and 6.4 h, rounded up). With a 75th percentile of 9.3 h it is 10 h (Final rulings RT-6).
 - **Given** the player picked 2 h in this Play Session and then a save 20 min later **When** the engine runs **Then** 2 h is still used. **Given** a new save after a 3 h gap (a new Play Session) **When** the engine runs **Then** the learned or default value is back.
 
 **US-4. Anvil that caps, and anvil that can't be helped.** As a player in a Play Session, I want to be told to collect the anvil only when collecting actually helps, so that I don't get a red row I can't clear.
-- **Given** the W2-late account and an 8 h Expected Return **When** the engine runs **Then** no anvil blocker shows on any character. Every anvil product fills within 8 h even from empty: the Barbarian Lv 60 is already at cap, 1,069/1,069, and refills in about 2.8 h. So each row has one Next Action, "Anvil fills in about {t} even if collected". These are the Squire Lv 43 ≈1.4 h, Shaman Lv 44 ≈1.6 h, Bowman Lv 54 ≈1.8 h and Wizard Lv 56 ≈5.8 h.
+- **Given** the W2-late account and an 8 h Expected Return **When** the engine runs **Then** the Barbarian Lv 60, already at cap (1,069/1,069), shows the blocker "Collect anvil production: it's full now; fills again in about 2.8 h" (FR-7's already-full exception, Final rulings RT-14). The other four products are not full yet and fill within 8 h even from empty, so each of those rows has one Next Action, "Anvil fills in about {t} even if collected": the Squire Lv 43 ≈1.4 h, Shaman Lv 44 ≈1.6 h, Bowman Lv 54 ≈1.8 h and Wizard Lv 56 ≈5.8 h.
 - **Given** the same account and a 2 h Expected Return **When** the engine runs **Then** the Barbarian Lv 60 shows the blocker "Collect anvil production: it's full now" (2.8 h from empty ≥ 2 h). The Shaman Lv 44 and the Squire Lv 43 still get only the Next Action (1.8 h and 1.5 h from empty, both under 2 h). The Bowman Lv 54 (1.8 h to cap, about 2.0 h from empty) is the edge case of FR-18: it is a blocker if and only if its exact `fromEmptyMs` is at least 7,200,000, and the golden snapshot pins that exact value and outcome (RT-21).
 - **Given** the W3-early account and an 8 h Expected Return **When** the engine runs **Then** no anvil blocker shows. The account's `firstFill` is the Bowman Lv 60's anvil at about 8.2 h, because its first product caps at 8.15 h, after the return.
 
@@ -192,7 +199,7 @@ Unless a story says otherwise, `now` is the fixture's own cloud-save time, histo
 - **Given** the W2-late account **When** the engine runs **Then** no worship Finding exists (World 2 is not finished).
 
 **US-6. Account stockpiles that cap.** As a player in a Play Session, I want the account-wide things that fill to show before I log off, so that "safe to log off" is true.
-- **Given** the W2-late account and an 8 h Expected Return **When** the engine runs **Then** the Account section shows one blocker, "Claim Arcade balls: full since about 48 h ago" (96.3 h since the last claim against a 48 h cap). Water at 32/32 is the Next Action "Water is at cap: spend it; it may refill before you're back", because with no history the fix can't be shown to hold (FR-25). Under D3, the All-set banner does not show even if every character were Ready. **Given** the same account with a history giving Water an observed rate whose `32 / rate` is at least 8 h **When** the engine runs **Then** "Spend Water: it's at cap (32/32)" is a second account blocker.
+- **Given** the W2-late account and an 8 h Expected Return **When** the engine runs **Then** the Account section shows two blockers: "Claim Arcade balls: full since about 48 h ago" (96.3 h since the last claim against a 48 h cap) and "Spend Water: it's at cap; it may refill before you're back" (32/32, full now, so FR-7's already-full exception applies with no history, Final rulings RT-14; FR-25). Under D3, the All-set banner does not show even if every character were Ready. **Given** the same account with a history giving Water an observed rate **When** the engine runs **Then** the Water blocker reads "fills again in about X" with X = `32 / rate`.
 - **Given** the W2-late account with `diagnostics.failedSections` containing the Arcade section **When** the engine runs **Then** account safety is `unknown` and the All-set banner does not show (FR-8).
 - **Given** the W3-early account and an 8 h Expected Return **When** the engine runs **Then** no account blocker shows. Arcade balls cap in about 30 h (18 h since the last claim). The active salt has about 40 h of fuel. Water is at 92.7/138.
 - **Given** the W3-early account and a 48 h Expected Return **When** the engine runs **Then** the Arcade blocker fires ("caps in about 30 h"). Its fix holds, since 48 h ≥ 48 h. The Refinery gives the Next Action "Refinery runs dry in about 40 h".
@@ -220,7 +227,7 @@ Unless a story says otherwise, `now` is the fixture's own cloud-save time, histo
 
 **US-11. The overall verdict.** As a player in a Play Session, I want a single "safe to log off" once nothing needs me, so that I can close the game with confidence.
 - **Given** the W3-early account at an 8 h Expected Return, with M4 not yet shipped (D4) **When** the engine runs **Then** all 6 characters are Ready, no account blocker fires, and `firstFill` is the Bowman Lv 60's anvil at about 8.2 h ("First thing fills up in about 8h: Bowman Lv 60's anvil"), with `alreadyFull` 4 (the skull-less worship charges, US-5).
-- **Given** the W2-late account at 8 h **When** the engine runs **Then** 1 character is "Fix before you leave" (the Barbarian Lv 60) and 4 are Ready (pre-M4). The Account section shows 1 blocker (Arcade), and no All-set banner shows.
+- **Given** the W2-late account at 8 h **When** the engine runs **Then** 1 character is "Fix before you leave" (the Barbarian Lv 60, for food and its full anvil) and 4 are Ready (pre-M4). The Account section shows 2 blockers (Arcade, Water), and no All-set banner shows.
 
 ## 5. Technical requirements
 
@@ -249,10 +256,9 @@ export interface CharacterAfkFacts {
   afkSince: number;
   food: Array<{ slot: number; item: string; kind: 'health' | 'boost' | 'golden' | 'other'; amount: number }>;
   freeFoodSlots: number | null;                 // null until the unlocked slot count is verified (TR-12)
+  /** M3's extras only. Survivability (% 0..100) and finalKillsPerHour come from CharacterState.fighting (M4 TR-2, FightingRate). */
   fighting: null | {
-    survivability: number;                      // %, getMaxDamage(c)
     survivabilityNoFood: number;                // %, getMaxDamage({ ...c, food: [] })
-    finalKillsPerHour: number;
     dropRate: number;                           // getDropRate
     /** Owned health foods (inventory + storage) that lift survivability to 100% when put in a free slot. */
     fixingFoods: Array<{ item: string; amount: number }>;
@@ -279,6 +285,8 @@ export interface AccountAfkFacts {
   salts: Array<{ salt: string; active: boolean; dryAt: number | null }>; // getSaltMatsTimeLeft
   storageFreeSlots: number | null;              // chest free slots, for the deposit fixes (FR-16, FR-17)
   cogBoard: null | { freeUnlockedSquares: number; playersOffBoard: number[] };
+  /** Final rulings RT-10 (FR-27a). Null before the Forge unlocks or when the section failed. Exact source fields are TR-12 item 8. */
+  forge: null | { slots: Array<{ empty: boolean; oreOwned: boolean }> };
 }
 ```
 
@@ -343,13 +351,14 @@ export function composeVerdict(safety: Safety, purpose: PurposeStatus | 'not-imp
 | Detector | Reads | Fires when | `at` | `fixHolds` |
 |---|---|---|---|---|
 | `afk/no-afk-target` | `afkType` | `Nothing` | — | true |
-| `afk/dies-fixable-by-food` | `fighting.survivability`, `fixingFoods`, `freeFoodSlots` | survivability < 100 and `fixingFoods` non-empty and a free slot exists (or `freeFoodSlots` unknown and a Blank slot exists) | — | true |
+| `afk/dies-fixable-by-food` | `CharacterState.fighting.survivability`, `afk.fighting.fixingFoods`, `freeFoodSlots` | survivability < 100 and `fixingFoods` non-empty and a free slot exists (or `freeFoodSlots` unknown and a Blank slot exists) | — | true |
 | `afk/health-food-runs-out` | food, `survivabilityNoFood`, observed rate | food-dependent fighter, and stacks ÷ rate ends before the return; without history, no health food | `afkSince + stack/rate` | storage holds enough to cover the stretch at the rate |
+| `afk/low-food-untimed` | food, `survivabilityNoFood`, observed rate, params `lowStack` | food-dependent fighter, no observed rate, equipped health food below `lowStack` (Final rulings RT-5) | — | — (next-action) |
 | `afk/boost-food-runs-out` | food, observed rate | needs history | as above | — (next-action) |
 | `afk/fighter-inventory-full` | `inventory`, `dropsPerHour`, `storageFreeSlots` | 0 free slots and a drop expected ≥ 1/h has no non-full stack | now | storage has free slots |
 | `afk/fighter-inventory-overflow` | `inventory`, `dropsPerHour`, params `minExpected` (1) | new types > free slots | the hour the free slots run out | true when depositing frees enough slots |
 | `afk/skiller-carry` | `inventory`, AFK Target resource, observed rate | target stack at cap and 0 free; or room ÷ rate ends before the return | as computed | room after deposit ÷ rate ≥ the stretch |
-| `anvil/caps-before-return` | `anvil[]` | `capAt < returnAt` | `capAt` | `fromEmptyMs ≥ returnAt − now` |
+| `anvil/caps-before-return` | `anvil[]` | `capAt < returnAt` | `capAt` | `fromEmptyMs ≥ returnAt − now` (when `capAt ≤ now` it blocks anyway, FR-7 exception) |
 | `worship/charge-caps-skull` | `worship`, Stage | skull equipped; full now, or full before the return | `projectedAt + (max − charge)/rate` | `max/rate ≥ the stretch` |
 | `worship/charge-caps-no-skull` | `worship`, Stage | no skull; full now, or full before the return | as above | — (next-action) |
 | `prayers/unending-energy` | `prayers`, `afkSince` | equipped and `returnAt − afkSince > cap`; blocks only past `cap × (1 + bonus/100)` (FR-20) | `afkSince + cap` | true |
@@ -358,9 +367,10 @@ export function composeVerdict(safety: Safety, purpose: PurposeStatus | 'not-imp
 | `alchemy/cauldron-unassigned` | `cauldronAssigned` | false | — | true |
 | `printer/sample-blank` | `printer` | `served && !sampled` | — | true |
 | `arcade/balls-cap` | `arcade` | `lastClaimAt + maxClaimMs < returnAt` | that time | `maxClaimMs ≥ the stretch` |
-| `alchemy/liquid-cap` | `liquids`, observed rate | `current ≥ max`; or, with a rate, fills before the return | now, or projected | with a rate, `max / rate ≥ the stretch`; without one, false |
+| `alchemy/liquid-cap` | `liquids`, observed rate | `current ≥ max`; or, with a rate, fills before the return | now, or projected | with a rate, `max / rate ≥ the stretch`; without one, false (at cap now it blocks anyway, FR-7 exception) |
 | `refinery/fuel-runs-out` | `salts` | an active salt with `dryAt < returnAt` | `dryAt` | false (not quick) |
 | `construction/cog-seat-free` | `cogBoard` | free square ≥ 1 and players off board ≥ 1 | — | true |
+| `forge/slot-empty` | `forge` | an empty slot (FR-27a) | — | true when `oreOwned` for that slot; otherwise not fillable (Next Action) |
 
 Each Detector ships at least one `fires` and one `silent` example on the fixtures, plus mutation examples for the branches the fixtures don't reach (M11 `FixtureExample`). Section 4's acceptance criteria are those examples.
 
@@ -399,6 +409,7 @@ Each Detector ships at least one `fires` and one `silent` example on the fixture
 | `afk.check.no-afk-target` | afk | blocker | H | Toolbox `afkType`; skills dossier |
 | `afk.check.dies-fixable-by-food` | afk | blocker | H | Toolbox `getSurvivability` (`damage.ts`); character-builds, Food |
 | `afk.check.health-food-runs-out` | afk | blocker | H | mechanics §1 (`AFKfoodsTimeRedux`); PV 1.8 confirmed |
+| `afk.check.low-food-untimed` | afk | next-action (Final rulings RT-5) | H | mechanics §1; PV 1.8 |
 | `afk.check.boost-food-runs-out` | afk | next-action | M | character-builds, Food |
 | `afk.check.fighter-inventory-full` | afk | blocker | H | game-loop §AFK Setup; Toolbox `monsterDrops` |
 | `afk.check.fighter-inventory-overflow` | afk | next-action until calibrated (D6) | M | Toolbox `monsterDrops`, `getDropRate` |
@@ -412,9 +423,10 @@ Each Detector ships at least one `fires` and one `silent` example on the fixture
 | `alchemy.check.cauldron-unassigned` | alchemy | blocker | H | Toolbox `alchemy.noActivity`; W2 dossier |
 | `printer.check.sample-blank` | printer | next-action | M | construction dossier, 3D Printer; PV 5.3 |
 | `arcade.check.balls-cap` | arcade | blocker | H | Toolbox `getMaxClaimTime`; W2 dossier, Arcade |
-| `alchemy.check.liquid-cap` | alchemy | blocker (demoted by FR-7 (c) until a rate exists) | H | Toolbox `liquidCauldrons[].maxLiquid`; W2 dossier, Liquids |
+| `alchemy.check.liquid-cap` | alchemy | blocker (blocks at cap now, FR-7 exception; before the cap needs a rate) | H | Toolbox `liquidCauldrons[].maxLiquid`; W2 dossier, Liquids |
 | `refinery.check.fuel-runs-out` | refinery | next-action | H | Toolbox `getSaltMatsTimeLeft`; construction dossier |
 | `construction.check.cog-seat-free` | construction | next-action | M | construction dossier |
+| `forge.check.slot-empty` | forge | blocker when ore is owned (Final rulings RT-10); a Next Action otherwise is the same entry demoted by FR-7 (b) | H | Toolbox forge parser; W1 dossier, Forge |
 
 **Generated facts (ADR 0007), written by M11's generator at each parser re-sync:**
 - `prayers.fact.unending-energy-cap`: 36,000 s. It is parsed from the prayer's curse text in Toolbox prayer data (`Max_AFK_time_is_now_10_hours`). Generation fails loudly if the text no longer parses, so a patch that moves the cap breaks the build instead of the advice.
@@ -462,7 +474,7 @@ All other numbers are Toolbox values computed at runtime (ADR 0005), so they nee
 - Every Detector has `fires` and `silent` examples, with the section 4 criteria as tests.
 - Both private fixtures run locally. The scrubbed W2 save (M1 D1) and, once Joseph agrees, the scrubbed W3 save run in CI, with golden Now-screen snapshots at Expected Returns of 2 h, 8 h and 24 h. M11's `## Verdict changes` diff then shows every Verdict a Knowledge Base PR flips.
 - There are property tests for:
-  - **Monotonicity.** For a longer Expected Return, the set of firing Findings only grows (a time-based Check that fires at a shorter return still fires). A Finding's role may change only from blocker to Next Action, and only when its `fixHolds` flips to false (RT-14).
+  - **Monotonicity.** For a longer Expected Return, the set of firing Findings only grows (a time-based Check that fires at a shorter return still fires). A Finding's role may change only from blocker to Next Action, and only when its `fixHolds` flips to false and it is not already full now; a cap that is full now stays a blocker at every Expected Return (RT-14, Final rulings).
   - **Fix-holds soundness.** Applying the fix as a state mutation makes the Check pass at `returnAt`.
 
 **TR-12 Verifications before build** (open facts, not product decisions; each is a task in the M3 build ticket):
@@ -473,17 +485,19 @@ All other numbers are Toolbox values computed at runtime (ADR 0005), so they nee
 5. One calibration Play Session per account (M12): compare M3's anvil, worship and inventory predictions against in-game numbers after a real stretch.
 6. The unlock gate of liquids 2–4 (the W2 dossier rates it M; locked liquids still report a `maxLiquid`). Until verified, FR-25 runs for Water only.
 7. What pulling a running trap gives (FR-21 (iii)), to confirm it stays a Next Action.
+8. The Forge slot facts for FR-27a: which save field marks a Forge slot empty, and which owned ores a slot can smelt (Toolbox forge parser), for `account.forge`.
 
 ## 6. States and edge cases
 
 | State | Behaviour |
 |---|---|
-| **First run, no history** | The Expected Return is 8 h (`source: default`). FR-14, FR-15, FR-17 rate branches and FR-25 rate branch use their no-history fallbacks. Food and gather estimates read "after your next session". Never Unknown for lack of history alone (FR-8). |
+| **First run, no history** | The Expected Return is 8 h (`source: default`). FR-14, FR-15, FR-17 rate branches and FR-25 rate branch use their no-history fallbacks. Food and gather estimates read "after your next session"; a food-dependent fighter low on health food gets "Low food: N left; can't time it yet" (Final rulings RT-5). Never Unknown for lack of history alone (FR-8). |
+| **Refinery storage or full power** | Not checked; listed under "Not covered yet" (Final rulings RT-10). |
 | **Loading** (no Account State yet) | M3 doesn't run. M10 shows its loading state. |
 | **Empty or broken parse** | M3 never runs on a failed parse. M10 shows "Can't read your save right now" with the last good save time (#10 item 13). |
 | **A Toolbox number is NaN, Infinity or 0 where a rate is needed** | The fact is null and its Check is `unknown: field-missing` (TR-2). It never silently passes. |
 | **One parser section failed** | Facts that depend on it are null. Their Checks return `unknown: parser-section-failed`, and an otherwise-safe character becomes Unknown ("Can't tell from the save", US-10). A Check that can still fire from other fields does. |
-| **Stale patch** (game version ahead of the parser pin) | M3 runs, because M1 only blocks on a failed parse. Stale entries keep blocking, with their badge (FR-30). M10's "game updated, parser not caught up" banner applies. |
+| **Stale patch** (game version ahead of the parser pin) | M3 runs, because M1 only blocks on a failed parse. Stale entries keep blocking, with their badge, only while their fixture examples pass at the current pin; otherwise they show as Next Actions (FR-30, Final rulings RT-24). M10's "game updated, parser not caught up" banner applies. |
 | **Save is old** (no save for a while, player away from the game) | Projections count down from `now`, so a Ready can flip to Fix while the screen is open, which is correct. M10's "last cloud save Ns ago" shows the age. A character that will be visited resets its `afkSince` on the next save. |
 | **Character being played** | Its `afkSince` is about `now`. Its AFK-time Checks (Unending Energy, food) measure from when it was last saved. The final check before leaving is the save made on switching away. |
 | **Expected Return shorter than the time already away** | Already-biting problems (`at ≤ now`) fire whatever the Expected Return. |
@@ -503,15 +517,15 @@ All other numbers are Toolbox values computed at runtime (ADR 0005), so they nee
 
 | Module | M3 uses | Interface |
 |---|---|---|
-| **M1 Sync & Account State** | Account State, plus the TR-2 facts added through its TR-11 process; `diagnostics` and `isKnown` for Unknown; history for observed rates, including the records around each character load (TR-6, an ask on M1 TR-14); Play Sessions for the learned Expected Return; the save arrival time for skew (TR-7) | `AccountState`, `CharacterState.afk`, `AccountState.afk`, `SaveHistory.playSessions/since`, `FIELD_SOURCES`, `FIELD_SECTIONS` |
+| **M1 Sync & Account State** | Account State, plus the TR-2 facts added through its TR-11 process; `diagnostics` and `isKnown` for Unknown; history for observed rates, including the records around each character load (TR-6; now in M1 TR-14's retention rule, as `HistoryEntry[]`); Play Sessions for the learned Expected Return; the save arrival time for skew (TR-7) | `AccountState`, `CharacterState.afk`, `AccountState.afk`, `SaveHistory.playSessions/since`, `FIELD_SOURCES`, `FIELD_SECTIONS` |
 | **M2 Stage & Meta Path** | Stage for each Check's `appliesTo`; worlds finished for the W2 and W3 gates | `StageResult` |
-| **M4 Purpose & Milestones** | `Purpose.status` for `composeVerdict` (FR-9). M4 never produces a blocker (M4 §2) | `PurposeStatus` |
+| **M4 Purpose & Milestones** | `Purpose.status` for `composeVerdict` (FR-9); `CharacterState.fighting` (survivability, `finalKillsPerHour`), which M4 TR-2 owns and M3's `afk.fighting` extends. M4 never produces a blocker (M4 §2) | `PurposeStatus`, `FightingRate` |
 | **M5 Higher-leverage options** | (reverse) M5 may read `AfkSafetyResult` so as not to suggest a move that makes a character unsafe | `AfkSafetyResult` |
-| **M6 Unspent & idle** | M3 owns the Arcade cap blocker; M6 FR-17 dedupes against it and corrects US-11's 58 h (FR-24). (shared boundary) slots that are empty but can't be filled now, and caps to raise, are M6's Goals. M3's fillable-slot blockers point to M6's Goal when it exists. The M4 draft says "Empty slots are M6's, capping slots are M3's". This spec refines that: empty and **fillable now** is M3, empty and unfillable is M6. | Goal ids such as `trapping.goal.*`, `anvil.goal.capacity` |
+| **M6 Unspent & idle** | M3 owns the Arcade cap blocker; M6 has no Arcade Check, and the cap is 48 h on both fixtures (FR-24). (shared boundary) slots that are empty but can't be filled now, and caps to raise, are not owned in the MVP: they go under "Not covered yet" (M6 Final rulings RT1), so M3's Next Actions link to no Goal for them. The M4 draft says "Empty slots are M6's, capping slots are M3's". This spec refines that: empty and **fillable now** is M3, empty and unfillable is M6. | Goal ids such as `trapping.goal.*`, `anvil.goal.capacity` |
 | **M7 Spend Plan** | The anvil-Capacity point advice behind FR-18's Next Action | Spend line keys |
 | **M9 Builds** | (reverse) the preset-for-activity Check uses M3's blocker contract if it blocks | `evaluateAfkSafety` pipeline, FR-7 |
-| **M10 Now screen UI** | Renders the Verdict, blockers, Next Actions, `firstFill`, `alreadyFull` and the Expected Return chips. Owns the Expected Return preference (TR-8); account safety `unknown` blocks All set like `cannot-tell` (FR-8). The chips are 2/4/8/12/24 h plus a learned chip. The All-set banner rule is extended by D3 (M10 FR-25 takes the same change). | `EngineResult.expectedReturn`, `CharacterResult.verdict/goals/firstFill`, `Fill` |
-| **M11 Knowledge tooling** | Entry schema (`CheckEntry`), Detector interface and registry, fixture examples, goldens, the blocker evidence bar (confidence H), and generated facts. **Asks:** `CheckFinding` gains `fixHolds` and `demotedBecause` on `fires`, and an optional `nextAt` on `pass` (FR-11). Each M3 entry has one `effect` and one `confidence`, so split rules are separate entries (TR-5) | `DetectorContext`, `CheckFinding`, `kb check`, `kb golden` |
+| **M10 Now screen UI** | Renders the Verdict, blockers, Next Actions, `firstFill`, `alreadyFull` and the Expected Return chips. Owns the Expected Return preference (TR-8); account safety `unknown` blocks All set like `cannot-tell` (FR-8). The chips are 2/4/8/12/24 h plus a learned chip. The All-set banner rule is extended by D3. M10 now carries both: `EngineResult.account.safety` (skippable as `unknown@account`) and `alreadyFull`, shown next to the banner (M10 TR-2, FR-25). | `EngineResult.expectedReturn`, `account.safety`, `alreadyFull`, `CharacterResult.verdict/goals/firstFill`, `Fill` |
+| **M11 Knowledge tooling** | Entry schema (`CheckEntry`), Detector interface and registry, fixture examples, goldens, the blocker evidence bar (confidence H), and generated facts. **Asks (now in M11's `CheckFinding`, M11 TR-2b):** `fixHolds` and `demotedBecause` on `fires`, and a `pass` result with an optional `nextAt` (FR-11). Each M3 entry has one `effect` and one `confidence`, so split rules are separate entries (TR-5) | `DetectorContext`, `CheckFinding`, `kb check`, `kb golden` |
 | **M12 Release** | The calibration Play Session (TR-12 item 5), which promotes D6's inventory Next Action to a blocker | — |
 | **M13 Suggestions** | "Report this" on M3 Findings, with the payload in TR-10 | Suggestion context |
 
@@ -519,26 +533,27 @@ All other numbers are Toolbox values computed at runtime (ADR 0005), so they nee
 
 Ruled by Yasser on 2026-10-17 (PR #54): every recommendation accepted as written.
 
-- **D1. Food run-out before any history: presence only.** A food-dependent fighter with **no** health food equipped blocks. Otherwise the Check passes with "food estimate after your next session" until history gives an observed rate (TR-6). *Why:* a worst-case bound (one food per cooldown) would flag the W2-late Wizard Lv 56 as running out in 44 min while it sits at 100%, which is exactly the false blocker the done bar forbids. Making every food-dependent fighter Unknown would make most fighters Unknown on day one. Observed consumption is arithmetic on what the save shows (ADR 0005), and it arrives after one or two stretches. Applied in FR-14 and TR-4.
+- **D1. Food run-out before any history: presence only.** A food-dependent fighter with **no** health food equipped blocks. Otherwise the Check passes with "food estimate after your next session" until history gives an observed rate (TR-6). *Why:* a worst-case bound (one food per cooldown) would flag the W2-late Wizard Lv 56 as running out in 44 min while it sits at 100%, which is exactly the false blocker the done bar forbids. Making every food-dependent fighter Unknown would make most fighters Unknown on day one. Observed consumption is arithmetic on what the save shows (ADR 0005), and it arrives after one or two stretches. Applied in FR-14 and TR-4. *Extended by Final rulings RT-5:* a fighter low on health food before any history gets a "Low food: N left; can't time it yet" Next Action, never a blocker.
 - **D2. Worship charge cap: Next Action without a skull, blocker with one.** A character with no skull (max 50) gets a Next Action when its charge caps. Once a skull is equipped, a cap before the return blocks. *Why:* on the W3-early account, blocking every capped charge turns 4 of 6 rows red every session over about 1.24 charge/h the account isn't using yet, which teaches the player to ignore red. Once a skull is on, the player has invested in Worship, and letting it cap is real loss. Applied in FR-19, TR-5 and US-5.
 - **D3. Account stockpiles head the Account section and gate the All-set banner.** Account-level blockers (Arcade balls, liquids at cap) show at the top of the Account section as "Fix before you leave". They never change a character's Verdict, and "All set: safe to log off" requires none of them firing. *Why:* on the W2-late account the Arcade has been full for about 48 h and Water is at cap, so "safe to log off" would be false. Putting them on a character's row would make an unrelated character "Fix before you leave". This extends M10 FR-25, so M10's spec takes the same change. Applied in the account-level Checks, FR-11 and US-6.
 - **D4. Before M4 ships, Ready = safe.** A safe character is Ready, with a "Purpose not checked yet" line in Focus. *Why:* making every safe character Unknown would make the Now screen useless for the 2–3 modules in between, and a fourth "Safe" pill adds a state the glossary doesn't have. The Focus line keeps it honest, and M4's arrival changes only `composeVerdict`'s input. Applied in FR-9 and US-11.
-- **D5. The learned Expected Return knows the time of day.** It is the median of gaps whose leaving time is within ±2 h of the current time of day, falling back to all gaps with fewer than 3 matches. *Why:* with a plain median, someone who plays three times a day (gaps of about 3 h, 4 h and 9 h) gets about 4 h at bedtime, and overnight Verdicts come out Ready while the anvil, Arcade and food cap at 6 h. That is the most dangerous wrong Ready this module can produce. The bucket is cheap and needs no new storage. Applied in FR-2 and US-3.
+- **D5. The learned Expected Return knows the time of day.** It is the median of gaps whose leaving time is within ±2 h of the current time of day, falling back to all gaps with fewer than 3 matches. *Why:* with a plain median, someone who plays three times a day (gaps of about 3 h, 4 h and 9 h) gets about 4 h at bedtime, and overnight Verdicts come out Ready while the anvil, Arcade and food cap at 6 h. That is the most dangerous wrong Ready this module can produce. The bucket is cheap and needs no new storage. Applied in FR-2 and US-3. *Changed by Final rulings RT-6:* with fewer than 3 matching gaps, the fallback is the larger of 8 h and the 75th percentile of all gaps, not their median.
 - **D6. Drop and gather estimates are Next Actions until calibrated.** For fighters, "0 free slots" blocks from day one, and the drop estimate is a Next Action until one calibration Play Session per account (M12) agrees with what actually dropped; then it becomes a blocker. For skillers, only "target stack full and no free slot" blocks until history gives an observed gather rate. *Why:* the estimate is useful today (it flags the W3-early Wizard Lv 73, with 5 free slots against about 6 new item types in 8 h), but M11 requires confidence H for a blocker, and nobody has checked drop arithmetic against a real stretch at W1–W3. Dropping the estimate entirely would throw away the main limit on long AFK Stretches. Applied in FR-16, FR-17, TR-5 and US-7.
-- **D7. Caps the player can't beat this session are one quiet Next Action.** An anvil product that fills within the stretch even right after collecting (as on all 5 W2-late characters at 8 h) shows one Next Action per character ("Anvil fills in about 2.8 h even if collected; Capacity points would help"). It is never a blocker and never the `firstFill`. *Why:* blocking gives a red row the player can never clear, and hiding it buries a true fact that explains why gains look low and points to the real fix (Capacity, the Leverage model's "Capacity only if a product fills before the Expected Return"). Applied in FR-7, FR-11, FR-18 and US-4.
+- **D7. Caps the player can't beat this session are one quiet Next Action.** An anvil product that fills within the stretch even right after collecting (as on all 5 W2-late characters at 8 h) shows one Next Action per character ("Anvil fills in about 2.8 h even if collected; Capacity points would help"). It is never a blocker and never the `firstFill`. *Why:* blocking gives a red row the player can never clear, and hiding it buries a true fact that explains why gains look low and points to the real fix (Capacity, the Leverage model's "Capacity only if a product fills before the Expected Return"). Applied in FR-7, FR-11, FR-18 and US-4. *Narrowed by Final rulings RT-14:* D7 now covers only caps that are not yet full. A product that is full now with a quick fix blocks, with "fills again in about X" (the W2-late Barbarian Lv 60 at 8 h).
 
 ## 9. Red-team notes
 
 1. **A wall of red.** If most rows are "Fix before you leave" every session, players stop reading Verdicts. *Defence:*
-   - FR-7 blocks only on quick, fillable fixes that hold for the whole stretch. Unfixable anvil caps (all 5 W2-late characters at 8 h), skull-less worship (4 W3-early characters, D2), unowned traps and printer slots past its level all stay out of the Verdict.
-   - The golden snapshots pin the count: the W2-late account has 1 character blocker plus 1 account blocker (Arcade) at 8 h, and the W3-early account has 0.
+   - FR-7 blocks only on quick, fillable fixes that hold for the whole stretch, or that clear a cap already full now (Final rulings RT-14). Unfixable anvil caps that are not yet full (4 W2-late characters at 8 h), skull-less worship (4 W3-early characters, D2), unowned traps and printer slots past its level all stay out of the Verdict.
+   - The golden snapshots pin the count: at 8 h the W2-late account has 1 character with blockers (the Barbarian Lv 60: food and its full anvil) plus 2 account blockers (Arcade, Water), and the W3-early account has 0.
    - M11's `## Verdict changes` diff shows any Knowledge Base PR that adds red.
 2. **A false Ready, the worst failure.** The done bar is "no wrong Verdict blocker", but a missed food run-out loses a night. *Defence:*
    - A failed parser section makes an otherwise-safe character Unknown, never Ready (FR-8).
    - Time-of-day learning prevents a daytime Expected Return being used at bedtime (D5).
    - The Expected Return chip is always visible, so a one-tap correction is available.
    - Monotonicity property tests (TR-11).
-   - Stale Checks keep blocking (FR-30).
+   - Stale Checks keep blocking while their fixture examples pass at the current pin (FR-30, Final rulings RT-24).
+   - The learned Expected Return's fallback never drops below 8 h (FR-2, Final rulings RT-6).
 3. **Wrong clock, wrong answer.** Toolbox projects to its parse clock. The W3 fixture's export time is 8.5 h after its save, and its traps' `timeLeft` ignores the save's age. *Defence:* absolute times anchored to `GlobalTime` (TR-2, TR-7), an injected `now`, the clamping rules, and goldens pinned to the cloud-save time.
 4. **Wrong food or drop arithmetic.** Food duration lives in game code that Toolbox doesn't mirror (`AFKfoodsTimeRedux`). The drop estimate is ours. *Defence:*
    - No worst-case bound (D1).
@@ -560,7 +575,7 @@ Ruled by Yasser on 2026-10-17 (PR #54): every recommendation accepted as written
    - The Report payload is fixed (TR-10).
    - Nothing leaves the worker but the result.
 9. **Scope collisions with M4 and M6.** M4's draft says "empty slots are M6's". The Leverage model's W3-early worked example lists "printer samples on the 2 unsampled characters" as firing, but the printer is at Lv 4 with 6 characters, so by the construction dossier's rule those 2 can't print. *Defence:*
-   - The boundary is stated in section 7: fillable now is M3, unfillable is M6.
+   - The boundary is stated in section 7: fillable now is M3; unfillable slots and caps to raise have no MVP owner and go under "Not covered yet" (M6 Final rulings RT1).
    - M3 follows the dossier's H rule and does not flag those two. The M6 author should reconcile the worked example.
    - The cog-seat Check stays a Next Action until it is verified whether off-board player cogs on the shelf already add build rate (TR-12 item 3).
 10. **Multi-tab and multi-account confusion.** One tab says 2 h and another says 8 h, or a family member signs in on the same browser. *Defence:* the choice is per `uid` and synced through the `storage` event (TR-9), the learned value is per account, and the Expected Return in use is shown on every screen (M10 chips).
@@ -575,26 +590,34 @@ Independent red-team on 2026-10-17, charged to find false blockers and false "Re
 | RT-2 | P1 | An account-level Check that is `unknown` (failed Arcade or alchemy section) still let "All set" show | Fixed | Account safety uses FR-8's rule, and `unknown` blocks the banner like `cannot-tell` (FR-8, US-6, section 7). |
 | RT-3 | P1 | A NaN, Infinity or 0 from Toolbox on patch day makes `<` false, so Checks pass silently | Fixed | TR-2 "finite or null" rule; such facts are `unknown: field-missing` (TR-2, section 6, US-10). |
 | RT-4 | P1 | Liquid blocker: `fixHolds` hard-coded true with no regen rate; `0.95 × max − 5` fires at 39% on a cap of 9; Toolbox's alert is dead code and its 90% is a user setting; unlock gate only M | Fixed | Fires at `current ≥ maxLiquid`; a Next Action until an observed rate shows the fix holds; Water only until the unlock gate is verified (FR-25, TR-4, TR-12 item 6, US-6, US-11). |
-| RT-5 | P1 | With no history, a food-dependent fighter with a few health food left passes Ready; the no-history branch only repeats FR-13 | Deferred | Needs Yasser: D1 rules out Unknown for lack of history, and a low-stack threshold is a product call. |
-| RT-6 | P1 | The learned Expected Return's fallback to all gaps and its median under-shoot bring back the bedtime false Ready | Deferred | Needs Yasser: D5 ruled the fallback as written. |
+| RT-5 | P1 | With no history, a food-dependent fighter with a few health food left passes Ready; the no-history branch only repeats FR-13 | Deferred, then ruled | Needs Yasser: D1 rules out Unknown for lack of history, and a low-stack threshold is a product call. **Ruled (Final rulings):** a "Low food: N left; can't time it yet" Next Action, never a blocker (FR-14, `afk.check.low-food-untimed`). |
+| RT-6 | P1 | The learned Expected Return's fallback to all gaps and its median under-shoot bring back the bedtime false Ready | Deferred, then ruled | Needs Yasser: D5 ruled the fallback as written. **Ruled (Final rulings):** the fallback is the larger of 8 h and the 75th percentile of all gaps (FR-2, US-3). |
 | RT-7 | P2 | US-8 expected "Place 2 traps" from a Cardboard set; the account can place 1 (Call Me Ash 0), so the blocker could never clear | Fixed | US-8 expects 1, with a Call Me Ash mutation for 2. |
 | RT-8 | P2 | Toolbox's `missingTraps` reads the item name's last character: Set10 reads 0, Sets 8–9 read too high | Fixed | New generated fact `trapping.fact.trap-set-capacity` (FR-21, TR-2, TR-5). |
 | RT-9 | P2 | On W4-entry accounts, characters on Lab or Cooking were Ready with no Check covering them | Fixed | New safety `not-covered`, giving Unknown `not-covered` and M10 FR-25's exception wording (FR-8, FR-9, TR-3, US-10, section 6). |
-| RT-10 | P2 | Things that idle overnight with no module checking them: empty Forge slots (both fixtures), Refinery storage and full power | Deferred | Needs Yasser: whether the Forge and Refinery storage are M3 Checks or M6 Goals is a scope call. |
+| RT-10 | P2 | Things that idle overnight with no module checking them: empty Forge slots (both fixtures), Refinery storage and full power | Deferred, then ruled | Needs Yasser: whether the Forge and Refinery storage are M3 Checks or M6 Goals is a scope call. **Ruled (Final rulings):** "Forge slot empty" is an M3 Check (FR-27a); Refinery storage goes under "Not covered yet". |
 | RT-11 | P2 | "0 free slots" blocked even when every expected drop stacks; the deposit fix ignored storage room | Fixed | Blocks only when a drop expected ≥ 1/h has no non-full stack, and is fillable only with storage free slots (FR-16, TR-2, TR-4). |
 | RT-12 | P2 | Two entries had split `effect`/`confidence`, which M11's schema can't express | Fixed | Split into `fighter-inventory-full`/`-overflow` and `charge-caps-skull`/`-no-skull`; `CheckFinding` additions listed as M11 asks (TR-4, TR-5, section 7). |
 | RT-13 | P2 | `firstFill` needs `at` on passing Checks, which M11 lacks; already-full stockpiles were hidden; "Squire's anvil" is ambiguous with two Squires | Fixed | `nextAt` asked of M11; `alreadyFull` count; labels carry class and level (FR-11, TR-3, US-11). |
-| RT-14 | P2 | TR-11 monotonicity contradicted itself; a longer return turns an already-full anvil from blocker to Ready | Fixed (test) / Deferred (product) | Property restated (TR-11); whether a biting cap with a partial fix should block is for Yasser. |
+| RT-14 | P2 | TR-11 monotonicity contradicted itself; a longer return turns an already-full anvil from blocker to Ready | Fixed (test) / Deferred (product), then ruled | Property restated (TR-11); whether a biting cap with a partial fix should block is for Yasser. **Ruled (Final rulings):** a cap already full now with a quick fix always blocks and shows "fills again in about X" (FR-7 exception, FR-18, FR-25, US-4, US-6). |
 | RT-15 | P2 | Observed rates skewed by active play and M1's history trimming; `hoursAway` undefined; a capped liquid reads as rate 0 | Fixed | `hoursAway` defined, 10-min record windows around each load, an ask on M1 TR-14, capped intervals dropped (TR-6, section 7). |
 | RT-16 | P2 | M3's storage key put the raw uid in localStorage and clashed with M10 TR-8 | Fixed | M3 adopts M10 TR-8's `expectedReturn` preference (FR-3, TR-3, TR-9). |
 | RT-17 | P2 | "Unequip Unending Energy" at 12 h loses EXP overall (+25% at level 1 beats 2 extra hours) | Fixed | Blocks only past `cap × (1 + bonus)` using Toolbox `getPrayerBonusAndCurse`; a trade-off Next Action below that (FR-20, TR-2, TR-4, US-9). |
 | RT-18 | P3 | The food-slot fillable test always passes (16-entry buffer), and US-1 quoted an unverified "4 empty slots" | Fixed | Text says "equip or swap in" until TR-12 item 1; US-1 no longer quotes the count. |
 | RT-19 | P3 | Device clock skew moved `returnAt` | Fixed | One skew-corrected `now` from save arrival time, clamped to ±10 min (FR-4, TR-7). |
-| RT-20 | P3 | M3 and M6 both claim the Arcade; M6 assumes 58 h (fixtures are 48 h); `getMaxClaimTime` is seconds, not ms | Fixed | M3 owns the blocker, M6 dedupes and corrects US-11, unit conversion stated (FR-24, TR-2, section 7). |
+| RT-20 | P3 | M3 and M6 both claim the Arcade; M6's draft assumed 58 h (fixtures are 48 h); `getMaxClaimTime` is seconds, not ms | Fixed | M3 owns the blocker; M6 removed its Arcade Check, so the 58 h figure is gone (48 h on both fixtures); unit conversion stated (FR-24, TR-2, section 7). |
 | RT-21 | P3 | US-4's Bowman Lv 54 edge case had no stated outcome | Fixed | Blocker if and only if `fromEmptyMs ≥ 7,200,000`, pinned in the golden. |
 | RT-22 | P3 | TR-8's 150 ms budget didn't add up (6 × 6 × 5 ms = 180 ms; 11 fighters ≈ 330 ms) | Fixed | Worst case 350 ms, off the chip-tap path (TR-8). |
 | RT-23 | P3 | `Paying_Respect` (W5 monuments, deliberate) counted as "No AFK Target" | Fixed | Removed from FR-12 and TR-4. |
-| RT-24 | P3 | A Stale entry still blocks, which can be a false blocker on patch day | Deferred | Needs Yasser: FR-30's trade-off is a product call. |
+| RT-24 | P3 | A Stale entry still blocks, which can be a false blocker on patch day | Deferred, then ruled | Needs Yasser: FR-30's trade-off is a product call. **Ruled (Final rulings):** a Stale entry blocks only while its fixture examples pass at the current parser pin; otherwise it is a Next Action (FR-30). |
+
+## Consistency pass (2026-10-17)
+
+- Folded every Final ruling into the body: RT-5 low-food Next Action (FR-14, TR-4, TR-5, US-1), RT-6 learned-return fallback (FR-2, D5, US-3), RT-10 Forge slot Check and Refinery storage "Not covered yet" (FR-27a, TR-2, TR-4, TR-5, TR-12 item 8, §2, §6), RT-24 Stale blocking (FR-30, §6), RT-14 already-full exception (FR-7, FR-18, FR-25, TR-4, TR-11, D7, US-4, US-6, US-11, red-team note 1).
+- RT-14 is read as changing condition (c) only: entries with `effect: next-action`, such as skull-less worship (D2), stay Next Actions, so US-5 and `alreadyFull` are unchanged.
+- M6 no longer has an Arcade Check; the "58 h" line is gone (FR-24, §7, RT-20).
+- `afk.fighting` keeps only M3's extras; survivability and `finalKillsPerHour` come from `CharacterState.fighting` (M4 TR-2, `FightingRate`, % 0..100).
+- §7 rows now point at what landed elsewhere: M1 TR-14 retention and `HistoryEntry`, M10 `account.safety` and `alreadyFull`, M11 `CheckFinding` (`fixHolds`, `demotedBecause`, `pass` with `nextAt`), and unfillable slots and caps under "Not covered yet" (M6 Final rulings RT1).
 
 ## Final rulings (Yasser, 2026-10-17)
 
