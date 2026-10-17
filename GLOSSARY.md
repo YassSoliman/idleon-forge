@@ -40,6 +40,14 @@ _Avoid_: build guide, playstyle, meta (bare)
 The curated, versioned body of game facts, build orders and priorities that all advice derives from; every entry cites a Source.
 _Avoid_: database, wiki, rules (as a whole)
 
+**System**:
+One distinct game mechanic with its own state and rewards (e.g. Stamps, Alchemy Bubbles, Card presets, the Owl minigame); the unit the Knowledge Base is organised by.
+_Avoid_: feature, mechanic, module
+
+**System Dossier**:
+The cited, deep research write-up of one System in the standard format, from which its Knowledge Base entries are built.
+_Avoid_: guide, wiki page, notes
+
 **Source**:
 The cited origin of a Knowledge Base entry (game data, wiki page, community guide), with the date it was last verified.
 _Avoid_: reference, link
