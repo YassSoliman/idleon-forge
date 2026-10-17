@@ -1,6 +1,6 @@
 # ActiveOn MVP spec index
 
-The 13 module specs for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/idleon-forge/issues/1)), read as one whole. Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0008](../adr/).
+The 14 module specs for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/idleon-forge/issues/1)), read as one whole. Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0008](../adr/).
 
 **How to read a spec.** Each spec ends with **Final rulings (Yasser, 2026-10-17)**, which supersede anything above them. The consistency pass of 2026-10-17 rewrote the body text of every spec so it agrees with its own Final rulings and with the other specs, and added a short `Consistency pass (2026-10-17)` section to each one listing what changed. Where two specs still disagree, this index says which one owns the answer (the "Owner" columns below). The few genuine conflicts between rulings are not resolved here; they are listed under [Needs Yasser](#needs-yasser).
 
@@ -21,10 +21,11 @@ The 13 module specs for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/
 | M11 | [Knowledge tooling](M11-knowledge-tooling.md) | The Knowledge Base package: schema, Detector contract, fact generators, CI checks, scrubbed fixtures, golden snapshots, versioning, the authoring and red-team workflow | No Checks. Owns the entry schema, id formats, fact tables, `DetectorContext`, `CheckFinding`, the registry, `kb` CLI, goldens | M1 |
 | M12 | [Release](M12-release.md) | Production deploy, PR Previews, the weekly parser re-sync, BuildInfo, What's new, governance, headers | No Checks. Owns `BuildInfo`, `whats-new.json`, the workflows, CODEOWNERS, rulesets | M1, M10, M11, M13 |
 | M13 | [Suggestions](M13-suggestions.md) | In-app Suggestions and Report this, filed as GitHub issues by a small Worker; the Claude Code listener | No Checks. Owns `SuggestionContext`, `ReportContext`, the name scrub, the Suggestions Worker | M1, M2, M10, M11, M12 |
+| M14 | [Walkthroughs & Slot Plans](M14-walkthroughs-and-slot-plans.md) | Breaks quest, unlock and (later) gear Goals into Requirement Trees and ordered steps; Demand across Walkthroughs; Supplies with drop and anvil effort; one job per character within AFK safety and the pusher; the 3D Printer Slot Plan | `walkthrough.check.assign`, `printer.check.slot-plan`, `walkthrough.contribution.supply`, generated `items.acquisition.*` and `walkthrough.goal.*`. Owns `WalkthroughResult`, `holdingsOf` (M8 TR-6's rule), `SupplyRates`, and builds `reachableFightingMaps` first for M5 | M1, M2, M3, M6, M11; M4 and M5 when present |
 
 ## Build order
 
-**M1 → M11 → M2 → M10 → M13 → M3 → M6 → M4 → M7 → M8 → M9 → M5**, with **M12 alongside** from the start (each module ships to the shared URL when done, #13).
+**M1 → M11 → M2 → M10 → M13 → M3 → M6 → M14 (Phase 1) → M4 → M7 → M8 → M9 → M5 → M14 (Phases 2–3)**, with **M12 alongside** from the start (each module ships to the shared URL when done, #13).
 
 | Step | Module | Why here |
 |---|---|---|
@@ -35,11 +36,13 @@ The 13 module specs for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/
 | 5 | M13 | Feedback from the first sessions |
 | 6 | M3 | Verdicts become real |
 | 7 | M6 | Free value; the first big content set |
-| 8 | M4 | Purpose turns Ready into "safe and serving" (until then Ready = safe, M3 D4) |
-| 9 | M7 | Coins |
-| 10 | M8 | Collections |
-| 11 | M9 | Builds |
-| 12 | M5 | Needs M1–M4 and the hypothetical sweep |
+| 8 | M14 Phase 1 | Quest Walkthroughs and the printer Slot Plan: the owner's top ask; needs only M1–M3, M6, M11 (M14 Q3) |
+| 9 | M4 | Purpose turns Ready into "safe and serving" (until then Ready = safe, M3 D4); adds `walkthrough.contribution.supply` |
+| 10 | M7 | Coins |
+| 11 | M8 | Collections; imports M14's `holdingsOf` |
+| 12 | M9 | Builds |
+| 13 | M5 | Needs M1–M4 and the hypothetical sweep; reuses M14's reachability and shares its map reservations |
+| 14 | M14 Phases 2–3 | Account-wide parallel plans, observed skilling rates, gear, the other Parallel Slots |
 | — | M12 | Alongside: first deploy, Previews, parser sync |
 
 ## Id formats
@@ -91,6 +94,10 @@ Every type or function used by more than one module, with the one spec that owns
 | `buildNowView`, `NowView`, `renderNowText`, preference keys | M10 TR-3, TR-8, TR-15 | View model, text snapshot, localStorage | M11 goldens, M13 |
 | `BuildInfo`, `WhatsNewFeed` | M12 TR-4, TR-7 | Build stamp and changelog | M10 footer and What's new, M13 context |
 | `SuggestionContext`, `ReportContext`, `SuggestionRequest`, name scrub, `getSignInProof` (in `packages/sync`) | M13 TR-3, TR-4 | What may leave the browser for a Suggestion (ADR 0008) | M10, M1 |
+| `WalkthroughResult`, `Walkthrough`, `ReqNode`, `SupplyEval`, `Job`, `PrinterSlotPlan`, `planWalkthroughs` | M14 TR-6 | Requirement Trees, Demand, assignments, the printer Slot Plan | M10 (`Goal.walkthrough`), M3 (`printer.check.sample-blank` item), M5 (reservations) |
+| `holdingsOf` (`packages/engine/src/core/holdings.ts`) | M14 TR-11, implementing M8 TR-6's rule plus Forge output | What the account holds of an item, by place | M8, M14 |
+| `SupplyRates`, `reachableFightingMaps` | M14 TR-3 (reachability to M5 TR-4's rules and tests) | Kill and drop rates on supply maps; per-character reachable maps | M5, M14 |
+| Account State: `anvilTabsOwned`, `forgeOutput`, `liquids`, `storageItems`, `characters[].inventoryItems`, `smithingLevel`, `printer` | M14 TR-2 (`storageItems`, `inventoryItems` shared with M8) | Holdings, gates and printer facts | M8, M14 |
 
 ## Check ownership matrix
 
@@ -141,6 +148,9 @@ One owner per Check. "Pos" is the Priority List position (M2 TR-13): B = Verdict
 | `spend.check.hydrogen-hold`, `spend.check.stamp-not-ready` | M7 | line / handoff | inside the plan | Not-ready raises go under Not covered yet for the MVP |
 | Purpose Contributions (portals, Vault rows, Death Note, cards, Class EXP, doors, tools, stamp material, Roles, Lab) | M4 | Purpose lines, stop-here Next Action | Class XP and skill doors: last | Never a blocker |
 | `leverage.check.move`, `.handoff`, `.role-fit`, `.unknown-purpose`, `.lab-chain` | M5 | Higher-leverage line | not ranked | Never a Verdict input (D3) |
+| `walkthrough.check.assign` | M14 | next-action on the assignee's row (Q5 rule) | the parent Goal's position | At most one per character; the Walkthrough itself renders on the parent's card |
+| `printer.check.slot-plan` (Goal `construction.goal.printer-samples`) | M14 | next-action (Account) | W3-early list position of `construction.goal.printer-samples` | M3's `printer.check.sample-blank` names M14's item instead of a second line |
+| `walkthrough.contribution.supply` | M14 (via M4's Contribution engine) | Purpose line | — | Makes an assigned character read as serving |
 
 **No MVP owner: shown under "Not covered yet"** (M6 Final rulings RT1, applied to every leftover): tools (Leverage 3d), constellations and star signs (3f), W4 shop dailies (1i), Random Events, Liquid Shop dailies and cheap daily obols, the Equinox bar, weekly items (Killroy, Ballot, weekly bosses), salt rank-ups and manual refining, unfillable slots and caps to raise (trap sets, printer level, anvil Capacity, carry bags), Refinery storage (M3 Final rulings RT-10), Lab, Cooking and Breeding AFK safety, Forge upgrades as a spend, stamp raises that need farming or carry capacity, Worlds 5–7, elite and Journeyman talent builds.
 
@@ -216,6 +226,15 @@ Facts each module must check before (or in) its first build PR. Open facts, not 
 - [ ] The identity and reachability contract tests pass on all public saves and both private fixtures (TR-4, TR-5).
 - [ ] How "biggest gain" is measured when two characters target one destination with different deciding steps (FR-10, Final rulings RT-8; the spec says: earliest deciding FR-4 step, then the largest margin on it).
 
+**M14**
+- [ ] Anvil recipe tabs and recipe-unlock state from Toolbox or N.js (`anvil.fact.recipe-tabs` is tier 2 until then).
+- [ ] Quest hand-ins read the character's inventory, not storage.
+- [ ] Whether the drop rate applies again inside nested drop tables (until then "at most").
+- [ ] TR-7's contract tests: drop rate vs M3 `dropsPerHour`, anvil hours vs `getTimeTillCap`, sample-size reproduction.
+- [ ] Which characters hold the printer's player slots below a full building level.
+- [ ] **By Yasser or Joseph, one minute in game:** the Liquid Shop's Distilled Water price after a few buys (Q6).
+- [ ] `MAX_SUPPLY_MAPS = 12` within TR-8 on `highend.json`.
+
 **M12**
 - [ ] Chunk-load behaviour after a redeploy (TR-10, Appendix A step 14).
 - [ ] The `wrangler preview --json` URL field path (TR-13).
@@ -288,3 +307,5 @@ Genuine conflicts or open choices the pass did not settle. Each has a recommenda
 ❓ **N4. Does M3's RT-14 ("a cap that is already full now, with a quick fix, always blocks") also cover skull-less worship?** The pass read RT-14 as changing only the blocker rule's "fix holds" condition for `effect: blocker` Checks, so D2's skull-less worship (an `effect: next-action` entry) stays a Next Action at 50/50, while a full anvil and Water at cap now block. If RT-14 was meant for every cap, it reverses D2 and turns 4 of 6 W3-early rows red every session.
 ➡️ Confirm the narrow reading and keep D2.
 
+❓ **N5. M14's open questions (Q1–Q9).** Module home, glossary terms, build position, skilling pace, row Next Actions, Liquid Shop arithmetic, default printing, launch opt-ins, Role holders. Each has a recommendation in [M14 section 8](M14-walkthroughs-and-slot-plans.md#8-open-questions-for-yasser).
+➡️ Accept the recommendations.

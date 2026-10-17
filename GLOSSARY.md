@@ -138,6 +138,32 @@ _Avoid_: dots, tabs
 The part of the Now screen for account-wide Goals any character can do: stockpile blockers first, then Goals, the Spend Plan and "Not covered yet".
 _Avoid_: global tasks, shared list
 
+## Walkthroughs
+
+**Walkthrough**:
+The ordered steps that take one Goal from where the account is now to done (what to farm, buy, craft and hand in, by whom, where), with progress on each step.
+_Avoid_: guide, step plan, quest log
+
+**Requirement Tree**:
+Everything a Goal's target needs, broken down from the target to raw materials and gates (an anvil tab, a skill level, a quest accepted), with quantities multiplied down each branch.
+_Avoid_: recipe tree, dependency graph, crafting tree
+
+**Demand**:
+What every shown Walkthrough still needs, item by item, after subtracting what the account holds, with holdings given to the higher-ranked Goal first.
+_Avoid_: shopping list, needs, shortfall (bare)
+
+**Supply**:
+One way to get an item for a Walkthrough (a monster drop on a map, a skilling node, anvil production, a shop, the 3D Printer), with its place and, where the numbers allow, how long it takes for each character.
+_Avoid_: source (that is a citation), route, farm spot
+
+**Bottleneck**:
+The part of a Walkthrough expected to take longest, which starts first, even before the steps that come earlier in the tree.
+_Avoid_: long pole, blocker (that is a Verdict term), critical path
+
+**Slot Plan**:
+What each character's Parallel Slot should be doing to feed the Demand (first the 3D Printer: which sample to print, take or keep), and when to change it.
+_Avoid_: printer schedule, slot assignment, rotation
+
 ## Knowledge Base entries
 
 **Entry**:
