@@ -11,6 +11,7 @@
 import type { AccountState } from '@idleon-forge/account-state';
 import type { RawSaveEnvelope } from '@idleon-forge/toolbox-parsers';
 import { type BuildMark, buildOf, saveOutcome } from './patch';
+import { stampedSlot } from './save-kind';
 
 export const HISTORY_DB = 'activeon';
 export const HISTORY_DB_VERSION = 1;
@@ -20,7 +21,7 @@ export const HISTORY_RETENTION_MS = 30 * 24 * 3600 * 1000;
 export const PLAY_SESSION_GAP_MS = 15 * 60 * 1000;
 /** Below this much free quota, raw copies other than the newest are dropped (TR-16). */
 export const LOW_QUOTA_BYTES = 100 * 1024 * 1024;
-/** How far back compaction first looks; widened until it sees four Play Sessions. */
+/** How far back compaction looks: every retention rule depends only on a save's neighbours. */
 const COMPACT_WINDOW_MS = 6 * 3600 * 1000;
 /** Every ActiveOn localStorage key starts with this; per-account ones with `activeon:<uidHash>:`. */
 export const STORAGE_PREFIX = 'activeon:';
@@ -49,13 +50,10 @@ export interface SaveIndexRow {
   hasState: boolean;
   /** That record still carries `rawGzip`. */
   hasRaw: boolean;
-  /** The save's `lastPlayedCharacterIndex`, so character switches can be found without states. */
+  /** The save's `lastPlayedCharacterIndex`. */
   lastPlayedCharacterIndex: number | null;
-  /**
-   * Each character's own save time (epoch ms, to the second), by slot: when it was last left or
-   * saved. A character's time moving between two saves marks a switch-away and the next load.
-   */
-  characterSavedAt: Record<number, number>;
+  /** The character this save stamped (`stampedSlot`): the one left on a switch, else the one played. */
+  stampedSlot: number | null;
 }
 
 /** What the engine and M11's `DetectorContext.history` receive: oldest first, at most 30 days. */
@@ -307,15 +305,6 @@ export async function readRaw(record: SaveRecord): Promise<RawSaveEnvelope | nul
   return JSON.parse(await new Response(stream).text()) as RawSaveEnvelope;
 }
 
-/** Each readable character's own save time (epoch ms), from `secondsSinceLastSave` at `asOf`. */
-function characterSavedAt(state: AccountState): Record<number, number> {
-  const out: Record<number, number> = {};
-  for (const c of state.characters) {
-    if (c.secondsSinceLastSave !== null) out[c.index] = state.asOf - c.secondsSinceLastSave * 1000;
-  }
-  return out;
-}
-
 /** Splits index rows (oldest first) into Play Sessions, as index ranges. */
 function sessionRanges(rows: SaveIndexRow[]): Array<[number, number]> {
   const ranges: Array<[number, number]> = [];
@@ -350,48 +339,55 @@ export function usualGap(sessions: PlaySession[]): number | null {
   return Math.round(median(gaps.slice(-10)) / 1000);
 }
 
-/** Around each switch-away and load, full states are kept this far either side (M3 TR-6). */
-export const LOAD_WINDOW_MS = 10 * 60 * 1000;
+/** Within one run of autosaves of the same character, one full state per clock hour is kept. */
+export const AUTOSAVE_KEEP_EVERY_MS = 3600 * 1000;
 
 /**
- * Which saves keep their full state and their raw copy (TR-14). Full states: every save of the
- * current and previous Play Session, the first and last save of every older one, and every save
- * within 10 minutes of a character's own save time moving (its switch-away, which is also when the
- * next character loads), both the old and the new time: M3 TR-6 measures AFK gains from the records
- * around each load. Raw copies: the newest save and the last save of each Play Session, or only the
- * newest when quota is low (TR-16).
+ * Which saves keep their full state and their raw copy (TR-14, revised by the 2026-10-17 live
+ * recording: an autosave stamps the current character every few minutes, a switch save stamps the
+ * character just left, and characters away on AFK are never saved). Full states are kept for:
+ *  1. the newest save;
+ *  2. every leave event: a save whose stamped slot differs from the previous save's. Characters away
+ *     are frozen, so it holds the left character's state at the start of its AFK stretch, which M3
+ *     TR-6 compares with the next leave of the same character for food and gather rates;
+ *  3. the first and last save of each Play Session;
+ *  4. of a run of saves stamping the same character, the last (the switch save that left it, or the
+ *     newest), plus, once the run has lasted an hour, the first save in each clock hour.
+ * Raw copies: the newest save and the last save of each Play Session, or only the newest when quota is
+ * low (TR-16). Every rule looks only at a save's neighbours, so a window of recent rows decides
+ * everything except its first row.
  */
 function retention(rows: SaveIndexRow[], lowQuota: boolean): { state: Set<number>; raw: Set<number> } {
   const state = new Set<number>();
   const raw = new Set<number>();
-  const ranges = sessionRanges(rows);
-  ranges.forEach(([a, b], n) => {
-    const recent = n >= ranges.length - 2;
-    for (let i = a; i <= b; i++) if (recent || i === a || i === b) state.add(i);
-    if (!lowQuota) raw.add(b);
-  });
-  const events = new Set<number>();
+  const hour = (t: number) => Math.floor(t / AUTOSAVE_KEEP_EVERY_MS);
+  // Where each row's run began (a row index), or -1 when the run began before the window.
+  const runStart: number[] = [];
   rows.forEach((row, i) => {
-    const prev = rows[i - 1]?.characterSavedAt;
-    if (!prev) return;
-    for (const [slot, at] of Object.entries(row.characterSavedAt ?? {})) {
-      const before = prev[Number(slot)];
-      if (before !== undefined && at - before > 1000) {
-        events.add(before);
-        events.add(at);
-      }
-    }
+    const prev = rows[i - 1];
+    const same =
+      prev !== undefined &&
+      row.lastCloudSave - prev.lastCloudSave < PLAY_SESSION_GAP_MS &&
+      prev.stampedSlot === row.stampedSlot;
+    runStart.push(!prev ? -1 : same ? (runStart[i - 1] ?? -1) : i);
   });
-  if (events.size > 0) {
-    const sorted = [...events].sort((a, b) => a - b);
-    rows.forEach((row, i) => {
-      const t = row.lastCloudSave;
-      if (sorted.some((e) => Math.abs(t - e) <= LOAD_WINDOW_MS)) state.add(i);
-    });
-  }
-  if (rows.length > 0) raw.add(rows.length - 1);
-  const times = (s: Set<number>) => new Set([...s].flatMap((i) => (rows[i] ? [rows[i].lastCloudSave] : [])));
-  return { state: times(state), raw: times(raw) };
+  rows.forEach((row, i) => {
+    const prev = rows[i - 1];
+    const next = rows[i + 1];
+    const t = row.lastCloudSave;
+    const startsSession = !prev || t - prev.lastCloudSave >= PLAY_SESSION_GAP_MS;
+    const endsSession = !next || next.lastCloudSave - t >= PLAY_SESSION_GAP_MS;
+    const startsRun = startsSession || prev?.stampedSlot !== row.stampedSlot;
+    const endsRun = endsSession || next?.stampedSlot !== row.stampedSlot;
+    // At most one more per clock hour, once a run has lasted an hour (a run that began before the
+    // window has: the window is 6 h long).
+    const began = runStart[i] ?? -1;
+    const longRun = began === -1 || t - (rows[began]?.lastCloudSave ?? t) >= AUTOSAVE_KEEP_EVERY_MS;
+    const newHour = prev !== undefined && longRun && hour(prev.lastCloudSave) !== hour(t);
+    if (!next || startsSession || endsSession || startsRun || endsRun || newHour) state.add(t);
+    if (!next || (endsSession && !lowQuota)) raw.add(t);
+  });
+  return { state, raw };
 }
 
 // --- the store ----------------------------------------------------------------------------------
@@ -485,39 +481,36 @@ function createHistory(
   };
 
   /**
-   * Brings stored states and raw copies in line with `retention`, touching only what changed. Only the
-   * last few Play Sessions can change, so it reads a window of recent rows (widened until it holds
-   * four sessions) instead of 30 days of them, and leaves the oldest, possibly cut, session alone.
+   * Brings stored states and raw copies in line with `retention`, touching only what changed. Each
+   * rule depends only on a save's neighbours, so it reads the rows of the last few hours around the
+   * new save and leaves the first one (whose predecessor is outside the window) alone.
    */
   const compact = async (uid: string, t: number) => {
-    let span = COMPACT_WINDOW_MS;
-    let rows: SaveIndexRow[];
-    let ranges: Array<[number, number]>;
-    for (;;) {
-      rows = await backend.rows(uid, t - span);
-      ranges = sessionRanges(rows);
-      if (ranges.length >= 4 || span >= HISTORY_RETENTION_MS) break;
-      span *= 4;
-    }
-    const whole = span >= HISTORY_RETENTION_MS;
-    const from = whole ? 0 : (ranges[0]?.[1] ?? -1) + 1;
+    let rows = await backend.rows(uid, t - COMPACT_WINDOW_MS);
+    if (rows.length < 3) rows = await backend.rows(uid, t - HISTORY_RETENTION_MS);
     const keep = retention(rows, await lowQuota());
     const changedRows: SaveIndexRow[] = [];
     const rewritten: SaveRecord[] = [];
     const deletes: number[] = [];
-    for (const row of rows.slice(from)) {
+    const stripRaw: SaveIndexRow[] = [];
+    rows.forEach((row, i) => {
       const at = row.lastCloudSave;
-      if (row.hasState && !keep.state.has(at)) {
+      // The first row's predecessor may be outside the window, so only its raw copy (which depends on
+      // what follows it) is decided here; its state was decided when it was not first.
+      if (i > 0 && row.hasState && !keep.state.has(at)) {
         deletes.push(at);
         changedRows.push({ ...row, hasState: false, hasRaw: false });
       } else if (row.hasState && row.hasRaw && !keep.raw.has(at)) {
-        const record = await backend.record(uid, at);
-        if (record) {
-          const { rawGzip: _drop, ...rest } = record;
-          rewritten.push(rest);
-        }
-        changedRows.push({ ...row, hasRaw: false });
+        stripRaw.push(row);
       }
+    });
+    for (const row of stripRaw) {
+      const record = await backend.record(uid, row.lastCloudSave);
+      if (record) {
+        const { rawGzip: _drop, ...rest } = record;
+        rewritten.push(rest);
+      }
+      changedRows.push({ ...row, hasRaw: false });
     }
     if (changedRows.length > 0) await backend.write(changedRows, rewritten, deletes, uid);
   };
@@ -562,7 +555,7 @@ function createHistory(
         hasState: true,
         hasRaw: rawGzip !== undefined,
         lastPlayedCharacterIndex: state.lastPlayedCharacterIndex,
-        characterSavedAt: characterSavedAt(state),
+        stampedSlot: stampedSlot(state),
       };
       await backend.write([row], [record], [], uid);
       await recordClean(uid, state);

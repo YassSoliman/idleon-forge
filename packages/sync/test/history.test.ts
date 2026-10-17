@@ -108,6 +108,21 @@ const putAll = async (h: SaveHistory, uid: string, times: number[]) => {
   for (const t of times) await h.put(uid, stateAt(t), rawAt(t));
 };
 
+/** A save at `t` that stamped `slot` (its own save time is `t`); 3 characters, the others older. */
+const stamped = (t: number, slot: number, last: number[] = [0, 0, 0]) =>
+  stateAt(t, { savedAt: last.map((at, i) => (i === slot ? t : at || t - (i + 1) * HOUR)) });
+
+/** Puts a sequence of `[time, stamped slot]` saves; a slot keeps the time it was last stamped. */
+const putStamped = async (h: SaveHistory, uid: string, seq: Array<[number, number]>) => {
+  const last = [0, 0, 0];
+  for (const [t, slot] of seq) {
+    last[slot] = t;
+    await h.put(uid, stamped(t, slot, last), rawAt(t));
+  }
+};
+
+const kept = async (h: SaveHistory, uid: string) => (await h.since(uid, 0)).map((r) => r.lastCloudSave);
+
 describe.each<Kind>(['indexeddb', 'memory'])('save history (%s)', (kind) => {
   it('reports whether it persists (FR-25)', async () => {
     expect((await open(kind)).persistent).toBe(kind === 'indexeddb');
@@ -151,7 +166,11 @@ describe.each<Kind>(['indexeddb', 'memory'])('save history (%s)', (kind) => {
 
   it('answers latest, previous and since', async () => {
     const h = await open(kind);
-    await putAll(h, 'u1', [at(10), at(10, 4), at(10, 8)]);
+    await putStamped(h, 'u1', [
+      [at(10), 0],
+      [at(10, 4), 1],
+      [at(10, 8), 2],
+    ]);
     expect((await h.latest('u1'))?.lastCloudSave).toBe(at(10, 8));
     expect((await h.previous('u1', at(10, 8)))?.lastCloudSave).toBe(at(10, 4));
     expect(await h.previous('u1', at(10))).toBeNull();
@@ -226,13 +245,12 @@ describe.each<Kind>(['indexeddb', 'memory'])('save history (%s)', (kind) => {
     expect(record && (await readRaw(record))).toEqual(rawAt(at(10)));
   });
 
-  it('TR-14: keeps full states for the last two Play Sessions and the ends of older ones', async () => {
+  it('TR-14: keeps the first and last save of each Play Session and the newest', async () => {
     const h = await open(kind);
-    // Three sessions of 4 saves, 2 h apart.
+    // Three sessions of 4 autosaves of the same character, 2 h apart.
     const sessions = [0, 2, 4].map((start) => [0, 4, 8, 12].map((m) => at(start, m)));
     for (const s of sessions) await putAll(h, 'u1', s);
-    const kept = (await h.since('u1', 0)).map((r) => r.lastCloudSave);
-    expect(kept).toEqual([at(0), at(0, 12), ...(sessions[1] ?? []), ...(sessions[2] ?? [])]);
+    expect(await kept(h, 'u1')).toEqual([at(0), at(0, 12), at(2), at(2, 12), at(4), at(4, 12)]);
     // Play Sessions still count every save, from the index.
     expect((await h.playSessions('u1')).map((s) => s.saves)).toEqual([4, 4, 4]);
   });
@@ -251,44 +269,96 @@ describe.each<Kind>(['indexeddb', 'memory'])('save history (%s)', (kind) => {
     expect(raw).toEqual([at(2, 4)]);
   });
 
-  it('M3 TR-6: keeps the states within 10 min of each switch-away and load in older Play Sessions', async () => {
+  it('keeps every leave and thins autosaves of the same character (2026-10-17 live recording)', async () => {
     const h = await open(kind);
-    // One hour of saves every 4 min; character 0 is left at 0:30 (its own save time moves from 0:00
-    // to 0:30), character 1 never moves.
-    const times = Array.from({ length: 16 }, (_, k) => at(0, 4 * k));
-    for (const t of times) {
-      const c0 = t < at(0, 30) ? at(0) : at(0, 30);
-      await h.put('u1', stateAt(t, { savedAt: [c0, at(0) - HOUR] }), rawAt(t));
-    }
-    await putAll(h, 'u1', [at(3), at(5)]); // push that session out of the two recent ones
-    const kept = (await h.since('u1', 0)).map((r) => (r.lastCloudSave - at(0)) / MIN);
-    // Around 0:00 (the old save time) and 0:30 (the switch), plus the session's first and last save.
-    expect(kept.filter((m) => m <= 60)).toEqual([0, 4, 8, 20, 24, 28, 32, 36, 40, 60]);
+    // A = slot 0, B = slot 1, C = slot 2. An autosave stamps the current character; a switch save
+    // stamps the character just left.
+    await putStamped(h, 'u1', [
+      [at(10), 0], //       autosave A        first of the session
+      [at(10, 4), 0], //    autosave A        thinned
+      [at(10, 8), 0], //    autosave A        thinned
+      [at(10, 9), 0], //    switch, stamps A  A's last state: kept
+      [at(10, 12), 1], //   autosave B        stamped slot changed (leave event): kept
+      [at(10, 16), 1], //   autosave B        thinned
+      [at(10, 17), 1], //   switch, stamps B  B's last state: kept
+      [at(10, 20), 2], //   autosave C        leave event: kept
+      [at(10, 24), 2], //   autosave C        newest: kept
+    ]);
+    expect(await kept(h, 'u1')).toEqual([at(10), at(10, 9), at(10, 12), at(10, 17), at(10, 20), at(10, 24)]);
+    // One more autosave of C: the previous newest is thinned away.
+    await putStamped(h, 'u1', [[at(10, 28), 2]]);
+    expect((await kept(h, 'u1')).slice(-2)).toEqual([at(10, 20), at(10, 28)]);
+  });
+
+  it('keeps one autosave per clock hour in a long run of the same character', async () => {
+    const h = await open(kind);
+    const times = Array.from({ length: 46 }, (_, k) => at(10, 4 * k)); // 10:00 to 13:00
+    await putStamped(
+      h,
+      'u1',
+      times.map((t) => [t, 0]),
+    );
+    expect(await kept(h, 'u1')).toEqual([at(10), at(11), at(12), at(13)]);
   });
 });
 
 describe('save history at scale (US-8, TR-16, TR-19)', () => {
-  it('30 days of saves every 4 minutes stays small and answers playSessions within 100 ms', async () => {
+  /** Today's largest Account State serializes to ~6 KB; budget for twice that, and the largest raw gzip. */
+  const STATE_BYTES = 12 * 1024;
+  const RAW_BYTES = 120 * 1024;
+  const ROW_BYTES = 150;
+  const MB = 1024 * 1024;
+  const budget = async (h: SaveHistory, saves: number) => {
+    const states = await h.since('u1', 0);
+    const raws = states.filter((r) => r.rawGzip).length;
+    return {
+      states: states.length,
+      raws,
+      bytes: states.length * STATE_BYTES + raws * RAW_BYTES + saves * ROW_BYTES,
+    };
+  };
+
+  it('30 days at one save per 4 min, switching every 40 min all day: under the 50 MB budget', async () => {
     const h = await open('memory', { clock: () => at(0, 0, 30) });
-    // 30 days, saves every 4 minutes, with the game left open: ~10,800 saves in one long session per day
-    // (split nightly by an hour without saves so Play Sessions exist).
-    let stored = 0;
+    // The game left open 23 h a day; the player switches character every 40 minutes (5 characters
+    // each played in turn), the rest are autosaves of the current one. ~10,350 saves.
+    let saves = 0;
+    const last = [0, 0, 0, 0, 0];
     for (let day = 0; day < 30; day++) {
       for (let m = 0; m < 23 * 60; m += 4) {
         const t = at(0, m, day);
-        await h.put('u1', stateAt(t), rawAt(t));
-        stored++;
+        const slot = Math.floor(m / 40) % 5;
+        last[slot] = t;
+        const state = stateAt(t, { savedAt: last.map((x, i) => x || t - (i + 1) * HOUR) });
+        await h.put('u1', state, rawAt(t));
+        saves++;
       }
     }
-    expect(stored).toBeGreaterThan(10_000);
+    expect(saves).toBeGreaterThan(10_000);
     const started = performance.now();
     const sessions = await h.playSessions('u1');
     expect(performance.now() - started).toBeLessThan(100);
     expect(sessions).toHaveLength(30);
-    // Full states: the two recent sessions plus two per older session.
-    const states = await h.since('u1', 0);
-    expect(states.length).toBe(2 * 345 + 28 * 2);
-    expect(states.filter((r) => r.rawGzip)).toHaveLength(30);
+
+    // Per 40-minute run: its first save (a leave) and its last (the switch save): 2 of its 10 saves.
+    const b = await budget(h, saves);
+    expect(b.states).toBeLessThanOrEqual(2_100);
+    expect(b.raws).toBe(30);
+    expect(b.bytes).toBeLessThan(35 * MB);
+  }, 120_000);
+
+  it('30 days at one save per 4 min on one character (game left open): about one state per hour', async () => {
+    const h = await open('memory', { clock: () => at(0, 0, 30) });
+    let saves = 0;
+    for (let day = 0; day < 30; day++) {
+      for (let m = 0; m < 23 * 60; m += 4) {
+        await h.put('u1', stamped(at(0, m, day), 0), rawAt(at(0, m, day)));
+        saves++;
+      }
+    }
+    const b = await budget(h, saves);
+    expect(b.states).toBeLessThanOrEqual(30 * 24 + 30);
+    expect(b.bytes).toBeLessThan(15 * MB);
   }, 120_000);
 
   it('put stays within 50 ms in IndexedDB with days of history behind it (TR-19)', async () => {

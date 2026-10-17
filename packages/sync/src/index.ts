@@ -28,13 +28,13 @@ export {
   requestDeviceCode,
 } from './google-device';
 export {
+  AUTOSAVE_KEEP_EVERY_MS,
   cloudSaveTimeOf,
   HISTORY_DB,
   HISTORY_DB_VERSION,
   HISTORY_RETENTION_MS,
   type HistoryEntry,
   type HistoryMeta,
-  LOAD_WINDOW_MS,
   LOW_QUOTA_BYTES,
   type OpenHistoryOptions,
   openSaveHistory,
@@ -88,6 +88,7 @@ export {
   readTokenTimes,
   type TokenEntry,
 } from './proof';
+export { classifySave, type SaveClass, type SaveKind, stampedSlot } from './save-kind';
 export {
   createSession,
   type GoogleSignInOptions,
