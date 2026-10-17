@@ -1,17 +1,17 @@
-# golden v1: first · knowledge #3f060777 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage (engine not built)
+# golden v1: first · knowledge #73181c3c · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
 ## Now
-! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+2 of 7 Ready · fix 2 before you leave · 3 Unknown
 
-### C1 · Blood Berserker 96 · Unknown
-1 · Fighting Purp Mushroom · Spaceway Raceway · Not covered yet: AFK safety
+### C7 · Maestro 73 · Fix before you leave
+1 · Doing nothing · YumYum Grotto · Send Maestro Lv 73 to an AFK Target before you leave
+
+### C5 · Elemental Sorcerer 87 · Fix before you leave
+2 · In the Lab · Outer World Town · Collect Chain Link from the anvil (time to cap: now; it refills about 1 d after you collect)
 
 ### C2 · Bubonic Conjuror 87 · Unknown
-2 · In the Lab · Outer World Town · Not covered yet: AFK safety
-
-### C5 · Elemental Sorcerer 87 · Unknown
 3 · In the Lab · Outer World Town · Not covered yet: AFK safety
 
 ### C6 · Beast Master 87 · Unknown
@@ -20,11 +20,11 @@
 ### C3 · Siege Breaker 86 · Unknown
 5 · In the Lab · Outer World Town · Not covered yet: AFK safety
 
-### C4 · Divine Knight 86 · Unknown
-6 · Fighting Purp Mushroom · Spaceway Raceway · Not covered yet: AFK safety
+### C1 · Blood Berserker 96 · Ready
+6 · Fighting Purp Mushroom · Spaceway Raceway · Traps finish in about 5 h, then sit idle until you're back
 
-### C7 · Maestro 73 · Unknown
-7 · Doing nothing · YumYum Grotto · Not covered yet: AFK safety
+### C4 · Divine Knight 86 · Ready
+7 · Fighting Purp Mushroom · Spaceway Raceway · Traps finish in about 5 h, then sit idle until you're back
 
 ### Account · nothing to fix
 

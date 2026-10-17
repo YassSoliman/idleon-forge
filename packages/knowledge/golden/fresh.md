@@ -1,20 +1,22 @@
-# golden v1: fresh · knowledge #3f060777 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage (engine not built)
+# golden v1: fresh · knowledge #73181c3c · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
 ## Now
-! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+0 of 3 Ready · fix 3 before you leave
 
-### C2 · Blood Berserker 534 · Unknown
-1 · Doing nothing · Spirit Village · Not covered yet: AFK safety
+### C2 · Blood Berserker 534 · Fix before you leave
+1 · Doing nothing · Spirit Village · Send Blood Berserker Lv 534 to an AFK Target before you leave
 
-### C1 · Siege Breaker 478 · Unknown
-2 · Doing nothing · Frostbite Towndra · Not covered yet: AFK safety
+### C1 · Siege Breaker 478 · Fix before you leave
+2 · Doing nothing · Frostbite Towndra · Send Siege Breaker Lv 478 to an AFK Target before you leave
 
-### C3 · Beginner 1 · Unknown
-3 · Doing nothing · Blunder Hills · Not covered yet: AFK safety
+### C3 · Beginner 1 · Fix before you leave
+3 · Doing nothing · Blunder Hills · Send Beginner Lv 1 to an AFK Target before you leave
 
-### Account · nothing to fix
+### Account · Unknown
+Unknown: can't tell from the save
+- Extra · Refinery runs dry: Refinery runs dry in about under 10 min: top up the salt's materials [IdleOn Toolbox, getSaltMatsTimeLeft · 2.3.540]
 
 ## Not covered yet
 Cards

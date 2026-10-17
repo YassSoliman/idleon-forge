@@ -13,8 +13,15 @@ import {
   type Frontier,
   toAccountState,
 } from '@idleon-forge/account-state';
-import { createEngine, type Engine, type KnowledgePort } from '@idleon-forge/engine';
-import { frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
+import {
+  createEngine,
+  type Engine,
+  type EngineModule,
+  type KnowledgePort,
+  metaPathModule,
+} from '@idleon-forge/engine';
+import { createAfkSafetyModule } from '@idleon-forge/engine/afk';
+import { detectStage, frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
 import {
   type CompiledKnowledge,
   coverage,
@@ -31,6 +38,7 @@ import {
   type RawSaveEnvelope,
   toolboxCalls,
   verifiedBuilds,
+  withFrozenClock,
 } from '@idleon-forge/toolbox-parsers';
 import type {
   BuildMark,
@@ -125,6 +133,19 @@ export function frontierOf(
   }
 }
 
+/**
+ * The modules the worker's engine runs: M2's Stage & Meta Path and M3's AFK Safety, which needs the
+ * compiled Knowledge Base (without it the core says AFK safety isn't covered, M10 §6).
+ */
+export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().kb): EngineModule[] {
+  if (!kb) return [metaPathModule];
+  const facts = lookupOf(kb);
+  return [
+    metaPathModule,
+    createAfkSafetyModule({ kb, registry: knowledgeDetectors, stage: (state) => detectStage(state, facts) }),
+  ];
+}
+
 const errorText = (err: unknown) => (err instanceof Error ? `${err.name}: ${err.message}` : 'unknown error');
 
 /** Runs the engine without ever failing the parse: a throw becomes `{ error }` (FR-39). */
@@ -151,7 +172,7 @@ export type RequestHandler = (request: WorkerRequest) => WorkerResponse;
 /** One handler per worker: it owns the engine and the last clean parse. */
 export function createRequestHandler(
   options: HandleOptions = {},
-  engine: Engine = createEngine(),
+  engine: Engine = createEngine(workerModules()),
 ): RequestHandler {
   return (request) => {
     if (request.type === 'rerun') return rerun(engine, request.id, request.expectedReturnSeconds);
@@ -173,7 +194,7 @@ function rerun(engine: Engine, id: number, expectedReturnSeconds: number): Rerun
 export function handleRequest(
   request: Exclude<WorkerRequest, { type: 'rerun' }>,
   options: HandleOptions = {},
-  engine: Engine = createEngine(),
+  engine: Engine = createEngine(workerModules()),
 ): ParseResponse {
   const started = performance.now();
   const ms = () => Math.round(performance.now() - started);
@@ -195,7 +216,7 @@ export function handleRequest(
       return toAccountState(parsed, env, {
         source,
         frontier,
-        // TODO(M3): toolbox: toolboxCalls
+        toolbox: { calls: toolboxCalls, withFrozenClock },
       });
     };
     const state = parseAt(now, true);

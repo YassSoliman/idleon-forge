@@ -1,39 +1,39 @@
-# golden v1: second · knowledge #3f060777 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage (engine not built)
+# golden v1: second · knowledge #73181c3c · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
 ## Now
-! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+2 of 10 Ready · fix 2 before you leave · 6 Unknown
+
+### C9 · Hunter 503 · Fix before you leave
+1 · Fighting Penguin · Signature Slopes · Collect Thread from the anvil (time to cap: 6 h; it refills about 11 h after you collect)
+
+### C5 · Wizard 501 · Fix before you leave
+2 · Fighting Penguin · Signature Slopes · Collect Thread from the anvil (time to cap: 2 h; it refills about 1 d after you collect)
 
 ### C3 · Bubonic Conjuror 567 · Unknown
-1 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
+3 · Fighting Penguin · Signature Slopes · Can't tell from the save
 
 ### C2 · Divine Knight 544 · Unknown
-2 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
+4 · Fighting Penguin · Signature Slopes · Can't tell from the save
 
 ### C6 · Siege Breaker 530 · Unknown
-3 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
-
-### C8 · Elemental Sorcerer 525 · Unknown
-4 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
+5 · Fighting Penguin · Signature Slopes · Can't tell from the save
 
 ### C7 · Voidwalker 510 · Unknown
-5 · Fighting Skydoggie Spirit · Dozey Dogpark · Not covered yet: AFK safety
+6 · Fighting Skydoggie Spirit · Dozey Dogpark · Can't tell from the save
 
 ### C1 · Beast Master 507 · Unknown
-6 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
+7 · Fighting Penguin · Signature Slopes · Can't tell from the save
 
-### C9 · Hunter 503 · Unknown
-7 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
+### C8 · Elemental Sorcerer 525 · Unknown
+8 · Fighting Penguin · Signature Slopes · Can't tell from the save
 
-### C4 · Blood Berserker 501 · Unknown
-8 · Fighting The Rift · The Rift · Not covered yet: AFK safety
+### C4 · Blood Berserker 501 · Ready
+9 · Fighting The Rift · The Rift · Traps finish in about 2 h, then sit idle until you're back
 
-### C5 · Wizard 501 · Unknown
-9 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
-
-### C10 · Barbarian 501 · Unknown
-10 · Fighting Penguin · Signature Slopes · Not covered yet: AFK safety
+### C10 · Barbarian 501 · Ready
+10 · Fighting Penguin · Signature Slopes · Traps finish in about 2 h, then sit idle until you're back
 
 ### Account · nothing to fix
 

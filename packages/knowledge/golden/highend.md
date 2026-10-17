@@ -1,44 +1,45 @@
-# golden v1: highend · knowledge #3f060777 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage (engine not built)
+# golden v1: highend · knowledge #73181c3c · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
 ## Now
-! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+0 of 11 Ready · fix 11 before you leave
 
-### C4 · Divine Knight 1819 · Unknown
-1 · Doing nothing · Shimmerfin Grove · Not covered yet: AFK safety
+### C4 · Divine Knight 1819 · Fix before you leave
+1 · Doing nothing · Shimmerfin Grove · Send Divine Knight Lv 1,819 to an AFK Target before you leave
 
-### C8 · Voidwalker 1764 · Unknown
-2 · Spelunking C1 Way Opening · Coralcave Perimeter · Not covered yet: AFK safety
+### C8 · Voidwalker 1764 · Fix before you leave
+2 · Spelunking C1 Way Opening · Coralcave Perimeter · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C5 · Arcane Cultist 1762 · Unknown
-3 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+### C5 · Arcane Cultist 1762 · Fix before you leave
+3 · Fighting Trench Fish · Deep End of the Koipond · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C6 · Wind Walker 1744 · Unknown
-4 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+### C6 · Wind Walker 1744 · Fix before you leave
+4 · Fighting Trench Fish · Deep End of the Koipond · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C9 · Arcane Cultist 1743 · Unknown
-5 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+### C9 · Arcane Cultist 1743 · Fix before you leave
+5 · Fighting Trench Fish · Deep End of the Koipond · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C10 · Wind Walker 1742 · Unknown
-6 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+### C10 · Wind Walker 1742 · Fix before you leave
+6 · Fighting Trench Fish · Deep End of the Koipond · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C3 · Elemental Sorcerer 1734 · Unknown
-7 · Spelunking Buried Church · Middle of Nowhere · Not covered yet: AFK safety
+### C7 · Divine Knight 1734 · Fix before you leave
+7 · Doing nothing · Blunder Hills · Send Divine Knight Lv 1,734 to an AFK Target before you leave
 
-### C7 · Divine Knight 1734 · Unknown
-8 · Doing nothing · Blunder Hills · Not covered yet: AFK safety
+### C2 · Siege Breaker 1725 · Fix before you leave
+8 · Spelunking Buried Church · Middle of Nowhere · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C2 · Siege Breaker 1725 · Unknown
-9 · Spelunking Buried Church · Middle of Nowhere · Not covered yet: AFK safety
+### C11 · Beginner 1717 · Fix before you leave
+9 · Paying respect Bravery · The Hole · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C11 · Beginner 1717 · Unknown
-10 · Paying respect Bravery · The Hole · Not covered yet: AFK safety
+### C1 · Death Bringer 1701 · Fix before you leave
+10 · Cooking · Outer World Town · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C1 · Death Bringer 1701 · Unknown
-11 · Cooking · Outer World Town · Not covered yet: AFK safety
+### C3 · Elemental Sorcerer 1734 · Fix before you leave
+11 · Spelunking Buried Church · Middle of Nowhere · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### Account · nothing to fix
+- Extra · Refinery runs dry: Refinery runs dry in about now: top up the salt's materials [IdleOn Toolbox, getSaltMatsTimeLeft · 2.3.540]
 
 ## Not covered yet
 Cards
