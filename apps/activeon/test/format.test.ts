@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 import { describe, expect, it } from 'vitest';
-import { describeActivity, formatAge } from '../src/format';
+import { describeActivity, formatAge, UNKNOWN_ACTIVITY } from '../src/format';
 
 describe('formatAge', () => {
   it.each([
@@ -25,6 +25,8 @@ describe('describeActivity', () => {
     [{ afkType: 'COOKING', afkTarget: 'Cooking' }, 'Cooking'],
     [{ afkType: 'Nothing', afkTarget: null }, 'No AFK target set'],
     [{ afkType: 'NEW_SKILL', afkTarget: 'Thing' }, 'New skill · Thing'],
+    // An id the parser pin doesn't know is unknown, never "No AFK target set" (FR-19a).
+    [{ afkType: null, afkTarget: null }, UNKNOWN_ACTIVITY],
   ])('%j -> %s', (c, label) => {
     expect(describeActivity(c)).toBe(label);
   });

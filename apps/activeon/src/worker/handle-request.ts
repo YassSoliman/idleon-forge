@@ -9,7 +9,8 @@ export function handleParseRequest({ id, input, now }: ParseRequest): ParseRespo
   const started = performance.now();
   try {
     const envelope = input.kind === 'text' ? parseEnvelopeText(input.text) : input.envelope;
-    const state = toAccountState(parseSave(envelope, { now }));
+    const source = input.kind === 'text' ? 'paste' : 'live';
+    const state = toAccountState(parseSave(envelope, { now }), envelope, { source });
     return { id, ok: true, state, ms: Math.round(performance.now() - started) };
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);

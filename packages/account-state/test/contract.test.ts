@@ -4,13 +4,14 @@
 // the current parser pin. After `pnpm sync-parsers`, a failure here means upstream changed a field we
 // read; the snapshot diff shows what moved.
 import { describe, expect, it } from 'vitest';
-import type { AccountState } from '../src';
+import { type AccountState, SCHEMA_VERSION } from '../src';
 import { accountStateOf, listJson, NOW, PRIVATE_DIR, PUBLIC_DIR, readSave } from './helpers';
 
 const publicSaves = listJson(PUBLIC_DIR);
 const privateSaves = listJson(PRIVATE_DIR, '.raw.json');
 
 function expectValid(state: AccountState) {
+  expect(state.schemaVersion).toBe(SCHEMA_VERSION);
   expect(state.asOf).toBe(NOW);
   const { account, characters } = state;
   expect(account.currentWorld).toBeGreaterThanOrEqual(1);
@@ -27,16 +28,38 @@ function expectValid(state: AccountState) {
     expect(c.name.length).toBeGreaterThan(0);
     expect(c.class.length).toBeGreaterThan(0);
     expect(c.level).toBeGreaterThanOrEqual(1);
-    expect(c.afkType.length).toBeGreaterThan(0);
+    expect(c.afkType?.length).toBeGreaterThan(0);
     if (c.afkType === 'Nothing') expect(c.afkTarget).toBeNull();
     expect(c.currentMap).toEqual(expect.any(String));
     for (const f of c.foodStacks) {
-      expect(f.item.length).toBeGreaterThan(0);
+      expect(f.item?.length).toBeGreaterThan(0);
       expect(f.amount).toBeGreaterThan(0);
     }
     expect(c.secondsSinceLastSave).toBeGreaterThanOrEqual(0);
   }
+  if (state.lastPlayedCharacterIndex !== null) expect(indices).toContain(state.lastPlayedCharacterIndex);
+
+  // A clean save at this pin: every field passed its presence check and every id is known.
+  const d = state.diagnostics;
+  expect(d.failedSections).toEqual([]);
+  expect(d.unreadableCharacters).toEqual([]);
+  expect(d.unknownFields).toEqual([]);
+  expect(d.unknownIds).toEqual({ monsters: [], maps: [], items: [], classes: [] });
+  expect(d.parserPin.gameVersion).toBe(account.gameVersion.parserTarget);
 }
+
+/** No warnings other than skipped stub characters: anything else is a contract break. */
+const unexpectedWarnings = (state: AccountState) =>
+  state.warnings.filter((w) => !w.endsWith('has no save data and was skipped.'));
+
+/** What the shape snapshot records: everything but names (and the pin's commit, which re-syncs move). */
+const shapeOf = (state: AccountState) => ({
+  account: state.account,
+  characters: state.characters.map(({ name: _name, ...c }) => c),
+  lastPlayedCharacterIndex: state.lastPlayedCharacterIndex,
+  diagnostics: { ...state.diagnostics, parserPin: { gameVersion: state.diagnostics.parserPin.gameVersion } },
+  warnings: state.warnings,
+});
 
 describe.each(publicSaves)('public save %s', (file) => {
   const state = accountStateOf(readSave(PUBLIC_DIR, file));
@@ -46,17 +69,12 @@ describe.each(publicSaves)('public save %s', (file) => {
   });
 
   it('parses every parser section and finds every name', () => {
-    // Skipped stub characters are expected in a few saves; anything else is a contract break.
-    expect(state.warnings.filter((w) => !w.endsWith('has no save data and was skipped.'))).toEqual([]);
+    expect(unexpectedWarnings(state)).toEqual([]);
   });
 
   it('matches the recorded shape (review the diff after a re-sync)', () => {
     // Names are left out of the snapshot on purpose; the shape is what the contract is about.
-    expect({
-      account: state.account,
-      characters: state.characters.map(({ name: _name, ...c }) => c),
-      warnings: state.warnings,
-    }).toMatchSnapshot();
+    expect(shapeOf(state)).toMatchSnapshot();
   });
 });
 
@@ -78,8 +96,30 @@ describe('across all public saves', () => {
 });
 
 describe.skipIf(privateSaves.length === 0)('private saves (local only)', () => {
-  // Real accounts: assert on structure only, and never print names or values.
+  // Real accounts: assert without printing names or values (no toEqual on the state itself).
+  const stateOf = (file: string) => accountStateOf(readSave(PRIVATE_DIR, file));
+
   it.each(privateSaves)('%s produces a valid Account State', (file) => {
-    expectValid(accountStateOf(readSave(PRIVATE_DIR, file)));
+    expectValid(stateOf(file));
   });
+
+  it.each(privateSaves)('%s parses every parser section and finds every name', (file) => {
+    expect(unexpectedWarnings(stateOf(file)).length).toBe(0);
+  });
+
+  it.each(privateSaves)('%s matches its local shape snapshot', async (file) => {
+    // Kept beside the saves in the gitignored fixtures/private/, never committed.
+    await expect(`${JSON.stringify(shapeOf(stateOf(file)), null, 2)}\n`).toMatchFileSnapshot(
+      `${PRIVATE_DIR}__shape__/${file.replace(/\.raw\.json$/, '.shape.json')}`,
+    );
+  });
+
+  // US-5 and TR-12: checked by hand on both real saves.
+  const LAST_PLAYED: Record<string, number> = { 'yasser.raw.json': 0, 'joseph.raw.json': 5 };
+  it.each(privateSaves.filter((f) => f in LAST_PLAYED))(
+    '%s marks the right last-played character',
+    (file) => {
+      expect(stateOf(file).lastPlayedCharacterIndex === LAST_PLAYED[file]).toBe(true);
+    },
+  );
 });

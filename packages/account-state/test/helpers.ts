@@ -23,5 +23,20 @@ export const listJson = (folder: string, suffix = '.json'): string[] =>
 export const readSave = (folder: string, file: string): unknown =>
   JSON.parse(readFileSync(folder + file, 'utf8'));
 
-export const accountStateOf = (input: unknown, now = NOW): AccountState =>
-  toAccountState(parseSave(normalizeEnvelope(input), { now }));
+export const accountStateOf = (
+  input: unknown,
+  now = NOW,
+  source: 'live' | 'paste' = 'paste',
+): AccountState => {
+  const envelope = normalizeEnvelope(input);
+  return toAccountState(parseSave(envelope, { now }), envelope, { source });
+};
+
+type Envelope = { data: Record<string, unknown>; [key: string]: unknown };
+
+/** A deep copy of a fixture with its raw save changed by `edit` (keys removed, ids made unknown). */
+export const editedSave = (input: unknown, edit: (data: Record<string, unknown>) => void): Envelope => {
+  const copy = structuredClone(input) as Envelope;
+  edit(copy.data);
+  return copy;
+};

@@ -25,8 +25,12 @@ const AFK_LABELS: Record<string, string> = {
   Nothing: 'No AFK target set',
 };
 
+/** Shown when the AFK Target is an id the parser doesn't know yet (never "No AFK target set"). */
+export const UNKNOWN_ACTIVITY = 'AFK target unknown (the game may have updated)';
+
 /** What the character progresses while away, e.g. "Fighting · Purp Mushroom". */
 export function describeActivity(c: Pick<CharacterState, 'afkType' | 'afkTarget'>): string {
+  if (c.afkType === null) return UNKNOWN_ACTIVITY;
   const label = AFK_LABELS[c.afkType] ?? humanize(c.afkType);
   if (!c.afkTarget) return label;
   const target = humanize(c.afkTarget);

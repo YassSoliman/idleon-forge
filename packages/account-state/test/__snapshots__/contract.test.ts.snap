@@ -196,6 +196,25 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74443905,
     },
   ],
+  "diagnostics": {
+    "failedSections": [],
+    "failedSideReads": [],
+    "parserPin": {
+      "gameVersion": "2.3.540",
+    },
+    "skippedCharacters": [],
+    "source": "paste",
+    "unknownFields": [],
+    "unknownIds": {
+      "classes": [],
+      "items": [],
+      "maps": [],
+      "monsters": [],
+    },
+    "unnamed": false,
+    "unreadableCharacters": [],
+  },
+  "lastPlayedCharacterIndex": 6,
   "warnings": [],
 }
 `;
@@ -266,6 +285,28 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 140174772,
     },
   ],
+  "diagnostics": {
+    "failedSections": [],
+    "failedSideReads": [],
+    "parserPin": {
+      "gameVersion": "2.3.540",
+    },
+    "skippedCharacters": [
+      2,
+      3,
+    ],
+    "source": "paste",
+    "unknownFields": [],
+    "unknownIds": {
+      "classes": [],
+      "items": [],
+      "maps": [],
+      "monsters": [],
+    },
+    "unnamed": false,
+    "unreadableCharacters": [],
+  },
+  "lastPlayedCharacterIndex": 0,
   "warnings": [
     "Character 3 has no save data and was skipped.",
     "Character 4 has no save data and was skipped.",
@@ -375,6 +416,27 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 4987522,
     },
   ],
+  "diagnostics": {
+    "failedSections": [],
+    "failedSideReads": [],
+    "parserPin": {
+      "gameVersion": "2.3.540",
+    },
+    "skippedCharacters": [
+      3,
+    ],
+    "source": "paste",
+    "unknownFields": [],
+    "unknownIds": {
+      "classes": [],
+      "items": [],
+      "maps": [],
+      "monsters": [],
+    },
+    "unnamed": false,
+    "unreadableCharacters": [],
+  },
+  "lastPlayedCharacterIndex": 1,
   "warnings": [
     "Character 4 has no save data and was skipped.",
   ],
@@ -788,6 +850,25 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "secondsSinceLastSave": 5848520,
     },
   ],
+  "diagnostics": {
+    "failedSections": [],
+    "failedSideReads": [],
+    "parserPin": {
+      "gameVersion": "2.3.540",
+    },
+    "skippedCharacters": [],
+    "source": "paste",
+    "unknownFields": [],
+    "unknownIds": {
+      "classes": [],
+      "items": [],
+      "maps": [],
+      "monsters": [],
+    },
+    "unnamed": false,
+    "unreadableCharacters": [],
+  },
+  "lastPlayedCharacterIndex": 3,
   "warnings": [],
 }
 `;
@@ -1146,6 +1227,25 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 1340238,
     },
   ],
+  "diagnostics": {
+    "failedSections": [],
+    "failedSideReads": [],
+    "parserPin": {
+      "gameVersion": "2.3.540",
+    },
+    "skippedCharacters": [],
+    "source": "paste",
+    "unknownFields": [],
+    "unknownIds": {
+      "classes": [],
+      "items": [],
+      "maps": [],
+      "monsters": [],
+    },
+    "unnamed": false,
+    "unreadableCharacters": [],
+  },
+  "lastPlayedCharacterIndex": 5,
   "warnings": [],
 }
 `;
@@ -1500,6 +1600,25 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "secondsSinceLastSave": 11338668,
     },
   ],
+  "diagnostics": {
+    "failedSections": [],
+    "failedSideReads": [],
+    "parserPin": {
+      "gameVersion": "2.3.540",
+    },
+    "skippedCharacters": [],
+    "source": "paste",
+    "unknownFields": [],
+    "unknownIds": {
+      "classes": [],
+      "items": [],
+      "maps": [],
+      "monsters": [],
+    },
+    "unnamed": false,
+    "unreadableCharacters": [],
+  },
+  "lastPlayedCharacterIndex": 5,
   "warnings": [],
 }
 `;
@@ -1858,6 +1977,25 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "secondsSinceLastSave": 4838443,
     },
   ],
+  "diagnostics": {
+    "failedSections": [],
+    "failedSideReads": [],
+    "parserPin": {
+      "gameVersion": "2.3.540",
+    },
+    "skippedCharacters": [],
+    "source": "paste",
+    "unknownFields": [],
+    "unknownIds": {
+      "classes": [],
+      "items": [],
+      "maps": [],
+      "monsters": [],
+    },
+    "unnamed": false,
+    "unreadableCharacters": [],
+  },
+  "lastPlayedCharacterIndex": 8,
   "warnings": [],
 }
 `;
@@ -2233,6 +2371,25 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "secondsSinceLastSave": 74432810,
     },
   ],
+  "diagnostics": {
+    "failedSections": [],
+    "failedSideReads": [],
+    "parserPin": {
+      "gameVersion": "2.3.540",
+    },
+    "skippedCharacters": [],
+    "source": "paste",
+    "unknownFields": [],
+    "unknownIds": {
+      "classes": [],
+      "items": [],
+      "maps": [],
+      "monsters": [],
+    },
+    "unnamed": false,
+    "unreadableCharacters": [],
+  },
+  "lastPlayedCharacterIndex": 5,
   "warnings": [],
 }
 `;
@@ -2636,6 +2793,25 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "secondsSinceLastSave": 5762203,
     },
   ],
+  "diagnostics": {
+    "failedSections": [],
+    "failedSideReads": [],
+    "parserPin": {
+      "gameVersion": "2.3.540",
+    },
+    "skippedCharacters": [],
+    "source": "paste",
+    "unknownFields": [],
+    "unknownIds": {
+      "classes": [],
+      "items": [],
+      "maps": [],
+      "monsters": [],
+    },
+    "unnamed": false,
+    "unreadableCharacters": [],
+  },
+  "lastPlayedCharacterIndex": 6,
   "warnings": [],
 }
 `;
@@ -2999,6 +3175,25 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "secondsSinceLastSave": 74554579,
     },
   ],
+  "diagnostics": {
+    "failedSections": [],
+    "failedSideReads": [],
+    "parserPin": {
+      "gameVersion": "2.3.540",
+    },
+    "skippedCharacters": [],
+    "source": "paste",
+    "unknownFields": [],
+    "unknownIds": {
+      "classes": [],
+      "items": [],
+      "maps": [],
+      "monsters": [],
+    },
+    "unnamed": false,
+    "unreadableCharacters": [],
+  },
+  "lastPlayedCharacterIndex": 4,
   "warnings": [],
 }
 `;
@@ -3357,6 +3552,25 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "secondsSinceLastSave": 4838443,
     },
   ],
+  "diagnostics": {
+    "failedSections": [],
+    "failedSideReads": [],
+    "parserPin": {
+      "gameVersion": "2.3.540",
+    },
+    "skippedCharacters": [],
+    "source": "paste",
+    "unknownFields": [],
+    "unknownIds": {
+      "classes": [],
+      "items": [],
+      "maps": [],
+      "monsters": [],
+    },
+    "unnamed": false,
+    "unreadableCharacters": [],
+  },
+  "lastPlayedCharacterIndex": 8,
   "warnings": [],
 }
 `;

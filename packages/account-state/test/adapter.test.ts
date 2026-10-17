@@ -1,9 +1,35 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-import type { ParsedSave } from '@idleon-forge/toolbox-parsers';
+import type { ParsedSave, RawSaveEnvelope } from '@idleon-forge/toolbox-parsers';
 import { describe, expect, it } from 'vitest';
-import { AccountShapeError, EmptyAccountError, humanize, toAccountState, UNNAMED_WARNING } from '../src';
+import {
+  AccountShapeError,
+  toAccountState as adapt,
+  EmptyAccountError,
+  humanize,
+  SCHEMA_VERSION,
+  UNNAMED_WARNING,
+} from '../src';
 import { accountStateOf, NOW, PUBLIC_DIR, readSave } from './helpers';
+
+/** The raw keys behind the synthetic parse below, so its presence checks pass. */
+const envelope = (over: Record<string, unknown> = {}): RawSaveEnvelope => ({
+  data: {
+    CharacterClass_0: 1,
+    Lv0_0: '[3]',
+    AFKtarget_0: 'mushG',
+    CurrentMap_0: 0,
+    EquipOrder_0: '[]',
+    EquipQTY_0: '[]',
+    PTimeAway_0: 1000,
+    TimeAway: '{"GlobalTime":1000}',
+    CSver: 34.05,
+    OptLacc: '[]',
+    NPCdialogue_0: '{}',
+    ...over,
+  },
+});
+const toAccountState = (p: ParsedSave, env = envelope()) => adapt(p, env);
 
 const parsed = (over: Partial<ParsedSave> = {}): ParsedSave => ({
   account: {
@@ -28,7 +54,13 @@ const parsed = (over: Partial<ParsedSave> = {}): ParsedSave => ({
   ],
   failedSections: [],
   error: null,
-  meta: { now: 1_060_000, saveVersion: 34.05, capturedAt: null, parserGameVersion: '2.3.540' },
+  meta: {
+    now: 1_060_000,
+    saveVersion: 34.05,
+    capturedAt: null,
+    parserGameVersion: '2.3.540',
+    parserCommit: 'abc123',
+  },
   ...over,
 });
 
@@ -55,6 +87,42 @@ describe('toAccountState', () => {
         secondsSinceLastSave: 60,
       },
     ]);
+    expect(state.schemaVersion).toBe(SCHEMA_VERSION);
+    expect(state.lastPlayedCharacterIndex).toBe(0);
+    expect(state.diagnostics).toEqual({
+      failedSections: [],
+      failedSideReads: [],
+      skippedCharacters: [],
+      unreadableCharacters: [],
+      unknownIds: { monsters: [], maps: [], items: [], classes: [] },
+      // The synthetic parse has no server vars.
+      unknownFields: ['account.gameVersion.serverBuild'],
+      unnamed: false,
+      parserPin: { commit: 'abc123', gameVersion: '2.3.540' },
+      source: 'paste',
+    });
+  });
+
+  it('lists each failed section once, and side reads that errored', () => {
+    const state = adapt(parsed({ failedSections: ['obols', 'obols'] }), {
+      ...envelope(),
+      sideReadReport: { failed: ['guild', 'guild', 'companion'] },
+    });
+    expect(state.diagnostics.failedSections).toEqual(['obols']);
+    expect(state.diagnostics.failedSideReads).toEqual(['guild', 'companion']);
+    expect(state.warnings).toEqual(['Parser section "obols" failed and was skipped.']);
+  });
+
+  it('names the path and the type of a bad value, never the value (it could be a name)', () => {
+    const base = parsed();
+    expect(() => toAccountState({ ...base, characters: ['Secret Name' as never] })).toThrow(
+      'characters[0]: expected an object, got a string',
+    );
+    try {
+      toAccountState({ ...base, characters: ['Secret Name' as never] });
+    } catch (err) {
+      expect(String(err)).not.toContain('Secret');
+    }
   });
 
   it('treats an empty parsed account as a hard error', () => {
@@ -73,6 +141,7 @@ describe('toAccountState', () => {
     const state = toAccountState({ ...base, characters: [...base.characters, { name: 'Stub' }] });
     expect(state.characters).toHaveLength(1);
     expect(state.warnings).toEqual(['Character 2 has no save data and was skipped.']);
+    expect(state.diagnostics.skippedCharacters).toEqual([1]);
   });
 
   it('numbers characters when the save carries no names (a bare paste)', () => {
@@ -80,6 +149,7 @@ describe('toAccountState', () => {
     const state = toAccountState(parsed({ characters: [{ ...c, name: undefined }] }));
     expect(state.characters[0]?.name).toBe('Character 1');
     expect(state.warnings).toEqual([UNNAMED_WARNING]);
+    expect(state.diagnostics.unnamed).toBe(true);
   });
 
   it('fails loudly when upstream renames a field', () => {
@@ -87,6 +157,38 @@ describe('toAccountState', () => {
     expect(() => toAccountState(parsed({ characters: [{ ...c, level: undefined, lvl: 3 }] }))).toThrow(
       AccountShapeError,
     );
+    // US-6: `class` removed from a character, as an upstream rename would.
+    expect(() => toAccountState(parsed({ characters: [{ ...c, class: undefined }] }))).toThrow(
+      /characters\[0\]\.class/,
+    );
+  });
+
+  it('marks the last-played character, and none on a tie (FR-19, TR-12)', () => {
+    // The account saved at 1_000_000 ms; each character's own save time is Toolbox's afkTime (ms).
+    const [c] = parsed().characters;
+    const two = (t0: number, t1: number) =>
+      parsed({
+        characters: [
+          { ...c, afkTime: t0 },
+          { ...c, name: 'Second', afkTime: t1 },
+        ],
+      });
+    const raw = envelope({
+      CharacterClass_1: 1,
+      Lv0_1: '[3]',
+      AFKtarget_1: 'mushG',
+      CurrentMap_1: 0,
+      EquipOrder_1: '[]',
+      EquipQTY_1: '[]',
+      NPCdialogue_1: '{}',
+      PTimeAway_1: 1000,
+    });
+    expect(adapt(two(1_000_000, 977_000), raw).lastPlayedCharacterIndex).toBe(0);
+    expect(adapt(two(977_000, 1_000_000), raw).lastPlayedCharacterIndex).toBe(1);
+    // 0.5 s apart: a tie, so no row opens on its own.
+    expect(adapt(two(1_000_000, 999_500), raw).lastPlayedCharacterIndex).toBeNull();
+    // The newest character save is 31 s away from the account's: not trusted.
+    expect(adapt(two(969_000, 900_000), raw).lastPlayedCharacterIndex).toBeNull();
   });
 
   it('never reports negative ages', () => {
