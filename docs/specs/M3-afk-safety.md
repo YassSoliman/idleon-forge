@@ -629,3 +629,17 @@ These supersede anything above that conflicts with them.
 > - **RT-10:** "Forge slot empty" is an M3 Check: a blocker when ore is owned, otherwise a Next Action. Refinery storage goes under Not covered yet.
 > - **RT-24:** a Stale entry blocks only while its fixture examples pass at the current parser pin; otherwise it becomes a Next Action.
 > - **RT-14:** a cap that is already full now, with a quick fix, always blocks and shows "fills again in about X".
+
+> **Ruled by Yasser after the build PR (2026-10-17, [#31](https://github.com/YassSoliman/idleon-forge/issues/31#issuecomment-6241912981)).** These supersede FR-13's "lowest stack that still reaches 100%" and FR-14's fixed `lowStack`:
+> - **R-FOOD-1, which food FR-13 names:** the **most efficient** food. That is the smallest-tier food whose single bite refills most or all of the character's max HP, so nothing is wasted on overheal. It is chosen among the fixing foods whose owned stack **lasts the whole return**. If no owned stack lasts, the fix is **"equip it, and stock up on <efficient food>"**, even when some is owned, and it is still a blocker (equipping is the quick fix).
+> - **R-FOOD-2, when food is low (FR-14, RT-5):** below **60% of the food's max stack** (the character's food carry cap) when that cap is known, else below an absolute **50**. Unverified caps still err towards silence.
+
+**How the build reads them:**
+- **Heal per bite** is Toolbox data: the item's `Amount` × `getPlayerFoodBonus(character, account, isHealth)`. **Max HP** is `getMaxDamage(...).maxHp` (TR-2: `afk.food[].healPerBite`, `afk.fighting.maxHp`, `fixingFoods[].healPerBite`).
+- **"Most or all"** is the entry's authored `refillShare` (0.5): at least half of max HP. Among those foods the smallest heal wins; when none reaches it, the largest heal wins. When heal per bite is unknown for every fixing food, the largest stack is named (PR #67's rule).
+- **"Lasts the return"** needs the HP the fighter eats per hour, which only the player's own history gives: health food eaten per AFK hour × its heal per bite, measured as in TR-6. Without that history no stack is judged short (D1: no worst-case bound), so the stock-up text appears once there is history.
+- **Stock-up** is the same entry and the same blocker: the Detector sets the finding's `stockUp` slot to 1, and the engine renders the entry's `values.text-stock-up` template.
+- **Max stack** is the character's food carry cap (`getItemCapacity('cFood')`, `afk.fighting.foodCap`). A cap that an equipped stack exceeds is treated as unknown, and the fallback of 50 applies (erring towards silence).
+- **Effect on the fixtures:**
+  - The W2-late Barbarian Lv 60 is now told to equip Meat Pie (500 a bite against about 722 max HP). Under the spec's old rule it would have been Magic Meatloaf ×1.
+  - US-1 changes on both accounts. The W3-early Wizard Lv 73 (153 against a cap of 419) and Squire Lv 85 (146 against 313), and the W2-late Wizard Lv 56 (88 against 184), now get the "Low food" Next Action. It is never a blocker.
