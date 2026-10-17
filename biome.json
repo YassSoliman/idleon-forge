@@ -1,6 +1,10 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.5.15/schema.json",
-  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
   "files": {
     "includes": [
       "**",
@@ -21,7 +25,11 @@
     "lineWidth": 110
   },
   "javascript": {
-    "formatter": { "quoteStyle": "single", "trailingCommas": "all", "semicolons": "always" }
+    "formatter": {
+      "quoteStyle": "single",
+      "trailingCommas": "all",
+      "semicolons": "always"
+    }
   },
   "linter": {
     "enabled": true,
@@ -60,12 +68,86 @@
               "firebase/functions": "ActiveOn is read-only: no callable Functions (M1 TR-21).",
               "@firebase/firestore": "Import firebase/firestore, which the read-only lint rule covers.",
               "@firebase/database": "Import firebase/database, which the read-only lint rule covers.",
-              "@firebase/functions": "ActiveOn is read-only: no callable Functions (M1 TR-21)."
+              "@firebase/functions": "ActiveOn is read-only: no callable Functions (M1 TR-21).",
+              "@idleon-forge/kb-tools": "kb-tools is dev only and never shipped: nothing imports it (M11 TR-1)."
             }
           }
         }
       }
     }
   },
-  "assist": { "actions": { "source": { "organizeImports": "on" } } }
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["packages/knowledge/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@idleon-forge/kb-tools": "kb-tools is dev only and never shipped (M11 TR-1)."
+                },
+                "patterns": [
+                  {
+                    "group": ["@idleon-forge/engine", "@idleon-forge/engine/**"],
+                    "message": "knowledge must not import engine; engine imports knowledge (M11 TR-1)."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/knowledge/detectors/*/*.ts", "!packages/knowledge/detectors/*/*.test.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "**",
+                      "!zod",
+                      "!@idleon-forge/account-state",
+                      "!../../src/types",
+                      "!../../src/helpers"
+                    ],
+                    "message": "Detectors import only zod, Account State types, ../../src/types and ../../src/helpers (M11 TR-1)."
+                  }
+                ]
+              }
+            },
+            "noRestrictedGlobals": {
+              "level": "error",
+              "options": {
+                "deniedGlobals": {
+                  "Date": "Detectors are pure: use ctx.now (M11 FR-12).",
+                  "performance": "Detectors are pure (M11 FR-12).",
+                  "globalThis": "Detectors are pure (M11 FR-12).",
+                  "window": "Detectors run in the worker and are pure (M11 FR-12).",
+                  "self": "Detectors are pure (M11 FR-12).",
+                  "fetch": "Detectors never reach the network (M11 TR-18).",
+                  "localStorage": "Detectors never touch storage (M11 TR-18).",
+                  "indexedDB": "Detectors never touch storage (M11 TR-18).",
+                  "document": "Detectors never touch the DOM (M11 TR-18)."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }
