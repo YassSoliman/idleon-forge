@@ -160,9 +160,9 @@ _Avoid_: source (that is a citation), route, farm spot
 The part of a Walkthrough expected to take longest, which starts first, even before the steps that come earlier in the tree.
 _Avoid_: long pole, blocker (that is a Verdict term), critical path
 
-**Slot Plan**:
+**Parallel Slot Plan**:
 What each character's Parallel Slot should be doing to feed the Demand (first the 3D Printer: which sample to print, take or keep), and when to change it.
-_Avoid_: printer schedule, slot assignment, rotation
+_Avoid_: slot plan (bare; that is the Meta Path's character slots), printer schedule, rotation
 
 ## Knowledge Base entries
 

@@ -21,7 +21,7 @@ The 14 module specs for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/
 | M11 | [Knowledge tooling](M11-knowledge-tooling.md) | The Knowledge Base package: schema, Detector contract, fact generators, CI checks, scrubbed fixtures, golden snapshots, versioning, the authoring and red-team workflow | No Checks. Owns the entry schema, id formats, fact tables, `DetectorContext`, `CheckFinding`, the registry, `kb` CLI, goldens | M1 |
 | M12 | [Release](M12-release.md) | Production deploy, PR Previews, the weekly parser re-sync, BuildInfo, What's new, governance, headers | No Checks. Owns `BuildInfo`, `whats-new.json`, the workflows, CODEOWNERS, rulesets | M1, M10, M11, M13 |
 | M13 | [Suggestions](M13-suggestions.md) | In-app Suggestions and Report this, filed as GitHub issues by a small Worker; the Claude Code listener | No Checks. Owns `SuggestionContext`, `ReportContext`, the name scrub, the Suggestions Worker | M1, M2, M10, M11, M12 |
-| M14 | [Walkthroughs & Slot Plans](M14-walkthroughs-and-slot-plans.md) | Breaks quest, unlock and (later) gear Goals into Requirement Trees and ordered steps; Demand across Walkthroughs; Supplies with drop and anvil effort; one job per character within AFK safety and the pusher; the 3D Printer Slot Plan | `walkthrough.check.assign`, `printer.check.slot-plan`, `walkthrough.contribution.supply`, generated `items.acquisition.*` and `walkthrough.goal.*`. Owns `WalkthroughResult`, `holdingsOf` (M8 TR-6's rule), `SupplyRates`, and builds `reachableFightingMaps` first for M5 | M1, M2, M3, M6, M11; M4 and M5 when present |
+| M14 | [Walkthroughs & Parallel Slot Plans](M14-walkthroughs-and-slot-plans.md) | Breaks quest, unlock and (later) gear Goals into Requirement Trees and ordered steps; Demand across Walkthroughs; Supplies with drop and anvil effort; one job per character within AFK safety and the pusher; the 3D Printer Parallel Slot Plan | `walkthrough.check.assign`, `printer.check.slot-plan`, `walkthrough.contribution.supply`, generated `items.acquisition.*` and `walkthrough.goal.*`. Owns `WalkthroughResult`, `holdingsOf` (M8 TR-6's rule), `SupplyRates`, and builds `reachableFightingMaps` first for M5 | M1, M2, M3, M6, M11; M4 and M5 when present |
 
 ## Build order
 
@@ -36,7 +36,7 @@ The 14 module specs for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/
 | 5 | M13 | Feedback from the first sessions |
 | 6 | M3 | Verdicts become real |
 | 7 | M6 | Free value; the first big content set |
-| 8 | M14 Phase 1 | Quest Walkthroughs and the printer Slot Plan: the owner's top ask; needs only M1–M3, M6, M11 (M14 Q3) |
+| 8 | M14 Phase 1 | Quest Walkthroughs and the printer Parallel Slot Plan: the owner's top ask; needs only M1–M3, M6, M11 (M14 Q3) |
 | 9 | M4 | Purpose turns Ready into "safe and serving" (until then Ready = safe, M3 D4); adds `walkthrough.contribution.supply` |
 | 10 | M7 | Coins |
 | 11 | M8 | Collections; imports M14's `holdingsOf` |
@@ -94,7 +94,7 @@ Every type or function used by more than one module, with the one spec that owns
 | `buildNowView`, `NowView`, `renderNowText`, preference keys | M10 TR-3, TR-8, TR-15 | View model, text snapshot, localStorage | M11 goldens, M13 |
 | `BuildInfo`, `WhatsNewFeed` | M12 TR-4, TR-7 | Build stamp and changelog | M10 footer and What's new, M13 context |
 | `SuggestionContext`, `ReportContext`, `SuggestionRequest`, name scrub, `getSignInProof` (in `packages/sync`) | M13 TR-3, TR-4 | What may leave the browser for a Suggestion (ADR 0008) | M10, M1 |
-| `WalkthroughResult`, `Walkthrough`, `ReqNode`, `SupplyEval`, `Job`, `PrinterSlotPlan`, `planWalkthroughs` | M14 TR-6 | Requirement Trees, Demand, assignments, the printer Slot Plan | M10 (`Goal.walkthrough`), M3 (`printer.check.sample-blank` item), M5 (reservations) |
+| `WalkthroughResult`, `Walkthrough`, `ReqNode`, `SupplyEval`, `Job`, `PrinterSlotPlan`, `planWalkthroughs` | M14 TR-6 | Requirement Trees, Demand, assignments, the printer Parallel Slot Plan | M10 (`Goal.walkthrough`), M3 (`printer.check.sample-blank` item), M5 (reservations) |
 | `holdingsOf` (`packages/engine/src/core/holdings.ts`) | M14 TR-11, implementing M8 TR-6's rule plus Forge output | What the account holds of an item, by place | M8, M14 |
 | `SupplyRates`, `reachableFightingMaps` | M14 TR-3 (reachability to M5 TR-4's rules and tests) | Kill and drop rates on supply maps; per-character reachable maps | M5, M14 |
 | Account State: `anvilTabsOwned`, `forgeOutput`, `liquids`, `storageItems`, `characters[].inventoryItems`, `smithingLevel`, `printer` | M14 TR-2 (`storageItems`, `inventoryItems` shared with M8) | Holdings, gates and printer facts | M8, M14 |
