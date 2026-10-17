@@ -8,22 +8,28 @@
 ### C1 · Barbarian 60 · Fix before you leave
 1 · Fighting Poop · Poopy Sewers · Equip or swap in Meat Pie before you leave: Barbarian is at 78% survivability, and you own 105
 
+### C2 · Squire 43 · Ready
+2 · Mining Copper · Tunnels Entrance · Equip Wyoming blood in a big-bubble slot
+
 ### C5 · Wizard 56 · Ready
-2 · Fighting Snelbie · Djonnuttown · Collect Thread from the anvil (time to cap: 6 h; it refills about 6 h after you collect)
+3 · Fighting Snelbie · Djonnuttown · Collect Thread from the anvil (time to cap: 6 h; it refills about 6 h after you collect)
 
 ### C4 · Bowman 54 · Ready
-3 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 2 h; it refills about 2 h after you collect)
+4 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 2 h; it refills about 2 h after you collect)
 
 ### C3 · Shaman 44 · Ready
-4 · Fighting Slime · Jungle Perimeter · Collect Thread from the anvil (time to cap: 2 h; it refills about 2 h after you collect)
-
-### C2 · Squire 43 · Ready
-5 · Mining Copper · Tunnels Entrance · Collect Thread from the anvil (time to cap: 1 h; it refills about 2 h after you collect)
+5 · Fighting Slime · Jungle Perimeter · Collect Thread from the anvil (time to cap: 2 h; it refills about 2 h after you collect)
 
 ### Account · fix 2 before you leave
 Fix before you leave
 - Fix · Water at cap: Spend Water (bubbles, vials or the Liquid Shop): it's at cap (32 of 32) and may refill before you're back [IdleOn Toolbox, alchemy liquids and liquidCauldrons maxLiquid · 2.3.540]
 - Fix · Arcade balls stop building: Claim Arcade balls before you leave (time to the claim cap: now) [IdleOn Toolbox, getMaxClaimTime and getArcadeBallsToClaim · 2.3.540]
+- Spend · Claim the free pet pull: Claim your free pet pull at Doggy [Toolbox getNextCompanionClaim: anchor + period · 2.3.540]
+- Spend · Collect banked Colosseum tickets: Collect 5 Colosseum tickets [Toolbox enhanceColoTickets: day counters, one a day, 3-day bank · 2.3.540]
+- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [Toolbox getHighscores: Spiketrap best round · 2.3.540]
+- Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [Toolbox getDartsData · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [Toolbox getHoopsData · 2.3.540]
+show more (8)
 
 ## Not covered yet
 Cards

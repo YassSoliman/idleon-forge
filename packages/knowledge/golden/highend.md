@@ -39,7 +39,14 @@
 11 · Spelunking Buried Church · Middle of Nowhere · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### Account · nothing to fix
-- Extra · Refinery runs dry: Refinery runs dry in about now: top up the salt's materials [IdleOn Toolbox, getSaltMatsTimeLeft · 2.3.540]
+- Spend · Claim the free pet pull: Claim your free pet pull at Doggy [Toolbox getNextCompanionClaim: anchor + period · 2.3.540]
+- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [Toolbox dailyShipments alert · 2.3.540]
+- Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [Toolbox getDartsData · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [Toolbox getHoopsData · 2.3.540]
+- Extra · Open Poppy's pond: Open Poppy's pond to convert your fish [Toolbox getKangaroo: pendingFish · 2.3.540]
+show more (5)
+If you have time
+- Use today's 20 minigame plays · about 10m of hands-on play
 
 ## Not covered yet
 Cards

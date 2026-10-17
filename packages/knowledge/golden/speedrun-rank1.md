@@ -17,29 +17,34 @@
 ### C1 · Death Bringer 1780 · Fix before you leave
 4 · Doing nothing · Shimmerfin Grove · Send Death Bringer Lv 1,780 to an AFK Target before you leave
 
-### C6 · Wind Walker 1775 · Fix before you leave
-5 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
-
 ### C11 · Divine Knight 1771 · Fix before you leave
-6 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about 20 min after you collect)
+5 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about 20 min after you collect)
 
 ### C2 · Arcane Cultist 1769 · Fix before you leave
-7 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
+6 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C10 · Siege Breaker 1763 · Fix before you leave
-8 · Fighting Gloomie Mushroom · The Hole · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
-
-### C8 · Voidwalker 1754 · Fix before you leave
-9 · Catching Litterbug · Plastic Basin · Collect Purple Screw from the anvil (time to cap: now; it refills about 20 min after you collect)
+7 · Fighting Gloomie Mushroom · The Hole · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C3 · Siege Breaker 1647 · Fix before you leave
-10 · Spelunking Fearful Tunnel · Refraction Bend · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
+8 · Spelunking Fearful Tunnel · Refraction Bend · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
+
+### C6 · Wind Walker 1775 · Fix before you leave
+9 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
+
+### C8 · Voidwalker 1754 · Fix before you leave
+10 · Catching Litterbug · Plastic Basin · Collect Purple Screw from the anvil (time to cap: now; it refills about 20 min after you collect)
 
 ### C5 · Elemental Sorcerer 1700 · Fix before you leave
 11 · In the Lab · Outer World Town · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### Account · nothing to fix
-- Extra · Refinery runs dry: Refinery runs dry in about under 10 min: top up the salt's materials [IdleOn Toolbox, getSaltMatsTimeLeft · 2.3.540]
+- Spend · Claim the free pet pull: Claim your free pet pull at Doggy [Toolbox getNextCompanionClaim: anchor + period · 2.3.540]
+- Grow · Switch on a Refinery salt: Switch on Propagated Salt in the Refinery [Toolbox hasMissingMats · 2.3.540]
+- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [Toolbox getHighscores: Spiketrap best round · 2.3.540]
+- Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [Toolbox getDartsData · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [Toolbox getHoopsData · 2.3.540]
+show more (6)
 
 ## Not covered yet
 Cards

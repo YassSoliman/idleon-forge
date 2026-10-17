@@ -12,7 +12,13 @@
 2 · Fighting Woodlin Spirit · Edge of the Valley · Can't tell from the save
 
 ### Account · nothing to fix
-- Extra · Refinery runs dry: Refinery runs dry in about 60 min: top up the salt's materials [IdleOn Toolbox, getSaltMatsTimeLeft · 2.3.540]
+- Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [Toolbox getHighscores: Spiketrap best round · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [Toolbox getHoopsData · 2.3.540]
+- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [Toolbox dailyShipments alert · 2.3.540]
+- Extra · Gems unspent: 999 gems unspent [Priority verification 7.5: the first gem buy is contested · 2.3.540]
+  sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
+- Spend · Spend W1 merits: Spend 12 W1 merits [Toolbox getTasks: merits and their levels · 2.3.540]
+show more (5)
 
 ## Not covered yet
 Cards

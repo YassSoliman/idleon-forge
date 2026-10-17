@@ -8,38 +8,44 @@
 ### C9 · Royal Guardian 1307 · Fix before you leave
 1 · Fighting Verminous · The Royal Castle · Collect Pinion Spur from the anvil (time to cap: now; it refills about 10 min after you collect)
 
-### C2 · Death Bringer 1292 · Fix before you leave
-2 · Doing nothing · Shimmerfin Grove · Send Death Bringer Lv 1,292 to an AFK Target before you leave
-
 ### C1 · Siege Breaker 1291 · Fix before you leave
-3 · Cooking · Outer World Town · Collect Boring Brick from the anvil (time to cap: now; it refills about under 10 min after you collect)
-
-### C6 · Wind Walker 1280 · Fix before you leave
-4 · Doing nothing · Frostbite Towndra · Send Wind Walker Lv 1,280 to an AFK Target before you leave
+2 · Cooking · Outer World Town · Collect Boring Brick from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C10 · Bubonic Conjuror 1268 · Fix before you leave
-5 · Fighting Green Mushroom · Spore Meadows · Collect Chain Link from the anvil (time to cap: now; it refills about under 10 min after you collect)
+3 · Fighting Green Mushroom · Spore Meadows · Collect Chain Link from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C8 · Siege Breaker 1261 · Fix before you leave
-6 · Cooking · Outer World Town · Collect Lugi Bracket from the anvil (time to cap: now; it refills about 10 min after you collect)
+4 · Cooking · Outer World Town · Collect Lugi Bracket from the anvil (time to cap: now; it refills about 10 min after you collect)
 
 ### C4 · Divine Knight 1240 · Fix before you leave
-7 · Cooking · Outer World Town · Collect Trusty Nails from the anvil (time to cap: now; it refills about under 10 min after you collect)
+5 · Cooking · Outer World Town · Collect Trusty Nails from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C5 · Arcane Cultist 1231 · Fix before you leave
-8 · Cooking · Outer World Town · Collect Purple Screw from the anvil (time to cap: now; it refills about 60 min after you collect)
-
-### C11 · Beginner 1224 · Fix before you leave
-9 · Cooking · Outer World Town · Collect Thread from the anvil (time to cap: now; it refills about under 10 min after you collect)
+6 · Cooking · Outer World Town · Collect Purple Screw from the anvil (time to cap: now; it refills about 60 min after you collect)
 
 ### C7 · Voidwalker 1157 · Fix before you leave
-10 · Fishing Medium Fish · YumYum Islands · Collect PVC Pipe from the anvil (time to cap: now; it refills about 2 h after you collect)
+7 · Fishing Medium Fish · YumYum Islands · Collect PVC Pipe from the anvil (time to cap: now; it refills about 2 h after you collect)
+
+### C2 · Death Bringer 1292 · Fix before you leave
+8 · Doing nothing · Shimmerfin Grove · Send Death Bringer Lv 1,292 to an AFK Target before you leave
+
+### C6 · Wind Walker 1280 · Fix before you leave
+9 · Doing nothing · Frostbite Towndra · Send Wind Walker Lv 1,280 to an AFK Target before you leave
+
+### C11 · Beginner 1224 · Fix before you leave
+10 · Cooking · Outer World Town · Collect Thread from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C3 · Elemental Sorcerer 1259 · Fix before you leave
 11 · Cooking · Outer World Town · Collect Purple Screw from the anvil (time to cap: now; it refills about 3 h after you collect)
 
 ### Account · nothing to fix
-- Extra · Refinery runs dry: Refinery runs dry in about now: top up the salt's materials [IdleOn Toolbox, getSaltMatsTimeLeft · 2.3.540]
+- Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [Toolbox getDartsData · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [Toolbox getHoopsData · 2.3.540]
+- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [Toolbox dailyShipments alert · 2.3.540]
+- Extra · Open Poppy's pond: Open Poppy's pond to convert your fish [Toolbox getKangaroo: pendingFish · 2.3.540]
+- Extra · Gems unspent: 29,781,713 gems unspent [Priority verification 7.5: the first gem buy is contested · 2.3.540]
+  sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
+show more (3)
 
 ## Not covered yet
 Cards

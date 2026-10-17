@@ -21,12 +21,18 @@
 5 · In the Lab · Outer World Town · Not covered yet: AFK safety
 
 ### C1 · Blood Berserker 96 · Ready
-6 · Fighting Purp Mushroom · Spaceway Raceway · Traps finish in about 5 h, then sit idle until you're back
+6 · Fighting Purp Mushroom · Spaceway Raceway · Collect 2 boss keys
 
 ### C4 · Divine Knight 86 · Ready
-7 · Fighting Purp Mushroom · Spaceway Raceway · Traps finish in about 5 h, then sit idle until you're back
+7 · Fighting Purp Mushroom · Spaceway Raceway · Spend 1 anvil points on Speed
 
 ### Account · nothing to fix
+- Grow · Switch on a Refinery salt: Switch on Explosive Salts in the Refinery [Toolbox hasMissingMats · 2.3.540]
+- Spend · Collect banked Colosseum tickets: Collect 9 Colosseum tickets [Toolbox enhanceColoTickets: day counters, one a day, 3-day bank · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [Toolbox getHoopsData · 2.3.540]
+- Spend · Use your vial attempts: Use your 13 vial attempts on the W2 town cauldron [Toolbox vialsAttempts alert: attempts left and a locked vial's item held · 2.3.540]
+- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [Toolbox dailyShipments alert · 2.3.540]
+show more (4)
 
 ## Not covered yet
 Cards
