@@ -1,0 +1,1214 @@
+{
+  "entries": [
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "tools": [
+          {
+            "level": 4,
+            "materials": [
+              {
+                "quantity": 500,
+                "rawName": "JungleTree"
+              },
+              {
+                "quantity": 400,
+                "rawName": "Bug1"
+              }
+            ],
+            "name": "Copper Netted Net",
+            "rawName": "CatchingNet2"
+          },
+          {
+            "level": 10,
+            "materials": [
+              {
+                "quantity": 800,
+                "rawName": "ForestTree"
+              },
+              {
+                "quantity": 850,
+                "rawName": "Bug2"
+              },
+              {
+                "quantity": 3,
+                "rawName": "PureWater"
+              }
+            ],
+            "name": "Reinforced Net",
+            "rawName": "CatchingNet3"
+          },
+          {
+            "level": 15,
+            "materials": [
+              {
+                "quantity": 5,
+                "rawName": "Quest19"
+              },
+              {
+                "quantity": 2500,
+                "rawName": "Bug2"
+              },
+              {
+                "quantity": 1,
+                "rawName": "CatchingNet3"
+              }
+            ],
+            "name": "Golden Net",
+            "rawName": "CatchingNet4"
+          },
+          {
+            "level": 20,
+            "materials": [
+              {
+                "quantity": 7000,
+                "rawName": "Bug4"
+              },
+              {
+                "quantity": 3000,
+                "rawName": "Plat"
+              },
+              {
+                "quantity": 1,
+                "rawName": "CatchingNet4"
+              }
+            ],
+            "name": "Platinet",
+            "rawName": "CatchingNet5"
+          },
+          {
+            "level": 25,
+            "materials": [
+              {
+                "quantity": 15000,
+                "rawName": "Bug5"
+              },
+              {
+                "quantity": 50,
+                "rawName": "Refinery1"
+              },
+              {
+                "quantity": 1,
+                "rawName": "CatchingNet5"
+              }
+            ],
+            "name": "Dementia Net",
+            "rawName": "CatchingNet6"
+          },
+          {
+            "level": 30,
+            "materials": [
+              {
+                "quantity": 50000,
+                "rawName": "Bug6"
+              },
+              {
+                "quantity": 1,
+                "rawName": "CatchingNet6"
+              },
+              {
+                "quantity": 5,
+                "rawName": "PureWater2"
+              }
+            ],
+            "name": "Void Imperium Net",
+            "rawName": "CatchingNet7"
+          },
+          {
+            "level": 40,
+            "materials": [
+              {
+                "quantity": 130000,
+                "rawName": "Bug7"
+              },
+              {
+                "quantity": 1,
+                "rawName": "CatchingNet7"
+              },
+              {
+                "quantity": 750,
+                "rawName": "Refinery4"
+              }
+            ],
+            "name": "Lustre Netting",
+            "rawName": "CatchingNet8"
+          },
+          {
+            "level": 50,
+            "materials": [
+              {
+                "quantity": 100000,
+                "rawName": "Bug8"
+              },
+              {
+                "quantity": 5,
+                "rawName": "GalaxyC1b"
+              },
+              {
+                "quantity": 1,
+                "rawName": "CatchingNet8"
+              }
+            ],
+            "name": "Starfire Trim Netting",
+            "rawName": "CatchingNet9"
+          },
+          {
+            "level": 65,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "CatchingNet9"
+              },
+              {
+                "quantity": 250000,
+                "rawName": "Bug9"
+              }
+            ],
+            "name": "Dreadlo Matted Netting",
+            "rawName": "CatchingNet10"
+          },
+          {
+            "level": 80,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "CatchingNet10"
+              },
+              {
+                "quantity": 2000000,
+                "rawName": "Bug11"
+              }
+            ],
+            "name": "Marbiglass Netting",
+            "rawName": "CatchingNet11"
+          },
+          {
+            "level": 95,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "CatchingNet11"
+              },
+              {
+                "quantity": 5000000,
+                "rawName": "Bug13"
+              },
+              {
+                "quantity": 40000,
+                "rawName": "GodshardBar"
+              }
+            ],
+            "name": "Wrangler of the Qoxzul",
+            "rawName": "CatchingNet12"
+          },
+          {
+            "level": 105,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "CatchingNet12"
+              },
+              {
+                "quantity": 20000000,
+                "rawName": "Bug15"
+              }
+            ],
+            "name": "Prehistoric Netting",
+            "rawName": "CatchingNet13"
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "tools",
+        "inputs": ["website-data/items.json", "website-data/crafts.json"]
+      },
+      "id": "skills.goal.tool-catching",
+      "milestones": [
+        {
+          "at": 4,
+          "reward": "Copper Netted Net"
+        },
+        {
+          "at": 10,
+          "reward": "Reinforced Net"
+        },
+        {
+          "at": 15,
+          "reward": "Golden Net"
+        },
+        {
+          "at": 20,
+          "reward": "Platinet"
+        },
+        {
+          "at": 25,
+          "reward": "Dementia Net"
+        },
+        {
+          "at": 30,
+          "reward": "Void Imperium Net"
+        },
+        {
+          "at": 40,
+          "reward": "Lustre Netting"
+        },
+        {
+          "at": 50,
+          "reward": "Starfire Trim Netting"
+        },
+        {
+          "at": 65,
+          "reward": "Dreadlo Matted Netting"
+        },
+        {
+          "at": 80,
+          "reward": "Marbiglass Netting"
+        },
+        {
+          "at": 95,
+          "reward": "Wrangler of the Qoxzul"
+        },
+        {
+          "at": 105,
+          "reward": "Prehistoric Netting"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "skills/level",
+        "params": {
+          "skill": "catching"
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: tool lvReqToEquip and anvil recipes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "skills",
+      "text": "Catching level {value:int}; next tool tier at level {next:int}",
+      "title": "Catching tools",
+      "type": "goal",
+      "unit": "level",
+      "values": {
+        "skill": "catching"
+      },
+      "why": "A better catching tool raises the catching rate."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "tools": [
+          {
+            "level": 4,
+            "materials": [
+              {
+                "quantity": 6,
+                "rawName": "OakTree"
+              }
+            ],
+            "name": "Copper Chopper",
+            "rawName": "EquipmentToolsHatchet3"
+          },
+          {
+            "level": 8,
+            "materials": [
+              {
+                "quantity": 200,
+                "rawName": "JungleTree"
+              }
+            ],
+            "name": "Iron Hatchet",
+            "rawName": "EquipmentToolsHatchet1"
+          },
+          {
+            "level": 15,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentToolsHatchet1"
+              },
+              {
+                "quantity": 5,
+                "rawName": "Quest19"
+              },
+              {
+                "quantity": 2000,
+                "rawName": "DesertA3"
+              }
+            ],
+            "name": "Golden Axe",
+            "rawName": "EquipmentToolsHatchet2"
+          },
+          {
+            "level": 20,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentToolsHatchet2"
+              },
+              {
+                "quantity": 6500,
+                "rawName": "PalmTree"
+              },
+              {
+                "quantity": 5000,
+                "rawName": "CraftMat7"
+              }
+            ],
+            "name": "Plat Hatchet",
+            "rawName": "EquipmentToolsHatchet4"
+          },
+          {
+            "level": 25,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentToolsHatchet4"
+              },
+              {
+                "quantity": 15000,
+                "rawName": "SaharanFoal"
+              },
+              {
+                "quantity": 50,
+                "rawName": "Refinery1"
+              }
+            ],
+            "name": "Dementia Dicer",
+            "rawName": "EquipmentToolsHatchet5"
+          },
+          {
+            "level": 30,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentToolsHatchet5"
+              },
+              {
+                "quantity": 50000,
+                "rawName": "Tree7"
+              },
+              {
+                "quantity": 5,
+                "rawName": "PureWater2"
+              }
+            ],
+            "name": "Void Imperium Axe",
+            "rawName": "EquipmentToolsHatchet7"
+          },
+          {
+            "level": 40,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentToolsHatchet7"
+              },
+              {
+                "quantity": 110000,
+                "rawName": "AlienTree"
+              },
+              {
+                "quantity": 600,
+                "rawName": "Refinery4"
+              }
+            ],
+            "name": "Lustre Logger",
+            "rawName": "EquipmentToolsHatchet6"
+          },
+          {
+            "level": 50,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentToolsHatchet6"
+              },
+              {
+                "quantity": 100000,
+                "rawName": "Tree8"
+              },
+              {
+                "quantity": 5,
+                "rawName": "GalaxyC1b"
+              }
+            ],
+            "name": "Starfire Hatchet",
+            "rawName": "EquipmentToolsHatchet8"
+          },
+          {
+            "level": 65,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentToolsHatchet8"
+              },
+              {
+                "quantity": 250000,
+                "rawName": "Tree9"
+              }
+            ],
+            "name": "Dreadlo Hatchet",
+            "rawName": "EquipmentToolsHatchet9"
+          },
+          {
+            "level": 75,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentToolsHatchet9"
+              },
+              {
+                "quantity": 3000000,
+                "rawName": "Tree11"
+              }
+            ],
+            "name": "Marbiglass Hatchet",
+            "rawName": "EquipmentToolsHatchet12"
+          },
+          {
+            "level": 90,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentToolsHatchet12"
+              },
+              {
+                "quantity": 10000000,
+                "rawName": "SpiD2"
+              },
+              {
+                "quantity": 10000000,
+                "rawName": "Tree13"
+              },
+              {
+                "quantity": 30000,
+                "rawName": "GodshardBar"
+              }
+            ],
+            "name": "Annihilator of the Yggdrasil",
+            "rawName": "EquipmentToolsHatchet10"
+          },
+          {
+            "level": 100,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentToolsHatchet10"
+              },
+              {
+                "quantity": 3000000,
+                "rawName": "Tree14"
+              }
+            ],
+            "name": "Prehistoric Choppah",
+            "rawName": "EquipmentToolsHatchet13"
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "tools",
+        "inputs": ["website-data/items.json", "website-data/crafts.json"]
+      },
+      "id": "skills.goal.tool-chopping",
+      "milestones": [
+        {
+          "at": 4,
+          "reward": "Copper Chopper"
+        },
+        {
+          "at": 8,
+          "reward": "Iron Hatchet"
+        },
+        {
+          "at": 15,
+          "reward": "Golden Axe"
+        },
+        {
+          "at": 20,
+          "reward": "Plat Hatchet"
+        },
+        {
+          "at": 25,
+          "reward": "Dementia Dicer"
+        },
+        {
+          "at": 30,
+          "reward": "Void Imperium Axe"
+        },
+        {
+          "at": 40,
+          "reward": "Lustre Logger"
+        },
+        {
+          "at": 50,
+          "reward": "Starfire Hatchet"
+        },
+        {
+          "at": 65,
+          "reward": "Dreadlo Hatchet"
+        },
+        {
+          "at": 75,
+          "reward": "Marbiglass Hatchet"
+        },
+        {
+          "at": 90,
+          "reward": "Annihilator of the Yggdrasil"
+        },
+        {
+          "at": 100,
+          "reward": "Prehistoric Choppah"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "skills/level",
+        "params": {
+          "skill": "chopping"
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: tool lvReqToEquip and anvil recipes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "skills",
+      "text": "Chopping level {value:int}; next tool tier at level {next:int}",
+      "title": "Chopping tools",
+      "type": "goal",
+      "unit": "level",
+      "values": {
+        "skill": "chopping"
+      },
+      "why": "A better chopping tool raises the chopping rate."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "tools": [
+          {
+            "level": 4,
+            "materials": [
+              {
+                "quantity": 200,
+                "rawName": "CopperBar"
+              },
+              {
+                "quantity": 180,
+                "rawName": "Fish1"
+              }
+            ],
+            "name": "Copper Fish Rod",
+            "rawName": "FishingRod2"
+          },
+          {
+            "level": 9,
+            "materials": [
+              {
+                "quantity": 300,
+                "rawName": "IronBar"
+              },
+              {
+                "quantity": 650,
+                "rawName": "Fish2"
+              },
+              {
+                "quantity": 3,
+                "rawName": "PureWater"
+              }
+            ],
+            "name": "Iron Fishing Rod",
+            "rawName": "FishingRod3"
+          },
+          {
+            "level": 15,
+            "materials": [
+              {
+                "quantity": 2500,
+                "rawName": "Fish2"
+              },
+              {
+                "quantity": 1000,
+                "rawName": "CraftMat9"
+              },
+              {
+                "quantity": 1,
+                "rawName": "FishingRod3"
+              }
+            ],
+            "name": "Gold Fishing Rod",
+            "rawName": "FishingRod4"
+          },
+          {
+            "level": 25,
+            "materials": [
+              {
+                "quantity": 2000,
+                "rawName": "Fish4"
+              },
+              {
+                "quantity": 800,
+                "rawName": "PlatBar"
+              },
+              {
+                "quantity": 1,
+                "rawName": "FishingRod4"
+              }
+            ],
+            "name": "Plat Fishing Rod",
+            "rawName": "FishingRod5"
+          },
+          {
+            "level": 33,
+            "materials": [
+              {
+                "quantity": 300,
+                "rawName": "DementiaBar"
+              },
+              {
+                "quantity": 50,
+                "rawName": "Refinery1"
+              },
+              {
+                "quantity": 1,
+                "rawName": "FishingRod5"
+              }
+            ],
+            "name": "Dementia Rod for Fishing",
+            "rawName": "FishingRod6"
+          },
+          {
+            "level": 40,
+            "materials": [
+              {
+                "quantity": 200,
+                "rawName": "Refinery3"
+              },
+              {
+                "quantity": 3,
+                "rawName": "Critter5A"
+              },
+              {
+                "quantity": 1,
+                "rawName": "FishingRod6"
+              },
+              {
+                "quantity": 5,
+                "rawName": "PureWater2"
+              }
+            ],
+            "name": "Void Imperium Rod",
+            "rawName": "FishingRod7"
+          },
+          {
+            "level": 45,
+            "materials": [
+              {
+                "quantity": 90000,
+                "rawName": "Fish5"
+              },
+              {
+                "quantity": 1,
+                "rawName": "FishingRod7"
+              },
+              {
+                "quantity": 750,
+                "rawName": "Refinery4"
+              }
+            ],
+            "name": "Lustre Rod",
+            "rawName": "FishingRod8"
+          },
+          {
+            "level": 50,
+            "materials": [
+              {
+                "quantity": 40000,
+                "rawName": "Fish7"
+              },
+              {
+                "quantity": 5,
+                "rawName": "GalaxyC1b"
+              },
+              {
+                "quantity": 1,
+                "rawName": "FishingRod8"
+              }
+            ],
+            "name": "Starfire Rod",
+            "rawName": "FishingRod9"
+          },
+          {
+            "level": 60,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "FishingRod9"
+              },
+              {
+                "quantity": 250000,
+                "rawName": "Fish8"
+              }
+            ],
+            "name": "Dreadlo Rod",
+            "rawName": "FishingRod10"
+          },
+          {
+            "level": 75,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "FishingRod10"
+              },
+              {
+                "quantity": 2000000,
+                "rawName": "Fish9"
+              }
+            ],
+            "name": "Marbiglass Rod",
+            "rawName": "FishingRod11"
+          },
+          {
+            "level": 90,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "FishingRod11"
+              },
+              {
+                "quantity": 5000000,
+                "rawName": "Fish11"
+              },
+              {
+                "quantity": 30000,
+                "rawName": "GodshardBar"
+              }
+            ],
+            "name": "Angler of the Iliunne",
+            "rawName": "FishingRod12"
+          },
+          {
+            "level": 100,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "FishingRod12"
+              },
+              {
+                "quantity": 100000000,
+                "rawName": "Fish12"
+              }
+            ],
+            "name": "Prehistoric Rod",
+            "rawName": "FishingRod13"
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "tools",
+        "inputs": ["website-data/items.json", "website-data/crafts.json"]
+      },
+      "id": "skills.goal.tool-fishing",
+      "milestones": [
+        {
+          "at": 4,
+          "reward": "Copper Fish Rod"
+        },
+        {
+          "at": 9,
+          "reward": "Iron Fishing Rod"
+        },
+        {
+          "at": 15,
+          "reward": "Gold Fishing Rod"
+        },
+        {
+          "at": 25,
+          "reward": "Plat Fishing Rod"
+        },
+        {
+          "at": 33,
+          "reward": "Dementia Rod for Fishing"
+        },
+        {
+          "at": 40,
+          "reward": "Void Imperium Rod"
+        },
+        {
+          "at": 45,
+          "reward": "Lustre Rod"
+        },
+        {
+          "at": 50,
+          "reward": "Starfire Rod"
+        },
+        {
+          "at": 60,
+          "reward": "Dreadlo Rod"
+        },
+        {
+          "at": 75,
+          "reward": "Marbiglass Rod"
+        },
+        {
+          "at": 90,
+          "reward": "Angler of the Iliunne"
+        },
+        {
+          "at": 100,
+          "reward": "Prehistoric Rod"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "skills/level",
+        "params": {
+          "skill": "fishing"
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: tool lvReqToEquip and anvil recipes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "skills",
+      "text": "Fishing level {value:int}; next tool tier at level {next:int}",
+      "title": "Fishing tools",
+      "type": "goal",
+      "unit": "level",
+      "values": {
+        "skill": "fishing"
+      },
+      "why": "A better fishing tool raises the fishing rate."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "tools": [
+          {
+            "level": 3,
+            "materials": [
+              {
+                "quantity": 8,
+                "rawName": "Copper"
+              }
+            ],
+            "name": "Copper Pickaxe",
+            "rawName": "EquipmentTools2"
+          },
+          {
+            "level": 8,
+            "materials": [
+              {
+                "quantity": 100,
+                "rawName": "Iron"
+              }
+            ],
+            "name": "Iron Pickaxe",
+            "rawName": "EquipmentTools3"
+          },
+          {
+            "level": 15,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentTools3"
+              },
+              {
+                "quantity": 2500,
+                "rawName": "DesertA2"
+              },
+              {
+                "quantity": 400,
+                "rawName": "GoldBar"
+              }
+            ],
+            "name": "Gold Pickaxe",
+            "rawName": "EquipmentTools5"
+          },
+          {
+            "level": 25,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentTools5"
+              },
+              {
+                "quantity": 800,
+                "rawName": "PlatBar"
+              },
+              {
+                "quantity": 10500,
+                "rawName": "DesertB3"
+              }
+            ],
+            "name": "Platinum Pickaxe",
+            "rawName": "EquipmentTools6"
+          },
+          {
+            "level": 37,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentTools6"
+              },
+              {
+                "quantity": 275,
+                "rawName": "DementiaBar"
+              },
+              {
+                "quantity": 15000,
+                "rawName": "SnowA3"
+              }
+            ],
+            "name": "Dementia Pickaxe",
+            "rawName": "EquipmentTools7"
+          },
+          {
+            "level": 45,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentTools7"
+              },
+              {
+                "quantity": 400,
+                "rawName": "VoidBar"
+              },
+              {
+                "quantity": 5,
+                "rawName": "PureWater2"
+              }
+            ],
+            "name": "Void Imperium Pik",
+            "rawName": "EquipmentTools11"
+          },
+          {
+            "level": 55,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentTools11"
+              },
+              {
+                "quantity": 250,
+                "rawName": "LustreBar"
+              },
+              {
+                "quantity": 600,
+                "rawName": "Refinery4"
+              }
+            ],
+            "name": "Lustre Pickaxe",
+            "rawName": "EquipmentTools8"
+          },
+          {
+            "level": 65,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentTools8"
+              },
+              {
+                "quantity": 500,
+                "rawName": "StarfireBar"
+              },
+              {
+                "quantity": 5,
+                "rawName": "GalaxyC1b"
+              }
+            ],
+            "name": "Starfire Pickaxe",
+            "rawName": "EquipmentTools12"
+          },
+          {
+            "level": 70,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentTools12"
+              },
+              {
+                "quantity": 600,
+                "rawName": "DreadloBar"
+              }
+            ],
+            "name": "Dreadlo Pickolo",
+            "rawName": "EquipmentTools9"
+          },
+          {
+            "level": 80,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentTools9"
+              },
+              {
+                "quantity": 7500,
+                "rawName": "MarbleBar"
+              }
+            ],
+            "name": "Marbiglass Pickaxe",
+            "rawName": "EquipmentTools14"
+          },
+          {
+            "level": 100,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentTools14"
+              },
+              {
+                "quantity": 5000000,
+                "rawName": "SpiD1"
+              },
+              {
+                "quantity": 10000,
+                "rawName": "GodshardBar"
+              }
+            ],
+            "name": "Destroyer of the Mollo Gomme",
+            "rawName": "EquipmentTools15"
+          },
+          {
+            "level": 110,
+            "materials": [
+              {
+                "quantity": 1,
+                "rawName": "EquipmentTools15"
+              },
+              {
+                "quantity": 50000,
+                "rawName": "PrehistriumBar"
+              }
+            ],
+            "name": "Prehistoric Pickaxe",
+            "rawName": "EquipmentTools16"
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "tools",
+        "inputs": ["website-data/items.json", "website-data/crafts.json"]
+      },
+      "id": "skills.goal.tool-mining",
+      "milestones": [
+        {
+          "at": 3,
+          "reward": "Copper Pickaxe"
+        },
+        {
+          "at": 8,
+          "reward": "Iron Pickaxe"
+        },
+        {
+          "at": 15,
+          "reward": "Gold Pickaxe"
+        },
+        {
+          "at": 25,
+          "reward": "Platinum Pickaxe"
+        },
+        {
+          "at": 37,
+          "reward": "Dementia Pickaxe"
+        },
+        {
+          "at": 45,
+          "reward": "Void Imperium Pik"
+        },
+        {
+          "at": 55,
+          "reward": "Lustre Pickaxe"
+        },
+        {
+          "at": 65,
+          "reward": "Starfire Pickaxe"
+        },
+        {
+          "at": 70,
+          "reward": "Dreadlo Pickolo"
+        },
+        {
+          "at": 80,
+          "reward": "Marbiglass Pickaxe"
+        },
+        {
+          "at": 100,
+          "reward": "Destroyer of the Mollo Gomme"
+        },
+        {
+          "at": 110,
+          "reward": "Prehistoric Pickaxe"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "skills/level",
+        "params": {
+          "skill": "mining"
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: tool lvReqToEquip and anvil recipes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "skills",
+      "text": "Mining level {value:int}; next tool tier at level {next:int}",
+      "title": "Mining tools",
+      "type": "goal",
+      "unit": "level",
+      "values": {
+        "skill": "mining"
+      },
+      "why": "A better mining tool raises the mining rate."
+    }
+  ],
+  "generator": "tools",
+  "system": "skills"
+}

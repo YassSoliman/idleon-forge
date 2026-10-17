@@ -1,0 +1,262 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "obols",
+        "inputs": [
+          "website-data/monsterDrops.json",
+          "website-data/shared-data.json#obols",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "obols.fact.slots",
+      "origin": "generated",
+      "rows": {
+        "character": [
+          {
+            "levelReq": 32,
+            "shape": "Square",
+            "slot": 0
+          },
+          {
+            "levelReq": 0,
+            "shape": "Circle",
+            "slot": 1
+          },
+          {
+            "levelReq": 105,
+            "shape": "Hexagon",
+            "slot": 2
+          },
+          {
+            "levelReq": 40,
+            "shape": "Circle",
+            "slot": 3
+          },
+          {
+            "levelReq": 60,
+            "shape": "Square",
+            "slot": 4
+          },
+          {
+            "levelReq": 25,
+            "shape": "Circle",
+            "slot": 5
+          },
+          {
+            "levelReq": 130,
+            "shape": "Circle",
+            "slot": 6
+          },
+          {
+            "levelReq": 152,
+            "shape": "Circle",
+            "slot": 7
+          },
+          {
+            "levelReq": 48,
+            "shape": "Circle",
+            "slot": 8
+          },
+          {
+            "levelReq": 190,
+            "shape": "Square",
+            "slot": 9
+          },
+          {
+            "levelReq": 250,
+            "shape": "Sparkle",
+            "slot": 10
+          },
+          {
+            "levelReq": 140,
+            "shape": "Square",
+            "slot": 11
+          },
+          {
+            "levelReq": 210,
+            "shape": "Circle",
+            "slot": 12
+          },
+          {
+            "levelReq": 170,
+            "shape": "Circle",
+            "slot": 13
+          },
+          {
+            "levelReq": 112,
+            "shape": "Circle",
+            "slot": 14
+          },
+          {
+            "levelReq": 98,
+            "shape": "Circle",
+            "slot": 15
+          },
+          {
+            "levelReq": 70,
+            "shape": "Circle",
+            "slot": 16
+          },
+          {
+            "levelReq": 80,
+            "shape": "Circle",
+            "slot": 17
+          },
+          {
+            "levelReq": 120,
+            "shape": "Square",
+            "slot": 18
+          },
+          {
+            "levelReq": 180,
+            "shape": "Hexagon",
+            "slot": 19
+          },
+          {
+            "levelReq": 90,
+            "shape": "Square",
+            "slot": 20
+          }
+        ],
+        "family": [
+          {
+            "levelReq": 60,
+            "shape": "Circle",
+            "slot": 0
+          },
+          {
+            "levelReq": 250,
+            "shape": "Circle",
+            "slot": 1
+          },
+          {
+            "levelReq": 200,
+            "shape": "Square",
+            "slot": 2
+          },
+          {
+            "levelReq": 350,
+            "shape": "Circle",
+            "slot": 3
+          },
+          {
+            "levelReq": 100,
+            "shape": "Circle",
+            "slot": 4
+          },
+          {
+            "levelReq": 1250,
+            "shape": "Circle",
+            "slot": 5
+          },
+          {
+            "levelReq": 400,
+            "shape": "Hexagon",
+            "slot": 6
+          },
+          {
+            "levelReq": 650,
+            "shape": "Sparkle",
+            "slot": 7
+          },
+          {
+            "levelReq": 900,
+            "shape": "Hexagon",
+            "slot": 8
+          },
+          {
+            "levelReq": 1500,
+            "shape": "Circle",
+            "slot": 9
+          },
+          {
+            "levelReq": 1150,
+            "shape": "Square",
+            "slot": 10
+          },
+          {
+            "levelReq": 1200,
+            "shape": "Sparkle",
+            "slot": 11
+          },
+          {
+            "levelReq": 2500,
+            "shape": "Sparkle",
+            "slot": 12
+          },
+          {
+            "levelReq": 2000,
+            "shape": "Square",
+            "slot": 13
+          },
+          {
+            "levelReq": 2100,
+            "shape": "Circle",
+            "slot": 14
+          },
+          {
+            "levelReq": 3000,
+            "shape": "Hexagon",
+            "slot": 15
+          },
+          {
+            "levelReq": 5000,
+            "shape": "Sparkle",
+            "slot": 16
+          },
+          {
+            "levelReq": 1750,
+            "shape": "Hexagon",
+            "slot": 17
+          },
+          {
+            "levelReq": 400,
+            "shape": "Circle",
+            "slot": 18
+          },
+          {
+            "levelReq": 160,
+            "shape": "Circle",
+            "slot": 19
+          },
+          {
+            "levelReq": 875,
+            "shape": "Circle",
+            "slot": 20
+          },
+          {
+            "levelReq": 700,
+            "shape": "Square",
+            "slot": 21
+          },
+          {
+            "levelReq": 470,
+            "shape": "Circle",
+            "slot": 22
+          },
+          {
+            "levelReq": 80,
+            "shape": "Circle",
+            "slot": 23
+          }
+        ]
+      },
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: obols",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "obols",
+      "title": "Obol slots: shapes and level gates"
+    }
+  ],
+  "generator": "obols",
+  "system": "obols"
+}

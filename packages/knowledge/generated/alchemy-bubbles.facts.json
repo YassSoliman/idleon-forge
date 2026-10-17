@@ -1,0 +1,1148 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-bubbles",
+        "inputs": ["website-data/cauldrons.json", "parsers/world-2/alchemy.ts#CAULDRON_INFO"]
+      },
+      "id": "alchemy-bubbles.fact.bubbles",
+      "origin": "generated",
+      "rows": [
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_0",
+          "index": 0,
+          "name": "ROID_RAGIN",
+          "rawName": "aUpgradesO0"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_1",
+          "index": 1,
+          "name": "WARRIORS_RULE",
+          "rawName": "aUpgradesO1"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_2",
+          "index": 2,
+          "name": "HEARTY_DIGGY",
+          "rawName": "aUpgradesO2"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_3",
+          "index": 3,
+          "name": "WYOMING_BLOOD",
+          "rawName": "aUpgradesO3"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_4",
+          "index": 4,
+          "name": "REELY_SMART",
+          "rawName": "aUpgradesO4"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_5",
+          "index": 5,
+          "name": "BIG_MEATY_CLAWS",
+          "rawName": "aUpgradesO5"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_6",
+          "index": 6,
+          "name": "SPLOOSH_SPLOOSH",
+          "rawName": "aUpgradesO6"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_7",
+          "index": 7,
+          "name": "STRONK_TOOLS",
+          "rawName": "aUpgradesO7"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_8",
+          "index": 8,
+          "name": "FMJ",
+          "rawName": "aUpgradesO8"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_9",
+          "index": 9,
+          "name": "BAPPITY_BOOPITY",
+          "rawName": "aUpgradesO9"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_10",
+          "index": 10,
+          "name": "BRITTLEY_SPEARS",
+          "rawName": "aUpgradesO10"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_11",
+          "index": 11,
+          "name": "CALL_ME_BOB",
+          "rawName": "aUpgradesO11"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_12",
+          "index": 12,
+          "name": "CARPENTER",
+          "rawName": "aUpgradesO12"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_13",
+          "index": 13,
+          "name": "BUFF_BOI_TALENT",
+          "rawName": "aUpgradesO13"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_14",
+          "index": 14,
+          "name": "ORANGE_BARGAIN",
+          "rawName": "aUpgradesO14"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_15",
+          "index": 15,
+          "name": "PENNY_OF_STRENGTH",
+          "rawName": "aUpgradesO15"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_16",
+          "index": 16,
+          "name": "MULTORANGE",
+          "rawName": "aUpgradesO16"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_17",
+          "index": 17,
+          "name": "DREAM_OF_IRONFISH",
+          "rawName": "aUpgradesO17"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_18",
+          "index": 18,
+          "name": "SHIMMERON",
+          "rawName": "aUpgradesO18"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_19",
+          "index": 19,
+          "name": "BITE_BUT_NOT_CHEW",
+          "rawName": "aUpgradesO19"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_20",
+          "index": 20,
+          "name": "SPEAR_POWAH",
+          "rawName": "aUpgradesO20"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_21",
+          "index": 21,
+          "name": "SLABI_OREFISH",
+          "rawName": "aUpgradesO21"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_22",
+          "index": 22,
+          "name": "GAMER_AT_HEART",
+          "rawName": "aUpgradesO22"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_23",
+          "index": 23,
+          "name": "SLABI_STRENGTH",
+          "rawName": "aUpgradesO23"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_24",
+          "index": 24,
+          "name": "POWER_TRIONE",
+          "rawName": "aUpgradesO24"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_25",
+          "index": 25,
+          "name": "FARQUAD_FORCE",
+          "rawName": "aUpgradesO25"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_26",
+          "index": 26,
+          "name": "ENDGAME_EFF_I",
+          "rawName": "aUpgradesO26"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_27",
+          "index": 27,
+          "name": "TOME_STRENGTH",
+          "rawName": "aUpgradesO27"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_28",
+          "index": 28,
+          "name": "ESSENCE_BOOST",
+          "rawName": "aUpgradesO28"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_29",
+          "index": 29,
+          "name": "CROP_CHAPTER",
+          "rawName": "aUpgradesO29"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_30",
+          "index": 30,
+          "name": "DOUBLE_PAGEY",
+          "rawName": "aUpgradesO30"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_31",
+          "index": 31,
+          "name": "DMG_OF_THE_SUN",
+          "rawName": "aUpgradesO31"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_32",
+          "index": 32,
+          "name": "BONE_BUBBLE",
+          "rawName": "aUpgradesO32"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_33",
+          "index": 33,
+          "name": "ROYAL_RICHES",
+          "rawName": "aUpgradesO33"
+        },
+        {
+          "cauldron": "power",
+          "cauldronIndex": 0,
+          "code": "_34",
+          "index": 34,
+          "name": "BUBBLE",
+          "rawName": "aUpgradesO34"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a0",
+          "index": 0,
+          "name": "SWIFT_STEPPIN",
+          "rawName": "aUpgradesG0"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a1",
+          "index": 1,
+          "name": "ARCHER_OR_BUST",
+          "rawName": "aUpgradesG1"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a2",
+          "index": 2,
+          "name": "HAMMER_HAMMER",
+          "rawName": "aUpgradesG2"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a3",
+          "index": 3,
+          "name": "LIL_BIG_DAMAGE",
+          "rawName": "aUpgradesG3"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a4",
+          "index": 4,
+          "name": "ANVILNOMICS",
+          "rawName": "aUpgradesG4"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a5",
+          "index": 5,
+          "name": "QUICK_SLAP",
+          "rawName": "aUpgradesG5"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a6",
+          "index": 6,
+          "name": "SANIC_TOOLS",
+          "rawName": "aUpgradesG6"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a7",
+          "index": 7,
+          "name": "BUG]",
+          "rawName": "aUpgradesG7"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a8",
+          "index": 8,
+          "name": "SHAQURACY",
+          "rawName": "aUpgradesG8"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a9",
+          "index": 9,
+          "name": "CHEAP_SHOT",
+          "rawName": "aUpgradesG9"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a10",
+          "index": 10,
+          "name": "BOW_JACK",
+          "rawName": "aUpgradesG10"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a11",
+          "index": 11,
+          "name": "CALL_ME_ASH",
+          "rawName": "aUpgradesG11"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a12",
+          "index": 12,
+          "name": "CUZ_I_CATCH_EM_ALL",
+          "rawName": "aUpgradesG12"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a13",
+          "index": 13,
+          "name": "FAST_BOI_TALENT",
+          "rawName": "aUpgradesG13"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a14",
+          "index": 14,
+          "name": "GREEN_BARGAIN",
+          "rawName": "aUpgradesG14"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a15",
+          "index": 15,
+          "name": "DOLLAR_OF_AGILITY",
+          "rawName": "aUpgradesG15"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a16",
+          "index": 16,
+          "name": "PREMIGREEN",
+          "rawName": "aUpgradesG16"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a17",
+          "index": 17,
+          "name": "FLY_IN_MIND",
+          "rawName": "aUpgradesG17"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a18",
+          "index": 18,
+          "name": "KILL_PER_KILL",
+          "rawName": "aUpgradesG18"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a19",
+          "index": 19,
+          "name": "AFK_EXPEXP",
+          "rawName": "aUpgradesG19"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a20",
+          "index": 20,
+          "name": "BOW_POWER",
+          "rawName": "aUpgradesG20"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a21",
+          "index": 21,
+          "name": "SLABO_CRITTERBUG",
+          "rawName": "aUpgradesG21"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a22",
+          "index": 22,
+          "name": "SAILOR_AT_HEART",
+          "rawName": "aUpgradesG22"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a23",
+          "index": 23,
+          "name": "SLABO_AGILITY",
+          "rawName": "aUpgradesG23"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a24",
+          "index": 24,
+          "name": "POWER_TRITWO",
+          "rawName": "aUpgradesG24"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a25",
+          "index": 25,
+          "name": "QUICKDRAW_QUIVER",
+          "rawName": "aUpgradesG25"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a26",
+          "index": 26,
+          "name": "ESSENCE_BOOST",
+          "rawName": "aUpgradesG26"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a27",
+          "index": 27,
+          "name": "ENDGAME_EFF_II",
+          "rawName": "aUpgradesG27"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a28",
+          "index": 28,
+          "name": "TOME_AGILITY",
+          "rawName": "aUpgradesG28"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a29",
+          "index": 29,
+          "name": "STEALTH_CHAPTER",
+          "rawName": "aUpgradesG29"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a30",
+          "index": 30,
+          "name": "SPAPUNKIE",
+          "rawName": "aUpgradesG30"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a31",
+          "index": 31,
+          "name": "DMG_OF_THE_MOON",
+          "rawName": "aUpgradesG31"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a32",
+          "index": 32,
+          "name": "DUST_BUBBLE",
+          "rawName": "aUpgradesG32"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a33",
+          "index": 33,
+          "name": "BUBBLE",
+          "rawName": "aUpgradesG33"
+        },
+        {
+          "cauldron": "quicc",
+          "cauldronIndex": 1,
+          "code": "a34",
+          "index": 34,
+          "name": "BUBBLE",
+          "rawName": "aUpgradesG34"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b0",
+          "index": 0,
+          "name": "STABLE_JENIUS",
+          "rawName": "aUpgradesP0"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b1",
+          "index": 1,
+          "name": "MAGE_IS_BEST",
+          "rawName": "aUpgradesP1"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b2",
+          "index": 2,
+          "name": "HOCUS_CHOPPUS",
+          "rawName": "aUpgradesP2"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b3",
+          "index": 3,
+          "name": "MOLTO_LOGGO",
+          "rawName": "aUpgradesP3"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b4",
+          "index": 4,
+          "name": "NOODUBBLE",
+          "rawName": "aUpgradesP4"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b5",
+          "index": 5,
+          "name": "NAME_I_GUESS",
+          "rawName": "aUpgradesP5"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b6",
+          "index": 6,
+          "name": "LE_BRAIN_TOOLS",
+          "rawName": "aUpgradesP6"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b7",
+          "index": 7,
+          "name": "COOKIN_ROADKILL",
+          "rawName": "aUpgradesP7"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b8",
+          "index": 8,
+          "name": "BREWSTACHIO",
+          "rawName": "aUpgradesP8"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b9",
+          "index": 9,
+          "name": "ALL_FOR_KILL",
+          "rawName": "aUpgradesP9"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b10",
+          "index": 10,
+          "name": "MATTY_STAFFORD",
+          "rawName": "aUpgradesP10"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b11",
+          "index": 11,
+          "name": "CALL_ME_POPE",
+          "rawName": "aUpgradesP11"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b12",
+          "index": 12,
+          "name": "GOSPEL_LEADER",
+          "rawName": "aUpgradesP12"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b13",
+          "index": 13,
+          "name": "SMART_BOI_TALENT",
+          "rawName": "aUpgradesP13"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b14",
+          "index": 14,
+          "name": "PURPLE_BARGAIN",
+          "rawName": "aUpgradesP14"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b15",
+          "index": 15,
+          "name": "NICKEL_OF_WISDOM",
+          "rawName": "aUpgradesP15"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b16",
+          "index": 16,
+          "name": "SEVERAPURPLE",
+          "rawName": "aUpgradesP16"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b17",
+          "index": 17,
+          "name": "TREE_SLEEPER",
+          "rawName": "aUpgradesP17"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b18",
+          "index": 18,
+          "name": "HYPERSWIFT",
+          "rawName": "aUpgradesP18"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b19",
+          "index": 19,
+          "name": "MATRIX_EVOLVED",
+          "rawName": "aUpgradesP19"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b20",
+          "index": 20,
+          "name": "WAND_PAWUR",
+          "rawName": "aUpgradesP20"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b21",
+          "index": 21,
+          "name": "SLABE_LOGSOUL",
+          "rawName": "aUpgradesP21"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b22",
+          "index": 22,
+          "name": "PIOUS_AT_HEART",
+          "rawName": "aUpgradesP22"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b23",
+          "index": 23,
+          "name": "SLABE_WISDOM",
+          "rawName": "aUpgradesP23"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b24",
+          "index": 24,
+          "name": "POWER_TRITHREE",
+          "rawName": "aUpgradesP24"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b25",
+          "index": 25,
+          "name": "SMARTER_SPELLS",
+          "rawName": "aUpgradesP25"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b26",
+          "index": 26,
+          "name": "ENDGAME_EFF_III",
+          "rawName": "aUpgradesP26"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b27",
+          "index": 27,
+          "name": "ESSENCE_BOOST",
+          "rawName": "aUpgradesP27"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b28",
+          "index": 28,
+          "name": "TOME_WISDOM",
+          "rawName": "aUpgradesP28"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b29",
+          "index": 29,
+          "name": "ESSENCE_CHAPTER",
+          "rawName": "aUpgradesP29"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b30",
+          "index": 30,
+          "name": "DEEP_DEPTH",
+          "rawName": "aUpgradesP30"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b31",
+          "index": 31,
+          "name": "DMG_OF_THE_SOUL",
+          "rawName": "aUpgradesP31"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b32",
+          "index": 32,
+          "name": "TACHYON_BUBBLE",
+          "rawName": "aUpgradesP32"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b33",
+          "index": 33,
+          "name": "BUBBLE",
+          "rawName": "aUpgradesP33"
+        },
+        {
+          "cauldron": "high-iq",
+          "cauldronIndex": 2,
+          "code": "b34",
+          "index": 34,
+          "name": "BUBBLE",
+          "rawName": "aUpgradesP34"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c0",
+          "index": 0,
+          "name": "LOTTO_SKILLS",
+          "rawName": "aUpgradesY0"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c1",
+          "index": 1,
+          "name": "DROPPIN_LOADS",
+          "rawName": "aUpgradesY1"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c2",
+          "index": 2,
+          "name": "STARTUE_EXP",
+          "rawName": "aUpgradesY2"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c3",
+          "index": 3,
+          "name": "LEVEL_UP_GIFT",
+          "rawName": "aUpgradesY3"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c4",
+          "index": 4,
+          "name": "PROWESESSARY",
+          "rawName": "aUpgradesY4"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c5",
+          "index": 5,
+          "name": "STAMP_TRAMP",
+          "rawName": "aUpgradesY5"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c6",
+          "index": 6,
+          "name": "UNDEVELOPED_COSTS",
+          "rawName": "aUpgradesY6"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c7",
+          "index": 7,
+          "name": "DA_DAILY_DRIP",
+          "rawName": "aUpgradesY7"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c8",
+          "index": 8,
+          "name": "GRIND_TIME",
+          "rawName": "aUpgradesY8"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c9",
+          "index": 9,
+          "name": "LAAARRRRYYYY",
+          "rawName": "aUpgradesY9"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c10",
+          "index": 10,
+          "name": "COGS_FOR_HANDS",
+          "rawName": "aUpgradesY10"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c11",
+          "index": 11,
+          "name": "SAMPLE_IT",
+          "rawName": "aUpgradesY11"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c12",
+          "index": 12,
+          "name": "BIG_GAME_HUNTER",
+          "rawName": "aUpgradesY12"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c13",
+          "index": 13,
+          "name": "IGNORE_OVERDUES",
+          "rawName": "aUpgradesY13"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c14",
+          "index": 14,
+          "name": "YELLOW_BARGAIN",
+          "rawName": "aUpgradesY14"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c15",
+          "index": 15,
+          "name": "MR_MASSACRE",
+          "rawName": "aUpgradesY15"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c16",
+          "index": 16,
+          "name": "EGG_INK",
+          "rawName": "aUpgradesY16"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c17",
+          "index": 17,
+          "name": "DIAMOND_CHEF",
+          "rawName": "aUpgradesY17"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c18",
+          "index": 18,
+          "name": "CARD_CHAMP",
+          "rawName": "aUpgradesY18"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c19",
+          "index": 19,
+          "name": "PETTING_THE_RIFT",
+          "rawName": "aUpgradesY19"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c20",
+          "index": 20,
+          "name": "BOATY_BUBBLE",
+          "rawName": "aUpgradesY20"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c21",
+          "index": 21,
+          "name": "BIG_P",
+          "rawName": "aUpgradesY21"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c22",
+          "index": 22,
+          "name": "BIT_BY_BIT",
+          "rawName": "aUpgradesY22"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c23",
+          "index": 23,
+          "name": "GIFTS_ABOUND",
+          "rawName": "aUpgradesY23"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c24",
+          "index": 24,
+          "name": "ATOM_SPLIT",
+          "rawName": "aUpgradesY24"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c25",
+          "index": 25,
+          "name": "CROPIUS_MAPPER",
+          "rawName": "aUpgradesY25"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c26",
+          "index": 26,
+          "name": "ESSENCE_BOOST",
+          "rawName": "aUpgradesY26"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c27",
+          "index": 27,
+          "name": "HINGE_BUSTER",
+          "rawName": "aUpgradesY27"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c28",
+          "index": 28,
+          "name": "NINJA_LOOTER",
+          "rawName": "aUpgradesY28"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c29",
+          "index": 29,
+          "name": "LO_COST_MO_JADE",
+          "rawName": "aUpgradesY29"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c30",
+          "index": 30,
+          "name": "FASTER_NRG",
+          "rawName": "aUpgradesY30"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c31",
+          "index": 31,
+          "name": "KATTLE_DA_GOAT",
+          "rawName": "aUpgradesY31"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c32",
+          "index": 32,
+          "name": "CODFREY_RULZ_OK",
+          "rawName": "aUpgradesY32"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c33",
+          "index": 33,
+          "name": "BUBBLE",
+          "rawName": "aUpgradesY33"
+        },
+        {
+          "cauldron": "kazam",
+          "cauldronIndex": 3,
+          "code": "c34",
+          "index": 34,
+          "name": "BUBBLE",
+          "rawName": "aUpgradesY34"
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: cauldrons",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/cauldrons.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "alchemy-bubbles",
+      "title": "Alchemy bubble catalogue"
+    }
+  ],
+  "generator": "alchemy-bubbles",
+  "system": "alchemy-bubbles"
+}

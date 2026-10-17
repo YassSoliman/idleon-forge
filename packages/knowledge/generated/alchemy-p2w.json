@@ -1,0 +1,950 @@
+{
+  "entries": [
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.cauldron-high-iq-boost-req",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: High-IQ boostReq",
+      "thing": {
+        "kind": "other",
+        "rawName": "cauldron.high-iq.boostReq"
+      },
+      "title": "Pay 2 Win: High-IQ boostReq",
+      "type": "acquisition",
+      "values": {
+        "group": "cauldron",
+        "key": "cauldron.high-iq.boostReq",
+        "maxLevel": 100,
+        "slot": 2,
+        "upgrade": "boostReq"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.cauldron-high-iq-new-bubble",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: High-IQ newBubble",
+      "thing": {
+        "kind": "other",
+        "rawName": "cauldron.high-iq.newBubble"
+      },
+      "title": "Pay 2 Win: High-IQ newBubble",
+      "type": "acquisition",
+      "values": {
+        "group": "cauldron",
+        "key": "cauldron.high-iq.newBubble",
+        "maxLevel": 125,
+        "slot": 2,
+        "upgrade": "newBubble"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.cauldron-high-iq-speed",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: High-IQ speed",
+      "thing": {
+        "kind": "other",
+        "rawName": "cauldron.high-iq.speed"
+      },
+      "title": "Pay 2 Win: High-IQ speed",
+      "type": "acquisition",
+      "values": {
+        "group": "cauldron",
+        "key": "cauldron.high-iq.speed",
+        "maxLevel": 150,
+        "slot": 2,
+        "upgrade": "speed"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.cauldron-kazam-boost-req",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Kazam boostReq",
+      "thing": {
+        "kind": "other",
+        "rawName": "cauldron.kazam.boostReq"
+      },
+      "title": "Pay 2 Win: Kazam boostReq",
+      "type": "acquisition",
+      "values": {
+        "group": "cauldron",
+        "key": "cauldron.kazam.boostReq",
+        "maxLevel": 100,
+        "slot": 3,
+        "upgrade": "boostReq"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.cauldron-kazam-new-bubble",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Kazam newBubble",
+      "thing": {
+        "kind": "other",
+        "rawName": "cauldron.kazam.newBubble"
+      },
+      "title": "Pay 2 Win: Kazam newBubble",
+      "type": "acquisition",
+      "values": {
+        "group": "cauldron",
+        "key": "cauldron.kazam.newBubble",
+        "maxLevel": 125,
+        "slot": 3,
+        "upgrade": "newBubble"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.cauldron-kazam-speed",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Kazam speed",
+      "thing": {
+        "kind": "other",
+        "rawName": "cauldron.kazam.speed"
+      },
+      "title": "Pay 2 Win: Kazam speed",
+      "type": "acquisition",
+      "values": {
+        "group": "cauldron",
+        "key": "cauldron.kazam.speed",
+        "maxLevel": 150,
+        "slot": 3,
+        "upgrade": "speed"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.cauldron-power-boost-req",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Power boostReq",
+      "thing": {
+        "kind": "other",
+        "rawName": "cauldron.power.boostReq"
+      },
+      "title": "Pay 2 Win: Power boostReq",
+      "type": "acquisition",
+      "values": {
+        "group": "cauldron",
+        "key": "cauldron.power.boostReq",
+        "maxLevel": 100,
+        "slot": 0,
+        "upgrade": "boostReq"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.cauldron-power-new-bubble",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Power newBubble",
+      "thing": {
+        "kind": "other",
+        "rawName": "cauldron.power.newBubble"
+      },
+      "title": "Pay 2 Win: Power newBubble",
+      "type": "acquisition",
+      "values": {
+        "group": "cauldron",
+        "key": "cauldron.power.newBubble",
+        "maxLevel": 125,
+        "slot": 0,
+        "upgrade": "newBubble"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.cauldron-power-speed",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Power speed",
+      "thing": {
+        "kind": "other",
+        "rawName": "cauldron.power.speed"
+      },
+      "title": "Pay 2 Win: Power speed",
+      "type": "acquisition",
+      "values": {
+        "group": "cauldron",
+        "key": "cauldron.power.speed",
+        "maxLevel": 150,
+        "slot": 0,
+        "upgrade": "speed"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.cauldron-quicc-boost-req",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Quicc boostReq",
+      "thing": {
+        "kind": "other",
+        "rawName": "cauldron.quicc.boostReq"
+      },
+      "title": "Pay 2 Win: Quicc boostReq",
+      "type": "acquisition",
+      "values": {
+        "group": "cauldron",
+        "key": "cauldron.quicc.boostReq",
+        "maxLevel": 100,
+        "slot": 1,
+        "upgrade": "boostReq"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.cauldron-quicc-new-bubble",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Quicc newBubble",
+      "thing": {
+        "kind": "other",
+        "rawName": "cauldron.quicc.newBubble"
+      },
+      "title": "Pay 2 Win: Quicc newBubble",
+      "type": "acquisition",
+      "values": {
+        "group": "cauldron",
+        "key": "cauldron.quicc.newBubble",
+        "maxLevel": 125,
+        "slot": 1,
+        "upgrade": "newBubble"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.cauldron-quicc-speed",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Quicc speed",
+      "thing": {
+        "kind": "other",
+        "rawName": "cauldron.quicc.speed"
+      },
+      "title": "Pay 2 Win: Quicc speed",
+      "type": "acquisition",
+      "values": {
+        "group": "cauldron",
+        "key": "cauldron.quicc.speed",
+        "maxLevel": 150,
+        "slot": 1,
+        "upgrade": "speed"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.liquid-liquid-n2-capacity",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Liquid N2 capacity",
+      "thing": {
+        "kind": "other",
+        "rawName": "liquid.liquid-n2.capacity"
+      },
+      "title": "Pay 2 Win: Liquid N2 capacity",
+      "type": "acquisition",
+      "values": {
+        "group": "liquid",
+        "key": "liquid.liquid-n2.capacity",
+        "maxLevel": 80,
+        "slot": 1,
+        "upgrade": "capacity"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.liquid-liquid-n2-regen",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Liquid N2 regen",
+      "thing": {
+        "kind": "other",
+        "rawName": "liquid.liquid-n2.regen"
+      },
+      "title": "Pay 2 Win: Liquid N2 regen",
+      "type": "acquisition",
+      "values": {
+        "group": "liquid",
+        "key": "liquid.liquid-n2.regen",
+        "maxLevel": 100,
+        "slot": 1,
+        "upgrade": "regen"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.liquid-toxic-mercury-capacity",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Toxic Hg capacity",
+      "thing": {
+        "kind": "other",
+        "rawName": "liquid.toxic-mercury.capacity"
+      },
+      "title": "Pay 2 Win: Toxic Hg capacity",
+      "type": "acquisition",
+      "values": {
+        "group": "liquid",
+        "key": "liquid.toxic-mercury.capacity",
+        "maxLevel": 80,
+        "slot": 3,
+        "upgrade": "capacity"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.liquid-toxic-mercury-regen",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Toxic Hg regen",
+      "thing": {
+        "kind": "other",
+        "rawName": "liquid.toxic-mercury.regen"
+      },
+      "title": "Pay 2 Win: Toxic Hg regen",
+      "type": "acquisition",
+      "values": {
+        "group": "liquid",
+        "key": "liquid.toxic-mercury.regen",
+        "maxLevel": 100,
+        "slot": 3,
+        "upgrade": "regen"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.liquid-trench-h2o-capacity",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Trench H2O capacity",
+      "thing": {
+        "kind": "other",
+        "rawName": "liquid.trench-h2o.capacity"
+      },
+      "title": "Pay 2 Win: Trench H2O capacity",
+      "type": "acquisition",
+      "values": {
+        "group": "liquid",
+        "key": "liquid.trench-h2o.capacity",
+        "maxLevel": 80,
+        "slot": 2,
+        "upgrade": "capacity"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.liquid-trench-h2o-regen",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Trench H2O regen",
+      "thing": {
+        "kind": "other",
+        "rawName": "liquid.trench-h2o.regen"
+      },
+      "title": "Pay 2 Win: Trench H2O regen",
+      "type": "acquisition",
+      "values": {
+        "group": "liquid",
+        "key": "liquid.trench-h2o.regen",
+        "maxLevel": 100,
+        "slot": 2,
+        "upgrade": "regen"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.liquid-water-drops-capacity",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Water Drops capacity",
+      "thing": {
+        "kind": "other",
+        "rawName": "liquid.water-drops.capacity"
+      },
+      "title": "Pay 2 Win: Water Drops capacity",
+      "type": "acquisition",
+      "values": {
+        "group": "liquid",
+        "key": "liquid.water-drops.capacity",
+        "maxLevel": 80,
+        "slot": 0,
+        "upgrade": "capacity"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.liquid-water-drops-regen",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Water Drops regen",
+      "thing": {
+        "kind": "other",
+        "rawName": "liquid.water-drops.regen"
+      },
+      "title": "Pay 2 Win: Water Drops regen",
+      "type": "acquisition",
+      "values": {
+        "group": "liquid",
+        "key": "liquid.water-drops.regen",
+        "maxLevel": 100,
+        "slot": 0,
+        "upgrade": "regen"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.vials-attempts",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Vials attempts",
+      "thing": {
+        "kind": "other",
+        "rawName": "vials.attempts"
+      },
+      "title": "Pay 2 Win: Vials attempts",
+      "type": "acquisition",
+      "values": {
+        "group": "vials",
+        "key": "vials.attempts",
+        "maxLevel": 15,
+        "upgrade": "attempts"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.vials-rng",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Vials rng",
+      "thing": {
+        "kind": "other",
+        "rawName": "vials.rng"
+      },
+      "title": "Pay 2 Win: Vials rng",
+      "type": "acquisition",
+      "values": {
+        "group": "vials",
+        "key": "vials.rng",
+        "maxLevel": 45,
+        "upgrade": "rng"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    }
+  ],
+  "generator": "alchemy-p2w",
+  "system": "alchemy-p2w"
+}

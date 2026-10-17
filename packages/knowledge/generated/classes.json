@@ -1,0 +1,622 @@
+{
+  "entries": [
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "classes",
+        "inputs": ["website-data/classPromotions.json"]
+      },
+      "id": "classes.acquisition.barbarian",
+      "methods": [
+        {
+          "how": "Promote from Warrior",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: classPromotions",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "classes",
+      "text": "Promote a Warrior to Barbarian",
+      "thing": {
+        "kind": "class",
+        "rawName": "Barbarian"
+      },
+      "title": "Class: Barbarian",
+      "type": "acquisition",
+      "values": {
+        "class": "Barbarian",
+        "classIndex": 8,
+        "from": "Warrior",
+        "tier": "subclass"
+      },
+      "why": "Barbarian is a subclass class of the Warrior line."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "classes",
+        "inputs": ["website-data/classPromotions.json"]
+      },
+      "id": "classes.acquisition.beast-master",
+      "methods": [
+        {
+          "how": "Promote from Hunter",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: classPromotions",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "classes",
+      "text": "Promote a Hunter to Beast Master",
+      "thing": {
+        "kind": "class",
+        "rawName": "Beast_Master"
+      },
+      "title": "Class: Beast Master",
+      "type": "acquisition",
+      "values": {
+        "class": "Beast_Master",
+        "classIndex": 25,
+        "from": "Hunter",
+        "tier": "elite"
+      },
+      "why": "Beast Master is a elite class of the Archer line."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "classes",
+        "inputs": ["website-data/classPromotions.json"]
+      },
+      "id": "classes.acquisition.blood-berserker",
+      "methods": [
+        {
+          "how": "Promote from Barbarian",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: classPromotions",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "classes",
+      "text": "Promote a Barbarian to Blood Berserker",
+      "thing": {
+        "kind": "class",
+        "rawName": "Blood_Berserker"
+      },
+      "title": "Class: Blood Berserker",
+      "type": "acquisition",
+      "values": {
+        "class": "Blood_Berserker",
+        "classIndex": 10,
+        "from": "Barbarian",
+        "tier": "elite"
+      },
+      "why": "Blood Berserker is a elite class of the Warrior line."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "classes",
+        "inputs": ["website-data/classPromotions.json"]
+      },
+      "id": "classes.acquisition.bowman",
+      "methods": [
+        {
+          "how": "Promote from Archer",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: classPromotions",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "classes",
+      "text": "Promote a Archer to Bowman",
+      "thing": {
+        "kind": "class",
+        "rawName": "Bowman"
+      },
+      "title": "Class: Bowman",
+      "type": "acquisition",
+      "values": {
+        "class": "Bowman",
+        "classIndex": 20,
+        "from": "Archer",
+        "tier": "subclass"
+      },
+      "why": "Bowman is a subclass class of the Archer line."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "classes",
+        "inputs": ["website-data/classPromotions.json"]
+      },
+      "id": "classes.acquisition.bubonic-conjuror",
+      "methods": [
+        {
+          "how": "Promote from Shaman",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: classPromotions",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "classes",
+      "text": "Promote a Shaman to Bubonic Conjuror",
+      "thing": {
+        "kind": "class",
+        "rawName": "Bubonic_Conjuror"
+      },
+      "title": "Class: Bubonic Conjuror",
+      "type": "acquisition",
+      "values": {
+        "class": "Bubonic_Conjuror",
+        "classIndex": 36,
+        "from": "Shaman",
+        "tier": "elite"
+      },
+      "why": "Bubonic Conjuror is a elite class of the Mage line."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "classes",
+        "inputs": ["website-data/classPromotions.json"]
+      },
+      "id": "classes.acquisition.divine-knight",
+      "methods": [
+        {
+          "how": "Promote from Squire",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: classPromotions",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "classes",
+      "text": "Promote a Squire to Divine Knight",
+      "thing": {
+        "kind": "class",
+        "rawName": "Divine_Knight"
+      },
+      "title": "Class: Divine Knight",
+      "type": "acquisition",
+      "values": {
+        "class": "Divine_Knight",
+        "classIndex": 12,
+        "from": "Squire",
+        "tier": "elite"
+      },
+      "why": "Divine Knight is a elite class of the Warrior line."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "classes",
+        "inputs": ["website-data/classPromotions.json"]
+      },
+      "id": "classes.acquisition.elemental-sorcerer",
+      "methods": [
+        {
+          "how": "Promote from Wizard",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: classPromotions",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "classes",
+      "text": "Promote a Wizard to Elemental Sorcerer",
+      "thing": {
+        "kind": "class",
+        "rawName": "Elemental_Sorcerer"
+      },
+      "title": "Class: Elemental Sorcerer",
+      "type": "acquisition",
+      "values": {
+        "class": "Elemental_Sorcerer",
+        "classIndex": 34,
+        "from": "Wizard",
+        "tier": "elite"
+      },
+      "why": "Elemental Sorcerer is a elite class of the Mage line."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "classes",
+        "inputs": ["website-data/classPromotions.json"]
+      },
+      "id": "classes.acquisition.hunter",
+      "methods": [
+        {
+          "how": "Promote from Archer",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: classPromotions",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "classes",
+      "text": "Promote a Archer to Hunter",
+      "thing": {
+        "kind": "class",
+        "rawName": "Hunter"
+      },
+      "title": "Class: Hunter",
+      "type": "acquisition",
+      "values": {
+        "class": "Hunter",
+        "classIndex": 21,
+        "from": "Archer",
+        "tier": "subclass"
+      },
+      "why": "Hunter is a subclass class of the Archer line."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "classes",
+        "inputs": ["website-data/classPromotions.json"]
+      },
+      "id": "classes.acquisition.maestro",
+      "methods": [
+        {
+          "how": "Promote from Journeyman",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: classPromotions",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "classes",
+      "text": "Promote a Journeyman to Maestro",
+      "thing": {
+        "kind": "class",
+        "rawName": "Maestro"
+      },
+      "title": "Class: Maestro",
+      "type": "acquisition",
+      "values": {
+        "class": "Maestro",
+        "classIndex": 3,
+        "from": "Journeyman",
+        "tier": "subclass"
+      },
+      "why": "Maestro is a subclass class of the Journeyman line."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "classes",
+        "inputs": ["website-data/classPromotions.json"]
+      },
+      "id": "classes.acquisition.shaman",
+      "methods": [
+        {
+          "how": "Promote from Mage",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: classPromotions",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "classes",
+      "text": "Promote a Mage to Shaman",
+      "thing": {
+        "kind": "class",
+        "rawName": "Shaman"
+      },
+      "title": "Class: Shaman",
+      "type": "acquisition",
+      "values": {
+        "class": "Shaman",
+        "classIndex": 33,
+        "from": "Mage",
+        "tier": "subclass"
+      },
+      "why": "Shaman is a subclass class of the Mage line."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "classes",
+        "inputs": ["website-data/classPromotions.json"]
+      },
+      "id": "classes.acquisition.siege-breaker",
+      "methods": [
+        {
+          "how": "Promote from Bowman",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: classPromotions",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "classes",
+      "text": "Promote a Bowman to Siege Breaker",
+      "thing": {
+        "kind": "class",
+        "rawName": "Siege_Breaker"
+      },
+      "title": "Class: Siege Breaker",
+      "type": "acquisition",
+      "values": {
+        "class": "Siege_Breaker",
+        "classIndex": 22,
+        "from": "Bowman",
+        "tier": "elite"
+      },
+      "why": "Siege Breaker is a elite class of the Archer line."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "classes",
+        "inputs": ["website-data/classPromotions.json"]
+      },
+      "id": "classes.acquisition.squire",
+      "methods": [
+        {
+          "how": "Promote from Warrior",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: classPromotions",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "classes",
+      "text": "Promote a Warrior to Squire",
+      "thing": {
+        "kind": "class",
+        "rawName": "Squire"
+      },
+      "title": "Class: Squire",
+      "type": "acquisition",
+      "values": {
+        "class": "Squire",
+        "classIndex": 9,
+        "from": "Warrior",
+        "tier": "subclass"
+      },
+      "why": "Squire is a subclass class of the Warrior line."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "classes",
+        "inputs": ["website-data/classPromotions.json"]
+      },
+      "id": "classes.acquisition.voidwalker",
+      "methods": [
+        {
+          "how": "Promote from Maestro",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: classPromotions",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "classes",
+      "text": "Promote a Maestro to Voidwalker",
+      "thing": {
+        "kind": "class",
+        "rawName": "Voidwalker"
+      },
+      "title": "Class: Voidwalker",
+      "type": "acquisition",
+      "values": {
+        "class": "Voidwalker",
+        "classIndex": 4,
+        "from": "Maestro",
+        "tier": "elite"
+      },
+      "why": "Voidwalker is a elite class of the Journeyman line."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "classes",
+        "inputs": ["website-data/classPromotions.json"]
+      },
+      "id": "classes.acquisition.wizard",
+      "methods": [
+        {
+          "how": "Promote from Mage",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: classPromotions",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "classes",
+      "text": "Promote a Mage to Wizard",
+      "thing": {
+        "kind": "class",
+        "rawName": "Wizard"
+      },
+      "title": "Class: Wizard",
+      "type": "acquisition",
+      "values": {
+        "class": "Wizard",
+        "classIndex": 32,
+        "from": "Mage",
+        "tier": "subclass"
+      },
+      "why": "Wizard is a subclass class of the Mage line."
+    }
+  ],
+  "generator": "classes",
+  "system": "classes"
+}

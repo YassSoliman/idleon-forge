@@ -1,0 +1,1222 @@
+{
+  "entries": [
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-0",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "POWER Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "POWER"
+      },
+      "title": "Statue: POWER",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 3,
+        "goldOrder": 0,
+        "index": 0,
+        "name": "POWER"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-1",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "SPEED Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "SPEED"
+      },
+      "title": "Statue: SPEED",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.1,
+        "goldOrder": 1,
+        "index": 1,
+        "name": "SPEED"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-10",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "EXP Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "EXP"
+      },
+      "title": "Statue: EXP",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.1,
+        "goldOrder": 10,
+        "index": 10,
+        "name": "EXP"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-11",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "ANVIL Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "ANVIL"
+      },
+      "title": "Statue: ANVIL",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.5,
+        "goldOrder": 11,
+        "index": 11,
+        "name": "ANVIL"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-12",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "CAULDRON Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "CAULDRON"
+      },
+      "title": "Statue: CAULDRON",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.5,
+        "goldOrder": 12,
+        "index": 12,
+        "name": "CAULDRON"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-13",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "BEHOLDER Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "BEHOLDER"
+      },
+      "title": "Statue: BEHOLDER",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.2,
+        "goldOrder": 13,
+        "index": 13,
+        "name": "BEHOLDER"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-14",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "BULLSEYE Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "BULLSEYE"
+      },
+      "title": "Statue: BULLSEYE",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.8,
+        "goldOrder": 14,
+        "index": 14,
+        "name": "BULLSEYE"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-15",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "BOX Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "BOX"
+      },
+      "title": "Statue: BOX",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.3,
+        "goldOrder": 15,
+        "index": 15,
+        "name": "BOX"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-16",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "TWOSOUL Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "TWOSOUL"
+      },
+      "title": "Statue: TWOSOUL",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.3,
+        "goldOrder": 16,
+        "index": 16,
+        "name": "TWOSOUL"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-17",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "EHEXPEE Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "EHEXPEE"
+      },
+      "title": "Statue: EHEXPEE",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.1,
+        "goldOrder": 17,
+        "index": 17,
+        "name": "EHEXPEE"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-18",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "SEESAW Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "SEESAW"
+      },
+      "title": "Statue: SEESAW",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.5,
+        "goldOrder": 18,
+        "index": 18,
+        "name": "SEESAW"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-19",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "PECUNIA Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "PECUNIA"
+      },
+      "title": "Statue: PECUNIA",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 1,
+        "goldOrder": 19,
+        "index": 19,
+        "name": "PECUNIA"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-2",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "MINING Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "MINING"
+      },
+      "title": "Statue: MINING",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.3,
+        "goldOrder": 2,
+        "index": 2,
+        "name": "MINING"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-20",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "MUTTON Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "MUTTON"
+      },
+      "title": "Statue: MUTTON",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.3,
+        "goldOrder": 20,
+        "index": 20,
+        "name": "MUTTON"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-21",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "EGG Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "EGG"
+      },
+      "title": "Statue: EGG",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.4,
+        "goldOrder": 21,
+        "index": 21,
+        "name": "EGG"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-22",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "BATTLEAXE Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "BATTLEAXE"
+      },
+      "title": "Statue: BATTLEAXE",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.2,
+        "goldOrder": 22,
+        "index": 22,
+        "name": "BATTLEAXE"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-23",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "SPIRAL Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "SPIRAL"
+      },
+      "title": "Statue: SPIRAL",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 1,
+        "goldOrder": 23,
+        "index": 23,
+        "name": "SPIRAL"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-24",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "BOAT Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "BOAT"
+      },
+      "title": "Statue: BOAT",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.5,
+        "goldOrder": 24,
+        "index": 24,
+        "name": "BOAT"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-25",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "COMPOST Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "COMPOST"
+      },
+      "title": "Statue: COMPOST",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.4,
+        "goldOrder": 25,
+        "index": 25,
+        "name": "COMPOST"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-26",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "STEALTH Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "STEALTH"
+      },
+      "title": "Statue: STEALTH",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.3,
+        "goldOrder": 26,
+        "index": 26,
+        "name": "STEALTH"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-27",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "ESSENCE Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "ESSENCE"
+      },
+      "title": "Statue: ESSENCE",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.6,
+        "goldOrder": 27,
+        "index": 27,
+        "name": "ESSENCE"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-28",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "VILLAGER Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "VILLAGER"
+      },
+      "title": "Statue: VILLAGER",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.3,
+        "goldOrder": 28,
+        "index": 28,
+        "name": "VILLAGER"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-29",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "DRAGON Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "DRAGON"
+      },
+      "title": "Statue: DRAGON",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.2,
+        "goldOrder": 29,
+        "index": 29,
+        "name": "DRAGON"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-3",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "FEASTY Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "FEASTY"
+      },
+      "title": "Statue: FEASTY",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 1,
+        "goldOrder": 3,
+        "index": 3,
+        "name": "FEASTY"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-30",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "SPELUNKY Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "SPELUNKY"
+      },
+      "title": "Statue: SPELUNKY",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.1,
+        "goldOrder": 30,
+        "index": 30,
+        "name": "SPELUNKY"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-31",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "CORAL Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "CORAL"
+      },
+      "title": "Statue: CORAL",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.02,
+        "goldOrder": 31,
+        "index": 31,
+        "name": "CORAL"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-4",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "HEALTH Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "HEALTH"
+      },
+      "title": "Statue: HEALTH",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 3,
+        "goldOrder": 4,
+        "index": 4,
+        "name": "HEALTH"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-5",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "KACHOW Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "KACHOW"
+      },
+      "title": "Statue: KACHOW",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.4,
+        "goldOrder": 5,
+        "index": 5,
+        "name": "KACHOW"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-6",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "LUMBERBOB Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "LUMBERBOB"
+      },
+      "title": "Statue: LUMBERBOB",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.3,
+        "goldOrder": 6,
+        "index": 6,
+        "name": "LUMBERBOB"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-7",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "THICC SKIN Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "THICC_SKIN"
+      },
+      "title": "Statue: THICC SKIN",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 1,
+        "goldOrder": 7,
+        "index": 7,
+        "name": "THICC_SKIN"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-8",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "OCEANMAN Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "OCEANMAN"
+      },
+      "title": "Statue: OCEANMAN",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.3,
+        "goldOrder": 8,
+        "index": 8,
+        "name": "OCEANMAN"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "statues",
+        "inputs": ["website-data/shared-data.json#statues"]
+      },
+      "id": "statues.acquisition.statue-9",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: statues",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "statues",
+      "text": "OL RELIABLE Statue",
+      "thing": {
+        "kind": "other",
+        "rawName": "OL_RELIABLE"
+      },
+      "title": "Statue: OL RELIABLE",
+      "type": "acquisition",
+      "values": {
+        "bonusPerLevel": 0.3,
+        "goldOrder": 9,
+        "index": 9,
+        "name": "OL_RELIABLE"
+      },
+      "why": "Statues level up from statue items and can be turned Gold for a bigger bonus."
+    }
+  ],
+  "generator": "statues",
+  "system": "statues"
+}

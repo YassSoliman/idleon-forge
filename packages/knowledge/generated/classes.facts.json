@@ -1,0 +1,303 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "classes",
+        "inputs": ["website-data/classPromotions.json"]
+      },
+      "id": "classes.fact.class-tree",
+      "origin": "generated",
+      "rows": [
+        {
+          "class": "Beginner",
+          "classIndex": 1,
+          "line": null,
+          "promotesFrom": null,
+          "promotesTo": ["Archer", "Mage", "Warrior"],
+          "released": true,
+          "swapSibling": null,
+          "talentTabs": ["Beginner"],
+          "tier": "beginner"
+        },
+        {
+          "class": "Journeyman",
+          "classIndex": 2,
+          "line": "Journeyman",
+          "promotesFrom": null,
+          "promotesTo": ["Maestro"],
+          "released": true,
+          "swapSibling": null,
+          "talentTabs": ["Beginner", "Journeyman"],
+          "tier": "base"
+        },
+        {
+          "class": "Maestro",
+          "classIndex": 3,
+          "line": "Journeyman",
+          "promotesFrom": "Journeyman",
+          "promotesTo": ["Voidwalker"],
+          "released": true,
+          "swapSibling": null,
+          "talentTabs": ["Beginner", "Journeyman", "Maestro"],
+          "tier": "subclass"
+        },
+        {
+          "class": "Voidwalker",
+          "classIndex": 4,
+          "line": "Journeyman",
+          "promotesFrom": "Maestro",
+          "promotesTo": ["Infinilyte"],
+          "released": true,
+          "swapSibling": null,
+          "talentTabs": ["Beginner", "Journeyman", "Maestro", "Voidwalker"],
+          "tier": "elite"
+        },
+        {
+          "class": "Infinilyte",
+          "classIndex": 5,
+          "line": "Journeyman",
+          "promotesFrom": "Voidwalker",
+          "promotesTo": [],
+          "released": false,
+          "swapSibling": null,
+          "talentTabs": ["Beginner", "Journeyman", "Maestro", "Voidwalker", "Infinilyte"],
+          "tier": "master"
+        },
+        {
+          "class": "Warrior",
+          "classIndex": 7,
+          "line": "Warrior",
+          "promotesFrom": "Beginner",
+          "promotesTo": ["Barbarian", "Squire"],
+          "released": true,
+          "swapSibling": null,
+          "talentTabs": ["Rage_Basics", "Warrior"],
+          "tier": "base"
+        },
+        {
+          "class": "Barbarian",
+          "classIndex": 8,
+          "line": "Warrior",
+          "promotesFrom": "Warrior",
+          "promotesTo": ["Blood_Berserker"],
+          "released": true,
+          "swapSibling": "Squire",
+          "talentTabs": ["Rage_Basics", "Warrior", "Barbarian"],
+          "tier": "subclass"
+        },
+        {
+          "class": "Squire",
+          "classIndex": 9,
+          "line": "Warrior",
+          "promotesFrom": "Warrior",
+          "promotesTo": ["Divine_Knight"],
+          "released": true,
+          "swapSibling": "Barbarian",
+          "talentTabs": ["Rage_Basics", "Warrior", "Squire"],
+          "tier": "subclass"
+        },
+        {
+          "class": "Blood_Berserker",
+          "classIndex": 10,
+          "line": "Warrior",
+          "promotesFrom": "Barbarian",
+          "promotesTo": ["Death_Bringer"],
+          "released": true,
+          "swapSibling": "Divine_Knight",
+          "talentTabs": ["Rage_Basics", "Warrior", "Barbarian", "Blood_Berserker"],
+          "tier": "elite"
+        },
+        {
+          "class": "Divine_Knight",
+          "classIndex": 12,
+          "line": "Warrior",
+          "promotesFrom": "Squire",
+          "promotesTo": ["Royal_Guardian"],
+          "released": true,
+          "swapSibling": "Blood_Berserker",
+          "talentTabs": ["Rage_Basics", "Warrior", "Squire", "Divine_Knight"],
+          "tier": "elite"
+        },
+        {
+          "class": "Death_Bringer",
+          "classIndex": 14,
+          "line": "Warrior",
+          "promotesFrom": "Blood_Berserker",
+          "promotesTo": [],
+          "released": true,
+          "swapSibling": "Royal_Guardian",
+          "talentTabs": ["Rage_Basics", "Warrior", "Barbarian", "Blood_Berserker", "Death_Bringer"],
+          "tier": "master"
+        },
+        {
+          "class": "Royal_Guardian",
+          "classIndex": 16,
+          "line": "Warrior",
+          "promotesFrom": "Divine_Knight",
+          "promotesTo": [],
+          "released": true,
+          "swapSibling": "Death_Bringer",
+          "talentTabs": ["Rage_Basics", "Warrior", "Squire", "Divine_Knight", "Royal_Guardian"],
+          "tier": "master"
+        },
+        {
+          "class": "Archer",
+          "classIndex": 19,
+          "line": "Archer",
+          "promotesFrom": "Beginner",
+          "promotesTo": ["Bowman", "Hunter"],
+          "released": true,
+          "swapSibling": null,
+          "talentTabs": ["Calm_Basics", "Archer"],
+          "tier": "base"
+        },
+        {
+          "class": "Bowman",
+          "classIndex": 20,
+          "line": "Archer",
+          "promotesFrom": "Archer",
+          "promotesTo": ["Siege_Breaker"],
+          "released": true,
+          "swapSibling": "Hunter",
+          "talentTabs": ["Calm_Basics", "Archer", "Bowman"],
+          "tier": "subclass"
+        },
+        {
+          "class": "Hunter",
+          "classIndex": 21,
+          "line": "Archer",
+          "promotesFrom": "Archer",
+          "promotesTo": ["Beast_Master"],
+          "released": true,
+          "swapSibling": "Bowman",
+          "talentTabs": ["Calm_Basics", "Archer", "Hunter"],
+          "tier": "subclass"
+        },
+        {
+          "class": "Siege_Breaker",
+          "classIndex": 22,
+          "line": "Archer",
+          "promotesFrom": "Bowman",
+          "promotesTo": [],
+          "released": true,
+          "swapSibling": "Beast_Master",
+          "talentTabs": ["Calm_Basics", "Archer", "Bowman", "Siege_Breaker"],
+          "tier": "elite"
+        },
+        {
+          "class": "Beast_Master",
+          "classIndex": 25,
+          "line": "Archer",
+          "promotesFrom": "Hunter",
+          "promotesTo": ["Wind_Walker"],
+          "released": true,
+          "swapSibling": "Siege_Breaker",
+          "talentTabs": ["Calm_Basics", "Archer", "Hunter", "Beast_Master"],
+          "tier": "elite"
+        },
+        {
+          "class": "Wind_Walker",
+          "classIndex": 29,
+          "line": "Archer",
+          "promotesFrom": "Beast_Master",
+          "promotesTo": [],
+          "released": true,
+          "swapSibling": null,
+          "talentTabs": ["Calm_Basics", "Archer", "Hunter", "Beast_Master", "Wind_Walker"],
+          "tier": "master"
+        },
+        {
+          "class": "Mage",
+          "classIndex": 31,
+          "line": "Mage",
+          "promotesFrom": "Beginner",
+          "promotesTo": ["Shaman", "Wizard"],
+          "released": true,
+          "swapSibling": null,
+          "talentTabs": ["Savvy_Basics", "Mage"],
+          "tier": "base"
+        },
+        {
+          "class": "Wizard",
+          "classIndex": 32,
+          "line": "Mage",
+          "promotesFrom": "Mage",
+          "promotesTo": ["Elemental_Sorcerer"],
+          "released": true,
+          "swapSibling": "Shaman",
+          "talentTabs": ["Savvy_Basics", "Mage", "Wizard"],
+          "tier": "subclass"
+        },
+        {
+          "class": "Shaman",
+          "classIndex": 33,
+          "line": "Mage",
+          "promotesFrom": "Mage",
+          "promotesTo": ["Bubonic_Conjuror"],
+          "released": true,
+          "swapSibling": "Wizard",
+          "talentTabs": ["Savvy_Basics", "Mage", "Shaman"],
+          "tier": "subclass"
+        },
+        {
+          "class": "Elemental_Sorcerer",
+          "classIndex": 34,
+          "line": "Mage",
+          "promotesFrom": "Wizard",
+          "promotesTo": ["Spiritual_Monk"],
+          "released": true,
+          "swapSibling": "Bubonic_Conjuror",
+          "talentTabs": ["Savvy_Basics", "Mage", "Wizard", "Elemental_Sorcerer"],
+          "tier": "elite"
+        },
+        {
+          "class": "Spiritual_Monk",
+          "classIndex": 35,
+          "line": "Mage",
+          "promotesFrom": "Elemental_Sorcerer",
+          "promotesTo": [],
+          "released": false,
+          "swapSibling": "Arcane_Cultist",
+          "talentTabs": ["Savvy_Basics", "Mage", "Wizard", "Elemental_Sorcerer", "Spiritual_Monk"],
+          "tier": "master"
+        },
+        {
+          "class": "Bubonic_Conjuror",
+          "classIndex": 36,
+          "line": "Mage",
+          "promotesFrom": "Shaman",
+          "promotesTo": ["Arcane_Cultist"],
+          "released": true,
+          "swapSibling": "Elemental_Sorcerer",
+          "talentTabs": ["Savvy_Basics", "Mage", "Shaman", "Bubonic_Conjuror"],
+          "tier": "elite"
+        },
+        {
+          "class": "Arcane_Cultist",
+          "classIndex": 40,
+          "line": "Mage",
+          "promotesFrom": "Bubonic_Conjuror",
+          "promotesTo": [],
+          "released": true,
+          "swapSibling": "Spiritual_Monk",
+          "talentTabs": ["Savvy_Basics", "Mage", "Shaman", "Bubonic_Conjuror", "Arcane_Cultist"],
+          "tier": "master"
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: classPromotions",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "classes",
+      "title": "Class tree: index, line, tier, swap sibling"
+    }
+  ],
+  "generator": "classes",
+  "system": "classes"
+}

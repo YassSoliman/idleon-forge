@@ -1,0 +1,255 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "trapping",
+        "inputs": ["website-data/shared-data.json#traps"]
+      },
+      "id": "trapping.fact.trap-durations",
+      "origin": "generated",
+      "rows": [
+        {
+          "durations": [
+            {
+              "exp": 1,
+              "quantity": 1,
+              "seconds": 1200,
+              "trapType": 0
+            },
+            {
+              "exp": 2,
+              "quantity": 2,
+              "seconds": 3600,
+              "trapType": 0
+            },
+            {
+              "exp": 8,
+              "quantity": 10,
+              "seconds": 28800,
+              "trapType": 0
+            },
+            {
+              "exp": 15,
+              "quantity": 20,
+              "seconds": 72000,
+              "trapType": 0
+            }
+          ],
+          "kind": 0
+        },
+        {
+          "durations": [
+            {
+              "exp": 2,
+              "quantity": 1,
+              "seconds": 1200,
+              "trapType": 1
+            },
+            {
+              "exp": 4,
+              "quantity": 2,
+              "seconds": 3600,
+              "trapType": 1
+            },
+            {
+              "exp": 16,
+              "quantity": 10,
+              "seconds": 28800,
+              "trapType": 1
+            },
+            {
+              "exp": 30,
+              "quantity": 20,
+              "seconds": 72000,
+              "trapType": 1
+            },
+            {
+              "exp": 50,
+              "quantity": 35,
+              "seconds": 144000,
+              "trapType": 1
+            }
+          ],
+          "kind": 1
+        },
+        {
+          "durations": [
+            {
+              "exp": 5,
+              "quantity": 5,
+              "seconds": 10800,
+              "trapType": 0
+            },
+            {
+              "exp": 40,
+              "quantity": 50,
+              "seconds": 216000,
+              "trapType": 0
+            },
+            {
+              "exp": 80,
+              "quantity": 100,
+              "seconds": 432000,
+              "trapType": 0
+            },
+            {
+              "exp": 0,
+              "quantity": 200,
+              "seconds": 432000,
+              "trapType": 0
+            },
+            {
+              "exp": 200,
+              "quantity": 0,
+              "seconds": 432000,
+              "trapType": 0
+            }
+          ],
+          "kind": 2
+        },
+        {
+          "durations": [
+            {
+              "exp": 40,
+              "quantity": 0,
+              "seconds": 28800,
+              "trapType": 0
+            },
+            {
+              "exp": 75,
+              "quantity": 0,
+              "seconds": 72000,
+              "trapType": 0
+            },
+            {
+              "exp": 120,
+              "quantity": 0,
+              "seconds": 158000,
+              "trapType": 0
+            },
+            {
+              "exp": 350,
+              "quantity": 0,
+              "seconds": 518000,
+              "trapType": 0
+            }
+          ],
+          "kind": 3
+        },
+        {
+          "durations": [
+            {
+              "exp": 10,
+              "quantity": 5,
+              "seconds": 10800,
+              "trapType": 1
+            },
+            {
+              "exp": 80,
+              "quantity": 50,
+              "seconds": 216000,
+              "trapType": 1
+            },
+            {
+              "exp": 160,
+              "quantity": 100,
+              "seconds": 432000,
+              "trapType": 1
+            },
+            {
+              "exp": 60,
+              "quantity": 1,
+              "seconds": 72000,
+              "trapType": 1
+            }
+          ],
+          "kind": 4
+        },
+        {
+          "durations": [
+            {
+              "exp": 3,
+              "quantity": 3,
+              "seconds": 3600,
+              "trapType": 0
+            },
+            {
+              "exp": 12,
+              "quantity": 15,
+              "seconds": 36000,
+              "trapType": 0
+            },
+            {
+              "exp": 30,
+              "quantity": 40,
+              "seconds": 108000,
+              "trapType": 0
+            },
+            {
+              "exp": 200,
+              "quantity": 220,
+              "seconds": 720000,
+              "trapType": 0
+            }
+          ],
+          "kind": 5
+        },
+        {
+          "durations": [
+            {
+              "exp": 4,
+              "quantity": 2,
+              "seconds": 1200,
+              "trapType": 1
+            },
+            {
+              "exp": 8,
+              "quantity": 4,
+              "seconds": 3600,
+              "trapType": 1
+            },
+            {
+              "exp": 38,
+              "quantity": 21,
+              "seconds": 36000,
+              "trapType": 1
+            },
+            {
+              "exp": 125,
+              "quantity": 70,
+              "seconds": 144000,
+              "trapType": 1
+            },
+            {
+              "exp": 375,
+              "quantity": 250,
+              "seconds": 576000,
+              "trapType": 1
+            },
+            {
+              "exp": 1150,
+              "quantity": 550,
+              "seconds": 2419000,
+              "trapType": 1
+            }
+          ],
+          "kind": 6
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: traps (trapsInfo)",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "trapping",
+      "title": "Trap durations by trap kind"
+    }
+  ],
+  "generator": "trapping",
+  "system": "trapping"
+}

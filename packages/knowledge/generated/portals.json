@@ -1,0 +1,3122 @@
+{
+  "entries": [
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 21,
+            "to": 2
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-1",
+      "milestones": [
+        {
+          "at": 21,
+          "reward": "door to Froggy Fields"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 1
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Spore Meadows; next door opens at {next:compact}",
+      "title": "Portal: Spore Meadows",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 1,
+        "world": 1
+      },
+      "why": "Kills on Spore Meadows open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 1000,
+            "to": 103
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-101",
+      "milestones": [
+        {
+          "at": 1000,
+          "reward": "door to Snowfield Outskirts"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 101
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Steep Sheep Ledge; next door opens at {next:compact}",
+      "title": "Portal: Steep Sheep Ledge",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 101,
+        "world": 3
+      },
+      "why": "Kills on Steep Sheep Ledge open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 2000,
+            "to": 104
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-103",
+      "milestones": [
+        {
+          "at": 2000,
+          "reward": "door to The Stache Split"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 103
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Snowfield Outskirts; next door opens at {next:compact}",
+      "title": "Portal: Snowfield Outskirts",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 103,
+        "world": 3
+      },
+      "why": "Kills on Snowfield Outskirts open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 3000,
+            "to": 105
+          },
+          {
+            "door": 1,
+            "requirement": 100000,
+            "to": 116
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-104",
+      "milestones": [
+        {
+          "at": 3000,
+          "reward": "door to Refrigeration Station"
+        },
+        {
+          "at": 100000,
+          "reward": "door to Wam Wonderland"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 104
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on The Stache Split; next door opens at {next:compact}",
+      "title": "Portal: The Stache Split",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 104,
+        "world": 3
+      },
+      "why": "Kills on The Stache Split open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 4000,
+            "to": 106
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-105",
+      "milestones": [
+        {
+          "at": 4000,
+          "reward": "door to Mamooooth Mountain"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 105
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Refrigeration Station; next door opens at {next:compact}",
+      "title": "Portal: Refrigeration Station",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 105,
+        "world": 3
+      },
+      "why": "Kills on Refrigeration Station open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 6000,
+            "to": 107
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-106",
+      "milestones": [
+        {
+          "at": 6000,
+          "reward": "door to Rollin' Tundra"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 106
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Mamooooth Mountain; next door opens at {next:compact}",
+      "title": "Portal: Mamooooth Mountain",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 106,
+        "world": 3
+      },
+      "why": "Kills on Mamooooth Mountain open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 8000,
+            "to": 108
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-107",
+      "milestones": [
+        {
+          "at": 8000,
+          "reward": "door to Signature Slopes"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 107
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Rollin' Tundra; next door opens at {next:compact}",
+      "title": "Portal: Rollin' Tundra",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 107,
+        "world": 3
+      },
+      "why": "Kills on Rollin' Tundra open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 11000,
+            "to": 109
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-108",
+      "milestones": [
+        {
+          "at": 11000,
+          "reward": "door to Thermonuclear Climb"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 108
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Signature Slopes; next door opens at {next:compact}",
+      "title": "Portal: Signature Slopes",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 108,
+        "world": 3
+      },
+      "why": "Kills on Signature Slopes open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 15000,
+            "to": 110
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-109",
+      "milestones": [
+        {
+          "at": 15000,
+          "reward": "door to Waterlogged Entrance"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 109
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Thermonuclear Climb; next door opens at {next:compact}",
+      "title": "Portal: Thermonuclear Climb",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 109,
+        "world": 3
+      },
+      "why": "Kills on Thermonuclear Climb open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 18000,
+            "to": 111
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-110",
+      "milestones": [
+        {
+          "at": 18000,
+          "reward": "door to Cryo Catacombs"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 110
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Waterlogged Entrance; next door opens at {next:compact}",
+      "title": "Portal: Waterlogged Entrance",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 110,
+        "world": 3
+      },
+      "why": "Kills on Waterlogged Entrance open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 22000,
+            "to": 112
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-111",
+      "milestones": [
+        {
+          "at": 22000,
+          "reward": "door to Overpass of Sound"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 111
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Cryo Catacombs; next door opens at {next:compact}",
+      "title": "Portal: Cryo Catacombs",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 111,
+        "world": 3
+      },
+      "why": "Kills on Cryo Catacombs open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 35000,
+            "to": 113
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-112",
+      "milestones": [
+        {
+          "at": 35000,
+          "reward": "door to Crystal Basecamp"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 112
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Overpass of Sound; next door opens at {next:compact}",
+      "title": "Portal: Overpass of Sound",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 112,
+        "world": 3
+      },
+      "why": "Kills on Overpass of Sound open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 120000,
+            "to": null
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-113",
+      "milestones": [
+        {
+          "at": 120000,
+          "reward": "door 1"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 113
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Crystal Basecamp; next door opens at {next:compact}",
+      "title": "Portal: Crystal Basecamp",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 113,
+        "world": 3
+      },
+      "why": "Kills on Crystal Basecamp open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 250000,
+            "to": 117
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-116",
+      "milestones": [
+        {
+          "at": 250000,
+          "reward": "door to Hell Hath Frozen Over"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 116
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Wam Wonderland; next door opens at {next:compact}",
+      "title": "Portal: Wam Wonderland",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 116,
+        "world": 3
+      },
+      "why": "Kills on Wam Wonderland open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 2500,
+            "to": 18
+          },
+          {
+            "door": 1,
+            "requirement": 50000,
+            "to": 30
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-13",
+      "milestones": [
+        {
+          "at": 2500,
+          "reward": "door to Hollowed Trunk"
+        },
+        {
+          "at": 50000,
+          "reward": "door to The Roots"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 13
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on The Base Of The Bark; next door opens at {next:compact}",
+      "title": "Portal: The Base Of The Bark",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 13,
+        "world": 1
+      },
+      "why": "Kills on The Base Of The Bark open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 50,
+            "to": 16
+          },
+          {
+            "door": 1,
+            "requirement": 2000,
+            "to": 17
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-14",
+      "milestones": [
+        {
+          "at": 50,
+          "reward": "door to Jungle Perimeter"
+        },
+        {
+          "at": 2000,
+          "reward": "door to Birch Enclave"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 14
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Valley Of The Beans; next door opens at {next:compact}",
+      "title": "Portal: Valley Of The Beans",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 14,
+        "world": 1
+      },
+      "why": "Kills on Valley Of The Beans open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 35000,
+            "to": 9
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-15",
+      "milestones": [
+        {
+          "at": 35000,
+          "reward": "door to The Office"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 15
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Rats Nest; next door opens at {next:compact}",
+      "title": "Portal: Rats Nest",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 15,
+        "world": 1
+      },
+      "why": "Kills on Rats Nest open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 5000,
+            "to": 152
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-151",
+      "milestones": [
+        {
+          "at": 5000,
+          "reward": "door to TV Outpost"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 151
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Spaceway Raceway; next door opens at {next:compact}",
+      "title": "Portal: Spaceway Raceway",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 151,
+        "world": 4
+      },
+      "why": "Kills on Spaceway Raceway open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 12000,
+            "to": 153
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-152",
+      "milestones": [
+        {
+          "at": 12000,
+          "reward": "door to Donut Drive-In"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 152
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on TV Outpost; next door opens at {next:compact}",
+      "title": "Portal: TV Outpost",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 152,
+        "world": 4
+      },
+      "why": "Kills on TV Outpost open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 18000,
+            "to": 154
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-153",
+      "milestones": [
+        {
+          "at": 18000,
+          "reward": "door to Outskirts of Fallstar Isle"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 153
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Donut Drive-In; next door opens at {next:compact}",
+      "title": "Portal: Donut Drive-In",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 153,
+        "world": 4
+      },
+      "why": "Kills on Donut Drive-In open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 25000,
+            "to": 155
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-154",
+      "milestones": [
+        {
+          "at": 25000,
+          "reward": "door to Mountainous Deugh"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 154
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Outskirts of Fallstar Isle; next door opens at {next:compact}",
+      "title": "Portal: Outskirts of Fallstar Isle",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 154,
+        "world": 4
+      },
+      "why": "Kills on Outskirts of Fallstar Isle open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 40000,
+            "to": 156
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-155",
+      "milestones": [
+        {
+          "at": 40000,
+          "reward": "door to Wurm Highway"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 155
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Mountainous Deugh; next door opens at {next:compact}",
+      "title": "Portal: Mountainous Deugh",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 155,
+        "world": 4
+      },
+      "why": "Kills on Mountainous Deugh open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 60000,
+            "to": 157
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-156",
+      "milestones": [
+        {
+          "at": 60000,
+          "reward": "door to Jelly Cube Bridge"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 156
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Wurm Highway; next door opens at {next:compact}",
+      "title": "Portal: Wurm Highway",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 156,
+        "world": 4
+      },
+      "why": "Kills on Wurm Highway open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 90000,
+            "to": 158
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-157",
+      "milestones": [
+        {
+          "at": 90000,
+          "reward": "door to Cocoa Tunnel"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 157
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Jelly Cube Bridge; next door opens at {next:compact}",
+      "title": "Portal: Jelly Cube Bridge",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 157,
+        "world": 4
+      },
+      "why": "Kills on Jelly Cube Bridge open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 120000,
+            "to": 159
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-158",
+      "milestones": [
+        {
+          "at": 120000,
+          "reward": "door to Standstill Plains"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 158
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Cocoa Tunnel; next door opens at {next:compact}",
+      "title": "Portal: Cocoa Tunnel",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 158,
+        "world": 4
+      },
+      "why": "Kills on Cocoa Tunnel open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 150000,
+            "to": 160
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-159",
+      "milestones": [
+        {
+          "at": 150000,
+          "reward": "door to Shelled Shores"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 159
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Standstill Plains; next door opens at {next:compact}",
+      "title": "Portal: Standstill Plains",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 159,
+        "world": 4
+      },
+      "why": "Kills on Standstill Plains open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 60,
+            "to": 19
+          },
+          {
+            "door": 1,
+            "requirement": 3000,
+            "to": 13
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-16",
+      "milestones": [
+        {
+          "at": 60,
+          "reward": "door to Winding Willows"
+        },
+        {
+          "at": 3000,
+          "reward": "door to The Base Of The Bark"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 16
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Jungle Perimeter; next door opens at {next:compact}",
+      "title": "Portal: Jungle Perimeter",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 16,
+        "world": 1
+      },
+      "why": "Kills on Jungle Perimeter open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 190000,
+            "to": 161
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-160",
+      "milestones": [
+        {
+          "at": 190000,
+          "reward": "door to The Untraveled Octopath"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 160
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Shelled Shores; next door opens at {next:compact}",
+      "title": "Portal: Shelled Shores",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 160,
+        "world": 4
+      },
+      "why": "Kills on Shelled Shores open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 250000,
+            "to": 162
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-161",
+      "milestones": [
+        {
+          "at": 250000,
+          "reward": "door to Flamboyant Bayou"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 161
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on The Untraveled Octopath; next door opens at {next:compact}",
+      "title": "Portal: The Untraveled Octopath",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 161,
+        "world": 4
+      },
+      "why": "Kills on The Untraveled Octopath open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 300000,
+            "to": 163
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-162",
+      "milestones": [
+        {
+          "at": 300000,
+          "reward": "door to Enclave of Eyes"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 162
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Flamboyant Bayou; next door opens at {next:compact}",
+      "title": "Portal: Flamboyant Bayou",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 162,
+        "world": 4
+      },
+      "why": "Kills on Flamboyant Bayou open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 350000,
+            "to": null
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-163",
+      "milestones": [
+        {
+          "at": 350000,
+          "reward": "door 1"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 163
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Enclave of Eyes; next door opens at {next:compact}",
+      "title": "Portal: Enclave of Eyes",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 163,
+        "world": 4
+      },
+      "why": "Kills on Enclave of Eyes open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 5000,
+            "to": 31
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-18",
+      "milestones": [
+        {
+          "at": 5000,
+          "reward": "door to Where the Branches End"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 18
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Hollowed Trunk; next door opens at {next:compact}",
+      "title": "Portal: Hollowed Trunk",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 18,
+        "world": 1
+      },
+      "why": "Kills on Hollowed Trunk open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 90,
+            "to": 24
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-19",
+      "milestones": [
+        {
+          "at": 90,
+          "reward": "door to Vegetable Patch"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 19
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Winding Willows; next door opens at {next:compact}",
+      "title": "Portal: Winding Willows",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 19,
+        "world": 1
+      },
+      "why": "Kills on Winding Willows open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 25,
+            "to": 14
+          },
+          {
+            "door": 1,
+            "requirement": 0,
+            "to": 39
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-2",
+      "milestones": [
+        {
+          "at": 25,
+          "reward": "door to Valley Of The Beans"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 2
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Froggy Fields; next door opens at {next:compact}",
+      "title": "Portal: Froggy Fields",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 2,
+        "world": 1
+      },
+      "why": "Kills on Froggy Fields open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 120,
+            "to": 26
+          },
+          {
+            "door": 1,
+            "requirement": 2000,
+            "to": 37
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-24",
+      "milestones": [
+        {
+          "at": 120,
+          "reward": "door to Forest Outskirts"
+        },
+        {
+          "at": 2000,
+          "reward": "door to Spike Surprise"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 24
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Vegetable Patch; next door opens at {next:compact}",
+      "title": "Portal: Vegetable Patch",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 24,
+        "world": 1
+      },
+      "why": "Kills on Vegetable Patch open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 130,
+            "to": 27
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-26",
+      "milestones": [
+        {
+          "at": 130,
+          "reward": "door to Encroaching Forest Villas"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 26
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Forest Outskirts; next door opens at {next:compact}",
+      "title": "Portal: Forest Outskirts",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 26,
+        "world": 1
+      },
+      "why": "Kills on Forest Outskirts open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 30,
+            "to": 37
+          },
+          {
+            "door": 1,
+            "requirement": 4200,
+            "to": 28
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-27",
+      "milestones": [
+        {
+          "at": 30,
+          "reward": "door to Spike Surprise"
+        },
+        {
+          "at": 4200,
+          "reward": "door to Tucked Away"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 27
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Encroaching Forest Villas; next door opens at {next:compact}",
+      "title": "Portal: Encroaching Forest Villas",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 27,
+        "world": 1
+      },
+      "why": "Kills on Encroaching Forest Villas open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 100,
+            "to": 52
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-51",
+      "milestones": [
+        {
+          "at": 100,
+          "reward": "door to The Mimic Hole"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 51
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Jar Bridge; next door opens at {next:compact}",
+      "title": "Portal: Jar Bridge",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 51,
+        "world": 2
+      },
+      "why": "Kills on Jar Bridge open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 120,
+            "to": 53
+          },
+          {
+            "door": 1,
+            "requirement": 1000,
+            "to": 67
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-52",
+      "milestones": [
+        {
+          "at": 120,
+          "reward": "door to Dessert Dunes"
+        },
+        {
+          "at": 1000,
+          "reward": "door to Bandit Bob's Hideout"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 52
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on The Mimic Hole; next door opens at {next:compact}",
+      "title": "Portal: The Mimic Hole",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 52,
+        "world": 2
+      },
+      "why": "Kills on The Mimic Hole open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 150,
+            "to": 57
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-53",
+      "milestones": [
+        {
+          "at": 150,
+          "reward": "door to The Grandioso Canyon"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 53
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Dessert Dunes; next door opens at {next:compact}",
+      "title": "Portal: Dessert Dunes",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 53,
+        "world": 2
+      },
+      "why": "Kills on Dessert Dunes open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 200,
+            "to": 58
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-57",
+      "milestones": [
+        {
+          "at": 200,
+          "reward": "door to Shifty Sandbox"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 57
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on The Grandioso Canyon; next door opens at {next:compact}",
+      "title": "Portal: The Grandioso Canyon",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 57,
+        "world": 2
+      },
+      "why": "Kills on The Grandioso Canyon open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 250,
+            "to": 59
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-58",
+      "milestones": [
+        {
+          "at": 250,
+          "reward": "door to Pincer Plateau"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 58
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Shifty Sandbox; next door opens at {next:compact}",
+      "title": "Portal: Shifty Sandbox",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 58,
+        "world": 2
+      },
+      "why": "Kills on Shifty Sandbox open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 300,
+            "to": 60
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-59",
+      "milestones": [
+        {
+          "at": 300,
+          "reward": "door to Slamabam Straightaway"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 59
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Pincer Plateau; next door opens at {next:compact}",
+      "title": "Portal: Pincer Plateau",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 59,
+        "world": 2
+      },
+      "why": "Kills on Pincer Plateau open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 500,
+            "to": 62
+          },
+          {
+            "door": 1,
+            "requirement": 0,
+            "to": null
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-60",
+      "milestones": [
+        {
+          "at": 500,
+          "reward": "door to The Ring"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 60
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Slamabam Straightaway; next door opens at {next:compact}",
+      "title": "Portal: Slamabam Straightaway",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 60,
+        "world": 2
+      },
+      "why": "Kills on Slamabam Straightaway open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 1000,
+            "to": 63
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-62",
+      "milestones": [
+        {
+          "at": 1000,
+          "reward": "door to Up Up Down Down"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 62
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on The Ring; next door opens at {next:compact}",
+      "title": "Portal: The Ring",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 62,
+        "world": 2
+      },
+      "why": "Kills on The Ring open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 2000,
+            "to": 64
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-63",
+      "milestones": [
+        {
+          "at": 2000,
+          "reward": "door to Sands of Time"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 63
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Up Up Down Down; next door opens at {next:compact}",
+      "title": "Portal: Up Up Down Down",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 63,
+        "world": 2
+      },
+      "why": "Kills on Up Up Down Down open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 3000,
+            "to": 65
+          },
+          {
+            "door": 1,
+            "requirement": 0,
+            "to": 69
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-64",
+      "milestones": [
+        {
+          "at": 3000,
+          "reward": "door to Djonnuttown"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 64
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Sands of Time; next door opens at {next:compact}",
+      "title": "Portal: Sands of Time",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 64,
+        "world": 2
+      },
+      "why": "Kills on Sands of Time open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 1,
+            "to": null
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-65",
+      "milestones": [
+        {
+          "at": 1,
+          "reward": "door 1"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 65
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Djonnuttown; next door opens at {next:compact}",
+      "title": "Portal: Djonnuttown",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 65,
+        "world": 2
+      },
+      "why": "Kills on Djonnuttown open its doors to the next maps."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "doors": [
+          {
+            "door": 0,
+            "requirement": 20000,
+            "to": 15
+          }
+        ]
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "portals",
+        "inputs": [
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapPortals",
+          "website-data/shared-data.json#mapPortalDestinations",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/monsters.json"
+        ]
+      },
+      "id": "portals.goal.map-8",
+      "milestones": [
+        {
+          "at": 20000,
+          "reward": "door to Rats Nest"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "portals/kills-on-map",
+        "params": {
+          "map": 8
+        }
+      },
+      "scope": "character",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: mapPortals and mapPortalDestinations",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "portals",
+      "text": "{value:compact} kills on Poopy Sewers; next door opens at {next:compact}",
+      "title": "Portal: Poopy Sewers",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 8,
+        "world": 1
+      },
+      "why": "Kills on Poopy Sewers open its doors to the next maps."
+    }
+  ],
+  "generator": "portals",
+  "system": "portals"
+}

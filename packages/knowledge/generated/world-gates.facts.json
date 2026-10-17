@@ -1,0 +1,76 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "world-gates",
+        "inputs": [
+          "parsers/quests.ts#isWorldFinished",
+          "website-data/shared-data.json#npcRoster",
+          "website-data/quests.json",
+          "website-data/items.json"
+        ]
+      },
+      "id": "metapath.fact.world-gates",
+      "notes": "Boss and boss map per world are not generated yet (not in Toolbox data at the pin).",
+      "origin": "generated",
+      "rows": [
+        {
+          "accountOption": null,
+          "crystal": "Crystal1",
+          "crystalName": "Desert_Topaz",
+          "gatekeeper": "Builder_Bird",
+          "world": 1
+        },
+        {
+          "accountOption": null,
+          "crystal": "Crystal2",
+          "crystalName": "Glacier_Quartz",
+          "gatekeeper": "Constructor_Crow",
+          "world": 2
+        },
+        {
+          "accountOption": null,
+          "crystal": "Crystal3",
+          "crystalName": "Galaxial_Amethyst",
+          "gatekeeper": "Carpenter_Cardinal",
+          "world": 3
+        },
+        {
+          "accountOption": null,
+          "crystal": null,
+          "crystalName": null,
+          "gatekeeper": "Muhmuguh",
+          "world": 4
+        },
+        {
+          "accountOption": null,
+          "crystal": null,
+          "crystalName": null,
+          "gatekeeper": "Lafu_Shi",
+          "world": 5
+        },
+        {
+          "accountOption": 408,
+          "crystal": null,
+          "crystalName": null,
+          "gatekeeper": null,
+          "world": 6
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox: isWorldFinished gatekeepers",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/quests.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "metapath",
+      "title": "World gates: gatekeeper and crystal per world"
+    }
+  ],
+  "generator": "world-gates",
+  "system": "metapath"
+}

@@ -1,0 +1,67 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "vault-kills",
+        "inputs": [
+          "parsers/misc/upgradeVault.ts#getVaultTotalKills",
+          "website-data/shared-data.json#upgradeVault",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "upgrade-vault.fact.kill-slots",
+      "origin": "generated",
+      "rows": [
+        {
+          "logSlot": 4,
+          "map": 14,
+          "mapName": "Valley_Of_The_Beans",
+          "row": "Bored_to_Death",
+          "slot": 0
+        },
+        {
+          "logSlot": 5,
+          "map": 24,
+          "mapName": "Vegetable_Patch",
+          "row": "Slice_N_Dice",
+          "slot": 1
+        },
+        {
+          "logSlot": 6,
+          "map": 13,
+          "mapName": "The_Base_Of_The_Bark",
+          "row": "Stick_Snapping",
+          "slot": 2
+        },
+        {
+          "logSlot": 7,
+          "map": 8,
+          "mapName": "Poopy_Sewers",
+          "row": "Dirty_Money",
+          "slot": 3
+        },
+        {
+          "logSlot": 11,
+          "map": 101,
+          "mapName": "Steep_Sheep_Ledge",
+          "row": "Buildie_Sheepie",
+          "slot": 10
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox: getVaultTotalKills (VaultKillzTOT)",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc/upgradeVault.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "upgrade-vault",
+      "title": "Upgrade Vault: map to kill slot"
+    }
+  ],
+  "generator": "vault-kills",
+  "system": "upgrade-vault"
+}

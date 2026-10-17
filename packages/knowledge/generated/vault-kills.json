@@ -1,0 +1,501 @@
+{
+  "entries": [
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "logSlot": 11,
+        "slot": 10
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "vault-kills",
+        "inputs": [
+          "parsers/misc/upgradeVault.ts#getVaultTotalKills",
+          "website-data/shared-data.json#upgradeVault",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "upgrade-vault.goal.kill-row-map-101",
+      "milestones": [
+        {
+          "at": 10,
+          "reward": "Buildie Sheepie step 1"
+        },
+        {
+          "at": 100,
+          "reward": "Buildie Sheepie step 2"
+        },
+        {
+          "at": 1000,
+          "reward": "Buildie Sheepie step 3"
+        },
+        {
+          "at": 10000,
+          "reward": "Buildie Sheepie step 4"
+        },
+        {
+          "at": 100000,
+          "reward": "Buildie Sheepie step 5"
+        },
+        {
+          "at": 1000000,
+          "reward": "Buildie Sheepie step 6"
+        },
+        {
+          "at": 10000000,
+          "reward": "Buildie Sheepie step 7"
+        },
+        {
+          "at": 100000000,
+          "reward": "Buildie Sheepie step 8"
+        },
+        {
+          "at": 1000000000,
+          "reward": "Buildie Sheepie step 9"
+        },
+        {
+          "at": 10000000000,
+          "reward": "Buildie Sheepie step 10"
+        },
+        {
+          "at": 100000000000,
+          "reward": "Buildie Sheepie step 11"
+        },
+        {
+          "at": 1000000000000,
+          "reward": "Buildie Sheepie step 12"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "upgrade-vault/kill-total",
+        "params": {
+          "map": 101
+        }
+      },
+      "scope": "account",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox: getVaultTotalKills (VaultKillzTOT)",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc/upgradeVault.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "{value:compact} kills on Steep Sheep Ledge; next Buildie Sheepie step at {next:compact}",
+      "title": "Vault kill row: Steep Sheep Ledge",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 101,
+        "row": "Buildie_Sheepie"
+      },
+      "why": "The Vault upgrade Buildie Sheepie grows with each power of 10 of the account's kills on Steep Sheep Ledge."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "logSlot": 6,
+        "slot": 2
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "vault-kills",
+        "inputs": [
+          "parsers/misc/upgradeVault.ts#getVaultTotalKills",
+          "website-data/shared-data.json#upgradeVault",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "upgrade-vault.goal.kill-row-map-13",
+      "milestones": [
+        {
+          "at": 10,
+          "reward": "Stick Snapping step 1"
+        },
+        {
+          "at": 100,
+          "reward": "Stick Snapping step 2"
+        },
+        {
+          "at": 1000,
+          "reward": "Stick Snapping step 3"
+        },
+        {
+          "at": 10000,
+          "reward": "Stick Snapping step 4"
+        },
+        {
+          "at": 100000,
+          "reward": "Stick Snapping step 5"
+        },
+        {
+          "at": 1000000,
+          "reward": "Stick Snapping step 6"
+        },
+        {
+          "at": 10000000,
+          "reward": "Stick Snapping step 7"
+        },
+        {
+          "at": 100000000,
+          "reward": "Stick Snapping step 8"
+        },
+        {
+          "at": 1000000000,
+          "reward": "Stick Snapping step 9"
+        },
+        {
+          "at": 10000000000,
+          "reward": "Stick Snapping step 10"
+        },
+        {
+          "at": 100000000000,
+          "reward": "Stick Snapping step 11"
+        },
+        {
+          "at": 1000000000000,
+          "reward": "Stick Snapping step 12"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "upgrade-vault/kill-total",
+        "params": {
+          "map": 13
+        }
+      },
+      "scope": "account",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox: getVaultTotalKills (VaultKillzTOT)",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc/upgradeVault.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "{value:compact} kills on The Base Of The Bark; next Stick Snapping step at {next:compact}",
+      "title": "Vault kill row: The Base Of The Bark",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 13,
+        "row": "Stick_Snapping"
+      },
+      "why": "The Vault upgrade Stick Snapping grows with each power of 10 of the account's kills on The Base Of The Bark."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "logSlot": 4,
+        "slot": 0
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "vault-kills",
+        "inputs": [
+          "parsers/misc/upgradeVault.ts#getVaultTotalKills",
+          "website-data/shared-data.json#upgradeVault",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "upgrade-vault.goal.kill-row-map-14",
+      "milestones": [
+        {
+          "at": 10,
+          "reward": "Bored to Death step 1"
+        },
+        {
+          "at": 100,
+          "reward": "Bored to Death step 2"
+        },
+        {
+          "at": 1000,
+          "reward": "Bored to Death step 3"
+        },
+        {
+          "at": 10000,
+          "reward": "Bored to Death step 4"
+        },
+        {
+          "at": 100000,
+          "reward": "Bored to Death step 5"
+        },
+        {
+          "at": 1000000,
+          "reward": "Bored to Death step 6"
+        },
+        {
+          "at": 10000000,
+          "reward": "Bored to Death step 7"
+        },
+        {
+          "at": 100000000,
+          "reward": "Bored to Death step 8"
+        },
+        {
+          "at": 1000000000,
+          "reward": "Bored to Death step 9"
+        },
+        {
+          "at": 10000000000,
+          "reward": "Bored to Death step 10"
+        },
+        {
+          "at": 100000000000,
+          "reward": "Bored to Death step 11"
+        },
+        {
+          "at": 1000000000000,
+          "reward": "Bored to Death step 12"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "upgrade-vault/kill-total",
+        "params": {
+          "map": 14
+        }
+      },
+      "scope": "account",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox: getVaultTotalKills (VaultKillzTOT)",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc/upgradeVault.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "{value:compact} kills on Valley Of The Beans; next Bored to Death step at {next:compact}",
+      "title": "Vault kill row: Valley Of The Beans",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 14,
+        "row": "Bored_to_Death"
+      },
+      "why": "The Vault upgrade Bored to Death grows with each power of 10 of the account's kills on Valley Of The Beans."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "logSlot": 5,
+        "slot": 1
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "vault-kills",
+        "inputs": [
+          "parsers/misc/upgradeVault.ts#getVaultTotalKills",
+          "website-data/shared-data.json#upgradeVault",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "upgrade-vault.goal.kill-row-map-24",
+      "milestones": [
+        {
+          "at": 10,
+          "reward": "Slice N Dice step 1"
+        },
+        {
+          "at": 100,
+          "reward": "Slice N Dice step 2"
+        },
+        {
+          "at": 1000,
+          "reward": "Slice N Dice step 3"
+        },
+        {
+          "at": 10000,
+          "reward": "Slice N Dice step 4"
+        },
+        {
+          "at": 100000,
+          "reward": "Slice N Dice step 5"
+        },
+        {
+          "at": 1000000,
+          "reward": "Slice N Dice step 6"
+        },
+        {
+          "at": 10000000,
+          "reward": "Slice N Dice step 7"
+        },
+        {
+          "at": 100000000,
+          "reward": "Slice N Dice step 8"
+        },
+        {
+          "at": 1000000000,
+          "reward": "Slice N Dice step 9"
+        },
+        {
+          "at": 10000000000,
+          "reward": "Slice N Dice step 10"
+        },
+        {
+          "at": 100000000000,
+          "reward": "Slice N Dice step 11"
+        },
+        {
+          "at": 1000000000000,
+          "reward": "Slice N Dice step 12"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "upgrade-vault/kill-total",
+        "params": {
+          "map": 24
+        }
+      },
+      "scope": "account",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox: getVaultTotalKills (VaultKillzTOT)",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc/upgradeVault.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "{value:compact} kills on Vegetable Patch; next Slice N Dice step at {next:compact}",
+      "title": "Vault kill row: Vegetable Patch",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 24,
+        "row": "Slice_N_Dice"
+      },
+      "why": "The Vault upgrade Slice N Dice grows with each power of 10 of the account's kills on Vegetable Patch."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "category": "compounding",
+      "confidence": "H",
+      "data": {
+        "logSlot": 7,
+        "slot": 3
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "vault-kills",
+        "inputs": [
+          "parsers/misc/upgradeVault.ts#getVaultTotalKills",
+          "website-data/shared-data.json#upgradeVault",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "upgrade-vault.goal.kill-row-map-8",
+      "milestones": [
+        {
+          "at": 10,
+          "reward": "Dirty Money step 1"
+        },
+        {
+          "at": 100,
+          "reward": "Dirty Money step 2"
+        },
+        {
+          "at": 1000,
+          "reward": "Dirty Money step 3"
+        },
+        {
+          "at": 10000,
+          "reward": "Dirty Money step 4"
+        },
+        {
+          "at": 100000,
+          "reward": "Dirty Money step 5"
+        },
+        {
+          "at": 1000000,
+          "reward": "Dirty Money step 6"
+        },
+        {
+          "at": 10000000,
+          "reward": "Dirty Money step 7"
+        },
+        {
+          "at": 100000000,
+          "reward": "Dirty Money step 8"
+        },
+        {
+          "at": 1000000000,
+          "reward": "Dirty Money step 9"
+        },
+        {
+          "at": 10000000000,
+          "reward": "Dirty Money step 10"
+        },
+        {
+          "at": 100000000000,
+          "reward": "Dirty Money step 11"
+        },
+        {
+          "at": 1000000000000,
+          "reward": "Dirty Money step 12"
+        }
+      ],
+      "origin": "generated",
+      "progress": {
+        "id": "upgrade-vault/kill-total",
+        "params": {
+          "map": 8
+        }
+      },
+      "scope": "account",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox: getVaultTotalKills (VaultKillzTOT)",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc/upgradeVault.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "upgrade-vault",
+      "text": "{value:compact} kills on Poopy Sewers; next Dirty Money step at {next:compact}",
+      "title": "Vault kill row: Poopy Sewers",
+      "type": "goal",
+      "unit": "kills",
+      "values": {
+        "map": 8,
+        "row": "Dirty_Money"
+      },
+      "why": "The Vault upgrade Dirty Money grows with each power of 10 of the account's kills on Poopy Sewers."
+    }
+  ],
+  "generator": "vault-kills",
+  "system": "upgrade-vault"
+}

@@ -1,0 +1,1699 @@
+{
+  "entries": [
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-0",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 0: Insider Trading",
+      "thing": {
+        "kind": "other",
+        "rawName": "Insider_Trading"
+      },
+      "title": "Bribe: Insider Trading",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 8,
+        "effectName": "StampCostPct",
+        "index": 0,
+        "name": "Insider_Trading",
+        "price": 750,
+        "set": 1,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-1",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 1: Tracking Chips",
+      "thing": {
+        "kind": "other",
+        "rawName": "Tracking_Chips"
+      },
+      "title": "Bribe: Tracking Chips",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 15,
+        "effectName": "StampDrop",
+        "index": 1,
+        "name": "Tracking_Chips",
+        "price": 1800,
+        "set": 1,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-10",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 10: Five Aces in the Deck",
+      "thing": {
+        "kind": "other",
+        "rawName": "Five_Aces_in_the_Deck"
+      },
+      "title": "Bribe: Five Aces in the Deck",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 20,
+        "effectName": "CardDropPct",
+        "index": 10,
+        "name": "Five_Aces_in_the_Deck",
+        "price": 70000,
+        "set": 2,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-11",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 11: Fake Teleport Tickets",
+      "thing": {
+        "kind": "other",
+        "rawName": "Fake_Teleport_Tickets"
+      },
+      "title": "Bribe: Fake Teleport Tickets",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 3,
+        "effectName": "FreeTeleport",
+        "index": 11,
+        "name": "Fake_Teleport_Tickets",
+        "price": 99000,
+        "set": 2,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-12",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 12: The Art of the Steal",
+      "thing": {
+        "kind": "other",
+        "rawName": "The_Art_of_the_Steal"
+      },
+      "title": "Bribe: The Art of the Steal",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 13,
+        "effectName": "BribeExpansion",
+        "index": 12,
+        "name": "The_Art_of_the_Steal",
+        "opensAtIndex": 13,
+        "opensSet": 3,
+        "price": 200000,
+        "set": 2,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-13",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 13: Counterfeit Telepassports",
+      "thing": {
+        "kind": "other",
+        "rawName": "Counterfeit_Telepassports"
+      },
+      "title": "Bribe: Counterfeit Telepassports",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 2,
+        "effectName": "FreeTeleport2",
+        "index": 13,
+        "name": "Counterfeit_Telepassports",
+        "price": 300000,
+        "set": 3,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-14",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 14: Weighted Marbles",
+      "thing": {
+        "kind": "other",
+        "rawName": "Weighted_Marbles"
+      },
+      "title": "Bribe: Weighted Marbles",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 10,
+        "effectName": "ArcadeBallz",
+        "index": 14,
+        "name": "Weighted_Marbles",
+        "price": 725000,
+        "set": 3,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-15",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 15: Changing the Code",
+      "thing": {
+        "kind": "other",
+        "rawName": "Changing_the_Code"
+      },
+      "title": "Bribe: Changing the Code",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 1,
+        "effectName": "BubbleSlot",
+        "index": 15,
+        "name": "Changing_the_Code",
+        "price": 1500000,
+        "set": 3,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-16",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 16: Taxidermied Cog Pouches",
+      "thing": {
+        "kind": "other",
+        "rawName": "Taxidermied_Cog_Pouches"
+      },
+      "title": "Bribe: Taxidermied Cog Pouches",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 4,
+        "effectName": "CogInve",
+        "index": 16,
+        "name": "Taxidermied_Cog_Pouches",
+        "price": 750000,
+        "set": 3,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-17",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 17: Guild VIP Fraud",
+      "thing": {
+        "kind": "other",
+        "rawName": "Guild_VIP_Fraud"
+      },
+      "title": "Bribe: Guild VIP Fraud",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 10,
+        "effectName": "BonusType",
+        "index": 17,
+        "name": "Guild_VIP_Fraud",
+        "price": 400000,
+        "set": 3,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-18",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 18: Library Double Agent",
+      "thing": {
+        "kind": "other",
+        "rawName": "Library_Double_Agent"
+      },
+      "title": "Bribe: Library Double Agent",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 4,
+        "effectName": "BonusType",
+        "index": 18,
+        "name": "Library_Double_Agent",
+        "price": 9156348,
+        "set": 3,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-19",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 19: The Art of the Fail",
+      "thing": {
+        "kind": "other",
+        "rawName": "The_Art_of_the_Fail"
+      },
+      "title": "Bribe: The Art of the Fail",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 20,
+        "effectName": "BribeExpansion",
+        "index": 19,
+        "name": "The_Art_of_the_Fail",
+        "opensAtIndex": 20,
+        "opensSet": 4,
+        "price": 25000000,
+        "set": 3,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-2",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 2: Mandatory Fire Sale",
+      "thing": {
+        "kind": "other",
+        "rawName": "Mandatory_Fire_Sale"
+      },
+      "title": "Bribe: Mandatory Fire Sale",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 7,
+        "effectName": "ShopCostPct",
+        "index": 2,
+        "name": "Mandatory_Fire_Sale",
+        "price": 3200,
+        "set": 1,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-20",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 20: Photoshopped Dmg Range",
+      "thing": {
+        "kind": "other",
+        "rawName": "Photoshopped_Dmg_Range"
+      },
+      "title": "Bribe: Photoshopped Dmg Range",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 2,
+        "effectName": "TotalDmg",
+        "index": 20,
+        "name": "Photoshopped_Dmg_Range",
+        "price": 100000000,
+        "set": 4,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-21",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 21: Glitched Acc Formula",
+      "thing": {
+        "kind": "other",
+        "rawName": "Glitched_Acc_Formula"
+      },
+      "title": "Bribe: Glitched Acc Formula",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 2,
+        "effectName": "TotalAcc",
+        "index": 21,
+        "name": "Glitched_Acc_Formula",
+        "price": 300000000,
+        "set": 4,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-22",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 22: Firewalled Defence",
+      "thing": {
+        "kind": "other",
+        "rawName": "Firewalled_Defence"
+      },
+      "title": "Bribe: Firewalled Defence",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 2,
+        "effectName": "TotalDef",
+        "index": 22,
+        "name": "Firewalled_Defence",
+        "price": 700000000,
+        "set": 4,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-23",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 23: Bottomless Bags",
+      "thing": {
+        "kind": "other",
+        "rawName": "Bottomless_Bags"
+      },
+      "title": "Bribe: Bottomless Bags",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 5,
+        "effectName": "CarryCap",
+        "index": 23,
+        "name": "Bottomless_Bags",
+        "price": 1200000000,
+        "set": 4,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-24",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 24: AFKeylogging",
+      "thing": {
+        "kind": "other",
+        "rawName": "AFKeylogging"
+      },
+      "title": "Bribe: AFKeylogging",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 2,
+        "effectName": "SkillAFK",
+        "index": 24,
+        "name": "AFKeylogging",
+        "price": 20000000000,
+        "set": 4,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-25",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 25: Guild GP Hack",
+      "thing": {
+        "kind": "other",
+        "rawName": "Guild_GP_Hack"
+      },
+      "title": "Bribe: Guild GP Hack",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 10,
+        "effectName": "Guild2",
+        "index": 25,
+        "name": "Guild_GP_Hack",
+        "price": 2500000000,
+        "set": 4,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-26",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 26: The Art of the Bail",
+      "thing": {
+        "kind": "other",
+        "rawName": "The_Art_of_the_Bail"
+      },
+      "title": "Bribe: The Art of the Bail",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 27,
+        "effectName": "BribeExpansion",
+        "index": 26,
+        "name": "The_Art_of_the_Bail",
+        "opensAtIndex": 27,
+        "opensSet": 5,
+        "price": 99999999,
+        "set": 4,
+        "soldBy": "garbage-tuna"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-27",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 27: Random Garbage",
+      "thing": {
+        "kind": "other",
+        "rawName": "Random_Garbage"
+      },
+      "title": "Bribe: Random Garbage",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 1,
+        "effectName": "RandoGarbo",
+        "index": 27,
+        "name": "Random_Garbage",
+        "price": 8000000000000,
+        "set": 5,
+        "soldBy": "garbage-tuna"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-28",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 28: Godlier Creation",
+      "thing": {
+        "kind": "other",
+        "rawName": "Godlier_Creation"
+      },
+      "title": "Bribe: Godlier Creation",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 1,
+        "effectName": "GodlyCreation",
+        "index": 28,
+        "name": "Godlier_Creation",
+        "price": 12121212121212,
+        "set": 5,
+        "soldBy": "garbage-tuna"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-29",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 29: Fishermaster",
+      "thing": {
+        "kind": "other",
+        "rawName": "Fishermaster"
+      },
+      "title": "Bribe: Fishermaster",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 1,
+        "effectName": "FishingStats",
+        "index": 29,
+        "name": "Fishermaster",
+        "price": 251500000000,
+        "set": 5,
+        "soldBy": "garbage-tuna"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-3",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 3: Sleeping on the Job",
+      "thing": {
+        "kind": "other",
+        "rawName": "Sleeping_on_the_Job"
+      },
+      "title": "Bribe: Sleeping on the Job",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 5,
+        "effectName": "FightAfkRate",
+        "index": 3,
+        "name": "Sleeping_on_the_Job",
+        "price": 6000,
+        "set": 1,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-30",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 30: Muscles on Muscles",
+      "thing": {
+        "kind": "other",
+        "rawName": "Muscles_on_Muscles"
+      },
+      "title": "Bribe: Muscles on Muscles",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 2,
+        "effectName": "TotalDmgB",
+        "index": 30,
+        "name": "Muscles_on_Muscles",
+        "price": 20000000000000000,
+        "set": 5,
+        "soldBy": "garbage-tuna"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-31",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 31: Bottle Service",
+      "thing": {
+        "kind": "other",
+        "rawName": "Bottle_Service"
+      },
+      "title": "Bribe: Bottle Service",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 10,
+        "effectName": "BottleMore",
+        "index": 31,
+        "name": "Bottle_Service",
+        "price": 40000000000000,
+        "set": 5,
+        "soldBy": "garbage-tuna"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-32",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 32: Star Scraper",
+      "thing": {
+        "kind": "other",
+        "rawName": "Star_Scraper"
+      },
+      "title": "Bribe: Star Scraper",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 33,
+        "effectName": "StarTalz",
+        "index": 32,
+        "name": "Star_Scraper",
+        "price": 3300000000000000,
+        "set": 5,
+        "soldBy": "garbage-tuna"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-33",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 33: The Art of the Grail",
+      "thing": {
+        "kind": "other",
+        "rawName": "The_Art_of_the_Grail"
+      },
+      "title": "Bribe: The Art of the Grail",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 34,
+        "effectName": "BribeExpansion",
+        "index": 33,
+        "name": "The_Art_of_the_Grail",
+        "opensAtIndex": 34,
+        "opensSet": 6,
+        "price": 99999999,
+        "set": 5,
+        "soldBy": "jade-emporium"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-34",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 34: Artifact Pilfering",
+      "thing": {
+        "kind": "other",
+        "rawName": "Artifact_Pilfering"
+      },
+      "title": "Bribe: Artifact Pilfering",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 20,
+        "effectName": "New1",
+        "index": 34,
+        "name": "Artifact_Pilfering",
+        "price": 300000000000000000,
+        "set": 6,
+        "soldBy": "jade-emporium"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-35",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 35: Forge Cap Smuggling",
+      "thing": {
+        "kind": "other",
+        "rawName": "Forge_Cap_Smuggling"
+      },
+      "title": "Bribe: Forge Cap Smuggling",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 30,
+        "effectName": "New2",
+        "index": 35,
+        "name": "Forge_Cap_Smuggling",
+        "price": 4400000000000000000,
+        "set": 6,
+        "soldBy": "jade-emporium"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-36",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 36: Gold from Lead",
+      "thing": {
+        "kind": "other",
+        "rawName": "Gold_from_Lead"
+      },
+      "title": "Bribe: Gold from Lead",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 10,
+        "effectName": "New3",
+        "index": 36,
+        "name": "Gold_from_Lead",
+        "price": 71000000000000000000,
+        "set": 6,
+        "soldBy": "jade-emporium"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-37",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 37: Nugget Fabrication",
+      "thing": {
+        "kind": "other",
+        "rawName": "Nugget_Fabrication"
+      },
+      "title": "Bribe: Nugget Fabrication",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 20,
+        "effectName": "New4",
+        "index": 37,
+        "name": "Nugget_Fabrication",
+        "price": 350000000000000000000,
+        "set": 6,
+        "soldBy": "jade-emporium"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-38",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 38: Divine PTS Miscounting",
+      "thing": {
+        "kind": "other",
+        "rawName": "Divine_PTS_Miscounting"
+      },
+      "title": "Bribe: Divine PTS Miscounting",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 30,
+        "effectName": "New5",
+        "index": 38,
+        "name": "Divine_PTS_Miscounting",
+        "price": 5e21,
+        "set": 6,
+        "soldBy": "jade-emporium"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-39",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 39: Loot Table Tampering",
+      "thing": {
+        "kind": "other",
+        "rawName": "Loot_Table_Tampering"
+      },
+      "title": "Bribe: Loot Table Tampering",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 20,
+        "effectName": "New6",
+        "index": 39,
+        "name": "Loot_Table_Tampering",
+        "price": 1e23,
+        "set": 6,
+        "soldBy": "jade-emporium"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-4",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 4: Artificial Demand",
+      "thing": {
+        "kind": "other",
+        "rawName": "Artificial_Demand"
+      },
+      "title": "Bribe: Artificial Demand",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 10,
+        "effectName": "ShopSellPct",
+        "index": 4,
+        "name": "Artificial_Demand",
+        "price": 9000,
+        "set": 1,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-40",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 40: The Art of the Flail",
+      "thing": {
+        "kind": "other",
+        "rawName": "The_Art_of_the_Flail"
+      },
+      "title": "Bribe: The Art of the Flail",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 41,
+        "effectName": "BribeExpansion",
+        "index": 40,
+        "name": "The_Art_of_the_Flail",
+        "opensAtIndex": 41,
+        "opensSet": 7,
+        "price": 99999999,
+        "set": 6,
+        "soldBy": "jade-emporium"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-5",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 5: The Art of the Deal",
+      "thing": {
+        "kind": "other",
+        "rawName": "The_Art_of_the_Deal"
+      },
+      "title": "Bribe: The Art of the Deal",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 6,
+        "effectName": "BribeExpansion",
+        "index": 5,
+        "name": "The_Art_of_the_Deal",
+        "opensAtIndex": 6,
+        "opensSet": 2,
+        "price": 15000,
+        "set": 1,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-6",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 6: Overstock Regulations",
+      "thing": {
+        "kind": "other",
+        "rawName": "Overstock_Regulations"
+      },
+      "title": "Bribe: Overstock Regulations",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 20,
+        "effectName": "ShopQtyPct",
+        "index": 6,
+        "name": "Overstock_Regulations",
+        "price": 20000,
+        "set": 2,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-7",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 7: Double Exp Scheme",
+      "thing": {
+        "kind": "other",
+        "rawName": "Double_Exp_Scheme"
+      },
+      "title": "Bribe: Double Exp Scheme",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 2.2,
+        "effectName": "AfkDoubleEXP",
+        "index": 7,
+        "name": "Double_Exp_Scheme",
+        "price": 222222,
+        "set": 2,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-8",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 8: Tagged Indicators",
+      "thing": {
+        "kind": "other",
+        "rawName": "Tagged_Indicators"
+      },
+      "title": "Bribe: Tagged Indicators",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 20,
+        "effectName": "StampDrop",
+        "index": 8,
+        "name": "Tagged_Indicators",
+        "price": 30000,
+        "set": 2,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bribes",
+        "inputs": ["website-data/shared-data.json#bribes"]
+      },
+      "id": "bribes.acquisition.bribe-9",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bribes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "bribes",
+      "text": "Bribe 9: Fossil Fuel Legislation",
+      "thing": {
+        "kind": "other",
+        "rawName": "Fossil_Fuel_Legislation"
+      },
+      "title": "Bribe: Fossil Fuel Legislation",
+      "type": "acquisition",
+      "values": {
+        "codeValue": 0.2,
+        "effectName": "OilConsume",
+        "index": 9,
+        "name": "Fossil_Fuel_Legislation",
+        "price": 55000,
+        "set": 2,
+        "soldBy": "book"
+      },
+      "why": "A bribe is a one-time coin purchase with a permanent bonus."
+    }
+  ],
+  "generator": "bribes",
+  "system": "bribes"
+}
