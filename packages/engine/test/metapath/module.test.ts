@@ -9,9 +9,9 @@ import { EMPTY_PREFS } from '../../src/now/prefs';
 import { loadKb, NOW, PUBLIC, scrubbed, stateOf } from './helpers';
 
 const kb = loadKb() as unknown as CompiledKnowledge;
-const run = (file: string, withKb = true) =>
+const run = (file: string, withKb = true, rates = false) =>
   runEngine({
-    state: stateOf(file),
+    state: stateOf(file, rates ? { rates: 'toolbox' } : {}),
     history: { entries: [], sessionStartedAt: null, learnedExpectedReturnSeconds: null },
     knowledge: { version: 'test', coverage: () => [], kb: withKb ? kb : null },
     now: NOW,
@@ -31,6 +31,38 @@ describe('the meta-path module in the engine core', () => {
     const r = run(scrubbed('scrubbed-w3'));
     const wizard = r.characters.find((c) => c.classId === 'Wizard')?.index;
     expect(r.visitOrder[r.visitOrder.length - 1]).toBe(wizard);
+  });
+
+  it('S3: the push Goal reads "Kill 14,981 more on Thermonuclear Climb to open the next portal"', () => {
+    const r = run(scrubbed('scrubbed-w3'), true, true);
+    const squire = r.characters.find((c) => c.classId === 'Squire' && c.level === 85);
+    const push = squire?.goals.find((g) => g.id === 'metapath.goal.push');
+    expect(push?.title).toBe('Push World 3');
+    expect(push?.nextAction.text).toBe('Kill 14,981 more on Thermonuclear Climb to open the next portal');
+    expect(push?.milestone).toMatchObject({ current: 19, next: 15000 });
+    const tutorial = squire?.goals.find((g) => g.id === 'metapath.goal.world-tutorial-w3');
+    expect(tutorial?.nextAction.text).toBe('Finish Hoggindaz 1 (Turn ON for what???)');
+  });
+
+  it("S3: on W2-late, Open World 3: finish Djonnut's quest 2 on the Barbarian 60", () => {
+    const r = run(scrubbed('scrubbed-w2'), true, true);
+    const barb = r.characters.find((c) => c.classId === 'Barbarian');
+    const push = barb?.goals.find((g) => g.id === 'metapath.goal.push');
+    expect([push?.title, push?.nextAction.text]).toEqual(['Open World 3', "Finish Djonnut's quest 2"]);
+  });
+
+  it('S4: with family level 300 the account gets Make a Hunter', () => {
+    const state = stateOf(scrubbed('scrubbed-w2'));
+    const r = runEngine({
+      state: { ...state, account: { ...state.account, accountLevel: 300 } },
+      history: { entries: [], sessionStartedAt: null, learnedExpectedReturnSeconds: null },
+      knowledge: { version: 'test', coverage: () => [], kb },
+      now: NOW,
+      options: { expectedReturnSeconds: 8 * 3600 },
+    });
+    expect(r.account.goals.map((g) => g.nextAction.text)).toContain(
+      'Make a Hunter: create a character, pick Archer at level 10, then Hunter at Speccius',
+    );
   });
 
   it('beyond coverage adds a Worlds 5–7 gap', () => {

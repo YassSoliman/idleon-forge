@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M2 as an engine-core module (M10 §2): it hands the core the Stage, the resolved Priority List that
-// `compareGoals` ranks every module's Goals against, and the Visit Order hints from Roles.
-import type { EngineModule, ModuleOutput } from '../core/module';
+// `compareGoals` ranks every module's Goals against, the Visit Order hints from Roles, and the Meta
+// Path Goals (push, subclass, W3 tutorial, elite, next character, swap token).
+import type { CharacterContribution, EngineModule, ModuleOutput } from '../core/module';
+import { metaPathGoals } from './goals';
 import { runMetaPath } from './index';
+import { lookupOf } from './knowledge';
 import type { MetaPathResult } from './types';
 
 /** "Not covered yet" for accounts past W4-entry (M2 FR-5, D2). */
@@ -26,7 +29,21 @@ export const metaPathModule: EngineModule = {
     const kb = input.knowledge.kb;
     if (!kb) return {};
     const r = runMetaPath(input.state, kb, input.now);
+    const goals = metaPathGoals(kb, lookupOf(kb), r);
+    const characters: CharacterContribution[] = [];
+    for (const { subject, goal } of goals) {
+      if (subject === 'account') continue;
+      const index = Number(subject.slice(1));
+      let c = characters.find((x) => x.index === index);
+      if (!c) {
+        c = { index, goals: [] };
+        characters.push(c);
+      }
+      c.goals?.push({ goal });
+    }
     return {
+      characters,
+      account: { goals: goals.filter((g) => g.subject === 'account').map(({ goal }) => ({ goal })) },
       stage: engineStage(r),
       priorityList: r.list,
       visitHints: r.visitHints,
