@@ -1,0 +1,3 @@
+# A Worker is allowed for one job: turning in-app Suggestions into GitHub issues
+
+Amends [ADR 0006](0006-client-only-spa-parsing-in-a-worker.md). The in-app Suggestion form posts to a small Cloudflare Worker (Turnstile-protected, rate-limited, signed-in players only) that files each Suggestion as a GitHub issue labelled `suggestion`, using a token held in Worker secrets. We chose this over a pre-filled GitHub issue link (needs every player to have a GitHub account) and over a Worker-owned database (a second inbox to watch): players need no GitHub account, and GitHub Issues stays the single tracker that Claude Code polls. The Worker never sees saves or login tokens; it receives only the Suggestion text and the attached context (Stage, versions, screen, class and level).

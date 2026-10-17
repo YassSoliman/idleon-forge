@@ -155,3 +155,9 @@ _Avoid_: unlock guide, how-to
 **Contested**:
 The status of an entry whose Sources disagree; shown with both sides and a "sources disagree" badge, never as a Verdict blocker or the top action.
 _Avoid_: disputed, uncertain
+
+## Feedback
+
+**Suggestion**:
+A player's in-app request (Idea, Something's wrong, or Confusing) written as When I'm… / I want… / So that…, filed as a GitHub issue and turned into a user story, a spec change, a Knowledge Base entry, or a wontfix.
+_Avoid_: feedback, ticket, feature request
