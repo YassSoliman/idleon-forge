@@ -11,6 +11,7 @@ import type { ParsedSave, RawSaveEnvelope, ToolboxCalls } from '@idleon-forge/to
 import { type AfkFactsInput, accountAfkFacts, characterAfkFacts } from './afk-facts';
 import { FIELD_RAW_KEYS, type RawKind } from './fields';
 import { metaPathAccountFields, metaPathCharacterFields } from './metapath-fields';
+import { readResetItems, readTalents } from './talents';
 import {
   type AccountState,
   type CharacterState,
@@ -144,6 +145,15 @@ function toFood(raw: unknown, path: string, field: string, c: Collector): FoodSt
 
 type CharacterRead = { ok: true; state: CharacterState } | { ok: false };
 
+/** M9 TR-3: `characters[].talents`, null (and listed unknown) when its raw keys or Toolbox's tabs are missing. */
+function readTalent(raw: Dict, index: number, lv: number, c: Collector) {
+  const at = `characters[${index}].talents`;
+  const known = c.checkRaw('characters[].talents', at, index);
+  const talents = readTalents({ raw, data: c.data, index, level: lv, known });
+  if (known && talents === null) c.unknown(at);
+  return talents;
+}
+
 function toCharacter(
   raw: Dict,
   index: number,
@@ -241,6 +251,8 @@ function toCharacter(
       ...metaPath,
       afk: null,
       ...readUnspentCharacter(raw),
+      // M9 Builds (M9 TR-3)
+      talents: readTalent(raw, index, lv, c),
     },
   };
 }
@@ -439,6 +451,8 @@ export function toAccountState(
       frontier,
       afk: accountAfk,
       ...unspent,
+      // M9 Builds (M9 TR-4)
+      resetItems: readResetItems(account, characters, failedSections),
       // One salt list: M6's entries carry M2's rawName/unlocked plus the fuel state (M6 TR-3).
       salts: metaPath.salts === null ? null : (unspent.salts ?? metaPath.salts ?? null),
     },

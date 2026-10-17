@@ -5,6 +5,7 @@
 // slot is left out (`characters[].afkTarget`); `{i}` in a raw key stands for the slot, and a key
 // ending in `_*` means that key for every character slot with data.
 import type { SideReadName } from '@idleon-forge/toolbox-parsers';
+import { TALENT_FIELD_RAW_KEYS, TALENT_FIELD_SECTIONS, TALENT_FIELD_SOURCES } from './talent-fields';
 import type { AccountState } from './types';
 import {
   UNSPENT_FIELD_RAW_KEYS,
@@ -72,6 +73,7 @@ export const FIELD_SOURCES: Record<string, string> = {
   'account.afk.storageFreeSlots': 'account.storage.slots, account.storage.list',
   'account.afk.coins': 'account.currencies.rawMoney',
   ...UNSPENT_FIELD_SOURCES,
+  ...TALENT_FIELD_SOURCES,
 };
 
 /** The raw save keys each field depends on. A missing or unparseable key makes the field Unknown. */
@@ -101,6 +103,7 @@ export const FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {
   'characters[].afk.food': [raw('EquipOrder_{i}', 'json'), raw('EquipQTY_{i}', 'json')],
   'account.afk': [raw('TimeAway', 'json')],
   ...UNSPENT_FIELD_RAW_KEYS,
+  ...TALENT_FIELD_RAW_KEYS,
 };
 
 /** The account sections `getMaxDamage` reads at the pin (damage.ts, 6c37e3d), for `account.frontier`. */
@@ -166,6 +169,7 @@ export const FIELD_SECTIONS: Record<string, string[]> = {
   'account.afk.salts': ['refinery', 'storage'],
   'account.afk.storageFreeSlots': ['storage'],
   ...UNSPENT_FIELD_SECTIONS,
+  ...TALENT_FIELD_SECTIONS,
 };
 
 /** The side reads each field depends on. */
