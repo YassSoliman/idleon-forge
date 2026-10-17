@@ -3,7 +3,7 @@
 // Toolbox runtime functions the Account State needs beyond `parseData()`, gathered in one object so the
 // parse worker can inject them (account-state never imports this package's runtime, ADR 0006). Each
 // module appends its entries here; nothing in vendor/ is edited.
-import { getAfkGain, getDropRate } from '../vendor/parsers/character';
+import { getAfkGain, getDropRate, getPlayerFoodBonus } from '../vendor/parsers/character';
 import { getMaxDamage } from '../vendor/parsers/damage';
 import { getMaxClaimTime } from '../vendor/parsers/dungeons';
 import { getItemCapacity } from '../vendor/parsers/misc';
@@ -28,4 +28,6 @@ export const toolboxCalls = {
   getSaltMatsTimeLeft,
   getPrayerBonusAndCurse,
   getItemCapacity,
+  /** Food effect multiplier; with isHealth, a health food heals `Amount` x this per bite (M3 R-FOOD-1). */
+  getPlayerFoodBonus,
 };

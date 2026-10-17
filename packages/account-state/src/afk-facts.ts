@@ -51,7 +51,15 @@ function attempt<T>(f: () => T, ok: (v: T) => boolean = () => true): T | null {
 
 const sane = (asOf: number) => (t: number) => Number.isFinite(t) && Math.abs(t - asOf) <= AFK_HORIZON_MS;
 
-function foodOf(c: Dict): { food: AfkFood[]; blankFoodSlot: boolean } {
+/** HP one bite of a health food heals: its `Amount` times Toolbox's health-food multiplier. */
+const healOf = (item: Dict, bonus: number | null): number | null => {
+  const amount = num(item.Amount);
+  if (item.Effect !== 'Health' || amount === null || bonus === null) return null;
+  const heal = amount * bonus;
+  return heal > 0 ? heal : null;
+};
+
+function foodOf(c: Dict, bonus: number | null): { food: AfkFood[]; blankFoodSlot: boolean } {
   const food: AfkFood[] = [];
   let blankFoodSlot = false;
   arr(c.food).forEach((f, slot) => {
@@ -62,7 +70,8 @@ function foodOf(c: Dict): { food: AfkFood[]; blankFoodSlot: boolean } {
       if (raw === 'Blank' || raw === '') blankFoodSlot = true;
       return;
     }
-    food.push({ slot, item: raw, kind: foodKind(f.Type), amount });
+    const kind = foodKind(f.Type);
+    food.push({ slot, item: raw, kind, amount, healPerBite: kind === 'health' ? healOf(f, bonus) : null });
   });
   return { food, blankFoodSlot };
 }
@@ -99,6 +108,7 @@ function fightingOf(
   account: Dict,
   calls: ToolboxCalls,
   blankFoodSlot: boolean,
+  bonus: number | null,
 ): AfkFighting | null {
   if (c.afkType !== 'FIGHTING') return null;
   const full = attempt(() => calls.getMaxDamage(c, characters, account) as Dict);
@@ -119,10 +129,29 @@ function fightingOf(
       const food = buffer.map((f, i) => (i === blank ? { ...candidate.data, amount: candidate.amount } : f));
       const r = attempt(() => calls.getMaxDamage({ ...c, food }, characters, account) as Dict);
       if (pct(r?.survivability) === 100)
-        fixingFoods.push({ item: candidate.item, name: candidate.name, amount: candidate.amount });
+        fixingFoods.push({
+          item: candidate.item,
+          name: candidate.name,
+          amount: candidate.amount,
+          healPerBite: healOf(candidate.data, bonus),
+        });
     }
   }
-  return { survivability, finalKillsPerHour, survivabilityNoFood, fixingFoods, spareHealthFood };
+  const hp = num(full?.maxHp);
+  const maxHp = hp !== null && hp > 0 ? hp : null;
+  const foodCap = attempt(
+    () => num((calls.getItemCapacity('cFood', c, account) as Dict | undefined)?.value),
+    (v) => v !== null && v > 0,
+  );
+  return {
+    survivability,
+    finalKillsPerHour,
+    survivabilityNoFood,
+    fixingFoods,
+    spareHealthFood,
+    maxHp,
+    foodCap,
+  };
 }
 
 function inventoryOf(c: Dict, account: Dict, calls: ToolboxCalls): AfkInventory | null {
@@ -235,13 +264,17 @@ export function characterAfkFacts(input: AfkFactsInput, index: number): Characte
   const account = parsed.account;
   const characters = parsed.characters;
   return input.withFrozenClock(asOf, () => {
-    const { food, blankFoodSlot } = foodOf(c);
+    const bonus = attempt(
+      () => num(calls.getPlayerFoodBonus(c, account, true)),
+      (v) => v !== null && v > 0,
+    );
+    const { food, blankFoodSlot } = foodOf(c, bonus);
     return {
       afkSince,
       food,
       blankFoodSlot,
       freeFoodSlots: null,
-      fighting: attempt(() => fightingOf(c, characters, account, calls, blankFoodSlot)),
+      fighting: attempt(() => fightingOf(c, characters, account, calls, blankFoodSlot, bonus)),
       inventory: attempt(() => inventoryOf(c, account, calls)),
       anvil: anvilOf(c, characters, account, calls, asOf),
       worship: attempt(() => worshipOf(c)),

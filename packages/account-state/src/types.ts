@@ -18,8 +18,9 @@ import type { SaltState, UnspentAccountFields, UnspentCharacterFields } from './
  * 6: `characters[].afk` and `account.afk` (M3 TR-2).
  * 7: M6 TR-3's unspent-and-idle fields (the `UnspentAccountFields` and `UnspentCharacterFields` blocks;
  *    M6's `salts` entries add `name`, `active`, `rank` and `missingFuel` to M2's shared list).
+ * 8: M3 R-FOOD-1/2: heal per bite, max HP and the food carry cap in `characters[].afk`.
  */
-export const SCHEMA_VERSION = 7;
+export const SCHEMA_VERSION = 8;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [

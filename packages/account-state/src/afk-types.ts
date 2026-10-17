@@ -15,6 +15,8 @@ export interface AfkFood {
   /** From the item's `Type` (HEALTH_FOOD, BOOST_FOOD, GOLDEN_FOOD). */
   kind: AfkFoodKind;
   amount: number;
+  /** Health food only: HP one bite heals (Toolbox item `Amount` x getPlayerFoodBonus(isHealth)); else null. */
+  healPerBite: number | null;
 }
 
 export interface AfkFighting {
@@ -32,9 +34,13 @@ export interface AfkFighting {
    * the first Blank food slot, smallest stack first. At most 4 distinct foods are tried, the largest
    * owned stacks (TR-2's cost bound).
    */
-  fixingFoods: Array<{ item: string; name: string; amount: number }>;
+  fixingFoods: Array<{ item: string; name: string; amount: number; healPerBite: number | null }>;
   /** Health food owned but not equipped (this character's bag plus storage), for "add more food" fixes. */
   spareHealthFood: number;
+  /** Toolbox `getMaxDamage(character).maxHp` (M3 R-FOOD-1). */
+  maxHp: number | null;
+  /** The character's carry cap for food (getItemCapacity('cFood')), null when unknown (M3 R-FOOD-2). */
+  foodCap: number | null;
 }
 
 export interface AfkAnvilProduct {
