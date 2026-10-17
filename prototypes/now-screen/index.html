@@ -46,7 +46,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .pill.ready{background:var(--ok-soft);color:var(--ok)}
 .pill.fix{background:var(--bad-soft);color:var(--bad)}
 .pill.unknown{background:var(--unk-soft);color:var(--unk)}
-.src{font-family:var(--mono);font-size:10.5px;color:var(--coin);background:var(--coin-soft);padding:1px 6px;border-radius:4px;border:0}
+.src{font-family:var(--mono);font-size:10.5px;color:var(--coin);background:var(--coin-soft);padding:1px 6px;border-radius:4px;border:0;text-decoration:none}
+.src:hover{text-decoration:underline}
 .src.stale{color:var(--unk);background:var(--unk-soft)}
 .na{display:grid;gap:3px}
 .na b{line-height:1.3}
@@ -162,9 +163,19 @@ function header(){
   return `<div class="top"><h1>Active<span>On</span></h1><span class="sync">last cloud save 40s ago</span></div>
   <div class="return">Back in about <span>${['2h','4h','8h','12h'].map(v=>`<button data-ret="${v}" aria-pressed="${v===ret}">${v}</button>`).join(' ')}</span></div>`;
 }
+// Source links (mock advice, real pages): an explicit g.url wins, else a topic page per source type.
+const WIKI = { 'Post Office':'Post_Office', 'Gear':'Anvil', 'Construction':'Refinery', 'Stamps':'Stamps', 'Talents':'Talents', 'Alchemy bubbles':'Bubbles' };
+const GUIDE_SHEET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSCepYAs6sNDP4iq6MJNAG1pvFXzfC_3IQ7ttt5vfEEKAgQhIk4cQqnLRyeH6UyqDSuP4R-6WQeDmmP/pubhtml';
+function srcURL(g){
+  if (g.url) return g.url;
+  if (g.src==='game data') return 'https://github.com/Morta1/IdleonToolbox/tree/main/data';
+  if (g.src==='guide') return GUIDE_SHEET;
+  const page = WIKI[g.goal] || (/food/i.test(g.na) ? 'Food' : /min(e|ing)|iron|copper/i.test(g.na) ? 'Mining' : 'Main_Page');
+  return 'https://idleon.wiki/wiki/' + page;
+}
 function naHTML(g){
   return `<div class="na"><span class="goaltag">${KIND[g.kind]} · ${esc(g.goal)}</span><b>${esc(g.na)}</b><span class="why">Why: ${esc(g.why)}</span>
-  <span class="row"><button class="src ${g.stale?'stale':''}" title="source and patch">${esc(g.src)} · ${g.patch}${g.stale?' · Stale':''}</button>
+  <span class="row"><a class="src ${g.stale?'stale':''}" href="${srcURL(g)}" target="_blank" rel="noopener" title="Open the source in a new tab">${esc(g.src)} · ${g.patch}${g.stale?' · Stale':''} ↗</a>
   <button class="ghost">Skip today</button><button class="ghost">Not for me</button><button class="ghost">Report this</button></span></div>`;
 }
 function allset(){ return `<div class="allset"><b>All set: safe to log off</b><span>First thing fills up in about 9h (Squire's inventory).</span></div>`; }
