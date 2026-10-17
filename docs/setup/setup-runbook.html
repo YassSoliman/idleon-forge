@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IdleOn Forge Setup</title>
+<style>
+:root{--bg:#eef2f6;--card:#fff;--fg:#18233a;--muted:#56637a;--line:#cdd6e1;--accent:#0f7d72;--accent-soft:#d5efeb;--warn:#9a5b08;--warn-soft:#f6e6cc;--code:#e2e8ef}
+@media (prefers-color-scheme:dark){:root{--bg:#111826;--card:#1a2436;--fg:#e6ecf5;--muted:#9aa8bf;--line:#2c3a52;--accent:#3fc7b7;--accent-soft:#123632;--warn:#f0a63a;--warn-soft:#3a2c14;--code:#0c121d;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;padding:32px 16px 64px}
+main{max-width:760px;margin:0 auto;display:grid;gap:20px}
+h1{margin:0;font-size:28px}
+h2{margin:0;font-size:20px}
+p{margin:0}
+.muted{color:var(--muted)}
+section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:14px}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.note{background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:10px 12px;font-size:14px}
+ol{margin:0;padding:0;list-style:none;display:grid;gap:10px;counter-reset:s}
+ol li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;counter-increment:s}
+ol li input{width:20px;height:20px;margin-top:2px;accent-color:var(--accent)}
+ol li label{cursor:pointer}
+ol li label b{font-weight:700}
+ol li.done label{color:var(--muted);text-decoration:line-through}
+code{font:13px ui-monospace,Menlo,monospace;background:var(--code);padding:1px 6px;border-radius:4px;word-break:break-all}
+pre{margin:0;background:var(--code);border-radius:8px;padding:10px 12px;overflow-x:auto;font:13px ui-monospace,Menlo,monospace}
+table{border-collapse:collapse;width:100%;font-size:14px}
+td,th{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600}
+.copy{font:12px system-ui;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:6px;padding:2px 8px;cursor:pointer;margin-left:6px}
+footer{font-size:13px;color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+<main>
+  <header style="display:grid;gap:6px">
+    <h1>IdleOn Forge setup</h1>
+    <p class="muted">Three one-time setups that let Claude Code run Cloudflare and GitHub for the Forge on its own. About 10 minutes total. Tick boxes as you go; progress is remembered in this browser.</p>
+    <p class="note">Never paste a token or key into chat. Every value goes into the private file <code>~/.config/idleon-forge/</code> (only you can read it). When a part is done, tell Claude the phrase at the end of that part.</p>
+  </header>
+
+  <section>
+    <span class="tag">Part 1 · ~2 min</span>
+    <h2>Cloudflare admin token (IdleOn account only)</h2>
+    <p class="muted">Lets Claude create Workers, the Turnstile key, the Preview login gate and (later) DNS for your domain. Stays on your Mac; never goes to GitHub.</p>
+    <ol data-part="cf">
+      <li><input type="checkbox" id="cf1"><label for="cf1">Open <a href="https://dash.cloudflare.com" target="_blank" rel="noopener">dash.cloudflare.com</a> and switch to the <b>IdleOn</b> account (account picker, top left).</label></li>
+      <li><input type="checkbox" id="cf2"><label for="cf2">Go to <b>Manage Account → Account API Tokens → Create Token → Create Custom Token</b>. (If you don't see "Account API Tokens", use <b>My Profile → API Tokens</b> instead, and set Account Resources to <b>IdleOn</b> only.)</label></li>
+      <li><input type="checkbox" id="cf3"><label for="cf3">Name: <code>forge-admin</code>. Add these <b>Account</b> permissions:
+        <table><tr><th>Permission</th><th>Access</th></tr>
+        <tr><td>Workers Scripts</td><td>Edit</td></tr>
+        <tr><td>Workers KV Storage</td><td>Edit</td></tr>
+        <tr><td>D1</td><td>Edit</td></tr>
+        <tr><td>Workers R2 Storage</td><td>Edit</td></tr>
+        <tr><td>Workers Tail</td><td>Read</td></tr>
+        <tr><td>Turnstile</td><td>Edit</td></tr>
+        <tr><td>Access: Apps and Policies</td><td>Edit</td></tr>
+        <tr><td>Access: Organizations, Identity Providers, and Groups</td><td>Edit</td></tr>
+        <tr><td>Account Settings</td><td>Read</td></tr></table></label></li>
+      <li><input type="checkbox" id="cf4"><label for="cf4">Add these <b>Zone</b> permissions (Zone Resources: <b>All zones</b> in IdleOn): Zone <b>Edit</b>, DNS <b>Edit</b>, Workers Routes <b>Edit</b>, Zone Settings <b>Edit</b>. Unused until you buy a domain, but saves redoing the token.</label></li>
+      <li><input type="checkbox" id="cf5"><label for="cf5">Continue → Create Token → <b>copy</b> it (shown once).</label></li>
+      <li><input type="checkbox" id="cf6"><label for="cf6">Open the secrets file and add one line at the bottom, then save:
+        <pre>open -e ~/.config/idleon-forge/secrets.env</pre>
+        <pre>LOCAL_CLOUDFLARE_ADMIN_TOKEN=paste-the-token-here</pre></label></li>
+      <li><input type="checkbox" id="cf7"><label for="cf7">Tell Claude: <b>"admin token in"</b>.</label></li>
+    </ol>
+  </section>
+
+  <section>
+    <span class="tag">Part 2 · ~4 min</span>
+    <h2>GitHub App: Forge Bot (agent pull requests)</h2>
+    <p class="muted">Agents open PRs as this bot instead of as you, so you can approve them yourself, and the weekly parser-sync PR can trigger CI. It can only touch the <code>idleon-forge</code> repo.</p>
+    <ol data-part="bot">
+      <li><input type="checkbox" id="b1"><label for="b1">Open <a href="https://github.com/settings/apps/new" target="_blank" rel="noopener">github.com/settings/apps/new</a>.</label></li>
+      <li><input type="checkbox" id="b2"><label for="b2"><b>GitHub App name:</b> <code>idleon-forge-bot</code> (if taken, add a suffix like <code>-ys</code>). <b>Homepage URL:</b> <code>https://github.com/YassSoliman/idleon-forge</code></label></li>
+      <li><input type="checkbox" id="b3"><label for="b3"><b>Webhook:</b> uncheck <b>Active</b> (we don't need one).</label></li>
+      <li><input type="checkbox" id="b4"><label for="b4"><b>Repository permissions</b> (leave everything else "No access"):
+        <table><tr><th>Permission</th><th>Access</th></tr>
+        <tr><td>Contents</td><td>Read and write</td></tr>
+        <tr><td>Pull requests</td><td>Read and write</td></tr>
+        <tr><td>Issues</td><td>Read and write</td></tr>
+        <tr><td>Metadata</td><td>Read-only (automatic)</td></tr></table></label></li>
+      <li><input type="checkbox" id="b5"><label for="b5"><b>Where can this GitHub App be installed?</b> → <b>Only on this account</b>. Click <b>Create GitHub App</b>.</label></li>
+      <li><input type="checkbox" id="b6"><label for="b6">On the app page, note the <b>App ID</b> (a number near the top).</label></li>
+      <li><input type="checkbox" id="b7"><label for="b7">Scroll to <b>Private keys → Generate a private key</b>. A <code>.pem</code> file downloads. Move it into place (adjust the filename if it differs):
+        <pre>mv ~/Downloads/idleon-forge-bot*.pem ~/.config/idleon-forge/forge-bot.pem && chmod 600 ~/.config/idleon-forge/forge-bot.pem</pre></label></li>
+      <li><input type="checkbox" id="b8"><label for="b8">Left menu <b>Install App → Install</b> next to your account → <b>Only select repositories</b> → <code>idleon-forge</code> → Install.</label></li>
+      <li><input type="checkbox" id="b9"><label for="b9">Add to the secrets file and save:
+        <pre>LOCAL_FORGE_BOT_APP_ID=the-app-id-number</pre></label></li>
+      <li><input type="checkbox" id="b10"><label for="b10">Tell Claude: <b>"forge bot ready"</b>. Claude moves the key into the GitHub secrets the sync workflow needs; you never handle it again.</label></li>
+    </ol>
+  </section>
+
+  <section>
+    <span class="tag">Part 3 · ~3 min</span>
+    <h2>GitHub App: Forge Suggestions (in-app Suggestions, for M13)</h2>
+    <p class="muted">A separate, smaller app the Suggestions Worker uses to file issues. Kept separate so a leaked key can only touch issues, never code. Can wait until M13 is being built, but it's quick to do now.</p>
+    <ol data-part="sug">
+      <li><input type="checkbox" id="s1"><label for="s1">Open <a href="https://github.com/settings/apps/new" target="_blank" rel="noopener">github.com/settings/apps/new</a> again.</label></li>
+      <li><input type="checkbox" id="s2"><label for="s2"><b>Name:</b> <code>idleon-forge-suggestions</code> (add a suffix if taken). <b>Homepage URL:</b> <code>https://github.com/YassSoliman/idleon-forge</code>. <b>Webhook:</b> uncheck <b>Active</b>.</label></li>
+      <li><input type="checkbox" id="s3"><label for="s3"><b>Repository permissions:</b> <b>Issues → Read and write</b> only (Metadata read-only is automatic). Everything else "No access".</label></li>
+      <li><input type="checkbox" id="s4"><label for="s4"><b>Only on this account</b> → Create. Note the <b>App ID</b>.</label></li>
+      <li><input type="checkbox" id="s5"><label for="s5">Generate a private key, then:
+        <pre>mv ~/Downloads/idleon-forge-suggestions*.pem ~/.config/idleon-forge/suggestions-app.pem && chmod 600 ~/.config/idleon-forge/suggestions-app.pem</pre></label></li>
+      <li><input type="checkbox" id="s6"><label for="s6"><b>Install App</b> → Only select repositories → <code>idleon-forge</code>.</label></li>
+      <li><input type="checkbox" id="s7"><label for="s7">Add to the secrets file: <pre>LOCAL_SUGGESTIONS_APP_ID=the-app-id-number</pre></label></li>
+      <li><input type="checkbox" id="s8"><label for="s8">Tell Claude: <b>"suggestions app ready"</b>. Claude stores the key as a Worker secret on Cloudflare when M13 is built.</label></li>
+    </ol>
+  </section>
+
+  <footer>All three parts done means Claude can create, deploy and maintain everything for the Forge without asking you to click. Delete any token or app later to revoke access instantly.</footer>
+</main>
+<script>
+const KEY='forge-setup-runbook';
+let state={};try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+document.querySelectorAll('ol li input').forEach(cb=>{
+  const li=cb.closest('li'); cb.checked=!!state[cb.id]; li.classList.toggle('done',cb.checked);
+  cb.addEventListener('change',()=>{state[cb.id]=cb.checked; li.classList.toggle('done',cb.checked); try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}});
+});
+</script>
+</body>
+</html>
