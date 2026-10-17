@@ -87,7 +87,7 @@ ActiveOn's single working view during a Play Session: one row per character plus
 _Avoid_: dashboard, home, feed
 
 **Verdict**:
-A character's state for the coming AFK Stretch, one of Ready (safe to leave and serving a worthwhile Purpose), Fix before you leave, or Unknown (no Purpose found, or the data can't tell).
+A character's state for the coming AFK Stretch, one of Ready (safe to leave and serving a worthwhile Purpose), Fix before you leave, or Unknown (no Purpose found, the data can't tell, or the activity isn't covered yet).
 _Avoid_: status, health, score
 
 **Purpose**:
@@ -141,11 +141,11 @@ The small, tested piece of code a Check or Contribution points to that reads the
 _Avoid_: rule function, handler
 
 **Priority List**:
-An ordered, Source-backed list for one stage (ties allowed), used to rank Goals, the Spend Plan and Leverage; never numeric weights.
+An ordered, Source-backed list for one stage (ties allowed), used to rank Goals, the Spend Plan and Leverage; a System may also keep its own ordering list (merit rows, gem buys). Never numeric weights.
 _Avoid_: tier list, weights, score
 
 **Build**:
-An entry giving the talent order for one class and one talent preset.
+An entry giving the talent order for one class line and one preset role (fighting or skilling).
 _Avoid_: spec, loadout
 
 **Acquisition**:
