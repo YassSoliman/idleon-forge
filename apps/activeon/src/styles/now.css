@@ -32,6 +32,18 @@
 .top-chips {
   grid-column: 1 / -1;
 }
+/* Narrow overlay widths: the status chips go under the wordmark instead of beside it (TR-14). */
+@media (max-width: 400px) {
+  .top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .top-status {
+    justify-content: flex-start;
+  }
+  .top-status .sync {
+    white-space: normal;
+  }
+}
 .er {
   border: 0;
   margin: 0;
