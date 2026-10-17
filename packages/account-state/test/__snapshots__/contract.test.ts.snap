@@ -4,6 +4,11 @@ exports[`public save first.json > matches the recorded shape (review the diff af
 {
   "account": {
     "accountLevel": 602,
+    "buildings": {
+      "atomCollider": 0,
+      "deathNote": 6,
+      "printer3d": 9,
+    },
     "currentWorld": 4,
     "dailyResetInSeconds": 61106.3149971962,
     "finishedWorlds": [
@@ -11,19 +16,292 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       2,
       3,
     ],
+    "frontier": null,
     "gameVersion": {
       "parserTarget": "2.3.540",
       "saveVersion": 17.05,
       "serverBuild": 80,
     },
+    "gateQuests": {
+      "Bellows1": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows2": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows3": {
+        "completedBy": [],
+        "inProgressBy": [
+          0,
+        ],
+      },
+      "Bellows4": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+      "Djonnut1": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [
+          1,
+          4,
+          6,
+        ],
+      },
+      "Djonnut2": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut3": {
+        "completedBy": [],
+        "inProgressBy": [
+          0,
+        ],
+      },
+      "Dog_Bone1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+        ],
+        "inProgressBy": [],
+      },
+      "Dog_Bone2": {
+        "completedBy": [
+          0,
+          4,
+          5,
+          6,
+        ],
+        "inProgressBy": [
+          1,
+          2,
+          3,
+        ],
+      },
+      "Gobo1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz10": {
+        "completedBy": [],
+        "inProgressBy": [
+          0,
+        ],
+      },
+      "Hoggindaz2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+        ],
+        "inProgressBy": [
+          6,
+        ],
+      },
+      "Hoggindaz6": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [
+          1,
+          2,
+          3,
+          4,
+          5,
+        ],
+      },
+      "Hoggindaz7": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz8": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz9": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+    },
     "lastCloudSave": 1717794496023,
+    "salts": [
+      {
+        "rawName": "Refinery1",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery2",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery3",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery4",
+        "unlocked": false,
+      },
+      {
+        "rawName": "Refinery5",
+        "unlocked": false,
+      },
+      {
+        "rawName": "Refinery6",
+        "unlocked": false,
+      },
+      {
+        "rawName": "Refinery7",
+        "unlocked": false,
+      },
+      {
+        "rawName": "Refinery8",
+        "unlocked": false,
+      },
+      {
+        "rawName": "Refinery9",
+        "unlocked": false,
+      },
+    ],
     "secondsSinceLastSave": 74443903,
+    "worldCrystals": {
+      "desertTopaz": 261,
+      "galaxialAmethyst": 0,
+      "glacierQuartz": 13,
+    },
   },
   "characters": [
     {
       "afkTarget": "Purp_Mushroom",
       "afkType": "FIGHTING",
       "class": "Blood_Berserker",
+      "classIndex": 10,
       "currentMap": "Spaceway_Raceway",
       "foodStacks": [
         {
@@ -45,12 +323,26 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       ],
       "index": 0,
       "level": 96,
+      "nextPortal": {
+        "current": 15000,
+        "door": 0,
+        "goal": 5000,
+      },
+      "npcDialog": {
+        "Bellows": 7,
+        "Builder_Bird": 2,
+        "Carpenter_Cardinal": 3,
+        "Constructor_Crow": 3,
+        "Djonnut": 13,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74444708,
     },
     {
       "afkTarget": "Laboratory",
       "afkType": "LABORATORY",
       "class": "Bubonic_Conjuror",
+      "classIndex": 36,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -72,12 +364,25 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       ],
       "index": 1,
       "level": 87,
+      "nextPortal": {
+        "current": 0,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 2,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 74444227,
     },
     {
       "afkTarget": "Laboratory",
       "afkType": "LABORATORY",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -99,12 +404,24 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       ],
       "index": 2,
       "level": 86,
+      "nextPortal": {
+        "current": 0,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 74444475,
     },
     {
       "afkTarget": "Purp_Mushroom",
       "afkType": "FIGHTING",
       "class": "Divine_Knight",
+      "classIndex": 12,
       "currentMap": "Spaceway_Raceway",
       "foodStacks": [
         {
@@ -122,12 +439,24 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       ],
       "index": 3,
       "level": 86,
+      "nextPortal": {
+        "current": 7331,
+        "door": 0,
+        "goal": 5000,
+      },
+      "npcDialog": {
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 74444484,
     },
     {
       "afkTarget": "Laboratory",
       "afkType": "LABORATORY",
       "class": "Elemental_Sorcerer",
+      "classIndex": 34,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -149,12 +478,25 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       ],
       "index": 4,
       "level": 87,
+      "nextPortal": {
+        "current": 0,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 2,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74444473,
     },
     {
       "afkTarget": "Laboratory",
       "afkType": "LABORATORY",
       "class": "Beast_Master",
+      "classIndex": 25,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -168,12 +510,24 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       ],
       "index": 5,
       "level": 87,
+      "nextPortal": {
+        "current": 0,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74444471,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Maestro",
+      "classIndex": 3,
       "currentMap": "YumYum_Grotto",
       "foodStacks": [
         {
@@ -195,6 +549,18 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       ],
       "index": 6,
       "level": 73,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 2,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74443905,
     },
   ],
@@ -225,6 +591,11 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
 {
   "account": {
     "accountLevel": 477,
+    "buildings": {
+      "atomCollider": 1,
+      "deathNote": 51,
+      "printer3d": 1,
+    },
     "currentWorld": 6,
     "dailyResetInSeconds": 72227.93901824951,
     "finishedWorlds": [
@@ -234,19 +605,210 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       4,
       5,
     ],
+    "frontier": null,
     "gameVersion": {
       "parserTarget": "2.3.540",
       "saveVersion": 17.05,
       "serverBuild": 79,
     },
+    "gateQuests": {
+      "Bellows1": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows2": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows3": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows4": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut1": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut2": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut3": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Dog_Bone1": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Dog_Bone2": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo1": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo2": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo3": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo4": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo5": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz1": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz10": {
+        "completedBy": [],
+        "inProgressBy": [
+          0,
+        ],
+      },
+      "Hoggindaz2": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz3": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz4": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz5": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz6": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz7": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz8": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz9": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+    },
     "lastCloudSave": 1715932274485,
+    "salts": [
+      {
+        "rawName": "Refinery1",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery2",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery3",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery4",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery5",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery6",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery7",
+        "unlocked": false,
+      },
+      {
+        "rawName": "Refinery8",
+        "unlocked": false,
+      },
+      {
+        "rawName": "Refinery9",
+        "unlocked": false,
+      },
+    ],
     "secondsSinceLastSave": 76306125,
+    "worldCrystals": {
+      "desertTopaz": 0,
+      "galaxialAmethyst": 0,
+      "glacierQuartz": 0,
+    },
   },
   "characters": [
     {
       "afkTarget": "Woodlin_Spirit",
       "afkType": "FIGHTING",
       "class": "Voidwalker",
+      "classIndex": 4,
       "currentMap": "Edge_of_the_Valley",
       "foodStacks": [
         {
@@ -276,16 +838,38 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       ],
       "index": 0,
       "level": 476,
+      "nextPortal": {
+        "current": 410000,
+        "door": 0,
+        "goal": 400000,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 2,
+        "Carpenter_Cardinal": 3,
+        "Constructor_Crow": 3,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 76306126,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Beginner",
+      "classIndex": 1,
       "currentMap": "Blunder_Hills",
       "foodStacks": [],
       "index": 1,
       "level": 1,
+      "nextPortal": {
+        "current": 0,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Builder_Bird": 0,
+      },
       "secondsSinceLastSave": 140174772,
     },
   ],
@@ -322,6 +906,11 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
 {
   "account": {
     "accountLevel": 1013,
+    "buildings": {
+      "atomCollider": 67,
+      "deathNote": 51,
+      "printer3d": 10,
+    },
     "currentWorld": 6,
     "dailyResetInSeconds": 16674.59600110352,
     "finishedWorlds": [
@@ -331,19 +920,231 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       4,
       5,
     ],
+    "frontier": null,
     "gameVersion": {
       "parserTarget": "2.3.540",
       "saveVersion": 32.05,
       "serverBuild": 136,
     },
+    "gateQuests": {
+      "Bellows1": {
+        "completedBy": [
+          0,
+          1,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows2": {
+        "completedBy": [
+          0,
+          1,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows3": {
+        "completedBy": [
+          0,
+          1,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows4": {
+        "completedBy": [
+          0,
+          1,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut1": {
+        "completedBy": [
+          0,
+          1,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut2": {
+        "completedBy": [
+          0,
+          1,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut3": {
+        "completedBy": [],
+        "inProgressBy": [
+          0,
+          1,
+        ],
+      },
+      "Dog_Bone1": {
+        "completedBy": [
+          0,
+          1,
+        ],
+        "inProgressBy": [],
+      },
+      "Dog_Bone2": {
+        "completedBy": [
+          1,
+        ],
+        "inProgressBy": [
+          0,
+        ],
+      },
+      "Gobo1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz1": {
+        "completedBy": [
+          0,
+          1,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz10": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+      "Hoggindaz2": {
+        "completedBy": [
+          0,
+          1,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz3": {
+        "completedBy": [
+          0,
+          1,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz4": {
+        "completedBy": [
+          0,
+          1,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz5": {
+        "completedBy": [
+          0,
+          1,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz6": {
+        "completedBy": [
+          1,
+        ],
+        "inProgressBy": [
+          0,
+        ],
+      },
+      "Hoggindaz7": {
+        "completedBy": [],
+        "inProgressBy": [
+          1,
+        ],
+      },
+      "Hoggindaz8": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+      "Hoggindaz9": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+    },
     "lastCloudSave": 1787251303120,
+    "salts": [
+      {
+        "rawName": "Refinery1",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery2",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery3",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery4",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery5",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery6",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery7",
+        "unlocked": false,
+      },
+      {
+        "rawName": "Refinery8",
+        "unlocked": false,
+      },
+      {
+        "rawName": "Refinery9",
+        "unlocked": false,
+      },
+    ],
     "secondsSinceLastSave": 4987096,
+    "worldCrystals": {
+      "desertTopaz": 535,
+      "galaxialAmethyst": 172,
+      "glacierQuartz": 126,
+    },
   },
   "characters": [
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "Frostbite_Towndra",
       "foodStacks": [
         {
@@ -361,12 +1162,26 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       ],
       "index": 0,
       "level": 478,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 2,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 76729560,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Blood_Berserker",
+      "classIndex": 10,
       "currentMap": "Spirit_Village",
       "foodStacks": [
         {
@@ -388,12 +1203,26 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       ],
       "index": 1,
       "level": 534,
+      "nextPortal": {
+        "current": 0,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 4987097,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Beginner",
+      "classIndex": 1,
       "currentMap": "Blunder_Hills",
       "foodStacks": [
         {
@@ -419,6 +1248,16 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       ],
       "index": 2,
       "level": 1,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+      },
       "secondsSinceLastSave": 4987522,
     },
   ],
@@ -453,6 +1292,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
 {
   "account": {
     "accountLevel": 19185,
+    "buildings": {
+      "atomCollider": 200,
+      "deathNote": 51,
+      "printer3d": 10,
+    },
     "currentWorld": 7,
     "dailyResetInSeconds": 1543.0130362510681,
     "finishedWorlds": [
@@ -463,19 +1307,377 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       5,
       6,
     ],
+    "frontier": null,
     "gameVersion": {
       "parserTarget": "2.3.540",
       "saveVersion": 32.05,
       "serverBuild": 136,
     },
+    "gateQuests": {
+      "Bellows1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          7,
+          9,
+        ],
+        "inProgressBy": [
+          6,
+          8,
+        ],
+      },
+      "Bellows4": {
+        "completedBy": [
+          0,
+          2,
+          5,
+        ],
+        "inProgressBy": [
+          1,
+          3,
+          4,
+          7,
+          9,
+        ],
+      },
+      "Djonnut1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut3": {
+        "completedBy": [
+          0,
+          1,
+        ],
+        "inProgressBy": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+        ],
+      },
+      "Dog_Bone1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+        ],
+        "inProgressBy": [
+          7,
+          8,
+          9,
+        ],
+      },
+      "Dog_Bone2": {
+        "completedBy": [
+          0,
+          1,
+        ],
+        "inProgressBy": [
+          2,
+          3,
+          4,
+          5,
+          6,
+        ],
+      },
+      "Gobo1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          6,
+          7,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz10": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          7,
+        ],
+        "inProgressBy": [
+          6,
+          9,
+        ],
+      },
+      "Hoggindaz3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          7,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          7,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          5,
+          7,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz6": {
+        "completedBy": [
+          0,
+          7,
+        ],
+        "inProgressBy": [
+          1,
+          2,
+          3,
+          5,
+        ],
+      },
+      "Hoggindaz7": {
+        "completedBy": [
+          0,
+          7,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz8": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [
+          7,
+        ],
+      },
+      "Hoggindaz9": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+    },
     "lastCloudSave": 1786397005571,
+    "salts": [
+      {
+        "rawName": "Refinery1",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery2",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery3",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery4",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery5",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery6",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery7",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery8",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery9",
+        "unlocked": true,
+      },
+    ],
     "secondsSinceLastSave": 5841394,
+    "worldCrystals": {
+      "desertTopaz": 5384,
+      "galaxialAmethyst": 1392,
+      "glacierQuartz": 1013,
+    },
   },
   "characters": [
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Death_Bringer",
+      "classIndex": 14,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -505,12 +1707,26 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       ],
       "index": 0,
       "level": 1701,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 2,
+        "Carpenter_Cardinal": 3,
+        "Constructor_Crow": 3,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 5854900,
     },
     {
       "afkTarget": "Buried_Church",
       "afkType": "SPELUNKING",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "Middle_of_Nowhere",
       "foodStacks": [
         {
@@ -540,12 +1756,26 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       ],
       "index": 1,
       "level": 1725,
+      "nextPortal": {
+        "current": 500010000,
+        "door": 0,
+        "goal": 500000000,
+      },
+      "npcDialog": {
+        "Bellows": 10,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 5841854,
     },
     {
       "afkTarget": "Buried_Church",
       "afkType": "SPELUNKING",
       "class": "Elemental_Sorcerer",
+      "classIndex": 34,
       "currentMap": "Middle_of_Nowhere",
       "foodStacks": [
         {
@@ -575,12 +1805,26 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       ],
       "index": 2,
       "level": 1734,
+      "nextPortal": {
+        "current": 500010000,
+        "door": 0,
+        "goal": 500000000,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 5842271,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Divine_Knight",
+      "classIndex": 12,
       "currentMap": "Shimmerfin_Grove",
       "foodStacks": [
         {
@@ -610,12 +1854,26 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       ],
       "index": 3,
       "level": 1819,
+      "nextPortal": {
+        "current": 0,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 10,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 5841395,
     },
     {
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Arcane_Cultist",
+      "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
         {
@@ -645,12 +1903,26 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       ],
       "index": 4,
       "level": 1762,
+      "nextPortal": {
+        "current": 2010000,
+        "door": 0,
+        "goal": 2000000,
+      },
+      "npcDialog": {
+        "Bellows": 10,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 5842319,
     },
     {
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Wind_Walker",
+      "classIndex": 29,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
         {
@@ -680,12 +1952,26 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       ],
       "index": 5,
       "level": 1744,
+      "nextPortal": {
+        "current": 2010000,
+        "door": 0,
+        "goal": 2000000,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 5842283,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Divine_Knight",
+      "classIndex": 12,
       "currentMap": "Blunder_Hills",
       "foodStacks": [
         {
@@ -715,12 +2001,26 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       ],
       "index": 6,
       "level": 1734,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 7,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 5841608,
     },
     {
       "afkTarget": "One_Way_Opening",
       "afkType": "SPELUNKING",
       "class": "Voidwalker",
+      "classIndex": 4,
       "currentMap": "Coralcave_Perimeter",
       "foodStacks": [
         {
@@ -750,12 +2050,22 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       ],
       "index": 7,
       "level": 1764,
+      "nextPortal": null,
+      "npcDialog": {
+        "Bellows": 10,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 3,
+      },
       "secondsSinceLastSave": 5845344,
     },
     {
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Arcane_Cultist",
+      "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
         {
@@ -785,12 +2095,26 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       ],
       "index": 8,
       "level": 1743,
+      "nextPortal": {
+        "current": 2010000,
+        "door": 0,
+        "goal": 2000000,
+      },
+      "npcDialog": {
+        "Bellows": 7,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 3,
+      },
       "secondsSinceLastSave": 5842312,
     },
     {
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Wind_Walker",
+      "classIndex": 29,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
         {
@@ -820,12 +2144,25 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       ],
       "index": 9,
       "level": 1742,
+      "nextPortal": {
+        "current": 2010000,
+        "door": 0,
+        "goal": 2000000,
+      },
+      "npcDialog": {
+        "Bellows": 10,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Dog_Bone": 3,
+      },
       "secondsSinceLastSave": 5854723,
     },
     {
       "afkTarget": "Bravery",
       "afkType": "Paying_Respect",
       "class": "Beginner",
+      "classIndex": 1,
       "currentMap": "The_Hole",
       "foodStacks": [
         {
@@ -855,6 +2192,15 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       ],
       "index": 10,
       "level": 1717,
+      "nextPortal": null,
+      "npcDialog": {
+        "Bellows": 0,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 0,
+        "Dog_Bone": 0,
+      },
       "secondsSinceLastSave": 5848520,
     },
   ],
@@ -885,6 +2231,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
 {
   "account": {
     "accountLevel": 13811,
+    "buildings": {
+      "atomCollider": 160,
+      "deathNote": 51,
+      "printer3d": 11,
+    },
     "currentWorld": 7,
     "dailyResetInSeconds": 51090.541995704174,
     "finishedWorlds": [
@@ -895,19 +2246,382 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       5,
       6,
     ],
+    "frontier": null,
     "gameVersion": {
       "parserTarget": "2.3.540",
       "saveVersion": 33.05,
       "serverBuild": 141,
     },
+    "gateQuests": {
+      "Bellows1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+        ],
+        "inProgressBy": [
+          9,
+        ],
+      },
+      "Bellows4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut1": {
+        "completedBy": [
+          0,
+          1,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [
+          2,
+          3,
+        ],
+      },
+      "Djonnut2": {
+        "completedBy": [
+          0,
+          1,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut3": {
+        "completedBy": [
+          5,
+          6,
+        ],
+        "inProgressBy": [
+          0,
+          1,
+          4,
+          8,
+        ],
+      },
+      "Dog_Bone1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Dog_Bone2": {
+        "completedBy": [
+          1,
+          5,
+          6,
+          9,
+        ],
+        "inProgressBy": [
+          0,
+          2,
+          3,
+          4,
+          7,
+          8,
+        ],
+      },
+      "Gobo1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz10": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+      "Hoggindaz2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [
+          7,
+          9,
+        ],
+      },
+      "Hoggindaz5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz6": {
+        "completedBy": [
+          1,
+          2,
+          6,
+        ],
+        "inProgressBy": [
+          0,
+          3,
+          4,
+          5,
+          8,
+        ],
+      },
+      "Hoggindaz7": {
+        "completedBy": [],
+        "inProgressBy": [
+          1,
+          2,
+          6,
+        ],
+      },
+      "Hoggindaz8": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+      "Hoggindaz9": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+    },
     "lastCloudSave": 1791659018980,
+    "salts": [
+      {
+        "rawName": "Refinery1",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery2",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery3",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery4",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery5",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery6",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery7",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery8",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery9",
+        "unlocked": true,
+      },
+    ],
     "secondsSinceLastSave": 579381,
+    "worldCrystals": {
+      "desertTopaz": 536,
+      "galaxialAmethyst": 2,
+      "glacierQuartz": 1,
+    },
   },
   "characters": [
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -937,12 +2651,26 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       ],
       "index": 0,
       "level": 1291,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 2,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 1371560,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Death_Bringer",
+      "classIndex": 14,
       "currentMap": "Shimmerfin_Grove",
       "foodStacks": [
         {
@@ -972,12 +2700,26 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       ],
       "index": 1,
       "level": 1292,
+      "nextPortal": {
+        "current": 0,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 1371519,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Elemental_Sorcerer",
+      "classIndex": 34,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -999,12 +2741,26 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       ],
       "index": 2,
       "level": 1259,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 2,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 1371345,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Divine_Knight",
+      "classIndex": 12,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -1034,12 +2790,26 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       ],
       "index": 3,
       "level": 1240,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 2,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 1371322,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Arcane_Cultist",
+      "classIndex": 40,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -1061,12 +2831,26 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       ],
       "index": 4,
       "level": 1231,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 3,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 1371285,
     },
     {
       "afkTarget": "Pirate_Underling",
       "afkType": "FIGHTING",
       "class": "Wind_Walker",
+      "classIndex": 29,
       "currentMap": "Pirate_Upper_Deck",
       "foodStacks": [
         {
@@ -1088,12 +2872,26 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       ],
       "index": 5,
       "level": 1280,
+      "nextPortal": {
+        "current": 1000010000,
+        "door": 0,
+        "goal": 1000000000,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 579382,
     },
     {
       "afkTarget": "Divinity",
       "afkType": "DIVINITY",
       "class": "Voidwalker",
+      "classIndex": 4,
       "currentMap": "Magma_Rivertown",
       "foodStacks": [
         {
@@ -1123,12 +2921,26 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       ],
       "index": 6,
       "level": 1158,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 3,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 1371241,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -1154,12 +2966,26 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       ],
       "index": 7,
       "level": 1261,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 0,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 1371221,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Royal_Guardian",
+      "classIndex": 16,
       "currentMap": "Blunder_Hills",
       "foodStacks": [
         {
@@ -1189,12 +3015,26 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       ],
       "index": 8,
       "level": 1307,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 601278,
     },
     {
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Bubonic_Conjuror",
+      "classIndex": 36,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
         {
@@ -1224,16 +3064,41 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       ],
       "index": 9,
       "level": 1268,
+      "nextPortal": {
+        "current": 10021,
+        "door": 0,
+        "goal": 21,
+      },
+      "npcDialog": {
+        "Bellows": 7,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 0,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 1371178,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Beginner",
+      "classIndex": 1,
       "currentMap": "Outer_World_Town",
       "foodStacks": [],
       "index": 10,
       "level": 1224,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Dog_Bone": 0,
+      },
       "secondsSinceLastSave": 1340238,
     },
   ],
@@ -1264,6 +3129,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
 {
   "account": {
     "accountLevel": 13810,
+    "buildings": {
+      "atomCollider": 152,
+      "deathNote": 51,
+      "printer3d": 11,
+    },
     "currentWorld": 7,
     "dailyResetInSeconds": 84056.69799226522,
     "finishedWorlds": [
@@ -1274,19 +3144,382 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       5,
       6,
     ],
+    "frontier": null,
     "gameVersion": {
       "parserTarget": "2.3.540",
       "saveVersion": 32.05,
       "serverBuild": 136,
     },
+    "gateQuests": {
+      "Bellows1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+        ],
+        "inProgressBy": [
+          9,
+        ],
+      },
+      "Bellows4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut1": {
+        "completedBy": [
+          0,
+          1,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [
+          2,
+          3,
+        ],
+      },
+      "Djonnut2": {
+        "completedBy": [
+          0,
+          1,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut3": {
+        "completedBy": [
+          5,
+          6,
+        ],
+        "inProgressBy": [
+          0,
+          1,
+          4,
+          8,
+        ],
+      },
+      "Dog_Bone1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Dog_Bone2": {
+        "completedBy": [
+          1,
+          5,
+          6,
+          9,
+        ],
+        "inProgressBy": [
+          0,
+          2,
+          3,
+          4,
+          7,
+          8,
+        ],
+      },
+      "Gobo1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz10": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+      "Hoggindaz2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [
+          7,
+          9,
+        ],
+      },
+      "Hoggindaz5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz6": {
+        "completedBy": [
+          1,
+          2,
+          6,
+        ],
+        "inProgressBy": [
+          0,
+          3,
+          4,
+          5,
+          8,
+        ],
+      },
+      "Hoggindaz7": {
+        "completedBy": [],
+        "inProgressBy": [
+          1,
+          2,
+          6,
+        ],
+      },
+      "Hoggindaz8": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+      "Hoggindaz9": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+    },
     "lastCloudSave": 1787217361670,
+    "salts": [
+      {
+        "rawName": "Refinery1",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery2",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery3",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery4",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery5",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery6",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery7",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery8",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery9",
+        "unlocked": false,
+      },
+    ],
     "secondsSinceLastSave": 5021038,
+    "worldCrystals": {
+      "desertTopaz": 536,
+      "galaxialAmethyst": 2,
+      "glacierQuartz": 1,
+    },
   },
   "characters": [
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -1316,12 +3549,26 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       ],
       "index": 0,
       "level": 1291,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 2,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 11339773,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Death_Bringer",
+      "classIndex": 14,
       "currentMap": "Blunder_Hills",
       "foodStacks": [
         {
@@ -1351,12 +3598,26 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       ],
       "index": 1,
       "level": 1292,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 9132028,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Elemental_Sorcerer",
+      "classIndex": 34,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -1378,12 +3639,26 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       ],
       "index": 2,
       "level": 1259,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 2,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 11339487,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Divine_Knight",
+      "classIndex": 12,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -1413,12 +3688,26 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       ],
       "index": 3,
       "level": 1240,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 2,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 11339351,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Arcane_Cultist",
+      "classIndex": 40,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -1440,12 +3729,26 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       ],
       "index": 4,
       "level": 1231,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 3,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 9177781,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Wind_Walker",
+      "classIndex": 29,
       "currentMap": "Frostbite_Towndra",
       "foodStacks": [
         {
@@ -1467,12 +3770,26 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       ],
       "index": 5,
       "level": 1280,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 5021038,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Voidwalker",
+      "classIndex": 4,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -1502,12 +3819,26 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       ],
       "index": 6,
       "level": 1157,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 3,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 11309371,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -1533,12 +3864,26 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       ],
       "index": 7,
       "level": 1261,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 0,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 11339004,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Divine_Knight",
+      "classIndex": 12,
       "currentMap": "Shimmerfin_Grove",
       "foodStacks": [
         {
@@ -1564,12 +3909,26 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       ],
       "index": 8,
       "level": 1307,
+      "nextPortal": {
+        "current": 0,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 5035759,
     },
     {
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Bubonic_Conjuror",
+      "classIndex": 36,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
         {
@@ -1599,16 +3958,41 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       ],
       "index": 9,
       "level": 1268,
+      "nextPortal": {
+        "current": 10021,
+        "door": 0,
+        "goal": 21,
+      },
+      "npcDialog": {
+        "Bellows": 7,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 0,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 5719296,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Beginner",
+      "classIndex": 1,
       "currentMap": "Outer_World_Town",
       "foodStacks": [],
       "index": 10,
       "level": 1224,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Dog_Bone": 0,
+      },
       "secondsSinceLastSave": 11338668,
     },
   ],
@@ -1639,6 +4023,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
 {
   "account": {
     "accountLevel": 13810,
+    "buildings": {
+      "atomCollider": 156,
+      "deathNote": 51,
+      "printer3d": 11,
+    },
     "currentWorld": 7,
     "dailyResetInSeconds": 59914.879991948605,
     "finishedWorlds": [
@@ -1649,19 +4038,382 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       5,
       6,
     ],
+    "frontier": null,
     "gameVersion": {
       "parserTarget": "2.3.540",
       "saveVersion": 33.05,
       "serverBuild": 137,
     },
+    "gateQuests": {
+      "Bellows1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+        ],
+        "inProgressBy": [
+          9,
+        ],
+      },
+      "Bellows4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut1": {
+        "completedBy": [
+          0,
+          1,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [
+          2,
+          3,
+        ],
+      },
+      "Djonnut2": {
+        "completedBy": [
+          0,
+          1,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut3": {
+        "completedBy": [
+          5,
+          6,
+        ],
+        "inProgressBy": [
+          0,
+          1,
+          4,
+          8,
+        ],
+      },
+      "Dog_Bone1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Dog_Bone2": {
+        "completedBy": [
+          1,
+          5,
+          6,
+          9,
+        ],
+        "inProgressBy": [
+          0,
+          2,
+          3,
+          4,
+          7,
+          8,
+        ],
+      },
+      "Gobo1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz10": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+      "Hoggindaz2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [
+          7,
+          9,
+        ],
+      },
+      "Hoggindaz5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz6": {
+        "completedBy": [
+          1,
+          2,
+          6,
+        ],
+        "inProgressBy": [
+          0,
+          3,
+          4,
+          5,
+          8,
+        ],
+      },
+      "Hoggindaz7": {
+        "completedBy": [],
+        "inProgressBy": [
+          1,
+          2,
+          6,
+        ],
+      },
+      "Hoggindaz8": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+      "Hoggindaz9": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+    },
     "lastCloudSave": 1787760034331,
+    "salts": [
+      {
+        "rawName": "Refinery1",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery2",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery3",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery4",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery5",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery6",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery7",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery8",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery9",
+        "unlocked": false,
+      },
+    ],
     "secondsSinceLastSave": 4478365,
+    "worldCrystals": {
+      "desertTopaz": 536,
+      "galaxialAmethyst": 2,
+      "glacierQuartz": 1,
+    },
   },
   "characters": [
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -1691,12 +4443,26 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       ],
       "index": 0,
       "level": 1291,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 2,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 4690673,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Death_Bringer",
+      "classIndex": 14,
       "currentMap": "Shimmerfin_Grove",
       "foodStacks": [
         {
@@ -1726,12 +4492,26 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       ],
       "index": 1,
       "level": 1292,
+      "nextPortal": {
+        "current": 0,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 4840286,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Elemental_Sorcerer",
+      "classIndex": 34,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -1753,12 +4533,26 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       ],
       "index": 2,
       "level": 1259,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 2,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 4840233,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Divine_Knight",
+      "classIndex": 12,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -1788,12 +4582,26 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       ],
       "index": 3,
       "level": 1240,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 2,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 4840142,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Arcane_Cultist",
+      "classIndex": 40,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -1815,12 +4623,26 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       ],
       "index": 4,
       "level": 1231,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 3,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 4839945,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Wind_Walker",
+      "classIndex": 29,
       "currentMap": "Frostbite_Towndra",
       "foodStacks": [
         {
@@ -1842,12 +4664,26 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       ],
       "index": 5,
       "level": 1280,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 4825722,
     },
     {
       "afkTarget": "Medium_Fish",
       "afkType": "FISHING",
       "class": "Voidwalker",
+      "classIndex": 4,
       "currentMap": "YumYum_Islands",
       "foodStacks": [
         {
@@ -1877,12 +4713,22 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       ],
       "index": 6,
       "level": 1157,
+      "nextPortal": null,
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 3,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 4745622,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -1908,12 +4754,26 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       ],
       "index": 7,
       "level": 1261,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 0,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 4839733,
     },
     {
       "afkTarget": "Verminous",
       "afkType": "FIGHTING",
       "class": "Royal_Guardian",
+      "classIndex": 16,
       "currentMap": "The_Royal_Castle",
       "foodStacks": [
         {
@@ -1943,12 +4803,22 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       ],
       "index": 8,
       "level": 1307,
+      "nextPortal": null,
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 4478366,
     },
     {
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Bubonic_Conjuror",
+      "classIndex": 36,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
         {
@@ -1978,16 +4848,41 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       ],
       "index": 9,
       "level": 1268,
+      "nextPortal": {
+        "current": 10021,
+        "door": 0,
+        "goal": 21,
+      },
+      "npcDialog": {
+        "Bellows": 7,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 0,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 4650362,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Beginner",
+      "classIndex": 1,
       "currentMap": "Outer_World_Town",
       "foodStacks": [],
       "index": 10,
       "level": 1224,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Dog_Bone": 0,
+      },
       "secondsSinceLastSave": 4838443,
     },
   ],
@@ -2018,6 +4913,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
 {
   "account": {
     "accountLevel": 5189,
+    "buildings": {
+      "atomCollider": 50,
+      "deathNote": 51,
+      "printer3d": 10,
+    },
     "currentWorld": 6,
     "dailyResetInSeconds": 41883.07497119925,
     "finishedWorlds": [
@@ -2027,19 +4927,378 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       4,
       5,
     ],
+    "frontier": null,
     "gameVersion": {
       "parserTarget": "2.3.540",
       "saveVersion": 17.05,
       "serverBuild": 80,
     },
+    "gateQuests": {
+      "Bellows1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows4": {
+        "completedBy": [
+          6,
+          7,
+          8,
+        ],
+        "inProgressBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          9,
+        ],
+      },
+      "Djonnut1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut3": {
+        "completedBy": [
+          6,
+          7,
+        ],
+        "inProgressBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          8,
+          9,
+        ],
+      },
+      "Dog_Bone1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Dog_Bone2": {
+        "completedBy": [
+          0,
+          1,
+          6,
+          7,
+        ],
+        "inProgressBy": [
+          2,
+          3,
+          4,
+          5,
+          8,
+          9,
+        ],
+      },
+      "Gobo1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz10": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+      "Hoggindaz2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6,
+          8,
+          9,
+        ],
+        "inProgressBy": [
+          3,
+          7,
+        ],
+      },
+      "Hoggindaz3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz6": {
+        "completedBy": [],
+        "inProgressBy": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          6,
+          8,
+          9,
+        ],
+      },
+      "Hoggindaz7": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+      "Hoggindaz8": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+      "Hoggindaz9": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+    },
     "lastCloudSave": 1717826710239,
+    "salts": [
+      {
+        "rawName": "Refinery1",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery2",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery3",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery4",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery5",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery6",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery7",
+        "unlocked": false,
+      },
+      {
+        "rawName": "Refinery8",
+        "unlocked": false,
+      },
+      {
+        "rawName": "Refinery9",
+        "unlocked": false,
+      },
+    ],
     "secondsSinceLastSave": 74411689,
+    "worldCrystals": {
+      "desertTopaz": 0,
+      "galaxialAmethyst": 0,
+      "glacierQuartz": 0,
+    },
   },
   "characters": [
     {
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Beast_Master",
+      "classIndex": 25,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
         {
@@ -2069,12 +5328,26 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       ],
       "index": 0,
       "level": 507,
+      "nextPortal": {
+        "current": 21000,
+        "door": 0,
+        "goal": 11000,
+      },
+      "npcDialog": {
+        "Bellows": 10,
+        "Builder_Bird": 2,
+        "Carpenter_Cardinal": 3,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74413951,
     },
     {
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Divine_Knight",
+      "classIndex": 12,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
         {
@@ -2104,12 +5377,26 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       ],
       "index": 1,
       "level": 544,
+      "nextPortal": {
+        "current": 21000,
+        "door": 0,
+        "goal": 11000,
+      },
+      "npcDialog": {
+        "Bellows": 10,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 3,
+        "Djonnut": 13,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74412050,
     },
     {
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Bubonic_Conjuror",
+      "classIndex": 36,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
         {
@@ -2139,12 +5426,26 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       ],
       "index": 2,
       "level": 567,
+      "nextPortal": {
+        "current": 21000,
+        "door": 0,
+        "goal": 11000,
+      },
+      "npcDialog": {
+        "Bellows": 10,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 74412139,
     },
     {
       "afkTarget": "The_Rift",
       "afkType": "FIGHTING",
       "class": "Blood_Berserker",
+      "classIndex": 10,
       "currentMap": "The_Rift",
       "foodStacks": [
         {
@@ -2174,12 +5475,26 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       ],
       "index": 3,
       "level": 501,
+      "nextPortal": {
+        "current": 10100,
+        "door": 0,
+        "goal": 100,
+      },
+      "npcDialog": {
+        "Bellows": 10,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 74411906,
     },
     {
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Wizard",
+      "classIndex": 32,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
         {
@@ -2209,12 +5524,26 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       ],
       "index": 4,
       "level": 501,
+      "nextPortal": {
+        "current": 21000,
+        "door": 0,
+        "goal": 11000,
+      },
+      "npcDialog": {
+        "Bellows": 10,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 74422337,
     },
     {
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
         {
@@ -2244,12 +5573,26 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       ],
       "index": 5,
       "level": 530,
+      "nextPortal": {
+        "current": 21000,
+        "door": 0,
+        "goal": 11000,
+      },
+      "npcDialog": {
+        "Bellows": 10,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 74411689,
     },
     {
       "afkTarget": "Skydoggie_Spirit",
       "afkType": "FIGHTING",
       "class": "Voidwalker",
+      "classIndex": 4,
       "currentMap": "Dozey_Dogpark",
       "foodStacks": [
         {
@@ -2279,12 +5622,26 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       ],
       "index": 6,
       "level": 510,
+      "nextPortal": {
+        "current": 1445338,
+        "door": 0,
+        "goal": 70000000,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 15,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74430498,
     },
     {
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Elemental_Sorcerer",
+      "classIndex": 34,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
         {
@@ -2314,12 +5671,26 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       ],
       "index": 7,
       "level": 525,
+      "nextPortal": {
+        "current": 21000,
+        "door": 0,
+        "goal": 11000,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 17,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74414440,
     },
     {
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Hunter",
+      "classIndex": 21,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
         {
@@ -2349,12 +5720,26 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       ],
       "index": 8,
       "level": 503,
+      "nextPortal": {
+        "current": 21000,
+        "door": 0,
+        "goal": 11000,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 74432759,
     },
     {
       "afkTarget": "Penguin",
       "afkType": "FIGHTING",
       "class": "Barbarian",
+      "classIndex": 8,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
         {
@@ -2384,6 +5769,19 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       ],
       "index": 9,
       "level": 501,
+      "nextPortal": {
+        "current": 21000,
+        "door": 0,
+        "goal": 11000,
+      },
+      "npcDialog": {
+        "Bellows": 10,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 74432810,
     },
   ],
@@ -2414,6 +5812,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
 {
   "account": {
     "accountLevel": 19351,
+    "buildings": {
+      "atomCollider": 200,
+      "deathNote": 51,
+      "printer3d": 11,
+    },
     "currentWorld": 7,
     "dailyResetInSeconds": 83526.69399833679,
     "finishedWorlds": [
@@ -2424,19 +5827,410 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       5,
       6,
     ],
+    "frontier": null,
     "gameVersion": {
       "parserTarget": "2.3.540",
       "saveVersion": 32.05,
       "serverBuild": 136,
     },
+    "gateQuests": {
+      "Bellows1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut3": {
+        "completedBy": [
+          0,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+        ],
+      },
+      "Dog_Bone1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [
+          10,
+        ],
+      },
+      "Dog_Bone2": {
+        "completedBy": [
+          0,
+          3,
+          6,
+          7,
+          9,
+        ],
+        "inProgressBy": [
+          1,
+          2,
+          4,
+          5,
+          8,
+        ],
+      },
+      "Gobo1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz10": {
+        "completedBy": [
+          7,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [
+          10,
+        ],
+      },
+      "Hoggindaz6": {
+        "completedBy": [
+          0,
+          1,
+          4,
+          7,
+        ],
+        "inProgressBy": [
+          2,
+          3,
+          5,
+          6,
+          8,
+          9,
+        ],
+      },
+      "Hoggindaz7": {
+        "completedBy": [
+          7,
+        ],
+        "inProgressBy": [
+          0,
+          1,
+          4,
+        ],
+      },
+      "Hoggindaz8": {
+        "completedBy": [
+          7,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz9": {
+        "completedBy": [
+          7,
+        ],
+        "inProgressBy": [],
+      },
+    },
     "lastCloudSave": 1786477947662,
+    "salts": [
+      {
+        "rawName": "Refinery1",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery2",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery3",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery4",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery5",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery6",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery7",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery8",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery9",
+        "unlocked": true,
+      },
+    ],
     "secondsSinceLastSave": 5760452,
+    "worldCrystals": {
+      "desertTopaz": 7363,
+      "galaxialAmethyst": 21439,
+      "glacierQuartz": 3349,
+    },
   },
   "characters": [
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Death_Bringer",
+      "classIndex": 14,
       "currentMap": "Shimmerfin_Grove",
       "foodStacks": [
         {
@@ -2466,12 +6260,26 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       ],
       "index": 0,
       "level": 1780,
+      "nextPortal": {
+        "current": 0,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 2,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 3,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 5760852,
     },
     {
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Arcane_Cultist",
+      "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
         {
@@ -2501,12 +6309,26 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       ],
       "index": 1,
       "level": 1769,
+      "nextPortal": {
+        "current": 2010000,
+        "door": 0,
+        "goal": 2000000,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 5762548,
     },
     {
       "afkTarget": "Fearful_Tunnel",
       "afkType": "SPELUNKING",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "Refraction_Bend",
       "foodStacks": [
         {
@@ -2536,12 +6358,26 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       ],
       "index": 2,
       "level": 1647,
+      "nextPortal": {
+        "current": 110000,
+        "door": 0,
+        "goal": 100000,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 5762952,
     },
     {
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Divine_Knight",
+      "classIndex": 12,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
         {
@@ -2571,12 +6407,26 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       ],
       "index": 3,
       "level": 1787,
+      "nextPortal": {
+        "current": 2010000,
+        "door": 0,
+        "goal": 2000000,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 5761569,
     },
     {
       "afkTarget": "Laboratory",
       "afkType": "LABORATORY",
       "class": "Elemental_Sorcerer",
+      "classIndex": 34,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -2598,12 +6448,26 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       ],
       "index": 4,
       "level": 1700,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 7055867,
     },
     {
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Wind_Walker",
+      "classIndex": 29,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
         {
@@ -2633,12 +6497,26 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       ],
       "index": 5,
       "level": 1775,
+      "nextPortal": {
+        "current": 2010000,
+        "door": 0,
+        "goal": 2000000,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 5762362,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Divine_Knight",
+      "classIndex": 12,
       "currentMap": "Frostbite_Towndra",
       "foodStacks": [
         {
@@ -2668,12 +6546,26 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       ],
       "index": 6,
       "level": 1822,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 5760453,
     },
     {
       "afkTarget": "Litterbug",
       "afkType": "CATCHING",
       "class": "Voidwalker",
+      "classIndex": 4,
       "currentMap": "Plastic_Basin",
       "foodStacks": [
         {
@@ -2703,12 +6595,26 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       ],
       "index": 7,
       "level": 1754,
+      "nextPortal": {
+        "current": 250000001,
+        "door": 0,
+        "goal": 250000000,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 3,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 5762714,
     },
     {
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Arcane_Cultist",
+      "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
         {
@@ -2738,12 +6644,26 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       ],
       "index": 8,
       "level": 1783,
+      "nextPortal": {
+        "current": 2010000,
+        "door": 0,
+        "goal": 2000000,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 5762255,
     },
     {
       "afkTarget": "Gloomie_Mushroom",
       "afkType": "FIGHTING",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "The_Hole",
       "foodStacks": [
         {
@@ -2773,12 +6693,22 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       ],
       "index": 9,
       "level": 1763,
+      "nextPortal": null,
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 5776420,
     },
     {
       "afkTarget": "Trench_Fish",
       "afkType": "FIGHTING",
       "class": "Divine_Knight",
+      "classIndex": 12,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
         {
@@ -2808,6 +6738,17 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       ],
       "index": 10,
       "level": 1771,
+      "nextPortal": {
+        "current": 2010000,
+        "door": 0,
+        "goal": 2000000,
+      },
+      "npcDialog": {
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Dog_Bone": 3,
+      },
       "secondsSinceLastSave": 5762203,
     },
   ],
@@ -2838,6 +6779,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
 {
   "account": {
     "accountLevel": 5532,
+    "buildings": {
+      "atomCollider": 81,
+      "deathNote": 51,
+      "printer3d": 10,
+    },
     "currentWorld": 6,
     "dailyResetInSeconds": 12019.833936452676,
     "finishedWorlds": [
@@ -2847,19 +6793,391 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       4,
       5,
     ],
+    "frontier": null,
     "gameVersion": {
       "parserTarget": "2.3.540",
       "saveVersion": 17.05,
       "serverBuild": 80,
     },
+    "gateQuests": {
+      "Bellows1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Dog_Bone1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Dog_Bone2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz10": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+        ],
+        "inProgressBy": [
+          8,
+          9,
+        ],
+      },
+      "Hoggindaz3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz6": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz7": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+        ],
+      },
+      "Hoggindaz8": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz9": {
+        "completedBy": [
+          0,
+        ],
+        "inProgressBy": [],
+      },
+    },
     "lastCloudSave": 1717703888098,
+    "salts": [
+      {
+        "rawName": "Refinery1",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery2",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery3",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery4",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery5",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery6",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery7",
+        "unlocked": false,
+      },
+      {
+        "rawName": "Refinery8",
+        "unlocked": false,
+      },
+      {
+        "rawName": "Refinery9",
+        "unlocked": false,
+      },
+    ],
     "secondsSinceLastSave": 74534511,
+    "worldCrystals": {
+      "desertTopaz": 413,
+      "galaxialAmethyst": 392,
+      "glacierQuartz": 89,
+    },
   },
   "characters": [
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Blood_Berserker",
+      "classIndex": 10,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -2885,12 +7203,26 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       ],
       "index": 0,
       "level": 521,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 2,
+        "Carpenter_Cardinal": 3,
+        "Constructor_Crow": 3,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74552934,
     },
     {
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
         {
@@ -2920,12 +7252,26 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       ],
       "index": 1,
       "level": 527,
+      "nextPortal": {
+        "current": 10021,
+        "door": 0,
+        "goal": 21,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74554685,
     },
     {
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Bubonic_Conjuror",
+      "classIndex": 36,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
         {
@@ -2955,12 +7301,26 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       ],
       "index": 2,
       "level": 568,
+      "nextPortal": {
+        "current": 10021,
+        "door": 0,
+        "goal": 21,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 17,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74554671,
     },
     {
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Divine_Knight",
+      "classIndex": 12,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
         {
@@ -2990,12 +7350,26 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       ],
       "index": 3,
       "level": 655,
+      "nextPortal": {
+        "current": 10021,
+        "door": 0,
+        "goal": 21,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74552636,
     },
     {
       "afkTarget": "Minichief_Spirit",
       "afkType": "FIGHTING",
       "class": "Beast_Master",
+      "classIndex": 25,
       "currentMap": "Chieftain_Stairway",
       "foodStacks": [
         {
@@ -3025,12 +7399,26 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       ],
       "index": 4,
       "level": 561,
+      "nextPortal": {
+        "current": 150010000,
+        "door": 0,
+        "goal": 150000000,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 17,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74534512,
     },
     {
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Elemental_Sorcerer",
+      "classIndex": 34,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
         {
@@ -3060,12 +7448,26 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       ],
       "index": 5,
       "level": 545,
+      "nextPortal": {
+        "current": 10021,
+        "door": 0,
+        "goal": 21,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 17,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74554624,
     },
     {
       "afkTarget": "Godshard",
       "afkType": "MINING",
       "class": "Voidwalker",
+      "classIndex": 4,
       "currentMap": "Motherlode_Pit",
       "foodStacks": [
         {
@@ -3091,12 +7493,22 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       ],
       "index": 6,
       "level": 523,
+      "nextPortal": null,
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 17,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74552823,
     },
     {
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Divine_Knight",
+      "classIndex": 12,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
         {
@@ -3122,12 +7534,26 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       ],
       "index": 7,
       "level": 558,
+      "nextPortal": {
+        "current": 10021,
+        "door": 0,
+        "goal": 21,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74554179,
     },
     {
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Elemental_Sorcerer",
+      "classIndex": 34,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
         {
@@ -3157,12 +7583,26 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       ],
       "index": 8,
       "level": 552,
+      "nextPortal": {
+        "current": 10021,
+        "door": 0,
+        "goal": 21,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74554542,
     },
     {
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
         {
@@ -3192,6 +7632,19 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       ],
       "index": 9,
       "level": 522,
+      "nextPortal": {
+        "current": 10021,
+        "door": 0,
+        "goal": 21,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 17,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 74554579,
     },
   ],
@@ -3222,6 +7675,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
 {
   "account": {
     "accountLevel": 13810,
+    "buildings": {
+      "atomCollider": 156,
+      "deathNote": 51,
+      "printer3d": 11,
+    },
     "currentWorld": 7,
     "dailyResetInSeconds": 59914.879991948605,
     "finishedWorlds": [
@@ -3232,19 +7690,382 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       5,
       6,
     ],
+    "frontier": null,
     "gameVersion": {
       "parserTarget": "2.3.540",
       "saveVersion": 33.05,
       "serverBuild": 137,
     },
+    "gateQuests": {
+      "Bellows1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Bellows3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+        ],
+        "inProgressBy": [
+          9,
+        ],
+      },
+      "Bellows4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut1": {
+        "completedBy": [
+          0,
+          1,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [
+          2,
+          3,
+        ],
+      },
+      "Djonnut2": {
+        "completedBy": [
+          0,
+          1,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [],
+      },
+      "Djonnut3": {
+        "completedBy": [
+          5,
+          6,
+        ],
+        "inProgressBy": [
+          0,
+          1,
+          4,
+          8,
+        ],
+      },
+      "Dog_Bone1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Dog_Bone2": {
+        "completedBy": [
+          1,
+          5,
+          6,
+          9,
+        ],
+        "inProgressBy": [
+          0,
+          2,
+          3,
+          4,
+          7,
+          8,
+        ],
+      },
+      "Gobo1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Gobo5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz1": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz10": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+      "Hoggindaz2": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz3": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz4": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [
+          7,
+          9,
+        ],
+      },
+      "Hoggindaz5": {
+        "completedBy": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8,
+        ],
+        "inProgressBy": [],
+      },
+      "Hoggindaz6": {
+        "completedBy": [
+          1,
+          2,
+          6,
+        ],
+        "inProgressBy": [
+          0,
+          3,
+          4,
+          5,
+          8,
+        ],
+      },
+      "Hoggindaz7": {
+        "completedBy": [],
+        "inProgressBy": [
+          1,
+          2,
+          6,
+        ],
+      },
+      "Hoggindaz8": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+      "Hoggindaz9": {
+        "completedBy": [],
+        "inProgressBy": [],
+      },
+    },
     "lastCloudSave": 1787760034331,
+    "salts": [
+      {
+        "rawName": "Refinery1",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery2",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery3",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery4",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery5",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery6",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery7",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery8",
+        "unlocked": true,
+      },
+      {
+        "rawName": "Refinery9",
+        "unlocked": false,
+      },
+    ],
     "secondsSinceLastSave": 4478365,
+    "worldCrystals": {
+      "desertTopaz": 536,
+      "galaxialAmethyst": 2,
+      "glacierQuartz": 1,
+    },
   },
   "characters": [
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -3274,12 +8095,26 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       ],
       "index": 0,
       "level": 1291,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 2,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 4690673,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Death_Bringer",
+      "classIndex": 14,
       "currentMap": "Shimmerfin_Grove",
       "foodStacks": [
         {
@@ -3309,12 +8144,26 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       ],
       "index": 1,
       "level": 1292,
+      "nextPortal": {
+        "current": 0,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 4840286,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Elemental_Sorcerer",
+      "classIndex": 34,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -3336,12 +8185,26 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       ],
       "index": 2,
       "level": 1259,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 2,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 4840233,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Divine_Knight",
+      "classIndex": 12,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -3371,12 +8234,26 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       ],
       "index": 3,
       "level": 1240,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 2,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 4840142,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Arcane_Cultist",
+      "classIndex": 40,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -3398,12 +8275,26 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       ],
       "index": 4,
       "level": 1231,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 3,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 4839945,
     },
     {
       "afkTarget": null,
       "afkType": "Nothing",
       "class": "Wind_Walker",
+      "classIndex": 29,
       "currentMap": "Frostbite_Towndra",
       "foodStacks": [
         {
@@ -3425,12 +8316,26 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       ],
       "index": 5,
       "level": 1280,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 4825722,
     },
     {
       "afkTarget": "Medium_Fish",
       "afkType": "FISHING",
       "class": "Voidwalker",
+      "classIndex": 4,
       "currentMap": "YumYum_Islands",
       "foodStacks": [
         {
@@ -3460,12 +8365,22 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       ],
       "index": 6,
       "level": 1157,
+      "nextPortal": null,
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 3,
+        "Constructor_Crow": 9999,
+        "Djonnut": 16,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 4745622,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Siege_Breaker",
+      "classIndex": 22,
       "currentMap": "Outer_World_Town",
       "foodStacks": [
         {
@@ -3491,12 +8406,26 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       ],
       "index": 7,
       "level": 1261,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 0,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 4839733,
     },
     {
       "afkTarget": "Verminous",
       "afkType": "FIGHTING",
       "class": "Royal_Guardian",
+      "classIndex": 16,
       "currentMap": "The_Royal_Castle",
       "foodStacks": [
         {
@@ -3526,12 +8455,22 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       ],
       "index": 8,
       "level": 1307,
+      "nextPortal": null,
+      "npcDialog": {
+        "Bellows": 12,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 13,
+        "Dog_Bone": 14,
+      },
       "secondsSinceLastSave": 4478366,
     },
     {
       "afkTarget": "Green_Mushroom",
       "afkType": "FIGHTING",
       "class": "Bubonic_Conjuror",
+      "classIndex": 36,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
         {
@@ -3561,16 +8500,41 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       ],
       "index": 9,
       "level": 1268,
+      "nextPortal": {
+        "current": 10021,
+        "door": 0,
+        "goal": 21,
+      },
+      "npcDialog": {
+        "Bellows": 7,
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Djonnut": 0,
+        "Dog_Bone": 16,
+      },
       "secondsSinceLastSave": 4650362,
     },
     {
       "afkTarget": "Cooking",
       "afkType": "COOKING",
       "class": "Beginner",
+      "classIndex": 1,
       "currentMap": "Outer_World_Town",
       "foodStacks": [],
       "index": 10,
       "level": 1224,
+      "nextPortal": {
+        "current": 1,
+        "door": 0,
+        "goal": 1,
+      },
+      "npcDialog": {
+        "Builder_Bird": 9999,
+        "Carpenter_Cardinal": 9999,
+        "Constructor_Crow": 9999,
+        "Dog_Bone": 0,
+      },
       "secondsSinceLastSave": 4838443,
     },
   ],

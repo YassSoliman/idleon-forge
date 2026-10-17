@@ -76,6 +76,12 @@ describe('toAccountState', () => {
       lastCloudSave: 1_000_000,
       secondsSinceLastSave: 60,
       gameVersion: { serverBuild: null, saveVersion: 34.05, parserTarget: '2.3.540' },
+      // M2 TR-3: the synthetic parse has no towers, refinery, quests or storage.
+      buildings: { deathNote: 0, printer3d: 0, atomCollider: 0 },
+      salts: [],
+      gateQuests: {},
+      worldCrystals: { desertTopaz: 0, glacierQuartz: 0, galaxialAmethyst: 0 },
+      frontier: null,
     });
     expect(state.characters).toEqual([
       {
@@ -88,6 +94,10 @@ describe('toAccountState', () => {
         currentMap: 'Blunder_Hills',
         foodStacks: [{ item: 'Golden_Jam', amount: 5 }],
         secondsSinceLastSave: 60,
+        // M2 TR-3: the synthetic character has no classIndex, dialogue or portal progress.
+        classIndex: null,
+        npcDialog: {},
+        nextPortal: null,
       },
     ]);
     expect(state.schemaVersion).toBe(SCHEMA_VERSION);
@@ -98,8 +108,8 @@ describe('toAccountState', () => {
       skippedCharacters: [],
       unreadableCharacters: [],
       unknownIds: { monsters: [], maps: [], items: [], classes: [] },
-      // The synthetic parse has no server vars.
-      unknownFields: ['account.gameVersion.serverBuild'],
+      // The synthetic parse has no server vars, and its raw save no KillsLeft2Advance (M2 TR-3).
+      unknownFields: ['characters[0].nextPortal', 'account.gameVersion.serverBuild'],
       unnamed: false,
       parserPin: { commit: 'abc123', gameVersion: '2.3.540' },
       source: 'paste',

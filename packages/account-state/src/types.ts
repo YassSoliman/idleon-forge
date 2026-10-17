@@ -11,8 +11,10 @@ import type { SideReadName } from '@idleon-forge/toolbox-parsers';
  * Bumped whenever a field is added, renamed or changes meaning. 1 was slice 1's unversioned shape.
  * 3: `account.dailyResetInSeconds` (M6 TR-3; also M10's Skip today rule).
  * 4: `account.accountLevel` (issue #60, the M10 header).
+ * 5: the M2 Stage & Meta Path fields (M2 TR-3): `classIndex`, `npcDialog`, `nextPortal`, `buildings`,
+ *    `salts`, `gateQuests`, `worldCrystals`, `frontier`. M2's family level is `accountLevel`.
  */
-export const SCHEMA_VERSION = 4;
+export const SCHEMA_VERSION = 5;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -58,6 +60,85 @@ export interface CharacterState {
   foodStacks: FoodStack[];
   /** Seconds between this character's last save (`PTimeAway_<i>`) and `AccountState.asOf` (never negative). */
   secondsSinceLastSave: number | null;
+
+  // ---- M2 Stage & Meta Path (M2 TR-3). Always set by the adapter; optional only so hand-built states in
+  // other packages' tests stay valid. Read them as `?? null`.
+  /** Toolbox `characters[].classIndex` (`CharacterClass_<i>`); null when unset. Shared: M4 and M9 read it. */
+  classIndex?: number | null;
+  /** Only the gate NPCs M2 and M6 read, never the whole dialogue map. 9999 is kept as-is (Toolbox reads it as "met"). */
+  npcDialog?: Partial<Record<GateNpc, number>>;
+  /** Toolbox `nextPortal` on the character's current fighting map: its first door. null off a fighting map. */
+  nextPortal?: NextPortal | null;
+}
+
+/** The NPCs a Stage rule (M2 TR-5) or the TR-6a cross-check reads, plus Bellows (M6 TR-7, Chizoar keys). */
+export const GATE_NPCS = [
+  'Builder_Bird',
+  'Constructor_Crow',
+  'Carpenter_Cardinal',
+  'Dog_Bone',
+  'Djonnut',
+  'Bellows',
+] as const;
+export type GateNpc = (typeof GATE_NPCS)[number];
+
+/** The quest givers whose quests gate a world (M2 TR-11). */
+export const GATE_QUEST_NPCS = ['Dog_Bone', 'Djonnut', 'Hoggindaz', 'Bellows', 'Gobo'] as const;
+export type GateQuestNpc = (typeof GATE_QUEST_NPCS)[number];
+/** Toolbox quest name, e.g. "Djonnut2", "Hoggindaz5". */
+export type GateQuestId = `${GateQuestNpc}${number}`;
+
+/** One map door's portal progress (one shape shared with M4). */
+export interface NextPortal {
+  door: number;
+  current: number;
+  goal: number;
+}
+
+/** A door on a world's route path (M2 TR-7 `portals.fact.world-routes`), as the frontier step takes it. */
+export interface RouteDoor {
+  mapIndex: number;
+  /** Toolbox map name, e.g. "Thermonuclear_Climb". */
+  mapName: string;
+  door: number;
+  /** Kills to open the door (Toolbox `mapPortals[map][door]`). */
+  requirement: number;
+}
+
+/** One character's fight on the frontier map, from Toolbox `getMaxDamage` on a clone moved there (M2 TR-2). */
+export interface FrontierFight {
+  characterIndex: number;
+  finalKillsPerHour: number;
+  /** Unfloored, for M2 FR-13 ordering only. */
+  killsPerHour: number;
+  /** % 0..100, Toolbox's unit. */
+  hitChance: number;
+  /** % 0..100, Toolbox's unit. */
+  survivability: number;
+  /** Door requirement minus this character's kills on the frontier door (never below 0). */
+  killsLeft: number;
+}
+
+/** Computed in the parse worker (M2 TR-2, TR-3). */
+export interface Frontier {
+  /** The account's currentWorld. */
+  world: number;
+  mapIndex: number;
+  mapName: string;
+  door: number;
+  /** TR-10 step 1 (first path door nobody cleared), or its fallback (the path door with the highest requirement). */
+  kind: 'uncleared' | 'hardest-cleared';
+  requirement: number;
+  /** Path doors each character has cleared, in path order. A door is cleared when raw `KillsLeft2Advance[map][door] <= 0`. */
+  routeCleared: Array<{ characterIndex: number; count: number; of: number; reachesFrontier: boolean }>;
+  /** One row per character with level > 0; zeros kept so "nobody can fight" is visible. */
+  fights: FrontierFight[];
+}
+
+/** Per gate quest: characters that completed it (Toolbox getQuests `completed[]`) and that stand on it unfinished. */
+export interface GateQuestProgress {
+  completedBy: number[];
+  inProgressBy: number[];
 }
 
 export interface AccountSummary {
@@ -88,6 +169,19 @@ export interface AccountSummary {
     /** The game version the parser pin targets, e.g. "2.3.540". */
     parserTarget: string;
   };
+
+  // ---- M2 Stage & Meta Path (M2 TR-3). Always set by the adapter; optional only so hand-built states in
+  // other packages' tests stay valid. Read them as `?? null`.
+  /** The one building-level field (M4 and M6 read the Death Note from here). A tower absent from Toolbox's array is 0; null only when the towers section failed. */
+  buildings?: { deathNote: number | null; printer3d: number | null; atomCollider: number | null } | null;
+  /** The one salt list, in Refinery order (index 5 = Nullo). M6 TR-3 extends it. null when the refinery section failed. */
+  salts?: Array<{ rawName: string; unlocked: boolean }> | null;
+  /** Per gate quest (Dog Bone, Djonnut, Hoggindaz, Bellows, Gobo). null when the quests section failed. */
+  gateQuests?: Partial<Record<GateQuestId, GateQuestProgress>> | null;
+  /** Counts in storage plus every inventory. null when the storage section failed. */
+  worldCrystals?: { desertTopaz: number; glacierQuartz: number; galaxialAmethyst: number } | null;
+  /** Computed in the worker (M2 TR-2). null before it runs, when a damage-relevant section failed, or when it threw. */
+  frontier?: Frontier | null;
 }
 
 /** Structured, machine-readable problems with one read (M1 FR-16, FR-17, FR-19a, FR-19b). */

@@ -37,6 +37,15 @@ export const FIELD_SOURCES: Record<string, string> = {
   'characters[].foodStacks': 'characters[i].food',
   'characters[].secondsSinceLastSave': 'characters[i].afkTime',
   lastPlayedCharacterIndex: 'characters[i].afkTime, account.timeAway.GlobalTime',
+  // M2 Stage & Meta Path (M2 TR-3)
+  'characters[].classIndex': 'characters[i].classIndex',
+  'characters[].npcDialog': 'characters[i].npcDialog',
+  'characters[].nextPortal': 'characters[i].nextPortal',
+  'account.buildings': 'account.towers.data',
+  'account.salts': 'account.refinery.salts',
+  'account.gateQuests': 'account.quests',
+  'account.worldCrystals': 'account.storage.list, characters[i].inventory',
+  'account.frontier': 'getMaxDamage on a frontier clone, KillsLeft2Advance (M2 TR-2)',
 };
 
 /** The raw save keys each field depends on. A missing or unparseable key makes the field Unknown. */
@@ -56,14 +65,63 @@ export const FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {
   'characters[].foodStacks': [raw('EquipOrder_{i}', 'json'), raw('EquipQTY_{i}', 'json')],
   'characters[].secondsSinceLastSave': [raw('PTimeAway_{i}', 'number')],
   lastPlayedCharacterIndex: [raw('TimeAway', 'json'), raw('PTimeAway_*', 'number')],
+  // M2 Stage & Meta Path (M2 TR-3)
+  'characters[].classIndex': [raw('CharacterClass_{i}', 'number')],
+  'characters[].npcDialog': [raw('NPCdialogue_{i}', 'json')],
+  'characters[].nextPortal': [raw('KLA_{i}', 'json'), raw('CurrentMap_{i}', 'number')],
+  'account.frontier': [raw('KLA_*', 'json')],
 };
+
+/** The account sections `getMaxDamage` reads at the pin (damage.ts, 6c37e3d), for `account.frontier`. */
+export const FRONTIER_SECTIONS = [
+  'achievements',
+  'alchemy',
+  'arcade',
+  'breeding',
+  'bribes',
+  'cards',
+  'companions',
+  'deathNote',
+  'divinity',
+  'dungeons',
+  'equinox',
+  'farming',
+  'grimoire',
+  'guild',
+  'hole',
+  'islands',
+  'kangaroo',
+  'killroy',
+  'lab',
+  'obols',
+  'owl',
+  'prayers',
+  'refinery',
+  'rift',
+  'sailing',
+  'saltLick',
+  'shrines',
+  'stamps',
+  'statues',
+  'tome',
+  'towers',
+  'upgradeVault',
+];
 
 /**
  * The Toolbox `safeSection`s each field is computed in. None of today's fields is: characters, worlds
  * and time away are parsed outside any section, so a section failure can't fall back under them.
  * Fields added later (stamps, obols, ...) list theirs here.
  */
-export const FIELD_SECTIONS: Record<string, string[]> = {};
+export const FIELD_SECTIONS: Record<string, string[]> = {
+  // M2 Stage & Meta Path (M2 TR-3)
+  'account.buildings': ['towers'],
+  'account.salts': ['refinery'],
+  'account.gateQuests': ['quests'],
+  'account.worldCrystals': ['storage'],
+  /** The sections Toolbox's damage.ts reads off the account at the pin (M2 TR-2); a kill rate is never taken from a fallback. */
+  'account.frontier': FRONTIER_SECTIONS,
+};
 
 /** The side reads each field depends on. */
 export const FIELD_SIDE_READS: Record<string, SideReadName[]> = {

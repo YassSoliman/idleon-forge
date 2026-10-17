@@ -9,10 +9,12 @@
 // fails is null (never a default) and listed in diagnostics.unknownFields (M1 FR-16, FR-19a, TR-11).
 import type { ParsedSave, RawSaveEnvelope } from '@idleon-forge/toolbox-parsers';
 import { FIELD_RAW_KEYS, type RawKind } from './fields';
+import { metaPathAccountFields, metaPathCharacterFields } from './metapath-fields';
 import {
   type AccountState,
   type CharacterState,
   type FoodStack,
+  type Frontier,
   type ParseDiagnostics,
   SCHEMA_VERSION,
 } from './types';
@@ -75,6 +77,8 @@ export const LAST_PLAYED_TIE_MS = 1_000;
 export interface ToAccountStateOptions {
   /** Where the save came from. Defaults to `'paste'`, the one that is never stored. */
   source?: 'live' | 'paste';
+  /** The worker's frontier step (M2 TR-2, `computeFrontier`). Default null: not computed. */
+  frontier?: Frontier | null;
 }
 
 class Collector {
@@ -201,6 +205,16 @@ function toCharacter(
     if (seconds === null) c.unknown(`${at}.secondsSinceLastSave`);
   }
 
+  // M2 Stage & Meta Path (M2 TR-3)
+  const metaPath = metaPathCharacterFields({
+    raw,
+    known: {
+      classIndex: c.checkRaw('characters[].classIndex', `${at}.classIndex`, index),
+      npcDialog: c.checkRaw('characters[].npcDialog', `${at}.npcDialog`, index),
+      nextPortal: c.checkRaw('characters[].nextPortal', `${at}.nextPortal`, index),
+    },
+  });
+
   return {
     ok: true,
     state: {
@@ -213,6 +227,7 @@ function toCharacter(
       currentMap: map,
       foodStacks,
       secondsSinceLastSave: seconds,
+      ...metaPath,
     },
   };
 }
@@ -345,6 +360,17 @@ export function toAccountState(
     lastPlayedCharacterIndex = times.length === withData.length ? lastPlayed(times, lastCloudSave) : null;
   }
 
+  // M2 Stage & Meta Path (M2 TR-3)
+  const metaPath = metaPathAccountFields({
+    account,
+    characters,
+    failedSections,
+  });
+  // Computed by the worker (M2 TR-2); trusted only when every character's KillsLeft2Advance is present.
+  let frontier = options.frontier ?? null;
+  if (frontier !== null && !c.checkRaw('account.frontier', 'account.frontier', null, withData))
+    frontier = null;
+
   const diagnostics: ParseDiagnostics = {
     failedSections,
     failedSideReads: [...new Set(envelope.sideReadReport?.failed ?? [])],
@@ -373,6 +399,8 @@ export function toAccountState(
       dailyResetInSeconds,
       accountLevel,
       gameVersion: { serverBuild, saveVersion, parserTarget: meta.parserGameVersion },
+      ...metaPath,
+      frontier,
     },
     characters: states,
     lastPlayedCharacterIndex,
