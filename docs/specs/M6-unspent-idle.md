@@ -518,3 +518,15 @@ Independent red-team run on 2026-10-17 against this spec (with D1–D6 folded in
 | 20 | P3 | W3 golden lines miss Hoops play, Spiketrap and the Typhoon ticket. | Fixed | US-1, US-2, US-3 add them; TR-13 requires §4 to list every M6 line per fixture. |
 | 21 | P3 | Text details: "available for 15h", US-13's pet Detectors, Arcade text, `_comp` called RTDB, Bug² display name. | Fixed | Wording fixed in US-2, US-13, TR-12; pairing keyed on `rawName` (TR-5). |
 | 22 | P3 | Report this could fingerprint an account from exact amounts plus class and level. | Rejected | One Goal's amount plus one class/level is low-entropy, and payload policy is M13's scrub, which TR-12 now names. |
+
+## Final rulings (Yasser, 2026-10-17)
+
+These supersede anything above that conflicts with them.
+
+> **Pet Mart (Yasser, 2026-10-17):** he has never seen it, so it's likely not unlocked on a W2-late account. The Pet Mart Check must be gated on an unlock detected from game data or the save, default off. It must never prompt a player who can't reach it. Verify the unlock condition from game data during build.
+
+> **Clarification (Yasser, 2026-10-17):** Yasser does get the **free daily pet pull**, which is the separate FR for that and stays as specified. He has never seen a "Pet Mart". The spec's Pet Mart gems read `tournament.global.S` and `serverVars.GemPM_x`, which look tied to the W7-era Tournament shop. **Gate FR-13 on a verified unlock condition from game code** (not just server-offered and shop-day), defaulting off, so a W2/W3 account never sees it unless it's truly claimable.
+
+> **Ruled by Yasser (2026-10-17), all as recommended:**
+> - **RT1:** unowned leftovers (unfillable slots, caps and printer levels, salt rank-ups) go under Not covered yet for the MVP. M7 owns its own idle-coins pointer. Revisit after 5 sessions.
+> - **RT2:** the Crystal 3D Printer gem goal shows only once the Infinity Hammer is owned, or from W3 entry. Before that, show the "sources disagree" gem count.
