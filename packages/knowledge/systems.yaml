@@ -138,7 +138,7 @@ systems:
     world: 1
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/post-office.md
-    unlocked: { id: worlds/reached, params: { world: 1 } }
+    unlocked: { id: post-office/unlocked }
   - id: owl
     name: The Owl
     world: 1

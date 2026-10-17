@@ -1,0 +1,68 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M6 Unspent & idle: unspent gems (M6 FR-21, D2, Final rulings RT2). Three forms of one Check: the
+# Crystal 3D Printer progress and buy lines once the Infinity Hammer is owned or the account reached
+# World 3, and the Contested count otherwise.
+system: gem-shop
+entries:
+  - id: gem-shop.check.unspent
+    system: gem-shop
+    type: check
+    title: Gems unspent
+    subject: account
+    effect: next-action
+    category: nice
+    effortSeconds: 60
+    detector: { id: gem-shop/unspent, params: { form: contested } }
+    text: "{gems:int} gems unspent"
+    why: "Gems do nothing until spent, and guides disagree on the first buy."
+    doneWhen: { field: "account.gemPurchases", change: changed }
+    appliesTo: { stages: all }
+    confidence: M
+    status: contested
+    contested:
+      sides:
+        - position: "Infinity Hammer first: the universal first buy."
+          sources:
+            - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.5: AutoReview S tier, gist", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: contested }
+        - position: "Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary."
+          sources:
+            - { url: "https://www.reddit.com/r/idleon/comments/1wxle7j/comment/pdw6ghp/", title: "r/idleon: card slots and the 3D printer first", tier: 3, claimDate: 2026-10-04, verified: 2026-10-17, gameVersion: 2.3.540, verification: contested }
+    sources:
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.5: the first gem buy is contested", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: contested }
+  - id: gem-shop.check.printer-progress
+    system: gem-shop
+    type: check
+    title: Save gems for the Crystal 3D Printer
+    subject: account
+    effect: next-action
+    category: nice
+    effortSeconds: 60
+    detector: { id: gem-shop/unspent, params: { form: printer-progress } }
+    text: "Crystal 3D Printer: {gems:int} of {price:int} gems"
+    why: "Both sides of the first-buy debate agree on the Crystal 3D Printer once you own the Infinity Hammer or reach World 3."
+    doneWhen: { field: "account.gemPurchases", change: changed }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "A Milestone Goal (TR-10: unit gems, next = the printer's price). The hammer and printer indices and the price are the Detector's defaults, checked against gem-shop.fact.items."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L513", title: "Toolbox currencies.gems", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://www.reddit.com/r/idleon/comments/1uopts0/comment/ovu2pju/", title: "r/idleon: just made it to World 3, buy the 3D printer first", tier: 3, claimDate: 2026-07-06, verified: 2026-10-17, gameVersion: 2.3.540, verification: confirmed }
+  - id: gem-shop.check.printer-buy
+    system: gem-shop
+    type: check
+    title: Buy the Crystal 3D Printer
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector: { id: gem-shop/unspent, params: { form: printer-buy } }
+    text: "Buy the Crystal 3D Printer ({price:int} gems)"
+    why: "You have {gems:int} gems; the printer is the agreed buy from World 3."
+    doneWhen: { field: "account.gemPurchases", change: changed }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L513", title: "Toolbox currencies.gems", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://www.reddit.com/r/idleon/comments/1uopts0/comment/ovu2pju/", title: "r/idleon: just made it to World 3, buy the 3D printer first", tier: 3, claimDate: 2026-07-06, verified: 2026-10-17, gameVersion: 2.3.540, verification: confirmed }

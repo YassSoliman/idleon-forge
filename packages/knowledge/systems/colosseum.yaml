@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M6 Unspent & idle: Colosseum tickets banked at Typhoon, Centurion and Lonely Hunter (M6 FR-8, TR-6).
+system: colosseum
+entries:
+  - id: colosseum.check.collect-tickets
+    system: colosseum
+    type: check
+    title: Collect banked Colosseum tickets
+    subject: account
+    effect: next-action
+    usesExpectedReturn: true
+    category: spendable
+    priority: { frame: by-urgency }
+    effortSeconds: 60
+    detector: { id: colosseum/tickets-banked, params: { fireAtDays: 2 } }
+    text: "Collect {total:int} Colosseum tickets"
+    why: "Tickets bank at each NPC you can reach for 3 days at most. NPCs past the cap: {cappedNpcs:int}; days already lost at the worst one: {daysLost:int}."
+    doneWhen: { field: "account.colosseumTickets[*].daysSincePickup", change: lower }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "Toolbox hardcodes one ticket a day and gates NPC i on finishedWorlds World<i> (areKeysOverdue); the day counter keeps rising on an unreachable NPC, so those are left out."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L568", title: "Toolbox enhanceColoTickets: day counters, one a day, 3-day bank", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L2097", title: "Toolbox areKeysOverdue: the ticket NPC reach rule", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

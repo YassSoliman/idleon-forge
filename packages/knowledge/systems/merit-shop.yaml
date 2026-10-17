@@ -1,0 +1,195 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M6 Unspent & idle: unspent merits per world (M6 FR-19, R6). The per-world order lives in the Check's
+# `order` param, by generated row id (merit-shop.fact.rows); a Priority List entry can only list entry
+# ids, and merit rows are fact rows. One entry per W2 row names it; the world's generic entry fires when
+# the order names nothing. W1's order is not mapped to row ids yet (R6: needs an in-game review), W3's
+# is Contested (PV 7.3), and W4's is left generic for now.
+system: merit-shop
+entries:
+  - id: merit-shop.check.spend-w1
+    system: merit-shop
+    type: check
+    title: Spend W1 merits
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector: { id: merit-shop/unspent, params: { world: 1 } }
+    text: "Spend {unspent:int} W1 merits"
+    why: "Merits do nothing until spent in the Task Board's W1 merit shop."
+    doneWhen: { field: "account.merits[*].unspent", change: lower }
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    notes: "R6: PV 7.1's corrected W1 order (Hemoglobin x3, Amarok recipes, boss keys, respawn, ...) uses guide nicknames; map it to w1-* row ids after an in-game review, then add row entries like W2's."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: merit-shop.check.spend-w2
+    system: merit-shop
+    type: check
+    title: Spend W2 merits
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector: { id: merit-shop/unspent, params: { world: 2, order: [{ row: w2-task-sb3, upTo: 1 }, { row: w2-task-sa3, upTo: characters }, { row: w2-task-sb2 }, { row: w2-task-sa4 }, { row: w2-task-sb3 }, { row: w2-task-sbb2 }, { row: w2-smithing-recipes2 }] } }
+    text: "Spend {unspent:int} W2 merits"
+    why: "Merits do nothing until spent in the Task Board's W2 merit shop."
+    doneWhen: { field: "account.merits[*].unspent", change: lower }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.2: the W2 merit order", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: corrected, note: "Obol x1, AFK gains to the character count, respawn, boss gems, obol drop rate, arcade balls, Efaunt recipes; skip Convert Better." }
+  - id: merit-shop.check.spend-w2-obols
+    system: merit-shop
+    type: check
+    title: Spend W2 merits on obol drops
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector: { id: merit-shop/unspent, params: { world: 2, order: [{ row: w2-task-sb3, upTo: 1 }, { row: w2-task-sa3, upTo: characters }, { row: w2-task-sb2 }, { row: w2-task-sa4 }, { row: w2-task-sb3 }, { row: w2-task-sbb2 }, { row: w2-smithing-recipes2 }], row: w2-task-sb3 } }
+    text: "Spend {unspent:int} W2 merits: Monsters now drop Obols first"
+    why: "Obols start dropping only after the first level of this row; later levels raise the drop rate."
+    doneWhen: { field: "account.merits[*].unspent", change: lower }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.2: the W2 merit order", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: corrected, note: "Obol x1, AFK gains to the character count, respawn, boss gems, obol drop rate, arcade balls, Efaunt recipes; skip Convert Better." }
+  - id: merit-shop.check.spend-w2-afk-gains
+    system: merit-shop
+    type: check
+    title: Spend W2 merits on AFK gains
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector: { id: merit-shop/unspent, params: { world: 2, order: [{ row: w2-task-sb3, upTo: 1 }, { row: w2-task-sa3, upTo: characters }, { row: w2-task-sb2 }, { row: w2-task-sa4 }, { row: w2-task-sb3 }, { row: w2-task-sbb2 }, { row: w2-smithing-recipes2 }], row: w2-task-sa3 } }
+    text: "Spend {unspent:int} W2 merits: AFK Gains for your first characters first"
+    why: "Each level covers one more character, so buy it up to your character count."
+    doneWhen: { field: "account.merits[*].unspent", change: lower }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.2: the W2 merit order", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: corrected, note: "Obol x1, AFK gains to the character count, respawn, boss gems, obol drop rate, arcade balls, Efaunt recipes; skip Convert Better." }
+  - id: merit-shop.check.spend-w2-respawn
+    system: merit-shop
+    type: check
+    title: Spend W2 merits on Yum-Yum Desert respawn
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector: { id: merit-shop/unspent, params: { world: 2, order: [{ row: w2-task-sb3, upTo: 1 }, { row: w2-task-sa3, upTo: characters }, { row: w2-task-sb2 }, { row: w2-task-sa4 }, { row: w2-task-sb3 }, { row: w2-task-sbb2 }, { row: w2-smithing-recipes2 }], row: w2-task-sb2 } }
+    text: "Spend {unspent:int} W2 merits: All Yum-Yum Desert mobs respawn faster"
+    why: "Faster respawn raises AFK kills per hour on every W2 map."
+    doneWhen: { field: "account.merits[*].unspent", change: lower }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.2: the W2 merit order", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: corrected, note: "Obol x1, AFK gains to the character count, respawn, boss gems, obol drop rate, arcade balls, Efaunt recipes; skip Convert Better." }
+  - id: merit-shop.check.spend-w2-boss-gems
+    system: merit-shop
+    type: check
+    title: Spend W2 merits on boss gems
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector: { id: merit-shop/unspent, params: { world: 2, order: [{ row: w2-task-sb3, upTo: 1 }, { row: w2-task-sa3, upTo: characters }, { row: w2-task-sb2 }, { row: w2-task-sa4 }, { row: w2-task-sb3 }, { row: w2-task-sbb2 }, { row: w2-smithing-recipes2 }], row: w2-task-sa4 } }
+    text: "Spend {unspent:int} W2 merits: World bosses can now drop gems first"
+    why: "World bosses drop gems only once this row is bought."
+    doneWhen: { field: "account.merits[*].unspent", change: lower }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.2: the W2 merit order", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: corrected, note: "Obol x1, AFK gains to the character count, respawn, boss gems, obol drop rate, arcade balls, Efaunt recipes; skip Convert Better." }
+  - id: merit-shop.check.spend-w2-arcade-balls
+    system: merit-shop
+    type: check
+    title: Spend W2 merits on arcade balls
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector: { id: merit-shop/unspent, params: { world: 2, order: [{ row: w2-task-sb3, upTo: 1 }, { row: w2-task-sa3, upTo: characters }, { row: w2-task-sb2 }, { row: w2-task-sa4 }, { row: w2-task-sb3 }, { row: w2-task-sbb2 }, { row: w2-smithing-recipes2 }], row: w2-task-sbb2 } }
+    text: "Spend {unspent:int} W2 merits: arcade ball gain rate first"
+    why: "More arcade balls while you're away."
+    doneWhen: { field: "account.merits[*].unspent", change: lower }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.2: the W2 merit order", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: corrected, note: "Obol x1, AFK gains to the character count, respawn, boss gems, obol drop rate, arcade balls, Efaunt recipes; skip Convert Better." }
+  - id: merit-shop.check.spend-w2-efaunt-recipes
+    system: merit-shop
+    type: check
+    title: Spend W2 merits on Efaunt recipes
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector: { id: merit-shop/unspent, params: { world: 2, order: [{ row: w2-task-sb3, upTo: 1 }, { row: w2-task-sa3, upTo: characters }, { row: w2-task-sb2 }, { row: w2-task-sa4 }, { row: w2-task-sb3 }, { row: w2-task-sbb2 }, { row: w2-smithing-recipes2 }], row: w2-smithing-recipes2 } }
+    text: "Spend {unspent:int} W2 merits: Efaunt gear recipes"
+    why: "Optional: Efaunt gear is only a little better than Amarok's (PV 7.2)."
+    doneWhen: { field: "account.merits[*].unspent", change: lower }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.2: the W2 merit order", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: corrected, note: "Obol x1, AFK gains to the character count, respawn, boss gems, obol drop rate, arcade balls, Efaunt recipes; skip Convert Better." }
+  - id: merit-shop.check.spend-w3
+    system: merit-shop
+    type: check
+    title: Spend W3 merits
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector: { id: merit-shop/unspent, params: { world: 3 } }
+    text: "Spend {unspent:int} W3 merits"
+    why: "Merits do nothing until spent; guides disagree on which W3 row comes first."
+    doneWhen: { field: "account.merits[*].unspent", change: lower }
+    appliesTo: { stages: [{ from: W3-early, to: W4-entry }] }
+    confidence: L
+    status: contested
+    contested:
+      sides:
+        - position: "Telekinetic Storage once and the Talent Book Library first."
+          sources:
+            - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification 7.3 (gist, 2026-09-18)", tier: 3, claimDate: 2026-09-18, verified: 2026-10-17, gameVersion: 2.3.540, verification: contested }
+        - position: "The Build and Food slot row first, then the Library, Printer Sample and Telekinetic Storage."
+          sources:
+            - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/2026-10-17-w3-systems.md", title: "W3 dossier merit order", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540, verification: contested }
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: merit-shop.check.spend-w4
+    system: merit-shop
+    type: check
+    title: Spend W4 merits
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector: { id: merit-shop/unspent, params: { world: 4 } }
+    text: "Spend {unspent:int} W4 merits"
+    why: "Merits do nothing until spent in the Task Board's W4 merit shop."
+    doneWhen: { field: "account.merits[*].unspent", change: lower }
+    appliesTo: { stages: [W4-entry] }
+    confidence: L
+    status: active
+    notes: "PV 7.4's corrected W4 order is not mapped to w4-* rows yet."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/tasks.ts#L21", title: "Toolbox getTasks: merits and their levels", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

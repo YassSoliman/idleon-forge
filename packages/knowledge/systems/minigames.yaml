@@ -1,0 +1,119 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M6 Unspent & idle: skill-minigame plays, Spiketrap, Darts and Hoops (M6 FR-10, FR-11, FR-14, FR-15).
+system: minigames
+entries:
+  - id: minigames.check.daily-plays
+    system: minigames
+    type: check
+    title: Use today's minigame plays
+    subject: account
+    effect: next-action
+    usesExpectedReturn: true
+    category: nice
+    effortSeconds: 600
+    activePlay: { minutes: 10 }
+    detector: { id: minigames/daily-plays }
+    text: "Use today's {plays:int} minigame plays"
+    why: "The plays reset before you're back and don't bank. Next open highscore Milestone: Choppin {choppinTarget:int}."
+    doneWhen: { field: "account.minigames.plays", change: lower }
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    notes: "Position 3, never 1 (M6 D4, M2 Final rulings D4 note): no by-urgency frame. Milestones checked: Funguy's Choppin 20, then the next multiple of 25 with a Mage-line character. The Bobbin' Bobbers cap, Goldric's Hoopsies and the yellow-vein achievement are not checked yet."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L513", title: "Toolbox getCurrencies: the minigame play pool", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/account-wide/docs/research/systems/account-wide/minigames.md", title: "Minigames dossier: highscore Milestones", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: minigames.check.spiketrap
+    system: minigames
+    type: check
+    title: Play Spiketrap Surprise
+    subject: account
+    effect: next-action
+    category: nice
+    priority: { frame: by-urgency }
+    effortSeconds: 180
+    detector: { id: minigames/spiketrap }
+    text: "Spiketrap starts at :00: up to {gems:int} gems today"
+    why: "Today's Spiketrap gems are unclaimed and the next round starts in about {minutes:int} minutes."
+    doneWhen: { field: "account.minigames.spiketrap.gemsAvailableToday", becomes: false }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts#L40", title: "Toolbox getHighscores: Spiketrap best round", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/account-wide/docs/research/systems/account-wide/minigames.md", title: "Minigames dossier: Spiketrap daily gems at the top of the hour", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: minigames.check.darts-play
+    system: minigames
+    type: check
+    title: Play a round of Darts
+    subject: account
+    effect: next-action
+    category: spendable
+    priority: { frame: by-urgency }
+    effortSeconds: 120
+    detector: { id: minigames/cooldown-play, params: { game: darts } }
+    text: "Play one round of Darts (about 2 min, from any map with the Darts item)"
+    why: "Darts is off cooldown; its points feed damage, tab 1 talent points and Vault discounts."
+    doneWhen: { field: "account.minigames.darts.playsToday", change: higher }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "Once per Play Session (M6 D3)."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts#L80", title: "Toolbox getDartsData", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: minigames.check.hoops-play
+    system: minigames
+    type: check
+    title: Play a round of Hoops
+    subject: account
+    effect: next-action
+    category: spendable
+    priority: { frame: by-urgency }
+    effortSeconds: 120
+    detector: { id: minigames/cooldown-play, params: { game: hoops } }
+    text: "Play one round of Hoops (about 2 min)"
+    why: "Hoops is off cooldown; its points feed damage, coins, class EXP and skill efficiency."
+    doneWhen: { field: "account.minigames.hoops.playsToday", change: higher }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "Once per Play Session (M6 D3)."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts#L99", title: "Toolbox getHoopsData", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: minigames.check.darts-spend
+    system: minigames
+    type: check
+    title: Spend Darts points
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector: { id: minigames/cooldown-spend, params: { game: darts } }
+    text: "Spend {points:int} Darts points (next level costs {cost:int})"
+    why: "Darts points do nothing until spent. Put them in DMG until 40 total levels, then TALENT and DMG, then VAULT."
+    doneWhen: { field: "account.minigames.darts.points", change: lower }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "Unlocks from total levels against 0/40/150/250 (Toolbox highScores.ts), never Toolbox's unlocked flag (level > 0)."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts#L80", title: "Toolbox getDartsData: costs and unlock thresholds", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/account-wide/docs/research/systems/account-wide/minigames.md", title: "Minigames dossier: Darts upgrade order", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: minigames.check.hoops-spend
+    system: minigames
+    type: check
+    title: Hoops points unspent
+    subject: account
+    effect: next-action
+    category: nice
+    effortSeconds: 60
+    detector: { id: minigames/cooldown-spend, params: { game: hoops } }
+    text: "{points:int} Hoops points unspent"
+    why: "Hoops points do nothing until spent. ActiveOn doesn't show a Hoops price yet: the parser's Hoops cost is known to be too low."
+    doneWhen: { field: "account.minigames.hoops.points", change: lower }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "Stock only (M6 FR-15, R1): Toolbox prices Hoops with the Darts formula, floor(2 + L/12), against the game's floor(3 + L/8)."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/highScores.ts#L99", title: "Toolbox getHoopsData", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

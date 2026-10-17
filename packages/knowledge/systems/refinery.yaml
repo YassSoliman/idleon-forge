@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-only
 # M3 AFK Safety: Refinery fuel (docs/specs/M3-afk-safety.md FR-26). A Next Action: more fuel means
 # farming or printing, not a quick fix.
+# M6 Unspent & idle: a salt unlocked but switched off (M6 FR-31, D6). One Check, two forms.
 system: refinery
 entries:
   - id: refinery.check.fuel-runs-out
@@ -23,3 +24,42 @@ entries:
     category: nice
     usesExpectedReturn: true
     detector: { id: refinery/fuel-runs-out }
+  - id: refinery.check.salt-off
+    system: refinery
+    type: check
+    title: Switch on a Refinery salt
+    subject: account
+    effect: next-action
+    category: compounding
+    priority: { frame: by-urgency }
+    effortSeconds: 30
+    detector: { id: refinery/salt-off, params: { form: switch-on } }
+    text: "Switch on {salt:name} in the Refinery"
+    why: "An unlocked salt that is switched off makes no power while you're away. Salts off: {offSalts:int}."
+    doneWhen: { field: "account.salts[*].active", becomes: true }
+    appliesTo: { stages: [{ from: W3-early, to: W4-entry }] }
+    confidence: H
+    status: active
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/refinery.ts#L101", title: "Toolbox hasMissingMats", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/construction.md", title: "W3 dossier: Refinery", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: refinery.check.salt-fuel
+    system: refinery
+    type: check
+    title: Get the fuel to run a Refinery salt
+    subject: account
+    effect: next-action
+    category: compounding
+    priority: { frame: by-urgency }
+    effortSeconds: 30
+    detector: { id: refinery/salt-off, params: { form: fuel } }
+    text: "Get {more:int} more {material:name} to run {salt:name}"
+    why: "An unlocked salt that is switched off makes no power while you're away, and it can't run without its fuel. Salts off: {offSalts:int}. The Death Note's first level is paid in Explosive Salts."
+    doneWhen: { field: "account.salts[*].active", becomes: true }
+    appliesTo: { stages: [{ from: W3-early, to: W4-entry }] }
+    confidence: H
+    status: active
+    notes: "The same Check as salt-off when the first off salt is short of fuel (FR-31). Amounts are Toolbox's quantity x floor(rank^1.5) against totalAmount."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/refinery.ts#L101", title: "Toolbox hasMissingMats", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/construction.md", title: "W3 dossier: Refinery", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
