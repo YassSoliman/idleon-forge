@@ -55,7 +55,7 @@ M2 answers "where is my account on the route, and who on my team does what?" Fro
 - **FR-7** Each character gets the Roles of its class line from the Role entries (TR-9). A Role that the current Stage does not activate yet (e.g. Construction before W3) is listed as dormant, not active.
 - **FR-8** The roster lists the subclass lines the account is missing. The **next new character** is the missing line (not tentatively held, FR-6) whose earliest Role has the smallest `max(activeFrom, current Stage)`, so a line whose Role is already active comes first. Ties follow the #15 slot order (Barbarian, Squire, Bowman, Hunter, Shaman, Wizard). When slots 1–6 are all filled, the next is Journeyman, then the 2nd Squire.
 - **FR-9** The next-character output states the family level now, the family level that opens the next slot (generated thresholds 8 / 30 / 70 / 150 / 300 / 500 / 750 / 1,100 / 1,500 / 5,000), and the gap. While the slot is closed it is an Account-section note, not a Goal. Once the slot is open it becomes a Goal whose Next Action is "Create a character; pick <base class> at level 10, then <subclass> at Speccius". A line held tentatively by a base-class character is never the next new character; its subclass Goal (FR-15) covers it.
-- **FR-10** A duplicate Squire line is marked on-path ("2nd Squire → Divine Knight → Royal Guardian", PV 1.1). The Sub Class Swap Token is never suggested unless the duplicate's sibling subclass (8 ↔ 9, 20 ↔ 21, 32 ↔ 33) is the one the slot plan wants and the account does not already have it.
+- **FR-10** A duplicate Squire line is marked on-path ("2nd Squire → Divine Knight → Royal Guardian", PV 1.1) when the account also has a Barbarian. The Sub Class Swap Token is never suggested unless the duplicate's sibling subclass (8 ↔ 9, 20 ↔ 21, 32 ↔ 33) is the one the slot plan wants and the account does not already have it. That includes two Squires and no Barbarian: the token is recommended to turn the 2nd Squire (the lower-level one, by FR-6) into a Barbarian (Final rulings F17).
 
 **Pusher and push Goal**
 - **FR-11** The pusher is chosen by TR-10: among characters able to fight the frontier **and able to reach it** (portal progress is per character), the one with the highest Toolbox `finalKillsPerHour` on the frontier map, subject to the incumbent rule (D1). The choice is recomputed on every save.
@@ -64,13 +64,13 @@ M2 answers "where is my account on the route, and who on my team does what?" Fro
 - **FR-14** The pusher class choice is contested in Sources (Barbarian vs Squire in W1–W3, DK vs ES in W4, PV cross-cutting 2). The push Goal itself is not contested. Its Source popover shows both class Sources and states that ActiveOn picked by kill rate.
 
 **Meta Path Goals**
-- **FR-15** Subclass Goal (W2 and later): one per character whose `gen.class-tree` tier is `base` (Warrior, Archer, Mage, Journeyman), on that character's row ("Take your subclass at Speccius"; Maestro for a Journeyman). A Beginner at level ≥ 10 gets "Pick your class" instead. A character with no `classIndex` (Toolbox leaves it unset when `CharacterClass` is falsy) is unknown: no Goal, and it counts as neither subclassed nor base for TR-5.
+- **FR-15** Subclass Goal (W2 and later): one per character whose `classes.fact.class-tree` tier is `base` (Warrior, Archer, Mage, Journeyman), on that character's row ("Take your subclass at Speccius"; Maestro for a Journeyman). A Beginner at level ≥ 10 gets "Pick your class" instead. A character with no `classIndex` (Toolbox leaves it unset when `CharacterClass` is falsy) is unknown: no Goal, and it counts as neither subclassed nor base for TR-5.
 - **FR-16** World tutorial Goal: Hoggindaz 1–5 (W3-early onward, until any character completes Hoggindaz 5). Gobo 1–5 at W4-entry is not a separate Goal: it is the first step of the W4 push (TR-11), so it shows once. The Next Action names the character with the most progress, and the next quest by its in-game name.
 - **FR-17** Elite Goal (W4-entry): one per subclass character without an elite, with DK and ES first (PV 6.2) and the rest in the unverified order BC, BB, BM, SB at confidence L.
 
 **Priority Lists**
 - **FR-18** Each Stage has one Priority List built from the shared frame (TR-13): position 1 never-skip, position 2 push, position 3 free-value fills, then the Stage's System items from position 4. Ties are allowed. There are no numeric weights anywhere.
-- **FR-19** All Goals from all modules are ranked with one comparator (TR-14): Verdict blockers first, then Priority List position, then fresh before Stale, then the arithmetic tie-breaks (cheapest, by a fixed cost-unit order then amount; then closest Milestone; then most Goals per activity), then entry id, so the order is total and stable whatever order modules emit Goals in.
+- **FR-19** All Goals from all modules are ranked with one comparator (TR-14): Verdict blockers first, then Priority List position, then urgency and deadline within a position (M6), then fresh before Stale, then the arithmetic tie-breaks (cheapest, by a fixed cost-unit order then amount; then closest Milestone; then most Goals per activity), then entry id, so the order is total and stable whatever order modules emit Goals in.
 - **FR-20** A Contested entry never ranks first in any list it appears in (a character's Goals or the Account section). It is moved directly below the first non-contested entry.
 - **FR-21** A Goal whose entry is not on the current Stage's list ranks after every listed position. CI warns when an entry's `appliesTo` names a Stage whose list does not reference it.
 - **FR-22** A Stage list never shows a Goal from a later Stage's System that is not unlocked yet. Each entry's own Detector gates on its unlock. The sanity check is that nothing from W3 fires on the W2-late fixture.
@@ -119,7 +119,7 @@ As a player in a Play Session, I want each character's Role on the Meta Path, so
 
 **S6. One consistent order for everything**
 As a player in a Play Session, I want advice ordered the same way every time, so that the top item is always the thing to do first.
-- Given the W2-late account / When the engine runs / Then the Account section lists position-1 items (vial attempts, capped Water, Arcade balls) before the push Goal, and the push Goal before position-3 fills (big bubbles, cards, obols, tools). This is the leverage-model §5.1 order.
+- Given the W2-late account / When the engine runs / Then the M3 account blockers (Arcade balls, Water at cap) lead the Account section above every listed item; the position-1 items at the default 8 h Expected Return (Colosseum tickets, the free pet pull, Spiketrap, the Darts and Hoops plays, M6 US-12) rank before the push Goal; and the push Goal ranks before the position-3 fills (vial attempts, `banked` until the reset falls before the return, M6 D5; big bubbles, cards, obols). This is the leverage-model §5.1 order as corrected in TR-13.
 - Given the W2-late account / When the engine runs twice with the same `now` / Then both rankings are identical, element by element.
 - Given a synthetic Account section where the contested cog-type entry (PV 5.5) would sort first / When the engine ranks it / Then the cog entry lands second, directly below the first non-contested Goal, and carries the "sources disagree" badge. On the W3-early account, none of the contested entries (cogs, first prayers, W3 merit order, first Gem Shop buy) is first in any list.
 - Given the W2-late account / When the engine runs / Then no Goal whose entry `appliesTo` only W3 Stages appears (Equinox, salts, Death Note).
@@ -134,14 +134,14 @@ As a player in a Play Session, I want to be told when a character is due for its
 ### Package boundaries
 
 - **TR-1** Code lives in `packages/engine/src/meta-path/`:
-  - `stage.ts` (Detector `stage.detect`);
-  - `roster.ts` (`metapath.roster`);
-  - `pusher.ts` (`metapath.pusher`);
-  - `gate-chain.ts` (`metapath.push-step`, `metapath.world-tutorial`, `metapath.subclass-pending`, `metapath.elite-pending`);
-  - `priority.ts` (`priority.select`, `priority.compare`);
+  - `stage.ts` (engine Detector `metapath/stage`);
+  - `roster.ts` (`metapath/roster`);
+  - `pusher.ts` (`metapath/pusher`);
+  - `gate-chain.ts` (`metapath/push-step`, `metapath/world-tutorial`, `metapath/subclass-pending`, `metapath/elite-pending`);
+  - `priority.ts` (engine functions `selectPriorityList`, `compareGoals`, `positionOf`; not Detectors);
   - `roles.ts` (`roleOwnersOf`, `visitHints`).
 
-  Each is a pure function of `(state: AccountState, kb: KnowledgeBase, now: number)`. None imports `toolbox-parsers`. None reads the clock, IndexedDB or the network.
+  Each is a pure function of `(state: AccountState, kb: KnowledgeBase, now: number)`. None imports `toolbox-parsers`. None reads the clock, IndexedDB or the network. The Detectors above are **engine Detectors** (M11 TR-4, `kind: 'engine'`): they use M11's `<system>/<name>` id format, are registered in the engine registry, follow M11 FR-12 (purity, declared `reads`), and their examples are this module's golden tests (TR-19).
 - **TR-2** The only Toolbox call M2 needs, `getMaxDamage` on a clone moved to the frontier map, runs **inside the parse worker**, right after the parse, and its result is written into the Account State as `account.frontier` (TR-3). The engine stays pure and synchronous ([#14](https://github.com/YassSoliman/idleon-forge/issues/14) item 4). M1's `what-if` message stays reserved for M5's open-ended queries. The clone is the one verified in `research/hypothetical-math` §2. It swaps `mapIndex`, `targetMonster`, `afkType`, `afkTarget` and `currentMap`, and it is contract-tested with the identity check (the clone on a character's own map equals the direct call), **for characters currently on a fighting map only**: the research found it fails for a skilling character whose saved target differs from the map's enemy list. The clone was verified at `f1e4240`; the check is re-run at the pin `6c37e3d` (whose `damage.ts` changed in 2.3.540) before M2 ships.
 
   Kill rates come out **as each character is currently equipped**: the active talent preset, attack bar, cards, obols, gear and food still feed `getKillsPerHour`. A character set up for skilling scores lower than it would after re-equipping. M2 accepts this bias (it favours who is already fighting, which matches the incumbent rule) and says so in the push Goal's Source line (S2).
@@ -154,17 +154,18 @@ As a player in a Play Session, I want to be told when a character is due for its
 
   ```ts
   // additions to CharacterState
-  classIndex: number | null;                // Toolbox characters[].classIndex; null when Toolbox leaves it unset (falsy CharacterClass)
-  /** Only the gate NPCs M2 reads; never the whole dialogue map. 9999 is kept as-is (Toolbox reads it as "met"). */
+  classIndex: number | null;                // Toolbox characters[].classIndex; null when Toolbox leaves it unset (falsy CharacterClass). Shared: M4 and M9 read this field
+  /** Only the gate NPCs M2 and M6 read; never the whole dialogue map. 9999 is kept as-is (Toolbox reads it as "met"). The one NPC-dialogue field (M6 reads Dog_Bone, Djonnut, Bellows from it for boss keys). */
   npcDialog: Partial<Record<GateNpc, number>>;
-  /** Toolbox characters[].nextPortal for the character's current map. */
-  nextPortal: { goal: number; current: number } | null;
+  /** Toolbox characters[].nextPortal for the character's current map: the first unopened door. One shape shared with M4. */
+  nextPortal: { door: number; current: number; goal: number } | null;
 
   // additions to AccountSummary
   familyLevel: number | null;               // account.accountLevel (sum of class levels)
-  /** account.towers.data is an ARRAY of { name, level }: read with data.find(t => t.name === 'Death_Note'). A tower absent from the array is level 0; null only when the towers section failed. */
+  /** account.towers.data is an ARRAY of { name, level }: read with data.find(t => t.name === 'Death_Note'). A tower absent from the array is level 0; null only when the towers section failed. The one building-level field: M4 and M6 read the Death Note level from here. */
   buildings: { deathNote: number | null; printer3d: number | null; atomCollider: number | null };
-  saltsUnlocked: boolean[] | null;          // account.refinery.salts[i].unlocked, index 5 = Nullo
+  /** The one salt list, in Refinery order (account.refinery.salts[i]); index 5 = Nullo. M2 adds it with rawName and unlocked; M6 TR-3 extends it with active and missingFuel. */
+  salts: Array<{ rawName: string; unlocked: boolean }> | null;
   /** Per gate quest: indices of characters that completed it (Toolbox getQuests `completed[]`), and who stands on it now (`progress[]`). */
   gateQuests: Record<GateQuestId, { completedBy: number[]; inProgressBy: number[] }>;
   /** Counts in storage plus every inventory: Crystal1 Desert Topaz, Crystal2 Glacier Quartz, Crystal3 Galaxial Amethyst. */
@@ -172,9 +173,9 @@ As a player in a Play Session, I want to be told when a character is due for its
   /** Computed in the worker (TR-2). Null before W1 portals exist, when a damage-relevant section failed, or when the call threw. */
   frontier: Frontier | null;
 
-  /** Only the NPCs a TR-5 rule or TR-6a check reads. Generated from gen.world-gates plus the two band NPCs, so a patch rename shows in the Knowledge Base diff. */
+  /** Only the NPCs a TR-5 rule or TR-6a check reads. Generated from metapath.fact.world-gates plus the two band NPCs, so a patch rename shows in the Knowledge Base diff. */
   export type GateNpc = 'Builder_Bird' | 'Constructor_Crow' | 'Carpenter_Cardinal'
-    | 'Dog_Bone' | 'Djonnut';
+    | 'Dog_Bone' | 'Djonnut' | 'Bellows';   // Bellows: read by M6 for Chizoar keys (M6 TR-7)
   export type GateQuestId = `${'Dog_Bone' | 'Djonnut' | 'Hoggindaz' | 'Bellows' | 'Gobo'}${number}`;
 
   export interface Frontier {
@@ -190,8 +191,8 @@ As a player in a Play Session, I want to be told when a character is due for its
       characterIndex: number;
       finalKillsPerHour: number;
       killsPerHour: number;                 // unfloored, for FR-13 ordering only
-      hitChance: number;                    // 0..1
-      survivability: number;                // 0..1, converted in the worker from Toolbox's 0..100
+      hitChance: number;                    // % 0..100, Toolbox's unit (every engine hit chance and survivability is %)
+      survivability: number;                // % 0..100, Toolbox's unit
       killsLeft: number;                    // door requirement minus this character's kills on the frontier door
     }>;
   }
@@ -223,7 +224,41 @@ As a player in a Play Session, I want to be told when a character is due for its
 
   `EngineResult.stage` (M10 TR-2) is `{ id, label }` from this result. `id` is `"unknown"` when null.
 
-- **TR-5** Stage rules **[from #26 §1.2, with the [changed] items marked]**. The rules are evaluated top to bottom and the **last** rule that holds wins. Worlds are mutually exclusive through `finishedWorlds`, so "last wins" only orders the bands inside a world. `maxLv` = max character level. "Subclassed" = `gen.class-tree` tier is `subclass`, `elite` or `master` (defined positively; Journeyman is `base`, Maestro is `subclass`). A character with `classIndex` null counts as neither. "Dialogue > 0" in the band rules (`w1-late`, `w2-late`) means 0 < value < 9999: 9999 appears on characters that never pushed, so it is not band evidence. `finishedWorlds` keeps Toolbox's semantics (any truthy gatekeeper dialogue, 9999 included), and TR-6a cross-checks it.
+- **TR-4a** `MetaPathResult`: M2's whole output, as plain structured-cloneable data, so M4, M5, M7, M8 and the engine core read the pusher, the push Goal, the Roles and the resolved list without calling M2 internals (the M4 change request, M4 §7).
+
+  ```ts
+  /** The Stage's list after frame and include resolution (TR-13). Plain data: no functions. */
+  export interface ResolvedPriorityList {
+    stage: StageId | null;                  // null when certainty is 'unknown' (FR-3)
+    listId: string | null;                  // e.g. "metapath.priority.w2-late"
+    positions: Record<string, number>;      // entry id → position; frame items at 1 and 3, the push at 2, Stage items from 4
+    lastPosition: number;                   // the last authored position (the bottom tie, TR-13)
+    byUrgency: string[];                    // entry ids listed with byUrgency: position 1 or 3 by urgency (TR-13)
+    carryForward: string[];                 // entry ids carried forward from earlier Stage lists (TR-13)
+  }
+
+  export interface MetaPathResult {
+    stage: StageResult;
+    list: ResolvedPriorityList;
+    pusher: { index: number; frontierMap: number } | null;
+    pushGoal: {
+      entryId: 'metapath.goal.push';
+      characterIndex: number;               // the pusher
+      current: number; goal: number;        // frontier door kills
+      etaSeconds: number | null;            // killsLeft ÷ finalKillsPerHour (FR-12); null for a quest or boss step
+    } | null;
+    roles: Record<number, { role: string; afkType: string | null; active: boolean }[]>; // per character index (FR-7, TR-9)
+    roster: RosterResult;                   // slots, missing lines, next character (FR-6 to FR-10)
+    visitHints: VisitHint[];                // TR-12
+  }
+
+  /** Position of an entry in the resolved list, or null when unlisted (ranks at +∞, FR-21). */
+  export function positionOf(list: ResolvedPriorityList, entryId: string): number | null;
+  ```
+
+  M4's `MetaPathInput` is `Pick<MetaPathResult, 'stage' | 'list' | 'pusher' | 'pushGoal' | 'roles'>` (M4 TR-3). M5 reads `positionOf`, `pusher?.index`, `roleOwnersOf` and `account.frontier` (M5 TR-9). M7 reads `stage.id`, `pusher` and `account.frontier.fights[pusher].hitChance` for its Bullseye gate (M7 FR-21). M8 reads `pusher` and the same frontier hit chance (M8 D3).
+
+- **TR-5** Stage rules **[from #26 §1.2, with the [changed] items marked]**. The rules are evaluated top to bottom and the **last** rule that holds wins. Worlds are mutually exclusive through `finishedWorlds`, so "last wins" only orders the bands inside a world. `maxLv` = max character level. "Subclassed" = `classes.fact.class-tree` tier is `subclass`, `elite` or `master` (defined positively; Journeyman is `base`, Maestro is `subclass`). A character with `classIndex` null counts as neither. "Dialogue > 0" in the band rules (`w1-late`, `w2-late`) means 0 < value < 9999: 9999 appears on characters that never pushed, so it is not band evidence. `finishedWorlds` keeps Toolbox's semantics (any truthy gatekeeper dialogue, 9999 included), and TR-6a cross-checks it.
 
   | Rule | Holds when |
   |---|---|
@@ -235,10 +270,10 @@ As a player in a Play Session, I want to be told when a character is due for its
   | `w2-late` | W1 finished, not W2, and (any `Djonnut` dialogue > 0 or maxLv ≥ 50) |
   | `w3-early` | W2 finished, not W3, and (Death Note level 0, or 3D Printer level 0, or nobody has completed Hoggindaz 5) |
   | `w3-mid` | W2 finished, not W3, Death Note ≥ 1, 3D Printer ≥ 1, and Hoggindaz 5 completed by someone |
-  | `w3-late` | W2 finished, not W3, and (Nullo unlocked (`saltsUnlocked[5]`) **or Galaxial Amethyst > 0**) **[changed]** |
+  | `w3-late` | W2 finished, not W3, and (Nullo unlocked (`salts[5].unlocked`) **or Galaxial Amethyst > 0**) **[changed]** |
   | `w4-entry` | W3 finished |
 
-  The [changed] W3-late clause closes #26 Q2: Toolbox `items.json` at `6c37e3d` names `Crystal3` = Galaxial_Amethyst (and `Crystal2` = Glacier_Quartz, `Crystal1` = Desert_Topaz). The thresholds 14 / 28 / 30 / 50 are not written into the rule code. The Stage entry references them by id (`gen.town-unlocks.stamps`, `.tasks`, `gen.obol-altar.level`, `gen.town-unlocks.post-office`). They live in game code (N.js), not in Toolbox's data files, so until M11 can generate them from exported parser constants they are **authored tier-2 facts** with the W1 dossier as Source and a patch tag (TR-7). Either way a change is one entry, visible in the Knowledge Base diff.
+  The [changed] W3-late clause closes #26 Q2: Toolbox `items.json` at `6c37e3d` names `Crystal3` = Galaxial_Amethyst (and `Crystal2` = Glacier_Quartz, `Crystal1` = Desert_Topaz). The thresholds 14 / 28 / 30 / 50 are not written into the rule code. The Stage entry references them by id (`metapath.fact.town-unlocks` (keys `stamps`, `tasks`, `post-office`) and `obols.fact.obol-altar` (key `level`)). They live in game code (N.js), not in Toolbox's data files, so until M11 can generate them from exported parser constants they are **authored tier-2 facts** with the W1 dossier as Source and a patch tag (TR-7). Either way a change is one entry, visible in the Knowledge Base diff.
 
 - **TR-6** Certainty (FR-3). Each rule is written as predicates over the fields it reads (e.g. "Death Note ≥ 1"). A predicate over an unknown field is unknown. The engine enumerates every true/false assignment of the unknown predicates (at most 2^k, k ≤ 4 in practice), collects the set of Stages they produce, and takes the earliest. When the set has more than one Stage, certainty is `partial` and the unknown fields go into `evidence` with `known: false`. A `next.needs` line that depends on an unknown predicate reads "Check <thing> (couldn't read it)" instead of an instruction.
 - **TR-6a** `finishedWorlds` cross-check (FR-3). It must be monotonic (World N finished implies every earlier world finished), and evidence of a later world must agree with it: kills on a map of world N+1, or a completed gate quest of world N+1, imply world N is finished. On a contradiction the Stage takes the later world the evidence supports, certainty is `partial`, and the conflict goes into `evidence`. Open verification before build: whether talking to a gatekeeper before handing in its crystal already sets its dialogue > 0 (all three stand in their own world's town). The first W1 save checked in game is the falsifier.
@@ -247,47 +282,55 @@ As a player in a Play Session, I want to be told when a character is due for its
 
   | id | type | Contents |
   |---|---|---|
-  | `metapath.stages` | meta-path | the 10 Stages: label, rule id, the generated facts each threshold references, the `next.needs` text templates. Detector `stage.detect` |
-  | `metapath.slot-plan` | meta-path | slots 1–11 with class line and status (TR-8) |
-  | `metapath.role.<class-line>` | meta-path | one per line: Roles, `activeFrom` Stage, owned activities, Visit Order hints (TR-9) |
-  | `metapath.pusher-rule` | meta-path | the TR-10 rule and its incumbent margin (D1), both pusher-class Sources |
-  | `metapath.gate-chain.w<N>` | meta-path | the ordered steps per world (TR-11), referencing generated quest, boss and crystal facts |
-  | `metapath.goal.push` | goal | the push Goal; Detector `metapath.push-step` |
-  | `metapath.goal.subclass` | goal | Detector `metapath.subclass-pending` |
-  | `metapath.goal.world-tutorial.w3` / `.w4` | goal | Hoggindaz 1–5 / Gobo 1–5; Detector `metapath.world-tutorial` |
-  | `metapath.goal.elite` | goal | Detector `metapath.elite-pending` |
-  | `metapath.goal.next-character` | goal | Detector `metapath.roster` (fires only when a slot is open) |
-  | `priority.frame` | priority-list | the shared positions 1–3 (TR-13) |
-  | `priority.<stage>` | priority-list | one per Stage, positions from 4 (leverage-model §3.1–3.10, as corrected by PV) |
+  | id | type | Contents |
+  |---|---|---|
+  | `metapath.metapath.stages` | metapath (`part: stages`) | the 10 Stages: label, rule id, the fact tables each threshold references, the `next.needs` text templates. Engine Detector `metapath/stage` |
+  | `metapath.metapath.slot-plan` | metapath (`part: slots`) | slots 1–11 with class line and status (TR-8) |
+  | `metapath.metapath.role-<class-line>` | metapath (`part: roles`) | one per line: Roles, `activeFrom` Stage, owned activities, Visit Order hints (TR-9) |
+  | `metapath.metapath.pusher-rule` | metapath (`part: pusher-rule`) | the TR-10 rule and its incumbent margin (D1), both pusher-class Sources |
+  | `metapath.metapath.gate-chain-w<N>` | metapath (`part: gate-chain`) | the ordered steps per world (TR-11), referencing generated quest, boss and crystal facts |
+  | `metapath.goal.push` | goal | the push Goal; Detector `metapath/push-step` |
+  | `metapath.goal.subclass` | goal | Detector `metapath/subclass-pending` |
+  | `metapath.goal.world-tutorial-w3` / `-w4` | goal | Hoggindaz 1–5 / Gobo 1–5; Detector `metapath/world-tutorial` |
+  | `metapath.goal.elite` | goal | Detector `metapath/elite-pending` |
+  | `metapath.goal.next-character` | goal | Detector `metapath/roster` (fires only when a slot is open) |
+  | `metapath.priority.frame` | priority (`list: goals` frame) | the shared positions 1–3 (TR-13) |
+  | `metapath.priority.never-skip` | priority (`list: block`) | the position-1 block (TR-13) |
+  | `metapath.priority.free-value-fills` | priority (`list: block`) | the position-3 block (TR-13) |
+  | `metapath.priority.<stage>` | priority (`list: goals`) | one per Stage, positions from 4 (leverage-model §3.1–3.10, as corrected by PV and TR-13) |
 
-  **Generated** entries (game facts from Toolbox data at each parser re-sync; M11 builds the generator):
+  Entry types and ids follow M11 (TR-2, FR-4): types `metapath` and `priority`, ids `<system>.<type>.<slug>`. The `part` values `stages`, `pusher-rule` and `gate-chain`, and the role fields `activeFrom`, `owns` and `visitHint`, are M11 schema additions (M11 TR-2b).
+
+  **Generated** fact tables (game facts from Toolbox data at each parser re-sync; M11 builds the generator). They are M11 fact tables (`<system>.fact.<slug>`), not entries:
 
   | id | From (Toolbox at the pin) |
   |---|---|
-  | `gen.class-tree` | classIndex → class name, line, tier (base / subclass / elite / master), swap sibling (`classPromotions.json`; the N.js `ClassSwap` pairs per the character-builds dossier) |
-  | `gen.family-slots` | family level per character slot 2–11. **Authored tier 2 for now** (wiki Character_Creation rev 2026-10-07 and Toolbox's `newCharacters` alert in `utility/dashboard/account.js`), until a data field is found; kept under this id so the switch to generated changes no reference |
-  | `gen.world-gates` | gatekeeper NPC per world (hard-coded in `quests.ts` `isWorldFinished`, so generated from that parser constant once M11 exports it; authored tier 2 until then), the crystal item per world gate (`items.json` Crystal1–3), the boss and boss map per world |
-  | `gen.world-routes` | per world, the **route path**: the shortest door-by-door path through `shared-data.json` `mapPortalDestinations` from the world's town to its boss map, each step `{ mapIndex, door, requirement }` from `mapPortals[map][door]`. Side branches (W1 Poopy Sewers, Rats Nest, The Base of the Bark, Hollowed Trunk; W3 Crystal Basecamp; W2 Djonnuttown) are not on the path. Requires M11's `portals` generator to read `mapPortalDestinations` |
-  | `gen.gate-quests` | quest ids, in-game names and step requirements for Dog Bone, Djonnut, Hoggindaz, Bellows and Gobo (`quests.json`) |
-  | `gen.town-unlocks`, `gen.obol-altar` | the highest-class-level gates 14 / 18 / 22 / 28 / 50 and 30 (the W1 dossier's N.js thresholds). Not in Toolbox data: authored tier 2 until M11 can read them from parser constants |
+  | `classes.fact.class-tree` | classIndex → class name, line, tier (base / subclass / elite / master), swap sibling (`classPromotions.json`; the N.js `ClassSwap` pairs per the character-builds dossier) |
+  | `metapath.fact.family-slots` | family level per character slot 2–11. **Authored tier 2 for now** (wiki Character_Creation rev 2026-10-07 and Toolbox's `newCharacters` alert in `utility/dashboard/account.js`), until a data field is found; kept under this id so the switch to generated changes no reference |
+  | `metapath.fact.world-gates` | gatekeeper NPC per world (hard-coded in `quests.ts` `isWorldFinished`, so generated from that parser constant once M11 exports it; authored tier 2 until then), the crystal item per world gate (`items.json` Crystal1–3), the boss and boss map per world |
+  | `portals.fact.world-routes` | per world, the **route path**: the shortest door-by-door path through `shared-data.json` `mapPortalDestinations` from the world's town to its boss map, each step `{ mapIndex, door, requirement }` from `mapPortals[map][door]`. Side branches (W1 Poopy Sewers, Rats Nest, The Base of the Bark, Hollowed Trunk; W3 Crystal Basecamp; W2 Djonnuttown) are not on the path. Requires M11's `portals` generator to read `mapPortalDestinations` |
+  | `quests.fact.gate-quests` | quest ids, in-game names and step requirements for Dog Bone, Djonnut, Hoggindaz, Bellows and Gobo (`quests.json`) |
+  | `metapath.fact.town-unlocks`, `obols.fact.obol-altar` | the highest-class-level gates 14 / 18 / 22 / 28 / 50 and 30 (the W1 dossier's N.js thresholds). Not in Toolbox data: authored tier 2 until M11 can read them from parser constants |
 
-  Example authored entry (shape only; field names follow #11 item 4):
+  Example authored entry (shape only; field names follow M11 TR-2 with the TR-2b role additions):
 
   ```yaml
-  - id: metapath.role.squire
-    system: meta-path
-    type: meta-path
+  - id: metapath.metapath.role-squire
+    system: metapath
+    type: metapath
+    part: roles
+    title: Squire line Roles
     text: "{class} · Construction builder"
     why: "Squires add the most build rate on the Cog Board and run Refinery Throttle."
-    appliesTo: { stages: [W1-early, W1-mid, W1-late, W2-early, W2-mid, W2-late, W3-early, W3-mid, W3-late, W4-entry], classes: [Squire, Divine_Knight, Royal_Guardian] }
+    appliesTo: { stages: all, classes: [Squire] }   # matches Divine_Knight and Royal_Guardian too (M11 AppliesTo)
     roles:
-      - { id: construction-builder, activeFrom: W3-early, owns: [parallel:cog-seat] }
-      - { id: refinery-throttle, activeFrom: W3-early, visitHint: cooldown }
-      - { id: pusher-candidate, activeFrom: W1-early }
+      - { id: construction-builder, classLine: Squire, does: "Builds on the Cog Board", activeFrom: W3-early, owns: [parallel:cog] }
+      - { id: refinery-throttle, classLine: Squire, does: "Runs Refinery Throttle", activeFrom: W3-early, visitHint: cooldown }
+      - { id: pusher-candidate, classLine: Squire, does: "Can push portals", activeFrom: W1-early }
     confidence: H
     status: active
     sources:
-      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", tier: 3, verified: 2026-10-17, gameVersion: 2.3.540, note: "PV 5.6, 2 Squire builders confirmed" }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md", title: "Priority verification, PV 5.6", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, note: "PV 5.6, 2 Squire builders confirmed" }
   ```
 
 - **TR-8** Slot plan **[from #26 §4.1 and the PV adjudication]**:
@@ -301,17 +344,17 @@ As a player in a Play Session, I want to be told when a character is due for its
   | 11 | Beginner, left blank | confirmed in practice |
   | never | 2nd Siege Breaker, 2nd ES (deprecated), 2nd Voidwalker | confirmed |
 
-  Assignment (FR-6) reads `classIndex` through `gen.class-tree`, never a template. Ties inside a line go to the higher level, then the lower character index.
+  Assignment (FR-6) reads `classIndex` through `classes.fact.class-tree`, never a template. Ties inside a line go to the higher level, then the lower character index.
 
 - **TR-9** Roles **[from #26 §4.2]**: Barbarian line (pusher candidate, AFK fighting, Fishing; BB Cooking from W4); Squire line (pusher candidate, Construction builder, Refinery Throttle; DK Rift 8); Bowman line (Catching, Archer-line Smithing); Hunter line (Trapping with Eagle Eye, Tower Defence; BM Breeding); Shaman line (Alchemy brewer; BC Lab split point); Wizard line (Worship with Charge Syphon, prayer slots, Choppin; ES pusher candidate from W4); Journeyman line (Maestro: 3D Printer sample size, Printer Go Brrr). `activeFrom`: Alchemy W2-early; Catching W2-early; Construction, Refinery, Worship, Trapping and prayer slots W3-early; Lab, Cooking and Breeding W4-entry. A Role is attached to the line's highest-level character, plus the 2nd-Squire Role to the slot-8 character.
 
 - **TR-10** Pusher rule **[changed: #26 says "highest `finalKillsPerHour` on the next unopened map" and leaves "next map" undefined]**:
-  1. **Frontier:** the first door on the route path `gen.world-routes[currentWorld]` that no character has cleared. If every door on the path is cleared (the boss-chain part of a world), use the path door with the highest requirement (`kind: 'hardest-cleared'`).
+  1. **Frontier:** the first door on the route path `portals.fact.world-routes[currentWorld]` that no character has cleared. If every door on the path is cleared (the boss-chain part of a world), use the path door with the highest requirement (`kind: 'hardest-cleared'`).
   2. **Candidates:** characters with level > 0, `finalKillsPerHour > 0` on the frontier clone, and **`reachesFrontier`**: they have cleared every path door before the frontier door (portal progress is per character, `KillsLeft2Advance`). Their current AFK type does not matter: the clone swaps `afkType`.
   3. **Incumbent:** the candidate with the most path doors cleared. Ties go to more kills on the frontier door, then the higher level, then the lower index (never to kill rate, so the incumbent is not just the fastest).
   4. **Pusher:** let C be the candidate with the highest `finalKillsPerHour` (ties: higher level, then lower index). The pusher is C if `C.finalKillsPerHour ≥ 1.25 × incumbent.finalKillsPerHour`, otherwise the incumbent (D1).
 
-  An unreachable character that would be much faster is not offered as "catch up first"; whether it should be is open (Red-team F2).
+  An unreachable character that would be much faster is never the pusher and is not offered as "catch up first" in the MVP; a "catch up" Goal can come later through M5 (Final rulings F2).
 
   This needs no save history, so it stays a pure function of one Account State.
 
@@ -330,7 +373,7 @@ As a player in a Play Session, I want to be told when a character is due for its
   - crystal: count > 0;
   - gatekeeper: the world is finished.
 
-  The boss step's Next Action states how many keys of that boss the account holds (M6 owns the key Checks). The step text comes from `gen.gate-quests` names, never hand-copied.
+  The boss step's Next Action states how many keys of that boss the account holds (M6 owns the key Checks). The step text comes from `quests.fact.gate-quests` names, never hand-copied.
 
 - **TR-12** Visit Order hints (FR-24):
 
@@ -344,12 +387,50 @@ As a player in a Play Session, I want to be told when a character is due for its
   }
   ```
 
-- **TR-13** Shared frame **[from #26 §3.0]**, as the `priority.frame` entry:
-  - **position 1, never-skip:** the M6 entries 1a–1i (keys; 1b daily unbanked claims, now only the Random Event and Darts and Hoops on cooldown; daily Alchemy buys, capped stockpiles, weekly, salts, Death Note Lv 1, Equinox bar, W4 shop dailies). Skill-minigame plays, which #26 drafted into 1b, are **not** here (D4, superseded by M6-D4): M6's `minigames.daily-plays` fires only when the plays would be lost before the Expected Return and a highscore Milestone is open, and M10 shows it under "If you have time", outside the ranked list;
-  - **position 2:** `metapath.goal.push`;
-  - **position 3, free-value fills:** the M6 and M8 entries 3a–3h (obols, cards, big bubbles, tools, second preset, constellation, Parallel Slot fills, unspent points).
+- **TR-13** Shared frame **[from #26 §3.0, as amended by M3, M6, M8 and M9]**. M2 owns every list file; each referenced entry and its Detector belong to its module. The frame is the entry `metapath.priority.frame`, built from two shared blocks:
+  - **position 1, never-skip** (`metapath.priority.never-skip`, `list: block`). Each item fires only once its System is unlocked:
+    - 1a keys and tickets: M6 `boss-keys.check.collect`, `colosseum.check.collect-tickets` (by urgency, below);
+    - 1b daily unbanked claims: M6 `minigames.check.darts-play`, `minigames.check.hoops-play` (seconds-long claims stay at position 1), `pets.check.free-pull`, `minigames.check.spiketrap`. The Random Event is **Not covered yet** (M6 D6). Skill-minigame plays are **not** in 1b (D4, superseded by M6 D4 and the Final rulings D4 note): `minigames.check.daily-plays` is exempt from by-urgency and always sits at position 3 as a `nice` Goal, plus its "If you have time" Active Play entry (M6 D4). It fires only when the plays would be lost before the Expected Return and a highscore Milestone is open;
+    - 1c daily Alchemy buys: M6 `alchemy-vials.check.daily-attempts`, by urgency (position 3 until the daily reset falls before the Expected Return, M6 D5). Liquid Shop dailies, the Bargain Tag and cheap daily obols are **Not covered yet** (M6 D6);
+    - 1d capped stockpiles: liquids at cap and Arcade balls are **M3 account blockers** (M3 FR-24, FR-25), never list items. They lead the Account section above every listed item (M10 D9). Poppy is M6 `poppy.check.open`, `banked`, at position 3;
+    - 1e weekly items: **Not covered yet** (M6 D6);
+    - 1f salts: M6 `refinery.check.salt-off` (switch an unlocked salt on, or get the fuel it lacks). Manual refining and rank-ups are **Not covered yet** (M6 Final rulings RT1);
+    - 1g Death Note Lv 1: M6 `death-note.check.build`;
+    - 1h Equinox bar: **Not covered yet** (M6 D6);
+    - 1i W4 shop dailies: no MVP owner, so **Not covered yet** (M6 Final rulings RT1: unowned leftovers go there);
+    - also by urgency: M6 `post-office.check.daily-orders` (on the Post Office refresh) and `pets.check.mart-gems` (gated off until its unlock is verified, M6 Final rulings).
+  - **position 2:** `metapath.goal.push`.
+  - **position 3, free-value fills** (`metapath.priority.free-value-fills`, `list: block`):
+    - 3a obols: M8 `obols.check.stored`, which fires only once the Obol Altar quest (`Obol_Altar1`) is done on any character (M8 FR-20). Before that, M8 `obols.check.altar` (the hand-in) sits here instead;
+    - 3b cards: M8 `cards.check.empty-slots`, `cards.check.no-set`, `cards.check.set-mismatch`, `cards.check.blunder-50`, `cards.check.passive-slot`, `cards.check.preset-mismatch`;
+    - 3c big bubbles: M6 `alchemy-bubbles.check.fill-slot`, `alchemy-bubbles.check.wrong-fit`;
+    - 3d tools: **Not covered yet** (no MVP owner; M6 §2 and M8 disclaim it; M4's `skills.contribution.tool` is a Purpose line, not this fill);
+    - 3e second talent preset: M9 `talent-presets.check.empty`, `talent-presets.check.incomplete`;
+    - 3f constellation and star signs: **Not covered yet** (no MVP owner);
+    - 3g Parallel Slot fills: M3 `printer.check.sample-blank` and `construction.check.cog-seat-free` (Next Actions). The cauldron and trap Checks are M3 Verdict blockers, which always rank first and are never list items;
+    - 3h unspent points: M6 `anvil.check.spend-points`, `post-office.check.spend-boxes`, `merit-shop.check.spend-w1` … `-w4`, `task-unlocks.check.spend`; M9 `talent-presets.check.behind`;
+    - 3i (new, M8 D5; 3c was taken) stamps you can take now: M8 `stamps.check.shop-now`, `stamps.check.handin-now`, `stamps.check.held-now`;
+    - every other M6 Check whose finding is `banked`: by-urgency items while `banked`, brew (`alchemy-bubbles.check.spend-brew`), `gem-shop.check.unspent`, the Darts and Hoops spend and stock lines, `post-office.check.unlock`, `poppy.check.open`, and `minigames.check.daily-plays` (always here);
+    - M9 core next steps (`talents.check.next-step` with `core`) and reset suggestions (`talent-resets.check.reset`), **only while** that tab's unspent-points lower bound (M9 TR-7) is above 0 or M9 FR-12a's level-up signal fires; otherwise they rank at the last position (M9 D3, M9 Final rulings RT1, M9 TR-11). W1-early's old position 7 ("Talent core") is replaced by this position-3 item.
 
-  A Stage list has the shape `{ stage, extends: priority.frame, positions: [{ pos: 4, entries: [...] }, ...] }`. The same entry may appear at only one position per list (a CI error otherwise). The Meta Path Goals sit at authored positions in **every** Stage list their `appliesTo` names, so none ever falls to +∞ (FR-21): subclass at position 4 from W2-early to W4-entry; the W3 tutorial at position 4 from W3-early to W3-late; next-character at the last position of each list from W2-late on (#26's W2-late 9); elite at W4-entry position 4. #26's "elite at W4-entry 2, tied with Gobo" meant the second item of the W4 section; frame position 2 is the push, which now carries Gobo (TR-11), and Stage lists start at 4.
+  **List shape and resolution** (M11 TR-2 `priority` entries):
+  - A Stage list is `{ id: metapath.priority.<stage>, list: goals, stage, tiers: [...] }`. Tier 1 is `[{ include: metapath.priority.never-skip }]`, tier 2 `[metapath.goal.push]`, tier 3 `[{ include: metapath.priority.free-value-fills }]`, and Stage items start at tier 4. Tier index = position.
+  - **An `include` is one position.** All of a block's items join the position where the block is included, as a tie ordered by TR-14's later steps. A block never shifts the positions after it.
+  - **By urgency (M6 TR-9).** An entry whose YAML says `priority: { frame: by-urgency }` is listed once, in the never-skip block, as `{ ref, byUrgency: true }`. The engine ranks it at position 1 while its finding's urgency is `losing-now` or `lost-before-return`, and at position 3 when it is `banked` (TR-14 `framePosition`). M11's "at most one position per list" CI rule accepts these items. `minigames.check.daily-plays` is never by urgency.
+  - **Carry-forward (M8 D5; M7's "earlier bands' unfinished items carry forward").** A tier item may set `carryForward: true`. When its entry is not in the current Stage list, appears in an earlier Stage list, and its `appliesTo` still holds, it ranks after the current list's last authored position, before unlisted entries. M8's `stamps.check.quest-toward` and `stamps.check.activeplay-*` carry forward this way.
+  - **The last authored position** of every Stage list is one tie: Class XP (`classes.goal.level`, M5 D2), "level this skill" (`skills.goal.door-*`, M5 D2, M4 TR-4), M9 non-core next steps (M9 D3), M9 core steps demoted by the RT1 condition above, and, from W2-late on, the next-character Goal (`metapath.goal.next-character`, #26's W2-late 9).
+  - **Meta Path Goals** sit at authored positions in **every** Stage list their `appliesTo` names, so none ever falls to +∞ (FR-21): subclass at position 4 from W2-early to W4-entry; the W3 tutorial at position 4 from W3-early to W3-late; elite at W4-entry position 4; next-character at the last position. #26's "elite at W4-entry 2, tied with Gobo" meant the second item of the W4 section; frame position 2 is the push, which now carries Gobo (TR-11), and Stage lists start at 4.
+  - **Other Stage items** from position 4, from leverage-model §3.1–3.10 as corrected by PV: M8's `stamps.goal.collect` at W1-mid 5 and W2-early 11 (M8 TR-4); the Spend Plan's one Account Goal `spend.goal.plan` at each Stage list's first coin-sink position (the first position #26 gives the Vault, stamps, bribes or statues in that Stage, authored per list; M7 owns the order inside the plan); M4's Contribution-backed Goals at the positions M4 TR-4 names.
+  - The same entry may appear at only one position per list (a CI error otherwise), by-urgency items excepted.
+
+  **Corrections to the Leverage model** (`research/leverage-model`, #26), recorded here because M2 owns the lists:
+  - §1.1 reads quest completion from `progress[]`; it is `completed[]` (TR-3).
+  - **The W3 obol row is gated by the Obol Altar quest.** On the W3-early fixture nobody has done `Obol_Altar1`, so the worked example's "4 obols are unequipped" (§5.2, fill 3a) is not an equip action yet: the action is the altar hand-in (a Bob Joe Pickle from the YumYum Grotto shop), and 3a fires only after it (M8 FR-20, M8 red-team #1).
+  - Stamps you can take now are the new fill 3i; 3c stays big bubbles (M8 D5).
+  - Skill-minigame plays leave 1b for position 3 as a `nice` Goal plus "If you have time" (D4, M6 D4).
+  - 1d's Arcade balls and liquids at cap are M3 account blockers that lead the Account section, not list items (M3 D3, M10 D9).
+  - Class XP sits at the bottom of every list (M5 D2), not "unlisted".
+  - 1e weekly items, 1h Equinox, 1i W4 shop dailies, 3d tools and 3f constellations have no MVP owner and show under "Not covered yet" (M6 D6, M6 Final rulings RT1).
 
 - **TR-14** Comparator, a total order (FR-19):
 
@@ -362,22 +443,29 @@ As a player in a Play Session, I want to be told when a character is due for its
     cost: { unit: 'coins' | 'gems' | 'hours' | 'none'; amount: number } | null;
     milestoneEtaSeconds: number | null;
     goalsServed: number;               // Contributions count for its activity (M4)
+    /** From an M6 finding (M11 CheckFinding.urgency); null for every other module. */
+    urgency: 'losing-now' | 'lost-before-return' | 'banked' | null;
+    /** Epoch ms when the value starts to be lost (M6 TR-6); null when none. */
+    deadline: number | null;
+    /** By-urgency items only (TR-13): 1 while urgency is losing-now or lost-before-return, else 3. Replaces the listed position. */
+    framePosition: 1 | 3 | null;
   }
   export function compareGoals(a: Rankable, b: Rankable, list: ResolvedPriorityList): number;
   ```
 
   The order is:
   1. `blocker` first;
-  2. lower list position (unlisted = +∞);
-  3. fresh before Stale;
-  4. cheaper first: by the fixed unit order `none` < `hours` < `coins` < `gems` (null cost after `gems`), then by amount within a unit. This keeps the order transitive whatever the emit order;
-  5. smaller `milestoneEtaSeconds` first (null last);
-  6. more `goalsServed` first;
-  7. `entryId`, then the subject key, lexicographically.
+  2. lower list position (`framePosition` for by-urgency items; carried-forward items right after `list.lastPosition`; unlisted = +∞);
+  3. within the same position, urgency: `losing-now` < `lost-before-return` < `banked` < null; then `deadline`, soonest first (null last). So Spiketrap with 13 minutes left ranks above a Darts play that can wait (M6 TR-9);
+  4. fresh before Stale;
+  5. cheaper first: by the fixed unit order `none` < `hours` < `coins` < `gems` (null cost after `gems`), then by amount within a unit. This keeps the order transitive whatever the emit order. An M6 entry's authored `effortSeconds` enters as `{ unit: 'hours', amount: effortSeconds / 3600 }`;
+  6. smaller `milestoneEtaSeconds` first (null last);
+  7. more `goalsServed` first;
+  8. `entryId`, then the subject key, lexicographically.
 
   The contested rule (FR-20) is applied after sorting, as a single move.
 
-  This supersedes the "blockers, compounding, spendables, nice" order of #10 item 5: #11 item 6 is the later, more specific ruling. `category` stays a display label for M10.
+  This supersedes the "blockers, compounding, spendables, nice" order of #10 item 5: #11 item 6 is the later, more specific ruling, and M6 D1 binds every module to it. `category` stays a display label for M10, and M11 TR-12 defers to this comparator.
 
 ### Performance
 
@@ -386,7 +474,7 @@ As a player in a Play Session, I want to be told when a character is due for its
 
 ### Security and privacy
 
-- **TR-17** M2 output identifies characters only by `characterIndex`. Class and level are the only character facts in Stage evidence. The Stage id is the only M2 value in `reportContext` (M1 TR-22) and in M13's context. `npcDialog` is narrowed to `GateNpc` in the adapter, so no other NPC data enters the Account State.
+- **TR-17** M2 output identifies characters only by `characterIndex`. Class and level are the only character facts in Stage evidence. The Stage id is the only M2 value in M13's `SuggestionContext` (M13 TR-3, ADR 0008). `npcDialog` is narrowed to `GateNpc` in the adapter, so no other NPC data enters the Account State.
 - **TR-18** Knowledge Base YAML is data. It is compiled at build time, and no entry can carry code. Detector ids resolve against a static registry, and an unknown id fails CI (M11).
 
 ### Tests
@@ -395,7 +483,9 @@ As a player in a Play Session, I want to be told when a character is due for its
   - a rule-table test per Stage boundary on synthetic Account States (each rule's true/false edge, including a Beginner at level 10 who never took a class, a character with `classIndex` null, a Journeyman vs a Maestro, and a 9999 Djonnut dialogue, which must **not** trigger `w2-late` on its own);
   - the TR-6 enumeration with two unknown predicates, and the TR-6a contradiction cases (World 2 finished but World 1 not; kills on a W2 map with World 1 not finished);
   - the route path on a synthetic W1 account (S2), the reachability rule, and the 1.25× boundary exactly (equal switches, just below keeps the incumbent);
-  - comparator transitivity on mixed cost units (FR-19);
+  - comparator transitivity on mixed cost units (FR-19), and the urgency and deadline step (a `lost-before-return` item with a 13-minute deadline ranks above one with none);
+  - list resolution (TR-13): an `include` yields one position; a by-urgency item moves between positions 1 and 3; `minigames.check.daily-plays` never reaches position 1; a carried-forward item ranks after `lastPosition`; an M9 core step with a lower bound of 0 and no level-up signal lands at the last position;
+  - the Final rulings F17 case: a synthetic account with two Squires and no Barbarian gets the Swap Token Goal on the lower-level Squire;
   - the S1–S7 assertions on both private fixtures (local only) and on the scrubbed W2 save (CI);
   - the pusher identity check (TR-2);
   - a determinism test (FR-19);
@@ -427,32 +517,34 @@ As a player in a Play Session, I want to be told when a character is due for its
 | **Pusher also holds the Construction Role** (W3 fixture: Squire 85) | No conflict: the cog seat is a Parallel Slot and coexists with fighting (glossary). |
 | **Two characters tie on everything** | TR-10 step 4, then TR-14 step 7: deterministic by level, then index. |
 | **Account past W4-entry, or a W5–W7 public save** | Treated as `W4-entry` with `coverage: 'beyond'` and a "Worlds 5–7" entry in M10's "Not covered yet" section (D2). Only Verdict blockers and positions 1 and 3 rank. |
-| **Duplicate of a line whose swap sibling is missing** (e.g. two Barbarians and no Squire) | The only case where the Swap Token is suggested (FR-10), as a Goal at W2-late or later with the sibling rule shown in its why. A duplicate Barbarian on an account that already has a Squire gets no token suggestion (the earlier wording here contradicted FR-10; FR-10 wins). Two Squires and no Barbarian: open question, see Red-team F17; until ruled, no token suggestion for the slot-8 Squire. |
+| **Duplicate of a line whose swap sibling is missing** (e.g. two Barbarians and no Squire) | The only case where the Swap Token is suggested (FR-10), as a Goal at W2-late or later with the sibling rule shown in its why. A duplicate Barbarian on an account that already has a Squire gets no token suggestion (the earlier wording here contradicted FR-10; FR-10 wins). Two Squires and no Barbarian: the token is recommended to turn the 2nd Squire into a Barbarian (FR-10, Final rulings F17). |
 | **11 characters** | Slot 11 is Beginner by plan. An 11th character with a class is "off-path" with no advice, unless it is a Journeyman or Squire filling an empty plan slot. |
 
 ## 7. Dependencies
 
 | Module | M2 needs from it | M2 gives it |
 |---|---|---|
-| **M1 Sync & Account State** | The TR-3 fields through its TR-11 growth process. The frontier step in the parse worker (TR-2), after the clean parse, before `postMessage`. `diagnostics.failedSections` and `isKnown()` for certainty. | `stage.id` for `reportContext`. |
-| **M11 Knowledge tooling** | The YAML schema with the `meta-path` and `priority-list` entry types. The generators for the TR-7 generated entries, which M11's MVP list does not have yet: `world-routes` (its `portals` generator must read `mapPortalDestinations`), `world-gates`, `gate-quests`, `class-tree`, and exported parser constants for `town-unlocks`, `obol-altar` and the gatekeepers. Until then those are authored tier-2 entries. The CI checks (unknown Detector id, an entry at two positions, `appliesTo` without a list reference, every entry has a Source). | Entry ids and Detector ids to register. |
-| **M10 Now screen UI** | Where to show the Stage header label and its `next.needs` tap (D5), the push Goal, roster notes the "Worlds 5–7" entry in its "Not covered yet" section (D2), and a new banner kind "Can't tell where your account is on the route" (FR-3; M10's TR-11 banner order does not have it yet). | `EngineResult.stage`, the ranked order through `compareGoals`, Account-section notes. |
+| **M1 Sync & Account State** | The TR-3 fields through its TR-11 growth process. The frontier step in the parse worker (TR-2), after the clean parse, before `postMessage`. `diagnostics.failedSections` and `isKnown()` for certainty. | `stage.id` for the M13 `SuggestionContext` (M1's `accountReportFields` does not carry it). |
+| **M11 Knowledge tooling** | The `metapath` and `priority` entry types with M11 TR-2b's additions (`part: stages | pusher-rule | gate-chain`, role fields, `include` as one position, `byUrgency`, `carryForward`); fact tables (`<system>.fact.<slug>`); engine Detectors (`kind: 'engine'`). The generators for the TR-7 fact tables: `portals` reading `mapPortalDestinations` (`portals.fact.world-routes`), `world-gates`, `gate-quests`, `class-tree`, and exported parser constants for town unlocks, the Obol Altar level and the gatekeepers; until then those are authored tier-2 fact tables. The CI checks (unknown Detector id, an entry at two positions with the by-urgency exception, a warning when `appliesTo` names a Stage whose list doesn't reference the entry, every entry has a Source). All now carried in M11. | Entry ids and Detector ids to register. |
+| **M10 Now screen UI** | Where to show the Stage header label and its `next.needs` tap (D5), the push Goal, roster notes, the "Worlds 5–7" entry in its "Not covered yet" section (D2), and a new banner kind "Can't tell where your account is on the route" (FR-3). | `EngineResult.stage`, the ranked order through `compareGoals`, Account-section notes. |
 | **M13 Suggestions** | — | the Stage id in `SuggestionContext`. |
-| **M3 AFK Safety** | Which Goals are Verdict blockers (category `blocker`). | Stage, so blockers can filter by `appliesTo`. |
-| **M4 Purpose & Milestones** | `goalsServed` per activity for tie-break 6. | Stage, Roles, the pusher (the push Goal is a Purpose for the pusher). |
-| **M5 Higher-leverage options** | — | `roleOwnersOf`, the pusher, `account.frontier.fights` (it may reuse them before calling `what-if`). |
-| **M6 Unspent & idle** | The entries behind frame positions 1 and 3. | Stage-gated list positions. |
-| **M7 Spend Plan, M8 Collections, M9 Builds** | Their entries at positions 4+. | Stage, the list, the comparator. |
-| **Engine core** | Visit Order computation that consumes `VisitHint`s. | `visitHints`. |
+| **M3 AFK Safety** | Which Goals are Verdict blockers (category `blocker`); its Parallel Slot Next Actions at 3g. | Stage, so blockers can filter by `appliesTo`. |
+| **M4 Purpose & Milestones** | `goalsServed` per activity for tie-break 7. | `MetaPathResult` (TR-4a): Stage, the list, Roles, the pusher and the push Goal as plain data (M4's change request, done). M4's `MetaPathInput` is a `Pick` of it. |
+| **M5 Higher-leverage options** | Class XP and "level this skill" at the bottom of every list (M5 D2, TR-13). | `MetaPathResult` (`positionOf`, `pusher`), `roleOwnersOf`, `account.frontier.fights` (it may reuse them before calling `what-if`). |
+| **M6 Unspent & idle** | The entries behind frame positions 1 and 3. Its three amendments are applied: `Rankable` carries urgency, deadline and `framePosition`, and `effortSeconds` maps to cost (TR-14); by-urgency items are accepted in the never-skip block (TR-13); vial attempts follow M6 D5 (S6) and skill-minigame plays sit at position 3, never position 1 (Final rulings D4 note, TR-13). | Stage-gated list positions. |
+| **M7 Spend Plan** | `spend.goal.plan` and its Spend lists (M7 TR-6). | `MetaPathResult` (`stage.id`, `pusher`) and `account.frontier.fights[pusher].hitChance` for the Bullseye gate (M7 FR-21). |
+| **M8 Collections** | Its Goals at 3a, 3b, 3i and Stage positions; the carry-forward rule (M8 D5, now in TR-13); the Obol Altar correction to the Leverage model (TR-13). | Stage, the list, the comparator, `pusher` and the frontier hit chance (M8 D3). |
+| **M9 Builds** | Its placement change request (M9 TR-11), applied in TR-13 with the Final rulings RT1 condition. | Stage, `coverage`, Roles and `activeFrom`. |
+| **Engine core** (built with M10) | Visit Order computation that consumes `VisitHint`s. | `visitHints`. |
 
 ## 8. Decisions
 
 Ruled by Yasser on 2026-10-17 (PR #48): every recommendation accepted as written, with D4 superseded by M6-D4.
 
-- **D1. Pusher stickiness: keep the incumbent unless a challenger has at least 25% more final kills/h on the frontier map.** Why: on maps everyone one-shots, Toolbox's kill rates sit within a few percent (the W2 fixture's Djonnuttown: four characters within 6%, 874–929/h), so a pure argmax would flip the pusher between saves on noise and tell the player to move portal progress to another character. 25% is far above that noise and leaves both fixtures' real choices unchanged (Squire 85 at 1,065 vs 472/h; Barbarian 60 at 1,680 vs 1,496/h). The margin is an authored number in `metapath.pusher-rule`, tunable in one place. Applied in TR-10.
+- **D1. Pusher stickiness: keep the incumbent unless a challenger has at least 25% more final kills/h on the frontier map.** Why: on maps everyone one-shots, Toolbox's kill rates sit within a few percent (the W2 fixture's Djonnuttown: four characters within 6%, 874–929/h), so a pure argmax would flip the pusher between saves on noise and tell the player to move portal progress to another character. 25% is far above that noise and leaves both fixtures' real choices unchanged (Squire 85 at 1,065 vs 472/h; Barbarian 60 at 1,680 vs 1,496/h). The margin is an authored number in `metapath.metapath.pusher-rule`, tunable in one place. Applied in TR-10.
 - **D2. Accounts past W4-entry are treated as W4-entry with a "Not covered yet: Worlds 5–7" notice** (an entry in M10's "Not covered yet" section, Red-team F19). They still get Stage-independent advice (Verdict blockers, position-1 never-skip, position-3 free-value fills), but no push, next-character, elite or world-tutorial Goal and no position-4+ System items. Why: it keeps the 10 Stage values the glossary and #26 define, needs no new list, still helps W5–W7 saves with the time-gated and empty-slot items, and is honest about the gap through #11 item 14's "Not covered yet". Applied in FR-5, S1, §6.
 - **D3. W2-early is "maxLv < 30 or no character is subclassed yet".** New base-class characters are handled by the per-character subclass Goal at every Stage. Why: the Stage is account-level, with per-character differences coming from filters (glossary). One new character should not reshuffle the whole account's priorities, and this keeps the Stage a pure function of one save. It matches #26 on both fixtures. Applied in TR-5, FR-15, S7.
-- **D4. Skill-minigame plays are not a never-skip item (superseded by M6-D4).** They are shown only when they would be lost before the Expected Return **and** a highscore Milestone is open, as an "If you have time" item, not at position 1 and not in the ranked list. Seconds-long claims (Darts, the Random Event) stay at position 1. Why: a play is worth minutes of AFK harvest; its value is in one-time Milestones, and each takes active minutes, so ranking them above the push would let a 15-minute session go to minigames. M6 owns the entry and its gate. Applied in TR-13.
+- **D4. Skill-minigame plays are not a never-skip item (superseded by M6-D4).** They are shown only when they would be lost before the Expected Return **and** a highscore Milestone is open, as an "If you have time" item, not at position 1. (Consistency pass: following M6 D4 and the Final rulings D4 note, they also appear as a `nice` Goal at position 3, never position 1; TR-13.) Seconds-long claims (Darts, the Random Event) stay at position 1. Why: a play is worth minutes of AFK harvest; its value is in one-time Milestones, and each takes active minutes, so ranking them above the push would let a 15-minute session go to minigames. M6 owns the entry and its gate. Applied in TR-13.
 - **D5. The Stage is shown as a small label in the Now-screen header ("World 2 · late"); a tap shows `next.needs`.** Why: one line explains why the advice changes when the player crosses a gate and lets a player spot a wrong Stage at a glance, which then goes through Report this. A full Account-section line every session is noise. M10 owns the placement; M2 provides `label` and `next.needs`. Applied in §1, FR-4, §7.
 
 ## 9. Red-team notes
@@ -479,7 +571,7 @@ Ruled by Yasser on 2026-10-17 (PR #48): every recommendation accepted as written
 
 **R4. Advising the Swap Token or a class change that ruins an account.** The original dossier advice would have turned Joseph's 2nd Squire into a 2nd Barbarian. *Defence:*
 - FR-10 encodes the PV ruling;
-- the token can only appear in the one sibling case;
+- the token can only appear in the sibling cases, including two Squires and no Barbarian (Final rulings F17);
 - the duplicate Squire is explicitly labelled on-path (S4);
 - class composition is read from `classIndex`, never assumed.
 
@@ -522,8 +614,8 @@ Independent red-team run on 2026-10-17 against this spec, the glossary and ADRs 
 
 | # | Sev | Finding | Verdict | How |
 |---|---|---|---|---|
-| F1 | P0 | Route maps in map-index order with first doors only walk into side branches (W1 Poopy Sewers 20k, Rats Nest 35k, Base of the Bark, Hollowed Trunk; W3 Crystal Basecamp has no exit; W2 Djonnuttown at requirement 1) and miss W3's door-1 exit | Fixed | `gen.world-routes` is now a door-by-door path through `mapPortalDestinations` to the boss map; frontier is a door; synthetic W1 test added (TR-7, TR-10, S2, R2) |
-| F2 | P0 | Portal progress is per character, so a faster challenger may not be able to reach the frontier | Fixed in part, deferred in part | Candidates must have cleared every earlier path door (`reachesFrontier`, FR-11, TR-10). Whether an unreachable fast character should get a "catch up first" Goal is left to Yasser |
+| F1 | P0 | Route maps in map-index order with first doors only walk into side branches (W1 Poopy Sewers 20k, Rats Nest 35k, Base of the Bark, Hollowed Trunk; W3 Crystal Basecamp has no exit; W2 Djonnuttown at requirement 1) and miss W3's door-1 exit | Fixed | `portals.fact.world-routes` is now a door-by-door path through `mapPortalDestinations` to the boss map; frontier is a door; synthetic W1 test added (TR-7, TR-10, S2, R2) |
+| F2 | P0 | Portal progress is per character, so a faster challenger may not be able to reach the frontier | Fixed in part, deferred in part | Candidates must have cleared every earlier path door (`reachesFrontier`, FR-11, TR-10). Whether an unreachable fast character should get a "catch up first" Goal is left to Yasser. Ruled (Final rulings): never the pusher; a catch-up Goal may come later via M5 (TR-10) |
 | F3 | P1 | `finishedWorlds` is outside `safeSection`, so it can be silently wrong and the unknown path almost never fires | Fixed | TR-6a monotonic and evidence cross-check, `partial` on contradiction; gatekeeper-dialogue timing listed as a pre-build falsifier |
 | F4 | P1 | Incumbent rule ambiguous (margin direction, ties by rate make the incumbent just the fastest) | Fixed | Exact rule `C ≥ 1.25 × incumbent`; incumbent ties by frontier kills, level, index; boundary test. Using save history stays out, D1 keeps M2 pure |
 | F5 | P1 | Cost tie-break "only when units match" is not transitive, so order depends on emit order | Fixed | Fixed unit order then amount (TR-14), transitivity test |
@@ -532,19 +624,29 @@ Independent red-team run on 2026-10-17 against this spec, the glossary and ADRs 
 | F8 | P1 | No field for the pusher's kills left on the frontier (`nextPortal` is current map only) | Fixed | `fights[].killsLeft` (TR-3), used by FR-12 |
 | F9 | P2 | Meta Path Goals had a list position at one Stage only and fell to +∞ elsewhere | Fixed | Positioned at every Stage in their `appliesTo` (TR-13), S7 asserts position 4 |
 | F10 | P2 | Gate-chain steps ambiguous: quest owner, no boss "met", Gobo counted twice, elite at position 2 | Fixed | `pusher ∈ completedBy`, boss met via crystal, Gobo only in the push, elite at W4-entry 4, W4 frontier capped at 154 (TR-11, TR-13, FR-16) |
-| F11 | P2 | "Subclassed = not in {1,7,19,31}" counts Journeyman and a missing `classIndex` as subclassed; level 9/10 test vacuous | Fixed | Positive definition via `gen.class-tree` tier; null `classIndex` is neither; Beginner ≥ 10 gets "Pick your class"; tests replaced (TR-5, FR-15, TR-19) |
+| F11 | P2 | "Subclassed = not in {1,7,19,31}" counts Journeyman and a missing `classIndex` as subclassed; level 9/10 test vacuous | Fixed | Positive definition via `classes.fact.class-tree` tier; null `classIndex` is neither; Beginner ≥ 10 gets "Pick your class"; tests replaced (TR-5, FR-15, TR-19) |
 | F12 | P2 | 9999 dialogue read as met by the band rules, contradicting §6 | Fixed | Band rules need 0 < v < 9999; `finishedWorlds` keeps Toolbox semantics; S1 evidence and §6 aligned |
 | F13 | P2 | `towers.data` is an array, so `data[name]` reads null and every W3 account would be `partial` | Fixed | Read with `find` by name; absent tower = 0 (TR-3) |
 | F14 | P2 | Several "generated" facts are not in Toolbox data (N.js thresholds, family slots, gatekeepers) and M11 has no generator for them | Fixed | Marked authored tier 2 under the same ids; generators requested from M11 (TR-5, TR-7, §7, R6) |
 | F15 | P2 | "Evaluate both ways" undefined for several unknowns; `next.needs` for unknowns; survivability scale 0–100 | Fixed | Enumerate predicate assignments, earliest Stage; "Check … (couldn't read it)" lines; conversion stated (TR-6, TR-3, S1) |
 | F16 | P2 | Clean-parse-only frontier drops the push Goal on any failed section; uncaught `getMaxDamage` | Fixed | Runs unless a damage-relevant section failed, wrapped and reported, Toolbox fallbacks never used (TR-2, §6) |
-| F17 | P2 | Swap Token rule in FR-10 contradicts the §6 duplicate-Barbarian row; Squire ×2 with no Barbarian unresolved | Deferred | §6 aligned to FR-10 and no token for the slot-8 Squire until Yasser rules |
+| F17 | P2 | Swap Token rule in FR-10 contradicts the §6 duplicate-Barbarian row; Squire ×2 with no Barbarian unresolved | Deferred | §6 aligned to FR-10 and no token for the slot-8 Squire until Yasser rules. Ruled (Final rulings): two Squires and no Barbarian get the token for the 2nd Squire (FR-10, §6) |
 | F18 | P2 | Base-class characters hold no line, so the roster asks for a character the player already has | Fixed | Tentative line holding (FR-6, FR-9), S7 asserts it |
 | F19 | P2 | M2 asked M10 for banners M10 does not define; "shown" vs "+∞" contradiction | Fixed | Worlds 5–7 goes into M10's "Not covered yet" section; "Can't tell" requested as a new banner kind; only blockers shown (FR-3, FR-5, §6, §7) |
 | F20 | P3 | Performance budget extrapolated from a sweep that reused stats | Fixed | Benchmark at the pin required before the code PR merges (TR-15) |
 | F21 | P3 | "Strongest candidate" undefined when every rate floors to 0 | Fixed | Unfloored `killsPerHour`, then hit, survivability, level, index (FR-13) |
-| F22 | P3 | `GateNpc` hand-written and over-broad | Fixed | Trimmed to the five read NPCs, tied to `gen.world-gates` (TR-3) |
+| F22 | P3 | `GateNpc` hand-written and over-broad | Fixed | Trimmed to the five read NPCs, tied to `metapath.fact.world-gates` (TR-3) |
 | F23 | P3 | No privacy holes; `evidence.value: unknown` open-ended | Fixed | Typed to numbers, booleans, index arrays (TR-4) |
+
+## Consistency pass (2026-10-17)
+
+- **Final rulings folded into the body:** F2 (TR-10: a faster character behind on portals is never the pusher), F17 (FR-10, §6, R4: two Squires and no Barbarian get the Swap Token for the 2nd Squire), and the D4 note (TR-13, D4: skill-minigame plays are a `nice` Goal at position 3 plus "If you have time", never position 1).
+- **Ids and types follow M11:** entry types `metapath` and `priority`; ids `metapath.metapath.*`, `metapath.priority.*`; engine Detectors `metapath/*`; fact tables `classes.fact.class-tree`, `metapath.fact.*`, `portals.fact.world-routes`, `quests.fact.gate-quests`, `obols.fact.obol-altar` (TR-1, TR-7).
+- **New TR-4a `MetaPathResult`:** the pusher, push Goal, Roles and resolved list as plain data (M4's change request); M4, M5, M7 and M8 read it.
+- **TR-13 rewritten as the one place positions live:** every owner entry id at positions 1 and 3; the new fill 3i for stamps (M8 D5); `include` = one position; by-urgency items (M6); carry-forward (M8 D5); the shared last-position tie (M5 D2, M9 D3); M9's position-3 condition (M9 Final rulings RT1); the Spend Plan Goal placement; orphans (tools, constellations, weekly, Equinox, W4 shop dailies, Random Event) under "Not covered yet" (M6 Final rulings RT1). Corrections to the Leverage model recorded there, including the Obol Altar gate on the W3 obol row (M8 red-team #1).
+- **TR-14:** `Rankable` gains `urgency`, `deadline`, `framePosition`; a new urgency and deadline step; `effortSeconds` maps to cost (M6 §7).
+- **TR-3 shared fields:** `nextPortal` has one shape with M4; `GateNpc` adds Bellows (M6 reads `npcDialog`); `saltsUnlocked` is replaced by the shared `account.salts` list (M6 extends it); Frontier hit chance and survivability are % 0..100, like every other engine number (M3, M5).
+- **S6** follows M3 D3 (account blockers lead the Account section) and M6 D5/US-12 (vial attempts at position 3 at the default return).
 
 ## Final rulings (Yasser, 2026-10-17)
 
