@@ -37,7 +37,7 @@ Stamps, cards and obols are three collections that each give permanent power. Bo
 **Out of scope:**
 - **Buying stamp levels with coins, and raising stamp caps with materials.** That is the M7 Spend Plan, including Hydrogen-atom batching and Gilded Stamps. M8 hands M7 one fact: a stamp that is collected but at Lv 0 (TR-5) is a spendable.
 - **Merits** (the W2 "Monsters now drop Obols" merit), **daily Liquid Shop obol buys** and **Gem Shop purchases** (card slots, card presets, obol stacks, storage). These belong to M6 and M7. M8 shows them only as the reason a route is blocked ("obols don't drop until the W2 obol merit"). The Gem Shop first buy is Contested (PV 7.5).
-- **Obol min-maxing:** rerolls, combining, the drop-rate best-in-slot ladder, destroying for fragments. The ladder is in the dossier; it becomes an M8 follow-up once the free-value fills are shipped (§8 lists none, because it's a post-MVP item).
+- **Obol min-maxing:** rerolls, combining, the drop-rate best-in-slot ladder, destroying for fragments. The ladder is in the dossier; it becomes an M8 follow-up once the free-value fills are shipped (post-MVP, so no decision was needed).
 - **Moving a character to another map for a card or a stamp drop.** That is a Higher-leverage option (M5). M8 only reports what the *current* activity yields.
 - **Talent presets and builds** (M9). M8 checks only *card* presets.
 - **W4+ collection systems:** Gilded and Exalted Stamps, Lab chip card boosts, 5★/6★ cards, W4+ card sets. Their stamps and cards count as *later*.
@@ -55,23 +55,23 @@ Stamps
   - every `itemReq` amount is held, counting unequipped items in chests, refinery storage and inventories;
   - the quest's `InventorySpacesNeeded` free slots exist on the chosen character.
 
-  Equipped items never count (TR-6).
+  Equipped items never count (TR-6). A hand-in that consumes an item on the authored shared-resource list is still shown, ranked by the stamp Priority List, with the note "uses X, which also pays for Y" (D4).
 - **FR-5** If a hand-in item is missing but its `crafts.json` recipe materials are all held, the route is still `now`. The Next Action names both steps: craft it, then hand it in. Crafting is followed one level deep only.
-- **FR-6** A **custom quest** route (kills against a timer, finding platforms, a minigame streak, inviting NPCs) is `active` when the quest is accepted or acceptable on some character. It is shown as an **Active Play suggestion** with an authored time estimate. It never touches a Verdict (#10 item 7).
+- **FR-6** A **custom quest** route (kills against a timer, finding platforms, a minigame streak, inviting NPCs) is `active` when the quest is accepted or acceptable on some character. It is shown as an **Active Play suggestion** with an authored one-line "how" hint and time estimate, cited to the wiki (D2). It never touches a Verdict (#10 item 7).
 - **FR-7** **Look-ahead:** when a `now` or `active` quest's *next* quest on the same NPC is a hand-in whose items are already held, the suggestion adds "then: <next quest> gives <stamps> (items already held)". The look-ahead goes one step only.
-- **FR-8** A route whose requirements can be met within the account's reached worlds, but not yet, is `toward`. It shows the gap ("8 of 30 Redox Salts"). It gets an ETA only when the arithmetic is allowed: fighting drops (ETA = remaining ÷ (Toolbox `finalKillsPerHour` × generated drop chance)), or a refinery product (from Toolbox refinery cycle output). Skilling drops get no rate (#11 item 8).
+- **FR-8** A route whose requirements can be met within the account's reached worlds, but not yet, is `toward`. It shows the gap ("8 of 30 Redox Salts"). It gets an ETA only when the arithmetic is allowed: fighting drops (ETA = remaining ÷ (Toolbox `finalKillsPerHour` × generated drop chance)), or a refinery product (from Toolbox refinery cycle output). Skilling drops get no rate (#11 item 8). The D4 shared-resource note applies to `toward` routes too.
 - **FR-9** A stamp whose every route sits in an unreached world, or behind a locked system, is `later`. Such stamps are never listed one by one. The Collections Goal shows a count only ("23 more open up in later worlds").
 - **FR-10** Placement follows #10 item 6:
   - routes that need a specific character (a quest accepted on that character, an item in that character's inventory) go on that character's row;
   - shop buys go in the Account section, with "from a character holding at least N coins".
 
   For a quest accepted on several characters, M8 picks the one with the highest class level.
-- **FR-11** **Grouping (see D1):** all `now` shop buys form one account Goal, "New stamps from town shops". Its single Next Action lists them in Priority List order, grouped by town. Each `now` quest hand-in is its own Goal on the chosen character's row.
+- **FR-11** **Grouping (D1) and ranking (D5):** all `now` shop buys form one account Goal, "New stamps from town shops". Its single Next Action lists them in Priority List order, grouped by town. Each `now` quest hand-in is its own Goal on the chosen character's row. Both kinds of `now` Goal enter Leverage position 3 (free-value fills) on every Stage's list; `active` and `toward` stamp Goals carry forward from earlier Stage lists to the end of the current one (D5).
 - **FR-12** A stamp drop from a character's current AFK Target is supplied to M4 as a Contribution ("this map can drop the X Stamp, within about N h at base rate"). It is never a Next Action.
 
 Cards and card presets
-- **FR-13** **Empty slots:** a character with fewer equipped cards than `4 + gemShopPurchases[63]`, while the account owns unequipped cards that fit its activity, gets a Next Action to fill them. The cards come from the activity's authored preset matrix, with the highest-level owned card first (TR-9).
-- **FR-14** **Card set:** a character with no set, or with a set that doesn't fit its AFK Target, gets a Next Action to equip the best set for its activity at tier ≥ 1, per the authored set Priority List (TR-9, D3). Tier = `floor(Σ card levels in the set ÷ set size)`, from Toolbox `getCardSets`.
+- **FR-13** **Empty slots** (FR-13 to FR-17 and FR-21 are M8's alone; M6 emits none of them, D6): a character with fewer equipped cards than `4 + gemShopPurchases[63]`, while the account owns unequipped cards that fit its activity, gets a Next Action to fill them. The cards come from the activity's authored preset matrix, with the highest-level owned card first (TR-9).
+- **FR-14** **Card set:** a character with no set, or with a set that doesn't fit its AFK Target, gets a Next Action to equip the best set for its activity at tier ≥ 1, per the authored set Priority List (TR-9). For fighters at Lv ≥ 50 the set is Yum Yum Desert, except the pusher (M2), which gets Frostbite while Toolbox's hit chance on its next map is below 100% (D3). Tier = `floor(Σ card levels in the set ÷ set size)`, from Toolbox `getCardSets`.
 - **FR-15** **Blunder Hills past Lv 50:** the Blunder Hills set equipped on a character at Lv ≥ 50 gives nothing. The Next Action swaps it per FR-14.
 - **FR-16** **Passive card in a slot:** a passive card (its effect contains `(Passive)`) equipped in a slot gets a Next Action to replace it, because it works without being equipped.
 - **FR-17** **Preset mismatch:** when the active preset's cards fit another activity (by effect keyword, TR-9) and another preset fits the AFK Target, the Next Action is "Switch to card preset N". When no preset fits, it is "Fill card preset N (empty) for <activity>, then switch to it". M8 never suggests overwriting a non-empty preset that fits another activity the character uses.
@@ -86,7 +86,7 @@ Obols
 - **FR-20** **Altar locked:** when the highest character is Lv ≥ 30 and the Obol Altar quest (`Obol_Altar1`, 1 Bob Joe Pickle) isn't done, the Next Action is the hand-in, and FR-4/FR-5 logic applies to the pickle.
 - **FR-21** **Stored obols:** for each obol in storage with an empty, unlocked slot of the same shape, M8 emits one Next Action per destination: "Equip <k> stored obols in family <shape> slots". Family slots are filled first, then personal slots. Within personal slots, characters are taken in Visit Order. Any stat beats an empty slot (PV 2.5, confirmed).
 - **FR-22** **Next slot Milestones:** the obol Goal carries a Milestone for the next family slot and, per character, the next personal slot. Each is the lowest-gated slot the save still marks `ObolLocked*`, with its shape and gate (family level or character level). The gap is arithmetic, and there is no ETA. **Anomaly rule:** if that locked slot's gate is already met (the W3 fixture shows the family slot gated at 350 locked at family level 379), M8 shows no Milestone for it. It records a diagnostic and claims nothing, because the save's lock state and the gate table disagree, and M8 can't tell which is right.
-- **FR-23** **Why obols aren't dropping:** while the W2 obol merit is at 0, the obol Goal says "obols don't drop until the W2 merit 'Monsters now drop Obols'". It links to M6's merit Goal rather than issuing its own action.
+- **FR-23** **Why obols aren't dropping:** while the W2 obol merit is at 0, the obol Goal says "obols don't drop until the W2 merit 'Monsters now drop Obols'". It links to M6's merit Goal rather than issuing its own action (D6).
 
 All modules' shared rules
 - **FR-24** Every M8 Next Action has a Source label (#10 item 10). Generated entries cite Toolbox game data (tier 1) with the parser pin's game version. Authored orders cite their dossier and PV row, with their status (confirmed, unverified or contested).
@@ -219,7 +219,7 @@ Each story's acceptance criteria are written as **Given fixture / When engine ru
   | `obols.check.stored` | Check | FR-21 | dossier H; PV 2.5 **confirmed** |
   | `obols.goal.slots` | Goal | FR-22, FR-23 | dossier H |
 
-  M8 does not author Stage positions. M2 owns the per-Stage Priority Lists. M8's Goals enter them through the ids that the Leverage model already uses (3a `obols.check.stored`; 3b `cards.check.*`; W1-mid 5 and W2-early 11 `stamps.goal.collect`). D1 and D5 cover the gaps.
+  M8 does not author Stage positions. M2 owns the per-Stage Priority Lists. M8's Goals enter them through the ids that the Leverage model already uses (3a `obols.check.stored`; 3b `cards.check.*`; W1-mid 5 and W2-early 11 `stamps.goal.collect`). Per D5, M2 also places `stamps.check.shop-now` and `stamps.check.handin-now` at position 3 (as 3c) on every Stage, and carries `stamps.check.quest-toward` and the Active Play stamp checks forward to the end of each later Stage list. Per D6, M11's CI rule "one Check per fact id" keeps M6 from emitting the card and stored-obol Checks.
 
 ### Detectors
 
@@ -340,7 +340,7 @@ Each story's acceptance criteria are written as **Given fixture / When engine ru
 |---|---|---|
 | **M1** Sync & Account State | New Account State fields via TR-11:<br>• `stamps` (level, maxLevel);<br>• per-character quest status for stamp-reward NPCs;<br>• `holdings` sources (storage, refinery storage, inventories), free inventory slots;<br>• per-character `money`;<br>• `cards` (amount, stars, nextLevelReq, effect), per-character equipped cards, set, presets, `selectedCardPreset`;<br>• `gemShopPurchases[63]`;<br>• family and personal obol lists with shape and `levelReq`, obol storage;<br>• the obol merit level; `accountLevel`;<br>• card set totals (Toolbox `getCardSets`, precomputed in the adapter);<br>• `FIELD_SECTIONS` for each, plus `isKnown`. | `AccountState`, `isKnown`, `diagnostics.failedSections` |
 | **M11** Knowledge tooling | The Detector interface and registry; the YAML schema (with `generated`, `target`, `routes`); the generator plug-in hook for TR-8; CI rules (sources required, dangling-id check); golden snapshot harness. | Detector `(ctx) => result`; generator plug-in API |
-| **M2** Stage & Meta Path | The Stage id; the per-Stage Priority List positions for M8's Goals (D5); the pusher's character index (for D3). | `stage.id`, `PriorityList`, `pusher` |
+| **M2** Stage & Meta Path | The Stage id; the per-Stage Priority List positions for M8's Goals, including position 3c for `now` stamps on every Stage and carry-forward of earlier stamp items (D5); the pusher's character index (for D3). | `stage.id`, `PriorityList`, `pusher` |
 | **M4** Purpose & Milestones | Consumes M8's card and stamp-drop Contributions (FR-12, FR-18); supplies `finalKillsPerHour` for the current map (M8 reads the same field). | `Contribution`, `Milestone` |
 | **M6** Unspent & idle | Owns the obol merit, the Liquid Shop daily obols and the gems. M8 links to its Goal ids for FR-23. M6 must **not** also emit empty card-slot, card-set or stored-obol Checks (D6). | Goal id references |
 | **M7** Spend Plan | Takes `lv0ForSpendPlan` (collected stamps at Lv 0) as spendable lines; owns all stamp levelling and cap raises. | `string[]` of stamp rawNames |
@@ -349,25 +349,16 @@ Each story's acceptance criteria are written as **Given fixture / When engine ru
 | **M5** Higher-leverage options | May later use M8's card and stamp drop Acquisitions to propose "move to map X for its card". Not needed for the MVP. | Acquisition entries |
 | **M3, M12, M13** | None beyond the shared engine. | — |
 
-## 8. Open decisions for Yasser
+## 8. Decisions
 
-❓ D1 - Grouping stamp actions: should "stamps you can get now" be (a) one account Goal whose single Next Action bundles every shop buy (grouped by town), with each quest hand-in as its own Goal on its character's row, (b) one Goal per stamp, or (c) one Goal for all stamp work, hand-ins included, showing only the top action?
-➡️ (a). The glossary's "one Next Action per Goal" still holds, because a shop trip is one concrete instruction. Option (b) would fill the 5-item account cap with stamps on day one and push out higher-ranked items. Option (c) hides character-specific hand-ins from the row where #10 item 6 says they belong.
+Ruled by Yasser on 2026-10-17 (PR #50): every recommendation accepted as written.
 
-❓ D2 - How-to hints for custom stamp quests: should ActiveOn ship authored one-line "how" hints (e.g. where Wellington's three platforms are) plus a time estimate for the ~10 W1–W3 custom stamp quests, or only show the quest's own in-game text?
-➡️ Ship the hints, cited to the wiki. The MVP success bar is "no outside lookups". Without hints, "find the 3 hidden platforms" sends the player straight to Google. It's about 10 short entries, and quest locations rarely change between patches.
-
-❓ D3 - Card set for fighters at Lv 50+: should the pusher use (a) Yum Yum always, (b) Frostbite always from W3, or (c) Yum Yum by default and Frostbite only for the pusher while Toolbox's hit chance on its next map is below 100%?
-➡️ (c). Accuracy is the confirmed W1–W6 wall (PV cross-cutting 3), and Frostbite's +5% DEF and ACC per tier only matters while the pusher misses. Everyone else keeps the higher-value Yum Yum. Both card orders are unverified (PV 2.2), so the entry stays at confidence L either way.
-
-❓ D4 - Quest hand-ins that eat contested resources: Snouts 1 wants 30 Redox Salts, which are also W3's Construction currency. Should such hand-ins be (a) always shown as `toward`/`now` with a "uses X, also needed for Y" note, (b) shown only when the account holds the amount plus a buffer, or (c) never suggested automatically?
-➡️ (a), ranked by the stamp Priority List, with the note. It's honest and cheap to build. A buffer rule needs M7 to know the next Construction payment, which the MVP doesn't compute. 30 salts is small next to what the account refines, and the player decides.
-
-❓ D5 - Where new-stamp Goals rank on the W2-late and W3-early Priority Lists: the Leverage model places stamp collection only in W1-mid (item 5), W1-late (7) and W2-early (11). Neither fixture's Stage list mentions it. Should (a) unfinished items from earlier Stage lists carry forward to the end of the current list, (b) `now` stamps (shop buys and held-item hand-ins) join position 3 "free-value fills" on every Stage, with active and `toward` stamps carried forward as in (a), or (c) stamps stay off these lists?
-➡️ (b). A shop stamp or a held-item hand-in costs almost nothing, which is the definition of position 3. The W1 dossier calls stamps "the biggest W1 lever, under-used by both accounts". Under (c), both fixtures would never see the Vitality, Matty Bag, Clover and Tomahawk stamps above the fold.
-
-❓ D6 - Who owns the card and obol fills: Leverage position 3 (3a stored obols, 3b cards) could be claimed by M6 Unspent & idle as well as M8. Should M8 own every card, card-set, card-preset and stored-obol Check, with M6 owning only the merit, Liquid Shop and Gem Shop items it links to?
-➡️ Yes, M8 owns them. They need M8's card-fit and shape logic. Two modules emitting the same "equip your obol" action would duplicate rows. M11's CI can enforce one Check per fact id.
+- **D1 - Stamp actions are grouped by trip.** All `now` shop buys form one account Goal, "New stamps from town shops", whose single Next Action lists them grouped by town in stamp Priority List order. Each `now` quest hand-in is its own Goal on the chosen character's row. *Why:* a shop trip is one concrete instruction, so "one Next Action per Goal" still holds; one Goal per stamp would fill the 5-item account cap with stamps on day one; one Goal for all stamp work would hide character-specific hand-ins from the row where #10 item 6 puts them. Touches FR-10, FR-11, US-1, US-2, TR-4.
+- **D2 - Custom stamp quests ship authored how-to hints.** Each of the ~10 W1–W3 custom stamp quests gets a one-line "how" hint and a time estimate, cited to the wiki. *Why:* the MVP bar is "no outside lookups", and "find the 3 hidden platforms" alone sends the player to Google; it is about 10 short entries, and quest locations rarely move between patches. Touches FR-6, US-3, TR-4.
+- **D3 - Fighter card set at Lv 50+: Yum Yum by default, Frostbite only for the pusher while it misses.** The pusher (M2) gets Frostbite while Toolbox's hit chance on its next map is below 100%; every other fighter at Lv ≥ 50 keeps Yum Yum. *Why:* accuracy is the confirmed W1–W6 wall (PV cross-cutting 3), and Frostbite's +5% DEF and ACC per tier only matters while the pusher misses. Both card orders are unverified (PV 2.2), so the entry stays at confidence L. Touches FR-14, US-5, TR-4, TR-5.
+- **D4 - Hand-ins that eat contested resources are shown, with a note.** They appear as `now` or `toward` like any other route, ranked by the stamp Priority List, with "uses X, which also pays for Y". *Why:* honest and cheap; a buffer rule needs M7 to know the next Construction payment, which the MVP doesn't compute, and the player decides. Touches FR-4, FR-8, US-2, TR-4.
+- **D5 - `now` stamps are position-3 free-value fills on every Stage.** The shop-buy Goal and held-item hand-in Goals join Leverage position 3 on every Stage list; `active` and `toward` stamp Goals carry forward from earlier Stage lists to the end of the current one. *Why:* a shop stamp or a held-item hand-in costs almost nothing, which is the definition of position 3; the W1 dossier calls stamps "the biggest W1 lever, under-used by both accounts"; otherwise neither fixture would see Vitality, Matty Bag, Clover or Tomahawk above the fold. Touches FR-11, TR-4, section 7 (M2).
+- **D6 - M8 owns every card, card-set, card-preset and stored-obol Check.** M6 owns only the obol merit, Liquid Shop and Gem Shop items, which M8 links to. *Why:* those Checks need M8's card-fit and shape logic, and two modules emitting "equip your obol" would duplicate rows; M11's CI enforces one Check per fact id. Touches FR-13–FR-17, FR-21, FR-23, TR-4, section 7 (M6).
 
 ## 9. Red-team notes
 
