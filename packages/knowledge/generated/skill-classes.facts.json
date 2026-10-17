@@ -4,7 +4,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "skill-classes",
-        "inputs": ["website-data/talents.json", "website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/talents.json",
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "talents.fact.skill-classes",
       "origin": "generated",
@@ -12,7 +15,9 @@
         {
           "class": "Arcane_Cultist",
           "skills": {
-            "CHOPPIN": ["LOG_ON_LOGS"]
+            "CHOPPIN": [
+              "LOG_ON_LOGS"
+            ]
           }
         },
         {
@@ -22,8 +27,12 @@
         {
           "class": "Barbarian",
           "skills": {
-            "FISHING": ["WORMING_UNDERCOVER"],
-            "MINING": ["BIG_PICK"]
+            "FISHING": [
+              "WORMING_UNDERCOVER"
+            ],
+            "MINING": [
+              "BIG_PICK"
+            ]
           }
         },
         {
@@ -37,8 +46,12 @@
         {
           "class": "Blood_Berserker",
           "skills": {
-            "FISHING": ["WORMING_UNDERCOVER"],
-            "MINING": ["BIG_PICK"]
+            "FISHING": [
+              "WORMING_UNDERCOVER"
+            ],
+            "MINING": [
+              "BIG_PICK"
+            ]
           }
         },
         {
@@ -48,26 +61,36 @@
         {
           "class": "Bubonic_Conjuror",
           "skills": {
-            "CHOPPIN": ["LOG_ON_LOGS"]
+            "CHOPPIN": [
+              "LOG_ON_LOGS"
+            ]
           }
         },
         {
           "class": "Death_Bringer",
           "skills": {
-            "FISHING": ["WORMING_UNDERCOVER"],
-            "MINING": ["BIG_PICK"]
+            "FISHING": [
+              "WORMING_UNDERCOVER"
+            ],
+            "MINING": [
+              "BIG_PICK"
+            ]
           }
         },
         {
           "class": "Divine_Knight",
           "skills": {
-            "MINING": ["BIG_PICK"]
+            "MINING": [
+              "BIG_PICK"
+            ]
           }
         },
         {
           "class": "Elemental_Sorcerer",
           "skills": {
-            "CHOPPIN": ["LOG_ON_LOGS"]
+            "CHOPPIN": [
+              "LOG_ON_LOGS"
+            ]
           }
         },
         {
@@ -85,19 +108,25 @@
         {
           "class": "Mage",
           "skills": {
-            "CHOPPIN": ["LOG_ON_LOGS"]
+            "CHOPPIN": [
+              "LOG_ON_LOGS"
+            ]
           }
         },
         {
           "class": "Royal_Guardian",
           "skills": {
-            "MINING": ["BIG_PICK"]
+            "MINING": [
+              "BIG_PICK"
+            ]
           }
         },
         {
           "class": "Shaman",
           "skills": {
-            "CHOPPIN": ["LOG_ON_LOGS"]
+            "CHOPPIN": [
+              "LOG_ON_LOGS"
+            ]
           }
         },
         {
@@ -107,7 +136,9 @@
         {
           "class": "Squire",
           "skills": {
-            "MINING": ["BIG_PICK"]
+            "MINING": [
+              "BIG_PICK"
+            ]
           }
         },
         {
@@ -117,7 +148,9 @@
         {
           "class": "Warrior",
           "skills": {
-            "MINING": ["BIG_PICK"]
+            "MINING": [
+              "BIG_PICK"
+            ]
           }
         },
         {
@@ -127,7 +160,9 @@
         {
           "class": "Wizard",
           "skills": {
-            "CHOPPIN": ["LOG_ON_LOGS"]
+            "CHOPPIN": [
+              "LOG_ON_LOGS"
+            ]
           }
         }
       ],

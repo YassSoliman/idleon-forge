@@ -11,109 +11,151 @@
           {
             "kind": "obol-slot",
             "level": 25,
-            "shapes": ["Circle"]
+            "shapes": [
+              "Circle"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 32,
-            "shapes": ["Square"]
+            "shapes": [
+              "Square"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 40,
-            "shapes": ["Circle"]
+            "shapes": [
+              "Circle"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 48,
-            "shapes": ["Circle"]
+            "shapes": [
+              "Circle"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 60,
-            "shapes": ["Square"]
+            "shapes": [
+              "Square"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 70,
-            "shapes": ["Circle"]
+            "shapes": [
+              "Circle"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 80,
-            "shapes": ["Circle"]
+            "shapes": [
+              "Circle"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 90,
-            "shapes": ["Square"]
+            "shapes": [
+              "Square"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 98,
-            "shapes": ["Circle"]
+            "shapes": [
+              "Circle"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 105,
-            "shapes": ["Hexagon"]
+            "shapes": [
+              "Hexagon"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 112,
-            "shapes": ["Circle"]
+            "shapes": [
+              "Circle"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 120,
-            "shapes": ["Square"]
+            "shapes": [
+              "Square"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 130,
-            "shapes": ["Circle"]
+            "shapes": [
+              "Circle"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 140,
-            "shapes": ["Square"]
+            "shapes": [
+              "Square"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 152,
-            "shapes": ["Circle"]
+            "shapes": [
+              "Circle"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 170,
-            "shapes": ["Circle"]
+            "shapes": [
+              "Circle"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 180,
-            "shapes": ["Hexagon"]
+            "shapes": [
+              "Hexagon"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 190,
-            "shapes": ["Square"]
+            "shapes": [
+              "Square"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 210,
-            "shapes": ["Circle"]
+            "shapes": [
+              "Circle"
+            ]
           },
           {
             "kind": "obol-slot",
             "level": 250,
-            "shapes": ["Sparkle"]
+            "shapes": [
+              "Sparkle"
+            ]
           }
         ]
       },
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "class-gates",
-        "inputs": ["website-data/shared-data.json#obols"]
+        "inputs": [
+          "website-data/shared-data.json#obols"
+        ]
       },
       "id": "classes.goal.level",
       "milestones": [

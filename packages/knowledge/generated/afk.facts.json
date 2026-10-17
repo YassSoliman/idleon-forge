@@ -4,7 +4,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "afk",
-        "inputs": ["website-data/items.json"]
+        "inputs": [
+          "website-data/items.json"
+        ]
       },
       "id": "afk.fact.food-kinds",
       "origin": "generated",

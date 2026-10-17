@@ -8,7 +8,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "classes",
-        "inputs": ["website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "classes.acquisition.barbarian",
       "methods": [
@@ -52,7 +54,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "classes",
-        "inputs": ["website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "classes.acquisition.beast-master",
       "methods": [
@@ -96,7 +100,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "classes",
-        "inputs": ["website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "classes.acquisition.blood-berserker",
       "methods": [
@@ -140,7 +146,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "classes",
-        "inputs": ["website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "classes.acquisition.bowman",
       "methods": [
@@ -184,7 +192,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "classes",
-        "inputs": ["website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "classes.acquisition.bubonic-conjuror",
       "methods": [
@@ -228,7 +238,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "classes",
-        "inputs": ["website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "classes.acquisition.divine-knight",
       "methods": [
@@ -272,7 +284,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "classes",
-        "inputs": ["website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "classes.acquisition.elemental-sorcerer",
       "methods": [
@@ -316,7 +330,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "classes",
-        "inputs": ["website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "classes.acquisition.hunter",
       "methods": [
@@ -360,7 +376,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "classes",
-        "inputs": ["website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "classes.acquisition.maestro",
       "methods": [
@@ -404,7 +422,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "classes",
-        "inputs": ["website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "classes.acquisition.shaman",
       "methods": [
@@ -448,7 +468,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "classes",
-        "inputs": ["website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "classes.acquisition.siege-breaker",
       "methods": [
@@ -492,7 +514,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "classes",
-        "inputs": ["website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "classes.acquisition.squire",
       "methods": [
@@ -536,7 +560,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "classes",
-        "inputs": ["website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "classes.acquisition.voidwalker",
       "methods": [
@@ -580,7 +606,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "classes",
-        "inputs": ["website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "classes.acquisition.wizard",
       "methods": [

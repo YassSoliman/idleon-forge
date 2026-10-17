@@ -80,7 +80,9 @@
           {
             "chance": 0.00003,
             "kind": "drop",
-            "maps": [28],
+            "maps": [
+              28
+            ],
             "monster": "frogBIG",
             "questLink": null,
             "world": 1
@@ -163,7 +165,9 @@
           {
             "chance": 0.000003,
             "kind": "drop",
-            "maps": [67],
+            "maps": [
+              67
+            ],
             "monster": "Bug2",
             "questLink": null,
             "world": 2
@@ -337,7 +341,9 @@
           {
             "chance": 9.749999999999998e-7,
             "kind": "drop",
-            "maps": [6],
+            "maps": [
+              6
+            ],
             "monster": "Copper",
             "questLink": null,
             "world": 1
@@ -345,7 +351,9 @@
           {
             "chance": 0.00000105,
             "kind": "drop",
-            "maps": [7],
+            "maps": [
+              7
+            ],
             "monster": "Iron",
             "questLink": null,
             "world": 1
@@ -361,7 +369,9 @@
           {
             "chance": 0.000001155,
             "kind": "drop",
-            "maps": [10],
+            "maps": [
+              10
+            ],
             "monster": "Plat",
             "questLink": null,
             "world": 1
@@ -377,7 +387,9 @@
           {
             "chance": 0.0000013499999999999998,
             "kind": "drop",
-            "maps": [11],
+            "maps": [
+              11
+            ],
             "monster": "Void",
             "questLink": null,
             "world": 1
@@ -393,7 +405,9 @@
           {
             "chance": 0.0000016499999999999997,
             "kind": "drop",
-            "maps": [12],
+            "maps": [
+              12
+            ],
             "monster": "Starfire",
             "questLink": null,
             "world": 1
@@ -417,7 +431,9 @@
           {
             "chance": 0.0000022499999999999996,
             "kind": "drop",
-            "maps": [32],
+            "maps": [
+              32
+            ],
             "monster": "Godshard",
             "questLink": null,
             "world": 1
@@ -895,7 +911,9 @@
           {
             "chance": 0.000032000000000000005,
             "kind": "drop",
-            "maps": [62],
+            "maps": [
+              62
+            ],
             "monster": "steak",
             "questLink": null,
             "world": 2
@@ -903,7 +921,9 @@
           {
             "chance": 0.000035000000000000004,
             "kind": "drop",
-            "maps": [63],
+            "maps": [
+              63
+            ],
             "monster": "moonman",
             "questLink": null,
             "world": 2
@@ -911,7 +931,10 @@
           {
             "chance": 0.000037000000000000005,
             "kind": "drop",
-            "maps": [64, 69],
+            "maps": [
+              64,
+              69
+            ],
             "monster": "sandgiant",
             "questLink": null,
             "world": 2
@@ -919,7 +942,10 @@
           {
             "chance": 0.000039,
             "kind": "drop",
-            "maps": [65, 66],
+            "maps": [
+              65,
+              66
+            ],
             "monster": "snailZ",
             "questLink": null,
             "world": 2
@@ -1305,7 +1331,9 @@
           {
             "chance": 3.7499999999999996e-7,
             "kind": "drop",
-            "maps": [105],
+            "maps": [
+              105
+            ],
             "monster": "bloque",
             "questLink": null,
             "world": 3
@@ -1313,7 +1341,9 @@
           {
             "chance": 4.05e-7,
             "kind": "drop",
-            "maps": [106],
+            "maps": [
+              106
+            ],
             "monster": "mamoth",
             "questLink": null,
             "world": 3
@@ -1321,7 +1351,9 @@
           {
             "chance": 4.349999999999999e-7,
             "kind": "drop",
-            "maps": [107],
+            "maps": [
+              107
+            ],
             "monster": "snowball",
             "questLink": null,
             "world": 3
@@ -1329,7 +1361,9 @@
           {
             "chance": 4.6499999999999994e-7,
             "kind": "drop",
-            "maps": [108],
+            "maps": [
+              108
+            ],
             "monster": "penguin",
             "questLink": null,
             "world": 3
@@ -1337,7 +1371,9 @@
           {
             "chance": 4.949999999999999e-7,
             "kind": "drop",
-            "maps": [109],
+            "maps": [
+              109
+            ],
             "monster": "thermostat",
             "questLink": null,
             "world": 3
@@ -2035,7 +2071,10 @@
           {
             "chance": 2.72e-7,
             "kind": "drop",
-            "maps": [116, 120],
+            "maps": [
+              116,
+              120
+            ],
             "monster": "ram",
             "questLink": null,
             "world": 3
@@ -2043,7 +2082,9 @@
           {
             "chance": 2.0000000000000002e-7,
             "kind": "drop",
-            "maps": [110],
+            "maps": [
+              110
+            ],
             "monster": "glass",
             "questLink": null,
             "world": 3
@@ -2051,7 +2092,9 @@
           {
             "chance": 2.2400000000000002e-7,
             "kind": "drop",
-            "maps": [111],
+            "maps": [
+              111
+            ],
             "monster": "snakeB",
             "questLink": null,
             "world": 3
@@ -2059,7 +2102,9 @@
           {
             "chance": 2.4000000000000003e-7,
             "kind": "drop",
-            "maps": [112],
+            "maps": [
+              112
+            ],
             "monster": "speaker",
             "questLink": null,
             "world": 3
@@ -2067,7 +2112,10 @@
           {
             "chance": 2.56e-7,
             "kind": "drop",
-            "maps": [113, 114],
+            "maps": [
+              113,
+              114
+            ],
             "monster": "eye",
             "questLink": null,
             "world": 3
@@ -2075,7 +2123,9 @@
           {
             "chance": 4.0000000000000003e-7,
             "kind": "drop",
-            "maps": [117],
+            "maps": [
+              117
+            ],
             "monster": "skele2",
             "questLink": null,
             "world": 3
@@ -2303,7 +2353,9 @@
           {
             "chance": 0.0000038,
             "kind": "drop",
-            "maps": [156],
+            "maps": [
+              156
+            ],
             "monster": "w4b1",
             "questLink": null,
             "world": 4
@@ -2579,7 +2631,10 @@
           {
             "chance": 6.75e-7,
             "kind": "drop",
-            "maps": [151, 164],
+            "maps": [
+              151,
+              164
+            ],
             "monster": "mushP",
             "questLink": null,
             "world": 4
@@ -2587,7 +2642,9 @@
           {
             "chance": 7.56e-7,
             "kind": "drop",
-            "maps": [152],
+            "maps": [
+              152
+            ],
             "monster": "w4a2",
             "questLink": null,
             "world": 4
@@ -2595,7 +2652,9 @@
           {
             "chance": 8.37e-7,
             "kind": "drop",
-            "maps": [153],
+            "maps": [
+              153
+            ],
             "monster": "w4a3",
             "questLink": null,
             "world": 4
@@ -2603,7 +2662,9 @@
           {
             "chance": 9.179999999999999e-7,
             "kind": "drop",
-            "maps": [154],
+            "maps": [
+              154
+            ],
             "monster": "demonP",
             "questLink": null,
             "world": 4
@@ -2726,7 +2787,9 @@
           {
             "chance": 4.5000000000000003e-7,
             "kind": "drop",
-            "maps": [160],
+            "maps": [
+              160
+            ],
             "monster": "w4c1",
             "questLink": null,
             "world": 4
@@ -2734,7 +2797,9 @@
           {
             "chance": 5.040000000000001e-7,
             "kind": "drop",
-            "maps": [161],
+            "maps": [
+              161
+            ],
             "monster": "w4c2",
             "questLink": null,
             "world": 4
@@ -2742,7 +2807,9 @@
           {
             "chance": 5.4e-7,
             "kind": "drop",
-            "maps": [162],
+            "maps": [
+              162
+            ],
             "monster": "w4c3",
             "questLink": null,
             "world": 4
@@ -2750,7 +2817,10 @@
           {
             "chance": 5.760000000000001e-7,
             "kind": "drop",
-            "maps": [163, 165],
+            "maps": [
+              163,
+              165
+            ],
             "monster": "w4c4",
             "questLink": null,
             "world": 4
@@ -2849,7 +2919,9 @@
           {
             "chance": 4.2500000000000006e-7,
             "kind": "drop",
-            "maps": [201],
+            "maps": [
+              201
+            ],
             "monster": "w5a1",
             "questLink": null,
             "world": 5
@@ -2857,7 +2929,10 @@
           {
             "chance": 4.7600000000000003e-7,
             "kind": "drop",
-            "maps": [202, 215],
+            "maps": [
+              202,
+              215
+            ],
             "monster": "w5a2",
             "questLink": null,
             "world": 5
@@ -2865,7 +2940,9 @@
           {
             "chance": 5.27e-7,
             "kind": "drop",
-            "maps": [203],
+            "maps": [
+              203
+            ],
             "monster": "w5a3",
             "questLink": null,
             "world": 5
@@ -2873,7 +2950,9 @@
           {
             "chance": 5.78e-7,
             "kind": "drop",
-            "maps": [204],
+            "maps": [
+              204
+            ],
             "monster": "w5a4",
             "questLink": null,
             "world": 5
@@ -2881,7 +2960,9 @@
           {
             "chance": 6.29e-7,
             "kind": "drop",
-            "maps": [205],
+            "maps": [
+              205
+            ],
             "monster": "w5a5",
             "questLink": null,
             "world": 5
@@ -3097,7 +3178,9 @@
           {
             "chance": 3.7499999999999996e-7,
             "kind": "drop",
-            "maps": [206],
+            "maps": [
+              206
+            ],
             "monster": "w5b1",
             "questLink": null,
             "world": 5
@@ -3105,7 +3188,9 @@
           {
             "chance": 3.7499999999999996e-7,
             "kind": "drop",
-            "maps": [207],
+            "maps": [
+              207
+            ],
             "monster": "w5b2",
             "questLink": null,
             "world": 5
@@ -3113,7 +3198,9 @@
           {
             "chance": 4.349999999999999e-7,
             "kind": "drop",
-            "maps": [208],
+            "maps": [
+              208
+            ],
             "monster": "w5b3",
             "questLink": null,
             "world": 5
@@ -3121,7 +3208,9 @@
           {
             "chance": 4.6499999999999994e-7,
             "kind": "drop",
-            "maps": [209],
+            "maps": [
+              209
+            ],
             "monster": "w5b4",
             "questLink": null,
             "world": 5
@@ -3129,7 +3218,9 @@
           {
             "chance": 4.949999999999999e-7,
             "kind": "drop",
-            "maps": [210],
+            "maps": [
+              210
+            ],
             "monster": "w5b5",
             "questLink": null,
             "world": 5
@@ -3137,7 +3228,10 @@
           {
             "chance": 5.25e-7,
             "kind": "drop",
-            "maps": [211, 214],
+            "maps": [
+              211,
+              214
+            ],
             "monster": "w5b6",
             "questLink": null,
             "world": 5
@@ -3337,7 +3431,9 @@
           {
             "chance": 0.000001,
             "kind": "drop",
-            "maps": [213],
+            "maps": [
+              213
+            ],
             "monster": "w5c2",
             "questLink": null,
             "world": 5
@@ -3861,7 +3957,9 @@
           {
             "chance": 3.96e-7,
             "kind": "drop",
-            "maps": [260],
+            "maps": [
+              260
+            ],
             "monster": "w6c1",
             "questLink": null,
             "world": 6
@@ -3869,7 +3967,9 @@
           {
             "chance": 4.2e-7,
             "kind": "drop",
-            "maps": [261],
+            "maps": [
+              261
+            ],
             "monster": "w6c2",
             "questLink": null,
             "world": 6
@@ -4281,7 +4381,9 @@
           {
             "chance": 0.00005,
             "kind": "drop",
-            "maps": [19],
+            "maps": [
+              19
+            ],
             "monster": "snakeG",
             "questLink": null,
             "world": 1
@@ -4356,7 +4458,9 @@
           {
             "chance": 0.0003,
             "kind": "drop",
-            "maps": [28],
+            "maps": [
+              28
+            ],
             "monster": "frogBIG",
             "questLink": "Papua_Piggea1",
             "world": 1
@@ -4624,7 +4728,9 @@
           {
             "chance": 0.000025,
             "kind": "drop",
-            "maps": [107],
+            "maps": [
+              107
+            ],
             "monster": "snowball",
             "questLink": null,
             "world": 3
@@ -4707,7 +4813,9 @@
           {
             "chance": 0.00000585,
             "kind": "drop",
-            "maps": [6],
+            "maps": [
+              6
+            ],
             "monster": "Copper",
             "questLink": null,
             "world": 1
@@ -4715,7 +4823,9 @@
           {
             "chance": 0.0000063,
             "kind": "drop",
-            "maps": [7],
+            "maps": [
+              7
+            ],
             "monster": "Iron",
             "questLink": null,
             "world": 1
@@ -4731,7 +4841,9 @@
           {
             "chance": 0.00000693,
             "kind": "drop",
-            "maps": [10],
+            "maps": [
+              10
+            ],
             "monster": "Plat",
             "questLink": null,
             "world": 1
@@ -4747,7 +4859,9 @@
           {
             "chance": 0.000008099999999999999,
             "kind": "drop",
-            "maps": [11],
+            "maps": [
+              11
+            ],
             "monster": "Void",
             "questLink": null,
             "world": 1
@@ -4763,7 +4877,9 @@
           {
             "chance": 0.000009899999999999998,
             "kind": "drop",
-            "maps": [12],
+            "maps": [
+              12
+            ],
             "monster": "Starfire",
             "questLink": null,
             "world": 1
@@ -4787,7 +4903,9 @@
           {
             "chance": 0.0000135,
             "kind": "drop",
-            "maps": [32],
+            "maps": [
+              32
+            ],
             "monster": "Godshard",
             "questLink": null,
             "world": 1
@@ -4981,7 +5099,9 @@
           {
             "chance": 0.00001,
             "kind": "drop",
-            "maps": [109],
+            "maps": [
+              109
+            ],
             "monster": "thermostat",
             "questLink": null,
             "world": 3
@@ -5253,7 +5373,9 @@
           {
             "chance": 0.0000018,
             "kind": "drop",
-            "maps": [51],
+            "maps": [
+              51
+            ],
             "monster": "jarSand",
             "questLink": null,
             "world": 2
@@ -5261,7 +5383,12 @@
           {
             "chance": 0.00000192,
             "kind": "drop",
-            "maps": [52, 68, 70, 71],
+            "maps": [
+              52,
+              68,
+              70,
+              71
+            ],
             "monster": "mimicA",
             "questLink": null,
             "world": 2
@@ -5269,7 +5396,9 @@
           {
             "chance": 0.0000021599999999999996,
             "kind": "drop",
-            "maps": [53],
+            "maps": [
+              53
+            ],
             "monster": "crabcake",
             "questLink": null,
             "world": 2
@@ -5390,7 +5519,9 @@
           {
             "chance": 0.00000128,
             "kind": "drop",
-            "maps": [57],
+            "maps": [
+              57
+            ],
             "monster": "coconut",
             "questLink": null,
             "world": 2
@@ -5398,7 +5529,9 @@
           {
             "chance": 0.0000014000000000000001,
             "kind": "drop",
-            "maps": [58],
+            "maps": [
+              58
+            ],
             "monster": "sandcastle",
             "questLink": null,
             "world": 2
@@ -5406,7 +5539,9 @@
           {
             "chance": 0.0000014800000000000002,
             "kind": "drop",
-            "maps": [59],
+            "maps": [
+              59
+            ],
             "monster": "pincermin",
             "questLink": null,
             "world": 2
@@ -5414,7 +5549,9 @@
           {
             "chance": 0.00000156,
             "kind": "drop",
-            "maps": [60],
+            "maps": [
+              60
+            ],
             "monster": "potato",
             "questLink": null,
             "world": 2
@@ -6012,7 +6149,9 @@
           {
             "chance": 0.0000015,
             "kind": "drop",
-            "maps": [67],
+            "maps": [
+              67
+            ],
             "monster": "Bug2",
             "questLink": null,
             "world": 2
@@ -6229,7 +6368,10 @@
           {
             "chance": 0.000012,
             "kind": "drop",
-            "maps": [54, 55],
+            "maps": [
+              54,
+              55
+            ],
             "monster": "FishSmall",
             "questLink": null,
             "world": 2
@@ -6237,7 +6379,10 @@
           {
             "chance": 0.000012,
             "kind": "drop",
-            "maps": [61, 72],
+            "maps": [
+              61,
+              72
+            ],
             "monster": "FishMed",
             "questLink": null,
             "world": 2
@@ -6466,7 +6611,9 @@
           {
             "chance": 4.8e-7,
             "kind": "drop",
-            "maps": [62],
+            "maps": [
+              62
+            ],
             "monster": "steak",
             "questLink": null,
             "world": 2
@@ -6474,7 +6621,9 @@
           {
             "chance": 5.25e-7,
             "kind": "drop",
-            "maps": [63],
+            "maps": [
+              63
+            ],
             "monster": "moonman",
             "questLink": null,
             "world": 2
@@ -6482,7 +6631,10 @@
           {
             "chance": 5.55e-7,
             "kind": "drop",
-            "maps": [64, 69],
+            "maps": [
+              64,
+              69
+            ],
             "monster": "sandgiant",
             "questLink": null,
             "world": 2
@@ -6490,7 +6642,10 @@
           {
             "chance": 5.849999999999999e-7,
             "kind": "drop",
-            "maps": [65, 66],
+            "maps": [
+              65,
+              66
+            ],
             "monster": "snailZ",
             "questLink": null,
             "world": 2
@@ -7024,7 +7179,9 @@
           {
             "chance": 0.0000036,
             "kind": "drop",
-            "maps": [1],
+            "maps": [
+              1
+            ],
             "monster": "mushG",
             "questLink": null,
             "world": 1
@@ -7032,7 +7189,9 @@
           {
             "chance": 0.0000062399999999999995,
             "kind": "drop",
-            "maps": [17],
+            "maps": [
+              17
+            ],
             "monster": "mushR",
             "questLink": null,
             "world": 1
@@ -7040,7 +7199,12 @@
           {
             "chance": 0.0000045599999999999995,
             "kind": "drop",
-            "maps": [2, 36, 39, 40],
+            "maps": [
+              2,
+              36,
+              39,
+              40
+            ],
             "monster": "frogG",
             "questLink": null,
             "world": 1
@@ -7048,7 +7212,9 @@
           {
             "chance": 0.000005399999999999999,
             "kind": "drop",
-            "maps": [14],
+            "maps": [
+              14
+            ],
             "monster": "beanG",
             "questLink": null,
             "world": 1
@@ -7180,7 +7346,11 @@
           {
             "chance": 0.0000025,
             "kind": "drop",
-            "maps": [101, 118, 119],
+            "maps": [
+              101,
+              118,
+              119
+            ],
             "monster": "sheep",
             "questLink": null,
             "world": 3
@@ -7188,7 +7358,10 @@
           {
             "chance": 0.0000028,
             "kind": "drop",
-            "maps": [103, 115],
+            "maps": [
+              103,
+              115
+            ],
             "monster": "flake",
             "questLink": null,
             "world": 3
@@ -7196,7 +7369,9 @@
           {
             "chance": 0.0000031,
             "kind": "drop",
-            "maps": [104],
+            "maps": [
+              104
+            ],
             "monster": "stache",
             "questLink": null,
             "world": 3
@@ -7341,7 +7516,11 @@
           {
             "chance": 2.25e-7,
             "kind": "drop",
-            "maps": [101, 118, 119],
+            "maps": [
+              101,
+              118,
+              119
+            ],
             "monster": "sheep",
             "questLink": null,
             "world": 3
@@ -7349,7 +7528,10 @@
           {
             "chance": 2.5200000000000003e-7,
             "kind": "drop",
-            "maps": [103, 115],
+            "maps": [
+              103,
+              115
+            ],
             "monster": "flake",
             "questLink": null,
             "world": 3
@@ -7357,7 +7539,9 @@
           {
             "chance": 2.7899999999999994e-7,
             "kind": "drop",
-            "maps": [104],
+            "maps": [
+              104
+            ],
             "monster": "stache",
             "questLink": null,
             "world": 3
@@ -7365,7 +7549,10 @@
           {
             "chance": 3.0599999999999996e-7,
             "kind": "drop",
-            "maps": [116, 120],
+            "maps": [
+              116,
+              120
+            ],
             "monster": "ram",
             "questLink": null,
             "world": 3
@@ -7373,7 +7560,9 @@
           {
             "chance": 2.25e-7,
             "kind": "drop",
-            "maps": [105],
+            "maps": [
+              105
+            ],
             "monster": "bloque",
             "questLink": null,
             "world": 3
@@ -7381,7 +7570,9 @@
           {
             "chance": 2.43e-7,
             "kind": "drop",
-            "maps": [106],
+            "maps": [
+              106
+            ],
             "monster": "mamoth",
             "questLink": null,
             "world": 3
@@ -7389,7 +7580,9 @@
           {
             "chance": 2.6099999999999997e-7,
             "kind": "drop",
-            "maps": [107],
+            "maps": [
+              107
+            ],
             "monster": "snowball",
             "questLink": null,
             "world": 3
@@ -7397,7 +7590,9 @@
           {
             "chance": 2.7899999999999994e-7,
             "kind": "drop",
-            "maps": [108],
+            "maps": [
+              108
+            ],
             "monster": "penguin",
             "questLink": null,
             "world": 3
@@ -7405,7 +7600,9 @@
           {
             "chance": 2.9699999999999997e-7,
             "kind": "drop",
-            "maps": [109],
+            "maps": [
+              109
+            ],
             "monster": "thermostat",
             "questLink": null,
             "world": 3
@@ -7413,7 +7610,9 @@
           {
             "chance": 2.25e-7,
             "kind": "drop",
-            "maps": [110],
+            "maps": [
+              110
+            ],
             "monster": "glass",
             "questLink": null,
             "world": 3
@@ -7421,7 +7620,9 @@
           {
             "chance": 2.5200000000000003e-7,
             "kind": "drop",
-            "maps": [111],
+            "maps": [
+              111
+            ],
             "monster": "snakeB",
             "questLink": null,
             "world": 3
@@ -7429,7 +7630,9 @@
           {
             "chance": 2.7e-7,
             "kind": "drop",
-            "maps": [112],
+            "maps": [
+              112
+            ],
             "monster": "speaker",
             "questLink": null,
             "world": 3
@@ -7437,7 +7640,10 @@
           {
             "chance": 2.8800000000000004e-7,
             "kind": "drop",
-            "maps": [113, 114],
+            "maps": [
+              113,
+              114
+            ],
             "monster": "eye",
             "questLink": null,
             "world": 3
@@ -7453,7 +7659,9 @@
           {
             "chance": 4.5e-7,
             "kind": "drop",
-            "maps": [117],
+            "maps": [
+              117
+            ],
             "monster": "skele2",
             "questLink": null,
             "world": 3
@@ -7791,7 +7999,10 @@
           {
             "chance": 3.4e-7,
             "kind": "drop",
-            "maps": [116, 120],
+            "maps": [
+              116,
+              120
+            ],
             "monster": "ram",
             "questLink": null,
             "world": 3
@@ -7799,7 +8010,9 @@
           {
             "chance": 2.5000000000000004e-7,
             "kind": "drop",
-            "maps": [110],
+            "maps": [
+              110
+            ],
             "monster": "glass",
             "questLink": null,
             "world": 3
@@ -7807,7 +8020,9 @@
           {
             "chance": 2.8e-7,
             "kind": "drop",
-            "maps": [111],
+            "maps": [
+              111
+            ],
             "monster": "snakeB",
             "questLink": null,
             "world": 3
@@ -7815,7 +8030,9 @@
           {
             "chance": 3.0000000000000004e-7,
             "kind": "drop",
-            "maps": [112],
+            "maps": [
+              112
+            ],
             "monster": "speaker",
             "questLink": null,
             "world": 3
@@ -7823,7 +8040,10 @@
           {
             "chance": 3.2e-7,
             "kind": "drop",
-            "maps": [113, 114],
+            "maps": [
+              113,
+              114
+            ],
             "monster": "eye",
             "questLink": null,
             "world": 3
@@ -7831,7 +8051,9 @@
           {
             "chance": 5.000000000000001e-7,
             "kind": "drop",
-            "maps": [117],
+            "maps": [
+              117
+            ],
             "monster": "skele2",
             "questLink": null,
             "world": 3
@@ -8019,7 +8241,11 @@
           {
             "chance": 0.0000014999999999999998,
             "kind": "drop",
-            "maps": [101, 118, 119],
+            "maps": [
+              101,
+              118,
+              119
+            ],
             "monster": "sheep",
             "questLink": null,
             "world": 3
@@ -8027,7 +8253,10 @@
           {
             "chance": 0.0000016799999999999998,
             "kind": "drop",
-            "maps": [103, 115],
+            "maps": [
+              103,
+              115
+            ],
             "monster": "flake",
             "questLink": null,
             "world": 3
@@ -8035,7 +8264,9 @@
           {
             "chance": 0.0000018599999999999998,
             "kind": "drop",
-            "maps": [104],
+            "maps": [
+              104
+            ],
             "monster": "stache",
             "questLink": null,
             "world": 3
@@ -9347,7 +9578,9 @@
           {
             "chance": 4.2500000000000006e-7,
             "kind": "drop",
-            "maps": [256],
+            "maps": [
+              256
+            ],
             "monster": "w6b1",
             "questLink": null,
             "world": 6
@@ -9355,7 +9588,9 @@
           {
             "chance": 4.2500000000000006e-7,
             "kind": "drop",
-            "maps": [257],
+            "maps": [
+              257
+            ],
             "monster": "w6b2",
             "questLink": null,
             "world": 6
@@ -9363,7 +9598,9 @@
           {
             "chance": 4.93e-7,
             "kind": "drop",
-            "maps": [258],
+            "maps": [
+              258
+            ],
             "monster": "w6b3",
             "questLink": null,
             "world": 6
@@ -9371,7 +9608,9 @@
           {
             "chance": 5.27e-7,
             "kind": "drop",
-            "maps": [259],
+            "maps": [
+              259
+            ],
             "monster": "w6b4",
             "questLink": null,
             "world": 6
@@ -9486,7 +9725,11 @@
           {
             "chance": 0.00008,
             "kind": "drop",
-            "maps": [101, 118, 119],
+            "maps": [
+              101,
+              118,
+              119
+            ],
             "monster": "sheep",
             "questLink": null,
             "world": 3
@@ -9569,7 +9812,9 @@
           {
             "chance": 6.25e-7,
             "kind": "drop",
-            "maps": [251],
+            "maps": [
+              251
+            ],
             "monster": "w6a1",
             "questLink": null,
             "world": 6
@@ -9577,7 +9822,10 @@
           {
             "chance": 7e-7,
             "kind": "drop",
-            "maps": [252, 265],
+            "maps": [
+              252,
+              265
+            ],
             "monster": "w6a2",
             "questLink": null,
             "world": 6
@@ -9585,7 +9833,9 @@
           {
             "chance": 7.75e-7,
             "kind": "drop",
-            "maps": [253],
+            "maps": [
+              253
+            ],
             "monster": "w6a3",
             "questLink": null,
             "world": 6
@@ -9593,7 +9843,9 @@
           {
             "chance": 8.5e-7,
             "kind": "drop",
-            "maps": [254],
+            "maps": [
+              254
+            ],
             "monster": "w6a4",
             "questLink": null,
             "world": 6
@@ -9601,7 +9853,9 @@
           {
             "chance": 9.25e-7,
             "kind": "drop",
-            "maps": [255],
+            "maps": [
+              255
+            ],
             "monster": "w6a5",
             "questLink": null,
             "world": 6
@@ -9821,7 +10075,9 @@
           {
             "chance": 3.2499999999999996e-7,
             "kind": "drop",
-            "maps": [251],
+            "maps": [
+              251
+            ],
             "monster": "w6a1",
             "questLink": null,
             "world": 6
@@ -9829,7 +10085,10 @@
           {
             "chance": 3.64e-7,
             "kind": "drop",
-            "maps": [252, 265],
+            "maps": [
+              252,
+              265
+            ],
             "monster": "w6a2",
             "questLink": null,
             "world": 6
@@ -9837,7 +10096,9 @@
           {
             "chance": 4.0299999999999994e-7,
             "kind": "drop",
-            "maps": [253],
+            "maps": [
+              253
+            ],
             "monster": "w6a3",
             "questLink": null,
             "world": 6
@@ -9845,7 +10106,9 @@
           {
             "chance": 4.4199999999999996e-7,
             "kind": "drop",
-            "maps": [254],
+            "maps": [
+              254
+            ],
             "monster": "w6a4",
             "questLink": null,
             "world": 6
@@ -9853,7 +10116,9 @@
           {
             "chance": 4.809999999999999e-7,
             "kind": "drop",
-            "maps": [255],
+            "maps": [
+              255
+            ],
             "monster": "w6a5",
             "questLink": null,
             "world": 6
@@ -10073,7 +10338,9 @@
           {
             "chance": 2.2400000000000002e-7,
             "kind": "drop",
-            "maps": [262],
+            "maps": [
+              262
+            ],
             "monster": "w6d1",
             "questLink": null,
             "world": 6
@@ -10081,7 +10348,9 @@
           {
             "chance": 2.8e-7,
             "kind": "drop",
-            "maps": [263],
+            "maps": [
+              263
+            ],
             "monster": "w6d2",
             "questLink": null,
             "world": 6
@@ -10089,7 +10358,10 @@
           {
             "chance": 2.8e-7,
             "kind": "drop",
-            "maps": [264, 266],
+            "maps": [
+              264,
+              266
+            ],
             "monster": "w6d3",
             "questLink": null,
             "world": 6
@@ -10602,7 +10874,10 @@
           {
             "chance": 0.00006,
             "kind": "drop",
-            "maps": [103, 115],
+            "maps": [
+              103,
+              115
+            ],
             "monster": "flake",
             "questLink": null,
             "world": 3
@@ -11456,7 +11731,10 @@
           {
             "chance": 0.000003,
             "kind": "drop",
-            "maps": [202, 215],
+            "maps": [
+              202,
+              215
+            ],
             "monster": "w5a2",
             "questLink": null,
             "world": 5
@@ -11703,7 +11981,9 @@
           {
             "chance": 7.499999999999999e-7,
             "kind": "drop",
-            "maps": [105],
+            "maps": [
+              105
+            ],
             "monster": "bloque",
             "questLink": null,
             "world": 3
@@ -11711,7 +11991,9 @@
           {
             "chance": 8.1e-7,
             "kind": "drop",
-            "maps": [106],
+            "maps": [
+              106
+            ],
             "monster": "mamoth",
             "questLink": null,
             "world": 3
@@ -11719,7 +12001,9 @@
           {
             "chance": 8.699999999999998e-7,
             "kind": "drop",
-            "maps": [107],
+            "maps": [
+              107
+            ],
             "monster": "snowball",
             "questLink": null,
             "world": 3
@@ -11727,7 +12011,9 @@
           {
             "chance": 9.299999999999999e-7,
             "kind": "drop",
-            "maps": [108],
+            "maps": [
+              108
+            ],
             "monster": "penguin",
             "questLink": null,
             "world": 3
@@ -11735,7 +12021,9 @@
           {
             "chance": 9.899999999999998e-7,
             "kind": "drop",
-            "maps": [109],
+            "maps": [
+              109
+            ],
             "monster": "thermostat",
             "questLink": null,
             "world": 3
@@ -12253,7 +12541,9 @@
           {
             "chance": 1.125e-8,
             "kind": "drop",
-            "maps": [251],
+            "maps": [
+              251
+            ],
             "monster": "w6a1",
             "questLink": null,
             "world": 6
@@ -12261,7 +12551,10 @@
           {
             "chance": 1.2599999999999999e-8,
             "kind": "drop",
-            "maps": [252, 265],
+            "maps": [
+              252,
+              265
+            ],
             "monster": "w6a2",
             "questLink": null,
             "world": 6
@@ -12269,7 +12562,9 @@
           {
             "chance": 1.3950000000000001e-8,
             "kind": "drop",
-            "maps": [253],
+            "maps": [
+              253
+            ],
             "monster": "w6a3",
             "questLink": null,
             "world": 6
@@ -12277,7 +12572,9 @@
           {
             "chance": 1.5299999999999998e-8,
             "kind": "drop",
-            "maps": [254],
+            "maps": [
+              254
+            ],
             "monster": "w6a4",
             "questLink": null,
             "world": 6
@@ -12285,7 +12582,9 @@
           {
             "chance": 1.665e-8,
             "kind": "drop",
-            "maps": [255],
+            "maps": [
+              255
+            ],
             "monster": "w6a5",
             "questLink": null,
             "world": 6
@@ -12293,7 +12592,9 @@
           {
             "chance": 1.125e-8,
             "kind": "drop",
-            "maps": [256],
+            "maps": [
+              256
+            ],
             "monster": "w6b1",
             "questLink": null,
             "world": 6
@@ -12301,7 +12602,9 @@
           {
             "chance": 1.125e-8,
             "kind": "drop",
-            "maps": [257],
+            "maps": [
+              257
+            ],
             "monster": "w6b2",
             "questLink": null,
             "world": 6
@@ -12309,7 +12612,9 @@
           {
             "chance": 1.305e-8,
             "kind": "drop",
-            "maps": [258],
+            "maps": [
+              258
+            ],
             "monster": "w6b3",
             "questLink": null,
             "world": 6
@@ -12317,7 +12622,9 @@
           {
             "chance": 1.3950000000000001e-8,
             "kind": "drop",
-            "maps": [259],
+            "maps": [
+              259
+            ],
             "monster": "w6b4",
             "questLink": null,
             "world": 6
@@ -12325,7 +12632,9 @@
           {
             "chance": 1.485e-8,
             "kind": "drop",
-            "maps": [260],
+            "maps": [
+              260
+            ],
             "monster": "w6c1",
             "questLink": null,
             "world": 6
@@ -12333,7 +12642,9 @@
           {
             "chance": 1.5750000000000002e-8,
             "kind": "drop",
-            "maps": [261],
+            "maps": [
+              261
+            ],
             "monster": "w6c2",
             "questLink": null,
             "world": 6
@@ -12341,7 +12652,9 @@
           {
             "chance": 1.2599999999999999e-8,
             "kind": "drop",
-            "maps": [262],
+            "maps": [
+              262
+            ],
             "monster": "w6d1",
             "questLink": null,
             "world": 6
@@ -12349,7 +12662,9 @@
           {
             "chance": 1.5750000000000002e-8,
             "kind": "drop",
-            "maps": [263],
+            "maps": [
+              263
+            ],
             "monster": "w6d2",
             "questLink": null,
             "world": 6
@@ -12357,7 +12672,10 @@
           {
             "chance": 1.5750000000000002e-8,
             "kind": "drop",
-            "maps": [264, 266],
+            "maps": [
+              264,
+              266
+            ],
             "monster": "w6d3",
             "questLink": null,
             "world": 6

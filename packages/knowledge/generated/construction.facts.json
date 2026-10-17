@@ -4,7 +4,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "construction",
-        "inputs": ["website-data/shared-data.json#towers"]
+        "inputs": [
+          "website-data/shared-data.json#towers"
+        ]
       },
       "id": "construction.fact.buildings",
       "origin": "generated",

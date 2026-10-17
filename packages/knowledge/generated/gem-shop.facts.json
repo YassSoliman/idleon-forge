@@ -4,7 +4,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "gem-shop",
-        "inputs": ["website-data/gemShop.json"]
+        "inputs": [
+          "website-data/gemShop.json"
+        ]
       },
       "id": "gem-shop.fact.items",
       "origin": "generated",

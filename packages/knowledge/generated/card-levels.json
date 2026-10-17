@@ -9,7 +9,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.acorn",
       "milestones": [
@@ -72,7 +75,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.alien-tree",
       "milestones": [
@@ -135,7 +141,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bandit-bob",
       "milestones": [
@@ -198,7 +207,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bean-g",
       "milestones": [
@@ -261,7 +273,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.birch-tree",
       "milestones": [
@@ -324,7 +339,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bloque",
       "milestones": [
@@ -387,7 +405,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.branch",
       "milestones": [
@@ -450,7 +471,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bug1",
       "milestones": [
@@ -513,7 +537,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bug10",
       "milestones": [
@@ -576,7 +603,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bug12",
       "milestones": [
@@ -639,7 +669,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bug13",
       "milestones": [
@@ -702,7 +735,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bug14",
       "milestones": [
@@ -765,7 +801,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bug2",
       "milestones": [
@@ -828,7 +867,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bug3",
       "milestones": [
@@ -891,7 +933,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bug4",
       "milestones": [
@@ -954,7 +999,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bug5",
       "milestones": [
@@ -1017,7 +1065,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bug6",
       "milestones": [
@@ -1080,7 +1131,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bug7",
       "milestones": [
@@ -1143,7 +1197,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bug8",
       "milestones": [
@@ -1206,7 +1263,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.bug9",
       "milestones": [
@@ -1269,7 +1329,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.carrot-o",
       "milestones": [
@@ -1332,7 +1395,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.coconut",
       "milestones": [
@@ -1395,7 +1461,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.copper",
       "milestones": [
@@ -1458,7 +1527,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.crabcake",
       "milestones": [
@@ -1521,7 +1593,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.critter-card1",
       "milestones": [
@@ -1584,7 +1659,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.critter-card10",
       "milestones": [
@@ -1647,7 +1725,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.critter-card11",
       "milestones": [
@@ -1710,7 +1791,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.critter-card2",
       "milestones": [
@@ -1773,7 +1857,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.critter-card3",
       "milestones": [
@@ -1836,7 +1923,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.critter-card4",
       "milestones": [
@@ -1899,7 +1989,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.critter-card5",
       "milestones": [
@@ -1962,7 +2055,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.critter-card6",
       "milestones": [
@@ -2025,7 +2121,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.critter-card7",
       "milestones": [
@@ -2088,7 +2187,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.critter-card8",
       "milestones": [
@@ -2151,7 +2253,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.critter-card9",
       "milestones": [
@@ -2214,7 +2319,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.crystal0",
       "milestones": [
@@ -2277,7 +2385,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.crystal1",
       "milestones": [
@@ -2340,7 +2451,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.crystal2",
       "milestones": [
@@ -2403,7 +2517,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.crystal3",
       "milestones": [
@@ -2466,7 +2583,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.dementia",
       "milestones": [
@@ -2529,7 +2649,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.demon-p",
       "milestones": [
@@ -2592,7 +2715,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.dreadlo",
       "milestones": [
@@ -2655,7 +2781,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.eye",
       "milestones": [
@@ -2718,7 +2847,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.fish1",
       "milestones": [
@@ -2781,7 +2913,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.fish10",
       "milestones": [
@@ -2844,7 +2979,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.fish11",
       "milestones": [
@@ -2907,7 +3045,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.fish12",
       "milestones": [
@@ -2970,7 +3111,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.fish2",
       "milestones": [
@@ -3033,7 +3177,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.fish3",
       "milestones": [
@@ -3096,7 +3243,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.fish4",
       "milestones": [
@@ -3159,7 +3309,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.fish5",
       "milestones": [
@@ -3222,7 +3375,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.fish6",
       "milestones": [
@@ -3285,7 +3441,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.fish7",
       "milestones": [
@@ -3348,7 +3507,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.fish8",
       "milestones": [
@@ -3411,7 +3573,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.fish9",
       "milestones": [
@@ -3474,7 +3639,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.flake",
       "milestones": [
@@ -3537,7 +3705,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.forest-tree",
       "milestones": [
@@ -3600,7 +3771,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.forge-a",
       "milestones": [
@@ -3663,7 +3837,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.forge-b",
       "milestones": [
@@ -3726,7 +3903,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.frog-big",
       "milestones": [
@@ -3789,7 +3969,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.frog-g",
       "milestones": [
@@ -3852,7 +4035,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.glass",
       "milestones": [
@@ -3915,7 +4101,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.goblin-g",
       "milestones": [
@@ -3978,7 +4167,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.godshard",
       "milestones": [
@@ -4041,7 +4233,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.gold",
       "milestones": [
@@ -4104,7 +4299,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.iron",
       "milestones": [
@@ -4167,7 +4365,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.jar-sand",
       "milestones": [
@@ -4230,7 +4431,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.jungle-tree",
       "milestones": [
@@ -4293,7 +4497,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.lustre",
       "milestones": [
@@ -4356,7 +4563,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.mamoth",
       "milestones": [
@@ -4419,7 +4629,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.mimic-a",
       "milestones": [
@@ -4482,7 +4695,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.moonman",
       "milestones": [
@@ -4545,7 +4761,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.mush-g",
       "milestones": [
@@ -4608,7 +4827,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.mush-p",
       "milestones": [
@@ -4671,7 +4893,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.mush-r",
       "milestones": [
@@ -4734,7 +4959,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.mush-w",
       "milestones": [
@@ -4797,7 +5025,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.oak-tree",
       "milestones": [
@@ -4860,7 +5091,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.palm-tree",
       "milestones": [
@@ -4923,7 +5157,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.penguin",
       "milestones": [
@@ -4986,7 +5223,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.pincermin",
       "milestones": [
@@ -5049,7 +5289,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.plank",
       "milestones": [
@@ -5112,7 +5355,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.plat",
       "milestones": [
@@ -5175,7 +5421,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.poop-small",
       "milestones": [
@@ -5238,7 +5487,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.potato",
       "milestones": [
@@ -5301,7 +5553,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.prehistrium",
       "milestones": [
@@ -5364,7 +5619,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.ram",
       "milestones": [
@@ -5427,7 +5685,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.rat-b",
       "milestones": [
@@ -5490,7 +5751,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.saharan-foal",
       "milestones": [
@@ -5553,7 +5817,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.sandcastle",
       "milestones": [
@@ -5616,7 +5883,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.sandgiant",
       "milestones": [
@@ -5679,7 +5949,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.sheep",
       "milestones": [
@@ -5742,7 +6015,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.shovel-r",
       "milestones": [
@@ -5805,7 +6081,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.skele",
       "milestones": [
@@ -5868,7 +6147,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.skele2",
       "milestones": [
@@ -5931,7 +6213,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.slime-g",
       "milestones": [
@@ -5994,7 +6279,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.snail-z",
       "milestones": [
@@ -6057,7 +6345,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.snake-b",
       "milestones": [
@@ -6120,7 +6411,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.snake-g",
       "milestones": [
@@ -6183,7 +6477,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.snowball",
       "milestones": [
@@ -6246,7 +6543,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.soul-card1",
       "milestones": [
@@ -6309,7 +6609,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.soul-card2",
       "milestones": [
@@ -6372,7 +6675,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.soul-card3",
       "milestones": [
@@ -6435,7 +6741,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.soul-card4",
       "milestones": [
@@ -6498,7 +6807,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.soul-card5",
       "milestones": [
@@ -6561,7 +6873,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.soul-card6",
       "milestones": [
@@ -6624,7 +6939,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.soul-card7",
       "milestones": [
@@ -6687,7 +7005,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.soul-card8",
       "milestones": [
@@ -6750,7 +7071,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.speaker",
       "milestones": [
@@ -6813,7 +7137,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.spelunking-card0",
       "milestones": [
@@ -6876,7 +7203,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.spelunking-card1",
       "milestones": [
@@ -6939,7 +7269,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.spelunking-card2",
       "milestones": [
@@ -7002,7 +7335,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.spelunking-card3",
       "milestones": [
@@ -7065,7 +7401,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.spelunking-card4",
       "milestones": [
@@ -7128,7 +7467,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.spelunking-card5",
       "milestones": [
@@ -7191,7 +7533,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.spelunking-card6",
       "milestones": [
@@ -7254,7 +7599,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.stache",
       "milestones": [
@@ -7317,7 +7665,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.starfire",
       "milestones": [
@@ -7380,7 +7731,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.steak",
       "milestones": [
@@ -7443,7 +7797,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.stump-tree",
       "milestones": [
@@ -7506,7 +7863,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.thermostat",
       "milestones": [
@@ -7569,7 +7929,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.toilet-tree",
       "milestones": [
@@ -7632,7 +7995,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.tree10",
       "milestones": [
@@ -7695,7 +8061,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.tree12",
       "milestones": [
@@ -7758,7 +8127,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.tree13",
       "milestones": [
@@ -7821,7 +8193,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.tree14",
       "milestones": [
@@ -7884,7 +8259,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.tree7",
       "milestones": [
@@ -7947,7 +8325,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.tree8",
       "milestones": [
@@ -8010,7 +8391,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.tree9",
       "milestones": [
@@ -8073,7 +8457,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.void",
       "milestones": [
@@ -8136,7 +8523,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.w4a2",
       "milestones": [
@@ -8199,7 +8589,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.w4a3",
       "milestones": [
@@ -8262,7 +8655,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.w4b1",
       "milestones": [
@@ -8325,7 +8721,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.w4b2",
       "milestones": [
@@ -8388,7 +8787,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.w4b3",
       "milestones": [
@@ -8451,7 +8853,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.w4b4",
       "milestones": [
@@ -8514,7 +8919,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.w4b5",
       "milestones": [
@@ -8577,7 +8985,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.w4c1",
       "milestones": [
@@ -8640,7 +9051,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.w4c2",
       "milestones": [
@@ -8703,7 +9117,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.w4c3",
       "milestones": [
@@ -8766,7 +9183,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "card-levels",
-        "inputs": ["parsers/cards.ts#calculateStars", "website-data/cards.json"]
+        "inputs": [
+          "parsers/cards.ts#calculateStars",
+          "website-data/cards.json"
+        ]
       },
       "id": "cards.goal.w4c4",
       "milestones": [

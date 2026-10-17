@@ -149,7 +149,11 @@
       },
       "id": "talents.fact.tab2-granting",
       "origin": "generated",
-      "rows": ["BACK_TO_BASICS", "EARLIER_EDUCATION", "PREVIOUS_POINTS"],
+      "rows": [
+        "BACK_TO_BASICS",
+        "EARLIER_EDUCATION",
+        "PREVIOUS_POINTS"
+      ],
       "sources": [
         {
           "gameVersion": "2.3.540",
@@ -182,11 +186,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "'STR'ESS_TESTED_GARB",
           "skillAttackFor": null,
           "skillIndex": 96,
-          "tabs": ["Warrior"],
+          "tabs": [
+            "Warrior"
+          ],
           "valuesX": {
             "10": 15,
             "25": 37.5,
@@ -203,11 +211,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "1000_HOURS_PLAYED",
           "skillAttackFor": null,
           "skillIndex": 176,
-          "tabs": ["Divine_Knight"],
+          "tabs": [
+            "Divine_Knight"
+          ],
           "valuesX": {
             "10": 5.45,
             "25": 12,
@@ -224,11 +236,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "360_NOSCOPE",
           "skillAttackFor": null,
           "skillIndex": 300,
-          "tabs": ["Hunter"],
+          "tabs": [
+            "Hunter"
+          ],
           "valuesX": {
             "10": 255,
             "25": 300,
@@ -245,11 +261,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "ABSOLUTE_STARDOM",
           "skillAttackFor": null,
           "skillIndex": 597,
-          "tabs": ["Arcane_Cultist"],
+          "tabs": [
+            "Arcane_Cultist"
+          ],
           "valuesX": {
             "10": 101.5,
             "25": 103.75,
@@ -266,11 +286,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "ABSOLUTE_UNIT",
           "skillAttackFor": null,
           "skillIndex": 98,
-          "tabs": ["Warrior"],
+          "tabs": [
+            "Warrior"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -287,11 +311,15 @@
           "funcX": "intervalAdd",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "ACME_ANVIL",
           "skillAttackFor": null,
           "skillIndex": 281,
-          "tabs": ["Archer"],
+          "tabs": [
+            "Archer"
+          ],
           "valuesX": {
             "10": 1,
             "25": 2,
@@ -312,7 +340,9 @@
           "rawName": "ACTION_FRENZY",
           "skillAttackFor": null,
           "skillIndex": 637,
-          "tabs": ["Special Talent 2"],
+          "tabs": [
+            "Special Talent 2"
+          ],
           "valuesX": {
             "10": 5.45,
             "25": 12,
@@ -329,11 +359,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "ACTIVE_AFK'ER",
           "skillAttackFor": null,
           "skillIndex": 449,
-          "tabs": ["Savvy_Basics"],
+          "tabs": [
+            "Savvy_Basics"
+          ],
           "valuesX": {
             "10": 4,
             "25": 7.69,
@@ -350,11 +384,16 @@
           "funcX": "decay",
           "funcY": "add",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "ADAPTATION_REVELATION",
           "skillAttackFor": null,
           "skillIndex": 368,
-          "tabs": ["Beast_Master", "Siege_Breaker"],
+          "tabs": [
+            "Beast_Master",
+            "Siege_Breaker"
+          ],
           "valuesX": {
             "10": 1.36,
             "25": 3,
@@ -376,11 +415,15 @@
           "funcX": "decayMulti",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "AESTHETIC_POLITICS",
           "skillAttackFor": null,
           "skillIndex": 232,
-          "tabs": ["Royal_Guardian"],
+          "tabs": [
+            "Royal_Guardian"
+          ],
           "valuesX": {
             "10": 1.04,
             "25": 1.09,
@@ -397,11 +440,16 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "AGI_AGAIN",
           "skillAttackFor": null,
           "skillIndex": 293,
-          "tabs": ["Bowman", "Hunter"],
+          "tabs": [
+            "Bowman",
+            "Hunter"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -418,11 +466,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "AGRICULTURAL_'PRECIATION",
           "skillAttackFor": null,
           "skillIndex": 206,
-          "tabs": ["Death_Bringer"],
+          "tabs": [
+            "Death_Bringer"
+          ],
           "valuesX": {
             "10": 20,
             "25": 50,
@@ -439,11 +491,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "ALL_FISH_DIET",
           "skillAttackFor": null,
           "skillIndex": 117,
-          "tabs": ["Barbarian"],
+          "tabs": [
+            "Barbarian"
+          ],
           "valuesX": {
             "10": 15,
             "25": 37.5,
@@ -460,11 +516,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "AMBER_HOARD",
           "skillAttackFor": null,
           "skillIndex": 235,
-          "tabs": ["Royal_Guardian"],
+          "tabs": [
+            "Royal_Guardian"
+          ],
           "valuesX": {
             "10": 2.38,
             "25": 5.56,
@@ -485,7 +545,9 @@
           "rawName": "AMERICAN_TIPPER",
           "skillAttackFor": null,
           "skillIndex": 644,
-          "tabs": ["Special Talent 3"],
+          "tabs": [
+            "Special Talent 3"
+          ],
           "valuesX": {
             "10": 7.27,
             "25": 16,
@@ -506,7 +568,9 @@
           "rawName": "ANCIENT_MULTITOOL",
           "skillAttackFor": null,
           "skillIndex": 646,
-          "tabs": ["Special Talent 3"],
+          "tabs": [
+            "Special Talent 3"
+          ],
           "valuesX": {
             "10": 4.55,
             "25": 10,
@@ -523,11 +587,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "ANIMALISTIC_FEROCITY",
           "skillAttackFor": null,
           "skillIndex": 365,
-          "tabs": ["Beast_Master"],
+          "tabs": [
+            "Beast_Master"
+          ],
           "valuesX": {
             "10": 0.73,
             "25": 1.6,
@@ -544,11 +612,15 @@
           "funcX": "decay",
           "funcY": "add",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "APOCALYPSE_CHOW",
           "skillAttackFor": null,
           "skillIndex": 146,
-          "tabs": ["Blood_Berserker"],
+          "tabs": [
+            "Blood_Berserker"
+          ],
           "valuesX": {
             "10": 1.82,
             "25": 4,
@@ -570,11 +642,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "APOCALYPSE_WOW",
           "skillAttackFor": null,
           "skillIndex": 209,
-          "tabs": ["Death_Bringer"],
+          "tabs": [
+            "Death_Bringer"
+          ],
           "valuesX": {
             "10": 0.1,
             "25": 0.22,
@@ -591,11 +667,15 @@
           "funcX": "intervalAdd",
           "funcY": "add",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "APOCALYPSE_ZOW",
           "skillAttackFor": null,
           "skillIndex": 110,
-          "tabs": ["Barbarian"],
+          "tabs": [
+            "Barbarian"
+          ],
           "valuesX": {
             "10": 2,
             "25": 2,
@@ -617,11 +697,15 @@
           "funcX": "intervalAdd",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "ARCANE_CRYSTALS",
           "skillAttackFor": null,
           "skillIndex": 588,
-          "tabs": ["Arcane_Cultist"],
+          "tabs": [
+            "Arcane_Cultist"
+          ],
           "valuesX": {
             "10": 3,
             "25": 3,
@@ -638,11 +722,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "ARCANE_SKULLS",
           "skillAttackFor": null,
           "skillIndex": 587,
-          "tabs": ["Arcane_Cultist"],
+          "tabs": [
+            "Arcane_Cultist"
+          ],
           "valuesX": {
             "10": 9.68,
             "25": 23.08,
@@ -659,11 +747,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "ARCANIST_FORM",
           "skillAttackFor": null,
           "skillIndex": 585,
-          "tabs": ["Arcane_Cultist"],
+          "tabs": [
+            "Arcane_Cultist"
+          ],
           "valuesX": {
             "10": 6.45,
             "25": 15.38,
@@ -680,11 +772,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "ARCHLORD_OF_THE_PIRATES",
           "skillAttackFor": null,
           "skillIndex": 328,
-          "tabs": ["Siege_Breaker"],
+          "tabs": [
+            "Siege_Breaker"
+          ],
           "valuesX": {
             "10": 0.38,
             "25": 0.86,
@@ -701,11 +797,15 @@
           "funcX": "intervalAdd",
           "funcY": "decay",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "ARENA_SPIRIT",
           "skillAttackFor": null,
           "skillIndex": 370,
-          "tabs": ["Beast_Master"],
+          "tabs": [
+            "Beast_Master"
+          ],
           "valuesX": {
             "10": 5,
             "25": 6,
@@ -731,7 +831,9 @@
           "rawName": "ATTACKS_ON_SIMMER",
           "skillAttackFor": null,
           "skillIndex": 624,
-          "tabs": ["Special Talent 1"],
+          "tabs": [
+            "Special Talent 1"
+          ],
           "valuesX": {
             "10": 3.64,
             "25": 8,
@@ -748,11 +850,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "AUSPICIOUS_AURA",
           "skillAttackFor": null,
           "skillIndex": 481,
-          "tabs": ["Shaman"],
+          "tabs": [
+            "Shaman"
+          ],
           "valuesX": {
             "10": 16,
             "25": 25,
@@ -774,11 +880,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "AXE_HURL",
           "skillAttackFor": null,
           "skillIndex": 106,
-          "tabs": ["Barbarian"],
+          "tabs": [
+            "Barbarian"
+          ],
           "valuesX": {
             "10": 160,
             "25": 175,
@@ -800,11 +910,15 @@
           "funcX": "decayMulti",
           "funcY": "intervalAdd",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "BACKUP_ENERGY",
           "skillAttackFor": null,
           "skillIndex": 599,
-          "tabs": ["Arcane_Cultist"],
+          "tabs": [
+            "Arcane_Cultist"
+          ],
           "valuesX": {
             "10": 1.02,
             "25": 1.05,
@@ -826,11 +940,16 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "BACK_TO_BASICS",
           "skillAttackFor": null,
           "skillIndex": 119,
-          "tabs": ["Barbarian", "Squire"],
+          "tabs": [
+            "Barbarian",
+            "Squire"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -847,11 +966,15 @@
           "funcX": "decay",
           "funcY": "decay",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "BALANCED_SPIRIT",
           "skillAttackFor": null,
           "skillIndex": 124,
-          "tabs": ["Squire"],
+          "tabs": [
+            "Squire"
+          ],
           "valuesX": {
             "10": 4.17,
             "25": 8.33,
@@ -873,11 +996,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "BALLISTA",
           "skillAttackFor": null,
           "skillIndex": 315,
-          "tabs": ["Beast_Master"],
+          "tabs": [
+            "Beast_Master"
+          ],
           "valuesX": {
             "10": 87.5,
             "25": 106.25,
@@ -899,11 +1026,15 @@
           "funcX": "intervalAdd",
           "funcY": "bigBase",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "BEAR_SWIPE",
           "skillAttackFor": null,
           "skillIndex": 105,
-          "tabs": ["Barbarian"],
+          "tabs": [
+            "Barbarian"
+          ],
           "valuesX": {
             "10": 3,
             "25": 3,
@@ -925,11 +1056,15 @@
           "funcX": "intervalAdd",
           "funcY": "bigBase",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "BEAR_TRAP",
           "skillAttackFor": null,
           "skillIndex": 301,
-          "tabs": ["Hunter"],
+          "tabs": [
+            "Hunter"
+          ],
           "valuesX": {
             "10": 2,
             "25": 2,
@@ -951,11 +1086,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "BEEFY_BOTTLES",
           "skillAttackFor": null,
           "skillIndex": 114,
-          "tabs": ["Barbarian"],
+          "tabs": [
+            "Barbarian"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -976,7 +1115,9 @@
           "rawName": "BEGINNER_BEST_CLASS",
           "skillAttackFor": null,
           "skillIndex": 616,
-          "tabs": ["Special Talent 1"],
+          "tabs": [
+            "Special Talent 1"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -993,11 +1134,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "BELIEVER_STRENGTH",
           "skillAttackFor": null,
           "skillIndex": 500,
-          "tabs": ["Elemental_Sorcerer"],
+          "tabs": [
+            "Elemental_Sorcerer"
+          ],
           "valuesX": {
             "10": 0.64,
             "25": 1.4,
@@ -1014,11 +1159,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "BIG_PICK",
           "skillAttackFor": "MINING",
           "skillIndex": 100,
-          "tabs": ["Warrior"],
+          "tabs": [
+            "Warrior"
+          ],
           "valuesX": {
             "10": 300,
             "25": 525,
@@ -1035,11 +1184,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "BITTY_LITTY",
           "skillAttackFor": null,
           "skillIndex": 177,
-          "tabs": ["Divine_Knight"],
+          "tabs": [
+            "Divine_Knight"
+          ],
           "valuesX": {
             "10": 1.82,
             "25": 4,
@@ -1056,11 +1209,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "BLESS_UP",
           "skillAttackFor": null,
           "skillIndex": 477,
-          "tabs": ["Wizard"],
+          "tabs": [
+            "Wizard"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -1077,11 +1234,15 @@
           "funcX": "add",
           "funcY": "add",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "BLISS_N_CHIPS",
           "skillAttackFor": null,
           "skillIndex": 38,
-          "tabs": ["Maestro"],
+          "tabs": [
+            "Maestro"
+          ],
           "valuesX": {
             "10": 20,
             "25": 50,
@@ -1103,11 +1264,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "BLOCKY_BOTTLES",
           "skillAttackFor": null,
           "skillIndex": 129,
-          "tabs": ["Squire"],
+          "tabs": [
+            "Squire"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -1124,11 +1289,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "BLOOD_MARROW",
           "skillAttackFor": null,
           "skillIndex": 59,
-          "tabs": ["Voidwalker"],
+          "tabs": [
+            "Voidwalker"
+          ],
           "valuesX": {
             "10": 0.09,
             "25": 0.21,
@@ -1145,11 +1314,15 @@
           "funcX": "intervalAdd",
           "funcY": "bigBase",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "BOAR_RUSH",
           "skillAttackFor": null,
           "skillIndex": 361,
-          "tabs": ["Beast_Master"],
+          "tabs": [
+            "Beast_Master"
+          ],
           "valuesX": {
             "10": 6,
             "25": 7,
@@ -1171,11 +1344,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "BOBBIN'_BOBBERS",
           "skillAttackFor": null,
           "skillIndex": 116,
-          "tabs": ["Barbarian"],
+          "tabs": [
+            "Barbarian"
+          ],
           "valuesX": {
             "10": 42,
             "25": 87,
@@ -1197,11 +1374,21 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer", "Beginner", "Mage", "Warrior"],
+          "lines": [
+            "Archer",
+            "Beginner",
+            "Mage",
+            "Warrior"
+          ],
           "rawName": "BOOK_OF_THE_WISE",
           "skillAttackFor": null,
           "skillIndex": 12,
-          "tabs": ["Beginner", "Calm_Basics", "Rage_Basics", "Savvy_Basics"],
+          "tabs": [
+            "Beginner",
+            "Calm_Basics",
+            "Rage_Basics",
+            "Savvy_Basics"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -1222,7 +1409,9 @@
           "rawName": "BORED_TO_DEATH",
           "skillAttackFor": null,
           "skillIndex": 615,
-          "tabs": ["Special Talent 4"],
+          "tabs": [
+            "Special Talent 4"
+          ],
           "valuesX": {
             "10": 580,
             "25": 550,
@@ -1239,11 +1428,15 @@
           "funcX": "add",
           "funcY": "decay",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "BOSSING_VAIN",
           "skillAttackFor": null,
           "skillIndex": 47,
-          "tabs": ["Voidwalker"],
+          "tabs": [
+            "Voidwalker"
+          ],
           "valuesX": {
             "10": 1000,
             "25": 2500,
@@ -1269,7 +1462,9 @@
           "rawName": "BOSS_BATTLE_SPILLOVER",
           "skillAttackFor": null,
           "skillIndex": 655,
-          "tabs": ["Special Talent 4"],
+          "tabs": [
+            "Special Talent 4"
+          ],
           "valuesX": {
             "10": 2.27,
             "25": 5,
@@ -1286,11 +1481,15 @@
           "funcX": "decayMulti",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "BREAKIN'_THE_BANK",
           "skillAttackFor": null,
           "skillIndex": 16,
-          "tabs": ["Journeyman"],
+          "tabs": [
+            "Journeyman"
+          ],
           "valuesX": {
             "10": 1.05,
             "25": 1.12,
@@ -1307,11 +1506,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "BRIAR_PATCH_RUNNER",
           "skillAttackFor": null,
           "skillIndex": 296,
-          "tabs": ["Bowman"],
+          "tabs": [
+            "Bowman"
+          ],
           "valuesX": {
             "10": 5,
             "25": 12.5,
@@ -1328,11 +1531,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "BRICKY_SKIN",
           "skillAttackFor": null,
           "skillIndex": 122,
-          "tabs": ["Squire"],
+          "tabs": [
+            "Squire"
+          ],
           "valuesX": {
             "10": 24,
             "25": 30,
@@ -1354,11 +1561,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "BROKEN_TIME",
           "skillAttackFor": null,
           "skillIndex": 269,
-          "tabs": ["Calm_Basics"],
+          "tabs": [
+            "Calm_Basics"
+          ],
           "valuesX": {
             "10": 11.76,
             "25": 25,
@@ -1375,11 +1586,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "BRUTE_EFFICIENCY",
           "skillAttackFor": null,
           "skillIndex": 85,
-          "tabs": ["Rage_Basics"],
+          "tabs": [
+            "Rage_Basics"
+          ],
           "valuesX": {
             "10": 11.1,
             "25": 31.5,
@@ -1396,11 +1611,15 @@
           "funcX": "add",
           "funcY": "add",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "BUBBLE_BREAKTHROUGH",
           "skillAttackFor": null,
           "skillIndex": 492,
-          "tabs": ["Shaman"],
+          "tabs": [
+            "Shaman"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -1422,11 +1641,21 @@
           "funcX": "decay",
           "funcY": "_",
           "isAttack": false,
-          "lines": ["Archer", "Beginner", "Mage", "Warrior"],
+          "lines": [
+            "Archer",
+            "Beginner",
+            "Mage",
+            "Warrior"
+          ],
           "rawName": "BUCKLERED_UP",
           "skillAttackFor": null,
           "skillIndex": 9,
-          "tabs": ["Beginner", "Calm_Basics", "Rage_Basics", "Savvy_Basics"],
+          "tabs": [
+            "Beginner",
+            "Calm_Basics",
+            "Rage_Basics",
+            "Savvy_Basics"
+          ],
           "valuesX": {
             "10": 5.71,
             "25": 11.76,
@@ -1443,11 +1672,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "BUG_ENTHUSIAST",
           "skillAttackFor": null,
           "skillIndex": 297,
-          "tabs": ["Bowman"],
+          "tabs": [
+            "Bowman"
+          ],
           "valuesX": {
             "10": 15,
             "25": 37.5,
@@ -1464,11 +1697,16 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "BUILT_DIFFERENT",
           "skillAttackFor": null,
           "skillIndex": 203,
-          "tabs": ["Death_Bringer", "Royal_Guardian"],
+          "tabs": [
+            "Death_Bringer",
+            "Royal_Guardian"
+          ],
           "valuesX": {
             "10": 50,
             "25": 125,
@@ -1485,11 +1723,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "BULWARK_STYLE",
           "skillAttackFor": null,
           "skillIndex": 201,
-          "tabs": ["Death_Bringer"],
+          "tabs": [
+            "Death_Bringer"
+          ],
           "valuesX": {
             "10": 1.92,
             "25": 4.55,
@@ -1506,11 +1748,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "BUSY_BREWIN'",
           "skillAttackFor": null,
           "skillIndex": 491,
-          "tabs": ["Shaman"],
+          "tabs": [
+            "Shaman"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -1527,11 +1773,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "CANNONBALL",
           "skillAttackFor": null,
           "skillIndex": 360,
-          "tabs": ["Siege_Breaker"],
+          "tabs": [
+            "Siege_Breaker"
+          ],
           "valuesX": {
             "10": 660,
             "25": 750,
@@ -1548,11 +1798,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "CAPTAIN_PEPTALK",
           "skillAttackFor": null,
           "skillIndex": 327,
-          "tabs": ["Siege_Breaker"],
+          "tabs": [
+            "Siege_Breaker"
+          ],
           "valuesX": {
             "10": 7.27,
             "25": 16,
@@ -1573,7 +1827,9 @@
           "rawName": "CARDIOVASCULAR!",
           "skillAttackFor": null,
           "skillIndex": 628,
-          "tabs": ["Special Talent 2"],
+          "tabs": [
+            "Special Talent 2"
+          ],
           "valuesX": {
             "10": 8.57,
             "25": 17.65,
@@ -1590,11 +1846,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "CARDS_GALORE",
           "skillAttackFor": null,
           "skillIndex": 28,
-          "tabs": ["Journeyman"],
+          "tabs": [
+            "Journeyman"
+          ],
           "valuesX": {
             "10": 4.55,
             "25": 10,
@@ -1611,11 +1871,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "CARRY_A_BIG_STICK",
           "skillAttackFor": null,
           "skillIndex": 97,
-          "tabs": ["Warrior"],
+          "tabs": [
+            "Warrior"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -1636,7 +1900,9 @@
           "rawName": "CASH_MONEY",
           "skillAttackFor": null,
           "skillIndex": 657,
-          "tabs": ["Special Talent 1"],
+          "tabs": [
+            "Special Talent 1"
+          ],
           "valuesX": {
             "10": 11.67,
             "25": 23.33,
@@ -1653,11 +1919,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "CASTLE_CONVENE",
           "skillAttackFor": null,
           "skillIndex": 225,
-          "tabs": ["Royal_Guardian"],
+          "tabs": [
+            "Royal_Guardian"
+          ],
           "valuesX": {
             "10": 20,
             "25": 40,
@@ -1674,11 +1944,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "CATCHING_SOME_ZZZ'S",
           "skillAttackFor": null,
           "skillIndex": 118,
-          "tabs": ["Barbarian"],
+          "tabs": [
+            "Barbarian"
+          ],
           "valuesX": {
             "10": 2.86,
             "25": 5.88,
@@ -1695,11 +1969,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "CHACHING!",
           "skillAttackFor": null,
           "skillIndex": 22,
-          "tabs": ["Journeyman"],
+          "tabs": [
+            "Journeyman"
+          ],
           "valuesX": {
             "10": 4.55,
             "25": 10,
@@ -1716,11 +1994,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "CHAOTIC_FORCE",
           "skillAttackFor": null,
           "skillIndex": 499,
-          "tabs": ["Elemental_Sorcerer"],
+          "tabs": [
+            "Elemental_Sorcerer"
+          ],
           "valuesX": {
             "10": 6.25,
             "25": 13.89,
@@ -1737,11 +2019,15 @@
           "funcX": "bigBase",
           "funcY": "bigBase",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "CHARGE_SYPHON",
           "skillAttackFor": null,
           "skillIndex": 475,
-          "tabs": ["Wizard"],
+          "tabs": [
+            "Wizard"
+          ],
           "valuesX": {
             "10": 38,
             "25": 42.5,
@@ -1763,11 +2049,16 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "CHARRED_SKULLS",
           "skillAttackFor": null,
           "skillIndex": 141,
-          "tabs": ["Blood_Berserker", "Divine_Knight"],
+          "tabs": [
+            "Blood_Berserker",
+            "Divine_Knight"
+          ],
           "valuesX": {
             "10": 3.64,
             "25": 8,
@@ -1784,11 +2075,15 @@
           "funcX": "intervalAdd",
           "funcY": "bigBase",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "CHEMICAL_WARFARE",
           "skillAttackFor": null,
           "skillIndex": 525,
-          "tabs": ["Bubonic_Conjuror"],
+          "tabs": [
+            "Bubonic_Conjuror"
+          ],
           "valuesX": {
             "10": 8,
             "25": 9,
@@ -1810,11 +2105,15 @@
           "funcX": "add",
           "funcY": "decay",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "CHOPPIN_IT_UP_EZ",
           "skillAttackFor": null,
           "skillIndex": 463,
-          "tabs": ["Mage"],
+          "tabs": [
+            "Mage"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -1836,11 +2135,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "CLEVER_CLOVER_OBOLS",
           "skillAttackFor": null,
           "skillIndex": 36,
-          "tabs": ["Maestro"],
+          "tabs": [
+            "Maestro"
+          ],
           "valuesX": {
             "10": 10,
             "25": 20,
@@ -1857,11 +2160,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "CMON_OUT_CRYSTALS",
           "skillAttackFor": null,
           "skillIndex": 26,
-          "tabs": ["Journeyman"],
+          "tabs": [
+            "Journeyman"
+          ],
           "valuesX": {
             "10": 27.27,
             "25": 60,
@@ -1882,7 +2189,9 @@
           "rawName": "COINS_FOR_CHARON",
           "skillAttackFor": null,
           "skillIndex": 643,
-          "tabs": ["Special Talent 3"],
+          "tabs": [
+            "Special Talent 3"
+          ],
           "valuesX": {
             "10": 2.94,
             "25": 6.25,
@@ -1899,11 +2208,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "COIN_TOSS",
           "skillAttackFor": null,
           "skillIndex": 30,
-          "tabs": ["Maestro"],
+          "tabs": [
+            "Maestro"
+          ],
           "valuesX": {
             "10": 110,
             "25": 125,
@@ -1920,11 +2233,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "COLLOQUIAL_CONTAINERS",
           "skillAttackFor": null,
           "skillIndex": 39,
-          "tabs": ["Maestro"],
+          "tabs": [
+            "Maestro"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -1941,11 +2258,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "COMBUSTION",
           "skillAttackFor": null,
           "skillIndex": 136,
-          "tabs": ["Blood_Berserker"],
+          "tabs": [
+            "Blood_Berserker"
+          ],
           "valuesX": {
             "10": 315,
             "25": 337.5,
@@ -1967,11 +2288,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "COMPASS",
           "skillAttackFor": null,
           "skillIndex": 421,
-          "tabs": ["Wind_Walker"],
+          "tabs": [
+            "Wind_Walker"
+          ],
           "valuesX": {
             "10": 4.84,
             "25": 11.54,
@@ -1992,7 +2317,9 @@
           "rawName": "CONVERT_BETTER,_DARNIT!",
           "skillAttackFor": null,
           "skillIndex": 630,
-          "tabs": ["Special Talent 2"],
+          "tabs": [
+            "Special Talent 2"
+          ],
           "valuesX": {
             "10": 1.15,
             "25": 1.34,
@@ -2009,11 +2336,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "COPPER_COLLECTOR",
           "skillAttackFor": null,
           "skillIndex": 101,
-          "tabs": ["Warrior"],
+          "tabs": [
+            "Warrior"
+          ],
           "valuesX": {
             "10": 2.5,
             "25": 5.26,
@@ -2030,11 +2361,15 @@
           "funcX": "decay",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "CRANIUM_COOKING",
           "skillAttackFor": null,
           "skillIndex": 490,
-          "tabs": ["Shaman"],
+          "tabs": [
+            "Shaman"
+          ],
           "valuesX": {
             "10": 3.64,
             "25": 8,
@@ -2056,11 +2391,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "CRAZY_CONCOCTIONS",
           "skillAttackFor": null,
           "skillIndex": 480,
-          "tabs": ["Shaman"],
+          "tabs": [
+            "Shaman"
+          ],
           "valuesX": {
             "10": 47,
             "25": 92,
@@ -2077,11 +2416,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "CREW_ROWING_STRENGTH",
           "skillAttackFor": null,
           "skillIndex": 320,
-          "tabs": ["Siege_Breaker"],
+          "tabs": [
+            "Siege_Breaker"
+          ],
           "valuesX": {
             "10": 0.64,
             "25": 1.4,
@@ -2098,11 +2441,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "CRITIKILL",
           "skillAttackFor": null,
           "skillIndex": 87,
-          "tabs": ["Rage_Basics"],
+          "tabs": [
+            "Rage_Basics"
+          ],
           "valuesX": {
             "10": 8.67,
             "25": 17.33,
@@ -2123,7 +2470,9 @@
           "rawName": "CRYSTALS_4_DAYYS",
           "skillAttackFor": null,
           "skillIndex": 619,
-          "tabs": ["Special Talent 1"],
+          "tabs": [
+            "Special Talent 1"
+          ],
           "valuesX": {
             "10": 29,
             "25": 58,
@@ -2140,11 +2489,15 @@
           "funcX": "decay",
           "funcY": "add",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "CRYSTAL_COUNTDOWN",
           "skillAttackFor": null,
           "skillIndex": 41,
-          "tabs": ["Maestro"],
+          "tabs": [
+            "Maestro"
+          ],
           "valuesX": {
             "10": 12.07,
             "25": 25.52,
@@ -2166,11 +2519,15 @@
           "funcX": "decay",
           "funcY": "decay",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "CURSE_OF_MR_LOOTY_BOOTY",
           "skillAttackFor": null,
           "skillIndex": 24,
-          "tabs": ["Journeyman"],
+          "tabs": [
+            "Journeyman"
+          ],
           "valuesX": {
             "10": 6.36,
             "25": 14,
@@ -2192,11 +2549,15 @@
           "funcX": "decayMulti",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "CURVITURE_OF_THE_PAW",
           "skillAttackFor": null,
           "skillIndex": 373,
-          "tabs": ["Beast_Master"],
+          "tabs": [
+            "Beast_Master"
+          ],
           "valuesX": {
             "10": 1.11,
             "25": 1.24,
@@ -2213,11 +2574,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "DAGGERANG",
           "skillAttackFor": null,
           "skillIndex": 121,
-          "tabs": ["Squire"],
+          "tabs": [
+            "Squire"
+          ],
           "valuesX": {
             "10": 215,
             "25": 237.5,
@@ -2239,11 +2604,15 @@
           "funcX": "decayMulti",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "DANK_RANKS",
           "skillAttackFor": null,
           "skillIndex": 207,
-          "tabs": ["Death_Bringer"],
+          "tabs": [
+            "Death_Bringer"
+          ],
           "valuesX": {
             "10": 1.1,
             "25": 1.22,
@@ -2260,11 +2629,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "DEFORESTING_ALL_DOUBT",
           "skillAttackFor": null,
           "skillIndex": 462,
-          "tabs": ["Mage"],
+          "tabs": [
+            "Mage"
+          ],
           "valuesX": {
             "10": 7.5,
             "25": 18.75,
@@ -2281,11 +2654,15 @@
           "funcX": "decay",
           "funcY": "decay",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "DETONATION",
           "skillAttackFor": null,
           "skillIndex": 199,
-          "tabs": ["Death_Bringer"],
+          "tabs": [
+            "Death_Bringer"
+          ],
           "valuesX": {
             "10": 6.45,
             "25": 15.38,
@@ -2307,11 +2684,15 @@
           "funcX": "decay",
           "funcY": "bigBase",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "DIMENSIONAL_WORMHOLE",
           "skillAttackFor": null,
           "skillIndex": 498,
-          "tabs": ["Elemental_Sorcerer"],
+          "tabs": [
+            "Elemental_Sorcerer"
+          ],
           "valuesX": {
             "10": 2.13,
             "25": 4.47,
@@ -2333,11 +2714,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "DIVINE_INTERVENTION",
           "skillAttackFor": null,
           "skillIndex": 167,
-          "tabs": ["Divine_Knight"],
+          "tabs": [
+            "Divine_Knight"
+          ],
           "valuesX": {
             "10": 6.45,
             "25": 15.38,
@@ -2354,11 +2739,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "DOUBLE_STRIKE",
           "skillAttackFor": null,
           "skillIndex": 93,
-          "tabs": ["Warrior"],
+          "tabs": [
+            "Warrior"
+          ],
           "valuesX": {
             "10": 18.33,
             "25": 36.67,
@@ -2379,7 +2768,9 @@
           "rawName": "DREAMER_DAMAGE",
           "skillAttackFor": null,
           "skillIndex": 656,
-          "tabs": ["Special Talent 4"],
+          "tabs": [
+            "Special Talent 4"
+          ],
           "valuesX": {
             "10": 0.45,
             "25": 1,
@@ -2400,7 +2791,9 @@
           "rawName": "DUMMY_THICC_STATS",
           "skillAttackFor": null,
           "skillIndex": 653,
-          "tabs": ["Special Talent 3"],
+          "tabs": [
+            "Special Talent 3"
+          ],
           "valuesX": {
             "10": 0.06,
             "25": 0.12,
@@ -2421,7 +2814,9 @@
           "rawName": "DUNGEONIC_DAMAGE",
           "skillAttackFor": null,
           "skillIndex": 638,
-          "tabs": ["Special Talent 2"],
+          "tabs": [
+            "Special Talent 2"
+          ],
           "valuesX": {
             "10": 1.36,
             "25": 3,
@@ -2438,11 +2833,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "DUSTWALKER",
           "skillAttackFor": null,
           "skillIndex": 433,
-          "tabs": ["Wind_Walker"],
+          "tabs": [
+            "Wind_Walker"
+          ],
           "valuesX": {
             "10": 1.15,
             "25": 2.73,
@@ -2459,11 +2858,15 @@
           "funcX": "bigBase",
           "funcY": "bigBase",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "EAGLE_EYE",
           "skillAttackFor": null,
           "skillIndex": 310,
-          "tabs": ["Hunter"],
+          "tabs": [
+            "Hunter"
+          ],
           "valuesX": {
             "10": 52.5,
             "25": 56.25,
@@ -2485,11 +2888,16 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "EARLIER_EDUCATION",
           "skillAttackFor": null,
           "skillIndex": 494,
-          "tabs": ["Shaman", "Wizard"],
+          "tabs": [
+            "Shaman",
+            "Wizard"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -2506,11 +2914,15 @@
           "funcX": "decay",
           "funcY": "decay",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "ELEMENTAL_MAYHEM",
           "skillAttackFor": null,
           "skillIndex": 426,
-          "tabs": ["Wind_Walker"],
+          "tabs": [
+            "Wind_Walker"
+          ],
           "valuesX": {
             "10": 0.38,
             "25": 0.91,
@@ -2532,11 +2944,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "ELUSIVE_EFFICIENCY",
           "skillAttackFor": null,
           "skillIndex": 263,
-          "tabs": ["Calm_Basics"],
+          "tabs": [
+            "Calm_Basics"
+          ],
           "valuesX": {
             "10": 11.1,
             "25": 31.5,
@@ -2553,11 +2969,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "EMBER_BEAR",
           "skillAttackFor": null,
           "skillIndex": 138,
-          "tabs": ["Blood_Berserker"],
+          "tabs": [
+            "Blood_Berserker"
+          ],
           "valuesX": {
             "10": 22.73,
             "25": 50,
@@ -2574,11 +2994,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "ENERGY_BOLT",
           "skillAttackFor": null,
           "skillIndex": 450,
-          "tabs": ["Mage"],
+          "tabs": [
+            "Mage"
+          ],
           "valuesX": {
             "10": 235,
             "25": 287.5,
@@ -2595,11 +3019,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "ENHANCEMENT_ECLIPSE",
           "skillAttackFor": null,
           "skillIndex": 49,
-          "tabs": ["Voidwalker"],
+          "tabs": [
+            "Voidwalker"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -2616,11 +3044,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "ESSENCE_TRANSFERRAL",
           "skillAttackFor": null,
           "skillIndex": 537,
-          "tabs": ["Bubonic_Conjuror"],
+          "tabs": [
+            "Bubonic_Conjuror"
+          ],
           "valuesX": {
             "10": 6.36,
             "25": 14,
@@ -2637,11 +3069,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "ESSENTIAL_ESSENCE",
           "skillAttackFor": null,
           "skillIndex": 595,
-          "tabs": ["Arcane_Cultist"],
+          "tabs": [
+            "Arcane_Cultist"
+          ],
           "valuesX": {
             "10": 21.74,
             "25": 51.02,
@@ -2658,11 +3094,15 @@
           "funcX": "add",
           "funcY": "add",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "ETERNAL_AGI",
           "skillAttackFor": null,
           "skillIndex": 52,
-          "tabs": ["Voidwalker"],
+          "tabs": [
+            "Voidwalker"
+          ],
           "valuesX": {
             "10": 20,
             "25": 50,
@@ -2684,11 +3124,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "ETERNAL_HUNT",
           "skillAttackFor": null,
           "skillIndex": 423,
-          "tabs": ["Wind_Walker"],
+          "tabs": [
+            "Wind_Walker"
+          ],
           "valuesX": {
             "10": 0.14,
             "25": 0.33,
@@ -2705,11 +3149,15 @@
           "funcX": "add",
           "funcY": "add",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "ETERNAL_LUK",
           "skillAttackFor": null,
           "skillIndex": 54,
-          "tabs": ["Voidwalker"],
+          "tabs": [
+            "Voidwalker"
+          ],
           "valuesX": {
             "10": 20,
             "25": 50,
@@ -2731,11 +3179,15 @@
           "funcX": "add",
           "funcY": "add",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "ETERNAL_STR",
           "skillAttackFor": null,
           "skillIndex": 51,
-          "tabs": ["Voidwalker"],
+          "tabs": [
+            "Voidwalker"
+          ],
           "valuesX": {
             "10": 20,
             "25": 50,
@@ -2757,11 +3209,15 @@
           "funcX": "add",
           "funcY": "add",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "ETERNAL_WIS",
           "skillAttackFor": null,
           "skillIndex": 53,
-          "tabs": ["Voidwalker"],
+          "tabs": [
+            "Voidwalker"
+          ],
           "valuesX": {
             "10": 20,
             "25": 50,
@@ -2783,11 +3239,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "EXPERTLY_SAILED",
           "skillAttackFor": null,
           "skillIndex": 326,
-          "tabs": ["Siege_Breaker"],
+          "tabs": [
+            "Siege_Breaker"
+          ],
           "valuesX": {
             "10": 5.45,
             "25": 12,
@@ -2808,7 +3268,9 @@
           "rawName": "EXP_CONVERTER",
           "skillAttackFor": null,
           "skillIndex": 626,
-          "tabs": ["Special Talent 1"],
+          "tabs": [
+            "Special Talent 1"
+          ],
           "valuesX": {
             "10": 7.14,
             "25": 16.67,
@@ -2825,11 +3287,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "EXP_CULTIVATION",
           "skillAttackFor": null,
           "skillIndex": 55,
-          "tabs": ["Voidwalker"],
+          "tabs": [
+            "Voidwalker"
+          ],
           "valuesX": {
             "10": 15.38,
             "25": 36.36,
@@ -2846,11 +3312,15 @@
           "funcX": "bigBase",
           "funcY": "decay",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "EXTENDO_RANGEO",
           "skillAttackFor": null,
           "skillIndex": 288,
-          "tabs": ["Bowman"],
+          "tabs": [
+            "Bowman"
+          ],
           "valuesX": {
             "10": 24.5,
             "25": 32,
@@ -2872,11 +3342,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Beginner"],
+          "lines": [
+            "Beginner"
+          ],
           "rawName": "EXTRA_BAGS",
           "skillAttackFor": null,
           "skillIndex": 78,
-          "tabs": ["Beginner"],
+          "tabs": [
+            "Beginner"
+          ],
           "valuesX": {
             "10": 18.18,
             "25": 40,
@@ -2893,11 +3367,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "F'LUK'EY_FABRICS",
           "skillAttackFor": null,
           "skillIndex": 21,
-          "tabs": ["Journeyman"],
+          "tabs": [
+            "Journeyman"
+          ],
           "valuesX": {
             "10": 8.46,
             "25": 20,
@@ -2914,11 +3392,15 @@
           "funcX": "decay",
           "funcY": "decay",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "FAMINE_O'_FISH",
           "skillAttackFor": null,
           "skillIndex": 202,
-          "tabs": ["Death_Bringer"],
+          "tabs": [
+            "Death_Bringer"
+          ],
           "valuesX": {
             "10": 0.19,
             "25": 0.44,
@@ -2940,11 +3422,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "FANTASIA_FLASKS",
           "skillAttackFor": null,
           "skillIndex": 489,
-          "tabs": ["Shaman"],
+          "tabs": [
+            "Shaman"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -2961,11 +3447,15 @@
           "funcX": "decay",
           "funcY": "decay",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "FARSIGHT",
           "skillAttackFor": null,
           "skillIndex": 447,
-          "tabs": ["Savvy_Basics"],
+          "tabs": [
+            "Savvy_Basics"
+          ],
           "valuesX": {
             "10": 3.09,
             "25": 6.07,
@@ -2987,11 +3477,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "FEATHERWEIGHT",
           "skillAttackFor": null,
           "skillIndex": 266,
-          "tabs": ["Calm_Basics"],
+          "tabs": [
+            "Calm_Basics"
+          ],
           "valuesX": {
             "10": 5,
             "25": 9.62,
@@ -3008,11 +3502,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Beginner"],
+          "lines": [
+            "Beginner"
+          ],
           "rawName": "FEATHER_FLIGHT",
           "skillAttackFor": null,
           "skillIndex": 77,
-          "tabs": ["Beginner"],
+          "tabs": [
+            "Beginner"
+          ],
           "valuesX": {
             "10": 3.33,
             "25": 6.67,
@@ -3029,11 +3527,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "FEROCITY_STRIKE",
           "skillAttackFor": null,
           "skillIndex": 139,
-          "tabs": ["Blood_Berserker"],
+          "tabs": [
+            "Blood_Berserker"
+          ],
           "valuesX": {
             "10": 11.11,
             "25": 23.81,
@@ -3054,7 +3556,9 @@
           "rawName": "FILTHY_DAMAGE",
           "skillAttackFor": null,
           "skillIndex": 649,
-          "tabs": ["Special Talent 3"],
+          "tabs": [
+            "Special Talent 3"
+          ],
           "valuesX": {
             "10": 1.82,
             "25": 4,
@@ -3071,11 +3575,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "FIREBOMB",
           "skillAttackFor": null,
           "skillIndex": 317,
-          "tabs": ["Siege_Breaker"],
+          "tabs": [
+            "Siege_Breaker"
+          ],
           "valuesX": {
             "10": 220,
             "25": 250,
@@ -3097,11 +3605,15 @@
           "funcX": "intervalAdd",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "FIRED_UP",
           "skillAttackFor": null,
           "skillIndex": 135,
-          "tabs": ["Blood_Berserker"],
+          "tabs": [
+            "Blood_Berserker"
+          ],
           "valuesX": {
             "10": 7,
             "25": 8,
@@ -3118,11 +3630,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "FIRMLY_GRASP_IT",
           "skillAttackFor": null,
           "skillIndex": 94,
-          "tabs": ["Warrior"],
+          "tabs": [
+            "Warrior"
+          ],
           "valuesX": {
             "10": 25,
             "25": 40,
@@ -3144,11 +3660,16 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "FISTFUL_OF_OBOL",
           "skillAttackFor": null,
           "skillIndex": 111,
-          "tabs": ["Barbarian", "Squire"],
+          "tabs": [
+            "Barbarian",
+            "Squire"
+          ],
           "valuesX": {
             "10": 10,
             "25": 20,
@@ -3165,11 +3686,21 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer", "Beginner", "Mage", "Warrior"],
+          "lines": [
+            "Archer",
+            "Beginner",
+            "Mage",
+            "Warrior"
+          ],
           "rawName": "FIST_OF_RAGE",
           "skillAttackFor": null,
           "skillIndex": 10,
-          "tabs": ["Beginner", "Calm_Basics", "Rage_Basics", "Savvy_Basics"],
+          "tabs": [
+            "Beginner",
+            "Calm_Basics",
+            "Rage_Basics",
+            "Savvy_Basics"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -3186,11 +3717,15 @@
           "funcX": "intervalAdd",
           "funcY": "decay",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "FLATULENT_SPIRIT",
           "skillAttackFor": null,
           "skillIndex": 526,
-          "tabs": ["Bubonic_Conjuror"],
+          "tabs": [
+            "Bubonic_Conjuror"
+          ],
           "valuesX": {
             "10": 10,
             "25": 13,
@@ -3212,11 +3747,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "FLAX_INSTASTRING",
           "skillAttackFor": null,
           "skillIndex": 287,
-          "tabs": ["Bowman"],
+          "tabs": [
+            "Bowman"
+          ],
           "valuesX": {
             "10": 6.67,
             "25": 13.33,
@@ -3233,11 +3772,15 @@
           "funcX": "intervalAdd",
           "funcY": "bigBase",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "FLOOR_IS_LAVA",
           "skillAttackFor": null,
           "skillIndex": 466,
-          "tabs": ["Wizard"],
+          "tabs": [
+            "Wizard"
+          ],
           "valuesX": {
             "10": 1,
             "25": 1,
@@ -3259,11 +3802,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "FOCUSED_SOUL",
           "skillAttackFor": null,
           "skillIndex": 265,
-          "tabs": ["Archer"],
+          "tabs": [
+            "Archer"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -3280,11 +3827,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "FREE_MEAL",
           "skillAttackFor": null,
           "skillIndex": 458,
-          "tabs": ["Mage"],
+          "tabs": [
+            "Mage"
+          ],
           "valuesX": {
             "10": 10.6,
             "25": 20.38,
@@ -3305,7 +3856,9 @@
           "rawName": "FROTHY_MALK",
           "skillAttackFor": null,
           "skillIndex": 631,
-          "tabs": ["Special Talent 2"],
+          "tabs": [
+            "Special Talent 2"
+          ],
           "valuesX": {
             "10": 8.33,
             "25": 16.67,
@@ -3322,11 +3875,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "FUSCIA_FLASKS",
           "skillAttackFor": null,
           "skillIndex": 474,
-          "tabs": ["Wizard"],
+          "tabs": [
+            "Wizard"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -3343,11 +3900,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "GAMER_STRENGTH",
           "skillAttackFor": null,
           "skillIndex": 170,
-          "tabs": ["Divine_Knight"],
+          "tabs": [
+            "Divine_Knight"
+          ],
           "valuesX": {
             "10": 0.64,
             "25": 1.4,
@@ -3364,11 +3925,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "GARB_OF_UN'AGI'NG_QUALITY",
           "skillAttackFor": null,
           "skillIndex": 276,
-          "tabs": ["Archer"],
+          "tabs": [
+            "Archer"
+          ],
           "valuesX": {
             "10": 15,
             "25": 37.5,
@@ -3385,11 +3950,15 @@
           "funcX": "decayMulti",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "GENERATIONAL_GEMSTONES",
           "skillAttackFor": null,
           "skillIndex": 432,
-          "tabs": ["Wind_Walker"],
+          "tabs": [
+            "Wind_Walker"
+          ],
           "valuesX": {
             "10": 1.1,
             "25": 1.23,
@@ -3406,11 +3975,15 @@
           "funcX": "decay",
           "funcY": "decay",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "GHASTLY_POWER",
           "skillAttackFor": null,
           "skillIndex": 590,
-          "tabs": ["Arcane_Cultist"],
+          "tabs": [
+            "Arcane_Cultist"
+          ],
           "valuesX": {
             "10": 1.54,
             "25": 3.64,
@@ -3432,11 +4005,15 @@
           "funcX": "decay",
           "funcY": "decay",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "GHOULISH_POWER",
           "skillAttackFor": null,
           "skillIndex": 591,
-          "tabs": ["Arcane_Cultist"],
+          "tabs": [
+            "Arcane_Cultist"
+          ],
           "valuesX": {
             "10": 0.38,
             "25": 0.91,
@@ -3458,11 +4035,21 @@
           "funcX": "add",
           "funcY": "_",
           "isAttack": false,
-          "lines": ["Archer", "Beginner", "Mage", "Warrior"],
+          "lines": [
+            "Archer",
+            "Beginner",
+            "Mage",
+            "Warrior"
+          ],
           "rawName": "GILDED_SWORD",
           "skillAttackFor": null,
           "skillIndex": 6,
-          "tabs": ["Beginner", "Calm_Basics", "Rage_Basics", "Savvy_Basics"],
+          "tabs": [
+            "Beginner",
+            "Calm_Basics",
+            "Rage_Basics",
+            "Savvy_Basics"
+          ],
           "valuesX": {
             "10": 15,
             "25": 37.5,
@@ -3479,11 +4066,15 @@
           "funcX": "decay",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "GIMME_GIMME",
           "skillAttackFor": null,
           "skillIndex": 19,
-          "tabs": ["Journeyman"],
+          "tabs": [
+            "Journeyman"
+          ],
           "valuesX": {
             "10": 11.43,
             "25": 23.53,
@@ -3509,7 +4100,9 @@
           "rawName": "GOBLET_OF_HEMOGLOBIN",
           "skillAttackFor": null,
           "skillIndex": 627,
-          "tabs": ["Special Talent 1"],
+          "tabs": [
+            "Special Talent 1"
+          ],
           "valuesX": {
             "10": 0.79,
             "25": 1.65,
@@ -3526,11 +4119,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "GODLY_CREATION",
           "skillAttackFor": null,
           "skillIndex": 283,
-          "tabs": ["Archer"],
+          "tabs": [
+            "Archer"
+          ],
           "valuesX": {
             "10": 5.88,
             "25": 12.5,
@@ -3547,11 +4144,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "GODS_CHOSEN_CHILDREN",
           "skillAttackFor": null,
           "skillIndex": 507,
-          "tabs": ["Elemental_Sorcerer"],
+          "tabs": [
+            "Elemental_Sorcerer"
+          ],
           "valuesX": {
             "10": 0.48,
             "25": 1.11,
@@ -3568,11 +4169,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "GRADED_RATE",
           "skillAttackFor": null,
           "skillIndex": 239,
-          "tabs": ["Royal_Guardian"],
+          "tabs": [
+            "Royal_Guardian"
+          ],
           "valuesX": {
             "10": 0.06,
             "25": 0.14,
@@ -3589,11 +4194,15 @@
           "funcX": "decayMulti",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "GRAND_VEIN",
           "skillAttackFor": null,
           "skillIndex": 238,
-          "tabs": ["Royal_Guardian"],
+          "tabs": [
+            "Royal_Guardian"
+          ],
           "valuesX": {
             "10": 1.49,
             "25": 2.18,
@@ -3610,11 +4219,15 @@
           "funcX": "decay",
           "funcY": "decay",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "GRAVEYARD_SHIFT",
           "skillAttackFor": null,
           "skillIndex": 198,
-          "tabs": ["Death_Bringer"],
+          "tabs": [
+            "Death_Bringer"
+          ],
           "valuesX": {
             "10": 0.14,
             "25": 0.33,
@@ -3636,11 +4249,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "GREEN_TUBE",
           "skillAttackFor": null,
           "skillIndex": 536,
-          "tabs": ["Bubonic_Conjuror"],
+          "tabs": [
+            "Bubonic_Conjuror"
+          ],
           "valuesX": {
             "10": 5.45,
             "25": 12,
@@ -3657,11 +4274,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "GRIMOIRE",
           "skillAttackFor": null,
           "skillIndex": 196,
-          "tabs": ["Death_Bringer"],
+          "tabs": [
+            "Death_Bringer"
+          ],
           "valuesX": {
             "10": 4.84,
             "25": 11.54,
@@ -3678,11 +4299,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "GUARDIAN_DISCIPLE",
           "skillAttackFor": null,
           "skillIndex": 227,
-          "tabs": ["Royal_Guardian"],
+          "tabs": [
+            "Royal_Guardian"
+          ],
           "valuesX": {
             "10": 16,
             "25": 17.5,
@@ -3699,11 +4324,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Beginner"],
+          "lines": [
+            "Beginner"
+          ],
           "rawName": "HAPPY_DUDE",
           "skillAttackFor": null,
           "skillIndex": 75,
-          "tabs": ["Beginner"],
+          "tabs": [
+            "Beginner"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -3720,11 +4349,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "HAUNGRY_FOR_GOLD",
           "skillAttackFor": null,
           "skillIndex": 99,
-          "tabs": ["Warrior"],
+          "tabs": [
+            "Warrior"
+          ],
           "valuesX": {
             "10": 6.11,
             "25": 13.1,
@@ -3741,11 +4374,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "HAVE_ANOTHER!",
           "skillAttackFor": null,
           "skillIndex": 274,
-          "tabs": ["Archer"],
+          "tabs": [
+            "Archer"
+          ],
           "valuesX": {
             "10": 24,
             "25": 46.15,
@@ -3762,11 +4399,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "HAVE_ANOTHER..._AGAIN!",
           "skillAttackFor": null,
           "skillIndex": 304,
-          "tabs": ["Hunter"],
+          "tabs": [
+            "Hunter"
+          ],
           "valuesX": {
             "10": 24,
             "25": 46.15,
@@ -3783,11 +4424,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "HAVE_YET_ANOTHA_ONE",
           "skillAttackFor": null,
           "skillIndex": 364,
-          "tabs": ["Beast_Master"],
+          "tabs": [
+            "Beast_Master"
+          ],
           "valuesX": {
             "10": 24,
             "25": 46.15,
@@ -3804,11 +4449,21 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer", "Beginner", "Mage", "Warrior"],
+          "lines": [
+            "Archer",
+            "Beginner",
+            "Mage",
+            "Warrior"
+          ],
           "rawName": "HEALTH_BOOSTER",
           "skillAttackFor": null,
           "skillIndex": 0,
-          "tabs": ["Beginner", "Calm_Basics", "Rage_Basics", "Savvy_Basics"],
+          "tabs": [
+            "Beginner",
+            "Calm_Basics",
+            "Rage_Basics",
+            "Savvy_Basics"
+          ],
           "valuesX": {
             "10": 18.25,
             "25": 73.75,
@@ -3825,11 +4480,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "HEALTH_OVERDRIVE",
           "skillAttackFor": null,
           "skillIndex": 92,
-          "tabs": ["Warrior"],
+          "tabs": [
+            "Warrior"
+          ],
           "valuesX": {
             "10": 6.1,
             "25": 19,
@@ -3846,11 +4505,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "HEMA_OVERDRIVE",
           "skillAttackFor": null,
           "skillIndex": 272,
-          "tabs": ["Archer"],
+          "tabs": [
+            "Archer"
+          ],
           "valuesX": {
             "10": 4.55,
             "25": 13.25,
@@ -3867,11 +4530,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "HIGH_POLYMER_LIMBS",
           "skillAttackFor": null,
           "skillIndex": 277,
-          "tabs": ["Archer"],
+          "tabs": [
+            "Archer"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -3888,11 +4555,15 @@
           "funcX": "intervalAdd",
           "funcY": "bigBase",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "HOMING_ARROWS",
           "skillAttackFor": null,
           "skillIndex": 285,
-          "tabs": ["Bowman"],
+          "tabs": [
+            "Bowman"
+          ],
           "valuesX": {
             "10": 2,
             "25": 3,
@@ -3914,11 +4585,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "ICE_SHARDS",
           "skillAttackFor": null,
           "skillIndex": 465,
-          "tabs": ["Wizard"],
+          "tabs": [
+            "Wizard"
+          ],
           "valuesX": {
             "10": 80,
             "25": 95,
@@ -3935,11 +4610,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "IDLE_BRAWLING",
           "skillAttackFor": null,
           "skillIndex": 88,
-          "tabs": ["Rage_Basics"],
+          "tabs": [
+            "Rage_Basics"
+          ],
           "valuesX": {
             "10": 3.33,
             "25": 6.67,
@@ -3956,11 +4635,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "IDLE_CASTING",
           "skillAttackFor": null,
           "skillIndex": 448,
-          "tabs": ["Savvy_Basics"],
+          "tabs": [
+            "Savvy_Basics"
+          ],
           "valuesX": {
             "10": 3.33,
             "25": 6.67,
@@ -3977,11 +4660,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "IDLE_SHOOTING",
           "skillAttackFor": null,
           "skillIndex": 268,
-          "tabs": ["Calm_Basics"],
+          "tabs": [
+            "Calm_Basics"
+          ],
           "valuesX": {
             "10": 3.33,
             "25": 6.67,
@@ -3998,11 +4685,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "IDLE_SKILLING",
           "skillAttackFor": null,
           "skillIndex": 89,
-          "tabs": ["Rage_Basics"],
+          "tabs": [
+            "Rage_Basics"
+          ],
           "valuesX": {
             "10": 4,
             "25": 7.69,
@@ -4019,11 +4710,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "IMBUED_SHOCKWAVES",
           "skillAttackFor": null,
           "skillIndex": 169,
-          "tabs": ["Divine_Knight"],
+          "tabs": [
+            "Divine_Knight"
+          ],
           "valuesX": {
             "10": 9.09,
             "25": 20,
@@ -4040,11 +4735,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "INDIANA_ATTACK",
           "skillAttackFor": null,
           "skillIndex": 15,
-          "tabs": ["Journeyman"],
+          "tabs": [
+            "Journeyman"
+          ],
           "valuesX": {
             "10": 60,
             "25": 75,
@@ -4066,11 +4765,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "INDIVIDUALITY",
           "skillAttackFor": null,
           "skillIndex": 593,
-          "tabs": ["Arcane_Cultist"],
+          "tabs": [
+            "Arcane_Cultist"
+          ],
           "valuesX": {
             "10": 50,
             "25": 125,
@@ -4087,11 +4790,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "INDIVIDUAL_INSIGHT",
           "skillAttackFor": null,
           "skillIndex": 459,
-          "tabs": ["Mage"],
+          "tabs": [
+            "Mage"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -4108,11 +4815,15 @@
           "funcX": "decayMulti",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "INDUSTRIAL_POLITICS",
           "skillAttackFor": null,
           "skillIndex": 230,
-          "tabs": ["Royal_Guardian"],
+          "tabs": [
+            "Royal_Guardian"
+          ],
           "valuesX": {
             "10": 1.19,
             "25": 1.46,
@@ -4129,11 +4840,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "INNER_PEACE",
           "skillAttackFor": null,
           "skillIndex": 464,
-          "tabs": ["Mage"],
+          "tabs": [
+            "Mage"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -4150,11 +4865,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "INSTANT_INVINCIBILITY",
           "skillAttackFor": null,
           "skillIndex": 484,
-          "tabs": ["Shaman"],
+          "tabs": [
+            "Shaman"
+          ],
           "valuesX": {
             "10": 0.45,
             "25": 1,
@@ -4171,11 +4890,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "INVASIVE_SPECIES",
           "skillAttackFor": null,
           "skillIndex": 311,
-          "tabs": ["Hunter"],
+          "tabs": [
+            "Hunter"
+          ],
           "valuesX": {
             "10": 3.33,
             "25": 7.14,
@@ -4192,11 +4915,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "ITS_YOUR_BIRTHDAY!",
           "skillAttackFor": null,
           "skillIndex": 25,
-          "tabs": ["Journeyman"],
+          "tabs": [
+            "Journeyman"
+          ],
           "valuesX": {
             "10": 5.83,
             "25": 11.67,
@@ -4213,11 +4940,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "I_DREAM_OF_PEACE_AND_EGG",
           "skillAttackFor": null,
           "skillIndex": 371,
-          "tabs": ["Beast_Master"],
+          "tabs": [
+            "Beast_Master"
+          ],
           "valuesX": {
             "10": 11.11,
             "25": 23.81,
@@ -4234,11 +4965,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "I_SEE_YOU",
           "skillAttackFor": null,
           "skillIndex": 267,
-          "tabs": ["Calm_Basics"],
+          "tabs": [
+            "Calm_Basics"
+          ],
           "valuesX": {
             "10": 4.5,
             "25": 9,
@@ -4255,11 +4990,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "JMAN_WAS_BETTER",
           "skillAttackFor": null,
           "skillIndex": 44,
-          "tabs": ["Maestro"],
+          "tabs": [
+            "Maestro"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -4280,7 +5019,9 @@
           "rawName": "JUST_EXP",
           "skillAttackFor": null,
           "skillIndex": 632,
-          "tabs": ["Special Talent 2"],
+          "tabs": [
+            "Special Talent 2"
+          ],
           "valuesX": {
             "10": 5,
             "25": 10,
@@ -4297,11 +5038,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "KING_OF_THE_REMEMBERED",
           "skillAttackFor": null,
           "skillIndex": 178,
-          "tabs": ["Divine_Knight"],
+          "tabs": [
+            "Divine_Knight"
+          ],
           "valuesX": {
             "10": 0.31,
             "25": 0.71,
@@ -4318,11 +5063,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "KNIGHTLY_DISCIPLE",
           "skillAttackFor": null,
           "skillIndex": 165,
-          "tabs": ["Divine_Knight"],
+          "tabs": [
+            "Divine_Knight"
+          ],
           "valuesX": {
             "10": 11.5,
             "25": 13.75,
@@ -4339,11 +5088,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "KNOWLEDGE_IS_POWER",
           "skillAttackFor": null,
           "skillIndex": 455,
-          "tabs": ["Mage"],
+          "tabs": [
+            "Mage"
+          ],
           "valuesX": {
             "10": 15,
             "25": 37.5,
@@ -4360,11 +5113,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Beginner"],
+          "lines": [
+            "Beginner"
+          ],
           "rawName": "KNUCKLEBUSTER",
           "skillAttackFor": null,
           "skillIndex": 76,
-          "tabs": ["Beginner"],
+          "tabs": [
+            "Beginner"
+          ],
           "valuesX": {
             "10": 5,
             "25": 10,
@@ -4381,11 +5138,15 @@
           "funcX": "bigBase",
           "funcY": "bigBase",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "KUNG_FU_KICK",
           "skillAttackFor": null,
           "skillIndex": 271,
-          "tabs": ["Archer"],
+          "tabs": [
+            "Archer"
+          ],
           "valuesX": {
             "10": 35,
             "25": 50,
@@ -4407,11 +5168,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "LABOTOMIZER",
           "skillAttackFor": null,
           "skillIndex": 592,
-          "tabs": ["Arcane_Cultist"],
+          "tabs": [
+            "Arcane_Cultist"
+          ],
           "valuesX": {
             "10": 0.07,
             "25": 0.17,
@@ -4428,11 +5193,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "LEAF_THIEF",
           "skillAttackFor": null,
           "skillIndex": 461,
-          "tabs": ["Mage"],
+          "tabs": [
+            "Mage"
+          ],
           "valuesX": {
             "10": 3.13,
             "25": 6.58,
@@ -4449,11 +5218,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "LEFT_HAND_OF_LEARNING",
           "skillAttackFor": null,
           "skillIndex": 42,
-          "tabs": ["Maestro"],
+          "tabs": [
+            "Maestro"
+          ],
           "valuesX": {
             "10": 18.18,
             "25": 40,
@@ -4470,11 +5243,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "LIGHTNING_BARRAGE",
           "skillAttackFor": null,
           "skillIndex": 496,
-          "tabs": ["Elemental_Sorcerer"],
+          "tabs": [
+            "Elemental_Sorcerer"
+          ],
           "valuesX": {
             "10": 780,
             "25": 900,
@@ -4496,11 +5273,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "LIL'_ORBLETS",
           "skillAttackFor": null,
           "skillIndex": 234,
-          "tabs": ["Royal_Guardian"],
+          "tabs": [
+            "Royal_Guardian"
+          ],
           "valuesX": {
             "10": 3.55,
             "25": 8.46,
@@ -4517,11 +5298,15 @@
           "funcX": "intervalAdd",
           "funcY": "bigBase",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "LOG_ON_LOGS",
           "skillAttackFor": "CHOPPIN",
           "skillIndex": 460,
-          "tabs": ["Mage"],
+          "tabs": [
+            "Mage"
+          ],
           "valuesX": {
             "10": 3,
             "25": 4,
@@ -4543,11 +5328,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "LOOTY_MC_SHOOTY",
           "skillAttackFor": null,
           "skillIndex": 305,
-          "tabs": ["Hunter"],
+          "tabs": [
+            "Hunter"
+          ],
           "valuesX": {
             "10": 3.27,
             "25": 7.2,
@@ -4564,11 +5353,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "LUCKY_CHARMS",
           "skillAttackFor": null,
           "skillIndex": 35,
-          "tabs": ["Maestro"],
+          "tabs": [
+            "Maestro"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -4585,11 +5378,21 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer", "Beginner", "Mage", "Warrior"],
+          "lines": [
+            "Archer",
+            "Beginner",
+            "Mage",
+            "Warrior"
+          ],
           "rawName": "LUCKY_CLOVER",
           "skillAttackFor": null,
           "skillIndex": 13,
-          "tabs": ["Beginner", "Calm_Basics", "Rage_Basics", "Savvy_Basics"],
+          "tabs": [
+            "Beginner",
+            "Calm_Basics",
+            "Rage_Basics",
+            "Savvy_Basics"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -4606,11 +5409,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "LUCKY_HIT",
           "skillAttackFor": null,
           "skillIndex": 20,
-          "tabs": ["Journeyman"],
+          "tabs": [
+            "Journeyman"
+          ],
           "valuesX": {
             "10": 4,
             "25": 10,
@@ -4627,11 +5434,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "LUCKY_HORSESHOE",
           "skillAttackFor": null,
           "skillIndex": 23,
-          "tabs": ["Journeyman"],
+          "tabs": [
+            "Journeyman"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -4648,11 +5459,15 @@
           "funcX": "add",
           "funcY": "decay",
           "isAttack": true,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "MAESTRO_TRANSFUSION",
           "skillAttackFor": null,
           "skillIndex": 40,
-          "tabs": ["Maestro"],
+          "tabs": [
+            "Maestro"
+          ],
           "valuesX": {
             "10": 25,
             "25": 62.5,
@@ -4674,11 +5489,15 @@
           "funcX": "intervalAdd",
           "funcY": "bigBase",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "MAGIC_SHORTBOW",
           "skillAttackFor": null,
           "skillIndex": 286,
-          "tabs": ["Bowman"],
+          "tabs": [
+            "Bowman"
+          ],
           "valuesX": {
             "10": 2,
             "25": 3,
@@ -4700,11 +5519,21 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer", "Beginner", "Mage", "Warrior"],
+          "lines": [
+            "Archer",
+            "Beginner",
+            "Mage",
+            "Warrior"
+          ],
           "rawName": "MANA_BOOSTER",
           "skillAttackFor": null,
           "skillIndex": 1,
-          "tabs": ["Beginner", "Calm_Basics", "Rage_Basics", "Savvy_Basics"],
+          "tabs": [
+            "Beginner",
+            "Calm_Basics",
+            "Rage_Basics",
+            "Savvy_Basics"
+          ],
           "valuesX": {
             "10": 15.5,
             "25": 57.5,
@@ -4721,11 +5550,15 @@
           "funcX": "bigBase",
           "funcY": "decay",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "MANA_IS_LIFE",
           "skillAttackFor": null,
           "skillIndex": 469,
-          "tabs": ["Wizard"],
+          "tabs": [
+            "Wizard"
+          ],
           "valuesX": {
             "10": 28.5,
             "25": 33.75,
@@ -4747,11 +5580,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "MANA_OVERDRIVE",
           "skillAttackFor": null,
           "skillIndex": 452,
-          "tabs": ["Mage"],
+          "tabs": [
+            "Mage"
+          ],
           "valuesX": {
             "10": 6.1,
             "25": 19,
@@ -4768,11 +5605,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "MARAUDER_STYLE",
           "skillAttackFor": null,
           "skillIndex": 200,
-          "tabs": ["Death_Bringer"],
+          "tabs": [
+            "Death_Bringer"
+          ],
           "valuesX": {
             "10": 1.92,
             "25": 4.55,
@@ -4789,11 +5630,15 @@
           "funcX": "decayMulti",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "MASS_IRRIGATION",
           "skillAttackFor": null,
           "skillIndex": 205,
-          "tabs": ["Death_Bringer"],
+          "tabs": [
+            "Death_Bringer"
+          ],
           "valuesX": {
             "10": 2.61,
             "25": 4.85,
@@ -4810,11 +5655,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "MASTERY_UP",
           "skillAttackFor": null,
           "skillIndex": 123,
-          "tabs": ["Squire"],
+          "tabs": [
+            "Squire"
+          ],
           "valuesX": {
             "10": 3,
             "25": 6,
@@ -4831,11 +5680,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "MASTER_OF_THE_SYSTEM",
           "skillAttackFor": null,
           "skillIndex": 58,
-          "tabs": ["Voidwalker"],
+          "tabs": [
+            "Voidwalker"
+          ],
           "valuesX": {
             "10": 0.95,
             "25": 2.22,
@@ -4852,11 +5705,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "MEAT_SHANK",
           "skillAttackFor": null,
           "skillIndex": 86,
-          "tabs": ["Rage_Basics"],
+          "tabs": [
+            "Rage_Basics"
+          ],
           "valuesX": {
             "10": 11.11,
             "25": 23.81,
@@ -4877,7 +5734,9 @@
           "rawName": "MEGA_CRIT",
           "skillAttackFor": null,
           "skillIndex": 640,
-          "tabs": ["Special Talent 2"],
+          "tabs": [
+            "Special Talent 2"
+          ],
           "valuesX": {
             "10": 1.82,
             "25": 4,
@@ -4899,11 +5758,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "MEGA_MONGORANG",
           "skillAttackFor": null,
           "skillIndex": 166,
-          "tabs": ["Divine_Knight"],
+          "tabs": [
+            "Divine_Knight"
+          ],
           "valuesX": {
             "10": 120,
             "25": 150,
@@ -4925,11 +5788,16 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "MEMORIAL_SKULLS",
           "skillAttackFor": null,
           "skillIndex": 531,
-          "tabs": ["Bubonic_Conjuror", "Elemental_Sorcerer"],
+          "tabs": [
+            "Bubonic_Conjuror",
+            "Elemental_Sorcerer"
+          ],
           "valuesX": {
             "10": 3.64,
             "25": 8,
@@ -4946,11 +5814,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "METEOR_SHOWER",
           "skillAttackFor": null,
           "skillIndex": 495,
-          "tabs": ["Elemental_Sorcerer"],
+          "tabs": [
+            "Elemental_Sorcerer"
+          ],
           "valuesX": {
             "10": 225,
             "25": 262.5,
@@ -4976,7 +5848,9 @@
           "rawName": "MILKYWAY_CANDIES",
           "skillAttackFor": null,
           "skillIndex": 633,
-          "tabs": ["Special Talent 2"],
+          "tabs": [
+            "Special Talent 2"
+          ],
           "valuesX": {
             "10": 18.18,
             "25": 40,
@@ -4993,11 +5867,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "MINI_FIREBALL",
           "skillAttackFor": null,
           "skillIndex": 451,
-          "tabs": ["Mage"],
+          "tabs": [
+            "Mage"
+          ],
           "valuesX": {
             "10": 145,
             "25": 167.5,
@@ -5014,11 +5892,15 @@
           "funcX": "add",
           "funcY": "bigBase",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "MOCKING_SHOUT",
           "skillAttackFor": null,
           "skillIndex": 107,
-          "tabs": ["Barbarian"],
+          "tabs": [
+            "Barbarian"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -5044,7 +5926,9 @@
           "rawName": "MONOLITHIALISM",
           "skillAttackFor": null,
           "skillIndex": 654,
-          "tabs": ["Special Talent 4"],
+          "tabs": [
+            "Special Talent 4"
+          ],
           "valuesX": {
             "10": 2.73,
             "25": 6,
@@ -5061,11 +5945,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "MONSTER_DECIMATOR",
           "skillAttackFor": null,
           "skillIndex": 109,
-          "tabs": ["Barbarian"],
+          "tabs": [
+            "Barbarian"
+          ],
           "valuesX": {
             "10": 16.67,
             "25": 33.33,
@@ -5082,11 +5970,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "MOTHERLODE_MINER",
           "skillAttackFor": null,
           "skillIndex": 102,
-          "tabs": ["Warrior"],
+          "tabs": [
+            "Warrior"
+          ],
           "valuesX": {
             "10": 3.33,
             "25": 6.67,
@@ -5103,11 +5995,15 @@
           "funcX": "intervalAdd",
           "funcY": "bigBase",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "NACHO_PARTY",
           "skillAttackFor": null,
           "skillIndex": 363,
-          "tabs": ["Beast_Master"],
+          "tabs": [
+            "Beast_Master"
+          ],
           "valuesX": {
             "10": 15,
             "25": 16,
@@ -5129,11 +6025,15 @@
           "funcX": "decayMulti",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "NEARBY_OUTLET",
           "skillAttackFor": null,
           "skillIndex": 478,
-          "tabs": ["Wizard"],
+          "tabs": [
+            "Wizard"
+          ],
           "valuesX": {
             "10": 1.09,
             "25": 1.2,
@@ -5150,11 +6050,15 @@
           "funcX": "decay",
           "funcY": "decay",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "NO_PAIN_NO_GAIN",
           "skillAttackFor": null,
           "skillIndex": 108,
-          "tabs": ["Barbarian"],
+          "tabs": [
+            "Barbarian"
+          ],
           "valuesX": {
             "10": 25,
             "25": 45.45,
@@ -5176,11 +6080,16 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "OCCULT_OBOLS",
           "skillAttackFor": null,
           "skillIndex": 486,
-          "tabs": ["Shaman", "Wizard"],
+          "tabs": [
+            "Shaman",
+            "Wizard"
+          ],
           "valuesX": {
             "10": 15,
             "25": 32.14,
@@ -5197,11 +6106,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "ONE_STEP_AHEAD",
           "skillAttackFor": null,
           "skillIndex": 34,
-          "tabs": ["Maestro"],
+          "tabs": [
+            "Maestro"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -5218,11 +6131,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "ORB_OF_REMEMBRANCE",
           "skillAttackFor": null,
           "skillIndex": 168,
-          "tabs": ["Divine_Knight"],
+          "tabs": [
+            "Divine_Knight"
+          ],
           "valuesX": {
             "10": 34,
             "25": 40,
@@ -5239,11 +6156,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "ORB_OF_VERISIMILITUDE",
           "skillAttackFor": null,
           "skillIndex": 228,
-          "tabs": ["Royal_Guardian"],
+          "tabs": [
+            "Royal_Guardian"
+          ],
           "valuesX": {
             "10": 2.86,
             "25": 6.67,
@@ -5264,7 +6185,9 @@
           "rawName": "OVERACCURATE_CRIT",
           "skillAttackFor": null,
           "skillIndex": 645,
-          "tabs": ["Special Talent 3"],
+          "tabs": [
+            "Special Talent 3"
+          ],
           "valuesX": {
             "10": 1,
             "25": 2.11,
@@ -5281,11 +6204,16 @@
           "funcX": "decay",
           "funcY": "add",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "OVERBLOWN_TESTOSTERONE",
           "skillAttackFor": null,
           "skillIndex": 143,
-          "tabs": ["Blood_Berserker", "Divine_Knight"],
+          "tabs": [
+            "Blood_Berserker",
+            "Divine_Knight"
+          ],
           "valuesX": {
             "10": 1.36,
             "25": 3,
@@ -5307,11 +6235,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "OVERCLOCKED_ENERGY",
           "skillAttackFor": null,
           "skillIndex": 446,
-          "tabs": ["Savvy_Basics"],
+          "tabs": [
+            "Savvy_Basics"
+          ],
           "valuesX": {
             "10": 16.67,
             "25": 35.71,
@@ -5328,11 +6260,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "OVERFLOWING_LADLE",
           "skillAttackFor": null,
           "skillIndex": 148,
-          "tabs": ["Blood_Berserker"],
+          "tabs": [
+            "Blood_Berserker"
+          ],
           "valuesX": {
             "10": 11.11,
             "25": 23.81,
@@ -5349,11 +6285,15 @@
           "funcX": "decayMulti",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "OVERWHELMING_ENERGY",
           "skillAttackFor": null,
           "skillIndex": 589,
-          "tabs": ["Arcane_Cultist"],
+          "tabs": [
+            "Arcane_Cultist"
+          ],
           "valuesX": {
             "10": 1.02,
             "25": 1.05,
@@ -5370,11 +6310,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "PAPERWORK,_GREAT...",
           "skillAttackFor": null,
           "skillIndex": 470,
-          "tabs": ["Wizard"],
+          "tabs": [
+            "Wizard"
+          ],
           "valuesX": {
             "10": 6.36,
             "25": 14,
@@ -5391,11 +6335,15 @@
           "funcX": "decayMulti",
           "funcY": "decay",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "PASSION_OF_THE_SUMMON",
           "skillAttackFor": null,
           "skillIndex": 596,
-          "tabs": ["Arcane_Cultist"],
+          "tabs": [
+            "Arcane_Cultist"
+          ],
           "valuesX": {
             "10": 1.19,
             "25": 1.46,
@@ -5417,11 +6365,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "PIERCING_ARROW",
           "skillAttackFor": null,
           "skillIndex": 270,
-          "tabs": ["Archer"],
+          "tabs": [
+            "Archer"
+          ],
           "valuesX": {
             "10": 145,
             "25": 175,
@@ -5443,11 +6395,15 @@
           "funcX": "intervalAdd",
           "funcY": "bigBase",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "PIRATE_FLAG",
           "skillAttackFor": null,
           "skillIndex": 318,
-          "tabs": ["Siege_Breaker"],
+          "tabs": [
+            "Siege_Breaker"
+          ],
           "valuesX": {
             "10": 12,
             "25": 15,
@@ -5469,11 +6425,15 @@
           "funcX": "decayMulti",
           "funcY": "bigBase",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "PIT_O'_PAGES",
           "skillAttackFor": null,
           "skillIndex": 237,
-          "tabs": ["Royal_Guardian"],
+          "tabs": [
+            "Royal_Guardian"
+          ],
           "valuesX": {
             "10": 1.16,
             "25": 1.38,
@@ -5495,11 +6455,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "PLAGUE_STRICKEN",
           "skillAttackFor": null,
           "skillIndex": 528,
-          "tabs": ["Bubonic_Conjuror"],
+          "tabs": [
+            "Bubonic_Conjuror"
+          ],
           "valuesX": {
             "10": 25.45,
             "25": 56,
@@ -5516,11 +6480,15 @@
           "funcX": "intervalAdd",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "PLUNDER_YE_DECEASED",
           "skillAttackFor": null,
           "skillIndex": 319,
-          "tabs": ["Siege_Breaker"],
+          "tabs": [
+            "Siege_Breaker"
+          ],
           "valuesX": {
             "10": 21,
             "25": 23,
@@ -5537,11 +6505,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "POLYTHEISM",
           "skillAttackFor": null,
           "skillIndex": 505,
-          "tabs": ["Elemental_Sorcerer"],
+          "tabs": [
+            "Elemental_Sorcerer"
+          ],
           "valuesX": {
             "10": 3.33,
             "25": 7.78,
@@ -5558,11 +6530,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "POWER_ORB",
           "skillAttackFor": null,
           "skillIndex": 50,
-          "tabs": ["Voidwalker"],
+          "tabs": [
+            "Voidwalker"
+          ],
           "valuesX": {
             "10": 1.19,
             "25": 2.78,
@@ -5579,11 +6555,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "POWER_OVERWHELMING",
           "skillAttackFor": null,
           "skillIndex": 457,
-          "tabs": ["Mage"],
+          "tabs": [
+            "Mage"
+          ],
           "valuesX": {
             "10": 12,
             "25": 30,
@@ -5600,11 +6580,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "POWER_STRIKE",
           "skillAttackFor": null,
           "skillIndex": 90,
-          "tabs": ["Warrior"],
+          "tabs": [
+            "Warrior"
+          ],
           "valuesX": {
             "10": 160,
             "25": 205,
@@ -5621,11 +6605,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "PRECISION_POWER",
           "skillAttackFor": null,
           "skillIndex": 125,
-          "tabs": ["Squire"],
+          "tabs": [
+            "Squire"
+          ],
           "valuesX": {
             "10": 1.22,
             "25": 2.62,
@@ -5642,11 +6630,16 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "PREVIOUS_POINTS",
           "skillAttackFor": null,
           "skillIndex": 299,
-          "tabs": ["Bowman", "Hunter"],
+          "tabs": [
+            "Bowman",
+            "Hunter"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -5663,11 +6656,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "PRICE_RECESSION",
           "skillAttackFor": null,
           "skillIndex": 430,
-          "tabs": ["Wind_Walker"],
+          "tabs": [
+            "Wind_Walker"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -5684,11 +6681,15 @@
           "funcX": "decayMulti",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "PRIMO_PRISMA",
           "skillAttackFor": null,
           "skillIndex": 594,
-          "tabs": ["Arcane_Cultist"],
+          "tabs": [
+            "Arcane_Cultist"
+          ],
           "valuesX": {
             "10": 1.23,
             "25": 1.55,
@@ -5705,11 +6706,15 @@
           "funcX": "intervalAdd",
           "funcY": "decay",
           "isAttack": true,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "PRINTER_GO_BRRR",
           "skillAttackFor": null,
           "skillIndex": 32,
-          "tabs": ["Maestro"],
+          "tabs": [
+            "Maestro"
+          ],
           "valuesX": {
             "10": 1,
             "25": 1,
@@ -5735,7 +6740,9 @@
           "rawName": "PRINTER_SAMPLING",
           "skillAttackFor": null,
           "skillIndex": 635,
-          "tabs": ["Special Talent 2"],
+          "tabs": [
+            "Special Talent 2"
+          ],
           "valuesX": {
             "10": 10.75,
             "25": 11.88,
@@ -5756,7 +6763,9 @@
           "rawName": "PULSATION",
           "skillAttackFor": null,
           "skillIndex": 629,
-          "tabs": ["Special Talent 2"],
+          "tabs": [
+            "Special Talent 2"
+          ],
           "valuesX": {
             "10": 10.71,
             "25": 22.06,
@@ -5773,11 +6782,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "PUMPIN'_POWER",
           "skillAttackFor": null,
           "skillIndex": 427,
-          "tabs": ["Wind_Walker"],
+          "tabs": [
+            "Wind_Walker"
+          ],
           "valuesX": {
             "10": 0.1,
             "25": 0.22,
@@ -5794,11 +6807,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "PURPLE_TUBE",
           "skillAttackFor": null,
           "skillIndex": 535,
-          "tabs": ["Bubonic_Conjuror"],
+          "tabs": [
+            "Bubonic_Conjuror"
+          ],
           "valuesX": {
             "10": 3.64,
             "25": 8,
@@ -5815,11 +6832,15 @@
           "funcX": "intervalAdd",
           "funcY": "add",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "QUAD_JAB",
           "skillAttackFor": null,
           "skillIndex": 48,
-          "tabs": ["Voidwalker"],
+          "tabs": [
+            "Voidwalker"
+          ],
           "valuesX": {
             "10": 18,
             "25": 23,
@@ -5845,7 +6866,9 @@
           "rawName": "QUEST_CHUNGUS",
           "skillAttackFor": null,
           "skillIndex": 618,
-          "tabs": ["Special Talent 1"],
+          "tabs": [
+            "Special Talent 1"
+          ],
           "valuesX": {
             "10": 40,
             "25": 100,
@@ -5866,7 +6889,9 @@
           "rawName": "QUEST_KAPOW!",
           "skillAttackFor": null,
           "skillIndex": 658,
-          "tabs": ["Special Talent 1"],
+          "tabs": [
+            "Special Talent 1"
+          ],
           "valuesX": {
             "10": 50,
             "25": 125,
@@ -5883,11 +6908,21 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer", "Beginner", "Mage", "Warrior"],
+          "lines": [
+            "Archer",
+            "Beginner",
+            "Mage",
+            "Warrior"
+          ],
           "rawName": "QUICKNESS_BOOTS",
           "skillAttackFor": null,
           "skillIndex": 11,
-          "tabs": ["Beginner", "Calm_Basics", "Rage_Basics", "Savvy_Basics"],
+          "tabs": [
+            "Beginner",
+            "Calm_Basics",
+            "Rage_Basics",
+            "Savvy_Basics"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -5904,11 +6939,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "RADIANT_CHAINBOLT",
           "skillAttackFor": null,
           "skillIndex": 497,
-          "tabs": ["Elemental_Sorcerer"],
+          "tabs": [
+            "Elemental_Sorcerer"
+          ],
           "valuesX": {
             "10": 90,
             "25": 150,
@@ -5930,11 +6969,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "RAISE_DEAD",
           "skillAttackFor": null,
           "skillIndex": 529,
-          "tabs": ["Bubonic_Conjuror"],
+          "tabs": [
+            "Bubonic_Conjuror"
+          ],
           "valuesX": {
             "10": 180,
             "25": 225,
@@ -5955,7 +6998,9 @@
           "rawName": "RANDO_EVENT_LOOTY",
           "skillAttackFor": null,
           "skillIndex": 650,
-          "tabs": ["Special Talent 3"],
+          "tabs": [
+            "Special Talent 3"
+          ],
           "valuesX": {
             "10": 0.07,
             "25": 0.15,
@@ -5972,11 +7017,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "RARES_EVERYWHERE!",
           "skillAttackFor": null,
           "skillIndex": 29,
-          "tabs": ["Journeyman"],
+          "tabs": [
+            "Journeyman"
+          ],
           "valuesX": {
             "10": 3.33,
             "25": 7.14,
@@ -5993,11 +7042,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "REDOX_RATES",
           "skillAttackFor": null,
           "skillIndex": 131,
-          "tabs": ["Squire"],
+          "tabs": [
+            "Squire"
+          ],
           "valuesX": {
             "10": 5,
             "25": 10.53,
@@ -6014,11 +7067,15 @@
           "funcX": "intervalAdd",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "REFINERY_THROTTLE",
           "skillAttackFor": null,
           "skillIndex": 130,
-          "tabs": ["Squire"],
+          "tabs": [
+            "Squire"
+          ],
           "valuesX": {
             "10": 4,
             "25": 6,
@@ -6035,11 +7092,15 @@
           "funcX": "decayMulti",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "REFLECTIVE_EYESIGHT",
           "skillAttackFor": null,
           "skillIndex": 313,
-          "tabs": ["Hunter"],
+          "tabs": [
+            "Hunter"
+          ],
           "valuesX": {
             "10": 1.18,
             "25": 1.4,
@@ -6056,11 +7117,15 @@
           "funcX": "decay",
           "funcY": "intervalAdd",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "REGAL_INTERVENTION",
           "skillAttackFor": null,
           "skillIndex": 229,
-          "tabs": ["Royal_Guardian"],
+          "tabs": [
+            "Royal_Guardian"
+          ],
           "valuesX": {
             "10": 0.31,
             "25": 0.71,
@@ -6082,11 +7147,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "REROLL_PLS",
           "skillAttackFor": null,
           "skillIndex": 27,
-          "tabs": ["Journeyman"],
+          "tabs": [
+            "Journeyman"
+          ],
           "valuesX": {
             "10": 5.14,
             "25": 10.59,
@@ -6103,11 +7172,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "RIBBON_WINNING",
           "skillAttackFor": null,
           "skillIndex": 204,
-          "tabs": ["Death_Bringer"],
+          "tabs": [
+            "Death_Bringer"
+          ],
           "valuesX": {
             "10": 9.68,
             "25": 23.08,
@@ -6124,11 +7197,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "RIGHT_HAND_OF_ACTION",
           "skillAttackFor": null,
           "skillIndex": 43,
-          "tabs": ["Maestro"],
+          "tabs": [
+            "Maestro"
+          ],
           "valuesX": {
             "10": 13.64,
             "25": 30,
@@ -6145,11 +7222,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "ROBBINGHOOD",
           "skillAttackFor": null,
           "skillIndex": 279,
-          "tabs": ["Archer"],
+          "tabs": [
+            "Archer"
+          ],
           "valuesX": {
             "10": 5.33,
             "25": 11.11,
@@ -6170,7 +7251,9 @@
           "rawName": "ROLL_DA_DICE",
           "skillAttackFor": null,
           "skillIndex": 623,
-          "tabs": ["Special Talent 1"],
+          "tabs": [
+            "Special Talent 1"
+          ],
           "valuesX": {
             "10": 9750,
             "25": 9375,
@@ -6187,11 +7270,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "ROYAL_ARMORY",
           "skillAttackFor": null,
           "skillIndex": 226,
-          "tabs": ["Royal_Guardian"],
+          "tabs": [
+            "Royal_Guardian"
+          ],
           "valuesX": {
             "10": 4.84,
             "25": 11.54,
@@ -6208,11 +7295,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SANIC_SPEED",
           "skillAttackFor": null,
           "skillIndex": 278,
-          "tabs": ["Archer"],
+          "tabs": [
+            "Archer"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -6229,11 +7320,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "SENTINEL_AXES",
           "skillAttackFor": null,
           "skillIndex": 197,
-          "tabs": ["Death_Bringer"],
+          "tabs": [
+            "Death_Bringer"
+          ],
           "valuesX": {
             "10": 34,
             "25": 40,
@@ -6255,11 +7350,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "SERRATED_SWIPE",
           "skillAttackFor": null,
           "skillIndex": 137,
-          "tabs": ["Blood_Berserker"],
+          "tabs": [
+            "Blood_Berserker"
+          ],
           "valuesX": {
             "10": 44,
             "25": 50,
@@ -6281,11 +7380,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "SHARED_BELIEFS",
           "skillAttackFor": null,
           "skillIndex": 506,
-          "tabs": ["Elemental_Sorcerer"],
+          "tabs": [
+            "Elemental_Sorcerer"
+          ],
           "valuesX": {
             "10": 9.09,
             "25": 20,
@@ -6302,11 +7405,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "SHARING_SOME_SMARTS",
           "skillAttackFor": null,
           "skillIndex": 493,
-          "tabs": ["Shaman"],
+          "tabs": [
+            "Shaman"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -6323,11 +7430,21 @@
           "funcX": "add",
           "funcY": "_",
           "isAttack": false,
-          "lines": ["Archer", "Beginner", "Mage", "Warrior"],
+          "lines": [
+            "Archer",
+            "Beginner",
+            "Mage",
+            "Warrior"
+          ],
           "rawName": "SHARPENED_AXE",
           "skillAttackFor": null,
           "skillIndex": 5,
-          "tabs": ["Beginner", "Calm_Basics", "Rage_Basics", "Savvy_Basics"],
+          "tabs": [
+            "Beginner",
+            "Calm_Basics",
+            "Rage_Basics",
+            "Savvy_Basics"
+          ],
           "valuesX": {
             "10": 4,
             "25": 10,
@@ -6344,11 +7461,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "SHARPER_SAWS",
           "skillAttackFor": null,
           "skillIndex": 132,
-          "tabs": ["Squire"],
+          "tabs": [
+            "Squire"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -6365,11 +7486,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "SHIELDIEST_STATUES",
           "skillAttackFor": null,
           "skillIndex": 127,
-          "tabs": ["Squire"],
+          "tabs": [
+            "Squire"
+          ],
           "valuesX": {
             "10": 16.67,
             "25": 33.33,
@@ -6386,11 +7511,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SHINING_BEACON_OF_EGG",
           "skillAttackFor": null,
           "skillIndex": 372,
-          "tabs": ["Beast_Master"],
+          "tabs": [
+            "Beast_Master"
+          ],
           "valuesX": {
             "10": 9.09,
             "25": 20,
@@ -6407,11 +7536,15 @@
           "funcX": "decayMulti",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SHINY_MEDALLIONS",
           "skillAttackFor": null,
           "skillIndex": 429,
-          "tabs": ["Wind_Walker"],
+          "tabs": [
+            "Wind_Walker"
+          ],
           "valuesX": {
             "10": 1.12,
             "25": 1.28,
@@ -6428,11 +7561,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "SHOCKWAVE_SLASH",
           "skillAttackFor": null,
           "skillIndex": 120,
-          "tabs": ["Squire"],
+          "tabs": [
+            "Squire"
+          ],
           "valuesX": {
             "10": 195,
             "25": 225,
@@ -6454,11 +7591,16 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SHOEFUL_OF_OBOL",
           "skillAttackFor": null,
           "skillIndex": 291,
-          "tabs": ["Bowman", "Hunter"],
+          "tabs": [
+            "Bowman",
+            "Hunter"
+          ],
           "valuesX": {
             "10": 15,
             "25": 32.14,
@@ -6479,7 +7621,9 @@
           "rawName": "SHRINE_ARCHITECT",
           "skillAttackFor": null,
           "skillIndex": 639,
-          "tabs": ["Special Talent 2"],
+          "tabs": [
+            "Special Talent 2"
+          ],
           "valuesX": {
             "10": 8.33,
             "25": 16.67,
@@ -6496,11 +7640,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SHROOM_BAIT",
           "skillAttackFor": null,
           "skillIndex": 312,
-          "tabs": ["Hunter"],
+          "tabs": [
+            "Hunter"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -6517,11 +7665,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SHWIFTY_STATUES",
           "skillAttackFor": null,
           "skillIndex": 292,
-          "tabs": ["Bowman"],
+          "tabs": [
+            "Bowman"
+          ],
           "valuesX": {
             "10": 16.67,
             "25": 33.33,
@@ -6538,11 +7690,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "SIZZLING_SKULL",
           "skillAttackFor": null,
           "skillIndex": 482,
-          "tabs": ["Shaman"],
+          "tabs": [
+            "Shaman"
+          ],
           "valuesX": {
             "10": 135,
             "25": 150,
@@ -6564,11 +7720,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "SKILLAGE_DAMAGE",
           "skillAttackFor": null,
           "skillIndex": 31,
-          "tabs": ["Maestro"],
+          "tabs": [
+            "Maestro"
+          ],
           "valuesX": {
             "10": 8.33,
             "25": 16.67,
@@ -6585,11 +7745,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "SKILLIEST_STATUE",
           "skillAttackFor": null,
           "skillIndex": 37,
-          "tabs": ["Maestro"],
+          "tabs": [
+            "Maestro"
+          ],
           "valuesX": {
             "10": 16.67,
             "25": 33.33,
@@ -6606,11 +7770,16 @@
           "funcX": "decay",
           "funcY": "intervalAdd",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SKILL_AMBIDEXTERITY",
           "skillAttackFor": null,
           "skillIndex": 367,
-          "tabs": ["Beast_Master", "Siege_Breaker"],
+          "tabs": [
+            "Beast_Master",
+            "Siege_Breaker"
+          ],
           "valuesX": {
             "10": 6.67,
             "25": 14.29,
@@ -6632,11 +7801,16 @@
           "funcX": "decay",
           "funcY": "intervalAdd",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "SKILL_STRENGTHEN",
           "skillAttackFor": null,
           "skillIndex": 142,
-          "tabs": ["Blood_Berserker", "Divine_Knight"],
+          "tabs": [
+            "Blood_Berserker",
+            "Divine_Knight"
+          ],
           "valuesX": {
             "10": 6.67,
             "25": 14.29,
@@ -6658,11 +7832,16 @@
           "funcX": "decay",
           "funcY": "intervalAdd",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "SKILL_WIZ",
           "skillAttackFor": null,
           "skillIndex": 532,
-          "tabs": ["Bubonic_Conjuror", "Elemental_Sorcerer"],
+          "tabs": [
+            "Bubonic_Conjuror",
+            "Elemental_Sorcerer"
+          ],
           "valuesX": {
             "10": 6.67,
             "25": 14.29,
@@ -6684,11 +7863,15 @@
           "funcX": "decayMulti",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SLAYER_ABOMINATOR",
           "skillAttackFor": null,
           "skillIndex": 434,
-          "tabs": ["Wind_Walker"],
+          "tabs": [
+            "Wind_Walker"
+          ],
           "valuesX": {
             "10": 1,
             "25": 1,
@@ -6705,11 +7888,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Beginner"],
+          "lines": [
+            "Beginner"
+          ],
           "rawName": "SLEEPIN'_ON_THE_JOB",
           "skillAttackFor": null,
           "skillIndex": 79,
-          "tabs": ["Beginner"],
+          "tabs": [
+            "Beginner"
+          ],
           "valuesX": {
             "10": 3.5,
             "25": 7,
@@ -6726,11 +7913,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "SMART_EFFICIENCY",
           "skillAttackFor": null,
           "skillIndex": 445,
-          "tabs": ["Savvy_Basics"],
+          "tabs": [
+            "Savvy_Basics"
+          ],
           "valuesX": {
             "10": 11.1,
             "25": 31.5,
@@ -6747,11 +7938,15 @@
           "funcX": "decay",
           "funcY": "intervalAdd",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SMELTIN'_ERRYDAY",
           "skillAttackFor": null,
           "skillIndex": 280,
-          "tabs": ["Archer"],
+          "tabs": [
+            "Archer"
+          ],
           "valuesX": {
             "10": 5.56,
             "25": 11.9,
@@ -6773,11 +7968,15 @@
           "funcX": "add",
           "funcY": "decayMulti",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SNEAKY_SKILLING",
           "skillAttackFor": null,
           "skillIndex": 431,
-          "tabs": ["Wind_Walker"],
+          "tabs": [
+            "Wind_Walker"
+          ],
           "valuesX": {
             "10": 15.5,
             "25": 57.5,
@@ -6799,11 +7998,15 @@
           "funcX": "decay",
           "funcY": "decay",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SOME_COMMANDMENTS",
           "skillAttackFor": null,
           "skillIndex": 424,
-          "tabs": ["Wind_Walker"],
+          "tabs": [
+            "Wind_Walker"
+          ],
           "valuesX": {
             "10": 28.57,
             "25": 66.67,
@@ -6825,11 +8028,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "SOOOULS",
           "skillAttackFor": null,
           "skillIndex": 476,
-          "tabs": ["Wizard"],
+          "tabs": [
+            "Wizard"
+          ],
           "valuesX": {
             "10": 3.13,
             "25": 6.58,
@@ -6846,11 +8053,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "SPECIES_EPOCH",
           "skillAttackFor": null,
           "skillIndex": 57,
-          "tabs": ["Voidwalker"],
+          "tabs": [
+            "Voidwalker"
+          ],
           "valuesX": {
             "10": 0.48,
             "25": 1.11,
@@ -6867,11 +8078,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SPEEDNA",
           "skillAttackFor": null,
           "skillIndex": 290,
-          "tabs": ["Bowman"],
+          "tabs": [
+            "Bowman"
+          ],
           "valuesX": {
             "10": 6.43,
             "25": 13.24,
@@ -6888,11 +8103,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "SPEEDY_BOOK",
           "skillAttackFor": null,
           "skillIndex": 468,
-          "tabs": ["Wizard"],
+          "tabs": [
+            "Wizard"
+          ],
           "valuesX": {
             "10": 12,
             "25": 15,
@@ -6914,11 +8133,15 @@
           "funcX": "decay",
           "funcY": "decayMulti",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "SPELUNKING_SPECIALTY",
           "skillAttackFor": null,
           "skillIndex": 236,
-          "tabs": ["Royal_Guardian"],
+          "tabs": [
+            "Royal_Guardian"
+          ],
           "valuesX": {
             "10": 7.69,
             "25": 18.18,
@@ -6944,7 +8167,9 @@
           "rawName": "SPICE_SPILLAGE",
           "skillAttackFor": null,
           "skillIndex": 651,
-          "tabs": ["Special Talent 3"],
+          "tabs": [
+            "Special Talent 3"
+          ],
           "valuesX": {
             "10": 18.18,
             "25": 40,
@@ -6961,11 +8186,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SPIRIT_BALLISTA",
           "skillAttackFor": null,
           "skillIndex": 422,
-          "tabs": ["Wind_Walker"],
+          "tabs": [
+            "Wind_Walker"
+          ],
           "valuesX": {
             "10": 5.65,
             "25": 13.46,
@@ -6982,11 +8211,16 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "STACKED_SKULLS",
           "skillAttackFor": null,
           "skillIndex": 366,
-          "tabs": ["Beast_Master", "Siege_Breaker"],
+          "tabs": [
+            "Beast_Master",
+            "Siege_Breaker"
+          ],
           "valuesX": {
             "10": 3.64,
             "25": 8,
@@ -7003,11 +8237,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "STARING_STATUES",
           "skillAttackFor": null,
           "skillIndex": 472,
-          "tabs": ["Wizard"],
+          "tabs": [
+            "Wizard"
+          ],
           "valuesX": {
             "10": 16.67,
             "25": 33.33,
@@ -7024,11 +8262,21 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer", "Beginner", "Mage", "Warrior"],
+          "lines": [
+            "Archer",
+            "Beginner",
+            "Mage",
+            "Warrior"
+          ],
           "rawName": "STAR_PLAYER",
           "skillAttackFor": null,
           "skillIndex": 8,
-          "tabs": ["Beginner", "Calm_Basics", "Rage_Basics", "Savvy_Basics"],
+          "tabs": [
+            "Beginner",
+            "Calm_Basics",
+            "Rage_Basics",
+            "Savvy_Basics"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -7049,7 +8297,9 @@
           "rawName": "STATUE_METALLURGY",
           "skillAttackFor": null,
           "skillIndex": 647,
-          "tabs": ["Special Talent 3"],
+          "tabs": [
+            "Special Talent 3"
+          ],
           "valuesX": {
             "10": 1.36,
             "25": 3,
@@ -7070,7 +8320,9 @@
           "rawName": "STAT_OVERLOAD",
           "skillAttackFor": null,
           "skillIndex": 652,
-          "tabs": ["Special Talent 3"],
+          "tabs": [
+            "Special Talent 3"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -7091,7 +8343,9 @@
           "rawName": "STONKS!",
           "skillAttackFor": null,
           "skillIndex": 622,
-          "tabs": ["Special Talent 1"],
+          "tabs": [
+            "Special Talent 1"
+          ],
           "valuesX": {
             "10": 21.67,
             "25": 43.33,
@@ -7108,11 +8362,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "STOP_RIGHT_THERE",
           "skillAttackFor": null,
           "skillIndex": 303,
-          "tabs": ["Hunter"],
+          "tabs": [
+            "Hunter"
+          ],
           "valuesX": {
             "10": 165,
             "25": 187.5,
@@ -7134,11 +8392,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "STRAFE",
           "skillAttackFor": null,
           "skillIndex": 273,
-          "tabs": ["Archer"],
+          "tabs": [
+            "Archer"
+          ],
           "valuesX": {
             "10": 8,
             "25": 12.5,
@@ -7160,11 +8422,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "STRAIGHTSHOT_STATUES",
           "skillAttackFor": null,
           "skillIndex": 307,
-          "tabs": ["Hunter"],
+          "tabs": [
+            "Hunter"
+          ],
           "valuesX": {
             "10": 16.67,
             "25": 33.33,
@@ -7181,11 +8447,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "STRENGTH_IN_NUMBERS",
           "skillAttackFor": null,
           "skillIndex": 95,
-          "tabs": ["Warrior"],
+          "tabs": [
+            "Warrior"
+          ],
           "valuesX": {
             "10": 7.5,
             "25": 18.75,
@@ -7202,11 +8472,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "STRONGEST_STATUES",
           "skillAttackFor": null,
           "skillIndex": 112,
-          "tabs": ["Barbarian"],
+          "tabs": [
+            "Barbarian"
+          ],
           "valuesX": {
             "10": 16.67,
             "25": 33.33,
@@ -7223,11 +8497,16 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "STR_SUMMORE",
           "skillAttackFor": null,
           "skillIndex": 81,
-          "tabs": ["Barbarian", "Squire"],
+          "tabs": [
+            "Barbarian",
+            "Squire"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -7248,7 +8527,9 @@
           "rawName": "STUDIOUS_QUESTER",
           "skillAttackFor": null,
           "skillIndex": 617,
-          "tabs": ["Special Talent 1"],
+          "tabs": [
+            "Special Talent 1"
+          ],
           "valuesX": {
             "10": 4,
             "25": 10,
@@ -7265,11 +8546,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "STUPENDOUS_STATUES",
           "skillAttackFor": null,
           "skillIndex": 487,
-          "tabs": ["Shaman"],
+          "tabs": [
+            "Shaman"
+          ],
           "valuesX": {
             "10": 16.67,
             "25": 33.33,
@@ -7286,11 +8571,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SUNSET_ON_THE_HIVES",
           "skillAttackFor": null,
           "skillIndex": 298,
-          "tabs": ["Bowman"],
+          "tabs": [
+            "Bowman"
+          ],
           "valuesX": {
             "10": 2.86,
             "25": 5.88,
@@ -7307,11 +8596,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "SUPERNOVA_PLAYER",
           "skillAttackFor": null,
           "skillIndex": 17,
-          "tabs": ["Journeyman"],
+          "tabs": [
+            "Journeyman"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -7332,7 +8625,9 @@
           "rawName": "SUPERSOURCE",
           "skillAttackFor": null,
           "skillIndex": 636,
-          "tabs": ["Special Talent 2"],
+          "tabs": [
+            "Special Talent 2"
+          ],
           "valuesX": {
             "10": 22.73,
             "25": 50,
@@ -7349,11 +8644,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "SUPER_SAMPLES",
           "skillAttackFor": null,
           "skillIndex": 133,
-          "tabs": ["Squire"],
+          "tabs": [
+            "Squire"
+          ],
           "valuesX": {
             "10": 1.06,
             "25": 2.25,
@@ -7370,11 +8669,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SUPPRESSING_FIRE",
           "skillAttackFor": null,
           "skillIndex": 316,
-          "tabs": ["Siege_Breaker"],
+          "tabs": [
+            "Siege_Breaker"
+          ],
           "valuesX": {
             "10": 30,
             "25": 45,
@@ -7396,11 +8699,16 @@
           "funcX": "intervalAdd",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "SYMBOLS_OF_BEYOND_~G",
           "skillAttackFor": null,
           "skillIndex": 374,
-          "tabs": ["Beast_Master", "Siege_Breaker"],
+          "tabs": [
+            "Beast_Master",
+            "Siege_Breaker"
+          ],
           "valuesX": {
             "10": 1,
             "25": 2,
@@ -7417,11 +8725,16 @@
           "funcX": "intervalAdd",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "SYMBOLS_OF_BEYOND_~P",
           "skillAttackFor": null,
           "skillIndex": 539,
-          "tabs": ["Bubonic_Conjuror", "Elemental_Sorcerer"],
+          "tabs": [
+            "Bubonic_Conjuror",
+            "Elemental_Sorcerer"
+          ],
           "valuesX": {
             "10": 1,
             "25": 2,
@@ -7438,11 +8751,16 @@
           "funcX": "intervalAdd",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "SYMBOLS_OF_BEYOND_~R",
           "skillAttackFor": null,
           "skillIndex": 149,
-          "tabs": ["Blood_Berserker", "Divine_Knight"],
+          "tabs": [
+            "Blood_Berserker",
+            "Divine_Knight"
+          ],
           "valuesX": {
             "10": 1,
             "25": 2,
@@ -7459,11 +8777,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "TACHYON_TRUTH",
           "skillAttackFor": null,
           "skillIndex": 598,
-          "tabs": ["Arcane_Cultist"],
+          "tabs": [
+            "Arcane_Cultist"
+          ],
           "valuesX": {
             "10": 0.46,
             "25": 1.09,
@@ -7480,11 +8802,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "TAMPERED_INJECTION",
           "skillAttackFor": null,
           "skillIndex": 527,
-          "tabs": ["Bubonic_Conjuror"],
+          "tabs": [
+            "Bubonic_Conjuror"
+          ],
           "valuesX": {
             "10": 138,
             "25": 165,
@@ -7501,11 +8827,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "TASTE_TEST",
           "skillAttackFor": null,
           "skillIndex": 145,
-          "tabs": ["Blood_Berserker"],
+          "tabs": [
+            "Blood_Berserker"
+          ],
           "valuesX": {
             "10": 9.09,
             "25": 20,
@@ -7522,11 +8852,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "TELEKI'NET'IC_LOGS",
           "skillAttackFor": null,
           "skillIndex": 295,
-          "tabs": ["Bowman"],
+          "tabs": [
+            "Bowman"
+          ],
           "valuesX": {
             "10": 2.5,
             "25": 5.26,
@@ -7547,7 +8881,9 @@
           "rawName": "TELEKINETIC_STORAGE",
           "skillAttackFor": null,
           "skillIndex": 634,
-          "tabs": ["Special Talent 2"],
+          "tabs": [
+            "Special Talent 2"
+          ],
           "valuesX": {
             "10": 4.29,
             "25": 8.82,
@@ -7564,11 +8900,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "TELEPORT",
           "skillAttackFor": null,
           "skillIndex": 453,
-          "tabs": ["Mage"],
+          "tabs": [
+            "Mage"
+          ],
           "valuesX": {
             "10": 35,
             "25": 50,
@@ -7585,11 +8925,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "TEMPESTUOUS_EMOTIONS",
           "skillAttackFor": null,
           "skillIndex": 104,
-          "tabs": ["Warrior"],
+          "tabs": [
+            "Warrior"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -7606,11 +8950,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "TEMPEST_FORM",
           "skillAttackFor": null,
           "skillIndex": 420,
-          "tabs": ["Wind_Walker"],
+          "tabs": [
+            "Wind_Walker"
+          ],
           "valuesX": {
             "10": 9.62,
             "25": 22.73,
@@ -7627,11 +8975,15 @@
           "funcX": "decay",
           "funcY": "intervalAdd",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "TENTEYECLE",
           "skillAttackFor": null,
           "skillIndex": 483,
-          "tabs": ["Shaman"],
+          "tabs": [
+            "Shaman"
+          ],
           "valuesX": {
             "10": 9.09,
             "25": 20,
@@ -7653,11 +9005,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "TESSERACT",
           "skillAttackFor": null,
           "skillIndex": 586,
-          "tabs": ["Arcane_Cultist"],
+          "tabs": [
+            "Arcane_Cultist"
+          ],
           "valuesX": {
             "10": 4.84,
             "25": 11.54,
@@ -7674,7 +9030,11 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer", "Mage", "Warrior"],
+          "lines": [
+            "Archer",
+            "Mage",
+            "Warrior"
+          ],
           "rawName": "THE_FAMILY_GUY",
           "skillAttackFor": null,
           "skillIndex": 144,
@@ -7706,7 +9066,9 @@
           "rawName": "TICK_TOCK",
           "skillAttackFor": null,
           "skillIndex": 621,
-          "tabs": ["Special Talent 1"],
+          "tabs": [
+            "Special Talent 1"
+          ],
           "valuesX": {
             "10": 1.33,
             "25": 2.67,
@@ -7727,7 +9089,9 @@
           "rawName": "TIPTOE_QUICKNESS",
           "skillAttackFor": null,
           "skillIndex": 641,
-          "tabs": ["Special Talent 3"],
+          "tabs": [
+            "Special Talent 3"
+          ],
           "valuesX": {
             "10": 2.27,
             "25": 5,
@@ -7753,7 +9117,9 @@
           "rawName": "TOILET_PAPER_POSTAGE",
           "skillAttackFor": null,
           "skillIndex": 625,
-          "tabs": ["Special Talent 3"],
+          "tabs": [
+            "Special Talent 3"
+          ],
           "valuesX": {
             "10": 1.06,
             "25": 1.14,
@@ -7770,11 +9136,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "TOOL_PROFICIENCY",
           "skillAttackFor": null,
           "skillIndex": 103,
-          "tabs": ["Warrior"],
+          "tabs": [
+            "Warrior"
+          ],
           "valuesX": {
             "10": 3.2,
             "25": 6.15,
@@ -7791,11 +9161,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "TORNADO",
           "skillAttackFor": null,
           "skillIndex": 467,
-          "tabs": ["Wizard"],
+          "tabs": [
+            "Wizard"
+          ],
           "valuesX": {
             "10": 23,
             "25": 27.5,
@@ -7817,11 +9191,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "TOUGH_STEAKS",
           "skillAttackFor": null,
           "skillIndex": 140,
-          "tabs": ["Blood_Berserker"],
+          "tabs": [
+            "Blood_Berserker"
+          ],
           "valuesX": {
             "10": 0.91,
             "25": 2,
@@ -7838,11 +9216,15 @@
           "funcX": "intervalAdd",
           "funcY": "add",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "TRIPLE_JAB",
           "skillAttackFor": null,
           "skillIndex": 33,
-          "tabs": ["Maestro"],
+          "tabs": [
+            "Maestro"
+          ],
           "valuesX": {
             "10": 22,
             "25": 26,
@@ -7864,11 +9246,15 @@
           "funcX": "add",
           "funcY": "intervalAdd",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "TWO_PUNCH_MAN",
           "skillAttackFor": null,
           "skillIndex": 18,
-          "tabs": ["Journeyman"],
+          "tabs": [
+            "Journeyman"
+          ],
           "valuesX": {
             "10": 6,
             "25": 15,
@@ -7894,7 +9280,9 @@
           "rawName": "UBERCHARGED_HEALTH",
           "skillAttackFor": null,
           "skillIndex": 642,
-          "tabs": ["Special Talent 3"],
+          "tabs": [
+            "Special Talent 3"
+          ],
           "valuesX": {
             "10": 31,
             "25": 115,
@@ -7911,11 +9299,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "UNDYING_PASSION",
           "skillAttackFor": null,
           "skillIndex": 175,
-          "tabs": ["Divine_Knight"],
+          "tabs": [
+            "Divine_Knight"
+          ],
           "valuesX": {
             "10": 3.64,
             "25": 8,
@@ -7932,11 +9324,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "UNENDING_LOOT_SEARCH",
           "skillAttackFor": null,
           "skillIndex": 325,
-          "tabs": ["Siege_Breaker"],
+          "tabs": [
+            "Siege_Breaker"
+          ],
           "valuesX": {
             "10": 5.31,
             "25": 12.14,
@@ -7953,11 +9349,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "UNREAL_AGILITY",
           "skillAttackFor": null,
           "skillIndex": 428,
-          "tabs": ["Wind_Walker"],
+          "tabs": [
+            "Wind_Walker"
+          ],
           "valuesX": {
             "10": 50,
             "25": 125,
@@ -7974,11 +9374,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "UNT'WIS'TED_ROBES",
           "skillAttackFor": null,
           "skillIndex": 456,
-          "tabs": ["Mage"],
+          "tabs": [
+            "Mage"
+          ],
           "valuesX": {
             "10": 15,
             "25": 37.5,
@@ -7995,11 +9399,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "UPLOAD_SQUARED",
           "skillAttackFor": null,
           "skillIndex": 538,
-          "tabs": ["Bubonic_Conjuror"],
+          "tabs": [
+            "Bubonic_Conjuror"
+          ],
           "valuesX": {
             "10": 7.27,
             "25": 16,
@@ -8016,11 +9424,16 @@
           "funcX": "decay",
           "funcY": "add",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "UTMOST_INTELLECT",
           "skillAttackFor": null,
           "skillIndex": 533,
-          "tabs": ["Bubonic_Conjuror", "Elemental_Sorcerer"],
+          "tabs": [
+            "Bubonic_Conjuror",
+            "Elemental_Sorcerer"
+          ],
           "valuesX": {
             "10": 1.36,
             "25": 3,
@@ -8042,11 +9455,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "UWU_RAWRRR",
           "skillAttackFor": null,
           "skillIndex": 302,
-          "tabs": ["Hunter"],
+          "tabs": [
+            "Hunter"
+          ],
           "valuesX": {
             "10": 7.86,
             "25": 16.18,
@@ -8063,11 +9480,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "VEINS_OF_THE_INFERNAL",
           "skillAttackFor": null,
           "skillIndex": 284,
-          "tabs": ["Archer"],
+          "tabs": [
+            "Archer"
+          ],
           "valuesX": {
             "10": 5.83,
             "25": 11.67,
@@ -8084,11 +9505,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "VELOCITY_VESSELS",
           "skillAttackFor": null,
           "skillIndex": 294,
-          "tabs": ["Bowman"],
+          "tabs": [
+            "Bowman"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -8105,11 +9530,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "VIRILE_VIALS",
           "skillAttackFor": null,
           "skillIndex": 485,
-          "tabs": ["Shaman"],
+          "tabs": [
+            "Shaman"
+          ],
           "valuesX": {
             "10": 1.09,
             "25": 2.4,
@@ -8126,11 +9555,15 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "VISIBILITY_VESSELS",
           "skillAttackFor": null,
           "skillIndex": 309,
-          "tabs": ["Hunter"],
+          "tabs": [
+            "Hunter"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -8147,11 +9580,15 @@
           "funcX": "bigBase",
           "funcY": "bigBase",
           "isAttack": true,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "VOID_RADIUS",
           "skillAttackFor": null,
           "skillIndex": 46,
-          "tabs": ["Voidwalker"],
+          "tabs": [
+            "Voidwalker"
+          ],
           "valuesX": {
             "10": 270,
             "25": 300,
@@ -8173,11 +9610,15 @@
           "funcX": "bigBase",
           "funcY": "bigBase",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "VOID_TRIAL_RERUN",
           "skillAttackFor": null,
           "skillIndex": 45,
-          "tabs": ["Voidwalker"],
+          "tabs": [
+            "Voidwalker"
+          ],
           "valuesX": {
             "10": 165,
             "25": 187.5,
@@ -8199,11 +9640,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Journeyman"],
+          "lines": [
+            "Journeyman"
+          ],
           "rawName": "VOODOO_STATUFICATION",
           "skillAttackFor": null,
           "skillIndex": 56,
-          "tabs": ["Voidwalker"],
+          "tabs": [
+            "Voidwalker"
+          ],
           "valuesX": {
             "10": 9.52,
             "25": 22.22,
@@ -8220,11 +9665,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "WAITING_TO_COOL",
           "skillAttackFor": null,
           "skillIndex": 147,
-          "tabs": ["Blood_Berserker"],
+          "tabs": [
+            "Blood_Berserker"
+          ],
           "valuesX": {
             "10": 2.86,
             "25": 5.88,
@@ -8241,11 +9690,15 @@
           "funcX": "decayMulti",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "WARBOUND_POLITICS",
           "skillAttackFor": null,
           "skillIndex": 231,
-          "tabs": ["Royal_Guardian"],
+          "tabs": [
+            "Royal_Guardian"
+          ],
           "valuesX": {
             "10": 1.12,
             "25": 1.29,
@@ -8262,11 +9715,15 @@
           "funcX": "intervalAdd",
           "funcY": "bigBase",
           "isAttack": true,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "WHALE_WALLOP",
           "skillAttackFor": null,
           "skillIndex": 362,
-          "tabs": ["Beast_Master"],
+          "tabs": [
+            "Beast_Master"
+          ],
           "valuesX": {
             "10": 7,
             "25": 8,
@@ -8288,11 +9745,15 @@
           "funcX": "bigBase",
           "funcY": "intervalAdd",
           "isAttack": true,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "WHIRL",
           "skillAttackFor": null,
           "skillIndex": 91,
-          "tabs": ["Warrior"],
+          "tabs": [
+            "Warrior"
+          ],
           "valuesX": {
             "10": 75,
             "25": 97.5,
@@ -8318,7 +9779,9 @@
           "rawName": "WILL_OF_THE_ELDEST",
           "skillAttackFor": null,
           "skillIndex": 620,
-          "tabs": ["Special Talent 1"],
+          "tabs": [
+            "Special Talent 1"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -8335,11 +9798,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "WINDBORNE",
           "skillAttackFor": null,
           "skillIndex": 425,
-          "tabs": ["Wind_Walker"],
+          "tabs": [
+            "Wind_Walker"
+          ],
           "valuesX": {
             "10": 1.54,
             "25": 3.64,
@@ -8356,11 +9823,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "WIRED_IN_POWER",
           "skillAttackFor": null,
           "skillIndex": 530,
-          "tabs": ["Bubonic_Conjuror"],
+          "tabs": [
+            "Bubonic_Conjuror"
+          ],
           "valuesX": {
             "10": 0.64,
             "25": 1.4,
@@ -8377,11 +9848,16 @@
           "funcX": "add",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "WIS_WUMBO",
           "skillAttackFor": null,
           "skillIndex": 488,
-          "tabs": ["Shaman", "Wizard"],
+          "tabs": [
+            "Shaman",
+            "Wizard"
+          ],
           "valuesX": {
             "10": 10,
             "25": 25,
@@ -8398,11 +9874,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "WOAH,_THAT_WAS_FAST!",
           "skillAttackFor": null,
           "skillIndex": 289,
-          "tabs": ["Bowman"],
+          "tabs": [
+            "Bowman"
+          ],
           "valuesX": {
             "10": 6,
             "25": 11.54,
@@ -8419,11 +9899,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "WORMHOLE_EMPEROR",
           "skillAttackFor": null,
           "skillIndex": 508,
-          "tabs": ["Elemental_Sorcerer"],
+          "tabs": [
+            "Elemental_Sorcerer"
+          ],
           "valuesX": {
             "10": 0.09,
             "25": 0.21,
@@ -8440,11 +9924,15 @@
           "funcX": "bigBase",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "WORMING_UNDERCOVER",
           "skillAttackFor": "FISHING",
           "skillIndex": 115,
-          "tabs": ["Barbarian"],
+          "tabs": [
+            "Barbarian"
+          ],
           "valuesX": {
             "10": 16.3,
             "25": 26.8,
@@ -8461,11 +9949,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "WRAITH_FORM",
           "skillAttackFor": null,
           "skillIndex": 195,
-          "tabs": ["Death_Bringer"],
+          "tabs": [
+            "Death_Bringer"
+          ],
           "valuesX": {
             "10": 9.62,
             "25": 22.73,
@@ -8482,11 +9974,15 @@
           "funcX": "decay",
           "funcY": "txt",
           "isAttack": false,
-          "lines": ["Warrior"],
+          "lines": [
+            "Warrior"
+          ],
           "rawName": "WRAITH_OVERLORD",
           "skillAttackFor": null,
           "skillIndex": 208,
-          "tabs": ["Death_Bringer"],
+          "tabs": [
+            "Death_Bringer"
+          ],
           "valuesX": {
             "10": 0.1,
             "25": 0.22,
@@ -8503,11 +9999,15 @@
           "funcX": "decay",
           "funcY": "intervalAdd",
           "isAttack": false,
-          "lines": ["Archer"],
+          "lines": [
+            "Archer"
+          ],
           "rawName": "YEA_I_ALREADY_KNOW",
           "skillAttackFor": null,
           "skillIndex": 282,
-          "tabs": ["Archer"],
+          "tabs": [
+            "Archer"
+          ],
           "valuesX": {
             "10": 0.5,
             "25": 1.09,
@@ -8529,11 +10029,15 @@
           "funcX": "decay",
           "funcY": "bigBase",
           "isAttack": false,
-          "lines": ["Mage"],
+          "lines": [
+            "Mage"
+          ],
           "rawName": "YOU'RE_NEXT",
           "skillAttackFor": null,
           "skillIndex": 454,
-          "tabs": ["Mage"],
+          "tabs": [
+            "Mage"
+          ],
           "valuesX": {
             "10": 31.43,
             "25": 55,

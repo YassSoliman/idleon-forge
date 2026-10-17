@@ -6,6 +6,8 @@
       "**",
       "!**/vendor",
       "!**/fixtures",
+      "!**/generated",
+      "!packages/knowledge/golden",
       "!**/dist",
       "!**/.upstream",
       "!**/.wrangler",

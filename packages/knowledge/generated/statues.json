@@ -8,7 +8,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-0",
       "origin": "generated",
@@ -46,7 +48,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-1",
       "origin": "generated",
@@ -84,7 +88,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-10",
       "origin": "generated",
@@ -122,7 +128,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-11",
       "origin": "generated",
@@ -160,7 +168,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-12",
       "origin": "generated",
@@ -198,7 +208,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-13",
       "origin": "generated",
@@ -236,7 +248,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-14",
       "origin": "generated",
@@ -274,7 +288,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-15",
       "origin": "generated",
@@ -312,7 +328,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-16",
       "origin": "generated",
@@ -350,7 +368,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-17",
       "origin": "generated",
@@ -388,7 +408,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-18",
       "origin": "generated",
@@ -426,7 +448,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-19",
       "origin": "generated",
@@ -464,7 +488,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-2",
       "origin": "generated",
@@ -502,7 +528,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-20",
       "origin": "generated",
@@ -540,7 +568,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-21",
       "origin": "generated",
@@ -578,7 +608,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-22",
       "origin": "generated",
@@ -616,7 +648,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-23",
       "origin": "generated",
@@ -654,7 +688,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-24",
       "origin": "generated",
@@ -692,7 +728,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-25",
       "origin": "generated",
@@ -730,7 +768,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-26",
       "origin": "generated",
@@ -768,7 +808,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-27",
       "origin": "generated",
@@ -806,7 +848,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-28",
       "origin": "generated",
@@ -844,7 +888,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-29",
       "origin": "generated",
@@ -882,7 +928,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-3",
       "origin": "generated",
@@ -920,7 +968,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-30",
       "origin": "generated",
@@ -958,7 +1008,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-31",
       "origin": "generated",
@@ -996,7 +1048,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-4",
       "origin": "generated",
@@ -1034,7 +1088,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-5",
       "origin": "generated",
@@ -1072,7 +1128,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-6",
       "origin": "generated",
@@ -1110,7 +1168,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-7",
       "origin": "generated",
@@ -1148,7 +1208,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-8",
       "origin": "generated",
@@ -1186,7 +1248,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "statues",
-        "inputs": ["website-data/shared-data.json#statues"]
+        "inputs": [
+          "website-data/shared-data.json#statues"
+        ]
       },
       "id": "statues.acquisition.statue-9",
       "origin": "generated",

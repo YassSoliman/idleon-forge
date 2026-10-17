@@ -568,9 +568,20 @@
   ],
   "classTree": {
     "Arcane_Cultist": [],
-    "Archer": ["Beast_Master", "Bowman", "Hunter", "Siege_Breaker", "Wind_Walker"],
-    "Barbarian": ["Blood_Berserker", "Death_Bringer"],
-    "Beast_Master": ["Wind_Walker"],
+    "Archer": [
+      "Beast_Master",
+      "Bowman",
+      "Hunter",
+      "Siege_Breaker",
+      "Wind_Walker"
+    ],
+    "Barbarian": [
+      "Blood_Berserker",
+      "Death_Bringer"
+    ],
+    "Beast_Master": [
+      "Wind_Walker"
+    ],
     "Beginner": [
       "Arcane_Cultist",
       "Archer",
@@ -593,16 +604,36 @@
       "Wind_Walker",
       "Wizard"
     ],
-    "Blood_Berserker": ["Death_Bringer"],
-    "Bowman": ["Siege_Breaker"],
-    "Bubonic_Conjuror": ["Arcane_Cultist"],
+    "Blood_Berserker": [
+      "Death_Bringer"
+    ],
+    "Bowman": [
+      "Siege_Breaker"
+    ],
+    "Bubonic_Conjuror": [
+      "Arcane_Cultist"
+    ],
     "Death_Bringer": [],
-    "Divine_Knight": ["Royal_Guardian"],
-    "Elemental_Sorcerer": ["Spiritual_Monk"],
-    "Hunter": ["Beast_Master", "Wind_Walker"],
+    "Divine_Knight": [
+      "Royal_Guardian"
+    ],
+    "Elemental_Sorcerer": [
+      "Spiritual_Monk"
+    ],
+    "Hunter": [
+      "Beast_Master",
+      "Wind_Walker"
+    ],
     "Infinilyte": [],
-    "Journeyman": ["Infinilyte", "Maestro", "Voidwalker"],
-    "Maestro": ["Infinilyte", "Voidwalker"],
+    "Journeyman": [
+      "Infinilyte",
+      "Maestro",
+      "Voidwalker"
+    ],
+    "Maestro": [
+      "Infinilyte",
+      "Voidwalker"
+    ],
     "Mage": [
       "Arcane_Cultist",
       "Bubonic_Conjuror",
@@ -612,14 +643,32 @@
       "Wizard"
     ],
     "Royal_Guardian": [],
-    "Shaman": ["Arcane_Cultist", "Bubonic_Conjuror"],
+    "Shaman": [
+      "Arcane_Cultist",
+      "Bubonic_Conjuror"
+    ],
     "Siege_Breaker": [],
     "Spiritual_Monk": [],
-    "Squire": ["Divine_Knight", "Royal_Guardian"],
-    "Voidwalker": ["Infinilyte"],
-    "Warrior": ["Barbarian", "Blood_Berserker", "Death_Bringer", "Divine_Knight", "Royal_Guardian", "Squire"],
+    "Squire": [
+      "Divine_Knight",
+      "Royal_Guardian"
+    ],
+    "Voidwalker": [
+      "Infinilyte"
+    ],
+    "Warrior": [
+      "Barbarian",
+      "Blood_Berserker",
+      "Death_Bringer",
+      "Divine_Knight",
+      "Royal_Guardian",
+      "Squire"
+    ],
     "Wind_Walker": [],
-    "Wizard": ["Elemental_Sorcerer", "Spiritual_Monk"]
+    "Wizard": [
+      "Elemental_Sorcerer",
+      "Spiritual_Monk"
+    ]
   },
   "classes": [
     "Arcane_Cultist",
@@ -6873,7 +6922,11 @@
     "Yondergreen7",
     "Zenelith"
   ],
-  "sentinels": ["Blank", "LockedInvSpace", "Null"],
+  "sentinels": [
+    "Blank",
+    "LockedInvSpace",
+    "Null"
+  ],
   "spelunking": [
     "Ammatheist",
     "Artificial_Tree",

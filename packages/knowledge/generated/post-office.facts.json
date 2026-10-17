@@ -18,168 +18,264 @@
           "index": 0,
           "maxLevel": 400,
           "name": "Civil_War_Memory_Box",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "locally-sourced-organs",
           "index": 1,
           "maxLevel": 400,
           "name": "Locally_Sourced_Organs",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "magician-starterpack",
           "index": 2,
           "maxLevel": 400,
           "name": "Magician_Starterpack",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "box-of-unwanted-stats",
           "index": 3,
           "maxLevel": 400,
           "name": "Box_of_Unwanted_Stats",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "dwarven-supplies",
           "index": 4,
           "maxLevel": 400,
           "name": "Dwarven_Supplies",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "blacksmith-box",
           "index": 5,
           "maxLevel": 400,
           "name": "Blacksmith_Box",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "taped-up-timber",
           "index": 6,
           "maxLevel": 400,
           "name": "Taped_Up_Timber",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "carepack-from-mum",
           "index": 7,
           "maxLevel": 400,
           "name": "Carepack_From_Mum",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "sealed-fishheads",
           "index": 8,
           "maxLevel": 400,
           "name": "Sealed_Fishheads",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "potion-package",
           "index": 9,
           "maxLevel": 400,
           "name": "Potion_Package",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "bug-hunting-supplies",
           "index": 10,
           "maxLevel": 400,
           "name": "Bug_Hunting_Supplies",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "non-predatory-loot-box",
           "index": 11,
           "maxLevel": 400,
           "name": "Non_Predatory_Loot_Box",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "deaths-storage-unit",
           "index": 12,
           "maxLevel": 400,
           "name": "Deaths_Storage_Unit",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "utilitarian-capsule",
           "index": 13,
           "maxLevel": 400,
           "name": "Utilitarian_Capsule",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "lazzzy-lootcrate",
           "index": 14,
           "maxLevel": 400,
           "name": "Lazzzy_Lootcrate",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "science-spare-parts",
           "index": 15,
           "maxLevel": 400,
           "name": "Science_Spare_Parts",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "trapping-lockbox",
           "index": 16,
           "maxLevel": 400,
           "name": "Trapping_Lockbox",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "construction-container",
           "index": 17,
           "maxLevel": 400,
           "name": "Construction_Container",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "crate-of-the-creator",
           "index": 18,
           "maxLevel": 400,
           "name": "Crate_of_the_Creator",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "chefs-essentials",
           "index": 19,
           "maxLevel": 400,
           "name": "Chefs_Essentials",
-          "upgradeLevels": [24.9, 99.9, 400.1]
+          "upgradeLevels": [
+            24.9,
+            99.9,
+            400.1
+          ]
         },
         {
           "id": "myriad-crate",
           "index": 20,
           "maxLevel": 100000,
           "name": "Myriad_Crate",
-          "upgradeLevels": [99.9, 299.9, 100000.1]
+          "upgradeLevels": [
+            99.9,
+            299.9,
+            100000.1
+          ]
         },
         {
           "id": "scurvy-c-arr-ate",
           "index": 21,
           "maxLevel": 800,
           "name": "Scurvy_C'arr'ate",
-          "upgradeLevels": [49.9, 199.9, 800.1]
+          "upgradeLevels": [
+            49.9,
+            199.9,
+            800.1
+          ]
         },
         {
           "id": "box-of-gosh",
           "index": 22,
           "maxLevel": 800,
           "name": "Box_of_Gosh",
-          "upgradeLevels": [49.9, 199.9, 800.1]
+          "upgradeLevels": [
+            49.9,
+            199.9,
+            800.1
+          ]
         },
         {
           "id": "gaming-lootcrate",
           "index": 23,
           "maxLevel": 800,
           "name": "Gaming_Lootcrate",
-          "upgradeLevels": [49.9, 199.9, 800.1]
+          "upgradeLevels": [
+            49.9,
+            199.9,
+            800.1
+          ]
         }
       ],
       "sources": [
@@ -208,7 +304,9 @@
       "origin": "generated",
       "rows": {
         "npc": "Postboy_Pablob",
-        "npcMaps": [50],
+        "npcMaps": [
+          50
+        ],
         "quest": "Postboy_Pablob1"
       },
       "sources": [

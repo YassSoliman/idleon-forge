@@ -225,7 +225,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "tools",
-        "inputs": ["website-data/items.json", "website-data/crafts.json"]
+        "inputs": [
+          "website-data/items.json",
+          "website-data/crafts.json"
+        ]
       },
       "id": "skills.goal.tool-catching",
       "milestones": [
@@ -523,7 +526,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "tools",
-        "inputs": ["website-data/items.json", "website-data/crafts.json"]
+        "inputs": [
+          "website-data/items.json",
+          "website-data/crafts.json"
+        ]
       },
       "id": "skills.goal.tool-chopping",
       "milestones": [
@@ -833,7 +839,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "tools",
-        "inputs": ["website-data/items.json", "website-data/crafts.json"]
+        "inputs": [
+          "website-data/items.json",
+          "website-data/crafts.json"
+        ]
       },
       "id": "skills.goal.tool-fishing",
       "milestones": [
@@ -1127,7 +1136,10 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "tools",
-        "inputs": ["website-data/items.json", "website-data/crafts.json"]
+        "inputs": [
+          "website-data/items.json",
+          "website-data/crafts.json"
+        ]
       },
       "id": "skills.goal.tool-mining",
       "milestones": [

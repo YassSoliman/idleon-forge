@@ -8,7 +8,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-0",
       "origin": "generated",
@@ -49,7 +51,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-1",
       "origin": "generated",
@@ -90,7 +94,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-10",
       "origin": "generated",
@@ -131,7 +137,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-11",
       "origin": "generated",
@@ -172,7 +180,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-12",
       "origin": "generated",
@@ -215,7 +225,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-13",
       "origin": "generated",
@@ -256,7 +268,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-14",
       "origin": "generated",
@@ -297,7 +311,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-15",
       "origin": "generated",
@@ -338,7 +354,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-16",
       "origin": "generated",
@@ -379,7 +397,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-17",
       "origin": "generated",
@@ -420,7 +440,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-18",
       "origin": "generated",
@@ -461,7 +483,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-19",
       "origin": "generated",
@@ -504,7 +528,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-2",
       "origin": "generated",
@@ -545,7 +571,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-20",
       "origin": "generated",
@@ -586,7 +614,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-21",
       "origin": "generated",
@@ -627,7 +657,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-22",
       "origin": "generated",
@@ -668,7 +700,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-23",
       "origin": "generated",
@@ -709,7 +743,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-24",
       "origin": "generated",
@@ -750,7 +786,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-25",
       "origin": "generated",
@@ -791,7 +829,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-26",
       "origin": "generated",
@@ -834,7 +874,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-27",
       "origin": "generated",
@@ -875,7 +917,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-28",
       "origin": "generated",
@@ -916,7 +960,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-29",
       "origin": "generated",
@@ -957,7 +1003,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-3",
       "origin": "generated",
@@ -998,7 +1046,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-30",
       "origin": "generated",
@@ -1039,7 +1089,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-31",
       "origin": "generated",
@@ -1080,7 +1132,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-32",
       "origin": "generated",
@@ -1121,7 +1175,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-33",
       "origin": "generated",
@@ -1164,7 +1220,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-34",
       "origin": "generated",
@@ -1205,7 +1263,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-35",
       "origin": "generated",
@@ -1246,7 +1306,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-36",
       "origin": "generated",
@@ -1287,7 +1349,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-37",
       "origin": "generated",
@@ -1328,7 +1392,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-38",
       "origin": "generated",
@@ -1355,7 +1421,7 @@
         "effectName": "New5",
         "index": 38,
         "name": "Divine_PTS_Miscounting",
-        "price": 5e21,
+        "price": 5e+21,
         "set": 6,
         "soldBy": "jade-emporium"
       },
@@ -1369,7 +1435,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-39",
       "origin": "generated",
@@ -1396,7 +1464,7 @@
         "effectName": "New6",
         "index": 39,
         "name": "Loot_Table_Tampering",
-        "price": 1e23,
+        "price": 1e+23,
         "set": 6,
         "soldBy": "jade-emporium"
       },
@@ -1410,7 +1478,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-4",
       "origin": "generated",
@@ -1451,7 +1521,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-40",
       "origin": "generated",
@@ -1494,7 +1566,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-5",
       "origin": "generated",
@@ -1537,7 +1611,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-6",
       "origin": "generated",
@@ -1578,7 +1654,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-7",
       "origin": "generated",
@@ -1619,7 +1697,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-8",
       "origin": "generated",
@@ -1660,7 +1740,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "bribes",
-        "inputs": ["website-data/shared-data.json#bribes"]
+        "inputs": [
+          "website-data/shared-data.json#bribes"
+        ]
       },
       "id": "bribes.acquisition.bribe-9",
       "origin": "generated",

@@ -77,7 +77,9 @@
         "monsters": [
           {
             "chance": 0.00001,
-            "maps": [28],
+            "maps": [
+              28
+            ],
             "monster": "frogBIG",
             "world": 1
           }

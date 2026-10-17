@@ -4,7 +4,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "prayers",
-        "inputs": ["website-data/shared-data.json#prayers"]
+        "inputs": [
+          "website-data/shared-data.json#prayers"
+        ]
       },
       "id": "prayers.fact.unending-energy-cap",
       "origin": "generated",

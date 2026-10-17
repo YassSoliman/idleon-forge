@@ -4,7 +4,9 @@
       "generatedBy": {
         "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
         "generator": "classes",
-        "inputs": ["website-data/classPromotions.json"]
+        "inputs": [
+          "website-data/classPromotions.json"
+        ]
       },
       "id": "classes.fact.class-tree",
       "origin": "generated",
@@ -14,10 +16,16 @@
           "classIndex": 1,
           "line": null,
           "promotesFrom": null,
-          "promotesTo": ["Archer", "Mage", "Warrior"],
+          "promotesTo": [
+            "Archer",
+            "Mage",
+            "Warrior"
+          ],
           "released": true,
           "swapSibling": null,
-          "talentTabs": ["Beginner"],
+          "talentTabs": [
+            "Beginner"
+          ],
           "tier": "beginner"
         },
         {
@@ -25,10 +33,15 @@
           "classIndex": 2,
           "line": "Journeyman",
           "promotesFrom": null,
-          "promotesTo": ["Maestro"],
+          "promotesTo": [
+            "Maestro"
+          ],
           "released": true,
           "swapSibling": null,
-          "talentTabs": ["Beginner", "Journeyman"],
+          "talentTabs": [
+            "Beginner",
+            "Journeyman"
+          ],
           "tier": "base"
         },
         {
@@ -36,10 +49,16 @@
           "classIndex": 3,
           "line": "Journeyman",
           "promotesFrom": "Journeyman",
-          "promotesTo": ["Voidwalker"],
+          "promotesTo": [
+            "Voidwalker"
+          ],
           "released": true,
           "swapSibling": null,
-          "talentTabs": ["Beginner", "Journeyman", "Maestro"],
+          "talentTabs": [
+            "Beginner",
+            "Journeyman",
+            "Maestro"
+          ],
           "tier": "subclass"
         },
         {
@@ -47,10 +66,17 @@
           "classIndex": 4,
           "line": "Journeyman",
           "promotesFrom": "Maestro",
-          "promotesTo": ["Infinilyte"],
+          "promotesTo": [
+            "Infinilyte"
+          ],
           "released": true,
           "swapSibling": null,
-          "talentTabs": ["Beginner", "Journeyman", "Maestro", "Voidwalker"],
+          "talentTabs": [
+            "Beginner",
+            "Journeyman",
+            "Maestro",
+            "Voidwalker"
+          ],
           "tier": "elite"
         },
         {
@@ -61,7 +87,13 @@
           "promotesTo": [],
           "released": false,
           "swapSibling": null,
-          "talentTabs": ["Beginner", "Journeyman", "Maestro", "Voidwalker", "Infinilyte"],
+          "talentTabs": [
+            "Beginner",
+            "Journeyman",
+            "Maestro",
+            "Voidwalker",
+            "Infinilyte"
+          ],
           "tier": "master"
         },
         {
@@ -69,10 +101,16 @@
           "classIndex": 7,
           "line": "Warrior",
           "promotesFrom": "Beginner",
-          "promotesTo": ["Barbarian", "Squire"],
+          "promotesTo": [
+            "Barbarian",
+            "Squire"
+          ],
           "released": true,
           "swapSibling": null,
-          "talentTabs": ["Rage_Basics", "Warrior"],
+          "talentTabs": [
+            "Rage_Basics",
+            "Warrior"
+          ],
           "tier": "base"
         },
         {
@@ -80,10 +118,16 @@
           "classIndex": 8,
           "line": "Warrior",
           "promotesFrom": "Warrior",
-          "promotesTo": ["Blood_Berserker"],
+          "promotesTo": [
+            "Blood_Berserker"
+          ],
           "released": true,
           "swapSibling": "Squire",
-          "talentTabs": ["Rage_Basics", "Warrior", "Barbarian"],
+          "talentTabs": [
+            "Rage_Basics",
+            "Warrior",
+            "Barbarian"
+          ],
           "tier": "subclass"
         },
         {
@@ -91,10 +135,16 @@
           "classIndex": 9,
           "line": "Warrior",
           "promotesFrom": "Warrior",
-          "promotesTo": ["Divine_Knight"],
+          "promotesTo": [
+            "Divine_Knight"
+          ],
           "released": true,
           "swapSibling": "Barbarian",
-          "talentTabs": ["Rage_Basics", "Warrior", "Squire"],
+          "talentTabs": [
+            "Rage_Basics",
+            "Warrior",
+            "Squire"
+          ],
           "tier": "subclass"
         },
         {
@@ -102,10 +152,17 @@
           "classIndex": 10,
           "line": "Warrior",
           "promotesFrom": "Barbarian",
-          "promotesTo": ["Death_Bringer"],
+          "promotesTo": [
+            "Death_Bringer"
+          ],
           "released": true,
           "swapSibling": "Divine_Knight",
-          "talentTabs": ["Rage_Basics", "Warrior", "Barbarian", "Blood_Berserker"],
+          "talentTabs": [
+            "Rage_Basics",
+            "Warrior",
+            "Barbarian",
+            "Blood_Berserker"
+          ],
           "tier": "elite"
         },
         {
@@ -113,10 +170,17 @@
           "classIndex": 12,
           "line": "Warrior",
           "promotesFrom": "Squire",
-          "promotesTo": ["Royal_Guardian"],
+          "promotesTo": [
+            "Royal_Guardian"
+          ],
           "released": true,
           "swapSibling": "Blood_Berserker",
-          "talentTabs": ["Rage_Basics", "Warrior", "Squire", "Divine_Knight"],
+          "talentTabs": [
+            "Rage_Basics",
+            "Warrior",
+            "Squire",
+            "Divine_Knight"
+          ],
           "tier": "elite"
         },
         {
@@ -127,7 +191,13 @@
           "promotesTo": [],
           "released": true,
           "swapSibling": "Royal_Guardian",
-          "talentTabs": ["Rage_Basics", "Warrior", "Barbarian", "Blood_Berserker", "Death_Bringer"],
+          "talentTabs": [
+            "Rage_Basics",
+            "Warrior",
+            "Barbarian",
+            "Blood_Berserker",
+            "Death_Bringer"
+          ],
           "tier": "master"
         },
         {
@@ -138,7 +208,13 @@
           "promotesTo": [],
           "released": true,
           "swapSibling": "Death_Bringer",
-          "talentTabs": ["Rage_Basics", "Warrior", "Squire", "Divine_Knight", "Royal_Guardian"],
+          "talentTabs": [
+            "Rage_Basics",
+            "Warrior",
+            "Squire",
+            "Divine_Knight",
+            "Royal_Guardian"
+          ],
           "tier": "master"
         },
         {
@@ -146,10 +222,16 @@
           "classIndex": 19,
           "line": "Archer",
           "promotesFrom": "Beginner",
-          "promotesTo": ["Bowman", "Hunter"],
+          "promotesTo": [
+            "Bowman",
+            "Hunter"
+          ],
           "released": true,
           "swapSibling": null,
-          "talentTabs": ["Calm_Basics", "Archer"],
+          "talentTabs": [
+            "Calm_Basics",
+            "Archer"
+          ],
           "tier": "base"
         },
         {
@@ -157,10 +239,16 @@
           "classIndex": 20,
           "line": "Archer",
           "promotesFrom": "Archer",
-          "promotesTo": ["Siege_Breaker"],
+          "promotesTo": [
+            "Siege_Breaker"
+          ],
           "released": true,
           "swapSibling": "Hunter",
-          "talentTabs": ["Calm_Basics", "Archer", "Bowman"],
+          "talentTabs": [
+            "Calm_Basics",
+            "Archer",
+            "Bowman"
+          ],
           "tier": "subclass"
         },
         {
@@ -168,10 +256,16 @@
           "classIndex": 21,
           "line": "Archer",
           "promotesFrom": "Archer",
-          "promotesTo": ["Beast_Master"],
+          "promotesTo": [
+            "Beast_Master"
+          ],
           "released": true,
           "swapSibling": "Bowman",
-          "talentTabs": ["Calm_Basics", "Archer", "Hunter"],
+          "talentTabs": [
+            "Calm_Basics",
+            "Archer",
+            "Hunter"
+          ],
           "tier": "subclass"
         },
         {
@@ -182,7 +276,12 @@
           "promotesTo": [],
           "released": true,
           "swapSibling": "Beast_Master",
-          "talentTabs": ["Calm_Basics", "Archer", "Bowman", "Siege_Breaker"],
+          "talentTabs": [
+            "Calm_Basics",
+            "Archer",
+            "Bowman",
+            "Siege_Breaker"
+          ],
           "tier": "elite"
         },
         {
@@ -190,10 +289,17 @@
           "classIndex": 25,
           "line": "Archer",
           "promotesFrom": "Hunter",
-          "promotesTo": ["Wind_Walker"],
+          "promotesTo": [
+            "Wind_Walker"
+          ],
           "released": true,
           "swapSibling": "Siege_Breaker",
-          "talentTabs": ["Calm_Basics", "Archer", "Hunter", "Beast_Master"],
+          "talentTabs": [
+            "Calm_Basics",
+            "Archer",
+            "Hunter",
+            "Beast_Master"
+          ],
           "tier": "elite"
         },
         {
@@ -204,7 +310,13 @@
           "promotesTo": [],
           "released": true,
           "swapSibling": null,
-          "talentTabs": ["Calm_Basics", "Archer", "Hunter", "Beast_Master", "Wind_Walker"],
+          "talentTabs": [
+            "Calm_Basics",
+            "Archer",
+            "Hunter",
+            "Beast_Master",
+            "Wind_Walker"
+          ],
           "tier": "master"
         },
         {
@@ -212,10 +324,16 @@
           "classIndex": 31,
           "line": "Mage",
           "promotesFrom": "Beginner",
-          "promotesTo": ["Shaman", "Wizard"],
+          "promotesTo": [
+            "Shaman",
+            "Wizard"
+          ],
           "released": true,
           "swapSibling": null,
-          "talentTabs": ["Savvy_Basics", "Mage"],
+          "talentTabs": [
+            "Savvy_Basics",
+            "Mage"
+          ],
           "tier": "base"
         },
         {
@@ -223,10 +341,16 @@
           "classIndex": 32,
           "line": "Mage",
           "promotesFrom": "Mage",
-          "promotesTo": ["Elemental_Sorcerer"],
+          "promotesTo": [
+            "Elemental_Sorcerer"
+          ],
           "released": true,
           "swapSibling": "Shaman",
-          "talentTabs": ["Savvy_Basics", "Mage", "Wizard"],
+          "talentTabs": [
+            "Savvy_Basics",
+            "Mage",
+            "Wizard"
+          ],
           "tier": "subclass"
         },
         {
@@ -234,10 +358,16 @@
           "classIndex": 33,
           "line": "Mage",
           "promotesFrom": "Mage",
-          "promotesTo": ["Bubonic_Conjuror"],
+          "promotesTo": [
+            "Bubonic_Conjuror"
+          ],
           "released": true,
           "swapSibling": "Wizard",
-          "talentTabs": ["Savvy_Basics", "Mage", "Shaman"],
+          "talentTabs": [
+            "Savvy_Basics",
+            "Mage",
+            "Shaman"
+          ],
           "tier": "subclass"
         },
         {
@@ -245,10 +375,17 @@
           "classIndex": 34,
           "line": "Mage",
           "promotesFrom": "Wizard",
-          "promotesTo": ["Spiritual_Monk"],
+          "promotesTo": [
+            "Spiritual_Monk"
+          ],
           "released": true,
           "swapSibling": "Bubonic_Conjuror",
-          "talentTabs": ["Savvy_Basics", "Mage", "Wizard", "Elemental_Sorcerer"],
+          "talentTabs": [
+            "Savvy_Basics",
+            "Mage",
+            "Wizard",
+            "Elemental_Sorcerer"
+          ],
           "tier": "elite"
         },
         {
@@ -259,7 +396,13 @@
           "promotesTo": [],
           "released": false,
           "swapSibling": "Arcane_Cultist",
-          "talentTabs": ["Savvy_Basics", "Mage", "Wizard", "Elemental_Sorcerer", "Spiritual_Monk"],
+          "talentTabs": [
+            "Savvy_Basics",
+            "Mage",
+            "Wizard",
+            "Elemental_Sorcerer",
+            "Spiritual_Monk"
+          ],
           "tier": "master"
         },
         {
@@ -267,10 +410,17 @@
           "classIndex": 36,
           "line": "Mage",
           "promotesFrom": "Shaman",
-          "promotesTo": ["Arcane_Cultist"],
+          "promotesTo": [
+            "Arcane_Cultist"
+          ],
           "released": true,
           "swapSibling": "Elemental_Sorcerer",
-          "talentTabs": ["Savvy_Basics", "Mage", "Shaman", "Bubonic_Conjuror"],
+          "talentTabs": [
+            "Savvy_Basics",
+            "Mage",
+            "Shaman",
+            "Bubonic_Conjuror"
+          ],
           "tier": "elite"
         },
         {
@@ -281,7 +431,13 @@
           "promotesTo": [],
           "released": true,
           "swapSibling": "Spiritual_Monk",
-          "talentTabs": ["Savvy_Basics", "Mage", "Shaman", "Bubonic_Conjuror", "Arcane_Cultist"],
+          "talentTabs": [
+            "Savvy_Basics",
+            "Mage",
+            "Shaman",
+            "Bubonic_Conjuror",
+            "Arcane_Cultist"
+          ],
           "tier": "master"
         }
       ],
