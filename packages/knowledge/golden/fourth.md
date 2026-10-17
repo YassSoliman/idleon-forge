@@ -1,17 +1,18 @@
-# golden v1: fourth · knowledge #3f060777 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage (engine not built)
+# golden v1: fourth · knowledge #73181c3c · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
 ## Now
-! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+0 of 2 Ready · fix 1 before you leave · 1 Unknown
+
+### C2 · Beginner 1 · Fix before you leave
+1 · Doing nothing · Blunder Hills · Send Beginner Lv 1 to an AFK Target before you leave
 
 ### C1 · Voidwalker 476 · Unknown
-1 · Fighting Woodlin Spirit · Edge of the Valley · Not covered yet: AFK safety
-
-### C2 · Beginner 1 · Unknown
-2 · Doing nothing · Blunder Hills · Not covered yet: AFK safety
+2 · Fighting Woodlin Spirit · Edge of the Valley · Can't tell from the save
 
 ### Account · nothing to fix
+- Extra · Refinery runs dry: Refinery runs dry in about 60 min: top up the salt's materials [IdleOn Toolbox, getSaltMatsTimeLeft · 2.3.540]
 
 ## Not covered yet
 Cards

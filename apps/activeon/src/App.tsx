@@ -118,6 +118,7 @@ export function App() {
         chips={result && !('error' in result) ? chips : null}
         suggestHref={suggestHref}
         busy={busy && ready !== null}
+        stage={result && !('error' in result) ? result.stage : null}
       />
 
       <SignIn

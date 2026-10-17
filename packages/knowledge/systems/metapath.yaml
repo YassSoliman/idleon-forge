@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
 # The Meta Path (M2 TR-7): the Stage table, the slot plan, the Roles, the pusher rule and the per-world
 # gate chain. Judgment, authored (ADR 0007). Thresholds and game names are referenced by fact id, never
-# typed in. M2's Goals (push, subclass, world tutorial, elite, next character) and the Priority Lists
-# come in a later PR: today's schema cannot reference an engine Detector from a Goal (see the M2 PR).
+# typed in. M2's Goals (push, subclass, W3 tutorial, elite, next character, swap token) are at the
+# end; their Next Action wording per case is in `values`, filled by the engine with the finding's slots.
 system: metapath
 entries:
   # ---------------------------------------------------------------- Stages (M2 TR-4, TR-5, FR-4)
@@ -35,6 +35,7 @@ entries:
     confidence: M
     status: active
     part: stages
+    detector: { id: metapath/stage }
     stages:
       - id: W1-early
         rule: w1-early
@@ -84,6 +85,7 @@ entries:
             metapath.fact.world-gates,
             portals.fact.world-routes,
             metapath.fact.family-slots,
+            maps.fact.maps,
           ]
 
   # ---------------------------------------------------------------- Slot plan (M2 TR-8)
@@ -112,6 +114,7 @@ entries:
     confidence: M
     status: active
     part: slots
+    detector: { id: metapath/roster }
     slots:
       - { slot: 1, classLine: Barbarian, note: "One of each subclass in slots 1 to 6; slot 1 is a Warrior" }
       - { slot: 2, classLine: Squire }
@@ -434,6 +437,7 @@ entries:
     confidence: M
     status: active
     part: pusher-rule
+    detector: { id: metapath/pusher }
     pusherRule: { margin: 1.25 }
     notes: >-
       M2 D1: keep the incumbent unless a challenger has at least margin x its final kills per hour on the
@@ -572,3 +576,603 @@ entries:
           - { kind: quest, ref: Gobo4 }
           - { kind: quest, ref: Gobo5 }
           - { kind: route, ref: "map:154" }
+
+  # ---------------------------------------------------------------- Meta Path Goals (M2 TR-7, FR-9 to FR-17)
+
+  - id: metapath.goal.push
+    system: metapath
+    type: goal
+    title: Push to the next world
+    text: "Push to the next world"
+    why: "Pushing portals with one character opens the next world soonest."
+    values:
+      route: "Kill {killsLeft:int} more on {map:name} to open the next portal"
+      quest: "Finish {npc:name}'s quest {number:int}"
+      boss: "Defeat {boss:name} for the {crystal:name}"
+      crystal: "Get the {crystal:name}"
+      gatekeeper: "Talk to {npc:name} to open the next world"
+      wall: "Nobody can fight {map:name} yet: {hit:int}% hit chance, {survivability:int}% survivability"
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, cross-cutting 1 (push with one character)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3, position 2
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    scope: character
+    category: compounding
+    unit: step
+    progress: { id: metapath/push-step }
+    milestones: [{ at: 1, reward: "The next world opens" }]
+
+  - id: metapath.goal.subclass
+    system: metapath
+    type: goal
+    title: Take your subclass
+    text: "Take your subclass at Speccius"
+    why: "A base class misses its subclass talents and its Meta Path Role."
+    values:
+      subclass: "Take your subclass at Speccius"
+      journeyman: "Take your Maestro subclass"
+      pick-class: "Pick your class"
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, PV 4.8 (Speccius subclass for every base character)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 1.1 (subclass taken)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [{ from: W2-early, to: W4-entry }] }
+    confidence: H
+    status: active
+    scope: character
+    category: compounding
+    unit: class
+    progress: { id: metapath/subclass-pending }
+    milestones: [{ at: 1, reward: "Subclass taken" }]
+
+  - id: metapath.goal.world-tutorial-w3
+    system: metapath
+    type: goal
+    title: Finish the W3 tutorial
+    text: "Finish the W3 tutorial"
+    why: "Hoggindaz's first five quests start the World 3 engine: Refinery, traps, 3D Printer."
+    values:
+      next: "Finish {npc:name} {number:int} ({title})"
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, PV 5.11 (Hoggindaz first)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3.7 (W3-early)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [{ from: W3-early, to: W3-late }] }
+    confidence: H
+    status: active
+    scope: character
+    category: compounding
+    unit: quest
+    progress: { id: metapath/world-tutorial }
+    milestones: [{ at: 1, reward: "W3 tutorial done" }]
+
+  - id: metapath.goal.elite
+    system: metapath
+    type: goal
+    title: Get your elite class
+    text: "Get your elite class at Eliteus"
+    why: "Elite classes unlock the W4 Roles; Divine Knight and Elemental Sorcerer push best."
+    values:
+      next: "Become a {elite:name} at Eliteus"
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, PV 6.2 (elite order)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3.10 (W4-entry)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [W4-entry] }
+    confidence: L
+    status: active
+    scope: character
+    category: compounding
+    unit: class
+    progress: { id: metapath/elite-pending }
+    milestones: [{ at: 1, reward: "Elite class taken" }]
+
+  - id: metapath.goal.next-character
+    system: metapath
+    type: goal
+    title: Make your next character
+    text: "Make your next character"
+    why: "One character of each subclass covers every Role on the Meta Path."
+    values:
+      next: "Make a {line:name}: create a character, pick {baseClass:name} at level 10, then {line:name} at Speccius"
+      journeyman: "Make a Journeyman, then take Maestro"
+      note: "Next character: {line:name}. Slot {slotNumber:int} opens at family level {opensAt:int} ({gap:int} to go)"
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, roster adjudication
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 4.1 (slot plan)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    scope: account
+    category: compounding
+    unit: character
+    progress: { id: metapath/roster }
+    milestones: [{ at: 1, reward: "Character made" }]
+
+  - id: metapath.goal.swap-token
+    system: metapath
+    type: goal
+    title: Use a Sub Class Swap Token
+    text: "Use a Sub Class Swap Token"
+    why: "A duplicate of a line whose sibling the Meta Path needs is cheaper to swap than to rebuild."
+    values:
+      next: "Swap {from:name} to {to:name} with a Sub Class Swap Token"
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, PV 1.1 and Final rulings F17
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 4.1 (slot plan)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [{ from: W2-late, to: W4-entry }] }
+    confidence: M
+    status: active
+    scope: character
+    category: nice
+    unit: swap
+    progress: { id: metapath/roster }
+    milestones: [{ at: 1, reward: "Swapped" }]
+
+  # ---------------------------------------------------------------- Priority Lists (M2 TR-13)
+  # The shared frame: position 1 the never-skip block, 2 the push, 3 the free-value block, Stage items
+  # from 4, the last position one tie. Items name each owner module's entries (M3, M6, M8, M9); until an
+  # owner ships its entry, kb check reports it as pending-entry (a warning).
+
+  - id: metapath.priority.never-skip
+    system: metapath
+    type: priority
+    title: Never skip
+    text: "Never skip"
+    why: "Time-gated value is lost if it waits; each item fires only once its System is unlocked."
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3 (Priority Lists)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, cross-cutting 1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    list: block
+    tiers:
+      -
+        - { ref: boss-keys.check.collect, byUrgency: true }
+        - { ref: colosseum.check.collect-tickets, byUrgency: true }
+        - { ref: minigames.check.darts-play, byUrgency: true }
+        - { ref: minigames.check.hoops-play, byUrgency: true }
+        - { ref: pets.check.free-pull, byUrgency: true }
+        - { ref: minigames.check.spiketrap, byUrgency: true }
+        - { ref: alchemy-vials.check.daily-attempts, byUrgency: true }
+        - { ref: post-office.check.daily-orders, byUrgency: true }
+        - { ref: pets.check.mart-gems, byUrgency: true }
+        - refinery.check.salt-off
+        - death-note.check.build
+
+  - id: metapath.priority.free-value-fills
+    system: metapath
+    type: priority
+    title: Free-value fills
+    text: "Free-value fills"
+    why: "Empty slots and unspent points cost nothing to fill."
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3 (Priority Lists)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, cross-cutting 1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    list: block
+    tiers:
+      -
+        - obols.check.altar
+        - obols.check.stored
+        - cards.check.empty-slots
+        - cards.check.no-set
+        - cards.check.set-mismatch
+        - cards.check.blunder-50
+        - cards.check.passive-slot
+        - cards.check.preset-mismatch
+        - alchemy-bubbles.check.fill-slot
+        - alchemy-bubbles.check.wrong-fit
+        - talent-presets.check.empty
+        - talent-presets.check.incomplete
+        - printer.check.sample-blank
+        - construction.check.cog-seat-free
+        - anvil.check.spend-points
+        - post-office.check.spend-boxes
+        - merit-shop.check.spend-w1
+        - merit-shop.check.spend-w2
+        - merit-shop.check.spend-w3
+        - merit-shop.check.spend-w4
+        - task-unlocks.check.spend
+        - talent-presets.check.behind
+        - stamps.check.shop-now
+        - stamps.check.handin-now
+        - stamps.check.held-now
+        - alchemy-bubbles.check.spend-brew
+        - gem-shop.check.unspent
+        - minigames.check.darts-spend
+        - minigames.check.hoops-spend
+        - post-office.check.unlock
+        - poppy.check.open
+        - minigames.check.daily-plays
+        - talents.check.next-step
+        - talent-resets.check.reset
+
+  - id: metapath.priority.w1-early
+    system: metapath
+    type: priority
+    title: W1-early priorities
+    text: "Priorities for {stage}"
+    why: "Never-skip items, then the push, then free fills, then this Stage's Systems."
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3 (Priority Lists)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, cross-cutting 1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [W1-early] }
+    confidence: M
+    status: active
+    list: goals
+    stage: W1-early
+    tiers:
+      - [{ include: metapath.priority.never-skip }]
+      - [metapath.goal.push]
+      - [{ include: metapath.priority.free-value-fills }]
+      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+
+  - id: metapath.priority.w1-mid
+    system: metapath
+    type: priority
+    title: W1-mid priorities
+    text: "Priorities for {stage}"
+    why: "Never-skip items, then the push, then free fills, then this Stage's Systems."
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3 (Priority Lists)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, cross-cutting 1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [W1-mid] }
+    confidence: M
+    status: active
+    list: goals
+    stage: W1-mid
+    tiers:
+      - [{ include: metapath.priority.never-skip }]
+      - [metapath.goal.push]
+      - [{ include: metapath.priority.free-value-fills }]
+      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+
+  - id: metapath.priority.w1-late
+    system: metapath
+    type: priority
+    title: W1-late priorities
+    text: "Priorities for {stage}"
+    why: "Never-skip items, then the push, then free fills, then this Stage's Systems."
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3 (Priority Lists)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, cross-cutting 1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [W1-late] }
+    confidence: M
+    status: active
+    list: goals
+    stage: W1-late
+    tiers:
+      - [{ include: metapath.priority.never-skip }]
+      - [metapath.goal.push]
+      - [{ include: metapath.priority.free-value-fills }]
+      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+
+  - id: metapath.priority.w2-early
+    system: metapath
+    type: priority
+    title: W2-early priorities
+    text: "Priorities for {stage}"
+    why: "Never-skip items, then the push, then free fills, then this Stage's Systems."
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3 (Priority Lists)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, cross-cutting 1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [W2-early] }
+    confidence: M
+    status: active
+    list: goals
+    stage: W2-early
+    tiers:
+      - [{ include: metapath.priority.never-skip }]
+      - [metapath.goal.push]
+      - [{ include: metapath.priority.free-value-fills }]
+      - [metapath.goal.subclass]
+      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+
+  - id: metapath.priority.w2-mid
+    system: metapath
+    type: priority
+    title: W2-mid priorities
+    text: "Priorities for {stage}"
+    why: "Never-skip items, then the push, then free fills, then this Stage's Systems."
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3 (Priority Lists)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, cross-cutting 1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [W2-mid] }
+    confidence: M
+    status: active
+    list: goals
+    stage: W2-mid
+    tiers:
+      - [{ include: metapath.priority.never-skip }]
+      - [metapath.goal.push]
+      - [{ include: metapath.priority.free-value-fills }]
+      - [metapath.goal.subclass]
+      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+
+  - id: metapath.priority.w2-late
+    system: metapath
+    type: priority
+    title: W2-late priorities
+    text: "Priorities for {stage}"
+    why: "Never-skip items, then the push, then free fills, then this Stage's Systems."
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3 (Priority Lists)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, cross-cutting 1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [W2-late] }
+    confidence: M
+    status: active
+    list: goals
+    stage: W2-late
+    tiers:
+      - [{ include: metapath.priority.never-skip }]
+      - [metapath.goal.push]
+      - [{ include: metapath.priority.free-value-fills }]
+      - [metapath.goal.subclass, metapath.goal.swap-token]
+      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+
+  - id: metapath.priority.w3-early
+    system: metapath
+    type: priority
+    title: W3-early priorities
+    text: "Priorities for {stage}"
+    why: "Never-skip items, then the push, then free fills, then this Stage's Systems."
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3 (Priority Lists)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, cross-cutting 1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [W3-early] }
+    confidence: M
+    status: active
+    list: goals
+    stage: W3-early
+    tiers:
+      - [{ include: metapath.priority.never-skip }]
+      - [metapath.goal.push]
+      - [{ include: metapath.priority.free-value-fills }]
+      - [metapath.goal.subclass, metapath.goal.world-tutorial-w3, metapath.goal.swap-token]
+      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+
+  - id: metapath.priority.w3-mid
+    system: metapath
+    type: priority
+    title: W3-mid priorities
+    text: "Priorities for {stage}"
+    why: "Never-skip items, then the push, then free fills, then this Stage's Systems."
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3 (Priority Lists)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, cross-cutting 1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [W3-mid] }
+    confidence: M
+    status: active
+    list: goals
+    stage: W3-mid
+    tiers:
+      - [{ include: metapath.priority.never-skip }]
+      - [metapath.goal.push]
+      - [{ include: metapath.priority.free-value-fills }]
+      - [metapath.goal.subclass, metapath.goal.world-tutorial-w3, metapath.goal.swap-token]
+      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+
+  - id: metapath.priority.w3-late
+    system: metapath
+    type: priority
+    title: W3-late priorities
+    text: "Priorities for {stage}"
+    why: "Never-skip items, then the push, then free fills, then this Stage's Systems."
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3 (Priority Lists)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, cross-cutting 1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [W3-late] }
+    confidence: M
+    status: active
+    list: goals
+    stage: W3-late
+    tiers:
+      - [{ include: metapath.priority.never-skip }]
+      - [metapath.goal.push]
+      - [{ include: metapath.priority.free-value-fills }]
+      - [metapath.goal.subclass, metapath.goal.world-tutorial-w3, metapath.goal.swap-token]
+      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+
+  - id: metapath.priority.w4-entry
+    system: metapath
+    type: priority
+    title: W4-entry priorities
+    text: "Priorities for {stage}"
+    why: "Never-skip items, then the push, then free fills, then this Stage's Systems."
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model, section 3 (Priority Lists)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
+        title: Priority verification, cross-cutting 1
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: [W4-entry] }
+    confidence: M
+    status: active
+    list: goals
+    stage: W4-entry
+    tiers:
+      - [{ include: metapath.priority.never-skip }]
+      - [metapath.goal.push]
+      - [{ include: metapath.priority.free-value-fills }]
+      - [metapath.goal.subclass, metapath.goal.elite, metapath.goal.swap-token]
+      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]

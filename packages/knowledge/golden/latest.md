@@ -1,44 +1,47 @@
-# golden v1: latest · knowledge #3f060777 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage (engine not built)
+# golden v1: latest · knowledge #73181c3c · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
 ## Now
-! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+0 of 11 Ready · fix 11 before you leave · fix 1 in Account
 
-### C9 · Royal Guardian 1307 · Unknown
-1 · Doing nothing · Blunder Hills · Not covered yet: AFK safety
+### C9 · Royal Guardian 1307 · Fix before you leave
+1 · Doing nothing · Blunder Hills · Send Royal Guardian Lv 1,307 to an AFK Target before you leave
 
-### C2 · Death Bringer 1292 · Unknown
-2 · Doing nothing · Shimmerfin Grove · Not covered yet: AFK safety
+### C2 · Death Bringer 1292 · Fix before you leave
+2 · Doing nothing · Shimmerfin Grove · Send Death Bringer Lv 1,292 to an AFK Target before you leave
 
-### C1 · Siege Breaker 1291 · Unknown
-3 · Cooking · Outer World Town · Not covered yet: AFK safety
+### C1 · Siege Breaker 1291 · Fix before you leave
+3 · Cooking · Outer World Town · Collect Boring Brick from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C6 · Wind Walker 1280 · Unknown
-4 · Fighting Pirate Underling · Pirate Upper Deck · Not covered yet: AFK safety
+### C6 · Wind Walker 1280 · Fix before you leave
+4 · Fighting Pirate Underling · Pirate Upper Deck · Collect Thread from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C10 · Bubonic Conjuror 1268 · Unknown
-5 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
+### C10 · Bubonic Conjuror 1268 · Fix before you leave
+5 · Fighting Green Mushroom · Spore Meadows · Collect Chain Link from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C8 · Siege Breaker 1261 · Unknown
-6 · Cooking · Outer World Town · Not covered yet: AFK safety
+### C8 · Siege Breaker 1261 · Fix before you leave
+6 · Cooking · Outer World Town · Collect Lugi Bracket from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C3 · Elemental Sorcerer 1259 · Unknown
-7 · Cooking · Outer World Town · Not covered yet: AFK safety
+### C4 · Divine Knight 1240 · Fix before you leave
+7 · Cooking · Outer World Town · Collect Trusty Nails from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C4 · Divine Knight 1240 · Unknown
-8 · Cooking · Outer World Town · Not covered yet: AFK safety
+### C5 · Arcane Cultist 1231 · Fix before you leave
+8 · Cooking · Outer World Town · Collect Purple Screw from the anvil (time to cap: now; it refills about 60 min after you collect)
 
-### C5 · Arcane Cultist 1231 · Unknown
-9 · Cooking · Outer World Town · Not covered yet: AFK safety
+### C11 · Beginner 1224 · Fix before you leave
+9 · Cooking · Outer World Town · Collect Thread from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C11 · Beginner 1224 · Unknown
-10 · Cooking · Outer World Town · Not covered yet: AFK safety
+### C7 · Voidwalker 1158 · Fix before you leave
+10 · Divinity · Magma Rivertown · Collect PVC Pipe from the anvil (time to cap: now; it refills about 2 h after you collect)
 
-### C7 · Voidwalker 1158 · Unknown
-11 · Divinity · Magma Rivertown · Not covered yet: AFK safety
+### C3 · Elemental Sorcerer 1259 · Fix before you leave
+11 · Cooking · Outer World Town · Collect Purple Screw from the anvil (time to cap: now; it refills about 3 h after you collect)
 
-### Account · nothing to fix
+### Account · fix 1 before you leave
+Fix before you leave
+- Fix · Arcade balls stop building: Claim Arcade balls before you leave (time to the claim cap: now) [IdleOn Toolbox, getMaxClaimTime and getArcadeBallsToClaim · 2.3.540]
+- Extra · Refinery runs dry: Refinery runs dry in about under 10 min: top up the salt's materials [IdleOn Toolbox, getSaltMatsTimeLeft · 2.3.540]
 
 ## Not covered yet
 Cards

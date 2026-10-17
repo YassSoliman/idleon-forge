@@ -166,7 +166,9 @@ export interface EngineResult {
   /** From M1 SaveHistory.sessionStart (TR-7). */
   sessionStartedAt: number | null;
   expectedReturn: { usedSeconds: number; learnedSeconds: number | null };
-  stage: { id: string; label: string };
+  /** M2: `unknown` (Can't tell banner), `not-covered` (no Stage module or Knowledge Base), or a Stage id.
+   *  `needs`: what the next Stage needs (M2 FR-4, D5), one line each. */
+  stage: { id: string; label: string; needs?: string[] };
   /** In save order. */
   characters: CharacterResult[];
   /** CharacterState.index values, worst Verdict first, then most to spend; M10 freezes it per Play Session (D6). */

@@ -3,20 +3,42 @@
 // What the worker does with one request, as a plain function so tests can run it without a Worker.
 // The engine runs here too, right after a clean parse (M10 TR-6): it keeps the last parsed state, so
 // an Expected Return change re-runs only the dependent stage.
+
+import knowledgeText from 'virtual:activeon-knowledge';
 import {
   AccountShapeError,
   type AccountState,
+  computeFrontier,
   EmptyAccountError,
+  type Frontier,
   toAccountState,
 } from '@idleon-forge/account-state';
-import { createEngine, type Engine, type KnowledgePort } from '@idleon-forge/engine';
+import {
+  createEngine,
+  type Engine,
+  type EngineModule,
+  type KnowledgePort,
+  metaPathModule,
+} from '@idleon-forge/engine';
+import { createAfkSafetyModule } from '@idleon-forge/engine/afk';
+import { detectStage, frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
+import {
+  type CompiledKnowledge,
+  coverage,
+  type DetectorRegistry,
+  loadKnowledge,
+} from '@idleon-forge/knowledge';
+import { detectors as knowledgeDetectors } from '@idleon-forge/knowledge/detectors';
 import {
   InvalidSaveInputError,
+  type ParsedSave,
   type ParseOptions,
   parseEnvelopeText,
   parseSave,
   type RawSaveEnvelope,
+  toolboxCalls,
   verifiedBuilds,
+  withFrozenClock,
 } from '@idleon-forge/toolbox-parsers';
 import type {
   BuildMark,
@@ -54,15 +76,75 @@ const rawBuild = (envelope: RawSaveEnvelope | null): BuildMark | null =>
     ? { serverBuild: num(envelope.serverVars?.GameVERSION), saveVersion: num(envelope.data?.CSver) }
     : null;
 
+/** The compiled Knowledge Base shipped in this chunk (knowledge-bundle.ts), loaded on first use. */
+let knowledge: { kb: CompiledKnowledge | null; error: string | null } | null = null;
+export function shippedKnowledge(): { kb: CompiledKnowledge | null; error: string | null } {
+  if (!knowledge) {
+    try {
+      knowledge = { kb: loadKnowledge(knowledgeText), error: null };
+    } catch (err) {
+      // A broken bundle: no advice from it (M11 TR-7); the engine still runs and shows the gap.
+      knowledge = { kb: null, error: err instanceof Error ? err.message : String(err) };
+    }
+  }
+  return knowledge;
+}
+
+/** Detector registries `coverage()` evaluates System unlocks with. */
+export const REGISTRIES: readonly DetectorRegistry[] = [knowledgeDetectors];
+
+/** The Knowledge Base the engine sees (M10 FR-26): the shipped bundle's version and coverage(). */
+export function knowledgeOf(
+  call: EngineCall,
+  kb: CompiledKnowledge | null = shippedKnowledge().kb,
+): KnowledgePort {
+  if (!kb) return { version: call.knowledgeVersion, coverage: () => [], kb: null };
+  return {
+    version: kb.version.display,
+    kb,
+    coverage: (state) =>
+      coverage(state, kb, REGISTRIES, { now: state.asOf }).map((s) => ({ systemId: s.id, label: s.name })),
+  };
+}
+
 /**
- * The Knowledge Base the engine sees. Until M11's compiled bundle ships, its version is BuildInfo's
- * and `coverage()` lists nothing beyond the gaps the engine adds itself ("AFK safety"). After M11
- * merges this becomes `loadKnowledge` + `coverage` (cross-module note in the M10 PR).
+ * M2 TR-2: the frontier door on the current world's route path, with every character's Toolbox kill
+ * rate there (the getMaxDamage clone, in the parse's frozen clock). null without a Knowledge Base, past
+ * World 4, or when anything throws: a fallback is never used for a kill rate.
  */
-const knowledgeOf = (call: EngineCall): KnowledgePort => ({
-  version: call.knowledgeVersion,
-  coverage: () => [],
-});
+export function frontierOf(
+  parsed: ParsedSave,
+  envelope: RawSaveEnvelope,
+  kb: CompiledKnowledge | null,
+): Frontier | null {
+  if (!kb) return null;
+  try {
+    const world = num(parsed.account.currentWorld);
+    if (world === null || world < 1 || world > 4) return null;
+    const route = frontierRoute(lookupOf(kb), world);
+    if (!route) return null;
+    return computeFrontier(parsed, envelope, {
+      world,
+      route,
+      rates: (map) => toolboxCalls.frontierRates(parsed, map),
+    });
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The modules the worker's engine runs: M2's Stage & Meta Path and M3's AFK Safety, which needs the
+ * compiled Knowledge Base (without it the core says AFK safety isn't covered, M10 §6).
+ */
+export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().kb): EngineModule[] {
+  if (!kb) return [metaPathModule];
+  const facts = lookupOf(kb);
+  return [
+    metaPathModule,
+    createAfkSafetyModule({ kb, registry: knowledgeDetectors, stage: (state) => detectStage(state, facts) }),
+  ];
+}
 
 const errorText = (err: unknown) => (err instanceof Error ? `${err.name}: ${err.message}` : 'unknown error');
 
@@ -90,7 +172,7 @@ export type RequestHandler = (request: WorkerRequest) => WorkerResponse;
 /** One handler per worker: it owns the engine and the last clean parse. */
 export function createRequestHandler(
   options: HandleOptions = {},
-  engine: Engine = createEngine(),
+  engine: Engine = createEngine(workerModules()),
 ): RequestHandler {
   return (request) => {
     if (request.type === 'rerun') return rerun(engine, request.id, request.expectedReturnSeconds);
@@ -112,7 +194,7 @@ function rerun(engine: Engine, id: number, expectedReturnSeconds: number): Rerun
 export function handleRequest(
   request: Exclude<WorkerRequest, { type: 'rerun' }>,
   options: HandleOptions = {},
-  engine: Engine = createEngine(),
+  engine: Engine = createEngine(workerModules()),
 ): ParseResponse {
   const started = performance.now();
   const ms = () => Math.round(performance.now() - started);
@@ -127,12 +209,22 @@ export function handleRequest(
     envelope = input.kind === 'text' ? parseEnvelopeText(input.text) : input.envelope;
     const env = envelope;
     const source = input.kind === 'text' ? 'paste' : 'live';
-    const parseAt = (at: number) =>
-      toAccountState(parseSave(env, { now: at, consoleErrors: options.consoleErrors }), env, { source });
-    const state = parseAt(now);
+    // The frontier (kill rates on one map) is for the current save only, not the history parse.
+    const parseAt = (at: number, withFrontier: boolean) => {
+      const parsed = parseSave(env, { now: at, consoleErrors: options.consoleErrors });
+      const frontier = withFrontier ? frontierOf(parsed, env, shippedKnowledge().kb) : null;
+      return toAccountState(parsed, env, {
+        source,
+        frontier,
+        toolbox: { calls: toolboxCalls, withFrozenClock },
+      });
+    };
+    const state = parseAt(now, true);
     const savedAt = state.account.lastCloudSave;
     const historyState =
-      request.withHistory && source === 'live' && savedAt !== null ? { historyState: parseAt(savedAt) } : {};
+      request.withHistory && source === 'live' && savedAt !== null
+        ? { historyState: parseAt(savedAt, false) }
+        : {};
     const result = request.engine ? { result: runEngineSafely(engine, state, request.engine, now) } : {};
     return { id, ok: true, state, ...historyState, ...result, verifiedBuilds: verified, ms: ms() };
   } catch (err) {

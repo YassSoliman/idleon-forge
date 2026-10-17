@@ -4,6 +4,8 @@
 // no advice of its own (M10 §2): every Verdict, Goal and option comes from a module; the core merges,
 // ranks (M2's `compareGoals`), dedupes, orders the visit and assembles `EngineResult` (TR-2).
 import type { AccountState } from '@idleon-forge/account-state';
+import type { CompiledKnowledge } from '@idleon-forge/knowledge';
+import type { Rankable, ResolvedPriorityList, VisitHint } from '../metapath/types';
 import type {
   ActivePlay,
   Done,
@@ -16,7 +18,6 @@ import type {
   SpendPlan,
   Verdict,
 } from '../result';
-import type { Rankable, ResolvedPriorityList, VisitHint } from './stubs/compare-goals';
 
 /** One save of M1's history as the engine sees it (M1 `HistoryEntry`), oldest first. */
 export interface EngineHistoryEntry {
@@ -35,15 +36,16 @@ export interface EngineHistory {
 }
 
 /**
- * The Knowledge Base surface the core needs. It mirrors M11's runtime names (`CompiledKnowledge`'s
- * version and `coverage()`), kept structural so the core doesn't depend on `@idleon-forge/knowledge`
- * before M11 merges. After M11 merges, the worker builds it from `loadKnowledge` and `coverage`.
+ * The Knowledge Base surface the core and its modules need. The worker builds it from M11's
+ * `loadKnowledge` and `coverage` over the shipped bundle (M10 FR-26).
  */
 export interface KnowledgePort {
-  /** `CompiledKnowledge.version.display` (or BuildInfo `knowledge` until the bundle ships). */
+  /** `CompiledKnowledge.version.display` (BuildInfo `knowledge` when the bundle didn't load). */
   version: string;
   /** M11 `coverage(state, kb, registries)` mapped to `{ systemId, label }`. */
   coverage(state: AccountState): NotCoveredItem[];
+  /** The compiled bundle, for modules that read entries and fact tables. null when it didn't load. */
+  kb?: CompiledKnowledge | null;
 }
 
 export interface EngineInput {

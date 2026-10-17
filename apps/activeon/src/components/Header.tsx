@@ -26,6 +26,24 @@ interface Props {
   suggestHref: string;
   /** "updating…" next to the age chip while a later save is parsed (§6). */
   busy?: boolean;
+  /** EngineResult.stage (M2 D5): a small label; what the next Stage needs is its title. */
+  stage?: { id: string; label: string; needs?: string[] } | null;
+}
+
+/** M2 D5: "World 2, late" shows as "World 2 · late". */
+export const stageText = (label: string) => label.replace(', ', ' · ');
+
+function StageLabel({ stage }: { stage: NonNullable<Props['stage']> }) {
+  if (stage.id === 'not-covered' || stage.id === 'unknown') return null;
+  const needs = stage.needs ?? [];
+  return (
+    <span
+      className="sync stage"
+      title={needs.length ? `Next Stage: ${needs.join(' · ')}` : 'Stage on the route'}
+    >
+      {stageText(stage.label)}
+    </span>
+  );
 }
 
 /** The "last cloud save Ns ago" chip: the only part of the header that re-renders every second. */
@@ -63,7 +81,7 @@ function StaleHint({ save, lastSnapshotAt }: { save: HeaderSave | null; lastSnap
   );
 }
 
-export function Header({ save, sync, online, lastSnapshotAt, chips, suggestHref, busy }: Props) {
+export function Header({ save, sync, online, lastSnapshotAt, chips, suggestHref, busy, stage }: Props) {
   // Offline first: Firestore reconnects on its own when the network returns (FR-28).
   const connection = !online ? 'Offline' : sync.status === 'reconnecting' ? 'Reconnecting…' : null;
   const level = save?.state.account.accountLevel ?? null;
@@ -74,6 +92,7 @@ export function Header({ save, sync, online, lastSnapshotAt, chips, suggestHref,
       </h1>
       <div className="top-status">
         {connection ? <span className="sync warn">{connection}</span> : null}
+        {stage ? <StageLabel stage={stage} /> : null}
         {level !== null ? (
           <span className="sync lvl" title="Total account level: every class level added up">
             account lv <span className="num">{level}</span>

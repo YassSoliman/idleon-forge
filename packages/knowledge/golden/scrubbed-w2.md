@@ -1,26 +1,29 @@
-# golden v1: scrubbed-w2 · knowledge #3f060777 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage (engine not built)
+# golden v1: scrubbed-w2 · knowledge #73181c3c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late
 
 ## Verdict changes
 
 ## Now
-! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+4 of 5 Ready · fix 1 before you leave · fix 2 in Account
 
-### C1 · Barbarian 60 · Unknown
-1 · Fighting Poop · Poopy Sewers · Not covered yet: AFK safety
+### C1 · Barbarian 60 · Fix before you leave
+1 · Fighting Poop · Poopy Sewers · Equip or swap in Meat Pie before you leave: Barbarian is at 78% survivability, and you own 105
 
-### C5 · Wizard 56 · Unknown
-2 · Fighting Snelbie · Djonnuttown · Not covered yet: AFK safety
+### C5 · Wizard 56 · Ready
+2 · Fighting Snelbie · Djonnuttown · Collect Thread from the anvil (time to cap: 6 h; it refills about 6 h after you collect)
 
-### C4 · Bowman 54 · Unknown
-3 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
+### C4 · Bowman 54 · Ready
+3 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 2 h; it refills about 2 h after you collect)
 
-### C3 · Shaman 44 · Unknown
-4 · Fighting Slime · Jungle Perimeter · Not covered yet: AFK safety
+### C3 · Shaman 44 · Ready
+4 · Fighting Slime · Jungle Perimeter · Collect Thread from the anvil (time to cap: 2 h; it refills about 2 h after you collect)
 
-### C2 · Squire 43 · Unknown
-5 · Mining Copper · Tunnels Entrance · Not covered yet: AFK safety
+### C2 · Squire 43 · Ready
+5 · Mining Copper · Tunnels Entrance · Collect Thread from the anvil (time to cap: 1 h; it refills about 2 h after you collect)
 
-### Account · nothing to fix
+### Account · fix 2 before you leave
+Fix before you leave
+- Fix · Water at cap: Spend Water (bubbles, vials or the Liquid Shop): it's at cap (32 of 32) and may refill before you're back [IdleOn Toolbox, alchemy liquids and liquidCauldrons maxLiquid · 2.3.540]
+- Fix · Arcade balls stop building: Claim Arcade balls before you leave (time to the claim cap: now) [IdleOn Toolbox, getMaxClaimTime and getArcadeBallsToClaim · 2.3.540]
 
 ## Not covered yet
 Cards

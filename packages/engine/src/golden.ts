@@ -3,10 +3,13 @@
 // The engine side of M11's golden harness (M11 TR-15, M10 TR-15). M11's `kb golden` loads this file
 // (packages/engine/src/golden.ts) and calls `goldenEngine.renderNow(input)` for each fixture's
 // `## Now` section: renderNowText(buildNowView(engine(fixture), emptyPrefs, { focus: null })).
-// The input type mirrors M11's `GoldenInput` structurally, so this file doesn't import
-// `@idleon-forge/knowledge` (it may run before M11 merges).
 import type { AccountState } from '@idleon-forge/account-state';
-import { runEngine } from './core/engine';
+import type { CompiledKnowledge, DetectorRegistry } from '@idleon-forge/knowledge';
+import { createAfkSafetyModule } from './afk/module';
+import { DEFAULT_MODULES, runEngine } from './core/engine';
+import type { EngineModule } from './core/module';
+import { lookupOf } from './metapath/knowledge';
+import { detectStage } from './metapath/stage';
 import { buildNowView, DEFAULT_UI } from './now/build-now-view';
 import { EMPTY_PREFS } from './now/prefs';
 import { renderNowText } from './now/render-text';
@@ -15,7 +18,10 @@ import type { EngineResult } from './result';
 /** The fields of M11's `GoldenInput` this engine reads. */
 export interface GoldenInput {
   state: AccountState;
-  kb: { version: { display: string } };
+  /** M11's compiled bundle; tests may pass only its version (no Stage then). */
+  kb: { version: { display: string } } & Partial<Omit<CompiledKnowledge, 'version'>>;
+  /** M11's discovered registries; the Knowledge Base one feeds M3's Checks. */
+  registries?: { knowledge: DetectorRegistry; engine: DetectorRegistry };
   now: number;
   expectedReturnMs: number;
 }
@@ -25,15 +31,33 @@ export interface GoldenEngine {
   renderNow(input: GoldenInput): string;
 }
 
+/** The worker's modules (M2, and M3 when the bundle and registry are there), so goldens show real Verdicts. */
+function goldenModules(input: GoldenInput): readonly EngineModule[] {
+  const kb = input.kb.entries ? (input.kb as CompiledKnowledge) : null;
+  if (!kb || !input.registries) return DEFAULT_MODULES;
+  const facts = lookupOf(kb);
+  return [
+    ...DEFAULT_MODULES,
+    createAfkSafetyModule({ kb, registry: input.registries.knowledge, stage: (s) => detectStage(s, facts) }),
+  ];
+}
+
 export function goldenResult(input: GoldenInput): EngineResult {
-  return runEngine({
-    state: input.state,
-    history: { entries: [], sessionStartedAt: null, learnedExpectedReturnSeconds: null },
-    // The golden file has its own "Not covered yet" section from M11's coverage().
-    knowledge: { version: input.kb.version.display, coverage: () => [] },
-    now: input.now,
-    options: { expectedReturnSeconds: Math.round(input.expectedReturnMs / 1000) },
-  });
+  return runEngine(
+    {
+      state: input.state,
+      history: { entries: [], sessionStartedAt: null, learnedExpectedReturnSeconds: null },
+      // The golden file has its own "Not covered yet" section from M11's coverage().
+      knowledge: {
+        version: input.kb.version.display,
+        coverage: () => [],
+        kb: input.kb.entries ? (input.kb as CompiledKnowledge) : null,
+      },
+      now: input.now,
+      options: { expectedReturnSeconds: Math.round(input.expectedReturnMs / 1000) },
+    },
+    goldenModules(input),
+  );
 }
 
 /** C1…Cn in save order, never a name (M11 TR-15 golden slot check). */
@@ -46,7 +70,6 @@ export const saveOrderLabel = (state: AccountState) => (index: number) => {
 };
 
 export const goldenEngine: GoldenEngine = {
-  // M2 owns the Stage; until it ships the header keeps "(engine not built)".
   stage: (input) => {
     const s = goldenResult(input).stage;
     return s.id === 'not-covered' ? null : s.id;

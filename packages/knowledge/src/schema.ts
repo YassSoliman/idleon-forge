@@ -132,7 +132,7 @@ export const GoalEntry = Base.extend({
   scope: z.enum(['character', 'account']),
   category: Category,
   unit: z.string().min(1).max(24),
-  progress: DetectorRef, // a 'progress' Detector
+  progress: DetectorRef, // a 'progress' Detector, or an engine Detector (M2's Meta Path Goals)
   /** Inherit the Milestone ladder (a game fact) from a generated Goal. Exactly one of extends / milestones. */
   extends: EntryId.optional(),
   milestones: z.array(Milestone).min(1).optional(),
@@ -371,6 +371,8 @@ export const MetaPathEntry = Base.extend({
       }),
     )
     .optional(),
+  /** M2 TR-1: the engine Detector behind this part (metapath/stage, metapath/roster, metapath/pusher). */
+  detector: DetectorRef.optional(),
   /** M2 TR-10, D1: the incumbent margin (1.25). */
   pusherRule: z.strictObject({ margin: z.number().min(1) }).optional(),
   /** M2 TR-11: the ordered gate steps of one or more worlds. */

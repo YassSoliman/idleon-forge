@@ -60,8 +60,10 @@ export function detectorRefsOf(e: Entry): { field: string; id: string; params: R
   if (e.type === 'contribution') out.push({ field: 'contribution.detector', ...e.detector });
   if (e.type === 'check') out.push({ field: 'check.detector', ...e.detector });
   if (e.type === 'acquisition' && e.detector) out.push({ field: 'acquisition.detector', ...e.detector });
-  if (e.type === 'metapath')
+  if (e.type === 'metapath') {
+    if (e.detector) out.push({ field: 'metapath.detector', ...e.detector });
     for (const m of e.milestones ?? []) out.push({ field: 'metapath.milestones', ...m.detector });
+  }
   return out;
 }
 
@@ -179,7 +181,18 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
       }
       const target = byId.get(ref.id)?.value;
       if (!target) {
-        err(e.file, line, e.value.id, `references a missing entry ${ref.id}`);
+        // A Priority List may name an entry its owner module hasn't shipped yet (M2 TR-13: M2 owns the
+        // lists, M3–M9 own their entries): a warning, so the lists can land first. Anywhere else it is
+        // an error.
+        if (e.value.type === 'priority')
+          warn(
+            e.file,
+            line,
+            e.value.id,
+            `references ${ref.id}, not in the Knowledge Base yet`,
+            'pending-entry',
+          );
+        else err(e.file, line, e.value.id, `references a missing entry ${ref.id}`);
         continue;
       }
       const t = target.type;

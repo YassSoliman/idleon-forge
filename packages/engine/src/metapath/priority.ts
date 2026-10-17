@@ -10,6 +10,18 @@ import type { MetaPathKnowledge, Rankable, ResolvedPriorityList, StageResult } f
 export const FRAME = { neverSkip: 1, push: 2, freeValue: 3, firstStageItem: 4 } as const;
 export const PUSH_GOAL_ID = 'metapath.goal.push';
 
+/** No list at all (no Stage): everything is unlisted, so only TR-14's later steps order Goals. */
+export const EMPTY_PRIORITY_LIST: ResolvedPriorityList = {
+  stage: null,
+  listId: null,
+  positions: {},
+  lastPosition: 0,
+  byUrgency: [],
+  carryForward: [],
+  contested: [],
+  frameOnly: false,
+};
+
 const listIdOf = (kb: Pick<MetaPathKnowledge, 'priorityByStage'>, stage: StageId) =>
   kb.priorityByStage[stage]?.goals ?? null;
 

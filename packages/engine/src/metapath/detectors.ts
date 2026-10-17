@@ -4,10 +4,7 @@
 // Goal steps behind the M11 Detector contract, so the engine core runs them with per-Detector error
 // isolation (`runDetector`) and records their `reads` as provenance.
 //
-// Not yet in the auto-discovered registry (packages/engine/detectors/metapath/): the registry requires
-// every Detector to be referenced by an entry, and today's schema cannot reference an engine Detector
-// from a `metapath` or `goal` entry (see the M2 PR's cross-module requests). Once it can, each becomes a
-// one-line `detectors/metapath/<name>.ts` that default-exports the object below.
+// Each is registered by a one-line re-export in packages/engine/detectors/metapath/<name>.ts.
 import { defineDetector } from '@idleon-forge/knowledge';
 import { z } from 'zod';
 import { elitePending, pushGoal, subclassPending, worldTutorial } from './gate-chain';

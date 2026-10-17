@@ -2,8 +2,9 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // Visit Order (M10 §2): worst Verdict first, then most to spend (M6 `spendCount` plus M7
 // `perCharacter.lines`), then M2's `visitHints`, then level (higher first) and index, so it is total.
+
+import type { VisitHint } from '../metapath/types';
 import type { VerdictKind } from '../result';
-import type { VisitHint } from './stubs/compare-goals';
 
 const WORST: Record<VerdictKind, number> = { fix: 0, unknown: 1, ready: 2 };
 

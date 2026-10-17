@@ -1,44 +1,45 @@
-# golden v1: speedrun-rank1 · knowledge #3f060777 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage (engine not built)
+# golden v1: speedrun-rank1 · knowledge #73181c3c · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
 ## Now
-! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+0 of 11 Ready · fix 11 before you leave
 
-### C7 · Divine Knight 1822 · Unknown
-1 · Doing nothing · Frostbite Towndra · Not covered yet: AFK safety
+### C7 · Divine Knight 1822 · Fix before you leave
+1 · Doing nothing · Frostbite Towndra · Send Divine Knight Lv 1,822 to an AFK Target before you leave
 
-### C4 · Divine Knight 1787 · Unknown
-2 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+### C4 · Divine Knight 1787 · Fix before you leave
+2 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C9 · Arcane Cultist 1783 · Unknown
-3 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+### C9 · Arcane Cultist 1783 · Fix before you leave
+3 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C1 · Death Bringer 1780 · Unknown
-4 · Doing nothing · Shimmerfin Grove · Not covered yet: AFK safety
+### C1 · Death Bringer 1780 · Fix before you leave
+4 · Doing nothing · Shimmerfin Grove · Send Death Bringer Lv 1,780 to an AFK Target before you leave
 
-### C6 · Wind Walker 1775 · Unknown
-5 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+### C6 · Wind Walker 1775 · Fix before you leave
+5 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C11 · Divine Knight 1771 · Unknown
-6 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+### C11 · Divine Knight 1771 · Fix before you leave
+6 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about 20 min after you collect)
 
-### C2 · Arcane Cultist 1769 · Unknown
-7 · Fighting Trench Fish · Deep End of the Koipond · Not covered yet: AFK safety
+### C2 · Arcane Cultist 1769 · Fix before you leave
+7 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C10 · Siege Breaker 1763 · Unknown
-8 · Fighting Gloomie Mushroom · The Hole · Not covered yet: AFK safety
+### C10 · Siege Breaker 1763 · Fix before you leave
+8 · Fighting Gloomie Mushroom · The Hole · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C8 · Voidwalker 1754 · Unknown
-9 · Catching Litterbug · Plastic Basin · Not covered yet: AFK safety
+### C8 · Voidwalker 1754 · Fix before you leave
+9 · Catching Litterbug · Plastic Basin · Collect Purple Screw from the anvil (time to cap: now; it refills about 20 min after you collect)
 
-### C5 · Elemental Sorcerer 1700 · Unknown
-10 · In the Lab · Outer World Town · Not covered yet: AFK safety
+### C3 · Siege Breaker 1647 · Fix before you leave
+10 · Spelunking Fearful Tunnel · Refraction Bend · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
-### C3 · Siege Breaker 1647 · Unknown
-11 · Spelunking Fearful Tunnel · Refraction Bend · Not covered yet: AFK safety
+### C5 · Elemental Sorcerer 1700 · Fix before you leave
+11 · In the Lab · Outer World Town · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### Account · nothing to fix
+- Extra · Refinery runs dry: Refinery runs dry in about under 10 min: top up the salt's materials [IdleOn Toolbox, getSaltMatsTimeLeft · 2.3.540]
 
 ## Not covered yet
 Cards

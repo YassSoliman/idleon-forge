@@ -10,7 +10,8 @@
     "./now": "./src/now/index.ts",
     "./result": "./src/result.ts",
     "./metapath": "./src/metapath/index.ts",
-    "./afk": "./src/afk/index.ts"
+    "./afk": "./src/afk/index.ts",
+    "./detectors": "./detectors/index.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json"

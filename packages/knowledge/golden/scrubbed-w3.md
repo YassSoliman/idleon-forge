@@ -1,27 +1,27 @@
-# golden v1: scrubbed-w3 · knowledge #3f060777 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage (engine not built)
+# golden v1: scrubbed-w3 · knowledge #73181c3c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early
 
 ## Verdict changes
 
 ## Now
-! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+0 of 6 Ready · fix 6 before you leave
 
-### C4 · Squire 85 · Unknown
-1 · Fighting Thermister · Thermonuclear Climb · Not covered yet: AFK safety
+### C4 · Squire 85 · Fix before you leave
+1 · Fighting Thermister · Thermonuclear Climb · Collect Thread from the anvil (time to cap: now; it refills about 5 h after you collect)
 
-### C1 · Wizard 73 · Unknown
-2 · Fighting Sir Stache · The Stache Split · Not covered yet: AFK safety
+### C3 · Bowman 60 · Fix before you leave
+2 · Fighting Sand Giant · Sands of Time · Collect Leather Hide from the anvil (time to cap: now; it refills about 8 h after you collect)
 
-### C3 · Bowman 60 · Unknown
-3 · Fighting Sand Giant · Sands of Time · Not covered yet: AFK safety
+### C5 · Barbarian 56 · Fix before you leave
+3 · Fishing Small Fish · Salty Shores · Collect Thread from the anvil (time to cap: now; it refills about 6 h after you collect)
 
-### C5 · Barbarian 56 · Unknown
-4 · Fishing Small Fish · Salty Shores · Not covered yet: AFK safety
+### C6 · Shaman 54 · Fix before you leave
+4 · Fighting Sand Castle · Shifty Sandbox · Collect Thread from the anvil (time to cap: now; it refills about 3 h after you collect)
 
-### C6 · Shaman 54 · Unknown
-5 · Fighting Sand Castle · Shifty Sandbox · Not covered yet: AFK safety
+### C2 · Squire 51 · Fix before you leave
+5 · Mining Gold · Freefall Caverns · Collect Thread from the anvil (time to cap: now; it refills about 2 h after you collect)
 
-### C2 · Squire 51 · Unknown
-6 · Mining Gold · Freefall Caverns · Not covered yet: AFK safety
+### C1 · Wizard 73 · Fix before you leave
+6 · Fighting Sir Stache · The Stache Split · Collect Thread from the anvil (time to cap: now; it refills about 5 h after you collect)
 
 ### Account · nothing to fix
 

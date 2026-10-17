@@ -25,13 +25,8 @@ export type {
   RankHints,
 } from './core/module';
 export { applyContestedRule, dedupe, rankGoals, type TaggedGoal } from './core/rank';
-export {
-  compareGoals,
-  EMPTY_PRIORITY_LIST,
-  positionOf,
-  type Rankable,
-  type ResolvedPriorityList,
-  type VisitHint,
-} from './core/stubs/compare-goals';
 export { type VisitCandidate, visitOrder } from './core/visit-order';
+export { metaPathModule } from './metapath/module';
+export { compareGoals, EMPTY_PRIORITY_LIST, positionOf } from './metapath/priority';
+export type { Rankable, ResolvedPriorityList, VisitHint } from './metapath/types';
 export type * from './result';

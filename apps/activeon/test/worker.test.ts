@@ -106,7 +106,7 @@ describe('handleParseRequest (the paste fallback path)', () => {
     expect(res).toMatchObject({ id: 3, ok: false, kind, ms: expect.any(Number) });
   });
 
-  it('runs the engine after a clean parse; every Verdict is Unknown not-covered before M3 (M10 TR-6)', () => {
+  it('runs the engine after a clean parse, with M2 and M3: real Verdicts, a Stage (M10 TR-6)', () => {
     const handle = createRequestHandler();
     const envelope = JSON.parse(publicSave('fresh.json'));
     const res = handle({
@@ -123,8 +123,11 @@ describe('handleParseRequest (the paste fallback path)', () => {
     });
     if (!('state' in res) || !res.ok || !res.result || 'error' in res.result)
       throw new Error('expected a result');
-    expect(res.result.characters.every((c) => c.verdict.unknownReason === 'not-covered')).toBe(true);
-    expect(res.result.versions.knowledge).toBe('k1');
+    expect(res.result.characters.some((c) => c.verdict.unknownReason === 'not-covered')).toBe(false);
+    expect(res.result.notCovered.map((n) => n.systemId)).not.toContain('afk');
+    expect(res.result.stage.id).not.toBe('not-covered');
+    // The shipped bundle's own version wins over BuildInfo's once it loads (M10 FR-26).
+    expect(res.result.versions.knowledge).toMatch(/^knowledge \d{4}\.\d{2}\.\d{2}/);
     expect(res.result.sessionStartedAt).toBe(5);
     expect(structuredClone(res.result)).toEqual(res.result);
     const again = handle({ id: 12, type: 'rerun', expectedReturnSeconds: 4 * 3600, now: NOW });

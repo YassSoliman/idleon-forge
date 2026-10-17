@@ -161,7 +161,7 @@ export function defineDetector<
 
 /** Which Detector kind each entry field needs (TR-4 table). Engine Detectors may stand in where noted. */
 export const DETECTOR_KIND_FOR: Readonly<Record<string, readonly DetectorKind[]>> = {
-  'goal.progress': ['progress'],
+  'goal.progress': ['progress', 'engine'],
   'contribution.detector': ['contribution'],
   'check.detector': ['check', 'engine'],
   'acquisition.detector': ['acquisition'],

@@ -1,39 +1,39 @@
-# golden v1: third · knowledge #3f060777 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage (engine not built)
+# golden v1: third · knowledge #73181c3c · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
 ## Now
-! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+5 of 10 Ready · fix 4 before you leave · 1 Unknown
 
-### C4 · Divine Knight 655 · Unknown
-1 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
+### C4 · Divine Knight 655 · Fix before you leave
+1 · Fighting Green Mushroom · Spore Meadows · Collect Trusty Nails from the anvil (time to cap: 3 h; it refills about 24 h after you collect)
 
-### C3 · Bubonic Conjuror 568 · Unknown
-2 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
+### C8 · Divine Knight 558 · Fix before you leave
+2 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 3 h; it refills about 1 d after you collect)
 
-### C5 · Beast Master 561 · Unknown
-3 · Fighting Minichief Spirit · Chieftain Stairway · Not covered yet: AFK safety
+### C6 · Elemental Sorcerer 545 · Fix before you leave
+3 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 4 h; it refills about 1 d after you collect)
 
-### C8 · Divine Knight 558 · Unknown
-4 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
-
-### C9 · Elemental Sorcerer 552 · Unknown
-5 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
-
-### C6 · Elemental Sorcerer 545 · Unknown
-6 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
-
-### C2 · Siege Breaker 527 · Unknown
-7 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
-
-### C7 · Voidwalker 523 · Unknown
-8 · Mining Godshard · Motherlode Pit · Not covered yet: AFK safety
-
-### C10 · Siege Breaker 522 · Unknown
-9 · Fighting Green Mushroom · Spore Meadows · Not covered yet: AFK safety
+### C2 · Siege Breaker 527 · Fix before you leave
+4 · Fighting Green Mushroom · Spore Meadows · Spend worship charge, or let the Wizard's Charge Syphon take it (15,042 of 15,042; time to cap: now)
 
 ### C1 · Blood Berserker 521 · Unknown
-10 · Cooking · Outer World Town · Not covered yet: AFK safety
+5 · Cooking · Outer World Town · Not covered yet: AFK safety
+
+### C3 · Bubonic Conjuror 568 · Ready
+6 · Fighting Green Mushroom · Spore Meadows · Traps finish in about 2 h, then sit idle until you're back
+
+### C5 · Beast Master 561 · Ready
+7 · Fighting Minichief Spirit · Chieftain Stairway · Traps finish in about 4 h, then sit idle until you're back
+
+### C7 · Voidwalker 523 · Ready
+8 · Mining Godshard · Motherlode Pit · Traps finish in about 2 h, then sit idle until you're back
+
+### C10 · Siege Breaker 522 · Ready
+9 · Fighting Green Mushroom · Spore Meadows · Traps finish in about 4 h, then sit idle until you're back
+
+### C9 · Elemental Sorcerer 552 · Ready
+10 · Fighting Green Mushroom · Spore Meadows · Traps finish in about 2 h, then sit idle until you're back
 
 ### Account · nothing to fix
 

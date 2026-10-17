@@ -6,17 +6,9 @@ import type { CompiledKnowledge, Entry, FactTable, StageId } from '@idleon-forge
 
 export type { StageId };
 
-/**
- * M10 TR-2's `Provenance` (`packages/engine/src/result.ts`, built with M10). Declared structurally here
- * so M2 does not wait on M10; the two are the same shape.
- */
-export interface Provenance {
-  entryIds: string[];
-  fields: string[];
-}
+import type { Category, Provenance } from '../result';
 
-/** M10 TR-2's `Category`, the display label (M2 TR-14 never orders by it except `blocker`). */
-export type Category = 'blocker' | 'compounding' | 'spendable' | 'nice';
+export type { Category, Provenance };
 
 /** Read-only access to compiled entries and fact tables by id: `DetectorContext.facts` has this shape. */
 export interface FactLookup {

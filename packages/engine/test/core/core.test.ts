@@ -7,8 +7,9 @@ import { AFK_SAFETY_NOT_COVERED, createEngine, runEngine } from '../../src/core/
 import { invariantViolations } from '../../src/core/invariants';
 import type { EngineModule } from '../../src/core/module';
 import { rankGoals, type TaggedGoal } from '../../src/core/rank';
-import { compareGoals, EMPTY_PRIORITY_LIST, type Rankable } from '../../src/core/stubs/compare-goals';
 import { visitOrder } from '../../src/core/visit-order';
+import { compareGoals, EMPTY_PRIORITY_LIST } from '../../src/metapath/priority';
+import type { Rankable, ResolvedPriorityList } from '../../src/metapath/types';
 import { buildNowView, DEFAULT_UI } from '../../src/now/build-now-view';
 import { EMPTY_PREFS } from '../../src/now/prefs';
 import { renderNowText } from '../../src/now/render-text';
@@ -28,8 +29,14 @@ const R = (over: Partial<Rankable>): Rankable => ({
   ...over,
 });
 
-describe('compareGoals (M2 TR-14 stub)', () => {
-  const list = { id: 'l', positions: { a: 1, b: 4, c: 2 }, lastPosition: 9, carriedForward: ['d'] };
+describe('compareGoals (M2 TR-14)', () => {
+  const list: ResolvedPriorityList = {
+    ...EMPTY_PRIORITY_LIST,
+    listId: 'l',
+    positions: { a: 1, b: 4, c: 2 },
+    lastPosition: 9,
+    carryForward: ['d'],
+  };
   const sort = (xs: Rankable[]) => [...xs].sort((a, b) => compareGoals(a, b, list)).map((x) => x.entryId);
   it('blockers first, then list position, carry-forward after the last position, unlisted last', () => {
     expect(

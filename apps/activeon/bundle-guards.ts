@@ -55,6 +55,8 @@ export function checkChunk(chunk: ChunkInfo): string[] {
   if (chunk.code.includes(PARSER_BANNER))
     problems.push(`${chunk.fileName} contains the parser runtime; import it only inside src/worker/`);
   for (const [id, info] of Object.entries(chunk.modules)) {
+    if (id.includes('virtual:activeon-knowledge'))
+      problems.push(`${chunk.fileName} bundles the Knowledge Base; it belongs in the parse worker`);
     if (/[\\/]toolbox-parsers[\\/](dist|vendor)[\\/]/.test(id))
       problems.push(`${chunk.fileName} bundles ${id}; the parser runtime belongs in the worker`);
     const entry = firebaseEntry(id);
