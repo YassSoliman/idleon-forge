@@ -14,7 +14,7 @@ When something in ActiveOn is wrong, confusing, or missing, the player can say s
 - Automatic context building, with a name scrub and a preview of exactly what is sent.
 - Proof of sign-in that never gives our server a usable login token (TR-4).
 - The Suggestions Worker: validate, verify Turnstile, verify proof of sign-in, rate-limit, file the GitHub issue, list "mine".
-- "Your suggestions": the player's own list with a status per Suggestion and the approved reply, if any.
+- "Your suggestions": the player's own list with a status per Suggestion, the approved reply, if any, and a one-shot "Add details" answer to an approved question (D4).
 - "Report this", replacing the pre-filled `kb-correction` link from #10 decision 9 (superseded by #13: it "shares the pipeline").
 - The Claude Code listener: its prompt, cadence, the labels it reads and writes, its local drafts, and grilling rounds.
 - The GitHub labels and the GitHub App the pipeline needs.
@@ -46,7 +46,7 @@ When something in ActiveOn is wrong, confusing, or missing, the player can say s
 **Report this**
 
 - **FR-9** Every Next Action, Verdict blocker, Goal, Spend Plan item and Purpose line has a "Report this" control. It opens the form with the type set, I want… empty, and the report context filled from that output's provenance: the output kind, its rendered text with character names replaced by class and level, the Knowledge Base entry ids, Detector ids, save field paths, and its Stale and Contested flags.
-- **FR-10** For a report, the form offers "Attach the numbers this advice used" (D3), showing those values in the preview. When unticked, no values are sent.
+- **FR-10** For a report, the form offers "Attach the numbers this advice used", **ticked by default** (D3), showing those values in the preview. When unticked, no values are sent.
 
 **Delivery**
 
@@ -59,7 +59,7 @@ When something in ActiveOn is wrong, confusing, or missing, the player can say s
 **Your suggestions**
 
 - **FR-16** "Your suggestions" lists the signed-in player's Suggestions across browsers (they are found by the player's suggester tag, TR-6), newest first, each with type, the I want… line, date, status and a link to the issue.
-- **FR-17** Status is one of: **Received**, **Being looked at**, **Waiting on a decision**, **Planned**, **Done**, **Won't do**, derived from the issue's labels and state (TR-8).
+- **FR-17** Status is one of: **Received**, **Being looked at**, **Waiting on a decision**, **Needs your answer**, **Planned**, **Done**, **Won't do**, derived from the issue's labels and state (TR-8).
 - **FR-18** When Yasser has approved a reply for that Suggestion, the item shows it under the status. Only replies marked by the maintainer are shown (TR-8); comments from anyone else on GitHub are not.
 - **FR-19** Outbox items waiting for a proof appear at the top as **Waiting to send**, with a Discard control.
 
@@ -69,8 +69,14 @@ When something in ActiveOn is wrong, confusing, or missing, the player can say s
 - **FR-21** For each claimed Suggestion it: checks for duplicates among open and closed Suggestions; researches it against `GLOSSARY.md`, the ADRs, specs, the Knowledge Base, research branches and closed decision tickets; drafts a user story in the house format with Given / When / Then criteria; proposes an outcome (spec change, Knowledge Base entry, ticket, or wontfix); drafts a player-facing reply; and lists any decisions only Yasser can make.
 - **FR-22** Anything the ADRs or research already answer is answered in the draft with a link, and is not put to Yasser as a decision.
 - **FR-23** Decisions are batched into a grilling round, presented when 5 decisions are pending or the oldest pending one is 24 hours old, whichever comes first, so every Suggestion is ruled on within the 2-day done bar from #13.
-- **FR-24** Nothing the listener writes is posted publicly as Yasser (story comment, reply, close, wontfix) until Yasser approves it in a grilling round (D5). Labels that only move state (`listener:claimed`, `story:drafted`, `needs-decision`) are applied without approval.
-- **FR-25** After a grilling round, approved outcomes are carried out: the story and reply are posted, outcome labels applied, a spec PR, Knowledge Base PR (through M11 tooling) or ticket is opened and linked, or the issue is closed as not planned with the reply.
+- **FR-24** Nothing the listener writes is posted publicly as Yasser (story comment, question, reply, close, wontfix) until Yasser approves it in a grilling round (D5). Labels that only move state (`listener:claimed`, `story:drafted`, `needs-decision`) are applied without approval.
+- **FR-25** After a grilling round, approved outcomes are carried out: the story and reply are posted, outcome labels applied, a spec PR, Knowledge Base PR (through M11 tooling) or ticket is opened and linked, or the issue is closed as not planned with the reply. An approved question for the player is posted with `needs-info` (FR-26).
+
+**Add details (D4)**
+
+- **FR-26** When Yasser approves a question for the player, it is posted as a comment carrying `<!-- activeon:question -->` and the issue gets `needs-info`. "Your suggestions" shows the question under that item, status Needs your answer, with an **Add details** box (max 1,500 chars, same name scrub, preview and public notice as the form).
+- **FR-27** The player can send one answer per question. The Worker posts it as a bot comment, fenced like the issue body (TR-7), removes `needs-info` and adds `needs-triage` so the listener picks the Suggestion up again. After that, the box is gone until a newer question is posted.
+- **FR-28** Only the player who filed the Suggestion can add details (same suggester tag, TR-6). An answer counts toward the same daily cap as new Suggestions (D7) and uses the same proof, Turnstile and error messages (FR-15).
 
 ## 4. User stories
 
@@ -84,7 +90,7 @@ As a player in a Play Session, I want to send an idea in under a minute without 
 **US-2 Report wrong advice**
 As a player in a Play Session, I want to report a Next Action I think is wrong, straight from the action, so that the fix is about that exact advice.
 - Given F-W2 where the Squire shows a Verdict blocker from Check `w2.afk.weak-map` / When I press Report this on it and Send / Then the issue's context lists `outputKind: "verdict-blocker"`, entry id `w2.afk.weak-map`, its Detector id and field paths, `stale` and `contested` flags, and rendered text naming "Squire lv 85", and the issue has the `report` label.
-- Given the same with "Attach the numbers" unticked / When I Send / Then the context has no `values` key.
+- Given the same / When I open the form / Then "Attach the numbers" is ticked and the preview lists the values; When I untick it and Send / Then the context has no `values` key.
 
 **US-3 No names, ever**
 As a player in a Play Session, I want my character names kept out of what I send, so that a public issue can't be tied to my account.
@@ -117,6 +123,12 @@ As Yasser, I want each Suggestion researched and drafted before I see it, so tha
 - Given two runs fire on the same issue (two sessions) / When both start / Then only the run whose claim is visible first processes it, and the other skips it (TR-12).
 - Given a Suggestion answered by ADR 0002 ("let the AI decide my build live") / When the run finishes / Then the draft proposes wontfix with a reply citing ADR 0002, and it adds no decision for Yasser.
 
+**US-9 Answer a question** (D4)
+As a player in a Play Session, I want to answer when Yasser asks me something about my Suggestion, so that it doesn't stall for lack of one detail.
+- Given the fake GitHub has my Suggestion with `needs-info` and an owner comment carrying `<!-- activeon:question -->` / When I open Your suggestions / Then it shows Needs your answer, the question text, and an Add details box.
+- Given that item / When I send an answer / Then the fake GitHub gets one bot comment with my fenced text, the issue loses `needs-info` and gains `needs-triage`, and the Add details box is gone after a refresh.
+- Given another player's proof / When it posts details to my Suggestion / Then the Worker answers 403 `not_yours` and nothing is posted.
+
 ## 5. Technical requirements
 
 **Packages and deployables**
@@ -145,7 +157,7 @@ export interface ReportContext {
   fieldPaths: string[];          // save field paths the Detectors read, never their raw blobs
   stale: boolean;
   contested: boolean;
-  values?: Record<string, number | boolean | string>; // only when the player ticks "Attach the numbers" (D3); strings limited to enum-like ids, max 40 keys
+  values?: Record<string, number | boolean | string>; // present unless the player unticks "Attach the numbers" (D3, ticked by default); strings limited to enum-like ids, max 40 keys
 }
 
 export interface SuggestionContext {
@@ -172,7 +184,7 @@ export interface SuggestionRequest {
   proof: string;                 // an expired Firebase ID token, TR-4
 }
 
-export type SuggestionStatus = 'received' | 'looking' | 'decision' | 'planned' | 'done' | 'wontdo';
+export type SuggestionStatus = 'received' | 'looking' | 'decision' | 'info' | 'planned' | 'done' | 'wontdo';
 
 export interface MySuggestion {
   number: number;
@@ -182,6 +194,8 @@ export interface MySuggestion {
   createdAt: string;
   status: SuggestionStatus;
   reply?: string;
+  question?: string;             // the newest approved question, while `needs-info` (D4)
+  canAddDetails?: boolean;       // true until the player has answered that question
 }
 ```
 
@@ -202,7 +216,7 @@ export interface MySuggestion {
   - Title: `[Idea] <I want…, first 72 chars>` (or `[Something's wrong]`, `[Confusing]`), with control characters removed. GitHub does not turn mentions in titles into notifications.
   - Body: each player field inside a fenced block (`text`), with a fence longer than the longest backtick run in that field, so mentions, links, images, HTML and `owner/repo#n` cross-references in player text render as plain text and ping no one. Then the context as fenced JSON inside `<details><summary>Context</summary>`. Then one line `<!-- activeon-suggestion v1 sg:<tag> cid:<clientId> -->`.
   - Labels: `suggestion`, `suggestion:idea|wrong|confusing`, `needs-triage`, plus `report` and `from-preview` when the request comes from a Preview origin.
-- **TR-8** Status mapping (in the Worker, so the app never hard-codes label names): open + `needs-triage` → received; open + `listener:claimed` or `story:drafted` → looking; open + `needs-decision` → decision; open + `ready-for-agent` / `ready-for-human` / any `outcome:*` → planned; closed as completed → done; closed as not planned or `wontfix` / `duplicate` → wontdo. The reply is the newest comment that contains `<!-- activeon:reply -->` **and** has `author_association` `OWNER` or `MEMBER` (Yasser, or later Joseph). Its text is shown as plain text, never as HTML.
+- **TR-8** Status mapping (in the Worker, so the app never hard-codes label names): open + `needs-triage` → received; open + `listener:claimed` or `story:drafted` → looking; open + `needs-decision` → decision; open + `needs-info` → info; open + `ready-for-agent` / `ready-for-human` / any `outcome:*` → planned; closed as completed → done; closed as not planned or `wontfix` / `duplicate` → wontdo. The reply is the newest comment that contains `<!-- activeon:reply -->` **and** has `author_association` `OWNER` or `MEMBER` (Yasser, or later Joseph). Its text is shown as plain text, never as HTML.
 - **TR-9** Client storage: the draft (FR-8) and the outbox (FR-12) live in IndexedDB under `suggestions/` (`{clientId, type, text, contextAtWrite, createdAt}`); the context is rebuilt at send time and the preview shows the send-time version. The last "Your suggestions" response is cached in memory only. Signing out clears the draft, the outbox and the stored proof.
 
 **Worker API**
@@ -221,6 +235,8 @@ export interface MySuggestion {
 - **TR-13** GitHub credentials: a **GitHub App** "ActiveOn Suggestions" owned by Yasser, installed only on `YassSoliman/idleon-forge`, with repository permissions **Issues: Read and write** and **Metadata: Read-only**, no others, no webhook. Issues show as authored by `activeon-suggestions[bot]`, not as Yasser. Worker secrets: `GH_APP_ID`, `GH_INSTALLATION_ID`, `GH_APP_PRIVATE_KEY` (PKCS#8, converted from GitHub's PKCS#1 download before upload), `TURNSTILE_SECRET`, `SUGGESTER_PEPPER`. The Worker signs a 9-minute App JWT (RS256, WebCrypto), exchanges it for a 1-hour installation token, and keeps that token in isolate memory only, refreshing 5 minutes before expiry. Chosen over a fine-grained PAT because a PAT acts as Yasser, expires and must be rotated by hand, and its issues would look like Yasser wrote them. The private key never leaves Worker secrets; rotation is "generate new key in the App settings, `wrangler secret put`, delete old key".
 - **TR-14** Logging: the Worker logs one structured line per request: endpoint, outcome code, latency, colo. Never the body, the proof, the tag or the IP.
 
+- **TR-22** Add details (D4): `POST /v1/suggestions/{number}/details` with `{clientId, text, turnstileToken, proof}` → `201` or `200` on an idempotent retry (`cid` marker in the comment). Order of checks: size and schema → proof → Turnstile → rate limits and daily cap → the issue carries `suggestion`, `needs-info` and this player's `sg:<tag>` (else `403 not_yours`) → no details comment from the bot after the newest question comment (else `409 already_answered`) → post the comment, then remove `needs-info` and add `needs-triage`. The question shown in-app follows the same rule as replies: newest comment with the marker from a maintainer (TR-8), rendered as plain text.
+
 **Performance**
 
 - **TR-15** The form, Turnstile and the Worker client are a lazy chunk, not in the Now screen's initial bundle (budget: ≤ 25 KB gzip for the chunk, excluding Turnstile's own script). The Now screen's Report this control is a button only.
@@ -233,7 +249,7 @@ export interface MySuggestion {
 - **TR-19** What it writes:
   - Without approval, on GitHub: only the labels `listener:claimed`, `story:drafted`, `needs-decision`, and removing `needs-triage`.
   - Locally: `.suggestions/<n>.md` in the clone (gitignored), holding the research notes with links, the user story, the proposed outcome, the draft reply, the open decisions, and the run id and timestamp. This is the listener's working memory between runs and the input to grilling rounds.
-  - After Yasser approves in a grilling round: the story as an issue comment, the reply as a comment carrying `<!-- activeon:reply -->`, the outcome labels (`outcome:spec`, `outcome:kb`, `outcome:ticket`, `wontfix`, `duplicate`), linked PRs or tickets, and closing.
+  - After Yasser approves in a grilling round: the story as an issue comment, a question for the player as a comment carrying `<!-- activeon:question -->` plus the `needs-info` label (D4), the reply as a comment carrying `<!-- activeon:reply -->`, the outcome labels (`outcome:spec`, `outcome:kb`, `outcome:ticket`, `wontfix`, `duplicate`), linked PRs or tickets, and closing.
 - **TR-20** No duplicate processing:
   1. GitHub labels are the shared state, so two sessions or two machines agree. The query only picks issues still in `needs-triage`.
   2. Claim: add `listener:claimed` and re-read the issue's label events. If another `listener:claimed` event by a different run is earlier, back off. A claim with no `story:drafted` after 60 minutes is stale and may be re-claimed.
@@ -271,31 +287,20 @@ export interface MySuggestion {
 - **M3–M9 (advice modules):** every output they render must carry the engine's provenance (#14 item 4): output kind, entry ids, Detector ids, field paths, Stale and Contested flags, and an anonymous rendering (characters as class and level). Report this depends on this; M13 does not read the engine's internals.
 - **M10 Now screen UI:** places the Suggest control, the Report this control on each output, the overlay, the toast, and the Your suggestions screen. M13 provides the components; M10 owns the layout.
 - **M11 Knowledge tooling:** Knowledge Base entry ids and versions for the context; the listener proposes Knowledge Base changes through M11's authoring flow (Source, ADR 0004 tier, patch).
-- **M12 Release:** deploys `apps/suggestions-worker` from `main` only, owns the Worker secrets, creates the labels (`suggestion`, `suggestion:idea`, `suggestion:wrong`, `suggestion:confusing`, `report`, `from-preview`, `needs-triage`, `listener:claimed`, `story:drafted`, `needs-decision`, `outcome:spec`, `outcome:kb`, `outcome:ticket`) and adds Suggestions to `SECURITY.md` scope. The Worker's URL is a build-time `VITE_SUGGESTIONS_URL`.
-- **ADR 0008 amendment** if D1 (b) or D3 "on" is chosen.
+- **M12 Release:** deploys `apps/suggestions-worker` from `main` only, owns the Worker secrets, creates the labels (`suggestion`, `suggestion:idea`, `suggestion:wrong`, `suggestion:confusing`, `report`, `from-preview`, `needs-triage`, `needs-info`, `listener:claimed`, `story:drafted`, `needs-decision`, `outcome:spec`, `outcome:kb`, `outcome:ticket`) and adds Suggestions to `SECURITY.md` scope. The Worker's URL is a build-time `VITE_SUGGESTIONS_URL`.
+- **ADR 0008 amendment** (in this PR): the proof of sign-in is an expired ID token (D1), the values the reported advice read are allowed context (D3), and the Worker also posts a player's one-shot answer as a comment (D4).
 
-## 8. Open decisions for Yasser
+## 8. Decisions
 
-❓ D1 - Proof of sign-in: how does the Worker know the sender is signed in? (a) an **expired** Firebase ID token, verified with Google's public keys, which proves the uid but opens nothing (TR-4); (b) the **live** ID token, verified and discarded, which is simpler and has no first-hour gap but hands our server a working key to the player's save for up to an hour and needs ADR 0008 amended; (c) no server-side proof, the form is just hidden when signed out, and Turnstile plus the global cap carry all abuse protection.
-➡️ (a). It keeps ADR 0008's promise literally (the Worker never holds a usable login token), costs only a one-time first-hour wait handled by the outbox, and still gives a real per-player identity for caps and "Your suggestions". (b) is the one choice here a security reviewer would flag; (c) loses cross-device "Your suggestions".
+Ruled by Yasser on 2026-10-17 ([PR #42](https://github.com/YassSoliman/idleon-forge/pull/42)): every recommendation accepted as written.
 
-❓ D2 - Where raw Suggestions live: (a) public issues on `idleon-forge`, with the "posted publicly" notice; (b) a private intake repo, with only accepted stories copied to the public repo.
-➡️ (a). ADR 0008 and #13 already name GitHub Issues on this repo as the single tracker; the project is open by design, and the no-names scrub plus the notice cover the privacy side. (b) doubles the tracker and hides the very feedback contributors could act on.
-
-❓ D3 - "Attach the numbers this advice used" for Report this: (a) offered, ticked by default, values shown in the preview; (b) offered, unticked by default; (c) never, field paths only.
-➡️ (a), with a one-line ADR 0008 amendment listing "the values the reported advice read" as allowed context. A wrong-advice report without the numbers is often unreproducible, the values are a few counts and levels (not the save, not names), and the player sees and can untick them.
-
-❓ D4 - Can players answer back in the app? When the listener or Yasser needs more information, should "Your suggestions" offer a one-shot "Add details" box that the Worker posts as a bot comment (same proof, Turnstile and limits), or is the flow one-way?
-➡️ Yes, a single "Add details" reply per open question. Players have no GitHub account, so without it a Suggestion that needs one clarification dies as `needs-info`. It reuses the whole pipeline; cost is one endpoint.
-
-❓ D5 - What may the listener post publicly without you? (a) nothing but state labels, and every story, reply and close waits for a grilling round; (b) story drafts posted as comments right away, replies and closes still approved.
-➡️ (a) to start. Anything else is a public message on your account to players you don't know, which your standing rule says needs your yes. Batch approval in grilling rounds keeps the cost low; loosen to (b) later if the drafts prove reliable.
-
-❓ D6 - Paste-only players (Raw Game JSON, no sign-in): may they suggest? (a) no; (b) yes, Turnstile-only with a per-IP cap and no "Your suggestions".
-➡️ (a) for the MVP. #13 says signed-in only, both MVP players sign in, and an anonymous path is the one abuse vector the other limits can't attribute. Revisit at public alpha.
-
-❓ D7 - Limit numbers: per player 1 per minute and 5 per 24 h; per IP 5 per minute; global pause at 100 per 24 h.
-➡️ Accept these. Two players produce a handful a day; 100 a day is past anything the 2-day ruling bar can absorb, so pausing there protects both the tracker and your grilling time. Firebase lets anyone mint new uids (email sign-up uses the public API key), so per-player caps do not stop a determined spammer; the global pause and Turnstile do.
+- **D1 - Proof of sign-in is an expired Firebase ID token** (TR-4). Why: it keeps ADR 0008's promise that the Worker never holds a usable login token, it costs only a short wait handled by the outbox (FR-12), and it still gives a real per-player identity for the caps and for "Your suggestions" across browsers. A live token would hand our server a working key to the player's save for up to an hour; no proof at all would lose cross-device "Your suggestions". ADR 0008 is amended to say so.
+- **D2 - Raw Suggestions are public issues on `idleon-forge`**, with the "posted publicly" notice (FR-5). Why: ADR 0008 and #13 already name GitHub Issues on this repo as the single tracker, the project is open by design, and the name scrub plus the notice cover privacy. A private intake repo would double the tracker and hide feedback contributors could act on.
+- **D3 - "Attach the numbers this advice used" is offered and ticked by default**, with the values shown in the preview (FR-10). Why: a wrong-advice report without its numbers is often unreproducible; the values are a few counts and levels, never the save and never names, and the player sees and can untick them. ADR 0008 is amended to list "the values the reported advice read" as allowed context.
+- **D4 - Players can answer back once per question** with an "Add details" box in "Your suggestions" (FR-26 to FR-28, TR-22). Why: players have no GitHub account, so without it a Suggestion that needs one clarification dies as `needs-info`. It reuses the whole pipeline (same proof, Turnstile and limits) at the cost of one endpoint.
+- **D5 - The listener posts nothing publicly without Yasser** except state labels; every story, question, reply and close waits for a grilling round (FR-24). Why: anything else is a public message from Yasser's account to people he doesn't know, which his standing rule says needs his yes. Batched approval keeps the cost low; loosening to "story drafts posted right away" can come later if the drafts prove reliable.
+- **D6 - Paste-only players cannot suggest in the MVP** (FR-7). Why: #13 says signed-in only, both MVP players sign in, and an anonymous path is the one abuse vector the other limits can't attribute. Revisit at public alpha.
+- **D7 - Limits: per player 1 per minute and 5 per 24 h; per IP 5 per minute; global pause at 100 per 24 h** (TR-11). Why: two players produce a handful a day, and 100 a day is past anything the 2-day ruling bar can absorb, so pausing there protects both the tracker and Yasser's grilling time. Firebase lets anyone mint new uids, so per-player caps don't stop a determined spammer; the global pause and Turnstile do.
 
 ## 9. Red-team notes
 
