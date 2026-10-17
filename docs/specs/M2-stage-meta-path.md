@@ -46,31 +46,31 @@ M2 answers "where is my account on the route, and who on my team does what?" Fro
 **Stage**
 - **FR-1** The engine derives exactly one Stage per Account State, from the 10 values in TR-4, evaluated by the rules in TR-5. The same Account State and Knowledge Base always give the same Stage.
 - **FR-2** The Stage carries its evidence: the rule that matched and the field values that decided it (provenance, #14 item 4 and #17). A Report this or a Suggestion carries the Stage id only.
-- **FR-3** When a field that decides between two Stages in the same world is unknown (its parser section failed, per M1 `diagnostics.failedSections`), the Stage is the **earliest** Stage of that world consistent with the known fields, and its certainty is `partial`. When `finishedWorlds` itself is unknown, the Stage is `null` with certainty `unknown`: only Stage-independent output (Verdict blockers) is shown, plus "Can't tell where your account is on the route".
+- **FR-3** When a field that decides between two Stages in the same world is unknown (its parser section failed, per M1 `diagnostics.failedSections`), the Stage is the **earliest** Stage of that world consistent with the known fields, and its certainty is `partial`. When `finishedWorlds` itself is unknown, the Stage is `null` with certainty `unknown`: only Verdict blockers are shown (nothing else is ranked or rendered), plus "Can't tell where your account is on the route". `finishedWorlds` is computed outside Toolbox's `safeSection`, so a silent `false` never reaches `failedSections`. M2 therefore cross-checks it (TR-6a): a contradiction makes the certainty `partial`, never `certain`.
 - **FR-4** The Stage includes what the account needs to reach the next Stage (`next.needs`, one line per unmet condition), or `null` at W4-entry. The Stage `label` and `next.needs` are shown to the player as a small header label that opens `next.needs` on tap (D5); M10 owns the placement.
-- **FR-5** An account past the coverage of the 10 Stages (World 4 finished, or later) is flagged `coverage: 'beyond'` and treated as `W4-entry` (D2). It gets the "Not covered yet: Worlds 5–7" banner and only Stage-independent advice: Verdict blockers, the position-1 never-skip items and the position-3 free-value fills. No push, next-character, elite or world-tutorial Goal is produced, and no W4-entry System item from position 4 on.
+- **FR-5** An account past the coverage of the 10 Stages (World 4 finished, or later) is flagged `coverage: 'beyond'` and treated as `W4-entry` (D2). It gets a "Worlds 5–7" entry in M10's "Not covered yet" section and only Stage-independent advice: Verdict blockers, the position-1 never-skip items and the position-3 free-value fills. No push, next-character, elite or world-tutorial Goal is produced, and no W4-entry System item from position 4 on.
 
 **Meta Path and roster**
-- **FR-6** Each character is mapped to one Meta Path slot (TR-8): the highest-level character of each subclass line takes that line's slot in 1–6, a duplicate Squire line takes slot 8, a Journeyman takes slot 7, and other duplicates take slots 9–10 (contested) or "off-path".
+- **FR-6** Each character is mapped to one Meta Path slot (TR-8): the highest-level character of each subclass line takes that line's slot in 1–6, a duplicate Squire line takes slot 8, a Journeyman takes slot 7, and other duplicates take slots 9–10 (contested) or "off-path". A base-class character (Warrior, Archer, Mage) at level ≥ 10 tentatively holds the first missing line its class can become, in the #15 slot order (an Archer holds Hunter if Hunter is missing, else Bowman), so the roster does not ask for a new character it already has.
 - **FR-7** Each character gets the Roles of its class line from the Role entries (TR-9). A Role that the current Stage does not activate yet (e.g. Construction before W3) is listed as dormant, not active.
-- **FR-8** The roster lists the subclass lines the account is missing. The **next new character** is the missing line whose Role activates earliest at or after the current Stage. Ties follow the #15 slot order (Barbarian, Squire, Bowman, Hunter, Shaman, Wizard). When slots 1–6 are all filled, the next is Journeyman, then the 2nd Squire.
-- **FR-9** The next-character output states the family level now, the family level that opens the next slot (generated thresholds 8 / 30 / 70 / 150 / 300 / 500 / 750 / 1,100 / 1,500 / 5,000), and the gap. While the slot is closed it is an Account-section note, not a Goal. Once the slot is open it becomes a Goal whose Next Action is "Create a character; pick <base class> at level 10, then <subclass> at Speccius".
+- **FR-8** The roster lists the subclass lines the account is missing. The **next new character** is the missing line (not tentatively held, FR-6) whose earliest Role has the smallest `max(activeFrom, current Stage)`, so a line whose Role is already active comes first. Ties follow the #15 slot order (Barbarian, Squire, Bowman, Hunter, Shaman, Wizard). When slots 1–6 are all filled, the next is Journeyman, then the 2nd Squire.
+- **FR-9** The next-character output states the family level now, the family level that opens the next slot (generated thresholds 8 / 30 / 70 / 150 / 300 / 500 / 750 / 1,100 / 1,500 / 5,000), and the gap. While the slot is closed it is an Account-section note, not a Goal. Once the slot is open it becomes a Goal whose Next Action is "Create a character; pick <base class> at level 10, then <subclass> at Speccius". A line held tentatively by a base-class character is never the next new character; its subclass Goal (FR-15) covers it.
 - **FR-10** A duplicate Squire line is marked on-path ("2nd Squire → Divine Knight → Royal Guardian", PV 1.1). The Sub Class Swap Token is never suggested unless the duplicate's sibling subclass (8 ↔ 9, 20 ↔ 21, 32 ↔ 33) is the one the slot plan wants and the account does not already have it.
 
 **Pusher and push Goal**
-- **FR-11** The pusher is chosen by TR-10: among characters able to fight, the one with the highest Toolbox `finalKillsPerHour` on the frontier map, subject to the incumbent rule (D1). The choice is recomputed on every save.
-- **FR-12** The push Goal is position 2 of every Stage's Priority List. Its one Next Action is the next step of the current world's gate chain (TR-11) for the pusher: kill the remaining monsters for the next portal (with an ETA from `finalKillsPerHour`, ADR 0005), or the next boss-chain step (quest, boss, crystal, gatekeeper).
-- **FR-13** When no character can fight the frontier (every candidate at 0 final kills/h), the pusher is `null`, the push Goal's Next Action is "Nobody can fight <map> yet" with the strongest candidate's hit chance, and the Goal carries the wall reason (hit < 100% or survivability < 100%).
+- **FR-11** The pusher is chosen by TR-10: among characters able to fight the frontier **and able to reach it** (portal progress is per character), the one with the highest Toolbox `finalKillsPerHour` on the frontier map, subject to the incumbent rule (D1). The choice is recomputed on every save.
+- **FR-12** The push Goal is position 2 of every Stage's Priority List. Its one Next Action is the next step of the current world's gate chain (TR-11) for the pusher: kill the remaining monsters for the next portal (the pusher's `killsLeft` on the frontier door, with an ETA of `killsLeft ÷ finalKillsPerHour`, ADR 0005), or the next boss-chain step (quest, boss, crystal, gatekeeper).
+- **FR-13** When no character can fight the frontier (every candidate at 0 final kills/h), the pusher is `null`, the push Goal's Next Action is "Nobody can fight <map> yet" with the strongest candidate's hit chance, and the Goal carries the wall reason (hit < 100% or survivability < 100%). Because `finalKillsPerHour` is floored, "strongest" ranks by the unfloored `killsPerHour`, then hit chance, then survivability, then level, then lower index.
 - **FR-14** The pusher class choice is contested in Sources (Barbarian vs Squire in W1–W3, DK vs ES in W4, PV cross-cutting 2). The push Goal itself is not contested. Its Source popover shows both class Sources and states that ActiveOn picked by kill rate.
 
 **Meta Path Goals**
-- **FR-15** Subclass Goal (W2 and later): one per character still on a base class (classIndex 7, 19 or 31) at level ≥ 10, on that character's row.
-- **FR-16** World tutorial Goals: Hoggindaz 1–5 (W3-early onward, until any character completes Hoggindaz 5) and Gobo 1–5 (W4-entry). The Next Action names the character with the most progress, and the next quest by its in-game name.
+- **FR-15** Subclass Goal (W2 and later): one per character whose `gen.class-tree` tier is `base` (Warrior, Archer, Mage, Journeyman), on that character's row ("Take your subclass at Speccius"; Maestro for a Journeyman). A Beginner at level ≥ 10 gets "Pick your class" instead. A character with no `classIndex` (Toolbox leaves it unset when `CharacterClass` is falsy) is unknown: no Goal, and it counts as neither subclassed nor base for TR-5.
+- **FR-16** World tutorial Goal: Hoggindaz 1–5 (W3-early onward, until any character completes Hoggindaz 5). Gobo 1–5 at W4-entry is not a separate Goal: it is the first step of the W4 push (TR-11), so it shows once. The Next Action names the character with the most progress, and the next quest by its in-game name.
 - **FR-17** Elite Goal (W4-entry): one per subclass character without an elite, with DK and ES first (PV 6.2) and the rest in the unverified order BC, BB, BM, SB at confidence L.
 
 **Priority Lists**
 - **FR-18** Each Stage has one Priority List built from the shared frame (TR-13): position 1 never-skip, position 2 push, position 3 free-value fills, then the Stage's System items from position 4. Ties are allowed. There are no numeric weights anywhere.
-- **FR-19** All Goals from all modules are ranked with one comparator (TR-14): Verdict blockers first, then Priority List position, then fresh before Stale, then the arithmetic tie-breaks (cheapest, then closest Milestone, then most Goals per activity), then entry id, so the order is total and stable.
+- **FR-19** All Goals from all modules are ranked with one comparator (TR-14): Verdict blockers first, then Priority List position, then fresh before Stale, then the arithmetic tie-breaks (cheapest, by a fixed cost-unit order then amount; then closest Milestone; then most Goals per activity), then entry id, so the order is total and stable whatever order modules emit Goals in.
 - **FR-20** A Contested entry never ranks first in any list it appears in (a character's Goals or the Account section). It is moved directly below the first non-contested entry.
 - **FR-21** A Goal whose entry is not on the current Stage's list ranks after every listed position. CI warns when an entry's `appliesTo` names a Stage whose list does not reference it.
 - **FR-22** A Stage list never shows a Goal from a later Stage's System that is not unlocked yet. Each entry's own Detector gates on its unlock. The sanity check is that nothing from W3 fires on the W2-late fixture.
@@ -85,18 +85,20 @@ Acceptance criteria use the two private fixtures (gitignored, run locally only, 
 
 **S1. Know where my account is**
 As a player in a Play Session, I want ActiveOn to know my Stage without asking me, so that advice fits where I actually am.
-- Given the W2-late account / When the engine runs / Then the Stage is `W2-late` with certainty `certain`, matched by rule `w2-late`, with evidence finishedWorlds = [1], highest level 60, and Djonnut dialogue > 0 on 2 characters.
+- Given the W2-late account / When the engine runs / Then the Stage is `W2-late` with certainty `certain`, matched by rule `w2-late`, with evidence finishedWorlds = [1] and highest level 60 (≥ 50, which decides the rule). The Djonnut dialogue values are recorded in the evidence; 9999 values are not counted for the band rule (TR-5).
 - Given the W3-early account / When the engine runs / Then the Stage is `W3-early`, matched by rule `w3-early`, with evidence finishedWorlds = [1, 2], Death Note building level 0, 3D Printer level 4, and 0 characters with Hoggindaz 5 complete.
 - Given the W2-late account / When the engine runs / Then `next.needs` reads "A character talks to Constructor Crow (finishes World 2)". Given the W3-early account / Then it lists "Build the Death Note to level 1" and "Finish Hoggindaz 5 on any character", and does not list the 3D Printer (already level 4).
 - Given the W3-early account with only the `towers` parser section marked failed / When the engine runs / Then the Stage is still `W3-early` with certainty `certain`, because nobody has completed Hoggindaz 5, which decides the rule whatever the buildings are.
-- Given a copy of the W3-early account with Hoggindaz 5 marked complete and the `towers` section marked failed / When the engine runs / Then the Stage is `W3-early` (the earliest Stage still possible) with certainty `partial`, and `buildings.deathNote` and `buildings.printer3d` are named in the evidence as unknown.
-- Given Toolbox's public W7 save `highend.json` / When the engine runs / Then the Stage is `W4-entry` with `coverage: 'beyond'` (D2), the "Not covered yet: Worlds 5–7" banner is requested, and no push Goal, next-character Goal, elite Goal or position-4+ item is produced. Verdict blockers and position-1 and position-3 items still rank.
+- Given a copy of the W3-early account with Hoggindaz 5 marked complete and the `towers` section marked failed / When the engine runs / Then the Stage is `W3-early` (the earliest Stage still possible) with certainty `partial`, `buildings.deathNote` and `buildings.printer3d` are named in the evidence as unknown, and `next.needs` reads "Check the Death Note and 3D Printer levels (couldn't read them)" rather than asking to build them.
+- Given Toolbox's public W7 save `highend.json` / When the engine runs / Then the Stage is `W4-entry` with `coverage: 'beyond'` (D2), a "Worlds 5–7" entry is requested in M10's "Not covered yet" section, and no push Goal, next-character Goal, elite Goal or position-4+ item is produced. Verdict blockers and position-1 and position-3 items still rank.
 
 **S2. Know who should push**
 As a player in a Play Session, I want to be told which character opens the next portal, so that I don't spread my fighting across five half-pushers.
-- Given the W3-early account / When the engine runs / Then the frontier map is Thermonuclear Climb (the first W3 route map no character has cleared), the pusher is the **Squire 85** with 1,065 final kills/h there, the next-best candidate is the Barbarian 56 at 472, and the four others are below 30.
-- Given the W2-late account / When the engine runs / Then every W2 route map is cleared by at least one character, so the frontier falls back to the hardest W2 route map, Sands of Time (3,000 kills to open), and the pusher is the **Barbarian 60** at 1,680 final kills/h (Bowman 54: 1,496; Shaman 44: 1,368; Wizard 56: 1,193; Squire 43: 57).
-- Given either fixture / When I open the push Goal's Source / Then I see both pusher-class Sources (Barbarian: Idleon Academy and Reddit; Squire: the Incomplete Guide and the shnaps gist) and the line "ActiveOn picked by kill rate on <map>".
+- Given the W3-early account / When the engine runs / Then the frontier map is Thermonuclear Climb (the first door on the W3 route path that no character has cleared), the pusher is the **Squire 85** with 1,065 final kills/h there, the next-best candidate is the Barbarian 56 at 472, and the four others are below 30.
+- Given the W2-late account / When the engine runs / Then every door on the W2 route path is cleared by at least one character, so the frontier falls back to the path door with the highest requirement, Sands of Time (3,000 kills to open), and the pusher is the **Barbarian 60** at 1,680 final kills/h (Bowman 54: 1,496; Shaman 44: 1,368; Wizard 56: 1,193; Squire 43: 57).
+- Given either fixture / When I open the push Goal's Source / Then I see both pusher-class Sources (Barbarian: Idleon Academy and Reddit; Squire: the Incomplete Guide and the shnaps gist) and the line "ActiveOn picked by kill rate on <map>, as each character is currently equipped".
+- Given a synthetic W1 Account State with Froggy Fields cleared by one character / When the engine runs / Then the frontier is the next door on the W1 path to Amarok, never Poopy Sewers, Rats Nest, The Base of the Bark or Hollowed Trunk (side branches), and the route step does not ask for side-map kills.
+- Given a synthetic account where a character with 2× the incumbent's kills/h on the frontier has not cleared the doors before it / When the engine runs / Then that character is not the pusher (TR-10 step 2).
 
 **S3. Know the next step to the next world**
 As a player in a Play Session, I want the one next step that moves my account to the next world, so that I keep pushing without looking up the quest chain.
@@ -125,7 +127,7 @@ As a player in a Play Session, I want advice ordered the same way every time, so
 **S7. Get subclass and elite nudges**
 As a player in a Play Session, I want to be told when a character is due for its subclass or elite, so that no character stays a base class by accident.
 - Given the W2-late or the W3-early account / When the engine runs / Then no subclass Goal appears (every character is subclassed).
-- Given the W2-late account with a Lv 12 Archer (classIndex 19) added to the fixture copy / When the engine runs / Then that character's row has the Goal "Take your subclass at Speccius", and the Stage stays `W2-late` (see D3).
+- Given the W2-late account with a Lv 12 Archer (classIndex 19) added to the fixture copy / When the engine runs / Then that character's row has the Goal "Take your subclass at Speccius" at position 4 of the W2-late list (not last), the Stage stays `W2-late` (see D3), and the next-character note no longer asks for a Hunter while the Archer holds that line (FR-6).
 
 ## 5. Technical requirements
 
@@ -140,7 +142,11 @@ As a player in a Play Session, I want to be told when a character is due for its
   - `roles.ts` (`roleOwnersOf`, `visitHints`).
 
   Each is a pure function of `(state: AccountState, kb: KnowledgeBase, now: number)`. None imports `toolbox-parsers`. None reads the clock, IndexedDB or the network.
-- **TR-2** The only Toolbox call M2 needs, `getMaxDamage` on a clone moved to the frontier map, runs **inside the parse worker**, right after the parse, and its result is written into the Account State as `account.frontier` (TR-3). The engine stays pure and synchronous ([#14](https://github.com/YassSoliman/idleon-forge/issues/14) item 4). M1's `what-if` message stays reserved for M5's open-ended queries. The clone is the one verified in `research/hypothetical-math` §2. It swaps `mapIndex`, `targetMonster`, `afkType`, `afkTarget` and `currentMap`, and it is contract-tested with the identity check (the clone on a character's own map equals the direct call).
+- **TR-2** The only Toolbox call M2 needs, `getMaxDamage` on a clone moved to the frontier map, runs **inside the parse worker**, right after the parse, and its result is written into the Account State as `account.frontier` (TR-3). The engine stays pure and synchronous ([#14](https://github.com/YassSoliman/idleon-forge/issues/14) item 4). M1's `what-if` message stays reserved for M5's open-ended queries. The clone is the one verified in `research/hypothetical-math` §2. It swaps `mapIndex`, `targetMonster`, `afkType`, `afkTarget` and `currentMap`, and it is contract-tested with the identity check (the clone on a character's own map equals the direct call), **for characters currently on a fighting map only**: the research found it fails for a skilling character whose saved target differs from the map's enemy list. The clone was verified at `f1e4240`; the check is re-run at the pin `6c37e3d` (whose `damage.ts` changed in 2.3.540) before M2 ships.
+
+  Kill rates come out **as each character is currently equipped**: the active talent preset, attack bar, cards, obols, gear and food still feed `getKillsPerHour`. A character set up for skilling scores lower than it would after re-equipping. M2 accepts this bias (it favours who is already fighting, which matches the incumbent rule) and says so in the push Goal's Source line (S2).
+
+  The step runs on any parse in which the damage-relevant sections parsed (the sections `getMaxDamage` reads: at least `alchemy`, `stamps`, `cards`, `obols`, `talents`, `statues`, `prayers`, `postOffice`; the exact list is taken from `damage.ts` at the pin and written into `FIELD_SECTIONS` for `frontier`). If one of those failed, or the call throws (it is wrapped in try/catch and reported through `diagnostics`), `frontier` is `null` and the push Goal says why (§6). Toolbox's `{}` fallbacks are never used for a kill rate. It runs inside M1's frozen-clock window, so `now` is the same as the parse's.
 
 ### Data
 
@@ -148,7 +154,7 @@ As a player in a Play Session, I want to be told when a character is due for its
 
   ```ts
   // additions to CharacterState
-  classIndex: number;                       // Toolbox characters[].classIndex
+  classIndex: number | null;                // Toolbox characters[].classIndex; null when Toolbox leaves it unset (falsy CharacterClass)
   /** Only the gate NPCs M2 reads; never the whole dialogue map. 9999 is kept as-is (Toolbox reads it as "met"). */
   npcDialog: Partial<Record<GateNpc, number>>;
   /** Toolbox characters[].nextPortal for the character's current map. */
@@ -156,32 +162,37 @@ As a player in a Play Session, I want to be told when a character is due for its
 
   // additions to AccountSummary
   familyLevel: number | null;               // account.accountLevel (sum of class levels)
-  buildings: { deathNote: number | null; printer3d: number | null; atomCollider: number | null }; // account.towers.data[name].level
+  /** account.towers.data is an ARRAY of { name, level }: read with data.find(t => t.name === 'Death_Note'). A tower absent from the array is level 0; null only when the towers section failed. */
+  buildings: { deathNote: number | null; printer3d: number | null; atomCollider: number | null };
   saltsUnlocked: boolean[] | null;          // account.refinery.salts[i].unlocked, index 5 = Nullo
   /** Per gate quest: indices of characters that completed it (Toolbox getQuests `completed[]`), and who stands on it now (`progress[]`). */
   gateQuests: Record<GateQuestId, { completedBy: number[]; inProgressBy: number[] }>;
   /** Counts in storage plus every inventory: Crystal1 Desert Topaz, Crystal2 Glacier Quartz, Crystal3 Galaxial Amethyst. */
   worldCrystals: { desertTopaz: number; glacierQuartz: number; galaxialAmethyst: number } | null;
-  /** Computed in the worker (TR-2). Null before W1 portals exist or when the section failed. */
+  /** Computed in the worker (TR-2). Null before W1 portals exist, when a damage-relevant section failed, or when the call threw. */
   frontier: Frontier | null;
 
+  /** Only the NPCs a TR-5 rule or TR-6a check reads. Generated from gen.world-gates plus the two band NPCs, so a patch rename shows in the Knowledge Base diff. */
   export type GateNpc = 'Builder_Bird' | 'Constructor_Crow' | 'Carpenter_Cardinal'
-    | 'Dog_Bone' | 'Djonnut' | 'Bellows' | 'Speccius' | 'Postboy_Pablob';
+    | 'Dog_Bone' | 'Djonnut';
   export type GateQuestId = `${'Dog_Bone' | 'Djonnut' | 'Hoggindaz' | 'Bellows' | 'Gobo'}${number}`;
 
   export interface Frontier {
     world: number;                          // the account's currentWorld
     mapIndex: number;
     mapName: string;                        // Toolbox name, e.g. "Thermonuclear_Climb"
+    door: number;                           // door index on that map (the W3 path leaves The Stache Split by door 1)
     kind: 'uncleared' | 'hardest-cleared';  // TR-10 step 1 or its fallback
-    /** Route maps of this world each character has cleared (Toolbox hasClearedMap). */
-    routeCleared: Array<{ characterIndex: number; count: number; of: number }>;
+    /** Doors on this world's route path each character has cleared, in path order. A door is cleared when the raw KillsLeft2Advance[map][door] <= 0 (the game's own rule; Toolbox hasClearedMap is the door-0 case). */
+    routeCleared: Array<{ characterIndex: number; count: number; of: number; reachesFrontier: boolean }>;
     /** One row per character with level > 0; zeros kept so "nobody can fight" is visible. */
     fights: Array<{
       characterIndex: number;
       finalKillsPerHour: number;
+      killsPerHour: number;                 // unfloored, for FR-13 ordering only
       hitChance: number;                    // 0..1
-      survivability: number;                // 0..1
+      survivability: number;                // 0..1, converted in the worker from Toolbox's 0..100
+      killsLeft: number;                    // door requirement minus this character's kills on the frontier door
     }>;
   }
   ```
@@ -204,7 +215,7 @@ As a player in a Play Session, I want to be told when a character is due for its
     certainty: 'certain' | 'partial' | 'unknown';
     coverage: 'covered' | 'beyond';
     rule: string | null;                    // e.g. "w2-late"
-    evidence: Array<{ field: string; value: unknown; known: boolean }>;
+    evidence: Array<{ field: string; value: number | boolean | number[] | null; known: boolean }>; // never strings, so no name can enter
     next: { stage: StageId; needs: string[] } | null;
     provenance: Provenance;                 // M10 TR-2 shape: { entryIds, fields }
   }
@@ -212,7 +223,7 @@ As a player in a Play Session, I want to be told when a character is due for its
 
   `EngineResult.stage` (M10 TR-2) is `{ id, label }` from this result. `id` is `"unknown"` when null.
 
-- **TR-5** Stage rules **[from #26 §1.2, with the [changed] items marked]**. The rules are evaluated top to bottom and the **last** rule that holds wins. Worlds are mutually exclusive through `finishedWorlds`, so "last wins" only orders the bands inside a world. `maxLv` = max character level. "Subclassed" = classIndex not in {1, 7, 19, 31} (Beginner and the three base classes). A character counts as a pending base class only at level ≥ 10, because before that it cannot subclass.
+- **TR-5** Stage rules **[from #26 §1.2, with the [changed] items marked]**. The rules are evaluated top to bottom and the **last** rule that holds wins. Worlds are mutually exclusive through `finishedWorlds`, so "last wins" only orders the bands inside a world. `maxLv` = max character level. "Subclassed" = `gen.class-tree` tier is `subclass`, `elite` or `master` (defined positively; Journeyman is `base`, Maestro is `subclass`). A character with `classIndex` null counts as neither. "Dialogue > 0" in the band rules (`w1-late`, `w2-late`) means 0 < value < 9999: 9999 appears on characters that never pushed, so it is not band evidence. `finishedWorlds` keeps Toolbox's semantics (any truthy gatekeeper dialogue, 9999 included), and TR-6a cross-checks it.
 
   | Rule | Holds when |
   |---|---|
@@ -227,9 +238,10 @@ As a player in a Play Session, I want to be told when a character is due for its
   | `w3-late` | W2 finished, not W3, and (Nullo unlocked (`saltsUnlocked[5]`) **or Galaxial Amethyst > 0**) **[changed]** |
   | `w4-entry` | W3 finished |
 
-  The [changed] W3-late clause closes #26 Q2: Toolbox `items.json` at `6c37e3d` names `Crystal3` = Galaxial_Amethyst (and `Crystal2` = Glacier_Quartz, `Crystal1` = Desert_Topaz). The thresholds 14 / 28 / 30 / 50 are not written into the rule code. The Stage entry references them as generated facts (`gen.town-unlocks.stamps`, `.tasks`, `gen.obol-altar.level`, `gen.town-unlocks.post-office`), so a patch that moves one is visible in the Knowledge Base diff.
+  The [changed] W3-late clause closes #26 Q2: Toolbox `items.json` at `6c37e3d` names `Crystal3` = Galaxial_Amethyst (and `Crystal2` = Glacier_Quartz, `Crystal1` = Desert_Topaz). The thresholds 14 / 28 / 30 / 50 are not written into the rule code. The Stage entry references them by id (`gen.town-unlocks.stamps`, `.tasks`, `gen.obol-altar.level`, `gen.town-unlocks.post-office`). They live in game code (N.js), not in Toolbox's data files, so until M11 can generate them from exported parser constants they are **authored tier-2 facts** with the W1 dossier as Source and a patch tag (TR-7). Either way a change is one entry, visible in the Knowledge Base diff.
 
-- **TR-6** Certainty (FR-3). Each rule declares the fields it reads. When a rule's outcome depends on an unknown field, it is evaluated both ways. When the two answers differ, the earliest Stage of the world that is still possible is taken, certainty becomes `partial`, and the unknown fields go into `evidence` with `known: false`.
+- **TR-6** Certainty (FR-3). Each rule is written as predicates over the fields it reads (e.g. "Death Note ≥ 1"). A predicate over an unknown field is unknown. The engine enumerates every true/false assignment of the unknown predicates (at most 2^k, k ≤ 4 in practice), collects the set of Stages they produce, and takes the earliest. When the set has more than one Stage, certainty is `partial` and the unknown fields go into `evidence` with `known: false`. A `next.needs` line that depends on an unknown predicate reads "Check <thing> (couldn't read it)" instead of an instruction.
+- **TR-6a** `finishedWorlds` cross-check (FR-3). It must be monotonic (World N finished implies every earlier world finished), and evidence of a later world must agree with it: kills on a map of world N+1, or a completed gate quest of world N+1, imply world N is finished. On a contradiction the Stage takes the later world the evidence supports, certainty is `partial`, and the conflict goes into `evidence`. Open verification before build: whether talking to a gatekeeper before handing in its crystal already sets its dialogue > 0 (all three stand in their own world's town). The first W1 save checked in game is the falsifier.
 
 - **TR-7** Knowledge Base entries in the #11 shape (YAML, compiled to JSON, schema-checked in CI by M11). **Authored** entries (judgment; ADR 0007):
 
@@ -253,11 +265,11 @@ As a player in a Play Session, I want to be told when a character is due for its
   | id | From (Toolbox at the pin) |
   |---|---|
   | `gen.class-tree` | classIndex → class name, line, tier (base / subclass / elite / master), swap sibling (`classPromotions.json`; the N.js `ClassSwap` pairs per the character-builds dossier) |
-  | `gen.family-slots` | family level per character slot 2–11 (wiki Character_Creation rev 2026-10-07 and Toolbox's `newCharacters` alert, until a data field is found; tier 2, see Red-team R8) |
-  | `gen.world-gates` | gatekeeper NPC per world (`quests.ts` `isWorldFinished`), the crystal item per world gate (`items.json` Crystal1–3), the boss per world |
-  | `gen.world-routes` | per world, the fighting maps with a first-door kill requirement > 0, in map-index order, with that requirement (`shared-data.json` `mapPortals`, `getFilteredPortals`) |
+  | `gen.family-slots` | family level per character slot 2–11. **Authored tier 2 for now** (wiki Character_Creation rev 2026-10-07 and Toolbox's `newCharacters` alert in `utility/dashboard/account.js`), until a data field is found; kept under this id so the switch to generated changes no reference |
+  | `gen.world-gates` | gatekeeper NPC per world (hard-coded in `quests.ts` `isWorldFinished`, so generated from that parser constant once M11 exports it; authored tier 2 until then), the crystal item per world gate (`items.json` Crystal1–3), the boss and boss map per world |
+  | `gen.world-routes` | per world, the **route path**: the shortest door-by-door path through `shared-data.json` `mapPortalDestinations` from the world's town to its boss map, each step `{ mapIndex, door, requirement }` from `mapPortals[map][door]`. Side branches (W1 Poopy Sewers, Rats Nest, The Base of the Bark, Hollowed Trunk; W3 Crystal Basecamp; W2 Djonnuttown) are not on the path. Requires M11's `portals` generator to read `mapPortalDestinations` |
   | `gen.gate-quests` | quest ids, in-game names and step requirements for Dog Bone, Djonnut, Hoggindaz, Bellows and Gobo (`quests.json`) |
-  | `gen.town-unlocks`, `gen.obol-altar` | the highest-class-level gates 14 / 18 / 22 / 28 / 50 and 30 (the W1 dossier's N.js thresholds) |
+  | `gen.town-unlocks`, `gen.obol-altar` | the highest-class-level gates 14 / 18 / 22 / 28 / 50 and 30 (the W1 dossier's N.js thresholds). Not in Toolbox data: authored tier 2 until M11 can read them from parser constants |
 
   Example authored entry (shape only; field names follow #11 item 4):
 
@@ -294,24 +306,27 @@ As a player in a Play Session, I want to be told when a character is due for its
 - **TR-9** Roles **[from #26 §4.2]**: Barbarian line (pusher candidate, AFK fighting, Fishing; BB Cooking from W4); Squire line (pusher candidate, Construction builder, Refinery Throttle; DK Rift 8); Bowman line (Catching, Archer-line Smithing); Hunter line (Trapping with Eagle Eye, Tower Defence; BM Breeding); Shaman line (Alchemy brewer; BC Lab split point); Wizard line (Worship with Charge Syphon, prayer slots, Choppin; ES pusher candidate from W4); Journeyman line (Maestro: 3D Printer sample size, Printer Go Brrr). `activeFrom`: Alchemy W2-early; Catching W2-early; Construction, Refinery, Worship, Trapping and prayer slots W3-early; Lab, Cooking and Breeding W4-entry. A Role is attached to the line's highest-level character, plus the 2nd-Squire Role to the slot-8 character.
 
 - **TR-10** Pusher rule **[changed: #26 says "highest `finalKillsPerHour` on the next unopened map" and leaves "next map" undefined]**:
-  1. **Frontier map:** the first map in `gen.world-routes[currentWorld]` that no character has cleared (Toolbox `hasClearedMap`). If every route map is cleared (the boss-chain part of a world), use the route map with the highest first-door requirement (`kind: 'hardest-cleared'`).
-  2. **Candidates:** characters with level > 0 and `finalKillsPerHour > 0` on the frontier clone. Their current AFK type does not matter: the clone swaps `afkType`.
-  3. **Incumbent:** the candidate with the most route maps cleared in the current world. Ties go to the higher `finalKillsPerHour`.
-  4. **Pusher:** the candidate with the highest `finalKillsPerHour`, unless the incumbent is within the margin of D1, in which case the incumbent. Remaining ties go to the higher level, then the lower index.
+  1. **Frontier:** the first door on the route path `gen.world-routes[currentWorld]` that no character has cleared. If every door on the path is cleared (the boss-chain part of a world), use the path door with the highest requirement (`kind: 'hardest-cleared'`).
+  2. **Candidates:** characters with level > 0, `finalKillsPerHour > 0` on the frontier clone, and **`reachesFrontier`**: they have cleared every path door before the frontier door (portal progress is per character, `KillsLeft2Advance`). Their current AFK type does not matter: the clone swaps `afkType`.
+  3. **Incumbent:** the candidate with the most path doors cleared. Ties go to more kills on the frontier door, then the higher level, then the lower index (never to kill rate, so the incumbent is not just the fastest).
+  4. **Pusher:** let C be the candidate with the highest `finalKillsPerHour` (ties: higher level, then lower index). The pusher is C if `C.finalKillsPerHour ≥ 1.25 × incumbent.finalKillsPerHour`, otherwise the incumbent (D1).
+
+  An unreachable character that would be much faster is not offered as "catch up first"; whether it should be is open (Red-team F2).
 
   This needs no save history, so it stays a pure function of one Account State.
 
-  Fixture check (TR-2 clone at `6c37e3d`, frozen clock): W3-early → frontier Thermonuclear Climb (`uncleared`); Squire 85 = 1,065, Barbarian 56 = 472, the rest < 30; the Squire 85 is also the incumbent. W2-late → frontier Sands of Time (`hardest-cleared`); Barbarian 60 = 1,680, Bowman 54 = 1,496, Shaman 44 = 1,368, Wizard 56 = 1,193, Squire 43 = 57; the incumbent (Barbarian 60 and Wizard 56 have both cleared every route map; the tie goes to the Barbarian) is also the fastest.
+  Fixture check (TR-2 clone at `6c37e3d`, frozen clock; to re-run on the path definition above before merge of the code): W3-early → frontier Thermonuclear Climb (`uncleared`); Squire 85 = 1,065, Barbarian 56 = 472, the rest < 30; the Squire 85 is also the incumbent. W2-late → frontier Sands of Time (`hardest-cleared`); Barbarian 60 = 1,680, Bowman 54 = 1,496, Shaman 44 = 1,368, Wizard 56 = 1,193, Squire 43 = 57; the incumbent (Barbarian 60 and Wizard 56 have both cleared every path door; the tie goes on frontier kills, then level, to the Barbarian) is also the fastest.
 
 - **TR-11** Gate chain per world **[from #26 §3 position 2]**. The first unmet step is the push Goal's Next Action:
   - **W1:** route portals → Dog Bone quests on the pusher → Amarok → Desert Topaz (Crystal1) → Builder Bird.
   - **W2:** route portals → Djonnut 1–2 on the pusher → Efaunt → Glacier Quartz (Crystal2) → Constructor Crow.
   - **W3:** route portals → Chizoar → Galaxial Amethyst (Crystal3) → Hoggindaz 9 → Carpenter Cardinal.
-  - **W4-entry:** Gobo 1–5 first ("portals onward are blocked without it", PV 6.1), then route portals to map 154 for the elites.
+  - **W4-entry:** Gobo 1–5 first ("portals onward are blocked without it", PV 6.1), then route portals to map 154 for the elites. The W4 frontier is capped at map 154: past it the push Goal stops (beyond coverage, D2).
 
   A step is met from Account State facts:
-  - route: the pusher has cleared every route map;
-  - quest: in `gateQuests[...].completedBy`;
+  - route: the pusher has cleared every door on the route path;
+  - quest: the pusher is in `gateQuests[...].completedBy` (the chain is "on the pusher");
+  - boss: met when the world's crystal count > 0 (the crystal is the boss's drop; there is no separate boss-kill field);
   - crystal: count > 0;
   - gatekeeper: the world is finished.
 
@@ -334,7 +349,7 @@ As a player in a Play Session, I want to be told when a character is due for its
   - **position 2:** `metapath.goal.push`;
   - **position 3, free-value fills:** the M6 and M8 entries 3a–3h (obols, cards, big bubbles, tools, second preset, constellation, Parallel Slot fills, unspent points).
 
-  A Stage list has the shape `{ stage, extends: priority.frame, positions: [{ pos: 4, entries: [...] }, ...] }`. The same entry may appear at only one position per list (a CI error otherwise). The Meta Path Goals sit at authored positions: subclass at W2-early 4, world tutorial at W3-early 4, next-character at W2-late 9, elite at W4-entry 2 (tied with Gobo, as #26 lists them).
+  A Stage list has the shape `{ stage, extends: priority.frame, positions: [{ pos: 4, entries: [...] }, ...] }`. The same entry may appear at only one position per list (a CI error otherwise). The Meta Path Goals sit at authored positions in **every** Stage list their `appliesTo` names, so none ever falls to +∞ (FR-21): subclass at position 4 from W2-early to W4-entry; the W3 tutorial at position 4 from W3-early to W3-late; next-character at the last position of each list from W2-late on (#26's W2-late 9); elite at W4-entry position 4. #26's "elite at W4-entry 2, tied with Gobo" meant the second item of the W4 section; frame position 2 is the push, which now carries Gobo (TR-11), and Stage lists start at 4.
 
 - **TR-14** Comparator, a total order (FR-19):
 
@@ -355,7 +370,7 @@ As a player in a Play Session, I want to be told when a character is due for its
   1. `blocker` first;
   2. lower list position (unlisted = +∞);
   3. fresh before Stale;
-  4. cheaper first, compared only when the cost units match;
+  4. cheaper first: by the fixed unit order `none` < `hours` < `coins` < `gems` (null cost after `gems`), then by amount within a unit. This keeps the order transitive whatever the emit order;
   5. smaller `milestoneEtaSeconds` first (null last);
   6. more `goalsServed` first;
   7. `entryId`, then the subject key, lexicographically.
@@ -366,7 +381,7 @@ As a player in a Play Session, I want to be told when a character is due for its
 
 ### Performance
 
-- **TR-15** The worker's frontier step (TR-2) takes at most 60 ms p95 for an 11-character account: one `getMaxDamage` per character on one map, about 1.6 ms each per the spike's 0.5 s for 6 × 51. It runs only after a clean parse, inside M1's 1.5 s parse budget. The engine-side M2 Detectors take at most 5 ms together per run, with no allocation proportional to save size.
+- **TR-15** The worker's frontier step (TR-2) takes at most 60 ms p95 for an 11-character account: one `getMaxDamage` per character on one map, estimated from the spike's 0.5 s for 6 × 51, but that sweep reused map-independent stats across maps, so the per-character setup cost is not in the estimate. The budget is to be benchmarked at the pin before the code PR merges; if it fails, the map-independent stats are computed once per character. It runs only after a clean parse, inside M1's 1.5 s parse budget. The engine-side M2 Detectors take at most 5 ms together per run, with no allocation proportional to save size.
 - **TR-16** Stage and roster results are memoised per `(lastCloudSave, knowledgeVersion)` within a tab. A re-render never recomputes them.
 
 ### Security and privacy
@@ -377,7 +392,10 @@ As a player in a Play Session, I want to be told when a character is due for its
 ### Tests
 
 - **TR-19** Vitest, in `packages/engine/test/meta-path/`:
-  - a rule-table test per Stage boundary on synthetic Account States (each rule's true/false edge, including level 9 vs 10 base classes and the 9999 dialogue value);
+  - a rule-table test per Stage boundary on synthetic Account States (each rule's true/false edge, including a Beginner at level 10 who never took a class, a character with `classIndex` null, a Journeyman vs a Maestro, and a 9999 Djonnut dialogue, which must **not** trigger `w2-late` on its own);
+  - the TR-6 enumeration with two unknown predicates, and the TR-6a contradiction cases (World 2 finished but World 1 not; kills on a W2 map with World 1 not finished);
+  - the route path on a synthetic W1 account (S2), the reachability rule, and the 1.25× boundary exactly (equal switches, just below keeps the incumbent);
+  - comparator transitivity on mixed cost units (FR-19);
   - the S1–S7 assertions on both private fixtures (local only) and on the scrubbed W2 save (CI);
   - the pusher identity check (TR-2);
   - a determinism test (FR-19);
@@ -390,24 +408,26 @@ As a player in a Play Session, I want to be told when a character is due for its
 |---|---|
 | **Loading** (no Account State yet) | M2 does not run. M10 shows its loading state. No Stage is shown. |
 | **Broken parse / empty account** | M1 never hands over an Account State, so M2 never runs on it (#10 item 13). The last good Stage is not reused for new advice. |
-| **Partial parse** (a section failed) | TR-6: earliest consistent Stage, certainty `partial`, unknown fields named. If `frontier` is null, the push Goal shows "Can't compute who should push right now" and no pusher, and the rest of the list ranks normally. |
-| **`finishedWorlds` unknown** | Stage `null`, certainty `unknown`. Only Verdict blockers rank (position is +∞ for everything else), with the banner "Can't tell where your account is on the route". |
+| **Partial parse** (a section failed) | TR-6: earliest consistent Stage, certainty `partial`, unknown fields named. The frontier is still computed unless a damage-relevant section failed (TR-2). If `frontier` is null, the push Goal shows "Can't compute who should push right now" with the failed section named, and no pusher, and the rest of the list ranks normally. |
+| **`finishedWorlds` unknown** | Stage `null`, certainty `unknown`. Only Verdict blockers are shown; nothing else is rendered. The banner "Can't tell where your account is on the route" is a new M10 banner kind (§7). |
+| **`finishedWorlds` contradicts other evidence** (e.g. the only character who talked to the gatekeeper was deleted) | TR-6a: the later world the evidence supports, certainty `partial`, the conflict in the evidence. |
 | **Stale patch** (save's game version newer than the parser pin) | M1 shows its banner. M2 still runs. Meta Path entries verified on an older patch are marked Stale and rank below fresh ones at the same position. The Stage itself is never Stale-badged, because its facts are generated at the pin. |
 | **Game moves a gate** (e.g. a threshold changes) | The generated fact changes at the next parser re-sync. The Knowledge Base diff shows which Stage rule moved. The golden snapshots show the effect before merge. |
 | **Offline** | The engine runs on the last Account State from history. M2 is pure, so the output is identical to before. |
 | **Multiple tabs** | Each tab computes the same Stage from the same save, with nothing shared. |
 | **Second account in the same browser** | One account per browser (#10 item 16). Memoisation (TR-16) keys on `uid` through the history key, so nothing carries over. |
 | **New account (W1-early, 1 character)** | Stage W1-early. The pusher is the only character. The frontier is the first W1 route map. Next character: Barbarian line if missing, otherwise the next of the #15 order, with "slot 2 opens at family level 8". |
-| **Character deleted** | Max level and roster are recomputed from the save, so the Stage may drop a band (e.g. W1-mid to W1-early). That is the honest reading. No history is used to hold it. |
-| **New base-class character in W2** | The Stage does not regress, by the D3 rule. The character's subclass Goal fires on its row. |
+| **Character deleted** | Max level and roster are recomputed from the save, so the Stage may drop a band (e.g. W1-mid to W1-early). That is the honest reading. No history is used to hold it. If the deleted character was the only one with a gatekeeper dialogue or a gate quest, TR-6a keeps the world and marks it `partial`. |
+| **New base-class character in W2** | The Stage does not regress, by the D3 rule. The character's subclass Goal fires on its row at position 4, and it tentatively holds its missing line (FR-6). |
+| **The fastest character cannot reach the frontier** | Not a candidate (TR-10 step 2). The pusher is the best reachable candidate. |
 | **Base class below level 10** | Not counted as pending for the Stage. No subclass Goal (it cannot subclass yet). |
-| **`npcDialog` = 9999** | Treated as "met", the same as Toolbox `isWorldFinished`. Its exact meaning is unverified (both fixtures show it on characters that never pushed), so no M2 rule reads it as quest progress. Quest progress comes from `gateQuests` only. |
+| **`npcDialog` = 9999** | Counts as "met" for `finishedWorlds` only, as Toolbox `isWorldFinished` does (TR-6a cross-checks it). The band rules (`w1-late`, `w2-late`) ignore it (TR-5): its exact meaning is unverified and both fixtures show it on characters that never pushed. Quest progress comes from `gateQuests` only. |
 | **Every candidate at 0 kills/h on the frontier** | FR-13: pusher `null`, and the push Goal names the wall (hit chance or survivability) for the best candidate. |
 | **Pusher is AFK skilling, or on an old map** | Still the pusher. Whether its current activity is worthwhile is M4's call, and the move is M5's. M2 never moves characters. |
 | **Pusher also holds the Construction Role** (W3 fixture: Squire 85) | No conflict: the cog seat is a Parallel Slot and coexists with fighting (glossary). |
 | **Two characters tie on everything** | TR-10 step 4, then TR-14 step 7: deterministic by level, then index. |
-| **Account past W4-entry, or a W5–W7 public save** | Treated as `W4-entry` with `coverage: 'beyond'` and the "Not covered yet: Worlds 5–7" banner (D2). Only Verdict blockers and positions 1 and 3 rank. |
-| **Duplicate Barbarian when the account wants a 2nd Squire** | The only case where the Swap Token is suggested (FR-10), as a Goal at W2-late or later with the sibling rule shown in its why. |
+| **Account past W4-entry, or a W5–W7 public save** | Treated as `W4-entry` with `coverage: 'beyond'` and a "Worlds 5–7" entry in M10's "Not covered yet" section (D2). Only Verdict blockers and positions 1 and 3 rank. |
+| **Duplicate of a line whose swap sibling is missing** (e.g. two Barbarians and no Squire) | The only case where the Swap Token is suggested (FR-10), as a Goal at W2-late or later with the sibling rule shown in its why. A duplicate Barbarian on an account that already has a Squire gets no token suggestion (the earlier wording here contradicted FR-10; FR-10 wins). Two Squires and no Barbarian: open question, see Red-team F17; until ruled, no token suggestion for the slot-8 Squire. |
 | **11 characters** | Slot 11 is Beginner by plan. An 11th character with a class is "off-path" with no advice, unless it is a Journeyman or Squire filling an empty plan slot. |
 
 ## 7. Dependencies
@@ -415,8 +435,8 @@ As a player in a Play Session, I want to be told when a character is due for its
 | Module | M2 needs from it | M2 gives it |
 |---|---|---|
 | **M1 Sync & Account State** | The TR-3 fields through its TR-11 growth process. The frontier step in the parse worker (TR-2), after the clean parse, before `postMessage`. `diagnostics.failedSections` and `isKnown()` for certainty. | `stage.id` for `reportContext`. |
-| **M11 Knowledge tooling** | The YAML schema with the `meta-path` and `priority-list` entry types. The generators for the TR-7 generated entries. The CI checks (unknown Detector id, an entry at two positions, `appliesTo` without a list reference, every entry has a Source). | Entry ids and Detector ids to register. |
-| **M10 Now screen UI** | Where to show the Stage header label and its `next.needs` tap (D5), the push Goal, roster notes and the "Not covered yet: Worlds 5–7" banner (D2). | `EngineResult.stage`, the ranked order through `compareGoals`, Account-section notes. |
+| **M11 Knowledge tooling** | The YAML schema with the `meta-path` and `priority-list` entry types. The generators for the TR-7 generated entries, which M11's MVP list does not have yet: `world-routes` (its `portals` generator must read `mapPortalDestinations`), `world-gates`, `gate-quests`, `class-tree`, and exported parser constants for `town-unlocks`, `obol-altar` and the gatekeepers. Until then those are authored tier-2 entries. The CI checks (unknown Detector id, an entry at two positions, `appliesTo` without a list reference, every entry has a Source). | Entry ids and Detector ids to register. |
+| **M10 Now screen UI** | Where to show the Stage header label and its `next.needs` tap (D5), the push Goal, roster notes the "Worlds 5–7" entry in its "Not covered yet" section (D2), and a new banner kind "Can't tell where your account is on the route" (FR-3; M10's TR-11 banner order does not have it yet). | `EngineResult.stage`, the ranked order through `compareGoals`, Account-section notes. |
 | **M13 Suggestions** | — | the Stage id in `SuggestionContext`. |
 | **M3 AFK Safety** | Which Goals are Verdict blockers (category `blocker`). | Stage, so blockers can filter by `appliesTo`. |
 | **M4 Purpose & Milestones** | `goalsServed` per activity for tie-break 6. | Stage, Roles, the pusher (the push Goal is a Purpose for the pusher). |
@@ -430,7 +450,7 @@ As a player in a Play Session, I want to be told when a character is due for its
 Ruled by Yasser on 2026-10-17 (PR #48): every recommendation accepted as written, with D4 superseded by M6-D4.
 
 - **D1. Pusher stickiness: keep the incumbent unless a challenger has at least 25% more final kills/h on the frontier map.** Why: on maps everyone one-shots, Toolbox's kill rates sit within a few percent (the W2 fixture's Djonnuttown: four characters within 6%, 874–929/h), so a pure argmax would flip the pusher between saves on noise and tell the player to move portal progress to another character. 25% is far above that noise and leaves both fixtures' real choices unchanged (Squire 85 at 1,065 vs 472/h; Barbarian 60 at 1,680 vs 1,496/h). The margin is an authored number in `metapath.pusher-rule`, tunable in one place. Applied in TR-10.
-- **D2. Accounts past W4-entry are treated as W4-entry with a "Not covered yet: Worlds 5–7" banner.** They still get Stage-independent advice (Verdict blockers, position-1 never-skip, position-3 free-value fills), but no push, next-character, elite or world-tutorial Goal and no position-4+ System items. Why: it keeps the 10 Stage values the glossary and #26 define, needs no new list, still helps W5–W7 saves with the time-gated and empty-slot items, and is honest about the gap through #11 item 14's "Not covered yet". Applied in FR-5, S1, §6.
+- **D2. Accounts past W4-entry are treated as W4-entry with a "Not covered yet: Worlds 5–7" notice** (an entry in M10's "Not covered yet" section, Red-team F19). They still get Stage-independent advice (Verdict blockers, position-1 never-skip, position-3 free-value fills), but no push, next-character, elite or world-tutorial Goal and no position-4+ System items. Why: it keeps the 10 Stage values the glossary and #26 define, needs no new list, still helps W5–W7 saves with the time-gated and empty-slot items, and is honest about the gap through #11 item 14's "Not covered yet". Applied in FR-5, S1, §6.
 - **D3. W2-early is "maxLv < 30 or no character is subclassed yet".** New base-class characters are handled by the per-character subclass Goal at every Stage. Why: the Stage is account-level, with per-character differences coming from filters (glossary). One new character should not reshuffle the whole account's priorities, and this keeps the Stage a pure function of one save. It matches #26 on both fixtures. Applied in TR-5, FR-15, S7.
 - **D4. Skill-minigame plays are not a never-skip item (superseded by M6-D4).** They are shown only when they would be lost before the Expected Return **and** a highscore Milestone is open, as an "If you have time" item, not at position 1 and not in the ranked list. Seconds-long claims (Darts, the Random Event) stay at position 1. Why: a play is worth minutes of AFK harvest; its value is in one-time Milestones, and each takes active minutes, so ranking them above the push would let a 15-minute session go to minigames. M6 owns the entry and its gate. Applied in TR-13.
 - **D5. The Stage is shown as a small label in the Now-screen header ("World 2 · late"); a tap shows `next.needs`.** Why: one line explains why the advice changes when the player crosses a gate and lets a player spot a wrong Stage at a glance, which then goes through Report this. A full Account-section line every session is noise. M10 owns the placement; M2 provides `label` and `next.needs`. Applied in §1, FR-4, §7.
@@ -450,7 +470,7 @@ Ruled by Yasser on 2026-10-17 (PR #48): every recommendation accepted as written
 - a deterministic tie order;
 - both class Sources shown (FR-14), so the arithmetic is explained, not hidden.
 
-  A remaining risk is that the route order uses map-index order (TR-7 `gen.world-routes`), which approximates branching portals. It is correct on both fixtures. The first save where it is wrong goes through Report this, and the fix is a generated ordering, not a rule change.
+  The route is a generated path through `mapPortalDestinations` (TR-7), not map-index order, which walked into W1's side branches (Red-team F1). A remaining risk is a world with two equal-length paths to the boss; the generator then picks the lower map index and the golden snapshots show it.
 
 **R3. `finalKillsPerHour` is wrong at W1–W3.** Toolbox verified it live only at endgame (hypothetical-math §5). *Defence:*
 - M2 uses kills/h only to *compare* characters on the same map, where a shared bias cancels out, and for one ETA;
@@ -470,7 +490,7 @@ Ruled by Yasser on 2026-10-17 (PR #48): every recommendation accepted as written
 - Toolbox's `bestCharacter` name fields (hypothetical-math §4) never enter M2's fields.
 
 **R6. Patch breakage.** A patch renames an NPC, moves a level gate or adds a map. *Defence:*
-- every gate, threshold and route is a generated fact (ADR 0007), regenerated at re-sync and shown in the Knowledge Base diff with golden-snapshot changes (#11 item 12);
+- every gate, threshold and route is a generated fact (ADR 0007), or an authored tier-2 fact under the same id until M11 can generate it (TR-7), and either way shown in the Knowledge Base diff with golden-snapshot changes (#11 item 12);
 - the M1 adapter fails loudly on a shape change rather than letting M2 read `undefined` as 0.
 
   A remaining risk is a new gate the rules don't know (e.g. a new W3 tutorial step). It shows as a Stage that stays put, which the player sees through D5.
@@ -495,3 +515,33 @@ Ruled by Yasser on 2026-10-17 (PR #48): every recommendation accepted as written
 **R10. Stage-gated entries leaking across worlds.** For example, the Equinox flag being true on a W2 save. *Defence:*
 - FR-22 plus a fixture test that no W3 entry fires on the W2-late account;
 - each entry's Detector checks its own unlock rather than trusting the Stage alone.
+
+## 10. Red-team log
+
+Independent red-team run on 2026-10-17 against this spec, the glossary and ADRs 0001–0008, focused on Stage boundary detection and pusher selection. Evidence was checked against the vendored parsers at the pin (`idleon-forge-slice1/packages/toolbox-parsers/vendor`, `UPSTREAM` 6c37e3d) and the sibling specs. The rule table itself was found sound: inside each world the early and mid bands exclude each other and the late band overrides by design. Totals: 2 P0, 6 P1, 11 P2, 4 P3; 21 fixed, 2 deferred (F2 in part, F17), 0 rejected.
+
+| # | Sev | Finding | Verdict | How |
+|---|---|---|---|---|
+| F1 | P0 | Route maps in map-index order with first doors only walk into side branches (W1 Poopy Sewers 20k, Rats Nest 35k, Base of the Bark, Hollowed Trunk; W3 Crystal Basecamp has no exit; W2 Djonnuttown at requirement 1) and miss W3's door-1 exit | Fixed | `gen.world-routes` is now a door-by-door path through `mapPortalDestinations` to the boss map; frontier is a door; synthetic W1 test added (TR-7, TR-10, S2, R2) |
+| F2 | P0 | Portal progress is per character, so a faster challenger may not be able to reach the frontier | Fixed in part, deferred in part | Candidates must have cleared every earlier path door (`reachesFrontier`, FR-11, TR-10). Whether an unreachable fast character should get a "catch up first" Goal is left to Yasser |
+| F3 | P1 | `finishedWorlds` is outside `safeSection`, so it can be silently wrong and the unknown path almost never fires | Fixed | TR-6a monotonic and evidence cross-check, `partial` on contradiction; gatekeeper-dialogue timing listed as a pre-build falsifier |
+| F4 | P1 | Incumbent rule ambiguous (margin direction, ties by rate make the incumbent just the fastest) | Fixed | Exact rule `C ≥ 1.25 × incumbent`; incumbent ties by frontier kills, level, index; boundary test. Using save history stays out, D1 keeps M2 pure |
+| F5 | P1 | Cost tie-break "only when units match" is not transitive, so order depends on emit order | Fixed | Fixed unit order then amount (TR-14), transitivity test |
+| F6 | P1 | Next-character rule skips missing lines whose Role is already active | Fixed | Sort by `max(activeFrom, current Stage)` (FR-8) |
+| F7 | P1 | Kill rates depend on current preset, cards and gear; identity check fails for skilling characters; clone verified at `f1e4240`, not the pin | Fixed | Identity check limited to fighting characters and re-run at the pin; "as currently equipped" stated in TR-2 and the Source line |
+| F8 | P1 | No field for the pusher's kills left on the frontier (`nextPortal` is current map only) | Fixed | `fights[].killsLeft` (TR-3), used by FR-12 |
+| F9 | P2 | Meta Path Goals had a list position at one Stage only and fell to +∞ elsewhere | Fixed | Positioned at every Stage in their `appliesTo` (TR-13), S7 asserts position 4 |
+| F10 | P2 | Gate-chain steps ambiguous: quest owner, no boss "met", Gobo counted twice, elite at position 2 | Fixed | `pusher ∈ completedBy`, boss met via crystal, Gobo only in the push, elite at W4-entry 4, W4 frontier capped at 154 (TR-11, TR-13, FR-16) |
+| F11 | P2 | "Subclassed = not in {1,7,19,31}" counts Journeyman and a missing `classIndex` as subclassed; level 9/10 test vacuous | Fixed | Positive definition via `gen.class-tree` tier; null `classIndex` is neither; Beginner ≥ 10 gets "Pick your class"; tests replaced (TR-5, FR-15, TR-19) |
+| F12 | P2 | 9999 dialogue read as met by the band rules, contradicting §6 | Fixed | Band rules need 0 < v < 9999; `finishedWorlds` keeps Toolbox semantics; S1 evidence and §6 aligned |
+| F13 | P2 | `towers.data` is an array, so `data[name]` reads null and every W3 account would be `partial` | Fixed | Read with `find` by name; absent tower = 0 (TR-3) |
+| F14 | P2 | Several "generated" facts are not in Toolbox data (N.js thresholds, family slots, gatekeepers) and M11 has no generator for them | Fixed | Marked authored tier 2 under the same ids; generators requested from M11 (TR-5, TR-7, §7, R6) |
+| F15 | P2 | "Evaluate both ways" undefined for several unknowns; `next.needs` for unknowns; survivability scale 0–100 | Fixed | Enumerate predicate assignments, earliest Stage; "Check … (couldn't read it)" lines; conversion stated (TR-6, TR-3, S1) |
+| F16 | P2 | Clean-parse-only frontier drops the push Goal on any failed section; uncaught `getMaxDamage` | Fixed | Runs unless a damage-relevant section failed, wrapped and reported, Toolbox fallbacks never used (TR-2, §6) |
+| F17 | P2 | Swap Token rule in FR-10 contradicts the §6 duplicate-Barbarian row; Squire ×2 with no Barbarian unresolved | Deferred | §6 aligned to FR-10 and no token for the slot-8 Squire until Yasser rules |
+| F18 | P2 | Base-class characters hold no line, so the roster asks for a character the player already has | Fixed | Tentative line holding (FR-6, FR-9), S7 asserts it |
+| F19 | P2 | M2 asked M10 for banners M10 does not define; "shown" vs "+∞" contradiction | Fixed | Worlds 5–7 goes into M10's "Not covered yet" section; "Can't tell" requested as a new banner kind; only blockers shown (FR-3, FR-5, §6, §7) |
+| F20 | P3 | Performance budget extrapolated from a sweep that reused stats | Fixed | Benchmark at the pin required before the code PR merges (TR-15) |
+| F21 | P3 | "Strongest candidate" undefined when every rate floors to 0 | Fixed | Unfloored `killsPerHour`, then hit, survivability, level, index (FR-13) |
+| F22 | P3 | `GateNpc` hand-written and over-broad | Fixed | Trimmed to the five read NPCs, tied to `gen.world-gates` (TR-3) |
+| F23 | P3 | No privacy holes; `evidence.value: unknown` open-ended | Fixed | Typed to numbers, booleans, index arrays (TR-4) |
