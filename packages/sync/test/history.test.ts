@@ -25,9 +25,13 @@ const at = (h: number, m = 0, day = 0) => DAY0 + day * 24 * HOUR + h * HOUR + m 
 /** A minimal Account State saved at `t`. */
 function stateAt(
   t: number,
-  over: Partial<AccountState['diagnostics']> & { lastPlayed?: number | null } = {},
+  over: Partial<AccountState['diagnostics']> & {
+    lastPlayed?: number | null;
+    /** Each character's own save time, by slot. */
+    savedAt?: number[];
+  } = {},
 ) {
-  const { lastPlayed = 0, ...diag } = over;
+  const { lastPlayed = 0, savedAt = [], ...diag } = over;
   return {
     schemaVersion: 3,
     asOf: t,
@@ -36,10 +40,20 @@ function stateAt(
       finishedWorlds: [1],
       lastCloudSave: t,
       secondsSinceLastSave: 0,
-      dailyResetAt: t + HOUR,
+      dailyResetInSeconds: 3600,
       gameVersion: { serverBuild: 142, saveVersion: 34.05, parserTarget: '2.3.540' },
     },
-    characters: [],
+    characters: savedAt.map((at, index) => ({
+      index,
+      name: `C${index}`,
+      class: 'Squire',
+      level: 50,
+      afkType: 'FIGHTING',
+      afkTarget: 'Frog',
+      currentMap: 'Frog_Fields',
+      foodStacks: [],
+      secondsSinceLastSave: Math.max(0, Math.floor((t - at) / 1000)),
+    })),
     lastPlayedCharacterIndex: lastPlayed,
     diagnostics: {
       failedSections: [],
@@ -237,16 +251,19 @@ describe.each<Kind>(['indexeddb', 'memory'])('save history (%s)', (kind) => {
     expect(raw).toEqual([at(2, 4)]);
   });
 
-  it('M3 TR-6: keeps the states around each character switch in older Play Sessions', async () => {
+  it('M3 TR-6: keeps the states within 10 min of each switch-away and load in older Play Sessions', async () => {
     const h = await open(kind);
-    const times = [0, 4, 8, 12, 16, 20].map((m) => at(0, m));
-    const played = [0, 0, 0, 1, 1, 1];
-    for (const [i, t] of times.entries()) {
-      await h.put('u1', stateAt(t, { lastPlayed: played[i] }), rawAt(t));
+    // One hour of saves every 4 min; character 0 is left at 0:30 (its own save time moves from 0:00
+    // to 0:30), character 1 never moves.
+    const times = Array.from({ length: 16 }, (_, k) => at(0, 4 * k));
+    for (const t of times) {
+      const c0 = t < at(0, 30) ? at(0) : at(0, 30);
+      await h.put('u1', stateAt(t, { savedAt: [c0, at(0) - HOUR] }), rawAt(t));
     }
-    await putAll(h, 'u1', [at(2), at(4)]); // push that session out of the two recent ones
-    const kept = (await h.since('u1', 0)).map((r) => r.lastCloudSave);
-    expect(kept).toEqual([at(0), at(0, 8), at(0, 12), at(0, 16), at(0, 20), at(2), at(4)]);
+    await putAll(h, 'u1', [at(3), at(5)]); // push that session out of the two recent ones
+    const kept = (await h.since('u1', 0)).map((r) => (r.lastCloudSave - at(0)) / MIN);
+    // Around 0:00 (the old save time) and 0:30 (the switch), plus the session's first and last save.
+    expect(kept.filter((m) => m <= 60)).toEqual([0, 4, 8, 20, 24, 28, 32, 36, 40, 60]);
   });
 });
 

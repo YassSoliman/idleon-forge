@@ -51,7 +51,15 @@ export interface SaveIndexRow {
   hasRaw: boolean;
   /** The save's `lastPlayedCharacterIndex`, so character switches can be found without states. */
   lastPlayedCharacterIndex: number | null;
+  /**
+   * Each character's own save time (epoch ms, to the second), by slot: when it was last left or
+   * saved. A character's time moving between two saves marks a switch-away and the next load.
+   */
+  characterSavedAt: Record<number, number>;
 }
+
+/** What the engine and M11's `DetectorContext.history` receive: oldest first, at most 30 days. */
+export type HistoryEntry = Pick<SaveRecord, 'lastCloudSave' | 'receivedAt' | 'state'>;
 
 export interface PlaySession {
   /** `lastCloudSave` of its first save. */
@@ -299,6 +307,15 @@ export async function readRaw(record: SaveRecord): Promise<RawSaveEnvelope | nul
   return JSON.parse(await new Response(stream).text()) as RawSaveEnvelope;
 }
 
+/** Each readable character's own save time (epoch ms), from `secondsSinceLastSave` at `asOf`. */
+function characterSavedAt(state: AccountState): Record<number, number> {
+  const out: Record<number, number> = {};
+  for (const c of state.characters) {
+    if (c.secondsSinceLastSave !== null) out[c.index] = state.asOf - c.secondsSinceLastSave * 1000;
+  }
+  return out;
+}
+
 /** Splits index rows (oldest first) into Play Sessions, as index ranges. */
 function sessionRanges(rows: SaveIndexRow[]): Array<[number, number]> {
   const ranges: Array<[number, number]> = [];
@@ -333,11 +350,15 @@ export function usualGap(sessions: PlaySession[]): number | null {
   return Math.round(median(gaps.slice(-10)) / 1000);
 }
 
+/** Around each switch-away and load, full states are kept this far either side (M3 TR-6). */
+export const LOAD_WINDOW_MS = 10 * 60 * 1000;
+
 /**
  * Which saves keep their full state and their raw copy (TR-14). Full states: every save of the
- * current and previous Play Session, the first and last save of every older one, and the saves just
- * before, at and after each change of last-played character (M3 TR-6 measures AFK gains around each
- * character load). Raw copies: the newest save and the last save of each Play Session, or only the
+ * current and previous Play Session, the first and last save of every older one, and every save
+ * within 10 minutes of a character's own save time moving (its switch-away, which is also when the
+ * next character loads), both the old and the new time: M3 TR-6 measures AFK gains from the records
+ * around each load. Raw copies: the newest save and the last save of each Play Session, or only the
  * newest when quota is low (TR-16).
  */
 function retention(rows: SaveIndexRow[], lowQuota: boolean): { state: Set<number>; raw: Set<number> } {
@@ -349,13 +370,25 @@ function retention(rows: SaveIndexRow[], lowQuota: boolean): { state: Set<number
     for (let i = a; i <= b; i++) if (recent || i === a || i === b) state.add(i);
     if (!lowQuota) raw.add(b);
   });
-  let lastKnown: number | null = null;
+  const events = new Set<number>();
   rows.forEach((row, i) => {
-    const lp = row.lastPlayedCharacterIndex;
-    if (lp === null) return;
-    if (lastKnown !== null && lp !== lastKnown) for (const j of [i - 1, i, i + 1]) state.add(j);
-    lastKnown = lp;
+    const prev = rows[i - 1]?.characterSavedAt;
+    if (!prev) return;
+    for (const [slot, at] of Object.entries(row.characterSavedAt ?? {})) {
+      const before = prev[Number(slot)];
+      if (before !== undefined && at - before > 1000) {
+        events.add(before);
+        events.add(at);
+      }
+    }
   });
+  if (events.size > 0) {
+    const sorted = [...events].sort((a, b) => a - b);
+    rows.forEach((row, i) => {
+      const t = row.lastCloudSave;
+      if (sorted.some((e) => Math.abs(t - e) <= LOAD_WINDOW_MS)) state.add(i);
+    });
+  }
   if (rows.length > 0) raw.add(rows.length - 1);
   const times = (s: Set<number>) => new Set([...s].flatMap((i) => (rows[i] ? [rows[i].lastCloudSave] : [])));
   return { state: times(state), raw: times(raw) };
@@ -529,6 +562,7 @@ function createHistory(
         hasState: true,
         hasRaw: rawGzip !== undefined,
         lastPlayedCharacterIndex: state.lastPlayedCharacterIndex,
+        characterSavedAt: characterSavedAt(state),
       };
       await backend.write([row], [record], [], uid);
       await recordClean(uid, state);
