@@ -33,6 +33,8 @@ entries:
     type: check
     title: Dies on its map, and owned food fixes it
     text: "Equip or swap in {food:name} before you leave: {class} is at {survivability:pct} survivability, and you own {owned:int}"
+    values:
+      text-stock-up: "Equip {food:name} before you leave, and stock up on it: your {owned:int} last about {lasts:duration}, less than your return ({class} is at {survivability:pct} survivability)"
     why: Below full survivability the character keeps dying and respawning while you're away. One health food you already own makes it survive.
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts
@@ -50,8 +52,8 @@ entries:
     status: active
     subject: character
     effect: blocker
-    detector: { id: afk/dies-fixable-by-food }
-    notes: Names the largest fixing stack, not the smallest the spec says (a 1-food stack would "fix" the row and run out in minutes). Needs Yasser.
+    detector: { id: afk/dies-fixable-by-food, params: { refillShare: 0.5 } }
+    notes: R-FOOD-1 (#31). Names the most efficient food (the smallest heal per bite that refills at least half of max HP) among owned stacks that last the return; stock-up text when none does. refillShare 0.5 reads "most of max HP" and is judgment, for player review.
 
   - id: afk.check.health-food-runs-out
     system: afk
@@ -102,8 +104,8 @@ entries:
     subject: character
     effect: next-action
     category: nice
-    detector: { id: afk/low-food-untimed, params: { lowStack: 25 } }
-    notes: lowStack 25 is judgment (the spec fixes no number), for player review.
+    detector: { id: afk/low-food-untimed, params: { lowShare: 0.6, lowStack: 50 } }
+    notes: R-FOOD-2 (#31). Low is under 60% of the character's food carry cap when known, else under 50.
 
   - id: afk.check.skiller-carry
     system: afk

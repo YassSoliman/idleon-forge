@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M3 FR-14, Final rulings RT-5: before any history gives a food rate, a food-dependent fighter
-// (under 100% without food, 100% with it) whose equipped health food is below the entry's authored
-// `lowStack` gets "Low food: N left; can't time it yet". Never a blocker (effect next-action). Once a
-// rate exists (TR-6), afk/health-food-runs-out times it instead and this stays silent.
+// M3 FR-14, Final rulings RT-5 and the owner's ruling R-FOOD-2 (#31): before any history gives a food
+// rate, a food-dependent fighter (under 100% without food, 100% with it) whose equipped health food is
+// low gets "Low food: N left; can't time it yet". Low means under `lowShare` (60%) of the character's
+// food carry cap (Toolbox getItemCapacity) when that cap is known, else under `lowStack` (50). A cap the
+// save itself contradicts (an equipped stack above it) is treated as unknown, so an unverified cap errs
+// towards silence. Never a blocker (effect next-action). Once a rate exists (TR-6),
+// afk/health-food-runs-out times it instead and this stays silent.
 import type { AccountState, CharacterState } from '@idleon-forge/account-state';
 import { z } from 'zod';
 import { characterSubject, isKnown, withCharacter, withUnknown } from '../../src/helpers';
@@ -11,7 +14,7 @@ import { type CheckFinding, defineDetector, type HistoryEntry } from '../../src/
 
 const FULL = 1e2;
 /** An example threshold, the same as the entry's. */
-const LOW = { lowStack: 2.5e1 };
+const LOW = { lowShare: 0.6, lowStack: 5e1 };
 
 const healthLeft = (c: CharacterState | undefined) =>
   (c?.afk?.food ?? []).filter((f) => f.kind === 'health').reduce((n, f) => n + f.amount, 0);
@@ -46,12 +49,14 @@ export default defineDetector({
   id: 'afk/low-food-untimed',
   kind: 'check',
   system: 'afk',
-  params: z.strictObject({ lowStack: z.int().positive() }),
-  slots: z.strictObject({ left: z.number() }).partial(),
+  params: z.strictObject({ lowShare: z.number().positive().max(1), lowStack: z.int().positive() }),
+  slots: z.strictObject({ left: z.number(), threshold: z.number() }).partial(),
   reads: ['characters[*].index', 'characters[*].afkType', 'characters[*].afk', 'diagnostics'],
   examples: {
     // US-1: the W3-early Squire Lv 85 (45% without food) with a small health stack and no history.
     fires: [
+      // R-FOOD-2: the W2-late Wizard Lv 56 carries 88 health food, under 60% of its food cap.
+      { fixture: 'scrubbed-w2', subject: characterSubject(4), params: LOW },
       {
         fixture: 'scrubbed-w3',
         subject: characterSubject(3),
@@ -61,8 +66,13 @@ export default defineDetector({
     ],
     silent: [
       // US-1: 153 and 146 health food are above the threshold.
-      { fixture: 'scrubbed-w3', params: { lowStack: 25 } },
-      { fixture: 'scrubbed-w2', params: { lowStack: 25 } },
+      {
+        fixture: 'scrubbed-w3',
+        subject: characterSubject(3),
+        params: LOW,
+        mutate: (s) => lowStack(s, 3, 2.9e2),
+      },
+      { fixture: 'scrubbed-w2', subject: characterSubject(0), params: LOW },
     ],
     unknown: [
       {
@@ -73,7 +83,7 @@ export default defineDetector({
       },
     ],
   },
-  run({ state, history }, { lowStack: threshold }) {
+  run({ state, history }, { lowShare, lowStack: fallback }) {
     return state.characters.flatMap((c): CheckFinding[] => {
       if (c.afkType !== 'FIGHTING') return [];
       const subject = characterSubject(c.index);
@@ -81,10 +91,13 @@ export default defineDetector({
       if (!isKnown(state, `characters[${c.index}].afk.fighting`) || !c.afk || !f)
         return [{ subject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const }];
       const left = healthLeft(c);
+      const cap = f.foodCap;
+      const capBelievable = cap !== null && c.afk.food.every((x) => x.kind !== 'health' || x.amount <= cap);
+      const threshold = capBelievable ? Math.round(lowShare * cap) : fallback;
       const dependent = f.survivabilityNoFood < FULL && f.survivability >= FULL;
       if (!dependent || left === 0 || left >= threshold || hasHistory(history, c))
         return [{ subject, slots: {}, result: 'pass' as const }];
-      return [{ subject, slots: { left }, result: 'fires' as const, fixHolds: true }];
+      return [{ subject, slots: { left, threshold }, result: 'fires' as const, fixHolds: true }];
     });
   },
 });
