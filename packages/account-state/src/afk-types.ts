@@ -29,14 +29,19 @@ export interface AfkFighting {
   survivabilityNoFood: number;
   /**
    * Owned health foods (this character's bag plus storage) that lift survivability to 100% when put in
-   * the first Blank food slot, smallest useful stack first (at most 4 distinct foods tried, TR-2).
+   * the first Blank food slot, smallest stack first. At most 4 distinct foods are tried, the largest
+   * owned stacks (TR-2's cost bound).
    */
-  fixingFoods: Array<{ item: string; amount: number }>;
+  fixingFoods: Array<{ item: string; name: string; amount: number }>;
+  /** Health food owned but not equipped (this character's bag plus storage), for "add more food" fixes. */
+  spareHealthFood: number;
 }
 
 export interface AfkAnvilProduct {
   /** Toolbox rawName of the product, e.g. "CraftMat1". */
   item: string;
+  /** Toolbox display name, e.g. "Thread". */
+  name: string;
   hammers: number;
   /** Toolbox `stats.anvilCapacity` and the amount produced at parse time. */
   amount: number;

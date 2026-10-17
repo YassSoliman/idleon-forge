@@ -68,16 +68,22 @@ function foodOf(c: Dict): { food: AfkFood[]; blankFoodSlot: boolean } {
 }
 
 /** Owned health-food stacks this character could equip: its own bag plus storage, summed per item. */
-function ownedHealthFoods(c: Dict, account: Dict): Array<{ item: string; amount: number; data: Dict }> {
+function ownedHealthFoods(
+  c: Dict,
+  account: Dict,
+): Array<{ item: string; name: string; amount: number; data: Dict }> {
   const storage = isDict(account.storage) ? arr(account.storage.list) : [];
-  const byItem = new Map<string, { item: string; amount: number; data: Dict }>();
+  const byItem = new Map<string, { item: string; name: string; amount: number; data: Dict }>();
   for (const x of [...arr(c.inventory), ...storage]) {
     if (!isDict(x) || x.Type !== 'HEALTH_FOOD' || typeof x.rawName !== 'string') continue;
     const amount = num(x.amount) ?? 0;
     if (amount <= 0) continue;
     const prev = byItem.get(x.rawName);
     if (prev) prev.amount += amount;
-    else byItem.set(x.rawName, { item: x.rawName, amount, data: x });
+    else {
+      const name = typeof x.displayName === 'string' ? x.displayName : x.rawName;
+      byItem.set(x.rawName, { item: x.rawName, name, amount, data: x });
+    }
   }
   return [...byItem.values()].sort((a, b) => a.amount - b.amount || a.item.localeCompare(b.item));
 }
@@ -104,16 +110,19 @@ function fightingOf(
   if (finalKillsPerHour < 0) return null;
 
   const fixingFoods: AfkFighting['fixingFoods'] = [];
+  const owned = ownedHealthFoods(c, account);
+  const spareHealthFood = owned.reduce((n, f) => n + f.amount, 0);
   if (survivability < 100 && blankFoodSlot) {
     const buffer = arr(c.food);
     const blank = buffer.findIndex((f) => isDict(f) && (f.rawName === 'Blank' || !f.rawName));
-    for (const owned of ownedHealthFoods(c, account).slice(0, MAX_FOODS_TRIED)) {
-      const food = buffer.map((f, i) => (i === blank ? { ...owned.data, amount: owned.amount } : f));
+    for (const candidate of owned.slice(-MAX_FOODS_TRIED)) {
+      const food = buffer.map((f, i) => (i === blank ? { ...candidate.data, amount: candidate.amount } : f));
       const r = attempt(() => calls.getMaxDamage({ ...c, food }, characters, account) as Dict);
-      if (pct(r?.survivability) === 100) fixingFoods.push({ item: owned.item, amount: owned.amount });
+      if (pct(r?.survivability) === 100)
+        fixingFoods.push({ item: candidate.item, name: candidate.name, amount: candidate.amount });
     }
   }
-  return { survivability, finalKillsPerHour, survivabilityNoFood, fixingFoods };
+  return { survivability, finalKillsPerHour, survivabilityNoFood, fixingFoods, spareHealthFood };
 }
 
 function inventoryOf(c: Dict, account: Dict, calls: ToolboxCalls): AfkInventory | null {
@@ -145,10 +154,11 @@ function anvilOf(c: Dict, characters: unknown[], account: Dict, calls: ToolboxCa
       const tillCap = num(calls.getTimeTillCap(args));
       const fromZero = num(calls.getTimeTillCap({ ...args, fromZero: true }));
       if (tillCap === null || fromZero === null || fromZero <= 0) return null;
-      const capAt = asOf + Math.max(0, tillCap) * 1000;
+      const capAt = Math.round(asOf + Math.max(0, tillCap) * 1000);
       if (!sane(asOf)(capAt) || fromZero * 1000 > AFK_HORIZON_MS) return null;
       out.push({
         item: String(p.rawName),
+        name: typeof p.displayName === 'string' ? p.displayName : String(p.rawName),
         hammers: num(p.hammers) ?? 0,
         amount: num(p.currentAmount) ?? 0,
         capacity,
@@ -190,7 +200,7 @@ function trapsOf(account: Dict, index: number, lastCloudSave: number, asOf: numb
       const timeLeft = num(t.timeLeft);
       if (timeLeft === null) throw new Error('trap time is not a number');
       // Toolbox adds the remaining time to its parse clock; anchor it to the cloud save instead (TR-2).
-      const endsAt = lastCloudSave + (timeLeft - asOf);
+      const endsAt = Math.round(lastCloudSave + (timeLeft - asOf));
       if (!sane(asOf)(endsAt)) throw new Error('trap time out of range');
       return [{ critter: String(t.rawName), endsAt }];
     }),
@@ -274,7 +284,7 @@ export function accountAfkFacts(input: AfkFactsInput): AccountAfkFacts {
         if (!isDict(s)) return [];
         const hours = num(s.hoursLeft);
         if (hours === null || hours < 0) throw new Error('salt time not a number');
-        const dryAt = asOf + hours * 3_600_000;
+        const dryAt = Math.round(asOf + hours * 3_600_000);
         return dryAt - asOf > AFK_HORIZON_MS ? [] : [{ salt: String(s.rawName), dryAt }];
       }),
     );
