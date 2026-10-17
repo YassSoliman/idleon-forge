@@ -1,6 +1,6 @@
 # M7 Spend Plan
 
-Spec for [#35](https://github.com/YassSoliman/idleon-forge/issues/35), part of map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Status: **draft**, waiting on the grilling of section 8 and a red-team pass. Build order slot: after M4, before M8 ([#13](https://github.com/YassSoliman/idleon-forge/issues/13)).
+Spec for [#35](https://github.com/YassSoliman/idleon-forge/issues/35), part of map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Status: **ready for build**. Decisions ruled 2026-10-17 (section 8); red-team pass logged in section 10. Build order slot: after M4, before M8 ([#13](https://github.com/YassSoliman/idleon-forge/issues/13)).
 
 Terms follow [GLOSSARY.md](../../GLOSSARY.md). Binding decisions: [ADR 0002](../adr/0002-deterministic-advice-ai-built-knowledge.md) (deterministic advice), [ADR 0004](../adr/0004-source-precedence.md) (source precedence), [ADR 0005](../adr/0005-toolbox-numbers-not-our-formulas.md) (Toolbox numbers plus arithmetic, no formulas of our own), [ADR 0006](../adr/0006-client-only-spa-parsing-in-a-worker.md) (parsing in a Web Worker), [ADR 0007](../adr/0007-generated-facts-authored-judgment.md) (generated facts, authored judgment). Inputs: the Now-screen rulings ([#10](https://github.com/YassSoliman/idleon-forge/issues/10), [#12](https://github.com/YassSoliman/idleon-forge/issues/12)), the Knowledge Base shape ([#11](https://github.com/YassSoliman/idleon-forge/issues/11)), the architecture ([#14](https://github.com/YassSoliman/idleon-forge/issues/14)), the hypothetical-math spike ([#16](https://github.com/YassSoliman/idleon-forge/issues/16)), and the Leverage model ([#26](https://github.com/YassSoliman/idleon-forge/issues/26), `research/leverage-model`). Facts come from the dossiers on `research/w1-systems` (stamps, bribes, statues, anvil, forge), `research/account-wide` (Upgrade Vault) and `research/w2-systems` (Alchemy Pay 2 Win). Orders come from `research/priority-verification` (PV), which wins on conflicts.
 
@@ -19,8 +19,8 @@ A player arrives at a Play Session with coins piled up on several characters and
   - Upgrade Vault, rows 0–61 (W1–W4).
   - Stamps: coin levels below the cap, plus the material cap raise that has to come first when a stamp is at its cap.
   - Bribes, sets 1–4.
-  - Statue Gold (see D3 for its cost).
-  - Alchemy Pay 2 Win: cauldron, liquid and vial upgrades. Player upgrades are covered by D3.
+  - Statue Gold, as `unpriced` lines (D3).
+  - Alchemy Pay 2 Win: cauldron, liquid and vial upgrades. Player upgrades are `unpriced` lines (D3).
 - **Arithmetic** on Toolbox-computed costs ([ADR 0005](../adr/0005-toolbox-numbers-not-our-formulas.md)): sums, running balances per wallet, shortfalls, levels to the next Vault unlock, and days until the Hydrogen discount reaches a level.
 - **Batching rules:** stamp cap raises under the Hydrogen discount; one-off buys that must come before an irreversible action (Duplicate Entries before redeeming tickets).
 - **The Knowledge Base entries** the plan needs: generated facts and authored Spend Priority Lists per Stage, plus the Detectors that read them.
@@ -30,10 +30,10 @@ A player arrives at a Play Session with coins piled up on several characters and
 
 - **Other currencies:** gems, merits, star talent points, anvil points from levels, Post Office boxes, talent points and so on. "You have unspent X" belongs to M6 Unspent & idle. The Gem Shop first buy is also Contested (PV 7.5).
 - **Material spends other than stamp cap raises** (vials, bubbles, Construction salts, Post Office). These are other modules' Goals.
-- **Sinks Toolbox does not price and that are not covered by D3:** Forge upgrades (Toolbox gives no cost), Town shop items and consumables (food, upgrade stones), Obol shop, Colosseum and Arcade shops (non-coin currencies).
+- **Sinks Toolbox does not price, other than those D3 shows as `unpriced`:** Forge upgrades (Toolbox gives no cost), Town shop items and consumables (food, upgrade stones), Obol shop, Colosseum and Arcade shops (non-coin currencies).
 - **Bribe sets 5–6** (Garbage Tuna and Jade Emporium, W5+). **Vault rows 62–89** (W5–W6).
 - **W4+ coin sinks** (kitchens, Lab, Breeding). Gilded and Exalted Stamps (Rift 26, W6).
-- **Coin income forecasting,** for example "you will afford X in 3 h". Toolbox has no coins-per-hour number, and we will not write one. A later version may use the observed coin delta between saves; see Red-team 7.
+- **Coin income forecasting,** for example "you will afford X in 3 h". Toolbox has no coins-per-hour number, and we will not write one. A later version may use the observed coin delta between saves; see section 9, note 7.
 - **Kill-scaled Vault row steps** (powers of 10 of kills on Bean, Carrot, Branch, Poop and Sheepie). They are Milestones, so they belong to M4 Purpose & Milestones.
 - **Knockouts** need active play, so they belong to the Active Play suggestions.
 - **Moving coins in the game for the player.** ActiveOn is read-only, always.
@@ -58,7 +58,7 @@ A player arrives at a Play Session with coins piled up on several characters and
   3. the smallest wallet that covers the cost, which keeps big wallets for big buys.
 
   The rule is deterministic. Ties go to the lower character index.
-- **FR-7 Pooling** (depends on D1). If no wallet covers a line but the bank plus one wallet does, the line becomes `move-coins`: "withdraw N from storage on <class Lv>, then buy". Moving coins between two characters through the bank is suggested only for lines flagged `reserve` (D2).
+- **FR-7 Pooling** (D1). If no wallet covers a line but the bank plus one wallet does, the line becomes `move-coins`: "withdraw N from storage on <class Lv>, then buy". N is the line's cost minus that wallet's remaining balance, and it is deducted from the bank's running balance. The wallet is chosen by FR-6 among those the bank can top up. Moving coins between two characters through the bank (deposit on one, withdraw on another) is suggested only for lines flagged `reserve` (FR-22). The plan never treats all coins as one pool.
 - **FR-8 Done and filtering.** A candidate is dropped when its target is already met (`level >= target`, `level >= maxLevel`, or bribe `done`), or its sink or row is not yet unlocked. This applies even when Toolbox still reports a non-zero `cost` for it: on both fixtures, maxed Vault rows such as Weapon Craft 5/5 and Knockout! 5/5 still carry a `cost`. A line also disappears once a later save shows it bought. There is no manual "done" ([#10](https://github.com/YassSoliman/idleon-forge/issues/10) item 8).
 - **FR-9 Grouping.** Lines of the same sink, at the same list position, paid from the same wallet, are shown as one expandable line ("Raise 7 stamp caps, then buy their new levels, about 10.1M"). The group's cost is the sum of its parts.
 - **FR-10 Stamp cap raises.** For a stamp at its cap, the plan emits the material step before the coin step:
@@ -71,11 +71,12 @@ A player arrives at a Play Session with coins piled up on several characters and
   - **Not ready:** a stamp whose material is missing, or too big for any character to carry, is not a Spend line. It is reported to M6 and M4 as a Goal (farm the material, or raise carry capacity).
 - **FR-11 Hydrogen batching.** When the Hydrogen atom is above Lv 0 (`atoms.atoms[0].level > 0`) and the discount (`atoms.stampReducer`) is above 0:
   - All ready cap raises collapse into one batch line. The engine never emits a single cap raise on its own while other raises are ready.
-  - If the hold rule (D4) applies, the batch line has status `hold`. It shows the current discount, the discount needed, and the days to reach it: `ceil((needed − current) / Hydrogen level)`, by arithmetic.
+  - **Hold rule (D4).** The batch line has status `hold` while at least one at-cap stamp is *waiting to fit*: its material is owned (FR-10 counts) but too big for any character to carry today, its Toolbox `minReduction` is ≤ 90, and the days to reach it, `ceil((minReduction − current) / Hydrogen level)`, are ≤ K = 7. The notice shows the current discount, the highest such `minReduction` (the discount needed) and its days, by arithmetic.
+  - Otherwise (no stamp is waiting to fit, or every waiting stamp is more than 7 days away) the batch line is `buy`: raise every ready cap now, in one session.
   - While raises are on hold, stamp coin levels below the cap stay buyable (they do not reset the discount).
 - **FR-12 Irreversible-order guard.** While Vault row 52 (Duplicate Entries) is unlocked, at Lv 0, and the account holds Colosseum tickets (`currencies.ColosseumTickets.totalAmount > 0`), Duplicate Entries is position 1. Its line reads "buy Duplicate Entries before you redeem tickets". It is flagged `reserve` (D2).
 - **FR-13 Unlock fuel.** After the authored lines, one final line says how many Vault levels remain to the next unlock (`nextUnlock.unlockLevel − totalUpgradeLevels`). It also gives the cheapest-first coin estimate for them from the cost ladders (TR-4), labelled "about".
-- **FR-14 Unpriced sinks** (D3). A sink Toolbox does not price shows as `unpriced`: "cost not checked, see the price in game". It is never deducted from a wallet and never counted as affordable. At the same list position it ranks below priced lines.
+- **FR-14 Unpriced sinks** (D3). Statue Gold and Pay 2 Win Player upgrades, and Anvil coin points unless Toolbox's `getPlayerAnvil` can be imported in the parse worker (TR-4), show as `unpriced`: "cost not checked, see the price in game". It is never deducted from a wallet and never counted as affordable. At the same list position it ranks below priced lines.
 - **FR-15 Visible length.**
   - At most 5 lines are visible, then "show more", matching the Account cap in [#10](https://github.com/YassSoliman/idleon-forge/issues/10) item 5. Grouped lines count as one.
   - Lines with status `save-for` or `unpriced` do not take a visible slot ahead of a `buy` line at the same position.
@@ -99,6 +100,18 @@ A player arrives at a Play Session with coins piled up on several characters and
   It never sends names, wallet balances or save data.
 - **FR-20 Not covered.** Out-of-scope sinks that hold value on this account (for example, Forge upgrades) show in the "Not covered yet" list ([#11](https://github.com/YassSoliman/idleon-forge/issues/11) item 14). They never become a line.
 - **FR-21 Combat-row gate.** Vault combat rows (Bullseye 4, Steel Guard 5, All Armoured Up 46) enter the engine-row position only when their gate Check fires. For Bullseye, the gate is the pusher's Toolbox hit chance below 100% on the next map (M2 pusher; Leverage model W1-late 10; PV cross-cutting 3). Otherwise they sit in the band-table position.
+- **FR-22 Reserve** (D2). When a line flagged `reserve` is not affordable by any wallet, nor by one wallet plus the bank (FR-7), it becomes `save-for`:
+  - its *closest* character is the wallet with the smallest shortfall (ties to the lower index);
+  - that wallet's whole remaining balance, up to the line's cost, is held back from every line ranked below it, so those lines may use only the other wallets;
+  - the line shows the shortfall against that character.
+
+  Only `reserve` lines save up. Any other unaffordable line is `save-for` without holding anything back, and the lines below it still spend.
+- **FR-23 Character chip** (D5). The plan is one block in the Account section. In addition, every character with at least one `buy` or `move-coins` line gets a chip on its Now-screen row: "Spend here: N buys, ~X → Spend Plan", from `perCharacter` (FR-16). A character with no such line gets no chip.
+- **FR-24 Open-ended rows** (D6). An open-ended item (a Vault row whose authored target is a checkpoint rather than max, such as Major Discount, Vault Mastery or Monster Tax) is bought:
+  - only up to the Stage's authored checkpoint (`target: { kind: to-level }`);
+  - and for no more than its `shareCap` (default 1/3) of the account's coins, meaning the sum of every wallet plus the bank at the start of the plan.
+
+  Within both limits it takes the largest ladder checkpoint its wallet covers (TR-4, partial fill). The rest of the way to the checkpoint stays a later line.
 
 ## 4. User stories
 
@@ -142,7 +155,7 @@ As a player in a Play Session, I want each purchase tied to the character who ho
 - **AC-2.2** Given the W3-early account / When the engine runs / Then the Barbarian Lv 56 (~2K) and the Squire Lv 51 (0) pay for no line. The planned total per wallet never exceeds that wallet's coins (FR-5).
 - **AC-2.3** Given the W3-early account / When the engine runs / Then Duplicate Entries (~100M) is paid by the Bowman Lv 60 (~0.66B). It is the first line, so no wallet is in use yet, and the Bowman is the smallest wallet that covers it (FR-6).
 - **AC-2.4** Given either fixture / When the engine runs / Then the per-character totals (FR-16) list the paying characters in descending total. The W2-late account's list starts with the Barbarian Lv 60.
-- **AC-2.5** Given the W2-late account / When the engine runs / Then the bank (~105M) is shown as "Coins in storage" and is never counted as affordable for a `buy` line. Whether it can make a `move-coins` line depends on D1.
+- **AC-2.5** Given the W2-late account / When the engine runs / Then the bank (~105M) is shown as "Coins in storage" and is never counted as affordable for a `buy` line. It can still fund a `move-coins` line: a line that no single wallet covers but the Barbarian Lv 60 plus the bank does reads "withdraw N from storage on Barbarian Lv 60, then buy" (FR-7).
 
 ### US-3 Raise stamp caps, then buy the levels
 
@@ -161,16 +174,17 @@ As a player in a Play Session, I want to know which stamp caps I can raise now a
 As a player in a Play Session in late W3, I want cap raises batched around the Hydrogen discount, so that one cheap raise doesn't wipe a discount that took days to build.
 
 - **AC-4.1** Given a synthetic W3-early account with `atoms.atoms[0].level = 5` and `atoms.stampReducer = 40` / When the engine runs / Then all ready cap raises are one batch line. The engine never emits a single cap raise as its own line (FR-11).
-- **AC-4.2** Given the same synthetic account, plus one at-cap stamp whose Toolbox `minReduction` is 55 / When the engine runs under D4's recommended rule / Then the batch line has status `hold` and reads "Hold stamp cap raises: discount 40%, 55% needed for <stamp>, about 3 days". The 3 days is `ceil((55 − 40) / 5)`. Stamp coin levels below the cap stay buyable.
+- **AC-4.2** Given the same synthetic account, plus one at-cap stamp whose material is owned but too big for any character to carry, and whose Toolbox `minReduction` is 55 / When the engine runs / Then the batch line has status `hold` and reads "Hold stamp cap raises: discount 40%, 55% needed for <stamp>, about 3 days". The 3 days is `ceil((55 − 40) / 5)`. Stamp coin levels below the cap stay buyable.
 - **AC-4.3** Given the same synthetic account with `stampReducer = 90` / When the engine runs / Then the batch line is `buy`, with no hold, because the discount is at its 90% cap.
 - **AC-4.4** Given either real fixture (Hydrogen Lv 0) / When the engine runs / Then no hold notice appears.
+- **AC-4.5** Given the AC-4.2 account with that stamp's `minReduction` set to 80 / When the engine runs / Then the batch line is `buy`, because `ceil((80 − 40) / 5) = 8` days exceeds K = 7 (D4).
 
 ### US-5 Don't make an irreversible spending mistake
 
 As a player in a Play Session, I want a warning before I lose value permanently, so that one wrong click doesn't cost me days.
 
 - **AC-5.1** Given the W3-early account / When the engine runs / Then the Duplicate Entries line carries the why "doubles every Colosseum ticket you receive; you hold 12 unredeemed". It cites the Vault dossier (game data: row 52) and the community advice to buy it before redeeming tickets.
-- **AC-5.2** Given a synthetic W3-early account with every wallet below 100M and the bank at 0 / When the engine runs / Then Duplicate Entries is a `save-for` line showing its shortfall against the character closest to it, and (under D2's recommendation) lines below it at positions ≥ 3 do not spend that character's coins.
+- **AC-5.2** Given a synthetic W3-early account with every wallet below 100M and the bank at 0 / When the engine runs / Then Duplicate Entries is a `save-for` line showing its shortfall against the character closest to it, and no line below it spends that character's coins (FR-22).
 
 ### US-6 Trust each line
 
@@ -192,9 +206,21 @@ As a player in a Play Session, I want bought items to drop off without ticking a
 
 As a player in a Play Session, I want the plan to say when it can't check a price, so that I don't take an unchecked number as fact.
 
-- **AC-8.1** Given the W2-late account / When the engine runs under D3's recommendation / Then a statue Gold line for the 6th statue (Kachow) appears with status `unpriced`, "cost not checked". It is never deducted from a wallet and ranks below the priced lines at its position.
+- **AC-8.1** Given the W2-late account / When the engine runs / Then a statue Gold line for the 6th statue (Kachow) appears with status `unpriced`, "cost not checked". It is never deducted from a wallet and ranks below the priced lines at its position.
 - **AC-8.2** Given either fixture / When the engine runs / Then the Alchemy Pay 2 Win lines exclude the liquids Toolbox reports at level −1 (locked). On the W2-late account that means N2, Trench and Toxic Mercury, which Toolbox prices at ~2.1K each.
 - **AC-8.3** Given either fixture / When the engine runs / Then Forge upgrades appear only in "Not covered yet".
+
+### US-10 See where to spend from my character row
+
+As a player in a Play Session, I want my character's row to tell me it has buys waiting, so that I know to switch to it without reading the whole plan.
+
+- **AC-10.1** Given the W2-late account / When the engine runs / Then the Barbarian Lv 60's row carries the chip "Spend here: N buys, ~X → Spend Plan", with N and X equal to its `perCharacter` entry, and the Bowman Lv 54 (705 coins) has no chip (FR-23).
+
+### US-11 One steep row doesn't eat my coins
+
+As a player in a Play Session, I want an endless upgrade capped, so that cheap permanent upgrades still get bought.
+
+- **AC-11.1** Given the W2-late account / When the engine runs / Then the Major Discount line costs no more than 1/3 of the account's coins (the sum of all wallets plus the bank) and no more than its Stage checkpoint, and the capped-row lines of AC-1.4 are still `buy` (FR-24).
 
 ### US-9 Empty and edge states
 
@@ -354,7 +380,7 @@ export interface SpendPlan {
   - After a cap raise: `futureCosts[0].goldCost`. This Toolbox helper counts the first level twice (`getGoldCostToLevel`), so it overstates, again the safe direction. Recorded as a known quirk.
 - **Bribes:** Toolbox `price`. A bribe is available when it is not bought and its set is open: set 1 needs Mr Pigibank, and sets 2–4 need the previous set's "The Art of the …" bribe (indices 5, 12, 19) bought. Toolbox does not expose locked vs available, so this generated-fact rule stands in for it.
 - **Pay 2 Win:** Toolbox `cost` and `costToMax`. Upgrades at level −1 (locked liquids) and at `maxLevel` are dropped.
-- **Statue Gold, P2W Player upgrades, Anvil coin points:** see D3. Toolbox's parsed output prices none of them (`p2w.player` has no cost; `anvilStats` has no `anvilCost` in the parsed save; statue Gold has no Toolbox function).
+- **Statue Gold, P2W Player upgrades, Anvil coin points:** `unpriced` (D3, FR-14). Anvil coin points get a Toolbox price only if `getPlayerAnvil` imports cleanly into the parse worker; that is a build-time check. Toolbox's parsed output prices none of them (`p2w.player` has no cost; `anvilStats` has no `anvilCost` in the parsed save; statue Gold has no Toolbox function).
 - **Display:** all sums are plain floating-point; the display is rounded by M10.
 
 ### TR-5 Detectors (typed TypeScript, [#11](https://github.com/YassSoliman/idleon-forge/issues/11) item 2)
@@ -404,7 +430,7 @@ Each item is a #11 Priority List item plus a `spend` block:
     target: { kind: max }        # once | to-level | to-max | levels | next | cheapest-until-unlock
     reserve: false               # D2
     gate: null                   # e.g. spend.gate.combatRow.bullseye
-    shareCap: null               # D6, e.g. 0.33 of the account's coins
+    shareCap: null               # D6: open-ended items default to 0.33 of the account's coins (FR-24)
   text: "Max Sleepy Time ({from}→{to}) on {payer}: {coins}"
   why: "+1% AFK gains per level, for fighting and skilling; cheap to max"
   sources:
@@ -481,7 +507,7 @@ These are measured on both private fixtures and the largest public save, on a 20
 | **Save lag** (game saves every ~4 min; the player buys in between) | The plan reflects the last save. The header says "as of save Ns ago". Buying out of order is fine: the next save recomputes. A purchase already made shows until that save arrives (no manual done, [#10](https://github.com/YassSoliman/idleon-forge/issues/10) item 8). |
 | **Multiple tabs** | Each tab computes the same plan from the same save. Skip today and Not for me sync through the `storage` event. |
 | **Second account** | One account per browser ([#10](https://github.com/YassSoliman/idleon-forge/issues/10) item 16). Skip/Not for me keys include the account id, so a sign-out and sign-in to another account never leaks state. |
-| **Shared-money toggle** (v1.07 Advanced Features, "money is shared between characters") | Its save flag and exact effect are unverified (Vault dossier, L). Until a Detector reads it, wallets follow `characters[].money`. If all characters but one read 0 while that one holds coins, that is consistent with either model and is shown as is. Tracked as a build-time verification task (Red-team 1). |
+| **Shared-money toggle** (v1.07 Advanced Features, "money is shared between characters") | Its save flag and exact effect are unverified (Vault dossier, L). Until a Detector reads it, wallets follow `characters[].money`. If all characters but one read 0 while that one holds coins, that is consistent with either model and is shown as is. Tracked as a build-time verification task (section 9, note 1). |
 | **Rows 5/6 at totals 75–79** | Toolbox's `unlocked` disagrees with the game's count rule. `VaultRow.buyable` uses the game rule (Vault dossier, Toolbox gaps). |
 | **Maxed rows with a Toolbox `cost`** | Dropped (FR-8). |
 | **Locked P2W liquids** (`level == -1`) | Dropped (AC-8.2). |
@@ -503,33 +529,24 @@ These are measured on both private fixtures and the largest public save, on a 20
 | **M5 Higher-leverage options** (or M2, wherever the `getMaxDamage` clone lives) | The pusher's hit chance on the next map, for FR-21 | `hitChanceOnNextMap(state, characterIndex): number \| null`. Null means the gate does not fire, and the combat row stays at position 7. |
 | **M4 Purpose & Milestones** | Takes M7's not-ready stamp raises and the Guilding Tools gap as Goals | M7 emits `SpendHandoff { kind: 'stamp-material' \| 'stamp-carry' \| 'guilding-tools', ref, shortfall }[]` |
 | **M6 Unspent & idle** | Owns the "coins idle" Check and points it at the Spend Plan. M6 must not list coin purchases itself, which avoids double advice. | M6 reads `SpendPlan.perCharacter` and `SpendPlan.empty` |
-| **M10 Now screen UI** | Renders the Spend Plan block (placement: D5), the 5-line cap, groups, status pills, Source links, Skip today, Not for me and Report this | `SpendPlan` (TR-3) |
+| **M10 Now screen UI** | Renders the Spend Plan as one Account-section block plus the per-character chip (D5, FR-23), the 5-line cap, groups, status pills, Source links, Skip today, Not for me and Report this | `SpendPlan` (TR-3) |
 | **M10 / M3 Visit Order** | "Most to spend" | `SpendPlan.perCharacter` |
 | **M11 Knowledge tooling** | Schema for the `spend` block, the generated-fact pipeline for the 5 generated files, and CI source enforcement | JSON Schema in `packages/knowledge/schema` |
 | **M12 Release** | "What's new" lines when the Spend lists change | changelog entries from Knowledge Base PRs |
 | **M13 Suggestions** | Report this on a Spend line | FR-19 payload |
 
-## 8. Open decisions for Yasser
+## 8. Decisions
 
-❓ D1 - Coins on several characters: The game spends coins from the character being played, but coins can be moved through the bank (storage). Toolbox treats all coins as one account pool. Should the plan (a) treat coins as one pool, like Toolbox, and leave moving them to the player; (b) plan per character and add a "withdraw from storage, then buy" step only when one purchase needs more than any single character holds; or (c) plan per character and never suggest moving coins?
-➡️ (b). It keeps a 15-minute session to the fewest character switches: on both fixtures, one or two characters hold most of the coins. It still unlocks the big one-off buys that no single character can afford, such as a 100M bribe on the W2-late account, whose richest character holds ~92M with ~105M in storage. (a) would tell players they can afford things they can't buy without extra steps they aren't shown.
+Ruled by Yasser on 2026-10-17 ([PR #51](https://github.com/YassSoliman/idleon-forge/pull/51)): every recommendation accepted as written. The FRs, TRs and stories above already apply them.
 
-❓ D2 - Saving up for a big purchase: When a high-ranked buy is unaffordable everywhere (e.g. Duplicate Entries at 100M, or Changing the Code at 1.5M early in W2), should the plan (a) never save up, and keep buying cheaper things below it; (b) always stop at the first unaffordable line ("save for X"); or (c) save up only for items flagged `reserve` in the Knowledge Base, by holding back the coins of the character closest to affording it?
-➡️ (c). Only a handful of buys deserve it: Duplicate Entries before tickets, Changing the Code, and later the Crystal 3D Printer if gems ever join. (b) would freeze the whole plan behind one big item. (a) is what leaves players perpetually just short of the purchases the community says matter most.
+- **D1 - Coins on several characters: plan per character, pool through the bank only when needed.** The plan keeps one wallet per character plus the bank. A line becomes `move-coins` ("withdraw N from storage on <class Lv>, then buy") only when no single wallet covers it but one wallet plus the bank does (FR-7). *Why:* it keeps a 15-minute session to the fewest character switches (on both fixtures one or two characters hold most of the coins), and it still unlocks big one-off buys no single character can afford. One account-wide pool, like Toolbox, would call things affordable that need steps the player isn't shown.
+- **D2 - Saving up: only for `reserve` items.** When a line flagged `reserve` in the Knowledge Base is unaffordable everywhere, it becomes `save-for`, and the coins of the character closest to affording it are held back from every line ranked below it (FR-22). Every other unaffordable line is simply skipped, and cheaper lines below it stay buyable. The `reserve` items today: Duplicate Entries before tickets and Changing the Code (the Crystal 3D Printer joins only if gems ever enter the plan). *Why:* only a handful of buys deserve it. Always stopping at the first unaffordable line would freeze the plan behind one big item, and never saving leaves players forever just short of the buys the community says matter most.
+- **D3 - Sinks Toolbox doesn't price: show them as `unpriced`.** Statue Gold and Alchemy Pay 2 Win Player upgrades show as "cost not checked, see the price in game" lines, never deducted from a wallet (FR-14). Forge upgrades go under "Not covered yet" (FR-20). Anvil coin points use Toolbox's `getPlayerAnvil` from the parse worker if it can be imported; otherwise they are `unpriced` too. No cost formulas of our own: amending ADR 0005 stays in reserve. *Why:* statue Gold is a confirmed priority (PV 3.7) and Player upgrades a cheap community one, and the game shows the price on the button. Writing formulas would reopen the upkeep cost ADR 0005 exists to avoid.
+- **D4 - Hydrogen discount: hold only for a raise that will fit within 7 days.** Ready cap raises are held (`hold`) only while some at-cap stamp whose material is too big for any character to carry today would fit at a discount reachable within K = 7 days. Otherwise every ready raise is bought now, in one session (FR-11). *Why:* always waiting for 90% can mean months at a low Hydrogen level (1% a day), and raising whenever anything is ready wastes the discount's real job, which is making otherwise-impossible raises fit in an inventory. Toolbox already computes each stamp's `minReduction`, so the rule is pure arithmetic, and the hold notice shows the days left so the player can override by just raising.
+- **D5 - Placement: one Account block plus a chip per paying character.** The Spend Plan is one block in the Now screen's Account section, each line naming its character. Each paying character's row also gets a one-line chip, "Spend here: N buys, ~X → Spend Plan" (FR-23). *Why:* the order across characters is the whole point of a Spend Plan, and splitting it across rows would lose it. The chip still honours #10 item 6 (an account-wide task that needs a character shows on that character's row) and feeds Visit Order. This binds M10.
+- **D6 - Open-ended rows: authored checkpoints plus a 1/3 share cap.** Open-ended Vault rows (Major Discount, Vault Mastery, Monster Tax and the like) are bought only to an authored per-Stage checkpoint, and one open-ended line never takes more than 1/3 of the account's coins in one plan (FR-24). *Why:* this is the Vault dossier's own "keep Major Discount about 1/3 of your spend". On the W2-late account, filling Major Discount toward its next checkpoint would otherwise take ~52M of the richest character's ~92M for about 4% cheaper rows. The checkpoint keeps the plan Stage-aware, the cap stops one steep row from crowding out a dozen cheap permanent upgrades, and both are authored numbers (ADR 0007), tunable per entry.
 
-❓ D3 - Sinks Toolbox doesn't price: Toolbox gives no cost for statue Gold, Alchemy Pay 2 Win Player upgrades or Forge upgrades. Anvil coin points are only priced in Toolbox's UI code. Should we (a) show them as "cost not checked, see the price in game" lines that are never deducted from a wallet; (b) leave them out of the Spend Plan entirely; or (c) amend ADR 0005 to allow a short list of one-line cost formulas copied from game code, each with a contract test?
-➡️ (a) for statue Gold and Player upgrades: both are confirmed or cheap community priorities (PV 3.7; AutoReview's "Player upgrades after each Alchemy level up"), and the game shows the price on the button. Forge upgrades go under "Not covered yet". For Anvil coin points, call Toolbox's `getPlayerAnvil` from the worker if it can be imported; otherwise use (a). Keep (c) in reserve: it reopens the formula-upkeep cost ADR 0005 was written to avoid.
-
-❓ D4 - When to raise stamp caps under the Hydrogen discount: Any cap raise resets the discount to 0%, and it rebuilds by the Hydrogen level each day you log in (up to 90%). Should the plan (a) always hold every raise until the discount hits 90%; (b) raise everything that fits now, all in one session, whenever any raise is ready; or (c) hold only while some stamp that is too big to carry now will fit within K days, otherwise raise everything now?
-➡️ (c) with K = 7 days. (a) can mean waiting months at a low Hydrogen level (1%/day), and (b) wastes the discount's real job, which is making otherwise-impossible raises fit in a character's inventory. Toolbox already computes the discount each stamp needs (`minReduction`), so (c) is pure arithmetic. The hold notice shows the days left, so the player can override by just raising.
-
-❓ D5 - Where the Spend Plan sits on the Now screen: #10 says an account-wide task that needs a specific character goes on that character's row, and every Spend line needs a specific character (the one holding the coins). Should the plan be (a) one block in the Account section, with each line naming its character; (b) split across the character rows; or (c) one Account block plus a one-line chip on each paying character's row ("Spend here: 4 buys, ~18M → Spend Plan")?
-➡️ (c). The order across characters is the whole point of a Spend Plan, and splitting it (b) loses it. The chip still honours #10 item 6 and feeds Visit Order. This choice also binds M10.
-
-❓ D6 - Stopping one upgrade from eating all the coins: Some Vault rows never run out of levels and get steep, such as Major Discount (×1.3 per level), Vault Mastery and Monster Tax. On the W2-late account, filling Major Discount toward the next checkpoint would take ~52M of the richest character's ~92M for about 4% cheaper rows. Should open-ended rows (a) be bought only to an authored checkpoint per Stage; (b) get a share cap, never taking more than a set fraction of the account's coins in one plan; or (c) both?
-➡️ (c): authored checkpoints, plus a share cap of 1/3 of the account's coins per open-ended line. This is the Vault dossier's own "keep Major Discount about 1/3 of your spend". The checkpoint keeps the plan Stage-aware, and the cap stops a single steep row from crowding out a dozen cheap, permanent upgrades. Both are authored numbers, which ADR 0007 allows, and the cap can be tuned per entry.
-
-## 9. Red-team notes
+## 9. Risk notes
 
 1. **It tells you to buy something you can't afford on the character you're playing.** Toolbox's `rawMoney` and `hasMoney` add up every character plus the bank. Its own comment assumes coins move freely between characters. A plan built on them would show "affordable" for buys that need several switches and transfers. *Defence:* per-character wallets (FR-2, FR-5), D1's explicit move-coins step, and AC-2.1 and AC-2.5. *Residual risk:* the shared-money toggle (v1.07) is unverified. A build task must find its save flag on a save with the toggle on before M7 ships. If it is on, wallets collapse into one.
 2. **Toolbox numbers that look valid but aren't.** Five traps found on the fixtures:
