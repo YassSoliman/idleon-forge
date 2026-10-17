@@ -155,6 +155,8 @@ export interface VaultCostRun {
 /** M7 TR-4: one stamp from the worker re-evaluation, the fields the Spend Plan reads. */
 export interface StampEvaluation {
   rawName: string;
+  /** Toolbox `displayName`, e.g. "Sword_Stamp". */
+  name: string;
   level: number;
   maxLevel: number;
   /** reqItemMultiplicationLevel. */
@@ -165,6 +167,8 @@ export interface StampEvaluation {
   coinsToCap: number;
   /** Item rawName. */
   material: string;
+  /** The material's Toolbox name, e.g. "Spore_Cap". */
+  materialName: string;
   /** An equipment item: Toolbox checks its craft ingredients, not the item itself (FR-10). */
   equip: boolean;
   materialCost: number;

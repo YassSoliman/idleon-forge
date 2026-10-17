@@ -104,12 +104,14 @@ function ladders(parsed: ParsedSave, rawLevels: readonly number[], depth: number
 /** One stamp as the worker re-evaluation sees it, flattened to the fields M7 reads. */
 const toEvaluation = (s: Any, account: Any): StampEvaluation => ({
   rawName: String(s?.rawName ?? ''),
+  name: String(s?.displayName ?? s?.rawName ?? ''),
   level: Number(s?.level) || 0,
   maxLevel: Number(s?.maxLevel) || 0,
   capStep: Number(s?.reqItemMultiplicationLevel) || 0,
   goldCost: Number(s?.goldCost),
   coinsToCap: Number(getGoldCostToMaxLevel(s, account)),
   material: String(s?.itemReq?.rawName ?? ''),
+  materialName: String(s?.itemReq?.name ?? s?.itemReq?.rawName ?? ''),
   equip: Array.isArray(s?.materials) && s.materials.length > 0,
   materialCost: Number(s?.materialCost),
   ownedMats: Number(s?.ownedMats) || 0,
