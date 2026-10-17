@@ -86,7 +86,7 @@ export interface AfkSafetyInput {
 
 const subjectKey = (s: KbSubject): Subject => (s.kind === 'account' ? 'account' : `c${s.index}`);
 
-const sourceRef = (s: SourceT): SourceRef => ({
+export const sourceRef = (s: SourceT): SourceRef => ({
   label: s.title,
   url: s.url,
   tier: s.tier,
@@ -140,7 +140,7 @@ export function classify(
   return { role: 'blocker', fixHolds, demotedBecause: null };
 }
 
-function builtins(state: AccountState, subject: Subject): Record<string, SlotValue> {
+export function characterBuiltins(state: AccountState, subject: Subject): Record<string, SlotValue> {
   if (subject === 'account') return {};
   const c = state.characters.find((x) => `c${x.index}` === subject);
   if (!c) return {};
@@ -170,7 +170,7 @@ function nextActionOf(
   stale: boolean,
   fields: string[],
 ): NextAction {
-  const scopes = [slots, builtins(state, subject), entry.values];
+  const scopes = [slots, characterBuiltins(state, subject), entry.values];
   return {
     key: `${entry.id}@${subject}`,
     entryId: entry.id,

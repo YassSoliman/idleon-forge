@@ -123,6 +123,7 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
       activePlay: parts.flatMap(({ x }) => x.activePlay ?? []),
       doneThisSession: parts.flatMap(({ x }) => x.doneThisSession ?? []).sort(byConfirmed),
       firstFill: earliest(parts.map(({ x }) => x.firstFill)),
+      info: parts.flatMap(({ x }) => x.info ?? []),
     };
   });
 

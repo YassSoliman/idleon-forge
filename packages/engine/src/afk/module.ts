@@ -8,8 +8,10 @@
 import type { AccountState } from '@idleon-forge/account-state';
 import type { DetectorRegistry } from '@idleon-forge/knowledge';
 import type { EngineModule, ModuleGoal, ModuleOutput } from '../core/module';
+import type { InfoLine } from '../result';
 import { type AfkSafetyInput, evaluateAfkSafety } from './evaluate';
 import { HOUR_MS } from './expected-return';
+import { afkInfoLines } from './info';
 import type { AfkSafetyResult, ExpectedReturn, PurposeStatus, SafetyFinding, StageLike } from './types';
 import { composeVerdict } from './verdict';
 
@@ -41,6 +43,7 @@ export function toModuleOutput(
   result: AfkSafetyResult,
   kb: AfkSafetyModuleDeps['kb'],
   purpose: AfkSafetyModuleDeps['purpose'] = () => 'not-implemented',
+  info: ReadonlyMap<number, InfoLine[]> = new Map(),
 ): ModuleOutput {
   return {
     characters: result.characters.map((c) => {
@@ -50,6 +53,7 @@ export function toModuleOutput(
         verdict: composeVerdict(c.safety, purpose(c.index), blockerKeys),
         goals: c.findings.map((f) => goalOf(f, kb)),
         firstFill: c.firstFill,
+        ...(info.get(c.index)?.length ? { info: info.get(c.index) } : {}),
       };
     }),
     account: {
@@ -76,19 +80,34 @@ export function createAfkSafetyModule(deps: AfkSafetyModuleDeps): EngineModule {
     dependsOnExpectedReturn: true,
     affectsVerdict: true,
     run(input) {
+      const expectedReturn = expectedReturnOf(
+        input.options.expectedReturnSeconds,
+        input.history.learnedExpectedReturnSeconds,
+      );
       const result = evaluateAfkSafety({
         state: input.state,
         history: input.history.entries,
         now: input.now,
-        expectedReturn: expectedReturnOf(
-          input.options.expectedReturnSeconds,
-          input.history.learnedExpectedReturnSeconds,
-        ),
+        expectedReturn,
         kb: deps.kb,
         registry: deps.registry,
         stage: deps.stage?.(input.state) ?? null,
       });
-      return toModuleOutput(result, deps.kb, deps.purpose);
+      // #70 A1: quiet info lines; a failure here drops them, never the Verdicts.
+      let info: Map<number, InfoLine[]> = new Map();
+      try {
+        info = afkInfoLines({
+          state: input.state,
+          history: input.history.entries,
+          now: input.now,
+          expectedReturnMs: expectedReturn.usedMs,
+          kb: deps.kb,
+          registry: deps.registry,
+        });
+      } catch {
+        info = new Map();
+      }
+      return toModuleOutput(result, deps.kb, deps.purpose, info);
     },
   };
 }

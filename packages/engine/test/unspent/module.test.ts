@@ -6,6 +6,7 @@ import { detectors } from '@idleon-forge/knowledge/detectors';
 import { describe, expect, it } from 'vitest';
 import { assemble, createEngine } from '../../src';
 import { createUnspentModule } from '../../src/unspent';
+import { W2 as afkW2, W3 as afkW3 } from '../afk/helpers';
 import { input, PUBLIC_SAVES, publicState } from '../core/helpers';
 import { loadKb, scrubbed, stateOf } from '../metapath/helpers';
 
@@ -42,10 +43,54 @@ describe('the M6 engine module', () => {
         'Spend banked brew in 3 cauldrons: about 10 new bubbles',
         "Open Poppy's pond to convert your fish",
         '628 gems unspent',
+        // On since the in-game check (#34).
+        "Claim today's free Pet Mart gems",
       ]),
     );
-    // No Pet Mart line (gated off), no printer line (W2-late without the hammer), no W3 Checks (Stage).
-    expect(texts.some((t) => /Pet Mart|Crystal 3D Printer|Refinery|Death Note|Salt/.test(t))).toBe(false);
+    // No printer line (W2-late without the hammer), no W3 Checks (Stage), and no anvil line: nothing
+    // unspent, and the W3 town shop (Whetstone) isn't reached (#70 A3).
+    expect(texts.some((t) => /Crystal 3D Printer|Refinery|Death Note|Salt|anvil|Whetstone/i.test(t))).toBe(
+      false,
+    );
+  });
+
+  it("never runs M3's Checks, even in a shared System (#70 A5)", () => {
+    for (const s of [afkW2(), afkW3()]) {
+      const out = m6.run(input(s, { now: at(s) }));
+      const ids = [
+        ...(out.account?.goals ?? []),
+        ...(out.characters ?? []).flatMap((c) => c.goals ?? []),
+      ].map((g) => g.goal.id);
+      expect(ids).not.toContain('anvil.check.caps-before-return');
+      expect(ids).not.toContain('anvil.check.fill-time');
+      expect(ids).not.toContain('refinery.check.fuel-runs-out');
+    }
+  });
+
+  it('W3-early: one account anvil line with per-character detail, and the Whetstone respec (#70 A2, A3)', () => {
+    // With the AFK facts (the worker passes Toolbox's calls), where the anvil plan lives.
+    const s = afkW3();
+    const out = m6.run(input(s, { now: at(s) }));
+    const goal = (id: string) => out.account?.goals?.find((g) => g.goal.id === id)?.goal;
+    const spend = goal('anvil.check.spend-points');
+    expect(spend?.nextAction.text).toBe('Unspent anvil points on 1 character → Speed');
+    expect(spend?.details).toEqual([{ subject: 'c2', text: 'Bowman Lv 60: 3 into Speed, 0 into Capacity' }]);
+    expect(spend?.nextAction.why).toMatch(/in 8 h from empty/);
+    const respec = goal('anvil.check.respec');
+    expect(respec?.nextAction.text).toBe('Whetstone respec → about 30% more anvil output at 8 h');
+    expect(respec?.details).toEqual([
+      { subject: 'c0', text: 'Wizard Lv 73: respec to 7 Speed / 23 Capacity, about 30% more' },
+    ]);
+    // Never a character Goal.
+    for (const c of out.characters ?? [])
+      expect((c.goals ?? []).map((g) => g.goal.system)).not.toContain('anvil');
+  });
+
+  it('W2-late with the AFK facts: no anvil Goal (nothing unspent; the W3 shop is not reached)', () => {
+    const s = afkW2();
+    const out = m6.run(input(s, { now: at(s) }));
+    const all = [...(out.account?.goals ?? []), ...(out.characters ?? []).flatMap((c) => c.goals ?? [])];
+    expect(all.filter((g) => g.goal.system === 'anvil')).toEqual([]);
   });
 
   it('W3-early: the W3 Checks show, with the Contested gem count replaced by printer progress', () => {
@@ -87,8 +132,9 @@ describe('the M6 engine module', () => {
       'Equip Level up gift in a big-bubble slot',
       'Equip Hammer hammer in a big-bubble slot',
     ]);
-    expect(row(2)?.goals?.map((g) => g.goal.nextAction.text)).toEqual(['Spend 3 anvil points on Speed']);
-    expect(row(2)?.spendCount).toBe(1);
+    // The Bowman Lv 60's 3 anvil points are on the account line now (#70 A2).
+    expect(row(2)?.goals ?? []).toEqual([]);
+    expect(row(2)?.spendCount).toBe(0);
   });
 
   it('ranking hints: losing-now and lost-before-return at position 1, banked at 3 (TR-9)', () => {
