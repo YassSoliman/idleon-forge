@@ -9,7 +9,7 @@ import { z } from 'zod';
 import { checkSource } from '../src/check';
 import { formatIssue, type Issue } from '../src/issues';
 import { loadSource } from '../src/load';
-import { entry, file, kbTree, testRegistries } from './kb-tree';
+import { entry, file, kbTree, SRC1, SRC3, testRegistries } from './kb-tree';
 
 const engine = (id: string) =>
   defineDetector({
@@ -88,5 +88,44 @@ describe('M2 schema additions', () => {
     expect(issues.some((i) => i.code === 'pending-entry' && i.message.includes('later.check.not-yet'))).toBe(
       true,
     );
+  });
+});
+
+describe('M15 Stage Expectations (part: expectations, C4)', () => {
+  const expectations = (fix: string, source: string) =>
+    entry({
+      id: 'metapath.metapath.stage-expectations',
+      system: 'metapath',
+      type: 'metapath',
+      part: 'expectations',
+      expectations: `[{ id: pushed, system: Push, expectedBy: W1-mid, fix: ${fix}, why: A reason, sources: [${source}] }]`,
+    });
+
+  it('a row whose fix exists and cites a player-readable Source passes', async () => {
+    const issues = await run({
+      'systems/metapath.yaml': file('metapath', stages, push(), expectations('metapath.goal.push', SRC3)),
+    });
+    expect(errors(issues)).toEqual([]);
+  });
+
+  it('a dangling fix id is an error', async () => {
+    const issues = await run({
+      'systems/metapath.yaml': file(
+        'metapath',
+        stages,
+        push(),
+        expectations('cards.check.not-shipped', SRC3),
+      ),
+    });
+    expect(errors(issues).some((m) => m.includes('references a missing entry cards.check.not-shipped'))).toBe(
+      true,
+    );
+  });
+
+  it('a row with only a tier 1 Source is an error (#74)', async () => {
+    const issues = await run({
+      'systems/metapath.yaml': file('metapath', stages, push(), expectations('metapath.goal.push', SRC1)),
+    });
+    expect(errors(issues).some((m) => m.includes('expectation pushed has no tier 2–4 Source'))).toBe(true);
   });
 });

@@ -87,6 +87,10 @@ function referencesOf(e: Entry): { where: (string | number)[]; id: string; role:
   // M14 FR-1: a Goal or Check names its Walkthrough's target Acquisition.
   if ((e.type === 'goal' || e.type === 'check') && e.walkthrough)
     out.push({ where: ['walkthrough'], id: e.walkthrough, role: 'walkthrough' });
+  // M15 TR-10, C4: every Stage Expectation names an existing fix entry.
+  if (e.type === 'metapath')
+    for (const [i, row] of (e.expectations ?? []).entries())
+      out.push({ where: ['expectations', i, 'fix'], id: row.fix, role: 'fix' });
   if (e.type === 'priority')
     for (const [i, tier] of e.tiers.entries())
       for (const [j, item] of tier.entries()) {
@@ -587,6 +591,18 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
         'no tier 2–4 Source a player can read (the IdleOn Wiki, a dated guide or thread, patch notes); the Now screen shows no link',
         'no-player-source',
       );
+
+  // M15 TR-10, #74: every Stage Expectation row carries a Source a player can read (an error: rows are new).
+  for (const e of src.authored)
+    if (e.value.type === 'metapath')
+      for (const [i, row] of (e.value.expectations ?? []).entries())
+        if (!row.sources.some(isPlayerSource))
+          err(
+            e.file,
+            e.lineOf(['expectations', i, 'sources']),
+            e.value.id,
+            `expectation ${row.id} has no tier 2–4 Source a player can read (#74)`,
+          );
 
   // ---- Source game versions (TR-11): never newer than the pin ----
   for (const e of src.authored) {
