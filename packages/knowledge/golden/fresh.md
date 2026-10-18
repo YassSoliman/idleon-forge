@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #e6ac3564 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 8 of 242
+# golden v1: fresh · knowledge #7656f447 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry
 
 ## Verdict changes
 
@@ -21,21 +21,26 @@ Unknown: can't tell from the save
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (8)
+show more (6)
 
 ## Not covered yet
+Cards
 Classes and subclasses
+Obols
 Portals and map doors
 Skills, doors and tools
+Spend Plan
+Talent presets
+Talents
 Upgrade Vault
 Bribes
 Forge
 Quests
+Stamps
 Statues
 The Owl
 Alchemy Pay 2 Win
 Islands
-3D Printer
 Atom Collider
 Construction
 Equinox
