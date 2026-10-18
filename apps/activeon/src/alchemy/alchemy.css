@@ -31,8 +31,11 @@
 .al-pot {
   min-width: 0;
   border: 1px solid var(--line);
+  /* R11 QA (owner ask): each cauldron reads in its own colour at a glance: a band in the pot's
+     colour and a light wash of it behind the card. */
+  border-top: 6px solid var(--pot, var(--line));
   border-radius: var(--radius-card);
-  background: var(--surface);
+  background: color-mix(in srgb, var(--pot, var(--surface)) 12%, var(--surface));
 }
 .al-pot summary {
   display: grid;
@@ -246,6 +249,8 @@
   background: var(--surface);
   color: var(--fg);
   font: var(--weight-regular) var(--text-xs) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   text-align: left;
   cursor: pointer;
 }
