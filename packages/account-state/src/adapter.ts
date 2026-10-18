@@ -13,6 +13,7 @@ import { readAlchemyPlan } from './alchemy';
 import { readCollections } from './collections';
 import { readDepth } from './depth';
 import { FIELD_RAW_KEYS, type RawKind } from './fields';
+import { readGear } from './gear';
 import { metaPathAccountFields, metaPathCharacterFields } from './metapath-fields';
 import { readPurpose } from './purpose';
 import { readSlotFields } from './slots';
@@ -502,6 +503,8 @@ export function toAccountState(
   );
   // ---- M19 Alchemy (M19 TR-2); after M20's skills, which it reads ----
   const alchemyPlan = readAlchemyPlan({ account, states, failedSections }, c);
+  // ---- M18 Gear & Tools (M18 TR-2) ----
+  const gear = readGear({ account, characters, data, states, withData }, c);
   // ---- M7 Spend Plan (M7 TR-2) ----
   const spend = readSpendInputs({
     parsed,
@@ -559,6 +562,7 @@ export function toAccountState(
       ...slots,
       ...purpose,
       ...alchemyPlan,
+      ...gear,
       // One salt list: M6's entries carry M2's rawName/unlocked plus the fuel state (M6 TR-3).
       salts: metaPath.salts === null ? null : (unspent.salts ?? metaPath.salts ?? null),
     },

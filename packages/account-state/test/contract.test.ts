@@ -110,6 +110,9 @@ const shapeOf = (state: AccountState) => ({
       state.account.storedObols,
     cardSets: state.account.cardSets?.map((s) => `${s.rawName} tier ${s.tier} (${s.points}/${s.size})`),
     printer: line(state.account.printer),
+    // M18 TR-2: digests, so a re-sync diff shows what moved without listing every stat.
+    gearItems: state.account.gearItems && `${Object.keys(state.account.gearItems).length} items`,
+    anvilRecipes: state.account.anvilRecipes?.map((t) => t.length).join('/') ?? state.account.anvilRecipes,
   },
   characters: state.characters.map(({ name: _name, talents, ...c }) => ({
     ...compact(c as unknown as Record<string, unknown>, CHARACTER_MAPS),
@@ -120,6 +123,7 @@ const shapeOf = (state: AccountState) => ({
       active: presetDigest(talents.active),
       other: presetDigest(talents.other),
     },
+    gear: c.gear?.map((w) => (w === null ? '-' : typeof w === 'string' ? w : `${w[0]}+stones`)).join(' '),
     skillEfficiency: round(c.skillEfficiency),
     anvilSpeed: c.anvilSpeed == null ? c.anvilSpeed : Math.round(c.anvilSpeed),
     talentPresets: c.talentPresets
@@ -169,10 +173,12 @@ describe('across all public saves', () => {
   // M1 TR-16 set 200 KB; M8's collections and M9's talent presets together put the largest public
   // save (730 KB raw, about 3x a real account) at ~255 KB, so the cap moved to 300 KB in release 4.
   // M20 TR-2 adds skills and Parallel Slots per character (~13 KB on the 17-character speedrun save,
-  // ~3 KB on a real W3 account), so the guard is 320 KB; the history step keeps only compact entries.
-  it('keeps every Account State under the 320 KB history cap (TR-16, M20 TR-2)', () => {
+  // ~3 KB on a real W3 account), so the guard was 320 KB; the history step keeps only compact entries.
+  // M18 TR-2 adds worn gear and every held item's stats, stored once per rawName (+17 KB on highend.json,
+  // which holds 122 kinds of gear; +5 KB on a real W3 account), so the guard is 340 KB.
+  it('keeps every Account State under the 340 KB history cap (TR-16, M20 TR-2, M18 TR-2)', () => {
     const largest = Math.max(...states.map((s) => new TextEncoder().encode(JSON.stringify(s)).length));
-    expect(largest).toBeLessThan(320 * 1024);
+    expect(largest).toBeLessThan(340 * 1024);
   });
 
   it('has the 11 public saves', () => {
