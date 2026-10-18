@@ -86,7 +86,6 @@
   /* Six tabs: they wrap at 320 px instead of widening the page. */
   flex-wrap: wrap;
   gap: 0;
-  background: var(--sunk);
   margin: 0 0 var(--space-2);
   box-shadow: 0 1px 0 var(--line);
 }
@@ -134,7 +133,6 @@
 .char-tab .cs-badge[data-level="empty"] {
   color: var(--fg);
   background: var(--surface);
-  box-shadow: inset 0 0 0 2px var(--line-strong);
 }
 .char-tab .cs-badge[data-level="unknown"] {
   color: var(--on-unk);

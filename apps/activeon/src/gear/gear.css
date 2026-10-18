@@ -56,7 +56,6 @@
   color: var(--fg);
   font: inherit;
   cursor: pointer;
-  box-shadow: inset 0 0 0 2px var(--ring, var(--line));
   border: 0;
 }
 .gs-t {
@@ -75,31 +74,24 @@
 }
 .gs.st-ok {
   background: var(--ok-soft);
-  --ring: var(--ok);
 }
 .gs.st-ok .gs-w {
   color: var(--ok);
 }
 .gs.st-behind {
   background: var(--warn-soft);
-  --ring: var(--warn);
 }
 .gs.st-behind .gs-w {
   color: var(--warn);
 }
 .gs.st-empty {
   background: var(--bad-soft);
-  --ring: var(--bad);
-  box-shadow: none;
-  outline: 2px dashed var(--ring, var(--line-strong));
-  outline-offset: -2px;
 }
 .gs.st-empty .gs-w {
   color: var(--bad);
 }
 .gs.st-held-upgrade {
   background: var(--surface);
-  --ring: var(--ok);
 }
 .gs.st-held-upgrade .gs-w {
   color: var(--ok);
@@ -107,14 +99,13 @@
 .gs.st-unknown,
 .gs.st-m20 {
   background: var(--unk-soft);
-  --ring: var(--unk);
 }
+/* The slot the Next step is about: a 3 px gold underline (the tab's mark), never an outline box. */
 .gs.lit {
-  outline: 3px solid var(--accent);
-  outline-offset: 2px;
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .gs.open {
-  box-shadow: inset 0 0 0 2px var(--fg);
+  box-shadow: inset 0 -3px 0 var(--fg);
 }
 .gs-next {
   position: absolute;
@@ -172,9 +163,7 @@
 }
 .gd-step {
   margin: 0;
-  padding: var(--space-2) var(--space-3);
-  background: var(--accent-soft);
-  border-radius: var(--radius-sm);
+  padding: var(--space-4) var(--space-5);
 }
 .gd-step p {
   margin: 0 0 var(--space-1);

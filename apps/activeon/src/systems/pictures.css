@@ -65,14 +65,12 @@
 }
 .sy-stamp--now {
   background: var(--accent-soft);
-  box-shadow: inset 0 0 0 2px var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .sy-stamps .sy-stamp.is-now {
   grid-column: span 2;
   border-radius: var(--radius-control);
-  box-shadow:
-    inset 0 0 0 2px var(--accent),
-    0 0 0 3px var(--accent-soft);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .sy-stamps .sy-stamp.is-now > svg {
   filter: none;
@@ -112,7 +110,7 @@
   background: var(--surface);
 }
 .sy-ribbon__row.is-first {
-  box-shadow: inset 0 0 0 2px var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .sy-ribbon__n {
   font-weight: var(--weight-bold);
@@ -274,7 +272,7 @@
   grid-column: 1 / -1;
 }
 .sy-vault .sy-vrow.is-now {
-  box-shadow: inset 0 0 0 1px var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
   font-size: var(--text-sm);
   background: var(--accent-soft);
 }
@@ -329,9 +327,8 @@
   font-size: var(--text-xs);
 }
 .sy-pslot.is-empty {
-  background: transparent;
-  box-shadow: inset 0 0 0 1px var(--line);
+  background: repeating-linear-gradient(45deg, var(--sunk) 0 4px, transparent 4px 8px);
 }
 .sy-printer .sy-pslot.is-now {
-  box-shadow: inset 0 0 0 2px var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }

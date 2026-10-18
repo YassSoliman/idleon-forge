@@ -43,17 +43,15 @@
   min-height: var(--tap-min);
   padding: var(--space-2);
   border-radius: var(--radius-control);
-  background: var(--surface);
+  background: var(--sunk);
   font-weight: var(--weight-semibold);
-  box-shadow: inset 0 0 0 2px var(--line-strong);
   border: 0;
 }
 .ss .ss-slot[data-empty="yes"] {
   color: var(--muted);
   font-weight: var(--weight-regular);
   box-shadow: none;
-  outline: 2px dashed var(--ring, var(--line-strong));
-  outline-offset: -2px;
+  background: repeating-linear-gradient(45deg, var(--sunk) 0 4px, transparent 4px 8px);
 }
 .ss .ss-line {
   display: flex;

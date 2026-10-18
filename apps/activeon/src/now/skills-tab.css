@@ -40,12 +40,11 @@
   gap: var(--space-1);
   padding: var(--space-2);
   border-radius: var(--radius-control);
-  background: var(--surface);
-  box-shadow: inset 0 0 0 1px var(--line);
+  background: var(--sunk);
   border: 0;
 }
 .sk-bar[data-lit="yes"] {
-  box-shadow: inset 0 0 0 2px var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
   border: 0;
 }
 .sk-bar[data-locked="yes"] {
@@ -203,7 +202,7 @@
   font-weight: var(--weight-bold);
 }
 .sk-grid td.hl {
-  box-shadow: inset 0 0 0 2px var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .sk-mark {
   color: var(--muted);

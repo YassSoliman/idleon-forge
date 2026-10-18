@@ -112,9 +112,9 @@
 .characters-place .cp-cell[data-level="ok"] {
   font-weight: var(--weight-regular);
 }
+/* The cell to fix first is the screen's one frame (M21.1 refresh): notched corners, no ring. */
 .characters-place .cp-cell[data-ring="yes"] {
-  box-shadow: 0 0 0 3px var(--accent);
-  z-index: 1;
+  background: var(--frame-bg);
 }
 .characters-place .cp-ring-tag {
   font-size: var(--text-xs);

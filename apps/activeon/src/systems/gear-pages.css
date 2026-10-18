@@ -48,8 +48,7 @@
 .gd-heat-table .hc.is-now,
 .gd-worst li.is-now,
 .gd-sets .gd-set.is-now {
-  outline: 3px solid var(--accent);
-  outline-offset: -2px;
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .gd-worst {
   list-style: none;

@@ -277,7 +277,7 @@
 }
 .al-grid .al-cell.is-now {
   grid-column: 1 / -1;
-  box-shadow: inset 0 0 0 1px var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
   font-size: var(--text-sm);
   background: var(--accent-soft);
 }
@@ -293,8 +293,7 @@
 .al-pots .al-pot.is-now,
 .al-tubes .al-tube.is-now,
 .al-shelf .al-vial.is-now .al-glass {
-  outline: 3px solid var(--accent);
-  outline-offset: 1px;
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .al-glass i.h0,
 .al-tube-g i.h0 {

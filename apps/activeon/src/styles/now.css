@@ -207,8 +207,7 @@ label.chip {
 .iyht.lit,
 .skipped-line.lit,
 .n-step.lit {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
+  box-shadow: inset 0 -3px 0 var(--focus);
 }
 @media (prefers-reduced-motion: no-preference) {
   .na.lit,
@@ -1080,12 +1079,11 @@ label.chip {
 }
 
 /* ---- Focus (`now.focus-card` Current-step hero, Pager, Plain "you are here", Quiet hint) ---- */
+/* M21.1 refresh: the Character page sits on the page; its current step is the screen's one frame. */
 .n-focus {
   display: grid;
   gap: var(--space-3);
-  padding: var(--card-pad);
-  border-radius: var(--radius-card);
-  background: var(--surface);
+  padding: 0;
   border: 0;
 }
 .n-pager {
@@ -1209,12 +1207,7 @@ label.chip {
 .n-step {
   display: grid;
   gap: var(--space-2);
-  padding: var(--space-3);
-  border-radius: var(--radius-card);
-  background: var(--sunk);
-}
-.n-step.is-fix {
-  background: var(--bad-soft);
+  padding: var(--space-4) var(--space-5);
 }
 .n-step__open {
   display: grid;
@@ -1362,7 +1355,7 @@ label.chip {
   background: var(--ok-soft);
 }
 .n-ladder__rung.is-next {
-  box-shadow: inset 0 0 0 2px var(--ok);
+  box-shadow: inset 0 -3px 0 var(--ok);
 }
 .n-ladder__rung small {
   color: var(--muted);
@@ -1624,8 +1617,7 @@ label.chip {
   box-shadow: inset 0 0 0 1px currentColor;
 }
 .n-cap-btn.lit .a-pill {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
+  box-shadow: inset 0 -3px 0 var(--focus);
 }
 .n-cap-open {
   display: grid;
