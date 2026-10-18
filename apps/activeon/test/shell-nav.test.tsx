@@ -18,17 +18,29 @@ beforeEach(() => {
 afterEach(() => cleanup());
 
 describe('US-1 the place navigation', () => {
-  it('lists Now, Characters, Systems and Timeline (no Map), Now current, with word-named badges', async () => {
+  it('lists the five places in order, Now current, badges on Now and Timeline only (FR-M6, US-10)', async () => {
     const r = withSystems();
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const links = within(places()).getAllByRole('link');
-    expect(links.map((l) => l.textContent)).toEqual(['1Now', 'Characters', '1Systems', 'Timeline']);
+    expect(links.map((l) => l.textContent?.replace(/^\d+/, ''))).toEqual([
+      'Now',
+      'Characters',
+      'Systems',
+      'Timeline',
+      'Map',
+    ]);
     expect(links[0]?.getAttribute('aria-current')).toBe('page');
     expect(links[0]?.getAttribute('aria-label')).toBe('Now, 1 to fix before you leave');
-    expect(links[2]?.getAttribute('aria-label')).toBe('Systems, 1 wasting');
-    // FR-5: the Timeline carries no badge.
-    expect(links[3]?.getAttribute('aria-label')).toBeNull();
-    expect(screen.queryByText('Map')).toBeNull();
+    // D-7: the Systems badge is gone (the wasting count lives in the hub's report card).
+    expect(links[2]?.getAttribute('aria-label')).toBeNull();
+    expect(links[2]?.textContent).toBe('Systems');
+    // The Timeline's badge counts limits before you're back, named in words, or is absent.
+    const tl = links[3]?.getAttribute('aria-label');
+    if (tl !== null && tl !== undefined) expect(tl).toMatch(/^Timeline, \d+ limits? before you're back$/);
+    expect(links[4]?.getAttribute('aria-label')).toBeNull();
+    expect(links[4]?.getAttribute('href')).toBe('#map');
+    // Each place is a pixel glyph plus a word; the glyph is hidden from assistive tech.
+    for (const l of links) expect(l.querySelector('.glyph-wrap svg, .glyph-wrap .px')).toBeTruthy();
     // TR-13: the skip link comes before the navigation.
     const skip = screen.getByRole('link', { name: 'Skip to content' });
     expect(skip.compareDocumentPosition(places()) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
@@ -109,7 +121,7 @@ describe('US-3 Back goes back', () => {
   it('Now → Systems → a System page → Characters, then Back three times', () => {
     const r = withSystems();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    go('Systems, 1 wasting');
+    go('Systems');
     fireEvent.click(screen.getByRole('link', { name: /^Alchemy bubbles,/ }));
     go('Characters');
     const back = (hash: string) =>
@@ -203,5 +215,123 @@ describe('US-4 following the game where it helps, never where it would yank me',
     fireEvent.click(screen.getAllByRole('button').find((b) => b.dataset.index === '0') as HTMLElement);
     // Dahlia (index 3) was played: "Next" never points back at her.
     expect(screen.getByRole('button', { name: /^Next: switch to/ }).textContent).not.toContain('Dahlia');
+  });
+});
+
+/** A small W2 map for the DOM: town, two fighting maps, the frontier on the second; Barbarian 51 pushes. */
+function withMap(): EngineResult {
+  const r = withSystems();
+  r.map = {
+    worlds: [
+      {
+        world: 1,
+        state: 'done',
+        cleared: 3,
+        total: 3,
+        gate: {
+          boss: 'Amarok',
+          bossMap: 29,
+          keysHeld: 2,
+          keysPerDay: 1,
+          crystal: { item: 'Desert_Topaz', held: 0, need: 1 },
+        },
+        maps: [
+          { mapIndex: 1, name: 'Spore_Meadows', kind: 'fight', doors: [{ destination: 2, requirement: 21 }] },
+        ],
+      },
+      {
+        world: 2,
+        state: 'open',
+        cleared: 1,
+        total: 2,
+        gate: { boss: 'Efaunt', bossMap: 66, keysHeld: null, keysPerDay: null, crystal: null },
+        maps: [
+          { mapIndex: 50, name: 'YumYum_Grotto', kind: 'town', doors: [] },
+          { mapIndex: 51, name: 'Jar_Bridge', kind: 'fight', doors: [{ destination: 52, requirement: 300 }] },
+          {
+            mapIndex: 52,
+            name: 'The_Mimic_Hole',
+            kind: 'fight',
+            doors: [{ destination: 53, requirement: 500 }],
+          },
+        ],
+      },
+    ],
+    frontier: {
+      mapIndex: 52,
+      door: 0,
+      requirement: 500,
+      best: { characterIndex: 3, killsLeft: 380, etaMs: 7_200_000 },
+    },
+    markers: [
+      { characterIndex: 3, mapIndex: 52 },
+      { characterIndex: 0, mapIndex: 1 },
+    ],
+    doors: {
+      51: [{ characterIndex: 3, door: 0, done: 300, requirement: 300 }],
+      52: [{ characterIndex: 3, door: 0, done: 120, requirement: 500 }],
+    },
+    overlays: { route: [51, 52], constellations: { 51: ['B-1'] }, deathNote: {}, cards: {} },
+  };
+  return r;
+}
+
+describe('US-9 the Map place (FR-M1, FR-M2, FR-M5)', () => {
+  it('#map opens the Map under the Map place: the bands, the frontier ring and every map as a button', async () => {
+    window.history.replaceState(null, '', '/#map');
+    const r = withMap();
+    const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    expect(screen.getByRole('heading', { level: 2, name: 'Map' })).toBeTruthy();
+    expect(within(places()).getByRole('link', { current: 'page' }).textContent).toBe('Map');
+    expect(document.title).toBe('Map · ActiveOn');
+    expect(screen.getByText('2 of 2 worlds open · 5 characters')).toBeTruthy();
+    // The frontier ring: the pusher's kills against the door, with the time (Gate-first).
+    const front = container.querySelector('.map-front') as HTMLElement;
+    expect(within(front).getByRole('img', { name: '120 of 500 kills' })).toBeTruthy();
+    expect(front.textContent).toContain('The Mimic Hole');
+    // TR-17: the map's nodes are buttons named in words (map, state, who, door).
+    expect(
+      screen.getAllByRole('button', {
+        name: 'The Mimic Hole, next door, Here: Barbarian 51, 500 kills for its door',
+      }).length,
+    ).toBeGreaterThan(0);
+    // FR-M3: the overlay switcher is one radio group of four, Route first.
+    const group = screen.getByRole('group', { name: 'What the map shows' });
+    expect(within(group).getAllByRole('radio')).toHaveLength(4);
+    await noAxeViolations(container);
+  });
+
+  it('a tap opens the map sheet at #map-<n>, in the FR-M2 order; Esc closes it back to #map', () => {
+    window.history.replaceState(null, '', '/#map');
+    const r = withMap();
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const node = screen.getAllByRole('button', { name: /^The Mimic Hole, next door/ })[0] as HTMLElement;
+    fireEvent.click(node);
+    expect(window.location.hash).toBe('#map-52');
+    const dialog = screen.getByRole('dialog', { name: 'The Mimic Hole' });
+    const heads = within(dialog)
+      .getAllByRole('heading', { level: 3 })
+      .map((h) => h.textContent);
+    expect(heads).toEqual(['Who is here', 'Door 1']);
+    expect(dialog.textContent).toContain('120 of 500 kills');
+    expect(dialog.textContent).toContain('in 2h 00m');
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(window.location.hash).toBe('#map');
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
+
+  it('#map-<n> for a map not in the facts opens the Map with no sheet', () => {
+    window.history.replaceState(null, '', '/#map-9999');
+    const r = withMap();
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    expect(screen.getByRole('heading', { level: 2, name: 'Map' })).toBeTruthy();
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
+
+  it('without map data the place says what it needs, and the nav still shows it (D-6: never locked)', () => {
+    window.history.replaceState(null, '', '/#map');
+    const r = withSystems();
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    expect(screen.getByText('The map shows once your save names a current world.')).toBeTruthy();
   });
 });

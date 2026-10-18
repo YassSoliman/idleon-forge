@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M21 TR-9 (area M): the boss gate between each world and the next, for the Map place's Gate-first bands.
+# Toolbox's data at the pin has no boss-per-world table (metapath.fact.world-gates notes it), so the boss,
+# its arena map and its key are authored here from each boss's IdleOn Wiki page (V-8). The map indexes are
+# `maps.fact.maps` rows (each boss arena is an unlisted map of its world); the key ids are Toolbox
+# items.json rawNames, the same ones `account.keys` (M6, boss-keys) and the M16 constellation rules use.
+# Re-verify on every major patch.
+system: map
+facts:
+  - id: map.fact.boss-gates
+    system: map
+    origin: authored
+    title: World boss gates W1 to W4 (boss, arena map, key)
+    notes: "One row per world. bossMap is the maps.fact.maps index of the boss arena (29 End_Of_The_Road, 66 Efaunt's_Tomb, 114 Chizoar's_Cavern, 165 Enclave_a_la_Troll); key is the items.json rawName of the arena key (Key1 Forest_Villa_Key, Key2 Efaunt's_Tomb_Key, Key3 Chizoar's_Cavern_Key, Key4 Troll's_Enclave_Key). A Normal fight takes 1 key on every boss."
+    rows:
+      - { world: 1, boss: "Amarok", bossMap: 29, key: "Key1", keyName: "Forest Villa Key" }
+      - { world: 2, boss: "Efaunt", bossMap: 66, key: "Key2", keyName: "Efaunt's Tomb Key" }
+      - { world: 3, boss: "Chizoar", bossMap: 114, key: "Key3", keyName: "Chizoar's Cavern Key" }
+      - { world: 4, boss: "Massive Troll", bossMap: 165, key: "Key4", keyName: "Troll's Enclave Key" }
+    sources:
+      - { url: "https://idleon.wiki/wiki/Amarok", title: "IdleOn Wiki: Amarok (World 1, End Of The Road, 1 Forest Villa Key)", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Efaunt", title: "IdleOn Wiki: Efaunt (World 2, Efaunt's Tomb, 1 Efaunt's Tomb Key)", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Chizoar", title: "IdleOn Wiki: Chizoar (World 3, Chizoar's Cavern, 1 Chizoar's Cavern Key)", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Troll", title: "IdleOn Wiki: Massive Troll (World 4, Enclave a la Troll, 1 Troll's Enclave Key)", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }

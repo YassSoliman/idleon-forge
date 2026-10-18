@@ -160,7 +160,7 @@ const openTimeline = async (r: EngineResult, savedAgoMs = 30_000) => {
 const lists = () => document.querySelector('.tl-lists') as HTMLElement;
 
 describe('US-1: the Timeline joins the Places bar (D-1)', () => {
-  it('lists Now, Characters, Systems and Timeline, in that order, and no Map', async () => {
+  it('lists Now, Characters, Systems, Timeline and Map, in that order (M21 FR-M6)', async () => {
     const r = withTimeline();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const links = within(places()).getAllByRole('link');
@@ -169,13 +169,15 @@ describe('US-1: the Timeline joins the Places bar (D-1)', () => {
       'Characters',
       'Systems',
       'Timeline',
+      'Map',
     ]);
-    expect(screen.queryByText('Map')).toBeNull();
-    fireEvent.click(within(places()).getByRole('link', { name: 'Timeline' }));
+    fireEvent.click(within(places()).getByRole('link', { name: /^Timeline/ }));
     await timelineHeading();
     expect(window.location.hash).toBe('#timeline');
     expect(document.title).toBe('Timeline · ActiveOn');
-    expect(within(places()).getByRole('link', { current: 'page' }).textContent).toBe('Timeline');
+    expect(
+      within(places()).getByRole('link', { current: 'page' }).querySelector('.place-label')?.textContent,
+    ).toBe('Timeline');
   });
 });
 
@@ -248,7 +250,9 @@ describe('US-11: from the bar to the fix (FR-27)', () => {
     expect(window.location.hash).toBe('#now-3');
     const na = document.querySelector('[data-na-key="afk.check.health-food-runs-out@c3"]');
     expect(na?.classList.contains('lit')).toBe(true);
-    expect(within(places()).getByRole('link', { current: true }).textContent).toBe('Timeline');
+    expect(
+      within(places()).getByRole('link', { current: true }).querySelector('.place-label')?.textContent,
+    ).toBe('Timeline');
     fireEvent.click(screen.getByRole('button', { name: '← back' }));
     await timelineHeading();
     expect(window.location.hash).toBe('#timeline');

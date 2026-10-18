@@ -20,7 +20,6 @@ const SRC = fileURLToPath(new URL('../src', import.meta.url));
 const BASELINE: Record<string, number> = {
   'characters/characters.css': 3, // C
   'gear/gear.css': 1, // C
-  'shell/shell.css': 1, // M
   'styles/app.css': 4, // N
   'styles/now.css': 7, // N
   'suggestions/suggestions.css': 1, // N

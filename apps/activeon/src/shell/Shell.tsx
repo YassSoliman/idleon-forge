@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M17 Views: the navigation shell. Four places (Now, Characters, Systems and, from Phase 2, the
-// Timeline; FR-1), a bottom bar under 720 px and a side rail from 720 px (FR-2, D-5), each place one
-// bare anchor (FR-7). The Timeline is its own chunk, fetched when the browser is idle (TR-11). The
+// M17 Views and M21 FR-M6: the navigation shell. Five places (Now, Characters, Systems, Timeline, Map),
+// a bottom bar under 720 px and a side rail from 720 px (FR-2, D-5), each place one bare anchor (FR-7)
+// with its pixel glyph and word. Every place but Now is its own chunk, fetched when the browser is idle. The
 // banners, the progress bar and What's new are the same in every place (FR-6): area N's NowChrome slot. The session state lives
 // in `useSession` (FR-10), so a place switch never re-runs the engine or loses the Play Session.
 import { LINK_WORDS, NAV_WORDS } from '@idleon-forge/engine/now';
 import { Suspense, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import type { ArtName } from '../design/art/names';
+import { PixelArt } from '../design/art/PixelArt';
 import { Loading, lazyPart, preloadParts } from '../lazy-part';
 import { ExpectedReturnChips } from '../now/Chrome';
 import { NowChrome, NowLiveRegion } from '../now/chrome/NowChrome';
@@ -28,6 +30,10 @@ const SystemsHub = lazyPart(
   () => import('../systems/SystemsHub'),
   (m) => m.SystemsHub,
 );
+const MapPlace = lazyPart(
+  () => import('../map/MapPlace'),
+  (m) => m.MapPlace,
+);
 const SystemPage = lazyPart(
   () => import('../systems/SystemPage'),
   (m) => m.SystemPage,
@@ -45,83 +51,38 @@ export interface ShellSlots {
   navSlot?: HTMLElement | null;
 }
 
-function Glyph({ place, on }: { place: Place; on: boolean }) {
-  const fill = on ? 'currentColor' : 'none';
-  return (
-    <svg className="glyph" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
-      {place === 'now' ? (
-        <circle cx="12" cy="12" r="8" fill={fill} stroke="currentColor" strokeWidth="2" />
-      ) : place === 'timeline' ? (
-        <>
-          <rect x="3" y="5" width="13" height="4" rx="2" fill={fill} stroke="currentColor" strokeWidth="2" />
-          <rect x="3" y="15" width="8" height="4" rx="2" fill={fill} stroke="currentColor" strokeWidth="2" />
-          <path d="M19 2v20" stroke="currentColor" strokeWidth="2" />
-        </>
-      ) : place === 'characters' ? (
-        <>
-          <circle cx="12" cy="8" r="4" fill={fill} stroke="currentColor" strokeWidth="2" />
-          <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" fill={fill} stroke="currentColor" strokeWidth="2" />
-        </>
-      ) : (
-        <>
-          <rect x="3" y="3" width="8" height="8" rx="1.5" fill={fill} stroke="currentColor" strokeWidth="2" />
-          <rect
-            x="13"
-            y="3"
-            width="8"
-            height="8"
-            rx="1.5"
-            fill={fill}
-            stroke="currentColor"
-            strokeWidth="2"
-          />
-          <rect
-            x="3"
-            y="13"
-            width="8"
-            height="8"
-            rx="1.5"
-            fill={fill}
-            stroke="currentColor"
-            strokeWidth="2"
-          />
-          <rect
-            x="13"
-            y="13"
-            width="8"
-            height="8"
-            rx="1.5"
-            fill={fill}
-            stroke="currentColor"
-            strokeWidth="2"
-          />
-        </>
-      )}
-    </svg>
-  );
-}
+/** M21 FR-M6: each place's own pixel glyph (`v2-map-nav-*`, core art: no extra request on first load). */
+const GLYPHS: Record<Place, ArtName> = {
+  now: 'v2-map-nav-now',
+  characters: 'v2-map-nav-chars',
+  systems: 'v2-map-nav-systems',
+  timeline: 'v2-map-nav-timeline',
+  map: 'v2-map-nav-map',
+};
 
 const ITEMS: { place: Place; route: Route; href: string }[] = [
   { place: 'now', route: { place: 'now' }, href: '#now' },
   { place: 'characters', route: { place: 'characters', section: null }, href: '#characters' },
   { place: 'systems', route: { place: 'systems' }, href: '#systems' },
   { place: 'timeline', route: { place: 'timeline', section: null }, href: '#timeline' },
+  { place: 'map', route: { place: 'map', mapIndex: null }, href: '#map' },
 ];
 
-/** FR-2, FR-4, FR-5, TR-13: `<nav aria-label="Places">` with a list of links, badges named in words. */
+/**
+ * FR-2, FR-4, FR-5, TR-13, M21 FR-M6: `<nav aria-label="Places">` with a list of five links, each a pixel
+ * glyph plus a word. Only Now (the count to bring to zero) and the Timeline (limits that bind before
+ * you're back, T's `afkStrip.before`) carry a badge, named in words; the Systems badge is gone (D-7).
+ */
 export function PlacesNav({ s }: { s: Session }) {
   const nowCount = s.view.progress.fix + s.view.account.blockers.length;
-  const badge = (place: Place) =>
+  const before = s.views.afkStrip?.before ?? 0;
+  const badge = (place: Place): { n: number; name: string; tone: 'now' | 'timeline' } | null =>
     place === 'now' && nowCount > 0
-      ? { n: nowCount, name: NAV_WORDS.nowBadge(nowCount) }
-      : place === 'systems' && s.systems.wastingCount > 0
-        ? { n: s.systems.wastingCount, name: NAV_WORDS.systemsBadge(s.systems.wastingCount) }
+      ? { n: nowCount, name: NAV_WORDS.nowBadge(nowCount), tone: 'now' }
+      : place === 'timeline' && before > 0
+        ? { n: before, name: NAV_WORDS.timelineBadge(before), tone: 'timeline' }
         : null;
-  const exact =
-    s.route.place === 'now' ||
-    s.route.place === 'characters' ||
-    s.route.place === 'systems' ||
-    s.route.place === 'timeline';
+  const exact = s.route.place !== 'character' && s.route.place !== 'system';
   return (
     <div className="places-wrap">
       <a
@@ -152,9 +113,9 @@ export function PlacesNav({ s }: { s: Session }) {
                   }}
                 >
                   <span className="glyph-wrap">
-                    <Glyph place={item.place} on={on} />
+                    <PixelArt name={GLYPHS[item.place]} decorative />
                     {b ? (
-                      <span className="badge num" aria-hidden="true">
+                      <span className={`badge badge-${b.tone} num`} aria-hidden="true">
                         {b.n}
                       </span>
                     ) : null}
@@ -180,6 +141,8 @@ function PlaceView({ s }: { s: Session }) {
       return <SystemPage s={s} id={s.route.id} />;
     case 'timeline':
       return <TimelinePlace s={s} />;
+    case 'map':
+      return <MapPlace s={s} />;
     default:
       return <NowPlace s={s} />;
   }

@@ -246,7 +246,26 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
 Not built yet (M21 area C: the Build path).
 
 ## Map
-Not built yet (M21 area M: the Map place).
+3 of 4 worlds open · 6 characters
+- World 1 · Blunder Hills [done] · 7 of 7 doors open
+  - gate Amarok (done): Desert Topaz handed in; 4 keys waiting · 2 earned a day
+  - Freefall Caverns (reached): C2 Squire 51
+- World 2 · Yum-Yum Desert [done] · 10 of 10 doors open
+  - gate Efaunt (done): Glacier Quartz handed in; 2 keys waiting · 1 earned a day
+  - Salty Shores (reached): C5 Barbarian 56
+  - Shifty Sandbox (cleared): C6 Shaman 54
+  - Sands of Time (cleared): C3 Bowman 60
+- World 3 · Frostbite Tundra [open] · 7 of 11 doors open
+  - gate Chizoar (open): Galaxial Amethyst: 0 of 1 held; No one earns these keys yet
+  - The Stache Split (cleared): C1 Wizard 73
+  - Thermonuclear Climb (reached): C4 Squire 85
+- World 4 · Hyperion Nebula [next] · Opens with the Galaxial Amethyst
+- Frontier: none
+- Overlay Route: 11 maps · Nothing to ring on this overlay yet
+- Overlay Constellations: 21 maps · C-2 is on Steep Sheep Ledge, a map you have reached
+- Overlay Death Note: 5 maps · Shifty Sandbox: 12,194 kills to Death Note rank 1, the closest
+- Overlay Cards: 58 maps · Meel's Crypt: the easiest card you don't have yet
+- Door kills on 30 of 71 maps
 
 ## Findings
 | entry | detector | subject | result | slots |

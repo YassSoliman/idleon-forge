@@ -9,6 +9,7 @@ export const PLACE_WORDS = {
   characters: 'Characters',
   systems: 'Systems',
   timeline: 'Timeline',
+  map: 'Map',
 } as const;
 
 export const STATUS_WORDS: Record<TileStatus, string> = {
