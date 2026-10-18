@@ -24,7 +24,6 @@ const BASELINE: Record<string, number> = {
   'styles/app.css': 4, // N
   'styles/now.css': 7, // N
   'suggestions/suggestions.css': 1, // N
-  'timeline/timeline.css': 2, // T
 };
 
 const walk = (dir: string): string[] =>

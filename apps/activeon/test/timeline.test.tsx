@@ -7,17 +7,21 @@
 // in a focusable frame (TR-13), "See it: Timeline" and the All set link (FR-31, FR-32), the TR-9
 // provenance check and axe.
 import {
+  buildAfkStripView,
   buildNowView,
   buildTimelineView,
   DEFAULT_UI,
   EMPTY_PREFS,
   KIND_WORDS,
+  SLOTS_WORDS,
   TIMELINE_WORDS,
 } from '@idleon-forge/engine/now';
 import type { EngineResult, InfoLine, SystemSummary, TimelineBar } from '@idleon-forge/engine/result';
-import { cleanup, fireEvent, screen, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { AfkStrip } from '../src/timeline/AfkStrip';
+import { withM20 } from './helpers/m20-result';
 import { fixture, props, renderNow, saveOf } from './now-helpers';
 
 const NOW = 1_792_260_000_000;
@@ -238,7 +242,7 @@ describe('US-10: lanes, the Back marker and what binds before it', () => {
 describe('US-11: from the bar to the fix (FR-27)', () => {
   it("opens the character's Now tab with the Next Action outlined; the page belongs to the Timeline", async () => {
     await openTimeline(withTimeline());
-    fireEvent.click(screen.getByRole('link', { name: 'See the fix: health food runs out' }));
+    fireEvent.click(within(lists()).getByRole('link', { name: 'See the fix: health food runs out' }));
     expect(window.location.hash).toBe('#now-3');
     const na = document.querySelector('[data-na-key="afk.check.health-food-runs-out@c3"]');
     expect(na?.classList.contains('lit')).toBe(true);
@@ -250,7 +254,7 @@ describe('US-11: from the bar to the fix (FR-27)', () => {
 
   it('expands "show more" first for an account Next Action past the cap', async () => {
     await openTimeline(withTimeline());
-    fireEvent.click(screen.getByRole('link', { name: 'See the fix: Arcade balls lost' }));
+    fireEvent.click(within(lists()).getByRole('link', { name: 'See the fix: Arcade balls lost' }));
     expect(window.location.hash).toBe('#now');
     const na = document.querySelector('[data-na-key="arcade.check.g5@account"]');
     expect(na?.classList.contains('lit')).toBe(true);
@@ -301,18 +305,93 @@ describe('TR-9: the Timeline adds no words of its own', () => {
     });
     const allowed = new Set<string>([' · ', ' ']);
     const collect = (v: unknown) => {
-      if (typeof v === 'string') allowed.add(v);
+      if (typeof v === 'string' || typeof v === 'number') allowed.add(String(v));
       else if (typeof v === 'function') allowed.add(String((v as (n: number) => string)(2)));
       else if (v && typeof v === 'object') Object.values(v).forEach(collect);
     };
     collect(view);
+    // M21: the lane heads' class and level, the map, and the "Back in" chips are the Now view's own.
+    collect(nowView);
     collect(TIMELINE_WORDS);
     collect(KIND_WORDS);
-    const place = document.querySelector('.timeline-place') as HTMLElement;
+    // The lanes part; the Parallel Slots and Daily & Weekly sections have their own tests.
+    const place = document.querySelector('.tl-lanes-part') as HTMLElement;
     const texts: string[] = [];
     const walk = document.createTreeWalker(place, NodeFilter.SHOW_TEXT);
     while (walk.nextNode()) if (walk.currentNode.textContent) texts.push(walk.currentNode.textContent);
     const odd = texts.filter((t) => !allowed.has(t) && !allowed.has(t.trim()));
     expect(odd).toEqual([]);
+  });
+});
+
+describe('M21 FR-T1: the return-time control and the NOW box', () => {
+  it('"Back in" is one radio group of the Expected Return chips; a pick sets the return', async () => {
+    const r = withTimeline();
+    const set = vi.fn();
+    window.history.replaceState(null, '', '/#timeline');
+    const { container } = renderNow(
+      props(r, saveOf(r, 1, 'first', null, 'paste'), { setExpectedReturn: set }),
+    );
+    await timelineHeading();
+    const group = screen.getByRole('group', { name: TIMELINE_WORDS.backInLabel });
+    expect(within(group).getAllByRole('radio').length).toBeGreaterThanOrEqual(5);
+    fireEvent.click(within(group).getByRole('radio', { name: '4h' }));
+    expect(set).toHaveBeenCalledWith(4 * 3600);
+    await noAxeViolations(container);
+  });
+
+  it('the NOW box names the first limit with a fix before Back, with who and its fix link', async () => {
+    await openTimeline(withTimeline());
+    const box = document.querySelector('.tl-next') as HTMLElement;
+    expect(box.textContent).toContain(TIMELINE_WORDS.nowBadge);
+    expect(box.textContent).toContain('health food runs out · in 2h 00m');
+    expect(within(box).getByRole('link', { name: 'See the fix: health food runs out' })).toBeTruthy();
+    // On the board, that bar carries the Now tag (the board itself stays aria-hidden).
+    expect(document.querySelectorAll('.tl-board .tl-bar.is-now')).toHaveLength(1);
+  });
+
+  it('draws a who-glyph on every character lane head, and no slot codes or names on the board', async () => {
+    await openTimeline(withTimeline());
+    const heads = [...document.querySelectorAll('.tl-lanes .tl-head')];
+    expect(heads.filter((h) => h.querySelector('.who'))).toHaveLength(5);
+    const board = document.querySelector('.tl-board')?.textContent ?? '';
+    expect(board).not.toMatch(/\bC\d\b|Dahlia|Alder/);
+  });
+});
+
+describe('M21 FR-T3: the Parallel Slots grid (#slots)', () => {
+  it('a table of characters by the five slots, a word and a glyph per cell, counts in units', async () => {
+    const r = withM20(withTimeline());
+    window.history.replaceState(null, '', '/#slots');
+    const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    await screen.findByRole('heading', { level: 3, name: SLOTS_WORDS.title }, ARRIVE);
+    const table = screen.getByRole('table');
+    expect(
+      within(table)
+        .getAllByRole('columnheader')
+        .map((h) => h.textContent),
+    ).toEqual([SLOTS_WORDS.character, 'Cauldron', 'Traps', 'Worship', 'Cog Board', 'Printer']);
+    expect(table.textContent).toContain('builds on the Cog Board');
+    expect(table.textContent).toContain(SLOTS_WORDS.states.filled);
+    await noAxeViolations(container);
+  });
+});
+
+describe('M21 FR-T5: the compact AFK strip', () => {
+  it('one link to the Timeline: a who-glyph per character, the flag, and the sentence as its name', async () => {
+    const r = withTimeline();
+    const nowView = buildNowView(r, EMPTY_PREFS, { ...DEFAULT_UI, now: Date.now() });
+    const tl = buildTimelineView(r, EMPTY_PREFS, nowView, { now: Date.now(), lastCloudSave: Date.now() });
+    const strip = buildAfkStripView(tl, nowView);
+    const open = vi.fn();
+    const { container } = render(<AfkStrip strip={strip} families={nowView.families} onOpen={open} />);
+    const link = screen.getByRole('link');
+    expect(link.getAttribute('href')).toBe('#timeline');
+    expect(link.getAttribute('aria-label')).toMatch(/^\d+ limits? binds? before you're back: the .+ first, /);
+    expect(container.querySelectorAll('.afk-mark .who').length).toBeGreaterThan(0);
+    expect(container.querySelectorAll('.afk-mark.is-fix').length).toBeGreaterThan(0);
+    fireEvent.click(link);
+    expect(open).toHaveBeenCalled();
+    await noAxeViolations(container);
   });
 });

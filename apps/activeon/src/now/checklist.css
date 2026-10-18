@@ -1,22 +1,40 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
-/* M20 the Daily & Weekly Checklist and the Skills tab. Tokens only (tokens.css); wraps at 320 px, no
-   page-level horizontal scroll; every control is at least 44 px tall (Design Lab hard rule). */
-.checklist {
-  overflow-wrap: anywhere;
+/* M20 the Daily & Weekly Checklist, redrawn by M21 FR-T2 in Field Guide (tokens only): the one ring line
+   on Now's Account (the rows live with the Timeline, timeline.css). Wraps at 320 px, no page-level
+   horizontal scroll; every control is at least 44 px tall (DS-15). The Skills tab rules below stay here
+   until area C moves them (M21 §9). */
+
+/* ---- Now's Account: the one ring line, a link to the Timeline's #daily ---- */
+.cl-line {
+  margin: 0 0 var(--space-3);
   min-width: 0;
-  margin: 0 0 12px;
-  /* R7 QA: the summary, the rings' text and the week line sit inside the card, not on its edge. */
-  padding: 8px 12px 10px;
 }
-.cl-summary {
+.cl-line-a {
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-height: 44px;
-  cursor: pointer;
+  gap: var(--space-3);
+  min-height: var(--tap-min);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  color: var(--fg);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.cl-line-a:hover {
+  border-color: var(--accent);
+}
+.cl-line-a > .px-art:last-child {
+  margin-left: auto;
+  flex: none;
 }
 .cl-sum-text {
   min-width: 0;
+}
+.cl-daily {
+  color: var(--muted);
+  font-size: var(--text-sm);
 }
 .cl-rings {
   flex: none;
@@ -24,89 +42,17 @@
 .cl-rings circle {
   fill: none;
   stroke-width: 5;
-  transform: rotate(-90deg);
-  transform-origin: 22px 22px;
 }
 .cl-track {
   stroke: var(--sunk);
 }
 .cl-today {
   stroke: var(--ok);
-  stroke-linecap: round;
 }
 .cl-week {
-  stroke: var(--coin);
-  stroke-linecap: round;
+  stroke: var(--accent);
 }
-.cl-band {
-  margin: 10px 0 0;
-}
-.cl-band-h {
-  margin: 0 0 6px;
-  font-size: 0.9rem;
-}
-.cl-rows {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.cl-row {
-  border: 1px solid var(--line);
-  border-left-width: 4px;
-  border-radius: var(--radius);
-  padding: 8px 10px;
-  margin: 0 0 6px;
-  background: var(--surface);
-}
-.cl-row.s-todo {
-  border-left-color: var(--coin);
-}
-.cl-row.s-done {
-  border-left-color: var(--ok);
-}
-.cl-row.s-waiting,
-.cl-row.s-cannot,
-.cl-row.s-unknown {
-  border-left-color: var(--unk);
-}
-.cl-row.lost {
-  border-left-color: var(--bad);
-  background: var(--bad-soft);
-}
-.cl-head,
-.cl-detail,
-.cl-meta {
-  margin: 0 0 2px;
-}
-.cl-state {
-  font-size: 0.8rem;
-  color: var(--muted);
-  white-space: nowrap;
-}
-.cl-row.lost .cl-meta {
-  color: var(--bad);
-}
-.cl-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 10px;
-}
-.cl-link,
-.cl-fold,
-.cl-tick {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-}
-/* R7 QA: a row's Source sits on its own line, so the chip and its credit wrap the same way on every row. */
-.cl-actions > .src-wrap {
-  flex-basis: 100%;
-  min-width: 0;
-}
-.cl-tick.on {
-  color: var(--ok);
-}
+
 /* The Skills tab and the Skill Grid */
 .sk-train {
   margin: 0 0 10px;
