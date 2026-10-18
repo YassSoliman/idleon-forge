@@ -17,8 +17,8 @@ export default defineConfig(() => {
     define: { __BUILD_INFO__: JSON.stringify(buildInfo) },
     build: {
       target: 'es2022',
-      // The parser bundle is one ~6 MB module by design; it only ever loads inside the Web Worker.
-      chunkSizeWarningLimit: 8000,
+      // The parser bundle is one ~4 MB module by design; it only ever loads inside the Web Worker.
+      chunkSizeWarningLimit: 6000,
       // Fonts stay files (cached, and allowed by `font-src 'self'`), never data: URIs in the CSS.
       assetsInlineLimit: (file: string) => (/\.woff2?$/.test(file) ? false : undefined),
     },
