@@ -141,7 +141,7 @@ M16 is a **new small module** with its own folders (D-1). It reuses other module
   3. **Better fit**: a character that can reach the Telescope lacks a recommended **non-starter** sign it could wear: "On your <class Lv>, at the Telescope: swap <worn> for <sign> (<activity>)".
   When none applies, the Goal renders as an Account info line ("Star signs: <milestone line>") with its details and no action (as M15 F3), and it does not count toward `maxM16Goals`.
 - **FR-18 Details (P4).** Behind "show details":
-  - **the milestone line**: "<banked + ready> of the <remaining cost> points left for <Chronus Cosmos | opening the Hydron chart | Hydron Cosmos>", with what it gives ("2 signs on every character");
+  - **the milestone line**: "<banked + ready> points ready, <remaining cost> needed for <Chronus Cosmos | opening the Hydron chart | Hydron Cosmos>", with what it gives ("2 signs on every character");
   - **one line per character**: "<class Lv> (<activity>): wear <A>[ + <B>]", counting as unlocked any sign this Goal's own Next Action unlocks; then "✓" when it matches; "(wearing <C>; swap next time it's at the Telescope)" when only starters differ and it can reach the Telescope; "(wearing <C>; it can change signs after about <n> kills to reach the Telescope)" when it cannot; and, while the account has 1 slot, "after Chronus Cosmos: <A> + <B>" from the same list against leg-1 signs, adding "<sign> once unlocked" when the first leg-2 sign in its list (Pie Seas, Shoe Fly) would rank higher;
   - "**Next character**: pick The Fuzzy Dice when you create it" while the account has a free or upcoming character slot (M2's next-character Goal or M15 F3) (F-g);
   - "Also ready" constellations beyond the cap (FR-7) and "Later" items (FR-11).
@@ -171,7 +171,7 @@ Unless a story says otherwise, `now` is the fixture's last cloud save and the Ex
 - Given the W3-early account (quest handed in; every character has the dialogue; 3 points banked; small Time Candies held; A-1, A-3, A-7, B-1, B-4 untouched) / When the engine runs / Then exactly 2 constellation Goals show, B-1 "The Mimic Hole, reach the star on 3 characters" (4 points, 3 visits) and A-7 "Winding Willows, AFK 2 h on 2 characters" (3 points, 2 two-hour candies), both about 6 min, in the comparator's order (equal cost, so entry id: A-7 first, FR-7).
 - And B-1's Walkthrough lists 3 visit steps on characters not excluded by M14 FR-18, each "go to The Mimic Hole (W2), click the star, then go back to <AFK Target>", with the Constellation Locations link, collapsed as "B-1: 0 of 3 characters · about 6 min".
 - And A-7's Walkthrough uses the two smallest covering candies (two-hour ones), never a four-hour one (FR-9), on characters that can reach Winding Willows.
-- And the Star Signs line is an info line (its only possible action, an unlock, waits: FR-17.1) whose details hold "Bank your points: after B-1 and A-7 you can unlock up to Pack Mule in one trip", "Also ready: B-4 (5 points), A-1 (3), A-3 (3)" and the milestone line "21 of the 19 points left for Chronus Cosmos" (3 banked + 18 ready).
+- And the Star Signs line is an info line (its only possible action, an unlock, waits: FR-17.1) whose details hold "Bank your points: after B-1 and A-7 you can unlock up to Pack Mule in one trip", "Also ready: B-4 (5 points), A-1 (3), A-3 (3)" and the milestone line "21 points ready, 19 needed for Chronus Cosmos" (3 banked + 18 ready).
 - And no Goal names C-6 (needs 9 characters, the account has 6) or C-1 (nobody is Lv 90), and no D-row constellation appears anywhere (P2).
 
 **US-3 Claim what's already earned.** As a player, I want to know when a constellation is done but not claimed, so that I collect its points.
@@ -185,7 +185,7 @@ Unless a story says otherwise, `now` is the fixture's last cloud save and the Ex
 - Given an account with Chronus Cosmos unlocked where a character that reaches the Telescope wears only 1 sign / When the engine runs / Then the Next Action is "On your <class Lv>, at the Telescope: align <sign> in your empty slot".
 
 **US-5 Spend points in a sensible order.** As a player, I want the next signs chosen for me, so that I reach a second and third slot fast.
-- Given an account with Chronus Cosmos unlocked, 13 unlocked nodes and 2 points / When the engine runs / Then the milestone line reads "2 of the 18 points left for opening the Hydron chart" and the next sign is Pie Seas.
+- Given an account with Chronus Cosmos unlocked, 13 unlocked nodes and 2 points / When the engine runs / Then the milestone line reads "2 points ready, 18 needed for opening the Hydron chart" and the next sign is Pie Seas.
 - Given an account with Chronus Cosmos unlocked and 24 nodes unlocked by another route / When the engine runs / Then the next sign is All Rounderi (leg 2 skipped, F-c).
 - Given the chart-order list / When CI runs / Then every item's parent appears earlier in the list or is a starter (TR-3).
 

@@ -49,6 +49,11 @@ export function renderTimelineText(
     out.push(`${opts.label(i)} · ${opts.classOf(i)}`);
     out.push(...lane.bars.map(bar), ...lane.untimed.map(bar));
     if (lane.bars.length + lane.untimed.length === 0) out.push(`- ${TIMELINE_WORDS.nothingTimed}`);
+    else {
+      const all = [...lane.bars, ...lane.untimed];
+      if (all.every((b) => b.group && !b.group.first))
+        out.push(`- ${[TIMELINE_WORDS.inGroupAbove, ...new Set(all.map((b) => b.label))].join(' · ')}`);
+    }
   }
   for (const lane of view.accountLanes) {
     out.push(`Account · ${lane.heading}`);

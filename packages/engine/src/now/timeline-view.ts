@@ -146,7 +146,8 @@ export function buildTimelineView(
     const outlined = beforeReturn && state === 'open' && fixable;
     const label =
       b.effect === 'pill'
-        ? (pillLabels.get(b.key) ?? `${b.what} ${kindWord}`)
+        ? // The bar says when, once, in its own format: drop the pill's "in about 5 h" (R6 QA).
+          (pillLabels.get(b.key)?.replace(/ in about [^·]+?(?= ·|$)/, '') ?? `${b.what} ${kindWord}`)
         : presentState
           ? b.what
           : `${b.what} ${kindWord}`;

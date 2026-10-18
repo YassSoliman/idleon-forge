@@ -22,7 +22,7 @@ const starSigns: StarSignsView = {
   hydronAt: 24,
   slots: 1,
   questDone: true,
-  milestone: '21 of the 19 points left for Chronus Cosmos (2 signs on every character)',
+  milestone: '21 points ready, 19 needed for Chronus Cosmos (2 signs on every character)',
   plan: 'Bank your points: after A-7 and B-1 you can unlock up to All Rounder in one trip',
   next: [
     {
@@ -71,6 +71,14 @@ const starSigns: StarSignsView = {
 
 const withSigns = (): EngineResult => ({ ...fixture('mid-session'), starSigns });
 
+/** Two characters with the same recommendation, as on most early accounts. */
+const twoAlike = (): EngineResult => {
+  const [c] = starSigns.characters;
+  if (!c) throw new Error('fixture has a character');
+  const other = { ...c, index: 4, line: c.line.replace('Bowman Lv 38', 'Shaman Lv 30') };
+  return { ...fixture('mid-session'), starSigns: { ...starSigns, characters: [c, other] } };
+};
+
 describe('Signs tab', () => {
   it('is registered and parses its deep link', () => {
     expect(characterTabs.some((t) => t.id === 'signs' && t.label === 'Signs')).toBe(true);
@@ -97,7 +105,28 @@ describe('Signs tab', () => {
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const section = document.getElementById('star-chart');
     expect(section?.textContent).toContain('3 points · 4 signs unlocked · next: A-7');
-    expect(section?.textContent).toContain('21 of the 19 points left for Chronus Cosmos');
+    expect(section?.textContent).toContain('21 points ready, 19 needed for Chronus Cosmos');
     expect(section?.textContent).toContain('Slamabam Straightaway');
+  });
+
+  it('the Signs tab links to the Star Chart in one line instead of repeating it on every character', () => {
+    window.history.replaceState(null, '', '/?c=2#signs-2');
+    const r = withSigns();
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const tab = document.querySelector('.ss') as HTMLElement;
+    expect(tab.textContent).toContain('Star Chart: 3 points · see it');
+    expect(tab.textContent).not.toContain('Next constellations');
+    expect(tab.textContent).not.toContain('Slamabam Straightaway');
+    expect(within(tab).getByRole('link', { name: 'see it' }).getAttribute('href')).toContain('star-signs');
+  });
+
+  it('says a recommendation shared by several characters once, with each one under "show details"', () => {
+    const r = twoAlike();
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const section = document.getElementById('star-chart') as HTMLElement;
+    expect(section.textContent).toContain('wear The Fuzzy Dice · 2 characters');
+    expect(section.textContent?.match(/wear The Fuzzy Dice · 2 characters/g)).toHaveLength(1);
+    expect(within(section).getByText('show details').tagName).toBe('SUMMARY');
+    expect(within(section).getAllByRole('link', { hidden: true }).length).toBeGreaterThanOrEqual(2);
   });
 });

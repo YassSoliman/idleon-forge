@@ -135,9 +135,12 @@ export const TIMELINE_WORDS = {
   account: 'Account · helps everyone',
   accountCantTell: "Can't tell from the save",
   nothingTimed: 'Nothing timed here.',
+  /** A lane whose only bars are said once on an earlier lane ("the same on n more"). */
+  inGroupAbove: 'In the group above',
   nothingBefore: "Nothing fills up before you're back",
   stale: (age: string) => `Your last save is ${age} old: these times are projected from it.`,
-  sinceSave: (age: string) => `Since the save: ${age}`,
+  /** Fits the narrow board column in two lines: the age never breaks (R6 QA). */
+  sinceSave: (age: string) => `Save age: ${String(age).replace(/ /g, '\u00a0')}`,
   pastBand: 'when each limit filled since then is not in the save',
   scrollLabel: 'Timeline lanes, scrolls sideways',
   unavailable: "The Timeline needs AFK safety, which isn't covered yet",

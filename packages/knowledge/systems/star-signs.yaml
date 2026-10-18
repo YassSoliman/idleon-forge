@@ -105,7 +105,7 @@ entries:
       empty: "On your {who}, at the Telescope: align {sign} in your empty slot"
       swap: "On your {who}, at the Telescope: swap {worn} for {sign} ({activity})"
       bank: "Bank your points: after {list} you can unlock up to {sign} in one trip"
-      milestone: "{have:int} of the {need:int} points left for {leg}"
+      milestone: "{have:int} points ready, {need:int} needed for {leg}"
       leg-1: "Chronus Cosmos (2 signs on every character)"
       leg-2: "opening the Hydron chart"
       leg-3: "Hydron Cosmos (3 signs on every character)"

@@ -200,6 +200,16 @@ describe('US-10: lanes, the Back marker and what binds before it', () => {
     expect(within(lists()).getByRole('link', { name: 'See it: Anvil full · collect' })).toBeTruthy();
   });
 
+  it('points a lane whose only bar is grouped to the group above, never "Nothing timed here"', async () => {
+    await openTimeline(withTimeline());
+    expect(
+      within(lists()).getAllByText(
+        (_, el) => el?.textContent === 'In the group above · Anvil full · collect' && el.tagName === 'P',
+      ),
+    ).toHaveLength(2);
+    expect(within(lists()).queryAllByText(TIMELINE_WORDS.nothingTimed)).toHaveLength(0);
+  });
+
   it('lists an untimed limit as "can\'t tell when", with no bar', async () => {
     await openTimeline(withTimeline());
     const lane = screen.getByRole('region', { name: '3 · Elm' });

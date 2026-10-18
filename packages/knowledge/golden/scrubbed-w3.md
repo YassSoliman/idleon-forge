@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #f256588d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 342
+# golden v1: scrubbed-w3 · knowledge #0f53b19b · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 342
 
 ## Verdict changes
 
@@ -111,7 +111,7 @@ W3 · Atom Collider · Not covered yet · Not covered yet
 W4 · Laboratory · Locked · Opens in World 4 · Hyperion Nebula
 W4 · Cooking · Locked · Opens in World 4 · Hyperion Nebula
 W4 · Breeding · Locked · Opens in World 4 · Hyperion Nebula
-Needs you: Talent presets (wasting), Companions and pets (wasting), Minigames (wasting), Colosseum (wasting), Refinery (wasting), Death Note (wasting), Cards (behind), Obols (behind), Stamps (behind), Anvil (behind), Post Office (locked), Alchemy bubbles (behind)
+Needs you: Talent presets (wasting), Companions and pets (wasting), Minigames (wasting), Colosseum (wasting), Refinery (wasting), Death Note (wasting), Cards (behind), Obols (behind), Stamps (behind), Anvil (behind), Alchemy bubbles (behind)
 Other gaps: Stamp cap raises that need farming or carry capacity
 Wasting: 6
 
@@ -136,6 +136,7 @@ C4 · Squire 85
 C2 · Squire 51
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none
+- In the group above · Anvil full · collect · Worship full · spend
 C1 · Wizard 73
 - Anvil full · collect · now · before · pill · fix none
 - worship charge caps · in 10h 14m · 02:26 · after · info · fix none

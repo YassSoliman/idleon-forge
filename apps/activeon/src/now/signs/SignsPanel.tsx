@@ -5,10 +5,14 @@
 // Account (points, unlocked signs, the next constellations). The engine (packages/engine/src/starsigns)
 // builds and words everything; this file only renders it. Text is React text, styles are classes (CSP).
 import type { NowView, StarSignsNowView } from '@idleon-forge/engine/now';
+import { formatRoute } from '../../shell/route';
+import type { SystemPageBodyProps } from '../../systems/pages';
 import type { CharacterTabProps } from '../character-tabs';
 import { useNowActions } from '../context';
 import { SourceLabel } from '../parts';
 import './signs.css';
+
+const STAR_SIGNS = 'star-signs';
 
 const list = (xs: readonly string[]) => (xs.length ? xs.join(' + ') : 'nothing');
 
@@ -70,15 +74,36 @@ export function SignsTab({ view, index }: CharacterTabProps) {
         Signs are changed only at the Telescope, at the top of the big tree in World 1 (Where the Branches
         End). Unlocking a sign is account-wide; each character aligns its own.
       </p>
-      <StarChartBody s={s} />
+      <StarChartLink s={s} />
     </div>
   );
 }
 
-function StarChartBody({ s }: { s: StarSignsNowView }) {
+/** The Signs tab's one line about the account's Star Chart; the chart itself lives on its System page. */
+function StarChartLink({ s }: { s: StarSignsNowView }) {
+  const actions = useNowActions();
+  const to = { place: 'system', id: STAR_SIGNS } as const;
+  return (
+    <p className="small ss-chart-link">
+      Star Chart: <span className="num">{s.points ?? '?'}</span> points ·{' '}
+      <a
+        href={formatRoute(to)}
+        onClick={(e) => {
+          if (!actions.navigate) return;
+          e.preventDefault();
+          actions.navigate(to);
+        }}
+      >
+        see it
+      </a>
+    </p>
+  );
+}
+
+function StarChartBody({ s, heading = true }: { s: StarSignsNowView; heading?: boolean }) {
   return (
     <>
-      <h3 className="ss-h">Star Chart</h3>
+      {heading ? <h3 className="ss-h">Star Chart</h3> : null}
       <p className="small">
         <span className="num">{s.points ?? '?'}</span> points to spend ·{' '}
         <span className="num">{s.unlockedNodes}</span> signs unlocked (the Hydron chart opens at{' '}
@@ -97,7 +122,12 @@ function StarChartBody({ s }: { s: StarSignsNowView }) {
             {s.next.map((n) => (
               <li key={n.name}>
                 <b>{n.name}</b> {n.text} · <span className="num">{n.points}</span> points
-                {n.shown ? <span className="pill">on your list</span> : null}
+                {n.shown ? (
+                  <>
+                    {' '}
+                    <span className="pill">on your list</span>
+                  </>
+                ) : null}
               </li>
             ))}
           </ol>
@@ -144,22 +174,68 @@ export function StarChartSection({ view }: { view: NowView }) {
       </summary>
       <div className="ss">
         <StarChartBody s={s} />
-        <ul className="ss-chars small">
-          {s.characters.map((c) => (
-            <li key={c.index}>
-              <a
-                href={`#signs-${c.index}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  actions.openTab(c.index, 'signs');
-                }}
-              >
-                {c.line}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <CharacterSigns s={s} />
       </div>
     </details>
+  );
+}
+
+/**
+ * Every character's sign line, with a recommendation shared by several characters said once
+ * ("wear The Fuzzy Dice · 6 characters") and each character's own line under "show details" (#70 A5).
+ */
+function CharacterSigns({ s }: { s: StarSignsNowView }) {
+  const actions = useNowActions();
+  const groups = new Map<string, StarSignsNowView['characters']>();
+  for (const c of s.characters) {
+    const id = c.activity ? `wear ${list(c.recommended)}` : c.line;
+    groups.set(id, [...(groups.get(id) ?? []), c]);
+  }
+  const link = (c: StarSignsNowView['characters'][number]) => (
+    <a
+      href={`#signs-${c.index}`}
+      onClick={(e) => {
+        e.preventDefault();
+        actions.openTab(c.index, 'signs');
+      }}
+    >
+      {c.line}
+    </a>
+  );
+  return (
+    <ul className="ss-chars small">
+      {[...groups].map(([id, cs]) =>
+        cs.length > 1 ? (
+          <li key={id}>
+            {id} · <span className="num">{cs.length}</span> characters
+            <details className="ss-group">
+              <summary>show details</summary>
+              <ul>
+                {cs.map((c) => (
+                  <li key={c.index}>{link(c)}</li>
+                ))}
+              </ul>
+            </details>
+          </li>
+        ) : (
+          cs.map((c) => <li key={c.index}>{link(c)}</li>)
+        ),
+      )}
+    </ul>
+  );
+}
+
+/** The star-signs System page body (pages.ts): the account's Star Chart and every character's signs. */
+export function StarSignsSystemBody({ s }: SystemPageBodyProps) {
+  const v = s.view.starSigns;
+  if (!v) return null;
+  return (
+    <section className="ss" aria-labelledby="ss-chart-h">
+      <h3 id="ss-chart-h" className="sub-h">
+        Star Chart
+      </h3>
+      <StarChartBody s={v} heading={false} />
+      <CharacterSigns s={v} />
+    </section>
   );
 }

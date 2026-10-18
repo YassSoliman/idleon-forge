@@ -85,9 +85,9 @@ describe('US-2 know where to go next', () => {
       '2 of 5 in your Visit Order · 1 left',
     );
   });
-  it('reads "last one", never "0 left", when nothing after this position needs a visit (R3 QA P3)', () => {
+  it('reads how many come after, never "0 left" nor "last one", when nothing after it needs a visit (R3, R6 QA)', () => {
     const v = view(r, { focus: 0, visited: new Set([1, 2]) });
-    expect(v.focus?.position).toBe('2 of 5 in your Visit Order · last one');
+    expect(v.focus?.position).toBe('2 of 5 in your Visit Order · 3 after it');
   });
   it('playing a different character than suggested only marks that one visited', () => {
     const v = view(r, { focus: 1, visited: new Set([1]) });
@@ -96,6 +96,11 @@ describe('US-2 know where to go next', () => {
   it('reads "Last one" when everyone with something to do is visited', () => {
     const v = view(r, { focus: 2, visited: new Set([3, 0, 1, 2]) });
     expect(v.focus?.next).toEqual({ index: null, text: 'Last one: check the Account list ↓' });
+  });
+  it('says "Nothing left to visit", not "Last one", on an earlier position once everyone is visited (R6 QA)', () => {
+    const v = view(r, { focus: 3, visited: new Set([3, 0, 1, 2]) });
+    expect(v.focus?.position).toBe('1 of 5 in your Visit Order · 4 after it');
+    expect(v.focus?.next).toEqual({ index: null, text: 'Nothing left to visit: check the Account list ↓' });
   });
   it('D6: a reshuffled visitOrder keeps the frozen order while Verdicts update', () => {
     const later = fixture('mid-session');

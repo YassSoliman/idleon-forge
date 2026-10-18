@@ -308,7 +308,8 @@ describe('Behind (D-9) and locked Systems (FR-17, FR-19)', () => {
     expect(t?.reason.map((s) => s.text).join('')).toBe(
       'Opens at class Lv 50 · 1 to do · behind for your Stage',
     );
-    expect(v.needsYou).toEqual([{ id: 'arcade', name: 'Arcade', status: 'locked' }]);
+    // R6 QA: a locked System never appears in "Needs you"; its tile carries "behind for your Stage".
+    expect(v.needsYou).toEqual([]);
   });
 
   it('a world-gated locked tile shows only the world, never the precise condition (FR-19)', () => {
@@ -564,7 +565,7 @@ describe('US-5 to US-7 on scrubbed-w3 (W3-early, 6 characters)', () => {
     expect(text(po)).toMatch(
       /^Opens once a character reaches class Lv 50 .* · 1 to do · behind for your Stage$/,
     );
-    expect(v.needsYou.some((n) => n.id === 'post-office')).toBe(true);
+    expect(v.needsYou.some((n) => n.id === 'post-office')).toBe(false);
     const page = buildSystemPageView(
       r,
       EMPTY_PREFS,

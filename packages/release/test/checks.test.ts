@@ -31,6 +31,11 @@ describe('PR title check', () => {
     expect(checkPr('feat: x', `What's-new: ${'a'.repeat(121)}`).errors[0]).toContain('121');
   });
 
+  it("counts a wrapped What's-new value as one sentence", () => {
+    const body = `What's-new: ${'a'.repeat(70)}\n${'b'.repeat(60)}\n\nNotes`;
+    expect(checkPr('feat: x', body).errors[0]).toContain('131');
+  });
+
   it("warns, without failing, on a feat or fix with no What's-new line (D2)", () => {
     const r = checkPr('feat: cards', 'no line here');
     expect(r.errors).toEqual([]);

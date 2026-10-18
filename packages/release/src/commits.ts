@@ -53,13 +53,27 @@ export type WhatsNewLine = { kind: 'none' } | { kind: 'text'; text: string };
 // `What's-new:` with a straight or curly apostrophe, any case, CRLF tolerated (TR-7 rule 4).
 const WHATS_NEW = /^[ \t]*what['’]s-new:[ \t]*(.*?)[ \t]*$/i;
 
-/** The PR body's `What's-new:` line. An empty line counts as absent (TR-19). */
+// A line that starts another trailer (`Key: value`), a heading or a list item ends a wrapped value.
+const NEXT_TRAILER = /^[ \t]*[A-Za-z][A-Za-z0-9'’-]*:(?:[ \t]|$)/;
+const BLOCK_START = /^[ \t]*(?:#|[-*+][ \t]|<!--|```)/;
+
+/**
+ * The PR body's `What's-new:` line. A value that wraps onto the next lines is joined up to the next
+ * blank line or the next `Key:` trailer. An empty value counts as absent (TR-19).
+ */
 export function parseWhatsNewLine(body: string): WhatsNewLine | null {
-  for (const raw of body.split(/\r?\n/)) {
-    const m = WHATS_NEW.exec(raw.replace(/\r$/, ''));
+  const lines = body.split(/\r?\n/).map((l) => l.replace(/\r$/, ''));
+  for (let i = 0; i < lines.length; i++) {
+    const m = WHATS_NEW.exec(lines[i] ?? '');
     if (!m) continue;
-    const text = (m[1] ?? '').trim();
-    if (!text) continue;
+    const parts = [(m[1] ?? '').trim()];
+    if (!parts[0]) continue;
+    for (let j = i + 1; j < lines.length; j++) {
+      const next = lines[j] ?? '';
+      if (next.trim() === '' || NEXT_TRAILER.test(next) || BLOCK_START.test(next)) break;
+      parts.push(next.trim());
+    }
+    const text = parts.join(' ').replace(/\s+/g, ' ').trim();
     // "none", optionally followed by a note: "none (spec only)", "none - docs" (not shown to players).
     if (/^none\b(?:[\s.:;,(–—-].*)?$/i.test(text)) return { kind: 'none' };
     return { kind: 'text', text };

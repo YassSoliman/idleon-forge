@@ -24,7 +24,7 @@ describe.skipIf(!hasPrivate('joseph'))('the W3-early private save', () => {
         .map((g) => g.nextAction.key),
     ).toEqual(['star-signs.goal.constellation@A-7', 'star-signs.goal.constellation@B-1']);
     expect(r.starSigns?.milestone).toBe(
-      '21 of the 19 points left for Chronus Cosmos (2 signs on every character)',
+      '21 points ready, 19 needed for Chronus Cosmos (2 signs on every character)',
     );
     const can = r.starSigns?.characters.filter((c) => c.canChange === true) ?? [];
     expect(can.map((c) => c.line.split(' (')[0])).toEqual(['Wizard Lv 73']);

@@ -483,8 +483,11 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
           current: j === i,
         };
       }),
-      // Nothing left after this position reads "last one", never "3 of 5 · 0 left" (R3 QA P3).
-      position: `${k} of ${total} in your Visit Order · ${left === 0 ? 'last one' : `${left} left`}`,
+      // Only the last position reads "last one"; nothing left to do after an earlier one reads how many
+      // come after it, never "3 of 5 · 0 left" (R3 QA P3) nor "last one" on every page (R6 QA).
+      position: `${k} of ${total} in your Visit Order · ${
+        k >= total ? 'last one' : left > 0 ? `${left} left` : `${total - k} after it`
+      }`,
       playing,
       left: leftFrom
         ? {
@@ -547,7 +550,13 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       done: c.doneThisSession.map((d) => doneView(d, ui.tzOffsetMinutes)),
       next:
         nextTarget === null
-          ? { index: null, text: 'Last one: check the Account list ↓' }
+          ? {
+              index: null,
+              text:
+                k >= total
+                  ? 'Last one: check the Account list ↓'
+                  : 'Nothing left to visit: check the Account list ↓',
+            }
           : { index: nextTarget, text: `Next: switch to ${nameOf(nextTarget)} →` },
     };
     return card;

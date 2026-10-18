@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #f256588d · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: fresh · knowledge #0f53b19b · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 342
 
 ## Verdict changes
 
@@ -108,7 +108,7 @@ C1 · Siege Breaker 478
 - no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c0
 C3 · Beginner 1
 - no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c2
-- Traps idle in about 8 h · in 7h 52m · 02:33 · before · pill · fix none
+- Traps idle · in 7h 52m · 02:33 · before · pill · fix none
 - worship charge caps · later · in 28h 20m · 23:01 · after · info · fix none
 Account · Colosseum
 - Colosseum tickets lost · now · before · next-action · outlined · fix colosseum.check.collect-tickets@account

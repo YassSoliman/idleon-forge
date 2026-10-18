@@ -239,13 +239,10 @@ export function buildSystemsView(result: EngineResult, nowPrefs: NowPrefs, ui: S
       ...ordered
         .filter((t) => t.status === 'wasting')
         .map((t) => ({ id: t.id, name: t.name, status: 'wasting' as const })),
+      // A locked System is never "Needs you", even when behind: its tile says so (R6 QA).
       ...ordered
-        .filter((t) => t.status === 'behind' || t.alsoBehind)
-        .map((t) => ({
-          id: t.id,
-          name: t.name,
-          status: t.status === 'behind' ? ('behind' as const) : ('locked' as const),
-        })),
+        .filter((t) => t.status === 'behind')
+        .map((t) => ({ id: t.id, name: t.name, status: 'behind' as const })),
     ],
     groups,
     later: folded.length ? { label: HUB_WORDS.later(folded.length), tiles: folded } : null,

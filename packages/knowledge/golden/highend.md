@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #f256588d · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: highend · knowledge #0f53b19b · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 342
 
 ## Verdict changes
 
@@ -138,51 +138,55 @@ Axis: now to +12h · Back in 8h 00m · 05:25
 C4 · Divine Knight 1819
 - no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c3
 - Anvil full · collect · now · before · pill · fix none · the same on 10 more
-- Traps idle in about 3 h · in 3h 09m · 00:34 · before · pill · fix none
+- Traps idle · in 3h 09m · 00:34 · before · pill · fix none
 - worship charge caps · later · in 3d 10h · 08:06 · after · info · fix none
 C10 · Wind Walker 1742
 - traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c9
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none · the same on 6 more
-- Traps idle in about 3 h · in 3h 09m · 00:35 · before · pill · fix none · the same on 9 more
+- Traps idle · in 3h 09m · 00:35 · before · pill · fix none · the same on 9 more
 C7 · Divine Knight 1734
 - no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c6
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none
-- Traps idle in about 3 h · in 3h 09m · 00:35 · before · pill · fix none
+- Traps idle · in 3h 09m · 00:35 · before · pill · fix none
 C11 · Beginner 1717
 - traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c10
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none
-- Traps idle in about 3 h · in 3h 09m · 00:35 · before · pill · fix none
+- Traps idle · in 3h 09m · 00:35 · before · pill · fix none
 C1 · Death Bringer 1701
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none
-- Traps idle in about 3 h · in 3h 09m · 00:35 · before · pill · fix none
+- Traps idle · in 3h 09m · 00:35 · before · pill · fix none
+- In the group above · Anvil full · collect · Worship full · spend · Traps idle
 C8 · Voidwalker 1764
 - Anvil full · collect · now · before · pill · fix none
-- Traps idle in about 3 h · in 3h 09m · 00:35 · before · pill · fix none
+- Traps idle · in 3h 09m · 00:35 · before · pill · fix none
 - worship charge caps · later · in 3d 18h · 16:05 · after · info · fix none
 C5 · Arcane Cultist 1762
 - Anvil full · collect · now · before · pill · fix none
-- Traps idle in about 3 h · in 3h 09m · 00:35 · before · pill · fix none
+- Traps idle · in 3h 09m · 00:35 · before · pill · fix none
 - worship charge caps · later · in 8d 10h · 08:21 · after · info · fix none
 C6 · Wind Walker 1744
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none
-- Traps idle in about 3 h · in 3h 09m · 00:35 · before · pill · fix none
+- Traps idle · in 3h 09m · 00:35 · before · pill · fix none
+- In the group above · Anvil full · collect · Worship full · spend · Traps idle
 C9 · Arcane Cultist 1743
 - Anvil full · collect · now · before · pill · fix none
-- Traps idle in about 3 h · in 3h 09m · 00:35 · before · pill · fix none
+- Traps idle · in 3h 09m · 00:35 · before · pill · fix none
 - worship charge caps · later · in 15d 15h · 12:28 · after · info · fix none
 C2 · Siege Breaker 1725
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none
-- Traps idle in about 3 h · in 3h 09m · 00:35 · before · pill · fix none
+- Traps idle · in 3h 09m · 00:35 · before · pill · fix none
+- In the group above · Anvil full · collect · Worship full · spend · Traps idle
 C3 · Elemental Sorcerer 1734
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none
-- Traps idle in about 3 h · in 3h 09m · 00:35 · before · pill · fix none
+- Traps idle · in 3h 09m · 00:35 · before · pill · fix none
+- In the group above · Anvil full · collect · Worship full · spend · Traps idle
 Account · Alchemy cauldrons and liquids
 - Water full · can't tell when · untimed · info · fix none
 Account · Arcade
