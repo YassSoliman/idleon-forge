@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
 /* Area C (M21 §9): the Character page's sticky identity strip and tab bar (FR-C5, Design Lab
    `character.shell` "Sticky identity strip" with the runner-up's 44 px arrows). In the first load,
-   through styles/views.css, because Focus renders the strip. The Build tab's styles are in
+   from main.tsx, because Focus renders the strip. The Build tab's styles are in
    characters/build/build.css and the Characters place's in characters/place.css, both lazy. */
 .cs-sentinel {
   height: 1px;

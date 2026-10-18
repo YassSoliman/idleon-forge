@@ -22,12 +22,12 @@ export const BUDGETS = {
   firstPaintFontsRaw: 71 * 1024,
   // M21 TR-12: the main stylesheet, gzipped: Phase F's measured 14.2 KB (7.5 KB before: the tokens, the
   // atoms and the art's ramps and frames) + 12 KB. Reported from F, enforced from Integration
-  // (MAIN_CSS_ENFORCED), once the areas have moved onto the atoms and the old styles are gone.
+  // (MAIN_CSS_ENFORCED), once the areas had moved onto the atoms and the old styles were gone.
   mainCssGzip: 26.2 * 1024,
 } as const;
 
-/** Integration turns this on (M21 TR-12, FR-I3). */
-export const MAIN_CSS_ENFORCED = false;
+/** On since M21 Integration (TR-12, FR-I3): the main stylesheet is held to `mainCssGzip`. */
+export const MAIN_CSS_ENFORCED = true;
 
 /** The first screen's font files (FR-F2), by their emitted names. */
 export const FIRST_PAINT_FONTS: readonly RegExp[] = [

@@ -514,3 +514,12 @@
 .a-theme-toggle {
   color: var(--fg);
 }
+
+/* GoalList's "who" line and StateGlyph's 12 px glyph (Phase F's legacy.css, folded in by Integration) -- */
+.goals .who {
+  margin: 0 0 2px;
+  color: var(--muted);
+}
+.gg {
+  flex: none;
+}

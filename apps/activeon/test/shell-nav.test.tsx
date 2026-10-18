@@ -137,7 +137,7 @@ describe('US-3 Back goes back', () => {
     expect(document.querySelector('ol.roster')).toBeTruthy();
   });
 
-  it('"← back" on a Character page opened by a deep link returns to Now', () => {
+  it('"Back" on a Character page opened by a deep link returns to Now', () => {
     window.history.replaceState(null, '', '/#build-1');
     const r = withSystems();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
@@ -146,7 +146,7 @@ describe('US-3 Back goes back', () => {
     expect(window.location.hash).toBe('#now');
   });
 
-  it('a Character page opened from the Characters grid belongs to Characters, and "← back" returns there', () => {
+  it('a Character page opened from the Characters grid belongs to Characters, and "Back" returns there', () => {
     const r = withSystems();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     go('Characters');
@@ -155,7 +155,7 @@ describe('US-3 Back goes back', () => {
     );
     expect(screen.getByRole('heading', { level: 2, name: 'Cedar' })).toBeTruthy();
     expect(within(places()).getByRole('link', { current: true }).textContent).toBe('Characters');
-    fireEvent.click(screen.getByRole('button', { name: '← back' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Back' }));
     expect(window.location.hash).toBe('#characters');
   });
 });

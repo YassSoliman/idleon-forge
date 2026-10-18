@@ -97,7 +97,13 @@ export function bandPath(
   for (const [i, group] of groups.entries()) {
     const key = `${keyBase}-${i}`;
     const sub = (j: number) => (group.length > 1 ? `${key}-${j}` : key);
-    const members = group.map((m, j) => ({ m: { ...m, current: sim.get(m.id) ?? m.current }, k: sub(j) }));
+    // `current` is where the plan has the talent by this row (an earlier row may raise it); `saved` is
+    // the save's own level, which every row shows (M22 same-fact-everywhere: "0 → 100", never "50 → 100").
+    const members = group.map((m, j) => ({
+      m: { ...m, current: sim.get(m.id) ?? m.current },
+      saved: m.current,
+      k: sub(j),
+    }));
     // In place: members at their goal first, then the members that take points (one row; a tie when
     // more than one), then the ones that wait (later) or need no points (set by a bubble).
     const active = members.filter(({ m }) => m.later === null && m.fixed === null && m.current < m.goal);
@@ -115,23 +121,29 @@ export function bandPath(
     if (active.length > 0) {
       const list = active.map((x) => x.m);
       const first = list[0] as PathMember;
+      const firstSaved = (active[0] as { saved: number }).saved;
+      // A later row of a talent an earlier row already raises: say where the plan picks it up.
+      const from =
+        list.length === 1 && first.current !== firstSaved
+          ? `from ${n(first.current)} after the steps above`
+          : null;
       const need = list.reduce((s, m) => s + (m.goal - m.current), 0);
-      const tie = list.length > 1;
-      const parts = tie
+      const tied = list.length > 1;
+      const parts = tied
         ? `split evenly: ${list.map((m) => `${m.label} ${n(m.current)} → ${n(m.goal)}`).join(', ')}`
         : null;
-      const note = [parts, ...list.map((m) => m.note)].filter((x): x is string => !!x).join(' · ');
+      const note = [parts, from, ...list.map((m) => m.note)].filter((x): x is string => !!x).join(' · ');
       const before = total;
       total += need;
       for (const m of list) sim.set(m.id, m.goal);
       const band = total <= budget ? 'now' : before < budget ? 'part' : 'next';
       out.push({
         ...base(first, (active[0] as { k: string }).k),
-        label: tie ? list.map((m) => m.label).join(' = ') : first.label,
+        label: tied ? list.map((m) => m.label).join(' = ') : first.label,
         core: list.some((m) => m.core),
         // A tie row carries its first member's levels (its `talentId`), so every surface names one talent's
         // level the same way (M22 same-fact-everywhere); the members' levels are in the note.
-        current: first.current,
+        current: firstSaved,
         goal: first.goal,
         need,
         cumulative: total,

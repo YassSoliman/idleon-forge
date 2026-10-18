@@ -11,6 +11,7 @@ import { type CSSProperties, useState } from 'react';
 import { PixelArt } from '../../design/art/PixelArt';
 import { cx } from '../../design/atoms/Button';
 import { Meter } from '../../design/atoms/Meter';
+import { SeeOnMap } from '../../map/SeeOnMap';
 import './walkthrough.css';
 
 type View = NonNullable<GoalView['walkthrough']>;
@@ -92,6 +93,7 @@ export function WalkthroughSteps({ view }: { view: View }) {
                   </>
                 ) : null}
                 {s.why ? <span className="wt-why n-muted">{s.why}</span> : null}
+                <SeeOnMap mapIndex={s.mapIndex} label={s.text} />
               </span>
             </li>
           );

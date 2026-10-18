@@ -9,7 +9,7 @@ import type { CharacterGear, GearSlotView } from '@idleon-forge/engine/result';
 import { useState } from 'react';
 import type { ArtName } from '../design/art/names';
 import { PixelArt } from '../design/art/PixelArt';
-import { StateGlyph } from '../design/atoms/StateGlyph';
+import { StateGlyph } from '../design/atoms';
 import type { CharacterTabProps } from '../now/character-tabs';
 import './gear.css';
 

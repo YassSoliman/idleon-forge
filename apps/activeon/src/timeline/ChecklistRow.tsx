@@ -8,8 +8,7 @@
 import type { ChecklistRowView, TimelineFix } from '@idleon-forge/engine/now';
 import { LINK_WORDS, PLACE_WORDS } from '@idleon-forge/engine/now';
 import { PixelArt } from '../design/art/PixelArt';
-import { Button, cx } from '../design/atoms';
-import { SourceLabel } from '../design/atoms/SourceLabel';
+import { Button, cx, SourceLabel } from '../design/atoms';
 import { useNowActions } from '../now/context';
 import { formatRoute } from '../shell/route';
 import { rowArt } from './art';

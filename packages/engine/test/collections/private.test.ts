@@ -33,18 +33,16 @@ const texts = (stem: 'yasser' | 'joseph') => {
 describe.skipIf(!hasPrivate('yasser'))('the W2-late private save', () => {
   it('stamps, cards, presets and obols as the spec reads them', () => {
     const t = texts('yasser');
-    expect(t.account.find((x) => x.startsWith('Buy 4 new stamps'))).toMatch(
-      /Vitality.*Vendor.*Matty Bag.*Clover/,
-    );
+    // The KB copy pass (#112) keeps the step short; the shops list is in its details.
+    expect(t.account).toContain('Buy 4 new stamps from town shops in one trip');
     expect(t.row('Barbarian', 60)).toContain(
       'Craft a Copper Chopper at the Anvil (6 Oak Logs), then give it to Hamish → Tomahawk Stamp',
     );
     expect(t.row('Squire', 43)).toContain(
       'Fill card preset 2 for Mining (Iron card first), then switch to it',
     );
-    expect(t.row('Shaman', 44)).toContain(
-      'Equip the Blunder Hills card set (tier 1, +8% EXP if below Lv 50)',
-    );
+    // The KB copy pass (#112) moved the tier and bonus into the step's why.
+    expect(t.row('Shaman', 44)).toContain('Equip the Blunder Hills card set');
     expect(t.account.some((x) => x.startsWith('Equip 1 stored obol in a family circle slot'))).toBe(true);
     expect(evaluateStamps(t.s, lookupOf(kb)).owned).toBe(8);
   });
@@ -60,7 +58,7 @@ describe.skipIf(!hasPrivate('joseph'))('the W3-early private save', () => {
     expect(t.row('Squire', 85)).toContain(
       'Buy a Bob Joe Pickle at the YumYum Grotto shop and give it to the Obol Altar',
     );
-    expect(t.row('Squire', 51)).toContain('Equip 1 card in your empty card slots: Amarok');
+    expect(t.row('Squire', 51)).toContain('Equip 1 card in your empty card slots');
     expect(t.play.some((x) => x.startsWith('Wellington 1 on Squire 85'))).toBe(true);
     expect(evaluateStamps(t.s, lookupOf(kb)).owned).toBe(17);
   });

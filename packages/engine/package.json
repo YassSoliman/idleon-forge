@@ -5,6 +5,7 @@
   "license": "GPL-3.0-only",
   "description": "The ActiveOn advice engine: the core (merge, rank, dedupe, Visit Order, EngineResult), the Now screen view model, and the module engines (M2 Meta Path, M3 AFK Safety, M6 Unspent & idle, M7 Spend Plan, M8 Collections, M9 Builds).",
   "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
     "./now": "./src/now/index.ts",
@@ -27,7 +28,9 @@
     "./session": "./src/session/index.ts",
     "./pictures": "./src/pictures/index.ts",
     "./systems-ui": "./src/pictures/ui.ts",
-    "./see-it": "./src/now/see-it.ts"
+    "./see-it": "./src/now/see-it.ts",
+    "./session-view": "./src/now/session-view.ts",
+    "./characters-ui": "./src/now/characters-ui.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json"

@@ -384,6 +384,8 @@ function stepsOf(
     const sup = l.effort.supply;
     let text: string | null = null;
     let subject: Subject | null = null;
+    /** M21 FR-M7: the map a farm or gather step happens on, for "See it on the map". */
+    let mapIndex: number | null = null;
     let why: string | null = null;
     let rowText: string | null = null;
     // The step's numbers and conditions: its `<template>-why`, joined after the reason (copy rule 1).
@@ -444,6 +446,7 @@ function stepsOf(
       if (job && ch && c) {
         subject = `c${c.index}`;
         const where = ch.supply.where;
+        mapIndex = where.mapIndex;
         const skill = ch.supply.kind === 'skill-node';
         const already = job.pref === 1;
         if (skill) {
@@ -559,6 +562,7 @@ function stepsOf(
         }
       } else {
         const sp = l.effort.supply;
+        mapIndex = sp?.where.mapIndex ?? null;
         const door =
           sp?.kind === 'drop' && sp.where.mapIndex !== null ? doorInto(kb, sp.where.mapIndex) : null;
         const reachers = (sp?.perCharacter ?? [])
@@ -605,6 +609,7 @@ function stepsOf(
       text,
       when: 'now',
       subject,
+      ...(mapIndex !== null ? { mapIndex } : {}),
       progress,
       why: joinWhy(
         why ??

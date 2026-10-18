@@ -11,8 +11,8 @@
 // - `RankedGoals` (`cards.goal-list` Ranked with one winner): one full card, then numbered muted lines,
 //   then "+n more"; "2 skipped today · show" and "Hidden until next patch".
 // - `CapPills`: a character's cap pills in the Focus header, each a disclosure (R-PILL-1).
-// The Source label, the contested badge and the meta row live in design/atoms/ (Phase F); they are
-// re-exported here until Integration (FR-I3). All text is React text: no dangerouslySetInnerHTML (TR-13).
+// The Source label, the contested badge and the meta row live in design/atoms/ (Phase F).
+// All text is React text: no dangerouslySetInnerHTML (TR-13).
 import {
   CARD_WORDS,
   type CapPillView,
@@ -25,14 +25,14 @@ import {
   timelineHome,
 } from '@idleon-forge/engine/now';
 import { seeItSystem } from '@idleon-forge/engine/see-it';
-import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
+import { type ReactNode, useId, useState } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
+import { SourceLabel } from '../design/atoms';
 import { Button, cx } from '../design/atoms/Button';
 import { GlyphChip } from '../design/atoms/Chip';
 import { GLYPH, type SealKind } from '../design/atoms/glyphs';
 import { Seal, Speech } from '../design/atoms/Marks';
 import { Pill } from '../design/atoms/Pill';
-import { SourceLabel } from '../design/atoms/SourceLabel';
 import { TokenLine } from '../design/atoms/TokenLine';
 import type { ClassFamily } from '../design/who/WhoGlyph';
 import { formatRoute } from '../shell/route';
@@ -43,9 +43,6 @@ import { type ReportOutput, useNowActions } from './context';
 import { PUBLIC_NOTICE } from './report';
 import { WalkthroughPin, WalkthroughSteps } from './walkthrough/Walkthrough';
 
-export { ActionMeta, ContestedBadge } from '../design/atoms/ActionMeta';
-export { GoalList } from '../design/atoms/GoalList';
-export { ExternalLink, SourceLabel } from '../design/atoms/SourceLabel';
 export { capOpenId } from './chrome/cap-glyph';
 export { HoldButton } from './chrome/HoldButton';
 
@@ -319,6 +316,11 @@ export function WhySheet({
         <div className="n-why__src na-meta">
           <PixelArt name="cards-src-book" decorative />
           <SourceLabel source={action.source} />
+          {action.source.verifiedOn ? (
+            <span className="n-why__verified n-muted num">
+              {CARD_WORDS.verified(action.source.verifiedOn)}
+            </span>
+          ) : null}
         </div>
         {seeIt}
         <ActionControls

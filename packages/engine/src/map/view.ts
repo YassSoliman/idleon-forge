@@ -5,7 +5,7 @@
 // lines, the frontier ring and its time, the node states, the four overlays with their one ring each,
 // and one sheet per map in the FR-M2 order. Only the lazy Map place and the golden call it.
 import { humanize } from '@idleon-forge/account-state';
-import { inSpan } from '../now/format';
+import { clockAt, inSpan } from '../now/format';
 import type { MapView, NowView } from '../now/view';
 import { WORLD_NAMES } from '../now/words/shared';
 import type { EngineResult, MapResult } from '../result';
@@ -162,6 +162,10 @@ const NODE_WORD: Record<MapNodeState, string> = {
 export interface MapViewOptions {
   /** Epoch ms for the frontier's "in 14h 04m"; the save's own time when omitted (goldens). */
   now?: number;
+  /** M21 G10, the Times setting: 'clock' says the frontier's time as "around 20:10". */
+  times?: 'relative' | 'clock';
+  /** Minutes east of UTC for the clock form; 0 when omitted. */
+  tzOffsetMinutes?: number;
 }
 
 /** M21 TR-9: the Map place's view; null without the map module's data. */
@@ -236,7 +240,12 @@ export function buildMapView(
       requirement: f.requirement,
       killsText: W.kills(done, f.requirement),
       step: eta === null ? W.noFighter : to ? W.push(left, to) : W.pushAny(left),
-      when: eta === null ? null : inSpan(Math.max(0, result.asOf + eta - now)),
+      when:
+        eta === null
+          ? null
+          : opts.times === 'clock' && result.asOf + eta > now
+            ? `around ${clockAt(result.asOf + eta, opts.tzOffsetMinutes ?? 0)}`
+            : inSpan(Math.max(0, result.asOf + eta - now)),
     };
   }
 

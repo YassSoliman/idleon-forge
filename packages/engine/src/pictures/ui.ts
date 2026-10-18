@@ -3,6 +3,8 @@
 // M21 area S: `@idleon-forge/engine/systems-ui`, the UI-thread entry of the Systems area's lazy parts (the
 // hub's report card, the System page frame, the picture bodies). Pure view builders and words only, no
 // worker module, so the lazy chunks that import it stay small and the first load doesn't grow (TR-12).
+// M17's hub view lives here too: only the lazy hub builds it (M21 Integration, TR-12).
+export { buildSystemsView } from '../now/systems-view';
 export { buildSystemsHubView } from './hub-view';
 export { buildSystemPageFrameView, picturesOf } from './page-view';
 export type * from './types';

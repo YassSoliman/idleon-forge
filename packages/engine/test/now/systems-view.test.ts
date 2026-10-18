@@ -12,6 +12,7 @@ import { DEFAULT_EXPECTED_RETURN_MS, isAdviceShaped } from '@idleon-forge/knowle
 import { describe, expect, it } from 'vitest';
 import { goldenResult } from '../../src/golden';
 import { buildNowView, DEFAULT_UI } from '../../src/now/build-now-view';
+import * as characterWords from '../../src/now/characters-ui';
 import { EMPTY_PREFS, type NowPrefs } from '../../src/now/prefs';
 import { SYSTEM_HOMES } from '../../src/now/system-homes';
 import { buildSystemPageView, buildSystemsView, seeItSystem } from '../../src/now/systems-view';
@@ -478,6 +479,8 @@ describe('TR-9: view words are not advice', () => {
     else if (v && typeof v === 'object') Object.values(v).forEach(collect);
   };
   collect(words);
+  // Area C's words left the barrel for `./characters-ui` (M21 Integration); they are linted the same.
+  collect(characterWords);
 
   it('holds no imperative from the Next Action templates and no rating word', () => {
     expect(strings.length).toBeGreaterThan(30);

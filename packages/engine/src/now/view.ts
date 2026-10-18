@@ -33,6 +33,8 @@ export interface SourceView {
   text: string | null;
   /** The https URL of that Source, or null (rendered as plain text, TR-13). */
   href: string | null;
+  /** When that Source was last checked ("2026-10-18"); null for the Toolbox page fallback (M21 why sheet). */
+  verifiedOn: string | null;
   /** "Calculated by IdleOn Toolbox · 2.3.540" when a tier 1 Source backs the entry. */
   credit: string | null;
   /** The Toolbox website page for the credit (idleontoolbox.com), never its code; null when the main link
@@ -346,6 +348,11 @@ export interface NowView {
   visibleKeys: string[];
   /** The earliest time a skip can expire or the session can end (TR-3 step 6). */
   nextExpiry: number | null;
+  /**
+   * Whole minutes since the last cloud save at `now`, for "as of your last save (12m ago)" on the Build
+   * path (M21 Integration, area C's request); null when the save time isn't known.
+   */
+  saveAgeMinutes: number | null;
   /** Every character's Build view, in save order (owner request 2026-10-18); empty without M9. */
   builds: BuildRoadmapView[];
   /** The Cards tab and overview (M8, owner request 2026-10-18); null without M8's cards-view module. */
@@ -693,7 +700,7 @@ export interface SessionView {
   manual: boolean;
 }
 
-/** M21 FR-M1 to FR-M4: the Map place's view (area M, `now/map-view.ts`). Minimal in Phase F. */
+/** M21 FR-M1 to FR-M4: the Map place's view (area M, `map/view.ts`). */
 export interface MapView {
   worlds: { world: number; heading: string; state: 'done' | 'open' | 'next' }[];
 }

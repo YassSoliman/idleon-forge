@@ -6,8 +6,8 @@
 // templates and no rating word (P6). `view-words.test.ts` lints it.
 //
 // M21 TR-7: the words live per area in `words/*.ts` (each area edits only its own file); this file
-// re-exports them so every import keeps working.
-export * from './words/characters';
+// re-exports them so every import keeps working. Area C's words are the exception: they are only in
+// `@idleon-forge/engine/characters-ui` (`characters-ui.ts`), the entry of C's lazy parts.
 export * from './words/map';
 export * from './words/now';
 export * from './words/shared';

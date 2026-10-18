@@ -153,9 +153,25 @@ export function sourceView(sources: readonly SourceRef[], stale: boolean, entryI
   }));
   const credit = toolbox ? `Calculated by IdleOn Toolbox · ${toolbox.gameVersion}` : null;
   if (best)
-    return { text: best.label, href: safeHref(best.url), credit, creditHref: site?.url ?? null, stale, more };
+    return {
+      text: best.label,
+      href: safeHref(best.url),
+      verifiedOn: best.verifiedOn,
+      credit,
+      creditHref: site?.url ?? null,
+      stale,
+      more,
+    };
   // No wiki or guide: link the Toolbox page itself; the credit beside it stays text (one link, not two).
-  return { text: site?.title ?? null, href: site?.url ?? null, credit, creditHref: null, stale, more };
+  return {
+    text: site?.title ?? null,
+    href: site?.url ?? null,
+    verifiedOn: null,
+    credit,
+    creditHref: null,
+    stale,
+    more,
+  };
 }
 
 function actionView(
@@ -751,6 +767,8 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
     newCount,
     visibleKeys,
     nextExpiry,
+    saveAgeMinutes:
+      ui.lastCloudSave === null ? null : Math.max(0, Math.floor((ui.now - ui.lastCloudSave) / 60_000)),
     builds: buildsView(result),
     cards: cardsView(result),
     starSigns: starSignsView(result),

@@ -61,7 +61,16 @@ export interface RawFacts {
 }
 
 /** Where a value was read. `raw` is the save itself; the rest are what the app derived or shows. */
-export type Surface = 'raw' | 'state' | 'build' | 'build-row' | 'build-path' | 'character' | 'spend';
+export type Surface =
+  | 'raw'
+  | 'state'
+  | 'build'
+  | 'build-row'
+  | 'build-path'
+  | 'character'
+  | 'spend'
+  /** A Goal's own number for the fact (the "points left behind on a preset" card). */
+  | 'goal';
 
 /** One fact and every value it has across the surfaces that carry it. */
 export interface FactRow {

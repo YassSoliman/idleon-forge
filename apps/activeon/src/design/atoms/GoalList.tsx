@@ -2,11 +2,10 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M21 FR-F5 (moved verbatim from now/parts.tsx in Phase F): the ranked Goal list with "show more",
 // "n skipped · undo" and "Hidden until next patch", used by Now, Account and the System pages. It renders
-// each Goal with Now's NextActionItem and SeeItLink. The old export in now/parts.tsx re-exports this.
+// each Goal with Now's NextActionItem and SeeItLink.
 import type { GoalView } from '@idleon-forge/engine/now';
 import { useNowActions } from '../../now/context';
 import { NextActionItem, SeeItLink } from '../../now/parts';
-import './legacy.css';
 
 export function GoalList({
   goals,

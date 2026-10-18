@@ -16,7 +16,10 @@ import { describe, expect, it } from 'vitest';
 
 const SRC = fileURLToPath(new URL('../src', import.meta.url));
 
-/** Today's violations per file (Phase F, 2026-10-18). Lower a number when you fix one; never raise one. */
+/**
+ * Violations allowed per file. Phase F started it at 17 rules in 7 files; the areas cleared theirs and
+ * Integration checks it is empty (FR-I3, test below). Never add a file to it.
+ */
 const BASELINE: Record<string, number> = {};
 
 const walk = (dir: string): string[] =>
@@ -90,6 +93,10 @@ describe('CSS guard (TR-15)', () => {
     const design = Object.entries(byFile).filter(([f]) => f.startsWith('design/'));
     expect(design.length).toBeGreaterThan(0);
     expect(design.filter(([, v]) => v.length > 0)).toEqual([]);
+  });
+
+  it('the baseline is empty: every stylesheet meets the rules (Integration, FR-I3)', () => {
+    expect(BASELINE).toEqual({});
   });
 
   it('no stylesheet has more violations than its baseline, and the baseline only shrinks', () => {

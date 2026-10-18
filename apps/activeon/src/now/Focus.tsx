@@ -21,10 +21,10 @@ import {
 import { type Ref, Suspense, useState } from 'react';
 import { CharacterShell } from '../characters/CharacterShell';
 import { PixelArt } from '../design/art/PixelArt';
+import { SourceLabel } from '../design/atoms';
 import { Button, cx } from '../design/atoms/Button';
 import { GLYPH, VERDICT_GLYPH } from '../design/atoms/glyphs';
 import { VerdictStamp } from '../design/atoms/Pill';
-import { SourceLabel } from '../design/atoms/SourceLabel';
 import { EmptyState } from '../design/atoms/States';
 import { TokenLine } from '../design/atoms/TokenLine';
 import { span } from '../design/format';
@@ -325,13 +325,18 @@ export function Focus({
       {card.left ? (
         <p className="n-left left-line">
           {card.left.text} ·{' '}
-          <a href={tabHref(NOW_TAB, card.left.index)} onClick={(e) => go(e, card.left?.index ?? card.index)}>
+          <a
+            className="n-back"
+            href={tabHref(NOW_TAB, card.left.index)}
+            onClick={(e) => go(e, card.left?.index ?? card.index)}
+          >
+            <PixelArt name={GLYPH.arrowLeft} decorative />
             {LINK_WORDS.back}
           </a>
         </p>
       ) : null}
 
-      <CharacterShell ref={headingRef} card={card} tab={tab} onTab={onTab && view ? onTab : null}>
+      <CharacterShell ref={headingRef} card={card} tab={tab} onTab={onTab && view ? onTab : null} view={view}>
         <CapPills caps={card.caps} ready={card.pill.kind === 'ready'} />
       </CharacterShell>
 
@@ -469,6 +474,9 @@ export function Focus({
           <PixelArt name={GLYPH.arrowRight} decorative />
         </button>
         <Button tone="plain" onClick={onBack}>
+          {actions.place === undefined || actions.place === 'now' ? null : (
+            <PixelArt name={GLYPH.arrowLeft} decorative />
+          )}
           {actions.place === undefined || actions.place === 'now'
             ? FOCUS_WORDS.allCharacters
             : LINK_WORDS.back}

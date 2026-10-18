@@ -8,7 +8,7 @@ import { act, cleanup, fireEvent, render, screen, within } from '@testing-librar
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CantRead } from '../src/components/CantRead';
-import { SourceLabel } from '../src/design/atoms/SourceLabel';
+import { SourceLabel } from '../src/design/atoms';
 import { Shell as NowScreenWith } from '../src/shell/Shell';
 import { fixture, props, renderNow, saveOf } from './now-helpers';
 
@@ -200,6 +200,7 @@ describe('#74 player-facing Sources', () => {
   const view = (over: Partial<SourceView>): SourceView => ({
     text: null,
     href: null,
+    verifiedOn: null,
     credit: null,
     creditHref: null,
     stale: false,
@@ -263,15 +264,10 @@ describe('US-8 Expected Return chips', () => {
   it('render as a radio group with 8h checked; picking one re-runs the engine', () => {
     const r = fixture('all-set');
     const set = vi.fn();
-    let chips: React.ReactNode = null;
-    renderNow(
-      props(r, saveOf(r, 1, 'first', null, 'paste'), {
-        setExpectedReturn: set,
-        renderChips: (n) => (chips = n),
-      }),
-    );
-    const { getByRole } = render(<div>{chips}</div>);
-    const group = getByRole('group', { name: 'Back in about' });
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste'), { setExpectedReturn: set }));
+    // M21 FR-N1: the chips are the Now screen's own, in the return line's sheet.
+    fireEvent.click(screen.getByRole('button', { name: 'Change' }));
+    const group = screen.getByRole('group', { name: 'Back in about' });
     const radios = within(group).getAllByRole('radio') as HTMLInputElement[];
     expect(radios.filter((x) => x.checked).map((x) => x.value)).toEqual([String(8 * 3600)]);
     fireEvent.click(radios[1] as HTMLElement);

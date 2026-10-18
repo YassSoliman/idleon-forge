@@ -40,6 +40,8 @@ export const CARD_WORDS = {
   willGive: 'Will give you',
   guide: 'Scout',
   sources: 'Sources',
+  /** The why sheet's date for its main Source (SourceView.verifiedOn). */
+  verified: (date: unknown) => `verified ${s(date)}`,
   moreSources: (count: unknown) => `+${n(count)} more`,
   disagree: 'Sources disagree',
   howDecided: 'How this was decided',

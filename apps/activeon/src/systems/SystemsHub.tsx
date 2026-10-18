@@ -7,7 +7,12 @@
 // status glyph + word (never colour alone, DS-8), "not covered yet" said once per band (v2 #3). Every
 // word comes from `buildSystemsView` (M17 TR-9): this component adds none of its own.
 import { HUB_WORDS, type TileStatus, type TileView } from '@idleon-forge/engine/now';
-import { BAND_WORDS, buildSystemsHubView, REPORT_WORDS } from '@idleon-forge/engine/systems-ui';
+import {
+  BAND_WORDS,
+  buildSystemsHubView,
+  buildSystemsView,
+  REPORT_WORDS,
+} from '@idleon-forge/engine/systems-ui';
 import { type CSSProperties, useMemo } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
 import { cx, StatusGlyph as StatusMark, TokenLine } from '../design/atoms';
@@ -180,18 +185,13 @@ function Band({ g, v, s }: { g: Hub['groups'][number]; v: Hub; s: Session }) {
 }
 
 export function SystemsHub({ s }: { s: Session }) {
-  // M21 FR-S1: the hub's report card is built here, in the lazy hub, from the same result and
-  // preferences as the session's M17 view (which the nav badge keeps reading).
-  const v = useMemo(
-    () =>
-      buildSystemsHubView(
-        s.result,
-        toNowPrefs(s.prefs.data, null),
-        { now: s.now, lastCloudSave: s.lastCloudSave },
-        s.systems,
-      ),
-    [s.result, s.prefs.data, s.now, s.lastCloudSave, s.systems],
-  );
+  // M21 FR-S1: M17's view and the hub's report card are both built here, in the lazy hub, so neither
+  // is in the first load (the Systems nav badge is gone, D-7).
+  const v = useMemo(() => {
+    const prefs = toNowPrefs(s.prefs.data, null);
+    const ui = { now: s.now, lastCloudSave: s.lastCloudSave };
+    return buildSystemsHubView(s.result, prefs, ui, buildSystemsView(s.result, prefs, ui));
+  }, [s.result, s.prefs.data, s.now, s.lastCloudSave]);
   return (
     <section className="systems-hub" aria-labelledby="systems-h">
       <h2 id="systems-h" className="place-h sy-place-h" data-place-heading tabIndex={-1}>

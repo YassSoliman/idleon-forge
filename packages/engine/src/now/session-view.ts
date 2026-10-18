@@ -140,8 +140,6 @@ export interface NowSessionView extends SessionView {
   facts: SessionFacts | null;
 }
 
-type SessionRuntime = SessionFacts & { groupTexts?: Record<string, string> };
-
 const familyOf = (view: NowView, i: number): ClassFamily => view.families?.[i] ?? 'beginner';
 const whoOf = (view: NowView, row: RosterRow): WhoToken => ({
   index: row.index,
@@ -332,7 +330,7 @@ function levelRows(view: NowView, facts: SessionFacts): LoginRow[] {
 }
 
 export function buildSessionView(view: NowView, result: EngineResult, ui: SessionUi): NowSessionView {
-  const facts = (result.session ?? null) as SessionRuntime | null;
+  const facts = result.session ?? null;
   const counter = counterOf(view);
   const groups = groupsOf(view, result, facts?.groupTexts ?? {});
   const findings = findingsOf(view);

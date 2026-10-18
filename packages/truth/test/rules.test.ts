@@ -258,6 +258,36 @@ describe('same-fact-everywhere', () => {
     expect(v?.key).toBe('c0.level');
     expect(v?.evidence).toEqual({ state: 40, build: 41 });
   });
+
+  // The owner's live save: the "points left behind" card said at least 265 while the Build chip said 345.
+  const behindGoal = (text: string) => ({
+    id: 'talent-presets.check.behind',
+    nextAction: { key: 'talent-presets.check.behind@c0', text },
+  });
+  const withBehind = (text: string) => {
+    const r = resultOf([roadmap(0, [presetView(0, true, { unspent: 345 })])]);
+    (r.characters[0] as unknown as { goals: unknown[] }).goals = [behindGoal(text)];
+    return r;
+  };
+  it("flags a preset-behind card whose count differs from that preset's Build chip", () => {
+    const env = envelopeOf([{ index: 0, live: FULL }]);
+    const state = stateOf([{ index: 0, live: FULL }]);
+    const out = checkTruth({
+      envelope: env,
+      state,
+      result: withBehind('Spend at least 265 talent points on your fighting preset'),
+    });
+    const v = out.report.violations.find(
+      (x) => x.rule === 'same-fact-everywhere' && x.key === 'c0.p0.unspent',
+    );
+    expect(v?.evidence).toEqual({ build: 345, goal: 265 });
+    const ok = checkTruth({
+      envelope: env,
+      state,
+      result: withBehind('Spend 345 talent points on your fighting preset'),
+    });
+    expect(ok.report.violations.filter((x) => x.key === 'c0.p0.unspent')).toEqual([]);
+  });
 });
 
 describe('affordable-within-wallet', () => {

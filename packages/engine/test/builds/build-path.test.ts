@@ -170,7 +170,7 @@ describe('Build path with exact counts (ADR 0010, #125)', () => {
     const t1 = tab(f, 1);
     expect(t1.known).toEqual({ kind: 'exact', points: 70, overBy: null, verified: true });
     expect(pathMarker(t1)).toBe('70 points waiting · they end here');
-    expect(tabBadge(t1)).toBe('70 points');
+    expect(tabBadge(t1)).toBe('70 unspent');
     expect((t1.path ?? []).some((s) => s.band === 'now')).toBe(true);
   });
 

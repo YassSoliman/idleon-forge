@@ -1,20 +1,20 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M16 Star Signs (docs/specs/M16-star-signs.md): the Star Chart section in the Account (points, unlocked
-// signs, the next constellations) and the pieces the star-signs System page body reuses. Area S. A lazy
-// chunk since M21 (TR-12): now/signs/SignsPanel.tsx loads it, so the Account's first load never carries
-// it (the Star Chart moves to its System page, D-9). The engine (packages/engine/src/starsigns) builds
-// and words everything; this file only renders it. Text is React text, styles are classes (CSP).
-import type { NowView, StarSignsNowView } from '@idleon-forge/engine/now';
-import { SourceLabel } from '../design/atoms/SourceLabel';
+// M16 Star Signs (docs/specs/M16-star-signs.md): the Star Chart's pieces (points, unlocked signs, the
+// next constellations, every character's sign line) that the star-signs System page body draws. Area S.
+// The Star Chart lives on its System page (D-9); the Account keeps one summary line. The engine
+// (packages/engine/src/starsigns) builds and words everything; this file only renders it. Text is React
+// text, styles are classes (CSP).
+import type { StarSignsNowView } from '@idleon-forge/engine/now';
+import { SourceLabel } from '../design/atoms';
+import { constellationMap, SeeOnMap } from '../map/SeeOnMap';
 import { useNowActions } from '../now/context';
 import '../now/signs/signs-page.css';
-
-const STAR_CHART_OPEN = 'star-chart-open';
 
 const list = (xs: readonly string[]) => (xs.length ? xs.join(' + ') : 'nothing');
 
 export function StarChartBody({ s, heading = true }: { s: StarSignsNowView; heading?: boolean }) {
+  const actions = useNowActions();
   return (
     <>
       {heading ? <h3 className="ss-h">Star Chart</h3> : null}
@@ -42,6 +42,7 @@ export function StarChartBody({ s, heading = true }: { s: StarSignsNowView; head
                     <span className="pill">on your list</span>
                   </>
                 ) : null}
+                <SeeOnMap mapIndex={constellationMap(actions.result, n.name)} label={n.name} />
               </li>
             ))}
           </ol>
@@ -61,34 +62,6 @@ export function StarChartBody({ s, heading = true }: { s: StarSignsNowView; head
         </div>
       ) : null}
     </>
-  );
-}
-
-/** The Star Chart section in the Account: points, unlocked signs, the next constellations, per character. */
-export function StarChartSection({ view }: { view: NowView }) {
-  const actions = useNowActions();
-  const s = view.starSigns;
-  if (!s) return null;
-  return (
-    <details
-      className="ss-account card"
-      id="star-chart"
-      open={actions.expanded.has(STAR_CHART_OPEN)}
-      onToggle={(e) => {
-        const open = (e.currentTarget as HTMLDetailsElement).open;
-        if (open !== actions.expanded.has(STAR_CHART_OPEN)) actions.toggle(STAR_CHART_OPEN);
-      }}
-    >
-      <summary>
-        <span className="tag">Star Signs</span> <span className="num">{s.points ?? '?'}</span> points ·{' '}
-        <span className="num">{s.unlockedNodes}</span> signs unlocked
-        {s.next[0] ? ` · next: ${s.next[0].name}` : ''}
-      </summary>
-      <div className="ss">
-        <StarChartBody s={s} />
-        <CharacterSigns s={s} />
-      </div>
-    </details>
   );
 }
 

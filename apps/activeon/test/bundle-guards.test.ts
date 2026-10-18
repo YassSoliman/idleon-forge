@@ -87,6 +87,13 @@ describe('checkFirstLoad', () => {
       ]),
     ).toHaveLength(1);
   });
+  it("lets Now's AFK strip into the first load, but not the Timeline place (M21 FR-I1)", () => {
+    const strip = [`${app}/timeline/AfkStrip.tsx`, `${app}/timeline/afk-strip.css`];
+    expect(checkFirstLoad([{ fileName: 'assets/index-a.js', moduleIds: strip }])).toEqual([]);
+    expect(
+      checkFirstLoad([{ fileName: 'assets/index-a.js', moduleIds: [`${app}/timeline/TimelinePlace.tsx`] }]),
+    ).toHaveLength(1);
+  });
   it('keeps every art group but the core motifs out of the first load (M21 TR-12)', () => {
     const core = [
       `${app}/design/art/core.ts`,

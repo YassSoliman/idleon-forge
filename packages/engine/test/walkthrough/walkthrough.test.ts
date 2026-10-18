@@ -532,3 +532,25 @@ describe('the rules behind the stories', () => {
     expect(presetActions(ready, 'FIGHTING', fit)).toEqual([]);
   });
 });
+
+describe('M21 FR-M7: a step on a map carries its index ("See it on the map")', () => {
+  it('every step with a mapIndex names that map; the Bullfrog Horn step is Tucked Away', () => {
+    const maps = new Map(
+      ((kb.facts['maps.fact.maps']?.rows ?? []) as unknown as { index: number; name: string }[]).map((m) => [
+        m.index,
+        m.name.replace(/_/g, ' '),
+      ]),
+    );
+    let withMap = 0;
+    for (const r of [engineOf(W2()), engineOf(W3())])
+      for (const { goal } of walkthroughsOf(r))
+        for (const s of goal.walkthrough?.steps ?? []) {
+          if (s.mapIndex === undefined) continue;
+          withMap++;
+          expect(s.text.toLowerCase()).toContain((maps.get(s.mapIndex) ?? '?').toLowerCase());
+        }
+    expect(withMap).toBeGreaterThan(0);
+    const horn = postOffice(engineOf(W2())).view.steps.find((x) => x.text.includes('Bullfrog Horn'));
+    expect(maps.get(horn?.mapIndex ?? -1)).toBe('Tucked Away');
+  }, 120_000);
+});

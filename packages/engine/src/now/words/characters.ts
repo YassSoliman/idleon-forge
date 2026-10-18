@@ -2,6 +2,7 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M21 TR-7: the Characters area's view words (area C).
 import type { BuildKnownPoints, BuildPresetView, BuildRoadmap, BuildTabView } from '../../result';
+import { agoSpan } from '../format';
 
 const n = (x: number) => x.toLocaleString('en-US');
 
@@ -65,10 +66,23 @@ export const CHARACTERS_WORDS = {
   },
 } as const;
 
-/** "As of your last save: at least 70 points waiting · they end here". */
-export function buildKnownLine(points: number): string {
+/** " (12m ago)": the save's age after "as of your last save"; empty when the age isn't known. */
+export const saveAgo = (minutes: number | null | undefined): string =>
+  typeof minutes !== 'number' || !Number.isFinite(minutes)
+    ? ''
+    : minutes < 1
+      ? ' (just now)'
+      : ` (${agoSpan(minutes * 60_000)})`;
+
+/** "as of your last save (12m ago)", or without the age when it isn't known. */
+export const asOfLine = (minutes?: number | null): string =>
+  `${CHARACTERS_WORDS.buildPath.asOf}${saveAgo(minutes)}`;
+
+/** "As of your last save (12m ago): at least 70 points waiting · they end here". */
+export function buildKnownLine(points: number, ageMinutes?: number | null): string {
   const w = CHARACTERS_WORDS.buildPath;
-  return `${w.knownPrefix} ${n(points)} ${w.knownSuffix} · ${w.knownEnd}`;
+  const prefix = w.knownPrefix.replace(/:/, `${saveAgo(ageMinutes)}:`);
+  return `${prefix} ${n(points)} ${w.knownSuffix} · ${w.knownEnd}`;
 }
 
 /** A "part now" step: "+20 of 100 now". */
@@ -85,7 +99,7 @@ export function starKnownWord(k: BuildKnownPoints): string | null {
 }
 
 /**
- * The tile badge (FR-C3, `character.build.unspent`): "at least 12" for tabs 1–3, the star words for
+ * The tile badge (FR-C3, `character.build.unspent`): "29 unspent" or "at least 12 unspent" for tabs 1–3, the star words for
  * the star tab; null when nothing is known (zero shows nothing).
  */
 export function tabBadge(t: Pick<BuildTabView, 'known' | 'unspent' | 'tab'>): string | null {
@@ -93,17 +107,19 @@ export function tabBadge(t: Pick<BuildTabView, 'known' | 'unspent' | 'tab'>): st
   const k = t.known ?? { kind: 'none', points: t.unspent, overBy: null };
   if (k.kind === 'exact' && t.tab === 0) return starKnownWord(k);
   if (!k.points || k.points <= 0) return null;
-  // Exact class-tab counts (owner ruling, `feat/exact-talent-points`) drop "at least".
-  return k.kind === 'exact'
-    ? `${n(k.points)} ${k.points === 1 ? 'point' : 'points'}`
-    : `at least ${n(k.points)}`;
+  // Exact class-tab counts (owner ruling, `feat/exact-talent-points`) drop "at least". Every tile says
+  // "unspent", like the star tile, so "40 unspent" never sits beside "29 points" (truth run, P3).
+  return k.kind === 'exact' ? `${n(k.points)} unspent` : `at least ${n(k.points)} unspent`;
 }
 
 /**
  * The marker between what the known points pay for and the rest (FR-C1): "As of your last save: at
  * least 118 points waiting · they end here", or for the star tab "40 unspent · they end here".
  */
-export function pathMarker(t: Pick<BuildTabView, 'known' | 'path' | 'tab'>): string {
+export function pathMarker(
+  t: Pick<BuildTabView, 'known' | 'path' | 'tab'>,
+  ageMinutes?: number | null,
+): string {
   if (!t || typeof t !== 'object') return '';
   const w = CHARACTERS_WORDS.buildPath;
   const k = t.known ?? { kind: 'none', points: null, overBy: null };
@@ -118,7 +134,7 @@ export function pathMarker(t: Pick<BuildTabView, 'known' | 'path' | 'tab'>): str
     if ((k.points ?? 0) > 0) return `${n(k.points ?? 0)} unspent · ${w.knownEnd}${tail}`;
     return w.allSpent;
   }
-  return (k.points ?? 0) > 0 ? `${buildKnownLine(k.points ?? 0)}${tail}` : w.noneKnown;
+  return (k.points ?? 0) > 0 ? `${buildKnownLine(k.points ?? 0, ageMinutes)}${tail}` : w.noneKnown;
 }
 
 /** "+40 → Veins of the Infernal". */

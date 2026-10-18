@@ -5,13 +5,12 @@
 // with its pixel glyph and word. Every place but Now is its own chunk, fetched when the browser is idle. The
 // banners, the progress bar and What's new are the same in every place (FR-6): area N's NowChrome slot. The session state lives
 // in `useSession` (FR-10), so a place switch never re-runs the engine or loses the Play Session.
-import { LINK_WORDS, NAV_WORDS } from '@idleon-forge/engine/now';
+import { FLOW_WORDS, LINK_WORDS, NAV_WORDS } from '@idleon-forge/engine/now';
 import { Suspense, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import type { ArtName } from '../design/art/names';
 import { PixelArt } from '../design/art/PixelArt';
 import { Loading, lazyPart, preloadParts } from '../lazy-part';
-import { ExpectedReturnChips } from '../now/Chrome';
 import { NowChrome, NowLiveRegion } from '../now/chrome/NowChrome';
 import { NowActionsContext } from '../now/context';
 import { NowPlace } from '../now/NowScreen';
@@ -158,12 +157,7 @@ function Outlet({ s }: { s: Session }) {
 
 export function Shell(props: ShellProps & ShellSlots) {
   const s = useSession(props);
-  const { renderChips, onFooter, navSlot } = props;
-  useEffect(() => {
-    renderChips(
-      <ExpectedReturnChips chips={s.view.expectedReturn.chips} updating={props.updating} onPick={s.pick} />,
-    );
-  }, [renderChips, s.view.expectedReturn.chips, props.updating, s.pick]);
+  const { onFooter, navSlot } = props;
   useEffect(
     () => onFooter({ ...s.view.footer, persistent: s.prefs.persistent }),
     [onFooter, s.view.footer, s.prefs.persistent],
@@ -179,7 +173,7 @@ export function Shell(props: ShellProps & ShellSlots) {
   // The navigation shows only in M10's `ok` state (FR-12): this component exists only then.
   const nav = <PlacesNav s={s} />;
 
-  if (!s.prefs.ready) return <p className="small muted">Loading your choices…</p>;
+  if (!s.prefs.ready) return <Loading text={FLOW_WORDS.prefsLoading} />;
 
   return (
     <NowActionsContext.Provider value={s.actions}>

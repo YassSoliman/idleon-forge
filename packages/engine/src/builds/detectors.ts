@@ -22,6 +22,7 @@ import {
 } from './analyze';
 import type { StepState } from './diff';
 import { type BuildsKnowledge, talentLabel } from './knowledge';
+import { knownPoints } from './roadmap';
 
 const none = z.strictObject({});
 const flag = z.number().int().min(0).max(1);
@@ -211,6 +212,7 @@ export const presetBehindDetector = defineDetector({
     tabs: z.string(),
     firstSteps: z.string(),
     noBuild: flag,
+    exact: flag,
     buildId: z.string(),
   }),
   reads: [...TALENT_READS, ...STAGE_READS],
@@ -225,10 +227,16 @@ export const presetBehindDetector = defineDetector({
       const tabNames = b.tabs.map((t) =>
         humanize(b.preset.talents.tabs.find((x) => x.tab === t)?.tabName ?? String(t)),
       );
+      // ADR 0010: the same count the Build tab's chips show (roadmap.ts knownPoints: exact per tab
+      // where Account State has it, else M9's bound); "at least" unless every tab is exact.
+      const other = b.preset === a.active ? a.other : a.active;
+      const known = knownPoints(b.preset.talents, other?.talents ?? null, acc.kb.talents.tab2Granting);
+      const isExact = (known?.exactTabs?.size ?? 0) === 3;
       out.push(
         fires(a, {
           role: presetLabel(b.preset),
-          points: b.preset.lb?.total ?? 0,
+          points: known?.total ?? b.preset.lb?.total ?? 0,
+          exact: isExact ? 1 : 0,
           tabs: tabNames.join(', '),
           firstSteps: stepNames(b.firstSteps),
           noBuild: b.firstSteps.length === 0 ? 1 : 0,

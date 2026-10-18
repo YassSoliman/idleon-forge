@@ -11,19 +11,19 @@
 // Phone first: the presets are a segmented choice under 1000 px; from 1000 px both presets sit side by
 // side and every tab's path shows in columns (Command Board layout, D-3).
 import {
-  type BuildRoadmapView,
+  asOfLine,
   buildPartLine,
   CHARACTERS_WORDS,
   cumulativeLine,
   leadTab,
   pathMarker,
   tabBadge,
-} from '@idleon-forge/engine/now';
+} from '@idleon-forge/engine/characters-ui';
+import type { BuildRoadmapView } from '@idleon-forge/engine/now';
 import type { BuildPathStepView, BuildPresetView, BuildTabView } from '@idleon-forge/engine/result';
-import { useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { PixelArt } from '../../design/art/PixelArt';
-import { cx, GLYPH, Meter, SegmentedControl, STATUS_GLYPH } from '../../design/atoms';
-import { SourceLabel } from '../../design/atoms/SourceLabel';
+import { cx, GLYPH, Meter, SegmentedControl, SourceLabel, STATUS_GLYPH } from '../../design/atoms';
 import type { CharacterTabProps } from '../../now/character-tabs';
 import { useNowActions } from '../../now/context';
 import './build.css';
@@ -143,16 +143,20 @@ function pages(path: readonly BuildPathStepView[]): { page: number | null; steps
   return out;
 }
 
+/** The save's age in minutes (NowView.saveAgeMinutes), for "as of your last save (12m ago)". */
+const SaveAge = createContext<number | null>(null);
+
 /**
  * Every Build step of one tab, in spend order (FR-C1). The marker sits where the known points end; with
  * none known it leads. "Next after these" rows keep full-contrast text (never faded).
  */
 export function BuildPath({ tab, id }: { tab: BuildTabView; id: string }) {
+  const age = useContext(SaveAge);
   const path = tab.path ?? [];
   const known = tab.known?.points ?? 0;
   const cut =
     known > 0 ? path.reduce((m, s, i) => (s.band === 'now' || s.band === 'part' ? i : m), -1) + 1 : 0;
-  const marker = pathMarker(tab);
+  const marker = pathMarker(tab, age);
   const list = (steps: BuildPathStepView[], start: number) =>
     steps.length ? (
       <ol className="bv-ps-list" start={start}>
@@ -195,7 +199,7 @@ export function BuildPath({ tab, id }: { tab: BuildTabView; id: string }) {
               // ADR 0010: an exact count is still as of the last save; an unverified one says where it
               // comes from.
               <span className="bv-asof">
-                {PATH.asOf}
+                {asOfLine(age)}
                 {tab.tab !== 0 && tab.known.verified === false ? ` · ${PATH.fromTotals}` : ''}
               </span>
             ) : null}
@@ -446,5 +450,9 @@ export function BuildTab({ view, index }: CharacterTabProps) {
   // The wrong-preset blocker's own words as the banner (FR-C3), when M9's blocker fires.
   const c = actions.result?.characters.find((x) => x.index === index);
   const wrong = c?.goals.find((g) => g.id === 'talent-presets.check.wrong-preset');
-  return <BuildRoadmap r={r} mismatch={wrong ? wrong.nextAction.text : null} />;
+  return (
+    <SaveAge.Provider value={view.saveAgeMinutes ?? null}>
+      <BuildRoadmap r={r} mismatch={wrong ? wrong.nextAction.text : null} />
+    </SaveAge.Provider>
+  );
 }

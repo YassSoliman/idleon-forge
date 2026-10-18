@@ -2,9 +2,9 @@
 /* Copyright (C) 2026 IdleOn Forge contributors. */
 /*
   The app shell's base (M21 area N): one narrow column on a phone (16 px gutter, never a sideways page
-  scroll), Field Guide's body type, and the shared legacy helpers the other areas' views still use
-  (.card, .muted, .small, .primary, .small-btn, .link-btn, .section-h, .roster, .r, .error, .confirm),
-  restyled onto the tokens until Integration retires them (FR-I3). No text under 12 px (DS-20).
+  scroll), Field Guide's body type, and the shared helpers several areas' views use (.card, .muted,
+  .small, .primary, .small-btn, .link-btn, .roster, .r, .error, .confirm), on the tokens. Integration
+  removed the unused ones (FR-I3). No text under 12 px (DS-20).
 */
 * {
   box-sizing: border-box;
@@ -129,11 +129,6 @@ code,
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-2);
-}
-.section-h {
-  font: var(--weight-bold) var(--text-xs) / var(--lh-snug) var(--font-body);
-  color: var(--muted);
-  margin: var(--space-1) 0 var(--space-2);
 }
 .roster {
   list-style: none;

@@ -68,19 +68,6 @@ interface DeathNoteEntry {
 
 type Kb = Pick<CompiledKnowledge, 'entries' | 'facts'>;
 
-/**
- * A mirror of `map.fact.boss-gates` (packages/knowledge/systems/map.facts.yaml, with its wiki Sources).
- * The compiled bundle ships a fact only when an entry or a Detector names it, and the Map adds neither
- * (FR-M7), so the module reads the shipped fact when it is there and this mirror otherwise. A test holds
- * the two equal; Integration can drop the mirror once the fact ships.
- */
-export const BOSS_GATES: readonly BossGateRow[] = [
-  { world: 1, boss: 'Amarok', bossMap: 29, key: 'Key1', keyName: 'Forest Villa Key' },
-  { world: 2, boss: 'Efaunt', bossMap: 66, key: 'Key2', keyName: "Efaunt's Tomb Key" },
-  { world: 3, boss: 'Chizoar', bossMap: 114, key: 'Key3', keyName: "Chizoar's Cavern Key" },
-  { world: 4, boss: 'Massive Troll', bossMap: 165, key: 'Key4', keyName: "Troll's Enclave Key" },
-];
-
 const rowsOf = <T>(kb: Kb, id: string): T | null =>
   (kb.facts[id] as { rows?: unknown } | undefined)?.rows !== undefined
     ? ((kb.facts[id] as { rows: unknown }).rows as T)
@@ -135,7 +122,7 @@ export function buildMap(state: AccountState, kb: Kb): MapResult | null {
   const maps = rowsOf<MapFactRow[]>(kb, MAP_FACT.maps);
   if (current === null || current < 1 || !maps) return null;
   const facts = lookupOf(kb);
-  const gates = rowsOf<BossGateRow[]>(kb, MAP_FACT.bossGates) ?? BOSS_GATES;
+  const gates = rowsOf<BossGateRow[]>(kb, MAP_FACT.bossGates) ?? [];
   const worldGates = rowsOf<WorldGateRow[]>(kb, MAP_FACT.worldGates) ?? [];
   const towns = new Map((rowsOf<RouteRow[]>(kb, MAP_FACT.worldRoutes) ?? []).map((r) => [r.world, r.town]));
   const byIndex = new Map(maps.map((m) => [m.index, m]));

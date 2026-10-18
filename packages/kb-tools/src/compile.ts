@@ -70,6 +70,16 @@ function idsInDetectorSources(): Map<string, string[]> {
   return out;
 }
 
+/**
+ * Facts an engine module reads straight from the compiled bundle, with no entry or Detector naming
+ * them, so reachability alone would leave them out. Each line names its reader. M21 FR-M7: the Map
+ * module adds no entries, so its boss gates ship from here.
+ */
+export const ENGINE_FACTS: readonly string[] = [
+  // packages/engine/src/map/module.ts (MAP_FACT.bossGates)
+  'map.fact.boss-gates',
+];
+
 export interface CompileOptions {
   /** Use git metadata for the date version (deploy build). Default: when available and not shallow. */
   git?: { newestCommitDate: string; ordinal: number } | null;
@@ -121,6 +131,7 @@ export async function compile(
   }
   // M17 FR-34: how each System opens ships with the registry (and the level facts its rows name).
   for (const s of src.systems) if (s.value.unlockFact) queue.push(s.value.unlockFact);
+  for (const id of ENGINE_FACTS) if (factsById.has(id)) queue.push(id);
   while (queue.length) {
     const id = queue.pop() as string;
     if (shipped.has(id) || shippedFacts.has(id)) continue;

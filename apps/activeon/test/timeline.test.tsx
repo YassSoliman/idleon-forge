@@ -187,7 +187,8 @@ describe('US-10: lanes, the Back marker and what binds before it', () => {
     const { container } = await openTimeline(r);
     const heads = [...lists().querySelectorAll('.tl-lane-link')].map((a) => a.textContent);
     expect(heads).toEqual(['1 · Dahlia', '2 · Alder', '3 · Elm', '4 · Birch', '5 · Cedar', 'Arcade']);
-    expect(screen.getByText(/^Back in 8h 00m · \d\d:\d\d$/)).toBeTruthy();
+    // The Times setting's default, "in 3h 10m" (G10); the clock form is tested below.
+    expect(screen.getByText(/^Back in 8h 00m$/)).toBeTruthy();
     await noAxeViolations(container);
   });
 
@@ -253,7 +254,7 @@ describe('US-11: from the bar to the fix (FR-27)', () => {
     expect(
       within(places()).getByRole('link', { current: true }).querySelector('.place-label')?.textContent,
     ).toBe('Timeline');
-    fireEvent.click(screen.getByRole('button', { name: '← back' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Back' }));
     await timelineHeading();
     expect(window.location.hash).toBe('#timeline');
   });
@@ -308,6 +309,7 @@ describe('TR-9: the Timeline adds no words of its own', () => {
       now: Date.now(),
       lastCloudSave: Date.now() - 30_000,
       tzOffsetMinutes: -new Date().getTimezoneOffset(),
+      times: 'relative',
     });
     const allowed = new Set<string>([' · ', ' ']);
     const collect = (v: unknown) => {

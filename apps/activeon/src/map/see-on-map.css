@@ -1,0 +1,11 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* Copyright (C) 2026 IdleOn Forge contributors. */
+/* M21 FR-M7: "See it on the map", a 44 px link with the Map's own glyph (DS-15). */
+.see-on-map {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--tap-min);
+  color: var(--accent);
+  font-size: var(--text-sm);
+}

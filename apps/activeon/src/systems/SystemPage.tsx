@@ -13,7 +13,6 @@ import { buildSystemPageFrameView, FRAME_WORDS } from '@idleon-forge/engine/syst
 import { Suspense, useEffect, useMemo } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
 import { GoalList } from '../design/atoms/GoalList';
-import { SourceLabel } from '../design/atoms/SourceLabel';
 import { Loading } from '../lazy-part';
 import { tabById, tabHref } from '../now/character-tabs';
 import { useNowActions } from '../now/context';
@@ -26,7 +25,7 @@ import type { Session } from '../shell/session';
 /** M10's Spend Plan anchor on Now. */
 const SPEND_PLAN_ANCHOR = `#${'spend-plan'}`;
 
-import { Meter, TokenLine } from '../design/atoms';
+import { Meter, SourceLabel, TokenLine } from '../design/atoms';
 import { systemArt } from './glyphs';
 import { SYSTEM_PAGES } from './pages';
 import { Reason, StatusGlyph } from './SystemsHub';
@@ -109,7 +108,7 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
           }}
         >
           <PixelArt name="ui-arrow-left" decorative />
-          <span>{LINK_WORDS.back.replace(/^←\s*/, '')}</span>
+          <span>{LINK_WORDS.back}</span>
         </a>
       </p>
       <header className={`sy-frame__head sy-tile--${tile.status}`}>
