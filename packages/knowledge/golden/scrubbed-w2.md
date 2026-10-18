@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #354ed2a6 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late
+# golden v1: scrubbed-w2 · knowledge #f6490daf · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 8 of 180
 
 ## Verdict changes
 
@@ -12,7 +12,7 @@
 2 · Mining Copper · Tunnels Entrance · Equip Wyoming blood in a big-bubble slot
 
 ### C5 · Wizard 56 · Ready
-3 · Fighting Snelbie · Djonnuttown · Low food: 88 left; can't time it yet
+3 · Fighting Snelbie · Djonnuttown · Set up your second preset for skilling: start with Smart Efficiency, Active AFK'er. At least 592 points are waiting, then swap back to your fighting preset
 
 ### C4 · Bowman 54 · Ready
 4 · Fighting Green Mushroom · Spore Meadows · Equip 4 cards in your empty card slots: Carrotman, Bored Bean, Pincermin and Mashed Potato
@@ -39,8 +39,6 @@ Classes and subclasses
 Portals and map doors
 Skills, doors and tools
 Spend Plan
-Talent presets
-Talents
 Upgrade Vault
 Bribes
 Forge
