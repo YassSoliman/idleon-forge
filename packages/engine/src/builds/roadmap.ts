@@ -18,6 +18,7 @@ import type { FactLookup } from '../metapath/types';
 import type {
   BuildNextPoint,
   BuildPathStep,
+  BuildPathStepView,
   BuildPresetView,
   BuildRoadmap,
   BuildTabView,
@@ -116,6 +117,90 @@ function tabRows(p: PresetTalents, b: ResolvedBuild, tab: number, ctx: WalkConte
   return [...rows.values()];
 }
 
+/** M9 FR-11: the tab's core steps first (the ones the Build insists on), then the Build's order. */
+const spendOrder = <T extends { core: boolean }>(steps: readonly T[]): T[] => [
+  ...steps.filter((x) => x.core),
+  ...steps.filter((x) => !x.core),
+];
+
+/**
+ * M21 FR-C1 / FR-C2: every Build step of one tab, in spend order, banded by what the tab's known
+ * points pay for, with the running total from now through each step. `known` is the tab's lower bound
+ * (M9 TR-7), or null without one: a bound of 0 or none means no points are known, never that none
+ * wait (the bound can't prove zero), so every unmet step is "next" with its total. A step whose talent
+ * is already at its goal is "done" and never counts.
+ */
+function tabPath(
+  p: PresetTalents,
+  b: ResolvedBuild,
+  tab: number,
+  ctx: WalkContext,
+  kb: BuildsKnowledge,
+  slot: number,
+  known: number | null,
+): BuildPathStepView[] {
+  const t = b.tabs.find((x) => x.tab === tab);
+  if (!t) return [];
+  const budget = known ?? 0;
+  const sim = new Map<number, number>();
+  const out: BuildPathStepView[] = [];
+  let total = 0;
+  for (const [i, step] of spendOrder(t.steps).entries()) {
+    const target = targetOf(p, step);
+    const max = maxOf(p, step.id);
+    // Not on this preset's tabs, or locked (max ≤ 0): no step to show.
+    if (target === null || max <= 0) continue;
+    const goal = Math.min(target, max);
+    const current = sim.get(step.id) ?? levelOf(p, step.id);
+    const stage = step.when.find((c) => c.kind === 'stageAtLeast');
+    const accuracy = step.when.some((c) => c.kind === 'accuracyShort');
+    const base = {
+      key: `p-s${slot}-t${tab}-${i}`,
+      talentId: step.id,
+      label: talentLabel(step.talent),
+      page: null,
+      current,
+      goal,
+      core: step.core,
+      condition: null,
+      partNow: null,
+      note: goal < target ? 'its max for now' : null,
+    };
+    if (stage && stage.kind === 'stageAtLeast' && stepApplies(step, ctx) !== 'yes' && !accuracy) {
+      out.push({
+        ...base,
+        need: Math.max(0, goal - current),
+        cumulative: null,
+        band: 'later',
+        condition: `from ${stageLabel(stage.stage)}`,
+      });
+      continue;
+    }
+    if (kb.talents.bubbleCapped.has(step.id)) {
+      out.push({ ...base, need: 0, cumulative: null, band: 'done', note: 'set by a bubble' });
+      continue;
+    }
+    const need = Math.max(0, goal - current);
+    if (need === 0) {
+      out.push({ ...base, need: 0, cumulative: null, band: 'done' });
+      continue;
+    }
+    const before = total;
+    total += need;
+    sim.set(step.id, goal);
+    const band = total <= budget ? 'now' : before < budget ? 'part' : 'next';
+    out.push({
+      ...base,
+      need,
+      cumulative: total,
+      band,
+      partNow: band === 'part' ? budget - before : null,
+      note: accuracy ? 'if your accuracy is short' : base.note,
+    });
+  }
+  return out;
+}
+
 /**
  * The Build's steps minus current levels, simulating the levels as each step is done. Points are per
  * tab (R5 QA P2-1): with points waiting (the lower bound), only tabs that have some are listed, the
@@ -142,9 +227,7 @@ function nextPoints(
     let n = 0;
     let budget = waiting ? (lb?.byTab[t.tab as 1 | 2 | 3] ?? 0) : Number.POSITIVE_INFINITY;
     const none = lb !== null && !waiting;
-    // M9 FR-11: the tab's core step first (the one the Build insists on), then the steps in order.
-    const core = t.steps.filter((x) => x.core);
-    for (const step of [...core, ...t.steps.filter((x) => !x.core)]) {
+    for (const step of spendOrder(t.steps)) {
       if (n >= (none ? 1 : NEXT_PER_TAB) || budget <= 0) break;
       if (stepApplies(step, ctx) !== 'yes' || kb.talents.bubbleCapped.has(step.id)) continue;
       const target = targetOf(p, step);
@@ -161,7 +244,8 @@ function nextPoints(
           key,
           tab: t.tab,
           label,
-          text: `No points waiting in this tab; the next go into ${label} (to ${goal})`,
+          // A lower bound of 0 can't prove the tab is empty (fix/build-points): never "no points waiting".
+          text: `No unspent points known here; the next go into ${label} (to ${goal})`,
           points: 0,
         });
         n++;
@@ -224,13 +308,16 @@ function presetOf(x: PresetInput, kb: BuildsKnowledge, ctx: WalkContext): BuildP
   const { p, build } = x;
   const tabs: BuildTabView[] = p.tabs.map((t) => {
     const rows = build && t.tab <= 3 ? tabRows(p, build, t.tab, ctx, kb) : [];
+    const lb = x.lb && t.tab <= 3 ? x.lb.byTab[t.tab as 1 | 2 | 3] : null;
     return {
       tab: t.tab,
       name: humanize(t.tabName),
       spent: tabSpent(p, t.tab),
-      unspent: x.lb && t.tab <= 3 ? x.lb.byTab[t.tab as 1 | 2 | 3] : null,
+      unspent: lb,
       rows,
       others: othersOf(p, t.tab, new Set(rows.map((r) => r.id)), kb),
+      known: { kind: lb === null ? 'none' : 'lower-bound', points: lb, overBy: null },
+      path: build && t.tab <= 3 ? tabPath(p, build, t.tab, ctx, kb, x.slot, lb) : [],
     };
   });
   const role = x.role;
