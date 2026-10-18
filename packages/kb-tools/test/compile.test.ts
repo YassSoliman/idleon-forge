@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // `kb compile` (M11 TR-7, TR-12, TR-13, FR-21 to FR-23, TR-17).
-import { canonicalJson, diffManifests, loadKnowledge } from '@idleon-forge/knowledge';
+import { canonicalJson, diffManifests, loadKnowledge, packKnowledge } from '@idleon-forge/knowledge';
 import { describe, expect, it } from 'vitest';
 import { compile } from '../src/compile';
 import { loadSource } from '../src/load';
@@ -217,12 +217,18 @@ describe('kb compile on the real Knowledge Base (TR-17 budgets)', () => {
     const t = performance.now();
     const kb = await compile(loadSource(), { git: null });
     expect(performance.now() - t).toBeLessThan(5_000);
-    const text = canonicalJson(kb);
+    // The shipped (packed) form: repeated entry fields interned (M4's family expansions, pack.ts).
+    const text = canonicalJson(packKnowledge(kb));
     // kb-budget.json's bundleBytes: 1 MB since release 4. The compiled Knowledge Base ships only in the
     // parse worker chunk (8 MB budget), never on the UI thread.
     expect(Buffer.byteLength(text)).toBeLessThan(1024 * 1024);
     const t2 = performance.now();
-    loadKnowledge(text);
+    const loaded = loadKnowledge(text);
     expect(performance.now() - t2).toBeLessThan(30);
+    // Unpacking restores every entry exactly, minus the authors' notes (never shipped).
+    const withoutNotes = Object.fromEntries(
+      Object.entries(kb.entries).map(([id, e]) => [id, { ...e, notes: undefined }]),
+    );
+    expect(canonicalJson(loaded.entries)).toBe(canonicalJson(withoutNotes));
   });
 });
