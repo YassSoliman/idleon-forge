@@ -85,6 +85,10 @@ describe('US-2 know where to go next', () => {
       '2 of 5 in your Visit Order · 1 left',
     );
   });
+  it('reads "last one", never "0 left", when nothing after this position needs a visit (R3 QA P3)', () => {
+    const v = view(r, { focus: 0, visited: new Set([1, 2]) });
+    expect(v.focus?.position).toBe('2 of 5 in your Visit Order · last one');
+  });
   it('playing a different character than suggested only marks that one visited', () => {
     const v = view(r, { focus: 1, visited: new Set([1]) });
     expect(v.focus?.next.index).toBe(3);
@@ -321,6 +325,12 @@ describe('US-9 know when I am done', () => {
     expect(v.allSet?.detail).toBe("First thing fills up in about 9h: Cedar's inventory");
     expect(v.progress.label).toBe('safe to log off');
   });
+  it('names the character once, never "<name>\'s Bowman Lv 60\'s anvil" (R3 QA P3)', () => {
+    const r = fixture('all-set');
+    const fill = r.firstFill as NonNullable<typeof r.firstFill>;
+    r.firstFill = { ...fill, label: `Bowman Lv 60's ${fill.label}`, what: fill.label };
+    expect(view(r).allSet?.detail).toBe("First thing fills up in about 9h: Cedar's inventory");
+  });
   it('one character turning Fix drops the banner: "4 of 5 Ready · fix 1 before you leave"', () => {
     const r = fixture('all-set');
     const c = r.characters[0] as (typeof r.characters)[number];
@@ -344,7 +354,9 @@ describe('US-9 know when I am done', () => {
     const r = fixture('all-set');
     r.firstFill = null;
     r.alreadyFull = 4;
-    expect(view(r).allSet?.detail).toBe("Nothing fills up before you're back · 4 already full");
+    expect(view(r).allSet?.detail).toBe(
+      "Nothing fills up before you're back · 4 things are already full: collect them before you go",
+    );
   });
 });
 
@@ -492,6 +504,22 @@ describe('US-18 Spend Plan', () => {
     expect(sp?.summary).toBe('4 buys now on 2 characters');
     expect(sp?.unavailable).toEqual(["can't price Statue Gold right now"]);
     expect(sp?.goal?.action.text).toBe('Vault upgrade 1');
+  });
+  it('a line with more than one purchase shows no level range, never "Lv 65 → 30" (M7 request)', () => {
+    const g = structuredClone(r);
+    const line = g.account.spendPlan?.lines[0];
+    if (!line?.steps[0]) throw new Error('spend-plan fixture has no first line');
+    const one = line.steps[0];
+    line.steps = [
+      { ...one, ref: 'vault:1', fromLevel: 65, toLevel: 66 },
+      { ...one, ref: 'vault:2', fromLevel: 29, toLevel: 30 },
+    ];
+    expect(view(g).account.spendPlan?.lines[0]?.levels).toBeNull();
+    line.steps = [
+      { ...one, ref: 'vault:1', fromLevel: 21, toLevel: 22 },
+      { ...one, ref: 'vault:1', fromLevel: 22, toLevel: 23 },
+    ];
+    expect(view(g).account.spendPlan?.lines[0]?.levels).toBe('Lv 21 → 23');
   });
   it('the unpriced line reads "cost not checked" with the totals note', () => {
     const all = view(r, { expanded: new Set(['spend']) }).account.spendPlan;

@@ -409,12 +409,17 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       const fill = result.firstFill;
       const who =
         fill && fill.subject !== 'account'
-          ? `${nameOf(Number(fill.subject.slice(1)))}'s ${fill.label}`
+          ? `${nameOf(Number(fill.subject.slice(1)))}'s ${fill.what ?? fill.label}`
           : fill?.label;
       const fillText = fill
         ? `First thing fills up in ${aboutDuration((fill.at - ui.now) / 1000)}: ${who}`
         : "Nothing fills up before you're back";
-      const full = result.alreadyFull > 0 ? ` · ${result.alreadyFull} already full` : '';
+      // Say what is full: quick-collect caps (the pills) and Next Actions already at their cap (R3 QA P3).
+      const n = result.alreadyFull;
+      const full =
+        n > 0
+          ? ` · ${n} ${n === 1 ? 'thing is' : 'things are'} already full: collect ${n === 1 ? 'it' : 'them'} before you go`
+          : '';
       allSet = {
         text: `All set: safe to log off${skippedText}`,
         detail: `${fillText}${full}`,
@@ -475,7 +480,8 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
           current: j === i,
         };
       }),
-      position: `${k} of ${total} in your Visit Order · ${k === total ? 'last one' : `${left} left`}`,
+      // Nothing left after this position reads "last one", never "3 of 5 · 0 left" (R3 QA P3).
+      position: `${k} of ${total} in your Visit Order · ${left === 0 ? 'last one' : `${left} left`}`,
       playing,
       left: leftFrom
         ? {
@@ -735,8 +741,11 @@ function spendPlanView(
   const views: SpendLineView[] = live.map((l) => {
     const first = l.steps[0];
     const last = l.steps[l.steps.length - 1];
+    // A grouped line buys several things (two Vault rows, eight stamps): one "Lv a → b" across them
+    // reads as nonsense ("Lv 65 → 30"), so only a single purchase shows its range (M7 request).
+    const single = new Set(l.steps.map((s) => s.ref)).size === 1;
     const levels =
-      first && last && first.fromLevel !== null && last.toLevel !== null
+      single && first && last && first.fromLevel !== null && last.toLevel !== null
         ? `Lv ${first.fromLevel} → ${last.toLevel}`
         : null;
     let runningTotal: string | null = null;

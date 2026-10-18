@@ -64,7 +64,7 @@ export default defineDetector({
     /** Set on a row entry: fire only when this row is the one to buy first. */
     row: z.string().optional(),
   }),
-  slots: z.strictObject({ unspent: z.number(), world: z.number() }).partial(),
+  slots: z.strictObject({ unspent: z.number(), world: z.number(), s: z.string() }).partial(),
   reads: ['account.merits', 'characters', 'diagnostics'],
   examples: {
     fires: [
@@ -125,7 +125,8 @@ export default defineDetector({
     return [
       {
         subject: accountSubject,
-        slots: { unspent: w.unspent, world },
+        // `s` is the entry's plural ending (values.s); one merit blanks it: "Spend 1 W2 merit" (R3 QA P3).
+        slots: { unspent: w.unspent, world, ...(w.unspent === 1 ? { s: '' } : {}) },
         result: 'fires' as const,
         urgency: 'banked' as const,
         doneKey: `merits-w${world}`,

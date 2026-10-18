@@ -84,7 +84,7 @@ export interface CapPillView {
   entryId: string;
   /** "Anvil full · collect". */
   label: string;
-  /** "Collect Thread from the anvil (time to cap: now; it refills about 2 h after you collect)". */
+  /** "Collect Thread from the anvil (time to cap: now; it refills in 2 h after you collect)". */
   text: string;
   why: string;
   source: SourceView | null;

@@ -29,9 +29,18 @@ export default defineDetector({
       oneSpeed: z.number(),
       oneCapacity: z.number(),
       oneMixed: z.number(),
+      /** Class rawName and level when exactly one character has points: the line names it (R3 QA P3). */
+      class: z.string(),
+      level: z.number(),
     })
     .partial(),
-  reads: ['characters[*].index', 'characters[*].afk', 'diagnostics'],
+  reads: [
+    'characters[*].index',
+    'characters[*].class',
+    'characters[*].level',
+    'characters[*].afk',
+    'diagnostics',
+  ],
   examples: {
     // W3-early: the Bowman Lv 60 holds 3 points.
     fires: [{ fixture: 'scrubbed-w3' }, { fixture: 'scrubbed-w3', subject: characterSubject(2) }],
@@ -76,6 +85,7 @@ export default defineDetector({
     let speed = 0;
     let capacity = 0;
     let hours = 0;
+    let only: { class: string; level: number } | null = null;
     for (const c of state.characters) {
       const subject = characterSubject(c.index);
       const plan = c.afk?.anvilPlan;
@@ -90,6 +100,7 @@ export default defineDetector({
       speed += toSpeed;
       capacity += toCapacity;
       hours = window.windowMs / 3_600_000;
+      only = { class: c.class, level: c.level };
       findings.push({
         subject,
         slots: { points: plan.unspent, speed: toSpeed, capacity: toCapacity },
@@ -106,7 +117,7 @@ export default defineDetector({
     return [
       {
         subject: accountSubject,
-        slots: { count, hours, ...(flag ? { [flag]: 1 } : {}) },
+        slots: { count, hours, ...(count === 1 && only ? only : {}), ...(flag ? { [flag]: 1 } : {}) },
         result: 'fires',
         urgency: 'banked',
         doneKey: 'anvil-points',

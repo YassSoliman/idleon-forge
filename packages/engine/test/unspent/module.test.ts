@@ -73,11 +73,13 @@ describe('the M6 engine module', () => {
     const out = m6.run(input(s, { now: at(s) }));
     const goal = (id: string) => out.account?.goals?.find((g) => g.goal.id === id)?.goal;
     const spend = goal('anvil.check.spend-points');
-    expect(spend?.nextAction.text).toBe('Unspent anvil points on 1 character → Speed');
+    expect(spend?.nextAction.text).toBe('Unspent anvil points on Bowman Lv 60 → Speed');
     expect(spend?.details).toEqual([{ subject: 'c2', text: 'Bowman Lv 60: 3 into Speed, 0 into Capacity' }]);
     expect(spend?.nextAction.why).toMatch(/in 8 h from empty/);
     const respec = goal('anvil.check.respec');
     expect(respec?.nextAction.text).toBe('Whetstone respec → about 30% more anvil output at 8 h');
+    // One character to respec: no "Start with the first character." (R3 QA P3).
+    expect(respec?.nextAction.why).not.toMatch(/first character/);
     expect(respec?.details).toEqual([
       { subject: 'c0', text: 'Wizard Lv 73: respec to 7 Speed / 23 Capacity, about 30% more' },
     ]);
@@ -100,8 +102,8 @@ describe('the M6 engine module', () => {
       expect.arrayContaining([
         'Get 1 more Bullfrog Horn to run Explosive Salts',
         "Refine 10 Explosive Salts for the Death Note's first level (have 0)",
-        'Crystal 3D Printer: 365 of 875 gems',
-        'Spend 1 W2 merits: All Yum-Yum Desert mobs respawn faster',
+        'Hold your gems until you can buy it',
+        'Spend 1 W2 merit: All Yum-Yum Desert mobs respawn faster',
         'Spend 3 W3 merits',
         'Spend 10 task unlock points',
       ]),

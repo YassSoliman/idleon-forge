@@ -266,16 +266,27 @@ label.chip {
   display: grid;
   gap: 10px;
 }
+.strip {
+  /* One row that scrolls sideways, never 4 wrapped rows of 11 characters at 390 px (R3 QA P3). */
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
 .strip ul {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 0 2px;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 4px;
+}
+.strip li {
+  flex: none;
 }
 .strip-item {
   display: inline-flex;
+  white-space: nowrap;
   align-items: center;
   min-height: 24px;
   padding: 2px 8px;

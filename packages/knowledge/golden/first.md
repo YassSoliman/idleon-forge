@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #3ba11ec9 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 329
+# golden v1: first · knowledge #239d94f5 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 329
 
 ## Verdict changes
 
@@ -109,7 +109,7 @@ Laboratory
 | anvil.check.fill-time | anvil/fill-time | C6 | fires | fullIn=51886616 |
 | anvil.check.fill-time | anvil/fill-time | C7 | fires | fullIn=40205386 |
 | anvil.check.respec | anvil/respec | C6 | fires | capacity=0 morePct=25 speed=210 times=1.25 |
-| anvil.check.respec | anvil/respec | account | fires | count=1 hours=8 mixedPct=1 morePct=25 times=1.25 |
+| anvil.check.respec | anvil/respec | account | fires | count=1 hours=8 mixedPct=1 morePct=25 startWith= times=1.25 |
 | anvil.check.spend-points | anvil/points | C3 | fires | capacity=0 points=15 speed=15 |
 | anvil.check.spend-points | anvil/points | C4 | fires | capacity=0 points=1 speed=1 |
 | anvil.check.spend-points | anvil/points | C7 | fires | capacity=0 points=1 speed=1 |

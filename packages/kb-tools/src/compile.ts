@@ -39,7 +39,11 @@ export function gitVersionInfo(
     const git = (...args: string[]) =>
       execFileSync('git', args, { cwd: REPO, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
     if (git('rev-parse', '--is-shallow-repository') === 'true') return null;
-    const dates = git('log', '--format=%cI', '--', path.relative(REPO, dir)).split('\n').filter(Boolean);
+    // First-parent main history, like the build stamp (packages/release knowledgeVersion), so the footer,
+    // Suggest and Report all show one Knowledge Base version (release 3 QA P2-1).
+    const dates = git('log', '--first-parent', '--format=%cI', '--', path.relative(REPO, dir))
+      .split('\n')
+      .filter(Boolean);
     if (dates.length === 0) return null;
     const day = (iso: string) => new Date(iso).toISOString().slice(0, 10);
     const newest = dates[0] as string;

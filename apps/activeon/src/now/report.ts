@@ -61,7 +61,8 @@ function issueUrl(
 const versionsOf = (b: BuildInfo, knowledge: string, gameBuild: number | null) =>
   [
     `- ActiveOn: ${b.app} (${b.commit.slice(0, 12)}, ${b.channel}${b.pr ? ` #${b.pr}` : ''})`,
-    `- Knowledge Base: ${knowledge}`,
+    // The bundle's display reads "knowledge 2026.10.17.2"; the label already says Knowledge Base.
+    `- Knowledge Base: ${knowledge.replace(/^knowledge /, '')}`,
     `- Game build: ${gameBuild ?? 'unknown'}`,
     `- Parser: ${b.parsers.toolboxCommit.slice(0, 12)} (game ${b.parsers.gameVersion})`,
   ].join('\n');

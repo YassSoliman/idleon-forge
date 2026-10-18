@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #3ba11ec9 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 329
+# golden v1: scrubbed-w3 · knowledge #239d94f5 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 329
 
 ## Verdict changes
 
@@ -33,8 +33,8 @@ show more (14)
 Spend coins: 10 buys now on 4 characters
   1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before you redeem Colosseum tickets: 1 dementia · Lv 0 → 1 · 100M coins · C3 (Bowman lv60) · buy · total 100M on C3
   2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 1 gold 26 silver (carry 25 Jungle Logs on Wizard Lv 73) · Lv 10 → 20 · 13k coins · C3 (Bowman lv60) · buy · total 100M on C3
-  3. Raise 8 stamp caps, then buy their new levels on Bowman Lv 60: Sword Stamp, Mana Stamp, Hatchet Stamp and 5 more, about 95 platinum 51 gold (carry 1k Spore Cap on Wizard Lv 73; carry 36 Copper Ore on Wizard Lv 73; carry 281 Thread on Wizard Lv 73; carry 1.1k Goldfish on Squire Lv 85; carry 5.8k Iron Ore on Wizard Lv 73; carry 9.2k Thread on Wizard Lv 73; carry 677 Spore Cap on Wizard Lv 73; carry 5.5k Sentient Cereal on Squire Lv 85) · Lv 30 → 20 · 96M coins · C3 (Bowman lv60) · buy · total 196M on C3
-  4. Buy 2 Vault upgrades on Wizard Lv 73: Vault Mastery, Major Discount, 12 dementia 57 platinum · Lv 21 → 57 · 1.3B coins · C1 (Wizard lv73) · buy · total 1.3B on C1
+  3. Raise 8 stamp caps, then buy their new levels on Bowman Lv 60: Sword Stamp, Mana Stamp, Hatchet Stamp and 5 more, about 95 platinum 51 gold (carry 1k Spore Cap on Wizard Lv 73; carry 36 Copper Ore on Wizard Lv 73; carry 281 Thread on Wizard Lv 73; carry 1.1k Goldfish on Squire Lv 85; carry 5.8k Iron Ore on Wizard Lv 73; carry 9.2k Thread on Wizard Lv 73; carry 677 Spore Cap on Wizard Lv 73; carry 5.5k Sentient Cereal on Squire Lv 85) · 96M coins · C3 (Bowman lv60) · buy · total 196M on C3
+  4. Buy 2 Vault upgrades on Wizard Lv 73: Vault Mastery, Major Discount, 12 dementia 57 platinum · 1.3B coins · C1 (Wizard lv73) · buy · total 1.3B on C1
   5. Turn the Beholder statue Gold (cost not checked, see the price in game) · Lv 0 → 1 · cost not checked, see the price in game · cost not checked
      totals below assume you skip the unchecked items
   show more (10)
@@ -108,9 +108,9 @@ Shrines
 | anvil.check.caps-before-return | anvil/caps-before-return | C6 | fires | fromEmpty=9607482 fullIn=0 product=Thread |
 | anvil.check.fill-time | anvil/fill-time | — | silent |  |
 | anvil.check.respec | anvil/respec | C1 | fires | capacity=23 morePct=30 speed=7 times=1.3 |
-| anvil.check.respec | anvil/respec | account | fires | count=1 hours=8 mixedPct=1 morePct=30 times=1.3 |
+| anvil.check.respec | anvil/respec | account | fires | count=1 hours=8 mixedPct=1 morePct=30 startWith= times=1.3 |
 | anvil.check.spend-points | anvil/points | C3 | fires | capacity=0 points=3 speed=3 |
-| anvil.check.spend-points | anvil/points | account | fires | count=1 hours=8 oneSpeed=1 |
+| anvil.check.spend-points | anvil/points | account | fires | class=Bowman count=1 hours=8 level=60 oneSpeed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | C4 | fires | chizoar=0 daysLost=0 efaunt=2 forestVilla=4 total=6 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=1 daysLost=2 total=4 |
@@ -126,7 +126,7 @@ Shrines
 | merit-shop.check.spend-w2-boss-gems | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-efaunt-recipes | merit-shop/unspent | — | silent |  |
 | merit-shop.check.spend-w2-obols | merit-shop/unspent | — | silent |  |
-| merit-shop.check.spend-w2-respawn | merit-shop/unspent | account | fires | unspent=1 world=2 |
+| merit-shop.check.spend-w2-respawn | merit-shop/unspent | account | fires | s= unspent=1 world=2 |
 | merit-shop.check.spend-w3 | merit-shop/unspent | account | fires | unspent=3 world=3 |
 | merit-shop.check.spend-w4 | merit-shop/unspent | — | silent |  |
 | minigames.check.daily-plays | minigames/daily-plays | account | fires | choppinTarget=125 plays=4 |

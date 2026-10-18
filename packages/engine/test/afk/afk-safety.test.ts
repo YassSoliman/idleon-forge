@@ -188,7 +188,7 @@ describe('US-4 anvil that caps, and anvil that cannot be helped (#70 A5, R-PILL-
     expect(pill?.fullNow).toBe(true);
     expect(pill?.key).toBe('anvil.check.caps-before-return@c0');
     expect(pill?.nextAction.text).toMatch(
-      /^Collect Thread from the anvil \(time to cap: now; it refills about 3 h after you collect\)/,
+      /^Collect Thread from the anvil \(time to cap: now; it refills in 3 h after you collect\)/,
     );
     // Still Fix, but only for its food: the anvil is not one of its blockers.
     expect(blockers(barb.findings)).toEqual(['afk.check.dies-fixable-by-food']);

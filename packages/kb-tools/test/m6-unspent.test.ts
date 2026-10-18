@@ -279,7 +279,8 @@ describe('US-9 and US-10 Post Office and anvil points', () => {
   it('W3-early: one account line for the Bowman Lv 60, who holds 3 anvil points; W2-late none (#70 A2)', () => {
     const fs = fired(run('anvil/points', w3));
     const account = fs.find((f) => f.subject.kind === 'account');
-    expect(account?.slots).toEqual({ count: 1, hours: 8, oneSpeed: 1 });
+    // One character: the line names it by class and level (R3 QA P3).
+    expect(account?.slots).toEqual({ count: 1, hours: 8, oneSpeed: 1, class: 'Bowman', level: 60 });
     const detail = fs.filter((f) => f.subject.kind === 'character');
     expect(detail.map((f) => f.subject.kind === 'character' && label(w3, f.subject.index))).toEqual([
       'Bowman 60',
@@ -311,6 +312,8 @@ describe('US-9 and US-10 Post Office and anvil points', () => {
       count: 1,
       hours: 8,
       oneCapacity: 1,
+      class: 'Bowman',
+      level: 60,
     });
     const wizard = w3.characters.find((c) => c.index === 0)?.afk ?? fail('afk');
     const wplan = wizard.anvilPlan ?? fail('plan');

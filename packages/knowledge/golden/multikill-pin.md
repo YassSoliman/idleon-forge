@@ -1,4 +1,4 @@
-# golden v1: multikill-pin · knowledge #3ba11ec9 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 329
+# golden v1: multikill-pin · knowledge #239d94f5 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 329
 
 ## Verdict changes
 
@@ -131,7 +131,7 @@ Laboratory
 | anvil.check.caps-before-return | anvil/caps-before-return | C9 | fires | fromEmpty=802583 fullIn=0 product=Pinion_Spur |
 | anvil.check.fill-time | anvil/fill-time | — | silent |  |
 | anvil.check.respec | anvil/respec | C10 | fires | capacity=217 morePct=88 speed=711 times=1.88 |
-| anvil.check.respec | anvil/respec | account | fires | count=1 hours=8 morePct=88 pct=1 product=Chain_Link times=1.88 |
+| anvil.check.respec | anvil/respec | account | fires | count=1 hours=8 morePct=88 pct=1 product=Chain_Link startWith= times=1.88 |
 | anvil.check.spend-points | anvil/points | C1 | fires | capacity=0 points=163 speed=163 |
 | anvil.check.spend-points | anvil/points | C10 | fires | capacity=62 points=62 speed=0 |
 | anvil.check.spend-points | anvil/points | C11 | fires | capacity=0 points=1 speed=1 |

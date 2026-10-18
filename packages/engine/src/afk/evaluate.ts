@@ -322,7 +322,12 @@ export function evaluateAfkSafety(input: AfkSafetyInput): AfkSafetyResult {
     if (finding.result === 'pass') {
       if (finding.nextAt !== undefined && finding.nextAt >= returnAt) {
         const list = fillsBy.get(subject) ?? [];
-        list.push({ label: fillLabel(entry, state, subject), at: finding.nextAt, subject });
+        list.push({
+          label: fillLabel(entry, state, subject),
+          what: typeof entry.values.fill === 'string' ? entry.values.fill : entry.title,
+          at: finding.nextAt,
+          subject,
+        });
         fillsBy.set(subject, list);
       }
       continue;

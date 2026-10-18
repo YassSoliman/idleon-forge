@@ -4,7 +4,7 @@
 // links (TR-14: Tab only, aria-current on the one in Focus). The <h2> takes keyboard focus only when
 // the player opened the card, never on an auto-follow.
 import type { FocusCard } from '@idleon-forge/engine/now';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 import { useNowActions } from './context';
 import { ActionControls, CapPills, GoalList, NextActionItem, ReportThis, SourceLabel } from './parts';
 import { Pill } from './Roster';
@@ -25,13 +25,24 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
   headingRef,
 ) {
   const actions = useNowActions();
+  // The strip scrolls sideways on a phone: keep the character in Focus in view, without moving the page.
+  const stripRef = useRef<HTMLElement>(null);
+  const current = card.strip.find((s) => s.current)?.index;
+  useEffect(() => {
+    const nav = stripRef.current;
+    const item = nav?.querySelector<HTMLElement>('[aria-current="true"]');
+    if (!nav || !item || current === undefined) return;
+    const left = item.offsetLeft - nav.offsetLeft;
+    if (left < nav.scrollLeft || left + item.offsetWidth > nav.scrollLeft + nav.clientWidth)
+      nav.scrollLeft = Math.max(0, left - (nav.clientWidth - item.offsetWidth) / 2);
+  }, [current]);
   const go = (e: React.MouseEvent, index: number) => {
     e.preventDefault();
     actions.open(index);
   };
   return (
     <section className="focus card" aria-labelledby="focus-h">
-      <nav aria-label="Characters in Visit Order" className="strip">
+      <nav aria-label="Characters in Visit Order" className="strip" ref={stripRef}>
         <ul>
           {card.strip.map((s) => (
             <li key={s.index}>
