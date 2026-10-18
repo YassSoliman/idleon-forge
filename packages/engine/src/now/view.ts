@@ -693,7 +693,7 @@ export interface SessionView {
   manual: boolean;
 }
 
-/** M21 FR-M1 to FR-M4: the Map place's view (area M, `now/map-view.ts`). Minimal in Phase F. */
+/** M21 FR-M1 to FR-M4: the Map place's view (area M, `map/view.ts`). */
 export interface MapView {
   worlds: { world: number; heading: string; state: 'done' | 'open' | 'next' }[];
 }

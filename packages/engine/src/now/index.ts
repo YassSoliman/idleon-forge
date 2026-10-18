@@ -3,6 +3,7 @@
 // `@idleon-forge/engine/now`: the view layer the UI thread imports at runtime (M10 TR-1). It must
 // import no Detector, no engine module and nothing from toolbox-parsers.
 export { invariantViolations } from '../core/invariants';
+export { buildMapView } from '../map/view';
 export {
   ACCOUNT_GOAL_CAP,
   buildNowView,
@@ -34,7 +35,6 @@ export {
   shortDuration,
   span,
 } from './format';
-export { buildMapView } from './map-view';
 export {
   dismissActive,
   EMPTY_PREFS,

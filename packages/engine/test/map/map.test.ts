@@ -11,12 +11,12 @@ import { loadSource } from '@idleon-forge/kb-tools/src/load';
 import { DEFAULT_EXPECTED_RETURN_MS } from '@idleon-forge/knowledge';
 import { describe, expect, it } from 'vitest';
 import { goldenResult } from '../../src/golden';
-import { BOSS_GATES, buildMap, buildMapView, createMapModule, MAP_FACT, MAP_WORDS } from '../../src/map';
+import { buildMap, buildMapView, createMapModule, MAP_FACT, MAP_WORDS } from '../../src/map';
 import { worldRoute } from '../../src/map/module';
 import { frontierRoute } from '../../src/metapath/gate-chain';
 import { lookupOf } from '../../src/metapath/knowledge';
+import { buildMapView as barrelMapView } from '../../src/now';
 import { buildNowView, DEFAULT_UI } from '../../src/now/build-now-view';
-import { buildMapView as barrelMapView } from '../../src/now/map-view';
 import { EMPTY_PREFS } from '../../src/now/prefs';
 import { renderMapText } from '../../src/now/render-map-text';
 
@@ -289,15 +289,20 @@ describe('facts', () => {
     expect(checked).toBeGreaterThan(1000);
   }, 120_000);
 
-  it('the boss gates mirror equals map.fact.boss-gates (map.facts.yaml, with its wiki Sources)', () => {
+  it('the compiled bundle ships map.fact.boss-gates (map.facts.yaml, with its wiki Sources)', () => {
     const src = loadSource();
     const fact = src.facts.find((x) => x.value.id === MAP_FACT.bossGates)?.value;
-    expect(fact?.rows).toEqual(BOSS_GATES);
     expect(fact?.sources.every((s) => s.tier === 2 && s.url.startsWith('https://idleon.wiki/'))).toBe(true);
+    // Shipped through kb-tools' ENGINE_FACTS: no entry or Detector names it (FR-M7).
+    const shipped = ctx.kb.facts[MAP_FACT.bossGates] as unknown as {
+      rows: { world: number; bossMap: number }[];
+    };
+    expect(shipped?.rows).toEqual(fact?.rows);
+    expect(shipped.rows.map((g) => g.world)).toEqual([1, 2, 3, 4]);
     // Each boss arena is a real map of its world.
     const maps = (ctx.kb.facts[MAP_FACT.maps] as unknown as { rows: { index: number; world: number }[] })
       .rows;
-    for (const g of BOSS_GATES) expect(maps.find((m) => m.index === g.bossMap)?.world).toBe(g.world);
+    for (const g of shipped.rows) expect(maps.find((m) => m.index === g.bossMap)?.world).toBe(g.world);
   });
 
   it("the map's route per world is M2's frontier route", () => {
@@ -305,7 +310,7 @@ describe('facts', () => {
     for (const w of [1, 2, 3, 4]) expect(worldRoute(facts, w)).toEqual(frontierRoute(facts, w));
   });
 
-  it('the barrel buildMapView is the map view once `@idleon-forge/engine/map` is loaded', () => {
+  it('the barrel buildMapView is the map view itself', () => {
     const { r, view, v } = run('scrubbed-w3');
     expect(barrelMapView(r, view)).toEqual(v);
     expect(buildMap(stateOf(fixture('scrubbed-w3')), ctx.kb)?.worlds).toHaveLength(4);
