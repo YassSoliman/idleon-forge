@@ -34,6 +34,7 @@ import {
   handOutOrder,
   judgeSlot,
   MAIN_STAT,
+  nextToolTier,
   planRows,
   planStage,
   primaryOf,
@@ -204,13 +205,15 @@ export function buildGear(input: GearBuildInput): GearBuildOutput | null {
           break;
         }
       }
-      if (!toolLine && !tj.item && tiers[0]) {
-        const { p: path } = tryPath(tiers[0], 1, new Map());
+      // Nothing doable: the same next tier the Gear tab's ladder names (nextToolTier).
+      const step = !toolLine && !tj.item ? nextToolTier(tiers, null, gateLevel(c, afk) ?? 0) : null;
+      if (step) {
+        const { p: path } = tryPath(step, 1, new Map());
         toolLine = {
           kind: 'tool',
           index: c.index,
           slot: afk,
-          piece: tiers[0],
+          piece: step,
           path,
           doable: false,
           worn: null,
@@ -938,21 +941,19 @@ function laddersOf(
     const t = TOOL_SKILL[slot];
     const lv = gateLevel(c, slot);
     if (!t || lv === null) continue;
-    const tiers = planRows(ctx.facts, familyOfSlot(slot), family)
+    const pieces = planRows(ctx.facts, familyOfSlot(slot), family)
       .map((r) => ctx.facts.ladder.get(r.piece))
-      .filter((p): p is Piece => !!p)
-      .map((p) => ({
-        rawName: p.rawName,
-        name: p.name,
-        atLevel: p.lvReq,
-        equipped: p.rawName === w?.rawName,
-      }));
-    // The best tier the skill level already allows above what is worn, else the next level gate.
-    const above = tiers.filter((x) => x.atLevel > (w?.lvReq ?? 0) && x.rawName !== w?.rawName);
-    const nextTier = above.filter((x) => x.atLevel <= lv).at(-1) ?? above.find((x) => x.atLevel > lv);
+      .filter((p): p is Piece => !!p);
+    const tiers = pieces.map((p) => ({
+      rawName: p.rawName,
+      name: p.name,
+      atLevel: p.lvReq,
+      equipped: p.rawName === w?.rawName,
+    }));
+    // The same next tier as the Now tab's tool line (nextToolTier).
+    const piece = nextToolTier(pieces, w ? { rawName: w.rawName, lvReq: w.lvReq ?? 0 } : null, lv);
     let next: string | null = null;
-    if (nextTier) {
-      const piece = ctx.facts.ladder.get(nextTier.rawName) as Piece;
+    if (piece) {
       const r = ctx.facts.recipes.get(piece.rawName);
       const locked = (recipeState(ctx.state, ctx.facts, piece.rawName) ?? 0) < 0;
       const tabMissing = !!r && r.tab > (ctx.state.account.anvilTabsOwned ?? 1);

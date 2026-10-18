@@ -217,7 +217,7 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
 - C5 · Barbarian 56 · 3 empty · weapon 39 levels behind · lit: ring1
   next: Fill 7 empty ring slots: craft Copper Bands now (100 Copper Bars each)
   helmet 27 levels behind, weapon 39 levels behind, shirt behind, pendant 25 levels behind, pants ok · a trade, ring1 empty, shoes ok · a trade, ring2 empty, pickaxe empty, hatchet empty, rod empty, net empty
-  fishing: Gold Fishing Rod at Fishing 15: needs the W2 Task Board unlock
+  fishing: Iron Fishing Rod at Fishing 9: needs the W1 Task Board unlock
 - C6 · Shaman 54 · 2 empty · better gear held · lit: helmet
   next: Equip the Farmer Brim from storage
   helmet better one held, weapon 38 levels behind, shirt ok · a trade, pendant 25 levels behind, pants ok · a trade, ring1 empty, shoes 27 levels behind, ring2 empty, pickaxe empty, hatchet empty, rod empty, net empty

@@ -78,6 +78,28 @@ export function gateLevel(c: CharacterState, slot: GearSlotId): number | null {
   return typeof v === 'number' ? v : null;
 }
 
+/**
+ * The next tool tier to work toward, shared by the Now tab's tool line and the Gear tab's ladder (R9 QA
+ * P2-2): the best tier above the worn one that the skill level allows (else the next level gate). With
+ * no tool worn, it steps down through the tier each recipe consumes to the one that can be crafted from
+ * scratch: a Gold Fishing Rod's recipe takes an Iron Fishing Rod, so with no rod the next rod is Iron.
+ * `tiers` is the tool's ladder, lowest first.
+ */
+export function nextToolTier<T extends Pick<Piece, 'rawName' | 'lvReq' | 'consumes'>>(
+  tiers: readonly T[],
+  worn: { rawName: string; lvReq: number } | null,
+  level: number,
+): T | null {
+  const above = tiers.filter((t) => t.lvReq > (worn?.lvReq ?? 0) && t.rawName !== worn?.rawName);
+  let next = above.filter((t) => t.lvReq <= level).at(-1) ?? above.find((t) => t.lvReq > level) ?? null;
+  for (let guard = 0; next && !worn && guard < tiers.length; guard++) {
+    const prev = next.consumes.map((q) => above.find((t) => t.rawName === q.rawName)).find(Boolean);
+    if (!prev) break;
+    next = prev;
+  }
+  return next;
+}
+
 export interface Stats {
   cls: string;
   lvReq: number;

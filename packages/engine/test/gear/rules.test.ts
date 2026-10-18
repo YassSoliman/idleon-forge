@@ -5,7 +5,7 @@
 import type { AccountState, CharacterState, HeldGear, WornSlot } from '@idleon-forge/account-state';
 import { describe, expect, it } from 'vitest';
 import { better, gearFacts, handOut, Pool, pathTo } from '../../src/gear';
-import type { Stats } from '../../src/gear/judge';
+import { nextToolTier, type Stats } from '../../src/gear/judge';
 import type { Ctx } from '../../src/gear/paths';
 import { kb } from './helpers';
 
@@ -175,5 +175,25 @@ describe('TR-10 the generated ladder', () => {
       if (r.from === 'task') expect(p?.unlock, raw).not.toBeNull();
       if (p?.unlock) expect(r.from, raw).toBe('task');
     }
+  });
+});
+
+describe('R9 QA P2-2 the next tool tier, one function for the Now tab and the Gear tab', () => {
+  // The rod ladder from the generated facts: Copper 4, Iron 9, Gold 15 (consumes Iron), Plat 25 ...
+  const rods = [...facts.ladder.values()].filter((p) => p.slot === 'rod').sort((a, b) => a.lvReq - b.lvReq);
+  const rod = (name: string) => rods.find((p) => p.name === name);
+
+  it('with no rod at Fishing 22, the next rod is Iron: the Gold rod is crafted from an Iron one', () => {
+    expect(rod('Gold Fishing Rod')?.consumes.map((q) => q.rawName)).toContain(
+      rod('Iron Fishing Rod')?.rawName,
+    );
+    expect(nextToolTier(rods, null, 22)?.name).toBe('Iron Fishing Rod');
+  });
+
+  it('holding the Iron rod, the next rod is the best one the level allows', () => {
+    const iron = rod('Iron Fishing Rod');
+    if (!iron) throw new Error('no Iron Fishing Rod in the ladder');
+    expect(nextToolTier(rods, iron, 22)?.name).toBe('Gold Fishing Rod');
+    expect(nextToolTier(rods, iron, 12)?.name).toBe('Gold Fishing Rod');
   });
 });
