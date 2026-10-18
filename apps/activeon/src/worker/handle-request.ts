@@ -25,6 +25,7 @@ import { createBuildsModule } from '@idleon-forge/engine/builds';
 import { createCollectionsModule } from '@idleon-forge/engine/collections';
 import { engineDetectors } from '@idleon-forge/engine/detectors';
 import { detectStage, frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
+import { createSpendModule } from '@idleon-forge/engine/spend';
 import { createUnspentModule } from '@idleon-forge/engine/unspent';
 import {
   type CompiledKnowledge,
@@ -157,6 +158,7 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
     }),
     createBuildsModule({ kb }),
     createCollectionsModule({ kb, registry: engineDetectors }),
+    createSpendModule({ kb, stage: (state) => detectStage(state, facts) }),
   ];
 }
 

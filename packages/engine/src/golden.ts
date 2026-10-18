@@ -16,6 +16,7 @@ import { buildNowView, DEFAULT_UI } from './now/build-now-view';
 import { EMPTY_PREFS } from './now/prefs';
 import { renderNowText } from './now/render-text';
 import type { EngineResult } from './result';
+import { createSpendModule } from './spend';
 import { createUnspentModule } from './unspent';
 
 /** The fields of M11's `GoldenInput` this engine reads. */
@@ -52,6 +53,7 @@ function goldenModules(input: GoldenInput): readonly EngineModule[] {
     }),
     createBuildsModule({ kb }),
     createCollectionsModule({ kb, registry: input.registries.engine }),
+    createSpendModule({ kb, stage: (s) => detectStage(s, facts) }),
   ];
 }
 

@@ -137,6 +137,8 @@ describe('toAccountState', () => {
       afk: null,
       // M9 TR-4: storage parsed, with no reset items in it.
       resetItems: { potions: 0, fragments: 0 },
+      // M7 TR-2: null without the worker's Toolbox functions.
+      spend: null,
     });
     expect(state.characters.map(withoutUnspentCharacter)).toEqual([
       {

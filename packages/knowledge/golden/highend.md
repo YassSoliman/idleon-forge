@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #f6490daf · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 8 of 180
+# golden v1: highend · knowledge #e6ac3564 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 8 of 242
 
 ## Verdict changes
 
@@ -63,7 +63,6 @@ If you have time
 Classes and subclasses
 Portals and map doors
 Skills, doors and tools
-Spend Plan
 Upgrade Vault
 Bribes
 Forge

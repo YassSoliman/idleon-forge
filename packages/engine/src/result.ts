@@ -4,9 +4,16 @@
 // engine core. Plain data only, so it survives `structuredClone` across the worker boundary (TR-6):
 // no functions, Maps, class instances or Dates. All times are epoch ms, all durations seconds.
 // A change here needs a note on M10's spec and on the producer module's spec.
-import type { SpendPlan } from './core/stubs/spend-plan';
+import type { SpendPlan } from './spend/types';
 
-export type { SpendLine, SpendPlan, SpendSink, SpendStatus, SpendStep } from './core/stubs/spend-plan';
+export type {
+  SpendHandoff,
+  SpendLine,
+  SpendPlan,
+  SpendSink,
+  SpendStatus,
+  SpendStep,
+} from './spend/types';
 
 export type VerdictKind = 'ready' | 'fix' | 'unknown';
 export type Category = 'blocker' | 'compounding' | 'spendable' | 'nice';

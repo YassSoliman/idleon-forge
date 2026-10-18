@@ -139,4 +139,46 @@ export interface ToolboxCalls {
   getCardSets(account: unknown): Record<string, unknown>;
   /** Stock by shop index from raw `ShopStock`, paired with Toolbox's shop item lists; null when malformed. */
   shopStockAll(rawShopStock: unknown): Array<Array<{ rawName: string; amount: number }>> | null;
+  // ---- M7 Spend Plan (TR-1, TR-4) ----
+  /** Per-level Vault costs from re-running `parseUpgradeVault` on cloned levels (raw `UpgVault`). */
+  vaultLadders(parsed: ParsedSave, rawLevels: readonly number[], depth?: number): VaultCostRun[];
+  /** Every stamp re-evaluated by `updateStamps(account, characters, gilded, reducer, undefined, true)`. */
+  stampEvaluations(parsed: ParsedSave, gilded: boolean, reducer?: number): StampEvaluation[];
+}
+
+/** M7 TR-4: one Vault row's Toolbox `cost` at levels L, L+1, ... (`costs[0]` is the parse's `cost`). */
+export interface VaultCostRun {
+  index: number;
+  costs: number[];
+}
+
+/** M7 TR-4: one stamp from the worker re-evaluation, the fields the Spend Plan reads. */
+export interface StampEvaluation {
+  rawName: string;
+  /** Toolbox `displayName`, e.g. "Sword_Stamp". */
+  name: string;
+  level: number;
+  maxLevel: number;
+  /** reqItemMultiplicationLevel. */
+  capStep: number;
+  /** Next coin level (Toolbox `goldCost`). */
+  goldCost: number;
+  /** Toolbox `getGoldCostToMaxLevel`. */
+  coinsToCap: number;
+  /** Item rawName. */
+  material: string;
+  /** The material's Toolbox name, e.g. "Spore_Cap". */
+  materialName: string;
+  /** An equipment item: Toolbox checks its craft ingredients, not the item itself (FR-10). */
+  equip: boolean;
+  materialCost: number;
+  ownedMats: number;
+  hasMaterials: boolean;
+  enoughPlayerStorage: boolean;
+  /** `getMinReduction(...).reduction`; null when even 90% leaves it too big. */
+  minReduction: number | null;
+  /** `bestCharacter.topCharacters` (names; the adapter joins them to indices and drops the names). */
+  topCharacters: { character: string; maxCapacity: number }[];
+  /** `futureCosts[0]`. */
+  next: { level: number; goldCost: number; reduction: number } | null;
 }

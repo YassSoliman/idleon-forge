@@ -8,6 +8,7 @@
 import type { SideReadName } from '@idleon-forge/toolbox-parsers';
 import type { AccountAfkFacts, CharacterAfkFacts } from './afk-types';
 import type { CollectionsAccountFields, CollectionsCharacterFields } from './collections-types';
+import type { SpendInputs } from './spend-types';
 import type { TalentAccountFields, TalentCharacterFields } from './talent-types';
 import type { SaltState, UnspentAccountFields, UnspentCharacterFields } from './unspent-types';
 
@@ -26,8 +27,9 @@ import type { SaltState, UnspentAccountFields, UnspentCharacterFields } from './
  * 10: M9 TR-3/TR-4: `characters[].talents` (both presets and attack bars) and `account.resetItems`.
  * 11: M8 TR-15's collections fields (the `CollectionsAccountFields` and `CollectionsCharacterFields`
  *    blocks: stamps, quests, holdings, shop stock, cards with `effect`, card sets and presets, obols).
+ * 12: `account.spend` (M7 TR-2, the Spend Plan's wallets and coin sinks).
  */
-export const SCHEMA_VERSION = 11;
+export const SCHEMA_VERSION = 12;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -210,6 +212,10 @@ export interface AccountSummary extends UnspentAccountFields, TalentAccountField
   // ---- M3 AFK Safety (M3 TR-2). Set by the adapter; optional only so hand-built states stay valid. ----
   /** The account-wide stockpiles that cap; null when Toolbox's functions weren't supplied to the adapter. */
   afk?: AccountAfkFacts | null;
+
+  // ---- M7 Spend Plan (M7 TR-2). Set by the adapter; optional only so hand-built states stay valid. ----
+  /** Wallets and coin sinks; null when the worker's Toolbox functions weren't supplied to the adapter. */
+  spend?: SpendInputs | null;
 }
 
 /** Structured, machine-readable problems with one read (M1 FR-16, FR-17, FR-19a, FR-19b). */

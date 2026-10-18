@@ -12,6 +12,7 @@ import { type AfkFactsInput, accountAfkFacts, characterAfkFacts } from './afk-fa
 import { readCollections } from './collections';
 import { FIELD_RAW_KEYS, type RawKind } from './fields';
 import { metaPathAccountFields, metaPathCharacterFields } from './metapath-fields';
+import { readSpendInputs } from './spend';
 import { readResetItems, readTalents } from './talents';
 import {
   type AccountState,
@@ -435,6 +436,20 @@ export function toAccountState(
     },
     c,
   );
+  // ---- M7 Spend Plan (M7 TR-2) ----
+  const spend = readSpendInputs({
+    parsed,
+    data,
+    indices: states.map((s) => s.index),
+    levels: states.map((s) => s.level),
+    failedSections,
+    toolbox: options.toolbox,
+    asOf,
+  });
+  if (spend) {
+    for (const sink of ['vault', 'stamps', 'bribes', 'statueGold', 'p2w', 'anvilCoinPoints'] as const)
+      if (spend[sink] === null) c.unknown(`account.spend.${sink}`);
+  }
 
   const diagnostics: ParseDiagnostics = {
     failedSections,
@@ -467,6 +482,7 @@ export function toAccountState(
       ...metaPath,
       frontier,
       afk: accountAfk,
+      spend,
       ...unspent,
       // M9 Builds (M9 TR-4)
       resetItems: readResetItems(account, characters, failedSections),

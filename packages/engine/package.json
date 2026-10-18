@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "license": "GPL-3.0-only",
-  "description": "The ActiveOn advice engine: the core (merge, rank, dedupe, Visit Order, EngineResult), the Now screen view model, and the module engines (M2 Meta Path, M3 AFK Safety, M6 Unspent & idle, M9 Builds).",
+  "description": "The ActiveOn advice engine: the core (merge, rank, dedupe, Visit Order, EngineResult), the Now screen view model, and the module engines (M2 Meta Path, M3 AFK Safety, M6 Unspent & idle, M7 Spend Plan, M8 Collections, M9 Builds).",
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
@@ -14,7 +14,8 @@
     "./detectors": "./detectors/index.ts",
     "./unspent": "./src/unspent/index.ts",
     "./builds": "./src/builds/index.ts",
-    "./collections": "./src/collections/index.ts"
+    "./collections": "./src/collections/index.ts",
+    "./spend": "./src/spend/index.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json"

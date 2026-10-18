@@ -69,6 +69,21 @@ export {
   killsLeftOn,
   killsLeftTable,
 } from './frontier';
+// M7 Spend Plan (M7 TR-2)
+export { LADDER_CHECKPOINTS, SPEND_VAULT_ROWS } from './spend';
+export type {
+  AnvilCoinPoint,
+  BribeState,
+  P2wUpgrade,
+  RaisePrice,
+  SpendInputs,
+  StampRaise,
+  StampState,
+  StatueGoldState,
+  VaultRow,
+  VaultState,
+  Wallet,
+} from './spend-types';
 export type {
   CharacterTalents,
   PresetTalents,

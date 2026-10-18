@@ -1255,6 +1255,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
     ],
     "secondsSinceLastSave": 74443903,
     "shopStock": null,
+    "spend": null,
     "stampLevels": {
       "entries": 128,
     },
@@ -3565,6 +3566,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
     ],
     "secondsSinceLastSave": 76306125,
     "shopStock": null,
+    "spend": null,
     "stampLevels": {
       "entries": 128,
     },
@@ -5285,6 +5287,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
     ],
     "secondsSinceLastSave": 4987096,
     "shopStock": null,
+    "spend": null,
     "stampLevels": {
       "entries": 128,
     },
@@ -7384,6 +7387,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
     ],
     "secondsSinceLastSave": 5841394,
     "shopStock": null,
+    "spend": null,
     "stampLevels": {
       "entries": 128,
     },
@@ -10796,6 +10800,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
     ],
     "secondsSinceLastSave": 579381,
     "shopStock": null,
+    "spend": null,
     "stampLevels": {
       "entries": 128,
     },
@@ -14068,6 +14073,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
     ],
     "secondsSinceLastSave": 5021038,
     "shopStock": null,
+    "spend": null,
     "stampLevels": {
       "entries": 128,
     },
@@ -17327,6 +17333,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
     ],
     "secondsSinceLastSave": 4478365,
     "shopStock": null,
+    "spend": null,
     "stampLevels": {
       "entries": 128,
     },
@@ -20542,6 +20549,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
     ],
     "secondsSinceLastSave": 74411689,
     "shopStock": null,
+    "spend": null,
     "stampLevels": {
       "entries": 128,
     },
@@ -23764,6 +23772,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
     ],
     "secondsSinceLastSave": 5760452,
     "shopStock": null,
+    "spend": null,
     "stampLevels": {
       "entries": 128,
     },
@@ -27105,6 +27114,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
     ],
     "secondsSinceLastSave": 74534511,
     "shopStock": null,
+    "spend": null,
     "stampLevels": {
       "entries": 128,
     },
@@ -30362,6 +30372,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
     ],
     "secondsSinceLastSave": 4478365,
     "shopStock": null,
+    "spend": null,
     "stampLevels": {
       "entries": 128,
     },

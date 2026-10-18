@@ -56,7 +56,7 @@ describe('the M8 engine module', () => {
   it('registers its 5 engine Detectors by file convention', () => {
     expect(
       Object.keys(engineDetectors)
-        .filter((id) => !id.startsWith('metapath/') && !id.startsWith('builds/'))
+        .filter((id) => /^(cards|obols|stamps)\//.test(id))
         .sort(),
     ).toEqual(['cards/preset', 'cards/set', 'cards/slots', 'obols/state', 'stamps/status']);
   });

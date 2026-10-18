@@ -10,6 +10,7 @@ import {
   COLLECTIONS_FIELD_SECTIONS,
   COLLECTIONS_FIELD_SOURCES,
 } from './collections-fields';
+import { SPEND_FIELD_SECTIONS, SPEND_FIELD_SOURCES } from './spend-fields';
 import { TALENT_FIELD_RAW_KEYS, TALENT_FIELD_SECTIONS, TALENT_FIELD_SOURCES } from './talent-fields';
 import type { AccountState } from './types';
 import {
@@ -31,6 +32,7 @@ const raw = (key: string, kind: RawKind): RawKeySpec => ({ key, kind });
 
 /** Account State path -> Toolbox path, for provenance (the save fields behind a Next Action). */
 export const FIELD_SOURCES: Record<string, string> = {
+  ...SPEND_FIELD_SOURCES,
   'account.currentWorld': 'account.currentWorld',
   'account.finishedWorlds': 'account.finishedWorlds',
   'account.lastCloudSave': 'account.timeAway.GlobalTime',
@@ -178,6 +180,7 @@ export const FIELD_SECTIONS: Record<string, string[]> = {
   ...UNSPENT_FIELD_SECTIONS,
   ...TALENT_FIELD_SECTIONS,
   ...COLLECTIONS_FIELD_SECTIONS,
+  ...SPEND_FIELD_SECTIONS,
 };
 
 /** The side reads each field depends on. */
