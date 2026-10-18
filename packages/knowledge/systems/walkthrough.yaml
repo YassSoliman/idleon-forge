@@ -65,6 +65,7 @@ entries:
       reason-start-early: "it is the slowest part, and it is needed once {gate} is done"
       reason-free: "this character's current activity serves no Goal on the Now screen"
       reason-moves: "this moves it off {activity}"
+      reason-fix-first: "Fix this character's \"Fix before you leave\" first, then move it."
       reason-role: "it is this character's own Role"
       other-ways: "Other ways: {list}"
       other-unreachable: "{monster} at {map} (open {gate} first)"

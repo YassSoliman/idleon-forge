@@ -140,6 +140,7 @@ interface Candidate {
   supply: SupplyEval;
   e: CharacterEval;
   group: 'own' | 'free' | 'other';
+  blocked: boolean;
 }
 
 function compareRated(a: Candidate, b: Candidate, tie: number): number {
@@ -224,9 +225,10 @@ export function assignJobs(ctx: PlanContext, inputs: JobInput[]): Job[] {
         if (s.kind === 'drop' && s.where.mapIndex !== null && mapsTaken.has(s.where.mapIndex)) continue;
         const c = state.characters.find((x) => x.index === e.characterIndex);
         if (!c || c.afkType === 'LABORATORY') continue;
-        // FR-18: an M3 blocker comes first, unless the move itself fixes it: leaving fighting for a
-        // skilling job ends a fighting-safety blocker (food, survivability) on the current map.
-        if (hasBlocker(ctx, c.index) && !(c.afkType === 'FIGHTING' && act !== 'FIGHTING')) continue;
+        // FR-18: an M3 blocker comes first. Such a character is still a candidate (a blocker is often a
+        // one-minute fix, e.g. collect the anvil), after every unblocked one, and its step says "fix
+        // first"; leaving fighting for a skilling job ends a fighting-safety blocker by itself.
+        const blocked = hasBlocker(ctx, c.index) && !(c.afkType === 'FIGHTING' && act !== 'FIGHTING');
         const roles = ownRoles(meta, c.index);
         const pusher = meta?.pusher?.index === c.index;
         const ownRole = roles.some((r) => r.afkType === act);
@@ -235,11 +237,11 @@ export function assignJobs(ctx: PlanContext, inputs: JobInput[]): Job[] {
         const onRole = pusher || roles.some((r) => r.active && r.afkType === c.afkType);
         if (onRole && !ownRole) continue;
         const group = ownRole ? 'own' : isServing(ctx, c) ? 'other' : 'free';
-        cands.push({ c, supply: s, e, group });
+        cands.push({ c, supply: s, e, group, blocked });
       }
     }
     const skill = activity !== 'FIGHTING';
-    const order = (x: Candidate) => (x.group === 'other' ? 1 : 0);
+    const order = (x: Candidate) => (x.group === 'other' ? 2 : 0) + (x.blocked ? 1 : 0);
     cands.sort((a, b) => {
       const g = order(a) - order(b);
       if (g !== 0) return g;
@@ -254,6 +256,7 @@ export function assignJobs(ctx: PlanContext, inputs: JobInput[]): Job[] {
       job.assignees = [pick.c.index];
       job.chosen = { supply: pick.supply, eval: pick.e };
       job.pref = pick.group === 'own' ? 'role' : pick.group === 'free' ? 2 : 3;
+      if (pick.blocked) job.fixFirst = true;
       if (!skill) job.etaSeconds = pick.e.etaSeconds;
       const push = meta?.pushGoal;
       if (push && push.characterIndex === pick.c.index) {

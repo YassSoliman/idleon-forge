@@ -503,7 +503,8 @@ function stepsOf(
               job.sequence.reason === 'short'
                 ? s('sequence-why-short', {})
                 : s('sequence-why-rank', { first: firstPush ? 'the push' : parentTitle });
-          } else if (isBottleneck)
+          } else if (job.fixFirst) why = s('reason-fix-first', {});
+          else if (isBottleneck)
             why = behind.has(n)
               ? s('reason-start-early', { gate: behind.get(n) as string })
               : s('reason-bottleneck', {});
@@ -533,7 +534,7 @@ function stepsOf(
           .filter((p) => p.eligible)
           .map((p) => char(p.characterIndex));
         text =
-          door && sp
+          door && sp && reachers.length <= 1
             ? s('farm-locked', {
                 missing: n.missing,
                 item: n.name,

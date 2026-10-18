@@ -242,7 +242,12 @@ describe('US-6 A cycle or a patch', () => {
       entries: { ...kb.entries, [a]: item('LoopA', 'LoopB'), [b]: item('LoopB', 'LoopA') },
     };
     const s = W2();
-    const ctx = { state: s, kb: looped as typeof kb, pool: new HoldingsPool(s), diagnostics: [] as string[] };
+    const ctx = {
+      state: s,
+      kb: looped as unknown as typeof kb,
+      pool: new HoldingsPool(s),
+      diagnostics: [] as string[],
+    };
     const t = expandTarget(ctx, a);
     const flat = JSON.stringify(t?.root);
     expect(flat).toContain('"stoppedBecause":"cycle"');
@@ -338,7 +343,7 @@ describe('the rules behind the stories', () => {
       children: [],
       supplies: [],
       depth: 1,
-    }) as const;
+    }) as unknown as Parameters<typeof assignJobs>[1][number]['leaf'];
   const drop = (eta: number): SupplyEval => ({
     acquisitionId: 'X',
     kind: 'drop',
@@ -480,7 +485,7 @@ describe('the rules behind the stories', () => {
       cards: { both: ['Drop_Rate'], skilling: ['Skill'], FIGHTING: ['Damage'], FISHING: ['Fishing'] },
     };
     const base = W2().characters[0] as AccountState['characters'][number];
-    const ready = {
+    const ready: AccountState['characters'][number] = {
       ...base,
       talentPresets: {
         selected: 0,
@@ -497,7 +502,7 @@ describe('the rules behind the stories', () => {
     };
     expect(talentRole({ BRUTE_EFFICIENCY: 100 }, fit)).toBe('skilling');
     expect(presetActions(ready, 'FISHING', fit)).toEqual([{ kind: 'switch', talent: 1, card: 1 }]);
-    const bare = {
+    const bare: AccountState['characters'][number] = {
       ...base,
       talentPresets: {
         selected: 0,

@@ -133,6 +133,8 @@ export interface Job {
   chosen: { supply: SupplyEval; eval: CharacterEval } | null;
   /** Why the assignee was chosen (pref 1 already, 2 free, 3 moved, role). */
   pref: 1 | 2 | 3 | 'role' | null;
+  /** FR-18: the assignee has an M3 blocker to fix before it moves. */
+  fixFirst?: true;
   /** R-Q9a: on a character that also pushes, the order of its two jobs. */
   sequence?: { firstIs: 'push' | 'job'; reason: 'short' | 'rank'; pushEtaSeconds: number | null };
 }
