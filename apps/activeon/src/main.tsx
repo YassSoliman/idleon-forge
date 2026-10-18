@@ -8,10 +8,12 @@ import './design/fonts';
 import './design/tokens.css';
 import './design/base.css';
 import './design/atoms/atoms.css';
-import './styles/tokens.css';
 import './styles/app.css';
 import './styles/now.css';
-import './styles/views.css';
+// The places' shared CSS, in their old cascade order (M21 FR-I3: styles/views.css only imported these).
+import './shell/shell.css';
+import './characters/characters.css';
+import './systems/systems.css';
 import { initRoot } from './design/theme';
 
 // data-direction and data-theme before the first render, so the first paint has the right colours.

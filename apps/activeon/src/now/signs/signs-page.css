@@ -1,16 +1,10 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
-/* M16 Star Signs: the Star Chart section and the star-signs System page body (area S, M21 §9). Split from
+/* M16 Star Signs: the star-signs System page body (area S, M21 §9). Split from
    signs.css in M21 Phase F, unchanged rules. Tokens only; wraps at 320 px, no page-level horizontal
    scroll. */
-.ss,
-.ss-account {
+.ss {
   overflow-wrap: anywhere;
   min-width: 0;
-}
-.ss-account > summary {
-  cursor: pointer;
-  min-height: 28px;
-  padding: 4px 0;
 }
 .ss-h {
   margin: 14px 0 6px;
@@ -28,6 +22,13 @@
 }
 .ss-next .pill {
   margin-left: 6px;
+}
+/* DS-15: the shared-line "show details" fold is a 44 px target wherever the chart is drawn. */
+.ss-group > summary {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  cursor: pointer;
 }
 .ss-sources {
   margin-top: 8px;

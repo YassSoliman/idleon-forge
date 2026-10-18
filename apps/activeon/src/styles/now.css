@@ -4,14 +4,12 @@
   The Now screen and its flows (M21 area N), ported from the Design Lab's picks (`now`, `cards`, `flows`
   groups) onto the Field Guide tokens. Rules: 44 px targets (DS-15), no text under 12 px (DS-20), pixel
   faces only at 16 px and up and never on pills (DS-14), state classes scoped to their component
-  (DS-21), status never colour alone (DS-8). Part 1 keeps the shared legacy classes the other areas'
-  views still use, restyled onto the tokens, until Integration removes them (FR-I3). Part 2 is area N.
+  (DS-21), status never colour alone (DS-8). Part 1 is the small set of shared classes the atoms and
+  several areas' views still use, on the tokens (Integration removed the dead ones, FR-I3). Part 2 is
+  area N.
 */
 
-/* ==== Part 1: shared legacy classes (other areas read them; Integration retires them) ========== */
-.preview-badge {
-  display: none;
-}
+/* ==== Part 1: shared classes (the atoms and several areas use them) ============================ */
 .chip {
   display: inline-flex;
   align-items: center;
@@ -86,26 +84,6 @@ label.chip {
   background: var(--verdict-fix-bg);
   color: var(--verdict-fix-fg);
 }
-.r-top {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-1) var(--space-2);
-  min-width: 0;
-  flex-wrap: wrap;
-}
-.r-name {
-  font-weight: var(--weight-bold);
-  overflow-wrap: anywhere;
-}
-.r-class {
-  font-size: var(--text-xs);
-  color: var(--muted);
-  margin-right: auto;
-}
-.r-where {
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
 .hero h2 {
   font-family: var(--font-display);
   font-weight: var(--display-weight);
@@ -168,7 +146,6 @@ label.chip {
   font-size: var(--text-xs);
 }
 .contested summary,
-.goal-details summary,
 .hidden-list summary,
 .done summary,
 .not-covered summary {
@@ -177,8 +154,7 @@ label.chip {
   display: flex;
   align-items: center;
 }
-.cap-list,
-.r-caps {
+.cap-list {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-1);

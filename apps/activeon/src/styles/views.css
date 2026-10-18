@@ -1,8 +1,0 @@
-/* SPDX-License-Identifier: GPL-3.0-only */
-/* M17 Views, split by owner in M21 Phase F (§9 "CSS split"). This file only pulls the owners' files in,
-   in the cascade order they had here, so nothing moved on screen. Their hard rules hold: 44 px tap
-   targets, status as glyph plus word plus colour, no page-level sideways scroll. Integration (FR-I3)
-   removes this file and imports the owners' CSS from main.tsx or from their components. */
-@import "../shell/shell.css";
-@import "../characters/characters.css";
-@import "../systems/systems.css";
