@@ -193,14 +193,27 @@ export function purposeItems(c: Pick<CharacterResult, 'purpose'>): PurposeItemVi
     const ladder: LadderStepView[] = [];
     const d = l.ladder;
     if (i === 0 && d && d.next !== null) {
+      // The same numbers as the line: exact under 10,000, compact above.
+      const count = (n: number) =>
+        n < 10_000 ? String(Math.floor(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ',') : compact(n);
       const unit = (n: number) =>
-        d.unit === 'level' ? `Lv ${compact(n)}` : `${compact(n)}${d.unit ? ` ${d.unit}` : ''}`;
+        d.unit === 'level' ? `Lv ${count(n)}` : `${count(n)}${d.unit ? ` ${d.unit}` : ''}`;
       const eta = (s: number | null) =>
         s === null ? '' : `${aboutDuration(s)}${d.mean ? ' on average' : ''}`;
-      ladder.push({ state: 'done', label: unit(d.current), note: d.projected ? 'now (projected)' : 'now' });
-      ladder.push({ state: 'next', label: unit(d.next), note: eta(d.nextEtaSeconds) });
+      // M4 FR-9: a projection at the next step reads "reached, claim to confirm"; the step after is next.
+      const reached = d.current >= d.next;
+      ladder.push({
+        state: 'done',
+        label: unit(reached ? d.next : d.current),
+        note: reached ? 'reached, claim to confirm' : d.projected ? 'now (projected)' : 'now',
+      });
+      if (!reached) ladder.push({ state: 'next', label: unit(d.next), note: eta(d.nextEtaSeconds) });
       if (d.later !== null)
-        ladder.push({ state: 'later', label: unit(d.later), note: eta(d.laterEtaSeconds) });
+        ladder.push({
+          state: reached ? 'next' : 'later',
+          label: unit(d.later),
+          note: eta(d.laterEtaSeconds),
+        });
     }
     return {
       goalId: l.goalId,

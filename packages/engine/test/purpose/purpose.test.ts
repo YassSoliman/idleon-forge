@@ -325,6 +325,21 @@ describe('the Focus card’s Purpose block (Design Lab now.focus-purpose: Quest 
       expect(new Set(lines).size).toBe(lines.length);
     }
   });
+  it('a projection at the next step: the ladder says "reached, claim to confirm", then the step after', () => {
+    const base = W2();
+    const v = base.account.vault;
+    if (!v) throw new Error('no vault');
+    const s = withAccount(base, {
+      vault: { ...v, killTotals: v.killTotals.map((k, i) => (i === 3 ? 9800 : k)) },
+    });
+    const now = s.asOf + 3 * 3_600_000;
+    const f = buildNowView(engineOf(s, { now }), EMPTY_PREFS, { ...DEFAULT_UI, focus: 0, now }).focus;
+    const head = f?.purpose.find((p) => p.goalId === 'upgrade-vault.goal.kill-row-map-8');
+    expect(head?.ladder.map((l) => [l.state, l.label, l.note.replace(/about \d+h/, 'ETA')])).toEqual([
+      ['done', '10k kills', 'reached, claim to confirm'],
+      ['next', '100k kills', 'ETA'],
+    ]);
+  });
   it('"What is this character for?" carries the reason (FR-14)', () => {
     const f = focus(2);
     expect(f?.unknown?.text).toBe('What is this character for?');
