@@ -168,6 +168,14 @@ describe('Cards tab', () => {
     expect(screen.getByRole('link', { name: 'Cards ↓' }).getAttribute('href')).toBe('#cards');
   });
 
+  it('R5 QA P2-2: the Cards overview is one folded row with a count', () => {
+    const r = withCards();
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const overview = screen.getByRole('region', { name: 'Cards' });
+    expect(overview.querySelector('details')?.open).toBe(false);
+    expect(overview.querySelector('summary')?.textContent).toBe('Cardsevery preset fits›');
+  });
+
   it('the Cards chip opens the character page on its Cards tab: presets, swaps and grind', async () => {
     const r = withCards();
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));

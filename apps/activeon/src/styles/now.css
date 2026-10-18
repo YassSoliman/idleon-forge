@@ -665,6 +665,42 @@ button.cap[aria-expanded="true"] {
   display: inline-block;
   margin: 2px 0 0;
 }
+.bo-fold > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.bo-fold > summary::-webkit-details-marker {
+  display: none;
+}
+.bo-fold > summary:focus-visible {
+  outline: 2px solid var(--coin);
+  outline-offset: 2px;
+}
+.bo-summary .section-h {
+  margin: 0;
+}
+.bo-count {
+  color: var(--muted);
+  flex: 1;
+  min-width: 0;
+}
+.bo-chev {
+  font-weight: 700;
+}
+.bo-fold[open] > summary .bo-chev {
+  transform: rotate(90deg);
+}
+.bo-fold[open] > summary {
+  margin-bottom: 6px;
+}
 .builds-overview .bo-list {
   list-style: none;
   margin: 0;
