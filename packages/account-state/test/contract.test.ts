@@ -4,7 +4,13 @@
 // the current parser pin. After `pnpm sync-parsers`, a failure here means upstream changed a field we
 // read; the snapshot diff shows what moved.
 import { describe, expect, it } from 'vitest';
-import { type AccountState, type PresetTalents, SCHEMA_VERSION } from '../src';
+import {
+  type AccountState,
+  type CardLoadout,
+  type ObolSlot,
+  type PresetTalents,
+  SCHEMA_VERSION,
+} from '../src';
 import { accountStateOf, listJson, NOW, PRIVATE_DIR, PUBLIC_DIR, readSave } from './helpers';
 
 const publicSaves = listJson(PUBLIC_DIR);
@@ -66,10 +72,41 @@ const presetDigest = (p: PresetTalents | null) =>
   };
 
 /** What the shape snapshot records: everything but names (and the pin's commit, which re-syncs move). */
+/**
+ * M8's lookup maps (by item, card, stamp or NPC) are recorded as their entry counts: their values are
+ * checked in collections.test.ts, and hundreds of lines per save would bury the shape diff a re-sync
+ * needs reviewed.
+ */
+const ACCOUNT_MAPS = ['stampLevels', 'storageItems', 'refineryStorage', 'heldItemTypes', 'cards'] as const;
+const CHARACTER_MAPS = ['quests', 'inventoryItems', 'carryPerSlot'] as const;
+const count = (v: unknown) => (v && typeof v === 'object' ? { entries: Object.keys(v as object).length } : v);
+const compact = (o: Record<string, unknown>, keys: readonly string[]) =>
+  Object.fromEntries(Object.entries(o).map(([k, v]) => [k, keys.includes(k) ? count(v) : v]));
+
+/** Obol slots and card loadouts one line each. */
+const slots = (v: ObolSlot[] | null | undefined) =>
+  v
+    ?.map(
+      (o) =>
+        `${o.shape[0]}${o.levelReq}${o.state === 'filled' ? `=${o.obol}` : o.state === 'locked' ? 'x' : '_'}`,
+    )
+    .join(' ') ?? v;
+const loadout = (v: CardLoadout | null | undefined) => (v ? JSON.stringify(v) : v);
+
 const shapeOf = (state: AccountState) => ({
-  account: state.account,
+  account: {
+    ...compact(state.account as unknown as Record<string, unknown>, ACCOUNT_MAPS),
+    shopStock: state.account.shopStock?.map(count) ?? state.account.shopStock,
+    familyObols: slots(state.account.familyObols),
+    storedObols:
+      state.account.storedObols?.map((o) => `${o.shape[0]}=${o.rawName}`).join(' ') ??
+      state.account.storedObols,
+    cardSets: state.account.cardSets?.map((s) => `${s.rawName} tier ${s.tier} (${s.points}/${s.size})`),
+  },
   characters: state.characters.map(({ name: _name, talents, ...c }) => ({
-    ...c,
+    ...compact(c as unknown as Record<string, unknown>, CHARACTER_MAPS),
+    personalObols: slots(c.personalObols),
+    cardLoadout: loadout(c.cardLoadout),
     talents: talents && {
       ...talents,
       active: presetDigest(talents.active),
@@ -115,9 +152,11 @@ describe('across all public saves', () => {
     }
   });
 
-  it('keeps every Account State under the 200 KB history cap (TR-16)', () => {
+  // M1 TR-16 set 200 KB; M8's collections and M9's talent presets together put the largest public
+  // save (730 KB raw, about 3x a real account) at ~255 KB, so the cap moved to 300 KB in release 4.
+  it('keeps every Account State under the 300 KB history cap (TR-16)', () => {
     const largest = Math.max(...states.map((s) => new TextEncoder().encode(JSON.stringify(s)).length));
-    expect(largest).toBeLessThan(200 * 1024);
+    expect(largest).toBeLessThan(300 * 1024);
   });
 
   it('has the 11 public saves', () => {

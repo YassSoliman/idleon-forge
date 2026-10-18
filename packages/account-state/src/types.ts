@@ -7,6 +7,7 @@
 // `humanize()` to display them.
 import type { SideReadName } from '@idleon-forge/toolbox-parsers';
 import type { AccountAfkFacts, CharacterAfkFacts } from './afk-types';
+import type { CollectionsAccountFields, CollectionsCharacterFields } from './collections-types';
 import type { TalentAccountFields, TalentCharacterFields } from './talent-types';
 import type { SaltState, UnspentAccountFields, UnspentCharacterFields } from './unspent-types';
 
@@ -23,8 +24,10 @@ import type { SaltState, UnspentAccountFields, UnspentCharacterFields } from './
  * 9: #70 anvil plan: `characters[].afk.anvilPlan` and `account.afk.coins`; `anvilPointsAvailable` is
  *    recomputed from its sources instead of the stored value.
  * 10: M9 TR-3/TR-4: `characters[].talents` (both presets and attack bars) and `account.resetItems`.
+ * 11: M8 TR-15's collections fields (the `CollectionsAccountFields` and `CollectionsCharacterFields`
+ *    blocks: stamps, quests, holdings, shop stock, cards with `effect`, card sets and presets, obols).
  */
-export const SCHEMA_VERSION = 10;
+export const SCHEMA_VERSION = 11;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -48,7 +51,10 @@ export interface FoodStack {
   amount: number;
 }
 
-export interface CharacterState extends UnspentCharacterFields, TalentCharacterFields {
+export interface CharacterState
+  extends UnspentCharacterFields,
+    TalentCharacterFields,
+    CollectionsCharacterFields {
   /** Slot in the save (0-based), stable across saves. Field paths use it: `characters[<index>].level`. */
   index: number;
   name: string;
@@ -155,7 +161,7 @@ export interface GateQuestProgress {
   inProgressBy: number[];
 }
 
-export interface AccountSummary extends UnspentAccountFields, TalentAccountFields {
+export interface AccountSummary extends UnspentAccountFields, TalentAccountFields, CollectionsAccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;
   /** Worlds whose exit has been used (a character met the gatekeeper past it), ascending. */

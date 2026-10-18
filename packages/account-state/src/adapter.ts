@@ -9,6 +9,7 @@
 // fails is null (never a default) and listed in diagnostics.unknownFields (M1 FR-16, FR-19a, TR-11).
 import type { ParsedSave, RawSaveEnvelope, ToolboxCalls } from '@idleon-forge/toolbox-parsers';
 import { type AfkFactsInput, accountAfkFacts, characterAfkFacts } from './afk-facts';
+import { readCollections } from './collections';
 import { FIELD_RAW_KEYS, type RawKind } from './fields';
 import { metaPathAccountFields, metaPathCharacterFields } from './metapath-fields';
 import { readResetItems, readTalents } from './talents';
@@ -419,6 +420,22 @@ export function toAccountState(
     if (c.checkRaw('account.afk', 'account.afk', null)) accountAfk = accountAfkFacts(input);
   }
 
+  // M8 TR-15: the collections fields (collections.ts); also sets each character's M8 fields.
+  const collections = readCollections(
+    {
+      account,
+      characters,
+      data,
+      states,
+      withData,
+      failedSections,
+      calls: options.toolbox?.calls ?? null,
+      withFrozenClock: options.toolbox?.withFrozenClock ?? null,
+      asOf,
+    },
+    c,
+  );
+
   const diagnostics: ParseDiagnostics = {
     failedSections,
     failedSideReads: [...new Set(envelope.sideReadReport?.failed ?? [])],
@@ -453,6 +470,7 @@ export function toAccountState(
       ...unspent,
       // M9 Builds (M9 TR-4)
       resetItems: readResetItems(account, characters, failedSections),
+      ...collections,
       // One salt list: M6's entries carry M2's rawName/unlocked plus the fuel state (M6 TR-3).
       salts: metaPath.salts === null ? null : (unspent.salts ?? metaPath.salts ?? null),
     },

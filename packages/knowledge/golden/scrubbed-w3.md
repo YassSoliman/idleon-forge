@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #a95f9242 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 8 of 117
+# golden v1: scrubbed-w3 · knowledge #f6490daf · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 8 of 180
 
 ## Verdict changes
 
@@ -29,14 +29,15 @@
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-show more (10)
+show more (14)
 If you have time
 - Use today's 4 minigame plays · about 10m of hands-on play
+- XxX Cattleprod XxX 2 on Squire 85: kill 30 Mafiosos and 18 Sand Castles before the timer runs out → Mason Jar Stamp and Fishhead Stamp · about 10m of hands-on play
+- Crystalswine 1 on Squire 85: kill every Cryosnake on the map before time runs out → Hermes Stamp · about 10m of hands-on play
+- Wellington 1 on Squire 85: find the 3 invisible platforms hidden around the game → Arcane Stamp and Brainstew Stamps; then: Wellington 2 gives Fly Intel Stamp and Holy Mackerel Stamp, and you already hold the 2,500 High Steaks, Wakka Cherry and Singlecle, but it needs 11 more free inventory slots · about 15m of hands-on play
 
 ## Not covered yet
-Cards
 Classes and subclasses
-Obols
 Portals and map doors
 Skills, doors and tools
 Spend Plan
@@ -44,7 +45,6 @@ Upgrade Vault
 Bribes
 Forge
 Quests
-Stamps
 Statues
 The Owl
 Alchemy Pay 2 Win

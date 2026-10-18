@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #a95f9242 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 8 of 117
+# golden v1: first · knowledge #f6490daf · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 8 of 180
 
 ## Verdict changes
 
@@ -32,12 +32,10 @@
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 13 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (6)
+show more (9)
 
 ## Not covered yet
-Cards
 Classes and subclasses
-Obols
 Portals and map doors
 Skills, doors and tools
 Spend Plan
@@ -45,7 +43,6 @@ Upgrade Vault
 Bribes
 Forge
 Quests
-Stamps
 Statues
 The Owl
 Alchemy Pay 2 Win

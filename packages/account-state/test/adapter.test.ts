@@ -47,18 +47,40 @@ const UNSPENT_ACCOUNT_KEYS = [
   'postOffice',
   'poppy',
   'deathNoteBuilding',
+  // M8 TR-15's block is tested in collections.test.ts.
+  'stampLevels',
+  'storageItems',
+  'refineryStorage',
+  'bankCoins',
+  'shopStock',
+  'heldItemTypes',
+  'cards',
+  'cardSets',
+  'familyObols',
+  'storedObols',
+  'obolDropMerit',
 ] as const;
-/** Slice 1's account fields only (M6's block is tested in unspent.test.ts). */
+const MODULE_CHARACTER_KEYS = [
+  'bigBubbles',
+  'postOfficeUnspent',
+  'anvilPointsAvailable',
+  'quests',
+  'inventoryItems',
+  'freeInventorySlots',
+  'carryPerSlot',
+  'money',
+  'smithingLevel',
+  'targetMonster',
+  'cardLoadout',
+  'personalObols',
+];
+/** Slice 1's account fields only (M6's block is tested in unspent.test.ts, M8's in collections.test.ts). */
 const withoutUnspent = (a: object) =>
   Object.fromEntries(
     Object.entries(a).filter(([k]) => !(UNSPENT_ACCOUNT_KEYS as readonly string[]).includes(k)),
   );
 const withoutUnspentCharacter = (c: object) =>
-  Object.fromEntries(
-    Object.entries(c).filter(
-      ([k]) => !['bigBubbles', 'postOfficeUnspent', 'anvilPointsAvailable'].includes(k),
-    ),
-  );
+  Object.fromEntries(Object.entries(c).filter(([k]) => !MODULE_CHARACTER_KEYS.includes(k)));
 
 const parsed = (over: Partial<ParsedSave> = {}): ParsedSave => ({
   account: {

@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #a95f9242 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 8 of 117
+# golden v1: highend · knowledge #f6490daf · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 8 of 180
 
 ## Verdict changes
 
@@ -55,14 +55,12 @@
   · Arcane Cultist Lv 1743: 0 into Speed, 60 into Capacity
   · Wind Walker Lv 1742: 861 into Speed, 62 into Capacity
   · Beginner Lv 1717: 0 into Speed, 11 into Capacity
-show more (7)
+show more (8)
 If you have time
 - Use today's 20 minigame plays · about 10m of hands-on play
 
 ## Not covered yet
-Cards
 Classes and subclasses
-Obols
 Portals and map doors
 Skills, doors and tools
 Spend Plan
@@ -70,7 +68,6 @@ Upgrade Vault
 Bribes
 Forge
 Quests
-Stamps
 Statues
 The Owl
 Alchemy Pay 2 Win

@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #a95f9242 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 8 of 117
+# golden v1: third · knowledge #f6490daf · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 8 of 180
 
 ## Verdict changes
 
@@ -50,14 +50,12 @@
   · Divine Knight Lv 558: 13 into Speed, 0 into Capacity
   · Elemental Sorcerer Lv 552: 11 into Speed, 0 into Capacity
   · Siege Breaker Lv 522: 28 into Speed, 0 into Capacity
-show more (4)
+show more (5)
 If you have time
 - Use today's 21 minigame plays · about 10m of hands-on play
 
 ## Not covered yet
-Cards
 Classes and subclasses
-Obols
 Portals and map doors
 Skills, doors and tools
 Spend Plan
@@ -65,7 +63,6 @@ Upgrade Vault
 Bribes
 Forge
 Quests
-Stamps
 Statues
 The Owl
 Alchemy Pay 2 Win

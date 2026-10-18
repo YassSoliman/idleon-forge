@@ -7,6 +7,7 @@ import type { AccountState } from '@idleon-forge/account-state';
 import type { CompiledKnowledge, DetectorRegistry } from '@idleon-forge/knowledge';
 import { createAfkSafetyModule } from './afk/module';
 import { createBuildsModule } from './builds/module';
+import { createCollectionsModule } from './collections';
 import { DEFAULT_MODULES, runEngine } from './core/engine';
 import type { EngineModule } from './core/module';
 import { lookupOf } from './metapath/knowledge';
@@ -50,6 +51,7 @@ function goldenModules(input: GoldenInput): readonly EngineModule[] {
       },
     }),
     createBuildsModule({ kb }),
+    createCollectionsModule({ kb, registry: input.registries.engine }),
   ];
 }
 

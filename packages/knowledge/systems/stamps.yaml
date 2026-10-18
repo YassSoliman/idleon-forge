@@ -1,0 +1,307 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M8 Collections: stamp acquisition (docs/specs/M8-collections.md FR-1 to FR-12, TR-4). Buying stamp
+# levels and raising caps is M7's Spend Plan. Every route is a generated Acquisition
+# (stamps.acquisition.<slug>, generators/stamps.gen.ts); these entries hold only the words, the order
+# and the judgment. The engine module is packages/engine/src/collections (Detector stamps/status).
+system: stamps
+entries:
+  - id: stamps.goal.collect
+    system: stamps
+    type: goal
+    title: Stamps collected
+    scope: account
+    category: nice
+    unit: stamps
+    progress: { id: stamps/status, params: { view: collect } }
+    milestones:
+      - { at: 25, reward: "25 stamps collected" }
+      - { at: 50, reward: "50 stamps collected" }
+      - { at: 75, reward: "75 stamps collected" }
+    text: "Stamps {owned:int} of {obtainable:int} · {now:int} now · {active:int} with active play · {toward:int} in progress · {later:int} later"
+    why: "Each collected stamp is a permanent bonus; later ones need a new world, an earlier quest or a drop nobody is farming."
+    values:
+      unknownText: "Stamps: can't tell right now"
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "Show-more line (nice, unlisted). 'later' is a count only (FR-9). unknownText is shown when a section M8 needs failed (FR-26, US-9)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn Wiki: Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540, note: "Lists each stamp's source and the 7 unobtainable stamps." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/stamps.json", title: "Toolbox game data: stamps", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+
+  - id: stamps.check.shop-now
+    system: stamps
+    type: check
+    title: New stamps from town shops
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 300
+    detector: { id: stamps/status, params: { view: shop-now } }
+    text: "Buy {count:int} new stamps from town shops on one trip: {stamps}"
+    why: "A stamp you don't own gives nothing; these town shops have them in stock now for coins (the game data has no buy price, so check your coins)."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "D1: one account Goal for every shop buy, towns in world then shop order, stamps in stamps.priority.acquire order. Confidence M: the pinned shop data carries no price (TR-8 rule 5), so affordability isn't checked (FR-3)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Vitality_Stamp", title: "IdleOn Wiki: Vitality Stamp (sold in Encroaching Forest Villas)", tier: 2, claimDate: 2026-09-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Matty_Bag_Stamp", title: "IdleOn Wiki: Matty Bag Stamp (sold in Faraway Piers)", tier: 2, claimDate: 2026-09-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "Toolbox game data: town shops", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+
+  - id: stamps.check.handin-now
+    system: stamps
+    type: check
+    title: A stamp quest you can hand in now
+    subject: character
+    effect: next-action
+    category: compounding
+    needsCharacter: true
+    effortSeconds: 300
+    detector: { id: stamps/status, params: { view: handin-now } }
+    text: "{action} → {stamps}{note}"
+    why: "{quest} is open on this character and you already hold what it needs, so the stamp costs one trip."
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "FR-4, FR-5 (craft one level deep, or buy then hand in), FR-7 look-ahead, TR-6 carry caveat, D4 shared-resource note. Equipped items never count."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Hamish", title: "IdleOn Wiki: Hamish (Copper Chopper for the Tomahawk Stamp)", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Snouts", title: "IdleOn Wiki: Snouts (30 Redox Salts for the Buckler Stamp)", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json", title: "Toolbox game data: quests", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+
+  - id: stamps.check.held-now
+    system: stamps
+    type: check
+    title: A stamp you already have
+    subject: character
+    effect: next-action
+    category: compounding
+    effortSeconds: 30
+    detector: { id: stamps/status, params: { view: held-now } }
+    text: "{where} {stamp}{place}"
+    why: "This stamp item is in your bag or storage but not collected, so its bonus isn't on yet."
+    values:
+      groupText: "Use the {stamp}: {characters:int} characters carry one"
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "FR-2a. A stamp item in a character's bag goes on that row; one in storage goes in the Account section."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn Wiki: Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540, note: "Stamps are collected by using the stamp item." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/stamps.json", title: "Toolbox game data: stamps", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+
+  - id: stamps.check.quest-toward
+    system: stamps
+    type: check
+    title: Stamps in progress
+    subject: character
+    effect: next-action
+    category: nice
+    detector: { id: stamps/status, params: { view: quest-toward } }
+    text: "{quest}: {gap} → {stamps}{note}"
+    why: "This stamp is within reach but needs more of something first; it isn't a task for today."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "FR-8, FR-12: show-more lines (nice, unlisted), never a Next Action that ranks; a shop that's sold out restocks. Drop ETAs are at base rate (R6)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Snouts", title: "IdleOn Wiki: Snouts", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json", title: "Toolbox game data: quests", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+
+  # ---- D2: custom stamp quests as Active Play, with an authored how-to and time estimate ----
+  - id: stamps.check.activeplay-cattleprod-1
+    system: stamps
+    type: check
+    title: "XxX Cattleprod XxX 1: Peak Gaming"
+    subject: account
+    effect: next-action
+    activePlay: { minutes: 5 }
+    detector: { id: stamps/status, params: { view: active, quest: XxX_Cattleprod_XxX1 } }
+    text: "XxX Cattleprod XxX 1 on {who}: kill 15 Mafiosos before they respawn → {stamps}{lookAhead}"
+    why: "A short timed kill quest in the Yum-Yum Desert; do it while you're playing, not AFK."
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    notes: "Time estimate authored (L)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/XxX_Cattleprod_XxX", title: "IdleOn Wiki: XxX Cattleprod XxX", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: stamps.check.activeplay-cattleprod-2
+    system: stamps
+    type: check
+    title: "XxX Cattleprod XxX 2: Pathetic Gaming"
+    subject: account
+    effect: next-action
+    activePlay: { minutes: 10 }
+    detector: { id: stamps/status, params: { view: active, quest: XxX_Cattleprod_XxX2 } }
+    text: "XxX Cattleprod XxX 2 on {who}: kill 30 Mafiosos and 18 Sand Castles before the timer runs out → {stamps}{lookAhead}"
+    why: "A timed kill quest in the Yum-Yum Desert; do it while you're playing, not AFK."
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    notes: "Time estimate authored (L)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/XxX_Cattleprod_XxX", title: "IdleOn Wiki: XxX Cattleprod XxX", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: stamps.check.activeplay-wellington-1
+    system: stamps
+    type: check
+    title: "Wellington 1: Platforms in Disguise"
+    subject: account
+    effect: next-action
+    activePlay: { minutes: 15 }
+    detector: { id: stamps/status, params: { view: active, quest: Wellington1 } }
+    text: "Wellington 1 on {who}: find the 3 invisible platforms hidden around the game → {stamps}{lookAhead}"
+    why: "A hands-on search quest; the wiki's Wellington page shows where the platforms are."
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    notes: "Time estimate authored (L)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Wellington", title: "IdleOn Wiki: Wellington", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: stamps.check.activeplay-wellington-3
+    system: stamps
+    type: check
+    title: "Wellington 3: You Can't Run, but you Can Hide"
+    subject: account
+    effect: next-action
+    activePlay: { minutes: 5 }
+    detector: { id: stamps/status, params: { view: active, quest: Wellington3 } }
+    text: "Wellington 3 on {who}: at class Lv 70, say Wellington's phrase about the Blobulyte (the wiki has it) → {stamps}{lookAhead}"
+    why: "A quick quest once the character is Lv 70; do it while you're playing."
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    notes: "Time estimate authored (L)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Wellington", title: "IdleOn Wiki: Wellington", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: stamps.check.activeplay-fishpaste-2
+    system: stamps
+    type: check
+    title: "Fishpaste97 2: Can you do the Can Can?"
+    subject: account
+    effect: next-action
+    activePlay: { minutes: 10 }
+    detector: { id: stamps/status, params: { view: active, quest: Fishpaste972 } }
+    text: "Fishpaste97 2 on {who}: catch 3 Hermit Cans in a row by hand → {stamps}{lookAhead}"
+    why: "A manual fishing streak; do it while you're playing, not AFK."
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    notes: "Time estimate authored (L)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Fishpaste97", title: "IdleOn Wiki: Fishpaste97", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: stamps.check.activeplay-tiki-chief-2
+    system: stamps
+    type: check
+    title: "Tiki Chief 2: Three Strikes, You're Out!"
+    subject: account
+    effect: next-action
+    activePlay: { minutes: 5 }
+    detector: { id: stamps/status, params: { view: active, quest: Tiki_Chief2 } }
+    text: "Tiki Chief 2 on {who}: drop the flyers on Krunk, Funguy and Mr Pigibank → {stamps}{lookAhead}"
+    why: "A short errand quest in World 1; do it while you're playing."
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    notes: "Time estimate authored (L)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Tiki_Chief", title: "IdleOn Wiki: Tiki Chief", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: stamps.check.activeplay-crystalswine-1
+    system: stamps
+    type: check
+    title: "Crystalswine 1: Melting the Snakes"
+    subject: account
+    effect: next-action
+    activePlay: { minutes: 10 }
+    detector: { id: stamps/status, params: { view: active, quest: Crystalswine4 } }
+    text: "Crystalswine 1 on {who}: kill every Cryosnake on the map before time runs out → {stamps}{lookAhead}"
+    why: "A timed kill quest in the Frostbite Tundra; do it while you're playing."
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    notes: "Toolbox keys this quest Crystalswine4 (its first). Time estimate authored (L)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Crystalswine", title: "IdleOn Wiki: Crystalswine", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: stamps.check.activeplay-crystalswine-3
+    system: stamps
+    type: check
+    title: "Crystalswine 3: Global Warming"
+    subject: account
+    effect: next-action
+    activePlay: { minutes: 20 }
+    detector: { id: stamps/status, params: { view: active, quest: Crystalswine6 } }
+    text: "Crystalswine 3 on {who}: kill every monster between here and the Dedotated Rams before time runs out → {stamps}{lookAhead}"
+    why: "A long timed kill quest across several Frostbite Tundra maps; do it while you're playing."
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    notes: "Toolbox keys this quest Crystalswine6. Time estimate authored (L)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Crystalswine", title: "IdleOn Wiki: Crystalswine", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: stamps.check.activeplay-snouts-3
+    system: stamps
+    type: check
+    title: "Snouts 3: Big Ol Chonker"
+    subject: account
+    effect: next-action
+    activePlay: { minutes: 10 }
+    detector: { id: stamps/status, params: { view: active, quest: Snouts3 } }
+    text: "Snouts 3 on {who}: equip the Tachion of the Titans prayer and defeat one Giant Stache mob → {stamps}{lookAhead}"
+    why: "A hands-on fight in World 3; do it while you're playing."
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    notes: "Time estimate authored (L)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Snouts", title: "IdleOn Wiki: Snouts", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+
+  - id: stamps.priority.acquire
+    system: stamps
+    type: priority
+    title: Stamp acquisition order
+    list: order
+    text: "Stamps in the order to collect them"
+    why: "Carry stamps first, because every later cap raise needs the carry space; then Anvil Zoomer, Fishing Rod and Catch Net; then the rest, cheapest route first."
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    notes: "Lists only stamps with a shop or quest route in W1–W3 (the routes M8 ships; TR-12 and the bundle budget); every other stamp, W4's included, counts as later. PV 3.6 is unverified."
+    sources:
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/stamps.md#min-max-by-stage", title: "W1 stamps dossier: min-max by stage", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: unverified, note: "Carry stamps first, then Anvil Zoomer, Fishing Rod and Catch Net (PV 3.6 unverified)." }
+      - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn Wiki: Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+    tiers:
+      # Carry stamps: Matty Bag, Lil' Mining Baggy, Choppin' Bag, Mason Jar.
+      - [stamps.acquisition.stamp-b8, stamps.acquisition.stamp-b4, stamps.acquisition.stamp-b6, stamps.acquisition.stamp-c2]
+      # Anvil Zoomer, Fishing Rod, Catch Net.
+      - [stamps.acquisition.stamp-b3, stamps.acquisition.stamp-b17, stamps.acquisition.stamp-b19]
+      # The rest: shop buys, then hand-ins, then custom quests, each by world.
+      - - stamps.acquisition.stamp-a12
+        - stamps.acquisition.stamp-a3
+        - stamps.acquisition.stamp-a5
+        - stamps.acquisition.stamp-a6
+        - stamps.acquisition.stamp-a15
+        - stamps.acquisition.stamp-c11
+        - stamps.acquisition.stamp-a14
+        - stamps.acquisition.stamp-a16
+        - stamps.acquisition.stamp-a26
+        - stamps.acquisition.stamp-a4
+        - stamps.acquisition.stamp-a9
+        - stamps.acquisition.stamp-c6
+        - stamps.acquisition.stamp-c7
+        - stamps.acquisition.stamp-a28
+        - stamps.acquisition.stamp-b20
+        - stamps.acquisition.stamp-b22
+        - stamps.acquisition.stamp-a18
+        - stamps.acquisition.stamp-a21
+        - stamps.acquisition.stamp-b26
+        - stamps.acquisition.stamp-a19
+        - stamps.acquisition.stamp-c1
+        - stamps.acquisition.stamp-a24
+        - stamps.acquisition.stamp-b14
+        - stamps.acquisition.stamp-b18
+        - stamps.acquisition.stamp-c14
+        - stamps.acquisition.stamp-c18
+        - stamps.acquisition.stamp-a22
+        - stamps.acquisition.stamp-a25
+        - stamps.acquisition.stamp-c15
+        - stamps.acquisition.stamp-c20

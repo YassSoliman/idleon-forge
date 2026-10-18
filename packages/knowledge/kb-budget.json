@@ -1,5 +1,5 @@
 {
-  "description": "M11 TR-17: the shipped bundle budget at MVP coverage. kb compile fails at +20 % over bundleBytes.",
-  "bundleBytes": 409600,
+  "description": "M11 TR-17: the shipped bundle budget. kb compile fails at +20 % over bundleBytes. Raised to 1 MB in release 4 (M7, M8, M9 and M14 together): the compiled Knowledge Base ships only in the parse worker chunk, whose budget is 8 MB.",
+  "bundleBytes": 1048576,
   "bundleGzipBytes": 122880
 }

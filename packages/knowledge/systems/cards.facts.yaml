@@ -1,0 +1,98 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Authored card facts for M8 (TR-9, FR-13, FR-17). The keyword table decides which activity a card's
+# effect fits; the card's category never does (the Copper card sits in Easy Resources but gives accuracy).
+system: cards
+facts:
+  - id: cards.fact.activity-keywords
+    system: cards
+    origin: authored
+    title: Card effect keywords per activity
+    rows:
+      fighting: [damage, accuracy, str, agi, wis, luk, crit, critical, weapon_power, hp, mp, defence, def, fighting_afk, exp_from_monsters, monster_exp, move_spd, money_from_monsters, food, card_drop]
+      skilling: [skill, skill_afk, skill_efficiency]
+      both: [drop_rate]
+      MINING: [mining]
+      CHOPPIN: [choppin]
+      FISHING: [fishing]
+      CATCHING: [catching]
+    sources:
+      - url: https://idleon.wiki/wiki/Cards
+        title: "IdleOn Wiki: Cards (each card's effect)"
+        tier: 2
+        claimDate: 2026-10-12
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/cards-obols/docs/research/systems/2026-10-17-cards-obols.md#card-presets
+        title: "Cards and obols dossier: the preset matrix and the keyword rule"
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    notes: "TR-9: a card fits an activity when a keyword is a whole word of its effect text; drop rate fits both. A preset fits when at least half its cards fit (ties fit both)."
+  - id: cards.fact.slots
+    system: cards
+    origin: authored
+    title: Card slots and card presets
+    rows: { baseSlots: 4, basePresets: 2, presetLevel: 15, maxPresets: 7, gemExtraSlot: 63, gemPresets: 66, fightLevelBand: 50 }
+    sources:
+      - url: https://idleon.wiki/wiki/Cards
+        title: "IdleOn Wiki: Cards (4 slots, 2 presets at Lv 15, up to 5 more presets and 4 more slots from the Gem Shop)"
+        tier: 2
+        claimDate: 2026-10-12
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/cards-obols/docs/research/systems/2026-10-17-cards-obols.md#save-and-toolbox-fields
+        title: "Cards and obols dossier: gemShopPurchases 63 (Extra Card Slot) and 66 (Card Presets)"
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    notes: "fightLevelBand: the Blunder Hills set's EXP bonus stops at Lv 50 (wiki), so fighters from Lv 50 use the Lv 50+ set list."
+  - id: cards.fact.card-preferences
+    system: cards
+    origin: authored
+    title: Cards and card sets to prefer per activity and class line
+    rows:
+      # The preset matrix (FR-13): per skilling activity, positions in order; a position is a tie.
+      matrix:
+        MINING: [[Iron, Void], [Plat], [Lustre, Dementia], [Gold], [wolfA]]
+        CHOPPIN: [[BirchTree, AlienTree], [PalmTree, SaharanFoal], [ToiletTree, Tree7, Tree8], [JungleTree], [wolfA]]
+        FISHING: [[Fish2, Fish5], [Fish4, Fish8], [Fish6], [Fish3, Fish7], [wolfA]]
+        CATCHING: [[Bug2, Bug5, Bug7], [Bug4, Bug6], [Bug3], [wolfA]]
+        FIGHTING:
+          - [beanG, poopBig, snowball, skele2]
+          - [slimeB, pincermin, ram]
+          - [wolfB, poopD]
+          - [potato, thermostat, skele, ratB]
+          - [mimicA, Crystal0, speaker, babaMummy]
+          - [Crystal1, Crystal2]
+          - [sandcastle, mushW, goblinG]
+      # The card set per activity (FR-14, D3), by set rawName, best first; the first at tier 1+ is the pick.
+      # Fighters below Lv 50: Blunder Hills, then Yum Yum. From Lv 50: Yum Yum, then Frostbite (Frostbite
+      # only for the pusher while it misses, D3). Skillers: Easy Resources, then Medium Resources.
+      sets:
+        FIGHTING: [CardSet0, CardSet1]
+        FIGHTING_50: [CardSet1, CardSet4]
+        SKILLING: [CardSet2, CardSet3]
+      # cardList(class, stage) for M4 (FR-18): the class line's main-stat cards, then the FIGHTING matrix.
+      mainStat:
+        Warrior: [plank, steak, flake]
+        Archer: [carrotO, coconut, bloque]
+        Mage: [slimeG, branch, penguin]
+        Journeyman: [mushR, shovelR, glass]
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/cards-obols/docs/research/systems/2026-10-17-cards-obols.md#card-presets
+        title: "Cards and obols dossier: the preset matrix, card sets and per-class main-stat cards"
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+        verification: unverified
+        note: "Card choice is community opinion (O); PV 2.1 is unverified."
+      - url: https://idleon.wiki/wiki/Cards
+        title: "IdleOn Wiki: Cards (each card's effect)"
+        tier: 2
+        claimDate: 2026-10-12
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    notes: "Authored judgment (confidence L), kept as a table of card rawNames rather than Priority Lists over card Acquisitions so the Acquisitions don't ship (TR-12, kb-budget.json). Within a position the highest-level owned card goes first (TR-9)."

@@ -1,4 +1,4 @@
-# golden v1: multikill-pin · knowledge #a95f9242 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 8 of 117
+# golden v1: multikill-pin · knowledge #f6490daf · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 8 of 180
 
 ## Verdict changes
 
@@ -55,12 +55,10 @@
   · Royal Guardian Lv 1307: 2 into Speed, 0 into Capacity
   · Bubonic Conjuror Lv 1268: 0 into Speed, 62 into Capacity
   · Beginner Lv 1224: 1 into Speed, 0 into Capacity
-show more (6)
+show more (7)
 
 ## Not covered yet
-Cards
 Classes and subclasses
-Obols
 Portals and map doors
 Skills, doors and tools
 Spend Plan
@@ -68,7 +66,6 @@ Upgrade Vault
 Bribes
 Forge
 Quests
-Stamps
 Statues
 The Owl
 Alchemy Pay 2 Win

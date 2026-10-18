@@ -134,4 +134,9 @@ export interface ToolboxCalls {
   getItemCapacity(type: unknown, character: unknown, account?: unknown): unknown;
   /** Food effect multiplier (`isHealth`: the health-food one), M3 R-FOOD-1. */
   getPlayerFoodBonus(character: unknown, account: unknown, isHealth?: boolean): unknown;
+  // ---- M8 Collections (TR-15) ----
+  /** Toolbox `getCardSets(account)`: per set name, `{ name, rawName, effect, bonus, totalStars, stars }` (stars = tier − 1). */
+  getCardSets(account: unknown): Record<string, unknown>;
+  /** Stock by shop index from raw `ShopStock`, paired with Toolbox's shop item lists; null when malformed. */
+  shopStockAll(rawShopStock: unknown): Array<Array<{ rawName: string; amount: number }>> | null;
 }

@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #a95f9242 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 8 of 117
+# golden v1: fourth · knowledge #f6490daf · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 8 of 180
 
 ## Verdict changes
 
@@ -18,12 +18,10 @@
 - Extra · Gems unspent: 999 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
 - Spend · Spend W1 merits: Spend 12 W1 merits [IdleOn Wiki: Tasks/Blunder Hills, Merit Shop tab · Calculated by IdleOn Toolbox · 2.3.540]
-show more (5)
+show more (7)
 
 ## Not covered yet
-Cards
 Classes and subclasses
-Obols
 Portals and map doors
 Skills, doors and tools
 Spend Plan
@@ -31,7 +29,6 @@ Upgrade Vault
 Bribes
 Forge
 Quests
-Stamps
 Statues
 The Owl
 Alchemy Pay 2 Win
