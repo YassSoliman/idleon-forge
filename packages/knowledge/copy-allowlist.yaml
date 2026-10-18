@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Justified exceptions to the `kb check` copy rules (packages/kb-tools/src/copy.ts): a step is at most
+# 12 words, and a duration goes through `{x:duration}` / `{x:hours}`. One line per template, keyed
+# "<entry id>#<path>", with the reason it can't follow the rule. A line that stops matching a problem
+# fails `kb check`, so this list only shrinks.
+
+step-words:
+  # "If you have time" items have no why behind a tap yet (ActivePlay carries text only), and the quest's
+  # in-game name plus its task is the whole instruction. Shrink these once ActivePlay gets a why.
+  "stamps.check.activeplay-cattleprod-1#text": "If you have time item: quest name and its task, no why surface yet"
+  "stamps.check.activeplay-cattleprod-2#text": "If you have time item: quest name and its task, no why surface yet"
+  "stamps.check.activeplay-wellington-3#text": "If you have time item: the level gate and where to find the phrase are the task"
+  "stamps.check.activeplay-fishpaste-2#text": "If you have time item: quest name and its task, no why surface yet"
+  "stamps.check.activeplay-tiki-chief-2#text": "If you have time item: the three NPC names are the task"
+  "stamps.check.activeplay-crystalswine-1#text": "If you have time item: quest name and its task, no why surface yet"
+  "stamps.check.activeplay-crystalswine-3#text": "If you have time item: quest name and its task, no why surface yet"
+  "stamps.check.activeplay-snouts-3#text": "If you have time item: the prayer and the mob are the task"
+  "star-signs.check.activeplay-challenge#values.line": "If you have time item: M16 FR-13 says which character to try and why (highest level not yet done)"
+  "star-signs.check.activeplay-challenge#values.line-one": "If you have time item: M16 FR-13 says which character to try and why (highest level not yet done)"
+  # Summary and detail lines, not steps.
+  "stamps.goal.collect#text": "The Stamps Goal's count summary (five counts), not an instruction"
+  "killroy.check.skulls#values.packs": "A detail line under the skulls row: the pack price and how many are left this week"
+
+hand-written-duration:
+  "walkthrough.check.assign#values.buy-liquid-days-why": "{days:int} days counts days of Liquid Shop buys (the price resets daily); a count, not a computed duration"

@@ -27,6 +27,7 @@ import {
   TemplateError,
 } from '@idleon-forge/knowledge';
 import type { z } from 'zod';
+import { copyIssuesOf } from './copy';
 import { detectorFiles, discoverDetectors, type Registries } from './discover';
 import type { Issue } from './issues';
 import type { KbSource, Located } from './load';
@@ -651,6 +652,9 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
       undefined,
       `the pin's game version ${pin.gameVersion} is not in _patches.json`,
     );
+
+  // ---- Copy rules (Design Lab copy pass): short steps, one duration format ----
+  issues.push(...copyIssuesOf(src));
 
   return issues.sort((a, b) =>
     a.level === b.level ? a.file.localeCompare(b.file) || a.line - b.line : a.level === 'error' ? -1 : 1,
