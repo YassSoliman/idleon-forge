@@ -1,62 +1,54 @@
-# golden v1: second · knowledge #9b38b7fd · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 8 of 328
+# golden v1: second · knowledge #a88646b7 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 180
 
 ## Verdict changes
 
 ## Now
-! All set: safe to log off. First thing fills up in about 19h: C10's Barbarian Lv 501's anvil
-safe to log off
+2 of 10 Ready · fix 2 before you leave · 6 Unknown
 
-### C3 · Bubonic Conjuror 567 · Ready
-1 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h] · Equip 1 stored obol in a personal sparkle slot
+### C9 · Hunter 503 · Fix before you leave
+1 · Fighting Penguin · Signature Slopes · Collect Thread from the anvil (time to cap: 6 h; it refills about 11 h after you collect)
 
-### C2 · Divine Knight 544 · Ready
-2 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+### C5 · Wizard 501 · Fix before you leave
+2 · Fighting Penguin · Signature Slopes · Collect Thread from the anvil (time to cap: 2 h; it refills about 1 d after you collect)
 
-### C6 · Siege Breaker 530 · Ready
-3 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+### C6 · Siege Breaker 530 · Unknown
+3 · Fighting Penguin · Signature Slopes · Can't tell from the save
 
-### C7 · Voidwalker 510 · Ready
-4 · Fighting Skydoggie Spirit · Dozey Dogpark · [Traps idle in about 2 h]
+### C7 · Voidwalker 510 · Unknown
+4 · Fighting Skydoggie Spirit · Dozey Dogpark · Can't tell from the save
 
-### C1 · Beast Master 507 · Ready
-5 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+### C1 · Beast Master 507 · Unknown
+5 · Fighting Penguin · Signature Slopes · Can't tell from the save
 
-### C9 · Hunter 503 · Ready
-6 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h] [Anvil full in about 6 h · collect]
+### C3 · Bubonic Conjuror 567 · Unknown
+6 · Fighting Penguin · Signature Slopes · Can't tell from the save
+
+### C2 · Divine Knight 544 · Unknown
+7 · Fighting Penguin · Signature Slopes · Can't tell from the save
+
+### C8 · Elemental Sorcerer 525 · Unknown
+8 · Fighting Penguin · Signature Slopes · Can't tell from the save
 
 ### C4 · Blood Berserker 501 · Ready
-7 · Fighting The Rift · The Rift · [Traps idle in about 2 h]
-
-### C5 · Wizard 501 · Ready
-8 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h] [Anvil full in about 2 h · collect]
+9 · Fighting The Rift · The Rift · Spend 270 Post Office boxes: Civil War Memory Box first
 
 ### C10 · Barbarian 501 · Ready
-9 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
-
-### C8 · Elemental Sorcerer 525 · Ready
-10 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+10 · Fighting Penguin · Signature Slopes · Spend 316 Post Office boxes: Civil War Memory Box first
 
 ### Account · nothing to fix
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Gems unspent: 4,645 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
-- Spend · Spend Post Office boxes: Spend Post Office boxes on 8 characters (2,125 in all): Civil War Memory Box first [IdleOn Wiki: Post Office · Calculated by IdleOn Toolbox · 2.3.540]
-  · Beast Master Lv 507: 60 boxes
-  · Blood Berserker Lv 501: 270 boxes
-  · Wizard Lv 501: 512 boxes
-  · Siege Breaker Lv 530: 316 boxes
-  · Voidwalker Lv 510: 215 boxes
-  · Elemental Sorcerer Lv 525: 120 boxes
-  · Hunter Lv 503: 316 boxes
-  · Barbarian Lv 501: 316 boxes
 - Spend · Spend task unlock points: Spend 644 task unlock points [IdleOn Wiki: Tasks/Unlocks · Calculated by IdleOn Toolbox · 2.3.540]
-show more (1)
+- Extra · Stamps collected: Stamps 109 of 121 · 0 now · 0 with active play · 0 in progress · 12 later [IdleOn Wiki: Stamps · Calculated by IdleOn Toolbox · 2.3.540]
+  109 stamps · next 121
 
 ## Not covered yet
 Classes and subclasses
 Portals and map doors
 Skills, doors and tools
+Spend Plan
 Upgrade Vault
 Bribes
 Forge
@@ -65,6 +57,7 @@ Statues
 The Owl
 Alchemy Pay 2 Win
 Islands
+3D Printer
 Atom Collider
 Construction
 Equinox
@@ -193,7 +186,6 @@ Laboratory
 | post-office.check.spend-boxes | post-office/state | C7 | fires | boxes=215 |
 | post-office.check.spend-boxes | post-office/state | C8 | fires | boxes=120 |
 | post-office.check.spend-boxes | post-office/state | C9 | fires | boxes=316 |
-| post-office.check.spend-boxes | post-office/state | account | fires | boxes=2125 count=8 |
 | post-office.check.unlock | post-office/state | — | silent |  |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | pass |  |
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |

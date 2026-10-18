@@ -1,40 +1,39 @@
-# golden v1: third · knowledge #9b38b7fd · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 8 of 328
+# golden v1: third · knowledge #a88646b7 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 180
 
 ## Verdict changes
 
 ## Now
-! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
-9 of 10 Ready · 1 Unknown
+5 of 10 Ready · fix 4 before you leave · 1 Unknown
+
+### C4 · Divine Knight 655 · Fix before you leave
+1 · Fighting Green Mushroom · Spore Meadows · Collect Trusty Nails from the anvil (time to cap: 3 h; it refills about 24 h after you collect)
+
+### C8 · Divine Knight 558 · Fix before you leave
+2 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 3 h; it refills about 1 d after you collect)
+
+### C6 · Elemental Sorcerer 545 · Fix before you leave
+3 · Fighting Green Mushroom · Spore Meadows · Collect Thread from the anvil (time to cap: 4 h; it refills about 1 d after you collect)
+
+### C2 · Siege Breaker 527 · Fix before you leave
+4 · Fighting Green Mushroom · Spore Meadows · Spend worship charge, or let the Wizard's Charge Syphon take it (15,042 of 15,042; time to cap: now)
 
 ### C1 · Blood Berserker 521 · Unknown
-1 · Cooking · Outer World Town · [Traps idle in about 2 h] · Not covered yet: AFK safety
-
-### C4 · Divine Knight 655 · Ready
-2 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] [Anvil full in about 3 h · collect]
+5 · Cooking · Outer World Town · Not covered yet: AFK safety
 
 ### C3 · Bubonic Conjuror 568 · Ready
-3 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h]
+6 · Fighting Green Mushroom · Spore Meadows · Spend 6,441 Post Office boxes: Civil War Memory Box first
 
 ### C5 · Beast Master 561 · Ready
-4 · Fighting Minichief Spirit · Chieftain Stairway · [Traps idle in about 4 h]
-
-### C8 · Divine Knight 558 · Ready
-5 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] [Anvil full in about 3 h · collect]
-
-### C6 · Elemental Sorcerer 545 · Ready
-6 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] [Anvil full in about 4 h · collect]
-
-### C2 · Siege Breaker 527 · Ready
-7 · Fighting Green Mushroom · Spore Meadows · [Worship full · spend] [Traps idle in about 4 h]
+7 · Fighting Minichief Spirit · Chieftain Stairway · Spend 6,441 Post Office boxes: Civil War Memory Box first
 
 ### C7 · Voidwalker 523 · Ready
-8 · Mining Godshard · Motherlode Pit · [Traps idle in about 2 h]
+8 · Mining Godshard · Motherlode Pit · Spend 6,441 Post Office boxes: Civil War Memory Box first
 
 ### C10 · Siege Breaker 522 · Ready
-9 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 4 h]
+9 · Fighting Green Mushroom · Spore Meadows · Spend 6,441 Post Office boxes: Civil War Memory Box first
 
 ### C9 · Elemental Sorcerer 552 · Ready
-10 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h]
+10 · Fighting Green Mushroom · Spore Meadows · Spend 6,441 Post Office boxes: Civil War Memory Box first
 
 ### Account · nothing to fix
 - Grow · Switch on a Refinery salt: Switch on Nullo Salt in the Refinery [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
@@ -51,7 +50,7 @@
   · Divine Knight Lv 558: 13 into Speed, 0 into Capacity
   · Elemental Sorcerer Lv 552: 11 into Speed, 0 into Capacity
   · Siege Breaker Lv 522: 28 into Speed, 0 into Capacity
-show more (6)
+show more (5)
 If you have time
 - Use today's 21 minigame plays · about 10m of hands-on play
 
@@ -59,6 +58,7 @@ If you have time
 Classes and subclasses
 Portals and map doors
 Skills, doors and tools
+Spend Plan
 Upgrade Vault
 Bribes
 Forge
@@ -67,6 +67,7 @@ Statues
 The Owl
 Alchemy Pay 2 Win
 Islands
+3D Printer
 Atom Collider
 Construction
 Equinox
@@ -203,7 +204,6 @@ Laboratory
 | post-office.check.spend-boxes | post-office/state | C7 | fires | boxes=6441 |
 | post-office.check.spend-boxes | post-office/state | C8 | fires | boxes=6441 |
 | post-office.check.spend-boxes | post-office/state | C9 | fires | boxes=6441 |
-| post-office.check.spend-boxes | post-office/state | account | fires | boxes=64410 count=10 |
 | post-office.check.unlock | post-office/state | — | silent |  |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | pass |  |
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |

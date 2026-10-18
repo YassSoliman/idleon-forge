@@ -1,42 +1,42 @@
-# golden v1: multikill-pin · knowledge #9b38b7fd · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 8 of 328
+# golden v1: multikill-pin · knowledge #a88646b7 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 180
 
 ## Verdict changes
 
 ## Now
-1 of 11 Ready · fix 9 before you leave · 1 Unknown
+0 of 11 Ready · fix 11 before you leave
+
+### C9 · Royal Guardian 1307 · Fix before you leave
+1 · Fighting Verminous · The Royal Castle · Collect Pinion Spur from the anvil (time to cap: now; it refills about 10 min after you collect)
 
 ### C2 · Death Bringer 1292 · Fix before you leave
-1 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Worship full · spend] [Traps idle in about 7 h] · Send Death Bringer Lv 1,292 to an AFK Target before you leave
+2 · Doing nothing · Shimmerfin Grove · Send Death Bringer Lv 1,292 to an AFK Target before you leave
 
 ### C1 · Siege Breaker 1291 · Fix before you leave
-2 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+3 · Cooking · Outer World Town · Collect Boring Brick from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C6 · Wind Walker 1280 · Fix before you leave
-3 · Doing nothing · Frostbite Towndra · [Anvil full · collect] [Worship full · spend] · Send Wind Walker Lv 1,280 to an AFK Target before you leave
+4 · Doing nothing · Frostbite Towndra · Send Wind Walker Lv 1,280 to an AFK Target before you leave
 
 ### C10 · Bubonic Conjuror 1268 · Fix before you leave
-4 · Fighting Green Mushroom · Spore Meadows · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+5 · Fighting Green Mushroom · Spore Meadows · Collect Chain Link from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C8 · Siege Breaker 1261 · Fix before you leave
-5 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+6 · Cooking · Outer World Town · Collect Lugi Bracket from the anvil (time to cap: now; it refills about 10 min after you collect)
 
 ### C4 · Divine Knight 1240 · Fix before you leave
-6 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+7 · Cooking · Outer World Town · Collect Trusty Nails from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C5 · Arcane Cultist 1231 · Fix before you leave
-7 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+8 · Cooking · Outer World Town · Collect Purple Screw from the anvil (time to cap: now; it refills about 60 min after you collect)
+
+### C11 · Beginner 1224 · Fix before you leave
+9 · Cooking · Outer World Town · Collect Thread from the anvil (time to cap: now; it refills about under 10 min after you collect)
 
 ### C7 · Voidwalker 1157 · Fix before you leave
-8 · Fishing Medium Fish · YumYum Islands · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+10 · Fishing Medium Fish · YumYum Islands · Collect PVC Pipe from the anvil (time to cap: now; it refills about 2 h after you collect)
 
 ### C3 · Elemental Sorcerer 1259 · Fix before you leave
-9 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
-
-### C11 · Beginner 1224 · Unknown
-10 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Not covered yet: AFK safety
-
-### C9 · Royal Guardian 1307 · Ready
-11 · Fighting Verminous · The Royal Castle · [Anvil full · collect] [Worship full · spend] [Traps idle in about 7 h]
+11 · Cooking · Outer World Town · Collect Purple Screw from the anvil (time to cap: now; it refills about 3 h after you collect)
 
 ### Account · nothing to fix
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
@@ -55,12 +55,13 @@
   · Royal Guardian Lv 1307: 2 into Speed, 0 into Capacity
   · Bubonic Conjuror Lv 1268: 0 into Speed, 62 into Capacity
   · Beginner Lv 1224: 1 into Speed, 0 into Capacity
-show more (8)
+show more (7)
 
 ## Not covered yet
 Classes and subclasses
 Portals and map doors
 Skills, doors and tools
+Spend Plan
 Upgrade Vault
 Bribes
 Forge
@@ -69,6 +70,7 @@ Statues
 The Owl
 Alchemy Pay 2 Win
 Islands
+3D Printer
 Atom Collider
 Construction
 Equinox
@@ -182,7 +184,6 @@ Laboratory
 | post-office.check.spend-boxes | post-office/state | C7 | fires | boxes=477758 |
 | post-office.check.spend-boxes | post-office/state | C8 | fires | boxes=477664 |
 | post-office.check.spend-boxes | post-office/state | C9 | fires | boxes=452015 |
-| post-office.check.spend-boxes | post-office/state | account | fires | boxes=5237384 count=11 |
 | post-office.check.unlock | post-office/state | — | silent |  |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | fires | dryIn=0 |
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |

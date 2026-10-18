@@ -1,15 +1,15 @@
-# golden v1: fourth · knowledge #9b38b7fd · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 8 of 328
+# golden v1: fourth · knowledge #a88646b7 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 180
 
 ## Verdict changes
 
 ## Now
-1 of 2 Ready · fix 1 before you leave
+0 of 2 Ready · fix 1 before you leave · 1 Unknown
 
 ### C2 · Beginner 1 · Fix before you leave
 1 · Doing nothing · Blunder Hills · Send Beginner Lv 1 to an AFK Target before you leave
 
-### C1 · Voidwalker 476 · Ready
-2 · Fighting Woodlin Spirit · Edge of the Valley · Nothing to do here
+### C1 · Voidwalker 476 · Unknown
+2 · Fighting Woodlin Spirit · Edge of the Valley · Can't tell from the save
 
 ### Account · nothing to fix
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
@@ -18,12 +18,13 @@
 - Extra · Gems unspent: 999 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
 - Spend · Spend W1 merits: Spend 12 W1 merits [IdleOn Wiki: Tasks/Blunder Hills, Merit Shop tab · Calculated by IdleOn Toolbox · 2.3.540]
-show more (8)
+show more (7)
 
 ## Not covered yet
 Classes and subclasses
 Portals and map doors
 Skills, doors and tools
+Spend Plan
 Upgrade Vault
 Bribes
 Forge
@@ -32,6 +33,7 @@ Statues
 The Owl
 Alchemy Pay 2 Win
 Islands
+3D Printer
 Atom Collider
 Construction
 Equinox
@@ -95,7 +97,6 @@ Laboratory
 | post-office.check.daily-orders | post-office/state | account | fires | companies=3 |
 | post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=4116 |
 | post-office.check.spend-boxes | post-office/state | C2 | fires | boxes=29516 |
-| post-office.check.spend-boxes | post-office/state | account | fires | boxes=33632 count=2 |
 | post-office.check.unlock | post-office/state | — | silent |  |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | fires | dryIn=3382000 |
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
