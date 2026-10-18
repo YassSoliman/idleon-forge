@@ -25,11 +25,12 @@ import { characterTabs, NOW_TAB, tabHref } from '../now/character-tabs';
 import { BUILDS_OPEN } from '../now/open-keys';
 import { SkillGrid } from '../now/SkillsTab';
 import { SEVERITY } from '../now/tab-health';
-import { formatRoute } from '../shell/route';
 import type { Session } from '../shell/session';
 import './place.css';
 
 const W = CHARACTERS_WORDS;
+/** The Now place's anchor (shell/route.ts reads `#now`). */
+const NOW_HREF = '#now';
 const n = (x: number) => x.toLocaleString('en-US');
 
 const HEALTH_GLYPH: Record<TabHealth['level'], ArtName> = {
@@ -194,7 +195,7 @@ function NextCharacter({ card, s }: { card: NextCharacterCard; s: Session }) {
           <p className="cp-next-when">
             The slot is open now.{' '}
             <a
-              href={formatRoute({ place: 'now' })}
+              href={NOW_HREF}
               className="cp-link"
               onClick={(e) => {
                 e.preventDefault();
