@@ -72,7 +72,12 @@ const attempt = <T>(f: () => T | null): T | null => {
 function counts(items: unknown[]): Record<string, number> {
   const out: Record<string, number> = {};
   for (const x of items) {
-    if (!isDict(x) || typeof x.rawName !== 'string' || x.rawName === 'Blank' || x.rawName === 'LockedInvSpace')
+    if (
+      !isDict(x) ||
+      typeof x.rawName !== 'string' ||
+      x.rawName === 'Blank' ||
+      x.rawName === 'LockedInvSpace'
+    )
       continue;
     out[x.rawName] = (out[x.rawName] ?? 0) + num(x.amount);
   }
@@ -115,7 +120,10 @@ function readTalentPresets(raw: Dict, data: Dict, index: number): TalentPresets 
   const active = levelsOf(raw.talents);
   if (!active) return null;
   const presets = [{ index: sel, levels: active }];
-  const other = isDict(raw.talentPreset) && data[`SLpre_${index}`] !== undefined ? levelsOf(raw.talentPreset.talents) : null;
+  const other =
+    isDict(raw.talentPreset) && data[`SLpre_${index}`] !== undefined
+      ? levelsOf(raw.talentPreset.talents)
+      : null;
   presets.push({ index: 1 - sel, levels: other ?? {} });
   return { selected: sel, presets: presets.sort((a, b) => a.index - b.index) };
 }
@@ -131,9 +139,10 @@ function readCardPresets(raw: Dict, gems: unknown[]): CardPresets | null {
   return { selected: sel, unlocked: CARD_PRESETS.base + num(gems[CARD_PRESETS.gem]), presets };
 }
 
-function sampleOf(s: unknown): PrinterSample | null {
+function sampleOf(s: unknown, calls: ToolboxCalls): PrinterSample | null {
   if (!isDict(s) || typeof s.item !== 'string' || s.item === 'Blank') return null;
-  return { rawName: s.item, value: num(s.value), perHour: num(s.boostedValue) };
+  const name = calls.itemDisplayName(s.item) ?? s.item;
+  return { rawName: s.item, name, value: num(s.value), perHour: num(s.boostedValue) };
 }
 
 function readPrinter(
@@ -164,8 +173,8 @@ function readPrinter(
       characterIndex: st.index,
       samplingLevel: isDict(talent) ? num(talent.level) : 0,
       samplePct: num(c.printerSample),
-      stored: rows.filter((r) => isDict(r) && r.active !== true).flatMap((r) => sampleOf(r) ?? []),
-      active: rows.filter((r) => isDict(r) && r.active === true).flatMap((r) => sampleOf(r) ?? []),
+      stored: rows.filter((r) => isDict(r) && r.active !== true).flatMap((r) => sampleOf(r, calls) ?? []),
+      active: rows.filter((r) => isDict(r) && r.active === true).flatMap((r) => sampleOf(r, calls) ?? []),
     });
   }
   return {
@@ -240,7 +249,11 @@ export function readWalkthrough(input: WalkthroughInputs, c: Collector): Walkthr
               const info = calls.getMaxDamage(raw, characters, account);
               const out: Record<string, number> = {};
               for (const k of WALKTHROUGH_SKILLS) {
-                const v = attempt(() => finite((calls.getSkillEfficiency(k, raw, characters, account, info) as Dict | undefined)?.value));
+                const v = attempt(() =>
+                  finite(
+                    (calls.getSkillEfficiency(k, raw, characters, account, info) as Dict | undefined)?.value,
+                  ),
+                );
                 if (v !== null) out[k] = v;
               }
               return out;
@@ -268,7 +281,9 @@ export function readWalkthrough(input: WalkthroughInputs, c: Collector): Walkthr
     anvilTabsOwned: field(c, 'account.anvilTabsOwned', s, () => finite(data.CYAnvilTabsOwned)),
     forgeOutput: field(c, 'account.forgeOutput', s, () => readForgeOutput(account)),
     storageItems: field(c, 'account.storageItems', s, () => (storage ? counts(storage) : null)),
-    refineryStorage: field(c, 'account.refineryStorage', s, () => (Array.isArray(refinery) ? counts(refinery) : null)),
+    refineryStorage: field(c, 'account.refineryStorage', s, () =>
+      Array.isArray(refinery) ? counts(refinery) : null,
+    ),
     printer: calls
       ? field(c, 'account.printer', s, () => frozen(() => readPrinter(account, characters, states, calls)))
       : null,

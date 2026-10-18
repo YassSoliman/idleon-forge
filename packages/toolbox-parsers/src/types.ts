@@ -155,6 +155,8 @@ export interface ToolboxCalls {
   ): unknown;
   /** `{ value }`: the 3D Printer multi for the account. */
   getPrinterMulti(account: unknown, characters: unknown[]): unknown;
+  /** An item's display name from Toolbox's game data ("Forest_Fibres"); null when the pin doesn't know it. */
+  itemDisplayName(rawName: string): string | null;
 }
 
 /** M7 TR-4: one Vault row's Toolbox `cost` at levels L, L+1, ... (`costs[0]` is the parse's `cost`). */

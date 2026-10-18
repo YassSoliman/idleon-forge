@@ -15,14 +15,16 @@ export const WALKTHROUGH_FIELD_SOURCES: Record<string, string> = {
   'account.refineryStorage': 'account.refinery.refineryStorage',
   'account.printer':
     'account.printer, account.towers.data[3D_Printer], account.gemShopPurchases[111, 112], getPrinterMulti',
-  'account.supplyRates': 'frontierRates and getDropRate on the clone moved to each supply map (worker, M14 TR-3)',
+  'account.supplyRates':
+    'frontierRates and getDropRate on the clone moved to each supply map (worker, M14 TR-3)',
   'characters[].quests': 'characters[i].quests',
   'characters[].inventoryItems': 'characters[i].inventory',
   'characters[].smithingLevel': 'characters[i].skillsInfo.smithing.level',
   'characters[].targetMonster': 'characters[i].targetMonster',
   'characters[].mapIndex': 'characters[i].mapIndex',
   'characters[].skillLevels': 'characters[i].skillsInfo.{mining,chopping,fishing,catching}.level',
-  'characters[].skillEfficiency': 'getSkillEfficiency(skill, character, characters, account, getMaxDamage(...))',
+  'characters[].skillEfficiency':
+    'getSkillEfficiency(skill, character, characters, account, getMaxDamage(...))',
   'characters[].anvilSpeed': 'getPlayerAnvil(character, characters, account).stats.anvilSpeed',
   'characters[].talentPresets': 'characters[i].selectedTalentPreset, .talents, .talentPreset.talents',
   'characters[].cardPresets': 'characters[i].selectedCardPreset, .cardPresets, account.gemShopPurchases[66]',

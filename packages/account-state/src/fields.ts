@@ -14,16 +14,16 @@ import { SPEND_FIELD_SECTIONS, SPEND_FIELD_SOURCES } from './spend-fields';
 import { TALENT_FIELD_RAW_KEYS, TALENT_FIELD_SECTIONS, TALENT_FIELD_SOURCES } from './talent-fields';
 import type { AccountState } from './types';
 import {
-  WALKTHROUGH_FIELD_RAW_KEYS,
-  WALKTHROUGH_FIELD_SECTIONS,
-  WALKTHROUGH_FIELD_SOURCES,
-} from './walkthrough-fields';
-import {
   UNSPENT_FIELD_RAW_KEYS,
   UNSPENT_FIELD_SECTIONS,
   UNSPENT_FIELD_SIDE_READS,
   UNSPENT_FIELD_SOURCES,
 } from './unspent-fields';
+import {
+  WALKTHROUGH_FIELD_RAW_KEYS,
+  WALKTHROUGH_FIELD_SECTIONS,
+  WALKTHROUGH_FIELD_SOURCES,
+} from './walkthrough-fields';
 
 /** How a raw save value must look to count as present. Firestore keeps many values as JSON strings. */
 export type RawKind = 'number' | 'string' | 'json';

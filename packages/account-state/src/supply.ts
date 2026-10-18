@@ -123,8 +123,11 @@ export function computeSupplyRates(
           kills.map((k) => {
             const c = characters[k.characterIndex];
             const d = finite(
-              (input.calls.getDropRate(input.calls.onMap(c, mapIndex), account, characters) as Dict | undefined)
-                ?.dropRate,
+              (
+                input.calls.getDropRate(input.calls.onMap(c, mapIndex), account, characters) as
+                  | Dict
+                  | undefined
+              )?.dropRate,
             );
             return {
               characterIndex: k.characterIndex,

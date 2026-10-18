@@ -11,6 +11,8 @@
 /** One sample in the 3D Printer (Toolbox `account.printer[c][]`). */
 export interface PrinterSample {
   rawName: string;
+  /** Toolbox display name, e.g. "Forest_Fibres"; the rawName when the pin doesn't know the item. */
+  name: string;
   /** The sample's stored size per hour (Toolbox `value`). */
   value: number;
   /** Toolbox `boostedValue`: the sample with the printer multi, per hour. */

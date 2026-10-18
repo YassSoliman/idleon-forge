@@ -16,6 +16,7 @@ import { getSaltMatsTimeLeft } from '../vendor/parsers/world-3/refinery';
 import { frontierRates, onMap } from './frontier-rates';
 import { shopStockAll } from './shop-stock';
 import { stampEvaluations, vaultLadders } from './spend';
+import { itemDisplayName } from './item-names';
 
 export const toolboxCalls = {
   /** Toolbox damage, hit chance, survivability and kill rates for one character (vendor/parsers/damage.ts). */
@@ -48,4 +49,6 @@ export const toolboxCalls = {
   getSkillEfficiency,
   /** The printer multi (Gold Relic days, Skill Mastery, ...); M14 calls it twice, live and with the day counters at 0 (FR-27a). */
   getPrinterMulti,
+  /** An item's Toolbox display name ("Forest_Fibres"), or null. */
+  itemDisplayName,
 };
