@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M20 Daily & Weekly Checklist: the daily task on each world's task board (docs/specs/M20 FR-2). A row only,
+# one detail per open board. Done when Tasks[1][w][8] >= 1: the game counts the daily task for the guild
+# only when it is 1, and stops its progress then (V4, N.js @7478502, @8630021); the daily reset sets it
+# back to 0 (N.js @15113909). Boards open with Grasslands Gary (W1), Desert Davey's quest (W2) and Iceland
+# Irwin's quest (W3), per the wiki Tasks page (V7).
+system: task-board
+entries:
+  - id: task-board.check.daily
+    system: task-board
+    type: check
+    title: Daily tasks
+    text: "{text}"
+    why: "{why}"
+    values:
+      row: "Do the daily task on each open task board"
+      why: "Each world's task board has one daily task; it rerolls at your daily reset."
+      detail: "W{world:int}: {task}"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Tasks", title: "IdleOn Wiki: Tasks (W1 to W3 daily tasks)", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js", title: "IdleOn Toolbox tasks alert (the 9th task per world)", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: account
+    effect: next-action
+    category: nice
+    effortSeconds: 120
+    detector: { id: checklist/rows, params: { row: daily-tasks } }
+    notes: "Row only."

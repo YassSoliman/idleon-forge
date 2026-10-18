@@ -1,0 +1,215 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M20 the Daily & Weekly Checklist and the Skills tab. Tokens only (tokens.css); wraps at 320 px, no
+   page-level horizontal scroll; every control is at least 44 px tall (Design Lab hard rule). */
+.checklist {
+  overflow-wrap: anywhere;
+  min-width: 0;
+  margin: 0 0 12px;
+}
+.cl-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  cursor: pointer;
+}
+.cl-sum-text {
+  min-width: 0;
+}
+.cl-rings {
+  flex: none;
+}
+.cl-rings circle {
+  fill: none;
+  stroke-width: 5;
+  transform: rotate(-90deg);
+  transform-origin: 22px 22px;
+}
+.cl-track {
+  stroke: var(--sunk);
+}
+.cl-today {
+  stroke: var(--ok);
+  stroke-linecap: round;
+}
+.cl-week {
+  stroke: var(--coin);
+  stroke-linecap: round;
+}
+.cl-band {
+  margin: 10px 0 0;
+}
+.cl-band-h {
+  margin: 0 0 6px;
+  font-size: 0.9rem;
+}
+.cl-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cl-row {
+  border: 1px solid var(--line);
+  border-left-width: 4px;
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  margin: 0 0 6px;
+  background: var(--surface);
+}
+.cl-row.s-todo {
+  border-left-color: var(--coin);
+}
+.cl-row.s-done {
+  border-left-color: var(--ok);
+}
+.cl-row.s-waiting,
+.cl-row.s-cannot,
+.cl-row.s-unknown {
+  border-left-color: var(--unk);
+}
+.cl-row.lost {
+  border-left-color: var(--bad);
+  background: var(--bad-soft);
+}
+.cl-head,
+.cl-detail,
+.cl-meta {
+  margin: 0 0 2px;
+}
+.cl-state {
+  font-size: 0.8rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.cl-row.lost .cl-meta {
+  color: var(--bad);
+}
+.cl-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+}
+.cl-link,
+.cl-fold,
+.cl-tick {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.cl-tick.on {
+  color: var(--ok);
+}
+/* The Skills tab and the Skill Grid */
+.sk-train {
+  margin: 0 0 10px;
+  font-weight: 700;
+}
+.sk-table,
+.sk-grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.sk-table th,
+.sk-table td,
+.sk-grid th,
+.sk-grid td {
+  text-align: left;
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.sk-table tr.locked td {
+  color: var(--muted);
+}
+.sk-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--ok-soft);
+  color: var(--ok);
+  margin-left: 4px;
+}
+.sk-badge.dormant,
+.sk-badge.spec {
+  background: var(--unk-soft);
+  color: var(--unk);
+}
+.sk-grid-wrap {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.sk-grid td.hl {
+  outline: 3px solid var(--coin);
+  outline-offset: -3px;
+}
+.sk-grid td.best {
+  font-weight: 700;
+}
+.pips {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.pip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: center;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 4px 10px;
+  background: var(--surface);
+}
+.pip.fillable,
+.pip.capped {
+  border-color: var(--coin);
+  background: var(--coin-soft);
+}
+.pip.locked,
+.pip.unknown,
+.pip.unfillable {
+  color: var(--muted);
+}
+.pip-mini {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  margin-right: 2px;
+  background: var(--ok);
+}
+.pip-mini.fillable,
+.pip-mini.capped {
+  background: var(--coin);
+}
+.pip-mini.locked,
+.pip-mini.unknown,
+.pip-mini.unfillable {
+  background: var(--sunk);
+}
+.cl-actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.sk-grid-sec {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+.sk-grid-wrap {
+  display: block;
+  width: 100%;
+  /* Contains the screen-reader slot words (absolutely positioned) inside the scroll box. */
+  position: relative;
+}
+.checklist button.cl-fold,
+.checklist button.cl-tick {
+  min-height: 44px;
+}

@@ -2,7 +2,7 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M17 TR-3: the route grammar. The whole route lives in the URL fragment, one bare anchor (FR-7):
 //   none, #now           Now
-//   #characters          Characters (#builds, #cards: Characters scrolled to that overview)
+//   #characters          Characters (#builds, #cards, #skills: Characters scrolled to that overview)
 //   #<tab>-<index>       the Character page of CharacterState.index on that tab (#now-3, #build-3)
 //   #systems             the Systems hub
 //   #system-<systemId>   that System page
@@ -12,7 +12,7 @@
 
 export type Route =
   | { place: 'now' }
-  | { place: 'characters'; section: 'builds' | 'cards' | null }
+  | { place: 'characters'; section: 'builds' | 'cards' | 'skills' | null }
   | { place: 'character'; index: number; tab: string }
   | { place: 'systems' }
   | { place: 'system'; id: string }
@@ -34,7 +34,7 @@ export interface KnownRoutes {
 
 const NOW: Route = { place: 'now' };
 const PLACE_RE = /^#(now|characters|systems|timeline)$/;
-const SECTION_RE = /^#(builds|cards)$/;
+const SECTION_RE = /^#(builds|cards|skills)$/;
 const SYSTEM_RE = /^#system-([a-z0-9-]+)$/;
 const TAB_RE = /^#([a-z]+)-(\d+)$/;
 const LEGACY_C = /^\d+$/;
@@ -47,7 +47,8 @@ export function routeOfHash(hash: string, known: KnownRoutes): Route {
   if (place === 'systems') return { place: 'systems' };
   if (place === 'timeline') return known.timeline ? { place: 'timeline' } : NOW;
   const section = SECTION_RE.exec(hash)?.[1];
-  if (section === 'builds' || section === 'cards') return { place: 'characters', section };
+  if (section === 'builds' || section === 'cards' || section === 'skills')
+    return { place: 'characters', section };
   const system = SYSTEM_RE.exec(hash)?.[1];
   if (system !== undefined) return known.systems.includes(system) ? { place: 'system', id: system } : NOW;
   const tab = TAB_RE.exec(hash);

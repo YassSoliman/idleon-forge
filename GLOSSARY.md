@@ -118,6 +118,10 @@ _Avoid_: AFK timer, session length
 The suggested order to switch through characters in a Play Session: worst Verdict first, then most to spend.
 _Avoid_: route, queue
 
+**Daily & Weekly Checklist**:
+The one list of everything that resets daily or weekly on the account's own clocks, in three bands (lost at the reset, banks up to 3 days, weekly), each row ticked done from the save; shown with two rings at the top of the Account section.
+_Avoid_: Session Checklist, Daily Checklist, dailies
+
 **Active Play suggestion**:
 An optional Goal that needs hands-on play (often an hour or more); it never affects a Verdict.
 _Avoid_: active goal, grind task

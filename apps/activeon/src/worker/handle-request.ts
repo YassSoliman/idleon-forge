@@ -26,6 +26,7 @@ import { createBuildsModule } from '@idleon-forge/engine/builds';
 import { createCardsViewModule, createCollectionsModule } from '@idleon-forge/engine/collections';
 import { engineDetectors } from '@idleon-forge/engine/detectors';
 import { detectStage, frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
+import { createM20Modules } from '@idleon-forge/engine/slots';
 import { createSpendModule } from '@idleon-forge/engine/spend';
 import { createStarSignsModule } from '@idleon-forge/engine/starsigns';
 import { createUnspentModule } from '@idleon-forge/engine/unspent';
@@ -168,6 +169,7 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
     createSpendModule({ kb, stage: (state) => detectStage(state, facts) }),
     createWalkthroughModule({ kb }),
     createStarSignsModule({ kb }),
+    ...createM20Modules({ kb }),
   ];
 }
 

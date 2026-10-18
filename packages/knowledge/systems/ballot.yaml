@@ -1,0 +1,28 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M20 Daily & Weekly Checklist: the Bonus Ballot (docs/specs/M20-skills-parallel-slots.md FR-16). A row
+# only, never a Goal (D-4); it never advises how to vote. The ballot rolls on its own server week,
+# floor((GlobalTime + 197860) / 604800), Monday about 17:02 UTC (resets dossier, N.js @11766234).
+system: ballot
+entries:
+  - id: ballot.check.vote
+    system: ballot
+    type: check
+    title: Vote in the Bonus Ballot
+    text: "{text}"
+    why: "{why}"
+    values:
+      row: "Vote in the Bonus Ballot (YumYum Grotto)"
+      why: "Each week the vote picks one bonus for everyone; voting is free."
+      leading: "Leading now: {bonus}"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Bonus_Ballot", title: "IdleOn Wiki: Bonus Ballot", tier: 2, claimDate: 2026-10-09, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/voteBallot.ts", title: "IdleOn Toolbox getVoteBallot (the bonuses and the leader)", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: account
+    effect: next-action
+    category: nice
+    effortSeconds: 30
+    detector: { id: checklist/rows, params: { row: ballot } }
+    notes: "Row only (surface checklist, X1): the M20 module never turns it into a Goal. Done when OLA[309] equals this ballot week."

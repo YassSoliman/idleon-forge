@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #0f53b19b · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: third · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 361
 
 ## Verdict changes
 
@@ -37,6 +37,24 @@
 10 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h]
 
 ### Account · nothing to fix
+[checklist] Today 3/10 · Week 2/5 · daily reset in 3h 19m
+  ○ To do: Pet Tournament registration · resets with the server day
+  ○ To do: Skill minigame plays · 21 plays left · resets in 3h 19m · lost before you are back
+  ○ To do: Spiketrap gems · resets in 3h 19m · lost before you are back
+  ○ To do: Post Office orders · 6 companies without an order today · resets in 3h 19m · lost before you are back
+  ○ To do: Daily tasks · W1: ... so I started swingin C · W2: Doing the Dev's Job A · W3: LMNOP Up in Here · resets in 3h 19m · lost before you are back
+  ○ To do: Guild daily tasks · resets in 3h 19m · lost before you are back
+  ◷ Waiting: Free pet pull
+  ⊘ Can't: Vial attempts · no vial ingredient held · resets in 3h 19m
+  ? Can't tell: Pet Mart free gems · resets with the server day
+  ✓ Done: Random Event · resets in 3h 19m
+  ✓ Done: Boss keys · resets in 3h 19m
+  ✓ Done: Colosseum tickets · resets in 3h 19m
+  ○ To do: Spend 169 Killroy skulls · 4 skulls buy 10 Arcade balls: 50 of 50 packs left this week · your weekly reset in 27h 19m
+  ○ To do: Bonus Ballot vote · new ballot Monday about 17:00 UTC, in 3d 21h
+  ○ To do: Guild weekly tasks · your weekly reset in 27h 19m
+  ✓ Done: Killroy's rooms · Mage room: done · Mage room: done · Warrior room: done · your weekly reset in 27h 19m
+  ✓ Done: Weekly Battle · best this week: difficulty 5 of 5 · new boss Thursday 00:00 UTC, in 6d 4h
 - Grow · Switch on a Refinery salt: Switch on Nullo Salt in the Refinery [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
@@ -91,6 +109,10 @@ W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Random Events · Nothing to fix · Nothing to fix
+W0 · Pet Tournament · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Guild tasks · Nothing to fix · Nothing to fix
 W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 3 full · collect
@@ -109,6 +131,9 @@ W2 · Alchemy vials · Nothing to fix · Nothing to fix
 W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet
 W2 · Arcade · Nothing to fix · Nothing to fix
 W2 · Islands · Not covered yet · Not covered yet
+W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
+W2 · Weekly Battles · Nothing to fix · Nothing to fix
+W2 · Bonus Ballot · Nothing to fix · Nothing to fix
 W3 · Refinery · Wasting · 1 to fix before you leave
 W3 · Construction · Nothing to fix · Nothing to fix
 W3 · Talent Book Library · Nothing to fix · Nothing to fix
@@ -176,6 +201,8 @@ Account · Alchemy cauldrons and liquids
 - Water full · can't tell when · untimed · info · fix none
 Account · Arcade
 - Arcade balls full · later · in 33h 57m · 05:57 · after · info · fix none
+Account · Killroy's Slaughterhouse
+- Killroy skulls lost · later · in 27h 19m · 23:18 · after · next-action · fix none
 Account · Refinery
 - salt fuel runs out · later · in 4d 4h · 00:24 · after · info · fix none
 
@@ -322,6 +349,7 @@ Account · Refinery
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
+| systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
@@ -332,6 +360,7 @@ Account · Refinery
 | systems.yaml#equinox | worlds/reached | account | reached yes |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
 | systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#killroy | worlds/reached | account | reached yes |  |
 | systems.yaml#lab | worlds/reached | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
@@ -347,6 +376,7 @@ Account · Refinery
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
+| systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=294 |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | fires | finishesIn=8156804 |

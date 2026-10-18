@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M20 F1 the Daily & Weekly Checklist (docs/specs/M20-skills-parallel-slots.md FR-1 to FR-16): ActiveOn's
+# own concept (registry kind activeon), at the top of the Now screen's Account section. Its rows are the
+# fact table checklist.fact.rows; this list is their band order (no bank, banks, weekly).
+system: checklist
+entries:
+  - id: checklist.priority.rows
+    system: checklist
+    type: priority
+    title: Daily and weekly rows
+    text: "Every daily and weekly reset item, no-bank first"
+    why: "Items that don't bank are lost at the reset, banked ones keep up to 3 days, weekly ones wait for the week."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Daily_Checklist", title: "IdleOn Wiki: Daily Checklist", tier: 4, claimDate: 2026-03-24, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Killroy%27s_Slaughterhouse", title: "IdleOn Wiki: Killroy's Slaughterhouse (weekly)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/account-wide/docs/research/systems/account-wide/resets-dailies-events.md", title: "Resets dossier (N.js v1.23 reset loops)", tier: 3, claimDate: 2026-10-17, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    list: order
+    tiers:
+      - [pets.check.free-pull, pets.check.mart-gems, pet-tournament.check.register, random-events.check.today, minigames.check.daily-plays, minigames.check.spiketrap, alchemy-vials.check.daily-attempts, post-office.check.daily-orders, task-board.check.daily, guild.check.daily]
+      - [boss-keys.check.collect, colosseum.check.collect-tickets]
+      - [killroy.check.room, killroy.check.skulls, weekly-battles.check.raid, ballot.check.vote, guild.check.weekly]

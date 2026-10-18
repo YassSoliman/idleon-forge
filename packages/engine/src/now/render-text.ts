@@ -87,6 +87,27 @@ export function renderNowText(view: NowView, options: RenderTextOptions = {}): s
   if (acc.blockers.length) lines.push('Fix before you leave');
   for (const g of acc.blockers) lines.push(...goalLine(g));
   if (acc.skippedBlockers) lines.push(`${acc.skippedBlockers} skipped · undo`);
+  // M20 FR-12: the Daily & Weekly Checklist, below the blockers and above the Goals; its rows when open.
+  const cl = view.checklist;
+  if (cl) {
+    const { today, week } = cl.rings;
+    lines.push(
+      `[checklist] Today ${today.done}/${today.total} · Week ${week.done}/${week.total} · ${cl.dailyText}`,
+    );
+    if (cl.expanded)
+      for (const b of cl.bands)
+        for (const r of [...b.rows, ...b.done]) {
+          const tail = [
+            r.label,
+            ...r.details,
+            r.clockText,
+            r.lostBeforeReturn ? 'lost before you are back' : null,
+          ]
+            .filter(Boolean)
+            .join(' · ');
+          lines.push(`  ${r.glyph} ${r.stateWord}: ${tail}`);
+        }
+  }
   for (const g of acc.goals) lines.push(...goalLine(g));
   if (acc.hiddenCount) lines.push(`show more (${acc.hiddenCount})`);
   if (acc.skippedCount) lines.push(`${acc.skippedCount} skipped · undo`);

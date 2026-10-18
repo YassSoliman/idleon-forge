@@ -55,3 +55,57 @@ entries:
     category: nice
     usesExpectedReturn: true
     detector: { id: trapping/finishes-early }
+
+  # ---- M20 F2 (docs/specs/M20-skills-parallel-slots.md FR-24 to FR-26, D-12). V2 (N.js 2.3.540): critter
+  # types are account-wide (OLA[47], at least 9 on every account since a game migration) and the traps a
+  # character can place are its equipped set's ID (NumOfTrapsPlaceable), so a trap set is the real gate;
+  # Lord of the Hunt's first quest gives the first set.
+  - id: trapping.check.start
+    system: trapping
+    type: check
+    title: Start Trapping
+    text: "{text}"
+    why: "{why}"
+    values:
+      text: "Start Trapping: do Lord of the Hunt's first quest, Pelt for the Pelt God, on any character"
+      why: "Lord of the Hunt is in Trappers Folley, left of the W3 town; his first quest gives a Cardboard Traps set and 2 Time Candy."
+      short: "Start Trapping (Lord of the Hunt's first quest)"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Lord_of_the_Hunt", title: "IdleOn Wiki: Lord of the Hunt (Pelt for the Pelt God)", tier: 2, claimDate: 2026-09-27, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Trapping", title: "IdleOn Wiki: Trapping (start with the Lord of the Hunt)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json", title: "IdleOn Toolbox game data: Lord of the Hunt's quests", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 600
+    walkthrough: quests.acquisition.lord-of-the-hunt1
+    detector: { id: trapping/start }
+    notes: "FR-24: from Stage W3-early while no character has finished the quest or holds a trap set. It opts into M14's quest Walkthrough, which names who does it."
+
+  - id: trapping.check.no-trap-set
+    system: trapping
+    type: check
+    title: Trap sets
+    text: "{text}"
+    why: "{why}"
+    values:
+      many: "Equip Cardboard Traps on {n:int} characters"
+      one: "Equip Cardboard Traps on your {who}"
+      why: "A character places as many traps as its equipped set allows, and none without one."
+      held: "{who}: equip the Cardboard Traps in its bag"
+      buy: "{who}: buy Cardboard Traps at the Frostbite Towndra shop"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Trapping", title: "IdleOn Wiki: Trapping (Cardboard Traps from the Frostbite Towndra vendor)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json", title: "IdleOn Toolbox game data: trap box sets", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 120
+    detector: { id: trapping/no-trap-set }
+    notes: "FR-25 once Trapping has started on the account (a set held or equipped, or the quest done somewhere). FR-25's second detail (characters still needing the quest) is dropped: V2 found the quest is not a per-character gate."

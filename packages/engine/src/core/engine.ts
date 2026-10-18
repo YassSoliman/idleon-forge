@@ -329,6 +329,21 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
     })(),
     ...(outputs.some(({ output }) => output.timeline) ? { timeline } : {}),
     ...(returnAt !== undefined ? { returnAt } : {}),
+    // M20: the checklist, Skills tabs, pictures and Skill Grid ride through untouched.
+    ...(() => {
+      const pick = <K extends 'checklist' | 'skills' | 'slotPictures' | 'skillGrid'>(k: K) =>
+        outputs.find((o) => o.output[k] !== undefined)?.output[k];
+      const checklist = pick('checklist');
+      const skills = pick('skills');
+      const slotPictures = pick('slotPictures');
+      const skillGrid = pick('skillGrid');
+      return {
+        ...(checklist !== undefined ? { checklist } : {}),
+        ...(skills !== undefined ? { skills } : {}),
+        ...(slotPictures !== undefined ? { slotPictures } : {}),
+        ...(skillGrid !== undefined ? { skillGrid } : {}),
+      };
+    })(),
   };
   // M17 TR-2: the registry with unlock states, built here in the worker (it runs unlock Detectors).
   if (kb && knowledge.registries)

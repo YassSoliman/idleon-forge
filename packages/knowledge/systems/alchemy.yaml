@@ -69,3 +69,27 @@ entries:
     category: spendable
     usesExpectedReturn: true
     detector: { id: alchemy/liquid-cap, params: { part: line } }
+
+  # ---- M20 F2 (docs/specs/M20-skills-parallel-slots.md FR-27, FR-28, D-13): an idle liquid.
+  - id: alchemy.check.liquid-unstaffed
+    system: alchemy
+    type: check
+    title: An idle liquid
+    text: "{text}"
+    why: "{why}"
+    values:
+      text: "Move your {who} from the {from} cauldron to {liquid}"
+      why: "{liquid} is at {current} of {max:int} with nobody on it; a liquid seat speeds it up and earns that character 2x Alchemy EXP, and the {from} cauldron keeps its other brewer."
+      short: "move your {who} to {liquid} ({current} of {max:int})"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Alchemy", title: "IdleOn Wiki: Alchemy (liquids, 2x Alchemy EXP on a liquid)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts", title: "IdleOn Toolbox, alchemy activities and liquids", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    subject: account
+    effect: next-action
+    category: nice
+    effortSeconds: 30
+    detector: { id: alchemy/liquid-unstaffed }
+    notes: "FR-27: an unlocked liquid below half its cap with nobody on it, while a bubble cauldron has 2 or more brewers. It moves the lowest-Alchemy brewer that holds no alchemy Role, from the cauldrons with the most brewers; at most one liquid per run. M19 replaces it (X6)."

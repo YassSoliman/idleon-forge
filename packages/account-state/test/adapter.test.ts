@@ -169,6 +169,18 @@ describe('toAccountState', () => {
       refinery: null,
       construction: null,
       library: null,
+      // M20 TR-2: the synthetic parse has none of the sections or OLA entries M20 reads.
+      cogBoard: null,
+      liquids: null,
+      resets: null,
+      killroy: null,
+      weeklyBattle: null,
+      ballot: null,
+      randomEvents: null,
+      petTournament: null,
+      taskBoardDailies: null,
+      guildTasks: null,
+      totems: null,
     });
     expect(state.characters.map(withoutUnspentCharacter)).toEqual([
       {
@@ -191,6 +203,9 @@ describe('toAccountState', () => {
         // M16 TR-2: no star sign or tree-door keys either.
         starSigns: null,
         telescopeRoute: null,
+        // M20 TR-2: no skill or equipment keys.
+        skills: null,
+        slots: null,
       },
     ]);
     expect(state.schemaVersion).toBe(SCHEMA_VERSION);

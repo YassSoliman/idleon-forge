@@ -80,6 +80,35 @@ export {
   killsLeftOn,
   killsLeftTable,
 } from './frontier';
+// M20 Skills, Parallel Slots and the Daily & Weekly Checklist (M20 TR-2)
+export {
+  ballotText,
+  COG_BOARD_SIZE,
+  COG_INVENTORY_START,
+  COG_SHELF_START,
+  LIQUID_UNLOCK_LEVELS,
+  OLA as M20_OLA,
+  RANDOM_EVENT_WINDOW_MS,
+} from './slots';
+export {
+  type CharacterSlots,
+  type CogBoardState,
+  type CogPlace,
+  type CogSquare,
+  type GuildTasksState,
+  type KillroyClass,
+  type KillroyState,
+  type LiquidState,
+  type PetTournamentState,
+  type RandomEventsState,
+  SKILL_IDS,
+  type SkillId,
+  type SkillState,
+  type SlotsAccountFields,
+  type SlotsCharacterFields,
+  type TaskBoardDaily,
+  type WorshipTotem,
+} from './slots-types';
 // M7 Spend Plan (M7 TR-2)
 export { LADDER_CHECKPOINTS, SPEND_VAULT_ROWS } from './spend';
 export type {

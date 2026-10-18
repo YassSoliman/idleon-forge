@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M20 TR-3 (V3): how many traps each trap set allows. The game's NumOfTrapsPlaceable is the equipped
+# set's item ID (N.js @7772714, game 2.3.540; +1 with an Alchemy bonus), and Toolbox's items data has
+# that ID, so these rows mirror it (kb-tools test m20-facts checks them at the pin). It unblocks M3
+# FR-21 branch (i) (X3). Sets past Royal Traps all allow 7 ("up to Royal Traps", wiki Trapping).
+system: trapping
+facts:
+  - id: trapping.fact.trap-set-capacity
+    system: trapping
+    origin: authored
+    title: Traps allowed per trap set
+    rows:
+      - { rawName: TrapBoxSet1, name: Cardboard Traps, traps: 1, levelReq: 1 }
+      - { rawName: TrapBoxSet2, name: Silkskin Traps, traps: 2, levelReq: 5 }
+      - { rawName: TrapBoxSet3, name: Wooden Traps, traps: 3, levelReq: 15 }
+      - { rawName: TrapBoxSet4, name: Natural Traps, traps: 4, levelReq: 20 }
+      - { rawName: TrapBoxSet5, name: Steel Traps, traps: 5, levelReq: 30 }
+      - { rawName: TrapBoxSet6, name: Meaty Traps, traps: 6, levelReq: 40 }
+      - { rawName: TrapBoxSet7, name: Royal Traps, traps: 7, levelReq: 48 }
+      - { rawName: TrapBoxSet8, name: Egalitarian Traps, traps: 7, levelReq: 55 }
+      - { rawName: TrapBoxSet9, name: Forbidden Traps, traps: 7, levelReq: 70 }
+      - { rawName: TrapBoxSet10, name: Containment of the Zrgyios, traps: 7, levelReq: 85 }
+      - { rawName: TrapBoxSet11, name: Prehistoric Traps, traps: 7, levelReq: 100 }
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json", title: "IdleOn Toolbox game data: TrapBoxSet ID and lvReqToEquip", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }

@@ -4,10 +4,13 @@
 // engine core. Plain data only, so it survives `structuredClone` across the worker boundary (TR-6):
 // no functions, Maps, class instances or Dates. All times are epoch ms, all durations seconds.
 // A change here needs a note on M10's spec and on the producer module's spec.
+import type { Checklist } from './checklist/types';
 import type { CardsView } from './collections/cards-view-types';
+import type { CharacterSkills, SkillGrid, SystemPicture } from './slots/types';
 import type { SpendPlan } from './spend/types';
 import type { StarSignsView } from './starsigns/types';
 
+export type { Checklist, ChecklistRow, ResetClock, RowBand, RowState } from './checklist/types';
 export type {
   CardChip,
   CardSetChip,
@@ -18,6 +21,17 @@ export type {
   PresetRecommendation,
   PresetRow,
 } from './collections/cards-view-types';
+export type {
+  CharacterSkills,
+  PictureElement,
+  SkillGrid,
+  SkillRow,
+  SlotKind,
+  SlotPip,
+  SlotState,
+  StationId,
+  SystemPicture,
+} from './slots/types';
 export type {
   SpendHandoff,
   SpendLine,
@@ -478,4 +492,12 @@ export interface EngineResult {
   timeline?: TimelineBar[];
   /** M17 TR-2 (Phase 2): M3 `AfkSafetyResult.returnAt`, when the player is back; absent without M3. */
   returnAt?: number;
+  /** M20 F1: the Daily & Weekly Checklist (the Now section with its two rings); absent without M20. */
+  checklist?: Checklist | null;
+  /** M20 F3: every character's Skills tab, in save order; absent without M20. */
+  skills?: CharacterSkills[];
+  /** M20 TR-6: the Construction, Worship, Trapping and Alchemy System page pictures. */
+  slotPictures?: SystemPicture[];
+  /** M20 FR-31: the Skill Grid for the Characters place's `#skills` section. */
+  skillGrid?: SkillGrid | null;
 }

@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M20 F2 Parallel Slots (docs/specs/M20-skills-parallel-slots.md FR-29, D-10): ActiveOn's own concept
+# (registry kind activeon). At most 2 slot Goals show in the Account section, in this order; the second
+# carries the others as "Also free" details. Cheapest and surest first: a seat is free and takes
+# seconds, a skull is a shop buy that doubles a cap, a quest takes a trip.
+system: slots
+entries:
+  - id: slots.priority.fill-order
+    system: slots
+    type: priority
+    title: Parallel Slot fill order
+    text: "Fill free Parallel Slots, cheapest first"
+    why: "A Parallel Slot runs beside the AFK Target for free; an empty one is value nobody collects."
+    values:
+      maxGoals: 2
+      also: "Also free: {list}"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Construction", title: "IdleOn Wiki: Construction (the Cog Board)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Worship", title: "IdleOn Wiki: Worship (skulls)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Trapping", title: "IdleOn Wiki: Trapping", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    list: order
+    tiers:
+      - [construction.check.cog-seat-free]
+      - [worship.check.no-skull]
+      - [trapping.check.start]
+      - [trapping.check.no-trap-set]
+      - [alchemy.check.liquid-unstaffed]

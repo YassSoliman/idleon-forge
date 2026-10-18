@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #0f53b19b · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 342
+# golden v1: scrubbed-w2 · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 361
 
 ## Verdict changes
 
@@ -23,6 +23,20 @@
 ### Account · fix 1 before you leave
 Fix before you leave
 - Fix · Arcade balls stop building: Claim Arcade balls before you leave (time to the claim cap: now) [IdleOn Wiki: Arcade · Calculated by IdleOn Toolbox · 2.3.540]
+[checklist] Today 0/10 · Week 0/3 · daily reset in 23h 42m
+  ○ To do: Free pet pull
+  ○ To do: Pet Mart free gems · resets with the server day
+  ○ To do: Pet Tournament registration · resets with the server day
+  ○ To do: Skill minigame plays · 5 plays left · resets in 23h 42m
+  ○ To do: Spiketrap gems · resets in 23h 42m
+  ○ To do: Vial attempts · 11 of 11 left · resets in 23h 42m
+  ○ To do: Daily tasks · W1: Cant stop my Chop C · resets in 23h 42m
+  ◷ Waiting: Random Event · Next: Angry Frogs on The Base Of The Bark · resets in 23h 42m
+  ○ To do: Boss keys · Forest Villa: 1 day banked · resets in 23h 42m
+  ○ To do: Colosseum tickets · Typhoon: 3 days banked, 1 lost · Centurion: 2 days banked · resets in 23h 42m · lost before you are back
+  ○ To do: Killroy's rooms · Warrior room: your Barbarian Lv 60 · your weekly reset in 2d 23h
+  ○ To do: Weekly Battle · best this week: difficulty 0 of 5 · new boss Thursday 00:00 UTC, in 4d 8h
+  ○ To do: Bonus Ballot vote · Leading now: Boosts Equinox Bar Fill rate by 1.4x · new ballot Monday about 17:00 UTC, in 2d 1h
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Collect banked Colosseum tickets: Collect 5 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
@@ -40,6 +54,8 @@ Spend coins: 9 buys now on 1 character
 If you have time
 - XxX Cattleprod XxX 1 on Barbarian 60: kill 15 Mafiosos before they respawn → Lil' Mining Baggy Stamp and Catch Net Stamp · about 5m of hands-on play
 - Wellington 1 on Barbarian 60: find the 3 invisible platforms hidden around the game → Arcane Stamp and Brainstew Stamps · about 15m of hands-on play
+- Run Killroy's Warrior room on your Barbarian Lv 60 (YumYum Grotto) · about 2m of hands-on play
+- Run the Weekly Battle with every character (Yum Yum Desert) · about 5m of hands-on play
 
 ## Not covered yet
 Classes and subclasses
@@ -69,6 +85,10 @@ W0 · Cards · Behind · Behind for your Stage · 4 to do
 W0 · Obols · Nothing to fix · Nothing to fix · 2 to do
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Random Events · Nothing to fix · Nothing to fix
+W0 · Pet Tournament · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Guild tasks · Nothing to fix · Nothing to fix
 W1 · Stamps · Behind · Behind for your Stage · 5 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 1 to do
 W1 · Anvil · Nothing to fix · Nothing to fix · 1 full · collect
@@ -87,6 +107,9 @@ W2 · Alchemy vials · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet · in the Spend Plan
 W2 · Arcade · Wasting · 1 to fix before you leave
 W2 · Islands · Not covered yet · Not covered yet
+W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
+W2 · Weekly Battles · Nothing to fix · Nothing to fix
+W2 · Bonus Ballot · Nothing to fix · Nothing to fix
 W3 · Refinery · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Construction · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Talent Book Library · Locked · Opens in World 3 · Frostbite Tundra
@@ -118,6 +141,8 @@ C4 · Bowman 54
 - anvil full · in 1h 49m · 17:35 · before · info · fix none
 C3 · Shaman 44
 - anvil full · in 1h 35m · 17:22 · before · info · fix none
+Account · Random Events
+- Random Event ready · in 3h 13m · 19:00 · before · info · fix none
 Account · Colosseum
 - Colosseum tickets lost · now · before · next-action · outlined · fix colosseum.check.collect-tickets@account
 Account · Alchemy cauldrons and liquids
@@ -213,6 +238,7 @@ Account · Arcade
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached no |  |
+| systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached no |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
@@ -223,6 +249,7 @@ Account · Arcade
 | systems.yaml#equinox | worlds/reached | account | reached no |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
 | systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#killroy | worlds/reached | account | reached yes |  |
 | systems.yaml#lab | worlds/reached | account | reached no |  |
 | systems.yaml#library | worlds/reached | account | reached no |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
@@ -238,6 +265,7 @@ Account · Arcade
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached no |  |
+| systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached no |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=2 |
 | trapping.check.finishes-early | trapping/finishes-early | — | silent |  |

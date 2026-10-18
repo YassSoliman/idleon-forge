@@ -18,9 +18,24 @@ export interface NowPrefs {
   dismissals: Readonly<Record<string, number | null>>;
   /** Next Action keys seen while the window had focus (FR-34); null to skip the count. */
   seenKeys: readonly string[] | null;
+  /**
+   * M20 FR-15: Done ticks on checklist rows the save can't judge, `checklist@<rowId>@<periodIndex>` -> the
+   * period's end (epoch ms). The prefs store is already per account, and a tick never outlives its period.
+   */
+  ticks?: Readonly<Record<string, number>>;
 }
 
 export const EMPTY_PREFS: NowPrefs = { skips: {}, dismissals: {}, seenKeys: null };
+
+/** M20 FR-15: drops ticks whose period has ended, keeping at most `PREFS_CAP`. */
+export function pruneTicks(ticks: Readonly<Record<string, number>>, now: number): Record<string, number> {
+  return Object.fromEntries(
+    Object.entries(ticks)
+      .filter(([, end]) => end > now)
+      .sort(([, a], [, b]) => a - b)
+      .slice(-PREFS_CAP),
+  );
+}
 
 /** M1 TR-15: a gap of 15 minutes with no cloud save ends a Play Session. */
 export const SESSION_GAP_MS = 15 * 60_000;

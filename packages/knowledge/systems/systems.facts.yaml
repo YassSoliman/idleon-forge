@@ -150,6 +150,24 @@ facts:
         gameVersion: 2.3.540
         sources:
           - { url: https://idleon.wiki/wiki/Island_Expeditions, title: "IdleOn Wiki: Island Expeditions", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: killroy
+        world: 2
+        text: "Opens in World 2: Killroy waits in YumYum Grotto, with one room a week until World 3 is finished"
+        gameVersion: 2.3.540
+        sources:
+          - { url: "https://idleon.wiki/wiki/Killroy%27s_Slaughterhouse", title: "IdleOn Wiki: Killroy's Slaughterhouse", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: weekly-battles
+        world: 2
+        text: "Opens in World 2: a new boss every week, one turn per character"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Weekly_Battles, title: "IdleOn Wiki: Weekly Battles", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: ballot
+        world: 2
+        text: "Opens in World 2: one vote a week for a bonus everyone gets"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Bonus_Ballot, title: "IdleOn Wiki: Bonus Ballot", tier: 2, claimDate: 2026-10-09, verified: 2026-10-18, gameVersion: 2.3.540 }
       # ---- World 3 ----
       - system: refinery
         world: 3

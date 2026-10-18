@@ -4,6 +4,7 @@
 import { LINK_WORDS, type NowView } from '@idleon-forge/engine/now';
 import { forwardRef } from 'react';
 import { formatRoute } from '../shell/route';
+import { ChecklistSection } from './Checklist';
 import { useNowActions } from './context';
 import { GoalList, NextActionItem, ReportThis, SeeItLink, SourceLabel } from './parts';
 import { StarChartSection } from './signs/SignsPanel';
@@ -68,6 +69,7 @@ export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(functio
           </ul>
         </div>
       ) : null}
+      <ChecklistSection view={view.checklist} />
       <GoalList
         goals={acc.goals}
         subject="account"

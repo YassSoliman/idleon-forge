@@ -1,0 +1,51 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M20 Daily & Weekly Checklist: guild tasks (docs/specs/M20-skills-parallel-slots.md FR-15, D-6). Rows only,
+# with a Done tick: Toolbox drops the claimed flag, so the save shows only each task's progress, given
+# as a hint ("2 of 5 met"). The guild name and members are never read.
+system: guild
+entries:
+  - id: guild.check.daily
+    system: guild
+    type: check
+    title: Guild daily tasks
+    text: "{text}"
+    why: "{why}"
+    values:
+      row: "Claim your guild's daily tasks"
+      why: "Guild tasks pay Guild Points; the daily ones reroll at your daily reset."
+      hint: "{met:int} of {total:int} met"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Guilds", title: "IdleOn Wiki: Guilds (daily and weekly tasks)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/guild.ts", title: "IdleOn Toolbox getGuild (task progress and requirement)", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    subject: account
+    effect: next-action
+    category: nice
+    effortSeconds: 60
+    detector: { id: checklist/rows, params: { row: guild-daily } }
+    notes: "Row only, a manual Done tick (D-6)."
+
+  - id: guild.check.weekly
+    system: guild
+    type: check
+    title: Guild weekly tasks
+    text: "{text}"
+    why: "{why}"
+    values:
+      row: "Claim your guild's weekly tasks"
+      why: "Guild tasks pay Guild Points; the weekly ones reset at your weekly reset."
+      hint: "{met:int} of {total:int} met"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Guilds", title: "IdleOn Wiki: Guilds (daily and weekly tasks)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/guild.ts", title: "IdleOn Toolbox getGuild (task progress and requirement)", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    subject: account
+    effect: next-action
+    category: nice
+    effortSeconds: 60
+    detector: { id: checklist/rows, params: { row: guild-weekly } }
+    notes: "Row only, a manual Done tick (D-6)."

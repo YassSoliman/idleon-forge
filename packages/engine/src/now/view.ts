@@ -7,8 +7,13 @@ import type {
   CardsView,
   Category,
   CharacterCards,
+  CharacterSkills,
+  ChecklistRow,
   Done,
   Provenance,
+  SkillGrid,
+  SkillRow,
+  SlotPip,
   SpendStatus,
   StarSignsView,
   Subject,
@@ -300,6 +305,102 @@ export interface NowView {
   cards: CardsNowView | null;
   /** M16: the Signs tab and the Star Chart section; null below W1-mid or without M16. */
   starSigns: StarSignsNowView | null;
+  /** M20 F1: the Daily & Weekly Checklist section with its two rings; null without M20. */
+  checklist: ChecklistView | null;
+  /** M20 F3: every character's Skills tab, in save order; empty without M20. */
+  skills: SkillsTabView[];
+  /** M20 FR-31: the Skill Grid (the Characters place's `#skills` section); null without M20. */
+  skillGrid: SkillGridView | null;
+}
+
+// ---- M20 Skills, Parallel Slots and the Daily & Weekly Checklist (TR-5) ----
+
+/** One checklist row, worded (FR-12, FR-13): never colour alone, a glyph and a word for its state. */
+export interface ChecklistRowView {
+  id: string;
+  band: ChecklistRow['band'];
+  state: ChecklistRow['state'];
+  /** "To do", "Waiting", "Done", "Can't", "Can't tell". */
+  stateWord: string;
+  /** Shown beside the word, never alone. */
+  glyph: string;
+  label: string;
+  details: string[];
+  /** "resets in 12h 36m", "your weekly reset in 1d 12h", "new boss Thursday 00:00 UTC, in 4d 16h". */
+  clockText: string | null;
+  /** "from 14:00, in 3h 12m" for a waiting row. */
+  availableText: string | null;
+  /** "2m". */
+  effort: string;
+  lostBeforeReturn: boolean;
+  /** "done at 14:20" (FR-14); null in paste mode. */
+  doneAt: string | null;
+  /** FR-15: the Done tick (the preference key) and the save's own progress. */
+  manual: null | { key: string; ticked: boolean; hint: string };
+  /** FR-8: the Next Action that already carries this row. */
+  link: ChecklistRow['link'];
+  /** The row's own one-line instruction when nothing links. */
+  nextAction: string | null;
+  /** The row's System, for "See it" when it has no link. */
+  systemId: string;
+  /** This row has a Timeline bar (Killroy skulls, the next Random Event): "See it: Timeline". */
+  timeline: boolean;
+  source: SourceView | null;
+}
+
+export interface ChecklistBandView {
+  band: ChecklistRow['band'];
+  /** "No bank: lost at the reset", "Banks up to 3 days", "Weekly". */
+  title: string;
+  /** Todo, then waiting, then cannot and can't tell. */
+  rows: ChecklistRowView[];
+  /** Done rows, folded into "N done · show". */
+  done: ChecklistRowView[];
+  /** "Opens later" lines for this band. */
+  later: string[];
+}
+
+export interface ChecklistView {
+  rings: { today: { done: number; total: number }; week: { done: number; total: number } };
+  /** "Today 1 of 11 · Week 2 of 5": the rings' text equivalent. */
+  ringText: string;
+  /** "daily reset in 12h 36m", or "can't tell when your daily reset is". */
+  dailyText: string;
+  /** FR-6: why the week ring can refill mid-week. */
+  weekWhy: string;
+  expanded: boolean;
+  bands: ChecklistBandView[];
+}
+
+export interface SkillRowView extends SkillRow {
+  /** "Mining". */
+  name: string;
+  /** "Decent cogs at Construction 15 (4 levels)", or null. */
+  gateText: string | null;
+  /** "your best" when this character holds the account's best, else "best 23". */
+  bestText: string | null;
+  /** "Role", "Role from W3", or null. */
+  roleText: string | null;
+}
+
+export interface SkillsTabView {
+  index: number;
+  name: string;
+  classLabel: string;
+  level: number;
+  /** `#skills-<index>`. */
+  href: string;
+  train: CharacterSkills['train'];
+  rows: SkillRowView[];
+  slots: SlotPip[];
+  /** The tab's one status line on the Characters tile (M17 FR-13). */
+  status: string;
+}
+
+export interface SkillGridView extends SkillGrid {
+  /** Character names and classes for the rows, in save order. */
+  who: { index: number; name: string; classLabel: string; level: number }[];
+  names: Record<SkillGrid['skills'][number], string>;
 }
 
 /** M16's view with the player-facing Source picked (#74). */

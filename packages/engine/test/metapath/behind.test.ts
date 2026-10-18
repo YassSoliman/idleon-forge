@@ -87,6 +87,9 @@ describe('the Stage Expectations table (TR-10)', () => {
       ['salts-running', 'W3-early'],
       ['printer-per-character', 'W3-mid'],
       ['auto-refine', 'W3-mid'],
+      // M20 FR-42: no free Cog Board square, and a skull on every character, by W3-mid.
+      ['cog-board-full', 'W3-mid'],
+      ['worship-skulls', 'W3-mid'],
     ]);
     for (const r of rows) {
       expect(ctx.kb.entries[r.fix], r.fix).toBeDefined();

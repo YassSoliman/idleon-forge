@@ -1,0 +1,64 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M20 Daily & Weekly Checklist: Killroy's Slaughterhouse (docs/specs/M20-skills-parallel-slots.md F-c,
+# FR-9 to FR-11). The rooms are "If you have time" Active Play; the skulls are a Goal only when the
+# account week ends before the player is back (they are wiped at the weekly reset, F-b). Every line is
+# built by the engine module (packages/engine/src/checklist) from these templates.
+system: killroy
+entries:
+  - id: killroy.check.room
+    system: killroy
+    type: check
+    title: Run Killroy's rooms
+    text: "{text}"
+    why: "{why}"
+    values:
+      line: "Run Killroy's {class} room on your {who} (YumYum Grotto)"
+      why: "Each room takes one character of its class for about 2 minutes, once a week; its kills drop Killroy skulls."
+      cannot: "No {class} on your account"
+      row: "Run Killroy's rooms"
+      room: "{class} room: your {who}"
+      room-done: "{class} room: done"
+      room-cannot: "{class} room: no {class} on your account"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Killroy%27s_Slaughterhouse", title: "IdleOn Wiki: Killroy's Slaughterhouse", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts", title: "IdleOn Toolbox getKillRoyClasses (room classes, seeded on the account week)", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: account
+    effect: next-action
+    category: nice
+    activePlay: { minutes: 2 }
+    effortSeconds: 120
+    detector: { id: killroy/rooms }
+    notes: "F-c: room 2 once World 3 is finished (Toolbox's alert), room 3 with the 1% Skull Shop roll (OLA[227]). OLA[113] is per-digit: room r is done when the code contains digit r (N.js @4314131). D-20: never the pusher unless it is the only one of the class."
+
+  - id: killroy.check.skulls
+    system: killroy
+    type: check
+    title: Spend Killroy skulls
+    text: "{text}"
+    why: "{why}"
+    values:
+      timelineKind: bank
+      timelineWhat: "Killroy skulls"
+      line: "Spend {n:int} Killroy skulls at Killroy's Skull Shop: Arcade ball packs first"
+      line-no-packs: "Spend {n:int} Killroy skulls at Killroy's Skull Shop"
+      why: "Unspent skulls are wiped at your weekly reset."
+      packs: "4 skulls buy 10 Arcade balls: {left:int} of 50 packs left this week"
+      row: "Spend {n:int} Killroy skulls"
+      row-done: "Skulls spent this week"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Killroy%27s_Slaughterhouse", title: "IdleOn Wiki: Killroy's Slaughterhouse (skulls reset weekly)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://reddit.com/r/idleon/comments/1skfgco/best_killroy_upgrade_im_in_w3/", title: "r/idleon: Best Killroy upgrade? (arcade balls first)", tier: 3, claimDate: 2026-04-13, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js", title: "IdleOn Toolbox Killroy alert (skulls, OLA[105])", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: account
+    effect: next-action
+    category: spendable
+    priority: { frame: by-urgency }
+    effortSeconds: 90
+    detector: { id: killroy/skulls }
+    notes: "FR-9, FR-11: a Goal only when the account week ends before now + Expected Return. Arcade packs left = 50 - OLA[417]; the pack advice drops at 0."

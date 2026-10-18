@@ -27,6 +27,8 @@ export interface NowActions {
   /** Opens a character's page on one of its tabs (`character-tabs.ts`), e.g. 'build'. */
   openTab(index: number, tab: string): void;
   toggle(id: string): void;
+  /** M20 FR-15: tick a checklist row the save can't judge, until its period ends (null clears it). */
+  tick?: (key: string, until: number | null) => void;
   expanded: ReadonlySet<string>;
   /** M17: a player move to another place or page (pushState, keyboard focus to its heading). */
   navigate?: (to: Route, opts?: { origin?: string; highlight?: string | null }) => void;

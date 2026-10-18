@@ -16,6 +16,7 @@ import { getPrinterMulti } from '../vendor/parsers/world-3/printer';
 import { calcTimeToRankUp, getSaltMatsTimeLeft, getSaltsBalance } from '../vendor/parsers/world-3/refinery';
 import { frontierRates, onMap } from './frontier-rates';
 import { itemDisplayName } from './item-names';
+import { killroyWeeks, randomEventSchedule } from './resets';
 import { shopStockAll } from './shop-stock';
 import { stampEvaluations, vaultLadders } from './spend';
 
@@ -57,4 +58,7 @@ export const toolboxCalls = {
   calcTimeToRankUp,
   getBuildCost,
   getBookLvRange,
+  // M20 TR-1: the seeded Killroy room classes and the Random Event schedule (read the clock: frozen).
+  killroyWeeks,
+  randomEventSchedule,
 };

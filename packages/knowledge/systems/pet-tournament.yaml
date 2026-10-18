@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M20 Daily & Weekly Checklist: Pet Tournament registration (docs/specs/M20-skills-parallel-slots.md FR-2).
+# A row only. Registering sets OLA[511] to the tournament day + 1 (N.js @13333782; Toolbox's
+# tournamentRegister alert), so it is done while OLA[511] > day. The day comes from the server (the
+# game asks its host for getTournamentDay), so it can't be projected (V8): the row changes only on a save.
+system: pet-tournament
+entries:
+  - id: pet-tournament.check.register
+    system: pet-tournament
+    type: check
+    title: Register for the Pet Tournament
+    text: "{text}"
+    why: "{why}"
+    values:
+      row: "Register your pets for today's Tournament"
+      why: "The Tournament runs once a day; a day you don't register is a day of rewards missed."
+      closed: "Registration is closed right now"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Tournament", title: "IdleOn Wiki: Tournament (once a day)", tier: 2, claimDate: 2026-10-14, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js", title: "IdleOn Toolbox tournamentRegister alert (OLA[511] > day)", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    subject: account
+    effect: next-action
+    category: nice
+    effortSeconds: 30
+    detector: { id: checklist/rows, params: { row: pet-tournament } }
+    notes: "Row only. Registration closed reads the global tournament doc's C flag (confidence M)."

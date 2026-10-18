@@ -19,6 +19,7 @@ import { renderSystemsText, renderTimelineText } from './now/render-views-text';
 import { buildSystemsView } from './now/systems-view';
 import { buildTimelineView } from './now/timeline-view';
 import type { EngineResult } from './result';
+import { createM20Modules } from './slots';
 import { createSpendModule } from './spend';
 import { createStarSignsModule } from './starsigns';
 import { createUnspentModule } from './unspent';
@@ -65,6 +66,7 @@ export function goldenModules(input: GoldenInput): readonly EngineModule[] {
     createSpendModule({ kb, stage: (s) => detectStage(s, facts) }),
     createWalkthroughModule({ kb }),
     createStarSignsModule({ kb }),
+    ...createM20Modules({ kb }),
   ];
 }
 

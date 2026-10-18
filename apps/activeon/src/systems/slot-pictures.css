@@ -1,0 +1,161 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M20 System page pictures: the Cog Board, charge tanks, traps and cauldron seats. Tokens only; our own
+   boxes, never game art (ADR 0009). Wraps at 320 px with no page-level horizontal scroll. */
+.pic {
+  overflow-wrap: anywhere;
+  min-width: 0;
+  margin: 0 0 12px;
+}
+.cog-board {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 2px;
+  max-width: 360px;
+  margin: 8px 0;
+}
+.sq {
+  display: inline-block;
+  aspect-ratio: 1;
+  min-width: 10px;
+  border-radius: 3px;
+  background: var(--sunk);
+}
+.pic-legend .sq {
+  width: 12px;
+  vertical-align: middle;
+}
+.sq.cog {
+  background: var(--unk);
+}
+.sq.character {
+  background: var(--ok);
+}
+.sq.open {
+  background: var(--surface);
+  border: 2px dashed var(--coin);
+}
+.sq.lit,
+.chip.lit,
+.tank.lit,
+.trap-row.lit,
+.station.lit {
+  outline: 3px solid var(--coin);
+  outline-offset: 1px;
+}
+.pic-legend {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding: 0;
+  margin: 0 0 8px;
+}
+.pic-list {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 8px;
+}
+.pic-list dt {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.pic-list dd {
+  margin: 2px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+}
+.tanks,
+.trap-rows,
+.stations {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+  display: grid;
+  gap: 6px;
+}
+.tank,
+.trap-row,
+.station {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 6px 10px;
+  background: var(--surface);
+}
+.trap-row,
+.station {
+  flex-wrap: wrap;
+}
+.station.locked {
+  color: var(--muted);
+}
+.tank-bar {
+  flex: none;
+  width: 18px;
+  height: 40px;
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: var(--sunk);
+}
+.tank-fill {
+  display: block;
+  width: 100%;
+  background: var(--ok);
+}
+.tank.full .tank-fill {
+  background: var(--coin);
+}
+.tank-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.tank-fill.p0 {
+  height: 0%;
+}
+.tank-fill.p10 {
+  height: 10%;
+}
+.tank-fill.p20 {
+  height: 20%;
+}
+.tank-fill.p30 {
+  height: 30%;
+}
+.tank-fill.p40 {
+  height: 40%;
+}
+.tank-fill.p50 {
+  height: 50%;
+}
+.tank-fill.p60 {
+  height: 60%;
+}
+.tank-fill.p70 {
+  height: 70%;
+}
+.tank-fill.p80 {
+  height: 80%;
+}
+.tank-fill.p90 {
+  height: 90%;
+}
+.tank-fill.p100 {
+  height: 100%;
+}
