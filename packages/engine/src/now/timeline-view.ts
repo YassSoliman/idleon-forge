@@ -13,7 +13,7 @@ import { ACCOUNT_GOAL_CAP, CHARACTER_GOAL_CAP } from './build-now-view';
 import { clockAt, inSpan, span } from './format';
 import { dismissActive, type NowPrefs, type SessionClock, skipActive } from './prefs';
 import type { AfkStripView, NowView, TimelineBarView, TimelineFix, TimelineLane, TimelineView } from './view';
-import { KIND_WORDS, TIMELINE_WORDS as W } from './view-words';
+import { AFK_STRIP_WORDS, KIND_WORDS, TIMELINE_WORDS as W } from './view-words';
 
 export interface TimelineUi {
   now: number;
@@ -314,11 +314,82 @@ export function buildTimelineView(
   };
 }
 
+/** One character's mark on the AFK strip: its first binding limit, on the Timeline's axis. */
+export interface AfkStripMark {
+  index: number;
+  at: number;
+  beforeReturn: boolean;
+  /** 0 (now) to 1 (the axis end), the Timeline's own `x`. */
+  x: number;
+  classLabel: string;
+  level: number;
+  /** The bar's own label ("Anvil full · collect"). */
+  what: string;
+  /** "now", or "in 3h 40m". */
+  when: string;
+  /** "Bowman 60: Anvil full · collect, in 3h 40m, before you're back". */
+  a11y: string;
+}
+
+export interface AfkStrip extends AfkStripView {
+  marks: AfkStripMark[];
+  /** Where the flag sits, 0 to 1. */
+  backX: number;
+  /** "Back in 8h 00m · 02:20" (the Timeline's own label). */
+  backLabel: string;
+  /** How many limits bind before you're back: the Timeline badge's number (US-10). */
+  before: number;
+}
+
 /**
- * M21 FR-T5: the compact AFK strip on Now, from the Timeline's bars on a shared axis to the Back marker.
- * Owned by area T (Integration places it on Now). Phase F declares the signature so the shell's view
- * slot exists; it returns null until area T builds it.
+ * M21 FR-T5: the compact AFK strip on Now (the Design Lab's `flows.afk-timeline` Compact strip), from the
+ * Timeline's bars on its shared axis: one mark per character at its first binding limit, outlined when it
+ * binds before the return, a flag at Back and one sentence. Owned by area T; Integration places it on Now.
+ * It reads only `buildTimelineView`'s output, so it never disagrees with the Timeline place.
  */
-export function buildAfkStripView(_timeline: TimelineView | null, _view: NowView): AfkStripView | null {
-  return null;
+export function buildAfkStripView(timeline: TimelineView | null, view: NowView): AfkStrip | null {
+  if (!timeline) return null;
+  const rows = new Map(view.roster.map((r) => [r.index, r]));
+  const now = timeline.axis.start;
+  const whenOf = (at: number) => (at <= now ? AFK_STRIP_WORDS.fullNow : inSpan(at - now));
+  const marks: AfkStripMark[] = [];
+  let before = 0;
+  let first: { at: number; what: string; who: string } | null = null;
+  for (const lane of timeline.lanes) {
+    const row = lane.index === null ? undefined : rows.get(lane.index);
+    if (!row) continue;
+    const who = `${row.classLabel} ${row.level}`;
+    // A present-state problem (no time, "now") binds now; an untimed bar has no place on the axis.
+    const timed = lane.bars
+      .filter((b) => b.state === 'open' && !b.untimed)
+      .map((b) => ({ b, at: b.at ?? now }))
+      .sort((a, z) => a.at - z.at);
+    before += timed.filter((t) => t.b.beforeReturn).length;
+    const head = timed[0];
+    if (!head) continue;
+    const what = head.b.label;
+    const when = whenOf(head.at);
+    marks.push({
+      index: row.index,
+      at: head.at,
+      beforeReturn: head.b.beforeReturn,
+      x: head.b.x ?? 0,
+      classLabel: row.classLabel,
+      level: row.level,
+      what,
+      when,
+      a11y: AFK_STRIP_WORDS.mark(who, what, when, head.b.beforeReturn),
+    });
+    if (head.b.beforeReturn && (!first || head.at < first.at))
+      first = { at: head.at, what: head.b.what, who };
+  }
+  return {
+    marks,
+    backX: timeline.axis.backX,
+    backLabel: timeline.axis.backLabel,
+    before,
+    sentence: first
+      ? AFK_STRIP_WORDS.sentence(before, first.what, first.who, whenOf(first.at))
+      : AFK_STRIP_WORDS.nothing,
+  };
 }

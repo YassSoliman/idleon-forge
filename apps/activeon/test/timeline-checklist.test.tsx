@@ -1,16 +1,25 @@
 // @vitest-environment jsdom
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M20 in the DOM, area T (M21 §9): the Daily & Weekly Checklist section in the Account (rings with their
-// text, bands, a glyph and a word per state, the Done tick) and its links that land on their Goal (R7
-// QA). Split from m20-view.test.tsx.
+// M20 in the DOM, area T (M21 §9, FR-T2): Now's Account keeps the one ring line, which links to the
+// Timeline's `#daily` section; there, the two-ring reset clock, the three bands as pip rows, a band's
+// rows in a sheet (3, then "Show all"), a glyph and a word per state, the Done tick, the Five-minute
+// plan, the bank pips, and the row links that land on their Goal (R7 QA).
 
 import type { Checklist, EngineResult } from '@idleon-forge/engine/result';
-import { cleanup, fireEvent, within } from '@testing-library/react';
+import { cleanup, fireEvent, screen, within } from '@testing-library/react';
 import axe from 'axe-core';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { bankPips, planFor, ringFractions } from '../src/timeline/daily-model';
+import { DAILY_WORDS } from '../src/timeline/words';
 import { withM20 } from './helpers/m20-result';
 import { fixture, props, renderNow, saveOf } from './now-helpers';
+
+const ARRIVE = { timeout: process.env.CI ? 15_000 : 5_000 };
+vi.setConfig({ testTimeout: ARRIVE.timeout + 5_000 });
+beforeAll(async () => {
+  await import('../src/timeline/TimelinePlace');
+}, 30_000);
 
 beforeEach(() => {
   localStorage.clear();
@@ -18,31 +27,102 @@ beforeEach(() => {
 });
 afterEach(() => cleanup());
 
-describe('the Daily & Weekly Checklist section', () => {
-  it('shows both rings as text, the bands, a word per state and the folded done rows', async () => {
+const daily = async (r: EngineResult) => {
+  window.history.replaceState(null, '', '/#daily');
+  const out = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+  await screen.findByRole('heading', { level: 3, name: DAILY_WORDS.title }, ARRIVE);
+  return { ...out, section: document.getElementById('daily') as HTMLElement };
+};
+const openBand = (section: HTMLElement, title: string) =>
+  fireEvent.click(within(section).getByRole('button', { name: new RegExp(`^Open ${title}`) }));
+const sheet = () => screen.getByRole('dialog');
+
+describe("Now's Account: the one ring line (FR-T2)", () => {
+  it('shows both rings as text and the daily reset, as one link to the Timeline’s #daily', async () => {
     const r = withM20(fixture('mid-session'));
-    const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const section = document.getElementById('checklist');
-    expect(section?.textContent).toContain('Today 1 of 3 · Week 0 of 1');
-    expect(section?.textContent).toContain('daily reset in 12h');
-    expect(section?.textContent).toContain('No bank: lost at the reset');
-    expect(section?.textContent).toContain('To do');
-    expect(section?.textContent).toContain('lost before you are back');
-    expect(section?.textContent).toContain("Opens later: Post Office orders: finish Postboy Pablob's quest");
-    expect(within(section as HTMLElement).getByRole('button', { name: '1 done · show' })).toBeTruthy();
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const line = document.getElementById('checklist') as HTMLElement;
+    expect(line.textContent).toContain('Today 1 of 3 · Week 0 of 1');
+    expect(line.textContent).toContain('daily reset in 12h');
+    const link = within(line).getByRole('link');
+    expect(link.getAttribute('href')).toBe('#daily');
+    fireEvent.click(link);
+    await screen.findByRole('heading', { level: 3, name: DAILY_WORDS.title }, ARRIVE);
+    expect(window.location.hash).toBe('#daily');
+  });
+});
+
+describe('the Daily & Weekly section on the Timeline (FR-T2)', () => {
+  it('draws the clock with its words, the bands as pip rows, and passes axe', async () => {
+    const r = withM20(fixture('mid-session'));
+    const { container, section } = await daily(r);
+    expect(section.textContent).toContain(DAILY_WORDS.ringKey);
+    expect(section.textContent).toContain('in 12h');
+    expect(section.textContent).toContain('2 to do before the reset');
+    expect(section.textContent).toContain('Today 1 of 3 · Week 0 of 1');
+    expect(section.textContent).toContain('Week ring: your weekly reset in 36h 00m');
+    const bands = within(section).getAllByRole('button', { name: /^Open / });
+    expect(bands.map((b) => b.getAttribute('aria-label'))).toEqual([
+      'Open No bank: lost at the reset: 2 of 3 to do',
+      'Open Weekly: 1 of 1 to do',
+    ]);
+    // One pip per row, each with its state class.
+    expect(section.querySelectorAll('.dw-band-nobank .dw-pip')).toHaveLength(3);
     await axe
       .run(container, { rules: { 'color-contrast': { enabled: false }, region: { enabled: false } } })
       .then((res) => expect(res.violations.map((v) => v.id)).toEqual([]));
   });
 
-  it('the Done tick on a row the save can’t judge counts in the today ring', () => {
+  it("a band's sheet lists its rows with a word per state, the lost line and Opens later", async () => {
     const r = withM20(fixture('mid-session'));
-    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const section = document.getElementById('checklist') as HTMLElement;
-    fireEvent.click(within(section).getByRole('button', { name: 'Done' }));
+    const { section } = await daily(r);
+    openBand(section, 'No bank');
+    const s = sheet();
+    expect(s.textContent).toContain('To do');
+    expect(s.textContent).toContain('Done');
+    expect(s.textContent).toContain("Opens later: Post Office orders: finish Postboy Pablob's quest");
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(screen.queryByRole('dialog')).toBeNull();
+    // The weekly row is lost before you are back: its pip and its line say so.
+    expect(section.querySelectorAll('.dw-band-weekly .dw-pip.lost')).toHaveLength(1);
+    openBand(section, 'Weekly');
+    expect(sheet().textContent).toContain('lost before you are back');
+  });
+
+  it('shows 3 rows, then "Show all n"', async () => {
+    const base = withM20(fixture('mid-session'));
+    const c = base.checklist as Checklist;
+    const extra = ['a', 'b'].map((id) => ({
+      ...(c.rows[0] as Checklist['rows'][number]),
+      id: `extra-${id}`,
+    }));
+    const r = { ...base, checklist: { ...c, rows: [...c.rows, ...extra] } };
+    const { section } = await daily(r);
+    openBand(section, 'No bank');
+    expect(sheet().querySelectorAll('.cl-row')).toHaveLength(3);
+    fireEvent.click(within(sheet()).getByRole('button', { name: 'Show all 5' }));
+    expect(sheet().querySelectorAll('.cl-row')).toHaveLength(5);
+  });
+
+  it('the Done tick on a row the save can’t judge counts in the today ring', async () => {
+    const r = withM20(fixture('mid-session'));
+    const { section } = await daily(r);
+    openBand(section, 'No bank');
+    fireEvent.click(within(sheet()).getByRole('button', { name: 'Done' }));
     expect(section.textContent).toContain('Today 2 of 3');
-    fireEvent.click(within(section).getByRole('button', { name: '2 done · show' }));
-    expect(within(section).getByRole('button', { name: 'Done ✓ · undo' })).toBeTruthy();
+    expect(within(sheet()).getByRole('button', { name: 'Done ✓ · undo' })).toBeTruthy();
+  });
+
+  it('the Five-minute plan lists what fits, no-bank rows first', async () => {
+    const r = withM20(fixture('mid-session'));
+    const { section } = await daily(r);
+    fireEvent.click(within(section).getByRole('button', { name: '5 min' }));
+    const plan = section.querySelector('.dw-plan') as HTMLElement;
+    expect(within(plan).getByRole('button', { name: '5 min' }).getAttribute('aria-pressed')).toBe('true');
+    expect(plan.textContent).toContain('of 5 min planned · no-bank rows first');
+    expect(plan.querySelectorAll('.cl-row').length).toBeGreaterThan(0);
+    fireEvent.click(within(plan).getByRole('button', { name: '5 min' }));
+    expect(plan.querySelectorAll('.cl-row')).toHaveLength(0);
   });
 });
 
@@ -76,35 +156,67 @@ const lit = (key: string) =>
   document.querySelector(`[data-na-key="${CSS.escape(key)}"]`)?.classList.contains('lit') ?? false;
 
 describe('the checklist links land on their Goal (R7 QA)', () => {
-  it('"in your list" opens the account list\'s "show more" when the Goal is behind it, and outlines it', () => {
+  it('"in your list" opens the account list\'s "show more" when the Goal is behind it, and outlines it', async () => {
     const r = linked({ kind: 'goal', key: 'arcade.check.g5@account' }, 6);
-    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    expect(document.querySelector('[data-na-key="arcade.check.g5@account"]')).toBeNull();
-    const section = document.getElementById('checklist') as HTMLElement;
-    fireEvent.click(within(section).getByRole('link', { name: 'in your list ↓' }));
+    const { section } = await daily(r);
+    openBand(section, 'No bank');
+    fireEvent.click(within(sheet()).getByRole('link', { name: 'in your list ↓' }));
     expect(window.location.hash).toBe('#now');
     expect(lit('arcade.check.g5@account')).toBe(true);
   });
 
-  it('a character Goal (@cN) opens that character\'s Now tab, past its "show more", outlined', () => {
+  it('a character Goal (@cN) opens that character\'s Now tab, past its "show more", outlined', async () => {
     const key = 'minigames.check.daily-plays@c2';
     const r = linked({ kind: 'goal', key });
-    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const section = document.getElementById('checklist') as HTMLElement;
-    fireEvent.click(within(section).getByRole('link', { name: 'in your list ↓' }));
+    const { section } = await daily(r);
+    openBand(section, 'No bank');
+    fireEvent.click(within(sheet()).getByRole('link', { name: 'in your list ↓' }));
     expect(window.location.hash).toBe('#now-2');
     expect(lit(key)).toBe(true);
   });
 
-  it('"If you have time" lands on the keyed item and outlines it', () => {
+  it('"If you have time" lands on the keyed item and outlines it', async () => {
     const key = 'minigames.check.daily-plays@account';
     const r = linked({ kind: 'active-play', key });
-    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const section = document.getElementById('checklist') as HTMLElement;
-    fireEvent.click(within(section).getByRole('link', { name: 'If you have time ↓' }));
+    const { section } = await daily(r);
+    openBand(section, 'No bank');
+    fireEvent.click(within(sheet()).getByRole('link', { name: 'If you have time ↓' }));
     const item = document.querySelector(`[data-na-key="${key}"]`);
     expect(item?.tagName).toBe('LI');
     expect(item?.textContent).toContain('Play the Hoops minigame');
     expect(lit(key)).toBe(true);
+  });
+});
+
+describe('the Daily & Weekly arithmetic (daily-model)', () => {
+  it('reads the banking details as day pips and keeps other details as text', () => {
+    expect(bankPips(['Typhoon: 1 day banked', 'Lonely Hunter: 3 days banked, 2 lost', '5 Water'])).toEqual({
+      pips: [
+        { name: 'Typhoon', kept: 1, lost: 0 },
+        { name: 'Lonely Hunter', kept: 3, lost: 2 },
+      ],
+      rest: ['5 Water'],
+    });
+  });
+
+  it('places the rings by the time left to each reset, and says nothing when it is unknown', () => {
+    const now = 1_000_000_000_000;
+    const clocks = { daily: now + 6 * 3_600_000, accountWeek: null, serverWeek: now, ballotWeek: now };
+    expect(ringFractions(clocks, now)).toEqual({ day: 0.25, week: null });
+    expect(ringFractions(undefined, now)).toEqual({ day: null, week: null });
+  });
+
+  it('plans no-bank rows first, adding efforts until the next would not fit', () => {
+    const row = (id: string, band: 'no-bank' | 'banks' | 'weekly') => ({ id, band, state: 'todo' }) as never;
+    const view = {
+      bands: [
+        { band: 'weekly', rows: [row('w', 'weekly')], done: [], later: [], title: '' },
+        { band: 'no-bank', rows: [row('a', 'no-bank'), row('b', 'no-bank')], done: [], later: [], title: '' },
+      ],
+    } as never;
+    const effort: Record<string, number> = { a: 120, b: 240, w: 60 };
+    const plan = planFor(view, (id) => effort[id] ?? null, 5);
+    expect(plan.rows.map((r) => r.id)).toEqual(['a', 'w']);
+    expect(plan.usedSeconds).toBe(180);
   });
 });

@@ -1,0 +1,78 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M21 FR-T5: the compact AFK strip (the Lab's `flows.afk-timeline` Compact strip). Tokens only. The whole
+   strip is one 44 px+ link to the Timeline; marks are who-glyphs on a shared axis, the Back flag is CSS. */
+.afk-strip {
+  display: grid;
+  gap: var(--space-1);
+  min-height: var(--tap-min);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  color: var(--fg);
+  text-decoration: none;
+  min-width: 0;
+}
+.afk-strip:hover {
+  border-color: var(--accent);
+}
+.afk-axis {
+  position: relative;
+  display: block;
+  height: 64px;
+  margin: 0 8px;
+}
+.afk-rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--sunk);
+  border-left: 2px solid var(--now-line);
+}
+.afk-back {
+  position: absolute;
+  top: 2px;
+  bottom: 0;
+  left: calc(var(--back) * 100%);
+  border-left: 2px dashed var(--return-line);
+}
+/* The pennant on the Back pole. */
+.afk-back::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 8px;
+  background: var(--return-line);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.afk-mark {
+  position: absolute;
+  bottom: calc(12px + var(--stack, 0) * 18px);
+  left: calc(var(--x) * 100%);
+  transform: translateX(-50%);
+  display: inline-flex;
+  line-height: 0;
+  border-radius: var(--radius-xs);
+  background: var(--surface);
+}
+.afk-mark.is-fix {
+  outline: 2px solid var(--bad);
+  background: var(--bad-soft);
+}
+.afk-sentence {
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}
+.afk-more {
+  position: absolute;
+  left: calc(100% + 2px);
+  top: 0;
+  font-size: var(--text-xs);
+  line-height: 16px;
+  color: var(--muted);
+}

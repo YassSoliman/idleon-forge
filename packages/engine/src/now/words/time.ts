@@ -48,3 +48,48 @@ export const TIMELINE_WORDS = {
   legendHatched: 'Stripes: the hours it sits full',
   tick: (hours: number) => `+${hours}h`,
 } as const;
+
+/**
+ * M21 FR-T5: the compact AFK strip on Now (`flows.afk-timeline` Compact strip). One sentence under it:
+ * "3 limits bind before you're back: the anvil on Bowman 60 first, in 3h 40m".
+ */
+export const AFK_STRIP_WORDS = {
+  sentence: (n: number, what: string, who: string, when: string) =>
+    `${n} ${n === 1 ? 'limit binds' : 'limits bind'} before you're back: the ${what} on ${who} first, ${when}`,
+  nothing: "Nothing binds before you're back",
+  fullNow: 'full now',
+  open: 'Open the Timeline',
+  mark: (who: string, what: string, when: string, before: boolean) =>
+    `${who}: ${what}, ${when}${before ? ", before you're back" : ''}`,
+} as const;
+
+/**
+ * M21 FR-T3: the Parallel Slots grid's words that `buildSlotsView` uses (the column heads, a cell's state
+ * word, the column count and the tray count). The lazy section's own headings and legend live with it
+ * (`apps/activeon/src/timeline/words.ts`), so they stay out of the first load (TR-12).
+ */
+export const SLOTS_WORDS = {
+  /** Column heads, in the Lab's order. */
+  kinds: {
+    cauldron: 'Cauldron',
+    trap: 'Traps',
+    worship: 'Worship',
+    cog: 'Cog Board',
+    printer: 'Printer',
+  },
+  /** A cell's state word, beside its glyph (never colour alone). */
+  states: {
+    filled: 'In use',
+    capped: 'Full',
+    fillable: 'Empty',
+    unfillable: "Can't fill yet",
+    locked: 'Not open yet',
+    unknown: "Can't tell",
+    'not-covered': 'Not covered yet',
+  },
+  /** The column footer: "5 of 6 in use · 1 free". */
+  count: (inUse: number, of: number, free: number, full: number) =>
+    [`${inUse} of ${of} in use`, free ? `${free} free` : '', full ? `${full} full` : '']
+      .filter(Boolean)
+      .join(' · '),
+} as const;
