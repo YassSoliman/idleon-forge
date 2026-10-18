@@ -182,14 +182,52 @@ describe('cards to grind are reachable now', () => {
         if (g.skill === null) expect(reach.includes(g.mapIndex) || ch?.mapIndex === g.mapIndex).toBe(true);
     }
   });
-  it('lists quick wins first and marks a character already farming the map', () => {
+  it('lists the card on its AFK map first, then quick wins by hours, and marks a character already farming the map', () => {
     const s = w3();
     for (const c of buildCardsView(s, facts)?.characters ?? []) {
-      const firstSlow = c.grind.findIndex((g) => !g.quick);
-      if (firstSlow >= 0) expect(c.grind.slice(firstSlow).every((g) => !g.quick)).toBe(true);
+      const ch = s.characters.find((x) => x.index === c.index);
+      const here = c.grind.findIndex((g) => g.mapIndex === ch?.mapIndex);
+      if (here >= 0) expect(here).toBe(0);
+      const rest = c.grind.filter((g) => g.mapIndex !== ch?.mapIndex);
+      const firstSlow = rest.findIndex((g) => !g.quick);
+      if (firstSlow >= 0) expect(rest.slice(firstSlow).every((g) => !g.quick)).toBe(true);
+      // Within each group, fewest hours first (no estimate last).
+      for (const group of [rest.filter((g) => g.quick), rest.filter((g) => !g.quick)]) {
+        const h = group.map((g) => g.hours ?? Number.POSITIVE_INFINITY);
+        expect(h).toEqual([...h].sort((a, b) => a - b));
+      }
     }
     const squire = viewOf(s, 'Squire', 51);
     expect(squire.grind.find((g) => g.rawName === 'Iron')?.farmingNow).toEqual(['Squire 51']);
+  });
+});
+
+describe('the grind list never contradicts the best preset (R5 QA P3-1)', () => {
+  it('W3-early Squire Lv 85: Thermister, on the map it is farming, leads', () => {
+    const v = viewOf(w3(), 'Squire', 85);
+    expect(v.grind[0]?.rawName).toBe('thermostat');
+  });
+  it('W2-late Barbarian: Mimic, swapped out of fighting preset 1, is not said to improve it', () => {
+    const v = viewOf(w2(), 'Barbarian', 60);
+    const fighting = v.recommendations.find((r) => r.activity === 'fighting');
+    expect(fighting?.swaps.some((x) => x.from?.rawName === 'mimicA')).toBe(true);
+    const mimic = v.grind.find((g) => g.rawName === 'mimicA');
+    expect(mimic?.improves).not.toBe('fighting preset (card preset 1)');
+    // A quick win in minutes sits above the slower ones, not last.
+    expect(v.grind.findIndex((g) => g.rawName === 'mimicA')).toBeLessThan(2);
+  });
+  it('a card the best preset swaps out never "improves" that preset', () => {
+    for (const s of [w2(), w3()])
+      for (const c of buildCardsView(s, facts)?.characters ?? [])
+        for (const r of c.recommendations) {
+          const out = new Set(r.swaps.map((x) => x.from?.rawName).filter(Boolean));
+          const keeps = new Set(r.cards.map((x) => x.rawName));
+          for (const g of c.grind)
+            if (g.improves === `${r.activity} preset (card preset ${r.preset})`) {
+              expect(out.has(g.rawName)).toBe(false);
+              expect(keeps.has(g.rawName)).toBe(true);
+            }
+        }
   });
 });
 
