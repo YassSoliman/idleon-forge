@@ -164,7 +164,10 @@ describe('Build view', () => {
     fireEvent.click(screen.getByRole('link', { name: /^Birch: build/ }));
     expect(window.location.hash).toBe('#build-1');
     const nav = screen.getByRole('navigation', { name: 'Character page' });
-    expect(within(nav).getByRole('link', { current: 'page' }).textContent).toBe('Build');
+    // The strip has the view now (M21 Integration), so each tab carries its health badge (FR-C7).
+    expect(within(nav).getByRole('link', { current: 'page' }).textContent).toBe(
+      'Build•behind: at least 118 points',
+    );
     expect(screen.getByText('118+ unspent on the skilling preset · next: Book of the Wise')).toBeTruthy();
     expect(screen.getByText('Elite class: Bubonic Conjuror at Eliteus')).toBeTruthy();
     // Both presets, a segmented choice on a phone (M21 FR-C3): the active one is selected first.
@@ -258,7 +261,10 @@ describe('Build view', () => {
     const skillingPath = () => document.getElementById('bv-1-p1-t1') as HTMLElement;
     const skilling = skillingPath();
     expect(
-      within(skilling).getByText('As of your last save: at least 70 points waiting · they end here'),
+      // The marker dates the save (M21 Integration): "As of your last save (12m ago): …".
+      within(skilling).getByText(
+        /^As of your last save \((just now|.+ ago)\): at least 70 points waiting · they end here$/,
+      ),
     ).toBeTruthy();
     const bands = [...skilling.querySelectorAll('.bv-ps')].map((li) => li.getAttribute('data-band'));
     expect(bands).toEqual(['now', 'part', 'next', 'later']);

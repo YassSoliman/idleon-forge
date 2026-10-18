@@ -751,6 +751,8 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
     newCount,
     visibleKeys,
     nextExpiry,
+    saveAgeMinutes:
+      ui.lastCloudSave === null ? null : Math.max(0, Math.floor((ui.now - ui.lastCloudSave) / 60_000)),
     builds: buildsView(result),
     cards: cardsView(result),
     starSigns: starSignsView(result),

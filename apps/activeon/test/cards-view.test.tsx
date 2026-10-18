@@ -187,7 +187,9 @@ describe('Cards tab', () => {
     fireEvent.click(screen.getByRole('link', { name: /^Cedar: cards/ }));
     expect(window.location.hash).toBe('#cards-2');
     const nav = screen.getByRole('navigation', { name: 'Character page' });
-    expect(within(nav).getByRole('link', { current: 'page' }).textContent).toBe('Cards');
+    expect(within(nav).getByRole('link', { current: 'page' }).textContent).toBe(
+      'Cards•empty: 2 of 4 slots empty',
+    );
     const slots = screen.getByRole('list', { name: 'Preset 1 slots' });
     expect(within(slots).getAllByRole('listitem')).toHaveLength(4);
     expect(within(slots).getAllByText('empty slot')).toHaveLength(2);

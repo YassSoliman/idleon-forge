@@ -346,6 +346,11 @@ export interface NowView {
   visibleKeys: string[];
   /** The earliest time a skip can expire or the session can end (TR-3 step 6). */
   nextExpiry: number | null;
+  /**
+   * Whole minutes since the last cloud save at `now`, for "as of your last save (12m ago)" on the Build
+   * path (M21 Integration, area C's request); null when the save time isn't known.
+   */
+  saveAgeMinutes: number | null;
   /** Every character's Build view, in save order (owner request 2026-10-18); empty without M9. */
   builds: BuildRoadmapView[];
   /** The Cards tab and overview (M8, owner request 2026-10-18); null without M8's cards-view module. */
