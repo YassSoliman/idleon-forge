@@ -25,7 +25,16 @@ import { AFK_INFO_ENTRIES } from '../afk/info';
 import type { CharacterContribution, EngineInput, EngineModule, ModuleGoal } from '../core/module';
 import { lookupOf } from '../metapath/knowledge';
 import { detectStage } from '../metapath/stage';
-import type { ActivePlay, Category, Goal, GoalDetail, Milestone, SourceRef, Subject } from '../result';
+import type {
+  ActivePlay,
+  Category,
+  Goal,
+  GoalDetail,
+  Milestone,
+  SourceRef,
+  Subject,
+  UnknownFinding,
+} from '../result';
 
 /** The Systems whose Check entries this module runs (M6 TR-1). */
 export const UNSPENT_SYSTEMS: readonly string[] = [
@@ -235,6 +244,7 @@ export function createUnspentModule(deps: UnspentModuleDeps): EngineModule {
       const account: ModuleGoal[] = [];
       const byCharacter = new Map<number, ModuleGoal[]>();
       const accountPlay: ActivePlay[] = [];
+      const unknowns: UnknownFinding[] = [];
       let beyond: boolean | undefined;
       const isBeyond = () => {
         if (beyond === undefined)
@@ -251,7 +261,21 @@ export function createUnspentModule(deps: UnspentModuleDeps): EngineModule {
         const d = findDetector(entry.detector.id, registry);
         if (d?.kind !== 'check') continue;
         const run = runDetector(d, ctx, entry.detector.params);
-        if (!run.ok) continue; // FR-3: a broken Check drops its line; never a Verdict (R9).
+        if (!run.ok) {
+          // FR-3: a broken Check drops its line; never a Verdict (R9). M17: its System reads "Can't tell".
+          unknowns.push({ entryId: entry.id, subject: 'account', reason: 'detector-failed' });
+          continue;
+        }
+        for (const f of run.findings as readonly CheckFinding[])
+          if (
+            f.result === 'unknown' &&
+            (f.reason === 'field-missing' || f.reason === 'parser-section-failed')
+          )
+            unknowns.push({
+              entryId: entry.id,
+              subject: f.subject.kind === 'account' ? 'account' : `c${f.subject.index}`,
+              reason: f.reason,
+            });
         const fired = (run.findings as readonly CheckFinding[]).filter(
           (f): f is Fired => f.result === 'fires',
         );
@@ -288,7 +312,7 @@ export function createUnspentModule(deps: UnspentModuleDeps): EngineModule {
           spendCount: goals.filter((g) => g.goal.category !== 'nice').length,
         };
       });
-      return { characters, account: { goals: account, activePlay: accountPlay } };
+      return { characters, account: { goals: account, activePlay: accountPlay }, unknownFindings: unknowns };
     },
   };
 }

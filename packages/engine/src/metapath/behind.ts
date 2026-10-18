@@ -9,7 +9,7 @@
 import { type Entry, render, STAGES, type StageId, stageIndex } from '@idleon-forge/knowledge';
 import type { TaggedGoal } from '../core/rank';
 import { rankableOf } from '../core/rank';
-import type { Goal, GoalDetail, SourceRef, Subject } from '../result';
+import type { BehindSystem, Goal, GoalDetail, SourceRef, Subject } from '../result';
 import { compareGoals, rankPosition } from './priority';
 import type { FactLookup, ResolvedPriorityList } from './types';
 
@@ -147,8 +147,21 @@ function unsafe(row: StageExpectationRow, top: Finding, input: BehindInput): boo
 
 /** TR-9: choose the weakest System and build its Goal; null when nothing is behind (no "on track" line). */
 export function behindStep(input: BehindInput): BehindResult | null {
+  return behindAnalysis(input).result;
+}
+
+/** The fix entry's System: its entry-id prefix (M17 TR-2 `BehindSystem.systemId`). */
+const systemOfEntry = (entryId: string) => entryId.split('.')[0] ?? entryId;
+
+/**
+ * M17 TR-2: `behindStep`'s choice plus every row that is behind after FR-26's and FR-31's filters, as
+ * `BehindSystem`s (the Systems hub marks each one "Behind for your Stage", M17 D-9). Now still shows
+ * only the chosen row's Goal.
+ */
+export function behindAnalysis(input: BehindInput): { result: BehindResult | null; rows: BehindSystem[] } {
+  const none = { result: null, rows: [] };
   const entry = input.kb.get(BEHIND_ID) as Entry | undefined;
-  if (!entry || !('type' in entry) || entry.type !== 'goal') return null;
+  if (!entry || !('type' in entry) || entry.type !== 'goal') return none;
   const rows = behindRows(stageExpectations(input.kb), input.stage);
   const candidates: { row: StageExpectationRow; order: number; findings: Finding[] }[] = [];
   rows.forEach((row, order) => {
@@ -165,7 +178,14 @@ export function behindStep(input: BehindInput): BehindResult | null {
       stageIndex(a.row.expectedBy) - stageIndex(b.row.expectedBy) || pos(a) - pos(b) || a.order - b.order,
   );
   const chosen = candidates[0];
-  if (!chosen) return null;
+  if (!chosen) return none;
+  const rowsOut: BehindSystem[] = candidates.map((c) => ({
+    systemId: systemOfEntry(c.row.fix),
+    rowId: c.row.id,
+    fixEntryId: c.row.fix,
+    findingKeys: c.findings.map((f) => f.g.goal.nextAction.key),
+    chosen: c === chosen,
+  }));
   const [top, ...rest] = chosen.findings as [Finding, ...Finding[]];
   const details: GoalDetail[] = [
     ...(top.subject === 'account' ? (top.g.goal.details ?? []) : []),
@@ -197,8 +217,11 @@ export function behindStep(input: BehindInput): BehindResult | null {
     ...(details.length ? { details } : {}),
   };
   return {
-    row: chosen.row,
-    goal: { goal, ...(top.g.rank ? { rank: top.g.rank } : {}), moduleId: 'meta-path' },
-    moved: new Set(chosen.findings.map((f) => f.g)),
+    result: {
+      row: chosen.row,
+      goal: { goal, ...(top.g.rank ? { rank: top.g.rank } : {}), moduleId: 'meta-path' },
+      moved: new Set(chosen.findings.map((f) => f.g)),
+    },
+    rows: rowsOut,
   };
 }
