@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M3 AFK Safety's engine API (M3 TR-3). The shapes other modules own come from them: M10's
-// EngineResult types (../result) and M2's StageResult (../metapath). M4's PurposeStatus is not on
-// main yet, so a minimal local copy stays, marked TODO(M4).
+// EngineResult types (../result), M2's StageResult (../metapath) and M4's PurposeStatus (../purpose).
 import type { StageResult } from '../metapath/types';
+import type { PurposeStatus } from '../purpose/types';
 import type { Fill, NextAction, Subject, TimelineBar, UnknownFinding } from '../result';
 
 export type {
@@ -21,8 +21,8 @@ export type {
 /** The part of M2's StageResult M3 reads: the Stage id, for `appliesTo.stages`. */
 export type StageLike = Pick<StageResult, 'id'>;
 
-/** TODO(M4): M4 TR-3 `PurposeStatus`. Until M4 ships the engine passes 'not-implemented' (D4). */
-export type PurposeStatus = 'serving' | 'not-covered' | 'exhausted' | 'none' | 'no-activity' | 'cannot-tell';
+/** M4 TR-3 `PurposeStatus`; without M4 the engine passes 'not-implemented' (D4). */
+export type { PurposeStatus };
 
 // ---------- M3 TR-3 ----------
 

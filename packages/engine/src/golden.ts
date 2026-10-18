@@ -18,6 +18,7 @@ import { renderNowText } from './now/render-text';
 import { renderSystemsText, renderTimelineText } from './now/render-views-text';
 import { buildSystemsView } from './now/systems-view';
 import { buildTimelineView } from './now/timeline-view';
+import { createPurposeModule, purposeStatusFor, suggestionFor } from './purpose';
 import type { EngineResult } from './result';
 import { createM20Modules } from './slots';
 import { createSpendModule } from './spend';
@@ -50,9 +51,17 @@ export function goldenModules(input: GoldenInput): readonly EngineModule[] {
   const kb = input.kb.entries ? (input.kb as CompiledKnowledge) : null;
   if (!kb || !input.registries) return DEFAULT_MODULES;
   const facts = lookupOf(kb);
+  const purpose = { kb, registry: input.registries.knowledge };
   return [
     ...DEFAULT_MODULES,
-    createAfkSafetyModule({ kb, registry: input.registries.knowledge, stage: (s) => detectStage(s, facts) }),
+    createAfkSafetyModule({
+      kb,
+      registry: input.registries.knowledge,
+      stage: (s) => detectStage(s, facts),
+      purpose: purposeStatusFor(purpose),
+      purposeSuggestion: suggestionFor(purpose),
+    }),
+    createPurposeModule(purpose),
     createUnspentModule({
       kb,
       registry: input.registries.knowledge,

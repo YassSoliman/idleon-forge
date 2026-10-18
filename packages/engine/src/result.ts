@@ -225,6 +225,22 @@ export interface TimelineBar {
   fixHolds: boolean;
 }
 
+/** M4: one Purpose line's short ladder (FR-3): the last reached step, where it is, the next two. */
+export interface PurposeLadder {
+  /** "kills", "copies", "level". */
+  unit: string;
+  reached: number | null;
+  /** The counter now (projected, FR-9, when `projected`). */
+  current: number;
+  projected: boolean;
+  next: number | null;
+  /** Seconds; null for skilling (FR-6) or when there is no ETA. */
+  nextEtaSeconds: number | null;
+  later: number | null;
+  laterEtaSeconds: number | null;
+  /** "about 5h on average": card ETAs are means at the base drop chance (M4 red-team note 11). */
+  mean: boolean;
+}
 export interface PurposeLine {
   goalId: string;
   title: string;
@@ -234,7 +250,20 @@ export interface PurposeLine {
   badges: ('contested' | 'stale' | 'parser-behind')[];
   sources: SourceRef[];
   provenance: Provenance;
+  /** M4: the rendered line ("Poop kills ~2,995 → 10k for Dirty Money · about 5h"), and a short detail. */
+  text?: string;
+  detail?: string | null;
+  /** M4: the ladder behind the line; absent for a yes/no Goal with no level. */
+  ladder?: PurposeLadder | null;
 }
+/** M4 TR-3 `PurposeStatus`, as the Now screen shows it. */
+export type PurposeStatusView =
+  | 'serving'
+  | 'exhausted'
+  | 'none'
+  | 'not-covered'
+  | 'no-activity'
+  | 'cannot-tell';
 export interface Verdict {
   kind: VerdictKind;
   /** Keys of the Goals (category 'blocker') that make this 'fix', in rank order. */
@@ -319,7 +348,12 @@ export interface CharacterResult {
   /** index === EngineResult.lastPlayedCharacterIndex. */
   isPlaying: boolean;
   verdict: Verdict;
+  /** M4: ranked, all of them (FR-10); the Now screen shows the top 3 and the rest behind "show more". */
   purpose: PurposeLine[];
+  /** M4 FR-8; absent without M4. */
+  purposeStatus?: PurposeStatusView;
+  /** M4 FR-14: "What is this character for?"'s reason, or "Not covered yet: Cooking". */
+  purposeNote?: string | null;
   /** Ranked, uncapped; blockers first. */
   goals: Goal[];
   higherLeverage: HigherLeverage | null;

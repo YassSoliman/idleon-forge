@@ -10,7 +10,7 @@
 // | safe        | not-covered                        | Unknown             | not-covered   |
 // | safe        | exhausted, none, no-activity       | Unknown             | no-purpose    |
 // | safe        | cannot-tell                        | Unknown             | cannot-tell   |
-// Until M4 ships, `safe` gives Ready (D4) and the row's Focus says "Purpose not checked yet" (M10).
+// Without M4 (`not-implemented`), `safe` gives Ready (D4) and the row's Focus says "Purpose not checked yet" (M10).
 import type { PurposeStatus, Safety, Verdict } from './types';
 
 const unknown = (reason: NonNullable<Verdict['unknownReason']>): Verdict => ({

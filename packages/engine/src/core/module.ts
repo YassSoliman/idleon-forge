@@ -9,6 +9,7 @@ import type { Rankable, ResolvedPriorityList, VisitHint } from '../metapath/type
 import type {
   ActivePlay,
   BuildRoadmap,
+  CharacterResult,
   Done,
   EngineResult,
   Fill,
@@ -85,6 +86,9 @@ export interface CharacterContribution {
   verdict?: Verdict;
   goals?: ModuleGoal[];
   purpose?: PurposeLine[];
+  /** M4 only. */
+  purposeStatus?: CharacterResult['purposeStatus'];
+  purposeNote?: string | null;
   higherLeverage?: HigherLeverage | null;
   activePlay?: ActivePlay[];
   doneThisSession?: Done[];
