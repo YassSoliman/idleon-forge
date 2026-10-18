@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #a88646b7 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 180
+# golden v1: scrubbed-w2 · knowledge #94213751 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 328
 
 ## Verdict changes
 
@@ -6,7 +6,7 @@
 4 of 5 Ready · fix 1 before you leave · fix 2 in Account
 
 ### C1 · Barbarian 60 · Fix before you leave
-1 · Fighting Poop · Poopy Sewers · Equip or swap in Meat Pie before you leave: Barbarian is at 78% survivability, and you own 105
+1 · Fighting Poop · Poopy Sewers · [Anvil full · collect] · Equip or swap in Meat Pie before you leave: Barbarian is at 78% survivability, and you own 105 · Spend here: 9 buys, ~180M → Spend Plan
 
 ### C2 · Squire 43 · Ready
 2 · Mining Copper · Tunnels Entrance · Equip Wyoming blood in a big-bubble slot
@@ -30,6 +30,14 @@ Fix before you leave
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 show more (15)
+Spend coins: 9 buys now on 1 character
+  1. Raise 2 stamp caps, then buy their new levels on Barbarian Lv 60: Hatchet Stamp, Shield Stamp, about 1 platinum 31 gold (carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free up inventory space first) · Lv 65 → 30 · 1.3M coins · C1 (Barbarian lv60) · buy · total 1.3M on C1
+  2. Level Bullseye Stamp 0→5 on Barbarian Lv 60: 9 gold 75 silver · Lv 0 → 5 · 98k coins · C1 (Barbarian lv60) · buy · total 1.4M on C1
+  3. Buy 3 Vault upgrades on Barbarian Lv 60: Bubble Money, Vault Mastery, Major Discount, 43 platinum 32 gold · Lv 7 → 46 · 43M coins · C1 (Barbarian lv60) · buy · total 45M on C1
+  4. Buy 2 Vault upgrades on Barbarian Lv 60: Sleepy Time, Drops for Days, 6 platinum 92 gold · Lv 18 → 50 · 6.9M coins · C1 (Barbarian lv60) · buy · total 52M on C1
+  5. Turn the Kachow statue Gold (cost not checked, see the price in game) · Lv 0 → 1 · cost not checked, see the price in game · cost not checked
+     totals below assume you skip the unchecked items
+  show more (7)
 If you have time
 - XxX Cattleprod XxX 1 on Barbarian 60: kill 15 Mafiosos before they respawn → Lil' Mining Baggy Stamp and Catch Net Stamp · about 5m of hands-on play
 - Wellington 1 on Barbarian 60: find the 3 invisible platforms hidden around the game → Arcane Stamp and Brainstew Stamps · about 15m of hands-on play
@@ -38,7 +46,6 @@ If you have time
 Classes and subclasses
 Portals and map doors
 Skills, doors and tools
-Spend Plan
 Upgrade Vault
 Bribes
 Forge
