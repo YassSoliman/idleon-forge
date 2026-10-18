@@ -11,6 +11,7 @@ import { runEngine } from '../../src/core/engine';
 import type { EngineModule } from '../../src/core/module';
 import { goldenResult } from '../../src/golden';
 import { EMPTY_PREFS } from '../../src/now/prefs';
+import { buildSystemsView } from '../../src/now/systems-view';
 import { buildSystemsHubView } from '../../src/pictures/hub-view';
 import { buildSystemPageFrameView } from '../../src/pictures/page-view';
 import type { PrinterPicture, StampsPicture, StatuesPicture, VaultPicture } from '../../src/pictures/types';
@@ -132,7 +133,8 @@ describe('US-12 the new System pictures', () => {
 });
 
 describe('US-11 the Stage report card (FR-S1)', () => {
-  const v = buildSystemsHubView(W3, EMPTY_PREFS, { now: fixture('scrubbed-w3').now });
+  const hubUi = { now: fixture('scrubbed-w3').now };
+  const v = buildSystemsHubView(W3, EMPTY_PREFS, hubUi, buildSystemsView(W3, EMPTY_PREFS, hubUi));
   it('the "Wasting now" strip lists the wasting Systems with their count', () => {
     expect(v.wastingNow.map((w) => w.id)).toEqual(
       v.groups

@@ -5,12 +5,17 @@
 // System has a behind row with its Stage) and the page's pictures. Pure and deterministic. It lives under
 // `@idleon-forge/engine/systems-ui`, not the `now` barrel, so it loads with the lazy System page and never
 // in the first load (TR-12): the barrel's modules all bundle into one first-load chunk.
+
+import {
+  buildSystemPageView,
+  type NowPrefs,
+  type NowView,
+  type SystemPageView,
+  type SystemsUi,
+} from '@idleon-forge/engine/now';
 import { STAGES } from '@idleon-forge/knowledge/stages';
-import type { NowPrefs } from '../now/prefs';
-import { buildSystemPageView, readPrefs, type SystemsUi } from '../now/systems-view';
-import type { NowView, SystemPageView } from '../now/view';
 import type { EngineResult, SystemPicture } from '../result';
-import { isStage, type SystemStepView, stageLabel, whoToken } from './hub-view';
+import { isStage, readPrefs, type SystemStepView, stageLabel, whoToken } from './hub-view';
 import { FRAME_WORDS } from './words';
 
 export interface SystemPageExtras {

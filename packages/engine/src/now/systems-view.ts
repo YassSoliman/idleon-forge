@@ -41,13 +41,13 @@ const fact = (text: string): Segment => ({ text, origin: 'fact' });
 /** An entry id's System: its prefix (`anvil.check.caps-before-return@c3` → `anvil`, TR-5). */
 const systemOfKey = (key: string) => key.split('@')[0]?.split('.')[0] ?? key;
 
-export interface Prefs {
+interface Prefs {
   skipped(key: string): boolean;
   dismissed(key: string): boolean;
   open(key: string): boolean;
 }
 
-export function readPrefs(result: EngineResult, prefs: NowPrefs, ui: SystemsUi): Prefs {
+function readPrefs(result: EngineResult, prefs: NowPrefs, ui: SystemsUi): Prefs {
   const clock: SessionClock = {
     now: ui.now,
     sessionStartedAt: result.sessionStartedAt,
@@ -71,7 +71,7 @@ function goalSystem(g: Goal, result: EngineResult): string {
   return g.system;
 }
 
-export interface Placed {
+interface Placed {
   goal: Goal;
   subject: Subject;
   /** CharacterState.index, or null for the account. */
@@ -91,13 +91,13 @@ function allGoals(result: EngineResult): Placed[] {
 const urgent = (g: Goal) => g.urgency === 'losing-now' || g.urgency === 'lost-before-return';
 const isFix = (g: Goal, stageUnknown: boolean) => g.category === 'blocker' || (!stageUnknown && urgent(g));
 
-export interface SystemFacts {
+interface SystemFacts {
   summary: SystemSummary;
   goals: Placed[];
   pills: { line: InfoLine; index: number }[];
 }
 
-export function factsBySystem(result: EngineResult): Map<string, SystemFacts> {
+function factsBySystem(result: EngineResult): Map<string, SystemFacts> {
   const out = new Map<string, SystemFacts>();
   for (const s of result.systems ?? []) out.set(s.id, { summary: s, goals: [], pills: [] });
   for (const p of allGoals(result)) out.get(goalSystem(p.goal, result))?.goals.push(p);
@@ -115,7 +115,7 @@ function spendLinesOf(result: EngineResult, prefs: Prefs, systemId: string) {
   );
 }
 
-export function tileOf(f: SystemFacts, result: EngineResult, prefs: Prefs, ui: SystemsUi): TileView {
+function tileOf(f: SystemFacts, result: EngineResult, prefs: Prefs, ui: SystemsUi): TileView {
   const s = f.summary;
   const stageUnknown = result.stage.id === 'unknown';
   const returnAt = ui.now + result.expectedReturn.usedSeconds * 1000;

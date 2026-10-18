@@ -186,11 +186,13 @@ export function SystemsHub({ s }: { s: Session }) {
   // preferences as the session's M17 view (which the nav badge keeps reading).
   const v = useMemo(
     () =>
-      buildSystemsHubView(s.result, toNowPrefs(s.prefs.data, null), {
-        now: s.now,
-        lastCloudSave: s.lastCloudSave,
-      }),
-    [s.result, s.prefs.data, s.now, s.lastCloudSave],
+      buildSystemsHubView(
+        s.result,
+        toNowPrefs(s.prefs.data, null),
+        { now: s.now, lastCloudSave: s.lastCloudSave },
+        s.systems,
+      ),
+    [s.result, s.prefs.data, s.now, s.lastCloudSave, s.systems],
   );
   return (
     <section className="systems-hub" aria-labelledby="systems-h">

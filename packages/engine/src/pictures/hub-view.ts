@@ -6,19 +6,19 @@
 // one step) and each band's once-per-band lines. Pure and deterministic; every string is a module's text,
 // a registry name, a count or a view word. It lives under `@idleon-forge/engine/systems-ui`, not the `now`
 // barrel, so it loads with the lazy hub and never in the first load (TR-12).
-import { STAGE_DEFINITIONS, STAGES, type StageId } from '@idleon-forge/knowledge/stages';
-import type { NowPrefs } from '../now/prefs';
+
+// The UI-thread `now` API only (the barrel), never its internal modules: a lazy chunk that imports an
+// internal module splits the barrel's first-load chunk (measured: +2.6 KB of first load).
 import {
-  buildSystemsView,
-  factsBySystem,
-  type Placed,
-  type Prefs,
-  readPrefs,
-  type SystemFacts,
+  dismissActive,
+  type NowPrefs,
   type SystemsUi,
-} from '../now/systems-view';
-import type { SystemsView, TileView } from '../now/view';
-import type { ClassFamily, EngineResult, SystemPicture } from '../result';
+  type SystemsView,
+  skipActive,
+  type TileView,
+} from '@idleon-forge/engine/now';
+import { STAGE_DEFINITIONS, STAGES, type StageId } from '@idleon-forge/knowledge/stages';
+import type { ClassFamily, EngineResult, Goal, SystemPicture } from '../result';
 import { BAND_WORDS, REPORT_WORDS } from './words';
 
 const NEW_KINDS: ReadonlySet<string> = new Set(['stamps', 'statues', 'vault', 'printer']);
@@ -28,12 +28,60 @@ export function buildSystemsHubView(
   result: EngineResult,
   nowPrefs: NowPrefs,
   ui: SystemsUi,
+  /** M17's hub view the caller already built (the session's `systems`), the same result and preferences. */
+  view: SystemsView,
 ): SystemsView & SystemsHubExtras {
-  const view = buildSystemsView(result, nowPrefs, ui);
   const prefs = readPrefs(result, nowPrefs, ui);
-  const facts = factsBySystem(result);
+  const facts = goalsBySystem(result);
   const tiles = [...view.groups.flatMap((g) => g.tiles), ...(view.later?.tiles ?? [])];
   return { ...view, ...hubExtras(result, prefs, facts, tiles, view.groups) };
+}
+
+/** Open = neither skipped today nor dismissed (M17's rule, `now/systems-view.ts` readPrefs). */
+export interface Prefs {
+  open(key: string): boolean;
+}
+export function readPrefs(result: EngineResult, prefs: NowPrefs, ui: SystemsUi): Prefs {
+  const clock = {
+    now: ui.now,
+    sessionStartedAt: result.sessionStartedAt,
+    lastCloudSave: ui.lastCloudSave ?? null,
+  };
+  const build = result.versions.gameBuild;
+  return {
+    open: (key) => {
+      const sk = prefs.skips[key];
+      const d = prefs.dismissals[key];
+      return !(sk !== undefined && skipActive(sk, clock)) && !(d !== undefined && dismissActive(d, build));
+    },
+  };
+}
+
+interface Placed {
+  goal: Goal;
+  /** CharacterState.index, or null for the account. */
+  index: number | null;
+}
+interface SystemFacts {
+  summary: NonNullable<EngineResult['systems']>[number];
+  goals: Placed[];
+}
+/** M15 F5's Behind Goal belongs to its chosen row's System (M17 TR-5). */
+const BEHIND_ID = 'metapath.goal.behind';
+/** Every Goal by System, characters in save order then the account (M17's `factsBySystem`). */
+function goalsBySystem(result: EngineResult): Map<string, SystemFacts> {
+  const out = new Map<string, SystemFacts>();
+  for (const s of result.systems ?? []) out.set(s.id, { summary: s, goals: [] });
+  const place = (goal: Goal, index: number | null) => {
+    const id =
+      goal.id === BEHIND_ID
+        ? (result.behindSystems?.find((r) => r.chosen)?.systemId ?? goal.system)
+        : goal.system;
+    out.get(id)?.goals.push({ goal, index });
+  };
+  for (const c of result.characters) for (const g of c.goals) place(g, c.index);
+  for (const g of result.account.goals) place(g, null);
+  return out;
 }
 
 /** A character as a who-token (DS-3, TokenLine): the family chibi and "Class level"; null for the account. */
