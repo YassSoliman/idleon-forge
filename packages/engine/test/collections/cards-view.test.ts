@@ -5,12 +5,11 @@
 // (by class and level, never by name) plus synthetic edits; the real saves are in cards-view.private.test.ts.
 import type { AccountState } from '@idleon-forge/account-state';
 import { describe, expect, it } from 'vitest';
-import { engineDetectors } from '../../detectors';
 import {
   buildCardsView,
   type CardPreferences,
   type CharacterCards,
-  createCollectionsModule,
+  createCardsViewModule,
   type FactLookup,
   hoursText,
   killsFor,
@@ -212,11 +211,9 @@ describe('the account overview and the engine result', () => {
     expect(new Set(g.map((x) => x.rawName)).size).toBe(g.length);
     expect(g.every((x) => x.helps.length >= 1)).toBe(true);
   });
-  it('M8 puts the view on EngineResult.cards', () => {
+  it('the cards-view module puts the view on EngineResult.cards', () => {
     const s = w3();
-    const out = runEngine(input(s, { now: s.asOf }), [
-      createCollectionsModule({ kb, registry: engineDetectors }),
-    ]);
+    const out = runEngine(input(s, { now: s.asOf }), [createCardsViewModule({ kb })]);
     expect(out.cards?.characters).toHaveLength(s.characters.length);
     expect(structuredClone(out.cards)).toEqual(out.cards);
   });

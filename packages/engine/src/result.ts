@@ -381,7 +381,7 @@ export interface EngineResult {
   builds?: BuildRoadmap[];
   /**
    * M8 Cards view (owner request 2026-10-18): presets, the owned-card recommendation and the reachable
-   * grind list per character, plus the account overview. Absent when M8 didn't run or lacks its tables.
+   * grind list per character, plus the account overview. Absent when M8's cards-view module didn't run or lacks its tables.
    */
   cards?: CardsView | null;
 }

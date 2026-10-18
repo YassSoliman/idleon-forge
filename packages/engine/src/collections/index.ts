@@ -60,6 +60,7 @@ export {
   COLLECTIONS_SYSTEMS,
   type CollectionsKnowledge,
   type CollectionsModuleDeps,
+  createCardsViewModule,
   createCollectionsModule,
 } from './module';
 export { evaluateObols, type ObolsEval } from './obols';

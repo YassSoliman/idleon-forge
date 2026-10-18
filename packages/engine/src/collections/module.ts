@@ -222,23 +222,35 @@ export function createCollectionsModule(deps: CollectionsModuleDeps): EngineModu
         goals: built.byCharacter.get(c.index) ?? [],
         doneThisSession: done.filter((d) => d.key.endsWith(`@c${c.index}`)),
       }));
-      // The Cards view (owner request 2026-10-18): a broken card table drops the view, never the Goals.
-      const cards = (() => {
-        try {
-          return buildCardsView(state, { get: (id) => deps.kb.entries[id] ?? deps.kb.facts[id] });
-        } catch {
-          return null;
-        }
-      })();
       return {
         characters,
-        ...(cards ? { cards } : {}),
         account: {
           goals: built.account,
           activePlay: built.activePlay,
           doneThisSession: done.filter((d) => d.key.endsWith('@account')),
         },
       };
+    },
+  };
+}
+
+/**
+ * The M8 Cards view (owner request 2026-10-18) as its own engine module, so it never counts against
+ * M8's Detector budget (TR-11) and a broken card table drops only the view, never M8's Goals. It emits
+ * no Goal or Verdict: only `EngineResult.cards`.
+ */
+export function createCardsViewModule(deps: {
+  kb: Pick<CollectionsKnowledge, 'entries' | 'facts'>;
+}): EngineModule {
+  const lookup = { get: (id: string) => deps.kb.entries[id] ?? deps.kb.facts[id] };
+  return {
+    id: 'cards-view',
+    covers: [],
+    dependsOnExpectedReturn: false,
+    affectsVerdict: false,
+    run(input: EngineInput): ModuleOutput {
+      const cards = buildCardsView(input.state, lookup);
+      return cards ? { cards } : {};
     },
   };
 }
