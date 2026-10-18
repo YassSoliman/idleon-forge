@@ -1,0 +1,152 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M8 Cards view (owner request 2026-10-18), functional styling: tokens only (tokens.css), wraps at
+   320 px, no page-level horizontal scroll (slots wrap into a 2-column grid on a phone). */
+.cards-view {
+  margin: 10px 0;
+  overflow-wrap: anywhere;
+}
+.cards-view > summary {
+  cursor: pointer;
+  min-height: 28px;
+  padding: 4px 0;
+}
+.cv {
+  margin-top: 6px;
+}
+.cv-h {
+  margin: 14px 0 6px;
+  font-size: 0.95rem;
+}
+.cv-presets,
+.cv-recs,
+.cv-overview,
+.cv-swaps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cv-preset,
+.cv-rec {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px;
+  margin: 0 0 8px;
+  background: var(--surface);
+}
+.cv-preset.cv-active {
+  border-color: var(--ok);
+  box-shadow: inset 3px 0 0 var(--ok);
+}
+.cv-preset-head,
+.cv-rec-head,
+.cv-grind-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  align-items: baseline;
+  margin: 0 0 6px;
+}
+.cv-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--unk-soft);
+  color: var(--unk);
+}
+.cv-badge-fit,
+.cv-badge-quick {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+.cv-badge-use {
+  background: var(--fg);
+  color: var(--surface);
+}
+.cv-badge-farm {
+  background: var(--coin-soft);
+  color: var(--coin);
+}
+.cv-slots {
+  list-style: none;
+  margin: 0 0 4px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 6px;
+}
+.cv-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-height: 64px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--sunk);
+  font-size: 0.82rem;
+  min-width: 0;
+}
+.cv-slot-name {
+  font-weight: 700;
+}
+.cv-slot-lv {
+  color: var(--coin);
+}
+.cv-slot-fx {
+  color: var(--muted);
+}
+.cv-slot-note {
+  color: var(--bad);
+}
+.cv-slot.cv-empty {
+  border-style: dashed;
+  background: transparent;
+  color: var(--muted);
+  justify-content: center;
+  align-items: center;
+}
+.cv-slot.cv-passive {
+  border-color: var(--bad);
+}
+.cv-swaps li {
+  margin: 3px 0;
+}
+.cv-from {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+.cv-to {
+  font-weight: 700;
+}
+.cv-done {
+  color: var(--ok);
+}
+.cv-grind {
+  margin: 0;
+  padding-left: 22px;
+}
+.cv-grind-item {
+  margin: 0 0 8px;
+}
+.cv-grind-item p {
+  margin: 1px 0;
+}
+.cv-step {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.cv-overview li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+.cv-overview p {
+  margin: 2px 0 0;
+}
+.cv-sources {
+  margin-top: 6px;
+}
+.na-cards {
+  margin: 4px 0 0;
+}

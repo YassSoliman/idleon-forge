@@ -113,6 +113,7 @@ export function NowScreen(props: NowScreenProps) {
   const live = save.source === 'live';
   const lastCloudSave = save.state.account.lastCloudSave;
   const names = useMemo(() => result.characters.map((c) => c.name), [result]);
+  const nameByIndex = useMemo(() => new Map(result.characters.map((c) => [c.index, c.name])), [result]);
 
   const [focus, setFocusState] = useState<number | null>(() => readFocusParam());
   const [tab, setTab] = useState<string>(() => readTabHash()?.tab ?? NOW_TAB);
@@ -447,6 +448,7 @@ export function NowScreen(props: NowScreenProps) {
           <Focus
             ref={headingRef}
             card={view.focus}
+            cards={result.cards ?? null}
             pendingFollow={pendingFollow}
             showCloudSaveTip={
               live &&
@@ -496,7 +498,7 @@ export function NowScreen(props: NowScreenProps) {
           </>
         )}
       </div>
-      <AccountSection ref={accountRef} view={view} />
+      <AccountSection ref={accountRef} view={view} cards={result.cards ?? null} names={nameByIndex} />
       <IfYouHaveTime view={view} />
       <NotCoveredYet view={view} />
       <p className="sr-only" aria-live="polite">

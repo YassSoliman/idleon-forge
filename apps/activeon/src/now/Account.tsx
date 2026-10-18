@@ -2,15 +2,18 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // The Account section (FR-22, FR-23, FR-26), "If you have time" (FR-24) and "Not covered yet".
 import type { NowView } from '@idleon-forge/engine/now';
+import type { CardsView } from '@idleon-forge/engine/result';
 import { forwardRef } from 'react';
+import { CardsOverview, useOpenCards } from './cards/CardsPanel';
 import { useNowActions } from './context';
 import { GoalList, NextActionItem, ReportThis, SourceLabel } from './parts';
 
-export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(function AccountSection(
-  { view },
-  ref,
-) {
+export const AccountSection = forwardRef<
+  HTMLElement,
+  { view: NowView; cards?: CardsView | null; names?: ReadonlyMap<number, string> }
+>(function AccountSection({ view, cards = null, names = new Map() }, ref) {
   const actions = useNowActions();
+  const openCards = useOpenCards();
   const acc = view.account;
   const sp = acc.spendPlan;
   return (
@@ -71,7 +74,9 @@ export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(functio
         hiddenCount={acc.hiddenCount}
         skipped={acc.skippedKeys}
         dismissed={acc.dismissed}
+        onCards={cards ? () => openCards('account') : null}
       />
+      <CardsOverview cards={cards} names={names} />
       {sp ? (
         <details
           className="spend card"
