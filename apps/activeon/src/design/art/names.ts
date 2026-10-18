@@ -192,6 +192,7 @@ export const ART_INDEX = {
   'v2-systems-quest': [16, 16, 'systems'],
   'v2-systems-salt': [16, 16, 'systems'],
   'v2-systems-scroll': [16, 16, 'systems'],
+  'v2-systems-seal': [16, 16, 'systems'],
   'v2-systems-shrine': [16, 16, 'systems'],
   'v2-systems-st-behind': [16, 16, 'systems'],
   'v2-systems-st-lock': [16, 16, 'systems'],
