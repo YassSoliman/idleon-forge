@@ -484,7 +484,12 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
       v.appliesTo.classes?.forEach((c, i) => {
         if (!classes.has(c)) err(e.file, e.lineOf(['appliesTo', 'classes', i]), v.id, `unknown class ${c}`);
       });
-      if (v.type === 'build') {
+      // M21 TR-8: star Builds are class-agnostic; their talents are checked like any talent rawName.
+      if (v.type === 'build' && v.variant === 'star')
+        for (const [j, s] of v.steps.entries())
+          if (!has('talents', s.talent))
+            err(e.file, e.lineOf(['steps', j, 'talent']), v.id, `unknown talent ${s.talent}`);
+      if (v.type === 'build' && v.variant === 'afk') {
         if (!classes.has(v.classLine))
           err(e.file, e.lineOf(['classLine']), v.id, `unknown class ${v.classLine}`);
         const line = new Set(

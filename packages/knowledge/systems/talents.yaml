@@ -873,3 +873,72 @@ entries:
     confidence: L
     status: active
 
+
+  # M21 FR-C11 (TR-8): the class-agnostic star Builds for the Star Talent tab ("Special Talent 1-4").
+  # The shared core of every dated source: Sir_Grimtide's five Toolbox builds (the only builds with a
+  # star section, updated 2026-10-10 to 10-15) and two dated tier lists. Targets the sources don't give
+  # are authored judgment (ADR 0007): "max" is the book max in the save, Stonks! stops at 30 (each point
+  # returns at least one star point up to about 30), Toilet Paper Postage at 100 (its max can reach tens
+  # of thousands), and the two useful caps follow the talents' own effect text.
+  - id: talents.build.star-fighting
+    system: "talents"
+    type: "build"
+    variant: star
+    title: "Star talents for a fighting preset"
+    text: "Follow the star talent build for fighting"
+    why: "Stonks! first, since it pays its points back, then the stat and AFK talents every current fighting build shares."
+    role: "fighting"
+    steps:
+      - { talent: "STONKS!", page: 1, target: 30, core: true }
+      - { talent: "WILL_OF_THE_ELDEST", page: 1, target: { cap: "best-level-tenth" } }
+      - { talent: "BEGINNER_BEST_CLASS", page: 1, target: { cap: "best-beginner-tenth" } }
+      - { talent: "TICK_TOCK", page: 1, target: "max", tie: "a" }
+      - { talent: "ATTACKS_ON_SIMMER", page: 1, target: "max", tie: "a" }
+      - { talent: "GOBLET_OF_HEMOGLOBIN", page: 1, target: "max", tie: "a" }
+      - { talent: "PRINTER_SAMPLING", page: 2, target: 1 }
+      - { talent: "SHRINE_ARCHITECT", page: 2, target: 1 }
+      - { talent: "DUNGEONIC_DAMAGE", page: 2, target: "max" }
+      - { talent: "FROTHY_MALK", page: 2, target: "max" }
+      - { talent: "TELEKINETIC_STORAGE", page: 2, target: 1 }
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=ih5wAK", title: "Sir_Grimtide, Barbarian/Fishing, star talents (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-18", gameVersion: "2.3.540" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=qncFFv", title: "Sir_Grimtide, Wizard/Worship, star talents (Toolbox community builds)", tier: 3, claimDate: "2026-10-13", verified: "2026-10-18", gameVersion: "2.3.540" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=K4c9A0", title: "Sir_Grimtide, Shaman/Alchemy, star talents (Toolbox community builds)", tier: 3, claimDate: "2026-10-15", verified: "2026-10-18", gameVersion: "2.3.540" }
+      - { url: "https://gameslikefinder.com/article/idleon-special-talents-guide/", title: "Gameslikefinder: IdleOn Special Talents tier list", tier: 3, claimDate: "2026-05-26", verified: "2026-10-18", gameVersion: "2.3.505" }
+      - { url: "https://powerupgaming.co.uk/2025/11/10/legends-of-idleon-tier-list-best-special-talents/", title: "Powerupgaming: best Special Talents tier list", tier: 3, claimDate: "2025-11-10", verified: "2026-10-18", gameVersion: "2.3.505" }
+      - { url: "https://idleon.wiki/wiki/Special_Talents", title: "IdleOn Wiki: Special Talents (books, effects, max levels)", tier: 2, claimDate: "2026-10-05", verified: "2026-10-18", gameVersion: "2.3.540" }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M21 FR-C11, D-12. Disagreements: Telekinetic Storage takes 1 point (Gameslikefinder) where Sir_Grimtide levels it, so the cheaper reading is kept; Will of the Eldest is rated from S+ (Powerupgaming) to C (Gameslikefinder), and its useful cap keeps it small. Grimtide adds Stonks! to the Mage builds only; it pays for itself, so it leads both. Printer Sampling at 100 is a choice, never flagged."
+
+  - id: talents.build.star-skilling
+    system: "talents"
+    type: "build"
+    variant: star
+    title: "Star talents for a skilling preset"
+    text: "Follow the star talent build for skilling"
+    why: "Stonks! first, since it pays its points back, then the AFK and skill talents every current skilling build shares."
+    role: "skilling"
+    steps:
+      - { talent: "STONKS!", page: 1, target: 30, core: true }
+      - { talent: "TICK_TOCK", page: 1, target: "max", tie: "a" }
+      - { talent: "WILL_OF_THE_ELDEST", page: 1, target: { cap: "best-level-tenth" }, tie: "a" }
+      - { talent: "TOILET_PAPER_POSTAGE", page: 3, target: 100, tie: "a" }
+      - { talent: "PRINTER_SAMPLING", page: 2, target: 1 }
+      - { talent: "SHRINE_ARCHITECT", page: 2, target: 1 }
+      - { talent: "SUPERSOURCE", page: 2, target: "max", when: [{ kind: servesAny, afk: ["MINING", "CHOPPIN", "FISHING", "CATCHING"] }] }
+      - { talent: "ACTION_FRENZY", page: 2, target: "max" }
+      - { talent: "FROTHY_MALK", page: 2, target: "max" }
+      - { talent: "TELEKINETIC_STORAGE", page: 2, target: 1 }
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=b0sGrY", title: "Sir_Grimtide, Bowman/Catching, star talents (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-18", gameVersion: "2.3.540" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=CngknO", title: "Sir_Grimtide, Squire/Mining+Construction, star talents (Toolbox community builds)", tier: 3, claimDate: "2026-10-10", verified: "2026-10-18", gameVersion: "2.3.540" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=qncFFv", title: "Sir_Grimtide, Wizard/Worship, star talents (Toolbox community builds)", tier: 3, claimDate: "2026-10-13", verified: "2026-10-18", gameVersion: "2.3.540" }
+      - { url: "https://gameslikefinder.com/article/idleon-special-talents-guide/", title: "Gameslikefinder: IdleOn Special Talents tier list", tier: 3, claimDate: "2026-05-26", verified: "2026-10-18", gameVersion: "2.3.505" }
+      - { url: "https://powerupgaming.co.uk/2025/11/10/legends-of-idleon-tier-list-best-special-talents/", title: "Powerupgaming: best Special Talents tier list", tier: 3, claimDate: "2025-11-10", verified: "2026-10-18", gameVersion: "2.3.505" }
+      - { url: "https://idleon.wiki/wiki/Special_Talents", title: "IdleOn Wiki: Special Talents (Supersource helps Mining, Choppin, Fishing and Catching)", tier: 2, claimDate: "2026-10-05", verified: "2026-10-18", gameVersion: "2.3.540" }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M21 FR-C11, D-12. Supersource only for presets serving Mining, Choppin, Fishing or Catching: the game's own text, which overrides Sir_Grimtide putting it first on the Worship and Alchemy builds. Toilet Paper Postage is on page 3 in game data (Grimtide lists it under tab 1) and is capped at 100 by judgment. Telekinetic Storage takes 1 point (Gameslikefinder) where Grimtide levels it."

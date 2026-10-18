@@ -73,7 +73,7 @@ describe('Build view roadmaps', () => {
     const skilling = r.presets[1];
     expect(skilling?.unspent).toBe(118);
     expect(skilling?.tabs.slice(0, 3).map((t) => t.unspent)).toEqual([44, 40, 34]);
-    expect(r.status).toBe('118+ unspent on the skilling preset · next: Book of the Wise');
+    expect(r.status).toBe('at least 118 points unspent on the skilling preset · next: Book of the Wise');
     // Each step takes no more than its tab has waiting (44 in tab 1).
     expect(skilling?.next.map((n) => n.text)).toEqual([
       'Put the next 44 points into Book of the Wise (to 60 of 100)',
@@ -105,7 +105,7 @@ describe('Build view roadmaps', () => {
 
   it('W2-late Barbarian: the empty preset reads as one status part, with the attack bar checked', () => {
     const r = at(roadmaps(W2()), 0);
-    expect(r.status).toBe('Skilling preset empty: 640+ points waiting · next: Brute Efficiency');
+    expect(r.status).toBe('Skilling preset empty: at least 640 points waiting · next: Brute Efficiency');
     expect(r.presets[1]?.roleText).toBe('Empty: set it up for skilling');
     expect(r.presets[0]?.attackBar?.text).toBe('Every attack the build wants is on the bar');
   });
@@ -137,7 +137,7 @@ describe('Build view roadmaps', () => {
   it('W3-early Squire Lv 51 (R5 QA P2-1): all 115 points wait in tab 3, so Refinery Throttle leads everywhere', () => {
     const s = W3();
     const r = at(roadmaps(s), 1);
-    expect(r.status).toBe('115+ unspent on the skilling preset · next: Refinery Throttle');
+    expect(r.status).toBe('at least 115 points unspent on the skilling preset · next: Refinery Throttle');
     const skilling = r.presets.find((p) => p.role === 'skilling');
     expect(skilling?.tabs.slice(0, 3).map((t) => t.unspent)).toEqual([0, 0, 115]);
     expect(skilling?.next.map((n) => n.text)).toEqual([

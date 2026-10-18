@@ -18,7 +18,6 @@ import type { FactLookup } from '../metapath/types';
 import type {
   BuildNextPoint,
   BuildPathStep,
-  BuildPathStepView,
   BuildPresetView,
   BuildRoadmap,
   BuildTabView,
@@ -30,6 +29,7 @@ import {
   analyzeAccount,
   bestNextStep,
   type CharacterAnalysis,
+  neededRoleOf,
   PRESET_LEVEL,
   type PresetView,
 } from './analyze';
@@ -42,6 +42,7 @@ import {
   type ResolvedBuild,
   talentLabel,
 } from './knowledge';
+import { ACCURACY_NOTE, bandPath, classGroups, MAX_NOTE, type StarContext, starKnown, starTab } from './path';
 
 /** "Next points" lines per tab, so the checklist stays short. */
 export const NEXT_PER_TAB = 3;
@@ -77,10 +78,29 @@ interface PresetInput {
   role: PresetRole | null;
   cls: PresetView['cls'] | null;
   build: ResolvedBuild | null;
-  lb: { byTab: Record<1 | 2 | 3, number>; total: number } | null;
+  /** Known unspent points per tab: M9 TR-7's lower bound, or exact counts when Account State has them. */
+  lb: { byTab: Record<1 | 2 | 3, number>; total: number; exact?: boolean } | null;
   afkType: string | null;
   /** The preset's next step's tab (M9's shared rule, analyze.ts `spendableNext`); leads the list. */
   lead: number | null;
+  /** M21 FR-C9 to FR-C14: the star tab's inputs. */
+  star: StarInput;
+}
+
+interface StarInput {
+  /** Toolbox's star point total for this preset (Account State `starPoints`), or null. */
+  total: number | null;
+  /** The other preset's talents, for the fallback lower bound. */
+  other: PresetTalents | null;
+  role: PresetRole;
+  /** The AFK skills the preset serves (its matched class Build's `serves`); null when unknown. */
+  serves: string[] | null;
+  ctx: StarContext;
+}
+
+function starOf(x: PresetInput, kb: BuildsKnowledge): BuildTabView {
+  const s = x.star;
+  return starTab(x.p, kb.starBuild(s.role), starKnown(s.total, x.p, s.other), s.serves, s.ctx, kb, x.slot);
 }
 
 function tabRows(p: PresetTalents, b: ResolvedBuild, tab: number, ctx: WalkContext, kb: BuildsKnowledge) {
@@ -117,96 +137,13 @@ function tabRows(p: PresetTalents, b: ResolvedBuild, tab: number, ctx: WalkConte
   return [...rows.values()];
 }
 
-/** M9 FR-11: the tab's core steps first (the ones the Build insists on), then the Build's order. */
-const spendOrder = <T extends { core: boolean }>(steps: readonly T[]): T[] => [
-  ...steps.filter((x) => x.core),
-  ...steps.filter((x) => !x.core),
-];
-
-/**
- * M21 FR-C1 / FR-C2: every Build step of one tab, in spend order, banded by what the tab's known
- * points pay for, with the running total from now through each step. `known` is the tab's lower bound
- * (M9 TR-7), or null without one: a bound of 0 or none means no points are known, never that none
- * wait (the bound can't prove zero), so every unmet step is "next" with its total. A step whose talent
- * is already at its goal is "done" and never counts.
- */
-function tabPath(
-  p: PresetTalents,
-  b: ResolvedBuild,
-  tab: number,
-  ctx: WalkContext,
-  kb: BuildsKnowledge,
-  slot: number,
-  known: number | null,
-): BuildPathStepView[] {
-  const t = b.tabs.find((x) => x.tab === tab);
-  if (!t) return [];
-  const budget = known ?? 0;
-  const sim = new Map<number, number>();
-  const out: BuildPathStepView[] = [];
-  let total = 0;
-  for (const [i, step] of spendOrder(t.steps).entries()) {
-    const target = targetOf(p, step);
-    const max = maxOf(p, step.id);
-    // Not on this preset's tabs, or locked (max ≤ 0): no step to show.
-    if (target === null || max <= 0) continue;
-    const goal = Math.min(target, max);
-    const current = sim.get(step.id) ?? levelOf(p, step.id);
-    const stage = step.when.find((c) => c.kind === 'stageAtLeast');
-    const accuracy = step.when.some((c) => c.kind === 'accuracyShort');
-    const base = {
-      key: `p-s${slot}-t${tab}-${i}`,
-      talentId: step.id,
-      label: talentLabel(step.talent),
-      page: null,
-      current,
-      goal,
-      core: step.core,
-      condition: null,
-      partNow: null,
-      note: goal < target ? 'its max for now' : null,
-    };
-    if (stage && stage.kind === 'stageAtLeast' && stepApplies(step, ctx) !== 'yes' && !accuracy) {
-      out.push({
-        ...base,
-        need: Math.max(0, goal - current),
-        cumulative: null,
-        band: 'later',
-        condition: `from ${stageLabel(stage.stage)}`,
-      });
-      continue;
-    }
-    if (kb.talents.bubbleCapped.has(step.id)) {
-      out.push({ ...base, need: 0, cumulative: null, band: 'done', note: 'set by a bubble' });
-      continue;
-    }
-    const need = Math.max(0, goal - current);
-    if (need === 0) {
-      out.push({ ...base, need: 0, cumulative: null, band: 'done' });
-      continue;
-    }
-    const before = total;
-    total += need;
-    sim.set(step.id, goal);
-    const band = total <= budget ? 'now' : before < budget ? 'part' : 'next';
-    out.push({
-      ...base,
-      need,
-      cumulative: total,
-      band,
-      partNow: band === 'part' ? budget - before : null,
-      note: accuracy ? 'if your accuracy is short' : base.note,
-    });
-  }
-  return out;
-}
-
 /**
  * The Build's steps minus current levels, simulating the levels as each step is done. Points are per
  * tab (R5 QA P2-1): with points waiting (the lower bound), only tabs that have some are listed, the
  * preset's next step's tab first, and each step takes no more than its tab has left. A tab with none
  * waiting gets one line naming where its next points go. Without a second preset (nothing known),
- * every tab is listed as before.
+ * every tab is listed as before. Same `spendOrder` as the path (M21 FR-C11): a tie is one line, its
+ * points split evenly.
  */
 function nextPoints(
   p: PresetTalents,
@@ -223,50 +160,62 @@ function nextPoints(
     .filter((t) => !waiting || (t.tab <= 3 && (lb?.byTab[t.tab as 1 | 2 | 3] ?? 0) > 0))
     .sort((x, y) => Number(y.tab === lead) - Number(x.tab === lead) || x.tab - y.tab);
   for (const t of tabs) {
+    let k = 0;
     const sim = new Map<number, number>();
-    let n = 0;
     let budget = waiting ? (lb?.byTab[t.tab as 1 | 2 | 3] ?? 0) : Number.POSITIVE_INFINITY;
     const none = lb !== null && !waiting;
-    for (const step of spendOrder(t.steps)) {
-      if (n >= (none ? 1 : NEXT_PER_TAB) || budget <= 0) break;
-      if (stepApplies(step, ctx) !== 'yes' || kb.talents.bubbleCapped.has(step.id)) continue;
-      const target = targetOf(p, step);
-      if (target === null) continue;
-      const max = maxOf(p, step.id);
-      const goal = Math.min(target, max);
-      const current = sim.get(step.id) ?? levelOf(p, step.id);
-      const need = goal - current;
+    for (const group of classGroups(p, b, t.tab, ctx, kb)) {
+      if (k >= (none ? 1 : NEXT_PER_TAB) || budget <= 0) break;
+      // Only steps that apply now and take points (M9 FR-11): no later, bubble-set or accuracy-only steps.
+      const live = group
+        .filter((m) => m.later === null && m.fixed === null && m.note !== ACCURACY_NOTE)
+        .map((m) => ({ ...m, current: sim.get(m.id) ?? m.current }));
+      const need = live.reduce((s, m) => s + Math.max(0, m.goal - m.current), 0);
       if (need <= 0) continue;
-      const label = talentLabel(step.talent);
-      const key = `c-s${slot}-t${t.tab}-${n}`;
+      const tie = live.filter((m) => m.goal > m.current);
+      const label = tie.map((m) => m.label).join(' = ');
+      const goal = tie.reduce((s, m) => s + m.goal, 0);
+      const key = `c-s${slot}-t${t.tab}-${k}`;
+      const capped = tie.some((m) => m.note === MAX_NOTE);
       if (none) {
+        const to = tie.length > 1 ? 'split evenly' : `to ${goal}`;
         out.push({
           key,
           tab: t.tab,
           label,
           // A lower bound of 0 can't prove the tab is empty (fix/build-points): never "no points waiting".
-          text: `No unspent points known here; the next go into ${label} (to ${goal})`,
+          text: `No unspent points known here; the next go into ${label} (${to})`,
           points: 0,
         });
-        n++;
+        k++;
         continue;
       }
       const take = Math.min(need, budget);
       budget -= take;
-      const reach = current + take;
-      sim.set(step.id, reach);
+      // A part-paid tie spreads its points evenly (FR-C11); a single step just takes them.
+      let left = take;
+      for (const [i, m] of tie.entries()) {
+        const share =
+          i === tie.length - 1 ? left : Math.min(m.goal - m.current, Math.ceil(take / tie.length));
+        sim.set(m.id, m.current + share);
+        left -= share;
+      }
       const to =
-        reach < goal
-          ? `to ${reach} of ${goal}`
-          : goal < target
-            ? `to ${goal}, its max for now`
-            : `to ${goal}`;
+        tie.length > 1
+          ? take < need
+            ? `${take} of ${need}, split evenly`
+            : 'split evenly'
+          : take < need
+            ? `to ${(tie[0]?.current ?? 0) + take} of ${goal}`
+            : capped
+              ? `to ${goal}, its max for now`
+              : `to ${goal}`;
       const text =
-        n === 0
+        k === 0
           ? `Put the next ${plural(take, 'point')} into ${label} (${to})`
           : `then ${take.toLocaleString('en-US')} into ${label} (${to})`;
       out.push({ key, tab: t.tab, label, text, points: take });
-      n++;
+      k++;
     }
   }
   return out;
@@ -316,8 +265,11 @@ function presetOf(x: PresetInput, kb: BuildsKnowledge, ctx: WalkContext): BuildP
       unspent: lb,
       rows,
       others: othersOf(p, t.tab, new Set(rows.map((r) => r.id)), kb),
-      known: { kind: lb === null ? 'none' : 'lower-bound', points: lb, overBy: null },
-      path: build && t.tab <= 3 ? tabPath(p, build, t.tab, ctx, kb, x.slot, lb) : [],
+      known: { kind: lb === null ? 'none' : x.lb?.exact ? 'exact' : 'lower-bound', points: lb, overBy: null },
+      path:
+        build && t.tab <= 3
+          ? bandPath(classGroups(p, build, t.tab, ctx, kb), lb, `p-s${x.slot}-t${t.tab}`)
+          : [],
     };
   });
   const role = x.role;
@@ -343,6 +295,7 @@ function presetOf(x: PresetInput, kb: BuildsKnowledge, ctx: WalkContext): BuildP
     tabs,
     attackBar: role ? attackBarOf(x, kb) : null,
     next: build ? nextPoints(p, build, ctx, kb, x.slot, x.lb, x.lead) : [],
+    star: starOf(x, kb),
   };
 }
 
@@ -456,9 +409,21 @@ function covered(
         role,
         cls: v.cls,
         build: a.builds[role],
-        lb: v.lb,
+        lb: exactPoints(c, v.slot) ?? v.lb,
         afkType: c.afkType,
         lead: v.next?.tab ?? null,
+        star: {
+          total: starTotalOf(c, v.isActive),
+          other: other?.talents ?? null,
+          role,
+          // FR-C11: what a preset serves is its matched class Build's `serves`; unknown when M9 can't
+          // classify the preset or the Build lists none.
+          serves:
+            (v.cls === 'fighting' || v.cls === 'skilling') && v.build && v.build.entry.serves.length > 0
+              ? [...v.build.entry.serves]
+              : null,
+          ctx: starCtxOf(acc),
+        },
       },
       kb,
       a.walkCtx,
@@ -519,11 +484,13 @@ function covered(
   );
   const emptySlots = new Set(views.filter((v) => v.cls === 'empty').map((v) => v.slot));
   if (most?.unspent) {
-    const n = most.unspent.toLocaleString('en-US');
+    // Exact counts (when Account State has them) drop the "at least" (DS-24 holds for bounds only).
+    const exact = most.tabs.some((t) => t.known?.kind === 'exact');
+    const n = `${exact ? '' : 'at least '}${most.unspent.toLocaleString('en-US')}`;
     parts.push(
       emptySlots.has(most.slot)
-        ? `${cap(most.heading.toLowerCase())} empty: ${n}+ points waiting`
-        : `${n}+ unspent on the ${most.heading.toLowerCase()}`,
+        ? `${cap(most.heading.toLowerCase())} empty: ${n} points waiting`
+        : `${n} points unspent on the ${most.heading.toLowerCase()}`,
     );
   }
   // The preset with points waiting leads (M9 FR-9); else M9's next step over both presets (FR-11).
@@ -560,6 +527,57 @@ function covered(
 // The class tree is read through the same lookup the analysis used.
 const lookups = new WeakMap<AccountAnalysis, FactLookup>();
 const factsOf = (acc: AccountAnalysis): FactLookup => lookups.get(acc) as FactLookup;
+
+// FR-C12: the account numbers the star Builds' useful caps read, worked out once per run.
+const starCtxs = new WeakMap<AccountAnalysis, StarContext>();
+const starCtxOf = (acc: AccountAnalysis): StarContext =>
+  starCtxs.get(acc) ?? {
+    bestLevel: 0,
+    bestBeginner: 0,
+    stage: { stage: acc.stage, bubbleCapped: acc.kb.talents.bubbleCapped },
+  };
+
+/**
+ * FR-C12: the best class level on the account, and the best Beginner-line level (a class whose talent
+ * tabs run through Beginner: Beginner, Journeyman, Maestro, Voidwalker), as Toolbox's
+ * `getHighestLevelOf(characters, 'Beginner')` reads it for Beginner Best Class (`damage.ts`).
+ */
+export function starContext(state: AccountState, acc: AccountAnalysis): StarContext {
+  let bestLevel = 0;
+  let bestBeginner = 0;
+  for (const c of state.characters) {
+    bestLevel = Math.max(bestLevel, c.level);
+    if (acc.kb.talentTabsOf(c.class).includes('Beginner')) bestBeginner = Math.max(bestBeginner, c.level);
+  }
+  return { bestLevel, bestBeginner, stage: { stage: acc.stage, bubbleCapped: acc.kb.talents.bubbleCapped } };
+}
+
+/**
+ * Exact talent points per preset and tab (owner ruling 2026-10-18, built on `feat/exact-talent-points`):
+ * Account State `talentPoints[preset][tab] = { total, spent, unspent, confidence }`. Read structurally
+ * so this works before and after that field lands; null (fall back to M9 TR-7's lower bound) when it is
+ * absent, incomplete for tabs 1–3, or only a bound.
+ */
+export function exactPoints(c: CharacterState, slot: number): PresetInput['lb'] {
+  const all = (c as { talentPoints?: unknown }).talentPoints;
+  const preset = Array.isArray(all) ? all[slot] : null;
+  if (!preset || typeof preset !== 'object') return null;
+  const byTab = { 1: 0, 2: 0, 3: 0 } as Record<1 | 2 | 3, number>;
+  for (const t of [1, 2, 3] as const) {
+    // Keyed by tab number, or an array indexed from tab 1.
+    const cell = (Array.isArray(preset) ? preset[t - 1] : (preset as Record<number, unknown>)[t]) as
+      | { unspent?: unknown; confidence?: unknown }
+      | null
+      | undefined;
+    if (!cell || typeof cell.unspent !== 'number' || cell.confidence === 'bound') return null;
+    byTab[t] = Math.max(0, cell.unspent);
+  }
+  return { byTab, total: byTab[1] + byTab[2] + byTab[3], exact: true };
+}
+
+/** FR-C9: Toolbox's star point total for the preset in use, or the other one. */
+const starTotalOf = (c: CharacterState, active: boolean): number | null =>
+  (active ? c.talents?.starPoints?.active : c.talents?.starPoints?.other) ?? null;
 const classRow = (acc: AccountAnalysis, cls: string): Row | undefined =>
   classTree(factsOf(acc)).byName.get(cls) as Row | undefined;
 
@@ -574,6 +592,9 @@ function plain(c: CharacterState, acc: AccountAnalysis, path: ClassPath, note: s
       list.push({ p: t.other, slot: t.selectedPreset === 0 ? 1 : 0, active: false });
   }
   list.sort((x, y) => x.slot - y.slot);
+  // FR-C14: the star tab shows on every character; without a class Build, the preset in use takes the
+  // role its AFK Target needs (fighting by default) and the other preset the other role.
+  const activeRole = neededRoleOf(c.afkType) ?? 'fighting';
   const presets = list.map((x) =>
     presetOf(
       {
@@ -586,6 +607,13 @@ function plain(c: CharacterState, acc: AccountAnalysis, path: ClassPath, note: s
         lb: null,
         afkType: c.afkType,
         lead: null,
+        star: {
+          total: starTotalOf(c, x.active),
+          other: list.find((y) => y !== x)?.p ?? null,
+          role: x.active ? activeRole : otherRole(activeRole),
+          serves: null,
+          ctx: starCtxOf(acc),
+        },
       },
       kb,
       ctx,
@@ -625,6 +653,7 @@ export function buildRoadmaps(
 ): BuildRoadmap[] {
   const acc = analyzeAccount(state, facts);
   lookups.set(acc, facts);
+  starCtxs.set(acc, starContext(state, acc));
   let roster: ReturnType<typeof analyzeRoster> | null = null;
   try {
     roster = analyzeRoster(state, facts, acc.stage);

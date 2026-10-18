@@ -1,12 +1,9 @@
-# golden v1: fresh · knowledge #80d1ed78 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: fresh · knowledge #a1a8a98c · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 990
 
 ## Verdict changes
 
 ## Now
 0 of 3 Ready · fix 3 before you leave
-counter: 3 fixes before you leave
-first: Blood Berserker 534 · Spirit Village · Pick an AFK Target before you leave
-fold: 1 we can't tell: see why
 
 ### C2 · Blood Berserker 534 · Fix before you leave
 1 · Doing nothing · Spirit Village · Pick an AFK Target before you leave
@@ -191,7 +188,49 @@ step: Use your 18 vial attempts on the W2 town cauldron
   Chizoar: 3 of 4 parts: craft Chizoar Helmet
 
 ## Builds
-Not built yet (M21 area C: the Build path).
+### C1 (Siege Breaker 478)
+- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (1,534 unspent)
+  - Star talents: 1,534 unspent · they end here (Stonks! returns more as it levels)
+    - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
+    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage 0 → 254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 53 (best level 534); its max for now)
+    - can add now: Printer Sampling 0 → 1 · +285
+    - can add now: Shrine Architect 0 → 1 · +286
+    - and 4 more
+- Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (645 unspent)
+  - Star talents: 645 unspent · they end here (Stonks! returns more as it levels)
+    - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
+    - done: Will of the Eldest 50 (useful up to 53 (best level 534); its max for now)
+    - done: Beginner Best Class 0 (no Beginner-line character yet)
+    - done: Attacks On Simmer 50
+    - and 6 more
+
+### C2 (Blood Berserker 534)
+- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (1,835 unspent)
+  - Star talents: 1,835 unspent · they end here (Stonks! returns more as it levels)
+    - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
+    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage 0 → 254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 53 (best level 534); its max for now)
+    - can add now: Printer Sampling 0 → 1 · +285
+    - can add now: Shrine Architect 0 → 1 · +286
+    - and 4 more
+- Current preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (501 unspent)
+  - Star talents: 501 unspent · they end here (Stonks! returns more as it levels)
+    - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
+    - done: Will of the Eldest 50 (useful up to 53 (best level 534); its max for now)
+    - done: Beginner Best Class 0 (no Beginner-line character yet)
+    - done: Attacks On Simmer 50
+    - and 7 more
+
+### C3 (Beginner 1)
+- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- Current preset (in use): Beginner · Star talents (413 unspent)
+  - Star talents: 413 unspent · they end here (Stonks! returns more as it levels)
+    - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
+    - can add now: Will of the Eldest 0 → 50 · +80 (useful up to 53 (best level 534); its max for now)
+    - done: Beginner Best Class 0 (no Beginner-line character yet)
+    - can add now: Tick Tock = Attacks On Simmer = Goblet of Hemoglobin 0 → 204 · +284 (split evenly: Tick Tock 0 → 104, Attacks On Simmer 0 → 50, Goblet of Hemoglobin 0 → 50)
+    - and 5 more
 
 ## Map
 4 of 4 worlds open · 3 characters

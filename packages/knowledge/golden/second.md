@@ -1,14 +1,9 @@
-# golden v1: second · knowledge #80d1ed78 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: second · knowledge #a1a8a98c · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 990
 
 ## Verdict changes
 
 ## Now
-! All set: safe to log off. First thing fills up in 19h 09m: the anvil on Barbarian 501
-safe to log off · 2 Unknown
-counter: All set: safe to log off
-fold: 2 we can't tell: see why
-finding: Traps idle in 2h 15m on 10
-ready fold: 8 characters
+8 of 10 Ready · 2 Unknown
 
 ### C7 · Voidwalker 510 · Unknown
 1 · Fighting Skydoggie Spirit · Dozey Dogpark · [Traps idle in 2h 15m] · Can't tell from the save
@@ -236,7 +231,175 @@ step: Level Poison Tincture 2 → 3 (1,000 Poison Froge, 6 Liquid Nitrogen)
   Chizoar: 0 of 4 parts: craft Chizoar Helmet
 
 ## Builds
-Not built yet (M21 area C: the Build path).
+### C1 (Beast Master 507)
+- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- Current preset (in use): Calm Basics · Archer · Hunter · Beast Master · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
+    - done: Tick Tock 196
+    - and 7 more
+- Other preset: Calm Basics · Archer · Hunter · Beast Master · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Tick Tock 196
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Toilet Paper Postage 100
+    - and 6 more
+
+### C2 (Divine Knight 544)
+- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
+    - done: Tick Tock 196
+    - and 7 more
+- Other preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (254 unspent)
+  - Star talents: 254 unspent · they end here
+    - done: Stonks! 30
+    - done: Tick Tock 196
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Toilet Paper Postage 100
+    - and 6 more
+
+### C3 (Bubonic Conjuror 567)
+- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
+    - done: Tick Tock 196
+    - and 7 more
+- Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (83 unspent)
+  - Star talents: 83 unspent · they end here
+    - done: Stonks! 30
+    - done: Tick Tock 196
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Toilet Paper Postage 100
+    - and 6 more
+
+### C4 (Blood Berserker 501)
+- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- Current preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
+    - done: Tick Tock 196
+    - and 7 more
+- Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (70 unspent)
+  - Star talents: 70 unspent · they end here
+    - done: Stonks! 30
+    - done: Tick Tock 196
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Toilet Paper Postage 100
+    - and 6 more
+
+### C5 (Wizard 501)
+- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- Current preset (in use): Savvy Basics · Mage · Wizard · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
+    - done: Tick Tock 196
+    - and 7 more
+- Other preset: Savvy Basics · Mage · Wizard · Star talents (69 unspent)
+  - Star talents: 69 unspent · they end here
+    - done: Stonks! 30
+    - done: Tick Tock 196
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Toilet Paper Postage 100
+    - and 6 more
+
+### C6 (Siege Breaker 530)
+- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
+    - done: Tick Tock 196
+    - and 7 more
+- Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Tick Tock 196
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Toilet Paper Postage 100
+    - and 6 more
+
+### C7 (Voidwalker 510)
+- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- Current preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
+    - done: Tick Tock 196
+    - and 7 more
+- Other preset: Beginner · Journeyman · Maestro · Voidwalker · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Tick Tock 196
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Toilet Paper Postage 100
+    - and 6 more
+
+### C8 (Elemental Sorcerer 525)
+- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- Current preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
+    - done: Tick Tock 196
+    - and 7 more
+- Other preset: Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (70 unspent)
+  - Star talents: 70 unspent · they end here
+    - done: Stonks! 30
+    - done: Tick Tock 196
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Toilet Paper Postage 100
+    - and 6 more
+
+### C9 (Hunter 503)
+- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- Current preset (in use): Calm Basics · Archer · Hunter · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
+    - done: Tick Tock 196
+    - and 7 more
+- Other preset: Calm Basics · Archer · Hunter · Star talents (69 unspent)
+  - Star talents: 69 unspent · they end here
+    - done: Stonks! 30
+    - done: Tick Tock 196
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Toilet Paper Postage 100
+    - and 6 more
+
+### C10 (Barbarian 501)
+- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- Current preset (in use): Rage Basics · Warrior · Barbarian · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Beginner Best Class 50 (useful up to 51 (best Beginner-line level 510); its max for now)
+    - done: Tick Tock 196
+    - and 7 more
+- Other preset: Rage Basics · Warrior · Barbarian · Star talents (70 unspent)
+  - Star talents: 70 unspent · they end here
+    - done: Stonks! 30
+    - done: Tick Tock 196
+    - done: Will of the Eldest 50 (useful up to 56 (best level 567); its max for now)
+    - done: Toilet Paper Postage 100
+    - and 6 more
 
 ## Map
 4 of 4 worlds open · 10 characters

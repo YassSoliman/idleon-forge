@@ -89,8 +89,8 @@ describe('Build path: the Release 9 Hunter report (fix/build-points)', () => {
       'Idle Shooting',
       'Mana Booster',
       'Fist of Rage',
-      'Health Booster',
-      'Quickness Boots',
+      // A tie is one row (M21 FR-C11): its need is the members' sum, split evenly.
+      'Health Booster = Quickness Boots',
     ]);
     expect(path.slice(0, 4).map(line)).toEqual([
       'done Idle Shooting 50->50',

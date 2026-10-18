@@ -1,15 +1,9 @@
-# golden v1: scrubbed-w3 · knowledge #80d1ed78 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 988
+# golden v1: scrubbed-w3 · knowledge #a1a8a98c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 990
 
 ## Verdict changes
 
 ## Now
 2 of 6 Ready · fix 2 before you leave · 2 Unknown
-counter: 2 fixes before you leave
-first: Bowman 60 · Sands of Time · Swap to your fighting preset before you leave
-fold: 2 we can't tell: see why
-finding: Anvil full on 6 · collect
-finding: Worship full on 4 · spend
-ready fold: 2 characters
 
 ### C3 · Bowman 60 · Fix before you leave
 1 · Fighting Sand Giant · Sands of Time · [Anvil full · collect] [Worship full · spend] · Swap to your fighting preset before you leave · Spend here: 6 buys, about 659M coins → Spend Plan
@@ -249,7 +243,135 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
   Chizoar: 0 of 4 parts: craft Chizoar Helmet
 
 ## Builds
-Not built yet (M21 area C: the Build path).
+### C1 (Wizard 73)
+- Fighting preset (in use): Savvy Basics · Mage · Wizard · Star talents (13 unspent)
+  - Star talents: 13 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - can add now: Will of the Eldest 7 → 8 · +1 (useful up to 8 (best level 85))
+    - later: Beginner Best Class 0 (find its book)
+    - part now: Tick Tock 4 → 92 · +12 of 88 now · +89
+    - and 7 more
+- Skilling preset: Savvy Basics (at least 83) · Mage [Start here] (at least 77) · Wizard (at least 55) · Star talents (55 unspent)
+  - Mage: As of your last save: at least 77 points waiting · they end here
+    - part now: Log On Logs 1 → 100 · +77 of 99 now · +99
+    - next after these: Leaf Thief 9 → 100 · +190
+    - done: Deforesting All Doubt 100
+    - next after these: Individual Insight 0 → 100 · +290
+    - and 2 more
+  - Star talents: 55 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - done: Will of the Eldest 8 (useful up to 8 (best level 85))
+    - part now: Tick Tock 0 → 92 · +55 of 92 now · +92
+    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - and 6 more
+
+### C2 (Squire 51)
+- Skilling preset (in use): Rage Basics · Warrior · Squire [Start here] (at least 115) · Star talents (12 unspent)
+  - Squire: As of your last save: at least 115 points waiting · they end here
+    - can add now: Refinery Throttle 0 → 100 · +100
+    - part now: Redox Rates 0 → 100 · +15 of 100 now · +200
+    - next after these: Sharper Saws 0 → 100 · +300
+    - next after these: Shieldiest Statues 0 → 100 · +400
+    - and 1 more
+  - Star talents: 12 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - part now: Tick Tock = Will of the Eldest 5 → 100 · +12 of 95 now · +95 (split evenly: Tick Tock 0 → 92, Will of the Eldest 5 → 8 · useful up to 8 (best level 85))
+    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - done: Printer Sampling 1
+    - and 5 more
+- Fighting preset: Rage Basics · Warrior · Squire · Star talents (162 unspent)
+  - Star talents: 162 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - can add now: Will of the Eldest 0 → 8 · +8 (useful up to 8 (best level 85))
+    - later: Beginner Best Class 0 (find its book)
+    - can add now: Tick Tock 0 → 92 · +100
+    - and 7 more
+
+### C3 (Bowman 60)
+- Skilling preset (in use): Calm Basics (at least 61) · Archer [Start here] (at least 16) · Bowman (at least 16) · Star talents (26 unspent)
+  - Archer: As of your last save: at least 16 points waiting · they end here
+    - part now: Garb of Un'agi'ng Quality 0 → 100 · +16 of 100 now · +100
+    - next after these: Sanic Speed 0 → 100 · +200
+    - done: Focused Soul 100
+    - done: Acme Anvil 100
+    - and 2 more
+  - Star talents: 26 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - part now: Tick Tock = Will of the Eldest 7 → 100 · +26 of 93 now · +93 (split evenly: Tick Tock 0 → 92, Will of the Eldest 7 → 8 · useful up to 8 (best level 85))
+    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - done: Printer Sampling 1
+    - and 5 more
+- Fighting preset: Calm Basics · Archer · Bowman · Star talents (15 unspent)
+  - Star talents: 15 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - can add now: Will of the Eldest 0 → 8 · +8 (useful up to 8 (best level 85))
+    - later: Beginner Best Class 0 (find its book)
+    - can add now: Tick Tock 91 → 92 · +9
+    - and 7 more
+
+### C4 (Squire 85)
+- Fighting preset (in use): Rage Basics · Warrior · Squire · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - later: Stonks! 0 → 30 (find its book)
+    - next after these: Will of the Eldest 0 → 8 · +8 (useful up to 8 (best level 85))
+    - later: Beginner Best Class 0 (find its book)
+    - next after these: Tick Tock 0 → 92 · +100
+    - and 7 more
+- Skilling preset: Rage Basics [Start here] (at least 435) · Warrior (at least 357) · Squire (at least 228) · Star talents (182 unspent)
+  - Rage Basics: As of your last save: at least 435 points waiting · they end here
+    - can add now: Brute Efficiency 0 → 100 · +100
+    - can add now: Idle Skilling 0 → 100 · +200
+    - can add now: Fist of Rage 0 → 102 · +302
+    - can add now: Health Booster 0 → 122 · +424
+    - and 1 more
+  - Star talents: 182 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - can add now: Tick Tock = Will of the Eldest 0 → 100 · +100 (split evenly: Tick Tock 0 → 92, Will of the Eldest 0 → 8 · useful up to 8 (best level 85))
+    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - can add now: Printer Sampling 0 → 1 · +101
+    - and 5 more
+
+### C5 (Barbarian 56)
+- Skilling preset: Rage Basics (at least 46) · Warrior (at least 69) · Barbarian [Start here] (at least 33) · Star talents (80 unspent)
+  - Barbarian: As of your last save: at least 33 points waiting · they end here
+    - part now: Worming Undercover 2 → 100 · +33 of 98 now · +98
+    - next after these: Bobbin' Bobbers 12 → 100 · +186
+    - next after these: All Fish Diet 1 → 100 · +285
+    - next after these: Catching Some Zzz's 88 → 100 · +297
+    - and 3 more
+  - Star talents: 80 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - part now: Tick Tock = Will of the Eldest 7 → 100 · +80 of 93 now · +93 (split evenly: Tick Tock 0 → 92, Will of the Eldest 7 → 8 · useful up to 8 (best level 85))
+    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - next after these: Printer Sampling 0 → 1 · +94
+    - and 5 more
+- Fighting preset (in use): Rage Basics · Warrior · Barbarian · Star talents (6 unspent)
+  - Star talents: 6 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - done: Will of the Eldest 8 (useful up to 8 (best level 85))
+    - later: Beginner Best Class 0 (find its book)
+    - part now: Tick Tock 55 → 92 · +6 of 37 now · +37
+    - and 7 more
+
+### C6 (Shaman 54)
+- Fighting preset (in use): Savvy Basics · Mage · Shaman · Star talents (40 unspent)
+  - Star talents: 40 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - done: Will of the Eldest 8 (useful up to 8 (best level 85))
+    - later: Beginner Best Class 0 (find its book)
+    - part now: Tick Tock 0 → 92 · +40 of 92 now · +92
+    - and 7 more
+- Skilling preset: Savvy Basics [Start here] (at least 213) · Mage (at least 170) · Shaman · Star talents (40 unspent)
+  - Savvy Basics: As of your last save: at least 213 points waiting · they end here
+    - can add now: Smart Efficiency 0 → 100 · +100
+    - can add now: Book of the Wise 0 → 100 · +200
+    - part now: Active AFK'er 0 → 100 · +13 of 100 now · +300
+  - Star talents: 40 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - can add now: Tick Tock = Will of the Eldest 64 → 100 · +36 (split evenly: Tick Tock 64 → 92, Will of the Eldest 0 → 8 · useful up to 8 (best level 85))
+    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - can add now: Printer Sampling 0 → 1 · +37
+    - and 5 more
 
 ## Map
 3 of 4 worlds open · 6 characters

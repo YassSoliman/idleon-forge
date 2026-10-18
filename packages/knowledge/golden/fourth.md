@@ -1,12 +1,9 @@
-# golden v1: fourth · knowledge #80d1ed78 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: fourth · knowledge #a1a8a98c · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 990
 
 ## Verdict changes
 
 ## Now
 0 of 2 Ready · fix 1 before you leave · 1 Unknown
-counter: 1 fix before you leave
-first: Beginner 1 · Blunder Hills · Pick an AFK Target before you leave
-fold: 1 we can't tell: see why
 
 ### C2 · Beginner 1 · Fix before you leave
 1 · Doing nothing · Blunder Hills · Pick an AFK Target before you leave
@@ -154,7 +151,32 @@ step: Level Barley Brew 1 → 2 (100 Iron Bar, 3 Water)
   Chizoar: 1 of 4 parts: craft Chizoar Helmet
 
 ## Builds
-Not built yet (M21 area C: the Build path).
+### C1 (Voidwalker 476)
+- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- Current preset (in use): Beginner · Journeyman · Maestro · Voidwalker · Star talents (over budget by about 201)
+  - Star talents: Over budget by about 201: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 47 (useful up to 47 (best level 476))
+    - done: Beginner Best Class 47 (useful up to 47 (best Beginner-line level 476))
+    - done: Attacks On Simmer 50
+    - and 7 more
+- Other preset: Beginner · Journeyman · Maestro · Voidwalker · Star talents (563 unspent)
+  - Star talents: 563 unspent · they end here
+    - done: Stonks! 30
+    - done: Tick Tock 100
+    - done: Will of the Eldest 47 (useful up to 47 (best level 476))
+    - done: Toilet Paper Postage 100
+    - and 6 more
+
+### C2 (Beginner 1)
+- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- Current preset (in use): Beginner · Star talents (243 unspent)
+  - Star talents: 243 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - later: Will of the Eldest 0 → 47 (find its book)
+    - later: Beginner Best Class 0 → 47 (find its book)
+    - later: Tick Tock 0 (find its book)
+    - and 7 more
 
 ## Map
 4 of 4 worlds open · 2 characters

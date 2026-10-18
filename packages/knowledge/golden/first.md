@@ -1,14 +1,9 @@
-# golden v1: first · knowledge #80d1ed78 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: first · knowledge #a1a8a98c · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 990
 
 ## Verdict changes
 
 ## Now
 2 of 7 Ready · fix 1 before you leave · 4 Unknown
-counter: 1 fix before you leave
-first: Maestro 73 · YumYum Grotto · Pick an AFK Target before you leave
-fold: 4 we can't tell: see why
-finding: Traps idle in 13m on 7
-ready fold: 2 characters
 
 ### C7 · Maestro 73 · Fix before you leave
 1 · Doing nothing · YumYum Grotto · [Traps idle in 13m] · Pick an AFK Target before you leave
@@ -56,7 +51,7 @@ purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
 - Spend · Collect banked Colosseum tickets: Collect 9 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 13 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
-  · Easiest rolls with what you hold: Sippy Cup (a roll of 97 or more, Sippy Straw), 40-40 Purity (a roll of 98 or more, Contact Lense)
+  · Easiest rolls with what you hold: Sippy Cup (97+, Sippy Straw), 40-40 Purity (98+, Contact Lense)
   · Drop several stacks quickly: each counts as a roll
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 show more (21)
@@ -263,7 +258,148 @@ step: Use your 13 vial attempts on the W2 town cauldron
   Chizoar: 0 of 4 parts: craft Chizoar Helmet
 
 ## Builds
-Not built yet (M21 area C: the Build path).
+### C1 (Blood Berserker 96)
+- Fighting preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 9 (useful up to 9 (best level 96))
+    - next after these: Beginner Best Class 6 → 7 · +1 (useful up to 7 (best Beginner-line level 73))
+    - done: Attacks On Simmer 50
+    - and 6 more
+- Skilling preset: Rage Basics [Start here] (at least 114) · Warrior (at least 4) · Barbarian (at least 3) · Blood Berserker · Star talents (all spent)
+  - Rage Basics: As of your last save: at least 114 points waiting · they end here
+    - done: Brute Efficiency 126
+    - done: Idle Skilling 127
+    - can add now: Fist of Rage 115 → 120 · +5
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 9 (useful up to 9 (best level 96))
+    - next after these: Tick Tock = Toilet Paper Postage 81 → 99 · +18 (split evenly: Tick Tock 73 → 88, Toilet Paper Postage 8 → 11 · its max for now)
+    - done: Printer Sampling 1
+    - and 5 more
+
+### C2 (Bubonic Conjuror 87)
+- Fighting preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 9 (useful up to 9 (best level 96))
+    - done: Beginner Best Class 7 (useful up to 7 (best Beginner-line level 73))
+    - done: Attacks On Simmer 50
+    - and 7 more
+- Skilling preset (in use): Savvy Basics (at least 64) · Mage [Start here] (at least 1) · Shaman · Bubonic Conjuror · Star talents (all spent)
+  - Mage: As of your last save: at least 1 points waiting · they end here
+    - part now: Log On Logs 1 → 100 · +1 of 99 now · +99
+    - next after these: Leaf Thief 85 → 100 · +114
+    - next after these: Deforesting All Doubt 85 → 100 · +129
+    - done: Individual Insight 127
+    - and 2 more
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 9 (useful up to 9 (best level 96))
+    - next after these: Tick Tock = Toilet Paper Postage 78 → 99 · +21 (split evenly: Tick Tock 70 → 88, Toilet Paper Postage 8 → 11 · its max for now)
+    - done: Printer Sampling 1
+    - and 5 more
+
+### C3 (Siege Breaker 86)
+- Fighting preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 9 (useful up to 9 (best level 96))
+    - done: Beginner Best Class 7 (useful up to 7 (best Beginner-line level 73))
+    - done: Attacks On Simmer 50
+    - and 7 more
+- Skilling preset (in use): Calm Basics [Start here] (at least 162) · Archer (at least 1) · Bowman · Siege Breaker · Star talents (all spent)
+  - Calm Basics: As of your last save: at least 162 points waiting · they end here
+    - done: Elusive Efficiency 127
+    - can add now: Quickness Boots 118 → 123 · +5
+    - done: Broken Time 126
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 9 (useful up to 9 (best level 96))
+    - next after these: Tick Tock = Toilet Paper Postage 84 → 99 · +15 (split evenly: Tick Tock 74 → 88, Toilet Paper Postage 10 → 11 · its max for now)
+    - done: Printer Sampling 1
+    - and 5 more
+
+### C4 (Divine Knight 86)
+- Fighting preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 9 (useful up to 9 (best level 96))
+    - done: Beginner Best Class 7 (useful up to 7 (best Beginner-line level 73))
+    - done: Attacks On Simmer 50
+    - and 7 more
+- Skilling preset: Rage Basics (at least 100) · Warrior [Start here] (at least 1) · Squire · Divine Knight · Star talents (all spent)
+  - Warrior: As of your last save: at least 1 points waiting · they end here
+    - part now: Big Pick 5 → 100 · +1 of 95 now · +95
+    - done: Copper Collector 116
+    - next after these: Tool Proficiency 50 → 100 · +145
+    - next after these: Motherlode Miner 30 → 100 · +215
+    - and 4 more
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 9 (useful up to 9 (best level 96))
+    - next after these: Tick Tock = Toilet Paper Postage 74 → 99 · +25 (split evenly: Tick Tock 66 → 88, Toilet Paper Postage 8 → 11 · its max for now)
+    - done: Printer Sampling 1
+    - and 5 more
+
+### C5 (Elemental Sorcerer 87)
+- Fighting preset: Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - next after these: Will of the Eldest 8 → 9 · +1 (useful up to 9 (best level 96))
+    - done: Beginner Best Class 7 (useful up to 7 (best Beginner-line level 73))
+    - done: Attacks On Simmer 50
+    - and 7 more
+- Skilling preset (in use): Savvy Basics (at least 49) · Mage [Start here] (at least 2) · Wizard · Elemental Sorcerer · Star talents (all spent)
+  - Mage: As of your last save: at least 2 points waiting · they end here
+    - part now: Log On Logs 1 → 100 · +2 of 99 now · +99
+    - next after these: Leaf Thief 84 → 100 · +115
+    - next after these: Deforesting All Doubt 85 → 100 · +130
+    - done: Individual Insight 125
+    - and 2 more
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 9 (useful up to 9 (best level 96))
+    - done: Toilet Paper Postage 11 (its max for now)
+    - next after these: Tick Tock 84 → 88 · +4
+    - and 6 more
+
+### C6 (Beast Master 87)
+- Fighting preset: Calm Basics · Archer · Hunter · Beast Master · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 9 (useful up to 9 (best level 96))
+    - done: Beginner Best Class 7 (useful up to 7 (best Beginner-line level 73))
+    - done: Attacks On Simmer 50
+    - and 7 more
+- Skilling preset (in use): Calm Basics [Start here] (at least 179) · Archer (at least 1) · Hunter · Beast Master · Star talents (all spent)
+  - Calm Basics: As of your last save: at least 179 points waiting · they end here
+    - done: Elusive Efficiency 127
+    - done: Broken Time 126
+    - can add now: Book of the Wise 0 → 100 · +100
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 9 (useful up to 9 (best level 96))
+    - done: Toilet Paper Postage 11 (its max for now)
+    - next after these: Tick Tock 62 → 88 · +26
+    - and 6 more
+
+### C7 (Maestro 73)
+- No build yet for this class (Journeyman line); these are your plain talent levels
+- Current preset (in use): Beginner · Journeyman · Maestro · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Will of the Eldest 9 (useful up to 9 (best level 96))
+    - done: Beginner Best Class 7 (useful up to 7 (best Beginner-line level 73))
+    - done: Tick Tock 88
+    - and 7 more
+- Other preset: Beginner · Journeyman · Maestro · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - done: Stonks! 30
+    - done: Tick Tock 88
+    - done: Will of the Eldest 9 (useful up to 9 (best level 96))
+    - done: Toilet Paper Postage 11 (its max for now)
+    - and 6 more
 
 ## Map
 4 of 4 worlds open · 7 characters

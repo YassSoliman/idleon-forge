@@ -1,12 +1,9 @@
-# golden v1: scrubbed-w2 · knowledge #80d1ed78 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 988
+# golden v1: scrubbed-w2 · knowledge #a1a8a98c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 990
 
 ## Verdict changes
 
 ## Now
 1 of 5 Ready · fix 1 before you leave · 3 Unknown · fix 1 in Account
-counter: 2 fixes before you leave
-first: Barbarian 60 · Poopy Sewers · Equip Meat Pie before you leave
-fold: 3 we can't tell: see why
 
 ### C1 · Barbarian 60 · Fix before you leave
 1 · Fighting Poop · Poopy Sewers · [Anvil full · collect] · Equip Meat Pie before you leave · Spend here: 8 buys, about 179M coins → Spend Plan
@@ -208,7 +205,109 @@ step: Use your 11 vial attempts on the W2 town cauldron
   Chizoar: 0 of 4 parts: craft Chizoar Helmet
 
 ## Builds
-Not built yet (M21 area C: the Build path).
+### C1 (Barbarian 60)
+- Fighting preset (in use): Rage Basics · Warrior · Barbarian · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - later: Stonks! 0 → 30 (find its book)
+    - next after these: Will of the Eldest 1 → 6 · +5 (useful up to 6 (best level 60))
+    - later: Beginner Best Class 0 (find its book)
+    - later: Tick Tock 0 (find its book)
+    - and 7 more
+- Skilling preset: Rage Basics [Start here] (at least 288) · Warrior (at least 242) · Barbarian (at least 110) · Star talents (99 unspent)
+  - Rage Basics: As of your last save: at least 288 points waiting · they end here
+    - can add now: Brute Efficiency 0 → 100 · +100
+    - can add now: Idle Skilling 0 → 100 · +200
+    - part now: Fist of Rage 0 → 100 · +88 of 100 now · +300
+  - Star talents: 99 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - can add now: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
+    - later: Tick Tock 0 (find its book)
+    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - and 6 more
+
+### C2 (Squire 43)
+- Fighting preset: Rage Basics [Start here] (at least 9) · Warrior (at least 4) · Squire (at least 4) · Star talents (10 unspent)
+  - Rage Basics: As of your last save: at least 9 points waiting · they end here
+    - part now: Idle Brawling 0 → 50 · +9 of 50 now · +50
+    - next after these: Gilded Sword 55 → 100 · +95
+    - done: Sharpened Axe 100
+    - next after these: Meat Shank 10 → 100 · +185
+    - and 5 more
+  - Star talents: 10 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - can add now: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
+    - later: Beginner Best Class 0 (find its book)
+    - later: Tick Tock 0 (find its book)
+    - and 7 more
+- Skilling preset (in use): Rage Basics · Warrior · Squire · Star talents (97 unspent)
+  - Star talents: 97 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - can add now: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
+    - later: Tick Tock 0 (find its book)
+    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - and 6 more
+
+### C3 (Shaman 44)
+- Fighting preset (in use): Savvy Basics · Mage · Shaman · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - later: Stonks! 0 → 30 (find its book)
+    - next after these: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
+    - later: Beginner Best Class 0 (find its book)
+    - later: Tick Tock 0 (find its book)
+    - and 7 more
+- Skilling preset: Savvy Basics [Start here] (at least 44) · Mage (at least 40) · Shaman (at least 34) · Star talents (101 unspent)
+  - Savvy Basics: As of your last save: at least 44 points waiting · they end here
+    - done: Smart Efficiency 100
+    - part now: Book of the Wise 16 → 100 · +44 of 84 now · +84
+    - done: Active AFK'er 100
+  - Star talents: 101 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - can add now: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
+    - later: Tick Tock 0 (find its book)
+    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - and 6 more
+
+### C4 (Bowman 54)
+- Fighting preset (in use): Calm Basics · Archer · Bowman · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - later: Stonks! 0 → 30 (find its book)
+    - next after these: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
+    - later: Beginner Best Class 0 (find its book)
+    - later: Tick Tock 0 (find its book)
+    - and 7 more
+- Skilling preset: Calm Basics [Start here] (at least 267) · Archer (at least 220) · Bowman (at least 88) · Star talents (88 unspent)
+  - Calm Basics: As of your last save: at least 267 points waiting · they end here
+    - can add now: Elusive Efficiency 0 → 100 · +100
+    - can add now: Quickness Boots 0 → 100 · +200
+    - part now: Broken Time 0 → 100 · +67 of 100 now · +300
+  - Star talents: 88 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - can add now: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
+    - later: Tick Tock 0 (find its book)
+    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - and 6 more
+
+### C5 (Wizard 56)
+- Fighting preset (in use): Savvy Basics · Mage · Wizard · Star talents (all spent)
+  - Star talents: All spent: the totals show where new points go
+    - later: Stonks! 0 → 30 (find its book)
+    - next after these: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
+    - later: Beginner Best Class 0 (find its book)
+    - later: Tick Tock 0 (find its book)
+    - and 7 more
+- Skilling preset: Savvy Basics [Start here] (at least 272) · Mage (at least 226) · Wizard (at least 94) · Star talents (89 unspent)
+  - Savvy Basics: As of your last save: at least 272 points waiting · they end here
+    - can add now: Smart Efficiency 0 → 100 · +100
+    - can add now: Active AFK'er 0 → 100 · +200
+    - part now: Book of the Wise 0 → 100 · +72 of 100 now · +300
+    - next after these: Mana Booster 0 → 100 · +400
+    - and 1 more
+  - Star talents: 89 unspent · they end here
+    - later: Stonks! 0 → 30 (find its book)
+    - can add now: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
+    - later: Tick Tock 0 (find its book)
+    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - and 6 more
 
 ## Map
 2 of 3 worlds open · 5 characters
