@@ -59,8 +59,8 @@ describe('worship.fact.skulls', () => {
 
 describe('checklist.fact.rows (M20 X1)', () => {
   const rows = fact<{ id: string; band: string; entries: string[] }[]>('checklist.fact.rows');
-  it('17 Phase 1 rows, each naming entries that exist', () => {
-    expect(rows).toHaveLength(17);
+  it('17 Phase 1 rows plus the M19 Liquid Shop gem (X5), each naming entries that exist', () => {
+    expect(rows).toHaveLength(18);
     for (const r of rows) for (const e of r.entries) expect(entryIds.has(e), `${r.id}: ${e}`).toBe(true);
   });
   it('band order: no bank, banks, weekly', () => {

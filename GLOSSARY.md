@@ -50,6 +50,10 @@ _Avoid_: account level, total level
 A Meta Path row saying which fix of ours should no longer be firing by a given Stage (e.g. every card slot filled by W1-mid); the earliest unmet one from a Stage before the current one becomes the "Behind for your Stage" Goal.
 _Avoid_: tier, rating, grade, placement
 
+**Bubble Plan**:
+ActiveOn's one ordered list of the Alchemy bubbles that matter for this account's classes and skills, each with a target level for its Stage (a share of the bubble's maximum value); the first one the Water and materials can pay for is the bubble to level next.
+_Avoid_: bubble tier list, bubble priority (bare), bubble build
+
 **Role**:
 The job the Meta Path assigns a class (e.g. Squire = Construction carry, Wizard = Worship), used to judge Purpose and better-fit suggestions.
 _Avoid_: archetype, specialization

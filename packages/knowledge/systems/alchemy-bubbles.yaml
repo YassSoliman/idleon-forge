@@ -83,3 +83,127 @@ entries:
     sources:
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w2-systems/docs/research/systems/2026-10-17-w2-systems.md", title: "W2 dossier: AFK Setup big-bubble pairing", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Alchemy", title: "IdleOn Wiki: Alchemy", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+
+  # ---- M19 Alchemy F2, the Bubble Plan (docs/specs/M19-alchemy.md FR-1 to FR-8, D-2 to D-5) ----
+  # The rows are bubbles, not entries, so the plan keeps them as comma lists in `values` (the M16 chart
+  # precedent): row-N is the bubbles in order, when-N the condition (always; class: the class line of the
+  # bubble's own cauldron; skill: rawName:AFK type; equipped: a character wears it), from-N the first
+  # Stage, why-N the reason with its Source, conf-N the confidence. Band levels are never typed here:
+  # alchemy-bubbles.fact.curves computes them from game data (10 / 20 / 40 % of maximum).
+  - id: alchemy-bubbles.priority.plan
+    system: alchemy-bubbles
+    type: priority
+    title: Bubble Plan
+    text: "Level the bubbles that pay most for this Stage"
+    why: "One order for every cauldron, because Water and the W1 materials are shared by all of them."
+    values:
+      row-1: "aUpgradesO0,aUpgradesG0,aUpgradesP0"
+      when-1: class
+      why-1: "+STR, AGI or WIS for every character, always (bubble text)"
+      conf-1: M
+      row-2: "aUpgradesO2:MINING,aUpgradesP2:CHOPPIN"
+      when-2: skill
+      why-2: "skill efficiency for a skill you AFK; early skill bubbles also help printer samples (r/idleon)"
+      conf-2: M
+      row-3: "aUpgradesO1,aUpgradesG1,aUpgradesP1"
+      when-3: class
+      why-3: "multiplies every small bubble of its colour for that class (bubble text)"
+      conf-3: M
+      row-4: "aUpgradesO7,aUpgradesG6,aUpgradesP6"
+      when-4: always
+      why-4: "more skilling power from tools (bubble text)"
+      conf-4: M
+      row-5: "aUpgradesY4"
+      when-5: always
+      why-5: "multiplies every skill's prowess, up to 2x (wiki Kazam Cauldron)"
+      conf-5: M
+      row-6: "aUpgradesO3,aUpgradesO6,aUpgradesG7,aUpgradesP3,aUpgradesG2,aUpgradesO11,aUpgradesG11,aUpgradesP11"
+      when-6: equipped
+      why-6: "a big bubble works only where it is equipped (wiki Alchemy)"
+      conf-6: M
+      row-7: "aUpgradesY6"
+      when-7: always
+      from-7: W2-late
+      why-7: "cuts the material cost of every bubble (wiki Kazam Cauldron)"
+      conf-7: L
+      row-8: "aUpgradesO8,aUpgradesG8"
+      when-8: always
+      why-8: "defence and accuracy (Steam guide)"
+      conf-8: L
+      row-9: "aUpgradesP5"
+      when-9: class
+      from-9: W3-early
+      why-9: "base damage from Max MP for Mage-line characters (bubble text)"
+      conf-9: L
+      rows: 9
+    notes: "FR-2's rows in order (D-4, the order most likely to change). Laaarrrryyyy, Brewstachio, Big Meaty Claws, Quick Slap, Droppin Loads and the Bargains are left out: the Sources disagree or give no W2-W3 target (D-10). Bands: W2 for W2-early to W2-late (10 %), W3 for W3-early and W3-mid (20 %), W3-late for W3-late and W4-entry (40 %) (D-3). The band percentages follow IdleOn AutoReview's idea (cited only, no licence, nothing copied); the levels are generated from game data."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Alchemy/Power_Cauldron", title: "IdleOn Wiki: Power Cauldron (bubble effects, % from maximum, cost reducers)", tier: 2, claimDate: 2026-10-04, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Alchemy/Kazam_Cauldron", title: "IdleOn Wiki: Kazam Cauldron (Prowesessary, Undeveloped Costs)", tier: 2, claimDate: 2026-10-04, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Alchemy", title: "IdleOn Wiki: Alchemy (big bubbles must be equipped)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://www.reddit.com/r/idleon/comments/1tv3615/", title: "r/idleon: early skill bubbles matter for printer samples", tier: 3, claimDate: 2026-06-03, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://steamcommunity.com/sharedfiles/filedetails/?id=3368490152", title: "Steam guide by MegaMidboss: FMJ and Shaquracy early", tier: 3, claimDate: 2026-06-28, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/TwoSpookyBoos/IdleOnAutoReviewBot/blob/05ac449/consts/progression_tiers.py", title: "IdleOn AutoReview: bands as a share of a bubble's maximum (cited as the idea only)", tier: 3, claimDate: 2026-09-23, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: [{ from: W2-early, to: W4-entry }] }
+    confidence: M
+    status: active
+    list: order
+    tiers:
+      - [alchemy-bubbles.goal.level-next]
+
+  - id: alchemy-bubbles.goal.level-next
+    system: alchemy-bubbles
+    type: goal
+    title: Level the next bubble
+    text: "{text}"
+    why: "{why}"
+    values:
+      level: "Level {bubble} {from} → {to} ({cauldron} cauldron)"
+      why-level: "Your plan for this Stage: {effect}. You hold enough {held} for at least {levels:int} levels."
+      detail-next: "then {bubble} {from} → {to} ({cauldron})"
+      get-more: "Get {more:int} more {item} for {bubble}"
+      why-get-more: "{bubble} is next in your plan ({from} → {to}); every other plan bubble is short too."
+      liquid-limit: "{liquid} is the limit: spend it as it refills"
+      why-liquid-limit: "{liquid} is at {current} of {max:int}, and every bubble in your plan needs more."
+      water-pick: "level {bubble} first"
+      plan-met: "Bubble Plan met for your Stage"
+      covers: "Bubble Plan covers Worlds 1–3"
+      unlocks: "unlocks with brew: spend it"
+      effect-aUpgradesO0: "+STR for every character"
+      effect-aUpgradesG0: "+AGI for every character"
+      effect-aUpgradesP0: "+WIS for every character"
+      effect-aUpgradesO2: "more Mining efficiency"
+      effect-aUpgradesP2: "more Choppin efficiency"
+      effect-aUpgradesO1: "stronger small Power bubbles for Warriors"
+      effect-aUpgradesG1: "stronger small Quicc bubbles for Archers"
+      effect-aUpgradesP1: "stronger small High-IQ bubbles for Mages"
+      effect-aUpgradesO7: "more skill power from pickaxes and fishing rods"
+      effect-aUpgradesG6: "more skill power from nets and traps"
+      effect-aUpgradesP6: "more skill power from hatchets and skulls"
+      effect-aUpgradesY4: "more prowess in every skill"
+      effect-aUpgradesO3: "more multi-ore chance where it is equipped"
+      effect-aUpgradesO6: "more multi-fish chance where it is equipped"
+      effect-aUpgradesG7: "more multi-bug chance where it is equipped"
+      effect-aUpgradesP3: "more multi-log chance where it is equipped"
+      effect-aUpgradesG2: "faster anvil production where it is equipped"
+      effect-aUpgradesO11: "more Construction EXP where it is equipped"
+      effect-aUpgradesG11: "more Trapping efficiency where it is equipped"
+      effect-aUpgradesP11: "more Worship charge where it is equipped"
+      effect-aUpgradesY6: "cheaper materials for every bubble"
+      effect-aUpgradesO8: "more defence from equipment"
+      effect-aUpgradesG8: "more accuracy from your secondary stat"
+      effect-aUpgradesP5: "more base damage for Mages"
+      maxDetails: 2
+    notes: "FR-3 to FR-6, D-5, D-7. Costs: Toolbox getBubbleUpgradeCost with no discounts, an upper bound, so the line says at least K levels. V3 (N.js): the current level prices the next one (CauldronCosts reads CauldronInfo[cauldron][bubble]), and a level takes materials from the playing character's bag and the chest (BubbleHoldDown checks _ItemsAndStorageOWNED, removes from InventoryStorage); M19 counts the chest only, a lower bound."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Alchemy/Power_Cauldron", title: "IdleOn Wiki: Power Cauldron (bubble costs and their reducers)", tier: 2, claimDate: 2026-10-04, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Alchemy", title: "IdleOn Wiki: Alchemy (bubbles, liquids)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts", title: "IdleOn Toolbox getBubbleUpgradeCost (bubble level costs)", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: [{ from: W2-early, to: W4-entry }] }
+    confidence: M
+    status: active
+    scope: account
+    category: compounding
+    unit: levels
+    progress: { id: alchemy/plan }
+    milestones: [{ at: 1, reward: "The plan bubble reaches its band for this Stage" }]

@@ -14,6 +14,7 @@ import type {
   EngineResult,
   Fill,
   Goal,
+  GoalDetail,
   HigherLeverage,
   InfoLine,
   NotCoveredItem,
@@ -56,12 +57,20 @@ export interface KnowledgePort {
   registries?: readonly DetectorRegistry[];
 }
 
+/** M19 TR-1: pure Toolbox functions the worker hands the engine (it runs in the same worker). */
+export interface ToolboxPort {
+  /** Toolbox `getBubbleUpgradeCost` with no discounts (an upper bound, M19 F-b). */
+  bubbleCost(rawName: string, bubbleIndex: number, level: number, baseCost: number): number;
+}
+
 export interface EngineInput {
   state: AccountState;
   history: EngineHistory;
   knowledge: KnowledgePort;
   now: number;
   options: { expectedReturnSeconds: number };
+  /** M19 TR-1; absent in tests and goldens that don't pass it (M19 then stays silent). */
+  toolbox?: ToolboxPort;
 }
 
 /** Ranking inputs a module attaches to one of its Goals (M2 TR-14 `Rankable`, minus what a Goal has). */
@@ -142,6 +151,13 @@ export interface ModuleOutput {
   skills?: EngineResult['skills'];
   slotPictures?: EngineResult['slotPictures'];
   skillGrid?: EngineResult['skillGrid'];
+  /** M19 only: the Alchemy page's data (EngineResult.alchemy). */
+  alchemy?: EngineResult['alchemy'];
+  /**
+   * M19 X3, X4: details an `after` step adds to another module's Goal, matched by its Next Action key
+   * (the Water line's pick, the vial attempts' roll targets). The owner's text is never rewritten.
+   */
+  goalNotes?: { key: string; details: GoalDetail[] }[];
 }
 
 /** An advice module, registered with the core. */

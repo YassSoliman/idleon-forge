@@ -5,10 +5,16 @@
 // M18–M21) adds its picture with one `page` entry there and one component here, in its own PR. The
 // generic header, Next Actions and Coverage sections stay; a body is drawn right after the Next Actions.
 import type { SystemPageView } from '@idleon-forge/engine/now';
-import type { ComponentType } from 'react';
+import { type ComponentType, createElement, Fragment, lazy } from 'react';
 import { StarSignsSystemBody } from '../now/signs/SignsPanel';
 import type { Session } from '../shell/session';
 import { CauldronSeatsBody, CogBoardBody, TrappingBody, WorshipBody } from './SlotPictures';
+
+/** M19 TR-8: the pictures load on first open; the seats (already in this chunk) follow them. */
+const AlchemyLab = lazy(() => import('../alchemy/AlchemyLab'));
+function AlchemyPage(p: SystemPageBodyProps) {
+  return createElement(Fragment, null, createElement(AlchemyLab, p), createElement(CauldronSeatsBody, p));
+}
 
 export interface SystemPageBodyProps {
   s: Session;
@@ -23,4 +29,6 @@ export const SYSTEM_PAGES: Readonly<Record<string, ComponentType<SystemPageBodyP
   worship: WorshipBody,
   trapping: TrappingBody,
   'cauldron-seats': CauldronSeatsBody,
+  // M19 FR-18, TR-8: the Alchemy page, its pictures in their own lazy chunk, then M20's cauldron seats.
+  'alchemy-lab': AlchemyPage,
 };

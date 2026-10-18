@@ -12,6 +12,7 @@ import {
   type VaultRow,
 } from '@idleon-forge/account-state';
 import type { Entry } from '@idleon-forge/knowledge';
+import { p2wOrder } from '../alchemy/p2w';
 import type { ResolvedSpendItem } from './knowledge';
 import type { SpendHandoff, SpendSink, SpendStep } from './types';
 
@@ -482,6 +483,7 @@ const P2W_UPGRADE: Record<string, string> = {
   capacity: 'Capacity',
   attempts: 'Attempts',
   rng: 'RNG',
+  extraExp: 'Extra EXP',
 };
 const title = (s: string) =>
   s.replace(/(^|-)(\w)/g, (_, d, c: string) => `${d ? ' ' : ''}${c.toUpperCase()}`);
@@ -489,6 +491,7 @@ const title = (s: string) =>
 function p2wName(key: string): string {
   const [group = '', thing = '', up = ''] = key.split('.');
   if (group === 'vials') return `Vial ${P2W_UPGRADE[thing] ?? thing}`;
+  if (group === 'player') return `Player Alchemy ${P2W_UPGRADE[thing] ?? thing}`;
   const label = P2W_UPGRADE[up] ?? up;
   return group === 'cauldron' ? `${title(thing)} cauldron ${label}` : `${title(thing)} ${label}`;
 }
@@ -500,6 +503,37 @@ export const p2wRef = (key: string): string =>
     .toLowerCase()
     .replace(/\./g, '-')}`;
 
+/** M19 X2 (FR-13): the tier of `alchemy-p2w.priority.order` an item's ref sits in; its Acquisitions, or null. */
+function p2wStep(item: ResolvedSpendItem, ctx: CandidateContext): Set<string> | null {
+  const tier = p2wOrder(ctx.entries).find((t) => t.includes(item.ref));
+  return tier ? new Set(tier) : null;
+}
+
+/** M19 FR-13: the Player upgrades as one unpriced line, up to the best Alchemy level (wiki Pay 2 Win). */
+function playerCandidate(item: ResolvedSpendItem, ctx: CandidateContext, claimed: Set<string>): Candidate[] {
+  const best = ctx.state.account.alchemyPlan?.bestAlchemyLevel;
+  const ups = (ctx.spend.p2w ?? []).filter(
+    (u) => u.key.startsWith('player.') && !claimed.has(p2wRef(u.key)) && best !== undefined && u.level < best,
+  );
+  if (!ups.length || best === undefined) return [];
+  const steps: SpendStep[] = ups.map((u) => ({
+    sink: 'p2w',
+    ref: p2wRef(u.key),
+    fromLevel: u.level,
+    toLevel: best,
+    coins: null,
+  }));
+  const c = base(item, 'p2w', steps.map((s) => s.ref).join(','), 'Player Alchemy Speed and Extra EXP', {
+    coins: 0,
+    steps,
+  });
+  c.unpriced = true;
+  c.fields = ['account.spend.p2w', 'account.alchemyPlan.bestAlchemyLevel'];
+  const from = Math.min(...ups.map((u) => u.level));
+  c.slots = { from, to: best, levels: best - from };
+  return [c];
+}
+
 export function p2wCandidates(
   item: ResolvedSpendItem,
   ctx: CandidateContext,
@@ -507,13 +541,16 @@ export function p2wCandidates(
 ): Candidate[] {
   const list = ctx.spend.p2w;
   if (!list || ctx.world < 2) return [];
+  const step = p2wStep(item, ctx);
+  if (step?.has(p2wRef('player.speed'))) return playerCandidate(item, ctx, claimed);
   const out: Candidate[] = [];
   for (const u of list) {
     const ref = p2wRef(u.key);
     if (claimed.has(ref)) continue;
-    if (!isSweep(item) && ref !== item.ref) continue;
+    if (u.key.startsWith('player.')) continue;
+    if (step ? !step.has(ref) : !isSweep(item) && ref !== item.ref) continue;
     const vials = u.key.startsWith('vials.');
-    if (isSweep(item) && vials) continue; // vials are listed by name, as unpriced (FR-14)
+    if (!step && isSweep(item) && vials) continue; // vials are listed by name, as unpriced (FR-14)
     // AC-8.2: a locked liquid (level -1) is dropped, whatever Toolbox prices it at.
     if (u.level < 0) continue;
     // A vial upgrade's max comes from its generated Acquisition (Toolbox CAULDRONS_MAX_LEVELS).

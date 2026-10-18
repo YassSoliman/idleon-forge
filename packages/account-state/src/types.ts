@@ -7,6 +7,7 @@
 // `humanize()` to display them.
 import type { SideReadName } from '@idleon-forge/toolbox-parsers';
 import type { AccountAfkFacts, CharacterAfkFacts } from './afk-types';
+import type { AlchemyAccountFields } from './alchemy-types';
 import type { CollectionsAccountFields, CollectionsCharacterFields } from './collections-types';
 import type { DepthAccountFields } from './depth-types';
 import type { PurposeAccountFields, PurposeCharacterFields } from './purpose-types';
@@ -44,8 +45,10 @@ import type { WalkthroughAccountFields, WalkthroughCharacterFields } from './wal
  *    ballot, randomEvents, petTournament, taskBoardDailies, guildTasks, totems).
  * 17: M4 TR-2's Purpose fields (the `PurposeAccountFields` and `PurposeCharacterFields` blocks: class and
  *    skill EXP, the current-map `fighting` rate, tools, the Death Note, the Upgrade Vault kill totals).
+ * 18: M19 TR-2's `account.alchemyPlan` (bubble and vial levels, Liquid Shop counters, Player Pay 2 Win
+ *    levels, the best Alchemy level) and the Player keys in `account.spend.p2w` (M19 X2).
  */
-export const SCHEMA_VERSION = 17;
+export const SCHEMA_VERSION = 18;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -189,6 +192,7 @@ export interface GateQuestProgress {
 
 export interface AccountSummary
   extends UnspentAccountFields,
+    AlchemyAccountFields,
     TalentAccountFields,
     CollectionsAccountFields,
     WalkthroughAccountFields,

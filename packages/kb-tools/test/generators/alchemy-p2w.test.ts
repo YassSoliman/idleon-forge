@@ -27,7 +27,9 @@ describe('alchemy-p2w generator', () => {
       },
     );
     const v = (id: string) => out.entries?.find((e) => e.id === `alchemy-p2w.acquisition.${id}`)?.values;
-    expect(out.entries).toHaveLength(3 + 2 + 2);
+    // + M19 X2's two Player upgrades, which take no max level (capped at the best Alchemy level).
+    expect(out.entries).toHaveLength(3 + 2 + 2 + 2);
+    expect(v('player-extra-exp')).toEqual({ key: 'player.extraExp', group: 'player', upgrade: 'extraExp' });
     expect(v('cauldron-power-speed')).toEqual({
       key: 'cauldron.power.speed',
       group: 'cauldron',
@@ -42,10 +44,10 @@ describe('alchemy-p2w generator', () => {
     expect(v('vials-rng')).toMatchObject({ key: 'vials.rng', maxLevel: 45 });
   });
 
-  it('holds its invariants on the pinned data: 4 cauldrons × 3 + 4 liquids × 2 + 2 vial upgrades', async () => {
+  it('holds its invariants on the pinned data: 4 cauldrons × 3 + 4 liquids × 2 + 2 vial + 2 Player upgrades', async () => {
     const out = await runLive(generator);
     expect(invariants(out)).toEqual([]);
-    expect(out.entries).toHaveLength(22);
+    expect(out.entries).toHaveLength(24);
     // Hand-checked in parsers/world-2/alchemy.ts CAULDRONS_MAX_LEVELS: speed 150, new bubble 125, boost 100,
     // regen 100, capacity 80, vial attempts 15, vial rng 45.
     const v = (id: string) =>
@@ -66,7 +68,7 @@ describe('alchemy-p2w generator', () => {
     let checked = 0;
     for (const e of out.entries) {
       const group = e.values.group as string;
-      if (group === 'vials') continue;
+      if (group === 'vials' || group === 'player') continue;
       const list = group === 'cauldron' ? p2w.p2w.cauldrons : p2w.p2w.liquids;
       const t = list[e.values.slot as number]?.[e.values.upgrade as string];
       expect(t).toBeDefined();

@@ -24,3 +24,73 @@ entries:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L291", title: "Toolbox p2w.vialsAttempts", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Alchemy/Vials", title: "IdleOn Wiki: Alchemy/Vials", tier: 2, claimDate: 2026-09-29, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Daily_Checklist", title: "IdleOn Wiki: Daily Checklist", tier: 4, claimDate: 2026-03-24, verified: 2026-10-17, gameVersion: 2.3.540 }
+
+  # ---- M19 Alchemy F3, the vial order (docs/specs/M19-alchemy.md FR-9 to FR-11, D-6, D-7) ----
+  # Vials are not entries, so the rows are comma lists of catalogue indices in `values` (the M16
+  # precedent): row-N the vials in order, "|"-separated ("*" = every other unlocked W1-W3 vial), when-N the condition
+  # (always; brewer: the vial's cauldron has a brewer; nitrogen: Liquid Nitrogen is open; shaman: a
+  # Shaman-line character), target-N the target level for the W2 band and for the W3 bands.
+  - id: alchemy-vials.priority.plan
+    system: alchemy-vials
+    type: priority
+    title: Vial order
+    text: "Level the vials that pay most for this Stage"
+    why: "Each vial level is permanent; the brew-speed vials of the cauldrons you use pay first."
+    values:
+      row-1: "0|1|2|3"
+      when-1: brewer
+      target-1: "2|4"
+      row-2: "4|8"
+      when-2: always
+      target-2: "2|4"
+      row-3: "9"
+      when-3: always
+      target-3: "2|4"
+      row-4: "11"
+      when-4: nitrogen
+      target-4: "2|2"
+      row-5: "22|13"
+      when-5: always
+      target-5: "2|4"
+      row-6: "*"
+      when-6: shaman
+      from-6: W3-early
+      target-6: "4|4"
+      rows: 6
+    notes: "FR-9's six rows (D-6, confidence L: no human Source gives a W2-W3 vial order). Rows follow each vial's own text: brew speed of a cauldron in use, Water cap and liquid regen, cheaper bubbles, Nitrogen cap, talent points; the one hard fact is the wiki's Virile Vials rule (level 4 counts)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Alchemy/Vials", title: "IdleOn Wiki: Vials (effects; vials at level 4 count for Virile Vials)", tier: 2, claimDate: 2026-09-29, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: [{ from: W2-early, to: W4-entry }] }
+    confidence: L
+    status: active
+    list: order
+    tiers:
+      - [alchemy-vials.goal.level-next]
+
+  - id: alchemy-vials.goal.level-next
+    system: alchemy-vials
+    type: goal
+    title: Level the next vial
+    text: "{text}"
+    why: "{why}"
+    values:
+      level: "Level {vial} {from} → {to} ({items} {item}, {liquidCost:int} {liquid})"
+      why-level: "A vial level lasts forever. The Water your bubble plan needs is set aside first."
+      detail-next: "then {vial} {from} → {to}"
+      roll-targets: "Easiest rolls with what you hold: {list}"
+      roll-tip-detail: "Drop several stacks quickly: each counts as a roll"
+      maxDetails: 2
+      maxTargets: 3
+    notes: "FR-10, FR-11, D-7. Affordable: the chest holds more than the item cost (Toolbox's vial alert, account.js L477-494, which counts the first stack only; M19 counts every chest stack) and the liquid left after the bubble pick covers 3 x level. Roll targets are details of M6's daily-attempts line: locked vials whose item is held in the chest or a bag, easiest roll first. The drop-stacks tip is a community tip from IdleOn AutoReview (alchemy_vials.py L123, cited only)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Alchemy/Vials", title: "IdleOn Wiki: Vials (costs: 100 items and 3 liquid for level 2, 3 more liquid each level)", tier: 2, claimDate: 2026-09-29, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js#L477", title: "IdleOn Toolbox vial alert: item and liquid cost of the next level", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/TwoSpookyBoos/IdleOnAutoReviewBot/blob/05ac449/w2/alchemy_vials.py", title: "IdleOn AutoReview: drop several stacks quickly (cited tip)", tier: 3, claimDate: 2026-09-23, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: [{ from: W2-early, to: W4-entry }] }
+    confidence: L
+    status: active
+    scope: account
+    category: compounding
+    unit: levels
+    progress: { id: alchemy/vials }
+    milestones: [{ at: 1, reward: "One more vial level" }]

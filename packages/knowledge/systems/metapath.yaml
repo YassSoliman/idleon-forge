@@ -964,6 +964,15 @@ entries:
         why: "A skull raises every character's worship charge cap; the first one is a shop buy in the W3 town."
         sources:
           - { url: "https://idleon.wiki/wiki/Worship", title: "IdleOn Wiki: Worship (Wax Skull, Frostbite Towndra)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      # M19 FR-28, D-13.
+      - id: bubble-plan-w2
+        system: Alchemy
+        expectedBy: W3-mid
+        fix: alchemy-bubbles.goal.level-next
+        when: { findingField: belowW2Band, equals: 1 }
+        why: "Every Bubble Plan row at its W2 band: the plan's first band, one Stage of slack after W3-early."
+        sources:
+          - { url: "https://idleon.wiki/wiki/Alchemy/Power_Cauldron", title: "IdleOn Wiki: Power Cauldron (bubble levels and % from maximum)", tier: 2, claimDate: 2026-10-04, verified: 2026-10-18, gameVersion: 2.3.540 }
     notes: "M15 TR-10 seed rows. printer-per-character counts only F2 findings whose building is the 3D Printer (its Detector slot, carried on the Goal as ModuleGoal.slots). F2 is silent past W3-early until its W3-mid list is authored (D-7), so that row cannot be behind yet."
 
   # ---------------------------------------------------------------- Priority Lists (M2 TR-13)
@@ -1058,6 +1067,8 @@ entries:
         - trapping.check.start
         - trapping.check.no-trap-set
         - alchemy.check.liquid-unstaffed
+        - alchemy-p2w.check.player-behind
+        - alchemy.check.talent-point
         - refinery.check.auto-refine-off
         - refinery.check.unlock-next
         - library.check.checkout
@@ -1209,6 +1220,7 @@ entries:
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass]
+      - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
       - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
 
   - id: metapath.priority.w2-mid
@@ -1241,6 +1253,7 @@ entries:
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass]
+      - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
       - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
 
   - id: metapath.priority.w2-late
@@ -1273,6 +1286,7 @@ entries:
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.swap-token]
+      - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
       - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
 
   - id: metapath.priority.w3-early
@@ -1305,6 +1319,7 @@ entries:
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.world-tutorial-w3, metapath.goal.swap-token]
+      - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
       # M15 TR-6: one building at a time, ordered by construction.fact.build-order (replaces the Leverage model's item 5).
       - [construction.check.build-next]
       - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
@@ -1339,6 +1354,7 @@ entries:
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.world-tutorial-w3, metapath.goal.swap-token]
+      - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
       - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
 
   - id: metapath.priority.w3-late
@@ -1371,6 +1387,7 @@ entries:
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.world-tutorial-w3, metapath.goal.swap-token]
+      - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
       - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
 
   - id: metapath.priority.w4-entry
@@ -1403,4 +1420,5 @@ entries:
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.elite, metapath.goal.swap-token]
+      - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
       - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]

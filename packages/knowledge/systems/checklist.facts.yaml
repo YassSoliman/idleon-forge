@@ -19,6 +19,8 @@ facts:
       - { id: minigame-plays, band: no-bank, clock: daily, label: "Skill minigame plays", system: minigames, entries: [minigames.check.daily-plays], effortSeconds: 300, wiki: "https://idleon.wiki/wiki/Minigames" }
       - { id: spiketrap, band: no-bank, clock: daily, label: "Spiketrap gems", system: minigames, entries: [minigames.check.spiketrap], effortSeconds: 60, wiki: "https://idleon.wiki/wiki/Minigames" }
       - { id: vial-attempts, band: no-bank, clock: daily, label: "Vial attempts", system: alchemy-vials, entries: [alchemy-vials.check.daily-attempts], effortSeconds: 60, wiki: "https://idleon.wiki/wiki/Alchemy" }
+      # M19 X5 (FR-16): the Liquid Shop daily gem, a row only (M20 D-4), never a Goal.
+      - { id: liquid-shop-gem, band: no-bank, clock: daily, label: "Liquid Shop: One Measly Gem", system: alchemy, entries: [], effortSeconds: 20, wiki: "https://idleon.wiki/wiki/Alchemy" }
       - { id: post-office, band: no-bank, clock: daily, label: "Post Office orders", system: post-office, entries: [post-office.check.daily-orders], effortSeconds: 120, wiki: "https://idleon.wiki/wiki/Post_Office" }
       - { id: daily-tasks, band: no-bank, clock: daily, label: "Daily tasks", system: task-board, entries: [task-board.check.daily], effortSeconds: 120, wiki: "https://idleon.wiki/wiki/Tasks" }
       - { id: guild-daily, band: no-bank, clock: daily, label: "Guild daily tasks", system: guild, entries: [guild.check.daily], effortSeconds: 60, wiki: "https://idleon.wiki/wiki/Guilds" }

@@ -6,10 +6,12 @@
 import type { AccountState } from '@idleon-forge/account-state';
 import type { CompiledKnowledge, DetectorRegistry } from '@idleon-forge/knowledge';
 import { createAfkSafetyModule } from './afk/module';
+import { createAlchemyModule } from './alchemy/module';
+import { renderAlchemyText } from './alchemy/text';
 import { createBuildsModule } from './builds/module';
 import { createCollectionsModule } from './collections';
 import { DEFAULT_MODULES, runEngine } from './core/engine';
-import type { EngineModule } from './core/module';
+import type { EngineModule, ToolboxPort } from './core/module';
 import { lookupOf } from './metapath/knowledge';
 import { createMetaPathModule } from './metapath/module';
 import { detectStage } from './metapath/stage';
@@ -36,6 +38,8 @@ export interface GoldenInput {
   registries?: { knowledge: DetectorRegistry; engine: DetectorRegistry };
   now: number;
   expectedReturnMs: number;
+  /** M19 TR-1: Toolbox's bubble cost function (kb golden passes it). */
+  toolbox?: ToolboxPort;
 }
 
 export interface GoldenEngine {
@@ -45,6 +49,8 @@ export interface GoldenEngine {
   renderSystems(input: GoldenInput): string;
   /** M17 TR-10 (Phase 2): the `## Timeline` section (renderTimelineText(buildTimelineView(...))). */
   renderTimeline(input: GoldenInput): string;
+  /** M19 TR-10: the `## Alchemy` section (pick, per-pot picks, vial pick, roll targets). */
+  renderAlchemy(input: GoldenInput): string;
 }
 
 /** The worker's modules (M2, and M3 when the bundle and registry are there), so goldens show real Verdicts. */
@@ -78,6 +84,7 @@ export function goldenModules(input: GoldenInput): readonly EngineModule[] {
     createWalkthroughModule({ kb }),
     createStarSignsModule({ kb }),
     ...createM20Modules({ kb }),
+    createAlchemyModule({ kb }),
   ];
 }
 
@@ -96,6 +103,7 @@ export function goldenResult(input: GoldenInput): EngineResult {
       },
       now: input.now,
       options: { expectedReturnSeconds: Math.round(input.expectedReturnMs / 1000) },
+      ...(input.toolbox ? { toolbox: input.toolbox } : {}),
     },
     goldenModules(input),
   );
@@ -130,6 +138,7 @@ export const goldenEngine: GoldenEngine = {
     if (!result.systems) return '(no Knowledge Base)';
     return renderSystemsText(buildSystemsView(result, EMPTY_PREFS, { now: input.now }));
   },
+  renderAlchemy: (input) => renderAlchemyText(goldenResult(input).alchemy ?? null),
   renderTimeline: (input) => {
     const result = goldenResult(input);
     const lastCloudSave = input.state.account.lastCloudSave;

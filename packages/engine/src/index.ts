@@ -23,6 +23,7 @@ export type {
   ModuleGoal,
   ModuleOutput,
   RankHints,
+  ToolboxPort,
 } from './core/module';
 export { applyContestedRule, dedupe, rankGoals, type TaggedGoal } from './core/rank';
 export { type VisitCandidate, visitOrder } from './core/visit-order';

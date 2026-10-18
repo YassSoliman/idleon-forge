@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: second · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 925
 
 ## Verdict changes
 
@@ -44,7 +44,7 @@ purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### Account · nothing to fix
-[checklist] Today 5/10 · Week 2/4 · daily reset in 11h 38m
+[checklist] Today 6/11 · Week 2/4 · daily reset in 11h 38m
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Gems unspent: 4,645 gems unspent [IdleOn Wiki: Gem Shop]
@@ -59,7 +59,7 @@ purpose: Death Note: Penguin kills ~38M → 100M · about 8h
   · Hunter Lv 503: 316 boxes
   · Barbarian Lv 501: 316 boxes
 - Spend · Spend task unlock points: Spend 644 task unlock points [IdleOn Wiki: Tasks/Unlocks · Calculated by IdleOn Toolbox · 2.3.540]
-show more (2)
+show more (4)
 
 ## Not covered yet
 Bribes
@@ -67,7 +67,6 @@ Forge
 Quests
 Statues
 The Owl
-Alchemy Pay 2 Win
 Islands
 Atom Collider
 Equinox
@@ -109,10 +108,10 @@ W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Nothing to fix · Nothing to fix
 W1 · Poppy · Nothing to fix · Nothing to fix
-W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix
+W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy bubbles · Nothing to fix · Nothing to fix
-W2 · Alchemy vials · Nothing to fix · Nothing to fix
-W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet
+W2 · Alchemy vials · Nothing to fix · Nothing to fix · 1 to do
+W2 · Alchemy Pay 2 Win · Nothing to fix · Nothing to fix
 W2 · Arcade · Nothing to fix · Nothing to fix
 W2 · Islands · Not covered yet · Not covered yet
 W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
@@ -181,6 +180,19 @@ Account · Arcade
 - Arcade balls full · later · in 25h 18m · 07:23 · after · info · fix none
 Account · Refinery
 - salt fuel runs out · later · in 16d 17h · 23:46 · after · info · fix none
+
+## Alchemy
+band w3-late · pick Bubble Plan met for your Stage
+- Power: Plan met · about 0 new bubbles
+- Quicc: Plan met · about 0 new bubbles
+- High-IQ: Plan met · about 0 new bubbles
+- Kazam: Plan met · about 0 new bubbles
+vial: Poison Tincture 2 → 3
+rolls: none
+attempts: 18 of 18 left
+tubes: Water 2605 of 2606; Liquid Nitrogen 2626 of 2626; Trench Seawater 2171 of 2171; Toxic Mercury 1227 of 1227
+p2w next: none
+step: Level Poison Tincture 2 → 3 (1,000 Poison Froge, 6 Liquid Nitrogen)
 
 ## Findings
 | entry | detector | subject | result | slots |

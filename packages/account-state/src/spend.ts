@@ -252,6 +252,16 @@ function p2w(input: SpendReadInput): P2wUpgrade[] | null {
       const level = finite(p.vials[up]);
       if (level !== null) out.push({ key: `vials.${up}`, level, nextCost: null, costToMax: null });
     }
+  // M19 X2: the Player upgrades, unpriced like the vial ones (Toolbox prices neither); their cap is the
+  // best Alchemy level, which the engine reads from `account.alchemyPlan`.
+  if (isDict(p.player))
+    for (const [up, at] of [
+      ['speed', 'speedLv'],
+      ['extraExp', 'extraExpLv'],
+    ] as const) {
+      const level = finite(p.player[at]);
+      if (level !== null) out.push({ key: `player.${up}`, level, nextCost: null, costToMax: null });
+    }
   return out;
 }
 

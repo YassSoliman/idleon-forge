@@ -1,0 +1,65 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M19 Alchemy F4 (docs/specs/M19-alchemy.md FR-12 to FR-14, D-8): the Pay 2 Win order M7's Spend Plan
+# follows, one spend item per tier (spend.yaml's p2w-* items), and the Player line M7's plan doesn't show.
+system: alchemy-p2w
+entries:
+  - id: alchemy-p2w.priority.order
+    system: alchemy-p2w
+    type: priority
+    title: Pay 2 Win order
+    text: "Buy Pay 2 Win upgrades in this order"
+    why: "Player upgrades cap at your best Alchemy level, and liquids pay first early on."
+    notes: "D-8, confidence L for tiers 3-5 (no Source orders them). Tier 1 follows IdleOn AutoReview's 'Player upgrades after each Alchemy level up' (alchemy_p2w.py L121, cited only); tier 2 the wiki: 'Early on, it's beneficial to level up the rate and cap' of the liquids. M7's spend items p2w-player, p2w-liquids, p2w-vials, p2w-cauldrons and p2w-boost-req each take one tier."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Alchemy#Pay_2_Win", title: "IdleOn Wiki: Alchemy, Pay 2 Win (Player upgrades cap at the highest Alchemy level)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Alchemy#Liquids", title: "IdleOn Wiki: Alchemy, liquids (early on, level the rate and cap)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/TwoSpookyBoos/IdleOnAutoReviewBot/blob/05ac449/w2/alchemy_p2w.py", title: "IdleOn AutoReview: Player upgrades after each Alchemy level up (cited only)", tier: 3, claimDate: 2026-09-23, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: L
+    status: active
+    list: order
+    tiers:
+      - [alchemy-p2w.acquisition.player-speed, alchemy-p2w.acquisition.player-extra-exp]
+      - - alchemy-p2w.acquisition.liquid-water-drops-regen
+        - alchemy-p2w.acquisition.liquid-water-drops-capacity
+        - alchemy-p2w.acquisition.liquid-liquid-n2-regen
+        - alchemy-p2w.acquisition.liquid-liquid-n2-capacity
+        - alchemy-p2w.acquisition.liquid-trench-h2o-regen
+        - alchemy-p2w.acquisition.liquid-trench-h2o-capacity
+        - alchemy-p2w.acquisition.liquid-toxic-mercury-regen
+        - alchemy-p2w.acquisition.liquid-toxic-mercury-capacity
+      - [alchemy-p2w.acquisition.vials-attempts, alchemy-p2w.acquisition.vials-rng]
+      - - alchemy-p2w.acquisition.cauldron-power-speed
+        - alchemy-p2w.acquisition.cauldron-power-new-bubble
+        - alchemy-p2w.acquisition.cauldron-quicc-speed
+        - alchemy-p2w.acquisition.cauldron-quicc-new-bubble
+        - alchemy-p2w.acquisition.cauldron-high-iq-speed
+        - alchemy-p2w.acquisition.cauldron-high-iq-new-bubble
+        - alchemy-p2w.acquisition.cauldron-kazam-speed
+        - alchemy-p2w.acquisition.cauldron-kazam-new-bubble
+      - - alchemy-p2w.acquisition.cauldron-power-boost-req
+        - alchemy-p2w.acquisition.cauldron-quicc-boost-req
+        - alchemy-p2w.acquisition.cauldron-high-iq-boost-req
+        - alchemy-p2w.acquisition.cauldron-kazam-boost-req
+
+  - id: alchemy-p2w.check.player-behind
+    system: alchemy-p2w
+    type: check
+    title: Player upgrades behind
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 60
+    detector: { id: alchemy/p2w }
+    text: "{text}"
+    why: "{why}"
+    values:
+      line: "Pay 2 Win: buy Player Alchemy Speed and Extra EXP {from} → {to}"
+      why-line: "They cap at your best Alchemy level ({best:int}) and speed up every brewer. Cost not checked: see the price in game."
+    notes: "FR-14. Unpriced (Toolbox prices no Player upgrade). Silent when M7's merged Spend Plan already shows the Player line (the module runs after: true)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Alchemy#Pay_2_Win", title: "IdleOn Wiki: Alchemy, Pay 2 Win (Player upgrades cap at the highest Alchemy level)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts#L291", title: "IdleOn Toolbox p2w.player (speedLv, extraExpLv)", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: [{ from: W2-early, to: W4-entry }] }
+    confidence: M
+    status: active

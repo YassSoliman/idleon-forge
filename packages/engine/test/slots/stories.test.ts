@@ -14,21 +14,21 @@ const w2 = () => copy(workerState(scrubbedFile('scrubbed-w2')));
 const ids = (gs: { id: string }[]) => gs.map((g) => g.id);
 
 describe('US-1 one place for my daily items', () => {
-  it('W3-early: today 1 of 11 (vial attempts done), week 2 of 5 (Killroy and the Ballot); the daily reset time', () => {
+  it('W3-early: today 1 of 12 (vial attempts done; M19 adds the Liquid Shop gem), week 2 of 5 (Killroy and the Ballot); the daily reset time', () => {
     const r = run(w3());
-    expect(r.checklist?.rings).toEqual({ today: { done: 1, total: 11 }, week: { done: 2, total: 5 } });
+    expect(r.checklist?.rings).toEqual({ today: { done: 1, total: 12 }, week: { done: 2, total: 5 } });
     expect(row(r, 'vial-attempts')?.state).toBe('done');
     expect(row(r, 'pet-tournament')?.state).toBe('todo');
     expect(row(r, 'killroy-rooms')?.state).toBe('done');
     expect(row(r, 'ballot')?.state).toBe('done');
     const v = buildNowView(r, EMPTY_PREFS, { ...DEFAULT_UI, now: r.asOf });
-    expect(v.checklist?.ringText).toBe('Today 1 of 11 · Week 2 of 5');
+    expect(v.checklist?.ringText).toBe('Today 1 of 12 · Week 2 of 5');
     expect(v.checklist?.dailyText).toMatch(/^daily reset in \d+h \d\dm$/);
   });
 
-  it('W2-late: today 0 of 10, week 0 of 3; Post Office, guild and Efaunt keys are not listed', () => {
+  it('W2-late: today 0 of 11, week 0 of 3; Post Office, guild and Efaunt keys are not listed', () => {
     const r = run(w2());
-    expect(r.checklist?.rings).toEqual({ today: { done: 0, total: 10 }, week: { done: 0, total: 3 } });
+    expect(r.checklist?.rings).toEqual({ today: { done: 0, total: 11 }, week: { done: 0, total: 3 } });
     expect(r.checklist?.rows.map((x) => x.id)).not.toContain('post-office');
     expect(r.checklist?.rows.map((x) => x.id)).not.toContain('guild-daily');
     expect(row(r, 'boss-keys')?.details.join(' ')).not.toMatch(/Efaunt/);
@@ -290,7 +290,7 @@ describe('TR-9 clocks, codes and rings', () => {
     const r = run(s);
     expect(row(r, 'minigame-plays')?.state).toBe('unknown');
     expect(row(r, 'spiketrap')?.state).toBe('unknown');
-    expect(r.checklist?.rings.today.total).toBe(9);
+    expect(r.checklist?.rings.today.total).toBe(10);
   });
 
   it('a Gold Pocketwatch save (counters refilled, clocks unchanged) ticks nothing done', () => {
@@ -313,7 +313,7 @@ describe('TR-9 clocks, codes and rings', () => {
   it('the golden line for the checklist', () => {
     const r = run(w3(), { expectedReturnHours: 48 });
     const text = renderNowText(buildNowView(r, EMPTY_PREFS, { ...DEFAULT_UI, now: r.asOf }));
-    expect(text).toMatch(/\[checklist\] Today 1\/11 · Week 2\/5 · daily reset in/);
+    expect(text).toMatch(/\[checklist\] Today 1\/12 · Week 2\/5 · daily reset in/);
     expect(text).toMatch(/○ To do: Spend 6 Killroy skulls/);
   });
 });

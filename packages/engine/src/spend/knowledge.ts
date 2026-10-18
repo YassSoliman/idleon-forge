@@ -6,6 +6,7 @@
 // name carry forward (M2 TR-13). Every Spend list is written on the frame's positions (TR-6), so a carried
 // item keeps its frame position rather than going after the last one.
 import { type Entry, type SourceT, STAGES, type StageId, type TierItemT } from '@idleon-forge/knowledge';
+import { p2wStepOf } from '../alchemy/p2w';
 
 export type SpendItemT = Extract<TierItemT, { item: string }>;
 
@@ -74,6 +75,16 @@ function tiersOf(kb: SpendKnowledge, list: PriorityT): { listId: string; item: S
   return out;
 }
 
+/**
+ * M19 X2 (FR-13): a Pay 2 Win item takes its tier of `alchemy-p2w.priority.order` as a sub-position inside
+ * its frame position, so the five steps keep M19's order (priced before unpriced only within one step).
+ */
+function p2wOffset(kb: SpendKnowledge, item: SpendItemT): number {
+  if (item.spend.sink !== 'p2w') return 0;
+  const step = p2wStepOf(kb.entries, item.ref);
+  return step === null ? 0 : (step + 1) / 10;
+}
+
 const resolved = (
   kb: SpendKnowledge,
   listId: string,
@@ -84,7 +95,7 @@ const resolved = (
   entryId: `${listId}#${item.item}`,
   listId,
   slug: item.item,
-  position,
+  position: position + p2wOffset(kb, item),
   ref: item.ref,
   spend: item.spend,
   text: item.text,

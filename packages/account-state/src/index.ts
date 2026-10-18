@@ -33,6 +33,8 @@ export type {
   AfkWorship,
   CharacterAfkFacts,
 } from './afk-types';
+export { W13_VIALS } from './alchemy';
+export type { AlchemyAccountFields, AlchemyPlanState } from './alchemy-types';
 export type {
   CardLoadout,
   CardSetState,

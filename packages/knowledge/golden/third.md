@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: third · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 925
 
 ## Verdict changes
 
@@ -37,7 +37,7 @@
 purpose: Godshard: stamp material for Forge Stamp
 
 ### Account · nothing to fix
-[checklist] Today 3/10 · Week 2/5 · daily reset in 3h 19m
+[checklist] Today 4/11 · Week 2/5 · daily reset in 3h 19m
   ○ To do: Pet Tournament registration · resets with the server day
   ○ To do: Skill minigame plays · 21 plays left · resets in 3h 19m · lost before you are back
   ○ To do: Spiketrap gems · resets in 3h 19m · lost before you are back
@@ -48,6 +48,7 @@ purpose: Godshard: stamp material for Forge Stamp
   ⊘ Can't: Vial attempts · no vial ingredient held · resets in 3h 19m
   ? Can't tell: Pet Mart free gems · resets with the server day
   ✓ Done: Random Event · resets in 3h 19m
+  ✓ Done: Liquid Shop: One Measly Gem · 5 Water, and A Pair of Gems · resets in 3h 19m
   ✓ Done: Boss keys · resets in 3h 19m
   ✓ Done: Colosseum tickets · resets in 3h 19m
   ○ To do: Spend 169 Killroy skulls · 4 skulls buy 10 Arcade balls: 50 of 50 packs left this week · your weekly reset in 27h 19m
@@ -69,7 +70,7 @@ purpose: Godshard: stamp material for Forge Stamp
   · Divine Knight Lv 558: 13 into Speed, 0 into Capacity
   · Elemental Sorcerer Lv 552: 11 into Speed, 0 into Capacity
   · Siege Breaker Lv 522: 28 into Speed, 0 into Capacity
-show more (7)
+show more (9)
 If you have time
 - Use today's 21 minigame plays · about 10m of hands-on play
 
@@ -79,7 +80,6 @@ Forge
 Quests
 Statues
 The Owl
-Alchemy Pay 2 Win
 Islands
 Atom Collider
 Equinox
@@ -121,10 +121,10 @@ W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Nothing to fix · Nothing to fix
 W1 · Poppy · Nothing to fix · Nothing to fix
-W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix
+W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy bubbles · Nothing to fix · Nothing to fix
 W2 · Alchemy vials · Nothing to fix · Nothing to fix
-W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet
+W2 · Alchemy Pay 2 Win · Nothing to fix · Nothing to fix · 1 to do
 W2 · Arcade · Nothing to fix · Nothing to fix
 W2 · Islands · Not covered yet · Not covered yet
 W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
@@ -201,6 +201,19 @@ Account · Killroy's Slaughterhouse
 - Killroy skulls lost · later · in 27h 19m · 23:18 · after · next-action · fix none
 Account · Refinery
 - salt fuel runs out · later · in 4d 4h · 00:24 · after · info · fix none
+
+## Alchemy
+band w3-late · pick Bubble Plan met for your Stage
+- Power: Plan met · about 0 new bubbles
+- Quicc: Plan met · about 0 new bubbles
+- High-IQ: Plan met · about 0 new bubbles
+- Kazam: Plan met · about 0 new bubbles
+vial: none
+rolls: none
+attempts: 18 of 18 left
+tubes: Water 5293 of 22553; Liquid Nitrogen 11636 of 22063; Trench Seawater 6223 of 14063; Toxic Mercury 9790 of 12358
+p2w next: Player Speed 149 of 150
+step: Pay 2 Win: buy Player Alchemy Speed and Extra EXP 149 → 150
 
 ## Findings
 | entry | detector | subject | result | slots |

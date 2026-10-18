@@ -10,6 +10,7 @@ import { getMaxClaimTime } from '../vendor/parsers/dungeons';
 import { getSkillEfficiency } from '../vendor/parsers/efficiency';
 import { getBookLvRange, getItemCapacity } from '../vendor/parsers/misc';
 import { getPlayerAnvil, getTimeTillCap } from '../vendor/parsers/world-1/anvil';
+import { getBubbleUpgradeCost } from '../vendor/parsers/world-2/alchemy';
 import { getBuildCost } from '../vendor/parsers/world-3/construction';
 import { getPrayerBonusAndCurse } from '../vendor/parsers/world-3/prayers';
 import { getPrinterMulti } from '../vendor/parsers/world-3/printer';
@@ -67,4 +68,8 @@ export const toolboxCalls = {
   classExpMulti,
   /** A monster's base `ExpGiven` (monsters.json), or null. */
   monsterExpGiven,
+  // M19 Alchemy (TR-1): one bubble level's cost of one material, with no discounts (an upper bound, F-b).
+  /** Toolbox `getBubbleUpgradeCost` at `level` (the bubble's current level prices the next one, N.js CauldronCosts). */
+  bubbleCost: (rawName: string, bubbleIndex: number, level: number, baseCost: number): number =>
+    getBubbleUpgradeCost({ rawName, bubbleIndex, level, baseCost }),
 };

@@ -22,6 +22,7 @@ import {
   metaPathModule,
 } from '@idleon-forge/engine';
 import { createAfkSafetyModule } from '@idleon-forge/engine/afk';
+import { createAlchemyModule } from '@idleon-forge/engine/alchemy';
 import { createBuildsModule } from '@idleon-forge/engine/builds';
 import { createCardsViewModule, createCollectionsModule } from '@idleon-forge/engine/collections';
 import { engineDetectors } from '@idleon-forge/engine/detectors';
@@ -186,6 +187,8 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
     createWalkthroughModule({ kb }),
     createStarSignsModule({ kb }),
     ...createM20Modules({ kb }),
+    // M19: runs after every module (it reads M3's, M6's and M7's merged output).
+    createAlchemyModule({ kb }),
   ];
 }
 
@@ -216,6 +219,8 @@ function runEngineSafely(engine: Engine, state: AccountState, call: EngineCall, 
       knowledge: knowledgeOf(call),
       now,
       options: { expectedReturnSeconds: call.expectedReturnSeconds },
+      // M19 TR-1: Toolbox's bubble cost function, pure, for the engine in this same worker.
+      toolbox: { bubbleCost: toolboxCalls.bubbleCost },
     });
   } catch (err) {
     return { error: errorText(err) };

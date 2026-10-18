@@ -13,7 +13,7 @@ import {
   REASON_WORDS,
   SYSTEM_HOMES,
 } from '@idleon-forge/engine/now';
-import { useEffect, useMemo } from 'react';
+import { Suspense, useEffect, useMemo } from 'react';
 import { tabById, tabHref } from '../now/character-tabs';
 import { useNowActions } from '../now/context';
 import { GoalList, SourceLabel } from '../now/parts';
@@ -136,7 +136,11 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
           {goals}
         </section>
       )}
-      {Body && !page.locked ? <Body s={s} page={page} /> : null}
+      {Body && !page.locked ? (
+        <Suspense fallback={<p className="small muted">{PAGE_WORDS.loadingPicture}</p>}>
+          <Body s={s} page={page} />
+        </Suspense>
+      ) : null}
 
       {page.pills.length > 0 ? (
         <section aria-labelledby="sp-pills-h">

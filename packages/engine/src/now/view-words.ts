@@ -61,6 +61,8 @@ export const HUB_WORDS = {
 
 export const PAGE_WORDS = {
   nextActions: 'Next Actions',
+  // M19 TR-8: while a lazy picture chunk loads.
+  loadingPicture: 'Loading the picture…',
   quickCollects: 'Quick collects',
   onTimeline: 'On the Timeline',
   timelineLink: 'Open the Timeline',

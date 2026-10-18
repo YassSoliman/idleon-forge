@@ -83,10 +83,10 @@ describe.each(saves)('%s', (_label, path) => {
     }
   });
 
-  it('keeps only bribe statuses -1, 0 and 1, and Pay 2 Win vials unpriced', () => {
+  it('keeps only bribe statuses -1, 0 and 1, and Pay 2 Win vial and Player upgrades unpriced', () => {
     for (const b of spend?.bribes ?? []) expect([-1, 0, 1]).toContain(b.status);
     for (const u of spend?.p2w ?? [])
-      if (u.key.startsWith('vials.')) expect(u.nextCost).toBeNull();
+      if (u.key.startsWith('vials.') || u.key.startsWith('player.')) expect(u.nextCost).toBeNull();
       else expect(u.nextCost).not.toBeNull();
   });
 

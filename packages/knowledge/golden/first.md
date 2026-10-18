@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: first · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 925
 
 ## Verdict changes
 
@@ -29,11 +29,12 @@ purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
 purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
 
 ### Account · nothing to fix
-[checklist] Today 1/11 · Week 2/4 · daily reset in 16h 50m
+[checklist] Today 1/12 · Week 2/4 · daily reset in 16h 50m
   ○ To do: Pet Tournament registration · resets with the server day
   ○ To do: Skill minigame plays · 7 plays left · resets in 16h 50m
   ○ To do: Spiketrap gems · resets in 16h 50m
   ○ To do: Vial attempts · 13 of 13 left · resets in 16h 50m
+  ○ To do: Liquid Shop: One Measly Gem · 5 Water, and A Pair of Gems · resets in 16h 50m
   ○ To do: Post Office orders · 1 company without an order today · resets in 16h 50m
   ○ To do: Daily tasks · W1: ... so I started swingin D ✓ · W2: Doing the Dev's Job A ✓ · W3: Cogs, Crocs, Clocks! · resets in 16h 50m
   ○ To do: Guild daily tasks · resets in 16h 50m
@@ -50,8 +51,10 @@ purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
 - Spend · Collect banked Colosseum tickets: Collect 9 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 13 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
+  · Easiest rolls with what you hold: Sippy Cup (97+, Sippy Straw), 40-40 Purity (98+, Contact Lense)
+  · Drop several stacks quickly: each counts as a roll
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (16)
+show more (19)
 Spend coins: 34 buys now on 3 characters
   1. Buy the bribe Photoshopped Dmg Range on Bubonic Conjuror Lv 87: 100M coins · Lv 0 → 1 · withdraw 100M coins from storage on C2, then buy · total 100M coins on C2
   2. Buy the bribe Glitched Acc Formula on Bubonic Conjuror Lv 87: 300M coins · Lv 0 → 1 · withdraw 300M coins from storage on C2, then buy · total 400M coins on C2
@@ -69,7 +72,6 @@ Forge
 Quests
 Statues
 The Owl
-Alchemy Pay 2 Win
 Islands
 Atom Collider
 Equinox
@@ -111,10 +113,10 @@ W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix · 1 to do
 W1 · Colosseum · Wasting · 1 to fix before you leave
 W1 · Poppy · Nothing to fix · Nothing to fix
-W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix · 1 to do
-W2 · Alchemy bubbles · Nothing to fix · Nothing to fix
-W2 · Alchemy vials · Nothing to fix · Nothing to fix · 1 to do
-W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet · in the Spend Plan
+W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix · 2 to do
+W2 · Alchemy bubbles · Nothing to fix · Nothing to fix · 1 to do
+W2 · Alchemy vials · Nothing to fix · Nothing to fix · 2 to do
+W2 · Alchemy Pay 2 Win · Nothing to fix · Nothing to fix
 W2 · Arcade · Nothing to fix · Nothing to fix
 W2 · Islands · Not covered yet · Not covered yet
 W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
@@ -178,6 +180,19 @@ Account · Arcade
 - Arcade balls full · later · in 15h 04m · 12:20 · after · info · fix none
 Account · Refinery
 - salt fuel runs out · later · in 21h 26m · 18:42 · after · info · fix none
+
+## Alchemy
+band w3-late · pick Roid Ragin 41 → 54 (at least 13)
+- Power: Next: Roid Ragin 41 → 54 · about 0 new bubbles · lit
+- Quicc: Next: Archer Or Bust 17 → 18 · about 0 new bubbles
+- High-IQ: Stable Jenius 31 → 67 · needs Water · about 0 new bubbles
+- Kazam: Prowesessary 15 → 40 · needs Potty Rolls · about 0 new bubbles
+vial: Bubonic Burp 1 → 2
+rolls: Sippy Cup 97+ (Sippy Straw), 40-40 Purity 98+ (Contact Lense)
+attempts: 13 of 13 left
+tubes: Water 55 of 135; Liquid Nitrogen 58 of 95; Trench Seawater 42 of 74; Toxic Mercury opens at Alchemy 80
+p2w next: Water Regen 58 of 100
+step: Use your 13 vial attempts on the W2 town cauldron
 
 ## Findings
 | entry | detector | subject | result | slots |

@@ -27,7 +27,11 @@ export const SYSTEM_HOMES: Readonly<Record<string, SystemHome>> = {
   construction: { page: 'cog-board' },
   worship: { page: 'worship' },
   trapping: { page: 'trapping' },
-  alchemy: { page: 'cauldron-seats' },
+  // M19 FR-18: the four Alchemy Systems share one page; M20's cauldron seats are a part of it.
+  alchemy: { page: 'alchemy-lab' },
+  'alchemy-bubbles': { page: 'alchemy-lab' },
+  'alchemy-vials': { page: 'alchemy-lab' },
+  'alchemy-p2w': { page: 'alchemy-lab' },
   skills: { tab: 'skills' },
 };
 

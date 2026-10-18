@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: fourth · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 925
 
 ## Verdict changes
 
@@ -12,14 +12,14 @@
 2 · Fighting Woodlin Spirit · Edge of the Valley · Can't tell from the save
 
 ### Account · nothing to fix
-[checklist] Today 2/10 · Week 0/3 · daily reset in 20h 04m
+[checklist] Today 2/11 · Week 0/3 · daily reset in 20h 04m
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Today's Random Event: Random Event now on Wam Wonderland (Glacial Guild): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Gems unspent: 999 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
-show more (10)
+show more (12)
 If you have time
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 2m of hands-on play
 
@@ -29,7 +29,6 @@ Forge
 Quests
 Statues
 The Owl
-Alchemy Pay 2 Win
 Islands
 Atom Collider
 Equinox
@@ -73,8 +72,8 @@ W1 · Colosseum · Nothing to fix · Nothing to fix
 W1 · Poppy · Nothing to fix · Nothing to fix
 W2 · Alchemy cauldrons and liquids · Can't tell · Can't tell from the save
 W2 · Alchemy bubbles · Nothing to fix · Nothing to fix
-W2 · Alchemy vials · Nothing to fix · Nothing to fix
-W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet
+W2 · Alchemy vials · Nothing to fix · Nothing to fix · 1 to do
+W2 · Alchemy Pay 2 Win · Nothing to fix · Nothing to fix
 W2 · Arcade · Nothing to fix · Nothing to fix
 W2 · Islands · Not covered yet · Not covered yet
 W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
@@ -115,6 +114,19 @@ Account · Arcade
 - Arcade balls full · later · in 47h 39m · 07:30 · after · info · fix none
 Account · Refinery
 - salt fuel runs out · in 56m · 08:47 · before · next-action · fix none
+
+## Alchemy
+band w3-late · pick Bubble Plan met for your Stage
+- Power: Plan met · about 0 new bubbles
+- Quicc: Plan met · about 0 new bubbles
+- High-IQ: Plan met · about 0 new bubbles
+- Kazam: Plan met · about 0 new bubbles
+vial: Barley Brew 1 → 2
+rolls: none
+attempts: 18 of 18 left
+tubes: Water 521 of 522; Liquid Nitrogen 314 of 314; Trench Seawater 243 of 244; Toxic Mercury 231 of 232
+p2w next: none
+step: Level Barley Brew 1 → 2 (100 Iron Bar, 3 Water)
 
 ## Findings
 | entry | detector | subject | result | slots |
