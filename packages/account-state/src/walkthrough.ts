@@ -84,21 +84,6 @@ function counts(items: unknown[]): Record<string, number> {
   return out;
 }
 
-function readQuests(raw: Dict): Record<string, Record<string, number>> | null {
-  if (!isDict(raw.quests)) return null;
-  const out: Record<string, Record<string, number>> = {};
-  for (const [npc, q] of Object.entries(raw.quests)) {
-    if (!isDict(q)) continue;
-    const row: Record<string, number> = {};
-    for (const [k, v] of Object.entries(q)) {
-      const n = finite(v);
-      if (n !== null) row[k] = n;
-    }
-    out[npc] = row;
-  }
-  return out;
-}
-
 /** Base levels by talent name, levels > 0, over Toolbox's `{ "<tab>": { orderedTalents[] } }`. */
 function levelsOf(talents: unknown): Record<string, number> | null {
   if (!isDict(talents)) return null;
@@ -225,14 +210,6 @@ export function readWalkthrough(input: WalkthroughInputs, c: Collector): Walkthr
     };
     const skills = isDict(raw.skillsInfo) ? raw.skillsInfo : null;
     const fields: WalkthroughCharacterFields = {
-      quests: read('quests', () => readQuests(raw)),
-      inventoryItems: read('inventoryItems', () => counts(list(raw.inventory))),
-      smithingLevel: read('smithingLevel', () =>
-        skills && isDict(skills.smithing) ? finite(skills.smithing.level) : null,
-      ),
-      targetMonster: read('targetMonster', () =>
-        typeof raw.targetMonster === 'string' && raw.targetMonster !== '' ? raw.targetMonster : null,
-      ),
       mapIndex: read('mapIndex', () => finite(raw.mapIndex)),
       skillLevels: read('skillLevels', () => {
         if (!skills) return null;
@@ -275,15 +252,9 @@ export function readWalkthrough(input: WalkthroughInputs, c: Collector): Walkthr
     Object.assign(st, fields);
   }
 
-  const storage = isDict(account.storage) ? list(account.storage.list) : null;
-  const refinery = isDict(account.refinery) ? account.refinery.refineryStorage : null;
   return {
     anvilTabsOwned: field(c, 'account.anvilTabsOwned', s, () => finite(data.CYAnvilTabsOwned)),
     forgeOutput: field(c, 'account.forgeOutput', s, () => readForgeOutput(account)),
-    storageItems: field(c, 'account.storageItems', s, () => (storage ? counts(storage) : null)),
-    refineryStorage: field(c, 'account.refineryStorage', s, () =>
-      Array.isArray(refinery) ? counts(refinery) : null,
-    ),
     printer: calls
       ? field(c, 'account.printer', s, () => frozen(() => readPrinter(account, characters, states, calls)))
       : null,

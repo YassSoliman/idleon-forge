@@ -4,9 +4,8 @@
 // walkthrough.ts only; declared in walkthrough-fields.ts. Optional so hand-built states need not spell
 // them out; the adapter always sets each one, to a value or null (null = unknown, never "none").
 //
-// TODO(M8): `storageItems`, `refineryStorage`, `characters[].inventoryItems`, `.quests`, `.smithingLevel`
-// and `.targetMonster` are M8's fields (#80, `CollectionsAccountFields`), declared here with M8's exact
-// names, types and sources until #80 merges; then the duplicates here are deleted.
+// M14 also reads M8's holdings and quest fields (`storageItems`, `refineryStorage`,
+// `characters[].inventoryItems`, `.quests`, `.smithingLevel`, `.targetMonster`; collections-types.ts).
 
 /** One sample in the 3D Printer (Toolbox `account.printer[c][]`). */
 export interface PrinterSample {
@@ -85,24 +84,12 @@ export interface WalkthroughAccountFields {
   anvilTabsOwned?: number | null;
   /** Bars waiting in the Forge's output slots (Toolbox `forge.list[].bar`), summed by rawName. */
   forgeOutput?: { rawName: string; amount: number }[] | null;
-  /** TODO(M8): M8's field (#80). Chest storage counts by item rawName (Toolbox `storage.list`). */
-  storageItems?: Record<string, number> | null;
-  /** TODO(M8): M8's field (#80). Refinery storage counts by item rawName (Toolbox `refinery.refineryStorage`). */
-  refineryStorage?: Record<string, number> | null;
   printer?: PrinterState | null;
   /** Set by the parse worker after the adapter (TR-3); null until then or when it threw. */
   supplyRates?: SupplyRates | null;
 }
 
 export interface WalkthroughCharacterFields {
-  /** TODO(M8): M8's field (#80). Quest status by NPC and quest key: −1 not started, 0 accepted, 1 done. */
-  quests?: Record<string, Record<string, number>> | null;
-  /** TODO(M8): M8's field (#80). Unequipped bag items by rawName (Toolbox `inventory`). */
-  inventoryItems?: Record<string, number> | null;
-  /** TODO(M8): M8's field (#80). Smithing level (Toolbox `skillsInfo.smithing.level`). */
-  smithingLevel?: number | null;
-  /** TODO(M8): M8's field (#80). The saved AFK Target's monster rawName (Toolbox `targetMonster`). */
-  targetMonster?: string | null;
   /** The character's current map index (Toolbox `mapIndex`). */
   mapIndex?: number | null;
   /** Skill levels by Toolbox skill key (`skillsInfo.<skill>.level`): mining, chopping, fishing, catching. */

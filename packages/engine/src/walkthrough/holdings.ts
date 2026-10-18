@@ -6,21 +6,22 @@
 // out in the order nodes ask for them (the higher-ranked Walkthrough first), so two Walkthroughs never
 // count the same item twice.
 //
-// TODO(M8): M8 (#80) implements this rule as `holdings` in collections/routes.ts (storage, refinery,
-// bags). Once #80 is on main, move this into packages/engine/src/core/holdings.ts with the Forge output
-// added (TR-11) and have both modules import it.
+// The storage, refinery and bag counts are M8's rule (`holdings`, collections/routes.ts); M14 adds the
+// Forge's output slots (TR-11).
 import { type AccountState, isKnown } from '@idleon-forge/account-state';
+import { holdings } from '../collections/routes';
 import type { Holding } from './types';
 
 export function holdingsOf(state: AccountState, rawName: string): Holding[] {
+  const h = holdings(state, rawName);
   const out: Holding[] = [];
   const add = (place: Holding['place'], n: number | undefined) => {
     if (n && n > 0) out.push({ place, amount: n });
   };
-  add('storage', state.account.storageItems?.[rawName]);
-  add('refinery', state.account.refineryStorage?.[rawName]);
+  add('storage', h.byPlace.storage);
+  add('refinery', h.byPlace.refinery);
   add('forge', state.account.forgeOutput?.find((x) => x.rawName === rawName)?.amount);
-  for (const c of state.characters) add(`inv:c${c.index}`, c.inventoryItems?.[rawName]);
+  for (const c of state.characters) add(`inv:c${c.index}`, h.byPlace[`inv:c${c.index}`]);
   return out;
 }
 

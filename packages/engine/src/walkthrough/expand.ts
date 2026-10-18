@@ -7,6 +7,7 @@
 // `stoppedBecause` and a diagnostic, never an error (FR-3). Gates are nodes that are met, unmet or
 // unknown, never amounts (FR-4); an unmet anvil tab gate expands into the tab item's own subtree.
 import { type AccountState, isKnown } from '@idleon-forge/account-state';
+import { questStanding as m8QuestStanding, type QuestStanding } from '../collections/routes';
 import { type HoldingsPool, holdingsKnown, holdingsOf } from './holdings';
 import {
   human,
@@ -116,21 +117,16 @@ export function expandItem(
   return { ...base, children };
 }
 
-/** The quest's standing on one character (M8 FR-4): done, accepted, acceptable, locked or unknown. TODO(M8): M8's `questStanding`. */
+/** The quest's standing on one character: M8's `questStanding` (M8 FR-4), unknown when the field is. */
 export function questStanding(
   state: AccountState,
   index: number,
   q: Pick<QuestData, 'npc' | 'questKey' | 'questOrder'>,
   prevKey: string | null,
-): 'done' | 'accepted' | 'acceptable' | 'locked' | 'unknown' {
+): QuestStanding {
   const c = state.characters.find((x) => x.index === index);
   if (!c?.quests || !isKnown(state, `characters[${index}].quests`)) return 'unknown';
-  const row = c.quests[q.npc];
-  const s = row?.[q.questKey];
-  if (s === 1) return 'done';
-  if (s === 0) return 'accepted';
-  if (q.questOrder === 0 || prevKey === null) return 'acceptable';
-  return row?.[prevKey] === 1 ? 'acceptable' : 'locked';
+  return m8QuestStanding(c, q.npc, q.questKey, q.questOrder === 0 ? null : prevKey);
 }
 
 export interface ExpandedTarget {

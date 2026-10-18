@@ -84,13 +84,6 @@ export type {
   VaultState,
   Wallet,
 } from './spend-types';
-export type {
-  CharacterTalents,
-  PresetTalents,
-  ResetItems,
-  TalentLevel,
-} from './talent-types';
-export { ATTACK_BAR_ROWS, attackBarOf, PRESET_LEVEL } from './talents';
 // M14 Walkthroughs & Parallel Slot Plans (M14 TR-2, TR-3)
 export {
   computeSupplyRates,
@@ -101,6 +94,13 @@ export {
   type SupplyLeaf,
   withSupplyRates,
 } from './supply';
+export type {
+  CharacterTalents,
+  PresetTalents,
+  ResetItems,
+  TalentLevel,
+} from './talent-types';
+export { ATTACK_BAR_ROWS, attackBarOf, PRESET_LEVEL } from './talents';
 export type {
   AccountState,
   AccountSummary,

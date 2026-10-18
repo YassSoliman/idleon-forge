@@ -3,11 +3,11 @@
 // R-Q9a item 4: preset steps are explicit Walkthrough steps. When a job changes a character's activity,
 // the Walkthrough says which talent preset and card preset to switch to, or which to set up first.
 //
-// TODO(M9): M9 (#77) classifies talent presets against its role-tagged Builds (`classifyPreset`); until
-// it is on main a preset is a skilling preset when it holds `skillingAt` points in the skilling talents
-// of walkthrough.fact.preset-fit. TODO(M8): M8 (#80) owns the card preset rule (`presetFits`, TR-9: a
-// preset fits when at least half its cards' effects name the activity); this is the same rule over the
-// same kind of keyword table. Replace both with the owners' helpers once they merge.
+// Kept local after M8 and M9 merged (release 4): M9's `classifyPreset` needs M9's `PresetTalents` and its
+// role-tagged Builds, and M8's `presetFits` takes card rawNames with M8's keyword table; this rule reads
+// M14's `talentPresets`/`cardPresets` and walkthrough.fact.preset-fit. Moving to the owners' helpers is
+// a follow-up (same rules: a skilling preset holds `skillingAt` skilling points; a card preset fits
+// when at least half its cards' effects name the activity, M8 TR-9).
 import type { CharacterState } from '@idleon-forge/account-state';
 import type { PresetFit } from './knowledge';
 
