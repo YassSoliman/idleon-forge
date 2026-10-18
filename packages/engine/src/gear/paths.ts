@@ -367,7 +367,7 @@ export function setWarnings(ctx: Ctx, path: Path, stonesOf: (rawName: string) =>
         : t(ctx, 'why-set', { item, set }),
     );
     const stones = stonesOf(raw);
-    if (stones > 0) out.push(t(ctx, 'why-stones', { n: stones }));
+    if (stones > 0) out.push(t(ctx, 'why-stones', { n: stones, item }));
   }
   return out;
 }

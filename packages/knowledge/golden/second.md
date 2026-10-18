@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #762f705c · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: second · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -179,10 +179,10 @@ Account · Refinery
 
 ## Alchemy
 band w3-late · pick Bubble Plan met for your Stage
-- Power: Plan met · about 0 new bubbles
-- Quicc: Plan met · about 0 new bubbles
-- High-IQ: Plan met · about 0 new bubbles
-- Kazam: Plan met · about 0 new bubbles
+- Power: Plan met
+- Quicc: Plan met
+- High-IQ: Plan met
+- Kazam: Plan met
 vial: Poison Tincture 2 → 3
 rolls: none
 attempts: 18 of 18 left
@@ -192,29 +192,29 @@ step: Level Poison Tincture 2 → 3 (1,000 Poison Froge, 6 Liquid Nitrogen)
 
 ## Gear
 - C1 · Beast Master 507 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C2 · Divine Knight 544 · better gear held · lit: pendant
   next: Equip the Fuscismatia from storage
-  helmet ok, weapon ok · a trade, shirt ok, pendant better one held, pants ok, ring1 ok · a trade, shoes ok, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok, weapon ok · different stats, shirt ok, pendant better one held, pants ok, ring1 ok · different stats, shoes ok, ring2 ok · different stats, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C3 · Bubonic Conjuror 567 · Gear ok · lit: none
-  helmet ok, weapon ok · a trade, shirt ok, pendant ok · a trade, pants ok, ring1 ok · a trade, shoes ok, ring2 ok · a trade, pickaxe ok, hatchet ok · a trade, rod ok · a trade, net ok
+  helmet ok, weapon ok · different stats, shirt ok, pendant ok · different stats, pants ok, ring1 ok · different stats, shoes ok, ring2 ok · different stats, pickaxe ok, hatchet ok · different stats, rod ok · different stats, net ok
   mining: Dementia Pickaxe at Mining 37: you're 30
 - C4 · Blood Berserker 501 · Gear ok · lit: none
-  helmet ok, weapon ok · a trade, shirt ok, pendant ok · a trade, pants ok, ring1 ok · a trade, shoes ok, ring2 ok · a trade, pickaxe ok, hatchet ok, rod ok · a trade, net ok · a trade
+  helmet ok, weapon ok · different stats, shirt ok, pendant ok · different stats, pants ok, ring1 ok · different stats, shoes ok, ring2 ok · different stats, pickaxe ok, hatchet ok, rod ok · different stats, net ok · different stats
 - C5 · Wizard 501 · better gear held · shoes 30 levels behind · lit: helmet
   next: Equip the Witch Hat from the Elemental Sorcerer Lv 525's bag
-  helmet better one held, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes 30 levels behind, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet better one held, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes 30 levels behind, ring2 ok · different stats, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C6 · Siege Breaker 530 · Gear ok · lit: none
-  helmet ok, weapon ok · a trade, shirt ok, pendant ok · a trade, pants ok, ring1 ok · a trade, shoes ok, ring2 ok · a trade, pickaxe ok, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok, weapon ok · different stats, shirt ok, pendant ok · different stats, pants ok, ring1 ok · different stats, shoes ok, ring2 ok · different stats, pickaxe ok, hatchet ok · different stats, rod ok · different stats, net ok · different stats
   mining: Void Imperium Pik at Mining 45: you're 40
 - C7 · Voidwalker 510 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok, shoes ok · a trade, ring2 ok, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok, shoes ok · different stats, ring2 ok, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C8 · Elemental Sorcerer 525 · Gear ok · lit: none
-  helmet ok, weapon ok · a trade, shirt ok, pendant ok · a trade, pants ok, ring1 ok · a trade, shoes ok, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok, weapon ok · different stats, shirt ok, pendant ok · different stats, pants ok, ring1 ok · different stats, shoes ok, ring2 ok · different stats, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C9 · Hunter 503 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok, shoes ok · a trade, ring2 ok, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok, shoes ok · different stats, ring2 ok, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C10 · Barbarian 501 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok, shoes ok · a trade, ring2 ok, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok, shoes ok · different stats, ring2 ok, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - Smithy: Ready to hire in Frostbite Towndra
   Copper: 0 of 4 parts: craft Copper Helmet
   Iron: 0 of 4 parts: craft Iron Helmet

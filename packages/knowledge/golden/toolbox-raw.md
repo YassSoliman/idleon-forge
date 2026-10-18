@@ -1,4 +1,4 @@
-# golden v1: toolbox-raw · knowledge #762f705c · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: toolbox-raw · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -223,40 +223,40 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 ## Gear
 - C1 · Siege Breaker 1291 · better gear held · fishing rod 36 levels behind · lit: pendant
   next: Equip the Chizoars Caustic Scarf from the Death Bringer Lv 1292's bag
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant better one held, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe 12 levels behind, hatchet 4 levels behind, rod 36 levels behind, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant better one held, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe 12 levels behind, hatchet 4 levels behind, rod 36 levels behind, net ok · different stats
   mining: Gold Pickaxe at Mining 15: you're 15
   chopping: Iron Hatchet at Choppin 8: you're 11
   fishing: Void Imperium Rod at Fishing 40: you're 42
 - C2 · Death Bringer 1292 · hatchet 5 levels behind · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok, hatchet 5 levels behind, rod ok · a trade, net empty
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe ok, hatchet 5 levels behind, rod ok · different stats, net empty
   mining: Void Imperium Pik at Mining 45: you're 41
   chopping: Dementia Dicer at Choppin 25: you're 25
 - C3 · Elemental Sorcerer 1259 · pickaxe 13 levels behind · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe 13 levels behind, hatchet ok · a trade, rod empty, net empty
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe 13 levels behind, hatchet ok · different stats, rod empty, net empty
   mining: Gold Pickaxe at Mining 15: you're 24
 - C4 · Divine Knight 1240 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok, rod empty, net empty
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe ok · different stats, hatchet ok, rod empty, net empty
   chopping: Copper Chopper at Choppin 4: you're 2
 - C5 · Arcane Cultist 1231 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C6 · Wind Walker 1280 · hatchet 10 levels behind · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok, hatchet 10 levels behind, rod ok, net ok
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe ok, hatchet 10 levels behind, rod ok, net ok
   mining: Platinum Pickaxe at Mining 25: you're 18
   chopping: Dementia Dicer at Choppin 25: you're 25
   fishing: Plat Fishing Rod at Fishing 25: you're 15
   catching: Platinet at Catching 20: you're 19
 - C7 · Voidwalker 1157 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok, hatchet ok, rod ok, net ok
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe ok, hatchet ok, rod ok, net ok
 - C8 · Siege Breaker 1261 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe empty, hatchet empty, rod empty, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe empty, hatchet empty, rod empty, net ok · different stats
 - C9 · Royal Guardian 1307 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C10 · Bubonic Conjuror 1268 · pickaxe 6 levels behind · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe 6 levels behind, hatchet empty, rod empty, net empty
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe 6 levels behind, hatchet empty, rod empty, net empty
   mining: Iron Pickaxe at Mining 8: you're 10
 - C11 · Beginner 1224 · better gear held · lit: pendant
   next: Equip the Bramble of the Emperor from storage
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant better one held, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe empty, hatchet empty, rod empty, net empty
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant better one held, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe empty, hatchet empty, rod empty, net empty
 - Smithy: Hired
   Copper: registered
   Iron: registered

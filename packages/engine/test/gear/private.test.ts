@@ -59,7 +59,7 @@ describe.skipIf(!hasPrivate('joseph'))('the W3-early private save (§11.2)', () 
       const st = workerState(privateFile('joseph'));
       const r = run(st);
       const g = gearGoals(r).find((x) => x.subject === `c${slotOf(st, 'Barbarian', 56)}`)?.goal;
-      expect(g?.nextAction.text).toBe('Unlock the Iron Fishing Rod at the W1 Task Board, then craft it');
+      expect(g?.nextAction.text).toBe('Unlock Iron Fishing Rod at the W1 Task Board, then craft it');
     },
     T,
   );

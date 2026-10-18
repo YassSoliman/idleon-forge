@@ -5,6 +5,7 @@
 // sits on which cauldron and liquid). Pictures are data drawn with our own boxes (ADR 0009, never game
 // sprites); an element whose `actionKey` equals the page's highlight is outlined (M17 FR-31). Names are
 // joined here, on the UI thread, from the view (M4 TR-9).
+import { liquidAmount } from '@idleon-forge/engine/alchemy-text';
 import { clockAt, inSpan } from '@idleon-forge/engine/now';
 import type { SystemPicture } from '@idleon-forge/engine/result';
 import type { SystemPageBodyProps } from './pages';
@@ -195,9 +196,7 @@ export function CauldronSeatsBody(p: SystemPageBodyProps) {
                 : st.brewers.length
                   ? st.brewers.map((i) => nameOf(p, i)).join(', ')
                   : 'nobody'}
-              {st.liquid && !st.locked
-                ? ` · ${Math.round(st.liquid.current * 100) / 100} of ${st.liquid.max}`
-                : ''}
+              {st.liquid && !st.locked ? ` · ${liquidAmount(st.liquid.current)} of ${st.liquid.max}` : ''}
             </span>
           </li>
         ))}

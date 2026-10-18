@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #762f705c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 988
+# golden v1: scrubbed-w2 · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 988
 
 ## Verdict changes
 
@@ -49,7 +49,7 @@ show more (23)
 Spend coins: 14 buys now on 4 characters
   1. Raise and level 2 capped stamps on Barbarian Lv 60: about 1.3M coins · buy · total 1.3M coins on C1
      Hatchet Stamp, Shield Stamp · carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free up inventory space first
-  2. Level Bullseye Stamp 0→5 on Barbarian Lv 60: 98k coins · Lv 0 → 5 · buy · total 1.4M coins on C1
+  2. Level Bullseye Stamp 0→5 on Barbarian Lv 60: 98k coins · buy · total 1.4M coins on C1
   3. Buy 3 Vault upgrades on Barbarian Lv 60: 43M coins · buy · total 45M coins on C1
      Bubble Money, Vault Mastery, Major Discount
   4. Buy 2 Vault upgrades on Barbarian Lv 60: 6.9M coins · buy · total 52M coins on C1
@@ -155,7 +155,7 @@ Account · Arcade
 
 ## Alchemy
 band w2 · pick Roid Ragin 3 → 12 (at least 9)
-- Power: Next: Roid Ragin 3 → 12 · about 0 new bubbles · lit
+- Power: Next: Roid Ragin 3 → 12 · lit
 - Quicc: Next: Swift Steppin 1 → 8 · about 4 new bubbles
 - High-IQ: Stable Jenius 1 → 12 · needs Water · about 4 new bubbles
 - Kazam: Nothing to level yet · spend brew · about 3 new bubbles
@@ -169,7 +169,7 @@ step: Use your 11 vial attempts on the W2 town cauldron
 ## Gear
 - C1 · Barbarian 60 · weapon 39 levels behind · lit: weapon
   next: Craft Anvil Tab 2 to open the W2 Task Board unlocks
-  helmet 25 levels behind, weapon 39 levels behind, shirt 27 levels behind, pendant 25 levels behind, pants 33 levels behind, ring1 14 levels behind, shoes 27 levels behind, ring2 ok · a trade, pickaxe empty, hatchet empty, rod empty, net empty
+  helmet 25 levels behind, weapon 39 levels behind, shirt 27 levels behind, pendant 25 levels behind, pants 33 levels behind, ring1 14 levels behind, shoes 27 levels behind, ring2 ok · different stats, pickaxe empty, hatchet empty, rod empty, net empty
 - C2 · Squire 43 · better gear held · pants 32 levels behind · lit: pickaxe
   next: Equip the Iron Pickaxe from storage
   helmet 27 levels behind, weapon 26 levels behind, shirt 27 levels behind, pendant 25 levels behind, pants 32 levels behind, ring1 14 levels behind, shoes 27 levels behind, ring2 14 levels behind, pickaxe better one held, hatchet empty, rod empty, net empty
@@ -180,10 +180,10 @@ step: Use your 11 vial attempts on the W2 town cauldron
   chopping: Plat Hatchet at Choppin 20: needs the W2 Task Board unlock and anvil tab 2
 - C4 · Bowman 54 · 3 empty · better gear held · lit: weapon
   next: Equip the Carrot Launcher from storage
-  helmet ok · a trade, weapon better one held, shirt better one held, pendant 25 levels behind, pants empty, ring1 empty · one held, shoes empty, ring2 empty, pickaxe empty, hatchet empty, rod empty, net empty
+  helmet ok · different stats, weapon better one held, shirt better one held, pendant 25 levels behind, pants empty, ring1 empty · one held, shoes empty, ring2 empty, pickaxe empty, hatchet empty, rod empty, net empty
 - C5 · Wizard 56 · 1 empty · better gear held · lit: ring1
   next: Equip the Copper Band from storage
-  helmet ok · a trade, weapon 46 levels behind, shirt ok · a trade, pendant 25 levels behind, pants empty, ring1 empty · one held, shoes ok · a trade, ring2 empty · one held, pickaxe empty, hatchet empty, rod empty, net empty
+  helmet ok · different stats, weapon 46 levels behind, shirt ok · different stats, pendant 25 levels behind, pants empty, ring1 empty · one held, shoes ok · different stats, ring2 empty · one held, pickaxe empty, hatchet empty, rod empty, net empty
 - Smithy: Opens in 26 days, or once 2,000 gems were bought
   Copper: 4 of 4 parts
   Iron: 1 of 4 parts: the Iron Pickaxe in storage

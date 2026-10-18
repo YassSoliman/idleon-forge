@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #762f705c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 988
+# golden v1: scrubbed-w3 · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 988
 
 ## Verdict changes
 
@@ -53,7 +53,7 @@ purpose: Mining 29 → 40 opens Echoing Egress
 show more (30)
 Spend coins: 15 buys now on 4 characters
   1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before redeeming tickets: 100M coins · Lv 0 → 1 · buy · total 100M coins on C3
-  2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 13k coins · Lv 10 → 20 · buy · total 100M coins on C3
+  2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 13k coins · buy · total 100M coins on C3
      carry 25 Jungle Logs on Wizard Lv 73
   3. Raise and level 8 capped stamps on Bowman Lv 60: about 96M coins · buy · total 196M coins on C3
      Sword Stamp, Mana Stamp, Hatchet Stamp and 5 more · carry 1k Spore Cap on Wizard Lv 73; carry 36 Copper Ore on Wizard Lv 73; carry 281 Thread on Wizard Lv 73; carry 1.1k Goldfish on Squire Lv 85; carry 5.8k Iron Ore on Wizard Lv 73; carry 9.2k Thread on Wizard Lv 73; carry 677 Spore Cap on Wizard Lv 73; carry 5.5k Sentient Cereal on Squire Lv 85
@@ -200,7 +200,7 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
 ## Gear
 - C1 · Wizard 73 · ring 49 levels behind · lit: shoes
   next: Craft Amarok Paws for 4 characters (anvil tab 1)
-  helmet ok · a trade, weapon 38 levels behind, shirt ok · a trade, pendant 25 levels behind, pants ok · a trade, ring1 ok · a trade, shoes 27 levels behind, ring2 49 levels behind, pickaxe ok, hatchet 21 levels behind, rod empty, net empty
+  helmet ok · different stats, weapon 38 levels behind, shirt ok · different stats, pendant 25 levels behind, pants ok · different stats, ring1 ok · different stats, shoes 27 levels behind, ring2 49 levels behind, pickaxe ok, hatchet 21 levels behind, rod empty, net empty
   mining: Iron Pickaxe at Mining 8: you're 7
   chopping: Dementia Dicer at Choppin 25: needs the W3 Task Board unlock and anvil tab 3
 - C2 · Squire 51 · 2 empty · weapon 39 levels behind · lit: shoes
@@ -213,14 +213,14 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
   catching: Dementia Net at Catching 25: needs the W3 Task Board unlock and anvil tab 3
 - C4 · Squire 85 · ring 49 levels behind · lit: weapon
   next: Craft Anvil Tab 3 to open the W3 Task Board unlocks
-  helmet ok · a trade, weapon 45 levels behind, shirt ok · a trade, pendant 25 levels behind, pants ok · a trade, ring1 49 levels behind, shoes ok · a trade, ring2 49 levels behind, pickaxe empty, hatchet empty, rod empty, net empty
+  helmet ok · different stats, weapon 45 levels behind, shirt ok · different stats, pendant 25 levels behind, pants ok · different stats, ring1 49 levels behind, shoes ok · different stats, ring2 49 levels behind, pickaxe empty, hatchet empty, rod empty, net empty
 - C5 · Barbarian 56 · 3 empty · weapon 39 levels behind · lit: ring1
-  next: Fill 7 empty ring slots: craft Copper Bands now (100 Copper Bars each)
-  helmet 27 levels behind, weapon 39 levels behind, shirt behind, pendant 25 levels behind, pants ok · a trade, ring1 empty, shoes ok · a trade, ring2 empty, pickaxe empty, hatchet empty, rod empty, net empty
-  fishing: Gold Fishing Rod at Fishing 15: needs the W2 Task Board unlock
+  next: Fill 7 empty ring slots: craft Copper Bands (100 Copper Bars each)
+  helmet 27 levels behind, weapon 39 levels behind, shirt 1 tier behind, pendant 25 levels behind, pants ok · different stats, ring1 empty, shoes ok · different stats, ring2 empty, pickaxe empty, hatchet empty, rod empty, net empty
+  fishing: Iron Fishing Rod at Fishing 9: needs the W1 Task Board unlock
 - C6 · Shaman 54 · 2 empty · better gear held · lit: helmet
   next: Equip the Farmer Brim from storage
-  helmet better one held, weapon 38 levels behind, shirt ok · a trade, pendant 25 levels behind, pants ok · a trade, ring1 empty, shoes 27 levels behind, ring2 empty, pickaxe empty, hatchet empty, rod empty, net empty
+  helmet better one held, weapon 38 levels behind, shirt ok · different stats, pendant 25 levels behind, pants ok · different stats, ring1 empty, shoes 27 levels behind, ring2 empty, pickaxe empty, hatchet empty, rod empty, net empty
 - Smithy: Opens in 25 days, or once 2,000 gems were bought
   Copper: 4 of 4 parts
   Iron: 1 of 4 parts: the Iron Pickaxe in storage

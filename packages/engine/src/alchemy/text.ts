@@ -29,9 +29,11 @@ export function potLine(pot: PotView): string {
   return 'Plan met';
 }
 
-/** "about 4 new bubbles" from M6's expected brew (FR-19). */
-export const brewLine = (pot: PotView) =>
-  `about ${Math.round(pot.expectedNewBubbles)} new bubble${Math.round(pot.expectedNewBubbles) === 1 ? '' : 's'}`;
+/** "about 4 new bubbles" from M6's expected brew (FR-19); '' when that rounds to none (R9 QA). */
+export const brewLine = (pot: PotView) => {
+  const n = Math.round(pot.expectedNewBubbles);
+  return n > 0 ? `about ${n} new bubble${n === 1 ? '' : 's'}` : '';
+};
 
 /** A plan row in the pot's tap sheet: "at least 9 levels" or its shortfall. */
 export function rowLine(p: BubblePick): string {
@@ -61,7 +63,9 @@ export function renderAlchemyText(a: AlchemyResult | null): string {
     `band ${a.band ?? '-'} · pick ${a.pick ? `${pickText(a.pick)} (at least ${a.pick.atLeast})` : a.planMet ? a.notes.planMet : 'none'}`,
   );
   for (const p of a.pots)
-    out.push(`- ${potName(p.cauldron)}: ${potLine(p)} · ${brewLine(p)}${p.next?.actionKey ? ' · lit' : ''}`);
+    out.push(
+      `- ${potName(p.cauldron)}: ${[potLine(p), brewLine(p)].filter(Boolean).join(' · ')}${p.next?.actionKey ? ' · lit' : ''}`,
+    );
   out.push(`vial: ${a.vialPick ? `${a.vialPick.name} ${a.vialPick.from} → ${a.vialPick.to}` : 'none'}`);
   out.push(
     `rolls: ${a.rollTargets.length ? a.rollTargets.map((r) => `${r.name} ${r.rollNeeded}+ (${r.item})`).join(', ') : 'none'}`,

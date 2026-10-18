@@ -34,6 +34,7 @@ import {
   handOutOrder,
   judgeSlot,
   MAIN_STAT,
+  nextToolTier,
   planRows,
   planStage,
   primaryOf,
@@ -204,13 +205,15 @@ export function buildGear(input: GearBuildInput): GearBuildOutput | null {
           break;
         }
       }
-      if (!toolLine && !tj.item && tiers[0]) {
-        const { p: path } = tryPath(tiers[0], 1, new Map());
+      // Nothing doable: the same next tier the Gear tab's ladder names (nextToolTier).
+      const step = !toolLine && !tj.item ? nextToolTier(tiers, null, gateLevel(c, afk) ?? 0) : null;
+      if (step) {
+        const { p: path } = tryPath(step, 1, new Map());
         toolLine = {
           kind: 'tool',
           index: c.index,
           slot: afk,
-          piece: tiers[0],
+          piece: step,
           path,
           doable: false,
           worn: null,
@@ -503,6 +506,7 @@ export function buildGear(input: GearBuildInput): GearBuildOutput | null {
     };
     const g = goalOf(id, key, lineText(l), lineWhy(l), [], GEAR_FIELDS, extra);
     if (!g) continue;
+    if (l.kind === 'empty') g.nextAction.sources = slotSources(g.nextAction.sources, l.slot);
     keyOfSlot.set(`${l.index}:${l.slot}`, key);
     litRank.set(key, l.doable ? 1 : l.kind === 'tool' ? 2 : l.slot === 'weapon' ? 3 : 4);
     addChar(l.index, { goal: g, rank: rankOf(l.pos, effort(kb, id)) });
@@ -603,6 +607,7 @@ export function buildGear(input: GearBuildInput): GearBuildOutput | null {
           : s(ENTRY.empty, 'rings-step', { n: pendants.length, kind: 'pendant', step: first });
     }
     const g = goalOf(ENTRY.empty, `${ENTRY.empty}@account`, text, whys.join(' '), details, GEAR_FIELDS);
+    if (g) g.nextAction.sources = slotSources(g.nextAction.sources, rings.length ? 'ring1' : 'pendant');
     if (g) {
       account.push({ goal: g, rank: rankOf(doable ? 3 : 'armour', effort(kb, ENTRY.empty)) });
       for (const a of accessories) keyOfSlot.set(`${a.index}:${a.slot}`, `${ENTRY.empty}@account`);
@@ -648,12 +653,14 @@ export function buildGear(input: GearBuildInput): GearBuildOutput | null {
       for (const h of hs) keyOfSlot.set(`${index}:${h.slot}`, heldKey);
     }
     const text = byChar.size === 1 ? s(ENTRY.held, 'one') : s(ENTRY.held, 'many', { n: byChar.size });
-    const g = goalOf(ENTRY.held, heldKey, text, s(ENTRY.held, 'why'), details, [
-      'characters[].gear',
-      'account.gearItems',
-      'account.storageItems',
-      'characters[].inventoryItems',
-    ]);
+    const g = goalOf(
+      ENTRY.held,
+      heldKey,
+      text,
+      s(ENTRY.held, byChar.size === 1 ? 'why-one' : 'why'),
+      details,
+      ['characters[].gear', 'account.gearItems', 'account.storageItems', 'characters[].inventoryItems'],
+    );
     if (g) account.push({ goal: g, rank: rankOf(3, effort(kb, ENTRY.held) * realHandouts.length) });
   }
 
@@ -719,7 +726,11 @@ export function buildGear(input: GearBuildInput): GearBuildOutput | null {
               : state2 === 'behind'
                 ? x.levelsBehind
                   ? sn('word-behind', { n: x.levelsBehind })
-                  : sn('word-behind-only')
+                  : x.tiersBehind
+                    ? sn(x.tiersBehind === 1 ? 'word-behind-tiers' : 'word-behind-tiers-many', {
+                        n: x.tiersBehind,
+                      })
+                    : sn('word-behind-only')
                 : x.trade
                   ? sn('word-trade')
                   : sn('word-ok');
@@ -838,7 +849,8 @@ export function buildGear(input: GearBuildInput): GearBuildOutput | null {
       slots: views,
       lit: lit?.slot ?? null,
       step,
-      why: litGoal?.nextAction.why ?? null,
+      // One character's page: the account hand-out speaks about this character only (R9 QA).
+      why: litGoal?.id === ENTRY.held ? s(ENTRY.held, 'why-one') : (litGoal?.nextAction.why ?? null),
       ladders: laddersOf(ctx, c, family, worn.get(c.index) ?? [], sn),
       status,
       note: beyond ? sn('note-plan-w3') : null,
@@ -938,21 +950,19 @@ function laddersOf(
     const t = TOOL_SKILL[slot];
     const lv = gateLevel(c, slot);
     if (!t || lv === null) continue;
-    const tiers = planRows(ctx.facts, familyOfSlot(slot), family)
+    const pieces = planRows(ctx.facts, familyOfSlot(slot), family)
       .map((r) => ctx.facts.ladder.get(r.piece))
-      .filter((p): p is Piece => !!p)
-      .map((p) => ({
-        rawName: p.rawName,
-        name: p.name,
-        atLevel: p.lvReq,
-        equipped: p.rawName === w?.rawName,
-      }));
-    // The best tier the skill level already allows above what is worn, else the next level gate.
-    const above = tiers.filter((x) => x.atLevel > (w?.lvReq ?? 0) && x.rawName !== w?.rawName);
-    const nextTier = above.filter((x) => x.atLevel <= lv).at(-1) ?? above.find((x) => x.atLevel > lv);
+      .filter((p): p is Piece => !!p);
+    const tiers = pieces.map((p) => ({
+      rawName: p.rawName,
+      name: p.name,
+      atLevel: p.lvReq,
+      equipped: p.rawName === w?.rawName,
+    }));
+    // The same next tier as the Now tab's tool line (nextToolTier).
+    const piece = nextToolTier(pieces, w ? { rawName: w.rawName, lvReq: w.lvReq ?? 0 } : null, lv);
     let next: string | null = null;
-    if (nextTier) {
-      const piece = ctx.facts.ladder.get(nextTier.rawName) as Piece;
+    if (piece) {
       const r = ctx.facts.recipes.get(piece.rawName);
       const locked = (recipeState(ctx.state, ctx.facts, piece.rawName) ?? 0) < 0;
       const tabMissing = !!r && r.tab > (ctx.state.account.anvilTabsOwned ?? 1);
@@ -972,6 +982,29 @@ function laddersOf(
     out.push({ skill: t.skill, skillLevel: lv, tiers, next });
   }
   return out;
+}
+
+// R9 QA P2-3: the empty-slot entry cites one wiki page per slot; each line keeps its own slot's page
+// (and the slot-free Sources), so an empty pants slot never cites the Rings page.
+const SLOT_PAGE: Readonly<Partial<Record<GearSlotId, string>>> = {
+  helmet: '/wiki/Helmets',
+  shirt: '/wiki/Shirts',
+  pants: '/wiki/Pants',
+  shoes: '/wiki/Shoes',
+  weapon: '/wiki/Weapons',
+  ring1: '/wiki/Rings',
+  ring2: '/wiki/Rings',
+};
+const ANVIL_TAB_PAGE = '/wiki/Smithing/Anvil_Tab_';
+export function slotSources(sources: SourceRef[], slot: GearSlotId): SourceRef[] {
+  const own = SLOT_PAGE[slot];
+  const pages = Object.values(SLOT_PAGE);
+  return sources.filter((x) => {
+    const page = pages.find((p) => x.url.endsWith(p));
+    if (page) return page === own;
+    // The Anvil Tab 1 page covers the Copper Band; an armour piece's own page names its tab and recipe.
+    return !x.url.includes(ANVIL_TAB_PAGE) || own === '/wiki/Rings' || slot === 'pendant';
+  });
 }
 
 const SKILL_LABEL: Readonly<Record<string, string>> = {

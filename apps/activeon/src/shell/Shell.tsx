@@ -16,12 +16,22 @@ import { useWhatsNew } from '../now/release';
 import type { Place, Route } from './route';
 
 // Every place but Now is its own lazy chunk (lazy-part.tsx), prefetched when the browser is idle.
-const TimelinePlace = lazyPart(() => import('../timeline/TimelinePlace').then((m) => m.TimelinePlace));
-const CharactersPlace = lazyPart(() =>
-  import('../characters/CharactersPlace').then((m) => m.CharactersPlace),
+const TimelinePlace = lazyPart(
+  () => import('../timeline/TimelinePlace'),
+  (m) => m.TimelinePlace,
 );
-const SystemsHub = lazyPart(() => import('../systems/SystemsHub').then((m) => m.SystemsHub));
-const SystemPage = lazyPart(() => import('../systems/SystemPage').then((m) => m.SystemPage));
+const CharactersPlace = lazyPart(
+  () => import('../characters/CharactersPlace'),
+  (m) => m.CharactersPlace,
+);
+const SystemsHub = lazyPart(
+  () => import('../systems/SystemsHub'),
+  (m) => m.SystemsHub,
+);
+const SystemPage = lazyPart(
+  () => import('../systems/SystemPage'),
+  (m) => m.SystemPage,
+);
 
 /** The outlet's id: a plain in-page target, never a route (FR-7 leaves unknown anchors to Now). */
 const CONTENT_ANCHOR = `#${'place-content'}`;

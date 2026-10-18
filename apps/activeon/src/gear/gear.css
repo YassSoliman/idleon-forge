@@ -26,14 +26,14 @@
   display: grid;
   gap: 6px;
 }
+/* R9 QA P2-1: tiles keep a minimum width and wrap into rows, so a tool name never breaks mid-word in
+   the narrow column beside the side rail (three per row at 390 px). */
 .gd-tools {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
   margin-top: 8px;
 }
-@media (min-width: 720px) {
-  .gd-tools {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
+.gd-tools .gs {
+  overflow-wrap: break-word;
 }
 .gs {
   display: grid;

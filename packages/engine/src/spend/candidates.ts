@@ -485,9 +485,11 @@ const P2W_UPGRADE: Record<string, string> = {
   rng: 'RNG',
   extraExp: 'Extra EXP',
 };
+// The game's spelling of a cauldron that the kebab key can't carry ("high-iq" is the High-IQ cauldron).
+const SPELLED: Readonly<Record<string, string>> = { 'high-iq': 'High-IQ' };
 const title = (s: string) =>
-  s.replace(/(^|-)(\w)/g, (_, d, c: string) => `${d ? ' ' : ''}${c.toUpperCase()}`);
-/** "cauldron.high-iq.boostReq" -> "High Iq cauldron Boost Req"; "liquid.water-drops.regen" -> "Water Drops Regen". */
+  SPELLED[s] ?? s.replace(/(^|-)(\w)/g, (_, d, c: string) => `${d ? ' ' : ''}${c.toUpperCase()}`);
+/** "cauldron.high-iq.boostReq" -> "High-IQ cauldron Boost Req"; "liquid.water-drops.regen" -> "Water Drops Regen". */
 function p2wName(key: string): string {
   const [group = '', thing = '', up = ''] = key.split('.');
   if (group === 'vials') return `Vial ${P2W_UPGRADE[thing] ?? thing}`;

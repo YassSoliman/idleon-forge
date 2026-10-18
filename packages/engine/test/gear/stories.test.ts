@@ -7,6 +7,8 @@
 import type { AccountState, GearWorn } from '@idleon-forge/account-state';
 import { describe, expect, it } from 'vitest';
 import { buildSmithy, gearFacts, Pool, pathTo } from '../../src/gear';
+import { slotSources } from '../../src/gear/build';
+import { sourcesOf } from '../../src/gear/kb';
 import type { Ctx } from '../../src/gear/paths';
 import { setWarnings } from '../../src/gear/paths';
 import type { EngineResult, Goal } from '../../src/result';
@@ -118,12 +120,37 @@ describe('US-2 no empty slots', () => {
   );
 
   it(
+    'R9 QA P2-3: each empty-slot craft cites its own slot page, never the Rings page',
+    () => {
+      // The W2 Wizard's Copper Platelegs is the Behind Goal's Next Action (M15), with the gear line's Sources.
+      const r = run(W2());
+      const pants = [...r.account.goals, ...r.characters.flatMap((c) => c.goals)].find((g) =>
+        g.nextAction.text.endsWith('Craft Copper Platelegs for your pants (anvil tab 1)'),
+      );
+      const urls = pants?.nextAction.sources.map((x) => x.url) ?? [];
+      expect(urls).toContain('https://idleon.wiki/wiki/Pants');
+      expect(urls).not.toContain('https://idleon.wiki/wiki/Rings');
+      // Every slot keeps only its own page from the empty-slot entry's Sources.
+      const all = sourcesOf(kb, 'gear.check.empty-slot');
+      const pages = (slot: Parameters<typeof slotSources>[1]) =>
+        slotSources(all, slot)
+          .map((x) => x.url)
+          .filter((u) => u.startsWith('https://idleon.wiki/'));
+      expect(pages('shoes')).toEqual(['https://idleon.wiki/wiki/Shoes']);
+      expect(pages('pants')).toEqual(['https://idleon.wiki/wiki/Pants']);
+      expect(pages('ring1')).toEqual([
+        'https://idleon.wiki/wiki/Rings',
+        'https://idleon.wiki/wiki/Smithing/Anvil_Tab_1',
+      ]);
+    },
+    T,
+  );
+
+  it(
     'W3-early: one line for 7 empty rings, Copper Bands now, Steel Band named as the better unlock',
     () => {
       const g = goal(run(W3()), 'gear.check.empty-slot');
-      expect(g?.nextAction.text).toBe(
-        'Fill 7 empty ring slots: craft Copper Bands now (100 Copper Bars each)',
-      );
+      expect(g?.nextAction.text).toBe('Fill 7 empty ring slots: craft Copper Bands (100 Copper Bars each)');
       expect(g?.details?.map((d) => d.text).sort()).toEqual([
         'Barbarian Lv 56: 2 rings',
         'Bowman Lv 60: 1 ring',
@@ -178,7 +205,7 @@ describe('US-3 the tool for the job', () => {
       const st = W3();
       const r = run(st);
       const g = goal(r, 'gear.check.afk-tool', `c${slotOf(st, 'Barbarian', 56)}`);
-      expect(g?.nextAction.text).toBe('Unlock the Iron Fishing Rod at the W1 Task Board, then craft it');
+      expect(g?.nextAction.text).toBe('Unlock Iron Fishing Rod at the W1 Task Board, then craft it');
       expect(g?.nextAction.why).toBe(
         'Your Barbarian Lv 56 fishes with no rod: the tool sets its skill power.',
       );
@@ -303,7 +330,7 @@ describe("US-5 don't lose a set", () => {
       expect(why).toContain(
         'This uses your Royal Bayonet. The Smithy opens in 25 days, and the Gold set needs this piece',
       );
-      expect(why).toContain('It has 3 upgrade stones in it.');
+      expect(why).toContain('The Royal Bayonet has 3 upgrade stones in it.');
     },
     T,
   );

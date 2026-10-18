@@ -7,12 +7,14 @@
 // Each body is a lazy chunk (lazy-part.tsx); SystemPage renders it inside <Suspense>.
 import type { SystemPageView } from '@idleon-forge/engine/now';
 import { type ComponentType, createElement, Fragment } from 'react';
-import { lazyPart } from '../lazy-part';
+import { lazyPart, retryable } from '../lazy-part';
 import { StarSignsSystemBody } from '../now/signs/SignsPanel';
 import type { Session } from '../shell/session';
 
-const slotPictures = () => import('./SlotPictures');
-const gearPages = () => import('../gear/GearPages');
+// Each chunk import is `retryable`, so a Retry after a failed fetch re-requests it (lazy-part.tsx).
+const slotPictures = retryable(() => import('./SlotPictures'));
+const gearPages = retryable(() => import('../gear/GearPages'));
+const alchemyLab = retryable(() => import('../alchemy/AlchemyLab'));
 
 export interface SystemPageBodyProps {
   s: Session;
@@ -32,7 +34,7 @@ export const SYSTEM_PAGES: Readonly<Record<string, ComponentType<SystemPageBodyP
   'armor-smithy': lazyPart(() => gearPages().then((m) => m.ArmorSmithyBody)),
   // M19 FR-18, TR-8: the Alchemy page, its pictures in their own lazy chunk, then M20's cauldron seats.
   'alchemy-lab': lazyPart(() =>
-    Promise.all([import('../alchemy/AlchemyLab'), slotPictures()]).then(
+    Promise.all([alchemyLab(), slotPictures()]).then(
       ([lab, seats]) =>
         function AlchemyPage(p: SystemPageBodyProps) {
           return createElement(

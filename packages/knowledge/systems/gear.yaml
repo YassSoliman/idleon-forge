@@ -17,6 +17,7 @@ entries:
       many: "Equip gear you already hold on {n:int} characters"
       one: "Equip gear you already hold on 1 character"
       why: "Better gear for these characters is sitting unused. Nothing to craft or buy."
+      why-one: "Better gear for this character is sitting unused. Nothing to craft or buy."
       detail: "{who}: {items}"
       detail-from-storage: "{items} from storage"
       detail-from-own-bag: "{items} from its bag"
@@ -51,7 +52,7 @@ entries:
     values:
       craft-now: "Craft {item} for your {slot} now (anvil tab {tab:int})"
       craft: "Craft {item} for your {slot} (anvil tab {tab:int})"
-      rings-now: "Fill {n:int} empty {kind} slots: craft {item} now ({cost} each)"
+      rings-now: "Fill {n:int} empty {kind} slots: craft {item} ({cost} each)"
       ring-now: "Fill 1 empty {kind} slot: craft a {item} now"
       rings-step: "Fill {n:int} empty {kind} slots: {step}"
       ring-step: "Fill 1 empty {kind} slot: {step}"
@@ -65,6 +66,11 @@ entries:
       - { url: "https://old.reddit.com/r/idleon/comments/1w2v0m0/_/p6y45vg/", title: "r/idleon: no slot that can hold something should be empty", tier: 3, claimDate: 2026-08-31, verified: 2026-10-18, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Rings", title: "IdleOn Wiki: Rings (Copper Band, Steel Band)", tier: 2, claimDate: 2026-09-14, verified: 2026-10-18, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Smithing/Anvil_Tab_1", title: "IdleOn Wiki: Smithing, Anvil Tab 1", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Helmets", title: "IdleOn Wiki: Helmets (each helmet's level and anvil recipe)", tier: 2, claimDate: 2026-09-13, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Shirts", title: "IdleOn Wiki: Shirts (Copper and Iron Platebody, their level and anvil recipe)", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Pants", title: "IdleOn Wiki: Pants (Copper and Iron Platelegs, their level and anvil recipe)", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Shoes", title: "IdleOn Wiki: Shoes (Copper and Iron Boots, their level and anvil recipe)", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Weapons", title: "IdleOn Wiki: Weapons (each class's crafted weapons)", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: H
     status: active
@@ -120,7 +126,7 @@ entries:
       many-step: "{item} for {n:int} characters: {step}"
       craft-now: "Craft {item} now (anvil tab {tab:int})"
       step-unlock: "Unlock {item} at the W{world:int} Task Board (Unlocks tab)"
-      step-unlock-craft: "Unlock the {item} at the W{world:int} Task Board, then craft it"
+      step-unlock-craft: "Unlock {item} at the W{world:int} Task Board, then craft it"
       step-open-tab: "Craft Anvil Tab {tab:int} to open the W{world:int} Task Board unlocks"
       step-open-count: "Unlock {n:int} more recipes to open the W{world:int} Task Board column"
       step-no-points: "Earn a Task Board unlock point for {item}"
@@ -147,7 +153,7 @@ entries:
       why-uses: "This uses the {item} it is wearing."
       why-set: "This uses your {item}. Register the {set} set at the Armor-set Smithy first, or craft a spare."
       why-set-wait: "This uses your {item}. The Smithy opens in {days:int} days, and the {set} set needs this piece: craft a spare."
-      why-stones: "It has {n:int} upgrade stones in it."
+      why-stones: "The {item} has {n:int} upgrade stones in it."
       why-many: "One piece for several characters: craft them in one go."
       detail-over: "{who}: {slot}, over its {worn}"
       detail-empty: "{who}: empty {slot}"
@@ -156,11 +162,13 @@ entries:
       word-ok: "ok"
       word-behind: "{n:int} levels behind"
       word-behind-only: "behind"
+      word-behind-tiers: "{n:int} tier behind"
+      word-behind-tiers-many: "{n:int} tiers behind"
       word-empty: "empty"
       word-empty-held: "empty · one held"
       word-held: "better one held"
       word-unknown: "can't tell"
-      word-trade: "ok · a trade"
+      word-trade: "ok · different stats"
       note-trade: "A trade: compare in game"
       note-plan-w3: "The Gear Plan covers Worlds 1–3"
       note-unknown-item: "An item this version doesn't know"
