@@ -2085,11 +2085,8 @@ label.chip {
   gap: var(--space-2);
 }
 
-/* ---- Command Board from 1000 px: wider Now, Account beside the Roster (D-3, D-5) ---- */
+/* ---- Command Board from 1000 px: Account beside the Roster (D-3, D-5); the shell sets the width ---- */
 @media (min-width: 1000px) {
-  .app:has(.places):has(.n-now) {
-    max-width: min(calc(980px + 128px), 100%);
-  }
   .outlet.place-now:has(> .n-now) {
     grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
     align-items: start;

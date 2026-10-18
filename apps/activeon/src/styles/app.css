@@ -13,6 +13,11 @@ html,
 body {
   margin: 0;
 }
+/* The scrollbar's room is kept on short pages too, so the shell never shifts sideways between a short
+   place and a tall one (the jitter fix). */
+html {
+  scrollbar-gutter: stable;
+}
 body {
   background: var(--bg);
   color: var(--fg);
