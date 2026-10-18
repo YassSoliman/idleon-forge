@@ -449,7 +449,7 @@ export interface TimelineBarView {
   /** Where the hatching ends (the return marker), 0 to 1; null when not hatched. */
   hatchTo: number | null;
   /** "the same on n more" (Design Lab: no repeated sentence per character). */
-  group: { first: boolean; more: { index: number; name: string }[] } | null;
+  group: { first: boolean; more: { index: number; name: string; key: string }[] } | null;
 }
 
 export interface TimelineLane {

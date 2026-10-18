@@ -334,12 +334,15 @@ export function useSession(props: ShellProps) {
       } catch {}
     }
     if (focusHeading.current) {
-      focusHeading.current = false;
       const h =
         route.place === 'character'
           ? headingRef.current
           : outletRef.current?.querySelector<HTMLElement>('[data-place-heading]');
-      h?.focus({ preventScroll: true });
+      // A lazy place (the Timeline) may not have its heading yet; it takes the focus when it mounts.
+      if (h) {
+        focusHeading.current = false;
+        h.focus({ preventScroll: true });
+      }
     }
     if (route.place === 'now' && focusRowAfterBack.current !== null) {
       rows.current.get(focusRowAfterBack.current)?.focus();
@@ -548,6 +551,13 @@ export function useSession(props: ShellProps) {
     ],
   );
 
+  /** A place that mounts late (the lazy Timeline) takes the arrival focus if no heading took it (FR-11). */
+  const takeArrivalFocus = useCallback(() => {
+    if (!focusHeading.current) return false;
+    focusHeading.current = false;
+    return true;
+  }, []);
+
   /** M17 FR-27: from a Timeline bar to where its Next Action (or pill) is shown, unfolded and outlined. */
   const toFix = useCallback(
     (fix: TimelineFix) => {
@@ -601,6 +611,7 @@ export function useSession(props: ShellProps) {
     systems,
     timeline,
     toFix,
+    takeArrivalFocus,
     route,
     origin,
     place,

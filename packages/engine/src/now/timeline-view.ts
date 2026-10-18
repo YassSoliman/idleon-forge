@@ -268,7 +268,7 @@ export function buildTimelineView(
   for (const lane of lanes)
     for (const bar of [...lane.bars, ...lane.untimed]) {
       if (bar.fix && bar.fix.where !== 'pill') continue;
-      const id = [bar.entryId, bar.label, bar.timeText, bar.state, bar.outlined].join('|');
+      const id = [bar.effect, bar.label, bar.timeText, bar.state, bar.outlined].join('|');
       groups.set(id, [...(groups.get(id) ?? []), { lane, bar }]);
     }
   for (const members of groups.values()) {
@@ -277,7 +277,11 @@ export function buildTimelineView(
     if (!first) continue;
     first.bar.group = {
       first: true,
-      more: rest.map((m) => ({ index: m.lane.index ?? -1, name: names.get(m.lane.index ?? -1) ?? '' })),
+      more: rest.map((m) => ({
+        index: m.lane.index ?? -1,
+        name: names.get(m.lane.index ?? -1) ?? '',
+        key: m.bar.key,
+      })),
     };
     for (const m of rest) m.bar.group = { first: false, more: [] };
   }

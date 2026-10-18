@@ -375,8 +375,8 @@ describe('Design Lab: repeats are said once', () => {
     expect(pills[0]).toEqual({
       first: true,
       more: [
-        { index: 0, name: 'Char0' },
-        { index: 1, name: 'Char1' },
+        { index: 0, name: 'Char0', key: 'anvil.check.caps@c0' },
+        { index: 1, name: 'Char1', key: 'anvil.check.caps@c1' },
       ],
     });
     expect(pills.slice(1)).toEqual([

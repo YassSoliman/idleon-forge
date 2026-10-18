@@ -135,7 +135,7 @@ Axis: now to +12h · Back in 8h 00m · 01:27
 C2 · Death Bringer 1292
 - no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c1
 - Anvil full · collect · now · before · pill · fix none · the same on 10 more
-- Worship full · spend · now · before · pill · fix none · the same on 9 more
+- Worship full · spend · now · before · pill · fix none · the same on 10 more
 - Traps idle in about 7 h · in 6h 36m · 00:03 · before · pill · fix none · the same on 1 more
 C1 · Siege Breaker 1291
 - traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c0

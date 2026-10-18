@@ -126,7 +126,7 @@ Axis: now to +12h · Back in 8h 00m · 03:12
 C9 · Royal Guardian 1307
 - no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c8
 - Anvil full · collect · now · before · pill · fix none · the same on 10 more
-- Worship full · spend · now · before · pill · fix none · the same on 9 more
+- Worship full · spend · now · before · pill · fix none · the same on 10 more
 - traps ready · in 11h 41m · 06:53 · after · info · fix none · the same on 1 more
 C2 · Death Bringer 1292
 - no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c1

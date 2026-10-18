@@ -16,7 +16,7 @@ import {
   type TimelineView,
   TIMELINE_WORDS as W,
 } from '@idleon-forge/engine/now';
-import type { CSSProperties } from 'react';
+import { type CSSProperties, useEffect, useRef } from 'react';
 import { tabHref } from '../now/character-tabs';
 import { formatRoute } from '../shell/route';
 import type { Session } from '../shell/session';
@@ -164,7 +164,7 @@ function Item({ b, s }: { b: TimelineBarView; s: Session }) {
                       href={tabHref('now', m.index)}
                       onClick={(e) => {
                         e.preventDefault();
-                        s.toFix({ ...fix, subject: `c${m.index}`, key: `${b.entryId}@c${m.index}` });
+                        s.toFix({ ...fix, subject: `c${m.index}`, key: m.key });
                       }}
                     >
                       {m.name}
@@ -240,9 +240,15 @@ function LaneList({ lane, s, level }: { lane: TimelineLane; s: Session; level: 3
 
 export function TimelinePlace({ s }: { s: Session }) {
   const v = s.timeline;
+  const heading = useRef<HTMLHeadingElement | null>(null);
+  const { takeArrivalFocus } = s;
+  // FR-11: this place is lazy, so on a first visit its heading appears after the shell's arrival step.
+  useEffect(() => {
+    if (takeArrivalFocus()) heading.current?.focus({ preventScroll: true });
+  }, [takeArrivalFocus]);
   return (
     <section className="timeline-place" aria-labelledby="timeline-h">
-      <h2 id="timeline-h" className="place-h" data-place-heading tabIndex={-1}>
+      <h2 ref={heading} id="timeline-h" className="place-h" data-place-heading tabIndex={-1}>
         {W.title}
       </h2>
       {!v ? (
