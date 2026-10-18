@@ -19,6 +19,7 @@
     "@idleon-forge/account-state": "workspace:*",
     "@idleon-forge/engine": "workspace:*",
     "@idleon-forge/knowledge": "workspace:*",
+    "@idleon-forge/suggestions-worker": "workspace:*",
     "@idleon-forge/sync": "workspace:*",
     "@idleon-forge/toolbox-parsers": "workspace:*",
     "react": "^19.3.1",

@@ -41,6 +41,9 @@ importers:
       '@idleon-forge/knowledge':
         specifier: workspace:*
         version: link:../../packages/knowledge
+      '@idleon-forge/suggestions-worker':
+        specifier: workspace:*
+        version: link:../../workers/suggestions
       '@idleon-forge/sync':
         specifier: workspace:*
         version: link:../../packages/sync
