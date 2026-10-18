@@ -128,6 +128,11 @@ Worlds 5–7: not covered yet
 Needs you: Companions and pets (wasting), Minigames (wasting), Refinery (wasting), Trapping (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
 Wasting: 4
+Report card: (none)
+Stamps picture: 120 of 121 owned · lit (none) · next 0
+Statues picture: 32 of 32 Gold · 32 Onyx · lit (none)
+Vault picture: every row open · here 16763 · lit (none)
+Printer picture: 22 slots · 0 changed · 22 no change
 
 ## Timeline
 Axis: now to +12h · Back in 8h 00m · 03:59

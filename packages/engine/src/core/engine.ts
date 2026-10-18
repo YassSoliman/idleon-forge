@@ -359,7 +359,11 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
         outputs.find((o) => o.output[k] !== undefined)?.output[k];
       const checklist = pick('checklist');
       const skills = pick('skills');
-      const slotPictures = pick('slotPictures');
+      // M21 TR-10: M20's pictures and area S's `pictures` module both emit these; concatenated in module
+      // order, so M20's come first (orchestrator-approved F-frozen edit).
+      const slotPictures = outputs.some((o) => o.output.slotPictures !== undefined)
+        ? outputs.flatMap((o) => o.output.slotPictures ?? [])
+        : undefined;
       const skillGrid = pick('skillGrid');
       const alchemy = outputs.find((o) => o.output.alchemy !== undefined)?.output.alchemy;
       return {

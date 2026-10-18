@@ -129,6 +129,15 @@ Later worlds: 3 Systems: Laboratory, Cooking, Breeding
 Needs you: Companions and pets (wasting), Minigames (wasting), Colosseum (wasting), Arcade (wasting), Talent presets (behind), Cards (behind), Gear & Tools (behind), Stamps (behind), Alchemy bubbles (behind)
 Other gaps: Stamp cap raises that need farming or carry capacity
 Wasting: 4
+Report card (W2-late):
+- Cards · W1-mid · 4 behind · step: Bowman Lv 54: Equip 4 cards in your empty card slots
+- Gear & Tools · W1-mid · 4 behind
+- Stamps · W1-late · 3 behind
+- Talent presets · W2-early · 2 behind
+- Alchemy bubbles · W2-mid · 1 behind
+Stamps picture: 8 of 121 owned · lit Vitality Stamp · next 3
+Statues picture: 5 of 32 Gold · 0 Onyx · lit Kachow (price not checked)
+Vault picture: 56 levels to open Active Murdering · here 1724 · lit Bubble Money
 
 ## Timeline
 Axis: now to +12h · Back in 8h 00m · 23:47

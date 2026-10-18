@@ -151,6 +151,10 @@ Worlds 5–7: not covered yet
 Needs you: Minigames (wasting), Post Office (wasting), Refinery (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
 Wasting: 3
+Report card: (none)
+Stamps picture: 111 of 121 owned · lit (none) · next 0
+Statues picture: 28 of 32 Gold · 28 Onyx · lit (none)
+Printer picture: 20 slots · 0 changed · 20 no change
 
 ## Timeline
 Axis: now to +12h · Back in 8h 00m · 03:59

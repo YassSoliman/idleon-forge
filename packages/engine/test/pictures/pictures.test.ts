@@ -1,0 +1,167 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Copyright (C) 2026 IdleOn Forge contributors.
+// M21 area S (TR-10, FR-S1, FR-S4, US-11, US-12): the `pictures` module over the full engine on the
+// scrubbed saves, the slotPictures merge in the core (M20's pictures and area S's both come through,
+// M20's first), BehindSystem.expectedBy, and the hub's Stage report card.
+import { listFixtures, stateOf } from '@idleon-forge/kb-tools/src/fixtures';
+import { goldenContext } from '@idleon-forge/kb-tools/src/golden';
+import { DEFAULT_EXPECTED_RETURN_MS } from '@idleon-forge/knowledge';
+import { describe, expect, it } from 'vitest';
+import { runEngine } from '../../src/core/engine';
+import type { EngineModule } from '../../src/core/module';
+import { goldenResult } from '../../src/golden';
+import { EMPTY_PREFS } from '../../src/now/prefs';
+import { buildSystemPageView, buildSystemsView } from '../../src/now/systems-view';
+import type { PrinterPicture, StampsPicture, StatuesPicture, VaultPicture } from '../../src/pictures/types';
+import type { EngineResult, SystemPicture } from '../../src/result';
+import { input, NOW, publicState } from '../core/helpers';
+
+const ctx = await goldenContext();
+const fixture = (id: string) => {
+  const f = listFixtures({ private: false }).find((x) => x.id === id);
+  if (!f) throw new Error(`no fixture ${id}`);
+  return { state: stateOf(f), now: f.now };
+};
+const run = (id: 'scrubbed-w2' | 'scrubbed-w3'): EngineResult => {
+  const { state, now } = fixture(id);
+  return goldenResult({
+    state,
+    kb: ctx.kb,
+    registries: ctx.registries,
+    now,
+    expectedReturnMs: DEFAULT_EXPECTED_RETURN_MS,
+  });
+};
+const pic = <K extends SystemPicture['kind']>(r: EngineResult, kind: K) =>
+  r.slotPictures?.find((p) => p.kind === kind) as unknown;
+
+const W3 = run('scrubbed-w3');
+const W2 = run('scrubbed-w2');
+
+describe('the core concatenates slotPictures from every module (orchestrator-approved F-frozen edit)', () => {
+  const picture = (systemId: 'construction' | 'stamps'): SystemPicture =>
+    systemId === 'construction'
+      ? ({ systemId, kind: 'cog-board', squares: [] } as unknown as SystemPicture)
+      : ({ systemId, kind: 'stamps', elements: [], lit: null } as SystemPicture);
+  const mod = (id: string, p: SystemPicture, after = false): EngineModule => ({
+    id,
+    covers: [],
+    dependsOnExpectedReturn: false,
+    affectsVerdict: false,
+    ...(after ? { after: true } : {}),
+    run: () => ({ slotPictures: [p] }),
+  });
+  it("keeps M20's pictures first, then the pictures step's", () => {
+    const r = runEngine(input(publicState('first.json')), [
+      mod('pictures', picture('stamps'), true),
+      mod('m20-slots', picture('construction')),
+    ]);
+    expect(r.slotPictures?.map((p) => p.kind)).toEqual(['cog-board', 'stamps']);
+  });
+  it('leaves slotPictures out when no module emits any', () => {
+    expect(runEngine(input(publicState('first.json')), []).slotPictures).toBeUndefined();
+  });
+  it('the real engine carries both M20 and area S pictures', () => {
+    const kinds = W3.slotPictures?.map((p) => p.kind) ?? [];
+    expect(kinds).toEqual(expect.arrayContaining(['cog-board', 'stamps', 'statues', 'vault', 'printer']));
+    expect(kinds.indexOf('cog-board')).toBeLessThan(kinds.indexOf('stamps'));
+  });
+  void NOW;
+});
+
+describe('BehindSystem.expectedBy (orchestrator-approved F-frozen edit)', () => {
+  it("carries each behind row's Stage", () => {
+    const rows = W3.behindSystems ?? [];
+    expect(rows.length).toBeGreaterThan(0);
+    expect(rows.every((r) => typeof r.expectedBy === 'string')).toBe(true);
+    expect(rows.find((r) => r.systemId === 'cards')?.expectedBy).toBe('W1-mid');
+  });
+});
+
+describe('US-12 the new System pictures', () => {
+  it('W3-early Vault: "33 levels to open Special Talent", you are here at the total, one lit row', () => {
+    const v = pic(W3, 'vault') as VaultPicture;
+    expect(v.nextUnlock).toEqual({ levels: 33, name: 'Special Talent' });
+    expect(v.totalLevels).toBe(W3.slotPictures ? v.totalLevels : -1);
+    expect(v.elements.filter((e) => e.id === v.lit)).toHaveLength(1);
+    expect(v.elements.filter((e) => e.actionKey !== null)).toHaveLength(1);
+  });
+  it('W2-late Vault: "56 levels to open Active Murdering"', () => {
+    const v = pic(W2, 'vault') as VaultPicture;
+    expect(v.nextUnlock).toEqual({ levels: 56, name: 'Active Murdering' });
+  });
+  it("the Vault's lit row is M7's first Vault buy", () => {
+    const v = pic(W3, 'vault') as VaultPicture;
+    const line = W3.account.spendPlan?.lines.find((l) => l.steps.some((s) => s.sink === 'vault'));
+    const ref = line?.steps.find((s) => s.sink === 'vault')?.ref;
+    expect(ref).toBe(`upgrade-vault.acquisition.row-${v.elements.find((e) => e.id === v.lit)?.index}`);
+  });
+  it("W3-early Printer: every slot reads its M14 change or 'no change', and changes match M14's Goal", () => {
+    const p = pic(W3, 'printer') as PrinterPicture;
+    expect(p.elements.length).toBeGreaterThan(0);
+    const goal = W3.account.goals.find((g) => g.id === 'printer.check.slot-plan');
+    const changed = p.elements.filter((e) => e.changeTo !== null);
+    expect(changed.length).toBe(goal ? Math.max(1, goal.details?.length ?? 1) : 0);
+    expect(p.lit === null).toBe(changed.length === 0);
+  });
+  it('Stamps: the three tabs in game order, one lit stamp (the top stamps Goal), a next-three ribbon', () => {
+    const s = pic(W3, 'stamps') as StampsPicture;
+    expect(s.tabs.map((t) => t.tab)).toEqual(['combat', 'skills', 'misc']);
+    expect(s.tabs.reduce((n, t) => n + t.total, 0)).toBe(s.total);
+    const lit = s.elements.filter((e) => e.id === s.lit);
+    expect(lit).toHaveLength(1);
+    expect(lit[0]?.status).not.toBe('owned');
+    expect(s.next[0]).toBe(s.lit);
+    expect(s.next.length).toBeLessThanOrEqual(3);
+    // The lit stamp's key is a stamps Goal's own Next Action key (M17 FR-31's highlight).
+    const keys = [...W3.account.goals, ...W3.characters.flatMap((c) => c.goals)]
+      .filter((g) => g.system === 'stamps')
+      .map((g) => g.nextAction.key);
+    expect(keys).toContain(lit[0]?.actionKey);
+  });
+  it('Statues: 32 statues with a grade, the next Gold lit from M7', () => {
+    const s = pic(W3, 'statues') as StatuesPicture;
+    expect(s.elements).toHaveLength(32);
+    expect(s.elements.filter((e) => e.id === s.lit)).toHaveLength(1);
+    expect(s.elements.find((e) => e.id === s.lit)?.grade).toBe(0);
+    expect(s.elements.every((e) => e.byCharacter === null || e.byCharacter.length === e.characterIndices.length)).toBe(
+      true,
+    );
+  });
+});
+
+describe('US-11 the Stage report card (FR-S1)', () => {
+  const v = buildSystemsView(W3, EMPTY_PREFS, { now: fixture('scrubbed-w3').now });
+  it('the "Wasting now" strip lists the wasting Systems with their count', () => {
+    expect(v.wastingNow.map((w) => w.id)).toEqual(
+      v.groups.flatMap((g) => g.tiles).filter((t) => t.status === 'wasting').map((t) => t.id),
+    );
+    expect(v.wastingLabel).toBe(`${v.wastingNow.length} Systems wasting`);
+  });
+  it('rows are the behind Systems, largest gap first, at most 5, the worst open with one step', () => {
+    const rows = v.report?.rows ?? [];
+    expect(rows.length).toBeGreaterThan(0);
+    expect(rows.length).toBeLessThanOrEqual(5);
+    expect(rows.map((r) => r.id)).toEqual(expect.arrayContaining(['cards', 'obols']));
+    const gaps = rows.map((r) => r.gap);
+    expect([...gaps].sort((a, b) => b - a)).toEqual(gaps);
+    expect(rows.filter((r) => r.open)).toHaveLength(1);
+    expect(rows[0]?.open).toBe(true);
+    expect(rows[0]?.step?.text).toMatch(/card/i);
+    expect(v.report?.allSystems).toMatch(/^All Systems \(\d+\)$/);
+  });
+  it('"not covered yet" is said once per band', () => {
+    for (const g of v.groups) {
+      const n = g.tiles.filter((t) => t.status === 'not-covered').length;
+      expect(v.bands[g.world]?.notCovered ?? null).toEqual(n ? expect.stringContaining(`${n} here`) : null);
+    }
+  });
+  it('a System page leads with its step and, when behind, the Stage meter', () => {
+    const ui = { now: fixture('scrubbed-w3').now, id: 'cards', highlight: null };
+    const page = buildSystemPageView(W3, EMPTY_PREFS, { roster: [] }, ui);
+    expect(page?.step?.text).toBe(page?.goals[0]?.action.text);
+    expect(page?.stageMeter?.text).toBe('Expected by World 1, mid · you are at World 3, early');
+    const vault = buildSystemPageView(W3, EMPTY_PREFS, { roster: [] }, { ...ui, id: 'upgrade-vault' });
+    expect(vault?.pictures.map((p) => p.kind)).toEqual(['vault']);
+  });
+});

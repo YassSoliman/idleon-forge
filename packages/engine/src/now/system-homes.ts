@@ -36,6 +36,11 @@ export const SYSTEM_HOMES: Readonly<Record<string, SystemHome>> = {
   // M18 TR-7: Gear & Tools is a Character page tab with an account page (the heat strip); the Smithy a page.
   gear: { tab: 'gear', page: 'gear' },
   'armor-smithy': { page: 'armor-smithy' },
+  // M21 TR-10, FR-S4: the new System page pictures (area S).
+  stamps: { page: 'stamps' },
+  statues: { page: 'statues' },
+  'upgrade-vault': { page: 'upgrade-vault' },
+  printer: { page: 'printer' },
 };
 
 /** The Character page tab a System's home is, or null for its System page. */

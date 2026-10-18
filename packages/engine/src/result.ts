@@ -228,6 +228,8 @@ export interface BehindSystem {
   systemId: string;
   /** StageExpectation id. */
   rowId: string;
+  /** M21 FR-S1: the Stage the row expects the System by (the report card's tick), e.g. "W1-mid". */
+  expectedBy?: string;
   fixEntryId: string;
   /** NextAction keys of the fix findings, so skips and dismissals apply (FR-17). */
   findingKeys: string[];

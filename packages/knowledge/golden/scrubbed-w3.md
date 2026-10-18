@@ -143,6 +143,16 @@ W4 · Breeding · Locked · Opens in World 4 · Hyperion Nebula
 Needs you: Talent presets (wasting), Companions and pets (wasting), Minigames (wasting), Colosseum (wasting), Refinery (wasting), Death Note (wasting), Cards (behind), Obols (behind), Gear & Tools (behind), Stamps (behind), Anvil (behind), Alchemy bubbles (behind)
 Other gaps: Stamp cap raises that need farming or carry capacity
 Wasting: 6
+Report card (W3-early):
+- Cards · W1-mid · 5 behind · step: Shaman Lv 54: Equip 4 cards in your empty card slots
+- Anvil · W1-mid · 5 behind
+- Gear & Tools · W1-mid · 5 behind
+- Stamps · W1-late · 4 behind
+- Obols · W2-early · 3 behind
+Stamps picture: 17 of 121 owned · lit Vitality Stamp · next 3
+Statues picture: 13 of 32 Gold · 0 Onyx · lit Beholder (price not checked)
+Vault picture: 33 levels to open Special Talent · here 2497 · lit Duplicate Entries
+Printer picture: 4 slots · 0 changed · 4 no change
 
 ## Timeline
 Axis: now to +12h · Back in 8h 00m · 00:12

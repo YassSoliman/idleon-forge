@@ -182,6 +182,7 @@ export function behindAnalysis(input: BehindInput): { result: BehindResult | nul
   const rowsOut: BehindSystem[] = candidates.map((c) => ({
     systemId: systemOfEntry(c.row.fix),
     rowId: c.row.id,
+    expectedBy: c.row.expectedBy,
     fixEntryId: c.row.fix,
     findingKeys: c.findings.map((f) => f.g.goal.nextAction.key),
     chosen: c === chosen,
