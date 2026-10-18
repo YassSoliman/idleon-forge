@@ -15,7 +15,8 @@
     "./unspent": "./src/unspent/index.ts",
     "./builds": "./src/builds/index.ts",
     "./collections": "./src/collections/index.ts",
-    "./spend": "./src/spend/index.ts"
+    "./spend": "./src/spend/index.ts",
+    "./walkthrough": "./src/walkthrough/index.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json"
