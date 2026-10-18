@@ -14,3 +14,16 @@ Each bonus term that needs a computed value (bubbles, vials, star signs, stamps,
 When the game changes TotalTalentPoints, the answer key starts reporting mismatches; re-read the function in N.js and update the port and its citations.
 
 Ruled by the owner on 2026-10-18. Amends ADR 0005.
+
+## Extension: Bubba derived values (M23 X1)
+
+The same exception, on the same terms, also covers **Bubba's next-step values** (spec [M23](../specs/M23-bubba.md) TR-6, "X1"): pats per refill, the meat rate at happiness 0, Charisma XP needed and per second, the levels banked XP buys, each Charisma attribute's bonus now and at one more level, what the next Bubba Boon level adds, the Megaflesh multiplier, and how much a level of each discount cuts every cost. They live in `packages/account-state/src/bubba-x1.ts`, each one citing the `_customBlock_Bubbastuff` function (N.js) it ports.
+
+- **The owner asked for it** (2026-10-18). M23 needs these numbers, and Toolbox computes none of them. The first plan was to add them to our Toolbox mirror fork. It was dropped because a fork-only pin breaks the weekly parser sync (the mirror only fast-forwards, and the sync accepts only commits on upstream main) and would make the vendored "copied unmodified" notices untrue. `vendor/` stays pristine.
+- **Toolbox does the work wherever it can.** The happiness-0 rate, the next Boon level's delta and the discount ratios run Toolbox's own `getBubba` on an edited copy of the raw record (`toolboxCalls.bubbaParse`), so they are Toolbox numbers. The rest are short ports over Toolbox's per-upgrade `realLV` and `bonus` and the raw save.
+- **Verified against the game's own code.** `scripts/oracle/bubba-oracle.cjs` runs `_customBlock_Bubbastuff`, copied verbatim from the client, on a save's raw record. Its values on two public saves (`latest.json`, `highend.json`) are pinned in `packages/account-state/test/bubba-x1.test.ts`, and every value must match to 1e-9. The happiness-0 rate also matches the live rate read on 2026-10-11.
+- **There is a fallback.** With no Bubba record, no Toolbox calls, a throw or a non-finite result, the value is `null`, and M23 hides every line that needs it (M23 DS-3, FR-21). A wrong number is never shown.
+
+When the game changes a Bubba function, re-run the oracle on both saves. A test that moves names the function to re-read in N.js, and the port and its citation get updated with it.
+
+Extension ruled by the owner on 2026-10-18.
