@@ -146,9 +146,17 @@
 }
 
 /* ---- the role matrix ---- */
+.sk-grid-sec {
+  max-width: 100%;
+  overflow: hidden;
+}
 .sk-grid-wrap {
+  display: block;
+  width: 100%;
   max-width: 100%;
   overflow-x: auto;
+  /* Contains the screen-reader slot words (absolutely positioned) inside the scroll box. */
+  position: relative;
 }
 .sk-grid {
   border-collapse: separate;
