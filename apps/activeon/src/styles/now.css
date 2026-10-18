@@ -601,3 +601,268 @@ button.cap[aria-expanded="true"] {
 .cap-open p {
   margin: 0;
 }
+
+/* ---- The character page's tabs and the Build view (owner request 2026-10-18) ---- */
+.char-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+  margin: 4px 0 2px;
+}
+.char-tab {
+  font-family: var(--mono);
+  font-size: 13px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 14px;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.char-tab.on {
+  color: var(--fg);
+  border-bottom-color: var(--coin);
+}
+.char-tab:focus-visible {
+  outline: 2px solid var(--coin);
+  outline-offset: -2px;
+}
+.r .chip.build {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 12px 10px;
+  text-decoration: none;
+}
+.roster-h {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.roster-builds {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12px;
+}
+.build-link {
+  display: inline-block;
+  margin: 2px 0 0;
+}
+.builds-overview .bo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.bo-row {
+  display: grid;
+  gap: 2px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--fg);
+  text-decoration: none;
+  min-width: 0;
+}
+.bo-row:focus-visible {
+  outline: 2px solid var(--coin);
+  outline-offset: 2px;
+}
+.bo-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: baseline;
+}
+.bo-status {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.build-view {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+.bv-status {
+  font-weight: 700;
+}
+.bv-note-line {
+  background: var(--unk-soft);
+  color: var(--fg);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+}
+.bv-path {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.bv-step {
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+.bv-step.done {
+  background: var(--ok-soft);
+  color: var(--ok);
+  border-color: transparent;
+}
+.bv-step.now {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+.bv-step.next {
+  color: var(--fg);
+  border-color: var(--coin);
+}
+.bv-next-class {
+  margin-top: 6px;
+}
+.bv-switch {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.bv-presets {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+.bv-preset {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px;
+}
+.bv-preset.phone-hidden {
+  display: none;
+}
+.bv-preset-h {
+  margin: 0;
+  font-size: 15px;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+.bv-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+.bv-unspent {
+  color: var(--coin);
+  font-weight: 700;
+}
+.bv-check {
+  margin: 2px 0 6px;
+  padding-left: 22px;
+}
+.bv-check li + li {
+  margin-top: 2px;
+}
+.bv-attacks {
+  display: grid;
+  gap: 2px;
+}
+.bv-tab-h {
+  margin: 4px 0;
+  font-size: 13px;
+}
+.bv-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+.bv-table {
+  width: 100%;
+  min-width: 300px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.bv-table th,
+.bv-table td {
+  text-align: left;
+  padding: 4px 6px 4px 0;
+  border-top: 1px solid var(--line);
+  vertical-align: top;
+  font-weight: 400;
+}
+.bv-table thead th {
+  border-top: 0;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+.bv-table td.num,
+.bv-table th.num {
+  white-space: nowrap;
+  font-family: var(--mono);
+}
+.bv-table tr.met th,
+.bv-table tr.met td {
+  color: var(--muted);
+}
+.bv-table tr.later th,
+.bv-table tr.later td {
+  color: var(--muted);
+  font-style: italic;
+}
+.bv-core {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--coin);
+  text-transform: uppercase;
+}
+.bv-note {
+  display: block;
+}
+.bv-bar {
+  width: 72px;
+  height: 8px;
+  vertical-align: middle;
+  accent-color: var(--ok);
+}
+.bv-others {
+  overflow-wrap: anywhere;
+}
+.bv-coming {
+  margin: 0;
+  padding-left: 20px;
+}
+.bv-quiet {
+  display: block;
+}
+
+/* Wide screens: the page widens for the Build tab so both presets sit side by side. */
+@media (min-width: 1000px) {
+  .app:has(.build-view.two) {
+    max-width: 980px;
+  }
+  .build-view.two .bv-switch {
+    display: none;
+  }
+  .build-view.two .bv-presets {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+  .build-view.two .bv-preset.phone-hidden {
+    display: grid;
+  }
+}

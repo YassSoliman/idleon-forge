@@ -8,4 +8,5 @@ export * from './detectors';
 export * from './diff';
 export * from './knowledge';
 export * from './module';
+export * from './roadmap';
 export * from './unspent';

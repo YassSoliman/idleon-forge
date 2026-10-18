@@ -29,49 +29,63 @@ function RowCaps({ row }: { row: RosterRow }) {
   );
 }
 
-const Row = forwardRef<HTMLButtonElement, { row: RosterRow; onOpen(i: number): void; onSpend(): void }>(
-  function Row({ row, onOpen, onSpend }, ref) {
-    const actions = useNowActions();
-    const onClick = (e: React.MouseEvent) => {
-      const cap = (e.target as HTMLElement).closest<HTMLElement>('[data-cap]')?.dataset.cap;
-      if (cap && !actions.expanded.has(capOpenId(cap))) actions.toggle(capOpenId(cap));
-      onOpen(row.index);
-    };
-    return (
-      <li className={`r ${row.pill.kind}`}>
-        <button
-          ref={ref}
-          type="button"
-          className="r-btn"
-          aria-label={row.accessibleName}
-          data-index={row.index}
-          onClick={onClick}
+const Row = forwardRef<
+  HTMLButtonElement,
+  { row: RosterRow; buildable: boolean; onOpen(i: number): void; onSpend(): void }
+>(function Row({ row, buildable, onOpen, onSpend }, ref) {
+  const actions = useNowActions();
+  const onClick = (e: React.MouseEvent) => {
+    const cap = (e.target as HTMLElement).closest<HTMLElement>('[data-cap]')?.dataset.cap;
+    if (cap && !actions.expanded.has(capOpenId(cap))) actions.toggle(capOpenId(cap));
+    onOpen(row.index);
+  };
+  return (
+    <li className={`r ${row.pill.kind}`}>
+      <button
+        ref={ref}
+        type="button"
+        className="r-btn"
+        aria-label={row.accessibleName}
+        data-index={row.index}
+        onClick={onClick}
+      >
+        <span className="r-top">
+          <span className="r-num num">{row.position}</span>
+          <span className="r-name">{row.name}</span>
+          <span className="r-class">
+            {row.classLabel} · lv {row.level}
+          </span>
+          <Pill pill={row.pill} />
+        </span>
+        <span className="r-doing">
+          {row.playing ? <span className="playing">● playing</span> : null}
+          {row.nextUp ? <span className="playing">Next up</span> : null}
+          <span className="r-where">{[row.activity, row.map].filter(Boolean).join(' · ')}</span>
+        </span>
+        <RowCaps row={row} />
+        {row.summary ? <span className="r-summary">{row.summary}</span> : null}
+      </button>
+      {buildable ? (
+        <a
+          className="chip build"
+          href={`#build-${row.index}`}
+          aria-label={`${row.name}: build`}
+          onClick={(e) => {
+            e.preventDefault();
+            actions.openTab(row.index, 'build');
+          }}
         >
-          <span className="r-top">
-            <span className="r-num num">{row.position}</span>
-            <span className="r-name">{row.name}</span>
-            <span className="r-class">
-              {row.classLabel} · lv {row.level}
-            </span>
-            <Pill pill={row.pill} />
-          </span>
-          <span className="r-doing">
-            {row.playing ? <span className="playing">● playing</span> : null}
-            {row.nextUp ? <span className="playing">Next up</span> : null}
-            <span className="r-where">{[row.activity, row.map].filter(Boolean).join(' · ')}</span>
-          </span>
-          <RowCaps row={row} />
-          {row.summary ? <span className="r-summary">{row.summary}</span> : null}
+          Build
+        </a>
+      ) : null}
+      {row.spendChip ? (
+        <button type="button" className="chip spend" onClick={onSpend}>
+          {row.spendChip}
         </button>
-        {row.spendChip ? (
-          <button type="button" className="chip spend" onClick={onSpend}>
-            {row.spendChip}
-          </button>
-        ) : null}
-      </li>
-    );
-  },
-);
+      ) : null}
+    </li>
+  );
+});
 
 export function Roster({
   view,
@@ -86,12 +100,20 @@ export function Roster({
 }) {
   return (
     <section aria-label="Characters">
-      <h2 className="section-h">Characters</h2>
+      <h2 className="section-h roster-h">
+        Characters
+        {view.builds.length > 0 ? (
+          <a className="roster-builds" href="#builds">
+            Builds ↓
+          </a>
+        ) : null}
+      </h2>
       <ol className="roster">
         {view.roster.map((row) => (
           <Row
             key={row.index}
             row={row}
+            buildable={view.builds.some((b) => b.index === row.index)}
             onOpen={onOpen}
             onSpend={onSpend}
             ref={(el) => rowRef(row.index, el)}

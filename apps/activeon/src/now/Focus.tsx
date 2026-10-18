@@ -3,8 +3,9 @@
 // Focus (M10 variant C, FR-10 to FR-14): one character's card. The Verdict strip is a nav of plain
 // links (TR-14: Tab only, aria-current on the one in Focus). The <h2> takes keyboard focus only when
 // the player opened the card, never on an auto-follow.
-import type { FocusCard } from '@idleon-forge/engine/now';
+import type { FocusCard, NowView } from '@idleon-forge/engine/now';
 import { forwardRef, useEffect, useRef } from 'react';
+import { characterTabs, NOW_TAB, tabById, tabHref } from './character-tabs';
 import { useNowActions } from './context';
 import { ActionControls, CapPills, GoalList, NextActionItem, ReportThis, SourceLabel } from './parts';
 import { Pill } from './Roster';
@@ -20,10 +21,26 @@ export interface FocusProps {
   onConfusing(): string;
   /** M13: opens the in-app form as Confusing; null falls back to the GitHub-issue link. */
   openConfusing?: (() => void) | null;
+  /** The character page's tab (`character-tabs.ts`); "now" is this card's own content. */
+  tab?: string;
+  onTab?: (id: string) => void;
+  /** The whole Now view, for the other tabs. */
+  view?: NowView;
 }
 
 export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
-  { card, pendingFollow, showCloudSaveTip, onBack, onNext, onConfusing, openConfusing = null },
+  {
+    card,
+    pendingFollow,
+    showCloudSaveTip,
+    onBack,
+    onNext,
+    onConfusing,
+    openConfusing = null,
+    tab = NOW_TAB,
+    onTab,
+    view,
+  },
   headingRef,
 ) {
   const actions = useNowActions();
@@ -38,6 +55,7 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
     if (left < nav.scrollLeft || left + item.offsetWidth > nav.scrollLeft + nav.clientWidth)
       nav.scrollLeft = Math.max(0, left - (nav.clientWidth - item.offsetWidth) / 2);
   }, [current]);
+  const Other = tab === NOW_TAB ? null : (tabById(tab)?.Component ?? null);
   const go = (e: React.MouseEvent, index: number) => {
     e.preventDefault();
     actions.open(index);
@@ -94,173 +112,198 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
         <CapPills caps={card.caps} />
       </div>
 
-      {card.info.length > 0 ? (
-        <ul className="info-lines small muted" aria-label="Info">
-          {card.info.map((l) => (
-            <li key={l.key}>
-              {l.text} {l.source ? <SourceLabel source={l.source} more={false} /> : null}
-            </li>
+      {onTab && view ? (
+        <nav aria-label="Character page" className="char-tabs">
+          {characterTabs.map((t) => (
+            <a
+              key={t.id}
+              href={tabHref(t.id, card.index)}
+              className={`char-tab${t.id === tab ? ' on' : ''}`}
+              aria-current={t.id === tab ? 'page' : undefined}
+              onClick={(e) => {
+                e.preventDefault();
+                onTab(t.id);
+              }}
+            >
+              {t.label}
+            </a>
           ))}
-        </ul>
+        </nav>
       ) : null}
 
-      <div className={`verdict ${card.pill.kind}`}>
-        <Pill pill={card.pill} />
-        {card.unknown ? (
-          <div className="unknown">
-            <p>
-              <b>Unknown:</b> {card.unknown.text}
-            </p>
-            {card.unknown.suggestion ? <NextActionItem action={card.unknown.suggestion} /> : null}
-            {card.unknown.skipKey ? (
-              <div className="controls">
-                {card.unknown.skipped ? (
-                  <button
-                    type="button"
-                    className="ghost tiny"
-                    onClick={() => actions.unskip([card.unknown?.skipKey ?? ''])}
-                  >
-                    skipped · undo
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="ghost tiny"
-                    onClick={() => actions.skip(card.unknown?.skipKey ?? '')}
-                  >
-                    Skip today
-                  </button>
-                )}
-                <ReportThis
-                  input={{
-                    outputKind: 'verdict',
-                    entryIds: [],
-                    fields: [],
-                    text: card.unknown.text,
-                    stale: false,
-                    contested: false,
-                  }}
-                />
+      {Other && view ? (
+        <Other view={view} index={card.index} />
+      ) : (
+        <>
+          {card.info.length > 0 ? (
+            <ul className="info-lines small muted" aria-label="Info">
+              {card.info.map((l) => (
+                <li key={l.key}>
+                  {l.text} {l.source ? <SourceLabel source={l.source} more={false} /> : null}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
+          <div className={`verdict ${card.pill.kind}`}>
+            <Pill pill={card.pill} />
+            {card.unknown ? (
+              <div className="unknown">
+                <p>
+                  <b>Unknown:</b> {card.unknown.text}
+                </p>
+                {card.unknown.suggestion ? <NextActionItem action={card.unknown.suggestion} /> : null}
+                {card.unknown.skipKey ? (
+                  <div className="controls">
+                    {card.unknown.skipped ? (
+                      <button
+                        type="button"
+                        className="ghost tiny"
+                        onClick={() => actions.unskip([card.unknown?.skipKey ?? ''])}
+                      >
+                        skipped · undo
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="ghost tiny"
+                        onClick={() => actions.skip(card.unknown?.skipKey ?? '')}
+                      >
+                        Skip today
+                      </button>
+                    )}
+                    <ReportThis
+                      input={{
+                        outputKind: 'verdict',
+                        entryIds: [],
+                        fields: [],
+                        text: card.unknown.text,
+                        stale: false,
+                        contested: false,
+                      }}
+                    />
+                  </div>
+                ) : null}
               </div>
             ) : null}
-          </div>
-        ) : null}
-        {card.blockers.length > 0 ? (
-          <ul className="goals blockers">
-            {card.blockers.map((g) => (
-              <li key={g.action.key}>
-                <NextActionItem action={g.action} milestone={g.milestone} />
-              </li>
-            ))}
-          </ul>
-        ) : null}
-      </div>
-
-      {card.purpose.length > 0 ? (
-        <section aria-label="Purpose" className="purpose">
-          <h3 className="section-h">Purpose</h3>
-          <ul>
-            {card.purpose.map((p) => (
-              <li key={p.goalId}>
-                {p.text} {p.source ? <SourceLabel source={p.source} more={false} /> : null}{' '}
-                <ReportThis
-                  input={{
-                    outputKind: 'purpose',
-                    entryIds: [p.goalId],
-                    fields: [],
-                    text: p.text,
-                    stale: p.badges.includes('stale'),
-                    contested: p.badges.includes('contested'),
-                  }}
-                />
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      <GoalList
-        goals={card.goals}
-        subject={`c${card.index}`}
-        hiddenCount={card.hiddenCount}
-        skipped={card.skippedKeys}
-        dismissed={card.dismissed}
-        highlightFirst
-      />
-
-      {card.higherLeverage ? (
-        <div className="hl">
-          <p>
-            <b>Better fit:</b>{' '}
-            {card.higherLeverage.partner ? (
-              <>
-                <a
-                  href={`?c=${card.higherLeverage.partner.index}`}
-                  onClick={(e) => go(e, card.higherLeverage?.partner?.index ?? card.index)}
-                >
-                  {card.higherLeverage.partner.name}
-                </a>{' '}
-              </>
-            ) : null}
-            {card.higherLeverage.text}
-          </p>
-          <p className="why small">Why: {card.higherLeverage.why}</p>
-          <details className="small">
-            <summary>How this was decided</summary>
-            <p>Decided by {card.higherLeverage.decidedBy}.</p>
-            {card.higherLeverage.alsoConsidered.length ? (
-              <ul>
-                {card.higherLeverage.alsoConsidered.map((a) => (
-                  <li key={a.text}>
-                    Also considered: {a.text} ({a.reason})
+            {card.blockers.length > 0 ? (
+              <ul className="goals blockers">
+                {card.blockers.map((g) => (
+                  <li key={g.action.key}>
+                    <NextActionItem action={g.action} milestone={g.milestone} />
                   </li>
                 ))}
               </ul>
             ) : null}
-          </details>
-          <SourceLabel source={card.higherLeverage.source} />
-          <ActionControls
-            actionKey={card.higherLeverage.key}
-            controls={card.higherLeverage.controls}
-            report={{
-              outputKind: 'higher-leverage',
-              entryIds: [],
-              fields: [],
-              text: card.higherLeverage.text,
-              stale: card.higherLeverage.stale,
-              contested: false,
-            }}
+          </div>
+
+          {card.purpose.length > 0 ? (
+            <section aria-label="Purpose" className="purpose">
+              <h3 className="section-h">Purpose</h3>
+              <ul>
+                {card.purpose.map((p) => (
+                  <li key={p.goalId}>
+                    {p.text} {p.source ? <SourceLabel source={p.source} more={false} /> : null}{' '}
+                    <ReportThis
+                      input={{
+                        outputKind: 'purpose',
+                        entryIds: [p.goalId],
+                        fields: [],
+                        text: p.text,
+                        stale: p.badges.includes('stale'),
+                        contested: p.badges.includes('contested'),
+                      }}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          <GoalList
+            goals={card.goals}
+            subject={`c${card.index}`}
+            hiddenCount={card.hiddenCount}
+            skipped={card.skippedKeys}
+            dismissed={card.dismissed}
+            highlightFirst
           />
-        </div>
-      ) : card.higherLeverageNote ? (
-        <p className="small muted">{card.higherLeverageNote}</p>
-      ) : null}
 
-      {card.activePlay.length > 0 ? (
-        <section aria-label="Active play" className="small">
-          <h3 className="section-h">Active play</h3>
-          <ul>
-            {card.activePlay.map((a) => (
-              <li key={a.key}>
-                {a.text} · {a.estimate}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+          {card.higherLeverage ? (
+            <div className="hl">
+              <p>
+                <b>Better fit:</b>{' '}
+                {card.higherLeverage.partner ? (
+                  <>
+                    <a
+                      href={`?c=${card.higherLeverage.partner.index}`}
+                      onClick={(e) => go(e, card.higherLeverage?.partner?.index ?? card.index)}
+                    >
+                      {card.higherLeverage.partner.name}
+                    </a>{' '}
+                  </>
+                ) : null}
+                {card.higherLeverage.text}
+              </p>
+              <p className="why small">Why: {card.higherLeverage.why}</p>
+              <details className="small">
+                <summary>How this was decided</summary>
+                <p>Decided by {card.higherLeverage.decidedBy}.</p>
+                {card.higherLeverage.alsoConsidered.length ? (
+                  <ul>
+                    {card.higherLeverage.alsoConsidered.map((a) => (
+                      <li key={a.text}>
+                        Also considered: {a.text} ({a.reason})
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </details>
+              <SourceLabel source={card.higherLeverage.source} />
+              <ActionControls
+                actionKey={card.higherLeverage.key}
+                controls={card.higherLeverage.controls}
+                report={{
+                  outputKind: 'higher-leverage',
+                  entryIds: [],
+                  fields: [],
+                  text: card.higherLeverage.text,
+                  stale: card.higherLeverage.stale,
+                  contested: false,
+                }}
+              />
+            </div>
+          ) : card.higherLeverageNote ? (
+            <p className="small muted">{card.higherLeverageNote}</p>
+          ) : null}
 
-      {card.done.length > 0 ? (
-        <details className="done small">
-          <summary>Done this session ({card.done.length})</summary>
-          <ul>
-            {card.done.map((d) => (
-              <li key={d.key}>
-                <s>{d.text}</s> <span className="muted num">{d.time}</span>
-              </li>
-            ))}
-          </ul>
-        </details>
-      ) : null}
+          {card.activePlay.length > 0 ? (
+            <section aria-label="Active play" className="small">
+              <h3 className="section-h">Active play</h3>
+              <ul>
+                {card.activePlay.map((a) => (
+                  <li key={a.key}>
+                    {a.text} · {a.estimate}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {card.done.length > 0 ? (
+            <details className="done small">
+              <summary>Done this session ({card.done.length})</summary>
+              <ul>
+                {card.done.map((d) => (
+                  <li key={d.key}>
+                    <s>{d.text}</s> <span className="muted num">{d.time}</span>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          ) : null}
+        </>
+      )}
 
       <div className="focus-foot">
         <button type="button" className="primary" onClick={() => onNext(card.next.index)}>

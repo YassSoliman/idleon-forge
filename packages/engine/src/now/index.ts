@@ -18,6 +18,7 @@ export {
   sourceView,
   spendLineKey,
 } from './build-now-view';
+export { buildHref, buildsView } from './build-view';
 export { aboutDuration, compact, formatAge, plural, shortDuration } from './format';
 export {
   dismissActive,

@@ -227,6 +227,28 @@ export function NextActionItem({
   );
 }
 
+/** The Systems whose Goals come from M9 Builds: each links to the character's Build tab. */
+const BUILD_SYSTEMS = new Set(['talents', 'talent-presets', 'talent-resets']);
+
+function BuildLink({ goal, subject }: { goal: GoalView; subject: string }) {
+  const actions = useNowActions();
+  const m = /^c(\d+)$/.exec(subject);
+  if (!m || !BUILD_SYSTEMS.has(goal.system)) return null;
+  const index = Number(m[1]);
+  return (
+    <a
+      className="small build-link"
+      href={`#build-${index}`}
+      onClick={(e) => {
+        e.preventDefault();
+        actions.openTab(index, 'build');
+      }}
+    >
+      See the full build →
+    </a>
+  );
+}
+
 export function GoalList({
   goals,
   subject,
@@ -257,6 +279,7 @@ export function GoalList({
               walkthrough={g.walkthrough}
               first={highlightFirst && n === 0}
             />
+            <BuildLink goal={g} subject={subject} />
           </li>
         ))}
       </ul>

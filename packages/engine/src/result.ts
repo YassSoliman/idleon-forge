@@ -229,6 +229,94 @@ export interface CharacterResult {
   firstFill: Fill | null;
 }
 
+/** One talent the Build cares about, on one preset (owner request 2026-10-18, the Build view). */
+export interface BuildTalentRow {
+  id: number;
+  /** "High Polymer Limbs". */
+  label: string;
+  current: number;
+  /** The Build's target in this save ("max" resolved to the save's max). */
+  target: number;
+  /** The save's max level right now. */
+  max: number;
+  met: boolean;
+  core: boolean;
+  /** "max for now (the build wants 50)", "from World 3, early", or null. */
+  note: string | null;
+}
+
+export interface BuildTabView {
+  tab: number;
+  /** "Archer". */
+  name: string;
+  spent: number;
+  /** Lower bound of unspent points (M9 TR-7); null without a second preset to compare. */
+  unspent: number | null;
+  /** The Build's talents, in its step order. Empty when no Build covers this tab. */
+  rows: BuildTalentRow[];
+  /** Talents with points the Build doesn't name, most first. */
+  others: { label: string; level: number }[];
+}
+
+export interface BuildNextPoint {
+  key: string;
+  tab: number;
+  /** "Put the next 12 points into High Polymer Limbs (to 100)", "then Veins of the Infernal (to 120)". */
+  text: string;
+  points: number;
+}
+
+export interface BuildPresetView {
+  slot: 0 | 1;
+  active: boolean;
+  role: 'fighting' | 'skilling' | null;
+  /** "Fighting preset", "Skilling preset", "Other preset" (M9 D5: role names, no in-game label). */
+  heading: string;
+  /** "Archer fighting build", "Empty: set it up for skilling", "Mixed points". */
+  roleText: string;
+  buildTitle: string | null;
+  /** Lower bound over tabs 1-3; null without a second preset. */
+  unspent: number | null;
+  tabs: BuildTabView[];
+  /** Attacks on the bar against the Build's; null when the bar can't be read or the role has none. */
+  attackBar: { set: string[]; recommended: string[]; missing: string[]; text: string } | null;
+  /** The ordered checklist for this preset, by tab (the Build's steps minus current levels). */
+  next: BuildNextPoint[];
+}
+
+export interface BuildPathStep {
+  /** "Beast_Master". */
+  class: string;
+  /** "Beast Master". */
+  label: string;
+  state: 'done' | 'now' | 'next' | 'later';
+}
+
+/** One character's Build roadmap (the Build view): class path, both presets, next points, coming up. */
+export interface BuildRoadmap {
+  index: number;
+  classLabel: string;
+  level: number;
+  /** One line for the overview: "at least 118 unspent · next: Book of the Wise". */
+  status: string;
+  /** Beginner, Archer, Hunter, Beast Master, with where the character is. */
+  path: BuildPathStep[];
+  /** "Next class: take Hunter at Speccius", or null at the end of the covered path. */
+  nextClass: string | null;
+  presets: BuildPresetView[];
+  /** What opens at the next milestones (class pick, new tab, second preset, stage-gated steps). */
+  comingUp: string[];
+  /** "No build yet for this class" and the like; null when a Build covers the character. */
+  note: string | null;
+  /** Quiet note for a Stale or low-confidence Build; null otherwise. */
+  quiet: string | null;
+  stale: boolean;
+  /** The Builds' Sources; the view picks the player-facing ones (#74). */
+  sources: SourceRef[];
+  /** The Build entry ids shown (provenance). */
+  entryIds: string[];
+}
+
 export interface NotCoveredItem {
   systemId: string;
   label: string;
@@ -277,4 +365,6 @@ export interface EngineResult {
   /** parserBehind per M1 D3(b). */
   versions: { knowledge: string; gameBuild: number | null; parserTarget: string; parserBehind: boolean };
   diagnostics: { failedDetectors: FailedDetector[] };
+  /** M9's Build roadmaps, one per character with talent data (the Build view); absent without M9. */
+  builds?: BuildRoadmap[];
 }

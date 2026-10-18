@@ -20,6 +20,7 @@ import type {
   SpendLine,
   VerdictKind,
 } from '../result';
+import { buildsView } from './build-view';
 import { aboutDuration, compact, plural, shortDuration } from './format';
 import {
   dismissActive,
@@ -652,6 +653,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
     newCount,
     visibleKeys,
     nextExpiry,
+    builds: buildsView(result),
   };
 }
 

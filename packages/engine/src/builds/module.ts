@@ -25,11 +25,12 @@ import type {
   EngineModule,
   ModuleGoal,
 } from '../core/module';
-import type { Category, Goal, GoalDetail, NotCoveredItem, SourceRef } from '../result';
+import type { BuildRoadmap, Category, Goal, GoalDetail, NotCoveredItem, SourceRef } from '../result';
 import { type AccountAnalysis, analyzeAccount, wrongPreset } from './analyze';
 import { spent } from './classify';
 import { BUILDS_DETECTORS } from './detectors';
 import { checkoutDetector, readBookDetector } from './library';
+import { buildRoadmaps } from './roadmap';
 
 /** M15 F4: the Talent Book Library's Account Goals, in this order (read a held book, then check out). */
 export const LIBRARY_ENTRIES: Readonly<Record<string, AnyDetector>> = {
@@ -299,7 +300,14 @@ export function createBuildsModule(deps: BuildsModuleDeps): EngineModule {
         for (const reason of acc.notCovered.values()) add(reason as keyof typeof NOT_COVERED);
         if (acc.eliteTabs.length) add('elite');
       }
-      return { characters, notCovered, account: { goals: account } };
+      // The Build view's roadmaps (owner request 2026-10-18). A throw here drops only the view.
+      let builds: BuildRoadmap[] | undefined;
+      try {
+        builds = buildRoadmaps(state, ctx.facts, { stale, entries: kb.entries });
+      } catch {
+        builds = undefined;
+      }
+      return { characters, notCovered, account: { goals: account }, ...(builds ? { builds } : {}) };
     },
   };
 }

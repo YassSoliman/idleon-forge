@@ -22,6 +22,8 @@ export interface NowActions {
   openReport: ((r: ReportOutput) => void) | null;
   /** Opens a character's Focus as a player action (pushState, keyboard focus to its heading). */
   open(index: number): void;
+  /** Opens a character's page on one of its tabs (`character-tabs.ts`), e.g. 'build'. */
+  openTab(index: number, tab: string): void;
   toggle(id: string): void;
   expanded: ReadonlySet<string>;
 }

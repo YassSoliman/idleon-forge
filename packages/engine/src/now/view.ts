@@ -3,6 +3,7 @@
 // The Now screen view model (M10 TR-3): everything the components render, already ordered, capped
 // and worded. Components render arrays in order and never sort or filter (red-team #5).
 import type {
+  BuildRoadmap,
   Category,
   Done,
   Provenance,
@@ -241,6 +242,15 @@ export interface Banner {
   text: string;
 }
 
+/** The Build view of one character (owner request 2026-10-18): its roadmap, name and best Source. */
+export interface BuildRoadmapView extends Omit<BuildRoadmap, 'sources'> {
+  name: string;
+  /** `#build-<index>`, the Build tab's deep link. */
+  href: string;
+  /** The Builds' Sources, player-facing first (#74); null without any. */
+  source: SourceView | null;
+}
+
 export interface NowView {
   progress: {
     ready: number;
@@ -279,4 +289,6 @@ export interface NowView {
   visibleKeys: string[];
   /** The earliest time a skip can expire or the session can end (TR-3 step 6). */
   nextExpiry: number | null;
+  /** Every character's Build view, in save order (owner request 2026-10-18); empty without M9. */
+  builds: BuildRoadmapView[];
 }
