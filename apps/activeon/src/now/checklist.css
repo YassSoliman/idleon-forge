@@ -1,8 +1,8 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
 /* M20 the Daily & Weekly Checklist, redrawn by M21 FR-T2 in Field Guide (tokens only): the one ring line
    on Now's Account (the rows live with the Timeline, timeline.css). Wraps at 320 px, no page-level
-   horizontal scroll; every control is at least 44 px tall (DS-15). The Skills tab rules below stay here
-   until area C moves them (M21 §9). */
+   horizontal scroll; every control is at least 44 px tall (DS-15). The Skills tab's rules are in
+   skills-tab.css (area C). */
 
 /* ---- Now's Account: the one ring line, a link to the Timeline's #daily ---- */
 .cl-line {
@@ -53,77 +53,7 @@
   stroke: var(--accent);
 }
 
-/* The Skills tab and the Skill Grid */
-.sk-train {
-  margin: 0 0 10px;
-  font-weight: 700;
-}
-.sk-table,
-.sk-grid {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-}
-.sk-table th,
-.sk-table td,
-.sk-grid th,
-.sk-grid td {
-  text-align: left;
-  padding: 6px 4px;
-  border-bottom: 1px solid var(--line);
-  vertical-align: top;
-}
-/* R7 QA: the Skills table scrolls inside its own frame and its cells wrap, so the page never scrolls
-   sideways at 390 px. */
-.sk-table-wrap {
-  overflow-x: auto;
-  max-width: 100%;
-}
-.sk-table td {
-  overflow-wrap: anywhere;
-}
-.sk-table tr.locked td {
-  color: var(--muted);
-}
-.sk-badge {
-  display: inline-block;
-  font-size: 0.75rem;
-  padding: 0 6px;
-  border-radius: 999px;
-  background: var(--ok-soft);
-  color: var(--ok);
-  margin-left: 4px;
-}
-.sk-badge.dormant,
-.sk-badge.spec {
-  background: var(--unk-soft);
-  color: var(--unk);
-}
-.sk-grid-wrap {
-  overflow-x: auto;
-  max-width: 100%;
-}
-/* R7 QA: in the 480 px column the grid scrolls in its frame with the Character column sticky. */
-.sk-grid th[scope="row"],
-.sk-grid thead th:first-child {
-  position: sticky;
-  left: 0;
-  z-index: 1;
-  background: var(--surface);
-  min-width: 112px;
-  max-width: 140px;
-  box-shadow: 1px 0 0 var(--line);
-}
-.sk-grid td {
-  white-space: nowrap;
-}
-.sk-grid td.hl {
-  outline: 3px solid var(--accent);
-  outline-offset: -3px;
-}
-.sk-grid td.best {
-  font-weight: 700;
-}
+/* The Daily & Weekly rows' pips (timeline/ChecklistRow.tsx, timeline/DailyWeekly.tsx). */
 .pips {
   list-style: none;
   margin: 8px 0 0;
@@ -153,41 +83,11 @@
 .pip.unfillable {
   color: var(--muted);
 }
-.pip-mini {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 3px;
-  margin-right: 2px;
-  background: var(--ok);
-}
-.pip-mini.fillable,
-.pip-mini.capped {
-  background: var(--accent);
-}
-.pip-mini.locked,
-.pip-mini.unknown,
-.pip-mini.not-covered,
-.pip-mini.unfillable {
-  background: var(--sunk);
-}
 .cl-actions a {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
 }
-.sk-grid-sec {
-  min-width: 0;
-  max-width: 100%;
-  overflow: hidden;
-}
-.sk-grid-wrap {
-  display: block;
-  width: 100%;
-  /* Contains the screen-reader slot words (absolutely positioned) inside the scroll box. */
-  position: relative;
-}
-.checklist button.cl-fold,
 .checklist button.cl-tick {
   min-height: 44px;
 }
