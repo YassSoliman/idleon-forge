@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #239d94f5 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 329
+# golden v1: first · knowledge #ba1afb20 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 335
 
 ## Verdict changes
 
@@ -32,7 +32,7 @@
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 13 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (10)
+show more (11)
 Spend coins: 34 buys now on 3 characters
   1. Buy the bribe Photoshopped Dmg Range on Bubonic Conjuror Lv 87: 1 dementia · Lv 0 → 1 · 100M coins · C2 (Bubonic Conjuror lv87) · withdraw 100M from storage on C2, then buy · total 100M on C2
   2. Buy the bribe Glitched Acc Formula on Bubonic Conjuror Lv 87: 3 dementia · Lv 0 → 1 · 300M coins · C2 (Bubonic Conjuror lv87) · withdraw 300M from storage on C2, then buy · total 400M on C2
@@ -55,7 +55,6 @@ The Owl
 Alchemy Pay 2 Win
 Islands
 Atom Collider
-Construction
 Equinox
 Prayers
 Salt Lick
@@ -117,6 +116,7 @@ Laboratory
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | C1 | fires | chizoar=0 daysLost=0 efaunt=2 forestVilla=0 total=2 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=2 daysLost=48 total=9 |
+| construction.check.build-next | construction/build-next | account | pass |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
@@ -150,9 +150,12 @@ Laboratory
 | post-office.check.spend-boxes | post-office/state | C6 | fires | boxes=3 |
 | post-office.check.spend-boxes | post-office/state | account | fires | boxes=24 count=6 |
 | post-office.check.unlock | post-office/state | — | silent |  |
+| refinery.check.auto-refine-off | refinery/auto-refine | account | pass |  |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | pass |  |
+| refinery.check.refine-full | refinery/full-bar | account | pass |  |
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | account | fires | offSalts=2 salt=Explosive_Salts |
+| refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -171,6 +174,7 @@ Laboratory
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
 | systems.yaml#islands | worlds/reached | account | reached yes |  |
 | systems.yaml#lab | worlds/reached | account | reached yes |  |
+| systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
 | systems.yaml#post-office | post-office/unlocked | account | reached yes |  |

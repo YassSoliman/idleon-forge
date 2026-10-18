@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #239d94f5 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 329
+# golden v1: scrubbed-w2 · knowledge #ba1afb20 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 335
 
 ## Verdict changes
 
@@ -101,6 +101,7 @@ Islands
 | arcade.check.balls-cap | arcade/balls-cap | account | fires | capsIn=0 fullFor=173852724 |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=1 daysLost=1 total=5 |
+| construction.check.build-next | construction/build-next | — | silent |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
@@ -128,9 +129,12 @@ Islands
 | post-office.check.daily-orders | post-office/state | — | silent |  |
 | post-office.check.spend-boxes | post-office/state | — | silent |  |
 | post-office.check.unlock | post-office/state | C1 | fires | boxes=0 |
+| refinery.check.auto-refine-off | refinery/auto-refine | — | silent |  |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | — | silent |  |
+| refinery.check.refine-full | refinery/full-bar | — | silent |  |
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
+| refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -149,6 +153,7 @@ Islands
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
 | systems.yaml#islands | worlds/reached | account | reached yes |  |
 | systems.yaml#lab | worlds/reached | account | reached no |  |
+| systems.yaml#library | worlds/reached | account | reached no |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
 | systems.yaml#post-office | post-office/unlocked | account | reached no |  |
