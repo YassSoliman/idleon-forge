@@ -12,10 +12,10 @@ import { PasteSave } from './components/PasteSave';
 import { SignIn } from './components/SignIn';
 import { AdviceBoundary, CantWorkOut } from './now/CantWorkOut';
 import { Waiting } from './now/Chrome';
-import { NowScreen } from './now/NowScreen';
 import { shortHash } from './now/prefs-store';
 import { buildInfo, forgetWhatsNew, previewBadge, useUpdateAvailable } from './now/release';
 import { suggestUrl } from './now/report';
+import { Shell } from './shell/Shell';
 import { readSuggestionsConfig } from './suggestions/config';
 import type { Scene } from './suggestions/context';
 import {
@@ -82,6 +82,7 @@ export function App() {
   }, [save.status]);
 
   const [chips, setChips] = useState<ReactNode>(null);
+  const [navSlot, setNavSlot] = useState<HTMLDivElement | null>(null);
   const [footer, setFooter] = useState<FooterInfo | null>(null);
   const renderChips = useCallback((node: ReactNode) => setChips(node), []);
   const onFooter = useCallback((info: FooterInfo) => setFooter(info), []);
@@ -131,17 +132,22 @@ export function App() {
     expectedReturnSeconds: a.expectedReturnSeconds,
   };
   const scene = useCallback((): Scene => {
+    // M17 TR-12: the new places map onto the Worker's existing screens; nothing new is sent.
     let characterIndex: number | null = null;
+    let hash = '';
     try {
-      const c = new URLSearchParams(window.location.search).get('c');
-      if (c !== null && /^\d+$/.test(c)) characterIndex = Number(c);
+      hash = window.location.hash;
+      const m = /^#([a-z]+)-(\d+)$/.exec(hash);
+      if (m && m[1] !== 'system') characterIndex = Number(m[2]);
     } catch {}
     const s = sceneRef.current;
     const focused = characterIndex !== null && s.result?.characters.some((c) => c.index === characterIndex);
+    const systems = hash === '#systems' || hash.startsWith('#system-');
     return {
       ...s,
       characterIndex: focused ? characterIndex : null,
-      screen: s.screen === 'now' && focused ? 'character' : s.screen,
+      screen:
+        s.screen === 'now' && focused ? 'character' : s.screen === 'now' && systems ? 'account' : s.screen,
       now: Date.now(),
     };
   }, []);
@@ -166,6 +172,8 @@ export function App() {
           busy={busy && ready !== null}
           stage={result && !('error' in result) ? result.stage : null}
         />
+        {/* M17 FR-2: the place navigation sits right under the header (the shell fills it, FR-12). */}
+        <div ref={setNavSlot} className="nav-slot" />
 
         <SignIn
           auth={auth}
@@ -199,7 +207,8 @@ export function App() {
         ) : null}
         {ready && result && !('error' in result) ? (
           <AdviceBoundary state={ready.state} resetKey={result}>
-            <NowScreen
+            <Shell
+              navSlot={navSlot}
               result={result}
               save={ready}
               namespace={namespace}

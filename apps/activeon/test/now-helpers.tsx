@@ -6,7 +6,7 @@ import type { AccountState } from '@idleon-forge/account-state';
 import type { EngineResult } from '@idleon-forge/engine/result';
 import type { SaveKind } from '@idleon-forge/sync';
 import { render } from '@testing-library/react';
-import { type NowSave, NowScreen, type NowScreenProps } from '../src/now/NowScreen';
+import { type NowSave, Shell as NowScreen, type ShellProps as NowScreenProps } from '../src/shell/Shell';
 
 // jsdom gives import.meta.url an http scheme; the file's directory is still known.
 const FIXTURES = `${path.resolve(import.meta.dirname, '../../../packages/engine/test/now/fixtures')}/`;

@@ -110,6 +110,8 @@ export function knowledgeOf(
   return {
     version: kb.version.display,
     kb,
+    // M17 TR-2: the Systems hub's unlock states, evaluated here in the worker.
+    registries: REGISTRIES,
     coverage: (state) =>
       coverage(state, kb, REGISTRIES, { now: state.asOf }).map((s) => ({ systemId: s.id, label: s.name })),
   };

@@ -2,8 +2,9 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // The Roster (M10 variant A, FR-4 to FR-6): one numbered row per character in Visit Order. Each row
 // is a button whose accessible name says everything on it (US-1, TR-14).
-import type { NowView, RosterRow } from '@idleon-forge/engine/now';
+import { LINK_WORDS, type NowView, type RosterRow } from '@idleon-forge/engine/now';
 import { forwardRef } from 'react';
+import { formatRoute } from '../shell/route';
 import { useNowActions } from './context';
 import { capOpenId } from './parts';
 
@@ -115,22 +116,25 @@ export function Roster({
   onSpend(): void;
   rowRef(index: number, el: HTMLButtonElement | null): void;
 }) {
+  const actions = useNowActions();
   return (
     <section aria-label="Characters">
       <h2 className="section-h roster-h">
         Characters
         {view.builds.length > 0 || view.cards ? (
+          // M17 D-7: the Builds and Cards overviews live in Characters now; the row chips stay.
           <span className="roster-links">
-            {view.builds.length > 0 ? (
-              <a className="roster-builds" href="#builds">
-                Builds ↓
-              </a>
-            ) : null}
-            {view.cards ? (
-              <a className="roster-builds" href="#cards">
-                Cards ↓
-              </a>
-            ) : null}
+            <a
+              className="roster-builds"
+              href={formatRoute({ place: 'characters', section: null })}
+              onClick={(e) => {
+                if (!actions.navigate) return;
+                e.preventDefault();
+                actions.navigate({ place: 'characters', section: null });
+              }}
+            >
+              {LINK_WORDS.toCharacters}
+            </a>
           </span>
         ) : null}
       </h2>

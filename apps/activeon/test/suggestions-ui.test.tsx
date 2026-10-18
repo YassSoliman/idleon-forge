@@ -9,7 +9,7 @@ import type { ProofRing } from '@idleon-forge/sync';
 import { act, cleanup, configure, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { NowScreen } from '../src/now/NowScreen';
+import { Shell as NowScreen } from '../src/shell/Shell';
 import type { SuggestionsConfig } from '../src/suggestions/config';
 import type { ReportSource, Scene } from '../src/suggestions/context';
 import {
@@ -297,7 +297,7 @@ describe('US-2 Report this (FR-9, FR-10)', () => {
     // Esc closes the overlay, not the Focus card underneath.
     fireEvent.keyDown(within(dialog).getByLabelText(/^I want…/), { key: 'Escape' });
     expect(screen.queryByRole('dialog')).toBeNull();
-    expect(window.location.search).toBe('?c=2');
+    expect(window.location.hash).toBe('#now-2');
   });
 });
 
