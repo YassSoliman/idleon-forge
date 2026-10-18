@@ -6,6 +6,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bandit-bob1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -35,7 +36,8 @@
             },
             "kind": "item",
             "name": "Bullet",
-            "rawName": "Bullet"
+            "rawName": "Bullet",
+            "ref": "items.acquisition.bullet"
           }
         ],
         "rewards": [
@@ -99,6 +101,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bandit-bob2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -113,7 +116,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Yellow Headband",
-            "rawName": "EquipmentHats9"
+            "rawName": "EquipmentHats9",
+            "ref": "items.acquisition.equipment-hats9"
           }
         ],
         "rewards": [
@@ -173,6 +177,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bandit-bob3",
         "consumes": false,
         "custom": [
           {
@@ -245,6 +250,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bandit-bob4",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -259,7 +265,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Sesame Seed",
-            "rawName": "Quest45"
+            "rawName": "Quest45",
+            "ref": "items.acquisition.quest45"
           }
         ],
         "rewards": [
@@ -315,6 +322,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bellows1",
         "consumes": false,
         "custom": [
           {
@@ -383,6 +391,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bellows2",
         "consumes": false,
         "custom": [
           {
@@ -451,6 +460,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bellows3",
         "consumes": false,
         "custom": [
           {
@@ -519,6 +529,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bellows4",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -533,13 +544,15 @@
             "amount": 4,
             "kind": "item",
             "name": "Black Lense",
-            "rawName": "SnowC4a"
+            "rawName": "SnowC4a",
+            "ref": "items.acquisition.snow-c4a"
           },
           {
             "amount": 14000,
             "kind": "item",
             "name": "Contact Lense",
-            "rawName": "SnowC4"
+            "rawName": "SnowC4",
+            "ref": "items.acquisition.snow-c4"
           }
         ],
         "rewards": [
@@ -595,6 +608,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bill-brr1",
         "consumes": false,
         "custom": [
           {
@@ -667,6 +681,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bill-brr2",
         "consumes": false,
         "custom": [
           {
@@ -739,6 +754,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bill-brr3",
         "consumes": false,
         "custom": [
           {
@@ -811,6 +827,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bill-brr4",
         "consumes": false,
         "custom": [
           {
@@ -883,6 +900,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bill-brr5",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -897,7 +915,8 @@
             "amount": 5,
             "kind": "item",
             "name": "1 HR Time Candy",
-            "rawName": "Timecandy1"
+            "rawName": "Timecandy1",
+            "ref": "items.acquisition.timecandy1"
           },
           {
             "amount": 2,
@@ -913,7 +932,8 @@
             },
             "kind": "item",
             "name": "2 HR Time Candy",
-            "rawName": "Timecandy2"
+            "rawName": "Timecandy2",
+            "ref": "items.acquisition.timecandy2"
           }
         ],
         "rewards": [
@@ -969,6 +989,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bill-brr6",
         "consumes": false,
         "custom": [
           {
@@ -1041,6 +1062,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bill-brr7",
         "consumes": false,
         "custom": [
           {
@@ -1113,6 +1135,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.builder-bird1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 0,
@@ -1127,7 +1150,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Desert Topaz",
-            "rawName": "Crystal1"
+            "rawName": "Crystal1",
+            "ref": "items.acquisition.crystal1"
           }
         ],
         "rewards": [
@@ -1191,6 +1215,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bushlyte1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -1225,7 +1250,8 @@
             },
             "kind": "item",
             "name": "Peanut",
-            "rawName": "Peanut"
+            "rawName": "Peanut",
+            "ref": "items.acquisition.peanut"
           }
         ],
         "rewards": [
@@ -1285,6 +1311,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bushlyte2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -1319,7 +1346,8 @@
             },
             "kind": "item",
             "name": "Peanut",
-            "rawName": "Peanut"
+            "rawName": "Peanut",
+            "ref": "items.acquisition.peanut"
           }
         ],
         "rewards": [
@@ -1379,6 +1407,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.bushlyte3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -1413,7 +1442,8 @@
             },
             "kind": "item",
             "name": "Peanut",
-            "rawName": "Peanut"
+            "rawName": "Peanut",
+            "ref": "items.acquisition.peanut"
           }
         ],
         "rewards": [
@@ -1477,6 +1507,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cactolyte1",
         "consumes": false,
         "custom": [
           {
@@ -1557,6 +1588,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cactolyte2",
         "consumes": false,
         "custom": [
           {
@@ -1633,6 +1665,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cactolyte3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -1647,7 +1680,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Pete the Peanut",
-            "rawName": "Quest48"
+            "rawName": "Quest48",
+            "ref": "items.acquisition.quest48"
           }
         ],
         "rewards": [
@@ -1711,6 +1745,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cactolyte4",
         "consumes": false,
         "custom": [
           {
@@ -1779,6 +1814,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.carpenter-cardinal1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 0,
@@ -1793,7 +1829,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Galaxial Amethyst",
-            "rawName": "Crystal3"
+            "rawName": "Crystal3",
+            "ref": "items.acquisition.crystal3"
           }
         ],
         "rewards": [
@@ -1853,6 +1890,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.carpetiem1",
         "consumes": false,
         "custom": [
           {
@@ -1929,6 +1967,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.carpetiem2",
         "consumes": false,
         "custom": [
           {
@@ -2009,6 +2048,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.carpetiem3",
         "consumes": false,
         "custom": [
           {
@@ -2081,6 +2121,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.carpetiem4",
         "consumes": false,
         "custom": [
           {
@@ -2157,6 +2198,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.centurion1",
         "consumes": false,
         "custom": [
           {
@@ -2233,6 +2275,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.centurion2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -2247,7 +2290,8 @@
             "amount": 2500,
             "kind": "item",
             "name": "Coconotnotto",
-            "rawName": "DesertB1"
+            "rawName": "DesertB1",
+            "ref": "items.acquisition.desert-b1"
           }
         ],
         "rewards": [
@@ -2311,6 +2355,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.centurion3",
         "consumes": false,
         "custom": [
           {
@@ -2383,6 +2428,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.centurion4",
         "consumes": false,
         "custom": [
           {
@@ -2463,6 +2509,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.centurion5",
         "consumes": false,
         "custom": [
           {
@@ -2547,6 +2594,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.centurion6",
         "consumes": false,
         "custom": [
           {
@@ -2619,6 +2667,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.centurion7",
         "consumes": false,
         "custom": [
           {
@@ -2695,6 +2744,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.centurion8",
         "consumes": false,
         "custom": [
           {
@@ -2763,6 +2813,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.constructor-crow1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 0,
@@ -2777,7 +2828,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Glacier Quartz",
-            "rawName": "Crystal2"
+            "rawName": "Crystal2",
+            "ref": "items.acquisition.crystal2"
           }
         ],
         "rewards": [
@@ -2837,6 +2889,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cowbo-jones1",
         "consumes": false,
         "custom": [
           {
@@ -2909,6 +2962,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cowbo-jones10",
         "consumes": false,
         "custom": [
           {
@@ -2981,6 +3035,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cowbo-jones11",
         "consumes": false,
         "custom": [
           {
@@ -3053,6 +3108,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cowbo-jones12",
         "consumes": false,
         "custom": [
           {
@@ -3125,6 +3181,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cowbo-jones13",
         "consumes": false,
         "custom": [
           {
@@ -3193,6 +3250,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cowbo-jones14",
         "consumes": false,
         "custom": [
           {
@@ -3273,6 +3331,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cowbo-jones15",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -3307,7 +3366,8 @@
             },
             "kind": "item",
             "name": "Yumyum Desert NPC Completion Token",
-            "rawName": "BadgeD1"
+            "rawName": "BadgeD1",
+            "ref": "items.acquisition.badge-d1"
           },
           {
             "amount": 1,
@@ -3333,7 +3393,8 @@
             },
             "kind": "item",
             "name": "Yumyum Skills Completion Token",
-            "rawName": "BadgeD2"
+            "rawName": "BadgeD2",
+            "ref": "items.acquisition.badge-d2"
           },
           {
             "amount": 1,
@@ -3364,7 +3425,8 @@
             },
             "kind": "item",
             "name": "Yumyum Misc Completion Token",
-            "rawName": "BadgeD3"
+            "rawName": "BadgeD3",
+            "ref": "items.acquisition.badge-d3"
           }
         ],
         "rewards": [
@@ -3420,6 +3482,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cowbo-jones2",
         "consumes": false,
         "custom": [
           {
@@ -3496,6 +3559,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cowbo-jones3",
         "consumes": false,
         "custom": [
           {
@@ -3568,6 +3632,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cowbo-jones4",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -3582,7 +3647,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Golden Dubloon",
-            "rawName": "Quest19"
+            "rawName": "Quest19",
+            "ref": "items.acquisition.quest19"
           }
         ],
         "rewards": [
@@ -3646,6 +3712,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cowbo-jones5",
         "consumes": false,
         "custom": [
           {
@@ -3726,6 +3793,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cowbo-jones6",
         "consumes": false,
         "custom": [
           {
@@ -3794,6 +3862,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cowbo-jones7",
         "consumes": false,
         "custom": [
           {
@@ -3870,6 +3939,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cowbo-jones8",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -3884,7 +3954,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Signed Arrest Warrant",
-            "rawName": "Quest20"
+            "rawName": "Quest20",
+            "ref": "items.acquisition.quest20"
           }
         ],
         "rewards": [
@@ -3944,6 +4015,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.cowbo-jones9",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -3958,13 +4030,15 @@
             "amount": 100,
             "kind": "item",
             "name": "Leather Hide",
-            "rawName": "CraftMat9"
+            "rawName": "CraftMat9",
+            "ref": "items.acquisition.craft-mat9"
           },
           {
             "amount": 750,
             "kind": "item",
             "name": "Trusty Nails",
-            "rawName": "CraftMat5"
+            "rawName": "CraftMat5",
+            "ref": "items.acquisition.craft-mat5"
           }
         ],
         "rewards": [
@@ -4024,6 +4098,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.crystalswine4",
         "consumes": false,
         "custom": [
           {
@@ -4104,6 +4179,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.crystalswine5",
         "consumes": false,
         "custom": [
           {
@@ -4184,6 +4260,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.crystalswine6",
         "consumes": false,
         "custom": [
           {
@@ -4264,6 +4341,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.dazey1",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -4278,13 +4356,15 @@
             "amount": 1000,
             "kind": "item",
             "name": "Forest Fibres",
-            "rawName": "ForestTree"
+            "rawName": "ForestTree",
+            "ref": "items.acquisition.forest-tree"
           },
           {
             "amount": 5,
             "kind": "item",
             "name": "Flowies",
-            "rawName": "Quest41"
+            "rawName": "Quest41",
+            "ref": "items.acquisition.quest41"
           }
         ],
         "rewards": [
@@ -4340,6 +4420,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.dazey2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -4354,19 +4435,22 @@
             "amount": 1000,
             "kind": "item",
             "name": "Forest Fibres",
-            "rawName": "ForestTree"
+            "rawName": "ForestTree",
+            "ref": "items.acquisition.forest-tree"
           },
           {
             "amount": 5,
             "kind": "item",
             "name": "Flowies",
-            "rawName": "Quest41"
+            "rawName": "Quest41",
+            "ref": "items.acquisition.quest41"
           },
           {
             "amount": 1,
             "kind": "item",
             "name": "Woodular Circle",
-            "rawName": "TreeInterior1b"
+            "rawName": "TreeInterior1b",
+            "ref": "items.acquisition.tree-interior1b"
           }
         ],
         "rewards": [
@@ -4426,6 +4510,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.desert-davey1",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 0,
@@ -4484,6 +4569,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.desert-davey2",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -4513,7 +4599,8 @@
             },
             "kind": "item",
             "name": "Steel Axe",
-            "rawName": "TestObj7"
+            "rawName": "TestObj7",
+            "ref": "items.acquisition.test-obj7"
           },
           {
             "amount": 1,
@@ -4534,7 +4621,8 @@
             },
             "kind": "item",
             "name": "Birch Longbow",
-            "rawName": "EquipmentBows3"
+            "rawName": "EquipmentBows3",
+            "ref": "items.acquisition.equipment-bows3"
           },
           {
             "amount": 1,
@@ -4555,7 +4643,8 @@
             },
             "kind": "item",
             "name": "Quarterstaff",
-            "rawName": "EquipmentWands2"
+            "rawName": "EquipmentWands2",
+            "ref": "items.acquisition.equipment-wands2"
           }
         ],
         "rewards": [
@@ -4619,6 +4708,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.djonnut1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -4633,19 +4723,22 @@
             "amount": 10,
             "kind": "item",
             "name": "Shrapshell",
-            "rawName": "DesertC4"
+            "rawName": "DesertC4",
+            "ref": "items.acquisition.desert-c4"
           },
           {
             "amount": 1,
             "kind": "item",
             "name": "Kebab Sticks",
-            "rawName": "FoodHealth6"
+            "rawName": "FoodHealth6",
+            "ref": "items.acquisition.food-health6"
           },
           {
             "amount": 1,
             "kind": "item",
             "name": "Meat Pie",
-            "rawName": "FoodHealth7"
+            "rawName": "FoodHealth7",
+            "ref": "items.acquisition.food-health7"
           }
         ],
         "rewards": [
@@ -4701,6 +4794,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.djonnut2",
         "consumes": false,
         "custom": [
           {
@@ -4773,6 +4867,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.djonnut3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -4787,19 +4882,22 @@
             "amount": 2500,
             "kind": "item",
             "name": "Melty Cube",
-            "rawName": "SnowA2"
+            "rawName": "SnowA2",
+            "ref": "items.acquisition.snow-a2"
           },
           {
             "amount": 2500,
             "kind": "item",
             "name": "Sticky Stick",
-            "rawName": "SnowB1"
+            "rawName": "SnowB1",
+            "ref": "items.acquisition.snow-b1"
           },
           {
             "amount": 2500,
             "kind": "item",
             "name": "Mamooth Tusk",
-            "rawName": "SnowB2"
+            "rawName": "SnowB2",
+            "ref": "items.acquisition.snow-b2"
           }
         ],
         "rewards": [
@@ -4859,6 +4957,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.dog-bone1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -4873,7 +4972,8 @@
             "amount": 3,
             "kind": "item",
             "name": "Wood Board Bone",
-            "rawName": "Quest12"
+            "rawName": "Quest12",
+            "ref": "items.acquisition.quest12"
           }
         ],
         "rewards": [
@@ -4929,6 +5029,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.dog-bone2",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -4943,7 +5044,8 @@
             "amount": 25,
             "kind": "item",
             "name": "Amarok Slab",
-            "rawName": "Quest17"
+            "rawName": "Quest17",
+            "ref": "items.acquisition.quest17"
           }
         ],
         "rewards": [
@@ -5003,6 +5105,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.fishpaste971",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -5017,7 +5120,8 @@
             "amount": 1500,
             "kind": "item",
             "name": "Butterfly",
-            "rawName": "Bug2"
+            "rawName": "Bug2",
+            "ref": "items.acquisition.bug2"
           }
         ],
         "rewards": [
@@ -5077,6 +5181,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.fishpaste972",
         "consumes": false,
         "custom": [
           {
@@ -5153,6 +5258,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.funguy1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -5167,19 +5273,22 @@
             "amount": 15,
             "kind": "item",
             "name": "Snake Skin",
-            "rawName": "Jungle2"
+            "rawName": "Jungle2",
+            "ref": "items.acquisition.jungle2"
           },
           {
             "amount": 5,
             "kind": "item",
             "name": "Slime Sludge",
-            "rawName": "Jungle1"
+            "rawName": "Jungle1",
+            "ref": "items.acquisition.jungle1"
           },
           {
             "amount": 5,
             "kind": "item",
             "name": "Bean Slices",
-            "rawName": "Grasslands3"
+            "rawName": "Grasslands3",
+            "ref": "items.acquisition.grasslands3"
           }
         ],
         "rewards": [
@@ -5243,6 +5352,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.funguy2",
         "consumes": false,
         "custom": [
           {
@@ -5319,6 +5429,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.funguy3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -5333,7 +5444,8 @@
             "amount": 50,
             "kind": "item",
             "name": "Time Thingy",
-            "rawName": "Quest21"
+            "rawName": "Quest21",
+            "ref": "items.acquisition.quest21"
           }
         ],
         "rewards": [
@@ -5393,6 +5505,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.funguy4",
         "consumes": false,
         "custom": [
           {
@@ -5473,6 +5586,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.funguy5",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -5487,7 +5601,8 @@
             "amount": 100,
             "kind": "item",
             "name": "Potty Rolls",
-            "rawName": "ToiletTree"
+            "rawName": "ToiletTree",
+            "ref": "items.acquisition.toilet-tree"
           }
         ],
         "rewards": [
@@ -5547,6 +5662,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.gangster-gus1",
         "consumes": false,
         "custom": [
           {
@@ -5619,6 +5735,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.gangster-gus2",
         "consumes": false,
         "custom": [
           {
@@ -5691,6 +5808,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.gangster-gus3",
         "consumes": false,
         "custom": [
           {
@@ -5763,6 +5881,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.glumlee1",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -5777,7 +5896,8 @@
             "amount": 2,
             "kind": "item",
             "name": "Copper Ore",
-            "rawName": "Copper"
+            "rawName": "Copper",
+            "ref": "items.acquisition.copper"
           }
         ],
         "rewards": [
@@ -5837,6 +5957,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.glumlee2",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -5851,7 +5972,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Copper Bar",
-            "rawName": "CopperBar"
+            "rawName": "CopperBar",
+            "ref": "items.acquisition.copper-bar"
           }
         ],
         "rewards": [
@@ -5911,6 +6033,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.glumlee3",
         "consumes": false,
         "custom": [
           {
@@ -5987,6 +6110,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.glumlee4",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -6001,7 +6125,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Broken Mic",
-            "rawName": "Quest16"
+            "rawName": "Quest16",
+            "ref": "items.acquisition.quest16"
           }
         ],
         "rewards": [
@@ -6061,6 +6186,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.glumlee5",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -6075,7 +6201,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Broken Mic",
-            "rawName": "Quest16"
+            "rawName": "Quest16",
+            "ref": "items.acquisition.quest16"
           }
         ],
         "rewards": [
@@ -6135,6 +6262,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.goldric1",
         "consumes": false,
         "custom": [
           {
@@ -6207,6 +6335,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.goldric2",
         "consumes": false,
         "custom": [
           {
@@ -6287,6 +6416,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.goldric3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -6301,19 +6431,22 @@
             "amount": 200,
             "kind": "item",
             "name": "Casual Confidante",
-            "rawName": "GoldricP1"
+            "rawName": "GoldricP1",
+            "ref": "items.acquisition.goldric-p1"
           },
           {
             "amount": 200,
             "kind": "item",
             "name": "Triumphant Treason",
-            "rawName": "GoldricP2"
+            "rawName": "GoldricP2",
+            "ref": "items.acquisition.goldric-p2"
           },
           {
             "amount": 200,
             "kind": "item",
             "name": "Claiming Cashe",
-            "rawName": "GoldricP3"
+            "rawName": "GoldricP3",
+            "ref": "items.acquisition.goldric-p3"
           }
         ],
         "rewards": [
@@ -6373,6 +6506,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.goldric4",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -6387,7 +6521,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Golden Plop",
-            "rawName": "Sewers1b"
+            "rawName": "Sewers1b",
+            "ref": "items.acquisition.sewers1b"
           }
         ],
         "rewards": [
@@ -6447,6 +6582,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.goldric5",
         "consumes": false,
         "custom": [
           {
@@ -6523,6 +6659,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.goldric6",
         "consumes": false,
         "custom": [
           {
@@ -6599,6 +6736,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.hamish1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -6623,7 +6761,8 @@
             },
             "kind": "item",
             "name": "Copper Chopper",
-            "rawName": "EquipmentToolsHatchet3"
+            "rawName": "EquipmentToolsHatchet3",
+            "ref": "items.acquisition.equipment-tools-hatchet3"
           }
         ],
         "rewards": [
@@ -6683,6 +6822,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.hamish2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -6717,7 +6857,8 @@
             },
             "kind": "item",
             "name": "Purple Tupacband",
-            "rawName": "EquipmentHats8"
+            "rawName": "EquipmentHats8",
+            "ref": "items.acquisition.equipment-hats8"
           }
         ],
         "rewards": [
@@ -6781,6 +6922,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.hamish3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -6795,7 +6937,8 @@
             "amount": 50,
             "kind": "item",
             "name": "Slime Sludge",
-            "rawName": "Jungle1"
+            "rawName": "Jungle1",
+            "ref": "items.acquisition.jungle1"
           }
         ],
         "rewards": [
@@ -6855,6 +6998,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.hoggindaz1",
         "consumes": false,
         "custom": [
           {
@@ -6927,6 +7071,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.hoggindaz10",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -6961,7 +7106,8 @@
             },
             "kind": "item",
             "name": "Tundra NPC Completion Token",
-            "rawName": "BadgeI1"
+            "rawName": "BadgeI1",
+            "ref": "items.acquisition.badge-i1"
           },
           {
             "amount": 1,
@@ -6987,7 +7133,8 @@
             },
             "kind": "item",
             "name": "Tundra Skills Completion Token",
-            "rawName": "BadgeI2"
+            "rawName": "BadgeI2",
+            "ref": "items.acquisition.badge-i2"
           },
           {
             "amount": 1,
@@ -7018,7 +7165,8 @@
             },
             "kind": "item",
             "name": "Tundra Misc Completion Token",
-            "rawName": "BadgeI3"
+            "rawName": "BadgeI3",
+            "ref": "items.acquisition.badge-i3"
           }
         ],
         "rewards": [
@@ -7074,6 +7222,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.hoggindaz2",
         "consumes": false,
         "custom": [
           {
@@ -7150,6 +7299,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.hoggindaz3",
         "consumes": false,
         "custom": [
           {
@@ -7230,6 +7380,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.hoggindaz4",
         "consumes": false,
         "custom": [
           {
@@ -7306,6 +7457,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.hoggindaz5",
         "consumes": false,
         "custom": [
           {
@@ -7378,6 +7530,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.hoggindaz6",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -7392,7 +7545,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Shuvelle's Vote",
-            "rawName": "Quest59"
+            "rawName": "Quest59",
+            "ref": "items.acquisition.quest59"
           }
         ],
         "rewards": [
@@ -7448,6 +7602,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.hoggindaz7",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -7462,7 +7617,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Yondergreens Vote",
-            "rawName": "Quest60"
+            "rawName": "Quest60",
+            "ref": "items.acquisition.quest60"
           }
         ],
         "rewards": [
@@ -7518,6 +7674,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.hoggindaz8",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -7532,7 +7689,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Bill Brr's Vote",
-            "rawName": "Quest61"
+            "rawName": "Quest61",
+            "ref": "items.acquisition.quest61"
           }
         ],
         "rewards": [
@@ -7588,6 +7746,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.hoggindaz9",
         "consumes": false,
         "custom": [
           {
@@ -7664,6 +7823,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.iceland-irwin1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -7678,7 +7838,8 @@
             "amount": 250,
             "kind": "item",
             "name": "Melty Cube",
-            "rawName": "SnowA2"
+            "rawName": "SnowA2",
+            "ref": "items.acquisition.snow-a2"
           }
         ],
         "rewards": [
@@ -7742,6 +7903,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.krunk1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 4,
@@ -7756,13 +7918,15 @@
             "amount": 200,
             "kind": "item",
             "name": "Iron Ore",
-            "rawName": "Iron"
+            "rawName": "Iron",
+            "ref": "items.acquisition.iron"
           },
           {
             "amount": 50,
             "kind": "item",
             "name": "Small Mana Potion",
-            "rawName": "FoodPotMana1"
+            "rawName": "FoodPotMana1",
+            "ref": "items.acquisition.food-pot-mana1"
           }
         ],
         "rewards": [
@@ -7826,6 +7990,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.krunk2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -7840,19 +8005,22 @@
             "amount": 200,
             "kind": "item",
             "name": "Gold Ore",
-            "rawName": "Gold"
+            "rawName": "Gold",
+            "ref": "items.acquisition.gold"
           },
           {
             "amount": 100,
             "kind": "item",
             "name": "Iron Bar",
-            "rawName": "IronBar"
+            "rawName": "IronBar",
+            "ref": "items.acquisition.iron-bar"
           },
           {
             "amount": 20,
             "kind": "item",
             "name": "Power Statue",
-            "rawName": "EquipmentStatues1"
+            "rawName": "EquipmentStatues1",
+            "ref": "items.acquisition.equipment-statues1"
           }
         ],
         "rewards": [
@@ -7916,6 +8084,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.krunk3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 0,
@@ -7930,19 +8099,22 @@
             "amount": 1200,
             "kind": "item",
             "name": "Bleach Logs",
-            "rawName": "BirchTree"
+            "rawName": "BirchTree",
+            "ref": "items.acquisition.birch-tree"
           },
           {
             "amount": 300,
             "kind": "item",
             "name": "Trusty Nails",
-            "rawName": "CraftMat5"
+            "rawName": "CraftMat5",
+            "ref": "items.acquisition.craft-mat5"
           },
           {
             "amount": 600,
             "kind": "item",
             "name": "Thread",
-            "rawName": "CraftMat1"
+            "rawName": "CraftMat1",
+            "ref": "items.acquisition.craft-mat1"
           }
         ],
         "rewards": [
@@ -8002,6 +8174,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.lonely-hunter1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -8016,13 +8189,15 @@
             "amount": 200,
             "kind": "item",
             "name": "Grass Leaf",
-            "rawName": "Leaf1"
+            "rawName": "Leaf1",
+            "ref": "items.acquisition.leaf1"
           },
           {
             "amount": 50,
             "kind": "item",
             "name": "Twisty Leaf",
-            "rawName": "Leaf2"
+            "rawName": "Leaf2",
+            "ref": "items.acquisition.leaf2"
           }
         ],
         "rewards": [
@@ -8082,6 +8257,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.lonely-hunter2",
         "consumes": false,
         "custom": [
           {
@@ -8154,6 +8330,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.lonely-hunter3",
         "consumes": false,
         "custom": [
           {
@@ -8234,6 +8411,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.loominadi1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -8248,7 +8426,8 @@
             "amount": 10,
             "kind": "item",
             "name": "Loomi's Room Key",
-            "rawName": "Quest18"
+            "rawName": "Quest18",
+            "ref": "items.acquisition.quest18"
           }
         ],
         "rewards": [
@@ -8312,6 +8491,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.loominadi2",
         "consumes": false,
         "custom": [
           {
@@ -8388,6 +8568,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.loominadi3",
         "consumes": false,
         "custom": [
           {
@@ -8464,6 +8645,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.loominadi4",
         "consumes": false,
         "custom": [
           {
@@ -8540,6 +8722,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.lord-of-the-hunt1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -8554,19 +8737,22 @@
             "amount": 10,
             "kind": "item",
             "name": "Shrapshell",
-            "rawName": "DesertC4"
+            "rawName": "DesertC4",
+            "ref": "items.acquisition.desert-c4"
           },
           {
             "amount": 12,
             "kind": "item",
             "name": "Snake Skin",
-            "rawName": "Jungle2"
+            "rawName": "Jungle2",
+            "ref": "items.acquisition.jungle2"
           },
           {
             "amount": 1,
             "kind": "item",
             "name": "Cardboard Traps",
-            "rawName": "TrapBoxSet1"
+            "rawName": "TrapBoxSet1",
+            "ref": "items.acquisition.trap-box-set1"
           }
         ],
         "rewards": [
@@ -8626,6 +8812,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.lord-of-the-hunt10",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -8640,13 +8827,15 @@
             "amount": 65000,
             "kind": "item",
             "name": "Honker",
-            "rawName": "Critter9"
+            "rawName": "Critter9",
+            "ref": "items.acquisition.critter9"
           },
           {
             "amount": 1,
             "kind": "item",
             "name": "Diamond Duck",
-            "rawName": "Critter9A"
+            "rawName": "Critter9A",
+            "ref": "items.acquisition.critter9-a"
           }
         ],
         "rewards": [
@@ -8706,6 +8895,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.lord-of-the-hunt11",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -8720,19 +8910,22 @@
             "amount": 500,
             "kind": "item",
             "name": "Crescent Scorpie",
-            "rawName": "Critter3A"
+            "rawName": "Critter3A",
+            "ref": "items.acquisition.critter3-a"
           },
           {
             "amount": 250,
             "kind": "item",
             "name": "Eternal Lord of The Undying Ember",
-            "rawName": "Critter6A"
+            "rawName": "Critter6A",
+            "ref": "items.acquisition.critter6-a"
           },
           {
             "amount": 100,
             "kind": "item",
             "name": "Diamond Duck",
-            "rawName": "Critter9A"
+            "rawName": "Critter9A",
+            "ref": "items.acquisition.critter9-a"
           }
         ],
         "rewards": [
@@ -8788,6 +8981,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.lord-of-the-hunt2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -8802,13 +8996,15 @@
             "amount": 100,
             "kind": "item",
             "name": "Froge",
-            "rawName": "Critter1"
+            "rawName": "Critter1",
+            "ref": "items.acquisition.critter1"
           },
           {
             "amount": 1,
             "kind": "item",
             "name": "Poison Froge",
-            "rawName": "Critter1A"
+            "rawName": "Critter1A",
+            "ref": "items.acquisition.critter1-a"
           }
         ],
         "rewards": [
@@ -8868,6 +9064,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.lord-of-the-hunt3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -8882,13 +9079,15 @@
             "amount": 250,
             "kind": "item",
             "name": "Crabbo",
-            "rawName": "Critter2"
+            "rawName": "Critter2",
+            "ref": "items.acquisition.critter2"
           },
           {
             "amount": 1,
             "kind": "item",
             "name": "Mutant Crabbo",
-            "rawName": "Critter2A"
+            "rawName": "Critter2A",
+            "ref": "items.acquisition.critter2-a"
           }
         ],
         "rewards": [
@@ -8944,6 +9143,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.lord-of-the-hunt4",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -8958,13 +9158,15 @@
             "amount": 500,
             "kind": "item",
             "name": "Scorpie",
-            "rawName": "Critter3"
+            "rawName": "Critter3",
+            "ref": "items.acquisition.critter3"
           },
           {
             "amount": 2,
             "kind": "item",
             "name": "Crescent Scorpie",
-            "rawName": "Critter3A"
+            "rawName": "Critter3A",
+            "ref": "items.acquisition.critter3-a"
           }
         ],
         "rewards": [
@@ -9024,6 +9226,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.lord-of-the-hunt5",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -9038,13 +9241,15 @@
             "amount": 1000,
             "kind": "item",
             "name": "Mousey",
-            "rawName": "Critter4"
+            "rawName": "Critter4",
+            "ref": "items.acquisition.critter4"
           },
           {
             "amount": 2,
             "kind": "item",
             "name": "Nakeo Moleo",
-            "rawName": "Critter4A"
+            "rawName": "Critter4A",
+            "ref": "items.acquisition.critter4-a"
           }
         ],
         "rewards": [
@@ -9100,6 +9305,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.lord-of-the-hunt6",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -9114,13 +9320,15 @@
             "amount": 1500,
             "kind": "item",
             "name": "Owlio",
-            "rawName": "Critter5"
+            "rawName": "Critter5",
+            "ref": "items.acquisition.critter5"
           },
           {
             "amount": 3,
             "kind": "item",
             "name": "Minervowl",
-            "rawName": "Critter5A"
+            "rawName": "Critter5A",
+            "ref": "items.acquisition.critter5-a"
           }
         ],
         "rewards": [
@@ -9176,6 +9384,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.lord-of-the-hunt7",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -9190,13 +9399,15 @@
             "amount": 2500,
             "kind": "item",
             "name": "Pingy",
-            "rawName": "Critter6"
+            "rawName": "Critter6",
+            "ref": "items.acquisition.critter6"
           },
           {
             "amount": 4,
             "kind": "item",
             "name": "Eternal Lord of The Undying Ember",
-            "rawName": "Critter6A"
+            "rawName": "Critter6A",
+            "ref": "items.acquisition.critter6-a"
           }
         ],
         "rewards": [
@@ -9256,6 +9467,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.lord-of-the-hunt8",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -9270,13 +9482,15 @@
             "amount": 4000,
             "kind": "item",
             "name": "Bunny",
-            "rawName": "Critter7"
+            "rawName": "Critter7",
+            "ref": "items.acquisition.critter7"
           },
           {
             "amount": 6,
             "kind": "item",
             "name": "Purbunni",
-            "rawName": "Critter7A"
+            "rawName": "Critter7A",
+            "ref": "items.acquisition.critter7-a"
           }
         ],
         "rewards": [
@@ -9332,6 +9546,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.lord-of-the-hunt9",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -9346,13 +9561,15 @@
             "amount": 8000,
             "kind": "item",
             "name": "Dung Beat",
-            "rawName": "Critter8"
+            "rawName": "Critter8",
+            "ref": "items.acquisition.critter8"
           },
           {
             "amount": 10,
             "kind": "item",
             "name": "Jade Scarab",
-            "rawName": "Critter8A"
+            "rawName": "Critter8A",
+            "ref": "items.acquisition.critter8-a"
           }
         ],
         "rewards": [
@@ -9408,6 +9625,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.meel1",
         "consumes": false,
         "custom": [
           {
@@ -9476,6 +9694,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.meel2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -9490,7 +9709,8 @@
             "amount": 777,
             "kind": "item",
             "name": "Bonemeal",
-            "rawName": "Sewers3"
+            "rawName": "Sewers3",
+            "ref": "items.acquisition.sewers3"
           }
         ],
         "rewards": [
@@ -9550,6 +9770,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.mr-pigibank1",
         "consumes": false,
         "custom": [
           {
@@ -9618,6 +9839,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.mutton1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -9632,13 +9854,15 @@
             "amount": 1,
             "kind": "item",
             "name": "White Headband",
-            "rawName": "EquipmentHats5"
+            "rawName": "EquipmentHats5",
+            "ref": "items.acquisition.equipment-hats5"
           },
           {
             "amount": 1,
             "kind": "item",
             "name": "Give Up On Life Pants",
-            "rawName": "EquipmentPants10"
+            "rawName": "EquipmentPants10",
+            "ref": "items.acquisition.equipment-pants10"
           },
           {
             "amount": 1,
@@ -9659,7 +9883,8 @@
             },
             "kind": "item",
             "name": "Flip Flops",
-            "rawName": "EquipmentShoes9"
+            "rawName": "EquipmentShoes9",
+            "ref": "items.acquisition.equipment-shoes9"
           }
         ],
         "rewards": [
@@ -9723,6 +9948,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.mutton2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -9737,7 +9963,8 @@
             "amount": 300,
             "kind": "item",
             "name": "Corporatube Sub",
-            "rawName": "Quest22"
+            "rawName": "Quest22",
+            "ref": "items.acquisition.quest22"
           }
         ],
         "rewards": [
@@ -9797,6 +10024,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.mutton3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -9811,13 +10039,15 @@
             "amount": 5000,
             "kind": "item",
             "name": "Corporatube Sub",
-            "rawName": "Quest22"
+            "rawName": "Quest22",
+            "ref": "items.acquisition.quest22"
           },
           {
             "amount": 1000,
             "kind": "item",
             "name": "Instablab Follower",
-            "rawName": "Quest23"
+            "rawName": "Quest23",
+            "ref": "items.acquisition.quest23"
           }
         ],
         "rewards": [
@@ -9877,6 +10107,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.mutton4",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -9891,19 +10122,22 @@
             "amount": 200000,
             "kind": "item",
             "name": "Corporatube Sub",
-            "rawName": "Quest22"
+            "rawName": "Quest22",
+            "ref": "items.acquisition.quest22"
           },
           {
             "amount": 300000,
             "kind": "item",
             "name": "Instablab Follower",
-            "rawName": "Quest23"
+            "rawName": "Quest23",
+            "ref": "items.acquisition.quest23"
           },
           {
             "amount": 500000,
             "kind": "item",
             "name": "Cloudsound Follower",
-            "rawName": "Quest24"
+            "rawName": "Quest24",
+            "ref": "items.acquisition.quest24"
           }
         ],
         "rewards": [
@@ -9963,6 +10197,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.obol-altar1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 0,
@@ -9977,7 +10212,8 @@
             "amount": 1,
             "kind": "item",
             "name": "BobJoePickle",
-            "rawName": "BobJoePickle"
+            "rawName": "BobJoePickle",
+            "ref": "items.acquisition.bob-joe-pickle"
           }
         ],
         "rewards": [
@@ -10033,6 +10269,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.omar-da-ogar1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -10047,7 +10284,8 @@
             "amount": 20000,
             "kind": "item",
             "name": "Thread",
-            "rawName": "CraftMat1"
+            "rawName": "CraftMat1",
+            "ref": "items.acquisition.craft-mat1"
           }
         ],
         "rewards": [
@@ -10107,6 +10345,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.omar-da-ogar2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -10121,7 +10360,8 @@
             "amount": 24,
             "kind": "item",
             "name": "1 HR Time Candy",
-            "rawName": "Timecandy1"
+            "rawName": "Timecandy1",
+            "ref": "items.acquisition.timecandy1"
           },
           {
             "amount": 10,
@@ -10137,7 +10377,8 @@
             },
             "kind": "item",
             "name": "2 HR Time Candy",
-            "rawName": "Timecandy2"
+            "rawName": "Timecandy2",
+            "ref": "items.acquisition.timecandy2"
           },
           {
             "amount": 5,
@@ -10153,7 +10394,8 @@
             },
             "kind": "item",
             "name": "4 HR Time Candy",
-            "rawName": "Timecandy3"
+            "rawName": "Timecandy3",
+            "ref": "items.acquisition.timecandy3"
           }
         ],
         "rewards": [
@@ -10213,6 +10455,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.omar-da-ogar3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -10227,13 +10470,15 @@
             "amount": 40000,
             "kind": "item",
             "name": "Sand Shark",
-            "rawName": "Fish6"
+            "rawName": "Fish6",
+            "ref": "items.acquisition.fish6"
           },
           {
             "amount": 1,
             "kind": "item",
             "name": "BobJoePickle",
-            "rawName": "BobJoePickle"
+            "rawName": "BobJoePickle",
+            "ref": "items.acquisition.bob-joe-pickle"
           }
         ],
         "rewards": [
@@ -10293,6 +10538,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.omar-da-ogar4",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -10307,13 +10553,15 @@
             "amount": 250000,
             "kind": "item",
             "name": "Kraken",
-            "rawName": "Fish8"
+            "rawName": "Fish8",
+            "ref": "items.acquisition.fish8"
           },
           {
             "amount": 1,
             "kind": "item",
             "name": "BobJoePickle",
-            "rawName": "BobJoePickle"
+            "rawName": "BobJoePickle",
+            "ref": "items.acquisition.bob-joe-pickle"
           }
         ],
         "rewards": [
@@ -10373,6 +10621,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.omar-da-ogar5",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -10387,19 +10636,22 @@
             "amount": 250000,
             "kind": "item",
             "name": "Fruitfly",
-            "rawName": "Bug4"
+            "rawName": "Bug4",
+            "ref": "items.acquisition.bug4"
           },
           {
             "amount": 75000,
             "kind": "item",
             "name": "Worker Bee",
-            "rawName": "Bug7"
+            "rawName": "Bug7",
+            "ref": "items.acquisition.bug7"
           },
           {
             "amount": 2,
             "kind": "item",
             "name": "BobJoePickle",
-            "rawName": "BobJoePickle"
+            "rawName": "BobJoePickle",
+            "ref": "items.acquisition.bob-joe-pickle"
           }
         ],
         "rewards": [
@@ -10463,6 +10715,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.omar-da-ogar6",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -10477,7 +10730,8 @@
             "amount": 1000,
             "kind": "item",
             "name": "Shellfish",
-            "rawName": "Fish10"
+            "rawName": "Fish10",
+            "ref": "items.acquisition.fish10"
           }
         ],
         "rewards": [
@@ -10537,6 +10791,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.papua-piggea1",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -10551,7 +10806,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Kapow Stamp",
-            "rawName": "StampA8"
+            "rawName": "StampA8",
+            "ref": "items.acquisition.stamp-a8"
           }
         ],
         "rewards": [
@@ -10611,6 +10867,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.papua-piggea2",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -10625,7 +10882,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Crystallin",
-            "rawName": "StampC3"
+            "rawName": "StampC3",
+            "ref": "items.acquisition.stamp-c3"
           }
         ],
         "rewards": [
@@ -10689,6 +10947,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.papua-piggea3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -10703,19 +10962,22 @@
             "amount": 3,
             "kind": "item",
             "name": "Target Stamp",
-            "rawName": "StampA5"
+            "rawName": "StampA5",
+            "ref": "items.acquisition.stamp-a5"
           },
           {
             "amount": 5,
             "kind": "item",
             "name": "Mana Stamp",
-            "rawName": "StampA3"
+            "rawName": "StampA3",
+            "ref": "items.acquisition.stamp-a3"
           },
           {
             "amount": 2,
             "kind": "item",
             "name": "Vitality Stamp",
-            "rawName": "StampA12"
+            "rawName": "StampA12",
+            "ref": "items.acquisition.stamp-a12"
           }
         ],
         "rewards": [
@@ -10779,6 +11041,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.papua-piggea4",
         "consumes": false,
         "custom": [
           {
@@ -10855,6 +11118,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.picnic-stowaway1",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -10879,7 +11143,8 @@
             },
             "kind": "item",
             "name": "Orange Tee",
-            "rawName": "EquipmentShirts1"
+            "rawName": "EquipmentShirts1",
+            "ref": "items.acquisition.equipment-shirts1"
           }
         ],
         "rewards": [
@@ -10943,6 +11208,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.picnic-stowaway10",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -10957,7 +11223,8 @@
             "amount": 2,
             "kind": "item",
             "name": "Nuget Cake",
-            "rawName": "DesertA3b"
+            "rawName": "DesertA3b",
+            "ref": "items.acquisition.desert-a3b"
           }
         ],
         "rewards": [
@@ -11021,6 +11288,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.picnic-stowaway11",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -11035,7 +11303,8 @@
             "amount": 2,
             "kind": "item",
             "name": "Midnight Cookie",
-            "rawName": "MidnightCookie"
+            "rawName": "MidnightCookie",
+            "ref": "items.acquisition.midnight-cookie"
           }
         ],
         "rewards": [
@@ -11095,6 +11364,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.picnic-stowaway12",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -11109,7 +11379,8 @@
             "amount": 30,
             "kind": "item",
             "name": "Picnic Token",
-            "rawName": "Quest9"
+            "rawName": "Quest9",
+            "ref": "items.acquisition.quest9"
           }
         ],
         "rewards": [
@@ -11165,6 +11436,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.picnic-stowaway2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -11179,13 +11451,15 @@
             "amount": 3,
             "kind": "item",
             "name": "Ketchup Bottle",
-            "rawName": "Quest3"
+            "rawName": "Quest3",
+            "ref": "items.acquisition.quest3"
           },
           {
             "amount": 3,
             "kind": "item",
             "name": "Mustard Bottle",
-            "rawName": "Quest4"
+            "rawName": "Quest4",
+            "ref": "items.acquisition.quest4"
           }
         ],
         "rewards": [
@@ -11245,6 +11519,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.picnic-stowaway3",
         "consumes": false,
         "custom": [
           {
@@ -11317,6 +11592,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.picnic-stowaway4",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -11331,13 +11607,15 @@
             "amount": 200,
             "kind": "item",
             "name": "Frog Leg",
-            "rawName": "Grasslands2"
+            "rawName": "Grasslands2",
+            "ref": "items.acquisition.grasslands2"
           },
           {
             "amount": 100,
             "kind": "item",
             "name": "Bean Slices",
-            "rawName": "Grasslands3"
+            "rawName": "Grasslands3",
+            "ref": "items.acquisition.grasslands3"
           }
         ],
         "rewards": [
@@ -11397,6 +11675,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.picnic-stowaway5",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -11431,19 +11710,22 @@
             },
             "kind": "item",
             "name": "Peanut",
-            "rawName": "Peanut"
+            "rawName": "Peanut",
+            "ref": "items.acquisition.peanut"
           },
           {
             "amount": 1500,
             "kind": "item",
             "name": "Bleach Logs",
-            "rawName": "BirchTree"
+            "rawName": "BirchTree",
+            "ref": "items.acquisition.birch-tree"
           },
           {
             "amount": 50,
             "kind": "item",
             "name": "Grass Leaf",
-            "rawName": "Leaf1"
+            "rawName": "Leaf1",
+            "ref": "items.acquisition.leaf1"
           }
         ],
         "rewards": [
@@ -11507,6 +11789,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.picnic-stowaway6",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -11521,19 +11804,22 @@
             "amount": 200,
             "kind": "item",
             "name": "Crude Oil",
-            "rawName": "OilBarrel1"
+            "rawName": "OilBarrel1",
+            "ref": "items.acquisition.oil-barrel1"
           },
           {
             "amount": 100,
             "kind": "item",
             "name": "Iron Bar",
-            "rawName": "IronBar"
+            "rawName": "IronBar",
+            "ref": "items.acquisition.iron-bar"
           },
           {
             "amount": 1,
             "kind": "item",
             "name": "Sculpting Tools",
-            "rawName": "SmithingHammerChisel"
+            "rawName": "SmithingHammerChisel",
+            "ref": "items.acquisition.smithing-hammer-chisel"
           }
         ],
         "rewards": [
@@ -11597,6 +11883,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.picnic-stowaway7",
         "consumes": true,
         "custom": [
           {
@@ -11681,6 +11968,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.picnic-stowaway8",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -11710,13 +11998,15 @@
             },
             "kind": "item",
             "name": "Iron Helmet",
-            "rawName": "EquipmentHats18"
+            "rawName": "EquipmentHats18",
+            "ref": "items.acquisition.equipment-hats18"
           },
           {
             "amount": 500,
             "kind": "item",
             "name": "Kebab Sticks",
-            "rawName": "FoodHealth6"
+            "rawName": "FoodHealth6",
+            "ref": "items.acquisition.food-health6"
           }
         ],
         "rewards": [
@@ -11776,6 +12066,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.picnic-stowaway9",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 4,
@@ -11790,7 +12081,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Magic Meatloaf",
-            "rawName": "Meatloaf"
+            "rawName": "Meatloaf",
+            "ref": "items.acquisition.meatloaf"
           }
         ],
         "rewards": [
@@ -11854,6 +12146,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.postboy-pablob1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 0,
@@ -11888,7 +12181,8 @@
             },
             "kind": "item",
             "name": "Empty Box",
-            "rawName": "Quest13"
+            "rawName": "Quest13",
+            "ref": "items.acquisition.quest13"
           }
         ],
         "rewards": [
@@ -11952,6 +12246,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.promotheus1",
         "consumes": false,
         "custom": [
           {
@@ -12024,6 +12319,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.promotheus2",
         "consumes": false,
         "custom": [
           {
@@ -12100,6 +12396,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.promotheus3",
         "consumes": false,
         "custom": [
           {
@@ -12176,6 +12473,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.promotheus4",
         "consumes": false,
         "custom": [
           {
@@ -12248,6 +12546,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.rocklyte1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -12282,7 +12581,8 @@
             },
             "kind": "item",
             "name": "Peanut",
-            "rawName": "Peanut"
+            "rawName": "Peanut",
+            "ref": "items.acquisition.peanut"
           }
         ],
         "rewards": [
@@ -12342,6 +12642,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.rocklyte2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -12371,7 +12672,8 @@
             },
             "kind": "item",
             "name": "Golden Peanut",
-            "rawName": "PeanutG"
+            "rawName": "PeanutG",
+            "ref": "items.acquisition.peanut-g"
           }
         ],
         "rewards": [
@@ -12431,6 +12733,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.rocklyte3",
         "consumes": false,
         "custom": [
           {
@@ -12503,6 +12806,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scripticus1",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 0,
@@ -12561,6 +12865,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scripticus10",
         "consumes": false,
         "custom": [
           {
@@ -12641,6 +12946,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scripticus11",
         "consumes": false,
         "custom": [
           {
@@ -12721,6 +13027,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scripticus12",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -12755,7 +13062,8 @@
             },
             "kind": "item",
             "name": "Blunderhills NPC Completion Token",
-            "rawName": "BadgeG1"
+            "rawName": "BadgeG1",
+            "ref": "items.acquisition.badge-g1"
           },
           {
             "amount": 1,
@@ -12781,7 +13089,8 @@
             },
             "kind": "item",
             "name": "Blunder Skills Completion Token",
-            "rawName": "BadgeG2"
+            "rawName": "BadgeG2",
+            "ref": "items.acquisition.badge-g2"
           },
           {
             "amount": 1,
@@ -12812,7 +13121,8 @@
             },
             "kind": "item",
             "name": "Blunderhills Misc Completion Token",
-            "rawName": "BadgeG3"
+            "rawName": "BadgeG3",
+            "ref": "items.acquisition.badge-g3"
           }
         ],
         "rewards": [
@@ -12868,6 +13178,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scripticus13",
         "consumes": false,
         "custom": [
           {
@@ -12948,6 +13259,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scripticus2",
         "consumes": false,
         "custom": [
           {
@@ -13024,6 +13336,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scripticus3",
         "consumes": false,
         "custom": [
           {
@@ -13100,6 +13413,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scripticus4",
         "consumes": false,
         "custom": [
           {
@@ -13180,6 +13494,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scripticus5",
         "consumes": false,
         "custom": [
           {
@@ -13252,6 +13567,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scripticus6",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 0,
@@ -13266,7 +13582,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Mining Certificate",
-            "rawName": "Quest1"
+            "rawName": "Quest1",
+            "ref": "items.acquisition.quest1"
           }
         ],
         "rewards": [
@@ -13330,6 +13647,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scripticus7",
         "consumes": false,
         "custom": [
           {
@@ -13410,6 +13728,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scripticus8",
         "consumes": false,
         "custom": [
           {
@@ -13494,6 +13813,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scripticus9",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -13508,7 +13828,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Scouting Report",
-            "rawName": "Quest6"
+            "rawName": "Quest6",
+            "ref": "items.acquisition.quest6"
           }
         ],
         "rewards": [
@@ -13568,6 +13889,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scubidew1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -13582,19 +13904,22 @@
             "amount": 400,
             "kind": "item",
             "name": "Goldfish",
-            "rawName": "Fish1"
+            "rawName": "Fish1",
+            "ref": "items.acquisition.fish1"
           },
           {
             "amount": 100,
             "kind": "item",
             "name": "Hermit Can",
-            "rawName": "Fish2"
+            "rawName": "Fish2",
+            "ref": "items.acquisition.fish2"
           },
           {
             "amount": 25,
             "kind": "item",
             "name": "Jellyfish",
-            "rawName": "Fish3"
+            "rawName": "Fish3",
+            "ref": "items.acquisition.fish3"
           }
         ],
         "rewards": [
@@ -13658,6 +13983,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scubidew2",
         "consumes": false,
         "custom": [
           {
@@ -13734,6 +14060,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.scubidew3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -13748,7 +14075,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Goldfish",
-            "rawName": "Fish1"
+            "rawName": "Fish1",
+            "ref": "items.acquisition.fish1"
           }
         ],
         "rewards": [
@@ -13808,6 +14136,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.secretkeeper1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 0,
@@ -13822,7 +14151,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Secretstone",
-            "rawName": "Secretstone"
+            "rawName": "Secretstone",
+            "ref": "items.acquisition.secretstone"
           }
         ],
         "rewards": [
@@ -13882,6 +14212,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.shuvelle1",
         "consumes": false,
         "custom": [
           {
@@ -13958,6 +14289,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.shuvelle2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -13972,7 +14304,8 @@
             "amount": 200,
             "kind": "item",
             "name": "Mosquisnow",
-            "rawName": "Bug5"
+            "rawName": "Bug5",
+            "ref": "items.acquisition.bug5"
           }
         ],
         "rewards": [
@@ -14036,6 +14369,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.shuvelle3",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -14050,7 +14384,8 @@
             "amount": 8000,
             "kind": "item",
             "name": "Mamooth Tusk",
-            "rawName": "SnowB2"
+            "rawName": "SnowB2",
+            "ref": "items.acquisition.snow-b2"
           }
         ],
         "rewards": [
@@ -14106,6 +14441,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.shuvelle4",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -14120,7 +14456,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Ice Age 3",
-            "rawName": "SnowB2a"
+            "rawName": "SnowB2a",
+            "ref": "items.acquisition.snow-b2a"
           }
         ],
         "rewards": [
@@ -14180,6 +14517,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.shuvelle5",
         "consumes": false,
         "custom": [
           {
@@ -14252,6 +14590,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.shuvelle6",
         "consumes": false,
         "custom": [
           {
@@ -14324,6 +14663,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.shuvelle7",
         "consumes": false,
         "custom": [
           {
@@ -14400,6 +14740,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.snake-jar1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -14414,7 +14755,8 @@
             "amount": 4200,
             "kind": "item",
             "name": "Megalodon Tooth",
-            "rawName": "DesertA2"
+            "rawName": "DesertA2",
+            "ref": "items.acquisition.desert-a2"
           }
         ],
         "rewards": [
@@ -14474,6 +14816,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.snake-jar2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -14488,7 +14831,8 @@
             "amount": 8500,
             "kind": "item",
             "name": "Small Life Potion",
-            "rawName": "FoodPotRe1"
+            "rawName": "FoodPotRe1",
+            "ref": "items.acquisition.food-pot-re1"
           }
         ],
         "rewards": [
@@ -14548,6 +14892,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.snake-jar3",
         "consumes": false,
         "custom": [
           {
@@ -14628,6 +14973,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.snake-jar4",
         "consumes": false,
         "custom": [
           {
@@ -14704,6 +15050,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.snouts1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -14718,7 +15065,8 @@
             "amount": 30,
             "kind": "item",
             "name": "Redox Salts",
-            "rawName": "Refinery1"
+            "rawName": "Refinery1",
+            "ref": "items.acquisition.refinery1"
           }
         ],
         "rewards": [
@@ -14774,6 +15122,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.snouts2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -14788,7 +15137,8 @@
             "amount": 50,
             "kind": "item",
             "name": "Explosive Salts",
-            "rawName": "Refinery2"
+            "rawName": "Refinery2",
+            "ref": "items.acquisition.refinery2"
           }
         ],
         "rewards": [
@@ -14848,6 +15198,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.snouts3",
         "consumes": false,
         "custom": [
           {
@@ -14920,6 +15271,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.snouts4",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -14934,7 +15286,8 @@
             "amount": 250,
             "kind": "item",
             "name": "Decent Mana Potion",
-            "rawName": "FoodPotMana3"
+            "rawName": "FoodPotMana3",
+            "ref": "items.acquisition.food-pot-mana3"
           }
         ],
         "rewards": [
@@ -14994,6 +15347,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.speccius1",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -15008,13 +15362,15 @@
             "amount": 100,
             "kind": "item",
             "name": "Kebab Sticks",
-            "rawName": "FoodHealth6"
+            "rawName": "FoodHealth6",
+            "ref": "items.acquisition.food-health6"
           },
           {
             "amount": 50,
             "kind": "item",
             "name": "Crabby Cakey",
-            "rawName": "DesertA3"
+            "rawName": "DesertA3",
+            "ref": "items.acquisition.desert-a3"
           }
         ],
         "rewards": [
@@ -15078,6 +15434,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.speccius2",
         "consumes": false,
         "custom": [
           {
@@ -15146,6 +15503,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.sprout1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -15160,13 +15518,15 @@
             "amount": 500,
             "kind": "item",
             "name": "Stick",
-            "rawName": "TreeInterior1"
+            "rawName": "TreeInterior1",
+            "ref": "items.acquisition.tree-interior1"
           },
           {
             "amount": 1500,
             "kind": "item",
             "name": "Iron Ore",
-            "rawName": "Iron"
+            "rawName": "Iron",
+            "ref": "items.acquisition.iron"
           }
         ],
         "rewards": [
@@ -15230,6 +15590,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.sprout2",
         "consumes": false,
         "custom": [
           {
@@ -15306,6 +15667,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.sprout3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -15340,7 +15702,8 @@
             },
             "kind": "item",
             "name": "Iron Boots",
-            "rawName": "EquipmentShoes15"
+            "rawName": "EquipmentShoes15",
+            "ref": "items.acquisition.equipment-shoes15"
           },
           {
             "amount": 2,
@@ -15366,7 +15729,8 @@
             },
             "kind": "item",
             "name": "Goo Galoshes",
-            "rawName": "EquipmentShoes7"
+            "rawName": "EquipmentShoes7",
+            "ref": "items.acquisition.equipment-shoes7"
           },
           {
             "amount": 2,
@@ -15387,7 +15751,8 @@
             },
             "kind": "item",
             "name": "Flip Flops",
-            "rawName": "EquipmentShoes9"
+            "rawName": "EquipmentShoes9",
+            "ref": "items.acquisition.equipment-shoes9"
           }
         ],
         "rewards": [
@@ -15447,6 +15812,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.sprout4",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -15461,7 +15827,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Red Frisbee",
-            "rawName": "Quest15"
+            "rawName": "Quest15",
+            "ref": "items.acquisition.quest15"
           }
         ],
         "rewards": [
@@ -15525,6 +15892,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.stiltzcho1",
         "consumes": false,
         "custom": [
           {
@@ -15605,6 +15973,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.stiltzcho2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -15619,7 +15988,8 @@
             "amount": 4,
             "kind": "item",
             "name": "Strange Rock",
-            "rawName": "Quest7"
+            "rawName": "Quest7",
+            "ref": "items.acquisition.quest7"
           }
         ],
         "rewards": [
@@ -15683,6 +16053,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.stiltzcho3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -15697,13 +16068,15 @@
             "amount": 2,
             "kind": "item",
             "name": "Carrot Cube",
-            "rawName": "Jungle3"
+            "rawName": "Jungle3",
+            "ref": "items.acquisition.jungle3"
           },
           {
             "amount": 3,
             "kind": "item",
             "name": "Bleach Logs",
-            "rawName": "BirchTree"
+            "rawName": "BirchTree",
+            "ref": "items.acquisition.birch-tree"
           }
         ],
         "rewards": [
@@ -15767,6 +16140,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.stiltzcho4",
         "consumes": false,
         "custom": [
           {
@@ -15839,6 +16213,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.stiltzcho5",
         "consumes": false,
         "custom": [
           {
@@ -15911,6 +16286,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.stiltzcho6",
         "consumes": false,
         "custom": [
           {
@@ -15987,6 +16363,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.telescope1",
         "consumes": false,
         "custom": [
           {
@@ -16063,6 +16440,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.tiki-chief1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -16077,13 +16455,15 @@
             "amount": 10,
             "kind": "item",
             "name": "Plank",
-            "rawName": "Forest2"
+            "rawName": "Forest2",
+            "ref": "items.acquisition.forest2"
           },
           {
             "amount": 25,
             "kind": "item",
             "name": "Trusty Nails",
-            "rawName": "CraftMat5"
+            "rawName": "CraftMat5",
+            "ref": "items.acquisition.craft-mat5"
           }
         ],
         "rewards": [
@@ -16143,6 +16523,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.tiki-chief2",
         "consumes": false,
         "custom": [
           {
@@ -16223,6 +16604,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.tiki-chief3",
         "consumes": false,
         "custom": [
           {
@@ -16299,6 +16681,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.tiki-chief4",
         "consumes": false,
         "custom": [
           {
@@ -16379,6 +16762,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.toadstall1",
         "consumes": false,
         "custom": [
           {
@@ -16451,6 +16835,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.toadstall2",
         "consumes": false,
         "custom": [
           {
@@ -16523,6 +16908,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.toadstall3",
         "consumes": false,
         "custom": [
           {
@@ -16595,6 +16981,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.town-marble1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 0,
@@ -16609,7 +16996,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Sculpting Tools",
-            "rawName": "SmithingHammerChisel"
+            "rawName": "SmithingHammerChisel",
+            "ref": "items.acquisition.smithing-hammer-chisel"
           }
         ],
         "rewards": [
@@ -16665,6 +17053,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.tp-pete1",
         "consumes": false,
         "custom": [
           {
@@ -16745,6 +17134,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.tp-pete2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -16759,7 +17149,8 @@
             "amount": 50,
             "kind": "item",
             "name": "Employment Statistics",
-            "rawName": "Quest14"
+            "rawName": "Quest14",
+            "ref": "items.acquisition.quest14"
           }
         ],
         "rewards": [
@@ -16819,6 +17210,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.tp-pete3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -16833,7 +17225,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Job Application",
-            "rawName": "JobApplication"
+            "rawName": "JobApplication",
+            "ref": "items.acquisition.job-application"
           }
         ],
         "rewards": [
@@ -16893,6 +17286,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.typhoon1",
         "consumes": false,
         "custom": [
           {
@@ -16965,6 +17359,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.walupiggy1",
         "consumes": false,
         "custom": [
           {
@@ -17041,6 +17436,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.walupiggy2",
         "consumes": false,
         "custom": [
           {
@@ -17121,6 +17517,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.walupiggy3",
         "consumes": false,
         "custom": [
           {
@@ -17201,6 +17598,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.walupiggy4",
         "consumes": false,
         "custom": [
           {
@@ -17281,6 +17679,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.wellington1",
         "consumes": false,
         "custom": [
           {
@@ -17361,6 +17760,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.wellington2",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 3,
@@ -17375,19 +17775,22 @@
             "amount": 2500,
             "kind": "item",
             "name": "High Steaks",
-            "rawName": "DesertC1"
+            "rawName": "DesertC1",
+            "ref": "items.acquisition.desert-c1"
           },
           {
             "amount": 2500,
             "kind": "item",
             "name": "Wakka Cherry",
-            "rawName": "DesertC2"
+            "rawName": "DesertC2",
+            "ref": "items.acquisition.desert-c2"
           },
           {
             "amount": 2500,
             "kind": "item",
             "name": "Singlecle",
-            "rawName": "DesertC3"
+            "rawName": "DesertC3",
+            "ref": "items.acquisition.desert-c3"
           }
         ],
         "rewards": [
@@ -17451,6 +17854,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.wellington3",
         "consumes": false,
         "custom": [
           {
@@ -17523,6 +17927,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.wellington4",
         "consumes": false,
         "custom": [
           {
@@ -17599,6 +18004,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.whattso1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -17613,7 +18019,8 @@
             "amount": 20,
             "kind": "item",
             "name": "Goldfish",
-            "rawName": "Fish1"
+            "rawName": "Fish1",
+            "ref": "items.acquisition.fish1"
           }
         ],
         "rewards": [
@@ -17677,6 +18084,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.whattso2",
         "consumes": false,
         "custom": [
           {
@@ -17753,6 +18161,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.whattso3",
         "consumes": false,
         "custom": [
           {
@@ -17829,6 +18238,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.whattso4",
         "consumes": false,
         "custom": [
           {
@@ -17905,6 +18315,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.woodsman1",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -17919,7 +18330,8 @@
             "amount": 3,
             "kind": "item",
             "name": "Oak Logs",
-            "rawName": "OakTree"
+            "rawName": "OakTree",
+            "ref": "items.acquisition.oak-tree"
           }
         ],
         "rewards": [
@@ -17983,6 +18395,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.woodsman2",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -17997,7 +18410,8 @@
             "amount": 30,
             "kind": "item",
             "name": "Oak Logs",
-            "rawName": "OakTree"
+            "rawName": "OakTree",
+            "ref": "items.acquisition.oak-tree"
           }
         ],
         "rewards": [
@@ -18057,6 +18471,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.woodsman3",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -18071,7 +18486,8 @@
             "amount": 1000,
             "kind": "item",
             "name": "Oak Logs",
-            "rawName": "OakTree"
+            "rawName": "OakTree",
+            "ref": "items.acquisition.oak-tree"
           }
         ],
         "rewards": [
@@ -18131,6 +18547,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.woodsman4",
         "consumes": false,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -18145,7 +18562,8 @@
             "amount": 1,
             "kind": "item",
             "name": "Forest Fibres",
-            "rawName": "ForestTree"
+            "rawName": "ForestTree",
+            "ref": "items.acquisition.forest-tree"
           }
         ],
         "rewards": [
@@ -18205,6 +18623,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.worldo1",
         "consumes": false,
         "custom": [
           {
@@ -18277,6 +18696,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.worldo2",
         "consumes": false,
         "custom": [
           {
@@ -18349,6 +18769,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.xx-x-cattleprod-xx-x1",
         "consumes": false,
         "custom": [
           {
@@ -18425,6 +18846,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.xx-x-cattleprod-xx-x2",
         "consumes": false,
         "custom": [
           {
@@ -18505,6 +18927,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.xx-x-cattleprod-xx-x3",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 1,
@@ -18519,19 +18942,22 @@
             "amount": 1000,
             "kind": "item",
             "name": "Monster Rating",
-            "rawName": "Quest32"
+            "rawName": "Quest32",
+            "ref": "items.acquisition.quest32"
           },
           {
             "amount": 1,
             "kind": "item",
             "name": "Player Rating With Letter P",
-            "rawName": "Quest33"
+            "rawName": "Quest33",
+            "ref": "items.acquisition.quest33"
           },
           {
             "amount": 1,
             "kind": "item",
             "name": "Player Rating With Letter S",
-            "rawName": "Quest34"
+            "rawName": "Quest34",
+            "ref": "items.acquisition.quest34"
           }
         ],
         "rewards": [
@@ -18591,6 +19017,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.yondergreen1",
         "consumes": false,
         "custom": [
           {
@@ -18659,6 +19086,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.yondergreen2",
         "consumes": false,
         "custom": [
           {
@@ -18727,6 +19155,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.yondergreen3",
         "consumes": false,
         "custom": [
           {
@@ -18795,6 +19224,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.yondergreen4",
         "consumes": true,
         "custom": [],
         "inventorySpacesNeeded": 2,
@@ -18809,7 +19239,8 @@
             "amount": 4,
             "kind": "item",
             "name": "Signed Contract",
-            "rawName": "Quest62"
+            "rawName": "Quest62",
+            "ref": "items.acquisition.quest62"
           }
         ],
         "rewards": [
@@ -18869,6 +19300,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.yondergreen5",
         "consumes": false,
         "custom": [
           {
@@ -18941,6 +19373,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.yondergreen6",
         "consumes": false,
         "custom": [
           {
@@ -19013,6 +19446,7 @@
       },
       "confidence": "H",
       "data": {
+        "acquisition": "quests.acquisition.yondergreen7",
         "consumes": false,
         "custom": [
           {

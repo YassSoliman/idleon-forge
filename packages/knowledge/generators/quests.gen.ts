@@ -46,18 +46,25 @@ const generator = defineGenerator({
 
     const stepData = ({ npc, key, order, step }: OrderedStep): { [k: string]: Json } => {
       const where = npcWorld(placements, npc);
+      const questName = step.QuestName ?? `${npc}${key}`;
       return {
+        acquisition: `quests.acquisition.${slugify(questName)}`,
         npc,
         questKey: key,
         questOrder: order,
-        questName: step.QuestName ?? `${npc}${key}`,
+        questName,
         title: humanName(step.Name ?? ''),
         questType: step.Type ?? null,
         world: where?.world ?? null,
         map: where?.map ?? null,
         consumes: step.ConsumeItems === true,
         inventorySpacesNeeded: step.InventorySpacesNeeded ?? 0,
-        requires: (step.itemReq ?? []).map((i) => requirement(i, crafts, items)),
+        // M14 TR-4: each hand-in item references its generated item Acquisition, so a shipped quest
+        // ships the Requirement Tree of its items (kb compile follows ids).
+        requires: (step.itemReq ?? []).map((i) => ({
+          ...requirement(i, crafts, items),
+          ref: `items.acquisition.${slugify(i.rawName)}`,
+        })),
         custom: customOf(step),
         rewards: (step.rewards ?? []).map((r) => ({ rawName: r.rawName, amount: r.amount ?? 1 })),
       };
