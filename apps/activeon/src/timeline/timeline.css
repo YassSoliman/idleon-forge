@@ -1,0 +1,337 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M17 Phase 2: the Timeline. Today's tokens and style (the visual overhaul comes later); the Design
+   Lab's hard rules hold: 44 px targets, units on every number, colour never alone (outline + words),
+   and at 390 px the lanes scroll inside their own frame while the page never scrolls sideways. */
+
+.timeline-place {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.tl-stale {
+  margin: 0;
+}
+.tl-back-text {
+  margin: 0;
+}
+
+/* ---- The board: one frame that scrolls sideways on its own (FR-30) ---- */
+.tl-frame {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  max-width: 100%;
+  min-width: 0;
+}
+.tl-frame:focus-visible {
+  outline: 2px solid var(--coin);
+  outline-offset: 2px;
+}
+.tl-board {
+  --head: 112px;
+  --pad: 0px;
+  min-width: 620px;
+  padding: 6px 10px 8px 0;
+  display: grid;
+  gap: 2px;
+}
+.tl-row {
+  display: grid;
+  grid-template-columns: var(--head) 1fr;
+  align-items: center;
+  min-height: 22px;
+}
+.tl-head {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  scroll-snap-align: start;
+  background: var(--surface);
+  padding: 0 8px 0 10px;
+  font: 12px / 1.3 var(--mono);
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tl-divider {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  padding: 8px 10px 2px;
+  border-top: 1px solid var(--line);
+  margin-top: 4px;
+}
+.tl-track {
+  position: relative;
+  display: grid;
+  gap: 3px;
+  padding: 3px 0 3px var(--pad);
+  min-height: 16px;
+}
+.tl-track.stale {
+  --pad: 72px;
+}
+/* The stale save: the hours since the save as one grey band, never invented bars (Hatched waste). */
+.tl-track.stale::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: calc(var(--pad) - 4px);
+  background: var(--sunk);
+  border-radius: 4px;
+}
+.tl-axis .tl-track {
+  height: 34px;
+  display: block;
+}
+.tl-tick,
+.tl-back-flag,
+.tl-past {
+  position: absolute;
+  top: 4px;
+  font: 11px / 1.2 var(--mono);
+  color: var(--muted);
+  white-space: nowrap;
+  transform: translateX(-50%);
+  left: calc(var(--pad) + var(--x, 0) * (100% - var(--pad)));
+}
+.tl-tick.now {
+  transform: none;
+  font-weight: 700;
+  color: var(--fg);
+}
+.tl-past {
+  transform: none;
+  left: 4px;
+  width: calc(var(--pad) - 12px);
+  white-space: normal;
+  font-size: 10px;
+}
+.tl-back-flag {
+  --x: var(--back);
+  top: 18px;
+  font-weight: 700;
+  color: var(--fg);
+}
+.tl-now-line,
+.tl-back-line {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 0;
+  left: var(--pad);
+  border-left: 2px solid var(--fg);
+  opacity: 0.35;
+  z-index: 1;
+}
+.tl-back-line {
+  left: calc(var(--pad) + var(--back) * (100% - var(--pad)));
+  border-left: 2px dashed var(--fg);
+  opacity: 0.8;
+}
+
+/* A bar: a rail from now to when it binds; full now is a stub at the now line. */
+.tl-bar {
+  position: relative;
+  height: 10px;
+}
+.tl-bar.empty {
+  height: 4px;
+}
+.tl-rail {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  height: 6px;
+  width: max(6px, calc(var(--x) * 100%));
+  background: var(--line);
+  border-radius: 3px;
+}
+.tl-bar.fx-info .tl-rail {
+  background: transparent;
+  border: 1px dashed var(--muted);
+  top: 2px;
+  height: 6px;
+}
+.tl-bar.outlined .tl-rail {
+  top: 0;
+  height: 10px;
+  background: var(--bad-soft);
+  border: 2px solid var(--bad);
+}
+.tl-bar.later .tl-rail {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.tl-bar.full-now .tl-rail,
+.tl-bar.present .tl-rail {
+  width: 10px;
+}
+.tl-bar.present.outlined .tl-rail {
+  border-radius: 2px;
+}
+.tl-bar.muted {
+  opacity: 0.55;
+}
+.tl-pip {
+  position: absolute;
+  top: 0;
+  left: calc(var(--x) * 100%);
+  width: 14px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--coin-soft);
+  border: 1px solid var(--coin);
+}
+/* FR-25: after an outlined bar ends, the rest of its row up to Back is striped: the lost hours. */
+.tl-hatch {
+  position: absolute;
+  top: 0;
+  height: 10px;
+  left: calc(var(--x) * 100%);
+  width: max(0px, calc((var(--hatch) - var(--x)) * 100%));
+  background: repeating-linear-gradient(-45deg, var(--bad) 0 2px, transparent 2px 6px);
+  opacity: 0.7;
+}
+
+.tl-legend {
+  margin: 0;
+}
+.tl-key {
+  display: inline-block;
+  width: 18px;
+  height: 10px;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+.tl-key.outlined {
+  background: var(--bad-soft);
+  border: 2px solid var(--bad);
+}
+.tl-key.hatch {
+  background: repeating-linear-gradient(-45deg, var(--bad) 0 2px, transparent 2px 6px);
+}
+
+/* ---- The lists: the same content as text, with the real links (TR-13) ---- */
+.tl-lists {
+  display: grid;
+  gap: 10px;
+}
+.tl-lane,
+.tl-account {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 4px 12px 8px;
+  min-width: 0;
+}
+.tl-account .tl-lane {
+  border: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+}
+.tl-lane-h {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  font-size: 15px;
+  font-family: var(--body);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.tl-lane-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 700;
+}
+.tl-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+.tl-item {
+  display: grid;
+  grid-template-columns: 16px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  border-top: 1px solid var(--sunk);
+  min-width: 0;
+}
+.tl-item.outlined {
+  box-shadow: inset 3px 0 0 var(--bad);
+  padding-left: 8px;
+  margin-left: -8px;
+}
+.tl-glyph {
+  color: var(--muted);
+}
+.tl-item.outlined .tl-glyph {
+  color: var(--bad);
+}
+.tl-item-body {
+  min-width: 0;
+}
+.tl-item-text {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.tl-item.muted .tl-item-text {
+  color: var(--muted);
+}
+.tl-note {
+  margin: 2px 0 0;
+}
+.tl-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 6px;
+  white-space: nowrap;
+}
+.tl-more > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--muted);
+}
+.tl-more ul {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 12px;
+}
+.tl-more a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* The hub, the two-preset Build tab and the Timeline may widen to 980 px at 1000 px and up (D-6). */
+@media (min-width: 1000px) {
+  .app:has(.places):has(.timeline-place) {
+    max-width: min(calc(980px + 128px), 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tl-frame {
+    scroll-behavior: auto;
+  }
+}

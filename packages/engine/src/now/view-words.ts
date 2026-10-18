@@ -62,6 +62,8 @@ export const HUB_WORDS = {
 export const PAGE_WORDS = {
   nextActions: 'Next Actions',
   quickCollects: 'Quick collects',
+  onTimeline: 'On the Timeline',
+  timelineLink: 'Open the Timeline',
   spendPlan: 'In the Spend Plan',
   spendPlanLink: 'Open the Spend Plan on Now',
   howItOpens: 'How it opens',

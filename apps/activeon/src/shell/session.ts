@@ -10,10 +10,12 @@ import type { AccountState } from '@idleon-forge/account-state';
 import {
   buildNowView,
   buildSystemsView,
+  buildTimelineView,
   invariantViolations,
   type NowView,
   nextLocalMidnight,
   PLACE_WORDS,
+  type TimelineFix,
 } from '@idleon-forge/engine/now';
 import type { EngineResult } from '@idleon-forge/engine/result';
 import type { SaveKind } from '@idleon-forge/sync';
@@ -114,6 +116,7 @@ export function markedPlace(route: Route, origin: string): Place {
   if (route.place !== 'character') return placeOf(route);
   if (origin === '#characters' || origin === '#builds' || origin === '#cards') return 'characters';
   if (origin === '#systems' || origin.startsWith('#system-')) return 'systems';
+  if (origin === '#timeline') return 'timeline';
   return 'now';
 }
 
@@ -149,7 +152,7 @@ export function useSession(props: ShellProps) {
       tabs: characterTabs.map((t) => t.id),
       systems: (result.systems ?? []).filter((s) => s.kind === 'game').map((s) => s.id),
       indexes: result.characters.map((c) => c.index),
-      timeline: false,
+      timeline: true,
     }),
     [result],
   );
@@ -179,6 +182,8 @@ export function useSession(props: ShellProps) {
   const focusRowAfterBack = useRef<number | null>(null);
   const scrolls = useRef(new Map<string, number>());
   const pendingScroll = useRef<number | null>(null);
+  /** M17 FR-27: the Next Action or pill a Timeline link scrolls to on arrival, and whether its details open. */
+  const pendingReveal = useRef<{ key: string; details: boolean } | null>(null);
   const [tick, setTick] = useState(0);
   const minute = useNow(60_000);
   const now = Math.max(minute, tick);
@@ -257,6 +262,11 @@ export function useSession(props: ShellProps) {
   const systems = useMemo(
     () => buildSystemsView(result, nowPrefs, { now, lastCloudSave }),
     [result, nowPrefs, now, lastCloudSave],
+  );
+  // M17 TR-6: the Timeline from the same result and the Roster's frozen order; null without M3.
+  const timeline = useMemo(
+    () => buildTimelineView(result, nowPrefs, view, { now, lastCloudSave, tzOffsetMinutes: tz(now) }),
+    [result, nowPrefs, view, now, lastCloudSave],
   );
 
   // ---- moving between places (FR-8, FR-11) ----
@@ -337,6 +347,17 @@ export function useSession(props: ShellProps) {
     }
     if (route.place === 'characters' && route.section)
       document.getElementById(route.section)?.scrollIntoView?.({ block: 'start' });
+    const reveal = pendingReveal.current;
+    if (reveal) {
+      const q = CSS.escape(reveal.key);
+      const el = document.querySelector<HTMLElement>(`[data-na-key="${q}"], [data-cap-key="${q}"]`);
+      if (el) {
+        pendingReveal.current = null;
+        if (reveal.details)
+          el.querySelector<HTMLDetailsElement>('details.goal-details')?.setAttribute('open', '');
+        el.scrollIntoView?.({ block: 'center' });
+      }
+    }
   });
 
   const open = useCallback(
@@ -403,13 +424,14 @@ export function useSession(props: ShellProps) {
     setAnnounce(left && state.playing?.status === 'next-up' ? `Left ${left}. ${label}` : `Now on ${name}`);
   }, [save, live, lastCloudSave, follow, result, viewFor, validFocus, navigate, route]);
 
-  // ---- time-driven rebuilds (TR-5) ----
+  // ---- time-driven rebuilds (TR-5; M17 TR-6: a Timeline bar turning full now) ----
+  const nextExpiry = Math.min(view.nextExpiry ?? Infinity, timeline?.nextExpiry ?? Infinity);
   useEffect(() => {
-    if (view.nextExpiry === null) return;
-    const ms = Math.max(0, view.nextExpiry - Date.now()) + 50;
+    if (!Number.isFinite(nextExpiry)) return;
+    const ms = Math.max(0, nextExpiry - Date.now()) + 50;
     const t = setTimeout(() => setTick(Date.now()), Math.min(ms, 2 ** 31 - 1));
     return () => clearTimeout(t);
-  }, [view.nextExpiry]);
+  }, [nextExpiry]);
 
   // ---- tab title (FR-11, M10 FR-34) and the one batched announcement per result (TR-14) ----
   useEffect(() => {
@@ -526,6 +548,27 @@ export function useSession(props: ShellProps) {
     ],
   );
 
+  /** M17 FR-27: from a Timeline bar to where its Next Action (or pill) is shown, unfolded and outlined. */
+  const toFix = useCallback(
+    (fix: TimelineFix) => {
+      const m = /^c(\d+)$/.exec(fix.subject);
+      const index = m ? Number(m[1]) : null;
+      if (fix.expand === 'show-more')
+        setExpanded((prev) => new Set([...prev, index === null ? 'account' : `c${index}`]));
+      pendingReveal.current = { key: fix.key, details: fix.expand === 'behind-details' };
+      if (fix.where === 'account' || index === null) {
+        navigate({ place: 'now' }, 'push', { highlight: fix.key });
+        return;
+      }
+      setFollow((f) => onTap(f, index, live));
+      navigate({ place: 'character', index, tab: NOW_TAB }, 'push', {
+        highlight: fix.key,
+        origin: '#timeline',
+      });
+    },
+    [navigate, live],
+  );
+
   const toSpend = useCallback(() => {
     if (route.place !== 'now' && route.place !== 'character') navigate({ place: 'now' }, 'push');
     setExpanded((prev) => new Set([...prev, 'spend-open']));
@@ -556,6 +599,8 @@ export function useSession(props: ShellProps) {
     prefs,
     view,
     systems,
+    timeline,
+    toFix,
     route,
     origin,
     place,
@@ -583,6 +628,6 @@ export function useSession(props: ShellProps) {
   };
 }
 
-export const PLACE_NAMES: Record<Place, string> = { ...PLACE_WORDS, timeline: 'Timeline' };
+export const PLACE_NAMES: Record<Place, string> = PLACE_WORDS;
 
 export type Session = ReturnType<typeof useSession>;

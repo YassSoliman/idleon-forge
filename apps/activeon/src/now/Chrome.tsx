@@ -2,8 +2,10 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // The screen around the advice: Expected Return chips (FR-27, a radio group per TR-14), banners in
 // TR-11 order, the progress bar (FR-9), What's new (FR-37) and the Preview badge (M12 FR-11).
+
 import type { Banner, NowView } from '@idleon-forge/engine/now';
 import { useId } from 'react';
+import { formatRoute } from '../shell/route';
 import { COMMITS_URL, type WhatsNewView } from './release';
 
 export function ExpectedReturnChips({
@@ -42,8 +44,21 @@ export function ExpectedReturnChips({
   );
 }
 
-export function Banners({ banners, onReload }: { banners: Banner[]; onReload(): void }) {
+export function Banners({
+  banners,
+  onReload,
+  firstFill = null,
+  onTimeline,
+}: {
+  banners: Banner[];
+  onReload(): void;
+  /** M17 FR-32: the All set banner's first-fill text, linked to the Timeline (Phase 2). */
+  firstFill?: string | null;
+  onTimeline?: () => void;
+}) {
   if (banners.length === 0) return null;
+  const linked = (b: Banner) =>
+    b.kind === 'all-set' && firstFill && onTimeline && b.text.endsWith(firstFill) ? firstFill : null;
   return (
     <div className="banners">
       {banners.map((b, i) => (
@@ -53,7 +68,22 @@ export function Banners({ banners, onReload }: { banners: Banner[]; onReload(): 
           className={`banner ${b.kind}${i >= 2 ? ' compact' : ''}`}
           role={b.kind === 'all-set' ? undefined : 'status'}
         >
-          <p>{b.text}</p>
+          {linked(b) ? (
+            <p>
+              {b.text.slice(0, b.text.length - (firstFill ?? '').length)}
+              <a
+                href={formatRoute({ place: 'timeline' })}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onTimeline?.();
+                }}
+              >
+                {firstFill}
+              </a>
+            </p>
+          ) : (
+            <p>{b.text}</p>
+          )}
           {b.kind === 'update' ? (
             <button type="button" className="small-btn" onClick={onReload}>
               Reload

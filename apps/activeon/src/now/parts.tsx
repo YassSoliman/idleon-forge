@@ -9,11 +9,14 @@ import {
   type GoalView,
   LINK_WORDS,
   type NextActionView,
+  PLACE_WORDS,
   type SourceView,
   seeItSystem,
   tabHomeOf,
+  timelineHome,
 } from '@idleon-forge/engine/now';
 import { useId, useState } from 'react';
+import { formatRoute } from '../shell/route';
 import { type ReportOutput, useNowActions } from './context';
 import { PUBLIC_NOTICE } from './report';
 import { Walkthrough } from './walkthrough/Walkthrough';
@@ -247,6 +250,20 @@ export function SeeItLink({
   const actions = useNowActions();
   const result = actions.result;
   if (!result || !actions.navigate) return null;
+  // Phase 2: ActiveOn's own AFK Next Actions live on the Timeline (FR-31).
+  if (timelineHome(goal.system) && result.returnAt !== undefined)
+    return (
+      <a
+        className="small build-link see-it"
+        href={formatRoute({ place: 'timeline' })}
+        onClick={(e) => {
+          e.preventDefault();
+          actions.navigate?.({ place: 'timeline' });
+        }}
+      >
+        {LINK_WORDS.seeIt(PLACE_WORDS.timeline)}
+      </a>
+    );
   const id = seeItSystem(goal, result);
   if (!id) return null;
   const name = result.systems?.find((s) => s.id === id)?.name ?? id;
@@ -366,7 +383,8 @@ export function CapPills({ caps }: { caps: CapPillView[] }) {
           <li key={c.key}>
             <button
               type="button"
-              className={`cap${c.fullNow ? ' full' : ''}`}
+              data-cap-key={c.key}
+              className={`cap${c.fullNow ? ' full' : ''}${actions.highlight === c.key ? ' lit' : ''}`}
               aria-expanded={actions.expanded.has(capOpenId(c.key))}
               aria-controls={`${base}-${n}`}
               onClick={() => actions.toggle(capOpenId(c.key))}
