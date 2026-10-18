@@ -1,13 +1,21 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// "Can't work out advice right now" (M10 FR-39): the engine (or the screen) threw as a whole. The
-// Roster shows names and activities only, no Verdicts, plus a Report this that sends versions and the
-// error class, never the save.
+// "Can't work out advice right now" (M10 FR-39; M21 `flows.cant-work-out` Fallback roster with Report
+// prefilled): the engine (or the screen) threw as a whole. Advice is paused; the Roster keeps its shape
+// with who is doing what and no Verdicts, plus one Report that sends versions and the error class, never
+// the save or a name.
 import type { AccountState } from '@idleon-forge/account-state';
-import { Component, type ErrorInfo, type ReactNode } from 'react';
-import { CharacterList } from '../components/CharacterList';
+import { FLOW_WORDS } from '@idleon-forge/engine/now';
+import { Component, type ErrorInfo, type ReactNode, Suspense } from 'react';
+import { Loading, lazyPart } from '../lazy-part';
 import { buildInfo } from './release';
 import { REPO_ISSUES } from './report';
+
+/** The fallback Roster is a lazy part: this state is rare (the walking blob shows while it loads). */
+const CharacterList = lazyPart(
+  () => import('../components/CharacterList'),
+  (m) => m.CharacterList,
+);
 
 const errorClass = (message: string) => /^([A-Za-z]*Error)\b/.exec(message)?.[1] ?? 'Error';
 
@@ -36,20 +44,29 @@ export function engineErrorReportUrl(message: string, state: AccountState | null
 export function CantWorkOut({ message, state }: { message: string; state: AccountState | null }) {
   return (
     <>
-      <section className="broken" role="alert" aria-label="Can't work out advice">
-        <b className="broken-title">Can't work out advice right now</b>
-        <p>Your save was read, but working out the advice failed. This needs a fix on our side.</p>
+      <section
+        className="broken n-alert n-alert--warn n-paused"
+        role="alert"
+        aria-label="Can't work out advice"
+      >
+        <p>
+          <b className="broken-title">{FLOW_WORDS.paused}</b> {FLOW_WORDS.pausedLine}
+        </p>
         <a
-          className="small-btn"
+          className="a-btn a-btn--primary"
           href={engineErrorReportUrl(message, state)}
           target="_blank"
           rel="noopener noreferrer"
         >
-          Report this
+          <span>{FLOW_WORDS.report}</span>
         </a>
-        <p className="small">This will be posted publicly on GitHub.</p>
+        <p className="n-small n-muted">{FLOW_WORDS.reportNote}</p>
       </section>
-      {state ? <CharacterList state={state} /> : null}
+      {state ? (
+        <Suspense fallback={<Loading />}>
+          <CharacterList state={state} />
+        </Suspense>
+      ) : null}
     </>
   );
 }

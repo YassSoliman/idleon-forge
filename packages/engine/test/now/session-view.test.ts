@@ -14,6 +14,7 @@ import { goldenModules } from '../../src/golden';
 import { buildNowView, DEFAULT_UI } from '../../src/now/build-now-view';
 import { EMPTY_PREFS } from '../../src/now/prefs';
 import { buildSessionView } from '../../src/now/session-view';
+import type { SessionUi } from '../../src/now/view';
 import { historyOf, sessionOf } from '../helpers/history-of';
 
 const ctx = await goldenContext();
@@ -51,7 +52,7 @@ function engineOn(state: AccountState, now: number, history: EngineHistory = NO_
   );
 }
 
-const UI = { visited: [] as number[], returnChangedThisSession: false, manualTab: null };
+const UI: SessionUi = { visited: [], returnChangedThisSession: false, manualTab: null };
 
 function screenOf(
   id: string,

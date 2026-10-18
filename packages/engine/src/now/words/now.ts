@@ -20,6 +20,10 @@ export const HEADER_WORDS = {
   reconnecting: 'Reconnecting…',
   offline: (at: unknown) => `Offline · showing your save from ${s(at)}`,
   updating: 'updating…',
+  /** A newer build is live (M12 FR-24): the quiet chip; a pasted save is kept across the reload. */
+  newVersion: 'New version ready · Reload',
+  /** The pasted save couldn't be kept for the reload: the chip says so before it reloads. */
+  newVersionDrops: 'Reload drops your pasted save · Reload anyway',
   menu: 'More',
   menuTitle: 'ActiveOn',
   menuDot: 'something new',
@@ -137,63 +141,6 @@ export const ROSTER_WORDS = {
   nextUp: 'Next up',
 } as const;
 
-/** Focus, the Character page's Now tab (FR-N5). */
-export const FOCUS_WORDS = {
-  beforeYouLeave: 'Before you leave',
-  current: 'Now',
-  ticksItself: 'Ticks itself when your next Cloud Save shows it done.',
-  prev: 'prev',
-  prevName: (who: unknown) => `Previous: ${s(who)}`,
-  dots: 'Characters in Visit Order',
-  dotsOpen: 'Show every character',
-  pagerTitle: 'Characters in Visit Order',
-  /** "1 of 6 · 5 left". */
-  here: (position: unknown) => s(position),
-  goals: (who: unknown) => `Also for ${s(who)}`,
-  betterFit: 'Better fit:',
-  why: 'why?',
-  doneThisSession: (count: unknown) => `Done this session (${n(count)})`,
-  ifYouHaveTime: 'If you have time',
-  allCharacters: '← All characters',
-  quest: 'Quest',
-  purposeMore: (count: unknown) => `${plural(count, 'more rung')}`,
-  /** G5: the cloud-save tip, only while the follow state is guessing (M10 FR-14). */
-  cloudSaveTip: 'Tip: press Cloud Save in the game to lock this in.',
-} as const;
-
-/** The Goal card and the why sheet (`cards.goal-card` Action-only, `cards.why-sheet`, FR-N8). */
-export const CARD_WORDS = {
-  open: 'Open why and controls',
-  sheetTitle: (kind: unknown) => `${s(kind)} · why`,
-  willGive: 'Will give you',
-  guide: 'Scout',
-  sources: 'Sources',
-  moreSources: (count: unknown) => `+${n(count)} more`,
-  disagree: 'Sources disagree',
-  howDecided: 'How this was decided',
-  decidedBy: (by: unknown) => `Decided by ${s(by)}.`,
-  alsoConsidered: (text: unknown, reason: unknown) => `Also considered: ${s(text)} (${s(reason)})`,
-  overflow: 'More controls',
-  skip: 'Skip today',
-  skippedLine: (count: unknown) => `${n(count)} skipped today`,
-  show: 'show',
-  undo: 'undo',
-  notForMe: 'Hold: not for me',
-  notForMeHint: 'Hold for about 1 s. We stop suggesting this until the next patch.',
-  notForMeDone: (text: unknown) => `We won't suggest this again until the next patch: ${s(text)}`,
-  report: 'Report this',
-  more: (count: unknown) => `+${n(count)} more`,
-  less: 'show less',
-  hidden: (count: unknown) => `Hidden until next patch (${n(count)})`,
-  done: 'Done',
-  details: (count: unknown) => `${plural(count, 'character')}`,
-  walkthroughStep: (order: unknown, total: unknown) => `step ${n(order)} of ${n(total)}`,
-  walkthroughAll: 'All steps',
-  walkthroughTree: 'Everything it needs',
-  walkthroughOther: (count: unknown) => `Other ways (${n(count)})`,
-  toGo: (count: unknown) => `${n(count).toLocaleString('en-US')} to go`,
-} as const;
-
 /** The Account section (`cards.account-section` Summary header, FR-N10). */
 export const ACCOUNT_WORDS = {
   title: 'Account',
@@ -214,33 +161,6 @@ export const ACCOUNT_WORDS = {
   unknownSafety: "Can't tell from the save",
 } as const;
 
-/** Settings (G10). */
-export const SETTINGS_WORDS = {
-  title: 'Settings',
-  theme: 'Theme',
-  themeSystem: 'System',
-  themeLight: 'Light',
-  themeDark: 'Dark',
-  times: 'Times',
-  timesRelative: 'In 2h 10m',
-  timesClock: 'Around 20:10',
-  backIn: 'Back in',
-  backLearned: 'Learned',
-  backAsk: 'Always ask',
-  stored: 'Kept in this browser for this account.',
-  notStored: "Can't remember your choices in this browser: they last for this visit.",
-} as const;
-
-/** What's new (`flows.whats-new` Patch notes scroll, owner override; D-16). */
-export const NEWS_WORDS = {
-  tab: (count: unknown) => `What's new · ${n(count)}`,
-  title: 'New since your last visit',
-  count: (count: unknown) => plural(count, 'change'),
-  gotIt: 'Got it',
-  more: (count: unknown) => `and ${n(count)} more`,
-  everyChange: 'every change',
-} as const;
-
 /** The flows (FR-N11): waiting, empty, broken, sign-in, paste, footer, clear my data, toasts. */
 export const FLOW_WORDS = {
   steps: ['Reading your save', 'Working it out', 'Drawing your characters'],
@@ -251,12 +171,6 @@ export const FLOW_WORDS = {
   empty: (back: unknown, what: unknown) =>
     what ? `Nothing to do now. Back in ${s(back)}: ${s(what)}.` : `Nothing to do now. Back in ${s(back)}.`,
   emptyTitle: 'Nothing to do',
-  /** Can't read (`flows.cant-read` Use last good, with the gremlin). */
-  cantRead: "Can't read your save",
-  cantReadLine: "Your newest save can't be read. We won't guess from it.",
-  useLastGood: (at: unknown) => `Use your last good save (from ${s(at)})`,
-  lastGoodNote: (age: unknown) => `Caps and times will be ${s(age)} out of date.`,
-  pasteInstead: 'Paste a save instead',
   usingLastGood: (at: unknown, age: unknown) =>
     `Advice from your last good save at ${s(at)} (${s(age)} old). The newest one can't be read.`,
   /** Can't work it out (`flows.cant-work-out` Fallback roster + Report prefilled). */
@@ -265,64 +179,16 @@ export const FLOW_WORDS = {
   pausedWord: 'Paused',
   report: 'Report the problem',
   reportNote: 'This will be posted publicly on GitHub. No save data, no character names.',
-  unreadable: "This character couldn't be read. The game may have updated.",
-  /** Paste (`flows.paste-save` Drop zone + Clear failure). */
-  pasteTitle: 'Paste your save here',
-  pasteHint: 'Tap, then paste. It stays in this tab.',
-  pasteStep1: 'Open IdleOn Toolbox and sign in there',
-  pasteStep2: 'Press Copy for support (or Copy raw data)',
-  pasteStep3: 'Come back and paste',
-  pasteRead: 'Read this save',
-  pasteBusy: 'Reading…',
   pasteOpen: 'Paste your save instead',
   /** Toasts (`flows.banners` Toast once). */
   reload: 'Reload',
   later: 'Later',
-  /** Footer (`flows.footer` Fan disclaimer). */
-  fanMade: 'Fan-made.',
-  fanLine:
-    'ActiveOn is a fan-made tool, not affiliated with or endorsed by LavaFlame2. Legends of IdleOn is © LavaFlame2.',
-  readOnly:
-    'Read-only: it never changes your save. Save reading by IdleOn Toolbox (GPL-3.0); facts from the IdleOn Wiki.',
-  source: 'Source code (GPL-3.0)',
-  noMemory: "Can't remember your choices in this browser.",
   failedChecks: (count: unknown) => `${plural(count, 'check')} failed`,
-  /** Clear my data (`flows.clear-my-data` What it clears + Hold to clear). */
-  clearTitle: 'Clear your ActiveOn data?',
-  clearOpen: 'Clear my data',
-  goes: 'Goes',
-  stays: 'Stays',
-  goesList: [
-    'Save history on this browser',
-    'Skip today and Not for me choices',
-    'Your return time',
-    "What's new, already seen",
-  ],
-  staysList: [
-    'Your game save: we never touch it',
-    'Your Google sign-in, unless you tick below',
-    'Suggestions you filed on GitHub',
-  ],
-  alsoSignOut: 'Also sign out',
-  holdToClear: 'Hold to clear',
-  holdHint: 'Hold for about 1 s. Let go to cancel. Keyboard: hold Enter.',
-  cleared: 'Cleared. Nothing of yours is left on this browser.',
-  cancel: 'Cancel',
   /** Sign-in (`flows.sign-in` Out of the way + Code card). */
   signInTitle: 'Sign in to read your save',
-  signInLead: 'Read-only: ActiveOn never changes your save. Your login stays in this browser.',
-  signInWithGoogle: 'Sign in with Google',
   pastedBar: 'Pasted save. Sign in to keep it live.',
-  codeStep1: 'On your phone or computer, open',
-  codeStep2: 'Type this code:',
-  copy: 'Copy',
-  copied: 'Copied',
-  codeWaiting: 'Waiting for you to approve on Google. The code works for',
-  codeMore: 'more.',
-  asking: 'Asking Google for a sign-in code…',
-  restoring: 'Checking for a saved sign-in…',
-  approved: 'Signed in. Waiting for your save: press Cloud Save in the game, or switch character.',
-  signedIn: (email: unknown) => (email ? `Signed in as ${s(email)}` : 'Signed in'),
-  useAnother: 'Sign out and use another account',
-  unconfigured: "Live sign-in isn't set up in this build. Paste your save instead.",
 } as const;
+
+// The words only the lazy parts read (Focus, the why sheet, Settings, What's new, the setup flows) live
+// in their own module, so they load with those parts (M21 TR-12); the barrel still exports them.
+export * from './now-detail';

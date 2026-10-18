@@ -2,14 +2,8 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 import { type CharacterState, humanize } from '@idleon-forge/account-state';
 
-/** 42 -> "42s", 300 -> "5m", 7300 -> "2h 1m", 200000 -> "2d". */
-export function formatAge(seconds: number): string {
-  const s = Math.max(0, Math.floor(seconds));
-  if (s < 120) return `${s}s`;
-  if (s < 3600) return `${Math.floor(s / 60)}m`;
-  if (s < 86_400) return `${Math.floor(s / 3600)}h ${Math.floor((s % 3600) / 60)}m`;
-  return `${Math.floor(s / 86_400)}d`;
-}
+/** 42 -> "42s", 300 -> "5m", 7300 -> "2h 1m": the one formatter, the engine's (M21 FR-F6, TR-15). */
+export { formatAge } from '@idleon-forge/engine/now';
 
 const AFK_LABELS: Record<string, string> = {
   FIGHTING: 'Fighting',

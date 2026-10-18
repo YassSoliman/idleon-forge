@@ -17,6 +17,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { Loading } from '../design/atoms/States';
 import type { SuggestionsConfig } from './config';
 import type { ReportSource, Scene } from './context';
 import { createSuggestionsStore, type OutboxItem, type SuggestionsStore } from './store';
@@ -149,13 +150,7 @@ export function SuggestionsProvider(props: SuggestionsProviderProps) {
     <Ctx.Provider value={api}>
       {props.children}
       {panel ? (
-        <Suspense
-          fallback={
-            <div className="sg-overlay">
-              <p className="sg-panel card small muted">Loading…</p>
-            </div>
-          }
-        >
+        <Suspense fallback={<Loading delayMs={400} label="Loading…" />}>
           <Panel
             panel={panel}
             setPanel={setPanel}

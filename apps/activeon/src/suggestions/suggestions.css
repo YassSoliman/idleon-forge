@@ -1,100 +1,86 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
-/* Suggestions overlay (M13): loaded with the lazy chunk; the toast and banner live in now.css. */
-.sg-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  background: rgb(10 16 28 / 55%);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  overflow-y: auto;
-  padding: 16px;
-}
+/* Copyright (C) 2026 IdleOn Forge contributors. */
+/* Suggestions (M13) in the M21 design, loaded with the lazy chunk: the sheet's body, the kind tiles
+   (`flows.suggest-form` Kind picker), one question at a time, the report chips (`flows.report-form` Pick
+   what's wrong), the Turnstile frame (G9) and Your suggestions as a quest board plus the plain list
+   (`flows.your-suggestions`, owner override). The stamps' words are 14 px Atkinson, never a pixel face
+   (DS-14). No text under 12 px; every target 44 px. */
 .sg-panel {
-  width: 100%;
-  max-width: var(--column);
-  padding: 14px 16px 16px;
   display: grid;
-  gap: 12px;
+  gap: var(--space-3);
   min-width: 0;
-}
-.sg-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-.sg-head h2 {
-  font-size: 20px;
-}
-.sg-head h2:focus {
-  outline: none;
 }
 .sg-head-links {
   display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.sg-close {
-  font-size: 22px;
-  line-height: 1;
-  text-decoration: none;
-  padding: 2px 6px;
+  justify-content: flex-end;
+  gap: var(--space-3);
 }
 .sg-body {
   display: grid;
-  gap: 12px;
+  gap: var(--space-3);
   min-width: 0;
 }
-.sg-types {
+.sg-q {
+  padding: 0;
+  margin-bottom: var(--space-2);
+  font-weight: var(--weight-bold);
+}
+.sg-kinds {
   border: 0;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
 }
-.sg-types legend {
-  padding: 0;
-  margin-bottom: 6px;
-  font-weight: 700;
+.sg-kinds legend {
+  grid-column: 1 / -1;
 }
-.sg-types label {
+.sg-kind {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-1);
+  min-height: 88px;
+  padding: var(--space-2);
   border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 4px 12px;
-  font-size: 13px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
+  text-align: center;
   cursor: pointer;
 }
-.sg-types label.on {
-  border-color: var(--fg);
-  background: var(--sunk);
-  font-weight: 700;
+.sg-kind.on {
+  border: 2px solid var(--accent);
+  background: var(--accent-soft);
 }
-.sg-types input {
+.sg-kind:has(input:focus-visible) {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+.sg-step-count {
   margin: 0;
-  accent-color: var(--fg);
+  font-size: var(--text-sm);
 }
 .sg-field {
   display: grid;
-  gap: 4px;
+  gap: var(--space-1);
+}
+.sg-field.is-other {
+  display: none;
 }
 .sg-field label {
-  font-weight: 700;
-  font-size: 14px;
+  font-weight: var(--weight-bold);
 }
 .sg-field textarea,
 .sg-details textarea {
   width: 100%;
   min-width: 0;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--bg);
-  padding: 8px 10px;
+  min-height: var(--tap-min);
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  padding: var(--space-2) var(--space-3);
   resize: vertical;
 }
 .sg-field textarea[aria-invalid="true"] {
@@ -102,46 +88,67 @@
 }
 .sg-count {
   text-align: right;
+  margin: 0;
+}
+.sg-stepper {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
 }
 .sg-report {
-  background: var(--sunk);
-  border-radius: 8px;
-  padding: 8px 10px;
   display: grid;
-  gap: 6px;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-card);
+  background: var(--sunk);
+}
+.sg-report p {
+  margin: 0;
 }
 .sg-quote {
   overflow-wrap: anywhere;
+  font-weight: var(--weight-semibold);
+}
+.sg-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+.sg-chips .a-chip[aria-pressed="true"] {
+  background: var(--chip-pressed-bg);
+  border-color: var(--chip-pressed-bg);
+  color: var(--chip-pressed-fg);
 }
 .sg-check {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
+  min-height: var(--tap-min);
 }
 .sg-preview summary {
+  min-height: var(--tap-min);
+  display: flex;
+  align-items: center;
   cursor: pointer;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
 }
 .sg-preview pre {
-  margin: 6px 0 0;
-  padding: 8px;
+  margin: var(--space-1) 0 0;
+  padding: var(--space-2);
   max-height: 260px;
   overflow: auto;
   background: var(--sunk);
-  border-radius: 8px;
-  font-family: var(--mono);
-  font-size: 11px;
+  border-radius: var(--radius-control);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
-.sg-preview p {
-  margin-top: 6px;
-}
 .sg-off {
-  border-left: 3px solid var(--coin);
-  padding-left: 10px;
   display: grid;
-  gap: 4px;
+  gap: var(--space-1);
+  padding-left: var(--space-3);
+  border-left: 3px solid var(--accent);
 }
 .sg-notice {
   color: var(--muted);
@@ -150,12 +157,22 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
 }
-.sg-turnstile:empty {
-  display: none;
+.sg-actions button {
+  min-height: var(--tap-min);
+}
+/* G9: Cloudflare's frame, wrapped in the form's card with one line above it; its height is kept. */
+.sg-turnstile-frame {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
 }
 .sg-turnstile {
+  min-height: 65px;
   max-width: 100%;
   overflow: hidden;
 }
@@ -164,40 +181,118 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 10px;
+  gap: var(--space-2);
 }
 .sg-item {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 10px 12px;
   display: grid;
-  gap: 6px;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
   overflow-wrap: anywhere;
 }
 .sg-item-head {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 6px;
+  gap: var(--space-2);
 }
 .sg-status {
-  font-weight: 700;
+  font-weight: var(--weight-bold);
 }
 .sg-status.st-info {
-  color: var(--coin);
+  color: var(--warn);
 }
 .sg-status.st-done,
 .sg-status.st-planned {
   color: var(--ok);
 }
+.sg-board-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.sg-board-head p {
+  margin: 0;
+}
+.sg-notes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+.sg-note {
+  position: relative;
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-3) var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  overflow-wrap: anywhere;
+}
+.sg-note p {
+  margin: 0;
+}
+.sg-pin {
+  position: absolute;
+  top: var(--space-1);
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background: var(--bad);
+}
+.sg-note-title {
+  font-weight: var(--weight-bold);
+}
+.sg-stamp {
+  justify-self: start;
+  padding: 2px var(--space-2);
+  border: 2px solid currentColor;
+  border-radius: var(--radius-sm);
+  font: var(--weight-bold) var(--text-sm) / var(--lh-snug) var(--font-body);
+  transform: rotate(-3deg);
+}
+.sg-note-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+}
+.sg-plain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+.sg-plainrow__link {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-2);
+  align-items: center;
+  min-height: var(--tap-min);
+  padding: var(--space-1) var(--space-2);
+  border-bottom: 1px solid var(--line);
+  color: var(--fg);
+  text-decoration: none;
+}
+.sg-plain-title {
+  overflow-wrap: anywhere;
+}
 .sg-reply {
+  padding: var(--space-2);
+  border-radius: var(--radius-control);
   background: var(--sunk);
-  border-radius: 6px;
-  padding: 6px 8px;
   white-space: pre-wrap;
+}
+.sg-reply p {
+  margin: 0;
 }
 .sg-details,
 .sg-sender {
   display: grid;
-  gap: 6px;
+  gap: var(--space-2);
 }

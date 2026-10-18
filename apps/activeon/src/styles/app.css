@@ -1,5 +1,11 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
-/* One narrow column (Now screen decision: at most ~480 px at every screen size). */
+/* Copyright (C) 2026 IdleOn Forge contributors. */
+/*
+  The app shell's base (M21 area N): one narrow column on a phone (16 px gutter, never a sideways page
+  scroll), Field Guide's body type, and the shared legacy helpers the other areas' views still use
+  (.card, .muted, .small, .primary, .small-btn, .link-btn, .section-h, .roster, .r, .error, .confirm),
+  restyled onto the tokens until Integration retires them (FR-I3). No text under 12 px (DS-20).
+*/
 * {
   box-sizing: border-box;
 }
@@ -10,30 +16,37 @@ body {
 body {
   background: var(--bg);
   color: var(--fg);
-  font: 15px / 1.5 var(--body);
-  padding: 16px;
+  font: var(--weight-regular) var(--text-md) / var(--lh-body) var(--font-body);
+  padding: var(--gutter);
+  overflow-x: hidden;
 }
 .app {
   max-width: var(--column);
   margin: 0 auto;
   display: grid;
-  gap: 12px;
+  gap: var(--stack-gap);
+  min-width: 0;
+}
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: var(--lh-tight);
 }
 h1,
 h2 {
-  margin: 0;
-  font-family: var(--display);
-  font-weight: 500;
-  line-height: 1.2;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
 }
 p {
   margin: 0;
 }
 a {
-  color: var(--coin);
+  color: var(--accent);
 }
 button,
-textarea {
+textarea,
+input {
   font: inherit;
   color: inherit;
 }
@@ -44,302 +57,105 @@ button:disabled {
   cursor: default;
   opacity: 0.6;
 }
-:focus-visible {
-  outline: 2px solid var(--coin);
-  outline-offset: 2px;
-}
 code,
 .mono {
-  font-family: var(--mono);
-  font-size: 12px;
-}
-.muted {
-  color: var(--muted);
-}
-.small {
-  font-size: 13px;
-}
-.card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-}
-
-/* Header */
-.top {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 4px 8px;
-}
-.top h1 {
-  font-size: 20px;
-  font-weight: 700;
-}
-.top h1 span {
-  color: var(--coin);
-}
-.sync {
-  font-family: var(--mono);
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: var(--ok-soft);
-  color: var(--ok);
-  white-space: nowrap;
-}
-.sync.old {
-  background: var(--coin-soft);
-  color: var(--coin);
-}
-.sync.none {
-  background: var(--unk-soft);
-  color: var(--unk);
-}
-.sync.warn {
-  background: var(--bad-soft);
-  color: var(--bad);
-}
-.top-status {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
 }
 /* Fixed-width digits, so the ticking age never shifts the layout. */
 .num {
   font-variant-numeric: tabular-nums;
 }
-.hint {
-  grid-column: 1 / -1;
-  font-size: 13px;
-  color: var(--coin);
+.muted {
+  color: var(--muted);
 }
-.hint:empty {
-  margin: -4px 0 0;
+.small {
+  font-size: var(--text-sm);
 }
-
-/* Sign-in */
-.signin {
-  padding: 12px 14px;
-  display: grid;
-  gap: 8px;
-  justify-items: start;
-}
-.signin.row {
-  grid-template-columns: 1fr auto;
-  align-items: center;
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
 }
 .primary {
+  min-height: var(--tap-min);
   border: 0;
-  border-radius: var(--radius);
-  padding: 10px 14px;
-  background: var(--fg);
-  color: var(--bg);
-  font-weight: 700;
-}
-.ghost {
-  border: 0;
-  background: none;
-  color: var(--muted);
-  font-size: 13px;
-  padding: 0;
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  border-radius: var(--radius-control);
+  padding: 0 var(--space-4);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: var(--weight-bold);
 }
 .small-btn {
-  border: 1px solid var(--line);
+  min-height: var(--tap-min);
+  border: 1px solid var(--control-border);
   background: var(--surface);
-  border-radius: 6px;
-  padding: 4px 10px;
-  font-size: 12px;
+  border-radius: var(--radius-control);
+  padding: 0 var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
 }
-.code-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.user-code {
-  font-family: var(--mono);
-  font-size: 26px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  padding: 6px 12px;
-  border-radius: 8px;
-  background: var(--coin-soft);
-  color: var(--coin);
+.link-btn {
+  min-height: var(--tap-min);
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--accent);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
 }
 .error {
   color: var(--bad);
-  font-size: 13px;
+  font-size: var(--text-sm);
 }
 .confirm {
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 8px 12px 10px;
+  border-radius: var(--radius-card);
+  padding: var(--space-2) var(--space-3) var(--space-3);
   margin: 0;
   display: grid;
-  gap: 8px;
-  grid-column: 1 / -1;
+  gap: var(--space-2);
   justify-self: stretch;
 }
 .confirm legend {
-  font-size: 13px;
-  font-weight: 700;
-  padding: 0 4px;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  padding: 0 var(--space-1);
 }
 .confirm-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-2);
 }
-
-/* Characters */
 .section-h {
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font: var(--weight-bold) var(--text-xs) / var(--lh-snug) var(--font-body);
   color: var(--muted);
-  margin: 4px 0 6px;
+  margin: var(--space-1) 0 var(--space-2);
 }
 .roster {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 6px;
+  gap: var(--space-2);
 }
 .r {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 10px 12px;
-  display: grid;
-  gap: 4px;
-}
-.r .who {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 8px;
-  min-width: 0;
-}
-.r .who b {
-  font-family: var(--display);
-  font-weight: 500;
-  font-size: 16px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.r .who span {
-  font-size: 12px;
-  color: var(--muted);
-  white-space: nowrap;
-}
-.r .doing {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  font-size: 13px;
-}
-.r .doing span:last-child {
-  text-align: right;
+  border-radius: var(--radius-card);
 }
 .r.unknown {
   border-style: dashed;
 }
-.r .who .pill.unk {
-  font-family: var(--mono);
-  font-size: 11px;
-  padding: 1px 8px;
-  border-radius: 999px;
-  background: var(--unk-soft);
-  color: var(--unk);
-}
-.acct {
-  margin-top: 8px;
-  font-size: 11px;
-}
-
-/* Can't read */
 .broken {
-  background: var(--bad-soft);
-  color: var(--bad);
-  border-radius: var(--radius);
-  padding: 14px;
-  display: grid;
-  gap: 8px;
-}
-.broken-title {
-  font-family: var(--display);
-  font-weight: 500;
-  font-size: 18px;
+  color: var(--fg);
 }
 .broken .detail {
   overflow-wrap: anywhere;
-  opacity: 0.85;
 }
-.broken .paste label {
-  color: var(--fg);
-}
-
-/* Paste fallback */
-.fallback {
-  padding: 10px 14px;
-}
-.fallback summary {
-  cursor: pointer;
-  font-size: 14px;
-}
-.fallback[open] summary {
-  margin-bottom: 8px;
-}
-.paste {
-  display: grid;
-  gap: 8px;
-  justify-items: start;
-}
-.paste textarea {
-  width: 100%;
-  min-height: 90px;
-  border-radius: 6px;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  color: var(--fg);
-  font: 12px var(--mono);
-  padding: 6px;
-  resize: vertical;
-}
-
 .foot {
-  text-align: center;
-  margin-top: 12px;
-}
-
-/* Patch banner (M1 FR-29, D3) and footer controls */
-.patch-banner {
-  background: var(--bad-soft);
-  color: var(--bad);
-  border-radius: var(--radius);
-  padding: 10px 14px;
-  margin: 0;
-}
-.foot-line {
-  margin: 4px 0;
-}
-.foot .confirm {
   text-align: left;
-  margin-top: 8px;
-}
-.link-btn {
-  background: none;
-  border: 0;
-  padding: 0;
-  color: inherit;
-  font: inherit;
-  text-decoration: underline;
-  cursor: pointer;
 }
