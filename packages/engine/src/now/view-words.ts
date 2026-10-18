@@ -88,5 +88,13 @@ export const LINK_WORDS = {
 
 export const CHARACTERS_WORDS = {
   title: 'Characters',
-  open: 'Open',
+  overviews: 'Every character',
+} as const;
+
+/** The navigation (FR-5): badge names and the nav's own label. */
+export const NAV_WORDS = {
+  label: 'Places',
+  nowBadge: (n: number) => `${n} to fix before you leave`,
+  systemsBadge: (n: number) => `${n} wasting`,
+  playing: (text: string) => `${text} · go`,
 } as const;
