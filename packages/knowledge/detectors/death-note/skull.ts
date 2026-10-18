@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M4 TR-4, TR-5 `death-note.contribution.skull`: a fighter on a Death Note monster raises the account's
+// M4 TR-4, TR-5 the death-note skull Contribution: a fighter on a Death Note monster raises the account's
 // kills of it toward its next rank (25k, 100k, ...). One finding per feeder, with the account's kills
 // and every feeder's summed rate. Ranks raise the world's multikill only once the Death Note building
 // has a level (W3 dossier, H): below it the kills are banked (`rule` 0).
@@ -29,7 +29,7 @@ export default defineDetector({
     .strictObject({
       saved: z.number(),
       rate: z.number(),
-      feeders: z.string(),
+      feeders: z.number(),
       rule: z.number(),
       building: z.number(),
       target: z.string(),

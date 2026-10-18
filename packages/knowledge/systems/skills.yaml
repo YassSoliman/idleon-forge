@@ -12,8 +12,8 @@ entries:
     goal: skills.goal.door-mining
     detector: { id: skills/door, params: { afkType: MINING } }
     eta: none
-    text: "{skill} {now} → {at} opens {destination}"
-    why: "{skill} level opens the door to the next mining map, with better resources."
+    text: "Mining {now} → {at} opens {destination:name}"
+    why: "Mining level opens the door to the next mining map, with better resources."
     appliesTo: { stages: all }
     confidence: H
     status: active
@@ -30,8 +30,8 @@ entries:
     goal: skills.goal.door-fishing
     detector: { id: skills/door, params: { afkType: FISHING } }
     eta: none
-    text: "{skill} {now} → {at} opens {destination}"
-    why: "{skill} level opens the door to the next fishing map, with better resources."
+    text: "Fishing {now} → {at} opens {destination:name}"
+    why: "Fishing level opens the door to the next fishing map, with better resources."
     appliesTo: { stages: all }
     confidence: H
     status: active
@@ -48,8 +48,8 @@ entries:
     goal: skills.goal.tool-mining
     detector: { id: skills/tool-chain, params: { afkType: MINING } }
     eta: none
-    text: "{target:name} toward the {tool}"
-    why: "The {tool} is crafted at the anvil from what this character gathers, and its skill level already allows it."
+    text: "{target:name} toward the {tool:name}"
+    why: "The {tool:name} is crafted at the anvil from what this character gathers, and its skill level already allows it."
     appliesTo: { stages: all }
     confidence: M
     status: active
@@ -66,8 +66,8 @@ entries:
     goal: skills.goal.tool-chopping
     detector: { id: skills/tool-chain, params: { afkType: CHOPPIN } }
     eta: none
-    text: "{target:name} toward the {tool}"
-    why: "The {tool} is crafted at the anvil from what this character gathers, and its skill level already allows it."
+    text: "{target:name} toward the {tool:name}"
+    why: "The {tool:name} is crafted at the anvil from what this character gathers, and its skill level already allows it."
     appliesTo: { stages: all }
     confidence: M
     status: active
@@ -84,8 +84,8 @@ entries:
     goal: skills.goal.tool-fishing
     detector: { id: skills/tool-chain, params: { afkType: FISHING } }
     eta: none
-    text: "{target:name} toward the {tool}"
-    why: "The {tool} is crafted at the anvil from what this character gathers, and its skill level already allows it."
+    text: "{target:name} toward the {tool:name}"
+    why: "The {tool:name} is crafted at the anvil from what this character gathers, and its skill level already allows it."
     appliesTo: { stages: all }
     confidence: M
     status: active
@@ -102,8 +102,8 @@ entries:
     goal: skills.goal.tool-catching
     detector: { id: skills/tool-chain, params: { afkType: CATCHING } }
     eta: none
-    text: "{target:name} toward the {tool}"
-    why: "The {tool} is crafted at the anvil from what this character gathers, and its skill level already allows it."
+    text: "{target:name} toward the {tool:name}"
+    why: "The {tool:name} is crafted at the anvil from what this character gathers, and its skill level already allows it."
     appliesTo: { stages: all }
     confidence: M
     status: active

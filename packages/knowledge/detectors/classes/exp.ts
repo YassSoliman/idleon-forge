@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M4 TR-4, TR-5 `classes.contribution.exp`: every fighter earns class EXP. Per character: its level, its
+// M4 TR-4, TR-5 the classes exp Contribution: every fighter earns class EXP. Per character: its level, its
 // class EXP per hour here (Toolbox kills/h × EXP per kill, ADR 0005 arithmetic) and the ETA to the next
 // level. Whether this map is worth it (D3: at least half the character's best map) is the engine's,
 // which has M5's sweep; the ratio is a param so it stays authored judgment.

@@ -68,16 +68,23 @@ export function fightersOf(
     }));
 }
 
-/** The feeders' summed rate and their indices ("0,3"), for an account-wide counter (M4 FR-4). */
+/**
+ * The feeders' summed rate and who they are, for an account-wide counter (M4 FR-4). `feeders` is a
+ * bit mask of character indices (bit i = character i), a number so no save text enters a slot.
+ */
 export function feederSlots(feeders: readonly { c: CharacterState; rate: number | null }[]): {
   rate: number;
-  feeders: string;
+  feeders: number;
 } {
   return {
     rate: feeders.reduce((n, f) => n + (f.rate ?? 0), 0),
-    feeders: feeders.map((f) => f.c.index).join(','),
+    feeders: feeders.reduce((m, f) => m + 2 ** f.c.index, 0),
   };
 }
+
+/** The character indices of a `feeders` bit mask, ascending. */
+export const feederIndices = (mask: number): number[] =>
+  Array.from({ length: 31 }, (_, i) => i).filter((i) => Math.floor(mask / 2 ** i) % 2 === 1);
 
 /** The AFK types M4 calls gathering (M4 TR-4: tools, stamp materials, first-copy cards). */
 export const GATHERING = ['MINING', 'CHOPPIN', 'FISHING', 'CATCHING'] as const;

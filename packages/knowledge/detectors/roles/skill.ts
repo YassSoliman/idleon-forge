@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M4 TR-4, TR-5 `roles.contribution.skill`: a character doing the skill an active M2 Role gives it (the
+// M4 TR-4, TR-5 the roles skill Contribution: a character doing the skill an active M2 Role gives it (the
 // Barbarian fishing, the Bowman catching) serves the team by doing its job (D6). This Detector only
 // matches the AFK type; whether the character holds that Role is M2's (`meta.roles`), applied by M4's
 // engine, since a Detector never sees the Stage or the Roles (TR-5).

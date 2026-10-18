@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M4 TR-4, TR-5 `stamps.contribution.material`: a skiller gathering the material an owned stamp's next
+// M4 TR-4, TR-5 the stamps material Contribution: a skiller gathering the material an owned stamp's next
 // cap raise needs, while storage holds less than the raise costs, is gathering for it. Yes or no
 // (FR-6). The price is M7's worker re-evaluation at the current discount (`spend.stamps[].raise`),
 // never the parsed save's own price, which is the Gilded one (×0.05, M7 FR-10).

@@ -10,6 +10,7 @@ import { type AccountState, type CharacterState, isKnown } from '@idleon-forge/a
 import {
   type ContributionFinding,
   type Entry,
+  feederIndices,
   makeContext,
   type ProgressFinding,
   render,
@@ -267,18 +268,20 @@ export function derive(input: DeriveInput, cardListOf: CardListOf = () => []): D
     const g = instanceOf(r);
     if (g) {
       add(r.index, g);
-      slotsOf.set(`${g.contributionId}@${r.index}`, r.finding.slots);
+      slotsOf.set(`${g.contributionId}@${r.index}`, { ...(r.goal?.values ?? {}), ...r.finding.slots });
     }
   }
 
   function instanceOf(r: Raw): GoalInstance | null {
     const { entry, goal, family, finding: f, index } = r;
     const c = byIndex.get(index) as CharacterState;
-    const slots = f.slots;
+    // The generated Goal's values (a Vault row's name, a map) are template slots too; the finding's win.
+    const slots: Record<string, SlotValue> = { ...(goal?.values ?? {}), ...f.slots };
     const ladder = ladderOf(goal);
     let saved = num(slots.saved) ?? 0;
     const rate = num(slots.rate) ?? 0;
-    const feeders = (str(slots.feeders) ?? String(index)).split(',').filter(Boolean).map(Number);
+    const mask = num(slots.feeders);
+    const feeders = mask === null ? [index] : feederIndices(mask);
     let reason: NotWorthwhileReason | undefined;
     let eta: Eta;
     let etaFollowing: Eta | null = null;

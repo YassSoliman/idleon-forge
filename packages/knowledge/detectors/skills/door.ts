@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M4 TR-4, TR-5 `skills.contribution.door`: a miner or fisher below the skill's next level door is working
+// M4 TR-4, TR-5 the skills door Contribution: a miner or fisher below the skill's next level door is working
 // toward it (D6, the Copper lesson: skilling is judged on its Goals, never on EXP). Yes or no (FR-6):
 // the level and the door it opens, never an ETA.
 import { z } from 'zod';
@@ -16,6 +16,8 @@ import {
 } from '../../src/helpers';
 import { type ContributionFinding, defineDetector } from '../../src/types';
 
+const MAPS = 'maps.fact.maps';
+
 export default defineDetector({
   id: 'skills/door',
   kind: 'contribution',
@@ -25,7 +27,6 @@ export default defineDetector({
     .strictObject({
       saved: z.number(),
       rule: z.number(),
-      skill: z.string(),
       destination: z.string(),
       ...PURPOSE_ENGINE_SLOTS,
     })
@@ -38,7 +39,7 @@ export default defineDetector({
         fixture: 'scrubbed-w2',
         subject: characterSubject(1),
         params: { afkType: 'MINING', goal: 'skills.goal.door-mining' },
-        expect: { slots: { saved: 20, destination: "The Ol' Straightaway" } },
+        expect: { slots: { saved: 20, destination: "The_Ol'_Straightaway" } },
       },
     ],
     silent: [
@@ -67,6 +68,16 @@ export default defineDetector({
     const skill = SKILL_OF_AFK[afkType] as string;
     const doors = [...(g?.milestones ?? [])].sort((a, b) => a.at - b.at);
     if (doors.length === 0) return [];
+    // The map each door opens, by the door's level (generated `data.doors`), named as the map table does.
+    const opens = Array.isArray(g?.data?.doors) ? (g.data.doors as { level: number; to: number }[]) : [];
+    const maps =
+      (ctx.facts.get(MAPS) as { rows?: { index: number; name: string }[] } | undefined)?.rows ?? [];
+    const nameOf = (level: number) =>
+      opens
+        .filter((d) => d.level === level)
+        .map((d) => maps.find((m) => m.index === d.to)?.name)
+        .filter((n): n is string => !!n)
+        .join(' and ');
     return state.characters.flatMap((c): ContributionFinding[] => {
       if (c.afkType !== afkType) return [];
       const subject = characterSubject(c.index);
@@ -74,12 +85,7 @@ export default defineDetector({
       if (!isKnown(state, `characters[${c.index}].skillLevels`) || level === undefined)
         return [{ subject, slots: {}, advances: 'unknown' as const }];
       const next = doors.find((d) => d.at > level);
-      const slots = {
-        saved: level,
-        rule: next ? 1 : 0,
-        skill: skill.charAt(0).toUpperCase() + skill.slice(1),
-        destination: next ? next.reward.replace(/door to /g, '') : '',
-      };
+      const slots = { saved: level, rule: next ? 1 : 0, destination: next ? nameOf(next.at) : '' };
       return [{ subject, slots, advances: next ? ('yes' as const) : ('no' as const) }];
     });
   },

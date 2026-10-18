@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M4 TR-4, TR-5 `upgrade-vault.contribution.kill-row`: a fighter killing the main monster of a Vault kill
+// M4 TR-4, TR-5 the upgrade-vault kill-row Contribution: a fighter killing the main monster of a Vault kill
 // map (Poopy Sewers and four others) raises the account's kill total there, and each power of 10 steps
 // its Vault row up. One finding per feeder, with the account's total, the summed kill rate of every
 // feeder (FR-4) and whether the row has a level yet (a row at Lv 0 pays nothing per step: `rule` 0).
@@ -33,7 +33,7 @@ export default defineDetector({
     .strictObject({
       saved: z.number(),
       rate: z.number(),
-      feeders: z.string(),
+      feeders: z.number(),
       rule: z.number(),
       rowLevel: z.number(),
       target: z.string(),
@@ -58,7 +58,7 @@ export default defineDetector({
         fixture: 'scrubbed-w2',
         subject: characterSubject(0),
         params: { goal: 'upgrade-vault.goal.kill-row-map-8' },
-        expect: { slots: { saved: 2995, rate: 1430, rule: 1, feeders: '0' } },
+        expect: { slots: { saved: 2995, rate: 1430, rule: 1, feeders: 1 } },
       },
     ],
     silent: [
@@ -125,7 +125,6 @@ export default defineDetector({
         rule: rowLevel >= rowLevelMin ? 1 : 0,
         rowLevel,
         target: f.c.afkTarget ?? '',
-        row,
       };
       if (next === null || rate <= 0) return { subject, slots, advances: 'no' as const, etaMs: null };
       return {

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M4 TR-4, TR-5 `portals.contribution.push`: a fighter on a map with a door it hasn't opened advances that
+// M4 TR-4, TR-5 the portals push Contribution: a fighter on a map with a door it hasn't opened advances that
 // map's portal ladder. Per character: its kills toward the first unopened door and its kill rate. Whether
 // it counts (M2's pusher on M2's frontier map, D5) and M2's ETA are applied by M4's engine, which has M2's
 // result; a Detector never sees the Stage (TR-5).

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M4 TR-4, TR-5 `cards.contribution.fight`: a fighter on a monster with a card raises the account's copies
+// M4 TR-4, TR-5 the cards fight Contribution: a fighter on a monster with a card raises the account's copies
 // of that card toward its next level. The ETA is a mean at the base drop chance (`bound:
 // 'mean-at-base-rate'`, red-team note 11): missing copies ÷ (Σ feeders' kills/h × chance), with the
 // chance ×5 while the account owns none (the game's LootDropOddsReset, cards dossier, H). The card
@@ -33,7 +33,7 @@ export default defineDetector({
     .strictObject({
       saved: z.number(),
       rate: z.number(),
-      feeders: z.string(),
+      feeders: z.number(),
       rule: z.number(),
       chance: z.number(),
       complete: z.number(),

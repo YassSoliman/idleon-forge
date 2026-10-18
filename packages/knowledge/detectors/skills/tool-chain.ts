@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M4 TR-4, TR-5 `skills.contribution.tool`: a skiller gathering an ingredient of the next tool its skill
+// M4 TR-4, TR-5 the skills tool Contribution: a skiller gathering an ingredient of the next tool its skill
 // level allows, while it doesn't hold that tool yet, is working toward the tool. Yes or no (FR-6). The
 // next tool is the first one past the best tool equipped whose level the skill already meets.
 import { z } from 'zod';
@@ -61,7 +61,7 @@ export default defineDetector({
         subject: characterSubject(1),
         params: { afkType: 'MINING', goal: 'skills.goal.tool-mining' },
         mutate: (s) => withCharacter(s, 1, { tools: [] }),
-        expect: { slots: { tool: 'Copper Pickaxe' } },
+        expect: { slots: { tool: 'Copper_Pickaxe' } },
       },
     ],
     silent: [
@@ -109,7 +109,7 @@ export default defineDetector({
         saved: level,
         rule: need ? 1 : 0,
         target: c.afkTarget ?? '',
-        tool: next?.name ?? '',
+        tool: next?.name.replace(/ /g, '_') ?? '',
         need: need ?? 0,
       };
       return [{ subject, slots, advances: need ? ('yes' as const) : ('no' as const) }];

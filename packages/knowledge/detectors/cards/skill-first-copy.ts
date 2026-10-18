@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M4 TR-4, TR-5 `cards.contribution.skill`: a skiller on a resource whose card the account has never found
+// M4 TR-4, TR-5 the cards skill Contribution: a skiller on a resource whose card the account has never found
 // can drop the first copy. Yes or no only (FR-6): Toolbox computes no resources per hour, so there is
 // no ETA for a skilling card.
 import { z } from 'zod';
