@@ -2,6 +2,7 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M20 user stories (docs/specs/M20-skills-parallel-slots.md §4) and TR-9's clock and ring tests, on the
 // scrubbed saves (CI), which give the spec's worked numbers. By class and level only, never a name (TR-8).
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { runMetaPath } from '../../src/metapath';
 import { buildNowView, DEFAULT_UI, EMPTY_PREFS, renderNowText } from '../../src/now';
@@ -333,5 +334,53 @@ describe('without the checklist rows fact', () => {
         history: [],
       }),
     ).toBeNull();
+  });
+});
+
+describe('R7 QA: Parallel Slots on an account past coverage', () => {
+  const LATEST = fileURLToPath(
+    new URL('../../../account-state/fixtures/public/latest.json', import.meta.url),
+  );
+  const latest = () => copy(workerState(LATEST));
+  const w3kinds = ['cog', 'worship', 'trap', 'printer'];
+
+  it('latest: no W3 pip reads "locked: Opens in W3"; the save\'s own slots show', () => {
+    const r = run(latest());
+    const pips = (r.skills ?? []).flatMap((c) => c.slots);
+    expect(pips.length).toBeGreaterThan(0);
+    expect(pips.filter((p) => p.state === 'locked')).toEqual([]);
+    expect(pips.filter((p) => w3kinds.includes(p.kind) && p.text === 'Opens in W3')).toEqual([]);
+    expect(pips.some((p) => p.kind === 'cog' && p.text === 'builds on the Cog Board')).toBe(true);
+    expect(pips.some((p) => p.kind === 'printer' && p.state === 'filled')).toBe(true);
+    expect(pips.some((p) => p.kind === 'trap' && /traps placed/.test(p.text))).toBe(true);
+  });
+
+  it('latest: still no slot Goal past coverage (advice unchanged)', () => {
+    const r = run(latest());
+    expect(
+      ids(m20Goals(r)).filter((id) => id.startsWith('construction') || id.startsWith('worship')),
+    ).toEqual([]);
+  });
+
+  it('past coverage with nothing in the save: "not covered yet", never "locked"', () => {
+    const s = latest();
+    s.account.cogBoard = null;
+    s.account.printer = null;
+    for (const c of s.characters) {
+      if (c.afk) c.afk = { ...c.afk, worship: null };
+      if (c.slots)
+        c.slots = { ...c.slots, cogPlace: null, skull: null, trappingStarted: false, trapSet: null };
+    }
+    const r = run(s);
+    const pips = (r.skills ?? []).flatMap((c) => c.slots).filter((p) => w3kinds.includes(p.kind));
+    expect(pips.length).toBeGreaterThan(0);
+    for (const p of pips) expect(p.state).toBe('not-covered');
+  });
+
+  it('W2-late is unchanged: the W3 pips are locked "Opens in W3"', () => {
+    const r = run(w2());
+    const pips = (r.skills ?? []).flatMap((c) => c.slots).filter((p) => w3kinds.includes(p.kind));
+    expect(pips.length).toBeGreaterThan(0);
+    for (const p of pips) expect([p.state, p.text]).toEqual(['locked', 'Opens in W3']);
   });
 });

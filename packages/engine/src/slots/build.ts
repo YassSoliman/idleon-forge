@@ -45,11 +45,49 @@ export interface SlotsBuilt {
   pictures: SystemPicture[];
 }
 
-/** Whether the account is at or past W3-early and inside coverage (FR-19). */
+/** Whether the account is at or past W3-early and inside coverage (FR-19): the gate for slot Goals. */
 export function slotsOpen(meta: MetaPathResult | null): boolean {
   const id = meta?.stage.id;
   if (!id || meta?.stage.coverage === 'beyond') return false;
   return STAGES.indexOf(id as StageId) >= W3_EARLY;
+}
+
+/** The W3 slot kinds whose pips can read "locked". */
+type W3Kind = 'cog' | 'worship' | 'trap' | 'printer';
+
+/**
+ * Which W3 slots the save itself shows as open, whatever the Stage: the account has reached World 3 and
+ * a player cog sits on the Cog Board or its shelf (every character starts with one in the cog
+ * inventory, so that is no sign), a skull is worn, Trapping is started or a trap set is held, the
+ * printer is built. A pip reads "locked" only when the save shows the slot closed and the Stage is
+ * before W3.
+ */
+export function slotsUnlocked(state: AccountState): Record<W3Kind, boolean> {
+  const chars = state.characters;
+  if ((state.account.currentWorld ?? 0) < 3)
+    return { cog: false, worship: false, trap: false, printer: false };
+  const board = state.account.cogBoard;
+  return {
+    cog:
+      (board?.squares.some((s) => s === 'cog' || s === 'character') ?? false) ||
+      chars.some((c) => c.slots?.cogPlace?.kind === 'board' || c.slots?.cogPlace?.kind === 'shelf'),
+    worship: chars.some((c) => (c.slots?.skull ?? null) !== null),
+    trap: chars.some((c) => c.slots?.trappingStarted === true || (c.slots?.trapSet ?? null) !== null),
+    printer: (state.account.printer?.level ?? 0) > 0,
+  };
+}
+
+/** How a W3 pip opens: judged as usual, "locked" (before W3), or "not covered yet" (past coverage). */
+type PipGate = 'open' | 'locked' | 'not-covered';
+
+function pipGates(state: AccountState, meta: MetaPathResult | null): Record<W3Kind, PipGate> {
+  const unlocked = slotsUnlocked(state);
+  const id = meta?.stage.id;
+  const beyond = meta?.stage.coverage === 'beyond';
+  const stageOpen = !!id && STAGES.indexOf(id as StageId) >= W3_EARLY;
+  const gate = (k: W3Kind): PipGate =>
+    unlocked[k] || (stageOpen && !beyond) ? 'open' : beyond ? 'not-covered' : 'locked';
+  return { cog: gate('cog'), worship: gate('worship'), trap: gate('trap'), printer: gate('printer') };
 }
 
 const activeRole = (meta: MetaPathResult | null, index: number, role: string) =>
@@ -323,7 +361,8 @@ export function buildSlots(
     return f && shownKeys.has(f.key) ? f.key : null;
   };
 
-  const pips = new Map(chars.map((c) => [c.index, pipsOf(state, c, open, started, linkOf)]));
+  const gates = pipGates(state, meta);
+  const pips = new Map(chars.map((c) => [c.index, pipsOf(state, c, gates, started, linkOf)]));
   const pictures = picturesOf(state, kb, chars, fired, seatSquares, now, expectedReturnMs);
   return { goals: goalsOut, fired, pips, pictures };
 }
@@ -331,7 +370,7 @@ export function buildSlots(
 function pipsOf(
   state: AccountState,
   c: CharacterState,
-  open: boolean,
+  gates: Record<W3Kind, PipGate>,
   trappingStarted: boolean,
   linkOf: (entryId: string, index: number) => string | null,
 ): SlotPip[] {
@@ -339,10 +378,18 @@ function pipsOf(
   const pip = (kind: SlotKind, s: SlotPip['state'], text: string, linkKey: string | null = null) =>
     out.push({ kind, state: s, text, linkKey });
   const slots = c.slots;
-  const w3 = 'Opens in W3';
+  // Closed: "locked" before W3; past ActiveOn's coverage with no sign in the save, "not covered yet"
+  // (never "locked": a late account has these open).
+  const closed = (kind: W3Kind): boolean => {
+    if (gates[kind] === 'open') return false;
+    if (gates[kind] === 'locked') pip(kind, 'locked', 'Opens in W3');
+    else pip(kind, 'not-covered', "ActiveOn doesn't cover your stage yet");
+    return true;
+  };
   // Cog Board
-  if (!open) pip('cog', 'locked', w3);
-  else if (!slots) pip('cog', 'unknown', "can't tell");
+  if (closed('cog')) {
+    // closed() wrote the pip
+  } else if (!slots) pip('cog', 'unknown', "can't tell");
   else if (!slots.cogPlace) pip('cog', 'unfillable', 'no player cog');
   else if (slots.cogPlace.kind === 'board') pip('cog', 'filled', 'builds on the Cog Board');
   else if (slots.cogPlace.kind === 'shelf')
@@ -350,8 +397,9 @@ function pipsOf(
   else pip('cog', 'fillable', 'in the cog inventory: earns nothing', linkOf(ENTRY.seat, c.index));
   // Worship
   const w = c.afk?.worship;
-  if (!open) pip('worship', 'locked', w3);
-  else if (!w || !slots) pip('worship', 'unknown', "can't tell");
+  if (closed('worship')) {
+    // closed() wrote the pip
+  } else if (!w || !slots) pip('worship', 'unknown', "can't tell");
   else {
     const text =
       slots.skull === null
@@ -365,8 +413,9 @@ function pipsOf(
     );
   }
   // Traps
-  if (!open) pip('trap', 'locked', w3);
-  else if (!slots) pip('trap', 'unknown', "can't tell");
+  if (closed('trap')) {
+    // closed() wrote the pip
+  } else if (!slots) pip('trap', 'unknown', "can't tell");
   else if (!slots.trapSet)
     pip(
       'trap',
@@ -392,8 +441,9 @@ function pipsOf(
   else pip('cauldron', 'filled', 'on a sigil');
   // 3D Printer (M14's facts; the plan is M14's)
   const pr = state.account.printer;
-  if (!open) pip('printer', 'locked', w3);
-  else if (!pr) pip('printer', 'unknown', "can't tell");
+  if (closed('printer')) {
+    // closed() wrote the pip
+  } else if (!pr) pip('printer', 'unknown', "can't tell");
   else {
     const mine = pr.characters.find((x) => x.characterIndex === c.index);
     const order = [...state.characters]
