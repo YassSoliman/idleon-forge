@@ -28,6 +28,7 @@ function stateAt(t: number, slot = 0): AccountState {
     account: {
       currentWorld: 2,
       lastCloudSave: t,
+      accountLevel: 257,
       secondsSinceLastSave: 0,
       gameVersion: { serverBuild: 142, saveVersion: 34.05, parserTarget: '2.3.540' },
       cards: Array.from({ length: 50 }, (_, i) => ({ id: `card${i}`, level: 1 })),
@@ -109,6 +110,8 @@ describe('compactState', () => {
     const full = stateAt(T0);
     const c = compactState(full);
     expect(c.account.lastCloudSave).toBe(T0);
+    // M15 F3's family-level pace reads it from earlier saves.
+    expect(c.account.accountLevel).toBe(257);
     expect(c.account.afk?.liquids).toEqual(full.account.afk?.liquids);
     expect(c.account.minigames).toEqual(full.account.minigames);
     expect(c.account.poppy).toEqual(full.account.poppy);

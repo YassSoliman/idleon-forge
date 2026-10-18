@@ -125,13 +125,31 @@ export function analyzeRoster(state: AccountState, kb: FactLookup, stage: StageI
   const roles = roleDefs(kb);
   const now = stage === null ? 0 : stageIndex(stage);
   let nextLine: string | null = null;
-  const missing = missingLines.filter((l) => !tentative.has(l));
-  if (missing.length) {
-    nextLine = [...missing].sort(
+  const missing = missingLines
+    .filter((l) => !tentative.has(l))
+    .sort(
       (a, b) =>
         Math.max(earliestRole(roles, a), now) - Math.max(earliestRole(roles, b), now) ||
         lineNames.indexOf(a) - lineNames.indexOf(b),
-    )[0] as string;
+    );
+  // M15 F3 (FR-6, FR-9): a Beginner made after the first character was made for the line the roster
+  // asked for, so it tentatively holds the next missing line and the roster moves on to the one after
+  // (a freshly made level-1 Hunter-to-be never re-asks for a Hunter). Slot 11 is a Beginner by plan.
+  const beginners = state.characters
+    .filter((c) => c.index > 0 && slots.get(c.index)?.status === 'beginner')
+    .sort((a, b) => b.level - a.level || a.index - b.index);
+  const beginnerSlot = slotOf(kb, 'Beginner', 1);
+  for (const c of beginners) {
+    if (beginnerSlot !== null && charactersUsed >= beginnerSlot) break;
+    const line = missing.shift();
+    if (!line) break;
+    set(c, { slot: slotOf(kb, line, 1), line, status: 'tentative', note: null });
+    linesPresent.push(line);
+    linesPresent.sort((a, b) => lineNames.indexOf(a) - lineNames.indexOf(b));
+    missingLines.splice(missingLines.indexOf(line), 1);
+  }
+  if (missing.length) {
+    nextLine = missing[0] as string;
   } else if (missingLines.length === 0) {
     if (!byLine.has('Journeyman')) nextLine = 'Journeyman';
     else if (![...slots.values()].some((s) => s.note === 'second-squire')) nextLine = 'Squire';

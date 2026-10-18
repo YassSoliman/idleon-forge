@@ -346,7 +346,28 @@ export const METAPATH_PARTS = [
   'stages',
   'pusher-rule',
   'gate-chain',
+  'expectations',
 ] as const;
+/**
+ * M15 TR-10: one Stage Expectation row, "by this Stage, this fix of ours should no longer be firing".
+ * Our own table (never AutoReview's); `fix` must resolve to an entry (kb check, M15 C4).
+ */
+export const StageExpectation = z.strictObject({
+  id: z.string().regex(new RegExp(`^${SLUG}$`)),
+  /** The System's display name, e.g. "Cards". */
+  system: z.string().min(1).max(40),
+  /** The Stage by which the fix should be silent. */
+  expectedBy: StageId,
+  fix: EntryId,
+  /** Only findings whose slot `findingField` equals this value count (e.g. F2's subject is the 3D Printer). */
+  when: z
+    .strictObject({ findingField: z.string().min(1), equals: z.union([z.string(), z.number()]) })
+    .optional(),
+  /** Character findings below this class level never count (FR-26); default 30. */
+  minCharacterLevel: z.int().min(1).optional(),
+  why: Template,
+  sources: z.array(Source).min(1),
+});
 export const MetaPathEntry = Base.extend({
   type: z.literal('metapath'),
   /** M2 TR-7 adds stages, pusher-rule and gate-chain. */
@@ -414,6 +435,8 @@ export const MetaPathEntry = Base.extend({
       }),
     )
     .optional(),
+  /** M15 TR-10: the Stage Expectations table (F5 Behind for your Stage), in tie-break order. */
+  expectations: z.array(StageExpectation).min(1).optional(),
   milestones: z
     .array(
       z.strictObject({
@@ -444,6 +467,7 @@ const METAPATH_FIELD = {
   stages: 'stages',
   'pusher-rule': 'pusherRule',
   'gate-chain': 'gateChain',
+  expectations: 'expectations',
 } as const;
 
 /** The rules one entry must satisfy on its own (TR-2). Exported so `kb check` can name each one in its tests. */

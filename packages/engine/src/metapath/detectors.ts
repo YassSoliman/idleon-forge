@@ -7,6 +7,8 @@
 // Each is registered by a one-line re-export in packages/engine/detectors/metapath/<name>.ts.
 import { defineDetector } from '@idleon-forge/knowledge';
 import { z } from 'zod';
+import { behindRows, stageExpectations } from './behind';
+import { familyUnlock } from './family';
 import { elitePending, pushGoal, subclassPending, worldTutorial } from './gate-chain';
 import { selectPusher } from './pusher';
 import { analyzeRoster } from './roster';
@@ -116,6 +118,46 @@ export const elitePendingDetector = defineDetector({
   run: ({ state, facts }) => elitePending(state, facts, detectStage(state, facts)),
 });
 
+/**
+ * M15 F3: the next family-level unlock (FR-14 to FR-19). The engine module adds the ETA from save
+ * history (FR-16); this Detector runs on one save, so it has none.
+ */
+export const familyUnlockDetector = defineDetector({
+  id: 'metapath/family-unlock',
+  kind: 'engine',
+  system: 'metapath',
+  params: none,
+  slots: z.strictObject({ what: z.string(), gate: z.number(), gap: z.number() }),
+  reads: [...STAGE_READS, 'account.accountLevel', 'characters[*].quests'],
+  examples: {
+    fires: [
+      { fixture: 'scrubbed-w2', expect: { next: { familyLevel: 300, characterSlot: 6 }, gap: 43 } },
+      { fixture: 'scrubbed-w3', expect: { next: { familyLevel: 400 }, gap: 21 } },
+    ],
+    silent: [],
+  },
+  run: ({ state, facts, now }) => {
+    const stage = detectStage(state, facts);
+    const u = familyUnlock(state, facts, stage, analyzeRoster(state, facts, stage.id), [], now);
+    return u ? [u] : [];
+  },
+});
+
+/**
+ * M15 F5: the Stage Expectation rows that are behind for this account's Stage (FR-26). Whether each is
+ * unmet needs the other modules' findings, so the engine core decides that (TR-9, `behindStep`).
+ */
+export const behindDetector = defineDetector({
+  id: 'metapath/behind',
+  kind: 'engine',
+  system: 'metapath',
+  params: none,
+  slots: z.strictObject({ system: z.string() }),
+  reads: STAGE_READS,
+  examples: { fires: [{ fixture: 'scrubbed-w2' }], silent: [] },
+  run: ({ state, facts }) => behindRows(stageExpectations(facts), detectStage(state, facts).id),
+});
+
 /** Every M2 engine Detector, by id. */
 export const METAPATH_DETECTORS = Object.freeze({
   [stageDetector.id]: stageDetector,
@@ -125,4 +167,6 @@ export const METAPATH_DETECTORS = Object.freeze({
   [worldTutorialDetector.id]: worldTutorialDetector,
   [subclassPendingDetector.id]: subclassPendingDetector,
   [elitePendingDetector.id]: elitePendingDetector,
+  [familyUnlockDetector.id]: familyUnlockDetector,
+  [behindDetector.id]: behindDetector,
 });

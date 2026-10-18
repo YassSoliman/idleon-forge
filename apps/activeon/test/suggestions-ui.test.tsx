@@ -331,6 +331,8 @@ describe('US-4 no proof yet (FR-12, FR-19)', () => {
     const store = createSuggestionsStore(null);
     render(<Harness proof={ring} store={store} />);
     await openForm();
+    // The form shows "Loading…" until the outbox store answers; on a busy CI runner that takes a tick.
+    await screen.findByLabelText(/^I want…/);
     fill(/^I want…/, 'to save this one for later');
     await waitFor(() => expect(sendButton().disabled).toBe(false));
     fireEvent.click(sendButton());

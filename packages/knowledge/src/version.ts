@@ -131,6 +131,7 @@ export const PLAYER_VISIBLE_KEYS = [
   'stages',
   'pusherRule',
   'gateChain',
+  'expectations',
   'tabs',
   'tags',
   'attacks',

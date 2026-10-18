@@ -13,6 +13,8 @@
 //  - M6 cooldowns and resets (`minigames/cooldown-play`, `poppy/pending-fish`): `account.minigames`,
 //    `account.poppy`.
 //  - M9 level-up (`levelUpSignal`) and M8 done-this-session: the whole state, on the boundary entries.
+//  - M15 F3 family-level pace (`familyPoints`): `account.accountLevel`, the character count
+//    (`characters`, `diagnostics.unreadableCharacters`). M15 F5 new-this-session: `characters[*].index`.
 // A history reader that needs another field adds it to `compactState` (the engine test that runs the
 // engine on full and on compact history and expects the same result catches a missing one).
 import type { AccountState, CharacterState } from '@idleon-forge/account-state';
@@ -50,6 +52,7 @@ export function compactState(state: AccountState): AccountState {
     account: {
       lastCloudSave: a.lastCloudSave,
       currentWorld: a.currentWorld,
+      accountLevel: a.accountLevel,
       afk: a.afk ? { liquids: a.afk.liquids } : (a.afk ?? null),
       minigames: a.minigames ?? null,
       poppy: a.poppy ?? null,

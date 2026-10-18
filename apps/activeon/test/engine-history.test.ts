@@ -129,6 +129,52 @@ describe('the engine reads real save history (M10 TR-6)', () => {
     expect(text).not.toContain(STOCK_UP);
   });
 
+  it('M15 F3: the next family unlock reads its ETA from the compact history the worker passes', () => {
+    const { state, savedAt } = parsed();
+    const DAY = 24 * HOUR;
+    const at = (days: number, accountLevel: number): HistoryEntry => ({
+      lastCloudSave: savedAt - days * DAY,
+      receivedAt: savedAt - days * DAY,
+      state: { ...state, account: { ...state.account, lastCloudSave: savedAt - days * DAY, accountLevel } },
+    });
+    const full = [at(4, 227), at(2, 242)];
+    const unlock = (r: ReturnType<typeof run>) =>
+      'account' in r
+        ? r.account.goals.find((g) => g.id === 'metapath.goal.family-unlock')?.nextAction.text
+        : '';
+    expect(unlock(run(call([], null)))).toContain('ETA after a few more sessions');
+    // 257 - 227 = 30 levels in 4 days: 7.5 a day; 43 to go is about 6 days.
+    const compact = engineHistoryOf(full, { before: savedAt, sessionStartedAt: null });
+    expect(compact.every((h) => h.state.account.cards === undefined)).toBe(true);
+    expect(unlock(run(call(compact, null)))).toBe(
+      'Next family unlock: character slot 6 for your Hunter at family level 300 (43 to go); about 6 days at your recent pace',
+    );
+  });
+
+  it('M15 F5: a character absent from the last save before the Play Session never leads Behind', () => {
+    const { state, savedAt } = parsed();
+    const behind = (r: ReturnType<typeof run>) =>
+      'account' in r ? r.account.goals.find((g) => g.id === 'metapath.goal.behind') : undefined;
+    expect(behind(run(call([], null)))?.nextAction.text.startsWith('Bowman Lv 54:')).toBe(true);
+    // The Bowman Lv 54 (slot 3) was not in the save before this session: it is new, so its card line doesn't count.
+    const before = savedAt - 2 * HOUR;
+    const baseline: HistoryEntry = {
+      lastCloudSave: before,
+      receivedAt: before,
+      state: {
+        ...state,
+        account: { ...state.account, lastCloudSave: before },
+        characters: state.characters.filter((c) => c.index !== 3),
+      },
+    };
+    const start = savedAt - HOUR;
+    const compact = engineHistoryOf([baseline], { before: savedAt, sessionStartedAt: start });
+    const g = behind(run(call(compact, start)));
+    expect(g?.title).toBe('Behind for your Stage: Cards');
+    expect(g?.nextAction.text.startsWith('Bowman Lv 54:')).toBe(false);
+    expect(g?.details?.some((d) => d.subject === 'c3')).toBe(false);
+  });
+
   it('only earlier saves reach the engine, oldest first', () => {
     const { state, savedAt } = parsed();
     const h = history(state);
