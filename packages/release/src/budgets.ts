@@ -4,7 +4,8 @@
 
 export const BUDGETS = {
   mainChunkGzip: 320 * 1024,
-  workerChunkRaw: 8 * 1024 * 1024,
+  // Lowered from 8 MiB in release 7 (perf/kb-slim): the worker went from 7.6 MiB to 4.7 MiB.
+  workerChunkRaw: 6 * 1024 * 1024,
   anyFile: 20 * 1024 * 1024,
   fileCount: 5000,
   whatsNew: 64 * 1024,

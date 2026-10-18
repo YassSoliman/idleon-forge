@@ -11,11 +11,16 @@ them. IdleOn Forge redistributes their code under the same licence and changes n
   This package's own files carry `SPDX-License-Identifier: GPL-3.0-only`.
 - **Modifications (GPL-3.0 section 5(a)):** none to upstream's code. `scripts/sync.sh` prepends a
   three-line origin notice to every vendored source file, and at build time `scripts/build.mjs`
-  redirects Toolbox's path aliases to `vendor/` and its six UI-coupled imports to the stubs in
+  (options in `scripts/bundle.mjs`) redirects Toolbox's path aliases to `vendor/` and its six UI-coupled imports to the stubs in
   [`shims/`](shims/). It also redirects `@parsers/safeSection` to
   [`shims/safe-section.ts`](shims/safe-section.ts), which behaves the same and additionally reports
-  each section's outcome, so a section is listed as failed only when its last pass failed. The built
-  bundle opens with a licence banner naming upstream and the commit.
+  each section's outcome, so a section is listed as failed only when its last pass failed. The bundle
+  also trims game data the parsers barely read (`DATA_TRIMS` in `scripts/bundle.mjs`): only
+  `monsterDrops.json` today (about 2.6 MB), cut to the `questLink` and `rawName` of quest-gated drops,
+  the only fields `parsers/quests.ts` reads. `vendor/data/` itself is never changed, and
+  `test/data-trims.test.ts` fails if another file starts importing a trimmed file, if the reading code
+  changes, or if any public save parses differently with the trims. The built bundle opens with a
+  licence banner naming upstream, the commit and the trimmed files.
 - **No endorsement:** Toolbox does not accept PRs and is not affiliated with IdleOn Forge. Report
   parser bugs you hit through ActiveOn to us, not to Toolbox, unless you can reproduce them on
   idleontoolbox.com.
@@ -36,7 +41,9 @@ them. IdleOn Forge redistributes their code under the same licence and changes n
 2. `pnpm sync-parsers HEAD` (or a SHA). It re-vendors, rewrites `UPSTREAM`, refreshes the public saves
    and rebuilds `vendor/data/`.
 3. `pnpm typecheck && pnpm test && pnpm build`. A build error naming an unmapped alias means
-   upstream added a UI-coupled import: add a stub in `shims/` and map it in `scripts/build.mjs`.
+   upstream added a UI-coupled import: add a stub in `shims/` and map it in `scripts/bundle.mjs`.
+   A failing `test/data-trims.test.ts` means upstream changed how it reads a trimmed data file:
+   re-check that trim in `scripts/bundle.mjs` (widen or drop it), then update its pinned `reads`.
 4. Review `git diff --stat`. Snapshot changes in `packages/account-state` show which Account State
    fields moved. Fix the adapter, never `vendor/`.
 5. Open a PR titled `chore(parsers): sync Toolbox to <short-sha> (game <version>)`.

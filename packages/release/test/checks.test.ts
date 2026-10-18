@@ -50,7 +50,7 @@ describe('budgets', () => {
     { path: 'version.json', size: 400 },
     { path: 'whats-new.json', size: 2000 },
     { path: 'assets/index-AbC123.js', size: 900_000, gzip: 265 * 1024 },
-    { path: 'assets/parse.worker-XyZ.js', size: 6_300_000 },
+    { path: 'assets/parse.worker-XyZ.js', size: 4_900_000 },
   ];
   it('passes slice 1 sized output', () => {
     expect(checkBudgets(ok)).toEqual([]);

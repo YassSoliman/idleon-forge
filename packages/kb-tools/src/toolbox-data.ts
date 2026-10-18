@@ -66,7 +66,7 @@ export function declaredData(data: GameData, inputs: readonly string[], generato
 const v = (p: string) => path.join(PARSERS, 'vendor', p);
 const s = (p: string) => path.join(PARSERS, 'shims', p);
 
-/** The parser build's alias rules (packages/toolbox-parsers/scripts/build.mjs), repeated for Node-side bundling. */
+/** The parser build's alias rules (packages/toolbox-parsers/scripts/bundle.mjs), repeated for Node-side bundling. */
 const aliasPlugin: Plugin = {
   name: 'toolbox-aliases',
   setup(b) {

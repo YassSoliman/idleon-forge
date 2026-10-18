@@ -109,7 +109,12 @@ export function loadKnowledge(input: unknown): CompiledKnowledge {
   }
   if (typeof data !== 'object' || data === null || Array.isArray(data))
     throw new KnowledgeUnavailableError('the Knowledge Base bundle is not an object');
-  const kb = unpackKnowledge(data as Record<string, unknown>);
+  let kb: Record<string, unknown>;
+  try {
+    kb = unpackKnowledge(data as Record<string, unknown>);
+  } catch (err) {
+    throw new KnowledgeUnavailableError(err instanceof Error ? err.message : String(err));
+  }
   const missing = REQUIRED.filter((k) => kb[k] === undefined || kb[k] === null);
   if (missing.length > 0)
     throw new KnowledgeUnavailableError(`the Knowledge Base bundle lacks ${missing.join(', ')}`);

@@ -1,88 +1,157 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// The shipped bundle's packed form (M11 TR-17 budget, M4 TR-4). A `goalFamily` expands into one concrete
-// Contribution per generated Goal, each repeating the authored text, why, Sources and Detector, and
-// generated Goals repeat their `generatedBy`. On disk, a field value that several entries share is
-// stored once in `shared`; the set of shared fields an entry uses is stored once in `refs`, and the
-// entry names it in `$i`. Authors' `notes` are never shown to players (schema: "never shown"), so the
-// shipped form leaves them out. `unpackKnowledge` restores every other field exactly; the in-memory
-// `CompiledKnowledge` of `kb compile` never sees the packed form.
+// The shipped bundle's packed form (M11 TR-17 budget, M4 TR-4). The compiled Knowledge Base repeats
+// itself a lot: every entry of a type has the same keys, a `goalFamily` expands into one Contribution
+// per generated Goal with the same text, why, Sources and Detector, and Sources, titles, systems and
+// stage ranges recur across hundreds of entries. The packed form is a lossless JSON codec over the
+// whole bundle:
+//   - an object is `[3 + shape, ...values]`, its keys stored once in `shapes` (key repetition gone);
+//   - an array is `[0, ...items]`;
+//   - a string that occurs twice or more (and is not tiny) is `[1, n]`, stored once in `strings`;
+//   - an object or array that occurs twice or more (and is not tiny) is `[2, n]`, stored once in `trees`;
+//   - numbers, booleans and null stay as they are.
+// Keys are encoded sorted, like `canonicalJson`, so the loader sees exactly the order the JSON form had.
+// A shared tree is decoded afresh at every reference, so no two entries share one object.
+// Authors' `notes` are never shown to players (schema: "never shown"), so the shipped form leaves them
+// out; `byType` and `detectorOf` are functions of the entries, so the loader rebuilds them. Everything
+// else comes back exactly: `unpackKnowledge(packKnowledge(kb))` equals `kb` minus notes.
 import { ENTRY_TYPES } from './schema';
-import { canonicalJson } from './version';
 
-/** The entry fields whose repeated values are interned. */
-const INTERNED = [
-  'activity',
-  'appliesTo',
-  'detector',
-  'generatedBy',
-  'milestones',
-  'progress',
-  'sources',
-  'stopHere',
-  'text',
-  'title',
-  'values',
-  'why',
-] as const;
+/** Marks a packed bundle; bumped if the encoding ever changes. */
+export const PACK_FORMAT = 2;
 /** Fields the shipped bundle drops: authoring aids that no runtime code reads. */
 export const UNSHIPPED_FIELDS = ['notes'] as const;
-/** Values shorter than this stay inline: the reference would cost as much. */
-const MIN_LENGTH = 16;
+
+const ARRAY = 0;
+const STRING = 1;
+const TREE = 2;
+const SHAPE_BASE = 3;
+/** Strings shorter than this stay inline: `[1,123]` would cost as much. */
+const MIN_STRING = 6;
+/** Subtrees whose JSON is shorter than this stay inline. */
+const MIN_TREE = 24;
 
 type Dict = Record<string, unknown>;
+type Encoded = null | boolean | number | string | Encoded[];
 
-/** `kb` with repeated entry field values interned (deterministic: entry ids in sorted order). */
-export function packKnowledge<T extends { entries: Record<string, unknown> }>(
-  kb: T,
-): T & { shared?: string[]; refs?: Record<string, number>[] } {
-  const ids = Object.keys(kb.entries).sort();
-  const count = new Map<string, number>();
-  for (const id of ids) {
-    const e = kb.entries[id] as Dict;
-    for (const f of INTERNED)
-      if (e[f] !== undefined) {
-        const key = `${f}\u0000${canonicalJson(e[f])}`;
-        count.set(key, (count.get(key) ?? 0) + 1);
-      }
+export interface PackedKnowledge {
+  kbpack: typeof PACK_FORMAT;
+  shapes: string[][];
+  strings: string[];
+  trees: Encoded[];
+  body: Encoded;
+}
+
+/** `v` with object keys sorted and undefined values dropped, as `canonicalJson` writes it. */
+function canonical(v: unknown): unknown {
+  if (Array.isArray(v)) return v.map(canonical);
+  if (v && typeof v === 'object') {
+    const o = v as Dict;
+    const out: Dict = {};
+    for (const k of Object.keys(o).sort()) {
+      if (o[k] === undefined) continue;
+      if (k === '__proto__') throw new Error('packKnowledge: a "__proto__" key cannot be packed');
+      out[k] = canonical(o[k]);
+    }
+    return out;
   }
-  const shared: string[] = [];
-  const index = new Map<string, number>();
-  const refs: Record<string, number>[] = [];
-  const refIndex = new Map<string, number>();
-  const entries: Record<string, unknown> = {};
-  for (const id of ids) {
-    const e = { ...(kb.entries[id] as Dict) };
-    for (const f of UNSHIPPED_FIELDS) delete e[f];
-    const used: Record<string, number> = {};
-    for (const f of INTERNED) {
-      if (e[f] === undefined) continue;
-      const json = canonicalJson(e[f]);
-      if (json.length < MIN_LENGTH || (count.get(`${f}\u0000${json}`) ?? 0) < 2) continue;
-      let n = index.get(json);
+  return v;
+}
+
+/** The shipped form of `kb` (deterministic: the same `kb` always packs to the same JSON). */
+export function packKnowledge(kb: { entries: Record<string, unknown> }): PackedKnowledge {
+  const entries: Dict = {};
+  for (const [id, e] of Object.entries(kb.entries)) {
+    const copy = { ...(e as Dict) };
+    for (const f of UNSHIPPED_FIELDS) delete copy[f];
+    entries[id] = copy;
+  }
+  const { byType: _b, detectorOf: _d, ...rest } = kb as Dict;
+  const doc = canonical({ ...rest, entries });
+
+  // Pass 1: how often each string and each subtree occurs.
+  const stringCount = new Map<string, number>();
+  const treeCount = new Map<string, number>();
+  const json = new Map<object, string>();
+  const count = (v: unknown): void => {
+    if (typeof v === 'string') stringCount.set(v, (stringCount.get(v) ?? 0) + 1);
+    else if (v && typeof v === 'object') {
+      const j = JSON.stringify(v);
+      json.set(v, j);
+      treeCount.set(j, (treeCount.get(j) ?? 0) + 1);
+      for (const x of Array.isArray(v) ? v : Object.values(v)) count(x);
+    }
+  };
+  count(doc);
+
+  // Pass 2: encode, numbering shapes, strings and trees in first-use order.
+  const shapes: string[][] = [];
+  const shapeIndex = new Map<string, number>();
+  const strings: string[] = [];
+  const stringIndex = new Map<string, number>();
+  const trees: Encoded[] = [];
+  const treeIndex = new Map<string, number>();
+  const encode = (v: unknown, shared = true): Encoded => {
+    if (typeof v === 'string') {
+      if (v.length < MIN_STRING || (stringCount.get(v) ?? 0) < 2) return v;
+      let n = stringIndex.get(v);
       if (n === undefined) {
-        n = shared.length;
-        shared.push(json);
-        index.set(json, n);
+        n = strings.length;
+        strings.push(v);
+        stringIndex.set(v, n);
       }
-      used[f] = n;
-      delete e[f];
+      return [STRING, n];
     }
-    if (Object.keys(used).length > 0) {
-      const key = canonicalJson(used);
-      let r = refIndex.get(key);
-      if (r === undefined) {
-        r = refs.length;
-        refs.push(used);
-        refIndex.set(key, r);
+    if (v === null || typeof v !== 'object') return v as Encoded;
+    const j = json.get(v) as string;
+    if (shared && j.length >= MIN_TREE && (treeCount.get(j) ?? 0) >= 2) {
+      let n = treeIndex.get(j);
+      if (n === undefined) {
+        n = trees.length;
+        trees.push(null);
+        treeIndex.set(j, n);
+        trees[n] = encode(v, false);
       }
-      e.$i = r;
+      return [TREE, n];
     }
-    entries[id] = e;
-  }
-  // `byType` and `detectorOf` are functions of the entries; the loader rebuilds them (`derivedIndexes`).
-  const { byType: _b, detectorOf: _d, ...rest } = kb as T & { byType?: unknown; detectorOf?: unknown };
-  return { ...(rest as T), entries, shared, refs };
+    if (Array.isArray(v)) return [ARRAY, ...v.map((x) => encode(x))];
+    const keys = Object.keys(v);
+    const key = JSON.stringify(keys);
+    let s = shapeIndex.get(key);
+    if (s === undefined) {
+      s = shapes.length;
+      shapes.push(keys);
+      shapeIndex.set(key, s);
+    }
+    return [SHAPE_BASE + s, ...keys.map((k) => encode((v as Dict)[k]))];
+  };
+  const body = encode(doc, false);
+  return { kbpack: PACK_FORMAT, shapes, strings, trees, body };
+}
+
+/** Decodes a packed body; throws on anything the encoder never writes. */
+function decoder(p: PackedKnowledge): (v: Encoded) => unknown {
+  const { shapes, strings, trees } = p;
+  const bad = (what: string): never => {
+    throw new Error(`the packed Knowledge Base has a bad ${what}`);
+  };
+  const decode = (v: Encoded): unknown => {
+    if (!Array.isArray(v)) return v;
+    const tag = v[0];
+    if (tag === ARRAY) {
+      const out = new Array(v.length - 1);
+      for (let i = 1; i < v.length; i++) out[i - 1] = decode(v[i] as Encoded);
+      return out;
+    }
+    if (tag === STRING) return strings[v[1] as number] ?? bad('string reference');
+    if (tag === TREE) return decode(trees[v[1] as number] ?? bad('tree reference'));
+    const keys = shapes[(tag as number) - SHAPE_BASE] ?? bad('shape reference');
+    if (keys.length !== v.length - 1) bad('object');
+    const out: Dict = {};
+    for (let i = 0; i < keys.length; i++) out[keys[i] as string] = decode(v[i + 1] as Encoded);
+    return out;
+  };
+  return decode;
 }
 
 /** The Detector ids an entry's line comes from (kb-tools `detectorRefsOf`, ids only). */
@@ -115,24 +184,20 @@ function derivedIndexes(entries: Record<string, Dict>): {
   return { byType, detectorOf };
 }
 
-/** Restores a packed bundle's entries; a bundle without `shared` comes back as it was. */
+const isPacked = (kb: Dict): kb is Dict & PackedKnowledge =>
+  kb.kbpack === PACK_FORMAT &&
+  Array.isArray(kb.shapes) &&
+  Array.isArray(kb.strings) &&
+  Array.isArray(kb.trees) &&
+  'body' in kb;
+
+/** Restores a packed bundle; a bundle that is not packed comes back as it was. */
 export function unpackKnowledge(kb: Dict): Dict {
-  const shared = kb.shared;
-  const refs = kb.refs;
-  if (!Array.isArray(shared) || !Array.isArray(refs)) return kb;
-  const entries: Record<string, unknown> = {};
-  for (const [id, raw] of Object.entries((kb.entries ?? {}) as Record<string, Dict>)) {
-    const r = raw.$i;
-    if (typeof r !== 'number') {
-      entries[id] = raw;
-      continue;
-    }
-    const { $i: _i, ...rest } = raw;
-    // Parsed per entry, so no two entries share one object.
-    for (const [f, n] of Object.entries((refs[r] ?? {}) as Record<string, number>))
-      rest[f] = JSON.parse(String(shared[n])) as unknown;
-    entries[id] = rest;
-  }
-  const { shared: _s, refs: _r, ...out } = kb;
-  return { ...out, entries, ...derivedIndexes(entries as Record<string, Dict>) };
+  if (!isPacked(kb)) return kb;
+  const out = decoder(kb)(kb.body);
+  if (!out || typeof out !== 'object' || Array.isArray(out))
+    throw new Error('the packed Knowledge Base is not an object');
+  const doc = out as Dict;
+  const entries = (doc.entries ?? {}) as Record<string, Dict>;
+  return { ...doc, ...derivedIndexes(entries) };
 }
