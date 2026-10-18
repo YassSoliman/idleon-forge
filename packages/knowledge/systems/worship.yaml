@@ -10,6 +10,8 @@ entries:
     title: Worship charge fills while you're away
     text: "Spend worship charge, or let the Wizard's Charge Syphon take it ({charge:int} of {max:int}; time to cap: {fullIn:duration})"
     values:
+      timelineKind: production
+      timelineWhat: "worship charge"
       fill: worship charge
       pill: "Worship full · spend"
       pill-soon: "Worship full in about {fullIn:duration} · spend"
@@ -36,6 +38,8 @@ entries:
     title: Worship charge is full
     text: "Spend worship charge or Syphon it (time to cap: {fullIn:duration})"
     values:
+      timelineKind: production
+      timelineWhat: "worship charge"
       fill: worship charge
       pill: "Worship full · spend"
       pill-soon: "Worship full in about {fullIn:duration} · spend"

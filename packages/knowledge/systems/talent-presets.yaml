@@ -9,6 +9,7 @@ entries:
     type: check
     title: AFK on the wrong talent preset
     text: "Swap to your {toRole} preset before you leave"
+    values: { timelineKind: time-cap, timelineWhat: "wrong talent preset" }
     why: "This AFK Target needs {toRole} talents, and your other preset has them. Swapping presets is free and instant, and it lasts the whole stretch."
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts", title: "IdleOn Toolbox, selectedTalentPreset and talentPreset", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

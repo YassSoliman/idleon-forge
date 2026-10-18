@@ -4,7 +4,7 @@
 // EngineResult types (../result) and M2's StageResult (../metapath). M4's PurposeStatus is not on
 // main yet, so a minimal local copy stays, marked TODO(M4).
 import type { StageResult } from '../metapath/types';
-import type { Fill, NextAction, Subject, UnknownFinding } from '../result';
+import type { Fill, NextAction, Subject, TimelineBar, UnknownFinding } from '../result';
 
 export type {
   Category,
@@ -89,4 +89,6 @@ export interface AfkSafetyResult {
   failedDetectors: Array<{ detectorId: string; entryIds: string[]; message: string }>;
   /** M17 TR-2: Checks that returned `unknown` (not for missing history) or whose Detector failed. */
   unknowns?: UnknownFinding[];
+  /** M17 TR-4: a Timeline bar for every finding, pass and cap pill with a time, and every present-state blocker. */
+  bars?: TimelineBar[];
 }

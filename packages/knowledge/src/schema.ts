@@ -470,6 +470,12 @@ const METAPATH_FIELD = {
   expectations: 'expectations',
 } as const;
 
+/**
+ * M17 TR-4: the kinds of Timeline bar (`values.timelineKind`). An entry that emits Timeline bars authors
+ * both `timelineKind` and `timelineWhat` (the producer's words for what binds, "anvil").
+ */
+export const TIMELINE_KINDS = ['storage', 'food', 'time-cap', 'production', 'bank', 'timer'] as const;
+
 /** The rules one entry must satisfy on its own (TR-2). Exported so `kb check` can name each one in its tests. */
 export function entryRules(e: EntryShape, ctx: z.RefinementCtx): void {
   const add = (path: string, message: string) => ctx.addIssue({ code: 'custom', path: [path], message });
@@ -516,6 +522,15 @@ export function entryRules(e: EntryShape, ctx: z.RefinementCtx): void {
     add('contestedOn', 'contestedOn only on a contested entry');
   if (e.type === 'check' && e.affectsVerdict !== undefined && e.affectsVerdict !== (e.effect === 'blocker'))
     add('affectsVerdict', 'affectsVerdict is true exactly for effect: blocker');
+  // M17 TR-4: Timeline bar words come in pairs, and the kind is one of TIMELINE_KINDS.
+  const tk = e.values.timelineKind;
+  const tw = e.values.timelineWhat;
+  if ((tk === undefined) !== (tw === undefined))
+    add('values', 'timelineKind and timelineWhat go together (M17 TR-4)');
+  if (tk !== undefined && !(TIMELINE_KINDS as readonly unknown[]).includes(tk))
+    add('values', `timelineKind must be one of ${TIMELINE_KINDS.join(', ')}`);
+  if (tw !== undefined && (typeof tw !== 'string' || tw.length === 0 || tw.length > 40))
+    add('values', 'timelineWhat is a short phrase (1 to 40 characters)');
 }
 
 export const AuthoredEntry = z

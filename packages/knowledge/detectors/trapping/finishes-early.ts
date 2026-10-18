@@ -50,7 +50,8 @@ export default defineDetector({
       const running = traps.placed.filter((t) => t.endsAt > now);
       if (running.length === 0) return [];
       const at = Math.min(...running.map((t) => t.endsAt));
-      if (at >= returnAt) return [{ subject, slots: {}, result: 'pass' as const }];
+      // M17 TR-4: a pass still says when the traps finish, for the Timeline.
+      if (at >= returnAt) return [{ subject, slots: {}, result: 'pass' as const, nextAt: at }];
       return [
         {
           subject,

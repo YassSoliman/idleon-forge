@@ -8,7 +8,7 @@ entries:
     type: check
     title: Arcade balls stop building
     text: "Claim Arcade balls before you leave (time to the claim cap: {capsIn:duration})"
-    values: { fill: Arcade balls }
+    values: { fill: Arcade balls, timelineKind: storage, timelineWhat: "Arcade balls" }
     why: Balls stop building once the time since your last claim passes the max claim time, so a full claim wastes every hour you're away.
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/dungeons.ts

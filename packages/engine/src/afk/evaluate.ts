@@ -23,7 +23,7 @@ import {
   stagesBetween,
 } from '@idleon-forge/knowledge';
 import { BUILDS_DETECTORS } from '../builds/detectors';
-import type { UnknownFinding } from '../result';
+import type { TimelineBar, TimelineKind, UnknownFinding } from '../result';
 import { returnAtOf } from './expected-return';
 import type {
   AfkSafetyResult,
@@ -75,6 +75,47 @@ const PRESENT_STATE = new Set([
   'alchemy.check.cauldron-unassigned',
   'trapping.check.slots-and-timers',
 ]);
+
+/**
+ * M17 TR-4: passes whose `nextAt` exists only for the Timeline. They stay out of the first fill (FR-11),
+ * which keeps its own meaning ("what fills up first").
+ */
+const TIMELINE_ONLY_NEXT_AT: ReadonlySet<string> = new Set([
+  'trapping.check.finishes-early',
+  'refinery.check.fuel-runs-out',
+  'alchemy.check.liquid-cap-line',
+]);
+/** M17 FR-26: a firing finding M3 can't time ("Low food: can't time it yet"). */
+const UNTIMED_FIRES: ReadonlySet<string> = new Set(['afk.check.low-food-untimed']);
+/** M17 FR-26: a pass without `nextAt` that is still a limit M3 can't time yet (Water without a refill rate). */
+const UNTIMED_PASSES: ReadonlySet<string> = new Set(['alchemy.check.liquid-cap-line']);
+
+/** The entry's Timeline words (M17 TR-4), or null when it authors none. */
+export function timelineWordsOf(
+  entry: Pick<CheckEntry, 'values'>,
+): { kind: TimelineKind; what: string } | null {
+  const kind = entry.values.timelineKind;
+  const what = entry.values.timelineWhat;
+  return typeof kind === 'string' && typeof what === 'string' ? { kind: kind as TimelineKind, what } : null;
+}
+
+const EFFECT_RANK: Record<TimelineBar['effect'], number> = { blocker: 0, 'next-action': 1, pill: 2, info: 3 };
+
+/**
+ * One bar per limit: when two of M3's entries time the same thing on the same subject (a cap pill and the
+ * anvil's fill-time line), the bar with the stronger role stays. Untimed bars dedupe by `what` (FR-26).
+ */
+export function dedupeBars(bars: readonly TimelineBar[]): TimelineBar[] {
+  const best = new Map<string, TimelineBar>();
+  for (const b of bars) {
+    const id = b.untimed
+      ? `${b.subject}|untimed|${b.what}`
+      : `${b.subject}|${b.system}|${b.at ?? 'now'}|${b.kind}`;
+    const prev = best.get(id);
+    if (!prev || EFFECT_RANK[b.effect] < EFFECT_RANK[prev.effect]) best.set(id, b);
+  }
+  return [...best.values()];
+}
 
 /** AFK Targets M3 has no Checks for yet (W4): a character on one is `not-covered`, never Ready (FR-8, RT-9). */
 export const NOT_COVERED_AFK_TYPES: ReadonlySet<string> = new Set(['LABORATORY', 'COOKING']);
@@ -308,6 +349,17 @@ export function evaluateAfkSafety(input: AfkSafetyInput): AfkSafetyResult {
     }
   }
 
+  const bars: TimelineBar[] = [];
+  const bar = (
+    entry: CheckEntry,
+    subject: Subject,
+    over: Pick<TimelineBar, 'at' | 'untimed' | 'effect' | 'fixHolds'>,
+  ) => {
+    const words = timelineWordsOf(entry);
+    if (!words) return;
+    const key = `${entry.id}@${subject}`;
+    bars.push({ barId: key, key, entryId: entry.id, system: entry.system, subject, ...words, ...over });
+  };
   const findingsBy = new Map<Subject, SafetyFinding[]>();
   const capsBy = new Map<Subject, CapPill[]>();
   const fillsBy = new Map<Subject, Fill[]>();
@@ -322,10 +374,26 @@ export function evaluateAfkSafety(input: AfkSafetyInput): AfkSafetyResult {
       // M17 TR-2: the Systems hub reads "Can't tell" from these; missing history is not a broken read.
       if (finding.reason === 'field-missing' || finding.reason === 'parser-section-failed')
         unknowns.push({ entryId: entry.id, subject, reason: finding.reason });
+      // M17 FR-26: without the history to time it, the Timeline lists it as "can't tell when".
+      if (finding.reason === 'needs-history')
+        bar(entry, subject, {
+          at: null,
+          untimed: true,
+          effect: entry.effect === 'blocker' ? 'blocker' : 'next-action',
+          fixHolds: true,
+        });
       continue;
     }
     if (finding.result === 'pass') {
-      if (finding.nextAt !== undefined && finding.nextAt >= returnAt) {
+      if (finding.nextAt !== undefined)
+        bar(entry, subject, { at: finding.nextAt, untimed: false, effect: 'info', fixHolds: false });
+      else if (UNTIMED_PASSES.has(entry.id))
+        bar(entry, subject, { at: null, untimed: true, effect: 'info', fixHolds: false });
+      if (
+        finding.nextAt !== undefined &&
+        finding.nextAt >= returnAt &&
+        !TIMELINE_ONLY_NEXT_AT.has(entry.id)
+      ) {
         const list = fillsBy.get(subject) ?? [];
         list.push({
           label: fillLabel(entry, state, subject),
@@ -350,6 +418,8 @@ export function evaluateAfkSafety(input: AfkSafetyInput): AfkSafetyResult {
       };
       if (cap.fullNow) alreadyFull += 1;
       capsBy.set(subject, [...(capsBy.get(subject) ?? []), cap]);
+      // A pill with no time is full now (pillOf), and the bar says so at the "now" line.
+      bar(entry, subject, { at: cap.at ?? now, untimed: false, effect: 'pill', fixHolds: true });
       continue;
     }
     const { role, fixHolds, demotedBecause } = classify(entry, finding, now);
@@ -364,6 +434,8 @@ export function evaluateAfkSafety(input: AfkSafetyInput): AfkSafetyResult {
       nextAction: nextActionOf(entry, subject, finding.slots, state, stale.has(entry.id), fields),
     };
     if (role === 'next-action' && fixHolds && f.at !== null && f.at <= now) alreadyFull += 1;
+    const untimed = UNTIMED_FIRES.has(entry.id);
+    bar(entry, subject, { at: untimed ? null : f.at, untimed, effect: role, fixHolds });
     const list = findingsBy.get(subject) ?? [];
     list.push(f);
     findingsBy.set(subject, list);
@@ -403,5 +475,6 @@ export function evaluateAfkSafety(input: AfkSafetyInput): AfkSafetyResult {
     alreadyFull,
     failedDetectors,
     unknowns,
+    bars: dedupeBars(bars),
   };
 }

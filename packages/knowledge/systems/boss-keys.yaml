@@ -15,6 +15,7 @@ entries:
     effortSeconds: 60
     detector: { id: boss-keys/banked, params: { fireAtDays: 2 } }
     text: "Collect {total:int} boss keys"
+    values: { timelineKind: bank, timelineWhat: "boss keys" }
     why: "Keys bank at their NPC for 3 days at most, and anything past that is lost. Forest Villa {forestVilla:int}, Efaunt's Tomb {efaunt:int}, Chizoar's Cavern {chizoar:int}; days already lost: {daysLost:int}."
     doneWhen: { field: "account.keys[*].daysSincePickup", change: lower }
     appliesTo: { stages: all }

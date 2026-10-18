@@ -266,6 +266,20 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
       a.entryId < b.entryId ? -1 : a.entryId > b.entryId ? 1 : a.subject < b.subject ? -1 : 1,
     );
 
+  // M17 TR-2: the modules' Timeline bars, sorted by subject (characters by index, then the account),
+  // then `at` (nulls first), then barId; bars of absent characters drop.
+  const subjectRank = (s: string) => (s === 'account' ? Number.MAX_SAFE_INTEGER : Number(s.slice(1)));
+  const timeline = outputs
+    .flatMap(({ output }) => output.timeline ?? [])
+    .filter((b) => b.subject === 'account' || present.has(b.subject))
+    .sort(
+      (a, b) =>
+        subjectRank(a.subject) - subjectRank(b.subject) ||
+        (a.at === null ? (b.at === null ? 0 : -1) : b.at === null ? 1 : a.at - b.at) ||
+        (a.barId < b.barId ? -1 : a.barId > b.barId ? 1 : 0),
+    );
+  const returnAt = outputs.find((o) => o.output.returnAt !== undefined)?.output.returnAt;
+
   const result: EngineResult = {
     asOf: state.asOf,
     lastPlayedCharacterIndex: lastPlayed,
@@ -313,6 +327,8 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
       const o = outputs.find((x) => x.output.starSigns !== undefined)?.output;
       return o ? { starSigns: o.starSigns ?? null } : {};
     })(),
+    ...(outputs.some(({ output }) => output.timeline) ? { timeline } : {}),
+    ...(returnAt !== undefined ? { returnAt } : {}),
   };
   // M17 TR-2: the registry with unlock states, built here in the worker (it runs unlock Detectors).
   if (kb && knowledge.registries)

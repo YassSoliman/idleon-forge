@@ -18,6 +18,7 @@ import type {
   NotCoveredItem,
   PurposeLine,
   SpendPlan,
+  TimelineBar,
   UnknownFinding,
   Verdict,
   WalkthroughView,
@@ -127,6 +128,10 @@ export interface ModuleOutput {
   unknownFindings?: UnknownFinding[];
   /** M16 only: the Signs tab and Star Chart view (EngineResult.starSigns). */
   starSigns?: EngineResult['starSigns'];
+  /** M17 TR-4: Timeline bars for the caps this module computed (M3, M6). */
+  timeline?: TimelineBar[];
+  /** M17 TR-2: when the player is back (M3 only). */
+  returnAt?: number;
 }
 
 /** An advice module, registered with the core. */
