@@ -16,8 +16,9 @@ import {
   rowLine,
   tubeLine,
 } from '@idleon-forge/engine/alchemy-text';
-import { BODY_WORDS, FRAME_WORDS, formatCoins } from '@idleon-forge/engine/now';
+import { formatCoins } from '@idleon-forge/engine/now';
 import type { AlchemyResult, EngineResult, P2wCell, PotView } from '@idleon-forge/engine/result';
+import { BODY_WORDS, FRAME_WORDS } from '@idleon-forge/engine/systems-ui';
 import type { CSSProperties } from 'react';
 import { cx } from '../design/atoms/Button';
 import { usePictureSheet } from '../systems/PictureSheet';

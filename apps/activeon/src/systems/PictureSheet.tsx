@@ -4,7 +4,8 @@
 // a phone, a side panel from 1000 px) with its value, next value, cost and the System's Source. Level 2
 // of DS-4's two levels: the sheet never opens another sheet. The words come from the engine's view
 // words; the values from the picture's data.
-import { FRAME_WORDS, PAGE_WORDS } from '@idleon-forge/engine/now';
+import { PAGE_WORDS } from '@idleon-forge/engine/now';
+import { FRAME_WORDS } from '@idleon-forge/engine/systems-ui';
 import { type ReactNode, useCallback, useState } from 'react';
 import { Sheet } from '../design/atoms/Sheet';
 

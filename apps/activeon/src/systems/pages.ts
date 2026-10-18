@@ -8,7 +8,6 @@
 import type { SystemPageView } from '@idleon-forge/engine/now';
 import { type ComponentType, createElement, Fragment } from 'react';
 import { lazyPart, retryable } from '../lazy-part';
-import { StarSignsSystemBody } from '../now/signs/SignsPanel';
 import type { Session } from '../shell/session';
 
 // Each chunk import is `retryable`, so a Retry after a failed fetch re-requests it (lazy-part.tsx).
@@ -16,6 +15,7 @@ const slotPictures = retryable(() => import('./SlotPictures'));
 const gearPages = retryable(() => import('../gear/GearPages'));
 const alchemyLab = retryable(() => import('../alchemy/AlchemyLab'));
 const newPictures = retryable(() => import('./NewPictures'));
+const starChart = retryable(() => import('./StarChartPage'));
 
 export interface SystemPageBodyProps {
   s: Session;
@@ -24,7 +24,7 @@ export interface SystemPageBodyProps {
 
 export const SYSTEM_PAGES: Readonly<Record<string, ComponentType<SystemPageBodyProps>>> = {
   // M16 (R6 QA): the account's Star Chart lives here and in the Account, not on every Signs tab.
-  'star-signs': StarSignsSystemBody,
+  'star-signs': lazyPart(() => starChart().then((m) => m.StarSignsSystemBody)),
   // M20 TR-6: the Parallel Slot pictures.
   'cog-board': lazyPart(() => slotPictures().then((m) => m.CogBoardBody)),
   worship: lazyPart(() => slotPictures().then((m) => m.WorshipBody)),

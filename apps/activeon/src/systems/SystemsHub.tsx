@@ -6,23 +6,19 @@
 // open with its one step), then "All Systems": M17's world bands, each tile with its own glyph and a
 // status glyph + word (never colour alone, DS-8), "not covered yet" said once per band (v2 #3). Every
 // word comes from `buildSystemsView` (M17 TR-9): this component adds none of its own.
-import {
-  BAND_WORDS,
-  HUB_WORDS,
-  REPORT_WORDS,
-  type TileStatus,
-  type TileView,
-} from '@idleon-forge/engine/now';
-import type { CSSProperties } from 'react';
+import { HUB_WORDS, type TileStatus, type TileView } from '@idleon-forge/engine/now';
+import { BAND_WORDS, buildSystemsHubView, REPORT_WORDS } from '@idleon-forge/engine/systems-ui';
+import { type CSSProperties, useMemo } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
 import { cx } from '../design/atoms/Button';
 import { StatusGlyph as StatusMark } from '../design/atoms/Marks';
 import { TokenLine } from '../design/atoms/TokenLine';
+import { toNowPrefs } from '../now/prefs-store';
 import { formatRoute } from '../shell/route';
 import type { Session } from '../shell/session';
 import { systemArt } from './glyphs';
 
-type Hub = Session['systems'];
+type Hub = ReturnType<typeof buildSystemsHubView>;
 type ReportRow = NonNullable<Hub['report']>['rows'][number];
 
 /** The status glyph and word (DS-8): the design system's StatusGlyph atom. */
@@ -186,7 +182,16 @@ function Band({ g, v, s }: { g: Hub['groups'][number]; v: Hub; s: Session }) {
 }
 
 export function SystemsHub({ s }: { s: Session }) {
-  const v = s.systems;
+  // M21 FR-S1: the hub's report card is built here, in the lazy hub, from the same result and
+  // preferences as the session's M17 view (which the nav badge keeps reading).
+  const v = useMemo(
+    () =>
+      buildSystemsHubView(s.result, toNowPrefs(s.prefs.data, null), {
+        now: s.now,
+        lastCloudSave: s.lastCloudSave,
+      }),
+    [s.result, s.prefs.data, s.now, s.lastCloudSave],
+  );
   return (
     <section className="systems-hub" aria-labelledby="systems-h">
       <h2 id="systems-h" className="place-h sy-place-h" data-place-heading tabIndex={-1}>

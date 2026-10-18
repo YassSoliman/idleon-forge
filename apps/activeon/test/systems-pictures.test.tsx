@@ -6,14 +6,15 @@
 // element and at most three others (DS-20), a tap opens one sheet with value, next, cost and Source that
 // Esc closes (DS-4, TR-17), the Printer's unchanged slots read "no change", the Vault's header is the
 // next unlock gap, the Trapping strip lights "Collect now" once and the Pay 2 Win grid one bar.
+
+import type { SystemPicture } from '@idleon-forge/engine/result';
 import type {
   PrinterPicture,
   StampsPicture,
   StampTile,
   StatuesPicture,
   VaultPicture,
-} from '@idleon-forge/engine/pictures';
-import type { SystemPicture } from '@idleon-forge/engine/result';
+} from '@idleon-forge/engine/systems-ui';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { PrinterBody, StampsBody, StatuesBody, VaultBody } from '../src/systems/NewPictures';

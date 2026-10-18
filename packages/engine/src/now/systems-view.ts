@@ -8,17 +8,7 @@
 // Status, the first that applies (FR-17): locked, wasting, behind, can't tell, not covered yet, ok.
 // Cap pills never make a System wasting (M3 R-PILL-1, D-8); a skipped or dismissed blocker doesn't
 // either, and the tile says "· n skipped" instead.
-import { STAGE_DEFINITIONS, STAGES, type StageId } from '@idleon-forge/knowledge/stages';
-import type { NewPicture } from '../pictures/types';
-import type {
-  ClassFamily,
-  EngineResult,
-  Goal,
-  InfoLine,
-  Subject,
-  SystemPicture,
-  SystemSummary,
-} from '../result';
+import type { EngineResult, Goal, InfoLine, Subject, SystemSummary } from '../result';
 import { goalView, safeHref, sourceView, spendLineKey } from './build-now-view';
 import { dismissActive, type NowPrefs, type SessionClock, skipActive } from './prefs';
 import { tabHomeOf } from './system-homes';
@@ -31,15 +21,7 @@ import type {
   TileStatus,
   TileView,
 } from './view';
-import {
-  BAND_WORDS,
-  FRAME_WORDS,
-  HUB_WORDS,
-  REASON_WORDS,
-  REPORT_WORDS,
-  STATUS_WORDS,
-  WORLD_NAMES,
-} from './view-words';
+import { HUB_WORDS, REASON_WORDS, STATUS_WORDS, WORLD_NAMES } from './view-words';
 
 export interface SystemsUi {
   now: number;
@@ -59,13 +41,13 @@ const fact = (text: string): Segment => ({ text, origin: 'fact' });
 /** An entry id's System: its prefix (`anvil.check.caps-before-return@c3` → `anvil`, TR-5). */
 const systemOfKey = (key: string) => key.split('@')[0]?.split('.')[0] ?? key;
 
-interface Prefs {
+export interface Prefs {
   skipped(key: string): boolean;
   dismissed(key: string): boolean;
   open(key: string): boolean;
 }
 
-function readPrefs(result: EngineResult, prefs: NowPrefs, ui: SystemsUi): Prefs {
+export function readPrefs(result: EngineResult, prefs: NowPrefs, ui: SystemsUi): Prefs {
   const clock: SessionClock = {
     now: ui.now,
     sessionStartedAt: result.sessionStartedAt,
@@ -89,7 +71,7 @@ function goalSystem(g: Goal, result: EngineResult): string {
   return g.system;
 }
 
-interface Placed {
+export interface Placed {
   goal: Goal;
   subject: Subject;
   /** CharacterState.index, or null for the account. */
@@ -109,13 +91,13 @@ function allGoals(result: EngineResult): Placed[] {
 const urgent = (g: Goal) => g.urgency === 'losing-now' || g.urgency === 'lost-before-return';
 const isFix = (g: Goal, stageUnknown: boolean) => g.category === 'blocker' || (!stageUnknown && urgent(g));
 
-interface SystemFacts {
+export interface SystemFacts {
   summary: SystemSummary;
   goals: Placed[];
   pills: { line: InfoLine; index: number }[];
 }
 
-function factsBySystem(result: EngineResult): Map<string, SystemFacts> {
+export function factsBySystem(result: EngineResult): Map<string, SystemFacts> {
   const out = new Map<string, SystemFacts>();
   for (const s of result.systems ?? []) out.set(s.id, { summary: s, goals: [], pills: [] });
   for (const p of allGoals(result)) out.get(goalSystem(p.goal, result))?.goals.push(p);
@@ -133,7 +115,7 @@ function spendLinesOf(result: EngineResult, prefs: Prefs, systemId: string) {
   );
 }
 
-function tileOf(f: SystemFacts, result: EngineResult, prefs: Prefs, ui: SystemsUi): TileView {
+export function tileOf(f: SystemFacts, result: EngineResult, prefs: Prefs, ui: SystemsUi): TileView {
   const s = f.summary;
   const stageUnknown = result.stage.id === 'unknown';
   const returnAt = ui.now + result.expectedReturn.usedSeconds * 1000;
@@ -236,11 +218,7 @@ function highestWorld(systems: readonly SystemSummary[]): number {
 }
 
 /** M17 TR-5: the Systems hub. Null-safe: without `result.systems` it has no tiles. */
-export function buildSystemsView(
-  result: EngineResult,
-  nowPrefs: NowPrefs,
-  ui: SystemsUi,
-): SystemsView & SystemsHubExtras {
+export function buildSystemsView(result: EngineResult, nowPrefs: NowPrefs, ui: SystemsUi): SystemsView {
   const prefs = readPrefs(result, nowPrefs, ui);
   const facts = factsBySystem(result);
   const game = (result.systems ?? []).filter((s) => s.kind === 'game');
@@ -273,7 +251,6 @@ export function buildSystemsView(
       .filter((n) => n.systemId !== BEYOND_GAP && !gameIds.has(n.systemId))
       .map((n) => n.label),
     wastingCount: tiles.filter((t) => t.status === 'wasting').length,
-    ...hubExtras(result, prefs, facts, tiles, groups),
   };
 }
 
@@ -293,7 +270,7 @@ export function buildSystemPageView(
   nowPrefs: NowPrefs,
   nowView: Pick<NowView, 'roster'>,
   ui: SystemsUi & { id: string; highlight: string | null },
-): (SystemPageView & SystemPageExtras) | null {
+): SystemPageView | null {
   const summary = result.systems?.find((s) => s.id === ui.id && s.kind === 'game');
   if (!summary) return null;
   const prefs = readPrefs(result, nowPrefs, ui);
@@ -362,7 +339,6 @@ export function buildSystemPageView(
     wiki: summary.wiki ? safeHref(summary.wiki) : null,
     highlight: ui.highlight,
     stageUnknown,
-    ...pageExtras(result, summary.id, goals, prefs, placed),
   };
 }
 
@@ -384,258 +360,3 @@ export function seeItSystem(goal: Pick<Goal, 'id' | 'system'>, result: EngineRes
   const s = result.systems?.find((x) => x.id === id);
   return s && s.kind === 'game' ? s.id : null;
 }
-
-// ---- M21 area S: the Stage report card, the world bands and the Step-first frame (FR-S1 to FR-S3) ----
-
-/** A character as a who-token (DS-3, TokenLine): the family chibi and "Class level"; null for the account. */
-export interface WhoToken {
-  family: ClassFamily;
-  label: string;
-}
-
-/** The one step a hub row or a System page leads with (FR-S1, FR-S3): one Next Action. */
-export interface SystemStepView {
-  key: string;
-  text: string;
-  who: WhoToken | null;
-}
-
-export interface ReportRowView {
-  id: string;
-  name: string;
-  /** The Stage the row expects the System by (BehindSystem.expectedBy); null when not given. */
-  expectedBy: StageId | null;
-  /** 0..1 on the report card's axis; null without `expectedBy`. */
-  at: number | null;
-  /** Stages behind the account's (the gap drawn as length). */
-  gap: number;
-  /** "expected by World 1, mid". */
-  expectedText: string | null;
-  /** "5 Stages behind". */
-  behindText: string | null;
-  accessibleName: string;
-  /** FR-S1: the worst row is open with its one step. */
-  open: boolean;
-  step: SystemStepView | null;
-}
-
-export interface StageReportView {
-  stage: StageId;
-  /** "World 3, early". */
-  stageLabel: string;
-  lede: string;
-  /** 0..1: where the account is on the axis. */
-  here: number;
-  axis: { id: StageId; short: string | null; here: boolean }[];
-  /** Gap largest first, at most 5 (DS-9). */
-  rows: ReportRowView[];
-  /** "All Systems (34)", the link to the bands under the card. */
-  allSystems: string;
-}
-
-export interface SystemsHubExtras {
-  /** FR-S1: the wasting Systems, as chips, with the count in the card's header. */
-  wastingNow: { id: string; name: string }[];
-  /** "3 Systems wasting", or null with none. */
-  wastingLabel: string | null;
-  /** FR-S1: null when the Stage is unknown or nothing is behind. */
-  report: StageReportView | null;
-  /** FR-S2: per world band, its "2 need you" and its one "4 here aren't covered yet" line. */
-  bands: Record<number, { needYou: string | null; notCovered: string | null }>;
-  /** M21 TR-14: the new pictures' one-line summaries, for the `## Systems` golden section. */
-  pictureLines: string[];
-}
-
-export interface SystemPageExtras {
-  /** FR-S3: the page's step, the first open Next Action of the System (at most two lines, DS-18). */
-  step: SystemStepView | null;
-  /** FR-S3: the Stage meter, only when the System has a behind row with its Stage. */
-  stageMeter: { text: string; value: number; max: number; label: string } | null;
-  /** FR-S4, FR-S5: this System's pictures (M20's and area S's), from `EngineResult.slotPictures`. */
-  pictures: SystemPicture[];
-}
-
-const STAGE_SHORT = (id: StageId): string | null =>
-  id.endsWith('-early') ? (id.split('-')[0] ?? null) : null;
-const stagePos = (id: StageId) => STAGES.indexOf(id) / (STAGES.length - 1);
-const isStage = (s: string | undefined | null): s is StageId =>
-  !!s && (STAGES as readonly string[]).includes(s);
-const stageLabel = (id: StageId) => STAGE_DEFINITIONS[id]?.label ?? id;
-
-function whoToken(result: EngineResult, index: number | null): WhoToken | null {
-  if (index === null) return null;
-  const c = result.characters.find((x) => x.index === index);
-  const family = result.classFamilies?.[index];
-  return c && family ? { family, label: `${c.classLabel} ${c.level}` } : null;
-}
-
-function firstStep(result: EngineResult, prefs: Prefs, goals: readonly Placed[]): SystemStepView | null {
-  const stageUnknown = result.stage.id === 'unknown';
-  const p = goals.find(
-    (x) => prefs.open(x.goal.nextAction.key) && (!stageUnknown || x.goal.category === 'blocker'),
-  );
-  return p
-    ? { key: p.goal.nextAction.key, text: p.goal.nextAction.text, who: whoToken(result, p.index) }
-    : null;
-}
-
-function hubExtras(
-  result: EngineResult,
-  prefs: Prefs,
-  facts: Map<string, SystemFacts>,
-  tiles: readonly TileView[],
-  groups: readonly { world: number; tiles: TileView[] }[],
-): SystemsHubExtras {
-  const wastingNow = groups
-    .flatMap((g) => g.tiles)
-    .filter((t) => t.status === 'wasting')
-    .map((t) => ({ id: t.id, name: t.name }));
-  const bands: SystemsHubExtras['bands'] = {};
-  for (const g of groups) {
-    const need = g.tiles.filter((t) => t.status === 'wasting' || t.status === 'behind').length;
-    const nc = g.tiles.filter((t) => t.status === 'not-covered').length;
-    bands[g.world] = {
-      needYou: need ? BAND_WORDS.needYou(need) : null,
-      notCovered: nc ? BAND_WORDS.notCovered(nc) : null,
-    };
-  }
-  return {
-    wastingNow,
-    wastingLabel: wastingNow.length ? REPORT_WORDS.wasting(wastingNow.length) : null,
-    report: reportOf(result, prefs, facts, tiles.length),
-    bands,
-    pictureLines: pictureLines(result),
-  };
-}
-
-function reportOf(
-  result: EngineResult,
-  prefs: Prefs,
-  facts: Map<string, SystemFacts>,
-  total: number,
-): StageReportView | null {
-  const stage = result.stage.id;
-  if (!isStage(stage)) return null;
-  const here = STAGES.indexOf(stage);
-  const seen = new Set<string>();
-  const rows: ReportRowView[] = [];
-  for (const r of result.behindSystems ?? []) {
-    if (seen.has(r.systemId) || !r.findingKeys.some((k) => prefs.open(k))) continue;
-    const f = facts.get(r.systemId);
-    if (f?.summary.kind !== 'game') continue;
-    seen.add(r.systemId);
-    const expectedBy = isStage(r.expectedBy) ? r.expectedBy : null;
-    const gap = expectedBy ? Math.max(0, here - STAGES.indexOf(expectedBy)) : 0;
-    const expectedText = expectedBy ? REPORT_WORDS.expected(stageLabel(expectedBy)) : null;
-    const behindText = expectedBy ? REPORT_WORDS.behind(gap) : null;
-    rows.push({
-      id: r.systemId,
-      name: f.summary.name,
-      expectedBy,
-      at: expectedBy ? stagePos(expectedBy) : null,
-      gap,
-      expectedText,
-      behindText,
-      accessibleName: [f.summary.name, expectedText, behindText].filter(Boolean).join(', '),
-      open: false,
-      step: null,
-    });
-  }
-  if (rows.length === 0) return null;
-  // Gap largest first; the engine's own order breaks ties (stable sort).
-  rows.sort((a, b) => b.gap - a.gap);
-  const shown = rows.slice(0, 5);
-  const worst = shown[0];
-  if (worst) {
-    worst.open = true;
-    const f = facts.get(worst.id);
-    const keys = new Set(
-      (result.behindSystems ?? []).filter((r) => r.systemId === worst.id).flatMap((r) => r.findingKeys),
-    );
-    const goals = f ? f.goals : [];
-    // The row's own finding first (the Behind Goal may carry it), else the System's first open step.
-    worst.step =
-      firstStep(
-        result,
-        prefs,
-        goals.filter((g) => keys.has(g.goal.nextAction.key)),
-      ) ?? firstStep(result, prefs, goals);
-  }
-  const label = stageLabel(stage);
-  return {
-    stage,
-    stageLabel: label,
-    lede: REPORT_WORDS.lede(label),
-    here: stagePos(stage),
-    axis: STAGES.map((id) => ({ id, short: STAGE_SHORT(id), here: id === stage })),
-    rows: shown,
-    allSystems: REPORT_WORDS.allSystems(total),
-  };
-}
-
-function pageExtras(
-  result: EngineResult,
-  systemId: string,
-  goals: readonly SystemPageGoal[],
-  prefs: Prefs,
-  placed: readonly Placed[],
-): SystemPageExtras {
-  const first = goals[0];
-  const firstPlaced = first ? placed.find((p) => p.goal.nextAction.key === first.action.key) : undefined;
-  const step: SystemStepView | null = first
-    ? { key: first.action.key, text: first.action.text, who: whoToken(result, firstPlaced?.index ?? null) }
-    : null;
-  const stage = result.stage.id;
-  const row = (result.behindSystems ?? []).find(
-    (r) => r.systemId === systemId && isStage(r.expectedBy) && r.findingKeys.some((k) => prefs.open(k)),
-  );
-  const stageMeter =
-    row && isStage(stage) && isStage(row.expectedBy)
-      ? {
-          text: FRAME_WORDS.stageMeter(stageLabel(row.expectedBy), stageLabel(stage)),
-          value: STAGES.indexOf(row.expectedBy) + 1,
-          max: STAGES.indexOf(stage) + 1,
-          label: FRAME_WORDS.stageMeter(stageLabel(row.expectedBy), stageLabel(stage)),
-        }
-      : null;
-  return { step, stageMeter, pictures: picturesOf(result, systemId) };
-}
-
-/** The pictures drawn on a System's page: its own (M20's and area S's). */
-export function picturesOf(result: EngineResult, systemId: string): SystemPicture[] {
-  return (result.slotPictures ?? []).filter((p) => p.systemId === systemId);
-}
-
-/** One line per new picture (US-12), for the golden. Plain facts; names are game names only. */
-function pictureLines(result: EngineResult): string[] {
-  const out: string[] = [];
-  for (const any of result.slotPictures ?? []) {
-    if (!NEW_KINDS.has(any.kind)) continue;
-    const p = any as unknown as NewPicture;
-    const lit = p.lit
-      ? (p.elements as { id: string; name?: string }[]).find((e) => e.id === p.lit)
-      : undefined;
-    const name = lit?.name ?? '(none)';
-    if (p.kind === 'stamps')
-      out.push(`Stamps picture: ${p.owned} of ${p.total} owned · lit ${name} · next ${p.next.length}`);
-    else if (p.kind === 'statues') {
-      const s = p.elements.find((e) => e.id === p.lit);
-      const price = s ? (s.goldCoins === null ? ' (price not checked)' : ' (priced)') : '';
-      out.push(
-        `Statues picture: ${p.gold} of ${p.elements.length} Gold · ${p.onyx} Onyx · lit ${name}${price}`,
-      );
-    } else if (p.kind === 'vault')
-      out.push(
-        `Vault picture: ${p.nextUnlock ? `${p.nextUnlock.levels} levels to open ${p.nextUnlock.name}` : 'every row open'} · here ${p.totalLevels} · lit ${name}`,
-      );
-    else if (p.kind === 'printer') {
-      const changed = p.elements.filter((e) => e.changeTo !== null);
-      out.push(
-        `Printer picture: ${p.elements.length} slots · ${changed.length} changed${changed.map((e) => ` · ${e.item ?? 'empty'} → ${e.changeTo}`).join('')} · ${p.elements.length - changed.length} no change`,
-      );
-    }
-  }
-  return out;
-}
-
-const NEW_KINDS: ReadonlySet<string> = new Set(['stamps', 'statues', 'vault', 'printer']);

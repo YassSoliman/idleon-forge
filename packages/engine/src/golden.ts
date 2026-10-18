@@ -26,9 +26,9 @@ import { renderMapText } from './now/render-map-text';
 import { renderSystemsText } from './now/render-systems-text';
 import { renderNowText } from './now/render-text';
 import { renderTimelineText } from './now/render-timeline-text';
-import { buildSystemsView } from './now/systems-view';
 import { buildTimelineView } from './now/timeline-view';
 import { createPicturesModule } from './pictures';
+import { buildSystemsHubView } from './pictures/hub-view';
 import { classXpActionFor, createPurposeModule, purposeStatusFor, suggestionFor } from './purpose';
 import type { EngineResult } from './result';
 import { createSessionModule } from './session';
@@ -182,7 +182,7 @@ export const goldenEngine: GoldenEngine = {
   renderSystems: (input) => {
     const result = goldenResult(input);
     if (!result.systems) return '(no Knowledge Base)';
-    return renderSystemsText(buildSystemsView(result, EMPTY_PREFS, { now: input.now }));
+    return renderSystemsText(buildSystemsHubView(result, EMPTY_PREFS, { now: input.now }));
   },
   renderAlchemy: (input) => renderAlchemyText(goldenResult(input).alchemy ?? null),
   renderGear: (input) => {

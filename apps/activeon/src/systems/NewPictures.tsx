@@ -6,14 +6,8 @@
 // with exactly one lit element (FR-S6: the page's "See it" highlight when it names one, else the
 // picture's own), labels on the lit element and at most three others (DS-20), and every other value in
 // the tap sheet. Our own pixel art (ADR 0009); state classes scoped to their component (DS-21).
-import {
-  FRAME_WORDS,
-  formatCoins,
-  PRINTER_WORDS,
-  STAMP_WORDS,
-  STATUE_WORDS,
-  VAULT_WORDS,
-} from '@idleon-forge/engine/now';
+import { formatCoins } from '@idleon-forge/engine/now';
+import type { SystemPicture } from '@idleon-forge/engine/result';
 import type {
   PrinterPicture,
   StampsPicture,
@@ -21,8 +15,14 @@ import type {
   StampTile,
   StatuesPicture,
   VaultPicture,
-} from '@idleon-forge/engine/pictures';
-import type { SystemPicture } from '@idleon-forge/engine/result';
+} from '@idleon-forge/engine/systems-ui';
+import {
+  FRAME_WORDS,
+  PRINTER_WORDS,
+  STAMP_WORDS,
+  STATUE_WORDS,
+  VAULT_WORDS,
+} from '@idleon-forge/engine/systems-ui';
 import { type CSSProperties, useState } from 'react';
 import { PixelArt, type Ramp } from '../design/art/PixelArt';
 import { cx } from '../design/atoms/Button';
@@ -139,7 +139,10 @@ export function StampsBody(p: SystemPageBodyProps) {
           </h4>
           <ol>
             {nextTiles.map((t, i) => (
-              <li key={t.id} className={cx('sy-ribbon__row', i === 0 && t.id === lit ? 'is-first' : 'is-dim')}>
+              <li
+                key={t.id}
+                className={cx('sy-ribbon__row', i === 0 && t.id === lit ? 'is-first' : 'is-dim')}
+              >
                 <span className="sy-ribbon__n num">{i + 1}</span>
                 <PixelArt name="v2-systems-stamp" ramp="bronze" decorative />
                 <span className="sy-ribbon__name">{t.name}</span>

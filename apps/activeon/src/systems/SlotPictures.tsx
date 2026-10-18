@@ -7,8 +7,9 @@
 // element is lit (FR-S6: the page's highlight when it names one, else the System's first Next Action),
 // scoped as `.sy-… .is-now` (DS-21). Names are joined here, on the UI thread, from the view (M4 TR-9).
 import { liquidAmount } from '@idleon-forge/engine/alchemy-text';
-import { BODY_WORDS, FRAME_WORDS, inSpan } from '@idleon-forge/engine/now';
+import { inSpan } from '@idleon-forge/engine/now';
 import type { SystemPicture } from '@idleon-forge/engine/result';
+import { BODY_WORDS, FRAME_WORDS } from '@idleon-forge/engine/systems-ui';
 import type { CSSProperties } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
 import { cx } from '../design/atoms/Button';

@@ -11,7 +11,8 @@ import { runEngine } from '../../src/core/engine';
 import type { EngineModule } from '../../src/core/module';
 import { goldenResult } from '../../src/golden';
 import { EMPTY_PREFS } from '../../src/now/prefs';
-import { buildSystemPageView, buildSystemsView } from '../../src/now/systems-view';
+import { buildSystemsHubView } from '../../src/pictures/hub-view';
+import { buildSystemPageFrameView } from '../../src/pictures/page-view';
 import type { PrinterPicture, StampsPicture, StatuesPicture, VaultPicture } from '../../src/pictures/types';
 import type { EngineResult, SystemPicture } from '../../src/result';
 import { input, NOW, publicState } from '../core/helpers';
@@ -131,7 +132,7 @@ describe('US-12 the new System pictures', () => {
 });
 
 describe('US-11 the Stage report card (FR-S1)', () => {
-  const v = buildSystemsView(W3, EMPTY_PREFS, { now: fixture('scrubbed-w3').now });
+  const v = buildSystemsHubView(W3, EMPTY_PREFS, { now: fixture('scrubbed-w3').now });
   it('the "Wasting now" strip lists the wasting Systems with their count', () => {
     expect(v.wastingNow.map((w) => w.id)).toEqual(
       v.groups
@@ -161,10 +162,10 @@ describe('US-11 the Stage report card (FR-S1)', () => {
   });
   it('a System page leads with its step and, when behind, the Stage meter', () => {
     const ui = { now: fixture('scrubbed-w3').now, id: 'cards', highlight: null };
-    const page = buildSystemPageView(W3, EMPTY_PREFS, { roster: [] }, ui);
+    const page = buildSystemPageFrameView(W3, EMPTY_PREFS, { roster: [] }, ui);
     expect(page?.step?.text).toBe(page?.goals[0]?.action.text);
     expect(page?.stageMeter?.text).toBe('Expected by World 1, mid · you are at World 3, early');
-    const vault = buildSystemPageView(W3, EMPTY_PREFS, { roster: [] }, { ...ui, id: 'upgrade-vault' });
+    const vault = buildSystemPageFrameView(W3, EMPTY_PREFS, { roster: [] }, { ...ui, id: 'upgrade-vault' });
     expect(vault?.pictures.map((p) => p.kind)).toEqual(['vault']);
   });
 });

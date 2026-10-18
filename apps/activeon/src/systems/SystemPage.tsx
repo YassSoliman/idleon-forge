@@ -10,12 +10,12 @@
 // the Timeline bars, the Spend Plan lines, how it opens, what ActiveOn checks there.
 import {
   buildSystemPageView,
-  FRAME_WORDS,
   LINK_WORDS,
   PAGE_WORDS,
   REASON_WORDS,
   SYSTEM_HOMES,
 } from '@idleon-forge/engine/now';
+import { buildSystemPageFrameView, FRAME_WORDS } from '@idleon-forge/engine/systems-ui';
 import { Suspense, useEffect, useMemo } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
 import { GoalList } from '../design/atoms/GoalList';
@@ -51,7 +51,7 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
   const actions = useNowActions();
   const page = useMemo(
     () =>
-      buildSystemPageView(s.result, toNowPrefs(s.prefs.data, null), s.view, {
+      buildSystemPageFrameView(s.result, toNowPrefs(s.prefs.data, null), s.view, {
         now: s.now,
         lastCloudSave: s.lastCloudSave,
         id,
