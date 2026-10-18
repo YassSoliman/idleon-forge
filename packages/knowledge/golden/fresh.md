@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #2619a32b · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 991
+# golden v1: fresh · knowledge #a1c3a80b · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 991
 
 ## Verdict changes
 
