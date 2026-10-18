@@ -24,6 +24,7 @@ export type {
   TubeView,
   VialView,
 } from './alchemy/types';
+export type * from './bubba/types';
 export type { Checklist, ChecklistRow, ResetClock, RowBand, RowState } from './checklist/types';
 export type {
   CardChip,

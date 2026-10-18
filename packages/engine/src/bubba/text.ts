@@ -126,3 +126,6 @@ export function renderBubbaText(b: BubbaResult | null | undefined, now: number):
   if (locked.length) lines.push(`Locked: ${locked.map(([k, v]) => `${k} (${v})`).join(', ')}`);
   return lines.join('\n');
 }
+
+/** The page's words, beside its number words (one import for the lazy page chunk). */
+export { BUBBA_WORDS } from '../now/words/bubba';

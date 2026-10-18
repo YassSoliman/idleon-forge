@@ -16,6 +16,7 @@ const gearPages = retryable(() => import('../gear/GearPages'));
 const alchemyLab = retryable(() => import('../alchemy/AlchemyLab'));
 const newPictures = retryable(() => import('./NewPictures'));
 const starChart = retryable(() => import('./StarChartPage'));
+const bubbaPage = retryable(() => import('../bubba/BubbaPage'));
 
 export interface SystemPageBodyProps {
   s: Session;
@@ -38,6 +39,8 @@ export const SYSTEM_PAGES: Readonly<Record<string, ComponentType<SystemPageBodyP
   statues: lazyPart(() => newPictures().then((m) => m.StatuesBody)),
   'upgrade-vault': lazyPart(() => newPictures().then((m) => m.VaultBody)),
   printer: lazyPart(() => newPictures().then((m) => m.PrinterBody)),
+  // M23 FR-3: the Bubba page, its own lazy chunk.
+  bubba: lazyPart(() => bubbaPage().then((m) => m.default)),
   // M19 FR-18, TR-8: the Alchemy page, its pictures in their own lazy chunk, then M20's cauldron seats.
   'alchemy-lab': lazyPart(() =>
     Promise.all([alchemyLab(), slotPictures()]).then(
