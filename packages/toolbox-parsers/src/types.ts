@@ -186,6 +186,13 @@ export interface ToolboxCalls {
   classExpMulti(character: unknown, account: unknown, characters: unknown[]): number | null;
   /** A monster's base class EXP per kill (`monsters.json` `ExpGiven`); null for an unknown id. */
   monsterExpGiven(rawName: string): number | null;
+  // ---- M19 Alchemy (TR-1) ----
+  /**
+   * Toolbox `getBubbleUpgradeCost` with no discounts: what one material (`rawName`, a `Liquid<n>`, or an item)
+   * costs to take a bubble from `level` to `level + 1`. Every discount is a factor of at most 1, so this is
+   * an upper bound of the game's price (M19 F-b).
+   */
+  bubbleCost(rawName: string, bubbleIndex: number, level: number, baseCost: number): number;
 }
 
 /** M7 TR-4: one Vault row's Toolbox `cost` at levels L, L+1, ... (`costs[0]` is the parse's `cost`). */
