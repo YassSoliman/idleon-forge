@@ -39,7 +39,7 @@ entries:
     category: nice
     effortSeconds: 60
     detector: { id: gem-shop/unspent, params: { form: printer-progress } }
-    text: "Crystal 3D Printer: {gems:int} of {price:int} gems"
+    text: "Hold your gems until you can buy it"
     why: "Both sides of the first-buy debate agree on the Crystal 3D Printer once you own the Infinity Hammer or reach World 3."
     doneWhen: { field: "account.gemPurchases", change: changed }
     appliesTo: { stages: all }

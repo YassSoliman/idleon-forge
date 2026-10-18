@@ -15,7 +15,7 @@ entries:
     category: spendable
     effortSeconds: 60
     detector: { id: merit-shop/unspent, params: { world: 1 } }
-    text: "Spend {unspent:int} W1 merits"
+    text: "Spend {unspent:int} W1 {merits}"
     why: "Merits do nothing until spent in the Task Board's W1 merit shop."
     doneWhen: { field: "account.merits[*].unspent", change: lower }
     appliesTo: { stages: all }
@@ -35,7 +35,7 @@ entries:
     category: spendable
     effortSeconds: 60
     detector: { id: merit-shop/unspent, params: { world: 2, order: [{ row: w2-task-sb3, upTo: 1 }, { row: w2-task-sa3, upTo: characters }, { row: w2-task-sb2 }, { row: w2-task-sa4 }, { row: w2-task-sb3 }, { row: w2-task-sbb2 }, { row: w2-smithing-recipes2 }] } }
-    text: "Spend {unspent:int} W2 merits"
+    text: "Spend {unspent:int} W2 {merits}"
     why: "Merits do nothing until spent in the Task Board's W2 merit shop."
     doneWhen: { field: "account.merits[*].unspent", change: lower }
     appliesTo: { stages: all }
@@ -55,7 +55,7 @@ entries:
     category: spendable
     effortSeconds: 60
     detector: { id: merit-shop/unspent, params: { world: 2, order: [{ row: w2-task-sb3, upTo: 1 }, { row: w2-task-sa3, upTo: characters }, { row: w2-task-sb2 }, { row: w2-task-sa4 }, { row: w2-task-sb3 }, { row: w2-task-sbb2 }, { row: w2-smithing-recipes2 }], row: w2-task-sb3 } }
-    text: "Spend {unspent:int} W2 merits: Monsters now drop Obols first"
+    text: "Spend {unspent:int} W2 {merits}: Monsters now drop Obols first"
     why: "Obols start dropping only after the first level of this row; later levels raise the drop rate."
     doneWhen: { field: "account.merits[*].unspent", change: lower }
     appliesTo: { stages: all }
@@ -75,7 +75,7 @@ entries:
     category: spendable
     effortSeconds: 60
     detector: { id: merit-shop/unspent, params: { world: 2, order: [{ row: w2-task-sb3, upTo: 1 }, { row: w2-task-sa3, upTo: characters }, { row: w2-task-sb2 }, { row: w2-task-sa4 }, { row: w2-task-sb3 }, { row: w2-task-sbb2 }, { row: w2-smithing-recipes2 }], row: w2-task-sa3 } }
-    text: "Spend {unspent:int} W2 merits: AFK Gains for your first characters first"
+    text: "Spend {unspent:int} W2 {merits}: AFK Gains for your first characters first"
     why: "Each level covers one more character, so buy it up to your character count."
     doneWhen: { field: "account.merits[*].unspent", change: lower }
     appliesTo: { stages: all }
@@ -95,7 +95,7 @@ entries:
     category: spendable
     effortSeconds: 60
     detector: { id: merit-shop/unspent, params: { world: 2, order: [{ row: w2-task-sb3, upTo: 1 }, { row: w2-task-sa3, upTo: characters }, { row: w2-task-sb2 }, { row: w2-task-sa4 }, { row: w2-task-sb3 }, { row: w2-task-sbb2 }, { row: w2-smithing-recipes2 }], row: w2-task-sb2 } }
-    text: "Spend {unspent:int} W2 merits: All Yum-Yum Desert mobs respawn faster"
+    text: "Spend {unspent:int} W2 {merits}: All Yum-Yum Desert mobs respawn faster"
     why: "Faster respawn raises AFK kills per hour on every W2 map."
     doneWhen: { field: "account.merits[*].unspent", change: lower }
     appliesTo: { stages: all }
@@ -115,7 +115,7 @@ entries:
     category: spendable
     effortSeconds: 60
     detector: { id: merit-shop/unspent, params: { world: 2, order: [{ row: w2-task-sb3, upTo: 1 }, { row: w2-task-sa3, upTo: characters }, { row: w2-task-sb2 }, { row: w2-task-sa4 }, { row: w2-task-sb3 }, { row: w2-task-sbb2 }, { row: w2-smithing-recipes2 }], row: w2-task-sa4 } }
-    text: "Spend {unspent:int} W2 merits: World bosses can now drop gems first"
+    text: "Spend {unspent:int} W2 {merits}: World bosses can now drop gems first"
     why: "World bosses drop gems only once this row is bought."
     doneWhen: { field: "account.merits[*].unspent", change: lower }
     appliesTo: { stages: all }
@@ -135,7 +135,7 @@ entries:
     category: spendable
     effortSeconds: 60
     detector: { id: merit-shop/unspent, params: { world: 2, order: [{ row: w2-task-sb3, upTo: 1 }, { row: w2-task-sa3, upTo: characters }, { row: w2-task-sb2 }, { row: w2-task-sa4 }, { row: w2-task-sb3 }, { row: w2-task-sbb2 }, { row: w2-smithing-recipes2 }], row: w2-task-sbb2 } }
-    text: "Spend {unspent:int} W2 merits: arcade ball gain rate first"
+    text: "Spend {unspent:int} W2 {merits}: arcade ball gain rate first"
     why: "More arcade balls while you're away."
     doneWhen: { field: "account.merits[*].unspent", change: lower }
     appliesTo: { stages: all }
@@ -155,7 +155,7 @@ entries:
     category: spendable
     effortSeconds: 60
     detector: { id: merit-shop/unspent, params: { world: 2, order: [{ row: w2-task-sb3, upTo: 1 }, { row: w2-task-sa3, upTo: characters }, { row: w2-task-sb2 }, { row: w2-task-sa4 }, { row: w2-task-sb3 }, { row: w2-task-sbb2 }, { row: w2-smithing-recipes2 }], row: w2-smithing-recipes2 } }
-    text: "Spend {unspent:int} W2 merits: Efaunt gear recipes"
+    text: "Spend {unspent:int} W2 {merits}: Efaunt gear recipes"
     why: "Optional: Efaunt gear is only a little better than Amarok's (PV 7.2)."
     doneWhen: { field: "account.merits[*].unspent", change: lower }
     appliesTo: { stages: all }
@@ -175,7 +175,7 @@ entries:
     category: spendable
     effortSeconds: 60
     detector: { id: merit-shop/unspent, params: { world: 3 } }
-    text: "Spend {unspent:int} W3 merits"
+    text: "Spend {unspent:int} W3 {merits}"
     why: "Merits do nothing until spent; guides disagree on which W3 row comes first."
     doneWhen: { field: "account.merits[*].unspent", change: lower }
     appliesTo: { stages: [{ from: W3-early, to: W4-entry }] }
@@ -201,7 +201,7 @@ entries:
     category: spendable
     effortSeconds: 60
     detector: { id: merit-shop/unspent, params: { world: 4 } }
-    text: "Spend {unspent:int} W4 merits"
+    text: "Spend {unspent:int} W4 {merits}"
     why: "Merits do nothing until spent in the Task Board's W4 merit shop."
     doneWhen: { field: "account.merits[*].unspent", change: lower }
     appliesTo: { stages: [W4-entry] }
