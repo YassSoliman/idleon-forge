@@ -11,8 +11,8 @@ import {
   COLLECTIONS_FIELD_SOURCES,
 } from './collections-fields';
 import { DEPTH_FIELD_RAW_KEYS, DEPTH_FIELD_SECTIONS, DEPTH_FIELD_SOURCES } from './depth-fields';
-import { SLOTS_FIELD_RAW_KEYS, SLOTS_FIELD_SECTIONS, SLOTS_FIELD_SOURCES } from './slots-fields';
 import { PURPOSE_FIELD_RAW_KEYS, PURPOSE_FIELD_SECTIONS, PURPOSE_FIELD_SOURCES } from './purpose-fields';
+import { SLOTS_FIELD_RAW_KEYS, SLOTS_FIELD_SECTIONS, SLOTS_FIELD_SOURCES } from './slots-fields';
 import { SPEND_FIELD_SECTIONS, SPEND_FIELD_SOURCES } from './spend-fields';
 import {
   STARSIGNS_FIELD_RAW_KEYS,

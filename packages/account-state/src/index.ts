@@ -80,6 +80,14 @@ export {
   killsLeftOn,
   killsLeftTable,
 } from './frontier';
+export { PURPOSE_SKILLS } from './purpose';
+export type {
+  ClassExp,
+  FightingRate,
+  PurposeAccountFields,
+  PurposeCharacterFields,
+  VaultKills,
+} from './purpose-types';
 // M20 Skills, Parallel Slots and the Daily & Weekly Checklist (M20 TR-2)
 export {
   ballotText,
@@ -109,14 +117,6 @@ export {
   type TaskBoardDaily,
   type WorshipTotem,
 } from './slots-types';
-export { PURPOSE_SKILLS } from './purpose';
-export type {
-  ClassExp,
-  FightingRate,
-  PurposeAccountFields,
-  PurposeCharacterFields,
-  VaultKills,
-} from './purpose-types';
 // M7 Spend Plan (M7 TR-2)
 export { LADDER_CHECKPOINTS, SPEND_VAULT_ROWS } from './spend';
 export type {
