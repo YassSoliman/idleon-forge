@@ -85,7 +85,7 @@
   background: var(--accent);
 }
 .place-label {
-  font-family: var(--font-label);
+  font-family: var(--font-body);
   font-size: var(--text-xs);
   line-height: 1.2;
   white-space: nowrap;
@@ -188,9 +188,11 @@
     font-size: var(--text-sm);
   }
 }
-/* The hub, the two-preset Build tab and the Map's World strip may widen to 980 px at 1000 px and up (D-6). */
+/* The hub, a System page (S's split desktop frame), the two-preset Build tab and the Map's World strip
+   may widen to 980 px at 1000 px and up (D-6). */
 @media (min-width: 1000px) {
   .app:has(.places):has(.systems-hub),
+  .app:has(.places):has(.sy-page),
   .app:has(.places):has(.build-view.two),
   .app:has(.places):has(.map-place) {
     max-width: min(calc(980px + 128px), 100%);
