@@ -21,8 +21,10 @@
 # it would admit another project's RTDB, which matters only alongside an XSS, which the rest of this
 # policy (no inline script, 'self' scripts) is there to prevent. The SDK's long-polling fallback uses an
 # injected script and iframe, hence the same host in script-src and frame-src.
+# Suggestions (M13): the app posts to the Suggestions Worker (connect-src), and Turnstile loads its
+# script and challenge iframe from challenges.cloudflare.com, only when a Suggest form opens (TR-5).
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://*.firebaseio.com; worker-src 'self'; connect-src 'self' https://oauth2.googleapis.com https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com; frame-src https://*.firebaseio.com; img-src 'self' data:; font-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://*.firebaseio.com https://challenges.cloudflare.com; worker-src 'self'; connect-src 'self' https://oauth2.googleapis.com https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://activeon-suggestions.idleon.workers.dev; frame-src https://*.firebaseio.com https://challenges.cloudflare.com; img-src 'self' data:; font-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
   X-Robots-Tag: noindex
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
