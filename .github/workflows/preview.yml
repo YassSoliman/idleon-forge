@@ -10,7 +10,9 @@
 # Same shape as deploy.yml: `build` never names the Cloudflare token; `deploy` installs with
 # --ignore-scripts and runs only `pnpm exec wrangler` on the built dist/ (TR-1).
 # Environment "preview": secrets CLOUDFLARE_API_TOKEN (its own token, D4), CLOUDFLARE_ACCOUNT_ID,
-# VITE_GOOGLE_OAUTH_CLIENT_SECRET; the six VITE_* variables, copied from production.
+# VITE_GOOGLE_OAUTH_CLIENT_SECRET; the six VITE_* variables, copied from production, plus the public
+# Suggestions values VITE_SUGGESTIONS_URL and VITE_TURNSTILE_SITE_KEY (M13). A Preview build sends
+# Suggestions as dry runs: the Worker files nothing for a pr-* origin (M13 RT-20).
 name: Preview
 
 on:
@@ -107,6 +109,8 @@ jobs:
           VITE_FIREBASE_STORAGE_BUCKET: ${{ vars.VITE_FIREBASE_STORAGE_BUCKET }}
           VITE_GOOGLE_OAUTH_CLIENT_ID: ${{ vars.VITE_GOOGLE_OAUTH_CLIENT_ID }}
           VITE_GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.VITE_GOOGLE_OAUTH_CLIENT_SECRET }}
+          VITE_SUGGESTIONS_URL: ${{ vars.VITE_SUGGESTIONS_URL }}
+          VITE_TURNSTILE_SITE_KEY: ${{ vars.VITE_TURNSTILE_SITE_KEY }}
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: preview-dist

@@ -5,6 +5,7 @@
 // chips and Suggest.
 import type { AccountState } from '@idleon-forge/account-state';
 import { formatAge, freshnessHint } from '../format';
+import { SuggestLink } from '../suggestions/SuggestionsProvider';
 import type { SaveSource, SyncState } from '../use-activeon';
 import { useNow } from '../use-now';
 
@@ -22,7 +23,7 @@ interface Props {
   lastSnapshotAt: number | null;
   /** The Expected Return chips, once there is advice (FR-27). */
   chips?: React.ReactNode;
-  /** The Suggest link (FR-3, FR-31; the GitHub idea form until M13 ships). */
+  /** The GitHub-issue fallback for Suggest (FR-3, FR-31); in-app, Suggest opens the M13 form. */
   suggestHref: string;
   /** "updating…" next to the age chip while a later save is parsed (§6). */
   busy?: boolean;
@@ -100,9 +101,9 @@ export function Header({ save, sync, online, lastSnapshotAt, chips, suggestHref,
         ) : null}
         <SaveAge save={save} />
         {busy ? <span className="small muted">updating…</span> : null}
-        <a className="suggest small" href={suggestHref} target="_blank" rel="noopener noreferrer">
+        <SuggestLink className="suggest small" fallbackHref={suggestHref}>
           Suggest
-        </a>
+        </SuggestLink>
       </div>
       <StaleHint save={save} lastSnapshotAt={lastSnapshotAt} />
       {chips ? <div className="top-chips">{chips}</div> : null}

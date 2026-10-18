@@ -32,6 +32,10 @@ at `6c37e3d`.
 | `VITE_GOOGLE_OAUTH_CLIENT_ID` | `client_id` in Toolbox's [`services/auth/google.js`](https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/services/auth/google.js) |
 | `VITE_GOOGLE_OAUTH_CLIENT_SECRET` | `client_secret`, same file (the token-poll request body) |
 
+In-app Suggestions (M13) add two more public build values, `VITE_SUGGESTIONS_URL` and
+`VITE_TURNSTILE_SITE_KEY`, already filled in [`.env.example`](../../apps/activeon/.env.example); see
+[`deploy.md`](deploy.md#suggestions-m13). They are ours, not the game's, and only work while signed in.
+
 Why a "secret" in a browser app: Google requires `client_secret` on the device-flow token call even
 for clients that cannot keep one ([Google's limited-input device docs](https://developers.google.com/identity/protocols/oauth2/limited-input-device)),
 so every tool ships the game's. It is public in Toolbox's repository; we still keep it out of ours.

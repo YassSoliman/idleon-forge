@@ -1,0 +1,203 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* Suggestions overlay (M13): loaded with the lazy chunk; the toast and banner live in now.css. */
+.sg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgb(10 16 28 / 55%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: auto;
+  padding: 16px;
+}
+.sg-panel {
+  width: 100%;
+  max-width: var(--column);
+  padding: 14px 16px 16px;
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+.sg-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.sg-head h2 {
+  font-size: 20px;
+}
+.sg-head h2:focus {
+  outline: none;
+}
+.sg-head-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sg-close {
+  font-size: 22px;
+  line-height: 1;
+  text-decoration: none;
+  padding: 2px 6px;
+}
+.sg-body {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+.sg-types {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.sg-types legend {
+  padding: 0;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.sg-types label {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.sg-types label.on {
+  border-color: var(--fg);
+  background: var(--sunk);
+  font-weight: 700;
+}
+.sg-types input {
+  margin: 0;
+  accent-color: var(--fg);
+}
+.sg-field {
+  display: grid;
+  gap: 4px;
+}
+.sg-field label {
+  font-weight: 700;
+  font-size: 14px;
+}
+.sg-field textarea,
+.sg-details textarea {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  padding: 8px 10px;
+  resize: vertical;
+}
+.sg-field textarea[aria-invalid="true"] {
+  border-color: var(--bad);
+}
+.sg-count {
+  text-align: right;
+}
+.sg-report {
+  background: var(--sunk);
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: grid;
+  gap: 6px;
+}
+.sg-quote {
+  overflow-wrap: anywhere;
+}
+.sg-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sg-preview summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.sg-preview pre {
+  margin: 6px 0 0;
+  padding: 8px;
+  max-height: 260px;
+  overflow: auto;
+  background: var(--sunk);
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.sg-preview p {
+  margin-top: 6px;
+}
+.sg-off {
+  border-left: 3px solid var(--coin);
+  padding-left: 10px;
+  display: grid;
+  gap: 4px;
+}
+.sg-notice {
+  color: var(--muted);
+}
+.sg-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.sg-turnstile:empty {
+  display: none;
+}
+.sg-turnstile {
+  max-width: 100%;
+  overflow: hidden;
+}
+.sg-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.sg-item {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: grid;
+  gap: 6px;
+  overflow-wrap: anywhere;
+}
+.sg-item-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px;
+}
+.sg-status {
+  font-weight: 700;
+}
+.sg-status.st-info {
+  color: var(--coin);
+}
+.sg-status.st-done,
+.sg-status.st-planned {
+  color: var(--ok);
+}
+.sg-reply {
+  background: var(--sunk);
+  border-radius: 6px;
+  padding: 6px 8px;
+  white-space: pre-wrap;
+}
+.sg-details,
+.sg-sender {
+  display: grid;
+  gap: 6px;
+}

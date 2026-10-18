@@ -9,6 +9,7 @@ import { buildNowView, invariantViolations, type NowView, nextLocalMidnight } fr
 import type { EngineResult } from '@idleon-forge/engine/result';
 import type { SaveKind } from '@idleon-forge/sync';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useSuggestions } from '../suggestions/SuggestionsProvider';
 import { useNow } from '../use-now';
 import { AccountSection, IfYouHaveTime, NotCoveredYet } from './Account';
 import { Banners, ExpectedReturnChips, ProgressBar, WhatsNewCard } from './Chrome';
@@ -332,6 +333,7 @@ export function NowScreen(props: NowScreenProps) {
 
   // ---- actions for the leaves ----
   const focusChar = result.characters.find((c) => c.index === validFocus) ?? null;
+  const suggestions = useSuggestions();
   const actions: NowActions = useMemo(
     () => ({
       skip: (key) =>
@@ -355,6 +357,15 @@ export function NowScreen(props: NowScreenProps) {
           },
           names,
         ),
+      openReport: suggestions
+        ? (r) =>
+            suggestions.open({
+              kind: 'report',
+              source: r,
+              screen: focusChar ? 'character' : 'now',
+              characterIndex: focusChar?.index ?? null,
+            })
+        : null,
       open,
       toggle: (id) =>
         setExpanded((prev) => {
@@ -365,7 +376,7 @@ export function NowScreen(props: NowScreenProps) {
         }),
       expanded,
     }),
-    [prefs, result, focusChar, names, open, expanded],
+    [prefs, result, focusChar, names, open, expanded, suggestions],
   );
 
   const toSpend = () => {
@@ -403,6 +414,17 @@ export function NowScreen(props: NowScreenProps) {
             }
             onBack={back}
             onNext={onNext}
+            openConfusing={
+              suggestions
+                ? () =>
+                    suggestions.open({
+                      kind: 'suggest',
+                      type: 'confusing',
+                      screen: 'character',
+                      characterIndex: focusChar?.index ?? null,
+                    })
+                : null
+            }
             onConfusing={() =>
               suggestUrl('confusing', {
                 screen: 'character',

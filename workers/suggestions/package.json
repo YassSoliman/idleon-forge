@@ -6,7 +6,8 @@
   "description": "The Suggestions Worker: files in-app Suggestions as GitHub issues (M13, ADR 0008).",
   "type": "module",
   "exports": {
-    "./contract": "./src/contract.ts"
+    "./contract": "./src/contract.ts",
+    "./validate": "./src/validate.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",

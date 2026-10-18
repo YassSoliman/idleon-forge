@@ -4,7 +4,7 @@
 // engine-error | ok) and renders the Now screen inside it. No clock here: only the ticking pieces
 // (save age, countdowns) re-render every second (M10 TR-5).
 import { PATCH_FOOTER_NOTE, preferencePrefix } from '@idleon-forge/sync';
-import { type ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CantRead } from './components/CantRead';
 import { ClearMyData } from './components/ClearMyData';
 import { Header, type HeaderSave } from './components/Header';
@@ -16,6 +16,14 @@ import { NowScreen } from './now/NowScreen';
 import { shortHash } from './now/prefs-store';
 import { buildInfo, forgetWhatsNew, previewBadge, useUpdateAvailable } from './now/release';
 import { suggestUrl } from './now/report';
+import { readSuggestionsConfig } from './suggestions/config';
+import type { Scene } from './suggestions/context';
+import {
+  ReadyToSend,
+  SuggestionsProvider,
+  SuggestLink,
+  YourSuggestionsLink,
+} from './suggestions/SuggestionsProvider';
 import { useActiveOn } from './use-activeon';
 
 const clock = (at: number) => new Date(at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -107,126 +115,171 @@ export function App() {
   const result = ready?.result ?? null;
   const badge = previewBadge();
 
+  // M13: what a Suggestion's context is built from, read when the form opens and again at send time.
+  const suggestionsConfig = useMemo(() => readSuggestionsConfig(import.meta.env, buildInfo), []);
+  const sceneRef = useRef<Omit<Scene, 'now' | 'characterIndex'>>({
+    state: null,
+    result: null,
+    screen: 'now',
+    expectedReturnSeconds: null,
+  });
+  const okResult = result && !('error' in result) ? result : null;
+  sceneRef.current = {
+    state: versionState,
+    result: okResult,
+    screen: save.status === 'broken' || (result && 'error' in result) ? 'other' : 'now',
+    expectedReturnSeconds: a.expectedReturnSeconds,
+  };
+  const scene = useCallback((): Scene => {
+    let characterIndex: number | null = null;
+    try {
+      const c = new URLSearchParams(window.location.search).get('c');
+      if (c !== null && /^\d+$/.test(c)) characterIndex = Number(c);
+    } catch {}
+    const s = sceneRef.current;
+    const focused = characterIndex !== null && s.result?.characters.some((c) => c.index === characterIndex);
+    return {
+      ...s,
+      characterIndex: focused ? characterIndex : null,
+      screen: s.screen === 'now' && focused ? 'character' : s.screen,
+      now: Date.now(),
+    };
+  }, []);
+
   return (
-    <main className="app">
-      {badge ? <p className="preview-badge">{badge}</p> : null}
-      <Header
-        save={headerSave}
-        sync={sync}
-        online={online}
-        lastSnapshotAt={lastSnapshotAt}
-        chips={result && !('error' in result) ? chips : null}
-        suggestHref={suggestHref}
-        busy={busy && ready !== null}
-        stage={result && !('error' in result) ? result.stage : null}
-      />
+    <SuggestionsProvider
+      config={suggestionsConfig}
+      uid={auth.status === 'signed-in' ? uid : null}
+      signedOut={auth.status !== 'signed-in' && auth.status !== 'restoring'}
+      proof={a.proof}
+      scene={scene}
+    >
+      <main className="app">
+        {badge ? <p className="preview-badge">{badge}</p> : null}
+        <Header
+          save={headerSave}
+          sync={sync}
+          online={online}
+          lastSnapshotAt={lastSnapshotAt}
+          chips={result && !('error' in result) ? chips : null}
+          suggestHref={suggestHref}
+          busy={busy && ready !== null}
+          stage={result && !('error' in result) ? result.stage : null}
+        />
 
-      <SignIn
-        auth={auth}
-        sync={sync}
-        waitingForSave={save.status === 'waiting'}
-        onSignIn={a.signIn}
-        onCancel={a.cancelSignIn}
-        onSignOut={a.signOut}
-      />
+        <SignIn
+          auth={auth}
+          sync={sync}
+          waitingForSave={save.status === 'waiting'}
+          onSignIn={a.signIn}
+          onCancel={a.cancelSignIn}
+          onSignOut={a.signOut}
+        />
 
-      {updateText && !ready ? (
-        <div className="banner update" role="status">
-          <p>{updateText}</p>
-          <button type="button" className="small-btn" onClick={() => window.location.reload()}>
-            Reload
-          </button>
-        </div>
-      ) : null}
+        <ReadyToSend />
 
-      {save.status === 'broken' ? (
-        <CantRead failure={save} lastGood={lastGood?.state ?? null} busy={busy} onPaste={a.paste} />
-      ) : null}
-
-      {save.status === 'waiting' ? <Waiting long={waitingLong} /> : null}
-      {save.status === 'parsing' && !ready ? <Waiting long={false} /> : null}
-
-      {ready && result && 'error' in result ? (
-        <CantWorkOut message={result.error} state={ready.state} />
-      ) : null}
-      {ready && result && !('error' in result) ? (
-        <AdviceBoundary state={ready.state} resetKey={result}>
-          <NowScreen
-            result={result}
-            save={ready}
-            namespace={namespace}
-            expectedReturnSeconds={a.expectedReturnSeconds}
-            setExpectedReturn={a.setExpectedReturn}
-            updating={a.updating}
-            connection={connection}
-            update={updateText}
-            parserBehind={patch?.parserBehind ?? false}
-            onReload={() => window.location.reload()}
-            renderChips={renderChips}
-            onFooter={onFooter}
-          />
-        </AdviceBoundary>
-      ) : null}
-
-      {save.status !== 'broken' ? (
-        <details
-          className="card fallback"
-          open={(auth.status === 'unconfigured' && !ready) || pasteError !== null}
-        >
-          <summary>Paste your save instead</summary>
-          <PasteSave busy={busy} error={pasteError} onPaste={a.paste} />
-        </details>
-      ) : null}
-
-      <footer className="foot muted small">
-        <p className="foot-line">
-          {[
-            `ActiveOn ${buildInfo.app}`,
-            footer?.knowledge ?? `knowledge ${buildInfo.knowledge}`,
-            versionState ? `game build ${serverBuild ?? '?'}` : null,
-            versionState ? `parser targets ${versionState.account.gameVersion.parserTarget}` : null,
-          ]
-            .filter(Boolean)
-            .join(' · ')}
-          {patch?.newer && !patch.parserBehind ? ` · ${PATCH_FOOTER_NOTE}` : ''}
-        </p>
-        {footer && footer.failedChecks > 0 ? (
-          <p className="foot-line">
-            {footer.failedChecks} check{footer.failedChecks === 1 ? '' : 's'} failed ·{' '}
-            <a href={suggestHref} target="_blank" rel="noopener noreferrer">
-              Report
-            </a>
-          </p>
-        ) : null}
-        {footer && !footer.persistent ? (
-          <p className="foot-line">Can't remember your choices in this browser.</p>
-        ) : null}
-        {historyNote ? <p className="foot-line">{historyNote}</p> : null}
-        {auth.status === 'signed-in' ? (
-          <div className="foot-line">
-            <ClearMyData
-              onClear={async (options) => {
-                forgetWhatsNew();
-                await a.clearMyData(options);
-              }}
-            />
+        {updateText && !ready ? (
+          <div className="banner update" role="status">
+            <p>{updateText}</p>
+            <button type="button" className="small-btn" onClick={() => window.location.reload()}>
+              Reload
+            </button>
           </div>
         ) : null}
-        <p className="foot-line">
-          <a href={suggestHref} target="_blank" rel="noopener noreferrer">
-            Suggest something
+
+        {save.status === 'broken' ? (
+          <CantRead failure={save} lastGood={lastGood?.state ?? null} busy={busy} onPaste={a.paste} />
+        ) : null}
+
+        {save.status === 'waiting' ? <Waiting long={waitingLong} /> : null}
+        {save.status === 'parsing' && !ready ? <Waiting long={false} /> : null}
+
+        {ready && result && 'error' in result ? (
+          <CantWorkOut message={result.error} state={ready.state} />
+        ) : null}
+        {ready && result && !('error' in result) ? (
+          <AdviceBoundary state={ready.state} resetKey={result}>
+            <NowScreen
+              result={result}
+              save={ready}
+              namespace={namespace}
+              expectedReturnSeconds={a.expectedReturnSeconds}
+              setExpectedReturn={a.setExpectedReturn}
+              updating={a.updating}
+              connection={connection}
+              update={updateText}
+              parserBehind={patch?.parserBehind ?? false}
+              onReload={() => window.location.reload()}
+              renderChips={renderChips}
+              onFooter={onFooter}
+            />
+          </AdviceBoundary>
+        ) : null}
+
+        {save.status !== 'broken' ? (
+          <details
+            className="card fallback"
+            open={(auth.status === 'unconfigured' && !ready) || pasteError !== null}
+          >
+            <summary>Paste your save instead</summary>
+            <PasteSave busy={busy} error={pasteError} onPaste={a.paste} />
+          </details>
+        ) : null}
+
+        <footer className="foot muted small">
+          <p className="foot-line">
+            {[
+              `ActiveOn ${buildInfo.app}`,
+              footer?.knowledge ?? `knowledge ${buildInfo.knowledge}`,
+              versionState ? `game build ${serverBuild ?? '?'}` : null,
+              versionState ? `parser targets ${versionState.account.gameVersion.parserTarget}` : null,
+            ]
+              .filter(Boolean)
+              .join(' · ')}
+            {patch?.newer && !patch.parserBehind ? ` · ${PATCH_FOOTER_NOTE}` : ''}
+          </p>
+          {footer && footer.failedChecks > 0 ? (
+            <p className="foot-line">
+              {footer.failedChecks} check{footer.failedChecks === 1 ? '' : 's'} failed ·{' '}
+              <SuggestLink fallbackHref={suggestHref} type="wrong">
+                Report
+              </SuggestLink>
+            </p>
+          ) : null}
+          {footer && !footer.persistent ? (
+            <p className="foot-line">Can't remember your choices in this browser.</p>
+          ) : null}
+          {historyNote ? <p className="foot-line">{historyNote}</p> : null}
+          {auth.status === 'signed-in' ? (
+            <div className="foot-line">
+              <ClearMyData
+                onClear={async (options) => {
+                  forgetWhatsNew();
+                  await a.clearMyData(options);
+                }}
+              />
+            </div>
+          ) : null}
+          <p className="foot-line">
+            <SuggestLink fallbackHref={suggestHref}>Suggest something</SuggestLink>
+            {auth.status === 'signed-in' ? (
+              <>
+                {' · '}
+                <YourSuggestionsLink />
+              </>
+            ) : null}
+          </p>
+          Read-only. Save parsing by{' '}
+          <a href="https://github.com/Morta1/IdleonToolbox" target="_blank" rel="noopener noreferrer">
+            IdleOn Toolbox
+          </a>{' '}
+          (GPL-3.0).{' '}
+          <a href="https://github.com/YassSoliman/idleon-forge" target="_blank" rel="noopener noreferrer">
+            Source
           </a>
-        </p>
-        Read-only. Save parsing by{' '}
-        <a href="https://github.com/Morta1/IdleonToolbox" target="_blank" rel="noopener noreferrer">
-          IdleOn Toolbox
-        </a>{' '}
-        (GPL-3.0).{' '}
-        <a href="https://github.com/YassSoliman/idleon-forge" target="_blank" rel="noopener noreferrer">
-          Source
-        </a>
-        . Not affiliated with LavaFlame2.
-      </footer>
-    </main>
+          . Not affiliated with LavaFlame2.
+        </footer>
+      </main>
+    </SuggestionsProvider>
   );
 }

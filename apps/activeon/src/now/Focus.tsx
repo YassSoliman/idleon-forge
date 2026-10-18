@@ -18,10 +18,12 @@ export interface FocusProps {
   onBack(): void;
   onNext(index: number | null): void;
   onConfusing(): string;
+  /** M13: opens the in-app form as Confusing; null falls back to the GitHub-issue link. */
+  openConfusing?: (() => void) | null;
 }
 
 export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
-  { card, pendingFollow, showCloudSaveTip, onBack, onNext, onConfusing },
+  { card, pendingFollow, showCloudSaveTip, onBack, onNext, onConfusing, openConfusing = null },
   headingRef,
 ) {
   const actions = useNowActions();
@@ -267,9 +269,15 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
         <button type="button" className="ghost" onClick={onBack}>
           ← All characters
         </button>
-        <a className="small" href={onConfusing()} target="_blank" rel="noopener noreferrer">
-          Something confusing here?
-        </a>
+        {openConfusing ? (
+          <button type="button" className="link-btn small" onClick={openConfusing}>
+            Something confusing here?
+          </button>
+        ) : (
+          <a className="small" href={onConfusing()} target="_blank" rel="noopener noreferrer">
+            Something confusing here?
+          </a>
+        )}
       </div>
     </section>
   );

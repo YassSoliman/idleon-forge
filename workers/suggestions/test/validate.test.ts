@@ -83,6 +83,22 @@ describe('validateSuggestionRequest', () => {
     expect(validateSuggestionRequest(many)).toEqual({ ok: false, field: 'context.report.values' });
   });
 
+  it('accepts the field patterns Detectors declare, like characters[*].afkType', () => {
+    const r = valid();
+    r.context.report = {
+      outputKind: 'verdict-blocker',
+      renderedText: 'Squire lv 85: set an AFK target',
+      entryIds: ['afk.check.no-afk-target'],
+      detectorIds: ['afk/no-afk-target'],
+      fieldPaths: ['characters[*].afkType', 'account.lastCloudSave'],
+      stale: false,
+      contested: false,
+    };
+    expect(validateSuggestionRequest(r).ok).toBe(true);
+    if (r.context.report) r.context.report.entryIds = ['afk.check.*'];
+    expect(validateSuggestionRequest(r)).toEqual({ ok: false, field: 'context.report.entryIds.0' });
+  });
+
   it('rejects non-finite numbers and a wrong schema version', () => {
     const r = valid() as unknown as { context: Record<string, unknown> };
     r.context.schema = 2;

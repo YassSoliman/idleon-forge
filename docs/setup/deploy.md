@@ -24,6 +24,35 @@ bindings, no runtime secrets. It lives on the Forge's own Cloudflare account **I
 If any step fails, the previous version stays live and the run is red. Never connect Cloudflare
 Workers Builds to this Worker: it would be a second deploy path outside the GitHub gates.
 
+## Suggestions (M13)
+
+The app sends in-app Suggestions to the **Suggestions Worker** `activeon-suggestions`
+([`workers/suggestions/`](../../workers/suggestions/)), a separate Worker on the same account, deployed
+by hand with `wrangler deploy` (never from a Preview). The app needs two public build values, set as
+GitHub environment **variables** in both `production` and `preview`, and in `apps/activeon/.env.local`
+for local builds:
+
+| Variable | Value | What |
+|---|---|---|
+| `VITE_SUGGESTIONS_URL` | `https://activeon-suggestions.idleon.workers.dev` | The Worker's origin; also allowed in the page CSP's `connect-src` ([`_headers`](../../apps/activeon/public/_headers)) |
+| `VITE_TURNSTILE_SITE_KEY` | `0x4AAAAAAFZh5dFIi0_6HO68` | Turnstile widget site key (its secret lives only in the Worker) |
+
+```sh
+for env in production preview; do
+  gh variable set VITE_SUGGESTIONS_URL --env "$env" -R YassSoliman/idleon-forge \
+    --body https://activeon-suggestions.idleon.workers.dev
+  gh variable set VITE_TURNSTILE_SITE_KEY --env "$env" -R YassSoliman/idleon-forge \
+    --body 0x4AAAAAAFZh5dFIi0_6HO68
+done
+```
+
+Only a production build files real issues. Preview and local builds send the `X-Suggestions-Dry-Run: 1`
+header, and the Worker also treats any `pr-<N>-activeon.idleon.workers.dev` origin as a dry run: full
+validation, proof and Turnstile checks, a fake issue back, nothing written to GitHub (M13 RT-20). The
+Worker's CORS admits only the production origin and the Preview pattern, so a `localhost` build can't
+send at all; test the Worker itself with `node workers/suggestions/scripts/smoke.mjs`. Without the two
+variables the form still opens, offering the pre-filled GitHub issue instead.
+
 ## Tokens (M12 TR-17)
 
 | Token | Environment | Scope | Expires | Renew by |
