@@ -70,7 +70,7 @@ entries:
     values:
       many: "Buy a Wax Skull for each of {n:int} characters at the Frostbite Towndra shop"
       one: "Buy a Wax Skull for your {who} at the Frostbite Towndra shop"
-      why: "Without a skull, charge stops at {max:int}; a Wax Skull raises it to at least 100 and charges faster."
+      why: "Without a skull, charge stops at {max:int}; a Wax Skull doubles that cap and charges faster."
       detail: "{who}: {charge:int} of {max:int} charge"
       detail-full: "{who}: full, {charge:int} of {max:int} charge"
     sources:
