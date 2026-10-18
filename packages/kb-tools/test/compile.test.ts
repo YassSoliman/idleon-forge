@@ -1,10 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // `kb compile` (M11 TR-7, TR-12, TR-13, FR-21 to FR-23, TR-17).
+
+import { readFileSync } from 'node:fs';
+import { gzipSync } from 'node:zlib';
 import { canonicalJson, diffManifests, loadKnowledge, packKnowledge } from '@idleon-forge/knowledge';
 import { describe, expect, it } from 'vitest';
 import { compile } from '../src/compile';
 import { loadSource } from '../src/load';
+import { BUDGET } from '../src/paths';
 import { entry, file, kbTree, SRC1, testRegistries } from './kb-tree';
 
 const regs = testRegistries();
@@ -217,11 +221,16 @@ describe('kb compile on the real Knowledge Base (TR-17 budgets)', () => {
     const t = performance.now();
     const kb = await compile(loadSource(), { git: null });
     expect(performance.now() - t).toBeLessThan(5_000);
-    // The shipped (packed) form: repeated entry fields interned (M4's family expansions, pack.ts).
+    // The shipped (packed) form: shapes, strings and repeated subtrees stored once (pack.ts).
     const text = canonicalJson(packKnowledge(kb));
-    // kb-budget.json's bundleBytes: 1 MB since release 4. The compiled Knowledge Base ships only in the
-    // parse worker chunk (8 MB budget), never on the UI thread.
-    expect(Buffer.byteLength(text)).toBeLessThan(1024 * 1024);
+    // kb-budget.json: 720 KB raw and 160 KB gzipped since release 7 (the worker is served gzipped). The
+    // compiled Knowledge Base ships only in the parse worker chunk, never on the UI thread.
+    const budget = JSON.parse(readFileSync(BUDGET, 'utf8')) as {
+      bundleBytes: number;
+      bundleGzipBytes: number;
+    };
+    expect(Buffer.byteLength(text)).toBeLessThan(budget.bundleBytes);
+    expect(gzipSync(text).length).toBeLessThan(budget.bundleGzipBytes);
     const t2 = performance.now();
     const loaded = loadKnowledge(text);
     expect(performance.now() - t2).toBeLessThan(30);
