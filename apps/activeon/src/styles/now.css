@@ -636,6 +636,21 @@ button.cap[aria-expanded="true"] {
   margin: 0 12px 10px;
   text-decoration: none;
 }
+/* The Build and Cards chips side by side under a Roster row (character-tabs.ts). */
+.r .r-tabs {
+  justify-self: start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 12px 10px;
+}
+.r .r-tabs .chip.build {
+  margin: 0;
+}
+.roster-links {
+  display: inline-flex;
+  gap: 12px;
+}
 .roster-h {
   display: flex;
   justify-content: space-between;

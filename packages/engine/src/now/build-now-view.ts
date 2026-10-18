@@ -21,6 +21,7 @@ import type {
   VerdictKind,
 } from '../result';
 import { buildsView } from './build-view';
+import { cardsView } from './cards-view';
 import { aboutDuration, compact, plural, shortDuration } from './format';
 import {
   dismissActive,
@@ -654,6 +655,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
     visibleKeys,
     nextExpiry,
     builds: buildsView(result),
+    cards: cardsView(result),
   };
 }
 

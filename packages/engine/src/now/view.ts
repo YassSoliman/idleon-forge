@@ -4,7 +4,9 @@
 // and worded. Components render arrays in order and never sort or filter (red-team #5).
 import type {
   BuildRoadmap,
+  CardsView,
   Category,
+  CharacterCards,
   Done,
   Provenance,
   SpendStatus,
@@ -291,4 +293,23 @@ export interface NowView {
   nextExpiry: number | null;
   /** Every character's Build view, in save order (owner request 2026-10-18); empty without M9. */
   builds: BuildRoadmapView[];
+  /** The Cards tab and overview (M8, owner request 2026-10-18); null without M8's cards-view module. */
+  cards: CardsNowView | null;
+}
+
+/** One character's Cards tab: M8's view with its name, class, level and deep link. */
+export interface CharacterCardsView extends CharacterCards {
+  name: string;
+  classLabel: string;
+  level: number;
+  /** `#cards-<index>`, the Cards tab's deep link. */
+  href: string;
+}
+
+export interface CardsNowView {
+  characters: CharacterCardsView[];
+  account: CardsView['account'];
+  caveats: string[];
+  /** The wiki Cards page first, with the Toolbox credit (#74); null without any. */
+  source: SourceView | null;
 }

@@ -14,6 +14,7 @@ import { useNow } from '../use-now';
 import { AccountSection, IfYouHaveTime, NotCoveredYet } from './Account';
 import { BuildsOverview } from './BuildView';
 import { Banners, ExpectedReturnChips, ProgressBar, WhatsNewCard } from './Chrome';
+import { CardsOverview } from './cards/CardsPanel';
 import { NOW_TAB, parseTabHash } from './character-tabs';
 import { type NowActions, NowActionsContext } from './context';
 import { Focus } from './Focus';
@@ -113,7 +114,6 @@ export function NowScreen(props: NowScreenProps) {
   const live = save.source === 'live';
   const lastCloudSave = save.state.account.lastCloudSave;
   const names = useMemo(() => result.characters.map((c) => c.name), [result]);
-  const nameByIndex = useMemo(() => new Map(result.characters.map((c) => [c.index, c.name])), [result]);
 
   const [focus, setFocusState] = useState<number | null>(() => readFocusParam());
   const [tab, setTab] = useState<string>(() => readTabHash()?.tab ?? NOW_TAB);
@@ -448,7 +448,6 @@ export function NowScreen(props: NowScreenProps) {
           <Focus
             ref={headingRef}
             card={view.focus}
-            cards={result.cards ?? null}
             pendingFollow={pendingFollow}
             showCloudSaveTip={
               live &&
@@ -495,10 +494,11 @@ export function NowScreen(props: NowScreenProps) {
               }}
             />
             <BuildsOverview view={view} />
+            <CardsOverview view={view} />
           </>
         )}
       </div>
-      <AccountSection ref={accountRef} view={view} cards={result.cards ?? null} names={nameByIndex} />
+      <AccountSection ref={accountRef} view={view} />
       <IfYouHaveTime view={view} />
       <NotCoveredYet view={view} />
       <p className="sr-only" aria-live="polite">

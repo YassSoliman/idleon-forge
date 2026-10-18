@@ -1,38 +1,17 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// The Cards view (M8 "Cards view", owner request 2026-10-18), functional version: per character, every
-// card preset as a row of slots, the best preset from owned cards as a list of swaps, and the cards to
-// grind next; and the account overview, one row per character plus the merged grind list. The engine
-// (packages/engine/src/collections/cards-view.ts) builds and words everything; this file only renders
-// it in order (M10 red-team #5). Text is React text and styles are classes, never inline (CSP).
-// It renders standalone today, as a section of Focus and of the Account section; it moves into the
-// per-character tab registry (now/character-tabs.ts) when that lands.
-
-import { sourceView } from '@idleon-forge/engine/now';
-import type { CardChip, CardsView, CharacterCards, GrindItem, SourceRef } from '@idleon-forge/engine/result';
+// The Cards view (M8 "Cards view", owner request 2026-10-18), functional version: the character page's
+// Cards tab shows every card preset as a row of slots, the best preset from owned cards as a list of
+// swaps, and the cards to grind next. The Cards overview on the Roster has one line per character plus
+// the merged grind list. The engine (packages/engine/src/collections/cards-view.ts and now/cards-view.ts)
+// builds and words everything; this file only renders it in order (M10 red-team #5). Text is React text
+// and styles are classes, never inline (CSP).
+import type { CardsNowView, CharacterCardsView, NowView } from '@idleon-forge/engine/now';
+import type { CardChip, GrindItem } from '@idleon-forge/engine/result';
+import type { CharacterTabProps } from '../character-tabs';
 import { useNowActions } from '../context';
 import { SourceLabel } from '../parts';
 import './cards.css';
-
-/** The `expanded` ids that keep a Cards section open (shared with the Now-list links). */
-export const cardsOpenId = (index: number | 'account') =>
-  `cards-open:${index === 'account' ? 'account' : `c${index}`}`;
-export const cardsSectionId = (index: number | 'account') =>
-  index === 'account' ? 'cards-overview' : `cards-c${index}`;
-
-/** Opens a Cards section and scrolls to it (the Now list's "Cards view" link). */
-export function useOpenCards() {
-  const actions = useNowActions();
-  return (index: number | 'account') => {
-    if (!actions.expanded.has(cardsOpenId(index))) actions.toggle(cardsOpenId(index));
-    // After React renders it open.
-    requestAnimationFrame(() => {
-      const el = document.getElementById(cardsSectionId(index));
-      el?.scrollIntoView({ block: 'start', behavior: 'smooth' });
-      el?.querySelector<HTMLElement>('summary')?.focus({ preventScroll: true });
-    });
-  };
-}
 
 const stars = (c: CardChip) =>
   c.level > 0 ? `Lv ${c.level}${c.stars > 0 ? ` · ${'★'.repeat(c.stars)}` : ''}` : 'not owned';
@@ -54,12 +33,21 @@ function Slot({ card }: { card: CardChip | null }) {
   );
 }
 
-/** #74: the wiki Cards page first, with the Toolbox credit, through the Now screen's own Source label. */
-function Sources({ sources }: { sources: readonly SourceRef[] }) {
+/** How the Cards view counts, and its Sources (#74: the wiki Cards page first, then the Toolbox credit). */
+function Footer({ cards }: { cards: CardsNowView }) {
   return (
-    <div className="cv-sources">
-      <SourceLabel source={sourceView(sources, false, 'cards.fact.drops')} />
-    </div>
+    <>
+      {cards.caveats.map((c) => (
+        <p key={c} className="small muted">
+          {c}
+        </p>
+      ))}
+      {cards.source ? (
+        <div className="cv-sources">
+          <SourceLabel source={cards.source} />
+        </div>
+      ) : null}
+    </>
   );
 }
 
@@ -90,7 +78,7 @@ function GrindList({ items, account = false }: { items: readonly GrindItem[]; ac
             {account && g.fastest ? ` on ${g.fastest}` : ''}
           </p>
           <p className="small muted">
-            {g.effect} · improves {account && g.helps.length ? `${g.helps.join(', ')}` : g.improves}
+            {g.effect} · improves {account && g.helps.length ? g.helps.join(', ') : g.improves}
           </p>
         </li>
       ))}
@@ -99,22 +87,23 @@ function GrindList({ items, account = false }: { items: readonly GrindItem[]; ac
 }
 
 /** One character's Cards view. */
-export function CharacterCardsPanel({ view, cards }: { view: CharacterCards; cards: CardsView }) {
-  if (view.unknown) return <p className="small muted">{view.unknown}</p>;
+export function CharacterCardsPanel({ c, cards }: { c: CharacterCardsView; cards: CardsNowView }) {
+  if (c.unknown) return <p className="small muted">{c.unknown}</p>;
   return (
     <div className="cv">
-      <h4 className="cv-h">
+      <p className="small cv-summary">{c.overview}</p>
+      <h3 className="cv-h">
         Card presets{' '}
         <span className="small muted">
-          {view.slotCount} slots{view.presetsLocked ? ` · ${view.presetsLocked}` : ''}
+          {c.slotCount} slots{c.presetsLocked ? ` · ${c.presetsLocked}` : ''}
         </span>
-      </h4>
+      </h3>
       <ul className="cv-presets">
-        {view.presets.map((p) => (
+        {c.presets.map((p) => (
           <li key={p.n} className={`cv-preset${p.active ? ' cv-active' : ''}`}>
             <p className="cv-preset-head">
-              <b>{view.presets.length > 1 ? `Preset ${p.n}` : 'Equipped'}</b>
-              {p.active && view.presets.length > 1 ? (
+              <b>{c.presets.length > 1 ? `Preset ${p.n}` : 'Equipped'}</b>
+              {p.active && c.presets.length > 1 ? (
                 <span className="cv-badge cv-badge-use">in use</span>
               ) : null}
               <span className={`cv-badge${p.fitsTarget ? ' cv-badge-fit' : ''}`}>
@@ -139,11 +128,11 @@ export function CharacterCardsPanel({ view, cards }: { view: CharacterCards; car
         ))}
       </ul>
 
-      {view.recommendations.length ? (
+      {c.recommendations.length ? (
         <>
-          <h4 className="cv-h">Best preset from cards you own</h4>
+          <h3 className="cv-h">Best preset from cards you own</h3>
           <ul className="cv-recs">
-            {view.recommendations.map((r) => (
+            {c.recommendations.map((r) => (
               <li key={r.activity} className="cv-rec">
                 <p className="cv-rec-head">
                   <b>For {r.activity}</b>{' '}
@@ -185,103 +174,64 @@ export function CharacterCardsPanel({ view, cards }: { view: CharacterCards; car
         </>
       ) : null}
 
-      <h4 className="cv-h">Cards to grind next</h4>
-      {view.grind.length ? (
-        <GrindList items={view.grind} />
+      <h3 className="cv-h">Cards to grind next</h3>
+      {c.grind.length ? (
+        <GrindList items={c.grind} />
       ) : (
         <p className="small muted">No card on its list drops on a map it can reach yet.</p>
       )}
-      {view.grindNote ? <p className="small muted">{view.grindNote}</p> : null}
-      {cards.caveats.map((c) => (
-        <p key={c} className="small muted">
-          {c}
-        </p>
-      ))}
-      <Sources sources={cards.sources} />
+      {c.grindNote ? <p className="small muted">{c.grindNote}</p> : null}
+      <Footer cards={cards} />
     </div>
   );
 }
 
-/** Focus: the character's Cards view as a collapsible section. */
-export function CardsSection({ index, cards }: { index: number; cards: CardsView | null | undefined }) {
-  const actions = useNowActions();
-  const view = cards?.characters.find((c) => c.index === index);
-  if (!cards || !view) return null;
-  const id = cardsOpenId(index);
-  return (
-    <details
-      className="cards-view"
-      id={cardsSectionId(index)}
-      open={actions.expanded.has(id)}
-      onToggle={(e) => {
-        const open = (e.currentTarget as HTMLDetailsElement).open;
-        if (open !== actions.expanded.has(id)) actions.toggle(id);
-      }}
-    >
-      <summary>
-        <span className="tag">Cards</span> <span className="small">{view.overview}</span>
-      </summary>
-      <CharacterCardsPanel view={view} cards={cards} />
-    </details>
-  );
+/** The character page's Cards tab (character-tabs.ts). */
+export function CardsTab({ view, index }: CharacterTabProps) {
+  const c = view.cards?.characters.find((x) => x.index === index);
+  if (!view.cards || !c) return <p className="small muted">No card data for this character yet.</p>;
+  return <CharacterCardsPanel c={c} cards={view.cards} />;
 }
 
-/** Account: one row per character and the merged grind list. */
-export function CardsOverview({
-  cards,
-  names,
-}: {
-  cards: CardsView | null | undefined;
-  /** Display names by character index (UI only, never leaves the device). */
-  names: ReadonlyMap<number, string>;
-}) {
+/** The Cards overview on the Roster: every character's card line, then the account's grind list. */
+export function CardsOverview({ view }: { view: NowView }) {
   const actions = useNowActions();
-  const openCards = useOpenCards();
+  const cards = view.cards;
   if (!cards || cards.characters.length === 0) return null;
-  const id = cardsOpenId('account');
   return (
-    <details
-      className="cards-view card"
-      id={cardsSectionId('account')}
-      open={actions.expanded.has(id)}
-      onToggle={(e) => {
-        const open = (e.currentTarget as HTMLDetailsElement).open;
-        if (open !== actions.expanded.has(id)) actions.toggle(id);
-      }}
-    >
-      <summary>
-        <span className="tag">Cards</span> card presets and cards to grind, every character
-      </summary>
-      <ul className="cv-overview">
+    <section aria-labelledby="cards-h" id="cards" className="builds-overview cards-overview">
+      <h2 id="cards-h" className="section-h">
+        Cards
+      </h2>
+      <ul className="bo-list">
         {cards.characters.map((c) => (
           <li key={c.index}>
             <a
-              href={`?c=${c.index}`}
+              href={c.href}
+              className="bo-row"
               onClick={(e) => {
                 e.preventDefault();
-                actions.open(c.index);
-                openCards(c.index);
+                actions.openTab(c.index, 'cards');
               }}
             >
-              {names.get(c.index) ?? c.who}
-            </a>{' '}
-            <span className="small muted">{c.who}</span>
-            <p className="small">{c.overview}</p>
+              <span className="bo-top">
+                <span className="r-name">{c.name}</span>
+                <span className="r-class">
+                  {c.classLabel} · lv {c.level}
+                </span>
+              </span>
+              <span className="bo-status small">{c.overview}</span>
+            </a>
           </li>
         ))}
       </ul>
       {cards.account.grind.length ? (
-        <>
-          <h4 className="cv-h">Cards to grind, whole account</h4>
+        <details className="cv-account">
+          <summary>Cards to grind, whole account ({cards.account.grind.length})</summary>
           <GrindList items={cards.account.grind} account />
-        </>
+          <Footer cards={cards} />
+        </details>
       ) : null}
-      {cards.caveats.map((c) => (
-        <p key={c} className="small muted">
-          {c}
-        </p>
-      ))}
-      <Sources sources={cards.sources} />
-    </details>
+    </section>
   );
 }

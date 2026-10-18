@@ -1,17 +1,22 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
 /* M8 Cards view (owner request 2026-10-18), functional styling: tokens only (tokens.css), wraps at
    320 px, no page-level horizontal scroll (slots wrap into a 2-column grid on a phone). */
-.cards-view {
-  margin: 10px 0;
+.cv,
+.cards-overview {
   overflow-wrap: anywhere;
+  min-width: 0;
 }
-.cards-view > summary {
+.cv-summary {
+  margin: 0 0 4px;
+}
+.cv-account {
+  margin-top: 8px;
+}
+.cv-account > summary {
   cursor: pointer;
   min-height: 28px;
   padding: 4px 0;
-}
-.cv {
-  margin-top: 6px;
+  font-weight: 700;
 }
 .cv-h {
   margin: 14px 0 6px;
@@ -146,7 +151,4 @@
 }
 .cv-sources {
   margin-top: 6px;
-}
-.na-cards {
-  margin: 4px 0 0;
 }

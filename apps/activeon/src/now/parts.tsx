@@ -192,15 +192,12 @@ export function NextActionItem({
   details = [],
   walkthrough = null,
   first,
-  onCards = null,
 }: {
   action: NextActionView;
   milestone?: string | null;
   details?: GoalView['details'];
   walkthrough?: GoalView['walkthrough'];
   first?: boolean;
-  /** M8 Cards view: a card Goal links to the character's (or the account's) Cards view. */
-  onCards?: (() => void) | null;
 }) {
   return (
     <div className={`na${first ? ' first' : ''}`}>
@@ -210,13 +207,6 @@ export function NextActionItem({
       <p className="why small">Why: {action.why}</p>
       <GoalDetails details={details} />
       {walkthrough ? <Walkthrough view={walkthrough} /> : null}
-      {onCards ? (
-        <p className="na-cards small">
-          <button type="button" className="link-btn" onClick={onCards}>
-            See your card presets and what to grind →
-          </button>
-        </p>
-      ) : null}
       <div className="na-meta">
         <SourceLabel source={action.source} />
         {action.contested ? <ContestedBadge contested={action.contested} /> : null}
@@ -259,6 +249,31 @@ function BuildLink({ goal, subject }: { goal: GoalView; subject: string }) {
   );
 }
 
+/**
+ * M8 Cards view: a card Goal links to the character's Cards tab; an account card Goal links to the
+ * Cards overview (on the Roster), or, from a character page, to its first character's Cards tab.
+ */
+function CardsLink({ goal, subject }: { goal: GoalView; subject: string }) {
+  const actions = useNowActions();
+  if (goal.system !== 'cards') return null;
+  const m = /^c(\d+)$/.exec(subject) ?? /^c(\d+)$/.exec(goal.details[0]?.key.split('#')[1] ?? '');
+  const index = m ? Number(m[1]) : null;
+  return (
+    <a
+      className="small build-link"
+      href={subject === 'account' ? '#cards' : `#cards-${index}`}
+      onClick={(e) => {
+        const overview = subject === 'account' ? document.getElementById('cards') : null;
+        if (overview) return; // a plain in-page anchor to the overview
+        e.preventDefault();
+        if (index !== null) actions.openTab(index, 'cards');
+      }}
+    >
+      See card presets and what to grind →
+    </a>
+  );
+}
+
 export function GoalList({
   goals,
   subject,
@@ -266,7 +281,6 @@ export function GoalList({
   skipped,
   dismissed,
   highlightFirst = false,
-  onCards = null,
 }: {
   goals: GoalView[];
   subject: string;
@@ -275,8 +289,6 @@ export function GoalList({
   skipped: string[];
   dismissed: { key: string; text: string }[];
   highlightFirst?: boolean;
-  /** Opens the Cards view; card Goals (system `cards`) link to it. */
-  onCards?: (() => void) | null;
 }) {
   const actions = useNowActions();
   const expanded = actions.expanded.has(subject);
@@ -291,9 +303,9 @@ export function GoalList({
               details={g.details}
               walkthrough={g.walkthrough}
               first={highlightFirst && n === 0}
-              onCards={g.system === 'cards' ? onCards : null}
             />
             <BuildLink goal={g} subject={subject} />
+            <CardsLink goal={g} subject={subject} />
           </li>
         ))}
       </ul>

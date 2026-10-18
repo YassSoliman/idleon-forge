@@ -10,6 +10,7 @@
 import type { NowView } from '@idleon-forge/engine/now';
 import type { ComponentType } from 'react';
 import { BuildTab } from './BuildView';
+import { CardsTab } from './cards/CardsPanel';
 
 export interface CharacterTabProps {
   /** The whole Now view (the Build tab reads `view.builds`). */
@@ -31,6 +32,7 @@ export const NOW_TAB = 'now';
 export const characterTabs: readonly CharacterTab[] = [
   { id: NOW_TAB, label: 'Now', Component: null },
   { id: 'build', label: 'Build', Component: BuildTab },
+  { id: 'cards', label: 'Cards', Component: CardsTab },
 ];
 
 export const tabById = (id: string): CharacterTab | undefined => characterTabs.find((t) => t.id === id);
