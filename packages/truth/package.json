@@ -1,0 +1,19 @@
+{
+  "name": "@idleon-forge/truth",
+  "version": "0.1.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "description": "Truth checks: independent raw-save readers and contradiction rules that run on every parse and hold back advice from a broken read.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./types": "./src/types.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@idleon-forge/account-state": "workspace:*",
+    "@idleon-forge/engine": "workspace:*"
+  }
+}

@@ -6,6 +6,7 @@ import type { AccountState } from '@idleon-forge/account-state';
 import type { EngineResult } from '@idleon-forge/engine/result';
 import type { HistoryEntry } from '@idleon-forge/sync';
 import type { RawSaveEnvelope } from '@idleon-forge/toolbox-parsers';
+import type { TruthReport } from '@idleon-forge/truth/types';
 
 export type ParseInput =
   /** An envelope assembled by the live listener. */
@@ -59,6 +60,8 @@ export interface ParseRequest {
    * for a live save that is new to history; it costs a second parse.
    */
   withHistory?: boolean;
+  /** M22: also return the truth checks' facts table and raw facts (the `?debug=truth` hook). */
+  truthDetail?: boolean;
 }
 
 export interface WhatIfRequest {
@@ -74,6 +77,8 @@ export interface RerunRequest {
   type: 'rerun';
   expectedReturnSeconds: number;
   now: number;
+  /** M22: as ParseRequest.truthDetail. */
+  truthDetail?: boolean;
 }
 
 export type WorkerRequest = ParseRequest | WhatIfRequest | RerunRequest;
@@ -97,6 +102,8 @@ export type ParseResponse =
       verifiedBuilds?: BuildMark;
       /** The engine's result for `state`, when the request asked for it (M10 TR-6). */
       result?: EngineOutcome;
+      /** M22: the truth checks on this parse (violations, what they held back, the facts table). Device-only. */
+      truth?: TruthReport;
       ms: number;
     }
   | {
@@ -111,7 +118,7 @@ export type ParseResponse =
     };
 
 export type RerunResponse =
-  | { id: number; ok: true; rerun: true; result: EngineOutcome; ms: number }
+  | { id: number; ok: true; rerun: true; result: EngineOutcome; truth?: TruthReport; ms: number }
   | { id: number; ok: false; rerun: true; message: string; ms: number };
 
 export type WorkerResponse = ParseResponse | RerunResponse;

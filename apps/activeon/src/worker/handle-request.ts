@@ -60,6 +60,7 @@ import {
   verifiedBuilds,
   withFrozenClock,
 } from '@idleon-forge/toolbox-parsers';
+import { checkTruth, type TruthReport } from '@idleon-forge/truth';
 import type {
   BuildMark,
   EngineCall,
@@ -244,27 +245,62 @@ export function createRequestHandler(
   options: HandleOptions = {},
   engine: Engine = createEngine(workerModules()),
 ): RequestHandler {
+  const last: LastParse = { input: null };
   return (request) => {
-    if (request.type === 'rerun') return rerun(engine, request.id, request.expectedReturnSeconds);
-    return handleRequest(request, options, engine);
+    if (request.type === 'rerun')
+      return rerun(engine, request.id, request.expectedReturnSeconds, last, request.truthDetail);
+    return handleRequest(request, options, engine, last);
   };
 }
 
-function rerun(engine: Engine, id: number, expectedReturnSeconds: number): RerunResponse {
+/** M22: what a re-run needs to check its result against the same save. */
+interface LastParse {
+  input: { envelope: RawSaveEnvelope; state: AccountState } | null;
+}
+
+/**
+ * M22: the truth checks on an engine result, which replace only the advice a violation touches. A
+ * thrown result passes through untouched (there is no advice to doubt).
+ */
+export function withTruth(
+  envelope: RawSaveEnvelope,
+  state: AccountState,
+  outcome: EngineOutcome | null,
+  detail = false,
+): { result: EngineOutcome | null; truth: TruthReport } {
+  const result = outcome && !('error' in outcome) ? outcome : null;
+  const checked = checkTruth({ envelope, state, result });
+  // The facts table and raw facts are for the debug hook; every other page gets the short report.
+  const truth = detail ? checked.report : { ...checked.report, facts: [], raw: null };
+  return { result: checked.result ?? outcome, truth };
+}
+
+function rerun(
+  engine: Engine,
+  id: number,
+  expectedReturnSeconds: number,
+  last?: LastParse,
+  detail = false,
+): RerunResponse {
   const started = performance.now();
   const ms = () => Math.round(performance.now() - started);
   if (!engine.ready) return { id, ok: false, rerun: true, message: 'No save has been read yet.', ms: ms() };
+  let result: EngineOutcome;
   try {
-    return { id, ok: true, rerun: true, result: engine.rerun(expectedReturnSeconds), ms: ms() };
+    result = engine.rerun(expectedReturnSeconds);
   } catch (err) {
     return { id, ok: true, rerun: true, result: { error: errorText(err) }, ms: ms() };
   }
+  if (!last?.input) return { id, ok: true, rerun: true, result, ms: ms() };
+  const checked = withTruth(last.input.envelope, last.input.state, result, detail);
+  return { id, ok: true, rerun: true, result: checked.result ?? result, truth: checked.truth, ms: ms() };
 }
 
 export function handleRequest(
   request: Exclude<WorkerRequest, { type: 'rerun' }>,
   options: HandleOptions = {},
   engine: Engine = createEngine(workerModules()),
+  last?: LastParse,
 ): ParseResponse {
   const started = performance.now();
   const ms = () => Math.round(performance.now() - started);
@@ -298,8 +334,21 @@ export function handleRequest(
       request.withHistory && source === 'live' && savedAt !== null
         ? { historyState: parseAt(savedAt, false) }
         : {};
-    const result = request.engine ? { result: runEngineSafely(engine, state, request.engine, now) } : {};
-    return { id, ok: true, state, ...historyState, ...result, verifiedBuilds: verified, ms: ms() };
+    // M22: the truth checks run on every parse, after the engine; they only ever hold advice back.
+    const outcome = request.engine ? runEngineSafely(engine, state, request.engine, now) : null;
+    const { result, truth } = withTruth(env, state, outcome, request.truthDetail);
+    if (last) last.input = { envelope: env, state };
+    const engineResult = result ? { result } : {};
+    return {
+      id,
+      ok: true,
+      state,
+      ...historyState,
+      ...engineResult,
+      truth,
+      verifiedBuilds: verified,
+      ms: ms(),
+    };
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     const build = rawBuild(envelope);

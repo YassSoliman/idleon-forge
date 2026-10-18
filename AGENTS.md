@@ -39,6 +39,7 @@ The first build downloads Toolbox's game data (~9 MB) for the pinned commit into
 | `packages/toolbox-parsers` | IdleOn Toolbox's parsers, vendored at a pinned commit (`UPSTREAM`, `UPSTREAM.md`), bundled by esbuild. `parseSave(envelope, { now })` |
 | `packages/account-state` | Typed adapter: Toolbox output -> Account State. Contract tests over `fixtures/public/` |
 | `packages/sync` | Google device-code sign-in to the game's Firebase, `onSnapshot` listener on the save |
+| `packages/truth` | Truth checks (M22): raw readers from the game client's own layouts, contradiction rules, suppression. Worker-only. Truth run: `docs/agents/truth-run.md` |
 | `docs/setup/` | Sign-in config (`VITE_*`) and deploy setup |
 | `fixtures/private/` | Real saves, **gitignored**, local only (`*.raw.json`) |
 

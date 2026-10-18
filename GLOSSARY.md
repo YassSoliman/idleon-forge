@@ -84,6 +84,14 @@ _Avoid_: reference, link
 A normalized snapshot of one player's whole account (all characters and account-wide systems) at the moment of a cloud save.
 _Avoid_: save, profile, data
 
+**Truth check**:
+An invariant ActiveOn checks on every parse against the save itself (read raw, not through Toolbox) or across its own output; a broken one holds back the advice it touches with "Can't be sure of this one right now".
+_Avoid_: sanity check, validation, QA
+
+**Truth run**:
+A local, read-only pass of the truth checks and the rendered app over one real save, diffing what the page shows against the raw save (docs/agents/truth-run.md).
+_Avoid_: smoke test, audit
+
 **Next Action**:
 One concrete, cited instruction the player can carry out in the game right now, with a one-line why.
 _Avoid_: tip, suggestion, recommendation
