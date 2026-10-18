@@ -123,9 +123,9 @@ describe.skipIf(!existsSync(privateSave('joseph')) || !existsSync(privateSave('y
   () => {
     it('W3-early: Gilded Sword for the Squire Lv 85 with 5 checkouts', () => {
       const g = goal(load(privateSave('joseph')), 'library.check.checkout');
-      expect(g?.nextAction.text).toMatch(
-        /^Library: check out Gilded Sword for your Squire Lv 85 \(you have 5 checkouts/,
-      );
+      // The KB copy pass (#112) moved the checkout count from the step into its why.
+      expect(g?.nextAction.text).toBe('Check out Gilded Sword for your Squire Lv 85 at the Library');
+      expect(g?.nextAction.why).toMatch(/^Checkouts: 5;/);
     });
     it('W2-late: silent', () => {
       expect(libraryGoals(load(privateSave('yasser')))).toEqual([]);

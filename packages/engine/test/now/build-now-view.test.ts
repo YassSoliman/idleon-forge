@@ -238,6 +238,8 @@ describe('#74 player-facing Sources', () => {
     expect(sourceView([toolbox], false, 'anvil.check.caps-before-return@c2')).toEqual({
       text: 'IdleOn Toolbox: Anvil',
       href: 'https://idleontoolbox.com/account/world-1/anvil',
+      // The Toolbox page fallback has no verified date of its own (M21 Integration).
+      verifiedOn: null,
       credit: 'Calculated by IdleOn Toolbox · 2.3.540',
       creditHref: null,
       stale: false,

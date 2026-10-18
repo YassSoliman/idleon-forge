@@ -223,7 +223,10 @@ describe.skipIf(!existsSync(privateSave('joseph')) || !existsSync(privateSave('y
       expect(goalOf(s, 'refinery.check.auto-refine-off')?.nextAction.text).toMatch(
         /^Turn Auto Refine off on Redox Salts/,
       );
-      expect(goalOf(s, 'construction.check.build-next')?.nextAction.text).toMatch(/Redox Salts.*3D Printer/);
+      // The KB copy pass (#112) splits it: the step collects the Redox, its why names the 3D Printer.
+      const next = goalOf(s, 'construction.check.build-next')?.nextAction;
+      expect(next?.text).toMatch(/Redox Salts/);
+      expect(next?.why).toMatch(/3D Printer/);
     });
     it('W2-late: F1 and F2 silent', () => {
       const s = load(privateSave('yasser'));
