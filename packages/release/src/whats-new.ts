@@ -24,19 +24,43 @@ export function plainText(text: string): string {
 
 const upperFirst = (s: string): string => s.charAt(0).toUpperCase() + s.slice(1);
 
+/**
+ * Text that fits in MAX_TEXT as a whole sentence, never a cut fragment: the text itself, else its
+ * leading sentences that fit, else `fallback` (the PR title) when it fits, else null.
+ */
+export function wholeSentence(text: string, fallback?: string): string | null {
+  if (text.length <= MAX_TEXT) return text;
+  const sentences = text.match(/[^.!?]+[.!?]+(?=\s|$)/g) ?? [];
+  let fit = '';
+  for (const s of sentences) {
+    const next = `${fit} ${s.trim()}`.trim();
+    if (next.replace(/\.+$/, '').length > MAX_TEXT) break;
+    fit = next;
+  }
+  if (fit) return fit.replace(/\.+$/, '');
+  const fb = fallback === undefined ? '' : plainText(fallback);
+  return fb && fb.length <= MAX_TEXT ? fb : null;
+}
+
 /** One feed entry for a commit, or null when it is skipped. Warnings are pushed to `warnings`. */
 export function entryFor(commit: Commit, warnings: string[], opts: FeedOptions = {}): WhatsNewEntry | null {
   const knowledgePath = opts.knowledgePath ?? 'packages/knowledge/';
   const upstreamPath = opts.upstreamPath ?? 'packages/toolbox-parsers/UPSTREAM';
   const { pr, title } = prOf(commit);
   const base = { id: commit.sha, date: utcDay(commit.date), ...(pr !== undefined ? { pr } : {}) };
-  const finish = (section: WhatsNewSection, raw: string): WhatsNewEntry => {
-    let text = plainText(raw);
-    if (text.length > MAX_TEXT) {
+  const fallback = parseTitle(title);
+  const finish = (section: WhatsNewSection, raw: string): WhatsNewEntry | null => {
+    const text = wholeSentence(plainText(raw), fallback ? upperFirst(fallback.description) : undefined);
+    if (text === null) {
       warnings.push(
-        `What's new text for ${pr ? `PR #${pr}` : commit.sha.slice(0, 7)} is over ${MAX_TEXT} characters; truncated`,
+        `What's new text for ${pr ? `PR #${pr}` : commit.sha.slice(0, 7)} is over ${MAX_TEXT} characters; skipped`,
       );
-      text = `${text.slice(0, MAX_TEXT - 1)}…`;
+      return null;
+    }
+    if (text !== plainText(raw)) {
+      warnings.push(
+        `What's new text for ${pr ? `PR #${pr}` : commit.sha.slice(0, 7)} is over ${MAX_TEXT} characters; shortened to a whole sentence`,
+      );
     }
     return { ...base, section, text };
   };

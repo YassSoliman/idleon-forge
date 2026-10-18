@@ -109,12 +109,31 @@ describe("What's new feed (US-3)", () => {
     expect(whatsNewFeed(commits).feed.entries).toHaveLength(100);
   });
 
-  it('truncates long text to 119 characters plus an ellipsis, with a warning naming the PR', () => {
+  it('never cuts long text mid-sentence: keeps the leading sentences that fit, with a warning', () => {
     const warnings: string[] = [];
-    const e = entryFor(commit('feat: x (#80)', `What's-new: ${'a'.repeat(150)}`), warnings);
-    expect(e?.text).toHaveLength(120);
-    expect(e?.text.endsWith('…')).toBe(true);
+    const first = 'The Timeline shows when each character stops earning.';
+    const e = entryFor(
+      commit('feat: x (#80)', `What's-new: ${first} ${'and more '.repeat(12)}too.`),
+      warnings,
+    );
+    expect(e?.text).toBe(first.replace(/\.$/, ''));
     expect(warnings[0]).toContain('PR #80');
+  });
+
+  it('falls back to the PR title when one long sentence does not fit, and skips when nothing fits', () => {
+    const w: string[] = [];
+    const long = `What's-new: ${'a '.repeat(80)}`;
+    expect(entryFor(commit('feat: a short title (#82)', long), w)?.text).toBe('A short title');
+    expect(entryFor(commit(`feat: ${'b'.repeat(130)} (#83)`, long), w)).toBeNull();
+    expect(w.at(-1)).toContain('PR #83');
+  });
+
+  it("joins a What's-new value that wraps onto the next lines", () => {
+    const body =
+      "Summary\n\nWhat's-new: A Timeline place shows when each character and the account\nstop earning before you're back, fixes one tap away.\n\nMore notes";
+    expect(one(commit('feat(M17): Timeline (#106)', body))?.text).toBe(
+      "A Timeline place shows when each character and the account stop earning before you're back, fixes one tap away",
+    );
   });
 
   it('strips Markdown and the trailing period', () => {
@@ -142,6 +161,19 @@ describe("What's new feed (US-3)", () => {
       text: 'Faster sync',
     });
     expect(parseWhatsNewLine("What's-new:\n")).toBeNull();
+  });
+
+  it('joins wrapped lines up to a blank line or the next trailer, CRLF tolerated', () => {
+    expect(parseWhatsNewLine("What's-new: Faster\r\nsync\r\nCloses: #12\r\nlater")).toEqual({
+      kind: 'text',
+      text: 'Faster sync',
+    });
+    expect(parseWhatsNewLine("What's-new: Faster\nsync\n\nlater")).toEqual({
+      kind: 'text',
+      text: 'Faster sync',
+    });
+    expect(parseWhatsNewLine("What's-new: Faster\n- a list item")).toEqual({ kind: 'text', text: 'Faster' });
+    expect(parseWhatsNewLine("What's-new: none\n(spec only)")).toEqual({ kind: 'none' });
   });
 
   it('treats "none" with a note as none, but not a word that starts with none', () => {
