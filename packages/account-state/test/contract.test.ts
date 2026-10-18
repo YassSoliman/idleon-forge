@@ -4,7 +4,13 @@
 // the current parser pin. After `pnpm sync-parsers`, a failure here means upstream changed a field we
 // read; the snapshot diff shows what moved.
 import { describe, expect, it } from 'vitest';
-import { type AccountState, type CardLoadout, type ObolSlot, type PresetTalents, SCHEMA_VERSION } from '../src';
+import {
+  type AccountState,
+  type CardLoadout,
+  type ObolSlot,
+  type PresetTalents,
+  SCHEMA_VERSION,
+} from '../src';
 import { accountStateOf, listJson, NOW, PRIVATE_DIR, PUBLIC_DIR, readSave } from './helpers';
 
 const publicSaves = listJson(PUBLIC_DIR);

@@ -161,10 +161,7 @@ export interface GateQuestProgress {
   inProgressBy: number[];
 }
 
-export interface AccountSummary
-  extends UnspentAccountFields,
-    TalentAccountFields,
-    CollectionsAccountFields {
+export interface AccountSummary extends UnspentAccountFields, TalentAccountFields, CollectionsAccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;
   /** Worlds whose exit has been used (a character met the gatekeeper past it), ascending. */
