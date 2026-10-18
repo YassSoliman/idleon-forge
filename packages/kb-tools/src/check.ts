@@ -82,7 +82,8 @@ function referencesOf(e: Entry): { where: (string | number)[]; id: string; role:
       for (const [j, r] of m.requires.entries())
         if (typeof r === 'string')
           out.push({ where: ['methods', i, 'requires', j], id: r, role: 'requires' });
-        else if ('ref' in r) out.push({ where: ['methods', i, 'requires', j, 'ref'], id: r.ref, role: 'requires' });
+        else if ('ref' in r)
+          out.push({ where: ['methods', i, 'requires', j, 'ref'], id: r.ref, role: 'requires' });
   // M14 FR-1: a Goal or Check names its Walkthrough's target Acquisition.
   if ((e.type === 'goal' || e.type === 'check') && e.walkthrough)
     out.push({ where: ['walkthrough'], id: e.walkthrough, role: 'walkthrough' });

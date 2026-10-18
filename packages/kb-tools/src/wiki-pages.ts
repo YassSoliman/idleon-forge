@@ -24,7 +24,8 @@ function titles(): string[] {
   const items = read('items.json') as Record<string, { displayName?: string }>;
   const monsters = read('monsters.json') as Record<string, { Name?: string }>;
   const out = new Set<string>();
-  for (const i of Object.values(items)) if (i.displayName && i.displayName !== 'ERROR') out.add(wikiTitle(i.displayName));
+  for (const i of Object.values(items))
+    if (i.displayName && i.displayName !== 'ERROR') out.add(wikiTitle(i.displayName));
   for (const m of Object.values(monsters)) if (m.Name) out.add(wikiTitle(m.Name));
   return [...out].filter((t) => t.length > 1 && !/[#<>[\]|{}]/.test(t)).sort();
 }
