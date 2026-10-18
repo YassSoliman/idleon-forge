@@ -133,6 +133,52 @@ export interface Goal {
   details?: GoalDetail[];
   /** M14 FR-23: the Goal's Walkthrough, attached by the engine core from the walkthrough module. */
   walkthrough?: WalkthroughView;
+  /** M17 TR-2: M6's ranking urgency, copied by the core from the module's RankHints; absent otherwise. */
+  urgency?: 'losing-now' | 'lost-before-return' | 'banked';
+}
+
+/** M17 TR-2: one System of the M11 registry with its unlock state and coverage, built in the worker. */
+export interface SystemSummary {
+  /** Registry id (M11 SystemId), e.g. "alchemy-bubbles". */
+  id: string;
+  name: string;
+  kind: 'game' | 'activeon';
+  /** Registry world; 0 = across worlds. */
+  world: number;
+  scope: 'character' | 'account' | 'both';
+  /** M11 systemUnlocked, worker side. */
+  unlocked: 'yes' | 'no' | 'unknown';
+  /** What decides `unlocked`: 'world' for worlds/reached rows, 'own' for a System-specific Detector, 'always'. */
+  unlockBy: 'world' | 'own' | 'always';
+  /** M11 coveredSystems. */
+  covered: boolean;
+  /** The `systems.fact.unlocks` row (FR-34); null for always-open Systems. */
+  unlock: { text: string; world: number; stale: boolean; sources: SourceRef[] } | null;
+  /** The System's IdleOn Wiki page, from the unlock fact's Sources; https only. */
+  wiki: string | null;
+  /** The System's active authored Checks that ran this run (FR-23 Coverage). */
+  checks: { entryId: string; title: string; fired: boolean }[];
+}
+
+/** M17 TR-2: one Stage Expectation row that is behind (M15 FR-26) and safe to follow (FR-31). */
+export interface BehindSystem {
+  /** The fix entry's system (entry-id prefix), not the row's display name. */
+  systemId: string;
+  /** StageExpectation id. */
+  rowId: string;
+  fixEntryId: string;
+  /** NextAction keys of the fix findings, so skips and dismissals apply (FR-17). */
+  findingKeys: string[];
+  /** True for the one row M15 FR-27 chose for the Behind Goal this run. */
+  chosen: boolean;
+}
+
+/** M17 TR-2: a Check that couldn't tell for a reason other than missing history. */
+export interface UnknownFinding {
+  entryId: string;
+  subject: Subject;
+  /** M11 UnknownReason, or 'detector-failed'; 'needs-history' is never emitted here. */
+  reason: string;
 }
 export interface PurposeLine {
   goalId: string;
@@ -386,4 +432,10 @@ export interface EngineResult {
    * grind list per character, plus the account overview. Absent when M8's cards-view module didn't run or lacks its tables.
    */
   cards?: CardsView | null;
+  /** M17 TR-2: every registry System in registry order; absent without a Knowledge Base. */
+  systems?: SystemSummary[];
+  /** M17 TR-2: every behind Stage Expectation row after M15's filters; absent without M15 F5. */
+  behindSystems?: BehindSystem[];
+  /** M17 TR-2: Checks that returned `unknown` (not for missing history) or whose Detector failed. */
+  unknownFindings?: UnknownFinding[];
 }

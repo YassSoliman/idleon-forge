@@ -181,7 +181,7 @@ export function milestoneText(m: Goal['milestone']): string | null {
   return `${compact(m.current)} ${m.unit} · next ${compact(m.next)}${eta}`;
 }
 
-function goalView(g: Goal): GoalView {
+export function goalView(g: Goal): GoalView {
   const blocker = g.category === 'blocker';
   return {
     id: g.id,

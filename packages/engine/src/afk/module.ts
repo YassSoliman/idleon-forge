@@ -87,6 +87,7 @@ export function toModuleOutput(
     },
     alreadyFull: result.alreadyFull,
     firstFill: result.firstFill,
+    unknownFindings: result.unknowns ?? [],
   };
 }
 

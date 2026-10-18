@@ -14,6 +14,7 @@ import '@fontsource/jetbrains-mono/600.css';
 import './styles/tokens.css';
 import './styles/app.css';
 import './styles/now.css';
+import './styles/views.css';
 
 const root = document.getElementById('root');
 if (!root) throw new Error('#root is missing from index.html');

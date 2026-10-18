@@ -82,5 +82,9 @@ export function rankGoals(goals: readonly TaggedGoal[], list: ResolvedPriorityLi
     const kb = b.g.goal.nextAction.key;
     return ka < kb ? -1 : ka > kb ? 1 : 0;
   });
-  return applyContestedRule(dedupe(keyed.map((k) => k.g))).map((g) => g.goal);
+  return applyContestedRule(dedupe(keyed.map((k) => k.g))).map(withUrgency);
 }
+
+/** M17 TR-2: the module's ranking urgency rides on the Goal, for the Systems hub's "wasting". */
+const withUrgency = ({ goal, rank }: TaggedGoal): Goal =>
+  rank?.urgency ? { ...goal, urgency: rank.urgency } : goal;

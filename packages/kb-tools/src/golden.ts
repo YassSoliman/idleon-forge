@@ -44,6 +44,8 @@ export interface GoldenEngine {
   stage(input: GoldenInput): string | null;
   /** M10's renderNowText(buildNowView(engine(fixture), emptyPrefs, { focus: null })) (M10 TR-15). */
   renderNow(input: GoldenInput): string;
+  /** M17 TR-10: the Systems hub as text; the `## Systems` section is left out without it. */
+  renderSystems?(input: GoldenInput): string;
 }
 
 export interface GoldenInput {
@@ -188,6 +190,7 @@ export function renderGolden(
     '## Not covered yet',
     notCovered.length ? notCovered.join('\n') : '(none)',
     '',
+    ...(engine.renderSystems ? ['## Systems', engine.renderSystems(input).trimEnd(), ''] : []),
     '## Findings',
     '| entry | detector | subject | result | slots |',
     '|---|---|---|---|---|',

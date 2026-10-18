@@ -156,21 +156,24 @@ describe('Cards tab', () => {
     expect(parseTabHash('#cards')).toBeNull();
   });
 
-  it('the Roster lists every character in the Cards overview, with a Cards chip per row', () => {
+  it('Characters lists every character in the Cards overview; each Roster row keeps a Cards chip', () => {
     const r = withCards();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    expect(screen.getByRole('link', { name: 'Cedar: cards' })).toBeTruthy();
+    // M17 D-7: one "Builds and cards → Characters" link replaces "Builds ↓" and "Cards ↓".
+    expect(screen.queryByRole('link', { name: 'Cards ↓' })).toBeNull();
+    fireEvent.click(screen.getByRole('link', { name: 'Builds and cards → Characters' }));
     const overview = screen.getByRole('region', { name: 'Cards' });
     const links = within(overview)
       .getAllByRole('link')
       .filter((a) => a.classList.contains('bo-row'));
     expect(links.map((a) => a.getAttribute('href'))).toEqual(['#cards-2', '#cards-1']);
     expect(links[0]?.textContent).toContain('next grind: Frost Flake card (about 1.2 h)');
-    expect(screen.getByRole('link', { name: 'Cedar: cards' })).toBeTruthy();
-    expect(screen.getByRole('link', { name: 'Cards ↓' }).getAttribute('href')).toBe('#cards');
   });
 
   it('R5 QA P2-2: the Cards overview is one folded row with a count', () => {
     const r = withCards();
+    window.history.replaceState(null, '', '/#characters');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const overview = screen.getByRole('region', { name: 'Cards' });
     expect(overview.querySelector('details')?.open).toBe(false);
@@ -197,11 +200,28 @@ describe('Cards tab', () => {
     await noAxeViolations(container);
   });
 
-  it("a card Goal on the Now list links to the character's Cards tab", () => {
-    const r = withCards();
+  it("a card Goal on the Now list sees its character's Cards tab (M17 FR-31, FR-23a)", () => {
+    const r: EngineResult = {
+      ...withCards(),
+      systems: [
+        {
+          id: 'cards',
+          name: 'Cards',
+          kind: 'game',
+          world: 0,
+          scope: 'both',
+          unlocked: 'yes',
+          unlockBy: 'always',
+          covered: true,
+          unlock: null,
+          wiki: null,
+          checks: [],
+        },
+      ],
+    };
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     fireEvent.click(screen.getByRole('button', { name: /Cedar/ }));
-    const links = screen.getAllByRole('link', { name: 'See card presets and what to grind →' });
+    const links = screen.getAllByRole('link', { name: 'See it: Cards' });
     expect(links[0]?.getAttribute('href')).toBe('#cards-2');
     fireEvent.click(links[0] as HTMLElement);
     expect(window.location.hash).toBe('#cards-2');
@@ -209,6 +229,7 @@ describe('Cards tab', () => {
 
   it('a result without the Cards view shows no overview and no Cards chip', () => {
     const r = fixture('mid-session');
+    window.history.replaceState(null, '', '/#characters');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     expect(screen.queryByRole('region', { name: 'Cards' })).toBeNull();
     expect(screen.queryByRole('link', { name: /: cards$/ })).toBeNull();

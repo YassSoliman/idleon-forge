@@ -15,11 +15,14 @@ import {
   FACT_ID_RE,
   type FactTableT,
   FORMAT_TYPE,
+  isAdviceShaped,
   isPlayerSource,
   parseTemplate,
   STAGES,
   type StageId,
+  SystemUnlockRows,
   stagesBetween,
+  systemKind,
   TemplateError,
 } from '@idleon-forge/knowledge';
 import type { z } from 'zod';
@@ -448,6 +451,8 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
           );
       }
     }
+  // ---- M17 FR-34, TR-8: how each game System opens ----
+  for (const issue of systemUnlockIssues(src, facts)) err(issue.file, issue.line, issue.id, issue.message);
   for (const [id, n] of pending)
     warn(
       'packages/knowledge/generated',
@@ -651,4 +656,70 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
 }
 
 export const isEntryId = (s: string) => ENTRY_ID_RE.test(s);
+
+type UnlockIssue = { file: string; line: number; id: string | undefined; message: string };
+
+/** M17 FR-34, TR-8: every game System that isn't always open names a resolving unlock fact row. */
+export function systemUnlockIssues(
+  src: KbSource,
+  facts: ReadonlyMap<string, Located<FactTableT>>,
+): UnlockIssue[] {
+  const out: UnlockIssue[] = [];
+  const rowsOf = new Map<string, Set<string>>();
+  const tableRows = (id: string): Set<string> => {
+    const cached = rowsOf.get(id);
+    if (cached) return cached;
+    const t = facts.get(id);
+    const seen = new Set<string>();
+    rowsOf.set(id, seen);
+    if (!t) return seen;
+    const parsed = SystemUnlockRows.safeParse(t.value.rows);
+    if (!parsed.success) {
+      const issue = parsed.error.issues[0];
+      out.push({
+        file: t.file,
+        line: t.lineOf(['rows', ...(issue?.path ?? []).map((p) => (typeof p === 'number' ? p : String(p)))]),
+        id,
+        message: `unlock row ${issue?.path.join('.')}: ${issue?.message}`,
+      });
+      return seen;
+    }
+    parsed.data.forEach((row, i) => {
+      const line = t.lineOf(['rows', i]);
+      const fail = (message: string) => out.push({ file: t.file, line, id, message });
+      if (seen.has(row.system)) fail(`two unlock rows for ${row.system}`);
+      seen.add(row.system);
+      if (isAdviceShaped(row.text.replace(/^(Opens|Needs)\b/, '')))
+        fail(`unlock row ${row.system}: condition form only, no advice words (M17 TR-9)`);
+      if (!row.sources.some((x) => x.tier >= 2 && !/github\.com/.test(x.url)))
+        fail(`unlock row ${row.system} has no player-readable Source (#74)`);
+      if (!row.sources.some((x) => /^https:\/\/idleon\.wiki\/wiki\//.test(x.url)))
+        fail(`unlock row ${row.system} has no IdleOn Wiki Source (FR-34)`);
+      if (row.level) {
+        const lf = facts.get(row.level.fact)?.value.rows as Record<string, unknown> | undefined;
+        if (typeof lf?.[row.level.key] !== 'number')
+          fail(`unlock row ${row.system}: ${row.level.fact} has no number for ${row.level.key}`);
+        if (!row.text.includes('{level}')) fail(`unlock row ${row.system}: text needs {level}`);
+      } else if (row.text.includes('{level}')) fail(`unlock row ${row.system}: {level} without level`);
+    });
+    return seen;
+  };
+  for (const s of src.systems) {
+    const v = s.value;
+    const at = (key: string, message: string) =>
+      out.push({ file: s.file, line: s.lineOf([key]), id: v.id, message });
+    if (systemKind(v) === 'activeon') {
+      if (v.unlockFact) at('unlockFact', 'an activeon System has no unlockFact (M17 TR-8)');
+      continue;
+    }
+    if (!v.unlockFact) {
+      if (v.unlocked !== 'always')
+        at('unlocked', 'a game System that is not always open needs an unlockFact (M17 FR-34)');
+      continue;
+    }
+    if (!facts.has(v.unlockFact)) at('unlockFact', `unlockFact ${v.unlockFact} is missing`);
+    else if (!tableRows(v.unlockFact).has(v.id)) at('unlockFact', `${v.unlockFact} has no row for ${v.id}`);
+  }
+  return out;
+}
 export type { DetectorRegistry };

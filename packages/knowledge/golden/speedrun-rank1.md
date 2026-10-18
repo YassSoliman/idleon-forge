@@ -1,4 +1,4 @@
-# golden v1: speedrun-rank1 · knowledge #e96480ed · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 338
+# golden v1: speedrun-rank1 · knowledge #97520dda · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 338
 
 ## Verdict changes
 
@@ -66,6 +66,58 @@ Shrines
 Breeding
 Cooking
 Laboratory
+
+## Systems
+W0 · Classes and subclasses · Not covered yet · Not covered yet
+W0 · Talents · Nothing to fix · Nothing to fix
+W0 · Talent presets · Nothing to fix · Nothing to fix
+W0 · Talent resets · Nothing to fix · Nothing to fix
+W0 · Upgrade Vault · Not covered yet · Not covered yet
+W0 · Gem Shop · Nothing to fix · Nothing to fix
+W0 · Merit Shop · Nothing to fix · Nothing to fix
+W0 · Tasks · Nothing to fix · Nothing to fix
+W0 · Companions and pets · Wasting · 1 to fix before you leave
+W0 · Minigames · Wasting · 3 to fix before you leave · 2 to do
+W0 · Cards · Nothing to fix · Nothing to fix
+W0 · Obols · Nothing to fix · Nothing to fix
+W0 · Portals and map doors · Not covered yet · Not covered yet
+W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
+W1 · Anvil · Nothing to fix · Nothing to fix · 1 to do · 11 full · collect
+W1 · Forge · Not covered yet · Not covered yet
+W1 · Bribes · Not covered yet · Not covered yet
+W1 · Statues · Not covered yet · Not covered yet
+W1 · Post Office · Nothing to fix · Nothing to fix · 2 to do
+W1 · The Owl · Not covered yet · Not covered yet
+W1 · Quests · Not covered yet · Not covered yet
+W1 · Boss keys · Nothing to fix · Nothing to fix
+W1 · Colosseum · Nothing to fix · Nothing to fix
+W1 · Poppy · Nothing to fix · Nothing to fix · 1 to do
+W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix
+W2 · Alchemy bubbles · Nothing to fix · Nothing to fix · 1 to do
+W2 · Alchemy vials · Nothing to fix · Nothing to fix
+W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet
+W2 · Arcade · Nothing to fix · Nothing to fix
+W2 · Islands · Not covered yet · Not covered yet
+W3 · Refinery · Wasting · 1 to fix before you leave · 1 to do
+W3 · Construction · Nothing to fix · Nothing to fix
+W3 · Talent Book Library · Nothing to fix · Nothing to fix
+W3 · 3D Printer · Nothing to fix · Nothing to fix
+W3 · Worship · Nothing to fix · Nothing to fix · 9 full · collect
+W3 · Trapping · Wasting · 10 to fix before you leave
+W3 · Death Note · Nothing to fix · Nothing to fix
+W3 · Salt Lick · Not covered yet · Not covered yet
+W3 · Prayers · Not covered yet · Not covered yet
+W3 · Shrines · Not covered yet · Not covered yet
+W3 · Equinox · Not covered yet · Not covered yet
+W3 · Atom Collider · Not covered yet · Not covered yet
+W4 · Laboratory · Not covered yet · Not covered yet
+W4 · Cooking · Not covered yet · Not covered yet
+W4 · Breeding · Not covered yet · Not covered yet
+Worlds 5–7: not covered yet
+Needs you: Companions and pets (wasting), Minigames (wasting), Refinery (wasting), Trapping (wasting)
+Other gaps: Talent builds past World 4
+Wasting: 4
 
 ## Findings
 | entry | detector | subject | result | slots |

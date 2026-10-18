@@ -10,6 +10,7 @@ export {
   DEFAULT_UI,
   displayOrder,
   EXPECTED_RETURN_CHIPS,
+  goalView,
   milestoneText,
   NOT_COVERED_BANNER,
   type NowUi,
@@ -37,4 +38,8 @@ export {
   skipExpiresAt,
 } from './prefs';
 export { type RenderTextOptions, renderNowText } from './render-text';
+export { renderSystemsText } from './render-views-text';
+export { SYSTEM_HOMES, type SystemHome, tabHomeOf } from './system-homes';
+export { buildSystemPageView, buildSystemsView, type SystemsUi, seeItSystem } from './systems-view';
 export type * from './view';
+export * from './view-words';

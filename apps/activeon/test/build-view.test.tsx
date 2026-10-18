@@ -132,19 +132,24 @@ describe('character tabs registry', () => {
     expect(parseTabHash('#now-3')).toBeNull();
     expect(parseTabHash('#builds')).toBeNull();
     expect(parseTabHash('#nope-1')).toBeNull();
-    expect(tabHref('build', 4)).toBe('?c=4#build-4');
+    // M17 FR-7, D-2: bare anchors only; `?c=` is retired.
+    expect(tabHref('build', 4)).toBe('#build-4');
+    expect(tabHref('now', 4)).toBe('#now-4');
   });
 });
 
 describe('Build view', () => {
-  it('the Roster lists every Build with its one-line status, and each row has a Build chip', () => {
+  it('Characters lists every Build with its one-line status; each Roster row keeps a Build chip (M17 D-7)', () => {
     const r = withBuilds();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    expect(screen.queryByRole('region', { name: 'Builds' })).toBeNull();
+    expect(screen.getByRole('link', { name: 'Birch: build' })).toBeTruthy();
+    fireEvent.click(screen.getByRole('link', { name: 'Builds and cards → Characters' }));
+    expect(window.location.hash).toBe('#characters');
     const overview = screen.getByRole('region', { name: 'Builds' });
     const links = within(overview).getAllByRole('link');
     expect(links.map((a) => a.getAttribute('href'))).toEqual(['#build-1', '#build-2']);
     expect(links[0]?.textContent).toContain('118+ unspent on the skilling preset · next: Book of the Wise');
-    expect(screen.getByRole('link', { name: 'Birch: build' })).toBeTruthy();
   });
 
   it('the Build chip opens the character page on its Build tab, with the deep link', async () => {
@@ -182,7 +187,7 @@ describe('Build view', () => {
     expect(screen.queryByRole('tablist', { name: 'Talent presets' })).toBeNull();
     const nav = screen.getByRole('navigation', { name: 'Character page' });
     fireEvent.click(within(nav).getByRole('link', { name: 'Now' }));
-    expect(window.location.hash).toBe('');
+    expect(window.location.hash).toBe('#now-2');
     expect(screen.queryByText('No build yet for this class')).toBeNull();
   });
 
@@ -197,6 +202,7 @@ describe('Build view', () => {
         status: 'Builds cover World 1 to World 4 for now',
       })),
     };
+    window.history.replaceState(null, '', '/#characters');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const overview = screen.getByRole('region', { name: 'Builds' });
     expect(within(overview).queryAllByRole('link')).toHaveLength(0);
@@ -205,25 +211,26 @@ describe('Build view', () => {
     );
   });
 
-  it('R5 QA P2-2: the overview is one folded row, below the Account, that opens from "Builds ↓"', () => {
+  it('R5 QA P2-2: the overview is one folded row in Characters, and #builds opens it there (M17 FR-7)', () => {
     const r = withBuilds();
+    window.history.replaceState(null, '', '/#characters');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const overview = screen.getByRole('region', { name: 'Builds' });
     const fold = overview.querySelector('details');
     expect(fold?.open).toBe(false);
     expect(overview.querySelector('summary')?.textContent).toBe('Builds1 with unspent points›');
-    // "Fix before you leave" in the Account is never below an optional overview.
-    const account = screen.getByRole('region', { name: 'Account · any character' });
-    expect(account.compareDocumentPosition(overview) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    // The Account is on Now, never under the optional overviews.
+    expect(screen.queryByRole('region', { name: 'Account · any character' })).toBeNull();
     act(() => {
       window.history.replaceState(null, '', '/#builds');
       window.dispatchEvent(new HashChangeEvent('hashchange'));
     });
-    expect(overview.querySelector('details')?.open).toBe(true);
+    expect(screen.getByRole('region', { name: 'Builds' }).querySelector('details')?.open).toBe(true);
   });
 
   it('a result without Builds shows no overview and no Build chip', () => {
     const r = fixture('mid-session');
+    window.history.replaceState(null, '', '/#characters');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     expect(screen.queryByRole('region', { name: 'Builds' })).toBeNull();
     expect(screen.queryByRole('link', { name: /: build$/ })).toBeNull();

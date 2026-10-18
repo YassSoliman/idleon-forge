@@ -4,7 +4,7 @@
 // no advice of its own (M10 §2): every Verdict, Goal and option comes from a module; the core merges,
 // ranks (M2's `compareGoals`), dedupes, orders the visit and assembles `EngineResult` (TR-2).
 import type { AccountState } from '@idleon-forge/account-state';
-import type { CompiledKnowledge } from '@idleon-forge/knowledge';
+import type { CompiledKnowledge, DetectorRegistry } from '@idleon-forge/knowledge';
 import type { Rankable, ResolvedPriorityList, VisitHint } from '../metapath/types';
 import type {
   ActivePlay,
@@ -18,6 +18,7 @@ import type {
   NotCoveredItem,
   PurposeLine,
   SpendPlan,
+  UnknownFinding,
   Verdict,
   WalkthroughView,
 } from '../result';
@@ -49,6 +50,8 @@ export interface KnowledgePort {
   coverage(state: AccountState): NotCoveredItem[];
   /** The compiled bundle, for modules that read entries and fact tables. null when it didn't load. */
   kb?: CompiledKnowledge | null;
+  /** M17 TR-2: the Detector registries System unlocks are evaluated with (M11 `systemUnlocked`). */
+  registries?: readonly DetectorRegistry[];
 }
 
 export interface EngineInput {
@@ -120,6 +123,8 @@ export interface ModuleOutput {
   builds?: BuildRoadmap[];
   /** M8 `cards-view` only: the Cards view (EngineResult.cards). */
   cards?: EngineResult['cards'];
+  /** M17 TR-2: Checks that couldn't tell (not for missing history), or whose Detector failed. */
+  unknownFindings?: UnknownFinding[];
 }
 
 /** An advice module, registered with the core. */

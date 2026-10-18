@@ -3,12 +3,15 @@
 // The shared pieces of a Next Action (M10 TR-4): Source label with its Stale and Contested marks, the
 // controls (Skip today, Not for me, Report this), and the Goal list with "show more" and undo.
 // All text is React text: no dangerouslySetInnerHTML anywhere (TR-13).
-import type {
-  CapPillView,
-  ControlsView,
-  GoalView,
-  NextActionView,
-  SourceView,
+import {
+  type CapPillView,
+  type ControlsView,
+  type GoalView,
+  LINK_WORDS,
+  type NextActionView,
+  type SourceView,
+  seeItSystem,
+  tabHomeOf,
 } from '@idleon-forge/engine/now';
 import { useId, useState } from 'react';
 import { type ReportOutput, useNowActions } from './context';
@@ -199,8 +202,10 @@ export function NextActionItem({
   walkthrough?: GoalView['walkthrough'];
   first?: boolean;
 }) {
+  const { highlight } = useNowActions();
+  const lit = highlight === action.key;
   return (
-    <div className={`na${first ? ' first' : ''}`}>
+    <div className={`na${first ? ' first' : ''}${lit ? ' lit' : ''}`} data-na-key={action.key}>
       <span className="tag">{action.tag}</span>
       <p className="na-text">{action.text}</p>
       {milestone ? <p className="small muted">{milestone}</p> : null}
@@ -227,49 +232,39 @@ export function NextActionItem({
   );
 }
 
-/** The Systems whose Goals come from M9 Builds: each links to the character's Build tab. */
-const BUILD_SYSTEMS = new Set(['talents', 'talent-presets', 'talent-resets']);
-
-function BuildLink({ goal, subject }: { goal: GoalView; subject: string }) {
-  const actions = useNowActions();
-  const m = /^c(\d+)$/.exec(subject);
-  if (!m || !BUILD_SYSTEMS.has(goal.system)) return null;
-  const index = Number(m[1]);
-  return (
-    <a
-      className="small build-link"
-      href={`#build-${index}`}
-      onClick={(e) => {
-        e.preventDefault();
-        actions.openTab(index, 'build');
-      }}
-    >
-      See the full build →
-    </a>
-  );
-}
-
 /**
- * M8 Cards view: a card Goal links to the character's Cards tab; an account card Goal links to the
- * Cards overview (on the Roster), or, from a character page, to its first character's Cards tab.
+ * M17 FR-31: "See it: <System>", one quiet link under a Next Action on Now, to its System's home
+ * (FR-23a): a character's Build or Cards tab, or the System page with this Next Action outlined. The
+ * Behind Goal links to its chosen row's System; ActiveOn's own concepts (Spend Plan, Meta Path) get none.
  */
-function CardsLink({ goal, subject }: { goal: GoalView; subject: string }) {
+export function SeeItLink({
+  goal,
+  subject,
+}: {
+  goal: Pick<GoalView, 'id' | 'system' | 'action'>;
+  subject: string;
+}) {
   const actions = useNowActions();
-  if (goal.system !== 'cards') return null;
-  const m = /^c(\d+)$/.exec(subject) ?? /^c(\d+)$/.exec(goal.details[0]?.key.split('#')[1] ?? '');
-  const index = m ? Number(m[1]) : null;
+  const result = actions.result;
+  if (!result || !actions.navigate) return null;
+  const id = seeItSystem(goal, result);
+  if (!id) return null;
+  const name = result.systems?.find((s) => s.id === id)?.name ?? id;
+  const tab = tabHomeOf(id);
+  const m = /^c(\d+)$/.exec(subject);
+  const index = tab && m ? Number(m[1]) : null;
+  const href = index !== null && tab ? `#${tab}-${index}` : `#system-${id}`;
   return (
     <a
-      className="small build-link"
-      href={subject === 'account' ? '#cards' : `#cards-${index}`}
+      className="small build-link see-it"
+      href={href}
       onClick={(e) => {
-        const overview = subject === 'account' ? document.getElementById('cards') : null;
-        if (overview) return; // a plain in-page anchor to the overview
         e.preventDefault();
-        if (index !== null) actions.openTab(index, 'cards');
+        if (index !== null && tab) actions.openTab(index, tab);
+        else actions.navigate?.({ place: 'system', id }, { highlight: goal.action.key });
       }}
     >
-      See card presets and what to grind →
+      {LINK_WORDS.seeIt(name)}
     </a>
   );
 }
@@ -281,6 +276,8 @@ export function GoalList({
   skipped,
   dismissed,
   highlightFirst = false,
+  seeIt = true,
+  who,
 }: {
   goals: GoalView[];
   subject: string;
@@ -289,6 +286,10 @@ export function GoalList({
   skipped: string[];
   dismissed: { key: string; text: string }[];
   highlightFirst?: boolean;
+  /** M17 FR-31: never on the System page itself. */
+  seeIt?: boolean;
+  /** M17 FR-23: who each Goal is for, on a System page. */
+  who?: (g: GoalView, n: number) => string | null;
 }) {
   const actions = useNowActions();
   const expanded = actions.expanded.has(subject);
@@ -297,6 +298,7 @@ export function GoalList({
       <ul className="goals">
         {goals.map((g, n) => (
           <li key={g.action.key}>
+            {who?.(g, n) ? <p className="who small">{who(g, n)}</p> : null}
             <NextActionItem
               action={g.action}
               milestone={g.milestone}
@@ -304,8 +306,7 @@ export function GoalList({
               walkthrough={g.walkthrough}
               first={highlightFirst && n === 0}
             />
-            <BuildLink goal={g} subject={subject} />
-            <CardsLink goal={g} subject={subject} />
+            {seeIt ? <SeeItLink goal={g} subject={subject} /> : null}
           </li>
         ))}
       </ul>

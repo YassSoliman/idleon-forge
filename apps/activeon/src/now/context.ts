@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // What the Now screen's leaf components can do, passed down once instead of through every level.
+import type { EngineResult } from '@idleon-forge/engine/result';
 import { createContext, useContext } from 'react';
+import type { Route } from '../shell/route';
 import type { ReportInput } from './report';
 
 /** What a Report this control knows about its output. */
@@ -26,6 +28,14 @@ export interface NowActions {
   openTab(index: number, tab: string): void;
   toggle(id: string): void;
   expanded: ReadonlySet<string>;
+  /** M17: a player move to another place or page (pushState, keyboard focus to its heading). */
+  navigate?: (to: Route, opts?: { origin?: string; highlight?: string | null }) => void;
+  /** M17 FR-4: the place being shown ('now' on a Character page opened from the Roster). */
+  place?: 'now' | 'characters' | 'systems' | 'timeline';
+  /** The engine result, for "See it" links (M17 FR-31); absent in leaf tests. */
+  result?: EngineResult;
+  /** The NextAction key to outline (M17 FR-31). */
+  highlight?: string | null;
 }
 
 export const NowActionsContext = createContext<NowActions | null>(null);

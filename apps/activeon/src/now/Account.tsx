@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // The Account section (FR-22, FR-23, FR-26), "If you have time" (FR-24) and "Not covered yet".
-import type { NowView } from '@idleon-forge/engine/now';
+import { LINK_WORDS, type NowView } from '@idleon-forge/engine/now';
 import { forwardRef } from 'react';
+import { formatRoute } from '../shell/route';
 import { useNowActions } from './context';
-import { GoalList, NextActionItem, ReportThis, SourceLabel } from './parts';
+import { GoalList, NextActionItem, ReportThis, SeeItLink, SourceLabel } from './parts';
 
 export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(function AccountSection(
   { view },
@@ -60,6 +61,7 @@ export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(functio
                   details={g.details}
                   walkthrough={g.walkthrough}
                 />
+                <SeeItLink goal={g} subject="account" />
               </li>
             ))}
           </ul>
@@ -183,10 +185,29 @@ export function IfYouHaveTime({ view }: { view: NowView }) {
 }
 
 export function NotCoveredYet({ view }: { view: NowView }) {
+  const actions = useNowActions();
   if (view.notCovered.length === 0) return null;
   return (
     <details className="not-covered small">
-      <summary>Not covered yet: {view.notCovered.join(', ')}</summary>
+      <summary>
+        Not covered yet: {view.notCovered.join(', ')}
+        {actions.navigate ? (
+          <>
+            {' '}
+            <a
+              href={formatRoute({ place: 'systems' })}
+              className="to-systems"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                actions.navigate?.({ place: 'systems' });
+              }}
+            >
+              {LINK_WORDS.toSystems}
+            </a>
+          </>
+        ) : null}
+      </summary>
       <p>ActiveOn has no advice for these yet, so you're on your own there.</p>
       <ul>
         {view.notCovered.map((n) => (

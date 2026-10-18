@@ -10,7 +10,7 @@
 // re-assembles, including Visit Order.
 
 import { STAGES, type StageId } from '@idleon-forge/knowledge';
-import { behindStep } from '../metapath/behind';
+import { behindAnalysis } from '../metapath/behind';
 import { lookupOf } from '../metapath/knowledge';
 import { metaPathModule } from '../metapath/module';
 import { EMPTY_PRIORITY_LIST } from '../metapath/priority';
@@ -26,6 +26,7 @@ import type {
 import { activityLabel, classLabel, mapLabel } from './labels';
 import type { EngineHistory, EngineInput, EngineModule, ModuleOutput } from './module';
 import { rankGoals, type TaggedGoal } from './rank';
+import { systemSummaries } from './systems';
 import { visitOrder } from './visit-order';
 
 /** The System M3 covers; listed under "Not covered yet" until a module covers AFK safety. */
@@ -204,9 +205,9 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
   // findings move into one Behind Goal in the Account section (FR-29, D-6). Not on an account past the
   // covered Stages (M2 `frameOnly`, P2): the table is calibrated for W1 to W4.
   const kb = knowledge.kb;
-  const behind =
+  const analysis =
     kb && STAGES_KNOWN.has(stage.id) && !list.frameOnly
-      ? behindStep({
+      ? behindAnalysis({
           kb: lookupOf(kb),
           stage: stage.id as StageId,
           list,
@@ -222,6 +223,7 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
           unknownEntries: new Set(failures.flatMap((f) => f.entryIds)),
         })
       : null;
+  const behind = analysis?.result ?? null;
   const kept = (gs: readonly TaggedGoal[]) => (behind ? gs.filter((g) => !behind.moved.has(g)) : [...gs]);
   for (const c of characters) c.goals = rankGoals(kept(taggedOf.get(c.index) ?? []), list);
   const accountGoals = rankGoals([...kept(accountTagged), ...(behind ? [behind.goal] : [])], list);
@@ -255,7 +257,16 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
     accountGoals.splice(0, accountGoals.length, ...attach(accountGoals));
   }
 
-  return {
+  // M17 TR-2: Checks that couldn't tell, for the hub's "Can't tell" (subjects of absent characters drop).
+  const present = new Set(characters.map((c) => `c${c.index}`));
+  const unknownFindings = outputs
+    .flatMap(({ output }) => output.unknownFindings ?? [])
+    .filter((u) => u.subject === 'account' || present.has(u.subject))
+    .sort((a, b) =>
+      a.entryId < b.entryId ? -1 : a.entryId > b.entryId ? 1 : a.subject < b.subject ? -1 : 1,
+    );
+
+  const result: EngineResult = {
     asOf: state.asOf,
     lastPlayedCharacterIndex: lastPlayed,
     sessionStartedAt: history.sessionStartedAt,
@@ -296,7 +307,13 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
       const cards = outputs.find((o) => o.output.cards)?.output.cards;
       return cards ? { cards } : {};
     })(),
+    ...(analysis ? { behindSystems: analysis.rows } : {}),
+    ...(outputs.some(({ output }) => output.unknownFindings) ? { unknownFindings } : {}),
   };
+  // M17 TR-2: the registry with unlock states, built here in the worker (it runs unlock Detectors).
+  if (kb && knowledge.registries)
+    result.systems = systemSummaries({ state, kb, registries: knowledge.registries, now: input.now }, result);
+  return result;
 }
 
 /** M9's Build roadmaps ride through untouched (the Build view); absent when no module emits them. */

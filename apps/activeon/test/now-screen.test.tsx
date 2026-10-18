@@ -8,8 +8,8 @@ import { act, cleanup, fireEvent, render, screen, within } from '@testing-librar
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CantRead } from '../src/components/CantRead';
-import { NowScreen as NowScreenWith } from '../src/now/NowScreen';
 import { SourceLabel } from '../src/now/parts';
+import { Shell as NowScreenWith } from '../src/shell/Shell';
 import { fixture, props, renderNow, saveOf } from './now-helpers';
 
 beforeEach(() => {
@@ -50,7 +50,7 @@ describe('Focus: opening, Back and keyboard focus (FR-6, FR-13, TR-5, TR-14)', (
     fireEvent.click(screen.getAllByRole('button').find((b) => b.dataset.index === '2') as HTMLElement);
     const h = screen.getByRole('heading', { level: 2, name: 'Cedar' });
     expect(document.activeElement).toBe(h);
-    expect(window.location.search).toBe('?c=2');
+    expect(window.location.hash).toBe('#now-2');
     expect(window.history.length).toBe(before + 1);
     fireEvent.click(screen.getByRole('button', { name: '← All characters' }));
     expect(document.activeElement?.getAttribute('data-index')).toBe('2');
@@ -350,7 +350,7 @@ describe('FR-34 tab title', () => {
     act(() => {
       window.dispatchEvent(new Event('blur'));
     });
-    expect(document.title).toBe('ActiveOn');
+    expect(document.title).toBe('Now · ActiveOn');
     const more = fixture('mid-session');
     const c1 = more.characters.find((c) => c.index === 1);
     const extra = more.characters.find((c) => c.index === 2)?.goals[0];
@@ -360,11 +360,11 @@ describe('FR-34 tab title', () => {
       { ...extra, nextAction: { ...extra.nextAction, key: 'new@c1', text: 'A new thing' } },
     ];
     view.rerender(<NowScreenRerender r={more} seq={1} kind="first" slot={null} source="paste" />);
-    expect(document.title).toBe('(1) ActiveOn');
+    expect(document.title).toBe('(1) Now · ActiveOn');
     act(() => {
       window.dispatchEvent(new Event('focus'));
     });
-    expect(document.title).toBe('ActiveOn');
+    expect(document.title).toBe('Now · ActiveOn');
   });
 });
 

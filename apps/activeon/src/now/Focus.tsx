@@ -3,11 +3,19 @@
 // Focus (M10 variant C, FR-10 to FR-14): one character's card. The Verdict strip is a nav of plain
 // links (TR-14: Tab only, aria-current on the one in Focus). The <h2> takes keyboard focus only when
 // the player opened the card, never on an auto-follow.
-import type { FocusCard, NowView } from '@idleon-forge/engine/now';
+import { type FocusCard, LINK_WORDS, type NowView } from '@idleon-forge/engine/now';
 import { forwardRef, useEffect, useRef } from 'react';
 import { characterTabs, NOW_TAB, tabById, tabHref } from './character-tabs';
 import { useNowActions } from './context';
-import { ActionControls, CapPills, GoalList, NextActionItem, ReportThis, SourceLabel } from './parts';
+import {
+  ActionControls,
+  CapPills,
+  GoalList,
+  NextActionItem,
+  ReportThis,
+  SeeItLink,
+  SourceLabel,
+} from './parts';
 import { Pill } from './Roster';
 
 export interface FocusProps {
@@ -67,7 +75,7 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
           {card.strip.map((s) => (
             <li key={s.index}>
               <a
-                href={`?c=${s.index}`}
+                href={tabHref(tab, s.index)}
                 className={`strip-item ${s.kind}`}
                 aria-label={s.accessibleName}
                 aria-current={s.current ? 'true' : undefined}
@@ -96,7 +104,7 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
       {card.left ? (
         <p className="left-line small">
           {card.left.text} ·{' '}
-          <a href={`?c=${card.left.index}`} onClick={(e) => go(e, card.left?.index ?? card.index)}>
+          <a href={tabHref(NOW_TAB, card.left.index)} onClick={(e) => go(e, card.left?.index ?? card.index)}>
             ← back
           </a>
         </p>
@@ -191,6 +199,7 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
                 {card.blockers.map((g) => (
                   <li key={g.action.key}>
                     <NextActionItem action={g.action} milestone={g.milestone} />
+                    <SeeItLink goal={g} subject={`c${card.index}`} />
                   </li>
                 ))}
               </ul>
@@ -236,7 +245,7 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
                 {card.higherLeverage.partner ? (
                   <>
                     <a
-                      href={`?c=${card.higherLeverage.partner.index}`}
+                      href={tabHref(NOW_TAB, card.higherLeverage.partner.index)}
                       onClick={(e) => go(e, card.higherLeverage?.partner?.index ?? card.index)}
                     >
                       {card.higherLeverage.partner.name}
@@ -310,7 +319,7 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
           {card.next.text}
         </button>
         <button type="button" className="ghost" onClick={onBack}>
-          ← All characters
+          {actions.place === undefined || actions.place === 'now' ? '← All characters' : LINK_WORDS.back}
         </button>
         {openConfusing ? (
           <button type="button" className="link-btn small" onClick={openConfusing}>

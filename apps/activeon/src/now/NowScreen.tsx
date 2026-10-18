@@ -1,482 +1,46 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// The Now screen (M10): Roster or Focus, the Account section and everything around them, built from
-// one `NowView` (TR-3). This component owns the screen's session state (Focus in the URL, TR-5; the
-// follow state, FR-14; the frozen Visit Order, D6) and the player's preferences (TR-8). It never
-// orders or filters advice itself: `buildNowView` does.
-import type { AccountState } from '@idleon-forge/account-state';
-import { buildNowView, invariantViolations, type NowView, nextLocalMidnight } from '@idleon-forge/engine/now';
-import type { EngineResult } from '@idleon-forge/engine/result';
-import type { SaveKind } from '@idleon-forge/sync';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useSuggestions } from '../suggestions/SuggestionsProvider';
-import { useNow } from '../use-now';
+// The Now place (M10): the Roster, or a Character page (Focus with its tabs), with the Account section,
+// "If you have time" and "Not covered yet" under it, built from one `NowView` (TR-3). The session state
+// it used to own (the follow state, the frozen Visit Order, `expanded`, the live region) lives in the
+// shell now (M17 FR-10, `shell/session.ts`), so it survives place moves. It never orders or filters
+// advice itself: `buildNowView` does.
+import { PLACE_WORDS } from '@idleon-forge/engine/now';
+import type { Session } from '../shell/session';
 import { AccountSection, IfYouHaveTime, NotCoveredYet } from './Account';
-import { BUILDS_OPEN, BuildsOverview } from './BuildView';
-import { Banners, ExpectedReturnChips, ProgressBar, WhatsNewCard } from './Chrome';
-import { CARDS_OPEN, CardsOverview } from './cards/CardsPanel';
-import { NOW_TAB, parseTabHash } from './character-tabs';
-import { type NowActions, NowActionsContext } from './context';
 import { Focus } from './Focus';
-import { AUTO_OPEN_MS, type FollowState, INITIAL_FOLLOW, onSave, onTap } from './follow';
-import { toNowPrefs, useNowPrefsStore } from './prefs-store';
 import { Roster } from './Roster';
-import { buildInfo, useWhatsNew } from './release';
-import { reportUrl, suggestUrl } from './report';
+import { buildInfo } from './release';
+import { suggestUrl } from './report';
 
-export interface NowSave {
-  state: AccountState;
-  source: 'live' | 'paste';
-  seq: number;
-  kind: SaveKind;
-  slot: number | null;
-}
+export type { NowSave, ShellProps as NowScreenProps } from '../shell/session';
 
-export interface NowScreenProps {
-  result: EngineResult;
-  save: NowSave;
-  /** `activeon:<uidHash>:` or `activeon:paste:<h>:`; null until known (advice waits, TR-8). */
-  namespace: string | null;
-  expectedReturnSeconds: number;
-  setExpectedReturn(seconds: number | null): void;
-  updating: boolean;
-  /** "Offline: showing your last save from 14:02." and the like (§6). */
-  connection: string | null;
-  /** M12 FR-24 / TR-10 banner text. */
-  update: string | null;
-  /** Merged into the result's versions (M1 D3(b)). */
-  parserBehind: boolean;
-  onReload(): void;
-  /** The header slot for the Expected Return chips. */
-  renderChips(chips: React.ReactNode): void;
-  onFooter(info: NowView['footer'] & { persistent: boolean }): void;
-}
-
-const tz = (at: number) => -new Date(at).getTimezoneOffset();
-const readTabHash = () => {
-  try {
-    return parseTabHash(window.location.hash);
-  } catch {
-    return null;
-  }
-};
-const readHash = () => {
-  try {
-    return window.location.hash;
-  } catch {
-    return '';
-  }
-};
-/** `#builds` and `#cards` open the folded overview they point at. */
-const unfoldFor = (hash: string): Set<string> =>
-  new Set(hash === '#builds' ? [BUILDS_OPEN] : hash === '#cards' ? [CARDS_OPEN] : []);
-const readFocusParam = (): number | null => {
-  try {
-    const v = new URLSearchParams(window.location.search).get('c');
-    return v !== null && /^\d+$/.test(v) ? Number(v) : (readTabHash()?.index ?? null);
-  } catch {
-    return null;
-  }
-};
-/** Keeps the bare `#<tab>-<index>` anchor in step with the character page (character-tabs.ts). */
-const writeTabHash = (index: number | null, tab: string) => {
-  try {
-    const url = new URL(window.location.href);
-    const hash = index !== null && tab !== NOW_TAB ? `#${tab}-${index}` : '';
-    // Leave other anchors (`#builds`) alone.
-    if (url.hash === hash || (!hash && !parseTabHash(url.hash))) return;
-    url.hash = hash;
-    window.history.replaceState(null, '', url);
-  } catch {}
-};
-const writeFocusParam = (index: number | null, how: 'push' | 'replace') => {
-  try {
-    const url = new URL(window.location.href);
-    if (index === null) url.searchParams.delete('c');
-    else url.searchParams.set('c', String(index));
-    if (url.href === window.location.href) return;
-    if (how === 'push') window.history.pushState(null, '', url);
-    else window.history.replaceState(null, '', url);
-  } catch {}
-};
-
-const interactingIn = (el: HTMLElement | null) => {
-  if (typeof document === 'undefined') return false;
-  if (document.querySelector('.confirm, .report-confirm')) return true;
-  if (!el) return false;
-  if (el.contains(document.activeElement) && document.activeElement !== el.querySelector('h2')) return true;
-  return el.querySelector('details[open], [aria-expanded="true"]') !== null;
-};
-
-export function NowScreen(props: NowScreenProps) {
-  const { save, namespace } = props;
-  const result = useMemo<EngineResult>(
-    () => ({ ...props.result, versions: { ...props.result.versions, parserBehind: props.parserBehind } }),
-    [props.result, props.parserBehind],
-  );
-  const prefs = useNowPrefsStore(namespace);
-  // TR-9: invariants log once per result in dev builds; production renders anyway.
-  useEffect(() => {
-    if (!import.meta.env.DEV) return;
-    const v = invariantViolations(props.result);
-    if (v.length) console.warn(`EngineResult invariants (TR-9):\n${v.join('\n')}`);
-  }, [props.result]);
-  const live = save.source === 'live';
-  const lastCloudSave = save.state.account.lastCloudSave;
-  const names = useMemo(() => result.characters.map((c) => c.name), [result]);
-
-  const [focus, setFocusState] = useState<number | null>(() => readFocusParam());
-  const [tab, setTab] = useState<string>(() => readTabHash()?.tab ?? NOW_TAB);
-  const [expanded, setExpanded] = useState<ReadonlySet<string>>(() => unfoldFor(readHash()));
-  const [follow, setFollow] = useState<FollowState>(INITIAL_FOLLOW);
-  const [pendingFollow, setPendingFollow] = useState<{ index: number; text: string } | null>(null);
-  const [announce, setAnnounce] = useState('');
-  const [seenKeys, setSeenKeys] = useState<readonly string[] | null>(null);
-  const memoryOrder = useRef<{ sessionStartedAt: number | null; order: number[] } | null>(null);
-  const headingRef = useRef<HTMLHeadingElement | null>(null);
-  const cardRef = useRef<HTMLDivElement | null>(null);
-  const accountRef = useRef<HTMLElement | null>(null);
-  const rows = useRef(new Map<number, HTMLButtonElement>());
-  const focusHeading = useRef(false);
-  const focusRowAfterBack = useRef<number | null>(null);
-  const [tick, setTick] = useState(0);
-  const minute = useNow(60_000);
-  const now = Math.max(minute, tick);
-
-  // ---- the frozen Visit Order (D6, TR-7) ----
-  const frozenOrder = useMemo(() => {
-    const s = result.sessionStartedAt;
-    if (s === null) {
-      if (memoryOrder.current === null)
-        memoryOrder.current = { sessionStartedAt: null, order: result.visitOrder };
-      return memoryOrder.current.order;
-    }
-    const stored = prefs.data.visitOrder;
-    if (stored && stored.sessionStartedAt === s) return stored.order;
-    return result.visitOrder;
-  }, [result, prefs.data.visitOrder]);
-  useEffect(() => {
-    const s = result.sessionStartedAt;
-    if (!prefs.ready || s === null) return;
-    if (prefs.data.visitOrder?.sessionStartedAt !== s)
-      prefs.setVisitOrder({ sessionStartedAt: s, order: result.visitOrder });
-  }, [prefs, result]);
-
-  // ---- prune once per namespace, restore the Expected Return chosen this Play Session (TR-8) ----
-  const pruned = useRef<string | null>(null);
-  const { setExpectedReturn, expectedReturnSeconds } = props;
-  useEffect(() => {
-    if (!prefs.ready || namespace === null || pruned.current === namespace) return;
-    pruned.current = namespace;
-    prefs.prune(
-      { now: Date.now(), sessionStartedAt: result.sessionStartedAt, lastCloudSave },
-      result.versions.gameBuild,
-    );
-    const er = prefs.data.expectedReturn;
-    const valid = er && (result.sessionStartedAt === null || er.chosenAt >= result.sessionStartedAt);
-    if (valid && er.seconds !== expectedReturnSeconds) setExpectedReturn(er.seconds);
-  }, [prefs, namespace, result, lastCloudSave, setExpectedReturn, expectedReturnSeconds]);
-
-  const visited = useMemo(() => new Set(follow.visited), [follow.visited]);
-  const fresh = live && lastCloudSave !== null && now - lastCloudSave < AUTO_OPEN_MS;
-
-  const viewFor = useCallback(
-    (f: number | null, v: ReadonlySet<number>, extra: Partial<Parameters<typeof buildNowView>[2]> = {}) =>
-      buildNowView(result, toNowPrefs(prefs.data, seenKeys), {
-        focus: f,
-        expanded,
-        visited: v,
-        leftFrom: follow.leftFrom,
-        frozenOrder,
-        now,
-        playing: fresh ? follow.playing : null,
-        lastCloudSave,
-        tzOffsetMinutes: tz(now),
-        appVersion: buildInfo.app,
-        update: props.update ? { text: props.update } : null,
-        connection: props.connection ? { text: props.connection } : null,
-        ...extra,
-      }),
-    [
-      result,
-      prefs.data,
-      seenKeys,
-      expanded,
-      follow,
-      frozenOrder,
-      now,
-      fresh,
-      lastCloudSave,
-      props.update,
-      props.connection,
-    ],
-  );
-  const validFocus = focus !== null && result.characters.some((c) => c.index === focus) ? focus : null;
-  const view = useMemo(() => viewFor(validFocus, visited), [viewFor, validFocus, visited]);
-
-  // ---- Focus and history (TR-5) ----
-  const setFocus = useCallback((index: number | null, how: 'push' | 'replace') => {
-    setFocusState(index);
-    setPendingFollow(null);
-    writeFocusParam(index, how);
-  }, []);
-  useEffect(() => {
-    const onPop = () => {
-      const c = readFocusParam();
-      setFocusState((prev) => {
-        if (c === null && prev !== null) focusRowAfterBack.current = prev;
-        return c;
-      });
-      setTab(readTabHash()?.tab ?? NOW_TAB);
-      // The Roster's "Builds ↓" and "Cards ↓" open their folded overview (R5 QA P2-2).
-      const unfold = unfoldFor(readHash());
-      if (unfold.size) setExpanded((prev) => new Set([...prev, ...unfold]));
-    };
-    window.addEventListener('popstate', onPop);
-    window.addEventListener('hashchange', onPop);
-    return () => {
-      window.removeEventListener('popstate', onPop);
-      window.removeEventListener('hashchange', onPop);
-    };
-  }, []);
-  // The character page's tab rides in the anchor; the Roster has no tab.
-  const pageTab = validFocus === null ? NOW_TAB : tab;
-  useEffect(() => writeTabHash(validFocus, pageTab), [validFocus, pageTab]);
-  useEffect(() => {
-    if (validFocus !== null && focusHeading.current) {
-      focusHeading.current = false;
-      headingRef.current?.focus();
-    }
-    if (validFocus === null && focusRowAfterBack.current !== null) {
-      rows.current.get(focusRowAfterBack.current)?.focus();
-      focusRowAfterBack.current = null;
-    }
-  });
-
-  const open = useCallback(
-    (index: number) => {
-      focusHeading.current = true;
-      // From the Roster a character opens on Now; switching characters keeps the tab.
-      if (validFocus === null) setTab(NOW_TAB);
-      setFollow((f) => onTap(f, index, live));
-      setFocus(index, 'push');
-    },
-    [live, setFocus, validFocus],
-  );
-  const openTab = useCallback(
-    (index: number, id: string) => {
-      focusHeading.current = true;
-      setTab(id);
-      setFollow((f) => onTap(f, index, live));
-      setFocus(index, 'push');
-    },
-    [live, setFocus],
-  );
-  const back = useCallback(() => {
-    focusRowAfterBack.current = validFocus;
-    setTab(NOW_TAB);
-    setFocus(null, 'push');
-  }, [validFocus, setFocus]);
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && validFocus !== null && !document.querySelector('.confirm')) back();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [validFocus, back]);
-
-  // ---- follow the game (FR-14, D1, the #38 ruling) ----
-  const lastSeq = useRef<number | null>(null);
-  const urlFocusAtLoad = useRef(readFocusParam() !== null);
-  useEffect(() => {
-    if (lastSeq.current === save.seq) return;
-    const firstOfLoad = lastSeq.current === null;
-    lastSeq.current = save.seq;
-    if (!live) return; // paste mode never auto-opens or follows (§6)
-    const isFresh = lastCloudSave !== null && Date.now() - lastCloudSave < AUTO_OPEN_MS;
-    const { state, followTo } = onSave(follow, {
-      kind: save.kind,
-      slot: save.slot,
-      fresh: isFresh,
-      sessionStartedAt: result.sessionStartedAt,
-      nextUp: (exclude, v) => viewFor(exclude, v, { playing: null }).focus?.next.index ?? null,
-    });
-    setFollow(state);
-    if (followTo === null) return;
-    // A valid ?c= wins over first-load auto-open; following resumes on the next switch (TR-5).
-    if (firstOfLoad && urlFocusAtLoad.current) return;
-    if (followTo === validFocus) return;
-    const name = result.characters.find((c) => c.index === followTo)?.name ?? '';
-    const label = state.playing?.status === 'next-up' ? `Next up ${name}` : `Now playing ${name}`;
-    if (validFocus !== null && interactingIn(cardRef.current)) {
-      setPendingFollow({ index: followTo, text: label });
-      setAnnounce(label);
-      return;
-    }
-    // Following never moves keyboard focus and keeps the scroll anchored.
-    const y = window.scrollY;
-    setFocus(followTo, 'replace');
-    requestAnimationFrame(() => window.scrollTo({ top: y }));
-    const left =
-      state.leftFrom !== null ? result.characters.find((c) => c.index === state.leftFrom)?.name : null;
-    setAnnounce(left && state.playing?.status === 'next-up' ? `Left ${left}. ${label}` : `Now on ${name}`);
-  }, [save, live, lastCloudSave, follow, result, viewFor, validFocus, setFocus]);
-
-  // ---- time-driven rebuilds (TR-5) ----
-  useEffect(() => {
-    if (view.nextExpiry === null) return;
-    const ms = Math.max(0, view.nextExpiry - Date.now()) + 50;
-    const t = setTimeout(() => setTick(Date.now()), Math.min(ms, 2 ** 31 - 1));
-    return () => clearTimeout(t);
-  }, [view.nextExpiry]);
-
-  // ---- tab title (FR-34) and the one batched announcement per result (TR-14) ----
-  useEffect(() => {
-    const blur = () => setSeenKeys(view.visibleKeys);
-    const focusIn = () => setSeenKeys(null);
-    window.addEventListener('blur', blur);
-    window.addEventListener('focus', focusIn);
-    return () => {
-      window.removeEventListener('blur', blur);
-      window.removeEventListener('focus', focusIn);
-    };
-  }, [view.visibleKeys]);
-  useEffect(() => {
-    document.title = seenKeys !== null && view.newCount > 0 ? `(${view.newCount}) ActiveOn` : 'ActiveOn';
-  }, [seenKeys, view.newCount]);
-  const lastPills = useRef<Map<number, string> | null>(null);
-  const [spoken, setSpoken] = useState('');
-  useEffect(() => {
-    const pills = new Map(view.roster.map((r) => [r.index, r.pill.text]));
-    const prev = lastPills.current;
-    lastPills.current = pills;
-    const changed = prev ? view.roster.filter((r) => prev.get(r.index) !== r.pill.text) : [];
-    const parts = [
-      announce,
-      changed.length
-        ? `${changed.length} Verdict${changed.length === 1 ? '' : 's'} changed: ${changed.map((r) => `${r.name} ${r.pill.text}`).join(', ')}`
-        : '',
-      view.allSet && prev ? view.allSet.text : '',
-    ].filter(Boolean);
-    if (parts.length === 0) return;
-    const t = setTimeout(() => {
-      if (typeof document.hasFocus === 'function' && !document.hasFocus()) return;
-      setSpoken(parts.join('. '));
-      setAnnounce('');
-    }, 1000);
-    return () => clearTimeout(t);
-  }, [view.roster, view.allSet, announce]);
-
-  // ---- header and footer slots ----
-  const { renderChips, onFooter } = props;
-  const pick = useCallback(
-    (seconds: number) => {
-      prefs.setExpectedReturn({ seconds, chosenAt: Date.now() });
-      setExpectedReturn(seconds);
-    },
-    [prefs, setExpectedReturn],
-  );
-  useEffect(() => {
-    renderChips(
-      <ExpectedReturnChips chips={view.expectedReturn.chips} updating={props.updating} onPick={pick} />,
-    );
-  }, [renderChips, view.expectedReturn.chips, props.updating, pick]);
-  useEffect(
-    () => onFooter({ ...view.footer, persistent: prefs.persistent }),
-    [onFooter, view.footer, prefs.persistent],
-  );
-
-  // ---- actions for the leaves ----
-  const focusChar = result.characters.find((c) => c.index === validFocus) ?? null;
-  const suggestions = useSuggestions();
-  const actions: NowActions = useMemo(
-    () => ({
-      skip: (key) =>
-        prefs.skip(key, {
-          midnightAt: nextLocalMidnight(Date.now(), tz(Date.now())),
-          sessionStartedAt: result.sessionStartedAt,
-        }),
-      unskip: (keys) => prefs.unskip(keys),
-      dismiss: (key) => prefs.dismiss(key, result.versions.gameBuild),
-      undismiss: (keys) => prefs.undismiss(keys),
-      reportUrl: (r) =>
-        reportUrl(
-          {
-            ...r,
-            screen: focusChar ? 'character' : 'account',
-            character: focusChar ? { classLabel: focusChar.classLabel, level: focusChar.level } : null,
-            stage: result.stage.id,
-            knowledge: result.versions.knowledge,
-            gameBuild: result.versions.gameBuild,
-            build: buildInfo,
-          },
-          names,
-        ),
-      openReport: suggestions
-        ? (r) =>
-            suggestions.open({
-              kind: 'report',
-              source: r,
-              screen: focusChar ? 'character' : 'now',
-              characterIndex: focusChar?.index ?? null,
-            })
-        : null,
-      open,
-      openTab,
-      toggle: (id) =>
-        setExpanded((prev) => {
-          const next = new Set(prev);
-          if (next.has(id)) next.delete(id);
-          else next.add(id);
-          return next;
-        }),
-      expanded,
-    }),
-    [prefs, result, focusChar, names, open, openTab, expanded, suggestions],
-  );
-
-  const toSpend = () => {
-    setExpanded((prev) => new Set([...prev, 'spend-open']));
-    requestAnimationFrame(() => document.getElementById('spend-plan')?.scrollIntoView({ block: 'start' }));
-  };
-  const onNext = (index: number | null) => {
-    if (index === null) {
-      accountRef.current?.focus();
-      accountRef.current?.scrollIntoView({ block: 'start' });
-      return;
-    }
-    open(index);
-  };
-  const toAccountFix = () => {
-    const el = document.getElementById('account-fix') ?? accountRef.current;
-    el?.focus({ preventScroll: true });
-    el?.scrollIntoView?.({ block: 'start' });
-  };
-  const whatsNew = useWhatsNew();
-
-  if (!prefs.ready) return <p className="small muted">Loading your choices…</p>;
-
+/** A Character page is the same object from every place (M17 FR-15): Focus plus Now's sections. */
+export function NowPlace({ s }: { s: Session }) {
+  const { view, result, focusChar, suggestions, refs } = s;
   return (
-    <NowActionsContext.Provider value={actions}>
-      <Banners banners={view.banners} onReload={props.onReload} />
-      <ProgressBar progress={view.progress} onAccount={toAccountFix} />
-      {whatsNew.view ? <WhatsNewCard view={whatsNew.view} onDismiss={whatsNew.dismiss} /> : null}
-      <div ref={cardRef}>
+    <>
+      <div ref={refs.cardRef}>
         {view.focus ? (
           <Focus
-            ref={headingRef}
+            ref={refs.headingRef}
             card={view.focus}
-            pendingFollow={pendingFollow}
+            pendingFollow={null}
             showCloudSaveTip={
-              live &&
-              fresh &&
-              follow.playing?.index === view.focus.index &&
-              follow.playing.status !== 'confirmed'
+              s.live &&
+              s.fresh &&
+              s.follow.playing?.index === view.focus.index &&
+              s.follow.playing.status !== 'confirmed'
             }
-            onBack={back}
-            onNext={onNext}
-            tab={pageTab}
-            onTab={setTab}
+            onBack={s.back}
+            onNext={s.onNext}
+            tab={s.pageTab}
+            onTab={(id) =>
+              view.focus &&
+              s.navigate({ place: 'character', index: view.focus.index, tab: id }, 'replace', {
+                origin: s.origin,
+              })
+            }
             view={view}
             openConfusing={
               suggestions
@@ -501,30 +65,25 @@ export function NowScreen(props: NowScreenProps) {
             }
           />
         ) : (
-          <Roster
-            view={view}
-            onOpen={open}
-            onSpend={toSpend}
-            rowRef={(i, el) => {
-              if (el) rows.current.set(i, el);
-              else rows.current.delete(i);
-            }}
-          />
+          <>
+            <h2 className="sr-only" data-place-heading tabIndex={-1}>
+              {PLACE_WORDS.now}
+            </h2>
+            <Roster
+              view={view}
+              onOpen={(i) => s.open(i)}
+              onSpend={s.toSpend}
+              rowRef={(i, el) => {
+                if (el) refs.rows.current.set(i, el);
+                else refs.rows.current.delete(i);
+              }}
+            />
+          </>
         )}
       </div>
-      {/* R5 QA P2-2: "Fix before you leave" in the Account is never below the optional overviews. */}
-      <AccountSection ref={accountRef} view={view} />
-      {view.focus ? null : (
-        <>
-          <BuildsOverview view={view} />
-          <CardsOverview view={view} />
-        </>
-      )}
+      <AccountSection ref={refs.accountRef} view={view} />
       <IfYouHaveTime view={view} />
       <NotCoveredYet view={view} />
-      <p className="sr-only" aria-live="polite">
-        {spoken}
-      </p>
-    </NowActionsContext.Provider>
+    </>
   );
 }

@@ -4,7 +4,7 @@
 // EngineResult types (../result) and M2's StageResult (../metapath). M4's PurposeStatus is not on
 // main yet, so a minimal local copy stays, marked TODO(M4).
 import type { StageResult } from '../metapath/types';
-import type { Fill, NextAction, Subject } from '../result';
+import type { Fill, NextAction, Subject, UnknownFinding } from '../result';
 
 export type {
   Category,
@@ -87,4 +87,6 @@ export interface AfkSafetyResult {
   alreadyFull: number;
   /** Detectors that threw (M11 FR-13): their entries count as `unknown`. */
   failedDetectors: Array<{ detectorId: string; entryIds: string[]; message: string }>;
+  /** M17 TR-2: Checks that returned `unknown` (not for missing history) or whose Detector failed. */
+  unknowns?: UnknownFinding[];
 }

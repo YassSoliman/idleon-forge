@@ -23,6 +23,7 @@ import {
   stagesBetween,
 } from '@idleon-forge/knowledge';
 import { BUILDS_DETECTORS } from '../builds/detectors';
+import type { UnknownFinding } from '../result';
 import { returnAtOf } from './expected-return';
 import type {
   AfkSafetyResult,
@@ -276,6 +277,7 @@ export function evaluateAfkSafety(input: AfkSafetyInput): AfkSafetyResult {
 
   const raws: Raw[] = [];
   const failedDetectors: AfkSafetyResult['failedDetectors'] = [];
+  const unknowns: UnknownFinding[] = [];
   /** Subjects whose blocker Check could not be read (FR-8). */
   const cannotTell = new Set<Subject>();
 
@@ -317,6 +319,9 @@ export function evaluateAfkSafety(input: AfkSafetyInput): AfkSafetyResult {
   for (const { entry, subject, finding } of raws) {
     if (finding.result === 'unknown') {
       if (entry.effect === 'blocker' && finding.reason !== 'needs-history') cannotTell.add(subject);
+      // M17 TR-2: the Systems hub reads "Can't tell" from these; missing history is not a broken read.
+      if (finding.reason === 'field-missing' || finding.reason === 'parser-section-failed')
+        unknowns.push({ entryId: entry.id, subject, reason: finding.reason });
       continue;
     }
     if (finding.result === 'pass') {
@@ -386,5 +391,17 @@ export function evaluateAfkSafety(input: AfkSafetyInput): AfkSafetyResult {
   const firstFill = earliest(
     [...characters.map((c) => c.firstFill), account.firstFill].filter((x): x is Fill => x !== null),
   );
-  return { expectedReturn, returnAt, characters, account, firstFill, alreadyFull, failedDetectors };
+  for (const f of failedDetectors)
+    for (const entryId of f.entryIds)
+      unknowns.push({ entryId, subject: 'account', reason: 'detector-failed' });
+  return {
+    expectedReturn,
+    returnAt,
+    characters,
+    account,
+    firstFill,
+    alreadyFull,
+    failedDetectors,
+    unknowns,
+  };
 }
