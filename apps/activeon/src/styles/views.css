@@ -412,12 +412,14 @@ a.cap {
 }
 
 /* FR-31: the Next Action a "See it" link pointed at, outlined (never colour alone: a thicker edge). */
-.na.lit {
+.na.lit,
+.skipped-line.lit {
   outline: 3px solid var(--coin);
   outline-offset: 2px;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .na.lit {
+  .na.lit,
+  .skipped-line.lit {
     animation: lit-pulse 1.2s ease-out 1;
   }
 }

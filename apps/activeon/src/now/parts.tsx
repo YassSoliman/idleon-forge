@@ -338,7 +338,11 @@ export function GoalList({
         </button>
       ) : null}
       {skipped.length > 0 ? (
-        <p className="small muted">
+        // M17 FR-27: a skipped bar's "See the fix" lands here, found by its key and outlined (R6 QA).
+        <p
+          className={`small muted skipped-line${actions.highlight && skipped.includes(actions.highlight) ? ' lit' : ''}`}
+          data-skipped-keys={skipped.join(' ')}
+        >
           {skipped.length} skipped ·{' '}
           <button type="button" className="ghost tiny" onClick={() => actions.unskip(skipped)}>
             undo
