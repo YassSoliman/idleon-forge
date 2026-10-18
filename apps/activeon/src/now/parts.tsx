@@ -316,6 +316,11 @@ export function WhySheet({
         <div className="n-why__src na-meta">
           <PixelArt name="cards-src-book" decorative />
           <SourceLabel source={action.source} />
+          {action.source.verifiedOn ? (
+            <span className="n-why__verified n-muted num">
+              {CARD_WORDS.verified(action.source.verifiedOn)}
+            </span>
+          ) : null}
         </div>
         {seeIt}
         <ActionControls

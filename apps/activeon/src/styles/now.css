@@ -1418,8 +1418,12 @@ label.chip {
 }
 .n-why__src {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-2);
+}
+.n-why__verified {
+  font-size: var(--text-xs);
 }
 .n-controls {
   display: flex;

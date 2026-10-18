@@ -33,6 +33,8 @@ export interface SourceView {
   text: string | null;
   /** The https URL of that Source, or null (rendered as plain text, TR-13). */
   href: string | null;
+  /** When that Source was last checked ("2026-10-18"); null for the Toolbox page fallback (M21 why sheet). */
+  verifiedOn: string | null;
   /** "Calculated by IdleOn Toolbox · 2.3.540" when a tier 1 Source backs the entry. */
   credit: string | null;
   /** The Toolbox website page for the credit (idleontoolbox.com), never its code; null when the main link

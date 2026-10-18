@@ -200,6 +200,7 @@ describe('#74 player-facing Sources', () => {
   const view = (over: Partial<SourceView>): SourceView => ({
     text: null,
     href: null,
+    verifiedOn: null,
     credit: null,
     creditHref: null,
     stale: false,
