@@ -166,6 +166,14 @@ _Avoid_: global tasks, shared list
 The account's list of every item that resets daily or weekly (pet pull, Random Event, keys, Killroy, Weekly Battle, Bonus Ballot…), each timed on the account's own reset clock and ticked done from the next save, with a progress ring for today and for the week.
 _Avoid_: dailies, Session Checklist, Daily Checklist (the wiki page), to-do list
 
+**Pause point**:
+One of the three moments of a Play Session the Now screen is arranged around: Log in (what changed while you were away), Rounds (the Goals) and Log off (the unmet AFK Setup items, ticked by the next save). The app picks one from context and says why.
+_Avoid_: Session Checklist, mode, phase, step
+
+**Away card**:
+The welcome on return, scaled to the time away: nothing under 15 minutes, one line, or a full "While you were away" card after 8 hours.
+_Avoid_: recap, summary, notification
+
 ## Views
 
 **Character page**:
@@ -183,6 +191,10 @@ _Avoid_: system view, guide page, wiki page
 **Timeline**:
 The place showing, for each character and each account System, when each limit binds (a bag fills, food runs out, a cap is reached) against the Expected Return, with anything that binds before the return marked and linked to its fix.
 _Avoid_: schedule, Gantt, AFK timer
+
+**Map**:
+The place showing the account's worlds, maps and boss gates, where each character is, and how far the frontier door is (kills and a time from the kill rate), with one overlay at a time (route, constellations, Death Note, cards).
+_Avoid_: world map (bare), atlas, route view
 
 ## Walkthroughs
 
@@ -236,6 +248,18 @@ _Avoid_: tier list, weights, score
 An entry giving the talent order for one class line and one preset role (fighting or skilling).
 _Avoid_: spec, loadout
 
+**Build path**:
+Every step of a Build for one preset and one talent tab, in the order points are spent, each with the running total of points from now ("+40 → Veins of the Infernal"), banded into what the known points pay for (can add now) and what comes next after these.
+_Avoid_: talent tree, roadmap (bare), checklist
+
+**Known points**:
+The talent points ActiveOn can prove are waiting on a preset's tab: a lower bound for tabs 1–3 (from the other preset), an exact count for Star talents. Never "you have N".
+_Avoid_: unspent points (bare), budget, balance
+
+**Star talents**:
+The special talent tab (the game's "Special Talent" pages), bought with star talent points, per character and per preset, and planned by the star Builds.
+_Avoid_: special talents (in UI copy), super talents (a different W7 system), star tab
+
 **Acquisition**:
 An entry describing how to obtain something (a stamp, card, obol, item) and what it needs.
 _Avoid_: unlock guide, how-to
@@ -243,6 +267,20 @@ _Avoid_: unlock guide, how-to
 **Contested**:
 The status of an entry whose Sources disagree; shown with both sides and a "sources disagree" badge, never as a Verdict blocker or the top action.
 _Avoid_: disputed, uncertain
+
+## Design
+
+**Design Lab**:
+The design exploration of 2026-10-18 whose picks the app implements (M21): principles, three directions, 85 components, their variants and critiques, and our pixel art. Its data-free part is kept in `docs/design-lab/`.
+_Avoid_: mockups, style guide, Figma
+
+**Direction**:
+One of the Design Lab's three token sets: Field Guide (the app's base), Quest Log (used as accents: the guide's speech, pixel headings, celebrations) and Command Board (used as the desktop layout).
+_Avoid_: theme (that is light or dark), skin
+
+**Who-glyph**:
+The one family of our own class chibis that stands for a character everywhere it is drawn; the map pin only ever means where.
+_Avoid_: avatar, portrait, icon (bare)
 
 ## Feedback
 

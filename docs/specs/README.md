@@ -1,6 +1,6 @@
 # ActiveOn MVP spec index
 
-The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), M16 (Star Signs and constellations, a small module of its own), M17 (the views: navigation shell, Timeline and Systems hub), M18 (Gear & Tools), M19 (Alchemy) and M20 (Skills, Parallel Slots and the Daily & Weekly Checklist), for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/idleon-forge/issues/1)), read as one whole. Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0009](../adr/).
+The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), M16 (Star Signs and constellations, a small module of its own), M17 (the views: navigation shell, Timeline and Systems hub), M18 (Gear & Tools), M19 (Alchemy), M20 (Skills, Parallel Slots and the Daily & Weekly Checklist) and M21 (the redesign release: the Design Lab system in the app, the full Build path, Star Talents and the Map), for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/idleon-forge/issues/1)), read as one whole. Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0009](../adr/).
 
 **How to read a spec.** Each spec ends with **Final rulings (Yasser, 2026-10-17)**, which supersede anything above them. The consistency pass of 2026-10-17 rewrote the body text of every spec so it agrees with its own Final rulings and with the other specs, and added a short `Consistency pass (2026-10-17)` section to each one listing what changed. Where two specs still disagree, this index says which one owns the answer (the "Owner" columns below). The few genuine conflicts between rulings are not resolved here; they are listed under [Needs Yasser](#needs-yasser).
 
@@ -28,6 +28,7 @@ The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), M1
 | M18 | [Gear & Tools](M18-gear-tools.md) | Per character, which equipment slot and gathering tool is empty or behind the Gear Plan for its level and Stage; held gear handed out; empty slots filled with what can be made now; the next Gear Plan piece with its recipe, anvil tab, unlock and materials (M14 Walkthrough); the Armor-set Smithy; the Gear tab and the Gear and Armor Smithy System pages | `gear.check.equip-held`, `gear.check.empty-slot`, `gear.check.afk-tool`, `gear.goal.next-piece`, `armor-smithy.check.hire` / `.register`, `gear.priority.plan`, facts `gear.fact.ladder` / `.recipes`, `armor-smithy.fact.sets`. Owns `GearResult`, `CharacterGear`, `GearSlotView` | M1, M2, M6, M10, M11, M14, M15, M17; M20 (skull and trap pips) |
 | M19 | [Alchemy](M19-alchemy.md) | The Bubble Plan (which bubble to level next, to what level, per Stage) and the picture rule (which bubble to light); the vial order and today's roll targets; the Pay 2 Win order the Spend Plan follows and Player upgrades behind; where Water goes, the daily gem, the Talent Point; the Alchemy page | `alchemy-bubbles.goal.level-next`, `alchemy-vials.goal.level-next`, `alchemy-p2w.check.player-behind`, `alchemy.check.talent-point`, `alchemy-bubbles.priority.plan`, `alchemy-vials.priority.plan`, `alchemy-p2w.priority.order`, facts `alchemy-bubbles.fact.curves`, `alchemy-vials.fact.catalogue` / `.costs`, `alchemy.fact.liquid-shop`. Owns `AlchemyResult`, `BubblePick` | M1, M2, M3, M6, M7, M8, M10, M11, M14, M15, M17, M20 |
 | M20 | [Skills, Parallel Slots and the Daily & Weekly Checklist](M20-skills-parallel-slots.md) | One account checklist of every daily and weekly reset item with the account's own reset clocks, done-detection and a progress ring on Now; who should fill each free Parallel Slot (Cog Board seat, worship skull, traps, cauldron seat); the Skills tab per character; the Construction, Worship, Trapping and Alchemy page bodies and the Skill Grid for M17 | `checklist.fact.rows` and its rows, `random-events.check.today`, `killroy.check.room` / `.skulls`, `weekly-battles.check.raid`, `ballot.check.vote`, `pet-tournament.check.register`, `task-board.check.daily`, `guild.check.daily` / `.weekly`, `construction.check.cog-seat-free` (from M3), `worship.check.no-skull`, `trapping.check.start` / `.no-trap-set`, `alchemy.check.liquid-unstaffed`, `slots.priority.fill-order`. Owns `Checklist`, `SystemPicture`, `SkillGrid`, `CharacterSkills`, `SlotPip` | M1, M2, M3, M6 (its fields and Goals), M10, M11, M14 (quest Walkthroughs, printer facts); M17 consumes |
+| M21 | [Redesign release](M21-redesign.md) | The Design Lab's design system 1:1 in the app: Field Guide tokens with Quest Log accents and Command Board as the desktop layout, self-hosted fonts, our pixel art as a typed library, shared atoms; every place, tab, System page, form and state redrawn to its pick (or the owner's override) with the critique notes applied; the pause points, Away card, AFK strip, Parallel Slots grid, Stamps, Statues, Vault and Printer pages; the full Build path (every step, banded by known points, with running totals) and Star Talents per character and preset; the Map place | `talent-presets.check.star-empty` (if Owner review Q2), `talents.build.star-fighting` / `.star-skilling`, facts `talents.fact.star-books`, `map.fact.boss-gates`. Owns `design/` (tokens, atoms, `PixelArt`, `WhoGlyph`), `BuildPathStepView`, `MapResult`, `SessionFacts`, the `## Builds` and `## Map` golden sections | every module's views; M1 (TR-3 fields), M9 (TR-5 amendment), M10, M11, M12, M17, M18 (#116 first), M20 |
 
 ## Build order
 
@@ -62,6 +63,14 @@ The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), M1
 |---|---|---|
 | 8e | M18 Phase 1 | Gear & Tools: atlas gap #4. Needs M1, M2, M6, M10, M11, M14 Phase 1, M15 and M17 Phase 1, all built |
 | 8f | M19 Phase 1 | Alchemy: atlas gap #5. Needs M3, M6, M7, M8, M14 Phase 1, M17 Phase 1 and M20 Phase 1, all built |
+
+**M21 (spec of 2026-10-18): the redesign release.** It builds after M18 (#116, whose `lazyPart` pattern it reuses), in five phases: **F** Foundation (one PR: tokens, fonts, art library, atoms, the shared types and stubs, the Account State bump, the formatter change) → five area PRs in parallel, **N** Now and flows, **C** Characters (full Build path, Star Talents), **S** Systems, **T** Time, **M** Map and nav, each in its own file boundary (M21 §9) → **I** Integration → **Q** QA → one release. The first-load budget stays at 320 KB gzip; the estimate of +14 KB is offset in the same PRs (M21 TR-12), with a target of 314 KB or less.
+
+| Step | Module | Why here |
+|---|---|---|
+| 8g | M21 F | Every area needs the tokens, atoms, art, formatters and shared stubs; it is the only phase that touches shared files |
+| 8h | M21 N, C, S, T, M | In parallel after F; one owner per file |
+| 8i | M21 I, Q, release | Wiring across areas, clean-up, goldens, the QA probe and one deploy |
 
 ## Id formats
 
@@ -130,6 +139,10 @@ Every type or function used by more than one module, with the one spec that owns
 | Account State: `alchemyPlan` (bubbles with undiscounted next-level costs, vials, Liquid Shop counters, Player Pay 2 Win, best Alchemy level); `toolboxCalls.bubbleCosts` | M19 TR-1, TR-2 | Inputs for the Bubble Plan and vial order; Toolbox's cost function, called in the worker | M19 |
 | `AlchemyResult`, `BubblePick`, `EngineResult.alchemy` | M19 TR-5 | The account and per-pot picks, vial pick, roll targets, tubes, Pay 2 Win grid | M3 (`{pick}`, M19 X4), M6 (`{targets}`, M19 X3), M10, M17 |
 | `alchemy-p2w.priority.order` | M19 TR-4 | The Pay 2 Win order | M7 (its five `p2w` spend items, M19 X2) |
+| Design atoms (`Pill`, `Chip`, `Button`, `Sheet`, `TokenLine`, `Meter`, `SegmentedControl`, `EmptyState`, `Loading`, `Seal`, `StatusGlyph`, `Speech`), `PixelArt` + `ArtName`, `WhoGlyph` + `ClassFamily`, `design/tokens.css` (`apps/activeon/src/design/`) | M21 TR-2, TR-4, TR-5 | The one component set and token file every view uses; our pixel art as typed modules (ADR 0009) | every view |
+| `BuildTabView.known` / `.path`, `BuildPathStepView`, `BuildPresetView.star`; Account State `characters[].talents.starPoints`, `characters[].doorKillsLeft`, `account.statues`; `toolboxCalls.starTotal` | M21 TR-3, TR-8 (M9 TR-5 and M1 TR-11 amendments) | The full Build path with bands and running totals; star budgets per preset; door kills on every map; statue levels | M9, M21 views |
+| `MapResult`, `EngineResult.map`, `buildMapView`; `SessionFacts`, `EngineResult.session`, `buildSessionView`; `EngineResult.classFamilies`; `SystemPicture` kinds `stamps` / `statues` / `vault` / `printer` / `p2w` | M21 TR-9, TR-10, TR-11 (M10 TR-2 and M20 TR-6 amendments) | The Map place, the pause points and Away card, the who-glyph families, the new System pictures | M10, M17, M21 |
+| `Route` additions `map` (`#map`, `#map-<n>`) and Timeline sections (`#daily`, `#slots`) | M21 TR-6 (an M17 TR-3 amendment) | Five places | M17, M21 |
 | `Checklist`, `ChecklistRow`, `CharacterSkills`, `SlotPip`, `SystemPicture`, `SkillGrid`, `EngineResult.slotPictures` | M20 TR-5, TR-6 | The checklist and rings, the Skills tab, slot pips, the dedicated System page bodies (via M17's `SYSTEM_HOMES`, highlight by `NextAction.key`) and the Skill Grid (`#skills` overview, M20 X9); M20's `TimelineBar`s for Killroy skulls and the next Random Event | M10, M17 |
 
 ## Check ownership matrix
@@ -207,6 +220,7 @@ One owner per Check. "Pos" is the Priority List position (M2 TR-13): B = Verdict
 | `alchemy-vials.goal.level-next` | M19 | Goal (Account, details) | next to the bubble Goal | Never takes the Water the bubble pick needs (M19 FR-10) |
 | `alchemy-p2w.check.player-behind` | M19 | next-action (Account, `unpriced`) | 3 | A detail of M7's Pay 2 Win line when that shows (M19 FR-14) |
 | `alchemy.check.talent-point` | M19 | next-action (Account) | 3 | Liquid Shop Talent Point, once Liquid Nitrogen is open |
+| `talent-presets.check.star-empty` | M21 (in M9's folder) | next-action (Account, per-character details) | 3 | Only if Owner review Q2 is accepted: one preset's star tab empty while the other is spent; exact counts (M21 FR-C15) |
 
 **No MVP owner: shown under "Not covered yet"** (M6 Final rulings RT1, applied to every leftover): upgrade stones and the skull and trap ladders past Wax and Cardboard (M18 and M20 Phase 2), cauldron Boosts, Bargain Tags and sigils (M19 Phase 2), W4+ constellations and Infinite Stars (M16 covers W1–W3, 3f), W4 shop dailies (1i), Liquid Shop dailies other than the daily gems (M19) and cheap daily obols, the Equinox bar, Happy Hour dungeon runs, unfillable slots and caps to raise (printer level, anvil Capacity, carry bags, skulls past the Wax Skull), Refinery storage (M3 Final rulings RT-10), Lab, Cooking and Breeding AFK safety, Forge upgrades as a spend, stamp raises that need farming or carry capacity, Worlds 5–7, elite and Journeyman talent builds.
 
@@ -330,6 +344,18 @@ Facts each module must check before (or in) its first build PR. Open facts, not 
 - [x] Lord of the Hunt quest 1 is not a per-character gate: an equipped trap set is (V2); `trapping.fact.trap-set-capacity` is the set's item ID (V3), which also unblocks M3 FR-21 (i).
 - [x] The daily-task done field `Tasks[1][w][8] == 1` (V4), `OLA[511]` for Tournament registration (V5), the W1 Task Board unlock signal (V7). V6 stays the working rule (W2 reached). V8: the server day is the host's, never projected.
 - [x] The row-registry CI check (M20 X1) is `kb-tools/test/m20-facts.test.ts`; the `surface` field was not needed (the M20 module builds every M20 Goal itself).
+
+**M21** (M21 "Verify before build")
+- [ ] V-1 where the ~60 KB of `re2js` in the first load comes from, and whether a supported Firebase import drops it (F).
+- [ ] V-2 `toolboxCalls.starTotal` per preset matches the preset spend on `first` / `second` and `fourth`'s −201 (F).
+- [ ] V-3 raw `KLA_<i>` covers every map, in `maps.fact.maps` door order (F).
+- [ ] V-4 whether Toolbox exposes per-character statue levels (F).
+- [ ] V-5 the `@fontsource/<font>/latin-<weight>.css` entries exist (F).
+- [ ] V-6 Play Session ends and level gains from `HistoryEntry` (N).
+- [ ] V-7 every generated pixel motif renders pixel-identical to its Lab SVG (F).
+- [ ] V-8 the W1–W4 boss, boss map and key for `map.fact.boss-gates` (M).
+- [ ] V-9 the completed-quest count for the star quest caps (C).
+- [ ] V-10 the grouped-jobs key groups `latest`'s trap line into one card of 7 (N).
 
 **M12**
 - [ ] Chunk-load behaviour after a redeploy (TR-10, Appendix A step 14).
