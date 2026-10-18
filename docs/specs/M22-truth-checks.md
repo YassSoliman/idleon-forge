@@ -45,10 +45,13 @@ unspent counts on screen (still M9's lower bounds, FR-10); any network call; any
     talent rows and path; the character header; the Spend Plan's wallets).
   - `star-total-floor`: the Account State's star point total is never below the game's floor.
   - `next-not-at-target`: a Build next step never takes a talent to a level the save already has; a tab's
-    first step starts from the save's level; M9's "Next talent points" Goal likewise (only when the
-    talent is at target on every preset, so no false alarm).
+    first step starts from the save's level; a Build path step (M21 FR-C1) shown done is done in the
+    save, and one still to do is not at its goal yet; M9's "Next talent points" Goal likewise (only when
+    the talent is at target on every preset, so no false alarm).
   - `no-points-vs-unspent`: "No points waiting" never coexists with points left in that tab, by the raw
-    floor or by the engine's own lower bound. 10 or more points is P1, fewer P2.
+    floor or by the engine's own lower bound (10 or more points P1, fewer P2; held back). Since #120 the
+    Build says "No unspent points known here" when its lower bound is 0; that claims nothing false, so
+    when the raw floor proves points are there it is reported as P2 with `hold: false` and left on screen.
   - `affordable-within-wallet`: a `buy` line never costs more than its payer carries (`move-coins` may add
     the bank); a payer's buy-now lines never add up to more than it can pay; transfers never exceed the bank.
 - **FR-3 On a violation**: only the touched items become "Can’t be sure of this one right now" (Build
@@ -97,9 +100,9 @@ unspent counts on screen (still M9's lower bounds, FR-10); any network call; any
 |---|---|---|
 | 1 | The floor is our port of a game formula (ADR 0005). | Kept: it is never shown, only used to doubt a line; it is a lower bound by construction (only additive terms dropped). A patch that adds a subtracted term would break it: the extract script and every truth run would show it as new violations on active, fully spent presets. |
 | 2 | Independence is partial: the raw readers and Toolbox read the same keys. | Accepted: the mapping is independent (N.js, not Toolbox); a key both misread is Layer 2's job (DOM vs raw) and the live captures'. |
-| 3 | Over-suppression: 1 unspent point hides a useful pointer. | Open, needs Yasser (Q1). Severity is P2 under 10 points. |
+| 3 | Over-suppression: 1 unspent point hides a useful pointer. | Narrowed: only a false claim is held back; a hedged line is reported, not held (`hold: false`). Q1 asks what to show instead. |
 | 4 | The rules read Build lines by text ("No points waiting", "(to N)"); a copy change silently disables them. | Fixed in part: tests pin detection on synthetic lines. Cross-area request: `talentId` and `to` on `BuildNextPoint` (result.ts is frozen). |
-| 5 | The hotfix on `fix/build-points` will change the Build lines. | Tests are written as invariants ("no contradicted line survives"), not as today's count, so they hold before and after. |
+| 5 | The Build hotfix (#120) changes the lines. | Happened mid-build: "No points waiting" became "No unspent points known here" for a 0 lower bound. Tests are invariants ("no contradicted line survives"), not today's count, so they held; the rule now also reports the hedged line. |
 | 6 | Privacy: the report holds coins and item counts; the hook holds the envelope with names. | Device-only, never sent; facts and envelope only under `?debug=truth`; the download is user-initiated; the file goes to the gitignored `fixtures/private/`; runner output is class and slot only. |
 | 7 | Cost on every parse. | ~5–8 ms and one `structuredClone` only when something is held back; the facts table crosses the worker boundary only on request. |
 | 8 | The engine re-run (Expected Return change) skipped the checks. | Fixed: the handler keeps the last envelope and state and checks every re-run too. |
@@ -107,17 +110,19 @@ unspent counts on screen (still M9's lower bounds, FR-10); any network call; any
 
 ## 7. Needs Yasser
 
-- **Q1** For a small floor (1–9 points), hold the line back ("Can’t be sure…") as now, or rewrite it as
-  "At least N points waiting here"?
+- **Q1** Where the save proves points are waiting but M9's lower bound is 0, the Build now says "No
+  unspent points known here". Show the floor instead ("At least 50 points waiting in tab 3, from your
+  save")? It would be the first use of a ported game formula in advice (ADR 0005), so it needs a ruling.
 
 ## 8. First truth run (2026-10-18)
 
 Run on the scrubbed W2-late and W3-early saves (`fixtures/scrubbed/`) and, locally, on the private saves
-they were made from: the raw readers agree with the Account State on every fact. `no-points-vs-unspent`
-fires 5 times, all on a tab 3 "No points waiting" line where both presets spend the same in tab 3, so
-M9's lower bound is 0 while the save has points left (one tab has 50). The runner, run on the same
-build with the rules switched off, finds the same 5 lines on the page, so Layer 2 confirms Layer 1.
-The Hunter case can't reproduce on these files (neither has a Hunter); it needs a live capture
+they were made from. The raw readers agree with the Account State on every fact. On `main` before #120,
+`no-points-vs-unspent` fired 5 times, all on a tab 3 "No points waiting" line where both presets spend
+the same in tab 3, so M9's lower bound is 0 while the save has points left (one tab has 50); the runner,
+on the same build with the rules switched off, found the same 5 lines on the page, so Layer 2 confirms
+Layer 1. After #120 the same 5 lines read "No unspent points known here" and are reported as P2. The
+Hunter case can't reproduce on these files (neither has a Hunter); it needs a live capture
 ([truth-run.md](../agents/truth-run.md)).
 
 ## Sources
