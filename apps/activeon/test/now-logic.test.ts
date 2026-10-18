@@ -110,6 +110,13 @@ describe('US-12 Report this (pre-M13)', () => {
     expect(body).not.toContain('Grumbo');
     expect(body).toContain('[character]');
   });
+  it('names the Knowledge Base version once, without the bundle display\'s "knowledge" prefix (R3 QA P2-1)', () => {
+    const body = new URL(reportUrl({ ...input, knowledge: 'knowledge 2026.10.17.13' }, [])).searchParams.get(
+      'body',
+    );
+    expect(body).toContain('- Knowledge Base: 2026.10.17.13');
+    expect(body).not.toContain('Knowledge Base: knowledge');
+  });
   it('keeps the whole URL at most 7,500 bytes, truncating the action text first', () => {
     const url = reportUrl({ ...input, text: 'x'.repeat(20_000) }, []);
     expect(new TextEncoder().encode(url).length).toBeLessThanOrEqual(MAX_URL_BYTES);
