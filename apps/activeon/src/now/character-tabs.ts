@@ -7,7 +7,7 @@
 // A tab that publishes `status` gets one line on the character's Characters tile (M17 FR-13).
 //
 // To add a tab: write a component taking `CharacterTabProps` in its own file, then add
-// `{ id, label, Component: lazyPart(() => import('./MyTab').then((m) => m.MyTab)) }` below. Every tab
+// `{ id, label, Component: lazyPart(() => import('./MyTab'), (m) => m.MyTab) }` below. Every tab
 // is its own lazy chunk (lazy-part.tsx): Focus renders it inside <Suspense>, so the main chunk only
 // carries this list. A `status` must not import the tab's file: read a string the engine built.
 // The id must be lower-case letters only (it is the anchor prefix) and never `system`.
@@ -40,33 +40,48 @@ export const characterTabs: readonly CharacterTab[] = [
   {
     id: 'build',
     label: 'Build',
-    Component: lazyPart(() => import('./BuildView').then((m) => m.BuildTab)),
+    Component: lazyPart(
+      () => import('./BuildView'),
+      (m) => m.BuildTab,
+    ),
     status: (view, index) => view.builds.find((b) => b.index === index)?.status ?? null,
   },
   // M18 F5 (FR-24): the Gear tab, `#gear-<index>`.
   {
     id: 'gear',
     label: 'Gear',
-    Component: lazyPart(() => import('../gear/GearTab').then((m) => m.GearTab)),
+    Component: lazyPart(
+      () => import('../gear/GearTab'),
+      (m) => m.GearTab,
+    ),
     status: (view, index) => view.gear?.characters.find((c) => c.index === index)?.status ?? null,
   },
   {
     id: 'cards',
     label: 'Cards',
-    Component: lazyPart(() => import('./cards/CardsPanel').then((m) => m.CardsTab)),
+    Component: lazyPart(
+      () => import('./cards/CardsPanel'),
+      (m) => m.CardsTab,
+    ),
     status: (view, index) => view.cards?.characters.find((c) => c.index === index)?.overview ?? null,
   },
   {
     id: 'signs',
     label: 'Signs',
-    Component: lazyPart(() => import('./signs/SignsTab').then((m) => m.SignsTab)),
+    Component: lazyPart(
+      () => import('./signs/SignsTab'),
+      (m) => m.SignsTab,
+    ),
     status: signsStatus,
   },
   // M20 F3 (FR-33): the Skills tab, `#skills-<index>`.
   {
     id: 'skills',
     label: 'Skills',
-    Component: lazyPart(() => import('./SkillsTab').then((m) => m.SkillsTab)),
+    Component: lazyPart(
+      () => import('./SkillsTab'),
+      (m) => m.SkillsTab,
+    ),
     status: (view, index) => view.skills.find((s) => s.index === index)?.status ?? null,
   },
 ];
