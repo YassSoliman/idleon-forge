@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #6e6baa89 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 8 of 180
+# golden v1: first · knowledge #9b38b7fd · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 8 of 328
 
 ## Verdict changes
 
@@ -9,7 +9,7 @@
 1 · Doing nothing · YumYum Grotto · [Traps idle in about 10 min] · Send Maestro Lv 73 to an AFK Target before you leave
 
 ### C2 · Bubonic Conjuror 87 · Unknown
-2 · In the Lab · Outer World Town · [Traps idle in about 5 h] · Not covered yet: AFK safety
+2 · In the Lab · Outer World Town · [Traps idle in about 5 h] · Not covered yet: AFK safety · Spend here: 32 buys, ~3.6B → Spend Plan
 
 ### C6 · Beast Master 87 · Unknown
 3 · In the Lab · Outer World Town · [Traps idle in about 5 h] · Not covered yet: AFK safety
@@ -21,10 +21,10 @@
 5 · In the Lab · Outer World Town · [Anvil full · collect] [Traps idle in about 5 h] · Not covered yet: AFK safety
 
 ### C1 · Blood Berserker 96 · Ready
-6 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in about 5 h] · Collect 2 boss keys
+6 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in about 5 h] · Collect 2 boss keys · Spend here: 1 buy, ~2M → Spend Plan
 
 ### C4 · Divine Knight 86 · Ready
-7 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in about 5 h] · Spend at least 101 talent points on your skilling preset (Rage Basics, Warrior), starting with Lucky Clover, Big Pick
+7 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in about 5 h] · Spend at least 101 talent points on your skilling preset (Rage Basics, Warrior), starting with Lucky Clover, Big Pick · Spend here: 1 buy, ~935k → Spend Plan
 
 ### Account · nothing to fix
 - Grow · Switch on a Refinery salt: Switch on Explosive Salts in the Refinery [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
@@ -33,12 +33,19 @@
 - Spend · Use your vial attempts: Use your 13 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 show more (10)
+Spend coins: 34 buys now on 3 characters
+  1. Buy the bribe Photoshopped Dmg Range on Bubonic Conjuror Lv 87: 1 dementia · Lv 0 → 1 · 100M coins · C2 (Bubonic Conjuror lv87) · withdraw 100M from storage on C2, then buy · total 100M on C2
+  2. Buy the bribe Glitched Acc Formula on Bubonic Conjuror Lv 87: 3 dementia · Lv 0 → 1 · 300M coins · C2 (Bubonic Conjuror lv87) · withdraw 300M from storage on C2, then buy · total 400M on C2
+  3. Buy the bribe Firewalled Defence on Bubonic Conjuror Lv 87: 7 dementia · Lv 0 → 1 · 700M coins · C2 (Bubonic Conjuror lv87) · withdraw 700M from storage on C2, then buy · total 1.1B on C2
+  4. Buy the bribe Bottomless Bags on Bubonic Conjuror Lv 87: 12 dementia · Lv 0 → 1 · 1.2B coins · C2 (Bubonic Conjuror lv87) · withdraw 1.2B from storage on C2, then buy · total 2.3B on C2
+  5. Buy the bribe Guild GP Hack on Blood Berserker Lv 96: 25 dementia · Lv 0 → 1 · 2.5B coins · save for it: 2.5B short
+  show more (35)
+  can't price the Upgrade Vault right now
 
 ## Not covered yet
 Classes and subclasses
 Portals and map doors
 Skills, doors and tools
-Spend Plan
 Upgrade Vault
 Bribes
 Forge
@@ -47,7 +54,6 @@ Statues
 The Owl
 Alchemy Pay 2 Win
 Islands
-3D Printer
 Atom Collider
 Construction
 Equinox

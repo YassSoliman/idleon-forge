@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #6e6baa89 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 8 of 180
+# golden v1: third · knowledge #9b38b7fd · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 8 of 328
 
 ## Verdict changes
 
@@ -59,7 +59,6 @@ If you have time
 Classes and subclasses
 Portals and map doors
 Skills, doors and tools
-Spend Plan
 Upgrade Vault
 Bribes
 Forge
@@ -68,7 +67,6 @@ Statues
 The Owl
 Alchemy Pay 2 Win
 Islands
-3D Printer
 Atom Collider
 Construction
 Equinox
