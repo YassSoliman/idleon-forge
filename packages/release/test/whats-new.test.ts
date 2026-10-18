@@ -144,6 +144,15 @@ describe("What's new feed (US-3)", () => {
     expect(parseWhatsNewLine("What's-new:\n")).toBeNull();
   });
 
+  it('treats "none" with a note as none, but not a word that starts with none', () => {
+    expect(parseWhatsNewLine("What's-new: none (spec only)")).toEqual({ kind: 'none' });
+    expect(parseWhatsNewLine("What's-new: None - docs")).toEqual({ kind: 'none' });
+    expect(parseWhatsNewLine("What's-new: nonetheless faster")).toEqual({
+      kind: 'text',
+      text: 'nonetheless faster',
+    });
+  });
+
   it('dates entries in UTC', () => {
     const e = one(commit('fix: late (#82)', '', undefined, { date: '2026-10-21T23:30:00-05:00' }));
     expect(e?.date).toBe('2026-10-22');

@@ -60,7 +60,8 @@ export function parseWhatsNewLine(body: string): WhatsNewLine | null {
     if (!m) continue;
     const text = (m[1] ?? '').trim();
     if (!text) continue;
-    if (/^none\.?$/i.test(text)) return { kind: 'none' };
+    // "none", optionally followed by a note: "none (spec only)", "none - docs" (not shown to players).
+    if (/^none\b(?:[\s.:;,(–—-].*)?$/i.test(text)) return { kind: 'none' };
     return { kind: 'text', text };
   }
   return null;
