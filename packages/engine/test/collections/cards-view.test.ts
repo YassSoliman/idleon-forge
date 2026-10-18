@@ -56,10 +56,10 @@ describe('ETA arithmetic (M14 Supply method, ADR 0005)', () => {
   it('words chances and hours plainly', () => {
     expect(oneIn(0.004)).toBe('1 in 250');
     expect(oneIn(0.00006)).toBe('1 in 16,670');
-    expect(hoursText(0.5)).toBe('about 30 min');
-    expect(hoursText(1.234)).toBe('about 1.2 h');
-    expect(hoursText(30)).toBe('about 30 h');
-    expect(hoursText(100)).toBe('about 4 days');
+    expect(hoursText(0.5)).toBe('about 30m');
+    expect(hoursText(1.9)).toBe('about 2h');
+    expect(hoursText(30)).toBe('about 30h');
+    expect(hoursText(100)).toBe('about 4d');
   });
   it("a grind line's hours are its mean kills over the character's kill rate on that map", () => {
     const s = w3();

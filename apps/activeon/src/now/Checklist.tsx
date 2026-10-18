@@ -5,7 +5,12 @@
 // weekly) with to-do rows first and done rows folded. Each row shows a glyph and a word for its state
 // (never colour alone), what to do, how long, when it resets, and links to the Goal that already carries
 // it instead of repeating it (FR-8). The engine and view model word everything; this file only renders.
-import type { ChecklistBandView, ChecklistRowView, ChecklistView } from '@idleon-forge/engine/now';
+import type {
+  ChecklistBandView,
+  ChecklistRowView,
+  ChecklistView,
+  TimelineFix,
+} from '@idleon-forge/engine/now';
 import { LINK_WORDS, PLACE_WORDS } from '@idleon-forge/engine/now';
 import { formatRoute } from '../shell/route';
 import { useNowActions } from './context';
@@ -31,20 +36,37 @@ function Rings({ v }: { v: ChecklistView }) {
   );
 }
 
+/**
+ * Where a linked Goal or "If you have time" item lives: a character Goal (`…@cN`) on that character's
+ * Now tab, everything else in the account list or the "If you have time" list on the Now screen.
+ */
+export function linkFix(link: NonNullable<ChecklistRowView['link']>, inDom: boolean): TimelineFix {
+  const m = /@c(\d+)$/.exec(link.key);
+  if (link.kind === 'goal' && m)
+    return { subject: `c${Number(m[1])}`, key: link.key, where: 'focus', expand: 'show-more' };
+  return {
+    subject: 'account',
+    key: link.key,
+    where: 'account',
+    // Behind the account list's "show more" when it isn't on the page yet.
+    expand: link.kind === 'goal' && !inDom ? 'show-more' : null,
+  };
+}
+
 function RowLink({ r }: { r: ChecklistRowView }) {
   const actions = useNowActions();
   if (r.link) {
-    const target = r.link.kind === 'goal' ? 'in your list' : 'If you have time';
+    const link = r.link;
+    const target = link.kind === 'goal' ? 'in your list' : 'If you have time';
     return (
       <a
         className="small cl-link"
-        href={`#na-${encodeURIComponent(r.link.key)}`}
+        href={`#na-${encodeURIComponent(link.key)}`}
         onClick={(e) => {
-          const el = document.querySelector(`[data-na-key="${CSS.escape(r.link?.key ?? '')}"]`);
-          if (el) {
-            e.preventDefault();
-            el.scrollIntoView?.({ block: 'center' });
-          }
+          e.preventDefault();
+          const el = document.querySelector(`[data-na-key="${CSS.escape(link.key)}"]`);
+          if (actions.reveal) actions.reveal(linkFix(link, el !== null));
+          else el?.scrollIntoView?.({ block: 'center' });
         }}
       >
         {target} ↓

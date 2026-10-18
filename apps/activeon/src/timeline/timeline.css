@@ -153,6 +153,8 @@
   background: var(--line);
   border-radius: 3px;
 }
+/* R7 QA: a bar that fills after Back (Killroy's skulls) draws like the bank bars, never a solid band. */
+.tl-bar:not(.outlined) .tl-rail,
 .tl-bar.fx-info .tl-rail {
   background: transparent;
   border: 1px dashed var(--muted);

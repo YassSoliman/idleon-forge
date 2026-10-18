@@ -212,20 +212,23 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
         </section>
       ) : null}
 
-      <details className="sp-opens" open={page.locked}>
-        <summary>
-          <h3 className="sub-h">{PAGE_WORDS.howItOpens}</h3>
-        </summary>
-        {page.alwaysOpen ? (
-          <p className="small">{REASON_WORDS.openFromStart}</p>
-        ) : page.unlock ? (
-          <p className="small">
-            {page.unlock.text}{' '}
-            {page.unlock.source ? <SourceLabel source={page.unlock.source} more={false} /> : null}
-          </p>
-        ) : null}
-        {page.locked ? goals : null}
-      </details>
+      {/* R7 QA: no empty "How it opens" on an open System with no unlock line. */}
+      {page.alwaysOpen || page.unlock || page.locked ? (
+        <details className="sp-opens" open={page.locked}>
+          <summary>
+            <h3 className="sub-h">{PAGE_WORDS.howItOpens}</h3>
+          </summary>
+          {page.alwaysOpen ? (
+            <p className="small">{REASON_WORDS.openFromStart}</p>
+          ) : page.unlock ? (
+            <p className="small">
+              {page.unlock.text}{' '}
+              {page.unlock.source ? <SourceLabel source={page.unlock.source} more={false} /> : null}
+            </p>
+          ) : null}
+          {page.locked ? goals : null}
+        </details>
+      ) : null}
 
       <section aria-labelledby="sp-cov-h" className="sp-coverage">
         <h3 id="sp-cov-h" className="sub-h">

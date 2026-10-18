@@ -6,7 +6,15 @@ import type { SkillId } from '@idleon-forge/account-state';
 
 export type { SkillId };
 export type SlotKind = 'cog' | 'worship' | 'trap' | 'cauldron' | 'printer';
-export type SlotState = 'filled' | 'fillable' | 'unfillable' | 'capped' | 'locked' | 'unknown';
+/** `not-covered`: the account is past ActiveOn's coverage and the save shows nothing for this slot. */
+export type SlotState =
+  | 'filled'
+  | 'fillable'
+  | 'unfillable'
+  | 'capped'
+  | 'locked'
+  | 'unknown'
+  | 'not-covered';
 
 /** FR-18: one Parallel Slot of one character. */
 export interface SlotPip {

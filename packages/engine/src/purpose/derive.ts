@@ -171,7 +171,7 @@ export function etaSuffix(eta: Eta): string {
         : eta.reason === 'reached-unconfirmed'
           ? ' · reached, claim to confirm'
           : eta.reason === 'complete'
-            ? ' · complete'
+            ? ' · maxed'
             : '';
     default:
       return '';
@@ -427,7 +427,11 @@ export function derive(input: DeriveInput, cardListOf: CardListOf = () => []): D
     }
     if (family.kind === 'yesno' || family.kind === 'door') {
       // no ETA words for skilling (FR-6)
-    } else if (!(complete && typeof variant === 'string')) headline += etaSuffix(eta);
+    } else if (!(complete && typeof variant === 'string')) {
+      // A capped ladder has no next Milestone: drop the template's dangling "→" before "· maxed".
+      if (complete) headline = headline.replace(/\s*→\s*$/, '');
+      headline += etaSuffix(eta);
+    }
     const whyNot = typeof entry.values.whyNot === 'string' ? entry.values.whyNot : null;
     let detail: string | null = null;
     if (reason === 'rule' && whyNot) {

@@ -17,11 +17,20 @@ import {
 import type { EngineResult, InfoLine, SystemSummary, TimelineBar } from '@idleon-forge/engine/result';
 import { cleanup, fireEvent, screen, within } from '@testing-library/react';
 import axe from 'axe-core';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { fixture, props, renderNow, saveOf } from './now-helpers';
 
 const NOW = 1_792_260_000_000;
 const H = 3_600_000;
+
+// The Timeline is a lazy chunk: under a cold full suite its first import can take longer than Testing
+// Library's 1 s default, so warm the module once and give the heading a CI-aware wait (R7 QA flake).
+const ARRIVE = { timeout: process.env.CI ? 15_000 : 5_000 };
+const timelineHeading = () => screen.findByRole('heading', { level: 2, name: 'Timeline' }, ARRIVE);
+vi.setConfig({ testTimeout: ARRIVE.timeout + 5_000 });
+beforeAll(async () => {
+  await import('../src/timeline/TimelinePlace');
+}, 30_000);
 
 beforeEach(() => {
   vi.useFakeTimers({ toFake: ['Date'] });
@@ -139,7 +148,7 @@ const places = () => screen.getByRole('navigation', { name: 'Places' });
 const openTimeline = async (r: EngineResult, savedAgoMs = 30_000) => {
   window.history.replaceState(null, '', '/#timeline');
   const out = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste', savedAgoMs)));
-  await screen.findByRole('heading', { level: 2, name: 'Timeline' });
+  await timelineHeading();
   return out;
 };
 const lists = () => document.querySelector('.tl-lists') as HTMLElement;
@@ -157,7 +166,7 @@ describe('US-1: the Timeline joins the Places bar (D-1)', () => {
     ]);
     expect(screen.queryByText('Map')).toBeNull();
     fireEvent.click(within(places()).getByRole('link', { name: 'Timeline' }));
-    await screen.findByRole('heading', { level: 2, name: 'Timeline' });
+    await timelineHeading();
     expect(window.location.hash).toBe('#timeline');
     expect(document.title).toBe('Timeline · ActiveOn');
     expect(within(places()).getByRole('link', { current: 'page' }).textContent).toBe('Timeline');
@@ -235,7 +244,7 @@ describe('US-11: from the bar to the fix (FR-27)', () => {
     expect(na?.classList.contains('lit')).toBe(true);
     expect(within(places()).getByRole('link', { current: true }).textContent).toBe('Timeline');
     fireEvent.click(screen.getByRole('button', { name: '← back' }));
-    await screen.findByRole('heading', { level: 2, name: 'Timeline' });
+    await timelineHeading();
     expect(window.location.hash).toBe('#timeline');
   });
 
@@ -269,14 +278,14 @@ describe('FR-31, FR-32: links into the Timeline', () => {
     window.history.replaceState(null, '', '/#now-3');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     fireEvent.click(screen.getByRole('link', { name: 'See it: Timeline' }));
-    await screen.findByRole('heading', { level: 2, name: 'Timeline' });
+    await timelineHeading();
   });
 
   it("the All set banner's first-fill text links to the Timeline", async () => {
     const r = { ...fixture('all-set'), returnAt: Date.now() + 8 * H, timeline: [] };
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     fireEvent.click(screen.getByRole('link', { name: /^First thing fills up in/ }));
-    await screen.findByRole('heading', { level: 2, name: 'Timeline' });
+    await timelineHeading();
   });
 });
 

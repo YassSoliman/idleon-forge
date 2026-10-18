@@ -3,6 +3,7 @@
 // M4 Purpose & Milestones: one test per user story (docs/specs/M4-purpose-milestones.md §4) on the
 // scrubbed W2-late and W3-early saves, parsed the way the worker parses them (frontier and supply
 // rates, Toolbox functions). The † kill rates are checked within ±5% before any number is pinned.
+import { fileURLToPath } from 'node:url';
 import { withAccount, withCharacter, withUnknown } from '@idleon-forge/knowledge';
 import { describe, expect, it } from 'vitest';
 import { lookupOf } from '../../src/metapath';
@@ -16,7 +17,9 @@ import {
   etaSuffix,
   purposesFor,
 } from '../../src/purpose';
-import { deps, derived, engineOf, inputOf, kb, purposeOf, W2, W3 } from './helpers';
+import { deps, derived, engineOf, inputOf, kb, purposeOf, W2, W3, workerState } from './helpers';
+
+const LATEST = fileURLToPath(new URL('../../../account-state/fixtures/public/latest.json', import.meta.url));
 
 const within5 = (actual: number, expected: number) =>
   expect(Math.abs(actual - expected) / expected).toBeLessThan(0.05);
@@ -344,5 +347,34 @@ describe('the Focus card’s Purpose block (Design Lab now.focus-purpose: Quest 
     const f = focus(2);
     expect(f?.unknown?.text).toBe('What is this character for?');
     expect(f?.unknown?.note).toContain('Slime card is complete');
+  });
+});
+
+describe('R7 QA: capped ladders and the headline that repeats the first Goal', () => {
+  it('latest: a capped Class level reads "Class level 1,280 · maxed", never a dangling arrow', () => {
+    const d = derived(workerState(LATEST));
+    const texts = d.purposes.flatMap((p) => p.goals.map((g) => g.text.headline));
+    expect(texts.length).toBeGreaterThan(0);
+    expect(texts.filter((t) => /→\s*(·|$)/.test(t))).toEqual([]);
+    const capped = texts.filter((t) => t.startsWith('Class level') && t.endsWith('maxed'));
+    expect(capped.length).toBeGreaterThan(0);
+    for (const t of capped) expect(t).toMatch(/^Class level [\d,]+ · maxed$/);
+    expect(texts).toContain('Class level 1,280 · maxed');
+  });
+
+  it('W3-early Squire Lv 85: the portal headline echoes the push Goal, so it is shown once (ladder kept)', () => {
+    const s = W3();
+    const r = engineOf(s);
+    const squire = s.characters.find((c) => c.class === 'Squire' && c.level === 85);
+    if (!squire) throw new Error('fixture');
+    const v = buildNowView(r, EMPTY_PREFS, { ...DEFAULT_UI, now: r.asOf, focus: squire.index });
+    expect(v.focus?.goals[0]?.id).toBe('metapath.goal.push');
+    expect(v.focus?.purpose[0]?.echoesGoal).toBe(true);
+    expect(v.focus?.purpose[0]?.ladder.length).toBeGreaterThan(0);
+    // Any other character's headline is shown as usual.
+    const other = s.characters.find((c) => c.class === 'Squire' && c.level === 51);
+    if (!other) throw new Error('fixture');
+    const w = buildNowView(r, EMPTY_PREFS, { ...DEFAULT_UI, now: r.asOf, focus: other.index });
+    expect(w.focus?.purpose[0]?.echoesGoal).toBeUndefined();
   });
 });

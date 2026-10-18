@@ -4,8 +4,9 @@
 // the Skill Grid on the Characters place (`#skills`). One "Train" line, one row per W1–W3 skill with its
 // level, progress, efficiency, the account's best, the Role badge or specialty mark and the next gate,
 // then the character's Parallel Slot pips. The engine words everything; this file only renders.
-import type { NowView, SkillGridView } from '@idleon-forge/engine/now';
+import { compact, type NowView, type SkillGridView } from '@idleon-forge/engine/now';
 import type { SlotPip } from '@idleon-forge/engine/result';
+import { useEffect, useRef } from 'react';
 import type { CharacterTabProps } from './character-tabs';
 import { useNowActions } from './context';
 import './checklist.css';
@@ -24,6 +25,7 @@ const STATE_WORDS: Record<SlotPip['state'], string> = {
   capped: 'full',
   locked: 'locked',
   unknown: "can't tell",
+  'not-covered': 'not covered yet',
 };
 
 /** M17 FR-13: the Skills tab's one status line on the Characters grid. */
@@ -73,42 +75,45 @@ export function SkillsTab({ view, index }: CharacterTabProps) {
   return (
     <div className="sk">
       {t.train ? <p className="sk-train">{t.train.text}</p> : null}
-      <table className="sk-table">
-        <thead>
-          <tr>
-            <th scope="col">Skill</th>
-            <th scope="col">Level</th>
-            <th scope="col">Next</th>
-          </tr>
-        </thead>
-        <tbody>
-          {t.rows.map((r) => (
-            <tr key={r.skill} className={r.locked ? 'locked' : undefined}>
-              <th scope="row">
-                {r.name}
-                {r.roleText ? (
-                  <span className={`sk-badge${r.role?.active ? '' : ' dormant'}`}>{r.roleText}</span>
-                ) : null}
-                {r.specialty ? <span className="sk-badge spec">specialty</span> : null}
-              </th>
-              <td>
-                <span className="num">{r.level ?? '?'}</span>
-                {r.progress !== null && !r.locked ? (
-                  <span className="small muted"> · {Math.floor(r.progress * 100)}% to next</span>
-                ) : null}
-                {r.efficiency !== null ? (
-                  <span className="small muted">
-                    {' '}
-                    · efficiency {Math.round(r.efficiency).toLocaleString('en-US')}
-                  </span>
-                ) : null}
-                {r.bestText ? <span className="small muted"> · {r.bestText}</span> : null}
-              </td>
-              <td className="small">{r.locked ? r.locked.text : (r.gateText ?? '—')}</td>
+      {/* A frame of its own: a long row scrolls here, never the page (R7 QA, 390 px). */}
+      <div className="sk-table-wrap">
+        <table className="sk-table">
+          <thead>
+            <tr>
+              <th scope="col">Skill</th>
+              <th scope="col">Level</th>
+              <th scope="col">Next</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {t.rows.map((r) => (
+              <tr key={r.skill} className={r.locked ? 'locked' : undefined}>
+                <th scope="row">
+                  {r.name}
+                  {r.roleText ? (
+                    <span className={`sk-badge${r.role?.active ? '' : ' dormant'}`}>{r.roleText}</span>
+                  ) : null}
+                  {r.specialty ? <span className="sk-badge spec">specialty</span> : null}
+                </th>
+                <td>
+                  <span className="num">{r.level ?? '?'}</span>
+                  {r.progress !== null && !r.locked ? (
+                    <span className="small muted"> · {Math.floor(r.progress * 100)}% to next</span>
+                  ) : null}
+                  {r.efficiency !== null ? (
+                    <span className="small muted">
+                      {' '}
+                      · efficiency <span className="num">{compact(r.efficiency)}</span>
+                    </span>
+                  ) : null}
+                  {r.bestText ? <span className="small muted"> · {r.bestText}</span> : null}
+                </td>
+                <td className="small">{r.locked ? r.locked.text : (r.gateText ?? '—')}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <h3 className="sub-h">Parallel Slots</h3>
       <Pips pips={t.slots} />
     </div>
@@ -118,13 +123,25 @@ export function SkillsTab({ view, index }: CharacterTabProps) {
 /** FR-31: the Skill Grid, one row per character; the one cell M20's top slot Goal fills is outlined. */
 export function SkillGrid({ grid }: { grid: SkillGridView | null }) {
   const actions = useNowActions();
+  const wrap = useRef<HTMLDivElement>(null);
+  const highlight = grid?.highlight ?? null;
+  // The outlined cell scrolls into the frame (its first column stays put), never off to the right.
+  useEffect(() => {
+    const box = wrap.current;
+    const cell = highlight ? box?.querySelector<HTMLElement>('td.hl') : null;
+    const first = box?.querySelector<HTMLElement>('tbody th');
+    if (!box || !cell) return;
+    const left = cell.offsetLeft - (first?.offsetWidth ?? 0) - 8;
+    if (left > box.scrollLeft && cell.offsetLeft + cell.offsetWidth > box.scrollLeft + box.clientWidth)
+      box.scrollLeft = left;
+  }, [highlight]);
   if (!grid) return null;
   return (
     <section id="skills" className="card sk-grid-sec" aria-labelledby="skills-h" tabIndex={-1}>
       <h3 id="skills-h" className="sub-h">
         Skills
       </h3>
-      <div className="sk-grid-wrap">
+      <div className="sk-grid-wrap" ref={wrap}>
         <table className="sk-grid">
           <thead>
             <tr>

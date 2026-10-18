@@ -200,3 +200,66 @@ describe('the Skills tab', () => {
     expect(screen.getByText('filled: builds on the Cog Board')).toBeTruthy();
   });
 });
+
+/** The Spiketrap row linked to `link`; with `extra` account Goals so the 6th+ sit behind "show more". */
+function linked(link: NonNullable<Checklist['rows'][number]['link']>, extra = 0): EngineResult {
+  const r = withM20(fixture('mid-session'));
+  const base = r.account.goals[0];
+  if (!base || !r.checklist) throw new Error('mid-session has an account Goal and a checklist');
+  const goals = Array.from({ length: extra }, (_, i) => ({
+    ...base,
+    id: `arcade.check.g${i}`,
+    system: 'arcade',
+    nextAction: {
+      ...base.nextAction,
+      key: `arcade.check.g${i}@account`,
+      entryId: `arcade.check.g${i}`,
+      text: `Arcade line ${i}`,
+    },
+  }));
+  return {
+    ...r,
+    account: { ...r.account, goals: [...r.account.goals, ...goals] },
+    checklist: {
+      ...r.checklist,
+      rows: r.checklist.rows.map((x) => (x.id === 'spiketrap' ? { ...x, link, nextAction: null } : x)),
+    },
+  };
+}
+
+const lit = (key: string) =>
+  document.querySelector(`[data-na-key="${CSS.escape(key)}"]`)?.classList.contains('lit') ?? false;
+
+describe('the checklist links land on their Goal (R7 QA)', () => {
+  it('"in your list" opens the account list\'s "show more" when the Goal is behind it, and outlines it', () => {
+    const r = linked({ kind: 'goal', key: 'arcade.check.g5@account' }, 6);
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    expect(document.querySelector('[data-na-key="arcade.check.g5@account"]')).toBeNull();
+    const section = document.getElementById('checklist') as HTMLElement;
+    fireEvent.click(within(section).getByRole('link', { name: 'in your list ↓' }));
+    expect(window.location.hash).toBe('#now');
+    expect(lit('arcade.check.g5@account')).toBe(true);
+  });
+
+  it('a character Goal (@cN) opens that character\'s Now tab, past its "show more", outlined', () => {
+    const key = 'minigames.check.daily-plays@c2';
+    const r = linked({ kind: 'goal', key });
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const section = document.getElementById('checklist') as HTMLElement;
+    fireEvent.click(within(section).getByRole('link', { name: 'in your list ↓' }));
+    expect(window.location.hash).toBe('#now-2');
+    expect(lit(key)).toBe(true);
+  });
+
+  it('"If you have time" lands on the keyed item and outlines it', () => {
+    const key = 'minigames.check.daily-plays@account';
+    const r = linked({ kind: 'active-play', key });
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const section = document.getElementById('checklist') as HTMLElement;
+    fireEvent.click(within(section).getByRole('link', { name: 'If you have time ↓' }));
+    const item = document.querySelector(`[data-na-key="${key}"]`);
+    expect(item?.tagName).toBe('LI');
+    expect(item?.textContent).toContain('Play the Hoops minigame');
+    expect(lit(key)).toBe(true);
+  });
+});
