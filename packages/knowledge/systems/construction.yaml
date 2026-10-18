@@ -35,3 +35,30 @@ entries:
       - { url: "https://idleon.wiki/wiki/Construction", title: "IdleOn Wiki: Construction (build the 3D Printer first)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://gist.github.com/shnaps/161a370ed795e6141e0553eb30ddc8fa", title: "shnaps, IdleOn progression gist (Construction buildings order)", tier: 3, claimDate: 2026-09-18, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/construction.ts#L433", title: "Calculated by IdleOn Toolbox (getBuildCost, getTowers)", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+
+  # ---- M20 F2 (docs/specs/M20-skills-parallel-slots.md FR-20, FR-21, D-9): the Cog Board seat, taken
+  # over from M3 FR-27. Built by the engine module (packages/engine/src/slots) from these templates.
+  - id: construction.check.cog-seat-free
+    system: construction
+    type: check
+    title: Fill the Cog Board
+    text: "{text}"
+    why: "{why}"
+    values:
+      shelf: "Put your {who} on the Cog Shelf"
+      seat: "Seat your {who} on the free Cog Board square"
+      why-shelf: "In the cog inventory it earns nothing; on the Cog Shelf (Construction screen, W3 town) it makes cogs and earns Construction EXP."
+      why-seat: "On the board it adds build rate for your buildings; on the shelf it makes cogs instead. Both earn the same Construction EXP."
+      board-full: "Board full: place a flag to open more squares"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Construction", title: "IdleOn Wiki: Construction (the Cog Board and the Cog Shelf)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/construction.ts", title: "Calculated by IdleOn Toolbox (the board, player build speed and EXP)", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 30
+    detector: { id: construction/cog-seat-free }
+    notes: "FR-20: inventory characters to the shelf first (they earn nothing there), then free open squares to the character not on the board with an active construction-builder Role, then the largest Toolbox constructionSpeed, then constructionExpPerHour, then the lower index. No build-rate number is quoted (ADR 0005)."

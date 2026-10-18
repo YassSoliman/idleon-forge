@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M20 TR-3: the worship skull M20 Phase 1 suggests (D-11, the Wax Skull only; the ladder is Phase 2). Its
+# vendor is the wiki's; the wiki gives no vendor price (5,000 is the item's sell price), so none is kept.
+system: worship
+facts:
+  - id: worship.fact.skulls
+    system: worship
+    origin: authored
+    title: The Wax Skull
+    rows:
+      - { rawName: WorshipSkull1, name: Wax Skull, levelReq: 1, vendor: Frostbite Towndra }
+    sources:
+      - { url: "https://idleon.wiki/wiki/Worship", title: "IdleOn Wiki: Worship (Wax Skull, sold in Frostbite Towndra)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }

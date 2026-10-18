@@ -112,6 +112,45 @@ systems:
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M4-purpose-milestones.md
     unlocked: always
+  # M20 (Daily & Weekly Checklist, Parallel Slots): ActiveOn's own concepts, and the reset Systems.
+  - id: checklist
+    name: Daily & Weekly Checklist
+    world: 0
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M20-skills-parallel-slots.md
+    unlocked: always
+    kind: activeon
+  - id: slots
+    name: Parallel Slots
+    world: 0
+    scope: character
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M20-skills-parallel-slots.md
+    unlocked: always
+    kind: activeon
+  - id: random-events
+    name: Random Events
+    world: 0
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/research/account-wide/docs/research/systems/account-wide/resets-dailies-events.md
+    unlocked: always
+  - id: pet-tournament
+    name: Pet Tournament
+    world: 0
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M20-skills-parallel-slots.md
+    unlocked: always
+  - id: task-board
+    name: Daily tasks
+    world: 0
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/research/account-wide/docs/research/systems/account-wide/achievements-tasks-merit.md
+    unlocked: always
+  - id: guild
+    name: Guild tasks
+    world: 0
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M20-skills-parallel-slots.md
+    unlocked: always
 
   # ---- World 1 ----
   - id: stamps
@@ -240,6 +279,27 @@ systems:
     world: 2
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w2-systems/docs/research/systems/2026-10-17-w2-systems.md
+    unlocked: { id: worlds/reached, params: { world: 2 } }
+    unlockFact: systems.fact.unlocks
+  - id: killroy
+    name: Killroy's Slaughterhouse
+    world: 2
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/research/account-wide/docs/research/systems/account-wide/resets-dailies-events.md
+    unlocked: { id: worlds/reached, params: { world: 2 } }
+    unlockFact: systems.fact.unlocks
+  - id: weekly-battles
+    name: Weekly Battles
+    world: 2
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/research/account-wide/docs/research/systems/account-wide/resets-dailies-events.md
+    unlocked: { id: worlds/reached, params: { world: 2 } }
+    unlockFact: systems.fact.unlocks
+  - id: ballot
+    name: Bonus Ballot
+    world: 2
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/research/account-wide/docs/research/systems/account-wide/resets-dailies-events.md
     unlocked: { id: worlds/reached, params: { world: 2 } }
     unlockFact: systems.fact.unlocks
 

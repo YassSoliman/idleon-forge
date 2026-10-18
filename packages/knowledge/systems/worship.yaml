@@ -59,3 +59,29 @@ entries:
     category: nice
     usesExpectedReturn: true
     detector: { id: worship/charge-caps-no-skull }
+
+  # ---- M20 F2 (docs/specs/M20-skills-parallel-slots.md FR-22, D-11): one account line for skulls.
+  - id: worship.check.no-skull
+    system: worship
+    type: check
+    title: Worship skulls
+    text: "{text}"
+    why: "{why}"
+    values:
+      many: "Buy a Wax Skull for each of {n:int} characters at the Frostbite Towndra shop"
+      one: "Buy a Wax Skull for your {who} at the Frostbite Towndra shop"
+      why: "Without a skull, charge stops at {max:int}; a Wax Skull raises it to at least 100 and charges faster."
+      detail: "{who}: {charge:int} of {max:int} charge"
+      detail-full: "{who}: full, {charge:int} of {max:int} charge"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Worship", title: "IdleOn Wiki: Worship (Wax Skull, Frostbite Towndra; max charge 100)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts", title: "Calculated by IdleOn Toolbox (getMaxCharge without a skull)", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 120
+    detector: { id: worship/no-skull }
+    notes: "FR-22: fires once the Frostbite Towndra vendor is reachable (currentWorld 3) and a character has no skull. The wiki gives no vendor price (5,000 is the item's sell price), so the line quotes none; the buyer line waits for a verified price."

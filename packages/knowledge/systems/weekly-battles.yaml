@@ -1,0 +1,31 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M20 Daily & Weekly Checklist: Weekly Battles (docs/specs/M20-skills-parallel-slots.md FR-9, FR-16, D-19).
+# Done for the week once any difficulty is beaten this server week (OLA[189] >= 1); the boss rolls on
+# the server week, Thursday 00:00 UTC (OLA[191] = floor(GlobalTime / 604800)).
+system: weekly-battles
+entries:
+  - id: weekly-battles.check.raid
+    system: weekly-battles
+    type: check
+    title: Run the Weekly Battle
+    text: "{text}"
+    why: "{why}"
+    values:
+      line: "Run the Weekly Battle with every character (Yum Yum Desert)"
+      why: "Each character takes one turn; a new best difficulty this week pays trophies."
+      row: "Run the Weekly Battle"
+      best: "best this week: difficulty {best:int} of 5"
+      retry: "try again after your daily reset"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Weekly_Battles", title: "IdleOn Wiki: Weekly Battles", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/utility/dashboard/account.js", title: "IdleOn Toolbox weekly boss alert (OLA[189], OLA[190])", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: account
+    effect: next-action
+    category: nice
+    activePlay: { minutes: 1 }
+    effortSeconds: 60
+    detector: { id: weekly-battles/raid }
+    notes: "TR-4: 60 s per character (one turn each). V6: W2 reached is the working gate."

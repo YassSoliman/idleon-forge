@@ -951,6 +951,20 @@ entries:
         sources:
           - { url: "https://idleon.wiki/wiki/Changelog/2025", title: "IdleOn Wiki: Changelog/2025 (v2.41: Auto Refine refines at any Power)", tier: 2, claimDate: 2025-07-06, verified: 2026-10-18, gameVersion: 2.3.540 }
           - { url: "https://idleon.wiki/wiki/Construction", title: "IdleOn Wiki: Construction (Refinery ranks)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - id: cog-board-full
+        system: Construction
+        expectedBy: W3-mid
+        fix: construction.check.cog-seat-free
+        why: "A character on the Cog Board adds build rate; one in the cog inventory earns nothing."
+        sources:
+          - { url: "https://idleon.wiki/wiki/Construction", title: "IdleOn Wiki: Construction (the Cog Board and the Cog Shelf)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - id: worship-skulls
+        system: Worship
+        expectedBy: W3-mid
+        fix: worship.check.no-skull
+        why: "A skull raises every character's worship charge cap; the first one is a shop buy in the W3 town."
+        sources:
+          - { url: "https://idleon.wiki/wiki/Worship", title: "IdleOn Wiki: Worship (Wax Skull, Frostbite Towndra)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
     notes: "M15 TR-10 seed rows. printer-per-character counts only F2 findings whose building is the 3D Printer (its Detector slot, carried on the Goal as ModuleGoal.slots). F2 is silent past W3-early until its W3-mid list is authored (D-7), so that row cannot be behind yet."
 
   # ---------------------------------------------------------------- Priority Lists (M2 TR-13)
@@ -993,6 +1007,8 @@ entries:
         - { ref: alchemy-vials.check.daily-attempts, byUrgency: true }
         - { ref: post-office.check.daily-orders, byUrgency: true }
         - { ref: pets.check.mart-gems, byUrgency: true }
+        - { ref: random-events.check.today, byUrgency: true }
+        - { ref: killroy.check.skulls, byUrgency: true }
         - refinery.check.salt-off
         - death-note.check.build
         - { ref: refinery.check.refine-full, byUrgency: true }
@@ -1039,6 +1055,10 @@ entries:
         - talent-presets.check.incomplete
         - printer.check.sample-blank
         - construction.check.cog-seat-free
+        - worship.check.no-skull
+        - trapping.check.start
+        - trapping.check.no-trap-set
+        - alchemy.check.liquid-unstaffed
         - refinery.check.auto-refine-off
         - refinery.check.unlock-next
         - library.check.checkout

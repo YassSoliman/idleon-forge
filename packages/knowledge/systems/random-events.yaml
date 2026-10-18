@@ -1,0 +1,35 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M20 Daily & Weekly Checklist: Random Events (docs/specs/M20-skills-parallel-slots.md FR-9, US-10). One
+# event a day counts (OLA[137]); the server schedule is Toolbox's getRandomEvents, filtered to the worlds
+# the account can reach. A Goal only while an event is live or starts within 20 minutes.
+system: random-events
+entries:
+  - id: random-events.check.today
+    system: random-events
+    type: check
+    title: Today's Random Event
+    text: "{text}"
+    why: "{why}"
+    values:
+      timelineKind: timer
+      timelineWhat: "Random Event"
+      live: "Random Event now on {map} ({event}): one a day"
+      soon: "Random Event on {map} ({event}) in {eta}: one a day"
+      why: "One Random Event a day counts; the server rolls a new one each hour, and a missed day is lost."
+      row: "Do today's Random Event"
+      next: "Next: {event} on {map}"
+      none: "No event in the next 48 hours"
+      soonMinutes: 20
+    sources:
+      - { url: "https://idleon.wiki/wiki/Random_Events", title: "IdleOn Wiki: Random Events", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts", title: "IdleOn Toolbox getRandomEvents (the hourly schedule)", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: account
+    effect: next-action
+    category: nice
+    priority: { frame: by-urgency }
+    effortSeconds: 180
+    detector: { id: random-events/today }
+    notes: "FR-9: Glacial Guild spawns only on W3 maps, so it needs currentWorld 3. The row is todo only while an event is live; otherwise waiting with the next reachable event's time and map."

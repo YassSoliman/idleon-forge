@@ -20,3 +20,59 @@ facts:
         verified: 2026-10-17
         gameVersion: 2.3.540
     notes: Add a row when a new Walkthrough target needs another fish (verify it on the wiki's Fishing page first).
+
+  # ---- M20 F3 the Skills tab (docs/specs/M20-skills-parallel-slots.md F-h, FR-35, FR-36, TR-3) ----
+  - id: skills.fact.specialty
+    system: skills
+    origin: authored
+    title: Each skill's specialty class line
+    notes: "F-h, D-15: shown as a mark, never a Role (M2 owns Roles). A class line with two specialties (the Squire: Construction as a subclass, Mining as a Warrior) takes the subclass one first, skipping a skill whose System is not open yet. Game data agrees for the skill attacks (talents.fact.skill-classes)."
+    rows:
+      - { skill: mining, classLine: Warrior }
+      - { skill: smithing, classLine: Archer }
+      - { skill: chopping, classLine: Mage }
+      - { skill: fishing, classLine: Barbarian }
+      - { skill: alchemy, classLine: Shaman }
+      - { skill: catching, classLine: Bowman }
+      - { skill: trapping, classLine: Hunter }
+      - { skill: construction, classLine: Squire }
+      - { skill: worship, classLine: Wizard }
+    sources:
+      - { url: "https://idleon.wiki/wiki/Skills", title: "IdleOn Wiki: Skills (one specialty class per skill)", tier: 2, claimDate: 2025-06-29, verified: 2026-10-18, gameVersion: 2.3.540 }
+
+  - id: skills.fact.gates
+    system: skills
+    origin: authored
+    title: Skill levels that open something
+    notes: "FR-36. Mining and Fishing doors and the tool tiers are M4's generated skills.goal.door-* and skills.goal.tool-* entries; these are the rest. scope: character (the character's own level) or account (the account's best level: liquids open on the best Alchemy level). Totem and trap-box levels are checked against Toolbox at the pin (kb-tools test m20-facts)."
+    rows:
+      smithing:
+        - { level: 15, label: "Anvil Tab 2", scope: character }
+        - { level: 35, label: "Anvil Tab 3", scope: character }
+        - { level: 50, label: "Anvil Tab 4", scope: character }
+        - { level: 65, label: "Anvil Tab 5", scope: character }
+      construction:
+        - { level: 15, label: "Decent cogs", scope: character }
+        - { level: 40, label: "Superb cogs", scope: character }
+        - { level: 70, label: "Ultimate cogs", scope: character }
+      worship:
+        - { level: 10, label: "Wakawaka War", scope: character }
+        - { level: 30, label: "Acorn Assault", scope: character }
+        - { level: 40, label: "Frosty Firefight", scope: character }
+      alchemy:
+        - { level: 20, label: "Liquid Nitrogen", scope: account }
+        - { level: 35, label: "Trench Seawater", scope: account }
+        - { level: 80, label: "Toxic Mercury", scope: account }
+      trapping:
+        - { level: 5, label: "Silkskin Traps", scope: character }
+        - { level: 15, label: "Wooden Traps", scope: character }
+        - { level: 20, label: "Natural Traps", scope: character }
+        - { level: 30, label: "Steel Traps", scope: character }
+        - { level: 40, label: "Meaty Traps", scope: character }
+        - { level: 48, label: "Royal Traps", scope: character }
+    sources:
+      - { url: "https://idleon.wiki/wiki/Smithing", title: "IdleOn Wiki: Smithing (Anvil Expansion recipes at 15, 35, 50, 65)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Construction", title: "IdleOn Wiki: Construction (cog tiers 15, 40, 70)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Worship", title: "IdleOn Wiki: Worship (totems at Worship 1, 10, 30, 40)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Alchemy", title: "IdleOn Wiki: Alchemy (liquids at 1, 20, 35, 80)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Trapping", title: "IdleOn Wiki: Trapping (trap sets at 5, 15, 20, 30, 40, 48)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
