@@ -19,6 +19,7 @@ import { STAGE_DEFINITIONS } from '@idleon-forge/knowledge';
 import { assignRoles } from '../metapath/roles';
 import { analyzeRoster } from '../metapath/roster';
 import { detectStage } from '../metapath/stage';
+import { aboutDuration } from '../now/format';
 import type { SourceRef } from '../result';
 import {
   activityName,
@@ -111,12 +112,9 @@ export function oneIn(chance: number): string {
   return `1 in ${r.toLocaleString('en-US')}`;
 }
 
-/** "about 1.2 h", "about 40 min", "about 3 days". */
+/** "about 2h", "about 40m", "about 4d": the app's one duration format (now/format `aboutDuration`). */
 export function hoursText(hours: number): string {
-  if (hours < 1) return `about ${Math.max(1, Math.round(hours * 60))} min`;
-  if (hours < 10) return `about ${Math.round(hours * 10) / 10} h`;
-  if (hours < 72) return `about ${Math.round(hours)} h`;
-  return `about ${Math.round(hours / 24)} days`;
+  return aboutDuration(Math.max(60, hours * 3600));
 }
 
 /**
