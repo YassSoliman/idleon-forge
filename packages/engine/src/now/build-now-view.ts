@@ -550,7 +550,13 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       done: c.doneThisSession.map((d) => doneView(d, ui.tzOffsetMinutes)),
       next:
         nextTarget === null
-          ? { index: null, text: 'Last one: check the Account list ↓' }
+          ? {
+              index: null,
+              text:
+                k >= total
+                  ? 'Last one: check the Account list ↓'
+                  : 'Nothing left to visit: check the Account list ↓',
+            }
           : { index: nextTarget, text: `Next: switch to ${nameOf(nextTarget)} →` },
     };
     return card;

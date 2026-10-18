@@ -97,6 +97,11 @@ describe('US-2 know where to go next', () => {
     const v = view(r, { focus: 2, visited: new Set([3, 0, 1, 2]) });
     expect(v.focus?.next).toEqual({ index: null, text: 'Last one: check the Account list ↓' });
   });
+  it('says "Nothing left to visit", not "Last one", on an earlier position once everyone is visited (R6 QA)', () => {
+    const v = view(r, { focus: 3, visited: new Set([3, 0, 1, 2]) });
+    expect(v.focus?.position).toBe('1 of 5 in your Visit Order · 4 after it');
+    expect(v.focus?.next).toEqual({ index: null, text: 'Nothing left to visit: check the Account list ↓' });
+  });
   it('D6: a reshuffled visitOrder keeps the frozen order while Verdicts update', () => {
     const later = fixture('mid-session');
     later.visitOrder = [0, 3, 4, 2, 1];
