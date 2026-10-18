@@ -79,54 +79,48 @@ async function loadPlaywright() {
   return mod.chromium ?? mod.default?.chromium;
 }
 
-/** Reads one character's Build tab: per preset, the next-points lines, the tab headers and rows. */
+/**
+ * Reads one character's Build tab (the M21 design, area C): per preset, the next-points lines and each
+ * talent tab's Build path (`#bv-<i>-p<slot>-t<tab>`, tab 0 the star tab). The path replaced the old
+ * talent table, so `rows` is empty; the path's levels are the numbers the page shows.
+ */
 function readBuild() {
   const view = document.querySelector('.build-view');
   if (!view) return null;
+  const n = (x) => Number(String(x).replace(/,/g, ''));
   const panels = [...view.querySelectorAll('.bv-preset')].map((sec) => {
-    const slot = Number(/-p(\d)-panel$/.exec(sec.id)?.[1]);
-    const next = [...sec.querySelectorAll('.bv-next > div')].map((div) => ({
-      tab: Number(/Tab (\d+)/.exec(div.querySelector('p')?.textContent ?? '')?.[1]),
-      lines: [...div.querySelectorAll('li')].map((li) => li.textContent.trim()),
-    }));
-    const tabs = [...sec.querySelectorAll('section.bv-tab')].map((t) => {
-      const h = t.querySelector('h5')?.textContent ?? '';
+    const slot = Number(/-p(\d)-h$/.exec(sec.getAttribute('aria-labelledby') ?? '')?.[1]);
+    // The next lines carry no tab of their own in the M21 design: the diff finds each talent by name.
+    const next = [
+      {
+        tab: Number.NaN,
+        lines: [...sec.querySelectorAll('.bv-next p')].map((p) =>
+          (p.firstChild?.textContent ?? p.textContent ?? '').trim(),
+        ),
+      },
+    ];
+    const tabs = [...sec.querySelectorAll('.bv-paths > div[id]')].map((d) => {
+      const h = d.querySelector('h5')?.textContent ?? '';
       return {
-        tab: Number(/Tab (\d+)/.exec(h)?.[1]),
+        tab: Number(/-t(\d)$/.exec(d.id)?.[1]),
         spent: /([\d,]+) spent/.exec(h)?.[1] ?? null,
-        unspent: /([\d,]+)\+ unspent/.exec(h)?.[1] ?? null,
-        // M21 FR-C1: the Build path replaces the table when the tab has one ("12 → 50", or "50" when done).
-        path: [...t.querySelectorAll('li.bv-ps')].map((li) => {
+        unspent: null,
+        // M21 FR-C1: "12 → 50", or "50" when done.
+        path: [...d.querySelectorAll('li.bv-ps')].map((li) => {
           const lv = li.querySelector('.bv-ps-lv')?.textContent ?? '';
-          const m = /(\d+)\s*→\s*(\d+)/.exec(lv);
+          const m = /([\d,]+)\s*→\s*([\d,]+)/.exec(lv);
           return {
-            label: (li.querySelector('.bv-ps-name')?.firstChild?.textContent ?? '').trim(),
-            done: li.classList.contains('bv-ps--done'),
-            current: m ? Number(m[1]) : null,
-            goal: m ? Number(m[2]) : Number(lv.trim()) || null,
+            label: (li.querySelector('.bv-ps-name')?.textContent ?? '').trim(),
+            done: li.getAttribute('data-band') === 'done',
+            current: m ? n(m[1]) : null,
+            goal: m ? n(m[2]) : n(lv.trim()) || null,
             note: li.querySelector('.bv-ps-note')?.textContent ?? null,
           };
         }),
-        rows: [...t.querySelectorAll('tbody tr')].map((tr) => {
-          const th = tr.querySelector('th');
-          const cell = tr.querySelector('td.num')?.textContent ?? '';
-          const m = /(\d+)\s*\/\s*(\d+)/.exec(cell);
-          return {
-            label: (th?.firstChild?.textContent ?? '').trim(),
-            note: th?.querySelector('.bv-note')?.textContent ?? null,
-            current: m ? Number(m[1]) : null,
-            target: m ? Number(m[2]) : null,
-          };
-        }),
+        rows: [],
       };
     });
-    return {
-      slot,
-      active: !!sec.querySelector('.bv-badge'),
-      unspent: /At least ([\d,]+)/.exec(sec.querySelector('.bv-unspent')?.textContent ?? '')?.[1] ?? null,
-      next,
-      tabs,
-    };
+    return { slot, active: !!sec.querySelector('.bv-inuse'), unspent: null, next, tabs };
   });
   return { status: view.querySelector('.bv-status')?.textContent ?? null, panels };
 }
@@ -147,12 +141,11 @@ async function browse(save, label, base, chromium, characters) {
     if (m.type() === 'error') errors.push(`console: ${m.text().slice(0, 200)}`);
   });
   await page.goto(`${base}?debug=truth`);
-  await page.waitForSelector('summary:has-text("Paste your save instead")');
-  if (!(await page.locator('details.fallback').evaluate((d) => d.open)))
-    await page.click('summary:has-text("Paste your save instead")');
-  await page.locator('details.fallback textarea').fill(JSON.stringify(timeShifted(save)));
-  await page.click('button:has-text("Read this save")');
-  await page.waitForSelector('.roster, .cant-read, form.paste .error', { timeout: 60_000 });
+  // M21 G5: signed out, the paste drop zone is the screen itself (no fold to open).
+  await page.waitForSelector('form.paste textarea');
+  await page.locator('form.paste textarea').fill(JSON.stringify(timeShifted(save)));
+  await page.click('form.paste button[type=submit]');
+  await page.waitForSelector('.n-roster, .cant-read, form.paste .error', { timeout: 60_000 });
   await page.waitForTimeout(800);
   const out = { label, characters: [], errors, csp: [], pageReport: null };
   for (const c of characters) {
@@ -166,11 +159,12 @@ async function browse(save, label, base, chromium, characters) {
       await page.waitForTimeout(400);
       const read = await page.evaluate(
         ({ tab, cant }) => {
-          const hero = document.querySelector('.hero p.small.muted')?.textContent ?? '';
+          // M21 FR-C5: the identity strip's "Squire 85" (class and level, never the name).
+          const sub = (document.querySelector('.cs-sub .num')?.textContent ?? '').trim();
           const main = document.querySelector('main')?.textContent ?? document.body.textContent ?? '';
           return {
-            level: Number(/lv (\d+)/i.exec(hero)?.[1] ?? Number.NaN),
-            classText: hero.split(' · ')[0] ?? null,
+            level: Number(/(\d+)$/.exec(sub)?.[1] ?? Number.NaN),
+            classText: sub.replace(/\s*\d+$/, '') || null,
             cantCount: main.split(cant).length - 1,
             chars: main.length,
             tab,
