@@ -336,16 +336,16 @@ describe('US-7 what the advice is based on', () => {
     expect(g?.goal.nextAction.sources.some((s) => s.url.startsWith('https://idleon.wiki/'))).toBe(true);
   });
 
-  it('a Hunter gets only the data-backed steps, marked Stale, and never a reset', () => {
+  it('a Hunter gets its transcribed Build, not Stale: Idle Shooting to 50 first', () => {
     let s = withCharacter(W2(), 3, { class: 'Hunter' });
     s = withItems(setTalent(s, 3, 'active', 273, 60), 5, 0);
     const out = run(s);
     const g = goalOf(out, 3, 'talents.check.next-step');
     expect(g?.goal.nextAction.text).toBe('Next talent points: Idle Shooting to 50');
-    expect(g?.goal.nextAction.stale).toBe(true);
+    expect(g?.goal.nextAction.stale).toBe(false);
+    expect(g?.goal.nextAction.sources.some((s) => s.url.includes('id=MDGrBz'))).toBe(true);
     expect(goalOf(out, 3, 'talent-resets.check.reset')).toBeUndefined();
   });
-
   it('highend (past World 4): no Detector throws, no M9 Goal or blocker, "talent builds past World 4"', () => {
     const s = publicState('highend.json');
     const out = m9.run(input(s));

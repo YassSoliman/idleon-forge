@@ -96,9 +96,7 @@ describe('M9 Build entries (TR-5, TR-15)', () => {
   it('D4: the data-backed Builds are flagged Stale, the transcribed ones are not', () => {
     const stale = builds.filter((b) => b.stale).map((b) => b.id);
     expect(stale.sort()).toEqual(
-      ['archer', 'hunter', 'mage', 'warrior']
-        .flatMap((l) => [buildId(l, 'fighting'), buildId(l, 'skilling')])
-        .sort(),
+      ['mage', 'warrior'].flatMap((l) => [buildId(l, 'fighting'), buildId(l, 'skilling')]).sort(),
     );
   });
 });
