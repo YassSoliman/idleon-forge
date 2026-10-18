@@ -23,9 +23,32 @@ import { ChecklistSection } from '../Checklist';
 import { ModalSheet as Sheet } from '../chrome/ModalSheet';
 import { useNowActions } from '../context';
 import { ActionControls, NextActionItem, RankedGoals, ReportThis, SeeItLink } from '../parts';
-import { StarChartSection } from '../signs/SignsPanel';
 
 const SPEND_SHOWN = 5;
+
+/** D-9: one Star Chart line in the Account; the chart and every character's signs live on its System page. */
+function StarChartLine({ view }: { view: NowView }) {
+  const actions = useNowActions();
+  const s = view.starSigns;
+  if (!s) return null;
+  const to = { place: 'system', id: 'star-signs' } as const;
+  return (
+    <p className="n-account__line" id="star-chart">
+      <span>{W.starChartSummary(s.points, s.unlockedNodes)}</span>{' '}
+      <a
+        className="n-see"
+        href={formatRoute(to)}
+        onClick={(e) => {
+          if (!actions.navigate) return;
+          e.preventDefault();
+          actions.navigate(to);
+        }}
+      >
+        {W.starChartSee}
+      </a>
+    </p>
+  );
+}
 
 function SpendLine({ l, place }: { l: SpendLineView; place: 'best' | 'save' | 'rest' }) {
   const [open, setOpen] = useState(false);
@@ -251,8 +274,7 @@ export function AccountBody({ view }: { view: NowView }) {
         </section>
       ) : null}
       <SpendPlan view={view} />
-      {/* D-9: the Star Chart's home is its System page; the section stays until area S's restyle lands. */}
-      <StarChartSection view={view} />
+      <StarChartLine view={view} />
       {acc.done.length > 0 ? (
         <details className="done n-done">
           <summary>{`Done this session (${acc.done.length})`}</summary>

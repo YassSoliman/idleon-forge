@@ -130,6 +130,11 @@ export const GROUP_WORDS = {
 /** The Roster (`now.roster`, `now.roster-row`, FR-N4). */
 export const ROSTER_WORDS = {
   heading: 'Characters',
+  /** `now.spend-chip` the one Spend card. */
+  spendCard: 'Spend Plan',
+  spendTitle: 'Coins to spend',
+  spendLine: (lines: unknown, chars: unknown) => `${n(lines)} buys on ${n(chars)} characters`,
+  spendOpen: 'Open the Spend Plan',
   readyFold: (count: unknown) => `${n(count)} ready`,
   readyFoldName: (count: unknown) => `${plural(count, 'character')} ready, show them`,
   showReady: 'show',
@@ -155,6 +160,10 @@ export const ACCOUNT_WORDS = {
   bringFirst: 'Bring first',
   starChart: 'Star Chart',
   starChartLine: 'Star Chart: its own page under Systems',
+  /** D-9: the Account keeps one Star Chart line; the chart lives on its System page. */
+  starChartSummary: (points: number | null, unlocked: number) =>
+    `Star Chart: ${points ?? '?'} ${points === 1 ? 'point' : 'points'} · ${unlocked} signs unlocked`,
+  starChartSee: 'see it',
   ifYouHaveTime: 'If you have time',
   notCovered: 'Not covered yet',
   notCoveredLine: "ActiveOn has no advice for these yet. They never change whether it's safe to log off.",

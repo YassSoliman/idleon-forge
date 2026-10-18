@@ -4,10 +4,11 @@
 // M16 in the DOM: the character page's Signs tab (worn, recommended, can it change signs) with its
 // `#signs-<index>` deep link, and the Star Chart section in the Account.
 import type { EngineResult, StarSignsView } from '@idleon-forge/engine/result';
-import { cleanup, screen, within } from '@testing-library/react';
+import { cleanup, screen, waitFor, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { characterTabs, parseTabHash } from '../src/now/character-tabs';
+import { withSystems } from './helpers/views';
 import { fixture, props, renderNow, saveOf } from './now-helpers';
 
 beforeEach(() => {
@@ -70,6 +71,16 @@ const starSigns: StarSignsView = {
 };
 
 const withSigns = (): EngineResult => ({ ...fixture('mid-session'), starSigns });
+/** The star-signs System page needs the registry entry (D-9: the chart's home is that page). */
+const onPage = (r: EngineResult): EngineResult => {
+  const base = withSystems().systems ?? [];
+  const page = {
+    ...(base[1] as NonNullable<EngineResult['systems']>[number]),
+    id: 'star-signs',
+    name: 'Star Signs',
+  };
+  return { ...r, systems: [...base, page] };
+};
 
 /** Two characters with the same recommendation, as on most early accounts. */
 const twoAlike = (): EngineResult => {
@@ -100,13 +111,24 @@ describe('Signs tab', () => {
       .then((res) => expect(res.violations.map((v) => v.id)).toEqual([]));
   });
 
-  it('the Account has a Star Chart section with points, unlocked signs and the next constellations', () => {
+  it('the Account keeps one Star Chart line (D-9); the chart itself is on its System page', async () => {
     const r = withSigns();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const section = document.getElementById('star-chart');
-    expect(section?.textContent).toContain('3 points · 4 signs unlocked · next: A-7');
-    expect(section?.textContent).toContain('21 points ready, 19 needed for Chronus Cosmos');
-    expect(section?.textContent).toContain('Slamabam Straightaway');
+    const line = (await waitFor(() => {
+      const el = document.getElementById('star-chart');
+      if (!el) throw new Error('no line yet');
+      return el;
+    })) as HTMLElement;
+    expect(line.textContent).toContain('Star Chart: 3 points · 4 signs unlocked');
+    expect(line.textContent).not.toContain('Slamabam Straightaway');
+    expect(within(line).getByRole('link', { name: 'see it' }).getAttribute('href')).toContain('star-signs');
+    cleanup();
+    window.history.replaceState(null, '', '/#system-star-signs');
+    const rp = onPage(r);
+    renderNow(props(rp, saveOf(rp, 1, 'first', null, 'paste')));
+    const page = (await screen.findByRole('region', { name: 'Star Chart' })) as HTMLElement;
+    expect(page.textContent).toContain('21 points ready, 19 needed for Chronus Cosmos');
+    expect(page.textContent).toContain('Slamabam Straightaway');
   });
 
   it('the Signs tab links to the Star Chart in one line instead of repeating it on every character', () => {
@@ -120,10 +142,11 @@ describe('Signs tab', () => {
     expect(within(tab).getByRole('link', { name: 'see it' }).getAttribute('href')).toContain('star-signs');
   });
 
-  it('says a recommendation shared by several characters once, with each one under "show details"', () => {
-    const r = twoAlike();
+  it('says a recommendation shared by several characters once, with each one under "show details"', async () => {
+    const r = onPage(twoAlike());
+    window.history.replaceState(null, '', '/#system-star-signs');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const section = document.getElementById('star-chart') as HTMLElement;
+    const section = (await screen.findByRole('region', { name: 'Star Chart' })) as HTMLElement;
     expect(section.textContent).toContain('wear The Fuzzy Dice · 2 characters');
     expect(section.textContent?.match(/wear The Fuzzy Dice · 2 characters/g)).toHaveLength(1);
     expect(within(section).getByText('show details').tagName).toBe('SUMMARY');
