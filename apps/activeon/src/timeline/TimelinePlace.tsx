@@ -16,7 +16,7 @@ import {
   type TimelineView,
   TIMELINE_WORDS as W,
 } from '@idleon-forge/engine/now';
-import { type CSSProperties, useEffect, useRef } from 'react';
+import { type CSSProperties, Fragment, useEffect, useRef } from 'react';
 import { tabHref } from '../now/character-tabs';
 import { formatRoute } from '../shell/route';
 import type { Session } from '../shell/session';
@@ -201,6 +201,8 @@ function Item({ b, s }: { b: TimelineBarView; s: Session }) {
 
 function LaneList({ lane, s, level }: { lane: TimelineLane; s: Session; level: 3 | 4 }) {
   const items = [...lane.bars, ...lane.untimed].filter((b) => !b.group || b.group.first);
+  // A lane whose bars are all said once on an earlier lane points there, never "Nothing timed here".
+  const grouped = [...new Set([...lane.bars, ...lane.untimed].map((b) => b.label))];
   const H = level === 3 ? 'h3' : 'h4';
   const href =
     lane.index !== null
@@ -231,6 +233,16 @@ function LaneList({ lane, s, level }: { lane: TimelineLane; s: Session; level: 3
             <Item key={b.barId} b={b} s={s} />
           ))}
         </ul>
+      ) : grouped.length ? (
+        <p className="small muted tl-grouped">
+          {W.inGroupAbove}
+          {grouped.map((label) => (
+            <Fragment key={label}>
+              {' · '}
+              {label}
+            </Fragment>
+          ))}
+        </p>
       ) : (
         <p className="small muted">{W.nothingTimed}</p>
       )}

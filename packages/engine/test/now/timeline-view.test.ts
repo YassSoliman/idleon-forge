@@ -352,7 +352,7 @@ describe('§6: the stale save', () => {
     const v = timeline(result(), EMPTY_PREFS, { now: NOW, lastCloudSave: NOW - 9 * H - 28 * 60_000 });
     expect(v.stale).toEqual({
       text: 'Your last save is 9h 28m old: these times are projected from it.',
-      band: 'Since the save: 9h 28m',
+      band: 'Save age: 9h\u00a028m',
     });
   });
   it('has no band for a fresh save', () => {
