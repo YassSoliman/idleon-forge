@@ -43,6 +43,6 @@ describe('the Skills tab', () => {
     expect(screen.getByText('Train: Construction · trains while it sits on the Cog Board')).toBeTruthy();
     expect(screen.getByText('Decent cogs at Construction 15 (4 levels)')).toBeTruthy();
     expect(screen.getByText('Role')).toBeTruthy();
-    expect(screen.getByText('filled: builds on the Cog Board')).toBeTruthy();
+    expect(screen.getByText('builds on the Cog Board')).toBeTruthy();
   });
 });

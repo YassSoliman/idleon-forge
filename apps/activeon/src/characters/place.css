@@ -11,6 +11,13 @@
   align-items: baseline;
   gap: var(--space-1) var(--space-3);
 }
+.characters-place .cp-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: var(--text-xl);
+  line-height: var(--lh-tight);
+}
 .characters-place .cp-muted {
   color: var(--muted);
   font-size: var(--text-sm);
@@ -51,7 +58,7 @@
   padding: var(--space-1) 0;
 }
 .characters-place .cp-matrix thead th:first-child {
-  width: 34%;
+  width: 26%;
 }
 .characters-place .cp-who {
   display: flex;

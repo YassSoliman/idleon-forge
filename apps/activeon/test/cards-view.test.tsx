@@ -166,7 +166,7 @@ describe('Cards tab', () => {
     const overview = screen.getByRole('region', { name: 'Cards' });
     const links = within(overview)
       .getAllByRole('link')
-      .filter((a) => a.classList.contains('bo-row'));
+      .filter((a) => a.classList.contains('cv-row'));
     expect(links.map((a) => a.getAttribute('href'))).toEqual(['#cards-2', '#cards-1']);
     expect(links[0]?.textContent).toContain('next grind: Frost Flake card (about 1.2 h)');
   });
@@ -177,7 +177,7 @@ describe('Cards tab', () => {
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const overview = screen.getByRole('region', { name: 'Cards' });
     expect(overview.querySelector('details')?.open).toBe(false);
-    expect(overview.querySelector('summary')?.textContent).toBe('Cardsevery preset fits›');
+    expect(overview.querySelector('summary')?.textContent).toBe('Cardsevery preset fits');
   });
 
   it('the Cards chip opens the character page on its Cards tab: presets, swaps and grind', async () => {

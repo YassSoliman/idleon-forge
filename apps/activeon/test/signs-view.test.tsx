@@ -104,7 +104,7 @@ describe('Signs tab', () => {
     expect(within(nav).getByRole('link', { current: 'page' }).textContent).toBe('Signs');
     expect(screen.getByText('Flexo Bendo')).toBeTruthy();
     expect(screen.getAllByText('The Fuzzy Dice').length).toBeGreaterThan(0);
-    expect(screen.getByText('needs about 10,437 kills to reach the Telescope')).toBeTruthy();
+    expect(screen.getByText('About 10,437 kills to reach the Telescope')).toBeTruthy();
     expect(screen.getAllByText('Pirate Booty + All Rounder').length).toBeGreaterThan(0);
     await axe
       .run(container, { rules: { 'color-contrast': { enabled: false }, region: { enabled: false } } })
@@ -136,10 +136,14 @@ describe('Signs tab', () => {
     const r = withSigns();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const tab = document.querySelector('.ss') as HTMLElement;
-    expect(tab.textContent).toContain('Star Chart: 3 points · see it');
+    expect(tab.textContent).toContain('Star Chart: 3 points');
     expect(tab.textContent).not.toContain('Next constellations');
     expect(tab.textContent).not.toContain('Slamabam Straightaway');
-    expect(within(tab).getByRole('link', { name: 'see it' }).getAttribute('href')).toContain('star-signs');
+    expect(
+      within(tab)
+        .getByRole('link', { name: /Star Chart: 3 points/ })
+        .getAttribute('href'),
+    ).toContain('star-signs');
   });
 
   it('says a recommendation shared by several characters once, with each one under "show details"', async () => {

@@ -7,6 +7,8 @@
 // styles, text only). The trap set and the skull show M20's Parallel Slot pips.
 import type { CharacterGear, GearSlotView } from '@idleon-forge/engine/result';
 import { useState } from 'react';
+import type { ArtName } from '../design/art/names';
+import { PixelArt } from '../design/art/PixelArt';
 import { StateGlyph } from '../design/atoms/StateGlyph';
 import type { CharacterTabProps } from '../now/character-tabs';
 import './gear.css';
@@ -33,21 +35,27 @@ const TOOLS: readonly GearSlotView['slot'][] = ['pickaxe', 'hatchet', 'rod', 'ne
 
 export { StateGlyph };
 
-/** Our own mannequin (ADR 0009: pixel boxes, never game art). */
+/** Our own mannequin from the art library (M21 FR-F3; ADR 0009: our drawing, never game art). */
 function Mannequin() {
   return (
-    <svg className="gd-fig" viewBox="0 0 16 32" width="48" height="96" aria-hidden="true" focusable="false">
-      <rect x="5" y="1" width="6" height="6" fill="currentColor" />
-      <rect x="4" y="8" width="8" height="10" fill="currentColor" />
-      <rect x="1" y="9" width="3" height="8" fill="currentColor" />
-      <rect x="12" y="9" width="3" height="8" fill="currentColor" />
-      <rect x="4" y="18" width="3" height="11" fill="currentColor" />
-      <rect x="9" y="18" width="3" height="11" fill="currentColor" />
-      <rect x="3" y="29" width="4" height="2" fill="currentColor" />
-      <rect x="9" y="29" width="4" height="2" fill="currentColor" />
-    </svg>
+    <span className="gd-fig">
+      <PixelArt name="v2-character-mannequin" scale={3} decorative />
+    </span>
   );
 }
+
+/** The slot glyphs our art library draws (DS-12: a signifier beside the word). */
+const GLYPHS: Partial<Record<GearSlotView['slot'], ArtName>> = {
+  helmet: 'v2-character-helmet',
+  weapon: 'v2-character-weapon',
+  shirt: 'v2-character-shirt',
+  pendant: 'v2-character-pendant',
+  pants: 'v2-character-pants',
+  ring1: 'v2-character-ring',
+  ring2: 'v2-character-ring',
+  shoes: 'v2-character-shoes',
+  net: 'v2-character-net',
+};
 
 interface Square {
   slot: GearSlotView['slot'];
@@ -77,7 +85,10 @@ function SquareButton({
       aria-label={`${LABEL[q.slot]}: ${q.title}, ${q.word}${lit ? ', next' : ''}`}
       onClick={onOpen}
     >
-      <span className="gs-t">{LABEL[q.slot]}</span>
+      <span className="gs-t">
+        {GLYPHS[q.slot] ? <PixelArt name={GLYPHS[q.slot] as ArtName} decorative /> : null}
+        {LABEL[q.slot]}
+      </span>
       <span className="gs-w">
         <StateGlyph state={q.state} />
         {q.word}
@@ -132,7 +143,7 @@ function Sheet({ q }: { q: Square }) {
             ))}
           </ol>
           {steps.length > 3 ? (
-            <button type="button" className="ghost tiny" onClick={() => setAll(!all)}>
+            <button type="button" className="gd-more" onClick={() => setAll(!all)}>
               {all ? 'show fewer' : `show all ${steps.length}`}
             </button>
           ) : null}
@@ -218,7 +229,7 @@ export function GearTab({ view, index }: CharacterTabProps) {
   const open = openSlot ? square(openSlot) : null;
   return (
     <div className="gd">
-      <p className="small muted gd-kicker">Gear Plan · numbers are levels behind</p>
+      <p className="gd-kicker">Gear Plan: each square says what to fix, in levels behind</p>
       <div className="gd-doll">
         <ul className="gd-col" aria-label="Armour">
           {LEFT.map(btn)}
@@ -246,7 +257,7 @@ export function GearTab({ view, index }: CharacterTabProps) {
           </p>
           {g.why ? (
             <details>
-              <summary className="small">why</summary>
+              <summary className="gd-why">why</summary>
               <p className="small">{g.why}</p>
             </details>
           ) : null}

@@ -340,7 +340,7 @@ export function CharactersPlace({ s }: { s: Session }) {
   return (
     <section className="characters-place" aria-labelledby="characters-h">
       <div className="cp-head">
-        <h2 id="characters-h" className="section-h place-h" data-place-heading tabIndex={-1}>
+        <h2 id="characters-h" className="cp-title" data-place-heading tabIndex={-1}>
           {W.title}
         </h2>
         <span className="cp-muted num">
