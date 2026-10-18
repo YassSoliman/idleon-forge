@@ -8,6 +8,14 @@ export {
   readSyncConfig,
   type SyncConfig,
 } from './config';
+export {
+  compactState,
+  ENGINE_HISTORY_MAX_ENTRIES,
+  ENGINE_HISTORY_WINDOW_MS,
+  type EngineHistoryOptions,
+  engineHistoryOf,
+  selectEngineHistory,
+} from './engine-history';
 export { assembleEnvelope, type SideReads } from './envelope';
 export {
   DEFAULT_EXPECTED_RETURN_MS,

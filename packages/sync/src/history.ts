@@ -10,6 +10,7 @@
 // When IndexedDB can't be opened (some private windows), the same store runs in memory for the tab.
 import type { AccountState } from '@idleon-forge/account-state';
 import type { RawSaveEnvelope } from '@idleon-forge/toolbox-parsers';
+import { compactState, type EngineHistoryOptions, selectEngineHistory } from './engine-history';
 import { type BuildMark, buildOf, saveOutcome } from './patch';
 import { stampedSlot } from './save-kind';
 
@@ -90,6 +91,11 @@ export interface SaveHistory {
   sessionStart(uid: string, at: number): Promise<SaveRecord | null>;
   /** Every stored state saved at or after `from`, oldest first. */
   since(uid: string, from: number): Promise<SaveRecord[]>;
+  /**
+   * The earlier saves the engine reads for the save at `before` (M10 TR-6), oldest first, compact
+   * except the Play Session's boundary saves (`engineHistoryOf`). Compact copies are cached per save.
+   */
+  forEngine(uid: string, options: EngineHistoryOptions): Promise<HistoryEntry[]>;
   /** Play Sessions, oldest first; with `from`, only those that ended at or after it. */
   playSessions(uid: string, from?: number): Promise<PlaySession[]>;
   /** The median of the last 10 gaps between Play Sessions, in seconds; null with fewer than 3 gaps. */
@@ -470,6 +476,8 @@ function createHistory(
     return out;
   };
   const first = async (uid: string, rows: SaveIndexRow[]) => (await stored(uid, rows))[0] ?? null;
+  /** Compact copies for `forEngine`, per account and save. A stored state never changes once written. */
+  const compactCache = new Map<string, Map<number, HistoryEntry>>();
 
   const lowQuota = async () => {
     try {
@@ -591,6 +599,32 @@ function createHistory(
       );
     },
 
+    async forEngine(uid, options) {
+      const rows = (await backend.rows(uid)).filter((r) => r.hasState);
+      const { kept, whole } = selectEngineHistory(
+        rows.map((r) => r.lastCloudSave),
+        options,
+      );
+      const cache = compactCache.get(uid) ?? new Map<number, HistoryEntry>();
+      compactCache.set(uid, cache);
+      const out: HistoryEntry[] = [];
+      for (const t of kept) {
+        const hit = whole.has(t) ? undefined : cache.get(t);
+        if (hit) {
+          out.push(hit);
+          continue;
+        }
+        const r = await backend.record(uid, t);
+        if (!r) continue;
+        const entry = { lastCloudSave: t, receivedAt: r.receivedAt, state: compactState(r.state) };
+        cache.set(t, entry);
+        out.push(whole.has(t) ? { lastCloudSave: t, receivedAt: r.receivedAt, state: r.state } : entry);
+      }
+      const live = new Set(kept);
+      for (const t of cache.keys()) if (!live.has(t)) cache.delete(t);
+      return out;
+    },
+
     async playSessions(uid, from) {
       const sessions = toPlaySessions(await backend.rows(uid));
       return from === undefined ? sessions : sessions.filter((s) => s.end >= from);
@@ -605,6 +639,7 @@ function createHistory(
     },
 
     async clear(uid) {
+      compactCache.delete(uid);
       await backend.clear(uid);
       const store = deps.storage;
       if (!store) return;
