@@ -12,7 +12,7 @@
 import { FLOW_WORDS, HEADER_WORDS } from '@idleon-forge/engine/now';
 import type { EngineResult } from '@idleon-forge/engine/result';
 import { PATCH_FOOTER_NOTE, preferencePrefix } from '@idleon-forge/sync';
-import { type ReactNode, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Header, type HeaderSave } from './components/Header';
 import { PixelArt } from './design/art/PixelArt';
 import { Button } from './design/atoms/Button';
@@ -30,7 +30,7 @@ import { Shell } from './shell/Shell';
 import { readSuggestionsConfig } from './suggestions/config';
 import type { Scene } from './suggestions/context';
 import { ReadyToSend, SuggestionsProvider, useSuggestions } from './suggestions/SuggestionsProvider';
-import { type ActiveOn, type ClearOptions, type SaveState, useActiveOn } from './use-activeon';
+import { type ActiveOn, type SaveState, useActiveOn } from './use-activeon';
 import { useNow } from './use-now';
 
 // Lazy parts (M21 TR-12): what opens on a tap stays out of the first load and is prefetched when idle.

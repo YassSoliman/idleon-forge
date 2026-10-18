@@ -25,7 +25,7 @@ import {
   timelineHome,
 } from '@idleon-forge/engine/now';
 import { seeItSystem } from '@idleon-forge/engine/see-it';
-import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
+import { type ReactNode, useId, useState } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
 import { SourceLabel } from '../design/atoms';
 import { Button, cx } from '../design/atoms/Button';
