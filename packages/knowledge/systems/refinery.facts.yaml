@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Authored tier-2 Refinery facts (M15 TR-3). `refinery.fact.salt-unlock-costs`: each salt the Refinery
+# unlocks next, the salt it costs and how many, from the storage chest only. The game code agrees
+# (N.js @7643805 at game 2.3.540, read 2026-10-17: salt e unlocks when Refinery[0][0] == e and costs
+# GenINFO[69][1 + e] of "Refinery" + e, the list [0, 0, 40, 150, 300, 500, 750, 1e4, 1e5, 1e6], paid
+# from _JustStorageOWNED). Toolbox does not carry the table, so it stays authored until it does.
+system: refinery
+facts:
+  - id: refinery.fact.salt-unlock-costs
+    system: refinery
+    origin: authored
+    title: Refinery salt unlock costs
+    rows:
+      - { salt: Refinery2, cost: Refinery1, amount: 40 }
+      - { salt: Refinery3, cost: Refinery2, amount: 150 }
+      - { salt: Refinery4, cost: Refinery3, amount: 300 }
+      - { salt: Refinery5, cost: Refinery4, amount: 500 }
+      - { salt: Refinery6, cost: Refinery5, amount: 750 }
+    notes: "Salts 7-9 (Polymerization, W5+) are left out on purpose (M15 FR-5, P2). Confirmed against N.js @7643805 (game 2.3.540)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Construction", title: "IdleOn Wiki: Construction (Refinery salt unlock costs)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
