@@ -3,7 +3,14 @@
 // M2 as an engine-core module (M10 §2): it hands the core the Stage, the resolved Priority List that
 // `compareGoals` ranks every module's Goals against, the Visit Order hints from Roles, and the Meta
 // Path Goals (push, subclass, W3 tutorial, elite, next character, swap token).
-import type { CharacterContribution, EngineHistory, EngineModule, ModuleOutput } from '../core/module';
+import type {
+  CharacterContribution,
+  EngineHistory,
+  EngineInput,
+  EngineModule,
+  ModuleOutput,
+} from '../core/module';
+import type { NextAction } from '../result';
 import { type FamilyPoint, familyUnlock } from './family';
 import { familyUnlockGoal, metaPathGoals } from './goals';
 import { runMetaPath } from './index';
@@ -28,7 +35,15 @@ export const engineStage = (r: MetaPathResult) => ({
   needs: r.stage.next?.needs ?? [],
 });
 
-export const metaPathModule: EngineModule = {
+export interface MetaPathModuleOptions {
+  /**
+   * M15 FR-15: the account's top Class XP Next Action (M4's `classes.goal.level`), which becomes the
+   * next family unlock's Next Action; without it the unlock stays an Account info line.
+   */
+  classXpAction?: (input: EngineInput) => NextAction | null;
+}
+
+export const createMetaPathModule = (opts: MetaPathModuleOptions = {}): EngineModule => ({
   id: 'meta-path',
   covers: ['stage'],
   dependsOnExpectedReturn: false,
@@ -44,7 +59,7 @@ export const metaPathModule: EngineModule = {
       r.stage.coverage === 'beyond'
         ? null
         : familyUnlock(input.state, lookupOf(kb), r.stage, r.roster, familyPoints(input.history), input.now);
-    const unlockGoal = unlock ? familyUnlockGoal(kb, unlock) : null;
+    const unlockGoal = unlock ? familyUnlockGoal(kb, unlock, opts.classXpAction?.(input) ?? null) : null;
     const characters: CharacterContribution[] = [];
     for (const { subject, goal } of goals) {
       if (subject === 'account') continue;
@@ -70,4 +85,7 @@ export const metaPathModule: EngineModule = {
       notCovered: r.stage.coverage === 'beyond' ? [WORLDS_5_7_NOT_COVERED] : [],
     };
   },
-};
+});
+
+/** M2 without M4's Class XP hook (tests, and the core's DEFAULT_MODULES). */
+export const metaPathModule: EngineModule = createMetaPathModule();

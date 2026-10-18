@@ -48,6 +48,7 @@ export {
 } from './gate-chain';
 export { familyUnlockGoal } from './goals';
 export { lookupOf, MetaPathKnowledgeError } from './knowledge';
+export { createMetaPathModule, type MetaPathModuleOptions, metaPathModule } from './module';
 export {
   compareGoals,
   effortCost,

@@ -11,6 +11,7 @@ import { createCollectionsModule } from './collections';
 import { DEFAULT_MODULES, runEngine } from './core/engine';
 import type { EngineModule } from './core/module';
 import { lookupOf } from './metapath/knowledge';
+import { createMetaPathModule } from './metapath/module';
 import { detectStage } from './metapath/stage';
 import { buildNowView, DEFAULT_UI } from './now/build-now-view';
 import { EMPTY_PREFS } from './now/prefs';
@@ -18,7 +19,7 @@ import { renderNowText } from './now/render-text';
 import { renderSystemsText, renderTimelineText } from './now/render-views-text';
 import { buildSystemsView } from './now/systems-view';
 import { buildTimelineView } from './now/timeline-view';
-import { createPurposeModule, purposeStatusFor, suggestionFor } from './purpose';
+import { classXpActionFor, createPurposeModule, purposeStatusFor, suggestionFor } from './purpose';
 import type { EngineResult } from './result';
 import { createM20Modules } from './slots';
 import { createSpendModule } from './spend';
@@ -53,7 +54,8 @@ export function goldenModules(input: GoldenInput): readonly EngineModule[] {
   const facts = lookupOf(kb);
   const purpose = { kb, registry: input.registries.knowledge };
   return [
-    ...DEFAULT_MODULES,
+    // M15 FR-15: the next family unlock takes M4's top Class XP Next Action.
+    createMetaPathModule({ classXpAction: classXpActionFor(purpose) }),
     createAfkSafetyModule({
       kb,
       registry: input.registries.knowledge,
