@@ -99,9 +99,9 @@
 }
 .badge {
   position: absolute;
-  top: -10px;
+  top: -12px;
   /* R11 QA: anchored at the glyph's right edge and growing away from it, so "11" never covers the icon. */
-  left: calc(100% - 6px);
+  left: calc(100% - 2px);
   min-width: 20px;
   height: 20px;
   padding: 0 5px;
@@ -177,7 +177,7 @@
     flex-direction: row;
     justify-content: flex-start;
     /* Room for a two-digit badge between the glyph and the label. */
-    gap: 22px;
+    gap: 24px;
     min-height: 44px;
     padding: 8px 10px;
   }
