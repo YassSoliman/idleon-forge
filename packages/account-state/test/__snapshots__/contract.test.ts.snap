@@ -1270,6 +1270,100 @@ exports[`public save first.json > matches the recorded shape (review the diff af
     "stampLevels": {
       "entries": 128,
     },
+    "starSigns": {
+      "claimed": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        12,
+        13,
+        14,
+        17,
+        18,
+      ],
+      "infiniteCount": 0,
+      "pointsUnspent": 0,
+      "progress": [
+        {
+          "letterCount": 1,
+          "rawIndex": 4,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 2,
+          "rawIndex": 16,
+          "recorded": [
+            0,
+            3,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 19,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 25,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 4,
+          "rawIndex": 35,
+          "recorded": [
+            0,
+            1,
+            3,
+            2,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 36,
+          "recorded": [
+            6,
+          ],
+        },
+      ],
+      "telescopeQuestDone": true,
+      "unlocked": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        19,
+        20,
+        21,
+        22,
+        23,
+        25,
+        26,
+        31,
+        32,
+        33,
+      ],
+    },
     "storageItems": {
       "entries": 188,
     },
@@ -1342,6 +1436,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 3,
         "Djonnut": 13,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverMoney C0=ObolGold0 H105x C40=ObolBronzeDamage S60_ C25=ObolSilver0 C130x C152x C48=ObolGold0 S190x S250x S140x C112x C210x C170x C80=ObolBronzeKill S120x C98x H180x C70=ObolBronzeEXP S90=ObolSilverMoney",
       "postOfficeUnspent": 5,
@@ -1357,6 +1452,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "mining": 33,
       },
       "smithingLevel": 43,
+      "starSigns": [
+        6,
+        20,
+      ],
       "talentPresets": "selected 0: 35/26 talents",
       "talents": {
         "active": {
@@ -1440,6 +1539,11 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "selectedPreset": 0,
       },
       "targetMonster": "mushP",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -1495,6 +1599,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 9999,
         "Djonnut": 2,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverMoney C0=ObolBronze2 H105x C40=ObolBronzeDef S60=ObolSilverMoney C25=ObolBronzeDef C130x C152x C48=ObolBronze2 S190x S250x S140x C112x C210x C170x C80=ObolBronzeDef S120x C98x H180x C70=ObolBronze2 S90x",
       "postOfficeUnspent": 7,
@@ -1510,6 +1615,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "mining": 13,
       },
       "smithingLevel": 40,
+      "starSigns": [
+        5,
+        20,
+      ],
       "talentPresets": "selected 1: 39/20 talents",
       "talents": {
         "active": {
@@ -1595,6 +1704,11 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "selectedPreset": 1,
       },
       "targetMonster": "Laboratory",
+      "telescopeRoute": [
+        0,
+        0,
+        5000,
+      ],
     },
     {
       "afk": null,
@@ -1649,6 +1763,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "Carpenter_Cardinal": 9999,
         "Constructor_Crow": 9999,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32_ C0=ObolBronze1 H105x C40=ObolGold1 S60_ C25=ObolBronze1 C130x C152x C48=ObolSilver1 S190x S250x S140x C112x C210x C170x C80_ S120x C98x H180x C70_ S90x",
       "postOfficeUnspent": 2,
@@ -1664,6 +1779,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "mining": 17,
       },
       "smithingLevel": 50,
+      "starSigns": [
+        20,
+        7,
+      ],
       "talentPresets": "selected 1: 38/25 talents",
       "talents": {
         "active": {
@@ -1748,6 +1867,11 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "selectedPreset": 1,
       },
       "targetMonster": "Laboratory",
+      "telescopeRoute": [
+        0,
+        0,
+        5000,
+      ],
     },
     {
       "afk": null,
@@ -1798,6 +1922,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "Carpenter_Cardinal": 9999,
         "Constructor_Crow": 9999,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32_ C0=ObolSilver0 H105x C40_ S60_ C25=ObolBronzeCons C130x C152x C48_ S190x S250x S140x C112x C210x C170x C80=ObolBronzeCons S120x C98x H180x C70=ObolBronze0 S90x",
       "postOfficeUnspent": 4,
@@ -1813,6 +1938,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "mining": 45,
       },
       "smithingLevel": 41,
+      "starSigns": [
+        20,
+        4,
+      ],
       "talentPresets": "selected 0: 34/23 talents",
       "talents": {
         "active": {
@@ -1899,6 +2028,11 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "selectedPreset": 0,
       },
       "targetMonster": "mushP",
+      "telescopeRoute": [
+        0,
+        0,
+        5000,
+      ],
     },
     {
       "afk": null,
@@ -1954,6 +2088,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 9999,
         "Djonnut": 2,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32_ C0=ObolBronzeWorship H105x C40=ObolBronzeWorship S60_ C25=ObolBronze2 C130x C152x C48_ S190x S250x S140x C112x C210x C170x C80_ S120x C98x H180x C70_ S90x",
       "postOfficeUnspent": 3,
@@ -1969,6 +2104,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "mining": 19,
       },
       "smithingLevel": 39,
+      "starSigns": [
+        19,
+        5,
+      ],
       "talentPresets": "selected 1: 35/22 talents",
       "talents": {
         "active": {
@@ -2054,6 +2193,11 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "selectedPreset": 1,
       },
       "targetMonster": "Laboratory",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -2100,6 +2244,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "Carpenter_Cardinal": 9999,
         "Constructor_Crow": 9999,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32_ C0_ H105x C40=ObolBronze1 S60_ C25=ObolBronzeTrapping C130x C152x C48=ObolBronzeTrapping S190x S250x S140x C112x C210x C170x C80_ S120x C98x H180x C70=ObolBronzeTrapping S90x",
       "postOfficeUnspent": 3,
@@ -2115,6 +2260,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "mining": 12,
       },
       "smithingLevel": 48,
+      "starSigns": [
+        13,
+        12,
+      ],
       "talentPresets": "selected 1: 33/21 talents",
       "talents": {
         "active": {
@@ -2195,6 +2344,11 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "selectedPreset": 1,
       },
       "targetMonster": "Laboratory",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -2250,6 +2404,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 9999,
         "Djonnut": 2,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverLuck C0=ObolBronze0 H105x C40=ObolBronze3 S60_ C25_ C130x C152x C48=ObolBronze2 S190x S250x S140x C112x C210x C170x C80x S120x C98x H180x C70=ObolBronze0 S90x",
       "postOfficeUnspent": 0,
@@ -2265,6 +2420,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "mining": 32,
       },
       "smithingLevel": 43,
+      "starSigns": [
+        7,
+        20,
+      ],
       "talentPresets": "selected 0: 24/16 talents",
       "talents": {
         "active": {
@@ -2332,6 +2491,11 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "selectedPreset": 0,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        5000,
+      ],
     },
   ],
   "diagnostics": {
@@ -3670,6 +3834,181 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
     "stampLevels": {
       "entries": 128,
     },
+    "starSigns": {
+      "claimed": [
+        1,
+        17,
+      ],
+      "infiniteCount": 0,
+      "pointsUnspent": 0,
+      "progress": [
+        {
+          "letterCount": 1,
+          "rawIndex": 0,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 3,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 4,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 7,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 8,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 16,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 18,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 19,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 25,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 27,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 28,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 30,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 35,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 36,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 38,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 40,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 45,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 47,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 48,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 49,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 50,
+          "recorded": [
+            0,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 54,
+          "recorded": [
+            0,
+          ],
+        },
+      ],
+      "telescopeQuestDone": true,
+      "unlocked": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+      ],
+    },
     "storageItems": {
       "entries": 305,
     },
@@ -3750,6 +4089,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 3,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolPlatinumLuck C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolPinkLuck S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolPlatinumLuck C70=ObolSilverPop S90=ObolGoldLuck",
       "postOfficeUnspent": 4116,
@@ -3765,6 +4105,9 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
         "mining": 94,
       },
       "smithingLevel": 119,
+      "starSigns": [
+        4,
+      ],
       "talentPresets": "selected 0: 42/40 talents",
       "talents": {
         "active": {
@@ -3843,6 +4186,11 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "w6a5",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -3892,6 +4240,9 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
         "mining": 1,
       },
       "smithingLevel": 1,
+      "starSigns": [
+        0,
+      ],
       "talentPresets": "selected 0: 0/0 talents",
       "talents": {
         "active": {
@@ -3911,6 +4262,11 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        3000,
+        2500,
+        5000,
+      ],
     },
   ],
   "diagnostics": {
@@ -5429,6 +5785,159 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
     "stampLevels": {
       "entries": 128,
     },
+    "starSigns": {
+      "claimed": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        34,
+        44,
+        45,
+        54,
+      ],
+      "infiniteCount": 47,
+      "pointsUnspent": 3,
+      "progress": [
+        {
+          "letterCount": 3,
+          "rawIndex": 35,
+          "recorded": [
+            6,
+            5,
+            1,
+          ],
+        },
+        {
+          "letterCount": 7,
+          "rawIndex": 36,
+          "recorded": [
+            6,
+            3,
+            1,
+            0,
+            4,
+            9,
+            8,
+          ],
+        },
+        {
+          "letterCount": 4,
+          "rawIndex": 38,
+          "recorded": [
+            5,
+            6,
+            1,
+            9,
+          ],
+        },
+        {
+          "letterCount": 4,
+          "rawIndex": 40,
+          "recorded": [
+            1,
+            4,
+            9,
+            6,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 46,
+          "recorded": [
+            8,
+          ],
+        },
+        {
+          "letterCount": 3,
+          "rawIndex": 48,
+          "recorded": [
+            8,
+            4,
+            6,
+          ],
+        },
+        {
+          "letterCount": 2,
+          "rawIndex": 50,
+          "recorded": [
+            8,
+            1,
+          ],
+        },
+      ],
+      "telescopeQuestDone": true,
+      "unlocked": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        19,
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        28,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        39,
+        41,
+        42,
+        43,
+        45,
+        47,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+      ],
+    },
     "storageItems": {
       "entries": 428,
     },
@@ -5497,6 +6006,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldEXP C0=ObolSilver1 H105=ObolChizoarA C40=ObolSilver1 S60=ObolGoldEXP C25=ObolSilverDamage C130=ObolGold1 C152=ObolSilverCons C48=ObolSilver1 S190=ObolPlatinumDamage S250=ObolPinkLuck S140=ObolGoldEXP C112=ObolSilverKill C210=ObolSilverCons C170=ObolSilverCons C80=ObolSilver1 S120=ObolGoldEXP C98=ObolSilverKill H180=ObolChizoarA C70=ObolSilver1 S90=ObolSilverMoney",
       "postOfficeUnspent": 16630,
@@ -5512,6 +6022,11 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         "mining": 15,
       },
       "smithingLevel": 88,
+      "starSigns": [
+        19,
+        56,
+        53,
+      ],
       "talentPresets": "selected 1: 0/35 talents",
       "talents": {
         "active": {
@@ -5589,6 +6104,11 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         "selectedPreset": 1,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -5645,6 +6165,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldKill C0=ObolSilver0 H105=ObolEfauntA C40=ObolGold0 S60=ObolGoldKill C25=ObolSilver0 C130=ObolSilver0 C152=ObolSilver0 C48=ObolGold0 S190=ObolSilverLuck S250=ObolPinkLuck S140=ObolSilverMoney C112=ObolGold0 C210=ObolSilverCons C170=ObolGold0 C80=ObolGold0 S120=ObolGoldKill C98=ObolGold0 H180=ObolEfauntA C70=ObolGold0 S90=ObolPink0",
       "postOfficeUnspent": 16127,
@@ -5660,6 +6181,11 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         "mining": 41,
       },
       "smithingLevel": 89,
+      "starSigns": [
+        58,
+        55,
+        25,
+      ],
       "talentPresets": "selected 1: 2/41 talents",
       "talents": {
         "active": {
@@ -5738,6 +6264,11 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         "selectedPreset": 1,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -5795,6 +6326,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         "Builder_Bird": 9999,
         "Carpenter_Cardinal": 9999,
         "Constructor_Crow": 9999,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverLuck C0=ObolGold2 H105=ObolPlatinumLuck C40=ObolPlatinum2 S60=ObolGoldChoppin C25=ObolGold2 C130=ObolSilverChoppin C152=ObolBronze2 C48=ObolSilverChoppin S190=ObolSilverLuck S250=ObolTroll S140=ObolSilverCard C112=ObolSilverChoppin C210=ObolSilver2 C170=ObolGold3 C80=ObolSilverChoppin S120=ObolSilverLuck C98=ObolSilverChoppin H180=ObolPlatinumLuck C70=ObolSilverChoppin S90=ObolGoldChoppin",
       "postOfficeUnspent": 23430,
@@ -5810,6 +6342,9 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         "mining": 1,
       },
       "smithingLevel": 1,
+      "starSigns": [
+        0,
+      ],
       "talentPresets": "selected 1: 0/0 talents",
       "talents": {
         "active": {
@@ -5829,6 +6364,11 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         "selectedPreset": 1,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        3000,
+        2500,
+        5000,
+      ],
     },
   ],
   "diagnostics": {
@@ -7569,6 +8109,145 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
     "stampLevels": {
       "entries": 128,
     },
+    "starSigns": {
+      "claimed": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+      ],
+      "infiniteCount": 80,
+      "pointsUnspent": 3,
+      "progress": [],
+      "telescopeQuestDone": true,
+      "unlocked": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+      ],
+    },
     "storageItems": {
       "entries": 577,
     },
@@ -7649,6 +8328,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "Constructor_Crow": 3,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolPlatinum0 H105=ObolSlush C40=ObolPlatinum0 S60=ObolGoldLuck C25=ObolPlatinum0 C130=ObolPlatinum0 C152=ObolPlatinum0 C48=ObolPlatinum0 S190=ObolGoldKill S250=ObolEmp S140=ObolGoldKill C112=ObolPlatinum0 C210=ObolPlatinum0 C170=ObolPlatinum0 C80=ObolPlatinum0 S120=ObolGoldKill C98=ObolPlatinum0 H180=ObolSlush C70=ObolPlatinum0 S90=ObolGoldKill",
       "postOfficeUnspent": 238852,
@@ -7664,6 +8344,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "mining": 247,
       },
       "smithingLevel": 196,
+      "starSigns": [
+        49,
+        56,
+        28,
+      ],
       "talentPresets": "selected 1: 75/75 talents",
       "talents": {
         "active": {
@@ -7763,6 +8448,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -7827,6 +8517,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolLava C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolEmp S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolLava C70=ObolSilverPop S90=ObolGoldLuck",
       "postOfficeUnspent": 238852,
@@ -7842,6 +8533,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "mining": 231,
       },
       "smithingLevel": 216,
+      "starSigns": [
+        55,
+        73,
+        62,
+      ],
       "talentPresets": "selected 1: 60/60 talents",
       "talents": {
         "active": {
@@ -7925,6 +8621,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "selectedPreset": 1,
       },
       "targetMonster": "Spelunking2",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -7989,6 +8690,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolLava C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolEmp S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolLava C70=ObolSilverPop S90=ObolGoldLuck",
       "postOfficeUnspent": 238852,
@@ -8004,6 +8706,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "mining": 231,
       },
       "smithingLevel": 196,
+      "starSigns": [
+        69,
+        55,
+        73,
+      ],
       "talentPresets": "selected 0: 60/60 talents",
       "talents": {
         "active": {
@@ -8090,6 +8797,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "selectedPreset": 0,
       },
       "targetMonster": "Spelunking2",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -8154,6 +8866,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolHyperB1 C0=ObolSilverPop H105=ObolLava C40=ObolSilverPop S60=ObolHyperB1 C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolEmp S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolHyper1 S120=ObolGoldLuck C98=ObolSilverPop H180=ObolLava C70=ObolHyper1 S90=ObolGoldLuck",
       "postOfficeUnspent": 238852,
@@ -8169,6 +8882,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "mining": 241,
       },
       "smithingLevel": 219,
+      "starSigns": [
+        69,
+        55,
+        20,
+      ],
       "talentPresets": "selected 1: 60/60 talents",
       "talents": {
         "active": {
@@ -8249,6 +8967,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "selectedPreset": 1,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -8313,6 +9036,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolLava C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolEmp S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolLava C70=ObolSilverPop S90=ObolGoldLuck",
       "postOfficeUnspent": 238852,
@@ -8328,6 +9052,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "mining": 231,
       },
       "smithingLevel": 206,
+      "starSigns": [
+        69,
+        55,
+        60,
+      ],
       "talentPresets": "selected 0: 75/75 talents",
       "talents": {
         "active": {
@@ -8418,6 +9147,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "selectedPreset": 0,
       },
       "targetMonster": "w7b1",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -8482,6 +9216,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverTrapping H105=ObolSlush C40=ObolSilverTrapping S60=ObolGoldLuck C25=ObolSilverTrapping C130=ObolSilverTrapping C152=ObolSilverTrapping C48=ObolSilverTrapping S190=ObolGoldTrapping S250=ObolPinkTrapping S140=ObolGoldTrapping C112=ObolSilverTrapping C210=ObolSilverTrapping C170=ObolSilverTrapping C80=ObolSilverTrapping S120=ObolGoldTrapping C98=ObolSilverTrapping H180=ObolPlatinumTrapping C70=ObolSilverTrapping S90=ObolGoldTrapping",
       "postOfficeUnspent": 238852,
@@ -8497,6 +9232,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "mining": 231,
       },
       "smithingLevel": 217,
+      "starSigns": [
+        60,
+        55,
+        73,
+      ],
       "talentPresets": "selected 1: 75/75 talents",
       "talents": {
         "active": {
@@ -8601,6 +9341,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "selectedPreset": 1,
       },
       "targetMonster": "w7b1",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -8665,6 +9410,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldCons C0=ObolSilverCons H105=ObolLava C40=ObolSilverCons S60=ObolGoldCons C25=ObolSilverCons C130=ObolSilverCons C152=ObolSilverCons C48=ObolSilverCons S190=ObolGoldCons S250=ObolEmp S140=ObolGoldCons C112=ObolSilverCons C210=ObolSilverCons C170=ObolSilverCons C80=ObolSilverCons S120=ObolGoldCons C98=ObolSilverCons H180=ObolLava C70=ObolSilverCons S90=ObolGoldCons",
       "postOfficeUnspent": 238852,
@@ -8680,6 +9426,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "mining": 245,
       },
       "smithingLevel": 199,
+      "starSigns": [
+        55,
+        62,
+        69,
+      ],
       "talentPresets": "selected 1: 60/60 talents",
       "talents": {
         "active": {
@@ -8762,6 +9513,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "selectedPreset": 1,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -8822,6 +9578,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 3,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolHyperB2 C0=ObolSilverPop H105=ObolLava C40=ObolSilverPop S60=ObolHyperB2 C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolHyper2 S190=ObolHyperB2 S250=ObolEmp S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolHyper2 C80=ObolSilverPop S120=ObolHyperB2 C98=ObolHyper2 H180=ObolLava C70=ObolSilverPop S90=ObolGoldLuck",
       "postOfficeUnspent": 238852,
@@ -8837,6 +9594,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "mining": 282,
       },
       "smithingLevel": 254,
+      "starSigns": [
+        20,
+        69,
+        55,
+      ],
       "talentPresets": "selected 1: 60/60 talents",
       "talents": {
         "active": {
@@ -8916,6 +9678,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "selectedPreset": 1,
       },
       "targetMonster": "Spelunking3",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -8980,6 +9747,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 3,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolLava C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolEmp S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolLava C70=ObolSilverPop S90=ObolGoldLuck",
       "postOfficeUnspent": 238852,
@@ -8995,6 +9763,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "mining": 231,
       },
       "smithingLevel": 196,
+      "starSigns": [
+        69,
+        62,
+        55,
+      ],
       "talentPresets": "selected 0: 75/75 talents",
       "talents": {
         "active": {
@@ -9086,6 +9859,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "selectedPreset": 0,
       },
       "targetMonster": "w7b1",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -9149,6 +9927,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "Carpenter_Cardinal": 9999,
         "Constructor_Crow": 9999,
         "Dog_Bone": 3,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolLava C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolEmp S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolLava C70=ObolSilverPop S90=ObolGoldLuck",
       "postOfficeUnspent": 238852,
@@ -9164,6 +9943,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "mining": 231,
       },
       "smithingLevel": 206,
+      "starSigns": [
+        69,
+        55,
+        62,
+      ],
       "talentPresets": "selected 0: 75/75 talents",
       "talents": {
         "active": {
@@ -9255,6 +10039,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "selectedPreset": 0,
       },
       "targetMonster": "w7b1",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -9315,6 +10104,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "Constructor_Crow": 9999,
         "Djonnut": 0,
         "Dog_Bone": 0,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolLava C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolEmp S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolLava C70=ObolSilverPop S90=ObolGoldLuck",
       "postOfficeUnspent": 349252,
@@ -9330,6 +10120,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "mining": 243,
       },
       "smithingLevel": 154,
+      "starSigns": [
+        69,
+        20,
+        55,
+      ],
       "talentPresets": "selected 0: 14/0 talents",
       "talents": {
         "active": {
@@ -9362,6 +10157,11 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "selectedPreset": 0,
       },
       "targetMonster": "Bravery_Monument",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
   ],
   "diagnostics": {
@@ -11110,6 +11910,253 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
     "stampLevels": {
       "entries": 128,
     },
+    "starSigns": {
+      "claimed": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        34,
+        44,
+        45,
+        54,
+      ],
+      "infiniteCount": 66,
+      "pointsUnspent": 1,
+      "progress": [
+        {
+          "letterCount": 5,
+          "rawIndex": 35,
+          "recorded": [
+            6,
+            5,
+            1,
+            8,
+            4,
+          ],
+        },
+        {
+          "letterCount": 11,
+          "rawIndex": 36,
+          "recorded": [
+            6,
+            3,
+            1,
+            0,
+            4,
+            9,
+            8,
+            2,
+            5,
+            7,
+            10,
+          ],
+        },
+        {
+          "letterCount": 6,
+          "rawIndex": 38,
+          "recorded": [
+            5,
+            6,
+            1,
+            9,
+            8,
+            4,
+          ],
+        },
+        {
+          "letterCount": 7,
+          "rawIndex": 40,
+          "recorded": [
+            1,
+            4,
+            9,
+            6,
+            8,
+            5,
+            10,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 46,
+          "recorded": [
+            8,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 47,
+          "recorded": [
+            6,
+          ],
+        },
+        {
+          "letterCount": 3,
+          "rawIndex": 48,
+          "recorded": [
+            8,
+            4,
+            6,
+          ],
+        },
+        {
+          "letterCount": 4,
+          "rawIndex": 50,
+          "recorded": [
+            8,
+            1,
+            5,
+            4,
+          ],
+        },
+        {
+          "letterCount": 5,
+          "rawIndex": 55,
+          "recorded": [
+            1,
+            5,
+            6,
+            8,
+            4,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 56,
+          "recorded": [
+            5,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 59,
+          "recorded": [
+            6,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 60,
+          "recorded": [
+            4,
+          ],
+        },
+        {
+          "letterCount": 3,
+          "rawIndex": 61,
+          "recorded": [
+            8,
+            5,
+            4,
+          ],
+        },
+        {
+          "letterCount": 8,
+          "rawIndex": 62,
+          "recorded": [
+            8,
+            9,
+            6,
+            2,
+            4,
+            5,
+            1,
+            0,
+          ],
+        },
+      ],
+      "telescopeQuestDone": true,
+      "unlocked": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        60,
+        61,
+        62,
+        65,
+        66,
+        72,
+        75,
+        79,
+      ],
+    },
     "storageItems": {
       "entries": 555,
     },
@@ -11190,6 +12237,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldEXP C0=ObolSilver1 H105=ObolChizoarA C40=ObolSilver1 S60=ObolGoldEXP C25=ObolSilverDamage C130=ObolGold1 C152=ObolSilverCons C48=ObolSilver1 S190=ObolPlatinumDamage S250=ObolPinkLuck S140=ObolGoldEXP C112=ObolSilverKill C210=ObolSilverCons C170=ObolSilverCons C80=ObolSilver1 S120=ObolGoldEXP C98=ObolSilverKill H180=ObolChizoarA C70=ObolSilver1 S90=ObolSilverMoney",
       "postOfficeUnspent": 484039,
@@ -11205,6 +12253,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "mining": 15,
       },
       "smithingLevel": 147,
+      "starSigns": [
+        19,
+        56,
+        53,
+      ],
       "talentPresets": "selected 1: 0/60 talents",
       "talents": {
         "active": {
@@ -11283,6 +12336,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -11347,6 +12405,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldKill C0=ObolSilver0 H105=ObolEfauntA C40=ObolGold0 S60=ObolGoldKill C25=ObolSilver0 C130=ObolSilver0 C152=ObolSilver0 C48=ObolGold0 S190=ObolSilverLuck S250=ObolPinkLuck S140=ObolSilverMoney C112=ObolGold0 C210=ObolSilverCons C170=ObolGold0 C80=ObolGold0 S120=ObolGoldKill C98=ObolGold0 H180=ObolEfauntA C70=ObolGold0 S90=ObolPink0",
       "postOfficeUnspent": 483536,
@@ -11362,6 +12421,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "mining": 41,
       },
       "smithingLevel": 164,
+      "starSigns": [
+        55,
+        25,
+      ],
       "talentPresets": "selected 1: 2/75 talents",
       "talents": {
         "active": {
@@ -11453,6 +12516,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "selectedPreset": 1,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -11509,6 +12577,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 2,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverLuck C0=ObolGold2 H105=ObolPlatinumLuck C40=ObolPlatinum2 S60=ObolGoldChoppin C25=ObolGold2 C130=ObolSilverChoppin C152=ObolBronzeWorship C48=ObolSilverChoppin S190=ObolSilverLuck S250=ObolTroll S140=ObolSilverCard C112=ObolSilverChoppin C210=ObolSilver2 C170=ObolGold3 C80=ObolSilverChoppin S120=ObolSilverLuck C98=ObolSilverChoppin H180=ObolPlatinumLuck C70=ObolSilverChoppin S90=ObolGoldChoppin",
       "postOfficeUnspent": 483489,
@@ -11524,6 +12593,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "mining": 24,
       },
       "smithingLevel": 163,
+      "starSigns": [
+        55,
+        25,
+        20,
+      ],
       "talentPresets": "selected 1: 0/60 talents",
       "talents": {
         "active": {
@@ -11600,6 +12674,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -11664,6 +12743,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 2,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMining C0=ObolSilverMining H105=ObolSlush C40=ObolGold0 S60=ObolGoldMining C25=ObolSilverMining C130=ObolBronzeMining C152=ObolHyper3 C48=ObolGold0 S190=ObolHyperB3 S250=ObolPinkLuck S140=ObolGoldMining C112=ObolSilverMining C210=ObolHyper3 C170=ObolHyper3 C80=ObolSilverMining S120=ObolGoldMining C98=ObolSilverMining H180=ObolSlush C70=ObolSilverMining S90=ObolGoldMining",
       "postOfficeUnspent": 483478,
@@ -11679,6 +12759,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "mining": 105,
       },
       "smithingLevel": 139,
+      "starSigns": [
+        20,
+        55,
+        25,
+      ],
       "talentPresets": "selected 1: 0/50 talents",
       "talents": {
         "active": {
@@ -11752,6 +12837,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -11808,6 +12898,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 3,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverMoney C0=ObolGold2 H105=ObolPlatinumEXP C40=ObolGold2 S60=ObolGoldMoney C25=ObolGold2 C130=ObolGoldDamage C152=ObolGold2 C48=ObolGoldDamage S190=ObolGoldMoney S250=ObolPinkLuck S140=ObolGoldMoney C112=ObolGoldDamage C210=ObolPlatinum3 C170=ObolGold2 C80=ObolGoldDamage S120=ObolSilverLuck C98=ObolGoldDamage H180=ObolChizoarA C70=ObolGoldDamage S90=ObolSilverLuck",
       "postOfficeUnspent": 483315,
@@ -11823,6 +12914,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "mining": 110,
       },
       "smithingLevel": 172,
+      "starSigns": [
+        10,
+        54,
+        52,
+      ],
       "talentPresets": "selected 1: 0/74 talents",
       "talents": {
         "active": {
@@ -11909,6 +13005,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -11965,6 +13066,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolGoldDamage H105=ObolChizoarA C40=ObolGoldDamage S60=ObolGoldMoney C25=ObolGoldDamage C130=ObolGoldDamage C152=ObolGoldDamage C48=ObolSilverDamage S190=ObolGoldMoney S250=ObolPinkLuck S140=ObolPlatinumDamage C112=ObolGoldDamage C210=ObolGoldDamage C170=ObolGoldDamage C80=ObolGoldDamage S120=ObolGoldMoney C98=ObolGoldDamage H180=ObolPlatinumLuck C70=ObolGoldDamage S90=ObolPlatinumDamage",
       "postOfficeUnspent": 483378,
@@ -11980,6 +13082,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "mining": 18,
       },
       "smithingLevel": 159,
+      "starSigns": [
+        56,
+        19,
+        28,
+      ],
       "talentPresets": "selected 0: 74/0 talents",
       "talents": {
         "active": {
@@ -12071,6 +13178,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "w7b3",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -12135,6 +13247,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolPlatinumLuck C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldMoney S250=ObolPinkLuck S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverDamage C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolPlatinumLuck C70=ObolSilverPop S90=ObolGoldLuck",
       "postOfficeUnspent": 482608,
@@ -12150,6 +13263,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "mining": 122,
       },
       "smithingLevel": 175,
+      "starSigns": [
+        29,
+        11,
+        25,
+      ],
       "talentPresets": "selected 0: 51/0 talents",
       "talents": {
         "active": {
@@ -12225,6 +13343,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "Divinity",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -12285,6 +13408,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 0,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverLuck C0=ObolSilverCatching H105=ObolChizoarA C40=ObolGold0 S60=ObolSilverCard C25=ObolSilverCatching C130=ObolGold1 C152=ObolHyper3 C48=ObolSilverCatching S190=ObolPink3 S250=ObolPinkLuck S140=ObolSilverLuck C112=ObolGold1 C210=ObolSilver3 C170=ObolSilver3 C80=ObolGold1 S120=ObolSilverLuck C98=ObolGold1 H180=ObolChizoarA C70=ObolSilverCatching S90=ObolSilverLuck",
       "postOfficeUnspent": 482514,
@@ -12300,6 +13424,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "mining": 10,
       },
       "smithingLevel": 140,
+      "starSigns": [
+        19,
+        28,
+        49,
+      ],
       "talentPresets": "selected 0: 56/0 talents",
       "talents": {
         "active": {
@@ -12369,6 +13498,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -12433,6 +13567,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolSilverCons H105=ObolChizoarA C40=ObolSilverCons S60=ObolGoldMoney C25=ObolSilverCons C130=ObolSilverCons C152=ObolHyper0 C48=ObolSilverCons S190=ObolGoldCons S250=ObolTroll S140=ObolGoldMoney C112=ObolSilverCons C210=ObolHyper0 C170=ObolHyper0 C80=ObolSilverCons S120=ObolGoldCons C98=ObolSilverCons H180=ObolChizoarA C70=ObolSilverCons S90=ObolGoldCons",
       "postOfficeUnspent": 456865,
@@ -12448,6 +13583,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "mining": 154,
       },
       "smithingLevel": 200,
+      "starSigns": [
+        58,
+        54,
+        53,
+      ],
       "talentPresets": "selected 0: 74/7 talents",
       "talents": {
         "active": {
@@ -12539,6 +13679,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -12603,6 +13748,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 0,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolBronzeKill H105=ObolPlatinumLuck C40=ObolBronzeCons S60=ObolGoldMoney C25=ObolSilver2 C130=ObolSilver2 C152=ObolSilver2 C48=ObolSilverDamage S190=ObolGoldMoney S250=ObolPinkFishing S140=ObolGoldMoney C112=ObolGold1 C210=ObolBronzeKill C170=ObolGold2 C80=ObolSilverChoppin S120=ObolGoldMoney C98=ObolSilver2 H180=ObolPlatinumLuck C70=ObolGold3 S90=ObolGoldMoney",
       "postOfficeUnspent": 476673,
@@ -12618,6 +13764,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "mining": 10,
       },
       "smithingLevel": 142,
+      "starSigns": [
+        54,
+        53,
+        39,
+      ],
       "talentPresets": "selected 0: 50/0 talents",
       "talents": {
         "active": {
@@ -12692,6 +13843,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "mushG",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -12729,6 +13885,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "Carpenter_Cardinal": 9999,
         "Constructor_Crow": 9999,
         "Dog_Bone": 0,
+        "Telescope": 9999,
       },
       "personalObols": "S32_ C0_ H105_ C40_ S60_ C25_ C130_ C152_ C48_ S190_ S250_ S140_ C112_ C210_ C170_ C80_ S120_ C98_ H180_ C70_ S90_",
       "postOfficeUnspent": 490839,
@@ -12744,6 +13901,9 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "mining": 13,
       },
       "smithingLevel": 128,
+      "starSigns": [
+        10,
+      ],
       "talentPresets": "selected 0: 14/0 talents",
       "talents": {
         "active": {
@@ -12774,6 +13934,11 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
   ],
   "diagnostics": {
@@ -14532,6 +15697,253 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
     "stampLevels": {
       "entries": 128,
     },
+    "starSigns": {
+      "claimed": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        34,
+        44,
+        45,
+        54,
+      ],
+      "infiniteCount": 66,
+      "pointsUnspent": 1,
+      "progress": [
+        {
+          "letterCount": 5,
+          "rawIndex": 35,
+          "recorded": [
+            6,
+            5,
+            1,
+            8,
+            4,
+          ],
+        },
+        {
+          "letterCount": 11,
+          "rawIndex": 36,
+          "recorded": [
+            6,
+            3,
+            1,
+            0,
+            4,
+            9,
+            8,
+            2,
+            5,
+            7,
+            10,
+          ],
+        },
+        {
+          "letterCount": 6,
+          "rawIndex": 38,
+          "recorded": [
+            5,
+            6,
+            1,
+            9,
+            8,
+            4,
+          ],
+        },
+        {
+          "letterCount": 7,
+          "rawIndex": 40,
+          "recorded": [
+            1,
+            4,
+            9,
+            6,
+            8,
+            5,
+            10,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 46,
+          "recorded": [
+            8,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 47,
+          "recorded": [
+            6,
+          ],
+        },
+        {
+          "letterCount": 3,
+          "rawIndex": 48,
+          "recorded": [
+            8,
+            4,
+            6,
+          ],
+        },
+        {
+          "letterCount": 4,
+          "rawIndex": 50,
+          "recorded": [
+            8,
+            1,
+            5,
+            4,
+          ],
+        },
+        {
+          "letterCount": 5,
+          "rawIndex": 55,
+          "recorded": [
+            1,
+            5,
+            6,
+            8,
+            4,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 56,
+          "recorded": [
+            5,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 59,
+          "recorded": [
+            6,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 60,
+          "recorded": [
+            4,
+          ],
+        },
+        {
+          "letterCount": 3,
+          "rawIndex": 61,
+          "recorded": [
+            8,
+            5,
+            4,
+          ],
+        },
+        {
+          "letterCount": 8,
+          "rawIndex": 62,
+          "recorded": [
+            8,
+            9,
+            6,
+            2,
+            4,
+            5,
+            1,
+            0,
+          ],
+        },
+      ],
+      "telescopeQuestDone": true,
+      "unlocked": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        60,
+        61,
+        62,
+        65,
+        66,
+        72,
+        75,
+        79,
+      ],
+    },
     "storageItems": {
       "entries": 546,
     },
@@ -14612,6 +16024,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldEXP C0=ObolSilver1 H105=ObolChizoarA C40=ObolSilver1 S60=ObolGoldEXP C25=ObolSilverDamage C130=ObolGold1 C152=ObolSilverCons C48=ObolSilver1 S190=ObolPlatinumDamage S250=ObolPinkLuck S140=ObolGoldEXP C112=ObolSilverKill C210=ObolSilverCons C170=ObolSilverCons C80=ObolSilver1 S120=ObolGoldEXP C98=ObolSilverKill H180=ObolChizoarA C70=ObolSilver1 S90=ObolSilverMoney",
       "postOfficeUnspent": 468379,
@@ -14627,6 +16040,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "mining": 15,
       },
       "smithingLevel": 145,
+      "starSigns": [
+        19,
+        56,
+        53,
+      ],
       "talentPresets": "selected 1: 0/60 talents",
       "talents": {
         "active": {
@@ -14705,6 +16123,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -14769,6 +16192,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldKill C0=ObolSilver0 H105=ObolEfauntA C40=ObolGold0 S60=ObolGoldKill C25=ObolSilver0 C130=ObolSilver0 C152=ObolSilver0 C48=ObolGold0 S190=ObolSilverLuck S250=ObolPinkLuck S140=ObolSilverMoney C112=ObolGold0 C210=ObolSilverCons C170=ObolGold0 C80=ObolGold0 S120=ObolGoldKill C98=ObolGold0 H180=ObolEfauntA C70=ObolGold0 S90=ObolPink0",
       "postOfficeUnspent": 467876,
@@ -14784,6 +16208,10 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "mining": 41,
       },
       "smithingLevel": 164,
+      "starSigns": [
+        55,
+        25,
+      ],
       "talentPresets": "selected 1: 2/75 talents",
       "talents": {
         "active": {
@@ -14875,6 +16303,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "selectedPreset": 1,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -14931,6 +16364,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 2,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverLuck C0=ObolGold2 H105=ObolPlatinumLuck C40=ObolPlatinum2 S60=ObolGoldChoppin C25=ObolGold2 C130=ObolSilverChoppin C152=ObolBronzeWorship C48=ObolSilverChoppin S190=ObolSilverLuck S250=ObolTroll S140=ObolSilverCard C112=ObolSilverChoppin C210=ObolSilver2 C170=ObolGold3 C80=ObolSilverChoppin S120=ObolSilverLuck C98=ObolSilverChoppin H180=ObolPlatinumLuck C70=ObolSilverChoppin S90=ObolGoldChoppin",
       "postOfficeUnspent": 467829,
@@ -14946,6 +16380,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "mining": 24,
       },
       "smithingLevel": 163,
+      "starSigns": [
+        55,
+        25,
+        20,
+      ],
       "talentPresets": "selected 1: 0/60 talents",
       "talents": {
         "active": {
@@ -15022,6 +16461,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -15086,6 +16530,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 2,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMining C0=ObolSilverMining H105=ObolSlush C40=ObolGold0 S60=ObolGoldMining C25=ObolSilverMining C130=ObolBronzeMining C152=ObolHyper3 C48=ObolGold0 S190=ObolHyperB3 S250=ObolPinkLuck S140=ObolGoldMining C112=ObolSilverMining C210=ObolHyper3 C170=ObolHyper3 C80=ObolSilverMining S120=ObolGoldMining C98=ObolSilverMining H180=ObolSlush C70=ObolSilverMining S90=ObolGoldMining",
       "postOfficeUnspent": 467818,
@@ -15101,6 +16546,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "mining": 105,
       },
       "smithingLevel": 135,
+      "starSigns": [
+        20,
+        55,
+        25,
+      ],
       "talentPresets": "selected 1: 0/50 talents",
       "talents": {
         "active": {
@@ -15174,6 +16624,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -15230,6 +16685,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "Constructor_Crow": 3,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverMoney C0=ObolGold2 H105=ObolPlatinumEXP C40=ObolGold2 S60=ObolGoldMoney C25=ObolGold2 C130=ObolGoldDamage C152=ObolGold2 C48=ObolGoldDamage S190=ObolGoldMoney S250=ObolPinkLuck S140=ObolGoldMoney C112=ObolGoldDamage C210=ObolPlatinum3 C170=ObolGold2 C80=ObolGoldDamage S120=ObolSilverLuck C98=ObolGoldDamage H180=ObolChizoarA C70=ObolGoldDamage S90=ObolSilverLuck",
       "postOfficeUnspent": 467655,
@@ -15245,6 +16701,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "mining": 110,
       },
       "smithingLevel": 172,
+      "starSigns": [
+        10,
+        54,
+        52,
+      ],
       "talentPresets": "selected 1: 0/74 talents",
       "talents": {
         "active": {
@@ -15331,6 +16792,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -15387,6 +16853,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolGoldDamage H105=ObolChizoarA C40=ObolGoldDamage S60=ObolGoldMoney C25=ObolGoldDamage C130=ObolGoldDamage C152=ObolGoldDamage C48=ObolSilverDamage S190=ObolGoldMoney S250=ObolPinkLuck S140=ObolPlatinumDamage C112=ObolGoldDamage C210=ObolGoldDamage C170=ObolGoldDamage C80=ObolGoldDamage S120=ObolGoldMoney C98=ObolGoldDamage H180=ObolPlatinumLuck C70=ObolGoldDamage S90=ObolPlatinumDamage",
       "postOfficeUnspent": 467718,
@@ -15402,6 +16869,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "mining": 18,
       },
       "smithingLevel": 154,
+      "starSigns": [
+        56,
+        19,
+        28,
+      ],
       "talentPresets": "selected 0: 74/0 talents",
       "talents": {
         "active": {
@@ -15493,6 +16965,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "selectedPreset": 0,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -15557,6 +17034,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolPlatinumLuck C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldMoney S250=ObolPinkLuck S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverDamage C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolPlatinumLuck C70=ObolSilverPop S90=ObolGoldLuck",
       "postOfficeUnspent": 466948,
@@ -15572,6 +17050,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "mining": 122,
       },
       "smithingLevel": 156,
+      "starSigns": [
+        29,
+        11,
+        25,
+      ],
       "talentPresets": "selected 0: 51/0 talents",
       "talents": {
         "active": {
@@ -15647,6 +17130,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "selectedPreset": 0,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -15707,6 +17195,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 0,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverLuck C0=ObolSilverCatching H105=ObolChizoarA C40=ObolGold0 S60=ObolSilverCard C25=ObolSilverCatching C130=ObolGold1 C152=ObolHyper3 C48=ObolSilverCatching S190=ObolPink3 S250=ObolPinkLuck S140=ObolSilverLuck C112=ObolGold1 C210=ObolSilver3 C170=ObolSilver3 C80=ObolGold1 S120=ObolSilverLuck C98=ObolGold1 H180=ObolChizoarA C70=ObolSilverCatching S90=ObolSilverLuck",
       "postOfficeUnspent": 466854,
@@ -15722,6 +17211,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "mining": 10,
       },
       "smithingLevel": 136,
+      "starSigns": [
+        19,
+        28,
+        49,
+      ],
       "talentPresets": "selected 0: 56/0 talents",
       "talents": {
         "active": {
@@ -15791,6 +17285,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "selectedPreset": 0,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -15851,6 +17350,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolSilverCons H105=ObolChizoarA C40=ObolSilverCons S60=ObolGoldMoney C25=ObolSilverCons C130=ObolSilverCons C152=ObolHyper0 C48=ObolSilverCons S190=ObolGoldCons S250=ObolTroll S140=ObolGoldMoney C112=ObolSilverCons C210=ObolHyper0 C170=ObolHyper0 C80=ObolSilverCons S120=ObolGoldCons C98=ObolSilverCons H180=ObolChizoarA C70=ObolSilverCons S90=ObolGoldCons",
       "postOfficeUnspent": 441205,
@@ -15866,6 +17366,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "mining": 154,
       },
       "smithingLevel": 194,
+      "starSigns": [
+        58,
+        54,
+        53,
+      ],
       "talentPresets": "selected 0: 59/7 talents",
       "talents": {
         "active": {
@@ -15941,6 +17446,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "selectedPreset": 0,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -16005,6 +17515,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 0,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolBronzeKill H105=ObolPlatinumLuck C40=ObolBronzeCons S60=ObolGoldMoney C25=ObolSilver2 C130=ObolSilver2 C152=ObolSilver2 C48=ObolSilverDamage S190=ObolGoldMoney S250=ObolPinkFishing S140=ObolGoldMoney C112=ObolGold1 C210=ObolBronzeKill C170=ObolGold2 C80=ObolSilverChoppin S120=ObolGoldMoney C98=ObolSilver2 H180=ObolPlatinumLuck C70=ObolGold3 S90=ObolGoldMoney",
       "postOfficeUnspent": 461013,
@@ -16020,6 +17531,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "mining": 10,
       },
       "smithingLevel": 141,
+      "starSigns": [
+        54,
+        53,
+        39,
+      ],
       "talentPresets": "selected 0: 50/0 talents",
       "talents": {
         "active": {
@@ -16094,6 +17610,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "selectedPreset": 0,
       },
       "targetMonster": "mushG",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -16131,6 +17652,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "Carpenter_Cardinal": 9999,
         "Constructor_Crow": 9999,
         "Dog_Bone": 0,
+        "Telescope": 9999,
       },
       "personalObols": "S32_ C0_ H105_ C40_ S60_ C25_ C130_ C152_ C48_ S190_ S250_ S140_ C112_ C210_ C170_ C80_ S120_ C98_ H180_ C70_ S90_",
       "postOfficeUnspent": 475179,
@@ -16146,6 +17668,9 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "mining": 13,
       },
       "smithingLevel": 127,
+      "starSigns": [
+        10,
+      ],
       "talentPresets": "selected 0: 14/0 talents",
       "talents": {
         "active": {
@@ -16176,6 +17701,11 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "selectedPreset": 0,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
   ],
   "diagnostics": {
@@ -17941,6 +19471,253 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
     "stampLevels": {
       "entries": 128,
     },
+    "starSigns": {
+      "claimed": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        34,
+        44,
+        45,
+        54,
+      ],
+      "infiniteCount": 66,
+      "pointsUnspent": 1,
+      "progress": [
+        {
+          "letterCount": 5,
+          "rawIndex": 35,
+          "recorded": [
+            6,
+            5,
+            1,
+            8,
+            4,
+          ],
+        },
+        {
+          "letterCount": 11,
+          "rawIndex": 36,
+          "recorded": [
+            6,
+            3,
+            1,
+            0,
+            4,
+            9,
+            8,
+            2,
+            5,
+            7,
+            10,
+          ],
+        },
+        {
+          "letterCount": 6,
+          "rawIndex": 38,
+          "recorded": [
+            5,
+            6,
+            1,
+            9,
+            8,
+            4,
+          ],
+        },
+        {
+          "letterCount": 7,
+          "rawIndex": 40,
+          "recorded": [
+            1,
+            4,
+            9,
+            6,
+            8,
+            5,
+            10,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 46,
+          "recorded": [
+            8,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 47,
+          "recorded": [
+            6,
+          ],
+        },
+        {
+          "letterCount": 3,
+          "rawIndex": 48,
+          "recorded": [
+            8,
+            4,
+            6,
+          ],
+        },
+        {
+          "letterCount": 4,
+          "rawIndex": 50,
+          "recorded": [
+            8,
+            1,
+            5,
+            4,
+          ],
+        },
+        {
+          "letterCount": 5,
+          "rawIndex": 55,
+          "recorded": [
+            1,
+            5,
+            6,
+            8,
+            4,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 56,
+          "recorded": [
+            5,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 59,
+          "recorded": [
+            6,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 60,
+          "recorded": [
+            4,
+          ],
+        },
+        {
+          "letterCount": 3,
+          "rawIndex": 61,
+          "recorded": [
+            8,
+            5,
+            4,
+          ],
+        },
+        {
+          "letterCount": 8,
+          "rawIndex": 62,
+          "recorded": [
+            8,
+            9,
+            6,
+            2,
+            4,
+            5,
+            1,
+            0,
+          ],
+        },
+      ],
+      "telescopeQuestDone": true,
+      "unlocked": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        60,
+        61,
+        62,
+        65,
+        66,
+        72,
+        75,
+        79,
+      ],
+    },
     "storageItems": {
       "entries": 529,
     },
@@ -18021,6 +19798,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldEXP C0=ObolSilver1 H105=ObolChizoarA C40=ObolSilver1 S60=ObolGoldEXP C25=ObolSilverDamage C130=ObolGold1 C152=ObolSilverCons C48=ObolSilver1 S190=ObolPlatinumDamage S250=ObolPinkLuck S140=ObolGoldEXP C112=ObolSilverKill C210=ObolSilverCons C170=ObolSilverCons C80=ObolSilver1 S120=ObolGoldEXP C98=ObolSilverKill H180=ObolChizoarA C70=ObolSilver1 S90=ObolSilverMoney",
       "postOfficeUnspent": 479189,
@@ -18036,6 +19814,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "mining": 15,
       },
       "smithingLevel": 146,
+      "starSigns": [
+        19,
+        56,
+        53,
+      ],
       "talentPresets": "selected 1: 0/60 talents",
       "talents": {
         "active": {
@@ -18114,6 +19897,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -18178,6 +19966,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldKill C0=ObolSilver0 H105=ObolEfauntA C40=ObolGold0 S60=ObolGoldKill C25=ObolSilver0 C130=ObolSilver0 C152=ObolSilver0 C48=ObolGold0 S190=ObolSilverLuck S250=ObolPinkLuck S140=ObolSilverMoney C112=ObolGold0 C210=ObolSilverCons C170=ObolGold0 C80=ObolGold0 S120=ObolGoldKill C98=ObolGold0 H180=ObolEfauntA C70=ObolGold0 S90=ObolPink0",
       "postOfficeUnspent": 478686,
@@ -18193,6 +19982,10 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "mining": 41,
       },
       "smithingLevel": 164,
+      "starSigns": [
+        55,
+        25,
+      ],
       "talentPresets": "selected 1: 2/75 talents",
       "talents": {
         "active": {
@@ -18284,6 +20077,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "selectedPreset": 1,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -18340,6 +20138,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "Constructor_Crow": 9999,
         "Djonnut": 2,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverLuck C0=ObolGold2 H105=ObolPlatinumLuck C40=ObolPlatinum2 S60=ObolGoldChoppin C25=ObolGold2 C130=ObolSilverChoppin C152=ObolBronzeWorship C48=ObolSilverChoppin S190=ObolSilverLuck S250=ObolTroll S140=ObolSilverCard C112=ObolSilverChoppin C210=ObolSilver2 C170=ObolGold3 C80=ObolSilverChoppin S120=ObolSilverLuck C98=ObolSilverChoppin H180=ObolPlatinumLuck C70=ObolSilverChoppin S90=ObolGoldChoppin",
       "postOfficeUnspent": 478639,
@@ -18355,6 +20154,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "mining": 24,
       },
       "smithingLevel": 163,
+      "starSigns": [
+        55,
+        25,
+        20,
+      ],
       "talentPresets": "selected 1: 0/60 talents",
       "talents": {
         "active": {
@@ -18431,6 +20235,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -18495,6 +20304,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "Constructor_Crow": 9999,
         "Djonnut": 2,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMining C0=ObolSilverMining H105=ObolSlush C40=ObolGold0 S60=ObolGoldMining C25=ObolSilverMining C130=ObolBronzeMining C152=ObolHyper3 C48=ObolGold0 S190=ObolHyperB3 S250=ObolPinkLuck S140=ObolGoldMining C112=ObolSilverMining C210=ObolHyper3 C170=ObolHyper3 C80=ObolSilverMining S120=ObolGoldMining C98=ObolSilverMining H180=ObolSlush C70=ObolSilverMining S90=ObolGoldMining",
       "postOfficeUnspent": 478628,
@@ -18510,6 +20320,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "mining": 105,
       },
       "smithingLevel": 138,
+      "starSigns": [
+        20,
+        55,
+        25,
+      ],
       "talentPresets": "selected 1: 0/50 talents",
       "talents": {
         "active": {
@@ -18583,6 +20398,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -18639,6 +20459,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "Constructor_Crow": 3,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverMoney C0=ObolGold2 H105=ObolPlatinumEXP C40=ObolGold2 S60=ObolGoldMoney C25=ObolGold2 C130=ObolGoldDamage C152=ObolGold2 C48=ObolGoldDamage S190=ObolGoldMoney S250=ObolPinkLuck S140=ObolGoldMoney C112=ObolGoldDamage C210=ObolPlatinum3 C170=ObolGold2 C80=ObolGoldDamage S120=ObolSilverLuck C98=ObolGoldDamage H180=ObolChizoarA C70=ObolGoldDamage S90=ObolSilverLuck",
       "postOfficeUnspent": 478465,
@@ -18654,6 +20475,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "mining": 110,
       },
       "smithingLevel": 172,
+      "starSigns": [
+        10,
+        54,
+        52,
+      ],
       "talentPresets": "selected 1: 0/74 talents",
       "talents": {
         "active": {
@@ -18740,6 +20566,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -18796,6 +20627,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolGoldDamage H105=ObolChizoarA C40=ObolGoldDamage S60=ObolGoldMoney C25=ObolGoldDamage C130=ObolGoldDamage C152=ObolGoldDamage C48=ObolSilverDamage S190=ObolGoldMoney S250=ObolPinkLuck S140=ObolPlatinumDamage C112=ObolGoldDamage C210=ObolGoldDamage C170=ObolGoldDamage C80=ObolGoldDamage S120=ObolGoldMoney C98=ObolGoldDamage H180=ObolPlatinumLuck C70=ObolGoldDamage S90=ObolPlatinumDamage",
       "postOfficeUnspent": 478528,
@@ -18811,6 +20643,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "mining": 18,
       },
       "smithingLevel": 155,
+      "starSigns": [
+        56,
+        19,
+        28,
+      ],
       "talentPresets": "selected 0: 74/0 talents",
       "talents": {
         "active": {
@@ -18902,6 +20739,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "selectedPreset": 0,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -18962,6 +20804,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolPlatinumLuck C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldMoney S250=ObolPinkLuck S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverDamage C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolPlatinumLuck C70=ObolSilverPop S90=ObolGoldLuck",
       "postOfficeUnspent": 477758,
@@ -18977,6 +20820,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "mining": 122,
       },
       "smithingLevel": 171,
+      "starSigns": [
+        29,
+        11,
+        25,
+      ],
       "talentPresets": "selected 0: 51/0 talents",
       "talents": {
         "active": {
@@ -19052,6 +20900,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "selectedPreset": 0,
       },
       "targetMonster": "FishMed",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -19112,6 +20965,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "Constructor_Crow": 9999,
         "Djonnut": 0,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverLuck C0=ObolSilverCatching H105=ObolChizoarA C40=ObolGold0 S60=ObolSilverCard C25=ObolSilverCatching C130=ObolGold1 C152=ObolHyper3 C48=ObolSilverCatching S190=ObolPink3 S250=ObolPinkLuck S140=ObolSilverLuck C112=ObolGold1 C210=ObolSilver3 C170=ObolSilver3 C80=ObolGold1 S120=ObolSilverLuck C98=ObolGold1 H180=ObolChizoarA C70=ObolSilverCatching S90=ObolSilverLuck",
       "postOfficeUnspent": 477664,
@@ -19127,6 +20981,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "mining": 10,
       },
       "smithingLevel": 139,
+      "starSigns": [
+        19,
+        28,
+        49,
+      ],
       "talentPresets": "selected 0: 56/0 talents",
       "talents": {
         "active": {
@@ -19196,6 +21055,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "selectedPreset": 0,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -19256,6 +21120,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolSilverCons H105=ObolChizoarA C40=ObolSilverCons S60=ObolGoldMoney C25=ObolSilverCons C130=ObolSilverCons C152=ObolHyper0 C48=ObolSilverCons S190=ObolGoldCons S250=ObolTroll S140=ObolGoldMoney C112=ObolSilverCons C210=ObolHyper0 C170=ObolHyper0 C80=ObolSilverCons S120=ObolGoldCons C98=ObolSilverCons H180=ObolChizoarA C70=ObolSilverCons S90=ObolGoldCons",
       "postOfficeUnspent": 452015,
@@ -19271,6 +21136,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "mining": 154,
       },
       "smithingLevel": 195,
+      "starSigns": [
+        58,
+        54,
+        53,
+      ],
       "talentPresets": "selected 0: 74/7 talents",
       "talents": {
         "active": {
@@ -19362,6 +21232,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "selectedPreset": 0,
       },
       "targetMonster": "fm_rat",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -19426,6 +21301,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "Constructor_Crow": 9999,
         "Djonnut": 0,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolBronzeKill H105=ObolPlatinumLuck C40=ObolBronzeCons S60=ObolGoldMoney C25=ObolSilver2 C130=ObolSilver2 C152=ObolSilver2 C48=ObolSilverDamage S190=ObolGoldMoney S250=ObolPinkFishing S140=ObolGoldMoney C112=ObolGold1 C210=ObolBronzeKill C170=ObolGold2 C80=ObolSilverChoppin S120=ObolGoldMoney C98=ObolSilver2 H180=ObolPlatinumLuck C70=ObolGold3 S90=ObolGoldMoney",
       "postOfficeUnspent": 471823,
@@ -19441,6 +21317,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "mining": 10,
       },
       "smithingLevel": 141,
+      "starSigns": [
+        54,
+        53,
+        39,
+      ],
       "talentPresets": "selected 0: 50/0 talents",
       "talents": {
         "active": {
@@ -19515,6 +21396,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "selectedPreset": 0,
       },
       "targetMonster": "mushG",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -19552,6 +21438,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "Carpenter_Cardinal": 9999,
         "Constructor_Crow": 9999,
         "Dog_Bone": 0,
+        "Telescope": 9999,
       },
       "personalObols": "S32_ C0_ H105_ C40_ S60_ C25_ C130_ C152_ C48_ S190_ S250_ S140_ C112_ C210_ C170_ C80_ S120_ C98_ H180_ C70_ S90_",
       "postOfficeUnspent": 485989,
@@ -19567,6 +21454,9 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "mining": 13,
       },
       "smithingLevel": 128,
+      "starSigns": [
+        10,
+      ],
       "talentPresets": "selected 0: 14/0 talents",
       "talents": {
         "active": {
@@ -19597,6 +21487,11 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "selectedPreset": 0,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
   ],
   "diagnostics": {
@@ -21330,6 +23225,137 @@ exports[`public save second.json > matches the recorded shape (review the diff a
     "stampLevels": {
       "entries": 128,
     },
+    "starSigns": {
+      "claimed": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        54,
+        56,
+        57,
+        58,
+        59,
+        60,
+      ],
+      "infiniteCount": 73,
+      "pointsUnspent": 2,
+      "progress": [],
+      "telescopeQuestDone": true,
+      "unlocked": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        73,
+        74,
+        75,
+        79,
+      ],
+    },
     "storageItems": {
       "entries": 444,
     },
@@ -21410,6 +23436,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldTrapping C0=ObolGold1 H105=ObolPlatinumTrapping C40=ObolGold1 S60=ObolGoldTrapping C25=ObolGold1 C130=ObolGold1 C152=ObolGold1 C48=ObolGold1 S190=ObolGoldTrapping S250_ S140=ObolGoldTrapping C112=ObolGold1 C210=ObolGold1 C170=ObolGold1 C80=ObolSilverTrapping S120=ObolGoldTrapping C98=ObolGold1 H180=ObolPlatinumTrapping C70=ObolGold1 S90=ObolGoldTrapping",
       "postOfficeUnspent": 60,
@@ -21425,6 +23452,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "mining": 70,
       },
       "smithingLevel": 99,
+      "starSigns": [
+        73,
+        74,
+        75,
+      ],
       "talentPresets": "selected 0: 58/31 talents",
       "talents": {
         "active": {
@@ -21506,6 +23538,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "penguin",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -21570,6 +23607,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 3,
         "Djonnut": 13,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMining C0=ObolPlatinum0 H105=ObolPlatinumCons C40=ObolPlatinum0 S60=ObolGoldMoney C25=ObolPlatinum0 C130=ObolGold0 C152=ObolGold0 C48=ObolGold0 S190=ObolGoldCons S250_ S140=ObolGoldCons C112=ObolGold0 C210=ObolGold0 C170=ObolGold0 C80=ObolGold0 S120=ObolGoldCons C98=ObolGold0 H180=ObolPlatinumMining C70=ObolGold0 S90=ObolGoldCons",
       "postOfficeUnspent": 0,
@@ -21585,6 +23623,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "mining": 100,
       },
       "smithingLevel": 87,
+      "starSigns": [
+        75,
+        73,
+        74,
+      ],
       "talentPresets": "selected 0: 58/34 talents",
       "talents": {
         "active": {
@@ -21665,6 +23708,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "penguin",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -21729,6 +23777,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolGold2 H105=ObolSlush C40=ObolGold2 S60=ObolGoldLuck C25=ObolGold2 C130=ObolGold2 C152=ObolGold2 C48=ObolGold2 S190=ObolGoldLuck S250_ S140=ObolGoldLuck C112=ObolGold2 C210=ObolGold2 C170=ObolGold2 C80=ObolGold2 S120=ObolGoldMoney C98=ObolGold2 H180=ObolPlatinumLuck C70=ObolGold2 S90=ObolGoldMoney",
       "postOfficeUnspent": 0,
@@ -21744,6 +23793,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "mining": 30,
       },
       "smithingLevel": 88,
+      "starSigns": [
+        73,
+        74,
+        75,
+      ],
       "talentPresets": "selected 0: 48/32 talents",
       "talents": {
         "active": {
@@ -21822,6 +23876,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "penguin",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -21886,6 +23945,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldFishing C0=ObolGold0 H105=ObolPlatinumFishing C40=ObolGold0 S60=ObolGoldFishing C25=ObolGold0 C130=ObolGold0 C152=ObolGold0 C48=ObolGold0 S190=ObolGoldFishing S250_ S140=ObolSilverLuck C112=ObolGold0 C210=ObolGold0 C170=ObolGold0 C80=ObolGold0 S120=ObolKnight C98=ObolGold0 H180=ObolEfauntA C70=ObolGold0 S90=ObolKnight",
       "postOfficeUnspent": 270,
@@ -21901,6 +23961,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "mining": 49,
       },
       "smithingLevel": 89,
+      "starSigns": [
+        74,
+        75,
+        73,
+      ],
       "talentPresets": "selected 0: 45/34 talents",
       "talents": {
         "active": {
@@ -21983,6 +24048,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "riftAll",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -22047,6 +24117,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldWorship C0=ObolGold2 H105=ObolPlatinumChoppin C40=ObolGold2 S60=ObolGoldWorship C25=ObolGold2 C130=ObolGold2 C152=ObolGold2 C48=ObolGold2 S190=ObolGoldWorship S250_ S140=ObolGoldLuck C112=ObolSilver2 C210=ObolGold2 C170=ObolSilver2 C80=ObolSilver2 S120=ObolSilverMoney C98=ObolSilver2 H180=ObolAmarokA C70=ObolSilver2 S90=ObolSilverMoney",
       "postOfficeUnspent": 512,
@@ -22062,6 +24133,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "mining": 60,
       },
       "smithingLevel": 91,
+      "starSigns": [
+        74,
+        75,
+        73,
+      ],
       "talentPresets": "selected 0: 34/24 talents",
       "talents": {
         "active": {
@@ -22126,6 +24202,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "penguin",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -22190,6 +24271,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverLuck C0=ObolPlatinum1 H105=ObolGoldCard C40=ObolGold1 S60=ObolSilverLuck C25=ObolGold1 C130=ObolGold1 C152=ObolGold1 C48=ObolGold1 S190=ObolFrog S250_ S140=ObolGoldMoney C112=ObolGold1 C210=ObolGold1 C170=ObolGold1 C80=ObolGold1 S120=ObolGoldCatching C98=ObolSilverCatching H180=ObolEfauntA C70=ObolSilverCatching S90=ObolGoldCatching",
       "postOfficeUnspent": 316,
@@ -22205,6 +24287,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "mining": 40,
       },
       "smithingLevel": 96,
+      "starSigns": [
+        74,
+        75,
+        73,
+      ],
       "talentPresets": "selected 0: 53/34 talents",
       "talents": {
         "active": {
@@ -22284,6 +24371,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "penguin",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -22348,6 +24440,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 15,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolHyperB2 C0=ObolPlatinum3 H105=ObolSlush C40=ObolGold3 S60=ObolHyperB2 C25=ObolGold3 C130=ObolGold3 C152=ObolGold3 C48=ObolGold3 S190=ObolHyperB2 S250_ S140=ObolHyperB2 C112=ObolGold3 C210=ObolGold3 C170=ObolGold3 C80=ObolGold3 S120=ObolGoldLuck C98=ObolGold3 H180=ObolSlush C70=ObolGold3 S90=ObolGoldLuck",
       "postOfficeUnspent": 215,
@@ -22363,6 +24456,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "mining": 101,
       },
       "smithingLevel": 93,
+      "starSigns": [
+        73,
+        74,
+        75,
+      ],
       "talentPresets": "selected 0: 56/39 talents",
       "talents": {
         "active": {
@@ -22439,6 +24537,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "w6c2",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -22503,6 +24606,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 17,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolKnight C0=ObolPlatinum2 H105=ObolChizoarA C40=ObolPlatinum2 S60=ObolKnight C25=ObolPlatinum2 C130=ObolPlatinum2 C152=ObolPlatinum2 C48=ObolPlatinum2 S190=ObolKnight S250_ S140=ObolGoldLuck C112=ObolPlatinum2 C210=ObolPlatinum2 C170=ObolPlatinum2 C80=ObolPlatinum2 S120=ObolGoldLuck C98=ObolPlatinum2 H180=ObolPlatinumLuck C70=ObolPlatinum2 S90=ObolGoldLuck",
       "postOfficeUnspent": 120,
@@ -22518,6 +24622,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "mining": 60,
       },
       "smithingLevel": 91,
+      "starSigns": [
+        74,
+        73,
+        75,
+      ],
       "talentPresets": "selected 0: 49/33 talents",
       "talents": {
         "active": {
@@ -22597,6 +24706,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "penguin",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -22661,6 +24775,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolGold1 H105=ObolAmarokA C40=ObolGold1 S60=ObolGoldMoney C25=ObolSilver1 C130=ObolSilver1 C152=ObolSilver1 C48=ObolSilver1 S190=ObolSilverCard S250_ S140=ObolSilverMoney C112=ObolSilver1 C210=ObolSilver1 C170=ObolSilver1 C80=ObolGold3 S120=ObolSilverMoney C98=ObolSilver1 H180=ObolAmarokA C70=ObolGold3 S90=ObolSilverLuck",
       "postOfficeUnspent": 316,
@@ -22676,6 +24791,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "mining": 60,
       },
       "smithingLevel": 95,
+      "starSigns": [
+        74,
+        73,
+        75,
+      ],
       "talentPresets": "selected 0: 40/27 talents",
       "talents": {
         "active": {
@@ -22742,6 +24862,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "penguin",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -22806,6 +24931,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldFishing C0=ObolGold0 H105=ObolAmarokA C40=ObolGold0 S60=ObolGoldFishing C25=ObolGold0 C130=ObolGold0 C152=ObolGold0 C48=ObolGold0 S190=ObolSilverMoney S250_ S140=ObolSilverMoney C112=ObolSilverMining C210=ObolGold0 C170=ObolGold0 C80=ObolSilverMining S120=ObolSilverLuck C98=ObolSilverMining H180=ObolAmarokA C70=ObolSilverMining S90=ObolKnight",
       "postOfficeUnspent": 316,
@@ -22821,6 +24947,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "mining": 80,
       },
       "smithingLevel": 91,
+      "starSigns": [
+        75,
+        73,
+        74,
+      ],
       "talentPresets": "selected 0: 44/27 talents",
       "talents": {
         "active": {
@@ -22887,6 +25018,11 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "selectedPreset": 0,
       },
       "targetMonster": "penguin",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
   ],
   "diagnostics": {
@@ -24670,6 +26806,145 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
     "stampLevels": {
       "entries": 128,
     },
+    "starSigns": {
+      "claimed": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+      ],
+      "infiniteCount": 80,
+      "pointsUnspent": 3,
+      "progress": [],
+      "telescopeQuestDone": true,
+      "unlocked": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+      ],
+    },
     "storageItems": {
       "entries": 564,
     },
@@ -24750,6 +27025,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Constructor_Crow": 3,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolHyperB3 C0=ObolHyper3 H105=ObolChizoarA C40=ObolHyper3 S60=ObolHyperB3 C25=ObolHyper3 C130=ObolHyper3 C152=ObolHyper3 C48=ObolHyper3 S190=ObolHyperB3 S250=ObolKruk S140=ObolHyperB3 C112=ObolHyper3 C210=ObolHyper3 C170=ObolHyper3 C80=ObolHyper3 S120=ObolHyperB3 C98=ObolHyper3 H180=ObolChizoarA C70=ObolHyper3 S90=ObolHyperB3",
       "postOfficeUnspent": 315050,
@@ -24765,6 +27041,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "mining": 244,
       },
       "smithingLevel": 219,
+      "starSigns": [
+        78,
+        69,
+        28,
+      ],
       "talentPresets": "selected 0: 69/74 talents",
       "talents": {
         "active": {
@@ -24862,6 +27143,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "selectedPreset": 0,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -24926,6 +27212,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldTrapping C0=ObolSilverTrapping H105=ObolSlush C40=ObolSilverTrapping S60=ObolGoldTrapping C25=ObolSilverTrapping C130=ObolSilverTrapping C152=ObolSilverTrapping C48=ObolSilverTrapping S190=ObolGoldTrapping S250=ObolEmp S140=ObolGoldTrapping C112=ObolSilverTrapping C210=ObolSilverTrapping C170=ObolSilverTrapping C80=ObolSilverTrapping S120=ObolGoldTrapping C98=ObolSilverTrapping H180=ObolSlush C70=ObolSilverTrapping S90=ObolGoldTrapping",
       "postOfficeUnspent": 315050,
@@ -24941,6 +27228,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "mining": 226,
       },
       "smithingLevel": 217,
+      "starSigns": [
+        69,
+        14,
+        76,
+      ],
       "talentPresets": "selected 1: 74/74 talents",
       "talents": {
         "active": {
@@ -25032,6 +27324,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "selectedPreset": 1,
       },
       "targetMonster": "w7b1",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -25096,6 +27393,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldChoppin C0=ObolSilverChoppin H105=ObolSlush C40=ObolSilverChoppin S60=ObolGoldChoppin C25=ObolSilverChoppin C130=ObolSilverChoppin C152=ObolSilverChoppin C48=ObolSilverChoppin S190=ObolGoldChoppin S250=ObolEmp S140=ObolGoldChoppin C112=ObolSilverChoppin C210=ObolSilverChoppin C170=ObolSilverChoppin C80=ObolSilverChoppin S120=ObolGoldChoppin C98=ObolSilverChoppin H180=ObolSlush C70=ObolSilverChoppin S90=ObolGoldChoppin",
       "postOfficeUnspent": 315050,
@@ -25111,6 +27409,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "mining": 226,
       },
       "smithingLevel": 199,
+      "starSigns": [
+        7,
+        55,
+        69,
+      ],
       "talentPresets": "selected 0: 44/56 talents",
       "talents": {
         "active": {
@@ -25192,6 +27495,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "selectedPreset": 0,
       },
       "targetMonster": "Spelunking0",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -25256,6 +27564,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldFishing C0=ObolSilverFishing H105=ObolSlush C40=ObolSilverFishing S60=ObolGoldFishing C25=ObolSilverFishing C130=ObolSilverFishing C152=ObolSilverFishing C48=ObolSilverFishing S190=ObolGoldFishing S250=ObolEmp S140=ObolGoldFishing C112=ObolSilverFishing C210=ObolSilverFishing C170=ObolSilverFishing C80=ObolSilverFishing S120=ObolGoldFishing C98=ObolSilverFishing H180=ObolSlush C70=ObolSilverFishing S90=ObolGoldFishing",
       "postOfficeUnspent": 315050,
@@ -25271,6 +27580,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "mining": 251,
       },
       "smithingLevel": 183,
+      "starSigns": [
+        69,
+        49,
+        28,
+      ],
       "talentPresets": "selected 0: 59/41 talents",
       "talents": {
         "active": {
@@ -25354,6 +27668,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "selectedPreset": 0,
       },
       "targetMonster": "w7b1",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -25410,6 +27729,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldWorship C0=ObolSilverWorship H105=ObolSlush C40=ObolSilverWorship S60=ObolGoldWorship C25=ObolSilverWorship C130=ObolSilverWorship C152=ObolSilverWorship C48=ObolSilverWorship S190=ObolGoldWorship S250=ObolEmp S140=ObolGoldWorship C112=ObolSilverWorship C210=ObolSilverWorship C170=ObolSilverWorship C80=ObolSilverWorship S120=ObolGoldWorship C98=ObolSilverWorship H180=ObolSlush C70=ObolSilverWorship S90=ObolGoldWorship",
       "postOfficeUnspent": 315050,
@@ -25425,6 +27745,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "mining": 239,
       },
       "smithingLevel": 188,
+      "starSigns": [
+        46,
+        69,
+        62,
+      ],
       "talentPresets": "selected 1: 54/41 talents",
       "talents": {
         "active": {
@@ -25502,6 +27827,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "selectedPreset": 1,
       },
       "targetMonster": "Laboratory",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -25566,6 +27896,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolPink2 C0=ObolSilverPop H105=ObolAmarokA C40=ObolSilverPop S60=ObolPink2 C25=ObolGold3 C130=ObolGold3 C152=ObolSilverPop C48=ObolSilverPop S190=ObolPink2 S250=ObolPinkCard S140=ObolPink2 C112=ObolGold3 C210=ObolGold3 C170=ObolSilverPop C80=ObolBronzeCard S120=ObolPink2 C98=ObolGold3 H180=ObolGoldCard C70=ObolSilverPop S90=ObolSilverCard",
       "postOfficeUnspent": 315050,
@@ -25581,6 +27912,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "mining": 233,
       },
       "smithingLevel": 215,
+      "starSigns": [
+        28,
+        49,
+        69,
+      ],
       "talentPresets": "selected 1: 75/75 talents",
       "talents": {
         "active": {
@@ -25683,6 +28019,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "selectedPreset": 1,
       },
       "targetMonster": "w7b1",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -25747,6 +28088,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldCons C0=ObolSilverCons H105=ObolPlatinumCons C40=ObolSilverCons S60=ObolGoldCons C25=ObolSilverCons C130=ObolSilverCons C152=ObolSilverCons C48=ObolSilverCons S190=ObolGoldCons S250=ObolPinkCons S140=ObolGoldCons C112=ObolSilverCons C210=ObolSilverCons C170=ObolSilverCons C80=ObolSilverCons S120=ObolGoldCons C98=ObolSilverCons H180=ObolPlatinumCons C70=ObolSilverCons S90=ObolGoldCons",
       "postOfficeUnspent": 315050,
@@ -25762,6 +28104,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "mining": 224,
       },
       "smithingLevel": 229,
+      "starSigns": [
+        69,
+        51,
+        70,
+      ],
       "talentPresets": "selected 0: 55/39 talents",
       "talents": {
         "active": {
@@ -25843,6 +28190,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "selectedPreset": 0,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -25907,6 +28259,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolHyperB1 C0=ObolHyper1 H105=ObolSlush C40=ObolHyper1 S60=ObolHyperB1 C25=ObolHyper1 C130=ObolHyper1 C152=ObolHyper1 C48=ObolHyper1 S190=ObolHyperB1 S250=ObolKruk S140=ObolHyperB1 C112=ObolHyper1 C210=ObolHyper1 C170=ObolHyper1 C80=ObolHyper1 S120=ObolHyperB1 C98=ObolHyper1 H180=ObolSlush C70=ObolHyper1 S90=ObolHyperB1",
       "postOfficeUnspent": 315050,
@@ -25922,6 +28275,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "mining": 278,
       },
       "smithingLevel": 273,
+      "starSigns": [
+        20,
+        55,
+        69,
+      ],
       "talentPresets": "selected 1: 55/56 talents",
       "talents": {
         "active": {
@@ -26008,6 +28366,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "selectedPreset": 1,
       },
       "targetMonster": "Bug15",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -26072,6 +28435,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMining C0=ObolSilverMining H105=ObolSlush C40=ObolSilverMining S60=ObolGoldMining C25=ObolSilverMining C130=ObolSilverMining C152=ObolSilverMining C48=ObolSilverMining S190=ObolGoldMining S250=ObolEmp S140=ObolGoldMining C112=ObolSilverMining C210=ObolSilverMining C170=ObolSilverMining C80=ObolSilverMining S120=ObolGoldMining C98=ObolSilverMining H180=ObolSlush C70=ObolSilverMining S90=ObolGoldMining",
       "postOfficeUnspent": 315050,
@@ -26087,6 +28451,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "mining": 230,
       },
       "smithingLevel": 178,
+      "starSigns": [
+        10,
+        55,
+        69,
+      ],
       "talentPresets": "selected 1: 73/71 talents",
       "talents": {
         "active": {
@@ -26180,6 +28549,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "selectedPreset": 1,
       },
       "targetMonster": "w7b1",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -26240,6 +28614,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldCatching C0=ObolSilverCatching H105=ObolSlush C40=ObolSilverCatching S60=ObolGoldCatching C25=ObolSilverCatching C130=ObolSilverCatching C152=ObolSilverCatching C48=ObolSilverCatching S190=ObolGoldCatching S250=ObolEmp S140=ObolGoldCatching C112=ObolSilverCatching C210=ObolSilverCatching C170=ObolSilverCatching C80=ObolSilverCatching S120=ObolGoldCatching C98=ObolSilverCatching H180=ObolSlush C70=ObolSilverCatching S90=ObolGoldCatching",
       "postOfficeUnspent": 315050,
@@ -26255,6 +28630,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "mining": 233,
       },
       "smithingLevel": 216,
+      "starSigns": [
+        29,
+        11,
+        25,
+      ],
       "talentPresets": "selected 0: 60/53 talents",
       "talents": {
         "active": {
@@ -26334,6 +28714,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "selectedPreset": 0,
       },
       "targetMonster": "caveB",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -26396,6 +28781,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Carpenter_Cardinal": 9999,
         "Constructor_Crow": 9999,
         "Dog_Bone": 3,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolHyperB0 C0=ObolHyper0 H105=ObolLava C40=ObolHyper0 S60=ObolHyperB0 C25=ObolHyper0 C130=ObolHyper0 C152=ObolHyper0 C48=ObolHyper0 S190=ObolHyperB0 S250=ObolPinkLuck S140=ObolHyperB0 C112=ObolHyper0 C210=ObolHyper0 C170=ObolHyper0 C80=ObolHyper0 S120=ObolHyperB0 C98=ObolHyper0 H180=ObolLava C70=ObolHyper0 S90=ObolHyperB0",
       "postOfficeUnspent": 315050,
@@ -26411,6 +28797,9 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "mining": 203,
       },
       "smithingLevel": 180,
+      "starSigns": [
+        0,
+      ],
       "talentPresets": "selected 0: 53/29 talents",
       "talents": {
         "active": {
@@ -26485,6 +28874,11 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "selectedPreset": 0,
       },
       "targetMonster": "w7b1",
+      "telescopeRoute": [
+        0,
+        2500,
+        5000,
+      ],
     },
   ],
   "diagnostics": {
@@ -28149,6 +30543,145 @@ exports[`public save third.json > matches the recorded shape (review the diff af
     "stampLevels": {
       "entries": 128,
     },
+    "starSigns": {
+      "claimed": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+      ],
+      "infiniteCount": 79,
+      "pointsUnspent": 3,
+      "progress": [],
+      "telescopeQuestDone": true,
+      "unlocked": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+      ],
+    },
     "storageItems": {
       "entries": 479,
     },
@@ -28225,6 +30758,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 3,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldFishing C0=ObolSilverFishing H105=ObolSlush C40=ObolSilverFishing S60=ObolGoldFishing C25=ObolSilverFishing C130=ObolSilverFishing C152=ObolSilverFishing C48=ObolSilverFishing S190=ObolGoldFishing S250=ObolKruk S140=ObolGoldFishing C112=ObolSilverFishing C210=ObolSilverFishing C170=ObolSilverFishing C80=ObolSilverFishing S120=ObolGoldFishing C98=ObolSilverFishing H180=ObolSlush C70=ObolSilverFishing S90=ObolGoldFishing",
       "postOfficeUnspent": 6441,
@@ -28240,6 +30774,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "mining": 103,
       },
       "smithingLevel": 122,
+      "starSigns": [
+        67,
+        46,
+        58,
+      ],
       "talentPresets": "selected 1: 50/38 talents",
       "talents": {
         "active": {
@@ -28326,6 +30865,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -28390,6 +30934,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolPlatinumLuck C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolKruk S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolPlatinumLuck C70=ObolSilverPop S90=ObolGoldLuck",
       "postOfficeUnspent": 6441,
@@ -28405,6 +30950,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "mining": 100,
       },
       "smithingLevel": 151,
+      "starSigns": [
+        49,
+        28,
+        56,
+      ],
       "talentPresets": "selected 0: 60/48 talents",
       "talents": {
         "active": {
@@ -28490,6 +31040,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "selectedPreset": 0,
       },
       "targetMonster": "mushG",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -28554,6 +31109,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 9999,
         "Djonnut": 17,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldTrapping C0=ObolSilverTrapping H105=ObolSlush C40=ObolSilverTrapping S60=ObolGoldTrapping C25=ObolSilverTrapping C130=ObolSilverTrapping C152=ObolSilverTrapping C48=ObolSilverTrapping S190=ObolGoldTrapping S250=ObolKruk S140=ObolGoldTrapping C112=ObolSilverTrapping C210=ObolSilverTrapping C170=ObolSilverTrapping C80=ObolSilverTrapping S120=ObolGoldTrapping C98=ObolSilverTrapping H180=ObolSlush C70=ObolSilverTrapping S90=ObolGoldTrapping",
       "postOfficeUnspent": 6441,
@@ -28569,6 +31125,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "mining": 100,
       },
       "smithingLevel": 124,
+      "starSigns": [
+        67,
+        78,
+        73,
+      ],
       "talentPresets": "selected 0: 60/37 talents",
       "talents": {
         "active": {
@@ -28645,6 +31206,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "selectedPreset": 0,
       },
       "targetMonster": "mushG",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -28709,6 +31275,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolPlatinumLuck C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolPinkLuck S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolPlatinumLuck C70=ObolSilverPop S90=ObolGoldLuck",
       "postOfficeUnspent": 6441,
@@ -28724,6 +31291,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "mining": 102,
       },
       "smithingLevel": 133,
+      "starSigns": [
+        67,
+        76,
+        73,
+      ],
       "talentPresets": "selected 0: 60/46 talents",
       "talents": {
         "active": {
@@ -28810,6 +31382,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "selectedPreset": 0,
       },
       "targetMonster": "mushG",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -28874,6 +31451,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 9999,
         "Djonnut": 17,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldCons C0=ObolSilverCons H105=ObolPlatinumCons C40=ObolSilverCons S60=ObolGoldCons C25=ObolSilverCons C130=ObolSilverCons C152=ObolSilverCons C48=ObolSilverCons S190=ObolGoldCons S250=ObolPinkCons S140=ObolGoldCons C112=ObolSilverCons C210=ObolSilverCons C170=ObolSilverCons C80=ObolSilverCons S120=ObolGoldCons C98=ObolSilverCons H180=ObolPlatinumCons C70=ObolSilverCons S90=ObolGoldCons",
       "postOfficeUnspent": 6441,
@@ -28889,6 +31467,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "mining": 100,
       },
       "smithingLevel": 139,
+      "starSigns": [
+        49,
+        67,
+        57,
+      ],
       "talentPresets": "selected 0: 59/54 talents",
       "talents": {
         "active": {
@@ -28975,6 +31558,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "selectedPreset": 0,
       },
       "targetMonster": "w6d2",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -29039,6 +31627,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 9999,
         "Djonnut": 17,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolHyperB1 C0=ObolSilverPop H105=ObolSlush C40=ObolHyper2 S60=ObolHyperB1 C25=ObolSilverPop C130=ObolSilverPop C152=ObolHyper2 C48=ObolHyper2 S190=ObolHyperB1 S250=ObolKruk S140=ObolHyperB1 C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolHyper1 S120=ObolGoldLuck C98=ObolSilverPop H180=ObolSlush C70=ObolHyper1 S90=ObolHyperB2",
       "postOfficeUnspent": 6441,
@@ -29054,6 +31643,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "mining": 100,
       },
       "smithingLevel": 122,
+      "starSigns": [
+        22,
+        39,
+        46,
+      ],
       "talentPresets": "selected 0: 53/55 talents",
       "talents": {
         "active": {
@@ -29146,6 +31740,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "selectedPreset": 0,
       },
       "targetMonster": "mushG",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -29202,6 +31801,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 9999,
         "Djonnut": 17,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverCard C0=ObolSilverPop H105=ObolGoldCard C40=ObolSilverPop S60=ObolSilverCard C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolSilverCard S250=ObolKruk S140=ObolSilverCard C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolBronzeCard S120=ObolSilverCard C98=ObolBronzeCard H180=ObolPlatinumLuck C70=ObolBronzeCard S90=ObolSilverCard",
       "postOfficeUnspent": 6441,
@@ -29217,6 +31817,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "mining": 146,
       },
       "smithingLevel": 159,
+      "starSigns": [
+        55,
+        46,
+        69,
+      ],
       "talentPresets": "selected 1: 48/57 talents",
       "talents": {
         "active": {
@@ -29301,6 +31906,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "selectedPreset": 1,
       },
       "targetMonster": "Godshard",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -29361,6 +31971,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMining C0=ObolSilverMining H105=ObolSlush C40=ObolSilverMining S60=ObolGoldMining C25=ObolSilverMining C130=ObolSilverMining C152=ObolSilverMining C48=ObolSilverMining S190=ObolGoldMining S250=ObolKruk S140=ObolGoldMining C112=ObolSilverMining C210=ObolSilverMining C170=ObolSilverMining C80=ObolSilverMining S120=ObolGoldMining C98=ObolSilverMining H180=ObolSlush C70=ObolSilverMining S90=ObolGoldMining",
       "postOfficeUnspent": 6441,
@@ -29376,6 +31987,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "mining": 101,
       },
       "smithingLevel": 124,
+      "starSigns": [
+        46,
+        50,
+        69,
+      ],
       "talentPresets": "selected 0: 55/36 talents",
       "talents": {
         "active": {
@@ -29460,6 +32076,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "selectedPreset": 0,
       },
       "targetMonster": "mushG",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -29524,6 +32145,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldChoppin C0=ObolSilverChoppin H105=ObolSlush C40=ObolSilverChoppin S60=ObolGoldChoppin C25=ObolSilverChoppin C130=ObolSilverChoppin C152=ObolSilverChoppin C48=ObolSilverChoppin S190=ObolGoldChoppin S250=ObolKruk S140=ObolGoldChoppin C112=ObolSilverChoppin C210=ObolSilverChoppin C170=ObolSilverChoppin C80=ObolSilverChoppin S120=ObolGoldChoppin C98=ObolSilverChoppin H180=ObolSlush C70=ObolSilverChoppin S90=ObolGoldChoppin",
       "postOfficeUnspent": 6441,
@@ -29539,6 +32161,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "mining": 100,
       },
       "smithingLevel": 123,
+      "starSigns": [
+        51,
+        22,
+        54,
+      ],
       "talentPresets": "selected 0: 56/56 talents",
       "talents": {
         "active": {
@@ -29617,6 +32244,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "selectedPreset": 0,
       },
       "targetMonster": "mushG",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -29681,6 +32313,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Constructor_Crow": 9999,
         "Djonnut": 17,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldCatching C0=ObolSilverCatching H105=ObolSlush C40=ObolSilverCatching S60=ObolGoldCatching C25=ObolSilverCatching C130=ObolSilverCatching C152=ObolSilverCatching C48=ObolSilverCatching S190=ObolGoldCatching S250=ObolKruk S140=ObolGoldCatching C112=ObolSilverCatching C210=ObolSilverCatching C170=ObolSilverCatching C80=ObolSilverCatching S120=ObolGoldCatching C98=ObolSilverCatching H180=ObolSlush C70=ObolSilverCatching S90=ObolGoldCatching",
       "postOfficeUnspent": 6441,
@@ -29696,6 +32329,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "mining": 100,
       },
       "smithingLevel": 138,
+      "starSigns": [
+        46,
+        69,
+        50,
+      ],
       "talentPresets": "selected 0: 59/40 talents",
       "talents": {
         "active": {
@@ -29780,6 +32418,11 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "selectedPreset": 0,
       },
       "targetMonster": "mushG",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
   ],
   "diagnostics": {
@@ -31545,6 +34188,253 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
     "stampLevels": {
       "entries": 128,
     },
+    "starSigns": {
+      "claimed": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        34,
+        44,
+        45,
+        54,
+      ],
+      "infiniteCount": 66,
+      "pointsUnspent": 1,
+      "progress": [
+        {
+          "letterCount": 5,
+          "rawIndex": 35,
+          "recorded": [
+            6,
+            5,
+            1,
+            8,
+            4,
+          ],
+        },
+        {
+          "letterCount": 11,
+          "rawIndex": 36,
+          "recorded": [
+            6,
+            3,
+            1,
+            0,
+            4,
+            9,
+            8,
+            2,
+            5,
+            7,
+            10,
+          ],
+        },
+        {
+          "letterCount": 6,
+          "rawIndex": 38,
+          "recorded": [
+            5,
+            6,
+            1,
+            9,
+            8,
+            4,
+          ],
+        },
+        {
+          "letterCount": 7,
+          "rawIndex": 40,
+          "recorded": [
+            1,
+            4,
+            9,
+            6,
+            8,
+            5,
+            10,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 46,
+          "recorded": [
+            8,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 47,
+          "recorded": [
+            6,
+          ],
+        },
+        {
+          "letterCount": 3,
+          "rawIndex": 48,
+          "recorded": [
+            8,
+            4,
+            6,
+          ],
+        },
+        {
+          "letterCount": 4,
+          "rawIndex": 50,
+          "recorded": [
+            8,
+            1,
+            5,
+            4,
+          ],
+        },
+        {
+          "letterCount": 5,
+          "rawIndex": 55,
+          "recorded": [
+            1,
+            5,
+            6,
+            8,
+            4,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 56,
+          "recorded": [
+            5,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 59,
+          "recorded": [
+            6,
+          ],
+        },
+        {
+          "letterCount": 1,
+          "rawIndex": 60,
+          "recorded": [
+            4,
+          ],
+        },
+        {
+          "letterCount": 3,
+          "rawIndex": 61,
+          "recorded": [
+            8,
+            5,
+            4,
+          ],
+        },
+        {
+          "letterCount": 8,
+          "rawIndex": 62,
+          "recorded": [
+            8,
+            9,
+            6,
+            2,
+            4,
+            5,
+            1,
+            0,
+          ],
+        },
+      ],
+      "telescopeQuestDone": true,
+      "unlocked": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        60,
+        61,
+        62,
+        65,
+        66,
+        72,
+        75,
+        79,
+      ],
+    },
     "storageItems": {
       "entries": 529,
     },
@@ -31625,6 +34515,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldEXP C0=ObolSilver1 H105=ObolChizoarA C40=ObolSilver1 S60=ObolGoldEXP C25=ObolSilverDamage C130=ObolGold1 C152=ObolSilverCons C48=ObolSilver1 S190=ObolPlatinumDamage S250=ObolPinkLuck S140=ObolGoldEXP C112=ObolSilverKill C210=ObolSilverCons C170=ObolSilverCons C80=ObolSilver1 S120=ObolGoldEXP C98=ObolSilverKill H180=ObolChizoarA C70=ObolSilver1 S90=ObolSilverMoney",
       "postOfficeUnspent": 479189,
@@ -31640,6 +34531,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "mining": 15,
       },
       "smithingLevel": 146,
+      "starSigns": [
+        19,
+        56,
+        53,
+      ],
       "talentPresets": "selected 1: 0/60 talents",
       "talents": {
         "active": {
@@ -31718,6 +34614,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -31782,6 +34683,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldKill C0=ObolSilver0 H105=ObolEfauntA C40=ObolGold0 S60=ObolGoldKill C25=ObolSilver0 C130=ObolSilver0 C152=ObolSilver0 C48=ObolGold0 S190=ObolSilverLuck S250=ObolPinkLuck S140=ObolSilverMoney C112=ObolGold0 C210=ObolSilverCons C170=ObolGold0 C80=ObolGold0 S120=ObolGoldKill C98=ObolGold0 H180=ObolEfauntA C70=ObolGold0 S90=ObolPink0",
       "postOfficeUnspent": 478686,
@@ -31797,6 +34699,10 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "mining": 41,
       },
       "smithingLevel": 164,
+      "starSigns": [
+        55,
+        25,
+      ],
       "talentPresets": "selected 1: 2/75 talents",
       "talents": {
         "active": {
@@ -31888,6 +34794,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "selectedPreset": 1,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -31944,6 +34855,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "Constructor_Crow": 9999,
         "Djonnut": 2,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverLuck C0=ObolGold2 H105=ObolPlatinumLuck C40=ObolPlatinum2 S60=ObolGoldChoppin C25=ObolGold2 C130=ObolSilverChoppin C152=ObolBronzeWorship C48=ObolSilverChoppin S190=ObolSilverLuck S250=ObolTroll S140=ObolSilverCard C112=ObolSilverChoppin C210=ObolSilver2 C170=ObolGold3 C80=ObolSilverChoppin S120=ObolSilverLuck C98=ObolSilverChoppin H180=ObolPlatinumLuck C70=ObolSilverChoppin S90=ObolGoldChoppin",
       "postOfficeUnspent": 478639,
@@ -31959,6 +34871,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "mining": 24,
       },
       "smithingLevel": 163,
+      "starSigns": [
+        55,
+        25,
+        20,
+      ],
       "talentPresets": "selected 1: 0/60 talents",
       "talents": {
         "active": {
@@ -32035,6 +34952,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -32099,6 +35021,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "Constructor_Crow": 9999,
         "Djonnut": 2,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMining C0=ObolSilverMining H105=ObolSlush C40=ObolGold0 S60=ObolGoldMining C25=ObolSilverMining C130=ObolBronzeMining C152=ObolHyper3 C48=ObolGold0 S190=ObolHyperB3 S250=ObolPinkLuck S140=ObolGoldMining C112=ObolSilverMining C210=ObolHyper3 C170=ObolHyper3 C80=ObolSilverMining S120=ObolGoldMining C98=ObolSilverMining H180=ObolSlush C70=ObolSilverMining S90=ObolGoldMining",
       "postOfficeUnspent": 478628,
@@ -32114,6 +35037,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "mining": 105,
       },
       "smithingLevel": 138,
+      "starSigns": [
+        20,
+        55,
+        25,
+      ],
       "talentPresets": "selected 1: 0/50 talents",
       "talents": {
         "active": {
@@ -32187,6 +35115,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -32243,6 +35176,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "Constructor_Crow": 3,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverMoney C0=ObolGold2 H105=ObolPlatinumEXP C40=ObolGold2 S60=ObolGoldMoney C25=ObolGold2 C130=ObolGoldDamage C152=ObolGold2 C48=ObolGoldDamage S190=ObolGoldMoney S250=ObolPinkLuck S140=ObolGoldMoney C112=ObolGoldDamage C210=ObolPlatinum3 C170=ObolGold2 C80=ObolGoldDamage S120=ObolSilverLuck C98=ObolGoldDamage H180=ObolChizoarA C70=ObolGoldDamage S90=ObolSilverLuck",
       "postOfficeUnspent": 478465,
@@ -32258,6 +35192,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "mining": 110,
       },
       "smithingLevel": 172,
+      "starSigns": [
+        10,
+        54,
+        52,
+      ],
       "talentPresets": "selected 1: 0/74 talents",
       "talents": {
         "active": {
@@ -32344,6 +35283,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "selectedPreset": 1,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -32400,6 +35344,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolGoldDamage H105=ObolChizoarA C40=ObolGoldDamage S60=ObolGoldMoney C25=ObolGoldDamage C130=ObolGoldDamage C152=ObolGoldDamage C48=ObolSilverDamage S190=ObolGoldMoney S250=ObolPinkLuck S140=ObolPlatinumDamage C112=ObolGoldDamage C210=ObolGoldDamage C170=ObolGoldDamage C80=ObolGoldDamage S120=ObolGoldMoney C98=ObolGoldDamage H180=ObolPlatinumLuck C70=ObolGoldDamage S90=ObolPlatinumDamage",
       "postOfficeUnspent": 478528,
@@ -32415,6 +35360,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "mining": 18,
       },
       "smithingLevel": 155,
+      "starSigns": [
+        56,
+        19,
+        28,
+      ],
       "talentPresets": "selected 0: 74/0 talents",
       "talents": {
         "active": {
@@ -32506,6 +35456,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "selectedPreset": 0,
       },
       "targetMonster": "Nothing",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -32566,6 +35521,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "Constructor_Crow": 9999,
         "Djonnut": 16,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolPlatinumLuck C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldMoney S250=ObolPinkLuck S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverDamage C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolPlatinumLuck C70=ObolSilverPop S90=ObolGoldLuck",
       "postOfficeUnspent": 477758,
@@ -32581,6 +35537,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "mining": 122,
       },
       "smithingLevel": 171,
+      "starSigns": [
+        29,
+        11,
+        25,
+      ],
       "talentPresets": "selected 0: 51/0 talents",
       "talents": {
         "active": {
@@ -32656,6 +35617,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "selectedPreset": 0,
       },
       "targetMonster": "FishMed",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -32716,6 +35682,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "Constructor_Crow": 9999,
         "Djonnut": 0,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverLuck C0=ObolSilverCatching H105=ObolChizoarA C40=ObolGold0 S60=ObolSilverCard C25=ObolSilverCatching C130=ObolGold1 C152=ObolHyper3 C48=ObolSilverCatching S190=ObolPink3 S250=ObolPinkLuck S140=ObolSilverLuck C112=ObolGold1 C210=ObolSilver3 C170=ObolSilver3 C80=ObolGold1 S120=ObolSilverLuck C98=ObolGold1 H180=ObolChizoarA C70=ObolSilverCatching S90=ObolSilverLuck",
       "postOfficeUnspent": 477664,
@@ -32731,6 +35698,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "mining": 10,
       },
       "smithingLevel": 139,
+      "starSigns": [
+        19,
+        28,
+        49,
+      ],
       "talentPresets": "selected 0: 56/0 talents",
       "talents": {
         "active": {
@@ -32800,6 +35772,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "selectedPreset": 0,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -32860,6 +35837,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "Constructor_Crow": 9999,
         "Djonnut": 13,
         "Dog_Bone": 14,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolSilverCons H105=ObolChizoarA C40=ObolSilverCons S60=ObolGoldMoney C25=ObolSilverCons C130=ObolSilverCons C152=ObolHyper0 C48=ObolSilverCons S190=ObolGoldCons S250=ObolTroll S140=ObolGoldMoney C112=ObolSilverCons C210=ObolHyper0 C170=ObolHyper0 C80=ObolSilverCons S120=ObolGoldCons C98=ObolSilverCons H180=ObolChizoarA C70=ObolSilverCons S90=ObolGoldCons",
       "postOfficeUnspent": 452015,
@@ -32875,6 +35853,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "mining": 154,
       },
       "smithingLevel": 195,
+      "starSigns": [
+        58,
+        54,
+        53,
+      ],
       "talentPresets": "selected 0: 74/7 talents",
       "talents": {
         "active": {
@@ -32966,6 +35949,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "selectedPreset": 0,
       },
       "targetMonster": "fm_rat",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -33030,6 +36018,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "Constructor_Crow": 9999,
         "Djonnut": 0,
         "Dog_Bone": 16,
+        "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolBronzeKill H105=ObolPlatinumLuck C40=ObolBronzeCons S60=ObolGoldMoney C25=ObolSilver2 C130=ObolSilver2 C152=ObolSilver2 C48=ObolSilverDamage S190=ObolGoldMoney S250=ObolPinkFishing S140=ObolGoldMoney C112=ObolGold1 C210=ObolBronzeKill C170=ObolGold2 C80=ObolSilverChoppin S120=ObolGoldMoney C98=ObolSilver2 H180=ObolPlatinumLuck C70=ObolGold3 S90=ObolGoldMoney",
       "postOfficeUnspent": 471823,
@@ -33045,6 +36034,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "mining": 10,
       },
       "smithingLevel": 141,
+      "starSigns": [
+        54,
+        53,
+        39,
+      ],
       "talentPresets": "selected 0: 50/0 talents",
       "talents": {
         "active": {
@@ -33119,6 +36113,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "selectedPreset": 0,
       },
       "targetMonster": "mushG",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
     {
       "afk": null,
@@ -33156,6 +36155,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "Carpenter_Cardinal": 9999,
         "Constructor_Crow": 9999,
         "Dog_Bone": 0,
+        "Telescope": 9999,
       },
       "personalObols": "S32_ C0_ H105_ C40_ S60_ C25_ C130_ C152_ C48_ S190_ S250_ S140_ C112_ C210_ C170_ C80_ S120_ C98_ H180_ C70_ S90_",
       "postOfficeUnspent": 485989,
@@ -33171,6 +36171,9 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "mining": 13,
       },
       "smithingLevel": 128,
+      "starSigns": [
+        10,
+      ],
       "talentPresets": "selected 0: 14/0 talents",
       "talents": {
         "active": {
@@ -33201,6 +36204,11 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "selectedPreset": 0,
       },
       "targetMonster": "Cooking",
+      "telescopeRoute": [
+        0,
+        0,
+        0,
+      ],
     },
   ],
   "diagnostics": {

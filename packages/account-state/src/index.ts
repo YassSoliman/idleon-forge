@@ -95,6 +95,13 @@ export type {
   VaultState,
   Wallet,
 } from './spend-types';
+export { decodeLetters, STAR_POINTS_KEY, TELESCOPE_MAP, TELESCOPE_ROUTE } from './starsigns';
+export type {
+  ConstellationProgress,
+  StarSignsAccountFields,
+  StarSignsCharacterFields,
+  StarSignsState,
+} from './starsigns-types';
 // M14 Walkthroughs & Parallel Slot Plans (M14 TR-2, TR-3)
 export {
   computeSupplyRates,

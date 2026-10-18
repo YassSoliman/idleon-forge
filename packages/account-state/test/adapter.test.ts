@@ -164,6 +164,7 @@ describe('toAccountState', () => {
       resetItems: { potions: 0, fragments: 0 },
       // M7 TR-2: null without the worker's Toolbox functions.
       spend: null,
+      starSigns: null,
       // M15 TR-2: null without the worker's Toolbox functions.
       refinery: null,
       construction: null,
@@ -187,6 +188,9 @@ describe('toAccountState', () => {
         afk: null,
         // M9 TR-3: the synthetic save has no talent keys.
         talents: null,
+        // M16 TR-2: no star sign or tree-door keys either.
+        starSigns: null,
+        telescopeRoute: null,
       },
     ]);
     expect(state.schemaVersion).toBe(SCHEMA_VERSION);
