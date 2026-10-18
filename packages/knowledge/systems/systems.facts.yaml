@@ -38,7 +38,7 @@ facts:
           - { url: https://idleon.wiki/wiki/Mr_Pigibank, title: "IdleOn Wiki: Mr Pigibank", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
       - system: star-signs
         world: 1
-        text: "Opens at the Telescope at Where the Branches End, the top of the big tree in World 1, behind three kill-gated doors; signs are changed only there"
+        text: "Opens at the Telescope, at the top of the big tree in World 1, behind three doors that need kills"
         gameVersion: 2.3.540
         sources:
           - { url: https://idleon.wiki/wiki/Star_Signs, title: "IdleOn Wiki: Star Signs", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
