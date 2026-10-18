@@ -16,15 +16,7 @@ import type {
 import { TEXT_LIMITS } from '@idleon-forge/suggestions-worker/contract';
 import { validateDetailsRequest } from '@idleon-forge/suggestions-worker/validate';
 import type { ProofRing } from '@idleon-forge/sync';
-import {
-  type Dispatch,
-  type SetStateAction,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { type Dispatch, type SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ArtName } from '../design/art/names';
 import { PixelArt } from '../design/art/PixelArt';
 import { ago, clockAt, localOffsetMinutes } from '../design/format';
