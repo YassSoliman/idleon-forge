@@ -41,6 +41,17 @@ export type {
   CollectionsCharacterFields,
   ObolSlot,
 } from './collections-types';
+export { BOOK_PAGES, BUILD_SLOTS } from './depth';
+export type {
+  BookPage,
+  ConstructionBuilding,
+  ConstructionState,
+  DepthAccountFields,
+  HeldBook,
+  LibraryState,
+  RefinerySalt,
+  RefineryState,
+} from './depth-types';
 export {
   ACTIVE_CHARACTER_FRESH_MS,
   type AccountReportFields,

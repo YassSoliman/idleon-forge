@@ -10,6 +10,7 @@
 import type { ParsedSave, RawSaveEnvelope, ToolboxCalls } from '@idleon-forge/toolbox-parsers';
 import { type AfkFactsInput, accountAfkFacts, characterAfkFacts } from './afk-facts';
 import { readCollections } from './collections';
+import { readDepth } from './depth';
 import { FIELD_RAW_KEYS, type RawKind } from './fields';
 import { metaPathAccountFields, metaPathCharacterFields } from './metapath-fields';
 import { readSpendInputs } from './spend';
@@ -451,6 +452,19 @@ export function toAccountState(
     },
     c,
   );
+  // ---- M15 Account depth (M15 TR-2) ----
+  const depth = readDepth(
+    {
+      account,
+      characters,
+      data,
+      withData,
+      calls: options.toolbox?.calls ?? null,
+      withFrozenClock: options.toolbox?.withFrozenClock ?? null,
+      asOf,
+    },
+    c,
+  );
   // ---- M7 Spend Plan (M7 TR-2) ----
   const spend = readSpendInputs({
     parsed,
@@ -503,6 +517,7 @@ export function toAccountState(
       resetItems: readResetItems(account, characters, failedSections),
       ...collections,
       ...walkthrough,
+      ...depth,
       // One salt list: M6's entries carry M2's rawName/unlocked plus the fuel state (M6 TR-3).
       salts: metaPath.salts === null ? null : (unspent.salts ?? metaPath.salts ?? null),
     },

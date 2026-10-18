@@ -8,6 +8,7 @@
 import type { SideReadName } from '@idleon-forge/toolbox-parsers';
 import type { AccountAfkFacts, CharacterAfkFacts } from './afk-types';
 import type { CollectionsAccountFields, CollectionsCharacterFields } from './collections-types';
+import type { DepthAccountFields } from './depth-types';
 import type { SpendInputs } from './spend-types';
 import type { TalentAccountFields, TalentCharacterFields } from './talent-types';
 import type { SaltState, UnspentAccountFields, UnspentCharacterFields } from './unspent-types';
@@ -31,8 +32,10 @@ import type { WalkthroughAccountFields, WalkthroughCharacterFields } from './wal
  * 12: `account.spend` (M7 TR-2, the Spend Plan's wallets and coin sinks).
  * 13: M14 TR-2's walkthrough fields (the `WalkthroughAccountFields` and `WalkthroughCharacterFields`
  *    blocks: anvil tabs, Forge output, holdings, the 3D Printer, supply rates, skills, presets).
+ * 14: M15 TR-2's account-depth fields (the `DepthAccountFields` block: `refinery`, `construction`,
+ *    `library`).
  */
-export const SCHEMA_VERSION = 13;
+export const SCHEMA_VERSION = 14;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -171,7 +174,8 @@ export interface AccountSummary
   extends UnspentAccountFields,
     TalentAccountFields,
     CollectionsAccountFields,
-    WalkthroughAccountFields {
+    WalkthroughAccountFields,
+    DepthAccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;
   /** Worlds whose exit has been used (a character met the gatekeeper past it), ascending. */

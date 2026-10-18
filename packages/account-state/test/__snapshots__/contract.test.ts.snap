@@ -304,6 +304,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "reachable": true,
       },
     ],
+    "construction": null,
     "currentWorld": 4,
     "dailyResetInSeconds": 61106.3149971962,
     "deathNoteBuilding": {
@@ -894,6 +895,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       },
     ],
     "lastCloudSave": 1717794496023,
+    "library": null,
     "merits": [
       {
         "rows": [
@@ -1180,6 +1182,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "unlocked": true,
     },
     "printer": null,
+    "refinery": null,
     "refineryStorage": {
       "entries": 0,
     },
@@ -2774,6 +2777,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
         "reachable": true,
       },
     ],
+    "construction": null,
     "currentWorld": 6,
     "dailyResetInSeconds": 72227.93901824951,
     "deathNoteBuilding": {
@@ -3284,6 +3288,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       },
     ],
     "lastCloudSave": 1715932274485,
+    "library": null,
     "merits": [
       {
         "rows": [
@@ -3570,6 +3575,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       "unlocked": true,
     },
     "printer": null,
+    "refinery": null,
     "refineryStorage": {
       "entries": 0,
     },
@@ -4476,6 +4482,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         "reachable": true,
       },
     ],
+    "construction": null,
     "currentWorld": 6,
     "dailyResetInSeconds": 16674.59600110352,
     "deathNoteBuilding": {
@@ -5011,6 +5018,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       },
     ],
     "lastCloudSave": 1787251303120,
+    "library": null,
     "merits": [
       {
         "rows": [
@@ -5298,6 +5306,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       "unlocked": true,
     },
     "printer": null,
+    "refinery": null,
     "refineryStorage": {
       "entries": 1,
     },
@@ -6481,6 +6490,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "reachable": true,
       },
     ],
+    "construction": null,
     "currentWorld": 7,
     "dailyResetInSeconds": 1543.0130362510681,
     "deathNoteBuilding": {
@@ -7154,6 +7164,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
     ],
     "lastCloudSave": 1786397005571,
+    "library": null,
     "merits": [
       {
         "rows": [
@@ -7445,6 +7456,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "unlocked": true,
     },
     "printer": null,
+    "refinery": null,
     "refineryStorage": {
       "entries": 0,
     },
@@ -10007,6 +10019,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "reachable": true,
       },
     ],
+    "construction": null,
     "currentWorld": 7,
     "dailyResetInSeconds": 51090.541995704174,
     "deathNoteBuilding": {
@@ -10685,6 +10698,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
     ],
     "lastCloudSave": 1791659018980,
+    "library": null,
     "merits": [
       {
         "rows": [
@@ -10976,6 +10990,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "unlocked": true,
     },
     "printer": null,
+    "refinery": null,
     "refineryStorage": {
       "entries": 2,
     },
@@ -13416,6 +13431,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "reachable": true,
       },
     ],
+    "construction": null,
     "currentWorld": 7,
     "dailyResetInSeconds": 84056.69799226522,
     "deathNoteBuilding": {
@@ -14115,6 +14131,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       },
     ],
     "lastCloudSave": 1787217361670,
+    "library": null,
     "merits": [
       {
         "rows": [
@@ -14406,6 +14423,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "unlocked": true,
     },
     "printer": null,
+    "refinery": null,
     "refineryStorage": {
       "entries": 0,
     },
@@ -16815,6 +16833,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "reachable": true,
       },
     ],
+    "construction": null,
     "currentWorld": 7,
     "dailyResetInSeconds": 59914.879991948605,
     "deathNoteBuilding": {
@@ -17514,6 +17533,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
     ],
     "lastCloudSave": 1787760034331,
+    "library": null,
     "merits": [
       {
         "rows": [
@@ -17805,6 +17825,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "unlocked": true,
     },
     "printer": null,
+    "refinery": null,
     "refineryStorage": {
       "entries": 1,
     },
@@ -20201,6 +20222,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "reachable": true,
       },
     ],
+    "construction": null,
     "currentWorld": 6,
     "dailyResetInSeconds": 41883.07497119925,
     "deathNoteBuilding": {
@@ -20919,6 +20941,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
     ],
     "lastCloudSave": 1717826710239,
+    "library": null,
     "merits": [
       {
         "rows": [
@@ -21205,6 +21228,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "unlocked": true,
     },
     "printer": null,
+    "refinery": null,
     "refineryStorage": {
       "entries": 0,
     },
@@ -23520,6 +23544,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "reachable": true,
       },
     ],
+    "construction": null,
     "currentWorld": 7,
     "dailyResetInSeconds": 83526.69399833679,
     "deathNoteBuilding": {
@@ -24226,6 +24251,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
     ],
     "lastCloudSave": 1786477947662,
+    "library": null,
     "merits": [
       {
         "rows": [
@@ -24517,6 +24543,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "unlocked": true,
     },
     "printer": null,
+    "refinery": null,
     "refineryStorage": {
       "entries": 8,
     },
@@ -27051,6 +27078,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "reachable": true,
       },
     ],
+    "construction": null,
     "currentWorld": 6,
     "dailyResetInSeconds": 12019.833936452676,
     "deathNoteBuilding": {
@@ -27746,6 +27774,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
     ],
     "lastCloudSave": 1717703888098,
+    "library": null,
     "merits": [
       {
         "rows": [
@@ -28032,6 +28061,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "unlocked": true,
     },
     "printer": null,
+    "refinery": null,
     "refineryStorage": {
       "entries": 2,
     },
@@ -30407,6 +30437,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "reachable": true,
       },
     ],
+    "construction": null,
     "currentWorld": 7,
     "dailyResetInSeconds": 59914.879991948605,
     "deathNoteBuilding": {
@@ -31106,6 +31137,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
     ],
     "lastCloudSave": 1787760034331,
+    "library": null,
     "merits": [
       {
         "rows": [
@@ -31397,6 +31429,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "unlocked": true,
     },
     "printer": null,
+    "refinery": null,
     "refineryStorage": {
       "entries": 1,
     },
