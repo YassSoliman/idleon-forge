@@ -12,6 +12,7 @@ import {
   EmptyAccountError,
   type Frontier,
   toAccountState,
+  withSupplyRates,
 } from '@idleon-forge/account-state';
 import {
   createEngine,
@@ -27,6 +28,7 @@ import { engineDetectors } from '@idleon-forge/engine/detectors';
 import { detectStage, frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
 import { createSpendModule } from '@idleon-forge/engine/spend';
 import { createUnspentModule } from '@idleon-forge/engine/unspent';
+import { createWalkthroughModule } from '@idleon-forge/engine/walkthrough';
 import {
   type CompiledKnowledge,
   coverage,
@@ -55,6 +57,7 @@ import type {
   WorkerRequest,
   WorkerResponse,
 } from './protocol';
+import { supplyRatesOf } from './supply';
 
 export interface HandleOptions {
   /** Toolbox console.error pass-through (truncated in production builds, TR-23). */
@@ -159,6 +162,7 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
     createBuildsModule({ kb }),
     createCollectionsModule({ kb, registry: engineDetectors }),
     createSpendModule({ kb, stage: (state) => detectStage(state, facts) }),
+    createWalkthroughModule({ kb }),
   ];
 }
 
@@ -229,11 +233,14 @@ export function handleRequest(
     const parseAt = (at: number, withFrontier: boolean) => {
       const parsed = parseSave(env, { now: at, consoleErrors: options.consoleErrors });
       const frontier = withFrontier ? frontierOf(parsed, env, shippedKnowledge().kb) : null;
-      return toAccountState(parsed, env, {
+      const state = toAccountState(parsed, env, {
         source,
         frontier,
         toolbox: { calls: toolboxCalls, withFrozenClock },
       });
+      return withFrontier
+        ? withSupplyRates(state, supplyRatesOf(parsed, env, state, shippedKnowledge().kb))
+        : state;
     };
     const state = parseAt(now, true);
     const savedAt = state.account.lastCloudSave;
