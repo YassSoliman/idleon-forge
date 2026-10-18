@@ -52,15 +52,6 @@ export type {
   RefinerySalt,
   RefineryState,
 } from './depth-types';
-export { PURPOSE_SKILLS } from './purpose';
-export type {
-  DeathNotePage,
-  FightingRate,
-  LevelExp,
-  PurposeAccountFields,
-  PurposeCharacterFields,
-  VaultKills,
-} from './purpose-types';
 export {
   ACTIVE_CHARACTER_FRESH_MS,
   type AccountReportFields,
@@ -118,6 +109,15 @@ export {
   type TaskBoardDaily,
   type WorshipTotem,
 } from './slots-types';
+export { PURPOSE_SKILLS } from './purpose';
+export type {
+  DeathNotePage,
+  FightingRate,
+  LevelExp,
+  PurposeAccountFields,
+  PurposeCharacterFields,
+  VaultKills,
+} from './purpose-types';
 // M7 Spend Plan (M7 TR-2)
 export { LADDER_CHECKPOINTS, SPEND_VAULT_ROWS } from './spend';
 export type {

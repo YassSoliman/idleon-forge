@@ -14,7 +14,8 @@ export const PURPOSE_FIELD_SOURCES: Record<string, string> = {
   'characters[].tools': 'characters[i].tools[].rawName',
   'characters[].portalKillsLeft': 'raw KLA_{i}[mapIndex] (KillsLeft2Advance on the current map)',
   'account.deathNote': 'account.deathNote[world].mobs (rawName, kills)',
-  'account.vault': 'account.upgradeVault.vaultTotalKills, account.upgradeVault.upgrades (name, level, maxLevel)',
+  'account.vault':
+    'account.upgradeVault.vaultTotalKills, account.upgradeVault.upgrades (name, level, maxLevel)',
 };
 
 export const PURPOSE_FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {

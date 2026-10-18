@@ -65,7 +65,12 @@ function levelExp(v: unknown): LevelExp | null {
   return { level, exp, expReq };
 }
 
-function fightingOf(raw: Dict, characters: unknown[], account: Dict, calls: ToolboxCalls): FightingRate | null {
+function fightingOf(
+  raw: Dict,
+  characters: unknown[],
+  account: Dict,
+  calls: ToolboxCalls,
+): FightingRate | null {
   if (raw.afkType !== 'FIGHTING') return null;
   const r = attempt(() => calls.getMaxDamage(raw, characters, account) as Dict);
   if (!r) return null;
