@@ -11,7 +11,7 @@ import type {
   SourceView,
 } from '@idleon-forge/engine/now';
 import { useId, useState } from 'react';
-import { useNowActions } from './context';
+import { type ReportOutput, useNowActions } from './context';
 import { PUBLIC_NOTICE } from './report';
 import { Walkthrough } from './walkthrough/Walkthrough';
 
@@ -105,14 +105,20 @@ export function ContestedBadge({ contested }: { contested: NonNullable<NextActio
   );
 }
 
-/** Report this: two taps, with the public notice in between (FR-30, US-12). */
-export function ReportThis({
-  input,
-}: {
-  input: Parameters<ReturnType<typeof useNowActions>['reportUrl']>[0];
-}) {
+/**
+ * Report this (FR-30, US-12; M13 FR-9): opens the in-app Suggest form when the Suggestions provider is
+ * there; otherwise two taps, with the public notice in between, to the pre-filled GitHub issue.
+ */
+export function ReportThis({ input }: { input: ReportOutput }) {
   const actions = useNowActions();
   const [open, setOpen] = useState(false);
+  const { openReport } = actions;
+  if (openReport)
+    return (
+      <button type="button" className="ghost tiny" onClick={() => openReport(input)}>
+        Report this
+      </button>
+    );
   if (!open)
     return (
       <button type="button" className="ghost tiny" onClick={() => setOpen(true)}>
@@ -144,7 +150,7 @@ export function ActionControls({
 }: {
   actionKey: string;
   controls: ControlsView;
-  report: Parameters<ReturnType<typeof useNowActions>['reportUrl']>[0];
+  report: ReportOutput;
 }) {
   const actions = useNowActions();
   return (

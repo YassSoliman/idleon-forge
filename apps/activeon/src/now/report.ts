@@ -1,13 +1,21 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 //
-// STUB FOR M13 TO REPLACE. Report this and Suggest (M10 FR-30, FR-31, TR-10) before M13 ships: they
-// open a pre-filled GitHub issue form in a new tab. M13 owns `ReportContext`, `SuggestionContext`,
-// the name scrub and the issue-body renderer (`packages/suggestions`, M13 TR-1); when it lands, these
-// builders give way to `openSuggestionForm(type, context)`. Until then the payload is the TR-10
-// allow-list only: entry and field ids, versions, Stage, class and level, the rendered text with
-// every character name replaced by "[character]". Never a name, uid, email or save data.
+// The GitHub-issue fallback for Report this and Suggest (M10 FR-30, FR-31, TR-10). Since M13 the app
+// sends Suggestions in-app through the Suggestions Worker (src/suggestions/); these pre-filled GitHub
+// issue links remain for players who aren't signed in (paste mode, D6) and for builds without the
+// Worker configured. The payload is the TR-10 allow-list only: entry and field ids, versions, Stage,
+// class and level, the rendered text with every character name replaced by "[character]". Never a
+// name, uid, email or save data.
 import type { BuildInfo } from '@idleon-forge/release';
+import type {
+  SuggestionContext,
+  SuggestionText,
+  SuggestionType,
+} from '@idleon-forge/suggestions-worker/contract';
+import { scrubNames } from '../suggestions/scrub';
+
+export { scrubNames };
 
 export const REPO_ISSUES = 'https://github.com/YassSoliman/idleon-forge/issues/new';
 /** GitHub rejects much longer new-issue URLs (TR-10). */
@@ -15,26 +23,29 @@ export const MAX_URL_BYTES = 7500;
 export const PUBLIC_NOTICE = 'This will be posted publicly on GitHub';
 
 export interface ReportInput {
-  outputKind: 'next-action' | 'purpose' | 'higher-leverage' | 'spend-line' | 'verdict' | 'engine-error';
+  outputKind:
+    | 'next-action'
+    | 'purpose'
+    | 'higher-leverage'
+    | 'spend-line'
+    | 'verdict'
+    | 'goal'
+    | 'engine-error';
   entryIds: string[];
   fields: string[];
   text: string;
   stale: boolean;
   contested: boolean;
+  /** Detector ids and the numbers the advice used, when the engine records them (M13 FR-9, FR-10). */
+  detectorIds?: string[];
+  optionId?: string;
+  values?: Record<string, number | boolean | string>;
   screen: 'now' | 'character' | 'account';
   character: { classLabel: string; level: number } | null;
   stage: string;
   knowledge: string;
   gameBuild: number | null;
   build: BuildInfo;
-}
-
-/** M13 FR-6's rule, minimal: every account character name in free text becomes "[character]". */
-export function scrubNames(text: string, names: readonly string[]): string {
-  let out = text;
-  for (const n of [...names].filter((x) => x.trim().length > 0).sort((a, b) => b.length - a.length))
-    out = out.split(n).join('[character]');
-  return out;
 }
 
 const bytes = (s: string) => new TextEncoder().encode(s).length;
@@ -128,4 +139,50 @@ export function suggestUrl(
     body,
     '',
   );
+}
+
+const TYPE_TITLE: Record<SuggestionType, string> = {
+  idea: 'Idea',
+  wrong: "Something's wrong",
+  confusing: 'Confusing',
+};
+
+/**
+ * The in-app form's words as a pre-filled GitHub issue, for a player who can't send in-app (signed out
+ * or paste mode, M13 D6). Text is already scrubbed; the context is the same JSON the preview shows.
+ */
+export function fallbackIssueUrl(
+  type: SuggestionType,
+  text: SuggestionText,
+  context: SuggestionContext,
+): string {
+  const json = JSON.stringify(context, null, 2);
+  const body = (keep: number) =>
+    [
+      "### When I'm…",
+      '',
+      text.whenIm || '_(empty)_',
+      '',
+      '### I want…',
+      '',
+      text.iWant.slice(0, keep) || '_(empty)_',
+      '',
+      '### So that…',
+      '',
+      text.soThat || '_(empty)_',
+      '',
+      '### Game example',
+      '',
+      text.example || '_(empty)_',
+      '',
+      '<details><summary>Context (no names, no save data)</summary>',
+      '',
+      '```json',
+      json,
+      '```',
+      '',
+      '</details>',
+    ].join('\n');
+  const title = `[${TYPE_TITLE[type]}] ${text.iWant.replace(/\s+/g, ' ').trim().slice(0, 72)}`;
+  return issueUrl({ labels: context.report ? 'suggestion,report' : 'suggestion', title }, body, text.iWant);
 }
