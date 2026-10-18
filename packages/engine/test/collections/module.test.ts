@@ -31,6 +31,11 @@ const rowTexts = (s: AccountState, cls: string, level: number) =>
     (g) => g.goal.nextAction.text,
   );
 const accountTexts = (s: AccountState) => (run(s).account?.goals ?? []).map((g) => g.goal.nextAction.text);
+/** The per-character detail lines of the account Goal whose text starts with `start` (M10 Goal.details). */
+const details = (s: AccountState, start: string) =>
+  run(s)
+    .account?.goals?.find((g) => g.goal.nextAction.text.startsWith(start))
+    ?.goal.details?.map((d) => d.text);
 const play = (s: AccountState) => (run(s).account?.activePlay ?? []).map((a) => a.text);
 const allTexts = (s: AccountState) => {
   const out = run(s);
@@ -189,10 +194,12 @@ describe('US-5 cards on every character (one account line when it repeats, #70 A
   it('W2-late: empty slots, Yum Yum for the fighters at Lv 50+ (the pusher falls back while Frostbite is tier 0), Blunder Hills below 50', () => {
     expect(accountTexts(w2)).toEqual(
       expect.arrayContaining([
-        'Equip Slime, Bored Bean, Pincermin and Mashed Potato in the empty card slots of 2 characters: Shaman 44 and Wizard 56',
-        'Equip the Yum Yum Desert card set (tier 1, +10% All Food Effect) on 3 characters: Barbarian 60, Bowman 54 and Wizard 56',
+        'Equip Slime, Bored Bean, Pincermin and Mashed Potato in the empty card slots of 2 characters',
+        'Equip the Yum Yum Desert card set (tier 1, +10% All Food Effect) on 3 characters',
       ]),
     );
+    expect(details(w2, 'Equip Slime')).toEqual(['Shaman 44: 4 open', 'Wizard 56: 4 open']);
+    expect(details(w2, 'Equip the Yum Yum')).toEqual(['Barbarian 60', 'Bowman 54', 'Wizard 56']);
     expect(rowTexts(w2, 'Bowman', 54)).toContain(
       'Equip 4 cards in your empty card slots: Carrotman, Bored Bean, Pincermin and Mashed Potato',
     );
@@ -218,10 +225,14 @@ describe('US-5 cards on every character (one account line when it repeats, #70 A
   it('W3-early: Easy Resources for the two skillers and Yum Yum tier 2 for three fighters, as account lines', () => {
     expect(accountTexts(w3)).toEqual(
       expect.arrayContaining([
-        'Equip the Easy Resources card set (tier 1, +8% Skill Efficiency) on 2 characters: Squire 51 and Barbarian 56',
-        'Equip the Yum Yum Desert card set (tier 2, +20% All Food Effect) on 3 characters: Wizard 73, Bowman 60 and Shaman 54',
+        'Equip the Easy Resources card set (tier 1, +8% Skill Efficiency) on 2 characters',
+        'Equip the Yum Yum Desert card set (tier 2, +20% All Food Effect) on 3 characters',
       ]),
     );
+    expect(details(w3, 'Equip the Easy')).toEqual(['Squire 51', 'Barbarian 56']);
+    expect(details(w3, 'Equip the Yum Yum')).toEqual(['Wizard 73', 'Bowman 60', 'Shaman 54']);
+    const g = run(w3).account?.goals?.find((x) => x.goal.nextAction.text.startsWith('Equip the Yum Yum'));
+    expect(g?.goal.details?.map((d) => d.subject)).toEqual(['c0', 'c2', 'c5']);
   });
 
   it('W3-early: the pusher (Squire 85) swaps Yum Yum for Frostbite while it misses (D3), and keeps it without a frontier', () => {

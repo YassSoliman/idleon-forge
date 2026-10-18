@@ -151,14 +151,19 @@ function build(state: AccountState, now: number, deps: CollectionsModuleDeps, en
       if (!first) continue;
       for (const f of fs) merged.add(f);
       const scope = { ...first.slots, characters: fs.length, who: and(fs.map((f) => f.who ?? '')) };
-      add('account', {
-        ...goalOf(
-          first,
-          'account',
-          render(groupText, scope, entry.values),
-          render(entry.why, scope, entry.values),
-        ),
-      });
+      const g = goalOf(
+        first,
+        'account',
+        render(groupText, scope, entry.values),
+        render(entry.why, scope, entry.values),
+      );
+      // M10 `Goal.details`: one line per character, in save order, from the entry's own detail template.
+      const detailText = typeof entry.values.detailText === 'string' ? entry.values.detailText : '{who}';
+      g.goal.details = fs.map((f) => ({
+        subject: subjectKey(f.subject),
+        text: render(detailText, { ...f.slots, who: f.who ?? '' }, entry.values),
+      }));
+      add('account', g);
     }
     for (const f of findings) {
       if (merged.has(f)) continue;

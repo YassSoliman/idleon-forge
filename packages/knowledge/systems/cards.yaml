@@ -7,7 +7,7 @@
 # kb-budget.json); M4 can make them Priority Lists when it ships those entries.
 # Card presets live here too (one System, `cards`). The engine module is packages/engine/src/collections (Detectors cards/slots, cards/set,
 # cards/preset). A Check that would repeat across characters renders `values.groupText` once, in the
-# Account section, naming each character by class and level (#70 A5).
+# Account section, with one `values.detailText` line per character, by class and level (#70 A5).
 system: cards
 entries:
   - id: cards.check.empty-slots
@@ -22,7 +22,8 @@ entries:
     text: "Equip {count:int} {cardsWord} in your empty card slots: {cards}"
     why: "An empty card slot gives nothing; these are your best owned cards for {activity}, highest level first, and a card can sit on several characters at once."
     values:
-      groupText: "Equip {cards} in the empty card slots of {characters:int} characters: {who}"
+      groupText: "Equip {cards} in the empty card slots of {characters:int} characters"
+      detailText: "{who}: {open:int} open"
     appliesTo: { stages: all }
     confidence: H
     status: active
@@ -43,7 +44,7 @@ entries:
     text: "Replace the {passive} card (passive, it works unequipped) and fill your open slots: {cards}"
     why: "Passive cards give their bonus without being equipped, so the slot is free for a card that needs it."
     values:
-      groupText: "Replace the passive {passive} card on {characters:int} characters ({who}) with {cards}"
+      groupText: "Replace the passive {passive} card on {characters:int} characters with {cards}"
     appliesTo: { stages: all }
     confidence: H
     status: active
@@ -64,7 +65,7 @@ entries:
     text: "Equip the {set} card set (tier {tier:int}, {bonus})"
     why: "No card set is equipped, and this one fits what the character is doing; equipping it is free."
     values:
-      groupText: "Equip the {set} card set (tier {tier:int}, {bonus}) on {characters:int} characters: {who}"
+      groupText: "Equip the {set} card set (tier {tier:int}, {bonus}) on {characters:int} characters"
     appliesTo: { stages: all }
     confidence: L
     status: active
@@ -85,7 +86,7 @@ entries:
     text: "Swap the {current} card set for {set} (tier {tier:int}, {bonus})"
     why: "The equipped set doesn't fit what this character is doing now; this one does."
     values:
-      groupText: "Swap the {current} card set for {set} (tier {tier:int}, {bonus}) on {characters:int} characters: {who}"
+      groupText: "Swap the {current} card set for {set} (tier {tier:int}, {bonus}) on {characters:int} characters"
     appliesTo: { stages: all }
     confidence: L
     status: active
@@ -106,7 +107,7 @@ entries:
     text: "Swap the Blunder Hills card set (no EXP bonus from Lv 50) for {set} (tier {tier:int}, {bonus})"
     why: "The Blunder Hills set's EXP bonus only applies below Lv 50, so it gives this character nothing."
     values:
-      groupText: "Swap the Blunder Hills card set for {set} (tier {tier:int}, {bonus}) on {characters:int} characters past Lv 50: {who}"
+      groupText: "Swap the Blunder Hills card set for {set} (tier {tier:int}, {bonus}) on {characters:int} characters past Lv 50"
     appliesTo: { stages: all }
     confidence: H
     status: active

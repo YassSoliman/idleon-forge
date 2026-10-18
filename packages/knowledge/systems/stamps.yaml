@@ -83,7 +83,7 @@ entries:
     text: "{where} {stamp}{place}"
     why: "This stamp item is in your bag or storage but not collected, so its bonus isn't on yet."
     values:
-      groupText: "Use the {stamp}: {who} each carry one"
+      groupText: "Use the {stamp}: {characters:int} characters carry one"
     appliesTo: { stages: all }
     confidence: H
     status: active

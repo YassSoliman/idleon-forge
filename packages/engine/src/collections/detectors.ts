@@ -423,7 +423,7 @@ export const obolStateDetector = defineDetector({
           merit,
         },
         group: `${x.to === 'family' ? 'family' : 'personal'}:${x.shape}`,
-        who: x.to === 'family' ? '' : `${label(state, x.to)} (${x.count})`,
+        who: x.to === 'family' ? '' : label(state, x.to),
       }));
     }
     // slots: the obol Goal (FR-22, FR-23).
