@@ -208,10 +208,14 @@ describe('FR-28 the Stage Expectation', () => {
 });
 
 describe('public saves', () => {
-  it.each(fixtures.filter((f) => f.kind === 'public').map((f) => f.id))('%s runs without a failure', (id) => {
-    const r = run(id);
-    expect(r.diagnostics.failedDetectors.filter((d) => d.detectorId.startsWith('alchemy'))).toEqual([]);
-    if ((stateOf(fixture(id)).account.currentWorld ?? 0) < 2)
-      expect(r.account.goals.some((g) => g.id.endsWith('level-next'))).toBe(false);
-  }, 60_000); // a full engine run per save; slow under a loaded CI runner (as #114)
+  it.each(fixtures.filter((f) => f.kind === 'public').map((f) => f.id))(
+    '%s runs without a failure',
+    (id) => {
+      const r = run(id);
+      expect(r.diagnostics.failedDetectors.filter((d) => d.detectorId.startsWith('alchemy'))).toEqual([]);
+      if ((stateOf(fixture(id)).account.currentWorld ?? 0) < 2)
+        expect(r.account.goals.some((g) => g.id.endsWith('level-next'))).toBe(false);
+    },
+    60_000,
+  ); // a full engine run per save; slow under a loaded CI runner (as #114)
 });
