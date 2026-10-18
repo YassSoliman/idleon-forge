@@ -113,6 +113,8 @@ const shapeOf = (state: AccountState) => ({
     // M18 TR-2: digests, so a re-sync diff shows what moved without listing every stat.
     gearItems: state.account.gearItems && `${Object.keys(state.account.gearItems).length} items`,
     anvilRecipes: state.account.anvilRecipes?.map((t) => t.length).join('/') ?? state.account.anvilRecipes,
+    // M21 TR-3: one line, "level/grade" per statue (per-character levels checked in redesign.test.ts).
+    statues: state.account.statues?.map((x) => `${x.level}/${x.grade}`).join(' ') ?? state.account.statues,
   },
   characters: state.characters.map(({ name: _name, talents, ...c }) => ({
     ...compact(c as unknown as Record<string, unknown>, CHARACTER_MAPS),
@@ -130,6 +132,13 @@ const shapeOf = (state: AccountState) => ({
       ? `selected ${c.talentPresets.selected}: ${c.talentPresets.presets.map((p) => Object.keys(p.levels).length).join('/')} talents`
       : c.talentPresets,
     cardPresets: line(c.cardPresets),
+    // M21 TR-3: maps and doors still open (kills left above 0), not 300+ rows per character.
+    doorKillsLeft: c.doorKillsLeft
+      ? (() => {
+          const rows = Object.values(c.doorKillsLeft);
+          return `${rows.length} maps, ${rows.flat().filter((n) => n > 0).length} doors open`;
+        })()
+      : c.doorKillsLeft,
   })),
   lastPlayedCharacterIndex: state.lastPlayedCharacterIndex,
   diagnostics: { ...state.diagnostics, parserPin: { gameVersion: state.diagnostics.parserPin.gameVersion } },
@@ -175,10 +184,13 @@ describe('across all public saves', () => {
   // M20 TR-2 adds skills and Parallel Slots per character (~13 KB on the 17-character speedrun save,
   // ~3 KB on a real W3 account), so the guard was 320 KB; the history step keeps only compact entries.
   // M18 TR-2 adds worn gear and every held item's stats, stored once per rawName (+17 KB on highend.json,
-  // which holds 122 kinds of gear; +5 KB on a real W3 account), so the guard is 340 KB.
-  it('keeps every Account State under the 340 KB history cap (TR-16, M20 TR-2, M18 TR-2)', () => {
+  // which holds 122 kinds of gear; +5 KB on a real W3 account), so the guard was 340 KB.
+  // M21 TR-3 adds door kills on every map (one small array per map, clamped at 0) and the statue levels
+  // per character (+19 KB on highend.json's 11 late characters, 351.9 KB in all; +4 KB on a real W3
+  // account), so the guard is 360 KB.
+  it('keeps every Account State under the 360 KB history cap (TR-16, M20 TR-2, M18 TR-2, M21 TR-3)', () => {
     const largest = Math.max(...states.map((s) => new TextEncoder().encode(JSON.stringify(s)).length));
-    expect(largest).toBeLessThan(340 * 1024);
+    expect(largest).toBeLessThan(360 * 1024);
   });
 
   it('has the 11 public saves', () => {

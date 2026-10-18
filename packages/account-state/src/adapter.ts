@@ -16,6 +16,7 @@ import { FIELD_RAW_KEYS, type RawKind } from './fields';
 import { readGear } from './gear';
 import { metaPathAccountFields, metaPathCharacterFields } from './metapath-fields';
 import { readPurpose } from './purpose';
+import { readRedesign } from './redesign';
 import { readSlotFields } from './slots';
 import { readSpendInputs } from './spend';
 import { readStarSigns } from './starsigns';
@@ -505,6 +506,20 @@ export function toAccountState(
   const alchemyPlan = readAlchemyPlan({ account, states, failedSections }, c);
   // ---- M18 Gear & Tools (M18 TR-2) ----
   const gear = readGear({ account, characters, data, states, withData }, c);
+  // ---- M21 Redesign (M21 TR-3); after M9's talents, which it extends ----
+  const redesign = readRedesign(
+    {
+      account,
+      characters,
+      data,
+      states,
+      failedSections,
+      calls: options.toolbox?.calls ?? null,
+      withFrozenClock: options.toolbox?.withFrozenClock ?? null,
+      asOf,
+    },
+    c,
+  );
   // ---- M7 Spend Plan (M7 TR-2) ----
   const spend = readSpendInputs({
     parsed,
@@ -563,6 +578,7 @@ export function toAccountState(
       ...purpose,
       ...alchemyPlan,
       ...gear,
+      ...redesign,
       // One salt list: M6's entries carry M2's rawName/unlocked plus the fuel state (M6 TR-3).
       salts: metaPath.salts === null ? null : (unspent.salts ?? metaPath.salts ?? null),
     },

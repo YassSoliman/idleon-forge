@@ -195,6 +195,8 @@ describe('toAccountState', () => {
       gearItems: {},
       anvilRecipes: null,
       armorSmithy: null,
+      // M21 TR-3: no StuG key.
+      statues: null,
     });
     expect(state.characters.map(withoutUnspentCharacter)).toEqual([
       {
@@ -222,6 +224,8 @@ describe('toAccountState', () => {
         slots: null,
         // M18 TR-2: no EquipOrder key.
         gear: null,
+        // M21 TR-3: no KillsLeft2Advance key.
+        doorKillsLeft: null,
       },
     ]);
     expect(state.schemaVersion).toBe(SCHEMA_VERSION);
@@ -350,7 +354,7 @@ describe('on real parser output', () => {
     expect(accountStateOf(save)).toEqual(a);
     const later = accountStateOf(save, NOW + 60_000);
     expect(later.account.secondsSinceLastSave).toBe((a.account.secondsSinceLastSave ?? 0) + 60);
-  });
+  }, 30_000); // parses the save more than once
 });
 
 describe('humanize', () => {

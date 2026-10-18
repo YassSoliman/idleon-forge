@@ -12,6 +12,7 @@ import type { CollectionsAccountFields, CollectionsCharacterFields } from './col
 import type { DepthAccountFields } from './depth-types';
 import type { GearAccountFields, GearCharacterFields } from './gear-types';
 import type { PurposeAccountFields, PurposeCharacterFields } from './purpose-types';
+import type { RedesignAccountFields, RedesignCharacterFields } from './redesign-types';
 import type { SlotsAccountFields, SlotsCharacterFields } from './slots-types';
 import type { SpendInputs } from './spend-types';
 import type { StarSignsAccountFields, StarSignsCharacterFields } from './starsigns-types';
@@ -50,8 +51,10 @@ import type { WalkthroughAccountFields, WalkthroughCharacterFields } from './wal
  *    levels, the best Alchemy level) and the Player keys in `account.spend.p2w` (M19 X2).
  * 19: M18 TR-2's gear fields (`characters[].gear`, `account.gearItems`, `account.anvilRecipes`,
  *    `account.armorSmithy`).
+ * 20: M21 TR-3's redesign fields (`characters[].talents.starPoints`, `characters[].doorKillsLeft`,
+ *    `account.statues`; the `RedesignAccountFields` and `RedesignCharacterFields` blocks).
  */
-export const SCHEMA_VERSION = 19;
+export const SCHEMA_VERSION = 20;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -83,7 +86,8 @@ export interface CharacterState
     StarSignsCharacterFields,
     SlotsCharacterFields,
     PurposeCharacterFields,
-    GearCharacterFields {
+    GearCharacterFields,
+    RedesignCharacterFields {
   /** Slot in the save (0-based), stable across saves. Field paths use it: `characters[<index>].level`. */
   index: number;
   name: string;
@@ -204,7 +208,8 @@ export interface AccountSummary
     StarSignsAccountFields,
     SlotsAccountFields,
     PurposeAccountFields,
-    GearAccountFields {
+    GearAccountFields,
+    RedesignAccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;
   /** Worlds whose exit has been used (a character met the gatekeeper past it), ascending. */

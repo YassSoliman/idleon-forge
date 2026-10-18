@@ -104,6 +104,10 @@ export type {
   PurposeCharacterFields,
   VaultKills,
 } from './purpose-types';
+// M21 Redesign (M21 TR-3)
+export { doorKillsOf } from './redesign';
+export { STAR_TOTAL_SECTIONS } from './redesign-fields';
+export type { RedesignAccountFields, RedesignCharacterFields, StatueState } from './redesign-types';
 // M20 Skills, Parallel Slots and the Daily & Weekly Checklist (M20 TR-2)
 export {
   ballotText,

@@ -31,6 +31,14 @@ export interface CharacterTalents {
   active: PresetTalents;
   /** Null below class Lv 15 or when the save has no preset data. */
   other: PresetTalents | null;
+  /**
+   * M21 TR-3 (FR-C9): each preset's star talent point total, from Toolbox `calcTotalStarTalent` on this
+   * character alone (`toolboxCalls.starTotal`); the other preset's uses that preset's own talents, since
+   * Star Player, Supernova Player and Stonks! add points per preset. null when the call throws, a
+   * section it reads failed, the worker's Toolbox calls weren't supplied, or there is no other preset.
+   * Set by the adapter; optional only so hand-built states stay valid.
+   */
+  starPoints?: { active: number | null; other: number | null };
 }
 
 /** Talent Point Reset Potions (`ResetCompleted`) and Fragments (`ResetFrag`), summed over storage and inventories. */
