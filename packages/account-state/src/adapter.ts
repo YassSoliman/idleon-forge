@@ -13,6 +13,7 @@ import { readCollections } from './collections';
 import { readDepth } from './depth';
 import { FIELD_RAW_KEYS, type RawKind } from './fields';
 import { metaPathAccountFields, metaPathCharacterFields } from './metapath-fields';
+import { readSlotFields } from './slots';
 import { readSpendInputs } from './spend';
 import { readStarSigns } from './starsigns';
 import { readResetItems, readTalents } from './talents';
@@ -468,6 +469,21 @@ export function toAccountState(
   );
   // ---- M16 Star Signs (M16 TR-2); after M8's quests, which it reads ----
   const starSigns = readStarSigns({ account, characters, data, states, withData, failedSections }, c);
+  // ---- M20 Skills, Parallel Slots and the Daily & Weekly Checklist (M20 TR-2) ----
+  const slots = readSlotFields(
+    {
+      account,
+      characters,
+      states,
+      withData,
+      failedSections,
+      finishedWorlds,
+      calls: options.toolbox?.calls ?? null,
+      withFrozenClock: options.toolbox?.withFrozenClock ?? null,
+      asOf,
+    },
+    c,
+  );
   // ---- M7 Spend Plan (M7 TR-2) ----
   const spend = readSpendInputs({
     parsed,
@@ -522,6 +538,7 @@ export function toAccountState(
       ...walkthrough,
       ...depth,
       ...starSigns,
+      ...slots,
       // One salt list: M6's entries carry M2's rawName/unlocked plus the fuel state (M6 TR-3).
       salts: metaPath.salts === null ? null : (unspent.salts ?? metaPath.salts ?? null),
     },

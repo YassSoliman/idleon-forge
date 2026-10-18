@@ -176,6 +176,11 @@ export interface ToolboxCalls {
   getBuildCost(towers: unknown, level: number, bonusInc: number, index: number): number;
   /** `{ minBookLv, maxBookLv }`: the Talent Book Library's book level range. */
   getBookLvRange(account: unknown): unknown;
+  // ---- M20 Skills, Parallel Slots and the Daily & Weekly Checklist (TR-1) ----
+  /** Killroy room classes ("Warrior", ...) for this account week (index 0) and the next (1), `rooms` rooms each. */
+  killroyWeeks(account: unknown, characters: unknown[], rooms: number): { classes: string[] }[];
+  /** The next Random Events from the current hour (Toolbox `getRandomEvents`), each with its map's world (1-3, 0 unknown). */
+  randomEventSchedule(account: unknown): { at: number; map: string; event: string; world: number }[];
 }
 
 /** M7 TR-4: one Vault row's Toolbox `cost` at levels L, L+1, ... (`costs[0]` is the parse's `cost`). */

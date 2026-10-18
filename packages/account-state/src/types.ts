@@ -9,6 +9,7 @@ import type { SideReadName } from '@idleon-forge/toolbox-parsers';
 import type { AccountAfkFacts, CharacterAfkFacts } from './afk-types';
 import type { CollectionsAccountFields, CollectionsCharacterFields } from './collections-types';
 import type { DepthAccountFields } from './depth-types';
+import type { SlotsAccountFields, SlotsCharacterFields } from './slots-types';
 import type { SpendInputs } from './spend-types';
 import type { StarSignsAccountFields, StarSignsCharacterFields } from './starsigns-types';
 import type { TalentAccountFields, TalentCharacterFields } from './talent-types';
@@ -37,8 +38,11 @@ import type { WalkthroughAccountFields, WalkthroughCharacterFields } from './wal
  *    `library`).
  * 15: M16 TR-2's star sign fields (`account.starSigns`, `characters[].starSigns`,
  *    `characters[].telescopeRoute`) and `Telescope` in `npcDialog` (GATE_NPCS, M16 X1).
+ * 16: M20 TR-2's skill, Parallel Slot and reset-item fields (the `SlotsAccountFields` and
+ *    `SlotsCharacterFields` blocks: skills, slots, cogBoard, liquids, resets, killroy, weeklyBattle,
+ *    ballot, randomEvents, petTournament, taskBoardDailies, guildTasks, totems).
  */
-export const SCHEMA_VERSION = 15;
+export const SCHEMA_VERSION = 16;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -67,7 +71,8 @@ export interface CharacterState
     TalentCharacterFields,
     CollectionsCharacterFields,
     WalkthroughCharacterFields,
-    StarSignsCharacterFields {
+    StarSignsCharacterFields,
+    SlotsCharacterFields {
   /** Slot in the save (0-based), stable across saves. Field paths use it: `characters[<index>].level`. */
   index: number;
   name: string;
@@ -184,7 +189,8 @@ export interface AccountSummary
     CollectionsAccountFields,
     WalkthroughAccountFields,
     DepthAccountFields,
-    StarSignsAccountFields {
+    StarSignsAccountFields,
+    SlotsAccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;
   /** Worlds whose exit has been used (a character met the gatekeeper past it), ascending. */

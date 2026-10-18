@@ -168,9 +168,11 @@ describe('across all public saves', () => {
 
   // M1 TR-16 set 200 KB; M8's collections and M9's talent presets together put the largest public
   // save (730 KB raw, about 3x a real account) at ~255 KB, so the cap moved to 300 KB in release 4.
-  it('keeps every Account State under the 300 KB history cap (TR-16)', () => {
+  // M20 TR-2 adds skills and Parallel Slots per character (~13 KB on the 17-character speedrun save,
+  // ~3 KB on a real W3 account), so the guard is 320 KB; the history step keeps only compact entries.
+  it('keeps every Account State under the 320 KB history cap (TR-16, M20 TR-2)', () => {
     const largest = Math.max(...states.map((s) => new TextEncoder().encode(JSON.stringify(s)).length));
-    expect(largest).toBeLessThan(300 * 1024);
+    expect(largest).toBeLessThan(320 * 1024);
   });
 
   it('has the 11 public saves', () => {
