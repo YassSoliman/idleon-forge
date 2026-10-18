@@ -7,6 +7,7 @@
 // entry names it in `$i`. Authors' `notes` are never shown to players (schema: "never shown"), so the
 // shipped form leaves them out. `unpackKnowledge` restores every other field exactly; the in-memory
 // `CompiledKnowledge` of `kb compile` never sees the packed form.
+import { ENTRY_TYPES } from './schema';
 import { canonicalJson } from './version';
 
 /** The entry fields whose repeated values are interned. */
@@ -79,7 +80,39 @@ export function packKnowledge<T extends { entries: Record<string, unknown> }>(
     }
     entries[id] = e;
   }
-  return shared.length > 0 ? { ...kb, entries, shared, refs } : kb;
+  // `byType` and `detectorOf` are functions of the entries; the loader rebuilds them (`derivedIndexes`).
+  const { byType: _b, detectorOf: _d, ...rest } = kb as T & { byType?: unknown; detectorOf?: unknown };
+  return { ...(rest as T), entries, shared, refs };
+}
+
+/** The Detector ids an entry's line comes from (kb-tools `detectorRefsOf`, ids only). */
+function detectorIdsOf(e: Dict): string[] {
+  const id = (x: unknown) => (x && typeof x === 'object' ? (x as { id?: unknown }).id : undefined);
+  const out: unknown[] = [];
+  if (e.type === 'goal') out.push(id(e.progress));
+  if (e.type === 'contribution' || e.type === 'check') out.push(id(e.detector));
+  if (e.type === 'acquisition' && e.detector) out.push(id(e.detector));
+  if (e.type === 'metapath') {
+    if (e.detector) out.push(id(e.detector));
+    for (const m of (Array.isArray(e.milestones) ? e.milestones : []) as Dict[]) out.push(id(m.detector));
+  }
+  return [...new Set(out.filter((x): x is string => typeof x === 'string'))].sort();
+}
+
+/** `byType` (ids sorted) and `detectorOf`, as `kb compile` builds them, from the entries. */
+function derivedIndexes(entries: Record<string, Dict>): {
+  byType: Record<string, string[]>;
+  detectorOf: Record<string, string[]>;
+} {
+  const byType: Record<string, string[]> = Object.fromEntries(ENTRY_TYPES.map((t) => [t, [] as string[]]));
+  const detectorOf: Record<string, string[]> = {};
+  for (const id of Object.keys(entries).sort()) {
+    const e = entries[id] as Dict;
+    byType[String(e.type)]?.push(id);
+    const ids = detectorIdsOf(e);
+    if (ids.length) detectorOf[id] = ids;
+  }
+  return { byType, detectorOf };
 }
 
 /** Restores a packed bundle's entries; a bundle without `shared` comes back as it was. */
@@ -101,5 +134,5 @@ export function unpackKnowledge(kb: Dict): Dict {
     entries[id] = rest;
   }
   const { shared: _s, refs: _r, ...out } = kb;
-  return { ...out, entries };
+  return { ...out, entries, ...derivedIndexes(entries as Record<string, Dict>) };
 }

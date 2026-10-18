@@ -230,5 +230,8 @@ describe('kb compile on the real Knowledge Base (TR-17 budgets)', () => {
       Object.entries(kb.entries).map(([id, e]) => [id, { ...e, notes: undefined }]),
     );
     expect(canonicalJson(loaded.entries)).toBe(canonicalJson(withoutNotes));
+    // The indexes the loader rebuilds are the ones `kb compile` built.
+    expect(loaded.byType).toEqual(kb.byType);
+    expect(loaded.detectorOf).toEqual(kb.detectorOf);
   });
 });
