@@ -1,4 +1,4 @@
-# golden v1: toolbox-raw · knowledge #340a0a3d · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: toolbox-raw · knowledge #d6d94d50 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 338
 
 ## Verdict changes
 
@@ -43,10 +43,19 @@
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-- Grow · Constellation A-10: Echoing Egress, reach the star on a Mage-line character: On your Bubonic Conjuror Lv 1268: go to Echoing Egress (W1), click the star, then go back to Spore Meadows [IdleOn Wiki: Star Signs (constellation requirements and points; Time Candy counts for AFK ones) · Calculated by IdleOn Toolbox · 2.3.540]
-  Walkthrough: A-10: 0 of 1 characters · about 3m
-    1. On your Bubonic Conjuror Lv 1268: go to Echoing Egress (W1), click the star, then go back to Spore Meadows
-show more (9)
+- Spend · Spend anvil points: Unspent anvil points on 11 characters → Speed and Capacity [IdleOn Wiki: Smithing, anvil points · Calculated by IdleOn Toolbox · 2.3.540]
+  · Siege Breaker Lv 1291: 163 into Speed, 0 into Capacity
+  · Death Bringer Lv 1292: 7 into Speed, 0 into Capacity
+  · Elemental Sorcerer Lv 1259: 95 into Speed, 0 into Capacity
+  · Divine Knight Lv 1240: 57 into Speed, 0 into Capacity
+  · Arcane Cultist Lv 1231: 96 into Speed, 0 into Capacity
+  · Wind Walker Lv 1280: 43 into Speed, 0 into Capacity
+  · Voidwalker Lv 1157: 40 into Speed, 0 into Capacity
+  · Siege Breaker Lv 1261: 153 into Speed, 107 into Capacity
+  · Royal Guardian Lv 1307: 2 into Speed, 0 into Capacity
+  · Bubonic Conjuror Lv 1268: 0 into Speed, 62 into Capacity
+  · Beginner Lv 1224: 1 into Speed, 0 into Capacity
+show more (8)
 
 ## Not covered yet
 Classes and subclasses
@@ -85,7 +94,6 @@ W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
-W1 · Star Signs · Nothing to fix · Nothing to fix · 1 to do
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 11 full · collect
 W1 · Forge · Not covered yet · Not covered yet
 W1 · Bribes · Not covered yet · Not covered yet
@@ -119,8 +127,62 @@ W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 Worlds 5–7: not covered yet
 Needs you: Minigames (wasting), Trapping (wasting)
-Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
+Other gaps: Talent builds past World 4
 Wasting: 2
+
+## Timeline
+Axis: now to +12h · Back in 8h 00m · 01:27
+C2 · Death Bringer 1292
+- no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c1
+- Anvil full · collect · now · before · pill · fix none · the same on 10 more
+- Worship full · spend · now · before · pill · fix none · the same on 9 more
+- Traps idle in about 7 h · in 6h 36m · 00:03 · before · pill · fix none · the same on 1 more
+C1 · Siege Breaker 1291
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c0
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C6 · Wind Walker 1280
+- no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c5
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c5
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C10 · Bubonic Conjuror 1268
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c9
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C8 · Siege Breaker 1261
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c7
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C4 · Divine Knight 1240
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c3
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C5 · Arcane Cultist 1231
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c4
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C7 · Voidwalker 1157
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c6
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C3 · Elemental Sorcerer 1259
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c2
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C11 · Beginner 1224
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C9 · Royal Guardian 1307
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+- Traps idle in about 7 h · in 6h 36m · 00:03 · before · pill · fix none
+Account · Alchemy cauldrons and liquids
+- Water full · can't tell when · untimed · info · fix none
+Account · Arcade
+- Arcade balls full · later · in 2d 0h · 18:20 · after · info · fix none
+Account · Refinery
+- salt fuel runs out · now · before · next-action · fix none
 
 ## Findings
 | entry | detector | subject | result | slots |
@@ -264,7 +326,6 @@ Wasting: 2
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
-| systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |

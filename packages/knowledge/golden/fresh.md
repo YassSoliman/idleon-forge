@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #340a0a3d · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: fresh · knowledge #d6d94d50 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 338
 
 ## Verdict changes
 
@@ -60,7 +60,6 @@ W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
-W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Can't tell · Can't tell from the save
 W1 · Forge · Not covered yet · Not covered yet
 W1 · Bribes · Not covered yet · Not covered yet
@@ -94,8 +93,29 @@ W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 Worlds 5–7: not covered yet
 Needs you: Companions and pets (wasting), Minigames (wasting), Boss keys (wasting), Colosseum (wasting), Alchemy vials (wasting)
-Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
+Other gaps: Talent builds past World 4
 Wasting: 5
+
+## Timeline
+Axis: now to +12h · Back in 8h 00m · 02:41
+C2 · Blood Berserker 534
+- no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c1
+- boss keys lost · now · before · next-action · outlined · fix boss-keys.check.collect@c1
+- traps ready · later · in 19h 52m · 14:33 · after · info · fix none
+- worship charge caps · later · in 28h 41m · 23:23 · after · info · fix none
+C1 · Siege Breaker 478
+- no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c0
+C3 · Beginner 1
+- no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c2
+- Traps idle in about 8 h · in 7h 52m · 02:33 · before · pill · fix none
+- worship charge caps · later · in 28h 20m · 23:01 · after · info · fix none
+Account · Colosseum
+- Colosseum tickets lost · now · before · next-action · outlined · fix colosseum.check.collect-tickets@account
+Account · Alchemy cauldrons and liquids
+- Water full · can't tell when · untimed · info · fix none
+Account · Refinery
+- salt fuel runs out · in 1m · 18:42 · before · next-action · fix none
+Account: Can't tell from the save
 
 ## Findings
 | entry | detector | subject | result | slots |
@@ -195,7 +215,6 @@ Wasting: 5
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
-| systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |

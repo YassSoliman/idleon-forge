@@ -59,3 +59,24 @@ export function formatAge(seconds: number): string {
 
 /** "1 buy", "3 buys". */
 export const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
+
+/**
+ * M17 (Design Lab hard rule): the one duration format of the Timeline: "14h 04m", "45m", "2d 12h".
+ * Under a minute reads "1m"; from 48 h it switches to days and hours.
+ */
+export function span(ms: number): string {
+  const m = Math.max(1, Math.round(Math.max(0, ms) / 60_000));
+  if (m < 60) return `${m}m`;
+  const h = Math.floor(m / 60);
+  if (h < 48) return `${h}h ${String(m % 60).padStart(2, '0')}m`;
+  return `${Math.floor(h / 24)}d ${h % 24}h`;
+}
+
+/** "in 14h 04m": the Timeline's relative time (Design Lab P6). */
+export const inSpan = (ms: number): string => `in ${span(ms)}`;
+
+/** "01:20" in the player's timezone (minutes east of UTC); deterministic for goldens at 0. */
+export function clockAt(at: number, tzOffsetMinutes: number): string {
+  const d = new Date(at + tzOffsetMinutes * 60_000);
+  return `${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`;
+}

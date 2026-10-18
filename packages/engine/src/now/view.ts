@@ -13,6 +13,7 @@ import type {
   StarSignsView,
   Subject,
   SystemSummary,
+  TimelineBar,
   VerdictKind,
   WalkthroughView,
 } from '../result';
@@ -397,4 +398,103 @@ export interface SystemPageView {
   highlight: string | null;
   /** FR-23: Stage unknown shows blockers only. */
   stageUnknown: boolean;
+}
+
+// ---- M17 Views: the Timeline (TR-6) ----
+
+/** Where a bar's fix is shown (FR-27): a character's Now tab, the Account section, or a cap pill. */
+export interface TimelineFix {
+  subject: Subject;
+  /** The Next Action key to scroll to and outline (the Behind Goal's, for a finding moved into it). */
+  key: string;
+  where: 'focus' | 'account' | 'pill';
+  /** What to unfold first: M10's "show more", or the Behind Goal's details. */
+  expand: 'show-more' | 'behind-details' | null;
+}
+
+export interface TimelineBarView {
+  barId: string;
+  key: string;
+  entryId: string;
+  system: string;
+  kind: TimelineBar['kind'];
+  /** The producer's words ("anvil"). */
+  what: string;
+  /** "full", "runs out", "stops", "caps", "lost", "ready" (view-words KIND_WORDS). */
+  kindWord: string;
+  /** A cap pill's own label ("Anvil full · collect"), else `${what} ${kindWord}`, or `what` for a present-state problem. */
+  label: string;
+  at: number | null;
+  untimed: boolean;
+  fullNow: boolean;
+  /** Binds past the axis end: drawn to the edge with "later" (FR-29). */
+  later: boolean;
+  beforeReturn: boolean;
+  outlined: boolean;
+  /** FR-25: after an outlined bar ends, the rest of its row up to the return is hatched. */
+  hatched: boolean;
+  effect: TimelineBar['effect'];
+  state: 'open' | 'skipped' | 'dismissed';
+  /** "in 3h 10m · 01:20", "now", "later · in 50h 10m · 04:00", "can't tell when". */
+  timeText: string;
+  /** "before you're back", "skipped", "hidden until next patch", or null. */
+  flag: string | null;
+  /** FR-25 (c): the producer's own text for a limit whose fix doesn't hold, shown muted; null otherwise. */
+  note: string | null;
+  /** US-10's sentence for screen readers. */
+  a11y: string;
+  fix: TimelineFix | null;
+  /** Position on the axis, 0 (now) to 1 (axis end); null for an untimed bar. */
+  x: number | null;
+  /** Where the hatching ends (the return marker), 0 to 1; null when not hatched. */
+  hatchTo: number | null;
+  /** "the same on n more" (Design Lab: no repeated sentence per character). */
+  group: { first: boolean; more: { index: number; name: string }[] } | null;
+}
+
+export interface TimelineLane {
+  id: Subject | `account:${string}`;
+  kind: 'character' | 'account';
+  /** CharacterState.index, or null for an account lane. */
+  index: number | null;
+  /** Registry System id of an account lane. */
+  systemId: string | null;
+  /** The Roster's Visit Order number (1-based); null for an account lane. */
+  position: number | null;
+  /** "1 · <name>", or the System's name. */
+  heading: string;
+  /** "Bowman lv 60 · Fighting Sand Giant"; null for an account lane. */
+  detail: string | null;
+  /** The board's short label beside the bars, "1 · Bowman 60" or the System's name (never a name). */
+  short: string;
+  verdict: PillView | null;
+  /** Present-state problems first, then by time. */
+  bars: TimelineBarView[];
+  /** FR-26: "<what> · can't tell when", once per what. */
+  untimed: TimelineBarView[];
+}
+
+export interface TimelineView {
+  axis: {
+    start: number;
+    end: number;
+    returnAt: number;
+    /** 0 to 1. */
+    backX: number;
+    /** "Back in 8h 00m · 02:20". */
+    backLabel: string;
+    ticks: { at: number; x: number; label: string }[];
+  };
+  /** Character lanes in the Roster's frozen Visit Order (D-17). */
+  lanes: TimelineLane[];
+  /** Account lanes, one per System with account bars, in registry order. */
+  accountLanes: TimelineLane[];
+  /** §6: account safety `unknown` reads "Can't tell from the save" on the account band. */
+  accountNote: string | null;
+  /** §6 "Save older than the Expected Return": the save's age first, and the past as one grey band. */
+  stale: { text: string; band: string } | null;
+  /** M10's "Nothing fills up before you're back" when nothing is outlined. */
+  empty: string | null;
+  /** The earliest future `at`, so the caller re-renders when a bar turns full now (TR-6 step 5). */
+  nextExpiry: number | null;
 }

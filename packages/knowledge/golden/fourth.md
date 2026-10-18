@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #340a0a3d · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: fourth · knowledge #d6d94d50 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 338
 
 ## Verdict changes
 
@@ -57,7 +57,6 @@ W0 · Obols · Nothing to fix · Nothing to fix · 2 to do
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
-W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Can't tell · Can't tell from the save
 W1 · Forge · Not covered yet · Not covered yet
 W1 · Bribes · Not covered yet · Not covered yet
@@ -91,8 +90,22 @@ W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 Worlds 5–7: not covered yet
 Needs you: Minigames (wasting)
-Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
+Other gaps: Talent builds past World 4
 Wasting: 1
+
+## Timeline
+Axis: now to +12h · Back in 8h 00m · 15:51
+C2 · Beginner 1
+- no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c1
+C1 · Voidwalker 476
+- traps ready · later · in 19h 33m · 03:24 · after · info · fix none
+- worship charge caps · later · in 31d 20h · 04:28 · after · info · fix none
+Account · Alchemy cauldrons and liquids
+- Water full · can't tell when · untimed · info · fix none
+Account · Arcade
+- Arcade balls full · later · in 47h 39m · 07:30 · after · info · fix none
+Account · Refinery
+- salt fuel runs out · in 56m · 08:47 · before · next-action · fix none
 
 ## Findings
 | entry | detector | subject | result | slots |
@@ -186,7 +199,6 @@ Wasting: 1
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
-| systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |

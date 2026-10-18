@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #340a0a3d · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: third · knowledge #d6d94d50 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 338
 
 ## Verdict changes
 
@@ -92,7 +92,6 @@ W0 · Obols · Nothing to fix · Nothing to fix
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
-W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 3 full · collect
 W1 · Forge · Not covered yet · Not covered yet
 W1 · Bribes · Not covered yet · Not covered yet
@@ -126,8 +125,58 @@ W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 Worlds 5–7: not covered yet
 Needs you: Minigames (wasting), Post Office (wasting), Refinery (wasting)
-Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
+Other gaps: Talent builds past World 4
 Wasting: 3
+
+## Timeline
+Axis: now to +12h · Back in 8h 00m · 03:59
+Nothing fills up before you're back
+C1 · Blood Berserker 521
+- Traps idle in about 2 h · in 2h 16m · 22:15 · before · pill · fix none · the same on 6 more
+- anvil full · later · in 21h 31m · 17:30 · after · info · fix none
+- worship charge caps · later · in 12d 7h · 03:12 · after · info · fix none
+C4 · Divine Knight 655
+- Traps idle in about 2 h · in 2h 16m · 22:15 · before · pill · fix none
+- Anvil full in about 3 h · collect · in 2h 42m · 22:41 · before · pill · fix none
+- worship charge caps · later · in 12d 15h · 11:22 · after · info · fix none
+C3 · Bubonic Conjuror 568
+- Traps idle in about 2 h · in 2h 16m · 22:15 · before · pill · fix none
+- anvil full · later · in 21h 12m · 17:11 · after · info · fix none
+- worship charge caps · later · in 15d 12h · 08:21 · after · info · fix none
+C5 · Beast Master 561
+- Traps idle in about 4 h · in 4h 16m · 00:15 · before · pill · fix none · the same on 2 more
+- anvil full · later · in 4d 17h · 13:55 · after · info · fix none
+- worship charge caps · later · in 12d 9h · 05:02 · after · info · fix none
+C8 · Divine Knight 558
+- Traps idle in about 2 h · in 2h 16m · 22:15 · before · pill · fix none
+- Anvil full in about 3 h · collect · in 2h 59m · 22:58 · before · pill · fix none
+- worship charge caps · later · in 12d 7h · 03:22 · after · info · fix none
+C6 · Elemental Sorcerer 545
+- Traps idle in about 2 h · in 2h 16m · 22:15 · before · pill · fix none
+- Anvil full in about 4 h · collect · in 4h 01m · 00:00 · before · pill · fix none
+- worship charge caps · later · in 7d 14h · 10:31 · after · info · fix none
+C2 · Siege Breaker 527
+- Worship full · spend · now · before · pill · fix none
+- Traps idle in about 4 h · in 4h 16m · 00:15 · before · pill · fix none
+- anvil full · later · in 23h 57m · 19:56 · after · info · fix none
+C7 · Voidwalker 523
+- Traps idle in about 2 h · in 2h 16m · 22:15 · before · pill · fix none
+- anvil full · later · in 16h 09m · 12:08 · after · info · fix none
+- worship charge caps · later · in 4d 14h · 10:19 · after · info · fix none
+C10 · Siege Breaker 522
+- Traps idle in about 4 h · in 4h 16m · 00:15 · before · pill · fix none
+- anvil full · later · in 13h 00m · 08:59 · after · info · fix none
+- worship charge caps · later · in 12d 1h · 21:18 · after · info · fix none
+C9 · Elemental Sorcerer 552
+- Traps idle in about 2 h · in 2h 16m · 22:15 · before · pill · fix none
+- anvil full · in 8h 21m · 04:21 · after · info · fix none
+- worship charge caps · later · in 7d 12h · 08:08 · after · info · fix none
+Account · Alchemy cauldrons and liquids
+- Water full · can't tell when · untimed · info · fix none
+Account · Arcade
+- Arcade balls full · later · in 33h 57m · 05:57 · after · info · fix none
+Account · Refinery
+- salt fuel runs out · later · in 4d 4h · 00:24 · after · info · fix none
 
 ## Findings
 | entry | detector | subject | result | slots |
@@ -294,7 +343,6 @@ Wasting: 3
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
-| systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
