@@ -49,6 +49,7 @@ export default defineGenerator({
     'website-data/shared-data.json#starSigns',
     'website-data/shared-data.json#cardSets',
     'website-data/shared-data.json#spelunkingRocks',
+    'website-data/shared-data.json#towers',
     'website-data/cauldrons.json',
   ],
   run({ data }) {
@@ -96,6 +97,8 @@ export default defineGenerator({
       spelunking: sorted((data.spelunkingRocks as { name?: string }[][]).flat().map((r) => r?.name ?? '')),
       // Bubble names, for M6's big-bubble and brew slots (the golden's string-slot check, FR-27).
       bubbles: sorted(Object.values(cauldrons).flatMap((c) => c.map((b) => b.bubbleName ?? ''))),
+      // Construction building rawNames, for M15 F2's building slots (FR-27).
+      buildings: sorted(Object.keys(data.towers as Record<string, unknown>)),
       sentinels: ['Blank', 'LockedInvSpace', 'Null'],
     };
   },

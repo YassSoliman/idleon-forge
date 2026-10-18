@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M15 TR-6 (owned by M2): the Construction build order, one part per Stage, a level target per item.
+# Authored, confidence M, from the wiki, a dated guide and a dated forum thread, filtered by game data
+# (a building is listed only at a Stage whose salt can be unlocked). Not taken from AutoReview's
+# building tiers (M15 V5, red-team #14). Only W3-early is authored in Phase 1 (M15 D-7): W3-mid and
+# W3-late wait for a dated human Source, so `construction.check.build-next` is silent past W3-early.
+# Stored as an authored fact table rather than a `list: order` Priority List: the entry schema has no
+# item shape for "a building with a level target" (M15 C4, open with M11). Targets are levels,
+# `characters` (one printer level per character, capped at the building's max) or never a written-out
+# generated max (M11 FR-17). Hoggindaz 3 asks for one Wizard Defender built (quests.json), so the two
+# W1-salt towers are listed at level 1.
+system: construction
+facts:
+  - id: construction.fact.build-order
+    system: construction
+    origin: authored
+    title: Construction build order by Stage
+    rows:
+      W3-early:
+        - { building: 3D_Printer, target: characters }
+        - { building: Death_Note, target: 1 }
+        - { building: Salt_Lick, target: 1 }
+        - { building: Talent_Book_Library, target: 2 }
+        - { building: Pulse_Mage, target: 1 }
+        - { building: Fireball_Lobber, target: 1 }
+    notes: "Printer: one more character printing per level. Salt Lick: its first upgrade raises printer sample size. Library: +5% checkout speed per level. Death Note Lv 0 -> 1 is M6's death-note.check.build (M15 FR-12)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Construction", title: "IdleOn Wiki: Construction (the 3D Printer is the first building to build)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://gist.github.com/shnaps/161a370ed795e6141e0553eb30ddc8fa", title: "shnaps, IdleOn progression gist (3D Printer: build and max it first; then Salt Lick, Talent Book Library, Death Note)", tier: 3, claimDate: 2026-09-18, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://www.reddit.com/r/idleon/comments/1cp1hjq/", title: "r/idleon: unlocking all 3D printer slots first", tier: 3, claimDate: 2024-05-10, verified: 2026-10-17, gameVersion: 2.3.540 }
