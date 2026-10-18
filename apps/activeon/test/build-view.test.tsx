@@ -77,7 +77,13 @@ const shaman: BuildRoadmap = {
     preset(1, {
       unspent: 118,
       next: [
-        { key: 'n1', tab: 1, text: 'Put the next 84 points into Book of the Wise (to 100)', points: 84 },
+        {
+          key: 'n1',
+          tab: 1,
+          label: 'Book of the Wise',
+          text: 'Put the next 84 points into Book of the Wise (to 100)',
+          points: 84,
+        },
       ],
     }),
   ],

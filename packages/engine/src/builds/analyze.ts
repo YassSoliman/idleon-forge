@@ -12,7 +12,7 @@ import {
 import type { StageId } from '@idleon-forge/knowledge';
 import { detectStage } from '../metapath/stage';
 import type { FactLookup } from '../metapath/types';
-import { classifyPreset, levelOf, type PresetClass, spent, tabSpent } from './classify';
+import { classifyPreset, levelOf, maxOf, type PresetClass, spent, tabSpent } from './classify';
 import { nextStep, type StepState, type WalkContext, type WrongRole, walk, wrongRolePoints } from './diff';
 import {
   type BuildsKnowledge,
@@ -91,7 +91,36 @@ function view(
   const cls = classifyPreset(p, builds);
   const build = cls === 'fighting' || cls === 'skilling' ? builds[cls] : null;
   const states = build ? walk(p, build, ctx) : [];
-  return { slot, isActive, talents: p, cls, build, states, next: nextStep(states), lb: null };
+  return {
+    slot,
+    isActive,
+    talents: p,
+    cls,
+    build,
+    states,
+    next: spendableNext({ states, lb: null, talents: p }),
+    lb: null,
+  };
+}
+
+/**
+ * Talent points are per tab (R5 QA P2-1): a step can only take points its own tab has. When the
+ * preset has unspent points (the lower bound, TR-7), its steps are those in tabs with points waiting;
+ * a step whose talent is at its max for now never leads. With nothing known to be waiting, every tab
+ * counts (the next points as they come). Core first, then tab order (FR-11). The one rule the Build
+ * view's "Next points", the overview's "next" and the M9 Goals all read.
+ */
+export function spendableStates(v: Pick<PresetView, 'states' | 'lb' | 'talents'>): StepState[] {
+  const lb = v.lb;
+  const waiting = lb !== null && lb.total > 0;
+  return v.states.filter(
+    (s) => !s.met && s.current < maxOf(v.talents, s.step.id) && (!waiting || lb.byTab[s.tab] > 0),
+  );
+}
+
+/** The preset's next step under {@link spendableStates}. */
+export function spendableNext(v: Pick<PresetView, 'states' | 'lb' | 'talents'>): StepState | null {
+  return nextStep(spendableStates(v));
 }
 
 function analyzeCharacter(
@@ -117,6 +146,8 @@ function analyzeCharacter(
   if (other) {
     active.lb = lowerBounds(active.talents, other.talents, kb.talents.tab2Granting);
     other.lb = lowerBounds(other.talents, active.talents, kb.talents.tab2Granting);
+    active.next = spendableNext(active);
+    other.next = spendableNext(other);
   }
   const elite = (p: PresetTalents | null) => !!p && (tabSpent(p, 4) > 0 || tabSpent(p, 5) > 0);
   return {
@@ -276,8 +307,12 @@ export function presetBehind(
   if (!p?.lb) return null;
   const lb = p.lb;
   const tabs = ([1, 2, 3] as const).filter((t) => lb.byTab[t] > 0);
-  const firstSteps = tabs.flatMap((t) => {
-    const s = p.states.find((x) => x.tab === t && !x.met);
+  // One step per tab with points waiting, the preset's next step first (the same rule as the Build view).
+  const open = spendableStates(p);
+  const lead = p.next?.tab;
+  const order = [...tabs].sort((x, y) => Number(y === lead) - Number(x === lead) || x - y);
+  const firstSteps = order.flatMap((t) => {
+    const s = nextStep(open.filter((x) => x.tab === t));
     return s ? [s] : [];
   });
   return { preset: p, tabs, firstSteps };

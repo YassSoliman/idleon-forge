@@ -78,6 +78,8 @@ interface PresetInput {
   build: ResolvedBuild | null;
   lb: { byTab: Record<1 | 2 | 3, number>; total: number } | null;
   afkType: string | null;
+  /** The preset's next step's tab (M9's shared rule, analyze.ts `spendableNext`); leads the list. */
+  lead: number | null;
 }
 
 function tabRows(p: PresetTalents, b: ResolvedBuild, tab: number, ctx: WalkContext, kb: BuildsKnowledge) {
@@ -114,16 +116,36 @@ function tabRows(p: PresetTalents, b: ResolvedBuild, tab: number, ctx: WalkConte
   return [...rows.values()];
 }
 
-/** The Build's steps minus current levels, in step order, simulating the levels as each step is done. */
-function nextPoints(p: PresetTalents, b: ResolvedBuild, ctx: WalkContext, kb: BuildsKnowledge, slot: number) {
+/**
+ * The Build's steps minus current levels, simulating the levels as each step is done. Points are per
+ * tab (R5 QA P2-1): with points waiting (the lower bound), only tabs that have some are listed, the
+ * preset's next step's tab first, and each step takes no more than its tab has left. A tab with none
+ * waiting gets one line naming where its next points go. Without a second preset (nothing known),
+ * every tab is listed as before.
+ */
+function nextPoints(
+  p: PresetTalents,
+  b: ResolvedBuild,
+  ctx: WalkContext,
+  kb: BuildsKnowledge,
+  slot: number,
+  lb: PresetInput['lb'],
+  lead: number | null,
+) {
   const out: BuildNextPoint[] = [];
-  for (const t of b.tabs) {
+  const waiting = lb !== null && lb.total > 0;
+  const tabs = b.tabs
+    .filter((t) => !waiting || (t.tab <= 3 && (lb?.byTab[t.tab as 1 | 2 | 3] ?? 0) > 0))
+    .sort((x, y) => Number(y.tab === lead) - Number(x.tab === lead) || x.tab - y.tab);
+  for (const t of tabs) {
     const sim = new Map<number, number>();
     let n = 0;
+    let budget = waiting ? (lb?.byTab[t.tab as 1 | 2 | 3] ?? 0) : Number.POSITIVE_INFINITY;
+    const none = lb !== null && !waiting;
     // M9 FR-11: the tab's core step first (the one the Build insists on), then the steps in order.
     const core = t.steps.filter((x) => x.core);
     for (const step of [...core, ...t.steps.filter((x) => !x.core)]) {
-      if (n >= NEXT_PER_TAB) break;
+      if (n >= (none ? 1 : NEXT_PER_TAB) || budget <= 0) break;
       if (stepApplies(step, ctx) !== 'yes' || kb.talents.bubbleCapped.has(step.id)) continue;
       const target = targetOf(p, step);
       if (target === null) continue;
@@ -132,14 +154,34 @@ function nextPoints(p: PresetTalents, b: ResolvedBuild, ctx: WalkContext, kb: Bu
       const current = sim.get(step.id) ?? levelOf(p, step.id);
       const need = goal - current;
       if (need <= 0) continue;
-      sim.set(step.id, goal);
       const label = talentLabel(step.talent);
-      const to = goal < target ? `to ${goal}, its max for now` : `to ${goal}`;
+      const key = `c-s${slot}-t${t.tab}-${n}`;
+      if (none) {
+        out.push({
+          key,
+          tab: t.tab,
+          label,
+          text: `No points waiting in this tab; the next go into ${label} (to ${goal})`,
+          points: 0,
+        });
+        n++;
+        continue;
+      }
+      const take = Math.min(need, budget);
+      budget -= take;
+      const reach = current + take;
+      sim.set(step.id, reach);
+      const to =
+        reach < goal
+          ? `to ${reach} of ${goal}`
+          : goal < target
+            ? `to ${goal}, its max for now`
+            : `to ${goal}`;
       const text =
         n === 0
-          ? `Put the next ${plural(need, 'point')} into ${label} (${to})`
-          : `then ${need.toLocaleString('en-US')} into ${label} (${to})`;
-      out.push({ key: `c-s${slot}-t${t.tab}-${n}`, tab: t.tab, text, points: need });
+          ? `Put the next ${plural(take, 'point')} into ${label} (${to})`
+          : `then ${take.toLocaleString('en-US')} into ${label} (${to})`;
+      out.push({ key, tab: t.tab, label, text, points: take });
       n++;
     }
   }
@@ -213,7 +255,7 @@ function presetOf(x: PresetInput, kb: BuildsKnowledge, ctx: WalkContext): BuildP
     unspent: x.lb?.total ?? null,
     tabs,
     attackBar: role ? attackBarOf(x, kb) : null,
-    next: build ? nextPoints(p, build, ctx, kb, x.slot) : [],
+    next: build ? nextPoints(p, build, ctx, kb, x.slot, x.lb, x.lead) : [],
   };
 }
 
@@ -329,6 +371,7 @@ function covered(
         build: a.builds[role],
         lb: v.lb,
         afkType: c.afkType,
+        lead: v.next?.tab ?? null,
       },
       kb,
       a.walkCtx,
@@ -403,10 +446,7 @@ function covered(
     (best && presets.find((p) => p.slot === best.preset.slot)) ??
     presets.find((p) => (a.neededRole ? p.role === a.neededRole : p.active));
   const first = lead?.next[0] ?? presets.flatMap((p) => p.next)[0];
-  if (first)
-    parts.push(
-      `next: ${first.text.replace(/^Put the next [\d,]+ points? into /, '').replace(/ \(.*\)$/, '')}`,
-    );
+  if (first) parts.push(`next: ${first.label}`);
   if (parts.length === 0) parts.push('on track with the build');
 
   return {
@@ -458,6 +498,7 @@ function plain(c: CharacterState, acc: AccountAnalysis, path: ClassPath, note: s
         build: null,
         lb: null,
         afkType: c.afkType,
+        lead: null,
       },
       kb,
       ctx,
