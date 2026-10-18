@@ -189,6 +189,8 @@ describe('toAccountState', () => {
       taskBoardDailies: null,
       guildTasks: null,
       totems: null,
+      // M19 TR-2: the synthetic parse has no alchemy section.
+      alchemyPlan: null,
     });
     expect(state.characters.map(withoutUnspentCharacter)).toEqual([
       {
