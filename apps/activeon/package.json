@@ -23,6 +23,7 @@
     "@idleon-forge/suggestions-worker": "workspace:*",
     "@idleon-forge/sync": "workspace:*",
     "@idleon-forge/toolbox-parsers": "workspace:*",
+    "@idleon-forge/truth": "workspace:*",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },

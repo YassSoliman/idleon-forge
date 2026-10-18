@@ -53,6 +53,9 @@ importers:
       '@idleon-forge/toolbox-parsers':
         specifier: workspace:*
         version: link:../../packages/toolbox-parsers
+      '@idleon-forge/truth':
+        specifier: workspace:*
+        version: link:../../packages/truth
       react:
         specifier: ^19.3.1
         version: 19.3.1
@@ -188,6 +191,15 @@ importers:
       typescript:
         specifier: ~5.9.3
         version: 5.9.3
+
+  packages/truth:
+    dependencies:
+      '@idleon-forge/account-state':
+        specifier: workspace:*
+        version: link:../account-state
+      '@idleon-forge/engine':
+        specifier: workspace:*
+        version: link:../engine
 
   workers/suggestions:
     devDependencies:
