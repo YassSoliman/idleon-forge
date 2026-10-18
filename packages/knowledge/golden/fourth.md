@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: fourth · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -145,6 +145,12 @@ step: Level Barley Brew 1 → 2 (100 Iron Bar, 3 Water)
   Dementia: 0 of 7 parts: craft Dementia Helmet
   Void: 0 of 7 parts: craft Void Imperium Helmet
   Chizoar: 1 of 4 parts: craft Chizoar Helmet
+
+## Builds
+Not built yet (M21 area C: the Build path).
+
+## Map
+Not built yet (M21 area M: the Map place).
 
 ## Findings
 | entry | detector | subject | result | slots |

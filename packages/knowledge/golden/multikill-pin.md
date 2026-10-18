@@ -1,4 +1,4 @@
-# golden v1: multikill-pin · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: multikill-pin · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -6,7 +6,7 @@
 0 of 11 Ready · fix 9 before you leave · 2 Unknown
 
 ### C2 · Death Bringer 1292 · Fix before you leave
-1 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Worship full · spend] [Traps idle in about 7h] · Pick an AFK Target before you leave
+1 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Worship full · spend] [Traps idle in 6h 36m] · Pick an AFK Target before you leave
 
 ### C1 · Siege Breaker 1291 · Fix before you leave
 2 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
@@ -33,7 +33,7 @@
 9 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
 
 ### C9 · Royal Guardian 1307 · Unknown
-10 · Fighting Verminous · The Royal Castle · [Anvil full · collect] [Worship full · spend] [Traps idle in about 7h] · Can't tell from the save
+10 · Fighting Verminous · The Royal Castle · [Anvil full · collect] [Worship full · spend] [Traps idle in 6h 36m] · Can't tell from the save
 
 ### C11 · Beginner 1224 · Unknown
 11 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Not covered yet: Cooking
@@ -267,6 +267,12 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
   Dementia: registered
   Void: registered
   Chizoar: registered
+
+## Builds
+Not built yet (M21 area C: the Build path).
+
+## Map
+Not built yet (M21 area M: the Map place).
 
 ## Findings
 | entry | detector | subject | result | slots |

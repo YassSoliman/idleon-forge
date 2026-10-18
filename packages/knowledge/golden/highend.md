@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: highend · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -6,37 +6,37 @@
 0 of 11 Ready · fix 4 before you leave · 7 Unknown
 
 ### C4 · Divine Knight 1819 · Fix before you leave
-1 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Traps idle in about 3h] · Pick an AFK Target before you leave
+1 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Traps idle in 3h 09m] · Pick an AFK Target before you leave
 
 ### C10 · Wind Walker 1742 · Fix before you leave
-2 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3h] · Collect and re-place your 1 finished traps
+2 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] [Traps idle in 3h 09m] · Collect and re-place your 1 finished traps
 
 ### C7 · Divine Knight 1734 · Fix before you leave
-3 · Doing nothing · Blunder Hills · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3h] · Pick an AFK Target before you leave
+3 · Doing nothing · Blunder Hills · [Anvil full · collect] [Worship full · spend] [Traps idle in 3h 09m] · Pick an AFK Target before you leave
 
 ### C11 · Beginner 1717 · Fix before you leave
-4 · Paying respect Bravery · The Hole · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3h] · Collect and re-place your 1 finished traps
+4 · Paying respect Bravery · The Hole · [Anvil full · collect] [Worship full · spend] [Traps idle in 3h 09m] · Collect and re-place your 1 finished traps
 
 ### C8 · Voidwalker 1764 · Unknown
-5 · Spelunking C1 Way Opening · Coralcave Perimeter · [Anvil full · collect] [Traps idle in about 3h] · Not covered yet: Spelunking
+5 · Spelunking C1 Way Opening · Coralcave Perimeter · [Anvil full · collect] [Traps idle in 3h 09m] · Not covered yet: Spelunking
 
 ### C5 · Arcane Cultist 1762 · Unknown
-6 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Traps idle in about 3h] · Can't tell from the save
+6 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Traps idle in 3h 09m] · Can't tell from the save
 
 ### C6 · Wind Walker 1744 · Unknown
-7 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3h] · Can't tell from the save
+7 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] [Traps idle in 3h 09m] · Can't tell from the save
 
 ### C9 · Arcane Cultist 1743 · Unknown
-8 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Traps idle in about 3h] · Can't tell from the save
+8 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Traps idle in 3h 09m] · Can't tell from the save
 
 ### C2 · Siege Breaker 1725 · Unknown
-9 · Spelunking Buried Church · Middle of Nowhere · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3h] · Not covered yet: Spelunking
+9 · Spelunking Buried Church · Middle of Nowhere · [Anvil full · collect] [Worship full · spend] [Traps idle in 3h 09m] · Not covered yet: Spelunking
 
 ### C1 · Death Bringer 1701 · Unknown
-10 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3h] · Not covered yet: Cooking
+10 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] [Traps idle in 3h 09m] · Not covered yet: Cooking
 
 ### C3 · Elemental Sorcerer 1734 · Unknown
-11 · Spelunking Buried Church · Middle of Nowhere · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3h] · Not covered yet: Spelunking
+11 · Spelunking Buried Church · Middle of Nowhere · [Anvil full · collect] [Worship full · spend] [Traps idle in 3h 09m] · Not covered yet: Spelunking
 
 ### Account · nothing to fix
 [checklist] Today 6/12 · Week 3/4 · daily reset in 23m
@@ -262,6 +262,12 @@ step: Spend banked brew in 2 cauldrons: about 5 new bubbles
   Dementia: registered
   Void: registered
   Chizoar: registered
+
+## Builds
+Not built yet (M21 area C: the Build path).
+
+## Map
+Not built yet (M21 area M: the Map place).
 
 ## Findings
 | entry | detector | subject | result | slots |

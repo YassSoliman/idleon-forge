@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: fresh · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -12,7 +12,7 @@
 2 · Doing nothing · Frostbite Towndra · Pick an AFK Target before you leave
 
 ### C3 · Beginner 1 · Fix before you leave
-3 · Doing nothing · Blunder Hills · [Traps idle in about 8h] · Pick an AFK Target before you leave
+3 · Doing nothing · Blunder Hills · [Traps idle in 7h 52m] · Pick an AFK Target before you leave
 
 ### Account · Unknown
 Unknown: can't tell from the save
@@ -181,6 +181,12 @@ step: Use your 18 vial attempts on the W2 town cauldron
   Dementia: 4 of 7 parts: craft Dementia Shins
   Void: 5 of 7 parts: craft Void Imperium Helmet
   Chizoar: 3 of 4 parts: craft Chizoar Helmet
+
+## Builds
+Not built yet (M21 area C: the Build path).
+
+## Map
+Not built yet (M21 area M: the Map place).
 
 ## Findings
 | entry | detector | subject | result | slots |

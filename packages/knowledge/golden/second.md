@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: second · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -6,41 +6,41 @@
 8 of 10 Ready · 2 Unknown
 
 ### C7 · Voidwalker 510 · Unknown
-1 · Fighting Skydoggie Spirit · Dozey Dogpark · [Traps idle in about 2h] · Can't tell from the save
+1 · Fighting Skydoggie Spirit · Dozey Dogpark · [Traps idle in 2h 15m] · Can't tell from the save
 
 ### C4 · Blood Berserker 501 · Unknown
-2 · Fighting The Rift · The Rift · [Traps idle in about 2h] · Can't tell from the save
+2 · Fighting The Rift · The Rift · [Traps idle in 2h 15m] · Can't tell from the save
 
 ### C3 · Bubonic Conjuror 567 · Ready
-3 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h] · Equip 1 stored obol in a personal sparkle slot
+3 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] · Equip 1 stored obol in a personal sparkle slot
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C2 · Divine Knight 544 · Ready
-4 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h]
+4 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C6 · Siege Breaker 530 · Ready
-5 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h]
+5 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 14m]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C1 · Beast Master 507 · Ready
-6 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h]
+6 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C9 · Hunter 503 · Ready
-7 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h] [Anvil full in about 6h · collect]
+7 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] [Anvil full in 5h 37m · collect]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C5 · Wizard 501 · Ready
-8 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h] [Anvil full in about 2h · collect]
+8 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m] [Anvil full in 2h 27m · collect]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C10 · Barbarian 501 · Ready
-9 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h]
+9 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C8 · Elemental Sorcerer 525 · Ready
-10 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h]
+10 · Fighting Penguin · Signature Slopes · [Traps idle in 2h 15m]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### Account · nothing to fix
@@ -225,6 +225,12 @@ step: Level Poison Tincture 2 → 3 (1,000 Poison Froge, 6 Liquid Nitrogen)
   Dementia: 6 of 7 parts: craft Dementia Dicer
   Void: 2 of 7 parts: craft Void Imperium Helmet
   Chizoar: 0 of 4 parts: craft Chizoar Helmet
+
+## Builds
+Not built yet (M21 area C: the Build path).
+
+## Map
+Not built yet (M21 area M: the Map place).
 
 ## Findings
 | entry | detector | subject | result | slots |

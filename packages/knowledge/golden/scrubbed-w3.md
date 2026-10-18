@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 988
+# golden v1: scrubbed-w3 · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 988
 
 ## Verdict changes
 
@@ -65,9 +65,9 @@ Spend coins: 15 buys now on 4 characters
 If you have time
 - Use today's 4 minigame plays · about 10m of hands-on play
 - XxX Cattleprod XxX 2 on Squire 85: kill 30 Mafiosos and 18 Sand Castles in time → Mason Jar Stamp and Fishhead Stamp · about 10m of hands-on play
-- Crystalswine 1 on Squire 85: kill every Cryosnake on the map before time runs out → Hermes Stamp · about 10m of hands-on play
+- Crystalswine 1 on Squire 85: kill every Cryosnake on the map in time → Hermes Stamp · about 10m of hands-on play
 - Wellington 1 on Squire 85: find the 3 hidden invisible platforms → Arcane Stamp and Brainstew Stamps; then: Wellington 2 gives Fly Intel Stamp and Holy Mackerel Stamp, and you already hold the 2,500 High Steaks, Wakka Cherry and Singlecle, but it needs 11 more free inventory slots · about 15m of hands-on play
-- Kill Amarok in under 20 seconds on 1 more character (2 of 3): try your Bowman Lv 60, highest-level not yet done; spends 1 Forest Villa Key each · about 5m of hands-on play
+- Kill Amarok in under 20 seconds on 1 more character (2 of 3): try your Bowman Lv 60 first (highest level); spends 1 Forest Villa Key each · about 5m of hands-on play
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 6m of hands-on play
 
 ## Not covered yet
@@ -231,6 +231,12 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
   Dementia: 0 of 7 parts: craft Dementia Helmet
   Void: 0 of 7 parts: craft Void Imperium Helmet
   Chizoar: 0 of 4 parts: craft Chizoar Helmet
+
+## Builds
+Not built yet (M21 area C: the Build path).
+
+## Map
+Not built yet (M21 area M: the Map place).
 
 ## Findings
 | entry | detector | subject | result | slots |
