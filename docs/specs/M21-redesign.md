@@ -896,7 +896,7 @@ These are the fixtures the stories use. Accounts are described by account, class
 - **TR-15 CI checks added** (F, unless noted):
   - Contrast: `contrast.test.ts` reads `design/tokens.css` and checks every text pair (`--fg`, `--muted` and each status colour on `--bg`, `--surface`, `--sunk` and its own `-soft`) at 4.5:1, in all three directions × light and dark. Non-text pairs (rules, bars, rings against their background) are checked at 3:1.
   - A **CSS guard**: no `font-size` below 12 px outside `.legal`; the pixel families never below 16 px; no `letter-spacing` on `.pill`; `min-height: var(--tap-min)` on the interactive base selectors.
-  - A **format guard**: no `toLocaleTimeString`, `/ 3600` or `toFixed(` in `apps/activeon/src` outside `design/format.ts`.
+  - A **format guard**: no `toLocaleTimeString`, `toLocaleString` on a date, or hand-rolled `/ 3600` duration text in `apps/activeon/src` outside `design/format.ts`. An allowlist covers non-display arithmetic: `suggestions/context.ts` (the report's hours), `suggestions/client.ts` (the retry hours) and `worker/**`. Area N moves today's three display uses (`App.tsx`'s clock, `CantRead.tsx`, `suggestions/Panel.tsx`'s `timeText`) and `src/format.ts`'s `formatAge` onto the formatter.
   - A **golden copy scan**: no "place not given", "Any character", "tier 2", "dementia", or "silver"/"gold coins" as currency.
   - The **ADR 0009 art guard** (TR-4).
   - **axe** on every place and state in jsdom, light and dark.
@@ -968,7 +968,7 @@ These are the fixtures the stories use. Accounts are described by account, class
 | Owns | Files |
 |---|---|
 | Lab snapshot | `docs/design-lab/**` (new); `fixtures/private/design-lab/` (local, ignored) |
-| Design code | `apps/activeon/src/design/**` (new); `scripts/art/import.mjs` (new) |
+| Design code | `apps/activeon/src/design/**` (new); `scripts/art/import.mjs` (new); `apps/activeon/src/lazy-part.tsx` (its fallback becomes `<Loading delayMs={400}>`, and its failure state G3) |
 | Wiring | `apps/activeon/src/main.tsx`; `apps/activeon/package.json`; `pnpm-lock.yaml`; `apps/activeon/src/styles/tokens.css` (becomes an alias shim) |
 | Extraction (no visual change) | `apps/activeon/src/characters/CharacterShell.tsx` (new, the identity strip and tab bar lifted out of `now/Focus.tsx`, which then renders it) |
 | Shared types and stubs | `packages/engine/src/result.ts` and `packages/engine/src/now/view.ts`: every new optional field and type (`EngineResult.session`, `.map`, `.classFamilies`; `SystemPicture`'s new kinds; `BuildTabView.known`, `.path`; `BuildPresetView.star`; `NowView.families`) declared once. Stub worker modules `packages/engine/src/{session,map,pictures}/module.ts` returning null, registered in `apps/activeon/src/worker/handle-request.ts` |
