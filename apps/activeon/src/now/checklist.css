@@ -5,6 +5,8 @@
   overflow-wrap: anywhere;
   min-width: 0;
   margin: 0 0 12px;
+  /* R7 QA: the summary, the rings' text and the week line sit inside the card, not on its edge. */
+  padding: 8px 12px 10px;
 }
 .cl-summary {
   display: flex;
@@ -97,6 +99,11 @@
   align-items: center;
   min-height: 44px;
 }
+/* R7 QA: a row's Source sits on its own line, so the chip and its credit wrap the same way on every row. */
+.cl-actions > .src-wrap {
+  flex-basis: 100%;
+  min-width: 0;
+}
 .cl-tick.on {
   color: var(--ok);
 }
@@ -120,6 +127,15 @@
   border-bottom: 1px solid var(--line);
   vertical-align: top;
 }
+/* R7 QA: the Skills table scrolls inside its own frame and its cells wrap, so the page never scrolls
+   sideways at 390 px. */
+.sk-table-wrap {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.sk-table td {
+  overflow-wrap: anywhere;
+}
 .sk-table tr.locked td {
   color: var(--muted);
 }
@@ -140,6 +156,20 @@
 .sk-grid-wrap {
   overflow-x: auto;
   max-width: 100%;
+}
+/* R7 QA: in the 480 px column the grid scrolls in its frame with the Character column sticky. */
+.sk-grid th[scope="row"],
+.sk-grid thead th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--surface);
+  min-width: 112px;
+  max-width: 140px;
+  box-shadow: 1px 0 0 var(--line);
+}
+.sk-grid td {
+  white-space: nowrap;
 }
 .sk-grid td.hl {
   outline: 3px solid var(--coin);
@@ -173,6 +203,7 @@
 }
 .pip.locked,
 .pip.unknown,
+.pip.not-covered,
 .pip.unfillable {
   color: var(--muted);
 }
@@ -190,6 +221,7 @@
 }
 .pip-mini.locked,
 .pip-mini.unknown,
+.pip-mini.not-covered,
 .pip-mini.unfillable {
   background: var(--sunk);
 }
