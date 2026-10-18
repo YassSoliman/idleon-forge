@@ -455,3 +455,36 @@ Independent red-team run on 2026-10-17 against this spec (with D1–D6 folded in
 - M7 now counts the Bullseye Stamp at Lv 0 (red-team #10); M7's `SpendInputs.stamps` is the one per-stamp list and holds every collected stamp, Lv 0 included.
 - M4 citations updated (`cards.contribution.fight`, `cards.goal.<card>`); `account.cards` is one field shared with M4; kill rates come from `CharacterState.fighting` (M4 TR-2).
 - Liquid Shop daily obols are Not covered yet (M6 D6), so FR-23 links only the W2 merit Goal `merit-shop.check.spend-w2`.
+
+## Cards view (owner request, 2026-10-18)
+
+The owner asked for card presets that are "visualized and easy to understand per character, according to cards we already have", plus "a list of cards we should grind for optimal presets", limited to cards that are "appropriate and possible to get according to our world progress". This section adds that view. It supersedes R6's "card ETAs are M4's, current map only" **for this view only**. It still emits no Goal, Verdict or Next Action, so M4 (not built) keeps card Purpose lines and card Goals. This is the functional version; the visual design comes from the design track.
+
+**What it shows.** `buildCardsView(state, kb)` in `packages/engine/src/collections/cards-view.ts` builds it. M8's module puts it on `EngineResult.cards` (plain data, typed in `cards-view-types.ts`).
+
+- **CV-1 Presets, visualised.** Every unlocked card preset is shown as its slots: 4 plus the Gem Shop's Extra Card Slot (TR-3). A preset is one preset below Lv 15. Each slot shows the card's name, its level and stars, and its effect at that level (`bonus × level`, from `cards.json`). Empty slots stay visible. The preset in use is marked, using `equipped` because the stored preset can lag. Each preset gets the activities it fits by TR-9's keyword rule, and whether it fits the AFK Target. The active preset also shows the equipped card set, because the save stores one set per character.
+- **CV-2 Best preset from owned cards.** There is one recommendation per activity: the AFK Target, then the character's first other active Role activity (M2 FR-7). It covers FR-13's pick of owned, non-passive cards that fit, and FR-14's set (D3's pusher rule included). It is shown as swaps ("Swap X → Y", "Add Y") against the preset that does that job:
+  - the active preset when it fits, or when it is empty or has no clear fit;
+  - otherwise a stored preset that fits ("Switch to card preset N");
+  - otherwise an empty one ("Fill empty card preset N, then switch to it");
+  - never a preset another activity's recommendation already claimed.
+
+  The cards appear in the list's order, so US-6's "Iron card first" holds.
+- **CV-3 Cards to grind.** These come from the class's card lists (`cardCandidates` for each of those activities, the same lists as `cardList`). Only cards below the base maximum (level 5) are listed, and only where:
+  - the drop map is reachable by that character today: M14 TR-3's `supplyRates.reachable` (M5 TR-4's rule), skilling maps through any walked map of the world (M14 `supply.ts`), and only the world gate when the worker sent no reachable maps;
+  - the map is at or before both the current world and the M2 Stage's world.
+
+  Each line shows: the monster, map and world; the level and the next threshold (the first copy, then Toolbox `nextLevelReq`); the drop chance; the mean kills and hours for this character; the preset it improves; and who is already farming that map. Quick wins (a first copy, or 24 h or less) come first, then the list's order. There are at most 6 lines per character. Cards with no placeable map (bosses, crystal mobs, most trees and fish) are a count, never a guess.
+- **CV-4 Account overview.** There is one row per character, e.g. "preset fits fighting ✓ · 2 empty slots · next grind: Frost Flake card (about 1.2 h)". A merged grind list follows, one line per card, with the characters it helps and the fastest one. Quick lines come first, then the cards that help the most characters. There are at most 10 lines.
+- **CV-5 Links.** In the Now list, every card Goal (system `cards`) links to the Cards view: a character's Goal links to its Focus section, an account Goal to the overview. Until the per-character tab registry (`now/character-tabs.ts`, `feat/build-roadmap`) lands, the view is a collapsible section in Focus and in the Account section.
+
+**ETA rule (ADR 0005).** Kills = 1 ÷ (chance × 5) for a first copy, plus (missing − 1) ÷ chance. The ×5 is the game's unowned-card rule (`LootDropOddsReset`, cards dossier, H). Hours = kills ÷ Toolbox `finalKillsPerHour` on that map for that character. That rate is M14 TR-3's supply rates, falling back to the current map's AFK rate. The chance is the drop table's base `effectiveChance`.
+- **Not Drop Rate:** the game multiplies card entries by `CardChanceMulti` (≥ 1.2), not by Drop Rate, so Toolbox's `getDropRate` doesn't apply here.
+- **Not `CardChanceMulti`:** Toolbox doesn't compute it, so every ETA is a mean at the base chance and a ceiling, labelled "at the base drop chance (likely sooner)".
+- **Skilling cards** get no hours (M4 FR-6), only the chance.
+
+**Data.** The new generated fact table is `cards.fact.drops` (`packages/knowledge/generators/card-drops.gen.ts`). It has one row per card: name, effect, bonus, perTier, set, best base chance with its monster, AFK type, and the real maps from `mapEnemiesArray`. It ships because `packages/engine/detectors/cards/slots.ts` names it, at about +48 KB of the bundle. The worker adds the grind candidates' fighting maps to M14's supply step (`cardLeavesForRates`), up to 12 maps, so their kill rates are computed in the same parse.
+
+**Sources.** For players: [IdleOn Wiki: Cards](https://idleon.wiki/wiki/Cards) (drop chances, levels, presets, and that unowned cards drop far more often; opened 2026-10-18). Toolbox is the tier 1 provenance (`cards.json`, `monsterDrops.json`, `parsers/cards.ts` `calculateStars`). The ×5 and `CardChanceMulti` come from the cards dossier (`research/cards-obols`, N.js `LootDropOddsReset` and `CardChanceMulti`).
+
+**Tests.** `packages/engine/test/collections/cards-view.test.ts` runs on the scrubbed saves in CI. It covers the ETA arithmetic, presets as slots, the Wizard's preset switch, the Squire's Iron-first fill, owned-only cards, one job per preset, reachability (no W4 card for the W3-early account even when the list ranks W4 cards first; no W3 card for W2-late), quick-first order, the overview, `EngineResult.cards`, and an unreadable loadout. The same stories on the private saves are in `cards-view.private.test.ts` (local only).
