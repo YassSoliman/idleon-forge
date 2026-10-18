@@ -82,6 +82,10 @@ function referencesOf(e: Entry): { where: (string | number)[]; id: string; role:
       for (const [j, r] of m.requires.entries())
         if (typeof r === 'string')
           out.push({ where: ['methods', i, 'requires', j], id: r, role: 'requires' });
+        else if ('ref' in r) out.push({ where: ['methods', i, 'requires', j, 'ref'], id: r.ref, role: 'requires' });
+  // M14 FR-1: a Goal or Check names its Walkthrough's target Acquisition.
+  if ((e.type === 'goal' || e.type === 'check') && e.walkthrough)
+    out.push({ where: ['walkthrough'], id: e.walkthrough, role: 'walkthrough' });
   if (e.type === 'priority')
     for (const [i, tier] of e.tiers.entries())
       for (const [j, item] of tier.entries()) {
@@ -201,6 +205,7 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
       if (ref.role === 'extends' && (!isGenerated(target) || t !== e.value.type))
         bad(`a generated ${e.value.type}`);
       if (ref.role === 'goal' && t !== 'goal') bad('a Goal');
+      if (ref.role === 'walkthrough' && t !== 'acquisition') bad('an Acquisition');
       if (ref.role === 'replacedBy' && target.status === 'retired') bad('a non-retired entry');
       if (ref.role === 'include' && !(t === 'priority' && target.list === 'block'))
         bad("a Priority List with list: 'block'");
