@@ -30,7 +30,7 @@ export default defineDetector({
       ...PURPOSE_ENGINE_SLOTS,
     })
     .partial(),
-  reads: ['characters[*].index', 'characters[*].afkType', 'characters[*].skills', 'diagnostics'],
+  reads: ['characters[*].index', 'characters[*].afkType', 'characters[*].skillLevels', 'diagnostics'],
   examples: {
     // W2-late Squire Lv 43, Mining 20: the next door is at 25 (M4 US-4).
     fires: [
@@ -48,10 +48,7 @@ export default defineDetector({
         params: { afkType: 'MINING', goal: 'skills.goal.door-mining' },
         mutate: (s) =>
           withCharacter(s, 1, {
-            skills: s.characters[1]?.skills && {
-              ...s.characters[1].skills,
-              mining: { level: 70, exp: 0, expReq: 1 },
-            },
+            skillLevels: { ...(s.characters[1]?.skillLevels ?? {}), mining: 70 },
           }),
       },
     ],
@@ -60,7 +57,7 @@ export default defineDetector({
         fixture: 'scrubbed-w2',
         subject: characterSubject(1),
         params: { afkType: 'MINING', goal: 'skills.goal.door-mining' },
-        mutate: (s) => withUnknown(s, 'characters[1].skills'),
+        mutate: (s) => withUnknown(s, 'characters[1].skillLevels'),
       },
     ],
   },
@@ -73,8 +70,8 @@ export default defineDetector({
     return state.characters.flatMap((c): ContributionFinding[] => {
       if (c.afkType !== afkType) return [];
       const subject = characterSubject(c.index);
-      const level = c.skills?.[skill]?.level;
-      if (!isKnown(state, `characters[${c.index}].skills`) || level === undefined)
+      const level = c.skillLevels?.[skill];
+      if (!isKnown(state, `characters[${c.index}].skillLevels`) || level === undefined)
         return [{ subject, slots: {}, advances: 'unknown' as const }];
       const next = doors.find((d) => d.at > level);
       const slots = {

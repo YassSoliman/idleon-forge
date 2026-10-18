@@ -26,16 +26,13 @@ export default defineDetector({
     ],
   },
   run({ state }, { monster }) {
-    const pages = state.account.deathNote;
-    const mob = pages
-      ? Object.values(pages)
-          .flatMap((p) => p.mobs)
-          .find((m) => m.rawName === monster)
-      : undefined;
-    if (!isKnown(state, 'account.deathNote') || !pages)
+    const kills = state.account.deathNote;
+    if (!isKnown(state, 'account.deathNote') || !kills)
       return [{ subject: accountSubject, slots: {}, value: null, reason: 'field-missing' as const }];
-    // A monster no page lists (a W5+ mob, a mini-boss) has no answer here.
-    if (!mob) return [{ subject: accountSubject, slots: {}, value: null, reason: 'not-applicable' as const }];
-    return [{ subject: accountSubject, slots: {}, value: Math.floor(mob.kills) }];
+    // A monster no page lists (a mini-boss) has no answer here.
+    const v = kills[monster];
+    if (v === undefined)
+      return [{ subject: accountSubject, slots: {}, value: null, reason: 'not-applicable' as const }];
+    return [{ subject: accountSubject, slots: {}, value: v }];
   },
 });

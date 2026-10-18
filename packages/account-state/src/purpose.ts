@@ -7,9 +7,8 @@
 import type { ToolboxCalls } from '@idleon-forge/toolbox-parsers';
 import { killsLeftTable } from './frontier';
 import type {
-  DeathNotePage,
+  ClassExp,
   FightingRate,
-  LevelExp,
   PurposeAccountFields,
   PurposeCharacterFields,
   VaultKills,
@@ -36,6 +35,8 @@ const pct = (v: unknown): number | null => {
   return n !== null && n >= 0 && n <= 100 ? n : null;
 };
 
+const GATHERING_AFK: ReadonlySet<string> = new Set(['MINING', 'CHOPPIN', 'FISHING', 'CATCHING']);
+
 /** The gathering skills M4's doors, tools and Role Contributions read (Toolbox `skillsInfo` keys). */
 export const PURPOSE_SKILLS = ['mining', 'chopping', 'fishing', 'catching'] as const;
 
@@ -56,13 +57,12 @@ export interface PurposeInputs {
   asOf: number;
 }
 
-function levelExp(v: unknown): LevelExp | null {
+function classExpOf(v: unknown): ClassExp | null {
   if (!isDict(v)) return null;
-  const level = finite(v.level);
   const exp = finite(v.exp);
   const expReq = finite(v.expReq);
-  if (level === null || exp === null || expReq === null || level < 0 || exp < 0 || expReq < 0) return null;
-  return { level, exp, expReq };
+  if (exp === null || expReq === null || exp < 0 || expReq < 0) return null;
+  return { exp: Math.floor(exp), expReq: Math.ceil(expReq) };
 }
 
 function fightingOf(
@@ -95,42 +95,51 @@ function fightingOf(
   };
 }
 
-function readDeathNote(account: Dict): Record<string, DeathNotePage> | null {
+/**
+ * Only the monsters some character is AFK fighting: a Death Note Goal is a Purpose of its feeders
+ * (M4 TR-4), and the whole page would push a big account past the 300 KB history cap (M1 TR-16).
+ */
+function readDeathNote(account: Dict, targets: ReadonlySet<string>): Record<string, number> | null {
   const dn = account.deathNote;
+  // A save from before World 3 may have no Death Note: no kills recorded, which is not unknown.
+  if (dn === undefined) return {};
   if (!isDict(dn)) return null;
-  const out: Record<string, DeathNotePage> = {};
+  const out: Record<string, number> = {};
   for (const [world, page] of Object.entries(dn)) {
-    if (world === 'miniBosses' || !/^\d+$/.test(world) || !isDict(page)) continue;
-    const mobs: DeathNotePage['mobs'] = [];
+    // W1–W4 pages only ('0'..'3'): M4's Death Note Goals stop at W4-entry (TR-4).
+    if (!/^[0-3]$/.test(world) || !isDict(page)) continue;
     for (const m of list(page.mobs)) {
-      if (!isDict(m) || typeof m.rawName !== 'string') continue;
+      if (!isDict(m) || typeof m.rawName !== 'string' || !targets.has(m.rawName)) continue;
+      // A monster no character has met reads NaN in Toolbox: no kills, not an unknown page.
       const kills = finite(m.kills);
-      if (kills === null || kills < 0) return null;
-      mobs.push({ rawName: m.rawName, kills });
+      if (kills !== null && kills > 0) out[m.rawName] = Math.floor(kills);
     }
-    out[world] = { mobs };
   }
-  return Object.keys(out).length > 0 ? out : null;
+  return out;
 }
 
 function readVault(account: Dict): VaultKills | null {
   const uv = account.upgradeVault;
+  // A save from before the Vault: nothing to count, which is not unknown.
+  if (uv === undefined || (isDict(uv) && !Array.isArray(uv.upgrades)))
+    return { killTotals: [], rowLevels: {} };
   if (!isDict(uv) || !Array.isArray(uv.vaultTotalKills) || !Array.isArray(uv.upgrades)) return null;
   const killTotals: number[] = [];
   for (const v of uv.vaultTotalKills) {
     const n = finite(v);
     if (n === null || n < 0) return null;
-    killTotals.push(n);
+    killTotals.push(Math.floor(n));
   }
-  const rows: VaultKills['rows'] = [];
+  // Only the rows that grow with kills ("+{% ... per POW 10 ... Kills", the generator's own test).
+  const rowLevels: Record<string, number> = {};
   for (const u of uv.upgrades) {
     if (!isDict(u) || typeof u.name !== 'string') return null;
+    if (!/per_POW_10_.+_Kills/.test(typeof u.description === 'string' ? u.description : '')) continue;
     const level = finite(u.level);
-    const maxLevel = finite(u.maxLevel);
-    if (level === null || maxLevel === null) return null;
-    rows.push({ name: u.name, level, maxLevel });
+    if (level === null) return null;
+    rowLevels[u.name] = level;
   }
-  return { killTotals, rows };
+  return { killTotals, rowLevels };
 }
 
 /** The M4 fields, account and per character, written onto the states in place. */
@@ -148,45 +157,46 @@ export function readPurpose(input: PurposeInputs, c: Collector): PurposeAccountF
       return v;
     };
     const info = isDict(raw.skillsInfo) ? raw.skillsInfo : null;
+    const fighter = raw.afkType === 'FIGHTING';
+    const skiller = GATHERING_AFK.has(String(raw.afkType));
+    // Fields that can't apply to this activity are left out (absent, not null: null means unknown), so
+    // the history stays under its cap (M1 TR-16).
     const fields: PurposeCharacterFields = {
-      classExp: read('classExp', () => (info ? levelExp(info.character) : null)),
-      skills: read('skills', () => {
-        if (!info) return null;
-        const out: Record<string, LevelExp> = {};
-        for (const k of PURPOSE_SKILLS) {
-          const v = levelExp(info[k]);
-          if (v) out[k] = v;
-        }
-        return out;
-      }),
-      // Only a fighter has a current-map rate; any other AFK type is null by definition, not unknown.
-      fighting:
-        raw.afkType !== 'FIGHTING'
-          ? null
-          : calls
-            ? read('fighting', () => frozen(() => fightingOf(raw, characters, account, calls)))
-            : null,
-      tools: read('tools', () => {
-        if (!Array.isArray(raw.tools)) return null;
-        return raw.tools
-          .map((t) => (isDict(t) && typeof t.rawName === 'string' ? t.rawName : null))
-          .filter((t): t is string => t !== null && t !== 'Blank');
-      }),
-      portalKillsLeft: read('portalKillsLeft', () => {
-        const map = finite(raw.mapIndex);
-        if (map === null) return null;
-        const row = killsLeftTable(data, st.index)?.[map];
-        if (!Array.isArray(row)) return [];
-        const out: number[] = [];
-        for (const v of row) {
-          const n = finite(v);
-          if (n === null) return null;
-          out.push(n);
-        }
-        return out;
-      }),
+      // Class EXP toward the next level: only a fighter earns it AFK (the Class EXP Goal, TR-4).
+      ...(fighter ? { classExp: read('classExp', () => (info ? classExpOf(info.character) : null)) } : {}),
+      ...(fighter && calls
+        ? { fighting: read('fighting', () => frozen(() => fightingOf(raw, characters, account, calls))) }
+        : {}),
+      // Only a skiller's gathering tools matter (the tool Goal, TR-4).
+      ...(skiller
+        ? {
+            tools: read('tools', () => {
+              if (!Array.isArray(raw.tools)) return null;
+              return raw.tools
+                .map((t) => (isDict(t) && typeof t.rawName === 'string' ? t.rawName : null))
+                .filter((t): t is string => t !== null && /^(EquipmentTools|FishingRod|CatchingNet)/.test(t));
+            }),
+          }
+        : {}),
+      // Only a fighter has a portal Goal (TR-4).
+      ...(fighter
+        ? {
+            portalKillsLeft: read('portalKillsLeft', () => {
+              const map = finite(raw.mapIndex);
+              if (map === null) return null;
+              const row = killsLeftTable(data, st.index)?.[map];
+              if (!Array.isArray(row)) return [];
+              const out: number[] = [];
+              for (const v of row) {
+                const n = finite(v);
+                if (n === null) return null;
+                out.push(Math.ceil(n));
+              }
+              return out;
+            }),
+          }
+        : {}),
     };
-    if (raw.afkType === 'FIGHTING' && !calls) c.unknown(`${at}.fighting`);
     Object.assign(st, fields);
   }
   const field = <T>(path: string, read: () => T | null): T | null => {
@@ -196,7 +206,16 @@ export function readPurpose(input: PurposeInputs, c: Collector): PurposeAccountF
     return v;
   };
   return {
-    deathNote: field('account.deathNote', () => readDeathNote(account)),
+    deathNote: field('account.deathNote', () =>
+      readDeathNote(
+        account,
+        new Set(
+          states
+            .filter((s) => s.afkType === 'FIGHTING')
+            .flatMap((s) => (s.targetMonster ? [s.targetMonster] : [])),
+        ),
+      ),
+    ),
     vault: field('account.vault', () => readVault(account)),
   };
 }

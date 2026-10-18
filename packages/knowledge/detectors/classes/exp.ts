@@ -68,7 +68,7 @@ export default defineDetector({
       if (!knownOn(state, c, 'fighting', 'classExp') || !f || !x || f.expPerKill === null)
         return [{ subject, slots: {}, advances: 'unknown' as const }];
       const rate = f.finalKillsPerHour * f.expPerKill;
-      const slots = { saved: x.level, rate, exp: x.exp, expReq: x.expReq };
+      const slots = { saved: c.level, rate, exp: x.exp, expReq: x.expReq };
       if (rate <= 0) return [{ subject, slots, advances: 'no' as const, etaMs: null }];
       const etaMs = Math.round((Math.max(0, x.expReq - x.exp) / rate) * 3_600_000);
       return [{ subject, slots, advances: 'yes' as const, etaMs }];

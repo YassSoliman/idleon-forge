@@ -111,9 +111,8 @@ export {
 } from './slots-types';
 export { PURPOSE_SKILLS } from './purpose';
 export type {
-  DeathNotePage,
+  ClassExp,
   FightingRate,
-  LevelExp,
   PurposeAccountFields,
   PurposeCharacterFields,
   VaultKills,

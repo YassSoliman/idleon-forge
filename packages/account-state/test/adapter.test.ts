@@ -82,8 +82,16 @@ const M14_ACCOUNT_KEYS = [
   'refineryStorage',
   'printer',
   'supplyRates',
+  // M4 TR-2 (purpose.ts has its own test file).
+  'deathNote',
+  'vault',
 ];
 const M14_CHARACTER_KEYS = [
+  // M4 TR-2
+  'classExp',
+  'fighting',
+  'tools',
+  'portalKillsLeft',
   'quests',
   'inventoryItems',
   'smithingLevel',

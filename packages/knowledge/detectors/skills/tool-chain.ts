@@ -48,7 +48,7 @@ export default defineDetector({
     'characters[*].afkType',
     'characters[*].afkTarget',
     'characters[*].targetMonster',
-    'characters[*].skills',
+    'characters[*].skillLevels',
     'characters[*].tools',
     'diagnostics',
   ],
@@ -93,9 +93,9 @@ export default defineDetector({
     return state.characters.flatMap((c): ContributionFinding[] => {
       if (c.afkType !== afkType || !c.targetMonster) return [];
       const subject = characterSubject(c.index);
-      const level = c.skills?.[skill]?.level;
+      const level = c.skillLevels?.[skill];
       if (
-        !isKnown(state, `characters[${c.index}].skills`) ||
+        !isKnown(state, `characters[${c.index}].skillLevels`) ||
         !isKnown(state, `characters[${c.index}].tools`) ||
         level === undefined ||
         !c.tools

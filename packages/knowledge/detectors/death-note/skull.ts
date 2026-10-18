@@ -64,12 +64,7 @@ export default defineDetector({
         params: { goal: 'death-note.goal.sandcastle' },
         mutate: (s) =>
           withAccount(s, {
-            deathNote: Object.fromEntries(
-              Object.entries(s.account.deathNote ?? {}).map(([w, p]) => [
-                w,
-                { mobs: p.mobs.map((m) => ({ ...m, kills: 1e9 })) },
-              ]),
-            ),
+            deathNote: Object.fromEntries(Object.keys(s.account.deathNote ?? {}).map((m) => [m, 1e9])),
           }),
       },
     ],
@@ -89,14 +84,12 @@ export default defineDetector({
     if (monster === null) return [];
     const feeders = fightersOf(state, (c) => c.targetMonster === monster);
     if (feeders.length === 0) return [];
-    const mob = Object.values(state.account.deathNote ?? {})
-      .flatMap((p) => p.mobs)
-      .find((m) => m.rawName === monster);
+    const kills = state.account.deathNote?.[monster];
     const building = state.account.buildings?.deathNote;
     if (
       !isKnown(state, 'account.deathNote') ||
       !isKnown(state, 'account.buildings') ||
-      !mob ||
+      kills === undefined ||
       building === null ||
       building === undefined
     )
@@ -105,7 +98,7 @@ export default defineDetector({
         slots: {},
         advances: 'unknown' as const,
       }));
-    const saved = Math.floor(mob.kills);
+    const saved = kills;
     const { rate, feeders: who } = feederSlots(feeders);
     const next = ladderOf(g).find((at) => at > saved) ?? null;
     return feeders.map((f) => {

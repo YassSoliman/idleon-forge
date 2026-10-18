@@ -11,19 +11,19 @@ export default defineDetector({
   system: 'classes',
   params: z.strictObject({}),
   slots: z.strictObject({}),
-  reads: ['characters[*].index', 'characters[*].classExp', 'diagnostics'],
+  reads: ['characters[*].index', 'characters[*].level', 'diagnostics'],
   examples: {
     // W3-early: the Squire Lv 85 (M4 US-6).
     fires: [{ fixture: 'scrubbed-w3', expect: { value: 85 } }],
     silent: [],
-    unknown: [{ fixture: 'scrubbed-w3', mutate: (s) => withUnknown(s, 'characters[3].classExp') }],
+    unknown: [{ fixture: 'scrubbed-w3', mutate: (s) => withUnknown(s, 'characters[3].level') }],
   },
   run({ state }) {
     return state.characters.map((c) => {
       const subject = characterSubject(c.index);
-      if (!isKnown(state, `characters[${c.index}].classExp`) || !c.classExp)
+      if (!isKnown(state, `characters[${c.index}].level`))
         return { subject, slots: {}, value: null, reason: 'field-missing' as const };
-      return { subject, slots: {}, value: c.classExp.level };
+      return { subject, slots: {}, value: c.level };
     });
   },
 });

@@ -8,7 +8,6 @@ const raw = (key: string, kind: RawKeySpec['kind']): RawKeySpec => ({ key, kind 
 
 export const PURPOSE_FIELD_SOURCES: Record<string, string> = {
   'characters[].classExp': 'characters[i].skillsInfo.character (level, exp, expReq)',
-  'characters[].skills': 'characters[i].skillsInfo.{mining,chopping,fishing,catching} (level, exp, expReq)',
   'characters[].fighting':
     'getMaxDamage(character) on the saved map; monsters[targetMonster].ExpGiven × getClassExpMulti(character)',
   'characters[].tools': 'characters[i].tools[].rawName',
@@ -20,12 +19,11 @@ export const PURPOSE_FIELD_SOURCES: Record<string, string> = {
 
 export const PURPOSE_FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {
   'characters[].classExp': [raw('Lv0_{i}', 'json'), raw('Exp0_{i}', 'json'), raw('ExpReq0_{i}', 'json')],
-  'characters[].skills': [raw('Lv0_{i}', 'json'), raw('Exp0_{i}', 'json'), raw('ExpReq0_{i}', 'json')],
   'characters[].fighting': [raw('AFKtarget_{i}', 'string'), raw('CurrentMap_{i}', 'number')],
   'characters[].tools': [raw('EquipOrder_{i}', 'json')],
   'characters[].portalKillsLeft': [raw('KLA_{i}', 'json'), raw('CurrentMap_{i}', 'number')],
   'account.deathNote': [raw('KLA_*', 'json')],
-  'account.vault': [raw('UpgVault', 'json'), raw('KLA_*', 'json')],
+  'account.vault': [raw('KLA_*', 'json')],
 };
 
 /** `getMaxDamage` reads the same sections as M2's frontier (fields.ts FRONTIER_SECTIONS), added there. */

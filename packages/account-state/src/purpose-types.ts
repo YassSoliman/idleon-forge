@@ -7,9 +7,8 @@
 // M4 also reads fields other modules own: `targetMonster` and `cards` (M8), `mapIndex` and
 // `skillLevels` (M14), `nextPortal`, `classIndex` and `buildings.deathNote` (M2), `spend.stamps` (M7).
 
-/** A level with its EXP toward the next one (Toolbox `skillsInfo.<skill>`). */
-export interface LevelExp {
-  level: number;
+/** Class EXP toward the next class level (Toolbox `skillsInfo.character`), fighters only; the level is `CharacterState.level`. */
+export interface ClassExp {
   exp: number;
   expReq: number;
 }
@@ -35,12 +34,10 @@ export interface FightingRate {
 
 export interface PurposeCharacterFields {
   /** Class level with its EXP (Toolbox `skillsInfo.character`, raw `Exp0_<i>[0]` / `ExpReq0_<i>[0]`). */
-  classExp?: LevelExp | null;
-  /** Gathering skills with EXP (Toolbox `skillsInfo`): mining, chopping, fishing, catching. */
-  skills?: Record<string, LevelExp> | null;
-  /** Set in the parse worker (Toolbox's functions); null unless `afkType === 'FIGHTING'` or when unknown. */
+  classExp?: ClassExp | null;
+  /** Set in the parse worker (Toolbox's functions), for a fighter only; null when unknown. */
   fighting?: FightingRate | null;
-  /** Equipped tools' item rawNames (Toolbox `tools`), 'Blank' removed. */
+  /** Equipped gathering tools' item rawNames (Toolbox `tools`: pickaxe, hatchet, rod, net). */
   tools?: string[] | null;
   /**
    * Raw `KillsLeft2Advance[mapIndex]` (`KLA_<i>`) on the current map, one value per door, unfloored
@@ -49,24 +46,24 @@ export interface PurposeCharacterFields {
   portalKillsLeft?: number[] | null;
 }
 
-/** One world page of the Death Note (Toolbox `account.deathNote[<world index>]`). */
-export interface DeathNotePage {
-  mobs: { rawName: string; kills: number }[];
-}
-
 /** The Upgrade Vault's kill totals and row levels (Toolbox `account.upgradeVault`). */
 export interface VaultKills {
   /**
-   * Toolbox `vaultTotalKills` (the game's VaultKillzTOT), by slot. Read only through the generated map →
-   * slot table `upgrade-vault.fact.kill-slots`, never by a hard-coded index.
+   * Toolbox `vaultTotalKills` (the game's VaultKillzTOT), by slot, floored. Read only through the
+   * generated map → slot table `upgrade-vault.fact.kill-slots`, never by a hard-coded index.
    */
   killTotals: number[];
-  /** Every row's Toolbox `name`, `level` and `maxLevel`, in Vault order. */
-  rows: { name: string; level: number; maxLevel: number }[];
+  /** The kill rows' levels by Toolbox `name` ("Dirty_Money"): only rows that grow per power of 10 of kills. */
+  rowLevels: Record<string, number>;
 }
 
 export interface PurposeAccountFields {
-  /** Toolbox `account.deathNote`, keyed by world index ('0' = World 1); mini-bosses are left out. */
-  deathNote?: Record<string, DeathNotePage> | null;
+  /**
+   * Death Note kills by monster rawName, summed over characters (Toolbox `account.deathNote[world].mobs`,
+   * mini-bosses left out), floored. Only monsters a character is AFK fighting are kept, so the history
+   * stays under its cap (M1 TR-16).
+   */
+  deathNote?: Record<string, number> | null;
+  /** null when the Vault can't be read; absent from a save made before the Vault existed: `killTotals` empty. */
   vault?: VaultKills | null;
 }

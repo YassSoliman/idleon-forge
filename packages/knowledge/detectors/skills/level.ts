@@ -12,7 +12,7 @@ export default defineDetector({
   system: 'skills',
   params: z.strictObject({ skill: z.enum(['mining', 'chopping', 'fishing', 'catching']) }),
   slots: z.strictObject({}),
-  reads: ['characters[*].index', 'characters[*].skills', 'diagnostics'],
+  reads: ['characters[*].index', 'characters[*].skillLevels', 'diagnostics'],
   examples: {
     // W2-late Squire Lv 43: Mining 20 (M4 US-4); W3-early Barbarian Lv 56: Fishing 22.
     fires: [
@@ -24,17 +24,17 @@ export default defineDetector({
       {
         fixture: 'scrubbed-w2',
         params: { skill: 'mining' },
-        mutate: (s) => withUnknown(s, 'characters[1].skills'),
+        mutate: (s) => withUnknown(s, 'characters[1].skillLevels'),
       },
     ],
   },
   run({ state }, { skill }) {
     return state.characters.map((c) => {
       const subject = characterSubject(c.index);
-      const v = c.skills?.[skill];
-      if (!isKnown(state, `characters[${c.index}].skills`) || !v)
+      const v = c.skillLevels?.[skill];
+      if (!isKnown(state, `characters[${c.index}].skillLevels`) || v === undefined)
         return { subject, slots: {}, value: null, reason: 'field-missing' as const };
-      return { subject, slots: {}, value: v.level };
+      return { subject, slots: {}, value: v };
     });
   },
 });

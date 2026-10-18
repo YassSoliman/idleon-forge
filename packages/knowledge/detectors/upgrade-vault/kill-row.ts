@@ -105,7 +105,7 @@ export default defineDetector({
     )?.rows?.find((r) => r.map === map)?.slot;
     const vault = state.account.vault;
     const total = slot === undefined ? undefined : vault?.killTotals[slot];
-    const rowLevel = vault?.rows.find((r) => r.name === row)?.level;
+    const rowLevel = vault?.rowLevels[row];
     if (!isKnown(state, 'account.vault') || total === undefined || rowLevel === undefined)
       return feeders.map((f) => ({
         subject: characterSubject(f.c.index),
