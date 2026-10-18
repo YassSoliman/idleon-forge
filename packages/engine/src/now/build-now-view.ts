@@ -14,6 +14,7 @@ import type {
   EngineResult,
   Goal,
   HigherLeverage,
+  InfoLine,
   NextAction,
   SourceRef,
   SpendLine,
@@ -31,6 +32,7 @@ import {
 import type {
   ActivePlayView,
   Banner,
+  CapPillView,
   ControlsView,
   DoneView,
   FocusCard,
@@ -48,6 +50,8 @@ import type {
 export const CHARACTER_GOAL_CAP = 3;
 export const ACCOUNT_GOAL_CAP = 5;
 export const SPEND_LINE_CAP = 5;
+/** R-PILL-1: cap pills on a Roster row before "+n". */
+export const ROW_CAP_PILLS = 3;
 export const EXPECTED_RETURN_CHIPS = [2, 4, 8, 12, 24].map((h) => h * 3600);
 
 export interface NowUi {
@@ -283,9 +287,24 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
           : { kind: c.verdict.kind, text: VERDICT_TEXT[c.verdict.kind] };
       const expanded = ui.expanded.has(`c${c.index}`);
       const shown = expanded ? f.goals : f.goals.slice(0, CHARACTER_GOAL_CAP);
+      // R-PILL-1: cap pills, minus the ones skipped today (their keys join the undo list).
+      const capLines = (c.info ?? []).filter((l) => l.kind === 'cap');
+      const caps = capLines.filter((l) => !skipped(l.key)).map((l) => capView(l, ui.now));
+      const skippedCaps = capLines.filter((l) => skipped(l.key)).map((l) => l.key);
       return [
         c.index,
-        { c, f, effective, pill, unknownSkipped, cannotTell, shown, hidden: f.goals.length - shown.length },
+        {
+          c,
+          f,
+          effective,
+          pill,
+          unknownSkipped,
+          cannotTell,
+          shown,
+          hidden: f.goals.length - shown.length,
+          caps,
+          skippedCaps,
+        },
       ] as const;
     }),
   );
@@ -294,7 +313,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
   const total = order.length;
   const hasAnything = (i: number) => {
     const p = perChar.get(i);
-    return p !== undefined && (p.effective !== 'ready' || p.f.goals.length > 0);
+    return p !== undefined && (p.effective !== 'ready' || p.f.goals.length > 0 || p.caps.length > 0);
   };
 
   const summaryOf = (i: number): string => {
@@ -307,7 +326,8 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       return UNKNOWN_TEXT[p.c.verdict.unknownReason];
     }
     const top = p.f.goals[0];
-    return top ? top.nextAction.text : 'Nothing to do here';
+    // R-PILL-1: a row whose only items are cap pills shows just the pills.
+    return top ? top.nextAction.text : p.caps.length > 0 ? '' : 'Nothing to do here';
   };
 
   const spendChipText = (c: CharacterResult) =>
@@ -331,6 +351,8 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       playing,
       nextUp: ui.playing?.index === i && ui.playing.status === 'next-up',
       pill: p.pill,
+      caps: p.caps.slice(0, ROW_CAP_PILLS),
+      moreCaps: Math.max(0, p.caps.length - ROW_CAP_PILLS),
       summary,
       spendChip: spendChipText(c),
       accessibleName: [
@@ -340,6 +362,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
         c.activityLabel,
         c.mapLabel,
         p.pill.text,
+        ...p.caps.map((x) => x.label),
         summary,
       ]
         .filter(Boolean)
@@ -461,6 +484,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
           }
         : null,
       pill: p.pill,
+      caps: p.caps,
       blockers: p.f.blockers.map(goalView),
       skippedBlockers: p.f.skippedBlockers,
       unknown: reason
@@ -494,7 +518,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       goals: p.shown.map(goalView),
       hiddenCount: p.hidden,
       skippedCount: p.f.skipped,
-      skippedKeys: p.f.skippedKeys,
+      skippedKeys: [...p.f.skippedKeys, ...p.skippedCaps],
       dismissed: p.f.dismissed.map((g) => ({ key: g.nextAction.key, text: g.nextAction.text })),
       higherLeverage: hl && !dismissed(hl.key) ? higherLeverageView(hl, nameOf) : null,
       higherLeverageNote:
@@ -504,11 +528,13 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
             ? 'comparisons unavailable'
             : null,
       activePlay: c.activePlay.map((a) => activePlayView(a, nameOf)),
-      info: (c.info ?? []).map((l) => ({
-        key: l.key,
-        text: l.text,
-        source: l.sources.length ? sourceView(l.sources, false, l.key) : null,
-      })),
+      info: (c.info ?? [])
+        .filter((l) => l.kind !== 'cap')
+        .map((l) => ({
+          key: l.key,
+          text: l.text,
+          source: l.sources.length ? sourceView(l.sources, false, l.key) : null,
+        })),
       done: c.doneThisSession.map((d) => doneView(d, ui.tzOffsetMinutes)),
       next:
         nextTarget === null
@@ -620,6 +646,19 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
     newCount,
     visibleKeys,
     nextExpiry,
+  };
+}
+
+/** R-PILL-1: an info line of kind 'cap' as a pill. */
+function capView(l: InfoLine, now: number): CapPillView {
+  return {
+    key: l.key,
+    entryId: l.key.split('@')[0] ?? l.key,
+    label: l.label ?? l.text,
+    text: l.text,
+    why: l.why ?? '',
+    source: l.sources.length ? sourceView(l.sources, false, l.key) : null,
+    fullNow: l.at === null || l.at === undefined || l.at <= now,
   };
 }
 

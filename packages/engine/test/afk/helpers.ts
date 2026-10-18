@@ -66,3 +66,5 @@ export const blockers = (findings: AfkSafetyResult['account']['findings']) =>
   findings.filter((f) => f.role === 'blocker').map((f) => f.entryId);
 export const nextActions = (findings: AfkSafetyResult['account']['findings']) =>
   findings.filter((f) => f.role === 'next-action').map((f) => f.entryId);
+/** R-PILL-1: the entry ids of a subject's cap pills. */
+export const capsOf = (c: { caps: AfkSafetyResult['account']['caps'] }) => c.caps.map((p) => p.entryId);

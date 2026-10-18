@@ -265,11 +265,15 @@ describe('US-9 and US-10 Post Office and anvil points', () => {
     expect(f?.slots).toEqual({ boxes: 4 });
     expect(po(w3, 'boxes')).toEqual([]);
   });
-  it('unlocked with 4 boxes: every character shows the box Goal', () => {
+  it('unlocked with 4 boxes: one account line, with every character as its detail (R-PILL-1, #70 A5)', () => {
     const open = withAccount(w3, {
       postOffice: { ...(w3.account.postOffice ?? fail('po')), unlocked: true },
     });
-    expect(po(open, 'boxes')).toHaveLength(6);
+    const fs = po(open, 'boxes');
+    expect(fs.filter((f) => f.subject.kind === 'account').map((f) => f.slots)).toEqual([
+      { count: 6, boxes: 24 },
+    ]);
+    expect(fs.filter((f) => f.subject.kind === 'character')).toHaveLength(6);
     expect(po(open, 'unlock')).toEqual([]);
   });
   it('W3-early: one account line for the Bowman Lv 60, who holds 3 anvil points; W2-late none (#70 A2)', () => {

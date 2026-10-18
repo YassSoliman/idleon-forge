@@ -73,6 +73,24 @@ export interface PillView {
   text: string;
 }
 
+/**
+ * A quick-collect cap as a compact pill (M3 Final rulings R-PILL-1): "Anvil full · collect". Not a
+ * Goal and not a Verdict input. Opening it shows the full text (with the refill time), the Why and the
+ * Source, with Skip today and Report this.
+ */
+export interface CapPillView {
+  /** `${entryId}@c<index>`; Skip today keys on it. */
+  key: string;
+  entryId: string;
+  /** "Anvil full · collect". */
+  label: string;
+  /** "Collect Thread from the anvil (time to cap: now; it refills about 2 h after you collect)". */
+  text: string;
+  why: string;
+  source: SourceView | null;
+  fullNow: boolean;
+}
+
 export interface RosterRow {
   index: number;
   /** 1-based Visit Order number. */
@@ -87,6 +105,9 @@ export interface RosterRow {
   /** The character Focus moved to after a switch save, not yet confirmed (FR-14 ruling). */
   nextUp: boolean;
   pill: PillView;
+  /** R-PILL-1: at most 3 cap pills, before the summary; the rest counted in `moreCaps` ("+n"). */
+  caps: CapPillView[];
+  moreCaps: number;
   summary: string;
   /** "Spend here: 3 buys, ~1.2M → Spend Plan" (FR-4, M7 D5). */
   spendChip: string | null;
@@ -143,6 +164,8 @@ export interface FocusCard {
   /** "Left <name> ✓ 2 done · Ready", with the index to go back to. */
   left: { index: number; text: string } | null;
   pill: PillView;
+  /** R-PILL-1: every cap pill not skipped today, in the header. Skipped ones are in `skippedKeys`. */
+  caps: CapPillView[];
   blockers: GoalView[];
   skippedBlockers: number;
   unknown: UnknownView | null;

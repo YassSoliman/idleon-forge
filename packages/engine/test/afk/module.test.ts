@@ -47,7 +47,8 @@ describe('the afk-safety engine module', () => {
 
   it('#70 A1: a quiet "Anvil full in X" info line per character, never a Goal; none when full now', () => {
     const r = runEngine(input(), [module]);
-    expect(r.characters.map((c) => (c.info ?? []).map((i) => i.text))).toEqual([
+    const lines = (c: (typeof r.characters)[number]) => (c.info ?? []).filter((i) => i.kind !== 'cap');
+    expect(r.characters.map((c) => lines(c).map((i) => i.text))).toEqual([
       [],
       ['Anvil full in 1 h at current speed'],
       ['Anvil full in 2 h at current speed'],
@@ -56,9 +57,11 @@ describe('the afk-safety engine module', () => {
     ]);
     expect(r.characters[1]?.info?.[0]?.key).toBe('anvil.check.fill-time@c1');
     for (const c of r.characters) expect(c.goals.map((g) => g.id)).not.toContain('anvil.check.fill-time');
-    // #70 A5: only the Barbarian Lv 60's full anvil is a per-character anvil item.
-    const anvilGoals = r.characters.map((c) => c.goals.filter((g) => g.system === 'anvil').length);
-    expect(anvilGoals).toEqual([1, 0, 0, 0, 0]);
+    // #70 A5 and R-PILL-1: only the Barbarian Lv 60's full anvil shows, as a cap pill, never a Goal.
+    for (const c of r.characters) expect(c.goals.filter((g) => g.system === 'anvil')).toEqual([]);
+    const caps = r.characters.map((c) => (c.info ?? []).filter((i) => i.kind === 'cap').map((i) => i.label));
+    expect(caps).toEqual([['Anvil full · collect'], [], [], [], []]);
+    expect(r.characters[0]?.info?.[0]?.kind).toBe('cap');
   });
 
   it('declares itself the Verdict module that depends on the Expected Return', () => {

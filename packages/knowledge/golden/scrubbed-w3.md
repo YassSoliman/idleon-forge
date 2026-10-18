@@ -1,27 +1,27 @@
-# golden v1: scrubbed-w3 · knowledge #9a82f64c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 8 of 328
+# golden v1: scrubbed-w3 · knowledge #9b38b7fd · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 8 of 328
 
 ## Verdict changes
 
 ## Now
-0 of 6 Ready · fix 6 before you leave
+4 of 6 Ready · fix 2 before you leave
 
 ### C3 · Bowman 60 · Fix before you leave
-1 · Fighting Sand Giant · Sands of Time · Collect Leather Hide from the anvil (time to cap: now; it refills about 8 h after you collect) · Spend here: 6 buys, ~589M → Spend Plan
-
-### C6 · Shaman 54 · Fix before you leave
-2 · Fighting Sand Castle · Shifty Sandbox · Collect Thread from the anvil (time to cap: now; it refills about 3 h after you collect) · Spend here: 1 buy, ~700M → Spend Plan
-
-### C4 · Squire 85 · Fix before you leave
-3 · Fighting Thermister · Thermonuclear Climb · Collect Thread from the anvil (time to cap: now; it refills about 5 h after you collect) · Spend here: 1 buy, ~2B → Spend Plan
-
-### C2 · Squire 51 · Fix before you leave
-4 · Mining Gold · Freefall Caverns · Collect Thread from the anvil (time to cap: now; it refills about 2 h after you collect)
+1 · Fighting Sand Giant · Sands of Time · [Anvil full · collect] [Worship full · spend] · Swap to your fighting preset before you leave · Spend here: 6 buys, ~589M → Spend Plan
 
 ### C5 · Barbarian 56 · Fix before you leave
-5 · Fishing Small Fish · Salty Shores · Collect Thread from the anvil (time to cap: now; it refills about 6 h after you collect)
+2 · Fishing Small Fish · Salty Shores · [Anvil full · collect] [Worship full · spend] · Swap to your skilling preset before you leave
 
-### C1 · Wizard 73 · Fix before you leave
-6 · Fighting Sir Stache · The Stache Split · Collect Thread from the anvil (time to cap: now; it refills about 5 h after you collect) · Spend here: 2 buys, ~1.6B → Spend Plan
+### C6 · Shaman 54 · Ready
+3 · Fighting Sand Castle · Shifty Sandbox · [Anvil full · collect] · Equip Level up gift in a big-bubble slot · Spend here: 1 buy, ~700M → Spend Plan
+
+### C4 · Squire 85 · Ready
+4 · Fighting Thermister · Thermonuclear Climb · [Anvil full · collect] [Worship full · spend] · Collect 6 boss keys · Spend here: 1 buy, ~2B → Spend Plan
+
+### C2 · Squire 51 · Ready
+5 · Mining Gold · Freefall Caverns · [Anvil full · collect] [Worship full · spend] · Equip 1 card in your empty card slots: Amarok
+
+### C1 · Wizard 73 · Ready
+6 · Fighting Sir Stache · The Stache Split · [Anvil full · collect] · Swap Molto loggo for Hammer hammer · Spend here: 2 buys, ~1.6B → Spend Plan
 
 ### Account · nothing to fix
 - Grow · Get the fuel to run a Refinery salt: Get 1 more Bullfrog Horn to run Explosive Salts [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]

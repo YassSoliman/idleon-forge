@@ -1,30 +1,30 @@
-# golden v1: first · knowledge #9a82f64c · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 8 of 328
+# golden v1: first · knowledge #9b38b7fd · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 8 of 328
 
 ## Verdict changes
 
 ## Now
-2 of 7 Ready · fix 2 before you leave · 3 Unknown
+2 of 7 Ready · fix 1 before you leave · 4 Unknown
 
 ### C7 · Maestro 73 · Fix before you leave
-1 · Doing nothing · YumYum Grotto · Send Maestro Lv 73 to an AFK Target before you leave
-
-### C5 · Elemental Sorcerer 87 · Fix before you leave
-2 · In the Lab · Outer World Town · Collect Chain Link from the anvil (time to cap: now; it refills about 1 d after you collect)
+1 · Doing nothing · YumYum Grotto · [Traps idle in about 10 min] · Send Maestro Lv 73 to an AFK Target before you leave
 
 ### C2 · Bubonic Conjuror 87 · Unknown
-3 · In the Lab · Outer World Town · Not covered yet: AFK safety · Spend here: 32 buys, ~3.6B → Spend Plan
+2 · In the Lab · Outer World Town · [Traps idle in about 5 h] · Not covered yet: AFK safety · Spend here: 32 buys, ~3.6B → Spend Plan
 
 ### C6 · Beast Master 87 · Unknown
-4 · In the Lab · Outer World Town · Not covered yet: AFK safety
+3 · In the Lab · Outer World Town · [Traps idle in about 5 h] · Not covered yet: AFK safety
 
 ### C3 · Siege Breaker 86 · Unknown
-5 · In the Lab · Outer World Town · Not covered yet: AFK safety
+4 · In the Lab · Outer World Town · [Traps idle in about 5 h] · Not covered yet: AFK safety
+
+### C5 · Elemental Sorcerer 87 · Unknown
+5 · In the Lab · Outer World Town · [Anvil full · collect] [Traps idle in about 5 h] · Not covered yet: AFK safety
 
 ### C1 · Blood Berserker 96 · Ready
-6 · Fighting Purp Mushroom · Spaceway Raceway · Collect 2 boss keys · Spend here: 1 buy, ~2M → Spend Plan
+6 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in about 5 h] · Collect 2 boss keys · Spend here: 1 buy, ~2M → Spend Plan
 
 ### C4 · Divine Knight 86 · Ready
-7 · Fighting Purp Mushroom · Spaceway Raceway · Spend 4 Post Office boxes: Civil War Memory Box first · Spend here: 1 buy, ~935k → Spend Plan
+7 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in about 5 h] · Spend at least 101 talent points on your skilling preset (Rage Basics, Warrior), starting with Lucky Clover, Big Pick · Spend here: 1 buy, ~935k → Spend Plan
 
 ### Account · nothing to fix
 - Grow · Switch on a Refinery salt: Switch on Explosive Salts in the Refinery [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
@@ -32,7 +32,7 @@
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 13 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (9)
+show more (10)
 Spend coins: 34 buys now on 3 characters
   1. Buy the bribe Photoshopped Dmg Range on Bubonic Conjuror Lv 87: 1 dementia · Lv 0 → 1 · 100M coins · C2 (Bubonic Conjuror lv87) · withdraw 100M from storage on C2, then buy · total 100M on C2
   2. Buy the bribe Glitched Acc Formula on Bubonic Conjuror Lv 87: 3 dementia · Lv 0 → 1 · 300M coins · C2 (Bubonic Conjuror lv87) · withdraw 300M from storage on C2, then buy · total 400M on C2
@@ -147,6 +147,7 @@ Laboratory
 | post-office.check.spend-boxes | post-office/state | C4 | fires | boxes=4 |
 | post-office.check.spend-boxes | post-office/state | C5 | fires | boxes=3 |
 | post-office.check.spend-boxes | post-office/state | C6 | fires | boxes=3 |
+| post-office.check.spend-boxes | post-office/state | account | fires | boxes=24 count=6 |
 | post-office.check.unlock | post-office/state | — | silent |  |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | pass |  |
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |

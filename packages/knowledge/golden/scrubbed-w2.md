@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #9a82f64c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 8 of 328
+# golden v1: scrubbed-w2 · knowledge #9b38b7fd · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 8 of 328
 
 ## Verdict changes
 
@@ -6,7 +6,7 @@
 4 of 5 Ready · fix 1 before you leave · fix 2 in Account
 
 ### C1 · Barbarian 60 · Fix before you leave
-1 · Fighting Poop · Poopy Sewers · Equip or swap in Meat Pie before you leave: Barbarian is at 78% survivability, and you own 105 · Spend here: 9 buys, ~180M → Spend Plan
+1 · Fighting Poop · Poopy Sewers · [Anvil full · collect] · Equip or swap in Meat Pie before you leave: Barbarian is at 78% survivability, and you own 105 · Spend here: 9 buys, ~180M → Spend Plan
 
 ### C2 · Squire 43 · Ready
 2 · Mining Copper · Tunnels Entrance · Equip Wyoming blood in a big-bubble slot

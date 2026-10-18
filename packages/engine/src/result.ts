@@ -176,6 +176,18 @@ export interface InfoLine {
   key: string;
   text: string;
   sources: SourceRef[];
+  /**
+   * 'cap' (M3 Final rulings R-PILL-1): a quick-collect cap ("Anvil full · collect"), shown as a compact
+   * pill on the character's row and in its Focus header. Never a Goal, a blocker or a Verdict input; it
+   * can be skipped for today under its key. Omitted: a muted info line.
+   */
+  kind?: 'line' | 'cap';
+  /** A cap pill's short label, "Anvil full · collect". */
+  label?: string;
+  /** A cap pill's Why, shown when the pill is opened. */
+  why?: string;
+  /** A cap pill: when the cap is reached (epoch ms); at or before `asOf` means full now. */
+  at?: number | null;
 }
 export interface Done {
   key: string;

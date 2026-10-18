@@ -8,7 +8,7 @@ import type { HistoryEntry } from '@idleon-forge/knowledge';
 import { withCharacter, withUnknown } from '@idleon-forge/knowledge';
 import { describe, expect, it } from 'vitest';
 import { composeVerdict, HOUR_MS, toModuleOutput } from '../../src/afk';
-import { blockers, charOf, evaluate, kb, nextActions, patchAfk, W2, W3 } from './helpers';
+import { blockers, capsOf, charOf, evaluate, kb, nextActions, patchAfk, W2, W3 } from './helpers';
 
 // W2-late save order: Barbarian Lv 60, Squire Lv 43, Shaman Lv 44, Bowman Lv 54, Wizard Lv 56.
 // W3-early save order: Wizard Lv 73, Squire Lv 51, Bowman Lv 60, Squire Lv 85, Barbarian Lv 56, Shaman Lv 54.
@@ -165,29 +165,35 @@ describe('US-2 food that runs out overnight', () => {
   });
 });
 
-describe('US-4 anvil that caps, and anvil that cannot be helped (#70 A5)', () => {
-  it('W2-late at 8 h: the Barbarian Lv 60 is full now and blocks; the other four show no anvil line', () => {
+describe('US-4 anvil that caps, and anvil that cannot be helped (#70 A5, R-PILL-1)', () => {
+  it('W2-late at 8 h: the Barbarian Lv 60 is full now: a cap pill, not a blocker; the other four show nothing', () => {
     const r = evaluate(W2());
-    const barb = charOf(r, 0).findings.find((f) => f.entryId === 'anvil.check.caps-before-return');
-    expect(barb?.role).toBe('blocker');
-    expect(barb?.nextAction.text).toMatch(
+    const barb = charOf(r, 0);
+    expect(barb.findings.map((f) => f.entryId)).not.toContain('anvil.check.caps-before-return');
+    const pill = barb.caps.find((p) => p.entryId === 'anvil.check.caps-before-return');
+    expect(pill?.label).toBe('Anvil full · collect');
+    expect(pill?.fullNow).toBe(true);
+    expect(pill?.key).toBe('anvil.check.caps-before-return@c0');
+    expect(pill?.nextAction.text).toMatch(
       /^Collect Thread from the anvil \(time to cap: now; it refills about 3 h after you collect\)/,
     );
-    // They refill before an 8 h return even after collecting: collecting changes nothing, so no line.
-    for (const i of [1, 2, 3, 4])
-      expect(charOf(r, i).findings.map((x) => x.entryId)).not.toContain('anvil.check.caps-before-return');
+    // Still Fix, but only for its food: the anvil is not one of its blockers.
+    expect(blockers(barb.findings)).toEqual(['afk.check.dies-fixable-by-food']);
+    for (const i of [1, 2, 3, 4]) expect(capsOf(charOf(r, i))).toEqual([]);
   });
 
-  it('W2-late at 2 h: the Barbarian still blocks; the Shaman and Squire show nothing; the Bowman edge is pinned', () => {
+  it('W2-late at 2 h: the Barbarian keeps its pill; the Bowman edge (fills before the return) is a pill too', () => {
     const r = evaluate(W2(), 2);
-    expect(blockers(charOf(r, 0).findings)).toContain('anvil.check.caps-before-return');
-    for (const i of [1, 2])
-      expect(charOf(r, i).findings.map((x) => x.entryId)).not.toContain('anvil.check.caps-before-return');
+    expect(capsOf(charOf(r, 0))).toContain('anvil.check.caps-before-return');
+    for (const i of [1, 2]) expect(capsOf(charOf(r, i))).toEqual([]);
     const bowman = W2().characters[3]?.afk?.anvil?.[0];
-    const f = charOf(r, 3).findings.find((x) => x.entryId === 'anvil.check.caps-before-return');
-    // 7,355,512 ms from empty >= 2 h: collecting now lasts the stretch, so it blocks.
+    // 7,355,512 ms from empty >= 2 h: collecting now lasts the stretch, so it shows, as a pill.
     expect(bowman?.fromEmptyMs).toBe(7355512);
-    expect(f?.role).toBe('blocker');
+    const pill = charOf(r, 3).caps.find((p) => p.entryId === 'anvil.check.caps-before-return');
+    expect(pill?.fullNow).toBe(false);
+    expect(pill?.label).toMatch(/^Anvil full in about .+ · collect$/);
+    for (const c of r.characters)
+      expect(blockers(c.findings)).not.toContain('anvil.check.caps-before-return');
   });
 
   it("W3-early at 8 h: no anvil blocker, and the first fill is the Bowman Lv 60's anvil at about 8.2 h", () => {
@@ -197,17 +203,29 @@ describe('US-4 anvil that caps, and anvil that cannot be helped (#70 A5)', () =>
     expect(r.firstFill?.label).toBe("Bowman Lv 60's anvil");
     expect(((r.firstFill?.at ?? 0) - W3().asOf) / HOUR_MS).toBeCloseTo(8.15, 1);
   });
+
+  it('R-PILL-1: every W3-early anvil full now (16:12 UTC) is a pill, never a blocker', () => {
+    const s = W3();
+    const r = evaluate(s, 8, { now: Date.parse('2026-10-17T16:12:33.140Z') });
+    for (const c of r.characters) {
+      expect(capsOf(c)).toContain('anvil.check.caps-before-return');
+      // Only M9's wrong-preset Check (a real blocker) can make a row unsafe here.
+      expect(blockers(c.findings).filter((x) => !x.startsWith('talent-presets.'))).toEqual([]);
+    }
+  });
 });
 
 describe('US-5 worship charge that is already full', () => {
-  it('W3-early: four skull-less 50/50 bars are Next Actions, never blockers', () => {
+  it('W3-early: four skull-less 50/50 bars are "Worship full" pills, never blockers or Goals (R-PILL-1)', () => {
     const r = evaluate(W3());
-    for (const i of [1, 2, 3, 4])
-      expect(nextActions(charOf(r, i).findings)).toContain('worship.check.charge-caps-no-skull');
-    for (const i of [0, 5])
-      expect(charOf(r, i).findings.map((f) => f.entryId)).not.toContain('worship.check.charge-caps-no-skull');
-    for (const c of r.characters)
-      expect(blockers(c.findings).filter((x) => x.startsWith('worship'))).toEqual([]);
+    for (const i of [1, 2, 3, 4]) {
+      expect(capsOf(charOf(r, i))).toContain('worship.check.charge-caps-no-skull');
+      expect(charOf(r, i).caps.find((p) => p.entryId.startsWith('worship'))?.label).toBe(
+        'Worship full · spend',
+      );
+    }
+    for (const i of [0, 5]) expect(capsOf(charOf(r, i))).not.toContain('worship.check.charge-caps-no-skull');
+    for (const c of r.characters) expect(c.findings.some((f) => f.entryId.startsWith('worship'))).toBe(false);
   });
 
   const skull = (charge: number) => {
@@ -223,11 +241,13 @@ describe('US-5 worship charge that is already full', () => {
     expect(((charOf(r, 0).firstFill?.at ?? 0) - W3().asOf) / HOUR_MS).toBeCloseTo(73.4, 0);
   });
 
-  it('a skull at 110/120 and an 8 h return: the blocker, and the fix holds (about 94 h of room)', () => {
+  it('a skull at 110/120 and an 8 h return: a "Worship full in about X" pill, not a blocker (R-PILL-1)', () => {
     const r = evaluate(skull(110));
-    const f = charOf(r, 0).findings.find((x) => x.entryId === 'worship.check.charge-caps-skull');
-    expect(f?.role).toBe('blocker');
-    expect(f?.fixHolds).toBe(true);
+    expect(charOf(r, 0).findings.map((x) => x.entryId)).not.toContain('worship.check.charge-caps-skull');
+    const pill = charOf(r, 0).caps.find((x) => x.entryId === 'worship.check.charge-caps-skull');
+    expect(pill?.fullNow).toBe(false);
+    expect(pill?.label).toMatch(/^Worship full in about .+ · spend$/);
+    expect(charOf(r, 0).safety).toBe('safe');
   });
 
   it('W2-late: no worship Finding (World 2 is not finished)', () => {
@@ -326,9 +346,12 @@ describe('US-8 empty Parallel Slots and idle traps', () => {
       expect(c.findings.some((f) => f.entryId.startsWith('trapping'))).toBe(false);
   });
 
-  it('a trap finishing in 3 h against 8 h is a Next Action; a finished trap blocks', () => {
+  it('a trap finishing in 3 h against 8 h is a "Traps idle" pill (R-PILL-1); a finished trap blocks', () => {
     const running = charOf(evaluate(trap(3)), 4);
-    expect(nextActions(running.findings)).toContain('trapping.check.finishes-early');
+    expect(running.caps.find((p) => p.entryId === 'trapping.check.finishes-early')?.label).toBe(
+      'Traps idle in about 3 h',
+    );
+    expect(running.findings.map((f) => f.entryId)).not.toContain('trapping.check.finishes-early');
     // This fisher is also on its fighting preset: M9's wrong-preset blocker joins the pipeline (M9 US-1).
     expect(blockers(running.findings)).toEqual(['talent-presets.check.wrong-preset']);
     const done = charOf(evaluate(trap(-1)), 4);
@@ -337,12 +360,13 @@ describe('US-8 empty Parallel Slots and idle traps', () => {
 });
 
 describe('US-10 when the save cannot tell', () => {
-  it('an unreadable anvil makes otherwise-safe rows Unknown, and the Barbarian stays Fix for its food', () => {
+  it('an unreadable anvil no longer makes a row Unknown (R-PILL-1: the anvil is not a blocker); food still is', () => {
     let s = W2();
     for (const c of s.characters) s = withUnknown(s, `characters[${c.index}].afk.anvil`);
     const r = evaluate(s);
     expect(charOf(r, 0).safety).toBe('unsafe');
-    for (const i of [1, 2, 3, 4]) expect(charOf(r, i).safety).toBe('unknown');
+    for (const i of [1, 2, 3, 4]) expect(charOf(r, i).safety).toBe('safe');
+    for (const c of r.characters) expect(capsOf(c)).toEqual([]);
   });
 
   it('a character whose AFK Target is the Lab is not-covered, never Ready', () => {
@@ -389,7 +413,7 @@ describe('US-11 the overall verdict', () => {
     expect(out.alreadyFull).toBe(4);
   });
 
-  it('W2-late at 8 h: the Barbarian Lv 60 is Fix (food and its full anvil), 4 Ready, 2 account blockers', () => {
+  it('W2-late at 8 h: the Barbarian Lv 60 is Fix for its food only (its full anvil is a pill), 4 Ready', () => {
     const out = toModuleOutput(evaluate(W2()), kb);
     expect((out.characters ?? []).map((c) => c.verdict?.kind)).toEqual([
       'fix',
@@ -398,11 +422,10 @@ describe('US-11 the overall verdict', () => {
       'ready',
       'ready',
     ]);
-    // Both bite now; the present-state food Check ranks first on the tie (FR-10).
-    expect(out.characters?.[0]?.verdict?.blockerKeys).toEqual([
-      'afk.check.dies-fixable-by-food@c0',
-      'anvil.check.caps-before-return@c0',
-    ]);
+    // R-PILL-1: the full anvil is a pill, never one of the Verdict's blockers.
+    expect(out.characters?.[0]?.verdict?.blockerKeys).toEqual(['afk.check.dies-fixable-by-food@c0']);
+    const caps = (out.characters?.[0]?.info ?? []).filter((l) => l.kind === 'cap');
+    expect(caps.map((l) => l.label)).toEqual(['Anvil full · collect']);
     expect(out.account?.blockerKeys).toHaveLength(2);
   });
 });

@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-only
-# M3 AFK Safety: the anvil production cap (docs/specs/M3-afk-safety.md FR-18, D7, Final rulings RT-14, #70 A1 and A5).
+# M3 AFK Safety: the anvil production cap (docs/specs/M3-afk-safety.md FR-18, D7, Final rulings RT-14, #70 A1 and A5,
+# R-PILL-1: a cap pill, never a blocker).
 # M6 Unspent & idle: the anvil point plan (M6 FR-23, Final rulings #70 A2 to A4).
 system: anvil
 entries:
@@ -8,9 +9,12 @@ entries:
     type: check
     title: Anvil fills while you're away
     text: "Collect {product:name} from the anvil (time to cap: {fullIn:duration}; it refills about {fromEmpty:duration} after you collect)"
-    values: { fill: anvil }
+    values:
+      fill: anvil
+      pill: "Anvil full · collect"
+      pill-soon: "Anvil full in about {fullIn:duration} · collect"
     why: Anvil production stops at capacity, so every hour past it is lost production and Smithing EXP.
-    notes: "#70 A5: fires only when it changes the outcome: the product is full now (RT-14), or collecting now keeps it producing until the return. A cap that refills before the return even after collecting is not a per-character line; the account-level point plan (anvil.check.spend-points, anvil.check.respec) covers it."
+    notes: "#70 A5: fires only when it changes the outcome: the product is full now (RT-14), or collecting now keeps it producing until the return. A cap that refills before the return even after collecting is not a per-character line; the account-level point plan (anvil.check.spend-points, anvil.check.respec) covers it. R-PILL-1 (owner, 2026-10-17): it renders as a compact pill on the row and in Focus (values.pill full now, values.pill-soon before the return), never a blocker or a Fix card, and never changes the Verdict."
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/anvil.ts
         title: IdleOn Toolbox, getTimeTillCap and getAnvilFutureProduction
@@ -27,7 +31,8 @@ entries:
     confidence: H
     status: active
     subject: character
-    effect: blocker
+    effect: next-action
+    category: nice
     usesExpectedReturn: true
     detector: { id: anvil/caps-before-return }
   - id: anvil.check.fill-time
