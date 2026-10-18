@@ -44,3 +44,25 @@ entries:
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/worship-trapping-death-note.md", title: "W3 dossier: Death Note", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Death_Note", title: "IdleOn Wiki: Death Note", tier: 4, claimDate: 2025-11-14, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Construction", title: "IdleOn Wiki: Construction", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+  # M4 Purpose & Milestones (TR-4): fighting a Death Note monster raises the account's kills of it
+  # toward its next rank. Ranks pay only once the Death Note building has a level (W3 dossier, H).
+  - id: death-note.contribution.skull
+    system: death-note
+    type: contribution
+    title: Death Note kills
+    activity: { afkType: FIGHTING }
+    goalFamily: death-note.goal.death-note
+    detector: { id: death-note/skull, params: { buildingLevelMin: 1 } }
+    eta: kills-per-hour
+    values: { horizonHours: 48 }
+    text: "Death Note: {target} kills {now} → {at}"
+    why: "Each Death Note rank adds to its world's multikill once the Death Note building has a level; until then the kills are banked."
+    stopHere: "{target} kills reach {at} in {etaText}. The next rank, {later}, is {laterEtaText} away. Consider stopping here."
+    appliesTo: { stages: [{ from: W3-early, to: W4-entry }] }
+    confidence: H
+    status: active
+    notes: "M4 TR-4. A multi-session Goal: 48 h horizon (D1). The family is the death-note ladders of W1-W4 (familyMembers' world filter). Building Lv 0: shown as banked, never worthwhile (US-3)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Death_Note", title: "IdleOn Wiki: Death Note", tier: 4, claimDate: 2025-11-14, verified: 2026-10-18, gameVersion: 2.3.540, note: "Counts each monster's kills across all characters; points at 25k, 100k, 250k, 500k, 1M, 5M and 100M." }
+      - { url: "https://idleon.wiki/wiki/Construction#Death_Note", title: "IdleOn Wiki: Construction, Death Note", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540, note: "A World 3 building; each level adds base multikill." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/deathNote.ts", title: "IdleOn Toolbox: DEATH_NOTE_RANKS", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

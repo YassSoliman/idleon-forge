@@ -1,0 +1,93 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M4 Purpose & Milestones (docs/specs/M4-purpose-milestones.md TR-4, D6): a character doing the skill an
+# active M2 Role gives it serves the team by doing its job, even past its last door. The Roles are M2's
+# (metapath.yaml); the engine checks the character holds one that owns this AFK type.
+system: roles
+entries:
+  - id: roles.contribution.mining
+    system: roles
+    type: contribution
+    title: Role skill
+    activity: { afkType: MINING }
+    goal: roles.goal.skill
+    detector: { id: roles/skill, params: { afkType: MINING } }
+    eta: none
+    text: "Mining: its job on your team"
+    why: "Your team's Roles give each class a job; this character holds the Mining Role, so its skilling is on purpose."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "D6 (b). Only an active M2 Role that owns MINING counts (meta.roles)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Mining", title: "IdleOn Wiki: Mining (its class)", tier: 2, claimDate: 2026-10-06, verified: 2026-10-18, gameVersion: 2.3.540, note: "The skill's info box names Warrior as its class." }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M2-stage-meta-path.md", title: "ActiveOn Meta Path: Roles", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: roles.contribution.choppin
+    system: roles
+    type: contribution
+    title: Role skill
+    activity: { afkType: CHOPPIN }
+    goal: roles.goal.skill
+    detector: { id: roles/skill, params: { afkType: CHOPPIN } }
+    eta: none
+    text: "Choppin: its job on your team"
+    why: "Your team's Roles give each class a job; this character holds the Choppin Role, so its skilling is on purpose."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "D6 (b). Only an active M2 Role that owns CHOPPIN counts (meta.roles)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Choppin", title: "IdleOn Wiki: Choppin (its class)", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540, note: "The skill's info box names Mage as its class." }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M2-stage-meta-path.md", title: "ActiveOn Meta Path: Roles", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: roles.contribution.fishing
+    system: roles
+    type: contribution
+    title: Role skill
+    activity: { afkType: FISHING }
+    goal: roles.goal.skill
+    detector: { id: roles/skill, params: { afkType: FISHING } }
+    eta: none
+    text: "Fishing: its job on your team"
+    why: "Your team's Roles give each class a job; this character holds the Fishing Role, so its skilling is on purpose."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "D6 (b). Only an active M2 Role that owns FISHING counts (meta.roles)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Fishing", title: "IdleOn Wiki: Fishing (its class)", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540, note: "The skill's info box names Barbarian as its class." }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M2-stage-meta-path.md", title: "ActiveOn Meta Path: Roles", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: roles.contribution.catching
+    system: roles
+    type: contribution
+    title: Role skill
+    activity: { afkType: CATCHING }
+    goal: roles.goal.skill
+    detector: { id: roles/skill, params: { afkType: CATCHING } }
+    eta: none
+    text: "Catching: its job on your team"
+    why: "Your team's Roles give each class a job; this character holds the Catching Role, so its skilling is on purpose."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "D6 (b). Only an active M2 Role that owns CATCHING counts (meta.roles)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Catching", title: "IdleOn Wiki: Catching (its class)", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540, note: "The skill's info box names Bowman as its class." }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M2-stage-meta-path.md", title: "ActiveOn Meta Path: Roles", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: roles.goal.skill
+    system: roles
+    type: goal
+    title: The team's Role skills
+    scope: character
+    category: compounding
+    unit: role
+    progress: { id: metapath/roster }
+    milestones:
+      - { at: 1, reward: "doing its Role" }
+    text: "Doing its Role on your team"
+    why: "Each class has a job on the Meta Path; a character on its job keeps that skill moving for the account."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M4 TR-4: the Goal roles.contribution.* point at. Its progress is M2's roster (engine)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Fishing", title: "IdleOn Wiki: Fishing (its class)", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540, note: "Each skill page names the class it belongs to." }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M2-stage-meta-path.md", title: "ActiveOn Meta Path: Roles", tier: 4, verified: 2026-10-17, gameVersion: 2.3.540 }

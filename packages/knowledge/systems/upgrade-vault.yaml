@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M4 Purpose & Milestones (docs/specs/M4-purpose-milestones.md TR-4): fighting on a Vault kill map raises
+# the account's kills there, and each power of 10 steps its Vault row up. The ladders are generated
+# (upgrade-vault.goal.kill-row-map-<i>). Buying a row at Lv 0 is M7's Spend Plan.
+system: upgrade-vault
+entries:
+  - id: upgrade-vault.contribution.kill-row
+    system: upgrade-vault
+    type: contribution
+    title: Vault kill row
+    activity: { afkType: FIGHTING }
+    goalFamily: upgrade-vault.goal.kill-row
+    detector: { id: upgrade-vault/kill-row, params: { rowLevelMin: 1 } }
+    eta: kills-per-hour
+    values: { horizonHours: 24 }
+    text: "{target} kills {now} → {at} for {row:name}"
+    why: "Each power of 10 of {target} kills raises {row:name} for every character. It is worth it only to cross the next step cheaply."
+    stopHere: "{target} kills reach {at} in {etaText}. The next step, {later}, is {laterEtaText} away. Consider stopping here."
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "TR-4: a row at Lv 0 pays nothing per step (rule 0); M7 suggests buying it. Horizon 24 h (D1)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn Wiki: Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540, note: "Dirty Money grows per power of 10 of Poop kills from every character; the bonus is per level." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc/upgradeVault.ts", title: "IdleOn Toolbox: getVaultTotalKills (VaultKillzTOT)", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

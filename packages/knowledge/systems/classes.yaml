@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M4 Purpose & Milestones (docs/specs/M4-purpose-milestones.md TR-4, D3): every fighter earns class EXP.
+# It counts toward a Purpose only when this map gives at least half the class EXP per hour of the
+# character's best map (`minRatio`); the ladder is generated (classes.goal.level).
+system: classes
+entries:
+  - id: classes.contribution.exp
+    system: classes
+    type: contribution
+    title: Class EXP
+    activity: { afkType: FIGHTING }
+    goal: classes.goal.level
+    detector: { id: classes/exp, params: { minRatio: 0.5 } }
+    eta: kills-per-hour
+    values: { horizon: none }
+    text: "Class level {now} → {at}"
+    why: "Each kill gives the monster's class EXP times your EXP multiplier, so the map sets how fast this character levels."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "D3: worthwhile when this map's class EXP/h is at least half the best map's (bestExpPerHour). Without a best map the line is skipped, never guessed (TR-6)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Green_Mushroom", title: "IdleOn Wiki: Green Mushroom (each monster gives set EXP)", tier: 2, claimDate: 2026-09-30, verified: 2026-10-18, gameVersion: 2.3.540, note: "A monster page lists the fixed Experience each kill gives." }
+      - { url: "https://idleon.wiki/wiki/Game_Mechanics_AFK#Class_Exp_-_Experience_Multiplyer", title: "IdleOn Wiki: Game Mechanics AFK, Class EXP", tier: 4, claimDate: 2025-04-26, verified: 2026-10-18, gameVersion: 2.3.540, note: "Your class EXP multiplier applies to the killed monster's base EXP." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts", title: "IdleOn Toolbox: getClassExpMulti", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
