@@ -92,9 +92,19 @@ export default defineDetector({
       return [{ subject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const }];
     const water = waterOf(state);
     if (!water) return [{ subject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const }];
-    if (water.current < water.max)
-      return part === 'line' ? [{ subject, slots: {}, result: 'pass' as const }] : [];
     const rate = observedWaterRate(history, minIntervals);
+    if (water.current < water.max) {
+      if (part !== 'line') return [];
+      // M17 TR-4: with an observed refill rate the pass says when Water reaches its cap; without one
+      // it can't tell, and the Timeline lists it as "can't tell when".
+      const fullAt =
+        rate !== null && rate > 0
+          ? Math.round(state.asOf + ((water.max - water.current) / rate) * HOUR)
+          : undefined;
+      return [
+        { subject, slots: {}, result: 'pass' as const, ...(fullAt !== undefined ? { nextAt: fullAt } : {}) },
+      ];
+    }
     const refillMs = rate !== null && rate > 0 ? (water.max / rate) * HOUR : null;
     const slow = refillMs !== null && refillMs >= expectedReturnMs;
     if ((part === 'slow') !== slow) return [];

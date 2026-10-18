@@ -8,10 +8,10 @@
 import type { AccountState } from '@idleon-forge/account-state';
 import type { DetectorRegistry } from '@idleon-forge/knowledge';
 import type { EngineModule, ModuleGoal, ModuleOutput } from '../core/module';
-import type { InfoLine } from '../result';
-import { type AfkSafetyInput, evaluateAfkSafety } from './evaluate';
+import type { InfoLine, TimelineBar } from '../result';
+import { type AfkSafetyInput, dedupeBars, evaluateAfkSafety } from './evaluate';
 import { HOUR_MS } from './expected-return';
-import { afkInfoLines } from './info';
+import { afkInfo } from './info';
 import type {
   AfkSafetyResult,
   CapPill,
@@ -66,6 +66,7 @@ export function toModuleOutput(
   kb: AfkSafetyModuleDeps['kb'],
   purpose: AfkSafetyModuleDeps['purpose'] = () => 'not-implemented',
   info: ReadonlyMap<number, InfoLine[]> = new Map(),
+  infoBars: readonly TimelineBar[] = [],
 ): ModuleOutput {
   return {
     characters: result.characters.map((c) => {
@@ -88,6 +89,9 @@ export function toModuleOutput(
     alreadyFull: result.alreadyFull,
     firstFill: result.firstFill,
     unknownFindings: result.unknowns ?? [],
+    // M17 TR-4: every limit M3 timed, with the info lines' fill times, on the return M3 used.
+    timeline: dedupeBars([...(result.bars ?? []), ...infoBars]),
+    returnAt: result.returnAt,
   };
 }
 
@@ -121,19 +125,21 @@ export function createAfkSafetyModule(deps: AfkSafetyModuleDeps): EngineModule {
       });
       // #70 A1: quiet info lines; a failure here drops them, never the Verdicts.
       let info: Map<number, InfoLine[]> = new Map();
+      let infoBars: TimelineBar[] = [];
       try {
-        info = afkInfoLines({
+        ({ lines: info, bars: infoBars } = afkInfo({
           state: input.state,
           history: input.history.entries,
           now: input.now,
           expectedReturnMs: expectedReturn.usedMs,
           kb: deps.kb,
           registry: deps.registry,
-        });
+        }));
       } catch {
         info = new Map();
+        infoBars = [];
       }
-      return toModuleOutput(result, deps.kb, deps.purpose, info);
+      return toModuleOutput(result, deps.kb, deps.purpose, info, infoBars);
     },
   };
 }

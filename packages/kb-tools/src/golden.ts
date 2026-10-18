@@ -46,6 +46,8 @@ export interface GoldenEngine {
   renderNow(input: GoldenInput): string;
   /** M17 TR-10: the Systems hub as text; the `## Systems` section is left out without it. */
   renderSystems?(input: GoldenInput): string;
+  /** M17 TR-10 (Phase 2): the Timeline as text; the `## Timeline` section is left out without it. */
+  renderTimeline?(input: GoldenInput): string;
 }
 
 export interface GoldenInput {
@@ -191,6 +193,7 @@ export function renderGolden(
     notCovered.length ? notCovered.join('\n') : '(none)',
     '',
     ...(engine.renderSystems ? ['## Systems', engine.renderSystems(input).trimEnd(), ''] : []),
+    ...(engine.renderTimeline ? ['## Timeline', engine.renderTimeline(input).trimEnd(), ''] : []),
     '## Findings',
     '| entry | detector | subject | result | slots |',
     '|---|---|---|---|---|',

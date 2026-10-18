@@ -14,6 +14,7 @@ entries:
     effortSeconds: 60
     detector: { id: colosseum/tickets-banked, params: { fireAtDays: 2 } }
     text: "Collect {total:int} Colosseum tickets"
+    values: { timelineKind: bank, timelineWhat: "Colosseum tickets" }
     why: "Tickets bank at each NPC you can reach for 3 days at most. NPCs past the cap: {cappedNpcs:int}; days already lost at the worst one: {daysLost:int}."
     doneWhen: { field: "account.colosseumTickets[*].daysSincePickup", change: lower }
     appliesTo: { stages: all }

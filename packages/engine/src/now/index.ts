@@ -21,7 +21,7 @@ export {
 } from './build-now-view';
 export { buildHref, buildsView } from './build-view';
 export { cardsHref, cardsView } from './cards-view';
-export { aboutDuration, compact, formatAge, plural, shortDuration } from './format';
+export { aboutDuration, clockAt, compact, formatAge, inSpan, plural, shortDuration, span } from './format';
 export {
   dismissActive,
   EMPTY_PREFS,
@@ -38,9 +38,10 @@ export {
   skipExpiresAt,
 } from './prefs';
 export { type RenderTextOptions, renderNowText } from './render-text';
-export { renderSystemsText } from './render-views-text';
+export { renderSystemsText, renderTimelineText } from './render-views-text';
 export { signsHref, starSignsView } from './star-signs-view';
-export { SYSTEM_HOMES, type SystemHome, tabHomeOf } from './system-homes';
+export { SYSTEM_HOMES, type SystemHome, tabHomeOf, timelineHome } from './system-homes';
 export { buildSystemPageView, buildSystemsView, type SystemsUi, seeItSystem } from './systems-view';
+export { buildTimelineView, type TimelineUi, timelineAxisEnd } from './timeline-view';
 export type * from './view';
 export * from './view-words';

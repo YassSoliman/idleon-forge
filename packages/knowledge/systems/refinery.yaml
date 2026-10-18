@@ -9,6 +9,7 @@ entries:
     type: check
     title: Refinery runs dry
     text: "Refinery runs dry in about {dryIn:duration}: top up the salt's materials"
+    values: { timelineKind: food, timelineWhat: "salt fuel" }
     why: An active salt stops refining when its materials run out, and nothing refines until you're back.
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/refinery.ts
@@ -100,6 +101,7 @@ entries:
     effortSeconds: 10
     detector: { id: refinery/full-bar }
     text: "Refine {salt:name} now: its bar is full, so it has stopped making salt"
+    values: { timelineKind: production, timelineWhat: "Refinery bar" }
     why: "With Auto Refine off, a full bar stops the salt until you refine it, and refining a full bar ranks it up. In the Refinery, left of the Construction Table in Frostbite Tundra town. Salts with a full bar: {salts:int}."
     doneWhen: { field: "account.refinery.salts[*].rank", change: higher }
     notes: "Full is the game's rank-up test power >= PowerCAP (N.js @7640085), not Toolbox's looser alert rule (red-team #21)."

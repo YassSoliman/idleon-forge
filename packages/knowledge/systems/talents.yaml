@@ -33,6 +33,8 @@ entries:
     title: Attacks missing from the bar
     text: "Put your attacks on the bar before you leave: {missing}"
     values:
+      timelineKind: time-cap
+      timelineWhat: "attacks missing from the bar"
       text-none-levelled: "Level an attack and put it on the bar"
       text-one-attack: "Put more attacks on the bar: only one is on it, and {missing} are levelled on this preset"
       goal: Talents

@@ -1,4 +1,4 @@
-# golden v1: multikill-pin · knowledge #340a0a3d · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: multikill-pin · knowledge #f256588d · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 342
 
 ## Verdict changes
 
@@ -121,6 +121,60 @@ Worlds 5–7: not covered yet
 Needs you: Minigames (wasting), Trapping (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
 Wasting: 2
+
+## Timeline
+Axis: now to +12h · Back in 8h 00m · 01:27
+C2 · Death Bringer 1292
+- no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c1
+- Anvil full · collect · now · before · pill · fix none · the same on 10 more
+- Worship full · spend · now · before · pill · fix none · the same on 10 more
+- Traps idle in about 7 h · in 6h 36m · 00:03 · before · pill · fix none · the same on 1 more
+C1 · Siege Breaker 1291
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c0
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C6 · Wind Walker 1280
+- no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c5
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c5
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C10 · Bubonic Conjuror 1268
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c9
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C8 · Siege Breaker 1261
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c7
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C4 · Divine Knight 1240
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c3
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C5 · Arcane Cultist 1231
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c4
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C7 · Voidwalker 1157
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c6
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C3 · Elemental Sorcerer 1259
+- traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c2
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C11 · Beginner 1224
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C9 · Royal Guardian 1307
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+- Traps idle in about 7 h · in 6h 36m · 00:03 · before · pill · fix none
+Account · Alchemy cauldrons and liquids
+- Water full · can't tell when · untimed · info · fix none
+Account · Arcade
+- Arcade balls full · later · in 2d 0h · 18:20 · after · info · fix none
+Account · Refinery
+- salt fuel runs out · now · before · next-action · fix none
 
 ## Findings
 | entry | detector | subject | result | slots |

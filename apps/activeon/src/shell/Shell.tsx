@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M17 Views: the navigation shell. Three places in Phase 1 (Now, Characters, Systems; FR-1), a bottom
-// bar under 720 px and a side rail from 720 px (FR-2, D-5), each place one bare anchor (FR-7). The
+// M17 Views: the navigation shell. Four places (Now, Characters, Systems and, from Phase 2, the
+// Timeline; FR-1), a bottom bar under 720 px and a side rail from 720 px (FR-2, D-5), each place one
+// bare anchor (FR-7). The Timeline is its own chunk, fetched when the browser is idle (TR-11). The
 // banners, the progress bar and What's new are the same in every place (FR-6). The session state lives
 // in `useSession` (FR-10), so a place switch never re-runs the engine or loses the Play Session.
 import { LINK_WORDS, NAV_WORDS, PLACE_WORDS } from '@idleon-forge/engine/now';
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { CharactersPlace } from '../characters/CharactersPlace';
 import { Banners, ExpectedReturnChips, ProgressBar, WhatsNewCard } from '../now/Chrome';
@@ -15,6 +16,9 @@ import { useWhatsNew } from '../now/release';
 import { SystemPage } from '../systems/SystemPage';
 import { SystemsHub } from '../systems/SystemsHub';
 import type { Place, Route } from './route';
+
+const loadTimeline = () => import('../timeline/TimelinePlace');
+const TimelinePlace = lazy(() => loadTimeline().then((m) => ({ default: m.TimelinePlace })));
 
 /** The outlet's id: a plain in-page target, never a route (FR-7 leaves unknown anchors to Now). */
 const CONTENT_ANCHOR = `#${'place-content'}`;
@@ -34,6 +38,12 @@ function Glyph({ place, on }: { place: Place; on: boolean }) {
     <svg className="glyph" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
       {place === 'now' ? (
         <circle cx="12" cy="12" r="8" fill={fill} stroke="currentColor" strokeWidth="2" />
+      ) : place === 'timeline' ? (
+        <>
+          <rect x="3" y="5" width="13" height="4" rx="2" fill={fill} stroke="currentColor" strokeWidth="2" />
+          <rect x="3" y="15" width="8" height="4" rx="2" fill={fill} stroke="currentColor" strokeWidth="2" />
+          <path d="M19 2v20" stroke="currentColor" strokeWidth="2" />
+        </>
       ) : place === 'characters' ? (
         <>
           <circle cx="12" cy="8" r="4" fill={fill} stroke="currentColor" strokeWidth="2" />
@@ -82,6 +92,7 @@ const ITEMS: { place: Place; route: Route; href: string }[] = [
   { place: 'now', route: { place: 'now' }, href: '#now' },
   { place: 'characters', route: { place: 'characters', section: null }, href: '#characters' },
   { place: 'systems', route: { place: 'systems' }, href: '#systems' },
+  { place: 'timeline', route: { place: 'timeline' }, href: '#timeline' },
 ];
 
 /** FR-2, FR-4, FR-5, TR-13: `<nav aria-label="Places">` with a list of links, badges named in words. */
@@ -93,7 +104,11 @@ export function PlacesNav({ s }: { s: Session }) {
       : place === 'systems' && s.systems.wastingCount > 0
         ? { n: s.systems.wastingCount, name: NAV_WORDS.systemsBadge(s.systems.wastingCount) }
         : null;
-  const exact = s.route.place === 'now' || s.route.place === 'characters' || s.route.place === 'systems';
+  const exact =
+    s.route.place === 'now' ||
+    s.route.place === 'characters' ||
+    s.route.place === 'systems' ||
+    s.route.place === 'timeline';
   return (
     <div className="places-wrap">
       <a
@@ -117,9 +132,7 @@ export function PlacesNav({ s }: { s: Session }) {
                   href={item.href}
                   className={`place-item${on ? ' on' : ''}`}
                   aria-current={on ? (exact ? 'page' : 'true') : undefined}
-                  aria-label={
-                    b ? `${PLACE_WORDS[item.place as keyof typeof PLACE_WORDS]}, ${b.name}` : undefined
-                  }
+                  aria-label={b ? `${PLACE_WORDS[item.place]}, ${b.name}` : undefined}
                   onClick={(e) => {
                     e.preventDefault();
                     s.navigate(item.route, 'push');
@@ -133,7 +146,7 @@ export function PlacesNav({ s }: { s: Session }) {
                       </span>
                     ) : null}
                   </span>
-                  <span className="place-label">{PLACE_WORDS[item.place as keyof typeof PLACE_WORDS]}</span>
+                  <span className="place-label">{PLACE_WORDS[item.place]}</span>
                 </a>
               </li>
             );
@@ -152,6 +165,12 @@ function Outlet({ s }: { s: Session }) {
       return <SystemsHub s={s} />;
     case 'system':
       return <SystemPage s={s} id={s.route.id} />;
+    case 'timeline':
+      return (
+        <Suspense fallback={<p className="small muted">…</p>}>
+          <TimelinePlace s={s} />
+        </Suspense>
+      );
     default:
       return <NowPlace s={s} />;
   }
@@ -170,6 +189,13 @@ export function Shell(props: ShellProps & ShellSlots) {
     () => onFooter({ ...s.view.footer, persistent: s.prefs.persistent }),
     [onFooter, s.view.footer, s.prefs.persistent],
   );
+  // TR-11: the Timeline chunk is prefetched when the browser is idle after the first result.
+  useEffect(() => {
+    const w = window as Window & { requestIdleCallback?: (cb: () => void) => number };
+    const go = () => void loadTimeline().catch(() => {});
+    if (w.requestIdleCallback) w.requestIdleCallback(go);
+    else setTimeout(go, 2000);
+  }, []);
   // The navigation shows only in M10's `ok` state (FR-12): this component exists only then.
   const nav = <PlacesNav s={s} />;
 
@@ -191,7 +217,12 @@ export function Shell(props: ShellProps & ShellSlots) {
           {NAV_WORDS.playing(s.pendingFollow.text)}
         </button>
       ) : null}
-      <Banners banners={s.view.banners} onReload={props.onReload} />
+      <Banners
+        banners={s.view.banners}
+        onReload={props.onReload}
+        firstFill={s.view.allSet?.covered && s.timeline ? s.view.allSet.detail : null}
+        onTimeline={() => s.navigate({ place: 'timeline' }, 'push')}
+      />
       <ProgressBar progress={s.view.progress} onAccount={s.toAccountFix} />
       {whatsNew.view ? <WhatsNewCard view={whatsNew.view} onDismiss={whatsNew.dismiss} /> : null}
       <div

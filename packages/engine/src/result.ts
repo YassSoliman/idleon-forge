@@ -181,6 +181,36 @@ export interface UnknownFinding {
   /** M11 UnknownReason, or 'detector-failed'; 'needs-history' is never emitted here. */
   reason: string;
 }
+/** M17 TR-2: what kind of limit a Timeline bar is; each has its own glyph and word (FR-24). */
+export type TimelineKind = 'storage' | 'food' | 'time-cap' | 'production' | 'bank' | 'timer';
+
+/**
+ * M17 TR-2, TR-4: one time-bound limit a module already computed, as a Timeline bar. The Timeline never
+ * computes a time of its own (D-18): `at` is the producer's, and so are `effect` and `fixHolds`.
+ */
+export interface TimelineBar {
+  /** Unique per bar: `${key}#${slot}` when one entry fires more than once on a subject. */
+  barId: string;
+  /** `${entryId}@${subject}`: the Next Action or cap pill key it belongs to; keys skips. */
+  key: string;
+  entryId: string;
+  /** Registry id of the entry's System. */
+  system: string;
+  subject: Subject;
+  /** Authored on the entry (`values.timelineKind`). */
+  kind: TimelineKind;
+  /** The producer's own words ("anvil", "Arcade balls"): the entry's `values.timelineWhat`. */
+  what: string;
+  /** Epoch ms when it binds; null = a present-state problem (FR-26). */
+  at: number | null;
+  /** FR-26 "can't tell when"; `at` is then null. */
+  untimed: boolean;
+  /** M3's role; 'pill' for a cap pill, 'info' for a passing Check's nextAt or an info line. Never recomputed. */
+  effect: 'blocker' | 'next-action' | 'pill' | 'info';
+  /** M3 FR-7 (c): would the fix hold through the return? false = plain bar, no fix link (FR-25). */
+  fixHolds: boolean;
+}
+
 export interface PurposeLine {
   goalId: string;
   title: string;
@@ -444,4 +474,8 @@ export interface EngineResult {
    * signs, the next constellations). Absent when M16 didn't run; null below W1-mid or without its data.
    */
   starSigns?: StarSignsView | null;
+  /** M17 TR-2 (Phase 2): every Timeline bar the modules supplied (M3, M6), sorted by subject, at, barId. */
+  timeline?: TimelineBar[];
+  /** M17 TR-2 (Phase 2): M3 `AfkSafetyResult.returnAt`, when the player is back; absent without M3. */
+  returnAt?: number;
 }

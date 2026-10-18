@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #340a0a3d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 342
+# golden v1: scrubbed-w3 · knowledge #f256588d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 342
 
 ## Verdict changes
 
@@ -114,6 +114,40 @@ W4 · Breeding · Locked · Opens in World 4 · Hyperion Nebula
 Needs you: Talent presets (wasting), Companions and pets (wasting), Minigames (wasting), Colosseum (wasting), Refinery (wasting), Death Note (wasting), Cards (behind), Obols (behind), Stamps (behind), Anvil (behind), Post Office (locked), Alchemy bubbles (behind)
 Other gaps: Stamp cap raises that need farming or carry capacity
 Wasting: 6
+
+## Timeline
+Axis: now to +12h · Back in 8h 00m · 00:12
+Stale: Your last save is 8h 28m old: these times are projected from it.
+C3 · Bowman 60
+- wrong talent preset · now · before · blocker · outlined · fix talent-presets.check.wrong-preset@c2
+- Anvil full · collect · now · before · pill · fix none · the same on 5 more
+- Worship full · spend · now · before · pill · fix none · the same on 3 more
+C5 · Barbarian 56
+- wrong talent preset · now · before · blocker · outlined · fix talent-presets.check.wrong-preset@c4
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C6 · Shaman 54
+- Anvil full · collect · now · before · pill · fix none
+- worship charge caps · later · in 20h 35m · 12:47 · after · info · fix none
+C4 · Squire 85
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+- health food runs out · can't tell when · untimed · blocker · fix none · the same on 1 more
+C2 · Squire 51
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+C1 · Wizard 73
+- Anvil full · collect · now · before · pill · fix none
+- worship charge caps · in 10h 14m · 02:26 · after · info · fix none
+- health food runs out · can't tell when · untimed · blocker · fix none
+Account · Colosseum
+- Colosseum tickets lost · now · before · next-action · outlined · fix colosseum.check.collect-tickets@account
+Account · Alchemy cauldrons and liquids
+- Water full · can't tell when · untimed · info · fix none
+Account · Arcade
+- Arcade balls full · later · in 21h 32m · 13:44 · after · info · fix none
+Account · Refinery
+- salt fuel runs out · later · in 40h 23m · 08:35 · after · info · fix none
 
 ## Findings
 | entry | detector | subject | result | slots |

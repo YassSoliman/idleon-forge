@@ -13,9 +13,9 @@ import {
   render,
   runDetector,
 } from '@idleon-forge/knowledge';
-import type { InfoLine } from '../result';
+import type { InfoLine, TimelineBar } from '../result';
 import type { AfkSafetyInput } from './evaluate';
-import { characterBuiltins, sourceRef } from './evaluate';
+import { characterBuiltins, sourceRef, timelineWordsOf } from './evaluate';
 
 /** The info entries M3 renders as `CharacterResult.info`; no other module runs them. */
 export const AFK_INFO_ENTRIES: readonly string[] = ['anvil.check.fill-time'];
@@ -33,6 +33,14 @@ export interface AfkInfoInput {
 
 /** Info lines by character index, in entry-id order. */
 export function afkInfoLines(input: AfkInfoInput): Map<number, InfoLine[]> {
+  return afkInfo(input).lines;
+}
+
+/**
+ * The info lines and their Timeline bars (M17 TR-4: "Anvil full in 6 h at current speed" is a plain
+ * bar at its time, never outlined, effect 'info').
+ */
+export function afkInfo(input: AfkInfoInput): { lines: Map<number, InfoLine[]>; bars: TimelineBar[] } {
   const { state, kb, registry } = input;
   const ctx = makeContext(state, kb, {
     now: input.now,
@@ -40,6 +48,7 @@ export function afkInfoLines(input: AfkInfoInput): Map<number, InfoLine[]> {
     expectedReturnMs: input.expectedReturnMs,
   });
   const out = new Map<number, InfoLine[]>();
+  const bars: TimelineBar[] = [];
   for (const id of [...AFK_INFO_ENTRIES].sort()) {
     const entry = kb.entries[id];
     if (entry?.type !== 'check') continue;
@@ -62,7 +71,21 @@ export function afkInfoLines(input: AfkInfoInput): Map<number, InfoLine[]> {
         sources: entry.sources.map(sourceRef),
       };
       out.set(f.subject.index, [...(out.get(f.subject.index) ?? []), line]);
+      const words = timelineWordsOf(entry as CheckEntry);
+      if (words && f.at !== undefined)
+        bars.push({
+          barId: line.key,
+          key: line.key,
+          entryId: entry.id,
+          system: entry.system,
+          subject,
+          ...words,
+          at: f.at,
+          untimed: false,
+          effect: 'info',
+          fixHolds: false,
+        });
     }
   }
-  return out;
+  return { lines: out, bars };
 }

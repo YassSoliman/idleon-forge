@@ -20,7 +20,7 @@ import {
   type StageId,
   stagesBetween,
 } from '@idleon-forge/knowledge';
-import { AFK_SAFETY_ENTRIES, characterBuiltins, textOf } from '../afk/evaluate';
+import { AFK_SAFETY_ENTRIES, characterBuiltins, textOf, timelineWordsOf } from '../afk/evaluate';
 import { AFK_INFO_ENTRIES } from '../afk/info';
 import type { CharacterContribution, EngineInput, EngineModule, ModuleGoal } from '../core/module';
 import { lookupOf } from '../metapath/knowledge';
@@ -33,6 +33,7 @@ import type {
   Milestone,
   SourceRef,
   Subject,
+  TimelineBar,
   UnknownFinding,
 } from '../result';
 
@@ -245,6 +246,7 @@ export function createUnspentModule(deps: UnspentModuleDeps): EngineModule {
       const byCharacter = new Map<number, ModuleGoal[]>();
       const accountPlay: ActivePlay[] = [];
       const unknowns: UnknownFinding[] = [];
+      const timeline: TimelineBar[] = [];
       let beyond: boolean | undefined;
       const isBeyond = () => {
         if (beyond === undefined)
@@ -291,6 +293,25 @@ export function createUnspentModule(deps: UnspentModuleDeps): EngineModule {
         for (const f of fired) {
           if (asDetail && f.subject.kind !== 'account') continue;
           const g = goalOf(entry, f, d, kb, f.subject.kind === 'account' ? details : []);
+          // M17 TR-4: a bank bar where the Detector says when value starts to be lost (its deadline),
+          // or that it is being lost now. Only entries that author Timeline words emit one.
+          const words = timelineWordsOf(entry);
+          const at = f.urgency === 'losing-now' ? now : (f.deadline ?? null);
+          if (words && at !== null) {
+            const key = g.goal.nextAction.key;
+            timeline.push({
+              barId: key,
+              key,
+              entryId: entry.id,
+              system: entry.system,
+              subject: subjectKey(f),
+              ...words,
+              at,
+              untimed: false,
+              effect: 'next-action',
+              fixHolds: true,
+            });
+          }
           if (f.subject.kind === 'account') account.push(g);
           else byCharacter.set(f.subject.index, [...(byCharacter.get(f.subject.index) ?? []), g]);
           if (entry.activePlay && f.subject.kind === 'account')
@@ -312,7 +333,12 @@ export function createUnspentModule(deps: UnspentModuleDeps): EngineModule {
           spendCount: goals.filter((g) => g.goal.category !== 'nice').length,
         };
       });
-      return { characters, account: { goals: account, activePlay: accountPlay }, unknownFindings: unknowns };
+      return {
+        characters,
+        account: { goals: account, activePlay: accountPlay },
+        unknownFindings: unknowns,
+        timeline,
+      };
     },
   };
 }

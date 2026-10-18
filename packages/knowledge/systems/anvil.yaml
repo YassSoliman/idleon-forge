@@ -10,6 +10,8 @@ entries:
     title: Anvil fills while you're away
     text: "Collect {product:name} from the anvil (time to cap: {fullIn:duration}; it refills in {fromEmpty:duration} after you collect)"
     values:
+      timelineKind: storage
+      timelineWhat: "anvil"
       fill: anvil
       pill: "Anvil full · collect"
       pill-soon: "Anvil full in about {fullIn:duration} · collect"
@@ -44,6 +46,7 @@ entries:
     category: nice
     detector: { id: anvil/fill-time }
     text: "Anvil full in {fullIn:duration} at current speed"
+    values: { timelineKind: storage, timelineWhat: "anvil" }
     why: "Anvil production stops at capacity; this is when the first product with a hammer on it gets there."
     notes: "#70 A1: a quiet per-character info line, never a Goal or Next Action. M3's module emits it as CharacterResult.info; M6 does not run it."
     appliesTo: { stages: all }

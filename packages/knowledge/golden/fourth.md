@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #340a0a3d · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: fourth · knowledge #f256588d · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 342
 
 ## Verdict changes
 
@@ -93,6 +93,20 @@ Worlds 5–7: not covered yet
 Needs you: Minigames (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
 Wasting: 1
+
+## Timeline
+Axis: now to +12h · Back in 8h 00m · 15:51
+C2 · Beginner 1
+- no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c1
+C1 · Voidwalker 476
+- traps ready · later · in 19h 33m · 03:24 · after · info · fix none
+- worship charge caps · later · in 31d 20h · 04:28 · after · info · fix none
+Account · Alchemy cauldrons and liquids
+- Water full · can't tell when · untimed · info · fix none
+Account · Arcade
+- Arcade balls full · later · in 47h 39m · 07:30 · after · info · fix none
+Account · Refinery
+- salt fuel runs out · in 56m · 08:47 · before · next-action · fix none
 
 ## Findings
 | entry | detector | subject | result | slots |

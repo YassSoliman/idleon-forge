@@ -15,8 +15,9 @@ import { detectStage } from './metapath/stage';
 import { buildNowView, DEFAULT_UI } from './now/build-now-view';
 import { EMPTY_PREFS } from './now/prefs';
 import { renderNowText } from './now/render-text';
-import { renderSystemsText } from './now/render-views-text';
+import { renderSystemsText, renderTimelineText } from './now/render-views-text';
 import { buildSystemsView } from './now/systems-view';
+import { buildTimelineView } from './now/timeline-view';
 import type { EngineResult } from './result';
 import { createSpendModule } from './spend';
 import { createStarSignsModule } from './starsigns';
@@ -39,6 +40,8 @@ export interface GoldenEngine {
   renderNow(input: GoldenInput): string;
   /** M17 TR-10: the `## Systems` section (renderSystemsText(buildSystemsView(...))). */
   renderSystems(input: GoldenInput): string;
+  /** M17 TR-10 (Phase 2): the `## Timeline` section (renderTimelineText(buildTimelineView(...))). */
+  renderTimeline(input: GoldenInput): string;
 }
 
 /** The worker's modules (M2, and M3 when the bundle and registry are there), so goldens show real Verdicts. */
@@ -113,5 +116,16 @@ export const goldenEngine: GoldenEngine = {
     const result = goldenResult(input);
     if (!result.systems) return '(no Knowledge Base)';
     return renderSystemsText(buildSystemsView(result, EMPTY_PREFS, { now: input.now }));
+  },
+  renderTimeline: (input) => {
+    const result = goldenResult(input);
+    const lastCloudSave = input.state.account.lastCloudSave;
+    const now = buildNowView(result, EMPTY_PREFS, { ...DEFAULT_UI, now: input.now, lastCloudSave });
+    const view = buildTimelineView(result, EMPTY_PREFS, now, { now: input.now, lastCloudSave });
+    const c = (i: number) => result.characters.find((x) => x.index === i);
+    return renderTimelineText(view, {
+      label: saveOrderLabel(input.state),
+      classOf: (i) => (c(i) ? `${c(i)?.classLabel} ${c(i)?.level}` : '?'),
+    });
   },
 };

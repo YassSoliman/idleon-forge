@@ -4,12 +4,14 @@
 // and link labels. Every other string a view shows is a module's own text, a registry or fact-table
 // fact, a character's name, a time or a count. Nothing here is advice: no imperative from the Next
 // Action templates and no rating word (P6). `view-words.test.ts` lints it.
+import type { TimelineKind } from '../result';
 import type { TileStatus } from './view';
 
 export const PLACE_WORDS = {
   now: 'Now',
   characters: 'Characters',
   systems: 'Systems',
+  timeline: 'Timeline',
 } as const;
 
 export const STATUS_WORDS: Record<TileStatus, string> = {
@@ -60,6 +62,8 @@ export const HUB_WORDS = {
 export const PAGE_WORDS = {
   nextActions: 'Next Actions',
   quickCollects: 'Quick collects',
+  onTimeline: 'On the Timeline',
+  timelineLink: 'Open the Timeline',
   spendPlan: 'In the Spend Plan',
   spendPlanLink: 'Open the Spend Plan on Now',
   howItOpens: 'How it opens',
@@ -97,4 +101,47 @@ export const NAV_WORDS = {
   nowBadge: (n: number) => `${n} to fix before you leave`,
   systemsBadge: (n: number) => `${n} wasting`,
   playing: (text: string) => `${text} · go`,
+} as const;
+
+/** The Timeline's kind words (FR-24): what happens when a limit binds, one per TimelineKind. */
+export const KIND_WORDS: Record<TimelineKind, string> = {
+  storage: 'full',
+  food: 'runs out',
+  'time-cap': 'stops',
+  production: 'caps',
+  bank: 'lost',
+  timer: 'ready',
+};
+
+/** The Timeline place (FR-24 to FR-30, §6): its labels and sentence parts. */
+export const TIMELINE_WORDS = {
+  title: 'Timeline',
+  intro: 'When each character and the account stop earning, against when you are back.',
+  back: (when: string, at: string) => `Back ${when} · ${at}`,
+  backShort: 'Back',
+  now: 'now',
+  later: 'later',
+  cantTell: "can't tell when",
+  beforeBack: "before you're back",
+  afterBack: "after you're back",
+  skipped: 'skipped',
+  dismissed: 'hidden until next patch',
+  at: (at: string) => `at ${at}`,
+  seeFix: 'See the fix',
+  seeFixFor: (what: string) => `See the fix: ${what}`,
+  seeIt: 'See it',
+  seeItFor: (what: string) => `See it: ${what}`,
+  sameOn: (n: number) => `the same on ${n} more`,
+  account: 'Account · helps everyone',
+  accountCantTell: "Can't tell from the save",
+  nothingTimed: 'Nothing timed here.',
+  nothingBefore: "Nothing fills up before you're back",
+  stale: (age: string) => `Your last save is ${age} old: these times are projected from it.`,
+  sinceSave: (age: string) => `Since the save: ${age}`,
+  pastBand: 'when each limit filled since then is not in the save',
+  scrollLabel: 'Timeline lanes, scrolls sideways',
+  unavailable: "The Timeline needs AFK safety, which isn't covered yet",
+  legendOutlined: "Outlined: before you're back, with its fix",
+  legendHatched: 'Stripes: the hours it sits full',
+  tick: (hours: number) => `+${hours}h`,
 } as const;

@@ -36,7 +36,8 @@ export default defineDetector({
       return [{ subject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const }];
     if (salts.length === 0) return [];
     const at = Math.min(...salts.map((x) => x.dryAt));
-    if (at >= now + expectedReturnMs) return [{ subject, slots: {}, result: 'pass' as const }];
+    // M17 TR-4: a pass still says when the fuel runs out, for the Timeline.
+    if (at >= now + expectedReturnMs) return [{ subject, slots: {}, result: 'pass' as const, nextAt: at }];
     return [
       {
         subject,

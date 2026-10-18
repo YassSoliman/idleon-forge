@@ -120,6 +120,24 @@ describe('contested and blockers (FR-6, FR-7, D-3)', () => {
   });
 });
 
+describe('Timeline bar words (M17 TR-4)', () => {
+  it('timelineKind and timelineWhat go together, and the kind is one of TIMELINE_KINDS', () => {
+    expect(messages({ ...check, values: { timelineKind: 'storage', timelineWhat: 'anvil' } })).toEqual([]);
+    expect(messages({ ...check, values: { timelineKind: 'storage' } })).toContain(
+      'timelineKind and timelineWhat go together (M17 TR-4)',
+    );
+    expect(messages({ ...check, values: { timelineWhat: 'anvil' } })).toContain(
+      'timelineKind and timelineWhat go together (M17 TR-4)',
+    );
+    expect(messages({ ...check, values: { timelineKind: 'bucket', timelineWhat: 'anvil' } })).toContain(
+      'timelineKind must be one of storage, food, time-cap, production, bank, timer',
+    );
+    expect(messages({ ...check, values: { timelineKind: 'bank', timelineWhat: 3 } })).toContain(
+      'timelineWhat is a short phrase (1 to 40 characters)',
+    );
+  });
+});
+
 describe('no weights, ever (FR-8)', () => {
   it('rejects any unknown key, at the top or inside a tier item', () => {
     expect(AuthoredEntry.safeParse({ ...check, weight: 3 }).success).toBe(false);

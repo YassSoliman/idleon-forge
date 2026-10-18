@@ -49,6 +49,14 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
   }, [page?.highlight]);
   if (!page) return null;
   const { tile } = page;
+  // FR-23 item 4 (Phase 2): this System's Timeline bars, as a compact list linking to the Timeline.
+  const timelineBars = s.timeline
+    ? [...s.timeline.lanes, ...s.timeline.accountLanes].flatMap((lane) =>
+        [...lane.bars, ...lane.untimed]
+          .filter((bar) => bar.system === id)
+          .map((bar) => ({ bar, who: lane.kind === 'account' ? PAGE_WORDS.account : lane.heading })),
+      )
+    : [];
   const tab = page.tabHome ? tabById(page.tabHome) : undefined;
   const pageId = SYSTEM_HOMES[tile.id]?.page;
   const Body = pageId ? SYSTEM_PAGES[pageId] : undefined;
@@ -145,6 +153,32 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
               </li>
             ))}
           </ul>
+        </section>
+      ) : null}
+
+      {timelineBars.length > 0 ? (
+        <section aria-labelledby="sp-tl-h">
+          <h3 id="sp-tl-h" className="sub-h">
+            {PAGE_WORDS.onTimeline}
+          </h3>
+          <ul className="small sp-timeline">
+            {timelineBars.map(({ bar, who }) => (
+              <li key={bar.barId}>
+                {bar.label} · {bar.timeText}
+                {bar.flag ? ` · ${bar.flag}` : ''} <span className="muted">{who}</span>
+              </li>
+            ))}
+          </ul>
+          <a
+            className="small build-link"
+            href={formatRoute({ place: 'timeline' })}
+            onClick={(e) => {
+              e.preventDefault();
+              s.navigate({ place: 'timeline' }, 'push');
+            }}
+          >
+            {PAGE_WORDS.timelineLink}
+          </a>
         </section>
       ) : null}
 

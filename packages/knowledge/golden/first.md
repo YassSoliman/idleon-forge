@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #340a0a3d · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: first · knowledge #f256588d · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 342
 
 ## Verdict changes
 
@@ -116,6 +116,46 @@ W4 · Breeding · Not covered yet · Not covered yet
 Needs you: Minigames (wasting), Colosseum (wasting), Refinery (wasting), Anvil (behind)
 Other gaps: Journeyman talent builds, Elite talent builds, Stamp cap raises that need farming or carry capacity, W4+ constellations and Infinite Stars
 Wasting: 3
+
+## Timeline
+Axis: now to +12h · Back in 8h 00m · 05:16
+C7 · Maestro 73
+- no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c6
+- Traps idle in about 10 min · in 13m · 21:29 · before · pill · fix none
+- anvil full · in 11h 10m · 08:26 · after · info · fix none
+- worship charge caps · later · in 5d 17h · 14:21 · after · info · fix none
+C2 · Bubonic Conjuror 87
+- Traps idle in about 5 h · in 4h 33m · 01:49 · before · pill · fix none · the same on 5 more
+- anvil full · later · in 2d 13h · 10:43 · after · info · fix none
+- worship charge caps · later · in 7d 19h · 16:49 · after · info · fix none
+C6 · Beast Master 87
+- Traps idle in about 5 h · in 4h 33m · 01:49 · before · pill · fix none
+- anvil full · later · in 14h 25m · 11:41 · after · info · fix none
+- worship charge caps · later · in 6d 10h · 07:59 · after · info · fix none
+C3 · Siege Breaker 86
+- Traps idle in about 5 h · in 4h 33m · 01:49 · before · pill · fix none
+- worship charge caps · later · in 6d 14h · 11:20 · after · info · fix none
+- anvil full · later · in 8d 6h · 04:03 · after · info · fix none
+C5 · Elemental Sorcerer 87
+- Anvil full · collect · now · before · pill · fix none
+- Traps idle in about 5 h · in 4h 33m · 01:49 · before · pill · fix none
+- worship charge caps · later · in 2d 11h · 08:27 · after · info · fix none
+C1 · Blood Berserker 96
+- Traps idle in about 5 h · in 4h 33m · 01:49 · before · pill · fix none
+- anvil full · in 10h 11m · 07:27 · after · info · fix none
+- worship charge caps · later · in 6d 22h · 19:57 · after · info · fix none
+C4 · Divine Knight 86
+- Traps idle in about 5 h · in 4h 33m · 01:49 · before · pill · fix none
+- anvil full · later · in 25h 51m · 23:07 · after · info · fix none
+- worship charge caps · later · in 9d 7h · 05:03 · after · info · fix none
+Account · Colosseum
+- Colosseum tickets lost · now · before · next-action · outlined · fix colosseum.check.collect-tickets@account
+Account · Alchemy cauldrons and liquids
+- Water full · can't tell when · untimed · info · fix none
+Account · Arcade
+- Arcade balls full · later · in 15h 04m · 12:20 · after · info · fix none
+Account · Refinery
+- salt fuel runs out · later · in 21h 26m · 18:42 · after · info · fix none
 
 ## Findings
 | entry | detector | subject | result | slots |

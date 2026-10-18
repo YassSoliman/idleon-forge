@@ -9,6 +9,7 @@ entries:
     type: check
     title: No AFK Target
     text: "Send {class} Lv {level} to an AFK Target before you leave"
+    values: { timelineKind: time-cap, timelineWhat: "no AFK Target" }
     why: A character with no AFK Target earns nothing while you're away.
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts
@@ -35,6 +36,8 @@ entries:
     title: Dies on its map, and owned food fixes it
     text: "Equip or swap in {food:name} before you leave: {class} is at {survivability:pct} survivability, and you own {owned:int}"
     values:
+      timelineKind: time-cap
+      timelineWhat: "dies on its map"
       text-stock-up: "Equip {food:name} before you leave, and stock up on it: your {owned:int} last about {lasts:duration}, less than your return ({class} is at {survivability:pct} survivability)"
     why: Below full survivability the character keeps dying and respawning while you're away. One health food you already own makes it survive.
     sources:
@@ -63,7 +66,7 @@ entries:
     type: check
     title: Health food runs out before you're back
     text: "Add more health food from storage: it runs out in about {runsOutIn:duration} ({left:int} left)"
-    values: { fill: health food }
+    values: { fill: health food, timelineKind: food, timelineWhat: "health food" }
     why: This fighter only survives with health food. Once it runs out, it starts dying and its AFK gains drop.
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts
@@ -91,6 +94,7 @@ entries:
     type: check
     title: Low on health food
     text: "Low food: {left:int} left; can't time it yet"
+    values: { timelineKind: food, timelineWhat: "health food" }
     why: This fighter only survives with health food, and the stack is small. ActiveOn can time it after your next session.
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts
@@ -119,6 +123,7 @@ entries:
     type: check
     title: Carry cap full while skilling
     text: "Deposit to storage: {item:name} is at its carry cap ({cap:int}) and the bag has no free slot"
+    values: { timelineKind: storage, timelineWhat: "carry cap full" }
     why: With the stack full and no free slot, everything this character gathers is lost until you deposit.
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts

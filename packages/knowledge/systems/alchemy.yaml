@@ -7,6 +7,7 @@ entries:
     type: check
     title: Not brewing
     text: "Assign {class} Lv {level} to a cauldron before you leave"
+    values: { timelineKind: time-cap, timelineWhat: "unassigned cauldron" }
     why: A character assigned to no cauldron adds no brewing while you're away.
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts
@@ -27,6 +28,7 @@ entries:
     type: check
     title: Water at cap
     text: "Spend Water (bubbles, vials or the Liquid Shop): it's at cap ({current:int} of {max:int}) and your saves show it takes about {refill:duration} to refill, longer than your return"
+    values: { timelineKind: storage, timelineWhat: "Water" }
     why: A liquid stops regenerating at its cap. Yours refills slower than you'll be away, so leaving it full loses Water for the whole return.
     notes: "M3 Final rulings R-PILL-2 (owner, 2026-10-17): blocks only when the player's own save history shows Water refilling slower than the Expected Return. Without history it never blocks; alchemy.check.liquid-cap-line shows instead."
     sources:
@@ -49,6 +51,7 @@ entries:
     type: check
     title: Water at cap
     text: "Spend Water (bubbles, vials or the Liquid Shop): it's at cap ({current:int} of {max:int})"
+    values: { timelineKind: storage, timelineWhat: "Water" }
     why: A liquid stops regenerating at its cap. Spending some lets it refill while you're away; at most one bar's worth is lost, so it doesn't stop you logging off.
     notes: "M3 Final rulings R-PILL-2 (owner, 2026-10-17): the ordinary account line for Water at cap, never a blocker. The blocker alchemy.check.liquid-cap replaces it only when save history shows a refill slower than the return."
     sources:

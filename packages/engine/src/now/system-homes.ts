@@ -21,7 +21,12 @@ export const SYSTEM_HOMES: Readonly<Record<string, SystemHome>> = {
   'talent-resets': { tab: 'build' },
   cards: { tab: 'cards' },
   'star-signs': { tab: 'signs' },
+  // Phase 2: ActiveOn's own AFK concept lives on the Timeline (FR-31).
+  afk: { timeline: true },
 };
 
 /** The Character page tab a System's home is, or null for its System page. */
 export const tabHomeOf = (systemId: string): string | null => SYSTEM_HOMES[systemId]?.tab ?? null;
+
+/** Whether a System's home is the Timeline (FR-31: `afk` Next Actions link there). */
+export const timelineHome = (systemId: string): boolean => SYSTEM_HOMES[systemId]?.timeline === true;

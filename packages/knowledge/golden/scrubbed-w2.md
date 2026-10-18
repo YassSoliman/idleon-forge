@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #340a0a3d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 342
+# golden v1: scrubbed-w2 · knowledge #f256588d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 342
 
 ## Verdict changes
 
@@ -103,6 +103,27 @@ Later worlds: 3 Systems: Laboratory, Cooking, Breeding
 Needs you: Companions and pets (wasting), Minigames (wasting), Colosseum (wasting), Arcade (wasting), Talent presets (behind), Cards (behind), Stamps (behind), Alchemy bubbles (behind)
 Other gaps: Stamp cap raises that need farming or carry capacity
 Wasting: 4
+
+## Timeline
+Axis: now to +12h · Back in 8h 00m · 23:47
+C1 · Barbarian 60
+- dies on its map · now · before · blocker · outlined · fix afk.check.dies-fixable-by-food@c0
+- Anvil full · collect · now · before · pill · fix none
+C2 · Squire 43
+- anvil full · in 1h 22m · 17:08 · before · info · fix none
+C5 · Wizard 56
+- anvil full · in 5h 47m · 21:34 · before · info · fix none
+- health food runs out · can't tell when · untimed · blocker · fix none
+C4 · Bowman 54
+- anvil full · in 1h 49m · 17:35 · before · info · fix none
+C3 · Shaman 44
+- anvil full · in 1h 35m · 17:22 · before · info · fix none
+Account · Colosseum
+- Colosseum tickets lost · now · before · next-action · outlined · fix colosseum.check.collect-tickets@account
+Account · Alchemy cauldrons and liquids
+- Water full · now · before · next-action · fix none
+Account · Arcade
+- Arcade balls full · now · before · blocker · outlined · fix arcade.check.balls-cap@account
 
 ## Findings
 | entry | detector | subject | result | slots |

@@ -88,16 +88,17 @@ const places = () => screen.getByRole('navigation', { name: 'Places' });
 const go = (name: string | RegExp) => fireEvent.click(within(places()).getByRole('link', { name }));
 
 describe('US-1 the place navigation', () => {
-  it('lists Now, Characters and Systems (no Map, no Timeline), Now current, with word-named badges', async () => {
+  it('lists Now, Characters, Systems and Timeline (no Map), Now current, with word-named badges', async () => {
     const r = withSystems();
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const links = within(places()).getAllByRole('link');
-    expect(links.map((l) => l.textContent)).toEqual(['1Now', 'Characters', '1Systems']);
+    expect(links.map((l) => l.textContent)).toEqual(['1Now', 'Characters', '1Systems', 'Timeline']);
     expect(links[0]?.getAttribute('aria-current')).toBe('page');
     expect(links[0]?.getAttribute('aria-label')).toBe('Now, 1 to fix before you leave');
     expect(links[2]?.getAttribute('aria-label')).toBe('Systems, 1 wasting');
+    // FR-5: the Timeline carries no badge.
+    expect(links[3]?.getAttribute('aria-label')).toBeNull();
     expect(screen.queryByText('Map')).toBeNull();
-    expect(screen.queryByText('Timeline')).toBeNull();
     // TR-13: the skip link comes before the navigation.
     const skip = screen.getByRole('link', { name: 'Skip to content' });
     expect(skip.compareDocumentPosition(places()) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
