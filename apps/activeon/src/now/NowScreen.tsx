@@ -12,7 +12,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSuggestions } from '../suggestions/SuggestionsProvider';
 import { useNow } from '../use-now';
 import { AccountSection, IfYouHaveTime, NotCoveredYet } from './Account';
+import { BuildsOverview } from './BuildView';
 import { Banners, ExpectedReturnChips, ProgressBar, WhatsNewCard } from './Chrome';
+import { NOW_TAB, parseTabHash } from './character-tabs';
 import { type NowActions, NowActionsContext } from './context';
 import { Focus } from './Focus';
 import { AUTO_OPEN_MS, type FollowState, INITIAL_FOLLOW, onSave, onTap } from './follow';
@@ -50,13 +52,31 @@ export interface NowScreenProps {
 }
 
 const tz = (at: number) => -new Date(at).getTimezoneOffset();
-const readFocusParam = (): number | null => {
+const readTabHash = () => {
   try {
-    const v = new URLSearchParams(window.location.search).get('c');
-    return v !== null && /^\d+$/.test(v) ? Number(v) : null;
+    return parseTabHash(window.location.hash);
   } catch {
     return null;
   }
+};
+const readFocusParam = (): number | null => {
+  try {
+    const v = new URLSearchParams(window.location.search).get('c');
+    return v !== null && /^\d+$/.test(v) ? Number(v) : (readTabHash()?.index ?? null);
+  } catch {
+    return null;
+  }
+};
+/** Keeps the bare `#<tab>-<index>` anchor in step with the character page (character-tabs.ts). */
+const writeTabHash = (index: number | null, tab: string) => {
+  try {
+    const url = new URL(window.location.href);
+    const hash = index !== null && tab !== NOW_TAB ? `#${tab}-${index}` : '';
+    // Leave other anchors (`#builds`) alone.
+    if (url.hash === hash || (!hash && !parseTabHash(url.hash))) return;
+    url.hash = hash;
+    window.history.replaceState(null, '', url);
+  } catch {}
 };
 const writeFocusParam = (index: number | null, how: 'push' | 'replace') => {
   try {
@@ -95,6 +115,7 @@ export function NowScreen(props: NowScreenProps) {
   const names = useMemo(() => result.characters.map((c) => c.name), [result]);
 
   const [focus, setFocusState] = useState<number | null>(() => readFocusParam());
+  const [tab, setTab] = useState<string>(() => readTabHash()?.tab ?? NOW_TAB);
   const [expanded, setExpanded] = useState<ReadonlySet<string>>(new Set());
   const [follow, setFollow] = useState<FollowState>(INITIAL_FOLLOW);
   const [pendingFollow, setPendingFollow] = useState<{ index: number; text: string } | null>(null);
@@ -195,10 +216,18 @@ export function NowScreen(props: NowScreenProps) {
         if (c === null && prev !== null) focusRowAfterBack.current = prev;
         return c;
       });
+      setTab(readTabHash()?.tab ?? NOW_TAB);
     };
     window.addEventListener('popstate', onPop);
-    return () => window.removeEventListener('popstate', onPop);
+    window.addEventListener('hashchange', onPop);
+    return () => {
+      window.removeEventListener('popstate', onPop);
+      window.removeEventListener('hashchange', onPop);
+    };
   }, []);
+  // The character page's tab rides in the anchor; the Roster has no tab.
+  const pageTab = validFocus === null ? NOW_TAB : tab;
+  useEffect(() => writeTabHash(validFocus, pageTab), [validFocus, pageTab]);
   useEffect(() => {
     if (validFocus !== null && focusHeading.current) {
       focusHeading.current = false;
@@ -213,6 +242,17 @@ export function NowScreen(props: NowScreenProps) {
   const open = useCallback(
     (index: number) => {
       focusHeading.current = true;
+      // From the Roster a character opens on Now; switching characters keeps the tab.
+      if (validFocus === null) setTab(NOW_TAB);
+      setFollow((f) => onTap(f, index, live));
+      setFocus(index, 'push');
+    },
+    [live, setFocus, validFocus],
+  );
+  const openTab = useCallback(
+    (index: number, id: string) => {
+      focusHeading.current = true;
+      setTab(id);
       setFollow((f) => onTap(f, index, live));
       setFocus(index, 'push');
     },
@@ -220,6 +260,7 @@ export function NowScreen(props: NowScreenProps) {
   );
   const back = useCallback(() => {
     focusRowAfterBack.current = validFocus;
+    setTab(NOW_TAB);
     setFocus(null, 'push');
   }, [validFocus, setFocus]);
   useEffect(() => {
@@ -367,6 +408,7 @@ export function NowScreen(props: NowScreenProps) {
             })
         : null,
       open,
+      openTab,
       toggle: (id) =>
         setExpanded((prev) => {
           const next = new Set(prev);
@@ -376,7 +418,7 @@ export function NowScreen(props: NowScreenProps) {
         }),
       expanded,
     }),
-    [prefs, result, focusChar, names, open, expanded, suggestions],
+    [prefs, result, focusChar, names, open, openTab, expanded, suggestions],
   );
 
   const toSpend = () => {
@@ -414,6 +456,9 @@ export function NowScreen(props: NowScreenProps) {
             }
             onBack={back}
             onNext={onNext}
+            tab={pageTab}
+            onTab={setTab}
+            view={view}
             openConfusing={
               suggestions
                 ? () =>
@@ -437,15 +482,18 @@ export function NowScreen(props: NowScreenProps) {
             }
           />
         ) : (
-          <Roster
-            view={view}
-            onOpen={open}
-            onSpend={toSpend}
-            rowRef={(i, el) => {
-              if (el) rows.current.set(i, el);
-              else rows.current.delete(i);
-            }}
-          />
+          <>
+            <Roster
+              view={view}
+              onOpen={open}
+              onSpend={toSpend}
+              rowRef={(i, el) => {
+                if (el) rows.current.set(i, el);
+                else rows.current.delete(i);
+              }}
+            />
+            <BuildsOverview view={view} />
+          </>
         )}
       </div>
       <AccountSection ref={accountRef} view={view} />
