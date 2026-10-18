@@ -571,8 +571,7 @@ export function derive(input: DeriveInput, cardListOf: CardListOf = () => []): D
       (top.eta.kind === 'time' && top.eta.seconds <= input.expectedReturnHours * 3600) ||
       reached.some((x) => x.goalId === top.goalId);
     if (!soon || top.eta.kind !== 'time') return null;
-    if (top.etaFollowing?.kind !== 'time' || top.etaFollowing.seconds <= h * 3600)
-      return null;
+    if (top.etaFollowing?.kind !== 'time' || top.etaFollowing.seconds <= h * 3600) return null;
     // (b): nothing else with a horizon stays worthwhile (Goals with no horizon never run out, so they
     // don't keep a finite grind worth staying for; US-2).
     const others = goals.slice(1).filter((g) => {
