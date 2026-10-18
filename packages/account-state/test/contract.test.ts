@@ -70,6 +70,13 @@ const presetDigest = (p: PresetTalents | null) =>
     starSpent: p.star.reduce((n, x) => n + x.base, 0),
     attackBar: p.attackBar,
   };
+/**
+ * M14's printer, presets and rates are recorded one line each (or rounded): their values are checked in
+ * walkthrough.test.ts. M14 reads M8's holdings and quests, recorded with M8's maps below.
+ */
+const line = (v: unknown) => (v && typeof v === 'object' ? JSON.stringify(v) : v);
+const round = (v: Record<string, number> | null | undefined) =>
+  v ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, Math.round(x)])) : v;
 
 /** What the shape snapshot records: everything but names (and the pin's commit, which re-syncs move). */
 /**
@@ -102,6 +109,7 @@ const shapeOf = (state: AccountState) => ({
       state.account.storedObols?.map((o) => `${o.shape[0]}=${o.rawName}`).join(' ') ??
       state.account.storedObols,
     cardSets: state.account.cardSets?.map((s) => `${s.rawName} tier ${s.tier} (${s.points}/${s.size})`),
+    printer: line(state.account.printer),
   },
   characters: state.characters.map(({ name: _name, talents, ...c }) => ({
     ...compact(c as unknown as Record<string, unknown>, CHARACTER_MAPS),
@@ -112,6 +120,12 @@ const shapeOf = (state: AccountState) => ({
       active: presetDigest(talents.active),
       other: presetDigest(talents.other),
     },
+    skillEfficiency: round(c.skillEfficiency),
+    anvilSpeed: c.anvilSpeed == null ? c.anvilSpeed : Math.round(c.anvilSpeed),
+    talentPresets: c.talentPresets
+      ? `selected ${c.talentPresets.selected}: ${c.talentPresets.presets.map((p) => Object.keys(p.levels).length).join('/')} talents`
+      : c.talentPresets,
+    cardPresets: line(c.cardPresets),
   })),
   lastPlayedCharacterIndex: state.lastPlayedCharacterIndex,
   diagnostics: { ...state.diagnostics, parserPin: { gameVersion: state.diagnostics.parserPin.gameVersion } },

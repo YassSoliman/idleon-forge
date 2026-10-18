@@ -17,6 +17,7 @@
         "Bellows": {
           "steps": [
             {
+              "acquisition": "quests.acquisition.bellows1",
               "consumes": false,
               "custom": [
                 {
@@ -42,6 +43,7 @@
               "world": 3
             },
             {
+              "acquisition": "quests.acquisition.bellows2",
               "consumes": false,
               "custom": [
                 {
@@ -67,6 +69,7 @@
               "world": 3
             },
             {
+              "acquisition": "quests.acquisition.bellows3",
               "consumes": false,
               "custom": [
                 {
@@ -92,6 +95,7 @@
               "world": 3
             },
             {
+              "acquisition": "quests.acquisition.bellows4",
               "consumes": false,
               "custom": [],
               "inventorySpacesNeeded": 1,
@@ -106,13 +110,15 @@
                   "amount": 4,
                   "kind": "item",
                   "name": "Black Lense",
-                  "rawName": "SnowC4a"
+                  "rawName": "SnowC4a",
+                  "ref": "items.acquisition.snow-c4a"
                 },
                 {
                   "amount": 14000,
                   "kind": "item",
                   "name": "Contact Lense",
-                  "rawName": "SnowC4"
+                  "rawName": "SnowC4",
+                  "ref": "items.acquisition.snow-c4"
                 }
               ],
               "rewards": [
@@ -130,6 +136,7 @@
         "Djonnut": {
           "steps": [
             {
+              "acquisition": "quests.acquisition.djonnut1",
               "consumes": true,
               "custom": [],
               "inventorySpacesNeeded": 1,
@@ -144,19 +151,22 @@
                   "amount": 10,
                   "kind": "item",
                   "name": "Shrapshell",
-                  "rawName": "DesertC4"
+                  "rawName": "DesertC4",
+                  "ref": "items.acquisition.desert-c4"
                 },
                 {
                   "amount": 1,
                   "kind": "item",
                   "name": "Kebab Sticks",
-                  "rawName": "FoodHealth6"
+                  "rawName": "FoodHealth6",
+                  "ref": "items.acquisition.food-health6"
                 },
                 {
                   "amount": 1,
                   "kind": "item",
                   "name": "Meat Pie",
-                  "rawName": "FoodHealth7"
+                  "rawName": "FoodHealth7",
+                  "ref": "items.acquisition.food-health7"
                 }
               ],
               "rewards": [
@@ -169,6 +179,7 @@
               "world": 2
             },
             {
+              "acquisition": "quests.acquisition.djonnut2",
               "consumes": false,
               "custom": [
                 {
@@ -198,6 +209,7 @@
               "world": 2
             },
             {
+              "acquisition": "quests.acquisition.djonnut3",
               "consumes": true,
               "custom": [],
               "inventorySpacesNeeded": 2,
@@ -212,19 +224,22 @@
                   "amount": 2500,
                   "kind": "item",
                   "name": "Melty Cube",
-                  "rawName": "SnowA2"
+                  "rawName": "SnowA2",
+                  "ref": "items.acquisition.snow-a2"
                 },
                 {
                   "amount": 2500,
                   "kind": "item",
                   "name": "Sticky Stick",
-                  "rawName": "SnowB1"
+                  "rawName": "SnowB1",
+                  "ref": "items.acquisition.snow-b1"
                 },
                 {
                   "amount": 2500,
                   "kind": "item",
                   "name": "Mamooth Tusk",
-                  "rawName": "SnowB2"
+                  "rawName": "SnowB2",
+                  "ref": "items.acquisition.snow-b2"
                 }
               ],
               "rewards": [
@@ -246,6 +261,7 @@
         "Dog_Bone": {
           "steps": [
             {
+              "acquisition": "quests.acquisition.dog-bone1",
               "consumes": true,
               "custom": [],
               "inventorySpacesNeeded": 1,
@@ -260,7 +276,8 @@
                   "amount": 3,
                   "kind": "item",
                   "name": "Wood Board Bone",
-                  "rawName": "Quest12"
+                  "rawName": "Quest12",
+                  "ref": "items.acquisition.quest12"
                 }
               ],
               "rewards": [
@@ -273,6 +290,7 @@
               "world": 1
             },
             {
+              "acquisition": "quests.acquisition.dog-bone2",
               "consumes": false,
               "custom": [],
               "inventorySpacesNeeded": 2,
@@ -287,7 +305,8 @@
                   "amount": 25,
                   "kind": "item",
                   "name": "Amarok Slab",
-                  "rawName": "Quest17"
+                  "rawName": "Quest17",
+                  "ref": "items.acquisition.quest17"
                 }
               ],
               "rewards": [
@@ -309,6 +328,7 @@
         "Gobo": {
           "steps": [
             {
+              "acquisition": "quests.acquisition.gobo1",
               "consumes": false,
               "custom": [
                 {
@@ -338,6 +358,7 @@
               "world": 4
             },
             {
+              "acquisition": "quests.acquisition.gobo2",
               "consumes": false,
               "custom": [
                 {
@@ -367,6 +388,7 @@
               "world": 4
             },
             {
+              "acquisition": "quests.acquisition.gobo3",
               "consumes": false,
               "custom": [
                 {
@@ -404,6 +426,7 @@
               "world": 4
             },
             {
+              "acquisition": "quests.acquisition.gobo4",
               "consumes": false,
               "custom": [
                 {
@@ -441,6 +464,7 @@
               "world": 4
             },
             {
+              "acquisition": "quests.acquisition.gobo5",
               "consumes": false,
               "custom": [
                 {
@@ -479,6 +503,7 @@
         "Hoggindaz": {
           "steps": [
             {
+              "acquisition": "quests.acquisition.hoggindaz1",
               "consumes": false,
               "custom": [
                 {
@@ -508,6 +533,7 @@
               "world": 3
             },
             {
+              "acquisition": "quests.acquisition.hoggindaz2",
               "consumes": false,
               "custom": [
                 {
@@ -541,6 +567,7 @@
               "world": 3
             },
             {
+              "acquisition": "quests.acquisition.hoggindaz3",
               "consumes": false,
               "custom": [
                 {
@@ -578,6 +605,7 @@
               "world": 3
             },
             {
+              "acquisition": "quests.acquisition.hoggindaz4",
               "consumes": false,
               "custom": [
                 {
@@ -611,6 +639,7 @@
               "world": 3
             },
             {
+              "acquisition": "quests.acquisition.hoggindaz5",
               "consumes": false,
               "custom": [
                 {
@@ -640,6 +669,7 @@
               "world": 3
             },
             {
+              "acquisition": "quests.acquisition.hoggindaz6",
               "consumes": true,
               "custom": [],
               "inventorySpacesNeeded": 1,
@@ -654,7 +684,8 @@
                   "amount": 1,
                   "kind": "item",
                   "name": "Shuvelle's Vote",
-                  "rawName": "Quest59"
+                  "rawName": "Quest59",
+                  "ref": "items.acquisition.quest59"
                 }
               ],
               "rewards": [
@@ -667,6 +698,7 @@
               "world": 3
             },
             {
+              "acquisition": "quests.acquisition.hoggindaz7",
               "consumes": true,
               "custom": [],
               "inventorySpacesNeeded": 1,
@@ -681,7 +713,8 @@
                   "amount": 1,
                   "kind": "item",
                   "name": "Yondergreens Vote",
-                  "rawName": "Quest60"
+                  "rawName": "Quest60",
+                  "ref": "items.acquisition.quest60"
                 }
               ],
               "rewards": [
@@ -694,6 +727,7 @@
               "world": 3
             },
             {
+              "acquisition": "quests.acquisition.hoggindaz8",
               "consumes": true,
               "custom": [],
               "inventorySpacesNeeded": 1,
@@ -708,7 +742,8 @@
                   "amount": 1,
                   "kind": "item",
                   "name": "Bill Brr's Vote",
-                  "rawName": "Quest61"
+                  "rawName": "Quest61",
+                  "ref": "items.acquisition.quest61"
                 }
               ],
               "rewards": [
@@ -721,6 +756,7 @@
               "world": 3
             },
             {
+              "acquisition": "quests.acquisition.hoggindaz9",
               "consumes": false,
               "custom": [
                 {
@@ -754,6 +790,7 @@
               "world": 3
             },
             {
+              "acquisition": "quests.acquisition.hoggindaz10",
               "consumes": true,
               "custom": [],
               "inventorySpacesNeeded": 1,
@@ -788,7 +825,8 @@
                   },
                   "kind": "item",
                   "name": "Tundra NPC Completion Token",
-                  "rawName": "BadgeI1"
+                  "rawName": "BadgeI1",
+                  "ref": "items.acquisition.badge-i1"
                 },
                 {
                   "amount": 1,
@@ -814,7 +852,8 @@
                   },
                   "kind": "item",
                   "name": "Tundra Skills Completion Token",
-                  "rawName": "BadgeI2"
+                  "rawName": "BadgeI2",
+                  "ref": "items.acquisition.badge-i2"
                 },
                 {
                   "amount": 1,
@@ -845,7 +884,8 @@
                   },
                   "kind": "item",
                   "name": "Tundra Misc Completion Token",
-                  "rawName": "BadgeI3"
+                  "rawName": "BadgeI3",
+                  "ref": "items.acquisition.badge-i3"
                 }
               ],
               "rewards": [

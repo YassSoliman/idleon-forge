@@ -1,4 +1,4 @@
-# golden v1: speedrun-rank1 · knowledge #e6ac3564 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 8 of 242
+# golden v1: speedrun-rank1 · knowledge #9a82f64c · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 8 of 328
 
 ## Verdict changes
 
@@ -58,7 +58,6 @@ Statues
 The Owl
 Alchemy Pay 2 Win
 Islands
-3D Printer
 Atom Collider
 Construction
 Equinox

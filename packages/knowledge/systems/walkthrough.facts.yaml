@@ -1,0 +1,31 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Authored tier-2 preset-fit facts for M14's preset steps (owner amendment R-Q9a item 4). Until M8's card
+# preset rule (#80, TR-9) and M9's Build tags (#77, TR-6) merge, the Walkthrough decides with these two
+# small tables: a talent preset is a skilling preset when it holds at least `skillingAt` points in the
+# skilling talents; a card preset fits an activity when at least half its cards' effects name it.
+# TODO(M8, M9): replace with M8's presetFits and M9's classifyPreset once both are on main.
+system: walkthrough
+facts:
+  - id: walkthrough.fact.preset-fit
+    system: walkthrough
+    origin: authored
+    title: Talent and card preset fit by activity
+    rows:
+      talents:
+        skillingAt: 50
+        skilling: [BRUTE_EFFICIENCY, ELUSIVE_EFFICIENCY, SMART_EFFICIENCY, IDLE_SKILLING, BIG_PICK, LOG_ON_LOGS, WORMING_UNDERCOVER]
+      cards:
+        both: [Drop_Rate]
+        skilling: [Skill, AFK_gain]
+        FIGHTING: [Damage, accuracy, STR, AGI, WIS, LUK, Crit, Weapon_Power, Defence, HP, EXP_from_monsters, Kill]
+        MINING: [Mining]
+        CHOPPIN: [Choppin]
+        FISHING: [Fishing]
+        CATCHING: [Catching]
+    sources:
+      - url: https://idleon.wiki/wiki/Cards
+        title: "IdleOn Wiki: Cards (card effects by skill)"
+        tier: 2
+        claimDate: 2026-10-12
+        verified: 2026-10-17
+        gameVersion: 2.3.540

@@ -7,6 +7,7 @@ import type { ControlsView, GoalView, NextActionView, SourceView } from '@idleon
 import { useId, useState } from 'react';
 import { useNowActions } from './context';
 import { PUBLIC_NOTICE } from './report';
+import { Walkthrough } from './walkthrough/Walkthrough';
 
 export function ExternalLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
@@ -177,11 +178,13 @@ export function NextActionItem({
   action,
   milestone,
   details = [],
+  walkthrough = null,
   first,
 }: {
   action: NextActionView;
   milestone?: string | null;
   details?: GoalView['details'];
+  walkthrough?: GoalView['walkthrough'];
   first?: boolean;
 }) {
   return (
@@ -191,6 +194,7 @@ export function NextActionItem({
       {milestone ? <p className="small muted">{milestone}</p> : null}
       <p className="why small">Why: {action.why}</p>
       <GoalDetails details={details} />
+      {walkthrough ? <Walkthrough view={walkthrough} /> : null}
       <div className="na-meta">
         <SourceLabel source={action.source} />
         {action.contested ? <ContestedBadge contested={action.contested} /> : null}
@@ -238,6 +242,7 @@ export function GoalList({
               action={g.action}
               milestone={g.milestone}
               details={g.details}
+              walkthrough={g.walkthrough}
               first={highlightFirst && n === 0}
             />
           </li>

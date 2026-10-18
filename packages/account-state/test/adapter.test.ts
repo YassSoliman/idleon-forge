@@ -74,13 +74,38 @@ const MODULE_CHARACTER_KEYS = [
   'cardLoadout',
   'personalObols',
 ];
+/** M14 TR-2's fields, covered by test/walkthrough.test.ts. */
+const M14_ACCOUNT_KEYS = [
+  'anvilTabsOwned',
+  'forgeOutput',
+  'storageItems',
+  'refineryStorage',
+  'printer',
+  'supplyRates',
+];
+const M14_CHARACTER_KEYS = [
+  'quests',
+  'inventoryItems',
+  'smithingLevel',
+  'targetMonster',
+  'mapIndex',
+  'skillLevels',
+  'skillEfficiency',
+  'anvilSpeed',
+  'talentPresets',
+  'cardPresets',
+];
 /** Slice 1's account fields only (M6's block is tested in unspent.test.ts, M8's in collections.test.ts). */
 const withoutUnspent = (a: object) =>
   Object.fromEntries(
-    Object.entries(a).filter(([k]) => !(UNSPENT_ACCOUNT_KEYS as readonly string[]).includes(k)),
+    Object.entries(a).filter(
+      ([k]) => !(UNSPENT_ACCOUNT_KEYS as readonly string[]).includes(k) && !M14_ACCOUNT_KEYS.includes(k),
+    ),
   );
 const withoutUnspentCharacter = (c: object) =>
-  Object.fromEntries(Object.entries(c).filter(([k]) => !MODULE_CHARACTER_KEYS.includes(k)));
+  Object.fromEntries(
+    Object.entries(c).filter(([k]) => !MODULE_CHARACTER_KEYS.includes(k) && !M14_CHARACTER_KEYS.includes(k)),
+  );
 
 const parsed = (over: Partial<ParsedSave> = {}): ParsedSave => ({
   account: {

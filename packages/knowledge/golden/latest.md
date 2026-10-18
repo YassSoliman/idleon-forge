@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #e6ac3564 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 8 of 242
+# golden v1: latest · knowledge #9a82f64c · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 8 of 328
 
 ## Verdict changes
 
@@ -60,7 +60,6 @@ Statues
 The Owl
 Alchemy Pay 2 Win
 Islands
-3D Printer
 Atom Collider
 Construction
 Equinox

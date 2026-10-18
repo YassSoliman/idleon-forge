@@ -1,0 +1,22 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Authored tier-2 skilling node facts (M14 TR-4 `skills.fact.nodes`): Toolbox has no table of which fish
+# a fishing pool holds by depth, so the fish a Walkthrough can need are listed here from the wiki. Mining,
+# Choppin and Catching nodes are generated (items.acquisition.* `node`), because Toolbox's monster data
+# names the resource. One row per item: the AFK type, the maps of the pool, the pool's AFK target and the
+# minimum skill efficiency for the item's depth.
+system: skills
+facts:
+  - id: skills.fact.nodes
+    system: skills
+    origin: authored
+    title: Fishing pools by fish (depth and minimum efficiency)
+    rows:
+      - { item: Fish2, skill: FISHING, maps: [54, 55], target: FishSmall, minEfficiency: 50 }
+    sources:
+      - url: https://idleon.wiki/wiki/Fishing
+        title: "IdleOn Wiki: Fishing (Hermit Can: small pools at Salty Shores and Faraway Piers, efficiency 50)"
+        tier: 2
+        claimDate: 2026-10-03
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    notes: Add a row when a new Walkthrough target needs another fish (verify it on the wiki's Fishing page first).

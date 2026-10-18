@@ -187,6 +187,7 @@ function goalView(g: Goal): GoalView {
     action: actionView(g.nextAction, g.title, g.category, { skip: true, notForMe: !blocker, report: true }),
     milestone: milestoneText(g.milestone),
     details: (g.details ?? []).map((d) => ({ key: `${g.id}#${d.subject}`, text: d.text })),
+    walkthrough: g.walkthrough ?? null,
   };
 }
 
@@ -769,6 +770,7 @@ function spendPlanView(
         },
         milestone: null,
         details: [],
+        walkthrough: null,
       }
     : null;
   return {

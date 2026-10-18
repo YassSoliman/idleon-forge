@@ -54,7 +54,12 @@ export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(functio
           <ul className="goals blockers">
             {acc.blockers.map((g) => (
               <li key={g.action.key}>
-                <NextActionItem action={g.action} milestone={g.milestone} details={g.details} />
+                <NextActionItem
+                  action={g.action}
+                  milestone={g.milestone}
+                  details={g.details}
+                  walkthrough={g.walkthrough}
+                />
               </li>
             ))}
           </ul>

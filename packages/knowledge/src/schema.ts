@@ -137,6 +137,8 @@ export const GoalEntry = Base.extend({
   extends: EntryId.optional(),
   milestones: z.array(Milestone).min(1).optional(),
   activePlay: ActivePlay.optional(), // makes it an Active Play suggestion; never affects a Verdict
+  /** M14 FR-1: the target Acquisition (a quest or a craftable item) this Goal's Walkthrough expands. */
+  walkthrough: EntryId.optional(),
 });
 
 export const ContributionEntry = Base.extend({
@@ -197,6 +199,8 @@ export const CheckEntry = Base.extend({
       change: z.enum(['lower', 'higher', 'changed']).optional(),
     })
     .optional(),
+  /** M14 FR-1: the target Acquisition (a quest or a craftable item) this Check's Walkthrough expands. */
+  walkthrough: EntryId.optional(),
   /** Derived at compile time: true exactly for effect 'blocker'. YAML may state it only as an assertion, which CI checks (M6 R9). */
   affectsVerdict: z.boolean().optional(),
 });
@@ -293,11 +297,29 @@ export const BuildEntry = Base.extend({
   onePointOk: z.array(RawName).default([]),
 });
 
-const Requirement = z.union([EntryId, z.strictObject({ text: Template })]);
+/** M14 TR-4: a generated requirement may carry a quantity (`{ ref, amount }`). */
+const Requirement = z.union([
+  EntryId,
+  z.strictObject({ text: Template }),
+  z.strictObject({ ref: EntryId, amount: z.number().positive() }),
+]);
+/** M14 TR-4: how an Acquisition method gets the thing. */
+export const ACQUISITION_KINDS = [
+  'drop',
+  'skill-node',
+  'anvil',
+  'forge',
+  'shop',
+  'liquid-shop',
+  'printer',
+  'recipe',
+  'quest',
+  'active-play',
+] as const;
 export const AcquisitionEntry = Base.extend({
   type: z.literal('acquisition'),
   thing: z.strictObject({
-    kind: z.enum(['obol', 'stamp', 'card', 'item', 'talent', 'class', 'building', 'other']),
+    kind: z.enum(['obol', 'stamp', 'card', 'item', 'talent', 'class', 'building', 'quest', 'other']),
     rawName: RawName,
   }),
   extends: EntryId.optional(), // inherit generated requirements and rates
@@ -309,6 +331,7 @@ export const AcquisitionEntry = Base.extend({
           .strictObject({ map: RawName.optional(), monster: RawName.optional(), npc: RawName.optional() })
           .optional(),
         requires: z.array(Requirement).default([]),
+        kind: z.enum(ACQUISITION_KINDS).optional(),
       }),
     )
     .min(1)

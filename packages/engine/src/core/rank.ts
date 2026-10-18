@@ -19,7 +19,7 @@ export interface TaggedGoal {
 
 export function rankableOf({ goal, rank }: TaggedGoal): Rankable {
   return {
-    entryId: goal.nextAction.entryId,
+    entryId: rank?.rankAs ?? goal.nextAction.entryId,
     category: goal.category,
     stale: goal.nextAction.stale,
     contested: goal.nextAction.contested !== null,

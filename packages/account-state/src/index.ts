@@ -84,6 +84,16 @@ export type {
   VaultState,
   Wallet,
 } from './spend-types';
+// M14 Walkthroughs & Parallel Slot Plans (M14 TR-2, TR-3)
+export {
+  computeSupplyRates,
+  type MapGraphRow,
+  reachableMaps,
+  SUPPLY_MAPS_PER_LEAF,
+  type SupplyInput,
+  type SupplyLeaf,
+  withSupplyRates,
+} from './supply';
 export type {
   CharacterTalents,
   PresetTalents,
@@ -142,3 +152,15 @@ export type {
   UnspentAccountFields,
   UnspentCharacterFields,
 } from './unspent-types';
+export { PRINTER, WALKTHROUGH_SKILLS } from './walkthrough';
+export type {
+  CardPresets,
+  PrinterCharacter,
+  PrinterSample,
+  PrinterState,
+  SupplyRate,
+  SupplyRates,
+  TalentPresets,
+  WalkthroughAccountFields,
+  WalkthroughCharacterFields,
+} from './walkthrough-types';

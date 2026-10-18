@@ -7,11 +7,14 @@ import { getCardSets } from '../vendor/parsers/cards';
 import { getAfkGain, getDropRate, getPlayerFoodBonus } from '../vendor/parsers/character';
 import { getMaxDamage } from '../vendor/parsers/damage';
 import { getMaxClaimTime } from '../vendor/parsers/dungeons';
+import { getSkillEfficiency } from '../vendor/parsers/efficiency';
 import { getItemCapacity } from '../vendor/parsers/misc';
 import { getPlayerAnvil, getTimeTillCap } from '../vendor/parsers/world-1/anvil';
 import { getPrayerBonusAndCurse } from '../vendor/parsers/world-3/prayers';
+import { getPrinterMulti } from '../vendor/parsers/world-3/printer';
 import { getSaltMatsTimeLeft } from '../vendor/parsers/world-3/refinery';
 import { frontierRates, onMap } from './frontier-rates';
+import { itemDisplayName } from './item-names';
 import { shopStockAll } from './shop-stock';
 import { stampEvaluations, vaultLadders } from './spend';
 
@@ -41,4 +44,11 @@ export const toolboxCalls = {
   // M7 Spend Plan (TR-4): Vault cost ladders and the stamp re-evaluation. Anvil coin points use getPlayerAnvil.
   vaultLadders,
   stampEvaluations,
+  // M14 Walkthroughs & Parallel Slot Plans (TR-2).
+  /** A skill's efficiency as the character is equipped (`playerInfo`: getMaxDamage's result). */
+  getSkillEfficiency,
+  /** The printer multi (Gold Relic days, Skill Mastery, ...); M14 calls it twice, live and with the day counters at 0 (FR-27a). */
+  getPrinterMulti,
+  /** An item's Toolbox display name ("Forest_Fibres"), or null. */
+  itemDisplayName,
 };

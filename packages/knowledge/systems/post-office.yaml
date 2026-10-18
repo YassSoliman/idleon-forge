@@ -16,6 +16,7 @@ entries:
     text: "Finish Postboy Pablob's quest: 5 Empty Boxes from Anvil Tab 2"
     why: "The Post Office starts earning boxes only after this quest. Boxes already waiting on this character: {boxes:int}."
     doneWhen: { field: "account.postOffice.unlocked", becomes: true }
+    walkthrough: quests.acquisition.postboy-pablob1
     appliesTo: { stages: all }
     confidence: H
     status: active
