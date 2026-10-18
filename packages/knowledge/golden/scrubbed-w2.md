@@ -217,7 +217,7 @@ Not built yet (M21 area C: the Build path).
   - Jungle Perimeter (cleared): C3 Shaman 44
 - World 2 · Yum-Yum Desert [open] · 10 of 10 doors open
   - gate Efaunt (open, next): Glacier Quartz: 0 of 1 held; No one earns these keys yet
-  - Djonnuttown (locked): C5 Wizard 56
+  - Djonnuttown (reached): C5 Wizard 56
 - World 3 · Frostbite Tundra [next] · Opens with the Glacier Quartz
 - Frontier: none
 - Overlay Route: 10 maps · Every door on the route is open; Efaunt's gate comes next

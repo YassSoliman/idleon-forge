@@ -273,7 +273,8 @@ describe('§8 states and edge cases', () => {
 
 describe('facts', () => {
   it("V-3: every character's door kills follow maps.fact.maps door order, on every public save", () => {
-    const maps = (ctx.kb.facts[MAP_FACT.maps] as unknown as { rows: { index: number; doors: unknown[] }[] }).rows;
+    const maps = (ctx.kb.facts[MAP_FACT.maps] as unknown as { rows: { index: number; doors: unknown[] }[] })
+      .rows;
     const doors = new Map(maps.map((m) => [m.index, m.doors.length]));
     let checked = 0;
     for (const f of fixtures) {
@@ -286,7 +287,7 @@ describe('facts', () => {
         }
     }
     expect(checked).toBeGreaterThan(1000);
-  });
+  }, 120_000);
 
   it('the boss gates mirror equals map.fact.boss-gates (map.facts.yaml, with its wiki Sources)', () => {
     const src = loadSource();
@@ -294,7 +295,8 @@ describe('facts', () => {
     expect(fact?.rows).toEqual(BOSS_GATES);
     expect(fact?.sources.every((s) => s.tier === 2 && s.url.startsWith('https://idleon.wiki/'))).toBe(true);
     // Each boss arena is a real map of its world.
-    const maps = (ctx.kb.facts[MAP_FACT.maps] as unknown as { rows: { index: number; world: number }[] }).rows;
+    const maps = (ctx.kb.facts[MAP_FACT.maps] as unknown as { rows: { index: number; world: number }[] })
+      .rows;
     for (const g of BOSS_GATES) expect(maps.find((m) => m.index === g.bossMap)?.world).toBe(g.world);
   });
 

@@ -244,7 +244,7 @@ Not built yet (M21 area C: the Build path).
   - Signature Slopes (cleared): C3 Bubonic Conjuror 567, C2 Divine Knight 544, C6 Siege Breaker 530, C1 Beast Master 507, C9 Hunter 503, C5 Wizard 501, C10 Barbarian 501, C8 Elemental Sorcerer 525
 - World 4 · Hyperion Nebula [done] · 3 of 3 doors open
   - gate Massive Troll (done)
-  - The Rift (locked): C4 Blood Berserker 501
+  - The Rift (reached): C4 Blood Berserker 501
 - Worlds 5+ · Not covered yet
 - Frontier: none
 - Overlay Route: 0 maps · Nothing to ring on this overlay yet

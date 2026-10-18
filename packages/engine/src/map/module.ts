@@ -243,7 +243,7 @@ export function buildMap(state: AccountState, kb: Kb): MapResult | null {
   for (const mapIndex of shown) {
     const m = byIndex.get(mapIndex);
     // A skilling map's door needs a skill level, not kills: only fighting maps carry door kills.
-    if (!m || m.afkType !== 'FIGHTING') continue;
+    if (m?.afkType !== 'FIGHTING') continue;
     const rows: MapResult['doors'][number] = [];
     m.doors.forEach((d, door) => {
       if (d.destination === null || d.requirement <= 0) return;

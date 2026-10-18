@@ -211,7 +211,8 @@ export function buildMapView(
     if (!doorsKnown) return 'unknown';
     const rowsHere = map.doors[mapIndex] ?? [];
     if (rowsHere.some((r) => r.door === 0 && r.done >= r.requirement)) return 'cleared';
-    if (rowsHere.length) return 'reached';
+    // Someone standing here has reached it, even with no kills on its door yet.
+    if (rowsHere.length || here.has(mapIndex)) return 'reached';
     return 'locked';
   };
 
