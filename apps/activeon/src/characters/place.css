@@ -1,0 +1,255 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* The Characters place (M21 FR-C6, FR-C7; Design Lab character.overview "Health matrix" with the class
+   tree block), in Field Guide tokens. A lazy chunk's stylesheet. */
+.characters-place {
+  display: grid;
+  gap: var(--space-4);
+}
+.characters-place .cp-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+}
+.characters-place .cp-muted {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.characters-place .cp-block {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.characters-place .cp-h {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: var(--text-lg);
+  line-height: var(--lh-tight);
+}
+.characters-place .cp-name {
+  font-weight: var(--weight-semibold);
+  overflow-wrap: anywhere;
+}
+
+/* ---- the health matrix ---- */
+.characters-place .cp-matrix-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.characters-place .cp-matrix {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 2px;
+  table-layout: fixed;
+}
+.characters-place .cp-matrix thead th {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--muted);
+  text-align: center;
+  padding: var(--space-1) 0;
+}
+.characters-place .cp-matrix thead th:first-child {
+  width: 34%;
+}
+.characters-place .cp-who {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--tap-min);
+  color: var(--fg);
+  text-decoration: none;
+  text-align: left;
+  font-weight: var(--weight-regular);
+}
+.characters-place .cp-who-t {
+  display: grid;
+  min-width: 0;
+  font-size: var(--text-sm);
+  line-height: var(--lh-snug);
+}
+.characters-place .cp-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: var(--tap-min);
+  height: 100%;
+  padding: var(--space-1) 2px;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  color: var(--fg);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.characters-place .cp-cell[data-level="fix"] {
+  background: var(--bad-soft);
+  color: var(--bad);
+  border-color: var(--bad);
+}
+.characters-place .cp-cell[data-level="behind"] {
+  background: var(--warn-soft);
+  color: var(--warn);
+  border-color: var(--warn);
+}
+.characters-place .cp-cell[data-level="empty"] {
+  border-style: dashed;
+  border-color: var(--line-strong);
+}
+.characters-place .cp-cell[data-level="unknown"] {
+  background: var(--unk-soft);
+  color: var(--unk);
+}
+.characters-place .cp-cell[data-level="ok"] {
+  font-weight: var(--weight-regular);
+}
+.characters-place .cp-cell[data-ring="yes"] {
+  box-shadow: 0 0 0 3px var(--accent);
+  z-index: 1;
+}
+.characters-place .cp-ring-tag {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--on-accent);
+  background: var(--accent);
+  border-radius: var(--radius-chip);
+  padding: 0 var(--space-1);
+}
+.characters-place .cp-cell:focus-visible,
+.characters-place .cp-who:focus-visible,
+.characters-place .cp-bo-row:focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+.characters-place .cp-hint {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+/* ---- the next character: a ghost slot at the end of the roster ---- */
+.characters-place .cp-next {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3);
+  border: 2px dashed var(--line-strong);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+.characters-place .cp-next[data-open="yes"] {
+  border-style: solid;
+  border-color: var(--accent);
+}
+/* "Not yet": the chibi drawn in the muted ramp until the slot opens. */
+.characters-place .cp-next[data-open="no"] .cp-next-glyph {
+  filter: grayscale(1);
+}
+.characters-place .cp-next-body {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.characters-place .cp-next-h {
+  margin: 0;
+  font-size: var(--text-md);
+}
+.characters-place .cp-next-when,
+.characters-place .cp-next-why {
+  margin: 0;
+}
+.characters-place .cp-next-why {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.characters-place .cp-next-steps {
+  margin: var(--space-1) 0 0;
+  padding-left: var(--space-5);
+  font-size: var(--text-sm);
+}
+
+/* ---- the class tree block ---- */
+.characters-place .cp-tree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--space-2);
+}
+.characters-place .cp-tree-col {
+  display: grid;
+  gap: var(--space-1);
+  align-content: start;
+  padding: var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+}
+.characters-place .cp-tree-h {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-weight: var(--weight-semibold);
+}
+.characters-place .cp-tree-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--text-sm);
+}
+
+/* ---- the Builds overview ---- */
+.characters-place .cp-fold > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-height: var(--tap-min);
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+}
+.characters-place .cp-fold > summary::-webkit-details-marker {
+  display: none;
+}
+.characters-place .cp-fold > summary:focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+.characters-place .cp-bo-list {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-1);
+}
+.characters-place .cp-bo-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--space-2);
+  min-height: var(--tap-min);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--fg);
+  text-decoration: none;
+}
+.characters-place .cp-bo-line {
+  flex-basis: 100%;
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}

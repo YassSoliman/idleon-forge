@@ -166,19 +166,18 @@ describe('Build view', () => {
     expect(within(nav).getByRole('link', { current: 'page' }).textContent).toBe('Build');
     expect(screen.getByText('118+ unspent on the skilling preset · next: Book of the Wise')).toBeTruthy();
     expect(screen.getByText('Elite class: Bubonic Conjuror at Eliteus')).toBeTruthy();
-    // Both presets, tabbed on a phone: the active one is selected first.
-    const tabs = screen.getByRole('tablist', { name: 'Talent presets' });
+    // Both presets, a segmented choice on a phone (M21 FR-C3): the active one is selected first.
+    const presets = screen.getByRole('group', { name: 'Talent presets' });
     expect(
-      within(tabs)
-        .getAllByRole('tab')
-        .map((t) => t.getAttribute('aria-selected')),
-    ).toEqual(['true', 'false']);
-    fireEvent.click(within(tabs).getByRole('tab', { name: 'Skilling preset' }));
-    expect(screen.getByText('At least 118 points unspent')).toBeTruthy();
+      within(presets)
+        .getAllByRole('radio')
+        .map((t) => (t as HTMLInputElement).checked),
+    ).toEqual([true, false]);
+    fireEvent.click(within(presets).getByRole('radio', { name: 'Skilling preset' }));
+    // One step, then the rest (FR-C4), above the game-tab grid (FR-C3) with its tiles as buttons.
     expect(screen.getByText('Put the next 84 points into Book of the Wise (to 100)')).toBeTruthy();
-    // Talent rows: current / target with a progress bar, inside their own scroll box.
-    const bar = screen.getAllByRole('progressbar', { name: 'Book of the Wise: 16 of 100' })[0];
-    expect(bar?.closest('.bv-scroll')).toBeTruthy();
+    const grid = screen.getByRole('list', { name: 'Talent tabs' });
+    expect(within(grid).getByRole('button', { name: /Savvy Basics/ })).toBeTruthy();
     expect(screen.getByText(/Low-confidence build/)).toBeTruthy();
     expect(screen.getByRole('link', { name: 'IdleOn Wiki: Shaman' })).toBeTruthy();
     await noAxeViolations(container);
@@ -252,30 +251,40 @@ describe('Build view', () => {
     fireEvent.click(screen.getByRole('link', { name: 'Birch: build' }));
     const text = document.body.textContent ?? '';
     expect(text).not.toMatch(/No points waiting/);
-    // No known points: the marker leads and every unmet step is "next after these" with its total.
-    expect(
-      screen.getByText('No unspent points known from your last save: the totals show where new points go'),
-    ).toBeTruthy();
-    const fighting = document.getElementById('bv-1-p0-panel') as HTMLElement;
-    const rows = [...fighting.querySelectorAll('.bv-ps')].map((li) => li.textContent);
-    expect(rows).toEqual([
-      'Gilded Sword100done',
-      'Idle Shooting50 → 100+50next after these',
-      'Mana Booster0 → 100+150next after these',
-    ]);
-    // Known points: can add now, part now, then the marker, then next and later.
-    const skilling = document.getElementById('bv-1-p1-panel') as HTMLElement;
+    expect(text).not.toMatch(/can't/i);
+    // The preset with known points leads (FR-C3 "Start here"): can add now, part now, the marker,
+    // then next and later. Each row says its band in words (TR-17) beside its glyph and colour.
+    const skillingPath = () => document.getElementById('bv-1-p1-t1') as HTMLElement;
+    const skilling = skillingPath();
     expect(
       within(skilling).getByText('As of your last save: at least 70 points waiting · they end here'),
     ).toBeTruthy();
-    const bands = [...skilling.querySelectorAll('.bv-ps')].map((li) =>
-      li.className.replace('bv-ps bv-ps--', ''),
-    );
+    const bands = [...skilling.querySelectorAll('.bv-ps')].map((li) => li.getAttribute('data-band'));
     expect(bands).toEqual(['now', 'part', 'next', 'later']);
-    expect(skilling.textContent).toContain('+20 of 100 now · +150');
-    const marker = skilling.querySelector('.bv-ps-marker');
+    expect(skilling.textContent).toContain('+20 of 100 now');
+    expect(skilling.textContent).toContain('+150 → Mana Booster');
+    expect(skilling.textContent).toContain('next after these');
+    const marker = skilling.querySelector('.bv-marker');
     expect(marker?.previousElementSibling?.textContent).toContain('Mana Booster');
     expect(marker?.nextElementSibling?.textContent).toContain('Health Booster');
+    // No known points (the fighting preset): the marker leads and every unmet step is "next after
+    // these" with its running total.
+    fireEvent.click(screen.getByRole('radio', { name: 'Fighting preset' }));
+    expect(
+      screen.getByText('No unspent points known from your last save: the totals show where new points go'),
+    ).toBeTruthy();
+    const fighting = document.getElementById('bv-1-p0-t1') as HTMLElement;
+    const rows = [...fighting.querySelectorAll('.bv-ps')].map((li) => [
+      li.getAttribute('data-band'),
+      li.querySelector('.bv-ps-name')?.textContent,
+      li.querySelector('.bv-ps-total')?.textContent ?? null,
+    ]);
+    expect(rows).toEqual([
+      ['done', 'Gilded Sword', null],
+      ['next', 'Idle Shooting', '+50 → Idle Shooting'],
+      ['next', 'Mana Booster', '+150 → Mana Booster'],
+    ]);
+    expect(fighting.querySelector('.bv-marker')?.nextElementSibling?.textContent).toContain('Gilded Sword');
     await noAxeViolations(container);
   });
 
@@ -318,7 +327,7 @@ describe('Build view', () => {
     const overview = screen.getByRole('region', { name: 'Builds' });
     const fold = overview.querySelector('details');
     expect(fold?.open).toBe(false);
-    expect(overview.querySelector('summary')?.textContent).toBe('Builds1 with unspent points›');
+    expect(overview.querySelector('summary')?.textContent).toBe('Builds1 with unspent points');
     // The Account is on Now, never under the optional overviews.
     expect(screen.queryByRole('region', { name: 'Account' })).toBeNull();
     act(() => {

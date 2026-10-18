@@ -18,7 +18,6 @@ const SRC = fileURLToPath(new URL('../src', import.meta.url));
 
 /** Today's violations per file (Phase F, 2026-10-18). Lower a number when you fix one; never raise one. */
 const BASELINE: Record<string, number> = {
-  'characters/characters.css': 3, // C
   'gear/gear.css': 1, // C
 };
 
