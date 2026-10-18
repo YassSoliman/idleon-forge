@@ -1,0 +1,1129 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* Our pixel art (M21 FR-F3, TR-4): ramps, world tints, cauldron colours and stepped frames. The colour
+   tokens (tier ramps, materials, --px-*, --w1..7, --cauldron-*) live in design/tokens.css. No inline
+   style reaches the DOM: every fill is a `.pxs-<slot>` class, generated at the end of this file. */
+
+.px-art {
+  display: inline-block;
+  flex: none;
+  vertical-align: middle;
+  overflow: visible;
+  shape-rendering: crispEdges;
+  image-rendering: pixelated;
+}
+
+/* Recolour ramps: a 4-step pixel ramp (outline, shadow, base, highlight). They set the Lab's --px-*
+   slots and the flows / cards groups' local ramp slots (--p1..4, --r1..4). Two classes, so a ramp
+   wins over a motif's own default slot map (one class). */
+.px-art.px-ramp-blob {
+  --px-outline: var(--mat-blob-1);
+  --px-shadow: var(--mat-blob-2);
+  --px-base: var(--mat-blob-3);
+  --px-hi: var(--mat-blob-4);
+}
+.px-art.px-ramp-bronze {
+  --px-outline: var(--tier-bronze-1);
+  --px-shadow: var(--tier-bronze-2);
+  --px-base: var(--tier-bronze-3);
+  --px-hi: var(--tier-bronze-4);
+}
+.px-art.px-ramp-silver {
+  --px-outline: var(--tier-silver-1);
+  --px-shadow: var(--tier-silver-2);
+  --px-base: var(--tier-silver-3);
+  --px-hi: var(--tier-silver-4);
+}
+.px-art.px-ramp-gold {
+  --px-outline: var(--tier-gold-1);
+  --px-shadow: var(--tier-gold-2);
+  --px-base: var(--tier-gold-3);
+  --px-hi: var(--tier-gold-4);
+}
+.px-art.px-ramp-plat {
+  --px-outline: var(--tier-plat-1);
+  --px-shadow: var(--tier-plat-2);
+  --px-base: var(--tier-plat-3);
+  --px-hi: var(--tier-plat-4);
+}
+.px-art.px-ramp-ruby {
+  --px-outline: var(--tier-ruby-1);
+  --px-shadow: var(--tier-ruby-2);
+  --px-base: var(--tier-ruby-3);
+  --px-hi: var(--tier-ruby-4);
+}
+.px-art.px-ramp-majestic {
+  --px-outline: var(--tier-majestic-1);
+  --px-shadow: var(--tier-majestic-2);
+  --px-base: var(--tier-majestic-3);
+  --px-hi: var(--tier-majestic-4);
+}
+.px-art.px-ramp-wood {
+  --px-outline: var(--mat-wood-1);
+  --px-shadow: var(--mat-wood-2);
+  --px-base: var(--mat-wood-3);
+  --px-hi: var(--mat-wood-4);
+}
+.px-art.px-ramp-stone {
+  --px-outline: var(--mat-stone-1);
+  --px-shadow: var(--mat-stone-2);
+  --px-base: var(--mat-stone-3);
+  --px-hi: var(--mat-stone-4);
+}
+.px-art.px-ramp-leaf {
+  --px-outline: var(--mat-leaf-1);
+  --px-shadow: var(--mat-leaf-2);
+  --px-base: var(--mat-leaf-3);
+  --px-hi: var(--mat-leaf-4);
+}
+.px-art.px-ramp-fire {
+  --px-outline: var(--mat-fire-1);
+  --px-shadow: var(--mat-fire-2);
+  --px-base: var(--mat-fire-3);
+  --px-hi: var(--mat-fire-4);
+}
+.px-art[class*="px-ramp-"] {
+  --p1: var(--px-outline);
+  --p2: var(--px-shadow);
+  --p3: var(--px-base);
+  --p4: var(--px-hi);
+  --r1: var(--px-outline);
+  --r2: var(--px-shadow);
+  --r3: var(--px-base);
+  --r4: var(--px-hi);
+}
+
+/* World tint ("which character goes where"): a frame or badge reads --px-world. */
+.px-w1 {
+  --px-world: var(--w1);
+}
+.px-w2 {
+  --px-world: var(--w2);
+}
+.px-w3 {
+  --px-world: var(--w3);
+}
+.px-w4 {
+  --px-world: var(--w4);
+}
+.px-w5 {
+  --px-world: var(--w5);
+}
+.px-w6 {
+  --px-world: var(--w6);
+}
+.px-w7 {
+  --px-world: var(--w7);
+}
+
+/* Cauldron colours (owner addition, 2026-10-18): each alchemy cauldron's pot and rim take its bubble
+   group's colour (Power orange, Quicc green, High-IQ purple, Kazam yellow), and the brew its highlight. */
+.px-art.px-cauldron-power {
+  --px-outline: var(--cauldron-power-1);
+  --px-shadow: var(--cauldron-power-2);
+  --px-base: var(--cauldron-power-3);
+  --px-hi: var(--cauldron-power-4);
+  --pot-liquid: var(--cauldron-power-4);
+}
+.px-art.px-cauldron-quicc {
+  --px-outline: var(--cauldron-quicc-1);
+  --px-shadow: var(--cauldron-quicc-2);
+  --px-base: var(--cauldron-quicc-3);
+  --px-hi: var(--cauldron-quicc-4);
+  --pot-liquid: var(--cauldron-quicc-4);
+}
+.px-art.px-cauldron-high-iq {
+  --px-outline: var(--cauldron-highiq-1);
+  --px-shadow: var(--cauldron-highiq-2);
+  --px-base: var(--cauldron-highiq-3);
+  --px-hi: var(--cauldron-highiq-4);
+  --pot-liquid: var(--cauldron-highiq-4);
+}
+.px-art.px-cauldron-kazam {
+  --px-outline: var(--cauldron-kazam-1);
+  --px-shadow: var(--cauldron-kazam-2);
+  --px-base: var(--cauldron-kazam-3);
+  --px-hi: var(--cauldron-kazam-4);
+  --pot-liquid: var(--cauldron-kazam-4);
+}
+
+/* Frames: frame 1 shows when still; a celebration (px-once) holds its last frame. Loops run only with
+   px-anim and only without reduced motion, so `prefers-reduced-motion: reduce` pins frame 1. Stepped
+   timing, never a tween (art/README.md). */
+.px-f {
+  visibility: hidden;
+}
+.px-f0 {
+  visibility: visible;
+}
+.px-once .px-f0 {
+  visibility: hidden;
+}
+.px-once .px-f.px-flast {
+  visibility: visible;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .px-anim .px-f {
+    animation-duration: calc(var(--px-fdur, 250ms) * var(--px-n, 1));
+    animation-timing-function: steps(1, end);
+    animation-iteration-count: infinite;
+  }
+  .px-anim.px-once .px-f {
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .px-anim .px-f {
+    animation: none;
+  }
+}
+
+/* @generated art:start (scripts/art/import.mjs; do not edit by hand) */
+.pxs-cf2 {
+  fill: var(--cf2);
+}
+.pxs-cf3 {
+  fill: var(--cf3);
+}
+.pxs-cf4 {
+  fill: var(--cf4);
+}
+.pxs-crest {
+  fill: var(--crest);
+}
+.pxs-cur {
+  fill: currentColor;
+}
+.pxs-ek {
+  fill: var(--ek);
+}
+.pxs-ew {
+  fill: var(--ew);
+}
+.pxs-m2-tint-1--mat-stone-2 {
+  fill: var(--m2-tint-1, var(--mat-stone-2));
+}
+.pxs-m2-tint-2--mat-stone-3 {
+  fill: var(--m2-tint-2, var(--mat-stone-3));
+}
+.pxs-m2-tint-3--mat-stone-4 {
+  fill: var(--m2-tint-3, var(--mat-stone-4));
+}
+.pxs-mat-blob-1 {
+  fill: var(--mat-blob-1);
+}
+.pxs-mat-blob-2 {
+  fill: var(--mat-blob-2);
+}
+.pxs-mat-blob-3 {
+  fill: var(--mat-blob-3);
+}
+.pxs-mat-blob-4 {
+  fill: var(--mat-blob-4);
+}
+.pxs-mat-eye-pupil {
+  fill: var(--mat-eye-pupil);
+}
+.pxs-mat-eye-white {
+  fill: var(--mat-eye-white);
+}
+.pxs-mat-fire-1 {
+  fill: var(--mat-fire-1);
+}
+.pxs-mat-fire-2 {
+  fill: var(--mat-fire-2);
+}
+.pxs-mat-fire-3 {
+  fill: var(--mat-fire-3);
+}
+.pxs-mat-fire-4 {
+  fill: var(--mat-fire-4);
+}
+.pxs-mat-leaf-1 {
+  fill: var(--mat-leaf-1);
+}
+.pxs-mat-leaf-2 {
+  fill: var(--mat-leaf-2);
+}
+.pxs-mat-leaf-3 {
+  fill: var(--mat-leaf-3);
+}
+.pxs-mat-leaf-4 {
+  fill: var(--mat-leaf-4);
+}
+.pxs-mat-stone-1 {
+  fill: var(--mat-stone-1);
+}
+.pxs-mat-stone-2 {
+  fill: var(--mat-stone-2);
+}
+.pxs-mat-stone-3 {
+  fill: var(--mat-stone-3);
+}
+.pxs-mat-stone-4 {
+  fill: var(--mat-stone-4);
+}
+.pxs-mat-wood-1 {
+  fill: var(--mat-wood-1);
+}
+.pxs-mat-wood-2 {
+  fill: var(--mat-wood-2);
+}
+.pxs-mat-wood-3 {
+  fill: var(--mat-wood-3);
+}
+.pxs-mat-wood-4 {
+  fill: var(--mat-wood-4);
+}
+.pxs-p1 {
+  fill: var(--p1);
+}
+.pxs-p2 {
+  fill: var(--p2);
+}
+.pxs-p3 {
+  fill: var(--p3);
+}
+.pxs-p4 {
+  fill: var(--p4);
+}
+.pxs-pin {
+  fill: var(--pin);
+}
+.pxs-pot-liquid--mat-leaf-3 {
+  fill: var(--pot-liquid, var(--mat-leaf-3));
+}
+.pxs-px-base {
+  fill: var(--px-base);
+}
+.pxs-px-hi {
+  fill: var(--px-hi);
+}
+.pxs-px-outline {
+  fill: var(--px-outline);
+}
+.pxs-px-shadow {
+  fill: var(--px-shadow);
+}
+.pxs-px-ui-ink {
+  fill: var(--px-ui-ink);
+}
+.pxs-q1 {
+  fill: var(--q1);
+}
+.pxs-q2 {
+  fill: var(--q2);
+}
+.pxs-q3 {
+  fill: var(--q3);
+}
+.pxs-q4 {
+  fill: var(--q4);
+}
+.pxs-r1 {
+  fill: var(--r1);
+}
+.pxs-r2 {
+  fill: var(--r2);
+}
+.pxs-r3 {
+  fill: var(--r3);
+}
+.pxs-r4 {
+  fill: var(--r4);
+}
+.pxs-speech {
+  fill: var(--speech);
+}
+.pxs-tier-gold-1 {
+  fill: var(--tier-gold-1);
+}
+.pxs-tier-gold-2 {
+  fill: var(--tier-gold-2);
+}
+.pxs-tier-gold-3 {
+  fill: var(--tier-gold-3);
+}
+.pxs-tier-gold-4 {
+  fill: var(--tier-gold-4);
+}
+.pxs-tier-majestic-2 {
+  fill: var(--tier-majestic-2);
+}
+.pxs-tier-majestic-3 {
+  fill: var(--tier-majestic-3);
+}
+.pxs-tier-plat-1 {
+  fill: var(--tier-plat-1);
+}
+.pxs-tier-plat-2 {
+  fill: var(--tier-plat-2);
+}
+.pxs-tier-plat-3 {
+  fill: var(--tier-plat-3);
+}
+.pxs-tier-plat-4 {
+  fill: var(--tier-plat-4);
+}
+.pxs-tier-ruby-1 {
+  fill: var(--tier-ruby-1);
+}
+.pxs-tier-ruby-2 {
+  fill: var(--tier-ruby-2);
+}
+.pxs-tier-ruby-3 {
+  fill: var(--tier-ruby-3);
+}
+.pxs-tier-ruby-4 {
+  fill: var(--tier-ruby-4);
+}
+.pxs-tier-silver-1 {
+  fill: var(--tier-silver-1);
+}
+.pxs-tier-silver-2 {
+  fill: var(--tier-silver-2);
+}
+.pxs-tier-silver-3 {
+  fill: var(--tier-silver-3);
+}
+.pxs-tier-silver-4 {
+  fill: var(--tier-silver-4);
+}
+.pxs-wm-on {
+  fill: var(--wm-on);
+}
+.pxs-wm-on-hi {
+  fill: var(--wm-on-hi);
+}
+.pxs-x1 {
+  fill: var(--x1);
+}
+.pxs-x2 {
+  fill: var(--x2);
+}
+.pxs-x3 {
+  fill: var(--x3);
+}
+.pxs-x4 {
+  fill: var(--x4);
+}
+.px-cards-best-stamp {
+  --r1: var(--tier-gold-1);
+  --r2: var(--tier-gold-2);
+  --r3: var(--tier-gold-3);
+  --r4: var(--tier-gold-4);
+}
+.px-cards-cheer {
+  --q2: var(--tier-ruby-2);
+  --q3: var(--tier-ruby-3);
+  --r2: var(--tier-gold-2);
+  --r3: var(--tier-gold-3);
+  --r4: var(--tier-gold-4);
+  --x2: var(--tier-plat-2);
+  --x3: var(--tier-plat-3);
+}
+.px-cards-class-archer {
+  --q1: var(--mat-wood-1);
+  --q3: var(--mat-wood-3);
+  --r1: var(--tier-silver-1);
+  --r2: var(--tier-silver-2);
+  --r3: var(--tier-silver-3);
+  --r4: var(--tier-silver-4);
+}
+.px-cards-class-beginner {
+  --r1: var(--mat-leaf-1);
+  --r2: var(--mat-leaf-2);
+  --r3: var(--mat-leaf-3);
+  --r4: var(--mat-leaf-4);
+}
+.px-cards-class-mage {
+  --q1: var(--mat-wood-1);
+  --q3: var(--mat-wood-3);
+  --r1: var(--tier-plat-1);
+  --r2: var(--tier-plat-2);
+  --r3: var(--tier-plat-3);
+  --r4: var(--tier-plat-4);
+}
+.px-cards-class-warrior {
+  --q1: var(--mat-wood-1);
+  --q3: var(--mat-wood-3);
+  --r1: var(--tier-silver-1);
+  --r3: var(--tier-silver-3);
+  --r4: var(--tier-silver-4);
+}
+.px-cards-coin {
+  --r1: var(--tier-gold-1);
+  --r2: var(--tier-gold-2);
+  --r3: var(--tier-gold-3);
+  --r4: var(--tier-gold-4);
+}
+.px-cards-crossed-posts {
+  --r1: var(--tier-bronze-1);
+  --r2: var(--tier-bronze-2);
+  --r3: var(--tier-bronze-3);
+  --r4: var(--tier-bronze-4);
+}
+.px-cards-hourglass {
+  --q1: var(--mat-wood-1);
+  --q3: var(--mat-wood-3);
+  --r1: var(--tier-gold-1);
+  --r3: var(--tier-gold-3);
+  --x1: var(--tier-silver-1);
+  --x4: var(--tier-silver-4);
+}
+.px-cards-item-box {
+  --r1: var(--mat-wood-1);
+  --r2: var(--mat-wood-2);
+  --r3: var(--mat-wood-3);
+  --r4: var(--mat-wood-4);
+}
+.px-cards-item-can {
+  --r1: var(--mat-stone-1);
+  --r2: var(--mat-stone-2);
+  --r3: var(--mat-stone-3);
+  --r4: var(--mat-stone-4);
+}
+.px-cards-item-drop {
+  --r1: var(--tier-plat-1);
+  --r2: var(--tier-plat-2);
+  --r3: var(--tier-plat-3);
+  --r4: var(--tier-plat-4);
+}
+.px-cards-item-globe {
+  --q1: var(--tier-plat-1);
+  --q2: var(--tier-plat-2);
+  --q3: var(--tier-plat-3);
+  --q4: var(--tier-plat-4);
+  --r3: var(--mat-leaf-3);
+}
+.px-cards-item-hammer {
+  --q1: var(--mat-wood-1);
+  --q3: var(--mat-wood-3);
+  --r1: var(--mat-stone-1);
+  --r2: var(--mat-stone-2);
+  --r3: var(--mat-stone-3);
+  --r4: var(--mat-stone-4);
+}
+.px-cards-item-tab {
+  --r1: var(--tier-bronze-1);
+  --r2: var(--tier-bronze-2);
+  --r4: var(--tier-bronze-4);
+}
+.px-cards-item-tile {
+  --r1: var(--mat-stone-1);
+  --r2: var(--mat-stone-2);
+  --r3: var(--mat-stone-3);
+  --r4: var(--mat-stone-4);
+}
+.px-cards-item-tooth {
+  --r1: var(--tier-silver-1);
+  --r2: var(--tier-silver-2);
+  --r3: var(--tier-silver-3);
+  --r4: var(--tier-silver-4);
+}
+.px-cards-ledger {
+  --q1: var(--mat-wood-1);
+  --q2: var(--mat-wood-2);
+  --q3: var(--mat-wood-3);
+  --q4: var(--mat-wood-4);
+  --r2: var(--tier-silver-2);
+  --r4: var(--tier-silver-4);
+  --x1: var(--tier-gold-1);
+  --x3: var(--tier-gold-3);
+}
+.px-cards-magnifier-16 {
+  --q1: var(--mat-wood-1);
+  --q3: var(--mat-wood-3);
+  --r1: var(--tier-silver-1);
+  --r3: var(--tier-silver-3);
+  --x4: var(--tier-plat-4);
+}
+.px-cards-magnifier-24 {
+  --q1: var(--mat-wood-1);
+  --q2: var(--mat-wood-2);
+  --q3: var(--mat-wood-3);
+  --r1: var(--tier-silver-1);
+  --r2: var(--tier-silver-2);
+  --r3: var(--tier-silver-3);
+  --x4: var(--tier-plat-4);
+}
+.px-cards-mascot-cheer {
+  --q1: var(--mat-wood-1);
+  --q2: var(--mat-wood-2);
+  --q3: var(--mat-wood-3);
+  --q4: var(--mat-wood-4);
+  --r1: var(--mat-blob-1);
+  --r2: var(--mat-blob-2);
+  --r3: var(--mat-blob-3);
+  --r4: var(--mat-blob-4);
+  --x3: var(--tier-ruby-3);
+  --x4: var(--tier-ruby-4);
+}
+.px-cards-mascot-talk {
+  --q1: var(--mat-wood-1);
+  --q2: var(--mat-wood-2);
+  --q3: var(--mat-wood-3);
+  --q4: var(--mat-wood-4);
+  --r1: var(--mat-blob-1);
+  --r2: var(--mat-blob-2);
+  --r3: var(--mat-blob-3);
+  --r4: var(--mat-blob-4);
+  --x3: var(--tier-ruby-3);
+  --x4: var(--tier-ruby-4);
+}
+.px-cards-mascot-think {
+  --q1: var(--mat-wood-1);
+  --q2: var(--mat-wood-2);
+  --q3: var(--mat-wood-3);
+  --q4: var(--mat-wood-4);
+  --r1: var(--mat-blob-1);
+  --r2: var(--mat-blob-2);
+  --r3: var(--mat-blob-3);
+  --r4: var(--mat-blob-4);
+  --x3: var(--tier-ruby-3);
+  --x4: var(--tier-ruby-4);
+}
+.px-cards-pin {
+  --r1: var(--tier-ruby-1);
+  --r2: var(--tier-ruby-2);
+  --r3: var(--tier-ruby-3);
+  --r4: var(--tier-ruby-4);
+}
+.px-cards-pip {
+  --r1: var(--tier-gold-1);
+  --r2: var(--tier-gold-2);
+  --r3: var(--tier-gold-3);
+  --r4: var(--tier-gold-4);
+}
+.px-cards-printer {
+  --q2: var(--tier-plat-2);
+  --q3: var(--tier-plat-3);
+  --q4: var(--tier-plat-4);
+  --r1: var(--mat-stone-1);
+  --r2: var(--mat-stone-2);
+  --r3: var(--mat-stone-3);
+  --r4: var(--mat-stone-4);
+}
+.px-cards-req-elsewhere {
+  --q1: var(--mat-wood-1);
+  --q2: var(--mat-wood-2);
+  --q3: var(--mat-wood-3);
+  --q4: var(--mat-wood-4);
+  --r1: var(--tier-gold-1);
+  --r3: var(--tier-gold-3);
+}
+.px-cards-req-have {
+  --r1: var(--mat-leaf-1);
+  --r2: var(--mat-leaf-2);
+  --r3: var(--mat-leaf-3);
+  --r4: var(--mat-leaf-4);
+}
+.px-cards-req-missing {
+  --r1: var(--tier-ruby-1);
+  --r2: var(--tier-ruby-2);
+  --r3: var(--tier-ruby-3);
+  --r4: var(--tier-ruby-4);
+}
+.px-cards-scroll-open-16 {
+  --r1: var(--tier-bronze-1);
+  --r2: var(--tier-bronze-2);
+  --r3: var(--tier-bronze-3);
+  --r4: var(--tier-bronze-4);
+}
+.px-cards-scroll-open-24 {
+  --r1: var(--tier-bronze-1);
+  --r2: var(--tier-bronze-2);
+  --r3: var(--tier-bronze-3);
+  --r4: var(--tier-bronze-4);
+}
+.px-cards-scroll-ticked-16 {
+  --q2: var(--mat-leaf-2);
+  --r1: var(--tier-bronze-1);
+  --r2: var(--tier-bronze-2);
+  --r3: var(--tier-bronze-3);
+  --r4: var(--tier-bronze-4);
+}
+.px-cards-scroll-ticked-24 {
+  --q2: var(--mat-leaf-2);
+  --r1: var(--tier-bronze-1);
+  --r2: var(--tier-bronze-2);
+  --r3: var(--tier-bronze-3);
+  --r4: var(--tier-bronze-4);
+}
+.px-cards-seal-bell {
+  --q1: var(--tier-gold-1);
+  --q2: var(--tier-gold-2);
+  --q3: var(--tier-gold-3);
+  --q4: var(--tier-gold-4);
+  --r1: var(--tier-ruby-1);
+  --r2: var(--tier-ruby-2);
+  --r3: var(--tier-ruby-3);
+  --r4: var(--tier-ruby-4);
+}
+.px-cards-seal-chest {
+  --q1: var(--mat-wood-1);
+  --q2: var(--mat-wood-2);
+  --q3: var(--mat-wood-3);
+  --q4: var(--mat-wood-4);
+  --r3: var(--tier-gold-3);
+  --r4: var(--tier-gold-4);
+}
+.px-cards-seal-coins {
+  --r1: var(--tier-gold-1);
+  --r2: var(--tier-gold-2);
+  --r3: var(--tier-gold-3);
+  --r4: var(--tier-gold-4);
+}
+.px-cards-seal-star {
+  --r1: var(--tier-plat-1);
+  --r2: var(--tier-plat-2);
+  --r3: var(--tier-plat-3);
+  --r4: var(--tier-plat-4);
+}
+.px-cards-spellbook-inuse {
+  --q3: var(--tier-gold-3);
+  --q4: var(--tier-gold-4);
+  --r1: var(--tier-majestic-1);
+  --r2: var(--tier-majestic-2);
+  --r3: var(--tier-majestic-3);
+  --r4: var(--tier-majestic-4);
+  --x3: var(--tier-ruby-3);
+}
+.px-cards-spellbook-suggested {
+  --q3: var(--tier-gold-3);
+  --q4: var(--tier-gold-4);
+  --r1: var(--tier-majestic-1);
+  --r2: var(--tier-majestic-2);
+  --r3: var(--tier-majestic-3);
+  --r4: var(--tier-majestic-4);
+}
+.px-cards-src-book {
+  --r1: var(--tier-plat-1);
+  --r2: var(--tier-plat-2);
+  --r3: var(--tier-plat-3);
+  --r4: var(--tier-plat-4);
+}
+.px-cards-src-gear {
+  --r1: var(--mat-stone-1);
+  --r2: var(--mat-stone-2);
+  --r3: var(--mat-stone-3);
+  --r4: var(--mat-stone-4);
+}
+.px-cards-src-scroll {
+  --r1: var(--tier-bronze-1);
+  --r2: var(--tier-bronze-2);
+  --r3: var(--tier-bronze-3);
+  --r4: var(--tier-bronze-4);
+}
+.px-cards-stone-after {
+  --r1: var(--mat-stone-1);
+  --r2: var(--mat-stone-2);
+  --r3: var(--mat-stone-3);
+  --r4: var(--mat-stone-4);
+}
+.px-cards-stone-blocked {
+  --q2: var(--tier-ruby-2);
+  --r1: var(--mat-stone-1);
+  --r2: var(--mat-stone-2);
+  --r3: var(--mat-stone-3);
+  --r4: var(--mat-stone-4);
+}
+.px-cards-stone-done {
+  --r1: var(--mat-leaf-1);
+  --r2: var(--mat-leaf-2);
+  --r3: var(--mat-leaf-3);
+  --r4: var(--mat-leaf-4);
+}
+.px-cards-stone-now {
+  --r1: var(--tier-gold-1);
+  --r2: var(--tier-gold-2);
+  --r3: var(--tier-gold-3);
+  --r4: var(--tier-gold-4);
+}
+.px-flows-back-flag {
+  --p1: var(--frame);
+  --p3: var(--return-line, var(--accent));
+  --p4: var(--accent-soft);
+}
+.px-flows-campfire {
+  --p2: var(--mat-wood-2);
+  --p3: var(--mat-wood-3);
+  --q2: var(--mat-stone-2);
+  --r2: var(--mat-fire-2);
+  --r3: var(--mat-fire-3);
+  --r4: var(--mat-fire-4);
+}
+.px-flows-class-archer {
+  --p1: var(--mat-wood-1);
+  --p2: var(--mat-wood-2);
+  --p3: var(--mat-wood-3);
+  --q2: var(--tier-silver-2);
+  --q3: var(--tier-silver-3);
+  --q4: var(--tier-silver-4);
+}
+.px-flows-class-beginner {
+  --p1: var(--mat-leaf-1);
+  --p2: var(--mat-leaf-2);
+  --p3: var(--mat-leaf-3);
+  --p4: var(--mat-leaf-4);
+  --q2: var(--mat-wood-2);
+  --q3: var(--mat-wood-3);
+}
+.px-flows-class-mage {
+  --p1: var(--mat-wood-1);
+  --p2: var(--mat-wood-2);
+  --p3: var(--mat-wood-3);
+  --q2: var(--tier-plat-2);
+  --q3: var(--tier-plat-3);
+  --q4: var(--tier-plat-4);
+}
+.px-flows-class-warrior {
+  --p1: var(--tier-silver-1);
+  --p2: var(--tier-silver-2);
+  --p3: var(--tier-silver-3);
+  --p4: var(--tier-silver-4);
+  --q1: var(--mat-wood-1);
+  --q3: var(--mat-wood-3);
+}
+.px-flows-clipboard-empty {
+  --ew: var(--mat-eye-white);
+  --p1: var(--mat-wood-1);
+  --p2: var(--mat-wood-2);
+  --p3: var(--mat-wood-3);
+  --q1: var(--mat-stone-1);
+  --q2: var(--mat-stone-2);
+  --q4: var(--mat-stone-4);
+}
+.px-flows-clipboard-filled {
+  --ew: var(--mat-eye-white);
+  --p1: var(--mat-wood-1);
+  --p2: var(--mat-wood-2);
+  --p3: var(--mat-wood-3);
+  --q1: var(--mat-stone-1);
+  --q2: var(--mat-stone-2);
+  --q4: var(--mat-stone-4);
+  --r2: var(--mat-leaf-2);
+}
+.px-flows-cracked-gear {
+  --p1: var(--mat-stone-1);
+  --p2: var(--mat-stone-2);
+  --p3: var(--mat-stone-3);
+  --p4: var(--mat-stone-4);
+}
+.px-flows-door-in {
+  --p2: var(--mat-wood-2);
+  --p3: var(--mat-wood-3);
+  --p4: var(--mat-wood-4);
+  --q1: var(--mat-stone-1);
+  --q4: var(--mat-stone-4);
+  --r2: var(--mat-leaf-3);
+}
+.px-flows-door-out {
+  --p2: var(--mat-wood-2);
+  --p3: var(--mat-wood-3);
+  --p4: var(--mat-wood-4);
+  --q1: var(--mat-stone-1);
+  --q4: var(--mat-stone-4);
+  --r3: var(--mat-fire-3);
+}
+.px-flows-faded-clock {
+  --p1: var(--mat-stone-1);
+  --p2: var(--mat-stone-2);
+  --p3: var(--mat-stone-3);
+  --p4: var(--mat-stone-4);
+  --q1: var(--tier-silver-1);
+  --q2: var(--tier-silver-2);
+  --q4: var(--tier-silver-4);
+}
+.px-flows-fan-badge {
+  --p1: var(--mat-stone-1);
+  --p2: var(--mat-stone-2);
+  --p3: var(--mat-stone-3);
+  --p4: var(--mat-stone-4);
+  --q2: var(--mat-wood-2);
+  --q3: var(--mat-wood-3);
+}
+.px-flows-gremlin {
+  --ek: var(--mat-eye-pupil);
+  --ew: var(--mat-eye-white);
+  --p1: var(--mat-leaf-1);
+  --p2: var(--mat-leaf-2);
+  --p3: var(--mat-leaf-3);
+  --p4: var(--mat-leaf-4);
+  --q1: var(--mat-stone-1);
+  --q2: var(--mat-stone-2);
+  --q4: var(--mat-stone-4);
+  --r1: var(--tier-ruby-1);
+}
+.px-flows-guide-blob {
+  --ek: var(--mat-eye-pupil);
+  --ew: var(--mat-eye-white);
+  --p1: var(--mat-blob-1);
+  --p2: var(--mat-blob-2);
+  --p3: var(--mat-blob-3);
+  --p4: var(--mat-blob-4);
+  --q1: var(--mat-wood-1);
+  --q2: var(--mat-wood-2);
+  --q3: var(--mat-wood-3);
+  --q4: var(--mat-wood-4);
+  --r3: var(--mat-fire-3);
+}
+.px-flows-lightbulb {
+  --p1: var(--tier-gold-1);
+  --p2: var(--tier-gold-2);
+  --p3: var(--tier-gold-3);
+  --p4: var(--tier-gold-4);
+  --q1: var(--mat-stone-1);
+  --q2: var(--mat-stone-2);
+  --q4: var(--mat-stone-4);
+}
+.px-flows-moon-stars {
+  --p1: var(--tier-gold-1);
+  --p2: var(--tier-gold-2);
+  --p3: var(--tier-gold-3);
+  --p4: var(--tier-gold-4);
+  --q3: var(--tier-plat-3);
+  --q4: var(--tier-plat-4);
+}
+.px-flows-notice-board {
+  --ew: var(--mat-eye-white);
+  --p1: var(--mat-wood-1);
+  --p2: var(--mat-wood-2);
+  --p3: var(--mat-wood-3);
+  --p4: var(--mat-wood-4);
+  --q2: var(--tier-silver-2);
+  --q4: var(--tier-silver-4);
+  --r1: var(--mat-fire-2);
+  --r2: var(--mat-leaf-3);
+  --r3: var(--tier-gold-3);
+}
+.px-flows-now-cap {
+  --p3: var(--now-line, var(--info));
+}
+.px-flows-overflow-spark {
+  --p3: var(--warn);
+  --p4: var(--warn-soft);
+}
+.px-flows-padlock-locked {
+  --p1: var(--tier-gold-1);
+  --p2: var(--tier-gold-2);
+  --p3: var(--tier-gold-3);
+  --p4: var(--tier-gold-4);
+  --q2: var(--mat-stone-2);
+  --q4: var(--mat-stone-4);
+}
+.px-flows-padlock-open {
+  --p1: var(--tier-gold-1);
+  --p2: var(--tier-gold-2);
+  --p3: var(--tier-gold-3);
+  --p4: var(--tier-gold-4);
+  --q2: var(--mat-stone-2);
+  --q4: var(--mat-stone-4);
+}
+.px-flows-patch-scroll {
+  --p1: var(--tier-bronze-1);
+  --p2: var(--tier-bronze-2);
+  --p3: var(--tier-bronze-3);
+  --q1: var(--mat-wood-1);
+  --q2: var(--mat-wood-2);
+  --q3: var(--mat-wood-3);
+  --r1: var(--tier-ruby-1);
+  --r4: var(--tier-ruby-4);
+}
+.px-flows-question-cloud {
+  --p1: var(--tier-silver-1);
+  --p2: var(--tier-silver-2);
+  --p3: var(--tier-silver-3);
+  --p4: var(--tier-silver-4);
+  --q1: var(--tier-plat-1);
+}
+.px-flows-sleeping-blob {
+  --ek: var(--mat-eye-pupil);
+  --p1: var(--mat-blob-1);
+  --p2: var(--mat-blob-2);
+  --p3: var(--mat-blob-3);
+  --p4: var(--mat-blob-4);
+  --q1: var(--mat-wood-1);
+  --q2: var(--mat-wood-2);
+  --q3: var(--mat-wood-3);
+  --q4: var(--mat-wood-4);
+  --r3: var(--mat-fire-3);
+}
+.px-flows-sunrise {
+  --p1: var(--mat-fire-1);
+  --p2: var(--mat-fire-2);
+  --p3: var(--mat-fire-3);
+  --p4: var(--mat-fire-4);
+  --q2: var(--tier-plat-2);
+  --q3: var(--tier-plat-3);
+}
+.px-flows-walking-blob {
+  --ek: var(--mat-eye-pupil);
+  --ew: var(--mat-eye-white);
+  --p1: var(--mat-blob-1);
+  --p2: var(--mat-blob-2);
+  --p3: var(--mat-blob-3);
+  --p4: var(--mat-blob-4);
+  --q1: var(--mat-wood-1);
+  --q2: var(--mat-wood-2);
+  --q3: var(--mat-wood-3);
+  --q4: var(--mat-wood-4);
+  --r3: var(--mat-fire-3);
+}
+.px-flows-wax-seal-open {
+  --p2: var(--px-shadow);
+}
+.px-flows-wax-seal-ticked {
+  --ew: var(--mat-eye-white);
+  --p1: var(--tier-ruby-1);
+  --p2: var(--tier-ruby-2);
+  --p3: var(--tier-ruby-3);
+  --p4: var(--tier-ruby-4);
+}
+.px-fps2 {
+  --px-fdur: 500ms;
+}
+.px-fps3 {
+  --px-fdur: 333ms;
+}
+.px-fps4 {
+  --px-fdur: 250ms;
+}
+.px-fps6 {
+  --px-fdur: 166ms;
+}
+.px-n2 {
+  --px-n: 2;
+}
+.px-n3 {
+  --px-n: 3;
+}
+.px-n4 {
+  --px-n: 4;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .px-anim.px-n2 .px-f0 {
+    animation-name: px-n2-0;
+  }
+  .px-anim.px-n2 .px-f1 {
+    animation-name: px-n2-1;
+  }
+  .px-anim.px-n3 .px-f0 {
+    animation-name: px-n3-0;
+  }
+  .px-anim.px-n3 .px-f1 {
+    animation-name: px-n3-1;
+  }
+  .px-anim.px-n3 .px-f2 {
+    animation-name: px-n3-2;
+  }
+  .px-anim.px-n4 .px-f0 {
+    animation-name: px-n4-0;
+  }
+  .px-anim.px-n4 .px-f1 {
+    animation-name: px-n4-1;
+  }
+  .px-anim.px-n4 .px-f2 {
+    animation-name: px-n4-2;
+  }
+  .px-anim.px-n4 .px-f3 {
+    animation-name: px-n4-3;
+  }
+}
+@keyframes px-n2-0 {
+  0% {
+    visibility: visible;
+  }
+  50%,
+  100% {
+    visibility: hidden;
+  }
+}
+@keyframes px-n2-1 {
+  0% {
+    visibility: hidden;
+  }
+  50% {
+    visibility: visible;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+@keyframes px-n3-0 {
+  0% {
+    visibility: visible;
+  }
+  33.333%,
+  100% {
+    visibility: hidden;
+  }
+}
+@keyframes px-n3-1 {
+  0% {
+    visibility: hidden;
+  }
+  33.333% {
+    visibility: visible;
+  }
+  66.667%,
+  100% {
+    visibility: hidden;
+  }
+}
+@keyframes px-n3-2 {
+  0% {
+    visibility: hidden;
+  }
+  66.667% {
+    visibility: visible;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+@keyframes px-n4-0 {
+  0% {
+    visibility: visible;
+  }
+  25%,
+  100% {
+    visibility: hidden;
+  }
+}
+@keyframes px-n4-1 {
+  0% {
+    visibility: hidden;
+  }
+  25% {
+    visibility: visible;
+  }
+  50%,
+  100% {
+    visibility: hidden;
+  }
+}
+@keyframes px-n4-2 {
+  0% {
+    visibility: hidden;
+  }
+  50% {
+    visibility: visible;
+  }
+  75%,
+  100% {
+    visibility: hidden;
+  }
+}
+@keyframes px-n4-3 {
+  0% {
+    visibility: hidden;
+  }
+  75% {
+    visibility: visible;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+/* @generated art:end */
