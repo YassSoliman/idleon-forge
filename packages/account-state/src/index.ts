@@ -62,6 +62,13 @@ export {
   killsLeftTable,
 } from './frontier';
 export type {
+  CharacterTalents,
+  PresetTalents,
+  ResetItems,
+  TalentLevel,
+} from './talent-types';
+export { ATTACK_BAR_ROWS, attackBarOf, PRESET_LEVEL } from './talents';
+export type {
   AccountState,
   AccountSummary,
   CharacterState,

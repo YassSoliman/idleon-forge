@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #9a245e61 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry
+# golden v1: latest · knowledge #a95f9242 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 8 of 117
 
 ## Verdict changes
 
@@ -55,8 +55,6 @@ Obols
 Portals and map doors
 Skills, doors and tools
 Spend Plan
-Talent presets
-Talents
 Upgrade Vault
 Bribes
 Forge

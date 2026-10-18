@@ -18,6 +18,8 @@ import { composeVerdict } from './verdict';
 export interface AfkSafetyModuleDeps {
   kb: AfkSafetyInput['kb'];
   registry: DetectorRegistry;
+  /** Engine Detectors behind other modules' blocker Checks (M9 `builds/*`); see AfkSafetyInput. */
+  engineRegistry?: DetectorRegistry;
   /** The Stage, from M2's `runMetaPath(...).stage`; without it `appliesTo.stages` is not filtered. */
   stage?: (state: AccountState) => StageLike | null;
   /** TODO(M4): a character's Purpose status; until M4 ships, 'not-implemented' (D4). */
@@ -91,6 +93,7 @@ export function createAfkSafetyModule(deps: AfkSafetyModuleDeps): EngineModule {
         expectedReturn,
         kb: deps.kb,
         registry: deps.registry,
+        engineRegistry: deps.engineRegistry,
         stage: deps.stage?.(input.state) ?? null,
       });
       // #70 A1: quiet info lines; a failure here drops them, never the Verdicts.

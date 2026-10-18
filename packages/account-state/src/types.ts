@@ -7,6 +7,7 @@
 // `humanize()` to display them.
 import type { SideReadName } from '@idleon-forge/toolbox-parsers';
 import type { AccountAfkFacts, CharacterAfkFacts } from './afk-types';
+import type { TalentAccountFields, TalentCharacterFields } from './talent-types';
 import type { SaltState, UnspentAccountFields, UnspentCharacterFields } from './unspent-types';
 
 /**
@@ -21,8 +22,9 @@ import type { SaltState, UnspentAccountFields, UnspentCharacterFields } from './
  * 8: M3 R-FOOD-1/2: heal per bite, max HP and the food carry cap in `characters[].afk`.
  * 9: #70 anvil plan: `characters[].afk.anvilPlan` and `account.afk.coins`; `anvilPointsAvailable` is
  *    recomputed from its sources instead of the stored value.
+ * 10: M9 TR-3/TR-4: `characters[].talents` (both presets and attack bars) and `account.resetItems`.
  */
-export const SCHEMA_VERSION = 9;
+export const SCHEMA_VERSION = 10;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -46,7 +48,7 @@ export interface FoodStack {
   amount: number;
 }
 
-export interface CharacterState extends UnspentCharacterFields {
+export interface CharacterState extends UnspentCharacterFields, TalentCharacterFields {
   /** Slot in the save (0-based), stable across saves. Field paths use it: `characters[<index>].level`. */
   index: number;
   name: string;
@@ -153,7 +155,7 @@ export interface GateQuestProgress {
   inProgressBy: number[];
 }
 
-export interface AccountSummary extends UnspentAccountFields {
+export interface AccountSummary extends UnspentAccountFields, TalentAccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;
   /** Worlds whose exit has been used (a character met the gatekeeper past it), ascending. */

@@ -1162,6 +1162,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "refreshInSeconds": 61239.69199895859,
       "unlocked": true,
     },
+    "resetItems": {
+      "fragments": 124,
+      "potions": 34,
+    },
     "salts": [
       {
         "active": true,
@@ -1297,6 +1301,87 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 5,
       "secondsSinceLastSave": 74444708,
+      "talents": {
+        "active": {
+          "attackBar": [
+            94,
+            90,
+            91,
+            105,
+            106,
+            623,
+            635,
+            639,
+            634,
+          ],
+          "starSpent": 493,
+          "tabs": [
+            {
+              "spent": 637,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 545,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 416,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 128,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 10,
+        "other": {
+          "attackBar": [
+            100,
+            115,
+            623,
+            635,
+            634,
+            639,
+          ],
+          "starSpent": 502,
+          "tabs": [
+            {
+              "spent": 523,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 477,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 413,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 125,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -1345,6 +1430,89 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 7,
       "secondsSinceLastSave": 74444227,
+      "talents": {
+        "active": {
+          "attackBar": [
+            460,
+            623,
+            639,
+            635,
+            634,
+          ],
+          "starSpent": 460,
+          "tabs": [
+            {
+              "spent": 501,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 420,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 356,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 75,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 36,
+        "other": {
+          "attackBar": [
+            450,
+            451,
+            482,
+            480,
+            481,
+            490,
+            623,
+            639,
+            635,
+            634,
+            525,
+            526,
+          ],
+          "starSpent": 459,
+          "tabs": [
+            {
+              "spent": 565,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 424,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 356,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 75,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -1392,6 +1560,88 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 2,
       "secondsSinceLastSave": 74444475,
+      "talents": {
+        "active": {
+          "attackBar": [
+            623,
+            635,
+            639,
+            634,
+          ],
+          "starSpent": 466,
+          "tabs": [
+            {
+              "spent": 406,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 424,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 360,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 81,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [
+            270,
+            288,
+            286,
+            285,
+            623,
+            271,
+            635,
+            639,
+            634,
+            360,
+            316,
+            317,
+          ],
+          "starSpent": 455,
+          "tabs": [
+            {
+              "spent": 568,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 485,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 360,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 81,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -1435,6 +1685,90 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 4,
       "secondsSinceLastSave": 74444484,
+      "talents": {
+        "active": {
+          "attackBar": [
+            90,
+            91,
+            94,
+            120,
+            121,
+            122,
+            623,
+            635,
+            639,
+            634,
+            124,
+            165,
+          ],
+          "starSpent": 461,
+          "tabs": [
+            {
+              "spent": 585,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 480,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 375,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 93,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 12,
+        "other": {
+          "attackBar": [
+            100,
+            623,
+            130,
+            639,
+            635,
+            634,
+          ],
+          "starSpent": 467,
+          "tabs": [
+            {
+              "spent": 485,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 439,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 375,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 93,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -1483,6 +1817,89 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 3,
       "secondsSinceLastSave": 74444473,
+      "talents": {
+        "active": {
+          "attackBar": [
+            460,
+            635,
+            634,
+            639,
+            623,
+          ],
+          "starSpent": 461,
+          "tabs": [
+            {
+              "spent": 517,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 420,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 356,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 74,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 34,
+        "other": {
+          "attackBar": [
+            450,
+            451,
+            465,
+            466,
+            467,
+            623,
+            635,
+            639,
+            634,
+            495,
+            496,
+            497,
+          ],
+          "starSpent": 461,
+          "tabs": [
+            {
+              "spent": 566,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 425,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 356,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 74,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -1522,6 +1939,84 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 3,
       "secondsSinceLastSave": 74444471,
+      "talents": {
+        "active": {
+          "attackBar": [
+            634,
+            635,
+            310,
+          ],
+          "starSpent": 437,
+          "tabs": [
+            {
+              "spent": 373,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 419,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 355,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 81,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 25,
+        "other": {
+          "attackBar": [
+            623,
+            300,
+            301,
+            302,
+            270,
+            271,
+            634,
+            635,
+            639,
+          ],
+          "starSpent": 437,
+          "tabs": [
+            {
+              "spent": 552,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 471,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 355,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 81,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -1570,6 +2065,71 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 0,
       "secondsSinceLastSave": 74443905,
+      "talents": {
+        "active": {
+          "attackBar": [
+            15,
+            25,
+            634,
+            639,
+            635,
+            30,
+          ],
+          "starSpent": 466,
+          "tabs": [
+            {
+              "spent": 550,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 395,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 331,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 3,
+        "other": {
+          "attackBar": [
+            634,
+            40,
+            32,
+            635,
+            639,
+          ],
+          "starSpent": 465,
+          "tabs": [
+            {
+              "spent": 549,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 395,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 331,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
   ],
   "diagnostics": {
@@ -2793,6 +3353,10 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       "refreshInSeconds": 84155.81600022316,
       "unlocked": true,
     },
+    "resetItems": {
+      "fragments": 26966,
+      "potions": 0,
+    },
     "salts": [
       {
         "active": true,
@@ -2943,6 +3507,82 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 4116,
       "secondsSinceLastSave": 76306126,
+      "talents": {
+        "active": {
+          "attackBar": [
+            46,
+            15,
+            30,
+            19,
+            40,
+            635,
+          ],
+          "starSpent": 2112,
+          "tabs": [
+            {
+              "spent": 2782,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 2411,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 2172,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 1281,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 4,
+        "other": {
+          "attackBar": [
+            32,
+            25,
+            15,
+            635,
+          ],
+          "starSpent": 1808,
+          "tabs": [
+            {
+              "spent": 2684,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 2091,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 1762,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 1258,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -2970,6 +3610,23 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 29516,
       "secondsSinceLastSave": 140174772,
+      "talents": {
+        "active": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 1,
+        "other": null,
+        "selectedPreset": 0,
+      },
     },
   ],
   "diagnostics": {
@@ -4341,6 +4998,10 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       "refreshInSeconds": 85917.55900025368,
       "unlocked": true,
     },
+    "resetItems": {
+      "fragments": 42582,
+      "potions": 3,
+    },
     "salts": [
       {
         "active": true,
@@ -4507,6 +5168,81 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 16630,
       "secondsSinceLastSave": 76729560,
+      "talents": {
+        "active": {
+          "attackBar": [
+            285,
+            286,
+            270,
+            271,
+            273,
+            634,
+            635,
+            360,
+            316,
+            317,
+          ],
+          "starSpent": 889,
+          "tabs": [
+            {
+              "spent": 2110,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1623,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 724,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 1447,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -4556,6 +5292,82 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 16127,
       "secondsSinceLastSave": 4987097,
+      "talents": {
+        "active": {
+          "attackBar": [
+            108,
+            135,
+            136,
+            137,
+            634,
+            90,
+            91,
+            105,
+            106,
+            107,
+            94,
+          ],
+          "starSpent": 1334,
+          "tabs": [
+            {
+              "spent": 2079,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1339,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 1070,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 1266,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 10,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 4,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -4606,6 +5418,23 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 23430,
       "secondsSinceLastSave": 4987522,
+      "talents": {
+        "active": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 1,
+        "other": null,
+        "selectedPreset": 1,
+      },
     },
   ],
   "diagnostics": {
@@ -6218,6 +7047,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "refreshInSeconds": 1564.3920006752014,
       "unlocked": true,
     },
+    "resetItems": {
+      "fragments": 20893256,
+      "potions": 49,
+    },
     "salts": [
       {
         "active": true,
@@ -6386,6 +7219,103 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
       "postOfficeUnspent": 238852,
       "secondsSinceLastSave": 5854900,
+      "talents": {
+        "active": {
+          "attackBar": [
+            100,
+            115,
+            626,
+            623,
+            635,
+            634,
+            90,
+            91,
+            94,
+            195,
+            196,
+            639,
+          ],
+          "starSpent": 10966,
+          "tabs": [
+            {
+              "spent": 8786,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+            {
+              "spent": 3358,
+              "tab": 5,
+              "tabName": "Death_Bringer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 14,
+        "other": {
+          "attackBar": [
+            90,
+            91,
+            105,
+            106,
+            137,
+            94,
+            135,
+          ],
+          "starSpent": 5042,
+          "tabs": [
+            {
+              "spent": 9036,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 5,
+              "tabName": "Death_Bringer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -6443,6 +7373,87 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
       "postOfficeUnspent": 238852,
       "secondsSinceLastSave": 5841854,
+      "talents": {
+        "active": {
+          "attackBar": [
+            288,
+            360,
+            316,
+            286,
+            285,
+            317,
+          ],
+          "starSpent": 10128,
+          "tabs": [
+            {
+              "spent": 8911,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [
+            270,
+            316,
+            360,
+            317,
+            285,
+            286,
+            271,
+            318,
+            273,
+          ],
+          "starSpent": 5062,
+          "tabs": [
+            {
+              "spent": 8911,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -6500,6 +7511,90 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
       "postOfficeUnspent": 238852,
       "secondsSinceLastSave": 5842271,
+      "talents": {
+        "active": {
+          "attackBar": [
+            460,
+            469,
+            634,
+            623,
+            639,
+            635,
+            475,
+            626,
+          ],
+          "starSpent": 6338,
+          "tabs": [
+            {
+              "spent": 8923,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 34,
+        "other": {
+          "attackBar": [
+            498,
+            497,
+            495,
+            465,
+            466,
+            496,
+            467,
+            469,
+            451,
+            450,
+          ],
+          "starSpent": 4036,
+          "tabs": [
+            {
+              "spent": 8923,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 5933,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -6557,6 +7652,84 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
       "postOfficeUnspent": 238852,
       "secondsSinceLastSave": 5841395,
+      "talents": {
+        "active": {
+          "attackBar": [
+            91,
+            122,
+            94,
+            130,
+            634,
+            639,
+          ],
+          "starSpent": 4878,
+          "tabs": [
+            {
+              "spent": 8789,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 12,
+        "other": {
+          "attackBar": [
+            100,
+            94,
+            130,
+            639,
+            634,
+            626,
+          ],
+          "starSpent": 11692,
+          "tabs": [
+            {
+              "spent": 8911,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -6614,6 +7787,94 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
       "postOfficeUnspent": 238852,
       "secondsSinceLastSave": 5842319,
+      "talents": {
+        "active": {
+          "attackBar": [
+            527,
+            450,
+            451,
+            526,
+            525,
+            588,
+          ],
+          "starSpent": 5387,
+          "tabs": [
+            {
+              "spent": 8772,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 5856,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 40,
+        "other": {
+          "attackBar": [
+            460,
+            626,
+            639,
+            634,
+          ],
+          "starSpent": 9335,
+          "tabs": [
+            {
+              "spent": 8897,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 5856,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 2337,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -6671,6 +7932,108 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
       "postOfficeUnspent": 238852,
       "secondsSinceLastSave": 5842283,
+      "talents": {
+        "active": {
+          "attackBar": [
+            300,
+            361,
+            362,
+            363,
+            623,
+            273,
+            421,
+            310,
+            635,
+            639,
+            370,
+            626,
+          ],
+          "starSpent": 7044,
+          "tabs": [
+            {
+              "spent": 8786,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5835,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 5,
+              "tabName": "Wind_Walker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 29,
+        "other": {
+          "attackBar": [
+            362,
+            315,
+            301,
+            270,
+            302,
+            423,
+            300,
+            273,
+            271,
+            363,
+            361,
+            303,
+          ],
+          "starSpent": 4175,
+          "tabs": [
+            {
+              "spent": 8786,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5835,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 5,
+              "tabName": "Wind_Walker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -6728,6 +8091,86 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
       "postOfficeUnspent": 238852,
       "secondsSinceLastSave": 5841608,
+      "talents": {
+        "active": {
+          "attackBar": [
+            100,
+            130,
+            94,
+            124,
+          ],
+          "starSpent": 11193,
+          "tabs": [
+            {
+              "spent": 8911,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 12,
+        "other": {
+          "attackBar": [
+            120,
+            121,
+            90,
+            91,
+            165,
+            168,
+            167,
+            122,
+            94,
+            100,
+          ],
+          "starSpent": 8283,
+          "tabs": [
+            {
+              "spent": 8911,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -6781,6 +8224,83 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
       "postOfficeUnspent": 238852,
       "secondsSinceLastSave": 5845344,
+      "talents": {
+        "active": {
+          "attackBar": [
+            30,
+            16,
+            19,
+            15,
+            40,
+            32,
+            25,
+          ],
+          "starSpent": 7074,
+          "tabs": [
+            {
+              "spent": 8720,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 7064,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 3929,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 4,
+        "other": {
+          "attackBar": [
+            15,
+            30,
+            46,
+            635,
+          ],
+          "starSpent": 4336,
+          "tabs": [
+            {
+              "spent": 8720,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 7064,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 4234,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -6838,6 +8358,95 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
       "postOfficeUnspent": 238852,
       "secondsSinceLastSave": 5842312,
+      "talents": {
+        "active": {
+          "attackBar": [
+            586,
+            529,
+            481,
+            526,
+            525,
+            588,
+          ],
+          "starSpent": 7154,
+          "tabs": [
+            {
+              "spent": 8592,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5536,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 4964,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 4460,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 3740,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 40,
+        "other": {
+          "attackBar": [
+            460,
+            635,
+            639,
+            634,
+            626,
+          ],
+          "starSpent": 9710,
+          "tabs": [
+            {
+              "spent": 8586,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5536,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 4964,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 4460,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 3322,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -6894,6 +8503,95 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
       "postOfficeUnspent": 238852,
       "secondsSinceLastSave": 5854723,
+      "talents": {
+        "active": {
+          "attackBar": [
+            270,
+            271,
+            300,
+            301,
+            302,
+            303,
+            362,
+            363,
+            361,
+            315,
+            423,
+            273,
+          ],
+          "starSpent": 4692,
+          "tabs": [
+            {
+              "spent": 8802,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5460,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 5460,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 5485,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+            {
+              "spent": 4589,
+              "tab": 5,
+              "tabName": "Wind_Walker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 29,
+        "other": {
+          "attackBar": [],
+          "starSpent": 6436,
+          "tabs": [
+            {
+              "spent": 8927,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5460,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 5460,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 5485,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+            {
+              "spent": 2923,
+              "tab": 5,
+              "tabName": "Wind_Walker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -6947,6 +8645,36 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
       "postOfficeUnspent": 349252,
       "secondsSinceLastSave": 5848520,
+      "talents": {
+        "active": {
+          "attackBar": [
+            634,
+          ],
+          "starSpent": 5731,
+          "tabs": [
+            {
+              "spent": 6736,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 1,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
   ],
   "diagnostics": {
@@ -8560,6 +10288,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "refreshInSeconds": 56996.384999752045,
       "unlocked": true,
     },
+    "resetItems": {
+      "fragments": 22101247,
+      "potions": 9,
+    },
     "salts": [
       {
         "active": true,
@@ -8735,6 +10467,82 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 484039,
       "secondsSinceLastSave": 1371560,
+      "talents": {
+        "active": {
+          "attackBar": [
+            285,
+            286,
+            270,
+            271,
+            273,
+            634,
+            635,
+            360,
+            316,
+            317,
+            318,
+          ],
+          "starSpent": 3606,
+          "tabs": [
+            {
+              "spent": 2936,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2364,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 2085,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 3403,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -8792,6 +10600,95 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 483536,
       "secondsSinceLastSave": 1371519,
+      "talents": {
+        "active": {
+          "attackBar": [
+            108,
+            135,
+            136,
+            137,
+            195,
+            634,
+            90,
+            91,
+            105,
+            106,
+            107,
+            94,
+          ],
+          "starSpent": 3657,
+          "tabs": [
+            {
+              "spent": 2733,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1944,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 2243,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 2656,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+            {
+              "spent": 3390,
+              "tab": 5,
+              "tabName": "Death_Bringer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 14,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 4,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 5,
+              "tabName": "Death_Bringer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -8841,6 +10738,80 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 483489,
       "secondsSinceLastSave": 1371345,
+      "talents": {
+        "active": {
+          "attackBar": [
+            495,
+            496,
+            497,
+            465,
+            467,
+            498,
+            466,
+            450,
+            451,
+          ],
+          "starSpent": 2365,
+          "tabs": [
+            {
+              "spent": 3294,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2096,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 3256,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 3671,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 34,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -8898,6 +10869,77 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 483478,
       "secondsSinceLastSave": 1371322,
+      "talents": {
+        "active": {
+          "attackBar": [
+            165,
+            167,
+            168,
+            120,
+            121,
+            94,
+          ],
+          "starSpent": 2835,
+          "tabs": [
+            {
+              "spent": 1938,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1307,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 1474,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 1500,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 12,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -8947,6 +10989,90 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 483315,
       "secondsSinceLastSave": 1371285,
+      "talents": {
+        "active": {
+          "attackBar": [
+            529,
+            526,
+            525,
+            481,
+            482,
+            490,
+            634,
+          ],
+          "starSpent": 4173,
+          "tabs": [
+            {
+              "spent": 3155,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2933,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 3222,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 3493,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 3791,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 40,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -8996,6 +11122,95 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 483378,
       "secondsSinceLastSave": 579382,
+      "talents": {
+        "active": {
+          "attackBar": [
+            270,
+            271,
+            300,
+            301,
+            302,
+            273,
+            639,
+            429,
+            315,
+            361,
+            362,
+            363,
+          ],
+          "starSpent": 2665,
+          "tabs": [
+            {
+              "spent": 2944,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1999,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 2419,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 2555,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+            {
+              "spent": 2893,
+              "tab": 5,
+              "tabName": "Wind_Walker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 29,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 5,
+              "tabName": "Wind_Walker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -9053,6 +11268,79 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 482608,
       "secondsSinceLastSave": 1371241,
+      "talents": {
+        "active": {
+          "attackBar": [
+            15,
+            16,
+            30,
+            46,
+            32,
+            634,
+            639,
+            635,
+          ],
+          "starSpent": 2829,
+          "tabs": [
+            {
+              "spent": 2666,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 2264,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 2482,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 1096,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 4,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -9106,6 +11394,73 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 482514,
       "secondsSinceLastSave": 1371221,
+      "talents": {
+        "active": {
+          "attackBar": [
+            634,
+            635,
+          ],
+          "starSpent": 2157,
+          "tabs": [
+            {
+              "spent": 2770,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1803,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 1322,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 2399,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -9163,6 +11518,95 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 456865,
       "secondsSinceLastSave": 601278,
+      "talents": {
+        "active": {
+          "attackBar": [
+            226,
+            225,
+            227,
+            234,
+            100,
+            635,
+            121,
+            130,
+            94,
+            122,
+            639,
+            634,
+          ],
+          "starSpent": 4268,
+          "tabs": [
+            {
+              "spent": 5069,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4494,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 4312,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 4620,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+            {
+              "spent": 1699,
+              "tab": 5,
+              "tabName": "Royal_Guardian",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 16,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 49,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 245,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 703,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 5,
+              "tabName": "Royal_Guardian",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -9220,6 +11664,78 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 476673,
       "secondsSinceLastSave": 1371178,
+      "talents": {
+        "active": {
+          "attackBar": [
+            529,
+            526,
+            525,
+            481,
+            482,
+            490,
+            634,
+          ],
+          "starSpent": 1921,
+          "tabs": [
+            {
+              "spent": 2825,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1359,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 1690,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 3230,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 36,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -9250,6 +11766,34 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 490839,
       "secondsSinceLastSave": 1340238,
+      "talents": {
+        "active": {
+          "attackBar": [],
+          "starSpent": 2585,
+          "tabs": [
+            {
+              "spent": 3920,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 1,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
   ],
   "diagnostics": {
@@ -10863,6 +13407,10 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "refreshInSeconds": 84057.6130001545,
       "unlocked": true,
     },
+    "resetItems": {
+      "fragments": 11724236,
+      "potions": 9,
+    },
     "salts": [
       {
         "active": true,
@@ -11027,6 +13575,82 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 468379,
       "secondsSinceLastSave": 11339773,
+      "talents": {
+        "active": {
+          "attackBar": [
+            285,
+            286,
+            270,
+            271,
+            273,
+            634,
+            635,
+            360,
+            316,
+            317,
+            318,
+          ],
+          "starSpent": 3606,
+          "tabs": [
+            {
+              "spent": 2936,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2364,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 2085,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 3403,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -11084,6 +13708,95 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 467876,
       "secondsSinceLastSave": 9132028,
+      "talents": {
+        "active": {
+          "attackBar": [
+            108,
+            135,
+            136,
+            137,
+            195,
+            634,
+            90,
+            91,
+            105,
+            106,
+            107,
+            94,
+          ],
+          "starSpent": 3657,
+          "tabs": [
+            {
+              "spent": 2733,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1944,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 2243,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 2656,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+            {
+              "spent": 3390,
+              "tab": 5,
+              "tabName": "Death_Bringer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 14,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 4,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 5,
+              "tabName": "Death_Bringer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -11133,6 +13846,80 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 467829,
       "secondsSinceLastSave": 11339487,
+      "talents": {
+        "active": {
+          "attackBar": [
+            495,
+            496,
+            497,
+            465,
+            467,
+            498,
+            466,
+            450,
+            451,
+          ],
+          "starSpent": 2365,
+          "tabs": [
+            {
+              "spent": 3294,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2096,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 3256,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 3671,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 34,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -11190,6 +13977,77 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 467818,
       "secondsSinceLastSave": 11339351,
+      "talents": {
+        "active": {
+          "attackBar": [
+            165,
+            167,
+            168,
+            120,
+            121,
+            94,
+          ],
+          "starSpent": 2835,
+          "tabs": [
+            {
+              "spent": 1938,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1307,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 1474,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 1500,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 12,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -11239,6 +14097,90 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 467655,
       "secondsSinceLastSave": 9177781,
+      "talents": {
+        "active": {
+          "attackBar": [
+            529,
+            526,
+            525,
+            481,
+            482,
+            490,
+            634,
+          ],
+          "starSpent": 4173,
+          "tabs": [
+            {
+              "spent": 3155,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2933,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 3222,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 3493,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 3791,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 40,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -11288,6 +14230,95 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 467718,
       "secondsSinceLastSave": 5021038,
+      "talents": {
+        "active": {
+          "attackBar": [
+            270,
+            271,
+            300,
+            301,
+            302,
+            273,
+            639,
+            429,
+            315,
+            361,
+            362,
+            363,
+          ],
+          "starSpent": 2665,
+          "tabs": [
+            {
+              "spent": 2944,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1999,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 2419,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 2555,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+            {
+              "spent": 2893,
+              "tab": 5,
+              "tabName": "Wind_Walker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 29,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 5,
+              "tabName": "Wind_Walker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -11345,6 +14376,79 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 466948,
       "secondsSinceLastSave": 11309371,
+      "talents": {
+        "active": {
+          "attackBar": [
+            15,
+            16,
+            30,
+            46,
+            32,
+            634,
+            639,
+            635,
+          ],
+          "starSpent": 2829,
+          "tabs": [
+            {
+              "spent": 2666,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 2264,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 2482,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 1096,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 4,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -11398,6 +14502,73 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 466854,
       "secondsSinceLastSave": 11339004,
+      "talents": {
+        "active": {
+          "attackBar": [
+            634,
+            635,
+          ],
+          "starSpent": 2157,
+          "tabs": [
+            {
+              "spent": 2770,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1803,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 1322,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 2399,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -11451,6 +14622,79 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 441205,
       "secondsSinceLastSave": 5035759,
+      "talents": {
+        "active": {
+          "attackBar": [
+            100,
+            635,
+            121,
+            130,
+            94,
+            122,
+            639,
+            634,
+          ],
+          "starSpent": 4268,
+          "tabs": [
+            {
+              "spent": 5069,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4494,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 4312,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 4620,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 12,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 49,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 245,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 703,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -11508,6 +14752,78 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 461013,
       "secondsSinceLastSave": 5719296,
+      "talents": {
+        "active": {
+          "attackBar": [
+            529,
+            526,
+            525,
+            481,
+            482,
+            490,
+            634,
+          ],
+          "starSpent": 1921,
+          "tabs": [
+            {
+              "spent": 2825,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1359,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 1690,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 3230,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 36,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -11538,6 +14854,34 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 475179,
       "secondsSinceLastSave": 11338668,
+      "talents": {
+        "active": {
+          "attackBar": [],
+          "starSpent": 2585,
+          "tabs": [
+            {
+              "spent": 3920,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 1,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
   ],
   "diagnostics": {
@@ -13151,6 +16495,10 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "refreshInSeconds": 60477.69599986076,
       "unlocked": true,
     },
+    "resetItems": {
+      "fragments": 15403853,
+      "potions": 9,
+    },
     "salts": [
       {
         "active": true,
@@ -13322,6 +16670,82 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
       "postOfficeUnspent": 479189,
       "secondsSinceLastSave": 4690673,
+      "talents": {
+        "active": {
+          "attackBar": [
+            285,
+            286,
+            270,
+            271,
+            273,
+            634,
+            635,
+            360,
+            316,
+            317,
+            318,
+          ],
+          "starSpent": 3606,
+          "tabs": [
+            {
+              "spent": 2936,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2364,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 2085,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 3403,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -13379,6 +16803,95 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
       "postOfficeUnspent": 478686,
       "secondsSinceLastSave": 4840286,
+      "talents": {
+        "active": {
+          "attackBar": [
+            108,
+            135,
+            136,
+            137,
+            195,
+            634,
+            90,
+            91,
+            105,
+            106,
+            107,
+            94,
+          ],
+          "starSpent": 3657,
+          "tabs": [
+            {
+              "spent": 2733,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1944,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 2243,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 2656,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+            {
+              "spent": 3390,
+              "tab": 5,
+              "tabName": "Death_Bringer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 14,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 4,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 5,
+              "tabName": "Death_Bringer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -13428,6 +16941,80 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
       "postOfficeUnspent": 478639,
       "secondsSinceLastSave": 4840233,
+      "talents": {
+        "active": {
+          "attackBar": [
+            495,
+            496,
+            497,
+            465,
+            467,
+            498,
+            466,
+            450,
+            451,
+          ],
+          "starSpent": 2365,
+          "tabs": [
+            {
+              "spent": 3294,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2096,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 3256,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 3671,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 34,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -13485,6 +17072,77 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
       "postOfficeUnspent": 478628,
       "secondsSinceLastSave": 4840142,
+      "talents": {
+        "active": {
+          "attackBar": [
+            165,
+            167,
+            168,
+            120,
+            121,
+            94,
+          ],
+          "starSpent": 2835,
+          "tabs": [
+            {
+              "spent": 1938,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1307,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 1474,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 1500,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 12,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -13534,6 +17192,90 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
       "postOfficeUnspent": 478465,
       "secondsSinceLastSave": 4839945,
+      "talents": {
+        "active": {
+          "attackBar": [
+            529,
+            526,
+            525,
+            481,
+            482,
+            490,
+            634,
+          ],
+          "starSpent": 4173,
+          "tabs": [
+            {
+              "spent": 3155,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2933,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 3222,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 3493,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 3791,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 40,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -13583,6 +17325,95 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
       "postOfficeUnspent": 478528,
       "secondsSinceLastSave": 4825722,
+      "talents": {
+        "active": {
+          "attackBar": [
+            270,
+            271,
+            300,
+            301,
+            302,
+            273,
+            639,
+            429,
+            315,
+            361,
+            362,
+            363,
+          ],
+          "starSpent": 2665,
+          "tabs": [
+            {
+              "spent": 2944,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1999,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 2419,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 2555,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+            {
+              "spent": 2893,
+              "tab": 5,
+              "tabName": "Wind_Walker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 29,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 5,
+              "tabName": "Wind_Walker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -13636,6 +17467,79 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
       "postOfficeUnspent": 477758,
       "secondsSinceLastSave": 4745622,
+      "talents": {
+        "active": {
+          "attackBar": [
+            15,
+            16,
+            30,
+            46,
+            32,
+            634,
+            639,
+            635,
+          ],
+          "starSpent": 2829,
+          "tabs": [
+            {
+              "spent": 2666,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 2264,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 2482,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 1096,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 4,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -13689,6 +17593,73 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
       "postOfficeUnspent": 477664,
       "secondsSinceLastSave": 4839733,
+      "talents": {
+        "active": {
+          "attackBar": [
+            634,
+            635,
+          ],
+          "starSpent": 2157,
+          "tabs": [
+            {
+              "spent": 2770,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1803,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 1322,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 2399,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -13742,6 +17713,95 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
       "postOfficeUnspent": 452015,
       "secondsSinceLastSave": 4478366,
+      "talents": {
+        "active": {
+          "attackBar": [
+            226,
+            225,
+            227,
+            234,
+            100,
+            635,
+            121,
+            130,
+            94,
+            122,
+            639,
+            634,
+          ],
+          "starSpent": 4268,
+          "tabs": [
+            {
+              "spent": 5069,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4494,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 4312,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 4620,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+            {
+              "spent": 1622,
+              "tab": 5,
+              "tabName": "Royal_Guardian",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 16,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 49,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 245,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 703,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 5,
+              "tabName": "Royal_Guardian",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -13799,6 +17859,78 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
       "postOfficeUnspent": 471823,
       "secondsSinceLastSave": 4650362,
+      "talents": {
+        "active": {
+          "attackBar": [
+            529,
+            526,
+            525,
+            481,
+            482,
+            490,
+            634,
+          ],
+          "starSpent": 1921,
+          "tabs": [
+            {
+              "spent": 2825,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1359,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 1690,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 3230,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 36,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -13829,6 +17961,34 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
       "postOfficeUnspent": 485989,
       "secondsSinceLastSave": 4838443,
+      "talents": {
+        "active": {
+          "attackBar": [],
+          "starSpent": 2585,
+          "tabs": [
+            {
+              "spent": 3920,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 1,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
   ],
   "diagnostics": {
@@ -15400,6 +19560,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "refreshInSeconds": 42042.678000211745,
       "unlocked": true,
     },
+    "resetItems": {
+      "fragments": 12412,
+      "potions": 20,
+    },
     "salts": [
       {
         "active": true,
@@ -15557,6 +19721,85 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 60,
       "secondsSinceLastSave": 74413951,
+      "talents": {
+        "active": {
+          "attackBar": [
+            302,
+            361,
+            362,
+            315,
+            300,
+            273,
+            301,
+            363,
+            270,
+            271,
+          ],
+          "starSpent": 2198,
+          "tabs": [
+            {
+              "spent": 2966,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1578,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 1582,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 1755,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 25,
+        "other": {
+          "attackBar": [
+            310,
+            370,
+            273,
+          ],
+          "starSpent": 2197,
+          "tabs": [
+            {
+              "spent": 2200,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 878,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 872,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 1055,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -15614,6 +19857,84 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 0,
       "secondsSinceLastSave": 74412050,
+      "talents": {
+        "active": {
+          "attackBar": [
+            167,
+            168,
+            165,
+            120,
+            121,
+            94,
+            122,
+            90,
+            91,
+          ],
+          "starSpent": 2642,
+          "tabs": [
+            {
+              "spent": 3426,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2502,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 2502,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 1952,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 12,
+        "other": {
+          "attackBar": [
+            130,
+            100,
+            94,
+          ],
+          "starSpent": 2388,
+          "tabs": [
+            {
+              "spent": 2449,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1580,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 1443,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 1001,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -15671,6 +19992,82 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 0,
       "secondsSinceLastSave": 74412139,
+      "talents": {
+        "active": {
+          "attackBar": [
+            490,
+            529,
+            526,
+            481,
+            525,
+            482,
+            450,
+            451,
+          ],
+          "starSpent": 2160,
+          "tabs": [
+            {
+              "spent": 3078,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2055,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 2320,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 1943,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 36,
+        "other": {
+          "attackBar": [
+            453,
+            460,
+          ],
+          "starSpent": 2077,
+          "tabs": [
+            {
+              "spent": 2538,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1665,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 1175,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 1020,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -15728,6 +20125,86 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 270,
       "secondsSinceLastSave": 74411906,
+      "talents": {
+        "active": {
+          "attackBar": [
+            135,
+            136,
+            105,
+            137,
+            108,
+            94,
+            90,
+            91,
+            106,
+            107,
+          ],
+          "starSpent": 2101,
+          "tabs": [
+            {
+              "spent": 2903,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1915,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 2055,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 1710,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 10,
+        "other": {
+          "attackBar": [
+            115,
+            145,
+            100,
+            94,
+          ],
+          "starSpent": 2031,
+          "tabs": [
+            {
+              "spent": 2367,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1585,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 1130,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 1310,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -15785,6 +20262,68 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 512,
       "secondsSinceLastSave": 74422337,
+      "talents": {
+        "active": {
+          "attackBar": [
+            467,
+            466,
+            451,
+            450,
+            465,
+            469,
+          ],
+          "starSpent": 2092,
+          "tabs": [
+            {
+              "spent": 2960,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2160,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 2316,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 32,
+        "other": {
+          "attackBar": [
+            475,
+            460,
+          ],
+          "starSpent": 2023,
+          "tabs": [
+            {
+              "spent": 2127,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1480,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 1247,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -15842,6 +20381,83 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 316,
       "secondsSinceLastSave": 74411689,
+      "talents": {
+        "active": {
+          "attackBar": [
+            273,
+            318,
+            316,
+            317,
+            360,
+            288,
+            285,
+            270,
+            286,
+            271,
+          ],
+          "starSpent": 2158,
+          "tabs": [
+            {
+              "spent": 3019,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2590,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 1980,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 1861,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [
+            273,
+          ],
+          "starSpent": 2158,
+          "tabs": [
+            {
+              "spent": 2661,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1590,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 1405,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 1615,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -15899,6 +20515,80 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 215,
       "secondsSinceLastSave": 74430498,
+      "talents": {
+        "active": {
+          "attackBar": [
+            45,
+            46,
+            15,
+            30,
+            19,
+          ],
+          "starSpent": 2417,
+          "tabs": [
+            {
+              "spent": 2880,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 2315,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 2306,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 1880,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 4,
+        "other": {
+          "attackBar": [
+            25,
+            32,
+            40,
+          ],
+          "starSpent": 2268,
+          "tabs": [
+            {
+              "spent": 2880,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 1605,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 2240,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 1880,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -15956,6 +20646,83 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 120,
       "secondsSinceLastSave": 74414440,
+      "talents": {
+        "active": {
+          "attackBar": [
+            498,
+            495,
+            497,
+            467,
+            466,
+            469,
+            496,
+            451,
+          ],
+          "starSpent": 2231,
+          "tabs": [
+            {
+              "spent": 3016,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1875,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 2126,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 1865,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 34,
+        "other": {
+          "attackBar": [
+            475,
+            453,
+            460,
+          ],
+          "starSpent": 2162,
+          "tabs": [
+            {
+              "spent": 2723,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1752,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 1144,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 1097,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -16013,6 +20780,70 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 316,
       "secondsSinceLastSave": 74432759,
+      "talents": {
+        "active": {
+          "attackBar": [
+            301,
+            300,
+            270,
+            271,
+            302,
+            273,
+            303,
+          ],
+          "starSpent": 2139,
+          "tabs": [
+            {
+              "spent": 2944,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1954,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 1599,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 21,
+        "other": {
+          "attackBar": [
+            271,
+            303,
+            273,
+          ],
+          "starSpent": 2070,
+          "tabs": [
+            {
+              "spent": 2235,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1099,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 999,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -16070,6 +20901,70 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "postOfficeUnspent": 316,
       "secondsSinceLastSave": 74432810,
+      "talents": {
+        "active": {
+          "attackBar": [
+            107,
+            105,
+            106,
+            90,
+            108,
+            94,
+            91,
+          ],
+          "starSpent": 2204,
+          "tabs": [
+            {
+              "spent": 2965,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2010,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 1945,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 8,
+        "other": {
+          "attackBar": [
+            115,
+            100,
+            94,
+          ],
+          "starSpent": 2134,
+          "tabs": [
+            {
+              "spent": 2162,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1400,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 945,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
   ],
   "diagnostics": {
@@ -17711,6 +22606,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "refreshInSeconds": 83527.50899982452,
       "unlocked": true,
     },
+    "resetItems": {
+      "fragments": 1050000000,
+      "potions": 777,
+    },
     "salts": [
       {
         "active": true,
@@ -17893,6 +22792,101 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 315050,
       "secondsSinceLastSave": 5760852,
+      "talents": {
+        "active": {
+          "attackBar": [
+            106,
+            90,
+            91,
+            94,
+            108,
+            137,
+          ],
+          "starSpent": 5491,
+          "tabs": [
+            {
+              "spent": 8669,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4356,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+            {
+              "spent": 5308,
+              "tab": 5,
+              "tabName": "Death_Bringer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 14,
+        "other": {
+          "attackBar": [
+            100,
+            115,
+            634,
+            635,
+            639,
+            90,
+            91,
+            105,
+            106,
+            135,
+            136,
+          ],
+          "starSpent": 7204,
+          "tabs": [
+            {
+              "spent": 8968,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5739,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 5714,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 5189,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+            {
+              "spent": 4987,
+              "tab": 5,
+              "tabName": "Death_Bringer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -17950,6 +22944,95 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 315050,
       "secondsSinceLastSave": 5762548,
+      "talents": {
+        "active": {
+          "attackBar": [
+            529,
+            526,
+            482,
+            481,
+            588,
+            585,
+            634,
+          ],
+          "starSpent": 4876,
+          "tabs": [
+            {
+              "spent": 8805,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5649,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 40,
+        "other": {
+          "attackBar": [
+            588,
+            451,
+            585,
+            586,
+          ],
+          "starSpent": 6812,
+          "tabs": [
+            {
+              "spent": 8524,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5393,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 5624,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 5412,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 5029,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -18007,6 +23090,85 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 315050,
       "secondsSinceLastSave": 5762952,
+      "talents": {
+        "active": {
+          "attackBar": [
+            273,
+            639,
+            635,
+          ],
+          "starSpent": 7396,
+          "tabs": [
+            {
+              "spent": 7493,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 3027,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 3445,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 4259,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [
+            316,
+            360,
+            317,
+            285,
+            286,
+            270,
+            273,
+            288,
+            318,
+            271,
+          ],
+          "starSpent": 4574,
+          "tabs": [
+            {
+              "spent": 7826,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4875,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 3484,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 5780,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -18064,6 +23226,87 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 315050,
       "secondsSinceLastSave": 5761569,
+      "talents": {
+        "active": {
+          "attackBar": [
+            168,
+            165,
+            120,
+            90,
+            167,
+            91,
+            130,
+            94,
+            639,
+            635,
+            634,
+          ],
+          "starSpent": 5076,
+          "tabs": [
+            {
+              "spent": 8090,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5362,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 12,
+        "other": {
+          "attackBar": [
+            100,
+            94,
+            635,
+            130,
+          ],
+          "starSpent": 11145,
+          "tabs": [
+            {
+              "spent": 7314,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4591,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 3564,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 3564,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -18113,6 +23356,81 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 315050,
       "secondsSinceLastSave": 7055867,
+      "talents": {
+        "active": {
+          "attackBar": [
+            635,
+          ],
+          "starSpent": 8010,
+          "tabs": [
+            {
+              "spent": 7421,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 3863,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 4259,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 3564,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 34,
+        "other": {
+          "attackBar": [
+            498,
+            467,
+            496,
+            497,
+            466,
+            495,
+            635,
+            639,
+          ],
+          "starSpent": 5447,
+          "tabs": [
+            {
+              "spent": 8116,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4752,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 5544,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 5545,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -18170,6 +23488,106 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 315050,
       "secondsSinceLastSave": 5762362,
+      "talents": {
+        "active": {
+          "attackBar": [
+            302,
+            423,
+            362,
+            315,
+            301,
+            300,
+            361,
+            363,
+            270,
+            420,
+            639,
+          ],
+          "starSpent": 6782,
+          "tabs": [
+            {
+              "spent": 8884,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 5,
+              "tabName": "Wind_Walker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 29,
+        "other": {
+          "attackBar": [
+            302,
+            423,
+            362,
+            315,
+            301,
+            300,
+            361,
+            363,
+            270,
+            421,
+            639,
+          ],
+          "starSpent": 4890,
+          "tabs": [
+            {
+              "spent": 8759,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 5,
+              "tabName": "Wind_Walker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -18227,6 +23645,85 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 315050,
       "secondsSinceLastSave": 5760453,
+      "talents": {
+        "active": {
+          "attackBar": [
+            168,
+            165,
+            121,
+            120,
+            91,
+            167,
+            90,
+            130,
+            94,
+          ],
+          "starSpent": 5607,
+          "tabs": [
+            {
+              "spent": 8784,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4356,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 12,
+        "other": {
+          "attackBar": [
+            100,
+            635,
+            130,
+            94,
+          ],
+          "starSpent": 6493,
+          "tabs": [
+            {
+              "spent": 6728,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4356,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 3564,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 3564,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -18284,6 +23781,90 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 315050,
       "secondsSinceLastSave": 5762714,
+      "talents": {
+        "active": {
+          "attackBar": [
+            15,
+            30,
+            19,
+            40,
+            626,
+            32,
+            25,
+            45,
+            639,
+          ],
+          "starSpent": 6425,
+          "tabs": [
+            {
+              "spent": 8282,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 6786,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 5544,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 3869,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 4,
+        "other": {
+          "attackBar": [
+            45,
+            46,
+            30,
+            15,
+            19,
+            40,
+            25,
+            634,
+            639,
+          ],
+          "starSpent": 5396,
+          "tabs": [
+            {
+              "spent": 9074,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 6786,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 4192,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -18341,6 +23922,97 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 315050,
       "secondsSinceLastSave": 5762255,
+      "talents": {
+        "active": {
+          "attackBar": [
+            529,
+            481,
+            526,
+            482,
+            525,
+            635,
+            460,
+          ],
+          "starSpent": 9365,
+          "tabs": [
+            {
+              "spent": 7874,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4204,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 5544,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 5908,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 40,
+        "other": {
+          "attackBar": [
+            529,
+            526,
+            481,
+            482,
+            588,
+            586,
+          ],
+          "starSpent": 4346,
+          "tabs": [
+            {
+              "spent": 7809,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5135,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 5415,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -18394,6 +24066,83 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 315050,
       "secondsSinceLastSave": 5776420,
+      "talents": {
+        "active": {
+          "attackBar": [
+            318,
+            316,
+            360,
+            317,
+            286,
+            270,
+            271,
+            635,
+          ],
+          "starSpent": 4801,
+          "tabs": [
+            {
+              "spent": 8888,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 5746,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [
+            285,
+            635,
+            273,
+          ],
+          "starSpent": 6631,
+          "tabs": [
+            {
+              "spent": 8607,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4163,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 3172,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 5940,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -18449,6 +24198,78 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "postOfficeUnspent": 315050,
       "secondsSinceLastSave": 5762203,
+      "talents": {
+        "active": {
+          "attackBar": [
+            168,
+            165,
+            120,
+            121,
+            90,
+            167,
+            130,
+          ],
+          "starSpent": 5223,
+          "tabs": [
+            {
+              "spent": 8981,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 3960,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 5148,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 4460,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 12,
+        "other": {
+          "attackBar": [],
+          "starSpent": 9373,
+          "tabs": [
+            {
+              "spent": 5530,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 896,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 2872,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 2280,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
   ],
   "diagnostics": {
@@ -20001,6 +25822,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "refreshInSeconds": 12054.254997491837,
       "unlocked": true,
     },
+    "resetItems": {
+      "fragments": 404476,
+      "potions": 15,
+    },
     "salts": [
       {
         "active": true,
@@ -20140,6 +25965,90 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 6441,
       "secondsSinceLastSave": 74552934,
+      "talents": {
+        "active": {
+          "attackBar": [
+            100,
+            94,
+            115,
+            623,
+            635,
+            145,
+            639,
+          ],
+          "starSpent": 2710,
+          "tabs": [
+            {
+              "spent": 2565,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2933,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 1982,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 1993,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 10,
+        "other": {
+          "attackBar": [
+            106,
+            90,
+            135,
+            91,
+            105,
+            136,
+            639,
+            108,
+            94,
+            107,
+            137,
+          ],
+          "starSpent": 2703,
+          "tabs": [
+            {
+              "spent": 3709,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2653,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 2536,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 2020,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -20197,6 +26106,89 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 6441,
       "secondsSinceLastSave": 74554685,
+      "talents": {
+        "active": {
+          "attackBar": [
+            318,
+            360,
+            316,
+            317,
+            285,
+            270,
+            273,
+            288,
+            286,
+            271,
+            639,
+          ],
+          "starSpent": 2526,
+          "tabs": [
+            {
+              "spent": 4445,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2604,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 3200,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 3365,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [
+            635,
+            639,
+            360,
+            316,
+            317,
+            285,
+          ],
+          "starSpent": 1947,
+          "tabs": [
+            {
+              "spent": 2137,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2245,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 1770,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 2418,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -20254,6 +26246,80 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 6441,
       "secondsSinceLastSave": 74554671,
+      "talents": {
+        "active": {
+          "attackBar": [
+            490,
+            529,
+            481,
+            526,
+            639,
+          ],
+          "starSpent": 2875,
+          "tabs": [
+            {
+              "spent": 3893,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 3059,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 3137,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 1937,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 36,
+        "other": {
+          "attackBar": [
+            460,
+            635,
+            639,
+          ],
+          "starSpent": 2359,
+          "tabs": [
+            {
+              "spent": 2174,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2362,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 1442,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 1811,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -20311,6 +26377,90 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 6441,
       "secondsSinceLastSave": 74552636,
+      "talents": {
+        "active": {
+          "attackBar": [
+            168,
+            165,
+            120,
+            121,
+            167,
+            91,
+            130,
+            122,
+            90,
+            94,
+            100,
+            639,
+          ],
+          "starSpent": 3580,
+          "tabs": [
+            {
+              "spent": 4787,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4013,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 3816,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 2676,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 12,
+        "other": {
+          "attackBar": [
+            130,
+            94,
+            100,
+            635,
+            165,
+            639,
+          ],
+          "starSpent": 2756,
+          "tabs": [
+            {
+              "spent": 2961,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2903,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 2170,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 1804,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -20368,6 +26518,90 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 6441,
       "secondsSinceLastSave": 74534512,
+      "talents": {
+        "active": {
+          "attackBar": [
+            270,
+            301,
+            362,
+            315,
+            361,
+            363,
+            635,
+            310,
+            300,
+            273,
+            302,
+            623,
+          ],
+          "starSpent": 2615,
+          "tabs": [
+            {
+              "spent": 4448,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2999,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 3156,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 3348,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 25,
+        "other": {
+          "attackBar": [
+            310,
+            362,
+            370,
+            273,
+            635,
+            639,
+          ],
+          "starSpent": 1665,
+          "tabs": [
+            {
+              "spent": 1685,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1729,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 1267,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 1728,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -20425,6 +26659,96 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 6441,
       "secondsSinceLastSave": 74554624,
+      "talents": {
+        "active": {
+          "attackBar": [
+            498,
+            497,
+            496,
+            495,
+            466,
+            467,
+            469,
+            465,
+            450,
+            451,
+            453,
+            639,
+          ],
+          "starSpent": 2630,
+          "tabs": [
+            {
+              "spent": 3020,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1950,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 2045,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 2117,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 34,
+        "other": {
+          "attackBar": [
+            623,
+            460,
+            635,
+            497,
+            475,
+            498,
+            465,
+            466,
+            467,
+            451,
+            450,
+            639,
+          ],
+          "starSpent": 2610,
+          "tabs": [
+            {
+              "spent": 2315,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2381,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 1574,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 1493,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -20474,6 +26798,88 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 6441,
       "secondsSinceLastSave": 74552823,
+      "talents": {
+        "active": {
+          "attackBar": [
+            40,
+            25,
+            19,
+            639,
+            32,
+            46,
+            30,
+            15,
+            45,
+          ],
+          "starSpent": 3166,
+          "tabs": [
+            {
+              "spent": 3505,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 3333,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 3454,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 2541,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 4,
+        "other": {
+          "attackBar": [
+            15,
+            30,
+            46,
+            19,
+            45,
+            16,
+            639,
+          ],
+          "starSpent": 2865,
+          "tabs": [
+            {
+              "spent": 3172,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 3084,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 2625,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 2381,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -20527,6 +26933,88 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 6441,
       "secondsSinceLastSave": 74554179,
+      "talents": {
+        "active": {
+          "attackBar": [
+            165,
+            120,
+            121,
+            168,
+            167,
+            94,
+            122,
+            90,
+            91,
+            130,
+            639,
+          ],
+          "starSpent": 3077,
+          "tabs": [
+            {
+              "spent": 4269,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2800,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 3276,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 2320,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 12,
+        "other": {
+          "attackBar": [
+            100,
+            635,
+            623,
+            130,
+            94,
+          ],
+          "starSpent": 1799,
+          "tabs": [
+            {
+              "spent": 1727,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2212,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 1485,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 1309,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -20584,6 +27072,82 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 6441,
       "secondsSinceLastSave": 74554542,
+      "talents": {
+        "active": {
+          "attackBar": [
+            498,
+            497,
+            496,
+            495,
+            467,
+            466,
+          ],
+          "starSpent": 2680,
+          "tabs": [
+            {
+              "spent": 3198,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2004,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 2170,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 2233,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 34,
+        "other": {
+          "attackBar": [
+            460,
+            635,
+            639,
+            475,
+          ],
+          "starSpent": 2059,
+          "tabs": [
+            {
+              "spent": 2054,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2225,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 1753,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 1547,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -20641,6 +27205,88 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "postOfficeUnspent": 6441,
       "secondsSinceLastSave": 74554579,
+      "talents": {
+        "active": {
+          "attackBar": [
+            360,
+            316,
+            317,
+            318,
+            285,
+            286,
+            270,
+            271,
+            273,
+            635,
+            288,
+            639,
+          ],
+          "starSpent": 2525,
+          "tabs": [
+            {
+              "spent": 3267,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2694,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 2860,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 2959,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [
+            635,
+            273,
+            285,
+            639,
+          ],
+          "starSpent": 1638,
+          "tabs": [
+            {
+              "spent": 1697,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1405,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 1271,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 1246,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
   ],
   "diagnostics": {
@@ -22254,6 +28900,10 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "refreshInSeconds": 60477.69599986076,
       "unlocked": true,
     },
+    "resetItems": {
+      "fragments": 15403853,
+      "potions": 9,
+    },
     "salts": [
       {
         "active": true,
@@ -22425,6 +29075,82 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
       "postOfficeUnspent": 479189,
       "secondsSinceLastSave": 4690673,
+      "talents": {
+        "active": {
+          "attackBar": [
+            285,
+            286,
+            270,
+            271,
+            273,
+            634,
+            635,
+            360,
+            316,
+            317,
+            318,
+          ],
+          "starSpent": 3606,
+          "tabs": [
+            {
+              "spent": 2936,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2364,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 2085,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 3403,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -22482,6 +29208,95 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
       "postOfficeUnspent": 478686,
       "secondsSinceLastSave": 4840286,
+      "talents": {
+        "active": {
+          "attackBar": [
+            108,
+            135,
+            136,
+            137,
+            195,
+            634,
+            90,
+            91,
+            105,
+            106,
+            107,
+            94,
+          ],
+          "starSpent": 3657,
+          "tabs": [
+            {
+              "spent": 2733,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1944,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 2243,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 2656,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+            {
+              "spent": 3390,
+              "tab": 5,
+              "tabName": "Death_Bringer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 14,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 4,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Barbarian",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Blood_Berserker",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 5,
+              "tabName": "Death_Bringer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -22531,6 +29346,80 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
       "postOfficeUnspent": 478639,
       "secondsSinceLastSave": 4840233,
+      "talents": {
+        "active": {
+          "attackBar": [
+            495,
+            496,
+            497,
+            465,
+            467,
+            498,
+            466,
+            450,
+            451,
+          ],
+          "starSpent": 2365,
+          "tabs": [
+            {
+              "spent": 3294,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2096,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 3256,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 3671,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 34,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Wizard",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Elemental_Sorcerer",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -22588,6 +29477,77 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
       "postOfficeUnspent": 478628,
       "secondsSinceLastSave": 4840142,
+      "talents": {
+        "active": {
+          "attackBar": [
+            165,
+            167,
+            168,
+            120,
+            121,
+            94,
+          ],
+          "starSpent": 2835,
+          "tabs": [
+            {
+              "spent": 1938,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1307,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 1474,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 1500,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 12,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -22637,6 +29597,90 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
       "postOfficeUnspent": 478465,
       "secondsSinceLastSave": 4839945,
+      "talents": {
+        "active": {
+          "attackBar": [
+            529,
+            526,
+            525,
+            481,
+            482,
+            490,
+            634,
+          ],
+          "starSpent": 4173,
+          "tabs": [
+            {
+              "spent": 3155,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 2933,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 3222,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 3493,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 3791,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 40,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 5,
+              "tabName": "Arcane_Cultist",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 1,
+      },
     },
     {
       "afk": null,
@@ -22686,6 +29730,95 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
       "postOfficeUnspent": 478528,
       "secondsSinceLastSave": 4825722,
+      "talents": {
+        "active": {
+          "attackBar": [
+            270,
+            271,
+            300,
+            301,
+            302,
+            273,
+            639,
+            429,
+            315,
+            361,
+            362,
+            363,
+          ],
+          "starSpent": 2665,
+          "tabs": [
+            {
+              "spent": 2944,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1999,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 2419,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 2555,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+            {
+              "spent": 2893,
+              "tab": 5,
+              "tabName": "Wind_Walker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 29,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Hunter",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Beast_Master",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 5,
+              "tabName": "Wind_Walker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -22739,6 +29872,79 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
       "postOfficeUnspent": 477758,
       "secondsSinceLastSave": 4745622,
+      "talents": {
+        "active": {
+          "attackBar": [
+            15,
+            16,
+            30,
+            46,
+            32,
+            634,
+            639,
+            635,
+          ],
+          "starSpent": 2829,
+          "tabs": [
+            {
+              "spent": 2666,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 2264,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 2482,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 1096,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 4,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Journeyman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Maestro",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Voidwalker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -22792,6 +29998,73 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
       "postOfficeUnspent": 477664,
       "secondsSinceLastSave": 4839733,
+      "talents": {
+        "active": {
+          "attackBar": [
+            634,
+            635,
+          ],
+          "starSpent": 2157,
+          "tabs": [
+            {
+              "spent": 2770,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1803,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 1322,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 2399,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 22,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Calm_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Archer",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Bowman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Siege_Breaker",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -22845,6 +30118,95 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
       "postOfficeUnspent": 452015,
       "secondsSinceLastSave": 4478366,
+      "talents": {
+        "active": {
+          "attackBar": [
+            226,
+            225,
+            227,
+            234,
+            100,
+            635,
+            121,
+            130,
+            94,
+            122,
+            639,
+            634,
+          ],
+          "starSpent": 4268,
+          "tabs": [
+            {
+              "spent": 5069,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 4494,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 4312,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 4620,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+            {
+              "spent": 1622,
+              "tab": 5,
+              "tabName": "Royal_Guardian",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 16,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 49,
+              "tab": 1,
+              "tabName": "Rage_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Warrior",
+              "talents": 15,
+            },
+            {
+              "spent": 245,
+              "tab": 3,
+              "tabName": "Squire",
+              "talents": 15,
+            },
+            {
+              "spent": 703,
+              "tab": 4,
+              "tabName": "Divine_Knight",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 5,
+              "tabName": "Royal_Guardian",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -22902,6 +30264,78 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
       "postOfficeUnspent": 471823,
       "secondsSinceLastSave": 4650362,
+      "talents": {
+        "active": {
+          "attackBar": [
+            529,
+            526,
+            525,
+            481,
+            482,
+            490,
+            634,
+          ],
+          "starSpent": 1921,
+          "tabs": [
+            {
+              "spent": 2825,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 1359,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 1690,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 3230,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 36,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Savvy_Basics",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 2,
+              "tabName": "Mage",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 3,
+              "tabName": "Shaman",
+              "talents": 15,
+            },
+            {
+              "spent": 0,
+              "tab": 4,
+              "tabName": "Bubonic_Conjuror",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
     {
       "afk": null,
@@ -22932,6 +30366,34 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
       "postOfficeUnspent": 485989,
       "secondsSinceLastSave": 4838443,
+      "talents": {
+        "active": {
+          "attackBar": [],
+          "starSpent": 2585,
+          "tabs": [
+            {
+              "spent": 3920,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+          ],
+        },
+        "classIndex": 1,
+        "other": {
+          "attackBar": [],
+          "starSpent": 0,
+          "tabs": [
+            {
+              "spent": 0,
+              "tab": 1,
+              "tabName": "Beginner",
+              "talents": 15,
+            },
+          ],
+        },
+        "selectedPreset": 0,
+      },
     },
   ],
   "diagnostics": {

@@ -35,6 +35,12 @@ systems:
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M9-builds.md
     unlocked: always
+  - id: talent-resets
+    name: Talent resets
+    world: 0
+    scope: character
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M9-builds.md
+    unlocked: always
   - id: spend
     name: Spend Plan
     world: 0

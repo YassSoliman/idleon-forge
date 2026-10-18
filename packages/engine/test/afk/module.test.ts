@@ -32,7 +32,15 @@ describe('the afk-safety engine module', () => {
 
   it('carries first fill and alreadyFull on the W3-early account', () => {
     const r = runEngine(input(W3()), [module]);
-    expect(r.characters.every((c) => c.verdict.kind === 'ready')).toBe(true);
+    // Ready except the two characters on the wrong talent preset (M9 US-1).
+    expect(r.characters.map((c) => c.verdict.kind)).toEqual([
+      'ready',
+      'ready',
+      'fix',
+      'ready',
+      'fix',
+      'ready',
+    ]);
     expect(r.firstFill?.label).toBe("Bowman Lv 60's anvil");
     expect(r.alreadyFull).toBe(4);
   });

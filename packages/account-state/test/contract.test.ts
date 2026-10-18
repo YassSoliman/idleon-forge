@@ -4,7 +4,7 @@
 // the current parser pin. After `pnpm sync-parsers`, a failure here means upstream changed a field we
 // read; the snapshot diff shows what moved.
 import { describe, expect, it } from 'vitest';
-import { type AccountState, SCHEMA_VERSION } from '../src';
+import { type AccountState, type PresetTalents, SCHEMA_VERSION } from '../src';
 import { accountStateOf, listJson, NOW, PRIVATE_DIR, PUBLIC_DIR, readSave } from './helpers';
 
 const publicSaves = listJson(PUBLIC_DIR);
@@ -52,10 +52,30 @@ function expectValid(state: AccountState) {
 const unexpectedWarnings = (state: AccountState) =>
   state.warnings.filter((w) => !w.endsWith('has no save data and was skipped.'));
 
+/** M9's presets as a digest (per-tab spend and talent count, star spend, the bar), not ~150 rows each. */
+const presetDigest = (p: PresetTalents | null) =>
+  p && {
+    tabs: p.tabs.map((t) => ({
+      tab: t.tab,
+      tabName: t.tabName,
+      talents: t.talents.length,
+      spent: t.talents.reduce((n, x) => n + x.base, 0),
+    })),
+    starSpent: p.star.reduce((n, x) => n + x.base, 0),
+    attackBar: p.attackBar,
+  };
+
 /** What the shape snapshot records: everything but names (and the pin's commit, which re-syncs move). */
 const shapeOf = (state: AccountState) => ({
   account: state.account,
-  characters: state.characters.map(({ name: _name, ...c }) => c),
+  characters: state.characters.map(({ name: _name, talents, ...c }) => ({
+    ...c,
+    talents: talents && {
+      ...talents,
+      active: presetDigest(talents.active),
+      other: presetDigest(talents.other),
+    },
+  })),
   lastPlayedCharacterIndex: state.lastPlayedCharacterIndex,
   diagnostics: { ...state.diagnostics, parserPin: { gameVersion: state.diagnostics.parserPin.gameVersion } },
   warnings: state.warnings,

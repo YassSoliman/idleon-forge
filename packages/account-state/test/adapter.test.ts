@@ -113,6 +113,8 @@ describe('toAccountState', () => {
       worldCrystals: { desertTopaz: 0, glacierQuartz: 0, galaxialAmethyst: 0 },
       frontier: null,
       afk: null,
+      // M9 TR-4: storage parsed, with no reset items in it.
+      resetItems: { potions: 0, fragments: 0 },
     });
     expect(state.characters.map(withoutUnspentCharacter)).toEqual([
       {
@@ -130,6 +132,8 @@ describe('toAccountState', () => {
         npcDialog: {},
         nextPortal: null,
         afk: null,
+        // M9 TR-3: the synthetic save has no talent keys.
+        talents: null,
       },
     ]);
     expect(state.schemaVersion).toBe(SCHEMA_VERSION);

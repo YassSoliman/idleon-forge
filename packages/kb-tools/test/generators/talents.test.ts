@@ -2,7 +2,9 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 import generator, {
   lineOfTab,
+  type TalentIndex,
   type TalentRow,
+  talentIndex,
   talentRows,
 } from '@idleon-forge/knowledge/generators/talents.gen';
 import { describe, expect, it } from 'vitest';
@@ -75,6 +77,12 @@ describe('talents generator', () => {
     expect(lineOfTab('Rage_Basics', PROMOTIONS)).toBe('Warrior');
     expect(lineOfTab('Maestro', PROMOTIONS)).toBe('Journeyman');
     expect(lineOfTab('Special Talent 1', PROMOTIONS)).toBeNull();
+    // M9's compact runtime index carries the same flags.
+    expect(talentIndex(rows)).toEqual({
+      skillIndex: { BACK_TO_BASICS: 119, BIG_PICK: 100, FIRMLY_GRASP_IT: 90, POWER_STRIKE: 85 },
+      attacks: ['POWER_STRIKE'],
+      skillAttacks: { BIG_PICK: 'MINING' },
+    });
   });
 
   it('holds its invariants on the pinned data', async () => {
@@ -110,6 +118,10 @@ describe('talents generator', () => {
     };
     expect(sources.quests.reduce((n, q) => n + q.amount, 0)).toBe(9);
     expect(sources.gemShop.cost).toBe(200);
+    const index = get('talents.fact.index') as TalentIndex;
+    expect(Object.keys(index.skillIndex)).toHaveLength(376);
+    expect(index.attacks).toHaveLength(rows.filter((r) => r.isAttack).length);
+    expect(index.skillIndex.IDLE_BRAWLING).toBe(88);
   });
 
   it("agrees with Toolbox's parsed talent pages and AFK loadout, on a known save", async () => {

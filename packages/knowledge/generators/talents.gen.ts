@@ -6,6 +6,8 @@
 //   getTalentEffectOnKills uses), `skillAttackFor` (AFKactivity 1 mining, 3 choppin, 4 fishing), and a
 //   value table at levels 10/25/50/100 computed by Toolbox's own exported `growth` (ADR 0005: we
 //   never write the curve ourselves);
+// - `talents.fact.index`: the compact runtime view of the same rows M9's engine ships (rawName ->
+//   skillIndex, the attack and skill-attack flags), so the bundle never carries the full table;
 // - `talents.fact.tab2-granting` and `talents.fact.bubble-capped`, the two groups M9 names;
 // - `talents.fact.reset-items` and `talents.fact.reset-sources`: the reset potion and fragment items,
 //   the quests that reward the potion, and its gem shop row.
@@ -121,6 +123,26 @@ export function talentRows(
   return [...rows.values()].sort((a, b) => (a.rawName < b.rawName ? -1 : 1));
 }
 
+/** The runtime index M9 ships (TR-10): every rawName with a skillIndex, the attacks and the skill attacks. */
+export interface TalentIndex {
+  skillIndex: Record<string, number>;
+  /** rawNames with isAttack. */
+  attacks: string[];
+  /** rawName -> the AFK skill it attacks for. */
+  skillAttacks: Record<string, string>;
+}
+
+export function talentIndex(rows: readonly TalentRow[]): TalentIndex {
+  const out: TalentIndex = { skillIndex: {}, attacks: [], skillAttacks: {} };
+  for (const r of rows) {
+    if (r.skillIndex === null) continue;
+    out.skillIndex[r.rawName] = r.skillIndex;
+    if (r.isAttack) out.attacks.push(r.rawName);
+    if (r.skillAttackFor) out.skillAttacks[r.rawName] = r.skillAttackFor;
+  }
+  return out;
+}
+
 interface QuestStep {
   QuestName?: string;
   rewards?: { rawName?: string; amount?: number }[];
@@ -200,6 +222,12 @@ const generator = defineGenerator({
           'talents.fact.talents',
           'Talents: tabs, curves, attacks and values',
           rows,
+          src('website-data/talents.json', 'IdleOn Toolbox game data: talents'),
+        ),
+        fact(
+          'talents.fact.index',
+          'Talents: skill indices, attacks and skill attacks',
+          talentIndex(rows),
           src('website-data/talents.json', 'IdleOn Toolbox game data: talents'),
         ),
         fact(
