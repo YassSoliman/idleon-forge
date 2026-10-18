@@ -8,7 +8,7 @@ entries:
     system: afk
     type: check
     title: No AFK Target
-    text: "Send {class} Lv {level} to an AFK Target before you leave"
+    text: "Pick an AFK Target before you leave"
     values: { timelineKind: time-cap, timelineWhat: "no AFK Target" }
     why: A character with no AFK Target earns nothing while you're away.
     sources:
@@ -34,12 +34,13 @@ entries:
     system: afk
     type: check
     title: Dies on its map, and owned food fixes it
-    text: "Equip or swap in {food:name} before you leave: {class} is at {survivability:pct} survivability, and you own {owned:int}"
+    text: "Equip {food:name} before you leave"
     values:
       timelineKind: time-cap
       timelineWhat: "dies on its map"
-      text-stock-up: "Equip {food:name} before you leave, and stock up on it: your {owned:int} last about {lasts:duration}, less than your return ({class} is at {survivability:pct} survivability)"
-    why: Below full survivability the character keeps dying and respawning while you're away. One health food you already own makes it survive.
+      text-stock-up: "Equip {food:name} and stock up on it before you leave"
+      why-stock-up: "Your {owned:int} last {lasts:duration}, less than your return, and this character is at {survivability:pct} survivability. Below full survivability it keeps dying and respawning while you're away."
+    why: "This character is at {survivability:pct} survivability and you own {owned:int}. Below full survivability it keeps dying and respawning while you're away; one health food you already own makes it survive."
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts
         title: IdleOn Toolbox, getMaxDamage and getSurvivability
@@ -65,9 +66,9 @@ entries:
     system: afk
     type: check
     title: Health food runs out before you're back
-    text: "Add more health food from storage: it runs out in about {runsOutIn:duration} ({left:int} left)"
+    text: "Add more health food from storage"
     values: { fill: health food, timelineKind: food, timelineWhat: "health food" }
-    why: This fighter only survives with health food. Once it runs out, it starts dying and its AFK gains drop.
+    why: "It runs out in {runsOutIn:duration} ({left:int} left). This fighter only survives with health food; once it runs out, it starts dying and its AFK gains drop."
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts
         title: IdleOn Toolbox, survivability with and without food
@@ -122,9 +123,9 @@ entries:
     system: afk
     type: check
     title: Carry cap full while skilling
-    text: "Deposit to storage: {item:name} is at its carry cap ({cap:int}) and the bag has no free slot"
+    text: "Deposit {item:name} to storage"
     values: { timelineKind: storage, timelineWhat: "carry cap full" }
-    why: With the stack full and no free slot, everything this character gathers is lost until you deposit.
+    why: "{item:name} is at its carry cap ({cap:int}) and the bag has no free slot, so everything this character gathers is lost until you deposit."
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts
         title: IdleOn Toolbox, getItemCapacity

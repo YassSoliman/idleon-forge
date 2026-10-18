@@ -25,7 +25,7 @@ entries:
     effect: next-action
     category: spendable
     detector: { id: spend/duplicate-entries-guard }
-    text: "Buy Duplicate Entries (Vault) on {payer} before you redeem Colosseum tickets: {coins:coins}"
+    text: "Buy Duplicate Entries (Vault) on {payer} before redeeming tickets: {coins:coins}"
     why: "Doubles every Colosseum ticket you redeem; {tickets} are waiting at the NPCs. Collecting them is fine, redeeming before it loses half."
     notes: "Ship gate (FR-12, RT-1) settled in N.js v1.23: the doubling applies when a ticket item is redeemed onto the account (TixCol drop, VaultUpgBonus 52), not on NPC collection. So collect anyway; buy it before you redeem."
     sources:
@@ -42,8 +42,8 @@ entries:
     effect: next-action
     category: spendable
     detector: { id: spend/stamp-hydrogen }
-    text: "Hold stamp cap raises: discount {discount}%, {needed}% needed for {stamp}, about {days} days"
-    why: "Any cap raise resets the Hydrogen discount, and only the first raise gets it; {stamp} fits in an inventory once the discount reaches {needed}%."
+    text: "Hold stamp cap raises for the Hydrogen discount ({discount}% of {needed}%)"
+    why: "Any cap raise resets the Hydrogen discount, and only the first raise gets it; {stamp} fits in an inventory once the discount reaches {needed}%, in {holdIn:duration}."
     sources:
       - { url: "https://idleon.wiki/wiki/Atom_Collider", title: "IdleOn wiki, Atom Collider (Hydrogen)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
@@ -58,7 +58,7 @@ entries:
     effect: next-action
     category: nice
     detector: { id: spend/stamp-raise-ready }
-    text: "{count} stamp cap raises need more of their material or more carry capacity"
+    text: "{count} stamp cap raises need more material or carry capacity"
     why: "A cap raise needs its material in storage and one character able to carry it; until then it is not a Spend line."
     values:
       raise: "Stamp cap raises that need farming or carry capacity"
@@ -87,7 +87,7 @@ entries:
       - - item: duplicate-entries
           ref: upgrade-vault.acquisition.row-52
           spend: { sink: vault, target: { kind: once }, reserve: true }
-          text: "Buy Duplicate Entries (Vault) on {payer} before you redeem Colosseum tickets: {coins:coins}"
+          text: "Buy Duplicate Entries (Vault) on {payer} before redeeming tickets: {coins:coins}"
           why: "Doubles every Colosseum ticket you redeem"
           sources:
             - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
@@ -275,7 +275,7 @@ entries:
       - - item: next-statue-gold
           ref: statues.acquisition.statue-0
           spend: { sink: statue-gold, target: { kind: once } }
-          text: "Turn the {name} statue Gold (cost not checked, see the price in game)"
+          text: "Turn the {name} statue Gold"
           why: "Gold makes a statue account-wide; go in order"
           sources:
             - { url: "https://idleon.wiki/wiki/Statues#Gold_Statues", title: "IdleOn wiki, Gold Statues", tier: 2, claimDate: 2026-10-14, verified: 2026-10-17, gameVersion: 2.3.540 }
@@ -446,7 +446,7 @@ entries:
         - item: vial-attempts
           ref: alchemy-p2w.acquisition.vials-attempts
           spend: { sink: p2w, target: { kind: next } }
-          text: "Buy {name} Lv {from}→{to} (cost not checked, see the price in game)"
+          text: "Buy {name} Lv {from}→{to}"
           why: "More daily attempts to discover vials"
           sources:
             - { url: "https://idleon.wiki/wiki/Alchemy#Pay_2_Win", title: "IdleOn wiki, Alchemy Pay 2 Win", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
@@ -495,7 +495,7 @@ entries:
       - - item: duplicate-entries
           ref: upgrade-vault.acquisition.row-52
           spend: { sink: vault, target: { kind: once }, reserve: true }
-          text: "Buy Duplicate Entries (Vault) on {payer} before you redeem Colosseum tickets: {coins:coins}"
+          text: "Buy Duplicate Entries (Vault) on {payer} before redeeming tickets: {coins:coins}"
           why: "Doubles every Colosseum ticket you redeem"
           sources:
             - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
@@ -584,7 +584,7 @@ entries:
       - - item: next-statue-gold
           ref: statues.acquisition.statue-0
           spend: { sink: statue-gold, target: { kind: once } }
-          text: "Turn the {name} statue Gold (cost not checked, see the price in game)"
+          text: "Turn the {name} statue Gold"
           why: "Gold makes a statue account-wide; go in order"
           sources:
             - { url: "https://idleon.wiki/wiki/Statues#Gold_Statues", title: "IdleOn wiki, Gold Statues", tier: 2, claimDate: 2026-10-14, verified: 2026-10-17, gameVersion: 2.3.540 }
@@ -697,7 +697,7 @@ entries:
       - - item: duplicate-entries
           ref: upgrade-vault.acquisition.row-52
           spend: { sink: vault, target: { kind: once }, reserve: true }
-          text: "Buy Duplicate Entries (Vault) on {payer} before you redeem Colosseum tickets: {coins:coins}"
+          text: "Buy Duplicate Entries (Vault) on {payer} before redeeming tickets: {coins:coins}"
           why: "Doubles every Colosseum ticket you redeem"
           sources:
             - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
@@ -786,7 +786,7 @@ entries:
       - - item: next-statue-gold
           ref: statues.acquisition.statue-0
           spend: { sink: statue-gold, target: { kind: once } }
-          text: "Turn the {name} statue Gold (cost not checked, see the price in game)"
+          text: "Turn the {name} statue Gold"
           why: "Gold makes a statue account-wide; go in order"
           sources:
             - { url: "https://idleon.wiki/wiki/Statues#Gold_Statues", title: "IdleOn wiki, Gold Statues", tier: 2, claimDate: 2026-10-14, verified: 2026-10-17, gameVersion: 2.3.540 }

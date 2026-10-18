@@ -498,14 +498,14 @@ describe('US-18 Spend Plan', () => {
     expect(sp?.lines).toHaveLength(5);
     expect(sp?.hiddenCount).toBe(1);
     expect(sp?.lines.map((l) => l.runningTotal)).toEqual([
-      'total 1.2M on Alder',
-      'total 2M on Alder',
-      'total 4M on Alder',
-      'total 300k on Cedar',
+      'total 1.2M coins on Alder',
+      'total 2M coins on Alder',
+      'total 4M coins on Alder',
+      'total 300k coins on Cedar',
       null,
     ]);
-    expect(sp?.lines[2]?.statusText).toBe('withdraw 1.5M from storage on Alder, then buy');
-    expect(sp?.lines[4]?.statusText).toBe('save for it: 5M short');
+    expect(sp?.lines[2]?.statusText).toBe('withdraw 1.5M coins from storage on Alder, then buy');
+    expect(sp?.lines[4]?.statusText).toBe('save for it: 5M coins short');
     expect(sp?.summary).toBe('4 buys now on 2 characters');
     expect(sp?.unavailable).toEqual(["can't price Statue Gold right now"]);
     expect(sp?.goal?.action.text).toBe('Vault upgrade 1');
@@ -529,15 +529,17 @@ describe('US-18 Spend Plan', () => {
   it('the unpriced line reads "cost not checked" with the totals note', () => {
     const all = view(r, { expanded: new Set(['spend']) }).account.spendPlan;
     expect(all?.lines[5]).toMatchObject({
-      cost: 'cost not checked, see the price in game',
+      // Copy pass rule 3: the unknown cost token is hidden; the status pill says it.
+      cost: null,
+      statusText: 'cost not checked',
       note: 'totals below assume you skip the unchecked items',
     });
   });
   it('Roster chips: "Spend here: 3 buys" on character 0, "1 buy" on character 2, none elsewhere', () => {
     expect(v.roster.map((x) => x.spendChip)).toEqual([
-      'Spend here: 3 buys, ~4M → Spend Plan',
+      'Spend here: 3 buys, about 4M coins → Spend Plan',
       null,
-      'Spend here: 1 buy, ~300k → Spend Plan',
+      'Spend here: 1 buy, about 300k coins → Spend Plan',
     ]);
   });
 });

@@ -149,7 +149,8 @@ describe('US-6 skulls for everyone', () => {
   it('one account line for 6 characters, the four at the cap first', () => {
     const r = run(w3());
     const g = r.account.goals.find((x) => x.id === 'worship.check.no-skull');
-    expect(g?.nextAction.text).toBe('Buy a Wax Skull for each of 6 characters at the Frostbite Towndra shop');
+    expect(g?.nextAction.text).toBe('Buy a Wax Skull for each of 6 characters');
+    expect(g?.nextAction.why).toMatch(/Frostbite Towndra shop/);
     const full = g?.details?.slice(0, 4).map((d) => d.text) ?? [];
     expect(full.every((t) => /: full, 50 of 50 charge$/.test(t))).toBe(true);
   });

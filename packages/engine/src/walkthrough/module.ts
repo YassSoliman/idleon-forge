@@ -188,18 +188,18 @@ export function createWalkthroughModule(deps: WalkthroughModuleDeps): EngineModu
               : null;
           const text =
             ch.action === 'swap-to-stored'
-              ? s('swap', { who: who(c), item: name, perHour: Math.round(ch.perHour ?? 0) })
-              : s('take-sample', {
-                  map: human(map ?? ''),
-                  who: who(c),
-                  item: name,
-                  replaces: old ? (s('replaces', { old }) ?? '') : '',
-                });
+              ? s('swap', { who: who(c), item: name })
+              : s('take-sample', { map: human(map ?? ''), who: who(c), item: name });
           if (text) lines.push({ subject: `c${c.index}`, text });
           const why =
             ch.action === 'swap-to-stored'
-              ? s('why-swap', { item: name, missing: ch.missing })
-              : `${s('why-take', { item: name, missing: ch.missing, who: who(c) }) ?? ''} ${
+              ? s('why-swap', { item: name, missing: ch.missing, perHour: Math.round(ch.perHour ?? 0) })
+              : `${
+                  s('why-take-how', {
+                    item: name,
+                    replaces: old ? (s('replaces', { old }) ?? '') : '',
+                  }) ?? ''
+                } ${s('why-take', { item: name, missing: ch.missing, who: who(c) }) ?? ''} ${
                   ch.resetLoss > 0.0005
                     ? (s('reset-loss', {
                         now: pr.multiNow.toFixed(2),

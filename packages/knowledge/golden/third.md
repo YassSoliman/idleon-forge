@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: third · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
@@ -6,34 +6,34 @@
 1 of 10 Ready · 9 Unknown
 
 ### C4 · Divine Knight 655 · Unknown
-1 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] [Anvil full in about 3 h · collect] · Can't tell from the save
+1 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2h] [Anvil full in about 3h · collect] · Can't tell from the save
 
 ### C3 · Bubonic Conjuror 568 · Unknown
-2 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] · Can't tell from the save
+2 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2h] · Can't tell from the save
 
 ### C5 · Beast Master 561 · Unknown
-3 · Fighting Minichief Spirit · Chieftain Stairway · [Traps idle in about 4 h] · Can't tell from the save
+3 · Fighting Minichief Spirit · Chieftain Stairway · [Traps idle in about 4h] · Can't tell from the save
 
 ### C8 · Divine Knight 558 · Unknown
-4 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] [Anvil full in about 3 h · collect] · Can't tell from the save
+4 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2h] [Anvil full in about 3h · collect] · Can't tell from the save
 
 ### C6 · Elemental Sorcerer 545 · Unknown
-5 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] [Anvil full in about 4 h · collect] · Can't tell from the save
+5 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2h] [Anvil full in about 4h · collect] · Can't tell from the save
 
 ### C2 · Siege Breaker 527 · Unknown
-6 · Fighting Green Mushroom · Spore Meadows · [Worship full · spend] [Traps idle in about 4 h] · Can't tell from the save
+6 · Fighting Green Mushroom · Spore Meadows · [Worship full · spend] [Traps idle in about 4h] · Can't tell from the save
 
 ### C10 · Siege Breaker 522 · Unknown
-7 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 4 h] · Can't tell from the save
+7 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 4h] · Can't tell from the save
 
 ### C1 · Blood Berserker 521 · Unknown
-8 · Cooking · Outer World Town · [Traps idle in about 2 h] · Not covered yet: Cooking
+8 · Cooking · Outer World Town · [Traps idle in about 2h] · Not covered yet: Cooking
 
 ### C9 · Elemental Sorcerer 552 · Unknown
-9 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] · Can't tell from the save
+9 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2h] · Can't tell from the save
 
 ### C7 · Voidwalker 523 · Ready
-10 · Mining Godshard · Motherlode Pit · [Traps idle in about 2 h]
+10 · Mining Godshard · Motherlode Pit · [Traps idle in about 2h]
 purpose: Godshard: stamp material for Forge Stamp
 
 ### Account · nothing to fix
@@ -58,7 +58,7 @@ purpose: Godshard: stamp material for Forge Stamp
 - Grow · Switch on a Refinery salt: Switch on Nullo Salt in the Refinery [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Spend anvil points: Unspent anvil points on 9 characters → Speed [IdleOn Wiki: Smithing, anvil points · Calculated by IdleOn Toolbox · 2.3.540]
   · Blood Berserker Lv 521: 11 into Speed, 0 into Capacity
   · Bubonic Conjuror Lv 568: 10 into Speed, 0 into Capacity
@@ -338,7 +338,7 @@ Account · Refinery
 | minigames.check.darts-spend | minigames/cooldown-spend | — | silent |  |
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
-| minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=0 |
+| minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=0 startsIn=19785 |
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | unknown (field-missing) |  |
 | poppy.check.open | poppy/pending-fish | — | silent |  |

@@ -153,21 +153,17 @@ export function buildStarSigns(
     (a, b) => Number(b.index === playing) - Number(a.index === playing) || a.index - b.index,
   )[0];
 
-  type SignsAction = { text: string; who: CharacterState; unlocks: string[] };
+  type SignsAction = { text: string; why?: string; who: CharacterState; unlocks: string[] };
   const signsAction = (constellationsShown: boolean): SignsAction | null => {
     if (beyond || !atTelescope) return null;
     // 1. Unlock, one trip (D-14).
     if (trip.signs.length > 0 && leg && (banked >= leg.remaining || !constellationsShown)) {
       const after = chartState(ctx, trip.signs);
       const own = fitGain(ctx, atTelescope, chart, after);
-      const unlock = S('unlock', {
-        who: who(atTelescope),
-        signs: signList(trip.signs),
-        cost: trip.cost,
-        points: banked,
-      });
+      const unlock = S('unlock', { who: who(atTelescope), signs: signList(trip.signs) });
       return {
         text: own.length ? S('unlock-align', { unlock, sign: joinAnd(own.map(human)) }) : unlock,
+        why: S('why-unlock', { cost: trip.cost, points: banked }),
         who: atTelescope,
         unlocks: trip.signs,
       };
@@ -283,6 +279,8 @@ export function buildStarSigns(
       const o = plan.opener;
       const s = plan.step;
       let text = '';
+      // The step is short (Design Lab copy rule); how to do it leads the Goal's why.
+      let stepWhy = '';
       let seconds: number | null = 180;
       if (s.kind === 'open') {
         const eta = s.seconds !== null ? T('open-eta', { eta: aboutDuration(s.seconds) }) : T('open-no-rate');
@@ -291,20 +289,26 @@ export function buildStarSigns(
           map: mapName(s.mapIndex),
           kills: s.kills,
           next: s.next === null ? T('the-top') : mapName(s.next),
-          eta,
         });
-        if (plan.whenFree) text = `${text}${T('when-free')}`;
+        stepWhy = [
+          T('why-open', { eta, kills: s.kills, next: s.next === null ? T('the-top') : mapName(s.next) }),
+          plan.whenFree ? T('why-when-free') : '',
+        ]
+          .filter(Boolean)
+          .join(' ');
         seconds = s.seconds;
-      } else if (s.kind === 'talk') text = T('talk', { who: who(o) });
-      else if (s.kind === 'a2')
-        text = s.candy
-          ? T(s.candy.fromStorage ? 'a2-candy-storage' : 'a2-candy', {
-              who: who(o),
-              hours: s.candy.hours,
-              target: back(o),
-            })
-          : T('a2-wait', { who: who(o) });
-      else text = T('hand-in', { who: who(o) });
+      } else if (s.kind === 'talk') {
+        text = T('talk', { who: who(o) });
+        stepWhy = T('why-talk');
+      } else if (s.kind === 'a2') {
+        const key = s.candy ? (s.candy.fromStorage ? 'a2-candy-storage' : 'a2-candy') : 'a2-wait';
+        const slots = { who: who(o), hours: s.candy?.hours ?? 0, afk: s.afkHours, target: back(o) };
+        text = T(key, slots);
+        stepWhy = T(`why-${key}`, slots);
+      } else {
+        text = T('hand-in', { who: who(o) });
+        stepWhy = T('why-hand-in');
+      }
       // FR-4: what the hand-in opens, counted as if it were done (with the quest's reward candies).
       const after = constellationCandidates(ctx, {
         assumeHandedIn: true,
@@ -316,7 +320,11 @@ export function buildStarSigns(
         p + banked >= cosmosLeft
           ? T('reach-cosmos')
           : T('reach-part', { points: p, need: Math.max(0, cosmosLeft - banked) });
-      const why = [T('why-start'), after.length ? T('why-after', { n: after.length, points: p, reach }) : '']
+      const why = [
+        stepWhy,
+        T('why-start'),
+        after.length ? T('why-after', { n: after.length, points: p, reach }) : '',
+      ]
         .filter(Boolean)
         .join(' ');
       const e = kb.entries[ENTRY.telescope];
@@ -350,7 +358,7 @@ export function buildStarSigns(
         d.title,
         key,
         d.steps[0]?.text ?? d.title,
-        C('why', { name: x.fact.name, points: x.fact.points }),
+        [d.steps[0]?.why, C('why', { name: x.fact.name, points: x.fact.points })].filter(Boolean).join(' '),
         undefined,
         ['account.starSigns', 'account.supplyRates', 'account.storageItems', 'characters[*].inventoryItems'],
         x.fact.anchor,
@@ -374,11 +382,16 @@ export function buildStarSigns(
       ];
       if (e)
         account.push({
-          goal: goalOf(kb, ENTRY.signs, e.title, `${ENTRY.signs}@account`, action.text, S('why'), details, [
-            'account.starSigns',
-            'characters[*].starSigns',
-            'characters[*].telescopeRoute',
-          ]),
+          goal: goalOf(
+            kb,
+            ENTRY.signs,
+            e.title,
+            `${ENTRY.signs}@account`,
+            action.text,
+            [action.why, S('why')].filter(Boolean).join(' '),
+            details,
+            ['account.starSigns', 'characters[*].starSigns', 'characters[*].telescopeRoute'],
+          ),
           rank: { urgency: 'banked', cost: effortCost(ctx.values.visitSeconds) },
         });
     }
@@ -521,49 +534,59 @@ function describeConstellation(
   const sources: SourceRef[] = sourcesOf(kb, ENTRY.constellation).map((s) =>
     s.url === LOCATIONS ? { ...s, url: `${LOCATIONS}#${f.anchor}` } : s,
   );
-  const step = (s: ConstellationStep): string => {
+  // A step is short (Design Lab copy rule); the rest of how to do it is its why, behind the tap.
+  const step = (s: ConstellationStep): { text: string; why: string } => {
     const c = characterOf(ctx, s.character) as CharacterState;
     const base = { who: who(c), map, world: f.world, target: back(c) };
     switch (s.kind) {
       case 'talk':
-        return C('step-talk', base);
+        return { text: C('step-talk', base), why: '' };
       case 'visit':
-        return C('step-visit', base);
-      case 'task':
-        return C('step-task', { ...base, task: C(`task-${f.name.toLowerCase()}`) });
+        return { text: C('step-visit', base), why: C('why-back', base) };
+      case 'task': {
+        const task = `task-${f.name.toLowerCase()}`;
+        return {
+          text: C('step-task', { ...base, task: C(task) }),
+          why: [C(`why-${task}`), C('why-task', base)].filter(Boolean).join(' '),
+        };
+      }
       case 'candy-withdraw':
-        return C('step-candy-withdraw', { ...base, hours: s.candy?.hours ?? f.min });
+        return { text: C('step-candy-withdraw', { ...base, hours: s.candy?.hours ?? f.min }), why: '' };
       case 'candy':
-        return C('step-candy', { ...base, hours: s.candy?.hours ?? f.min });
+        return {
+          text: C('step-candy', { ...base, hours: s.candy?.hours ?? f.min }),
+          why: C('why-candy', base),
+        };
       case 'key-withdraw':
-        return C('step-key-withdraw', { ...base, key: keyName(kb, f.enter?.key ?? '') });
+        return { text: C('step-key-withdraw', { ...base, key: keyName(kb, f.enter?.key ?? '') }), why: '' };
       case 'claim': {
         const e = f.enter;
-        if (e?.key)
-          return C('step-claim-key', {
-            ...base,
-            key: keyName(kb, e.key),
-            arena: mapName(e.arena ?? f.mapIndex),
-          });
-        if (e?.ticket)
-          return C(e.ticket === 1 ? 'step-claim-ticket' : 'step-claim-tickets', {
-            ...base,
-            tickets: e.ticket,
-          });
-        return C('step-claim', base);
+        if (e?.key) {
+          const slots = { ...base, key: keyName(kb, e.key), arena: mapName(e.arena ?? f.mapIndex) };
+          return { text: C('step-claim-key', slots), why: C('why-claim-key', slots) };
+        }
+        if (e?.ticket) {
+          const key = e.ticket === 1 ? 'step-claim-ticket' : 'step-claim-tickets';
+          const slots = { ...base, tickets: e.ticket };
+          return { text: C(key, slots), why: C(key.replace('step-', 'why-'), slots) };
+        }
+        return { text: C('step-claim', base), why: C('why-back', base) };
       }
     }
   };
-  const steps: WalkthroughStepView[] = x.steps.map((s, i) => ({
-    order: i + 1,
-    text: step(s),
-    when: i === 0 ? 'now' : 'after',
-    after: i === 0 ? [] : [i],
-    subject: `c${s.character}`,
-    progress: null,
-    why: null,
-    sources,
-  }));
+  const steps: WalkthroughStepView[] = x.steps.map((s, i) => {
+    const st = step(s);
+    return {
+      order: i + 1,
+      text: st.text,
+      when: i === 0 ? 'now' : 'after',
+      after: i === 0 ? [] : [i],
+      subject: `c${s.character}`,
+      progress: null,
+      why: st.why || null,
+      sources,
+    };
+  });
   const tree = x.recorded.map((i) => {
     const c = characterOf(ctx, i);
     return { depth: 0, text: C('recorded', { who: c ? who(c) : `C${i + 1}` }), done: true };

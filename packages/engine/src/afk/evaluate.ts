@@ -216,6 +216,24 @@ export function textOf(entry: Pick<CheckEntry, 'text' | 'values'>, slots: Record
   return entry.text;
 }
 
+/**
+ * The entry's why, or the `why-<flag>` variant that goes with a `text-<flag>` (same rule as `textOf`):
+ * a short step's detail lives behind the tap, so each step variant can carry its own (copy pass).
+ */
+export function whyOf(entry: Pick<CheckEntry, 'why' | 'values'>, slots: Record<string, unknown>): string {
+  const flagOf = (rest: string) => rest.replace(/-([a-z])/g, (_, ch: string) => ch.toUpperCase());
+  let lead: string | null = null;
+  let why: string | null = null;
+  for (const [key, template] of Object.entries(entry.values)) {
+    if (!key.startsWith('why-') || typeof template !== 'string') continue;
+    // `why-lead-<flag>`: the step's own detail, said before the entry's why (or its variant).
+    if (key.startsWith('why-lead-')) {
+      if (lead === null && slots[flagOf(key.slice(9))] === 1) lead = template;
+    } else if (why === null && slots[flagOf(key.slice(4))] === 1) why = template;
+  }
+  return lead === null ? (why ?? entry.why) : `${lead} ${why ?? entry.why}`;
+}
+
 function nextActionOf(
   entry: CheckEntry,
   subject: Subject,
@@ -229,7 +247,7 @@ function nextActionOf(
     key: `${entry.id}@${subject}`,
     entryId: entry.id,
     text: render(textOf(entry, slots), ...scopes),
-    why: render(entry.why, ...scopes),
+    why: render(whyOf(entry, slots), ...scopes),
     sources: entry.sources.map(sourceRef),
     stale,
     contested: null,

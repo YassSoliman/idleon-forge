@@ -129,6 +129,7 @@ export function renderNowText(view: NowView, options: RenderTextOptions = {}): s
     sp.lines.forEach((l, n) => {
       const bits = [l.text, l.levels, l.cost, l.payer, l.statusText, l.runningTotal].filter(Boolean);
       lines.push(`  ${n + 1}. ${bits.join(' · ')}`);
+      if (l.detail) lines.push(`     ${l.detail}`);
       if (l.note) lines.push(`     ${l.note}`);
     });
     if (sp.hiddenCount) lines.push(`  show more (${sp.hiddenCount})`);

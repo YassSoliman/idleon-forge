@@ -16,14 +16,18 @@ entries:
     category: compounding
     effortSeconds: 30
     detector: { id: construction/build-next, params: { parts: [W3-early] } }
-    text: "Upgrade the {building:name} in the Build menu when you have its {salt:name}: you have {held:int} in storage"
+    text: "Upgrade the {building:name} in the Build menu"
     why: "One building at a time, in the order that pays most now: at the Construction Table in Frostbite Tundra town, on any character. Then: {then1:name} to level {then1Level:int}, then {then2:name} to level {then2Level:int}."
     values:
-      text-collect: "Collect your {salt:name} from the Refinery's storage into the chest, then check the {building:name} in the Build menu: it upgrades when you have enough"
-      text-pay-timed: "Upgrade the {building:name} in the Build menu when you have its {salt:name}: you have {held:int} in storage; its bar is full in about {fullIn:duration}, refine it then"
-      text-slot-salt-off: "Put the {building:name} in an empty build slot at the Construction Table; it is paid in {salt:name}, which is not running yet"
+      text-collect: "Collect your {salt:name} from the Refinery's storage into the chest"
+      text-pay-timed: "Upgrade the {building:name} in the Build menu"
+      text-slot-salt-off: "Put the {building:name} in an empty build slot"
       text-slot: "Put the {building:name} in an empty build slot at the Construction Table"
       text-swap: "Swap the {building:name} into the build slot holding the {holder:name}"
+      why-lead-collect: "Then check the {building:name} in the Build menu: it upgrades when you have enough."
+      why-lead-pay-timed: "It upgrades when you have its {salt:name}; you have {held:int} in storage. Its bar is full in {fullIn:duration}: refine it then."
+      why-lead-pay: "It upgrades when you have its {salt:name}; you have {held:int} in storage."
+      why-lead-slot-salt-off: "The slot is at the Construction Table. It is paid in {salt:name}, which is not running yet."
       why-then-none: "One building at a time, in the order that pays most now: at the Construction Table in Frostbite Tundra town, on any character. It is the last one on this Stage's list."
       why-then-one: "One building at a time, in the order that pays most now: at the Construction Table in Frostbite Tundra town, on any character. Then: {then1:name} to level {then1Level:int}."
     doneWhen: { field: "account.construction.buildings[*].level", change: higher }

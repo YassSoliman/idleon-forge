@@ -95,25 +95,30 @@ describe('US-1 wrong preset before I leave', () => {
 describe('US-2 set up the empty second preset', () => {
   it('W2-late: three fighters with an empty second preset, with the first steps, the points and the swap back', () => {
     const out = run(W2());
-    expect(goalOf(out, 0, 'talent-presets.check.empty')?.goal.nextAction.text).toBe(
-      'Set up your second preset for skilling: start with Brute Efficiency, Idle Skilling. At least 640 points are waiting, then swap back to your fighting preset',
-    );
-    expect(goalOf(out, 3, 'talent-presets.check.empty')?.goal.nextAction.text).toBe(
-      'Set up your second preset for skilling: start with Elusive Efficiency, Quickness Boots. At least 575 points are waiting, then swap back to your fighting preset',
-    );
-    expect(goalOf(out, 4, 'talent-presets.check.empty')?.goal.nextAction.text).toBe(
-      "Set up your second preset for skilling: start with Smart Efficiency, Active AFK'er. At least 592 points are waiting, then swap back to your fighting preset",
-    );
+    for (const [i, steps] of [
+      [0, 'Brute Efficiency, Idle Skilling. At least 640'],
+      [3, 'Elusive Efficiency, Quickness Boots. At least 575'],
+      [4, "Smart Efficiency, Active AFK'er. At least 592"],
+    ] as const) {
+      const na = goalOf(out, i, 'talent-presets.check.empty')?.goal.nextAction;
+      expect(na?.text).toBe('Set up your second preset for skilling');
+      // Copy pass: the first steps, the points and the swap back sit in the why.
+      expect(na?.why).toContain(
+        `Start with ${steps} points are waiting; then swap back to your fighting preset.`,
+      );
+    }
     expect(goalOf(out, 0, 'talent-presets.check.empty')?.goal.title).toBe('Talent presets');
   });
 
   it('W3-early: the Squire Lv 85 is empty (at least 1,020) and the Shaman Lv 54 incomplete (at least 383)', () => {
     const out = run(W3());
-    expect(goalOf(out, 3, 'talent-presets.check.empty')?.goal.nextAction.text).toContain(
+    expect(goalOf(out, 3, 'talent-presets.check.empty')?.goal.nextAction.why).toContain(
       'At least 1,020 points are waiting',
     );
-    expect(goalOf(out, 5, 'talent-presets.check.incomplete')?.goal.nextAction.text).toMatch(
-      /^Finish your skilling preset: .*At least 383 points are waiting, then swap back to your fighting preset$/,
+    const inc = goalOf(out, 5, 'talent-presets.check.incomplete')?.goal.nextAction;
+    expect(inc?.text).toBe('Finish your skilling preset');
+    expect(inc?.why).toMatch(
+      /^Start with .*At least 383 points are waiting; then swap back to your fighting preset\./,
     );
   });
 
@@ -138,9 +143,9 @@ describe('US-3 points left behind on the other preset', () => {
   it('W3-early: the Wizard Lv 73 (215) and the Squire Lv 51 (115, all in the Squire tab, Refinery Throttle first)', () => {
     const out = run(W3());
     expect(goalOf(out, 0, 'talent-presets.check.behind')?.goal.nextAction.text).toMatch(/at least 215 /);
-    expect(goalOf(out, 1, 'talent-presets.check.behind')?.goal.nextAction.text).toBe(
-      'Spend at least 115 talent points on your skilling preset (Squire), starting with Refinery Throttle',
-    );
+    const behind = goalOf(out, 1, 'talent-presets.check.behind')?.goal.nextAction;
+    expect(behind?.text).toBe('Spend at least 115 talent points on your skilling preset');
+    expect(behind?.why).toMatch(/^On the Squire tabs, starting with Refinery Throttle\./);
     // The Barbarian Lv 56's 148 is suppressed by its wrong-preset blocker.
     expect(goalOf(out, 4, 'talent-presets.check.behind')).toBeUndefined();
     expect(analyzeAccount(W3(), facts).characters.get(4)?.other?.lb?.total).toBe(148);
@@ -192,8 +197,8 @@ describe('US-4 the core talent I missed', () => {
     // R5 QA P2-1: points are per tab. The Squire Lv 51's 115 waiting points are all in tab 3, so its
     // next step is Refinery Throttle (tab 3, not core: D6 keeps it to the preset Goal), never Big Pick.
     expect(goalOf(out, 1, 'talents.check.next-step')).toBeUndefined();
-    expect(goalOf(out, 1, 'talent-presets.check.behind')?.goal.nextAction.text).toMatch(
-      /starting with Refinery Throttle$/,
+    expect(goalOf(out, 1, 'talent-presets.check.behind')?.goal.nextAction.why).toMatch(
+      /starting with Refinery Throttle\./,
     );
   });
 
@@ -244,8 +249,9 @@ describe('US-5 attacks on the bar', () => {
     expect(charOf(evaluate(s), 0).findings.some((f) => f.entryId === 'talents.check.attack-bar')).toBe(false);
     const g = goalOf(run(s), 0, 'talents.check.attack-bar');
     expect(g?.goal.category).toBe('compounding');
-    expect(g?.goal.nextAction.text).toBe(
-      'Put more attacks on the bar: only one is on it, and Whirl, Bear Swipe, Axe Hurl are levelled on this preset',
+    expect(g?.goal.nextAction.text).toBe('Put more attacks on the bar');
+    expect(g?.goal.nextAction.why).toMatch(
+      /^Only one is on it, and Whirl, Bear Swipe, Axe Hurl are levelled on this preset\./,
     );
   });
 
@@ -260,9 +266,9 @@ describe('US-5 attacks on the bar', () => {
 
   it('FR-14: a mining Squire without Big Pick on its bar', () => {
     const s = setBar(W2(), 1, []);
-    expect(goalOf(run(s), 1, 'talents.check.skill-attack')?.goal.nextAction.text).toBe(
-      'Put Big Pick on the bar: it only helps Mining while it is there',
-    );
+    const na = goalOf(run(s), 1, 'talents.check.skill-attack')?.goal.nextAction;
+    expect(na?.text).toBe('Put Big Pick on the bar');
+    expect(na?.why).toMatch(/^It only helps Mining while it is there\./);
   });
 });
 
@@ -285,21 +291,22 @@ describe('US-6 when to use a reset potion', () => {
     const g = goalOf(run(withItems(squire(), 1, 0)), 1, 'talent-resets.check.reset');
     expect(g?.goal.title).toBe('Talents');
     // The in-game check names a talent this preset has well above the other preset (FR-16).
-    expect(g?.goal.nextAction.text).toMatch(
-      /^Reset your skilling preset with a Talent Point Reset Potion \(you have 1\): check it shows [A-Z][\w' ]+ at \d+, use the potion, then spend from Brute Efficiency on$/,
+    expect(g?.goal.nextAction.text).toBe('Reset your skilling preset with a Talent Point Reset Potion');
+    expect(g?.goal.nextAction.why).toMatch(
+      /^Potions held: 1\. Check it shows [A-Z][\w' ]+ at \d+, use the potion, then spend from Brute Efficiency on\./,
     );
     expect(g?.goal.nextAction.why).toContain('45 points');
   });
 
   it('with only fragments, the title counts them and the steps add the combine', () => {
     const g = goalOf(run(withItems(squire(), 0, 12)), 1, 'talent-resets.check.reset');
-    expect(g?.goal.nextAction.text).toMatch(/\(you have 12 fragments\): .*combine 10 fragments/);
+    expect(g?.goal.nextAction.why).toMatch(/^You have 12 fragments\. .*combine 10 fragments/);
   });
 
   it('on the other preset, the steps start with the swap', () => {
     const s = withItems(setTalent(W2(), 2, 'other', TALENT.GILDED_SWORD, 40), 1, 0);
-    expect(goalOf(run(s), 2, 'talent-resets.check.reset')?.goal.nextAction.text).toMatch(
-      /^Reset your skilling preset .*: swap to it, .*then swap back$/,
+    expect(goalOf(run(s), 2, 'talent-resets.check.reset')?.goal.nextAction.why).toMatch(
+      /^Potions held: 1\. Swap to the preset, .*then swap back\./,
     );
   });
 

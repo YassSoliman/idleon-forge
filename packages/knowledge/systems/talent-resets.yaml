@@ -7,13 +7,13 @@ entries:
     system: talent-resets
     type: check
     title: Reset a preset with a reset potion
-    text: "Reset your {role} preset with a Talent Point Reset Potion (you have {owned:int}): check it shows {checkTalent} at {checkLevel:int}, use the potion, then spend from {firstStep} on"
+    text: "Reset your {role} preset with a Talent Point Reset Potion"
     values:
-      text-swap-frag: "Reset your {role} preset with a Talent Point Reset Potion (you have {fragments:int} fragments): swap to it, check it shows {checkTalent} at {checkLevel:int}, combine 10 fragments, use the potion, spend from {firstStep} on, then swap back"
-      text-swap: "Reset your {role} preset with a Talent Point Reset Potion (you have {owned:int}): swap to it, check it shows {checkTalent} at {checkLevel:int}, use the potion, spend from {firstStep} on, then swap back"
-      text-frag: "Reset your {role} preset with a Talent Point Reset Potion (you have {fragments:int} fragments): check it shows {checkTalent} at {checkLevel:int}, combine 10 fragments, use the potion, spend from {firstStep} on"
+      why-swap-frag: "You have {fragments:int} fragments. Swap to the preset, check it shows {checkTalent} at {checkLevel:int}, combine 10 fragments, use the potion, spend from {firstStep} on, then swap back. {points:int} points sit in talents of the {otherRole} build ({talents}). A potion resets only the open preset, and never star talents."
+      why-swap: "Potions held: {owned:int}. Swap to the preset, check it shows {checkTalent} at {checkLevel:int}, use the potion, spend from {firstStep} on, then swap back. {points:int} points sit in talents of the {otherRole} build ({talents}). A potion resets only the open preset, and never star talents."
+      why-frag: "You have {fragments:int} fragments. Check the preset shows {checkTalent} at {checkLevel:int}, combine 10 fragments, use the potion, then spend from {firstStep} on. {points:int} points sit in talents of the {otherRole} build ({talents}). A potion resets only the open preset, and never star talents."
       goal: Talents
-    why: "{points:int} points sit in talents of the {otherRole} build ({talents}). A potion resets only the open preset, and never star talents."
+    why: "Potions held: {owned:int}. Check it shows {checkTalent} at {checkLevel:int}, use the potion, then spend from {firstStep} on. {points:int} points sit in {otherRole} talents ({talents}); a potion resets only the open preset, not star talents."
     sources:
       - { url: "https://idleon.wiki/wiki/Talent_Point_Reset_Potion", title: "IdleOn Wiki: Talent Point Reset Potion", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.531 }
       - { url: "https://idleon.wiki/wiki/Changelog/2022", title: "IdleOn Wiki: Changelog 2022 (a reset potion no longer resets the other preset)", tier: 2, claimDate: 2026-03-28, verified: 2026-10-17, gameVersion: 2.0.495 }

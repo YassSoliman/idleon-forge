@@ -53,12 +53,12 @@ entries:
     category: spendable
     effortSeconds: 60
     detector: { id: post-office/state, params: { part: boxes } }
-    text: "Spend Post Office boxes on {count:int} characters ({boxes:int} in all): Civil War Memory Box first"
+    text: "Spend {boxes:int} Post Office boxes on {count:int} characters"
     values:
-      text-one: "Spend {boxes:int} Post Office boxes on 1 character: Civil War Memory Box first"
+      text-one: "Spend {boxes:int} Post Office boxes on 1 character"
       detail: "{character}: {boxes:int} boxes"
     notes: "M3 Final rulings R-PILL-1 (owner, 2026-10-17) with #70 A5: one account line with show details, not the same Goal on every character."
-    why: "Boxes do nothing until spent. The usual order is Civil War, then the class's main skill box, then Civil War again."
+    why: "Start with the Civil War Memory Box. Boxes do nothing until spent. The usual order is Civil War, then the class's main skill box, then Civil War again."
     doneWhen: { field: "characters[*].postOfficeUnspent", change: lower }
     appliesTo: { stages: all }
     confidence: M

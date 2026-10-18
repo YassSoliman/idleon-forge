@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: first · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
@@ -6,26 +6,26 @@
 2 of 7 Ready · fix 1 before you leave · 4 Unknown
 
 ### C7 · Maestro 73 · Fix before you leave
-1 · Doing nothing · YumYum Grotto · [Traps idle in about 10 min] · Send Maestro Lv 73 to an AFK Target before you leave
+1 · Doing nothing · YumYum Grotto · [Traps idle in about 13m] · Pick an AFK Target before you leave
 
 ### C2 · Bubonic Conjuror 87 · Unknown
-2 · In the Lab · Outer World Town · [Traps idle in about 5 h] · Not covered yet: Laboratory · Spend here: 32 buys, ~3.6B → Spend Plan
+2 · In the Lab · Outer World Town · [Traps idle in about 5h] · Not covered yet: Laboratory · Spend here: 32 buys, about 3.6B coins → Spend Plan
 
 ### C6 · Beast Master 87 · Unknown
-3 · In the Lab · Outer World Town · [Traps idle in about 5 h] · Not covered yet: Laboratory
+3 · In the Lab · Outer World Town · [Traps idle in about 5h] · Not covered yet: Laboratory
 
 ### C3 · Siege Breaker 86 · Unknown
-4 · In the Lab · Outer World Town · [Traps idle in about 5 h] · Not covered yet: Laboratory
+4 · In the Lab · Outer World Town · [Traps idle in about 5h] · Not covered yet: Laboratory
 
 ### C5 · Elemental Sorcerer 87 · Unknown
-5 · In the Lab · Outer World Town · [Anvil full · collect] [Traps idle in about 5 h] · Not covered yet: Laboratory
+5 · In the Lab · Outer World Town · [Anvil full · collect] [Traps idle in about 5h] · Not covered yet: Laboratory
 
 ### C1 · Blood Berserker 96 · Ready
-6 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in about 5 h] · Collect 2 boss keys · Spend here: 1 buy, ~2M → Spend Plan
+6 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in about 5h] · Collect 2 boss keys · Spend here: 1 buy, about 2M coins → Spend Plan
 purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
 
 ### C4 · Divine Knight 86 · Ready
-7 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in about 5 h] · Spend at least 101 talent points on your skilling preset (Rage Basics, Warrior), starting with Big Pick, Lucky Clover · Spend here: 1 buy, ~935k → Spend Plan
+7 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in about 5h] · Spend at least 101 talent points on your skilling preset · Spend here: 1 buy, about 935k coins → Spend Plan
 purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
 
 ### Account · nothing to fix
@@ -48,20 +48,20 @@ purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
   ✓ Done: Weekly Battle · best this week: difficulty 2 of 5 · try again after your daily reset · new boss Thursday 00:00 UTC, in 5d 2h
 - Grow · Switch on a Refinery salt: Switch on Explosive Salts in the Refinery [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Collect banked Colosseum tickets: Collect 9 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 13 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 show more (16)
 Spend coins: 34 buys now on 3 characters
-  1. Buy the bribe Photoshopped Dmg Range on Bubonic Conjuror Lv 87: 1 dementia · Lv 0 → 1 · 100M coins · C2 (Bubonic Conjuror lv87) · withdraw 100M from storage on C2, then buy · total 100M on C2
-  2. Buy the bribe Glitched Acc Formula on Bubonic Conjuror Lv 87: 3 dementia · Lv 0 → 1 · 300M coins · C2 (Bubonic Conjuror lv87) · withdraw 300M from storage on C2, then buy · total 400M on C2
-  3. Buy the bribe Firewalled Defence on Bubonic Conjuror Lv 87: 7 dementia · Lv 0 → 1 · 700M coins · C2 (Bubonic Conjuror lv87) · withdraw 700M from storage on C2, then buy · total 1.1B on C2
-  4. Buy the bribe Bottomless Bags on Bubonic Conjuror Lv 87: 12 dementia · Lv 0 → 1 · 1.2B coins · C2 (Bubonic Conjuror lv87) · withdraw 1.2B from storage on C2, then buy · total 2.3B on C2
-  5. Buy the bribe Guild GP Hack on Blood Berserker Lv 96: 25 dementia · Lv 0 → 1 · 2.5B coins · save for it: 2.5B short
+  1. Buy the bribe Photoshopped Dmg Range on Bubonic Conjuror Lv 87: 100M coins · Lv 0 → 1 · withdraw 100M coins from storage on C2, then buy · total 100M coins on C2
+  2. Buy the bribe Glitched Acc Formula on Bubonic Conjuror Lv 87: 300M coins · Lv 0 → 1 · withdraw 300M coins from storage on C2, then buy · total 400M coins on C2
+  3. Buy the bribe Firewalled Defence on Bubonic Conjuror Lv 87: 700M coins · Lv 0 → 1 · withdraw 700M coins from storage on C2, then buy · total 1.1B coins on C2
+  4. Buy the bribe Bottomless Bags on Bubonic Conjuror Lv 87: 1.2B coins · Lv 0 → 1 · withdraw 1.2B coins from storage on C2, then buy · total 2.3B coins on C2
+  5. Buy the bribe Guild GP Hack on Blood Berserker Lv 96: 2.5B coins · Lv 0 → 1 · save for it: 2.5B coins short
   show more (35)
   can't price the Upgrade Vault right now
 If you have time
-- Clear the Sandstone Colosseum on 2 more characters (2 of 4); try with your Bubonic Conjuror Lv 87, your highest-level character not yet done; spends 2 Colosseum Tickets each · about 5m of hands-on play
+- Clear the Sandstone Colosseum on 2 more characters (2 of 4): try your Bubonic Conjuror Lv 87, highest-level not yet done; spends 2 Colosseum Tickets each · about 5m of hands-on play
 
 ## Not covered yet
 Bribes

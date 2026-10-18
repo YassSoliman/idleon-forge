@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: second · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
@@ -6,50 +6,50 @@
 8 of 10 Ready · 2 Unknown
 
 ### C7 · Voidwalker 510 · Unknown
-1 · Fighting Skydoggie Spirit · Dozey Dogpark · [Traps idle in about 2 h] · Can't tell from the save
+1 · Fighting Skydoggie Spirit · Dozey Dogpark · [Traps idle in about 2h] · Can't tell from the save
 
 ### C4 · Blood Berserker 501 · Unknown
-2 · Fighting The Rift · The Rift · [Traps idle in about 2 h] · Can't tell from the save
+2 · Fighting The Rift · The Rift · [Traps idle in about 2h] · Can't tell from the save
 
 ### C3 · Bubonic Conjuror 567 · Ready
-3 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h] · Equip 1 stored obol in a personal sparkle slot
+3 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h] · Equip 1 stored obol in a personal sparkle slot
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C2 · Divine Knight 544 · Ready
-4 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+4 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C6 · Siege Breaker 530 · Ready
-5 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+5 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C1 · Beast Master 507 · Ready
-6 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+6 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C9 · Hunter 503 · Ready
-7 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h] [Anvil full in about 6 h · collect]
+7 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h] [Anvil full in about 6h · collect]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C5 · Wizard 501 · Ready
-8 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h] [Anvil full in about 2 h · collect]
+8 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h] [Anvil full in about 2h · collect]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C10 · Barbarian 501 · Ready
-9 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+9 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C8 · Elemental Sorcerer 525 · Ready
-10 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+10 · Fighting Penguin · Signature Slopes · [Traps idle in about 2h]
 purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### Account · nothing to fix
 [checklist] Today 5/10 · Week 2/4 · daily reset in 11h 38m
-- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Gems unspent: 4,645 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
-- Spend · Spend Post Office boxes: Spend Post Office boxes on 8 characters (2,125 in all): Civil War Memory Box first [IdleOn Wiki: Post Office · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Spend Post Office boxes: Spend 2,125 Post Office boxes on 8 characters [IdleOn Wiki: Post Office · Calculated by IdleOn Toolbox · 2.3.540]
   · Beast Master Lv 507: 60 boxes
   · Blood Berserker Lv 501: 270 boxes
   · Wizard Lv 501: 512 boxes

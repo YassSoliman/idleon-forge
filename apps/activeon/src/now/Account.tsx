@@ -19,7 +19,7 @@ export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(functio
   return (
     <section ref={ref} className="account" aria-labelledby="account-h" tabIndex={-1}>
       <h2 id="account-h" className="section-h">
-        Account · any character
+        Account
       </h2>
       {acc.safetyUnknown ? (
         <div className="verdict unknown">
@@ -97,9 +97,9 @@ export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(functio
                   <b>{l.text}</b>
                   {l.levels ? ` · ${l.levels}` : ''}
                 </p>
+                {l.detail ? <p className="small muted spend-detail">{l.detail}</p> : null}
                 <p className="small">
-                  {l.cost}
-                  {l.payer ? ` · ${l.payer}` : ''} ·{' '}
+                  {[l.cost, l.payer, ''].filter((t) => t !== null).join(' · ')}
                   <span className={`pill s-${l.status}`}>{l.statusText}</span>
                 </p>
                 {l.runningTotal ? <p className="small muted num">{l.runningTotal}</p> : null}

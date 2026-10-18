@@ -19,7 +19,7 @@ export default defineDetector({
     // Authored from the minigames dossier: the most gems one day's Spiketrap round can give.
     maxGems: z.int().positive().default(40),
   }),
-  slots: z.strictObject({ gems: z.number(), minutes: z.number() }).partial(),
+  slots: z.strictObject({ gems: z.number(), minutes: z.number(), startsIn: z.number() }).partial(),
   reads: ['account.minigames', 'account.lastCloudSave', 'account.dailyResetInSeconds', 'diagnostics'],
   examples: {
     // W2-late at its save: 13 minutes to the hour, gems unclaimed.
@@ -43,7 +43,7 @@ export default defineDetector({
     return [
       {
         subject: accountSubject,
-        slots: { gems: maxGems, minutes: Math.round((topOfHour - now) / 60_000) },
+        slots: { gems: maxGems, minutes: Math.round((topOfHour - now) / 60_000), startsIn: topOfHour - now },
         result: 'fires' as const,
         urgency: 'lost-before-return' as const,
         deadline: topOfHour,

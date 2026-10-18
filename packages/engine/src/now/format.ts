@@ -2,51 +2,17 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // Number, duration and age formatting shared by the components and the text renderer (M10 TR-1).
 // Locale-free and deterministic, so golden snapshots don't depend on the machine.
-
-const SUFFIXES = ['', 'k', 'M', 'B', 'T', 'Qa', 'Qi'];
-
-const trim = (n: number, digits: number) => {
-  const s = n.toFixed(digits);
-  return s.includes('.') ? s.replace(/\.?0+$/, '') : s;
-};
-
-/** 950 -> "950", 1500 -> "1.5k", 13204 -> "13k", 100000 -> "100k", 2.4e6 -> "2.4M", 3e22 -> "3e22". */
-export function compact(n: number): string {
-  if (!Number.isFinite(n)) return '?';
-  const sign = n < 0 ? '-' : '';
-  let v = Math.abs(n);
-  if (v < 1000) return `${sign}${Math.round(v)}`;
-  let i = 0;
-  while (v >= 1000 && i < SUFFIXES.length - 1) {
-    v /= 1000;
-    i++;
-  }
-  if (v >= 1000) {
-    const [mantissa = '0', exp = '0'] = Math.abs(n).toExponential(1).split('e');
-    return `${sign}${trim(Number(mantissa), 1)}e${Number(exp)}`;
-  }
-  const rounded = v < 10 ? trim(v, 1) : String(Math.round(v));
-  // 999.6k rounds to "1000k": carry into the next suffix.
-  if (rounded === '1000' && i < SUFFIXES.length - 1) return `${sign}1${SUFFIXES[i + 1]}`;
-  return `${sign}${rounded}${SUFFIXES[i]}`;
-}
-
-/** 7200 -> "2h", 1800 -> "30m", 129600 -> "36h". For chips and short labels. */
-export function shortDuration(seconds: number): string {
-  const s = Math.max(0, Math.round(seconds));
-  if (s < 3600) return `${Math.max(1, Math.round(s / 60))}m`;
-  const h = s / 3600;
-  return `${Number.isInteger(h) ? h : trim(h, 1)}h`;
-}
-
-/** "about 9h", "about 45m", "about 3d"; under a minute "under a minute". */
-export function aboutDuration(seconds: number): string {
-  const s = Math.max(0, seconds);
-  if (s < 60) return 'under a minute';
-  if (s < 3600) return `about ${Math.round(s / 60)}m`;
-  if (s < 100 * 3600) return `about ${Math.round(s / 3600)}h`;
-  return `about ${Math.round(s / 86_400)}d`;
-}
+//
+// The number, coin and duration formats live in the Knowledge Base's template module, so a template's
+// `{x:duration}` / `{x:coins}` and the engine's own strings print exactly the same words.
+export {
+  aboutDuration,
+  compact,
+  formatCoins,
+  inSpan,
+  shortDuration,
+  span,
+} from '@idleon-forge/knowledge/template';
 
 /** 42 -> "42s", 300 -> "5m", 7300 -> "2h 1m", 200000 -> "2d". Ages clamp at 0 (clock skew). */
 export function formatAge(seconds: number): string {
@@ -59,21 +25,6 @@ export function formatAge(seconds: number): string {
 
 /** "1 buy", "3 buys". */
 export const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
-
-/**
- * M17 (Design Lab hard rule): the one duration format of the Timeline: "14h 04m", "45m", "2d 12h".
- * Under a minute reads "1m"; from 48 h it switches to days and hours.
- */
-export function span(ms: number): string {
-  const m = Math.max(1, Math.round(Math.max(0, ms) / 60_000));
-  if (m < 60) return `${m}m`;
-  const h = Math.floor(m / 60);
-  if (h < 48) return `${h}h ${String(m % 60).padStart(2, '0')}m`;
-  return `${Math.floor(h / 24)}d ${h % 24}h`;
-}
-
-/** "in 14h 04m": the Timeline's relative time (Design Lab P6). */
-export const inSpan = (ms: number): string => `in ${span(ms)}`;
 
 /** "01:20" in the player's timezone (minutes east of UTC); deterministic for goldens at 0. */
 export function clockAt(at: number, tzOffsetMinutes: number): string {

@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: fourth · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
@@ -6,7 +6,7 @@
 0 of 2 Ready · fix 1 before you leave · 1 Unknown
 
 ### C2 · Beginner 1 · Fix before you leave
-1 · Doing nothing · Blunder Hills · Send Beginner Lv 1 to an AFK Target before you leave
+1 · Doing nothing · Blunder Hills · Pick an AFK Target before you leave
 
 ### C1 · Voidwalker 476 · Unknown
 2 · Fighting Woodlin Spirit · Edge of the Valley · Can't tell from the save
@@ -15,7 +15,7 @@
 [checklist] Today 2/10 · Week 0/3 · daily reset in 20h 04m
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Today's Random Event: Random Event now on Wam Wonderland (Glacial Guild): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Gems unspent: 999 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
@@ -165,7 +165,7 @@ Account · Refinery
 | minigames.check.darts-spend | minigames/cooldown-spend | — | silent |  |
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
-| minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=9 |
+| minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=9 startsIn=517638 |
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | unknown (field-missing) |  |
 | poppy.check.open | poppy/pending-fish | — | silent |  |

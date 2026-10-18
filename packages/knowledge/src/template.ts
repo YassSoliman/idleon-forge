@@ -4,7 +4,7 @@
 // M10 renders it as a text node only, so a template can never inject markup.
 import type { SlotValue } from './types';
 
-export const FORMATS = ['int', 'compact', 'pct', 'coins', 'duration', 'name', 'date'] as const;
+export const FORMATS = ['int', 'compact', 'pct', 'coins', 'duration', 'hours', 'name', 'date'] as const;
 export type Format = (typeof FORMATS)[number];
 /** The slot type each format accepts. A number slot can't take `name`; a string slot takes only `name`. */
 export const FORMAT_TYPE: Readonly<Record<Format, 'number' | 'string'>> = {
@@ -14,6 +14,7 @@ export const FORMAT_TYPE: Readonly<Record<Format, 'number' | 'string'>> = {
   coins: 'number',
   duration: 'number',
   name: 'string',
+  hours: 'number',
   date: 'number',
 };
 
@@ -101,31 +102,103 @@ const COIN_TIERS = [
   'dreadlo',
   'godshard',
 ];
-/** 1234567 coins -> "1 platinum 23 gold": the top two non-zero tiers. */
+const trimFixed = (n: number, digits: number) => {
+  const s = n.toFixed(digits);
+  return s.includes('.') ? s.replace(/\.?0+$/, '') : s;
+};
+const ROUND_SUFFIXES = ['', 'k', 'M', 'B', 'T', 'Qa', 'Qi'];
+
+/**
+ * The app's one short-number format (M10 TR-1): 950 -> "950", 1500 -> "1.5k", 13204 -> "13k",
+ * 2.4e6 -> "2.4M", 3e22 -> "3e22". Rounds to nearest (`formatCompact` floors, for progress).
+ */
+export function compact(n: number): string {
+  if (!Number.isFinite(n)) return '?';
+  const sign = n < 0 ? '-' : '';
+  let v = Math.abs(n);
+  if (v < 1000) return `${sign}${Math.round(v)}`;
+  let i = 0;
+  while (v >= 1000 && i < ROUND_SUFFIXES.length - 1) {
+    v /= 1000;
+    i++;
+  }
+  if (v >= 1000) {
+    const [mantissa = '0', exp = '0'] = Math.abs(n).toExponential(1).split('e');
+    return `${sign}${trimFixed(Number(mantissa), 1)}e${Number(exp)}`;
+  }
+  const rounded = v < 10 ? trimFixed(v, 1) : String(Math.round(v));
+  // 999.6k rounds to "1000k": carry into the next suffix.
+  if (rounded === '1000' && i < ROUND_SUFFIXES.length - 1) return `${sign}1${ROUND_SUFFIXES[i + 1]}`;
+  return `${sign}${rounded}${ROUND_SUFFIXES[i]}`;
+}
+
+/**
+ * The one coin format (Design Lab rule): 157_000_000 -> "157M coins", 1.3e9 -> "1.3B coins". Text never
+ * prints the game's tiers ("1 dementia 57 platinum"); `coinTiers` keeps them for an optional icon row.
+ */
 export function formatCoins(n: number): string {
-  if (!Number.isFinite(n) || n < 1) return '0 copper';
+  if (!Number.isFinite(n) || n < 1) return '0 coins';
+  return `${compact(n)} coins`;
+}
+
+/** 1234567 coins -> 1 platinum, 23 gold: the top two non-zero tiers. For an optional coin-icon visual only. */
+export function coinTiers(n: number): { q: number; name: string }[] {
+  if (!Number.isFinite(n) || n < 1) return [];
   let digits = BigInt(Math.floor(n)).toString();
   const tiers: number[] = [];
   while (digits.length > 0) {
     tiers.push(Number(digits.slice(-2)));
     digits = digits.slice(0, -2);
   }
-  const named = tiers.map((q, i) => ({ q, name: COIN_TIERS[i] ?? `tier-${i + 1}` })).reverse();
-  return named
+  return tiers
+    .map((q, i) => ({ q, name: COIN_TIERS[i] ?? `tier-${i + 1}` }))
+    .reverse()
     .filter((t) => t.q > 0)
-    .slice(0, 2)
-    .map((t) => `${t.q} ${t.name}`)
-    .join(' ');
+    .slice(0, 2);
 }
 
-/** ms -> coarse buckets, so small upstream changes don't move the text: < 1 h in 10 min steps, < 24 h in whole hours, then days. */
+/**
+ * The app's one approximate duration (Design Lab rule): "about 9h", "about 45m", "about 3d"; under a
+ * minute "under a minute". A template writes `{x:duration}`, never its own "about" or unit.
+ */
+export function aboutDuration(seconds: number): string {
+  const s = Math.max(0, seconds);
+  if (s < 60) return 'under a minute';
+  if (s < 3600) return `about ${Math.round(s / 60)}m`;
+  if (s < 100 * 3600) return `about ${Math.round(s / 3600)}h`;
+  return `about ${Math.round(s / 86_400)}d`;
+}
+
+/** The `{x:duration}` format: ms -> `aboutDuration`; zero or less reads "now". */
 export function formatDuration(ms: number): string {
   if (!Number.isFinite(ms) || ms <= 0) return 'now';
-  const min = ms / 60_000;
-  if (min < 60) return min < 10 ? 'under 10 min' : `${Math.round(min / 10) * 10} min`;
-  const h = ms / 3_600_000;
-  if (h < 24) return `${Math.max(1, Math.round(h))} h`;
-  return `${Math.max(1, Math.round(h / 24))} d`;
+  return aboutDuration(ms / 1000);
+}
+
+/**
+ * The app's one exact duration (M17, Design Lab P6): "14h 04m", "45m", "2d 12h". Under a minute reads
+ * "1m"; from 48 h it switches to days and hours. Countdowns read "in 14h 04m" (`inSpan`).
+ */
+export function span(ms: number): string {
+  const m = Math.max(1, Math.round(Math.max(0, ms) / 60_000));
+  if (m < 60) return `${m}m`;
+  const h = Math.floor(m / 60);
+  if (h < 48) return `${h}h ${String(m % 60).padStart(2, '0')}m`;
+  return `${Math.floor(h / 24)}d ${h % 24}h`;
+}
+
+/** "in 14h 04m": the Timeline's relative time (Design Lab P6). */
+export const inSpan = (ms: number): string => `in ${span(ms)}`;
+
+/**
+ * 7200 -> "2h", 1800 -> "30m", 129600 -> "36h": an exact short time for chips and labels, and the
+ * `{x:hours}` format (a slot in hours: a return window, a game's "AFK 12h" requirement).
+ */
+export function shortDuration(seconds: number): string {
+  const s = Math.max(0, Math.round(seconds));
+  if (s < 3600) return `${Math.max(1, Math.round(s / 60))}m`;
+  const h = s / 3600;
+  return `${Number.isInteger(h) ? h : trimFixed(h, 1)}h`;
 }
 
 /** epoch ms -> "2026-10-17" (UTC). */
@@ -155,6 +228,8 @@ export function formatValue(value: SlotValue, format: Format | null): string {
       return formatCoins(value);
     case 'duration':
       return formatDuration(value);
+    case 'hours':
+      return shortDuration(value * 3600);
     case 'date':
       return formatDate(value);
     default:

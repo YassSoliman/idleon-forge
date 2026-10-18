@@ -20,7 +20,7 @@ import {
   type StageId,
   stagesBetween,
 } from '@idleon-forge/knowledge';
-import { AFK_SAFETY_ENTRIES, characterBuiltins, textOf, timelineWordsOf } from '../afk/evaluate';
+import { AFK_SAFETY_ENTRIES, characterBuiltins, textOf, timelineWordsOf, whyOf } from '../afk/evaluate';
 import { AFK_INFO_ENTRIES } from '../afk/info';
 import type { CharacterContribution, EngineInput, EngineModule, ModuleGoal } from '../core/module';
 import { lookupOf } from '../metapath/knowledge';
@@ -99,14 +99,7 @@ const sourceRef = (s: SourceT): SourceRef => ({
 });
 
 /** The entry's `why-<flag>` variant when that slot is 1 (as `textOf` picks `text-<flag>`), else its why. */
-export function whyOf(entry: Pick<CheckEntryT, 'why' | 'values'>, slots: Record<string, unknown>): string {
-  for (const [key, template] of Object.entries(entry.values)) {
-    if (!key.startsWith('why-') || typeof template !== 'string') continue;
-    const flag = key.slice(4).replace(/-([a-z])/g, (_, ch: string) => ch.toUpperCase());
-    if (slots[flag] === 1) return template;
-  }
-  return entry.why;
-}
+export { whyOf };
 
 const subjectKey = (f: CheckFinding): Subject =>
   f.subject.kind === 'account' ? 'account' : `c${f.subject.index}`;

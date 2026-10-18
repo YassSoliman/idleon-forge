@@ -22,9 +22,8 @@ describe('US-1 a fighter that would die', () => {
     expect(f?.role).toBe('blocker');
     // Max HP about 722: Meat Pie (500 a bite) is the smallest heal that refills most of it. Magic
     // Meatloaf (2000) overheals, and Kebab Sticks (300) and Hot Dog (50) refill too little.
-    expect(f?.nextAction.text).toBe(
-      'Equip or swap in Meat Pie before you leave: Barbarian is at 78% survivability, and you own 105',
-    );
+    expect(f?.nextAction.text).toBe('Equip Meat Pie before you leave');
+    expect(f?.nextAction.why).toMatch(/^This character is at 78% survivability and you own 105\./);
     expect(f?.nextAction.sources[0]?.tier).toBe(1);
     expect(f?.nextAction.sources[0]?.url).toContain('parsers/damage.ts');
   });
@@ -36,13 +35,14 @@ describe('US-1 a fighter that would die', () => {
     // 30 Meat Pie an hour is 15,000 HP an hour: 105 Meat Pie last about 3.5 h, under 8 h, and no other
     // owned stack lasts longer, so the efficient food is named with a stock-up.
     expect(f?.role).toBe('blocker');
-    expect(f?.nextAction.text).toBe(
-      'Equip Meat Pie before you leave, and stock up on it: your 105 last about 4 h, less than your return (Barbarian is at 78% survivability)',
+    expect(f?.nextAction.text).toBe('Equip Meat Pie and stock up on it before you leave');
+    expect(f?.nextAction.why).toMatch(
+      /^Your 105 last about 4h, less than your return, and this character is at 78% survivability\./,
     );
     // At a 2 h return the same stack lasts: plain equip text.
     const r2 = evaluate(s, 2, { history: eatingHistory(s, 0, 30) });
     const g = charOf(r2, 0).findings.find((x) => x.entryId === 'afk.check.dies-fixable-by-food');
-    expect(g?.nextAction.text).toMatch(/^Equip or swap in Meat Pie before you leave/);
+    expect(g?.nextAction.text).toBe('Equip Meat Pie before you leave');
   });
 
   it('shows no food blocker on the W2-late Shaman, Bowman or Wizard', () => {
@@ -153,9 +153,8 @@ describe('US-2 food that runs out overnight', () => {
     expect(f?.role).toBe('blocker');
     expect(f?.fixHolds).toBe(true);
     expect(((f?.at ?? 0) - (s.characters[3]?.afk?.afkSince ?? 0)) / HOUR_MS).toBeCloseTo(7.3, 1);
-    expect(f?.nextAction.text).toMatch(
-      /^Add more health food from storage: it runs out in about 7 h \(146 left\)/,
-    );
+    expect(f?.nextAction.text).toBe('Add more health food from storage');
+    expect(f?.nextAction.why).toMatch(/^It runs out in about 7h \(146 left\)\./);
   });
 
   it('shows no food blocker at 4 h; the run-out is after the return', () => {
@@ -187,9 +186,8 @@ describe('US-4 anvil that caps, and anvil that cannot be helped (#70 A5, R-PILL-
     expect(pill?.label).toBe('Anvil full · collect');
     expect(pill?.fullNow).toBe(true);
     expect(pill?.key).toBe('anvil.check.caps-before-return@c0');
-    expect(pill?.nextAction.text).toMatch(
-      /^Collect Thread from the anvil \(time to cap: now; it refills in 3 h after you collect\)/,
-    );
+    expect(pill?.nextAction.text).toBe('Collect Thread from the anvil');
+    expect(pill?.nextAction.why).toMatch(/^Time to cap: now; it refills in about 3h after you collect\./);
     // Still Fix, but only for its food: the anvil is not one of its blockers.
     expect(blockers(barb.findings)).toEqual(['afk.check.dies-fixable-by-food']);
     for (const i of [1, 2, 3, 4]) expect(capsOf(charOf(r, i))).toEqual([]);
@@ -276,9 +274,8 @@ describe('US-6 account stockpiles that cap', () => {
     expect(blockers(r.account.findings)).toEqual(['arcade.check.balls-cap']);
     const water = r.account.findings.find((f) => f.entryId === 'alchemy.check.liquid-cap-line');
     expect(water?.role).toBe('next-action');
-    expect(water?.nextAction.text).toBe(
-      "Spend Water (bubbles, vials or the Liquid Shop): it's at cap (32 of 32)",
-    );
+    expect(water?.nextAction.text).toBe('Spend Water on bubbles, vials or the Liquid Shop');
+    expect(water?.nextAction.why).toMatch(/^Water is at cap \(32 of 32\)\./);
     expect(r.account.findings.map((f) => f.entryId)).not.toContain('alchemy.check.liquid-cap');
   });
 
@@ -288,8 +285,10 @@ describe('US-6 account stockpiles that cap', () => {
     const slow = evaluate(s, 8, { history: waterHistory(s, 2) });
     expect(blockers(slow.account.findings)).toContain('alchemy.check.liquid-cap');
     expect(slow.account.findings.map((f) => f.entryId)).not.toContain('alchemy.check.liquid-cap-line');
-    expect(slow.account.findings.find((f) => f.entryId === 'alchemy.check.liquid-cap')?.nextAction.text).toBe(
-      "Spend Water (bubbles, vials or the Liquid Shop): it's at cap (32 of 32) and your saves show it takes about 16 h to refill, longer than your return",
+    const slowNa = slow.account.findings.find((f) => f.entryId === 'alchemy.check.liquid-cap')?.nextAction;
+    expect(slowNa?.text).toBe('Spend Water on bubbles, vials or the Liquid Shop');
+    expect(slowNa?.why).toMatch(
+      /^Water is at cap \(32 of 32\), and your saves show it takes about 16h to refill, longer than your return\./,
     );
     // At a 24 h return the same 16 h refill is faster than the return: an account line again.
     const long = evaluate(s, 24, { history: waterHistory(s, 2) });
@@ -350,9 +349,8 @@ describe('US-7 an inventory that is full', () => {
     const blocked = evaluate(fill(W2(), 3));
     const f = charOf(blocked, 1).findings.find((x) => x.entryId === 'afk.check.skiller-carry');
     expect(f?.role).toBe('blocker');
-    expect(f?.nextAction.text).toBe(
-      'Deposit to storage: Copper is at its carry cap (274) and the bag has no free slot',
-    );
+    expect(f?.nextAction.text).toBe('Deposit Copper to storage');
+    expect(f?.nextAction.why).toMatch(/^Copper is at its carry cap \(274\) and the bag has no free slot/);
     // The real W2-late storage is full (91 of 91), so depositing is not possible: a Next Action.
     const full = charOf(evaluate(fill(W2(), 0)), 1).findings.find(
       (x) => x.entryId === 'afk.check.skiller-carry',
@@ -369,7 +367,8 @@ describe('US-8 empty Parallel Slots and idle traps', () => {
     const r = evaluate(patchAfk(W2(), 3, { cauldronAssigned: false }));
     const f = charOf(r, 3).findings.find((x) => x.entryId === 'alchemy.check.cauldron-unassigned');
     expect(f?.role).toBe('blocker');
-    expect(f?.nextAction.text).toBe('Assign Bowman Lv 54 to a cauldron before you leave');
+    // Copy pass rule 6: the Bowman's own row doesn't repeat its name in the action.
+    expect(f?.nextAction.text).toBe('Assign this character to a cauldron before you leave');
   });
 
   const trap = (offsetH: number) => {
@@ -387,7 +386,7 @@ describe('US-8 empty Parallel Slots and idle traps', () => {
   it('a trap finishing in 3 h against 8 h is a "Traps idle" pill (R-PILL-1); a finished trap blocks', () => {
     const running = charOf(evaluate(trap(3)), 4);
     expect(running.caps.find((p) => p.entryId === 'trapping.check.finishes-early')?.label).toBe(
-      'Traps idle in about 3 h',
+      'Traps idle in about 3h',
     );
     expect(running.findings.map((f) => f.entryId)).not.toContain('trapping.check.finishes-early');
     // This fisher is also on its fighting preset: M9's wrong-preset blocker joins the pipeline (M9 US-1).

@@ -194,13 +194,14 @@ export function familyUnlockGoal(
       ? t('eta-none')
       : u.eta.kind === 'too-long'
         ? t('eta-long')
-        : u.eta.days === 1
-          ? t('eta-day')
-          : render(t('eta-days'), { days: u.eta.days });
+        : render(t('eta-days'), { eta: u.eta.days * 86_400_000 });
   const afterWhat = u.after ? gateWhat(v, u.after, null) : null;
   const after =
     u.after && afterWhat ? render(t('after'), { what: afterWhat, gate: u.after.familyLevel }) : '';
-  const text = [head, altar, eta].filter(Boolean).join('; ');
+  // Copy pass: the step is the unlock itself; the altar and the ETA ride in the why, as sentences.
+  const sentence = (s: string) => (s ? `${s.charAt(0).toUpperCase()}${s.slice(1)}.` : '');
+  const more = [sentence(altar), sentence(eta)].filter(Boolean).join(' ');
+  const text = head;
   // M15 FR-15: with M4's top Class XP Next Action, that is the step; the unlock line rides as its detail.
   if (classXp)
     return {
@@ -211,7 +212,7 @@ export function familyUnlockGoal(
       nextAction: {
         ...classXp,
         key: `${FAMILY_UNLOCK_ID}@account`,
-        why: [text, e.why, after].filter(Boolean).join('. '),
+        why: [`${text}.`, more, e.why, after].filter(Boolean).join(' '),
         sources: [...sourcesOf(e), ...classXp.sources],
         provenance: {
           entryIds: [
@@ -241,7 +242,7 @@ export function familyUnlockGoal(
       key: `${FAMILY_UNLOCK_ID}@account`,
       entryId: FAMILY_UNLOCK_ID,
       text,
-      why: [e.why, after].filter(Boolean).join(' '),
+      why: [more, e.why, after].filter(Boolean).join(' '),
       sources: sourcesOf(e),
       stale: false,
       contested: null,

@@ -13,7 +13,7 @@ entries:
     effortSeconds: 20
     detector: { id: pets/free-pull }
     text: "Claim your free pet pull at Doggy"
-    why: "The free pull has been claimable for about {hoursClaimable:int}h, and a missed day is not given back."
+    why: "The free pull has been claimable for {claimable:duration}, and a missed day is not given back."
     doneWhen: { field: "account.pets.freeClaimAnchor", change: higher }
     appliesTo: { stages: all }
     confidence: H

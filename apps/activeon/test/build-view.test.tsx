@@ -220,7 +220,7 @@ describe('Build view', () => {
     expect(fold?.open).toBe(false);
     expect(overview.querySelector('summary')?.textContent).toBe('Builds1 with unspent points›');
     // The Account is on Now, never under the optional overviews.
-    expect(screen.queryByRole('region', { name: 'Account · any character' })).toBeNull();
+    expect(screen.queryByRole('region', { name: 'Account' })).toBeNull();
     act(() => {
       window.history.replaceState(null, '', '/#builds');
       window.dispatchEvent(new HashChangeEvent('hashchange'));

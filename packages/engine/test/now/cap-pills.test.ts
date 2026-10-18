@@ -73,9 +73,8 @@ describe('R-PILL-1 on the W3-early save with every anvil full', () => {
     const f = buildNowView(r, EMPTY_PREFS, { ...DEFAULT_UI, now: W3_LATE, focus: i }).focus;
     expect(f?.blockers).toEqual([]);
     const anvil = f?.caps.find((c) => c.entryId === 'anvil.check.caps-before-return');
-    expect(anvil?.text).toMatch(
-      /^Collect .+ from the anvil \(time to cap: now; it refills in .+ after you collect\)$/,
-    );
+    expect(anvil?.text).toMatch(/^Collect .+ from the anvil$/);
+    expect(anvil?.why).toMatch(/^Time to cap: now; it refills in .+ after you collect\./);
     expect(anvil?.why).toMatch(/Anvil production stops at capacity/);
     expect(anvil?.source?.text).toBe('IdleOn Wiki: Smithing, anvil production');
     expect(anvil?.fullNow).toBe(true);

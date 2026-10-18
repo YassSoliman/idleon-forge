@@ -41,8 +41,10 @@ export interface SpendLine {
   shortfall?: { coins: number; closest: number };
   /** Hydrogen hold (D4). */
   hold?: { discountPct: number; neededPct: number; days: number };
-  /** Rendered from the entry's template; class and level only, no names. */
+  /** Rendered from the entry's template; class and level only, no names. A short step (12 words or fewer). */
   text: string;
+  /** The rest of the line: a grouped line's purchase names and its "carry N X on Y" steps; null if none. */
+  detail: string | null;
   /** FR-19 rendering: costs at 2 s.f., no shortfall, transfer or balance. */
   reportText: string;
   why: string;

@@ -116,7 +116,7 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
           {card.name}
         </h2>
         <p className="small muted">
-          {card.classLabel} · lv {card.level} · {[card.activity, card.map].filter(Boolean).join(' · ')}
+          {[`${card.classLabel} · lv ${card.level}`, card.activity, card.map].filter(Boolean).join(' · ')}
         </p>
         <CapPills caps={card.caps} />
       </div>

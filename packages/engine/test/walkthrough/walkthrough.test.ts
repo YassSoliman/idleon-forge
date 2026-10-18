@@ -66,18 +66,19 @@ describe('US-1 The Post Office before Anvil Tab 2 (W2-late), with R-Q9a', () => 
 
   it('makes Distilled Water the Bottleneck: 8 now on 32 Water, up to 3 days, and starts it first', () => {
     const first = view.steps[0];
-    expect(first?.text).toContain('Buy 18 Distilled Water at the Liquid Shop');
-    expect(first?.text).toContain('the 32 Water you hold buys 8 now');
-    expect(first?.text).toContain('up to 3 days');
+    expect(first?.text).toBe('Buy 18 Distilled Water at the Liquid Shop (W2 Alchemy)');
+    expect(first?.why).toContain('The 32 Water you hold buys 8 now');
+    expect(first?.why).toContain('up to 3 days');
     expect(first?.why).toContain('needed once Anvil Tab 2 is done');
   });
 
-  it('sends the Bowman Lv 54 to The Mimic Hole: about 3,900 kills, about 2.6 h', () => {
+  it('sends the Bowman Lv 54 to The Mimic Hole: about 3,900 kills, about 3h', () => {
     const s = stepWith(view, 'Megalodon Tooth');
     expect(s?.subject).toBe('c3');
-    expect(s?.text).toContain('Send the Bowman Lv 54 to The Mimic Hole (W2)');
-    expect(s?.text).toMatch(/about 3,9\d\d kills/);
-    expect(s?.text).toContain('about 2.6 h');
+    // A short step; the numbers are in its Why (Design Lab copy rule).
+    expect(s?.text).toBe('Send the Bowman Lv 54 to The Mimic Hole (W2) for Megalodon Tooth');
+    expect(s?.why).toMatch(/about 3,9\d\d kills/);
+    expect(s?.why).toContain('about 3h at');
     expect(rowGoals(r, 3)[0]?.nextAction.text).toBe(
       'Move to The Mimic Hole: Megalodon Tooth for Unlock the Post Office',
     );
@@ -87,12 +88,17 @@ describe('US-1 The Post Office before Anvil Tab 2 (W2-late), with R-Q9a', () => 
     const s = stepWith(view, 'Hermit Can at Salty Shores');
     expect(s?.subject).toBe('c0');
     expect(s?.text).toBe(
-      "On the Barbarian Lv 60: finish Djonnut's quest 2, then gather Hermit Can at Salty Shores (1,250 needed; no rate yet, skilling)",
+      "On the Barbarian Lv 60: finish Djonnut's quest 2, then gather Hermit Can at Salty Shores",
     );
     expect(s?.why).toContain('the push serves the higher-ranked Goal');
+    // Copy pass: the job's count rides in the why.
+    expect(s?.why).toContain('1,250 Hermit Can needed for the gathering job; no rate yet (skilling).');
     // No other character fishes for it (a Lv 1 fisher never beats the Role holder at an equal rate).
     expect(view.steps.filter((x) => x.text.includes('Hermit Can') && x.subject !== 'c0')).toHaveLength(0);
-    expect(rowGoals(r, 0)[0]?.nextAction.text).toBe(s?.text);
+    // The row already names the Barbarian, so its own text doesn't repeat it.
+    expect(rowGoals(r, 0)[0]?.nextAction.text).toBe(
+      "Finish Djonnut's quest 2, then gather Hermit Can at Salty Shores",
+    );
   });
 
   it('R-Q9a item 4: the preset steps are explicit, after the push', () => {
@@ -105,15 +111,15 @@ describe('US-1 The Post Office before Anvil Tab 2 (W2-late), with R-Q9a', () => 
 
   it('US-5: the Horns need a door nobody free has opened; names who can and what opens it', () => {
     const s = stepWith(view, 'Bullfrog Horn');
-    expect(s?.text).toContain('Farm 92 Bullfrog Horn at Tucked Away (W1)');
-    expect(s?.text).toContain('the door from Encroaching Forest Villas needs 4,200 kills first');
+    expect(s?.text).toBe('Farm 92 Bullfrog Horn at Tucked Away (W1)');
+    expect(s?.why).toContain('the door from Encroaching Forest Villas needs 4,200 kills first');
     expect(s?.subject).toBeNull();
   });
 
   it('runs Chain Link on an anvil hammer, collects and smelts the Iron Bars, then crafts in order', () => {
-    expect(stepWith(view, 'anvil hammer to Chain Link')?.text).toContain('82 needed');
+    expect(stepWith(view, 'anvil hammer to Chain Link')?.why).toContain('82 needed');
     expect(stepWith(view, 'Collect 66 Iron Bar from the Forge')).toBeDefined();
-    expect(stepWith(view, 'Smelt 15 more Iron Bar')?.text).toContain('Iron Ore you hold');
+    expect(stepWith(view, 'Smelt 15 more Iron Bar')?.why).toContain('Iron Ore you hold');
     const tab = stepWith(view, 'Craft 1 Anvil Tab 2');
     const use = stepWith(view, 'Use Anvil Tab 2');
     const box = stepWith(view, 'Craft 5 Empty Box');
@@ -165,15 +171,18 @@ describe('US-2 The Post Office, nearly there (W3-early)', () => {
 
   it('buys Distilled Water today (9 for about 43 Water) instead of farming it', () => {
     expect(stepWith(view, 'Distilled Water')?.text).toBe(
-      "Buy 9 Distilled Water at the Liquid Shop (W2 Alchemy) for about 43 Water, if you haven't bought any today",
+      'Buy 9 Distilled Water at the Liquid Shop (W2 Alchemy)',
+    );
+    expect(stepWith(view, 'Distilled Water')?.why).toContain(
+      "It costs about 43 Water, if you haven't bought any today.",
     );
   });
 
   it('sends the Shaman Lv 54 for the Teeth; the Barbarian (fishing Role) and the pusher stay', () => {
     const s = stepWith(view, 'Megalodon Tooth');
     expect(s?.subject).toBe('c5');
-    expect(s?.text).toMatch(/about 2,1\d\d kills/);
-    expect(s?.text).toContain('about 2.4 h');
+    expect(s?.why).toMatch(/about 2,1\d\d kills/);
+    expect(s?.why).toContain('about 2h at');
     expect(rowGoals(r, 4)).toHaveLength(0);
     expect(rowGoals(r, 3)).toHaveLength(0);
   });
@@ -190,7 +199,10 @@ describe('US-3 The printer feeds the Demand (W3-early)', () => {
 
   it('proposes one change: the Wizard Lv 73 samples Megalodon Tooth at The Mimic Hole', () => {
     expect(printer?.nextAction.text).toBe(
-      'Visit The Mimic Hole on the Wizard Lv 73, put Printer Sampling on the attack bar and use it, set the new Megalodon Tooth sample active in place of Forest Fibres, then go back',
+      'Take a Megalodon Tooth sample at The Mimic Hole on the Wizard Lv 73',
+    );
+    expect(printer?.nextAction.why).toContain(
+      'Put Printer Sampling on the attack bar and use it, set the new Megalodon Tooth sample active in place of Forest Fibres, then go back.',
     );
     expect(printer?.details).toBeUndefined();
   });

@@ -32,7 +32,10 @@ export {
   STALE_AFTER_VERSIONS,
 } from './stale';
 export {
+  aboutDuration,
   BUILTIN_SLOTS,
+  coinTiers,
+  compact,
   FORMAT_TYPE,
   FORMATS,
   type Format,
@@ -44,8 +47,11 @@ export {
   formatName,
   formatPct,
   formatValue,
+  inSpan,
   parseTemplate,
   render,
+  shortDuration,
+  span,
   TemplateError,
   type TemplatePart,
 } from './template';

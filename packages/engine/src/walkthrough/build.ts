@@ -260,6 +260,16 @@ export function planWalkthroughs(
   return { walkthroughs: views, built: views, demand, jobs, printer, rows };
 }
 
+/** A step's reason and its detail as one Why: "it is the slowest part, so it starts now. 5 needed: ...". */
+function joinWhy(...parts: (string | null | undefined)[]): string | null {
+  const xs = parts.map((p) => p?.trim()).filter((p): p is string => !!p);
+  if (xs.length === 0) return null;
+  return xs.reduce((a, b) => (/[.!?]$/.test(a) ? `${a} ${b}` : `${a}. ${b}`));
+}
+
+/** "farm X at Y, then ..." -> "Farm X at Y, then ...": a row's own text starts a sentence. */
+const capitalize = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+
 /** An FR-21 Next Action for a character row. */
 export interface RowAction {
   characterIndex: number;
@@ -361,6 +371,13 @@ function stepsOf(
     let text: string | null = null;
     let subject: Subject | null = null;
     let why: string | null = null;
+    let rowText: string | null = null;
+    // The step's numbers and conditions: its `<template>-why`, joined after the reason (copy rule 1).
+    const detail: { why: string | null } = { why: null };
+    const sw = (t: string, slots: Record<string, SlotValue>) => {
+      detail.why = s(`${t}-why`, slots);
+      return s(t, slots);
+    };
     // R-Q9a item 4: preset steps go right before the job, or right after it when the push comes first.
     const presetTexts: { text: string; subject: Subject }[] = [];
     let presetsAfter = false;
@@ -368,9 +385,9 @@ function stepsOf(
       const L = sup.liquid;
       text =
         L.costForMissing !== null
-          ? s('buy-liquid-today', { missing: n.missing, item: n.name, cost: Math.round(L.costForMissing) })
+          ? sw('buy-liquid-today', { missing: n.missing, item: n.name, cost: Math.round(L.costForMissing) })
           : L.days !== null
-            ? s('buy-liquid-days', {
+            ? sw('buy-liquid-days', {
                 missing: n.missing,
                 item: n.name,
                 water: Math.floor(L.water),
@@ -390,17 +407,17 @@ function stepsOf(
       const c = bestChar ? char(bestChar.characterIndex) : undefined;
       text =
         c && bestChar
-          ? s('produce', {
+          ? sw('produce', {
               item: n.name,
               who: who(c),
               level: c.smithingLevel ?? 0,
               missing: n.missing,
               hours: hoursText(bestChar.etaSeconds as number),
             })
-          : s('produce-gate', { missing: n.missing, item: n.name, level: sup.anvil.levelReq });
+          : sw('produce-gate', { missing: n.missing, item: n.name, level: sup.anvil.levelReq });
       subject = c ? `c${c.index}` : null;
     } else if (l.effort.kind === 'smelt' && sup?.forge)
-      text = s('smelt', {
+      text = sw('smelt', {
         missing: n.missing,
         item: n.name,
         ore: sup.forge.oreHeld,
@@ -426,8 +443,8 @@ function stepsOf(
                 }) ?? '')
               : '';
           text = already
-            ? s('gather-already', { who: who(c), item: n.name, map: where.map ?? '', missing: n.missing })
-            : s('gather', {
+            ? sw('gather-already', { who: who(c), item: n.name, map: where.map ?? '', missing: n.missing })
+            : sw('gather', {
                 who: who(c),
                 map: where.map ?? '',
                 world: where.world ?? 0,
@@ -435,16 +452,15 @@ function stepsOf(
                 missing: n.missing,
                 gate,
               });
-        } else if (already)
-          text = s('farm-already', {
-            who: who(c),
-            item: n.name,
-            map: where.map ?? ch.supply.kind,
-            hours: job.etaSeconds !== null ? hoursText(job.etaSeconds) : '?',
-            missing: n.missing,
-          });
-        else
-          text = s('farm', {
+        } else if (already) {
+          text = s('farm-already', { who: who(c), item: n.name, map: where.map ?? ch.supply.kind });
+          // No rate: the time is left out, never printed as "?" (Design Lab copy rule).
+          detail.why =
+            job.etaSeconds !== null
+              ? s('farm-already-why', { hours: hoursText(job.etaSeconds), missing: n.missing })
+              : s('farm-already-why-none', { missing: n.missing });
+        } else
+          text = sw('farm', {
             who: who(c),
             map: where.map ?? '',
             world: where.world ?? 0,
@@ -480,8 +496,8 @@ function stepsOf(
             const raw = pushGoal?.nextAction.text ?? 'finish the portal push';
             const pushText = raw.charAt(0).toLowerCase() + raw.slice(1);
             const jobText = skill
-              ? s('job-gather', { item: n.name, map: where.map ?? '', missing: n.missing })
-              : s('job-farm', {
+              ? sw('job-gather', { item: n.name, map: where.map ?? '', missing: n.missing })
+              : sw('job-farm', {
                   item: n.name,
                   map: where.map ?? '',
                   kills: Math.round(ch.eval.killsNeeded ?? 0),
@@ -495,10 +511,11 @@ function stepsOf(
               first: (firstPush ? pushText : jobText) ?? '',
               second: (firstPush ? jobText : pushText) ?? '',
             };
-            text =
-              firstSeconds !== null
-                ? s('sequence', { ...slots, firstHours: hoursText(firstSeconds) })
-                : s('sequence-plain', slots);
+            const timed = firstSeconds !== null ? { ...slots, firstHours: hoursText(firstSeconds) } : null;
+            text = timed ? s('sequence', timed) : s('sequence-plain', slots);
+            // The row already names the character: its own text drops "On the <who>:" (copy rule 6).
+            const own = timed ? s('sequence-own', timed) : s('sequence-own-plain', slots);
+            rowText = own ? capitalize(own) : text;
             why =
               job.sequence.reason === 'short'
                 ? s('sequence-why-short', {})
@@ -516,8 +533,8 @@ function stepsOf(
               parentKey: b.parent.key,
               parentEntryId: b.parent.entryId,
               text:
-                job.sequence && text
-                  ? text
+                job.sequence && rowText
+                  ? rowText
                   : (s('assign', { map: where.map ?? '', item: n.name, goal: parentTitle }) ?? ''),
               why:
                 s('assign-why', {
@@ -535,7 +552,7 @@ function stepsOf(
           .map((p) => char(p.characterIndex));
         text =
           door && sp && reachers.length <= 1
-            ? s('farm-locked', {
+            ? sw('farm-locked', {
                 missing: n.missing,
                 item: n.name,
                 map: sp.where.map ?? '',
@@ -575,13 +592,15 @@ function stepsOf(
       when: 'now',
       subject,
       progress,
-      why:
+      why: joinWhy(
         why ??
-        (isBottleneck
-          ? behind.has(n)
-            ? s('reason-start-early', { gate: behind.get(n) as string })
-            : s('reason-bottleneck', {})
-          : null),
+          (isBottleneck
+            ? behind.has(n)
+              ? s('reason-start-early', { gate: behind.get(n) as string })
+              : s('reason-bottleneck', {})
+            : null),
+        detail.why,
+      ),
       sources: src(n),
     });
     leafStep.set(n, at);
@@ -634,10 +653,15 @@ function stepsOf(
     if (node.kind === 'item' && node.via === 'recipe' && node.missing > 0 && !node.stoppedBecause) {
       const smith = node.children.find((x) => x.kind === 'gate' && x.gate === 'smithing');
       const level = smith?.kind === 'gate' ? (smith.level ?? 0) : 0;
-      const text =
-        smith?.kind === 'gate' && smith.met === false
-          ? s('craft-gate', { amount: node.missing, item: node.name, level })
-          : s('craft', { amount: node.missing, item: node.name, level, bag: s('craft-bag', {}) ?? '' });
+      const gated = smith?.kind === 'gate' && smith.met === false;
+      const slots = {
+        amount: node.missing,
+        item: node.name,
+        level,
+        bag: gated ? '' : (s('craft-bag', {}) ?? ''),
+      };
+      const text = s(gated ? 'craft-gate' : 'craft', slots);
+      const why = s(gated ? 'craft-gate-why' : 'craft-why', slots);
       craftStep.set(
         node,
         add({
@@ -646,7 +670,7 @@ function stepsOf(
           after: stepsUnder(node),
           subject: null,
           progress: { held: node.held, need: node.need },
-          why: null,
+          why,
           sources: src(node),
         }),
       );

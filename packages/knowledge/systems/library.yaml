@@ -15,8 +15,8 @@ entries:
     category: spendable
     effortSeconds: 30
     detector: { id: library/checkout }
-    text: "Library: check out {talent} for your {who} (you have {checkouts:int} checkouts; the next one is ready in about {nextIn:duration})"
-    why: "Books raise a talent's max level for the character who reads it. Each checkout you keep makes the next one slower. Talent Book Library, Frostbite Tundra town: the {page} page."
+    text: "Check out {talent} for your {who} at the Library"
+    why: "Checkouts: {checkouts:int}; the next is ready in {nextIn:duration}, and each one you keep makes the next slower. A book raises a talent's max level for its reader. Talent Book Library, Frostbite Tundra town: the {page} page."
     values:
       detail: "then {talent} for your {who}"
       detail-nice: "Your {who} can read the {count:int} {talent} books you hold (no current build uses it; free, but low value)"
@@ -38,10 +38,11 @@ entries:
     category: compounding
     effortSeconds: 10
     detector: { id: library/read-book }
-    text: "Read the {talent} book (Lv {level:int}) on your {who}: hold it down from its inventory"
-    why: "A talent book raises that talent's max level on the character who reads it, and their build uses it. Books you can still read: {count:int}."
+    text: "Read the {talent} book (Lv {level:int}) on your {who}"
+    why: "Hold it down from its inventory to read it. A talent book raises that talent's max level on the character who reads it, and their build uses it. Books you can still read: {count:int}."
     values:
-      text-in-storage: "Read the {talent} book (Lv {level:int}) on your {who}: take it from storage and hold it down"
+      text-in-storage: "Read the {talent} book (Lv {level:int}) on your {who}"
+      why-in-storage: "Take it from storage and hold it down to read it. A talent book raises that talent's max level on the character who reads it, and their build uses it. Books you can still read: {count:int}."
       detail: "then the {talent} book (Lv {level:int}) on your {who}"
     doneWhen: { field: "account.library.heldBooks", change: changed }
     appliesTo: { stages: [{ from: W3-early, to: W4-entry }] }

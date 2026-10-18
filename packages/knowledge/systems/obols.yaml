@@ -34,8 +34,8 @@ entries:
     category: compounding
     effortSeconds: 60
     detector: { id: obols/state, params: { view: stored } }
-    text: "Equip {count:int} stored {obolsWord} in {where}{merit}"
-    why: "Any obol beats an empty slot; family slots count for every character, so they fill first."
+    text: "Equip {count:int} stored {obolsWord} in {where}"
+    why: "Any obol beats an empty slot; family slots count for every character, so they fill first{merit}."
     values:
       groupText: "Equip stored {shape} obols in the personal slots of {characters:int} characters{merit}"
       detailText: "{who}: {count:int}"

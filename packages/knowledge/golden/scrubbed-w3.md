@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 896
+# golden v1: scrubbed-w3 · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 896
 
 ## Verdict changes
 
@@ -6,24 +6,24 @@
 2 of 6 Ready · fix 2 before you leave · 2 Unknown
 
 ### C3 · Bowman 60 · Fix before you leave
-1 · Fighting Sand Giant · Sands of Time · [Anvil full · collect] [Worship full · spend] · Swap to your fighting preset before you leave · Spend here: 6 buys, ~589M → Spend Plan
+1 · Fighting Sand Giant · Sands of Time · [Anvil full · collect] [Worship full · spend] · Swap to your fighting preset before you leave · Spend here: 6 buys, about 589M coins → Spend Plan
 
 ### C5 · Barbarian 56 · Fix before you leave
 2 · Fishing Small Fish · Salty Shores · [Anvil full · collect] [Worship full · spend] · Swap to your skilling preset before you leave
 purpose: Fishing 22 → 30 opens Deepwater Docks
 
 ### C6 · Shaman 54 · Unknown
-3 · Fighting Sand Castle · Shifty Sandbox · [Anvil full · collect] · Can't tell from the save · Spend here: 1 buy, ~700M → Spend Plan
+3 · Fighting Sand Castle · Shifty Sandbox · [Anvil full · collect] · Can't tell from the save · Spend here: 1 buy, about 700M coins → Spend Plan
 
 ### C1 · Wizard 73 · Unknown
-4 · Fighting Sir Stache · The Stache Split · [Anvil full · collect] · Can't tell from the save · Spend here: 2 buys, ~1.6B → Spend Plan
+4 · Fighting Sir Stache · The Stache Split · [Anvil full · collect] · Can't tell from the save · Spend here: 2 buys, about 1.6B coins → Spend Plan
 
 ### C4 · Squire 85 · Ready
-5 · Fighting Thermister · Thermonuclear Climb · [Anvil full · collect] [Worship full · spend] · Collect 6 boss keys · Spend here: 1 buy, ~2B → Spend Plan
+5 · Fighting Thermister · Thermonuclear Climb · [Anvil full · collect] [Worship full · spend] · Collect 6 boss keys · Spend here: 1 buy, about 2B coins → Spend Plan
 purpose: Thermister card: first copy (5× drop chance while unowned) · about 2h on average · consider stopping here
 
 ### C2 · Squire 51 · Ready
-6 · Mining Gold · Freefall Caverns · [Anvil full · collect] [Worship full · spend] · Spend at least 115 talent points on your skilling preset (Squire), starting with Refinery Throttle
+6 · Mining Gold · Freefall Caverns · [Anvil full · collect] [Worship full · spend] · Spend at least 115 talent points on your skilling preset
 purpose: Mining 29 → 40 opens Echoing Egress
 
 ### Account · nothing to fix
@@ -48,22 +48,25 @@ purpose: Mining 29 → 40 opens Echoing Egress
 - Spend · Collect banked Colosseum tickets: Collect 4 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 show more (25)
 Spend coins: 10 buys now on 4 characters
-  1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before you redeem Colosseum tickets: 1 dementia · Lv 0 → 1 · 100M coins · C3 (Bowman lv60) · buy · total 100M on C3
-  2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 1 gold 26 silver (carry 25 Jungle Logs on Wizard Lv 73) · Lv 10 → 20 · 13k coins · C3 (Bowman lv60) · buy · total 100M on C3
-  3. Raise 8 stamp caps, then buy their new levels on Bowman Lv 60: Sword Stamp, Mana Stamp, Hatchet Stamp and 5 more, about 95 platinum 51 gold (carry 1k Spore Cap on Wizard Lv 73; carry 36 Copper Ore on Wizard Lv 73; carry 281 Thread on Wizard Lv 73; carry 1.1k Goldfish on Squire Lv 85; carry 5.8k Iron Ore on Wizard Lv 73; carry 9.2k Thread on Wizard Lv 73; carry 677 Spore Cap on Wizard Lv 73; carry 5.5k Sentient Cereal on Squire Lv 85) · 96M coins · C3 (Bowman lv60) · buy · total 196M on C3
-  4. Buy 2 Vault upgrades on Wizard Lv 73: Vault Mastery, Major Discount, 12 dementia 57 platinum · 1.3B coins · C1 (Wizard lv73) · buy · total 1.3B on C1
-  5. Turn the Beholder statue Gold (cost not checked, see the price in game) · Lv 0 → 1 · cost not checked, see the price in game · cost not checked
+  1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before redeeming tickets: 100M coins · Lv 0 → 1 · buy · total 100M coins on C3
+  2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 13k coins · Lv 10 → 20 · buy · total 100M coins on C3
+     carry 25 Jungle Logs on Wizard Lv 73
+  3. Raise and level 8 capped stamps on Bowman Lv 60: about 96M coins · buy · total 196M coins on C3
+     Sword Stamp, Mana Stamp, Hatchet Stamp and 5 more · carry 1k Spore Cap on Wizard Lv 73; carry 36 Copper Ore on Wizard Lv 73; carry 281 Thread on Wizard Lv 73; carry 1.1k Goldfish on Squire Lv 85; carry 5.8k Iron Ore on Wizard Lv 73; carry 9.2k Thread on Wizard Lv 73; carry 677 Spore Cap on Wizard Lv 73; carry 5.5k Sentient Cereal on Squire Lv 85
+  4. Buy 2 Vault upgrades on Wizard Lv 73: 1.3B coins · buy · total 1.3B coins on C1
+     Vault Mastery, Major Discount
+  5. Turn the Beholder statue Gold · Lv 0 → 1 · cost not checked
      totals below assume you skip the unchecked items
   show more (10)
 If you have time
 - Use today's 4 minigame plays · about 10m of hands-on play
-- XxX Cattleprod XxX 2 on Squire 85: kill 30 Mafiosos and 18 Sand Castles before the timer runs out → Mason Jar Stamp and Fishhead Stamp · about 10m of hands-on play
+- XxX Cattleprod XxX 2 on Squire 85: kill 30 Mafiosos and 18 Sand Castles in time → Mason Jar Stamp and Fishhead Stamp · about 10m of hands-on play
 - Crystalswine 1 on Squire 85: kill every Cryosnake on the map before time runs out → Hermes Stamp · about 10m of hands-on play
-- Wellington 1 on Squire 85: find the 3 invisible platforms hidden around the game → Arcane Stamp and Brainstew Stamps; then: Wellington 2 gives Fly Intel Stamp and Holy Mackerel Stamp, and you already hold the 2,500 High Steaks, Wakka Cherry and Singlecle, but it needs 11 more free inventory slots · about 15m of hands-on play
-- Kill Amarok in under 20 seconds on 1 more character (2 of 3); try with your Bowman Lv 60, your highest-level character not yet done; spends 1 Forest Villa Key each · about 5m of hands-on play
+- Wellington 1 on Squire 85: find the 3 hidden invisible platforms → Arcane Stamp and Brainstew Stamps; then: Wellington 2 gives Fly Intel Stamp and Holy Mackerel Stamp, and you already hold the 2,500 High Steaks, Wakka Cherry and Singlecle, but it needs 11 more free inventory slots · about 15m of hands-on play
+- Kill Amarok in under 20 seconds on 1 more character (2 of 3): try your Bowman Lv 60, highest-level not yet done; spends 1 Forest Villa Key each · about 5m of hands-on play
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 6m of hands-on play
 
 ## Not covered yet

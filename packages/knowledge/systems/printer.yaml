@@ -25,15 +25,18 @@ entries:
       anvilTab4: items.acquisition.equipment-smithing-tabs4
       # Judgment (FR-27a): a sample is offered past this printer-bonus loss only for the Bottleneck.
       maxResetLoss: 0.1
-      take-sample: "Visit {map} on the {who}, put Printer Sampling on the attack bar and use it, set the new {item} sample active{replaces}, then go back"
+      # Steps are at most 12 words (kb check step-words); the how-to and the numbers go in the why.
+      take-sample: "Take a {item} sample at {map} on the {who}"
+      why-take-how: "Put Printer Sampling on the attack bar and use it, set the new {item} sample active{replaces}, then go back."
       replaces: " in place of {old}"
-      swap: "In the 3D Printer, set the {who}'s active sample to {item} (stored, about {perHour:int}/h)"
+      swap: "Set the {who}'s active sample to {item} in the 3D Printer"
       why-take: "{item} is in your Walkthrough Demand ({missing:int} still needed) and no stored sample covers it. The {who} samples best there. The sample size shows in the printer once taken."
-      why-swap: "{item} is in your Walkthrough Demand ({missing:int} still needed); swapping between stored samples resets nothing."
+      why-swap: "{item} is in your Walkthrough Demand ({missing:int} still needed); it is stored, about {perHour:int}/h, and swapping between stored samples resets nothing."
       reset-loss: "Taking a sample resets the printer bonus: all printing x{now} to x{after}."
       reset-none: "This account's printer bonus doesn't drop when a sample is taken."
       covered: "{item} is covered: keep this sample"
-      no-slot: "3D Printer Lv {level:int}: {printing:int} of {characters:int} characters can print; Construction raises it"
+      no-slot: "3D Printer Lv {level:int}: {printing:int} of {characters:int} characters can print"
+      no-slot-why: "Construction raises the printer's level."
       no-talent: "Printer Sampling (Star Talent tab 2) is at 0 on the {who}"
     appliesTo: { stages: all }
     confidence: M

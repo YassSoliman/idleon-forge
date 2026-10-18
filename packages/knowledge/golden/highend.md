@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: highend · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
@@ -6,37 +6,37 @@
 0 of 11 Ready · fix 4 before you leave · 7 Unknown
 
 ### C4 · Divine Knight 1819 · Fix before you leave
-1 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Traps idle in about 3 h] · Send Divine Knight Lv 1,819 to an AFK Target before you leave
+1 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Traps idle in about 3h] · Pick an AFK Target before you leave
 
 ### C10 · Wind Walker 1742 · Fix before you leave
-2 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Collect and re-place your 1 finished traps, sized to your return, then close the game fully
+2 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3h] · Collect and re-place your 1 finished traps
 
 ### C7 · Divine Knight 1734 · Fix before you leave
-3 · Doing nothing · Blunder Hills · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Send Divine Knight Lv 1,734 to an AFK Target before you leave
+3 · Doing nothing · Blunder Hills · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3h] · Pick an AFK Target before you leave
 
 ### C11 · Beginner 1717 · Fix before you leave
-4 · Paying respect Bravery · The Hole · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Collect and re-place your 1 finished traps, sized to your return, then close the game fully
+4 · Paying respect Bravery · The Hole · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3h] · Collect and re-place your 1 finished traps
 
 ### C8 · Voidwalker 1764 · Unknown
-5 · Spelunking C1 Way Opening · Coralcave Perimeter · [Anvil full · collect] [Traps idle in about 3 h] · Not covered yet: Spelunking
+5 · Spelunking C1 Way Opening · Coralcave Perimeter · [Anvil full · collect] [Traps idle in about 3h] · Not covered yet: Spelunking
 
 ### C5 · Arcane Cultist 1762 · Unknown
-6 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Traps idle in about 3 h] · Can't tell from the save
+6 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Traps idle in about 3h] · Can't tell from the save
 
 ### C6 · Wind Walker 1744 · Unknown
-7 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Can't tell from the save
+7 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3h] · Can't tell from the save
 
 ### C9 · Arcane Cultist 1743 · Unknown
-8 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Traps idle in about 3 h] · Can't tell from the save
+8 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Traps idle in about 3h] · Can't tell from the save
 
 ### C2 · Siege Breaker 1725 · Unknown
-9 · Spelunking Buried Church · Middle of Nowhere · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Not covered yet: Spelunking
+9 · Spelunking Buried Church · Middle of Nowhere · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3h] · Not covered yet: Spelunking
 
 ### C1 · Death Bringer 1701 · Unknown
-10 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Not covered yet: Cooking
+10 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3h] · Not covered yet: Cooking
 
 ### C3 · Elemental Sorcerer 1734 · Unknown
-11 · Spelunking Buried Church · Middle of Nowhere · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Not covered yet: Spelunking
+11 · Spelunking Buried Church · Middle of Nowhere · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3h] · Not covered yet: Spelunking
 
 ### Account · nothing to fix
 [checklist] Today 5/11 · Week 3/4 · daily reset in 23m
@@ -58,8 +58,8 @@
   ✓ Done: Bonus Ballot vote · Leading now: Boosts Artifact Find chance in Sailing by 3.41x · new ballot Monday about 17:00 UTC, in 6d 19h
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Spend anvil points: Unspent anvil points on 11 characters → Speed and Capacity [IdleOn Wiki: Smithing, anvil points · Calculated by IdleOn Toolbox · 2.3.540]
   · Death Bringer Lv 1701: 0 into Speed, 62 into Capacity
   · Siege Breaker Lv 1725: 0 into Speed, 23 into Capacity
@@ -317,7 +317,7 @@ Account · Refinery
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=2220 |
 | minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
-| pets.check.free-pull | pets/free-pull | account | fires | hoursClaimable=496056 |
+| pets.check.free-pull | pets/free-pull | account | fires | claimable=1785803142903 hoursClaimable=496056 |
 | pets.check.mart-gems | pets/mart-gems | — | silent |  |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
 | post-office.check.daily-orders | post-office/state | account | fires | companies=1 |

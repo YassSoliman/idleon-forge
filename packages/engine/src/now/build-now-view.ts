@@ -7,6 +7,7 @@
 
 import { playerSources } from '@idleon-forge/knowledge/player-sources';
 import { toolboxPage } from '@idleon-forge/knowledge/toolbox-site';
+import { UNKNOWN_ACTIVITY } from '../core/labels';
 import type {
   ActivePlay,
   CharacterResult,
@@ -23,7 +24,11 @@ import type {
 import { buildsView } from './build-view';
 import { cardsView } from './cards-view';
 import { checklistView } from './checklist-view';
-import { aboutDuration, compact, plural, shortDuration } from './format';
+import { aboutDuration, compact, formatCoins, plural, shortDuration } from './format';
+
+/** Copy pass rule 3: an unknown where-token is hidden, never printed ("AFK target unknown"). */
+const shownActivity = (label: string): string | null => (label === UNKNOWN_ACTIVITY ? null : label);
+
 import {
   dismissActive,
   type NowPrefs,
@@ -404,7 +409,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
 
   const spendChipText = (c: CharacterResult) =>
     c.spendChip
-      ? `Spend here: ${plural(c.spendChip.lines, 'buy')}, ~${compact(c.spendChip.coins)} → Spend Plan`
+      ? `Spend here: ${plural(c.spendChip.lines, 'buy')}, about ${formatCoins(c.spendChip.coins)} → Spend Plan`
       : null;
 
   const roster: RosterRow[] = order.map((i, k) => {
@@ -418,7 +423,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       name: c.name,
       classLabel: c.classLabel,
       level: c.level,
-      activity: c.activityLabel,
+      activity: shownActivity(c.activityLabel),
       map: c.mapLabel,
       playing,
       nextUp: ui.playing?.index === i && ui.playing.status === 'next-up',
@@ -542,7 +547,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       name: c.name,
       classLabel: c.classLabel,
       level: c.level,
-      activity: c.activityLabel,
+      activity: shownActivity(c.activityLabel),
       map: c.mapLabel,
       strip: order.map((j, n) => {
         const q = perChar.get(j);
@@ -807,6 +812,11 @@ function spendPlanView(
     const c = result.characters.find((x) => x.index === i);
     return c ? `${c.name} (${c.classLabel} lv${c.level})` : nameOf(i);
   };
+  /** Whether a line's text already names its payer ("on Wizard Lv 73"), as the Spend Plan words it. */
+  const namesPayer = (text: string, i: number) => {
+    const c = result.characters.find((x) => x.index === i);
+    return c ? text.includes(`${c.classLabel} Lv ${c.level}`) : false;
+  };
   let skippedCount = 0;
   const skippedKeys: string[] = [];
   const live = plan.lines.filter((l) => {
@@ -835,7 +845,7 @@ function spendPlanView(
     if (l.payer !== null && l.coins !== null && (l.status === 'buy' || l.status === 'move-coins')) {
       const t = (totals.get(l.payer) ?? 0) + l.coins;
       totals.set(l.payer, t);
-      runningTotal = `total ${compact(t)} on ${nameOf(l.payer)}`;
+      runningTotal = `total ${formatCoins(t)} on ${nameOf(l.payer)}`;
     }
     let note: string | null = null;
     if (l.status === 'unpriced' && !unpricedSeen) {
@@ -845,18 +855,28 @@ function spendPlanView(
     const payerName = l.payer === null ? '' : nameOf(l.payer);
     const statusText = {
       buy: 'buy',
-      'move-coins': `withdraw ${compact(l.transfer?.fromBank ?? 0)} from storage on ${payerName}, then buy`,
-      'save-for': `save for it: ${compact(l.shortfall?.coins ?? 0)} short`,
-      hold: `hold: wait for the Hydrogen discount${l.hold ? ` (${l.hold.discountPct}% of ${l.hold.neededPct}%, about ${l.hold.days}d)` : ''}`,
+      'move-coins': `withdraw ${formatCoins(l.transfer?.fromBank ?? 0)} from storage on ${payerName}, then buy`,
+      'save-for': `save for it: ${formatCoins(l.shortfall?.coins ?? 0)} short`,
+      hold: `hold: wait for the Hydrogen discount${l.hold ? ` (${l.hold.discountPct}% of ${l.hold.neededPct}%, ${aboutDuration(l.hold.days * 86_400)})` : ''}`,
       unpriced: 'cost not checked',
     }[l.status];
     return {
       id: l.id,
       key: spendLineKey(l),
       text: l.text,
+      detail: l.detail,
       levels,
-      cost: l.coins === null ? 'cost not checked, see the price in game' : `${compact(l.coins)} coins`,
-      payer: who(l.payer),
+      // Copy pass: an unknown cost is hidden (the status pill says "cost not checked"), and a token the
+      // line's own text already says (its coins, its payer) is not printed again beside it (rule 6).
+      cost:
+        l.coins === null
+          ? l.status === 'unpriced'
+            ? null
+            : 'cost not checked'
+          : l.text.includes(formatCoins(l.coins))
+            ? null
+            : formatCoins(l.coins),
+      payer: l.payer !== null && namesPayer(l.text, l.payer) ? null : who(l.payer),
       status: l.status,
       statusText,
       runningTotal,
@@ -876,7 +896,7 @@ function spendPlanView(
     const cheapest = plan.empty.cheapest;
     summary =
       plan.empty.reason === 'nothing-affordable'
-        ? `Nothing worth buying yet${cheapest ? `: next is ${cheapest.text}${cheapest.shortfall ? `, ${compact(cheapest.shortfall.coins)} short` : ''}` : ''}`
+        ? `Nothing worth buying yet${cheapest ? `: next is ${cheapest.text}${cheapest.shortfall ? `, ${formatCoins(cheapest.shortfall.coins)} short` : ''}` : ''}`
         : 'Spend Plan empty';
   } else summary = `${plural(buys.length, 'buy')} now on ${plural(payers.size, 'character')}`;
   const firstBuy = buys[0];
@@ -900,7 +920,8 @@ function spendPlanView(
           provenance: { entryIds: firstBuy.provenance.entries, fields: firstBuy.provenance.fields },
         },
         milestone: null,
-        details: [],
+        // The line's names and carry steps, so the short step keeps the rest one tap away.
+        details: firstBuy.detail ? [{ key: `${spendLineKey(firstBuy)}#detail`, text: firstBuy.detail }] : [],
         walkthrough: null,
       }
     : null;

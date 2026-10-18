@@ -8,9 +8,9 @@ entries:
     system: refinery
     type: check
     title: Refinery runs dry
-    text: "Refinery runs dry in about {dryIn:duration}: top up the salt's materials"
+    text: "Top up the salt's materials in the Refinery"
     values: { timelineKind: food, timelineWhat: "salt fuel" }
-    why: An active salt stops refining when its materials run out, and nothing refines until you're back.
+    why: "The Refinery runs dry in {dryIn:duration}. An active salt stops refining when its materials run out, and nothing refines until you're back."
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/refinery.ts
         title: IdleOn Toolbox, getSaltMatsTimeLeft
@@ -77,8 +77,8 @@ entries:
     category: compounding
     effortSeconds: 10
     detector: { id: refinery/auto-refine }
-    text: "Turn Auto Refine off on {salt:name}, then refine it only when its bar is full"
-    why: "Only a full bar refined by hand ranks a salt up; Auto Refine empties the bar each cycle, so it stays at rank {rank:int}. Refinery, left of the Construction Table in Frostbite Tundra: seconds; the bar fills in about {fullIn:duration}."
+    text: "Turn Auto Refine off on {salt:name}"
+    why: "Then refine it only when its bar is full: only a full bar refined by hand ranks a salt up; Auto Refine keeps it at rank {rank:int}. The bar fills in {fullIn:duration}. Refinery: left of the Construction Table in Frostbite Tundra."
     values:
       note: "Before a long AFK Stretch, refine a full bar so the stretch has the whole bar to fill."
     doneWhen: { field: "account.refinery.salts[*].autoRefine", becomes: false }
@@ -100,9 +100,9 @@ entries:
     priority: { frame: by-urgency }
     effortSeconds: 10
     detector: { id: refinery/full-bar }
-    text: "Refine {salt:name} now: its bar is full, so it has stopped making salt"
+    text: "Refine {salt:name} now: its bar is full"
     values: { timelineKind: production, timelineWhat: "Refinery bar" }
-    why: "With Auto Refine off, a full bar stops the salt until you refine it, and refining a full bar ranks it up. In the Refinery, left of the Construction Table in Frostbite Tundra town. Salts with a full bar: {salts:int}."
+    why: "It has stopped making salt: with Auto Refine off, a full bar stops the salt until you refine it, and refining it ranks it up. Refinery, left of the Construction Table in Frostbite Tundra town. Salts with a full bar: {salts:int}."
     doneWhen: { field: "account.refinery.salts[*].rank", change: higher }
     notes: "Full is the game's rank-up test power >= PowerCAP (N.js @7640085), not Toolbox's looser alert rule (red-team #21)."
     appliesTo: { stages: [{ from: W3-early, to: W4-entry }] }
@@ -119,8 +119,8 @@ entries:
     category: compounding
     effortSeconds: 30
     detector: { id: refinery/unlock-next }
-    text: "Unlock {salt:name} in the Refinery (costs {cost:int} {material:name}; you have {held:int} in storage)"
-    why: "A new salt starts making power, and the next buildings are paid in it. The cost comes out of your storage chest, not the Refinery's own storage. In the Refinery, left of the Construction Table in Frostbite Tundra town."
+    text: "Unlock {salt:name} in the Refinery"
+    why: "It costs {cost:int} {material:name} from your storage chest (you have {held:int}), not the Refinery's storage. A new salt makes power, and the next buildings are paid in it. Refinery, left of the Construction Table in Frostbite Tundra town."
     doneWhen: { field: "account.refinery.salts[*].unlocked", becomes: true }
     appliesTo: { stages: [{ from: W3-early, to: W4-entry }] }
     confidence: H

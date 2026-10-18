@@ -61,7 +61,7 @@ describe('the meta-path module in the engine core', () => {
       options: { expectedReturnSeconds: 8 * 3600 },
     });
     expect(r.account.goals.map((g) => g.nextAction.text)).toContain(
-      'Make a Hunter: create a character, pick Archer at level 10, then Hunter at Speccius',
+      'Make a Hunter: pick Archer at level 10, then Hunter at Speccius',
     );
   });
 

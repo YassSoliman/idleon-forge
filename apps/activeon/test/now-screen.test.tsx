@@ -324,7 +324,7 @@ describe('US-22 / D9 account stockpiles', () => {
   it('lead the Account section under "Fix before you leave"', () => {
     const r = fixture('account-stockpile');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const acct = screen.getByRole('region', { name: 'Account · any character' });
+    const acct = screen.getByRole('region', { name: 'Account' });
     expect(within(acct).getByRole('heading', { name: 'Fix before you leave' })).toBeTruthy();
     const label = document.querySelector('.progress-label');
     expect(label?.textContent).toBe('5 of 5 Ready · fix 2 in Account');
@@ -338,8 +338,37 @@ describe('the Spend Plan chip jumps to the Spend Plan (FR-4)', () => {
   it('opens the plan', () => {
     const r = fixture('spend-plan');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('button', { name: 'Spend here: 3 buys, ~4M → Spend Plan' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Spend here: 3 buys, about 4M coins → Spend Plan' }));
     expect((document.getElementById('spend-plan') as HTMLDetailsElement).open).toBe(true);
+  });
+});
+
+describe('copy pass rule 3: unknown tokens are hidden, never printed', () => {
+  it('a character whose AFK Target is unknown shows no "AFK target unknown" on its row or Focus header', () => {
+    const r = fixture('mid-session');
+    const c = r.characters.find((x) => x.index === 2);
+    if (!c) throw new Error('no character 2');
+    c.activityLabel = 'AFK target unknown';
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const row = screen.getAllByRole('button').find((b) => b.dataset.index === '2') as HTMLElement;
+    expect(row.textContent).not.toContain('AFK target unknown');
+    fireEvent.click(row);
+    const hero = screen.getByRole('heading', { level: 2, name: 'Cedar' }).closest('.hero') as HTMLElement;
+    expect(hero.textContent).not.toContain('AFK target unknown');
+    expect(hero.textContent).not.toMatch(/·\s*$/);
+  });
+
+  it('an unpriced Spend Plan line shows no cost token, only the "cost not checked" pill', () => {
+    const r = fixture('spend-plan');
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    fireEvent.click(screen.getByRole('button', { name: 'Spend here: 3 buys, about 4M coins → Spend Plan' }));
+    const plan = document.getElementById('spend-plan') as HTMLElement;
+    const more = within(plan).queryByRole('button', { name: /^show more/ });
+    if (more) fireEvent.click(more);
+    const line = plan.querySelector('.spend-line.unpriced');
+    expect(line).toBeTruthy();
+    expect(line?.textContent).not.toContain('see the price in game');
+    expect(line?.querySelector('.pill')?.textContent).toBe('cost not checked');
   });
 });
 
