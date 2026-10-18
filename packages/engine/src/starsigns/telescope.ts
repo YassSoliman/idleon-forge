@@ -25,7 +25,13 @@ export type TelescopeStep =
       seconds: number | null;
     }
   | { kind: 'talk'; character: number }
-  | { kind: 'a2'; character: number; candy: { hours: number; fromStorage: boolean } | null }
+  | {
+      kind: 'a2';
+      character: number;
+      /** A-2's AFK requirement in hours (the constellation fact's `min`). */
+      afkHours: number;
+      candy: { hours: number; fromStorage: boolean } | null;
+    }
   | { kind: 'hand-in'; character: number };
 
 export interface TelescopePlan {
@@ -93,6 +99,7 @@ export function telescopePlan(ctx: StarContext): TelescopePlan | null {
     return at({
       kind: 'a2',
       character: opener.index,
+      afkHours: a2.min,
       candy: candy ? { hours: candy.hours, fromStorage: candy.place === 'storage' } : null,
     });
   }

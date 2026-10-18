@@ -51,10 +51,10 @@ describe('the afk-safety engine module', () => {
     const lines = (c: (typeof r.characters)[number]) => (c.info ?? []).filter((i) => i.kind !== 'cap');
     expect(r.characters.map((c) => lines(c).map((i) => i.text))).toEqual([
       [],
-      ['Anvil full in 1 h at current speed'],
-      ['Anvil full in 2 h at current speed'],
-      ['Anvil full in 2 h at current speed'],
-      ['Anvil full in 6 h at current speed'],
+      ['Anvil full in about 1h at current speed'],
+      ['Anvil full in about 2h at current speed'],
+      ['Anvil full in about 2h at current speed'],
+      ['Anvil full in about 6h at current speed'],
     ]);
     expect(r.characters[1]?.info?.[0]?.key).toBe('anvil.check.fill-time@c1');
     for (const c of r.characters) expect(c.goals.map((g) => g.id)).not.toContain('anvil.check.fill-time');

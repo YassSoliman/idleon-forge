@@ -60,8 +60,10 @@ describe('US-1 Start the System (W2-late)', () => {
     const meta = runMetaPath(s, kb, s.asOf);
     // The Barbarian Lv 60 is closest (about 5,000 kills) but it is the pusher on its push (M14 FR-18).
     expect(meta.pusher?.index).toBe(slotOf(s, 'Barbarian', 60));
-    expect(g.nextAction.text).toMatch(
-      /^Move your Wizard Lv 56 to The Base Of The Bark \(W1\): 2,500 more kills open Hollowed Trunk, about \d+[mh] at its kill rate$/,
+    expect(g.nextAction.text).toBe('Move your Wizard Lv 56 to The Base Of The Bark (W1)');
+    // The kills and the time to open it move behind the tap (copy rule: a step is at most 12 words).
+    expect(g.nextAction.why).toMatch(
+      /^2,500 more kills there open Hollowed Trunk; time to open it: about \d+[mh] at its kill rate\. /,
     );
     // Position 3 (the free-value fills block).
     expect(positionOf(meta.list, 'star-signs.goal.telescope')).toBe(3);
@@ -87,7 +89,7 @@ describe('US-1 Start the System (W2-late)', () => {
       'after Chronus Cosmos: Dwarfo Beardus + Pack Mule',
     );
     expect(lines.find((l) => l.startsWith('Barbarian Lv 60'))).toContain(
-      '(wearing The Buff Guy; it can change signs after about 4,994 kills to reach the Telescope)',
+      '(wearing The Buff Guy; about 4,994 kills until it can reach the Telescope)',
     );
   });
 
@@ -99,15 +101,16 @@ describe('US-1 Start the System (W2-late)', () => {
     w.telescopeRoute = [0, 0, 0];
     w.npcDialog = { ...(w.npcDialog ?? {}), Telescope: 1 };
     const g = starGoals(run(s))[0] as Goal;
-    expect(g.nextAction.text).toMatch(
-      /^On your Wizard Lv 56: withdraw a 1-hour Time Candy, .*click star A-2/,
-    );
-    expect(g.nextAction.text).toMatch(/then send it back to .+$/);
+    expect(g.nextAction.text).toBe('On your Wizard Lv 56: withdraw a 1-hour Time Candy for star A-2');
+    expect(g.nextAction.why).toMatch(/^Withdraw it, .*click star A-2 .*then send it back to .+\. /);
 
     // A-2 done: hand the quest in.
     claim(s, ['A-2']);
     expect((starGoals(run(s))[0] as Goal).nextAction.text).toBe(
-      'On your Wizard Lv 56: talk to the Telescope again to hand in "I\'m Seeing Stars!" (free 2 bag slots first): every character can then use constellations',
+      'On your Wizard Lv 56: hand in "I\'m Seeing Stars!" at the Telescope',
+    );
+    expect((starGoals(run(s))[0] as Goal).nextAction.why).toMatch(
+      /^Talk to the Telescope again, with 2 bag slots free first: every character can then use constellations\. /,
     );
   });
 });
@@ -117,7 +120,7 @@ describe('US-2 What to clear next (W3-early)', () => {
     const r = run(W3());
     const cs = byId(starGoals(r), 'star-signs.goal.constellation');
     expect(cs.map((g) => g.title)).toEqual([
-      'Constellation A-7: Winding Willows, AFK 2 h on 2 characters',
+      'Constellation A-7: Winding Willows, AFK 2h on 2 characters',
       'Constellation B-1: The Mimic Hole, reach the star on 3 characters',
     ]);
     // Goals stay together in the Account ranking (position 3).
@@ -134,7 +137,8 @@ describe('US-2 What to clear next (W3-early)', () => {
     expect(w?.collapsed).toBe('B-1: 0 of 3 characters · about 9m');
     expect(w?.steps).toHaveLength(3);
     for (const st of w?.steps ?? []) {
-      expect(st.text).toMatch(/: go to The Mimic Hole \(W2\), click the star, then go back to .+$/);
+      expect(st.text).toMatch(/: click the star at The Mimic Hole \(W2\)$/);
+      expect(st.why).toMatch(/^Then go back to .+\.$/);
       expect(st.sources.some((x) => x.url === 'https://idleon.wiki/wiki/Constellation_Locations#B-1')).toBe(
         true,
       );
@@ -162,7 +166,7 @@ describe('US-2 What to clear next (W3-early)', () => {
     expect(r.starSigns?.milestone).toBe(
       '21 points ready, 19 needed for Chronus Cosmos (2 signs on every character)',
     );
-    expect(r.starSigns?.plan).toMatch(/^Bank your points: after A-7 and B-1 you can unlock up to /);
+    expect(r.starSigns?.plan).toMatch(/^Bank your points: after A-7 and B-1, unlock up to .+ at once$/);
     expect(r.starSigns?.next.filter((n) => !n.shown).map((n) => n.name)).toEqual(['B-4', 'A-1', 'A-3']);
   });
 
@@ -182,8 +186,9 @@ describe('US-3 Claim what is already earned', () => {
     const steps = g?.walkthrough?.steps ?? [];
     expect(steps.map((x) => x.text.split(': ')[1])).toEqual([
       'withdraw 1 Forest Villa Key from storage',
-      'spend 1 Forest Villa Key to enter End Of The Road, click the star',
+      'click the star in End Of The Road (1 Forest Villa Key)',
     ]);
+    expect(steps[1]?.why).toBe('Entering End Of The Road spends 1 Forest Villa Key.');
     const recorded = progressOf(s, 'A-9')?.recorded ?? [];
     expect(recorded).toContain(Number(steps[0]?.subject?.slice(1)));
   });
@@ -194,7 +199,7 @@ describe('US-3 Claim what is already earned', () => {
     expect(r.account.goals.some((g) => g.nextAction.key.endsWith('@A-9'))).toBe(false);
     const ap = r.account.activePlay.find((a) => a.key === 'star-signs.check.activeplay-challenge@A-9');
     expect(ap?.text).toBe(
-      'Kill Amarok in under 20 seconds on 1 more character (2 of 3); try with your Bowman Lv 60, your highest-level character not yet done; spends 1 Forest Villa Key each',
+      'Kill Amarok in under 20 seconds on 1 more character (2 of 3): try your Bowman Lv 60, highest-level not yet done; spends 1 Forest Villa Key each',
     );
     expect(ap?.text).not.toMatch(/Wizard Lv 73|Squire Lv 85/);
   });
@@ -205,7 +210,7 @@ describe('US-4 Which sign on which character', () => {
     const r = run(W3());
     const lines = r.starSigns?.characters ?? [];
     expect(lines.find((c) => c.line.startsWith('Squire Lv 51'))?.line).toBe(
-      'Squire Lv 51 (Mining): wear The Fuzzy Dice (wearing The Buff Guy; it can change signs after about 10,431 kills to reach the Telescope) · after Chronus Cosmos: Dwarfo Beardus + Pack Mule',
+      'Squire Lv 51 (Mining): wear The Fuzzy Dice (wearing The Buff Guy; about 10,431 kills until it can reach the Telescope) · after Chronus Cosmos: Dwarfo Beardus + Pack Mule',
     );
     expect(lines.find((c) => c.line.startsWith('Wizard Lv 73'))?.line).toBe(
       "Wizard Lv 73 (Fighting): wear The Fuzzy Dice (wearing The Book Worm; swap next time it's at the Telescope) · after Chronus Cosmos: Pirate Booty + All Rounder",
@@ -230,8 +235,9 @@ describe('US-4 Which sign on which character', () => {
     ss.pointsUnspent = 21;
     const g = byId(starGoals(run(s)), 'star-signs.goal.signs')[0];
     expect(g?.nextAction.text).toMatch(
-      /^On your Wizard Lv 73 at the Telescope: unlock Dwarfo Beardus, Hipster Logger, Pack Mule, Pirate Booty, All Rounder, Fatty Doodoo, Robinhood, Ned Kelly, Chronus Cosmos, Pie Seas \(21 of your 21 points\), and align Pirate Booty and All Rounder$/,
+      /^On your Wizard Lv 73 at the Telescope: unlock Dwarfo Beardus, Hipster Logger, Pack Mule, Pirate Booty, All Rounder, Fatty Doodoo, Robinhood, Ned Kelly, Chronus Cosmos, Pie Seas, and align Pirate Booty and All Rounder$/,
     );
+    expect(g?.nextAction.why).toMatch(/^The unlock costs 21 of your 21 points\. /);
   });
 
   it('a new fighting Hunter on a starters-only account wears The Fuzzy Dice; before it exists, the next character picks it', () => {

@@ -15,7 +15,7 @@ export default defineDetector({
     // Toolbox utility/helpers.js FREE_COMPANION_CLAIM_ANCHOR_OFFSET_MS, found by experiment.
     periodMs: z.int().positive().default(594_000_000),
   }),
-  slots: z.strictObject({ hoursClaimable: z.number() }).partial(),
+  slots: z.strictObject({ hoursClaimable: z.number(), claimable: z.number() }).partial(),
   reads: ['account.pets', 'diagnostics'],
   examples: {
     // W2-late: claimable since about 15 h at its save.
@@ -35,7 +35,7 @@ export default defineDetector({
     return [
       {
         subject: accountSubject,
-        slots: { hoursClaimable: Math.round((now - at) / 3_600_000) },
+        slots: { hoursClaimable: Math.round((now - at) / 3_600_000), claimable: now - at },
         result: 'fires' as const,
         at,
         urgency: 'losing-now' as const,

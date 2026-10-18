@@ -433,7 +433,7 @@ export const obolStateDetector = defineDetector({
         {
           subject: acct,
           result: 'fires',
-          slots: { line: `${o.stored} stored ${plural(o.stored, 'obol')} wait for the Obol Altar${merit}` },
+          slots: { line: `${o.stored} stored ${plural(o.stored, 'obol')} wait for the Obol Altar` },
         },
       ];
     }
@@ -441,8 +441,8 @@ export const obolStateDetector = defineDetector({
     // Nothing to say once every family slot is filled, none is coming and obols drop (#70 A5's noise rule).
     if (!next && !merit && o.familyOpen === 0) return [];
     const line = next
-      ? `Family obols ${o.familyFilled} of ${o.familyFilled + o.familyOpen} filled; next ${next.shape.toLowerCase()} slot at family level ${next.levelReq.toLocaleString('en-US')} (${next.gap.toLocaleString('en-US')} to go)${merit}`
-      : `Family obols ${o.familyFilled} of ${o.familyFilled + o.familyOpen} filled${merit}`;
+      ? `Family obols ${o.familyFilled} of ${o.familyFilled + o.familyOpen} filled; next ${next.shape.toLowerCase()} slot at family level ${next.levelReq.toLocaleString('en-US')}`
+      : `Family obols ${o.familyFilled} of ${o.familyFilled + o.familyOpen} filled`;
     const fam = state.account.accountLevel;
     return [
       {

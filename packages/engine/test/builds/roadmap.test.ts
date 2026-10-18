@@ -155,7 +155,7 @@ describe('Build view roadmaps', () => {
     // The M9 Goal agrees.
     const goals = run(s).characters?.find((c) => c.index === 1)?.goals ?? [];
     const behind = goals.find((g) => g.goal.nextAction.entryId === 'talent-presets.check.behind');
-    expect(behind?.goal.nextAction.text).toMatch(/starting with Refinery Throttle$/);
+    expect(behind?.goal.nextAction.why).toMatch(/starting with Refinery Throttle\./);
   });
 
   it('the overview, the Build view and the preset Goal name the same next talent on every save', () => {
@@ -167,7 +167,7 @@ describe('Build view roadmaps', () => {
         expect(r.status).toContain(`next: ${lead.next[0].label}`);
         const goals = out.characters?.find((c) => c.index === r.index)?.goals ?? [];
         const g = goals.find((x) => x.goal.nextAction.entryId === 'talent-presets.check.behind');
-        if (g) expect(g.goal.nextAction.text).toContain(`starting with ${lead.next[0].label}`);
+        if (g) expect(g.goal.nextAction.why).toContain(`starting with ${lead.next[0].label}`);
       }
     }
   });

@@ -8,14 +8,14 @@ entries:
     system: worship
     type: check
     title: Worship charge fills while you're away
-    text: "Spend worship charge, or let the Wizard's Charge Syphon take it ({charge:int} of {max:int}; time to cap: {fullIn:duration})"
+    text: "Spend worship charge, or let the Wizard's Charge Syphon take it"
     values:
       timelineKind: production
       timelineWhat: "worship charge"
       fill: worship charge
       pill: "Worship full · spend"
-      pill-soon: "Worship full in about {fullIn:duration} · spend"
-    why: Charge stops building at its maximum, so a full bar wastes every hour you're away.
+      pill-soon: "Worship full in {fullIn:duration} · spend"
+    why: "Charge {charge:int} of {max:int}; time to cap: {fullIn:duration}. Charge stops building at its maximum, so a full bar wastes every hour you're away."
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts
         title: IdleOn Toolbox, getPlayerWorship (charge, max and rate)
@@ -36,14 +36,14 @@ entries:
     system: worship
     type: check
     title: Worship charge is full
-    text: "Spend worship charge or Syphon it (time to cap: {fullIn:duration})"
+    text: "Spend worship charge or Syphon it"
     values:
       timelineKind: production
       timelineWhat: "worship charge"
       fill: worship charge
       pill: "Worship full · spend"
-      pill-soon: "Worship full in about {fullIn:duration} · spend"
-    why: Without a skull the bar is small, so this is worth a minute when you have one, but it never blocks.
+      pill-soon: "Worship full in {fullIn:duration} · spend"
+    why: "Time to cap: {fullIn:duration}. Without a skull the bar is small, so this is worth a minute when you have one, but it never blocks."
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts
         title: IdleOn Toolbox, getPlayerWorship (charge, max and rate)
@@ -68,9 +68,9 @@ entries:
     text: "{text}"
     why: "{why}"
     values:
-      many: "Buy a Wax Skull for each of {n:int} characters at the Frostbite Towndra shop"
+      many: "Buy a Wax Skull for each of {n:int} characters"
       one: "Buy a Wax Skull for your {who} at the Frostbite Towndra shop"
-      why: "Without a skull, charge stops at {max:int}; a Wax Skull doubles that cap and charges faster."
+      why: "Wax Skulls are sold at the Frostbite Towndra shop. Without a skull, charge stops at {max:int}; a Wax Skull doubles that cap and charges faster."
       detail: "{who}: {charge:int} of {max:int} charge"
       detail-full: "{who}: full, {charge:int} of {max:int} charge"
     sources:

@@ -130,9 +130,9 @@ describe('afk/dies-fixable-by-food says stock up only with an observed rate (R-F
     });
   };
   it('no observation or one: plain equip text, no stock-up', () => {
-    expect(text([])).toMatch(/^Equip or swap in Meat Pie/);
-    expect(text(eating(1))).toMatch(/^Equip or swap in Meat Pie/);
-    expect(text(eating(2))).toMatch(/^Equip or swap in Meat Pie/);
+    expect(text([])).toBe('Equip Meat Pie before you leave');
+    expect(text(eating(1))).toBe('Equip Meat Pie before you leave');
+    expect(text(eating(2))).toBe('Equip Meat Pie before you leave');
   });
   it('two observations: the stack is judged short and the stock-up text shows', () => {
     expect(text(eating(3))).toMatch(/and stock up on it/);

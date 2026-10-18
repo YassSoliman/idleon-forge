@@ -13,7 +13,7 @@ entries:
     why: "{why}"
     values:
       line: "Run Killroy's {class} room on your {who} (YumYum Grotto)"
-      why: "Each room takes one character of its class for about 2 minutes, once a week; its kills drop Killroy skulls."
+      why: "Each room takes one character of its class for a couple of minutes, once a week; its kills drop Killroy skulls."
       cannot: "No {class} on your account"
       row: "Run Killroy's rooms"
       room: "{class} room: your {who}"

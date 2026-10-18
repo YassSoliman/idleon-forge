@@ -72,7 +72,7 @@ describe.each(w2)('S2 on the W2-late account (%s)', (file) => {
     expect(notes.some((n) => n.startsWith('Barbarian side'))).toBe(true);
     expect(notes.some((n) => n.startsWith('Squire side'))).toBe(true);
     expect(e?.values['source-line']).toBe(
-      'ActiveOn picked by kill rate on {map:name}, as each character is currently equipped',
+      'ActiveOn picked by kill rate on {map:name}, as each character is equipped',
     );
   });
 });

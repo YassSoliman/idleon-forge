@@ -28,9 +28,8 @@ describe.skipIf(!hasPrivate('joseph'))('the W3-early private save (§11.2)', () 
       'Seat your Wizard Lv 73 on the free Cog Board square',
     ]);
     const skull = r.account.goals.find((x) => x.id === 'worship.check.no-skull');
-    expect(skull?.nextAction.text).toBe(
-      'Buy a Wax Skull for each of 6 characters at the Frostbite Towndra shop',
-    );
+    expect(skull?.nextAction.text).toBe('Buy a Wax Skull for each of 6 characters');
+    expect(skull?.nextAction.why).toMatch(/Frostbite Towndra shop/);
     expect(skull?.details?.at(-1)?.text).toBe(
       "Also free: Start Trapping (Lord of the Hunt's first quest); move your Squire Lv 85 to Liquid Nitrogen (0.08 of 13)",
     );

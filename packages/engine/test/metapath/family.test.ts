@@ -83,8 +83,10 @@ describe.each(w2)('US-3 on the W2-late account (%s)', (file) => {
   it('shows character slot 6 for your Hunter at 300 (43 to go), last position, and the 350 obol slot in the why', () => {
     const g = unlockOf(engine(state));
     expect(g?.nextAction.text).toBe(
-      'Next family unlock: character slot 6 for your Hunter at family level 300 (43 to go); ETA after a few more sessions',
+      'Next family unlock: character slot 6 for your Hunter at family level 300 (43 to go)',
     );
+    // Copy pass: the ETA rides in the why.
+    expect(g?.nextAction.why).toMatch(/^ETA after a few more sessions\. /);
     expect(g?.nextAction.why).toContain('After that, a Circle family obol slot opens at family level 350.');
     expect(g?.category).toBe('nice');
     expect(g?.milestone).toMatchObject({ unit: 'family level', current: 257, next: 300 });
@@ -96,7 +98,7 @@ describe.each(w2)('US-3 on the W2-late account (%s)', (file) => {
     const r = engine(withLevel(state, 304));
     expect(r.account.goals.find((x) => x.id === 'metapath.goal.next-character')).toBeDefined();
     expect(unlockOf(r)?.nextAction.text).toBe(
-      'Next family unlock: a Circle family obol slot at family level 350 (46 to go); ETA after a few more sessions',
+      'Next family unlock: a Circle family obol slot at family level 350 (46 to go)',
     );
   });
 
@@ -113,15 +115,15 @@ describe.each(w2)('US-3 on the W2-late account (%s)', (file) => {
     // FR-14: the lowest gate wins, so the 350 obol slot comes first; slot 7 at 500 is the next character unlock.
     const g = unlockOf(engine(s));
     expect(g?.nextAction.text).toBe(
-      'Next family unlock: a Circle family obol slot at family level 350 (45 to go); ETA after a few more sessions',
+      'Next family unlock: a Circle family obol slot at family level 350 (45 to go)',
     );
     const at400 = unlockOf(engine(withLevel(s, 420)));
     expect(at400?.nextAction.text).toBe(
-      'Next family unlock: a Circle family obol slot at family level 470 (50 to go); ETA after a few more sessions',
+      'Next family unlock: a Circle family obol slot at family level 470 (50 to go)',
     );
     expect(at400?.nextAction.why).toContain('After that, character slot 7 opens at family level 500.');
     expect(unlockOf(engine(withLevel(s, 480)))?.nextAction.text).toBe(
-      'Next family unlock: character slot 7 for your Journeyman at family level 500 (20 to go); ETA after a few more sessions',
+      'Next family unlock: character slot 7 for your Journeyman at family level 500 (20 to go)',
     );
   });
 
@@ -137,20 +139,22 @@ describe.each(w3)('US-3 on the W3-early account (%s)', (file) => {
   it('shows the Hexagon and Circle family obol slots at 400 (21 to go) with the altar note; slot 7 at 500 next', () => {
     const g = unlockOf(engine(state));
     expect(g?.nextAction.text).toBe(
-      'Next family unlock: a Hexagon and a Circle family obol slot at family level 400 (21 to go); equip them after the Obol Altar; ETA after a few more sessions',
+      'Next family unlock: a Hexagon and a Circle family obol slot at family level 400 (21 to go)',
     );
+    // Copy pass: the altar note and the ETA ride in the why.
+    expect(g?.nextAction.why).toMatch(/^Equip them after the Obol Altar\. ETA after a few more sessions\. /);
     expect(g?.nextAction.why).toContain('After that, a Circle family obol slot opens at family level 470.');
     // FR-18: no claim about the 350 slot the save still marks locked.
     expect(g?.nextAction.text).not.toContain('350');
   });
 
   it('at family level 401 the next unlock is the 470 Circle slot, not the character slot at 500', () => {
-    expect(unlockOf(engine(withLevel(state, 401)))?.nextAction.text).toBe(
-      'Next family unlock: a Circle family obol slot at family level 470 (69 to go); equip it after the Obol Altar; ETA after a few more sessions',
-    );
+    const at401 = unlockOf(engine(withLevel(state, 401)))?.nextAction;
+    expect(at401?.text).toBe('Next family unlock: a Circle family obol slot at family level 470 (69 to go)');
+    expect(at401?.why).toMatch(/^Equip it after the Obol Altar\. ETA after a few more sessions\. /);
   });
 
-  it('ETA: 3 Play Sessions over 4 days from 349 to 379 read "about 3 days at your recent pace"', () => {
+  it('ETA: 3 Play Sessions over 4 days from 349 to 379 read "about 72h at your recent pace"', () => {
     const last = state.account.lastCloudSave ?? NOW;
     const entry = (daysAgo: number, level: number): EngineHistoryEntry => ({
       lastCloudSave: last - daysAgo * DAY,
@@ -158,9 +162,9 @@ describe.each(w3)('US-3 on the W3-early account (%s)', (file) => {
       state: withLevel(state, level),
     });
     const g = unlockOf(engine(state, [entry(4, 349), entry(2, 364)]));
-    expect(g?.nextAction.text).toContain(
-      '(21 to go); equip them after the Obol Altar; about 3 days at your recent pace',
-    );
+    expect(g?.nextAction.text).toMatch(/\(21 to go\)$/);
+    // 3 days through the shared duration formatter (days only from 100 h).
+    expect(g?.nextAction.why).toMatch(/^Equip them after the Obol Altar\. About 72h at your recent pace\. /);
   });
 });
 

@@ -124,17 +124,15 @@ describe.each(w2.map((f) => [f.id, f] as const))('US-5 on the W2-late account (%
     const g = behindOf(r);
     expect(g?.title).toBe('Behind for your Stage: Cards');
     expect(g?.nextAction.entryId).toBe('cards.check.empty-slots');
-    expect(g?.nextAction.text).toBe(
-      'Bowman Lv 54: Equip 4 cards in your empty card slots: Carrotman, Bored Bean, Pincermin and Mashed Potato',
-    );
+    expect(g?.nextAction.text).toBe('Bowman Lv 54: Equip 4 cards in your empty card slots');
+    // Copy pass: the cards to equip ride in the why, after the Behind explanation.
+    expect(g?.nextAction.why).toContain('Equip Carrotman, Bored Bean, Pincermin and Mashed Potato: ');
     expect(
       g?.nextAction.why.startsWith(
         "Accounts usually finish this well before where you are; it's the earliest thing yours has left.",
       ),
     ).toBe(true);
-    expect(g?.details?.map((d) => d.text)).toEqual([
-      'Equip Slime, Bored Bean, Pincermin and Mashed Potato in the empty card slots of 2 characters',
-    ]);
+    expect(g?.details?.map((d) => d.text)).toEqual(['Fill the empty card slots of 2 characters']);
     expect(g?.nextAction.provenance.entryIds).toEqual(expect.arrayContaining([BEHIND_ID, EXPECTATIONS_ID]));
   });
 
@@ -157,11 +155,10 @@ describe.each(w3.map((f) => [f.id, f] as const))('US-5 on the W3-early account (
   it('the weakest is Cards (ahead of anvil points by row order); the Shaman Lv 54 first in Visit Order', () => {
     const g = behindOf(r);
     expect(g?.title).toBe('Behind for your Stage: Cards');
-    expect(g?.nextAction.text).toBe(
-      'Shaman Lv 54: Equip 4 cards in your empty card slots: Slime, Bored Bean, Mimic and Sand Castle',
-    );
+    expect(g?.nextAction.text).toBe('Shaman Lv 54: Equip 4 cards in your empty card slots');
+    expect(g?.nextAction.why).toContain('Equip Slime, Bored Bean, Mimic and Sand Castle: ');
     expect(g?.details).toEqual([
-      { subject: 'c1', text: 'Squire Lv 51: Equip 1 card in your empty card slots: Amarok' },
+      { subject: 'c1', text: 'Squire Lv 51: Equip 1 card in your empty card slots' },
     ]);
     expect(fixGoals(r, 'cards.check.empty-slots')).toEqual([]);
     // Anvil points stay where they were.

@@ -35,7 +35,7 @@ entries:
     effortSeconds: 180
     detector: { id: minigames/spiketrap }
     text: "Spiketrap starts at :00: up to {gems:int} gems today"
-    why: "Today's Spiketrap gems are unclaimed and the next round starts in about {minutes:int} minutes."
+    why: "Today's Spiketrap gems are unclaimed and the next round starts in {startsIn:duration}."
     doneWhen: { field: "account.minigames.spiketrap.gemsAvailableToday", becomes: false }
     appliesTo: { stages: all }
     confidence: M
@@ -55,8 +55,8 @@ entries:
     priority: { frame: by-urgency }
     effortSeconds: 120
     detector: { id: minigames/cooldown-play, params: { game: darts } }
-    text: "Play one round of Darts (about 2 min, from any map with the Darts item)"
-    why: "Darts is off cooldown; its points feed damage, tab 1 talent points and Vault discounts."
+    text: "Play one round of Darts"
+    why: "A round takes a couple of minutes, from any map with the Darts item. Darts is off cooldown; its points feed damage, tab 1 talent points and Vault discounts."
     doneWhen: { field: "account.minigames.darts.playsToday", change: higher }
     appliesTo: { stages: all }
     confidence: M
@@ -75,8 +75,8 @@ entries:
     priority: { frame: by-urgency }
     effortSeconds: 120
     detector: { id: minigames/cooldown-play, params: { game: hoops } }
-    text: "Play one round of Hoops (about 2 min)"
-    why: "Hoops is off cooldown; its points feed damage, coins, class EXP and skill efficiency."
+    text: "Play one round of Hoops"
+    why: "A round takes a couple of minutes. Hoops is off cooldown; its points feed damage, coins, class EXP and skill efficiency."
     doneWhen: { field: "account.minigames.hoops.playsToday", change: higher }
     appliesTo: { stages: all }
     confidence: M

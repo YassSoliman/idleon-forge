@@ -33,8 +33,8 @@ describe('the M6 engine module', () => {
         'Claim your free pet pull at Doggy',
         'Collect 5 Colosseum tickets',
         'Spiketrap starts at :00: up to 40 gems today',
-        'Play one round of Darts (about 2 min, from any map with the Darts item)',
-        'Play one round of Hoops (about 2 min)',
+        'Play one round of Darts',
+        'Play one round of Hoops',
         'Use your 11 vial attempts on the W2 town cauldron',
         'Spend 12 W1 merits',
         'Spend 2 task unlock points',
@@ -46,6 +46,13 @@ describe('the M6 engine module', () => {
         // On since the in-game check (#34).
         "Claim today's free Pet Mart gems",
       ]),
+    );
+    // Copy pass: the round's length and where to play moved behind the tap.
+    const darts = m6
+      .run(input(w2, { now: at(w2), options: { expectedReturnSeconds: 8 * 3600 } }))
+      .account?.goals?.find((g) => g.goal.id === 'minigames.check.darts-play')?.goal;
+    expect(darts?.nextAction.why).toMatch(
+      /^A round takes a couple of minutes, from any map with the Darts item\./,
     );
     // No printer line (W2-late without the hammer), no W3 Checks (Stage), and no anvil line: nothing
     // unspent, and the W3 town shop (Whetstone) isn't reached (#70 A3).
@@ -75,9 +82,9 @@ describe('the M6 engine module', () => {
     const spend = goal('anvil.check.spend-points');
     expect(spend?.nextAction.text).toBe('Unspent anvil points on Bowman Lv 60 → Speed');
     expect(spend?.details).toEqual([{ subject: 'c2', text: 'Bowman Lv 60: 3 into Speed, 0 into Capacity' }]);
-    expect(spend?.nextAction.why).toMatch(/in 8 h from empty/);
+    expect(spend?.nextAction.why).toMatch(/in 8h from empty/);
     const respec = goal('anvil.check.respec');
-    expect(respec?.nextAction.text).toBe('Whetstone respec → about 30% more anvil output at 8 h');
+    expect(respec?.nextAction.text).toBe('Whetstone respec → about 30% more anvil output at 8h');
     // One character to respec: no "Start with the first character." (R3 QA P3).
     expect(respec?.nextAction.why).not.toMatch(/first character/);
     expect(respec?.details).toEqual([

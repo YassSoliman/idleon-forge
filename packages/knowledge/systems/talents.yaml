@@ -36,7 +36,8 @@ entries:
       timelineKind: time-cap
       timelineWhat: "attacks missing from the bar"
       text-none-levelled: "Level an attack and put it on the bar"
-      text-one-attack: "Put more attacks on the bar: only one is on it, and {missing} are levelled on this preset"
+      text-one-attack: "Put more attacks on the bar"
+      why-one-attack: "Only one is on it, and {missing} are levelled on this preset. Attacks add to AFK damage only while they are on the bar. Buffs such as Firmly Grasp It and Printer Sampling don't count."
       goal: Talents
     why: "Attacks add to AFK damage only while they are on the bar. Buffs such as Firmly Grasp It and Printer Sampling don't count."
     sources:
@@ -54,9 +55,9 @@ entries:
     system: talents
     type: check
     title: Skill attack missing from the bar
-    text: "Put {talent} on the bar: it only helps {skill} while it is there"
+    text: "Put {talent} on the bar"
     values: { goal: Talents }
-    why: "A skill attack boosts its skill's AFK gains from the attack bar, like a fighting attack does for kills."
+    why: "It only helps {skill} while it is there. A skill attack boosts its skill's AFK gains from the attack bar, like a fighting attack does for kills."
     sources:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents (AFKactivity)", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks (attacks on the hotbar affect offline gains)", tier: 2, claimDate: 2025-12-24, verified: 2026-10-17, gameVersion: 2.0.48 }

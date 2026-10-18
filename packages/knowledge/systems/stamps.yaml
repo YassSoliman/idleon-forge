@@ -38,8 +38,8 @@ entries:
     category: compounding
     effortSeconds: 300
     detector: { id: stamps/status, params: { view: shop-now } }
-    text: "Buy {count:int} new stamps from town shops on one trip: {stamps}"
-    why: "A stamp you don't own gives nothing; these town shops have them in stock now for coins (the game data has no buy price, so check your coins)."
+    text: "Buy {count:int} new stamps from town shops in one trip"
+    why: "{stamps}. A stamp you don't own gives nothing; these town shops have them in stock now for coins (the game data has no buy price, so check your coins)."
     appliesTo: { stages: all }
     confidence: M
     status: active
@@ -134,7 +134,7 @@ entries:
     effect: next-action
     activePlay: { minutes: 10 }
     detector: { id: stamps/status, params: { view: active, quest: XxX_Cattleprod_XxX2 } }
-    text: "XxX Cattleprod XxX 2 on {who}: kill 30 Mafiosos and 18 Sand Castles before the timer runs out → {stamps}{lookAhead}"
+    text: "XxX Cattleprod XxX 2 on {who}: kill 30 Mafiosos and 18 Sand Castles in time → {stamps}{lookAhead}"
     why: "A timed kill quest in the Yum-Yum Desert; do it while you're playing, not AFK."
     appliesTo: { stages: all }
     confidence: L
@@ -150,7 +150,7 @@ entries:
     effect: next-action
     activePlay: { minutes: 15 }
     detector: { id: stamps/status, params: { view: active, quest: Wellington1 } }
-    text: "Wellington 1 on {who}: find the 3 invisible platforms hidden around the game → {stamps}{lookAhead}"
+    text: "Wellington 1 on {who}: find the 3 hidden invisible platforms → {stamps}{lookAhead}"
     why: "A hands-on search quest; the wiki's Wellington page shows where the platforms are."
     appliesTo: { stages: all }
     confidence: L

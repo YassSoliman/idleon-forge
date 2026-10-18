@@ -17,7 +17,7 @@ import {
   type SlotValue,
   type SourceT,
 } from '@idleon-forge/knowledge';
-import { textOf } from '../afk/evaluate';
+import { textOf, whyOf } from '../afk/evaluate';
 import type {
   CharacterContribution,
   EngineHistory,
@@ -177,7 +177,7 @@ export function createBuildsModule(deps: BuildsModuleDeps): EngineModule {
         key: `${entry.id}@c${index}`,
         entryId: entry.id,
         text: render(textOf(entry, slots), ...scopes),
-        why: render(entry.why, ...scopes),
+        why: render(whyOf(entry, slots), ...scopes),
         sources: sources.map(sourceRef),
         stale: isStale,
         contested: null,
@@ -270,7 +270,7 @@ export function createBuildsModule(deps: BuildsModuleDeps): EngineModule {
               key: `${entry.id}@account`,
               entryId: entry.id,
               text: render(textOf(entry, head.slots), head.slots, entry.values),
-              why: render(entry.why, head.slots, entry.values),
+              why: render(whyOf(entry, head.slots), head.slots, entry.values),
               sources,
               stale: stale.has(entry.id),
               contested: null,

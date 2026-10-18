@@ -10,7 +10,8 @@ describe.skipIf(!hasPrivate('yasser'))('the W2-late private save', () => {
     const r = run(starState(privateFile('yasser')));
     const goals = starGoals(r);
     expect(goals.map((g) => g.id)).toEqual(['star-signs.goal.telescope']);
-    expect(goals[0]?.nextAction.text).toMatch(/^Move your \w+ Lv \d+ to .+: [\d,]+ more kills open /);
+    expect(goals[0]?.nextAction.text).toMatch(/^Move your \w+ Lv \d+ to .+ \(W1\)$/);
+    expect(goals[0]?.nextAction.why).toMatch(/^[\d,]+ more kills there open /);
     expect(r.starSigns?.characters.filter((c) => c.canChange === true)).toHaveLength(0);
   });
 });

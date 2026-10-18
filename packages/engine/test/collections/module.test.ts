@@ -36,6 +36,17 @@ const details = (s: AccountState, start: string) =>
   run(s)
     .account?.goals?.find((g) => g.goal.nextAction.text.startsWith(start))
     ?.goal.details?.map((d) => d.text);
+/** The why of the first Next Action (any row) whose text is exactly `text`. */
+const whyOfText = (s: AccountState, text: string) => {
+  const out = run(s);
+  const goals = [...(out.account?.goals ?? []), ...(out.characters ?? []).flatMap((c) => c.goals ?? [])];
+  return goals.find((g) => g.goal.nextAction.text === text)?.goal.nextAction.why;
+};
+/** The why of a character row's Next Action whose text is exactly `text`. */
+const rowWhy = (s: AccountState, cls: string, level: number, text: string) =>
+  run(s)
+    .characters?.find((c) => c.index === indexOf(s, cls, level))
+    ?.goals?.find((g) => g.goal.nextAction.text === text)?.goal.nextAction.why;
 const play = (s: AccountState) => (run(s).account?.activePlay ?? []).map((a) => a.text);
 const allTexts = (s: AccountState) => {
   const out = run(s);
@@ -69,8 +80,10 @@ describe('the M8 engine module', () => {
 
 describe('US-1 stamps I can grab right now', () => {
   it('W3-early: one shop trip, towns in world and shop order, carry stamps first in a town', () => {
-    expect(accountTexts(w3)).toContain(
-      'Buy 3 new stamps from town shops on one trip: Encroaching Forest Villas: Vitality Stamp; Faraway Piers: Matty Bag Stamp and Clover Stamp',
+    expect(accountTexts(w3)).toContain('Buy 3 new stamps from town shops in one trip');
+    // Copy pass: the towns and stamps, in order, ride in the why.
+    expect(whyOfText(w3, 'Buy 3 new stamps from town shops in one trip')).toMatch(
+      /^Encroaching Forest Villas: Vitality Stamp; Faraway Piers: Matty Bag Stamp and Clover Stamp\. /,
     );
   });
 
@@ -79,8 +92,9 @@ describe('US-1 stamps I can grab right now', () => {
   });
 
   it('W2-late: Vitality, Vendor, then Matty Bag and Clover; the Vendor Stamp only here (W3 owns it)', () => {
-    expect(accountTexts(w2)).toContain(
-      'Buy 4 new stamps from town shops on one trip: Encroaching Forest Villas: Vitality Stamp; YumYum Grotto: Vendor Stamp; Faraway Piers: Matty Bag Stamp and Clover Stamp',
+    expect(accountTexts(w2)).toContain('Buy 4 new stamps from town shops in one trip');
+    expect(whyOfText(w2, 'Buy 4 new stamps from town shops in one trip')).toMatch(
+      /^Encroaching Forest Villas: Vitality Stamp; YumYum Grotto: Vendor Stamp; Faraway Piers: Matty Bag Stamp and Clover Stamp\. /,
     );
   });
 
@@ -127,7 +141,7 @@ describe('US-3 short active quests for stamps', () => {
   it('W3-early: Cattleprod 2 and Wellington 1 on the Squire 85, with the Wellington 2 look-ahead and its carry caveat', () => {
     const p = play(w3);
     expect(p).toContain(
-      'XxX Cattleprod XxX 2 on Squire 85: kill 30 Mafiosos and 18 Sand Castles before the timer runs out → Mason Jar Stamp and Fishhead Stamp',
+      'XxX Cattleprod XxX 2 on Squire 85: kill 30 Mafiosos and 18 Sand Castles in time → Mason Jar Stamp and Fishhead Stamp',
     );
     const well = p.find((t) => t.startsWith('Wellington 1 on Squire 85'));
     expect(well).toMatch(
@@ -142,7 +156,7 @@ describe('US-3 short active quests for stamps', () => {
       "XxX Cattleprod XxX 1 on Barbarian 60: kill 15 Mafiosos before they respawn → Lil' Mining Baggy Stamp and Catch Net Stamp",
     );
     expect(p).toContain(
-      'Wellington 1 on Barbarian 60: find the 3 invisible platforms hidden around the game → Arcane Stamp and Brainstew Stamps',
+      'Wellington 1 on Barbarian 60: find the 3 hidden invisible platforms → Arcane Stamp and Brainstew Stamps',
     );
   });
 
@@ -194,17 +208,26 @@ describe('US-5 cards on every character (one account line when it repeats, #70 A
   it('W2-late: empty slots, Yum Yum for the fighters at Lv 50+ (the pusher falls back while Frostbite is tier 0), Blunder Hills below 50', () => {
     expect(accountTexts(w2)).toEqual(
       expect.arrayContaining([
-        'Equip Slime, Bored Bean, Pincermin and Mashed Potato in the empty card slots of 2 characters',
-        'Equip the Yum Yum Desert card set (tier 1, +10% All Food Effect) on 3 characters',
+        'Fill the empty card slots of 2 characters',
+        'Equip the Yum Yum Desert card set on 3 characters',
       ]),
     );
-    expect(details(w2, 'Equip Slime')).toEqual(['Shaman 44: 4 open', 'Wizard 56: 4 open']);
-    expect(details(w2, 'Equip the Yum Yum')).toEqual(['Barbarian 60', 'Bowman 54', 'Wizard 56']);
-    expect(rowTexts(w2, 'Bowman', 54)).toContain(
-      'Equip 4 cards in your empty card slots: Carrotman, Bored Bean, Pincermin and Mashed Potato',
+    expect(whyOfText(w2, 'Fill the empty card slots of 2 characters')).toMatch(
+      /^Equip Slime, Bored Bean, Pincermin and Mashed Potato: /,
     );
-    expect(rowTexts(w2, 'Shaman', 44)).toContain(
-      'Equip the Blunder Hills card set (tier 1, +8% EXP if below Lv 50)',
+    // Copy pass: the set level and bonus ride in the why, with no "tier" word.
+    expect(whyOfText(w2, 'Equip the Yum Yum Desert card set on 3 characters')).toMatch(
+      /^Yum Yum Desert is set level 1, \+10% All Food Effect\. /,
+    );
+    expect(details(w2, 'Fill the empty card slots')).toEqual(['Shaman 44: 4 open', 'Wizard 56: 4 open']);
+    expect(details(w2, 'Equip the Yum Yum')).toEqual(['Barbarian 60', 'Bowman 54', 'Wizard 56']);
+    expect(rowTexts(w2, 'Bowman', 54)).toContain('Equip 4 cards in your empty card slots');
+    expect(rowWhy(w2, 'Bowman', 54, 'Equip 4 cards in your empty card slots')).toMatch(
+      /^Equip Carrotman, Bored Bean, Pincermin and Mashed Potato: /,
+    );
+    expect(rowTexts(w2, 'Shaman', 44)).toContain('Equip the Blunder Hills card set');
+    expect(whyOfText(w2, 'Equip the Blunder Hills card set')).toMatch(
+      /^Blunder Hills is set level 1, \+8% EXP if below Lv 50\. /,
     );
   });
 
@@ -213,21 +236,29 @@ describe('US-5 cards on every character (one account line when it repeats, #70 A
   });
 
   it('W3-early: Shaman 54 empty slots, Squire 51 one more card (Amarok, though another character has it), the passive Fire Forge card', () => {
-    expect(rowTexts(w3, 'Shaman', 54)).toContain(
-      'Equip 4 cards in your empty card slots: Slime, Bored Bean, Mimic and Sand Castle',
+    expect(rowTexts(w3, 'Shaman', 54)).toContain('Equip 4 cards in your empty card slots');
+    expect(rowWhy(w3, 'Shaman', 54, 'Equip 4 cards in your empty card slots')).toMatch(
+      /^Equip Slime, Bored Bean, Mimic and Sand Castle: /,
     );
-    expect(rowTexts(w3, 'Squire', 51)).toContain('Equip 1 card in your empty card slots: Amarok');
-    expect(rowTexts(w3, 'Bowman', 60).find((t) => t.startsWith('Replace the Fire Forge card'))).toMatch(
-      /passive, it works unequipped/,
-    );
+    expect(rowTexts(w3, 'Squire', 51)).toContain('Equip 1 card in your empty card slots');
+    expect(rowWhy(w3, 'Squire', 51, 'Equip 1 card in your empty card slots')).toMatch(/^Equip Amarok: /);
+    const passive = rowTexts(w3, 'Bowman', 60).find((t) => t.startsWith('Replace the Fire Forge card'));
+    expect(passive).toMatch(/^Replace the Fire Forge card and fill open slots: /);
+    expect(whyOfText(w3, passive ?? '')).toMatch(/give their bonus without being equipped/);
   });
 
-  it('W3-early: Easy Resources for the two skillers and Yum Yum tier 2 for three fighters, as account lines', () => {
+  it('W3-early: Easy Resources for the two skillers and Yum Yum set level 2 for three fighters, as account lines', () => {
     expect(accountTexts(w3)).toEqual(
       expect.arrayContaining([
-        'Equip the Easy Resources card set (tier 1, +8% Skill Efficiency) on 2 characters',
-        'Equip the Yum Yum Desert card set (tier 2, +20% All Food Effect) on 3 characters',
+        'Equip the Easy Resources card set on 2 characters',
+        'Equip the Yum Yum Desert card set on 3 characters',
       ]),
+    );
+    expect(whyOfText(w3, 'Equip the Easy Resources card set on 2 characters')).toMatch(
+      /^Easy Resources is set level 1, \+8% Skill Efficiency\. /,
+    );
+    expect(whyOfText(w3, 'Equip the Yum Yum Desert card set on 3 characters')).toMatch(
+      /^Yum Yum Desert is set level 2, \+20% All Food Effect\. /,
     );
     expect(details(w3, 'Equip the Easy')).toEqual(['Squire 51', 'Barbarian 56']);
     expect(details(w3, 'Equip the Yum Yum')).toEqual(['Wizard 73', 'Bowman 60', 'Shaman 54']);
@@ -263,7 +294,10 @@ describe('US-5 cards on every character (one account line when it repeats, #70 A
       fights,
     };
     expect(rowTexts(withFrontier, 'Squire', 85)).toContain(
-      'Swap the Yum Yum Desert card set for Frostbite Tundra (tier 1, +5% DEF and ACC)',
+      'Swap the Yum Yum Desert card set for Frostbite Tundra',
+    );
+    expect(whyOfText(withFrontier, 'Swap the Yum Yum Desert card set for Frostbite Tundra')).toMatch(
+      /^Frostbite Tundra is set level 1, \+5% DEF and ACC\. /,
     );
   });
 
@@ -343,10 +377,19 @@ describe('US-8 spare obols into empty slots', () => {
   it('W2-late: one obol into a family circle slot, with the merit line and the next family slot at 350 (93 to go)', () => {
     expect(accountTexts(w2)).toEqual(
       expect.arrayContaining([
-        "Equip 1 stored obol in a family circle slot; regular monsters don't drop obols until the W2 merit 'Monsters now drop Obols'",
-        "Family obols 0 of 6 filled; next circle slot at family level 350 (93 to go); regular monsters don't drop obols until the W2 merit 'Monsters now drop Obols'",
+        'Equip 1 stored obol in a family circle slot',
+        'Family obols 0 of 6 filled; next circle slot at family level 350',
       ]),
     );
+    // Copy pass: the merit note rides in the why; the 93 to go is the Milestone (257 → 350).
+    expect(whyOfText(w2, 'Equip 1 stored obol in a family circle slot')).toBe(
+      "Any obol beats an empty slot; family slots count for every character, so they fill first; regular monsters don't drop obols until the W2 merit 'Monsters now drop Obols'.",
+    );
+    const obolGoal = run(w2).account?.goals?.find((g) =>
+      g.goal.nextAction.text.startsWith('Family obols'),
+    )?.goal;
+    expect(obolGoal?.milestone).toMatchObject({ unit: 'family level', next: 350 });
+    expect((obolGoal?.milestone?.next ?? 0) - (obolGoal?.milestone?.current ?? 0)).toBe(93);
   });
 
   it('done this session: the stored-obol action is gone in the next save and listed as done (FR-25)', () => {

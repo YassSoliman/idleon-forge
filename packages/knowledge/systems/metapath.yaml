@@ -407,7 +407,7 @@ entries:
     text: "ActiveOn picks the pusher by kill rate on the frontier map"
     why: Pushing with one character opens the next world soonest; Sources disagree on the class, so kill rate decides.
     values:
-      source-line: "ActiveOn picked by kill rate on {map:name}, as each character is currently equipped"
+      source-line: "ActiveOn picked by kill rate on {map:name}, as each character is equipped"
     sources:
       - url: https://my.visme.co/view/dwonr73g-idleon-academy-the-beginning
         title: Idleon Academy, push with a Barbarian
@@ -743,7 +743,7 @@ entries:
     text: "Make your next character"
     why: "One character of each subclass covers every Role on the Meta Path."
     values:
-      next: "Make a {line:name}: create a character, pick {baseClass:name} at level 10, then {line:name} at Speccius"
+      next: "Make a {line:name}: pick {baseClass:name} at level 10, then {line:name} at Speccius"
       journeyman: "Make a Journeyman, then take Maestro"
     sources:
       - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
@@ -815,8 +815,7 @@ entries:
       both: "{slot} and {obol}"
       altar-one: "equip it after the Obol Altar"
       altar-many: "equip them after the Obol Altar"
-      eta-days: "about {days:int} days at your recent pace"
-      eta-day: "about 1 day at your recent pace"
+      eta-days: "{eta:duration} at your recent pace"
       eta-none: "ETA after a few more sessions"
       eta-long: "more than 3 months at this pace"
       after: "After that, {what} opens at family level {gate:int}."

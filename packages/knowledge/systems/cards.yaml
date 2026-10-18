@@ -19,10 +19,10 @@ entries:
     category: compounding
     effortSeconds: 60
     detector: { id: cards/slots, params: { view: empty } }
-    text: "Equip {count:int} {cardsWord} in your empty card slots: {cards}"
-    why: "An empty card slot gives nothing; these are your best owned cards for {activity}, highest level first, and a card can sit on several characters at once."
+    text: "Equip {count:int} {cardsWord} in your empty card slots"
+    why: "Equip {cards}: your best owned cards for {activity}, highest level first. An empty card slot gives nothing, and a card can sit on several characters at once."
     values:
-      groupText: "Equip {cards} in the empty card slots of {characters:int} characters"
+      groupText: "Fill the empty card slots of {characters:int} characters"
       detailText: "{who}: {open:int} open"
     appliesTo: { stages: all }
     confidence: H
@@ -41,7 +41,7 @@ entries:
     category: compounding
     effortSeconds: 60
     detector: { id: cards/slots, params: { view: passive } }
-    text: "Replace the {passive} card (passive, it works unequipped) and fill your open slots: {cards}"
+    text: "Replace the {passive} card and fill open slots: {cards}"
     why: "Passive cards give their bonus without being equipped, so the slot is free for a card that needs it."
     values:
       groupText: "Replace the passive {passive} card on {characters:int} characters with {cards}"
@@ -62,10 +62,10 @@ entries:
     category: compounding
     effortSeconds: 30
     detector: { id: cards/set, params: { view: no-set } }
-    text: "Equip the {set} card set (tier {tier:int}, {bonus})"
-    why: "No card set is equipped, and this one fits what the character is doing; equipping it is free."
+    text: "Equip the {set} card set"
+    why: "{set} is set level {tier:int}, {bonus}. No card set is equipped, and this one fits what the character is doing; equipping it is free."
     values:
-      groupText: "Equip the {set} card set (tier {tier:int}, {bonus}) on {characters:int} characters"
+      groupText: "Equip the {set} card set on {characters:int} characters"
     appliesTo: { stages: all }
     confidence: L
     status: active
@@ -83,10 +83,10 @@ entries:
     category: compounding
     effortSeconds: 30
     detector: { id: cards/set, params: { view: set-mismatch } }
-    text: "Swap the {current} card set for {set} (tier {tier:int}, {bonus})"
-    why: "The equipped set doesn't fit what this character is doing now; this one does."
+    text: "Swap the {current} card set for {set}"
+    why: "{set} is set level {tier:int}, {bonus}. The equipped set doesn't fit what this character is doing now; this one does."
     values:
-      groupText: "Swap the {current} card set for {set} (tier {tier:int}, {bonus}) on {characters:int} characters"
+      groupText: "Swap the {current} card set for {set} on {characters:int} characters"
     appliesTo: { stages: all }
     confidence: L
     status: active
@@ -104,10 +104,10 @@ entries:
     category: compounding
     effortSeconds: 30
     detector: { id: cards/set, params: { view: blunder-50 } }
-    text: "Swap the Blunder Hills card set (no EXP bonus from Lv 50) for {set} (tier {tier:int}, {bonus})"
-    why: "The Blunder Hills set's EXP bonus only applies below Lv 50, so it gives this character nothing."
+    text: "Swap the Blunder Hills card set for {set}"
+    why: "{set} is set level {tier:int}, {bonus}. The Blunder Hills set's EXP bonus only applies below Lv 50, so it gives this character nothing."
     values:
-      groupText: "Swap the Blunder Hills card set for {set} (tier {tier:int}, {bonus}) on {characters:int} characters past Lv 50"
+      groupText: "Swap the Blunder Hills card set for {set} on {characters:int} characters"
     appliesTo: { stages: all }
     confidence: H
     status: active

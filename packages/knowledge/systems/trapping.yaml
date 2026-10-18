@@ -7,9 +7,9 @@ entries:
     system: trapping
     type: check
     title: Finished traps sit idle
-    text: "Collect and re-place your {traps:int} finished traps, sized to your return, then close the game fully"
+    text: "Collect and re-place your {traps:int} finished traps"
     values: { timelineKind: timer, timelineWhat: "traps" }
-    why: A finished trap catches nothing until it is collected and placed again. Trap timers stop on the character-select screen, so close the game fully afterwards.
+    why: Size the new traps to your return. A finished trap catches nothing until it is collected and placed again. Trap timers stop on the character-select screen, so close the game fully afterwards.
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/traps.ts
         title: IdleOn Toolbox, getTraps (time left per placed trap)
@@ -33,12 +33,12 @@ entries:
     system: trapping
     type: check
     title: Traps finish before you're back
-    text: "Traps finish in about {finishesIn:duration}, then sit idle until you're back"
+    text: "Traps finish in {finishesIn:duration}, then sit idle until you're back"
     values:
       timelineKind: timer
       timelineWhat: "traps"
       pill: "Traps idle"
-      pill-soon: "Traps idle in about {finishesIn:duration}"
+      pill-soon: "Traps idle in {finishesIn:duration}"
     why: Pulling a running trap early gives up what it has built, so next time place traps sized to how long you'll be away.
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/traps.ts
@@ -67,8 +67,8 @@ entries:
     text: "{text}"
     why: "{why}"
     values:
-      text: "Start Trapping: do Lord of the Hunt's first quest, Pelt for the Pelt God, on any character"
-      why: "Lord of the Hunt is in Trappers Folley, left of the W3 town; his first quest gives a Cardboard Traps set and 2 Time Candy."
+      text: "Start Trapping: do Lord of the Hunt's first quest"
+      why: "The quest is Pelt for the Pelt God, and any character can take it. Lord of the Hunt is in Trappers Folley, left of the W3 town; his first quest gives a Cardboard Traps set and 2 Time Candy."
       short: "Start Trapping (Lord of the Hunt's first quest)"
     sources:
       - { url: "https://idleon.wiki/wiki/Lord_of_the_Hunt", title: "IdleOn Wiki: Lord of the Hunt (Pelt for the Pelt God)", tier: 2, claimDate: 2026-09-27, verified: 2026-10-18, gameVersion: 2.3.540 }
