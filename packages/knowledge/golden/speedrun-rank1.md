@@ -1,4 +1,4 @@
-# golden v1: speedrun-rank1 · knowledge #0f53b19b · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: speedrun-rank1 · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 361
 
 ## Verdict changes
 
@@ -39,12 +39,17 @@
 11 · Catching Litterbug · Plastic Basin · [Anvil full · collect]
 
 ### Account · nothing to fix
+[checklist] Today 4/11 · Week 2/4 · daily reset in 23h 05m
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Grow · Switch on a Refinery salt: Switch on Propagated Salt in the Refinery [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 show more (9)
+If you have time
+- Run Killroy's Archer room on your Wind Walker Lv 1775 (YumYum Grotto) · about 2m of hands-on play
+- Run Killroy's Archer room on your Wind Walker Lv 1775 (YumYum Grotto) · about 2m of hands-on play
+- Run Killroy's Beginner room on your Divine Knight Lv 1822 (YumYum Grotto) · about 2m of hands-on play
 
 ## Not covered yet
 Classes and subclasses
@@ -82,6 +87,10 @@ W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Random Events · Nothing to fix · Nothing to fix
+W0 · Pet Tournament · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Guild tasks · Nothing to fix · Nothing to fix
 W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Nothing to fix · Nothing to fix · 1 to do · 11 full · collect
@@ -100,6 +109,9 @@ W2 · Alchemy vials · Nothing to fix · Nothing to fix
 W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet
 W2 · Arcade · Nothing to fix · Nothing to fix
 W2 · Islands · Not covered yet · Not covered yet
+W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
+W2 · Weekly Battles · Nothing to fix · Nothing to fix
+W2 · Bonus Ballot · Nothing to fix · Nothing to fix
 W3 · Refinery · Wasting · 1 to fix before you leave · 1 to do
 W3 · Construction · Nothing to fix · Nothing to fix
 W3 · Talent Book Library · Nothing to fix · Nothing to fix
@@ -177,6 +189,8 @@ C8 · Voidwalker 1754
 - Anvil full · collect · now · before · pill · fix none
 - traps ready · later · in 12h 54m · 08:53 · after · info · fix none
 - worship charge caps · later · in 5d 11h · 07:42 · after · info · fix none
+Account · Random Events
+- Random Event ready · in 4h 00m · 00:00 · before · info · fix none
 Account · Alchemy cauldrons and liquids
 - Water full · can't tell when · untimed · info · fix none
 Account · Arcade
@@ -314,6 +328,7 @@ Account · Refinery
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
+| systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
@@ -324,6 +339,7 @@ Account · Refinery
 | systems.yaml#equinox | worlds/reached | account | reached yes |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
 | systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#killroy | worlds/reached | account | reached yes |  |
 | systems.yaml#lab | worlds/reached | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
@@ -339,6 +355,7 @@ Account · Refinery
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
+| systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | — | silent |  |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | pass |  |

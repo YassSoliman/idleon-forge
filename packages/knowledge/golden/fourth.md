@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #0f53b19b · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: fourth · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 361
 
 ## Verdict changes
 
@@ -12,13 +12,16 @@
 2 · Fighting Woodlin Spirit · Edge of the Valley · Nothing to do here
 
 ### Account · nothing to fix
+[checklist] Today 2/10 · Week 0/3 · daily reset in 20h 04m
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Today's Random Event: Random Event now on Wam Wonderland (Glacial Guild): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Gems unspent: 999 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
-- Spend · Spend W1 merits: Spend 12 W1 merits [IdleOn Wiki: Tasks/Blunder Hills, Merit Shop tab · Calculated by IdleOn Toolbox · 2.3.540]
-show more (8)
+show more (9)
+If you have time
+- Run the Weekly Battle with every character (Yum Yum Desert) · about 2m of hands-on play
 
 ## Not covered yet
 Classes and subclasses
@@ -56,6 +59,10 @@ W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix · 2 to do
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Random Events · Wasting · 1 to fix before you leave
+W0 · Pet Tournament · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Guild tasks · Nothing to fix · Nothing to fix
 W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Can't tell · Can't tell from the save
@@ -74,6 +81,9 @@ W2 · Alchemy vials · Nothing to fix · Nothing to fix
 W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet
 W2 · Arcade · Nothing to fix · Nothing to fix
 W2 · Islands · Not covered yet · Not covered yet
+W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
+W2 · Weekly Battles · Nothing to fix · Nothing to fix
+W2 · Bonus Ballot · Nothing to fix · Nothing to fix
 W3 · Refinery · Nothing to fix · Nothing to fix · 1 to do
 W3 · Construction · Nothing to fix · Nothing to fix
 W3 · Talent Book Library · Nothing to fix · Nothing to fix
@@ -90,9 +100,9 @@ W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 Worlds 5–7: not covered yet
-Needs you: Minigames (wasting)
+Needs you: Minigames (wasting), Random Events (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
-Wasting: 1
+Wasting: 2
 
 ## Timeline
 Axis: now to +12h · Back in 8h 00m · 15:51
@@ -101,6 +111,8 @@ C2 · Beginner 1
 C1 · Voidwalker 476
 - traps ready · later · in 19h 33m · 03:24 · after · info · fix none
 - worship charge caps · later · in 31d 20h · 04:28 · after · info · fix none
+Account · Random Events
+- Random Event ready · now · before · info · fix none
 Account · Alchemy cauldrons and liquids
 - Water full · can't tell when · untimed · info · fix none
 Account · Arcade
@@ -178,6 +190,7 @@ Account · Refinery
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
+| systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
@@ -188,6 +201,7 @@ Account · Refinery
 | systems.yaml#equinox | worlds/reached | account | reached yes |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
 | systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#killroy | worlds/reached | account | reached yes |  |
 | systems.yaml#lab | worlds/reached | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
@@ -203,6 +217,7 @@ Account · Refinery
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
+| systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=265 |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | pass |  |

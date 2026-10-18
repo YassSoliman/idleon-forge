@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #0f53b19b · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: second · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 361
 
 ## Verdict changes
 
@@ -37,6 +37,7 @@ safe to log off
 10 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
 
 ### Account · nothing to fix
+[checklist] Today 5/10 · Week 2/4 · daily reset in 11h 38m
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Gems unspent: 4,645 gems unspent [IdleOn Wiki: Gem Shop]
@@ -89,6 +90,10 @@ W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Random Events · Nothing to fix · Nothing to fix
+W0 · Pet Tournament · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Guild tasks · Nothing to fix · Nothing to fix
 W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Can't tell · Can't tell from the save · 2 full · collect
@@ -107,6 +112,9 @@ W2 · Alchemy vials · Nothing to fix · Nothing to fix
 W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet
 W2 · Arcade · Nothing to fix · Nothing to fix
 W2 · Islands · Not covered yet · Not covered yet
+W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
+W2 · Weekly Battles · Nothing to fix · Nothing to fix
+W2 · Bonus Ballot · Nothing to fix · Nothing to fix
 W3 · Refinery · Nothing to fix · Nothing to fix
 W3 · Construction · Nothing to fix · Nothing to fix
 W3 · Talent Book Library · Nothing to fix · Nothing to fix
@@ -306,6 +314,7 @@ Account · Refinery
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
+| systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
@@ -316,6 +325,7 @@ Account · Refinery
 | systems.yaml#equinox | worlds/reached | account | reached yes |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
 | systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#killroy | worlds/reached | account | reached yes |  |
 | systems.yaml#lab | worlds/reached | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
@@ -331,6 +341,7 @@ Account · Refinery
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
+| systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=644 |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | fires | finishesIn=8071068 |

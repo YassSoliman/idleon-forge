@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #0f53b19b · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: first · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 361
 
 ## Verdict changes
 
@@ -27,12 +27,29 @@
 7 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in about 5 h] · Spend at least 101 talent points on your skilling preset (Rage Basics, Warrior), starting with Big Pick, Lucky Clover · Spend here: 1 buy, ~935k → Spend Plan
 
 ### Account · nothing to fix
+[checklist] Today 1/11 · Week 2/4 · daily reset in 16h 50m
+  ○ To do: Pet Tournament registration · resets with the server day
+  ○ To do: Skill minigame plays · 7 plays left · resets in 16h 50m
+  ○ To do: Spiketrap gems · resets in 16h 50m
+  ○ To do: Vial attempts · 13 of 13 left · resets in 16h 50m
+  ○ To do: Post Office orders · 1 company without an order today · resets in 16h 50m
+  ○ To do: Daily tasks · W1: ... so I started swingin D ✓ · W2: Doing the Dev's Job A ✓ · W3: Cogs, Crocs, Clocks! · resets in 16h 50m
+  ○ To do: Guild daily tasks · resets in 16h 50m
+  ◷ Waiting: Free pet pull
+  ? Can't tell: Pet Mart free gems · resets with the server day
+  ✓ Done: Random Event · resets in 16h 50m
+  ○ To do: Boss keys · Efaunt's Tomb: 2 days banked · resets in 16h 50m
+  ○ To do: Colosseum tickets · Typhoon: 3 days banked, 3 lost · Centurion: 3 days banked · Lonely Hunter: 3 days banked, 48 lost · resets in 16h 50m · lost before you are back
+  ○ To do: Bonus Ballot vote · new ballot Monday about 17:00 UTC, in 2d 19h
+  ○ To do: Guild weekly tasks · your weekly reset in 5d 16h
+  ✓ Done: Killroy's rooms · Warrior room: done · Warrior room: done · your weekly reset in 5d 16h
+  ✓ Done: Weekly Battle · best this week: difficulty 2 of 5 · try again after your daily reset · new boss Thursday 00:00 UTC, in 5d 2h
 - Grow · Switch on a Refinery salt: Switch on Explosive Salts in the Refinery [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Collect banked Colosseum tickets: Collect 9 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 13 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (14)
+show more (15)
 Spend coins: 34 buys now on 3 characters
   1. Buy the bribe Photoshopped Dmg Range on Bubonic Conjuror Lv 87: 1 dementia · Lv 0 → 1 · 100M coins · C2 (Bubonic Conjuror lv87) · withdraw 100M from storage on C2, then buy · total 100M on C2
   2. Buy the bribe Glitched Acc Formula on Bubonic Conjuror Lv 87: 3 dementia · Lv 0 → 1 · 300M coins · C2 (Bubonic Conjuror lv87) · withdraw 300M from storage on C2, then buy · total 400M on C2
@@ -80,6 +97,10 @@ W0 · Cards · Nothing to fix · Nothing to fix · 1 to do
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Random Events · Nothing to fix · Nothing to fix
+W0 · Pet Tournament · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Guild tasks · Nothing to fix · Nothing to fix
 W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 2 to do
 W1 · Anvil · Behind · Behind for your Stage · 2 to do · 1 full · collect
@@ -92,12 +113,15 @@ W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix · 1 to do
 W1 · Colosseum · Wasting · 1 to fix before you leave
 W1 · Poppy · Nothing to fix · Nothing to fix
-W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix
+W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy bubbles · Nothing to fix · Nothing to fix
 W2 · Alchemy vials · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet · in the Spend Plan
 W2 · Arcade · Nothing to fix · Nothing to fix
 W2 · Islands · Not covered yet · Not covered yet
+W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
+W2 · Weekly Battles · Nothing to fix · Nothing to fix
+W2 · Bonus Ballot · Nothing to fix · Nothing to fix
 W3 · Refinery · Wasting · 1 to fix before you leave
 W3 · Construction · Nothing to fix · Nothing to fix
 W3 · Talent Book Library · Nothing to fix · Nothing to fix · 1 to do
@@ -257,6 +281,7 @@ Account · Refinery
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
+| systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
@@ -267,6 +292,7 @@ Account · Refinery
 | systems.yaml#equinox | worlds/reached | account | reached yes |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
 | systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#killroy | worlds/reached | account | reached yes |  |
 | systems.yaml#lab | worlds/reached | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
@@ -282,6 +308,7 @@ Account · Refinery
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
+| systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=15 |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | fires | finishesIn=16381026 |

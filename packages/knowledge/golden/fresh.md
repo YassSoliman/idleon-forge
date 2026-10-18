@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #0f53b19b · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: fresh · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 361
 
 ## Verdict changes
 
@@ -16,12 +16,31 @@
 
 ### Account · Unknown
 Unknown: can't tell from the save
+[checklist] Today 0/10 · Week 0/4 · daily reset in 4h 38m
+  ○ To do: Pet Mart free gems · resets with the server day
+  ○ To do: Random Event · Random Event now on Jar Bridge (Snake Swarm): one a day · resets in 4h 38m · lost before you are back
+  ○ To do: Skill minigame plays · 9 plays left · resets in 4h 38m · lost before you are back
+  ○ To do: Spiketrap gems · resets in 4h 38m · lost before you are back
+  ○ To do: Vial attempts · 18 of 18 left · resets in 4h 38m · lost before you are back
+  ○ To do: Post Office orders · 6 companies without an order today · resets in 4h 38m · lost before you are back
+  ○ To do: Daily tasks · W1: Escapin' the 'laws · W2: Fishin for Fishies D · W3: LMNOP Up in Here · resets in 4h 38m · lost before you are back
+  ○ To do: Guild daily tasks · resets in 4h 38m · lost before you are back
+  ○ To do: Boss keys · Forest Villa: 3 days banked, 50 lost · Efaunt's Tomb: 3 days banked, 50 lost · Chizoar's Cavern: 3 days banked, 50 lost · resets in 4h 38m · lost before you are back
+  ○ To do: Colosseum tickets · Typhoon: 3 days banked, 50 lost · Centurion: 3 days banked, 50 lost · Lonely Hunter: 3 days banked, 50 lost · resets in 4h 38m · lost before you are back
+  ○ To do: Killroy's rooms · Archer room: your Siege Breaker Lv 478 · Warrior room: your Blood Berserker Lv 534 · your weekly reset in 3d 4h
+  ○ To do: Weekly Battle · best this week: difficulty 0 of 5 · new boss Thursday 00:00 UTC, in 6d 5h
+  ○ To do: Bonus Ballot vote · Leading now: Boosts Refinery Cycle Speed by +55% · new ballot Monday about 17:00 UTC, in 3d 22h
+  ○ To do: Guild weekly tasks · your weekly reset in 3d 4h
 - Spend · Collect banked Colosseum tickets: Collect 9 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Today's Random Event: Random Event now on Jar Bridge (Snake Swarm): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (9)
+show more (10)
+If you have time
+- Run Killroy's Archer room on your Siege Breaker Lv 478 (YumYum Grotto) · about 2m of hands-on play
+- Run Killroy's Warrior room on your Blood Berserker Lv 534 (YumYum Grotto) · about 2m of hands-on play
+- Run the Weekly Battle with every character (Yum Yum Desert) · about 3m of hands-on play
 
 ## Not covered yet
 Classes and subclasses
@@ -59,6 +78,10 @@ W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Random Events · Wasting · 1 to fix before you leave
+W0 · Pet Tournament · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Guild tasks · Nothing to fix · Nothing to fix
 W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Can't tell · Can't tell from the save
@@ -77,6 +100,9 @@ W2 · Alchemy vials · Wasting · 1 to fix before you leave
 W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet
 W2 · Arcade · Can't tell · Can't tell from the save
 W2 · Islands · Not covered yet · Not covered yet
+W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
+W2 · Weekly Battles · Nothing to fix · Nothing to fix
+W2 · Bonus Ballot · Nothing to fix · Nothing to fix
 W3 · Refinery · Nothing to fix · Nothing to fix · 1 to do
 W3 · Construction · Nothing to fix · Nothing to fix
 W3 · Talent Book Library · Nothing to fix · Nothing to fix
@@ -93,9 +119,9 @@ W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 Worlds 5–7: not covered yet
-Needs you: Companions and pets (wasting), Minigames (wasting), Boss keys (wasting), Colosseum (wasting), Alchemy vials (wasting)
+Needs you: Companions and pets (wasting), Minigames (wasting), Random Events (wasting), Boss keys (wasting), Colosseum (wasting), Alchemy vials (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
-Wasting: 5
+Wasting: 6
 
 ## Timeline
 Axis: now to +12h · Back in 8h 00m · 02:41
@@ -110,6 +136,8 @@ C3 · Beginner 1
 - no AFK Target · now · before · blocker · outlined · fix afk.check.no-afk-target@c2
 - Traps idle · in 7h 52m · 02:33 · before · pill · fix none
 - worship charge caps · later · in 28h 20m · 23:01 · after · info · fix none
+Account · Random Events
+- Random Event ready · now · before · info · fix none
 Account · Colosseum
 - Colosseum tickets lost · now · before · next-action · outlined · fix colosseum.check.collect-tickets@account
 Account · Alchemy cauldrons and liquids
@@ -194,6 +222,7 @@ Account: Can't tell from the save
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
+| systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
@@ -204,6 +233,7 @@ Account: Can't tell from the save
 | systems.yaml#equinox | worlds/reached | account | reached yes |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
 | systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#killroy | worlds/reached | account | reached yes |  |
 | systems.yaml#lab | worlds/reached | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
@@ -219,6 +249,7 @@ Account: Can't tell from the save
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
+| systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | account | fires | points=180 |
 | trapping.check.finishes-early | trapping/finishes-early | C1 | unknown (field-missing) |  |

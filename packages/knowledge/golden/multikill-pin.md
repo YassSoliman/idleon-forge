@@ -1,4 +1,4 @@
-# golden v1: multikill-pin · knowledge #0f53b19b · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: multikill-pin · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 361
 
 ## Verdict changes
 
@@ -39,6 +39,23 @@
 11 · Fighting Verminous · The Royal Castle · [Anvil full · collect] [Worship full · spend] [Traps idle in about 7 h]
 
 ### Account · nothing to fix
+[checklist] Today 0/11 · Week 0/4 · daily reset in 15h 12m
+  ○ To do: Pet Mart free gems · resets with the server day
+  ○ To do: Pet Tournament registration · resets with the server day
+  ○ To do: Skill minigame plays · 21 plays left · resets in 15h 12m
+  ○ To do: Spiketrap gems · resets in 15h 12m
+  ○ To do: Post Office orders · 6 companies without an order today · resets in 15h 12m
+  ○ To do: Daily tasks · W1: Cant stop my Chop A · W2: Lift with your Back! · W3: But they're so Cute! · resets in 15h 12m
+  ○ To do: Guild daily tasks · resets in 15h 12m
+  ◷ Waiting: Free pet pull
+  ◷ Waiting: Random Event · Next: Mega Grumblo on Jungle Perimeter · resets in 15h 12m
+  ⊘ Can't: Vial attempts · no vial ingredient held · resets in 15h 12m
+  ○ To do: Boss keys · Forest Villa: 1 day banked · Chizoar's Cavern: 1 day banked · resets in 15h 12m
+  ○ To do: Colosseum tickets · Typhoon: 1 day banked · Centurion: 1 day banked · Lonely Hunter: 1 day banked · resets in 15h 12m
+  ○ To do: Killroy's rooms · Warrior room: your Royal Guardian Lv 1307 · Archer room: your Siege Breaker Lv 1291 · Archer room: your Siege Breaker Lv 1291 · your weekly reset in 3d 15h
+  ○ To do: Weekly Battle · best this week: difficulty 0 of 5 · new boss Thursday 00:00 UTC, in 6h 32m · lost before you are back
+  ○ To do: Bonus Ballot vote · Leading now: Boosts Crop Value, and Farming EXP gain, AND Next Crop Chance by +88.35% · new ballot Monday about 17:00 UTC, in 4d 23h
+  ○ To do: Guild weekly tasks · your weekly reset in 3d 15h
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
@@ -47,6 +64,11 @@
   Walkthrough: A-10: 0 of 1 characters · about 3m
     1. On your Bubonic Conjuror Lv 1268: go to Echoing Egress (W1), click the star, then go back to Spore Meadows
 show more (9)
+If you have time
+- Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
+- Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
+- Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
+- Run the Weekly Battle with every character (Yum Yum Desert) · about 11m of hands-on play
 
 ## Not covered yet
 Classes and subclasses
@@ -84,6 +106,10 @@ W0 · Cards · Nothing to fix · Nothing to fix · 1 to do
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Random Events · Nothing to fix · Nothing to fix
+W0 · Pet Tournament · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Guild tasks · Nothing to fix · Nothing to fix
 W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 1 to do
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 11 full · collect
@@ -102,6 +128,9 @@ W2 · Alchemy vials · Nothing to fix · Nothing to fix
 W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet
 W2 · Arcade · Nothing to fix · Nothing to fix
 W2 · Islands · Not covered yet · Not covered yet
+W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
+W2 · Weekly Battles · Nothing to fix · Nothing to fix
+W2 · Bonus Ballot · Nothing to fix · Nothing to fix
 W3 · Refinery · Nothing to fix · Nothing to fix · 1 to do
 W3 · Construction · Nothing to fix · Nothing to fix
 W3 · Talent Book Library · Nothing to fix · Nothing to fix
@@ -171,6 +200,8 @@ C9 · Royal Guardian 1307
 - Worship full · spend · now · before · pill · fix none
 - Traps idle · in 6h 36m · 00:03 · before · pill · fix none
 - In the group above · Anvil full · collect · Worship full · spend · Traps idle
+Account · Random Events
+- Random Event ready · in 2h 32m · 20:00 · before · info · fix none
 Account · Alchemy cauldrons and liquids
 - Water full · can't tell when · untimed · info · fix none
 Account · Arcade
@@ -298,6 +329,7 @@ Account · Refinery
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
+| systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
@@ -308,6 +340,7 @@ Account · Refinery
 | systems.yaml#equinox | worlds/reached | account | reached yes |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
 | systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#killroy | worlds/reached | account | reached yes |  |
 | systems.yaml#lab | worlds/reached | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
@@ -323,6 +356,7 @@ Account · Refinery
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
+| systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | — | silent |  |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | fires | finishesIn=23752448 |

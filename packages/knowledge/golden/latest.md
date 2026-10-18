@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #0f53b19b · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: latest · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 361
 
 ## Verdict changes
 
@@ -41,12 +41,18 @@
 ### Account · fix 1 before you leave
 Fix before you leave
 - Fix · Arcade balls stop building: Claim Arcade balls before you leave (time to the claim cap: now) [IdleOn Wiki: Arcade · Calculated by IdleOn Toolbox · 2.3.540]
+[checklist] Today 0/11 · Week 0/5 · daily reset in 14h 03m
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Grow · Get the fuel to run a Refinery salt: Get 50 more Magmaspike to run Anionic Salt [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Today's Random Event: Random Event now on Poopy Sewers (Mega Grumblo): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-- Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
-show more (11)
+show more (12)
+If you have time
+- Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
+- Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
+- Run Killroy's Beginner room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
+- Run the Weekly Battle with every character (Yum Yum Desert) · about 11m of hands-on play
 
 ## Not covered yet
 Classes and subclasses
@@ -84,6 +90,10 @@ W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Random Events · Wasting · 1 to fix before you leave
+W0 · Pet Tournament · Nothing to fix · Nothing to fix
+W0 · Daily tasks · Nothing to fix · Nothing to fix
+W0 · Guild tasks · Nothing to fix · Nothing to fix
 W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 1 to do
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 11 full · collect
@@ -102,6 +112,9 @@ W2 · Alchemy vials · Nothing to fix · Nothing to fix
 W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet
 W2 · Arcade · Wasting · 1 to fix before you leave
 W2 · Islands · Not covered yet · Not covered yet
+W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
+W2 · Weekly Battles · Nothing to fix · Nothing to fix
+W2 · Bonus Ballot · Nothing to fix · Nothing to fix
 W3 · Refinery · Wasting · 1 to fix before you leave · 1 to do
 W3 · Construction · Nothing to fix · Nothing to fix
 W3 · Talent Book Library · Nothing to fix · Nothing to fix
@@ -118,9 +131,9 @@ W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 Worlds 5–7: not covered yet
-Needs you: Companions and pets (wasting), Minigames (wasting), Arcade (wasting), Refinery (wasting), Trapping (wasting)
+Needs you: Companions and pets (wasting), Minigames (wasting), Random Events (wasting), Arcade (wasting), Refinery (wasting), Trapping (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
-Wasting: 5
+Wasting: 6
 
 ## Timeline
 Axis: now to +12h · Back in 8h 00m · 03:12
@@ -170,10 +183,14 @@ C11 · Beginner 1224
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none
 - In the group above · Anvil full · collect · Worship full · spend
+Account · Random Events
+- Random Event ready · now · before · info · fix none
 Account · Alchemy cauldrons and liquids
 - Water full · can't tell when · untimed · info · fix none
 Account · Arcade
 - Arcade balls full · now · before · blocker · outlined · fix arcade.check.balls-cap@account
+Account · Killroy's Slaughterhouse
+- Killroy skulls lost · later · in 14h 03m · 09:15 · after · next-action · fix none
 Account · Refinery
 - salt fuel runs out · in 1m · 19:12 · before · next-action · fix none
 
@@ -297,6 +314,7 @@ Account · Refinery
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
+| systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
@@ -307,6 +325,7 @@ Account · Refinery
 | systems.yaml#equinox | worlds/reached | account | reached yes |  |
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
 | systems.yaml#islands | worlds/reached | account | reached yes |  |
+| systems.yaml#killroy | worlds/reached | account | reached yes |  |
 | systems.yaml#lab | worlds/reached | account | reached yes |  |
 | systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
@@ -322,6 +341,7 @@ Account · Refinery
 | systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
+| systems.yaml#weekly-battles | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |
 | task-unlocks.check.spend | task-unlocks/unspent | — | silent |  |
 | trapping.check.finishes-early | trapping/finishes-early | C2 | pass |  |
