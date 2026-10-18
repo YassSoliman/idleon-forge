@@ -74,7 +74,7 @@ function Crest({ stage }: { stage: NonNullable<HeaderProps['stage']> }) {
       >
         <PixelArt name="now-crest" w={worldOf(stage.label)} decorative />
         <span>{text}</span>
-        {needs.length ? <span className="n-crest__count num">{needs.length}</span> : null}
+        {needs.length ? <span className="n-crest__count num">{W.stageToGo(needs.length)}</span> : null}
       </button>
       <Sheet open={open} title={W.stageTitle(stage.label)} onClose={() => setOpen(false)}>
         <p className="n-sheet-lead">{W.stageCount(needs.length)}</p>
