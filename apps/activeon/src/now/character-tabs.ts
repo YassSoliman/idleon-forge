@@ -6,14 +6,15 @@
 // `#<id>-<index>` anchor (`#build-3`, and `#now-3` for the Now tab; M17 TR-3), which the shell reads.
 // A tab that publishes `status` gets one line on the character's Characters tile (M17 FR-13).
 //
-// To add a tab: write a component taking `CharacterTabProps`, then add `{ id, label, Component }`
-// below. The id must be lower-case letters only (it is the anchor prefix) and never `system`.
+// To add a tab: write a component taking `CharacterTabProps` in its own file, then add
+// `{ id, label, Component: lazyPart(() => import('./MyTab').then((m) => m.MyTab)) }` below. Every tab
+// is its own lazy chunk (lazy-part.tsx): Focus renders it inside <Suspense>, so the main chunk only
+// carries this list. A `status` must not import the tab's file: read a string the engine built.
+// The id must be lower-case letters only (it is the anchor prefix) and never `system`.
 import type { NowView } from '@idleon-forge/engine/now';
 import type { ComponentType } from 'react';
-import { BuildTab } from './BuildView';
-import { CardsTab } from './cards/CardsPanel';
-import { SkillsTab, skillsStatus } from './SkillsTab';
-import { SignsTab, signsStatus } from './signs/SignsPanel';
+import { lazyPart } from '../lazy-part';
+import { signsStatus } from './signs/SignsPanel';
 
 export interface CharacterTabProps {
   /** The whole Now view (the Build tab reads `view.builds`). */
@@ -39,18 +40,28 @@ export const characterTabs: readonly CharacterTab[] = [
   {
     id: 'build',
     label: 'Build',
-    Component: BuildTab,
+    Component: lazyPart(() => import('./BuildView').then((m) => m.BuildTab)),
     status: (view, index) => view.builds.find((b) => b.index === index)?.status ?? null,
   },
   {
     id: 'cards',
     label: 'Cards',
-    Component: CardsTab,
+    Component: lazyPart(() => import('./cards/CardsPanel').then((m) => m.CardsTab)),
     status: (view, index) => view.cards?.characters.find((c) => c.index === index)?.overview ?? null,
   },
-  { id: 'signs', label: 'Signs', Component: SignsTab, status: signsStatus },
+  {
+    id: 'signs',
+    label: 'Signs',
+    Component: lazyPart(() => import('./signs/SignsTab').then((m) => m.SignsTab)),
+    status: signsStatus,
+  },
   // M20 F3 (FR-33): the Skills tab, `#skills-<index>`.
-  { id: 'skills', label: 'Skills', Component: SkillsTab, status: skillsStatus },
+  {
+    id: 'skills',
+    label: 'Skills',
+    Component: lazyPart(() => import('./SkillsTab').then((m) => m.SkillsTab)),
+    status: (view, index) => view.skills.find((s) => s.index === index)?.status ?? null,
+  },
 ];
 
 export const tabById = (id: string): CharacterTab | undefined => characterTabs.find((t) => t.id === id);

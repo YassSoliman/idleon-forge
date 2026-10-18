@@ -4,7 +4,8 @@
 // links (TR-14: Tab only, aria-current on the one in Focus). The <h2> takes keyboard focus only when
 // the player opened the card, never on an auto-follow.
 import { type FocusCard, LINK_WORDS, type NowView } from '@idleon-forge/engine/now';
-import { forwardRef, useEffect, useRef } from 'react';
+import { forwardRef, Suspense, useEffect, useRef } from 'react';
+import { Loading } from '../lazy-part';
 import { characterTabs, NOW_TAB, tabById, tabHref } from './character-tabs';
 import { useNowActions } from './context';
 import { PurposeBlock } from './PurposeBlock';
@@ -141,7 +142,9 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
       ) : null}
 
       {Other && view ? (
-        <Other view={view} index={card.index} />
+        <Suspense fallback={<Loading what={`the ${tabById(tab)?.label ?? ''} tab`} />}>
+          <Other view={view} index={card.index} />
+        </Suspense>
       ) : (
         <>
           {card.info.length > 0 ? (

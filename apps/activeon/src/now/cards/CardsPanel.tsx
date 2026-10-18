@@ -10,6 +10,7 @@ import type { CardsNowView, CharacterCardsView, NowView } from '@idleon-forge/en
 import type { CardChip, GrindItem } from '@idleon-forge/engine/result';
 import type { CharacterTabProps } from '../character-tabs';
 import { useNowActions } from '../context';
+import { CARDS_OPEN } from '../open-keys';
 import { SourceLabel } from '../parts';
 import './cards.css';
 
@@ -196,8 +197,6 @@ export function cardsSummary(cards: CardsNowView): string {
   if (n > 0) return `${n} ${n === 1 ? 'preset' : 'presets'} to fix`;
   return 'every preset fits';
 }
-
-export const CARDS_OPEN = 'cards-open';
 
 export function CardsOverview({ view }: { view: NowView }) {
   const actions = useNowActions();

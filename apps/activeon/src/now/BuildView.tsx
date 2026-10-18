@@ -9,6 +9,7 @@ import type { BuildPresetView, BuildTabView } from '@idleon-forge/engine/result'
 import { useState } from 'react';
 import type { CharacterTabProps } from './character-tabs';
 import { useNowActions } from './context';
+import { BUILDS_OPEN } from './open-keys';
 import { SourceLabel } from './parts';
 
 const pct = (current: number, target: number) => (target > 0 ? Math.min(current, target) : 0);
@@ -218,7 +219,6 @@ export function buildsSummary(builds: readonly BuildRoadmapView[]): string {
 }
 
 /** The overview id that opens a collapsed overview (R5 QA P2-2: collapsed by default on a phone). */
-export const BUILDS_OPEN = 'builds-open';
 
 export function BuildsOverview({ view }: { view: NowView }) {
   const actions = useNowActions();

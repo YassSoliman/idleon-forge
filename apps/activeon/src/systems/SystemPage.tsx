@@ -14,6 +14,7 @@ import {
   SYSTEM_HOMES,
 } from '@idleon-forge/engine/now';
 import { Suspense, useEffect, useMemo } from 'react';
+import { Loading } from '../lazy-part';
 import { tabById, tabHref } from '../now/character-tabs';
 import { useNowActions } from '../now/context';
 import { GoalList, SourceLabel } from '../now/parts';
@@ -137,7 +138,7 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
         </section>
       )}
       {Body && !page.locked ? (
-        <Suspense fallback={<p className="small muted">{PAGE_WORDS.loadingPicture}</p>}>
+        <Suspense fallback={<Loading text={PAGE_WORDS.loadingPicture} />}>
           <Body s={s} page={page} />
         </Suspense>
       ) : null}

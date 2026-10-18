@@ -4,7 +4,7 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { checkChunk, checkFiles, PARSER_BANNER, WORKER_FILE } from '../bundle-guards';
+import { checkChunk, checkFiles, checkFirstLoad, PARSER_BANNER, WORKER_FILE } from '../bundle-guards';
 
 const nm = '/repo/node_modules/.pnpm/firebase/node_modules';
 const chunk = (modules: Record<string, string[]>, code = '') => ({
@@ -64,5 +64,22 @@ describe('checkFiles', () => {
     expect(WORKER_FILE.test('assets/parse.worker-2d_Px0YR.js')).toBe(true);
     const workerRule = headers.split('/assets/parse.worker-*')[1] ?? '';
     expect(workerRule).toMatch(/connect-src 'none'/);
+  });
+});
+
+describe('checkFirstLoad', () => {
+  const app = '/repo/apps/activeon/src';
+  it('passes the Now screen and fails a lazy view on the first load', () => {
+    expect(
+      checkFirstLoad([
+        { fileName: 'assets/index-a.js', moduleIds: [`${app}/now/Focus.tsx`, `${app}/main.tsx`] },
+      ]),
+    ).toEqual([]);
+    for (const id of ['now/BuildView.tsx', 'gear/GearTab.tsx', 'systems/SystemPage.tsx', 'timeline/x.tsx'])
+      expect(checkFirstLoad([{ fileName: 'assets/now-b.js', moduleIds: [`${app}/${id}`] }])).toHaveLength(1);
+  });
+  it("never flags the engine's own folders of the same name (they run in the worker)", () => {
+    const ids = ['/repo/packages/engine/src/gear/plan.ts', '/repo/packages/engine/src/now/view.ts'];
+    expect(checkFirstLoad([{ fileName: 'assets/index-a.js', moduleIds: ids }])).toEqual([]);
   });
 });

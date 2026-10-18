@@ -4,7 +4,7 @@
 // the Skill Grid on the Characters place (`#skills`). One "Train" line, one row per W1–W3 skill with its
 // level, progress, efficiency, the account's best, the Role badge or specialty mark and the next gate,
 // then the character's Parallel Slot pips. The engine words everything; this file only renders.
-import { compact, type NowView, type SkillGridView } from '@idleon-forge/engine/now';
+import { compact, type SkillGridView } from '@idleon-forge/engine/now';
 import type { SlotPip } from '@idleon-forge/engine/result';
 import { useEffect, useRef } from 'react';
 import type { CharacterTabProps } from './character-tabs';
@@ -27,11 +27,6 @@ const STATE_WORDS: Record<SlotPip['state'], string> = {
   unknown: "can't tell",
   'not-covered': 'not covered yet',
 };
-
-/** M17 FR-13: the Skills tab's one status line on the Characters grid. */
-export function skillsStatus(view: NowView, index: number): string | null {
-  return view.skills.find((s) => s.index === index)?.status ?? null;
-}
 
 function Pips({ pips }: { pips: SlotPip[] }) {
   const actions = useNowActions();

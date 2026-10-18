@@ -1,20 +1,17 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M16 Star Signs (docs/specs/M16-star-signs.md): the character page's Signs tab (the signs it wears, the
-// ones to wear for its AFK Target, and whether it can change signs now) and the Star Chart section in the
-// Account (points, unlocked signs, the next constellations). The engine (packages/engine/src/starsigns)
-// builds and words everything; this file only renders it. Text is React text, styles are classes (CSP).
+// M16 Star Signs (docs/specs/M16-star-signs.md): the Star Chart section in the Account (points, unlocked
+// signs, the next constellations), the star-signs System page body and the Signs tab's status line. The
+// tab itself (the signs a character wears and should wear) is SignsTab.tsx, a lazy chunk. The engine
+// (packages/engine/src/starsigns) builds and words everything; this file only renders it. Text is React
+// text, styles are classes (CSP).
 import type { NowView, StarSignsNowView } from '@idleon-forge/engine/now';
-import { formatRoute } from '../../shell/route';
 import type { SystemPageBodyProps } from '../../systems/pages';
-import type { CharacterTabProps } from '../character-tabs';
 import { useNowActions } from '../context';
 import { SourceLabel } from '../parts';
 import './signs.css';
 
-const STAR_SIGNS = 'star-signs';
-
-const list = (xs: readonly string[]) => (xs.length ? xs.join(' + ') : 'nothing');
+export const list = (xs: readonly string[]) => (xs.length ? xs.join(' + ') : 'nothing');
 
 /** M17 FR-13: the Signs tab's one status line on the Characters grid. */
 export function signsStatus(view: NowView, index: number): string | null {
@@ -25,79 +22,6 @@ export function signsStatus(view: NowView, index: number): string | null {
   return c.killsToTelescope !== null
     ? `${wear} · Telescope in about ${c.killsToTelescope.toLocaleString('en-US')} kills`
     : wear;
-}
-
-/** The character page's Signs tab (character-tabs.ts). */
-export function SignsTab({ view, index }: CharacterTabProps) {
-  const s = view.starSigns;
-  const c = s?.characters.find((x) => x.index === index);
-  if (!s || !c) return <p className="small muted">No star sign data for this character yet.</p>;
-  const change =
-    c.canChange === true
-      ? 'yes, it can reach the Telescope'
-      : c.killsToTelescope !== null
-        ? `needs about ${c.killsToTelescope.toLocaleString('en-US')} kills to reach the Telescope`
-        : "can't tell from this save";
-  return (
-    <div className="ss">
-      <dl className="ss-facts">
-        <div>
-          <dt>Wearing</dt>
-          <dd>{list(c.worn)}</dd>
-        </div>
-        <div>
-          <dt>Wear for {c.activity ?? 'its job'}</dt>
-          <dd>
-            {c.activity ? list(c.recommended) : 'no sign advice for its activity yet'}
-            {c.activity && c.matches ? ' ✓' : ''}
-          </dd>
-        </div>
-        {c.afterCosmos ? (
-          <div>
-            <dt>After Chronus Cosmos</dt>
-            <dd>
-              {list(c.afterCosmos)}
-              {c.onceUnlocked ? `, ${c.onceUnlocked} once unlocked` : ''}
-            </dd>
-          </div>
-        ) : null}
-        <div>
-          <dt>Can change signs</dt>
-          <dd className={c.canChange === true ? 'ss-yes' : undefined}>{change}</dd>
-        </div>
-        <div>
-          <dt>Sign slots</dt>
-          <dd className="num">{c.slots}</dd>
-        </div>
-      </dl>
-      <p className="small muted">
-        Signs are changed only at the Telescope, at the top of the big tree in World 1 (Where the Branches
-        End). Unlocking a sign is account-wide; each character aligns its own.
-      </p>
-      <StarChartLink s={s} />
-    </div>
-  );
-}
-
-/** The Signs tab's one line about the account's Star Chart; the chart itself lives on its System page. */
-function StarChartLink({ s }: { s: StarSignsNowView }) {
-  const actions = useNowActions();
-  const to = { place: 'system', id: STAR_SIGNS } as const;
-  return (
-    <p className="small ss-chart-link">
-      Star Chart: <span className="num">{s.points ?? '?'}</span> points ·{' '}
-      <a
-        href={formatRoute(to)}
-        onClick={(e) => {
-          if (!actions.navigate) return;
-          e.preventDefault();
-          actions.navigate(to);
-        }}
-      >
-        see it
-      </a>
-    </p>
-  );
 }
 
 function StarChartBody({ s, heading = true }: { s: StarSignsNowView; heading?: boolean }) {
