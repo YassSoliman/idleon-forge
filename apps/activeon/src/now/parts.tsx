@@ -21,10 +21,10 @@ import {
   LINK_WORDS,
   type NextActionView,
   PLACE_WORDS,
-  seeItSystem,
   tabHomeOf,
   timelineHome,
 } from '@idleon-forge/engine/now';
+import { seeItSystem } from '@idleon-forge/engine/see-it';
 import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
 import { Button, cx } from '../design/atoms/Button';

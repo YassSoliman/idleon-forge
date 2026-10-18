@@ -11,6 +11,7 @@
 import type { EngineResult, Goal, InfoLine, Subject, SystemSummary } from '../result';
 import { goalView, safeHref, sourceView, spendLineKey } from './build-now-view';
 import { dismissActive, type NowPrefs, type SessionClock, skipActive } from './prefs';
+import { goalSystem } from './see-it';
 import { tabHomeOf } from './system-homes';
 import type {
   NowView,
@@ -29,8 +30,6 @@ export interface SystemsUi {
   lastCloudSave?: number | null;
 }
 
-/** M15 F5's Behind Goal (metapath/behind.ts BEHIND_ID; not imported: the view layer stays Knowledge-free, M10 TR-1). */
-const BEHIND_ID = 'metapath.goal.behind';
 /** The pseudo gap M2 emits past World 4 (FR-20). */
 const BEYOND_GAP = 'worlds-5-7';
 
@@ -66,11 +65,6 @@ function readPrefs(result: EngineResult, prefs: NowPrefs, ui: SystemsUi): Prefs 
 }
 
 /** A Goal's System (TR-5): its own, except the Behind Goal belongs to the chosen row's System. */
-function goalSystem(g: Goal, result: EngineResult): string {
-  if (g.id === BEHIND_ID) return result.behindSystems?.find((r) => r.chosen)?.systemId ?? g.system;
-  return g.system;
-}
-
 interface Placed {
   goal: Goal;
   subject: Subject;
@@ -354,9 +348,5 @@ function coverageChecks(
   return [...fired].map(([title, f]) => ({ title, state: f ? 'see-above' : 'nothing-to-do' }));
 }
 
-/** The System a Next Action's "See it" opens (FR-31), or null when it gets none. */
-export function seeItSystem(goal: Pick<Goal, 'id' | 'system'>, result: EngineResult): string | null {
-  const id = goalSystem(goal as Goal, result);
-  const s = result.systems?.find((x) => x.id === id);
-  return s && s.kind === 'game' ? s.id : null;
-}
+/** Split into see-it.ts (M21), re-exported here for the barrel and older importers. */
+export { seeItSystem } from './see-it';
