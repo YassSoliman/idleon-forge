@@ -175,7 +175,11 @@ export default function Panel(props: PanelProps) {
       >
         <div className="sg-head">
           <h2 id={titleId} tabIndex={-1}>
-            {panel.view === 'form' ? 'Suggest' : 'Your suggestions'}
+            {panel.view === 'list'
+              ? 'Your suggestions'
+              : panel.request.kind === 'report'
+                ? 'Report this line'
+                : 'Suggest'}
           </h2>
           <div className="sg-head-links">
             {panel.view === 'form' ? (
