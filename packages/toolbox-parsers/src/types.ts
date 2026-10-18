@@ -111,6 +111,30 @@ export interface MapKillRate {
   survivability: number;
 }
 
+/** The part of Toolbox's `account.bubba` (parsers/clickers/bubba.ts) that M23 X1 reads. */
+export interface ToolboxBubba {
+  /** 28 upgrades, by index: `realLV` (level + prestige), `bonus` (TotUpgBonus), `cost` (UpgCost). */
+  upgrades: Array<{ level: number; realLV: number; bonus: number; cost: number }>;
+  /** MeatsliceRate per minute. */
+  meatsliceRate: number;
+  /** The seven Bubba Boon bonuses (BubbaRoG_Bonuses 1..7), keyed buildRate ... atomCost. */
+  bonuses: Record<string, { bonus: number }>;
+  totalUpgTypesAvailable: number;
+  megafleshOwned: number;
+}
+
+/** Game tables for M23 X1, from Toolbox's game data (`generalSpelunky`). */
+export interface ToolboxBubbaTables {
+  /** Spelunky[36]: the six Charisma attributes (Hustle ... Savvy). */
+  charismaNames: string[];
+  /** Spelunky[37]: each attribute's bonus per level. */
+  charismaPerLevel: number[];
+  /** Spelunky[41]: each gift's passive bonus. */
+  giftPassive: number[];
+  /** Toolbox's exported SMOKER_MAX_QUALITY_SECONDS, for the drift test. */
+  smokerMaxQualitySeconds: number;
+}
+
 /** Toolbox runtime functions beyond `parseData()`, injected by the parse worker (see src/calls.ts). */
 export interface ToolboxCalls {
   /** Toolbox's damage and kill-rate math for one character, as Toolbox's own types (untyped) return it. */
@@ -212,6 +236,11 @@ export interface ToolboxCalls {
     account: unknown,
     preset: 'active' | 'other',
   ): Record<string, number> | null;
+  // ---- M23 X1 (ADR 0010): Bubba's next-step values ----
+  /** Toolbox `getBubba` on a raw Bubba record (possibly edited by the caller); null when it isn't an array. */
+  bubbaParse(rawBubba: unknown, account: unknown): ToolboxBubba | null;
+  /** The Charisma and gift tables, and Toolbox's Smoker cap constant. */
+  bubbaTables(): ToolboxBubbaTables;
 }
 
 /** M7 TR-4: one Vault row's Toolbox `cost` at levels L, L+1, ... (`costs[0]` is the parse's `cost`). */

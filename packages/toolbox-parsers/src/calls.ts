@@ -16,6 +16,7 @@ import { getBuildCost } from '../vendor/parsers/world-3/construction';
 import { getPrayerBonusAndCurse } from '../vendor/parsers/world-3/prayers';
 import { getPrinterMulti } from '../vendor/parsers/world-3/printer';
 import { calcTimeToRankUp, getSaltMatsTimeLeft, getSaltsBalance } from '../vendor/parsers/world-3/refinery';
+import { bubbaParse, bubbaTables } from './bubba';
 import { classExpMulti, monsterExpGiven } from './class-exp';
 import { frontierRates, onMap } from './frontier-rates';
 import { itemDisplayName } from './item-names';
@@ -90,4 +91,7 @@ export const toolboxCalls = {
   // Exact talent points (ADR 0010): the Toolbox-computed terms of the game's TotalTalentPoints.
   /** Per term id, for one preset (`talent-points.ts`); null without that preset. Throws what Toolbox throws. */
   talentPointTerms,
+  // M23 X1 (ADR 0010): Toolbox's Bubba parse on an edited raw record, and the Charisma/gift tables.
+  bubbaParse,
+  bubbaTables,
 };

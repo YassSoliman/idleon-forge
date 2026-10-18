@@ -21,6 +21,8 @@ export type {
   SideReadName,
   SideReadReport,
   StampEvaluation,
+  ToolboxBubba,
+  ToolboxBubbaTables,
   ToolboxCalls,
   UpstreamPin,
   VaultCostRun,

@@ -35,6 +35,19 @@ export type {
 } from './afk-types';
 export { W13_VIALS } from './alchemy';
 export type { AlchemyAccountFields, AlchemyPlanState } from './alchemy-types';
+export {
+  BEEG_SLICE_SECONDS,
+  BUBBA_BOON_BONUS_KEYS,
+  BUBBA_DISCOUNT_UPGRADES,
+  BUBBA_X1_NONE,
+  type BubbaX1,
+  bubbaX1,
+  CHARISMA_LEVELS_BANKED_LIMIT,
+  CHARISMA_MAX_LEVEL,
+  charismaTraitReq,
+  PATS_HOUR_SECONDS,
+  SMOKER_MAX_QUALITY_SECONDS,
+} from './bubba-x1';
 export type {
   CardLoadout,
   CardSetState,
