@@ -3,18 +3,19 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
-// Self-hosted (all three are OFL-1.1): no font request leaves for Google, so a visit reaches nothing
-// but our own origin and the game's Firebase (M10 TR-13).
-import '@fontsource/pixelify-sans/500.css';
-import '@fontsource/pixelify-sans/700.css';
-import '@fontsource/atkinson-hyperlegible/400.css';
-import '@fontsource/atkinson-hyperlegible/700.css';
-import '@fontsource/jetbrains-mono/400.css';
-import '@fontsource/jetbrains-mono/600.css';
+// The design system first (M21 TR-2): fonts, tokens, element defaults, atoms; then the places' CSS.
+import './design/fonts';
+import './design/tokens.css';
+import './design/base.css';
+import './design/atoms/atoms.css';
 import './styles/tokens.css';
 import './styles/app.css';
 import './styles/now.css';
 import './styles/views.css';
+import { initRoot } from './design/theme';
+
+// data-direction and data-theme before the first render, so the first paint has the right colours.
+initRoot();
 
 const root = document.getElementById('root');
 if (!root) throw new Error('#root is missing from index.html');

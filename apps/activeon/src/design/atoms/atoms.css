@@ -1,0 +1,516 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* Copyright (C) 2026 IdleOn Forge contributors. */
+/*
+  The atoms (M21 FR-F5). Field Guide by default; every colour is a semantic token. Rules every atom
+  meets (TR-15's CSS guard checks this file): interactive base selectors carry min-height: var(--tap-min)
+  (DS-15); no text under 12 px; pixel faces only at 16 px and up and never on pills (DS-14); state
+  classes are scoped to their component (DS-21).
+*/
+
+/* Buttons ------------------------------------------------------------------------------------ */
+.a-btn,
+.a-icon-btn,
+.a-link-row,
+.a-chip,
+.a-pill--filter,
+.a-seg__option,
+.a-tab {
+  min-height: var(--tap-min);
+}
+.a-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: var(--tap-min);
+  padding: 0 var(--space-4);
+  border: var(--border-width) solid var(--control-border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--fg);
+  font: var(--weight-semibold) var(--text-md) / var(--lh-snug) var(--font-body);
+  cursor: pointer;
+}
+.a-btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+.a-btn--quiet {
+  background: transparent;
+  border-color: var(--line);
+}
+.a-btn--plain {
+  background: transparent;
+  border-color: transparent;
+  color: var(--accent);
+}
+.a-btn:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.a-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--tap-min);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+.a-icon-btn:hover {
+  background: var(--sunk);
+}
+.a-link-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-control);
+  color: var(--fg);
+  text-decoration: none;
+}
+.a-link-row:hover {
+  background: var(--sunk);
+}
+.a-link-row__text {
+  display: grid;
+  flex: 1;
+}
+.a-link-row__detail {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.a-link-row__arrow {
+  color: var(--accent);
+}
+
+/* Pills and the Verdict stamp ------------------------------------------------------------------- */
+.a-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-chip);
+  font: var(--weight-semibold) var(--text-xs) / var(--lh-snug) var(--font-body);
+  white-space: nowrap;
+}
+.a-pill--fix {
+  background: var(--cap-now-bg);
+  color: var(--cap-now-fg);
+}
+.a-pill--soon {
+  background: var(--cap-soon-bg);
+  border-color: var(--cap-soon-border);
+  color: var(--cap-soon-fg);
+}
+.a-pill--fine,
+.a-pill--optional {
+  background: var(--cap-fine-bg);
+  color: var(--cap-fine-fg);
+}
+.a-pill--unknown {
+  background: var(--unk-soft);
+  color: var(--unk);
+}
+.a-pill--skipped {
+  background: var(--sunk);
+  color: var(--muted);
+}
+.a-pill--filter {
+  cursor: pointer;
+  padding: 0 var(--space-3);
+}
+.a-pill--filter[aria-pressed="true"] {
+  border-color: currentColor;
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+.a-pill__count {
+  font-family: var(--font-numeral);
+  font-variant-numeric: tabular-nums;
+}
+.a-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-chip);
+  font: var(--weight-bold) var(--text-xs) / var(--lh-snug) var(--font-body);
+  white-space: nowrap;
+}
+.a-stamp--ready {
+  background: var(--verdict-ready-bg);
+  color: var(--verdict-ready-fg);
+}
+.a-stamp--fix {
+  background: var(--verdict-fix-bg);
+  color: var(--verdict-fix-fg);
+}
+.a-stamp--unknown {
+  background: var(--verdict-unk-bg);
+  color: var(--verdict-unk-fg);
+}
+.a-stamp--skipped {
+  background: var(--sunk);
+  color: var(--muted);
+}
+.a-stamp--stale {
+  background: var(--verdict-stale-bg);
+  color: var(--verdict-stale-fg);
+}
+.a-stamp__long {
+  font-weight: var(--weight-regular);
+}
+
+/* Chips and badges ------------------------------------------------------------------------------ */
+.a-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-chip);
+  background: var(--chip-bg);
+  color: var(--fg);
+  font: var(--weight-semibold) var(--text-sm) / var(--lh-snug) var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+}
+.a-chip--static {
+  cursor: default;
+}
+.a-chip--pressed {
+  background: var(--chip-pressed-bg);
+  border-color: var(--chip-pressed-bg);
+  color: var(--chip-pressed-fg);
+}
+.a-chip__detail {
+  color: var(--muted);
+  font-family: var(--font-numeral);
+  font-variant-numeric: tabular-nums;
+}
+.a-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  background: var(--bad);
+  color: var(--on-bad);
+  font: var(--weight-bold) var(--text-xs) / 1 var(--font-numeral);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The token line: who · where · how long --------------------------------------------------------- */
+.a-token-line {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  color: var(--fg);
+}
+.a-token {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.a-token-sep {
+  color: var(--muted);
+}
+
+/* Meters and rings ------------------------------------------------------------------------------- */
+.a-meter {
+  position: relative;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--sunk);
+  overflow: hidden;
+}
+.a-meter__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(var(--fill, 0) * 100%);
+  border-radius: inherit;
+  background: var(--accent);
+}
+.a-meter--ok .a-meter__fill {
+  background: var(--ok);
+}
+.a-meter--fix .a-meter__fill {
+  background: var(--bad);
+}
+.a-meter--muted .a-meter__fill {
+  background: var(--line-strong);
+}
+.a-meter--dashed {
+  background: transparent;
+  outline: 1px dashed var(--line-strong);
+  outline-offset: -1px;
+}
+.a-ring__track {
+  stroke: var(--sunk);
+}
+.a-ring__fill {
+  stroke: var(--accent);
+}
+.a-ring--ok .a-ring__fill {
+  stroke: var(--ok);
+}
+.a-ring--fix .a-ring__fill {
+  stroke: var(--bad);
+}
+.a-ring--muted .a-ring__fill {
+  stroke: var(--line-strong);
+}
+
+/* Segmented control and tabs -------------------------------------------------------------------- */
+.a-seg {
+  display: inline-flex;
+  margin: 0;
+  padding: 2px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--sunk);
+}
+.a-seg__option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0 var(--space-3);
+  border-radius: calc(var(--radius-control) - 2px);
+  color: var(--muted);
+  font: var(--weight-semibold) var(--text-sm) / 1 var(--font-body);
+  cursor: pointer;
+}
+.a-seg__option--on {
+  background: var(--surface);
+  color: var(--fg);
+  box-shadow: var(--shadow-1);
+}
+.a-seg__option:focus-within {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+.a-tabs {
+  display: flex;
+  gap: var(--space-1);
+  overflow-x: auto;
+  border-bottom: 1px solid var(--line);
+}
+.a-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0 var(--space-3);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font: var(--weight-semibold) var(--text-sm) / 1 var(--font-body);
+  cursor: pointer;
+}
+.a-tab--on {
+  border-bottom-color: var(--accent);
+  color: var(--fg);
+}
+
+/* Seals, status glyphs, speech, section ---------------------------------------------------------- */
+.a-seal,
+.a-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font: var(--weight-semibold) var(--text-xs) / var(--lh-snug) var(--font-body);
+}
+.a-seal--fix {
+  color: var(--kind-fix);
+}
+.a-seal--spend {
+  color: var(--kind-spend);
+}
+.a-seal--grow {
+  color: var(--kind-grow);
+}
+.a-seal--extra {
+  color: var(--kind-extra);
+}
+.a-status--wasting {
+  color: var(--bad);
+}
+.a-status--behind {
+  color: var(--warn);
+}
+.a-status--ok {
+  color: var(--ok);
+}
+.a-status--locked,
+.a-status--not-covered,
+.a-status--cant-tell {
+  color: var(--unk);
+}
+.a-speech {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  background: transparent;
+}
+.a-speech__box {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-control);
+  background: var(--speech);
+  color: var(--speech-fg);
+  box-shadow:
+    inset 0 0 0 2px var(--speech),
+    inset 0 0 0 3px var(--speech-gap);
+  clip-path: var(--panel-clip);
+  font: var(--weight-regular) var(--text-md) / var(--lh-body) var(--font-body);
+}
+.a-speech__name {
+  display: block;
+  margin-bottom: var(--space-1);
+  font: var(--weight-bold) var(--text-md) / 1 var(--font-display);
+}
+.a-section {
+  display: grid;
+  gap: var(--stack-gap);
+}
+.a-section__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.a-section__title {
+  margin: 0;
+  font: var(--display-weight) var(--text-lg) / var(--lh-tight) var(--font-display);
+}
+
+/* Empty, loading, failed, toast ------------------------------------------------------------------ */
+.a-empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+}
+.a-empty__line {
+  margin: 0;
+  max-width: 32ch;
+}
+.a-loading {
+  position: relative;
+  display: grid;
+  gap: var(--space-3);
+}
+.a-loading--pending {
+  min-height: var(--tap-min);
+}
+.a-loading__skeleton {
+  opacity: 0.5;
+}
+.a-loading__blob {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--muted);
+}
+.a-loading--part .a-loading__blob {
+  justify-content: center;
+  padding: var(--space-4);
+}
+.a-loading__hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.a-part-failed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-card);
+  color: var(--fg);
+}
+.a-toast {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: var(--shadow-2);
+}
+.a-toast__actions {
+  display: flex;
+  gap: var(--space-1);
+}
+
+/* Sheet: bottom on a phone, side panel from 1000 px ---------------------------------------------- */
+.a-sheet-host {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  align-items: end;
+}
+.a-sheet-scrim {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: var(--scrim);
+  cursor: default;
+}
+.a-sheet {
+  position: relative;
+  max-height: 85vh;
+  overflow: auto;
+  padding: var(--space-2) var(--space-4) var(--space-6);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--surface);
+  color: var(--fg);
+  box-shadow: var(--shadow-2);
+}
+.a-sheet__head {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  background: var(--surface);
+}
+.a-sheet__title {
+  margin: 0;
+  font: var(--display-weight) var(--text-lg) / var(--lh-tight) var(--font-display);
+}
+.a-sheet__close {
+  font-size: var(--text-xl);
+}
+@media (min-width: 1000px) {
+  .a-sheet-host--auto,
+  .a-sheet-host--panel {
+    justify-items: end;
+    align-items: stretch;
+  }
+  .a-sheet-host--auto .a-sheet,
+  .a-sheet-host--panel .a-sheet {
+    width: min(440px, 100vw);
+    max-height: none;
+    border-radius: 0;
+  }
+}
+
+/* The header theme toggle ------------------------------------------------------------------------ */
+.a-theme-toggle {
+  color: var(--fg);
+}

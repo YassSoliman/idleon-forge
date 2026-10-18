@@ -76,7 +76,7 @@
   height: 6px;
   border: 3px solid var(--fg);
   border-radius: 3px;
-  background: var(--sunk);
+  background: var(--pot-rim, var(--sunk));
 }
 .al-rise {
   position: absolute;
@@ -95,16 +95,20 @@
   background: var(--pot);
 }
 .al-power {
-  --pot: var(--bad-soft);
+  --pot: var(--cauldron-power-3);
+  --pot-rim: var(--cauldron-power-4);
 }
 .al-quicc {
-  --pot: var(--ok-soft);
+  --pot: var(--cauldron-quicc-3);
+  --pot-rim: var(--cauldron-quicc-4);
 }
 .al-high-iq {
-  --pot: var(--unk-soft);
+  --pot: var(--cauldron-highiq-3);
+  --pot-rim: var(--cauldron-highiq-4);
 }
 .al-kazam {
-  --pot: var(--coin-soft);
+  --pot: var(--cauldron-kazam-3);
+  --pot-rim: var(--cauldron-kazam-4);
 }
 .al-now {
   font-size: 0.875rem;
