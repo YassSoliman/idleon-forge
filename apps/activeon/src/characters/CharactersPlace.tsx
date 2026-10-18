@@ -10,6 +10,7 @@ import { BuildsOverview } from '../now/BuildView';
 import { CardsOverview } from '../now/cards/CardsPanel';
 import { characterTabs, NOW_TAB, tabHref } from '../now/character-tabs';
 import { Pill } from '../now/Roster';
+import { SkillGrid } from '../now/SkillsTab';
 import type { Session } from '../shell/session';
 
 function Tile({ row, s }: { row: RosterRow; s: Session }) {
@@ -78,6 +79,7 @@ export function CharactersPlace({ s }: { s: Session }) {
       </ul>
       <BuildsOverview view={s.view} />
       <CardsOverview view={s.view} />
+      <SkillGrid grid={s.view.skillGrid} />
     </section>
   );
 }

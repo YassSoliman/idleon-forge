@@ -29,6 +29,12 @@ const SPEND_PLAN_ANCHOR = `#${'spend-plan'}`;
 import { SYSTEM_PAGES } from './pages';
 import { Reason, StatusGlyph } from './SystemsHub';
 
+const OVERVIEWS: Record<string, 'builds' | 'cards' | 'skills'> = {
+  build: 'builds',
+  cards: 'cards',
+  skills: 'skills',
+};
+
 export function SystemPage({ s, id }: { s: Session; id: string }) {
   const actions = useNowActions();
   const page = useMemo(
@@ -60,6 +66,8 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
   const tab = page.tabHome ? tabById(page.tabHome) : undefined;
   const pageId = SYSTEM_HOMES[tile.id]?.page;
   const Body = pageId ? SYSTEM_PAGES[pageId] : undefined;
+  // The Characters overview of a tab home (#builds, #cards, M20's #skills); a tab without one has no link.
+  const overview = tab ? (OVERVIEWS[tab.id] ?? null) : null;
   const goals = (
     <>
       <GoalList
@@ -103,14 +111,14 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
           <span>{tile.statusWord.text}</span>
         </p>
         <Reason tile={tile} />
-        {tab && (tab.id === 'build' || tab.id === 'cards') ? (
+        {tab && overview && (tab.id === 'build' || tab.id === 'cards') ? (
           <p>
             <a
               className="small build-link"
-              href={`#${tab.id === 'build' ? 'builds' : 'cards'}`}
+              href={`#${overview}`}
               onClick={(e) => {
                 e.preventDefault();
-                actions.navigate?.({ place: 'characters', section: tab.id === 'build' ? 'builds' : 'cards' });
+                actions.navigate?.({ place: 'characters', section: overview });
               }}
             >
               {PAGE_WORDS.seeEvery(tab.label)}

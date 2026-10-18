@@ -12,6 +12,7 @@ import type { NowView } from '@idleon-forge/engine/now';
 import type { ComponentType } from 'react';
 import { BuildTab } from './BuildView';
 import { CardsTab } from './cards/CardsPanel';
+import { SkillsTab, skillsStatus } from './SkillsTab';
 import { SignsTab, signsStatus } from './signs/SignsPanel';
 
 export interface CharacterTabProps {
@@ -48,6 +49,8 @@ export const characterTabs: readonly CharacterTab[] = [
     status: (view, index) => view.cards?.characters.find((c) => c.index === index)?.overview ?? null,
   },
   { id: 'signs', label: 'Signs', Component: SignsTab, status: signsStatus },
+  // M20 F3 (FR-33): the Skills tab, `#skills-<index>`.
+  { id: 'skills', label: 'Skills', Component: SkillsTab, status: skillsStatus },
 ];
 
 export const tabById = (id: string): CharacterTab | undefined => characterTabs.find((t) => t.id === id);

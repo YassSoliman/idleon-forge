@@ -498,6 +498,7 @@ export function useSession(props: ShellProps) {
       unskip: (keys) => prefs.unskip(keys),
       dismiss: (key) => prefs.dismiss(key, result.versions.gameBuild),
       undismiss: (keys) => prefs.undismiss(keys),
+      tick: (key, until) => prefs.tick(key, until),
       reportUrl: (r) =>
         reportUrl(
           {

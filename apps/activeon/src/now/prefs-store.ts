@@ -10,6 +10,7 @@ import {
   PREFS_CAP,
   pruneDismissals,
   pruneSkips,
+  pruneTicks,
   type SessionClock,
   type SkipEntry,
 } from '@idleon-forge/engine/now';
@@ -27,12 +28,14 @@ export interface StoredVisitOrder {
 export interface PrefsData {
   skips: Record<string, SkipEntry>;
   dismissals: Record<string, number | null>;
+  /** M20 FR-15: checklist Done ticks, key -> the end of the row's period. */
+  ticks: Record<string, number>;
   expectedReturn: StoredExpectedReturn | null;
   visitOrder: StoredVisitOrder | null;
 }
 
-const EMPTY: PrefsData = { skips: {}, dismissals: {}, expectedReturn: null, visitOrder: null };
-const KEYS = ['skips', 'dismissals', 'expectedReturn', 'visitOrder'] as const;
+const EMPTY: PrefsData = { skips: {}, dismissals: {}, ticks: {}, expectedReturn: null, visitOrder: null };
+const KEYS = ['skips', 'dismissals', 'ticks', 'expectedReturn', 'visitOrder'] as const;
 
 const local = (): Storage | null => {
   try {
@@ -69,6 +72,7 @@ export function loadPrefs(ns: string): PrefsData {
   return {
     skips: read(ns, 'skips', {}),
     dismissals: read(ns, 'dismissals', {}),
+    ticks: read(ns, 'ticks', {}),
     expectedReturn: read<StoredExpectedReturn | null>(ns, 'expectedReturn', null),
     visitOrder: read<StoredVisitOrder | null>(ns, 'visitOrder', null),
   };
@@ -112,6 +116,8 @@ export interface NowPrefsStore {
   unskip(keys: string[]): void;
   dismiss(key: string, build: number | null): void;
   undismiss(keys: string[]): void;
+  /** M20 FR-15: tick a checklist row done until `until` (its period's end); null clears the tick. */
+  tick(key: string, until: number | null): void;
   setExpectedReturn(v: StoredExpectedReturn | null): void;
   setVisitOrder(v: StoredVisitOrder): void;
   /** Prunes expired skips and dismissals from older builds (TR-8, on load). */
@@ -179,11 +185,17 @@ export function useNowPrefsStore(ns: string | null): NowPrefsStore {
       dismiss: (key, build) => update('dismissals', (m) => capped({ ...m, [key]: build })),
       undismiss: (keys) =>
         update('dismissals', (m) => Object.fromEntries(Object.entries(m).filter(([k]) => !keys.includes(k)))),
+      tick: (key, until) =>
+        update('ticks', (m) => {
+          const { [key]: _, ...rest } = m;
+          return until === null ? rest : capped({ ...rest, [key]: until });
+        }),
       setExpectedReturn: (v) => update('expectedReturn', () => v),
       setVisitOrder: (v) => update('visitOrder', () => v),
       prune: (clock, build) => {
         update('skips', (m) => pruneSkips(m, clock));
         update('dismissals', (m) => pruneDismissals(m, build));
+        update('ticks', (m) => pruneTicks(m, clock.now));
       },
     }),
     [ready, persistent, data, update],
@@ -194,5 +206,6 @@ export const toNowPrefs = (d: PrefsData, seenKeys: readonly string[] | null): No
   ...EMPTY_PREFS,
   skips: d.skips,
   dismissals: d.dismissals,
+  ticks: d.ticks,
   seenKeys,
 });

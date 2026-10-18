@@ -8,6 +8,7 @@ import type { SystemPageView } from '@idleon-forge/engine/now';
 import type { ComponentType } from 'react';
 import { StarSignsSystemBody } from '../now/signs/SignsPanel';
 import type { Session } from '../shell/session';
+import { CauldronSeatsBody, CogBoardBody, TrappingBody, WorshipBody } from './SlotPictures';
 
 export interface SystemPageBodyProps {
   s: Session;
@@ -17,4 +18,9 @@ export interface SystemPageBodyProps {
 export const SYSTEM_PAGES: Readonly<Record<string, ComponentType<SystemPageBodyProps>>> = {
   // M16 (R6 QA): the account's Star Chart lives here and in the Account, not on every Signs tab.
   'star-signs': StarSignsSystemBody,
+  // M20 TR-6: the Parallel Slot pictures.
+  'cog-board': CogBoardBody,
+  worship: WorshipBody,
+  trapping: TrappingBody,
+  'cauldron-seats': CauldronSeatsBody,
 };
