@@ -118,6 +118,8 @@ export interface ModuleOutput {
   walkthroughs?: { parentKey: string; view: WalkthroughView }[];
   /** M9 only: the per-character Build roadmaps (the Build view). */
   builds?: BuildRoadmap[];
+  /** M8 `cards-view` only: the Cards view (EngineResult.cards). */
+  cards?: EngineResult['cards'];
 }
 
 /** An advice module, registered with the core. */

@@ -19,6 +19,7 @@ export {
   spendLineKey,
 } from './build-now-view';
 export { buildHref, buildsView } from './build-view';
+export { cardsHref, cardsView } from './cards-view';
 export { aboutDuration, compact, formatAge, plural, shortDuration } from './format';
 export {
   dismissActive,

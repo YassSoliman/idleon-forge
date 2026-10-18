@@ -7,6 +7,7 @@ import {
   type MapGraphRow,
   type SupplyRates,
 } from '@idleon-forge/account-state';
+import { cardLeavesForRates } from '@idleon-forge/engine/collections';
 import { leavesForRates, rateTargets } from '@idleon-forge/engine/walkthrough';
 import type { CompiledKnowledge } from '@idleon-forge/knowledge';
 import {
@@ -17,7 +18,8 @@ import {
 } from '@idleon-forge/toolbox-parsers';
 
 /**
- * M14 TR-3: kill and drop rates on the supply maps of every Walkthrough target's missing leaves, plus
+ * M14 TR-3: kill and drop rates on the supply maps of every Walkthrough target's missing leaves (and of
+ * the M8 Cards view's grind candidates, at most CARD_RATE_MAPS maps), plus
  * each character's reachable maps, through Toolbox's clone in the parse's frozen clock. null without a
  * Knowledge Base or when anything throws (the Walkthrough then shows no drop hours, never a guess).
  */
@@ -30,7 +32,12 @@ export function supplyRatesOf(
   if (!kb) return null;
   try {
     const graph = (kb.facts['maps.fact.maps']?.rows ?? []) as unknown as MapGraphRow[];
-    const leaves = leavesForRates(state, kb, rateTargets(state, kb));
+    // M8 Cards view: the grind candidates' drop maps too, so a card line can say how many hours it takes.
+    const facts = { get: (id: string) => kb.entries[id] ?? kb.facts[id] };
+    const leaves = [
+      ...leavesForRates(state, kb, rateTargets(state, kb)),
+      ...cardLeavesForRates(state, facts),
+    ];
     return computeSupplyRates(parsed, envelope, state, {
       leaves,
       graph,

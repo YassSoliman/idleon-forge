@@ -23,7 +23,7 @@ import {
 } from '@idleon-forge/engine';
 import { createAfkSafetyModule } from '@idleon-forge/engine/afk';
 import { createBuildsModule } from '@idleon-forge/engine/builds';
-import { createCollectionsModule } from '@idleon-forge/engine/collections';
+import { createCardsViewModule, createCollectionsModule } from '@idleon-forge/engine/collections';
 import { engineDetectors } from '@idleon-forge/engine/detectors';
 import { detectStage, frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
 import { createSpendModule } from '@idleon-forge/engine/spend';
@@ -161,6 +161,7 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
     }),
     createBuildsModule({ kb }),
     createCollectionsModule({ kb, registry: engineDetectors }),
+    createCardsViewModule({ kb }),
     createSpendModule({ kb, stage: (state) => detectStage(state, facts) }),
     createWalkthroughModule({ kb }),
   ];

@@ -31,8 +31,8 @@ function RowCaps({ row }: { row: RosterRow }) {
 
 const Row = forwardRef<
   HTMLButtonElement,
-  { row: RosterRow; buildable: boolean; onOpen(i: number): void; onSpend(): void }
->(function Row({ row, buildable, onOpen, onSpend }, ref) {
+  { row: RosterRow; buildable: boolean; carded: boolean; onOpen(i: number): void; onSpend(): void }
+>(function Row({ row, buildable, carded, onOpen, onSpend }, ref) {
   const actions = useNowActions();
   const onClick = (e: React.MouseEvent) => {
     const cap = (e.target as HTMLElement).closest<HTMLElement>('[data-cap]')?.dataset.cap;
@@ -65,18 +65,35 @@ const Row = forwardRef<
         <RowCaps row={row} />
         {row.summary ? <span className="r-summary">{row.summary}</span> : null}
       </button>
-      {buildable ? (
-        <a
-          className="chip build"
-          href={`#build-${row.index}`}
-          aria-label={`${row.name}: build`}
-          onClick={(e) => {
-            e.preventDefault();
-            actions.openTab(row.index, 'build');
-          }}
-        >
-          Build
-        </a>
+      {buildable || carded ? (
+        <span className="r-tabs">
+          {buildable ? (
+            <a
+              className="chip build"
+              href={`#build-${row.index}`}
+              aria-label={`${row.name}: build`}
+              onClick={(e) => {
+                e.preventDefault();
+                actions.openTab(row.index, 'build');
+              }}
+            >
+              Build
+            </a>
+          ) : null}
+          {carded ? (
+            <a
+              className="chip build"
+              href={`#cards-${row.index}`}
+              aria-label={`${row.name}: cards`}
+              onClick={(e) => {
+                e.preventDefault();
+                actions.openTab(row.index, 'cards');
+              }}
+            >
+              Cards
+            </a>
+          ) : null}
+        </span>
       ) : null}
       {row.spendChip ? (
         <button type="button" className="chip spend" onClick={onSpend}>
@@ -102,10 +119,19 @@ export function Roster({
     <section aria-label="Characters">
       <h2 className="section-h roster-h">
         Characters
-        {view.builds.length > 0 ? (
-          <a className="roster-builds" href="#builds">
-            Builds ↓
-          </a>
+        {view.builds.length > 0 || view.cards ? (
+          <span className="roster-links">
+            {view.builds.length > 0 ? (
+              <a className="roster-builds" href="#builds">
+                Builds ↓
+              </a>
+            ) : null}
+            {view.cards ? (
+              <a className="roster-builds" href="#cards">
+                Cards ↓
+              </a>
+            ) : null}
+          </span>
         ) : null}
       </h2>
       <ol className="roster">
@@ -114,6 +140,7 @@ export function Roster({
             key={row.index}
             row={row}
             buildable={view.builds.some((b) => b.index === row.index)}
+            carded={view.cards?.characters.some((c) => c.index === row.index) ?? false}
             onOpen={onOpen}
             onSpend={onSpend}
             ref={(el) => rowRef(row.index, el)}

@@ -24,6 +24,7 @@ import type {
   ModuleOutput,
 } from '../core/module';
 import type { ActivePlay, Category, Done, Goal, SourceRef, Subject } from '../result';
+import { buildCardsView } from './cards-view';
 import type { M8Finding } from './detectors';
 import { and } from './routes';
 
@@ -229,6 +230,27 @@ export function createCollectionsModule(deps: CollectionsModuleDeps): EngineModu
           doneThisSession: done.filter((d) => d.key.endsWith('@account')),
         },
       };
+    },
+  };
+}
+
+/**
+ * The M8 Cards view (owner request 2026-10-18) as its own engine module, so it never counts against
+ * M8's Detector budget (TR-11) and a broken card table drops only the view, never M8's Goals. It emits
+ * no Goal or Verdict: only `EngineResult.cards`.
+ */
+export function createCardsViewModule(deps: {
+  kb: Pick<CollectionsKnowledge, 'entries' | 'facts'>;
+}): EngineModule {
+  const lookup = { get: (id: string) => deps.kb.entries[id] ?? deps.kb.facts[id] };
+  return {
+    id: 'cards-view',
+    covers: [],
+    dependsOnExpectedReturn: false,
+    affectsVerdict: false,
+    run(input: EngineInput): ModuleOutput {
+      const cards = buildCardsView(input.state, lookup);
+      return cards ? { cards } : {};
     },
   };
 }

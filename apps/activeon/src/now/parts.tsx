@@ -249,6 +249,31 @@ function BuildLink({ goal, subject }: { goal: GoalView; subject: string }) {
   );
 }
 
+/**
+ * M8 Cards view: a card Goal links to the character's Cards tab; an account card Goal links to the
+ * Cards overview (on the Roster), or, from a character page, to its first character's Cards tab.
+ */
+function CardsLink({ goal, subject }: { goal: GoalView; subject: string }) {
+  const actions = useNowActions();
+  if (goal.system !== 'cards') return null;
+  const m = /^c(\d+)$/.exec(subject) ?? /^c(\d+)$/.exec(goal.details[0]?.key.split('#')[1] ?? '');
+  const index = m ? Number(m[1]) : null;
+  return (
+    <a
+      className="small build-link"
+      href={subject === 'account' ? '#cards' : `#cards-${index}`}
+      onClick={(e) => {
+        const overview = subject === 'account' ? document.getElementById('cards') : null;
+        if (overview) return; // a plain in-page anchor to the overview
+        e.preventDefault();
+        if (index !== null) actions.openTab(index, 'cards');
+      }}
+    >
+      See card presets and what to grind →
+    </a>
+  );
+}
+
 export function GoalList({
   goals,
   subject,
@@ -280,6 +305,7 @@ export function GoalList({
               first={highlightFirst && n === 0}
             />
             <BuildLink goal={g} subject={subject} />
+            <CardsLink goal={g} subject={subject} />
           </li>
         ))}
       </ul>

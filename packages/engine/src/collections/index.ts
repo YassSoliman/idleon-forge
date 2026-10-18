@@ -14,16 +14,38 @@ export {
   activityName,
   CARD_ACTIVITIES,
   type CardActivity,
+  type CardPreferences,
   type CardsAdvice,
   cardCandidates,
+  cardLevel,
   cardList,
   classLine,
   evaluateCards,
   fits,
   isPassive,
   presetFits,
+  pusherIndex,
+  rankOwnedCards,
+  recommendedSet,
   setBonus,
 } from './cards';
+export {
+  BASE_MAX_LEVEL,
+  buildCardsView,
+  CARD_DROPS,
+  CARD_RATE_MAPS,
+  CARDS_CAVEATS,
+  type CardDropRow,
+  cardLeavesForRates,
+  effectText,
+  hoursText,
+  killsFor,
+  nextThreshold,
+  oneIn,
+  QUICK_HOURS,
+  UNOWNED_MULTIPLIER,
+} from './cards-view';
+export type * from './cards-view-types';
 export {
   COLLECTIONS_DETECTORS,
   cardPresetDetector,
@@ -38,6 +60,7 @@ export {
   COLLECTIONS_SYSTEMS,
   type CollectionsKnowledge,
   type CollectionsModuleDeps,
+  createCardsViewModule,
   createCollectionsModule,
 } from './module';
 export { evaluateObols, type ObolsEval } from './obols';

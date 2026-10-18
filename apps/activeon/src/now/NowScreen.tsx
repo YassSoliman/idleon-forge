@@ -14,6 +14,7 @@ import { useNow } from '../use-now';
 import { AccountSection, IfYouHaveTime, NotCoveredYet } from './Account';
 import { BuildsOverview } from './BuildView';
 import { Banners, ExpectedReturnChips, ProgressBar, WhatsNewCard } from './Chrome';
+import { CardsOverview } from './cards/CardsPanel';
 import { NOW_TAB, parseTabHash } from './character-tabs';
 import { type NowActions, NowActionsContext } from './context';
 import { Focus } from './Focus';
@@ -493,6 +494,7 @@ export function NowScreen(props: NowScreenProps) {
               }}
             />
             <BuildsOverview view={view} />
+            <CardsOverview view={view} />
           </>
         )}
       </div>

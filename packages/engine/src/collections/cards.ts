@@ -57,11 +57,19 @@ export interface CardsAdvice {
   unknown: boolean;
 }
 
-const tokens = (effect: string) =>
-  `_${effect
-    .replace(/^\+?\{(%|px)?_?/, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '_')}_`;
+// Effect texts are a few hundred game strings: their token form is cached (pure, so the cache is too).
+const TOKENS = new Map<string, string>();
+const tokens = (effect: string) => {
+  let t = TOKENS.get(effect);
+  if (t === undefined) {
+    t = `_${effect
+      .replace(/^\+?\{(%|px)?_?/, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '_')}_`;
+    if (TOKENS.size < 4096) TOKENS.set(effect, t);
+  }
+  return t;
+};
 const matches = (effect: string, words: readonly string[]) => {
   const t = tokens(effect);
   return words.some((w) => t.includes(`_${w.toLowerCase()}_`));
@@ -136,6 +144,83 @@ export function setBonus(s: CardSetState, tier = s.tier): string {
 const SKILL_SETS = ['CardSet2', 'CardSet3', 'CardSet5'];
 const FIGHT_SETS = ['CardSet0', 'CardSet1', 'CardSet4'];
 
+/** The account's pusher index (M2), or null when there is none or it can't be told. */
+export function pusherIndex(state: AccountState, kb: FactLookup): number | null {
+  try {
+    const s = selectPusher(state, kb);
+    return s.kind === 'pusher' ? s.pusher.index : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * FR-14, D3: the card set for a character doing `act`: the first set of the authored order at tier 1+,
+ * or Frostbite for the pusher at Lv 50+ while its hit chance on the next map is below 100%.
+ */
+export function recommendedSet(
+  state: AccountState,
+  kb: FactLookup,
+  c: Pick<CharacterState, 'index' | 'level'>,
+  act: CardActivity,
+  pusher: number | null,
+): CardSetState | null {
+  const f = factRows<CardFacts>(kb, M8.cardSlots);
+  const sets = state.account.cardSets ?? null;
+  if (!sets) return null;
+  const setOf = (raw: string | null) => sets.find((s) => s.rawName === raw) ?? null;
+  const order = setOrder(kb, act, c.level, f.fightLevelBand);
+  const recommended = order.map(setOf).find((s) => s && s.tier >= 1) ?? null;
+  const frost = setOf('CardSet4');
+  const hc = state.account.frontier?.fights.find((x) => x.characterIndex === c.index)?.hitChance ?? null;
+  if (
+    act === 'FIGHTING' &&
+    c.level >= f.fightLevelBand &&
+    c.index === pusher &&
+    frost &&
+    frost.tier >= 1 &&
+    hc !== null &&
+    hc < 100
+  )
+    return frost;
+  return recommended;
+}
+
+/** A card's level: stars + 1 when owned, 0 when not. */
+export const cardLevel = (state: AccountState, raw: string) => {
+  const card = state.account.cards?.[raw];
+  return card ? (card.stars ?? 0) + 1 : 0;
+};
+
+/**
+ * FR-13's ordering of the owned cards that fit `act`, best first: the candidate list's cards by level
+ * (ties by list order), then every other fitting card by level. Passive cards are left out (FR-16).
+ */
+export function rankOwnedCards(
+  state: AccountState,
+  kb: FactLookup,
+  c: Pick<CharacterState, 'class'>,
+  act: CardActivity,
+  exclude: readonly string[] = [],
+): string[] {
+  const k = factRows<Keywords>(kb, M8.keywords);
+  const cards = state.account.cards ?? {};
+  const effect = (raw: string) => cards[raw]?.effect ?? '';
+  const level = (raw: string) => cardLevel(state, raw);
+  const list = cardCandidates(kb, c, act);
+  const rank = new Map(list.map((r, i) => [r, i]));
+  const usable = (r: string) =>
+    (cards[r]?.amount ?? 0) > 0 && !exclude.includes(r) && !isPassive(effect(r)) && fits(effect(r), act, k);
+  const fromList = list.filter(usable);
+  const others = Object.keys(cards)
+    .filter((r) => usable(r) && !rank.has(r))
+    .sort((a, b) => level(b) - level(a) || (a < b ? -1 : 1));
+  const byLevel = [...fromList].sort(
+    (a, b) => level(b) - level(a) || (rank.get(a) ?? 0) - (rank.get(b) ?? 0),
+  );
+  return [...byLevel, ...others];
+}
+
 /** Evaluates every character's card loadout. */
 export function evaluateCards(state: AccountState, kb: FactLookup): CardsAdvice[] {
   const k = factRows<Keywords>(kb, M8.keywords);
@@ -146,16 +231,7 @@ export function evaluateCards(state: AccountState, kb: FactLookup): CardsAdvice[
   const setsKnown = isKnown(state, 'account.cardSets') && sets !== null;
   const cardsKnown = isKnown(state, 'account.cards') && cards !== null;
   const gemsKnown = isKnown(state, 'account.gemPurchases') && gems !== null;
-  const pusher = (() => {
-    try {
-      const s = selectPusher(state, kb);
-      return s.kind === 'pusher' ? s.pusher.index : null;
-    } catch {
-      return null;
-    }
-  })();
-  const hitChance = (i: number) =>
-    state.account.frontier?.fights.find((x) => x.characterIndex === i)?.hitChance ?? null;
+  const pusher = pusherIndex(state, kb);
   const setOf = (raw: string | null) => sets?.find((s) => s.rawName === raw) ?? null;
 
   return state.characters.map((c): CardsAdvice => {
@@ -206,19 +282,7 @@ export function evaluateCards(state: AccountState, kb: FactLookup): CardsAdvice[
     // FR-14, FR-15, D3: the set for the activity.
     if (setsKnown && sets) {
       const order = setOrder(kb, act, c.level, f.fightLevelBand);
-      let recommended = order.map(setOf).find((s) => s && s.tier >= 1) ?? null;
-      const frost = setOf('CardSet4');
-      const hc = hitChance(c.index);
-      if (
-        act === 'FIGHTING' &&
-        c.level >= f.fightLevelBand &&
-        c.index === pusher &&
-        frost &&
-        frost.tier >= 1 &&
-        hc !== null &&
-        hc < 100
-      )
-        recommended = frost;
+      const recommended = recommendedSet(state, kb, c, act, pusher);
       const current = l.set;
       const cur = setOf(current);
       out.setInUse = recommended ?? cur;
