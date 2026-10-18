@@ -457,6 +457,11 @@ export interface BuildKnownPoints {
   kind: 'lower-bound' | 'exact' | 'none';
   points: number | null;
   overBy: number | null;
+  /**
+   * An exact class-tab count the save confirms (ADR 0010 `exact-verified`); false for `exact`, whose
+   * overcount the answer key can't catch ("from your save's totals"). Absent on bounds and star tabs.
+   */
+  verified?: boolean;
 }
 
 /** M21 TR-8: one row of a tab's Build path (FR-C1). Filled by area C. */

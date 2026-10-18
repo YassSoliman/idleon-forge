@@ -9,6 +9,7 @@ import { withCharacter } from '@idleon-forge/knowledge';
 import { describe, expect, it } from 'vitest';
 import { buildRoadmaps } from '../../src/builds';
 import { lookupOf } from '../../src/metapath/knowledge';
+import { pathMarker, tabBadge } from '../../src/now/words/characters';
 import type { BuildPathStepView, BuildPresetView, BuildRoadmap } from '../../src/result';
 import { W2, W3 } from '../afk/helpers';
 
@@ -135,6 +136,49 @@ describe('Build path: the Release 9 Hunter report (fix/build-points)', () => {
     expect(path.slice(2).every((s) => s.band === 'next' || s.band === 'later')).toBe(true);
     // The one-line "next points" agrees: 50 into Idle Shooting, then 20 into the next talent.
     expect(f.next.filter((n) => n.tab === 1).map((n) => n.points)).toEqual([50, 20]);
+    // M22: each line names its talent and target, so the truth checks never parse the text.
+    expect(f.next[0]).toMatchObject({ talentId: ID.IDLE_SHOOTING, to: 100 });
+  });
+});
+
+describe('Build path with exact counts (ADR 0010, #125)', () => {
+  const exact = (s: AccountState, byTab: Record<1 | 2 | 3, number>, verified: boolean): AccountState => {
+    const c = s.characters.find((x) => x.index === 5);
+    const t = c?.talents;
+    if (!t) throw new Error('fixture');
+    const points = Object.fromEntries(
+      ([1, 2, 3] as const).map((k) => [
+        k,
+        {
+          total: 0,
+          spent: 0,
+          unspent: byTab[k],
+          confidence: verified ? 'exact-verified' : 'exact',
+          formula: null,
+          oracle: null,
+        },
+      ]),
+    );
+    return withCharacter(s, 5, { talents: { ...t, active: { ...t.active, talentPoints: points } } });
+  };
+
+  it('an exact count replaces the lower bound: "70 points waiting", and the path bands by it', () => {
+    const r = at(roadmaps(exact(hunter(OWNER_TAB1, 'empty'), { 1: 70, 2: 0, 3: 0 }, true)), 5);
+    const f = r.presets.find((p) => p.active) as BuildPresetView;
+    const t1 = tab(f, 1);
+    expect(t1.known).toEqual({ kind: 'exact', points: 70, overBy: null, verified: true });
+    expect(pathMarker(t1)).toBe('70 points waiting · they end here');
+    expect(tabBadge(t1)).toBe('70 points');
+    expect((t1.path ?? []).some((s) => s.band === 'now')).toBe(true);
+  });
+
+  it('an exact 0 says the tab is all spent (never "no points waiting")', () => {
+    const r = at(roadmaps(exact(hunter(OWNER_TAB1, 'empty'), { 1: 0, 2: 0, 3: 0 }, false)), 5);
+    const f = r.presets.find((p) => p.active) as BuildPresetView;
+    const t1 = tab(f, 1);
+    expect(t1.known).toEqual({ kind: 'exact', points: 0, overBy: null, verified: false });
+    expect(pathMarker(t1)).toBe('All spent: the totals show where new points go');
+    for (const n of f.next) expect(n.text).toMatch(/^All spent here; the next go into /);
   });
 });
 

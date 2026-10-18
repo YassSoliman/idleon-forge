@@ -16,6 +16,7 @@ import { type ClassRow, classTree } from '../metapath/knowledge';
 import { analyzeRoster } from '../metapath/roster';
 import type { FactLookup } from '../metapath/types';
 import type {
+  BuildKnownPoints,
   BuildNextPoint,
   BuildPathStep,
   BuildPresetView,
@@ -24,6 +25,7 @@ import type {
   BuildTalentRow,
   SourceRef,
 } from '../result';
+import { pointsLeft } from '../talents/points';
 import {
   type AccountAnalysis,
   analyzeAccount,
@@ -79,7 +81,14 @@ interface PresetInput {
   cls: PresetView['cls'] | null;
   build: ResolvedBuild | null;
   /** Known unspent points per tab: M9 TR-7's lower bound, or exact counts when Account State has them. */
-  lb: { byTab: Record<1 | 2 | 3, number>; total: number; exact?: boolean } | null;
+  lb: {
+    byTab: Record<1 | 2 | 3, number>;
+    total: number;
+    /** Tabs whose count is the exact one (ADR 0010); the others are M9 TR-7 lower bounds. */
+    exactTabs?: ReadonlySet<1 | 2 | 3>;
+    /** Exact tabs the save confirms (`exact-verified`). */
+    verifiedTabs?: ReadonlySet<1 | 2 | 3>;
+  } | null;
   afkType: string | null;
   /** The preset's next step's tab (M9's shared rule, analyze.ts `spendableNext`); leads the list. */
   lead: number | null;
@@ -179,13 +188,17 @@ function nextPoints(
       const capped = tie.some((m) => m.note === MAX_NOTE);
       if (none) {
         const to = tie.length > 1 ? 'split evenly' : `to ${goal}`;
+        // A lower bound of 0 can't prove the tab is empty (fix/build-points): never "no points waiting".
+        // An exact 0 (ADR 0010) can: the tab is all spent.
+        const spentOut = lb?.exactTabs?.has(t.tab as 1 | 2 | 3) === true;
         out.push({
           key,
           tab: t.tab,
           label,
-          // A lower bound of 0 can't prove the tab is empty (fix/build-points): never "no points waiting".
-          text: `No unspent points known here; the next go into ${label} (${to})`,
+          text: `${spentOut ? 'All spent here' : 'No unspent points known here'}; the next go into ${label} (${to})`,
           points: 0,
+          talentId: tie[0]?.id ?? 0,
+          ...(tie.length === 1 ? { to: goal } : {}),
         });
         k++;
         continue;
@@ -214,7 +227,15 @@ function nextPoints(
         k === 0
           ? `Put the next ${plural(take, 'point')} into ${label} (${to})`
           : `then ${take.toLocaleString('en-US')} into ${label} (${to})`;
-      out.push({ key, tab: t.tab, label, text, points: take });
+      out.push({
+        key,
+        tab: t.tab,
+        label,
+        text,
+        points: take,
+        talentId: tie[0]?.id ?? 0,
+        ...(tie.length === 1 ? { to: (tie[0]?.current ?? 0) + take } : {}),
+      });
       k++;
     }
   }
@@ -253,6 +274,15 @@ function othersOf(p: PresetTalents, tab: number, named: ReadonlySet<number>, kb:
     .map((x) => ({ label: talentLabel(kb.talents.nameOf(x.id) ?? String(x.id)), level: x.base }));
 }
 
+/** A tab's known points (FR-C2): exact where ADR 0010's count exists, else the lower bound. */
+function knownOf(lbs: PresetInput['lb'], tab: number, points: number | null): BuildKnownPoints {
+  if (points === null) return { kind: 'none', points: null, overBy: null };
+  const k = tab as 1 | 2 | 3;
+  if (lbs?.exactTabs?.has(k))
+    return { kind: 'exact', points, overBy: null, verified: lbs.verifiedTabs?.has(k) === true };
+  return { kind: 'lower-bound', points, overBy: null };
+}
+
 function presetOf(x: PresetInput, kb: BuildsKnowledge, ctx: WalkContext): BuildPresetView {
   const { p, build } = x;
   const tabs: BuildTabView[] = p.tabs.map((t) => {
@@ -265,7 +295,7 @@ function presetOf(x: PresetInput, kb: BuildsKnowledge, ctx: WalkContext): BuildP
       unspent: lb,
       rows,
       others: othersOf(p, t.tab, new Set(rows.map((r) => r.id)), kb),
-      known: { kind: lb === null ? 'none' : x.lb?.exact ? 'exact' : 'lower-bound', points: lb, overBy: null },
+      known: knownOf(x.lb, t.tab, lb),
       path:
         build && t.tab <= 3
           ? bandPath(classGroups(p, build, t.tab, ctx, kb), lb, `p-s${x.slot}-t${t.tab}`)
@@ -409,11 +439,11 @@ function covered(
         role,
         cls: v.cls,
         build: a.builds[role],
-        lb: exactPoints(c, v.slot) ?? v.lb,
+        lb: knownPoints(v.talents, other?.talents ?? null, kb.talents.tab2Granting) ?? v.lb,
         afkType: c.afkType,
         lead: v.next?.tab ?? null,
         star: {
-          total: starTotalOf(c, v.isActive),
+          total: starTotalOf(c, v.talents, v.isActive),
           other: other?.talents ?? null,
           role,
           // FR-C11: what a preset serves is its matched class Build's `serves`; unknown when M9 can't
@@ -485,7 +515,7 @@ function covered(
   const emptySlots = new Set(views.filter((v) => v.cls === 'empty').map((v) => v.slot));
   if (most?.unspent) {
     // Exact counts (when Account State has them) drop the "at least" (DS-24 holds for bounds only).
-    const exact = most.tabs.some((t) => t.known?.kind === 'exact');
+    const exact = most.tabs.every((t) => t.tab > 3 || t.known?.kind === 'exact');
     const n = `${exact ? '' : 'at least '}${most.unspent.toLocaleString('en-US')}`;
     parts.push(
       emptySlots.has(most.slot)
@@ -553,31 +583,40 @@ export function starContext(state: AccountState, acc: AccountAnalysis): StarCont
 }
 
 /**
- * Exact talent points per preset and tab (owner ruling 2026-10-18, built on `feat/exact-talent-points`):
- * Account State `talentPoints[preset][tab] = { total, spent, unspent, confidence }`. Read structurally
- * so this works before and after that field lands; null (fall back to M9 TR-7's lower bound) when it is
- * absent, incomplete for tabs 1–3, or only a bound.
+ * Points left per tab 1–3 (ADR 0010, #125): the Account State's exact count where it has one
+ * (`talentPoints[tab]`, confidence other than `bound`), else M9 TR-7's lower bound, per tab, through
+ * the shared `pointsLeft`. Null when neither is known on any tab (one preset, below class Lv 15).
  */
-export function exactPoints(c: CharacterState, slot: number): PresetInput['lb'] {
-  const all = (c as { talentPoints?: unknown }).talentPoints;
-  const preset = Array.isArray(all) ? all[slot] : null;
-  if (!preset || typeof preset !== 'object') return null;
+export function knownPoints(
+  p: PresetTalents,
+  q: PresetTalents | null,
+  granting: ReadonlySet<number>,
+): PresetInput['lb'] {
   const byTab = { 1: 0, 2: 0, 3: 0 } as Record<1 | 2 | 3, number>;
+  const exactTabs = new Set<1 | 2 | 3>();
+  const verifiedTabs = new Set<1 | 2 | 3>();
+  let any = false;
   for (const t of [1, 2, 3] as const) {
-    // Keyed by tab number, or an array indexed from tab 1.
-    const cell = (Array.isArray(preset) ? preset[t - 1] : (preset as Record<number, unknown>)[t]) as
-      | { unspent?: unknown; confidence?: unknown }
-      | null
-      | undefined;
-    if (!cell || typeof cell.unspent !== 'number' || cell.confidence === 'bound') return null;
-    byTab[t] = Math.max(0, cell.unspent);
+    const left = pointsLeft(p, q, t, granting);
+    if (left.points === null) continue;
+    any = true;
+    byTab[t] = Math.max(0, left.points);
+    if (left.kind === 'exact') exactTabs.add(t);
+    if (left.verified) verifiedTabs.add(t);
   }
-  return { byTab, total: byTab[1] + byTab[2] + byTab[3], exact: true };
+  if (!any) return null;
+  return { byTab, total: byTab[1] + byTab[2] + byTab[3], exactTabs, verifiedTabs };
 }
 
-/** FR-C9: Toolbox's star point total for the preset in use, or the other one. */
-const starTotalOf = (c: CharacterState, active: boolean): number | null =>
-  (active ? c.talents?.starPoints?.active : c.talents?.starPoints?.other) ?? null;
+/**
+ * FR-C9, FR-C10: the star tab's total for a preset: the Account State's exact star count (ADR 0010)
+ * when it has one, else Toolbox's `starTotal` read for the preset in use or the other one.
+ */
+const starTotalOf = (c: CharacterState, p: PresetTalents, active: boolean): number | null => {
+  const exact = p.talentPoints?.star;
+  if (exact && exact.confidence !== 'bound' && exact.total !== null) return exact.total;
+  return (active ? c.talents?.starPoints?.active : c.talents?.starPoints?.other) ?? null;
+};
 const classRow = (acc: AccountAnalysis, cls: string): Row | undefined =>
   classTree(factsOf(acc)).byName.get(cls) as Row | undefined;
 
@@ -608,7 +647,7 @@ function plain(c: CharacterState, acc: AccountAnalysis, path: ClassPath, note: s
         afkType: c.afkType,
         lead: null,
         star: {
-          total: starTotalOf(c, x.active),
+          total: starTotalOf(c, x.p, x.active),
           other: list.find((y) => y !== x)?.p ?? null,
           role: x.active ? activeRole : otherRole(activeRole),
           serves: null,

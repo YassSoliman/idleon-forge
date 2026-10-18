@@ -440,3 +440,9 @@
     align-items: start;
   }
 }
+.build-view .bv-asof {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  color: var(--muted);
+}

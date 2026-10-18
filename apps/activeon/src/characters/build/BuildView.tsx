@@ -189,7 +189,17 @@ export function BuildPath({ tab, id }: { tab: BuildTabView; id: string }) {
       {grouped(path.slice(0, cut), 1)}
       {path.length > 0 ? (
         <p className="bv-marker" data-known={known > 0 ? 'yes' : 'no'}>
-          <span>{marker}</span>
+          <span>
+            {marker}
+            {tab.known?.kind === 'exact' ? (
+              // ADR 0010: an exact count is still as of the last save; an unverified one says where it
+              // comes from.
+              <span className="bv-asof">
+                {PATH.asOf}
+                {tab.tab !== 0 && tab.known.verified === false ? ` · ${PATH.fromTotals}` : ''}
+              </span>
+            ) : null}
+          </span>
         </p>
       ) : null}
       {grouped(path.slice(cut), cut + 1)}

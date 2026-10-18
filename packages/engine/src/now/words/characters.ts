@@ -30,8 +30,10 @@ export const CHARACTERS_WORDS = {
     noneKnown: 'No unspent points known from your last save: the totals show where new points go',
     allSpent: 'All spent: the totals show where new points go',
     /** Exact class-tab counts (owner ruling 2026-10-18): no "at least". */
-    exactPrefix: 'As of your last save:',
-    exactNone: 'All spent as of your last save: the totals show where new points go',
+    exactSuffix: 'points waiting',
+    asOf: 'as of your last save',
+    fromTotals: "from your save's totals",
+    exactNone: 'All spent: the totals show where new points go',
     stonksReturns: 'Stonks! returns more as it levels',
     band: {
       done: 'done',
@@ -92,7 +94,7 @@ export function tabBadge(t: Pick<BuildTabView, 'known' | 'unspent' | 'tab'>): st
   if (k.kind === 'exact' && t.tab === 0) return starKnownWord(k);
   if (!k.points || k.points <= 0) return null;
   // Exact class-tab counts (owner ruling, `feat/exact-talent-points`) drop "at least".
-  return k.kind === 'exact' ? `${n(k.points)} waiting` : `at least ${n(k.points)}`;
+  return k.kind === 'exact' ? `${n(k.points)} points` : `at least ${n(k.points)}`;
 }
 
 /**
@@ -106,9 +108,7 @@ export function pathMarker(t: Pick<BuildTabView, 'known' | 'path' | 'tab'>): str
   const stonks = (t.path ?? []).some((s) => s.talentId === 622 && s.cumulative !== null);
   const tail = stonks ? ` (${w.stonksReturns})` : '';
   if (k.kind === 'exact' && t.tab !== 0)
-    return (k.points ?? 0) > 0
-      ? `${w.exactPrefix} ${n(k.points ?? 0)} ${w.knownSuffix} · ${w.knownEnd}`
-      : w.exactNone;
+    return (k.points ?? 0) > 0 ? `${n(k.points ?? 0)} ${w.exactSuffix} · ${w.knownEnd}` : w.exactNone;
   if (k.kind === 'exact') {
     if (k.overBy !== null) return `Over budget by about ${n(k.overBy)}: the totals show where new points go`;
     if ((k.points ?? 0) > 0) return `${n(k.points ?? 0)} unspent · ${w.knownEnd}${tail}`;

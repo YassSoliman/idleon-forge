@@ -32,7 +32,12 @@ export function starEmptyCharacters(state: AccountState): StarEmpty[] {
     const o = spentOf(t.other.star);
     const pick = a === 0 && o > 0 ? 'active' : o === 0 && a > 0 ? 'other' : null;
     if (!pick) continue;
-    const total = t.starPoints?.[pick] ?? null;
+    // ADR 0010's exact star count when the Account State has one, else Toolbox's starTotal.
+    const exact = (pick === 'active' ? t.active : t.other).talentPoints?.star;
+    const total =
+      exact && exact.confidence !== 'bound' && exact.total !== null
+        ? exact.total
+        : (t.starPoints?.[pick] ?? null);
     if (total === null || total <= STAR_TOLERANCE.high) continue;
     out.push({ index: c.index, points: total, active: pick === 'active' });
   }

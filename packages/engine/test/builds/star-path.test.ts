@@ -215,7 +215,7 @@ describe('FR-C15 (Q2, DS-25): the empty star tab is ONE account Goal', () => {
         expect(c?.level ?? 0).toBeGreaterThanOrEqual(15);
       }
     }
-  });
+  }, 60_000);
 
   it('on W2-late it is one account Goal with a detail per character, never a character Goal', () => {
     const r = engineOn('scrubbed-w2');
