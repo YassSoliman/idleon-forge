@@ -1,0 +1,77 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M14 Walkthrough under a Goal card (FR-23). Tokens only (tokens.css); wraps at 320 px. */
+.walkthrough {
+  margin: 6px 0 2px;
+  border-left: 2px solid var(--line);
+  padding-left: 8px;
+  overflow-wrap: anywhere;
+}
+.walkthrough summary {
+  cursor: pointer;
+  min-height: 24px;
+}
+.walkthrough .wt-label {
+  font-weight: 700;
+}
+.wt-caveat {
+  margin: 4px 0;
+}
+.wt-steps {
+  margin: 4px 0;
+  padding-left: 20px;
+}
+.wt-step {
+  margin: 2px 0;
+}
+.wt-when {
+  display: inline-block;
+  min-width: 3.2em;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.wt-after .wt-text {
+  color: var(--muted);
+}
+.wt-tree ul,
+.wt-other ul {
+  list-style: none;
+  margin: 2px 0 4px;
+  padding: 0;
+}
+.wt-tree li {
+  margin: 1px 0;
+}
+.wt-d0 {
+  padding-left: 0;
+}
+.wt-d1 {
+  padding-left: 12px;
+}
+.wt-d2 {
+  padding-left: 24px;
+}
+.wt-d3 {
+  padding-left: 36px;
+}
+.wt-d4 {
+  padding-left: 48px;
+}
+.wt-d5 {
+  padding-left: 60px;
+}
+.wt-d6 {
+  padding-left: 72px;
+}
+.wt-done .wt-mark {
+  color: var(--ok);
+}
+.wt-missing .wt-mark {
+  color: var(--coin);
+}
+.wt-unknown .wt-mark {
+  color: var(--unk);
+}
+.wt-other li {
+  padding-left: 12px;
+}

@@ -2,7 +2,15 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // The Now screen view model (M10 TR-3): everything the components render, already ordered, capped
 // and worded. Components render arrays in order and never sort or filter (red-team #5).
-import type { Category, Done, Provenance, SpendStatus, Subject, VerdictKind } from '../result';
+import type {
+  Category,
+  Done,
+  Provenance,
+  SpendStatus,
+  Subject,
+  VerdictKind,
+  WalkthroughView,
+} from '../result';
 
 export interface SourceView {
   /**
@@ -54,6 +62,8 @@ export interface GoalView {
   milestone: string | null;
   /** Account Goals: one line per character, in the order to act on (Goal.details, #70 A2, A3). */
   details: { key: string; text: string }[];
+  /** M14 FR-23: the Goal's Walkthrough (steps, Requirement Tree, other ways), or null. */
+  walkthrough: WalkthroughView | null;
 }
 
 export interface PillView {
