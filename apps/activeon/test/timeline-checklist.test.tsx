@@ -6,12 +6,12 @@
 // rows in a sheet (3, then "Show all"), a glyph and a word per state, the Done tick, the Five-minute
 // plan, the bank pips, and the row links that land on their Goal (R7 QA).
 
-import { DAILY_WORDS } from '@idleon-forge/engine/now';
 import type { Checklist, EngineResult } from '@idleon-forge/engine/result';
 import { cleanup, fireEvent, screen, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { bankPips, planFor, ringFractions } from '../src/timeline/daily-model';
+import { DAILY_WORDS } from '../src/timeline/words';
 import { withM20 } from './helpers/m20-result';
 import { fixture, props, renderNow, saveOf } from './now-helpers';
 

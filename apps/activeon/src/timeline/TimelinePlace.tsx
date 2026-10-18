@@ -30,6 +30,7 @@ import { barArt, barFamily } from './art';
 import { DailyWeekly } from './DailyWeekly';
 import { ParallelSlots } from './ParallelSlots';
 import './timeline.css';
+import { BOARD_WORDS as B } from './words';
 
 type Vars = CSSProperties & Record<`--${string}`, string | number>;
 
@@ -48,10 +49,10 @@ function ReturnControl({ s }: { s: Session }) {
   return (
     <div className="tl-ret">
       <span className="tl-ret-l" aria-hidden="true">
-        {W.backIn}
+        {B.backIn}
       </span>
       <SegmentedControl
-        label={W.backInLabel}
+        label={B.backInLabel}
         value={on ? String(on.seconds) : ''}
         options={chips.map((c) => ({ value: String(c.seconds), label: c.label }))}
         onChange={(v) => s.pick(Number(v))}
@@ -91,7 +92,7 @@ function BoardBar({ b, backX, now }: { b: TimelineBarView; backX: number; now: b
         <PixelArt name={barArt(b)} decorative />
       </span>
       <span className="tl-bar-l">
-        {now ? <span className="tl-nowtag">{W.nowBadge}</span> : null}
+        {now ? <span className="tl-nowtag">{B.nowBadge}</span> : null}
         {b.label} · <span className="num">{b.timeText}</span>
       </span>
     </div>
@@ -227,13 +228,13 @@ function NowBox({ v, s }: { v: TimelineView; s: Session }) {
   if (!now)
     return (
       <p className="tl-next calm">
-        <PixelArt name="ui-check" decorative /> {W.nowCalm}
+        <PixelArt name="ui-check" decorative /> {B.nowCalm}
       </p>
     );
   const row = rowOf(s, now.lane.index);
   return (
     <div className="tl-next">
-      <span className="tl-now-badge">{W.nowBadge}</span>
+      <span className="tl-now-badge">{B.nowBadge}</span>
       <span className="tl-next-a">
         {now.bar.label} · <span className="num">{now.bar.timeText}</span>
       </span>
@@ -257,18 +258,18 @@ function NowBox({ v, s }: { v: TimelineView; s: Session }) {
 
 function Legend() {
   return (
-    <ul className="tl-legend" aria-label="Legend">
+    <ul className="tl-legend" aria-label={B.legend}>
       <li>
-        <span className="tl-key fam-prod" aria-hidden="true" /> {W.legendCap}
+        <span className="tl-key fam-prod" aria-hidden="true" /> {B.legendCap}
       </li>
       <li>
-        <span className="tl-key fam-store" aria-hidden="true" /> {W.legendBank}
+        <span className="tl-key fam-store" aria-hidden="true" /> {B.legendBank}
       </li>
       <li>
-        <span className="tl-key fam-timer" aria-hidden="true" /> {W.legendTimer}
+        <span className="tl-key fam-timer" aria-hidden="true" /> {B.legendTimer}
       </li>
       <li>
-        <span className="tl-key fam-food" aria-hidden="true" /> {W.legendFood}
+        <span className="tl-key fam-food" aria-hidden="true" /> {B.legendFood}
       </li>
       <li>
         <span className="tl-key outlined" aria-hidden="true" /> {W.legendOutlined}
@@ -390,12 +391,12 @@ function LaneList({ lane, s, level }: { lane: TimelineLane; s: Session; level: 4
 
 function JumpNav() {
   const links = [
-    { href: '#timeline', label: W.jumpLanes },
-    { href: formatRoute({ place: 'timeline', section: 'slots' }), label: W.jumpSlots },
-    { href: formatRoute({ place: 'timeline', section: 'daily' }), label: W.jumpDaily },
+    { href: '#timeline', label: B.jumpLanes },
+    { href: formatRoute({ place: 'timeline', section: 'slots' }), label: B.jumpSlots },
+    { href: formatRoute({ place: 'timeline', section: 'daily' }), label: B.jumpDaily },
   ];
   return (
-    <nav className="tl-jump" aria-label={W.jumpLabel}>
+    <nav className="tl-jump" aria-label={B.jumpLabel}>
       {links.map((l) => (
         <a key={l.href} className="tl-jump-a" href={l.href}>
           {l.label}
@@ -436,7 +437,7 @@ export function TimelinePlace({ s }: { s: Session }) {
         <p>{W.unavailable}</p>
       ) : (
         <div className="tl-lanes-part">
-          <h3 className="tl-h">{W.boardTitle}</h3>
+          <h3 className="tl-h">{B.title}</h3>
           <p className="tl-intro">{W.intro}</p>
           <div className="tl-toolbar">
             <ReturnControl s={s} />
@@ -449,7 +450,7 @@ export function TimelinePlace({ s }: { s: Session }) {
           <Board v={v} s={s} nowId={now?.bar.barId ?? null} />
           <NowBox v={v} s={s} />
           <Legend />
-          <h3 className="tl-sub-h">{W.listsTitle}</h3>
+          <h3 className="tl-sub-h">{B.listsTitle}</h3>
           <div className="tl-lists">
             {v.lanes.map((lane) => (
               <LaneList key={lane.id} lane={lane} s={s} level={4} />

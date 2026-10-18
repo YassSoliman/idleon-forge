@@ -6,7 +6,7 @@
 // (FR-15), and the link to the Goal that already carries it (FR-8). The engine and view model word
 // everything; this file only renders. It lives with the Timeline so it never joins the first load.
 import type { ChecklistRowView, TimelineFix } from '@idleon-forge/engine/now';
-import { DAILY_WORDS, LINK_WORDS, PLACE_WORDS } from '@idleon-forge/engine/now';
+import { LINK_WORDS, PLACE_WORDS } from '@idleon-forge/engine/now';
 import { PixelArt } from '../design/art/PixelArt';
 import { cx } from '../design/atoms';
 import { SourceLabel } from '../design/atoms/SourceLabel';
@@ -14,6 +14,7 @@ import { useNowActions } from '../now/context';
 import { formatRoute } from '../shell/route';
 import { rowArt } from './art';
 import { bankPips } from './daily-model';
+import { DAILY_WORDS } from './words';
 
 /**
  * Where a linked Goal or "If you have time" item lives: a character Goal (`…@cN`) on that character's
@@ -122,7 +123,7 @@ export function ChecklistRow({ r }: { r: ChecklistRowView }) {
             {pips.map((p) => (
               <li key={p.name}>
                 <span>{p.name}</span> <DayPips kept={p.kept} lost={p.lost} />
-                {p.lost ? <span className="cl-lost"> {p.lost} lost</span> : null}
+                {p.lost ? <span className="cl-lost"> {DAILY_WORDS.lost(p.lost)}</span> : null}
               </li>
             ))}
           </ul>

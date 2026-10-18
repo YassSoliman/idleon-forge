@@ -13,14 +13,16 @@ import {
   DEFAULT_UI,
   EMPTY_PREFS,
   KIND_WORDS,
-  SLOTS_WORDS,
   TIMELINE_WORDS,
 } from '@idleon-forge/engine/now';
 import type { EngineResult, InfoLine, SystemSummary, TimelineBar } from '@idleon-forge/engine/result';
+import { isAdviceShaped } from '@idleon-forge/knowledge';
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AfkStrip } from '../src/timeline/AfkStrip';
+import { slotTray } from '../src/timeline/slots-tray';
+import { BOARD_WORDS, DAILY_WORDS, SLOTS_UI_WORDS } from '../src/timeline/words';
 import { withM20 } from './helpers/m20-result';
 import { fixture, props, renderNow, saveOf } from './now-helpers';
 
@@ -313,6 +315,7 @@ describe('TR-9: the Timeline adds no words of its own', () => {
     // M21: the lane heads' class and level, the map, and the "Back in" chips are the Now view's own.
     collect(nowView);
     collect(TIMELINE_WORDS);
+    collect(BOARD_WORDS);
     collect(KIND_WORDS);
     // The lanes part; the Parallel Slots and Daily & Weekly sections have their own tests.
     const place = document.querySelector('.tl-lanes-part') as HTMLElement;
@@ -333,7 +336,7 @@ describe('M21 FR-T1: the return-time control and the NOW box', () => {
       props(r, saveOf(r, 1, 'first', null, 'paste'), { setExpectedReturn: set }),
     );
     await timelineHeading();
-    const group = screen.getByRole('group', { name: TIMELINE_WORDS.backInLabel });
+    const group = screen.getByRole('group', { name: BOARD_WORDS.backInLabel });
     expect(within(group).getAllByRole('radio').length).toBeGreaterThanOrEqual(5);
     fireEvent.click(within(group).getByRole('radio', { name: '4h' }));
     expect(set).toHaveBeenCalledWith(4 * 3600);
@@ -343,7 +346,7 @@ describe('M21 FR-T1: the return-time control and the NOW box', () => {
   it('the NOW box names the first limit with a fix before Back, with who and its fix link', async () => {
     await openTimeline(withTimeline());
     const box = document.querySelector('.tl-next') as HTMLElement;
-    expect(box.textContent).toContain(TIMELINE_WORDS.nowBadge);
+    expect(box.textContent).toContain(BOARD_WORDS.nowBadge);
     expect(box.textContent).toContain('health food runs out · in 2h 00m');
     expect(within(box).getByRole('link', { name: 'See the fix: health food runs out' })).toBeTruthy();
     // On the board, that bar carries the Now tag (the board itself stays aria-hidden).
@@ -364,16 +367,51 @@ describe('M21 FR-T3: the Parallel Slots grid (#slots)', () => {
     const r = withM20(withTimeline());
     window.history.replaceState(null, '', '/#slots');
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    await screen.findByRole('heading', { level: 3, name: SLOTS_WORDS.title }, ARRIVE);
+    await screen.findByRole('heading', { level: 3, name: SLOTS_UI_WORDS.title }, ARRIVE);
     const table = screen.getByRole('table');
     expect(
       within(table)
         .getAllByRole('columnheader')
         .map((h) => h.textContent),
-    ).toEqual([SLOTS_WORDS.character, 'Cauldron', 'Traps', 'Worship', 'Cog Board', 'Printer']);
+    ).toEqual([SLOTS_UI_WORDS.character, 'Cauldron', 'Traps', 'Worship', 'Cog Board', 'Printer']);
     expect(table.textContent).toContain('builds on the Cog Board');
-    expect(table.textContent).toContain(SLOTS_WORDS.states.filled);
+    expect(table.textContent).toContain('In use');
     await noAxeViolations(container);
+  });
+});
+
+describe('M21 FR-T3: the Unassigned tray', () => {
+  it('one line per slot kind with an empty or full slot, characters said once, the NOW kind first', () => {
+    const cell = (kind: string, state: string, now = false) =>
+      ({ kind, state, text: '', stateWord: '', tone: 'filled', filled: true, now }) as never;
+    const grid = {
+      rows: [
+        {
+          index: 0,
+          name: '',
+          classLabel: 'Squire',
+          level: 51,
+          cells: [cell('worship', 'capped'), cell('cog', 'filled')],
+        },
+        {
+          index: 1,
+          name: '',
+          classLabel: 'Shaman',
+          level: 54,
+          cells: [cell('worship', 'capped'), cell('cog', 'fillable', true)],
+        },
+      ],
+      columns: [
+        { kind: 'worship', heading: 'Worship' },
+        { kind: 'cog', heading: 'Cog Board' },
+      ],
+      now: { index: 1, kind: 'cog', key: 'k', text: 't', who: 'Shaman 54' },
+    } as never;
+    const tray = slotTray(grid);
+    expect(tray.map((t) => [t.heading, t.count, t.who.map((w) => w.index), t.now])).toEqual([
+      ['Cog Board', '1 empty', [1], true],
+      ['Worship', '2 full', [0, 1], false],
+    ]);
   });
 });
 
@@ -393,5 +431,19 @@ describe('M21 FR-T5: the compact AFK strip', () => {
     fireEvent.click(link);
     expect(open).toHaveBeenCalled();
     await noAxeViolations(container);
+  });
+});
+
+describe("TR-9: the Timeline's own words are not advice", () => {
+  it('holds no imperative from the Next Action templates and no rating word', () => {
+    const strings: string[] = [];
+    const collect = (v: unknown) => {
+      if (typeof v === 'string') strings.push(v);
+      else if (typeof v === 'function') strings.push(String((v as (...a: unknown[]) => unknown)(3, 2)));
+      else if (v && typeof v === 'object') Object.values(v).forEach(collect);
+    };
+    collect([BOARD_WORDS, SLOTS_UI_WORDS, DAILY_WORDS]);
+    expect(strings.length).toBeGreaterThan(40);
+    expect(strings.filter(isAdviceShaped)).toEqual([]);
   });
 });

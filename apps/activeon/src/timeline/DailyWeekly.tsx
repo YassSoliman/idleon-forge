@@ -6,13 +6,7 @@
 // pip per checklist row in its state's colour and glyph. A band opens its rows in a sheet (3, then
 // "Show all"), each banking row with its day pips ("Bank pips calendar", red on the last). A filter chip
 // row (5 / 15 / 30 min, the "Five-minute plan") lists what fits, no-bank rows first.
-import {
-  type ChecklistBandView,
-  type ChecklistView,
-  inSpan,
-  span,
-  DAILY_WORDS as W,
-} from '@idleon-forge/engine/now';
+import { type ChecklistBandView, type ChecklistView, inSpan, span } from '@idleon-forge/engine/now';
 import { useState } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
 import { Button, Chip, cx, Sheet } from '../design/atoms';
@@ -21,6 +15,7 @@ import type { Session } from '../shell/session';
 import { rowArt } from './art';
 import { ChecklistRow } from './ChecklistRow';
 import { planFor, ringFractions } from './daily-model';
+import { DAILY_WORDS as W } from './words';
 
 const ROWS_IN_SHEET = 3;
 const PLANS = [5, 15, 30] as const;

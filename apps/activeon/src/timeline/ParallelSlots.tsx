@@ -5,12 +5,14 @@
 // (empty: free value) or grey (not open yet), a column count under each, and one NOW cell from M20's fill
 // order with its step under the grid. The runner-up "Unassigned tray" is its text partner: one line per
 // slot kind with the characters said once. It renders `buildSlotsView` and computes nothing.
-import { SLOTS_WORDS as W } from '@idleon-forge/engine/now';
+import { SLOTS_WORDS } from '@idleon-forge/engine/now';
 import { PixelArt } from '../design/art/PixelArt';
 import { cx } from '../design/atoms';
 import { type ClassFamily, WhoGlyph } from '../design/who/WhoGlyph';
 import type { Session } from '../shell/session';
 import { SLOT_ART } from './art';
+import { slotTray } from './slots-tray';
+import { BOARD_WORDS, SLOTS_UI_WORDS as W } from './words';
 
 type Grid = NonNullable<Session['views']['slotsView']>;
 type Cell = Grid['rows'][number]['cells'][number];
@@ -39,6 +41,7 @@ function SlotCell({ c }: { c: Cell }) {
 
 export function ParallelSlots({ s }: { s: Session }) {
   const v = s.views.slotsView;
+  const tray = v ? slotTray(v) : [];
   return (
     <section className="tl-section slots" id="slots" aria-labelledby="slots-h">
       <h3 id="slots-h" className="tl-h">
@@ -110,7 +113,7 @@ export function ParallelSlots({ s }: { s: Session }) {
               </span>
             </div>
           ) : null}
-          <ul className="sg-legend" aria-label="Legend">
+          <ul className="sg-legend" aria-label={BOARD_WORDS.legend}>
             <li>
               <span className="sg-key is-filled" aria-hidden="true" /> {W.legendInUse}
             </li>
@@ -125,9 +128,9 @@ export function ParallelSlots({ s }: { s: Session }) {
             </li>
           </ul>
           <h4 className="tl-sub-h">{W.trayTitle}</h4>
-          {v.tray.length ? (
+          {tray.length ? (
             <ol className="sg-trays">
-              {v.tray.map((t) => (
+              {tray.map((t) => (
                 <li key={t.kind} className={cx('sg-tray', t.now && 'is-now')}>
                   <p className="sg-tray-h">
                     <PixelArt name={SLOT_ART[t.kind]} decorative animate={false} />
@@ -147,7 +150,7 @@ export function ParallelSlots({ s }: { s: Session }) {
                           {w.classLabel} {w.level}
                         </span>
                         <span className="sr-only">
-                          : {w.tone === 'empty' ? W.states.fillable : W.states.capped}
+                          : {w.tone === 'empty' ? SLOTS_WORDS.states.fillable : SLOTS_WORDS.states.capped}
                         </span>
                       </span>
                     ))}

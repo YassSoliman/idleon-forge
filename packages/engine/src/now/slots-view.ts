@@ -8,6 +8,7 @@
 // one NOW cell is M20's fill order (`slots.priority.fill-order`): the first slot Goal in the account list
 // whose key a pip links to, on the empty cell it fills when there is one. The view computes nothing of
 // its own (D-18): counts are counts of M20's pips, and the step is that Goal's own Next Action text.
+// The tray (the grid's text partner) groups these rows in the lazy section (`timeline/slots-tray.ts`).
 import type { EngineResult, SlotKind, SlotPip } from '../result';
 import type { NowView, SlotsView } from './view';
 import { SLOTS_WORDS as W } from './words/time';
@@ -26,8 +27,6 @@ export interface SlotCellView {
   tone: 'filled' | 'full' | 'empty' | 'closed';
   filled: boolean;
   now: boolean;
-  /** "Cog Board, Empty: in the cog inventory: earns nothing". */
-  a11y: string;
 }
 
 export interface SlotRowView {
@@ -49,22 +48,11 @@ export interface SlotColumnView {
   count: string;
 }
 
-export interface SlotTrayLine {
-  kind: SlotKind;
-  heading: string;
-  /** "2 empty · 4 full". */
-  count: string;
-  /** The characters said once per slot kind (P7): empty first, then full. */
-  who: { index: number; classLabel: string; level: number; tone: 'empty' | 'full' }[];
-  now: boolean;
-}
-
 export interface SlotsGridView extends SlotsView {
   rows: SlotRowView[];
   columns: SlotColumnView[];
   /** The NOW cell's step: the fill-order Goal's own Next Action, with who. */
   now: null | { index: number; kind: SlotKind; key: string; text: string; who: string };
-  tray: SlotTrayLine[];
 }
 
 const TONE: Record<SlotPip['state'], SlotCellView['tone']> = {
@@ -114,7 +102,6 @@ export function buildSlotsView(result: EngineResult, view: NowView): SlotsGridVi
           tone,
           filled: tone === 'filled' || tone === 'full',
           now: nowCell?.index === r.index && nowCell.kind === kind,
-          a11y: `${W.kinds[kind]}, ${stateWord}: ${p.text}`,
         },
       ];
     });
@@ -138,31 +125,6 @@ export function buildSlotsView(result: EngineResult, view: NowView): SlotsGridVi
     };
   });
 
-  const tray: SlotTrayLine[] = SLOT_KINDS.flatMap((kind) => {
-    const who = rows.flatMap((r) =>
-      r.cells
-        .filter((c) => c.kind === kind && (c.state === 'fillable' || c.state === 'capped'))
-        .map((c) => ({
-          index: r.index,
-          classLabel: r.classLabel,
-          level: r.level,
-          tone: c.state === 'fillable' ? ('empty' as const) : ('full' as const),
-        })),
-    );
-    if (!who.length) return [];
-    const empty = who.filter((w) => w.tone === 'empty').length;
-    const full = who.length - empty;
-    return [
-      {
-        kind,
-        heading: W.kinds[kind],
-        count: [empty ? W.trayFree(empty) : '', full ? W.trayFull(full) : ''].filter(Boolean).join(' · '),
-        who: [...who.filter((w) => w.tone === 'empty'), ...who.filter((w) => w.tone === 'full')],
-        now: nowCell?.kind === kind,
-      },
-    ];
-  }).sort((a, b) => Number(b.now) - Number(a.now));
-
   const nowRow = nowCell ? rows.find((r) => r.index === nowCell?.index) : undefined;
   return {
     rows,
@@ -177,6 +139,5 @@ export function buildSlotsView(result: EngineResult, view: NowView): SlotsGridVi
             who: `${nowRow.classLabel} ${nowRow.level}`,
           }
         : null,
-    tray,
   };
 }
