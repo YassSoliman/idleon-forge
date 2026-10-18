@@ -11,7 +11,7 @@ import { compact, type SkillGridView, type SkillRowView } from '@idleon-forge/en
 import type { SlotPip } from '@idleon-forge/engine/result';
 import { useEffect, useRef } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
-import { Meter } from '../design/atoms/Meter';
+import { Meter } from '../design/atoms';
 import type { CharacterTabProps } from './character-tabs';
 import { useNowActions } from './context';
 import './skills-tab.css';

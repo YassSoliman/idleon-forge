@@ -13,8 +13,7 @@ import type { CardsNowView, CharacterCardsView, NowView } from '@idleon-forge/en
 import type { CardChip, GrindItem, PresetRecommendation } from '@idleon-forge/engine/result';
 import { useState } from 'react';
 import { PixelArt } from '../../design/art/PixelArt';
-import { GLYPH } from '../../design/atoms/glyphs';
-import { Sheet } from '../../design/atoms/Sheet';
+import { GLYPH, Sheet } from '../../design/atoms';
 import { SourceLabel } from '../../design/atoms/SourceLabel';
 import type { CharacterTabProps } from '../character-tabs';
 import { useNowActions } from '../context';

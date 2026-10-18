@@ -6,7 +6,7 @@
 // it, then what to wear for its job. The Star Chart itself lives on its System page (area S).
 import type { StarSignsNowView } from '@idleon-forge/engine/now';
 import { PixelArt } from '../../design/art/PixelArt';
-import { GLYPH } from '../../design/atoms/glyphs';
+import { GLYPH } from '../../design/atoms';
 import { formatRoute } from '../../shell/route';
 import type { CharacterTabProps } from '../character-tabs';
 import { useNowActions } from '../context';

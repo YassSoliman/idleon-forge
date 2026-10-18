@@ -9,8 +9,6 @@
 import type { FocusCard, NowView, TabHealth } from '@idleon-forge/engine/now';
 import { forwardRef, type ReactNode, useEffect, useRef, useState } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
-import { GLYPH } from '../design/atoms/glyphs';
-import { VerdictStamp } from '../design/atoms/Pill';
 import { WhoGlyph } from '../design/who/WhoGlyph';
 import { characterTabs, NOW_TAB, tabHref } from '../now/character-tabs';
 import { useNowActions } from '../now/context';
@@ -27,6 +25,13 @@ export interface CharacterShellProps {
   /** Under the identity line (Focus puts the character's cap pills here). */
   children?: ReactNode;
 }
+
+/** The Verdict stamps' glyphs (design/atoms/glyphs.ts VERDICT_GLYPH). */
+const STAMP_GLYPH = {
+  ready: 'now-glyph-check',
+  fix: 'now-glyph-wrench',
+  unknown: 'now-glyph-question',
+} as const;
 
 type HealthTable = Readonly<Record<string, (view: NowView, index: number) => TabHealth | null>>;
 
@@ -55,7 +60,7 @@ function Arrow({ dir, to, tab }: { dir: 'prev' | 'next'; to: number | null; tab:
         else actions.openTab(to, tab);
       }}
     >
-      <PixelArt name={dir === 'prev' ? GLYPH.arrowLeft : GLYPH.arrowRight} decorative />
+      <PixelArt name={dir === 'prev' ? 'ui-arrow-left' : 'ui-arrow-right'} decorative />
     </a>
   );
 }
@@ -112,14 +117,20 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
             </span>
             {card.map ? (
               <span className="cs-where">
-                <PixelArt name={GLYPH.where} decorative />
+                <PixelArt name="now-pin" decorative />
                 {card.map}
               </span>
             ) : null}
             {card.activity ? <span className="cs-activity">{card.activity}</span> : null}
           </p>
         </div>
-        {pill ? <VerdictStamp verdict={pill.kind} word={pill.text} /> : null}
+        {pill ? (
+          // The VerdictStamp atom's markup (a-stamp), inline so the strip adds no shared chunk to the first load.
+          <span className={`a-stamp a-stamp--${pill.kind}`}>
+            <PixelArt name={STAMP_GLYPH[pill.kind]} decorative />
+            <span className="a-stamp__word">{pill.text}</span>
+          </span>
+        ) : null}
         <Arrow dir="next" to={next} tab={tab} />
       </div>
       {children ? <div className="cs-caps">{children}</div> : null}

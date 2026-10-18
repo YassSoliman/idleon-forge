@@ -35,6 +35,16 @@ const TOOLS: readonly GearSlotView['slot'][] = ['pickaxe', 'hatchet', 'rod', 'ne
 
 export { StateGlyph };
 
+/** Each square's state glyph from the art library (DS-8: glyph + word + colour). */
+const STATE_ART: Record<string, ArtName> = {
+  ok: 'ui-check',
+  behind: 'v2-character-behind',
+  empty: 'v2-character-empty',
+  'held-upgrade': 'ui-arrow-right',
+  unknown: 'now-glyph-question',
+  m20: 'now-glyph-question',
+};
+
 /** Our own mannequin from the art library (M21 FR-F3; ADR 0009: our drawing, never game art). */
 function Mannequin() {
   return (
@@ -90,7 +100,7 @@ function SquareButton({
         {LABEL[q.slot]}
       </span>
       <span className="gs-w">
-        <StateGlyph state={q.state} />
+        <PixelArt name={STATE_ART[q.state] ?? 'now-glyph-question'} decorative />
         {q.word}
       </span>
       {lit ? <span className="gs-next">Next</span> : null}

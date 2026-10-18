@@ -180,6 +180,7 @@
   display: inline-flex;
   align-items: center;
   min-height: var(--tap-min);
+  min-width: var(--tap-min);
   color: var(--fg);
   font-weight: var(--weight-semibold);
 }

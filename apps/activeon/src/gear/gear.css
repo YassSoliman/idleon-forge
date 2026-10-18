@@ -157,6 +157,7 @@
   display: inline-flex;
   align-items: center;
   min-height: var(--tap-min);
+  min-width: var(--tap-min);
   padding: 0 var(--space-2);
   font: inherit;
   font-size: var(--text-sm);
