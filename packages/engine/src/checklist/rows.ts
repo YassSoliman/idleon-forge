@@ -213,6 +213,17 @@ export function readRow(def: RowDef, x: RowCtx): RowResult {
       const left = rolled ? al.vialAttempts.max : al.vialAttempts.current;
       return dailyRead(left === 0, [`${left} of ${al.vialAttempts.max} left`]);
     }
+    case 'liquid-shop-gem': {
+      // M19 FR-16: done when today's count of One Measly Gem (and, from Trench Seawater, A Pair of Gems)
+      // is at least 1 (CauldronInfo[10]; N.js resets it in the daily-reset block, V5).
+      if (world < 2) return { gated: 'Liquid Shop gem: reach World 2' };
+      const p = a.alchemyPlan;
+      if (!p) return unknown(daily);
+      const trench = a.liquids?.find((l) => l.index === 2)?.unlocked === true;
+      const one = (p.liquidShopBought[3] ?? 0) >= 1;
+      const pair = !trench || (p.liquidShopBought[12] ?? 0) >= 1;
+      return dailyRead(one && pair, [trench ? '5 Water, and A Pair of Gems' : '5 Water']);
+    }
     case 'post-office': {
       const po = a.postOffice;
       if (!po) return unknown(daily);

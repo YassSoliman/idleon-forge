@@ -50,7 +50,9 @@ describe('golden content', () => {
     if (!w2) throw new Error('scrubbed-w2 missing');
     const text = renderFixture(w2, ctx);
     const section = text.split('## Not covered yet\n')[1]?.split('\n\n')[0] ?? '';
-    expect(section.split('\n')).toEqual(expect.arrayContaining(['Alchemy Pay 2 Win', 'Islands']));
+    // M19 covers Alchemy Pay 2 Win (its Player Check).
+    expect(section.split('\n')).toEqual(expect.arrayContaining(['Bribes', 'Islands']));
+    expect(section).not.toContain('Alchemy Pay 2 Win');
     expect(section).not.toContain('Death Note');
     expect(section).not.toContain('Trapping');
   });

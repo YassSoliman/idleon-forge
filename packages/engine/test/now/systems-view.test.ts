@@ -536,7 +536,6 @@ describe('US-5 to US-7 on scrubbed-w3 (W3-early, 6 characters)', () => {
         'Quests',
         'Statues',
         'The Owl',
-        'Alchemy Pay 2 Win',
         'Islands',
         'Atom Collider',
         'Equinox',

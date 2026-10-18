@@ -8,10 +8,10 @@ import { HOUR, hasPrivate, privateFile, row, run, slotOf, workerState } from './
 
 describe.skipIf(!hasPrivate('joseph'))('the W3-early private save (§11.2)', () => {
   const s = () => structuredClone(workerState(privateFile('joseph')));
-  it('today 1 of 11, week 2 of 5; daily reset in about 12.6 h, the account week in about 36.6 h', () => {
+  it('today 1 of 12, week 2 of 5; daily reset in about 12.6 h, the account week in about 36.6 h', () => {
     const st = s();
     const r = run(st);
-    expect(r.checklist?.rings).toEqual({ today: { done: 1, total: 11 }, week: { done: 2, total: 5 } });
+    expect(r.checklist?.rings).toEqual({ today: { done: 1, total: 12 }, week: { done: 2, total: 5 } });
     expect(((r.checklist?.clocks.daily ?? 0) - st.asOf) / HOUR).toBeCloseTo(12.55, 1);
     expect(((r.checklist?.clocks.accountWeek ?? 0) - st.asOf) / HOUR).toBeCloseTo(36.55, 1);
     expect(((r.checklist?.clocks.serverWeek ?? 0) - st.asOf) / HOUR).toBeCloseTo(112.3, 0);
@@ -61,9 +61,9 @@ describe.skipIf(!hasPrivate('joseph'))('the W3-early private save (§11.2)', () 
 
 describe.skipIf(!hasPrivate('yasser'))('the W2-late private save (§11.1)', () => {
   const s = () => structuredClone(workerState(privateFile('yasser')));
-  it("today 0 of 10, week 0 of 3; Killroy's Warrior room on the Squire Lv 43", () => {
+  it("today 0 of 11, week 0 of 3; Killroy's Warrior room on the Squire Lv 43", () => {
     const r = run(s());
-    expect(r.checklist?.rings).toEqual({ today: { done: 0, total: 10 }, week: { done: 0, total: 3 } });
+    expect(r.checklist?.rings).toEqual({ today: { done: 0, total: 11 }, week: { done: 0, total: 3 } });
     expect(r.account.activePlay.map((a) => a.text)).toContain(
       "Run Killroy's Warrior room on your Squire Lv 43 (YumYum Grotto)",
     );

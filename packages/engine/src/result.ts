@@ -4,12 +4,24 @@
 // engine core. Plain data only, so it survives `structuredClone` across the worker boundary (TR-6):
 // no functions, Maps, class instances or Dates. All times are epoch ms, all durations seconds.
 // A change here needs a note on M10's spec and on the producer module's spec.
+
+import type { AlchemyResult } from './alchemy/types';
 import type { Checklist } from './checklist/types';
 import type { CardsView } from './collections/cards-view-types';
 import type { CharacterSkills, SkillGrid, SystemPicture } from './slots/types';
 import type { SpendPlan } from './spend/types';
 import type { StarSignsView } from './starsigns/types';
 
+export type {
+  AlchemyResult,
+  Band,
+  BubblePick,
+  ColumnChip,
+  P2wCell,
+  PotView,
+  TubeView,
+  VialView,
+} from './alchemy/types';
 export type { Checklist, ChecklistRow, ResetClock, RowBand, RowState } from './checklist/types';
 export type {
   CardChip,
@@ -534,4 +546,6 @@ export interface EngineResult {
   slotPictures?: SystemPicture[];
   /** M20 FR-31: the Skill Grid for the Characters place's `#skills` section. */
   skillGrid?: SkillGrid | null;
+  /** M19 TR-5: the Alchemy page (pots, vial shelf, tubes, Pay 2 Win grid); absent without M19. */
+  alchemy?: AlchemyResult | null;
 }

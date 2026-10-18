@@ -261,6 +261,20 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
     accountGoals.splice(0, accountGoals.length, ...attach(accountGoals));
   }
 
+  // M19 X3, X4: details an after-step adds to another module's Goal (never its text).
+  const notes = new Map<string, EngineResult['account']['goals'][number]['details']>();
+  for (const { output } of outputs)
+    for (const n of output.goalNotes ?? []) notes.set(n.key, [...(notes.get(n.key) ?? []), ...n.details]);
+  if (notes.size > 0) {
+    const add = (goals: EngineResult['account']['goals']) =>
+      goals.map((g) => {
+        const more = notes.get(g.nextAction.key);
+        return more?.length ? { ...g, details: [...(g.details ?? []), ...more] } : g;
+      });
+    for (const c of characters) c.goals = add(c.goals);
+    accountGoals.splice(0, accountGoals.length, ...add(accountGoals));
+  }
+
   // M17 TR-2: Checks that couldn't tell, for the hub's "Can't tell" (subjects of absent characters drop).
   const present = new Set(characters.map((c) => `c${c.index}`));
   const unknownFindings = outputs
@@ -341,7 +355,9 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
       const skills = pick('skills');
       const slotPictures = pick('slotPictures');
       const skillGrid = pick('skillGrid');
+      const alchemy = outputs.find((o) => o.output.alchemy !== undefined)?.output.alchemy;
       return {
+        ...(alchemy !== undefined ? { alchemy } : {}),
         ...(checklist !== undefined ? { checklist } : {}),
         ...(skills !== undefined ? { skills } : {}),
         ...(slotPictures !== undefined ? { slotPictures } : {}),

@@ -24,6 +24,7 @@ import {
   runDetector,
   type Subject,
 } from '@idleon-forge/knowledge';
+import { toolboxCalls } from '@idleon-forge/toolbox-parsers';
 import { checkSource, detectorRefsOf } from './check';
 import { compile } from './compile';
 import { discoverDetectors } from './discover';
@@ -48,6 +49,8 @@ export interface GoldenEngine {
   renderSystems?(input: GoldenInput): string;
   /** M17 TR-10 (Phase 2): the Timeline as text; the `## Timeline` section is left out without it. */
   renderTimeline?(input: GoldenInput): string;
+  /** M19 TR-10: the Alchemy page as text; the `## Alchemy` section is left out without it. */
+  renderAlchemy?(input: GoldenInput): string;
 }
 
 export interface GoldenInput {
@@ -56,6 +59,8 @@ export interface GoldenInput {
   registries: { knowledge: DetectorRegistry; engine: DetectorRegistry };
   now: number;
   expectedReturnMs: number;
+  /** M19 TR-1: Toolbox's pure functions the worker hands the engine (bubble costs). */
+  toolbox?: { bubbleCost(rawName: string, bubbleIndex: number, level: number, baseCost: number): number };
 }
 
 export const STUB_ENGINE: GoldenEngine = {
@@ -202,6 +207,7 @@ export function renderGolden(
     '',
     ...(engine.renderSystems ? ['## Systems', engine.renderSystems(input).trimEnd(), ''] : []),
     ...(engine.renderTimeline ? ['## Timeline', engine.renderTimeline(input).trimEnd(), ''] : []),
+    ...(engine.renderAlchemy ? ['## Alchemy', engine.renderAlchemy(input).trimEnd(), ''] : []),
     '## Findings',
     '| entry | detector | subject | result | slots |',
     '|---|---|---|---|---|',
@@ -249,6 +255,7 @@ export function renderFixture(f: FixtureInfo, ctx: GoldenContext, state: Account
       registries: ctx.registries,
       now: f.now,
       expectedReturnMs: DEFAULT_EXPECTED_RETURN_MS,
+      toolbox: { bubbleCost: toolboxCalls.bubbleCost },
     },
     ctx.engine,
     ctx.lookupSet,

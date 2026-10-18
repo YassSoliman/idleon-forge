@@ -90,6 +90,8 @@ describe('the Stage Expectations table (TR-10)', () => {
       // M20 FR-42: no free Cog Board square, and a skull on every character, by W3-mid.
       ['cog-board-full', 'W3-mid'],
       ['worship-skulls', 'W3-mid'],
+      // M19 FR-28: every Bubble Plan row at its W2 band by W3-mid.
+      ['bubble-plan-w2', 'W3-mid'],
     ]);
     for (const r of rows) {
       expect(ctx.kb.entries[r.fix], r.fix).toBeDefined();
