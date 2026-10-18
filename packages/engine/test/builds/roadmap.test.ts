@@ -74,7 +74,16 @@ describe('Build view roadmaps', () => {
     expect(skilling?.unspent).toBe(118);
     expect(skilling?.tabs.slice(0, 3).map((t) => t.unspent)).toEqual([44, 40, 34]);
     expect(r.status).toBe('118+ unspent on the skilling preset · next: Book of the Wise');
-    expect(skilling?.next[0]?.text).toBe('Put the next 84 points into Book of the Wise (to 100)');
+    // Each step takes no more than its tab has waiting (44 in tab 1).
+    expect(skilling?.next.map((n) => n.text)).toEqual([
+      'Put the next 44 points into Book of the Wise (to 60 of 100)',
+      'Put the next 40 points into Leaf Thief (to 40 of 100)',
+      'Put the next 34 points into Bubble Breakthrough (to 70 of 100)',
+    ]);
+    // The fighting preset has nothing waiting: one line per tab says where the next points go.
+    expect(r.presets[0]?.next[0]?.text).toBe(
+      'No points waiting in this tab; the next go into Idle Casting (to 50)',
+    );
     // Every Build talent shows current / target, in the Build's step order.
     const tab1 = skilling?.tabs[0]?.rows.map((x) => `${x.label} ${x.current}/${x.target}`);
     expect(tab1).toEqual(['Smart Efficiency 100/100', 'Book of the Wise 16/100', "Active AFK'er 100/100"]);
@@ -110,16 +119,57 @@ describe('Build view roadmaps', () => {
       ...r.path.slice(4).map((p) => `${p.label}:later`),
     ]);
     expect(r.nextClass).toBe('Next class: take Hunter at Speccius');
+    // The fighting preset has spent more than the empty one in every tab: nothing known waiting.
     const fighting = r.presets.find((p) => p.role === 'fighting');
     const tab2 = fighting?.next.filter((n) => n.tab === 2) ?? [];
-    expect(tab2[0]?.text).toMatch(/^Put the next [\d,]+ points into High Polymer Limbs \(to \d+\)$/);
-    expect(tab2[1]?.text).toMatch(/^then [\d,]+ into Veins of the Infernal/);
+    expect(tab2.map((n) => n.text)).toEqual([
+      expect.stringMatching(
+        /^No points waiting in this tab; the next go into High Polymer Limbs \(to \d+\)$/,
+      ),
+    ]);
     expect(r.comingUp).toContain('Taking Hunter opens the Hunter talent tab (tab 3)');
     expect(r.comingUp.some((l) => l.startsWith('Then the Hunter fighting build starts tab 3 with'))).toBe(
       true,
     );
     expect(r.quiet).toMatch(/Low-confidence build/);
     expect(r.sources.some((s) => s.url.startsWith('https://idleon.wiki/'))).toBe(true);
+  });
+
+  it('W3-early Squire Lv 51 (R5 QA P2-1): all 115 points wait in tab 3, so Refinery Throttle leads everywhere', () => {
+    const s = W3();
+    const r = at(roadmaps(s), 1);
+    expect(r.status).toBe('115+ unspent on the skilling preset · next: Refinery Throttle');
+    const skilling = r.presets.find((p) => p.role === 'skilling');
+    expect(skilling?.tabs.slice(0, 3).map((t) => t.unspent)).toEqual([0, 0, 115]);
+    expect(skilling?.next.map((n) => n.text)).toEqual([
+      'Put the next 100 points into Refinery Throttle (to 100)',
+      'then 15 into Redox Rates (to 15 of 100)',
+    ]);
+    // No step in a tab with nothing to spend, and never more points than the tab has.
+    for (const p of r.presets)
+      for (const n of p.next) {
+        const waiting = p.tabs.find((t) => t.tab === n.tab)?.unspent ?? 0;
+        if (waiting === 0) expect(n.text).not.toMatch(/^(Put|then)/);
+        expect(n.points).toBeLessThanOrEqual(waiting);
+      }
+    // The M9 Goal agrees.
+    const goals = run(s).characters?.find((c) => c.index === 1)?.goals ?? [];
+    const behind = goals.find((g) => g.goal.nextAction.entryId === 'talent-presets.check.behind');
+    expect(behind?.goal.nextAction.text).toMatch(/starting with Refinery Throttle$/);
+  });
+
+  it('the overview, the Build view and the preset Goal name the same next talent on every save', () => {
+    for (const s of [W2(), W3()]) {
+      const out = run(s);
+      for (const r of roadmaps(s)) {
+        const lead = r.presets.reduce((m, p) => ((p.unspent ?? 0) > (m?.unspent ?? 0) ? p : m), r.presets[0]);
+        if (!lead?.unspent || !lead.next[0]) continue;
+        expect(r.status).toContain(`next: ${lead.next[0].label}`);
+        const goals = out.characters?.find((c) => c.index === r.index)?.goals ?? [];
+        const g = goals.find((x) => x.goal.nextAction.entryId === 'talent-presets.check.behind');
+        if (g) expect(g.goal.nextAction.text).toContain(`starting with ${lead.next[0].label}`);
+      }
+    }
   });
 
   it('a character with no Build for its class shows plain levels and the note', () => {

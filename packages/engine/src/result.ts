@@ -273,7 +273,9 @@ export interface BuildTabView {
 export interface BuildNextPoint {
   key: string;
   tab: number;
-  /** "Put the next 12 points into High Polymer Limbs (to 100)", "then Veins of the Infernal (to 120)". */
+  /** The talent: "High Polymer Limbs". */
+  label: string;
+  /** "Put the next 12 points into High Polymer Limbs (to 100)", "then 40 into Veins of the Infernal (to 60 of 120)". */
   text: string;
   points: number;
 }

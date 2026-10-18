@@ -175,11 +175,7 @@ export function CharacterCardsPanel({ c, cards }: { c: CharacterCardsView; cards
       ) : null}
 
       <h3 className="cv-h">Cards to grind next</h3>
-      {c.grind.length ? (
-        <GrindList items={c.grind} />
-      ) : (
-        <p className="small muted">No card on its list drops on a map it can reach yet.</p>
-      )}
+      {c.grind.length ? <GrindList items={c.grind} /> : <p className="small muted">{c.grindEmpty}</p>}
       {c.grindNote ? <p className="small muted">{c.grindNote}</p> : null}
       <Footer cards={cards} />
     </div>
@@ -194,44 +190,68 @@ export function CardsTab({ view, index }: CharacterTabProps) {
 }
 
 /** The Cards overview on the Roster: every character's card line, then the account's grind list. */
+/** The Cards overview's collapsed line: "2 presets to fix". */
+export function cardsSummary(cards: CardsNowView): string {
+  const n = cards.characters.filter((c) => c.presetFits === false).length;
+  if (n > 0) return `${n} ${n === 1 ? 'preset' : 'presets'} to fix`;
+  return 'every preset fits';
+}
+
+export const CARDS_OPEN = 'cards-open';
+
 export function CardsOverview({ view }: { view: NowView }) {
   const actions = useNowActions();
   const cards = view.cards;
   if (!cards || cards.characters.length === 0) return null;
   return (
     <section aria-labelledby="cards-h" id="cards" className="builds-overview cards-overview">
-      <h2 id="cards-h" className="section-h">
-        Cards
-      </h2>
-      <ul className="bo-list">
-        {cards.characters.map((c) => (
-          <li key={c.index}>
-            <a
-              href={c.href}
-              className="bo-row"
-              onClick={(e) => {
-                e.preventDefault();
-                actions.openTab(c.index, 'cards');
-              }}
-            >
-              <span className="bo-top">
-                <span className="r-name">{c.name}</span>
-                <span className="r-class">
-                  {c.classLabel} · lv {c.level}
+      <details
+        className="bo-fold"
+        open={actions.expanded.has(CARDS_OPEN)}
+        onToggle={(e) => {
+          const open = (e.currentTarget as HTMLDetailsElement).open;
+          if (open !== actions.expanded.has(CARDS_OPEN)) actions.toggle(CARDS_OPEN);
+        }}
+      >
+        <summary className="bo-summary">
+          <h2 id="cards-h" className="section-h">
+            Cards
+          </h2>
+          <span className="bo-count small">{cardsSummary(cards)}</span>
+          <span className="bo-chev" aria-hidden="true">
+            ›
+          </span>
+        </summary>
+        <ul className="bo-list">
+          {cards.characters.map((c) => (
+            <li key={c.index}>
+              <a
+                href={c.href}
+                className="bo-row"
+                onClick={(e) => {
+                  e.preventDefault();
+                  actions.openTab(c.index, 'cards');
+                }}
+              >
+                <span className="bo-top">
+                  <span className="r-name">{c.name}</span>
+                  <span className="r-class">
+                    {c.classLabel} · lv {c.level}
+                  </span>
                 </span>
-              </span>
-              <span className="bo-status small">{c.overview}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-      {cards.account.grind.length ? (
-        <details className="cv-account">
-          <summary>Cards to grind, whole account ({cards.account.grind.length})</summary>
-          <GrindList items={cards.account.grind} account />
-          <Footer cards={cards} />
-        </details>
-      ) : null}
+                <span className="bo-status small">{c.overview}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        {cards.account.grind.length ? (
+          <details className="cv-account">
+            <summary>Cards to grind, whole account ({cards.account.grind.length})</summary>
+            <GrindList items={cards.account.grind} account />
+            <Footer cards={cards} />
+          </details>
+        ) : null}
+      </details>
     </section>
   );
 }

@@ -38,6 +38,8 @@ export {
   type CardDropRow,
   cardLeavesForRates,
   effectText,
+  GRIND_BEYOND,
+  GRIND_NONE,
   hoursText,
   killsFor,
   nextThreshold,

@@ -420,8 +420,11 @@ function grindLine(
   if (options.length === 0) return null;
   const missing = next.copies - amount;
   const kills = killsFor(row.chance, amount, missing);
+  // The map the character is already on wins: that's the card it's farming now (R5 QA P3-1).
   const best =
     [...options].sort((a, b) => {
+      const on = Number(b.mapIndex === c.mapIndex) - Number(a.mapIndex === c.mapIndex);
+      if (on !== 0) return on;
       const ha = a.kph && kills ? kills / a.kph : Number.POSITIVE_INFINITY;
       const hb = b.kph && kills ? kills / b.kph : Number.POSITIVE_INFINITY;
       return ha - hb || a.mapIndex - b.mapIndex;
@@ -465,12 +468,16 @@ function grindLine(
   };
 }
 
+/**
+ * Grind order (docs/specs/M8-collections.md "Cards view", R5 QA P3-1): quick wins first (a first copy,
+ * or 24 h or less), then the fewest hours (no estimate last), then the card list's order.
+ */
 const byGrindOrder =
   (rank: (g: GrindItem) => number) =>
   (a: GrindItem, b: GrindItem): number =>
     Number(b.quick) - Number(a.quick) ||
-    rank(a) - rank(b) ||
     (a.hours ?? Number.POSITIVE_INFINITY) - (b.hours ?? Number.POSITIVE_INFINITY) ||
+    rank(a) - rank(b) ||
     (a.rawName < b.rawName ? -1 : 1);
 
 function grindFor(
@@ -480,15 +487,22 @@ function grindFor(
   rows: PresetRow[],
   recs: readonly PresetRecommendation[],
 ) {
+  // Only a card a best preset keeps improves that preset: one it swaps out (or doesn't pick) never
+  // claims to (R5 QA P3-1). The first activity whose best preset keeps it names it, else the first list.
+  const keptIn = (raw: string): string | null => {
+    if (rows.length <= 1) return null;
+    for (const act of acts) {
+      const rec = recs.find((r) => r.activity === activityName(act));
+      if (rec?.preset != null && rec.cards.some((x) => x.rawName === raw))
+        return `${activityName(act)} preset (card preset ${rec.preset})`;
+    }
+    return null;
+  };
   const ranked: { raw: string; rank: number; improves: string }[] = [];
   acts.forEach((act, ai) => {
-    const n = recs.find((r) => r.activity === activityName(act))?.preset ?? null;
-    const improves =
-      rows.length > 1 && n !== null
-        ? `${activityName(act)} preset (card preset ${n})`
-        : `${activityName(act)} cards`;
     cardCandidates(ctx.kb, c, act).forEach((raw, i) => {
-      if (!ranked.some((r) => r.raw === raw)) ranked.push({ raw, rank: ai * 1000 + i, improves });
+      if (!ranked.some((r) => r.raw === raw))
+        ranked.push({ raw, rank: ai * 1000 + i, improves: keptIn(raw) ?? `${activityName(act)} cards` });
     });
   });
   const items: GrindItem[] = [];
@@ -511,7 +525,9 @@ function grindFor(
     rankOf.set(g.rawName, r.rank);
     items.push(g);
   }
-  items.sort(byGrindOrder((g) => rankOf.get(g.rawName) ?? 0));
+  // The card it is farming right now (its AFK map) leads, then the grind order.
+  const here = (g: GrindItem) => Number(g.mapIndex === c.mapIndex);
+  items.sort((a, b) => here(b) - here(a) || byGrindOrder((g) => rankOf.get(g.rawName) ?? 0)(a, b));
   return { items, unplaced, rankOf };
 }
 
@@ -556,6 +572,8 @@ export function buildCardsView(state: AccountState, kb: FactLookup): CardsView |
     }
   })();
   const stageWorld = stage?.id ? STAGE_DEFINITIONS[stage.id].world : null;
+  // Past World 4 the view's card maps run out: say so instead of "nothing in reach" (R5 QA P3-2).
+  const grindEmpty = stage?.coverage === 'beyond' ? GRIND_BEYOND : GRIND_NONE;
   const roles = (() => {
     try {
       const roster = analyzeRoster(state, kb, stage?.id ?? null);
@@ -605,6 +623,7 @@ export function buildCardsView(state: AccountState, kb: FactLookup): CardsView |
       recommendations: [],
       grind: [],
       grindNote: null,
+      grindEmpty,
       overview: '',
       presetFits: null,
     };
@@ -659,7 +678,9 @@ export function buildCardsView(state: AccountState, kb: FactLookup): CardsView |
       empty > 0 ? `${empty} empty ${plural(empty, 'slot')}` : 'slots full',
       top
         ? `next grind: ${top.name} card${top.hours !== null ? ` (${hoursText(top.hours)})` : top.skill ? ` (${top.skill.toLowerCase()})` : ''}`
-        : 'nothing to grind in reach',
+        : grindEmpty === GRIND_BEYOND
+          ? 'grind list covers Worlds 1–4 for now'
+          : 'nothing to grind in reach',
     ].join(' · ');
     return {
       ...base,
@@ -690,6 +711,10 @@ export function buildCardsView(state: AccountState, kb: FactLookup): CardsView |
 
   return { characters, account: { grind: account }, caveats: CARDS_CAVEATS, sources: sourcesOf(kb) };
 }
+
+export const GRIND_NONE = 'No card on its list drops on a map it can reach yet.';
+export const GRIND_BEYOND =
+  'The Cards view covers Worlds 1–4 for now, so it has no cards to grind for this account yet.';
 
 /** At most this many card maps get kill rates in the worker (M14 TR-8's budget, on top of its own). */
 export const CARD_RATE_MAPS = 12;

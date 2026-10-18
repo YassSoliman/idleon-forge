@@ -4,7 +4,7 @@
 // The Build view in the DOM (owner request 2026-10-18): the Builds overview and the Build chip on the
 // Roster, the character page's tabs, the `#build-<index>` deep link and the roadmap's parts.
 import type { BuildPresetView, BuildRoadmap, EngineResult } from '@idleon-forge/engine/result';
-import { cleanup, fireEvent, screen, within } from '@testing-library/react';
+import { act, cleanup, fireEvent, screen, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { characterTabs, parseTabHash, tabHref } from '../src/now/character-tabs';
@@ -77,7 +77,13 @@ const shaman: BuildRoadmap = {
     preset(1, {
       unspent: 118,
       next: [
-        { key: 'n1', tab: 1, text: 'Put the next 84 points into Book of the Wise (to 100)', points: 84 },
+        {
+          key: 'n1',
+          tab: 1,
+          label: 'Book of the Wise',
+          text: 'Put the next 84 points into Book of the Wise (to 100)',
+          points: 84,
+        },
       ],
     }),
   ],
@@ -197,6 +203,23 @@ describe('Build view', () => {
     expect(overview.textContent).toContain(
       "Builds cover World 1 to World 4 for now. Each character's Build tab shows its plain talent levels.",
     );
+  });
+
+  it('R5 QA P2-2: the overview is one folded row, below the Account, that opens from "Builds ↓"', () => {
+    const r = withBuilds();
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const overview = screen.getByRole('region', { name: 'Builds' });
+    const fold = overview.querySelector('details');
+    expect(fold?.open).toBe(false);
+    expect(overview.querySelector('summary')?.textContent).toBe('Builds1 with unspent points›');
+    // "Fix before you leave" in the Account is never below an optional overview.
+    const account = screen.getByRole('region', { name: 'Account · any character' });
+    expect(account.compareDocumentPosition(overview) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    act(() => {
+      window.history.replaceState(null, '', '/#builds');
+      window.dispatchEvent(new HashChangeEvent('hashchange'));
+    });
+    expect(overview.querySelector('details')?.open).toBe(true);
   });
 
   it('a result without Builds shows no overview and no Build chip', () => {

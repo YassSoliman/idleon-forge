@@ -211,6 +211,15 @@ export function BuildTab({ view, index }: CharacterTabProps) {
 }
 
 /** The Builds overview on the Roster: every character with a one-line build status. */
+/** The Builds overview's collapsed line: "3 with unspent points". */
+export function buildsSummary(builds: readonly BuildRoadmapView[]): string {
+  const n = builds.filter((b) => b.presets.some((p) => (p.unspent ?? 0) > 0)).length;
+  return n > 0 ? `${n} with unspent points` : 'no unspent points';
+}
+
+/** The overview id that opens a collapsed overview (R5 QA P2-2: collapsed by default on a phone). */
+export const BUILDS_OPEN = 'builds-open';
+
 export function BuildsOverview({ view }: { view: NowView }) {
   const actions = useNowActions();
   if (view.builds.length === 0) return null;
@@ -219,38 +228,55 @@ export function BuildsOverview({ view }: { view: NowView }) {
   const shared = first !== null && view.builds.every((b) => b.note === first) ? first : null;
   return (
     <section aria-labelledby="builds-h" id="builds" className="builds-overview">
-      <h2 id="builds-h" className="section-h">
-        Builds
-      </h2>
-      {shared ? (
-        <p className="small muted bo-shared">
-          {shared.split(';')[0]}. Each character's Build tab shows its plain talent levels.
-        </p>
-      ) : null}
-      {shared ? null : (
-        <ul className="bo-list">
-          {view.builds.map((b) => (
-            <li key={b.index}>
-              <a
-                href={b.href}
-                className="bo-row"
-                onClick={(e) => {
-                  e.preventDefault();
-                  actions.openTab(b.index, 'build');
-                }}
-              >
-                <span className="bo-top">
-                  <span className="r-name">{b.name}</span>
-                  <span className="r-class">
-                    {b.classLabel} · lv {b.level}
+      <details
+        className="bo-fold"
+        open={actions.expanded.has(BUILDS_OPEN)}
+        onToggle={(e) => {
+          const open = (e.currentTarget as HTMLDetailsElement).open;
+          if (open !== actions.expanded.has(BUILDS_OPEN)) actions.toggle(BUILDS_OPEN);
+        }}
+      >
+        <summary className="bo-summary">
+          <h2 id="builds-h" className="section-h">
+            Builds
+          </h2>
+          <span className="bo-count small">
+            {shared ? 'not covered past World 4' : buildsSummary(view.builds)}
+          </span>
+          <span className="bo-chev" aria-hidden="true">
+            ›
+          </span>
+        </summary>
+        {shared ? (
+          <p className="small muted bo-shared">
+            {shared.split(';')[0]}. Each character's Build tab shows its plain talent levels.
+          </p>
+        ) : null}
+        {shared ? null : (
+          <ul className="bo-list">
+            {view.builds.map((b) => (
+              <li key={b.index}>
+                <a
+                  href={b.href}
+                  className="bo-row"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    actions.openTab(b.index, 'build');
+                  }}
+                >
+                  <span className="bo-top">
+                    <span className="r-name">{b.name}</span>
+                    <span className="r-class">
+                      {b.classLabel} · lv {b.level}
+                    </span>
                   </span>
-                </span>
-                <span className="bo-status small">{b.status}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
+                  <span className="bo-status small">{b.status}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </details>
     </section>
   );
 }

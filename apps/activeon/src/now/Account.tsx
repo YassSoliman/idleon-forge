@@ -49,7 +49,7 @@ export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(functio
         </div>
       ) : null}
       {acc.blockers.length > 0 ? (
-        <div className="verdict fix">
+        <div className="verdict fix" id="account-fix" tabIndex={-1}>
           <h3 className="sub-h">Fix before you leave</h3>
           <ul className="goals blockers">
             {acc.blockers.map((g) => (

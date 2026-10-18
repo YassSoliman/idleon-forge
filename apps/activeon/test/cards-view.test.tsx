@@ -111,6 +111,7 @@ const cedar: CharacterCards = {
   grind: [grind],
   grindNote:
     "3 more cards on its list drop from bosses, crystal mobs or nodes ActiveOn can't place on a map yet",
+  grindEmpty: 'No card on its list drops on a map it can reach yet.',
   overview: 'preset fits fighting ✓ · 2 empty slots · next grind: Frost Flake card (about 1.2 h)',
   presetFits: true,
 };
@@ -166,6 +167,14 @@ describe('Cards tab', () => {
     expect(links[0]?.textContent).toContain('next grind: Frost Flake card (about 1.2 h)');
     expect(screen.getByRole('link', { name: 'Cedar: cards' })).toBeTruthy();
     expect(screen.getByRole('link', { name: 'Cards ↓' }).getAttribute('href')).toBe('#cards');
+  });
+
+  it('R5 QA P2-2: the Cards overview is one folded row with a count', () => {
+    const r = withCards();
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const overview = screen.getByRole('region', { name: 'Cards' });
+    expect(overview.querySelector('details')?.open).toBe(false);
+    expect(overview.querySelector('summary')?.textContent).toBe('Cardsevery preset fits›');
   });
 
   it('the Cards chip opens the character page on its Cards tab: presets, swaps and grind', async () => {

@@ -12,9 +12,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSuggestions } from '../suggestions/SuggestionsProvider';
 import { useNow } from '../use-now';
 import { AccountSection, IfYouHaveTime, NotCoveredYet } from './Account';
-import { BuildsOverview } from './BuildView';
+import { BUILDS_OPEN, BuildsOverview } from './BuildView';
 import { Banners, ExpectedReturnChips, ProgressBar, WhatsNewCard } from './Chrome';
-import { CardsOverview } from './cards/CardsPanel';
+import { CARDS_OPEN, CardsOverview } from './cards/CardsPanel';
 import { NOW_TAB, parseTabHash } from './character-tabs';
 import { type NowActions, NowActionsContext } from './context';
 import { Focus } from './Focus';
@@ -60,6 +60,16 @@ const readTabHash = () => {
     return null;
   }
 };
+const readHash = () => {
+  try {
+    return window.location.hash;
+  } catch {
+    return '';
+  }
+};
+/** `#builds` and `#cards` open the folded overview they point at. */
+const unfoldFor = (hash: string): Set<string> =>
+  new Set(hash === '#builds' ? [BUILDS_OPEN] : hash === '#cards' ? [CARDS_OPEN] : []);
 const readFocusParam = (): number | null => {
   try {
     const v = new URLSearchParams(window.location.search).get('c');
@@ -117,7 +127,7 @@ export function NowScreen(props: NowScreenProps) {
 
   const [focus, setFocusState] = useState<number | null>(() => readFocusParam());
   const [tab, setTab] = useState<string>(() => readTabHash()?.tab ?? NOW_TAB);
-  const [expanded, setExpanded] = useState<ReadonlySet<string>>(new Set());
+  const [expanded, setExpanded] = useState<ReadonlySet<string>>(() => unfoldFor(readHash()));
   const [follow, setFollow] = useState<FollowState>(INITIAL_FOLLOW);
   const [pendingFollow, setPendingFollow] = useState<{ index: number; text: string } | null>(null);
   const [announce, setAnnounce] = useState('');
@@ -218,6 +228,9 @@ export function NowScreen(props: NowScreenProps) {
         return c;
       });
       setTab(readTabHash()?.tab ?? NOW_TAB);
+      // The Roster's "Builds ↓" and "Cards ↓" open their folded overview (R5 QA P2-2).
+      const unfold = unfoldFor(readHash());
+      if (unfold.size) setExpanded((prev) => new Set([...prev, ...unfold]));
     };
     window.addEventListener('popstate', onPop);
     window.addEventListener('hashchange', onPop);
@@ -434,6 +447,11 @@ export function NowScreen(props: NowScreenProps) {
     }
     open(index);
   };
+  const toAccountFix = () => {
+    const el = document.getElementById('account-fix') ?? accountRef.current;
+    el?.focus({ preventScroll: true });
+    el?.scrollIntoView?.({ block: 'start' });
+  };
   const whatsNew = useWhatsNew();
 
   if (!prefs.ready) return <p className="small muted">Loading your choices…</p>;
@@ -441,7 +459,7 @@ export function NowScreen(props: NowScreenProps) {
   return (
     <NowActionsContext.Provider value={actions}>
       <Banners banners={view.banners} onReload={props.onReload} />
-      <ProgressBar progress={view.progress} />
+      <ProgressBar progress={view.progress} onAccount={toAccountFix} />
       {whatsNew.view ? <WhatsNewCard view={whatsNew.view} onDismiss={whatsNew.dismiss} /> : null}
       <div ref={cardRef}>
         {view.focus ? (
@@ -483,22 +501,25 @@ export function NowScreen(props: NowScreenProps) {
             }
           />
         ) : (
-          <>
-            <Roster
-              view={view}
-              onOpen={open}
-              onSpend={toSpend}
-              rowRef={(i, el) => {
-                if (el) rows.current.set(i, el);
-                else rows.current.delete(i);
-              }}
-            />
-            <BuildsOverview view={view} />
-            <CardsOverview view={view} />
-          </>
+          <Roster
+            view={view}
+            onOpen={open}
+            onSpend={toSpend}
+            rowRef={(i, el) => {
+              if (el) rows.current.set(i, el);
+              else rows.current.delete(i);
+            }}
+          />
         )}
       </div>
+      {/* R5 QA P2-2: "Fix before you leave" in the Account is never below the optional overviews. */}
       <AccountSection ref={accountRef} view={view} />
+      {view.focus ? null : (
+        <>
+          <BuildsOverview view={view} />
+          <CardsOverview view={view} />
+        </>
+      )}
       <IfYouHaveTime view={view} />
       <NotCoveredYet view={view} />
       <p className="sr-only" aria-live="polite">

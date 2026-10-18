@@ -65,8 +65,18 @@ export function Banners({ banners, onReload }: { banners: Banner[]; onReload(): 
   );
 }
 
-export function ProgressBar({ progress }: { progress: NowView['progress'] }) {
+const ACCOUNT_PART = /(fix \d+ in Account)/;
+
+export function ProgressBar({
+  progress,
+  onAccount,
+}: {
+  progress: NowView['progress'];
+  /** Scrolls to the Account's "Fix before you leave" (R5 QA P2-2). */
+  onAccount?: () => void;
+}) {
   if (progress.hidden || progress.total === 0) return null;
+  const parts = progress.label.split(ACCOUNT_PART);
   return (
     <div className="progress">
       <ol className="segments" aria-label="Verdicts in Visit Order">
@@ -74,7 +84,23 @@ export function ProgressBar({ progress }: { progress: NowView['progress'] }) {
           <li key={s.index} className={`seg ${s.kind}`} aria-label={s.label} />
         ))}
       </ol>
-      <p className="progress-label">{progress.label}</p>
+      <p className="progress-label">
+        {parts.map((part, i) =>
+          onAccount && ACCOUNT_PART.test(part) ? (
+            <button
+              // biome-ignore lint/suspicious/noArrayIndexKey: the label's parts are fixed in order
+              key={i}
+              type="button"
+              className="link-btn"
+              onClick={onAccount}
+            >
+              {part}
+            </button>
+          ) : (
+            part
+          ),
+        )}
+      </p>
     </div>
   );
 }

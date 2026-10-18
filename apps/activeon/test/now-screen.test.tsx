@@ -326,7 +326,11 @@ describe('US-22 / D9 account stockpiles', () => {
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const acct = screen.getByRole('region', { name: 'Account · any character' });
     expect(within(acct).getByRole('heading', { name: 'Fix before you leave' })).toBeTruthy();
-    expect(screen.getByText('5 of 5 Ready · fix 2 in Account')).toBeTruthy();
+    const label = document.querySelector('.progress-label');
+    expect(label?.textContent).toBe('5 of 5 Ready · fix 2 in Account');
+    // R5 QA P2-2: "fix 2 in Account" jumps to the Account's blockers.
+    fireEvent.click(screen.getByRole('button', { name: 'fix 2 in Account' }));
+    expect(document.activeElement?.id).toBe('account-fix');
   });
 });
 

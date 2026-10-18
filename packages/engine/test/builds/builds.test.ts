@@ -181,7 +181,7 @@ describe('US-4 the core talent I missed', () => {
     );
   });
 
-  it('W3-early: Idle Casting on the Wizard and the Shaman, Big Pick on the Squire Lv 51', () => {
+  it('W3-early: Idle Casting on the Wizard and the Shaman; the Squire Lv 51 only has tab 3 points', () => {
     const out = run(W3());
     expect(goalOf(out, 0, 'talents.check.next-step')?.goal.nextAction.text).toBe(
       'Next talent points: Idle Casting to 50',
@@ -189,8 +189,11 @@ describe('US-4 the core talent I missed', () => {
     expect(goalOf(out, 5, 'talents.check.next-step')?.goal.nextAction.text).toBe(
       'Next talent points: Idle Casting to 50',
     );
-    expect(goalOf(out, 1, 'talents.check.next-step')?.goal.nextAction.text).toMatch(
-      /^Next talent points: Big Pick to \d+$/,
+    // R5 QA P2-1: points are per tab. The Squire Lv 51's 115 waiting points are all in tab 3, so its
+    // next step is Refinery Throttle (tab 3, not core: D6 keeps it to the preset Goal), never Big Pick.
+    expect(goalOf(out, 1, 'talents.check.next-step')).toBeUndefined();
+    expect(goalOf(out, 1, 'talent-presets.check.behind')?.goal.nextAction.text).toMatch(
+      /starting with Refinery Throttle$/,
     );
   });
 
@@ -199,8 +202,6 @@ describe('US-4 the core talent I missed', () => {
     expect(goalOf(run(W2()), 1, 'talents.check.next-step')?.rank).toEqual({ framePosition: 3 });
     // The Barbarian Lv 60's other preset is empty, so its own tab 1 has nothing behind: the bottom.
     expect(goalOf(run(W2()), 0, 'talents.check.next-step')?.rank).toMatchObject({ atLastPosition: true });
-    // The Squire Lv 51's tab 2 lower bound is exactly 0: the bottom.
-    expect(goalOf(run(W3()), 1, 'talents.check.next-step')?.rank).toMatchObject({ atLastPosition: true });
   });
 
   it('D6: a non-core step shows only after a level-up with no spend since', () => {
