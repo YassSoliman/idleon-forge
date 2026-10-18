@@ -2,7 +2,9 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M19 F6 the Alchemy page body (docs/specs/M19-alchemy.md FR-18 to FR-23, TR-6), a lazy chunk: the four
 // cauldron pots with the one bubble to level lit, the vial shelf, the liquid tubes and the Pay 2 Win
-// grid (pages.ts draws M20's cauldron seats after it). It only formats `EngineResult.alchemy` (built in the worker); it adds no
+// grid (pages.ts draws M20's cauldron seats after it). M21 FR-S5: restyled in the design system (pots in
+// their cauldron colours, the vial shelf labelling only the best three, G8's Pay 2 Win grid: one bar per
+// line in M19's order with exactly one lit "next" bar and a tap sheet). It only formats `EngineResult.alchemy` (built in the worker); it adds no
 // advice. Our own boxes, never game art (ADR 0009). Only the lit element and up to three others carry
 // small labels; every other value is in the tap sheet (Design Lab v2 critique, issue 7).
 import {
@@ -14,7 +16,11 @@ import {
   rowLine,
   tubeLine,
 } from '@idleon-forge/engine/alchemy-text';
-import type { AlchemyResult, P2wCell, PotView } from '@idleon-forge/engine/result';
+import { BODY_WORDS, FRAME_WORDS, formatCoins } from '@idleon-forge/engine/now';
+import type { AlchemyResult, EngineResult, P2wCell, PotView } from '@idleon-forge/engine/result';
+import type { CSSProperties } from 'react';
+import { cx } from '../design/atoms/Button';
+import { usePictureSheet } from '../systems/PictureSheet';
 import type { SystemPageBodyProps } from '../systems/pages';
 import './alchemy.css';
 
@@ -41,7 +47,7 @@ function litKey(a: AlchemyResult, highlight: string | null): string | null {
 function Pot({ pot, lit }: { pot: PotView; lit: boolean }) {
   const name = potName(pot.cauldron);
   return (
-    <li className={`al-pot al-${pot.cauldron}${lit ? ' lit' : ''}`}>
+    <li className={`al-pot al-${pot.cauldron}${lit ? ' is-now' : ''}`}>
       <details>
         <summary>
           <span className="al-pot-art" aria-hidden="true">
@@ -96,26 +102,49 @@ function Column({ a, pot }: { a: AlchemyResult; pot: PotView }) {
   );
 }
 
-function Cell({ c, lit }: { c: P2wCell; lit: boolean }) {
+/** M7's price for a Pay 2 Win key, from its Spend Plan step (spend/candidates.ts `p2wRef`); null when unpriced. */
+const p2wRef = (key: string) =>
+  `alchemy-p2w.acquisition.${key
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .toLowerCase()
+    .replace(/\./g, '-')}`;
+function p2wCost(result: EngineResult, key: string): number | null {
+  const ref = p2wRef(key);
+  for (const l of result.account?.spendPlan?.lines ?? [])
+    for (const st of l.steps) if (st.sink === 'p2w' && st.ref === ref && st.coins !== null) return st.coins;
+  return null;
+}
+
+/** G8: one Pay 2 Win line as a bar of level against cap; the lit "next" bar carries its words. */
+function Cell({ c, lit, cost, onOpen }: { c: P2wCell; lit: boolean; cost: number | null; onOpen(): void }) {
   const pct = c.max ? tenth(Math.max(0, c.level), c.max) : 0;
   return (
-    <li
-      className={`al-cell${c.closed ? ' closed' : ''}${c.next ? ' next' : ''}${lit ? ' lit' : ''}`}
-      title={`${c.row} ${cellLine(c)}`}
-    >
-      <span className="al-bar" aria-hidden="true">
-        <i className={`w${pct}`} />
-      </span>
-      {c.next || lit ? <span className="small">{`${c.row} ${cellLine(c)}`}</span> : null}
+    <li>
+      <button
+        type="button"
+        className={cx('al-cell', c.closed && 'closed', lit && 'is-now')}
+        aria-label={`${c.row} ${cellLine(c)}${lit ? `, ${BODY_WORDS.next}` : ''}`}
+        onClick={onOpen}
+      >
+        <span className="al-cell__name">{`${c.row} ${c.label}`}</span>
+        <span className="al-bar" style={{ '--pct': pct } as CSSProperties} aria-hidden="true" />
+        {lit ? (
+          <span className="al-cell__v num">
+            {[cellLine(c), cost !== null ? formatCoins(cost) : null].filter(Boolean).join(' · ')}
+          </span>
+        ) : null}
+      </button>
     </li>
   );
 }
 
 export default function AlchemyLab(p: SystemPageBodyProps) {
   const a = p.s.result.alchemy;
+  const { open, sheet } = usePictureSheet(p.page.wiki ?? null);
   if (!a) return null;
   const lit = litKey(a, p.page.highlight);
-  const rows = [...new Set(a.p2w.map((c) => c.row))];
+  // G8: exactly one lit bar: the highlight's cell, else M19's next.
+  const litCell = a.p2w.find((c) => lit !== null && c.actionKey === lit) ?? a.p2w.find((c) => c.next) ?? null;
   const labelled = new Set([
     ...a.vials.filter((v) => v.lit).map((v) => v.index),
     ...a.vials.filter((v) => v.rollTarget).map((v) => v.index),
@@ -124,8 +153,8 @@ export default function AlchemyLab(p: SystemPageBodyProps) {
     <>
       {a.topStep ? <p className="al-step">{a.topStep.text}</p> : null}
 
-      <section className="pic" aria-labelledby="al-pots-h">
-        <h3 id="al-pots-h" className="sub-h">
+      <section className="sy-pic" aria-labelledby="al-pots-h">
+        <h3 id="al-pots-h" className="sy-h3">
           Cauldrons
         </h3>
         {a.planMet ? <p className="small">{a.notes.planMet}</p> : null}
@@ -140,8 +169,8 @@ export default function AlchemyLab(p: SystemPageBodyProps) {
         ))}
       </section>
 
-      <section className="pic" aria-labelledby="al-vials-h">
-        <h3 id="al-vials-h" className="sub-h">
+      <section className="sy-pic" aria-labelledby="al-vials-h">
+        <h3 id="al-vials-h" className="sy-h3">
           Vials
         </h3>
         <p className="small">
@@ -152,7 +181,7 @@ export default function AlchemyLab(p: SystemPageBodyProps) {
           {a.vials.map((v) => (
             <li
               key={v.index}
-              className={`al-vial${v.level > 0 ? ' have' : ''}${v.rollTarget ? ' easy' : ''}${v.lit ? ' lit' : ''}`}
+              className={`al-vial${v.level > 0 ? ' have' : ''}${v.rollTarget ? ' easy' : ''}${v.lit ? ' is-now' : ''}`}
               title={v.level > 0 ? `${v.name} Lv ${v.level}` : `${v.name}: roll ${v.rollNeeded}+`}
             >
               <span className="al-glass" aria-hidden="true">
@@ -181,15 +210,15 @@ export default function AlchemyLab(p: SystemPageBodyProps) {
         </details>
       </section>
 
-      <section className="pic" aria-labelledby="al-tubes-h">
-        <h3 id="al-tubes-h" className="sub-h">
+      <section className="sy-pic" aria-labelledby="al-tubes-h">
+        <h3 id="al-tubes-h" className="sy-h3">
           Liquids
         </h3>
         <ul className="al-tubes">
           {a.tubes.map((t) => (
             <li
               key={t.index}
-              className={`al-tube${t.open ? '' : ' locked'}${lit !== null && t.actionKey === lit ? ' lit' : ''}`}
+              className={`al-tube${t.open ? '' : ' locked'}${lit !== null && t.actionKey === lit ? ' is-now' : ''}`}
             >
               <span className="al-tube-g" aria-hidden="true">
                 <i className={`h${t.open ? tenth(t.current, t.max) : 0}`} />
@@ -208,26 +237,39 @@ export default function AlchemyLab(p: SystemPageBodyProps) {
       </section>
 
       {a.p2w.length ? (
-        <section className="pic" aria-labelledby="al-p2w-h">
-          <h3 id="al-p2w-h" className="sub-h">
-            Pay 2 Win
+        <section className="sy-pic" aria-labelledby="al-p2w-h">
+          <h3 id="al-p2w-h" className="sy-h3">
+            {BODY_WORDS.p2w}
           </h3>
-          <dl className="al-grid">
-            {rows.map((row) => (
-              <div key={row}>
-                <dt className="small">{row}</dt>
-                <dd>
-                  <ul className="al-cells">
-                    {a.p2w
-                      .filter((c) => c.row === row)
-                      .map((c) => (
-                        <Cell key={c.key} c={c} lit={lit !== null && c.actionKey === lit} />
-                      ))}
-                  </ul>
-                </dd>
-              </div>
-            ))}
-          </dl>
+          <ol className="al-grid">
+            {a.p2w.map((c) => {
+              const cost = p2wCost(p.s.result, c.key);
+              return (
+                <Cell
+                  key={c.key}
+                  c={c}
+                  lit={litCell?.key === c.key}
+                  cost={cost}
+                  onOpen={() =>
+                    open({
+                      title: `${c.row} ${c.label}`,
+                      rows: [
+                        { label: FRAME_WORDS.value, value: cellLine(c) },
+                        {
+                          label: FRAME_WORDS.next,
+                          value:
+                            !c.closed && (c.max === null || c.level < c.max)
+                              ? `${c.label} ${c.level + 1}`
+                              : null,
+                        },
+                        { label: FRAME_WORDS.cost, value: cost !== null ? formatCoins(cost) : null },
+                      ],
+                    })
+                  }
+                />
+              );
+            })}
+          </ol>
           <details>
             <summary className="small">Every upgrade</summary>
             <ul className="small al-list">
@@ -240,6 +282,7 @@ export default function AlchemyLab(p: SystemPageBodyProps) {
           </details>
         </section>
       ) : null}
+      {sheet}
     </>
   );
 }

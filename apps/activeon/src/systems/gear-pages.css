@@ -30,8 +30,8 @@
   color: var(--ok);
 }
 .hc.st-behind {
-  background: var(--coin-soft);
-  color: var(--coin);
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 .hc.st-empty {
   background: var(--bad-soft);
@@ -44,10 +44,10 @@
   background: var(--unk-soft);
   color: var(--unk);
 }
-.hc.lit,
-.gd-worst li.lit,
-.gd-set.lit {
-  outline: 3px solid var(--fg);
+.gd-heat-table .hc.is-now,
+.gd-worst li.is-now,
+.gd-sets .gd-set.is-now {
+  outline: 3px solid var(--accent);
   outline-offset: -2px;
 }
 .gd-worst {
@@ -76,7 +76,7 @@
 }
 .gd-set {
   padding: 8px 10px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
   border: 1px solid var(--line);
   background: var(--surface);
 }
@@ -98,7 +98,7 @@
   color: var(--ok);
 }
 .gp.held {
-  color: var(--coin);
+  color: var(--accent);
 }
 .gp.missing {
   color: var(--muted);

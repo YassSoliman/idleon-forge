@@ -112,20 +112,20 @@ const props = (highlight: string | null) =>
 describe('the Alchemy page (M19 F6)', () => {
   it('lights only the Power pot with no highlight, and each pot reads its own pick', () => {
     const { container } = render(<AlchemyLab {...props(null)} />);
-    const lit = container.querySelectorAll('.al-pot.lit');
+    const lit = container.querySelectorAll('.al-pot.is-now');
     expect(lit).toHaveLength(1);
     expect(lit[0]?.textContent).toContain('Next: Roid Ragin 3 → 12');
     const text = container.textContent ?? '';
     expect(text).toContain('Next: Swift Steppin 1 → 8');
     expect(text).toContain('Stable Jenius 1 → 12 · needs Water');
     expect(text).toContain('Nothing to level yet · spend brew');
-    expect(container.querySelector('.al-tube.lit')).toBeNull();
+    expect(container.querySelector('.al-tube.is-now')).toBeNull();
   });
 
   it("opened from M3's Water line, the Water tube is lit instead of the pot", () => {
     const { container } = render(<AlchemyLab {...props(WATER)} />);
-    expect(container.querySelectorAll('.al-pot.lit')).toHaveLength(0);
-    expect(container.querySelector('.al-tube.lit')?.textContent).toContain('32 of 32 · full');
+    expect(container.querySelectorAll('.al-pot.is-now')).toHaveLength(0);
+    expect(container.querySelector('.al-tube.is-now')?.textContent).toContain('32 of 32 · full');
   });
 
   it('labels only the lit vial and the roll targets on the shelf', () => {

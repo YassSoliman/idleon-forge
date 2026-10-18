@@ -16,7 +16,7 @@ beforeEach(() => {
 afterEach(() => cleanup());
 
 describe('US-5, US-8, US-9 the hub and System pages', () => {
-  it('shows each tile with a glyph and a word, a locked tile with how it opens, and "Needs you"', async () => {
+  it('shows each tile with a glyph and a word, a locked tile with how it opens, and "Wasting now"', async () => {
     window.history.replaceState(null, '', '/#systems');
     const r = withSystems();
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
@@ -26,7 +26,8 @@ describe('US-5, US-8, US-9 the hub and System pages', () => {
     expect(screen.getByRole('link', { name: /^Post Office,/ }).getAttribute('aria-label')).toBe(
       'Post Office, Locked, Opens once a character reaches class Lv 50 · 1 to do',
     );
-    const needs = screen.getByRole('region', { name: 'Needs you' });
+    // M21 FR-S1: "Needs you" became the "Wasting now" strip (behind Systems sit on the report card).
+    const needs = screen.getByRole('region', { name: 'Wasting now' });
     expect(
       within(needs)
         .getAllByRole('link')
@@ -69,7 +70,14 @@ describe('US-5, US-8, US-9 the hub and System pages', () => {
     const allowed = new Set([
       ...(r.systems ?? []).map((s) => s.name),
       'Systems',
-      'Needs you',
+      // M21 FR-S1, FR-S2: the report card, the Wasting strip and the bands' once-per-band lines.
+      'Wasting now',
+      'What did I skip',
+      '1 System wasting',
+      'Nothing behind for your Stage.',
+      'All Systems',
+      '1 needs you',
+      "1 here isn't covered yet",
       'Across worlds',
       'World 1 · Blunder Hills',
       'World 2 · Yum-Yum Desert',

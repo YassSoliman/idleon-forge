@@ -9,6 +9,7 @@
 // Cap pills never make a System wasting (M3 R-PILL-1, D-8); a skipped or dismissed blocker doesn't
 // either, and the tile says "· n skipped" instead.
 import { STAGE_DEFINITIONS, STAGES, type StageId } from '@idleon-forge/knowledge/stages';
+import type { NewPicture } from '../pictures/types';
 import type {
   ClassFamily,
   EngineResult,
@@ -20,7 +21,6 @@ import type {
 } from '../result';
 import { goalView, safeHref, sourceView, spendLineKey } from './build-now-view';
 import { dismissActive, type NowPrefs, type SessionClock, skipActive } from './prefs';
-import type { NewPicture } from '../pictures/types';
 import { tabHomeOf } from './system-homes';
 import type {
   NowView,
@@ -455,7 +455,8 @@ export interface SystemPageExtras {
   pictures: SystemPicture[];
 }
 
-const STAGE_SHORT = (id: StageId): string | null => (id.endsWith('-early') ? id.split('-')[0] ?? null : null);
+const STAGE_SHORT = (id: StageId): string | null =>
+  id.endsWith('-early') ? (id.split('-')[0] ?? null) : null;
 const stagePos = (id: StageId) => STAGES.indexOf(id) / (STAGES.length - 1);
 const isStage = (s: string | undefined | null): s is StageId =>
   !!s && (STAGES as readonly string[]).includes(s);
@@ -473,7 +474,9 @@ function firstStep(result: EngineResult, prefs: Prefs, goals: readonly Placed[])
   const p = goals.find(
     (x) => prefs.open(x.goal.nextAction.key) && (!stageUnknown || x.goal.category === 'blocker'),
   );
-  return p ? { key: p.goal.nextAction.key, text: p.goal.nextAction.text, who: whoToken(result, p.index) } : null;
+  return p
+    ? { key: p.goal.nextAction.key, text: p.goal.nextAction.text, who: whoToken(result, p.index) }
+    : null;
 }
 
 function hubExtras(
@@ -519,7 +522,7 @@ function reportOf(
   for (const r of result.behindSystems ?? []) {
     if (seen.has(r.systemId) || !r.findingKeys.some((k) => prefs.open(k))) continue;
     const f = facts.get(r.systemId);
-    if (!f || f.summary.kind !== 'game') continue;
+    if (f?.summary.kind !== 'game') continue;
     seen.add(r.systemId);
     const expectedBy = isStage(r.expectedBy) ? r.expectedBy : null;
     const gap = expectedBy ? Math.max(0, here - STAGES.indexOf(expectedBy)) : 0;
@@ -609,7 +612,9 @@ function pictureLines(result: EngineResult): string[] {
   for (const any of result.slotPictures ?? []) {
     if (!NEW_KINDS.has(any.kind)) continue;
     const p = any as unknown as NewPicture;
-    const lit = p.lit ? (p.elements as { id: string; name?: string }[]).find((e) => e.id === p.lit) : undefined;
+    const lit = p.lit
+      ? (p.elements as { id: string; name?: string }[]).find((e) => e.id === p.lit)
+      : undefined;
     const name = lit?.name ?? '(none)';
     if (p.kind === 'stamps')
       out.push(`Stamps picture: ${p.owned} of ${p.total} owned · lit ${name} · next ${p.next.length}`);

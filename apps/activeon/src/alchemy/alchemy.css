@@ -4,9 +4,9 @@
 .al-step {
   margin: 0 0 12px;
   padding: 8px 12px;
-  border-left: 4px solid var(--coin);
+  border-left: 4px solid var(--accent);
   background: var(--surface);
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
 }
 .al-pots,
 .al-tubes,
@@ -31,7 +31,7 @@
 .al-pot {
   min-width: 0;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
   background: var(--surface);
 }
 .al-pot summary {
@@ -48,7 +48,7 @@
   display: none;
 }
 .al-pot-next {
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   overflow-wrap: anywhere;
 }
 .al-pot-art {
@@ -111,10 +111,10 @@
   --pot-rim: var(--cauldron-kazam-4);
 }
 .al-now {
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   font-weight: 700;
   color: var(--fg);
-  background: var(--coin-soft);
+  background: var(--accent-soft);
   border-radius: 999px;
   padding: 0 8px;
 }
@@ -136,10 +136,10 @@
   margin: 6px 0;
 }
 .al-chips .chip {
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
 }
 .al-chips .chip.plan {
-  border-color: var(--coin);
+  border-color: var(--accent);
 }
 .al-chips .chip.locked {
   color: var(--muted);
@@ -150,7 +150,7 @@
   grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
   gap: 6px 2px;
   padding: 8px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
   background: var(--sunk);
 }
 .al-vial {
@@ -188,7 +188,7 @@
   border-color: var(--fg);
 }
 .al-vlab {
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   text-align: center;
   overflow-wrap: anywhere;
 }
@@ -203,7 +203,7 @@
   text-align: center;
   gap: 4px;
   padding: 8px 2px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
   min-width: 0;
   overflow-wrap: anywhere;
 }
@@ -225,56 +225,66 @@
 .al-tube.locked {
   color: var(--muted);
 }
+/* G8 the Pay 2 Win grid: one bar per line in M19's order, exactly one lit "next" bar. */
 .al-grid {
   display: grid;
-  gap: 6px;
-  margin: 0 0 8px;
-}
-.al-grid dd {
-  margin: 2px 0 0;
-}
-.al-cells {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 .al-cell {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  min-width: 0;
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--fg);
+  font: var(--weight-regular) var(--text-xs) / var(--lh-snug) var(--font-body);
+  text-align: left;
+  cursor: pointer;
+}
+.al-cell__name {
+  font-weight: var(--weight-semibold);
+  overflow-wrap: anywhere;
+}
+.al-cell__v {
+  color: var(--muted);
 }
 .al-bar {
   display: block;
-  width: 44px;
-  height: 10px;
-  border: 1px solid var(--line);
-  border-radius: 3px;
-  background: var(--sunk);
-  overflow: hidden;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(to right, var(--ok) calc(var(--pct) * 1%), var(--line) 0);
 }
-.al-bar i {
-  display: block;
-  height: 100%;
-  background: var(--ok);
-}
-.al-cell.closed .al-bar {
+.al-cell.closed {
   border-style: dashed;
+  color: var(--muted);
 }
-.al-cell.next .al-bar {
-  border-color: var(--fg);
+.al-grid .al-cell.is-now {
+  grid-column: 1 / -1;
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  font-size: var(--text-sm);
+}
+.al-cell:focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
 }
 .al-list {
   columns: 2 14em;
   margin: 6px 0;
   padding-left: 18px;
 }
-.al-pot.lit,
-.al-tube.lit,
-.al-vial.lit .al-glass,
-.al-cell.lit .al-bar {
-  outline: 3px solid var(--coin);
+.al-pots .al-pot.is-now,
+.al-tubes .al-tube.is-now,
+.al-shelf .al-vial.is-now .al-glass {
+  outline: 3px solid var(--accent);
   outline-offset: 1px;
 }
 .al-glass i.h0,

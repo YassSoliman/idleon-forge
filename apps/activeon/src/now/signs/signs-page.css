@@ -14,7 +14,7 @@
 }
 .ss-h {
   margin: 14px 0 6px;
-  font-size: 0.95rem;
+  font-size: var(--text-md);
 }
 .ss-next,
 .ss-later,
@@ -31,4 +31,50 @@
 }
 .ss-sources {
   margin-top: 8px;
+}
+
+/* M21 FR-S5: the constellation sky on the star-signs System page. */
+.ss-sky {
+  display: grid;
+  gap: var(--space-3);
+}
+.ss-sky__now {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+.ss-sky__act,
+.ss-sky__pts {
+  margin: 0;
+}
+.ss-sky__pts {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.ss-sky__stars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-card);
+  background: var(--info-soft);
+  list-style: none;
+}
+.ss-sky__stars > li {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  font-size: var(--text-xs);
+}
+.ss-sky__stars > li.is-now {
+  font-weight: var(--weight-bold);
+}
+.ss-sky__meter {
+  display: grid;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
 }

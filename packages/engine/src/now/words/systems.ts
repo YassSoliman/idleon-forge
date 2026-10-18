@@ -162,7 +162,7 @@ export const PRINTER_WORDS = {
 export const BODY_WORDS = {
   traps: 'Traps',
   back: 'you are back',
-  collectNow: 'Collect now',
+  collectNow: 'Ready to collect',
   trapDone: 'done before you are back',
   trapLater: 'still running when you are back',
   noTrap: 'no trap set',
@@ -174,4 +174,7 @@ export const BODY_WORDS = {
   totems: 'Totem waves',
   seats: 'Cauldron seats',
   starChart: 'Star Chart',
+  starPoints: (n: number) => `+${n} Star Chart points`,
+  signsUnlocked: (n: number, max: number) => `${n} of ${max} signs unlocked`,
+  bestWave: (n: number) => `best wave ${n}`,
 } as const;

@@ -124,9 +124,9 @@ describe('US-12 the new System pictures', () => {
     expect(s.elements).toHaveLength(32);
     expect(s.elements.filter((e) => e.id === s.lit)).toHaveLength(1);
     expect(s.elements.find((e) => e.id === s.lit)?.grade).toBe(0);
-    expect(s.elements.every((e) => e.byCharacter === null || e.byCharacter.length === e.characterIndices.length)).toBe(
-      true,
-    );
+    expect(
+      s.elements.every((e) => e.byCharacter === null || e.byCharacter.length === e.characterIndices.length),
+    ).toBe(true);
   });
 });
 
@@ -134,7 +134,10 @@ describe('US-11 the Stage report card (FR-S1)', () => {
   const v = buildSystemsView(W3, EMPTY_PREFS, { now: fixture('scrubbed-w3').now });
   it('the "Wasting now" strip lists the wasting Systems with their count', () => {
     expect(v.wastingNow.map((w) => w.id)).toEqual(
-      v.groups.flatMap((g) => g.tiles).filter((t) => t.status === 'wasting').map((t) => t.id),
+      v.groups
+        .flatMap((g) => g.tiles)
+        .filter((t) => t.status === 'wasting')
+        .map((t) => t.id),
     );
     expect(v.wastingLabel).toBe(`${v.wastingNow.length} Systems wasting`);
   });

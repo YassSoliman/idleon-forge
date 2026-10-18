@@ -51,7 +51,8 @@ const goalsInOrder = (prior: EngineResult): Goal[] => [
 
 // ---- Stamps ----
 
-const stampAcq = (rawName: string) => `stamps.acquisition.${rawName.replace(/^Stamp/, 'stamp-').toLowerCase()}`;
+const stampAcq = (rawName: string) =>
+  `stamps.acquisition.${rawName.replace(/^Stamp/, 'stamp-').toLowerCase()}`;
 const STAMP_TABS: readonly StampTab[] = ['combat', 'skills', 'misc'];
 const tabOf = (kb: Kb, rawName: string): StampTab => {
   const t = values(kb, stampAcq(rawName))?.tab;
@@ -76,8 +77,7 @@ function stampsOfGoal(g: Goal, ev: StampsEval): string[] {
   if (id === 'stamps.check.quest-toward') return ev.toward.flatMap((h) => h.stamps.map((s) => s.rawName));
   if (id.startsWith('stamps.check.activeplay-'))
     return ev.active.flatMap((h) => h.stamps.map((s) => s.rawName));
-  if (id === 'stamps.goal.collect')
-    return ev.items.filter((s) => s.status === 'now').map((s) => s.rawName);
+  if (id === 'stamps.goal.collect') return ev.items.filter((s) => s.status === 'now').map((s) => s.rawName);
   return [];
 }
 
@@ -102,7 +102,9 @@ export function stampsPicture(state: AccountState, kb: Kb, prior: EngineResult):
   let litKey: string | null = null;
   for (const g of goalsInOrder(prior)) {
     if (g.system !== 'stamps') continue;
-    const first = stampsOfGoal(g, ev).find((r) => levels[r] && !(levels[r].level > 0 || levels[r].maxLevel > 0));
+    const first = stampsOfGoal(g, ev).find(
+      (r) => levels[r] && !(levels[r].level > 0 || levels[r].maxLevel > 0),
+    );
     if (first) {
       litRaw = first;
       litKey = g.nextAction.key;
@@ -134,7 +136,9 @@ export function stampsPicture(state: AccountState, kb: Kb, prior: EngineResult):
   const litId = litRaw && byRaw.has(litRaw) ? `stamp-${litRaw}` : null;
   const next = [
     ...(litId ? [litId] : []),
-    ...unowned.filter((t) => t.id !== litId && t.status !== 'later' && t.status !== 'unknown').map((t) => t.id),
+    ...unowned
+      .filter((t) => t.id !== litId && t.status !== 'later' && t.status !== 'unknown')
+      .map((t) => t.id),
   ].slice(0, 3);
   return {
     systemId: 'stamps',

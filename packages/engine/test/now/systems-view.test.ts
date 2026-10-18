@@ -637,8 +637,14 @@ describe('US-5 and US-7 on scrubbed-w2 (W2-late, 5 characters)', () => {
   });
 
   it('no hub text names a Stage label, "Tier", "rated" or a score', () => {
-    const all = JSON.stringify(hubOf(r, now));
-    expect(all).not.toMatch(/W\d-(early|mid|late)|Tier|rated|score/);
+    // M21 FR-S1: the report card is a Stage axis by design, so it carries Stage ids as data; its words
+    // name Stages in plain English ("World 1, mid"), never as ids. The M17 tiles stay free of both.
+    const { report, ...rest } = hubOf(r, now);
+    expect(JSON.stringify(rest)).not.toMatch(/W\d-(early|mid|late)|Tier|rated|score/);
+    const words = (report?.rows ?? []).flatMap((x) => [x.name, x.expectedText, x.behindText, x.accessibleName]);
+    expect(JSON.stringify([report?.lede, report?.stageLabel, ...words])).not.toMatch(
+      /W\d-(early|mid|late)|Tier|rated|score/,
+    );
   });
 
   it('Not for me on every card line takes Cards off "behind"', () => {

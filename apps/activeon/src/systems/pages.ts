@@ -15,6 +15,7 @@ import type { Session } from '../shell/session';
 const slotPictures = retryable(() => import('./SlotPictures'));
 const gearPages = retryable(() => import('../gear/GearPages'));
 const alchemyLab = retryable(() => import('../alchemy/AlchemyLab'));
+const newPictures = retryable(() => import('./NewPictures'));
 
 export interface SystemPageBodyProps {
   s: Session;
@@ -32,6 +33,11 @@ export const SYSTEM_PAGES: Readonly<Record<string, ComponentType<SystemPageBodyP
   // M18 FR-26, FR-27: the gear heat strip and the Smithy's set cards.
   gear: lazyPart(() => gearPages().then((m) => m.GearPageBody)),
   'armor-smithy': lazyPart(() => gearPages().then((m) => m.ArmorSmithyBody)),
+  // M21 FR-S4, TR-10: the new System page pictures (area S's `pictures` engine step).
+  stamps: lazyPart(() => newPictures().then((m) => m.StampsBody)),
+  statues: lazyPart(() => newPictures().then((m) => m.StatuesBody)),
+  'upgrade-vault': lazyPart(() => newPictures().then((m) => m.VaultBody)),
+  printer: lazyPart(() => newPictures().then((m) => m.PrinterBody)),
   // M19 FR-18, TR-8: the Alchemy page, its pictures in their own lazy chunk, then M20's cauldron seats.
   'alchemy-lab': lazyPart(() =>
     Promise.all([alchemyLab(), slotPictures()]).then(
