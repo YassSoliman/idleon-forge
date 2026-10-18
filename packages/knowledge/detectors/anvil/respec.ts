@@ -38,7 +38,7 @@ export default defineDetector({
       pct: z.number(),
       mixed: z.number(),
       mixedPct: z.number(),
-      /** " Start with the first character." with two or more rows, else "" (R3 QA P3). */
+      /** "" with one row, blanking the entry's values.startWith ("Start with the first character."). */
       startWith: z.string(),
     })
     .partial(),
@@ -110,7 +110,7 @@ export default defineDetector({
         slots: {
           count: rows.length,
           hours,
-          startWith: rows.length > 1 ? ' Start with the first character.' : '',
+          ...(rows.length === 1 ? { startWith: '' } : {}),
           times,
           morePct,
           ...(mixed ? {} : { product }),
