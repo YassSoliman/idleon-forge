@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: latest · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
@@ -6,34 +6,34 @@
 0 of 11 Ready · fix 10 before you leave · 1 Unknown · fix 1 in Account
 
 ### C9 · Royal Guardian 1307 · Fix before you leave
-1 · Doing nothing · Blunder Hills · [Anvil full · collect] [Worship full · spend] · Send Royal Guardian Lv 1,307 to an AFK Target before you leave
+1 · Doing nothing · Blunder Hills · [Anvil full · collect] [Worship full · spend] · Pick an AFK Target before you leave
 
 ### C2 · Death Bringer 1292 · Fix before you leave
-2 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Worship full · spend] · Send Death Bringer Lv 1,292 to an AFK Target before you leave
+2 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Worship full · spend] · Pick an AFK Target before you leave
 
 ### C1 · Siege Breaker 1291 · Fix before you leave
-3 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+3 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
 
 ### C6 · Wind Walker 1280 · Fix before you leave
-4 · Fighting Pirate Underling · Pirate Upper Deck · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
+4 · Fighting Pirate Underling · Pirate Upper Deck · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps
 
 ### C10 · Bubonic Conjuror 1268 · Fix before you leave
-5 · Fighting Green Mushroom · Spore Meadows · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+5 · Fighting Green Mushroom · Spore Meadows · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
 
 ### C8 · Siege Breaker 1261 · Fix before you leave
-6 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+6 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
 
 ### C4 · Divine Knight 1240 · Fix before you leave
-7 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+7 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
 
 ### C5 · Arcane Cultist 1231 · Fix before you leave
-8 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+8 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
 
 ### C7 · Voidwalker 1158 · Fix before you leave
-9 · Divinity · Magma Rivertown · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+9 · Divinity · Magma Rivertown · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
 
 ### C3 · Elemental Sorcerer 1259 · Fix before you leave
-10 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+10 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
 
 ### C11 · Beginner 1224 · Unknown
 11 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Not covered yet: Cooking
@@ -45,8 +45,8 @@ Fix before you leave
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Grow · Get the fuel to run a Refinery salt: Get 50 more Magmaspike to run Anionic Salt [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Today's Random Event: Random Event now on Poopy Sewers (Mega Grumblo): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 show more (13)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
@@ -284,7 +284,7 @@ Account · Refinery
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=12 |
 | minigames.check.spiketrap | minigames/spiketrap | account | pass |  |
-| pets.check.free-pull | pets/free-pull | account | fires | hoursClaimable=4 |
+| pets.check.free-pull | pets/free-pull | account | fires | claimable=14979571 hoursClaimable=4 |
 | pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=234 |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
 | portals.contribution.push-map-1 | portals/push | C10 | advances no | door=0 map=Spore_Meadows rate=4092232819 rule=1 saved=4133354835580 |

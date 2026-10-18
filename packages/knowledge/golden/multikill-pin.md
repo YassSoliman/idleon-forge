@@ -1,4 +1,4 @@
-# golden v1: multikill-pin · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: multikill-pin · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
@@ -6,34 +6,34 @@
 0 of 11 Ready · fix 9 before you leave · 2 Unknown
 
 ### C2 · Death Bringer 1292 · Fix before you leave
-1 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Worship full · spend] [Traps idle in about 7 h] · Send Death Bringer Lv 1,292 to an AFK Target before you leave
+1 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Worship full · spend] [Traps idle in about 7h] · Pick an AFK Target before you leave
 
 ### C1 · Siege Breaker 1291 · Fix before you leave
-2 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+2 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
 
 ### C6 · Wind Walker 1280 · Fix before you leave
-3 · Doing nothing · Frostbite Towndra · [Anvil full · collect] [Worship full · spend] · Send Wind Walker Lv 1,280 to an AFK Target before you leave
+3 · Doing nothing · Frostbite Towndra · [Anvil full · collect] [Worship full · spend] · Pick an AFK Target before you leave
 
 ### C10 · Bubonic Conjuror 1268 · Fix before you leave
-4 · Fighting Green Mushroom · Spore Meadows · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+4 · Fighting Green Mushroom · Spore Meadows · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
 
 ### C8 · Siege Breaker 1261 · Fix before you leave
-5 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+5 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
 
 ### C4 · Divine Knight 1240 · Fix before you leave
-6 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+6 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
 
 ### C5 · Arcane Cultist 1231 · Fix before you leave
-7 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+7 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
 
 ### C7 · Voidwalker 1157 · Fix before you leave
-8 · Fishing Medium Fish · YumYum Islands · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+8 · Fishing Medium Fish · YumYum Islands · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
 
 ### C3 · Elemental Sorcerer 1259 · Fix before you leave
-9 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
+9 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
 
 ### C9 · Royal Guardian 1307 · Unknown
-10 · Fighting Verminous · The Royal Castle · [Anvil full · collect] [Worship full · spend] [Traps idle in about 7 h] · Can't tell from the save
+10 · Fighting Verminous · The Royal Castle · [Anvil full · collect] [Worship full · spend] [Traps idle in about 7h] · Can't tell from the save
 
 ### C11 · Beginner 1224 · Unknown
 11 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Not covered yet: Cooking
@@ -56,13 +56,13 @@
   ○ To do: Weekly Battle · best this week: difficulty 0 of 5 · new boss Thursday 00:00 UTC, in 6h 32m · lost before you are back
   ○ To do: Bonus Ballot vote · Leading now: Boosts Crop Value, and Farming EXP gain, AND Next Crop Chance by +88.35% · new ballot Monday about 17:00 UTC, in 4d 23h
   ○ To do: Guild weekly tasks · your weekly reset in 3d 15h
-- Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-- Grow · Constellation A-10: Echoing Egress, reach the star on a Mage-line character: On your Bubonic Conjuror Lv 1268: go to Echoing Egress (W1), click the star, then go back to Spore Meadows [IdleOn Wiki: Star Signs (constellation requirements and points; Time Candy counts for AFK ones) · Calculated by IdleOn Toolbox · 2.3.540]
+- Grow · Constellation A-10: Echoing Egress, reach the star on a Mage-line character: On your Bubonic Conjuror Lv 1268: click the star at Echoing Egress (W1) [IdleOn Wiki: Star Signs (constellation requirements and points; Time Candy counts for AFK ones) · Calculated by IdleOn Toolbox · 2.3.540]
   Walkthrough: A-10: 0 of 1 characters · about 3m
-    1. On your Bubonic Conjuror Lv 1268: go to Echoing Egress (W1), click the star, then go back to Spore Meadows
+    1. On your Bubonic Conjuror Lv 1268: click the star at Echoing Egress (W1)
 show more (10)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play

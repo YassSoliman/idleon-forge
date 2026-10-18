@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 896
+# golden v1: scrubbed-w2 · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 896
 
 ## Verdict changes
 
@@ -6,7 +6,7 @@
 1 of 5 Ready · fix 1 before you leave · 3 Unknown · fix 1 in Account
 
 ### C1 · Barbarian 60 · Fix before you leave
-1 · Fighting Poop · Poopy Sewers · [Anvil full · collect] · Equip or swap in Meat Pie before you leave: Barbarian is at 78% survivability, and you own 105 · Spend here: 9 buys, ~180M → Spend Plan
+1 · Fighting Poop · Poopy Sewers · [Anvil full · collect] · Equip Meat Pie before you leave · Spend here: 9 buys, about 180M coins → Spend Plan
 purpose: Poop kills ~3,003 → 10k for Dirty Money · about 5h · consider stopping here
 
 ### C5 · Wizard 56 · Unknown
@@ -42,20 +42,23 @@ Fix before you leave
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Collect banked Colosseum tickets: Collect 5 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 show more (19)
 Spend coins: 9 buys now on 1 character
-  1. Raise 2 stamp caps, then buy their new levels on Barbarian Lv 60: Hatchet Stamp, Shield Stamp, about 1 platinum 31 gold (carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free up inventory space first) · 1.3M coins · C1 (Barbarian lv60) · buy · total 1.3M on C1
-  2. Level Bullseye Stamp 0→5 on Barbarian Lv 60: 9 gold 75 silver · Lv 0 → 5 · 98k coins · C1 (Barbarian lv60) · buy · total 1.4M on C1
-  3. Buy 3 Vault upgrades on Barbarian Lv 60: Bubble Money, Vault Mastery, Major Discount, 43 platinum 32 gold · 43M coins · C1 (Barbarian lv60) · buy · total 45M on C1
-  4. Buy 2 Vault upgrades on Barbarian Lv 60: Sleepy Time, Drops for Days, 6 platinum 92 gold · 6.9M coins · C1 (Barbarian lv60) · buy · total 52M on C1
-  5. Turn the Kachow statue Gold (cost not checked, see the price in game) · Lv 0 → 1 · cost not checked, see the price in game · cost not checked
+  1. Raise and level 2 capped stamps on Barbarian Lv 60: about 1.3M coins · buy · total 1.3M coins on C1
+     Hatchet Stamp, Shield Stamp · carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free up inventory space first
+  2. Level Bullseye Stamp 0→5 on Barbarian Lv 60: 98k coins · Lv 0 → 5 · buy · total 1.4M coins on C1
+  3. Buy 3 Vault upgrades on Barbarian Lv 60: 43M coins · buy · total 45M coins on C1
+     Bubble Money, Vault Mastery, Major Discount
+  4. Buy 2 Vault upgrades on Barbarian Lv 60: 6.9M coins · buy · total 52M coins on C1
+     Sleepy Time, Drops for Days
+  5. Turn the Kachow statue Gold · Lv 0 → 1 · cost not checked
      totals below assume you skip the unchecked items
   show more (7)
 If you have time
 - XxX Cattleprod XxX 1 on Barbarian 60: kill 15 Mafiosos before they respawn → Lil' Mining Baggy Stamp and Catch Net Stamp · about 5m of hands-on play
-- Wellington 1 on Barbarian 60: find the 3 invisible platforms hidden around the game → Arcane Stamp and Brainstew Stamps · about 15m of hands-on play
+- Wellington 1 on Barbarian 60: find the 3 hidden invisible platforms → Arcane Stamp and Brainstew Stamps · about 15m of hands-on play
 - Run Killroy's Warrior room on your Barbarian Lv 60 (YumYum Grotto) · about 2m of hands-on play
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 5m of hands-on play
 
@@ -229,8 +232,8 @@ Account · Arcade
 | minigames.check.darts-spend | minigames/cooldown-spend | account | fires | cost=2 points=29 |
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=7 |
-| minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=13 |
-| pets.check.free-pull | pets/free-pull | account | fires | hoursClaimable=15 |
+| minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=13 startsIn=774553 |
+| pets.check.free-pull | pets/free-pull | account | fires | claimable=53637745 hoursClaimable=15 |
 | pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=241 |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
 | portals.contribution.push-map-1 | portals/push | C4 | advances no | door=0 map=Spore_Meadows rate=1431 rule=1 saved=32 |

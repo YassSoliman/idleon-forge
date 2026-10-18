@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: fresh · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
@@ -6,13 +6,13 @@
 0 of 3 Ready · fix 3 before you leave
 
 ### C2 · Blood Berserker 534 · Fix before you leave
-1 · Doing nothing · Spirit Village · Send Blood Berserker Lv 534 to an AFK Target before you leave
+1 · Doing nothing · Spirit Village · Pick an AFK Target before you leave
 
 ### C1 · Siege Breaker 478 · Fix before you leave
-2 · Doing nothing · Frostbite Towndra · Send Siege Breaker Lv 478 to an AFK Target before you leave
+2 · Doing nothing · Frostbite Towndra · Pick an AFK Target before you leave
 
 ### C3 · Beginner 1 · Fix before you leave
-3 · Doing nothing · Blunder Hills · [Traps idle in about 8 h] · Send Beginner Lv 1 to an AFK Target before you leave
+3 · Doing nothing · Blunder Hills · [Traps idle in about 8h] · Pick an AFK Target before you leave
 
 ### Account · Unknown
 Unknown: can't tell from the save
@@ -195,7 +195,7 @@ Account: Can't tell from the save
 | minigames.check.darts-spend | minigames/cooldown-spend | — | silent |  |
 | minigames.check.hoops-play | minigames/cooldown-play | — | silent |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | — | silent |  |
-| minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=18 |
+| minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=18 startsIn=1081044 |
 | pets.check.free-pull | pets/free-pull | account | unknown (field-missing) |  |
 | pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=183 |
 | poppy.check.open | poppy/pending-fish | — | silent |  |

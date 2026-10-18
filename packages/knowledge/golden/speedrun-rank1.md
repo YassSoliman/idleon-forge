@@ -1,4 +1,4 @@
-# golden v1: speedrun-rank1 · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: speedrun-rank1 · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
@@ -6,34 +6,34 @@
 0 of 11 Ready · fix 10 before you leave · 1 Unknown
 
 ### C7 · Divine Knight 1822 · Fix before you leave
-1 · Doing nothing · Frostbite Towndra · [Anvil full · collect] · Send Divine Knight Lv 1,822 to an AFK Target before you leave
+1 · Doing nothing · Frostbite Towndra · [Anvil full · collect] · Pick an AFK Target before you leave
 
 ### C4 · Divine Knight 1787 · Fix before you leave
-2 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
+2 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps
 
 ### C9 · Arcane Cultist 1783 · Fix before you leave
-3 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
+3 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps
 
 ### C1 · Death Bringer 1780 · Fix before you leave
-4 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Worship full · spend] · Send Death Bringer Lv 1,780 to an AFK Target before you leave
+4 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Worship full · spend] · Pick an AFK Target before you leave
 
 ### C6 · Wind Walker 1775 · Fix before you leave
-5 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
+5 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps
 
 ### C11 · Divine Knight 1771 · Fix before you leave
-6 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 8 finished traps, sized to your return, then close the game fully
+6 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 8 finished traps
 
 ### C2 · Arcane Cultist 1769 · Fix before you leave
-7 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
+7 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps
 
 ### C10 · Siege Breaker 1763 · Fix before you leave
-8 · Fighting Gloomie Mushroom · The Hole · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
+8 · Fighting Gloomie Mushroom · The Hole · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps
 
 ### C3 · Siege Breaker 1647 · Fix before you leave
-9 · Spelunking Fearful Tunnel · Refraction Bend · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
+9 · Spelunking Fearful Tunnel · Refraction Bend · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps
 
 ### C5 · Elemental Sorcerer 1700 · Fix before you leave
-10 · In the Lab · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
+10 · In the Lab · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps
 
 ### C8 · Voidwalker 1754 · Unknown
 11 · Catching Litterbug · Plastic Basin · [Anvil full · collect] · What is this character for?
@@ -43,8 +43,8 @@
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Grow · Switch on a Refinery salt: Switch on Propagated Salt in the Refinery [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
+- Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 show more (10)
 If you have time
 - Run Killroy's Archer room on your Wind Walker Lv 1775 (YumYum Grotto) · about 2m of hands-on play
@@ -300,8 +300,8 @@ Account · Refinery
 | minigames.check.darts-spend | minigames/cooldown-spend | account | fires | cost=3 points=422 |
 | minigames.check.hoops-play | minigames/cooldown-play | account | fires |  |
 | minigames.check.hoops-spend | minigames/cooldown-spend | account | fires | points=17 |
-| minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=0 |
-| pets.check.free-pull | pets/free-pull | account | fires | hoursClaimable=3266 |
+| minigames.check.spiketrap | minigames/spiketrap | account | fires | gems=40 minutes=0 startsIn=13804 |
+| pets.check.free-pull | pets/free-pull | account | fires | claimable=11758973230 hoursClaimable=3266 |
 | pets.check.mart-gems | pets/mart-gems | — | silent |  |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
 | post-office.check.daily-orders | post-office/state | account | fires | companies=6 |
