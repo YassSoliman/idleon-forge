@@ -381,15 +381,15 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
 
 ## Map
 3 of 4 worlds open · 6 characters
-- World 1 · Blunder Hills [done] · 7 of 7 doors open
+- World 1 · Blunder Hills [done] · 7 of 7 route doors open · 6 side maps not reached
   - gate Amarok (done): Desert Topaz handed in; 4 keys waiting · 2 earned a day
   - Freefall Caverns (reached): C2 Squire 51
-- World 2 · Yum-Yum Desert [done] · 10 of 10 doors open
+- World 2 · Yum-Yum Desert [done] · 10 of 10 route doors open · 2 side maps not reached
   - gate Efaunt (done): Glacier Quartz handed in; 2 keys waiting · 1 earned a day
   - Salty Shores (reached): C5 Barbarian 56
   - Shifty Sandbox (cleared): C6 Shaman 54
   - Sands of Time (cleared): C3 Bowman 60
-- World 3 · Frostbite Tundra [open] · 7 of 11 doors open
+- World 3 · Frostbite Tundra [open] · 7 of 11 route doors open · 4 side maps not reached
   - gate Chizoar (open): Galaxial Amethyst: 0 of 1 held; No one earns these keys yet
   - The Stache Split (cleared): C1 Wizard 73
   - Thermonuclear Climb (reached): C4 Squire 85

@@ -408,14 +408,14 @@ step: Level Poison Tincture 2 → 3 (1,000 Poison Froge, 6 Liquid Nitrogen)
 
 ## Map
 4 of 4 worlds open · 10 characters
-- World 1 · Blunder Hills [done] · 7 of 7 doors open
+- World 1 · Blunder Hills [done] · 7 of 7 route doors open · 6 side maps not reached
   - gate Amarok (done): Desert Topaz handed in; 0 keys waiting · 10 earned a day
-- World 2 · Yum-Yum Desert [done] · 10 of 10 doors open
+- World 2 · Yum-Yum Desert [done] · 10 of 10 route doors open · 2 side maps not reached
   - gate Efaunt (done): Glacier Quartz handed in; 0 keys waiting · 10 earned a day
-- World 3 · Frostbite Tundra [done] · 11 of 11 doors open
+- World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 3 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; 0 keys waiting · 10 earned a day
   - Signature Slopes (cleared): C3 Bubonic Conjuror 567, C2 Divine Knight 544, C6 Siege Breaker 530, C1 Beast Master 507, C9 Hunter 503, C5 Wizard 501, C10 Barbarian 501, C8 Elemental Sorcerer 525
-- World 4 · Hyperion Nebula [done] · 3 of 3 doors open
+- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 1 side map not reached
   - gate Massive Troll (done)
   - The Rift (reached): C4 Blood Berserker 501
 - Worlds 5+ · Not covered yet

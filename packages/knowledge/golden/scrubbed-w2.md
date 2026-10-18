@@ -51,7 +51,7 @@ Fix before you leave
 show more (24)
 Spend coins: 14 buys now on 4 characters
   1. Raise and level 2 capped stamps on Barbarian Lv 60: about 1.3M coins · buy · total 1.3M coins on C1
-     Hatchet Stamp, Shield Stamp · carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free up inventory space first
+     Hatchet Stamp, Shield Stamp · carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free space first
   2. Level Bullseye Stamp 0→5 on Barbarian Lv 60: 98k coins · buy · total 1.4M coins on C1
   3. Buy 3 Vault upgrades on Barbarian Lv 60: 43M coins · buy · total 45M coins on C1
      Bubble Money, Vault Mastery, Major Discount
@@ -314,13 +314,13 @@ step: Use your 11 vial attempts on the W2 town cauldron
 
 ## Map
 2 of 3 worlds open · 5 characters
-- World 1 · Blunder Hills [done] · 7 of 7 doors open
+- World 1 · Blunder Hills [done] · 7 of 7 route doors open · 7 side maps not reached
   - gate Amarok (done): Desert Topaz handed in; 4 keys waiting · 4 earned a day
   - Spore Meadows (cleared): C4 Bowman 54
   - Tunnels Entrance (reached): C2 Squire 43
   - Poopy Sewers (reached): C1 Barbarian 60
   - Jungle Perimeter (cleared): C3 Shaman 44
-- World 2 · Yum-Yum Desert [open] · 10 of 10 doors open
+- World 2 · Yum-Yum Desert [open] · 10 of 10 route doors open · 1 side map not reached
   - gate Efaunt (open, next): Glacier Quartz: 0 of 1 held; No one earns these keys yet
   - Djonnuttown (reached): C5 Wizard 56
 - World 3 · Frostbite Tundra [next] · Opens with the Glacier Quartz

@@ -408,14 +408,14 @@ step: Use your 13 vial attempts on the W2 town cauldron
 
 ## Map
 4 of 4 worlds open · 7 characters
-- World 1 · Blunder Hills [done] · 7 of 7 doors open
+- World 1 · Blunder Hills [done] · 7 of 7 route doors open · 6 side maps not reached
   - gate Amarok (done): Desert Topaz handed in; 0 keys waiting · 7 earned a day
-- World 2 · Yum-Yum Desert [done] · 10 of 10 doors open
+- World 2 · Yum-Yum Desert [done] · 10 of 10 route doors open · 2 side maps not reached
   - gate Efaunt (done): Glacier Quartz handed in; 2 keys waiting · 1 earned a day
   - YumYum Grotto (town): C7 Maestro 73
-- World 3 · Frostbite Tundra [done] · 11 of 11 doors open
+- World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 4 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; No one earns these keys yet
-- World 4 · Hyperion Nebula [open] · 3 of 3 doors open
+- World 4 · Hyperion Nebula [open] · 3 of 3 route doors open · 10 side maps not reached
   - gate Massive Troll (open, next)
   - Outer World Town (town): C2 Bubonic Conjuror 87, C6 Beast Master 87, C3 Siege Breaker 86, C5 Elemental Sorcerer 87
   - Spaceway Raceway (cleared): C1 Blood Berserker 96, C4 Divine Knight 86

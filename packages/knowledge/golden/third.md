@@ -433,14 +433,14 @@ step: Pay 2 Win: buy Player Alchemy Speed and Extra EXP 149 → 150
 
 ## Map
 4 of 4 worlds open · 10 characters
-- World 1 · Blunder Hills [done] · 7 of 7 doors open
+- World 1 · Blunder Hills [done] · 7 of 7 route doors open · 6 side maps not reached
   - gate Amarok (done): Desert Topaz handed in; 0 keys waiting · 10 earned a day
   - Spore Meadows (cleared): C4 Divine Knight 655, C3 Bubonic Conjuror 568, C8 Divine Knight 558, C6 Elemental Sorcerer 545, C2 Siege Breaker 527, C10 Siege Breaker 522, C9 Elemental Sorcerer 552
-- World 2 · Yum-Yum Desert [done] · 10 of 10 doors open
+- World 2 · Yum-Yum Desert [done] · 10 of 10 route doors open · 2 side maps not reached
   - gate Efaunt (done): Glacier Quartz handed in; 0 keys waiting · 10 earned a day
-- World 3 · Frostbite Tundra [done] · 11 of 11 doors open
+- World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 3 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; 0 keys waiting · 10 earned a day
-- World 4 · Hyperion Nebula [done] · 3 of 3 doors open
+- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 2 side maps not reached
   - gate Massive Troll (done)
   - Outer World Town (town): C1 Blood Berserker 521
 - Worlds 5+ · Not covered yet
