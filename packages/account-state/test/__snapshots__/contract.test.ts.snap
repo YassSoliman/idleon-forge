@@ -444,6 +444,9 @@ exports[`public save first.json > matches the recorded shape (review the diff af
     "construction": null,
     "currentWorld": 4,
     "dailyResetInSeconds": 61106.3149971962,
+    "deathNote": {
+      "mushP": 46090,
+    },
     "deathNoteBuilding": {
       "held": 76,
       "inBuildSlot": false,
@@ -1633,6 +1636,29 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "name": "Frosty_Firefight",
       },
     ],
+    "vault": {
+      "killTotals": [
+        54962,
+        85054,
+        875433,
+        333748,
+        4,
+        4,
+        5,
+        5,
+        72,
+        878,
+        72921,
+        4,
+      ],
+      "rowLevels": {
+        "Bored_to_Death": 0,
+        "Buildie_Sheepie": 0,
+        "Dirty_Money": 0,
+        "Slice_N_Dice": 0,
+        "Stick_Snapping": 0,
+      },
+    },
     "weeklyBattle": {
       "bestDifficulty": 2,
       "raidResetUsedToday": false,
@@ -1659,6 +1685,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "cardPresets": "{"selected":1,"unlocked":2,"presets":[["+{%_Skill_AFK_gain_rate","+{%_Double_AFK_claim_chance"],["+{%_Card_Drop_Chance","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_EXP_from_monsters","+{%_Card_Drop_Chance","+{%_Fighting_AFK_gain_rate","+{%_Card_Drop_Chance","+{%_Total_Drop_Rate"],[],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Blood_Berserker",
+      "classExp": {
+        "exp": 632181,
+        "expReq": 82249809,
+      },
       "classIndex": 10,
       "currentMap": "Spaceway_Raceway",
       "foodStacks": [
@@ -1702,6 +1732,9 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverMoney C0=ObolGold0 H105x C40=ObolBronzeDamage S60_ C25=ObolSilver0 C130x C152x C48=ObolGold0 S190x S250x S140x C112x C210x C170x C80=ObolBronzeKill S120x C98x H180x C70=ObolBronzeEXP S90=ObolSilverMoney",
+      "portalKillsLeft": [
+        -11546,
+      ],
       "postOfficeUnspent": 5,
       "quests": {
         "entries": 87,
@@ -2328,6 +2361,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "cardPresets": "{"selected":1,"unlocked":2,"presets":[["+{%_Skill_AFK_gain_rate","+{%_Double_AFK_claim_chance","+{%_Total_Mining_Efficiency","+{%_Mining_EXP","+{%_Mining_Away_Gains","+{%_Mining_Speed"],["+{%_Card_Drop_Chance","+{%_Total_Drop_Rate","+{%_Card_Drop_Chance","+{%_Card_Drop_Chance","+{%_Total_Drop_Rate","+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_EXP_from_monsters"],[],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Divine_Knight",
+      "classExp": {
+        "exp": 18177424,
+        "expReq": 40374576,
+      },
       "classIndex": 12,
       "currentMap": "Spaceway_Raceway",
       "foodStacks": [
@@ -2365,6 +2402,9 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "Telescope": 9999,
       },
       "personalObols": "S32_ C0=ObolSilver0 H105x C40_ S60_ C25=ObolBronzeCons C130x C152x C48_ S190x S250x S140x C112x C210x C170x C80=ObolBronzeCons S120x C98x H180x C70=ObolBronze0 S90x",
+      "portalKillsLeft": [
+        -2331,
+      ],
       "postOfficeUnspent": 4,
       "quests": {
         "entries": 87,
@@ -3737,6 +3777,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
     "construction": null,
     "currentWorld": 6,
     "dailyResetInSeconds": 72227.93901824951,
+    "deathNote": {},
     "deathNoteBuilding": {
       "held": 168225,
       "inBuildSlot": false,
@@ -4934,6 +4975,29 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
         "name": "Frosty_Firefight",
       },
     ],
+    "vault": {
+      "killTotals": [
+        1769,
+        54046,
+        43063903,
+        1146541,
+        3,
+        4,
+        7,
+        6,
+        102,
+        5442,
+        5243225,
+        6,
+      ],
+      "rowLevels": {
+        "Bored_to_Death": 0,
+        "Buildie_Sheepie": 0,
+        "Dirty_Money": 0,
+        "Slice_N_Dice": 0,
+        "Stick_Snapping": 0,
+      },
+    },
     "weeklyBattle": {
       "bestDifficulty": 0,
       "raidResetUsedToday": true,
@@ -4960,6 +5024,10 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       "cardPresets": "{"selected":0,"unlocked":2,"presets":[["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Drop_Rate","+{%_Monster_EXP_While_Active","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Monster_EXP_While_Active","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Card_Drop_Chance","+{%_Card_Drop_Chance","+{%_All_Stat","+{%_Total_Mining_Efficiency","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Mining_Away_Gains","+{%_Card_Drop_Chance"],[],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Voidwalker",
+      "classExp": {
+        "exp": 56064428209917,
+        "expReq": 101659246119794,
+      },
       "classIndex": 4,
       "currentMap": "Edge_of_the_Valley",
       "foodStacks": [
@@ -5011,6 +5079,9 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolPlatinumLuck C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolPinkLuck S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolPlatinumLuck C70=ObolSilverPop S90=ObolGoldLuck",
+      "portalKillsLeft": [
+        -1013134,
+      ],
       "postOfficeUnspent": 4116,
       "quests": {
         "entries": 87,
@@ -6002,6 +6073,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
     "construction": null,
     "currentWorld": 6,
     "dailyResetInSeconds": 16674.59600110352,
+    "deathNote": {},
     "deathNoteBuilding": {
       "held": 18,
       "inBuildSlot": false,
@@ -7231,6 +7303,29 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         "name": "Frosty_Firefight",
       },
     ],
+    "vault": {
+      "killTotals": [
+        2262852826,
+        1993508,
+        5437204,
+        1947719,
+        9,
+        6,
+        6,
+        6,
+        104,
+        9955,
+        2003967,
+        6,
+      ],
+      "rowLevels": {
+        "Bored_to_Death": 0,
+        "Buildie_Sheepie": 0,
+        "Dirty_Money": 0,
+        "Slice_N_Dice": 0,
+        "Stick_Snapping": 0,
+      },
+    },
     "weeklyBattle": {
       "bestDifficulty": 0,
       "raidResetUsedToday": false,
@@ -8653,6 +8748,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
     "construction": null,
     "currentWorld": 7,
     "dailyResetInSeconds": 1543.0130362510681,
+    "deathNote": {},
     "deathNoteBuilding": {
       "held": 1049115880,
       "inBuildSlot": false,
@@ -10000,6 +10096,29 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "name": "Frosty_Firefight",
       },
     ],
+    "vault": {
+      "killTotals": [
+        152070915412900860,
+        100084977226030180,
+        10247755994874436,
+        10046590524637024,
+        17,
+        17,
+        16,
+        16,
+        104,
+        13233,
+        10884765115613266,
+        16,
+      ],
+      "rowLevels": {
+        "Bored_to_Death": 20,
+        "Buildie_Sheepie": 30,
+        "Dirty_Money": 35,
+        "Slice_N_Dice": 110,
+        "Stick_Snapping": 60,
+      },
+    },
     "weeklyBattle": {
       "bestDifficulty": 5,
       "raidResetUsedToday": false,
@@ -10970,6 +11089,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "cardPresets": "{"selected":5,"unlocked":7,"presets":[["+{%_Lab_EXP_gain","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{_Base_STR","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier"],["+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Lab_EXP_gain","+{%_All_Skill_Efficiency"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Monster_EXP_While_Active","+{%_Monster_EXP_While_Active","+{%_Class_EXP_Multi","+{%_Monster_EXP_While_Active","+{%_Crystal_Mob_Spawn_Chance"],["+{%_All_Skill_Efficiency","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Lab_EXP_gain","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate"],["+{%_Drop_Rate_Multi","+{%_Skill_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_MP_regen_rate","+{%_Boost_Food_Effect","+{%_Drop_Rate_Multi"],["+{%_Total_Damage_Multi","+{%_All_Stat","+{%_All_Stat","+{%_Total_Damage","+{_Weapon_Power","+{%_Total_Damage","+{_Weapon_Power","+{%_Total_Damage_Multi"]]}",
       "carryPerSlot": null,
       "class": "Arcane_Cultist",
+      "classExp": {
+        "exp": 1.9655527828305413e+38,
+        "expReq": 1.3285618735645738e+39,
+      },
       "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
@@ -11021,6 +11144,9 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolLava C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolEmp S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolLava C70=ObolSilverPop S90=ObolGoldLuck",
+      "portalKillsLeft": [
+        -390681015065,
+      ],
       "postOfficeUnspent": 238852,
       "quests": {
         "entries": 94,
@@ -11209,6 +11335,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "cardPresets": "{"selected":6,"unlocked":7,"presets":[["+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Skill_Efficiency"],["+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{_Base_AGI","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier"],["+{%_Skill_AFK_gain_rate","+{%_Lab_EXP_gain","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_All_Skill_Efficiency"],["+{%_Total_Damage_Multi","+{%_All_Stat","+{%_All_Stat","+{%_Total_Damage","+{_Weapon_Power","+{%_Total_Damage","+{_Weapon_Power","+{%_Total_Damage_Multi"],["+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{_Base_AGI","+{_Base_AGI","+{_Base_AGI","+{%_All_Skill_Efficiency"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Monster_EXP_While_Active","+{%_Class_EXP_Multi","+{%_Monster_EXP_While_Active","+{%_Monster_EXP_While_Active","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Drop_Rate_Multi","+{%_Skill_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Drop_Rate_Multi"]]}",
       "carryPerSlot": null,
       "class": "Wind_Walker",
+      "classExp": {
+        "exp": 5.992239157073712e+38,
+        "expReq": 6.002780279004503e+38,
+      },
       "classIndex": 29,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
@@ -11260,6 +11390,9 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverTrapping H105=ObolSlush C40=ObolSilverTrapping S60=ObolGoldLuck C25=ObolSilverTrapping C130=ObolSilverTrapping C152=ObolSilverTrapping C48=ObolSilverTrapping S190=ObolGoldTrapping S250=ObolPinkTrapping S140=ObolGoldTrapping C112=ObolSilverTrapping C210=ObolSilverTrapping C170=ObolSilverTrapping C80=ObolSilverTrapping S120=ObolGoldTrapping C98=ObolSilverTrapping H180=ObolPlatinumTrapping C70=ObolSilverTrapping S90=ObolGoldTrapping",
+      "portalKillsLeft": [
+        -1260731496771,
+      ],
       "postOfficeUnspent": 238852,
       "quests": {
         "entries": 94,
@@ -11917,6 +12050,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "cardPresets": "{"selected":5,"unlocked":7,"presets":[["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Damage","+{%_Fighting_AFK_gain_rate","+{%_Total_Damage_Multi","+{%_EXP_from_monsters","+{%_Multikill_per_tier","+{%_Total_Drop_Rate","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Money_from_Monsters","+{%_Multikill_per_tier","+{%_Total_Damage_Multi","+{%_Total_Drop_Rate","+{%_Crystal_Mob_Spawn_Chance","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{_Base_WIS","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier"],["+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Lab_EXP_gain","+{%_All_Skill_Efficiency"],["+{%_Cooking_EXP_gain","+{%_All_Skill_Efficiency","+{%_Skill_EXP","+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_Skill_AFK_gain_rate"],["+{%_Drop_Rate_Multi","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Damage_Multi","+{%_Multikill_per_tier","+{%_Drop_Rate_Multi"],["+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Monster_EXP_While_Active","+{%_Monster_EXP_While_Active","+{%_Monster_EXP_While_Active","+{%_Crystal_Mob_Spawn_Chance","+{%_Crystal_Mob_Spawn_Chance"]]}",
       "carryPerSlot": null,
       "class": "Arcane_Cultist",
+      "classExp": {
+        "exp": 2.988201516147185e+38,
+        "expReq": 5.74356605180467e+38,
+      },
       "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
@@ -11968,6 +12105,9 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolLava C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolEmp S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolLava C70=ObolSilverPop S90=ObolGoldLuck",
+      "portalKillsLeft": [
+        -1129516995211,
+      ],
       "postOfficeUnspent": 238852,
       "quests": {
         "entries": 94,
@@ -12157,6 +12297,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "cardPresets": "{"selected":0,"unlocked":7,"presets":[["+{%_Drop_Rate_Multi","+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Drop_Rate_Multi"],["+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{_Base_AGI","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier"],["+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Lab_EXP_gain","+{%_All_Skill_Efficiency"],["+{%_Total_Catching_Efficiency","+{%_Catching_EXP","+{%_Total_Catching_Efficiency","+{%_Catching_Away_Gains","+{%_Total_Drop_Rate","+{%_Skill_AFK_gain_rate","+{%_Skill_EXP","+{%_Total_Catching_Efficiency"],["+{%_Lab_EXP_gain","+{%_All_Stat","+{%_All_Skill_Efficiency","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_EXP"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Multikill_per_tier","+{%_Total_Damage_Multi","+{%_Total_Drop_Rate","+{%_EXP_from_monsters","+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Class_EXP_Multi","+{%_Monster_EXP_While_Active","+{%_Crystal_Mob_Spawn_Chance","+{%_Monster_EXP_While_Active","+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Monster_EXP_While_Active","+{%_Crystal_Mob_Spawn_Chance"]]}",
       "carryPerSlot": null,
       "class": "Wind_Walker",
+      "classExp": {
+        "exp": 1.8041391742092496e+38,
+        "expReq": 5.495541910596324e+38,
+      },
       "classIndex": 29,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
@@ -12207,6 +12351,9 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolLava C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolEmp S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolLava C70=ObolSilverPop S90=ObolGoldLuck",
+      "portalKillsLeft": [
+        -959597656734,
+      ],
       "postOfficeUnspent": 238852,
       "quests": {
         "entries": 94,
@@ -13373,6 +13520,9 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
     "construction": null,
     "currentWorld": 7,
     "dailyResetInSeconds": 51090.541995704174,
+    "deathNote": {
+      "mushG": 4160991704283,
+    },
     "deathNoteBuilding": {
       "held": 1050000612,
       "inBuildSlot": false,
@@ -14840,6 +14990,29 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "name": "Frosty_Firefight",
       },
     ],
+    "vault": {
+      "killTotals": [
+        5587933927,
+        88220079821,
+        31408831,
+        1510699870,
+        9,
+        10,
+        7,
+        9,
+        104,
+        12903,
+        6179320363,
+        9,
+      ],
+      "rowLevels": {
+        "Bored_to_Death": 10,
+        "Buildie_Sheepie": 20,
+        "Dirty_Money": 25,
+        "Slice_N_Dice": 100,
+        "Stick_Snapping": 50,
+      },
+    },
     "weeklyBattle": {
       "bestDifficulty": 0,
       "raidResetUsedToday": false,
@@ -15998,6 +16171,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "cardPresets": "{"selected":1,"unlocked":7,"presets":[["+{%_Fighting_AFK_gain_rate","+{_Weapon_Power","+{%_Total_Damage","+{%_Total_Damage","+{%_Fighting_AFK_gain_rate","+{%_Total_Damage","+{%_Multikill_per_tier","+{%_Multikill_per_tier"],["+{%_Monster_EXP_While_Active","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_EXP_from_monsters","+{%_EXP_from_monsters","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters"],["+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate"],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Wind_Walker",
+      "classExp": {
+        "exp": 6.237650067352118e+29,
+        "expReq": 7.045499680168676e+29,
+      },
       "classIndex": 29,
       "currentMap": "Pirate_Upper_Deck",
       "foodStacks": [
@@ -16041,6 +16218,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolGoldDamage H105=ObolChizoarA C40=ObolGoldDamage S60=ObolGoldMoney C25=ObolGoldDamage C130=ObolGoldDamage C152=ObolGoldDamage C48=ObolSilverDamage S190=ObolGoldMoney S250=ObolPinkLuck S140=ObolPlatinumDamage C112=ObolGoldDamage C210=ObolGoldDamage C170=ObolGoldDamage C80=ObolGoldDamage S120=ObolGoldMoney C98=ObolGoldDamage H180=ObolPlatinumLuck C70=ObolGoldDamage S90=ObolPlatinumDamage",
+      "portalKillsLeft": [
+        -12776825859,
+        -13736825859,
+      ],
       "postOfficeUnspent": 483378,
       "quests": {
         "entries": 96,
@@ -16908,6 +17089,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "cardPresets": "{"selected":0,"unlocked":7,"presets":[["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Damage","+{%_Total_Damage","+{_Weapon_Power","+{%_Total_Damage","+{%_Total_Damage","+{_Weapon_Power","+{%_Crystal_Mob_Spawn_Chance"],[],[],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Bubonic_Conjuror",
+      "classExp": {
+        "exp": 3.232391806465137e+29,
+        "expReq": 4.128549083429221e+29,
+      },
       "classIndex": 36,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
@@ -16959,6 +17144,9 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolBronzeKill H105=ObolPlatinumLuck C40=ObolBronzeCons S60=ObolGoldMoney C25=ObolSilver2 C130=ObolSilver2 C152=ObolSilver2 C48=ObolSilverDamage S190=ObolGoldMoney S250=ObolPinkFishing S140=ObolGoldMoney C112=ObolGold1 C210=ObolBronzeKill C170=ObolGold2 C80=ObolSilverChoppin S120=ObolGoldMoney C98=ObolSilver2 H180=ObolPlatinumLuck C70=ObolGold3 S90=ObolGoldMoney",
+      "portalKillsLeft": [
+        -4133354835559,
+      ],
       "postOfficeUnspent": 476673,
       "quests": {
         "entries": 95,
@@ -18081,6 +18269,9 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
     "construction": null,
     "currentWorld": 7,
     "dailyResetInSeconds": 84056.69799226522,
+    "deathNote": {
+      "mushG": 1451041998,
+    },
     "deathNoteBuilding": {
       "held": 33,
       "inBuildSlot": false,
@@ -19558,6 +19749,29 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "name": "Frosty_Firefight",
       },
     ],
+    "vault": {
+      "killTotals": [
+        5574659877,
+        88174895570,
+        24682688,
+        1510699870,
+        9,
+        10,
+        7,
+        9,
+        104,
+        12903,
+        6175816454,
+        9,
+      ],
+      "rowLevels": {
+        "Bored_to_Death": 10,
+        "Buildie_Sheepie": 20,
+        "Dirty_Money": 25,
+        "Slice_N_Dice": 100,
+        "Stick_Snapping": 50,
+      },
+    },
     "weeklyBattle": {
       "bestDifficulty": 0,
       "raidResetUsedToday": false,
@@ -21606,6 +21820,10 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "cardPresets": "{"selected":0,"unlocked":7,"presets":[["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Damage","+{%_Total_Damage","+{_Weapon_Power","+{%_Total_Damage","+{%_Total_Damage","+{_Weapon_Power","+{%_Crystal_Mob_Spawn_Chance"],[],[],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Bubonic_Conjuror",
+      "classExp": {
+        "exp": 3.2323918064095855e+29,
+        "expReq": 4.128549083429221e+29,
+      },
       "classIndex": 36,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
@@ -21657,6 +21875,9 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolBronzeKill H105=ObolPlatinumLuck C40=ObolBronzeCons S60=ObolGoldMoney C25=ObolSilver2 C130=ObolSilver2 C152=ObolSilver2 C48=ObolSilverDamage S190=ObolGoldMoney S250=ObolPinkFishing S140=ObolGoldMoney C112=ObolGold1 C210=ObolBronzeKill C170=ObolGold2 C80=ObolSilverChoppin S120=ObolGoldMoney C98=ObolSilver2 H180=ObolPlatinumLuck C70=ObolGold3 S90=ObolGoldMoney",
+      "portalKillsLeft": [
+        -64175,
+      ],
       "postOfficeUnspent": 461013,
       "quests": {
         "entries": 94,
@@ -22779,6 +23000,9 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
     "construction": null,
     "currentWorld": 7,
     "dailyResetInSeconds": 59914.879991948605,
+    "deathNote": {
+      "mushG": 361864979520,
+    },
     "deathNoteBuilding": {
       "held": 170,
       "inBuildSlot": false,
@@ -24263,6 +24487,29 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "name": "Frosty_Firefight",
       },
     ],
+    "vault": {
+      "killTotals": [
+        5587933927,
+        88220079821,
+        31408831,
+        1510699870,
+        9,
+        10,
+        7,
+        9,
+        104,
+        12903,
+        6179320363,
+        9,
+      ],
+      "rowLevels": {
+        "Bored_to_Death": 10,
+        "Buildie_Sheepie": 20,
+        "Dirty_Money": 25,
+        "Slice_N_Dice": 100,
+        "Stick_Snapping": 50,
+      },
+    },
     "weeklyBattle": {
       "bestDifficulty": 0,
       "raidResetUsedToday": false,
@@ -25857,6 +26104,12 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         0,
         0,
       ],
+      "tools": [
+        "EquipmentTools11",
+        "EquipmentToolsHatchet7",
+        "FishingRod7",
+        "CatchingNet7",
+      ],
     },
     {
       "afk": null,
@@ -26087,6 +26340,10 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "cardPresets": "{"selected":0,"unlocked":7,"presets":[["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Damage","+{%_Multikill_per_tier","+{%_Total_Damage","+{%_Total_Damage","+{%_All_Stat","+{%_Total_Damage","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Card_Drop_Chance","+{%_Drop_Rate_Multi"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Money_from_Monsters","+{%_Money_from_Monsters","+{%_Money_from_Monsters","+{%_Money_from_Monsters","+{%_Money_from_Monsters","+{%_Money_from_Monsters","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Drop_Rate_Multi","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Total_Damage_Multi","+{%_Total_Damage","+{_Weapon_Power","+{_Weapon_Power","+{_Weapon_Power","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage"],[],[]]}",
       "carryPerSlot": null,
       "class": "Royal_Guardian",
+      "classExp": {
+        "exp": 8.1176933947005e+29,
+        "expReq": 2.3437430699174437e+30,
+      },
       "classIndex": 16,
       "currentMap": "The_Royal_Castle",
       "foodStacks": [
@@ -26134,6 +26391,9 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolSilverCons H105=ObolChizoarA C40=ObolSilverCons S60=ObolGoldMoney C25=ObolSilverCons C130=ObolSilverCons C152=ObolHyper0 C48=ObolSilverCons S190=ObolGoldCons S250=ObolTroll S140=ObolGoldMoney C112=ObolSilverCons C210=ObolHyper0 C170=ObolHyper0 C80=ObolSilverCons S120=ObolGoldCons C98=ObolSilverCons H180=ObolChizoarA C70=ObolSilverCons S90=ObolGoldCons",
+      "portalKillsLeft": [
+        -60569276,
+      ],
       "postOfficeUnspent": 452015,
       "quests": {
         "entries": 95,
@@ -26323,6 +26583,10 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "cardPresets": "{"selected":0,"unlocked":7,"presets":[["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Damage","+{%_Total_Damage","+{_Weapon_Power","+{%_Total_Damage","+{%_Total_Damage","+{_Weapon_Power","+{%_Crystal_Mob_Spawn_Chance"],[],[],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Bubonic_Conjuror",
+      "classExp": {
+        "exp": 3.232391806411378e+29,
+        "expReq": 4.128549083429221e+29,
+      },
       "classIndex": 36,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
@@ -26374,6 +26638,9 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolBronzeKill H105=ObolPlatinumLuck C40=ObolBronzeCons S60=ObolGoldMoney C25=ObolSilver2 C130=ObolSilver2 C152=ObolSilver2 C48=ObolSilverDamage S190=ObolGoldMoney S250=ObolPinkFishing S140=ObolGoldMoney C112=ObolGold1 C210=ObolBronzeKill C170=ObolGold2 C80=ObolSilverChoppin S120=ObolGoldMoney C98=ObolSilver2 H180=ObolPlatinumLuck C70=ObolGold3 S90=ObolGoldMoney",
+      "portalKillsLeft": [
+        -360369690296,
+      ],
       "postOfficeUnspent": 471823,
       "quests": {
         "entries": 94,
@@ -27457,6 +27724,9 @@ exports[`public save second.json > matches the recorded shape (review the diff a
     "construction": null,
     "currentWorld": 6,
     "dailyResetInSeconds": 41883.07497119925,
+    "deathNote": {
+      "penguin": 23691505,
+    },
     "deathNoteBuilding": {
       "held": 18,
       "inBuildSlot": false,
@@ -28825,6 +29095,29 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "name": "Frosty_Firefight",
       },
     ],
+    "vault": {
+      "killTotals": [
+        102330640,
+        110485879,
+        100954999,
+        107180875,
+        8,
+        8,
+        8,
+        8,
+        104,
+        10120,
+        103641823,
+        8,
+      ],
+      "rowLevels": {
+        "Bored_to_Death": 0,
+        "Buildie_Sheepie": 0,
+        "Dirty_Money": 0,
+        "Slice_N_Dice": 0,
+        "Stick_Snapping": 0,
+      },
+    },
     "weeklyBattle": {
       "bestDifficulty": 5,
       "raidResetUsedToday": true,
@@ -28851,6 +29144,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "cardPresets": "{"selected":0,"unlocked":3,"presets":[["+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_EXP_from_monsters","+{%_EXP_from_monsters"],[],["+{%_Cooking_EXP_gain","+{%_Skill_EXP","+{%_All_Skill_Efficiency","+{%_Charge_Rate","+{%_Max_Charge","+{_Base_LUK","+{_Base_LUK","+{_Base_LUK"],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Beast_Master",
+      "classExp": {
+        "exp": 147088367488363,
+        "expReq": 434443480619257,
+      },
       "classIndex": 25,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
@@ -28902,6 +29199,9 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldTrapping C0=ObolGold1 H105=ObolPlatinumTrapping C40=ObolGold1 S60=ObolGoldTrapping C25=ObolGold1 C130=ObolGold1 C152=ObolGold1 C48=ObolGold1 S190=ObolGoldTrapping S250_ S140=ObolGoldTrapping C112=ObolGold1 C210=ObolGold1 C170=ObolGold1 C80=ObolSilverTrapping S120=ObolGoldTrapping C98=ObolGold1 H180=ObolPlatinumTrapping C70=ObolGold1 S90=ObolGoldTrapping",
+      "portalKillsLeft": [
+        -2436422,
+      ],
       "postOfficeUnspent": 60,
       "quests": {
         "entries": 87,
@@ -29081,6 +29381,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "cardPresets": "{"selected":0,"unlocked":3,"presets":[["+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_EXP_from_monsters","+{%_EXP_from_monsters"],[],["+{%_Cooking_EXP_gain","+{%_Skill_EXP","+{%_All_Skill_Efficiency","+{%_Charge_Rate","+{%_Max_Charge","+{_Base_LUK","+{_Base_LUK","+{_Base_LUK"],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Divine_Knight",
+      "classExp": {
+        "exp": 1660607902379482,
+        "expReq": 2437421400916955,
+      },
       "classIndex": 12,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
@@ -29132,6 +29436,9 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMining C0=ObolPlatinum0 H105=ObolPlatinumCons C40=ObolPlatinum0 S60=ObolGoldMoney C25=ObolPlatinum0 C130=ObolGold0 C152=ObolGold0 C48=ObolGold0 S190=ObolGoldCons S250_ S140=ObolGoldCons C112=ObolGold0 C210=ObolGold0 C170=ObolGold0 C80=ObolGold0 S120=ObolGoldCons C98=ObolGold0 H180=ObolPlatinumMining C70=ObolGold0 S90=ObolGoldCons",
+      "portalKillsLeft": [
+        -3282704,
+      ],
       "postOfficeUnspent": 0,
       "quests": {
         "entries": 87,
@@ -29310,6 +29617,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "cardPresets": "{"selected":0,"unlocked":3,"presets":[["+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_EXP_from_monsters","+{%_EXP_from_monsters"],[],["+{%_Cooking_EXP_gain","+{%_Skill_EXP","+{%_All_Skill_Efficiency","+{%_Charge_Rate","+{%_Max_Charge","+{_Base_LUK","+{_Base_LUK","+{_Base_LUK"],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Bubonic_Conjuror",
+      "classExp": {
+        "exp": 2234011381539918,
+        "expReq": 7089695099726559,
+      },
       "classIndex": 36,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
@@ -29361,6 +29672,9 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolGold2 H105=ObolSlush C40=ObolGold2 S60=ObolGoldLuck C25=ObolGold2 C130=ObolGold2 C152=ObolGold2 C48=ObolGold2 S190=ObolGoldLuck S250_ S140=ObolGoldLuck C112=ObolGold2 C210=ObolGold2 C170=ObolGold2 C80=ObolGold2 S120=ObolGoldMoney C98=ObolGold2 H180=ObolPlatinumLuck C70=ObolGold2 S90=ObolGoldMoney",
+      "portalKillsLeft": [
+        -146543,
+      ],
       "postOfficeUnspent": 0,
       "quests": {
         "entries": 87,
@@ -29537,6 +29851,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "cardPresets": "{"selected":0,"unlocked":3,"presets":[["+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_EXP_from_monsters","+{%_EXP_from_monsters"],["+{%_All_Skill_Efficiency","+{%_Skill_AFK_gain_rate","+{%_Double_AFK_claim_chance","+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate"],["+{%_Cooking_EXP_gain","+{%_Skill_EXP","+{%_All_Skill_Efficiency","+{%_Charge_Rate","+{%_Max_Charge","+{_Base_LUK","+{_Base_LUK","+{_Base_LUK"],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Blood_Berserker",
+      "classExp": {
+        "exp": 72834807689187,
+        "expReq": 328163061123429,
+      },
       "classIndex": 10,
       "currentMap": "The_Rift",
       "foodStacks": [
@@ -29588,6 +29906,9 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldFishing C0=ObolGold0 H105=ObolPlatinumFishing C40=ObolGold0 S60=ObolGoldFishing C25=ObolGold0 C130=ObolGold0 C152=ObolGold0 C48=ObolGold0 S190=ObolGoldFishing S250_ S140=ObolSilverLuck C112=ObolGold0 C210=ObolGold0 C170=ObolGold0 C80=ObolGold0 S120=ObolKnight C98=ObolGold0 H180=ObolEfauntA C70=ObolGold0 S90=ObolKnight",
+      "portalKillsLeft": [
+        -25392552,
+      ],
       "postOfficeUnspent": 270,
       "quests": {
         "entries": 87,
@@ -29768,6 +30089,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "cardPresets": "{"selected":0,"unlocked":3,"presets":[["+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_EXP_from_monsters","+{%_EXP_from_monsters"],[],["+{%_Cooking_EXP_gain","+{%_Skill_EXP","+{%_All_Skill_Efficiency","+{%_Charge_Rate","+{%_Max_Charge","+{_Base_LUK","+{_Base_LUK","+{_Base_LUK"],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Wizard",
+      "classExp": {
+        "exp": 30527062826687,
+        "expReq": 328163061123429,
+      },
       "classIndex": 32,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
@@ -29819,6 +30144,9 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldWorship C0=ObolGold2 H105=ObolPlatinumChoppin C40=ObolGold2 S60=ObolGoldWorship C25=ObolGold2 C130=ObolGold2 C152=ObolGold2 C48=ObolGold2 S190=ObolGoldWorship S250_ S140=ObolGoldLuck C112=ObolSilver2 C210=ObolGold2 C170=ObolSilver2 C80=ObolSilver2 S120=ObolSilverMoney C98=ObolSilver2 H180=ObolAmarokA C70=ObolSilver2 S90=ObolSilverMoney",
+      "portalKillsLeft": [
+        -2077344,
+      ],
       "postOfficeUnspent": 512,
       "quests": {
         "entries": 87,
@@ -29981,6 +30309,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "cardPresets": "{"selected":0,"unlocked":3,"presets":[["+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_EXP_from_monsters","+{%_EXP_from_monsters"],[],["+{%_Cooking_EXP_gain","+{%_Skill_EXP","+{%_All_Skill_Efficiency","+{%_Charge_Rate","+{%_Max_Charge","+{_Base_LUK","+{_Base_LUK","+{_Base_LUK"],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Siege_Breaker",
+      "classExp": {
+        "exp": 417855820361771,
+        "expReq": 1270541414834107,
+      },
       "classIndex": 22,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
@@ -30032,6 +30364,9 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolSilverLuck C0=ObolPlatinum1 H105=ObolGoldCard C40=ObolGold1 S60=ObolSilverLuck C25=ObolGold1 C130=ObolGold1 C152=ObolGold1 C48=ObolGold1 S190=ObolFrog S250_ S140=ObolGoldMoney C112=ObolGold1 C210=ObolGold1 C170=ObolGold1 C80=ObolGold1 S120=ObolGoldCatching C98=ObolSilverCatching H180=ObolEfauntA C70=ObolSilverCatching S90=ObolGoldCatching",
+      "portalKillsLeft": [
+        -3150366,
+      ],
       "postOfficeUnspent": 316,
       "quests": {
         "entries": 87,
@@ -30209,6 +30544,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "cardPresets": "{"selected":0,"unlocked":3,"presets":[["+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_EXP_from_monsters","+{%_EXP_from_monsters"],["+{%_All_Stat","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Total_Damage"],["+{%_Cooking_EXP_gain","+{%_Skill_EXP","+{%_All_Skill_Efficiency","+{%_Charge_Rate","+{%_Max_Charge","+{_Base_LUK","+{_Base_LUK","+{_Base_LUK"],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Voidwalker",
+      "classExp": {
+        "exp": 216000202286230,
+        "expReq": 499819365953888,
+      },
       "classIndex": 4,
       "currentMap": "Dozey_Dogpark",
       "foodStacks": [
@@ -30260,6 +30599,9 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolHyperB2 C0=ObolPlatinum3 H105=ObolSlush C40=ObolGold3 S60=ObolHyperB2 C25=ObolGold3 C130=ObolGold3 C152=ObolGold3 C48=ObolGold3 S190=ObolHyperB2 S250_ S140=ObolHyperB2 C112=ObolGold3 C210=ObolGold3 C170=ObolGold3 C80=ObolGold3 S120=ObolGoldLuck C98=ObolGold3 H180=ObolSlush C70=ObolGold3 S90=ObolGoldLuck",
+      "portalKillsLeft": [
+        68554662,
+      ],
       "postOfficeUnspent": 215,
       "quests": {
         "entries": 87,
@@ -30434,6 +30776,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "cardPresets": "{"selected":0,"unlocked":3,"presets":[["+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_EXP_from_monsters","+{%_EXP_from_monsters"],[],["+{%_Cooking_EXP_gain","+{%_Skill_EXP","+{%_All_Skill_Efficiency","+{%_Charge_Rate","+{%_Max_Charge","+{_Base_LUK","+{_Base_LUK","+{_Base_LUK"],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Elemental_Sorcerer",
+      "classExp": {
+        "exp": 880376157492550,
+        "expReq": 1006479128864428,
+      },
       "classIndex": 34,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
@@ -30485,6 +30831,9 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolKnight C0=ObolPlatinum2 H105=ObolChizoarA C40=ObolPlatinum2 S60=ObolKnight C25=ObolPlatinum2 C130=ObolPlatinum2 C152=ObolPlatinum2 C48=ObolPlatinum2 S190=ObolKnight S250_ S140=ObolGoldLuck C112=ObolPlatinum2 C210=ObolPlatinum2 C170=ObolPlatinum2 C80=ObolPlatinum2 S120=ObolGoldLuck C98=ObolPlatinum2 H180=ObolPlatinumLuck C70=ObolPlatinum2 S90=ObolGoldLuck",
+      "portalKillsLeft": [
+        -8500134,
+      ],
       "postOfficeUnspent": 120,
       "quests": {
         "entries": 87,
@@ -30662,6 +31011,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "cardPresets": "{"selected":0,"unlocked":3,"presets":[["+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_EXP_from_monsters","+{%_EXP_from_monsters"],[],["+{%_Cooking_EXP_gain","+{%_Skill_EXP","+{%_All_Skill_Efficiency","+{%_Charge_Rate","+{%_Max_Charge","+{_Base_LUK","+{_Base_LUK","+{_Base_LUK"],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Hunter",
+      "classExp": {
+        "exp": 134472638816533,
+        "expReq": 360343574514598,
+      },
       "classIndex": 21,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
@@ -30713,6 +31066,9 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolGold1 H105=ObolAmarokA C40=ObolGold1 S60=ObolGoldMoney C25=ObolSilver1 C130=ObolSilver1 C152=ObolSilver1 C48=ObolSilver1 S190=ObolSilverCard S250_ S140=ObolSilverMoney C112=ObolSilver1 C210=ObolSilver1 C170=ObolSilver1 C80=ObolGold3 S120=ObolSilverMoney C98=ObolSilver1 H180=ObolAmarokA C70=ObolGold3 S90=ObolSilverLuck",
+      "portalKillsLeft": [
+        -157767,
+      ],
       "postOfficeUnspent": 316,
       "quests": {
         "entries": 87,
@@ -30877,6 +31233,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       "cardPresets": "{"selected":0,"unlocked":3,"presets":[["+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_EXP_from_monsters","+{%_EXP_from_monsters"],[],["+{%_Cooking_EXP_gain","+{%_Skill_EXP","+{%_All_Skill_Efficiency","+{%_Charge_Rate","+{%_Max_Charge","+{_Base_LUK","+{_Base_LUK","+{_Base_LUK"],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Barbarian",
+      "classExp": {
+        "exp": 49817581280859,
+        "expReq": 328163061123429,
+      },
       "classIndex": 8,
       "currentMap": "Signature_Slopes",
       "foodStacks": [
@@ -30928,6 +31288,9 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldFishing C0=ObolGold0 H105=ObolAmarokA C40=ObolGold0 S60=ObolGoldFishing C25=ObolGold0 C130=ObolGold0 C152=ObolGold0 C48=ObolGold0 S190=ObolSilverMoney S250_ S140=ObolSilverMoney C112=ObolSilverMining C210=ObolGold0 C170=ObolGold0 C80=ObolSilverMining S120=ObolSilverLuck C98=ObolSilverMining H180=ObolAmarokA C70=ObolSilverMining S90=ObolKnight",
+      "portalKillsLeft": [
+        -847812,
+      ],
       "postOfficeUnspent": 316,
       "quests": {
         "entries": 87,
@@ -31892,6 +32255,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
     "construction": null,
     "currentWorld": 7,
     "dailyResetInSeconds": 83526.69399833679,
+    "deathNote": {},
     "deathNoteBuilding": {
       "held": 25271905930,
       "inBuildSlot": false,
@@ -33286,6 +33650,29 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "name": "Frosty_Firefight",
       },
     ],
+    "vault": {
+      "killTotals": [
+        13250950350716038,
+        11489551134525048,
+        2126505628402604,
+        2373858557713799,
+        16,
+        16,
+        15,
+        15,
+        104,
+        13160,
+        101111931193445090,
+        17,
+      ],
+      "rowLevels": {
+        "Bored_to_Death": 20,
+        "Buildie_Sheepie": 30,
+        "Dirty_Money": 35,
+        "Slice_N_Dice": 110,
+        "Stick_Snapping": 60,
+      },
+    },
     "weeklyBattle": {
       "bestDifficulty": 5,
       "raidResetUsedToday": false,
@@ -33558,6 +33945,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "cardPresets": "{"selected":5,"unlocked":7,"presets":[["+{%_Skill_EXP","+{%_All_Skill_Efficiency","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{_Base_WIS","+{_Base_WIS","+{%_Boost_Food_Effect"],["+{%_All_Skill_Efficiency","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Boost_Food_Effect","+{%_Total_Drop_Rate","+{%_Skill_AFK_gain_rate"],["+{%_Total_Damage_Multi","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage_Multi"],["+{%_Class_EXP_Multi","+{%_Monster_EXP_While_Active","+{%_Monster_EXP_While_Active","+{%_Class_EXP_Multi","+{%_Monster_EXP_While_Active","+{%_Drop_Rate_Multi","+{%_Drop_Rate_Multi","+{%_Class_EXP_Multi"],["+{%_Drop_Rate_Multi","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Drop_Rate_Multi"],["+{%_Drop_Rate_Multi","+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_Fighting_AFK_gain_rate","+{%_Total_Damage_Multi","+{%_Fighting_AFK_gain_rate","+{%_Total_Damage_Multi","+{%_Drop_Rate_Multi"],["+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Drop_Rate_Multi","+{%_Multikill_per_tier"]]}",
       "carryPerSlot": null,
       "class": "Arcane_Cultist",
+      "classExp": {
+        "exp": 3.33375710696164e+38,
+        "expReq": 1.8094091421833088e+39,
+      },
       "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
@@ -33609,6 +34000,9 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldTrapping C0=ObolSilverTrapping H105=ObolSlush C40=ObolSilverTrapping S60=ObolGoldTrapping C25=ObolSilverTrapping C130=ObolSilverTrapping C152=ObolSilverTrapping C48=ObolSilverTrapping S190=ObolGoldTrapping S250=ObolEmp S140=ObolGoldTrapping C112=ObolSilverTrapping C210=ObolSilverTrapping C170=ObolSilverTrapping C80=ObolSilverTrapping S120=ObolGoldTrapping C98=ObolSilverTrapping H180=ObolSlush C70=ObolSilverTrapping S90=ObolGoldTrapping",
+      "portalKillsLeft": [
+        -645702891493,
+      ],
       "postOfficeUnspent": 315050,
       "quests": {
         "entries": 95,
@@ -34028,6 +34422,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "cardPresets": "{"selected":6,"unlocked":7,"presets":[["+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Drop_Rate_Multi","+{%_Skill_AFK_gain_rate","+{%_Skill_EXP","+{%_Boost_Food_Effect","+{%_Drop_Rate_Multi","+{%_All_Skill_Efficiency"],["+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_Drop_Rate_Multi"],["+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Drop_Rate_Multi","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Monster_EXP_While_Active","+{%_Monster_EXP_While_Active","+{%_Monster_EXP_While_Active","+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Drop_Rate_Multi","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Total_Damage_Multi","+{%_Total_Damage","+{%_Total_Damage","+{%_All_Stat","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage","+{%_Multikill_per_tier"],["+{%_Class_EXP_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Drop_Rate_Multi","+{%_Drop_Rate_Multi","+{%_Class_EXP_Multi","+{%_Class_EXP_Multi"],["+{%_Drop_Rate_Multi","+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Fighting_AFK_gain_rate","+{%_Drop_Rate_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate"]]}",
       "carryPerSlot": null,
       "class": "Divine_Knight",
+      "classExp": {
+        "exp": 3.054628212147554e+39,
+        "expReq": 4.003578685768351e+39,
+      },
       "classIndex": 12,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
@@ -34079,6 +34477,9 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldFishing C0=ObolSilverFishing H105=ObolSlush C40=ObolSilverFishing S60=ObolGoldFishing C25=ObolSilverFishing C130=ObolSilverFishing C152=ObolSilverFishing C48=ObolSilverFishing S190=ObolGoldFishing S250=ObolEmp S140=ObolGoldFishing C112=ObolSilverFishing C210=ObolSilverFishing C170=ObolSilverFishing C80=ObolSilverFishing S120=ObolGoldFishing C98=ObolSilverFishing H180=ObolSlush C70=ObolSilverFishing S90=ObolGoldFishing",
+      "portalKillsLeft": [
+        -1410328597510,
+      ],
       "postOfficeUnspent": 315050,
       "quests": {
         "entries": 95,
@@ -34478,6 +34879,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "cardPresets": "{"selected":4,"unlocked":7,"presets":[["+{%_All_Skill_Efficiency","+{%_All_Stat","+{%_All_Stat","+{%_Boost_Food_Effect","+{%_Skill_AFK_gain_rate","+{%_Double_AFK_claim_chance","+{%_Skill_AFK_gain_rate","+{%_Skill_EXP"],["+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Drop_Rate_Multi","+{%_Boost_Food_Effect","+{%_Drop_Rate_Multi","+{%_Double_AFK_claim_chance","+{%_All_Skill_Efficiency"],["+{%_Multikill_per_tier","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_All_Stat","+{%_Multikill_per_tier"],["+{%_Total_Damage_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_Total_Damage_Multi"],["+{%_Drop_Rate_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Class_EXP_Multi","+{%_Fighting_AFK_gain_rate","+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Drop_Rate_Multi"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Monster_EXP_While_Active","+{%_Monster_EXP_While_Active","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Drop_Rate_Multi","+{%_Drop_Rate_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Class_EXP_Multi"]]}",
       "carryPerSlot": null,
       "class": "Wind_Walker",
+      "classExp": {
+        "exp": 1.8229224541690406e+39,
+        "expReq": 2.3578523627342708e+39,
+      },
       "classIndex": 29,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
@@ -34529,6 +34934,9 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolPink2 C0=ObolSilverPop H105=ObolAmarokA C40=ObolSilverPop S60=ObolPink2 C25=ObolGold3 C130=ObolGold3 C152=ObolSilverPop C48=ObolSilverPop S190=ObolPink2 S250=ObolPinkCard S140=ObolPink2 C112=ObolGold3 C210=ObolGold3 C170=ObolSilverPop C80=ObolBronzeCard S120=ObolPink2 C98=ObolGold3 H180=ObolGoldCard C70=ObolSilverPop S90=ObolSilverCard",
+      "portalKillsLeft": [
+        -386627363217,
+      ],
       "postOfficeUnspent": 315050,
       "quests": {
         "entries": 95,
@@ -35178,6 +35586,12 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         0,
         0,
       ],
+      "tools": [
+        "EquipmentTools16",
+        "EquipmentToolsHatchet13",
+        "FishingRod13",
+        "CatchingNet13",
+      ],
     },
     {
       "afk": null,
@@ -35194,6 +35608,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "cardPresets": "{"selected":4,"unlocked":7,"presets":[["+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Drop_Rate_Multi","+{%_Drop_Rate_Multi","+{%_Skill_AFK_gain_rate","+{%_Boost_Food_Effect","+{%_All_Skill_Efficiency"],["+{%_Skill_AFK_gain_rate","+{%_Skill_EXP","+{%_Skill_AFK_gain_rate","+{%_Lab_EXP_gain","+{%_Skill_AFK_gain_rate","+{%_Double_AFK_claim_chance","+{%_All_Stat","+{%_All_Skill_Efficiency"],["+{%_Total_Damage_Multi","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage_Multi"],["+{%_Class_EXP_Multi","+{%_Monster_EXP_While_Active","+{%_Monster_EXP_While_Active","+{%_Class_EXP_Multi","+{%_Crystal_Mob_Spawn_Chance","+{%_Crystal_Mob_Spawn_Chance","+{%_Monster_EXP_While_Active","+{%_Class_EXP_Multi"],["+{%_Drop_Rate_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Total_Damage_Multi","+{%_Total_Damage_Multi","+{%_Total_Drop_Rate","+{%_Drop_Rate_Multi"],["+{%_Class_EXP_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Class_EXP_Multi","+{%_Drop_Rate_Multi","+{%_Drop_Rate_Multi","+{%_Class_EXP_Multi"],["+{%_Multikill_per_tier","+{%_Fighting_AFK_gain_rate","+{%_Drop_Rate_Multi","+{%_Drop_Rate_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier","+{%_Multikill_per_tier"]]}",
       "carryPerSlot": null,
       "class": "Arcane_Cultist",
+      "classExp": {
+        "exp": 2.271157261763114e+39,
+        "expReq": 3.3558965103449195e+39,
+      },
       "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
@@ -35245,6 +35663,9 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMining C0=ObolSilverMining H105=ObolSlush C40=ObolSilverMining S60=ObolGoldMining C25=ObolSilverMining C130=ObolSilverMining C152=ObolSilverMining C48=ObolSilverMining S190=ObolGoldMining S250=ObolEmp S140=ObolGoldMining C112=ObolSilverMining C210=ObolSilverMining C170=ObolSilverMining C80=ObolSilverMining S120=ObolGoldMining C98=ObolSilverMining H180=ObolSlush C70=ObolSilverMining S90=ObolGoldMining",
+      "portalKillsLeft": [
+        -1641704718905,
+      ],
       "postOfficeUnspent": 315050,
       "quests": {
         "entries": 95,
@@ -35436,6 +35857,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "cardPresets": "{"selected":6,"unlocked":7,"presets":[["+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Drop_Rate_Multi","+{%_Boost_Food_Effect","+{%_Drop_Rate_Multi","+{%_Skill_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_All_Skill_Efficiency"],["+{%_All_Skill_Efficiency","+{%_All_Stat","+{%_Card_Drop_Chance","+{%_Boost_Food_Effect","+{%_Card_Drop_Chance","+{%_Card_Drop_Chance","+{%_Card_Drop_Chance","+{%_Skill_EXP"],["+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Drop_Rate_Multi","+{%_Multikill_per_tier"],["+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Drop_Rate_Multi","+{%_Drop_Rate_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Class_EXP_Multi"],["+{%_Drop_Rate_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Drop_Rate_Multi","+{%_Multikill_per_tier"],["+{%_Drop_Rate_Multi","+{%_Crystal_Mob_Spawn_Chance","+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Drop_Rate_Multi"],["+{%_Class_EXP_Multi","+{%_Crystal_Mob_Spawn_Chance","+{%_Crystal_Mob_Spawn_Chance","+{%_Monster_EXP_While_Active","+{%_Drop_Rate_Multi","+{%_Drop_Rate_Multi","+{%_Class_EXP_Multi","+{%_Class_EXP_Multi"]]}",
       "carryPerSlot": null,
       "class": "Siege_Breaker",
+      "classExp": {
+        "exp": 2.5122327786090935e+38,
+        "expReq": 1.3885053904303932e+39,
+      },
       "classIndex": 22,
       "currentMap": "The_Hole",
       "foodStacks": [
@@ -35483,6 +35908,9 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldCatching C0=ObolSilverCatching H105=ObolSlush C40=ObolSilverCatching S60=ObolGoldCatching C25=ObolSilverCatching C130=ObolSilverCatching C152=ObolSilverCatching C48=ObolSilverCatching S190=ObolGoldCatching S250=ObolEmp S140=ObolGoldCatching C112=ObolSilverCatching C210=ObolSilverCatching C170=ObolSilverCatching C80=ObolSilverCatching S120=ObolGoldCatching C98=ObolSilverCatching H180=ObolSlush C70=ObolSilverCatching S90=ObolGoldCatching",
+      "portalKillsLeft": [
+        -13561918832104,
+      ],
       "postOfficeUnspent": 315050,
       "quests": {
         "entries": 94,
@@ -35660,6 +36088,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "cardPresets": "{"selected":2,"unlocked":7,"presets":[["+{%_All_Skill_Efficiency","+{%_Skill_AFK_gain_rate","+{%_Skill_EXP","+{%_Drop_Rate_Multi","+{%_Drop_Rate_Multi","+{%_Boost_Food_Effect","+{%_Double_AFK_claim_chance","+{%_Skill_AFK_gain_rate"],[],["+{%_Drop_Rate_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Total_Damage_Multi","+{%_Total_Damage_Multi","+{%_Total_Damage","+{%_Drop_Rate_Multi"],["+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Drop_Rate_Multi","+{%_Drop_Rate_Multi","+{%_Class_EXP_Multi"],["+{%_Drop_Rate_Multi","+{%_Crystal_Mob_Spawn_Chance","+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Drop_Rate_Multi"],["+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Class_EXP_Multi","+{%_Multikill_per_tier","+{%_Multikill_per_tier"],["+{%_Class_EXP_Multi","+{%_Crystal_Mob_Spawn_Chance","+{%_Crystal_Mob_Spawn_Chance","+{%_Monster_EXP_While_Active","+{%_Monster_EXP_While_Active","+{%_Monster_EXP_While_Active","+{%_Class_EXP_Multi","+{%_Class_EXP_Multi"]]}",
       "carryPerSlot": null,
       "class": "Divine_Knight",
+      "classExp": {
+        "exp": 1.6527244114264493e+39,
+        "expReq": 1.9763525979052345e+39,
+      },
       "classIndex": 12,
       "currentMap": "Deep_End_of_the_Koipond",
       "foodStacks": [
@@ -35709,6 +36141,9 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolHyperB0 C0=ObolHyper0 H105=ObolLava C40=ObolHyper0 S60=ObolHyperB0 C25=ObolHyper0 C130=ObolHyper0 C152=ObolHyper0 C48=ObolHyper0 S190=ObolHyperB0 S250=ObolPinkLuck S140=ObolHyperB0 C112=ObolHyper0 C210=ObolHyper0 C170=ObolHyper0 C80=ObolHyper0 S120=ObolHyperB0 C98=ObolHyper0 H180=ObolLava C70=ObolHyper0 S90=ObolHyperB0",
+      "portalKillsLeft": [
+        -1518330904323,
+      ],
       "postOfficeUnspent": 315050,
       "quests": {
         "entries": 94,
@@ -36608,6 +37043,9 @@ exports[`public save third.json > matches the recorded shape (review the diff af
     "construction": null,
     "currentWorld": 6,
     "dailyResetInSeconds": 12019.833936452676,
+    "deathNote": {
+      "mushG": 148485650144,
+    },
     "deathNoteBuilding": {
       "held": 1411086,
       "inBuildSlot": false,
@@ -37947,6 +38385,29 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "name": "Frosty_Firefight",
       },
     ],
+    "vault": {
+      "killTotals": [
+        11613244237,
+        3618667581,
+        1014251573,
+        1004814689,
+        10,
+        9,
+        9,
+        9,
+        104,
+        11485,
+        4216783014,
+        9,
+      ],
+      "rowLevels": {
+        "Bored_to_Death": 0,
+        "Buildie_Sheepie": 0,
+        "Dirty_Money": 0,
+        "Slice_N_Dice": 0,
+        "Stick_Snapping": 0,
+      },
+    },
     "weeklyBattle": {
       "bestDifficulty": 5,
       "raidResetUsedToday": true,
@@ -38204,6 +38665,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "cardPresets": "{"selected":0,"unlocked":7,"presets":[["+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Total_Damage_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier"],["+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Card_Drop_Chance","+{%_Card_Drop_Chance","+{%_Card_Drop_Chance","+{%_Card_Drop_Chance"],["+{%_Skill_EXP","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate"]]}",
       "carryPerSlot": null,
       "class": "Siege_Breaker",
+      "classExp": {
+        "exp": 292147820139708,
+        "expReq": 1104808478605829,
+      },
       "classIndex": 22,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
@@ -38255,6 +38720,9 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolPlatinumLuck C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolKruk S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolPlatinumLuck C70=ObolSilverPop S90=ObolGoldLuck",
+      "portalKillsLeft": [
+        -42030607965,
+      ],
       "postOfficeUnspent": 6441,
       "quests": {
         "entries": 87,
@@ -38438,6 +38906,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "cardPresets": "{"selected":0,"unlocked":7,"presets":[["+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Total_Damage_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier"],["+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Crystal_Mob_Spawn_Chance"],["+{%_All_Stat","+{_Base_MP","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{_Base_WIS","+{_Base_WIS","+{%_Total_MP"],["+{%_Skill_EXP","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate"]]}",
       "carryPerSlot": null,
       "class": "Bubonic_Conjuror",
+      "classExp": {
+        "exp": 5670063790451656,
+        "expReq": 7426046752219389,
+      },
       "classIndex": 36,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
@@ -38489,6 +38961,9 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldTrapping C0=ObolSilverTrapping H105=ObolSlush C40=ObolSilverTrapping S60=ObolGoldTrapping C25=ObolSilverTrapping C130=ObolSilverTrapping C152=ObolSilverTrapping C48=ObolSilverTrapping S190=ObolGoldTrapping S250=ObolKruk S140=ObolGoldTrapping C112=ObolSilverTrapping C210=ObolSilverTrapping C170=ObolSilverTrapping C80=ObolSilverTrapping S120=ObolGoldTrapping C98=ObolSilverTrapping H180=ObolSlush C70=ObolSilverTrapping S90=ObolGoldTrapping",
+      "portalKillsLeft": [
+        -12538110030,
+      ],
       "postOfficeUnspent": 6441,
       "quests": {
         "entries": 87,
@@ -38663,6 +39138,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "cardPresets": "{"selected":0,"unlocked":7,"presets":[["+{%_Total_Damage_Multi","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier"],["+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Multikill_per_tier","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Dungeon_Flurbos","+{%_Dungeon_Card_Chance","+{%_Dungeon_Drop_Rate","+{%_RNG_item_rarity","+{%_Dungeon_Credits","+{%_Dungeon_Card_Chance","+{%_Dungeon_Card_Chance","+{%_Dungeon_Flurbos"],["+{%_Skill_EXP","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate"]]}",
       "carryPerSlot": null,
       "class": "Divine_Knight",
+      "classExp": {
+        "exp": 261388627974300860,
+        "expReq": 410623146065625800,
+      },
       "classIndex": 12,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
@@ -38714,6 +39193,9 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldLuck C0=ObolSilverPop H105=ObolPlatinumLuck C40=ObolSilverPop S60=ObolGoldLuck C25=ObolSilverPop C130=ObolSilverPop C152=ObolSilverPop C48=ObolSilverPop S190=ObolGoldLuck S250=ObolPinkLuck S140=ObolGoldLuck C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolSilverPop S120=ObolGoldLuck C98=ObolSilverPop H180=ObolPlatinumLuck C70=ObolSilverPop S90=ObolGoldLuck",
+      "portalKillsLeft": [
+        -1276746076,
+      ],
       "postOfficeUnspent": 6441,
       "quests": {
         "entries": 87,
@@ -38898,6 +39380,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "cardPresets": "{"selected":4,"unlocked":7,"presets":[["+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Total_Damage_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier"],["+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Crystal_Mob_Spawn_Chance","+{%_EXP_from_monsters","+{%_EXP_from_monsters","+{%_Monster_EXP_While_Active","+{%_Monster_EXP_While_Active","+{%_EXP_from_monsters","+{%_EXP_from_monsters","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Skill_EXP","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate"]]}",
       "carryPerSlot": null,
       "class": "Beast_Master",
+      "classExp": {
+        "exp": 2080614701446998,
+        "expReq": 5367775252869030,
+      },
       "classIndex": 25,
       "currentMap": "Chieftain_Stairway",
       "foodStacks": [
@@ -38949,6 +39435,9 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldCons C0=ObolSilverCons H105=ObolPlatinumCons C40=ObolSilverCons S60=ObolGoldCons C25=ObolSilverCons C130=ObolSilverCons C152=ObolSilverCons C48=ObolSilverCons S190=ObolGoldCons S250=ObolPinkCons S140=ObolGoldCons C112=ObolSilverCons C210=ObolSilverCons C170=ObolSilverCons C80=ObolSilverCons S120=ObolGoldCons C98=ObolSilverCons H180=ObolPlatinumCons C70=ObolSilverCons S90=ObolGoldCons",
+      "portalKillsLeft": [
+        -107574101,
+      ],
       "postOfficeUnspent": 6441,
       "quests": {
         "entries": 87,
@@ -39133,6 +39622,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "cardPresets": "{"selected":0,"unlocked":7,"presets":[["+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Total_Damage_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier"],["+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Crystal_Mob_Spawn_Chance"],[],["+{%_Skill_EXP","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate"]]}",
       "carryPerSlot": null,
       "class": "Elemental_Sorcerer",
+      "classExp": {
+        "exp": 1076031473697762,
+        "expReq": 2553407877082612,
+      },
       "classIndex": 34,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
@@ -39184,6 +39677,9 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolHyperB1 C0=ObolSilverPop H105=ObolSlush C40=ObolHyper2 S60=ObolHyperB1 C25=ObolSilverPop C130=ObolSilverPop C152=ObolHyper2 C48=ObolHyper2 S190=ObolHyperB1 S250=ObolKruk S140=ObolHyperB1 C112=ObolSilverPop C210=ObolSilverPop C170=ObolSilverPop C80=ObolHyper1 S120=ObolGoldLuck C98=ObolSilverPop H180=ObolSlush C70=ObolHyper1 S90=ObolHyperB2",
+      "portalKillsLeft": [
+        -14080973047,
+      ],
       "postOfficeUnspent": 6441,
       "quests": {
         "entries": 87,
@@ -39583,6 +40079,12 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         0,
         0,
       ],
+      "tools": [
+        "EquipmentTools15",
+        "EquipmentToolsHatchet10",
+        "FishingRod12",
+        "CatchingNet12",
+      ],
     },
     {
       "afk": null,
@@ -39599,6 +40101,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "cardPresets": "{"selected":0,"unlocked":7,"presets":[["+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Total_Damage_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier"],["+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Crystal_Mob_Spawn_Chance"],[],["+{%_Skill_EXP","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate"]]}",
       "carryPerSlot": null,
       "class": "Divine_Knight",
+      "classExp": {
+        "exp": 543976688717082,
+        "expReq": 4670286831009858,
+      },
       "classIndex": 12,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
@@ -39646,6 +40152,9 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMining C0=ObolSilverMining H105=ObolSlush C40=ObolSilverMining S60=ObolGoldMining C25=ObolSilverMining C130=ObolSilverMining C152=ObolSilverMining C48=ObolSilverMining S190=ObolGoldMining S250=ObolKruk S140=ObolGoldMining C112=ObolSilverMining C210=ObolSilverMining C170=ObolSilverMining C80=ObolSilverMining S120=ObolGoldMining C98=ObolSilverMining H180=ObolSlush C70=ObolSilverMining S90=ObolGoldMining",
+      "portalKillsLeft": [
+        -14432815704,
+      ],
       "postOfficeUnspent": 6441,
       "quests": {
         "entries": 87,
@@ -39828,6 +40337,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "cardPresets": "{"selected":0,"unlocked":7,"presets":[["+{%_Total_Damage_Multi","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Total_Damage","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier"],["+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Total_Damage_Multi","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage","+{%_Critical_Damage","+{%_Critical_Damage"],["+{%_Skill_EXP","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate"]]}",
       "carryPerSlot": null,
       "class": "Elemental_Sorcerer",
+      "classExp": {
+        "exp": 1263133930209967,
+        "expReq": 3534862259109551,
+      },
       "classIndex": 34,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
@@ -39879,6 +40392,9 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldChoppin C0=ObolSilverChoppin H105=ObolSlush C40=ObolSilverChoppin S60=ObolGoldChoppin C25=ObolSilverChoppin C130=ObolSilverChoppin C152=ObolSilverChoppin C48=ObolSilverChoppin S190=ObolGoldChoppin S250=ObolKruk S140=ObolGoldChoppin C112=ObolSilverChoppin C210=ObolSilverChoppin C170=ObolSilverChoppin C80=ObolSilverChoppin S120=ObolGoldChoppin C98=ObolSilverChoppin H180=ObolSlush C70=ObolSilverChoppin S90=ObolGoldChoppin",
+      "portalKillsLeft": [
+        -13173358810,
+      ],
       "postOfficeUnspent": 6441,
       "quests": {
         "entries": 87,
@@ -40055,6 +40571,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "cardPresets": "{"selected":0,"unlocked":7,"presets":[["+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Multikill_per_tier","+{%_Total_Damage_Multi","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Multikill_per_tier"],["+{%_Skill_AFK_gain_rate","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Fighting_AFK_gain_rate","+{%_Fighting_AFK_gain_rate","+{%_Total_Drop_Rate"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Crystal_Mob_Spawn_Chance"],[],["+{%_Skill_EXP","+{%_All_Stat","+{%_All_Stat","+{%_All_Stat","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_Skill_AFK_gain_rate","+{%_All_Skill_Efficiency"],["+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate"]]}",
       "carryPerSlot": null,
       "class": "Siege_Breaker",
+      "classExp": {
+        "exp": 695475030551437,
+        "expReq": 875104082546173,
+      },
       "classIndex": 22,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
@@ -40106,6 +40626,9 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldCatching C0=ObolSilverCatching H105=ObolSlush C40=ObolSilverCatching S60=ObolGoldCatching C25=ObolSilverCatching C130=ObolSilverCatching C152=ObolSilverCatching C48=ObolSilverCatching S190=ObolGoldCatching S250=ObolKruk S140=ObolGoldCatching C112=ObolSilverCatching C210=ObolSilverCatching C170=ObolSilverCatching C80=ObolSilverCatching S120=ObolGoldCatching C98=ObolSilverCatching H180=ObolSlush C70=ObolSilverCatching S90=ObolGoldCatching",
+      "portalKillsLeft": [
+        -21479028364,
+      ],
       "postOfficeUnspent": 6441,
       "quests": {
         "entries": 87,
@@ -41088,6 +41611,9 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
     "construction": null,
     "currentWorld": 7,
     "dailyResetInSeconds": 59914.879991948605,
+    "deathNote": {
+      "mushG": 361864979520,
+    },
     "deathNoteBuilding": {
       "held": 170,
       "inBuildSlot": false,
@@ -42572,6 +43098,29 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "name": "Frosty_Firefight",
       },
     ],
+    "vault": {
+      "killTotals": [
+        5587933927,
+        88220079821,
+        31408831,
+        1510699870,
+        9,
+        10,
+        7,
+        9,
+        104,
+        12903,
+        6179320363,
+        9,
+      ],
+      "rowLevels": {
+        "Bored_to_Death": 10,
+        "Buildie_Sheepie": 20,
+        "Dirty_Money": 25,
+        "Slice_N_Dice": 100,
+        "Stick_Snapping": 50,
+      },
+    },
     "weeklyBattle": {
       "bestDifficulty": 0,
       "raidResetUsedToday": false,
@@ -44166,6 +44715,12 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         0,
         0,
       ],
+      "tools": [
+        "EquipmentTools11",
+        "EquipmentToolsHatchet7",
+        "FishingRod7",
+        "CatchingNet7",
+      ],
     },
     {
       "afk": null,
@@ -44396,6 +44951,10 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "cardPresets": "{"selected":0,"unlocked":7,"presets":[["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Damage","+{%_Multikill_per_tier","+{%_Total_Damage","+{%_Total_Damage","+{%_All_Stat","+{%_Total_Damage","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Card_Drop_Chance","+{%_Drop_Rate_Multi"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Money_from_Monsters","+{%_Money_from_Monsters","+{%_Money_from_Monsters","+{%_Money_from_Monsters","+{%_Money_from_Monsters","+{%_Money_from_Monsters","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Crystal_Mob_Spawn_Chance","+{%_Drop_Rate_Multi","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Total_Drop_Rate","+{%_Crystal_Mob_Spawn_Chance"],["+{%_Total_Damage_Multi","+{%_Total_Damage","+{_Weapon_Power","+{_Weapon_Power","+{_Weapon_Power","+{%_Total_Damage","+{%_Total_Damage","+{%_Total_Damage"],[],[]]}",
       "carryPerSlot": null,
       "class": "Royal_Guardian",
+      "classExp": {
+        "exp": 8.1176933947005e+29,
+        "expReq": 2.3437430699174437e+30,
+      },
       "classIndex": 16,
       "currentMap": "The_Royal_Castle",
       "foodStacks": [
@@ -44443,6 +45002,9 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolSilverCons H105=ObolChizoarA C40=ObolSilverCons S60=ObolGoldMoney C25=ObolSilverCons C130=ObolSilverCons C152=ObolHyper0 C48=ObolSilverCons S190=ObolGoldCons S250=ObolTroll S140=ObolGoldMoney C112=ObolSilverCons C210=ObolHyper0 C170=ObolHyper0 C80=ObolSilverCons S120=ObolGoldCons C98=ObolSilverCons H180=ObolChizoarA C70=ObolSilverCons S90=ObolGoldCons",
+      "portalKillsLeft": [
+        -60569276,
+      ],
       "postOfficeUnspent": 452015,
       "quests": {
         "entries": 95,
@@ -44632,6 +45194,10 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "cardPresets": "{"selected":0,"unlocked":7,"presets":[["+{%_Crystal_Mob_Spawn_Chance","+{%_Total_Damage","+{%_Total_Damage","+{_Weapon_Power","+{%_Total_Damage","+{%_Total_Damage","+{_Weapon_Power","+{%_Crystal_Mob_Spawn_Chance"],[],[],[],[],[],[]]}",
       "carryPerSlot": null,
       "class": "Bubonic_Conjuror",
+      "classExp": {
+        "exp": 3.232391806411378e+29,
+        "expReq": 4.128549083429221e+29,
+      },
       "classIndex": 36,
       "currentMap": "Spore_Meadows",
       "foodStacks": [
@@ -44683,6 +45249,9 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "Telescope": 9999,
       },
       "personalObols": "S32=ObolGoldMoney C0=ObolBronzeKill H105=ObolPlatinumLuck C40=ObolBronzeCons S60=ObolGoldMoney C25=ObolSilver2 C130=ObolSilver2 C152=ObolSilver2 C48=ObolSilverDamage S190=ObolGoldMoney S250=ObolPinkFishing S140=ObolGoldMoney C112=ObolGold1 C210=ObolBronzeKill C170=ObolGold2 C80=ObolSilverChoppin S120=ObolGoldMoney C98=ObolSilver2 H180=ObolPlatinumLuck C70=ObolGold3 S90=ObolGoldMoney",
+      "portalKillsLeft": [
+        -360369690296,
+      ],
       "postOfficeUnspent": 471823,
       "quests": {
         "entries": 94,

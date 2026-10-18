@@ -120,6 +120,8 @@ export interface RosterRow {
   caps: CapPillView[];
   moreCaps: number;
   summary: string;
+  /** M4 FR-11: the Purpose headline ("Poop kills ~2,995 → 10k for Dirty Money · about 5h"); null without one. */
+  purpose: string | null;
   /** "Spend here: 3 buys, ~1.2M → Spend Plan" (FR-4, M7 D5). */
   spendChip: string | null;
   /** US-1: number, name, class, level, activity, map, Verdict and summary. */
@@ -130,6 +132,8 @@ export interface UnknownView {
   reason: 'no-purpose' | 'cannot-tell' | 'not-covered';
   /** "What is this character for?", "Can't tell from the save", "AFK safety isn't covered yet". */
   text: string;
+  /** M4 FR-14: the reason under "What is this character for?" ("Slime card is complete; …"). */
+  note: string | null;
   /** For no-purpose: the single suggestion (FR-11). */
   suggestion: NextActionView | null;
   /** D7: only a cannot-tell Unknown can be skipped. */
@@ -180,7 +184,13 @@ export interface FocusCard {
   blockers: GoalView[];
   skippedBlockers: number;
   unknown: UnknownView | null;
-  purpose: { goalId: string; text: string; stopHere: boolean; badges: string[]; source: SourceView | null }[];
+  /**
+   * M4 (Design Lab `now.focus-purpose`, "Quest line" plus a short ladder): ranked; the first is the
+   * row headline, the first 3 show, the rest go behind "show more" (`more`, FR-11).
+   */
+  purpose: PurposeItemView[];
+  /** M4 FR-8: the Purpose status ("serving", "exhausted", ...); null without M4. */
+  purposeStatus: string | null;
   goals: GoalView[];
   hiddenCount: number;
   skippedCount: number;
@@ -196,6 +206,32 @@ export interface FocusCard {
   info: { key: string; text: string; source: SourceView | null }[];
   done: DoneView[];
   next: { index: number | null; text: string };
+}
+
+/** One step of a Purpose line's ladder: done (where it is), next and the one after. */
+export interface LadderStepView {
+  state: 'done' | 'next' | 'later';
+  /** "19 kills", "15k kills", "Lv 55". */
+  label: string;
+  /** "now", "about 14h", "about 63h on average"; empty when unknown (hidden). */
+  note: string;
+}
+
+export interface PurposeItemView {
+  goalId: string;
+  text: string;
+  /** "banked: the Death Note building is Lv 0". */
+  detail: string | null;
+  worthwhile: boolean;
+  stopHere: boolean;
+  badges: string[];
+  source: SourceView | null;
+  /** The headline's progress bar: current of next; null for yes/no Goals. */
+  bar: { current: number; next: number } | null;
+  /** Only on the headline: done / next / later. */
+  ladder: LadderStepView[];
+  /** Behind "show more" (FR-11: the top 3 show). */
+  more: boolean;
 }
 
 export interface ActivePlayView {

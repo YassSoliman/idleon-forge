@@ -1,40 +1,47 @@
-# golden v1: second · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 361
+# golden v1: second · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
 ## Now
-! All set: safe to log off. First thing fills up in about 19h: C10's anvil
-safe to log off
+8 of 10 Ready · 2 Unknown
+
+### C7 · Voidwalker 510 · Unknown
+1 · Fighting Skydoggie Spirit · Dozey Dogpark · [Traps idle in about 2 h] · Can't tell from the save
+
+### C4 · Blood Berserker 501 · Unknown
+2 · Fighting The Rift · The Rift · [Traps idle in about 2 h] · Can't tell from the save
 
 ### C3 · Bubonic Conjuror 567 · Ready
-1 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h] · Equip 1 stored obol in a personal sparkle slot
+3 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h] · Equip 1 stored obol in a personal sparkle slot
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C2 · Divine Knight 544 · Ready
-2 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+4 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C6 · Siege Breaker 530 · Ready
-3 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
-
-### C7 · Voidwalker 510 · Ready
-4 · Fighting Skydoggie Spirit · Dozey Dogpark · [Traps idle in about 2 h]
+5 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C1 · Beast Master 507 · Ready
-5 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+6 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C9 · Hunter 503 · Ready
-6 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h] [Anvil full in about 6 h · collect]
-
-### C4 · Blood Berserker 501 · Ready
-7 · Fighting The Rift · The Rift · [Traps idle in about 2 h]
+7 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h] [Anvil full in about 6 h · collect]
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C5 · Wizard 501 · Ready
 8 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h] [Anvil full in about 2 h · collect]
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C10 · Barbarian 501 · Ready
 9 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### C8 · Elemental Sorcerer 525 · Ready
 10 · Fighting Penguin · Signature Slopes · [Traps idle in about 2 h]
+purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 
 ### Account · nothing to fix
 [checklist] Today 5/10 · Week 2/4 · daily reset in 11h 38m
@@ -52,13 +59,9 @@ safe to log off
   · Hunter Lv 503: 316 boxes
   · Barbarian Lv 501: 316 boxes
 - Spend · Spend task unlock points: Spend 644 task unlock points [IdleOn Wiki: Tasks/Unlocks · Calculated by IdleOn Toolbox · 2.3.540]
-show more (1)
+show more (2)
 
 ## Not covered yet
-Classes and subclasses
-Portals and map doors
-Skills, doors and tools
-Upgrade Vault
 Bribes
 Forge
 Quests
@@ -76,11 +79,11 @@ Cooking
 Laboratory
 
 ## Systems
-W0 · Classes and subclasses · Not covered yet · Not covered yet
+W0 · Classes and subclasses · Nothing to fix · Nothing to fix
 W0 · Talents · Nothing to fix · Nothing to fix
 W0 · Talent presets · Nothing to fix · Nothing to fix
 W0 · Talent resets · Nothing to fix · Nothing to fix
-W0 · Upgrade Vault · Not covered yet · Not covered yet
+W0 · Upgrade Vault · Nothing to fix · Nothing to fix
 W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix
 W0 · Tasks · Nothing to fix · Nothing to fix · 1 to do
@@ -88,13 +91,13 @@ W0 · Companions and pets · Can't tell · Can't tell from the save
 W0 · Minigames · Wasting · 1 to fix before you leave
 W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
-W0 · Portals and map doors · Not covered yet · Not covered yet
-W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Portals and map doors · Nothing to fix · Nothing to fix
+W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
-W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
+W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Can't tell · Can't tell from the save · 2 full · collect
 W1 · Forge · Not covered yet · Not covered yet
@@ -138,8 +141,15 @@ Wasting: 1
 ## Timeline
 Axis: now to +12h · Back in 8h 00m · 14:05
 Nothing fills up before you're back
-C3 · Bubonic Conjuror 567
+C7 · Voidwalker 510
 - Traps idle · in 2h 15m · 08:20 · before · pill · fix none · the same on 7 more
+- worship charge caps · later · in 9d 0h · 06:41 · after · info · fix none
+C4 · Blood Berserker 501
+- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
+- anvil full · later · in 24h 50m · 06:55 · after · info · fix none
+- worship charge caps · later · in 14d 14h · 20:15 · after · info · fix none
+C3 · Bubonic Conjuror 567
+- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - worship charge caps · later · in 19d 5h · 12:03 · after · info · fix none
 C2 · Divine Knight 544
 - Traps idle · in 2h 15m · 08:20 · before · pill · fix none
@@ -147,9 +157,6 @@ C2 · Divine Knight 544
 C6 · Siege Breaker 530
 - Traps idle · in 2h 14m · 08:19 · before · pill · fix none
 - worship charge caps · later · in 14d 15h · 21:50 · after · info · fix none
-C7 · Voidwalker 510
-- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
-- worship charge caps · later · in 9d 0h · 06:41 · after · info · fix none
 C1 · Beast Master 507
 - Traps idle · in 2h 15m · 08:19 · before · pill · fix none
 - worship charge caps · later · in 14d 14h · 20:41 · after · info · fix none
@@ -157,10 +164,6 @@ C9 · Hunter 503
 - Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - Anvil full · collect · in 5h 37m · 11:41 · before · pill · fix none
 - worship charge caps · later · in 14d 23h · 05:10 · after · info · fix none
-C4 · Blood Berserker 501
-- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
-- anvil full · later · in 24h 50m · 06:55 · after · info · fix none
-- worship charge caps · later · in 14d 14h · 20:15 · after · info · fix none
 C5 · Wizard 501
 - Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - Anvil full · collect · in 2h 27m · 08:31 · before · pill · fix none
@@ -264,10 +267,36 @@ Account · Refinery
 | anvil.check.spend-points | anvil/points | — | silent |  |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| cards.contribution.fight-penguin | cards/fight-level | C1 | advances no | chance=0.0003 complete=1 feeders=951 rate=7322117 rule=0 saved=2168 target=Penguin |
+| cards.contribution.fight-penguin | cards/fight-level | C10 | advances no | chance=0.0003 complete=1 feeders=951 rate=7322117 rule=0 saved=2168 target=Penguin |
+| cards.contribution.fight-penguin | cards/fight-level | C2 | advances no | chance=0.0003 complete=1 feeders=951 rate=7322117 rule=0 saved=2168 target=Penguin |
+| cards.contribution.fight-penguin | cards/fight-level | C3 | advances no | chance=0.0003 complete=1 feeders=951 rate=7322117 rule=0 saved=2168 target=Penguin |
+| cards.contribution.fight-penguin | cards/fight-level | C5 | advances no | chance=0.0003 complete=1 feeders=951 rate=7322117 rule=0 saved=2168 target=Penguin |
+| cards.contribution.fight-penguin | cards/fight-level | C6 | advances no | chance=0.0003 complete=1 feeders=951 rate=7322117 rule=0 saved=2168 target=Penguin |
+| cards.contribution.fight-penguin | cards/fight-level | C8 | advances no | chance=0.0003 complete=1 feeders=951 rate=7322117 rule=0 saved=2168 target=Penguin |
+| cards.contribution.fight-penguin | cards/fight-level | C9 | advances no | chance=0.0003 complete=1 feeders=951 rate=7322117 rule=0 saved=2168 target=Penguin |
+| classes.contribution.exp | classes/exp | C1 | advances yes eta 524809m | exp=147088367488363 expReq=434443480619257 rate=32852561815.353706 saved=507 |
+| classes.contribution.exp | classes/exp | C10 | advances yes eta 458262m | exp=49817581280859 expReq=328163061123429 rate=36443660888.92556 saved=501 |
+| classes.contribution.exp | classes/exp | C2 | advances yes eta 1133664m | exp=1660607902379482 expReq=2437421400916955 rate=41113431474.7436 saved=544 |
+| classes.contribution.exp | classes/exp | C3 | advances yes eta 6087293m | exp=2234011381539918 expReq=7089695099726559 rate=47860518891.655846 saved=567 |
+| classes.contribution.exp | classes/exp | C4 | advances yes eta 3130356m | exp=72834807689187 expReq=328163061123429 rate=4893914029.954135 saved=501 |
+| classes.contribution.exp | classes/exp | C5 | advances yes eta 419233m | exp=30527062826687 expReq=328163061123429 rate=42597188842.38124 saved=501 |
+| classes.contribution.exp | classes/exp | C6 | advances yes eta 1454152m | exp=417855820361771 expReq=1270541414834107 rate=35182796911.7788 saved=530 |
+| classes.contribution.exp | classes/exp | C7 | advances yes eta 420m | exp=216000202286230 expReq=499819365953888 rate=40553817411739.44 saved=510 |
+| classes.contribution.exp | classes/exp | C8 | advances yes eta 169677m | exp=880376157492550 expReq=1006479128864428 rate=44591775758.611115 saved=525 |
+| classes.contribution.exp | classes/exp | C9 | advances yes eta 368853m | exp=134472638816533 expReq=360343574514598 rate=36741604025.36397 saved=503 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
 | construction.check.build-next | construction/build-next | account | pass |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
+| death-note.contribution.skull-penguin | death-note/skull | C1 | advances yes eta 625m | building=51 feeders=951 rate=7322117 rule=1 saved=23691505 target=Penguin |
+| death-note.contribution.skull-penguin | death-note/skull | C10 | advances yes eta 625m | building=51 feeders=951 rate=7322117 rule=1 saved=23691505 target=Penguin |
+| death-note.contribution.skull-penguin | death-note/skull | C2 | advances yes eta 625m | building=51 feeders=951 rate=7322117 rule=1 saved=23691505 target=Penguin |
+| death-note.contribution.skull-penguin | death-note/skull | C3 | advances yes eta 625m | building=51 feeders=951 rate=7322117 rule=1 saved=23691505 target=Penguin |
+| death-note.contribution.skull-penguin | death-note/skull | C5 | advances yes eta 625m | building=51 feeders=951 rate=7322117 rule=1 saved=23691505 target=Penguin |
+| death-note.contribution.skull-penguin | death-note/skull | C6 | advances yes eta 625m | building=51 feeders=951 rate=7322117 rule=1 saved=23691505 target=Penguin |
+| death-note.contribution.skull-penguin | death-note/skull | C8 | advances yes eta 625m | building=51 feeders=951 rate=7322117 rule=1 saved=23691505 target=Penguin |
+| death-note.contribution.skull-penguin | death-note/skull | C9 | advances yes eta 625m | building=51 feeders=951 rate=7322117 rule=1 saved=23691505 target=Penguin |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=4645 price=875 |
@@ -290,6 +319,14 @@ Account · Refinery
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | unknown (field-missing) |  |
 | poppy.check.open | poppy/pending-fish | — | silent |  |
+| portals.contribution.push-map-108 | portals/push | C1 | advances no | door=0 map=Signature_Slopes rate=759444 rule=1 saved=2447422 |
+| portals.contribution.push-map-108 | portals/push | C10 | advances no | door=0 map=Signature_Slopes rate=849172 rule=1 saved=858812 |
+| portals.contribution.push-map-108 | portals/push | C2 | advances no | door=0 map=Signature_Slopes rate=935766 rule=1 saved=3293704 |
+| portals.contribution.push-map-108 | portals/push | C3 | advances no | door=0 map=Signature_Slopes rate=1111725 rule=1 saved=157543 |
+| portals.contribution.push-map-108 | portals/push | C5 | advances no | door=0 map=Signature_Slopes rate=997214 rule=1 saved=2088344 |
+| portals.contribution.push-map-108 | portals/push | C6 | advances no | door=0 map=Signature_Slopes rate=810885 rule=1 saved=3161366 |
+| portals.contribution.push-map-108 | portals/push | C8 | advances no | door=0 map=Signature_Slopes rate=1022776 rule=1 saved=8511134 |
+| portals.contribution.push-map-108 | portals/push | C9 | advances no | door=0 map=Signature_Slopes rate=835135 rule=1 saved=168767 |
 | post-office.check.daily-orders | post-office/state | account | fires | companies=4 |
 | post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=60 |
 | post-office.check.spend-boxes | post-office/state | C10 | fires | boxes=316 |

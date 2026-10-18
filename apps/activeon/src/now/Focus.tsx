@@ -7,6 +7,7 @@ import { type FocusCard, LINK_WORDS, type NowView } from '@idleon-forge/engine/n
 import { forwardRef, useEffect, useRef } from 'react';
 import { characterTabs, NOW_TAB, tabById, tabHref } from './character-tabs';
 import { useNowActions } from './context';
+import { PurposeBlock } from './PurposeBlock';
 import {
   ActionControls,
   CapPills,
@@ -160,6 +161,7 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
                 <p>
                   <b>Unknown:</b> {card.unknown.text}
                 </p>
+                {card.unknown.note ? <p className="small muted">{card.unknown.note}</p> : null}
                 {card.unknown.suggestion ? <NextActionItem action={card.unknown.suggestion} /> : null}
                 {card.unknown.skipKey ? (
                   <div className="controls">
@@ -206,28 +208,7 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
             ) : null}
           </div>
 
-          {card.purpose.length > 0 ? (
-            <section aria-label="Purpose" className="purpose">
-              <h3 className="section-h">Purpose</h3>
-              <ul>
-                {card.purpose.map((p) => (
-                  <li key={p.goalId}>
-                    {p.text} {p.source ? <SourceLabel source={p.source} more={false} /> : null}{' '}
-                    <ReportThis
-                      input={{
-                        outputKind: 'purpose',
-                        entryIds: [p.goalId],
-                        fields: [],
-                        text: p.text,
-                        stale: p.badges.includes('stale'),
-                        contested: p.badges.includes('contested'),
-                      }}
-                    />
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
+          {card.purpose.length > 0 ? <PurposeBlock card={card} /> : null}
 
           <GoalList
             goals={card.goals}

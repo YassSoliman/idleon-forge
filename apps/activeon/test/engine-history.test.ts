@@ -140,10 +140,14 @@ describe('the engine reads real save history (M10 TR-6)', { timeout: 60_000 }, (
       state: { ...state, account: { ...state.account, lastCloudSave: savedAt - days * DAY, accountLevel } },
     });
     const full = [at(4, 227), at(2, 242)];
-    const unlock = (r: ReturnType<typeof run>) =>
-      'account' in r
-        ? r.account.goals.find((g) => g.id === 'metapath.goal.family-unlock')?.nextAction.text
-        : '';
+    // M15 FR-15: with M4, the unlock's Next Action is the top Class XP one; the unlock line is its detail.
+    const goalOf = (r: ReturnType<typeof run>) =>
+      'account' in r ? r.account.goals.find((g) => g.id === 'metapath.goal.family-unlock') : undefined;
+    const unlock = (r: ReturnType<typeof run>) => {
+      const g = goalOf(r);
+      expect(g?.nextAction.text).toMatch(/^Level \w+ Lv \d+ on /);
+      return g?.details?.[0]?.text ?? '';
+    };
     expect(unlock(run(call([], null)))).toContain('ETA after a few more sessions');
     // 257 - 227 = 30 levels in 4 days: 7.5 a day; 43 to go is about 6 days.
     const compact = engineHistoryOf(full, { before: savedAt, sessionStartedAt: null });

@@ -527,14 +527,10 @@ describe('US-5 to US-7 on scrubbed-w3 (W3-early, 6 characters)', () => {
     expect(text(tiles.get('worship'))).toMatch(/· 4 full · collect$/);
   });
 
-  it('marks exactly the golden "Not covered yet" Systems not covered, Upgrade Vault in the Spend Plan', () => {
+  it('marks exactly the golden "Not covered yet" Systems not covered (M4 covers Classes, Portals, Skills, the Vault)', () => {
     const notCovered = [...tiles.values()].filter((t) => t.status === 'not-covered').map((t) => t.name);
     expect(notCovered.sort()).toEqual(
       [
-        'Classes and subclasses',
-        'Portals and map doors',
-        'Skills, doors and tools',
-        'Upgrade Vault',
         'Bribes',
         'Forge',
         'Quests',
@@ -549,7 +545,7 @@ describe('US-5 to US-7 on scrubbed-w3 (W3-early, 6 characters)', () => {
         'Shrines',
       ].sort(),
     );
-    expect(text(tiles.get('upgrade-vault'))).toBe('Not covered yet · in the Spend Plan');
+    expect(text(tiles.get('upgrade-vault'))).toBe('Nothing to fix');
   });
 
   it('US-6: World 4 is locked by world, no World 5+ group, and the Post Office is locked and behind', () => {

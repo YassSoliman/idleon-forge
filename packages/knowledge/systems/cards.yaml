@@ -153,3 +153,83 @@ entries:
     sources:
       - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards (card presets from Lv 15)", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/cards-obols/docs/research/systems/2026-10-17-cards-obols.md#card-presets", title: "Cards and obols dossier: card presets", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540 }
+
+  # ---- M4 Purpose & Milestones (TR-4): card copies from the current activity ----
+  - id: cards.contribution.fight
+    system: cards
+    type: contribution
+    title: Card copies while fighting
+    activity: { afkType: FIGHTING }
+    goalFamily: cards.goal.card-levels
+    detector: { id: cards/fight-level, params: { unownedMultiplier: 5 } }
+    eta: kills-per-hour
+    values:
+      horizonHours: 24
+      first: "{target:name} card: first copy (5× drop chance while unowned)"
+      complete: "{target:name} card: complete"
+      whyNot: "{target:name} card isn't on this class's card list"
+      whySlow: "the next {target:name} card level is far off"
+      whyComplete: "{target:name} card is complete"
+      stopFirst: "{target:name} card's first copy drops in {etaText} on average. The next level is {laterEtaText} away. Consider stopping here."
+    text: "{target:name} card: {now} → {at} copies"
+    why: "Each card level raises its bonus. The time is a mean at the base drop chance (five times higher while you own none), so it is likely sooner."
+    stopHere: "{target:name} card reaches {at} copies in {etaText}. The next level, {later}, is {laterEtaText} away. Consider stopping here."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M4 TR-4, red-team note 11. Worthwhile for a first copy, or for a card on the class's M8 card list below its last base level, within 24 h on the mean ETA. The family is every fighting card ladder (card-levels, values.afkType FIGHTING)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards", tier: 2, claimDate: 2026-10-12, verified: 2026-10-18, gameVersion: 2.3.540, note: "Cards level up with copies; a card you have no copies of drops much more often." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/cards.ts", title: "IdleOn Toolbox: calculateStars and card drop chances", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/cards-obols/docs/research/systems/2026-10-17-cards-obols.md", title: "Cards and obols dossier: the unowned drop boost", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: cards.contribution.skill-mining
+    system: cards
+    type: contribution
+    title: First card copy while skilling
+    activity: { afkType: MINING }
+    goalFamily: cards.goal.card-levels
+    detector: { id: cards/skill-first-copy }
+    eta: none
+    text: "{target:name} card: the first copy drops here"
+    why: "A card's first copy gives its bonus right away. Skilling cards drop as you gather, with no time estimate."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M4 TR-4, FR-6: yes or no, first copy only. The family is the card-levels ladders whose dropper is a MINING node."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards", tier: 2, claimDate: 2026-10-12, verified: 2026-10-18, gameVersion: 2.3.540, note: "Resources drop cards too; a card you have no copies of drops much more often." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/cards.json", title: "Toolbox game data: cards", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: cards.contribution.skill-choppin
+    system: cards
+    type: contribution
+    title: First card copy while skilling
+    activity: { afkType: CHOPPIN }
+    goalFamily: cards.goal.card-levels
+    detector: { id: cards/skill-first-copy }
+    eta: none
+    text: "{target:name} card: the first copy drops here"
+    why: "A card's first copy gives its bonus right away. Skilling cards drop as you gather, with no time estimate."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M4 TR-4, FR-6: yes or no, first copy only. The family is the card-levels ladders whose dropper is a CHOPPIN node."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards", tier: 2, claimDate: 2026-10-12, verified: 2026-10-18, gameVersion: 2.3.540, note: "Resources drop cards too; a card you have no copies of drops much more often." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/cards.json", title: "Toolbox game data: cards", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: cards.contribution.skill-catching
+    system: cards
+    type: contribution
+    title: First card copy while skilling
+    activity: { afkType: CATCHING }
+    goalFamily: cards.goal.card-levels
+    detector: { id: cards/skill-first-copy }
+    eta: none
+    text: "{target:name} card: the first copy drops here"
+    why: "A card's first copy gives its bonus right away. Skilling cards drop as you gather, with no time estimate."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M4 TR-4, FR-6: yes or no, first copy only. The family is the card-levels ladders whose dropper is a CATCHING node."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards", tier: 2, claimDate: 2026-10-12, verified: 2026-10-18, gameVersion: 2.3.540, note: "Resources drop cards too; a card you have no copies of drops much more often." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/cards.json", title: "Toolbox game data: cards", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

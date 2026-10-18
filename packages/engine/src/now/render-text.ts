@@ -45,6 +45,7 @@ export function renderNowText(view: NowView, options: RenderTextOptions = {}): s
     const caps = [...row.caps.map((c) => `[${c.label}]`), ...(row.moreCaps ? [`[+${row.moreCaps}]`] : [])];
     const tail = [caps.join(' '), row.summary, row.spendChip].filter(Boolean).join(' · ');
     lines.push(`${row.position} · ${where} · ${tail}`);
+    if (row.purpose) lines.push(`purpose: ${row.purpose}`);
   }
 
   const f = view.focus;
@@ -53,12 +54,23 @@ export function renderNowText(view: NowView, options: RenderTextOptions = {}): s
     if (f.left) lines.push(f.left.text);
     for (const c of f.caps)
       lines.push(`cap: [${c.label}] ${c.text} ${c.source ? src(c.source) : ''}`.trimEnd());
-    if (f.unknown) lines.push(`Unknown: ${f.unknown.text}${f.unknown.skipped ? ' (skipped)' : ''}`);
+    if (f.unknown)
+      lines.push(
+        `Unknown: ${f.unknown.text}${f.unknown.note ? ` ${f.unknown.note}` : ''}${f.unknown.skipped ? ' (skipped)' : ''}`,
+      );
     if (f.unknown?.suggestion)
       lines.push(`  suggestion: ${f.unknown.suggestion.text} ${src(f.unknown.suggestion.source)}`);
     for (const g of f.blockers) lines.push(...goalLine(g));
     if (f.skippedBlockers) lines.push(`${f.skippedBlockers} skipped · undo`);
-    for (const p of f.purpose) lines.push(`purpose: ${p.text}`);
+    for (const p of f.purpose.filter((x) => !x.more)) {
+      lines.push(`purpose: ${p.text}${p.detail ? ` (${p.detail})` : ''}`);
+      if (p.ladder.length)
+        lines.push(
+          `  ladder: ${p.ladder.map((l) => [l.label, l.note].filter(Boolean).join(' ')).join(' → ')}`,
+        );
+    }
+    const more = f.purpose.filter((x) => x.more).length;
+    if (more) lines.push(`purpose: show more (${more})`);
     for (const g of f.goals) lines.push(...goalLine(g));
     if (f.hiddenCount) lines.push(`show more (${f.hiddenCount})`);
     if (f.skippedCount) lines.push(`${f.skippedCount} skipped · undo`);

@@ -7,8 +7,8 @@
 // the compiled Knowledge Base and the Detector registry the worker loads.
 import type { AccountState } from '@idleon-forge/account-state';
 import type { DetectorRegistry } from '@idleon-forge/knowledge';
-import type { EngineModule, ModuleGoal, ModuleOutput } from '../core/module';
-import type { InfoLine, TimelineBar } from '../result';
+import type { EngineInput, EngineModule, ModuleGoal, ModuleOutput } from '../core/module';
+import type { InfoLine, NextAction, TimelineBar } from '../result';
 import { type AfkSafetyInput, dedupeBars, evaluateAfkSafety } from './evaluate';
 import { HOUR_MS } from './expected-return';
 import { afkInfo } from './info';
@@ -29,8 +29,10 @@ export interface AfkSafetyModuleDeps {
   engineRegistry?: DetectorRegistry;
   /** The Stage, from M2's `runMetaPath(...).stage`; without it `appliesTo.stages` is not filtered. */
   stage?: (state: AccountState) => StageLike | null;
-  /** TODO(M4): a character's Purpose status; until M4 ships, 'not-implemented' (D4). */
-  purpose?: (index: number) => PurposeStatus | 'not-implemented';
+  /** M4 FR-8: a character's Purpose status (`purposeStatusFor`); without M4, 'not-implemented' (D4). */
+  purpose?: (index: number, input: EngineInput) => PurposeStatus | 'not-implemented';
+  /** M4 FR-14: the one suggestion behind "What is this character for?" (M5's, or the Role fallback). */
+  purposeSuggestion?: (index: number, input: EngineInput) => NextAction | null;
 }
 
 const goalOf = (f: SafetyFinding, kb: AfkSafetyModuleDeps['kb']): ModuleGoal => {
@@ -64,18 +66,21 @@ const capLine = (p: CapPill): InfoLine => ({
 export function toModuleOutput(
   result: AfkSafetyResult,
   kb: AfkSafetyModuleDeps['kb'],
-  purpose: AfkSafetyModuleDeps['purpose'] = () => 'not-implemented',
+  purpose: (index: number) => PurposeStatus | 'not-implemented' = () => 'not-implemented',
   info: ReadonlyMap<number, InfoLine[]> = new Map(),
   infoBars: readonly TimelineBar[] = [],
+  suggestion: (index: number) => NextAction | null = () => null,
 ): ModuleOutput {
   return {
     characters: result.characters.map((c) => {
       const blockerKeys = c.findings.filter((f) => f.role === 'blocker').map((f) => f.key);
       // R-PILL-1: cap pills lead the info, then the quiet lines (#70 A1).
       const lines = [...c.caps.map(capLine), ...(info.get(c.index) ?? [])];
+      const verdict = composeVerdict(c.safety, purpose(c.index), blockerKeys);
+      if (verdict.unknownReason === 'no-purpose') verdict.suggestion = suggestion(c.index);
       return {
         index: c.index,
-        verdict: composeVerdict(c.safety, purpose(c.index), blockerKeys),
+        verdict,
         goals: c.findings.map((f) => goalOf(f, kb)),
         firstFill: c.firstFill,
         ...(lines.length ? { info: lines } : {}),
@@ -139,7 +144,16 @@ export function createAfkSafetyModule(deps: AfkSafetyModuleDeps): EngineModule {
         info = new Map();
         infoBars = [];
       }
-      return toModuleOutput(result, deps.kb, deps.purpose, info, infoBars);
+      const purpose = deps.purpose;
+      const suggest = deps.purposeSuggestion;
+      return toModuleOutput(
+        result,
+        deps.kb,
+        purpose ? (i) => purpose(i, input) : undefined,
+        info,
+        infoBars,
+        suggest ? (i) => suggest(i, input) : undefined,
+      );
     },
   };
 }

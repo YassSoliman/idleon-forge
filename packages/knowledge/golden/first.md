@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 361
+# golden v1: first · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
@@ -9,22 +9,24 @@
 1 · Doing nothing · YumYum Grotto · [Traps idle in about 10 min] · Send Maestro Lv 73 to an AFK Target before you leave
 
 ### C2 · Bubonic Conjuror 87 · Unknown
-2 · In the Lab · Outer World Town · [Traps idle in about 5 h] · Not covered yet: AFK safety · Spend here: 32 buys, ~3.6B → Spend Plan
+2 · In the Lab · Outer World Town · [Traps idle in about 5 h] · Not covered yet: Laboratory · Spend here: 32 buys, ~3.6B → Spend Plan
 
 ### C6 · Beast Master 87 · Unknown
-3 · In the Lab · Outer World Town · [Traps idle in about 5 h] · Not covered yet: AFK safety
+3 · In the Lab · Outer World Town · [Traps idle in about 5 h] · Not covered yet: Laboratory
 
 ### C3 · Siege Breaker 86 · Unknown
-4 · In the Lab · Outer World Town · [Traps idle in about 5 h] · Not covered yet: AFK safety
+4 · In the Lab · Outer World Town · [Traps idle in about 5 h] · Not covered yet: Laboratory
 
 ### C5 · Elemental Sorcerer 87 · Unknown
-5 · In the Lab · Outer World Town · [Anvil full · collect] [Traps idle in about 5 h] · Not covered yet: AFK safety
+5 · In the Lab · Outer World Town · [Anvil full · collect] [Traps idle in about 5 h] · Not covered yet: Laboratory
 
 ### C1 · Blood Berserker 96 · Ready
 6 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in about 5 h] · Collect 2 boss keys · Spend here: 1 buy, ~2M → Spend Plan
+purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
 
 ### C4 · Divine Knight 86 · Ready
 7 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in about 5 h] · Spend at least 101 talent points on your skilling preset (Rage Basics, Warrior), starting with Big Pick, Lucky Clover · Spend here: 1 buy, ~935k → Spend Plan
+purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
 
 ### Account · nothing to fix
 [checklist] Today 1/11 · Week 2/4 · daily reset in 16h 50m
@@ -49,7 +51,7 @@
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 13 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (15)
+show more (16)
 Spend coins: 34 buys now on 3 characters
   1. Buy the bribe Photoshopped Dmg Range on Bubonic Conjuror Lv 87: 1 dementia · Lv 0 → 1 · 100M coins · C2 (Bubonic Conjuror lv87) · withdraw 100M from storage on C2, then buy · total 100M on C2
   2. Buy the bribe Glitched Acc Formula on Bubonic Conjuror Lv 87: 3 dementia · Lv 0 → 1 · 300M coins · C2 (Bubonic Conjuror lv87) · withdraw 300M from storage on C2, then buy · total 400M on C2
@@ -62,10 +64,6 @@ If you have time
 - Clear the Sandstone Colosseum on 2 more characters (2 of 4); try with your Bubonic Conjuror Lv 87, your highest-level character not yet done; spends 2 Colosseum Tickets each · about 5m of hands-on play
 
 ## Not covered yet
-Classes and subclasses
-Portals and map doors
-Skills, doors and tools
-Upgrade Vault
 Bribes
 Forge
 Quests
@@ -83,11 +81,11 @@ Cooking
 Laboratory
 
 ## Systems
-W0 · Classes and subclasses · Not covered yet · Not covered yet
+W0 · Classes and subclasses · Nothing to fix · Nothing to fix
 W0 · Talents · Nothing to fix · Nothing to fix · 3 to do
 W0 · Talent presets · Nothing to fix · Nothing to fix · 6 to do
 W0 · Talent resets · Nothing to fix · Nothing to fix
-W0 · Upgrade Vault · Not covered yet · Not covered yet
+W0 · Upgrade Vault · Nothing to fix · Nothing to fix
 W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix · 2 to do
 W0 · Tasks · Nothing to fix · Nothing to fix · 1 to do
@@ -95,13 +93,13 @@ W0 · Companions and pets · Can't tell · Can't tell from the save
 W0 · Minigames · Wasting · 1 to fix before you leave
 W0 · Cards · Nothing to fix · Nothing to fix · 1 to do
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
-W0 · Portals and map doors · Not covered yet · Not covered yet
-W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Portals and map doors · Nothing to fix · Nothing to fix
+W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
-W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
+W1 · Stamps · Nothing to fix · Nothing to fix · 3 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 2 to do
 W1 · Anvil · Behind · Behind for your Stage · 2 to do · 1 full · collect
 W1 · Forge · Not covered yet · Not covered yet
@@ -233,10 +231,16 @@ Account · Refinery
 | anvil.check.spend-points | anvil/points | account | fires | count=3 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | C1 | fires | chizoar=0 daysLost=0 efaunt=2 forestVilla=0 total=2 |
+| cards.contribution.fight-mush-p | cards/fight-level | C1 | advances yes eta 15407m | chance=0.00002 complete=0 feeders=9 rate=2726 rule=0 saved=2 target=Purp_Mushroom thenEtaMs=3895818048 |
+| cards.contribution.fight-mush-p | cards/fight-level | C4 | advances yes eta 15407m | chance=0.00002 complete=0 feeders=9 rate=2726 rule=0 saved=2 target=Purp_Mushroom thenEtaMs=3895818048 |
+| classes.contribution.exp | classes/exp | C1 | advances yes eta 504m | exp=632181 expReq=82249809 rate=9711154.535551416 saved=96 |
+| classes.contribution.exp | classes/exp | C4 | advances yes eta 259m | exp=18177424 expReq=40374576 rate=5133507.495085055 saved=86 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=2 daysLost=48 total=9 |
 | construction.check.build-next | construction/build-next | account | pass |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
+| death-note.contribution.skull-mush-p | death-note/skull | C1 | advances yes eta 1187m | building=6 feeders=9 rate=2726 rule=1 saved=46090 target=Purp_Mushroom |
+| death-note.contribution.skull-mush-p | death-note/skull | C4 | advances yes eta 1187m | building=6 feeders=9 rate=2726 rule=1 saved=46090 target=Purp_Mushroom |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=304 price=875 |
@@ -259,6 +263,8 @@ Account · Refinery
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | unknown (field-missing) |  |
 | poppy.check.open | poppy/pending-fish | — | silent |  |
+| portals.contribution.push-map-151 | portals/push | C1 | advances no | door=0 map=Spaceway_Raceway rate=1718 rule=1 saved=16546 |
+| portals.contribution.push-map-151 | portals/push | C4 | advances no | door=0 map=Spaceway_Raceway rate=1008 rule=1 saved=7331 |
 | post-office.check.daily-orders | post-office/state | account | fires | companies=1 |
 | post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=5 |
 | post-office.check.spend-boxes | post-office/state | C2 | fires | boxes=7 |

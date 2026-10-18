@@ -17,10 +17,13 @@ import {
   type EntryTypeName,
   FACT_ID_RE,
   type FactTableT,
+  familyMembers,
   isStale,
   knowledgeVersion,
+  packKnowledge,
   playerVisible,
   type StageId,
+  unpackKnowledge,
 } from '@idleon-forge/knowledge';
 import { detectorRefsOf } from './check';
 import { detectorFiles, discoverDetectors, type Registries } from './discover';
@@ -88,11 +91,8 @@ export async function compile(
   const expanded: Entry[] = [];
   for (const e of src.authored.map((a) => a.value) as Entry[]) {
     if (e.type === 'contribution' && e.goalFamily) {
-      const fam = e.goalFamily;
       const [sys, , slug] = e.id.split('.');
-      for (const g of all
-        .filter((x) => x.type === 'goal' && isGenerated(x) && (x.id === fam || x.id.startsWith(`${fam}-`)))
-        .sort((a, b) => (a.id < b.id ? -1 : 1))) {
+      for (const g of familyMembers(e, all.filter(isGenerated))) {
         const goalSlug = g.id.split('.')[2] as string;
         const { goalFamily: _f, ...rest } = e;
         expanded.push({ ...rest, id: `${sys}.contribution.${slug}-${goalSlug}`, goal: g.id } as Entry);
@@ -259,12 +259,16 @@ export async function compile(
 
 export function writeCompiled(kb: CompiledKnowledge, file: string = DIST): { bytes: number } {
   mkdirSync(path.dirname(file), { recursive: true });
-  const text = `${canonicalJson(kb)}\n`;
+  const text = `${canonicalJson(packKnowledge(kb))}\n`;
   writeFileSync(file, text);
   return { bytes: Buffer.byteLength(text) };
 }
 
 export const readCompiled = (file: string = DIST): CompiledKnowledge | null =>
-  existsSync(file) ? (JSON.parse(readFileSync(file, 'utf8')) as CompiledKnowledge) : null;
+  existsSync(file)
+    ? (unpackKnowledge(
+        JSON.parse(readFileSync(file, 'utf8')) as Record<string, unknown>,
+      ) as unknown as CompiledKnowledge)
+    : null;
 
 export const isFactId = (s: string) => FACT_ID_RE.test(s);

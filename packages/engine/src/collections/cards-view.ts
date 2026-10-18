@@ -158,7 +158,17 @@ interface Ctx {
   world: number;
   pusher: number | null;
   roles: Record<number, { afkType: string | null; active: boolean }[]>;
+  m4: CardEtaOf | null;
 }
+
+/**
+ * M4's card-copies ETA for a character fighting a card's monster (cards/fight-level): a mean at the base
+ * chance like this view's own, but summed over every character on that monster (M4 FR-4).
+ */
+export type CardEtaOf = (
+  characterIndex: number,
+  card: string,
+) => { hours: number; feeders: number; next: number } | null;
 
 const nameOf = (ctx: Ctx, raw: string) =>
   human(ctx.state.account.cards?.[raw]?.name ?? ctx.drops[raw]?.name ?? raw);
@@ -431,15 +441,22 @@ function grindLine(
     })[0] ?? options[0];
   if (!best) return null;
   const map = ctx.maps.get(best.mapIndex) as MapRow;
-  const hours = best.skill === null && best.kph && kills !== null ? kills / best.kph : null;
+  let hours = best.skill === null && best.kph && kills !== null ? kills / best.kph : null;
+  // M4: where several characters fight this card's monster, the copies come from all of them; M4's
+  // summed-feeder mean is the better time (owner request 2026-10-18). Alone, the two are the same.
+  const m4 = best.mapIndex === c.mapIndex && best.skill === null ? (ctx.m4?.(c.index, raw) ?? null) : null;
+  const shared = m4 !== null && m4.feeders > 1 && m4.next === next.copies;
+  if (shared && m4) hours = m4.hours;
   const chance = amount > 0 ? row.chance : row.chance * UNOWNED_MULTIPLIER;
   const skillName = best.skill ? (SKILL_NAMES[best.skill] ?? human(best.skill)) : null;
   const etaText =
-    hours !== null
-      ? `${hoursText(hours)} at the base drop chance (likely sooner)`
-      : skillName
-        ? `drops while ${skillName.toLowerCase()} here; no time estimate for skilling`
-        : 'no kill rate on this map yet';
+    hours !== null && shared && m4
+      ? `${hoursText(hours)} on average at the base drop chance, with ${m4.feeders} characters on it`
+      : hours !== null
+        ? `${hoursText(hours)} at the base drop chance (likely sooner)`
+        : skillName
+          ? `drops while ${skillName.toLowerCase()} here; no time estimate for skilling`
+          : 'no kill rate on this map yet';
   const c0 = chip(ctx, raw);
   return {
     rawName: raw,
@@ -559,7 +576,11 @@ export const CARDS_CAVEATS = [
 ];
 
 /** The Cards view for one save, or null when the Knowledge Base lacks M8's card tables. */
-export function buildCardsView(state: AccountState, kb: FactLookup): CardsView | null {
+export function buildCardsView(
+  state: AccountState,
+  kb: FactLookup,
+  m4: CardEtaOf | null = null,
+): CardsView | null {
   const drops = rowsOf<Record<string, CardDropRow>>(kb, CARD_DROPS);
   const mapRows = rowsOf<MapRow[]>(kb, MAPS);
   if (!drops || !mapRows || !kb.get(M8.keywords) || !kb.get(M8.cardSlots) || !kb.get(M8.cardPreferences))
@@ -599,6 +620,7 @@ export function buildCardsView(state: AccountState, kb: FactLookup): CardsView |
     world: stageWorld === null ? currentWorld : Math.min(currentWorld, stageWorld),
     pusher: pusherIndex(state, kb),
     roles,
+    m4,
   };
   const gems = state.account.gemPurchases ?? null;
   const slotCount = ctx.f.baseSlots + (gems?.[ctx.f.gemExtraSlot] ?? 0);

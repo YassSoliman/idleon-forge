@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 361
+# golden v1: latest · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
@@ -36,7 +36,7 @@
 10 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
 
 ### C11 · Beginner 1224 · Unknown
-11 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Not covered yet: AFK safety
+11 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Not covered yet: Cooking
 
 ### Account · fix 1 before you leave
 Fix before you leave
@@ -47,7 +47,7 @@ Fix before you leave
 - Extra · Today's Random Event: Random Event now on Poopy Sewers (Mega Grumblo): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (12)
+show more (13)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -55,10 +55,6 @@ If you have time
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 11m of hands-on play
 
 ## Not covered yet
-Classes and subclasses
-Portals and map doors
-Skills, doors and tools
-Upgrade Vault
 Bribes
 Forge
 Quests
@@ -76,11 +72,11 @@ Cooking
 Laboratory
 
 ## Systems
-W0 · Classes and subclasses · Not covered yet · Not covered yet
+W0 · Classes and subclasses · Nothing to fix · Nothing to fix
 W0 · Talents · Nothing to fix · Nothing to fix
 W0 · Talent presets · Nothing to fix · Nothing to fix
 W0 · Talent resets · Nothing to fix · Nothing to fix
-W0 · Upgrade Vault · Not covered yet · Not covered yet
+W0 · Upgrade Vault · Nothing to fix · Nothing to fix
 W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix
 W0 · Tasks · Nothing to fix · Nothing to fix
@@ -88,13 +84,13 @@ W0 · Companions and pets · Wasting · 1 to fix before you leave · 1 to do
 W0 · Minigames · Wasting · 2 to fix before you leave · 1 to do
 W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
-W0 · Portals and map doors · Not covered yet · Not covered yet
-W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Portals and map doors · Nothing to fix · Nothing to fix
+W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Random Events · Wasting · 1 to fix before you leave
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
-W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
+W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 1 to do
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 11 full · collect
 W1 · Forge · Not covered yet · Not covered yet
@@ -261,10 +257,14 @@ Account · Refinery
 | anvil.check.spend-points | anvil/points | account | fires | count=11 hours=8 manyMixed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | fires | capsIn=0 fullFor=662513255 |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| cards.contribution.fight-mush-g | cards/fight-level | C10 | advances no | chance=0.002 complete=1 feeders=512 rate=4092232819 rule=0 saved=33124469712 target=Green_Mushroom |
+| classes.contribution.exp | classes/exp | C10 | advances yes eta 223886055150m | exp=3.232391806465137e+29 expReq=4.128549083429221e+29 rate=24016429510049477000 saved=1268 |
+| classes.contribution.exp | classes/exp | C6 | advances yes eta 2171m | exp=6.237650067352118e+29 expReq=7.045499680168676e+29 rate=2.23302958312291e+27 saved=1280 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
 | construction.check.build-next | construction/build-next | account | pass |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
+| death-note.contribution.skull-mush-g | death-note/skull | C10 | advances no | building=51 feeders=512 rate=4092232819 rule=1 saved=4160991704283 target=Green_Mushroom |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=29763382 price=875 |
@@ -287,6 +287,7 @@ Account · Refinery
 | pets.check.free-pull | pets/free-pull | account | fires | hoursClaimable=4 |
 | pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=234 |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
+| portals.contribution.push-map-1 | portals/push | C10 | advances no | door=0 map=Spore_Meadows rate=4092232819 rule=1 saved=4133354835580 |
 | post-office.check.daily-orders | post-office/state | account | fires | companies=6 |
 | post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=484039 |
 | post-office.check.spend-boxes | post-office/state | C10 | fires | boxes=476673 |

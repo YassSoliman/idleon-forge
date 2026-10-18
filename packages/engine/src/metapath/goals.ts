@@ -3,7 +3,7 @@
 // M2's findings as EngineResult Goals (M10 TR-2): every word comes from the Goal's entry (its title,
 // why and the per-case Next Action template in `values`), filled with the finding's slots.
 import { type Entry, render, type SlotValue } from '@idleon-forge/knowledge';
-import type { Goal, Milestone, SourceRef, Subject } from '../result';
+import type { Goal, Milestone, NextAction, SourceRef, Subject } from '../result';
 import { FAMILY_UNLOCK_ID, type FamilyGate, type FamilyUnlock, OBOL_SLOTS_FACT } from './family';
 import { worldGates } from './knowledge';
 import type { FactLookup, MetaPathGoal, MetaPathKnowledge, MetaPathResult, PushGoal } from './types';
@@ -173,7 +173,11 @@ function gateWhat(v: Entry['values'], g: FamilyGate, line: string | null): strin
  * M15 F3 (FR-14 to FR-17): the next family unlock as one Account Goal. Until M4/M5 ship a Class XP Next
  * Action (FR-15), it is an info line: its text states the gate, the gap and the ETA, with no action.
  */
-export function familyUnlockGoal(kb: MetaPathKnowledge, u: FamilyUnlock): Goal | null {
+export function familyUnlockGoal(
+  kb: MetaPathKnowledge,
+  u: FamilyUnlock,
+  classXp: NextAction | null = null,
+): Goal | null {
   const e = kb.entries[FAMILY_UNLOCK_ID];
   if (e?.type !== 'goal') return null;
   const v = e.values;
@@ -197,6 +201,37 @@ export function familyUnlockGoal(kb: MetaPathKnowledge, u: FamilyUnlock): Goal |
   const after =
     u.after && afterWhat ? render(t('after'), { what: afterWhat, gate: u.after.familyLevel }) : '';
   const text = [head, altar, eta].filter(Boolean).join('; ');
+  // M15 FR-15: with M4's top Class XP Next Action, that is the step; the unlock line rides as its detail.
+  if (classXp)
+    return {
+      id: FAMILY_UNLOCK_ID,
+      title: e.title,
+      system: e.system,
+      category: e.category,
+      nextAction: {
+        ...classXp,
+        key: `${FAMILY_UNLOCK_ID}@account`,
+        why: [text, e.why, after].filter(Boolean).join('. '),
+        sources: [...sourcesOf(e), ...classXp.sources],
+        provenance: {
+          entryIds: [
+            FAMILY_UNLOCK_ID,
+            ...classXp.provenance.entryIds,
+            'metapath.fact.family-slots',
+            OBOL_SLOTS_FACT,
+          ],
+          fields: ['account.accountLevel', ...classXp.provenance.fields],
+        },
+      },
+      milestone: {
+        unit: 'family level',
+        current: u.familyLevel,
+        next: u.next.familyLevel,
+        etaSeconds: null,
+        stopHere: false,
+      },
+      details: [{ subject: 'account', text }],
+    };
   return {
     id: FAMILY_UNLOCK_ID,
     title: e.title,

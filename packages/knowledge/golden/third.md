@@ -1,40 +1,40 @@
-# golden v1: third · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 361
+# golden v1: third · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
 ## Now
-! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
-9 of 10 Ready · 1 Unknown
+1 of 10 Ready · 9 Unknown
+
+### C4 · Divine Knight 655 · Unknown
+1 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] [Anvil full in about 3 h · collect] · Can't tell from the save
+
+### C3 · Bubonic Conjuror 568 · Unknown
+2 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] · Can't tell from the save
+
+### C5 · Beast Master 561 · Unknown
+3 · Fighting Minichief Spirit · Chieftain Stairway · [Traps idle in about 4 h] · Can't tell from the save
+
+### C8 · Divine Knight 558 · Unknown
+4 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] [Anvil full in about 3 h · collect] · Can't tell from the save
+
+### C6 · Elemental Sorcerer 545 · Unknown
+5 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] [Anvil full in about 4 h · collect] · Can't tell from the save
+
+### C2 · Siege Breaker 527 · Unknown
+6 · Fighting Green Mushroom · Spore Meadows · [Worship full · spend] [Traps idle in about 4 h] · Can't tell from the save
+
+### C10 · Siege Breaker 522 · Unknown
+7 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 4 h] · Can't tell from the save
 
 ### C1 · Blood Berserker 521 · Unknown
-1 · Cooking · Outer World Town · [Traps idle in about 2 h] · Not covered yet: AFK safety
+8 · Cooking · Outer World Town · [Traps idle in about 2 h] · Not covered yet: Cooking
 
-### C4 · Divine Knight 655 · Ready
-2 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] [Anvil full in about 3 h · collect]
-
-### C3 · Bubonic Conjuror 568 · Ready
-3 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h]
-
-### C5 · Beast Master 561 · Ready
-4 · Fighting Minichief Spirit · Chieftain Stairway · [Traps idle in about 4 h]
-
-### C8 · Divine Knight 558 · Ready
-5 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] [Anvil full in about 3 h · collect]
-
-### C6 · Elemental Sorcerer 545 · Ready
-6 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] [Anvil full in about 4 h · collect]
-
-### C2 · Siege Breaker 527 · Ready
-7 · Fighting Green Mushroom · Spore Meadows · [Worship full · spend] [Traps idle in about 4 h]
+### C9 · Elemental Sorcerer 552 · Unknown
+9 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h] · Can't tell from the save
 
 ### C7 · Voidwalker 523 · Ready
-8 · Mining Godshard · Motherlode Pit · [Traps idle in about 2 h]
-
-### C10 · Siege Breaker 522 · Ready
-9 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 4 h]
-
-### C9 · Elemental Sorcerer 552 · Ready
-10 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2 h]
+10 · Mining Godshard · Motherlode Pit · [Traps idle in about 2 h]
+purpose: Godshard: stamp material for Forge Stamp
 
 ### Account · nothing to fix
 [checklist] Today 3/10 · Week 2/5 · daily reset in 3h 19m
@@ -69,15 +69,11 @@
   · Divine Knight Lv 558: 13 into Speed, 0 into Capacity
   · Elemental Sorcerer Lv 552: 11 into Speed, 0 into Capacity
   · Siege Breaker Lv 522: 28 into Speed, 0 into Capacity
-show more (6)
+show more (7)
 If you have time
 - Use today's 21 minigame plays · about 10m of hands-on play
 
 ## Not covered yet
-Classes and subclasses
-Portals and map doors
-Skills, doors and tools
-Upgrade Vault
 Bribes
 Forge
 Quests
@@ -95,11 +91,11 @@ Cooking
 Laboratory
 
 ## Systems
-W0 · Classes and subclasses · Not covered yet · Not covered yet
+W0 · Classes and subclasses · Nothing to fix · Nothing to fix
 W0 · Talents · Nothing to fix · Nothing to fix
 W0 · Talent presets · Nothing to fix · Nothing to fix
 W0 · Talent resets · Nothing to fix · Nothing to fix
-W0 · Upgrade Vault · Not covered yet · Not covered yet
+W0 · Upgrade Vault · Nothing to fix · Nothing to fix
 W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix
 W0 · Tasks · Nothing to fix · Nothing to fix · 1 to do
@@ -107,13 +103,13 @@ W0 · Companions and pets · Can't tell · Can't tell from the save
 W0 · Minigames · Wasting · 2 to fix before you leave · 1 to do
 W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix
-W0 · Portals and map doors · Not covered yet · Not covered yet
-W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Portals and map doors · Nothing to fix · Nothing to fix
+W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
-W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
+W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 3 full · collect
 W1 · Forge · Not covered yet · Not covered yet
@@ -157,12 +153,8 @@ Wasting: 3
 ## Timeline
 Axis: now to +12h · Back in 8h 00m · 03:59
 Nothing fills up before you're back
-C1 · Blood Berserker 521
-- Traps idle · in 2h 16m · 22:15 · before · pill · fix none · the same on 6 more
-- anvil full · later · in 21h 31m · 17:30 · after · info · fix none
-- worship charge caps · later · in 12d 7h · 03:12 · after · info · fix none
 C4 · Divine Knight 655
-- Traps idle · in 2h 16m · 22:15 · before · pill · fix none
+- Traps idle · in 2h 16m · 22:15 · before · pill · fix none · the same on 6 more
 - Anvil full · collect · in 2h 42m · 22:41 · before · pill · fix none
 - worship charge caps · later · in 12d 15h · 11:22 · after · info · fix none
 C3 · Bubonic Conjuror 568
@@ -185,18 +177,22 @@ C2 · Siege Breaker 527
 - Worship full · spend · now · before · pill · fix none
 - Traps idle · in 4h 16m · 00:15 · before · pill · fix none
 - anvil full · later · in 23h 57m · 19:56 · after · info · fix none
-C7 · Voidwalker 523
-- Traps idle · in 2h 16m · 22:15 · before · pill · fix none
-- anvil full · later · in 16h 09m · 12:08 · after · info · fix none
-- worship charge caps · later · in 4d 14h · 10:19 · after · info · fix none
 C10 · Siege Breaker 522
 - Traps idle · in 4h 16m · 00:15 · before · pill · fix none
 - anvil full · later · in 13h 00m · 08:59 · after · info · fix none
 - worship charge caps · later · in 12d 1h · 21:18 · after · info · fix none
+C1 · Blood Berserker 521
+- Traps idle · in 2h 16m · 22:15 · before · pill · fix none
+- anvil full · later · in 21h 31m · 17:30 · after · info · fix none
+- worship charge caps · later · in 12d 7h · 03:12 · after · info · fix none
 C9 · Elemental Sorcerer 552
 - Traps idle · in 2h 16m · 22:15 · before · pill · fix none
 - anvil full · in 8h 21m · 04:21 · after · info · fix none
 - worship charge caps · later · in 7d 12h · 08:08 · after · info · fix none
+C7 · Voidwalker 523
+- Traps idle · in 2h 16m · 22:15 · before · pill · fix none
+- anvil full · later · in 16h 09m · 12:08 · after · info · fix none
+- worship charge caps · later · in 4d 14h · 10:19 · after · info · fix none
 Account · Alchemy cauldrons and liquids
 - Water full · can't tell when · untimed · info · fix none
 Account · Arcade
@@ -297,10 +293,33 @@ Account · Refinery
 | anvil.check.spend-points | anvil/points | account | fires | count=9 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| cards.contribution.fight-mush-g | cards/fight-level | C10 | advances no | chance=0.002 complete=1 feeders=942 rate=603292699 rule=0 saved=1243935 target=Green_Mushroom |
+| cards.contribution.fight-mush-g | cards/fight-level | C2 | advances no | chance=0.002 complete=1 feeders=942 rate=603292699 rule=0 saved=1243935 target=Green_Mushroom |
+| cards.contribution.fight-mush-g | cards/fight-level | C3 | advances no | chance=0.002 complete=1 feeders=942 rate=603292699 rule=0 saved=1243935 target=Green_Mushroom |
+| cards.contribution.fight-mush-g | cards/fight-level | C4 | advances no | chance=0.002 complete=1 feeders=942 rate=603292699 rule=0 saved=1243935 target=Green_Mushroom |
+| cards.contribution.fight-mush-g | cards/fight-level | C6 | advances no | chance=0.002 complete=1 feeders=942 rate=603292699 rule=0 saved=1243935 target=Green_Mushroom |
+| cards.contribution.fight-mush-g | cards/fight-level | C8 | advances no | chance=0.002 complete=1 feeders=942 rate=603292699 rule=0 saved=1243935 target=Green_Mushroom |
+| cards.contribution.fight-mush-g | cards/fight-level | C9 | advances no | chance=0.002 complete=1 feeders=942 rate=603292699 rule=0 saved=1243935 target=Green_Mushroom |
+| cards.contribution.skill-mining-godshard | cards/skill-first-copy | C7 | advances no | rule=0 saved=199487 target=Godshard |
+| classes.contribution.exp | classes/exp | C10 | advances yes eta 1359612m | exp=695475030551437 expReq=875104082546173 rate=7927070509.818956 saved=522 |
+| classes.contribution.exp | classes/exp | C2 | advances yes eta 5288729m | exp=292147820139708 expReq=1104808478605829 rate=9219537769.913034 saved=527 |
+| classes.contribution.exp | classes/exp | C3 | advances yes eta 15469089m | exp=5670063790451656 expReq=7426046752219389 rate=6810936207.274473 saved=568 |
+| classes.contribution.exp | classes/exp | C4 | advances yes eta 1459691878m | exp=261388627974300860 expReq=410623146065625800 rate=6134219982.432393 saved=655 |
+| classes.contribution.exp | classes/exp | C5 | advances yes eta 3m | exp=2080614701446998 expReq=5367775252869030 rate=71280706593176250 saved=561 |
+| classes.contribution.exp | classes/exp | C6 | advances yes eta 15194112m | exp=1076031473697762 expReq=2553407877082612 rate=5834008953.441824 saved=545 |
+| classes.contribution.exp | classes/exp | C8 | advances yes eta 38148013m | exp=543976688717082 expReq=4670286831009858 rate=6489947597.610438 saved=558 |
+| classes.contribution.exp | classes/exp | C9 | advances yes eta 22172092m | exp=1263133930209967 expReq=3534862259109551 rate=6147534596.475718 saved=552 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
 | construction.check.build-next | construction/build-next | account | pass |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
+| death-note.contribution.skull-mush-g | death-note/skull | C10 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
+| death-note.contribution.skull-mush-g | death-note/skull | C2 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
+| death-note.contribution.skull-mush-g | death-note/skull | C3 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
+| death-note.contribution.skull-mush-g | death-note/skull | C4 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
+| death-note.contribution.skull-mush-g | death-note/skull | C6 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
+| death-note.contribution.skull-mush-g | death-note/skull | C8 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
+| death-note.contribution.skull-mush-g | death-note/skull | C9 | advances no | building=51 feeders=942 rate=603292699 rule=1 saved=148485650144 target=Green_Mushroom |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=4103 price=875 |
@@ -323,6 +342,13 @@ Account · Refinery
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | unknown (field-missing) |  |
 | poppy.check.open | poppy/pending-fish | — | silent |  |
+| portals.contribution.push-map-1 | portals/push | C10 | advances no | door=0 map=Spore_Meadows rate=100779580 rule=1 saved=21479028385 |
+| portals.contribution.push-map-1 | portals/push | C2 | advances no | door=0 map=Spore_Meadows rate=117211271 rule=1 saved=42030607986 |
+| portals.contribution.push-map-1 | portals/push | C3 | advances no | door=0 map=Spore_Meadows rate=82143031 rule=1 saved=12538110051 |
+| portals.contribution.push-map-1 | portals/push | C4 | advances no | door=0 map=Spore_Meadows rate=75929347 rule=1 saved=1276746097 |
+| portals.contribution.push-map-1 | portals/push | C6 | advances no | door=0 map=Spore_Meadows rate=73184431 rule=1 saved=14080973068 |
+| portals.contribution.push-map-1 | portals/push | C8 | advances no | door=0 map=Spore_Meadows rate=80118035 rule=1 saved=14432815725 |
+| portals.contribution.push-map-1 | portals/push | C9 | advances no | door=0 map=Spore_Meadows rate=73927004 rule=1 saved=13173358831 |
 | post-office.check.daily-orders | post-office/state | account | fires | companies=6 |
 | post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=6441 |
 | post-office.check.spend-boxes | post-office/state | C10 | fires | boxes=6441 |
@@ -342,6 +368,10 @@ Account · Refinery
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | account | fires | offSalts=1 salt=Nullo_Salt |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| roles.contribution.mining | roles/skill | C7 | advances yes | rule=1 |
+| skills.contribution.door-mining | skills/door | C7 | advances no | destination= rule=0 saved=146 |
+| skills.contribution.tool-mining | skills/tool-chain | C7 | advances no | need=0 rule=0 saved=146 target=Godshard tool=Prehistoric_Pickaxe |
+| stamps.contribution.material-mining | stamps/material | C7 | advances yes | rule=1 saved=165923016086 short=165923016086 stamp=Forge_Stamp target=Godshard |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |

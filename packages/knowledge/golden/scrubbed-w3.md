@@ -1,27 +1,30 @@
-# golden v1: scrubbed-w3 · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 361
+# golden v1: scrubbed-w3 · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 896
 
 ## Verdict changes
 
 ## Now
-4 of 6 Ready · fix 2 before you leave
+2 of 6 Ready · fix 2 before you leave · 2 Unknown
 
 ### C3 · Bowman 60 · Fix before you leave
 1 · Fighting Sand Giant · Sands of Time · [Anvil full · collect] [Worship full · spend] · Swap to your fighting preset before you leave · Spend here: 6 buys, ~589M → Spend Plan
 
 ### C5 · Barbarian 56 · Fix before you leave
 2 · Fishing Small Fish · Salty Shores · [Anvil full · collect] [Worship full · spend] · Swap to your skilling preset before you leave
+purpose: Fishing 22 → 30 opens Deepwater Docks
 
-### C6 · Shaman 54 · Ready
-3 · Fighting Sand Castle · Shifty Sandbox · [Anvil full · collect] · Equip Level up gift in a big-bubble slot · Spend here: 1 buy, ~700M → Spend Plan
+### C6 · Shaman 54 · Unknown
+3 · Fighting Sand Castle · Shifty Sandbox · [Anvil full · collect] · Can't tell from the save · Spend here: 1 buy, ~700M → Spend Plan
+
+### C1 · Wizard 73 · Unknown
+4 · Fighting Sir Stache · The Stache Split · [Anvil full · collect] · Can't tell from the save · Spend here: 2 buys, ~1.6B → Spend Plan
 
 ### C4 · Squire 85 · Ready
-4 · Fighting Thermister · Thermonuclear Climb · [Anvil full · collect] [Worship full · spend] · Collect 6 boss keys · Spend here: 1 buy, ~2B → Spend Plan
+5 · Fighting Thermister · Thermonuclear Climb · [Anvil full · collect] [Worship full · spend] · Collect 6 boss keys · Spend here: 1 buy, ~2B → Spend Plan
+purpose: Thermister card: first copy (5× drop chance while unowned) · about 2h on average · consider stopping here
 
 ### C2 · Squire 51 · Ready
-5 · Mining Gold · Freefall Caverns · [Anvil full · collect] [Worship full · spend] · Spend at least 115 talent points on your skilling preset (Squire), starting with Refinery Throttle
-
-### C1 · Wizard 73 · Ready
-6 · Fighting Sir Stache · The Stache Split · [Anvil full · collect] · Swap Molto loggo for Hammer hammer · Spend here: 2 buys, ~1.6B → Spend Plan
+6 · Mining Gold · Freefall Caverns · [Anvil full · collect] [Worship full · spend] · Spend at least 115 talent points on your skilling preset (Squire), starting with Refinery Throttle
+purpose: Mining 29 → 40 opens Echoing Egress
 
 ### Account · nothing to fix
 [checklist] Today 1/11 · Week 2/5 · daily reset in 4h 05m
@@ -46,7 +49,7 @@
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-show more (24)
+show more (25)
 Spend coins: 10 buys now on 4 characters
   1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before you redeem Colosseum tickets: 1 dementia · Lv 0 → 1 · 100M coins · C3 (Bowman lv60) · buy · total 100M on C3
   2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 1 gold 26 silver (carry 25 Jungle Logs on Wizard Lv 73) · Lv 10 → 20 · 13k coins · C3 (Bowman lv60) · buy · total 100M on C3
@@ -64,10 +67,6 @@ If you have time
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 6m of hands-on play
 
 ## Not covered yet
-Classes and subclasses
-Portals and map doors
-Skills, doors and tools
-Upgrade Vault
 Bribes
 Forge
 Quests
@@ -82,25 +81,25 @@ Salt Lick
 Shrines
 
 ## Systems
-W0 · Classes and subclasses · Not covered yet · Not covered yet
+W0 · Classes and subclasses · Nothing to fix · Nothing to fix
 W0 · Talents · Nothing to fix · Nothing to fix · 2 to do
 W0 · Talent presets · Wasting · 2 to fix before you leave · 4 to do
 W0 · Talent resets · Nothing to fix · Nothing to fix
-W0 · Upgrade Vault · Not covered yet · Not covered yet · in the Spend Plan
+W0 · Upgrade Vault · Nothing to fix · Nothing to fix
 W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix · 2 to do
 W0 · Tasks · Nothing to fix · Nothing to fix · 1 to do
 W0 · Companions and pets · Wasting · 1 to fix before you leave
 W0 · Minigames · Wasting · 2 to fix before you leave · 1 to do
-W0 · Cards · Behind · Behind for your Stage · 4 to do
+W0 · Cards · Behind · Behind for your Stage · 5 to do
 W0 · Obols · Behind · Behind for your Stage · 2 to do
-W0 · Portals and map doors · Not covered yet · Not covered yet
-W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Portals and map doors · Nothing to fix · Nothing to fix
+W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
-W1 · Stamps · Behind · Behind for your Stage · 6 to do
+W1 · Stamps · Behind · Behind for your Stage · 7 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 2 to do
 W1 · Anvil · Behind · Behind for your Stage · 2 to do · 6 full · collect
 W1 · Forge · Not covered yet · Not covered yet
@@ -154,18 +153,19 @@ C5 · Barbarian 56
 C6 · Shaman 54
 - Anvil full · collect · now · before · pill · fix none
 - worship charge caps · later · in 20h 35m · 12:47 · after · info · fix none
+C1 · Wizard 73
+- Anvil full · collect · now · before · pill · fix none
+- worship charge caps · in 10h 14m · 02:26 · after · info · fix none
+- health food runs out · can't tell when · untimed · blocker · fix none · the same on 1 more
 C4 · Squire 85
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none
-- health food runs out · can't tell when · untimed · blocker · fix none · the same on 1 more
+- health food runs out · can't tell when · untimed · blocker · fix none
+- In the group above · Anvil full · collect · Worship full · spend · health food runs out
 C2 · Squire 51
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none
 - In the group above · Anvil full · collect · Worship full · spend
-C1 · Wizard 73
-- Anvil full · collect · now · before · pill · fix none
-- worship charge caps · in 10h 14m · 02:26 · after · info · fix none
-- health food runs out · can't tell when · untimed · blocker · fix none
 Account · Random Events
 - Random Event ready · in 2h 47m · 19:00 · before · info · fix none
 Account · Colosseum
@@ -229,10 +229,23 @@ Account · Refinery
 | anvil.check.spend-points | anvil/points | account | fires | class=Bowman count=1 hours=8 level=60 oneSpeed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | C4 | fires | chizoar=0 daysLost=0 efaunt=2 forestVilla=4 total=6 |
+| cards.contribution.fight-sandcastle | cards/fight-level | C6 | advances no | chance=0.006 complete=1 feeders=32 rate=895 rule=0 saved=264 target=Sand_Castle |
+| cards.contribution.fight-sandgiant | cards/fight-level | C3 | advances yes eta 802m | chance=0.001 complete=0 feeders=4 rate=449 rule=0 saved=35 target=Sand_Giant thenEtaMs=448997773 |
+| cards.contribution.fight-stache | cards/fight-level | C1 | advances yes eta 434m | chance=0.004 complete=0 feeders=1 rate=934 rule=0 saved=26 target=Sir_Stache thenEtaMs=88650964 |
+| cards.contribution.fight-thermostat | cards/fight-level | C4 | advances yes eta 113m | chance=0.0001 complete=0 feeders=8 rate=1065 rule=1 saved=0 target=Thermister thenEtaMs=513802817 |
+| cards.contribution.skill-mining-gold | cards/skill-first-copy | C2 | advances no | rule=0 saved=7 target=Gold |
+| classes.contribution.exp | classes/exp | C1 | advances yes eta 65m | exp=9532323 expReq=14060378 rate=4152746.127348273 saved=73 |
+| classes.contribution.exp | classes/exp | C3 | advances yes eta 123m | exp=1994928 expReq=4079460 rate=1020741.1431920832 saved=60 |
+| classes.contribution.exp | classes/exp | C4 | advances yes eta 153m | exp=16322225 expReq=37434605 rate=8286166.265441116 saved=85 |
+| classes.contribution.exp | classes/exp | C6 | advances yes eta 38m | exp=1311780 expReq=2135848 rate=1316747.3366205737 saved=54 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=1 daysLost=2 total=4 |
 | construction.check.build-next | construction/build-next | account | fires | building=3D_Printer collect=1 salt=Redox_Salts then1=Salt_Lick then1Level=1 then2=Talent_Book_Library then2Level=2 |
 | death-note.check.build | death-note/build | account | fires | cost=10 held=0 |
 | death-note.check.build-slot | death-note/build | — | silent |  |
+| death-note.contribution.skull-sandcastle | death-note/skull | C6 | advances yes eta 817m | building=0 feeders=32 rate=895 rule=0 saved=12806 target=Sand_Castle |
+| death-note.contribution.skull-sandgiant | death-note/skull | C3 | advances yes eta 1664m | building=0 feeders=4 rate=449 rule=0 saved=12547 target=Sand_Giant |
+| death-note.contribution.skull-stache | death-note/skull | C1 | advances yes eta 1410m | building=0 feeders=1 rate=934 rule=0 saved=3046 target=Sir_Stache |
+| death-note.contribution.skull-thermostat | death-note/skull | C4 | advances yes eta 1407m | building=0 feeders=8 rate=1065 rule=0 saved=19 target=Thermister |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | account | fires | gems=365 price=875 |
 | gem-shop.check.unspent | gem-shop/unspent | — | silent |  |
@@ -255,6 +268,10 @@ Account · Refinery
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=241 |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
+| portals.contribution.push-map-104 | portals/push | C1 | advances yes eta 190m | door=0 map=The_Stache_Split rate=934 rule=1 saved=38 |
+| portals.contribution.push-map-109 | portals/push | C4 | advances yes eta 844m | door=0 map=Thermonuclear_Climb rate=1065 rule=1 saved=19 |
+| portals.contribution.push-map-58 | portals/push | C6 | advances yes eta 16m | door=0 map=Shifty_Sandbox rate=895 rule=1 saved=8 |
+| portals.contribution.push-map-64 | portals/push | C3 | advances yes eta 401m | door=0 map=Sands_of_Time rate=449 rule=1 saved=0 |
 | post-office.check.daily-orders | post-office/state | — | silent |  |
 | post-office.check.spend-boxes | post-office/state | — | silent |  |
 | post-office.check.unlock | post-office/state | C4 | fires | boxes=4 |
@@ -264,6 +281,14 @@ Account · Refinery
 | refinery.check.salt-fuel | refinery/salt-off | account | fires | material=Bullfrog_Horn more=1 offSalts=1 salt=Explosive_Salts |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| roles.contribution.fishing | roles/skill | C5 | advances yes | rule=1 |
+| roles.contribution.mining | roles/skill | C2 | advances yes | rule=1 |
+| skills.contribution.door-fishing | skills/door | C5 | advances yes | destination=Deepwater_Docks rule=1 saved=22 |
+| skills.contribution.door-mining | skills/door | C2 | advances yes | destination=Echoing_Egress rule=1 saved=29 |
+| skills.contribution.tool-fishing | skills/tool-chain | C5 | advances no | need=0 rule=0 saved=22 target=Small_Fish tool=Copper_Fish_Rod |
+| skills.contribution.tool-mining | skills/tool-chain | C2 | advances no | need=0 rule=0 saved=29 target=Gold tool=Platinum_Pickaxe |
+| stamps.contribution.material-fishing | stamps/material | C5 | advances no | rule=0 target=Small_Fish |
+| stamps.contribution.material-mining | stamps/material | C2 | advances no | rule=0 target=Gold |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |

@@ -18,7 +18,8 @@
     "./spend": "./src/spend/index.ts",
     "./walkthrough": "./src/walkthrough/index.ts",
     "./starsigns": "./src/starsigns/index.ts",
-    "./slots": "./src/slots/index.ts"
+    "./slots": "./src/slots/index.ts",
+    "./purpose": "./src/purpose/index.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json"

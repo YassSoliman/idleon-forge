@@ -1,0 +1,114 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M4 Purpose & Milestones (docs/specs/M4-purpose-milestones.md TR-4, D6): skilling is judged on its Goals,
+# never on EXP (the Copper lesson): the next level door (Mining and Fishing) and the next tool the
+# skill level allows. Yes or no only (FR-6). Ladders are generated (skills.goal.door-*, tool-*).
+system: skills
+entries:
+  - id: skills.contribution.door-mining
+    system: skills
+    type: contribution
+    title: Skill level door
+    activity: { afkType: MINING }
+    goal: skills.goal.door-mining
+    detector: { id: skills/door, params: { afkType: MINING } }
+    eta: none
+    text: "Mining {now} → {at} opens {destination:name}"
+    why: "Mining level opens the door to the next mining map, with better resources."
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "D6 (a): a door not yet reached is a live Goal. Choosing a better node is M5's."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Portal_Requirements", title: "IdleOn Wiki: Portal Requirements (skill areas)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540, note: "Mining doors at 10, 25, 40 and 60; Fishing at 15 and 30." }
+      - { url: "https://idleon.wiki/wiki/Mining", title: "IdleOn Wiki: Mining", tier: 2, claimDate: 2026-10-06, verified: 2026-10-18, gameVersion: 2.3.540, note: "Each area needs a set Mining level." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "IdleOn Toolbox game data: mapPortals on skilling maps", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: skills.contribution.door-fishing
+    system: skills
+    type: contribution
+    title: Skill level door
+    activity: { afkType: FISHING }
+    goal: skills.goal.door-fishing
+    detector: { id: skills/door, params: { afkType: FISHING } }
+    eta: none
+    text: "Fishing {now} → {at} opens {destination:name}"
+    why: "Fishing level opens the door to the next fishing map, with better resources."
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "D6 (a): a door not yet reached is a live Goal. Choosing a better node is M5's."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Portal_Requirements", title: "IdleOn Wiki: Portal Requirements (skill areas)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540, note: "Mining doors at 10, 25, 40 and 60; Fishing at 15 and 30." }
+      - { url: "https://idleon.wiki/wiki/Fishing", title: "IdleOn Wiki: Fishing", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540, note: "Each area needs a set Fishing level." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "IdleOn Toolbox game data: mapPortals on skilling maps", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: skills.contribution.tool-mining
+    system: skills
+    type: contribution
+    title: Next tool
+    activity: { afkType: MINING }
+    goal: skills.goal.tool-mining
+    detector: { id: skills/tool-chain, params: { afkType: MINING } }
+    eta: none
+    text: "{target:name} toward the {tool:name}"
+    why: "The {tool:name} is crafted at the anvil from what this character gathers, and its skill level already allows it."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M4 TR-4: the next tool past the best one equipped whose level the skill meets; yes or no (FR-6)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Tools", title: "IdleOn Wiki: Tools", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540, note: "Pickaxes, hatchets, rods and nets, each with a level requirement." }
+      - { url: "https://idleon.wiki/wiki/Smithing", title: "IdleOn Wiki: Smithing", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540, note: "Tools are crafted at the anvil from recipes." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json", title: "Toolbox game data: tools (lvReqToEquip) and anvil recipes", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: skills.contribution.tool-chopping
+    system: skills
+    type: contribution
+    title: Next tool
+    activity: { afkType: CHOPPIN }
+    goal: skills.goal.tool-chopping
+    detector: { id: skills/tool-chain, params: { afkType: CHOPPIN } }
+    eta: none
+    text: "{target:name} toward the {tool:name}"
+    why: "The {tool:name} is crafted at the anvil from what this character gathers, and its skill level already allows it."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M4 TR-4: the next tool past the best one equipped whose level the skill meets; yes or no (FR-6)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Tools", title: "IdleOn Wiki: Tools", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540, note: "Pickaxes, hatchets, rods and nets, each with a level requirement." }
+      - { url: "https://idleon.wiki/wiki/Smithing", title: "IdleOn Wiki: Smithing", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540, note: "Tools are crafted at the anvil from recipes." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json", title: "Toolbox game data: tools (lvReqToEquip) and anvil recipes", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: skills.contribution.tool-fishing
+    system: skills
+    type: contribution
+    title: Next tool
+    activity: { afkType: FISHING }
+    goal: skills.goal.tool-fishing
+    detector: { id: skills/tool-chain, params: { afkType: FISHING } }
+    eta: none
+    text: "{target:name} toward the {tool:name}"
+    why: "The {tool:name} is crafted at the anvil from what this character gathers, and its skill level already allows it."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M4 TR-4: the next tool past the best one equipped whose level the skill meets; yes or no (FR-6)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Tools", title: "IdleOn Wiki: Tools", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540, note: "Pickaxes, hatchets, rods and nets, each with a level requirement." }
+      - { url: "https://idleon.wiki/wiki/Smithing", title: "IdleOn Wiki: Smithing", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540, note: "Tools are crafted at the anvil from recipes." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json", title: "Toolbox game data: tools (lvReqToEquip) and anvil recipes", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: skills.contribution.tool-catching
+    system: skills
+    type: contribution
+    title: Next tool
+    activity: { afkType: CATCHING }
+    goal: skills.goal.tool-catching
+    detector: { id: skills/tool-chain, params: { afkType: CATCHING } }
+    eta: none
+    text: "{target:name} toward the {tool:name}"
+    why: "The {tool:name} is crafted at the anvil from what this character gathers, and its skill level already allows it."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M4 TR-4: the next tool past the best one equipped whose level the skill meets; yes or no (FR-6)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Tools", title: "IdleOn Wiki: Tools", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540, note: "Pickaxes, hatchets, rods and nets, each with a level requirement." }
+      - { url: "https://idleon.wiki/wiki/Smithing", title: "IdleOn Wiki: Smithing", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540, note: "Tools are crafted at the anvil from recipes." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json", title: "Toolbox game data: tools (lvReqToEquip) and anvil recipes", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

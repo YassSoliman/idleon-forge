@@ -141,6 +141,10 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
       isPlaying: lastPlayed !== null && c.index === lastPlayed,
       verdict,
       purpose: parts.flatMap(({ x }) => x.purpose ?? []),
+      ...(() => {
+        const p = parts.find(({ x }) => x.purposeStatus !== undefined)?.x;
+        return p ? { purposeStatus: p.purposeStatus, purposeNote: p.purposeNote ?? null } : {};
+      })(),
       // Ranked below, after M15 F5's Behind step (TR-9) may move some of them to the Account section.
       goals: [],
       higherLeverage: parts.find((p) => p.x.higherLeverage)?.x.higherLeverage ?? null,

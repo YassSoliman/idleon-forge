@@ -5,6 +5,7 @@
 // suggestion (custom stamp quests, D2) or a show-more line (`nice`, unlisted: toward stamps, the stamp
 // count, the obol Goal). A finding that would repeat across characters (same entry, same group) is one
 // account line naming each character by class and level (#70 A5). It never sets a Verdict. Pure.
+
 import type { AccountState } from '@idleon-forge/account-state';
 import {
   type DetectorRegistry,
@@ -23,6 +24,7 @@ import type {
   ModuleGoal,
   ModuleOutput,
 } from '../core/module';
+import { cardEtas, type PurposeModuleDeps } from '../purpose/module';
 import type { ActivePlay, Category, Done, Goal, SourceRef, Subject } from '../result';
 import { buildCardsView } from './cards-view';
 import type { M8Finding } from './detectors';
@@ -241,6 +243,8 @@ export function createCollectionsModule(deps: CollectionsModuleDeps): EngineModu
  */
 export function createCardsViewModule(deps: {
   kb: Pick<CollectionsKnowledge, 'entries' | 'facts'>;
+  /** M4: its card-copies ETAs feed the grind list where several characters farm one card. */
+  purpose?: PurposeModuleDeps;
 }): EngineModule {
   const lookup = { get: (id: string) => deps.kb.entries[id] ?? deps.kb.facts[id] };
   return {
@@ -249,7 +253,8 @@ export function createCardsViewModule(deps: {
     dependsOnExpectedReturn: false,
     affectsVerdict: false,
     run(input: EngineInput): ModuleOutput {
-      const cards = buildCardsView(input.state, lookup);
+      const m4 = deps.purpose ? cardEtas(input, deps.purpose) : null;
+      const cards = buildCardsView(input.state, lookup, m4);
       return cards ? { cards } : {};
     },
   };

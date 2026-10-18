@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 361
+# golden v1: fresh · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
@@ -36,17 +36,13 @@ Unknown: can't tell from the save
 - Extra · Today's Random Event: Random Event now on Jar Bridge (Snake Swarm): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
-show more (10)
+show more (11)
 If you have time
 - Run Killroy's Archer room on your Siege Breaker Lv 478 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Warrior room on your Blood Berserker Lv 534 (YumYum Grotto) · about 2m of hands-on play
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 3m of hands-on play
 
 ## Not covered yet
-Classes and subclasses
-Portals and map doors
-Skills, doors and tools
-Upgrade Vault
 Bribes
 Forge
 Quests
@@ -64,11 +60,11 @@ Cooking
 Laboratory
 
 ## Systems
-W0 · Classes and subclasses · Not covered yet · Not covered yet
+W0 · Classes and subclasses · Nothing to fix · Nothing to fix
 W0 · Talents · Nothing to fix · Nothing to fix
 W0 · Talent presets · Nothing to fix · Nothing to fix
 W0 · Talent resets · Nothing to fix · Nothing to fix
-W0 · Upgrade Vault · Not covered yet · Not covered yet
+W0 · Upgrade Vault · Nothing to fix · Nothing to fix
 W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Tasks · Nothing to fix · Nothing to fix · 1 to do
@@ -76,13 +72,13 @@ W0 · Companions and pets · Wasting · 1 to fix before you leave
 W0 · Minigames · Wasting · 1 to fix before you leave
 W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
-W0 · Portals and map doors · Not covered yet · Not covered yet
-W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Portals and map doors · Nothing to fix · Nothing to fix
+W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Random Events · Wasting · 1 to fix before you leave
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
-W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
+W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Can't tell · Can't tell from the save
 W1 · Forge · Not covered yet · Not covered yet

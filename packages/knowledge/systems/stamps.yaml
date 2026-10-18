@@ -305,3 +305,92 @@ entries:
         - stamps.acquisition.stamp-a25
         - stamps.acquisition.stamp-c15
         - stamps.acquisition.stamp-c20
+
+  # ---- M4 Purpose & Milestones (TR-4): gathering a stamp's cap-raise material ----
+  - id: stamps.goal.cap-material
+    system: stamps
+    type: goal
+    title: Stamp cap raise materials
+    scope: account
+    category: compounding
+    unit: items
+    progress: { id: stamps/status, params: { view: collect } }
+    milestones:
+      - { at: 1, reward: "an owned stamp's next cap raise" }
+    text: "Materials for the next stamp cap raises"
+    why: "A stamp's max level rises only when you pay its material; gathering it lets you keep buying levels."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M4 TR-4: the Goal stamps.contribution.material-* point at. The shortfall is M7's worker price (spend.stamps[].raise), never the parsed gilded price."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn Wiki: Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540, note: "Stamps level with coins and their material." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/stamps.ts", title: "IdleOn Toolbox: stamp material costs", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: stamps.contribution.material-mining
+    system: stamps
+    type: contribution
+    title: Stamp material
+    activity: { afkType: MINING }
+    goal: stamps.goal.cap-material
+    detector: { id: stamps/material, params: { afkType: MINING } }
+    eta: none
+    text: "{target:name}: stamp material for {stamp:name}"
+    why: "The next cap raise of {stamp:name} needs {short:int} more than your storage holds."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M4 TR-4, FR-6: yes or no. Priced at M7's re-evaluated cost at the current discount (M7 TR-2)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn Wiki: Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540, note: "Stamps level with coins and their material." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/stamps.ts", title: "IdleOn Toolbox: stamp material costs", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: stamps.contribution.material-choppin
+    system: stamps
+    type: contribution
+    title: Stamp material
+    activity: { afkType: CHOPPIN }
+    goal: stamps.goal.cap-material
+    detector: { id: stamps/material, params: { afkType: CHOPPIN } }
+    eta: none
+    text: "{target:name}: stamp material for {stamp:name}"
+    why: "The next cap raise of {stamp:name} needs {short:int} more than your storage holds."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M4 TR-4, FR-6: yes or no. Priced at M7's re-evaluated cost at the current discount (M7 TR-2)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn Wiki: Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540, note: "Stamps level with coins and their material." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/stamps.ts", title: "IdleOn Toolbox: stamp material costs", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: stamps.contribution.material-fishing
+    system: stamps
+    type: contribution
+    title: Stamp material
+    activity: { afkType: FISHING }
+    goal: stamps.goal.cap-material
+    detector: { id: stamps/material, params: { afkType: FISHING } }
+    eta: none
+    text: "{target:name}: stamp material for {stamp:name}"
+    why: "The next cap raise of {stamp:name} needs {short:int} more than your storage holds."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M4 TR-4, FR-6: yes or no. Priced at M7's re-evaluated cost at the current discount (M7 TR-2)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn Wiki: Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540, note: "Stamps level with coins and their material." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/stamps.ts", title: "IdleOn Toolbox: stamp material costs", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: stamps.contribution.material-catching
+    system: stamps
+    type: contribution
+    title: Stamp material
+    activity: { afkType: CATCHING }
+    goal: stamps.goal.cap-material
+    detector: { id: stamps/material, params: { afkType: CATCHING } }
+    eta: none
+    text: "{target:name}: stamp material for {stamp:name}"
+    why: "The next cap raise of {stamp:name} needs {short:int} more than your storage holds."
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    notes: "M4 TR-4, FR-6: yes or no. Priced at M7's re-evaluated cost at the current discount (M7 TR-2)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn Wiki: Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540, note: "Stamps level with coins and their material." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/stamps.ts", title: "IdleOn Toolbox: stamp material costs", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

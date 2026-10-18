@@ -1,9 +1,9 @@
-# golden v1: toolbox-raw · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 361
+# golden v1: toolbox-raw · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
 ## Now
-1 of 11 Ready · fix 9 before you leave · 1 Unknown
+0 of 11 Ready · fix 9 before you leave · 2 Unknown
 
 ### C2 · Death Bringer 1292 · Fix before you leave
 1 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Worship full · spend] [Traps idle in about 7 h] · Send Death Bringer Lv 1,292 to an AFK Target before you leave
@@ -32,11 +32,11 @@
 ### C3 · Elemental Sorcerer 1259 · Fix before you leave
 9 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps, sized to your return, then close the game fully
 
-### C11 · Beginner 1224 · Unknown
-10 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Not covered yet: AFK safety
+### C9 · Royal Guardian 1307 · Unknown
+10 · Fighting Verminous · The Royal Castle · [Anvil full · collect] [Worship full · spend] [Traps idle in about 7 h] · Can't tell from the save
 
-### C9 · Royal Guardian 1307 · Ready
-11 · Fighting Verminous · The Royal Castle · [Anvil full · collect] [Worship full · spend] [Traps idle in about 7 h]
+### C11 · Beginner 1224 · Unknown
+11 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Not covered yet: Cooking
 
 ### Account · nothing to fix
 [checklist] Today 0/11 · Week 0/4 · daily reset in 15h 12m
@@ -63,7 +63,7 @@
 - Grow · Constellation A-10: Echoing Egress, reach the star on a Mage-line character: On your Bubonic Conjuror Lv 1268: go to Echoing Egress (W1), click the star, then go back to Spore Meadows [IdleOn Wiki: Star Signs (constellation requirements and points; Time Candy counts for AFK ones) · Calculated by IdleOn Toolbox · 2.3.540]
   Walkthrough: A-10: 0 of 1 characters · about 3m
     1. On your Bubonic Conjuror Lv 1268: go to Echoing Egress (W1), click the star, then go back to Spore Meadows
-show more (9)
+show more (10)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -71,10 +71,6 @@ If you have time
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 11m of hands-on play
 
 ## Not covered yet
-Classes and subclasses
-Portals and map doors
-Skills, doors and tools
-Upgrade Vault
 Bribes
 Forge
 Quests
@@ -92,11 +88,11 @@ Cooking
 Laboratory
 
 ## Systems
-W0 · Classes and subclasses · Not covered yet · Not covered yet
+W0 · Classes and subclasses · Nothing to fix · Nothing to fix
 W0 · Talents · Nothing to fix · Nothing to fix
 W0 · Talent presets · Nothing to fix · Nothing to fix
 W0 · Talent resets · Nothing to fix · Nothing to fix
-W0 · Upgrade Vault · Not covered yet · Not covered yet
+W0 · Upgrade Vault · Nothing to fix · Nothing to fix
 W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix
 W0 · Tasks · Nothing to fix · Nothing to fix
@@ -104,13 +100,13 @@ W0 · Companions and pets · Nothing to fix · Nothing to fix · 1 to do
 W0 · Minigames · Wasting · 2 to fix before you leave · 1 to do
 W0 · Cards · Nothing to fix · Nothing to fix · 1 to do
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
-W0 · Portals and map doors · Not covered yet · Not covered yet
-W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Portals and map doors · Nothing to fix · Nothing to fix
+W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
-W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
+W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix · 1 to do
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 11 full · collect
 W1 · Forge · Not covered yet · Not covered yet
@@ -137,7 +133,7 @@ W3 · Talent Book Library · Nothing to fix · Nothing to fix
 W3 · 3D Printer · Nothing to fix · Nothing to fix
 W3 · Worship · Nothing to fix · Nothing to fix · 11 full · collect
 W3 · Trapping · Wasting · 8 to fix before you leave · 2 full · collect
-W3 · Death Note · Nothing to fix · Nothing to fix
+W3 · Death Note · Can't tell · Can't tell from the save
 W3 · Salt Lick · Not covered yet · Not covered yet
 W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
@@ -191,15 +187,15 @@ C3 · Elemental Sorcerer 1259
 - traps ready · now · before · blocker · outlined · fix trapping.check.slots-and-timers@c2
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none
-C11 · Beginner 1224
-- Anvil full · collect · now · before · pill · fix none
-- Worship full · spend · now · before · pill · fix none
-- In the group above · Anvil full · collect · Worship full · spend
 C9 · Royal Guardian 1307
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none
 - Traps idle · in 6h 36m · 00:03 · before · pill · fix none
 - In the group above · Anvil full · collect · Worship full · spend · Traps idle
+C11 · Beginner 1224
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+- In the group above · Anvil full · collect · Worship full · spend
 Account · Random Events
 - Random Event ready · in 2h 32m · 20:00 · before · info · fix none
 Account · Alchemy cauldrons and liquids
@@ -276,10 +272,15 @@ Account · Refinery
 | anvil.check.spend-points | anvil/points | account | fires | count=11 hours=8 manyMixed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| cards.contribution.fight-mush-g | cards/fight-level | C10 | advances no | chance=0.002 complete=1 feeders=512 rate=1886483522 rule=0 saved=3312911748 target=Green_Mushroom |
+| classes.contribution.exp | classes/exp | C10 | advances yes eta 672808288037m | exp=3.232391806411378e+29 expReq=4.128549083429221e+29 rate=7991791655533847000 saved=1268 |
+| classes.contribution.exp | classes/exp | C9 | advances yes eta 479009996855998m | exp=8.1176933947005e+29 expReq=2.3437430699174437e+30 rate=191892495835481500 saved=1307 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
 | construction.check.build-next | construction/build-next | account | pass |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
+| death-note.contribution.skull-miniboss-fm-rat | death-note/skull | C9 | advances unknown |  |
+| death-note.contribution.skull-mush-g | death-note/skull | C10 | advances no | building=51 feeders=512 rate=1886483522 rule=1 saved=361864979520 target=Green_Mushroom |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
 | gem-shop.check.printer-progress | gem-shop/unspent | — | silent |  |
 | gem-shop.check.unspent | gem-shop/unspent | account | fires | gems=29781713 price=875 |
@@ -302,6 +303,7 @@ Account · Refinery
 | pets.check.free-pull | pets/free-pull | account | pass |  |
 | pets.check.mart-gems | pets/mart-gems | account | fires | shopDay=189 |
 | poppy.check.open | poppy/pending-fish | account | fires |  |
+| portals.contribution.push-map-1 | portals/push | C10 | advances no | door=0 map=Spore_Meadows rate=1886483522 rule=1 saved=360369690317 |
 | post-office.check.daily-orders | post-office/state | account | fires | companies=6 |
 | post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=479189 |
 | post-office.check.spend-boxes | post-office/state | C10 | fires | boxes=471823 |
@@ -322,6 +324,10 @@ Account · Refinery
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| roles.contribution.fishing | roles/skill | C7 | advances yes | rule=1 |
+| skills.contribution.door-fishing | skills/door | C7 | advances no | destination= rule=0 saved=122 |
+| skills.contribution.tool-fishing | skills/tool-chain | C7 | advances no | need=0 rule=0 saved=122 target=Medium_Fish tool=Lustre_Rod |
+| stamps.contribution.material-fishing | stamps/material | C7 | advances no | rule=0 target=Medium_Fish |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |

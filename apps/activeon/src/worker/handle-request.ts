@@ -25,7 +25,13 @@ import { createAfkSafetyModule } from '@idleon-forge/engine/afk';
 import { createBuildsModule } from '@idleon-forge/engine/builds';
 import { createCardsViewModule, createCollectionsModule } from '@idleon-forge/engine/collections';
 import { engineDetectors } from '@idleon-forge/engine/detectors';
-import { detectStage, frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
+import { createMetaPathModule, detectStage, frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
+import {
+  classXpActionFor,
+  createPurposeModule,
+  purposeStatusFor,
+  suggestionFor,
+} from '@idleon-forge/engine/purpose';
 import { createM20Modules } from '@idleon-forge/engine/slots';
 import { createSpendModule } from '@idleon-forge/engine/spend';
 import { createStarSignsModule } from '@idleon-forge/engine/starsigns';
@@ -152,9 +158,19 @@ export function frontierOf(
 export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().kb): EngineModule[] {
   if (!kb) return [metaPathModule];
   const facts = lookupOf(kb);
+  const purpose = { kb, registry: knowledgeDetectors };
   return [
-    metaPathModule,
-    createAfkSafetyModule({ kb, registry: knowledgeDetectors, stage: (state) => detectStage(state, facts) }),
+    // M15 FR-15: the next family unlock takes M4's top Class XP Next Action.
+    createMetaPathModule({ classXpAction: classXpActionFor(purpose) }),
+    createAfkSafetyModule({
+      kb,
+      registry: knowledgeDetectors,
+      stage: (state) => detectStage(state, facts),
+      // M4 FR-8, FR-14: Ready means safe and serving; "What is this character for?" gets its suggestion.
+      purpose: purposeStatusFor(purpose),
+      purposeSuggestion: suggestionFor(purpose),
+    }),
+    createPurposeModule(purpose),
     createUnspentModule({
       kb,
       registry: knowledgeDetectors,
@@ -165,7 +181,7 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
     }),
     createBuildsModule({ kb }),
     createCollectionsModule({ kb, registry: engineDetectors }),
-    createCardsViewModule({ kb }),
+    createCardsViewModule({ kb, purpose }),
     createSpendModule({ kb, stage: (state) => detectStage(state, facts) }),
     createWalkthroughModule({ kb }),
     createStarSignsModule({ kb }),

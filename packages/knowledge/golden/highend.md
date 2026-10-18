@@ -1,9 +1,9 @@
-# golden v1: highend · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 361
+# golden v1: highend · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
 ## Now
-6 of 11 Ready · fix 4 before you leave · 1 Unknown
+0 of 11 Ready · fix 4 before you leave · 7 Unknown
 
 ### C4 · Divine Knight 1819 · Fix before you leave
 1 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Traps idle in about 3 h] · Send Divine Knight Lv 1,819 to an AFK Target before you leave
@@ -17,26 +17,26 @@
 ### C11 · Beginner 1717 · Fix before you leave
 4 · Paying respect Bravery · The Hole · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Collect and re-place your 1 finished traps, sized to your return, then close the game fully
 
+### C8 · Voidwalker 1764 · Unknown
+5 · Spelunking C1 Way Opening · Coralcave Perimeter · [Anvil full · collect] [Traps idle in about 3 h] · Not covered yet: Spelunking
+
+### C5 · Arcane Cultist 1762 · Unknown
+6 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Traps idle in about 3 h] · Can't tell from the save
+
+### C6 · Wind Walker 1744 · Unknown
+7 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Can't tell from the save
+
+### C9 · Arcane Cultist 1743 · Unknown
+8 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Traps idle in about 3 h] · Can't tell from the save
+
+### C2 · Siege Breaker 1725 · Unknown
+9 · Spelunking Buried Church · Middle of Nowhere · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Not covered yet: Spelunking
+
 ### C1 · Death Bringer 1701 · Unknown
-5 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Not covered yet: AFK safety
+10 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Not covered yet: Cooking
 
-### C8 · Voidwalker 1764 · Ready
-6 · Spelunking C1 Way Opening · Coralcave Perimeter · [Anvil full · collect] [Traps idle in about 3 h]
-
-### C5 · Arcane Cultist 1762 · Ready
-7 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Traps idle in about 3 h]
-
-### C6 · Wind Walker 1744 · Ready
-8 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h]
-
-### C9 · Arcane Cultist 1743 · Ready
-9 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Traps idle in about 3 h]
-
-### C2 · Siege Breaker 1725 · Ready
-10 · Spelunking Buried Church · Middle of Nowhere · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h]
-
-### C3 · Elemental Sorcerer 1734 · Ready
-11 · Spelunking Buried Church · Middle of Nowhere · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h]
+### C3 · Elemental Sorcerer 1734 · Unknown
+11 · Spelunking Buried Church · Middle of Nowhere · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Not covered yet: Spelunking
 
 ### Account · nothing to fix
 [checklist] Today 5/11 · Week 3/4 · daily reset in 23m
@@ -72,15 +72,11 @@
   · Arcane Cultist Lv 1743: 0 into Speed, 60 into Capacity
   · Wind Walker Lv 1742: 861 into Speed, 62 into Capacity
   · Beginner Lv 1717: 0 into Speed, 11 into Capacity
-show more (9)
+show more (10)
 If you have time
 - Use today's 20 minigame plays · about 10m of hands-on play
 
 ## Not covered yet
-Classes and subclasses
-Portals and map doors
-Skills, doors and tools
-Upgrade Vault
 Bribes
 Forge
 Quests
@@ -98,11 +94,11 @@ Cooking
 Laboratory
 
 ## Systems
-W0 · Classes and subclasses · Not covered yet · Not covered yet
+W0 · Classes and subclasses · Nothing to fix · Nothing to fix
 W0 · Talents · Nothing to fix · Nothing to fix
 W0 · Talent presets · Nothing to fix · Nothing to fix
 W0 · Talent resets · Nothing to fix · Nothing to fix
-W0 · Upgrade Vault · Not covered yet · Not covered yet
+W0 · Upgrade Vault · Nothing to fix · Nothing to fix
 W0 · Gem Shop · Nothing to fix · Nothing to fix
 W0 · Merit Shop · Nothing to fix · Nothing to fix
 W0 · Tasks · Nothing to fix · Nothing to fix
@@ -110,13 +106,13 @@ W0 · Companions and pets · Wasting · 1 to fix before you leave
 W0 · Minigames · Wasting · 2 to fix before you leave · 3 to do
 W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix
-W0 · Portals and map doors · Not covered yet · Not covered yet
-W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Portals and map doors · Nothing to fix · Nothing to fix
+W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
-W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
+W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 11 full · collect
 W1 · Forge · Not covered yet · Not covered yet
@@ -179,11 +175,6 @@ C11 · Beginner 1717
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none
 - Traps idle · in 3h 09m · 00:35 · before · pill · fix none
-C1 · Death Bringer 1701
-- Anvil full · collect · now · before · pill · fix none
-- Worship full · spend · now · before · pill · fix none
-- Traps idle · in 3h 09m · 00:35 · before · pill · fix none
-- In the group above · Anvil full · collect · Worship full · spend · Traps idle
 C8 · Voidwalker 1764
 - Anvil full · collect · now · before · pill · fix none
 - Traps idle · in 3h 09m · 00:35 · before · pill · fix none
@@ -202,6 +193,11 @@ C9 · Arcane Cultist 1743
 - Traps idle · in 3h 09m · 00:35 · before · pill · fix none
 - worship charge caps · later · in 15d 15h · 12:28 · after · info · fix none
 C2 · Siege Breaker 1725
+- Anvil full · collect · now · before · pill · fix none
+- Worship full · spend · now · before · pill · fix none
+- Traps idle · in 3h 09m · 00:35 · before · pill · fix none
+- In the group above · Anvil full · collect · Worship full · spend · Traps idle
+C1 · Death Bringer 1701
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none
 - Traps idle · in 3h 09m · 00:35 · before · pill · fix none
@@ -294,6 +290,10 @@ Account · Refinery
 | anvil.check.spend-points | anvil/points | account | fires | count=11 hours=8 manyMixed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| classes.contribution.exp | classes/exp | C10 | advances yes eta 23m | exp=1.8041391742092496e+38 expReq=5.495541910596324e+38 rate=9.509594490413455e+38 saved=1742 |
+| classes.contribution.exp | classes/exp | C5 | advances yes eta 60m | exp=1.9655527828305413e+38 expReq=1.3285618735645738e+39 rate=1.1307126574524973e+39 saved=1762 |
+| classes.contribution.exp | classes/exp | C6 | advances yes eta 0m | exp=5.992239157073712e+38 expReq=6.002780279004503e+38 rate=1.1766637677775168e+39 saved=1744 |
+| classes.contribution.exp | classes/exp | C9 | advances yes eta 14m | exp=2.988201516147185e+38 expReq=5.74356605180467e+38 rate=1.1449587867748892e+39 saved=1743 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
 | construction.check.build-next | construction/build-next | account | fires | building=3D_Printer holder=Voidinator salt=Redox_Salts swap=1 thenNone=1 |
 | death-note.check.build | death-note/build | — | silent |  |

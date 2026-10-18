@@ -5,6 +5,8 @@
 // perTier × (k + floor((k-1)/3) + 16·floor((k-1)/4) + 100·floor((k-1)/5))², which for the four base
 // stars is perTier × 1, 4, 9, 25. Copies are whole, so the step is at floor(perTier × m) + 1. The first
 // step is the first copy. Higher stars need the rift or spelunking unlocks and are not on the ladder.
+// `values.afkType` is the AFK type of the monster or resource that drops the card (monsters.json
+// `AFKtype`), so a fighting Contribution expands only over fighting cards (M4 TR-4, `familyMembers`).
 import type { GeneratedEntryT } from '../src/schema';
 import { defineGenerator, generatedBy, generatedSource, slugify } from './types';
 
@@ -40,9 +42,10 @@ export const starSteps = (perTier: number, stars = BASE_STARS) =>
 const generator = defineGenerator({
   name: 'card-levels',
   system: 'cards',
-  inputs: [`${CARDS_FILE}#calculateStars`, 'website-data/cards.json'],
+  inputs: [`${CARDS_FILE}#calculateStars`, 'website-data/cards.json', 'website-data/monsters.json'],
   run({ data, pin }) {
     const cards = data.cards as Record<string, Card>;
+    const monsters = (data.monsters ?? {}) as Record<string, { AFKtype?: string }>;
     const by = generatedBy(generator, pin);
     const source = generatedSource(pin, CARDS_FILE, 'IdleOn Toolbox: calculateStars and cards.json perTier');
     const entries: GeneratedEntryT[] = [];
@@ -63,7 +66,13 @@ const generator = defineGenerator({
         title: `Card: ${name}`.slice(0, 80),
         text: `{value:int} ${name} cards; next card level at {next:int}`.slice(0, 240),
         why: `Each card level raises the ${name} card's bonus.`.slice(0, 240),
-        values: { card: c.rawName, perTier: c.perTier },
+        values: {
+          card: c.rawName,
+          perTier: c.perTier,
+          ...(typeof monsters[c.rawName]?.AFKtype === 'string'
+            ? { afkType: monsters[c.rawName]?.AFKtype as string }
+            : {}),
+        },
         sources: [source],
         appliesTo: { stages: 'all' },
         confidence: 'H',

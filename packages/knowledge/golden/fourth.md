@@ -1,15 +1,15 @@
-# golden v1: fourth · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 361
+# golden v1: fourth · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
 ## Now
-1 of 2 Ready · fix 1 before you leave
+0 of 2 Ready · fix 1 before you leave · 1 Unknown
 
 ### C2 · Beginner 1 · Fix before you leave
 1 · Doing nothing · Blunder Hills · Send Beginner Lv 1 to an AFK Target before you leave
 
-### C1 · Voidwalker 476 · Ready
-2 · Fighting Woodlin Spirit · Edge of the Valley · Nothing to do here
+### C1 · Voidwalker 476 · Unknown
+2 · Fighting Woodlin Spirit · Edge of the Valley · Can't tell from the save
 
 ### Account · nothing to fix
 [checklist] Today 2/10 · Week 0/3 · daily reset in 20h 04m
@@ -19,15 +19,11 @@
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Gems unspent: 999 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
-show more (9)
+show more (10)
 If you have time
 - Run the Weekly Battle with every character (Yum Yum Desert) · about 2m of hands-on play
 
 ## Not covered yet
-Classes and subclasses
-Portals and map doors
-Skills, doors and tools
-Upgrade Vault
 Bribes
 Forge
 Quests
@@ -45,11 +41,11 @@ Cooking
 Laboratory
 
 ## Systems
-W0 · Classes and subclasses · Not covered yet · Not covered yet
+W0 · Classes and subclasses · Nothing to fix · Nothing to fix
 W0 · Talents · Nothing to fix · Nothing to fix
 W0 · Talent presets · Nothing to fix · Nothing to fix
 W0 · Talent resets · Nothing to fix · Nothing to fix
-W0 · Upgrade Vault · Not covered yet · Not covered yet
+W0 · Upgrade Vault · Nothing to fix · Nothing to fix
 W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
 W0 · Merit Shop · Nothing to fix · Nothing to fix · 4 to do
 W0 · Tasks · Nothing to fix · Nothing to fix · 1 to do
@@ -57,13 +53,13 @@ W0 · Companions and pets · Can't tell · Can't tell from the save
 W0 · Minigames · Wasting · 2 to fix before you leave
 W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix · 2 to do
-W0 · Portals and map doors · Not covered yet · Not covered yet
-W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Portals and map doors · Nothing to fix · Nothing to fix
+W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Random Events · Wasting · 1 to fix before you leave
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
-W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
+W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Can't tell · Can't tell from the save
 W1 · Forge · Not covered yet · Not covered yet
@@ -146,6 +142,7 @@ Account · Refinery
 | anvil.check.spend-points | anvil/points | C2 | unknown (field-missing) |  |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| classes.contribution.exp | classes/exp | C1 | advances yes eta 7253m | exp=56064428209917 expReq=101659246119794 rate=377190580752.46124 saved=476 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
 | construction.check.build-next | construction/build-next | account | fires | building=3D_Printer fullIn=3312676000 held=77204 payTimed=1 salt=Redox_Salts thenNone=1 |
 | death-note.check.build | death-note/build | — | silent |  |

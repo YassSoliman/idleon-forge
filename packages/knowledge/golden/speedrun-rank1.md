@@ -1,9 +1,9 @@
-# golden v1: speedrun-rank1 · knowledge #c4509a46 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 361
+# golden v1: speedrun-rank1 · knowledge #d32a0360 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 896
 
 ## Verdict changes
 
 ## Now
-1 of 11 Ready · fix 10 before you leave
+0 of 11 Ready · fix 10 before you leave · 1 Unknown
 
 ### C7 · Divine Knight 1822 · Fix before you leave
 1 · Doing nothing · Frostbite Towndra · [Anvil full · collect] · Send Divine Knight Lv 1,822 to an AFK Target before you leave
@@ -35,8 +35,8 @@
 ### C5 · Elemental Sorcerer 1700 · Fix before you leave
 10 · In the Lab · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
 
-### C8 · Voidwalker 1754 · Ready
-11 · Catching Litterbug · Plastic Basin · [Anvil full · collect]
+### C8 · Voidwalker 1754 · Unknown
+11 · Catching Litterbug · Plastic Basin · [Anvil full · collect] · What is this character for?
 
 ### Account · nothing to fix
 [checklist] Today 4/11 · Week 2/4 · daily reset in 23h 05m
@@ -45,17 +45,13 @@
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (9)
+show more (10)
 If you have time
 - Run Killroy's Archer room on your Wind Walker Lv 1775 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Wind Walker Lv 1775 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Beginner room on your Divine Knight Lv 1822 (YumYum Grotto) · about 2m of hands-on play
 
 ## Not covered yet
-Classes and subclasses
-Portals and map doors
-Skills, doors and tools
-Upgrade Vault
 Bribes
 Forge
 Quests
@@ -73,11 +69,11 @@ Cooking
 Laboratory
 
 ## Systems
-W0 · Classes and subclasses · Not covered yet · Not covered yet
+W0 · Classes and subclasses · Nothing to fix · Nothing to fix
 W0 · Talents · Nothing to fix · Nothing to fix
 W0 · Talent presets · Nothing to fix · Nothing to fix
 W0 · Talent resets · Nothing to fix · Nothing to fix
-W0 · Upgrade Vault · Not covered yet · Not covered yet
+W0 · Upgrade Vault · Nothing to fix · Nothing to fix
 W0 · Gem Shop · Nothing to fix · Nothing to fix
 W0 · Merit Shop · Nothing to fix · Nothing to fix
 W0 · Tasks · Nothing to fix · Nothing to fix
@@ -85,13 +81,13 @@ W0 · Companions and pets · Wasting · 1 to fix before you leave
 W0 · Minigames · Wasting · 3 to fix before you leave · 2 to do
 W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix
-W0 · Portals and map doors · Not covered yet · Not covered yet
-W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W0 · Portals and map doors · Nothing to fix · Nothing to fix
+W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
 W0 · Guild tasks · Nothing to fix · Nothing to fix
-W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
+W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
 W1 · Star Signs · Nothing to fix · Nothing to fix
 W1 · Anvil · Nothing to fix · Nothing to fix · 1 to do · 11 full · collect
 W1 · Forge · Not covered yet · Not covered yet
@@ -275,6 +271,13 @@ Account · Refinery
 | anvil.check.spend-points | anvil/points | account | fires | count=10 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| cards.contribution.skill-catching-bug14 | cards/skill-first-copy | C8 | advances no | rule=0 saved=11106950832 target=Litterbug |
+| classes.contribution.exp | classes/exp | C10 | advances yes eta 1835m | exp=2.5122327786090935e+38 expReq=1.3885053904303932e+39 rate=3.718233320695926e+37 saved=1763 |
+| classes.contribution.exp | classes/exp | C11 | advances yes eta 46m | exp=1.6527244114264493e+39 expReq=1.9763525979052345e+39 rate=4.1951214378336176e+38 saved=1771 |
+| classes.contribution.exp | classes/exp | C2 | advances yes eta 167m | exp=3.33375710696164e+38 expReq=1.8094091421833088e+39 rate=5.310873692913458e+38 saved=1769 |
+| classes.contribution.exp | classes/exp | C4 | advances yes eta 103m | exp=3.054628212147554e+39 expReq=4.003578685768351e+39 rate=5.553992193147855e+38 saved=1787 |
+| classes.contribution.exp | classes/exp | C6 | advances yes eta 59m | exp=1.8229224541690406e+39 expReq=2.3578523627342708e+39 rate=5.47975426027952e+38 saved=1775 |
+| classes.contribution.exp | classes/exp | C9 | advances yes eta 134m | exp=2.271157261763114e+39 expReq=3.3558965103449195e+39 rate=4.84580840974701e+38 saved=1783 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
 | construction.check.build-next | construction/build-next | account | pass |  |
 | death-note.check.build | death-note/build | — | silent |  |
@@ -321,6 +324,9 @@ Account · Refinery
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |
 | refinery.check.salt-off | refinery/salt-off | account | fires | offSalts=2 salt=Propagated_Salt |
 | refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
+| roles.contribution.catching | roles/skill | C8 | advances yes | rule=1 |
+| skills.contribution.tool-catching | skills/tool-chain | C8 | advances no | need=0 rule=0 saved=346 target=Litterbug tool= |
+| stamps.contribution.material-catching | stamps/material | C8 | advances no | rule=0 target=Litterbug |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |

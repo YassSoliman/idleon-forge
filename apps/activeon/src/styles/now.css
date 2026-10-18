@@ -917,3 +917,66 @@ button.cap[aria-expanded="true"] {
     display: grid;
   }
 }
+
+/* M4 Purpose block (Design Lab now.focus-purpose: Quest line + Milestone ladder). */
+.purpose {
+  display: grid;
+  gap: 6px;
+}
+.quest {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--ok);
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: grid;
+  gap: 6px;
+  background: var(--surface);
+}
+.quest.quiet {
+  border-left-color: var(--unk);
+}
+.quest-line {
+  margin: 0;
+  font-weight: 600;
+}
+.quest-bar {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--sunk);
+  overflow: hidden;
+}
+.quest-bar span {
+  display: block;
+  height: 100%;
+  background: var(--ok);
+}
+.ladder {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+.ladder li {
+  display: grid;
+  gap: 2px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: var(--sunk);
+  font-size: 13px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.ladder li.is-done {
+  background: var(--ok-soft);
+}
+.ladder li.is-next {
+  outline: 2px solid var(--ok);
+}
+.ladder small {
+  color: var(--muted);
+}
+.purpose-line.quiet {
+  color: var(--muted);
+}

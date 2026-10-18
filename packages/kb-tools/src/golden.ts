@@ -115,7 +115,7 @@ export function findingRows(input: GoldenInput, lookupSet: ReadonlySet<string>):
   const { state, kb, registries, now, expectedReturnMs } = input;
   const ctx = makeContext(state, kb, { now, expectedReturnMs });
   const rows: FindingRow[] = [];
-  const runOne = (entry: string, id: string, params: unknown) => {
+  const runOne = (entry: string, id: string, params: unknown, quiet = false) => {
     const d = findDetector(id, registries.knowledge, registries.engine);
     if (!d || d.kind === 'engine') return;
     const run = runDetector(d, ctx, params);
@@ -123,7 +123,7 @@ export function findingRows(input: GoldenInput, lookupSet: ReadonlySet<string>):
       rows.push({ entry, detector: id, subject: '—', result: 'throws', slots: '' });
       return;
     }
-    if (run.findings.length === 0)
+    if (run.findings.length === 0 && !quiet)
       rows.push({ entry, detector: id, subject: '—', result: 'silent', slots: '' });
     for (const f of run.findings) {
       const finding = f as AnyFinding & { subject: Subject; slots?: Record<string, number | string> };
@@ -146,7 +146,15 @@ export function findingRows(input: GoldenInput, lookupSet: ReadonlySet<string>):
       });
     }
   };
-  for (const e of Object.values(kb.entries)) for (const r of detectorRefsOf(e)) runOne(e.id, r.id, r.params);
+  for (const e of Object.values(kb.entries)) {
+    // Generated ladders are game facts, not findings (their progress Detectors are M4's inputs).
+    if ('origin' in e && e.origin === 'generated') continue;
+    // M4 TR-4: a concrete Contribution's Detector gets its Goal (the engine passes it the same way);
+    // most are silent on any one save, so only the ones that match an activity are listed.
+    const contribution = e.type === 'contribution' && e.goal !== undefined;
+    for (const r of detectorRefsOf(e))
+      runOne(e.id, r.id, contribution ? { ...r.params, goal: e.goal } : r.params, contribution);
+  }
   for (const s of kb.systems)
     if (s.unlocked !== 'always') runOne(`systems.yaml#${s.id}`, s.unlocked.id, s.unlocked.params);
   const key = (r: FindingRow) =>

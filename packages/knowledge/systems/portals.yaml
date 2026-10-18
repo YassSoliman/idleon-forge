@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M4 Purpose & Milestones (docs/specs/M4-purpose-milestones.md TR-4): a fighter on a map with a door it
+# hasn't opened works toward that door. The ladders are generated (portals.goal.map-<i>); only M2's
+# pusher on M2's frontier map makes it worthwhile (D5), and its ETA is M2's push ETA, copied.
+system: portals
+entries:
+  - id: portals.contribution.push
+    system: portals
+    type: contribution
+    title: Portal kills
+    activity: { afkType: FIGHTING }
+    goalFamily: portals.goal.map
+    detector: { id: portals/push }
+    eta: kills-per-hour
+    values: { horizon: none, whyNot: "{map:name} isn't your push" }
+    text: "Portal on {map:name}: {now} → {at} kills"
+    why: "Kills on a map open its doors to the next maps. Pushing the frontier is your account's top Goal after AFK safety."
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    notes: "D5: worthwhile only for M2's pusher on M2's frontier map; every other portal line shows under 'show more'. The ETA is M2's push Goal ETA, so the row and the Next Action never disagree (US-6)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Portal_Requirements", title: "IdleOn Wiki: Portal Requirements", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540, note: "Kills each map needs to open its portals; some maps have two." }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/portals.ts", title: "IdleOn Toolbox: map portals and kills left", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
