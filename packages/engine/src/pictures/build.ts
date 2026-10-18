@@ -111,6 +111,12 @@ export function stampsPicture(state: AccountState, kb: Kb, prior: EngineResult):
       break;
     }
   }
+  // Every unowned stamp a stamps Goal names carries that Goal's key (the first in rank order), so the
+  // page's step or a "See it" lights its own stamp (FR-S6).
+  const keyOf = new Map<string, string>();
+  for (const g of goalsInOrder(prior))
+    if (g.system === 'stamps')
+      for (const r of stampsOfGoal(g, ev)) if (!keyOf.has(r)) keyOf.set(r, g.nextAction.key);
   const byRaw = new Map<string, StampAcquisition>(ev.items.map((s) => [s.rawName, s]));
   litRaw ??= ev.items.find((s) => s.status === 'now')?.rawName ?? null;
   const elements: StampTile[] = ev.items.map((s) => {
@@ -119,7 +125,8 @@ export function stampsPicture(state: AccountState, kb: Kb, prior: EngineResult):
     const status = s.status as StampStatus;
     return {
       id: `stamp-${s.rawName}`,
-      actionKey: s.rawName === litRaw ? litKey : null,
+      actionKey:
+        s.status === 'owned' ? null : (keyOf.get(s.rawName) ?? (s.rawName === litRaw ? litKey : null)),
       rawName: s.rawName,
       name: human(lv?.name ?? s.name),
       tab: tabOf(kb, s.rawName),

@@ -97,6 +97,8 @@ export const VAULT_WORDS = {
   maxed: 'maxed',
   locked: 'locked',
   bestBuy: 'Best buy',
+  showAll: (n: number) => `Show all ${n} floors`,
+  fewer: 'Show fewer floors',
 } as const;
 
 /** M21 FR-S4: the 3D Printer slot grid. */

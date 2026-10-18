@@ -53,7 +53,9 @@ const stampState = (t: StampTile) =>
 
 export function StampsBody(p: SystemPageBodyProps) {
   const pic = pictureOf<StampsPicture>(p, 'stamps');
-  const lit = pic ? litOf(pic.elements, p.page.highlight, pic.lit) : null;
+  const lit = pic
+    ? litOf(pic.elements, p.page.highlight ?? p.page.goals[0]?.action.key ?? null, pic.lit)
+    : null;
   const litTab = pic?.elements.find((e) => e.id === lit)?.tab ?? 'combat';
   const [tab, setTab] = useState<StampTab>(litTab);
   const { open, sheet } = usePictureSheet(p.page.wiki);
@@ -168,8 +170,16 @@ export function StatuesBody(p: SystemPageBodyProps) {
   const pic = pictureOf<StatuesPicture>(p, 'statues');
   const { open, sheet } = usePictureSheet(p.page.wiki);
   if (!pic) return null;
-  const lit = litOf(pic.elements, p.page.highlight, pic.lit);
+  const lit = litOf(pic.elements, p.page.highlight ?? p.page.goals[0]?.action.key ?? null, pic.lit);
   const litTile = pic.elements.find((e) => e.id === lit) ?? null;
+  // DS-20: the lit statue and the three highest carry their level; the rest show it in the tap sheet.
+  const labelled = new Set([
+    lit,
+    ...[...pic.elements]
+      .sort((x, y) => y.level - x.level)
+      .slice(0, 3)
+      .map((e) => e.id),
+  ]);
   const nameOf = (i: number) => {
     const r = p.s.view.roster.find((x) => x.index === i);
     return r ? `${r.classLabel} ${r.level}` : `${i + 1}`;
@@ -212,7 +222,7 @@ export function StatuesBody(p: SystemPageBodyProps) {
               >
                 {isNow ? <NowTag /> : null}
                 <PixelArt name="v2-systems-statue" ramp={GRADE_RAMP[Math.min(3, t.grade)]} decorative />
-                <span className="sy-statue__lv num">{t.level}</span>
+                {labelled.has(t.id) ? <span className="sy-statue__lv num">{t.level}</span> : null}
               </button>
             </li>
           );
@@ -259,11 +269,18 @@ export function StatuesBody(p: SystemPageBodyProps) {
 export function VaultBody(p: SystemPageBodyProps) {
   const pic = pictureOf<VaultPicture>(p, 'vault');
   const { open, sheet } = usePictureSheet(p.page.wiki);
+  const [all, setAll] = useState(false);
   if (!pic) return null;
-  const lit = litOf(pic.elements, p.page.highlight, pic.lit);
+  const lit = litOf(pic.elements, p.page.highlight ?? p.page.goals[0]?.action.key ?? null, pic.lit);
   // Floors: rows grouped by the total that opens them, top floor first (the tower reads upward).
-  const floors = [...new Set(pic.elements.map((e) => e.unlockAt))].sort((a, b) => b - a);
-  const hereFloor = floors.find((f) => f <= pic.totalLevels) ?? null;
+  const allFloors = [...new Set(pic.elements.map((e) => e.unlockAt))].sort((a, b) => b - a);
+  const hereFloor = allFloors.find((f) => f <= pic.totalLevels) ?? null;
+  // DS-9: the floors around "you are here" (the next one to open, this one, two below) and the lit row's
+  // floor; the rest of the tower behind "Show all".
+  const litFloor = pic.elements.find((e) => e.id === lit)?.unlockAt ?? null;
+  const hereAt = hereFloor === null ? 0 : allFloors.indexOf(hereFloor);
+  const near = new Set(allFloors.slice(Math.max(0, hereAt - 1), hereAt + 3));
+  const floors = all ? allFloors : allFloors.filter((f) => near.has(f) || f === litFloor);
   return (
     <section className="sy-pic sy-vault" aria-labelledby="sy-vault-h">
       <h3 id="sy-vault-h" className="sy-h3">
@@ -340,6 +357,11 @@ export function VaultBody(p: SystemPageBodyProps) {
           </li>
         ))}
       </ol>
+      {allFloors.length > floors.length || all ? (
+        <button type="button" className="a-btn a-btn--quiet" aria-expanded={all} onClick={() => setAll(!all)}>
+          {all ? VAULT_WORDS.fewer : VAULT_WORDS.showAll(allFloors.length)}
+        </button>
+      ) : null}
       {sheet}
     </section>
   );
@@ -350,7 +372,7 @@ export function VaultBody(p: SystemPageBodyProps) {
 export function PrinterBody(p: SystemPageBodyProps) {
   const pic = pictureOf<PrinterPicture>(p, 'printer');
   if (!pic) return null;
-  const lit = litOf(pic.elements, p.page.highlight, pic.lit);
+  const lit = litOf(pic.elements, p.page.highlight ?? p.page.goals[0]?.action.key ?? null, pic.lit);
   const byChar = [...new Set(pic.elements.map((e) => e.characterIndex))];
   const nameOf = (i: number) => {
     const r = p.s.view.roster.find((x) => x.index === i);

@@ -3,6 +3,9 @@
    the System page frame (Step first; Split desktop from 1000 px). Field Guide tokens only; state classes
    are scoped to their component (DS-21); every control is 44 px (DS-15); no text under 12 px (DS-20). */
 
+.sy-page {
+  container: sy-page / inline-size;
+}
 .systems-hub,
 .sy-page {
   display: grid;
@@ -412,9 +415,15 @@
   margin: 0;
   padding-left: var(--space-5);
 }
+.sp-pills a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+}
 
-/* Split desktop (DS-22): the picture on the left, the step, order and sheet on the right. */
-@media (min-width: 1000px) {
+/* Split desktop (DS-22): the picture on the left, the step, order and sheet on the right. A container
+   query, so it splits only when the page column is wide enough (the shell widens it from 1000 px). */
+@container sy-page (min-width: 860px) {
   .sy-frame.has-pic {
     grid-template-columns: minmax(0, 3fr) minmax(320px, 2fr);
     grid-template-areas: "pic side";
@@ -433,6 +442,8 @@
   .sy-frame.has-pic .sy-order {
     order: 0;
   }
+}
+@media (min-width: 1000px) {
   .sy-tiles {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   }
@@ -476,6 +487,13 @@
 }
 .sy-dim {
   color: var(--muted);
+}
+.sy-pic details > summary,
+.sy-section details > summary {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  cursor: pointer;
 }
 /* The tap sheet's body. */
 .sy-sheet {

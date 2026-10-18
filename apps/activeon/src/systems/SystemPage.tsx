@@ -287,7 +287,7 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
           <p className="small">
             {PAGE_WORDS.notCheckedYet(tile.name)}{' '}
             {s.suggestions ? (
-              <button type="button" className="link-btn small" onClick={suggest}>
+              <button type="button" className="a-btn a-btn--quiet" onClick={suggest}>
                 {PAGE_WORDS.suggest}
               </button>
             ) : (
@@ -316,7 +316,7 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
             {PAGE_WORDS.sources}
           </h3>
           <p className="small">
-            <a href={page.wiki} target="_blank" rel="noopener noreferrer">
+            <a className="sy-link" href={page.wiki} target="_blank" rel="noopener noreferrer">
               {PAGE_WORDS.wiki}
             </a>
           </p>

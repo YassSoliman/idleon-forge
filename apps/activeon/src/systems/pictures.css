@@ -157,8 +157,10 @@
 .sy-statue__lv {
   font: var(--weight-semibold) var(--text-xs) / 1 var(--font-numeral);
 }
-.sy-statues .sy-statue.is-now {
+.sy-statues__wall > li:has(.is-now) {
   grid-column: span 2;
+}
+.sy-statues .sy-statue.is-now {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
@@ -267,8 +269,10 @@
 .sy-vrow__v {
   color: var(--muted);
 }
-.sy-vault .sy-vrow.is-now {
+.sy-floor__rows > li:has(.is-now) {
   grid-column: 1 / -1;
+}
+.sy-vault .sy-vrow.is-now {
   border-color: var(--accent);
   box-shadow: inset 0 0 0 1px var(--accent);
   font-size: var(--text-sm);
