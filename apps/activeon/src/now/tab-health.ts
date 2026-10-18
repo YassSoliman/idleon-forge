@@ -2,8 +2,9 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M21 FR-C7: each tab's health for the Characters health matrix, the identity strip's tab badges and
 // the Roster tab chip (G4). Read from the engine's own view data, so it adds no judgment: a count with
-// its unit ("at least 215 points", "45 levels behind", "1 of 4 slots"). Small on purpose: it is in the
-// first load with character-tabs.ts (bundle-guards keeps characters/ lazy, so it lives in now/). Severity order: fix, behind, empty, unknown, ok.
+// its unit ("at least 215 points", "45 levels behind", "1 of 4 slots"). Read by the lazy
+// Characters place and, loaded on demand, by the identity strip (never in the first load: M12 TR-12).
+// It lives in now/ beside character-tabs.ts. Severity order: fix, behind, empty, unknown, ok.
 import type { NowView, TabHealth } from '@idleon-forge/engine/now';
 
 const n = (x: number) => x.toLocaleString('en-US');
@@ -91,3 +92,12 @@ export function worst<T extends { health: TabHealth }>(items: readonly T[]): T |
       best = x;
   return best;
 }
+
+/** Each tab's health by tab id, in tab order (the tabs without one publish none). */
+export const TAB_HEALTH: Readonly<Record<string, (view: NowView, index: number) => TabHealth | null>> = {
+  build: buildHealth,
+  gear: gearHealth,
+  cards: cardsHealth,
+  signs: signsHealth,
+  skills: skillsHealth,
+};

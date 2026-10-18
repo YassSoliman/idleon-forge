@@ -288,7 +288,7 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 - Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (6,481 unspent)
   - Star talents: 6,481 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage 0 → 254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
+    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
@@ -305,7 +305,7 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 - Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Death Bringer · Star talents (8,019 unspent)
   - Star talents: 8,019 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage 0 → 254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
+    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
@@ -322,7 +322,7 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 - Other preset: Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (6,354 unspent)
   - Star talents: 6,354 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage 0 → 254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
+    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
@@ -339,7 +339,7 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 - Other preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (7,857 unspent)
   - Star talents: 7,857 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage 0 → 254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
+    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
@@ -356,7 +356,7 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 - Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (7,559 unspent)
   - Star talents: 7,559 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage 0 → 254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
+    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
@@ -380,7 +380,7 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 - Other preset: Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (6,901 unspent)
   - Star talents: 6,901 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage 0 → 254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
+    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
@@ -391,7 +391,7 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
   - Star talents: 5,604 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
     - done: Will of the Eldest 50 (useful up to 130 (best level 1,307); its max for now)
-    - can add now: Tick Tock = Toilet Paper Postage 152 → 204 · +57 (split evenly: Tick Tock 92 → 104, Toilet Paper Postage 60 → 100)
+    - can add now: Tick Tock = Toilet Paper Postage +52 · +57 (split evenly: Tick Tock 92 → 104, Toilet Paper Postage 60 → 100)
     - done: Printer Sampling 1
     - and 5 more
 - Other preset: Beginner · Journeyman · Maestro · Voidwalker · Star talents (7,944 unspent)
@@ -399,7 +399,7 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Will of the Eldest 0 → 50 · +80 (useful up to 130 (best level 1,307); its max for now)
     - can add now: Beginner Best Class 0 → 50 · +130 (useful up to 122 (best Beginner-line level 1,224); its max for now)
-    - can add now: Tick Tock = Attacks On Simmer = Goblet of Hemoglobin 0 → 204 · +334 (split evenly: Tick Tock 0 → 104, Attacks On Simmer 0 → 50, Goblet of Hemoglobin 0 → 50)
+    - can add now: Tick Tock = Attacks On Simmer = Goblet of Hemoglobin +204 · +334 (split evenly: Tick Tock 0 → 104, Attacks On Simmer 0 → 50, Goblet of Hemoglobin 0 → 50)
     - and 5 more
 
 ### C8 (Siege Breaker 1261)
@@ -414,7 +414,7 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 - Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (6,267 unspent)
   - Star talents: 6,267 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage 0 → 254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
+    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
@@ -431,7 +431,7 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 - Other preset: Rage Basics · Warrior · Squire · Divine Knight · Royal Guardian · Star talents (9,167 unspent)
   - Star talents: 9,167 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage 0 → 254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
+    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
@@ -448,7 +448,7 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 - Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (6,857 unspent)
   - Star talents: 6,857 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage 0 → 254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
+    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
@@ -465,7 +465,7 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 - Other preset: Beginner · Star talents (5,921 unspent)
   - Star talents: 5,921 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage 0 → 254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
+    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 130 (best level 1,307); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more

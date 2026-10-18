@@ -193,7 +193,7 @@ step: Use your 18 vial attempts on the W2 town cauldron
 - Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (1,534 unspent)
   - Star talents: 1,534 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage 0 → 254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 53 (best level 534); its max for now)
+    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 53 (best level 534); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
@@ -210,7 +210,7 @@ step: Use your 18 vial attempts on the W2 town cauldron
 - Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (1,835 unspent)
   - Star talents: 1,835 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage 0 → 254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 53 (best level 534); its max for now)
+    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +254 · +284 (split evenly: Tick Tock 0 → 104, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 53 (best level 534); its max for now)
     - can add now: Printer Sampling 0 → 1 · +285
     - can add now: Shrine Architect 0 → 1 · +286
     - and 4 more
@@ -229,7 +229,7 @@ step: Use your 18 vial attempts on the W2 town cauldron
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
     - can add now: Will of the Eldest 0 → 50 · +80 (useful up to 53 (best level 534); its max for now)
     - done: Beginner Best Class 0 (no Beginner-line character yet)
-    - can add now: Tick Tock = Attacks On Simmer = Goblet of Hemoglobin 0 → 204 · +284 (split evenly: Tick Tock 0 → 104, Attacks On Simmer 0 → 50, Goblet of Hemoglobin 0 → 50)
+    - can add now: Tick Tock = Attacks On Simmer = Goblet of Hemoglobin +204 · +284 (split evenly: Tick Tock 0 → 104, Attacks On Simmer 0 → 50, Goblet of Hemoglobin 0 → 50)
     - and 5 more
 
 ## Map

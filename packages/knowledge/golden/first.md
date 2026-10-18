@@ -274,7 +274,7 @@ step: Use your 13 vial attempts on the W2 town cauldron
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))
-    - next after these: Tick Tock = Toilet Paper Postage 81 → 99 · +18 (split evenly: Tick Tock 73 → 88, Toilet Paper Postage 8 → 11 · its max for now)
+    - next after these: Tick Tock = Toilet Paper Postage +18 · +18 (split evenly: Tick Tock 73 → 88, Toilet Paper Postage 8 → 11 · its max for now)
     - done: Printer Sampling 1
     - and 5 more
 
@@ -296,7 +296,7 @@ step: Use your 13 vial attempts on the W2 town cauldron
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))
-    - next after these: Tick Tock = Toilet Paper Postage 78 → 99 · +21 (split evenly: Tick Tock 70 → 88, Toilet Paper Postage 8 → 11 · its max for now)
+    - next after these: Tick Tock = Toilet Paper Postage +21 · +21 (split evenly: Tick Tock 70 → 88, Toilet Paper Postage 8 → 11 · its max for now)
     - done: Printer Sampling 1
     - and 5 more
 
@@ -316,7 +316,7 @@ step: Use your 13 vial attempts on the W2 town cauldron
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))
-    - next after these: Tick Tock = Toilet Paper Postage 84 → 99 · +15 (split evenly: Tick Tock 74 → 88, Toilet Paper Postage 10 → 11 · its max for now)
+    - next after these: Tick Tock = Toilet Paper Postage +15 · +15 (split evenly: Tick Tock 74 → 88, Toilet Paper Postage 10 → 11 · its max for now)
     - done: Printer Sampling 1
     - and 5 more
 
@@ -338,7 +338,7 @@ step: Use your 13 vial attempts on the W2 town cauldron
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))
-    - next after these: Tick Tock = Toilet Paper Postage 74 → 99 · +25 (split evenly: Tick Tock 66 → 88, Toilet Paper Postage 8 → 11 · its max for now)
+    - next after these: Tick Tock = Toilet Paper Postage +25 · +25 (split evenly: Tick Tock 66 → 88, Toilet Paper Postage 8 → 11 · its max for now)
     - done: Printer Sampling 1
     - and 5 more
 

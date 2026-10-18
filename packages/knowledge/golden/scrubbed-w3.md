@@ -275,7 +275,7 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
     - and 1 more
   - Star talents: 12 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
-    - part now: Tick Tock = Will of the Eldest 5 → 100 · +12 of 95 now · +95 (split evenly: Tick Tock 0 → 92, Will of the Eldest 5 → 8 · useful up to 8 (best level 85))
+    - part now: Tick Tock = Will of the Eldest +95 · +12 of 95 now · +95 (split evenly: Tick Tock 0 → 92, Will of the Eldest 5 → 8 · useful up to 8 (best level 85))
     - later: Toilet Paper Postage 0 → 100 (find its book (a chat secret (see the wiki)))
     - done: Printer Sampling 1
     - and 5 more
@@ -297,7 +297,7 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
     - and 2 more
   - Star talents: 26 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
-    - part now: Tick Tock = Will of the Eldest 7 → 100 · +26 of 93 now · +93 (split evenly: Tick Tock 0 → 92, Will of the Eldest 7 → 8 · useful up to 8 (best level 85))
+    - part now: Tick Tock = Will of the Eldest +93 · +26 of 93 now · +93 (split evenly: Tick Tock 0 → 92, Will of the Eldest 7 → 8 · useful up to 8 (best level 85))
     - later: Toilet Paper Postage 0 → 100 (find its book (a chat secret (see the wiki)))
     - done: Printer Sampling 1
     - and 5 more
@@ -326,7 +326,7 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
     - and 1 more
   - Star talents: 182 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
-    - can add now: Tick Tock = Will of the Eldest 0 → 100 · +100 (split evenly: Tick Tock 0 → 92, Will of the Eldest 0 → 8 · useful up to 8 (best level 85))
+    - can add now: Tick Tock = Will of the Eldest +100 · +100 (split evenly: Tick Tock 0 → 92, Will of the Eldest 0 → 8 · useful up to 8 (best level 85))
     - later: Toilet Paper Postage 0 → 100 (find its book (a chat secret (see the wiki)))
     - can add now: Printer Sampling 0 → 1 · +101
     - and 5 more
@@ -341,7 +341,7 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
     - and 3 more
   - Star talents: 80 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
-    - part now: Tick Tock = Will of the Eldest 7 → 100 · +80 of 93 now · +93 (split evenly: Tick Tock 0 → 92, Will of the Eldest 7 → 8 · useful up to 8 (best level 85))
+    - part now: Tick Tock = Will of the Eldest +93 · +80 of 93 now · +93 (split evenly: Tick Tock 0 → 92, Will of the Eldest 7 → 8 · useful up to 8 (best level 85))
     - later: Toilet Paper Postage 0 → 100 (find its book (a chat secret (see the wiki)))
     - next after these: Printer Sampling 0 → 1 · +94
     - and 5 more
@@ -368,7 +368,7 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
     - part now: Active AFK'er 0 → 100 · +13 of 100 now · +300
   - Star talents: 40 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
-    - can add now: Tick Tock = Will of the Eldest 64 → 100 · +36 (split evenly: Tick Tock 64 → 92, Will of the Eldest 0 → 8 · useful up to 8 (best level 85))
+    - can add now: Tick Tock = Will of the Eldest +36 · +36 (split evenly: Tick Tock 64 → 92, Will of the Eldest 0 → 8 · useful up to 8 (best level 85))
     - later: Toilet Paper Postage 0 → 100 (find its book (a chat secret (see the wiki)))
     - can add now: Printer Sampling 0 → 1 · +37
     - and 5 more

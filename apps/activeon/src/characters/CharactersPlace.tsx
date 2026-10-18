@@ -24,7 +24,7 @@ import { CardsOverview } from '../now/cards/CardsPanel';
 import { characterTabs, NOW_TAB, tabHref } from '../now/character-tabs';
 import { BUILDS_OPEN } from '../now/open-keys';
 import { SkillGrid } from '../now/SkillsTab';
-import { SEVERITY } from '../now/tab-health';
+import { SEVERITY, TAB_HEALTH } from '../now/tab-health';
 import type { Session } from '../shell/session';
 import './place.css';
 
@@ -49,9 +49,9 @@ interface Cell {
 
 function cellsOf(view: NowView, index: number): (Cell | null)[] {
   return characterTabs
-    .filter((t) => t.health)
+    .filter((t) => TAB_HEALTH[t.id])
     .map((t) => {
-      const h = t.health?.(view, index) ?? null;
+      const h = TAB_HEALTH[t.id]?.(view, index) ?? null;
       return h ? { tab: t.id, label: t.label, health: h } : null;
     });
 }
@@ -74,7 +74,7 @@ function ringOf(rows: RosterRow[], cells: Map<number, (Cell | null)[]>): string 
 }
 
 function HealthMatrix({ s, rows }: { s: Session; rows: RosterRow[] }) {
-  const tabs = characterTabs.filter((t) => t.health);
+  const tabs = characterTabs.filter((t) => TAB_HEALTH[t.id]);
   const cells = new Map(rows.map((r) => [r.index, cellsOf(s.view, r.index)] as const));
   const shown = tabs.filter((_, col) => rows.some((r) => cells.get(r.index)?.[col]));
   const ring = ringOf(rows, cells);

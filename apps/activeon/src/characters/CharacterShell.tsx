@@ -6,11 +6,11 @@
 // the tab bar (Now, Build, Gear, Cards, Signs, Skills), one health badge per tab (FR-C7). On scroll it
 // shrinks to the chibi, the name and the stamp. It is in the first load because Focus renders it
 // (bundle-guards.ts allows this one file of characters/), so it stays small.
-import type { FocusCard, NowView } from '@idleon-forge/engine/now';
-import { CHARACTERS_WORDS } from '@idleon-forge/engine/now';
+import type { FocusCard, NowView, TabHealth } from '@idleon-forge/engine/now';
 import { forwardRef, type ReactNode, useEffect, useRef, useState } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
-import { GLYPH, VerdictStamp } from '../design/atoms';
+import { GLYPH } from '../design/atoms/glyphs';
+import { VerdictStamp } from '../design/atoms/Pill';
 import { WhoGlyph } from '../design/who/WhoGlyph';
 import { characterTabs, NOW_TAB, tabHref } from '../now/character-tabs';
 import { useNowActions } from '../now/context';
@@ -28,8 +28,18 @@ export interface CharacterShellProps {
   children?: ReactNode;
 }
 
-const W = CHARACTERS_WORDS.shell;
-const LEVEL_WORD = CHARACTERS_WORDS.matrix.level;
+type HealthTable = Readonly<Record<string, (view: NowView, index: number) => TabHealth | null>>;
+
+// The strip's own labels live here, not in the engine's words: importing those would pull the Build
+// path's word functions into the first load (M12 TR-12). They mirror CHARACTERS_WORDS.matrix.level.
+const W = { prev: 'Previous character', next: 'Next character', tabs: 'Character page' } as const;
+const LEVEL_WORD = {
+  fix: 'fix',
+  behind: 'behind',
+  empty: 'empty',
+  unknown: 'not known',
+  ok: 'fine',
+} as const;
 
 function Arrow({ dir, to, tab }: { dir: 'prev' | 'next'; to: number | null; tab: string }) {
   const actions = useNowActions();
@@ -72,6 +82,19 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
     io.observe(el);
     return () => io.disconnect();
   }, []);
+  // The tab badges' health (FR-C7) loads on demand, so it never weighs on the first load (TR-12).
+  const [health, setHealth] = useState<HealthTable | null>(null);
+  useEffect(() => {
+    if (!view || !onTab) return;
+    let live = true;
+    import('../now/tab-health').then(
+      (m) => live && setHealth(() => m.TAB_HEALTH),
+      () => undefined,
+    );
+    return () => {
+      live = false;
+    };
+  }, [view, onTab]);
   const pill = card.pill;
   return (
     <>
@@ -104,7 +127,7 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
       {onTab ? (
         <nav aria-label={W.tabs} className="char-tabs">
           {characterTabs.map((t) => {
-            const h = view ? (t.health?.(view, card.index) ?? null) : null;
+            const h = view && health ? (health[t.id]?.(view, card.index) ?? null) : null;
             const flag = h && h.level !== 'ok' ? h : null;
             return (
               <a

@@ -17,8 +17,6 @@ export const CHARACTERS_WORDS = {
   },
   /** The class tree block under the matrix (character.overview runner-up). */
   classTree: { heading: 'Your class tree', noOne: 'no one yet' },
-  /** The sticky identity strip (FR-C5). */
-  shell: { prev: 'Previous character', next: 'Next character', tabs: 'Character page' },
   /**
    * The Build path (fix/build-points, M21 FR-C1, FR-C2). Tabs 1–3 only know a lower bound of unspent
    * points, so the marker says "at least" and "as of your last save", and a bound of 0 says no points

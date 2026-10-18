@@ -129,8 +129,10 @@ export function bandPath(
         ...base(first, (active[0] as { k: string }).k),
         label: tie ? list.map((m) => m.label).join(' = ') : first.label,
         core: list.some((m) => m.core),
-        current: tie ? list.reduce((s, m) => s + m.current, 0) : first.current,
-        goal: tie ? list.reduce((s, m) => s + m.goal, 0) : first.goal,
+        // A tie row carries its first member's levels (its `talentId`), so every surface names one talent's
+        // level the same way (M22 same-fact-everywhere); the members' levels are in the note.
+        current: first.current,
+        goal: first.goal,
         need,
         cumulative: total,
         band,

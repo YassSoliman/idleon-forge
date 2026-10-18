@@ -13,10 +13,14 @@ const n = (x: number) => x.toLocaleString('en-US');
 
 const stepLine = (s: BuildPathStepView): string => {
   const band = CHARACTERS_WORDS.buildPath.band[s.band];
+  // A tie row's members' levels are in its note ("split evenly: …").
+  const tie = s.note?.startsWith('split evenly') === true;
   const lv =
     s.band === 'done' || (s.band === 'later' && s.goal <= 0)
       ? `${n(s.band === 'done' ? s.goal : s.current)}`
-      : `${n(s.current)} → ${n(s.goal)}`;
+      : tie
+        ? `+${n(s.need)}`
+        : `${n(s.current)} → ${n(s.goal)}`;
   const total =
     s.band === 'part' && s.partNow !== null
       ? ` · +${n(s.partNow)} of ${n(s.need)} now · +${n(s.cumulative ?? 0)}`

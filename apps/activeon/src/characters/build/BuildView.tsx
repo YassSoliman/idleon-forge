@@ -91,10 +91,12 @@ const BAND_GLYPH: Record<BuildPathStepView['band'], React.ReactNode> = {
 function PathStep({ s }: { s: BuildPathStepView }) {
   const band = PATH.band[s.band];
   const total = s.cumulative !== null ? cumulativeLine(s.cumulative, s.label) : null;
+  // A tie (FR-C11) is one row; its members' levels are in the note ("split evenly: …").
+  const tie = s.note?.startsWith('split evenly') === true;
   const levels =
     s.band === 'done'
       ? `${n(s.goal)}`
-      : s.band === 'later' && s.goal <= 0
+      : tie || (s.band === 'later' && s.goal <= 0)
         ? null
         : `${n(s.current)} → ${n(s.goal)}`;
   const extra = s.condition ?? s.note;
@@ -108,7 +110,7 @@ function PathStep({ s }: { s: BuildPathStepView }) {
           <span className="bv-ps-name">{s.label}</span>
           {levels ? <span className="bv-ps-lv num">{levels}</span> : null}
         </span>
-        {s.band !== 'done' && s.band !== 'later' && s.goal > 0 ? (
+        {!tie && s.band !== 'done' && s.band !== 'later' && s.goal > 0 ? (
           <Meter
             value={s.current}
             max={s.goal}

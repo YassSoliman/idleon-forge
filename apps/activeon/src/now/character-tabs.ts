@@ -4,19 +4,17 @@
 // today's Focus content, and every other tab registers here with ONE entry. A tab gets the Now view
 // and the character's index, and renders whatever it likes from them. Its deep link is a bare
 // `#<id>-<index>` anchor (`#build-3`, and `#now-3` for the Now tab; M17 TR-3), which the shell reads.
-// A tab that publishes `status` gets one line on the character's Characters tile (M17 FR-13); one that
-// publishes `health` (M21 FR-C7) gets a cell in the Characters health matrix and a badge on the strip.
+// M21 replaced the Characters tiles with the health matrix (FR-C7), so tabs no longer publish a status;
+// each tab's health is in now/tab-health.ts, loaded lazily so it stays out of the first load.
 //
 // To add a tab: write a component taking `CharacterTabProps` in its own file, then add
 // `{ id, label, Component: lazyPart(() => import('./MyTab'), (m) => m.MyTab) }` below. Every tab
 // is its own lazy chunk (lazy-part.tsx): Focus renders it inside <Suspense>, so the main chunk only
-// carries this list. A `status` or `health` must not import the tab's file: read what the engine built.
+// carries this list.
 // The id must be lower-case letters only (it is the anchor prefix) and never `system`.
-import type { NowView, TabHealth } from '@idleon-forge/engine/now';
+import type { NowView } from '@idleon-forge/engine/now';
 import type { ComponentType } from 'react';
 import { lazyPart } from '../lazy-part';
-import { signsStatus } from './signs/signs-status';
-import { buildHealth, cardsHealth, gearHealth, signsHealth, skillsHealth } from './tab-health';
 
 export interface CharacterTabProps {
   /** The whole Now view (the Build tab reads `view.builds`). */
@@ -31,10 +29,6 @@ export interface CharacterTab {
   label: string;
   /** Null only for "Now", which is Focus's own content. */
   Component: ComponentType<CharacterTabProps> | null;
-  /** M17 FR-13: the tab's one status line for the Characters grid (a module's own text), or null. */
-  status?: (view: NowView, index: number) => string | null;
-  /** M21 FR-C7: the tab's health with a unit, or null when the tab has nothing to say. */
-  health?: (view: NowView, index: number) => TabHealth | null;
 }
 
 export const NOW_TAB = 'now';
@@ -48,8 +42,6 @@ export const characterTabs: readonly CharacterTab[] = [
       () => import('../characters/build/BuildView'),
       (m) => m.BuildTab,
     ),
-    status: (view, index) => view.builds.find((b) => b.index === index)?.status ?? null,
-    health: buildHealth,
   },
   // M18 F5 (FR-24): the Gear tab, `#gear-<index>`.
   {
@@ -59,8 +51,6 @@ export const characterTabs: readonly CharacterTab[] = [
       () => import('../gear/GearTab'),
       (m) => m.GearTab,
     ),
-    status: (view, index) => view.gear?.characters.find((c) => c.index === index)?.status ?? null,
-    health: gearHealth,
   },
   {
     id: 'cards',
@@ -69,8 +59,6 @@ export const characterTabs: readonly CharacterTab[] = [
       () => import('./cards/CardsPanel'),
       (m) => m.CardsTab,
     ),
-    status: (view, index) => view.cards?.characters.find((c) => c.index === index)?.overview ?? null,
-    health: cardsHealth,
   },
   {
     id: 'signs',
@@ -79,8 +67,6 @@ export const characterTabs: readonly CharacterTab[] = [
       () => import('./signs/SignsTab'),
       (m) => m.SignsTab,
     ),
-    status: signsStatus,
-    health: signsHealth,
   },
   // M20 F3 (FR-33): the Skills tab, `#skills-<index>`.
   {
@@ -90,8 +76,6 @@ export const characterTabs: readonly CharacterTab[] = [
       () => import('./SkillsTab'),
       (m) => m.SkillsTab,
     ),
-    status: (view, index) => view.skills.find((s) => s.index === index)?.status ?? null,
-    health: skillsHealth,
   },
 ];
 

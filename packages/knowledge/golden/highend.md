@@ -441,7 +441,7 @@ step: Spend banked brew in 2 cauldrons: about 5 new bubbles
 - Other preset: Beginner · Star talents (10,373 unspent)
   - Star talents: 10,373 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
-    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage 0 → 341 · +371 (split evenly: Tick Tock 0 → 191, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 181 (best level 1,819); its max for now)
+    - can add now: Tick Tock = Will of the Eldest = Toilet Paper Postage +341 · +371 (split evenly: Tick Tock 0 → 191, Will of the Eldest 0 → 50, Toilet Paper Postage 0 → 100 · useful up to 181 (best level 1,819); its max for now)
     - can add now: Printer Sampling 0 → 1 · +372
     - can add now: Shrine Architect 0 → 1 · +373
     - and 4 more
