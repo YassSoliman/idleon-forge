@@ -105,8 +105,8 @@ describe('lazyPart', () => {
       </Shell>,
     );
     const alert = await screen.findByRole('alert');
-    expect(alert.textContent).toContain("Couldn't load this view. Check your connection.");
-    expect(screen.getByRole('button', { name: 'Retry' })).toBeTruthy();
+    expect(alert.textContent).toContain("Couldn't load this part. Check your connection.");
+    expect(screen.getByRole('button', { name: 'Try again' })).toBeTruthy();
     expect(screen.getByText('places')).toBeTruthy();
     expect(screen.queryByText('whole app broken')).toBeNull();
     expect(screen.queryByText(/Hello/)).toBeNull();
@@ -129,7 +129,7 @@ describe('lazyPart', () => {
         <Part who="Gear" />
       </Shell>,
     );
-    fireEvent.click(await screen.findByRole('button', { name: 'Retry' }));
+    fireEvent.click(await screen.findByRole('button', { name: 'Try again' }));
     expect(await screen.findByText('Hello Gear')).toBeTruthy();
     expect(urls).toEqual([`${CHUNK}?retry=1`]);
     expect(screen.queryByRole('alert')).toBeNull();
@@ -147,7 +147,7 @@ describe('lazyPart', () => {
         <Part who="Gear" />
       </Shell>,
     );
-    fireEvent.click(await screen.findByRole('button', { name: 'Retry' }));
+    fireEvent.click(await screen.findByRole('button', { name: 'Try again' }));
     await vi.waitFor(() => expect(reload).toHaveBeenCalledTimes(1));
     expect(sessionStorage.getItem('activeon:chunk-reload')).toBeTruthy();
     expect(reloadOnce()).toBe(false);
@@ -168,7 +168,7 @@ describe('lazyPart', () => {
       </Shell>,
     );
     expect(await screen.findByText('whole app broken')).toBeTruthy();
-    expect(screen.queryByRole('button', { name: 'Retry' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Try again' })).toBeNull();
     quiet.mockRestore();
   });
 

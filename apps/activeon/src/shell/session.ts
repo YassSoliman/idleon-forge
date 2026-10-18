@@ -8,13 +8,18 @@
 // re-renders from the same `EngineResult` and the `NowView` built here.
 import type { AccountState } from '@idleon-forge/account-state';
 import {
+  buildAfkStripView,
+  buildMapView,
   buildNowView,
+  buildSessionView,
+  buildSlotsView,
   buildSystemsView,
   buildTimelineView,
   invariantViolations,
   type NowView,
   nextLocalMidnight,
   PLACE_WORDS,
+  type SessionUi,
   type TimelineFix,
 } from '@idleon-forge/engine/now';
 import type { EngineResult } from '@idleon-forge/engine/result';
@@ -91,7 +96,14 @@ const unfoldFor = (hash: string): string[] =>
 /** FR-7 / D-2: a legacy `?c=` is rewritten once, by replaceState, and never written again. */
 function rewriteLegacy(): string {
   const { hash, search } = readLocation();
-  const { rewrite } = parseRoute(hash, search, { tabs: [], systems: [], indexes: [], timeline: false });
+  const { rewrite } = parseRoute(hash, search, {
+    tabs: [],
+    systems: [],
+    indexes: [],
+    timeline: false,
+    maps: [],
+    map: false,
+  });
   if (rewrite === null) return hash;
   try {
     const url = new URL(window.location.href);
@@ -152,6 +164,9 @@ export function useSession(props: ShellProps) {
       systems: (result.systems ?? []).filter((s) => s.kind === 'game').map((s) => s.id),
       indexes: result.characters.map((c) => c.index),
       timeline: true,
+      // M21 area M: the Map place and its map indexes (from the Map facts) arrive with it.
+      maps: [],
+      map: false,
     }),
     [result],
   );
@@ -266,6 +281,21 @@ export function useSession(props: ShellProps) {
   const timeline = useMemo(
     () => buildTimelineView(result, nowPrefs, view, { now, lastCloudSave, tzOffsetMinutes: tz(now) }),
     [result, nowPrefs, view, now, lastCloudSave],
+  );
+
+  // M21 §9 view slots: one per area builder, each calling that area's own view file (session-view.ts N,
+  // map-view.ts M, slots-view.ts T, timeline-view.ts's AFK strip T). After Phase F an area edits only its
+  // builder, never this file. The pause point takes its UI state from area N's component, so it is a
+  // function of that state; the visited set comes from here.
+  const views = useMemo(
+    () => ({
+      sessionView: (ui: Omit<SessionUi, 'visited'>) =>
+        buildSessionView(view, result, { ...ui, visited: [...visited] }),
+      mapView: buildMapView(result, view),
+      slotsView: buildSlotsView(result, view),
+      afkStrip: buildAfkStripView(timeline, view),
+    }),
+    [result, view, visited, timeline],
   );
 
   // ---- moving between places (FR-8, FR-11) ----
@@ -612,6 +642,8 @@ export function useSession(props: ShellProps) {
     view,
     systems,
     timeline,
+    /** M21 §9: the per-area view slots (see `views` above). */
+    views,
     toFix,
     takeArrivalFocus,
     route,
@@ -630,6 +662,10 @@ export function useSession(props: ShellProps) {
     live,
     fresh,
     follow,
+    /** The characters opened this Play Session (the follow state's visited set; M21 FR-N6). */
+    visited,
+    /** For the chrome's update banner (M21: the NowChrome slot). */
+    onReload: props.onReload,
     focusChar,
     validFocus,
     pageTab,
@@ -641,6 +677,10 @@ export function useSession(props: ShellProps) {
   };
 }
 
-export const PLACE_NAMES: Record<Place, string> = PLACE_WORDS;
+/**
+ * The place names. `map` falls back here until `PLACE_WORDS` (engine words) gains it with the Map
+ * place (M21 area M); the engine's word wins once it exists.
+ */
+export const PLACE_NAMES: Record<Place, string> = { map: 'Map', ...PLACE_WORDS };
 
 export type Session = ReturnType<typeof useSession>;
