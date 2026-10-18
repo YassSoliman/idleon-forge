@@ -17,7 +17,6 @@ entries:
       - { at: 25, reward: "25 stamps collected" }
       - { at: 50, reward: "50 stamps collected" }
       - { at: 75, reward: "75 stamps collected" }
-      - { at: 100, reward: "100 stamps collected" }
     text: "Stamps {owned:int} of {obtainable:int} · {now:int} now · {active:int} with active play · {toward:int} in progress · {later:int} later"
     why: "Each collected stamp is a permanent bonus; later ones need a new world, an earlier quest or a drop nobody is farming."
     values:
