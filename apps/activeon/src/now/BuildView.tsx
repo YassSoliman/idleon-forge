@@ -158,8 +158,7 @@ export function BuildRoadmap({ r }: { r: BuildRoadmapView }) {
   const [sel, setSel] = useState<number>(firstSel);
   return (
     <div className={`build-view${r.presets.length > 1 ? ' two' : ''}`}>
-      <p className="bv-status">{r.status}</p>
-      {r.note ? <p className="bv-note-line">{r.note}</p> : null}
+      {r.note ? <p className="bv-note-line">{r.note}</p> : <p className="bv-status">{r.status}</p>}
       <ClassPath r={r} />
       {r.presets.length > 1 ? (
         <div className="bv-switch" role="tablist" aria-label="Talent presets">
