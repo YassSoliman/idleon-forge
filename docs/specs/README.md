@@ -1,6 +1,6 @@
 # ActiveOn MVP spec index
 
-The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/idleon-forge/issues/1)), read as one whole. Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0008](../adr/).
+The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9) and M16 (Star Signs and constellations, a small module of its own), for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/idleon-forge/issues/1)), read as one whole. Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0008](../adr/).
 
 **How to read a spec.** Each spec ends with **Final rulings (Yasser, 2026-10-17)**, which supersede anything above them. The consistency pass of 2026-10-17 rewrote the body text of every spec so it agrees with its own Final rulings and with the other specs, and added a short `Consistency pass (2026-10-17)` section to each one listing what changed. Where two specs still disagree, this index says which one owns the answer (the "Owner" columns below). The few genuine conflicts between rulings are not resolved here; they are listed under [Needs Yasser](#needs-yasser).
 
@@ -23,10 +23,11 @@ The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), fo
 | M13 | [Suggestions](M13-suggestions.md) | In-app Suggestions and Report this, filed as GitHub issues by a small Worker; the Claude Code listener | No Checks. Owns `SuggestionContext`, `ReportContext`, the name scrub, the Suggestions Worker | M1, M2, M10, M11, M12 |
 | M14 | [Walkthroughs & Parallel Slot Plans](M14-walkthroughs-and-slot-plans.md) | Breaks quest, unlock and (later) gear Goals into Requirement Trees and ordered steps; Demand across Walkthroughs; Supplies with drop and anvil effort; one job per character within AFK safety and the pusher; the 3D Printer Parallel Slot Plan | `walkthrough.check.assign`, `printer.check.slot-plan`, `walkthrough.contribution.supply`, generated `items.acquisition.*` and `walkthrough.goal.*`. Owns `WalkthroughResult`, `holdingsOf` (M8 TR-6's rule), `SupplyRates`, and builds `reachableFightingMaps` first for M5 | M1, M2, M3, M6, M11; M4 and M5 when present |
 | M15 | [Account depth](M15-account-depth.md) | Five features from the AutoReview deep dive, each built in its owner's folder: Refinery set-up (M6), Construction "build this next" (M6 Check, M2 list), next family-level unlock (M2, M8 obol rows), Talent Book Library (M9), Behind for your Stage (M2) | `refinery.check.auto-refine-off` / `refine-full` / `unlock-next`, `construction.check.build-next`, `construction.priority.build-order`, `metapath.goal.family-unlock`, `library.check.checkout` / `read-book`, `metapath.metapath.stage-expectations`, `metapath.goal.behind` | M1, M2, M6, M8, M9, M11, M14 |
+| M16 | [Star Signs and constellations](M16-star-signs.md) | Fill 3f: the Telescope start, the next constellations with party Walkthroughs (who goes where, what the challenge is), the Star Chart unlock order (Chronus Cosmos, the Hydron chart, Hydron Cosmos) and the sign each character should wear for its AFK Target, as one account line with per-character details | `star-signs.goal.telescope`, `star-signs.goal.constellation@<name>`, `star-signs.goal.signs`, `star-signs.check.activeplay-challenge`, `star-signs.priority.chart-order` / `fit-*`, facts `star-signs.fact.constellations` / `chart` / `rules` | M1, M2, M10, M11, M14 (`holdingsOf`, reachability and kill rates, FR-18's exclusions) |
 
 ## Build order
 
-**M1 → M11 → M2 → M10 → M13 → M3 → M6 → M14 (Phase 1) → M15 (Phase 1) → M4 → M7 → M8 → M9 (+ M15 F4) → M5 → M14 (Phases 2–3)**, with **M12 alongside** from the start (each module ships to the shared URL when done, #13).
+**M1 → M11 → M2 → M10 → M13 → M3 → M6 → M14 (Phase 1) → M15 (Phase 1) → M16 (Phase 1) → M4 → M7 → M8 → M9 (+ M15 F4) → M5 → M14 (Phases 2–3)**, with **M12 alongside** from the start (each module ships to the shared URL when done, #13).
 
 | Step | Module | Why here |
 |---|---|---|
@@ -39,6 +40,7 @@ The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), fo
 | 7 | M6 | Free value; the first big content set |
 | 8 | M14 Phase 1 | Quest Walkthroughs and the printer Parallel Slot Plan: the owner's top ask; needs only M1–M3, M6, M11 (M14 Q3) |
 | 8b | M15 Phase 1 | Refinery set-up, build this next, next family unlock, and Behind for your Stage with the rows whose fix already exists; built in the M6 and M2 folders. F4 (Library) waits for M9's Builds (M15 D-3); each later module adds its own Stage Expectation rows |
+| 8c | M16 Phase 1 | Star Signs and constellations (fill 3f): needs only M1, M2, M11 and M14 Phase 1's Walkthrough view, holdings and reachability. AFK-hours constellations (Phase 2) wait for M14 Phases 2–3 |
 | 9 | M4 | Purpose turns Ready into "safe and serving" (until then Ready = safe, M3 D4); adds `walkthrough.contribution.supply` |
 | 10 | M7 | Coins |
 | 11 | M8 | Collections; imports M14's `holdingsOf` |
@@ -159,8 +161,12 @@ One owner per Check. "Pos" is the Priority List position (M2 TR-13): B = Verdict
 | `metapath.goal.family-unlock` | M2 (M15 F3) | Goal | last | Replaces M2 FR-9's closed-slot note |
 | `library.check.checkout`, `library.check.read-book` | M9 (M15 F4) | next-action (Account) | 3 | Candidates only from M9 Builds |
 | `metapath.goal.behind` | M2 (M15 F5) | Goal (Account) | its fix's position (ordinary comparator) | Takes over its fix's findings as details (M15 FR-29) |
+| `star-signs.goal.telescope` | M16 | Goal (Account) | 3 (3f) | Until A-2 is done; replaces the other M16 Goals |
+| `star-signs.goal.constellation@<name>` | M16 | Goal (Account) with a Walkthrough | 3 (3f) | At most 2 at once, quickest first; claim, visit, level and candy kinds (M16 D-2, D-3) |
+| `star-signs.goal.signs` | M16 | Goal (Account) or info line | 3 (3f) | Unlock next sign, empty slot, better non-starter fit; per-character details (#70 A5) |
+| `star-signs.check.activeplay-challenge` | M16 | Active Play | — | Boss, colosseum, barehanded, wave constellations; never a Goal |
 
-**No MVP owner: shown under "Not covered yet"** (M6 Final rulings RT1, applied to every leftover): tools (Leverage 3d), constellations and star signs (3f), W4 shop dailies (1i), Random Events, Liquid Shop dailies and cheap daily obols, the Equinox bar, weekly items (Killroy, Ballot, weekly bosses), unfillable slots and caps to raise (trap sets, printer level, anvil Capacity, carry bags), Refinery storage (M3 Final rulings RT-10), Lab, Cooking and Breeding AFK safety, Forge upgrades as a spend, stamp raises that need farming or carry capacity, Worlds 5–7, elite and Journeyman talent builds.
+**No MVP owner: shown under "Not covered yet"** (M6 Final rulings RT1, applied to every leftover): tools (Leverage 3d), W4+ constellations and Infinite Stars (M16 covers W1–W3, 3f), W4 shop dailies (1i), Random Events, Liquid Shop dailies and cheap daily obols, the Equinox bar, weekly items (Killroy, Ballot, weekly bosses), unfillable slots and caps to raise (trap sets, printer level, anvil Capacity, carry bags), Refinery storage (M3 Final rulings RT-10), Lab, Cooking and Breeding AFK safety, Forge upgrades as a spend, stamp raises that need farming or carry capacity, Worlds 5–7, elite and Journeyman talent builds.
 
 ## Verify before build
 
@@ -250,6 +256,13 @@ Facts each module must check before (or in) its first build PR. Open facts, not 
 - [ ] Which characters hold the printer's player slots below a full building level.
 - [ ] **By Yasser, one minute in game:** the Liquid Shop's Distilled Water price after a few buys (M14 Final rulings R-Q6).
 - [ ] `MAX_SUPPLY_MAPS = 12` within TR-8 on `highend.json`.
+
+**M16**
+- [ ] The letter decoder (`'_'` = slot 0) asserted on both fixtures (M16 V4).
+- [ ] Whether a colosseum map can be entered without a ticket to click a claim-ready star (V7).
+- [ ] The CI cross-check of `star-signs.fact.constellations` and `.chart` against Toolbox `constellations` and `starSigns` passes at the pin (TR-3).
+- [ ] M14 exports FR-18's predicate (X2) and adds the three tree maps to the supply maps (X3); M2 adds `Telescope` to `GATE_NPCS` and the 3f ids (X1, X4).
+- [ ] Whether a character created after the Telescope quest hand-in gets its dialogue another way (V9).
 
 **M12**
 - [ ] Chunk-load behaviour after a redeploy (TR-10, Appendix A step 14).
