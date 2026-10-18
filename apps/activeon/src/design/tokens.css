@@ -36,6 +36,11 @@
   --ff-grotesk: "Geist", "Atkinson Hyperlegible Next", system-ui, -apple-system, "Segoe UI", sans-serif;
   --ff-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --ff-mono-grotesk: "Geist Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  /* R11 QA: Pixelify Sans has "fi"/"ffi" ligatures whose pixel glyphs read as "A" ("0 Axes",
+     "ReAnery"). Ligatures are off everywhere: the html rule below sets them, and every `font:`
+     shorthand (which resets font-variant-ligatures) repeats both longhands (css-guard.test.ts). */
+  --font-ligatures: none;
+  --font-features: "liga" 0, "clig" 0;
 
   /* Spacing: 4 px steps; --space-px is one art pixel at 2x scale */
   --space-px: 2px;
@@ -192,6 +197,12 @@
   --w5: #a52550;
   --w6: #22733e;
   --w7: #1f3f8a;
+}
+
+/* R11 QA: no ligatures on any face (see --font-ligatures). Inherited by every element. */
+html {
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 
 :root[data-theme="dark"] {

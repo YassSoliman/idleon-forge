@@ -22,6 +22,8 @@
   background: var(--chip-bg);
   color: var(--fg);
   font: var(--weight-semibold) var(--text-sm) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   text-decoration: none;
 }
 .chip:has(input:focus-visible) {
@@ -69,6 +71,8 @@ label.chip {
 }
 .pill {
   font: var(--weight-bold) var(--text-xs) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   padding: 2px var(--space-2);
   border-radius: var(--radius-chip);
   white-space: nowrap;
@@ -105,6 +109,8 @@ label.chip {
 }
 .tag {
   font: var(--weight-semibold) var(--text-xs) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   color: var(--muted);
 }
 .sub-h {
@@ -165,6 +171,8 @@ label.chip {
 }
 .cap {
   font: var(--weight-semibold) var(--text-xs) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   border-radius: var(--radius-chip);
   color: var(--cap-soon-fg);
   white-space: nowrap;
@@ -260,6 +268,8 @@ label.chip {
 }
 .n-section-h__link {
   font: var(--weight-semibold) var(--text-sm) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   color: var(--accent);
   min-height: var(--tap-min);
   display: inline-flex;
@@ -344,6 +354,8 @@ label.chip {
   background: var(--surface);
   color: var(--fg);
   font: var(--weight-bold) var(--text-sm) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   cursor: pointer;
 }
 .n-crest:disabled {
@@ -487,6 +499,8 @@ label.chip {
 }
 .n-vb__n {
   font: var(--weight-semibold) var(--text-4xl) / 1 var(--font-numeral);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   font-variant-numeric: tabular-nums;
   color: var(--bad);
 }
@@ -496,6 +510,8 @@ label.chip {
 .n-vb__title {
   margin: 0;
   font: var(--weight-bold) var(--text-2xl) / var(--lh-tight) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 .n-vb__sub {
   margin: 2px 0 0;
@@ -1752,6 +1768,8 @@ label.chip {
   background: var(--surface);
   color: var(--fg);
   font: var(--weight-bold) var(--text-md) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   box-shadow: var(--shadow-2);
   cursor: pointer;
 }
@@ -1850,6 +1868,8 @@ label.chip {
 }
 .n-code {
   font: var(--weight-semibold) var(--text-2xl) / 1.2 var(--font-numeral);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-control);
   background: var(--accent-soft);
@@ -1908,6 +1928,8 @@ label.chip {
   background: var(--surface);
   color: var(--fg);
   font: var(--text-xs) / var(--lh-body) var(--font-mono);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   resize: vertical;
 }
 .n-paste-fold {

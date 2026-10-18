@@ -106,6 +106,8 @@
   padding: 0 5px;
   border-radius: var(--radius-pill);
   font: var(--weight-bold) var(--text-xs) / 20px var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   text-align: center;
   font-variant-numeric: tabular-nums;
 }

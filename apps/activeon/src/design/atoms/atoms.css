@@ -29,6 +29,8 @@
   background: var(--surface);
   color: var(--fg);
   font: var(--weight-semibold) var(--text-md) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   cursor: pointer;
 }
 .a-btn--primary {
@@ -96,6 +98,8 @@
   border: 1px solid transparent;
   border-radius: var(--radius-chip);
   font: var(--weight-semibold) var(--text-xs) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   white-space: nowrap;
 }
 .a-pill--fix {
@@ -139,6 +143,8 @@
   padding: 2px var(--space-2);
   border-radius: var(--radius-chip);
   font: var(--weight-bold) var(--text-xs) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   white-space: nowrap;
 }
 .a-stamp--ready {
@@ -176,6 +182,8 @@
   background: var(--chip-bg);
   color: var(--fg);
   font: var(--weight-semibold) var(--text-sm) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   text-decoration: none;
   cursor: pointer;
 }
@@ -202,6 +210,8 @@
   background: var(--bad);
   color: var(--on-bad);
   font: var(--weight-bold) var(--text-xs) / 1 var(--font-numeral);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   font-variant-numeric: tabular-nums;
 }
 
@@ -284,6 +294,8 @@
   border-radius: calc(var(--radius-control) - 2px);
   color: var(--muted);
   font: var(--weight-semibold) var(--text-sm) / 1 var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   cursor: pointer;
 }
 .a-seg__option--on {
@@ -311,6 +323,8 @@
   background: transparent;
   color: var(--muted);
   font: var(--weight-semibold) var(--text-sm) / 1 var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   cursor: pointer;
 }
 .a-tab--on {
@@ -325,6 +339,8 @@
   align-items: center;
   gap: var(--space-1);
   font: var(--weight-semibold) var(--text-xs) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 .a-seal--fix {
   color: var(--kind-fix);
@@ -369,11 +385,15 @@
     inset 0 0 0 3px var(--speech-gap);
   clip-path: var(--panel-clip);
   font: var(--weight-regular) var(--text-md) / var(--lh-body) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 .a-speech__name {
   display: block;
   margin-bottom: var(--space-1);
   font: var(--weight-bold) var(--text-md) / 1 var(--font-display);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 .a-section {
   display: grid;
@@ -388,6 +408,8 @@
 .a-section__title {
   margin: 0;
   font: var(--display-weight) var(--text-lg) / var(--lh-tight) var(--font-display);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 
 /* Empty, loading, failed, toast ------------------------------------------------------------------ */
@@ -492,6 +514,8 @@
 .a-sheet__title {
   margin: 0;
   font: var(--display-weight) var(--text-lg) / var(--lh-tight) var(--font-display);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 .a-sheet__close {
   font-size: var(--text-xl);

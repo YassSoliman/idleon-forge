@@ -126,3 +126,45 @@ describe('CSS guard (TR-15)', () => {
       expect(covered).toContain(sel);
   });
 });
+
+/** R11 QA: the rules that would turn ligatures back on (Pixelify draws "fi"/"ffi" as "A"). */
+export function ligatureViolations(css: string): string[] {
+  const out: string[] = [];
+  for (const r of rulesOf(css)) {
+    if (r.selector.startsWith('@')) continue;
+    const lig = /(?:^|;)\s*font-variant-ligatures\s*:\s*([^;]+)/.exec(r.body)?.[1]?.trim();
+    const feat = /(?:^|;)\s*font-feature-settings\s*:\s*([^;]+)/.exec(r.body)?.[1]?.trim();
+    if (lig && !/^(none|var\(--font-ligatures\))$/.test(lig)) out.push(`${r.selector}: ligatures ${lig}`);
+    if (feat && feat !== 'var(--font-features)') out.push(`${r.selector}: font-feature-settings ${feat}`);
+    // The font shorthand resets font-variant-ligatures, so it must set both longhands again.
+    const short = /(?:^|;)\s*font\s*:\s*([^;]+)/.exec(r.body)?.[1]?.trim();
+    if (short && short !== 'inherit' && (!lig || !feat)) out.push(`${r.selector}: font shorthand without the ligature longhands`);
+  }
+  return out;
+}
+
+describe('Pixelify ligatures off (R11 QA)', () => {
+  it('the tokens set no ligatures on html, from the --font-ligatures / --font-features tokens', () => {
+    expect(tokens).toMatch(/--font-ligatures:\s*none;/);
+    expect(tokens).toMatch(/--font-features:\s*"liga" 0, "clig" 0;/);
+    const html = rulesOf(tokens).find((r) => r.selector === 'html');
+    expect(html?.body).toMatch(/font-variant-ligatures:\s*var\(--font-ligatures\)/);
+    expect(html?.body).toMatch(/font-feature-settings:\s*var\(--font-features\)/);
+  });
+
+  it('finds the rules that would turn ligatures back on', () => {
+    expect(ligatureViolations('.x { font: 600 16px / 1 var(--font-display); }')).toHaveLength(1);
+    expect(ligatureViolations('.x { font-variant-ligatures: common-ligatures; }')).toHaveLength(1);
+    expect(ligatureViolations('.x { font: inherit; }')).toEqual([]);
+    expect(
+      ligatureViolations(
+        '.x { font: 600 16px / 1 var(--font-display); font-variant-ligatures: var(--font-ligatures); font-feature-settings: var(--font-features); }',
+      ),
+    ).toEqual([]);
+  });
+
+  it('no stylesheet turns ligatures back on', () => {
+    const bad = files.flatMap((f) => ligatureViolations(readFileSync(join(SRC, f), 'utf8')).map((v) => `${f}: ${v}`));
+    expect(bad).toEqual([]);
+  });
+});

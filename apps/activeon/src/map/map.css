@@ -50,6 +50,8 @@
   clip-path: polygon(0 0, 100% 0, 100% 66%, 50% 100%, 0 66%);
   color: var(--surface);
   font: var(--weight-bold) var(--text-sm) / 1 var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 .map-crest .num {
   margin-bottom: 8px;

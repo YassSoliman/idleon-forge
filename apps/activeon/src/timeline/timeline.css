@@ -197,6 +197,8 @@
   padding-left: 3px;
   border-left: 1px solid var(--line);
   font: var(--text-xs) / 1.2 var(--font-numeral);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   color: var(--muted);
   white-space: nowrap;
 }
