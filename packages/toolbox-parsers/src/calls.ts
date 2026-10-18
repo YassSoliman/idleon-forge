@@ -14,6 +14,7 @@ import { getBuildCost } from '../vendor/parsers/world-3/construction';
 import { getPrayerBonusAndCurse } from '../vendor/parsers/world-3/prayers';
 import { getPrinterMulti } from '../vendor/parsers/world-3/printer';
 import { calcTimeToRankUp, getSaltMatsTimeLeft, getSaltsBalance } from '../vendor/parsers/world-3/refinery';
+import { classExpMulti, monsterExpGiven } from './class-exp';
 import { frontierRates, onMap } from './frontier-rates';
 import { itemDisplayName } from './item-names';
 import { killroyWeeks, randomEventSchedule } from './resets';
@@ -61,4 +62,9 @@ export const toolboxCalls = {
   // M20 TR-1: the seeded Killroy room classes and the Random Event schedule (read the clock: frozen).
   killroyWeeks,
   randomEventSchedule,
+  // M4 Purpose & Milestones (TR-2): the class EXP a kill gives on the current map.
+  /** Toolbox `getClassExpMulti(character, account, characters).value`, or null. */
+  classExpMulti,
+  /** A monster's base `ExpGiven` (monsters.json), or null. */
+  monsterExpGiven,
 };

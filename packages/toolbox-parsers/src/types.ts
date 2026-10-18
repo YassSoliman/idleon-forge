@@ -181,6 +181,11 @@ export interface ToolboxCalls {
   killroyWeeks(account: unknown, characters: unknown[], rooms: number): { classes: string[] }[];
   /** The next Random Events from the current hour (Toolbox `getRandomEvents`), each with its map's world (1-3, 0 unknown). */
   randomEventSchedule(account: unknown): { at: number; map: string; event: string; world: number }[];
+  // ---- M4 Purpose & Milestones (TR-2) ----
+  /** Toolbox `getClassExpMulti(character, account, characters).value`; null when not a finite number. */
+  classExpMulti(character: unknown, account: unknown, characters: unknown[]): number | null;
+  /** A monster's base class EXP per kill (`monsters.json` `ExpGiven`); null for an unknown id. */
+  monsterExpGiven(rawName: string): number | null;
 }
 
 /** M7 TR-4: one Vault row's Toolbox `cost` at levels L, L+1, ... (`costs[0]` is the parse's `cost`). */
