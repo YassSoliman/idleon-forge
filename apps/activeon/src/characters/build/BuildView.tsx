@@ -98,7 +98,7 @@ function PathStep({ s }: { s: BuildPathStepView }) {
       ? `${n(s.goal)}`
       : tie || (s.band === 'later' && s.goal <= 0)
         ? null
-        : `${n(s.current)} → ${n(s.goal)}`;
+        : `${n(s.from ?? s.current)} → ${n(s.goal)}`;
   const extra = s.condition ?? s.note;
   return (
     <li className="bv-ps" data-band={s.band}>

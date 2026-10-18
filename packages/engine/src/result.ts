@@ -488,6 +488,11 @@ export interface BuildPathStepView {
   condition: string | null;
   /** "its max for now", "useful up to 7 (best level 73)". */
   note: string | null;
+  /**
+   * R11 QA: a later step of a talent an earlier step already raises starts here ("50 → 100"); `current`
+   * stays the save's own level (M22 same-fact-everywhere). Absent or null on every other step.
+   */
+  from?: number | null;
 }
 
 export interface BuildNextPoint {

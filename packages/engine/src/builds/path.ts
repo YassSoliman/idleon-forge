@@ -123,10 +123,11 @@ export function bandPath(
       const first = list[0] as PathMember;
       const firstSaved = (active[0] as { saved: number }).saved;
       // A later row of a talent an earlier row already raises: say where the plan picks it up.
-      const from =
-        list.length === 1 && first.current !== firstSaved
-          ? `from ${n(first.current)} after the steps above`
-          : null;
+      // The row reads "50 → 100" from that level (R11 QA); the note keeps the save's own level in view.
+      const continues = list.length === 1 && first.current !== firstSaved;
+      const from = continues
+        ? `you have ${n(firstSaved)} now; the steps above take it to ${n(first.current)}`
+        : null;
       const need = list.reduce((s, m) => s + (m.goal - m.current), 0);
       const tied = list.length > 1;
       const parts = tied
@@ -150,6 +151,7 @@ export function bandPath(
         band,
         partNow: band === 'part' ? budget - before : null,
         note: note || null,
+        ...(continues ? { from: first.current } : {}),
       });
     }
     for (const { m, k } of members) {

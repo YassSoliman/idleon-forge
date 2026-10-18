@@ -8,6 +8,7 @@ import type { AccountState, PresetTalents } from '@idleon-forge/account-state';
 import { withCharacter } from '@idleon-forge/knowledge';
 import { describe, expect, it } from 'vitest';
 import { buildRoadmaps } from '../../src/builds';
+import { bandPath, type PathMember } from '../../src/builds/path';
 import { lookupOf } from '../../src/metapath/knowledge';
 import { pathMarker, tabBadge } from '../../src/now/words/characters';
 import type { BuildPathStepView, BuildPresetView, BuildRoadmap } from '../../src/result';
@@ -220,5 +221,28 @@ describe('Build path on the scrubbed saves', () => {
             for (const x of path) if (x.need === 0 && x.band !== 'later') expect(x.band).toBe('done');
           }
         }
+  });
+});
+
+describe('R11 QA: a later step of the same talent reads from where the plan has it', () => {
+  const m = (goal: number): PathMember => ({
+    id: 7,
+    label: 'Some Talent',
+    page: null,
+    current: 0,
+    goal,
+    core: true,
+    later: null,
+    fixed: null,
+    note: null,
+  });
+  it("the second step starts at 50, and `current` stays the save's level", () => {
+    const [a, b] = bandPath([[m(50)], [m(100)]], 200, 'k');
+    expect(a?.current).toBe(0);
+    expect(a?.from ?? null).toBeNull();
+    expect(b?.current).toBe(0);
+    expect(b?.from).toBe(50);
+    expect(b?.need).toBe(50);
+    expect(b?.note).toBe('you have 0 now; the steps above take it to 50');
   });
 });
