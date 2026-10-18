@@ -448,7 +448,7 @@ entries:
         - item: p2w-liquids
           ref: alchemy-p2w.acquisition.liquid-water-drops-regen
           spend: { sink: p2w, target: { kind: next } }
-          text: "Buy {name} Lv {from}→{to} on {payer}: {coins:coins}"
+          text: "Buy {name} {from}→{to} on {payer}: {coins:coins}"
           why: "Early on, liquid rate and cap pay first"
           sources:
             - { url: "https://idleon.wiki/wiki/Alchemy#Pay_2_Win", title: "IdleOn wiki, Alchemy Pay 2 Win", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
@@ -457,7 +457,7 @@ entries:
         - item: p2w-vials
           ref: alchemy-p2w.acquisition.vials-attempts
           spend: { sink: p2w, target: { kind: next } }
-          text: "Buy {name} Lv {from}→{to}"
+          text: "Buy {name} {from}→{to}"
           why: "More daily vial attempts, then better rolls"
           sources:
             - { url: "https://idleon.wiki/wiki/Alchemy#Pay_2_Win", title: "IdleOn wiki, Alchemy Pay 2 Win", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
@@ -466,7 +466,7 @@ entries:
         - item: p2w-cauldrons
           ref: alchemy-p2w.acquisition.cauldron-power-speed
           spend: { sink: p2w, target: { kind: next } }
-          text: "Buy {name} Lv {from}→{to} on {payer}: {coins:coins}"
+          text: "Buy {name} {from}→{to} on {payer}: {coins:coins}"
           why: "Faster brewing and more new bubbles"
           sources:
             - { url: "https://idleon.wiki/wiki/Alchemy#Pay_2_Win", title: "IdleOn wiki, Alchemy Pay 2 Win", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
@@ -475,7 +475,7 @@ entries:
         - item: p2w-boost-req
           ref: alchemy-p2w.acquisition.cauldron-power-boost-req
           spend: { sink: p2w, target: { kind: next } }
-          text: "Buy {name} Lv {from}→{to} on {payer}: {coins:coins}"
+          text: "Buy {name} {from}→{to} on {payer}: {coins:coins}"
           why: "Cheaper cauldron boosts, last"
           sources:
             - { url: "https://idleon.wiki/wiki/Alchemy#Pay_2_Win", title: "IdleOn wiki, Alchemy Pay 2 Win", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }

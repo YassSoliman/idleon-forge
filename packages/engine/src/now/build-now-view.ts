@@ -839,8 +839,15 @@ function spendPlanView(
     // A grouped line buys several things (two Vault rows, eight stamps): one "Lv a → b" across them
     // reads as nonsense ("Lv 65 → 30"), so only a single purchase shows its range (M7 request).
     const single = new Set(l.steps.map((s) => s.ref)).size === 1;
+    // R9 QA: a line whose own text already says its range ("Lv 15→16") doesn't print it again.
+    const says = (from: number, to: number) => new RegExp(`\\b${from}\\s*→\\s*${to}\\b`).test(l.text);
     const levels =
-      single && first && last && first.fromLevel !== null && last.toLevel !== null
+      single &&
+      first &&
+      last &&
+      first.fromLevel !== null &&
+      last.toLevel !== null &&
+      !says(first.fromLevel, last.toLevel)
         ? `Lv ${first.fromLevel} → ${last.toLevel}`
         : null;
     let runningTotal: string | null = null;
