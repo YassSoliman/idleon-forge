@@ -21,11 +21,12 @@ export interface AfkFood {
 
 export interface AfkFighting {
   /**
-   * % 0..100, Toolbox `getMaxDamage(character).survivability` on the AFK Target's map.
-   * TODO(M4): moves to `CharacterState.fighting` (M4 TR-2, `FightingRate`) when M4 ships.
+   * % 0..100, Toolbox `getMaxDamage(character).survivability` on the AFK Target's map: the same number
+   * as `CharacterState.fighting.survivability`, which M4 owns (M4 TR-2, `FightingRate`). M3's food
+   * Checks read it here, beside the food clones it is compared with.
    */
   survivability: number;
-  /** TODO(M4): as above (`FightingRate.finalKillsPerHour`). */
+  /** The same number as `CharacterState.fighting.finalKillsPerHour` (M4 owns the shape). */
   finalKillsPerHour: number;
   /** % 0..100, `getMaxDamage({ ...character, food: [] })`. */
   survivabilityNoFood: number;

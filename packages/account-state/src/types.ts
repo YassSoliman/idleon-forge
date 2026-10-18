@@ -10,6 +10,7 @@ import type { AccountAfkFacts, CharacterAfkFacts } from './afk-types';
 import type { CollectionsAccountFields, CollectionsCharacterFields } from './collections-types';
 import type { DepthAccountFields } from './depth-types';
 import type { SlotsAccountFields, SlotsCharacterFields } from './slots-types';
+import type { PurposeAccountFields, PurposeCharacterFields } from './purpose-types';
 import type { SpendInputs } from './spend-types';
 import type { StarSignsAccountFields, StarSignsCharacterFields } from './starsigns-types';
 import type { TalentAccountFields, TalentCharacterFields } from './talent-types';
@@ -41,8 +42,10 @@ import type { WalkthroughAccountFields, WalkthroughCharacterFields } from './wal
  * 16: M20 TR-2's skill, Parallel Slot and reset-item fields (the `SlotsAccountFields` and
  *    `SlotsCharacterFields` blocks: skills, slots, cogBoard, liquids, resets, killroy, weeklyBattle,
  *    ballot, randomEvents, petTournament, taskBoardDailies, guildTasks, totems).
+ * 17: M4 TR-2's Purpose fields (the `PurposeAccountFields` and `PurposeCharacterFields` blocks: class and
+ *    skill EXP, the current-map `fighting` rate, tools, the Death Note, the Upgrade Vault kill totals).
  */
-export const SCHEMA_VERSION = 16;
+export const SCHEMA_VERSION = 17;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -72,7 +75,8 @@ export interface CharacterState
     CollectionsCharacterFields,
     WalkthroughCharacterFields,
     StarSignsCharacterFields,
-    SlotsCharacterFields {
+    SlotsCharacterFields,
+    PurposeCharacterFields {
   /** Slot in the save (0-based), stable across saves. Field paths use it: `characters[<index>].level`. */
   index: number;
   name: string;
@@ -190,7 +194,8 @@ export interface AccountSummary
     WalkthroughAccountFields,
     DepthAccountFields,
     StarSignsAccountFields,
-    SlotsAccountFields {
+    SlotsAccountFields,
+    PurposeAccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;
   /** Worlds whose exit has been used (a character met the gatekeeper past it), ascending. */

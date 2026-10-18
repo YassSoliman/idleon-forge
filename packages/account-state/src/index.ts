@@ -52,6 +52,15 @@ export type {
   RefinerySalt,
   RefineryState,
 } from './depth-types';
+export { PURPOSE_SKILLS } from './purpose';
+export type {
+  DeathNotePage,
+  FightingRate,
+  LevelExp,
+  PurposeAccountFields,
+  PurposeCharacterFields,
+  VaultKills,
+} from './purpose-types';
 export {
   ACTIVE_CHARACTER_FRESH_MS,
   type AccountReportFields,
