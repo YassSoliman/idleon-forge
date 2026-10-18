@@ -35,6 +35,14 @@ export type {
 } from './afk-types';
 export { W13_VIALS } from './alchemy';
 export type { AlchemyAccountFields, AlchemyPlanState } from './alchemy-types';
+export { BUBBA_BOON_AHEAD, BUBBA_UPGRADES, charismaLevelsFrom, FUN_GIFTS_CAP } from './bubba';
+export type {
+  BubbaAccountFields,
+  BubbaBonuses,
+  BubbaCharisma,
+  BubbaState,
+  CharismaLevels,
+} from './bubba-types';
 export {
   BEEG_SLICE_SECONDS,
   BUBBA_BOON_BONUS_KEYS,
@@ -45,6 +53,7 @@ export {
   CHARISMA_LEVELS_BANKED_LIMIT,
   CHARISMA_MAX_LEVEL,
   charismaTraitReq,
+  megafleshMultiplier,
   PATS_HOUR_SECONDS,
   SMOKER_MAX_QUALITY_SECONDS,
 } from './bubba-x1';

@@ -10,6 +10,7 @@
 import type { ParsedSave, RawSaveEnvelope, ToolboxCalls } from '@idleon-forge/toolbox-parsers';
 import { type AfkFactsInput, accountAfkFacts, characterAfkFacts } from './afk-facts';
 import { readAlchemyPlan } from './alchemy';
+import { readBubba } from './bubba';
 import { readCollections } from './collections';
 import { readDepth } from './depth';
 import { FIELD_RAW_KEYS, type RawKind } from './fields';
@@ -535,6 +536,8 @@ export function toAccountState(
     },
     c,
   );
+  // ---- M23 Bubba (M23 TR-2) ----
+  const bubba = readBubba({ account, data, failedSections, calls: options.toolbox?.calls ?? null }, c);
   // ---- M7 Spend Plan (M7 TR-2) ----
   const spend = readSpendInputs({
     parsed,
@@ -594,6 +597,7 @@ export function toAccountState(
       ...alchemyPlan,
       ...gear,
       ...redesign,
+      ...bubba,
       // One salt list: M6's entries carry M2's rawName/unlocked plus the fuel state (M6 TR-3).
       salts: metaPath.salts === null ? null : (unspent.salts ?? metaPath.salts ?? null),
     },

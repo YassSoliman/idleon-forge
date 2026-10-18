@@ -8,6 +8,7 @@
 import type { SideReadName } from '@idleon-forge/toolbox-parsers';
 import type { AccountAfkFacts, CharacterAfkFacts } from './afk-types';
 import type { AlchemyAccountFields } from './alchemy-types';
+import type { BubbaAccountFields } from './bubba-types';
 import type { CollectionsAccountFields, CollectionsCharacterFields } from './collections-types';
 import type { DepthAccountFields } from './depth-types';
 import type { GearAccountFields, GearCharacterFields } from './gear-types';
@@ -54,8 +55,9 @@ import type { WalkthroughAccountFields, WalkthroughCharacterFields } from './wal
  * 20: M21 TR-3's redesign fields (`characters[].talents.starPoints`, `characters[].doorKillsLeft`,
  *    `account.statues`; the `RedesignAccountFields` and `RedesignCharacterFields` blocks).
  * 21: ADR 0010's exact talent points (`characters[].talents.active.talentPoints`, `.other.talentPoints`).
+ * 22: M23 TR-2's `account.bubba` (Toolbox's Bubba parse, a few raw indices, ADR 0010's derived values).
  */
-export const SCHEMA_VERSION = 21;
+export const SCHEMA_VERSION = 22;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -210,7 +212,8 @@ export interface AccountSummary
     SlotsAccountFields,
     PurposeAccountFields,
     GearAccountFields,
-    RedesignAccountFields {
+    RedesignAccountFields,
+    BubbaAccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;
   /** Worlds whose exit has been used (a character met the gatekeeper past it), ascending. */
