@@ -247,6 +247,20 @@ describe('FR-25: overflow before the return', () => {
     expect(v.empty).toBe("Nothing fills up before you're back");
   });
 
+  it("says a soon-full pill's time once, in the bar's own format", () => {
+    const soon = { ...pillLine(0), label: 'Worship full in about 5 h · spend', at: NOW + 5 * H };
+    const v = timeline(
+      result({
+        characters: [character(0, [], [soon]), character(1), character(2)],
+        timeline: [bar('anvil.check.caps', 'c0', { effect: 'pill', at: NOW + 5 * H })],
+      }),
+    );
+    expect(barOf(v, 'anvil.check.caps@c0')).toMatchObject({
+      label: 'Worship full · spend',
+      timeText: expect.stringMatching(/^in 5h 00m · /),
+    });
+  });
+
   it('keeps a limit whose fix does not hold plain, with the producer text and no fix link (M3 FR-7 c)', () => {
     const line = goal('anvil.check.fill', 'c0');
     const v = timeline(
