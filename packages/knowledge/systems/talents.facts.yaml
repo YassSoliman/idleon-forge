@@ -1,0 +1,59 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M21 FR-C13 (TR-8): where each Star Talent's book comes from. A star talent stays locked (max 0 in the
+# save) until its Special Talent Book is found, and Toolbox's data has no book sources, so this is an
+# authored tier 2 table (ADR 0007) copied from the IdleOn Wiki's Special Talents page. The Build path
+# shows `book` after "find its book" on a talent the save hasn't unlocked yet. Pages are the game's
+# "Special Talent 1-4" (Toolbox `talents.json`).
+system: talents
+facts:
+  - id: talents.fact.star-books
+    system: talents
+    origin: authored
+    title: Where each Star Talent's book comes from
+    rows:
+      - { rawName: "CASH_MONEY", page: 1, book: "World 1 monster drop" }
+      - { rawName: "QUEST_KAPOW!", page: 1, book: "Upgrade Vault" }
+      - { rawName: "STUDIOUS_QUESTER", page: 1, book: "Royal Worm's quest" }
+      - { rawName: "QUEST_CHUNGUS", page: 1, book: "Crystal monster drop" }
+      - { rawName: "CRYSTALS_4_DAYYS", page: 1, book: "Picnic Stowaway's quest" }
+      - { rawName: "WILL_OF_THE_ELDEST", page: 1, book: "Scripticus's quest" }
+      - { rawName: "TICK_TOCK", page: 1, book: "Alchemy liquid shop, 50 water droplets" }
+      - { rawName: "STONKS!", page: 1, book: "Wellington's quest" }
+      - { rawName: "ROLL_DA_DICE", page: 1, book: "Boss drop" }
+      - { rawName: "ATTACKS_ON_SIMMER", page: 1, book: "Boss drop" }
+      - { rawName: "BEGINNER_BEST_CLASS", page: 1, book: "Rocklyte's quest" }
+      - { rawName: "EXP_CONVERTER", page: 1, book: "Glumlee's quest" }
+      - { rawName: "GOBLET_OF_HEMOGLOBIN", page: 1, book: "World 1 Merit Shop" }
+      - { rawName: "JUST_EXP", page: 2, book: "Baba Yaga or Dr Defecaus drop, after World 1 merit 7" }
+      - { rawName: "FROTHY_MALK", page: 2, book: "Baba Yaga or Dr Defecaus drop, after World 1 merit 7" }
+      - { rawName: "CONVERT_BETTER,_DARNIT!", page: 2, book: "World 2 Merit Shop" }
+      - { rawName: "PULSATION", page: 2, book: "Biggie Hours or King Doot drop, after World 2 merit 7" }
+      - { rawName: "CARDIOVASCULAR!", page: 2, book: "Biggie Hours or King Doot drop, after World 2 merit 7" }
+      - { rawName: "MILKYWAY_CANDIES", page: 2, book: "Flurbo Shop, 80 Flurbos" }
+      - { rawName: "TELEKINETIC_STORAGE", page: 2, book: "World 3 Merit Shop" }
+      - { rawName: "PRINTER_SAMPLING", page: 2, book: "Hoggindaz's quest" }
+      - { rawName: "SUPERSOURCE", page: 2, book: "Flurbo Shop, 15 Flurbos" }
+      - { rawName: "ACTION_FRENZY", page: 2, book: "Flurbo Shop, 200 Flurbos" }
+      - { rawName: "DUNGEONIC_DAMAGE", page: 2, book: "Flurbo Shop, 50 Flurbos" }
+      - { rawName: "SHRINE_ARCHITECT", page: 2, book: "Hoggindaz's quest" }
+      - { rawName: "MEGA_CRIT", page: 2, book: "Flurbo Shop, 400 Flurbos" }
+      - { rawName: "TIPTOE_QUICKNESS", page: 3, book: "Talent Book Library VIP shelf" }
+      - { rawName: "UBERCHARGED_HEALTH", page: 3, book: "Talent Book Library VIP shelf" }
+      - { rawName: "COINS_FOR_CHARON", page: 3, book: "Talent Book Library VIP shelf" }
+      - { rawName: "AMERICAN_TIPPER", page: 3, book: "Talent Book Library VIP shelf" }
+      - { rawName: "OVERACCURATE_CRIT", page: 3, book: "Talent Book Library VIP shelf" }
+      - { rawName: "ANCIENT_MULTITOOL", page: 3, book: "Talent Book Library VIP shelf" }
+      - { rawName: "STATUE_METALLURGY", page: 3, book: "Talent Book Library VIP shelf" }
+      - { rawName: "TOILET_PAPER_POSTAGE", page: 3, book: "a chat secret (see the wiki)" }
+      - { rawName: "FILTHY_DAMAGE", page: 3, book: "Trash Island shop" }
+      - { rawName: "RANDO_EVENT_LOOTY", page: 3, book: "Rando Island shop" }
+      - { rawName: "SPICE_SPILLAGE", page: 3, book: "World 4 Merit Shop" }
+      - { rawName: "STAT_OVERLOAD", page: 3, book: "World 5 Merit Shop" }
+      - { rawName: "DUMMY_THICC_STATS", page: 3, book: "Shimmer Island shop" }
+      - { rawName: "MONOLITHIALISM", page: 4, book: "Monolith's quest" }
+      - { rawName: "BOSS_BATTLE_SPILLOVER", page: 4, book: "the weekly boss shop" }
+      - { rawName: "DREAMER_DAMAGE", page: 4, book: "Dream Cloud 5" }
+      - { rawName: "BORED_TO_DEATH", page: 4, book: "the weekly boss shop" }
+    sources:
+      - { url: "https://idleon.wiki/wiki/Special_Talents", title: "IdleOn Wiki: Special Talents (each book's source)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+    notes: "M21 FR-C13. Short words for the Build path's later band; the wiki page has the drop rates and quest names. Page 3 and 4 books are late game; only the Build's steps read this table."

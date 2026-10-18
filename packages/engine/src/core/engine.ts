@@ -393,9 +393,13 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
 }
 
 /** M9's Build roadmaps ride through untouched (the Build view); absent when no module emits them. */
-function buildsOf(outputs: readonly { output: ModuleOutput }[]): Pick<EngineResult, 'builds'> {
+function buildsOf(
+  outputs: readonly { output: ModuleOutput }[],
+): Pick<EngineResult, 'builds' | 'nextCharacter'> {
   const builds = outputs.find((o) => o.output.builds)?.output.builds;
-  return builds ? { builds } : {};
+  // M21 (area C): the next character card rides with the roadmaps.
+  const next = outputs.find((o) => o.output.nextCharacter !== undefined)?.output.nextCharacter;
+  return { ...(builds ? { builds } : {}), ...(next !== undefined ? { nextCharacter: next } : {}) };
 }
 
 /** One engine per worker: it keeps the last input and the Expected-Return-independent output. */

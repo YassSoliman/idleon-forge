@@ -9,10 +9,12 @@ import { buildRoadmaps } from '../../src/builds';
 import { lookupOf } from '../../src/metapath/knowledge';
 import type { BuildRoadmap } from '../../src/result';
 import { W2, W3 } from '../afk/helpers';
-import { kb, run } from './helpers';
+import { boundOnly, kb, run } from './helpers';
 
 const facts = lookupOf(kb);
-const roadmaps = (s: AccountState) => buildRoadmaps(s, facts, { entries: kb.entries });
+// Lower-bound behaviour (M9 TR-7); the exact counts (ADR 0010) are tested on their own below.
+const roadmaps = (s: AccountState) => buildRoadmaps(boundOnly(s), facts, { entries: kb.entries });
+const roadmapsExact = (s: AccountState) => buildRoadmaps(s, facts, { entries: kb.entries });
 const at = (list: BuildRoadmap[], index: number): BuildRoadmap => {
   const r = list.find((x) => x.index === index);
   if (!r) throw new Error(`no roadmap for ${index}`);
@@ -73,7 +75,7 @@ describe('Build view roadmaps', () => {
     const skilling = r.presets[1];
     expect(skilling?.unspent).toBe(118);
     expect(skilling?.tabs.slice(0, 3).map((t) => t.unspent)).toEqual([44, 40, 34]);
-    expect(r.status).toBe('118+ unspent on the skilling preset · next: Book of the Wise');
+    expect(r.status).toBe('at least 118 points unspent on the skilling preset · next: Book of the Wise');
     // Each step takes no more than its tab has waiting (44 in tab 1).
     expect(skilling?.next.map((n) => n.text)).toEqual([
       'Put the next 44 points into Book of the Wise (to 60 of 100)',
@@ -105,7 +107,7 @@ describe('Build view roadmaps', () => {
 
   it('W2-late Barbarian: the empty preset reads as one status part, with the attack bar checked', () => {
     const r = at(roadmaps(W2()), 0);
-    expect(r.status).toBe('Skilling preset empty: 640+ points waiting · next: Brute Efficiency');
+    expect(r.status).toBe('Skilling preset empty: at least 640 points waiting · next: Brute Efficiency');
     expect(r.presets[1]?.roleText).toBe('Empty: set it up for skilling');
     expect(r.presets[0]?.attackBar?.text).toBe('Every attack the build wants is on the bar');
   });
@@ -137,7 +139,7 @@ describe('Build view roadmaps', () => {
   it('W3-early Squire Lv 51 (R5 QA P2-1): all 115 points wait in tab 3, so Refinery Throttle leads everywhere', () => {
     const s = W3();
     const r = at(roadmaps(s), 1);
-    expect(r.status).toBe('115+ unspent on the skilling preset · next: Refinery Throttle');
+    expect(r.status).toBe('at least 115 points unspent on the skilling preset · next: Refinery Throttle');
     const skilling = r.presets.find((p) => p.role === 'skilling');
     expect(skilling?.tabs.slice(0, 3).map((t) => t.unspent)).toEqual([0, 0, 115]);
     expect(skilling?.next.map((n) => n.text)).toEqual([
@@ -185,5 +187,18 @@ describe('Build view roadmaps', () => {
     const b = run(W2()).builds;
     expect(a?.length).toBe(5);
     expect(a).toEqual(b);
+  });
+});
+
+describe('Build view roadmaps with exact counts (ADR 0010)', () => {
+  it('W3-early: where the save gives an exact count, no tab or status says "at least" for it', () => {
+    for (const r of roadmapsExact(W3()))
+      for (const p of r.presets)
+        for (const t of p.tabs)
+          if (t.known?.kind === 'exact') expect(t.known.points).toBeGreaterThanOrEqual(0);
+    const exactly = roadmapsExact(W3()).filter((r) =>
+      r.presets.every((p) => p.tabs.every((t) => t.tab > 3 || t.known?.kind === 'exact')),
+    );
+    for (const r of exactly) expect(r.status).not.toMatch(/at least/);
   });
 });

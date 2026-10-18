@@ -15,8 +15,10 @@ const PATCHES = JSON.parse(
   readFileSync(fileURLToPath(new URL('../../../knowledge/generated/_patches.json', import.meta.url)), 'utf8'),
 ) as { dates: Record<string, string> };
 
-type BuildEntry = Extract<Entry, { type: 'build' }>;
-const builds = Object.values(kb.entries).filter((e): e is BuildEntry => e.type === 'build');
+type BuildEntry = Extract<Entry, { type: 'build'; variant: 'afk' }>;
+const builds = Object.values(kb.entries).filter(
+  (e): e is BuildEntry => e.type === 'build' && e.variant === 'afk',
+);
 const m9 = Object.values(kb.entries).filter((e) => /^(talents|talent-presets|talent-resets)\./.test(e.id));
 const facts = buildsKnowledge(lookupOf(kb));
 
@@ -109,6 +111,10 @@ describe('#74 player-facing Sources', () => {
         e.sources.some((s) => s.tier >= 2 && !s.url.startsWith('https://github.com/')),
         e.id,
       ).toBe(true);
+      // The star Builds (M21 FR-C11) cite player-readable pages only (owner rule for M21: Toolbox
+      // website and wiki, never a GitHub file); their talents are checked against generated facts.
+      if ((e.type === 'build' && e.variant === 'star') || e.id === 'talent-presets.check.star-empty')
+        continue;
       expect(
         e.sources.some((s) => s.tier === 1),
         e.id,

@@ -1,154 +1,306 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
-/* M8 Cards view (owner request 2026-10-18), functional styling: tokens only (tokens.css), wraps at
-   320 px, no page-level horizontal scroll (slots wrap into a 2-column grid on a phone). */
+/* M8 Cards view (area C, M21 FR-C8): the Design Lab's "Card rack", "Before / after racks" and "By map"
+   in Field Guide tokens. A lazy chunk's stylesheet. Wraps at 320 px, no page-level horizontal scroll. */
 .cv,
-.cards-overview {
+.cv-overview {
+  display: grid;
+  gap: var(--space-4);
   overflow-wrap: anywhere;
   min-width: 0;
 }
+.cv {
+  margin-top: var(--space-3);
+}
+.cv .cv-muted,
+.cv-overview .cv-muted {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.cv .cv-line,
+.cv-overview .cv-line {
+  margin: 0;
+  font-size: var(--text-sm);
+}
 .cv-summary {
-  margin: 0 0 4px;
-}
-.cv-account {
-  margin-top: 8px;
-}
-.cv-account > summary {
-  cursor: pointer;
-  min-height: 28px;
-  padding: 4px 0;
-  font-weight: 700;
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-left: 4px solid var(--accent);
+  background: var(--accent-soft);
+  border-radius: var(--radius-sm);
 }
 .cv-h {
-  margin: 14px 0 6px;
-  font-size: 0.95rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-md);
 }
-.cv-presets,
+.cv-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-chip);
+  padding: 1px var(--space-2);
+}
+.cv-tag--use {
+  color: var(--on-ok);
+  background: var(--ok);
+  border-color: var(--ok);
+}
+.cv-tag[data-fit="yes"] {
+  color: var(--ok);
+  border-color: var(--ok);
+}
+.cv-tag--quick {
+  color: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.cv-tag--set {
+  background: var(--sunk);
+}
+
+/* ---- the card rack ---- */
+.cv-racks,
+.cv-cards,
 .cv-recs,
-.cv-overview,
-.cv-swaps {
+.cv-swaps,
+.cv-grind,
+.cv-rows {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.cv-preset,
-.cv-rec {
+.cv-racks {
+  display: grid;
+  gap: var(--space-3);
+}
+.cv-rack {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 8px;
-  margin: 0 0 8px;
+  border-radius: var(--radius-card);
   background: var(--surface);
 }
-.cv-preset.cv-active {
-  border-color: var(--ok);
-  box-shadow: inset 3px 0 0 var(--ok);
+.cv-rack[data-active="yes"] {
+  border: 2px solid var(--accent);
 }
-.cv-preset-head,
-.cv-rec-head,
+.cv-rack-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+}
+.cv-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: var(--space-2);
+}
+.cv-card {
+  min-width: 0;
+}
+.cv-card[data-empty="yes"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 72px;
+  border: 2px dashed var(--line-strong);
+  border-radius: var(--radius-control);
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.cv-card-btn {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  width: 100%;
+  min-height: 72px;
+  padding: var(--space-2) var(--space-1);
+  font: inherit;
+  color: var(--fg);
+  background: var(--bg);
+  border: 2px solid var(--line-strong);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  text-align: center;
+}
+.cv-card[data-passive="yes"] .cv-card-btn {
+  border-style: dotted;
+}
+.cv-card-btn:focus-visible,
+.cv-row:focus-visible,
+.cv-fold > summary:focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+.cv-card-name {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--lh-snug);
+}
+.cv-pips {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+.cv-sheet {
+  display: grid;
+  gap: var(--space-2);
+}
+.cv-sheet p {
+  margin: 0;
+}
+
+/* ---- before / after: the swaps ---- */
+.cv-recs {
+  display: grid;
+  gap: var(--space-3);
+}
+.cv-rec {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+.cv-rec-head {
+  margin: 0;
+}
+.cv-done {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--ok);
+}
+.cv-swaps {
+  display: grid;
+  gap: var(--space-1);
+}
+.cv-swap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+}
+.cv-swap-from {
+  padding: 1px var(--space-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--sunk);
+}
+.cv-swap-from[data-empty="yes"] {
+  border-style: dashed;
+  color: var(--muted);
+}
+.cv-swap-to {
+  padding: 1px var(--space-2);
+  border: 2px solid var(--ok);
+  border-radius: var(--radius-sm);
+  background: var(--ok-soft);
+  font-weight: var(--weight-semibold);
+}
+.cv-swap-fx {
+  flex-basis: 100%;
+}
+
+/* ---- by map ---- */
+.cv-maps {
+  display: grid;
+  gap: var(--space-3);
+}
+.cv-map-h {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  margin: 0 0 var(--space-1);
+  font-size: var(--text-sm);
+}
+.cv-grind {
+  display: grid;
+  gap: var(--space-2);
+}
+.cv-grind-item {
+  display: grid;
+  gap: 2px;
+  padding: var(--space-2) var(--space-3);
+  border-left: 4px solid var(--line-strong);
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+}
+.cv-grind-item[data-quick="yes"] {
+  border-left-color: var(--accent);
+}
 .cv-grind-head {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 6px;
-  align-items: baseline;
-  margin: 0 0 6px;
-}
-.cv-badge {
-  display: inline-block;
-  font-size: 0.78rem;
-  line-height: 1.4;
-  padding: 0 6px;
-  border-radius: 999px;
-  background: var(--unk-soft);
-  color: var(--unk);
-}
-.cv-badge-fit,
-.cv-badge-quick {
-  background: var(--ok-soft);
-  color: var(--ok);
-}
-.cv-badge-use {
-  background: var(--fg);
-  color: var(--surface);
-}
-.cv-badge-farm {
-  background: var(--coin-soft);
-  color: var(--coin);
-}
-.cv-slots {
-  list-style: none;
-  margin: 0 0 4px;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
-  gap: 6px;
-}
-.cv-slot {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  min-height: 64px;
-  padding: 6px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--sunk);
-  font-size: 0.82rem;
-  min-width: 0;
-}
-.cv-slot-name {
-  font-weight: 700;
-}
-.cv-slot-lv {
-  color: var(--coin);
-}
-.cv-slot-fx {
-  color: var(--muted);
-}
-.cv-slot-note {
-  color: var(--bad);
-}
-.cv-slot.cv-empty {
-  border-style: dashed;
-  background: transparent;
-  color: var(--muted);
-  justify-content: center;
   align-items: center;
-}
-.cv-slot.cv-passive {
-  border-color: var(--bad);
-}
-.cv-swaps li {
-  margin: 3px 0;
-}
-.cv-from {
-  text-decoration: line-through;
-  color: var(--muted);
-}
-.cv-to {
-  font-weight: 700;
-}
-.cv-done {
-  color: var(--ok);
-}
-.cv-grind {
+  gap: var(--space-1) var(--space-2);
   margin: 0;
-  padding-left: 28px;
-}
-.cv-grind-item {
-  margin: 0 0 8px;
-}
-.cv-grind-item p {
-  margin: 1px 0;
 }
 .cv-step {
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-.cv-overview li {
-  padding: 6px 0;
-  border-bottom: 1px solid var(--line);
-}
-.cv-overview p {
-  margin: 2px 0 0;
+  font-size: var(--text-sm);
 }
 .cv-sources {
-  margin-top: 6px;
+  font-size: var(--text-sm);
+}
+
+/* ---- the overview on Characters ---- */
+.cv-fold > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-height: var(--tap-min);
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+}
+.cv-fold > summary::-webkit-details-marker {
+  display: none;
+}
+.cv-overview-h {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: var(--text-lg);
+}
+.cv-rows {
+  display: grid;
+  gap: var(--space-1);
+  margin: var(--space-2) 0;
+}
+.cv-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--space-2);
+  min-height: var(--tap-min);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--fg);
+  text-decoration: none;
+}
+.cv-row-name {
+  font-weight: var(--weight-semibold);
+}
+.cv-row-line {
+  flex-basis: 100%;
+  font-size: var(--text-sm);
+}
+.cv-account {
+  display: grid;
+  gap: var(--space-2);
 }

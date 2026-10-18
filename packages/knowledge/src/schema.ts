@@ -309,6 +309,38 @@ export const BuildEntry = Base.extend({
   onePointOk: z.array(RawName).default([]),
 });
 
+/** M21 TR-8 (FR-C12): a useful cap a star step stops at, worked out from save data. */
+export const STAR_CAPS = ['best-level-tenth', 'best-beginner-tenth'] as const;
+/** M21 TR-8: a star step's extra condition: only when the preset serves one of these AFK skills. */
+export const ServesAnyCondition = z.strictObject({
+  kind: z.literal('servesAny'),
+  afk: z.array(z.enum(AFK_TYPES)).min(1),
+});
+/**
+ * M21 TR-8 (FR-C11): a class-agnostic star Build (the Star Talent tab, "Special Talent 1-4" in game
+ * data). Kept apart from the class Builds: never in preset classification or `kb.build(line, role)`;
+ * the engine reads it through `kb.starBuild(role)`. One pool of points across pages 1-4.
+ */
+export const StarBuildEntry = Base.extend({
+  type: z.literal('build'),
+  variant: z.literal('star'),
+  role: z.enum(['fighting', 'skilling']),
+  steps: z
+    .array(
+      z.strictObject({
+        talent: RawName,
+        page: z.int().min(1).max(4),
+        target: z.union([z.int().positive(), z.literal('max'), z.strictObject({ cap: z.enum(STAR_CAPS) })]),
+        tie: z.string().optional(),
+        core: z.boolean().optional(),
+        when: z.array(z.union([StepCondition, ServesAnyCondition])).optional(),
+      }),
+    )
+    .min(1),
+});
+/** Both Build shapes under `type: build`, told apart by `variant` (afk: class Builds; star: M21). */
+export const AnyBuildEntry = z.discriminatedUnion('variant', [BuildEntry, StarBuildEntry]);
+
 /** M14 TR-4: a generated requirement may carry a quantity (`{ ref, amount }`). */
 const Requirement = z.union([
   EntryId,
@@ -468,6 +500,7 @@ type EntryShape = z.infer<
   | typeof CheckEntry
   | typeof PriorityEntry
   | typeof BuildEntry
+  | typeof StarBuildEntry
   | typeof AcquisitionEntry
   | typeof MetaPathEntry
 >;
@@ -551,7 +584,7 @@ export const AuthoredEntry = z
     ContributionEntry,
     CheckEntry,
     PriorityEntry,
-    BuildEntry,
+    AnyBuildEntry,
     AcquisitionEntry,
     MetaPathEntry,
   ])

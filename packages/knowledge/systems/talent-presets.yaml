@@ -108,3 +108,29 @@ entries:
     category: spendable
     detector: { id: builds/preset-behind, params: { minPoints: 10 } }
     notes: FR-9, TR-7. A lower bound from comparing the presets per tab (tab 2 adjusted by the tab-2-granting talents); never an exact count (FR-10). minPoints is judgment.
+
+  # M21 FR-C15 (owner Q2, Final rulings DS-25): an empty star tab is account-wide advice, so it is ONE
+  # account Goal with one detail per character, at the free-value position M9's preset Goals use. The
+  # count is exact: Toolbox's star total for that preset minus its star levels (FR-C10).
+  - id: talent-presets.check.star-empty
+    system: talent-presets
+    type: check
+    title: Star talents empty on one preset
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 120
+    detector: { id: builds/star-empty }
+    text: "Spend your star points on the other preset too"
+    why: "Each preset spends its own star points, and these presets have none spent. Swapping presets and spending them is free. Characters with an empty star tab: {count:int}."
+    values:
+      goal: Talent presets
+      detail: "{who}: {points:int} star points unspent on the {preset} preset"
+    doneWhen: { field: "characters[*].talents", change: changed }
+    appliesTo: { stages: all, levels: { min: 15 } }
+    confidence: M
+    status: active
+    notes: "M21 FR-C15. Fires only when the other preset has star points and this preset's exact unspent count is above 1 (the FR-C10 tolerance). Never suggests a Star Talent Reset Potion (gems, M9 FR-17)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Special_Talents", title: "IdleOn Wiki: Special Talents (also called Star Talents)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=ih5wAK", title: "Sir_Grimtide, Barbarian/Fishing: a star section per preset (Toolbox community builds)", tier: 3, claimDate: 2026-10-12, verified: 2026-10-18, gameVersion: 2.3.540 }

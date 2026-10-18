@@ -10,7 +10,8 @@ export type PresetRole = 'fighting' | 'skilling';
 export const ROLES: readonly PresetRole[] = ['fighting', 'skilling'];
 export const otherRole = (r: PresetRole): PresetRole => (r === 'fighting' ? 'skilling' : 'fighting');
 
-export type BuildEntry = Extract<Entry, { type: 'build' }>;
+export type BuildEntry = Extract<Entry, { type: 'build'; variant: 'afk' }>;
+export type StarBuildEntry = Extract<Entry, { type: 'build'; variant: 'star' }>;
 type BuildStepT = BuildEntry['tabs'][number]['steps'][number];
 
 export const FACT = {
@@ -18,6 +19,7 @@ export const FACT = {
   tab2Granting: 'talents.fact.tab2-granting',
   bubbleCapped: 'talents.fact.bubble-capped',
   classTree: 'classes.fact.class-tree',
+  starBooks: 'talents.fact.star-books',
 } as const;
 
 /** The Build entry id for a class line and role (TR-5: talents.build.<classLine>-<role>). */
@@ -79,10 +81,42 @@ const rowsOf = (kb: FactLookup, id: string): unknown => {
 
 const memo = new WeakMap<FactLookup, BuildsKnowledge>();
 
+/** M21 TR-8: one star Build step, resolved to its talent index. */
+export interface ResolvedStarStep {
+  talent: string;
+  id: number;
+  page: number;
+  target: number | 'max' | { cap: 'best-level-tenth' | 'best-beginner-tenth' };
+  core: boolean;
+  tie: string | null;
+  /** Stage gates (`stageAtLeast`) as for class Builds. */
+  when: NonNullable<BuildStepT['when']>;
+  /** `servesAny`: only when the preset serves one of these AFK skills; null without the condition. */
+  servesAny: string[] | null;
+}
+
+export interface ResolvedStarBuild {
+  entry: StarBuildEntry;
+  role: PresetRole;
+  steps: ResolvedStarStep[];
+  stepIds: ReadonlySet<number>;
+  stale: boolean;
+  contested: boolean;
+}
+
+/** The star Build entry id for a role (M21 TR-8: talents.build.star-<role>). */
+export const starBuildId = (role: PresetRole) => `talents.build.star-${role}`;
+
 export interface BuildsKnowledge {
   talents: TalentFacts;
   /** The Build for a class line and role, or null when there is none (or it is retired). */
   build(classLine: string, role: PresetRole): ResolvedBuild | null;
+  /** M21 TR-8: the class-agnostic star Build for a role, or null (never part of `build`). */
+  starBuild(role: PresetRole): ResolvedStarBuild | null;
+  /** The talent tabs of a class (`classes.fact.class-tree`), e.g. ["Beginner", "Journeyman"]; [] when unknown. */
+  talentTabsOf(cls: string): readonly string[];
+  /** M21 FR-C13: where a star talent's book comes from (`talents.fact.star-books`); null when not listed. */
+  starBookOf(rawName: string): string | null;
   /** The class line whose Builds a class uses (subclass, else base class, else Beginner); null for the Journeyman line or an unknown class. */
   lineOf(cls: string): string | null;
   /** The class tier ('beginner', 'base', 'subclass', 'elite', 'master'); null when unknown. */
@@ -94,6 +128,7 @@ interface ClassRow {
   line: string | null;
   promotesFrom: string | null;
   tier: string;
+  talentTabs?: string[];
 }
 
 /** M9's resolved view of the Knowledge Base, cached per lookup. */
@@ -143,7 +178,7 @@ export function buildsKnowledge(kb: FactLookup): BuildsKnowledge {
     if (builds.has(id)) return builds.get(id) ?? null;
     const e = kb.get(id) as Entry | undefined;
     let out: ResolvedBuild | null = null;
-    if (e && 'type' in e && e.type === 'build' && e.status !== 'retired') {
+    if (e && 'type' in e && e.type === 'build' && e.variant === 'afk' && e.status !== 'retired') {
       const tabs = e.tabs.map((t) => ({
         tab: t.tab,
         // A step whose talent is missing from generated data is skipped (section 6, "Stale patch").
@@ -178,9 +213,58 @@ export function buildsKnowledge(kb: FactLookup): BuildsKnowledge {
     builds.set(id, out);
     return out;
   };
+  // Authored and optional: a missing table only drops the book's words from the later band.
+  const bookTable = kb.get(FACT.starBooks) as FactTable | undefined;
+  const books = new Map<string, string>(
+    (bookTable && 'rows' in bookTable && Array.isArray(bookTable.rows)
+      ? (bookTable.rows as { rawName?: unknown; book?: unknown }[])
+      : []
+    ).flatMap((r) =>
+      typeof r.rawName === 'string' && typeof r.book === 'string' ? [[r.rawName, r.book]] : [],
+    ),
+  );
+  const stars = new Map<PresetRole, ResolvedStarBuild | null>();
+  const starBuild = (role: PresetRole): ResolvedStarBuild | null => {
+    if (stars.has(role)) return stars.get(role) ?? null;
+    const e = kb.get(starBuildId(role)) as Entry | undefined;
+    let res: ResolvedStarBuild | null = null;
+    if (e && 'type' in e && e.type === 'build' && e.variant === 'star' && e.status !== 'retired') {
+      const steps = e.steps.flatMap((s): ResolvedStarStep[] => {
+        const i = talents.idOf(s.talent);
+        if (i === undefined) return [];
+        const when = s.when ?? [];
+        const serves = when.find((w) => w.kind === 'servesAny');
+        return [
+          {
+            talent: s.talent,
+            id: i,
+            page: s.page,
+            target: s.target,
+            core: s.core === true,
+            tie: s.tie ?? null,
+            when: when.flatMap((w) => (w.kind === 'servesAny' ? [] : [w])),
+            servesAny: serves && serves.kind === 'servesAny' ? [...serves.afk] : null,
+          },
+        ];
+      });
+      res = {
+        entry: e,
+        role,
+        steps,
+        stepIds: new Set(steps.map((s) => s.id)),
+        stale: e.stale !== undefined,
+        contested: e.status === 'contested',
+      };
+    }
+    stars.set(role, res);
+    return res;
+  };
   const out: BuildsKnowledge = {
     talents,
     build,
+    starBuild,
+    talentTabsOf: (cls) => classes.get(cls)?.talentTabs ?? [],
+    starBookOf: (rawName) => books.get(rawName) ?? null,
     lineOf,
     tierOf: (cls) => classes.get(cls)?.tier ?? null,
   };

@@ -13,10 +13,11 @@ import type {
 } from '@idleon-forge/engine/result';
 import { cleanup, fireEvent, screen, within } from '@testing-library/react';
 import axe from 'axe-core';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { characterTabs, parseTabHash } from '../src/now/character-tabs';
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { characterTabs, healthReady, parseTabHash } from '../src/now/character-tabs';
 import { fixture, props, renderNow, saveOf } from './now-helpers';
 
+beforeAll(() => healthReady);
 beforeEach(() => {
   localStorage.clear();
   window.history.replaceState(null, '', '/');
@@ -159,14 +160,14 @@ describe('Cards tab', () => {
   it('Characters lists every character in the Cards overview; each Roster row keeps a Cards chip', () => {
     const r = withCards();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    expect(screen.getByRole('link', { name: 'Cedar: cards' })).toBeTruthy();
+    expect(screen.getByRole('link', { name: /^Cedar: cards/ })).toBeTruthy();
     // M17 D-7: one "Builds and cards → Characters" link replaces "Builds ↓" and "Cards ↓".
     expect(screen.queryByRole('link', { name: 'Cards ↓' })).toBeNull();
     fireEvent.click(screen.getByRole('link', { name: 'Builds and cards → Characters' }));
     const overview = screen.getByRole('region', { name: 'Cards' });
     const links = within(overview)
       .getAllByRole('link')
-      .filter((a) => a.classList.contains('bo-row'));
+      .filter((a) => a.classList.contains('cv-row'));
     expect(links.map((a) => a.getAttribute('href'))).toEqual(['#cards-2', '#cards-1']);
     expect(links[0]?.textContent).toContain('next grind: Frost Flake card (about 1.2 h)');
   });
@@ -177,13 +178,13 @@ describe('Cards tab', () => {
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const overview = screen.getByRole('region', { name: 'Cards' });
     expect(overview.querySelector('details')?.open).toBe(false);
-    expect(overview.querySelector('summary')?.textContent).toBe('Cardsevery preset fits›');
+    expect(overview.querySelector('summary')?.textContent).toBe('Cardsevery preset fits');
   });
 
   it('the Cards chip opens the character page on its Cards tab: presets, swaps and grind', async () => {
     const r = withCards();
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('link', { name: 'Cedar: cards' }));
+    fireEvent.click(screen.getByRole('link', { name: /^Cedar: cards/ }));
     expect(window.location.hash).toBe('#cards-2');
     const nav = screen.getByRole('navigation', { name: 'Character page' });
     expect(within(nav).getByRole('link', { current: 'page' }).textContent).toBe('Cards');

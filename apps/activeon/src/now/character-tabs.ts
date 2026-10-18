@@ -4,17 +4,18 @@
 // today's Focus content, and every other tab registers here with ONE entry. A tab gets the Now view
 // and the character's index, and renders whatever it likes from them. Its deep link is a bare
 // `#<id>-<index>` anchor (`#build-3`, and `#now-3` for the Now tab; M17 TR-3), which the shell reads.
-// A tab that publishes `status` gets one line on the character's Characters tile (M17 FR-13).
+// M21 replaced the Characters tiles with the health matrix (FR-C7), so tabs no longer publish a status;
+// each tab publishes `health` (FR-C7, now/tab-health.ts) for the Roster's one tab chip (G4), the
+// Characters health matrix and the identity strip's badges.
 //
 // To add a tab: write a component taking `CharacterTabProps` in its own file, then add
 // `{ id, label, Component: lazyPart(() => import('./MyTab'), (m) => m.MyTab) }` below. Every tab
 // is its own lazy chunk (lazy-part.tsx): Focus renders it inside <Suspense>, so the main chunk only
-// carries this list. A `status` must not import the tab's file: read a string the engine built.
+// carries this list.
 // The id must be lower-case letters only (it is the anchor prefix) and never `system`.
-import type { NowView } from '@idleon-forge/engine/now';
+import type { NowView, TabHealth } from '@idleon-forge/engine/now';
 import type { ComponentType } from 'react';
 import { lazyPart } from '../lazy-part';
-import { signsStatus } from './signs/signs-status';
 
 export interface CharacterTabProps {
   /** The whole Now view (the Build tab reads `view.builds`). */
@@ -29,22 +30,21 @@ export interface CharacterTab {
   label: string;
   /** Null only for "Now", which is Focus's own content. */
   Component: ComponentType<CharacterTabProps> | null;
-  /** M17 FR-13: the tab's one status line for the Characters grid (a module's own text), or null. */
-  status?: (view: NowView, index: number) => string | null;
+  /** M21 FR-C7: the tab's health with a unit, or null when the tab has nothing to say. */
+  health?: (view: NowView, index: number) => TabHealth | null;
 }
 
 export const NOW_TAB = 'now';
 
-export const characterTabs: readonly CharacterTab[] = [
+const TABS: readonly CharacterTab[] = [
   { id: NOW_TAB, label: 'Now', Component: null },
   {
     id: 'build',
     label: 'Build',
     Component: lazyPart(
-      () => import('./BuildView'),
+      () => import('../characters/build/BuildView'),
       (m) => m.BuildTab,
     ),
-    status: (view, index) => view.builds.find((b) => b.index === index)?.status ?? null,
   },
   // M18 F5 (FR-24): the Gear tab, `#gear-<index>`.
   {
@@ -54,7 +54,6 @@ export const characterTabs: readonly CharacterTab[] = [
       () => import('../gear/GearTab'),
       (m) => m.GearTab,
     ),
-    status: (view, index) => view.gear?.characters.find((c) => c.index === index)?.status ?? null,
   },
   {
     id: 'cards',
@@ -63,7 +62,6 @@ export const characterTabs: readonly CharacterTab[] = [
       () => import('./cards/CardsPanel'),
       (m) => m.CardsTab,
     ),
-    status: (view, index) => view.cards?.characters.find((c) => c.index === index)?.overview ?? null,
   },
   {
     id: 'signs',
@@ -72,7 +70,6 @@ export const characterTabs: readonly CharacterTab[] = [
       () => import('./signs/SignsTab'),
       (m) => m.SignsTab,
     ),
-    status: signsStatus,
   },
   // M20 F3 (FR-33): the Skills tab, `#skills-<index>`.
   {
@@ -82,9 +79,28 @@ export const characterTabs: readonly CharacterTab[] = [
       () => import('./SkillsTab'),
       (m) => m.SkillsTab,
     ),
-    status: (view, index) => view.skills.find((s) => s.index === index)?.status ?? null,
   },
 ];
+
+/** The tabs that publish health (FR-C7); their functions are in now/tab-health.ts. */
+const HEALTH_TABS: ReadonlySet<string> = new Set(['build', 'gear', 'cards', 'signs', 'skills']);
+
+// The health functions load as their own small chunk, started with this module, so they add nothing
+// to the first load (M12 TR-12, owner budget). The first result arrives after the worker's parse,
+// long after this tiny chunk; until it is in, a tab's health is null (no chip), never a wrong one.
+let table: Readonly<Record<string, NonNullable<CharacterTab['health']>>> | null = null;
+/** Resolves once the health functions are in (tests await it, like `preloadParts`). */
+export const healthReady: Promise<void> = import('./tab-health').then(
+  (m) => {
+    table = m.TAB_HEALTH;
+  },
+  () => undefined,
+);
+
+/** The registered tabs, each with its health where it publishes one. */
+export const characterTabs: readonly CharacterTab[] = TABS.map((t) =>
+  HEALTH_TABS.has(t.id) ? { ...t, health: (view, index) => table?.[t.id]?.(view, index) ?? null } : t,
+);
 
 export const tabById = (id: string): CharacterTab | undefined => characterTabs.find((t) => t.id === id);
 

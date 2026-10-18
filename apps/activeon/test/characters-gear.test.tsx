@@ -81,6 +81,9 @@ describe('the Gear tab', () => {
   it('publishes its tile line on the Characters place', () => {
     window.history.replaceState(null, '', '/#characters');
     renderNow(props(result, save()));
-    expect(screen.getAllByText('2 empty · better gear held').length).toBeGreaterThan(0);
+    // M21 FR-C7: the health matrix's Gear cell, a 44 px link with a glyph and a word with a unit.
+    expect(
+      screen.getAllByRole('link', { name: /, Gear: fix, \d+ better pieces? held$/ }).length,
+    ).toBeGreaterThan(0);
   });
 });

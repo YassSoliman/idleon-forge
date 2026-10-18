@@ -1078,6 +1078,7 @@ entries:
         - alchemy-bubbles.check.wrong-fit
         - talent-presets.check.empty
         - talent-presets.check.incomplete
+        - talent-presets.check.star-empty
         - printer.check.sample-blank
         - construction.check.cog-seat-free
         - worship.check.no-skull
