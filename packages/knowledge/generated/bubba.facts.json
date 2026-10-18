@@ -1,0 +1,615 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bubba",
+        "inputs": [
+          "website-data/shared-data.json#bubbaUpgrades",
+          "website-data/shared-data.json#generalSpelunky",
+          "website-data/shared-data.json#mapPortalDestinations"
+        ]
+      },
+      "id": "bubba.fact.boon",
+      "origin": "generated",
+      "rows": [
+        {
+          "id": 1,
+          "key": "buildRate",
+          "name": "Build Rate",
+          "negative": false,
+          "perStack": 10
+        },
+        {
+          "id": 2,
+          "key": "critterGain",
+          "name": "Critter Gain",
+          "negative": false,
+          "perStack": 5
+        },
+        {
+          "id": 3,
+          "key": "soulGain",
+          "name": "Soul Gain",
+          "negative": false,
+          "perStack": 5
+        },
+        {
+          "id": 4,
+          "key": "totalDamage",
+          "name": "Total Damage",
+          "negative": false,
+          "perStack": 15
+        },
+        {
+          "id": 5,
+          "key": "allKills",
+          "name": "All Kills",
+          "negative": false,
+          "perStack": 1
+        },
+        {
+          "id": 6,
+          "key": "expMulti",
+          "name": "Class EXP",
+          "negative": false,
+          "perStack": 4
+        },
+        {
+          "id": 7,
+          "key": "atomCost",
+          "name": "Atom Cost",
+          "negative": true,
+          "perStack": 3
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: generalSpelunky 33",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "bubba",
+      "title": "Bubba Boon bonuses"
+    },
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bubba",
+        "inputs": [
+          "website-data/shared-data.json#bubbaUpgrades",
+          "website-data/shared-data.json#generalSpelunky",
+          "website-data/shared-data.json#mapPortalDestinations"
+        ]
+      },
+      "id": "bubba.fact.charisma",
+      "origin": "generated",
+      "rows": [
+        {
+          "id": 1,
+          "label": "}x",
+          "name": "Hustle",
+          "perLevel": 10
+        },
+        {
+          "id": 2,
+          "label": "-$% Costs",
+          "name": "Rizz",
+          "perLevel": 2
+        },
+        {
+          "id": 3,
+          "label": "}x Happiness",
+          "name": "Joy",
+          "perLevel": 5
+        },
+        {
+          "id": 4,
+          "label": "+{% Dice luk",
+          "name": "Courage",
+          "perLevel": 1
+        },
+        {
+          "id": 5,
+          "label": "+{% 2x LVs",
+          "name": "Mindful",
+          "perLevel": 0.1
+        },
+        {
+          "id": 6,
+          "label": "+{% Coins",
+          "name": "Savvy",
+          "perLevel": 1
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: generalSpelunky 35-37",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "bubba",
+      "title": "Charisma Chart attributes"
+    },
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bubba",
+        "inputs": [
+          "website-data/shared-data.json#bubbaUpgrades",
+          "website-data/shared-data.json#generalSpelunky",
+          "website-data/shared-data.json#mapPortalDestinations"
+        ]
+      },
+      "id": "bubba.fact.gifts",
+      "origin": "generated",
+      "rows": [
+        {
+          "id": 1,
+          "name": "Beeg Slice",
+          "passive": 100,
+          "passiveText": "}x extra Meat Slice production",
+          "triggerText": "Generates 20 minutes of Meat Slices when triggered."
+        },
+        {
+          "id": 2,
+          "name": "Beach Ball",
+          "passive": 50,
+          "passiveText": "+{% extra happiness for Bubba from all sources",
+          "triggerText": "Gives +200 happiness instantly when triggered"
+        },
+        {
+          "id": 3,
+          "name": "Numbahs",
+          "passive": 150,
+          "passiveText": "}x faster Charisma attribute level up rate",
+          "triggerText": "Instantly gives your selected attribute +1 LV when triggered"
+        },
+        {
+          "id": 4,
+          "name": "Red Die",
+          "passive": 50,
+          "passiveText": "+{% Dice Luck, making low rolls more rare and high rolls less rare",
+          "triggerText": "Rolls the dice when triggered"
+        },
+        {
+          "id": 5,
+          "name": "Slabcakes",
+          "passive": 15,
+          "passiveText": "{% chance for 10x smoked meat",
+          "triggerText": "Smokes you up a new smoked meat when triggered"
+        },
+        {
+          "id": 6,
+          "name": "Surprise Box",
+          "passive": 10,
+          "passiveText": "+{% chance for +1 LV when upgrading which doesn't affect cost",
+          "triggerText": "Gives a random upgrade +2 LV when triggered"
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: generalSpelunky 39-41",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "bubba",
+      "title": "Bubba gifts"
+    },
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bubba",
+        "inputs": [
+          "website-data/shared-data.json#bubbaUpgrades",
+          "website-data/shared-data.json#generalSpelunky",
+          "website-data/shared-data.json#mapPortalDestinations"
+        ]
+      },
+      "id": "bubba.fact.megaflesh",
+      "origin": "generated",
+      "rows": [
+        {
+          "multiplier": false,
+          "name": "Glazed Megaflesh",
+          "row": 1,
+          "text": "+1% Meat Slices produced per total upgrade level. @ Current Bonus:$x"
+        },
+        {
+          "multiplier": true,
+          "name": "Mutton Megaflesh",
+          "row": 2,
+          "text": "Bubba's IdleOn Bonuses are all 1.20x higher"
+        },
+        {
+          "multiplier": false,
+          "name": "Bacon Megaflesh",
+          "row": 3,
+          "text": "You can now select 2 Gifts at the start of each run"
+        },
+        {
+          "multiplier": true,
+          "name": "Pork Megaflesh",
+          "row": 4,
+          "text": "Bubba's IdleOn Bonuses are now all 1.40x higher"
+        },
+        {
+          "multiplier": false,
+          "name": "Sooshi Megaflesh",
+          "row": 5,
+          "text": "+1 Dice rolled, +5 max sides per Dice, and worser rolls are ignored"
+        },
+        {
+          "multiplier": false,
+          "name": "Salmon Megaflesh",
+          "row": 6,
+          "text": "Double tap a Charisma Attribute to emulsify it, making it give 3x bonus"
+        },
+        {
+          "multiplier": true,
+          "name": "Golden Megaflesh",
+          "row": 7,
+          "text": "Bubba's IdleOn Bonuses are now 1.60x higher"
+        },
+        {
+          "multiplier": false,
+          "name": "Beef Megaflesh",
+          "row": 8,
+          "text": "Start each new run with 50 Pats to make Bubba happy!"
+        },
+        {
+          "multiplier": false,
+          "name": "Tenderloin Megaflesh",
+          "row": 9,
+          "text": "You now have a 75% chance to get free meat when upgrading the Smoke Room"
+        },
+        {
+          "multiplier": true,
+          "name": "Sirloin Megaflesh",
+          "row": 10,
+          "text": "Bubba's IdleOn Bonuses are all 1.80x higher"
+        },
+        {
+          "multiplier": false,
+          "name": "Ambiguous Megaflesh",
+          "row": 11,
+          "text": "Your chance to find Dollars, Quarters, and Nickels is now double"
+        },
+        {
+          "multiplier": true,
+          "name": "Chromatic Megaflesh",
+          "row": 12,
+          "text": "Bubba's IdleOn Bonuses are all $x higher"
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: generalSpelunky 38, 42",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "bubba",
+      "title": "Megaflesh tiers"
+    },
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "bubba",
+        "inputs": [
+          "website-data/shared-data.json#bubbaUpgrades",
+          "website-data/shared-data.json#generalSpelunky",
+          "website-data/shared-data.json#mapPortalDestinations"
+        ]
+      },
+      "id": "bubba.fact.upgrades",
+      "origin": "generated",
+      "rows": [
+        {
+          "index": 0,
+          "name": "1st Slice",
+          "persists": false,
+          "rawName": "1st_Slice",
+          "x1": 1,
+          "x2": 1.07,
+          "x3": 1,
+          "x4": 999
+        },
+        {
+          "index": 1,
+          "name": "Happi Boi",
+          "persists": false,
+          "rawName": "Happi_Boi",
+          "x1": 1,
+          "x2": 1.3,
+          "x3": 1,
+          "x4": 999
+        },
+        {
+          "index": 2,
+          "name": "Good Meat",
+          "persists": false,
+          "rawName": "Good_Meat",
+          "x1": 0.6,
+          "x2": 1.07,
+          "x3": 2,
+          "x4": 999
+        },
+        {
+          "index": 3,
+          "name": "Bubba Boon",
+          "persists": true,
+          "rawName": "Bubba_Boon",
+          "x1": 1,
+          "x2": 10,
+          "x3": 1,
+          "x4": 999
+        },
+        {
+          "index": 4,
+          "name": "Bargain",
+          "persists": false,
+          "rawName": "Bargain",
+          "x1": 1,
+          "x2": 1.12,
+          "x3": 1,
+          "x4": 999
+        },
+        {
+          "index": 5,
+          "name": "Buyer Grin",
+          "persists": false,
+          "rawName": "Buyer_Grin",
+          "x1": 1.3,
+          "x2": 1.5,
+          "x3": 1,
+          "x4": 999
+        },
+        {
+          "index": 6,
+          "name": "Charisma",
+          "persists": false,
+          "rawName": "Charisma",
+          "x1": 1,
+          "x2": 1.1,
+          "x3": 5,
+          "x4": 999
+        },
+        {
+          "index": 7,
+          "name": "2nd Slice",
+          "persists": false,
+          "rawName": "2nd_Slice",
+          "x1": 1,
+          "x2": 1.1,
+          "x3": 6,
+          "x4": 999
+        },
+        {
+          "index": 8,
+          "name": "Megaflesh",
+          "persists": true,
+          "rawName": "Megaflesh",
+          "x1": 1.6,
+          "x2": 125,
+          "x3": 1,
+          "x4": 999
+        },
+        {
+          "index": 9,
+          "name": "Fun Gifts",
+          "persists": true,
+          "rawName": "Fun_Gifts",
+          "x1": 0.4,
+          "x2": 3000,
+          "x3": 1,
+          "x4": 6
+        },
+        {
+          "index": 10,
+          "name": "Open Gift",
+          "persists": false,
+          "rawName": "Open_Gift",
+          "x1": 1,
+          "x2": 3,
+          "x3": 1,
+          "x4": 999
+        },
+        {
+          "index": 11,
+          "name": "Great Meat",
+          "persists": false,
+          "rawName": "Great_Meat",
+          "x1": 1,
+          "x2": 1.1,
+          "x3": 8,
+          "x4": 999
+        },
+        {
+          "index": 12,
+          "name": "Dice Roll",
+          "persists": false,
+          "rawName": "Dice_Roll",
+          "x1": 1,
+          "x2": 25,
+          "x3": 1,
+          "x4": 999
+        },
+        {
+          "index": 13,
+          "name": "Super Chart",
+          "persists": false,
+          "rawName": "Super_Chart",
+          "x1": 1,
+          "x2": 1.8,
+          "x3": 1,
+          "x4": 999
+        },
+        {
+          "index": 14,
+          "name": "More Dice",
+          "persists": false,
+          "rawName": "More_Dice",
+          "x1": 1,
+          "x2": 75000,
+          "x3": 1,
+          "x4": 6
+        },
+        {
+          "index": 15,
+          "name": "Smoker",
+          "persists": false,
+          "rawName": "Smoker",
+          "x1": 1,
+          "x2": 1.2,
+          "x3": 1,
+          "x4": 999
+        },
+        {
+          "index": 16,
+          "name": "More Sides",
+          "persists": false,
+          "rawName": "More_Sides",
+          "x1": 1,
+          "x2": 1000,
+          "x3": 1,
+          "x4": 9
+        },
+        {
+          "index": 17,
+          "name": "Uber Gifts",
+          "persists": false,
+          "rawName": "Uber_Gifts",
+          "x1": 1,
+          "x2": 1.6,
+          "x3": 1,
+          "x4": 999
+        },
+        {
+          "index": 18,
+          "name": "Cost Saver",
+          "persists": false,
+          "rawName": "Cost_Saver",
+          "x1": 1,
+          "x2": 1.23,
+          "x3": 2,
+          "x4": 999
+        },
+        {
+          "index": 19,
+          "name": "Best Meat",
+          "persists": false,
+          "rawName": "Best_Meat",
+          "x1": 1,
+          "x2": 1.12,
+          "x3": 25,
+          "x4": 999
+        },
+        {
+          "index": 20,
+          "name": "Real Love",
+          "persists": false,
+          "rawName": "Real_Love",
+          "x1": 1,
+          "x2": 1.5,
+          "x3": 1,
+          "x4": 999
+        },
+        {
+          "index": 21,
+          "name": "Spare Coins",
+          "persists": false,
+          "rawName": "Spare_Coins",
+          "x1": 1,
+          "x2": 1.8,
+          "x3": 1,
+          "x4": 999
+        },
+        {
+          "index": 22,
+          "name": "Loaded Dice",
+          "persists": false,
+          "rawName": "Loaded_Dice",
+          "x1": 1,
+          "x2": 1.3,
+          "x3": 1,
+          "x4": 999
+        },
+        {
+          "index": 23,
+          "name": "3rd Slice",
+          "persists": false,
+          "rawName": "3rd_Slice",
+          "x1": 1,
+          "x2": 1.22,
+          "x3": 50,
+          "x4": 999
+        },
+        {
+          "index": 24,
+          "name": "Crossover",
+          "persists": false,
+          "rawName": "Crossover",
+          "x1": 1,
+          "x2": 1.75,
+          "x3": 5,
+          "x4": 999
+        },
+        {
+          "index": 25,
+          "name": "2X Smoke",
+          "persists": false,
+          "rawName": "2X_Smoke",
+          "x1": 1,
+          "x2": 1.12,
+          "x3": 2,
+          "x4": 999
+        },
+        {
+          "index": 26,
+          "name": "Perma Sale",
+          "persists": false,
+          "rawName": "Perma_Sale",
+          "x1": 1,
+          "x2": 1.3,
+          "x3": 4,
+          "x4": 999
+        },
+        {
+          "index": 27,
+          "name": "Big Ol Coin",
+          "persists": false,
+          "rawName": "Big_Ol_Coin",
+          "x1": 1,
+          "x2": 1.5,
+          "x3": 2,
+          "x4": 999
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: bubbaUpgrades",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "bubba",
+      "title": "Bubba upgrades"
+    }
+  ],
+  "generator": "bubba",
+  "system": "bubba"
+}

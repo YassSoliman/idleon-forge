@@ -1,0 +1,33 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M23 TR-3: where Bubba opens. The game's `Bubbastuff("BubbaUnlocked")` is `KillsLeft2Advance[50][0] <= 0`
+# (N.js served 2026-10-18, `_customBlock_Bubbastuff`): YumYum Grotto's door 0, which leads to map id 100,
+# the World 3 town. The bubba generator fails if Toolbox's mapPortalDestinations[50][0] stops being 100.
+system: bubba
+facts:
+  - id: bubba.fact.unlock
+    system: bubba
+    origin: authored
+    title: Where Bubba opens
+    rows: { map: 50, door: 0, leadsTo: 100 }
+    sources:
+      - { url: "https://steamcommunity.com/app/1476970/discussions/0/690867902968120321/", title: "Steam: where is Bubba which world? (in the Codex on entering W3)", tier: 3, claimDate: 2025-11-24, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Changelog/2025", title: "IdleOn Wiki: Changelog 2025, v1.02 Big Bubba (in your Codex)", tier: 2, claimDate: 2025-11-23, verified: 2026-10-18, gameVersion: 2.3.540 }
+    notes: "Tier 1 provenance is N.js BubbaUnlocked, which no Toolbox permalink carries; the rows are its map and door."
+
+  # M23 FR-14 (Final rulings R-2): the two community Charisma targets, per run (the levels reset at every
+  # Megaflesh). `from` is the first Megaflesh a row applies to; targets are in attribute order (Hustle, Rizz,
+  # Joy, Courage, Mindful, Savvy), 0 for no target. Contested on the first attribute: bubba.priority.charisma.
+  - id: bubba.fact.charisma-targets
+    system: bubba
+    origin: authored
+    title: Charisma Chart community targets
+    rows:
+      - { source: gameslikefinder, name: "gameslikefinder", date: "2026-05-27", from: 1, targets: [45, 15, 15, 0, 0, 0] }
+      - { source: gameslikefinder, name: "gameslikefinder", date: "2026-05-27", from: 4, targets: [120, 120, 0, 0, 0, 0] }
+      - { source: gameslikefinder, name: "gameslikefinder", date: "2026-05-27", from: 6, targets: [80, 100, 30, 0, 120, 0] }
+      - { source: gameslikefinder, name: "gameslikefinder", date: "2026-05-27", from: 9, targets: [80, 100, 30, 0, 120, 20] }
+      - { source: kanumar, name: "Kanumar", date: "2025-12-13", from: 1, targets: [120, 120, 0, 0, 0, 0] }
+    sources:
+      - { url: "https://gameslikefinder.com/article/idleon-bubba-guide/", title: "gameslikefinder: Idleon Bubba Seal Guide (Charisma targets per Megaflesh)", tier: 3, claimDate: 2026-05-27, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://www.youtube.com/watch?v=Tz1ow2H_6aA", title: "Kanumar: Bubba guide, Megaflesh 1-6 (Rizz first, then Hustle, to 120)", tier: 3, claimDate: 2025-12-13, verified: 2026-10-18, gameVersion: 2.3.540 }
+    notes: "gameslikefinder is low trust (tier 3, L). Kanumar's video (the vortexgaming write-up transcribes it) covers Megaflesh 1 to 6 only, so its row ends there."

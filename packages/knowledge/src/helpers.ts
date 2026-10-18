@@ -52,4 +52,5 @@ export function withUnknown(state: AccountState, ...paths: string[]): AccountSta
     },
   };
 }
+export * from './bubba-detectors';
 export * from './purpose-detectors';

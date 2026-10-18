@@ -54,6 +54,18 @@ _Avoid_: tier, rating, grade, placement
 ActiveOn's one ordered list of the Alchemy bubbles that matter for this account's classes and skills, each with a target level for its Stage (a share of the bubble's maximum value); the first one the Water and materials can pay for is the bubble to level next.
 _Avoid_: bubble tier list, bubble priority (bare), bubble build
 
+**Megaflesh**:
+Bubba's full reset; each one is a permanent bonus, and it wipes every Bubba upgrade except Bubba Boon, Megaflesh and Fun Gifts.
+_Avoid_: prestige, rebirth
+
+**Bubba Boon**:
+The Bubba upgrade whose levels add Bubba's seven account bonuses in rotation; it never resets.
+_Avoid_: Ring of Greed (the game's internal name), RoG
+
+**Charisma Chart**:
+Bubba's six trainable attributes; they boost only Bubba and reset at every Megaflesh.
+_Avoid_: stat points, attributes (bare)
+
 **Role**:
 The job the Meta Path assigns a class (e.g. Squire = Construction carry, Wizard = Worship), used to judge Purpose and better-fit suggestions.
 _Avoid_: archetype, specialization
