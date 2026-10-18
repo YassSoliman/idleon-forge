@@ -40,10 +40,15 @@ export function PurposeBlock({ card }: { card: FocusCard }) {
     <section aria-label="Purpose" className="purpose">
       <h3 className="section-h">Purpose</h3>
       <div className={`quest${head.worthwhile ? '' : ' quiet'}`}>
-        <p className="quest-line">
-          {head.text}
-          {head.detail ? <span className="small muted"> ({head.detail})</span> : null}
-        </p>
+        {head.echoesGoal ? (
+          // The first Goal below says this line already: show it once, keep the bar and the ladder.
+          <p className="sr-only">{head.text}</p>
+        ) : (
+          <p className="quest-line">
+            {head.text}
+            {head.detail ? <span className="small muted"> ({head.detail})</span> : null}
+          </p>
+        )}
         {fill !== null ? (
           <div
             className="quest-bar"
@@ -63,9 +68,11 @@ export function PurposeBlock({ card }: { card: FocusCard }) {
             ))}
           </ol>
         ) : null}
-        <p className="small">
-          {head.source ? <SourceLabel source={head.source} more={false} /> : null} {report(head)}
-        </p>
+        {head.echoesGoal ? null : (
+          <p className="small">
+            {head.source ? <SourceLabel source={head.source} more={false} /> : null} {report(head)}
+          </p>
+        )}
       </div>
       {shown.length > 0 ? (
         <ul>

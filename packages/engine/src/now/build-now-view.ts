@@ -184,6 +184,17 @@ function actionView(
 export const PURPOSE_SHOWN = 3;
 
 /** M4 → the Focus card's Purpose block (Design Lab: a Quest line with a short ladder). */
+/** The Purpose ladder a Goal also states: M2's portal push is M4's portal line (M4 US-6). */
+const ECHOES: Record<string, string> = { 'metapath.goal.push': 'portals.goal.map-' };
+
+/** Marks the headline that repeats the card's first Goal, so the Goal shows once (QA R7). */
+export function markEcho(items: PurposeItemView[], firstGoalId: string | null): PurposeItemView[] {
+  const prefix = firstGoalId ? ECHOES[firstGoalId] : undefined;
+  const head = items[0];
+  if (!prefix || !head || !head.worthwhile || !head.goalId.startsWith(prefix)) return items;
+  return [{ ...head, echoesGoal: true }, ...items.slice(1)];
+}
+
 export function purposeItems(c: Pick<CharacterResult, 'purpose'>): PurposeItemView[] {
   return c.purpose.map((l, i) => {
     const base = l.text ?? (l.milestone ? milestoneText(l.milestone) : l.title);
@@ -579,7 +590,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
             skipped: p.unknownSkipped,
           }
         : null,
-      purpose: purposeItems(c),
+      purpose: markEcho(purposeItems(c), p.shown[0]?.id ?? null),
       purposeStatus: c.purposeStatus ?? null,
       goals: p.shown.map(goalView),
       hiddenCount: p.hidden,

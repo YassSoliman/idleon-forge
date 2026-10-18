@@ -232,6 +232,11 @@ export interface PurposeItemView {
   ladder: LadderStepView[];
   /** Behind "show more" (FR-11: the top 3 show). */
   more: boolean;
+  /**
+   * Only on the headline: it says what the card's first Goal already says (the portal push), so the UI
+   * shows the Goal once and keeps only the bar and the ladder here.
+   */
+  echoesGoal?: boolean;
 }
 
 export interface ActivePlayView {
