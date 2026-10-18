@@ -1,0 +1,137 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M16 Star Signs and constellations (docs/specs/M16-star-signs.md TR-3): authored game facts, read from the
+# game client N.js (2026-10-17, game 2.3.540) and cross-checked against Toolbox's constellations and
+# starSigns at the pin by packages/kb-tools/test/star-signs-facts.test.ts. Re-verify on every major patch.
+system: star-signs
+facts:
+  - id: star-signs.fact.constellations
+    system: star-signs
+    origin: authored
+    title: W1 to W3 constellations
+    notes: "N.js na.StarQuests rows [map, x, y, min, max, players, points, text, type]; type 0 reach (min/max class index), 1 level (min), 3 AFK hours (min), 4 game event. kind and enter are ours: task or challenge for type 4 (spec FR-6), enter = boss key item or colosseum tickets (ColosseumInfo[n][3], V7). CI: mapIndex, players, points and requirement equal Toolbox constellations."
+    rows:
+      constellations:
+        - {"name": "A-1", "rawIndex": 0, "mapIndex": 0, "world": 1, "type": 1, "min": 30, "max": 99, "players": 4, "points": 3, "requirement": "Reach_Lv_30_on_four_players", "kind": "level", "anchor": "A-1"}
+        - {"name": "A-2", "rawIndex": 1, "mapIndex": 31, "world": 1, "type": 3, "min": 1, "max": 99, "players": 1, "points": 3, "requirement": "AFK_here_for_1+_hours.", "kind": "afk", "anchor": "A-2"}
+        - {"name": "A-3", "rawIndex": 2, "mapIndex": 14, "world": 1, "type": 0, "min": 0, "max": 99, "players": 4, "points": 3, "requirement": "Reach_this_star_on_4_players", "kind": "visit", "anchor": "A-3"}
+        - {"name": "A-4", "rawIndex": 3, "mapIndex": 28, "world": 1, "type": 0, "min": 0, "max": 99, "players": 3, "points": 4, "requirement": "Reach_this_star_on_3_players", "kind": "visit", "anchor": "A-4"}
+        - {"name": "A-5", "rawIndex": 4, "mapIndex": 9, "world": 1, "type": 4, "min": 0, "max": 99, "players": 3, "points": 5, "requirement": "Defeat_Dr._Defecaus_on_3_players", "kind": "challenge", "anchor": "A-5"}
+        - {"name": "A-6", "rawIndex": 5, "mapIndex": 7, "world": 1, "type": 0, "min": 18, "max": 30, "players": 1, "points": 3, "requirement": "Reach_this_star_as_any_Archer_Class", "kind": "visit", "anchor": "A-6"}
+        - {"name": "A-7", "rawIndex": 6, "mapIndex": 19, "world": 1, "type": 3, "min": 2, "max": 99, "players": 2, "points": 3, "requirement": "AFK_here_for_2+_hours_on_2_players", "kind": "afk", "anchor": "A-7"}
+        - {"name": "A-8", "rawIndex": 7, "mapIndex": 36, "world": 1, "type": 4, "min": 0, "max": 99, "players": 3, "points": 4, "requirement": "Clear_the_colosseum_on_3_players", "kind": "challenge", "enter": {"ticket": 1}, "anchor": "A-8"}
+        - {"name": "A-9", "rawIndex": 8, "mapIndex": 29, "world": 1, "type": 4, "min": 20, "max": 99, "players": 3, "points": 5, "requirement": "Defeat_Amarok_in_under_20_seconds_on_3_players", "kind": "challenge", "enter": {"key": "Key1", "arena": 29}, "anchor": "A-9"}
+        - {"name": "A-10", "rawIndex": 9, "mapIndex": 11, "world": 1, "type": 0, "min": 31, "max": 43, "players": 1, "points": 4, "requirement": "Reach_this_star_as_any_Mage_Class", "kind": "visit", "anchor": "A-10"}
+        - {"name": "B-1", "rawIndex": 12, "mapIndex": 52, "world": 2, "type": 0, "min": 0, "max": 99, "players": 3, "points": 4, "requirement": "Reach_this_star_on_3_players", "kind": "visit", "anchor": "B-1"}
+        - {"name": "B-2", "rawIndex": 13, "mapIndex": 55, "world": 2, "type": 0, "min": 31, "max": 43, "players": 1, "points": 4, "requirement": "Reach_this_star_as_any_Mage_Class", "kind": "visit", "anchor": "B-2"}
+        - {"name": "B-3", "rawIndex": 14, "mapIndex": 57, "world": 2, "type": 3, "min": 4, "max": 99, "players": 3, "points": 4, "requirement": "AFK_here_for_4+_hours_on_3_players", "kind": "afk", "anchor": "B-3"}
+        - {"name": "B-4", "rawIndex": 15, "mapIndex": 60, "world": 2, "type": 0, "min": 0, "max": 99, "players": 4, "points": 5, "requirement": "Reach_this_star_on_4_players", "kind": "visit", "anchor": "B-4"}
+        - {"name": "B-5", "rawIndex": 16, "mapIndex": 68, "world": 2, "type": 4, "min": 0, "max": 99, "players": 4, "points": 3, "requirement": "Clear_the_colosseum_on_4_players", "kind": "challenge", "enter": {"ticket": 2}, "anchor": "B-5"}
+        - {"name": "B-6", "rawIndex": 17, "mapIndex": 66, "world": 2, "type": 4, "min": 0, "max": 99, "players": 1, "points": 5, "requirement": "Defeat_Efaunt_as_any_Beginner_Class", "kind": "challenge", "enter": {"key": "Key2", "arena": 66}, "anchor": "B-6"}
+        - {"name": "B-7", "rawIndex": 18, "mapIndex": 63, "world": 2, "type": 3, "min": 8, "max": 99, "players": 3, "points": 3, "requirement": "AFK_here_for_8+_hours_on_3_players", "kind": "afk", "anchor": "B-7"}
+        - {"name": "B-8", "rawIndex": 19, "mapIndex": 50, "world": 2, "type": 1, "min": 65, "max": 99, "players": 4, "points": 4, "requirement": "Reach_Lv_65_on_four_players", "kind": "level", "anchor": "B-8"}
+        - {"name": "C-1", "rawIndex": 23, "mapIndex": 100, "world": 3, "type": 1, "min": 90, "max": 99, "players": 6, "points": 6, "requirement": "Reach_Lv_90_on_6_players", "kind": "level", "anchor": "C-1"}
+        - {"name": "C-2", "rawIndex": 24, "mapIndex": 101, "world": 3, "type": 4, "min": 0, "max": 99, "players": 4, "points": 4, "requirement": "Defeat_a_sheepie_barehanded_on_four_players", "kind": "task", "anchor": "C-2"}
+        - {"name": "C-3", "rawIndex": 25, "mapIndex": 102, "world": 3, "type": 4, "min": 0, "max": 99, "players": 5, "points": 4, "requirement": "Reach_Lv_15_trapping_on_five_players", "kind": "task", "anchor": "C-3"}
+        - {"name": "C-4", "rawIndex": 26, "mapIndex": 105, "world": 3, "type": 3, "min": 16, "max": 99, "players": 3, "points": 4, "requirement": "AFK_for_16+_hrs_on_3_players", "kind": "afk", "anchor": "C-4"}
+        - {"name": "C-5", "rawIndex": 27, "mapIndex": 107, "world": 3, "type": 4, "min": 11, "max": 99, "players": 4, "points": 5, "requirement": "Reach_wave_11_on_4_players", "kind": "challenge", "anchor": "C-5"}
+        - {"name": "C-6", "rawIndex": 28, "mapIndex": 109, "world": 3, "type": 3, "min": 10, "max": 99, "players": 9, "points": 5, "requirement": "AFK_for_10+_hrs_on_9_players", "kind": "afk", "anchor": "C-6"}
+        - {"name": "C-7", "rawIndex": 29, "mapIndex": 113, "world": 3, "type": 0, "min": 0, "max": 99, "players": 6, "points": 6, "requirement": "Reach_this_star_on_6_players", "kind": "visit", "anchor": "C-7"}
+        - {"name": "C-8", "rawIndex": 30, "mapIndex": 117, "world": 3, "type": 4, "min": 0, "max": 99, "players": 4, "points": 5, "requirement": "Kill_a_bloodbone_on_4_players", "kind": "task", "anchor": "C-8"}
+    sources:
+      - { url: "https://idleon.wiki/wiki/Star_Signs", title: "IdleOn Wiki: Star Signs (constellations, the three charts, sign costs, slots)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+
+  - id: star-signs.fact.chart
+    system: star-signs
+    origin: authored
+    title: Star Chart nodes 0 to 63 (Chronus and Hydron)
+    notes: "N.js SSignInfoUI rows [sign, x, y, parentRow, cost]; a sign unlocks only when its parent node is unlocked and the unspent points (OptLacc[40]) cover its cost (@7552743, @7681006). CI: sign, cost and chart equal Toolbox starSigns."
+    rows:
+      nodes:
+        - {"node": 0, "id": 0, "sign": "The_Buff_Guy", "parent": null, "cost": 0, "chart": "chronus"}
+        - {"node": 1, "id": 1, "sign": "Flexo_Bendo", "parent": "The_Buff_Guy", "cost": 0, "chart": "chronus"}
+        - {"node": 2, "id": 2, "sign": "The_Book_Worm", "parent": "The_Buff_Guy", "cost": 0, "chart": "chronus"}
+        - {"node": 3, "id": 3, "sign": "The_Fuzzy_Dice", "parent": "The_Buff_Guy", "cost": 0, "chart": "chronus"}
+        - {"node": 4, "id": 4, "sign": "Dwarfo_Beardus", "parent": "The_Buff_Guy", "cost": 2, "chart": "chronus"}
+        - {"node": 5, "id": 5, "sign": "Hipster_Logger", "parent": "Dwarfo_Beardus", "cost": 2, "chart": "chronus"}
+        - {"node": 6, "id": 7, "sign": "Shoe_Fly", "parent": "Hipster_Logger", "cost": 2, "chart": "chronus"}
+        - {"node": 7, "id": 6, "sign": "Pie_Seas", "parent": "Hipster_Logger", "cost": 2, "chart": "chronus"}
+        - {"node": 8, "id": 21, "sign": "Miniature_Game", "parent": "Pie_Seas", "cost": 2, "chart": "chronus"}
+        - {"node": 9, "id": 11, "sign": "Pack_Mule", "parent": "Hipster_Logger", "cost": 2, "chart": "chronus"}
+        - {"node": 10, "id": 14, "sign": "Pirate_Booty", "parent": "Pack_Mule", "cost": 2, "chart": "chronus"}
+        - {"node": 11, "id": 31, "sign": "All_Rounder", "parent": "Pirate_Booty", "cost": 2, "chart": "chronus"}
+        - {"node": 12, "id": 15, "sign": "Muscle_Man", "parent": "All_Rounder", "cost": 1, "chart": "chronus"}
+        - {"node": 13, "id": 16, "sign": "Fast_Frog", "parent": "All_Rounder", "cost": 1, "chart": "chronus"}
+        - {"node": 14, "id": 17, "sign": "Smart_Stooge", "parent": "All_Rounder", "cost": 1, "chart": "chronus"}
+        - {"node": 15, "id": 18, "sign": "Lucky_Larry", "parent": "All_Rounder", "cost": 1, "chart": "chronus"}
+        - {"node": 16, "id": 32, "sign": "Fatty_Doodoo", "parent": "All_Rounder", "cost": 2, "chart": "chronus"}
+        - {"node": 17, "id": 13, "sign": "Robinhood", "parent": "Fatty_Doodoo", "cost": 2, "chart": "chronus"}
+        - {"node": 18, "id": 8, "sign": "Blue_Hedgehog", "parent": "Robinhood", "cost": 3, "chart": "chronus"}
+        - {"node": 19, "id": 12, "sign": "Ned_Kelly", "parent": "Robinhood", "cost": 2, "chart": "chronus"}
+        - {"node": 20, "id": 27, "sign": "The_Fallen_Titan", "parent": "Ned_Kelly", "cost": 2, "chart": "chronus"}
+        - {"node": 21, "id": 33, "sign": "Chronus_Cosmos", "parent": "Ned_Kelly", "cost": 3, "chart": "chronus"}
+        - {"node": 22, "id": 10, "sign": "Activelius", "parent": "Chronus_Cosmos", "cost": 2, "chart": "chronus"}
+        - {"node": 23, "id": 9, "sign": "Gum_Drop", "parent": "Activelius", "cost": 2, "chart": "chronus"}
+        - {"node": 24, "id": 22, "sign": "Mount_Eaterest", "parent": "Activelius", "cost": 2, "chart": "chronus"}
+        - {"node": 25, "id": 23, "sign": "Bob_Build_Guy", "parent": "Mount_Eaterest", "cost": 3, "chart": "chronus"}
+        - {"node": 26, "id": 20, "sign": "The_Big_Comatose", "parent": "Bob_Build_Guy", "cost": 3, "chart": "chronus"}
+        - {"node": 27, "id": 30, "sign": "Sir_Savvy", "parent": "The_Big_Comatose", "cost": 3, "chart": "chronus"}
+        - {"node": 28, "id": 19, "sign": "Silly_Snoozer", "parent": "The_Big_Comatose", "cost": 3, "chart": "chronus"}
+        - {"node": 29, "id": 24, "sign": "The_Big_Brain", "parent": "Silly_Snoozer", "cost": 3, "chart": "chronus"}
+        - {"node": 30, "id": 26, "sign": "Grim_Reaper", "parent": "Silly_Snoozer", "cost": 4, "chart": "chronus"}
+        - {"node": 31, "id": 28, "sign": "The_Forsaken", "parent": "Grim_Reaper", "cost": 4, "chart": "chronus"}
+        - {"node": 32, "id": 25, "sign": "The_OG_Skiller", "parent": "Grim_Reaper", "cost": 4, "chart": "chronus"}
+        - {"node": 33, "id": 29, "sign": "Mr_No_Sleep", "parent": "The_OG_Skiller", "cost": 4, "chart": "chronus"}
+        - {"node": 34, "id": 34, "sign": "All_Rounderi", "parent": "The_Buff_Guy", "cost": 1, "chart": "hydron"}
+        - {"node": 35, "id": 35, "sign": "Centaurii", "parent": "All_Rounderi", "cost": 1, "chart": "hydron"}
+        - {"node": 36, "id": 36, "sign": "Murmollio", "parent": "Centaurii", "cost": 2, "chart": "hydron"}
+        - {"node": 37, "id": 37, "sign": "Strandissi", "parent": "Murmollio", "cost": 2, "chart": "hydron"}
+        - {"node": 38, "id": 38, "sign": "Agitagi", "parent": "Strandissi", "cost": 2, "chart": "hydron"}
+        - {"node": 39, "id": 39, "sign": "Wispommo", "parent": "Strandissi", "cost": 2, "chart": "hydron"}
+        - {"node": 40, "id": 40, "sign": "Lukiris", "parent": "Wispommo", "cost": 2, "chart": "hydron"}
+        - {"node": 41, "id": 41, "sign": "Pokaminni", "parent": "Wispommo", "cost": 2, "chart": "hydron"}
+        - {"node": 42, "id": 42, "sign": "Gor_Bowzor", "parent": "Pokaminni", "cost": 2, "chart": "hydron"}
+        - {"node": 43, "id": 43, "sign": "Hydron_Cosmos", "parent": "Gor_Bowzor", "cost": 2, "chart": "hydron"}
+        - {"node": 44, "id": 44, "sign": "Trapezoidburg", "parent": "Hydron_Cosmos", "cost": 3, "chart": "hydron"}
+        - {"node": 45, "id": 45, "sign": "Sawsaw_Salala", "parent": "Hydron_Cosmos", "cost": 3, "chart": "hydron"}
+        - {"node": 46, "id": 46, "sign": "Preys_Bea", "parent": "Sawsaw_Salala", "cost": 3, "chart": "hydron"}
+        - {"node": 47, "id": 47, "sign": "Cullingo", "parent": "Sawsaw_Salala", "cost": 3, "chart": "hydron"}
+        - {"node": 48, "id": 48, "sign": "Gum_Drop_Major", "parent": "Cullingo", "cost": 3, "chart": "hydron"}
+        - {"node": 49, "id": 49, "sign": "Grim_Reaper_Major", "parent": "Cullingo", "cost": 3, "chart": "hydron"}
+        - {"node": 50, "id": 50, "sign": "Sir_Savvy_Major", "parent": "Grim_Reaper_Major", "cost": 4, "chart": "hydron"}
+        - {"node": 51, "id": 51, "sign": "The_Bulwark", "parent": "Sir_Savvy_Major", "cost": 4, "chart": "hydron"}
+        - {"node": 52, "id": 52, "sign": "Big_Brain_Major", "parent": "The_Bulwark", "cost": 4, "chart": "hydron"}
+        - {"node": 53, "id": 53, "sign": "The_Fiesty", "parent": "Big_Brain_Major", "cost": 5, "chart": "hydron"}
+        - {"node": 54, "id": 54, "sign": "The_Overachiever", "parent": "The_Fiesty", "cost": 5, "chart": "hydron"}
+        - {"node": 55, "id": 55, "sign": "Comatose_Major", "parent": "The_Fiesty", "cost": 5, "chart": "hydron"}
+        - {"node": 56, "id": 56, "sign": "S._Snoozer_Major", "parent": "Comatose_Major", "cost": 5, "chart": "hydron"}
+        - {"node": 57, "id": 57, "sign": "Breedabilli", "parent": "S._Snoozer_Major", "cost": 4, "chart": "hydron"}
+        - {"node": 58, "id": 58, "sign": "Gordonius_Major", "parent": "Breedabilli", "cost": 4, "chart": "hydron"}
+        - {"node": 59, "id": 59, "sign": "Power_Bowower", "parent": "Gordonius_Major", "cost": 4, "chart": "hydron"}
+        - {"node": 60, "id": 60, "sign": "Scienscion", "parent": "Gordonius_Major", "cost": 4, "chart": "hydron"}
+        - {"node": 61, "id": 61, "sign": "Artifosho", "parent": "Scienscion", "cost": 4, "chart": "hydron"}
+        - {"node": 62, "id": 62, "sign": "Divividov", "parent": "Artifosho", "cost": 4, "chart": "hydron"}
+        - {"node": 63, "id": 63, "sign": "C._Shanti_Minor", "parent": "Divividov", "cost": 4, "chart": "hydron"}
+    sources:
+      - { url: "https://idleon.wiki/wiki/Star_Signs", title: "IdleOn Wiki: Star Signs (constellations, the three charts, sign costs, slots)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+
+  - id: star-signs.fact.rules
+    system: star-signs
+    origin: authored
+    title: Star sign rules (charts, slots, Telescope, candies)
+    notes: "Hydron chart above 23 and Seraph above 57 unlocked nodes among rows 0-63, node 0 always counts (N.js @7554573, @7735821). Slots 1, +1 per Cosmos (Toolbox starSignsAlerts). Alignment only on map 31 at the Telescope (@5315002). Telescope4 is an AccountWideQuests entry: the hand-in sets every other character's dialogue to 9999 (@6172997), and NewCharStuffs gives it to characters made later (@19908843, V9). A candy is refused for Lab, Cooking or no AFK Target (@8201286) and credits the current map (@5580046)."
+    rows:
+      chartGates: { hydron: 24, seraph: 58, countedNodes: 64 }
+      cosmos: [{ sign: Chronus_Cosmos, slots: 2 }, { sign: Hydron_Cosmos, slots: 3 }]
+      starters: [The_Fuzzy_Dice, The_Buff_Guy, The_Book_Worm, Flexo_Bendo]
+      telescope: { mapIndex: 31, npc: Telescope, questKey: "1", bagSlots: 2, rewards: { Timecandy2: 2, Timecandy3: 2 } }
+      route:
+        - { mapIndex: 16, door: 1 }
+        - { mapIndex: 13, door: 0 }
+        - { mapIndex: 18, door: 0 }
+      candies: [{ rawName: Timecandy1, hours: 1 }, { rawName: Timecandy2, hours: 2 }, { rawName: Timecandy3, hours: 4 }]
+      noCandy: [LABORATORY, COOKING, Nothing]
+      keys: { Key1: Forest_Villa_Key, Key2: "Efaunt's_Tomb_Key" }
+      classLines: { archer: { min: 18, max: 30 }, mage: { min: 31, max: 43 }, beginner: { min: 0, max: 4 } }
+    sources:
+      - { url: "https://idleon.wiki/wiki/Star_Signs", title: "IdleOn Wiki: Star Signs (constellations, the three charts, sign costs, slots)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Telescope", title: "IdleOn Wiki: Telescope (Where the Branches End; the quest I'm Seeing Stars!)", tier: 2, claimDate: 2026-09-27, verified: 2026-10-18, gameVersion: 2.3.540 }
