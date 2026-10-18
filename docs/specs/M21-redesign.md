@@ -14,10 +14,10 @@
 
 **Inputs.**
 - The Design Lab, private (2026-10-18): `brief.md` (12 principles P1–P12), `tokens.css` (three directions), `critique.md` + `critique.json` (v1: 53 components, 146 variants) and `v2/critique.md` + `v2/critique.json` (v2 System views: 32 components, 106 variants), `inventory.json` and `v2/inventory.json`, `parts/` and `v2/parts/` (each component's HTML, CSS and JS) and `art/` (213 of our own pixel-art SVGs). That is 85 components and 252 variants in all. Phase F copies it to two places (TR-1): the data-free parts go into the repo, and the renders, which embed scrubbed save data, go to a local private folder.
-- The app at `origin/main` `93a01eb` (M19 merged) plus open PR #116 (M18 Gear & Tools, with the `lazyPart` lazy-chunk pattern). This spec assumes #116 merges first (§9, step 0).
+- The app at `origin/main` `6dfaefc`, with M19 and M18 Gear & Tools merged (PR #116, which brought the `lazyPart` lazy-chunk pattern).
 - The M9 Build view (M9 "Build view"), M17 views, M18, M19 and M20 specs. Research for the Star Talents (§5.3, Sources).
 
-**How to read.** §3 is the design system as testable rules. §4 is the gap audit: every Design Lab component with what gets built, then every current app component with its design, and the components that had no design, with their design specified here. §5 holds the functional requirements by area, §6 the user stories, §7 the technical requirements, §8 states and edge cases, §9 the phase plan with file boundaries and effort. §11 lists the self-ruled decisions and the **Owner review** (at most five questions). §12 is our own adversarial pass; §13 the independent red-team log.
+**How to read.** §3 is the design system as testable rules. §4 is the gap audit: every Design Lab component with what gets built, then every current app component with its design, and the components that had no design, with their design specified here. §5 holds the functional requirements by area, §6 the user stories, §7 the technical requirements, §8 states and edge cases, §9 the phase plan with file boundaries and effort. §11 lists the self-ruled decisions and the **Owner review** (at most five questions). §12 is our own adversarial pass; §13 the independent red-team log (0 P0, 8 P1, 16 P2, 9 P3; 31 fixed, 2 fixed in part).
 
 ## 1. Purpose
 
@@ -81,10 +81,10 @@ The twelve Design Lab principles are requirements here. Each rule below has a te
 ### 3.3 Directions and tokens
 
 - **Field Guide is the base** of the whole app (critique "Recommended direction"): warm paper by day, ink-blue slate by night. It has one coin-amber accent, teal for Ready and brick for Fix. Body, labels and why text are set in Atkinson Hyperlegible Next, numbers in JetBrains Mono (tabular), and the wordmark and section heads in Pixelify Sans. The radius is 12 px.
-- **Quest Log accents**, scoped to these components only: the **NPC why** (our scout-hat guide blob and a navy speech box inside the why sheet), **pixel display headings** (Pixelify Sans 600–700 at 16 px and up for place and section headings), the **hero counter numeral** (Jersey 15 at 40 px), and **celebrations** (the parchment palette and pixel frame on the All set card, the Walkthrough-finished cheer, the campfire). They apply through `data-direction="quest"` on those subtrees, which picks up Quest Log's tokens there and nowhere else.
+- **Quest Log accents**, scoped to these components only, as the critique lists them: the **NPC why** (our scout-hat guide blob and a navy speech box inside the why sheet), **pixel display headings** (Pixelify Sans 600–700 at 16 px and up for place and section headings), and **celebrations** (the parchment palette and pixel frame on the All set card, the Walkthrough-finished cheer, the campfire). They apply through `data-direction="quest"` on those subtrees, which picks up Quest Log's tokens there and nowhere else.
 - **Command Board as the desktop power layout.** From 1000 px up, the components that have a Command Board layout use it (§4.1 "Also built"). That means lanes, the heat strip, the ledger, the two-column log-off list, the world strip, side panels and the split System page frame. They keep **Field Guide's colours and fonts** and take only Command Board's density and layout tokens (`--row-height: 40px`, `--lane-height`, `--axis-hour`, `--density: 0.75`). The critique says it plainly: "a layout, not a third skin".
 - **All three token sets live in code** (`apps/activeon/src/design/tokens.css`), each scoped by `[data-direction]` with light and dark values. Each is contrast-tested in CI (TR-15). The root carries `data-direction="field"`.
-- **Theme.** The app follows the system theme by default. Settings offers System / Light / Dark, which sets `data-theme` on the root, in the Lab's `:root[data-theme]` pattern.
+- **Theme.** The app follows the system theme by default. Settings offers System / Light / Dark, which sets `data-theme` on the root, in the Lab's `:root[data-theme]` pattern. The Lab's per-frame `data-mode` attribute was only for side-by-side demos and isn't ported.
 - **Direction switch: not now** (D-1). A dev-only `?direction=quest|board` query parameter exists for QA screenshots. It is read once, never stored, and never shown.
 
 ## 4. Gap audit
@@ -101,7 +101,7 @@ The **Built** column names the variant the app implements: **P** is the pick, **
 | `now.stage-badge` | P World crest | "World 3 · early" as a crest chip. One tap opens a sheet with the next Stage's steps (`stage.needs`), whose rows are 44 px tall (the note: checkbox rows under 44 px). | "Progress as pips", as the Command Board micro badge from 1000 px | N |
 | `now.return-chips` | P Learned default, no picker | One line: "Back in about 8h · Change". Add the consequence sentence from "Chips with consequence": "Plans for 8h away · the anvil on Bowman 60 fills first, in 3h 40m". Change opens a sheet with the chips as a radio group. | "Clock time, set once", as a Settings preference | N |
 | `now.verdict-banner` | P Counter that reaches zero | "2 fixes before you leave": a big number plus the sentence, with the first fix inline as a button row (who · where · fix). Fix times show **only when the Knowledge Base has a real `fixSeconds`** for that Check; otherwise the time token is hidden (DS-3, DS-23). At zero it reads "All set: safe to log off", with the campfire and the first fill time. | Its stale state uses the "Stale-first wording" ("Your save is 8h 28m old: press Cloud Save, then check again", with the verdict demoted to "last known: 2 fixes"). "Tappable segments" is the pager's dots | N |
-| `now.roster` | P Grouped jobs on top | A "Same job on N characters" card collapses each repeated summary, and rows show a small marker instead of the sentence. Fix the name repeated in the action (DS-17). | "Needs a fix first, ready folded": Ready rows fold into one line of glyphs ("4 ready") when there are 6 or more characters. "Lanes" is the Command Board roster from 1000 px. "Portrait grid" is not built (Characters has the health matrix) | N |
+| `now.roster` | P Grouped jobs on top | A "Same job on N characters" card collapses each repeated summary, and rows show a small marker instead of the sentence. Fix the name repeated in the action (DS-17). | "Needs a fix first, ready folded": Ready rows fold into one line of glyphs ("4 ready") when there are 6 or more characters. "Lanes" is the Command Board roster from 1000 px. "Portrait grid" (a Command Board overview idea) is archived: Characters' health matrix answers the same question | N |
 | `now.roster-row` | P Three-token line | Line 1: who (WhoGlyph + "Bowman 60"), where (pin + map), how long. Line 2: the verb. The class glyph and the map glyph must differ (DS-13). The fix time follows the verdict-banner rule. | "Pill-free row with a cap count", as the 320 px layout ("2 full" coin stack) | N |
 | `now.verdict-pill` | P Glyph stamp | Glyph plus word (✓ Ready, wrench Fix, ? Unknown, Zz Skipped). Long form only in Focus. No 8 px pixel caps: the stamp word is Atkinson 12 px bold. | — | F (atom), N |
 | `now.cap-pills` | P Optional tag | Caps on a Ready row read "optional". Merge with "Account-level cap finding": at 3+ characters, one roster-level finding ("Anvil full on 6 · collect") that is also a filter, and rows show a marker only. | "Urgency + kind + verb" grammar (DS-5) as the pill anatomy | F (atom), N |
@@ -112,15 +112,15 @@ The **Built** column names the variant the app implements: **P** is the pick, **
 | `now.focus-purpose` | P Quest line | "Push World 3 · 19 of 15k kills · in 14h 04m" (DS-6, DS-19). | — | N |
 | `now.focus-unknown` | P Hidden from the count | Unknown characters don't block All set and sit in their own fold. | "Magnifier note": the fold's line with "Suggest this" prefilled | N |
 | `now.focus-better-fit` | P Quiet hint | A muted line under the step, shown only when M5 computes a real option (it does: `higherLeverage`). | "Will give you" stays text in the why sheet until M5 gives numbers (DS-23) | N |
-| `now.focus-footer` | P Primary next | One big "Next: Barbarian 56 · 1 fix" button. | "Auto-advance prompt": when the save shows the fix done, the button pulses once and says "Done · next: …". "Session recap": Done this session, as a fold (real `done[]`) | N |
+| `now.focus-footer` | P Primary next | One big "Next: Barbarian 56 · 1 fix" button. | "Auto-advance prompt": when the save shows the fix done, the button pulses once and says "Done · next: …". "Session recap": Done this session, as a fold built from the real `done[]`, hidden when it is empty (the critique: the exports' `done[]` was empty and the Lab's lines were invented) | N |
 | `now.info-lines` | P Fold into caps | Info lines become the "soon" state of the cap pills; one place for caps. | — | N |
-| `now.class-portrait` | P Family set | The five family chibis (beginner, journeyman, warrior, archer, mage) on the blob ramp. Subclass letter badges are drawn at 12 px and **only where the glyph appears without its class word** (map markers, lane heads, glyph chips); otherwise they are dropped. | world tint on the chibi's frame (`--w1`…`--w7`) | F |
+| `now.class-portrait` | P Family set | The five family chibis (beginner, journeyman, warrior, archer, mage) on the blob ramp. Subclass letter badges are drawn at 12 px and **only where the glyph appears without its class word** (map markers, lane heads, glyph chips); otherwise they are dropped. | world tint on the chibi's frame (`--w1`…`--w7`). "Letter tile" (Command Board density) is archived; "Hat-swap blob" is the runner-up, archived | F |
 
 **Cards (v1 group `cards`)**
 
 | Lab component | Built | Apply | Also built | Area |
 |---|---|---|---|---|
-| `cards.goal-card` | P Action-only card | One sentence plus the three tokens, so five Goals fit on a phone. The why sits behind a tap on the card, not a "Why?" button on every face. | the kind as a 4 px left rule plus a small word ("Fix", "Grow"), from the Field Guide treatment | N |
+| `cards.goal-card` | P Action-only card | One sentence plus the three tokens, so five Goals fit on a phone. The why sits behind a tap on the card, not a "Why?" button on every face. | the kind as a 4 px left rule plus a small word ("Fix", "Grow"), from the brief's Field Guide goal-card treatment (brief §3.2, not a separate variant) | N |
 | `cards.why-sheet` | P Bottom sheet, delta first | Opens on what you get ("will give you …", only when the entry has it), then who and where, the why, and the Sources. **Merged with "NPC speech"** (the Quest Log accent): the why paragraph is spoken by our guide blob in the navy speech box. The overflow (•••, 44 px) holds Report this and Not for me (hold to confirm). Desktop: a side panel. | "Inline expand, one level", as the desktop popover from 1000 px | N |
 | `cards.source-label` | P Verified date | "IdleOn Wiki · checked 17 Oct", not the patch number. "+2 more" is a 44 px chip. | "One human line" as the label text | N |
 | `cards.contested` | P Badge only | A "sources disagree" badge; both sides wait in the why sheet. | "Split card" layout inside the why sheet | N |
@@ -143,7 +143,7 @@ The **Built** column names the variant the app implements: **P** is the pick, **
 
 | Lab component | Built | Apply | Also built | Area |
 |---|---|---|---|---|
-| `flows.sign-in` | P Out of the way | Sign-in never sits above advice; a pasted save works meanwhile. Signed in, it lives in the header overflow menu. | "Code card" as the device-code state (the Sign out chip is 44 px); "Guide NPC onboarding" is archived | N |
+| `flows.sign-in` | P Out of the way | Sign-in never sits above advice; a pasted save works meanwhile. Signed in, it lives in the header overflow menu. | "Code card" as the device-code state (the Sign out chip is 44 px). "Guide NPC onboarding" is archived: the critique keeps it for Quest Log's first run, a skin this release doesn't ship (D-1) | N |
 | `flows.paste-save` | P Drop zone | One big target and three numbered steps. | "Clear failure" as its error state | N |
 | `flows.loading` | **O Blob walking** | Our guide blob walks a 4-frame loop with named steps ("Reading your save · Working it out · Drawing your characters"), then the Cloud Save hint after 30 s. Reduced motion: frame 1, still. For a lazy chunk the blob shows only after 400 ms, at 32 px. | The skeleton (the pick) is kept *under* the blob, so nothing jumps when the answer lands (the pick's reason) | N (atom F) |
 | `flows.empty` | **O Sleeping blob** | "Nothing to do now. Back in 8h 10m: the anvil on Bowman 54 fills first." The pick's rule stays: every empty state names the next thing to do. Small inline empties are one line with no art (Field Guide: one mascot on empty and error states). | — | N (atom F) |
@@ -158,8 +158,8 @@ The **Built** column names the variant the app implements: **P** is the pick, **
 | `flows.clear-my-data` | P What it clears | "Goes / Stays" answers "will this touch my game?" before the button. | "Hold to clear" as the button (the checkbox row is 44 px) | N |
 | `flows.whats-new` | **O Patch notes scroll** | A short scroll of up to 3 items with "Got it", once per release. It docks above the bottom bar as a 56 px tab ("What's new · 3") and opens on tap, so it never covers the Verdict (DS-1). | "and N more" link to every change | N |
 | `flows.session-checklist` | P Auto tab | The three pause points (Log in, Rounds, Log off), picked from context and saying why; nothing to set (§5.1, FR-N6). | "Quest scroll" wax-seal ticks and the campfire ending as the Log off celebration; "Pilot checklist" from 1000 px | N |
-| `flows.afk-timeline` | P Compact strip | One strip on Now: class marks where caps fill, a flag where you are back, one sentence under it. | "Lanes on phone" is the Timeline place (T); "Heat grid" is not built (Characters' matrix covers it) | T (strip), I (placed on Now) |
-| `flows.away-card` | P Scaled welcome | Nothing under 15 min away, one line up to 2 h, three lines up to 8 h, the full "While you were away" card after 8 h (FR-N7). | "Share image" is archived | N |
+| `flows.afk-timeline` | P Compact strip | One strip on Now: class marks where caps fill, a flag where you are back, one sentence under it. | "Lanes on phone" is the Timeline place (T); "Heat grid" (a Command Board power-session idea) is archived: Characters' matrix covers it | T (strip), I (placed on Now) |
+| `flows.away-card` | P Scaled welcome | Nothing under 15 min away, one line up to 8 h, the full "While you were away" card after 8 h (FR-N7). | "Share image" is archived | N |
 
 **Character pages (v2 group `character`)**
 
@@ -171,11 +171,11 @@ The **Built** column names the variant the app implements: **P** is the pick, **
 | `character.build.class-path` | P Stepping stones | The next class lit with what it opens. At 390 px the "kill 10 genies"-style text goes into the step line, so no column wraps to nine lines. | — | C |
 | `character.build.presets` | P Game-tab grid | Talent tabs as tiles filled to target, the next point outlined. **Tile order is the Build's step order** (the Lab marked it a mock). Reuse the side-by-side runner-up's mismatch banner on top ("Swap to your skilling preset"). | "Empty preset call-out" as the grid's empty state, grouped across characters; "Fill-to-target bars" become the **Build path** (§5.2) | C |
 | `character.build.unspent` | P Tab badges | A count on each tab ("at least 12") and "Start here" on one; zero shows nothing. | — | C |
-| `character.build.next-points` | P One step, then the rest | One line at full weight and two muted. **Owner override of the fold:** the rest is not folded away, it is the full Build path (§5.2, FR-C1). | "Point budget meter" as the path's band marker ("at least 118 points end here") | C |
+| `character.build.next-points` | P One step, then the rest | One line at full weight and two muted. The rest is not folded away: the owner's functional request 1 ("show the entire build") replaces the fold with the full Build path (§5.2, FR-C1). This is a functional change, not one of the four design overrides. | "Point budget meter" as the path's band marker ("at least 118 points end here") | C |
 | `character.build.attack-bar` | P Slot row with ghosts | The bar as the game shows it, with a ghost in each gap. Its missing state shows only from real data (no mock). | "Missing only" as the Now line | C |
 | `character.build.coming-up` | P Milestone ladder | Future unlocks as rungs above "you are here", with no Next pill. | "Folded footer" as its collapsed state | C |
 | `character.cards.preset-rows` | P Card rack | Our own card frames with level pips, the worn preset ringed and the mismatch as the banner. Effect text goes in the tap sheet, not 11 px in the frame (DS-20). | "Compact chip row" on the overview and from 1000 px | C |
-| `character.cards.best-swap` | P Before / after racks | Now rack, arrow, best-you-own rack, one sentence. Data comes from M8's engine output, not the export. | "Inline diff" as the tab-badge state; "Card plan board" from 1000 px | C |
+| `character.cards.best-swap` | P Before / after racks | Now rack, arrow, best-you-own rack, one sentence. Data comes from M8's engine output (`collections/cards-view.ts` already builds the best preset from owned cards as swaps), not the export. | "Inline diff" as the tab-badge state; "Card plan board" from 1000 px | C |
 | `character.cards.grind` | P By map | Grind targets grouped by the map that drops them, with who needs them; nothing above the current world. | "Progress rings to next level" as the detail; "Later shelf" as the unreachable fold | C |
 | `character.cards.set-progress` | P Set level bars | Sets as bars with set-level ticks, the worn one ringed, "Wear this" lit; no tier words. | "Set badge on the rack" in the rack header | C |
 | `character.gear.paper-doll` | P Coloured silhouette | Built by M18. Apply here: units ("45 levels behind"), never "45 far". | "Gear heat strip" (the `gear` System page, from 720 px per M18) | C (restyle) |
@@ -210,7 +210,7 @@ The **Built** column names the variant the app implements: **P** is the pick, **
 
 ### 4.2 Every current app component, mapped
 
-Everything in `apps/activeon/src/**` at `93a01eb`, plus PR #116 (M18). "Gap" means the Lab has no design for it. Each gap gets a design in §4.3.
+Everything in `apps/activeon/src/**` at `6dfaefc` (M18 merged in #116). "Gap" means the Lab has no design for it. Each gap gets a design in §4.3.
 
 | App component (file) | States | Lab component → variant | Gap? |
 |---|---|---|---|
@@ -292,7 +292,7 @@ Each gap is designed with existing atoms and the principles. No new visual langu
 - **G1 Header overflow menu.** A 44 px "•••" button at the right end of the one-line header. It opens a sheet (phone) or a popover (desktop) listing, in order: account level ("Family level 1,234"), Settings, Suggest something, Your suggestions, Something confusing here?, versions ("ActiveOn 0.1.0 · knowledge #ec89 · game build 142"), the history note, and Sign out (signed-in) or Sign in. Every row is 44 px and has a 16 px glyph. A new update or a failed check puts one dot on the button (`flows.banners`: "then a dot"). P9, P10, DS-15.
 - **G2 Preview badge.** On PR Previews only: a grey `Pill` atom, "Preview · PR #123", at the left of the header chip row. It never sits above the Verdict line on a phone; it takes the save-age chip's row. DS-1.
 - **G3 Lazy chunk failed.** In place of the part: one line with the cracked-gear glyph (`flows-cracked-gear`), "Couldn't load this part.", and a 44 px "Try again" button. It never takes the whole place. P5.
-- **G4 Roster row tab chips.** The row keeps **one** tab chip, the most useful one, at its right end: a 44 px chip with the tab's glyph and its health word ("Build · 40 points"). It shows only when that tab's health is `behind` or `empty`, chosen by tab order (Build, Gear, Cards, Signs, Skills). This keeps M9's "Build chip on every row" findable without a third pill (DS-9). With nothing behind, there is no chip; the row itself opens the Character page.
+- **G4 Roster row tab chips.** The row keeps **one** tab chip, the most useful one, at its right end: a 44 px chip with the tab's glyph and its health word ("Build · 40 points"). It shows only when that tab's `TabHealth.level` is `fix`, `behind` or `empty`, the most severe first, then by tab order (Build, Gear, Cards, Signs, Skills). This keeps M9's "Build chip on every row" findable without a third pill (DS-9). With nothing behind, there is no chip; the row itself opens the Character page.
 - **G5 Cloud-save tip.** A muted line with the hourglass glyph under the identity line: "Tip: press Cloud Save in the game to lock this in." It shows only while the follow state is guessing, as M10 FR-14 rules.
 - **G6 "See it" link.** A quiet 44 px link row with an arrow glyph at the end ("See it on the Alchemy page →") at the bottom of the why sheet, never on the card face (DS-10). On the target page, the highlighted element gets the `is-now` ring scoped to that component (DS-21).
 - **G7 Trapping strip.** The per-slot strip pattern: one row per character with a trap-set glyph and one cell per trap, each cell filled by time to done against the Back marker (the Timeline's length rule, DS-6). "Collect now" is lit on the first trap that is done before the return. It is drawn from M20's existing `SystemPicture` data.
@@ -300,7 +300,7 @@ Each gap is designed with existing atoms and the principles. No new visual langu
 - **G9 Turnstile frame.** Cloudflare's widget is a third-party iframe we can't restyle. Wrap it in the form's card with one line above it, "Quick check that you're a person (Cloudflare)", in Field Guide body type, so it reads as part of the form. Reserve its 65 px height so nothing jumps.
 - **G10 Settings sheet.** From the overflow menu. Three rows, each a segmented control (`SegmentedControl` atom, 44 px):
   1. Theme: System / Light / Dark.
-  2. Times: In 2h 10m / Around 20:10 (the "Clock time, set once" variant).
+  2. Times: In 2h 10m / Around 20:10 (the "Clock time, set once" variant; it changes the UI-formatted times, FR-F6).
   3. Back in: Learned / always ask.
 
   It stores to the existing preference namespace (M10 TR-8). There is no direction row (D-1).
@@ -314,17 +314,15 @@ Numbered by area. Each FR is testable. "Words" always come from the engine's vie
 
 - **FR-F1 Tokens.** One token file holds the shared base (spacing, radii, type scale, motion, sizes, tier ramps, materials, world accents) and the three direction sets with light and dark values, ported from the Lab's `tokens.css`. The Google Fonts `@import` is removed (FR-F2). Every component reads semantic aliases (`--fg`, `--muted`, `--accent`, `--ok`, `--warn`, `--bad`, `--unk`, `--info`, each with `-soft` and `on-` variants), never raw hexes. The old names (`--coin`, `--coin-soft`) stay as aliases until Integration removes them (FR-I3).
 - **FR-F2 Fonts, self-hosted.** Each font is an `@fontsource` package (all OFL-1.1, from `'self'`, so the CSP's `font-src 'self'` stays as it is):
-  - Atkinson Hyperlegible Next (400, 700), replacing Atkinson Hyperlegible;
+  - Atkinson Hyperlegible Next (400, 600, 700), replacing Atkinson Hyperlegible (600 for Field Guide's labels, so nothing is faux-bolded);
   - JetBrains Mono (400, 600);
-  - Pixelify Sans (500, 600, 700);
-  - Jersey 15 (400);
-  - Silkscreen (400, 700);
-  - Geist (400, 600) and Geist Mono (400, 600), for the Command Board layout tokens, though the layout itself uses Field Guide fonts (§3.3);
-  - VT323 (400).
+  - Pixelify Sans (500, 600, 700).
 
-  Only the `latin` subset files are imported (`@fontsource/<font>/latin-<weight>.css`), so each face is one woff2. A face is downloaded only when text uses it (the browser's `@font-face` rule). Tiny5 is dropped: it was only for sub-16 px pixel labels, which DS-14 bans.
+  The Lab's other faces (Jersey 15, Silkscreen, Tiny5, Geist, Geist Mono, VT323) belong to the Quest Log and Command Board **skins**, which this release doesn't ship (D-1). They are not added as dependencies; their token stacks fall back to the system fonts in the dev-only `?direction=` view. A direction switch, if it ever ships, adds them in its own PR.
+
+  Only the `latin` subset files are imported (`@fontsource/<font>/latin-<weight>.css`), so each face is one woff2. A face is downloaded only when text uses it (the browser's `@font-face` rule). The first screen downloads Atkinson Hyperlegible Next 400 and 700, JetBrains Mono 400 and Pixelify Sans 500 and 600: one more file than today (TR-12 counts the bytes). The latin subset has no "→", "←" or "✓" in some faces; V-5 checks each, and a missing one is drawn as a 16-grid art glyph rather than falling back to another font.
 - **FR-F3 Pixel art library.** All 213 SVGs in the Lab's `art/` are converted at build time into typed modules and drawn by one `<PixelArt name>` component (TR-4). The names are a union type. Recolouring works through ramp classes (`ramp="blob" | "bronze" | "gold" | …`, a world `w={1..7}`) and the Lab's `--px-*` slots. Animated pieces (23 of them: the blobs, campfire, gremlin, bell, hourglass, cheer, printer, the NOW stone) loop in stepped frames from `art.css` and stop on frame 1 under `prefers-reduced-motion`. Celebrations play once.
-- **FR-F4 The who-glyph.** `<WhoGlyph cls level size badge?>` resolves a class to its family through `classes.fact.class-tree` (passed in the view as `classFamily`, so the UI imports no Knowledge Base). It draws the family chibi at 16, 24 or 32 px on the blob ramp, with a world tint on the frame and an optional 12 px subclass letter badge. It is the only way a character is drawn (DS-13).
+- **FR-F4 The who-glyph.** `<WhoGlyph cls level size badge?>` resolves a class to its family through `classes.fact.class-tree` (passed in the view as `classFamily`, so the UI imports no Knowledge Base). It draws the family chibi (a 16-grid motif) at 16, 32 or 48 px on the blob ramp, with a world tint on the frame (the inventory's `now.class-portrait` purpose: "tinted by world") and an optional 12 px subclass letter badge set in Atkinson Hyperlegible Next 700, never a pixel face (DS-14). The Lab's chibis carry a blink loop; it plays only on the character being played, never on every Roster row. It is the only way a character is drawn (DS-13).
 - **FR-F5 Atoms.** One atom set used by every area (§7 TR-5 gives the props):
   - `Pill`: the Verdict stamp and cap pills, with the urgency, glyph, verb and optional grammar;
   - `Chip` and `GlyphChip`;
@@ -346,7 +344,7 @@ Numbered by area. Each FR is testable. "Words" always come from the engine's vie
   - an age is "8h 30m ago";
   - effort is `aboutDuration` "about 10m" (estimated task length only).
 
-  The Knowledge Base template `{x:duration}` (today "about 5h" for a moment) is audited: a moment uses `{x:in}`, effort keeps `{x:duration}`. The Settings "Times" preference swaps moments to clock times everywhere at once. CI fails on a component that formats a duration itself (a grep for `toLocaleTimeString` and `/ 3600` in `apps/activeon/src`, TR-15).
+  The Knowledge Base template `{x:duration}` (today "about 5h" for a moment) is audited: a moment uses `{x:in}`, effort keeps `{x:duration}`. The Settings "Times" preference applies to every time the **UI** formats (the header, the return line, the counter's first-fill line, the Timeline, the AFK strip, the pause points, the Map's door time): these stay structured (`{ at: epoch ms }`) until the component formats them with `design/format.ts`. Times inside Knowledge Base sentences are rendered in the worker, which has no clock preference or timezone, so they stay relative ("in 3h 40m"); goldens render with a fixed UTC offset of 0. CI fails on a component that formats a duration itself (a grep for `toLocaleTimeString` and `/ 3600` in `apps/activeon/src`, TR-15).
 - **FR-F7 One coin format.** `formatCoins` ("100M coins") is the only coin text. `coinTiers` may draw coin icons beside it, never instead of it. The golden scan fails on any tier word ("silver", "gold coins", "dementia") (TR-15).
 - **FR-F8 The collection.** The Design Lab is kept in full (TR-1). The data-free part goes in the repo at `docs/design-lab/`: brief, both critiques with every variant's name, score, verdict and note, both inventories, tokens, and the art. The renders, which embed scrubbed save data, go to the local, gitignored `fixtures/private/design-lab/` (D-2).
 - **FR-F9 Copy and data audits.** One pass over the Knowledge Base and the view words for DS-3 (hidden unknown tokens), DS-16 (jargon), DS-17 (the row's own name repeated), DS-18 (step length, at most 14 words, checked by a test with an allowlist for the five longest the copy pass kept) and DS-19 (units). It lands in F, because every area's goldens move with it.
@@ -370,7 +368,7 @@ Numbered by area. Each FR is testable. "Words" always come from the engine's vie
   The Account summary header follows. Sign-in, paste and What's new never sit above the counter (DS-1).
 - **FR-N2 The counter.**
   - The count is the number of Verdict blockers across characters and the account (each character's blocker counts once, an account blocker once), from `NowView.progress` and `account.blockers`.
-  - The sentence is "N fix(es) before you leave". The numeral is Jersey 15 at 40 px (a Quest Log accent), with the save age as a muted line under it.
+  - The sentence is "N fix(es) before you leave", in Atkinson Hyperlegible Next 700 at 24 px, with the count as a large tabular number (JetBrains Mono 600, 40 px): Field Guide's own verdict treatment (brief §3.2). The save age is a muted line under it.
   - The first fix button is the first blocker in Visit Order, as a `TokenLine` (who · where · how long) plus its verb. It opens that character's Focus.
   - At zero: "All set: safe to log off", the campfire (the Quest Log celebration, parchment frame) and M3's first-fill line ("Back in 8h: the anvil on Bowman 60 fills first, in 3h 40m").
   - Unknown characters aren't counted; they sit in a fold ("2 we can't tell: see why").
@@ -393,8 +391,8 @@ Numbered by area. Each FR is testable. "Words" always come from the engine's vie
   - Then the ranked Goal list (one winner, numbered muted lines, "+n more"), the quiet Better fit hint, the character's "If you have time" lines, the Done fold and the one Next button.
   - Info lines become the caps' "soon" state.
   - "Something confusing here?" moves to the overflow (G1).
-- **FR-N6 Pause points** (`flows.session-checklist` Auto tab). A three-segment control: Log in · Rounds · Log off. One muted line says why the tab was picked ("Picked Log in: you were away 9h"). The player can switch; a manual pick holds until the next save. The rules, first that applies:
-  1. **Log in**: the Play Session (M1 `sessionStart`) began under 10 minutes ago, and the previous one ended 15 minutes or more before it.
+- **FR-N6 Pause points** (`flows.session-checklist` Auto tab). A three-segment control: Log in · Rounds · Log off. One muted line says why the tab was picked ("Picked Log in: you were away 9h"). The player can switch; a manual pick holds for the rest of the Play Session (saves arrive every few minutes during play, so holding only until the next save would snap it back). The rules, first that applies:
+  1. **Log in**: the Play Session (M1 `sessionStart`) began under 10 minutes ago, a previous Play Session exists, and it ended at least 1 hour before this one began. (Any gap of 15 minutes already starts a new Play Session, `PLAY_SESSION_GAP_MS`, so the hour is what makes it a real return.)
   2. **Log off**:
      - the Expected Return chips were changed this session, or
      - the count is 7 or under and every character with a Fix has been opened this session (the follow state's visited set), or
@@ -407,8 +405,7 @@ Numbered by area. Each FR is testable. "Words" always come from the engine's vie
   - **Log off** lists the unmet AFK Setup items (every Verdict blocker, at most 7, then "+n"). Each is ticked by the next cloud save (DO-CONFIRM, never by a tap). It ends on the Verdict: all ticked shows the wax-seal ticks and the campfire, "Safe to log off · back in 8h".
 - **FR-N7 Away card** (`flows.away-card` Scaled welcome). Time away is the gap between the previous Play Session's last save and this session's first, from M1's SaveHistory.
   - Under 15 min: nothing.
-  - 15 min to 2 h: one line ("Welcome back · away 1h 20m · 2 things filled").
-  - 2 h to 8 h: that line plus the top 3 Log in items.
+  - 15 min to 8 h: one line ("Welcome back · away 1h 20m · 2 things filled"). The brief defines one line up to 2 h and the full card after 8 h; between 2 h and 8 h it stays one line, the smaller of the two, since the brief says nothing there.
   - Over 8 h: the full card, "While you were away · 9h 12m", with the levels gained, the filled limits, the resets and "Start with: …" (the first fix).
 
   A pasted save, or one with no history, shows nothing.
@@ -442,7 +439,9 @@ Numbered by area. Each FR is testable. "Words" always come from the engine's vie
   - **can add now**: its cumulative total is at most the tab's **known points** (FR-C2). Ok-soft fill, ok rule, a "+" glyph.
   - **part now**: the known points run out inside it. Half fill, "+12 of 40 now".
   - **next after these**: beyond the known points. A surface fill with a dashed rule, muted text at 4.5:1 or more (never lowered opacity), a "→" glyph and the cumulative total. These steps say what comes next, never that the player can't buy them (owner: "next after these, never can't").
-  - **later**: not applicable yet (a `stageAtLeast` or `accuracyShort` condition, or a bubble cap). A lock glyph, the condition in words ("from World 3, early"), left out of the cumulative total.
+  - **later**: not applicable yet: a `stageAtLeast` condition, or a star talent whose book isn't found. A lock glyph, the condition in words ("from World 3, early"), left out of the cumulative total.
+
+  Two step kinds are not "later". An `accuracyShort` step is in the order as usual, with the condition as a note ("if your accuracy is short"), because M9 can't tell. A bubble-capped step needs no points (its level comes from the bubble): it shows as done-style with "set by a bubble", outside the totals.
 
   A **band marker** line sits between the last "can add now" or "part now" step and the first "next" one: "At least 118 points known · they end here". Below it, the running totals let a player who has more points in game read straight down to where theirs land (owner: "if we have 140, not 100, we need the next steps immediately").
 - **FR-C2 Known points.**
@@ -455,10 +454,16 @@ Numbered by area. Each FR is testable. "Words" always come from the engine's vie
 - **FR-C4 One step, then the rest.** Above the grid, the preset's first spend line at full weight ("Put the next 84 points into Book of the Wise (to 100)") and the next two muted. Below them, the full path (FR-C1). Nothing folds away (the owner's override of the pick's fold).
 - **FR-C5 Sticky identity strip** (`character.shell`). A 56 px strip with the `WhoGlyph`, "Squire 85", pin + map, the Verdict glyph + word, and 44 px prev / next arrows that keep the tab. Under it, the tab bar (Now, Build, Gear, Cards, Signs, Skills), one badge per tab from its health (FR-C7). On scroll it shrinks to the glyph and name. The level-gate ruler (preset 2 at 15, tab 3 at the subclass, the next gear tier) shows on the Build tab only.
 - **FR-C6 Next 2–4 steps everywhere** (owner request 1, "the next 2–4 talents"):
-  - The Builds overview line per character lists the known points and the next steps with their running totals: "at least 118 · Book of the Wise +84 · Leaf Thief +184 · Deforesting All Doubt +284".
+  - The Builds overview line per character lists the lead tab's known points and its next steps with their running totals, all in that one tab (D-14): "Tab 2 · at least 118 · Book of the Wise +84 · Leaf Thief +184 · Deforesting All Doubt +284". It never adds totals across tabs.
   - The roster tab chip (G4) carries the first.
   - The Build cell of the health matrix reads "at least 118 points".
-- **FR-C7 Health matrix** (`character.overview`). Rows are characters (WhoGlyph, class and level). Columns are the tabs that publish `health`. Each cell is a glyph plus a word **with a unit** ("at least 215 points", "45 levels behind", "1 of 4 slots", "ok"). The cell is a 44 px link to that tab. Exactly one cell, the worst by the tab order and severity, is ringed as the fix. The class tree block sits under it (`character.overview` runner-up), and the slot ribbon (family level to the next character slot) sits in the header.
+- **FR-C7 Health matrix** (`character.overview`). F declares one shared type in `packages/engine/src/now/view.ts`:
+
+  ```ts
+  interface TabHealth { level: 'fix' | 'behind' | 'empty' | 'ok' | 'unknown'; word: string } // word carries a unit: "at least 215 points"
+  ```
+
+  Each tab's engine view fills it per character: Build, Cards, Signs and Skills in C's view files, and Gear in `packages/engine/src/gear/` (also C's). `characterTabs` entries gain `health(view, index): TabHealth | null` beside the old free-text `status`, which keeps feeding the Characters tile until I removes it. Severity order: fix, behind, empty, unknown, ok. Rows are characters (WhoGlyph, class and level). Columns are the tabs that publish `health`. Each cell is a glyph plus a word **with a unit** ("at least 215 points", "45 levels behind", "1 of 4 slots", "ok"). The cell is a 44 px link to that tab. Exactly one cell is ringed as the fix: the most severe, ties broken by Visit Order, then tab order. The class tree block sits under it (`character.overview` runner-up), and the slot ribbon (family level to the next character slot) sits in the header.
 - **FR-C8 The other tabs.**
   - Class path: stepping stones.
   - Attack bar: the slot row with ghosts, built from real data.
@@ -478,7 +483,7 @@ Numbered by area. Each FR is testable. "Words" always come from the engine's vie
 - At game 2.3.540, four pages hold 43 talents (ids 615–658): 13, 13, 13 and 4. Toolbox's fifth page name is empty in the data.
 - No page is gated. Each talent is locked until its **Special Talent Book** is found. The book sets that talent's max level for the whole account (`SM_` is identical on every character), so a locked talent has max ≤ 0.
 - In Worlds 1–4, pages 1–2 are reachable from W1–W3 content. Page 3 is mostly W3 and later, and page 4 is late game.
-- Upgrade Vault row 53, "Special Talent", is a source of star points. It opens at 2,530 total Vault levels, so it is late.
+- Upgrade Vault row 53, "Special Talent", is a source of star points. It opens at 2,530 total Vault levels: 33 levels away on the W3-early account (US-12). The star tile links to the Vault page when the row is the next unlock.
 - **Super Talents** are a different, W7 system that adds levels to class talents. They stay out of scope.
 
 Sources: the wiki's Special Talents page, Toolbox `parsers/talents.ts` and `character.ts`, the game data, and the research note listed in Sources.
@@ -488,12 +493,14 @@ Sources: the wiki's Special Talents page, Toolbox `parsers/talents.ts` and `char
   - The total comes from Toolbox's `calcTotalStarTalent` called on that character alone. For the inactive preset, the call uses that preset's own talents, because Star Player, Supernova Player and Stonks! add points per preset. It is exposed as a `toolboxCalls` entry, never by editing `vendor/`.
   - The research verified on all 11 public fixtures that the one-character call equals the full call for the active character.
 - **FR-C10 Star known points are exact** (unlike tabs 1–3). Unspent = total − the sum of star levels; the research verified it is exact, since star levels carry no free levels. The path's known points are this number. The tile and the status line read:
-  - "all spent" at 1 or fewer;
-  - "40 unspent" above 1;
-  - "over budget by 201" below 0. The points came from the other preset's Star Player or Stonks! (a known trick). This is shown as a fact, never a nudge.
+  - "over budget by about 201" when unspent is −3 or less. The points came from the other preset's Star Player or Stonks! (a known trick). It is shown as a fact, never a nudge, and with "about", because a patch can add a star-point source Toolbox hasn't modelled yet;
+  - "all spent" from −2 to 1 (a small tolerance for the same reason);
+  - "40 unspent" above 1.
+
+  The bands are checked in that order.
 
   When the total can't be computed (a failed section, an old save), it falls back to M9 TR-7's lower bound against the other preset, read "at least N".
-- **FR-C11 Star Builds** (Knowledge Base, authored per ADR 0007, with Sources). There are two class-agnostic entries, because every dated source gives the same star core across class lines:
+- **FR-C11 Star Builds** (Knowledge Base, authored per ADR 0007, with Sources). There are two class-agnostic entries of a new **star Build** shape (TR-8), kept apart from M9's class Builds so they never take part in preset classification or the `kb.build(line, role)` lookup. Every dated source gives the same star core across class lines:
   - `talents.build.star-fighting`
   - `talents.build.star-skilling`
 
@@ -502,15 +509,21 @@ Sources: the wiki's Special Talents page, Toolbox `parsers/talents.ts` and `char
     1. Stonks! to 30 (each point returns at least one star point up to about 30, so it pays for itself);
     2. Will of the Eldest to its useful cap;
     3. Beginner Best Class to its useful cap;
-    4. Tick Tock = Attacks on Simmer = Goblet of Hemoglobin (an even split, `tie`);
+    4. Tick Tock = Attacks on Simmer = Goblet of Hemoglobin (a tie: levelled together), each to its max;
     5. page 2: Printer Sampling 1 and Shrine Architect 1 (agreed by every source);
-    6. Dungeonic Damage, then Frothy Malk, then Telekinetic Storage.
+    6. Dungeonic Damage to its max, then Frothy Malk to its max, then Telekinetic Storage to 1 (the cheaper reading of the disagreement: Gameslikefinder says 1 point, Sir_Grimtide levels it; the note says so).
   - **Skilling:**
     1. Stonks! to 30;
-    2. Tick Tock = Will of the Eldest (to its useful cap) = Toilet Paper Postage (page 3, only when its book is found);
+    2. Tick Tock (to its max) = Will of the Eldest (to its useful cap) = Toilet Paper Postage (to 100, an authored cap: its max can reach tens of thousands, and it would otherwise swallow every point; only when its book is found);
     3. page 2: Printer Sampling 1 and Shrine Architect 1;
-    4. Supersource, **only when the preset serves Mining, Choppin, Fishing or Catching** (the game's own text; this overrides the community build that puts it first on Worship and Alchemy presets);
-    5. Action Frenzy, then Frothy Malk, then Telekinetic Storage.
+    4. Supersource to its max, **only when the preset serves Mining, Choppin, Fishing or Catching** (the game's own text; this overrides the community build that puts it first on Worship and Alchemy presets);
+    5. Action Frenzy to its max, then Frothy Malk to its max, then Telekinetic Storage to 1.
+
+  **Every step has a target.** The sources give only "1 point", "up to 30" and an order, so the remaining targets are an authored judgment (ADR 0007): "its max" is the book max in the save (`SM_`, often 100 to 104 early on), and the two caps above are written down with their reason. Attacks on Simmer's AFK effect stops at +25%, which its curve reaches only past level 50, its max, so "max" is also its useful cap.
+
+  **Ties** are one path row: "Tick Tock = Attacks on Simmer = Goblet: +N, split evenly". Its need is the sum of the members' needs. Inside the row the members show their own current and goal. Under the known points, a part-paid tie spreads its points evenly. The same rule applies to M9's existing `tie` steps on tabs 1–3, which `nextPoints` ignores today; one `spendOrder` gives both lists.
+
+  **What a preset serves.** A skilling preset serves the AFK skills its matched M9 class Build lists in `serves`. When M9 can't classify it, or the class Build lists none, the Supersource step shows with its condition in words ("only helps Mining, Choppin, Fishing and Catching") instead of being dropped.
 
   Sources:
   - Sir_Grimtide's five Toolbox builds (tier 3, updated 2026-10-10 to 10-15), the only builds with a star section;
@@ -519,30 +532,30 @@ Sources: the wiki's Special Talents page, Toolbox `parsers/talents.ts` and `char
   - Toolbox provenance (tier 1).
 
   The disagreements go in `notes` (Telekinetic Storage at 1 point vs levelled; Will of the Eldest rated from S+ to C). The Build is not Contested, because the steps every source shares are the core. Players who put 100 points into Printer Sampling (common on both private saves) see that step as done; that is never flagged as wrong (D-12).
-- **FR-C12 Useful caps** (a new `BuildStep` target form, TR-8). Some star talents stop helping before their max. Their target is the useful cap, worked out from save data and a cited rule:
-  - Will of the Eldest: floor(best class level on the account ÷ 10), from the wiki's effect text;
-  - Beginner Best Class: floor(best Beginner-line level ÷ 10), from Toolbox `damage.ts`. It is 0, and the step is skipped with a note, when the account has no Beginner, Journeyman, Maestro or Voidwalker;
-  - Quest KAPOW!: the number of completed quests ÷ 5, rounded up;
-  - Studious Quester and Quest Chungus: completed quests ÷ 4;
-  - Stonks!: 30, a fixed target from the arithmetic and the guides.
+- **FR-C12 Useful caps** (a new star-step target form, TR-8). Two star talents in the Builds stop helping before their max. Their target is the useful cap, worked out from save data:
+  - Will of the Eldest: floor(best class level on the account ÷ 10). The rule is the game's own effect text ("+1 all stats per 10 levels of your best character", wiki, tier 2); Toolbox doesn't model it;
+  - Beginner Best Class: floor(best Beginner-line level ÷ 10), from Toolbox `damage.ts`. It is 0, and the step shows as skipped with "no Beginner-line character yet", when the account has no Beginner, Journeyman, Maestro or Voidwalker.
 
-  Each is arithmetic on Account State (ADR 0005, like M9 TR-7), and each is checked against the private fixtures in a contract test.
+  Stonks!'s 30 is a plain number target. **ADR 0005:** these are counts and a division on Account State, the same kind of save arithmetic as M9 TR-7's lower bound, not a damage or gain formula of our own; the Will of the Eldest rule cites its wiki text, and a patch that changes it is caught by the entry's staleness (M11 `isStale`). Each cap has a contract test on both private saves.
+- **FR-C12a Stonks! returns points.** At its target of 30, Stonks! adds about 49 star points. The path asks the worker for the preset's total with Stonks! at its target (one more `starTotal` call on a copy, Toolbox's own numbers) and adds the difference to the known points from the Stonks! row on. The Stonks! row says so ("pays for itself: +49 points"). If the call fails, the row keeps the note and the totals after it say "about".
 - **FR-C13 The star path.**
   - The star tab is one more tile in the tab grid, "Star talents", with its badge ("40 unspent").
   - Its path is FR-C1's list over the whole star budget, so the cumulative total runs across pages. Steps are grouped under page headings ("Page 1", "Page 2"), but the points are one pool.
-  - A talent whose book isn't found yet is in the **later** band, with "find its book" and where the book comes from (the wiki's list, as a fact table `talents.fact.star-books`).
+  - A talent whose book isn't found yet is in the **later** band, with "find its book" and where the book comes from, from a fact table `talents.fact.star-books`. It is authored tier 2 (the wiki's book list, verified 2026-10-18), because Toolbox's data has no book sources; under ADR 0007 an authored fact table carries its Source and patch tag, and goes Stale like any other.
   - Talents with points the Build doesn't name are listed under the path, as for the other tabs.
-- **FR-C14 Every character and preset.** The star tile and path show on both presets of every character, whatever the class, from class Lv 1, because star points start at Lv 1. The Builds overview line adds the star points when there are more than 1 unspent ("· 40 star points · Stonks! +30 · Will of the Eldest +37"). The Build column of the health matrix counts it too.
+- **FR-C14 Every character and preset.** The star tile and path show on both presets of every character, whatever the class, from class Lv 1, because star points start at Lv 1. The Builds overview line adds a second, star part when there are more than 1 unspent, with its own totals ("· Star talents · 40 unspent · Stonks! +30"). The Build column of the health matrix counts it too.
 - **FR-C15 The empty star tab** (Owner review Q2). Both private saves have the common mistake the dossier names: one preset's star tab is empty while the other is spent (all 5 characters on the W2-late account, and 2 of 6 on the W3-early account).
   - Recommended: one account-level Goal, `talent-presets.check.star-empty`, at position 3 (free value). It reads "Spend your star points on the other preset too", with one line per character as details (#70 A5, the noise rule).
   - If the owner declines, the Build tab still shows the tile's "N unspent" badge, and nothing appears on Now.
+  - If accepted, it is built in Phase I, not in C: the Detector goes in M9's `builds/` folder, the entry in `talent-presets.yaml`, its place in each Stage's Priority List at 3h (the free-value fill M9's preset Goals use), and it changes the `## Now` golden, which only I may touch once the areas have merged.
 - **FR-C16 What stays out.** No star reset suggestions: the Star Talent Reset Potion costs gems, and M9 FR-17 never suggests gem buys. No warning for over-investment (Printer Sampling at 100 is a choice). No Super Talents.
 
 ### 5.4 Systems (area S)
 
 - **FR-S1 Hub: the Stage report card** (`systems.hub` pick).
-  - One horizontal Stage axis (W1-early … W4-entry, from `STAGES`). One row per System that has a Stage Expectation (`EngineResult.behindSystems`, M15 F5) or a wasting status, with a dot where the account is and a tick where the Stage expects it. The gap is drawn as length.
-  - Rows run worst gap first (wasting before behind, then by gap). The worst row is open with its one step (a `TokenLine`). At most 5 rows show, then "All Systems (34)".
+  - First, a **"Wasting now"** strip: the Systems whose status is wasting (they throw value away today, whatever the Stage), as glyph chips with their count ("7 Systems wasting"), each opening its page. They have no place on a Stage axis, so they don't get one.
+  - Then the report card proper: one horizontal Stage axis (W1-early … W4-entry, from `STAGES`), and one row per System with a Stage Expectation the account is behind on (`EngineResult.behindSystems`, M15 F5), with a dot where the account is and a tick where the Stage expects it. The gap is drawn as length.
+  - Rows run by gap, largest first. The worst row is open with its one step (a `TokenLine`). At most 5 rows show, then "All Systems (34)".
   - The hub's wasting count moves into the card's header ("3 Systems wasting"). The nav badge goes (FR-M8).
 - **FR-S2 Hub: all Systems.** Under the report card, the world bands (M17's index, kept): tiles with the System's own 16 px glyph from the art library, the status glyph + word, and the unlock line on a locked tile ("Opens: beat Efaunt"). "Not covered yet" is said once per band ("4 here aren't covered yet"), not on each tile (v2 #3).
 - **FR-S3 Page frame** (`systems.page-frame` Step first).
@@ -632,13 +645,14 @@ These are the fixtures the stories use. Accounts are described by account, class
 
 ### US-4 All set is a moment
 *As a player, I want a clear end state, so that I log off with confidence.*
-- **Given** W2-late with its blockers resolved (a fixture variant) / **When** Now renders / **Then** it reads "All set: safe to log off" with the campfire and M3's first-fill line, in the parchment frame.
+- **Given** `allSetW2`, a test fixture F adds to `apps/activeon/test/fixtures.ts`: W2-late with the Barbarian 60's food and the account blocker resolved / **When** Now renders / **Then** it reads "All set: safe to log off" with the campfire and M3's first-fill line, in the parchment frame.
 - **Given** `prefers-reduced-motion: reduce` / **When** the campfire renders / **Then** it shows frame 1 and runs no animation (`getAnimations()` is empty).
 
 ### US-5 Pause points pick themselves
 *As a player, I want the screen to know whether I just arrived, am doing rounds, or am leaving, so that I see the right list without setting anything.*
+These use `historyOf(...)`, a test builder F adds to `packages/engine/test/helpers/` that makes `HistoryEntry` lists from a fixture with shifted clocks and changed levels.
 - **Given** a history where the previous Play Session ended 9 h before this one started, and the session is 2 minutes old / **When** Now renders / **Then** "Log in" is picked, with "Picked Log in: you were away 9h". The full Away card shows the levels gained per character since M9's baseline, the limits that bound while away (grouped), and the resets passed: at most 7 rows.
-- **Given** the same session 12 minutes later / **When** a save arrives / **Then** "Rounds" is picked.
+- **Given** the same session 12 minutes later, with the count above 7 or a character with a Fix not yet opened / **When** a save arrives / **Then** "Rounds" is picked.
 - **Given** every character with a Fix opened this session, and the count at 2 / **When** Now renders / **Then** "Log off" is picked. It lists the 2 unmet AFK Setup items, neither ticked.
 - **Given** the next save shows both fixed / **When** it is parsed / **Then** both tick themselves, and the list ends with the wax seals, the campfire and "Safe to log off · back in 8h". No tap-to-tick control exists.
 - **Given** a pasted save (no history) / **When** Now renders / **Then** no Away card shows, and the pause point is Rounds.
@@ -654,11 +668,11 @@ These are the fixtures the stories use. Accounts are described by account, class
 ### US-7 Star talents on every character and preset (owner request 2)
 *As a player, I want my Star talents planned like my other tabs, so that both presets get their star points.*
 - **Given** `first` (7 characters) / **When** each Build tab opens / **Then** every active preset's "Star talents" tile reads "all spent" (one character has 1 point left, which counts as all spent).
-- **Given** `fourth` / **When** the preset at −201 is shown / **Then** its tile reads "over budget by 201". No Goal, nudge or warning appears.
+- **Given** `fourth` / **When** the preset at −201 is shown / **Then** its tile reads "over budget by about 201". No Goal, nudge or warning appears.
 - **Given** W2-late / **When** Characters renders / **Then** all 5 characters show one preset whose star tab is empty, with the tile reading "N unspent", where N is that preset's computed total. Its path starts at "Stonks! +30".
-- **Given** a skilling preset that serves Worship / **When** its star path renders / **Then** it has no Supersource step.
-- **Given** an account with no Beginner-line character / **When** a fighting star path renders / **Then** Beginner Best Class shows as skipped, with "no Beginner-line character yet".
-- **Given** a talent whose book isn't found (max ≤ 0) / **When** the path renders / **Then** the talent is in the later band, with "find its book" and the book's source.
+- **Given** the W3-early Wizard Lv 73's skilling preset, whose matched class Build serves Worship (Sir_Grimtide's Wizard/Worship build) / **When** its star path renders / **Then** it has no Supersource step.
+- **Given** W3-early (no Beginner-line character on the account) / **When** a fighting star path renders / **Then** Beginner Best Class shows as skipped, with "no Beginner-line character yet".
+- **Given** a copy of W2-late with one Build talent's max set to −1 (book not found) / **When** the path renders / **Then** the talent is in the later band, with "find its book" and the book's source.
 - **Given** W2-late, and the owner accepts Q2 / **When** the engine runs / **Then** one account Goal reads "Spend your star points on the other preset too", with 5 details, at position 3.
 
 ### US-8 Every character at a glance
@@ -679,12 +693,12 @@ These are the fixtures the stories use. Accounts are described by account, class
 
 ### US-10 The nav
 *As a player, I want five stable places with only the badges that matter, so that the bar is calm.*
-- **Given** W3-early / **When** the shell renders under 720 px / **Then** the bottom bar shows Now, Characters, Systems, Timeline and Map, each a glyph plus a word. Now carries "2", Timeline carries the number of limits that bind before the return, and Systems carries none.
+- **Given** W3-early / **When** the shell renders under 720 px / **Then** the bottom bar shows Now, Characters, Systems, Timeline and Map, each a glyph plus a word. Now carries "2", Timeline carries the number of `buildTimelineView` items marked `before` the return (the same items the Timeline outlines), and Systems carries none.
 - **Given** 720 px or wider / **When** it renders / **Then** the same five sit in a rail, in the same order.
 
 ### US-11 Systems as a report card
 *As a player, I want to see which Systems I'm behind on for my Stage, so that I learn what I'm skipping.*
-- **Given** W3-early / **When** Systems opens / **Then** the report card's rows include Talent presets (wasting), Cards and Obols (behind for your Stage), at most 5 rows, then "All Systems". The worst row is open with its one step.
+- **Given** W3-early (its golden lists 7 wasting Systems, among them Talent presets, Companions and pets, and Minigames) / **When** Systems opens / **Then** the "Wasting now" strip shows those 7 as chips, and the report card's axis rows are the behind-for-your-Stage Systems, Cards and Obols among them (at most 5, then "All Systems"). The worst axis row is open with its one step.
 - **Given** the world bands / **When** they render / **Then** "not covered yet" appears once per band, not on each tile.
 
 ### US-12 New System pictures
@@ -722,15 +736,15 @@ These are the fixtures the stories use. Accounts are described by account, class
 
 ## 7. Technical requirements
 
-- **TR-1 The Design Lab snapshot** (FR-F8, D-2). Phase F copies the Lab from `/private/tmp/claude-501/-Users-yasser-Documents-Github-idleon-forge/851af4e3-ec17-41e2-8028-ef7c23abfbde/scratchpad/design-lab/` (a temporary session path, so this is the first thing F does):
+- **TR-1 The Design Lab snapshot** (FR-F8, D-2). The Lab's durable private copy already sits at `/Users/yasser/Documents/Github/idleon-forge/fixtures/private/design-lab/` (copied 2026-10-18 from the session scratchpad, without `ref/`). F makes the public part from it:
   - **Public, committed:** `docs/design-lab/` with
     - `brief.md`, `critique.md`, `critique.json`, `inventory.json`, `tokens.css`;
     - `v2/critique.md`, `v2/critique.json`, `v2/inventory.json`;
     - `art/*.svg` and `art/README.md`;
     - a short `README.md` stating what it is, the date, the owner's ruling, the overrides and that it is reference material, not shipped code.
 
-    Before committing, `fixtures/private/denylist.txt` is run over every copied file; it must find no names. The copy leaves out `index*.html`, `parts/`, `v2/parts/`, `data/`, `shots/`, `research/`, `build/`, `preview/`, `tmp-*` and **`ref/` (game sprites, never copied anywhere, ADR 0009)**.
-  - **Private, local only:** the full Lab minus `ref/` goes to `fixtures/private/design-lab/` (gitignored). That holds the parts' HTML, CSS and JS and the data renders. Build agents read the 1:1 markup there, from the main checkout's absolute path, because worktrees don't contain ignored files.
+    Before committing, `/Users/yasser/Documents/Github/idleon-forge/fixtures/private/denylist.txt` (main checkout only; worktrees don't have it) is run over every copied file; it must find no names. F also writes `docs/design-lab/art/MANIFEST.json`: each SVG's file name and sha256, which the ADR 0009 guard reads (TR-4). The copy leaves out `index*.html`, `parts/`, `v2/parts/`, `data/`, `shots/`, `research/`, `build/`, `preview/`, `tmp-*` and **`ref/` (game sprites, never copied anywhere, ADR 0009)**.
+  - **Private, local only:** the full Lab minus `ref/` is at `fixtures/private/design-lab/` (gitignored). That holds the parts' HTML, CSS and JS and the data renders. Build agents read the 1:1 markup there, from the main checkout's absolute path above, because worktrees don't contain ignored files.
 - **TR-2 Layout of the design code** (`apps/activeon/src/design/`, owned by F):
 
   ```
@@ -771,17 +785,23 @@ These are the fixtures the stories use. Accounts are described by account, class
   ```
 
   Nothing here is a name, and nothing leaves the browser (ADR 0006).
-- **TR-4 Art pipeline** (FR-F3). `scripts/art/import.mjs` (Node 22, no dependencies) reads `docs/design-lab/art/*.svg`. It normalises the Lab's three authoring styles: rect runs with class fills (`now`, `cards`), `<g fill="var(--px-*)">` groups (`v2-*`), and per-colour `<path>` runs (`flows`). The output per motif is `{ id, title, w, h, frames: Array<Record<Slot, string>>, fps, defaultRamp }`. Each frame's same-colour runs are merged into one `d` string. Every `<style>`, inline `style` and comment is dropped, so nothing inline reaches the DOM (CSP `style-src 'self'`).
+- **TR-4 Art pipeline** (FR-F3). `scripts/art/import.mjs` (Node 22, no dependencies) reads `docs/design-lab/art/*.svg`. The Lab uses at least four authoring styles:
+  - rect runs with class fills defined in a `<style>` block (`now`, `cards`);
+  - `<g fill="var(--px-*)">` groups (`v2-*`);
+  - `<g style="fill:var(..)">` groups (55 of the 101 `v2-*` files);
+  - per-colour `<path>` runs whose slot mapping (`--p1:var(--mat-blob-1)`, `--r1:var(--tier-gold-1)`, `--p2:var(--return-line)`) sits in the root `style` attribute (`flows`).
+
+  The importer **parses** every `<style>` block and `style` attribute first, into the motif's slot-to-token map, its frame list and its frame timing (fps and order from the `@keyframes`). Only then does it drop them. The output per motif is `{ id, title, grid, frames: Array<Record<Slot, string>>, fps, slots: Record<Slot, TokenExpr> }`. Each frame's same-colour runs are merged into one `d` string. Nothing inline reaches the DOM (CSP `style-src 'self'`): the slot map becomes one generated ramp class per motif in `art.css`. An unknown style form fails the import, never passes silently.
   - The generated `.ts` files are committed. CI re-runs the import and fails on any diff.
-  - `<PixelArt>` renders `<svg viewBox shape-rendering="crispEdges">` with `role="img"` and a `<title>`, or `aria-hidden` when `decorative` (a glyph beside its word). It draws at integer scale only (16, 24, 32, 48, 64 px).
+  - `<PixelArt>` renders `<svg viewBox shape-rendering="crispEdges">` with `role="img"` and a `<title>`, or `aria-hidden` when `decorative` (a glyph beside its word). It draws at whole multiples of the motif's own grid only (a 16-grid motif at 16, 32, 48 or 64 px; a 24-grid one at 24 or 48; a 32-grid one at 32 or 64). The prop is `scale`, never a free pixel size.
   - Colours come from ramp classes in `art.css` that set `--p1…--p4`, `--px-*` and the eye tokens. Frames swap with `steps()` keyframes at 4 or 6 fps. `@media (prefers-reduced-motion: reduce)` pins frame 1.
-  - **ADR 0009 guard** (a test): every generated id has a source file in `docs/design-lab/art/` whose `<title>` or header names it as our own art, and no path in the repo contains `design-lab/ref`.
+  - **ADR 0009 guard** (a test): every generated id has a source file in `docs/design-lab/art/` listed in `MANIFEST.json` with a matching sha256. `art/README.md` states that every listed file is our own drawing; most files' `<title>` only names the object, so titles aren't the check. No path in the repo contains `design-lab/ref`.
 - **TR-5 Atom contracts** (F). All atoms are typed, take no inline styles except CSS custom properties for lengths (bars, as the Timeline does today), and meet DS-15:
 
   ```ts
   type Urgency = 'fix' | 'soon' | 'fine' | 'optional' | 'unknown' | 'skipped';
   interface PillProps { urgency: Urgency; glyph: ArtName; verb: string; count?: number; filter?: { pressed: boolean; onToggle(): void } }
-  interface WhoGlyphProps { family: ClassFamily; classLabel: string; level?: number; size: 16 | 24 | 32; badge?: string; world?: number; decorative?: boolean }
+  interface WhoGlyphProps { family: ClassFamily; classLabel: string; level?: number; scale: 1 | 2 | 3; badge?: string; world?: number; animate?: boolean; decorative?: boolean } // 16-grid chibi at 16/32/48 px; animates only when `animate` (the playing character)
   interface TokenLineProps { who?: { family: ClassFamily; label: string } | null; where?: string | null; howLong?: string | null } // nulls are hidden (DS-3)
   interface SheetProps { open: boolean; title: string; onClose(): void; children: ReactNode; side?: 'auto' | 'bottom' | 'panel' } // focus trap, Esc, inert background, return focus
   interface MeterProps { value: number; max: number; label: string; tone?: 'ok' | 'fix' | 'muted' | 'accent'; dashed?: boolean }
@@ -793,16 +813,27 @@ These are the fixtures the stories use. Accounts are described by account, class
   `ClassFamily` (`beginner | journeyman | warrior | archer | mage`) is added to the view rows by the engine from `classes.fact.class-tree`, so the UI never imports the Knowledge Base (bundle guard).
 - **TR-6 Formatters and routes** (F).
   - `packages/knowledge/src/template.ts` gains `{x:in}` (a moment, `inSpan`) and `{x:ago}`. `{x:duration}` stays for effort. Every `{x:duration}` used for a moment in `packages/knowledge/systems/*.yaml` moves to `{x:in}` (a codemod plus a check rule: an entry field named `*At`, `eta` or `fillsIn` must use `{x:in}`).
-  - `shell/route.ts` adds `{ place: 'map'; mapIndex: number | null }` and `{ place: 'timeline'; section: 'daily' | 'slots' | null }`, with `#map`, `#map-<n>`, `#daily` and `#slots`. `KnownRoutes` gets `maps: readonly number[]`. `Place` gets `'map'`.
+  - `shell/route.ts` adds (with `#map-<n>` checked **before** the existing `#<tab>-<index>` pattern, which it would otherwise match, and a test for it) `{ place: 'map'; mapIndex: number | null }` and `{ place: 'timeline'; section: 'daily' | 'slots' | null }`, with `#map`, `#map-<n>`, `#daily` and `#slots`. `KnownRoutes` gets `maps: readonly number[]`. `Place` gets `'map'`.
   - These are pure, total parse and format functions with table tests. F adds them so that areas T and M don't both edit the file.
 - **TR-7 View words split** (F, no behaviour change). `packages/engine/src/now/view-words.ts` becomes `now/words/{shell,now,characters,systems,time,map}.ts`. `view-words.ts` re-exports them, so imports keep working. Each area edits only its own words file (§9).
 - **TR-8 Build path and star Builds in the engine** (C).
-  - **Schema** (`packages/knowledge/src/schema.ts`, an M9 TR-5 amendment):
-    - `BuildEntry.tabs[].tab` accepts `'star'`;
-    - `BuildStep.target` accepts `{ cap: 'best-level-tenth' | 'best-beginner-tenth' | 'quests-fifth' | 'quests-quarter' }`;
-    - `StepCondition` adds `{ kind: 'servesAny'; afk: AfkType[] }`;
-    - `classLine` may be `"*"` only when every tab is `'star'` (a zod refine);
-    - M9 TR-15's core-step check learns the star steps (Stonks! is core).
+  - **Schema** (`packages/knowledge/src/schema.ts`, an M9 TR-5 amendment). Class Builds are untouched: their `tabs[].tab` stays 1–3, so no `t.tab <= 3` or `lb.byTab` use breaks. A new entry shape sits beside them:
+
+    ```ts
+    StarBuildEntry = Base.extend({
+      type: z.literal('build'),
+      variant: z.literal('star'),          // class Builds keep variant 'afk'
+      role: z.enum(['fighting', 'skilling']),
+      steps: z.array(z.strictObject({
+        talent: RawName, page: z.int().min(1).max(4),
+        target: z.union([z.int().positive(), z.literal('max'), z.strictObject({ cap: z.enum(['best-level-tenth', 'best-beginner-tenth']) })]),
+        tie: z.string().optional(), core: z.boolean().optional(),
+        when: z.array(z.union([StepCondition, z.strictObject({ kind: z.literal('servesAny'), afk: z.array(AfkType) })])).optional(),
+      })).min(1),
+    })
+    ```
+
+    The Build loader keeps star Builds out of M9 TR-6's classification and out of `kb.build(line, role)`; a separate `kb.starBuild(role)` returns them. M9 TR-15's core-step check learns that Stonks! is the star Builds' core step.
   - **Roadmap** (`packages/engine/src/builds/roadmap.ts`):
     - one `spendOrder(tab, build, ctx)` function feeds both `nextPoints` and the path, so they never disagree;
     - `BuildTabView` gains `known: { kind: 'lower-bound' | 'exact' | 'none'; points: number | null; overBy: number | null }` and `path: BuildPathStepView[]`;
@@ -826,8 +857,8 @@ These are the fixtures the stories use. Accounts are described by account, class
     }
     ```
 
-  - **Words** in `now/words/characters.ts`: "can add now", "part now", "next after these", "later", "+{n} → {talent}", "At least {n} points known · they end here", "No unspent points known: the totals show where new points go", "all spent", "{n} unspent", "over budget by {n}".
-  - **Knowledge Base** (`packages/knowledge/systems/talents.yaml`): `talents.build.star-fighting` and `talents.build.star-skilling` with the §5.3 Sources (tier 2–3 player-facing plus Toolbox provenance, #74). A new authored fact `talents.fact.star-books`: each star talent's book source, from the wiki, with a Source.
+  - **Words** in `now/words/characters.ts`: "can add now", "part now", "next after these", "later", "+{n} → {talent}", "At least {n} points known · they end here", "No unspent points known: the totals show where new points go", "all spent", "{n} unspent", "over budget by about {n}".
+  - **Knowledge Base** (`packages/knowledge/systems/talents.yaml`): `talents.build.star-fighting` and `talents.build.star-skilling` (the `StarBuildEntry` shape) with the §5.3 Sources (tier 2–3 player-facing plus Toolbox provenance, #74). A new authored fact `talents.fact.star-books`: each star talent's book source, from the wiki, with a Source.
   - **Golden:** a new `## Builds` section from `renderBuildsText`. For each character and preset it lists the tile badges and the first 4 path steps with their bands.
 - **TR-9 Map in the engine** (M). A worker module `packages/engine/src/map/` emits `EngineResult.map: MapResult | null` (an M10 TR-2 amendment, like M17's `systems`).
 
@@ -869,34 +900,37 @@ These are the fixtures the stories use. Accounts are described by account, class
 - **TR-12 Budgets** (M12 TR-12; the budgets never rise in this release).
   - **Baseline**, after #116: main chunk 281.1 KB gzip; first load 308.2 KB of 320 KB.
   - **Estimates added to the first load:**
-    - atoms: about 4 KB;
+    - atoms (including `SourceLabel`, `GoalList` and `Pill`, moved in from `now/`): about 4 KB;
     - the new Now components (counter, pager, grouped jobs, pause control, why sheet): about 6 KB net, after removing the old ones;
-    - core art (about 22 motifs, merged paths): about 3 KB;
+    - `AfkStrip`, which sits on the first screen and so can't be lazy without the layout jumping: about 2 KB;
+    - core art with every frame: the five family chibis (two-frame blink), the walking blob (4 frames), the sleeping blob, the campfire, the gremlin, five nav glyphs, the four Verdict glyphs and the pill kind glyphs, about 30 motifs as merged paths: about 5 KB;
     - words and formatters: about 1 KB.
 
-    That is about +14 KB, which would land at 322 KB, over the budget.
+    That is about +18 KB, which would land at 326 KB, over the budget.
   - **Offsets**, required in the same PRs:
     1. **N** moves the Account section's body (Spend Plan, Done, the Daily & Weekly line, If you have time, Not covered yet) into a `now/account-parts` lazy part, prefetched when the browser is idle. Only the summary header stays in the first load (estimate −7 KB).
     2. **N** makes the Log in list, the Away card and the Settings sheet lazy (−3 KB).
     3. **F** checks V-1 (the ~60 KB of `re2js` in the first load from Firebase that sign-in never uses). If a supported import path drops it, F takes it (estimate −15 KB or more). If not, it is left alone.
-  - **Target at release:** first load ≤ 314 KB, with no art beyond `core.ts` in it.
+  - **Without V-1** the sum is about 308 + 18 − 10 = 316 KB: inside the budget, with about 4 KB of headroom, not more. So the soft line below is the real limit, and V-1 is worth doing early.
+  - **Target at release:** first load ≤ 316 KB without V-1 (≤ 301 KB with it), with no art beyond `core.ts` in it. F fills `core.ts` with the whole first-screen list above, so N and M never edit it; a later addition is a cross-module request for I.
+  - **Fonts:** the first screen's font files (FR-F2's five) are measured by F and capped at that number + 10 KB by a new `firstPaintFontsRaw` budget line.
   - **New guards:**
     - `bundle-guards.ts` fails a build that puts `design/art/generated/*` or any place, tab or page body in the first load;
     - a CSS budget, `mainCssGzip` = F's measured value + 12 KB, enforced from Integration;
-    - every PR's body reports its first-load delta, and one that crosses 316 KB must offset in the same PR.
+    - every PR's body reports its first-load delta, and one that crosses 317 KB must offset in the same PR.
 - **TR-13 Lazy parts.** The `lazyPart` pattern from #116 is the only lazy mechanism.
   - The places Characters, Systems, Timeline and Map, every tab, and every page body are lazy. So are `now/account-parts`, `now/session`, Settings and the Suggestions panel (already lazy).
   - The shell prefetches every part when the browser is idle after the first result (as M17 TR-11 does for the Timeline).
   - The fallback is `<Loading delayMs={400} />`. Failure shows G3.
 - **TR-14 Goldens and merge order.**
-  - Each area changes only its golden sections: N `## Now` and `## Not covered yet`, C `## Builds`, S `## Systems` and `## Alchemy`, T `## Timeline`, M `## Map`.
+  - Each area changes only its golden sections: N `## Verdict changes`, `## Now` and `## Not covered yet`; C `## Builds`; S `## Systems`, `## Alchemy` and `## Gear`; T `## Timeline`; M `## Map`. `## Findings` is diagnostic and may move with any area; its diff is reviewed in I.
   - F's formatter change moves every section once, before the areas branch.
   - Area PRs merge one at a time. Each rebases on `main` and re-runs `pnpm kb golden -u`; the generated files resolve by regeneration, never by hand.
   - Integration regenerates once more and reviews the whole diff.
 - **TR-15 CI checks added** (F, unless noted):
   - Contrast: `contrast.test.ts` reads `design/tokens.css` and checks every text pair (`--fg`, `--muted` and each status colour on `--bg`, `--surface`, `--sunk` and its own `-soft`) at 4.5:1, in all three directions × light and dark. Non-text pairs (rules, bars, rings against their background) are checked at 3:1.
-  - A **CSS guard**: no `font-size` below 12 px outside `.legal`; the pixel families never below 16 px; no `letter-spacing` on `.pill`; `min-height: var(--tap-min)` on the interactive base selectors.
-  - A **format guard**: no `toLocaleTimeString`, `toLocaleString` on a date, or hand-rolled `/ 3600` duration text in `apps/activeon/src` outside `design/format.ts`. An allowlist covers non-display arithmetic: `suggestions/context.ts` (the report's hours), `suggestions/client.ts` (the retry hours) and `worker/**`. Area N moves today's three display uses (`App.tsx`'s clock, `CantRead.tsx`, `suggestions/Panel.tsx`'s `timeText`) and `src/format.ts`'s `formatAge` onto the formatter.
+  - A **CSS guard**, over the app's CSS (Field Guide plus the Quest Log accent subtrees; the dormant Command Board label token is ported at 16 px, not the Lab's 8 px): no `font-size` below 12 px outside `.legal`; the pixel families never below 16 px; no `letter-spacing` on `.pill`; `min-height: var(--tap-min)` on the interactive base selectors. Inline text links inside a sentence (Sources, "See it" inside text) are exempt, as WCAG 2.5.8 allows; DS-15's list is about standalone controls.
+  - A **format guard**: no `toLocaleTimeString`, `toLocaleString` on a date, or hand-rolled `/ 3600` duration text in `apps/activeon/src` outside `design/format.ts`. An allowlist covers non-display arithmetic: `suggestions/context.ts` (the report's hours), `suggestions/client.ts` (the retry hours) and `worker/**`. F lands the guard with a **shrinking allowlist** that names today's display uses (`App.tsx`'s clock, `CantRead.tsx`, `suggestions/Panel.tsx`'s `timeText`, `src/format.ts`'s `formatAge`), so CI is green on F's merge. Area N moves them onto the formatter and deletes their allowlist lines; I checks the list holds only the non-display entries.
   - A **golden copy scan**: no "place not given", "Any character", "tier 2", "dementia", or "silver"/"gold coins" as currency.
   - The **ADR 0009 art guard** (TR-4).
   - **axe** on every place and state in jsdom, light and dark.
@@ -911,7 +945,7 @@ These are the fixtures the stories use. Accounts are described by account, class
   - console errors;
   - a CSP report (the Preview's real headers, M12).
 
-  Release needs zero findings, or each one waived in the QA PR with its reason.
+  Release needs zero findings, or each one waived in the QA PR with its reason. Inline links in running text are exempt from the 44 px check (WCAG 2.5.8).
 - **TR-17 Accessibility specifics.**
   - Sheets are `role="dialog"` with `aria-modal`, a focus trap, Esc to close, and focus returned to the opener. The background is `inert`.
   - Segmented controls are radio groups.
@@ -924,7 +958,7 @@ These are the fixtures the stories use. Accounts are described by account, class
   - No new network origin, so the CSP is unchanged: fonts and art are files or modules from `'self'`.
   - Nothing new leaves the browser: the Map, Build and Session data stay in the worker and the UI.
   - The Design Lab snapshot passes the denylist scan (TR-1).
-  - The Suggestions context gains the new places as screens. It maps `map` to M13's existing `other` screen, so nothing new is sent (M17 TR-12).
+  - The Suggestions context gains the new places as screens. It maps `map` to M13's existing `other` screen, so nothing new is sent (M17 TR-12). A Suggest from a place defaults to the Idea kind, not Something's wrong (today `other` would default to wrong).
 
 ## 8. States and edge cases
 
@@ -961,7 +995,7 @@ These are the fixtures the stories use. Accounts are described by account, class
 
 ## 9. Phases, file boundaries and effort
 
-**Step 0.** PR #116 (M18, with `lazyPart`) merges first. This spec builds on its lazy chunks and its Gear views.
+**Step 0.** Done: PR #116 (M18, with `lazyPart`) merged as `6dfaefc`. This spec builds on its lazy chunks and its Gear views. The Design Lab has been copied to `/Users/yasser/Documents/Github/idleon-forge/fixtures/private/design-lab/` (without `ref/`), so the 1:1 source no longer depends on a temporary path (RT-8).
 
 **Phase F: Foundation.** One PR, `feat/M21-foundation`. Everything else waits for it. It pre-creates every shared file, so the five area PRs never edit the same file.
 
@@ -977,17 +1011,22 @@ These are the fixtures the stories use. Accounts are described by account, class
 | Formatters | `packages/knowledge/src/template.ts`; `packages/engine/src/now/format.ts`; the `{x:in}` codemod and the FR-F9 copy audit in `packages/knowledge/systems/*.yaml`; every golden |
 | Account State | `packages/account-state/src/**` (TR-3: one schema bump); `packages/toolbox-parsers/src/calls.ts` (`starTotal`) |
 | Guards and budgets | `apps/activeon/bundle-guards.ts`; `packages/release/src/budgets.ts`; new tests in `apps/activeon/test/` (contrast, CSS guard, format guard, art guard) |
+| Shared UI pieces moved into atoms | `SourceLabel`, `GoalList`, `NextActionItem`'s meta row (from `now/parts.tsx`), `Pill` (from `now/Roster.tsx`), `StateGlyph` (from `gear/`) become `design/atoms/*`; the old files re-export them until I removes the re-exports. `signsStatus` moves from `now/signs/SignsPanel.tsx` into `now/signs/SignsTab.tsx` (C's). So no area imports another area's file for a shared piece |
+| Chrome slot | `Shell.tsx` renders `<NowChrome s={s} />` from a new `now/chrome/NowChrome.tsx` (N's) in place of its direct `Banners`, `ProgressBar`, `WhatsNewCard` and live-region markup, and `session.ts` exposes `visited` (the follow state's set) and a `views` object with one slot per area builder (`sessionView`, `mapView`, `slotsView`, `afkStrip`), each calling a stub in that area's view file. After F, N never edits `Shell.tsx`, and areas edit only their own builder files |
+| CSS split | `styles/now.css` and `styles/views.css` split by owner: `styles/now.css` (N), `characters/characters.css` (C, taking now.css L605–922's tab and Build rules), `systems/systems.css` (S), `timeline/timeline.css` (T, existing), `shell/shell.css` (M, the nav rules), `gear/gear.css` (C) and `systems/gear-pages.css` (S, the page rules), `signs.css` split into `signs-tab.css` (C) and `signs-page.css` (S) |
+| Engine shared files | `packages/engine/src/now/index.ts` (the barrel: F adds every new export name once, pointing at the stub files), `packages/engine/package.json` (`exports` for `./map`, `./session`, `./pictures`), `packages/engine/src/golden.ts` and `packages/kb-tools/src/golden.ts` (the new `## Builds` and `## Map` sections, wired to stub renderers), `render-views-text.ts` split into `render-systems-text.ts` (S) and `render-timeline-text.ts` (T), `now/words/shared.ts` (`LINK_WORDS`, `STATUS_WORDS`, `WORLD_NAMES`, `PLACE_WORDS`: F-owned and frozen; a new shared word is a cross-module request for I) |
+| Shared tests | `apps/activeon/test/{shell,now-screen,m18-view,m20-view}.test.tsx` are split by area into per-area files, so each area edits only its own tests |
 | Optional entry fields | Check entries gain optional `fixSeconds` (D-10) and `groupText` (FR-N3): `packages/knowledge/src/schema.ts`, the Check entry only; `groupText` is authored in the YAML of the entries that fire on 3 or more characters |
 
-**Phase A: five area PRs in parallel**, each branched from `main` after F merges. Each stays inside its boundary. A change needed outside it goes under "Cross-module requests" in its PR body for Integration (build-brief rule 1).
+**Phase A: five area PRs, built in parallel, merged in order.** Each branches from `main` after F merges and stays inside its boundary. They merge one at a time in the order **N, C, S, T, M**, each rebased on `main` with its goldens regenerated (TR-14). The order matters only for generated files and the golden `.md`s, which every area regenerates; source files have one owner each. A change needed outside it goes under "Cross-module requests" in its PR body for Integration (build-brief rule 1).
 
 | Area | Branch | Owns (and nothing else) |
 |---|---|---|
-| **N Now and flows** | `feat/M21-now` | `apps/activeon/src/App.tsx`; `components/**`; `now/{NowScreen,Roster,Focus,parts,PurposeBlock,Account,Chrome,CantWorkOut,release,report,context,follow}.*`; `now/walkthrough/**`; `now/account-parts/**`, `now/session/**`, `now/settings/**` (new); `suggestions/{Panel.tsx,SuggestionsProvider.tsx,suggestions.css}` (UI only; M13's logic files untouched); `styles/{app,now}.css`; engine `now/{build-now-view,render-text,session-view}.ts`, `now/words/now.ts`, `session/**`; the `## Now` and `## Not covered yet` golden sections |
-| **C Characters** | `feat/M21-characters` | `apps/activeon/src/characters/**` (incl. `CharacterShell.tsx`); `now/BuildView.tsx` (moves to `characters/build/`); `now/cards/**`; `now/signs/SignsTab.tsx`; `now/SkillsTab.tsx` (it stops importing `checklist.css`); `gear/GearTab.tsx`, `gear/gear.css`; `now/character-tabs.ts`; engine `builds/**`, `now/{build-view,cards-view,skills-view}.ts`, `now/words/characters.ts`, `now/render-builds-text.ts` (new); `packages/knowledge/src/schema.ts` (Build parts only); `packages/knowledge/systems/{talents,talent-presets}.yaml`, `talents.facts.yaml` (`star-books`); the `## Builds` golden section |
-| **S Systems** | `feat/M21-systems` | `apps/activeon/src/systems/**`; `alchemy/**`; `gear/GearPages.tsx` with a new `systems/gear-pages.css`; `now/signs/SignsPanel.tsx`, `signs.css` (the Star Chart body); engine `now/{systems-view,system-homes,star-signs-view}.ts`, `now/words/systems.ts`, `pictures/**`; the `## Systems` and `## Alchemy` golden sections |
-| **T Time** | `feat/M21-time` | `apps/activeon/src/timeline/**` (incl. new `ParallelSlots.tsx`, `AfkStrip.tsx`); `now/Checklist.tsx`, `now/checklist.css`; engine `now/{timeline-view,checklist-view,slots-view}.ts`, `now/words/time.ts`; the `## Timeline` golden section |
-| **M Map and nav** | `feat/M21-map` | `apps/activeon/src/shell/{Shell.tsx,session.ts}`; `apps/activeon/src/map/**` (new); engine `map/**`, `now/map-view.ts`, `now/words/{map,shell}.ts`; `packages/knowledge/systems/map.facts.yaml` (new); the `## Map` golden section |
+| **N Now and flows** | `feat/M21-now` | `apps/activeon/src/App.tsx`; `components/**`; `now/{NowScreen,Roster,Focus,parts,PurposeBlock,Account,Chrome,CantWorkOut,release,report,context,follow,prefs-store,open-keys}.*`; `now/chrome/**`; `now/walkthrough/**`; `now/account-parts/**`, `now/session/**`, `now/settings/**` (new); `suggestions/{Panel.tsx,SuggestionsProvider.tsx,suggestions.css}` (UI only; M13's logic files untouched); `styles/{app,now}.css`; engine `now/{build-now-view,render-text,session-view}.ts`, `now/words/now.ts`, `session/**`; the `## Now` and `## Not covered yet` golden sections |
+| **C Characters** | `feat/M21-characters` | `apps/activeon/src/characters/**` (incl. `CharacterShell.tsx`, `characters.css`); `now/BuildView.tsx` (moves to `characters/build/`); `now/cards/**`; `now/signs/SignsTab.tsx`, `signs-tab.css`; `now/SkillsTab.tsx` (it stops importing `checklist.css`); `gear/GearTab.tsx`, `gear/gear.css`; `now/character-tabs.ts`; engine `builds/**`, `gear/**` (its `TabHealth`), `collections/cards-view.ts`, `now/{build-view,cards-view,skills-view}.ts`, `now/words/characters.ts`, `now/render-builds-text.ts` (new); `packages/knowledge/src/schema.ts` (Build parts only); `packages/knowledge/systems/{talents,talent-presets}.yaml`, `talents.facts.yaml` (`star-books`); the `## Builds` golden section |
+| **S Systems** | `feat/M21-systems` | `apps/activeon/src/systems/**`; `alchemy/**`; `gear/GearPages.tsx` with `systems/gear-pages.css`; `now/signs/SignsPanel.tsx`, `signs-page.css` (the Star Chart body; it keeps exporting `StarChartSection` until I deletes it, so N's removal and S's restyle don't depend on each other); engine `now/{systems-view,system-homes,star-signs-view}.ts`, `now/render-systems-text.ts`, `now/words/systems.ts`, `pictures/**`; the `## Systems`, `## Alchemy` and `## Gear` golden sections |
+| **T Time** | `feat/M21-time` | `apps/activeon/src/timeline/**` (incl. new `ParallelSlots.tsx`, `AfkStrip.tsx`); `now/Checklist.tsx`, `now/checklist.css` (keeping the `ChecklistSection` export name N's Account imports); engine `now/{timeline-view,checklist-view,slots-view}.ts`, `now/render-timeline-text.ts`, `now/words/time.ts`; the `## Timeline` golden section |
+| **M Map and nav** | `feat/M21-map` | `apps/activeon/src/shell/{Shell.tsx,session.ts,shell.css}` (the nav and places only; after F, the chrome is N's `NowChrome` and the view slots belong to their areas); `apps/activeon/src/map/**` (new); engine `map/**`, `now/map-view.ts`, `now/words/{map,shell}.ts`; `packages/knowledge/systems/map.facts.yaml` (new); the `## Map` golden section |
 
 **Phase I: Integration.** One PR, `feat/M21-integration`, after the five merge:
 - place `AfkStrip` on Now;
@@ -1041,7 +1080,7 @@ These are the fixtures the stories use. Accounts are described by account, class
 | M15 | `behindSystems` (the report card) | none |
 | M16 | Constellations, signs | none (the Star Chart moves page) |
 | M17 | Shell, routes, hub, pages, Timeline, `SYSTEM_HOMES`, `characterTabs` | Amend FR-1 (five places, Map), FR-5 (badges on Now and Timeline only), D-1 (the Map is built) |
-| M18 (#116) | `lazyPart`, the Gear views | must merge first |
+| M18 (#116, merged) | `lazyPart`, the Gear views | none |
 | M19 | The Alchemy page | none (restyle) |
 | M20 | Checklist, slots, skills, `SystemPicture` | Amend TR-6 (the new picture kinds; the Daily & Weekly full view moves to the Timeline's `#daily` section) |
 
@@ -1062,11 +1101,11 @@ These are the fixtures the stories use. Accounts are described by account, class
 
   The app builds the picks and overrides, plus the variants the critique marks as a state, a desktop layout or a merge (§4.1). The others stay in the collection, ready to be picked later. *Why:* the owner said "go for mostly your picks". The full renders embed scrubbed save data, so they can't be public (AGENTS.md: never commit account data). Owner review Q1 asks whether a live in-app catalogue is also wanted.
 - **D-3 Command Board from 1000 px, in Field Guide's colours and fonts**, taking its density and layout tokens only. *Why:* the critique's "desktop and power-session layout of the chosen direction, not a third skin".
-- **D-4 Fonts.** The latin subset only; Atkinson Hyperlegible Next replaces Atkinson Hyperlegible; Tiny5 is dropped (it was only for sub-16 px pixel labels, which DS-14 bans). Geist and Geist Mono ship for the Command Board token set; the Command Board *layout* uses Field Guide's fonts, so they download only if a direction switch ever ships, or in the dev `?direction=board` view. *Why:* the CSP stays `font-src 'self'`, and the bytes a phone downloads stay the same.
+- **D-4 Fonts.** The latin subset of three families only: Atkinson Hyperlegible Next (replacing Atkinson Hyperlegible), JetBrains Mono, Pixelify Sans. The skin-only faces aren't dependencies until a skin ships (AGENTS.md: no casual dependencies). *Why:* the CSP stays `font-src 'self'`. The first screen downloads one more font file than today (Pixelify 600 for the pixel headings), which TR-12's font line counts.
 - **D-5 Breakpoints.** The rail stays at 720 px (M17 D-5, already ruled), and the Command Board layouts start at 1000 px (the Lab's own breakpoint, and today's two-preset rule).
 - **D-6 The Map is never locked.** The Lab marked "a place locked" as a mock. A W1 account sees W1 and the dimmed W2 gate, which is useful from day one.
 - **D-7 Badges on Now and Timeline only.** The critique said to borrow this rule from the runner-up. The Systems wasting count moves into the hub's report card header, so it isn't lost.
-- **D-8 Pause-point rules** (FR-N6): conservative, explained in one line, and overridable. A manual pick holds until the next save. The list ticks only from the save (DS-2).
+- **D-8 Pause-point rules** (FR-N6): conservative, explained in one line, and overridable. A manual pick holds for the rest of the Play Session. The list ticks only from the save (DS-2). A manual pick holds for the Play Session.
 - **D-9 The Star Chart leaves the Account section** for the `star-signs` System page, and the Account keeps one line. *Why:* the Account is a summary header with at most 5 Goals (P9), and the Lab's Star Chart is a System page picture.
 - **D-10 Fix times.** Check entries gain an optional `fixSeconds`, but no value ships in this release, so every fix time is hidden (DS-3, DS-23). Filling them is Knowledge Base work for the top 15 Checks, after release (the critique's "fix the data" step).
 - **D-11 The walking blob** shows for the save wait and parse (with named steps), and after 400 ms for a lazy part. It never flashes on a fast load.
@@ -1109,11 +1148,51 @@ These are the genuine product calls, at most five, each with a recommendation.
 4. **The Lab's SVGs carry inline `<style>`**, which the CSP (`style-src 'self'`) would block. *Defence:* the codegen strips them. Fills and frames come from `art.css`. React style props carry only CSS custom properties, as the Timeline already does under this CSP.
 5. **Wrong star advice.** Supersource on a Worship preset, Beginner Best Class with no Beginner-line character, Quest KAPOW! past the quests done. *Defence:* `servesAny` conditions, useful caps from save data, and a book-not-found band. The entries carry tier 2–3 player-facing Sources plus Toolbox provenance (#74), with contract tests on both private saves.
 6. **"Next after these" reads as "can't buy".** *Defence:* the owner's words are the rule. The rows carry a "→" glyph and a running total, full text contrast (no lowered opacity), and a test that no path string says "can't".
-7. **The pause point picks the wrong tab** and hides the Log off list. *Defence:* the rules are conservative and stated in one line, a manual pick holds until the next save, and Log off's list is also every blocker on Now (the counter), so nothing is hidden.
+7. **The pause point picks the wrong tab** and hides the Log off list. *Defence:* the rules are conservative and stated in one line, a manual pick holds for the Play Session, and Log off's list is also every blocker on Now (the counter), so nothing is hidden.
 8. **The Lab snapshot leaks names or account data.** *Defence:* only the data-free parts go public, the denylist scan runs on every file, `ref/` is never copied, and the renders stay in `fixtures/private/`.
 9. **Pixel fonts sneak below 16 px or onto body text.** *Defence:* the CSS guard (TR-15) fails the build.
 10. **Lab mock numbers ("~10 s", "+12%") get copied in with the markup.** *Defence:* DS-23, the golden copy scan, and D-10 (no `fixSeconds` values in this release).
 11. **Patch day changes the star pages or adds a System.** *Defence:* star data comes from game facts, and an unknown talent shows as plain levels. A new System gets a generic glyph, and the art never depends on game data.
+
+## 13. Red-team log
+
+An independent agent that had not seen this spec's drafting reviewed it on 2026-10-18 against the code at `6dfaefc`, the Design Lab (all 85 components checked against the critiques), the star research and the ADRs. It reported **0 P0, 8 P1, 16 P2 and 9 P3** findings. Each was verified against the code or the data before it was folded in. **31 were fixed, 2 fixed in part, none rejected.**
+
+| # | Sev | Finding | Verdict | How |
+|---|---|---|---|---|
+| RT-1 | P1 | The area boundaries collide: `Shell.tsx` renders N's chrome, `session.ts` builds every view, `parts.tsx`/`Pill` are imported by C, S and T, plus the cross-imports, shared CSS, the engine barrel, golden plumbing, shared word groups and tests | Fixed | F moves the shared pieces into atoms, adds the `NowChrome` slot and the per-area view slots in `session.ts`, splits the CSS, the text renderers and the tests by owner, and owns the barrel, exports, golden wiring and `words/shared.ts`. Merge order N, C, S, T, M for the generated files (§9). Path corrected to `collections/cards-view.ts` |
+| RT-2 | P1 | The format guard turns CI red on F's merge (existing display uses) | Fixed | A shrinking allowlist; N moves the display uses and deletes the lines (TR-15) |
+| RT-3 | P1 | The ADR 0009 guard keyed on titles can't pass (183 of 213 have no provenance text) | Fixed | A sha256 `MANIFEST.json` written at copy, plus `art/README.md`'s statement (TR-1, TR-4) |
+| RT-4 | P1 | Four authoring styles, not three; stripping styles loses slot maps and frame timing; 24 px isn't an integer scale of a 16-grid chibi | Fixed | The importer parses styles into slots, frames and fps first, and fails on unknown forms; scale is a multiple of each motif's grid; `WhoGlyph` takes `scale` (TR-4, TR-5) |
+| RT-5 | P1 | The star steps have no targets; Toilet Paper Postage's max (tens of thousands) swallows the totals; `tie` is undefined in the path | Fixed | An explicit target per step (book max, 1, 30, useful caps, TPP capped at 100 with its reason); a tie is one path row with an even split, shared with tabs 1–3 through one `spendOrder` (FR-C11) |
+| RT-6 | P1 | The health matrix and G4 rest on a severity nobody defines; today's status is free text ("118+") | Fixed | `TabHealth { level, word }` declared by F, filled per tab by C (Gear included); severity order and tie-break defined (FR-C7, G4) |
+| RT-7 | P1 | US-11 contradicts FR-S1: 7 Systems are wasting on W3-early, and wasting Systems have no Stage position | Fixed | A "Wasting now" strip above the axis; axis rows are the behind Systems only; US-11 rewritten to the golden (FR-S1) |
+| RT-8 | P1 | The only 1:1 source sits in a temporary session path | Fixed | Copied to `fixtures/private/design-lab/` (main checkout, ignored, without `ref/`) before this PR (§9 step 0, TR-1) |
+| RT-9 | P2 | The budget leaves out `AfkStrip`, the animated frames and the fonts; `core.ts` would be shared | Fixed in part | +18 KB counted, a realistic 316 KB target without V-1 and about 4 KB of headroom stated plainly; `core.ts` filled once by F; a font-bytes budget line (TR-12). The headroom stays tight, which is said, not solved |
+| RT-10 | P2 | Fonts added as dependencies ship nothing; Atkinson Next 600 is missing; Board's 8 px label fails the guard | Fixed | Only three families and the weights used; skin fonts wait for a skin; the board label is ported at 16 px (FR-F2, D-4, TR-15) |
+| RT-11 | P2 | The star bands overlap at −201, and an exact "over budget" breaks if a patch adds a source | Fixed | Ordered bands with a tolerance of −2 to 1, and "about" on over budget (FR-C10) |
+| RT-12 | P2 | Stonks! returns about 49 points, so the band marker lands too early | Fixed | A second `starTotal` call with Stonks! at its target adds the return to the known points from that row on (FR-C12a) |
+| RT-13 | P2 | Useful caps are defined for quest talents no Build uses | Fixed | Dropped; V-9 now checks the two caps the Builds use (FR-C12) |
+| RT-14 | P2 | The later band misfiles bubble-capped and `accuracyShort` steps | Fixed | Later is for stage gates and books only; accuracy shows as a note, bubble caps as "set by a bubble" (FR-C1) |
+| RT-15 | P2 | The overview line adds totals across tabs | Fixed | One tab's totals only; star talents get their own part (FR-C6, FR-C14) |
+| RT-16 | P2 | "Serves" is undefined for an inactive skilling preset | Fixed | From the matched class Build's `serves`; unknown keeps the step with its condition in words (FR-C11) |
+| RT-17 | P2 | A wildcard class Build would pollute classification, and `tab: 'star'` breaks `tab <= 3` | Fixed | A separate `StarBuildEntry` (`variant: 'star'`), kept out of classification and `kb.build`; class Builds untouched (TR-8) |
+| RT-18 | P2 | The star-empty Goal crosses boundaries | Fixed | Built in Phase I if Q2 is accepted, in M9's folder and lists (FR-C15) |
+| RT-19 | P2 | The clock-time preference has no mechanism for Knowledge Base text | Fixed | It applies to the UI-formatted times, which stay structured; Knowledge Base sentences stay relative; goldens at UTC 0 (FR-F6, G10) |
+| RT-20 | P2 | The ADR 0005/0007 tension is unacknowledged (Will of the Eldest rule, authored facts) | Fixed | The ADR 0005 reasoning, the wiki citation and staleness; authored tier-2 facts under ADR 0007 (FR-C12, FR-C13) |
+| RT-21 | P2 | Stories need fixtures that don't exist; the 12-minute case is ambiguous; the Timeline badge count has no source | Fixed | `allSetW2` and `historyOf(...)` test builders added by F; named fixtures for each star case; the 12-minute case pinned; the badge counts `buildTimelineView`'s `before` items (US-4, 5, 7, 10) |
+| RT-22 | P2 | A manual pause pick snaps back on the next save | Fixed | It holds for the Play Session (FR-N6, D-8) |
+| RT-23 | P2 | Lab fidelity: the Jersey 15 numeral isn't a critique borrow, the Away card's middle tier is invented, archived Command Board ideas aren't named, the next-points change is mislabelled an override, two treatments are mis-sourced | Fixed | The Field Guide verdict type; Away tiers per the brief; Portrait grid, Heat grid, Letter tile and Guide NPC listed as archived with reasons; next-points marked a functional request; world tint and the 4 px rule cited to the brief and inventory |
+| RT-24 | P2 | Mock-data traps: the empty recap, the best-swap source, chibis animating on every row | Fixed | The recap hides when empty; best-swap confirmed in `collections/cards-view.ts`; chibis animate only for the playing character (TR-5) |
+| RT-25 | P3 | "Vault row 53 is late" contradicts W3-early being 33 levels away | Fixed | Reworded with the link to the Vault page (§5.3) |
+| RT-26 | P3 | The Log in gap rule is always true at 15 minutes | Fixed | A previous session ending at least 1 hour before (FR-N6) |
+| RT-27 | P3 | `#map-<n>` collides with the tab pattern | Fixed | Checked first, with a test (TR-6) |
+| RT-28 | P3 | The latin subset may lack →, ← and ✓ | Fixed | V-5 checks each; missing ones become art glyphs (FR-F2) |
+| RT-29 | P3 | `data-mode` vs `data-theme` | Fixed | `data-theme` only (§3.3) |
+| RT-30 | P3 | `map` → `other` defaults Suggest to "wrong" | Fixed | Places default to Idea (TR-18) |
+| RT-31 | P3 | The 44 px rule would flag inline text links | Fixed | Exempt per WCAG 2.5.8 (TR-15, TR-16) |
+| RT-32 | P3 | The badge font is unnamed | Fixed | Atkinson Hyperlegible Next 700, never a pixel face (FR-F4) |
+| RT-33 | P3 | "#116 merges first" is stale; the denylist path only works in the main checkout | Fixed | Rebased on `6dfaefc`; absolute denylist path (§9, TR-1) |
 
 ## Verify before build
 
@@ -1123,11 +1202,11 @@ Facts to settle in the first PR of their phase. They are facts, not product deci
 - [ ] **V-2 (F)** `toolboxCalls.starTotal`: one-character calls equal each preset's spend plus 0–1 on `first` and `second`, and reproduce `fourth`'s −201 (the research note). On both private saves, the active preset's total is at least its spend.
 - [ ] **V-3 (F)** Raw `KLA_<i>` covers every map for every character, and its door order matches `maps.fact.maps` doors.
 - [ ] **V-4 (F)** Does Toolbox expose per-character statue levels (the split the spread chart needs)? If not, `byCharacter` is null and the spread chart isn't built.
-- [ ] **V-5 (F)** The `@fontsource/<font>/latin-<weight>.css` entry exists for each of the eight fonts at 5.3.0.
+- [ ] **V-5 (F)** The `@fontsource/<font>/latin-<weight>.css` entry exists for the three families and seven weights at 5.3.0, and each latin file has "→", "←" and "✓" (else those are drawn as art glyphs).
 - [ ] **V-6 (N)** Play Session ends and level gains from `HistoryEntry` match M1's `sessionStart` and M9's baseline rule.
 - [ ] **V-7 (F)** Each generated motif renders pixel-identical to its Lab SVG at 2× in all three ramps (0 differing pixels in the probe).
 - [ ] **V-8 (M)** The W1–W4 boss, boss map and key item for `map.fact.boss-gates`, from the wiki and the existing `boss-keys` facts.
-- [ ] **V-9 (C)** The completed-quest count for the quest caps is in Account State (M8's `quests`), counted the way Toolbox's `damage.ts` caps Quest KAPOW!.
+- [ ] **V-9 (C)** The best Beginner-line level and the best class level read from Account State (`classIndex` through `classes.fact.class-tree`) match Toolbox's `damage.ts` Beginner Best Class cap on `first` and `second`.
 - [ ] **V-10 (F, N)** The grouped-jobs key (the entry id) with `groupText` groups `latest`'s trap line into one card. The golden shows 6 or 7 finished traps per row; count the rows that carry it.
 
 ## Consistency with other specs
@@ -1157,4 +1236,4 @@ Where this spec and an older one disagree on a visual or layout point, this spec
 - [DigitalTQ: IdleOn Special Talents guide](https://www.digitaltq.com/wiki/idleon/special-talents-guide) (2026-09-10). Tier 3.
 - [Steam discussion on star talent points](https://steamcommunity.com/app/1476970/discussions/0/3726197825943969559) (2022-12-27). Tier 4, old.
 - Dossier `research/character-builds` (2026-10-17): Star talents, Talent resets, and the build orders.
-- Repo: `apps/activeon/src/**` at `93a01eb`, PR #116 (M18), `packages/release/src/budgets.ts`, `apps/activeon/public/_headers` (CSP), the goldens `packages/knowledge/golden/scrubbed-w3.md` and `scrubbed-w2.md`, and the M7 (AC-1.5), M9 (US-2, US-3, TR-7) and M17 specs.
+- Repo: `apps/activeon/src/**` at `6dfaefc` (with PR #116, M18), `packages/release/src/budgets.ts`, `apps/activeon/public/_headers` (CSP), the goldens `packages/knowledge/golden/scrubbed-w3.md` and `scrubbed-w2.md`, and the M7 (AC-1.5), M9 (US-2, US-3, TR-7) and M17 specs.
