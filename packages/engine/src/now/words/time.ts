@@ -18,6 +18,10 @@ export const TIMELINE_WORDS = {
   title: 'Timeline',
   intro: 'When each character and the account stop earning, against when you are back.',
   back: (when: string, at: string) => `Back ${when} · ${at}`,
+  /** With the Times setting (G10): "Back in 8h 00m" or "Back around 02:20". */
+  backOne: (when: string) => `Back ${when}`,
+  /** The clock form of a moment (G10 "Around 20:10"). */
+  around: (at: string) => `around ${at}`,
   backShort: 'Back',
   now: 'now',
   later: 'later',

@@ -21,6 +21,21 @@ export interface TimelineUi {
   lastCloudSave?: number | null;
   /** Minutes east of UTC, for "01:20" clock times; 0 in goldens. */
   tzOffsetMinutes?: number;
+  /**
+   * M21 G10, the player's Times setting: 'relative' says "in 3h 10m", 'clock' says "around 01:20".
+   * Without it (goldens, tests) a time reads both ways, "in 3h 10m · 01:20".
+   */
+  times?: TimeStyle;
+}
+
+/** The Times setting's two styles (G10); the app's `design/format.ts` uses the same names. */
+export type TimeStyle = 'relative' | 'clock';
+
+/** A future moment in the Times style: "in 3h 10m", "around 01:20", or both when no style is set. */
+export function timeIn(at: number, now: number, tz: number, times?: TimeStyle): string {
+  if (times === 'clock') return W.around(clockAt(at, tz));
+  if (times === 'relative') return inSpan(at - now);
+  return `${inSpan(at - now)} · ${clockAt(at, tz)}`;
 }
 
 const HOUR = 3_600_000;
@@ -160,7 +175,7 @@ export function buildTimelineView(
       ? W.cantTell
       : at === null || at <= now
         ? W.now
-        : `${later ? `${W.later} · ` : ''}${inSpan(at - now)} · ${clockAt(at, tz)}`;
+        : `${later ? `${W.later} · ` : ''}${timeIn(at, now, tz, ui.times)}`;
     const flag =
       state === 'skipped' ? W.skipped : state === 'dismissed' ? W.dismissed : outlined ? W.beforeBack : null;
     const where = b.untimed
@@ -302,7 +317,10 @@ export function buildTimelineView(
       end,
       returnAt,
       backX: xOf(returnAt),
-      backLabel: W.back(returnAt > now ? inSpan(returnAt - now) : W.now, clockAt(returnAt, tz)),
+      backLabel:
+        ui.times === undefined
+          ? W.back(returnAt > now ? inSpan(returnAt - now) : W.now, clockAt(returnAt, tz))
+          : W.backOne(returnAt > now ? timeIn(returnAt, now, tz, ui.times) : W.now),
       ticks: ticksOf(start, end),
     },
     lanes,
@@ -347,11 +365,21 @@ export interface AfkStrip extends AfkStripView {
  * binds before the return, a flag at Back and one sentence. Owned by area T; Integration places it on Now.
  * It reads only `buildTimelineView`'s output, so it never disagrees with the Timeline place.
  */
-export function buildAfkStripView(timeline: TimelineView | null, view: NowView): AfkStrip | null {
+export function buildAfkStripView(
+  timeline: TimelineView | null,
+  view: NowView,
+  /** The Times setting (G10) and the clock's offset; without `times` a time reads "in 3h 40m". */
+  ui: { times?: TimeStyle; tzOffsetMinutes?: number } = {},
+): AfkStrip | null {
   if (!timeline) return null;
   const rows = new Map(view.roster.map((r) => [r.index, r]));
   const now = timeline.axis.start;
-  const whenOf = (at: number) => (at <= now ? AFK_STRIP_WORDS.fullNow : inSpan(at - now));
+  const whenOf = (at: number) =>
+    at <= now
+      ? AFK_STRIP_WORDS.fullNow
+      : ui.times === 'clock'
+        ? W.around(clockAt(at, ui.tzOffsetMinutes ?? 0))
+        : inSpan(at - now);
   const marks: AfkStripMark[] = [];
   let before = 0;
   let first: { at: number; what: string; who: string } | null = null;

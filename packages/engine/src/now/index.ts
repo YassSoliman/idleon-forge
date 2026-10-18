@@ -63,6 +63,12 @@ export { buildSlotsView } from './slots-view';
 export { signsHref, starSignsView } from './star-signs-view';
 export { SYSTEM_HOMES, type SystemHome, tabHomeOf, timelineHome } from './system-homes';
 export { buildSystemPageView, buildSystemsView, type SystemsUi, seeItSystem } from './systems-view';
-export { buildAfkStripView, buildTimelineView, type TimelineUi, timelineAxisEnd } from './timeline-view';
+export {
+  buildAfkStripView,
+  buildTimelineView,
+  type TimelineUi,
+  type TimeStyle,
+  timelineAxisEnd,
+} from './timeline-view';
 export type * from './view';
 export * from './view-words';

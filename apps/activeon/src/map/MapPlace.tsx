@@ -18,7 +18,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ArtName } from '../design/art/names';
 import { PixelArt } from '../design/art/PixelArt';
 import { Meter, Ring, SegmentedControl, Sheet, TokenLine } from '../design/atoms';
+import { localOffsetMinutes } from '../design/format';
 import { type ClassFamily, WhoGlyph } from '../design/who/WhoGlyph';
+import { useNowSettings } from '../now/settings/context';
 import type { Session } from '../shell/session';
 import './map.css';
 
@@ -496,7 +498,12 @@ export function MapPlace({ s }: { s: Session }) {
   useEffect(() => {
     if (takeArrivalFocus()) heading.current?.focus({ preventScroll: true });
   }, [takeArrivalFocus]);
-  const v = useMemo(() => buildMapView(s.result, s.view, { now: s.now }), [s.result, s.view, s.now]);
+  // M21 G10: the frontier's time follows the Times setting.
+  const { times } = useNowSettings();
+  const v = useMemo(
+    () => buildMapView(s.result, s.view, { now: s.now, times, tzOffsetMinutes: localOffsetMinutes(s.now) }),
+    [s.result, s.view, s.now, times],
+  );
   const [overlay, setOverlay] = useState<Overlay['overlay']>('route');
   const picked = s.route.place === 'map' ? s.route.mapIndex : null;
   const sheet = picked !== null && v ? (v.sheets[picked] ?? null) : null;
