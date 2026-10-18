@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #d27ff3c4 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 988
+# golden v1: scrubbed-w2 · knowledge #762f705c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 988
 
 ## Verdict changes
 

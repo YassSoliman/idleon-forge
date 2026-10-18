@@ -13,8 +13,8 @@ entries:
     text: "Hire the Armor-set Smithy in Frostbite Towndra"
     why: "Registered sets give their bonus to every character for good, without wearing them."
     values:
-      waiting: "Opens in {days:int} days, or once 2,000 gems were bought"
-      waiting-one: "Opens in 1 day, or once 2,000 gems were bought"
+      waiting: "Opens in {days:int} days, or once {gems:int} gems were bought"
+      waiting-one: "Opens in 1 day, or once {gems:int} gems were bought"
       ready: "Ready to hire in Frostbite Towndra"
       hired: "Hired"
       unknown: "Can't tell from this save"

@@ -8,6 +8,8 @@ import { ENTRY, type GearFacts, type GearKnowledge, joinAnd, type SmithySet, say
 import type { SmithySetCard } from './types';
 
 export const SMITHY_DAYS = 30;
+/** Gems bought that open the Smithy at once (Toolbox `getArmorSmithy` isSmithyUnlocked: 2e3, bun_c counts 1,500). */
+export const SMITHY_GEMS = 2000;
 
 export interface SmithyResult {
   state: 'waiting' | 'ready' | 'hired' | 'unknown';
@@ -31,7 +33,8 @@ export function buildSmithy(
   const s = state.account.armorSmithy ?? null;
   const st: SmithyResult['state'] = !s ? 'unknown' : s.hired ? 'hired' : s.canHire ? 'ready' : 'waiting';
   const daysLeft = s && st === 'waiting' ? Math.max(1, SMITHY_DAYS - Math.floor(s.daysWaited)) : null;
-  const h = (k: string, slots: Record<string, string | number> = {}) => say(kb, ENTRY.hire, k, slots);
+  const h = (k: string, slots: Record<string, string | number> = {}) =>
+    say(kb, ENTRY.hire, k, { gems: SMITHY_GEMS, ...slots });
   const line =
     st === 'waiting'
       ? daysLeft === 1
