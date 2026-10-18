@@ -506,6 +506,7 @@ export function buildGear(input: GearBuildInput): GearBuildOutput | null {
     };
     const g = goalOf(id, key, lineText(l), lineWhy(l), [], GEAR_FIELDS, extra);
     if (!g) continue;
+    if (l.kind === 'empty') g.nextAction.sources = slotSources(g.nextAction.sources, l.slot);
     keyOfSlot.set(`${l.index}:${l.slot}`, key);
     litRank.set(key, l.doable ? 1 : l.kind === 'tool' ? 2 : l.slot === 'weapon' ? 3 : 4);
     addChar(l.index, { goal: g, rank: rankOf(l.pos, effort(kb, id)) });
@@ -606,6 +607,7 @@ export function buildGear(input: GearBuildInput): GearBuildOutput | null {
           : s(ENTRY.empty, 'rings-step', { n: pendants.length, kind: 'pendant', step: first });
     }
     const g = goalOf(ENTRY.empty, `${ENTRY.empty}@account`, text, whys.join(' '), details, GEAR_FIELDS);
+    if (g) g.nextAction.sources = slotSources(g.nextAction.sources, rings.length ? 'ring1' : 'pendant');
     if (g) {
       account.push({ goal: g, rank: rankOf(doable ? 3 : 'armour', effort(kb, ENTRY.empty)) });
       for (const a of accessories) keyOfSlot.set(`${a.index}:${a.slot}`, `${ENTRY.empty}@account`);
@@ -973,6 +975,29 @@ function laddersOf(
     out.push({ skill: t.skill, skillLevel: lv, tiers, next });
   }
   return out;
+}
+
+// R9 QA P2-3: the empty-slot entry cites one wiki page per slot; each line keeps its own slot's page
+// (and the slot-free Sources), so an empty pants slot never cites the Rings page.
+const SLOT_PAGE: Readonly<Partial<Record<GearSlotId, string>>> = {
+  helmet: '/wiki/Helmets',
+  shirt: '/wiki/Shirts',
+  pants: '/wiki/Pants',
+  shoes: '/wiki/Shoes',
+  weapon: '/wiki/Weapons',
+  ring1: '/wiki/Rings',
+  ring2: '/wiki/Rings',
+};
+const ANVIL_TAB_PAGE = '/wiki/Smithing/Anvil_Tab_';
+export function slotSources(sources: SourceRef[], slot: GearSlotId): SourceRef[] {
+  const own = SLOT_PAGE[slot];
+  const pages = Object.values(SLOT_PAGE);
+  return sources.filter((x) => {
+    const page = pages.find((p) => x.url.endsWith(p));
+    if (page) return page === own;
+    // The Anvil Tab 1 page covers the Copper Band; an armour piece's own page names its tab and recipe.
+    return !x.url.includes(ANVIL_TAB_PAGE) || own === '/wiki/Rings' || slot === 'pendant';
+  });
 }
 
 const SKILL_LABEL: Readonly<Record<string, string>> = {

@@ -65,6 +65,11 @@ entries:
       - { url: "https://old.reddit.com/r/idleon/comments/1w2v0m0/_/p6y45vg/", title: "r/idleon: no slot that can hold something should be empty", tier: 3, claimDate: 2026-08-31, verified: 2026-10-18, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Rings", title: "IdleOn Wiki: Rings (Copper Band, Steel Band)", tier: 2, claimDate: 2026-09-14, verified: 2026-10-18, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Smithing/Anvil_Tab_1", title: "IdleOn Wiki: Smithing, Anvil Tab 1", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Helmets", title: "IdleOn Wiki: Helmets (each helmet's level and anvil recipe)", tier: 2, claimDate: 2026-09-13, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Shirts", title: "IdleOn Wiki: Shirts (Copper and Iron Platebody, their level and anvil recipe)", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Pants", title: "IdleOn Wiki: Pants (Copper and Iron Platelegs, their level and anvil recipe)", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Shoes", title: "IdleOn Wiki: Shoes (Copper and Iron Boots, their level and anvil recipe)", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Weapons", title: "IdleOn Wiki: Weapons (each class's crafted weapons)", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540 }
     appliesTo: { stages: all }
     confidence: H
     status: active

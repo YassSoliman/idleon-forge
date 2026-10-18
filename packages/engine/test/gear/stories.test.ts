@@ -7,6 +7,8 @@
 import type { AccountState, GearWorn } from '@idleon-forge/account-state';
 import { describe, expect, it } from 'vitest';
 import { buildSmithy, gearFacts, Pool, pathTo } from '../../src/gear';
+import { slotSources } from '../../src/gear/build';
+import { sourcesOf } from '../../src/gear/kb';
 import type { Ctx } from '../../src/gear/paths';
 import { setWarnings } from '../../src/gear/paths';
 import type { EngineResult, Goal } from '../../src/result';
@@ -113,6 +115,33 @@ describe('US-2 no empty slots', () => {
       expect(t.some((x) => x.endsWith('Craft Copper Boots for your shoes (anvil tab 1)'))).toBe(true);
       expect(t.some((x) => x.endsWith('Craft Iron Platelegs for your pants (anvil tab 1)'))).toBe(true);
       expect(t).toContain('Fill 1 empty ring slot: craft a Copper Band now');
+    },
+    T,
+  );
+
+  it(
+    'R9 QA P2-3: each empty-slot craft cites its own slot page, never the Rings page',
+    () => {
+      // The W2 Wizard's Copper Platelegs is the Behind Goal's Next Action (M15), with the gear line's Sources.
+      const r = run(W2());
+      const pants = [...r.account.goals, ...r.characters.flatMap((c) => c.goals)].find((g) =>
+        g.nextAction.text.endsWith('Craft Copper Platelegs for your pants (anvil tab 1)'),
+      );
+      const urls = pants?.nextAction.sources.map((x) => x.url) ?? [];
+      expect(urls).toContain('https://idleon.wiki/wiki/Pants');
+      expect(urls).not.toContain('https://idleon.wiki/wiki/Rings');
+      // Every slot keeps only its own page from the empty-slot entry's Sources.
+      const all = sourcesOf(kb, 'gear.check.empty-slot');
+      const pages = (slot: Parameters<typeof slotSources>[1]) =>
+        slotSources(all, slot)
+          .map((x) => x.url)
+          .filter((u) => u.startsWith('https://idleon.wiki/'));
+      expect(pages('shoes')).toEqual(['https://idleon.wiki/wiki/Shoes']);
+      expect(pages('pants')).toEqual(['https://idleon.wiki/wiki/Pants']);
+      expect(pages('ring1')).toEqual([
+        'https://idleon.wiki/wiki/Rings',
+        'https://idleon.wiki/wiki/Smithing/Anvil_Tab_1',
+      ]);
     },
     T,
   );
