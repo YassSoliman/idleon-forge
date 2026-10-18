@@ -210,6 +210,14 @@ facts:
         sources:
           - { url: https://idleon.wiki/wiki/Trapping, title: "IdleOn Wiki: Trapping", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
           - { url: https://idleon.wiki/wiki/Lord_of_the_Hunt, title: "IdleOn Wiki: Lord of the Hunt", tier: 2, claimDate: 2026-09-27, verified: 2026-10-18, gameVersion: 2.3.540 }
+      # M18 TR-7: the Smithy is in the W3 town; hiring it waits 30 days from the account's start or 2,000 gems bought.
+      - system: armor-smithy
+        world: 3
+        text: "Opens in the W3 town once you've waited 30 days or bought 2,000 gems"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Frostbite_Tundra, title: "IdleOn Wiki: Frostbite Tundra (Armor-Set Smithy)", tier: 2, claimDate: 2025-07-21, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: "https://old.reddit.com/r/idleon/comments/1lq3xp3/reminder_to_check_armorset_smithy/", title: "r/idleon: Reminder to check the Armor-set Smithy (30 days or 2,000 gems)", tier: 3, claimDate: 2025-07-02, verified: 2026-10-18, gameVersion: 2.3.540 }
       - system: death-note
         world: 3
         text: "Opens once the Death Note is built at the Construction Table in Frostbite Tundra town"

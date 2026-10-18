@@ -135,7 +135,7 @@ The ordered list of purchases that stocked currency should go to right now (Upgr
 _Avoid_: shopping list, budget
 
 **Gear Plan**:
-The authored, Source-backed list of which piece each equipment slot and gathering tool should hold at each Stage, per class line; a slot is "behind" when its Gear Plan piece is better in every stat it has.
+The authored, Source-backed list of which piece each equipment slot and gathering tool should hold at each Stage, per class line; a slot is "behind" when it holds an earlier Gear Plan piece than its target, or an off-Plan piece the target beats on every stat it has (M18 FR-12).
 _Avoid_: best in slot, BiS, gear tier list, gear score
 
 **Bubble Plan**:

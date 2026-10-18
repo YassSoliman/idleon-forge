@@ -112,6 +112,14 @@ systems:
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M4-purpose-milestones.md
     unlocked: always
+  # M18 (Gear & Tools, TR-7): equipment and gathering tools, open from the start. M17 FR-35 named it
+  # `equipment`; its entries are `gear.*` and an entry's id starts with its System, so the id is `gear`.
+  - id: gear
+    name: Gear & Tools
+    world: 0
+    scope: character
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M18-gear-tools.md
+    unlocked: always
   # M20 (Daily & Weekly Checklist, Parallel Slots): ActiveOn's own concepts, and the reset Systems.
   - id: checklist
     name: Daily & Weekly Checklist
@@ -358,6 +366,14 @@ systems:
     world: 3
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/worship-trapping-death-note.md
+    unlocked: { id: worlds/reached, params: { world: 3 } }
+    unlockFact: systems.fact.unlocks
+  # M18 F4 (TR-7): the Armor-set Smithy in the W3 town; hiring it is its own Check (armor-smithy.check.hire).
+  - id: armor-smithy
+    name: Armor-set Smithy
+    world: 3
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M18-gear-tools.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
     unlockFact: systems.fact.unlocks
   - id: salt-lick

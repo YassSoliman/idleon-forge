@@ -51,7 +51,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.badge-d1",
@@ -159,7 +160,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.badge-d2",
@@ -272,7 +274,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.badge-d3",
@@ -384,7 +387,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.badge-g1",
@@ -492,7 +496,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.badge-g2",
@@ -605,7 +610,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.badge-g3",
@@ -717,7 +723,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.badge-i1",
@@ -825,7 +832,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.badge-i2",
@@ -938,7 +946,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.badge-i3",
@@ -1047,7 +1056,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.birch-tree",
@@ -1133,7 +1143,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.bob-joe-pickle",
@@ -1225,7 +1236,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.bug1",
@@ -1322,7 +1334,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.bug10",
@@ -1419,7 +1432,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.bug13",
@@ -1505,7 +1519,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.bug2",
@@ -1559,6 +1574,104 @@
         "drops": [
           {
             "afkType": "error",
+            "chance": 0.4,
+            "maps": [],
+            "monster": "ChestB2",
+            "monsterName": "Silver Chest(W2)",
+            "printable": false,
+            "quantity": 125,
+            "table": false,
+            "wiki": null,
+            "world": null
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Sentient Cereal",
+        "node": {
+          "maps": [],
+          "skill": "CATCHING"
+        },
+        "rawName": "Bug3",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "dBugs",
+        "wiki": "https://idleon.wiki/wiki/Sentient_Cereal"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.bug3",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        },
+        {
+          "how": "Gather it from a skilling node",
+          "kind": "skill-node",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Sentient Cereal",
+          "url": "https://idleon.wiki/wiki/Sentient_Cereal",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Sentient Cereal",
+      "thing": {
+        "kind": "item",
+        "rawName": "Bug3"
+      },
+      "title": "Get Sentient Cereal",
+      "type": "acquisition",
+      "values": {
+        "name": "Sentient Cereal",
+        "rawName": "Bug3"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "error",
             "chance": 0.2,
             "maps": [],
             "monster": "ChestC2",
@@ -1597,7 +1710,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.bug4",
@@ -1694,7 +1808,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.bug5",
@@ -1753,6 +1868,104 @@
         "drops": [
           {
             "afkType": "error",
+            "chance": 0.2,
+            "maps": [],
+            "monster": "ChestC3",
+            "monsterName": "Golden Chest(W3)",
+            "printable": false,
+            "quantity": 150,
+            "table": false,
+            "wiki": null,
+            "world": null
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Flycicle",
+        "node": {
+          "maps": [],
+          "skill": "CATCHING"
+        },
+        "rawName": "Bug6",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "dBugs",
+        "wiki": "https://idleon.wiki/wiki/Flycicle"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.bug6",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        },
+        {
+          "how": "Gather it from a skilling node",
+          "kind": "skill-node",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Flycicle",
+          "url": "https://idleon.wiki/wiki/Flycicle",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Flycicle",
+      "thing": {
+        "kind": "item",
+        "rawName": "Bug6"
+      },
+      "title": "Get Flycicle",
+      "type": "acquisition",
+      "values": {
+        "name": "Flycicle",
+        "rawName": "Bug6"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "error",
             "chance": 0.4,
             "maps": [],
             "monster": "ChestB4",
@@ -1791,7 +2004,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.bug7",
@@ -1888,7 +2102,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.bug8",
@@ -1983,7 +2198,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.bullet",
@@ -2105,7 +2321,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.chiz0",
@@ -2199,7 +2416,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.copper",
@@ -2320,7 +2538,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.copper-bar",
@@ -2410,7 +2629,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.craft-mat1",
@@ -2460,6 +2680,158 @@
       },
       "confidence": "H",
       "data": {
+        "anvil": null,
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Crimson String",
+        "node": null,
+        "rawName": "CraftMat2",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Crimson_String"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.craft-mat2",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: items",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Crimson String",
+          "url": "https://idleon.wiki/wiki/Crimson_String",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Crimson String",
+      "thing": {
+        "kind": "item",
+        "rawName": "CraftMat2"
+      },
+      "title": "Get Crimson String",
+      "type": "acquisition",
+      "values": {
+        "name": "Crimson String",
+        "rawName": "CraftMat2"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Cue Tape",
+        "node": null,
+        "rawName": "CraftMat3",
+        "recipe": null,
+        "shops": [
+          {
+            "mapIndex": 0,
+            "town": "Blunder Hills"
+          }
+        ],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Cue_Tape"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.craft-mat3",
+      "methods": [
+        {
+          "how": "Buy it in a town shop",
+          "kind": "shop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: items",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Cue Tape",
+          "url": "https://idleon.wiki/wiki/Cue_Tape",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Cue Tape",
+      "thing": {
+        "kind": "item",
+        "rawName": "CraftMat3"
+      },
+      "title": "Get Cue Tape",
+      "type": "acquisition",
+      "values": {
+        "name": "Cue Tape",
+        "rawName": "CraftMat3"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
         "anvil": {
           "index": 1,
           "levelReq": 5,
@@ -2490,7 +2862,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.craft-mat5",
@@ -2541,6 +2914,87 @@
       "confidence": "H",
       "data": {
         "anvil": {
+          "index": 2,
+          "levelReq": 12,
+          "requiredAmount": 350
+        },
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Boring Brick",
+        "node": null,
+        "rawName": "CraftMat6",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Boring_Brick"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.craft-mat6",
+      "methods": [
+        {
+          "how": "Produce it on the anvil",
+          "kind": "anvil",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: items",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Boring Brick",
+          "url": "https://idleon.wiki/wiki/Boring_Brick",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Boring Brick",
+      "thing": {
+        "kind": "item",
+        "rawName": "CraftMat6"
+      },
+      "title": "Get Boring Brick",
+      "type": "acquisition",
+      "values": {
+        "name": "Boring Brick",
+        "rawName": "CraftMat6"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": {
           "index": 3,
           "levelReq": 17,
           "requiredAmount": 700
@@ -2570,7 +3024,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.craft-mat7",
@@ -2650,7 +3105,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.craft-mat9",
@@ -2751,7 +3207,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter1",
@@ -2827,7 +3284,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter1-a",
@@ -2921,7 +3379,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter2",
@@ -2997,7 +3456,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter2-a",
@@ -3079,7 +3539,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter3",
@@ -3155,7 +3616,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter3-a",
@@ -3237,7 +3699,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter4",
@@ -3313,7 +3776,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter4-a",
@@ -3395,7 +3859,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter5",
@@ -3471,7 +3936,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter5-a",
@@ -3565,7 +4031,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter6",
@@ -3641,7 +4108,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter6-a",
@@ -3723,7 +4191,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter7",
@@ -3799,7 +4268,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter7-a",
@@ -3893,7 +4363,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter8",
@@ -3969,7 +4440,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter8-a",
@@ -4051,7 +4523,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter9",
@@ -4127,7 +4600,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.critter9-a",
@@ -4196,7 +4670,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.crystal1",
@@ -4265,7 +4740,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.crystal2",
@@ -4334,7 +4810,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.crystal3",
@@ -4418,7 +4895,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.cutter",
@@ -4522,7 +5000,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.dementia",
@@ -4631,7 +5110,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.dementia-bar",
@@ -4695,6 +5175,98 @@
         "drops": [
           {
             "afkType": "FIGHTING",
+            "chance": 0.22,
+            "maps": [
+              51
+            ],
+            "monster": "jarSand",
+            "monsterName": "Sandy Pot",
+            "printable": true,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Sandy_Pot",
+            "world": 2
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Pocket Sand",
+        "node": null,
+        "rawName": "DesertA1",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Pocket_Sand"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.desert-a1",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Pocket Sand",
+          "url": "https://idleon.wiki/wiki/Pocket_Sand",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Pocket Sand",
+      "thing": {
+        "kind": "item",
+        "rawName": "DesertA1"
+      },
+      "title": "Get Pocket Sand",
+      "type": "acquisition",
+      "values": {
+        "name": "Pocket Sand",
+        "rawName": "DesertA1"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "FIGHTING",
             "chance": 0.212,
             "maps": [
               52,
@@ -4735,7 +5307,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.desert-a2",
@@ -4826,7 +5399,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.desert-a3",
@@ -4917,7 +5491,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.desert-a3b",
@@ -5008,7 +5583,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.desert-b1",
@@ -5064,6 +5640,190 @@
             "afkType": "FIGHTING",
             "chance": 0.18,
             "maps": [
+              59
+            ],
+            "monster": "pincermin",
+            "monsterName": "Pincermin",
+            "printable": true,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Pincermin",
+            "world": 2
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Pincer Arm",
+        "node": null,
+        "rawName": "DesertB3",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Pincer_Arm"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.desert-b3",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Pincer Arm",
+          "url": "https://idleon.wiki/wiki/Pincer_Arm",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Pincer Arm",
+      "thing": {
+        "kind": "item",
+        "rawName": "DesertB3"
+      },
+      "title": "Get Pincer Arm",
+      "type": "acquisition",
+      "values": {
+        "name": "Pincer Arm",
+        "rawName": "DesertB3"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.17,
+            "maps": [
+              60
+            ],
+            "monster": "potato",
+            "monsterName": "Mashed Potato",
+            "printable": true,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Mashed_Potato",
+            "world": 2
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Potato Remains",
+        "node": null,
+        "rawName": "DesertB4",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Potato_Remains"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.desert-b4",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Potato Remains",
+          "url": "https://idleon.wiki/wiki/Potato_Remains",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Potato Remains",
+      "thing": {
+        "kind": "item",
+        "rawName": "DesertB4"
+      },
+      "title": "Get Potato Remains",
+      "type": "acquisition",
+      "values": {
+        "name": "Potato Remains",
+        "rawName": "DesertB4"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.18,
+            "maps": [
               62
             ],
             "monster": "steak",
@@ -5099,7 +5859,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.desert-c1",
@@ -5190,7 +5951,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.desert-c2",
@@ -5281,7 +6043,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.desert-c2b",
@@ -5373,7 +6136,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.desert-c3",
@@ -5465,7 +6229,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.desert-c4",
@@ -5557,7 +6322,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.dreadlo",
@@ -5654,7 +6420,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.dreadlo-bar",
@@ -5705,6 +6472,360 @@
       "values": {
         "name": "Dreadlo Bar",
         "rawName": "DreadloBar"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.005,
+            "maps": [],
+            "monster": "cactus",
+            "monsterName": "Cactopunk",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Cactopunk",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.004,
+            "maps": [],
+            "monster": "frogD",
+            "monsterName": "Globohopper",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Globohopper",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.025,
+            "maps": [],
+            "monster": "frogGG",
+            "monsterName": "Eldritch Croaker",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Eldritch_Croaker",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.8,
+            "maps": [],
+            "monster": "frogGR",
+            "monsterName": "Grandfrogger",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Grandfrogger",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.8,
+            "maps": [],
+            "monster": "frogGR2",
+            "monsterName": "Rotting Grandfrogger",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Rotting_Grandfrogger",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.8,
+            "maps": [],
+            "monster": "frogGR3",
+            "monsterName": "Forlorn Grandfrogger",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Forlorn_Grandfrogger",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.8,
+            "maps": [],
+            "monster": "frogGR4",
+            "monsterName": "Vengeful Grandfrogger",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Vengeful_Grandfrogger",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.0014,
+            "maps": [],
+            "monster": "frogP",
+            "monsterName": "Poisonic Frog",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Poisonic_Frog",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.012,
+            "maps": [],
+            "monster": "frogR",
+            "monsterName": "Lava Slimer",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Lava_Slimer",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.02,
+            "maps": [],
+            "monster": "frogW",
+            "monsterName": "Chromatium Frog",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Chromatium_Frog",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.006,
+            "maps": [],
+            "monster": "frogY",
+            "monsterName": "King Frog",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/King_Frog",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.8,
+            "maps": [],
+            "monster": "iceBossZ",
+            "monsterName": "Glaciaxus",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Glaciaxus",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.8,
+            "maps": [],
+            "monster": "iceBossZ2",
+            "monsterName": "Golden Glaciaxus",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Golden_Glaciaxus",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.8,
+            "maps": [],
+            "monster": "iceBossZ3",
+            "monsterName": "Caustic Glaciaxus",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Caustic_Glaciaxus",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.08,
+            "maps": [],
+            "monster": "iceknight",
+            "monsterName": "Ice Guard",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Ice_Guard",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.005,
+            "maps": [],
+            "monster": "potatoB",
+            "monsterName": "Crescent Spud",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Crescent_Spud",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.0025,
+            "maps": [],
+            "monster": "rocky",
+            "monsterName": "Grumblo",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Grumblo",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.8,
+            "maps": [],
+            "monster": "snakeZ",
+            "monsterName": "Snakenhotep",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Snakenhotep",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.8,
+            "maps": [],
+            "monster": "snakeZ2",
+            "monsterName": "Enraged Snakenhotep",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Enraged_Snakenhotep",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.8,
+            "maps": [],
+            "monster": "snakeZ3",
+            "monsterName": "Inevitable Snakenhotep",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Inevitable_Snakenhotep",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.0025,
+            "maps": [],
+            "monster": "steakR",
+            "monsterName": "Beefie",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Beefie",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.0017,
+            "maps": [],
+            "monster": "target",
+            "monsterName": "Target",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Target",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.002,
+            "maps": [],
+            "monster": "totem",
+            "monsterName": "Lazlo",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Lazlo",
+            "world": null
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Dungeon Credits Flurbo Edition",
+        "node": null,
+        "rawName": "DungCredits2",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "dQuest",
+        "wiki": "https://idleon.wiki/wiki/Dungeon_Credits_Flurbo_Edition"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.dung-credits2",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Dungeon Credits Flurbo Edition",
+          "url": "https://idleon.wiki/wiki/Dungeon_Credits_Flurbo_Edition",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Dungeon Credits Flurbo Edition",
+      "thing": {
+        "kind": "item",
+        "rawName": "DungCredits2"
+      },
+      "title": "Get Dungeon Credits Flurbo Edition",
+      "type": "acquisition",
+      "values": {
+        "name": "Dungeon Credits Flurbo Edition",
+        "rawName": "DungCredits2"
       },
       "why": "Every way the game data knows to get this item."
     },
@@ -5777,7 +6898,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.efaunt-drop1",
@@ -5902,7 +7024,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.emp-part",
@@ -5992,7 +7115,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-bows3",
@@ -6092,7 +7216,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-bows4",
@@ -6207,7 +7332,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-hats18",
@@ -6316,7 +7442,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-hats22",
@@ -6537,7 +7664,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-hats5",
@@ -6637,7 +7765,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-hats52",
@@ -6744,7 +7873,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-hats53",
@@ -6853,7 +7983,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-hats54",
@@ -6970,7 +8101,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-hats68",
@@ -7082,7 +8214,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-hats8",
@@ -7186,7 +8319,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-hats9",
@@ -7394,7 +8528,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-pants10",
@@ -7483,7 +8618,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-pants19",
@@ -7575,7 +8711,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-pendant14",
@@ -7667,7 +8804,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-rings23",
@@ -7752,7 +8890,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-shirts1",
@@ -7842,7 +8981,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-shoes1",
@@ -7942,7 +9082,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-shoes15",
@@ -8063,7 +9204,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-shoes7",
@@ -8171,7 +9313,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-shoes9",
@@ -8280,7 +9423,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-smithing-tabs2",
@@ -8397,7 +9541,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-smithing-tabs3",
@@ -8514,7 +9659,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-smithing-tabs4",
@@ -8631,7 +9777,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-smithing-tabs5",
@@ -8748,7 +9895,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-smithing-tabs6",
@@ -8865,7 +10013,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-smithing-tabs7",
@@ -9078,7 +10227,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-statues1",
@@ -9168,7 +10318,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-tools-hatchet3",
@@ -9263,7 +10414,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.equipment-wands2",
@@ -9361,7 +10513,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.fish1",
@@ -9437,7 +10590,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.fish10",
@@ -9519,7 +10673,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.fish2",
@@ -9608,7 +10763,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.fish3",
@@ -9697,7 +10853,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.fish4",
@@ -9773,7 +10930,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.fish6",
@@ -9842,7 +11000,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.fish8",
@@ -9950,7 +11109,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.food-health3",
@@ -10130,7 +11290,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.food-health6",
@@ -10333,7 +11494,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.food-health7",
@@ -10492,7 +11654,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.food-pot-mana1",
@@ -10588,7 +11751,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.food-pot-mana3",
@@ -10742,7 +11906,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.food-pot-re1",
@@ -10826,7 +11991,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.forest-tree",
@@ -10917,7 +12083,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.forest1",
@@ -11009,7 +12176,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.forest2",
@@ -11100,7 +12268,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.forest3",
@@ -11192,7 +12361,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.godshard-bar",
@@ -11306,7 +12476,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.gold",
@@ -11427,7 +12598,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.gold-bar",
@@ -11531,7 +12703,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.goldric-p1",
@@ -11622,7 +12795,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.goldric-p2",
@@ -11713,7 +12887,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.goldric-p3",
@@ -12011,7 +13186,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.grasslands2",
@@ -12102,7 +13278,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.grasslands3",
@@ -12191,7 +13368,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.hgg",
@@ -12285,7 +13463,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.iron",
@@ -12394,7 +13573,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.iron-bar",
@@ -12493,7 +13673,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.job-application",
@@ -12585,7 +13766,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.jungle-tree",
@@ -12693,7 +13875,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.jungle1",
@@ -12784,7 +13967,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.jungle2",
@@ -12875,7 +14059,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.jungle3",
@@ -12976,7 +14161,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.kruk-part2",
@@ -13137,7 +14323,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.leaf1",
@@ -13238,7 +14425,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.leaf2",
@@ -13363,7 +14551,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.meatloaf",
@@ -13570,7 +14759,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.midnight-cookie",
@@ -13670,7 +14860,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken1",
@@ -13763,7 +14954,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken10",
@@ -13832,7 +15024,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken11",
@@ -13901,7 +15094,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken12",
@@ -13970,7 +15164,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken13",
@@ -14039,7 +15234,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken14",
@@ -14108,7 +15304,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken15",
@@ -14177,7 +15374,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken16",
@@ -14246,7 +15444,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken17",
@@ -14315,7 +15514,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken18",
@@ -14384,7 +15584,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken19",
@@ -14477,7 +15678,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken2",
@@ -14570,7 +15772,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken20",
@@ -14639,7 +15842,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken21",
@@ -14708,7 +15912,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken22",
@@ -14777,7 +15982,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken23",
@@ -14846,7 +16052,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken24",
@@ -14915,7 +16122,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken25",
@@ -14984,7 +16192,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken26",
@@ -15058,7 +16267,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken27",
@@ -15158,7 +16368,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken28",
@@ -15275,7 +16486,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken29",
@@ -15392,7 +16604,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken3",
@@ -15509,7 +16722,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken30",
@@ -15602,7 +16816,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken31",
@@ -15671,7 +16886,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken32",
@@ -15740,7 +16956,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken33",
@@ -15809,7 +17026,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken34",
@@ -15878,7 +17096,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken35",
@@ -15947,7 +17166,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken36",
@@ -16016,7 +17236,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken37",
@@ -16085,7 +17306,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken38",
@@ -16173,7 +17395,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken39",
@@ -16262,7 +17485,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken4",
@@ -16350,7 +17574,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken40",
@@ -16453,7 +17678,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken41",
@@ -16538,7 +17764,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken5",
@@ -16607,7 +17834,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken6",
@@ -16676,7 +17904,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken7",
@@ -16745,7 +17974,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.npctoken9",
@@ -16830,7 +18060,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.oak-tree",
@@ -16916,7 +18147,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.oil-barrel1",
@@ -16957,6 +18189,104 @@
       "values": {
         "name": "Crude Oil",
         "rawName": "OilBarrel1"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "error",
+            "chance": 0.5,
+            "maps": [],
+            "monster": "ChestB2",
+            "monsterName": "Silver Chest(W2)",
+            "printable": false,
+            "quantity": 100,
+            "table": false,
+            "wiki": null,
+            "world": null
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Tropilogs",
+        "node": {
+          "maps": [],
+          "skill": "CHOPPIN"
+        },
+        "rawName": "PalmTree",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bLog",
+        "wiki": "https://idleon.wiki/wiki/Tropilogs"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.palm-tree",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        },
+        {
+          "how": "Gather it from a skilling node",
+          "kind": "skill-node",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Tropilogs",
+          "url": "https://idleon.wiki/wiki/Tropilogs",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Tropilogs",
+      "thing": {
+        "kind": "item",
+        "rawName": "PalmTree"
+      },
+      "title": "Get Tropilogs",
+      "type": "acquisition",
+      "values": {
+        "name": "Tropilogs",
+        "rawName": "PalmTree"
       },
       "why": "Every way the game data knows to get this item."
     },
@@ -17011,7 +18341,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.peanut",
@@ -17114,7 +18445,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.peanut-g",
@@ -17217,7 +18549,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.plat",
@@ -17338,7 +18671,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.plat-bar",
@@ -17427,7 +18761,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.prehistrium",
@@ -17805,7 +19140,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.pure-water",
@@ -17890,7 +19226,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.pure-water2",
@@ -17966,7 +19303,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest1",
@@ -18051,7 +19389,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest12",
@@ -18146,7 +19485,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest13",
@@ -18250,7 +19590,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest14",
@@ -18341,7 +19682,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest15",
@@ -18417,7 +19759,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest16",
@@ -18535,7 +19878,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest17",
@@ -18626,7 +19970,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest18",
@@ -18720,7 +20065,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest19",
@@ -18801,7 +20147,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest20",
@@ -18985,7 +20332,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest21",
@@ -20550,7 +21898,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest22",
@@ -21205,7 +22554,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest23",
@@ -23370,7 +24720,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest24",
@@ -23424,6 +24775,108 @@
         "drops": [
           {
             "afkType": "FIGHTING",
+            "chance": 0.2,
+            "maps": [],
+            "monster": "wolfB",
+            "monsterName": "Chaotic Amarok",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Chaotic_Amarok",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.5,
+            "maps": [],
+            "monster": "wolfC",
+            "monsterName": "Radiant Amarok",
+            "printable": false,
+            "quantity": 2,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Radiant_Amarok",
+            "world": null
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Chaotic Amarok Slab",
+        "node": null,
+        "rawName": "Quest29",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "dQuest",
+        "wiki": "https://idleon.wiki/wiki/Chaotic_Amarok_Slab"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.quest29",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Chaotic Amarok Slab",
+          "url": "https://idleon.wiki/wiki/Chaotic_Amarok_Slab",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Chaotic Amarok Slab",
+      "thing": {
+        "kind": "item",
+        "rawName": "Quest29"
+      },
+      "title": "Get Chaotic Amarok Slab",
+      "type": "acquisition",
+      "values": {
+        "name": "Chaotic Amarok Slab",
+        "rawName": "Quest29"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "FIGHTING",
             "chance": 0.5,
             "maps": [
               2,
@@ -23464,7 +24917,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest3",
@@ -23726,7 +25180,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest32",
@@ -23802,7 +25257,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest33",
@@ -23871,7 +25327,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest34",
@@ -23959,7 +25416,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest36",
@@ -24053,7 +25511,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest37",
@@ -24147,7 +25606,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest4",
@@ -24236,7 +25696,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest41",
@@ -24312,7 +25773,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest45",
@@ -24381,7 +25843,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest48",
@@ -24450,7 +25913,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest58",
@@ -24519,7 +25983,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest59",
@@ -24588,7 +26053,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest6",
@@ -24657,7 +26123,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest60",
@@ -24726,7 +26193,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest61",
@@ -24795,7 +26263,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest62",
@@ -24879,7 +26348,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest7",
@@ -24955,7 +26425,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.quest9",
@@ -25024,7 +26495,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.refinery1",
@@ -25093,7 +26565,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.refinery2",
@@ -25162,7 +26635,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.refinery3",
@@ -25209,6 +26683,76 @@
         "drops": [],
         "forge": null,
         "liquidShop": null,
+        "name": "Dioxide Synthesis",
+        "node": null,
+        "rawName": "Refinery4",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Dioxide_Synthesis"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.refinery4",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: items",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Dioxide Synthesis",
+          "url": "https://idleon.wiki/wiki/Dioxide_Synthesis",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Dioxide Synthesis",
+      "thing": {
+        "kind": "item",
+        "rawName": "Refinery4"
+      },
+      "title": "Get Dioxide Synthesis",
+      "type": "acquisition",
+      "values": {
+        "name": "Dioxide Synthesis",
+        "rawName": "Refinery4"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
         "name": "Purple Salt",
         "node": null,
         "rawName": "Refinery5",
@@ -25231,7 +26775,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.refinery5",
@@ -25300,7 +26845,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.refinery6",
@@ -25344,6 +26890,104 @@
       "confidence": "H",
       "data": {
         "anvil": null,
+        "drops": [
+          {
+            "afkType": "error",
+            "chance": 0.5,
+            "maps": [],
+            "monster": "ChestB3",
+            "monsterName": "Silver Chest(W3)",
+            "printable": false,
+            "quantity": 100,
+            "table": false,
+            "wiki": null,
+            "world": null
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Tundra Logs",
+        "node": {
+          "maps": [],
+          "skill": "CHOPPIN"
+        },
+        "rawName": "SaharanFoal",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bLog",
+        "wiki": "https://idleon.wiki/wiki/Tundra_Logs"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.saharan-foal",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        },
+        {
+          "how": "Gather it from a skilling node",
+          "kind": "skill-node",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Tundra Logs",
+          "url": "https://idleon.wiki/wiki/Tundra_Logs",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Tundra Logs",
+      "thing": {
+        "kind": "item",
+        "rawName": "SaharanFoal"
+      },
+      "title": "Get Tundra Logs",
+      "type": "acquisition",
+      "values": {
+        "name": "Tundra Logs",
+        "rawName": "SaharanFoal"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
         "drops": [],
         "forge": null,
         "liquidShop": null,
@@ -25369,7 +27013,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.secretstone",
@@ -25403,6 +27048,111 @@
       "values": {
         "name": "Secretstone",
         "rawName": "Secretstone"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "FIGHTING",
+            "chance": 1,
+            "maps": [],
+            "monster": "poopBig",
+            "monsterName": "Dr Defecaus",
+            "printable": false,
+            "quantity": 150,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Dr_Defecaus",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.24,
+            "maps": [
+              8,
+              9
+            ],
+            "monster": "poopSmall",
+            "monsterName": "Poop",
+            "printable": true,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Poop",
+            "world": 1
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Corn Kernels",
+        "node": null,
+        "rawName": "Sewers1",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Corn_Kernels"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.sewers1",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Corn Kernels",
+          "url": "https://idleon.wiki/wiki/Corn_Kernels",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Corn Kernels",
+      "thing": {
+        "kind": "item",
+        "rawName": "Sewers1"
+      },
+      "title": "Get Corn Kernels",
+      "type": "acquisition",
+      "values": {
+        "name": "Corn Kernels",
+        "rawName": "Sewers1"
       },
       "why": "Every way the game data knows to get this item."
     },
@@ -25466,7 +27216,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.sewers1b",
@@ -25557,7 +27308,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.sewers3",
@@ -25638,7 +27390,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.smithing-hammer-chisel",
@@ -25694,6 +27447,100 @@
             "afkType": "FIGHTING",
             "chance": 0.16,
             "maps": [
+              101,
+              118,
+              119
+            ],
+            "monster": "sheep",
+            "monsterName": "Sheepie",
+            "printable": true,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Sheepie",
+            "world": 3
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Floof Ploof",
+        "node": null,
+        "rawName": "SnowA1",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Floof_Ploof"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.snow-a1",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Floof Ploof",
+          "url": "https://idleon.wiki/wiki/Floof_Ploof",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Floof Ploof",
+      "thing": {
+        "kind": "item",
+        "rawName": "SnowA1"
+      },
+      "title": "Get Floof Ploof",
+      "type": "acquisition",
+      "values": {
+        "name": "Floof Ploof",
+        "rawName": "SnowA1"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.16,
+            "maps": [
               103,
               115
             ],
@@ -25730,7 +27577,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.snow-a2",
@@ -25783,6 +27631,203 @@
         "anvil": null,
         "drops": [
           {
+            "afkType": "error",
+            "chance": 0.01,
+            "maps": [],
+            "monster": "ChestA3",
+            "monsterName": "Bronze Chest(W3)",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": null,
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.00005,
+            "maps": [
+              103,
+              115
+            ],
+            "monster": "flake",
+            "monsterName": "Frost Flake",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Frost_Flake",
+            "world": 3
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Yellow Snowflake",
+        "node": null,
+        "rawName": "SnowA2a",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Yellow_Snowflake"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.snow-a2a",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Yellow Snowflake",
+          "url": "https://idleon.wiki/wiki/Yellow_Snowflake",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Yellow Snowflake",
+      "thing": {
+        "kind": "item",
+        "rawName": "SnowA2a"
+      },
+      "title": "Get Yellow Snowflake",
+      "type": "acquisition",
+      "values": {
+        "name": "Yellow Snowflake",
+        "rawName": "SnowA2a"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.16,
+            "maps": [
+              104
+            ],
+            "monster": "stache",
+            "monsterName": "Sir Stache",
+            "printable": true,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Sir_Stache",
+            "world": 3
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Moustache Comb",
+        "node": null,
+        "rawName": "SnowA3",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Moustache_Comb"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.snow-a3",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Moustache Comb",
+          "url": "https://idleon.wiki/wiki/Moustache_Comb",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Moustache Comb",
+      "thing": {
+        "kind": "item",
+        "rawName": "SnowA3"
+      },
+      "title": "Get Moustache Comb",
+      "type": "acquisition",
+      "values": {
+        "name": "Moustache Comb",
+        "rawName": "SnowA3"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
             "afkType": "FIGHTING",
             "chance": 0.16,
             "maps": [
@@ -25821,7 +27866,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.snow-b1",
@@ -25912,7 +27958,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.snow-b2",
@@ -26003,7 +28050,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.snow-b2a",
@@ -26059,6 +28107,190 @@
             "afkType": "FIGHTING",
             "chance": 0.16,
             "maps": [
+              111
+            ],
+            "monster": "snakeB",
+            "monsterName": "Cryosnake",
+            "printable": true,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Cryosnake",
+            "world": 3
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Cryosnake Skin",
+        "node": null,
+        "rawName": "SnowC2",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Cryosnake_Skin"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.snow-c2",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Cryosnake Skin",
+          "url": "https://idleon.wiki/wiki/Cryosnake_Skin",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Cryosnake Skin",
+      "thing": {
+        "kind": "item",
+        "rawName": "SnowC2"
+      },
+      "title": "Get Cryosnake Skin",
+      "type": "acquisition",
+      "values": {
+        "name": "Cryosnake Skin",
+        "rawName": "SnowC2"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.16,
+            "maps": [
+              112
+            ],
+            "monster": "speaker",
+            "monsterName": "Bop Box",
+            "printable": true,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Bop_Box",
+            "world": 3
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Audio Cord",
+        "node": null,
+        "rawName": "SnowC3",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Audio_Cord"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.snow-c3",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Audio Cord",
+          "url": "https://idleon.wiki/wiki/Audio_Cord",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Audio Cord",
+      "thing": {
+        "kind": "item",
+        "rawName": "SnowC3"
+      },
+      "title": "Get Audio Cord",
+      "type": "acquisition",
+      "values": {
+        "name": "Audio Cord",
+        "rawName": "SnowC3"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.16,
+            "maps": [
               113,
               114
             ],
@@ -26095,7 +28327,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.snow-c4",
@@ -26187,7 +28420,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.snow-c4a",
@@ -26278,7 +28512,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.snow-c5",
@@ -26319,6 +28554,108 @@
       "values": {
         "name": "Blood Bone",
         "rawName": "SnowC5"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "error",
+            "chance": 0.6,
+            "maps": [],
+            "monster": "ChestA3",
+            "monsterName": "Bronze Chest(W3)",
+            "printable": false,
+            "quantity": 50,
+            "table": false,
+            "wiki": null,
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 1,
+            "maps": [],
+            "monster": "SoulCard1",
+            "monsterName": "Forest Soul",
+            "printable": true,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Forest_Soul",
+            "world": null
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Forest Soul",
+        "node": null,
+        "rawName": "Soul1",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "dSouls",
+        "wiki": "https://idleon.wiki/wiki/Forest_Soul"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.soul1",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Forest Soul",
+          "url": "https://idleon.wiki/wiki/Forest_Soul",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Forest Soul",
+      "thing": {
+        "kind": "item",
+        "rawName": "Soul1"
+      },
+      "title": "Get Forest Soul",
+      "type": "acquisition",
+      "values": {
+        "name": "Forest Soul",
+        "rawName": "Soul1"
       },
       "why": "Every way the game data knows to get this item."
     },
@@ -26379,7 +28716,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.soul4",
@@ -26460,7 +28798,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.stamp-a12",
@@ -26541,7 +28880,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.stamp-a3",
@@ -26622,7 +28962,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.stamp-a5",
@@ -26713,7 +29054,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.stamp-a8",
@@ -26874,7 +29216,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.stamp-c3",
@@ -26980,7 +29323,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.starfire",
@@ -27064,7 +29408,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.starfire-bar",
@@ -27145,7 +29490,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.starlight",
@@ -27263,7 +29609,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.stone-a3b",
@@ -27355,7 +29702,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.stump-tree",
@@ -27450,7 +29798,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.test-obj7",
@@ -27656,7 +30005,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.timecandy1",
@@ -27850,7 +30200,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.timecandy2",
@@ -28030,7 +30381,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.timecandy3",
@@ -28132,7 +30484,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.toilet-tree",
@@ -28218,7 +30571,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.trap-box-set1",
@@ -28309,7 +30663,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.tree-interior1",
@@ -28414,7 +30769,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.tree-interior1b",
@@ -28493,7 +30849,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.tree10",
@@ -28572,7 +30929,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.tree13",
@@ -28626,6 +30984,86 @@
         "drops": [],
         "forge": null,
         "liquidShop": null,
+        "name": "Wispy Lumber",
+        "node": {
+          "maps": [],
+          "skill": "CHOPPIN"
+        },
+        "rawName": "Tree7",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bLog",
+        "wiki": "https://idleon.wiki/wiki/Wispy_Lumber"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "items.acquisition.tree7",
+      "methods": [
+        {
+          "how": "Gather it from a skilling node",
+          "kind": "skill-node",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: items",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Wispy Lumber",
+          "url": "https://idleon.wiki/wiki/Wispy_Lumber",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Wispy Lumber",
+      "thing": {
+        "kind": "item",
+        "rawName": "Tree7"
+      },
+      "title": "Get Wispy Lumber",
+      "type": "acquisition",
+      "values": {
+        "name": "Wispy Lumber",
+        "rawName": "Tree7"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
         "name": "Cubed Logs",
         "node": {
           "maps": [],
@@ -28651,7 +31089,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.tree8",
@@ -28745,7 +31184,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.void",
@@ -28854,7 +31294,8 @@
           "website-data/shared-data.json#shops",
           "website-data/shared-data.json#liquidsShop",
           "website-data/shared-data.json#mapNames",
-          "website-data/shared-data.json#mapEnemiesArray"
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#equipmentSets"
         ]
       },
       "id": "items.acquisition.void-bar",
