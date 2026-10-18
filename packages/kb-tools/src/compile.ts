@@ -119,6 +119,8 @@ export async function compile(
     visit(e);
     for (const r of detectorRefsOf(e)) for (const id of detectorIds.get(r.id) ?? []) queue.push(id);
   }
+  // M17 FR-34: how each System opens ships with the registry (and the level facts its rows name).
+  for (const s of src.systems) if (s.value.unlockFact) queue.push(s.value.unlockFact);
   while (queue.length) {
     const id = queue.pop() as string;
     if (shipped.has(id) || shippedFacts.has(id)) continue;

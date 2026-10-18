@@ -3,6 +3,8 @@
 # and the cross-cutting ones). `coverage()` lists the unlocked ones with no active or contested
 # authored entry under "Not covered yet". `unlocked` is a first cut by world (worlds/reached) until
 # a System's owner module ships a sharper unlock Detector (for example M6's Post Office unlock).
+# M17 TR-8: `kind: activeon` marks ActiveOn's own concepts (no Systems hub tile; default `game`), and
+# `unlockFact` names the fact table that says how a game System opens (systems/systems.facts.yaml).
 systems:
   # ---- cross-cutting (world 0) ----
   - id: afk
@@ -11,12 +13,14 @@ systems:
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M3-afk-safety.md
     unlocked: always
+    kind: activeon
   - id: metapath
     name: Meta Path
     world: 0
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M2-stage-meta-path.md
     unlocked: always
+    kind: activeon
   - id: classes
     name: Classes and subclasses
     world: 0
@@ -47,6 +51,7 @@ systems:
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M7-spend-plan.md
     unlocked: always
+    kind: activeon
   - id: upgrade-vault
     name: Upgrade Vault
     world: 0
@@ -115,66 +120,77 @@ systems:
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/stamps.md
     unlocked: { id: worlds/reached, params: { world: 1 } }
+    unlockFact: systems.fact.unlocks
   - id: anvil
     name: Anvil
     world: 1
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/anvil-smithing.md
     unlocked: { id: worlds/reached, params: { world: 1 } }
+    unlockFact: systems.fact.unlocks
   - id: forge
     name: Forge
     world: 1
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/forge.md
     unlocked: { id: worlds/reached, params: { world: 1 } }
+    unlockFact: systems.fact.unlocks
   - id: bribes
     name: Bribes
     world: 1
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/bribes.md
     unlocked: { id: worlds/reached, params: { world: 1 } }
+    unlockFact: systems.fact.unlocks
   - id: statues
     name: Statues
     world: 1
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/statues.md
     unlocked: { id: worlds/reached, params: { world: 1 } }
+    unlockFact: systems.fact.unlocks
   - id: post-office
     name: Post Office
     world: 1
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/post-office.md
     unlocked: { id: post-office/unlocked }
+    unlockFact: systems.fact.unlocks
   - id: owl
     name: The Owl
     world: 1
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/owl.md
     unlocked: { id: worlds/reached, params: { world: 1 } }
+    unlockFact: systems.fact.unlocks
   - id: quests
     name: Quests
     world: 1
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/amarok-and-quests.md
     unlocked: { id: worlds/reached, params: { world: 1 } }
+    unlockFact: systems.fact.unlocks
   - id: boss-keys
     name: Boss keys
     world: 1
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/amarok-and-quests.md
     unlocked: { id: worlds/reached, params: { world: 1 } }
+    unlockFact: systems.fact.unlocks
   - id: colosseum
     name: Colosseum
     world: 1
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/2026-10-17-w1-systems.md
     unlocked: { id: worlds/reached, params: { world: 1 } }
+    unlockFact: systems.fact.unlocks
   - id: poppy
     name: Poppy
     world: 1
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/2026-10-17-w1-systems.md
     unlocked: { id: worlds/reached, params: { world: 1 } }
+    unlockFact: systems.fact.unlocks
 
   # ---- World 2 ----
   - id: alchemy
@@ -183,36 +199,42 @@ systems:
     scope: both
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w2-systems/docs/research/systems/2026-10-17-w2-systems.md
     unlocked: { id: worlds/reached, params: { world: 2 } }
+    unlockFact: systems.fact.unlocks
   - id: alchemy-bubbles
     name: Alchemy bubbles
     world: 2
     scope: both
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w2-systems/docs/research/systems/2026-10-17-w2-systems.md
     unlocked: { id: worlds/reached, params: { world: 2 } }
+    unlockFact: systems.fact.unlocks
   - id: alchemy-vials
     name: Alchemy vials
     world: 2
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w2-systems/docs/research/systems/2026-10-17-w2-systems.md
     unlocked: { id: worlds/reached, params: { world: 2 } }
+    unlockFact: systems.fact.unlocks
   - id: alchemy-p2w
     name: Alchemy Pay 2 Win
     world: 2
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w2-systems/docs/research/systems/2026-10-17-w2-systems.md
     unlocked: { id: worlds/reached, params: { world: 2 } }
+    unlockFact: systems.fact.unlocks
   - id: arcade
     name: Arcade
     world: 2
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w2-systems/docs/research/systems/2026-10-17-w2-systems.md
     unlocked: { id: worlds/reached, params: { world: 2 } }
+    unlockFact: systems.fact.unlocks
   - id: islands
     name: Islands
     world: 2
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w2-systems/docs/research/systems/2026-10-17-w2-systems.md
     unlocked: { id: worlds/reached, params: { world: 2 } }
+    unlockFact: systems.fact.unlocks
 
   # ---- World 3 ----
   - id: refinery
@@ -221,72 +243,84 @@ systems:
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/construction.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
+    unlockFact: systems.fact.unlocks
   - id: construction
     name: Construction
     world: 3
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/construction.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
+    unlockFact: systems.fact.unlocks
   - id: library
     name: Talent Book Library
     world: 3
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M15-account-depth.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
+    unlockFact: systems.fact.unlocks
   - id: printer
     name: 3D Printer
     world: 3
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/construction.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
+    unlockFact: systems.fact.unlocks
   - id: worship
     name: Worship
     world: 3
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/worship-trapping-death-note.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
+    unlockFact: systems.fact.unlocks
   - id: trapping
     name: Trapping
     world: 3
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/worship-trapping-death-note.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
+    unlockFact: systems.fact.unlocks
   - id: death-note
     name: Death Note
     world: 3
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/worship-trapping-death-note.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
+    unlockFact: systems.fact.unlocks
   - id: salt-lick
     name: Salt Lick
     world: 3
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/2026-10-17-w3-systems.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
+    unlockFact: systems.fact.unlocks
   - id: prayers
     name: Prayers
     world: 3
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/shrines-prayers-equinox-bosses-quests.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
+    unlockFact: systems.fact.unlocks
   - id: shrines
     name: Shrines
     world: 3
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/shrines-prayers-equinox-bosses-quests.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
+    unlockFact: systems.fact.unlocks
   - id: equinox
     name: Equinox
     world: 3
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/shrines-prayers-equinox-bosses-quests.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
+    unlockFact: systems.fact.unlocks
   - id: atom-collider
     name: Atom Collider
     world: 3
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/2026-10-17-w3-systems.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
+    unlockFact: systems.fact.unlocks
 
   # ---- World 4 entry ----
   - id: lab
@@ -295,15 +329,18 @@ systems:
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w4-systems/docs/research/systems/w4-systems/2026-10-17-lab.md
     unlocked: { id: worlds/reached, params: { world: 4 } }
+    unlockFact: systems.fact.unlocks
   - id: cooking
     name: Cooking
     world: 4
     scope: character
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w4-systems/docs/research/systems/w4-systems/2026-10-17-cooking.md
     unlocked: { id: worlds/reached, params: { world: 4 } }
+    unlockFact: systems.fact.unlocks
   - id: breeding
     name: Breeding
     world: 4
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w4-systems/docs/research/systems/w4-systems/2026-10-17-breeding.md
     unlocked: { id: worlds/reached, params: { world: 4 } }
+    unlockFact: systems.fact.unlocks

@@ -1,0 +1,247 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# How each game System opens (M17 FR-34, TR-8, D-13): an authored tier-2 fact table, patch-tagged so a
+# row can go Stale like any fact, until Toolbox exposes the conditions as data (ADR 0007; M2's town-unlock
+# precedent). One row per game System that isn't open from the start, in condition form ("Opens …",
+# "Needs …", never an instruction), with its IdleOn Wiki page and any other player-readable Source the
+# author opened (#74). Rows whose condition is a class level in metapath.fact.town-unlocks name it in
+# `level` and write `{level}` instead of repeating the number. Where the wiki and game data disagree,
+# game data wins (ADR 0004): the wiki gives Stamps at class Lv 12, the game data 14.
+# The Systems hub tile shows only what the System's unlock Detector checks ("Opens in World 2"); this
+# precise text is shown on the System page under "How it opens" (FR-19).
+system: systems
+facts:
+  - id: systems.fact.unlocks
+    system: systems
+    origin: authored
+    title: How each game System opens
+    sources:
+      - url: https://idleon.wiki/wiki/Worlds
+        title: "IdleOn Wiki: Worlds"
+        tier: 2
+        claimDate: 2026-10-18
+        verified: 2026-10-18
+        gameVersion: 2.3.540
+    notes: >-
+      Researched 2026-10-18 on idleon.wiki at game 2.3.540, one page opened per row. Inferred rows (the
+      wiki names the place but no explicit trigger): anvil, quests, alchemy-p2w, salt-lick (low); refinery,
+      construction, library, death-note, atom-collider, worship, lab, cooking, breeding (medium).
+      /wiki/Islands is a 404, so islands cites Island Expeditions.
+    rows:
+      # ---- World 1 ----
+      - system: stamps
+        world: 1
+        text: "Opens once a character reaches class Lv {level} and talks to Mr Pigibank in Blunder Hills town"
+        level: { fact: metapath.fact.town-unlocks, key: stamps }
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Stamps, title: "IdleOn Wiki: Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Mr_Pigibank, title: "IdleOn Wiki: Mr Pigibank", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: anvil
+        world: 1
+        text: "Opens from the start in Blunder Hills town: the Anvil is part of the Smithing skill"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Smithing, title: "IdleOn Wiki: Smithing", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: forge
+        world: 1
+        text: "Opens once a character reaches class Lv {level}: the Forge is then bought for 10 silver coins in Blunder Hills town"
+        level: { fact: metapath.fact.town-unlocks, key: forge }
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Forge, title: "IdleOn Wiki: Forge", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: bribes
+        world: 1
+        text: "Opens together with Stamps, at Mr Pigibank in Blunder Hills town; bribes cost coins"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Bribes, title: "IdleOn Wiki: Bribes", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Mr_Pigibank, title: "IdleOn Wiki: Mr Pigibank", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: statues
+        world: 1
+        text: "Opens once a character reaches class Lv {level} and Sculpting Tools from the town shop go on the Town Marble"
+        level: { fact: metapath.fact.town-unlocks, key: statues }
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Statues, title: "IdleOn Wiki: Statues", tier: 2, claimDate: 2026-10-14, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Town_Marble, title: "IdleOn Wiki: Town Marble", tier: 2, claimDate: 2026-09-27, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: post-office
+        world: 2
+        text: "Opens once a character reaches class Lv {level} and finishes Postboy Pablob's quest in the Yum-Yum Grotto"
+        level: { fact: metapath.fact.town-unlocks, key: post-office }
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Post_Office, title: "IdleOn Wiki: Post Office", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Postboy_Pablob, title: "IdleOn Wiki: Postboy Pablob", tier: 2, claimDate: 2026-09-27, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: owl
+        world: 1
+        text: "Opens on reaching the Grand Owl Perch map in Blunder Hills, by following the HOOT popups"
+        gameVersion: 2.3.540
+        sources:
+          - { url: "https://idleon.wiki/wiki/Orion_the_Great_Horned_Owl%27s_Feather_Enterprise", title: "IdleOn Wiki: Orion the Great Horned Owl's Feather Enterprise", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: quests
+        world: 1
+        text: "Opens from the start: NPCs across every world hand out quests; some are needed to progress"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Quests, title: "IdleOn Wiki: Quests", tier: 2, claimDate: 2026-09-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: boss-keys
+        world: 1
+        text: "Needs a Forest Villa Key: Amarok waits at End Of The Road in Blunder Hills; Chaotic mode needs 5 keys"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Amarok, title: "IdleOn Wiki: Amarok", tier: 2, claimDate: 2026-10-02, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Boss_Keys, title: "IdleOn Wiki: Boss Keys", tier: 2, claimDate: 2026-09-13, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: colosseum
+        world: 1
+        text: "Needs a Colosseum Ticket: the Dewdrop Colosseum in Blunder Hills takes 1 ticket per run"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Colosseum, title: "IdleOn Wiki: Colosseum", tier: 2, claimDate: 2025-08-28, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Colosseum_Ticket, title: "IdleOn Wiki: Colosseum Ticket", tier: 2, claimDate: 2026-09-12, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: poppy
+        world: 2
+        text: "Needs the Secret Map from the Yum-Yum Grotto vendor, which leads to The Oasis and Poppy's Fish Pond"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Poppy, title: "IdleOn Wiki: Poppy the Kangaroo Mouse's Fish Pond", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      # ---- World 2 ----
+      - system: alchemy
+        world: 2
+        text: "Opens for each character on reaching the Yum-Yum Desert town (World 2) and clicking the cauldron"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Alchemy, title: "IdleOn Wiki: Alchemy", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Yum-Yum_Desert, title: "IdleOn Wiki: Yum-Yum Desert", tier: 2, claimDate: 2025-02-06, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: alchemy-bubbles
+        world: 2
+        text: "Opens with Alchemy: new bubbles open as cauldron bars fill and are put toward unlocks"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Alchemy, title: "IdleOn Wiki: Alchemy", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: alchemy-vials
+        world: 2
+        text: "Opens with Alchemy: each vial needs its material dropped on the cauldron, with a chance to unlock"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Alchemy, title: "IdleOn Wiki: Alchemy", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: alchemy-p2w
+        world: 2
+        text: "Opens with Alchemy: Pay 2 Win raises cauldrons, liquids, vials, sigils and player boosts for coins"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Alchemy, title: "IdleOn Wiki: Alchemy", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: arcade
+        world: 2
+        text: "Opens once a character reaches Lv 8 and visits the juggling Clown in the Yum-Yum Desert town"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Arcade, title: "IdleOn Wiki: Arcade", tier: 2, claimDate: 2026-10-17, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Clown, title: "IdleOn Wiki: Clown", tier: 2, claimDate: 2026-09-27, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: islands
+        world: 2
+        text: "Needs Fishing Lv 30 to reach the end of the Deepwater Docks; Message Bottles there pay for each island"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Island_Expeditions, title: "IdleOn Wiki: Island Expeditions", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      # ---- World 3 ----
+      - system: refinery
+        world: 3
+        text: "Opens on reaching the Frostbite Tundra town (World 3), beside the Construction Table"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Refinery, title: "IdleOn Wiki: Refinery", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Worlds, title: "IdleOn Wiki: Worlds", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: construction
+        world: 3
+        text: "Opens on reaching the Frostbite Tundra town (World 3), at the Construction Table on the upper platform"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Construction, title: "IdleOn Wiki: Construction", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Worlds, title: "IdleOn Wiki: Worlds", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: library
+        world: 3
+        text: "Opens once the Talent Book Library is built at the Construction Table in Frostbite Tundra town"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Talent_Book_Library, title: "IdleOn Wiki: Talent Book Library", tier: 2, claimDate: 2026-10-12, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Construction, title: "IdleOn Wiki: Construction", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://www.digitaltq.com/wiki/idleon/talent-book-library, title: "DigitalTQ: Talent Book Library", tier: 3, claimDate: 2026-09-04, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: printer
+        world: 3
+        text: "Opens once the 3D Printer, the first building at the Construction Table, is built in Frostbite Tundra town"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/3D_Printer, title: "IdleOn Wiki: 3D Printer", tier: 2, claimDate: 2026-10-14, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: worship
+        world: 3
+        text: "Opens on reaching Frostbite Tundra (World 3) as a Wizard skill; the first totem is in Forest Outskirts"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Worship, title: "IdleOn Wiki: Worship", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: trapping
+        world: 3
+        text: "Opens through the Lord of the Hunt's quests at Trappers Folley, left of the Frostbite Tundra town"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Trapping, title: "IdleOn Wiki: Trapping", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Lord_of_the_Hunt, title: "IdleOn Wiki: Lord of the Hunt", tier: 2, claimDate: 2026-09-27, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: death-note
+        world: 3
+        text: "Opens once the Death Note is built at the Construction Table in Frostbite Tundra town"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Death_Note, title: "IdleOn Wiki: Death Note", tier: 2, claimDate: 2025-11-14, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: salt-lick
+        world: 3
+        text: "Opens once the Salt Lick is built at the Construction Table in Frostbite Tundra town"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Salt_Lick, title: "IdleOn Wiki: Salt Lick", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Construction, title: "IdleOn Wiki: Construction", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: prayers
+        world: 3
+        text: "Opens with Worship: each prayer needs a set wave reached in a Worship tower-defence totem"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Prayers, title: "IdleOn Wiki: Prayers", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: shrines
+        world: 3
+        text: "Opens once shrines are built at the Construction Table; new shrines appear in Blunder Hills town"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Shrines, title: "IdleOn Wiki: Shrines", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: equinox
+        world: 3
+        text: "Needs an Equinox Mirror, a rare drop from Bloodbone in Frostbite Tundra"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Equinox, title: "IdleOn Wiki: Equinox", tier: 2, claimDate: 2026-10-10, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Bloodbone, title: "IdleOn Wiki: Bloodbone", tier: 2, claimDate: 2026-09-30, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: atom-collider
+        world: 3
+        text: "Opens once the Atom Collider, the last building at the Construction Table, is built in Frostbite Tundra"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Atom_Collider, title: "IdleOn Wiki: Atom Collider", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      # ---- World 4 ----
+      - system: lab
+        world: 4
+        text: "Opens on reaching the Hyperion Nebula town (World 4); the Mainframe stands right of the portal"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Laboratory, title: "IdleOn Wiki: Laboratory", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Hyperion_Nebula, title: "IdleOn Wiki: Hyperion Nebula", tier: 2, claimDate: 2025-02-06, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: cooking
+        world: 4
+        text: "Opens on reaching the Hyperion Nebula town (World 4), at the Kitchen tables; one table starts open"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Cooking, title: "IdleOn Wiki: Cooking", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Hyperion_Nebula, title: "IdleOn Wiki: Hyperion Nebula", tier: 2, claimDate: 2025-02-06, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: breeding
+        world: 4
+        text: "Opens on reaching the Hyperion Nebula town (World 4); the first breed is always a Green Mushroom"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Breeding, title: "IdleOn Wiki: Breeding", tier: 2, claimDate: 2026-10-14, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Hyperion_Nebula, title: "IdleOn Wiki: Hyperion Nebula", tier: 2, claimDate: 2025-02-06, verified: 2026-10-18, gameVersion: 2.3.540 }

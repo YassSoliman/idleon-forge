@@ -626,8 +626,49 @@ export const SystemDef = z.strictObject({
   dossier: z.url({ protocol: /^https$/ }),
   /** 'always', or a 'milestone' Detector that says whether the System is unlocked on this account. */
   unlocked: z.union([z.literal('always'), DetectorRef]),
+  /** M17 FR-16: 'game' Systems get a Systems hub tile; 'activeon' rows are ActiveOn's own concepts. */
+  kind: z.enum(['game', 'activeon']).optional(),
+  /** M17 FR-34: the fact table holding how this System opens (a row keyed by the System id). */
+  unlockFact: FactId.optional(),
 });
 export type SystemDefT = z.infer<typeof SystemDef>;
+/** M17 TR-8: a System's kind; absent means 'game'. */
+export const systemKind = (s: Pick<SystemDefT, 'kind'>): 'game' | 'activeon' => s.kind ?? 'game';
+
+/** M17 FR-34: the fact table of how each game System opens. */
+export const SYSTEM_UNLOCKS_ID = 'systems.fact.unlocks';
+/**
+ * One row of `systems.fact.unlocks` (M17 FR-34, TR-8): the in-game condition in condition form
+ * ("Opens …" or "Needs …", at most 120 characters), its world, the patch it was verified on and at
+ * least one player-readable tier 2–4 Source (#74), the System's IdleOn Wiki page among them. A row whose
+ * condition is a level in `metapath.fact.town-unlocks` names it in `level` and writes `{level}` in `text`
+ * instead of repeating the number.
+ */
+export const SystemUnlockRow = z.strictObject({
+  system: SystemId,
+  text: z
+    .string()
+    .min(1)
+    .max(120)
+    .regex(/^(Opens|Needs)\b/, 'an unlock condition starts with "Opens" or "Needs"'),
+  world: z.int().min(0).max(7),
+  gameVersion: GameVersion,
+  level: z.strictObject({ fact: FactId, key: z.string().min(1) }).optional(),
+  sources: z.array(Source).min(1),
+});
+export type SystemUnlockRowT = z.infer<typeof SystemUnlockRow>;
+
+/**
+ * M17 TR-9's advice lexicon: an imperative from the Next Action templates ("Equip", "Collect", "Claim",
+ * "Spend", "Buy", "Swap", …) or a rating word (P6). View words and unlock conditions never match it.
+ */
+export const ADVICE_IMPERATIVES =
+  /(^|[.:;·,]\s*|\s)(Equip|Collect|Claim|Spend|Buy|Swap|Upgrade|Craft|Refine|Kill|Put|Assign|Activate|Fix)\b/;
+export const ADVICE_RATINGS = /\b(tier|tiers|rated|rating|score|scores)\b/i;
+/** True when `text` reads as advice or a rating (M17 TR-9). */
+export const isAdviceShaped = (text: string): boolean =>
+  ADVICE_IMPERATIVES.test(text) || ADVICE_RATINGS.test(text);
+export const SystemUnlockRows = z.array(SystemUnlockRow).min(1);
 export const SystemsFile = z.strictObject({ systems: z.array(SystemDef).min(1) });
 
 /** `majors.yaml` (TR-11, D2): the game versions that count as major patches. Authored judgment. */
