@@ -434,20 +434,49 @@ entries:
             - { url: "https://idleon.wiki/wiki/Upgrade_Vault", title: "IdleOn wiki, Upgrade Vault", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
           confidence: L
           carryForward: true
-        - item: every-p2w
-          ref: alchemy-p2w.acquisition.cauldron-power-speed
-          spend: { sink: p2w, target: { kind: next } }
-          text: "Buy {name} Lv {from}→{to} on {payer}: {coins:coins}"
-          why: "Faster brewing and liquids for coins"
+        # M19 X2: one item per tier of alchemy-p2w.priority.order (its ref is in that tier); the engine
+        # ranks them in that order inside this position (M19 FR-13).
+        - item: p2w-player
+          ref: alchemy-p2w.acquisition.player-speed
+          spend: { sink: p2w, target: { kind: to-max } }
+          text: "Buy Player Alchemy Speed and Extra EXP {from} → {to}"
+          why: "They cap at your best Alchemy level and speed up every brewer"
           sources:
             - { url: "https://idleon.wiki/wiki/Alchemy#Pay_2_Win", title: "IdleOn wiki, Alchemy Pay 2 Win", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
           confidence: L
           carryForward: true
-        - item: vial-attempts
+        - item: p2w-liquids
+          ref: alchemy-p2w.acquisition.liquid-water-drops-regen
+          spend: { sink: p2w, target: { kind: next } }
+          text: "Buy {name} Lv {from}→{to} on {payer}: {coins:coins}"
+          why: "Early on, liquid rate and cap pay first"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Alchemy#Pay_2_Win", title: "IdleOn wiki, Alchemy Pay 2 Win", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: p2w-vials
           ref: alchemy-p2w.acquisition.vials-attempts
           spend: { sink: p2w, target: { kind: next } }
           text: "Buy {name} Lv {from}→{to}"
-          why: "More daily attempts to discover vials"
+          why: "More daily vial attempts, then better rolls"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Alchemy#Pay_2_Win", title: "IdleOn wiki, Alchemy Pay 2 Win", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: p2w-cauldrons
+          ref: alchemy-p2w.acquisition.cauldron-power-speed
+          spend: { sink: p2w, target: { kind: next } }
+          text: "Buy {name} Lv {from}→{to} on {payer}: {coins:coins}"
+          why: "Faster brewing and more new bubbles"
+          sources:
+            - { url: "https://idleon.wiki/wiki/Alchemy#Pay_2_Win", title: "IdleOn wiki, Alchemy Pay 2 Win", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+          confidence: L
+          carryForward: true
+        - item: p2w-boost-req
+          ref: alchemy-p2w.acquisition.cauldron-power-boost-req
+          spend: { sink: p2w, target: { kind: next } }
+          text: "Buy {name} Lv {from}→{to} on {payer}: {coins:coins}"
+          why: "Cheaper cauldron boosts, last"
           sources:
             - { url: "https://idleon.wiki/wiki/Alchemy#Pay_2_Win", title: "IdleOn wiki, Alchemy Pay 2 Win", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
           confidence: L

@@ -93,3 +93,27 @@ entries:
     effortSeconds: 30
     detector: { id: alchemy/liquid-unstaffed }
     notes: "FR-27: an unlocked liquid below half its cap with nobody on it, while a bubble cauldron has 2 or more brewers. It moves the lowest-Alchemy brewer that holds no alchemy Role, from the cauldrons with the most brewers; at most one liquid per run. M19 replaces it (X6)."
+
+  # ---- M19 Alchemy F5 (docs/specs/M19-alchemy.md FR-17, D-12): the permanent Talent Point ----
+  - id: alchemy.check.talent-point
+    system: alchemy
+    type: check
+    title: Buy a Talent Point
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 30
+    detector: { id: alchemy/shop }
+    text: "{text}"
+    why: "{why}"
+    values:
+      line: "Buy a Talent Point in the Liquid Shop"
+      why-line: "Every character gets one more tab-2 point, for good. It costs {water:int} Water plus some Liquid Nitrogen: check the price in game."
+      tube-note: "Talent Point needs 1 Liquid Nitrogen"
+    notes: "FR-17. Fires when Liquid Nitrogen is open, Water covers the data price (x1 x x2^bought = 3 x 1.3^n, liquidsShop index 8, never reset) and Nitrogen is at least 1 (the wiki lists a Nitrogen cost the data table doesn't price)."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Alchemy#Liquid_Shop", title: "IdleOn Wiki: Alchemy, Liquid Shop (the Talent Point never resets)", tier: 2, claimDate: 2026-04-09, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "IdleOn Toolbox game data: liquidsShop", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: [{ from: W2-early, to: W4-entry }] }
+    confidence: H
+    status: active
