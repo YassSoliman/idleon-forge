@@ -138,7 +138,8 @@ export function ligatureViolations(css: string): string[] {
     if (feat && feat !== 'var(--font-features)') out.push(`${r.selector}: font-feature-settings ${feat}`);
     // The font shorthand resets font-variant-ligatures, so it must set both longhands again.
     const short = /(?:^|;)\s*font\s*:\s*([^;]+)/.exec(r.body)?.[1]?.trim();
-    if (short && short !== 'inherit' && (!lig || !feat)) out.push(`${r.selector}: font shorthand without the ligature longhands`);
+    if (short && short !== 'inherit' && (!lig || !feat))
+      out.push(`${r.selector}: font shorthand without the ligature longhands`);
   }
   return out;
 }
@@ -164,7 +165,9 @@ describe('Pixelify ligatures off (R11 QA)', () => {
   });
 
   it('no stylesheet turns ligatures back on', () => {
-    const bad = files.flatMap((f) => ligatureViolations(readFileSync(join(SRC, f), 'utf8')).map((v) => `${f}: ${v}`));
+    const bad = files.flatMap((f) =>
+      ligatureViolations(readFileSync(join(SRC, f), 'utf8')).map((v) => `${f}: ${v}`),
+    );
     expect(bad).toEqual([]);
   });
 });
