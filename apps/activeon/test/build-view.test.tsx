@@ -11,10 +11,11 @@ import type {
 } from '@idleon-forge/engine/result';
 import { act, cleanup, fireEvent, screen, within } from '@testing-library/react';
 import axe from 'axe-core';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { characterTabs, parseTabHash, tabHref } from '../src/now/character-tabs';
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { characterTabs, healthReady, parseTabHash, tabHref } from '../src/now/character-tabs';
 import { fixture, props, renderNow, saveOf } from './now-helpers';
 
+beforeAll(() => healthReady);
 beforeEach(() => {
   localStorage.clear();
   window.history.replaceState(null, '', '/');
@@ -148,7 +149,7 @@ describe('Build view', () => {
     const r = withBuilds();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     expect(screen.queryByRole('region', { name: 'Builds' })).toBeNull();
-    expect(screen.getByRole('link', { name: 'Birch: build' })).toBeTruthy();
+    expect(screen.getByRole('link', { name: /^Birch: build/ })).toBeTruthy();
     fireEvent.click(screen.getByRole('link', { name: 'Builds and cards → Characters' }));
     expect(window.location.hash).toBe('#characters');
     const overview = screen.getByRole('region', { name: 'Builds' });
@@ -160,7 +161,7 @@ describe('Build view', () => {
   it('the Build chip opens the character page on its Build tab, with the deep link', async () => {
     const r = withBuilds();
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('link', { name: 'Birch: build' }));
+    fireEvent.click(screen.getByRole('link', { name: /^Birch: build/ }));
     expect(window.location.hash).toBe('#build-1');
     const nav = screen.getByRole('navigation', { name: 'Character page' });
     expect(within(nav).getByRole('link', { current: 'page' }).textContent).toBe('Build');
@@ -248,7 +249,7 @@ describe('Build view', () => {
       ],
     };
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('link', { name: 'Birch: build' }));
+    fireEvent.click(screen.getByRole('link', { name: /^Birch: build/ }));
     const text = document.body.textContent ?? '';
     expect(text).not.toMatch(/No points waiting/);
     expect(text).not.toMatch(/can't/i);

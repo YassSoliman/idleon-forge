@@ -17,8 +17,7 @@ import { describe, expect, it } from 'vitest';
 const SRC = fileURLToPath(new URL('../src', import.meta.url));
 
 /** Today's violations per file (Phase F, 2026-10-18). Lower a number when you fix one; never raise one. */
-const BASELINE: Record<string, number> = {
-};
+const BASELINE: Record<string, number> = {};
 
 const walk = (dir: string): string[] =>
   readdirSync(dir, { withFileTypes: true }).flatMap((d) =>

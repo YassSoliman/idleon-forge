@@ -1,9 +1,14 @@
-# golden v1: second · knowledge #786fcd8a · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 991
+# golden v1: second · knowledge #2619a32b · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 991
 
 ## Verdict changes
 
 ## Now
-8 of 10 Ready · 2 Unknown
+! All set: safe to log off. First thing fills up in 19h 09m: the anvil on Barbarian 501
+safe to log off · 2 Unknown
+counter: All set: safe to log off
+fold: 2 we can't tell: see why
+finding: Traps idle in 2h 15m on 10
+ready fold: 8 characters
 
 ### C7 · Voidwalker 510 · Unknown
 1 · Fighting Skydoggie Spirit · Dozey Dogpark · [Traps idle in 2h 15m] · Can't tell from the save

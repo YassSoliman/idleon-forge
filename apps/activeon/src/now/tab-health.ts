@@ -1,14 +1,19 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M21 FR-C7: each tab's health for the Characters health matrix, the identity strip's tab badges and
-// the Roster tab chip (G4). Read from the engine's own view data, so it adds no judgment: a count with
-// its unit ("at least 215 points", "45 levels behind", "1 of 4 slots"). Read by the lazy
-// Characters place and, loaded on demand, by the identity strip (never in the first load: M12 TR-12).
-// It lives in now/ beside character-tabs.ts. Severity order: fix, behind, empty, unknown, ok.
+// M21 FR-C7: each tab's health for the Roster's one tab chip (G4), the Characters health matrix and the
+// identity strip's badges. Read from the engine's own view data, so it adds no judgment: a count with
+// its unit ("at least 215 points", "45 levels behind", "1 of 4 slots"). In the first load with
+// character-tabs.ts (N's Roster chip reads it), so it is written small. It lives in now/ because
+// bundle-guards keeps characters/ lazy. Severity order: fix, behind, empty, unknown, ok.
 import type { NowView, TabHealth } from '@idleon-forge/engine/now';
 
+type Health = (view: NowView, index: number) => TabHealth | null;
+
 const n = (x: number) => x.toLocaleString('en-US');
-const plural = (x: number, one: string, many = `${one}s`) => `${n(x)} ${x === 1 ? one : many}`;
+/** "1 point", "3 points". */
+const of = (x: number, one: string) => `${n(x)} ${one}${x === 1 ? '' : 's'}`;
+const h = (level: TabHealth['level'], word: string): TabHealth => ({ level, word });
+const OK = h('ok', 'ok');
 
 export const SEVERITY: Readonly<Record<TabHealth['level'], number>> = {
   fix: 0,
@@ -18,86 +23,64 @@ export const SEVERITY: Readonly<Record<TabHealth['level'], number>> = {
   ok: 4,
 };
 
-/** Build: an empty preset first, then points known to be waiting (tabs 1–3, then the star tab). */
-export function buildHealth(view: NowView, index: number): TabHealth | null {
+/** Build: an empty preset first, then points known to be waiting (tabs 1–3), then star points. */
+const build: Health = (view, index) => {
   const r = view.builds.find((b) => b.index === index);
   if (!r) return null;
-  if (r.note) return { level: 'unknown', word: 'no build yet' };
-  const most = Math.max(0, ...r.presets.map((p) => p.unspent ?? 0));
-  const exact = r.presets.some((p) => p.tabs.some((t) => t.known?.kind === 'exact'));
-  const points = `${exact ? '' : 'at least '}${plural(most, 'point')}`;
-  const empty = r.presets.some((p) => p.tabs.length > 0 && p.tabs.every((t) => t.spent === 0));
-  if (empty && most > 0) return { level: 'empty', word: `empty preset · ${points}` };
-  if (most > 0) return { level: 'behind', word: points };
+  if (r.note) return h('unknown', 'no build yet');
+  const ps = r.presets;
+  const most = Math.max(0, ...ps.map((p) => p.unspent ?? 0));
+  const word = `${ps.some((p) => p.tabs.some((t) => t.known?.kind === 'exact')) ? '' : 'at least '}${of(most, 'point')}`;
+  if (most > 0)
+    return ps.some((p) => p.tabs.length > 0 && p.tabs.every((t) => t.spent === 0))
+      ? h('empty', `empty preset · ${word}`)
+      : h('behind', word);
   const star = Math.max(
     0,
-    ...r.presets.map((p) => (p.star?.known?.kind === 'exact' ? (p.star.known.points ?? 0) : 0)),
+    ...ps.map((p) => (p.star?.known?.kind === 'exact' ? (p.star.known.points ?? 0) : 0)),
   );
-  if (star > 1) return { level: 'behind', word: `${plural(star, 'star point')}` };
-  return { level: 'ok', word: 'ok' };
-}
+  return star > 1 ? h('behind', of(star, 'star point')) : OK;
+};
 
 /** Gear (M18): a better piece held, then empty slots, then the worst gap in levels. */
-export function gearHealth(view: NowView, index: number): TabHealth | null {
-  const c = view.gear?.characters.find((x) => x.index === index);
-  if (!c) return null;
-  const slots = c.slots.filter((s) => s.state !== 'm20');
-  const held = slots.filter((s) => s.state === 'held-upgrade').length;
-  if (held) return { level: 'fix', word: `${plural(held, 'better piece')} held` };
-  const empty = slots.filter((s) => s.state === 'empty').length;
-  if (empty) return { level: 'empty', word: `${plural(empty, 'empty slot')}` };
-  const worst = Math.max(0, ...slots.map((s) => (s.state === 'behind' ? (s.levelsBehind ?? 0) : 0)));
-  if (worst > 0) return { level: 'behind', word: `${plural(worst, 'level')} behind` };
-  if (slots.every((s) => s.state === 'unknown')) return { level: 'unknown', word: 'not known' };
-  return { level: 'ok', word: 'ok' };
-}
+const gear: Health = (view, index) => {
+  const s = view.gear?.characters.find((x) => x.index === index)?.slots.filter((x) => x.state !== 'm20');
+  if (!s) return null;
+  const count = (st: string) => s.filter((x) => x.state === st).length;
+  const worst = Math.max(0, ...s.map((x) => (x.state === 'behind' ? (x.levelsBehind ?? 0) : 0)));
+  if (count('held-upgrade')) return h('fix', `${of(count('held-upgrade'), 'better piece')} held`);
+  if (count('empty')) return h('empty', of(count('empty'), 'empty slot'));
+  if (worst) return h('behind', `${of(worst, 'level')} behind`);
+  return s.every((x) => x.state === 'unknown') ? h('unknown', 'not known') : OK;
+};
 
 /** Cards (M8): the wrong preset worn, then empty slots, then better cards owned. */
-export function cardsHealth(view: NowView, index: number): TabHealth | null {
+const cards: Health = (view, index) => {
   const c = view.cards?.characters.find((x) => x.index === index);
   if (!c) return null;
-  if (c.unknown) return { level: 'unknown', word: 'not known' };
-  if (c.presetFits === false) return { level: 'fix', word: 'wrong preset' };
-  if (c.emptySlots > 0)
-    return { level: 'empty', word: `${n(c.emptySlots)} of ${plural(c.slotCount, 'slot')} empty` };
+  if (c.unknown) return h('unknown', 'not known');
+  if (c.presetFits === false) return h('fix', 'wrong preset');
+  const slots = of(c.slotCount, 'slot');
+  if (c.emptySlots > 0) return h('empty', `${n(c.emptySlots)} of ${slots} empty`);
   const swaps = c.recommendations.reduce((s, r) => s + (r.done ? 0 : r.swaps.length), 0);
-  if (swaps > 0) return { level: 'behind', word: `${plural(swaps, 'better card')}` };
-  return { level: 'ok', word: `${n(c.slotCount)} of ${plural(c.slotCount, 'slot')}` };
-}
+  return swaps > 0 ? h('behind', of(swaps, 'better card')) : h('ok', `${n(c.slotCount)} of ${slots}`);
+};
 
 /** Signs (M16): the signs worn against the recommended ones. */
-export function signsHealth(view: NowView, index: number): TabHealth | null {
+const signs: Health = (view, index) => {
   const c = view.starSigns?.characters.find((x) => x.index === index);
   if (!c?.activity) return null;
-  if (!c.matches) return { level: 'behind', word: `${plural(c.recommended.length, 'sign')} to swap` };
-  return { level: 'ok', word: 'ok' };
-}
+  return c.matches ? OK : h('behind', `${of(c.recommended.length, 'sign')} to swap`);
+};
 
 /** Skills (M20): Parallel Slots this character could fill now. */
-export function skillsHealth(view: NowView, index: number): TabHealth | null {
-  const c = view.skills.find((x) => x.index === index);
-  if (!c || c.slots.length === 0) return null;
-  const filled = c.slots.filter((s) => s.state === 'filled' || s.state === 'capped').length;
-  const open = c.slots.filter((s) => s.state !== 'locked' && s.state !== 'not-covered').length;
-  const word = `${n(filled)} of ${plural(open, 'slot')}`;
-  if (c.slots.some((s) => s.state === 'fillable')) return { level: 'behind', word };
-  return { level: 'ok', word };
-}
-
-/** The most severe of a set of healths, ties broken by the given order (tab order). */
-export function worst<T extends { health: TabHealth }>(items: readonly T[]): T | null {
-  let best: T | null = null;
-  for (const x of items)
-    if (x.health.level !== 'ok' && (!best || SEVERITY[x.health.level] < SEVERITY[best.health.level]))
-      best = x;
-  return best;
-}
-
-/** Each tab's health by tab id, in tab order (the tabs without one publish none). */
-export const TAB_HEALTH: Readonly<Record<string, (view: NowView, index: number) => TabHealth | null>> = {
-  build: buildHealth,
-  gear: gearHealth,
-  cards: cardsHealth,
-  signs: signsHealth,
-  skills: skillsHealth,
+const skills: Health = (view, index) => {
+  const s = view.skills.find((x) => x.index === index)?.slots ?? [];
+  if (s.length === 0) return null;
+  const filled = s.filter((x) => x.state === 'filled' || x.state === 'capped').length;
+  const open = s.filter((x) => x.state !== 'locked' && x.state !== 'not-covered').length;
+  return h(s.some((x) => x.state === 'fillable') ? 'behind' : 'ok', `${n(filled)} of ${of(open, 'slot')}`);
 };
+
+/** Each tab's health by tab id (the tabs without one publish none). */
+export const TAB_HEALTH: Readonly<Record<string, Health>> = { build, gear, cards, signs, skills };

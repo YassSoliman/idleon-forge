@@ -1,9 +1,12 @@
-# golden v1: fresh · knowledge #786fcd8a · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 991
+# golden v1: fresh · knowledge #2619a32b · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 991
 
 ## Verdict changes
 
 ## Now
 0 of 3 Ready · fix 3 before you leave
+counter: 3 fixes before you leave
+first: Blood Berserker 534 · Spirit Village · Pick an AFK Target before you leave
+fold: 1 we can't tell: see why
 
 ### C2 · Blood Berserker 534 · Fix before you leave
 1 · Doing nothing · Spirit Village · Pick an AFK Target before you leave

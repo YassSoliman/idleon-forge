@@ -1,9 +1,14 @@
-# golden v1: first · knowledge #786fcd8a · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 991
+# golden v1: first · knowledge #2619a32b · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 991
 
 ## Verdict changes
 
 ## Now
 2 of 7 Ready · fix 1 before you leave · 4 Unknown
+counter: 1 fix before you leave
+first: Maestro 73 · YumYum Grotto · Pick an AFK Target before you leave
+fold: 4 we can't tell: see why
+finding: Traps idle in 13m on 7
+ready fold: 2 characters
 
 ### C7 · Maestro 73 · Fix before you leave
 1 · Doing nothing · YumYum Grotto · [Traps idle in 13m] · Pick an AFK Target before you leave
@@ -51,7 +56,7 @@ purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
 - Spend · Collect banked Colosseum tickets: Collect 9 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 13 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
-  · Easiest rolls with what you hold: Sippy Cup (97+, Sippy Straw), 40-40 Purity (98+, Contact Lense)
+  · Easiest rolls with what you hold: Sippy Cup (a roll of 97 or more, Sippy Straw), 40-40 Purity (a roll of 98 or more, Contact Lense)
   · Drop several stacks quickly: each counts as a roll
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 show more (21)
