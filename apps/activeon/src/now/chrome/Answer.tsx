@@ -67,6 +67,11 @@ export interface CounterProps {
   onTimeline: (() => void) | null;
   /** G10 "Around 20:10": the first-fill moment as a clock time; null keeps "in 3h 40m". */
   fillAt?: { at: number; settings: Settings } | null;
+  /**
+   * R11 QA: the AFK strip's `allSetDetail` (already full, next to fill, in the Times setting). When
+   * given it replaces the engine's first-fill line, so All set says what the strip and return line say.
+   */
+  afkDetail?: string | null;
 }
 
 export function Counter({
@@ -79,6 +84,7 @@ export function Counter({
   onUnknown,
   onTimeline,
   fillAt = null,
+  afkDetail = null,
 }: CounterProps) {
   const p = view.progress;
   const sub = (
@@ -103,13 +109,16 @@ export function Counter({
 
   if (counter.allSet) {
     const a = counter.allSet;
-    const fill =
-      a.firstFill && fillAt && fillAt.settings.times === 'clock'
-        ? a.firstFill.replace(
-            /^First thing fills up in [^:]+:/,
-            `First thing fills up ${moment(fillAt.at, Date.now(), 'clock', localOffsetMinutes(fillAt.at))}:`,
-          )
-        : a.firstFill;
+    const fill = !a.covered
+      ? a.firstFill
+      : afkDetail !== null
+        ? afkDetail
+        : a.firstFill && fillAt && fillAt.settings.times === 'clock'
+          ? a.firstFill.replace(
+              /^First thing fills up in [^:]+:/,
+              `First thing fills up ${moment(fillAt.at, Date.now(), 'clock', localOffsetMinutes(fillAt.at))}:`,
+            )
+          : a.firstFill;
     return (
       <section
         className="n-vb n-vb--ok"
@@ -182,10 +191,18 @@ export function Counter({
 }
 
 /** The consequence sentence: "Plans for 8h away · the anvil on Bowman 60 fills first, in 3h 40m". */
-function plan(result: EngineResult, view: NowView, now: number, settings: Settings): string {
+function plan(
+  result: EngineResult,
+  view: NowView,
+  now: number,
+  settings: Settings,
+  facts: string | null,
+): string {
   const seconds = result.expectedReturn.usedSeconds;
   const f = result.firstFill;
   const back = RETURN_WORDS.plans(span(seconds * 1000));
+  // R11 QA: the AFK strip's own facts (full now, next to fill), so the two lines never disagree.
+  if (facts !== null) return `${back} · ${facts}`;
   if (!f || f.at > now + seconds * 1000) return `${back} · ${RETURN_WORDS.nothingFills}`;
   const row = /^c(\d+)$/.exec(f.subject)
     ? view.roster.find((r) => r.index === Number(f.subject.slice(1)))
@@ -203,18 +220,21 @@ export function ReturnLine({
   settings,
   updating,
   onPick,
+  facts = null,
 }: {
   view: NowView;
   result: EngineResult;
   settings: Settings;
   updating: boolean;
   onPick(seconds: number): void;
+  /** The AFK strip's `returnFacts` (R11 QA); without a strip the line reads `result.firstFill`. */
+  facts?: string | null;
 }) {
   const now = useNow(60_000);
   const [open, setOpen] = useState(false);
   const chips = view.expectedReturn.chips;
   const pressed = chips.find((c) => c.pressed);
-  const sentence = plan(result, view, now, settings);
+  const sentence = plan(result, view, now, settings, facts);
   if (settings.back === 'ask')
     return (
       <div className="n-return n-return--ask">

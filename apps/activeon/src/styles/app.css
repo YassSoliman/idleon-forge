@@ -17,6 +17,8 @@ body {
   background: var(--bg);
   color: var(--fg);
   font: var(--weight-regular) var(--text-md) / var(--lh-body) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   padding: var(--gutter);
   overflow-x: hidden;
 }

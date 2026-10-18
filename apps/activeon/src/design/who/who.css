@@ -28,3 +28,11 @@
   line-height: 16px;
   text-align: center;
 }
+/* R11 QA: at 16 px the corner badge covered most of the chibi (the Map's World strip). At scale 1 the
+   letter sits beside the chibi instead of on it. */
+.who-s1:has(.who-badge) {
+  gap: 1px;
+}
+.who-s1 .who-badge {
+  position: static;
+}

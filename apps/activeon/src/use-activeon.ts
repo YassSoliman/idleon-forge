@@ -100,6 +100,31 @@ export interface PatchSignal extends PatchStatus {
   build: BuildMark | null;
 }
 
+/** A pasted save survives the "New version ready" reload in this tab only (sessionStorage, guarded). */
+const RELOAD_PASTE = 'activeon:reload-paste';
+
+/** Keeps the pasted text for a reload; false when the browser won't keep it (the chip then warns). */
+export function keepPasteForReload(text: string | null): boolean {
+  if (text === null) return true;
+  try {
+    sessionStorage.setItem(RELOAD_PASTE, text);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** The pasted text a reload kept, read once and forgotten. */
+export function takeKeptPaste(): string | null {
+  try {
+    const t = sessionStorage.getItem(RELOAD_PASTE);
+    if (t !== null) sessionStorage.removeItem(RELOAD_PASTE);
+    return t;
+  } catch {
+    return null;
+  }
+}
+
 export interface ActiveOn {
   auth: AuthState;
   /** The signed-in uid, for the preference namespace (never displayed, never sent). */
@@ -112,6 +137,8 @@ export interface ActiveOn {
   updating: boolean;
   /** A newer ActiveOn build replaced this one's chunks (M12 TR-10). */
   updated: boolean;
+  /** R11 QA: the pasted save a "New version ready" reload kept and this load parsed again; null when none. */
+  restoredPaste: string | null;
   save: SaveState;
   sync: SyncState;
   /** The browser's own online flag (FR-28). */
@@ -316,6 +343,20 @@ export function useActiveOn(): ActiveOn {
     },
     [setSave, store],
   );
+
+  // R11 QA: a pasted save kept across the "New version ready" reload is parsed again here, once the
+  // parser exists. (AppBody restored it before, but a child's effects run before this hook's, so the
+  // parser wasn't there yet and the save was dropped.) The text stays in a ref, so StrictMode's
+  // dispose-and-recreate in development parses it again instead of losing it.
+  const kept = useRef<string | null | undefined>(undefined);
+  const [restoredPaste, setRestoredPaste] = useState<string | null>(null);
+  useEffect(() => {
+    if (kept.current === undefined) kept.current = takeKeptPaste();
+    const text = kept.current;
+    if (text === null) return;
+    setRestoredPaste(text);
+    void runParse({ kind: 'text', text }, 'paste');
+  }, [runParse]);
 
   // Restore a persisted session, and follow sign-in / sign-out.
   useEffect(() => {
@@ -545,6 +586,7 @@ export function useActiveOn(): ActiveOn {
     setExpectedReturn,
     updating,
     updated,
+    restoredPaste,
     save,
     sync,
     online,

@@ -109,6 +109,53 @@ describe('FR-T5 the compact AFK strip', () => {
   });
 });
 
+describe('R11 QA: the return line, All set and the AFK strip say the same facts', () => {
+  it("counts what is full now and the next fill from the strip's own bars", () => {
+    const { timeline, view } = on('scrubbed-w3');
+    const strip = buildAfkStripView(timeline, view);
+    if (!strip || !timeline) throw new Error('scrubbed-w3 has a strip');
+    const now = timeline.axis.start;
+    const binding = timeline.lanes
+      .flatMap((l) => l.bars)
+      .filter((b) => b.state === 'open' && !b.untimed && b.beforeReturn);
+    expect(strip.fullNow).toBe(binding.filter((b) => (b.at ?? now) <= now).length);
+    const later = binding.filter((b) => b.at !== null && b.at > now).map((b) => b.at as number);
+    expect(strip.next?.at ?? null).toBe(later.length ? Math.min(...later) : null);
+  });
+
+  it('never says "nothing fills" while the strip says a limit binds (the QA contradiction)', () => {
+    for (const id of ['scrubbed-w3', 'scrubbed-w2']) {
+      const { timeline, view } = on(id);
+      const strip = buildAfkStripView(timeline, view);
+      if (!strip) continue;
+      const nothing = /nothing fills/i.test(strip.returnFacts);
+      expect(nothing, `${id}: ${strip.returnFacts} vs ${strip.sentence}`).toBe(strip.before === 0);
+      if (strip.before > 0) expect(strip.allSetDetail ?? '').toMatch(/already full|fills/);
+      if (strip.fullNow > 0) {
+        expect(strip.returnFacts.startsWith(`${strip.fullNow} already full`)).toBe(true);
+        expect(strip.allSetDetail?.startsWith(`${strip.fullNow} `)).toBe(true);
+        expect(strip.allSetDetail).toMatch(/already full: collect/);
+      }
+    }
+  });
+
+  it('words each case from the same two facts', () => {
+    const next = { what: 'Anvil', who: 'Bowman 60', when: 'in 3h 40m' };
+    expect(AFK_STRIP_WORDS.returnFacts(5, next)).toBe(
+      '5 already full · the Anvil on Bowman 60 fills next, in 3h 40m',
+    );
+    expect(AFK_STRIP_WORDS.returnFacts(5, null)).toBe(
+      "5 already full · nothing else fills before you're back",
+    );
+    expect(AFK_STRIP_WORDS.returnFacts(0, next)).toBe('the Anvil on Bowman 60 fills first, in 3h 40m');
+    expect(AFK_STRIP_WORDS.returnFacts(0, null)).toBe("nothing fills before you're back");
+    expect(AFK_STRIP_WORDS.allSetDetail(1, null)).toBe('1 thing is already full: collect it before you go');
+    expect(AFK_STRIP_WORDS.allSetDetail(0, { ...next, who: null })).toBe(
+      'First thing fills up in 3h 40m: the Anvil',
+    );
+  });
+});
+
 describe('TR-9: the Time area words are not advice', () => {
   it('holds no imperative from the Next Action templates and no rating word', () => {
     const strings: string[] = [];

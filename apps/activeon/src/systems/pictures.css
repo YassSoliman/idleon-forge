@@ -42,6 +42,8 @@
   background: var(--surface);
   box-shadow: 0 0 0 1px var(--line-strong);
   font: var(--weight-bold) var(--text-xs) / 18px var(--font-numeral);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 .sy-stamp--cap {
   background: conic-gradient(var(--ok) 100%, var(--line) 0);
@@ -156,6 +158,8 @@
 }
 .sy-statue__lv {
   font: var(--weight-semibold) var(--text-xs) / 1 var(--font-numeral);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 .sy-statues__wall > li:has(.is-now) {
   grid-column: span 2;

@@ -412,7 +412,7 @@ function materialsOf(
     const stamp = ctx.spend.stamps?.find((x) => stampRef(x.id) === s.ref);
     const item = humanize(stamp?.raise?.materialName ?? s.material.item);
     const amount = compact(rounded ? twoSf(s.material.amount) : s.material.amount);
-    const space = freeUp.has(s.ref) ? ', free up inventory space first' : '';
+    const space = freeUp.has(s.ref) ? ', free space first' : '';
     return [`carry ${amount} ${item} on ${who(s.material.doer)}${space}`];
   });
 }

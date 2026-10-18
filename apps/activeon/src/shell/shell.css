@@ -99,13 +99,16 @@
 }
 .badge {
   position: absolute;
-  top: -8px;
-  right: -16px;
+  top: -12px;
+  /* R11 QA: anchored at the glyph's right edge and growing away from it, so "11" never covers the icon. */
+  left: calc(100% - 2px);
   min-width: 20px;
   height: 20px;
   padding: 0 5px;
   border-radius: var(--radius-pill);
   font: var(--weight-bold) var(--text-xs) / 20px var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
@@ -173,7 +176,8 @@
   .place-item {
     flex-direction: row;
     justify-content: flex-start;
-    gap: 18px;
+    /* Room for a two-digit badge between the glyph and the label. */
+    gap: 24px;
     min-height: 44px;
     padding: 8px 10px;
   }

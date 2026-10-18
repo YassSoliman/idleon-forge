@@ -255,6 +255,8 @@
   border: 2px solid currentColor;
   border-radius: var(--radius-sm);
   font: var(--weight-bold) var(--text-sm) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   transform: rotate(-3deg);
 }
 .sg-note-link {

@@ -89,9 +89,20 @@ describe('US-9 the Map on W3-early (scrubbed-w3)', () => {
       [3, 'open'],
       [4, 'next'],
     ]);
-    expect(v?.worlds[0]?.line).toMatch(/^\d+ of \d+ doors open$/);
+    expect(v?.worlds[0]?.line).toMatch(/^\d+ of \d+ route doors open( · \d+ side maps? not reached)?$/);
     expect(v?.worlds[3]?.line).toBe('Opens with the Galaxial Amethyst');
     expect(v?.summary).toBe('3 of 4 worlds open · 6 characters');
+  });
+
+  it('R11 QA: "n of n route doors open" never sits beside an unexplained lock on the route', () => {
+    for (const b of v?.worlds ?? []) {
+      if (b.state === 'next' || b.beyond) continue;
+      const locked = b.nodes.filter((n) => n.state === 'locked');
+      const side = locked.filter((n) => !n.onRoute).length;
+      if (b.cleared === b.total) expect(locked.filter((n) => n.onRoute)).toEqual([]);
+      if (side > 0) expect(b.line).toContain(`${side} side map${side === 1 ? '' : 's'} not reached`);
+      else expect(b.line).not.toContain('side map');
+    }
   });
 
   it('the boss gates carry their crystal and keys; the next world shows no gate of its own', () => {

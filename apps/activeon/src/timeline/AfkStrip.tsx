@@ -19,13 +19,17 @@ type Mark = Strip['marks'][number];
 /** At most this many glyphs stack on one spot; the rest are a count. */
 const STACK = 3;
 
-/** Marks that land on the same spot of the axis (within 4 % of its length) stack instead of overlapping. */
+/**
+ * Marks that land near the same spot of the axis stack instead of overlapping. R11 QA: a mark is the
+ * chibi and its letter (about 36 px), so "near" is 12 % of the axis: no two marks side by side touch on
+ * a 390 px phone.
+ */
 function clusters(marks: readonly Mark[]): Mark[][] {
   const out: Mark[][] = [];
   for (const m of [...marks].sort((a, z) => a.x - z.x)) {
     const last = out[out.length - 1];
     const head = last?.[0];
-    if (last && head && m.x - head.x < 0.04) last.push(m);
+    if (last && head && m.x - head.x < 0.12) last.push(m);
     else out.push([m]);
   }
   return out;

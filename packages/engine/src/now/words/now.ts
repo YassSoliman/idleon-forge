@@ -39,6 +39,8 @@ export const HEADER_WORDS = {
   stageCount: (count: unknown) => plural(count, 'thing'),
   stageHint: 'Each box ticks itself when your save shows it done.',
   stageButton: (label: unknown, count: unknown) => `${s(label)}, ${plural(count, 'thing')} to go`,
+  /** R11 QA: the crest's own count, worded so it never reads like the Now badge's fix count. */
+  stageToGo: (count: number) => `${count} to go`,
 } as const;
 
 /** The counter (`now.verdict-banner` Counter that reaches zero, FR-N2) and its stale-first state. */
@@ -158,6 +160,8 @@ export const ACCOUNT_WORDS = {
   bestBuy: 'Best buy now',
   saveUp: 'Save up for',
   bringFirst: 'Bring first',
+  /** R11 QA: the Bring first steps past the first three; the sheet lists them all. */
+  bringMore: (n: number) => `and ${n} more: tap the line for all of them`,
   starChart: 'Star Chart',
   starChartLine: 'Star Chart: its own page under Systems',
   /** D-9: the Account keeps one Star Chart line; the chart lives on its System page. */

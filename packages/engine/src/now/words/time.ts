@@ -57,9 +57,30 @@ export const TIMELINE_WORDS = {
  * M21 FR-T5: the compact AFK strip on Now (`flows.afk-timeline` Compact strip). One sentence under it:
  * "3 limits bind before you're back: the anvil on Bowman 60 first, in 3h 40m".
  */
+/** "the anvil on Bowman 60", or "the Refinery" for an account limit. */
+const thing = (what: string, who: string | null) => (who ? `the ${what} on ${who}` : `the ${what}`);
+type NextFill = { what: string; who: string | null; when: string } | null;
+/** All set's line when nothing is full: the first fill, even one after you're back. */
+const firstOf = (f: NextFill) => (f ? `First thing fills up ${f.when}: ${thing(f.what, f.who)}` : null);
+
 export const AFK_STRIP_WORDS = {
-  sentence: (n: number, what: string, who: string, when: string) =>
-    `${n} ${n === 1 ? 'limit binds' : 'limits bind'} before you're back: the ${what} on ${who} first, ${when}`,
+  sentence: (n: number, what: string, who: string | null, when: string) =>
+    `${n} ${n === 1 ? 'limit binds' : 'limits bind'} before you're back: ${thing(what, who)} first, ${when}`,
+  /** R11 QA: the return line's clause: "5 already full · the anvil on Bowman 60 fills next, in 3h 40m". */
+  returnFacts: (full: number, next: NextFill) =>
+    full > 0
+      ? `${full} already full · ${next ? `${thing(next.what, next.who)} fills next, ${next.when}` : "nothing else fills before you're back"}`
+      : next
+        ? `${thing(next.what, next.who)} fills first, ${next.when}`
+        : "nothing fills before you're back",
+  /**
+   * R11 QA: the All set line's detail, from the same two facts (and the first fill after you're back);
+   * null when the strip has no timed limit at all, so All set keeps the engine's own first-fill line.
+   */
+  allSetDetail: (full: number, next: NextFill, later: NextFill = null) =>
+    full > 0
+      ? `${full} ${full === 1 ? 'thing is' : 'things are'} already full: collect ${full === 1 ? 'it' : 'them'} before you go${next ? ` · ${thing(next.what, next.who)} fills next, ${next.when}` : ''}`
+      : firstOf(next ?? later),
   nothing: "Nothing binds before you're back",
   fullNow: 'full now',
   open: 'Open the Timeline',

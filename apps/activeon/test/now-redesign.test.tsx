@@ -88,6 +88,37 @@ describe('FR-N2 the counter (US-1)', () => {
     expect(within(panel).getByRole('link', { name: /^First thing fills up in 9h/ })).toBeTruthy();
   });
 
+  it('US-14 (R11 QA): every Goal skipped, the sleeping blob says what to do next', () => {
+    const r = fixture('mid-session');
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    expect(screen.queryByText(/^Nothing to do now/)).toBeNull();
+    cleanup();
+    // Skip today on every Goal, every Unknown and the account (the prefs store's own record).
+    const until = { midnightAt: Date.now() + 6 * H, sessionStartedAt: null };
+    const keys = [
+      ...r.characters.flatMap((c) => [...c.goals.map((g) => g.nextAction.key), `unknown@c${c.index}`]),
+      ...r.account.goals.map((g) => g.nextAction.key),
+      'unknown@account',
+    ];
+    localStorage.setItem(
+      'activeon:test:skips',
+      JSON.stringify(Object.fromEntries(keys.map((k) => [k, until]))),
+    );
+    try {
+      renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+      expect(counterHeading().textContent).toMatch(/^All set: safe to log off/);
+      expect(screen.getByText(/^Nothing to do now\. Back in/)).toBeTruthy();
+    } finally {
+      localStorage.removeItem('activeon:test:skips');
+    }
+  });
+
+  it('US-14: no Goal at all is the same empty state', () => {
+    const r = { ...fixture('all-set'), returnAt: Date.now() + 8 * H, timeline: [] };
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    expect(screen.getByText(/^Nothing to do now\. Back in 8h/)).toBeTruthy();
+  });
+
   it('says the save is old first, and demotes the count to "last known" (US-3, DS-11)', () => {
     const r = fixture('mid-session');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste', 9 * H + 28 * 60_000)));

@@ -197,6 +197,8 @@
   padding-left: 3px;
   border-left: 1px solid var(--line);
   font: var(--text-xs) / 1.2 var(--font-numeral);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
   color: var(--muted);
   white-space: nowrap;
 }
@@ -1151,5 +1153,109 @@
   .tl-frame,
   .sg-frame {
     scroll-behavior: auto;
+  }
+}
+
+/* ---- R11 QA: the board and the slots grid at phone width ---- */
+.sg-k {
+  display: none;
+}
+@media (max-width: 999px) {
+  /* The board fits the frame instead of scrolling a 640 px drawing inside it: every lane end and its
+     label is on screen. A label sits under its bar as a line of its own, wrapping, so it never runs
+     past the frame (it was cut off) and the Now tag never sits on top of the bar's label. */
+  .tl-board {
+    --head: 116px;
+    min-width: 0;
+  }
+  /* The Back flag sits above the tick labels, not on one. */
+  .tl-axis {
+    min-height: 48px;
+  }
+  .tl-back-flag {
+    top: 2px;
+  }
+  /* A glyph at the axis end stays inside the frame. */
+  .tl-bar-g {
+    left: clamp(0px, calc(var(--x) * 100% - 8px), calc(100% - 18px));
+  }
+  .tl-head {
+    gap: var(--space-1);
+    padding: var(--space-1);
+  }
+  .tl-bar {
+    height: auto;
+    min-height: var(--row);
+    padding-top: 17px;
+  }
+  .tl-bar.empty {
+    min-height: 4px;
+    padding-top: 0;
+  }
+  .tl-bar-l,
+  .tl-bar.end .tl-bar-l {
+    position: static;
+    display: block;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    padding: 0 2px 2px;
+    background: none;
+  }
+  .tl-bar.end .tl-bar-l {
+    text-align: right;
+  }
+  .tl-nowtag {
+    margin: 0 4px 2px 0;
+  }
+}
+@media (max-width: 719px) {
+  /* The Lab critique: the Parallel Slots grid wraps on a phone. Each character is a block: its name,
+     then its five cells in a wrapping grid, each cell naming its column. */
+  .sg-frame {
+    overflow-x: visible;
+  }
+  .sg,
+  .sg tbody,
+  .sg tfoot {
+    display: block;
+    min-width: 0;
+  }
+  .sg thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .sg tr {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 4px;
+    padding: var(--space-2);
+    border-bottom: 1px solid var(--line);
+  }
+  .sg tbody th,
+  .sg tfoot th {
+    position: static;
+    grid-column: 1 / -1;
+    width: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+  .sg tbody th > span:last-child {
+    display: inline;
+    margin-top: 0;
+  }
+  .sg td {
+    display: block;
+  }
+  .sg-k {
+    display: block;
+    font-weight: var(--weight-semibold);
+    color: var(--fg);
+  }
+  .sg tfoot td {
+    text-align: left;
   }
 }

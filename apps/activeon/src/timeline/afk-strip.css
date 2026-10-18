@@ -19,7 +19,8 @@
 .afk-axis {
   position: relative;
   display: block;
-  height: 64px;
+  /* R11 QA: room for three stacked marks with a gap between their outlines. */
+  height: 84px;
   margin: 0 8px;
 }
 .afk-rail {
@@ -52,10 +53,12 @@
 }
 .afk-mark {
   position: absolute;
-  bottom: calc(12px + var(--stack, 0) * 18px);
+  bottom: calc(12px + var(--stack, 0) * 23px);
   left: calc(var(--x) * 100%);
   transform: translateX(-50%);
   display: inline-flex;
+  align-items: center;
+  padding: 1px;
   line-height: 0;
   border-radius: var(--radius-xs);
   background: var(--surface);

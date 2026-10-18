@@ -16,14 +16,20 @@
 .sy-frame__title {
   margin: 0;
   font: var(--display-weight) var(--text-xl) / var(--lh-tight) var(--font-display);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 .sy-h3 {
   margin: 0;
   font: var(--display-weight) var(--text-lg) / var(--lh-tight) var(--font-display);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 .sy-h4 {
   margin: 0;
   font: var(--weight-semibold) var(--text-md) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 .sy-muted,
 .sy-reason,
@@ -74,6 +80,8 @@
   background: var(--accent);
   color: var(--on-accent);
   font: var(--weight-bold) var(--text-xs) / 1.2 var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 
 /* ---- Wasting now (FR-S1) ---- */
@@ -119,6 +127,8 @@
   border-bottom: 1px solid var(--line-strong);
   color: var(--muted);
   font: var(--weight-semibold) var(--text-xs) / 1 var(--font-numeral);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 .sy-rc__ax {
   text-align: left;
@@ -226,6 +236,8 @@
   gap: var(--space-1) var(--space-2);
   margin: 0;
   font: var(--weight-semibold) var(--text-md) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
 .sy-band__sub {
   color: var(--muted);
@@ -290,6 +302,14 @@
 .sy-rc__link:focus-visible {
   outline: var(--focus-width) solid var(--focus);
   outline-offset: var(--focus-offset);
+}
+/* R11 QA: zero specificity on the scope (:where), so a picture's own summary rule (the Alchemy pots'
+   grid, the star chart's fold) always wins; this only sets the 44 px default. */
+:where(.sy-pic, .sy-section) details > summary {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  cursor: pointer;
 }
 .sy-later > summary {
   display: flex;
@@ -487,13 +507,6 @@
 }
 .sy-dim {
   color: var(--muted);
-}
-.sy-pic details > summary,
-.sy-section details > summary {
-  display: flex;
-  align-items: center;
-  min-height: var(--tap-min);
-  cursor: pointer;
 }
 /* The tap sheet's body. */
 .sy-sheet {

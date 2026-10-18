@@ -3,7 +3,7 @@
 // The footer (M21 `flows.footer` Fan disclaimer), a lazy part under the fold: who made it, who didn't
 // (LavaFlame2), that it is read-only, and every link 44 px (DS-15). The versions moved to the header's
 // overflow menu (G1).
-import { FLOW_WORDS, HEADER_WORDS, SETUP_WORDS } from '@idleon-forge/engine/now';
+import { HEADER_WORDS, SETUP_WORDS } from '@idleon-forge/engine/now';
 import { PixelArt } from '../design/art/PixelArt';
 import type { ClearOptions } from '../use-activeon';
 import { ClearMyData } from './ClearMyData';

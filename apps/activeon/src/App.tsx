@@ -30,7 +30,7 @@ import { Shell } from './shell/Shell';
 import { readSuggestionsConfig } from './suggestions/config';
 import type { Scene } from './suggestions/context';
 import { ReadyToSend, SuggestionsProvider, useSuggestions } from './suggestions/SuggestionsProvider';
-import { type ActiveOn, type SaveState, useActiveOn } from './use-activeon';
+import { type ActiveOn, keepPasteForReload, type SaveState, useActiveOn } from './use-activeon';
 import { useNow } from './use-now';
 
 // Lazy parts (M21 TR-12): what opens on a tap stays out of the first load and is prefetched when idle.
@@ -74,30 +74,8 @@ type FooterInfo = {
   persistent: boolean;
 };
 
-/** A pasted save survives the "New version ready" reload in this tab only (sessionStorage, guarded). */
-const RELOAD_PASTE = 'activeon:reload-paste';
-
-/** Keeps the pasted text for a reload; false when the browser won't keep it (the chip then warns). */
-export function keepPasteForReload(text: string | null): boolean {
-  if (text === null) return true;
-  try {
-    sessionStorage.setItem(RELOAD_PASTE, text);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-/** The pasted text a reload kept, read once and forgotten. */
-export function takeKeptPaste(): string | null {
-  try {
-    const t = sessionStorage.getItem(RELOAD_PASTE);
-    if (t !== null) sessionStorage.removeItem(RELOAD_PASTE);
-    return t;
-  } catch {
-    return null;
-  }
-}
+// The kept paste lives with the parser now (R11 QA); re-exported for the tests and the reload chip.
+export { keepPasteForReload, takeKeptPaste } from './use-activeon';
 
 type Ready = Extract<SaveState, { status: 'ready' }>;
 
@@ -227,16 +205,9 @@ function AppBody({ a, serverBuild }: { a: ActiveOn; serverBuild: number | null }
     },
     [a],
   );
-  const restored = useRef(false);
-  useEffect(() => {
-    if (restored.current) return;
-    restored.current = true;
-    const kept = takeKeptPaste();
-    if (kept !== null) {
-      pastedText.current = kept;
-      a.paste(kept);
-    }
-  }, [a]);
+  // R11 QA: the hook parses a kept paste itself once its parser exists (this child's effects run before
+  // the hook's, so restoring here found no parser and dropped the save); a later reload keeps it again.
+  if (pastedText.current === null && a.restoredPaste !== null) pastedText.current = a.restoredPaste;
   const updateCheck = useUpdateAvailable();
   const updateText = a.updated ? 'ActiveOn was updated. Reload to continue' : updateCheck.text;
   const [dropWarned, setDropWarned] = useState(false);

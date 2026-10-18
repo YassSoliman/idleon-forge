@@ -25,10 +25,15 @@ function CellGlyph({ c }: { c: Cell }) {
   return <PixelArt name={name} decorative animate={false} />;
 }
 
-function SlotCell({ c }: { c: Cell }) {
+function SlotCell({ c, heading }: { c: Cell; heading: string }) {
   return (
     <td className={cx('sg-c', `is-${c.tone}`, c.now && 'is-now')}>
       <span className="sg-in">
+        {/* R11 QA: on a phone the grid wraps, so each cell names its own column (hidden from assistive
+            tech, which reads the column header). */}
+        <span className="sg-k" aria-hidden="true">
+          {heading}
+        </span>
         <span className="sg-g">
           <CellGlyph c={c} />
         </span>
@@ -86,7 +91,11 @@ export function ParallelSlots({ s }: { s: Session }) {
                     </th>
                     {v.columns.map((col) => {
                       const c = r.cells.find((x) => x.kind === col.kind);
-                      return c ? <SlotCell key={col.kind} c={c} /> : <td key={col.kind} className="sg-c" />;
+                      return c ? (
+                        <SlotCell key={col.kind} c={c} heading={col.heading} />
+                      ) : (
+                        <td key={col.kind} className="sg-c" />
+                      );
                     })}
                   </tr>
                 ))}
@@ -96,6 +105,9 @@ export function ParallelSlots({ s }: { s: Session }) {
                   <th scope="row">{W.footer}</th>
                   {v.columns.map((col) => (
                     <td key={col.kind}>
+                      <span className="sg-k" aria-hidden="true">
+                        {col.heading}
+                      </span>
                       <span className="num">{col.count}</span>
                     </td>
                   ))}

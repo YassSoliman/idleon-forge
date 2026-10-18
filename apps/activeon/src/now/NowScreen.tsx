@@ -8,7 +8,7 @@
 // place (M17 FR-15): Focus plus the Account. The session state lives in the shell (M17 FR-10,
 // `shell/session.ts`), so it survives place moves; nothing here orders or filters advice
 // (`buildNowView` and `buildSessionView` do).
-import { FLOW_WORDS, PLACE_WORDS } from '@idleon-forge/engine/now';
+import { FLOW_WORDS, type NowView, PLACE_WORDS } from '@idleon-forge/engine/now';
 import { Suspense, useCallback, useMemo, useState } from 'react';
 import { EmptyState } from '../design/atoms/States';
 import { span } from '../design/format';
@@ -41,6 +41,18 @@ SessionHost.preload().catch(() => undefined);
 
 /** When this page first loaded: a pasted save has no Play Session, so a pick holds for the visit. */
 const LOADED_AT = Date.now();
+
+/**
+ * US-14 (R11 QA): Now has nothing to do. No characters, or All set holds and no Next Action is left on
+ * screen (every Goal skipped, or none at all). The sleeping blob shows then; otherwise the list does.
+ */
+export function nothingToDo(view: NowView): boolean {
+  return view.roster.length === 0 || (view.allSet?.covered === true && view.visibleKeys.length === 0);
+}
+
+/** "the anvil on Bowman 60 fills first", from the AFK strip's next fill. */
+const fillsFirst = (n: { what: string; who: string | null }) =>
+  n.who ? `the ${n.what} on ${n.who} fills first` : `the ${n.what} fills first`;
 
 export function NowPlace({ s }: { s: Session }) {
   const { view, result, refs } = s;
@@ -123,6 +135,7 @@ export function NowPlace({ s }: { s: Session }) {
                     s.timeline ? () => s.navigate({ place: 'timeline', section: null }, 'push') : null
                   }
                   fillAt={result.firstFill ? { at: result.firstFill.at, settings } : null}
+                  afkDetail={s.views.afkStrip?.allSetDetail ?? null}
                 />
                 <ReturnLine
                   view={view}
@@ -130,6 +143,7 @@ export function NowPlace({ s }: { s: Session }) {
                   settings={settings}
                   updating={updating}
                   onPick={pick}
+                  facts={s.views.afkStrip?.returnFacts ?? null}
                 />
                 <PauseControl view={sv} onPick={(tab) => setPause({ manual: tab })} />
                 <AfkStrip
@@ -145,8 +159,16 @@ export function NowPlace({ s }: { s: Session }) {
                   onBuild={(i) => s.actions.openTab(i, 'build')}
                   back={back}
                 />
-                {view.roster.length === 0 ? (
-                  <EmptyState line={FLOW_WORDS.empty(span(result.expectedReturn.usedSeconds * 1000), null)} />
+                {/* US-14 (R11 QA): the sleeping blob for every screen-level empty state the spec names:
+                    no characters, and nothing to do (every Goal skipped or none at all, so All set
+                    holds with no Next Action left on screen). It names the next thing that fills. */}
+                {nothingToDo(view) ? (
+                  <EmptyState
+                    line={FLOW_WORDS.empty(
+                      span(result.expectedReturn.usedSeconds * 1000),
+                      s.views.afkStrip?.next ? fillsFirst(s.views.afkStrip.next) : null,
+                    )}
+                  />
                 ) : null}
                 <Roster
                   view={view}

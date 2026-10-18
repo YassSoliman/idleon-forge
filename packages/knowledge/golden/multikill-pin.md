@@ -477,15 +477,15 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 
 ## Map
 4 of 4 worlds open · 11 characters
-- World 1 · Blunder Hills [done] · 7 of 7 doors open
+- World 1 · Blunder Hills [done] · 7 of 7 route doors open · 6 side maps not reached
   - gate Amarok (done): Desert Topaz handed in; 10 keys waiting · 10 earned a day
   - Spore Meadows (cleared): C10 Bubonic Conjuror 1268
-- World 2 · Yum-Yum Desert [done] · 10 of 10 doors open
+- World 2 · Yum-Yum Desert [done] · 10 of 10 route doors open · 2 side maps not reached
   - gate Efaunt (done): Glacier Quartz handed in; 0 keys waiting · 6 earned a day
-- World 3 · Frostbite Tundra [done] · 11 of 11 doors open
+- World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 3 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; 9 keys waiting · 9 earned a day
   - Frostbite Towndra (town): C6 Wind Walker 1280
-- World 4 · Hyperion Nebula [done] · 3 of 3 doors open
+- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 2 side maps not reached
   - gate Massive Troll (done)
   - Outer World Town (town): C1 Siege Breaker 1291, C8 Siege Breaker 1261, C4 Divine Knight 1240, C5 Arcane Cultist 1231, C3 Elemental Sorcerer 1259, C11 Beginner 1224
 - Worlds 5+ · Not covered yet
