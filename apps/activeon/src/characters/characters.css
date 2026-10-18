@@ -148,3 +148,61 @@
   max-width: 40%;
   white-space: normal;
 }
+
+/* R11 QA (390 px): the identity strip wrapped to five lines between its two 44 px arrows. On a phone
+   the name, its stamp and the arrows share one row and the class, map and activity line takes the
+   strip's full width under them, so it reads in three lines at most. */
+@media (max-width: 479px) {
+  .cs-strip {
+    display: grid;
+    grid-template-columns: var(--tap-min) auto minmax(0, 1fr) auto var(--tap-min);
+    grid-template-areas:
+      "prev glyph name stamp next"
+      "sub sub sub sub sub";
+    column-gap: var(--space-2);
+    row-gap: var(--space-1);
+  }
+  .cs-strip > .cs-arrow:first-child {
+    grid-area: prev;
+  }
+  .cs-strip > .cs-arrow:last-child {
+    grid-area: next;
+  }
+  .cs-strip > :nth-child(2) {
+    grid-area: glyph;
+  }
+  .cs-strip .cs-ident {
+    display: contents;
+  }
+  .cs-strip .cs-name {
+    grid-area: name;
+    align-self: center;
+  }
+  .cs-strip .cs-sub {
+    grid-area: sub;
+    justify-content: center;
+    text-align: center;
+  }
+  .cs-strip > .a-stamp {
+    grid-area: stamp;
+    max-width: none;
+  }
+}
+
+/* R11 QA (390 px): six tabs leave about 54 px each, so an inline badge ran into the next tab's label.
+   On a phone the badge sits in the tab's top corner, like a notification dot, and the label stays
+   centred in its own width. */
+@media (max-width: 479px) {
+  .char-tab {
+    min-width: 0;
+    padding: var(--space-3) 2px var(--space-1);
+  }
+  .char-tab .cs-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 3px;
+  }
+}
