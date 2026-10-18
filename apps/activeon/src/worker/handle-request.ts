@@ -27,6 +27,7 @@ import { createCardsViewModule, createCollectionsModule } from '@idleon-forge/en
 import { engineDetectors } from '@idleon-forge/engine/detectors';
 import { detectStage, frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
 import { createM20Modules } from '@idleon-forge/engine/slots';
+import { createPurposeModule, purposeStatusFor, suggestionFor } from '@idleon-forge/engine/purpose';
 import { createSpendModule } from '@idleon-forge/engine/spend';
 import { createStarSignsModule } from '@idleon-forge/engine/starsigns';
 import { createUnspentModule } from '@idleon-forge/engine/unspent';
@@ -152,9 +153,18 @@ export function frontierOf(
 export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().kb): EngineModule[] {
   if (!kb) return [metaPathModule];
   const facts = lookupOf(kb);
+  const purpose = { kb, registry: knowledgeDetectors };
   return [
     metaPathModule,
-    createAfkSafetyModule({ kb, registry: knowledgeDetectors, stage: (state) => detectStage(state, facts) }),
+    createAfkSafetyModule({
+      kb,
+      registry: knowledgeDetectors,
+      stage: (state) => detectStage(state, facts),
+      // M4 FR-8, FR-14: Ready means safe and serving; "What is this character for?" gets its suggestion.
+      purpose: purposeStatusFor(purpose),
+      purposeSuggestion: suggestionFor(purpose),
+    }),
+    createPurposeModule(purpose),
     createUnspentModule({
       kb,
       registry: knowledgeDetectors,

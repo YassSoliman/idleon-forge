@@ -43,9 +43,11 @@ import type {
   FocusCard,
   GoalView,
   HigherLeverageView,
+  LadderStepView,
   NextActionView,
   NowView,
   PillView,
+  PurposeItemView,
   RosterRow,
   SourceView,
   SpendLineView,
@@ -176,6 +178,43 @@ function actionView(
     controls,
     provenance: a.provenance,
   };
+}
+
+/** FR-11: Purpose lines in the Focus card: the first 3 show, the rest behind "show more". */
+export const PURPOSE_SHOWN = 3;
+
+/** M4 → the Focus card's Purpose block (Design Lab: a Quest line with a short ladder). */
+export function purposeItems(c: Pick<CharacterResult, 'purpose'>): PurposeItemView[] {
+  return c.purpose.map((l, i) => {
+    const base = l.text ?? (l.milestone ? milestoneText(l.milestone) : l.title);
+    const behind = l.badges.includes('parser-behind') ? ' · may be out of date' : '';
+    const stopHere = l.milestone?.stopHere ?? false;
+    const stop = stopHere ? ' · consider stopping here' : '';
+    const ladder: LadderStepView[] = [];
+    const d = l.ladder;
+    if (i === 0 && d && d.next !== null) {
+      const unit = (n: number) =>
+        d.unit === 'level' ? `Lv ${compact(n)}` : `${compact(n)}${d.unit ? ` ${d.unit}` : ''}`;
+      const eta = (s: number | null) =>
+        s === null ? '' : `${aboutDuration(s)}${d.mean ? ' on average' : ''}`;
+      ladder.push({ state: 'done', label: unit(d.current), note: d.projected ? 'now (projected)' : 'now' });
+      ladder.push({ state: 'next', label: unit(d.next), note: eta(d.nextEtaSeconds) });
+      if (d.later !== null)
+        ladder.push({ state: 'later', label: unit(d.later), note: eta(d.laterEtaSeconds) });
+    }
+    return {
+      goalId: l.goalId,
+      text: `${base}${behind}${stop}`,
+      detail: l.detail ?? null,
+      worthwhile: l.worthwhile,
+      stopHere,
+      badges: l.badges,
+      source: l.sources.length ? sourceView(l.sources, l.badges.includes('stale'), l.goalId) : null,
+      bar: d && d.next !== null && d.next > 0 ? { current: Math.min(d.current, d.next), next: d.next } : null,
+      ladder,
+      more: i >= PURPOSE_SHOWN,
+    };
+  });
 }
 
 export function milestoneText(m: Goal['milestone']): string | null {
@@ -327,7 +366,11 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
     const firstBlocker = p.f.blockers[0];
     if (p.effective === 'fix' && firstBlocker) return firstBlocker.nextAction.text;
     if (p.effective === 'unknown' && p.c.verdict.unknownReason) {
-      if (p.c.verdict.unknownReason === 'not-covered') return 'Not covered yet: AFK safety';
+      // M4 FR-14: an activity no Contribution names says which one ("Not covered yet: Cooking").
+      if (p.c.verdict.unknownReason === 'not-covered')
+        return p.c.purposeStatus === 'not-covered' && p.c.purposeNote
+          ? p.c.purposeNote
+          : 'Not covered yet: AFK safety';
       return UNKNOWN_TEXT[p.c.verdict.unknownReason];
     }
     const top = p.f.goals[0];
@@ -359,6 +402,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       caps: p.caps.slice(0, ROW_CAP_PILLS),
       moreCaps: Math.max(0, p.caps.length - ROW_CAP_PILLS),
       summary,
+      purpose: purposeItems(c)[0]?.text ?? null,
       spendChip: spendChipText(c),
       accessibleName: [
         `${k + 1}.`,
@@ -504,7 +548,11 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       unknown: reason
         ? {
             reason,
-            text: UNKNOWN_TEXT[reason],
+            text:
+              reason === 'not-covered' && c.purposeStatus === 'not-covered' && c.purposeNote
+                ? c.purposeNote
+                : UNKNOWN_TEXT[reason],
+            note: reason === 'no-purpose' ? (c.purposeNote ?? null) : null,
             suggestion:
               reason === 'no-purpose' && c.verdict.suggestion
                 ? actionView(c.verdict.suggestion, 'Purpose', 'compounding', {
@@ -517,18 +565,8 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
             skipped: p.unknownSkipped,
           }
         : null,
-      purpose: c.purpose.map((l) => {
-        const base = l.milestone ? milestoneText(l.milestone) : l.title;
-        const behind = l.badges.includes('parser-behind') ? ' · may be out of date' : '';
-        const stop = l.milestone?.stopHere ? ' · consider stopping here' : '';
-        return {
-          goalId: l.goalId,
-          text: `${base}${behind}${stop}`,
-          stopHere: l.milestone?.stopHere ?? false,
-          badges: l.badges,
-          source: l.sources.length ? sourceView(l.sources, l.badges.includes('stale'), l.goalId) : null,
-        };
-      }),
+      purpose: purposeItems(c),
+      purposeStatus: c.purposeStatus ?? null,
       goals: p.shown.map(goalView),
       hiddenCount: p.hidden,
       skippedCount: p.f.skipped,

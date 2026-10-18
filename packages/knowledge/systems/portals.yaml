@@ -12,7 +12,7 @@ entries:
     goalFamily: portals.goal.map
     detector: { id: portals/push }
     eta: kills-per-hour
-    values: { horizon: none }
+    values: { horizon: none, whyNot: "{map:name} isn't your push" }
     text: "Portal on {map:name}: {now} → {at} kills"
     why: "Kills on a map open its doors to the next maps. Pushing the frontier is your account's top Goal after AFK safety."
     appliesTo: { stages: all }

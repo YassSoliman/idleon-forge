@@ -12,7 +12,10 @@ entries:
     goal: classes.goal.level
     detector: { id: classes/exp, params: { minRatio: 0.5 } }
     eta: kills-per-hour
-    values: { horizon: none }
+    values:
+      horizon: none
+      whyNot: "Class EXP here is under half your best map"
+      action: "Level {who} on {map:name}: Lv {at} in {etaText}"
     text: "Class level {now} → {at}"
     why: "Each kill gives the monster's class EXP times your EXP multiplier, so the map sets how fast this character levels."
     appliesTo: { stages: all }

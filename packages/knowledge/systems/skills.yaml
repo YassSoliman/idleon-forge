@@ -48,7 +48,7 @@ entries:
     goal: skills.goal.tool-mining
     detector: { id: skills/tool-chain, params: { afkType: MINING } }
     eta: none
-    text: "{target} toward the {tool}"
+    text: "{target:name} toward the {tool}"
     why: "The {tool} is crafted at the anvil from what this character gathers, and its skill level already allows it."
     appliesTo: { stages: all }
     confidence: M
@@ -66,7 +66,7 @@ entries:
     goal: skills.goal.tool-chopping
     detector: { id: skills/tool-chain, params: { afkType: CHOPPIN } }
     eta: none
-    text: "{target} toward the {tool}"
+    text: "{target:name} toward the {tool}"
     why: "The {tool} is crafted at the anvil from what this character gathers, and its skill level already allows it."
     appliesTo: { stages: all }
     confidence: M
@@ -84,7 +84,7 @@ entries:
     goal: skills.goal.tool-fishing
     detector: { id: skills/tool-chain, params: { afkType: FISHING } }
     eta: none
-    text: "{target} toward the {tool}"
+    text: "{target:name} toward the {tool}"
     why: "The {tool} is crafted at the anvil from what this character gathers, and its skill level already allows it."
     appliesTo: { stages: all }
     confidence: M
@@ -102,7 +102,7 @@ entries:
     goal: skills.goal.tool-catching
     detector: { id: skills/tool-chain, params: { afkType: CATCHING } }
     eta: none
-    text: "{target} toward the {tool}"
+    text: "{target:name} toward the {tool}"
     why: "The {tool} is crafted at the anvil from what this character gathers, and its skill level already allows it."
     appliesTo: { stages: all }
     confidence: M

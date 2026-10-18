@@ -163,10 +163,16 @@ entries:
     goalFamily: cards.goal.card-levels
     detector: { id: cards/fight-level, params: { unownedMultiplier: 5 } }
     eta: kills-per-hour
-    values: { horizonHours: 24 }
-    text: "{target} card: {now} → {at} copies"
+    values:
+      horizonHours: 24
+      first: "{target:name} card: first copy (5× drop chance while unowned)"
+      complete: "{target:name} card: complete"
+      whyNot: "{target:name} card isn't on this class's card list"
+      whySlow: "the next {target:name} card level is far off"
+      whyComplete: "{target:name} card is complete"
+    text: "{target:name} card: {now} → {at} copies"
     why: "Each card level raises its bonus. The time is a mean at the base drop chance (five times higher while you own none), so it is likely sooner."
-    stopHere: "{target} card reaches {at} copies in {etaText}. The next level, {later}, is {laterEtaText} away. Consider stopping here."
+    stopHere: "{target:name} card reaches {at} copies in {etaText}. The next level, {later}, is {laterEtaText} away. Consider stopping here."
     appliesTo: { stages: all }
     confidence: M
     status: active
@@ -183,7 +189,7 @@ entries:
     goalFamily: cards.goal.card-levels
     detector: { id: cards/skill-first-copy }
     eta: none
-    text: "{target} card: the first copy drops here"
+    text: "{target:name} card: the first copy drops here"
     why: "A card's first copy gives its bonus right away. Skilling cards drop as you gather, with no time estimate."
     appliesTo: { stages: all }
     confidence: M
@@ -200,7 +206,7 @@ entries:
     goalFamily: cards.goal.card-levels
     detector: { id: cards/skill-first-copy }
     eta: none
-    text: "{target} card: the first copy drops here"
+    text: "{target:name} card: the first copy drops here"
     why: "A card's first copy gives its bonus right away. Skilling cards drop as you gather, with no time estimate."
     appliesTo: { stages: all }
     confidence: M
@@ -217,7 +223,7 @@ entries:
     goalFamily: cards.goal.card-levels
     detector: { id: cards/skill-first-copy }
     eta: none
-    text: "{target} card: the first copy drops here"
+    text: "{target:name} card: the first copy drops here"
     why: "A card's first copy gives its bonus right away. Skilling cards drop as you gather, with no time estimate."
     appliesTo: { stages: all }
     confidence: M

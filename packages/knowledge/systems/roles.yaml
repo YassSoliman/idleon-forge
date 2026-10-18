@@ -83,6 +83,7 @@ entries:
     milestones:
       - { at: 1, reward: "doing its Role" }
     text: "Doing its Role on your team"
+    values: { suggest: "Its Role on your team is {skill}: send it there" }
     why: "Each class has a job on the Meta Path; a character on its job keeps that skill moving for the account."
     appliesTo: { stages: all }
     confidence: M

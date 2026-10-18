@@ -54,10 +54,10 @@ entries:
     goalFamily: death-note.goal.death-note
     detector: { id: death-note/skull, params: { buildingLevelMin: 1 } }
     eta: kills-per-hour
-    values: { horizonHours: 48 }
-    text: "Death Note: {target} kills {now} → {at}"
+    values: { horizonHours: 48, whyNot: "banked: the Death Note building is Lv 0", whySlow: "the next {target:name} Death Note rank is far off" }
+    text: "Death Note: {target:name} kills {now} → {at}"
     why: "Each Death Note rank adds to its world's multikill once the Death Note building has a level; until then the kills are banked."
-    stopHere: "{target} kills reach {at} in {etaText}. The next rank, {later}, is {laterEtaText} away. Consider stopping here."
+    stopHere: "{target:name} kills reach {at} in {etaText}. The next rank, {later}, is {laterEtaText} away. Consider stopping here."
     appliesTo: { stages: [{ from: W3-early, to: W4-entry }] }
     confidence: H
     status: active

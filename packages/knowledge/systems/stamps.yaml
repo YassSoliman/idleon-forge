@@ -334,7 +334,7 @@ entries:
     goal: stamps.goal.cap-material
     detector: { id: stamps/material, params: { afkType: MINING } }
     eta: none
-    text: "{target}: stamp material for {stamp:name}"
+    text: "{target:name}: stamp material for {stamp:name}"
     why: "The next cap raise of {stamp:name} needs {short:int} more than your storage holds."
     appliesTo: { stages: all }
     confidence: M
@@ -351,7 +351,7 @@ entries:
     goal: stamps.goal.cap-material
     detector: { id: stamps/material, params: { afkType: CHOPPIN } }
     eta: none
-    text: "{target}: stamp material for {stamp:name}"
+    text: "{target:name}: stamp material for {stamp:name}"
     why: "The next cap raise of {stamp:name} needs {short:int} more than your storage holds."
     appliesTo: { stages: all }
     confidence: M
@@ -368,7 +368,7 @@ entries:
     goal: stamps.goal.cap-material
     detector: { id: stamps/material, params: { afkType: FISHING } }
     eta: none
-    text: "{target}: stamp material for {stamp:name}"
+    text: "{target:name}: stamp material for {stamp:name}"
     why: "The next cap raise of {stamp:name} needs {short:int} more than your storage holds."
     appliesTo: { stages: all }
     confidence: M
@@ -385,7 +385,7 @@ entries:
     goal: stamps.goal.cap-material
     detector: { id: stamps/material, params: { afkType: CATCHING } }
     eta: none
-    text: "{target}: stamp material for {stamp:name}"
+    text: "{target:name}: stamp material for {stamp:name}"
     why: "The next cap raise of {stamp:name} needs {short:int} more than your storage holds."
     appliesTo: { stages: all }
     confidence: M

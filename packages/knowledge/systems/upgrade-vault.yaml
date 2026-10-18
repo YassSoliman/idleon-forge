@@ -12,10 +12,10 @@ entries:
     goalFamily: upgrade-vault.goal.kill-row
     detector: { id: upgrade-vault/kill-row, params: { rowLevelMin: 1 } }
     eta: kills-per-hour
-    values: { horizonHours: 24 }
-    text: "{target} kills {now} → {at} for {row:name}"
-    why: "Each power of 10 of {target} kills raises {row:name} for every character. It is worth it only to cross the next step cheaply."
-    stopHere: "{target} kills reach {at} in {etaText}. The next step, {later}, is {laterEtaText} away. Consider stopping here."
+    values: { horizonHours: 24, whyNot: "{row:name} has no level yet", whySlow: "{target:name} kills are a slow step for {row:name}" }
+    text: "{target:name} kills {now} → {at} for {row:name}"
+    why: "Each power of 10 of {target:name} kills raises {row:name} for every character. It is worth it only to cross the next step cheaply."
+    stopHere: "{target:name} kills reach {at} in {etaText}. The next step, {later}, is {laterEtaText} away. Consider stopping here."
     appliesTo: { stages: all }
     confidence: H
     status: active
