@@ -1,0 +1,232 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "armor-smithy",
+        "inputs": [
+          "website-data/shared-data.json#equipmentSets",
+          "website-data/randomList.json"
+        ]
+      },
+      "id": "armor-smithy.fact.sets",
+      "origin": "generated",
+      "rows": [
+        {
+          "armors": [
+            "EquipmentHats17",
+            "EquipmentShirts11",
+            "EquipmentPants2"
+          ],
+          "bonus": "+60% Mining and Chopping Efficiency",
+          "bonusValue": 60,
+          "name": "Copper",
+          "requiredTools": 1,
+          "requiredWeapon": 0,
+          "set": "COPPER_SET",
+          "tools": [
+            "EquipmentTools2",
+            "EquipmentToolsHatchet3",
+            "FishingRod2",
+            "CatchingNet2",
+            "TrapBoxSet2",
+            "WorshipSkull2"
+          ],
+          "weapons": []
+        },
+        {
+          "armors": [
+            "EquipmentHats18",
+            "EquipmentShirts12",
+            "EquipmentPants3"
+          ],
+          "bonus": "+25% Class EXP Gain",
+          "bonusValue": 25,
+          "name": "Iron",
+          "requiredTools": 1,
+          "requiredWeapon": 0,
+          "set": "IRON_SET",
+          "tools": [
+            "EquipmentTools3",
+            "EquipmentToolsHatchet1",
+            "FishingRod3",
+            "CatchingNet3",
+            "WorshipSkull2"
+          ],
+          "weapons": []
+        },
+        {
+          "armors": [
+            "EquipmentHats22",
+            "EquipmentShirts18",
+            "EquipmentPants17",
+            "EquipmentShoes20"
+          ],
+          "bonus": "+40% Accuracy and Defence",
+          "bonusValue": 40,
+          "name": "Amarok",
+          "requiredTools": 0,
+          "requiredWeapon": 0,
+          "set": "AMAROK_SET",
+          "tools": [],
+          "weapons": []
+        },
+        {
+          "armors": [
+            "EquipmentHats28",
+            "EquipmentShirts13",
+            "EquipmentPants4",
+            "EquipmentShoes3"
+          ],
+          "bonus": "1.5x Coins Dropped by Monsters",
+          "bonusValue": 50,
+          "name": "Gold",
+          "requiredTools": 1,
+          "requiredWeapon": 1,
+          "set": "GOLD_SET",
+          "tools": [
+            "EquipmentTools5",
+            "EquipmentToolsHatchet2",
+            "FishingRod4",
+            "CatchingNet4",
+            "WorshipSkull2"
+          ],
+          "weapons": [
+            "EquipmentPunching3",
+            "TestObj3",
+            "EquipmentBows5",
+            "EquipmentWands5"
+          ]
+        },
+        {
+          "armors": [
+            "EquipmentHats19",
+            "EquipmentShirts14",
+            "EquipmentPants5",
+            "EquipmentShoes4"
+          ],
+          "bonus": "+60% Fishing and Catching Efficiency",
+          "bonusValue": 60,
+          "name": "Platinum",
+          "requiredTools": 1,
+          "requiredWeapon": 1,
+          "set": "PLATINUM_SET",
+          "tools": [
+            "EquipmentTools6",
+            "EquipmentToolsHatchet4",
+            "FishingRod5",
+            "CatchingNet5",
+            "TrapBoxSet3",
+            "WorshipSkull3"
+          ],
+          "weapons": [
+            "EquipmentSword1",
+            "EquipmentBows6",
+            "EquipmentWands6"
+          ]
+        },
+        {
+          "armors": [
+            "EquipmentHats52",
+            "EquipmentShirts26",
+            "EquipmentPants20",
+            "EquipmentShoes21"
+          ],
+          "bonus": "+25% Drop Rate",
+          "bonusValue": 25,
+          "name": "Efaunt",
+          "requiredTools": 0,
+          "requiredWeapon": 0,
+          "set": "EFAUNT_SET",
+          "tools": [],
+          "weapons": []
+        },
+        {
+          "armors": [
+            "EquipmentHats53",
+            "EquipmentShirts15",
+            "EquipmentPants6",
+            "EquipmentShoes5"
+          ],
+          "bonus": "+50% Critters and Souls gained",
+          "bonusValue": 50,
+          "name": "Dementia",
+          "requiredTools": 2,
+          "requiredWeapon": 1,
+          "set": "DEMENTIA_SET",
+          "tools": [
+            "EquipmentTools7",
+            "EquipmentToolsHatchet5",
+            "FishingRod6",
+            "CatchingNet6",
+            "TrapBoxSet4",
+            "WorshipSkull4"
+          ],
+          "weapons": [
+            "EquipmentPunching4",
+            "EquipmentSword2",
+            "EquipmentBows7",
+            "EquipmentWands3"
+          ]
+        },
+        {
+          "armors": [
+            "EquipmentHats54",
+            "EquipmentShirts27",
+            "EquipmentPants21",
+            "EquipmentShoes22"
+          ],
+          "bonus": "+10% AFK Gains",
+          "bonusValue": 10,
+          "name": "Void",
+          "requiredTools": 2,
+          "requiredWeapon": 1,
+          "set": "VOID_SET",
+          "tools": [
+            "EquipmentTools11",
+            "EquipmentToolsHatchet7",
+            "FishingRod7",
+            "CatchingNet7",
+            "TrapBoxSet5",
+            "WorshipSkull5"
+          ],
+          "weapons": [
+            "EquipmentPunching5",
+            "EquipmentSword3",
+            "EquipmentBows8",
+            "EquipmentWands7"
+          ]
+        },
+        {
+          "armors": [
+            "EquipmentHats68",
+            "EquipmentShirts6",
+            "EquipmentPants9",
+            "EquipmentShoes23"
+          ],
+          "bonus": "+40% All Skill EXP Gain",
+          "bonusValue": 40,
+          "name": "Chizoar",
+          "requiredTools": 0,
+          "requiredWeapon": 0,
+          "set": "CHIZOAR_SET",
+          "tools": [],
+          "weapons": []
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: equipment sets",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "armor-smithy",
+      "title": "W1–W3 armour sets in the Smithy"
+    }
+  ],
+  "generator": "armor-smithy",
+  "system": "armor-smithy"
+}

@@ -357,6 +357,8 @@ export interface NowView {
   skills: SkillsTabView[];
   /** M20 FR-31: the Skill Grid (the Characters place's `#skills` section); null without M20. */
   skillGrid: SkillGridView | null;
+  /** M18 TR-5: the Gear tab, heat strip and Smithy cards, passed through as the worker built them. */
+  gear: import('../gear/types').GearResult | null;
 }
 
 // ---- M20 Skills, Parallel Slots and the Daily & Weekly Checklist (TR-5) ----

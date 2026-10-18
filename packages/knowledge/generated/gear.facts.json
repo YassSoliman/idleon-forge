@@ -1,0 +1,3235 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "gear",
+        "inputs": [
+          "website-data/items.json",
+          "website-data/crafts.json",
+          "website-data/taskUnlocks.json",
+          "website-data/shared-data.json#equipmentSets"
+        ]
+      },
+      "id": "gear.fact.ladder",
+      "origin": "generated",
+      "rows": {
+        "CatchingNet2": {
+          "agi": 3,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 4,
+          "materials": [
+            {
+              "amount": 500,
+              "rawName": "JungleTree",
+              "ref": "items.acquisition.jungle-tree"
+            },
+            {
+              "amount": 400,
+              "rawName": "Bug1",
+              "ref": "items.acquisition.bug1"
+            }
+          ],
+          "name": "Copper Netted Net",
+          "pct": [],
+          "set": "COPPER_SET",
+          "slot": "net",
+          "slots": 2,
+          "str": 1,
+          "unlock": {
+            "row": 5,
+            "world": 1
+          },
+          "wis": 0,
+          "wp": 9
+        },
+        "CatchingNet3": {
+          "agi": 4,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 10,
+          "materials": [
+            {
+              "amount": 800,
+              "rawName": "ForestTree",
+              "ref": "items.acquisition.forest-tree"
+            },
+            {
+              "amount": 850,
+              "rawName": "Bug2",
+              "ref": "items.acquisition.bug2"
+            },
+            {
+              "amount": 3,
+              "rawName": "PureWater",
+              "ref": "items.acquisition.pure-water"
+            }
+          ],
+          "name": "Reinforced Net",
+          "pct": [],
+          "set": "IRON_SET",
+          "slot": "net",
+          "slots": 2,
+          "str": 2,
+          "unlock": {
+            "row": 7,
+            "world": 1
+          },
+          "wis": 0,
+          "wp": 14
+        },
+        "CatchingNet4": {
+          "agi": 6,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "CatchingNet3"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 15,
+          "materials": [
+            {
+              "amount": 5,
+              "rawName": "Quest19",
+              "ref": "items.acquisition.quest19"
+            },
+            {
+              "amount": 2500,
+              "rawName": "Bug2",
+              "ref": "items.acquisition.bug2"
+            }
+          ],
+          "name": "Golden Net",
+          "pct": [],
+          "set": "GOLD_SET",
+          "slot": "net",
+          "slots": 2,
+          "str": 2,
+          "unlock": {
+            "row": 7,
+            "world": 2
+          },
+          "wis": 0,
+          "wp": 20
+        },
+        "CatchingNet5": {
+          "agi": 7,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "CatchingNet4"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 20,
+          "materials": [
+            {
+              "amount": 7000,
+              "rawName": "Bug4",
+              "ref": "items.acquisition.bug4"
+            },
+            {
+              "amount": 3000,
+              "rawName": "Plat",
+              "ref": "items.acquisition.plat"
+            }
+          ],
+          "name": "Platinet",
+          "pct": [],
+          "set": "PLATINUM_SET",
+          "slot": "net",
+          "slots": 3,
+          "str": 3,
+          "unlock": {
+            "row": 23,
+            "world": 2
+          },
+          "wis": 0,
+          "wp": 26
+        },
+        "CatchingNet6": {
+          "agi": 9,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "CatchingNet5"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 25,
+          "materials": [
+            {
+              "amount": 15000,
+              "rawName": "Bug5",
+              "ref": "items.acquisition.bug5"
+            },
+            {
+              "amount": 50,
+              "rawName": "Refinery1",
+              "ref": "items.acquisition.refinery1"
+            }
+          ],
+          "name": "Dementia Net",
+          "pct": [],
+          "set": "DEMENTIA_SET",
+          "slot": "net",
+          "slots": 3,
+          "str": 4,
+          "unlock": {
+            "row": 7,
+            "world": 3
+          },
+          "wis": 0,
+          "wp": 31
+        },
+        "CatchingNet7": {
+          "agi": 12,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "CatchingNet6"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 30,
+          "materials": [
+            {
+              "amount": 50000,
+              "rawName": "Bug6",
+              "ref": "items.acquisition.bug6"
+            },
+            {
+              "amount": 5,
+              "rawName": "PureWater2",
+              "ref": "items.acquisition.pure-water2"
+            }
+          ],
+          "name": "Void Imperium Net",
+          "pct": [],
+          "set": "VOID_SET",
+          "slot": "net",
+          "slots": 4,
+          "str": 6,
+          "unlock": {
+            "row": 23,
+            "world": 3
+          },
+          "wis": 0,
+          "wp": 37
+        },
+        "EquipmentBows1": {
+          "agi": 3,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 1,
+          "materials": [
+            {
+              "amount": 1,
+              "rawName": "Grasslands3",
+              "ref": "items.acquisition.grasslands3"
+            }
+          ],
+          "name": "Wooden Bow",
+          "pct": [],
+          "set": null,
+          "slot": "weapon",
+          "slots": 1,
+          "str": 2,
+          "unlock": null,
+          "wis": 0,
+          "wp": 10
+        },
+        "EquipmentBows3": {
+          "agi": 5,
+          "cls": "ARCHER",
+          "consumes": [],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 12,
+          "materials": [
+            {
+              "amount": 125,
+              "rawName": "Jungle1",
+              "ref": "items.acquisition.jungle1"
+            },
+            {
+              "amount": 100,
+              "rawName": "BirchTree",
+              "ref": "items.acquisition.birch-tree"
+            }
+          ],
+          "name": "Birch Longbow",
+          "pct": [],
+          "set": null,
+          "slot": "weapon",
+          "slots": 2,
+          "str": 4,
+          "unlock": {
+            "row": 1,
+            "world": 1
+          },
+          "wis": 0,
+          "wp": 15
+        },
+        "EquipmentBows5": {
+          "agi": 8,
+          "cls": "ARCHER",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentBows3"
+            }
+          ],
+          "def": 0,
+          "luk": 3,
+          "lvReq": 30,
+          "materials": [
+            {
+              "amount": 250,
+              "rawName": "GoldBar",
+              "ref": "items.acquisition.gold-bar"
+            },
+            {
+              "amount": 8,
+              "rawName": "PureWater",
+              "ref": "items.acquisition.pure-water"
+            }
+          ],
+          "name": "Spiked Menace",
+          "pct": [],
+          "set": "GOLD_SET",
+          "slot": "weapon",
+          "slots": 3,
+          "str": 5,
+          "unlock": {
+            "row": 1,
+            "world": 2
+          },
+          "wis": 0,
+          "wp": 17
+        },
+        "EquipmentBows6": {
+          "agi": 13,
+          "cls": "ARCHER",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentBows5"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 50,
+          "materials": [
+            {
+              "amount": 3,
+              "rawName": "TreeInterior1b",
+              "ref": "items.acquisition.tree-interior1b"
+            },
+            {
+              "amount": 1400,
+              "rawName": "Fish4",
+              "ref": "items.acquisition.fish4"
+            }
+          ],
+          "name": "Pharaoh Bow",
+          "pct": [],
+          "set": "PLATINUM_SET",
+          "slot": "weapon",
+          "slots": 3,
+          "str": 1,
+          "unlock": {
+            "row": 10,
+            "world": 2
+          },
+          "wis": 0,
+          "wp": 23
+        },
+        "EquipmentBows7": {
+          "agi": 15,
+          "cls": "ARCHER",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentBows6"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 75,
+          "materials": [
+            {
+              "amount": 7000,
+              "rawName": "Soul1",
+              "ref": "items.acquisition.soul1"
+            },
+            {
+              "amount": 150,
+              "rawName": "Refinery1",
+              "ref": "items.acquisition.refinery1"
+            }
+          ],
+          "name": "Blizzard Bow",
+          "pct": [
+            {
+              "txt": "%_CRIT_DAMAGE",
+              "val": 5
+            }
+          ],
+          "set": "DEMENTIA_SET",
+          "slot": "weapon",
+          "slots": 4,
+          "str": 0,
+          "unlock": {
+            "row": 1,
+            "world": 3
+          },
+          "wis": 0,
+          "wp": 30
+        },
+        "EquipmentBows8": {
+          "agi": 13,
+          "cls": "ARCHER",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentBows7"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 90,
+          "materials": [
+            {
+              "amount": 2,
+              "rawName": "SnowC4a",
+              "ref": "items.acquisition.snow-c4a"
+            },
+            {
+              "amount": 350,
+              "rawName": "Refinery3",
+              "ref": "items.acquisition.refinery3"
+            },
+            {
+              "amount": 7,
+              "rawName": "PureWater2",
+              "ref": "items.acquisition.pure-water2"
+            }
+          ],
+          "name": "Blackhole Bow",
+          "pct": [
+            {
+              "txt": "%_CRIT_DAMAGE",
+              "val": 5
+            }
+          ],
+          "set": "VOID_SET",
+          "slot": "weapon",
+          "slots": 4,
+          "str": 10,
+          "unlock": {
+            "row": 14,
+            "world": 3
+          },
+          "wis": 0,
+          "wp": 36
+        },
+        "EquipmentHats17": {
+          "agi": 3,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 7,
+          "luk": 0,
+          "lvReq": 8,
+          "materials": [
+            {
+              "amount": 20,
+              "rawName": "Copper",
+              "ref": "items.acquisition.copper"
+            },
+            {
+              "amount": 40,
+              "rawName": "Grasslands3",
+              "ref": "items.acquisition.grasslands3"
+            }
+          ],
+          "name": "Copper Helmet",
+          "pct": [],
+          "set": "COPPER_SET",
+          "slot": "helmet",
+          "slots": 2,
+          "str": 3,
+          "unlock": null,
+          "wis": 3,
+          "wp": 0
+        },
+        "EquipmentHats18": {
+          "agi": 5,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 10,
+          "luk": 0,
+          "lvReq": 15,
+          "materials": [
+            {
+              "amount": 20,
+              "rawName": "IronBar",
+              "ref": "items.acquisition.iron-bar"
+            },
+            {
+              "amount": 50,
+              "rawName": "Forest1",
+              "ref": "items.acquisition.forest1"
+            }
+          ],
+          "name": "Iron Helmet",
+          "pct": [],
+          "set": "IRON_SET",
+          "slot": "helmet",
+          "slots": 2,
+          "str": 5,
+          "unlock": null,
+          "wis": 5,
+          "wp": 0
+        },
+        "EquipmentHats19": {
+          "agi": 9,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentHats18"
+            }
+          ],
+          "def": 25,
+          "luk": 0,
+          "lvReq": 55,
+          "materials": [
+            {
+              "amount": 2250,
+              "rawName": "Fish3",
+              "ref": "items.acquisition.fish3"
+            },
+            {
+              "amount": 750,
+              "rawName": "PlatBar",
+              "ref": "items.acquisition.plat-bar"
+            }
+          ],
+          "name": "Platinum Helmet",
+          "pct": [
+            {
+              "txt": "%_DEFENCE",
+              "val": 5
+            }
+          ],
+          "set": "PLATINUM_SET",
+          "slot": "helmet",
+          "slots": 4,
+          "str": 9,
+          "unlock": null,
+          "wis": 9,
+          "wp": 0
+        },
+        "EquipmentHats22": {
+          "agi": 4,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 20,
+          "luk": 4,
+          "lvReq": 38,
+          "materials": [
+            {
+              "amount": 20,
+              "rawName": "Quest17",
+              "ref": "items.acquisition.quest17"
+            },
+            {
+              "amount": 2500,
+              "rawName": "ForestTree",
+              "ref": "items.acquisition.forest-tree"
+            },
+            {
+              "amount": 5,
+              "rawName": "TreeInterior1b",
+              "ref": "items.acquisition.tree-interior1b"
+            }
+          ],
+          "name": "Amarok Helmet",
+          "pct": [],
+          "set": "AMAROK_SET",
+          "slot": "helmet",
+          "slots": 6,
+          "str": 4,
+          "unlock": null,
+          "wis": 4,
+          "wp": 0
+        },
+        "EquipmentHats28": {
+          "agi": 7,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentHats17"
+            }
+          ],
+          "def": 15,
+          "luk": 0,
+          "lvReq": 35,
+          "materials": [
+            {
+              "amount": 2000,
+              "rawName": "Bug1",
+              "ref": "items.acquisition.bug1"
+            },
+            {
+              "amount": 200,
+              "rawName": "GoldBar",
+              "ref": "items.acquisition.gold-bar"
+            }
+          ],
+          "name": "Gold Helmet",
+          "pct": [
+            {
+              "txt": "%_DEFENCE",
+              "val": 3
+            }
+          ],
+          "set": "GOLD_SET",
+          "slot": "helmet",
+          "slots": 3,
+          "str": 7,
+          "unlock": null,
+          "wis": 7,
+          "wp": 0
+        },
+        "EquipmentHats52": {
+          "agi": 8,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentPants19"
+            }
+          ],
+          "def": 38,
+          "luk": 8,
+          "lvReq": 80,
+          "materials": [
+            {
+              "amount": 20,
+              "rawName": "EfauntDrop1",
+              "ref": "items.acquisition.efaunt-drop1"
+            },
+            {
+              "amount": 2,
+              "rawName": "StoneA3b",
+              "ref": "items.acquisition.stone-a3b"
+            },
+            {
+              "amount": 3,
+              "rawName": "Quest36",
+              "ref": "items.acquisition.quest36"
+            }
+          ],
+          "name": "Efaunt Helmet",
+          "pct": [
+            {
+              "txt": "%_DROP_RATE",
+              "val": 5
+            }
+          ],
+          "set": "EFAUNT_SET",
+          "slot": "helmet",
+          "slots": 6,
+          "str": 8,
+          "unlock": null,
+          "wis": 8,
+          "wp": 1
+        },
+        "EquipmentHats53": {
+          "agi": 12,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 34,
+          "luk": 12,
+          "lvReq": 70,
+          "materials": [
+            {
+              "amount": 5000,
+              "rawName": "Critter1",
+              "ref": "items.acquisition.critter1"
+            },
+            {
+              "amount": 300,
+              "rawName": "DementiaBar",
+              "ref": "items.acquisition.dementia-bar"
+            }
+          ],
+          "name": "Dementia Helmet",
+          "pct": [
+            {
+              "txt": "%_DEFENCE",
+              "val": 6
+            }
+          ],
+          "set": "DEMENTIA_SET",
+          "slot": "helmet",
+          "slots": 4,
+          "str": 12,
+          "unlock": null,
+          "wis": 12,
+          "wp": 0
+        },
+        "EquipmentHats54": {
+          "agi": 15,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentHats53"
+            }
+          ],
+          "def": 46,
+          "luk": 15,
+          "lvReq": 90,
+          "materials": [
+            {
+              "amount": 500,
+              "rawName": "Refinery3",
+              "ref": "items.acquisition.refinery3"
+            },
+            {
+              "amount": 1000,
+              "rawName": "VoidBar",
+              "ref": "items.acquisition.void-bar"
+            },
+            {
+              "amount": 5,
+              "rawName": "PureWater2",
+              "ref": "items.acquisition.pure-water2"
+            }
+          ],
+          "name": "Void Imperium Helmet",
+          "pct": [
+            {
+              "txt": "%_DEFENCE",
+              "val": 8
+            }
+          ],
+          "set": "VOID_SET",
+          "slot": "helmet",
+          "slots": 5,
+          "str": 15,
+          "unlock": null,
+          "wis": 15,
+          "wp": 0
+        },
+        "EquipmentHats68": {
+          "agi": 20,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentHats54"
+            }
+          ],
+          "def": 60,
+          "luk": 0,
+          "lvReq": 110,
+          "materials": [
+            {
+              "amount": 25,
+              "rawName": "Chiz0",
+              "ref": "items.acquisition.chiz0"
+            },
+            {
+              "amount": 1000,
+              "rawName": "SnowC5",
+              "ref": "items.acquisition.snow-c5"
+            },
+            {
+              "amount": 100,
+              "rawName": "Refinery5",
+              "ref": "items.acquisition.refinery5"
+            }
+          ],
+          "name": "Chizoar Helmet",
+          "pct": [
+            {
+              "txt": "%_TOTAL_DAMAGE",
+              "val": 15
+            }
+          ],
+          "set": "CHIZOAR_SET",
+          "slot": "helmet",
+          "slots": 7,
+          "str": 20,
+          "unlock": null,
+          "wis": 20,
+          "wp": 3
+        },
+        "EquipmentPants17": {
+          "agi": 2,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 18,
+          "luk": 0,
+          "lvReq": 40,
+          "materials": [
+            {
+              "amount": 6,
+              "rawName": "Quest17",
+              "ref": "items.acquisition.quest17"
+            },
+            {
+              "amount": 300,
+              "rawName": "CraftMat7",
+              "ref": "items.acquisition.craft-mat7"
+            },
+            {
+              "amount": 500,
+              "rawName": "Forest3",
+              "ref": "items.acquisition.forest3"
+            }
+          ],
+          "name": "Amarok Hinds",
+          "pct": [],
+          "set": "AMAROK_SET",
+          "slot": "pants",
+          "slots": 5,
+          "str": 2,
+          "unlock": null,
+          "wis": 2,
+          "wp": 0
+        },
+        "EquipmentPants19": {
+          "agi": 2,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 20,
+          "luk": 0,
+          "lvReq": 82,
+          "materials": [],
+          "name": "Trimmed Rune Platelegs",
+          "pct": [
+            {
+              "txt": "%_DEFENCE",
+              "val": 10
+            }
+          ],
+          "set": null,
+          "slot": "pants",
+          "slots": 5,
+          "str": 4,
+          "unlock": null,
+          "wis": 0,
+          "wp": 0
+        },
+        "EquipmentPants2": {
+          "agi": 2,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 6,
+          "luk": 0,
+          "lvReq": 8,
+          "materials": [
+            {
+              "amount": 10,
+              "rawName": "CopperBar",
+              "ref": "items.acquisition.copper-bar"
+            },
+            {
+              "amount": 150,
+              "rawName": "OakTree",
+              "ref": "items.acquisition.oak-tree"
+            }
+          ],
+          "name": "Copper Platelegs",
+          "pct": [],
+          "set": "COPPER_SET",
+          "slot": "pants",
+          "slots": 2,
+          "str": 2,
+          "unlock": null,
+          "wis": 2,
+          "wp": 0
+        },
+        "EquipmentPants20": {
+          "agi": 4,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 32,
+          "luk": 0,
+          "lvReq": 75,
+          "materials": [
+            {
+              "amount": 7,
+              "rawName": "EfauntDrop1",
+              "ref": "items.acquisition.efaunt-drop1"
+            },
+            {
+              "amount": 3,
+              "rawName": "Hgg",
+              "ref": "items.acquisition.hgg"
+            },
+            {
+              "amount": 25,
+              "rawName": "PureWater",
+              "ref": "items.acquisition.pure-water"
+            }
+          ],
+          "name": "Efaunt Hipilium",
+          "pct": [
+            {
+              "txt": "%_DEFENCE",
+              "val": 5
+            }
+          ],
+          "set": "EFAUNT_SET",
+          "slot": "pants",
+          "slots": 6,
+          "str": 4,
+          "unlock": null,
+          "wis": 4,
+          "wp": 0
+        },
+        "EquipmentPants21": {
+          "agi": 9,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentPants6"
+            }
+          ],
+          "def": 38,
+          "luk": 0,
+          "lvReq": 90,
+          "materials": [
+            {
+              "amount": 75000,
+              "rawName": "Tree7",
+              "ref": "items.acquisition.tree7"
+            },
+            {
+              "amount": 650,
+              "rawName": "VoidBar",
+              "ref": "items.acquisition.void-bar"
+            },
+            {
+              "amount": 4,
+              "rawName": "PureWater2",
+              "ref": "items.acquisition.pure-water2"
+            }
+          ],
+          "name": "Void Imperium Shardshins",
+          "pct": [
+            {
+              "txt": "%_DEFENCE",
+              "val": 7
+            }
+          ],
+          "set": "VOID_SET",
+          "slot": "pants",
+          "slots": 4,
+          "str": 9,
+          "unlock": null,
+          "wis": 9,
+          "wp": 0
+        },
+        "EquipmentPants3": {
+          "agi": 3,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 11,
+          "luk": 0,
+          "lvReq": 15,
+          "materials": [
+            {
+              "amount": 10,
+              "rawName": "IronBar",
+              "ref": "items.acquisition.iron-bar"
+            },
+            {
+              "amount": 50,
+              "rawName": "CraftMat6",
+              "ref": "items.acquisition.craft-mat6"
+            }
+          ],
+          "name": "Iron Platelegs",
+          "pct": [],
+          "set": "IRON_SET",
+          "slot": "pants",
+          "slots": 2,
+          "str": 3,
+          "unlock": null,
+          "wis": 3,
+          "wp": 0
+        },
+        "EquipmentPants4": {
+          "agi": 4,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentPants2"
+            }
+          ],
+          "def": 16,
+          "luk": 0,
+          "lvReq": 35,
+          "materials": [
+            {
+              "amount": 500,
+              "rawName": "Fish1",
+              "ref": "items.acquisition.fish1"
+            },
+            {
+              "amount": 300,
+              "rawName": "GoldBar",
+              "ref": "items.acquisition.gold-bar"
+            }
+          ],
+          "name": "Gold Platelegs",
+          "pct": [],
+          "set": "GOLD_SET",
+          "slot": "pants",
+          "slots": 3,
+          "str": 4,
+          "unlock": null,
+          "wis": 4,
+          "wp": 0
+        },
+        "EquipmentPants5": {
+          "agi": 6,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentPants3"
+            }
+          ],
+          "def": 23,
+          "luk": 0,
+          "lvReq": 50,
+          "materials": [
+            {
+              "amount": 5000,
+              "rawName": "Bug3",
+              "ref": "items.acquisition.bug3"
+            },
+            {
+              "amount": 1250,
+              "rawName": "PlatBar",
+              "ref": "items.acquisition.plat-bar"
+            }
+          ],
+          "name": "Platinum Shins",
+          "pct": [],
+          "set": "PLATINUM_SET",
+          "slot": "pants",
+          "slots": 3,
+          "str": 6,
+          "unlock": null,
+          "wis": 6,
+          "wp": 0
+        },
+        "EquipmentPants6": {
+          "agi": 7,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 28,
+          "luk": 0,
+          "lvReq": 70,
+          "materials": [
+            {
+              "amount": 8000,
+              "rawName": "SnowA1",
+              "ref": "items.acquisition.snow-a1"
+            },
+            {
+              "amount": 400,
+              "rawName": "DementiaBar",
+              "ref": "items.acquisition.dementia-bar"
+            }
+          ],
+          "name": "Dementia Shins",
+          "pct": [
+            {
+              "txt": "%_DEFENCE",
+              "val": 3
+            }
+          ],
+          "set": "DEMENTIA_SET",
+          "slot": "pants",
+          "slots": 4,
+          "str": 7,
+          "unlock": null,
+          "wis": 7,
+          "wp": 0
+        },
+        "EquipmentPants9": {
+          "agi": 13,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentPants21"
+            }
+          ],
+          "def": 52,
+          "luk": 0,
+          "lvReq": 100,
+          "materials": [
+            {
+              "amount": 10,
+              "rawName": "Chiz0",
+              "ref": "items.acquisition.chiz0"
+            },
+            {
+              "amount": 8,
+              "rawName": "SnowC4a",
+              "ref": "items.acquisition.snow-c4a"
+            },
+            {
+              "amount": 250,
+              "rawName": "Refinery4",
+              "ref": "items.acquisition.refinery4"
+            }
+          ],
+          "name": "Chizoar Scaled Leggings",
+          "pct": [
+            {
+              "txt": "%_MASTERY",
+              "val": 7
+            }
+          ],
+          "set": "CHIZOAR_SET",
+          "slot": "pants",
+          "slots": 6,
+          "str": 13,
+          "unlock": null,
+          "wis": 13,
+          "wp": 0
+        },
+        "EquipmentPendant17": {
+          "agi": 0,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 30,
+          "materials": [
+            {
+              "amount": 4,
+              "rawName": "Quest29",
+              "ref": "items.acquisition.quest29"
+            },
+            {
+              "amount": 10,
+              "rawName": "Quest17",
+              "ref": "items.acquisition.quest17"
+            },
+            {
+              "amount": 25,
+              "rawName": "PureWater",
+              "ref": "items.acquisition.pure-water"
+            }
+          ],
+          "name": "Chaotic Amarok Pendant",
+          "pct": [
+            {
+              "txt": "%_TOTAL_DAMAGE",
+              "val": 20
+            },
+            {
+              "txt": "%_DROP_RATE",
+              "val": 5
+            }
+          ],
+          "set": null,
+          "slot": "pendant",
+          "slots": 4,
+          "str": 0,
+          "unlock": null,
+          "wis": 12,
+          "wp": 2
+        },
+        "EquipmentPendant32": {
+          "agi": 2,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 1,
+          "luk": 0,
+          "lvReq": 5,
+          "materials": [],
+          "name": "Slimy Necklace",
+          "pct": [
+            {
+              "txt": "%_TOTAL_DAMAGE",
+              "val": 15
+            }
+          ],
+          "set": null,
+          "slot": "pendant",
+          "slots": 2,
+          "str": 2,
+          "unlock": null,
+          "wis": 2,
+          "wp": 1
+        },
+        "EquipmentPunching1": {
+          "agi": 0,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 0,
+          "luk": 2,
+          "lvReq": 2,
+          "materials": [
+            {
+              "amount": 1,
+              "rawName": "CraftMat2",
+              "ref": "items.acquisition.craft-mat2"
+            },
+            {
+              "amount": 1,
+              "rawName": "CraftMat3",
+              "ref": "items.acquisition.craft-mat3"
+            }
+          ],
+          "name": "Boxing Gloves",
+          "pct": [],
+          "set": null,
+          "slot": "weapon",
+          "slots": 0,
+          "str": 2,
+          "unlock": null,
+          "wis": 0,
+          "wp": 4
+        },
+        "EquipmentPunching2": {
+          "agi": 0,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 0,
+          "luk": 5,
+          "lvReq": 6,
+          "materials": [
+            {
+              "amount": 20,
+              "rawName": "Copper",
+              "ref": "items.acquisition.copper"
+            },
+            {
+              "amount": 20,
+              "rawName": "CraftMat5",
+              "ref": "items.acquisition.craft-mat5"
+            }
+          ],
+          "name": "The Stingers",
+          "pct": [],
+          "set": null,
+          "slot": "weapon",
+          "slots": 2,
+          "str": 5,
+          "unlock": null,
+          "wis": 0,
+          "wp": 11
+        },
+        "EquipmentPunching3": {
+          "agi": 0,
+          "cls": "BEGINNER",
+          "consumes": [
+            {
+              "amount": 3,
+              "rawName": "EquipmentPunching2"
+            }
+          ],
+          "def": 0,
+          "luk": 10,
+          "lvReq": 25,
+          "materials": [
+            {
+              "amount": 5000,
+              "rawName": "CraftMat3",
+              "ref": "items.acquisition.craft-mat3"
+            },
+            {
+              "amount": 2000,
+              "rawName": "ToiletTree",
+              "ref": "items.acquisition.toilet-tree"
+            }
+          ],
+          "name": "Bandage Wraps",
+          "pct": [],
+          "set": "GOLD_SET",
+          "slot": "weapon",
+          "slots": 3,
+          "str": 6,
+          "unlock": {
+            "row": 8,
+            "world": 2
+          },
+          "wis": 0,
+          "wp": 20
+        },
+        "EquipmentPunching4": {
+          "agi": 0,
+          "cls": "BEGINNER",
+          "consumes": [
+            {
+              "amount": 2,
+              "rawName": "EquipmentPunching3"
+            }
+          ],
+          "def": 0,
+          "luk": 13,
+          "lvReq": 50,
+          "materials": [
+            {
+              "amount": 70000,
+              "rawName": "SnowA2",
+              "ref": "items.acquisition.snow-a2"
+            }
+          ],
+          "name": "Uninflated Glove",
+          "pct": [],
+          "set": "DEMENTIA_SET",
+          "slot": "weapon",
+          "slots": 4,
+          "str": 0,
+          "unlock": {
+            "row": 12,
+            "world": 3
+          },
+          "wis": 0,
+          "wp": 27
+        },
+        "EquipmentPunching5": {
+          "agi": 0,
+          "cls": "BEGINNER",
+          "consumes": [],
+          "def": 0,
+          "luk": 17,
+          "lvReq": 85,
+          "materials": [
+            {
+              "amount": 100,
+              "rawName": "SnowA2a",
+              "ref": "items.acquisition.snow-a2a"
+            },
+            {
+              "amount": 50,
+              "rawName": "Critter5A",
+              "ref": "items.acquisition.critter5-a"
+            },
+            {
+              "amount": 10,
+              "rawName": "Quest36",
+              "ref": "items.acquisition.quest36"
+            },
+            {
+              "amount": 15,
+              "rawName": "PureWater2",
+              "ref": "items.acquisition.pure-water2"
+            }
+          ],
+          "name": "Eclectic Ordeal",
+          "pct": [
+            {
+              "txt": "%_CRIT_CHANCE",
+              "val": 5
+            }
+          ],
+          "set": "VOID_SET",
+          "slot": "weapon",
+          "slots": 4,
+          "str": 0,
+          "unlock": {
+            "row": 12,
+            "world": 3
+          },
+          "wis": 0,
+          "wp": 32
+        },
+        "EquipmentRings2": {
+          "agi": 1,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 0,
+          "luk": 3,
+          "lvReq": 1,
+          "materials": [
+            {
+              "amount": 100,
+              "rawName": "CopperBar",
+              "ref": "items.acquisition.copper-bar"
+            }
+          ],
+          "name": "Copper Band",
+          "pct": [],
+          "set": null,
+          "slot": "ring",
+          "slots": 3,
+          "str": 1,
+          "unlock": null,
+          "wis": 1,
+          "wp": 0
+        },
+        "EquipmentRings20": {
+          "agi": 2,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 2,
+          "luk": 0,
+          "lvReq": 40,
+          "materials": [
+            {
+              "amount": 80,
+              "rawName": "DungCredits2",
+              "ref": "items.acquisition.dung-credits2"
+            }
+          ],
+          "name": "Rex Ring",
+          "pct": [
+            {
+              "txt": "%_SKILL_EFFICIENCY",
+              "val": 5
+            }
+          ],
+          "set": null,
+          "slot": "ring",
+          "slots": 2,
+          "str": 2,
+          "unlock": null,
+          "wis": 2,
+          "wp": 0
+        },
+        "EquipmentRings26": {
+          "agi": 5,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentRings20"
+            }
+          ],
+          "def": 5,
+          "luk": 0,
+          "lvReq": 50,
+          "materials": [
+            {
+              "amount": 1000,
+              "rawName": "IronBar",
+              "ref": "items.acquisition.iron-bar"
+            }
+          ],
+          "name": "Serrated Rex Ring",
+          "pct": [
+            {
+              "txt": "%_SKILL_EFFICIENCY",
+              "val": 8
+            }
+          ],
+          "set": null,
+          "slot": "ring",
+          "slots": 3,
+          "str": 5,
+          "unlock": null,
+          "wis": 5,
+          "wp": 0
+        },
+        "EquipmentRings3": {
+          "agi": 1,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 1,
+          "luk": 4,
+          "lvReq": 15,
+          "materials": [
+            {
+              "amount": 600,
+              "rawName": "IronBar",
+              "ref": "items.acquisition.iron-bar"
+            }
+          ],
+          "name": "Steel Band",
+          "pct": [],
+          "set": null,
+          "slot": "ring",
+          "slots": 4,
+          "str": 1,
+          "unlock": {
+            "row": 11,
+            "world": 1
+          },
+          "wis": 1,
+          "wp": 0
+        },
+        "EquipmentShirts11": {
+          "agi": 3,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 10,
+          "luk": 0,
+          "lvReq": 8,
+          "materials": [
+            {
+              "amount": 25,
+              "rawName": "Copper",
+              "ref": "items.acquisition.copper"
+            },
+            {
+              "amount": 120,
+              "rawName": "CraftMat5",
+              "ref": "items.acquisition.craft-mat5"
+            }
+          ],
+          "name": "Copper Platebody",
+          "pct": [],
+          "set": "COPPER_SET",
+          "slot": "shirt",
+          "slots": 2,
+          "str": 3,
+          "unlock": null,
+          "wis": 3,
+          "wp": 0
+        },
+        "EquipmentShirts12": {
+          "agi": 4,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 16,
+          "luk": 0,
+          "lvReq": 15,
+          "materials": [
+            {
+              "amount": 25,
+              "rawName": "IronBar",
+              "ref": "items.acquisition.iron-bar"
+            },
+            {
+              "amount": 60,
+              "rawName": "JungleTree",
+              "ref": "items.acquisition.jungle-tree"
+            }
+          ],
+          "name": "Iron Platebody",
+          "pct": [],
+          "set": "IRON_SET",
+          "slot": "shirt",
+          "slots": 2,
+          "str": 4,
+          "unlock": null,
+          "wis": 4,
+          "wp": 0
+        },
+        "EquipmentShirts13": {
+          "agi": 5,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentShirts11"
+            }
+          ],
+          "def": 20,
+          "luk": 0,
+          "lvReq": 35,
+          "materials": [
+            {
+              "amount": 1500,
+              "rawName": "DesertA1",
+              "ref": "items.acquisition.desert-a1"
+            },
+            {
+              "amount": 250,
+              "rawName": "GoldBar",
+              "ref": "items.acquisition.gold-bar"
+            }
+          ],
+          "name": "Gold Platebody",
+          "pct": [],
+          "set": "GOLD_SET",
+          "slot": "shirt",
+          "slots": 3,
+          "str": 5,
+          "unlock": null,
+          "wis": 5,
+          "wp": 0
+        },
+        "EquipmentShirts14": {
+          "agi": 8,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentShirts12"
+            }
+          ],
+          "def": 30,
+          "luk": 0,
+          "lvReq": 50,
+          "materials": [
+            {
+              "amount": 5000,
+              "rawName": "DesertB4",
+              "ref": "items.acquisition.desert-b4"
+            },
+            {
+              "amount": 1000,
+              "rawName": "PlatBar",
+              "ref": "items.acquisition.plat-bar"
+            }
+          ],
+          "name": "Platinum Platbody",
+          "pct": [],
+          "set": "PLATINUM_SET",
+          "slot": "shirt",
+          "slots": 3,
+          "str": 8,
+          "unlock": null,
+          "wis": 8,
+          "wp": 0
+        },
+        "EquipmentShirts15": {
+          "agi": 10,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 40,
+          "luk": 0,
+          "lvReq": 70,
+          "materials": [
+            {
+              "amount": 1000,
+              "rawName": "Soul1",
+              "ref": "items.acquisition.soul1"
+            },
+            {
+              "amount": 350,
+              "rawName": "DementiaBar",
+              "ref": "items.acquisition.dementia-bar"
+            }
+          ],
+          "name": "Dementia Body",
+          "pct": [],
+          "set": "DEMENTIA_SET",
+          "slot": "shirt",
+          "slots": 4,
+          "str": 10,
+          "unlock": null,
+          "wis": 10,
+          "wp": 0
+        },
+        "EquipmentShirts18": {
+          "agi": 7,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 25,
+          "luk": 0,
+          "lvReq": 35,
+          "materials": [
+            {
+              "amount": 10,
+              "rawName": "Quest17",
+              "ref": "items.acquisition.quest17"
+            },
+            {
+              "amount": 300,
+              "rawName": "IronBar",
+              "ref": "items.acquisition.iron-bar"
+            },
+            {
+              "amount": 600,
+              "rawName": "Sewers1",
+              "ref": "items.acquisition.sewers1"
+            }
+          ],
+          "name": "Amarok Bodyplate",
+          "pct": [],
+          "set": "AMAROK_SET",
+          "slot": "shirt",
+          "slots": 5,
+          "str": 7,
+          "unlock": null,
+          "wis": 7,
+          "wp": 3
+        },
+        "EquipmentShirts26": {
+          "agi": 5,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 50,
+          "luk": 0,
+          "lvReq": 80,
+          "materials": [
+            {
+              "amount": 10,
+              "rawName": "EfauntDrop1",
+              "ref": "items.acquisition.efaunt-drop1"
+            },
+            {
+              "amount": 10,
+              "rawName": "MidnightCookie",
+              "ref": "items.acquisition.midnight-cookie"
+            },
+            {
+              "amount": 25,
+              "rawName": "PureWater",
+              "ref": "items.acquisition.pure-water"
+            }
+          ],
+          "name": "Efaunt Ribcage",
+          "pct": [
+            {
+              "txt": "%_MASTERY",
+              "val": 4
+            }
+          ],
+          "set": "EFAUNT_SET",
+          "slot": "shirt",
+          "slots": 6,
+          "str": 5,
+          "unlock": null,
+          "wis": 5,
+          "wp": 0
+        },
+        "EquipmentShirts27": {
+          "agi": 13,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentShirts15"
+            }
+          ],
+          "def": 55,
+          "luk": 0,
+          "lvReq": 90,
+          "materials": [
+            {
+              "amount": 75000,
+              "rawName": "SnowC3",
+              "ref": "items.acquisition.snow-c3"
+            },
+            {
+              "amount": 500,
+              "rawName": "VoidBar",
+              "ref": "items.acquisition.void-bar"
+            },
+            {
+              "amount": 4,
+              "rawName": "PureWater2",
+              "ref": "items.acquisition.pure-water2"
+            }
+          ],
+          "name": "Void Imperium Platebody",
+          "pct": [],
+          "set": "VOID_SET",
+          "slot": "shirt",
+          "slots": 4,
+          "str": 13,
+          "unlock": null,
+          "wis": 13,
+          "wp": 0
+        },
+        "EquipmentShirts6": {
+          "agi": 15,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentShirts27"
+            }
+          ],
+          "def": 70,
+          "luk": 0,
+          "lvReq": 105,
+          "materials": [
+            {
+              "amount": 18,
+              "rawName": "Chiz0",
+              "ref": "items.acquisition.chiz0"
+            },
+            {
+              "amount": 100000,
+              "rawName": "SnowC2",
+              "ref": "items.acquisition.snow-c2"
+            },
+            {
+              "amount": 50,
+              "rawName": "Refinery5",
+              "ref": "items.acquisition.refinery5"
+            }
+          ],
+          "name": "Chizoar Bodyplate",
+          "pct": [
+            {
+              "txt": "%_MASTERY",
+              "val": 7
+            },
+            {
+              "txt": "%_TOTAL_DAMAGE",
+              "val": 3
+            }
+          ],
+          "set": "CHIZOAR_SET",
+          "slot": "shirt",
+          "slots": 6,
+          "str": 15,
+          "unlock": null,
+          "wis": 15,
+          "wp": 0
+        },
+        "EquipmentShoes1": {
+          "agi": 1,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 2,
+          "luk": 2,
+          "lvReq": 8,
+          "materials": [
+            {
+              "amount": 30,
+              "rawName": "CopperBar",
+              "ref": "items.acquisition.copper-bar"
+            }
+          ],
+          "name": "Copper Boots",
+          "pct": [],
+          "set": null,
+          "slot": "shoes",
+          "slots": 2,
+          "str": 1,
+          "unlock": null,
+          "wis": 1,
+          "wp": 0
+        },
+        "EquipmentShoes15": {
+          "agi": 2,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentShoes1"
+            }
+          ],
+          "def": 4,
+          "luk": 0,
+          "lvReq": 15,
+          "materials": [
+            {
+              "amount": 500,
+              "rawName": "CraftMat5",
+              "ref": "items.acquisition.craft-mat5"
+            },
+            {
+              "amount": 125,
+              "rawName": "IronBar",
+              "ref": "items.acquisition.iron-bar"
+            }
+          ],
+          "name": "Iron Boots",
+          "pct": [],
+          "set": null,
+          "slot": "shoes",
+          "slots": 2,
+          "str": 2,
+          "unlock": null,
+          "wis": 2,
+          "wp": 0
+        },
+        "EquipmentShoes20": {
+          "agi": 1,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentShoes15"
+            }
+          ],
+          "def": 10,
+          "luk": 0,
+          "lvReq": 35,
+          "materials": [
+            {
+              "amount": 5,
+              "rawName": "Quest17",
+              "ref": "items.acquisition.quest17"
+            },
+            {
+              "amount": 125,
+              "rawName": "Leaf1",
+              "ref": "items.acquisition.leaf1"
+            }
+          ],
+          "name": "Amarok Paws",
+          "pct": [
+            {
+              "txt": "%_DEFENCE",
+              "val": 3
+            }
+          ],
+          "set": "AMAROK_SET",
+          "slot": "shoes",
+          "slots": 5,
+          "str": 1,
+          "unlock": null,
+          "wis": 1,
+          "wp": 0
+        },
+        "EquipmentShoes21": {
+          "agi": 2,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentShoes4"
+            }
+          ],
+          "def": 18,
+          "luk": 0,
+          "lvReq": 70,
+          "materials": [
+            {
+              "amount": 5,
+              "rawName": "EfauntDrop1",
+              "ref": "items.acquisition.efaunt-drop1"
+            },
+            {
+              "amount": 3,
+              "rawName": "DesertA3b",
+              "ref": "items.acquisition.desert-a3b"
+            }
+          ],
+          "name": "Efaunts Broken Ankles",
+          "pct": [
+            {
+              "txt": "%_MOVEMENT_SPEED",
+              "val": 2
+            }
+          ],
+          "set": "EFAUNT_SET",
+          "slot": "shoes",
+          "slots": 6,
+          "str": 2,
+          "unlock": null,
+          "wis": 2,
+          "wp": 0
+        },
+        "EquipmentShoes22": {
+          "agi": 9,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentShoes5"
+            }
+          ],
+          "def": 30,
+          "luk": 9,
+          "lvReq": 85,
+          "materials": [
+            {
+              "amount": 60000,
+              "rawName": "Bug6",
+              "ref": "items.acquisition.bug6"
+            },
+            {
+              "amount": 725,
+              "rawName": "VoidBar",
+              "ref": "items.acquisition.void-bar"
+            },
+            {
+              "amount": 4,
+              "rawName": "PureWater2",
+              "ref": "items.acquisition.pure-water2"
+            }
+          ],
+          "name": "Void Imperium Kicks",
+          "pct": [
+            {
+              "txt": "%_DEFENCE",
+              "val": 8
+            }
+          ],
+          "set": "VOID_SET",
+          "slot": "shoes",
+          "slots": 4,
+          "str": 9,
+          "unlock": null,
+          "wis": 9,
+          "wp": 0
+        },
+        "EquipmentShoes23": {
+          "agi": 12,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentShoes22"
+            }
+          ],
+          "def": 48,
+          "luk": 12,
+          "lvReq": 95,
+          "materials": [
+            {
+              "amount": 6,
+              "rawName": "Chiz0",
+              "ref": "items.acquisition.chiz0"
+            },
+            {
+              "amount": 10,
+              "rawName": "SnowB2a",
+              "ref": "items.acquisition.snow-b2a"
+            },
+            {
+              "amount": 100,
+              "rawName": "Refinery4",
+              "ref": "items.acquisition.refinery4"
+            }
+          ],
+          "name": "Chizoar Walkers",
+          "pct": [
+            {
+              "txt": "%_MASTERY",
+              "val": 5
+            }
+          ],
+          "set": "CHIZOAR_SET",
+          "slot": "shoes",
+          "slots": 5,
+          "str": 12,
+          "unlock": null,
+          "wis": 12,
+          "wp": 0
+        },
+        "EquipmentShoes3": {
+          "agi": 3,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentShoes15"
+            }
+          ],
+          "def": 8,
+          "luk": 3,
+          "lvReq": 30,
+          "materials": [
+            {
+              "amount": 600,
+              "rawName": "GoldBar",
+              "ref": "items.acquisition.gold-bar"
+            },
+            {
+              "amount": 4,
+              "rawName": "PureWater",
+              "ref": "items.acquisition.pure-water"
+            }
+          ],
+          "name": "Gold Boots",
+          "pct": [],
+          "set": "GOLD_SET",
+          "slot": "shoes",
+          "slots": 3,
+          "str": 3,
+          "unlock": null,
+          "wis": 3,
+          "wp": 0
+        },
+        "EquipmentShoes4": {
+          "agi": 5,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentShoes3"
+            }
+          ],
+          "def": 15,
+          "luk": 5,
+          "lvReq": 50,
+          "materials": [
+            {
+              "amount": 7000,
+              "rawName": "PalmTree",
+              "ref": "items.acquisition.palm-tree"
+            },
+            {
+              "amount": 3000,
+              "rawName": "Fish3",
+              "ref": "items.acquisition.fish3"
+            }
+          ],
+          "name": "Platinum Boots",
+          "pct": [
+            {
+              "txt": "%_DEFENCE",
+              "val": 5
+            }
+          ],
+          "set": "PLATINUM_SET",
+          "slot": "shoes",
+          "slots": 3,
+          "str": 5,
+          "unlock": null,
+          "wis": 5,
+          "wp": 0
+        },
+        "EquipmentShoes5": {
+          "agi": 7,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 22,
+          "luk": 7,
+          "lvReq": 65,
+          "materials": [
+            {
+              "amount": 3,
+              "rawName": "Critter1A",
+              "ref": "items.acquisition.critter1-a"
+            },
+            {
+              "amount": 500,
+              "rawName": "DementiaBar",
+              "ref": "items.acquisition.dementia-bar"
+            }
+          ],
+          "name": "Dementia Boots",
+          "pct": [
+            {
+              "txt": "%_DEFENCE",
+              "val": 7
+            }
+          ],
+          "set": "DEMENTIA_SET",
+          "slot": "shoes",
+          "slots": 4,
+          "str": 7,
+          "unlock": null,
+          "wis": 7,
+          "wp": 0
+        },
+        "EquipmentSword1": {
+          "agi": 0,
+          "cls": "WARRIOR",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "TestObj3"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 50,
+          "materials": [
+            {
+              "amount": 3,
+              "rawName": "DesertA3b",
+              "ref": "items.acquisition.desert-a3b"
+            },
+            {
+              "amount": 2500,
+              "rawName": "CraftMat9",
+              "ref": "items.acquisition.craft-mat9"
+            }
+          ],
+          "name": "Enforced Slasher",
+          "pct": [],
+          "set": "PLATINUM_SET",
+          "slot": "weapon",
+          "slots": 3,
+          "str": 11,
+          "unlock": {
+            "row": 9,
+            "world": 2
+          },
+          "wis": 4,
+          "wp": 26
+        },
+        "EquipmentSword2": {
+          "agi": 0,
+          "cls": "WARRIOR",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentSword1"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 75,
+          "materials": [
+            {
+              "amount": 25000,
+              "rawName": "SnowA2",
+              "ref": "items.acquisition.snow-a2"
+            },
+            {
+              "amount": 150,
+              "rawName": "Refinery1",
+              "ref": "items.acquisition.refinery1"
+            }
+          ],
+          "name": "The Ice Breaker",
+          "pct": [
+            {
+              "txt": "%_CRIT_DAMAGE",
+              "val": 5
+            }
+          ],
+          "set": "DEMENTIA_SET",
+          "slot": "weapon",
+          "slots": 4,
+          "str": 13,
+          "unlock": {
+            "row": 0,
+            "world": 3
+          },
+          "wis": 6,
+          "wp": 33
+        },
+        "EquipmentSword3": {
+          "agi": 0,
+          "cls": "WARRIOR",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentSword2"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 90,
+          "materials": [
+            {
+              "amount": 2,
+              "rawName": "SnowC4a",
+              "ref": "items.acquisition.snow-c4a"
+            },
+            {
+              "amount": 15,
+              "rawName": "Critter6A",
+              "ref": "items.acquisition.critter6-a"
+            },
+            {
+              "amount": 7,
+              "rawName": "PureWater2",
+              "ref": "items.acquisition.pure-water2"
+            }
+          ],
+          "name": "Deuscythe",
+          "pct": [
+            {
+              "txt": "%_CRIT_DAMAGE",
+              "val": 5
+            }
+          ],
+          "set": "VOID_SET",
+          "slot": "weapon",
+          "slots": 4,
+          "str": 20,
+          "unlock": {
+            "row": 13,
+            "world": 3
+          },
+          "wis": 0,
+          "wp": 40
+        },
+        "EquipmentTools11": {
+          "agi": 6,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentTools7"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 45,
+          "materials": [
+            {
+              "amount": 400,
+              "rawName": "VoidBar",
+              "ref": "items.acquisition.void-bar"
+            },
+            {
+              "amount": 5,
+              "rawName": "PureWater2",
+              "ref": "items.acquisition.pure-water2"
+            }
+          ],
+          "name": "Void Imperium Pik",
+          "pct": [
+            {
+              "txt": "%_MINING_EFFICINCY",
+              "val": 8
+            }
+          ],
+          "set": "VOID_SET",
+          "slot": "pickaxe",
+          "slots": 4,
+          "str": 18,
+          "unlock": {
+            "row": 20,
+            "world": 3
+          },
+          "wis": 0,
+          "wp": 24
+        },
+        "EquipmentTools2": {
+          "agi": 0,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 3,
+          "materials": [
+            {
+              "amount": 8,
+              "rawName": "Copper",
+              "ref": "items.acquisition.copper"
+            }
+          ],
+          "name": "Copper Pickaxe",
+          "pct": [],
+          "set": "COPPER_SET",
+          "slot": "pickaxe",
+          "slots": 2,
+          "str": 3,
+          "unlock": null,
+          "wis": 0,
+          "wp": 6
+        },
+        "EquipmentTools3": {
+          "agi": 2,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 8,
+          "materials": [
+            {
+              "amount": 100,
+              "rawName": "Iron",
+              "ref": "items.acquisition.iron"
+            }
+          ],
+          "name": "Iron Pickaxe",
+          "pct": [],
+          "set": "IRON_SET",
+          "slot": "pickaxe",
+          "slots": 2,
+          "str": 5,
+          "unlock": null,
+          "wis": 0,
+          "wp": 10
+        },
+        "EquipmentTools5": {
+          "agi": 3,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentTools3"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 15,
+          "materials": [
+            {
+              "amount": 2500,
+              "rawName": "DesertA2",
+              "ref": "items.acquisition.desert-a2"
+            },
+            {
+              "amount": 400,
+              "rawName": "GoldBar",
+              "ref": "items.acquisition.gold-bar"
+            }
+          ],
+          "name": "Gold Pickaxe",
+          "pct": [],
+          "set": "GOLD_SET",
+          "slot": "pickaxe",
+          "slots": 2,
+          "str": 8,
+          "unlock": {
+            "row": 4,
+            "world": 2
+          },
+          "wis": 0,
+          "wp": 13
+        },
+        "EquipmentTools6": {
+          "agi": 4,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentTools5"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 25,
+          "materials": [
+            {
+              "amount": 800,
+              "rawName": "PlatBar",
+              "ref": "items.acquisition.plat-bar"
+            },
+            {
+              "amount": 10500,
+              "rawName": "DesertB3",
+              "ref": "items.acquisition.desert-b3"
+            }
+          ],
+          "name": "Platinum Pickaxe",
+          "pct": [
+            {
+              "txt": "%_MINING_EFFICINCY",
+              "val": 1
+            }
+          ],
+          "set": "PLATINUM_SET",
+          "slot": "pickaxe",
+          "slots": 3,
+          "str": 11,
+          "unlock": {
+            "row": 20,
+            "world": 2
+          },
+          "wis": 0,
+          "wp": 16
+        },
+        "EquipmentTools7": {
+          "agi": 5,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentTools6"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 37,
+          "materials": [
+            {
+              "amount": 275,
+              "rawName": "DementiaBar",
+              "ref": "items.acquisition.dementia-bar"
+            },
+            {
+              "amount": 15000,
+              "rawName": "SnowA3",
+              "ref": "items.acquisition.snow-a3"
+            }
+          ],
+          "name": "Dementia Pickaxe",
+          "pct": [
+            {
+              "txt": "%_MINING_EFFICINCY",
+              "val": 2
+            }
+          ],
+          "set": "DEMENTIA_SET",
+          "slot": "pickaxe",
+          "slots": 3,
+          "str": 15,
+          "unlock": {
+            "row": 4,
+            "world": 3
+          },
+          "wis": 0,
+          "wp": 19
+        },
+        "EquipmentToolsHatchet1": {
+          "agi": 0,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 8,
+          "materials": [
+            {
+              "amount": 200,
+              "rawName": "JungleTree",
+              "ref": "items.acquisition.jungle-tree"
+            }
+          ],
+          "name": "Iron Hatchet",
+          "pct": [],
+          "set": "IRON_SET",
+          "slot": "hatchet",
+          "slots": 2,
+          "str": 2,
+          "unlock": null,
+          "wis": 5,
+          "wp": 10
+        },
+        "EquipmentToolsHatchet2": {
+          "agi": 0,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentToolsHatchet1"
+            }
+          ],
+          "def": 0,
+          "luk": 4,
+          "lvReq": 15,
+          "materials": [
+            {
+              "amount": 5,
+              "rawName": "Quest19",
+              "ref": "items.acquisition.quest19"
+            },
+            {
+              "amount": 2000,
+              "rawName": "DesertA3",
+              "ref": "items.acquisition.desert-a3"
+            }
+          ],
+          "name": "Golden Axe",
+          "pct": [],
+          "set": "GOLD_SET",
+          "slot": "hatchet",
+          "slots": 2,
+          "str": 0,
+          "unlock": {
+            "row": 5,
+            "world": 2
+          },
+          "wis": 8,
+          "wp": 14
+        },
+        "EquipmentToolsHatchet3": {
+          "agi": 1,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 4,
+          "materials": [
+            {
+              "amount": 6,
+              "rawName": "OakTree",
+              "ref": "items.acquisition.oak-tree"
+            }
+          ],
+          "name": "Copper Chopper",
+          "pct": [],
+          "set": "COPPER_SET",
+          "slot": "hatchet",
+          "slots": 2,
+          "str": 0,
+          "unlock": null,
+          "wis": 3,
+          "wp": 7
+        },
+        "EquipmentToolsHatchet4": {
+          "agi": 5,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentToolsHatchet2"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 20,
+          "materials": [
+            {
+              "amount": 6500,
+              "rawName": "PalmTree",
+              "ref": "items.acquisition.palm-tree"
+            },
+            {
+              "amount": 5000,
+              "rawName": "CraftMat7",
+              "ref": "items.acquisition.craft-mat7"
+            }
+          ],
+          "name": "Plat Hatchet",
+          "pct": [],
+          "set": "PLATINUM_SET",
+          "slot": "hatchet",
+          "slots": 3,
+          "str": 0,
+          "unlock": {
+            "row": 21,
+            "world": 2
+          },
+          "wis": 14,
+          "wp": 18
+        },
+        "EquipmentToolsHatchet5": {
+          "agi": 6,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentToolsHatchet4"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 25,
+          "materials": [
+            {
+              "amount": 15000,
+              "rawName": "SaharanFoal",
+              "ref": "items.acquisition.saharan-foal"
+            },
+            {
+              "amount": 50,
+              "rawName": "Refinery1",
+              "ref": "items.acquisition.refinery1"
+            }
+          ],
+          "name": "Dementia Dicer",
+          "pct": [],
+          "set": "DEMENTIA_SET",
+          "slot": "hatchet",
+          "slots": 3,
+          "str": 0,
+          "unlock": {
+            "row": 5,
+            "world": 3
+          },
+          "wis": 17,
+          "wp": 23
+        },
+        "EquipmentToolsHatchet7": {
+          "agi": 7,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentToolsHatchet5"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 30,
+          "materials": [
+            {
+              "amount": 50000,
+              "rawName": "Tree7",
+              "ref": "items.acquisition.tree7"
+            },
+            {
+              "amount": 5,
+              "rawName": "PureWater2",
+              "ref": "items.acquisition.pure-water2"
+            }
+          ],
+          "name": "Void Imperium Axe",
+          "pct": [],
+          "set": "VOID_SET",
+          "slot": "hatchet",
+          "slots": 4,
+          "str": 0,
+          "unlock": {
+            "row": 21,
+            "world": 3
+          },
+          "wis": 20,
+          "wp": 26
+        },
+        "EquipmentWands1": {
+          "agi": 0,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 4,
+          "materials": [
+            {
+              "amount": 1,
+              "rawName": "Grasslands3",
+              "ref": "items.acquisition.grasslands3"
+            }
+          ],
+          "name": "Gnarled Wand",
+          "pct": [],
+          "set": null,
+          "slot": "weapon",
+          "slots": 1,
+          "str": 0,
+          "unlock": null,
+          "wis": 4,
+          "wp": 10
+        },
+        "EquipmentWands2": {
+          "agi": 0,
+          "cls": "MAGE",
+          "consumes": [],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 12,
+          "materials": [
+            {
+              "amount": 125,
+              "rawName": "Jungle1",
+              "ref": "items.acquisition.jungle1"
+            },
+            {
+              "amount": 30,
+              "rawName": "CopperBar",
+              "ref": "items.acquisition.copper-bar"
+            }
+          ],
+          "name": "Quarterstaff",
+          "pct": [],
+          "set": null,
+          "slot": "weapon",
+          "slots": 2,
+          "str": 0,
+          "unlock": {
+            "row": 2,
+            "world": 1
+          },
+          "wis": 9,
+          "wp": 16
+        },
+        "EquipmentWands3": {
+          "agi": 0,
+          "cls": "MAGE",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentWands6"
+            }
+          ],
+          "def": 0,
+          "luk": 1,
+          "lvReq": 75,
+          "materials": [
+            {
+              "amount": 10000,
+              "rawName": "SaharanFoal",
+              "ref": "items.acquisition.saharan-foal"
+            },
+            {
+              "amount": 150,
+              "rawName": "Refinery1",
+              "ref": "items.acquisition.refinery1"
+            }
+          ],
+          "name": "Spriggly Storm",
+          "pct": [
+            {
+              "txt": "%_CRIT_DAMAGE",
+              "val": 5
+            }
+          ],
+          "set": "DEMENTIA_SET",
+          "slot": "weapon",
+          "slots": 4,
+          "str": 0,
+          "unlock": {
+            "row": 2,
+            "world": 3
+          },
+          "wis": 15,
+          "wp": 36
+        },
+        "EquipmentWands5": {
+          "agi": 1,
+          "cls": "MAGE",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentWands2"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 30,
+          "materials": [
+            {
+              "amount": 1000,
+              "rawName": "CraftMat7",
+              "ref": "items.acquisition.craft-mat7"
+            },
+            {
+              "amount": 8,
+              "rawName": "PureWater",
+              "ref": "items.acquisition.pure-water"
+            }
+          ],
+          "name": "Starlight",
+          "pct": [],
+          "set": "GOLD_SET",
+          "slot": "weapon",
+          "slots": 3,
+          "str": 0,
+          "unlock": {
+            "row": 2,
+            "world": 2
+          },
+          "wis": 11,
+          "wp": 23
+        },
+        "EquipmentWands6": {
+          "agi": 5,
+          "cls": "MAGE",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentWands5"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 50,
+          "materials": [
+            {
+              "amount": 3,
+              "rawName": "Sewers1b",
+              "ref": "items.acquisition.sewers1b"
+            },
+            {
+              "amount": 4000,
+              "rawName": "Bug4",
+              "ref": "items.acquisition.bug4"
+            }
+          ],
+          "name": "Crows Nest",
+          "pct": [
+            {
+              "txt": "%_MOVEMENT_SPEED",
+              "val": 5
+            }
+          ],
+          "set": "PLATINUM_SET",
+          "slot": "weapon",
+          "slots": 3,
+          "str": 0,
+          "unlock": {
+            "row": 11,
+            "world": 2
+          },
+          "wis": 9,
+          "wp": 30
+        },
+        "EquipmentWands7": {
+          "agi": 10,
+          "cls": "MAGE",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "EquipmentWands3"
+            }
+          ],
+          "def": 0,
+          "luk": 1,
+          "lvReq": 90,
+          "materials": [
+            {
+              "amount": 2,
+              "rawName": "SnowC4a",
+              "ref": "items.acquisition.snow-c4a"
+            },
+            {
+              "amount": 5000,
+              "rawName": "Soul4",
+              "ref": "items.acquisition.soul4"
+            },
+            {
+              "amount": 7,
+              "rawName": "PureWater2",
+              "ref": "items.acquisition.pure-water2"
+            }
+          ],
+          "name": "Grey Gatsby",
+          "pct": [
+            {
+              "txt": "%_CRIT_DAMAGE",
+              "val": 5
+            }
+          ],
+          "set": "VOID_SET",
+          "slot": "weapon",
+          "slots": 4,
+          "str": 0,
+          "unlock": {
+            "row": 15,
+            "world": 3
+          },
+          "wis": 13,
+          "wp": 43
+        },
+        "FishingRod2": {
+          "agi": 0,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 4,
+          "materials": [
+            {
+              "amount": 200,
+              "rawName": "CopperBar",
+              "ref": "items.acquisition.copper-bar"
+            },
+            {
+              "amount": 180,
+              "rawName": "Fish1",
+              "ref": "items.acquisition.fish1"
+            }
+          ],
+          "name": "Copper Fish Rod",
+          "pct": [],
+          "set": "COPPER_SET",
+          "slot": "rod",
+          "slots": 2,
+          "str": 2,
+          "unlock": {
+            "row": 4,
+            "world": 1
+          },
+          "wis": 0,
+          "wp": 8
+        },
+        "FishingRod3": {
+          "agi": 0,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 9,
+          "materials": [
+            {
+              "amount": 300,
+              "rawName": "IronBar",
+              "ref": "items.acquisition.iron-bar"
+            },
+            {
+              "amount": 650,
+              "rawName": "Fish2",
+              "ref": "items.acquisition.fish2"
+            },
+            {
+              "amount": 3,
+              "rawName": "PureWater",
+              "ref": "items.acquisition.pure-water"
+            }
+          ],
+          "name": "Iron Fishing Rod",
+          "pct": [],
+          "set": "IRON_SET",
+          "slot": "rod",
+          "slots": 2,
+          "str": 4,
+          "unlock": {
+            "row": 6,
+            "world": 1
+          },
+          "wis": 1,
+          "wp": 13
+        },
+        "FishingRod4": {
+          "agi": 0,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "FishingRod3"
+            }
+          ],
+          "def": 0,
+          "luk": 4,
+          "lvReq": 15,
+          "materials": [
+            {
+              "amount": 2500,
+              "rawName": "Fish2",
+              "ref": "items.acquisition.fish2"
+            },
+            {
+              "amount": 1000,
+              "rawName": "CraftMat9",
+              "ref": "items.acquisition.craft-mat9"
+            }
+          ],
+          "name": "Gold Fishing Rod",
+          "pct": [],
+          "set": "GOLD_SET",
+          "slot": "rod",
+          "slots": 3,
+          "str": 6,
+          "unlock": {
+            "row": 6,
+            "world": 2
+          },
+          "wis": 0,
+          "wp": 19
+        },
+        "FishingRod5": {
+          "agi": 0,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "FishingRod4"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 25,
+          "materials": [
+            {
+              "amount": 2000,
+              "rawName": "Fish4",
+              "ref": "items.acquisition.fish4"
+            },
+            {
+              "amount": 800,
+              "rawName": "PlatBar",
+              "ref": "items.acquisition.plat-bar"
+            }
+          ],
+          "name": "Plat Fishing Rod",
+          "pct": [],
+          "set": "PLATINUM_SET",
+          "slot": "rod",
+          "slots": 3,
+          "str": 9,
+          "unlock": {
+            "row": 22,
+            "world": 2
+          },
+          "wis": 0,
+          "wp": 25
+        },
+        "FishingRod6": {
+          "agi": 0,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "FishingRod5"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 33,
+          "materials": [
+            {
+              "amount": 300,
+              "rawName": "DementiaBar",
+              "ref": "items.acquisition.dementia-bar"
+            },
+            {
+              "amount": 50,
+              "rawName": "Refinery1",
+              "ref": "items.acquisition.refinery1"
+            }
+          ],
+          "name": "Dementia Rod for Fishing",
+          "pct": [],
+          "set": "DEMENTIA_SET",
+          "slot": "rod",
+          "slots": 3,
+          "str": 12,
+          "unlock": {
+            "row": 6,
+            "world": 3
+          },
+          "wis": 0,
+          "wp": 30
+        },
+        "FishingRod7": {
+          "agi": 0,
+          "cls": "ALL",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "FishingRod6"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 40,
+          "materials": [
+            {
+              "amount": 200,
+              "rawName": "Refinery3",
+              "ref": "items.acquisition.refinery3"
+            },
+            {
+              "amount": 3,
+              "rawName": "Critter5A",
+              "ref": "items.acquisition.critter5-a"
+            },
+            {
+              "amount": 5,
+              "rawName": "PureWater2",
+              "ref": "items.acquisition.pure-water2"
+            }
+          ],
+          "name": "Void Imperium Rod",
+          "pct": [],
+          "set": "VOID_SET",
+          "slot": "rod",
+          "slots": 4,
+          "str": 15,
+          "unlock": {
+            "row": 22,
+            "world": 3
+          },
+          "wis": 0,
+          "wp": 36
+        },
+        "TestObj1": {
+          "agi": 0,
+          "cls": "ALL",
+          "consumes": [],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 4,
+          "materials": [
+            {
+              "amount": 1,
+              "rawName": "Grasslands3",
+              "ref": "items.acquisition.grasslands3"
+            }
+          ],
+          "name": "Wooden Spear",
+          "pct": [],
+          "set": null,
+          "slot": "weapon",
+          "slots": 1,
+          "str": 3,
+          "unlock": null,
+          "wis": 1,
+          "wp": 10
+        },
+        "TestObj3": {
+          "agi": 0,
+          "cls": "WARRIOR",
+          "consumes": [
+            {
+              "amount": 1,
+              "rawName": "TestObj7"
+            }
+          ],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 30,
+          "materials": [
+            {
+              "amount": 1250,
+              "rawName": "ForestTree",
+              "ref": "items.acquisition.forest-tree"
+            },
+            {
+              "amount": 8,
+              "rawName": "PureWater",
+              "ref": "items.acquisition.pure-water"
+            }
+          ],
+          "name": "Royal Bayonet",
+          "pct": [],
+          "set": "GOLD_SET",
+          "slot": "weapon",
+          "slots": 3,
+          "str": 10,
+          "unlock": {
+            "row": 0,
+            "world": 2
+          },
+          "wis": 2,
+          "wp": 20
+        },
+        "TestObj7": {
+          "agi": 0,
+          "cls": "WARRIOR",
+          "consumes": [],
+          "def": 0,
+          "luk": 0,
+          "lvReq": 11,
+          "materials": [
+            {
+              "amount": 125,
+              "rawName": "Jungle1",
+              "ref": "items.acquisition.jungle1"
+            },
+            {
+              "amount": 125,
+              "rawName": "CraftMat5",
+              "ref": "items.acquisition.craft-mat5"
+            }
+          ],
+          "name": "Steel Axe",
+          "pct": [],
+          "set": null,
+          "slot": "weapon",
+          "slots": 2,
+          "str": 7,
+          "unlock": {
+            "row": 0,
+            "world": 1
+          },
+          "wis": 3,
+          "wp": 15
+        }
+      },
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: item stats",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: anvil recipes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: Task Board unlocks",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/taskUnlocks.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "gear",
+      "title": "W1–W3 gear pieces, stats and recipes"
+    }
+  ],
+  "generator": "gear",
+  "system": "gear"
+}

@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 925
+# golden v1: scrubbed-w3 · knowledge #762f705c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 988
 
 ## Verdict changes
 
@@ -50,7 +50,7 @@ purpose: Mining 29 → 40 opens Echoing Egress
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-show more (27)
+show more (30)
 Spend coins: 15 buys now on 4 characters
   1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before redeeming tickets: 100M coins · Lv 0 → 1 · buy · total 100M coins on C3
   2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 13k coins · Lv 10 → 20 · buy · total 100M coins on C3
@@ -98,6 +98,7 @@ W0 · Cards · Behind · Behind for your Stage · 5 to do
 W0 · Obols · Behind · Behind for your Stage · 2 to do
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
 W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
+W0 · Gear & Tools · Behind · Behind for your Stage · 6 to do
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
@@ -130,6 +131,7 @@ W3 · 3D Printer · Nothing to fix · Nothing to fix
 W3 · Worship · Nothing to fix · Nothing to fix · 1 to do · 4 full · collect
 W3 · Trapping · Nothing to fix · Nothing to fix
 W3 · Death Note · Wasting · 1 to fix before you leave
+W3 · Armor-set Smithy · Nothing to fix · Nothing to fix
 W3 · Salt Lick · Not covered yet · Not covered yet
 W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
@@ -138,7 +140,7 @@ W3 · Atom Collider · Not covered yet · Not covered yet
 W4 · Laboratory · Locked · Opens in World 4 · Hyperion Nebula
 W4 · Cooking · Locked · Opens in World 4 · Hyperion Nebula
 W4 · Breeding · Locked · Opens in World 4 · Hyperion Nebula
-Needs you: Talent presets (wasting), Companions and pets (wasting), Minigames (wasting), Colosseum (wasting), Refinery (wasting), Death Note (wasting), Cards (behind), Obols (behind), Stamps (behind), Anvil (behind), Alchemy bubbles (behind)
+Needs you: Talent presets (wasting), Companions and pets (wasting), Minigames (wasting), Colosseum (wasting), Refinery (wasting), Death Note (wasting), Cards (behind), Obols (behind), Gear & Tools (behind), Stamps (behind), Anvil (behind), Alchemy bubbles (behind)
 Other gaps: Stamp cap raises that need farming or carry capacity
 Wasting: 6
 
@@ -194,6 +196,41 @@ attempts: 0 of 17 left
 tubes: Water 93 of 138; Liquid Nitrogen 0.08 of 13 (Talent Point needs 1 Liquid Nitrogen); Trench Seawater opens at Alchemy 35; Toxic Mercury opens at Alchemy 80
 p2w next: Player Speed 19 of 20
 step: Spend banked brew in 4 cauldrons: about 7 new bubbles
+
+## Gear
+- C1 · Wizard 73 · ring 49 levels behind · lit: shoes
+  next: Craft Amarok Paws for 4 characters (anvil tab 1)
+  helmet ok · a trade, weapon 38 levels behind, shirt ok · a trade, pendant 25 levels behind, pants ok · a trade, ring1 ok · a trade, shoes 27 levels behind, ring2 49 levels behind, pickaxe ok, hatchet 21 levels behind, rod empty, net empty
+  mining: Iron Pickaxe at Mining 8: you're 7
+  chopping: Dementia Dicer at Choppin 25: needs the W3 Task Board unlock and anvil tab 3
+- C2 · Squire 51 · 2 empty · weapon 39 levels behind · lit: shoes
+  next: Craft Amarok Paws for 4 characters (anvil tab 1)
+  helmet 27 levels behind, weapon 39 levels behind, shirt 27 levels behind, pendant 25 levels behind, pants 32 levels behind, ring1 empty, shoes 27 levels behind, ring2 empty, pickaxe 10 levels behind, hatchet empty, rod empty, net empty
+  mining: Platinum Pickaxe at Mining 25: you're 29
+- C3 · Bowman 60 · 2 empty · better gear held · lit: helmet
+  next: Equip the Gold Helmet from storage
+  helmet empty · one held, weapon 32 levels behind, shirt empty · one held, pendant 25 levels behind, pants empty · one held, ring1 49 levels behind, shoes empty, ring2 empty, pickaxe empty, hatchet empty, rod empty, net 21 levels behind
+  catching: Dementia Net at Catching 25: needs the W3 Task Board unlock and anvil tab 3
+- C4 · Squire 85 · ring 49 levels behind · lit: weapon
+  next: Craft Anvil Tab 3 to open the W3 Task Board unlocks
+  helmet ok · a trade, weapon 45 levels behind, shirt ok · a trade, pendant 25 levels behind, pants ok · a trade, ring1 49 levels behind, shoes ok · a trade, ring2 49 levels behind, pickaxe empty, hatchet empty, rod empty, net empty
+- C5 · Barbarian 56 · 3 empty · weapon 39 levels behind · lit: ring1
+  next: Fill 7 empty ring slots: craft Copper Bands now (100 Copper Bars each)
+  helmet 27 levels behind, weapon 39 levels behind, shirt behind, pendant 25 levels behind, pants ok · a trade, ring1 empty, shoes ok · a trade, ring2 empty, pickaxe empty, hatchet empty, rod empty, net empty
+  fishing: Gold Fishing Rod at Fishing 15: needs the W2 Task Board unlock
+- C6 · Shaman 54 · 2 empty · better gear held · lit: helmet
+  next: Equip the Farmer Brim from storage
+  helmet better one held, weapon 38 levels behind, shirt ok · a trade, pendant 25 levels behind, pants ok · a trade, ring1 empty, shoes 27 levels behind, ring2 empty, pickaxe empty, hatchet empty, rod empty, net empty
+- Smithy: Opens in 25 days, or once 2,000 gems were bought
+  Copper: 4 of 4 parts
+  Iron: 1 of 4 parts: the Iron Pickaxe in storage
+  Amarok: 0 of 4 parts: craft Amarok Helmet
+  Gold: 5 of 6 parts: craft Gold Boots
+  Platinum: 0 of 6 parts: craft Platinum Helmet
+  Efaunt: 0 of 4 parts: craft Efaunt Helmet
+  Dementia: 0 of 7 parts: craft Dementia Helmet
+  Void: 0 of 7 parts: craft Void Imperium Helmet
+  Chizoar: 0 of 4 parts: craft Chizoar Helmet
 
 ## Findings
 | entry | detector | subject | result | slots |
@@ -311,6 +348,7 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
 | systems.yaml#alchemy-vials | worlds/reached | account | reached yes |  |
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
+| systems.yaml#armor-smithy | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |

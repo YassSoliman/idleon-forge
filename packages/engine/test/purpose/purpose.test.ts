@@ -360,7 +360,8 @@ describe('R7 QA: capped ladders and the headline that repeats the first Goal', (
     expect(capped.length).toBeGreaterThan(0);
     for (const t of capped) expect(t).toMatch(/^Class level [\d,]+ · maxed$/);
     expect(texts).toContain('Class level 1,280 · maxed');
-  });
+    // It parses the 11-character public save with the worker's supply step; a loaded CI runner can pass 5 s.
+  }, 60_000);
 
   it('W3-early Squire Lv 85: the portal headline echoes the push Goal, so it is shown once (ladder kept)', () => {
     const s = W3();

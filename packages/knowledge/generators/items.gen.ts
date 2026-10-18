@@ -13,6 +13,7 @@
 //     behind a drop table) with the maps the monster spawns on (mapEnemiesArray), and `printable` on
 //     the row a 3D Printer sample there gives (FR-26: the first of the monster's first four rows that
 //     is not coins, not a card and not quest-linked).
+// M18 adds the materials of every W1–W3 gear piece (gear.gen.ts `gearMaterials`).
 // Fishing pools, which hold fish by depth and bait, are authored (skills.fact.nodes): Toolbox has no
 // table for them. Only what a shipped entry references ships (kb compile), so the bundle carries the
 // items of opted-in Walkthrough targets and the gate quests, not the whole catalogue.
@@ -21,6 +22,7 @@
 // (generators/_wiki-pages.json, refreshed by kb-tools' wiki-pages script) says it exists.
 import { readFileSync } from 'node:fs';
 import type { GeneratedEntryT, SourceT } from '../src/schema';
+import { type EquipmentSet, gearMaterials } from './gear.gen';
 import { craftsByRawName, questSteps } from './quest-steps';
 import {
   defineGenerator,
@@ -105,6 +107,7 @@ const generator = defineGenerator({
     'website-data/shared-data.json#liquidsShop',
     'website-data/shared-data.json#mapNames',
     'website-data/shared-data.json#mapEnemiesArray',
+    'website-data/shared-data.json#equipmentSets',
   ],
   run({ data, pin }) {
     const items = data.items as Record<string, Item>;
@@ -160,6 +163,10 @@ const generator = defineGenerator({
     }
     // The anvil tab items (Anvil Tab 2 ... 7): an unmet tab gate expands into the tab item's recipe (FR-4).
     for (const raw of Object.keys(items)) if (/^EquipmentSmithingTabs\d+$/.test(raw)) add(raw);
+    // M18 TR-6: the materials of every W1–W3 gear piece, so its Walkthrough expands them (D-8: the pieces
+    // themselves are expanded from gear.fact.ladder, never shipped as Acquisitions).
+    for (const raw of gearMaterials(items as never, crafts as never, data.equipmentSets as EquipmentSet[]))
+      add(raw);
     const forgeOre = (raw: string) => {
       const it = items[raw];
       return it?.typeGen === 'bBar' && typeof it.ID === 'number' ? (barOre.get(it.ID) ?? null) : null;

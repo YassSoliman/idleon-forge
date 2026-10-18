@@ -6,19 +6,22 @@
 // banners, the progress bar and What's new are the same in every place (FR-6). The session state lives
 // in `useSession` (FR-10), so a place switch never re-runs the engine or loses the Play Session.
 import { LINK_WORDS, NAV_WORDS, PLACE_WORDS } from '@idleon-forge/engine/now';
-import { lazy, Suspense, useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { CharactersPlace } from '../characters/CharactersPlace';
+import { Loading, lazyPart, preloadParts } from '../lazy-part';
 import { Banners, ExpectedReturnChips, ProgressBar, WhatsNewCard } from '../now/Chrome';
 import { NowActionsContext } from '../now/context';
 import { NowPlace } from '../now/NowScreen';
 import { useWhatsNew } from '../now/release';
-import { SystemPage } from '../systems/SystemPage';
-import { SystemsHub } from '../systems/SystemsHub';
 import type { Place, Route } from './route';
 
-const loadTimeline = () => import('../timeline/TimelinePlace');
-const TimelinePlace = lazy(() => loadTimeline().then((m) => ({ default: m.TimelinePlace })));
+// Every place but Now is its own lazy chunk (lazy-part.tsx), prefetched when the browser is idle.
+const TimelinePlace = lazyPart(() => import('../timeline/TimelinePlace').then((m) => m.TimelinePlace));
+const CharactersPlace = lazyPart(() =>
+  import('../characters/CharactersPlace').then((m) => m.CharactersPlace),
+);
+const SystemsHub = lazyPart(() => import('../systems/SystemsHub').then((m) => m.SystemsHub));
+const SystemPage = lazyPart(() => import('../systems/SystemPage').then((m) => m.SystemPage));
 
 /** The outlet's id: a plain in-page target, never a route (FR-7 leaves unknown anchors to Now). */
 const CONTENT_ANCHOR = `#${'place-content'}`;
@@ -157,7 +160,7 @@ export function PlacesNav({ s }: { s: Session }) {
   );
 }
 
-function Outlet({ s }: { s: Session }) {
+function PlaceView({ s }: { s: Session }) {
   switch (s.route.place) {
     case 'characters':
       return <CharactersPlace s={s} />;
@@ -166,14 +169,18 @@ function Outlet({ s }: { s: Session }) {
     case 'system':
       return <SystemPage s={s} id={s.route.id} />;
     case 'timeline':
-      return (
-        <Suspense fallback={<p className="small muted">…</p>}>
-          <TimelinePlace s={s} />
-        </Suspense>
-      );
+      return <TimelinePlace s={s} />;
     default:
       return <NowPlace s={s} />;
   }
+}
+
+function Outlet({ s }: { s: Session }) {
+  return (
+    <Suspense fallback={<Loading what={PLACE_WORDS[s.place]} />}>
+      <PlaceView s={s} />
+    </Suspense>
+  );
 }
 
 export function Shell(props: ShellProps & ShellSlots) {
@@ -189,10 +196,11 @@ export function Shell(props: ShellProps & ShellSlots) {
     () => onFooter({ ...s.view.footer, persistent: s.prefs.persistent }),
     [onFooter, s.view.footer, s.prefs.persistent],
   );
-  // TR-11: the Timeline chunk is prefetched when the browser is idle after the first result.
+  // TR-11: the lazy chunks (places, tabs, System pages) are prefetched when the browser is idle after
+  // the first result, so a tap rarely shows the loading line.
   useEffect(() => {
     const w = window as Window & { requestIdleCallback?: (cb: () => void) => number };
-    const go = () => void loadTimeline().catch(() => {});
+    const go = () => void preloadParts();
     if (w.requestIdleCallback) w.requestIdleCallback(go);
     else setTimeout(go, 2000);
   }, []);

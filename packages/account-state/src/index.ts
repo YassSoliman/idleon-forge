@@ -82,6 +82,20 @@ export {
   killsLeftOn,
   killsLeftTable,
 } from './frontier';
+// M18 Gear & Tools (M18 TR-2)
+export { GEAR_TYPES, gearItem, type HeldGear, heldGear, type WornSlot, wornGear } from './gear';
+export {
+  type ArmorSmithyState,
+  GEAR_SLOTS,
+  type GearAccountFields,
+  type GearCharacterFields,
+  type GearClass,
+  type GearItem,
+  type GearPlace,
+  type GearSlotId,
+  type GearStats,
+  type GearWorn,
+} from './gear-types';
 export { PURPOSE_SKILLS } from './purpose';
 export type {
   ClassExp,

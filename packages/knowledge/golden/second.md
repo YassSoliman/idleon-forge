@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 925
+# golden v1: second · knowledge #762f705c · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -47,19 +47,13 @@ purpose: Death Note: Penguin kills ~38M → 100M · about 8h
 [checklist] Today 6/11 · Week 2/4 · daily reset in 11h 38m
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
+- Grow · Hire the Armor-set Smithy: Hire the Armor-set Smithy in Frostbite Towndra [IdleOn Wiki: Frostbite Tundra (Armor-Set Smithy) · Calculated by IdleOn Toolbox · 2.3.540]
+- Grow · Equip gear you hold: Equip gear you already hold on 2 characters [IdleOn Wiki: Helmets (stats and level to equip) · Calculated by IdleOn Toolbox · 2.3.540]
+  · Divine Knight Lv 544: Fuscismatia from storage
+  · Wizard Lv 501: Witch Hat from the Elemental Sorcerer Lv 525's bag
 - Extra · Gems unspent: 4,645 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
-- Spend · Spend Post Office boxes: Spend 2,125 Post Office boxes on 8 characters [IdleOn Wiki: Post Office · Calculated by IdleOn Toolbox · 2.3.540]
-  · Beast Master Lv 507: 60 boxes
-  · Blood Berserker Lv 501: 270 boxes
-  · Wizard Lv 501: 512 boxes
-  · Siege Breaker Lv 530: 316 boxes
-  · Voidwalker Lv 510: 215 boxes
-  · Elemental Sorcerer Lv 525: 120 boxes
-  · Hunter Lv 503: 316 boxes
-  · Barbarian Lv 501: 316 boxes
-- Spend · Spend task unlock points: Spend 644 task unlock points [IdleOn Wiki: Tasks/Unlocks · Calculated by IdleOn Toolbox · 2.3.540]
-show more (4)
+show more (6)
 
 ## Not covered yet
 Bribes
@@ -92,6 +86,7 @@ W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
 W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
+W0 · Gear & Tools · Nothing to fix · Nothing to fix · 1 to do
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
@@ -124,6 +119,7 @@ W3 · 3D Printer · Nothing to fix · Nothing to fix
 W3 · Worship · Nothing to fix · Nothing to fix
 W3 · Trapping · Nothing to fix · Nothing to fix · 10 full · collect
 W3 · Death Note · Nothing to fix · Nothing to fix
+W3 · Armor-set Smithy · Nothing to fix · Nothing to fix · 1 to do
 W3 · Salt Lick · Not covered yet · Not covered yet
 W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
@@ -193,6 +189,42 @@ attempts: 18 of 18 left
 tubes: Water 2605 of 2606; Liquid Nitrogen 2626 of 2626; Trench Seawater 2171 of 2171; Toxic Mercury 1227 of 1227
 p2w next: none
 step: Level Poison Tincture 2 → 3 (1,000 Poison Froge, 6 Liquid Nitrogen)
+
+## Gear
+- C1 · Beast Master 507 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C2 · Divine Knight 544 · better gear held · lit: pendant
+  next: Equip the Fuscismatia from storage
+  helmet ok, weapon ok · a trade, shirt ok, pendant better one held, pants ok, ring1 ok · a trade, shoes ok, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C3 · Bubonic Conjuror 567 · Gear ok · lit: none
+  helmet ok, weapon ok · a trade, shirt ok, pendant ok · a trade, pants ok, ring1 ok · a trade, shoes ok, ring2 ok · a trade, pickaxe ok, hatchet ok · a trade, rod ok · a trade, net ok
+  mining: Dementia Pickaxe at Mining 37: you're 30
+- C4 · Blood Berserker 501 · Gear ok · lit: none
+  helmet ok, weapon ok · a trade, shirt ok, pendant ok · a trade, pants ok, ring1 ok · a trade, shoes ok, ring2 ok · a trade, pickaxe ok, hatchet ok, rod ok · a trade, net ok · a trade
+- C5 · Wizard 501 · better gear held · shoes 30 levels behind · lit: helmet
+  next: Equip the Witch Hat from the Elemental Sorcerer Lv 525's bag
+  helmet better one held, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes 30 levels behind, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C6 · Siege Breaker 530 · Gear ok · lit: none
+  helmet ok, weapon ok · a trade, shirt ok, pendant ok · a trade, pants ok, ring1 ok · a trade, shoes ok, ring2 ok · a trade, pickaxe ok, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  mining: Void Imperium Pik at Mining 45: you're 40
+- C7 · Voidwalker 510 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok, shoes ok · a trade, ring2 ok, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C8 · Elemental Sorcerer 525 · Gear ok · lit: none
+  helmet ok, weapon ok · a trade, shirt ok, pendant ok · a trade, pants ok, ring1 ok · a trade, shoes ok, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C9 · Hunter 503 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok, shoes ok · a trade, ring2 ok, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C10 · Barbarian 501 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok, shoes ok · a trade, ring2 ok, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- Smithy: Ready to hire in Frostbite Towndra
+  Copper: 0 of 4 parts: craft Copper Helmet
+  Iron: 0 of 4 parts: craft Iron Helmet
+  Amarok: 1 of 4 parts: craft Amarok Helmet
+  Gold: 0 of 6 parts: craft Gold Helmet
+  Platinum: 1 of 6 parts: craft Platinum Helmet
+  Efaunt: 4 of 4 parts
+  Dementia: 6 of 7 parts: craft Dementia Dicer
+  Void: 2 of 7 parts: craft Void Imperium Helmet
+  Chizoar: 0 of 4 parts: craft Chizoar Helmet
 
 ## Findings
 | entry | detector | subject | result | slots |
@@ -362,6 +394,7 @@ step: Level Poison Tincture 2 → 3 (1,000 Poison Froge, 6 Liquid Nitrogen)
 | systems.yaml#alchemy-vials | worlds/reached | account | reached yes |  |
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
+| systems.yaml#armor-smithy | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |

@@ -347,6 +347,11 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
     })(),
     ...(outputs.some(({ output }) => output.timeline) ? { timeline } : {}),
     ...(returnAt !== undefined ? { returnAt } : {}),
+    // M18: the Gear tab, heat strip and Smithy cards ride through untouched.
+    ...(() => {
+      const o = outputs.find((x) => x.output.gear !== undefined)?.output;
+      return o ? { gear: o.gear ?? null } : {};
+    })(),
     // M20: the checklist, Skills tabs, pictures and Skill Grid ride through untouched.
     ...(() => {
       const pick = <K extends 'checklist' | 'skills' | 'slotPictures' | 'skillGrid'>(k: K) =>

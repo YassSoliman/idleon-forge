@@ -919,6 +919,23 @@ entries:
         why: "Big bubbles give their bonus only when a character equips them."
         sources:
           - { url: "https://idleon.wiki/wiki/Alchemy", title: "IdleOn Wiki: Alchemy (big bubbles must be equipped)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+      # M18 FR-32, D-11: two cheap gear fixes the game offers from W1.
+      - id: gear-no-empty-slots
+        system: Gear
+        expectedBy: W1-mid
+        fix: gear.check.empty-slot
+        why: "Copper armour and the first weapons are craftable in W1; no armour or weapon slot should be empty."
+        sources:
+          - { url: "https://old.reddit.com/r/idleon/comments/1w2v0m0/_/p6y45vg/", title: "r/idleon: no slot that can hold something should be empty", tier: 3, claimDate: 2026-08-31, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: "https://idleon.wiki/wiki/Smithing/Anvil_Tab_1", title: "IdleOn Wiki: Smithing, Anvil Tab 1", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - id: gear-afk-tool
+        system: Gear
+        expectedBy: W1-late
+        fix: gear.check.afk-tool
+        why: "A gathering character's tool sets its skill power; copper and iron tools are W1 crafts."
+        sources:
+          - { url: "https://idleon.wiki/wiki/Tools", title: "IdleOn Wiki: Tools", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: "https://old.reddit.com/r/idleon/comments/1v59wcs/_/ozhb9dn/", title: "r/idleon: empty tool slots are bad", tier: 3, claimDate: 2026-07-24, verified: 2026-10-18, gameVersion: 2.3.540 }
       - id: post-office
         system: Post Office
         expectedBy: W2-late
@@ -1079,6 +1096,12 @@ entries:
         - merit-shop.check.spend-w2
         - merit-shop.check.spend-w3
         - merit-shop.check.spend-w4
+        # M18 X1: held gear, empty slots made now, the AFK tool, and the Armor-set Smithy are free fills.
+        - gear.check.equip-held
+        - gear.check.empty-slot
+        - gear.check.afk-tool
+        - armor-smithy.check.hire
+        - armor-smithy.check.register
         - task-unlocks.check.spend
         - talent-presets.check.behind
         - stamps.check.shop-now
@@ -1126,7 +1149,7 @@ entries:
       - [{ include: metapath.priority.never-skip }]
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
-      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining, gear.check.next-piece]
 
   - id: metapath.priority.w1-mid
     system: metapath
@@ -1157,7 +1180,7 @@ entries:
       - [{ include: metapath.priority.never-skip }]
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
-      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining, gear.check.next-piece]
 
   - id: metapath.priority.w1-late
     system: metapath
@@ -1188,7 +1211,7 @@ entries:
       - [{ include: metapath.priority.never-skip }]
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
-      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining, gear.check.next-piece]
 
   - id: metapath.priority.w2-early
     system: metapath
@@ -1221,7 +1244,7 @@ entries:
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass]
       - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
-      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining, gear.check.next-piece]
 
   - id: metapath.priority.w2-mid
     system: metapath
@@ -1254,7 +1277,7 @@ entries:
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass]
       - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
-      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining, gear.check.next-piece]
 
   - id: metapath.priority.w2-late
     system: metapath
@@ -1287,7 +1310,7 @@ entries:
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.swap-token]
       - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
-      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining, gear.check.next-piece]
 
   - id: metapath.priority.w3-early
     system: metapath
@@ -1322,7 +1345,7 @@ entries:
       - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
       # M15 TR-6: one building at a time, ordered by construction.fact.build-order (replaces the Leverage model's item 5).
       - [construction.check.build-next]
-      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining, gear.check.next-piece]
 
   - id: metapath.priority.w3-mid
     system: metapath
@@ -1355,7 +1378,7 @@ entries:
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.world-tutorial-w3, metapath.goal.swap-token]
       - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
-      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining, gear.check.next-piece]
 
   - id: metapath.priority.w3-late
     system: metapath
@@ -1388,7 +1411,7 @@ entries:
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.world-tutorial-w3, metapath.goal.swap-token]
       - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
-      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining, gear.check.next-piece]
 
   - id: metapath.priority.w4-entry
     system: metapath
@@ -1421,4 +1444,4 @@ entries:
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.elite, metapath.goal.swap-token]
       - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
-      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining, gear.check.next-piece]

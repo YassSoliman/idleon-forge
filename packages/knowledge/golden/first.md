@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 925
+# golden v1: first · knowledge #762f705c · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -54,7 +54,7 @@ purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
   · Easiest rolls with what you hold: Sippy Cup (97+, Sippy Straw), 40-40 Purity (98+, Contact Lense)
   · Drop several stacks quickly: each counts as a roll
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (19)
+show more (21)
 Spend coins: 34 buys now on 3 characters
   1. Buy the bribe Photoshopped Dmg Range on Bubonic Conjuror Lv 87: 100M coins · Lv 0 → 1 · withdraw 100M coins from storage on C2, then buy · total 100M coins on C2
   2. Buy the bribe Glitched Acc Formula on Bubonic Conjuror Lv 87: 300M coins · Lv 0 → 1 · withdraw 300M coins from storage on C2, then buy · total 400M coins on C2
@@ -97,6 +97,7 @@ W0 · Cards · Nothing to fix · Nothing to fix · 1 to do
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
 W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
+W0 · Gear & Tools · Nothing to fix · Nothing to fix · 1 to do
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
@@ -129,6 +130,7 @@ W3 · 3D Printer · Nothing to fix · Nothing to fix
 W3 · Worship · Nothing to fix · Nothing to fix
 W3 · Trapping · Nothing to fix · Nothing to fix · 7 full · collect
 W3 · Death Note · Nothing to fix · Nothing to fix
+W3 · Armor-set Smithy · Nothing to fix · Nothing to fix · 1 to do
 W3 · Salt Lick · Not covered yet · Not covered yet
 W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
@@ -193,6 +195,61 @@ attempts: 13 of 13 left
 tubes: Water 55 of 135; Liquid Nitrogen 58 of 95; Trench Seawater 42 of 74; Toxic Mercury opens at Alchemy 80
 p2w next: Water Regen 58 of 100
 step: Use your 13 vial attempts on the W2 town cauldron
+
+## Gear
+- C1 · Blood Berserker 96 · weapon 40 levels behind · lit: none
+  helmet ok, weapon 40 levels behind, shirt ok, pendant ok · a trade, pants ok, ring1 ok, shoes ok, ring2 ok · a trade, pickaxe 10 levels behind, hatchet ok, rod 15 levels behind, net 5 levels behind
+  mining: Platinum Pickaxe at Mining 25: you're 33
+  chopping: Dementia Dicer at Choppin 25: you're 20
+  fishing: Void Imperium Rod at Fishing 40: you're 40
+  catching: Golden Net at Catching 15: you're 15
+- C2 · Bubonic Conjuror 87 · better gear held · ring 35 levels behind · lit: helmet
+  next: Equip the Dementia Helmet from storage
+  helmet empty · one held, weapon ok, shirt empty · one held, pendant ok · a trade, pants empty · one held, ring1 ok, shoes empty · one held, ring2 35 levels behind, pickaxe ok, hatchet 10 levels behind, rod 6 levels behind, net 11 levels behind
+  mining: Gold Pickaxe at Mining 15: you're 13
+  chopping: Void Imperium Axe at Choppin 30: you're 44
+  fishing: Gold Fishing Rod at Fishing 15: you're 15
+  catching: Golden Net at Catching 15: you're 15
+- C3 · Siege Breaker 86 · ring 35 levels behind · lit: none
+  helmet ok · a trade, weapon ok, shirt ok, pendant ok · a trade, pants ok, ring1 ok, shoes ok · a trade, ring2 35 levels behind, pickaxe 7 levels behind, hatchet ok, rod 5 levels behind, net 10 levels behind
+  mining: Gold Pickaxe at Mining 15: you're 17
+  chopping: Golden Axe at Choppin 15: you're 13
+  fishing: Iron Fishing Rod at Fishing 9: you're 9
+  catching: Void Imperium Net at Catching 30: you're 37
+- C4 · Divine Knight 86 · ring 35 levels behind · lit: none
+  helmet ok, weapon 25 levels behind, shirt ok, pendant ok · a trade, pants 30 levels behind, ring1 ok, shoes ok, ring2 35 levels behind, pickaxe 8 levels behind, hatchet ok, rod 5 levels behind, net 11 levels behind
+  mining: Void Imperium Pik at Mining 45: you're 45
+  chopping: Golden Axe at Choppin 15: you're 14
+  fishing: Iron Fishing Rod at Fishing 9: you're 14
+  catching: Golden Net at Catching 15: you're 15
+- C5 · Elemental Sorcerer 87 · shirt 35 levels behind · lit: none
+  helmet ok · a trade, weapon ok, shirt 35 levels behind, pendant ok · a trade, pants 30 levels behind, ring1 ok, shoes ok · a trade, ring2 35 levels behind, pickaxe 7 levels behind, hatchet 10 levels behind, rod 5 levels behind, net 11 levels behind
+  mining: Gold Pickaxe at Mining 15: you're 19
+  chopping: Void Imperium Axe at Choppin 30: you're 44
+  fishing: Iron Fishing Rod at Fishing 9: you're 9
+  catching: Golden Net at Catching 15: you're 15
+- C6 · Beast Master 87 · shirt 35 levels behind · lit: none
+  helmet ok · a trade, weapon ok, shirt 35 levels behind, pendant ok · a trade, pants 30 levels behind, ring1 ok, shoes ok · a trade, ring2 35 levels behind, pickaxe ok, hatchet 7 levels behind, rod ok, net ok
+  mining: Gold Pickaxe at Mining 15: you're 12
+  chopping: Golden Axe at Choppin 15: you're 17
+  fishing: Gold Fishing Rod at Fishing 15: you're 11
+  catching: Platinet at Catching 20: you're 16
+- C7 · Maestro 73 · ring 35 levels behind · lit: none
+  helmet ok · a trade, weapon 25 levels behind, shirt ok, pendant ok · a trade, pants ok, ring1 35 levels behind, shoes ok · a trade, ring2 ok, pickaxe 10 levels behind, hatchet 10 levels behind, rod 16 levels behind, net 10 levels behind
+  mining: Platinum Pickaxe at Mining 25: you're 32
+  chopping: Void Imperium Axe at Choppin 30: you're 33
+  fishing: Plat Fishing Rod at Fishing 25: you're 25
+  catching: Dementia Net at Catching 25: you're 25
+- Smithy: Ready to hire in Frostbite Towndra
+  Copper: 1 of 4 parts: craft Copper Helmet
+  Iron: 1 of 4 parts: craft Iron Helmet
+  Amarok: 2 of 4 parts: craft Amarok Helmet
+  Gold: 2 of 6 parts: craft Gold Helmet
+  Platinum: 4 of 6 parts: craft Platinum Platbody
+  Efaunt: 0 of 4 parts: craft Efaunt Helmet
+  Dementia: 6 of 7 parts: craft Dementia Dicer
+  Void: 0 of 7 parts: craft Void Imperium Helmet
+  Chizoar: 0 of 4 parts: craft Chizoar Helmet
 
 ## Findings
 | entry | detector | subject | result | slots |
@@ -301,6 +358,7 @@ step: Use your 13 vial attempts on the W2 town cauldron
 | systems.yaml#alchemy-vials | worlds/reached | account | reached yes |  |
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
+| systems.yaml#armor-smithy | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |

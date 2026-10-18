@@ -20,6 +20,8 @@ entries:
       # Detector's params, with their defaults in packages/engine/src/walkthrough/detectors.ts.
       collapsed: "Steps {done:int} of {total:int} · slowest: {item}"
       collapsed-none: "Steps {done:int} of {total:int}"
+      # M18 FR-15: an inline root whose every material is held and every gate met.
+      collapsed-all-held: "You hold everything · {total:int} steps"
       # A step is at most 12 words with one verb (kb check step-words); its numbers and conditions go in
       # the matching `<step>-why`, which the engine joins after the step's reason (Why: behind the tap).
       buy-liquid-days: "Buy {missing:int} {item} at the Liquid Shop (W2 Alchemy)"

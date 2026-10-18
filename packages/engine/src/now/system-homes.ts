@@ -33,6 +33,9 @@ export const SYSTEM_HOMES: Readonly<Record<string, SystemHome>> = {
   'alchemy-vials': { page: 'alchemy-lab' },
   'alchemy-p2w': { page: 'alchemy-lab' },
   skills: { tab: 'skills' },
+  // M18 TR-7: Gear & Tools is a Character page tab with an account page (the heat strip); the Smithy a page.
+  gear: { tab: 'gear', page: 'gear' },
+  'armor-smithy': { page: 'armor-smithy' },
 };
 
 /** The Character page tab a System's home is, or null for its System page. */

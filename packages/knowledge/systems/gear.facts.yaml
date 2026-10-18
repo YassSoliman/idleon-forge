@@ -1,0 +1,182 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M18 Gear & Tools (docs/specs/M18-gear-tools.md TR-3, FR-11): the two authored fact tables.
+#
+# gear.fact.recipes: where each ladder piece is crafted, by rawName: its anvil tab, its recipe number on
+# that tab (1-based, as the wiki numbers it; AnvilCraftStatus[tab - 1][n - 1] is its state, F-c), the
+# Smithing level the crafter needs (the wiki rows' "LV"), and what unlocks the recipe: `start` (start of
+# the tab), `task` (a Task Board unlock; its world and row are generated in gear.fact.ladder), `merit`
+# (that world's Merit Shop "Smithing recipes" row, bought in order: `purchase`), `drop` (`by`), `craft`
+# (crafting `after` unlocks it) or `unknown` (check in game). Toolbox's data has none of this; the wiki's
+# Anvil Tab pages are drawn from game data and agree with the game's own recipe lists at v1.23
+# (ItemToCraftNAME / ItemToCraftEXP, read for M18 V8 on 2026-10-18). CI checks the `task` rows against
+# the ladder and every row against the public saves' recipe states (TR-10).
+#
+# gear.fact.plan: the Gear Plan (FR-11, D-3): per slot family, the piece it should hold from each Stage,
+# in order. The target for a slot is the latest row whose Stage the account has reached and whose piece
+# the character can wear. `cite` points into this table's sources. Stored as a fact table, not a
+# `list: order` Priority List, because the entry schema has no item shape for "a piece from a Stage"
+# (the M15 C4 precedent). Gathering tools are not listed: every crafted tier is a row from its set's
+# world (Copper and Iron W1, Gold and Platinum W2, Dementia and Void W3), read from gear.fact.ladder.
+system: gear
+facts:
+  - id: gear.fact.recipes
+    system: gear
+    origin: authored
+    title: Anvil tab, recipe number, Smithing level and unlock of each piece
+    sources:
+      - { url: "https://idleon.wiki/wiki/Smithing/Anvil_Tab_1", title: "IdleOn Wiki: Smithing, Anvil Tab 1", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Smithing/Anvil_Tab_2", title: "IdleOn Wiki: Smithing, Anvil Tab 2", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Smithing/Anvil_Tab_3", title: "IdleOn Wiki: Smithing, Anvil Tab 3", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Smithing", title: "IdleOn Wiki: Smithing (anvil tabs, recipes and their LV)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+    rows:
+      EquipmentPunching1: { tab: 1, n: 1, lv: 1, from: "start" }  # Boxing Gloves
+      TestObj1: { tab: 1, n: 2, lv: 1, from: "start" }  # Wooden Spear
+      EquipmentBows1: { tab: 1, n: 3, lv: 1, from: "start" }  # Wooden Bow
+      EquipmentWands1: { tab: 1, n: 4, lv: 1, from: "start" }  # Gnarled Wand
+      EquipmentTools2: { tab: 1, n: 9, lv: 3, from: "start" }  # Copper Pickaxe
+      EquipmentToolsHatchet3: { tab: 1, n: 11, lv: 3, from: "start" }  # Copper Chopper
+      EquipmentPunching2: { tab: 1, n: 14, lv: 4, from: "unknown" }  # The Stingers
+      EquipmentHats17: { tab: 1, n: 17, lv: 6, from: "start" }  # Copper Helmet
+      EquipmentShirts11: { tab: 1, n: 18, lv: 7, from: "start" }  # Copper Platebody
+      EquipmentPants2: { tab: 1, n: 19, lv: 8, from: "craft", after: "EquipmentShirts11" }  # Copper Platelegs
+      EquipmentShoes1: { tab: 1, n: 20, lv: 10, from: "craft", after: "EquipmentPants2" }  # Copper Boots
+      TestObj7: { tab: 1, n: 25, lv: 12, from: "task" }  # Steel Axe
+      EquipmentBows3: { tab: 1, n: 26, lv: 12, from: "task" }  # Birch Longbow
+      EquipmentWands2: { tab: 1, n: 27, lv: 12, from: "task" }  # Quarterstaff
+      EquipmentRings2: { tab: 1, n: 28, lv: 11, from: "start" }  # Copper Band
+      EquipmentTools3: { tab: 1, n: 29, lv: 13, from: "start" }  # Iron Pickaxe
+      EquipmentToolsHatchet1: { tab: 1, n: 31, lv: 14, from: "start" }  # Iron Hatchet
+      EquipmentHats18: { tab: 1, n: 33, lv: 12, from: "start" }  # Iron Helmet
+      EquipmentShirts12: { tab: 1, n: 34, lv: 13, from: "start" }  # Iron Platebody
+      EquipmentPants3: { tab: 1, n: 35, lv: 14, from: "start" }  # Iron Platelegs
+      EquipmentShoes15: { tab: 1, n: 39, lv: 13, from: "drop", by: "the W1 Silver Chest" }  # Iron Boots
+      EquipmentRings3: { tab: 1, n: 40, lv: 13, from: "task" }  # Steel Band
+      EquipmentRings26: { tab: 1, n: 64, lv: 20, from: "drop", by: "Baba Yaga" }  # Serrated Rex Ring
+      EquipmentHats22: { tab: 1, n: 65, lv: 23, from: "merit", world: 1, purchase: 4 }  # Amarok Helmet
+      EquipmentShirts18: { tab: 1, n: 66, lv: 21, from: "merit", world: 1, purchase: 3 }  # Amarok Bodyplate
+      EquipmentPants17: { tab: 1, n: 67, lv: 17, from: "merit", world: 1, purchase: 2 }  # Amarok Hinds
+      EquipmentShoes20: { tab: 1, n: 68, lv: 14, from: "merit", world: 1, purchase: 1 }  # Amarok Paws
+      EquipmentPendant17: { tab: 1, n: 72, lv: 25, from: "merit", world: 1, purchase: 5 }  # Chaotic Amarok Pendant
+      FishingRod2: { tab: 1, n: 73, lv: 10, from: "task" }  # Copper Fish Rod
+      CatchingNet2: { tab: 1, n: 75, lv: 10, from: "task" }  # Copper Netted Net
+      FishingRod3: { tab: 1, n: 77, lv: 16, from: "task" }  # Iron Fishing Rod
+      CatchingNet3: { tab: 1, n: 79, lv: 16, from: "task" }  # Reinforced Net
+      EquipmentHats28: { tab: 2, n: 1, lv: 15, from: "start" }  # Gold Helmet
+      EquipmentShirts13: { tab: 2, n: 2, lv: 16, from: "start" }  # Gold Platebody
+      EquipmentPants4: { tab: 2, n: 3, lv: 18, from: "start" }  # Gold Platelegs
+      EquipmentShoes3: { tab: 2, n: 4, lv: 20, from: "start" }  # Gold Boots
+      EquipmentPunching3: { tab: 2, n: 5, lv: 18, from: "task" }  # Bandage Wraps
+      TestObj3: { tab: 2, n: 6, lv: 17, from: "task" }  # Royal Bayonet
+      EquipmentBows5: { tab: 2, n: 7, lv: 17, from: "task" }  # Spiked Menace
+      EquipmentWands5: { tab: 2, n: 8, lv: 17, from: "task" }  # Starlight
+      EquipmentTools5: { tab: 2, n: 9, lv: 20, from: "task" }  # Gold Pickaxe
+      EquipmentToolsHatchet2: { tab: 2, n: 11, lv: 20, from: "task" }  # Golden Axe
+      FishingRod4: { tab: 2, n: 13, lv: 22, from: "task" }  # Gold Fishing Rod
+      CatchingNet4: { tab: 2, n: 15, lv: 22, from: "task" }  # Golden Net
+      EquipmentHats19: { tab: 2, n: 21, lv: 29, from: "start" }  # Platinum Helmet
+      EquipmentShirts14: { tab: 2, n: 22, lv: 30, from: "start" }  # Platinum Platbody
+      EquipmentPants5: { tab: 2, n: 23, lv: 31, from: "start" }  # Platinum Shins
+      EquipmentShoes4: { tab: 2, n: 24, lv: 32, from: "start" }  # Platinum Boots
+      EquipmentSword1: { tab: 2, n: 26, lv: 23, from: "task" }  # Enforced Slasher
+      EquipmentBows6: { tab: 2, n: 27, lv: 23, from: "task" }  # Pharaoh Bow
+      EquipmentWands6: { tab: 2, n: 28, lv: 23, from: "task" }  # Crows Nest
+      EquipmentTools6: { tab: 2, n: 29, lv: 26, from: "task" }  # Platinum Pickaxe
+      EquipmentToolsHatchet4: { tab: 2, n: 31, lv: 26, from: "task" }  # Plat Hatchet
+      FishingRod5: { tab: 2, n: 33, lv: 29, from: "task" }  # Plat Fishing Rod
+      CatchingNet5: { tab: 2, n: 35, lv: 29, from: "task" }  # Platinet
+      EquipmentHats52: { tab: 2, n: 61, lv: 43, from: "merit", world: 2, purchase: 4 }  # Efaunt Helmet
+      EquipmentShirts26: { tab: 2, n: 62, lv: 39, from: "merit", world: 2, purchase: 3 }  # Efaunt Ribcage
+      EquipmentPants20: { tab: 2, n: 63, lv: 37, from: "merit", world: 2, purchase: 2 }  # Efaunt Hipilium
+      EquipmentShoes21: { tab: 2, n: 64, lv: 32, from: "merit", world: 2, purchase: 1 }  # Efaunts Broken Ankles
+      EquipmentHats53: { tab: 3, n: 1, lv: 36, from: "start" }  # Dementia Helmet
+      EquipmentShirts15: { tab: 3, n: 2, lv: 37, from: "start" }  # Dementia Body
+      EquipmentPants6: { tab: 3, n: 3, lv: 38, from: "start" }  # Dementia Shins
+      EquipmentShoes5: { tab: 3, n: 4, lv: 39, from: "start" }  # Dementia Boots
+      EquipmentPunching4: { tab: 3, n: 5, lv: 40, from: "task" }  # Uninflated Glove
+      EquipmentSword2: { tab: 3, n: 6, lv: 39, from: "task" }  # The Ice Breaker
+      EquipmentBows7: { tab: 3, n: 7, lv: 39, from: "task" }  # Blizzard Bow
+      EquipmentWands3: { tab: 3, n: 8, lv: 39, from: "task" }  # Spriggly Storm
+      EquipmentTools7: { tab: 3, n: 9, lv: 38, from: "task" }  # Dementia Pickaxe
+      EquipmentToolsHatchet5: { tab: 3, n: 11, lv: 38, from: "task" }  # Dementia Dicer
+      FishingRod6: { tab: 3, n: 13, lv: 38, from: "task" }  # Dementia Rod for Fishing
+      CatchingNet6: { tab: 3, n: 15, lv: 38, from: "task" }  # Dementia Net
+      EquipmentHats54: { tab: 3, n: 25, lv: 43, from: "start" }  # Void Imperium Helmet
+      EquipmentShirts27: { tab: 3, n: 26, lv: 44, from: "start" }  # Void Imperium Platebody
+      EquipmentPants21: { tab: 3, n: 27, lv: 45, from: "start" }  # Void Imperium Shardshins
+      EquipmentShoes22: { tab: 3, n: 28, lv: 46, from: "start" }  # Void Imperium Kicks
+      EquipmentPunching5: { tab: 3, n: 29, lv: 45, from: "task" }  # Eclectic Ordeal
+      EquipmentSword3: { tab: 3, n: 30, lv: 45, from: "task" }  # Deuscythe
+      EquipmentBows8: { tab: 3, n: 31, lv: 45, from: "task" }  # Blackhole Bow
+      EquipmentWands7: { tab: 3, n: 32, lv: 45, from: "task" }  # Grey Gatsby
+      EquipmentTools11: { tab: 3, n: 33, lv: 45, from: "task" }  # Void Imperium Pik
+      EquipmentToolsHatchet7: { tab: 3, n: 35, lv: 45, from: "task" }  # Void Imperium Axe
+      FishingRod7: { tab: 3, n: 37, lv: 45, from: "task" }  # Void Imperium Rod
+      CatchingNet7: { tab: 3, n: 39, lv: 45, from: "task" }  # Void Imperium Net
+      EquipmentHats68: { tab: 3, n: 69, lv: 50, from: "merit", world: 3, purchase: 4 }  # Chizoar Helmet
+      EquipmentShirts6: { tab: 3, n: 70, lv: 49, from: "merit", world: 3, purchase: 3 }  # Chizoar Bodyplate
+      EquipmentPants9: { tab: 3, n: 71, lv: 48, from: "merit", world: 3, purchase: 2 }  # Chizoar Scaled Leggings
+      EquipmentShoes23: { tab: 3, n: 72, lv: 47, from: "merit", world: 3, purchase: 1 }  # Chizoar Walkers
+
+  - id: gear.fact.plan
+    system: gear
+    origin: authored
+    title: The Gear Plan
+    notes: "FR-11, D-3. Copper, then Iron, then a Gold Helmet with three Amarok pieces from W2, then Dementia from W3-mid (confidence L: players report wearing Amarok into W5-W6, so it is the row most likely to change); the best weapon craftable at each Stage; Copper Band, Steel Band, then Serrated Rex Ring once its recipe dropped; Slimy Necklace, then the Chaotic Amarok Pendant. Platinum, Efaunt and Chizoar armour are Smithy sets only in Phase 1."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks (Gold Helmet with 3 Amarok pieces; best craftable weapon; Iron bands)", tier: 2, claimDate: 2025-12-24, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Smithing/Anvil_Tab_1", title: "IdleOn Wiki: Smithing, Anvil Tab 1 (Copper and Iron armour)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://old.reddit.com/r/idleon/comments/1ufprom/when_should_i_bother_a_about_armor_set/", title: "r/idleon: when to bother about armour sets (Amarok until W5-6)", tier: 3, claimDate: 2026-06-26, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Weapons", title: "IdleOn Wiki: Weapons (each class's crafted weapons)", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Pendants", title: "IdleOn Wiki: Pendants (Slimy Necklace, from Glunko The Massive)", tier: 2, claimDate: 2026-10-14, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Chaotic_Amarok_Pendant", title: "IdleOn Wiki: Chaotic Amarok Pendant (W1 Merit Shop purchase 5)", tier: 2, claimDate: 2026-09-12, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://old.reddit.com/r/idleon/comments/1w2v0m0/_/p6y45vg/", title: "r/idleon: no slot that can hold something should be empty", tier: 3, claimDate: 2026-08-31, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Rings", title: "IdleOn Wiki: Rings (Copper Band, Steel Band, Serrated Rex Ring)", tier: 2, claimDate: 2026-09-14, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tools", title: "IdleOn Wiki: Tools (every crafted tier)", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://old.reddit.com/r/idleon/comments/1v59wcs/_/ozhb9dn/", title: "r/idleon: empty tool slots are bad", tier: 3, claimDate: 2026-07-24, verified: 2026-10-18, gameVersion: 2.3.540 }
+    rows:
+      # Armour (helmet, shirt, pants, shoes).
+      - { slot: helmet, from: W1-early, piece: EquipmentHats17, cite: 1, confidence: M }
+      - { slot: shirt, from: W1-early, piece: EquipmentShirts11, cite: 1, confidence: M }
+      - { slot: pants, from: W1-early, piece: EquipmentPants2, cite: 1, confidence: M }
+      - { slot: shoes, from: W1-early, piece: EquipmentShoes1, cite: 1, confidence: M }
+      - { slot: helmet, from: W1-mid, piece: EquipmentHats18, cite: 1, confidence: M }
+      - { slot: shirt, from: W1-mid, piece: EquipmentShirts12, cite: 1, confidence: M }
+      - { slot: pants, from: W1-mid, piece: EquipmentPants3, cite: 1, confidence: M }
+      - { slot: shoes, from: W1-mid, piece: EquipmentShoes15, cite: 1, confidence: M }
+      - { slot: helmet, from: W2-early, piece: EquipmentHats28, cite: 0, confidence: M }
+      - { slot: shirt, from: W2-early, piece: EquipmentShirts18, cite: 0, confidence: M }
+      - { slot: pants, from: W2-early, piece: EquipmentPants17, cite: 0, confidence: M }
+      - { slot: shoes, from: W2-early, piece: EquipmentShoes20, cite: 0, confidence: M }
+      - { slot: helmet, from: W3-mid, piece: EquipmentHats53, cite: 0, confidence: L }
+      - { slot: shirt, from: W3-mid, piece: EquipmentShirts15, cite: 0, confidence: L }
+      - { slot: pants, from: W3-mid, piece: EquipmentPants6, cite: 0, confidence: L }
+      - { slot: shoes, from: W3-mid, piece: EquipmentShoes5, cite: 0, confidence: L }
+      # Weapons, by class line: the best weapon craftable at each Stage.
+      - { slot: weapon, family: WARRIOR, from: W1-early, piece: TestObj1, cite: 3, confidence: M }
+      - { slot: weapon, family: WARRIOR, from: W1-early, piece: TestObj7, cite: 0, confidence: M }
+      - { slot: weapon, family: WARRIOR, from: W2-early, piece: TestObj3, cite: 0, confidence: M }
+      - { slot: weapon, family: WARRIOR, from: W2-mid, piece: EquipmentSword1, cite: 0, confidence: M }
+      - { slot: weapon, family: WARRIOR, from: W3-early, piece: EquipmentSword2, cite: 0, confidence: M }
+      - { slot: weapon, family: WARRIOR, from: W3-mid, piece: EquipmentSword3, cite: 0, confidence: M }
+      - { slot: weapon, family: ARCHER, from: W1-early, piece: EquipmentBows1, cite: 3, confidence: M }
+      - { slot: weapon, family: ARCHER, from: W1-early, piece: EquipmentBows3, cite: 0, confidence: M }
+      - { slot: weapon, family: ARCHER, from: W2-early, piece: EquipmentBows5, cite: 0, confidence: M }
+      - { slot: weapon, family: ARCHER, from: W2-mid, piece: EquipmentBows6, cite: 0, confidence: M }
+      - { slot: weapon, family: ARCHER, from: W3-early, piece: EquipmentBows7, cite: 0, confidence: M }
+      - { slot: weapon, family: ARCHER, from: W3-mid, piece: EquipmentBows8, cite: 0, confidence: M }
+      - { slot: weapon, family: MAGE, from: W1-early, piece: EquipmentWands1, cite: 3, confidence: M }
+      - { slot: weapon, family: MAGE, from: W1-early, piece: EquipmentWands2, cite: 0, confidence: M }
+      - { slot: weapon, family: MAGE, from: W2-early, piece: EquipmentWands5, cite: 0, confidence: M }
+      - { slot: weapon, family: MAGE, from: W2-mid, piece: EquipmentWands6, cite: 0, confidence: M }
+      - { slot: weapon, family: MAGE, from: W3-early, piece: EquipmentWands3, cite: 0, confidence: M }
+      - { slot: weapon, family: MAGE, from: W3-mid, piece: EquipmentWands7, cite: 0, confidence: M }
+      - { slot: weapon, family: BEGINNER, from: W1-early, piece: EquipmentPunching1, cite: 3, confidence: M }
+      - { slot: weapon, family: BEGINNER, from: W2-early, piece: EquipmentPunching3, cite: 0, confidence: M }
+      - { slot: weapon, family: BEGINNER, from: W3-early, piece: EquipmentPunching4, cite: 0, confidence: M }
+      - { slot: weapon, family: BEGINNER, from: W3-mid, piece: EquipmentPunching5, cite: 0, confidence: M }
+      # Pendants and rings.
+      - { slot: pendant, from: W1-early, piece: EquipmentPendant32, cite: 4, confidence: M }
+      - { slot: pendant, from: W2-early, piece: EquipmentPendant17, cite: 5, confidence: M }
+      - { slot: ring, from: W1-early, piece: EquipmentRings2, cite: 6, confidence: M }
+      - { slot: ring, from: W1-mid, piece: EquipmentRings3, cite: 0, confidence: M }
+      - { slot: ring, from: W2-mid, piece: EquipmentRings26, cite: 0, confidence: M, needsRecipe: true }

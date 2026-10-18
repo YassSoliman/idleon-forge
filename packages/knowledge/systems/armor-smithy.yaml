@@ -1,0 +1,62 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M18 F4 the Armor-set Smithy (docs/specs/M18-gear-tools.md FR-21 to FR-23, D-9). Silent while the
+# 30-day wait runs; the page shows the countdown and the set cards. Hiring costs nothing (N.js: the
+# hire button only sets OLA[380] once PermaUnlockAfford is 1), and a set registers when the logged-in
+# character wears all of it and taps a worn piece (N.js GetSetBonus "PartsOn" reads the logged-in
+# character's EquipmentOrder; M18 V6, V7).
+system: armor-smithy
+entries:
+  - id: armor-smithy.check.hire
+    system: armor-smithy
+    type: check
+    title: Hire the Armor-set Smithy
+    text: "Hire the Armor-set Smithy in Frostbite Towndra"
+    why: "Registered sets give their bonus to every character for good, without wearing them."
+    values:
+      waiting: "Opens in {days:int} days, or once {gems:int} gems were bought"
+      waiting-one: "Opens in 1 day, or once {gems:int} gems were bought"
+      ready: "Ready to hire in Frostbite Towndra"
+      hired: "Hired"
+      unknown: "Can't tell from this save"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Frostbite_Tundra", title: "IdleOn Wiki: Frostbite Tundra (Armor-Set Smithy)", tier: 2, claimDate: 2025-07-21, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://old.reddit.com/r/idleon/comments/1lq3xp3/reminder_to_check_armorset_smithy/", title: "r/idleon: Reminder to check the Armor-set Smithy (30 days or 2,000 gems; press Unlock)", tier: 3, claimDate: 2025-07-02, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/armorSmithy.ts", title: "IdleOn Toolbox: getArmorSmithy (isSmithyUnlocked)", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 60
+    detector: { id: armor-smithy/state, params: { part: hire } }
+
+  - id: armor-smithy.check.register
+    system: armor-smithy
+    type: check
+    title: Register an armour set
+    text: "{text}"
+    why: "{why}"
+    values:
+      register: "Register the {set} set: wear it all, log in, tap a piece"
+      why: "{bonus} for every character, for good. The game counts the set on the character you're logged in on."
+      detail: "{parts}: {where}"
+      where-worn: "worn by your {who}"
+      where-held: "in storage or a bag"
+      where-missing: "missing"
+      card-registered: "registered"
+      card-parts: "{have:int} of {need:int} parts"
+      card-missing: "{have:int} of {need:int} parts: craft {item}"
+      card-held: "{have:int} of {need:int} parts: the {item} in storage"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Set_Bonuses", title: "IdleOn Wiki: Set Bonuses (parts and bonuses)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Frostbite_Tundra", title: "IdleOn Wiki: Frostbite Tundra (equip the set, tap a piece)", tier: 2, claimDate: 2025-07-21, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://old.reddit.com/r/idleon/comments/1vlwxx5/delete_old_armor_sets/", title: "r/idleon: delete old armour sets? (once registered)", tier: 3, claimDate: 2026-08-12, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 120
+    detector: { id: armor-smithy/state, params: { part: register } }

@@ -1,0 +1,202 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M18 Gear & Tools (docs/specs/M18-gear-tools.md TR-4), Phase 1. The engine module `gear`
+# (packages/engine/src/gear) builds every line from these entries' `values`: a step is at most 12 words
+# with one verb (kb check step-words); numbers, reasons and per-character lines go in the `why` and
+# `detail` keys. Names a character by class and level only. The Gear Plan and the recipe facts are
+# systems/gear.facts.yaml; the ladder is generated (gear.gen.ts).
+system: gear
+entries:
+  # FR-6, FR-7: gear the account holds goes onto the characters it helps, as one account Goal.
+  - id: gear.check.equip-held
+    system: gear
+    type: check
+    title: Equip gear you hold
+    text: "{text}"
+    why: "{why}"
+    values:
+      many: "Equip gear you already hold on {n:int} characters"
+      one: "Equip gear you already hold on 1 character"
+      why: "Better gear for these characters is sitting unused. Nothing to craft or buy."
+      detail: "{who}: {items}"
+      detail-from-storage: "{items} from storage"
+      detail-from-own-bag: "{items} from its bag"
+      detail-from-bag: "{items} from the {who}'s bag"
+      detail-tool: "{item} ({verb} at {skill} {level:int})"
+      equip: "Equip the {item} {from}"
+      from-storage: "from storage"
+      from-own-bag: "from its bag"
+      from-bag: "from the {who}'s bag"
+      detail-free: "Free stats from a held tool: {item} {from}"
+    sources:
+      - { url: "https://old.reddit.com/r/idleon/comments/1w2v0m0/_/p6y45vg/", title: "r/idleon: no slot that can hold something should be empty", tier: 3, claimDate: 2026-08-31, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Helmets", title: "IdleOn Wiki: Helmets (stats and level to equip)", tier: 2, claimDate: 2026-09-13, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/items.ts", title: "IdleOn Toolbox: item stats with upgrade stones", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 30
+    detector: { id: gear/slots, params: { part: held } }
+    notes: "FR-3: a held item goes to a slot only when it dominates the worn one (never a trade). Held copies are judged at their base stats (TR-2 size note), so a hand-out is never a downgrade."
+
+  # FR-8 to FR-10: empty armour and weapon slots per character; empty rings and pendants as one line.
+  - id: gear.check.empty-slot
+    system: gear
+    type: check
+    title: Fill empty gear slots
+    text: "{text}"
+    why: "{why}"
+    values:
+      craft-now: "Craft {item} for your {slot} now (anvil tab {tab:int})"
+      craft: "Craft {item} for your {slot} (anvil tab {tab:int})"
+      rings-now: "Fill {n:int} empty {kind} slots: craft {item} now ({cost} each)"
+      ring-now: "Fill 1 empty {kind} slot: craft a {item} now"
+      rings-step: "Fill {n:int} empty {kind} slots: {step}"
+      ring-step: "Fill 1 empty {kind} slot: {step}"
+      why: "An empty slot gives nothing; any piece that fits beats it."
+      why-made: "Its recipe is open, its anvil tab owned and its materials held: {materials}."
+      why-hold-some: "You hold enough for {n:int}."
+      why-better: "{item} is better from Lv {lv:int}: {how}"
+      detail: "{who}: {n:int} {kind}"
+      detail-pendant: "{who}: pendant, {step}"
+    sources:
+      - { url: "https://old.reddit.com/r/idleon/comments/1w2v0m0/_/p6y45vg/", title: "r/idleon: no slot that can hold something should be empty", tier: 3, claimDate: 2026-08-31, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Rings", title: "IdleOn Wiki: Rings (Copper Band, Steel Band)", tier: 2, claimDate: 2026-09-14, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Smithing/Anvil_Tab_1", title: "IdleOn Wiki: Smithing, Anvil Tab 1", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: character
+    effect: next-action
+    category: compounding
+    effortSeconds: 60
+    detector: { id: gear/slots, params: { part: empty } }
+
+  # FR-19, FR-20: the tool for what the character gathers.
+  - id: gear.check.afk-tool
+    system: gear
+    type: check
+    title: The tool for the job
+    text: "{text}"
+    why: "{why}"
+    values:
+      why-empty: "Your {who} {verb} with no {tool}: the tool sets its skill power."
+      why-better: "Your {who} {verb} with a {worn}; the {item} is better at {skill} {level:int}."
+      verb-mining: "mines"
+      verb-chopping: "chops"
+      verb-fishing: "fishes"
+      verb-catching: "catches"
+      tool-pickaxe: "pickaxe"
+      tool-hatchet: "hatchet"
+      tool-rod: "rod"
+      tool-net: "net"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Tools", title: "IdleOn Wiki: Tools (every crafted tier and its level)", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://old.reddit.com/r/idleon/comments/1v59wcs/_/ozhb9dn/", title: "r/idleon: empty tool slots are bad", tier: 3, claimDate: 2026-07-24, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    subject: character
+    effect: next-action
+    category: compounding
+    effortSeconds: 60
+    detector: { id: gear/slots, params: { part: afk-tool } }
+
+  # FR-11 to FR-18: one next piece per character (or one account line when several want the same piece).
+  # The spec's gear.goal.next-piece: a check, not a goal entry (no Milestone ladder, and an id names its
+  # type); its Walkthrough is an inline root (X3).
+  - id: gear.check.next-piece
+    system: gear
+    type: check
+    title: Next gear piece
+    text: "{text}"
+    why: "{why}"
+    values:
+      title: "Next piece: {item} for your {slot}"
+      title-many: "Next piece: {item} for {n:int} characters"
+      many: "Craft {item} for {n:int} characters (anvil tab {tab:int})"
+      many-step: "{item} for {n:int} characters: {step}"
+      craft-now: "Craft {item} now (anvil tab {tab:int})"
+      step-unlock: "Unlock {item} at the W{world:int} Task Board (Unlocks tab)"
+      step-unlock-craft: "Unlock the {item} at the W{world:int} Task Board, then craft it"
+      step-open-tab: "Craft Anvil Tab {tab:int} to open the W{world:int} Task Board unlocks"
+      step-open-count: "Unlock {n:int} more recipes to open the W{world:int} Task Board column"
+      step-no-points: "Earn a Task Board unlock point for {item}"
+      step-merit: "Buy {n:int} more {set} recipes at the W{world:int} Merit Shop"
+      step-drop: "Get the {item} recipe: it drops from {by}"
+      step-craft-first: "Craft a {item} first: it unlocks this recipe"
+      step-unknown: "Check how {item} unlocks in game"
+      step-tab: "Craft Anvil Tab {tab:int} at the anvil"
+      step-smithing: "Reach Smithing {lv:int} on any character (best is {best:int})"
+      step-previous: "Craft a {item} first: this recipe uses one"
+      step-get-previous: "Get a {item} first: this recipe uses one"
+      step-material: "Get {missing:int} more {item} ({held:int} held)"
+      step-craft: "Craft {item} at the anvil (tab {tab:int}), then equip it"
+      step-craft-on: "Craft {item} on your {who}, then equip it"
+      gate-task: "Unlock {item} at the W{world:int} Task Board"
+      gate-merit: "{set} recipe {n:int} at the W{world:int} Merit Shop"
+      gate-drop: "Recipe drop: {by}"
+      gate-craft: "Craft a {item} to unlock its recipe"
+      gate-unknown: "Recipe unlock: check in game"
+      why: "{levels:int} levels behind: it wears {worn} (Lv {wornLv:int}); {item} needs Lv {lv:int}."
+      why-empty: "Its {slot} slot is empty; {item} (Lv {lv:int}) is the Gear Plan piece for now."
+      why-trade: "It wears {worn}, which {item} beats on every stat."
+      why-crafter: "Craft it on your {who} (Smithing {lv:int}); it moves through storage."
+      why-uses: "This uses the {item} it is wearing."
+      why-set: "This uses your {item}. Register the {set} set at the Armor-set Smithy first, or craft a spare."
+      why-set-wait: "This uses your {item}. The Smithy opens in {days:int} days, and the {set} set needs this piece: craft a spare."
+      why-stones: "It has {n:int} upgrade stones in it."
+      why-many: "One piece for several characters: craft them in one go."
+      detail-over: "{who}: {slot}, over its {worn}"
+      detail-empty: "{who}: empty {slot}"
+      heat-behind: "{n:int} lv"
+      detail-unlocks: "For gear, first: {items}"
+      word-ok: "ok"
+      word-behind: "{n:int} levels behind"
+      word-behind-only: "behind"
+      word-empty: "empty"
+      word-empty-held: "empty · one held"
+      word-held: "better one held"
+      word-unknown: "can't tell"
+      word-trade: "ok · a trade"
+      note-trade: "A trade: compare in game"
+      note-plan-w3: "The Gear Plan covers Worlds 1–3"
+      note-unknown-item: "An item this version doesn't know"
+      status-empty: "{n:int} empty"
+      status-held: "better gear held"
+      status-behind: "{slot} {n:int} levels behind"
+      status-ok: "Gear ok"
+      status-unknown: "can't tell"
+      ladder-next: "{item} at {skill} {level:int}: you're {have:int}"
+      ladder-next-gate: "{item} at {skill} {level:int}: {gate}"
+      ladder-gate-unlock: "needs the W{world:int} Task Board unlock"
+      ladder-gate-tab: "needs anvil tab {tab:int}"
+      ladder-gate-both: "needs the W{world:int} Task Board unlock and anvil tab {tab:int}"
+      slot-helmet: "helmet"
+      slot-weapon: "weapon"
+      slot-shirt: "shirt"
+      slot-pendant: "pendant"
+      slot-pants: "pants"
+      slot-ring1: "ring"
+      slot-shoes: "shoes"
+      slot-ring2: "ring"
+      slot-pickaxe: "pickaxe"
+      slot-hatchet: "hatchet"
+      slot-rod: "fishing rod"
+      slot-net: "bug net"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks (the best weapon craftable at all times)", tier: 2, claimDate: 2025-12-24, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Weapons", title: "IdleOn Wiki: Weapons", tier: 2, claimDate: 2026-10-03, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://old.reddit.com/r/idleon/comments/1vbovov/_/p13am18/", title: "r/idleon: armour matters little before W4 next to the Vault, Alchemy and stamps", tier: 3, claimDate: 2026-08-01, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://old.reddit.com/r/idleon/comments/1qdkpnh/should_i_go_from_goldamarock_armor_to_platinum/", title: "r/idleon: Gold/Amarok to Platinum? (register Copper and Iron first)", tier: 3, claimDate: 2026-01-15, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    subject: character
+    effect: next-action
+    category: compounding
+    effortSeconds: 300
+    detector: { id: gear/plan }
+    notes: "FR-13: weapon first among Walkthroughs that can be done now, else the weapon, else the armour slot most levels behind. FR-17: weapons rank with the subclass Goals, armour in the last positions. Words for the Gear tab and the Gear page live here too (word-*, status-*, ladder-*, slot-*)."

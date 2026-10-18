@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 925
+# golden v1: third · knowledge #762f705c · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -70,7 +70,7 @@ purpose: Godshard: stamp material for Forge Stamp
   · Divine Knight Lv 558: 13 into Speed, 0 into Capacity
   · Elemental Sorcerer Lv 552: 11 into Speed, 0 into Capacity
   · Siege Breaker Lv 522: 28 into Speed, 0 into Capacity
-show more (9)
+show more (11)
 If you have time
 - Use today's 21 minigame plays · about 10m of hands-on play
 
@@ -105,6 +105,7 @@ W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
 W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
+W0 · Gear & Tools · Nothing to fix · Nothing to fix · 1 to do
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
@@ -137,6 +138,7 @@ W3 · 3D Printer · Nothing to fix · Nothing to fix
 W3 · Worship · Nothing to fix · Nothing to fix · 1 full · collect
 W3 · Trapping · Nothing to fix · Nothing to fix · 10 full · collect
 W3 · Death Note · Nothing to fix · Nothing to fix
+W3 · Armor-set Smithy · Nothing to fix · Nothing to fix · 1 to do
 W3 · Salt Lick · Not covered yet · Not covered yet
 W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
@@ -214,6 +216,39 @@ attempts: 18 of 18 left
 tubes: Water 5293 of 22553; Liquid Nitrogen 11636 of 22063; Trench Seawater 6223 of 14063; Toxic Mercury 9790 of 12358
 p2w next: Player Speed 149 of 150
 step: Pay 2 Win: buy Player Alchemy Speed and Extra EXP 149 → 150
+
+## Gear
+- C1 · Blood Berserker 521 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok, shoes ok · a trade, ring2 ok, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C2 · Siege Breaker 527 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C3 · Bubonic Conjuror 568 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C4 · Divine Knight 655 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C5 · Beast Master 561 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C6 · Elemental Sorcerer 545 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C7 · Voidwalker 523 · better gear held · lit: helmet
+  next: Equip the Skulled Helmet of the Divine from its bag
+  helmet empty · one held, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok, shoes ok · a trade, ring2 ok, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C8 · Divine Knight 558 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C9 · Elemental Sorcerer 552 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C10 · Siege Breaker 522 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- Smithy: Ready to hire in Frostbite Towndra
+  Copper: 0 of 4 parts: craft Copper Helmet
+  Iron: 0 of 4 parts: craft Iron Helmet
+  Amarok: 0 of 4 parts: craft Amarok Helmet
+  Gold: 0 of 6 parts: craft Gold Helmet
+  Platinum: 0 of 6 parts: craft Platinum Helmet
+  Efaunt: 0 of 4 parts: craft Efaunt Helmet
+  Dementia: 0 of 7 parts: craft Dementia Helmet
+  Void: 0 of 7 parts: craft Void Imperium Helmet
+  Chizoar: 0 of 4 parts: craft Chizoar Helmet
 
 ## Findings
 | entry | detector | subject | result | slots |
@@ -391,6 +426,7 @@ step: Pay 2 Win: buy Player Alchemy Speed and Extra EXP 149 → 150
 | systems.yaml#alchemy-vials | worlds/reached | account | reached yes |  |
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
+| systems.yaml#armor-smithy | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |

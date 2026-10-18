@@ -191,6 +191,10 @@ describe('toAccountState', () => {
       totems: null,
       // M19 TR-2: the synthetic parse has no alchemy section.
       alchemyPlan: null,
+      // M18 TR-2: no equipment, recipe or Smithy keys; nothing worn or held.
+      gearItems: {},
+      anvilRecipes: null,
+      armorSmithy: null,
     });
     expect(state.characters.map(withoutUnspentCharacter)).toEqual([
       {
@@ -216,6 +220,8 @@ describe('toAccountState', () => {
         // M20 TR-2: no skill or equipment keys.
         skills: null,
         slots: null,
+        // M18 TR-2: no EquipOrder key.
+        gear: null,
       },
     ]);
     expect(state.schemaVersion).toBe(SCHEMA_VERSION);

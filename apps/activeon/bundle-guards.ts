@@ -3,6 +3,8 @@
 // Build-time guards over the production bundle; a violation fails `pnpm build` (and so CI).
 // - TR-1 / R10: the UI thread's chunks never contain the parser runtime (~6 MB, patches prototypes);
 //   only the parse worker does, and it is emitted under the name public/_headers locks down.
+// - M12 TR-12 (perf/lazy-tabs): the views that are lazy chunks (lazy-part.tsx) stay out of the first
+//   load: no module of theirs is in the main chunk or in a chunk it imports statically.
 // - TR-21 / RT-3: no Firebase write API is reachable from the bundle. Checked on what the bundler
 //   actually kept (each Firebase entry module's rendered exports), not by grepping text: `set(`
 //   matches Map.set, and an import alias gets past a grep.
@@ -36,6 +38,31 @@ export const FIREBASE_WRITE_APIS: Record<string, readonly string[]> = {
 export const PARSER_BANNER = 'IdleOn Forge toolbox-parsers';
 /** Where the parse worker must land; public/_headers gives this path `connect-src 'none'`. */
 export const WORKER_FILE = /^assets\/parse\.worker-[\w-]+\.js$/;
+
+/** Lazy-only views: the character tabs, the places but Now, the System pages and their bodies. */
+export const LAZY_ONLY: readonly RegExp[] = [
+  /activeon[\\/]src[\\/]now[\\/]BuildView\.tsx$/,
+  /activeon[\\/]src[\\/]now[\\/]cards[\\/]CardsPanel\.tsx$/,
+  /activeon[\\/]src[\\/]now[\\/]signs[\\/]SignsTab\.tsx$/,
+  /activeon[\\/]src[\\/]now[\\/]SkillsTab\.tsx$/,
+  /activeon[\\/]src[\\/]characters[\\/]/,
+  /activeon[\\/]src[\\/]systems[\\/](SystemsHub|SystemPage|SlotPictures)\.tsx$/,
+  /activeon[\\/]src[\\/]timeline[\\/]/,
+  /activeon[\\/]src[\\/]gear[\\/]/,
+  /activeon[\\/]src[\\/]alchemy[\\/]/,
+];
+
+/** Problems with the first load: the entry chunk and every chunk it imports statically. */
+export function checkFirstLoad(chunks: Array<{ fileName: string; moduleIds: string[] }>): string[] {
+  const problems: string[] = [];
+  for (const c of chunks)
+    for (const id of c.moduleIds)
+      if (LAZY_ONLY.some((re) => re.test(id)))
+        problems.push(
+          `${c.fileName} loads ${id.replace(/.*[\\/]src[\\/]/, 'src/')} on first load; it is a lazy view`,
+        );
+  return problems;
+}
 
 export interface ChunkInfo {
   fileName: string;
@@ -112,6 +139,24 @@ export function bundleGuards(): Plugin {
               ? out.source
               : new TextDecoder().decode(out.source);
         }),
+      );
+      // The first load: the UI entry chunk and its static imports, transitively.
+      const first = new Set<string>();
+      const visit = (name: string) => {
+        const out = bundle[name];
+        if (first.has(name) || out?.type !== 'chunk') return;
+        first.add(name);
+        for (const dep of out.imports) visit(dep);
+      };
+      for (const out of Object.values(bundle))
+        if (out.type === 'chunk' && out.isEntry && !WORKER_FILE.test(out.fileName)) visit(out.fileName);
+      problems.push(
+        ...checkFirstLoad(
+          [...first].map((name) => {
+            const out = bundle[name];
+            return { fileName: name, moduleIds: out?.type === 'chunk' ? Object.keys(out.modules) : [] };
+          }),
+        ),
       );
       const unique = [...new Set(problems)];
       if (unique.length) this.error(`Bundle guards failed:\n- ${unique.join('\n- ')}`);

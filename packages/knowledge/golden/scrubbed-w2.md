@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 925
+# golden v1: scrubbed-w2 · knowledge #762f705c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 988
 
 ## Verdict changes
 
@@ -45,7 +45,7 @@ Fix before you leave
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (21)
+show more (23)
 Spend coins: 14 buys now on 4 characters
   1. Raise and level 2 capped stamps on Barbarian Lv 60: about 1.3M coins · buy · total 1.3M coins on C1
      Hatchet Stamp, Shield Stamp · carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free up inventory space first
@@ -86,6 +86,7 @@ W0 · Cards · Behind · Behind for your Stage · 4 to do
 W0 · Obols · Nothing to fix · Nothing to fix · 2 to do
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
 W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
+W0 · Gear & Tools · Behind · Behind for your Stage · 9 to do
 W0 · Random Events · Nothing to fix · Nothing to fix
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
@@ -118,13 +119,14 @@ W3 · 3D Printer · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Worship · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Trapping · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Death Note · Locked · Opens in World 3 · Frostbite Tundra
+W3 · Armor-set Smithy · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Salt Lick · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Prayers · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Shrines · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Equinox · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Atom Collider · Locked · Opens in World 3 · Frostbite Tundra
 Later worlds: 3 Systems: Laboratory, Cooking, Breeding
-Needs you: Companions and pets (wasting), Minigames (wasting), Colosseum (wasting), Arcade (wasting), Talent presets (behind), Cards (behind), Stamps (behind), Alchemy bubbles (behind)
+Needs you: Companions and pets (wasting), Minigames (wasting), Colosseum (wasting), Arcade (wasting), Talent presets (behind), Cards (behind), Gear & Tools (behind), Stamps (behind), Alchemy bubbles (behind)
 Other gaps: Stamp cap raises that need farming or carry capacity
 Wasting: 4
 
@@ -163,6 +165,35 @@ attempts: 11 of 11 left
 tubes: Water 32 of 32 · full; Liquid Nitrogen opens at Alchemy 20; Trench Seawater opens at Alchemy 35; Toxic Mercury opens at Alchemy 80
 p2w next: Player Speed 10 of 13
 step: Use your 11 vial attempts on the W2 town cauldron
+
+## Gear
+- C1 · Barbarian 60 · weapon 39 levels behind · lit: weapon
+  next: Craft Anvil Tab 2 to open the W2 Task Board unlocks
+  helmet 25 levels behind, weapon 39 levels behind, shirt 27 levels behind, pendant 25 levels behind, pants 33 levels behind, ring1 14 levels behind, shoes 27 levels behind, ring2 ok · a trade, pickaxe empty, hatchet empty, rod empty, net empty
+- C2 · Squire 43 · better gear held · pants 32 levels behind · lit: pickaxe
+  next: Equip the Iron Pickaxe from storage
+  helmet 27 levels behind, weapon 26 levels behind, shirt 27 levels behind, pendant 25 levels behind, pants 32 levels behind, ring1 14 levels behind, shoes 27 levels behind, ring2 14 levels behind, pickaxe better one held, hatchet empty, rod empty, net empty
+  mining: Gold Pickaxe at Mining 15: needs the W2 Task Board unlock and anvil tab 2
+- C3 · Shaman 44 · pants 32 levels behind · lit: weapon
+  next: Craft Anvil Tab 2 to open the W2 Task Board unlocks
+  helmet 27 levels behind, weapon 26 levels behind, shirt 27 levels behind, pendant 25 levels behind, pants 32 levels behind, ring1 14 levels behind, shoes 27 levels behind, ring2 14 levels behind, pickaxe empty, hatchet 16 levels behind, rod empty, net empty
+  chopping: Plat Hatchet at Choppin 20: needs the W2 Task Board unlock and anvil tab 2
+- C4 · Bowman 54 · 3 empty · better gear held · lit: weapon
+  next: Equip the Carrot Launcher from storage
+  helmet ok · a trade, weapon better one held, shirt better one held, pendant 25 levels behind, pants empty, ring1 empty · one held, shoes empty, ring2 empty, pickaxe empty, hatchet empty, rod empty, net empty
+- C5 · Wizard 56 · 1 empty · better gear held · lit: ring1
+  next: Equip the Copper Band from storage
+  helmet ok · a trade, weapon 46 levels behind, shirt ok · a trade, pendant 25 levels behind, pants empty, ring1 empty · one held, shoes ok · a trade, ring2 empty · one held, pickaxe empty, hatchet empty, rod empty, net empty
+- Smithy: Opens in 26 days, or once 2,000 gems were bought
+  Copper: 4 of 4 parts
+  Iron: 1 of 4 parts: the Iron Pickaxe in storage
+  Amarok: 0 of 4 parts: craft Amarok Helmet
+  Gold: 0 of 6 parts: craft Gold Helmet
+  Platinum: 0 of 6 parts: craft Platinum Helmet
+  Efaunt: 0 of 4 parts: craft Efaunt Helmet
+  Dementia: 0 of 7 parts: craft Dementia Helmet
+  Void: 0 of 7 parts: craft Void Imperium Helmet
+  Chizoar: 0 of 4 parts: craft Chizoar Helmet
 
 ## Findings
 | entry | detector | subject | result | slots |
@@ -272,6 +303,7 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | systems.yaml#alchemy-vials | worlds/reached | account | reached yes |  |
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
+| systems.yaml#armor-smithy | worlds/reached | account | reached no |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached no |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |

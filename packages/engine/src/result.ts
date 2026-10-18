@@ -8,6 +8,7 @@
 import type { AlchemyResult } from './alchemy/types';
 import type { Checklist } from './checklist/types';
 import type { CardsView } from './collections/cards-view-types';
+import type { GearResult } from './gear/types';
 import type { CharacterSkills, SkillGrid, SystemPicture } from './slots/types';
 import type { SpendPlan } from './spend/types';
 import type { StarSignsView } from './starsigns/types';
@@ -33,6 +34,14 @@ export type {
   PresetRecommendation,
   PresetRow,
 } from './collections/cards-view-types';
+export type {
+  CharacterGear,
+  GearLadderTier,
+  GearResult,
+  GearSlotState,
+  GearSlotView,
+  SmithySetCard,
+} from './gear/types';
 export type {
   CharacterSkills,
   PictureElement,
@@ -132,6 +141,29 @@ export interface WalkthroughTreeLine {
   /** true: held or met; false: missing or unmet; null: can't tell. */
   done: boolean | null;
 }
+/**
+ * M14 TR-6, M18 X3: an inline Requirement Tree root a module hands M14 instead of an Acquisition id: a
+ * craftable piece with its own materials, the earlier pieces it consumes (nested roots) and its gates.
+ */
+export interface WalkthroughRoot {
+  /** Unique per Goal ("gear:EquipmentShoes20@account"): M14 builds one tree per id. */
+  id: string;
+  rawName: string;
+  name: string;
+  /** Copies wanted. */
+  need: number;
+  /** Copies the receivers already wear, which count as held (M18 FR-15, an exception to M14 FR-6). */
+  worn: number;
+  tab: number | null;
+  smithingLv: number | null;
+  /** The recipe unlock (a Task Board unlock, a merit purchase, a drop); null when the recipe is open. */
+  gate: { label: string; met: boolean | null } | null;
+  /** Per copy. `ref` is the material's generated Acquisition. */
+  materials: { rawName: string; amount: number; ref: string }[];
+  /** Earlier pieces each copy consumes, per copy. */
+  pieces: { amount: number; root: WalkthroughRoot }[];
+}
+
 /** M14 TR-6 / M10 TR-2: a Goal's Walkthrough, plain data. */
 export interface WalkthroughView {
   /** The target Acquisition, e.g. quests.acquisition.postboy-pablob1. */
@@ -160,6 +192,8 @@ export interface Goal {
   details?: GoalDetail[];
   /** M14 FR-23: the Goal's Walkthrough, attached by the engine core from the walkthrough module. */
   walkthrough?: WalkthroughView;
+  /** M18 X3: the inline root M14 builds this Goal's Walkthrough from (instead of the entry's target). */
+  walkthroughRoot?: WalkthroughRoot;
   /** M17 TR-2: M6's ranking urgency, copied by the core from the module's RankHints; absent otherwise. */
   urgency?: 'losing-now' | 'lost-before-return' | 'banked';
 }
@@ -548,4 +582,6 @@ export interface EngineResult {
   skillGrid?: SkillGrid | null;
   /** M19 TR-5: the Alchemy page (pots, vial shelf, tubes, Pay 2 Win grid); absent without M19. */
   alchemy?: AlchemyResult | null;
+  /** M18 TR-5: the Gear tab, the Gear page's heat strip and the Smithy page; absent without M18. */
+  gear?: GearResult | null;
 }

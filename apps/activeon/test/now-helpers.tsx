@@ -6,7 +6,12 @@ import type { AccountState } from '@idleon-forge/account-state';
 import type { EngineResult } from '@idleon-forge/engine/result';
 import type { SaveKind } from '@idleon-forge/sync';
 import { render } from '@testing-library/react';
+import { preloadParts } from '../src/lazy-part';
 import { type NowSave, Shell as NowScreen, type ShellProps as NowScreenProps } from '../src/shell/Shell';
+
+// The lazy views (tabs, places, System page bodies; lazy-part.tsx) render synchronously once loaded,
+// so every test file that renders the shell loads them first.
+await preloadParts();
 
 // jsdom gives import.meta.url an http scheme; the file's directory is still known.
 const FIXTURES = `${path.resolve(import.meta.dirname, '../../../packages/engine/test/now/fixtures')}/`;

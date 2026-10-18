@@ -12,6 +12,7 @@ import {
   COLLECTIONS_FIELD_SOURCES,
 } from './collections-fields';
 import { DEPTH_FIELD_RAW_KEYS, DEPTH_FIELD_SECTIONS, DEPTH_FIELD_SOURCES } from './depth-fields';
+import { GEAR_FIELD_RAW_KEYS, GEAR_FIELD_SECTIONS, GEAR_FIELD_SOURCES } from './gear-fields';
 import { PURPOSE_FIELD_RAW_KEYS, PURPOSE_FIELD_SECTIONS, PURPOSE_FIELD_SOURCES } from './purpose-fields';
 import { SLOTS_FIELD_RAW_KEYS, SLOTS_FIELD_SECTIONS, SLOTS_FIELD_SOURCES } from './slots-fields';
 import { SPEND_FIELD_SECTIONS, SPEND_FIELD_SOURCES } from './spend-fields';
@@ -102,6 +103,7 @@ export const FIELD_SOURCES: Record<string, string> = {
   ...SLOTS_FIELD_SOURCES,
   ...PURPOSE_FIELD_SOURCES,
   ...ALCHEMY_FIELD_SOURCES,
+  ...GEAR_FIELD_SOURCES,
 };
 
 /** The raw save keys each field depends on. A missing or unparseable key makes the field Unknown. */
@@ -139,6 +141,7 @@ export const FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {
   ...SLOTS_FIELD_RAW_KEYS,
   ...PURPOSE_FIELD_RAW_KEYS,
   ...ALCHEMY_FIELD_RAW_KEYS,
+  ...GEAR_FIELD_RAW_KEYS,
 };
 
 /** The account sections `getMaxDamage` reads at the pin (damage.ts, 6c37e3d), for `account.frontier`. */
@@ -213,6 +216,7 @@ export const FIELD_SECTIONS: Record<string, string[]> = {
   ...SLOTS_FIELD_SECTIONS,
   ...PURPOSE_FIELD_SECTIONS,
   ...ALCHEMY_FIELD_SECTIONS,
+  ...GEAR_FIELD_SECTIONS,
   // M4 TR-2: the current-map rate is getMaxDamage, which reads the frontier's sections.
   'characters[].fighting': [...FRONTIER_SECTIONS, 'storage'],
 };

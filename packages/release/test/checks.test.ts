@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { BUDGETS, checkBudgets } from '../src/budgets.ts';
+import { BUDGETS, checkBudgets, initialJsGzip, preloadedChunks } from '../src/budgets.ts';
 import { checkPr } from '../src/pr-title.ts';
 
 describe('PR title check', () => {
@@ -67,9 +67,26 @@ describe('budgets', () => {
       { path: 'big.json', size: BUDGETS.anyFile + 1 },
     ];
     bad[2] = { path: 'whats-new.json', size: BUDGETS.whatsNew + 1 };
-    expect(checkBudgets(bad)).toHaveLength(4);
+    // An oversized main chunk is also an oversized first load.
+    expect(checkBudgets(bad)).toHaveLength(5);
     const many = Array.from({ length: BUDGETS.fileCount + 1 }, (_, i) => ({ path: `f${i}`, size: 1 }));
     expect(checkBudgets([...ok, ...many]).some((p) => p.includes('files'))).toBe(true);
+  });
+  it('counts the chunks index.html preloads into the first load, not the lazy ones', () => {
+    const html =
+      '<script type="module" src="/assets/index-AbC123.js"></script>' +
+      '<link rel="modulepreload" crossorigin href="/assets/react-Q1.js">' +
+      '<link rel="stylesheet" href="/assets/index-Q2.css">';
+    expect(preloadedChunks(html)).toEqual(['assets/react-Q1.js']);
+    const split = [
+      ...ok,
+      { path: 'assets/react-Q1.js', size: 90_000, gzip: 60 * 1024, initial: true },
+      { path: 'assets/BuildView-Q3.js', size: 9_000, gzip: 3 * 1024 },
+    ];
+    expect(initialJsGzip(split)).toBe(325 * 1024);
+    expect(checkBudgets(split)).toEqual([
+      `the first load runs 325.0 KB of JavaScript gzipped (budget 320.0 KB)`,
+    ]);
   });
 });
 

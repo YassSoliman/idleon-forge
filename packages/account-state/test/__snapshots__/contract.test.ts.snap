@@ -493,7 +493,14 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         0,
       ],
     },
+    "anvilRecipes": "84/80/72/64/36/48",
     "anvilTabsOwned": 3,
+    "armorSmithy": {
+      "canHire": true,
+      "daysWaited": 0,
+      "hired": false,
+      "registered": [],
+    },
     "ballot": {
       "votedWeek": 0,
       "winner": null,
@@ -922,6 +929,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         "inProgressBy": [],
       },
     },
+    "gearItems": "43 items",
     "gemPurchases": [
       0,
       0,
@@ -1931,6 +1939,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 31,
+      "gear": "EquipmentHats53+stones EquipmentSword1+stones EquipmentShirts15+stones EquipmentPendant10+stones EquipmentPants6+stones EquipmentRings26+stones EquipmentShoes5+stones EquipmentRings19+stones EquipmentTools5+stones EquipmentToolsHatchet4+stones FishingRod5+stones CatchingNet3+stones",
       "index": 0,
       "inventoryItems": {
         "entries": 16,
@@ -2157,6 +2166,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 35,
+      "gear": "- EquipmentWands3+stones - EquipmentPendant11+stones - EquipmentRings26+stones - EquipmentRings3+stones EquipmentTools3+stones EquipmentToolsHatchet4+stones FishingRod3+stones CatchingNet2+stones",
       "index": 1,
       "inventoryItems": {
         "entries": 6,
@@ -2381,6 +2391,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 31,
+      "gear": "EquipmentHats19+stones EquipmentBows7+stones EquipmentShirts15+stones EquipmentPendant11+stones EquipmentPants6+stones EquipmentRings26+stones EquipmentShoes4+stones EquipmentRings3+stones EquipmentTools3+stones EquipmentToolsHatchet1+stones FishingRod2+stones CatchingNet5+stones",
       "index": 2,
       "inventoryItems": {
         "entries": 7,
@@ -2603,6 +2614,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 26,
+      "gear": "EquipmentHats53+stones EquipmentSword1+stones EquipmentShirts15+stones EquipmentPendant11+stones EquipmentPants17+stones EquipmentRings26+stones EquipmentShoes5+stones EquipmentRings3+stones EquipmentTools7+stones EquipmentToolsHatchet1+stones FishingRod2+stones CatchingNet2+stones",
       "index": 3,
       "inventoryItems": {
         "entries": 10,
@@ -2830,6 +2842,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 31,
+      "gear": "EquipmentHats19+stones EquipmentWands3+stones EquipmentShirts18+stones EquipmentPendant11+stones EquipmentPants17+stones EquipmentRings26+stones EquipmentShoes4+stones EquipmentRings3+stones EquipmentTools3+stones EquipmentToolsHatchet4+stones FishingRod2+stones CatchingNet2+stones",
       "index": 4,
       "inventoryItems": {
         "entries": 5,
@@ -3046,6 +3059,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 32,
+      "gear": "EquipmentHats19+stones EquipmentBows7+stones EquipmentShirts18+stones EquipmentPendant10+stones EquipmentPants17+stones EquipmentRings26+stones EquipmentShoes4+stones EquipmentRings3+stones EquipmentTools3+stones EquipmentToolsHatchet1+stones FishingRod3+stones CatchingNet4+stones",
       "index": 5,
       "inventoryItems": {
         "entries": 5,
@@ -3264,6 +3278,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 22,
+      "gear": "EquipmentHats19+stones EquipmentPunching3+stones EquipmentShirts15+stones EquipmentPendant11+stones EquipmentPants6 EquipmentRings3+stones EquipmentShoes4+stones EquipmentRings26+stones EquipmentTools5+stones EquipmentToolsHatchet4+stones FishingRod3+stones CatchingNet4+stones",
       "index": 6,
       "inventoryItems": {
         "entries": 9,
@@ -4067,7 +4082,14 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
         1,
       ],
     },
+    "anvilRecipes": "84/80/72/64/36/48",
     "anvilTabsOwned": 6,
+    "armorSmithy": {
+      "canHire": false,
+      "daysWaited": 0,
+      "hired": false,
+      "registered": [],
+    },
     "ballot": {
       "votedWeek": 0,
       "winner": null,
@@ -4394,6 +4416,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
         "inProgressBy": [],
       },
     },
+    "gearItems": "38 items",
     "gemPurchases": [
       0,
       0,
@@ -5499,6 +5522,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 36,
+      "gear": "EquipmentHats2+stones EquipmentPunching8+stones EquipmentShirts6+stones EquipmentPendant31 EquipmentPants26+stones EquipmentRings18 EquipmentShoes36+stones EquipmentRings18 EquipmentTools14+stones EquipmentToolsHatchet12+stones FishingRod11+stones CatchingNet11+stones",
       "index": 0,
       "inventoryItems": {
         "entries": 29,
@@ -5702,6 +5726,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       "currentMap": "Blunder_Hills",
       "foodStacks": [],
       "freeInventorySlots": 80,
+      "gear": "- - - - - - - - - - - -",
       "index": 1,
       "inventoryItems": {
         "entries": 0,
@@ -6578,7 +6603,14 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         1,
       ],
     },
+    "anvilRecipes": "84/80/72/64/36/48/24",
     "anvilTabsOwned": 6,
+    "armorSmithy": {
+      "canHire": true,
+      "daysWaited": 1,
+      "hired": false,
+      "registered": [],
+    },
     "ballot": {
       "votedWeek": 0,
       "winner": {
@@ -6937,6 +6969,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         "inProgressBy": [],
       },
     },
+    "gearItems": "76 items",
     "gemPurchases": [
       0,
       0,
@@ -8033,6 +8066,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 57,
+      "gear": "EquipmentHats39+stones EquipmentBows10+stones EquipmentShirts6+stones EquipmentPendant24 EquipmentPants21+stones EquipmentRings22+stones EquipmentShoes22+stones EquipmentRings23+stones EquipmentTools2+stones EquipmentToolsHatchet3+stones FishingRod2+stones CatchingNet7+stones",
       "index": 0,
       "inventoryItems": {
         "entries": 25,
@@ -8251,6 +8285,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 31,
+      "gear": "EquipmentHats53+stones EquipmentSword7+stones EquipmentShirts6 EquipmentPendant23 EquipmentPants9+stones EquipmentRings26 EquipmentShoes23+stones EquipmentRings23+stones EquipmentTools7+stones EquipmentToolsHatchet4+stones FishingRod8+stones -",
       "index": 1,
       "inventoryItems": {
         "entries": 46,
@@ -8474,6 +8509,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 66,
+      "gear": "EquipmentHats53+stones EquipmentWands10+stones EquipmentShirts6+stones EquipmentPendant24 EquipmentPants21+stones EquipmentRings26 EquipmentShoes22+stones EquipmentRings26 EquipmentTools1 EquipmentToolsHatchet6+stones - -",
       "index": 2,
       "inventoryItems": {
         "entries": 7,
@@ -9442,7 +9478,34 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         1,
       ],
     },
+    "anvilRecipes": "84/80/72/64/36/52/24",
     "anvilTabsOwned": 7,
+    "armorSmithy": {
+      "canHire": true,
+      "daysWaited": 440,
+      "hired": true,
+      "registered": [
+        "COPPER_SET",
+        "IRON_SET",
+        "AMAROK_SET",
+        "GOLD_SET",
+        "PLATINUM_SET",
+        "EFAUNT_SET",
+        "DEMENTIA_SET",
+        "VOID_SET",
+        "CHIZOAR_SET",
+        "LUSTRE_SET",
+        "DIABOLICAL_SET",
+        "TROLL_SET",
+        "MAGMA_SET",
+        "KATTLEKRUK_SET",
+        "MARBIGLASS_SET",
+        "SECRET_SET",
+        "GODSHARD_SET",
+        "EMPEROR_SET",
+        "PREHISTORIC_SET",
+      ],
+    },
     "ballot": {
       "votedWeek": 2954,
       "winner": {
@@ -9971,6 +10034,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         "inProgressBy": [],
       },
     },
+    "gearItems": "130 items",
     "gemPurchases": [
       0,
       5,
@@ -11059,6 +11123,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         },
       ],
       "freeInventorySlots": 40,
+      "gear": "EquipmentHats123+stones EquipmentSword10+stones EquipmentShirts41+stones EquipmentPendant6+stones EquipmentPants32+stones EquipmentRings26+stones EquipmentShoes41+stones EquipmentRings26+stones EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod13+stones CatchingNet13+stones",
       "index": 0,
       "inventoryItems": {
         "entries": 55,
@@ -11307,6 +11372,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         },
       ],
       "freeInventorySlots": 53,
+      "gear": "EquipmentHats123+stones EquipmentBows15+stones EquipmentShirts41+stones EquipmentPendant35 EquipmentPants32+stones EquipmentRings26+stones EquipmentShoes41+stones EquipmentRings26+stones EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod13+stones CatchingNet13+stones",
       "index": 1,
       "inventoryItems": {
         "entries": 43,
@@ -11539,6 +11605,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         },
       ],
       "freeInventorySlots": 53,
+      "gear": "EquipmentHats123+stones EquipmentWands14+stones EquipmentShirts41+stones EquipmentPendant35+stones EquipmentPants32+stones EquipmentRings26 EquipmentShoes41+stones EquipmentRings26 EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod13+stones CatchingNet13+stones",
       "index": 2,
       "inventoryItems": {
         "entries": 46,
@@ -11774,6 +11841,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         },
       ],
       "freeInventorySlots": 76,
+      "gear": "EquipmentHats119+stones EquipmentSword5+stones EquipmentShirts36+stones EquipmentPendant31 EquipmentPants27+stones EquipmentRings36+stones EquipmentShoes40+stones EquipmentRings36+stones EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod13+stones CatchingNet13+stones",
       "index": 3,
       "inventoryItems": {
         "entries": 24,
@@ -12007,6 +12075,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         },
       ],
       "freeInventorySlots": 25,
+      "gear": "EquipmentHats123+stones EquipmentWands14+stones EquipmentShirts41+stones EquipmentPendant31 EquipmentPants32+stones EquipmentRings36+stones EquipmentShoes41+stones EquipmentRings36+stones EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod13+stones CatchingNet13+stones",
       "index": 4,
       "inventoryItems": {
         "entries": 57,
@@ -12253,6 +12322,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         },
       ],
       "freeInventorySlots": 34,
+      "gear": "EquipmentHats123+stones EquipmentBows15+stones EquipmentShirts41+stones EquipmentPendant31 EquipmentPants32+stones EquipmentRings36+stones EquipmentShoes41+stones EquipmentRings36+stones EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod13+stones CatchingNet13+stones",
       "index": 5,
       "inventoryItems": {
         "entries": 47,
@@ -12509,6 +12579,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         },
       ],
       "freeInventorySlots": 32,
+      "gear": "EquipmentHats123+stones EquipmentSword10+stones EquipmentShirts41+stones EquipmentPendant35+stones EquipmentPants32+stones EquipmentRings26+stones EquipmentShoes41+stones EquipmentRings26+stones EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod13+stones CatchingNet13+stones",
       "index": 6,
       "inventoryItems": {
         "entries": 56,
@@ -12740,6 +12811,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         },
       ],
       "freeInventorySlots": 48,
+      "gear": "EquipmentHats123+stones EquipmentPunching12+stones EquipmentShirts41+stones EquipmentPendant35+stones EquipmentPants32+stones EquipmentRings26+stones EquipmentShoes41+stones EquipmentRings26+stones EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod13+stones CatchingNet13+stones",
       "index": 7,
       "inventoryItems": {
         "entries": 51,
@@ -12968,6 +13040,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         },
       ],
       "freeInventorySlots": 89,
+      "gear": "EquipmentHats123+stones EquipmentWands14+stones EquipmentShirts41+stones EquipmentPendant31 EquipmentPants32+stones EquipmentRings36+stones EquipmentShoes41+stones EquipmentRings36 EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod13+stones CatchingNet13+stones",
       "index": 8,
       "inventoryItems": {
         "entries": 12,
@@ -13215,6 +13288,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         },
       ],
       "freeInventorySlots": 33,
+      "gear": "EquipmentHats123+stones EquipmentBows15+stones EquipmentShirts41+stones EquipmentPendant31 EquipmentPants32+stones EquipmentRings36+stones EquipmentShoes41+stones EquipmentRings36+stones EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod13+stones CatchingNet13+stones",
       "index": 9,
       "inventoryItems": {
         "entries": 46,
@@ -13457,6 +13531,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         },
       ],
       "freeInventorySlots": 62,
+      "gear": "EquipmentHats123+stones EquipmentPunching12+stones EquipmentShirts41+stones EquipmentPendant35+stones EquipmentPants32+stones EquipmentRings36+stones EquipmentShoes41+stones EquipmentRings36+stones EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod13+stones CatchingNet13+stones",
       "index": 10,
       "inventoryItems": {
         "entries": 17,
@@ -14436,7 +14511,26 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         1,
       ],
     },
+    "anvilRecipes": "84/80/72/64/36/52/24",
     "anvilTabsOwned": 7,
+    "armorSmithy": {
+      "canHire": true,
+      "daysWaited": 258,
+      "hired": true,
+      "registered": [
+        "COPPER_SET",
+        "IRON_SET",
+        "TROLL_SET",
+        "EFAUNT_SET",
+        "CHIZOAR_SET",
+        "AMAROK_SET",
+        "GOLD_SET",
+        "PLATINUM_SET",
+        "DEMENTIA_SET",
+        "VOID_SET",
+        "MAGMA_SET",
+      ],
+    },
     "ballot": {
       "votedWeek": 2934,
       "winner": {
@@ -14972,6 +15066,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         "inProgressBy": [],
       },
     },
+    "gearItems": "99 items",
     "gemPurchases": [
       0,
       5,
@@ -16175,6 +16270,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 58,
+      "gear": "EquipmentHats123+stones EquipmentBows15 EquipmentShirts41 EquipmentPendant24 EquipmentPants32+stones EquipmentRings18 EquipmentShoes41+stones EquipmentRings18 EquipmentTools2+stones EquipmentToolsHatchet3+stones FishingRod2+stones CatchingNet12",
       "index": 0,
       "inventoryItems": {
         "entries": 12,
@@ -16402,6 +16498,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 31,
+      "gear": "EquipmentHats123 EquipmentSword10 EquipmentShirts41 EquipmentPendant33 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 EquipmentTools7+stones EquipmentToolsHatchet4+stones FishingRod13 -",
       "index": 1,
       "inventoryItems": {
         "entries": 38,
@@ -16633,6 +16730,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 57,
+      "gear": "EquipmentHats119 EquipmentWands13 EquipmentShirts39 EquipmentPendant25+stones EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 EquipmentTools1 EquipmentToolsHatchet10 - -",
       "index": 2,
       "inventoryItems": {
         "entries": 18,
@@ -16858,6 +16956,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 59,
+      "gear": "EquipmentHats119+stones EquipmentSword9 EquipmentShirts39 EquipmentPendant21+stones EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 EquipmentTools15 EquipmentToolsHatchet0 - -",
       "index": 3,
       "inventoryItems": {
         "entries": 18,
@@ -17072,6 +17171,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 55,
+      "gear": "EquipmentHats123 EquipmentWands14 EquipmentShirts41 EquipmentPendant25 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 EquipmentTools16+stones EquipmentToolsHatchet13 FishingRod13 CatchingNet13",
       "index": 4,
       "inventoryItems": {
         "entries": 22,
@@ -17303,6 +17403,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 74,
+      "gear": "EquipmentHats119+stones EquipmentBows12+stones EquipmentShirts39 EquipmentPendant25 EquipmentPants31+stones EquipmentRingsTempest4+stones EquipmentShoes40 EquipmentRingsTempest4+stones EquipmentTools5 EquipmentToolsHatchet2+stones FishingRod4+stones CatchingNet4",
       "index": 5,
       "inventoryItems": {
         "entries": 9,
@@ -17547,6 +17648,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 49,
+      "gear": "EquipmentHats119 EquipmentPunching11 EquipmentShirts39 EquipmentPendant25+stones EquipmentPants31 EquipmentRings13+stones EquipmentShoes40 EquipmentRings13+stones EquipmentTools11+stones EquipmentToolsHatchet7+stones FishingRod7+stones CatchingNet7+stones",
       "index": 6,
       "inventoryItems": {
         "entries": 29,
@@ -17767,6 +17869,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 49,
+      "gear": "EquipmentHats119+stones EquipmentBows14+stones EquipmentShirts39+stones EquipmentPendant25+stones EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 - - - CatchingNet8+stones",
       "index": 7,
       "inventoryItems": {
         "entries": 23,
@@ -17985,6 +18088,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 57,
+      "gear": "EquipmentHats123 EquipmentSword10+stones EquipmentShirts41 EquipmentPendant33 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 EquipmentTools16 EquipmentToolsHatchet13 FishingRod13 CatchingNet13+stones",
       "index": 8,
       "inventoryItems": {
         "entries": 27,
@@ -18229,6 +18333,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 0,
+      "gear": "EquipmentHats119 EquipmentWands13 EquipmentShirts39 EquipmentPendant31 EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 EquipmentTools1 - - -",
       "index": 9,
       "inventoryItems": {
         "entries": 3,
@@ -18430,6 +18535,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "currentMap": "Outer_World_Town",
       "foodStacks": [],
       "freeInventorySlots": 34,
+      "gear": "EquipmentHats123 EquipmentPunching12 EquipmentShirts41 EquipmentPendant23 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 - - - -",
       "index": 10,
       "inventoryItems": {
         "entries": 28,
@@ -19407,7 +19513,26 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         1,
       ],
     },
+    "anvilRecipes": "84/80/72/64/36/52/24",
     "anvilTabsOwned": 7,
+    "armorSmithy": {
+      "canHire": true,
+      "daysWaited": 230,
+      "hired": true,
+      "registered": [
+        "COPPER_SET",
+        "IRON_SET",
+        "TROLL_SET",
+        "EFAUNT_SET",
+        "CHIZOAR_SET",
+        "AMAROK_SET",
+        "GOLD_SET",
+        "PLATINUM_SET",
+        "DEMENTIA_SET",
+        "VOID_SET",
+        "MAGMA_SET",
+      ],
+    },
     "ballot": {
       "votedWeek": 2934,
       "winner": {
@@ -19964,6 +20089,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         "inProgressBy": [],
       },
     },
+    "gearItems": "102 items",
     "gemPurchases": [
       0,
       5,
@@ -21156,6 +21282,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 46,
+      "gear": "EquipmentHats123+stones EquipmentBows15 EquipmentShirts41 EquipmentPendant24 EquipmentPants32+stones EquipmentRings18 EquipmentShoes41+stones EquipmentRings18 EquipmentTools2+stones EquipmentToolsHatchet3+stones FishingRod2+stones CatchingNet12",
       "index": 0,
       "inventoryItems": {
         "entries": 24,
@@ -21383,6 +21510,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 54,
+      "gear": "EquipmentHats123 EquipmentSword10 EquipmentShirts41 EquipmentPendant33 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 EquipmentTools7+stones EquipmentToolsHatchet4+stones FishingRod13 -",
       "index": 1,
       "inventoryItems": {
         "entries": 27,
@@ -21614,6 +21742,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 61,
+      "gear": "EquipmentHats119 EquipmentWands13 EquipmentShirts39 EquipmentPendant25+stones EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 EquipmentTools1 EquipmentToolsHatchet10 - -",
       "index": 2,
       "inventoryItems": {
         "entries": 14,
@@ -21839,6 +21968,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 63,
+      "gear": "EquipmentHats119+stones EquipmentSword9 EquipmentShirts39 EquipmentPendant21+stones EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 EquipmentTools15 EquipmentToolsHatchet0 - -",
       "index": 3,
       "inventoryItems": {
         "entries": 14,
@@ -22053,6 +22183,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 56,
+      "gear": "EquipmentHats123 EquipmentWands14 EquipmentShirts41 EquipmentPendant25 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 EquipmentTools16+stones EquipmentToolsHatchet13 FishingRod13 CatchingNet13",
       "index": 4,
       "inventoryItems": {
         "entries": 21,
@@ -22280,6 +22411,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 58,
+      "gear": "EquipmentHats119+stones EquipmentBows12+stones EquipmentShirts39 EquipmentPendant25 EquipmentPants31+stones EquipmentRingsTempest4+stones EquipmentShoes40 EquipmentRingsTempest4+stones EquipmentTools5 EquipmentToolsHatchet2+stones FishingRod4+stones CatchingNet4",
       "index": 5,
       "inventoryItems": {
         "entries": 25,
@@ -22520,6 +22652,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 59,
+      "gear": "EquipmentHats119 EquipmentPunching11 EquipmentShirts39 EquipmentPendant25+stones EquipmentPants31 EquipmentRings13+stones EquipmentShoes40 EquipmentRings13+stones EquipmentTools11+stones EquipmentToolsHatchet7+stones FishingRod7+stones CatchingNet7+stones",
       "index": 6,
       "inventoryItems": {
         "entries": 19,
@@ -22740,6 +22873,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 55,
+      "gear": "EquipmentHats119+stones EquipmentBows14+stones EquipmentShirts39+stones EquipmentPendant25+stones EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 - - - CatchingNet8+stones",
       "index": 7,
       "inventoryItems": {
         "entries": 17,
@@ -22954,6 +23088,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 59,
+      "gear": "EquipmentHats123 EquipmentSword10+stones EquipmentShirts41 EquipmentPendant33 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 EquipmentTools16 EquipmentToolsHatchet13 FishingRod13 CatchingNet13+stones",
       "index": 8,
       "inventoryItems": {
         "entries": 25,
@@ -23182,6 +23317,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 35,
+      "gear": "EquipmentHats119 EquipmentWands13 EquipmentShirts39 EquipmentPendant31 EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 EquipmentTools1 - - -",
       "index": 9,
       "inventoryItems": {
         "entries": 23,
@@ -23383,6 +23519,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "currentMap": "Outer_World_Town",
       "foodStacks": [],
       "freeInventorySlots": 35,
+      "gear": "EquipmentHats123 EquipmentPunching12 EquipmentShirts41 EquipmentPendant23 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 - - - -",
       "index": 10,
       "inventoryItems": {
         "entries": 27,
@@ -24360,7 +24497,26 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         1,
       ],
     },
+    "anvilRecipes": "84/80/72/64/36/52/24",
     "anvilTabsOwned": 7,
+    "armorSmithy": {
+      "canHire": true,
+      "daysWaited": 236,
+      "hired": true,
+      "registered": [
+        "COPPER_SET",
+        "IRON_SET",
+        "TROLL_SET",
+        "EFAUNT_SET",
+        "CHIZOAR_SET",
+        "AMAROK_SET",
+        "GOLD_SET",
+        "PLATINUM_SET",
+        "DEMENTIA_SET",
+        "VOID_SET",
+        "MAGMA_SET",
+      ],
+    },
     "ballot": {
       "votedWeek": 2934,
       "winner": {
@@ -24917,6 +25073,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         "inProgressBy": [],
       },
     },
+    "gearItems": "99 items",
     "gemPurchases": [
       0,
       5,
@@ -26116,6 +26273,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         },
       ],
       "freeInventorySlots": 43,
+      "gear": "EquipmentHats123+stones EquipmentBows15 EquipmentShirts41 EquipmentPendant24 EquipmentPants32+stones EquipmentRings18 EquipmentShoes41+stones EquipmentRings18 EquipmentTools2+stones EquipmentToolsHatchet3+stones FishingRod2+stones CatchingNet12",
       "index": 0,
       "inventoryItems": {
         "entries": 27,
@@ -26343,6 +26501,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         },
       ],
       "freeInventorySlots": 54,
+      "gear": "EquipmentHats123 EquipmentSword10 EquipmentShirts41 EquipmentPendant33 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 EquipmentTools7+stones EquipmentToolsHatchet4+stones FishingRod13 -",
       "index": 1,
       "inventoryItems": {
         "entries": 27,
@@ -26574,6 +26733,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         },
       ],
       "freeInventorySlots": 57,
+      "gear": "EquipmentHats119 EquipmentWands13 EquipmentShirts39 EquipmentPendant25+stones EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 EquipmentTools1 EquipmentToolsHatchet10 - -",
       "index": 2,
       "inventoryItems": {
         "entries": 18,
@@ -26799,6 +26959,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         },
       ],
       "freeInventorySlots": 62,
+      "gear": "EquipmentHats119+stones EquipmentSword9 EquipmentShirts39 EquipmentPendant21+stones EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 EquipmentTools15 EquipmentToolsHatchet0 - -",
       "index": 3,
       "inventoryItems": {
         "entries": 15,
@@ -27013,6 +27174,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         },
       ],
       "freeInventorySlots": 56,
+      "gear": "EquipmentHats123 EquipmentWands14 EquipmentShirts41 EquipmentPendant25 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 EquipmentTools16+stones EquipmentToolsHatchet13 FishingRod13 CatchingNet13",
       "index": 4,
       "inventoryItems": {
         "entries": 21,
@@ -27240,6 +27402,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         },
       ],
       "freeInventorySlots": 58,
+      "gear": "EquipmentHats119+stones EquipmentBows12+stones EquipmentShirts39 EquipmentPendant25 EquipmentPants31+stones EquipmentRingsTempest4+stones EquipmentShoes40 EquipmentRingsTempest4+stones EquipmentTools5 EquipmentToolsHatchet2+stones FishingRod4+stones CatchingNet4",
       "index": 5,
       "inventoryItems": {
         "entries": 25,
@@ -27480,6 +27643,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         },
       ],
       "freeInventorySlots": 56,
+      "gear": "EquipmentHats119 EquipmentPunching11 EquipmentShirts39 EquipmentPendant25+stones EquipmentPants31 EquipmentRings13+stones EquipmentShoes40 EquipmentRings13+stones EquipmentTools11+stones EquipmentToolsHatchet7+stones FishingRod7+stones CatchingNet7+stones",
       "index": 6,
       "inventoryItems": {
         "entries": 22,
@@ -27702,6 +27866,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         },
       ],
       "freeInventorySlots": 51,
+      "gear": "EquipmentHats119+stones EquipmentBows14+stones EquipmentShirts39+stones EquipmentPendant25+stones EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 - - - CatchingNet8+stones",
       "index": 7,
       "inventoryItems": {
         "entries": 21,
@@ -27924,6 +28089,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         },
       ],
       "freeInventorySlots": 60,
+      "gear": "EquipmentHats123 EquipmentSword10+stones EquipmentShirts41 EquipmentPendant33 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 EquipmentTools16 EquipmentToolsHatchet13 FishingRod13 CatchingNet13+stones",
       "index": 8,
       "inventoryItems": {
         "entries": 24,
@@ -28167,6 +28333,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         },
       ],
       "freeInventorySlots": 0,
+      "gear": "EquipmentHats119 EquipmentWands13 EquipmentShirts39 EquipmentPendant31 EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 EquipmentTools1 - - -",
       "index": 9,
       "inventoryItems": {
         "entries": 27,
@@ -28368,6 +28535,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "currentMap": "Outer_World_Town",
       "foodStacks": [],
       "freeInventorySlots": 33,
+      "gear": "EquipmentHats123 EquipmentPunching12 EquipmentShirts41 EquipmentPendant23 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 - - - -",
       "index": 10,
       "inventoryItems": {
         "entries": 29,
@@ -29312,7 +29480,14 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         0,
       ],
     },
+    "anvilRecipes": "84/80/72/64/36/48",
     "anvilTabsOwned": 6,
+    "armorSmithy": {
+      "canHire": true,
+      "daysWaited": 0,
+      "hired": false,
+      "registered": [],
+    },
     "ballot": {
       "votedWeek": 0,
       "winner": null,
@@ -29881,6 +30056,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         "inProgressBy": [],
       },
     },
+    "gearItems": "87 items",
     "gemPurchases": [
       0,
       0,
@@ -30949,6 +31125,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 59,
+      "gear": "EquipmentHats52+stones EquipmentBows10+stones EquipmentShirts26+stones EquipmentPendant28 EquipmentPants20+stones EquipmentRings18 EquipmentShoes34+stones EquipmentRings18 EquipmentTools9+stones EquipmentToolsHatchet8+stones FishingRod11+stones CatchingNet11+stones",
       "index": 0,
       "inventoryItems": {
         "entries": 14,
@@ -31186,6 +31363,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 61,
+      "gear": "EquipmentHats53+stones EquipmentSword5+stones EquipmentShirts15+stones EquipmentPendant11+stones EquipmentPants6+stones EquipmentRings18 EquipmentShoes5+stones EquipmentRings18 EquipmentTools14+stones EquipmentToolsHatchet9+stones FishingRod11+stones CatchingNet9+stones",
       "index": 1,
       "inventoryItems": {
         "entries": 14,
@@ -31422,6 +31600,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 63,
+      "gear": "EquipmentHats53+stones EquipmentWands12+stones EquipmentShirts15+stones EquipmentPendant24+stones EquipmentPants6+stones EquipmentRings18 EquipmentShoes5+stones EquipmentRings18 EquipmentTools6+stones EquipmentToolsHatchet12+stones FishingRod11+stones CatchingNet7+stones",
       "index": 2,
       "inventoryItems": {
         "entries": 10,
@@ -31656,6 +31835,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 62,
+      "gear": "EquipmentHats53+stones EquipmentSword5+stones EquipmentShirts15+stones EquipmentPendant27+stones EquipmentPants6+stones EquipmentRings18 EquipmentShoes5+stones EquipmentRings18 EquipmentTools11+stones EquipmentToolsHatchet7+stones FishingRod11+stones CatchingNet9+stones",
       "index": 3,
       "inventoryItems": {
         "entries": 15,
@@ -31894,6 +32074,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 69,
+      "gear": "EquipmentHats16+stones EquipmentWands9+stones EquipmentShirts26+stones EquipmentPendant31 EquipmentPants20+stones EquipmentRings18 EquipmentShoes20+stones EquipmentRings18 EquipmentTools8+stones EquipmentToolsHatchet12+stones FishingRod11+stones CatchingNet9+stones",
       "index": 4,
       "inventoryItems": {
         "entries": 8,
@@ -32114,6 +32295,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 65,
+      "gear": "EquipmentHats53+stones EquipmentBows10+stones EquipmentShirts15+stones EquipmentPendant24+stones EquipmentPants6+stones EquipmentRings18 EquipmentShoes5+stones EquipmentRings18 EquipmentTools7+stones EquipmentToolsHatchet8+stones FishingRod11+stones CatchingNet11+stones",
       "index": 5,
       "inventoryItems": {
         "entries": 11,
@@ -32349,6 +32531,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 64,
+      "gear": "EquipmentHats71+stones EquipmentPunching7+stones EquipmentShirts33+stones EquipmentPendant31 EquipmentPants25+stones EquipmentRings26+stones EquipmentShoes25+stones EquipmentRings26+stones EquipmentTools14+stones EquipmentToolsHatchet12+stones FishingRod11+stones CatchingNet11+stones",
       "index": 6,
       "inventoryItems": {
         "entries": 13,
@@ -32581,6 +32764,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 66,
+      "gear": "EquipmentHats53+stones EquipmentWands9+stones EquipmentShirts15+stones EquipmentPendant28 EquipmentPants6+stones EquipmentRings18 EquipmentShoes5+stones EquipmentRings18 EquipmentTools8+stones EquipmentToolsHatchet12+stones FishingRod10+stones CatchingNet10+stones",
       "index": 7,
       "inventoryItems": {
         "entries": 10,
@@ -32816,6 +33000,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 69,
+      "gear": "EquipmentHats71+stones EquipmentBows10+stones EquipmentShirts33+stones EquipmentPendant28 EquipmentPants25+stones EquipmentRings26+stones EquipmentShoes25+stones EquipmentRings26+stones EquipmentTools8+stones EquipmentToolsHatchet8+stones FishingRod11+stones CatchingNet11+stones",
       "index": 8,
       "inventoryItems": {
         "entries": 8,
@@ -33038,6 +33223,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         },
       ],
       "freeInventorySlots": 72,
+      "gear": "EquipmentHats71+stones EquipmentSword7+stones EquipmentShirts33+stones EquipmentPendant11+stones EquipmentPants25+stones EquipmentRings26+stones EquipmentShoes25+stones EquipmentRings26+stones EquipmentTools14+stones EquipmentToolsHatchet8+stones FishingRod11+stones CatchingNet9+stones",
       "index": 9,
       "inventoryItems": {
         "entries": 6,
@@ -34058,7 +34244,34 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         1,
       ],
     },
+    "anvilRecipes": "84/80/72/64/36/52/24",
     "anvilTabsOwned": 7,
+    "armorSmithy": {
+      "canHire": true,
+      "daysWaited": 441,
+      "hired": true,
+      "registered": [
+        "COPPER_SET",
+        "IRON_SET",
+        "GOLD_SET",
+        "PLATINUM_SET",
+        "EFAUNT_SET",
+        "DEMENTIA_SET",
+        "VOID_SET",
+        "SECRET_SET",
+        "CHIZOAR_SET",
+        "LUSTRE_SET",
+        "GODSHARD_SET",
+        "DIABOLICAL_SET",
+        "TROLL_SET",
+        "MAGMA_SET",
+        "KATTLEKRUK_SET",
+        "MARBIGLASS_SET",
+        "AMAROK_SET",
+        "EMPEROR_SET",
+        "PREHISTORIC_SET",
+      ],
+    },
     "ballot": {
       "votedWeek": 2954,
       "winner": {
@@ -34620,6 +34833,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         "inProgressBy": [],
       },
     },
+    "gearItems": "114 items",
     "gemPurchases": [
       0,
       5,
@@ -35722,6 +35936,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 58,
+      "gear": "EquipmentHats123+stones EquipmentSword5+stones EquipmentShirts36+stones EquipmentPendant30+stones EquipmentPants27+stones EquipmentRings36+stones EquipmentShoes41 EquipmentRings36+stones EquipmentTools16+stones EquipmentToolsHatchet9+stones FishingRod13+stones CatchingNet10+stones",
       "index": 0,
       "inventoryItems": {
         "entries": 39,
@@ -35972,6 +36187,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 58,
+      "gear": "EquipmentHats123+stones EquipmentWands14+stones EquipmentShirts41+stones EquipmentPendant30+stones EquipmentPants32+stones EquipmentRings36+stones EquipmentShoes41+stones EquipmentRings36+stones EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod13+stones CatchingNet13+stones",
       "index": 1,
       "inventoryItems": {
         "entries": 27,
@@ -36215,6 +36431,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 63,
+      "gear": "EquipmentHats59+stones EquipmentBows1 EquipmentShirts29+stones EquipmentPendant35+stones EquipmentPants26+stones EquipmentRings26+stones EquipmentShoes35+stones EquipmentRings26+stones EquipmentTools9+stones EquipmentToolsHatchet9+stones FishingRod10+stones CatchingNet12+stones",
       "index": 2,
       "inventoryItems": {
         "entries": 28,
@@ -36449,6 +36666,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 64,
+      "gear": "EquipmentHats123+stones EquipmentSword10+stones EquipmentShirts41+stones EquipmentPendant30+stones EquipmentPants32+stones EquipmentRings36+stones EquipmentShoes41+stones EquipmentRings36+stones EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod10+stones CatchingNet10+stones",
       "index": 3,
       "inventoryItems": {
         "entries": 30,
@@ -36676,6 +36894,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 69,
+      "gear": "EquipmentHats123+stones EquipmentWands14 EquipmentShirts41 EquipmentPendant35+stones EquipmentPants32+stones EquipmentRings30+stones EquipmentShoes39 EquipmentRings30+stones EquipmentTools14+stones EquipmentToolsHatchet13 FishingRod11 CatchingNet11",
       "index": 4,
       "inventoryItems": {
         "entries": 26,
@@ -36906,6 +37125,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 48,
+      "gear": "EquipmentHats123+stones EquipmentBows12+stones EquipmentShirts36+stones EquipmentPendant30+stones EquipmentPants27+stones EquipmentRings36+stones EquipmentShoes41+stones EquipmentRings36+stones EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod13+stones CatchingNet13+stones",
       "index": 5,
       "inventoryItems": {
         "entries": 38,
@@ -37160,6 +37380,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 0,
+      "gear": "EquipmentHats123+stones EquipmentSword10+stones EquipmentShirts41+stones EquipmentPendant31 EquipmentPants32+stones EquipmentRings36+stones EquipmentShoes41+stones EquipmentRings36+stones EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod13+stones CatchingNet13+stones",
       "index": 6,
       "inventoryItems": {
         "entries": 55,
@@ -37390,6 +37611,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 74,
+      "gear": "EquipmentHats123+stones EquipmentPunching12+stones EquipmentShirts41+stones EquipmentPendant6 EquipmentPants32+stones EquipmentRings35+stones EquipmentShoes41+stones EquipmentRings35 EquipmentTools16+stones EquipmentToolsHatchet13+stones FishingRod13+stones CatchingNet13+stones",
       "index": 7,
       "inventoryItems": {
         "entries": 22,
@@ -37635,6 +37857,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 47,
+      "gear": "EquipmentHats123+stones EquipmentWands13+stones EquipmentShirts41+stones EquipmentPendant30+stones EquipmentPants32+stones EquipmentRings36+stones EquipmentShoes41+stones EquipmentRings36+stones EquipmentTools13 EquipmentToolsHatchet10+stones FishingRod10+stones CatchingNet10+stones",
       "index": 8,
       "inventoryItems": {
         "entries": 33,
@@ -37884,6 +38107,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 61,
+      "gear": "EquipmentHats119+stones EquipmentBows15+stones EquipmentShirts36+stones EquipmentPendant33 EquipmentPants27+stones EquipmentRings36+stones EquipmentShoes40+stones EquipmentRings36+stones EquipmentTools15+stones EquipmentToolsHatchet10+stones FishingRod12+stones CatchingNet12+stones",
       "index": 9,
       "inventoryItems": {
         "entries": 25,
@@ -38115,6 +38339,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         },
       ],
       "freeInventorySlots": 77,
+      "gear": "EquipmentHats119+stones EquipmentSword9+stones EquipmentShirts41+stones EquipmentPendant33 EquipmentPants31+stones EquipmentRings38+stones EquipmentShoes40+stones EquipmentRings38+stones - - - -",
       "index": 10,
       "inventoryItems": {
         "entries": 5,
@@ -39074,7 +39299,14 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         1,
       ],
     },
+    "anvilRecipes": "84/80/72/64/36/48",
     "anvilTabsOwned": 6,
+    "armorSmithy": {
+      "canHire": true,
+      "daysWaited": 0,
+      "hired": false,
+      "registered": [],
+    },
     "ballot": {
       "votedWeek": 0,
       "winner": null,
@@ -39620,6 +39852,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         "inProgressBy": [],
       },
     },
+    "gearItems": "58 items",
     "gemPurchases": [
       0,
       0,
@@ -40674,6 +40907,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 64,
+      "gear": "EquipmentHats83+stones EquipmentSword7+stones EquipmentShirts36+stones EquipmentPendant30+stones EquipmentPants27+stones EquipmentRings26+stones EquipmentShoes31+stones EquipmentRings26+stones EquipmentTools15+stones EquipmentToolsHatchet12+stones FishingRod11+stones CatchingNet11+stones",
       "index": 0,
       "inventoryItems": {
         "entries": 15,
@@ -40913,6 +41147,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 70,
+      "gear": "EquipmentHats83+stones EquipmentBows12+stones EquipmentShirts36+stones EquipmentPendant30+stones EquipmentPants27+stones EquipmentRings35+stones EquipmentShoes39+stones EquipmentRings35+stones EquipmentTools15+stones EquipmentToolsHatchet10+stones FishingRod12+stones CatchingNet12+stones",
       "index": 1,
       "inventoryItems": {
         "entries": 7,
@@ -41154,6 +41389,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 66,
+      "gear": "EquipmentHats83+stones EquipmentWands13+stones EquipmentShirts36+stones EquipmentPendant30+stones EquipmentPants27+stones EquipmentRings36+stones EquipmentShoes39 EquipmentRings36+stones EquipmentTools15+stones EquipmentToolsHatchet12+stones FishingRod11+stones CatchingNet11+stones",
       "index": 2,
       "inventoryItems": {
         "entries": 12,
@@ -41386,6 +41622,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 60,
+      "gear": "EquipmentHats106+stones EquipmentSword9+stones EquipmentShirts38 EquipmentPendant30+stones EquipmentPants30+stones EquipmentRings36+stones EquipmentShoes38+stones EquipmentRings36+stones EquipmentTools15+stones EquipmentToolsHatchet10+stones FishingRod12+stones CatchingNet12",
       "index": 3,
       "inventoryItems": {
         "entries": 13,
@@ -41628,6 +41865,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 27,
+      "gear": "EquipmentHats83+stones EquipmentBows12+stones EquipmentShirts36+stones EquipmentPendant30+stones EquipmentPants27+stones EquipmentRings35+stones EquipmentShoes39+stones EquipmentRings36+stones EquipmentTools15 EquipmentToolsHatchet12+stones FishingRod11+stones CatchingNet11+stones",
       "index": 4,
       "inventoryItems": {
         "entries": 16,
@@ -41870,6 +42108,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 70,
+      "gear": "EquipmentHats83+stones EquipmentWands11+stones EquipmentShirts36+stones EquipmentPendant30+stones EquipmentPants27+stones EquipmentRings36 EquipmentShoes39 EquipmentRings36 EquipmentTools15 EquipmentToolsHatchet12+stones FishingRod11+stones CatchingNet11+stones",
       "index": 5,
       "inventoryItems": {
         "entries": 8,
@@ -42110,6 +42349,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 14,
+      "gear": "- EquipmentPunching9+stones EquipmentShirts36+stones EquipmentPendant30+stones EquipmentPants27+stones EquipmentRings26+stones EquipmentShoes39 EquipmentRings26+stones EquipmentTools15+stones EquipmentToolsHatchet10+stones FishingRod12 CatchingNet12+stones",
       "index": 6,
       "inventoryItems": {
         "entries": 43,
@@ -42345,6 +42585,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 71,
+      "gear": "EquipmentHats83+stones EquipmentSword7+stones EquipmentShirts36+stones EquipmentPendant30+stones EquipmentPants27+stones EquipmentRings36 EquipmentShoes39 EquipmentRings36 EquipmentTools15+stones EquipmentToolsHatchet12+stones FishingRod11+stones CatchingNet11+stones",
       "index": 7,
       "inventoryItems": {
         "entries": 7,
@@ -42585,6 +42826,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 64,
+      "gear": "EquipmentHats83+stones EquipmentWands11+stones EquipmentShirts37+stones EquipmentPendant30+stones EquipmentPants27+stones EquipmentRings36 EquipmentShoes36+stones EquipmentRings36+stones EquipmentTools15+stones EquipmentToolsHatchet12+stones FishingRod11+stones CatchingNet11+stones",
       "index": 8,
       "inventoryItems": {
         "entries": 12,
@@ -42819,6 +43061,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         },
       ],
       "freeInventorySlots": 67,
+      "gear": "EquipmentHats83+stones EquipmentBows12+stones EquipmentShirts36+stones EquipmentPendant30+stones EquipmentPants27+stones EquipmentRings35+stones EquipmentShoes39 EquipmentRings35 EquipmentTools15 EquipmentToolsHatchet12+stones FishingRod11+stones CatchingNet11+stones",
       "index": 9,
       "inventoryItems": {
         "entries": 10,
@@ -43857,7 +44100,26 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         1,
       ],
     },
+    "anvilRecipes": "84/80/72/64/36/52/24",
     "anvilTabsOwned": 7,
+    "armorSmithy": {
+      "canHire": true,
+      "daysWaited": 236,
+      "hired": true,
+      "registered": [
+        "COPPER_SET",
+        "IRON_SET",
+        "TROLL_SET",
+        "EFAUNT_SET",
+        "CHIZOAR_SET",
+        "AMAROK_SET",
+        "GOLD_SET",
+        "PLATINUM_SET",
+        "DEMENTIA_SET",
+        "VOID_SET",
+        "MAGMA_SET",
+      ],
+    },
     "ballot": {
       "votedWeek": 2934,
       "winner": {
@@ -44414,6 +44676,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         "inProgressBy": [],
       },
     },
+    "gearItems": "99 items",
     "gemPurchases": [
       0,
       5,
@@ -45613,6 +45876,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         },
       ],
       "freeInventorySlots": 43,
+      "gear": "EquipmentHats123+stones EquipmentBows15 EquipmentShirts41 EquipmentPendant24 EquipmentPants32+stones EquipmentRings18 EquipmentShoes41+stones EquipmentRings18 EquipmentTools2+stones EquipmentToolsHatchet3+stones FishingRod2+stones CatchingNet12",
       "index": 0,
       "inventoryItems": {
         "entries": 27,
@@ -45840,6 +46104,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         },
       ],
       "freeInventorySlots": 54,
+      "gear": "EquipmentHats123 EquipmentSword10 EquipmentShirts41 EquipmentPendant33 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 EquipmentTools7+stones EquipmentToolsHatchet4+stones FishingRod13 -",
       "index": 1,
       "inventoryItems": {
         "entries": 27,
@@ -46071,6 +46336,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         },
       ],
       "freeInventorySlots": 57,
+      "gear": "EquipmentHats119 EquipmentWands13 EquipmentShirts39 EquipmentPendant25+stones EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 EquipmentTools1 EquipmentToolsHatchet10 - -",
       "index": 2,
       "inventoryItems": {
         "entries": 18,
@@ -46296,6 +46562,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         },
       ],
       "freeInventorySlots": 62,
+      "gear": "EquipmentHats119+stones EquipmentSword9 EquipmentShirts39 EquipmentPendant21+stones EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 EquipmentTools15 EquipmentToolsHatchet0 - -",
       "index": 3,
       "inventoryItems": {
         "entries": 15,
@@ -46510,6 +46777,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         },
       ],
       "freeInventorySlots": 56,
+      "gear": "EquipmentHats123 EquipmentWands14 EquipmentShirts41 EquipmentPendant25 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 EquipmentTools16+stones EquipmentToolsHatchet13 FishingRod13 CatchingNet13",
       "index": 4,
       "inventoryItems": {
         "entries": 21,
@@ -46737,6 +47005,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         },
       ],
       "freeInventorySlots": 58,
+      "gear": "EquipmentHats119+stones EquipmentBows12+stones EquipmentShirts39 EquipmentPendant25 EquipmentPants31+stones EquipmentRingsTempest4+stones EquipmentShoes40 EquipmentRingsTempest4+stones EquipmentTools5 EquipmentToolsHatchet2+stones FishingRod4+stones CatchingNet4",
       "index": 5,
       "inventoryItems": {
         "entries": 25,
@@ -46977,6 +47246,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         },
       ],
       "freeInventorySlots": 56,
+      "gear": "EquipmentHats119 EquipmentPunching11 EquipmentShirts39 EquipmentPendant25+stones EquipmentPants31 EquipmentRings13+stones EquipmentShoes40 EquipmentRings13+stones EquipmentTools11+stones EquipmentToolsHatchet7+stones FishingRod7+stones CatchingNet7+stones",
       "index": 6,
       "inventoryItems": {
         "entries": 22,
@@ -47199,6 +47469,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         },
       ],
       "freeInventorySlots": 51,
+      "gear": "EquipmentHats119+stones EquipmentBows14+stones EquipmentShirts39+stones EquipmentPendant25+stones EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 - - - CatchingNet8+stones",
       "index": 7,
       "inventoryItems": {
         "entries": 21,
@@ -47421,6 +47692,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         },
       ],
       "freeInventorySlots": 60,
+      "gear": "EquipmentHats123 EquipmentSword10+stones EquipmentShirts41 EquipmentPendant33 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 EquipmentTools16 EquipmentToolsHatchet13 FishingRod13 CatchingNet13+stones",
       "index": 8,
       "inventoryItems": {
         "entries": 24,
@@ -47664,6 +47936,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         },
       ],
       "freeInventorySlots": 0,
+      "gear": "EquipmentHats119 EquipmentWands13 EquipmentShirts39 EquipmentPendant31 EquipmentPants31 EquipmentRings18 EquipmentShoes40 EquipmentRings18 EquipmentTools1 - - -",
       "index": 9,
       "inventoryItems": {
         "entries": 27,
@@ -47865,6 +48138,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "currentMap": "Outer_World_Town",
       "foodStacks": [],
       "freeInventorySlots": 33,
+      "gear": "EquipmentHats123 EquipmentPunching12 EquipmentShirts41 EquipmentPendant23 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 - - - -",
       "index": 10,
       "inventoryItems": {
         "entries": 29,

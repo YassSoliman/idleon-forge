@@ -23,3 +23,5 @@ step-words:
 
 hand-written-duration:
   "walkthrough.check.assign#values.buy-liquid-days-why": "{days:int} days counts days of Liquid Shop buys (the price resets daily); a count, not a computed duration"
+  "armor-smithy.check.hire#values.waiting": "{days:int} days is the game's own Smithy counter (30 minus OLA[381]), a whole-day count the game shows, not a computed duration"
+  "gear.check.next-piece#values.why-set-wait": "{days:int} days is the Smithy's whole-day counter (30 minus OLA[381]), not a computed duration"

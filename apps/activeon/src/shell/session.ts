@@ -20,11 +20,10 @@ import {
 import type { EngineResult } from '@idleon-forge/engine/result';
 import type { SaveKind } from '@idleon-forge/sync';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { BUILDS_OPEN } from '../now/BuildView';
-import { CARDS_OPEN } from '../now/cards/CardsPanel';
 import { characterTabs, NOW_TAB } from '../now/character-tabs';
 import type { NowActions } from '../now/context';
 import { AUTO_OPEN_MS, type FollowState, INITIAL_FOLLOW, onSave, onTap } from '../now/follow';
+import { BUILDS_OPEN, CARDS_OPEN } from '../now/open-keys';
 import { toNowPrefs, useNowPrefsStore } from '../now/prefs-store';
 import { buildInfo } from '../now/release';
 import { reportUrl } from '../now/report';

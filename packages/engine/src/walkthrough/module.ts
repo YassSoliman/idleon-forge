@@ -49,6 +49,23 @@ export function parentsOf(
   const consider = (g: Goal, subject: Subject, idx: number) => {
     const e = kb.entries[g.id];
     let target: string | null = null;
+    // M18 X3: a Goal may carry its own inline root instead of naming an Acquisition.
+    if (g.walkthroughRoot) {
+      const pos = meta
+        ? rankPosition({ entryId: g.id, framePosition: null }, meta.list)
+        : Number.POSITIVE_INFINITY;
+      out.push({
+        key: g.nextAction.key,
+        entryId: g.id,
+        subject,
+        title: g.title,
+        targetId: g.walkthroughRoot.id,
+        root: g.walkthroughRoot,
+        pos,
+        idx,
+      });
+      return;
+    }
     if (e && (e.type === 'goal' || e.type === 'check') && e.walkthrough) target = e.walkthrough;
     else if (g.id === PUSH_GOAL_ID && meta?.pushGoal?.step.kind === 'quest')
       target = questTarget(meta.pushGoal.step.npc, meta.pushGoal.step.number);

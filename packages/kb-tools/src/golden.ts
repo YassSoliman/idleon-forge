@@ -51,6 +51,8 @@ export interface GoldenEngine {
   renderTimeline?(input: GoldenInput): string;
   /** M19 TR-10: the Alchemy page as text; the `## Alchemy` section is left out without it. */
   renderAlchemy?(input: GoldenInput): string;
+  /** M18 TR-10: the Gear tab and Smithy as text; the `## Gear` section is left out without it. */
+  renderGear?(input: GoldenInput): string;
 }
 
 export interface GoldenInput {
@@ -208,6 +210,7 @@ export function renderGolden(
     ...(engine.renderSystems ? ['## Systems', engine.renderSystems(input).trimEnd(), ''] : []),
     ...(engine.renderTimeline ? ['## Timeline', engine.renderTimeline(input).trimEnd(), ''] : []),
     ...(engine.renderAlchemy ? ['## Alchemy', engine.renderAlchemy(input).trimEnd(), ''] : []),
+    ...(engine.renderGear ? ['## Gear', engine.renderGear(input).trimEnd(), ''] : []),
     '## Findings',
     '| entry | detector | subject | result | slots |',
     '|---|---|---|---|---|',
