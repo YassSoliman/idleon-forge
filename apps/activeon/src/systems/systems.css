@@ -21,7 +21,7 @@
 }
 .sy-h3 {
   margin: 0;
-  font: var(--display-weight) var(--text-lg) / var(--lh-tight) var(--font-display);
+  font: var(--display-weight) var(--text-xl) / var(--lh-tight) var(--font-display);
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
 }

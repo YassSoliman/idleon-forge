@@ -273,7 +273,7 @@
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--display-weight);
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
 }
 .cv-rows {
   display: grid;

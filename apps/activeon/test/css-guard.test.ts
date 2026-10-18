@@ -2,7 +2,8 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // The CSS guard (M21 TR-15, DS-14, DS-15, DS-20) over every stylesheet in apps/activeon/src:
 // - no font-size below 12 px outside `.legal`;
-// - the pixel display face never below 16 px;
+// - the pixel display face never below 16 px, and Pixelify Sans (--font-display) never below 20 px nor
+//   at a weight other than the display weight (the pixel "c" QA, below);
 // - no letter-spacing on a pill;
 // - the atoms' interactive base selectors carry min-height: var(--tap-min).
 // The design system's own CSS (src/design/**) must be clean now. The places' CSS predates the rules:
@@ -10,8 +11,10 @@
 // as it moves onto the atoms (a file that gets cleaner must lower its count here, so the list never
 // hides a regression), and Integration checks the list is empty (FR-I3).
 import { readdirSync, readFileSync } from 'node:fs';
-import { join, relative, sep } from 'node:path';
+import { createRequire } from 'node:module';
+import { dirname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { inflateSync } from 'node:zlib';
 import { describe, expect, it } from 'vitest';
 
 const SRC = fileURLToPath(new URL('../src', import.meta.url));
@@ -58,6 +61,24 @@ function fontPx(body: string): number | null {
 const PIXEL_FACE =
   /var\(--(display|font-display|ff-pixel[\w-]*|font-label)\)|Pixelify|Silkscreen|Jersey|Tiny5|VT323/;
 
+/**
+ * Pixel "c" QA (2026-10-18): Pixelify Sans draws the mouth of "c", "C" and "e" one art pixel tall
+ * (an art pixel is 1/11 em). Below 20 px that slit is under 2 device pixels on a 1x screen and, for most
+ * sizes, falls across two pixel rows and antialiases shut: "Account" read "Aooount" at 18 px. Measured
+ * on the 400 master in Chromium at 1x, 1.25x, 1.5x and 2x: open at every size from 20 to 40 px.
+ */
+const DISPLAY_FACE = /var\(--(font-display|ff-pixel-display)\)|Pixelify/;
+export const PIXEL_DISPLAY_MIN_PX = 20;
+
+/** The rule's font weight, from font-weight or the font shorthand's first word; null when unset. */
+function fontWeight(body: string): string | null {
+  const long = /(?:^|;)\s*font-weight\s*:\s*([^;]+)/.exec(body)?.[1]?.trim();
+  if (long) return long;
+  const short = /(?:^|;)\s*font\s*:\s*([^;]+)/.exec(body)?.[1]?.trim();
+  const first = short?.split(/\s+/)[0];
+  return first && /^(\d{3}|var\(--(weight-[\w-]+|display-weight)\)|bold|normal)$/.test(first) ? first : null;
+}
+
 export function violations(css: string): string[] {
   const out: string[] = [];
   for (const r of rulesOf(css)) {
@@ -68,6 +89,13 @@ export function violations(css: string): string[] {
     const family = /(?:^|;)\s*font(?:-family)?\s*:\s*([^;]+)/.exec(r.body)?.[1] ?? '';
     if (PIXEL_FACE.test(family) && size !== null && size < 16)
       out.push(`${r.selector}: pixel face at ${size}px`);
+    if (DISPLAY_FACE.test(family)) {
+      if (size !== null && size < PIXEL_DISPLAY_MIN_PX)
+        out.push(`${r.selector}: Pixelify at ${size}px (min ${PIXEL_DISPLAY_MIN_PX})`);
+      const weight = fontWeight(r.body);
+      if (weight !== null && !/^(var\(--display-weight\)|400|normal)$/.test(weight))
+        out.push(`${r.selector}: Pixelify at weight ${weight} (use var(--display-weight))`);
+    }
     const spacing = /letter-spacing\s*:\s*([^;]+)/.exec(r.body)?.[1]?.trim();
     if (/\.(a-)?pill\b/.test(r.selector) && spacing && !/^(0|0em|0px|normal)$/.test(spacing))
       out.push(`${r.selector}: letter-spacing on a pill`);
@@ -84,7 +112,20 @@ describe('CSS guard (TR-15)', () => {
     expect(violations('.legal { font-size: 11px; }')).toEqual([]);
     expect(violations('.x { font: 600 10px / 1 var(--body); }')).toHaveLength(1);
     expect(violations('.x { font-family: var(--display); font-size: 14px; }')).toHaveLength(1);
-    expect(violations('.x { font: var(--weight-bold) var(--text-md) / 1 var(--font-display); }')).toEqual([]);
+    expect(violations('.x { font: var(--display-weight) var(--text-xl) / 1 var(--font-display); }')).toEqual(
+      [],
+    );
+    expect(
+      violations('.x { font: var(--display-weight) var(--text-lg) / 1 var(--font-display); }'),
+    ).toHaveLength(1);
+    expect(violations('.x { font-family: var(--font-display); font-size: 18px; }')).toHaveLength(1);
+    expect(
+      violations('.x { font: var(--weight-bold) var(--text-xl) / 1 var(--font-display); }'),
+    ).toHaveLength(1);
+    expect(violations('.x { font-family: var(--font-display); font-weight: 600; }')).toHaveLength(1);
+    expect(violations('.x { font-family: var(--font-body); font-size: 18px; font-weight: 700; }')).toEqual(
+      [],
+    );
     expect(violations('.a-pill { letter-spacing: 0.06em; }')).toHaveLength(1);
     expect(violations('.pill { letter-spacing: 0; }')).toEqual([]);
   });
@@ -169,5 +210,114 @@ describe('Pixelify ligatures off (R11 QA)', () => {
       ligatureViolations(readFileSync(join(SRC, f), 'utf8')).map((v) => `${f}: ${v}`),
     );
     expect(bad).toEqual([]);
+  });
+});
+
+/** The last class of each selector part (".cs-strip[data-shrunk] .cs-name" -> "cs-name"). */
+const lastClasses = (selector: string): string[] =>
+  selector.split(',').flatMap((part) => {
+    const m = /\.([\w-]+)[^.\s>+~]*\s*$/.exec(part.trim());
+    return m?.[1] ? [m[1]] : [];
+  });
+
+const familyOf = (body: string): string => /(?:^|;)\s*font(?:-family)?\s*:\s*([^;]+)/.exec(body)?.[1] ?? '';
+
+/**
+ * Pixel "c" QA: a rule that shrinks a pixel heading without naming the family (a modifier, a media
+ * query) inherits Pixelify all the same. Classes whose rule sets the display face anywhere are pixel
+ * classes; no other rule may size them below the minimum.
+ */
+export function inheritedPixelViolations(sheets: string[]): string[] {
+  const all = sheets.flatMap((css) => rulesOf(css)).filter((r) => !r.selector.startsWith('@'));
+  const pixel = new Set(
+    all.filter((r) => DISPLAY_FACE.test(familyOf(r.body))).flatMap((r) => lastClasses(r.selector)),
+  );
+  const out: string[] = [];
+  for (const r of all) {
+    if (!lastClasses(r.selector).some((c) => pixel.has(c))) continue;
+    const size = fontPx(r.body);
+    const family = familyOf(r.body);
+    if (size !== null && size < PIXEL_DISPLAY_MIN_PX && (family === '' || DISPLAY_FACE.test(family)))
+      out.push(`${r.selector}: Pixelify inherited at ${size}px (min ${PIXEL_DISPLAY_MIN_PX})`);
+  }
+  return out;
+}
+
+/** The code points a WOFF 1.0 font maps, from its cmap's format 4 subtables. Node's zlib only. */
+function woffCodePoints(file: string): Set<number> {
+  const buf = readFileSync(file);
+  let cmap: Buffer | null = null;
+  for (let i = 0; i < buf.readUInt16BE(12); i++) {
+    const at = 44 + i * 20;
+    if (buf.toString('latin1', at, at + 4) !== 'cmap') continue;
+    const offset = buf.readUInt32BE(at + 4);
+    const compLength = buf.readUInt32BE(at + 8);
+    const raw = buf.subarray(offset, offset + compLength);
+    cmap = compLength < buf.readUInt32BE(at + 12) ? inflateSync(raw) : raw;
+  }
+  if (!cmap) throw new Error(`${file}: no cmap`);
+  const points = new Set<number>();
+  for (let i = 0; i < cmap.readUInt16BE(2); i++) {
+    const sub = cmap.readUInt32BE(4 + i * 8 + 4);
+    if (cmap.readUInt16BE(sub) !== 4) continue;
+    const segX2 = cmap.readUInt16BE(sub + 6);
+    const ends = sub + 14;
+    const starts = ends + segX2 + 2;
+    const deltas = starts + segX2;
+    const ranges = deltas + segX2;
+    for (let s = 0; s < segX2; s += 2) {
+      const end = cmap.readUInt16BE(ends + s);
+      const start = cmap.readUInt16BE(starts + s);
+      const delta = cmap.readUInt16BE(deltas + s);
+      const rangeOffset = cmap.readUInt16BE(ranges + s);
+      for (let c = start; c <= end && c !== 0xffff; c++) {
+        const g = rangeOffset === 0 ? c : cmap.readUInt16BE(ranges + s + rangeOffset + (c - start) * 2);
+        if (g !== 0 && ((g + delta) & 0xffff) !== 0) points.add(c);
+      }
+    }
+  }
+  return points;
+}
+
+describe('Pixel "c" QA: Pixelify Sans renders on its grid (2026-10-18)', () => {
+  const fontsTs = readFileSync(join(SRC, 'design/fonts.ts'), 'utf8');
+
+  it('self-hosts Pixelify Sans at its 400 master only', () => {
+    const imports = [...fontsTs.matchAll(/^import '@fontsource\/pixelify-sans\/([\w-]+)\.css';/gm)].map(
+      (m) => m[1],
+    );
+    expect(imports).toEqual(['latin-400']);
+  });
+
+  it('the latin subset it loads covers all of Basic Latin, so no heading letter falls back', () => {
+    const css = createRequire(import.meta.url).resolve('@fontsource/pixelify-sans/latin-400.css');
+    const face = readFileSync(css, 'utf8');
+    // No unicode-range that would send part of Basic Latin to another face.
+    expect(face).not.toMatch(/unicode-range/);
+    const woff = /url\(\.\/(files\/[\w-]+\.woff)\)/.exec(face)?.[1];
+    expect(woff).toBeTruthy();
+    const points = woffCodePoints(join(dirname(css), woff as string));
+    const missing: string[] = [];
+    for (let c = 0x20; c <= 0x7e; c++) if (!points.has(c)) missing.push(String.fromCharCode(c));
+    expect(missing).toEqual([]);
+  });
+
+  it('the display weight is the master weight and weight synthesis is off', () => {
+    const field = rulesOf(tokens).find((r) => r.selector === '[data-direction="field"]');
+    expect(field?.body).toMatch(/--display-weight:\s*400;/);
+    const html = rulesOf(tokens).find((r) => r.selector === 'html');
+    expect(html?.body).toMatch(/font-synthesis-weight:\s*none/);
+  });
+
+  it('finds a pixel heading shrunk by a rule that does not name the family', () => {
+    const css =
+      '.p { font-family: var(--font-display); font-size: var(--text-xl); } .m .p { font-size: 16px; }';
+    expect(inheritedPixelViolations([css])).toHaveLength(1);
+    const other = '.p { font-family: var(--font-display); } .q { font-size: 16px; }';
+    expect(inheritedPixelViolations([other])).toEqual([]);
+  });
+
+  it('no stylesheet shrinks a pixel heading below 20 px', () => {
+    expect(inheritedPixelViolations(files.map((f) => readFileSync(join(SRC, f), 'utf8')))).toEqual([]);
   });
 });

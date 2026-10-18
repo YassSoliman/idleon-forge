@@ -10,6 +10,9 @@ import '@fontsource/atkinson-hyperlegible-next/latin-600.css';
 import '@fontsource/atkinson-hyperlegible-next/latin-700.css';
 import '@fontsource/jetbrains-mono/latin-400.css';
 import '@fontsource/jetbrains-mono/latin-600.css';
-import '@fontsource/pixelify-sans/latin-500.css';
-import '@fontsource/pixelify-sans/latin-600.css';
-import '@fontsource/pixelify-sans/latin-700.css';
+// Pixelify Sans: the 400 master only. Its "c", "C" and "e" mouths are one art pixel tall (81 of 1000
+// units at 400) and the heavier instances close them (65 at 500, 35 at 700), so from 500 up the mouth
+// rasterises shut at heading sizes on a 1x screen and "Account" reads "Aooount". With only this face
+// loaded and weight synthesis off (tokens.css), every pixel heading draws the 400 outlines, whatever
+// weight a rule asks for. Sizes start at 20 px (css-guard.test.ts).
+import '@fontsource/pixelify-sans/latin-400.css';
