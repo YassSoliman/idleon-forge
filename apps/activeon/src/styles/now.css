@@ -1705,6 +1705,13 @@ label.chip {
   font-weight: var(--weight-bold);
   color: var(--fg);
 }
+.n-sline__bring-l {
+  margin: 2px 0 0;
+  padding-left: var(--space-4);
+}
+.n-sline__bring-l li + li {
+  margin-top: 2px;
+}
 .n-sline > .n-skip {
   justify-self: start;
 }

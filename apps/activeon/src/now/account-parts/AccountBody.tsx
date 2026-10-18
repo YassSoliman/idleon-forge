@@ -50,6 +50,33 @@ function StarChartLine({ view }: { view: NowView }) {
   );
 }
 
+/**
+ * R11 QA: "Bring first" as short steps, one per line (12 words or fewer each): the grouped names, then
+ * each carry. Up to three show; the sheet behind the line has the full detail.
+ */
+export function bringSteps(detail: string): string[] {
+  return detail
+    .split(/ · |; /)
+    .map((x) => x.trim())
+    .filter(Boolean);
+}
+const BRING_SHOWN = 3;
+function BringFirst({ detail }: { detail: string }) {
+  const steps = bringSteps(detail);
+  const more = steps.length - BRING_SHOWN;
+  return (
+    <div className="n-sline__bring spend-detail">
+      <span className="n-sline__bring-k">{W.bringFirst}</span>
+      <ul className="n-sline__bring-l">
+        {steps.slice(0, BRING_SHOWN).map((x) => (
+          <li key={x}>{x}</li>
+        ))}
+        {more > 0 ? <li className="n-muted">{W.bringMore(more)}</li> : null}
+      </ul>
+    </div>
+  );
+}
+
 function SpendLine({ l, place }: { l: SpendLineView; place: 'best' | 'save' | 'rest' }) {
   const [open, setOpen] = useState(false);
   const actions = useNowActions();
@@ -70,11 +97,7 @@ function SpendLine({ l, place }: { l: SpendLineView; place: 'best' | 'save' | 'r
           <span className={`n-sline__status s-${l.status}`}>{l.statusText}</span>
         </span>
       </button>
-      {l.detail ? (
-        <p className="n-sline__bring spend-detail">
-          <span className="n-sline__bring-k">{W.bringFirst}</span> {l.detail}
-        </p>
-      ) : null}
+      {l.detail ? <BringFirst detail={l.detail} /> : null}
       {l.runningTotal ? <p className="n-muted n-small num">{l.runningTotal}</p> : null}
       {l.note ? <p className="n-muted n-small">{l.note}</p> : null}
       <button type="button" className="a-btn a-btn--quiet n-skip" onClick={() => actions.skip(l.key)}>

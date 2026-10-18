@@ -158,6 +158,8 @@ export const ACCOUNT_WORDS = {
   bestBuy: 'Best buy now',
   saveUp: 'Save up for',
   bringFirst: 'Bring first',
+  /** R11 QA: the Bring first steps past the first three; the sheet lists them all. */
+  bringMore: (n: number) => `and ${n} more: tap the line for all of them`,
   starChart: 'Star Chart',
   starChartLine: 'Star Chart: its own page under Systems',
   /** D-9: the Account keeps one Star Chart line; the chart lives on its System page. */
