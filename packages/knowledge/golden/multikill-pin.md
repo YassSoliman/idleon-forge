@@ -1,4 +1,4 @@
-# golden v1: multikill-pin · knowledge #94213751 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 328
+# golden v1: multikill-pin · knowledge #d1633f9f · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 8 of 329
 
 ## Verdict changes
 
@@ -116,7 +116,8 @@ Laboratory
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C7 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C8 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C9 | pass |  |
-| alchemy.check.liquid-cap | alchemy/liquid-cap | account | pass |  |
+| alchemy.check.liquid-cap | alchemy/liquid-cap | — | silent |  |
+| alchemy.check.liquid-cap-line | alchemy/liquid-cap | account | pass |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C1 | fires | fromEmpty=86371 fullIn=0 product=Boring_Brick |
 | anvil.check.caps-before-return | anvil/caps-before-return | C10 | fires | fromEmpty=210936 fullIn=0 product=Chain_Link |
 | anvil.check.caps-before-return | anvil/caps-before-return | C11 | fires | fromEmpty=118811 fullIn=0 product=Thread |

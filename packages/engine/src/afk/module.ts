@@ -40,7 +40,9 @@ const goalOf = (f: SafetyFinding, kb: AfkSafetyModuleDeps['kb']): ModuleGoal => 
       id: f.entryId,
       title: entry?.title ?? f.entryId,
       system: entry?.system ?? f.entryId.split('.')[0] ?? '',
-      category: f.role === 'blocker' ? 'blocker' : 'nice',
+      // A Next Action keeps its entry's category when it names one (R-PILL-2: "Spend · Water at cap"), else Extra.
+      category:
+        f.role === 'blocker' ? 'blocker' : ((entry?.type === 'check' ? entry.category : undefined) ?? 'nice'),
       nextAction: f.nextAction,
       milestone: null,
     },

@@ -1,9 +1,9 @@
-# golden v1: scrubbed-w2 · knowledge #94213751 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 328
+# golden v1: scrubbed-w2 · knowledge #d1633f9f · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 8 of 329
 
 ## Verdict changes
 
 ## Now
-4 of 5 Ready · fix 1 before you leave · fix 2 in Account
+4 of 5 Ready · fix 1 before you leave · fix 1 in Account
 
 ### C1 · Barbarian 60 · Fix before you leave
 1 · Fighting Poop · Poopy Sewers · [Anvil full · collect] · Equip or swap in Meat Pie before you leave: Barbarian is at 78% survivability, and you own 105 · Spend here: 9 buys, ~180M → Spend Plan
@@ -20,16 +20,15 @@
 ### C3 · Shaman 44 · Ready
 5 · Fighting Slime · Jungle Perimeter · Equip the Blunder Hills card set (tier 1, +8% EXP if below Lv 50)
 
-### Account · fix 2 before you leave
+### Account · fix 1 before you leave
 Fix before you leave
-- Fix · Water at cap: Spend Water (bubbles, vials or the Liquid Shop): it's at cap (32 of 32) and may refill before you're back [IdleOn Wiki: Alchemy, liquids · Calculated by IdleOn Toolbox · 2.3.540]
 - Fix · Arcade balls stop building: Claim Arcade balls before you leave (time to the claim cap: now) [IdleOn Wiki: Arcade · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Collect banked Colosseum tickets: Collect 5 Colosseum tickets [IdleOn Wiki: Typhoon · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (15)
+show more (16)
 Spend coins: 9 buys now on 1 character
   1. Raise 2 stamp caps, then buy their new levels on Barbarian Lv 60: Hatchet Stamp, Shield Stamp, about 1 platinum 31 gold (carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free up inventory space first) · Lv 65 → 30 · 1.3M coins · C1 (Barbarian lv60) · buy · total 1.3M on C1
   2. Level Bullseye Stamp 0→5 on Barbarian Lv 60: 9 gold 75 silver · Lv 0 → 5 · 98k coins · C1 (Barbarian lv60) · buy · total 1.4M on C1
@@ -86,7 +85,8 @@ Islands
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C3 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C4 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C5 | pass |  |
-| alchemy.check.liquid-cap | alchemy/liquid-cap | account | fires | current=32 max=32 |
+| alchemy.check.liquid-cap | alchemy/liquid-cap | — | silent |  |
+| alchemy.check.liquid-cap-line | alchemy/liquid-cap | account | fires | current=32 max=32 |
 | anvil.check.caps-before-return | anvil/caps-before-return | C1 | fires | fromEmpty=9921071 fullIn=0 product=Thread |
 | anvil.check.caps-before-return | anvil/caps-before-return | C2 | pass |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C3 | pass |  |

@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #94213751 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 328
+# golden v1: first · knowledge #d1633f9f · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 8 of 329
 
 ## Verdict changes
 
@@ -93,7 +93,8 @@ Laboratory
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C5 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C6 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C7 | pass |  |
-| alchemy.check.liquid-cap | alchemy/liquid-cap | account | pass |  |
+| alchemy.check.liquid-cap | alchemy/liquid-cap | — | silent |  |
+| alchemy.check.liquid-cap-line | alchemy/liquid-cap | account | pass |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C1 | pass |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C2 | pass |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C3 | pass |  |

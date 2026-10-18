@@ -27,7 +27,8 @@ describe('the afk-safety engine module', () => {
     expect(r.characters.map((c) => c.verdict.kind)).toEqual(['fix', 'ready', 'ready', 'ready', 'ready']);
     expect(r.characters[0]?.verdict.blockerKeys).toContain('afk.check.dies-fixable-by-food@c0');
     expect(r.account.safety).toBe('unsafe');
-    expect(r.account.blockerKeys).toHaveLength(2);
+    // Arcade only: Water at cap is an account line without history (R-PILL-2).
+    expect(r.account.blockerKeys).toEqual(['arcade.check.balls-cap@account']);
   });
 
   it('carries first fill and alreadyFull on the W3-early account', () => {

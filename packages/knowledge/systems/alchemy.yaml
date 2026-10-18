@@ -26,8 +26,9 @@ entries:
     system: alchemy
     type: check
     title: Water at cap
-    text: "Spend Water (bubbles, vials or the Liquid Shop): it's at cap ({current:int} of {max:int}) and may refill before you're back"
-    why: A liquid stops regenerating at its cap, so every hour at cap is lost Water.
+    text: "Spend Water (bubbles, vials or the Liquid Shop): it's at cap ({current:int} of {max:int}) and your saves show it takes about {refill:duration} to refill, longer than your return"
+    why: A liquid stops regenerating at its cap. Yours refills slower than you'll be away, so leaving it full loses Water for the whole return.
+    notes: "M3 Final rulings R-PILL-2 (owner, 2026-10-17): blocks only when the player's own save history shows Water refilling slower than the Expected Return. Without history it never blocks; alchemy.check.liquid-cap-line shows instead."
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts
         title: IdleOn Toolbox, alchemy liquids and liquidCauldrons maxLiquid
@@ -40,4 +41,28 @@ entries:
     status: active
     subject: account
     effect: blocker
-    detector: { id: alchemy/liquid-cap }
+    usesExpectedReturn: true
+    detector: { id: alchemy/liquid-cap, params: { part: slow } }
+
+  - id: alchemy.check.liquid-cap-line
+    system: alchemy
+    type: check
+    title: Water at cap
+    text: "Spend Water (bubbles, vials or the Liquid Shop): it's at cap ({current:int} of {max:int})"
+    why: A liquid stops regenerating at its cap. Spending some lets it refill while you're away; at most one bar's worth is lost, so it doesn't stop you logging off.
+    notes: "M3 Final rulings R-PILL-2 (owner, 2026-10-17): the ordinary account line for Water at cap, never a blocker. The blocker alchemy.check.liquid-cap replaces it only when save history shows a refill slower than the return."
+    sources:
+      - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts
+        title: IdleOn Toolbox, alchemy liquids and liquidCauldrons maxLiquid
+        tier: 1
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Alchemy#Liquids", title: "IdleOn Wiki: Alchemy, liquids", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: account
+    effect: next-action
+    category: spendable
+    usesExpectedReturn: true
+    detector: { id: alchemy/liquid-cap, params: { part: line } }
