@@ -6,7 +6,7 @@
 // Add details (US-5, US-9). A fake Worker records every request; Turnstile is a stub that solves at once.
 import type { MySuggestion, SuggestionRequest } from '@idleon-forge/suggestions-worker/contract';
 import type { ProofRing } from '@idleon-forge/sync';
-import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { act, cleanup, configure, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { NowScreen } from '../src/now/NowScreen';
@@ -20,6 +20,11 @@ import {
 } from '../src/suggestions/SuggestionsProvider';
 import { createSuggestionsStore, type SuggestionsStore } from '../src/suggestions/store';
 import { fixture, props, saveOf, stateFor } from './now-helpers';
+
+// The form chunk and its outbox store answer asynchronously; under full-suite load that can take well
+// over the 1 s default. Every findBy/waitFor here waits up to 10 s, and each test up to 30 s.
+configure({ asyncUtilTimeout: 10_000 });
+vi.setConfig({ testTimeout: 30_000 });
 
 const CONFIG: SuggestionsConfig = {
   baseUrl: 'https://activeon-suggestions.idleon.workers.dev',
@@ -141,9 +146,14 @@ function ReportButton({ source }: { source: ReportSource }) {
   );
 }
 
+/** Waits past "Loading…" until the form's fields are there. */
+const loaded = async (dialog: HTMLElement) => {
+  await within(dialog).findByLabelText(/^I want…/);
+  return dialog;
+};
 const openForm = async () => {
   fireEvent.click(screen.getByRole('button', { name: 'Suggest' }));
-  return screen.findByRole('dialog', { name: 'Suggest' });
+  return loaded(await screen.findByRole('dialog', { name: 'Suggest' }));
 };
 const fill = (label: RegExp, value: string) =>
   fireEvent.change(screen.getByLabelText(label), { target: { value } });
@@ -229,7 +239,8 @@ describe('US-2 Report this (FR-9, FR-10)', () => {
   it("opens as Something's wrong with the numbers ticked; Idea unticks them; unticked sends no values", async () => {
     render(<Harness report={report} />);
     fireEvent.click(screen.getByRole('button', { name: 'Report it' }));
-    const dialog = await screen.findByRole('dialog', { name: 'Suggest' });
+    // R5 QA P3-3: opened from Report this, the form is headed for what it is.
+    const dialog = await loaded(await screen.findByRole('dialog', { name: 'Report this line' }));
     expect(await within(dialog).findByRole('radio', { name: "Something's wrong" })).toHaveProperty(
       'checked',
       true,
@@ -277,7 +288,7 @@ describe('US-2 Report this (FR-9, FR-10)', () => {
       </SuggestionsProvider>,
     );
     fireEvent.click(screen.getAllByRole('button', { name: 'Report this' })[0] as HTMLElement);
-    const dialog = await screen.findByRole('dialog', { name: 'Suggest' });
+    const dialog = await loaded(await screen.findByRole('dialog', { name: 'Report this line' }));
     expect(await within(dialog).findByRole('radio', { name: "Something's wrong" })).toHaveProperty(
       'checked',
       true,
