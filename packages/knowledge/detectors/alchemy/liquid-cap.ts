@@ -10,7 +10,10 @@
 //   without one), or a refill faster than the return (at most one bar's worth is lost).
 // The rate is observed (Toolbox has none, TR-6): over consecutive saves at least 10 minutes apart in
 // which Water rose and was below its cap at both ends (a capped interval reads as rate 0, RT-15), the
-// median of Δcurrent / Δt. Toolbox's own `liquids` alert is not used: at this pin it compares against the
+// median of Δcurrent / Δt. An interval whose cap changed (a level-up in between) is dropped too
+// (TR-6: "no level change"), and a rate needs at least `minIntervals` (2) such intervals, so one pair
+// of saves from a partial history (a spend between them reads as a slow refill) never blocks (D1).
+// Toolbox's own `liquids` alert is not used: at this pin it compares against the
 // cauldron object, not maxLiquid, so it never fires, and its 90% threshold is a user setting.
 import type { AccountState } from '@idleon-forge/account-state';
 import { z } from 'zod';
@@ -31,7 +34,7 @@ const atCap = (s: AccountState): AccountState => {
 };
 
 /** Water per hour from the player's saves, or null without a usable interval. */
-function observedWaterRate(history: readonly HistoryEntry[]): number | null {
+function observedWaterRate(history: readonly HistoryEntry[], minIntervals: number): number | null {
   const points = history
     .map((h) => ({ at: h.lastCloudSave, w: waterOf(h.state) }))
     .filter((p): p is { at: number; w: NonNullable<ReturnType<typeof waterOf>> } => p.w !== null)
@@ -43,10 +46,11 @@ function observedWaterRate(history: readonly HistoryEntry[]): number | null {
     if (!a || !b) continue;
     const dt = b.at - a.at;
     const rise = b.w.current - a.w.current;
-    if (dt < MIN_GAP_MS || rise <= 0 || a.w.current >= a.w.max || b.w.current >= b.w.max) continue;
+    if (dt < MIN_GAP_MS || rise <= 0 || a.w.max !== b.w.max) continue;
+    if (a.w.current >= a.w.max || b.w.current >= b.w.max) continue;
     rates.push(rise / (dt / HOUR));
   }
-  if (rates.length === 0) return null;
+  if (rates.length < minIntervals) return null;
   rates.sort((x, y) => x - y);
   return rates[Math.floor((rates.length - 1) / 2)] ?? null;
 }
@@ -55,7 +59,10 @@ export default defineDetector({
   id: 'alchemy/liquid-cap',
   kind: 'check',
   system: 'alchemy',
-  params: z.strictObject({ part: z.enum(['slow', 'line']) }),
+  params: z.strictObject({
+    part: z.enum(['slow', 'line']),
+    minIntervals: z.int().positive().default(2),
+  }),
   slots: z.strictObject({ current: z.number(), max: z.number(), refill: z.number() }).partial(),
   reads: ['asOf', 'account.afk', 'account.currentWorld', 'diagnostics'],
   examples: {
@@ -78,7 +85,7 @@ export default defineDetector({
       },
     ],
   },
-  run({ state, now, history, expectedReturnMs }, { part }) {
+  run({ state, now, history, expectedReturnMs }, { part, minIntervals }) {
     if (!isKnown(state, 'account.currentWorld') || (state.account.currentWorld ?? 0) < WORLD) return [];
     const subject = accountSubject;
     if (!isKnown(state, 'account.afk.liquids') || !state.account.afk?.liquids)
@@ -87,7 +94,7 @@ export default defineDetector({
     if (!water) return [{ subject, slots: {}, result: 'unknown' as const, reason: 'field-missing' as const }];
     if (water.current < water.max)
       return part === 'line' ? [{ subject, slots: {}, result: 'pass' as const }] : [];
-    const rate = observedWaterRate(history);
+    const rate = observedWaterRate(history, minIntervals);
     const refillMs = rate !== null && rate > 0 ? (water.max / rate) * HOUR : null;
     const slow = refillMs !== null && refillMs >= expectedReturnMs;
     if ((part === 'slow') !== slow) return [];
