@@ -92,24 +92,29 @@ interface Built {
 }
 
 function otherWays(kb: WalkthroughKnowledge, supplies: SupplyEval[], world: number): string[] {
-  const out: string[] = [];
+  // Drops nobody can reach yet first (best chance first), then Active Play sources (FR-8, US-5).
+  const locked: { text: string; chance: number }[] = [];
+  const active: string[] = [];
   for (const s of supplies) {
     if (s.kind === 'active-play' && s.where.monsterName)
-      out.push(
+      active.push(
         say(kb, ENTRY.assign, 'other-active', { monster: s.where.monsterName }) ?? s.where.monsterName,
       );
     else if (s.kind === 'drop' && !s.afkable && s.where.monsterName && s.where.map) {
       const gate = (s.where.world ?? 0) > world ? `World ${s.where.world}` : 'its door';
-      out.push(
-        say(kb, ENTRY.assign, 'other-unreachable', {
-          monster: s.where.monsterName,
-          map: s.where.map,
-          gate,
-        }) ?? s.where.monsterName,
-      );
+      locked.push({
+        text:
+          say(kb, ENTRY.assign, 'other-unreachable', {
+            monster: s.where.monsterName,
+            map: s.where.map,
+            gate,
+          }) ?? s.where.monsterName,
+        chance: s.chance ?? 0,
+      });
     }
   }
-  return [...new Set(out)].slice(0, 8);
+  locked.sort((a, b) => b.chance - a.chance || (a.text < b.text ? -1 : 1));
+  return [...new Set([...locked.slice(0, 8).map((l) => l.text), ...active])];
 }
 
 function treeLines(node: ReqNode, out: WalkthroughTreeLine[] = []): WalkthroughTreeLine[] {
@@ -215,7 +220,7 @@ export function planWalkthroughs(
       collapsed,
       steps,
       tree: treeLines(b.root),
-      otherWays: b.leaves.flatMap((l) => otherWays(kb, l.supplies, world)),
+      otherWays: [...new Set(b.leaves.flatMap((l) => otherWays(kb, l.supplies, world)))],
       caveats,
     };
     return {
