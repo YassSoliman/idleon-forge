@@ -11,14 +11,14 @@
 // Phone first: the presets are a segmented choice under 1000 px; from 1000 px both presets sit side by
 // side and every tab's path shows in columns (Command Board layout, D-3).
 import {
-  type BuildRoadmapView,
   buildPartLine,
   CHARACTERS_WORDS,
   cumulativeLine,
   leadTab,
   pathMarker,
   tabBadge,
-} from '@idleon-forge/engine/now';
+} from '@idleon-forge/engine/characters-ui';
+import type { BuildRoadmapView } from '@idleon-forge/engine/now';
 import type { BuildPathStepView, BuildPresetView, BuildTabView } from '@idleon-forge/engine/result';
 import { useState } from 'react';
 import { PixelArt } from '../../design/art/PixelArt';

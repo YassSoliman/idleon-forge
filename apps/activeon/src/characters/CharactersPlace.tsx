@@ -8,13 +8,8 @@
 // - the class tree block: who plays which line;
 // - the Builds overview (each character's lead tab and next steps with running totals), the Cards
 //   overview and the Skill Grid, unchanged in substance.
-import {
-  buildOverviewLine,
-  CHARACTERS_WORDS,
-  type NowView,
-  type RosterRow,
-  type TabHealth,
-} from '@idleon-forge/engine/now';
+import { buildOverviewLine, CHARACTERS_WORDS } from '@idleon-forge/engine/characters-ui';
+import type { NowView, RosterRow, TabHealth } from '@idleon-forge/engine/now';
 import type { ClassFamily, NextCharacterCard } from '@idleon-forge/engine/result';
 import type { ArtName } from '../design/art/names';
 import { PixelArt } from '../design/art/PixelArt';
