@@ -1,39 +1,44 @@
-# golden v1: speedrun-rank1 · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: speedrun-rank1 · knowledge #80d1ed78 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
 ## Now
 0 of 11 Ready · fix 10 before you leave · 1 Unknown
+counter: 10 fixes before you leave
+first: Divine Knight 1822 · Frostbite Towndra · Pick an AFK Target before you leave
+fold: 1 we can't tell: see why
+finding: Anvil full on 11 · collect
+finding: Worship full on 9 · spend
 
 ### C7 · Divine Knight 1822 · Fix before you leave
 1 · Doing nothing · Frostbite Towndra · [Anvil full · collect] · Pick an AFK Target before you leave
 
 ### C4 · Divine Knight 1787 · Fix before you leave
-2 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps
+2 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your finished traps: 7 ready
 
 ### C9 · Arcane Cultist 1783 · Fix before you leave
-3 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps
+3 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your finished traps: 7 ready
 
 ### C1 · Death Bringer 1780 · Fix before you leave
 4 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Worship full · spend] · Pick an AFK Target before you leave
 
 ### C6 · Wind Walker 1775 · Fix before you leave
-5 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps
+5 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your finished traps: 7 ready
 
 ### C11 · Divine Knight 1771 · Fix before you leave
-6 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 8 finished traps
+6 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your finished traps: 8 ready
 
 ### C2 · Arcane Cultist 1769 · Fix before you leave
-7 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps
+7 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your finished traps: 7 ready
 
 ### C10 · Siege Breaker 1763 · Fix before you leave
-8 · Fighting Gloomie Mushroom · The Hole · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps
+8 · Fighting Gloomie Mushroom · The Hole · [Anvil full · collect] [Worship full · spend] · Collect and re-place your finished traps: 7 ready
 
 ### C3 · Siege Breaker 1647 · Fix before you leave
-9 · Spelunking Fearful Tunnel · Refraction Bend · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps
+9 · Spelunking Fearful Tunnel · Refraction Bend · [Anvil full · collect] [Worship full · spend] · Collect and re-place your finished traps: 7 ready
 
 ### C5 · Elemental Sorcerer 1700 · Fix before you leave
-10 · In the Lab · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps
+10 · In the Lab · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your finished traps: 7 ready
 
 ### C8 · Voidwalker 1754 · Unknown
 11 · Catching Litterbug · Plastic Basin · [Anvil full · collect] · What is this character for?

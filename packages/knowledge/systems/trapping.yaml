@@ -7,7 +7,7 @@ entries:
     system: trapping
     type: check
     title: Finished traps sit idle
-    text: "Collect and re-place your {traps:int} finished traps"
+    text: "Collect and re-place your finished traps: {traps:int} ready"
     groupText: "Collect and re-place your finished traps"
     values: { timelineKind: timer, timelineWhat: "traps" }
     why: Size the new traps to your return. A finished trap catches nothing until it is collected and placed again. Trap timers stop on the character-select screen, so close the game fully afterwards.

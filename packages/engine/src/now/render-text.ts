@@ -5,6 +5,7 @@
 // replaced by its label (`<c3>` by default; goldens pass `C1…Cn` in save order, M11 TR-15). One
 // `### <label> · <Class> <level> · <Verdict>` line per character and one `### Account · …` line, so
 // M11's `verdictLines` can diff Verdicts between two goldens.
+import { counterLines } from './session-view';
 import type { GoalView, NowView, SourceView } from './view';
 
 export interface RenderTextOptions {
@@ -38,6 +39,8 @@ export function renderNowText(view: NowView, options: RenderTextOptions = {}): s
   const lines: string[] = [];
   for (const b of view.banners) lines.push(`! ${b.text}`);
   if (!view.progress.hidden) lines.push(view.progress.label);
+  // M21 FR-N2, FR-N3: the answer-first lines (the counter, its first fix, the folds, the findings).
+  lines.push(...counterLines(view));
 
   for (const row of view.roster) {
     const where = [row.activity, row.map].filter(Boolean).join(' · ');

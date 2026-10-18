@@ -70,24 +70,22 @@ describe('US-2 know where to go next', () => {
   it('Next skips visited characters and ones with nothing to do', () => {
     // Focus on position 2 (index 0); positions 1 and 2 visited; position 3 (index 4) is Ready with no Goals.
     const v = view(r, { focus: 0, visited: new Set([3, 0]) });
-    expect(v.focus?.next).toEqual({ index: 1, text: 'Next: switch to Birch →' });
+    expect(v.focus?.next).toEqual({ index: 1, text: 'Next: switch to Shaman 44' });
   });
   it('names the worst unvisited character wherever Focus opened; the last position reads "last one"', () => {
     const v = view(r, { focus: 2 });
     expect(v.focus?.next.index).toBe(3);
     // "n left" counts after this position, so the last one never reads "5 of 5 · 4 left" (#74 item 4).
-    expect(v.focus?.position).toBe('5 of 5 in your Visit Order · last one');
+    expect(v.focus?.position).toBe('5 of 5 · last one');
   });
   it('"n left" counts unvisited characters after this position that have something to do', () => {
     // Position 2 of [3,0,4,1,2]: after it come 4 (Ready, nothing to do), 1 and 2.
-    expect(view(r, { focus: 0 }).focus?.position).toBe('2 of 5 in your Visit Order · 2 left');
-    expect(view(r, { focus: 0, visited: new Set([1]) }).focus?.position).toBe(
-      '2 of 5 in your Visit Order · 1 left',
-    );
+    expect(view(r, { focus: 0 }).focus?.position).toBe('2 of 5 · 2 left');
+    expect(view(r, { focus: 0, visited: new Set([1]) }).focus?.position).toBe('2 of 5 · 1 left');
   });
   it('reads how many come after, never "0 left" nor "last one", when nothing after it needs a visit (R3, R6 QA)', () => {
     const v = view(r, { focus: 0, visited: new Set([1, 2]) });
-    expect(v.focus?.position).toBe('2 of 5 in your Visit Order · 3 after it');
+    expect(v.focus?.position).toBe('2 of 5 · 3 after it');
   });
   it('playing a different character than suggested only marks that one visited', () => {
     const v = view(r, { focus: 1, visited: new Set([1]) });
@@ -95,12 +93,12 @@ describe('US-2 know where to go next', () => {
   });
   it('reads "Last one" when everyone with something to do is visited', () => {
     const v = view(r, { focus: 2, visited: new Set([3, 0, 1, 2]) });
-    expect(v.focus?.next).toEqual({ index: null, text: 'Last one: check the Account list ↓' });
+    expect(v.focus?.next).toEqual({ index: null, text: 'Last one: the Account list is next' });
   });
   it('says "Nothing left to visit", not "Last one", on an earlier position once everyone is visited (R6 QA)', () => {
     const v = view(r, { focus: 3, visited: new Set([3, 0, 1, 2]) });
-    expect(v.focus?.position).toBe('1 of 5 in your Visit Order · 4 after it');
-    expect(v.focus?.next).toEqual({ index: null, text: 'Nothing left to visit: check the Account list ↓' });
+    expect(v.focus?.position).toBe('1 of 5 · 4 after it');
+    expect(v.focus?.next).toEqual({ index: null, text: 'Nothing left to visit: the Account list is next' });
   });
   it('D6: a reshuffled visitOrder keeps the frozen order while Verdicts update', () => {
     const later = fixture('mid-session');
@@ -149,7 +147,7 @@ describe('US-4 understand what a character is for', () => {
   it('shows each Purpose line with its Milestone and ETA', () => {
     const v = view(fixture('mid-session'), { focus: 0 });
     expect(v.focus?.purpose.map((p) => p.text)).toEqual([
-      '13k Poop kills · next 100k · about 40h',
+      '13k Poop kills · next 100k · in 40h 00m',
       'Fighting XP: too low for your level',
     ]);
   });
@@ -327,14 +325,14 @@ describe('US-9 know when I am done', () => {
   it('all-set: banner, first fill and "safe to log off"', () => {
     const v = view(fixture('all-set'));
     expect(v.allSet?.text).toBe('All set: safe to log off');
-    expect(v.allSet?.detail).toBe("First thing fills up in about 9h: Cedar's inventory");
+    expect(v.allSet?.detail).toBe('First thing fills up in 9h 00m: the inventory on Bowman 38');
     expect(v.progress.label).toBe('safe to log off');
   });
   it('names the character once, never "<name>\'s Bowman Lv 60\'s anvil" (R3 QA P3)', () => {
     const r = fixture('all-set');
     const fill = r.firstFill as NonNullable<typeof r.firstFill>;
     r.firstFill = { ...fill, label: `Bowman Lv 60's ${fill.label}`, what: fill.label };
-    expect(view(r).allSet?.detail).toBe("First thing fills up in about 9h: Cedar's inventory");
+    expect(view(r).allSet?.detail).toBe('First thing fills up in 9h 00m: the inventory on Bowman 38');
   });
   it('one character turning Fix drops the banner: "4 of 5 Ready · fix 1 before you leave"', () => {
     const r = fixture('all-set');
@@ -441,7 +439,7 @@ describe('US-15 game patch', () => {
     r.versions.gameBuild = 143;
     const v = view(r);
     expect(v.banners.filter((b) => b.kind === 'patch')).toEqual([]);
-    expect(`${v.footer.game} · ${v.footer.parserTarget}`).toBe('game build 143 · parser targets 2.3.540');
+    expect(`${v.footer.game} · ${v.footer.parserTarget}`).toBe('game build 143 · reads game 2.3.540');
   });
   it('the footer says "knowledge" once, whether or not the version carries the word (#74 item 4)', () => {
     const r = fixture('mid-session');
@@ -597,7 +595,7 @@ describe('US-20 get past a wrong blocker', () => {
   });
 });
 
-describe('US-21 All set ignores Purpose questions, not safety doubts', () => {
+describe('US-21 All set ignores Purpose questions; M21 FR-N2: an Unknown character never blocks it', () => {
   it('4 Ready and 1 no-purpose: banner shows, label "safe to log off · 1 Unknown"', () => {
     const r = fixture('all-set');
     (r.characters[4] as (typeof r.characters)[number]).verdict = {
@@ -610,8 +608,10 @@ describe('US-21 All set ignores Purpose questions, not safety doubts', () => {
     expect(v.allSet).not.toBeNull();
     expect(v.progress.label).toBe('safe to log off · 1 Unknown');
   });
-  it('4 Ready and 1 cannot-tell: no banner', () => {
-    expect(view(fixture('cannot-tell')).allSet).toBeNull();
+  it('4 Ready and 1 cannot-tell: All set shows (M21 FR-N2, §8), and the Unknown is counted apart', () => {
+    const v = view(fixture('cannot-tell'));
+    expect(v.allSet?.text).toBe('All set: safe to log off');
+    expect(v.progress.unknown).toBe(1);
   });
   it('account safety unknown blocks All set until skipped, then "(1 skipped)"', () => {
     const r = fixture('all-set');

@@ -1,9 +1,12 @@
-# golden v1: scrubbed-w2 · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 988
+# golden v1: scrubbed-w2 · knowledge #80d1ed78 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 988
 
 ## Verdict changes
 
 ## Now
 1 of 5 Ready · fix 1 before you leave · 3 Unknown · fix 1 in Account
+counter: 2 fixes before you leave
+first: Barbarian 60 · Poopy Sewers · Equip Meat Pie before you leave
+fold: 3 we can't tell: see why
 
 ### C1 · Barbarian 60 · Fix before you leave
 1 · Fighting Poop · Poopy Sewers · [Anvil full · collect] · Equip Meat Pie before you leave · Spend here: 8 buys, about 179M coins → Spend Plan

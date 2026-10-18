@@ -245,7 +245,8 @@ export function buildAlchemy(
   const attemptsKey = `${ENTRY.attempts}@account`;
   const attemptsGoal = prior?.account.goals.find((g) => g.nextAction.key === attemptsKey);
   if (attemptsGoal && targets.length) {
-    const list = targets.map((t) => `${t.name} (${t.rollNeeded}+, ${t.item})`).join(', ');
+    // M21 DS-19: units on every number, never a bare "97+".
+    const list = targets.map((t) => `${t.name} (a roll of ${t.rollNeeded} or more, ${t.item})`).join(', ');
     notes.push({
       key: attemptsKey,
       details: [detail(say(kb, V, 'roll-targets', { list })), detail(say(kb, V, 'roll-tip-detail'))].filter(

@@ -1,9 +1,15 @@
-# golden v1: scrubbed-w3 · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 988
+# golden v1: scrubbed-w3 · knowledge #80d1ed78 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 988
 
 ## Verdict changes
 
 ## Now
 2 of 6 Ready · fix 2 before you leave · 2 Unknown
+counter: 2 fixes before you leave
+first: Bowman 60 · Sands of Time · Swap to your fighting preset before you leave
+fold: 2 we can't tell: see why
+finding: Anvil full on 6 · collect
+finding: Worship full on 4 · spend
+ready fold: 2 characters
 
 ### C3 · Bowman 60 · Fix before you leave
 1 · Fighting Sand Giant · Sands of Time · [Anvil full · collect] [Worship full · spend] · Swap to your fighting preset before you leave · Spend here: 6 buys, about 659M coins → Spend Plan
