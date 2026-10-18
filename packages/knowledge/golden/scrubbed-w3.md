@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #e96480ed · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 338
+# golden v1: scrubbed-w3 · knowledge #97520dda · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 338
 
 ## Verdict changes
 
@@ -61,6 +61,57 @@ Equinox
 Prayers
 Salt Lick
 Shrines
+
+## Systems
+W0 · Classes and subclasses · Not covered yet · Not covered yet
+W0 · Talents · Nothing to fix · Nothing to fix · 2 to do
+W0 · Talent presets · Wasting · 2 to fix before you leave · 4 to do
+W0 · Talent resets · Nothing to fix · Nothing to fix
+W0 · Upgrade Vault · Not covered yet · Not covered yet · in the Spend Plan
+W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
+W0 · Merit Shop · Nothing to fix · Nothing to fix · 2 to do
+W0 · Tasks · Nothing to fix · Nothing to fix · 1 to do
+W0 · Companions and pets · Wasting · 1 to fix before you leave
+W0 · Minigames · Wasting · 2 to fix before you leave · 1 to do
+W0 · Cards · Behind · Behind for your Stage · 4 to do
+W0 · Obols · Behind · Behind for your Stage · 2 to do
+W0 · Portals and map doors · Not covered yet · Not covered yet
+W0 · Skills, doors and tools · Not covered yet · Not covered yet
+W1 · Stamps · Behind · Behind for your Stage · 6 to do
+W1 · Anvil · Behind · Behind for your Stage · 2 to do · 6 full · collect
+W1 · Forge · Not covered yet · Not covered yet
+W1 · Bribes · Not covered yet · Not covered yet · in the Spend Plan
+W1 · Statues · Not covered yet · Not covered yet · in the Spend Plan
+W1 · Post Office · Locked · Opens once a character reaches class Lv 50 and finishes Postboy Pablob's quest in the Yum-Yum Grotto · 1 to do · behind for your Stage
+W1 · The Owl · Not covered yet · Not covered yet
+W1 · Quests · Not covered yet · Not covered yet
+W1 · Boss keys · Nothing to fix · Nothing to fix · 1 to do
+W1 · Colosseum · Wasting · 1 to fix before you leave
+W1 · Poppy · Nothing to fix · Nothing to fix · 1 to do
+W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix
+W2 · Alchemy bubbles · Behind · Behind for your Stage · 3 to do
+W2 · Alchemy vials · Nothing to fix · Nothing to fix
+W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet · in the Spend Plan
+W2 · Arcade · Nothing to fix · Nothing to fix
+W2 · Islands · Not covered yet · Not covered yet
+W3 · Refinery · Wasting · 1 to fix before you leave · 1 to do
+W3 · Construction · Nothing to fix · Nothing to fix · 1 to do
+W3 · Talent Book Library · Nothing to fix · Nothing to fix · 2 to do
+W3 · 3D Printer · Nothing to fix · Nothing to fix
+W3 · Worship · Nothing to fix · Nothing to fix · 4 full · collect
+W3 · Trapping · Nothing to fix · Nothing to fix
+W3 · Death Note · Wasting · 1 to fix before you leave
+W3 · Salt Lick · Not covered yet · Not covered yet
+W3 · Prayers · Not covered yet · Not covered yet
+W3 · Shrines · Not covered yet · Not covered yet
+W3 · Equinox · Not covered yet · Not covered yet
+W3 · Atom Collider · Not covered yet · Not covered yet
+W4 · Laboratory · Locked · Opens in World 4 · Hyperion Nebula
+W4 · Cooking · Locked · Opens in World 4 · Hyperion Nebula
+W4 · Breeding · Locked · Opens in World 4 · Hyperion Nebula
+Needs you: Talent presets (wasting), Companions and pets (wasting), Minigames (wasting), Colosseum (wasting), Refinery (wasting), Death Note (wasting), Cards (behind), Obols (behind), Stamps (behind), Anvil (behind), Post Office (locked), Alchemy bubbles (behind)
+Other gaps: Stamp cap raises that need farming or carry capacity
+Wasting: 6
 
 ## Findings
 | entry | detector | subject | result | slots |

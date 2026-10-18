@@ -11,6 +11,7 @@ import type {
   Provenance,
   SpendStatus,
   Subject,
+  SystemSummary,
   VerdictKind,
   WalkthroughView,
 } from '../result';
@@ -312,4 +313,80 @@ export interface CardsNowView {
   caveats: string[];
   /** The wiki Cards page first, with the Toolbox credit (#74); null without any. */
   source: SourceView | null;
+}
+
+// ---- M17 Views: the Systems hub and System pages (TR-5) ----
+
+export type TileStatus = 'locked' | 'wasting' | 'behind' | 'cant-tell' | 'not-covered' | 'ok';
+
+/**
+ * One piece of view text with where it came from (TR-9): a module's own text, a registry or fact-table
+ * fact, a character's name, a time, a count, or a fixed word from `view-words.ts`.
+ */
+export interface Segment {
+  text: string;
+  origin: 'module' | 'fact' | 'name' | 'time' | 'view-word' | 'count';
+}
+
+export interface TileView {
+  id: string;
+  name: string;
+  world: number;
+  status: TileStatus;
+  /** "Locked", "Wasting", "Behind", "Can't tell", "Not covered yet", "Nothing to fix". */
+  statusWord: Segment;
+  /** FR-18: counts and view words only (and, for a locked System, how it opens). */
+  reason: Segment[];
+  counts: { toDo: number | null; toFix: number; skipped: number; pillsFull: number };
+  /** A locked System with a behind row (FR-17). */
+  alsoBehind: boolean;
+  /** TR-13: "<System>, <status word>, <reason>". */
+  accessibleName: string;
+}
+
+export interface SystemsView {
+  /** FR-21: wasting tiles, then behind ones (a locked-and-behind System among them), in world-then-registry order. */
+  needsYou: { id: string; name: string; status: 'wasting' | 'behind' | 'locked' }[];
+  groups: { world: number; heading: string; tiles: TileView[] }[];
+  /** FR-20: registry worlds past the highest reached world + 1, folded. */
+  later: { label: string; tiles: TileView[] } | null;
+  /** FR-20: "Worlds 5–7: not covered yet" for an account past World 4; null otherwise. */
+  beyond: string | null;
+  /** FR-21: M10's `notCovered` items that aren't whole Systems. */
+  otherGaps: string[];
+  /** FR-5: the navigation badge (cap pills never count, R-PILL-1). */
+  wastingCount: number;
+}
+
+/** A Goal on a System page with who it is for (FR-23): a character's name, class and level, or "Account". */
+export interface SystemPageGoal extends GoalView {
+  who: string;
+  subject: Subject;
+}
+
+export interface SystemPageView {
+  tile: TileView;
+  /** Every Goal of this System, engine order: characters in the frozen Visit Order, then the account. */
+  goals: SystemPageGoal[];
+  /** Keys skipped or dismissed here, for "n skipped · undo" and "Hidden until next patch". */
+  skippedKeys: string[];
+  dismissed: { key: string; text: string }[];
+  /** The System's cap pills per character (R-PILL-1), as the Roster shows them. */
+  pills: { subject: Subject; index: number; who: string; label: string; key: string; fullNow: boolean }[];
+  /** Spend Plan lines with a step in this System (FR-23 item 5), read-only. */
+  spendLines: { lineId: string; text: string }[];
+  unlock: (Omit<NonNullable<SystemSummary['unlock']>, 'sources'> & { source: SourceView | null }) | null;
+  /** FR-19: a locked System's own Next Actions, shown under "How it opens". */
+  locked: boolean;
+  /** "Open from the start" for an always-open System. */
+  alwaysOpen: boolean;
+  coverage: { covered: boolean; checks: { title: string; state: 'nothing-to-do' | 'see-above' }[] };
+  /** FR-23a: the Character page tab that is this System's home, e.g. 'build'. */
+  tabHome: string | null;
+  /** The System's IdleOn Wiki page (https only). */
+  wiki: string | null;
+  /** The Next Action key to outline (FR-31). */
+  highlight: string | null;
+  /** FR-23: Stage unknown shows blockers only. */
+  stageUnknown: boolean;
 }
