@@ -317,6 +317,8 @@ function lineOf(
       discount: c.hold.discountPct,
       needed: c.hold.neededPct,
       days: c.hold.days,
+      // The shared duration format ("about 2d"), never a hand-written "about N days".
+      holdIn: c.hold.days * 86_400_000,
       stamp: c.hold.stamp,
     });
     template = extra?.text ?? template;
@@ -330,15 +332,18 @@ function lineOf(
       : render(template, s, values);
   // A held batch names no material step: nothing is to be carried yet.
   const held = first.status === 'hold' ? [] : steps;
-  const text = withMaterials(renderWith(slots), held, ctx, who, freeUp);
-  const reportText = withMaterials(
-    renderWith({ ...slots, coins: twoSf(Number(slots.coins)) }),
-    held,
-    ctx,
-    who,
-    freeUp,
-    true,
-  );
+  // A step stays short (Design Lab copy rule): the grouped names and the carry steps go in `detail`.
+  const names = g.allocations.length > 1 ? listNames(g.allocations.map((a) => a.candidate.name)) : null;
+  const detailOf = (rounded: boolean) => {
+    const carries = materialsOf(held, ctx, who, freeUp, rounded);
+    const parts = [...(names ? [names] : []), ...(carries.length ? [carries.join('; ')] : [])];
+    return parts.length ? parts.join(' · ') : null;
+  };
+  const text = renderWith(slots);
+  const detail = detailOf(false);
+  const reportDetail = detailOf(true);
+  const reportBase = renderWith({ ...slots, coins: twoSf(Number(slots.coins)) });
+  const reportText = reportDetail ? `${reportBase} (${reportDetail})` : reportBase;
   const status: SpendStatus = first.status;
   const toLevel = last?.toLevel ?? null;
   return {
@@ -355,6 +360,7 @@ function lineOf(
       ? { hold: { discountPct: c.hold.discountPct, neededPct: c.hold.neededPct, days: c.hold.days } }
       : {}),
     text,
+    detail,
     reportText,
     why: render(why, slots, values),
     sources: entrySources(kb, item, refs, extra),
@@ -374,36 +380,34 @@ function lineOf(
   };
 }
 
-/** FR-9's joining phrase for a group: one per sink, naming the purchases. */
+/** FR-9's joining phrase for a group: one per sink; the purchases' names go in the line's detail. */
 function groupPhrase(g: Group, c: Candidate, steps: SpendStep[], coins: string, payer: string): string {
-  const names = g.allocations.map((a) => a.candidate.name);
   const n = g.allocations.length;
   switch (c.sink) {
     case 'vault':
-      return `Buy ${n} Vault upgrades on ${payer}: ${listNames(names)}, ${coins}`;
+      return `Buy ${n} Vault upgrades on ${payer}: ${coins}`;
     case 'stamp':
       return steps[0]?.material
-        ? `Raise ${n} stamp caps, then buy their new levels on ${payer}: ${listNames(names)}, about ${coins}`
-        : `Level ${n} stamps to their caps on ${payer}: ${listNames(names)}, ${coins}`;
+        ? `Raise and level ${n} capped stamps on ${payer}: about ${coins}`
+        : `Level ${n} stamps to their caps on ${payer}: ${coins}`;
     case 'bribe':
-      return `Buy ${n} bribes on ${payer}: ${listNames(names)}, ${coins}`;
+      return `Buy ${n} bribes on ${payer}: ${coins}`;
     case 'p2w':
-      return `Buy ${n} Pay 2 Win levels on ${payer}: ${listNames(names)}, ${coins}`;
+      return `Buy ${n} Pay 2 Win levels on ${payer}: ${coins}`;
     default:
-      return `Buy ${n} upgrades on ${payer}: ${listNames(names)}, ${coins}`;
+      return `Buy ${n} upgrades on ${payer}: ${coins}`;
   }
 }
 
 /** FR-10: "carry N <material> on <class Lv>" for each cap raise in the line. */
-function withMaterials(
-  text: string,
+function materialsOf(
   steps: SpendStep[],
   ctx: CandidateContext,
   who: (i: number | null) => string,
   freeUp: ReadonlySet<string>,
   rounded = false,
-): string {
-  const parts = steps.flatMap((s) => {
+): string[] {
+  return steps.flatMap((s) => {
     if (!s.material) return [];
     const stamp = ctx.spend.stamps?.find((x) => stampRef(x.id) === s.ref);
     const item = humanize(stamp?.raise?.materialName ?? s.material.item);
@@ -411,7 +415,6 @@ function withMaterials(
     const space = freeUp.has(s.ref) ? ', free up inventory space first' : '';
     return [`carry ${amount} ${item} on ${who(s.material.doer)}${space}`];
   });
-  return parts.length ? `${text} (${parts.join('; ')})` : text;
 }
 
 function fuelLine(
@@ -445,6 +448,7 @@ function fuelLine(
       ? { shortfall: { coins: fuel.coinsAbout - w.avail(closest), closest } }
       : {}),
     text: render(item.text, slots),
+    detail: null,
     reportText: render(item.text, { ...slots, coins: twoSf(fuel.coinsAbout) }),
     why: render(item.why, slots),
     sources: entrySources(kb, item, [ref]),

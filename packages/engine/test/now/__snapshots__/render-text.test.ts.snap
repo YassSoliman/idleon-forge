@@ -225,21 +225,21 @@ exports[`renderNowText on the view fixtures > spend-plan 1`] = `
 safe to log off
 
 ### <c0> · Squire 43 · Ready
-1 · Mining Copper · Tunnels Entrance · Nothing to do here · Spend here: 3 buys, ~4M → Spend Plan
+1 · Mining Copper · Tunnels Entrance · Nothing to do here · Spend here: 3 buys, about 4M coins → Spend Plan
 
 ### <c1> · Shaman 44 · Ready
 2 · Fighting Poop · Poopy Sewers · Nothing to do here
 
 ### <c2> · Bowman 38 · Ready
-3 · Choppin Oak · Spore Meadows · Nothing to do here · Spend here: 1 buy, ~300k → Spend Plan
+3 · Choppin Oak · Spore Meadows · Nothing to do here · Spend here: 1 buy, about 300k coins → Spend Plan
 
 ### Account · nothing to fix
 Spend coins: 4 buys now on 2 characters
-  1. Vault upgrade 1 · Lv 1 → 4 · 1.2M coins · <c0> (Squire lv43) · buy · total 1.2M on <c0>
-  2. Vault upgrade 2 · Lv 2 → 5 · 800k coins · <c0> (Squire lv43) · buy · total 2M on <c0>
-  3. Vault upgrade 3 · Lv 3 → 6 · 2M coins · <c0> (Squire lv43) · withdraw 1.5M from storage on <c0>, then buy · total 4M on <c0>
-  4. Vault upgrade 4 · Lv 4 → 7 · 300k coins · <c2> (Bowman lv38) · buy · total 300k on <c2>
-  5. Vault upgrade 5 · Lv 5 → 8 · cost not checked, see the price in game · save for it: 5M short
+  1. Vault upgrade 1 · Lv 1 → 4 · 1.2M coins · <c0> (Squire lv43) · buy · total 1.2M coins on <c0>
+  2. Vault upgrade 2 · Lv 2 → 5 · 800k coins · <c0> (Squire lv43) · buy · total 2M coins on <c0>
+  3. Vault upgrade 3 · Lv 3 → 6 · 2M coins · <c0> (Squire lv43) · withdraw 1.5M coins from storage on <c0>, then buy · total 4M coins on <c0>
+  4. Vault upgrade 4 · Lv 4 → 7 · 300k coins · <c2> (Bowman lv38) · buy · total 300k coins on <c2>
+  5. Vault upgrade 5 · Lv 5 → 8 · cost not checked · save for it: 5M coins short
   show more (1)
   can't price Statue Gold right now
 "

@@ -23,11 +23,11 @@ const starSigns: StarSignsView = {
   slots: 1,
   questDone: true,
   milestone: '21 points ready, 19 needed for Chronus Cosmos (2 signs on every character)',
-  plan: 'Bank your points: after A-7 and B-1 you can unlock up to All Rounder in one trip',
+  plan: 'Bank your points: after A-7 and B-1, unlock up to All Rounder at once',
   next: [
     {
       name: 'A-7',
-      text: 'Winding Willows, AFK 2 h on 2 characters',
+      text: 'Winding Willows, AFK 2h on 2 characters',
       points: 3,
       effortSeconds: 480,
       shown: true,
@@ -40,7 +40,7 @@ const starSigns: StarSignsView = {
       shown: false,
     },
   ],
-  later: ['Later: B-3, AFK 4 h in The Grandioso Canyon on 2 more characters (1 of 3)'],
+  later: ['Later: B-3, AFK 4h in The Grandioso Canyon, 2 more characters (1 of 3)'],
   nextCharacter: null,
   characters: [
     {
@@ -54,7 +54,7 @@ const starSigns: StarSignsView = {
       matches: false,
       canChange: false,
       killsToTelescope: 10437,
-      line: 'Bowman Lv 38 (Fighting): wear The Fuzzy Dice (wearing Flexo Bendo; it can change signs after about 10,437 kills to reach the Telescope) · after Chronus Cosmos: Pirate Booty + All Rounder',
+      line: 'Bowman Lv 38 (Fighting): wear The Fuzzy Dice (wearing Flexo Bendo; about 10,437 kills until it can reach the Telescope) · after Chronus Cosmos: Pirate Booty + All Rounder',
     },
   ],
   sources: [

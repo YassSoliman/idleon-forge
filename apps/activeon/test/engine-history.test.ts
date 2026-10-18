@@ -81,7 +81,7 @@ function run(engine: EngineCall, input: ParseInput = live, now?: number) {
   return res.result;
 }
 
-const WATER_SLOW = 'takes about 16 h to refill';
+const WATER_SLOW = 'takes about 16h to refill';
 const STOCK_UP = 'and stock up on it';
 
 // Each case parses a full save and runs every module; on a loaded CI runner the first case pays the
@@ -91,7 +91,8 @@ describe('the engine reads real save history (M10 TR-6)', { timeout: 60_000 }, (
     const text = JSON.stringify(run(call([], null)));
     expect(text).not.toContain(WATER_SLOW);
     expect(text).not.toContain(STOCK_UP);
-    expect(text).toContain("Spend Water (bubbles, vials or the Liquid Shop): it's at cap (32 of 32)");
+    expect(text).toContain('Spend Water on bubbles, vials or the Liquid Shop');
+    expect(text).toContain('Water is at cap (32 of 32).');
   });
 
   it('with enough history, the observed Water refill and the food stock-up light up', () => {
@@ -148,13 +149,21 @@ describe('the engine reads real save history (M10 TR-6)', { timeout: 60_000 }, (
       expect(g?.nextAction.text).toMatch(/^Level \w+ Lv \d+ on /);
       return g?.details?.[0]?.text ?? '';
     };
-    expect(unlock(run(call([], null)))).toContain('ETA after a few more sessions');
+    // Copy pass: the detail is the unlock itself; the altar and the ETA ride in the why.
+    const why = (r: ReturnType<typeof run>) => goalOf(r)?.nextAction.why ?? '';
+    const none = run(call([], null));
+    expect(unlock(none)).toBe(
+      'Next family unlock: character slot 6 for your Hunter at family level 300 (43 to go)',
+    );
+    expect(why(none)).toContain('ETA after a few more sessions.');
     // 257 - 227 = 30 levels in 4 days: 7.5 a day; 43 to go is about 6 days.
     const compact = engineHistoryOf(full, { before: savedAt, sessionStartedAt: null });
     expect(compact.every((h) => h.state.account.cards === undefined)).toBe(true);
-    expect(unlock(run(call(compact, null)))).toBe(
-      'Next family unlock: character slot 6 for your Hunter at family level 300 (43 to go); about 6 days at your recent pace',
+    const withHistory = run(call(compact, null));
+    expect(unlock(withHistory)).toBe(
+      'Next family unlock: character slot 6 for your Hunter at family level 300 (43 to go)',
     );
+    expect(why(withHistory)).toContain('About 6d at your recent pace.');
   });
 
   it('M15 F5: a character absent from the last save before the Play Session never leads Behind', () => {

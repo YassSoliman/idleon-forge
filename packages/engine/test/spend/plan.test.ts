@@ -61,7 +61,9 @@ describe('US-1 See what to buy, in order', () => {
     expect(first.entryId).toMatch(/#duplicate-entries$/);
     expect(first.status).toBe('buy');
     near(first.coins, 1e8, 0.01);
-    expect(first.text).toMatch(/^Buy Duplicate Entries \(Vault\) on .+ before you redeem Colosseum tickets/);
+    expect(first.text).toMatch(
+      /^Buy Duplicate Entries \(Vault\) on .+ before redeeming tickets: 100M coins$/,
+    );
   });
 
   it('AC-1.2 W2-late: no Duplicate Entries (row 52 is locked)', () => {
@@ -188,7 +190,9 @@ describe('US-3 Raise stamp caps, then buy the levels', () => {
     ]);
     const line = raises[0]?.line as SpendLine;
     expect(new Set(raises.map(({ line: l }) => l.id)).size).toBe(1);
-    expect(line.text).toMatch(/^Raise 2 stamp caps, then buy their new levels/);
+    expect(line.text).toMatch(/^Raise and level 2 capped stamps on /);
+    expect(line.detail).toMatch(/Shield/);
+    expect(line.detail).toMatch(/Hatchet/);
     near(line.coins, 1.31e6, 0.02);
     expect(p2.handoffs).toContainEqual(
       expect.objectContaining({ kind: 'stamp-material', ref: 'stamps.acquisition.stamp-a5' }),
@@ -257,7 +261,8 @@ describe("US-4 Don't waste the Hydrogen discount (synthetic: Hydrogen Lv 5, raw 
     const held = p.lines.find((l) => l.status === 'hold');
     expect(held?.hold).toEqual({ discountPct: 40, neededPct: 55, days: 3 });
     const name = (h8.account.spend?.stamps?.find((x) => x.id === 'StampA9')?.name ?? '').replace(/_/g, ' ');
-    expect(held?.text).toBe(`Hold stamp cap raises: discount 40%, 55% needed for ${name}, about 3 days`);
+    expect(held?.text).toBe('Hold stamp cap raises for the Hydrogen discount (40% of 55%)');
+    expect(held?.why).toContain(`${name} fits in an inventory once the discount reaches 55%, in about 72h`);
     expect(p.lines.filter((l) => l.steps.some((s) => s.material) && l.status !== 'hold')).toHaveLength(0);
   });
 

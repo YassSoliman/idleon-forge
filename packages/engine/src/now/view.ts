@@ -109,7 +109,8 @@ export interface RosterRow {
   name: string;
   classLabel: string;
   level: number;
-  activity: string;
+  /** "Mining Copper"; null when the AFK Target is unknown (an unknown token is hidden, never printed). */
+  activity: string | null;
   map: string | null;
   /** "● playing" (FR-4): the caller decides (live mode, save under the auto-open threshold). */
   playing: boolean;
@@ -122,7 +123,7 @@ export interface RosterRow {
   summary: string;
   /** M4 FR-11: the Purpose headline ("Poop kills ~2,995 → 10k for Dirty Money · about 5h"); null without one. */
   purpose: string | null;
-  /** "Spend here: 3 buys, ~1.2M → Spend Plan" (FR-4, M7 D5). */
+  /** "Spend here: 3 buys, about 1.2M coins → Spend Plan" (FR-4, M7 D5). */
   spendChip: string | null;
   /** US-1: number, name, class, level, activity, map, Verdict and summary. */
   accessibleName: string;
@@ -169,7 +170,8 @@ export interface FocusCard {
   name: string;
   classLabel: string;
   level: number;
-  activity: string;
+  /** "Mining Copper"; null when the AFK Target is unknown (an unknown token is hidden, never printed). */
+  activity: string | null;
   map: string | null;
   strip: StripItem[];
   /** "7 of 11 in your Visit Order · 4 left" (counted after this position), or "11 of 11 … · last one". */
@@ -257,11 +259,14 @@ export interface DoneView extends Done {
 export interface SpendLineView {
   id: string;
   key: string;
+  /** The short step ("Buy 2 Vault upgrades on Squire Lv 43: 1.3B coins"). */
   text: string;
+  /** The rest, shown small under it: a group's names, "carry 25 Jungle Logs on Wizard Lv 73"; or null. */
+  detail: string | null;
   /** "Lv 12 → 15", or null. */
   levels: string | null;
-  /** "1.2M coins", or "cost not checked, see the price in game". */
-  cost: string;
+  /** "1.2M coins"; null when the cost is not checked (the status pill says so; unknown tokens are hidden). */
+  cost: string | null;
   /** "<name> (Squire lv43)", or null. */
   payer: string | null;
   status: SpendStatus;
