@@ -22,6 +22,7 @@ import type {
 } from '../result';
 import { buildsView } from './build-view';
 import { cardsView } from './cards-view';
+import { checklistView } from './checklist-view';
 import { aboutDuration, compact, plural, shortDuration } from './format';
 import {
   dismissActive,
@@ -31,6 +32,7 @@ import {
   skipActive,
   skipExpiresAt,
 } from './prefs';
+import { skillGridView, skillsView } from './skills-view';
 import { starSignsView } from './star-signs-view';
 import type {
   ActivePlayView,
@@ -667,6 +669,9 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
     builds: buildsView(result),
     cards: cardsView(result),
     starSigns: starSignsView(result),
+    checklist: checklistView(result, prefs, { now: ui.now, tzOffsetMinutes: ui.tzOffsetMinutes }),
+    skills: skillsView(result),
+    skillGrid: skillGridView(result),
   };
 }
 

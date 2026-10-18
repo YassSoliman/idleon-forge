@@ -23,6 +23,12 @@ export const SYSTEM_HOMES: Readonly<Record<string, SystemHome>> = {
   'star-signs': { tab: 'signs', page: 'star-signs' },
   // Phase 2: ActiveOn's own AFK concept lives on the Timeline (FR-31).
   afk: { timeline: true },
+  // M20 TR-6: the Parallel Slot pictures, and the Skills tab (M17 FR-23a, X9).
+  construction: { page: 'cog-board' },
+  worship: { page: 'worship' },
+  trapping: { page: 'trapping' },
+  alchemy: { page: 'cauldron-seats' },
+  skills: { tab: 'skills' },
 };
 
 /** The Character page tab a System's home is, or null for its System page. */

@@ -21,6 +21,7 @@ export {
 } from './build-now-view';
 export { buildHref, buildsView } from './build-view';
 export { cardsHref, cardsView } from './cards-view';
+export { type ChecklistUi, checklistView } from './checklist-view';
 export { aboutDuration, clockAt, compact, formatAge, inSpan, plural, shortDuration, span } from './format';
 export {
   dismissActive,
@@ -30,6 +31,7 @@ export {
   PREFS_CAP,
   pruneDismissals,
   pruneSkips,
+  pruneTicks,
   SESSION_GAP_MS,
   type SessionClock,
   type SkipEntry,
@@ -39,6 +41,7 @@ export {
 } from './prefs';
 export { type RenderTextOptions, renderNowText } from './render-text';
 export { renderSystemsText, renderTimelineText } from './render-views-text';
+export { skillGridView, skillsHref, skillsView } from './skills-view';
 export { signsHref, starSignsView } from './star-signs-view';
 export { SYSTEM_HOMES, type SystemHome, tabHomeOf, timelineHome } from './system-homes';
 export { buildSystemPageView, buildSystemsView, type SystemsUi, seeItSystem } from './systems-view';
