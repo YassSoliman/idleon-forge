@@ -85,6 +85,10 @@ describe('US-2 know where to go next', () => {
       '2 of 5 in your Visit Order · 1 left',
     );
   });
+  it('reads "last one", never "0 left", when nothing after this position needs a visit (R3 QA P3)', () => {
+    const v = view(r, { focus: 0, visited: new Set([1, 2]) });
+    expect(v.focus?.position).toBe('2 of 5 in your Visit Order · last one');
+  });
   it('playing a different character than suggested only marks that one visited', () => {
     const v = view(r, { focus: 1, visited: new Set([1]) });
     expect(v.focus?.next.index).toBe(3);
@@ -321,6 +325,12 @@ describe('US-9 know when I am done', () => {
     expect(v.allSet?.detail).toBe("First thing fills up in about 9h: Cedar's inventory");
     expect(v.progress.label).toBe('safe to log off');
   });
+  it('names the character once, never "<name>\'s Bowman Lv 60\'s anvil" (R3 QA P3)', () => {
+    const r = fixture('all-set');
+    const fill = r.firstFill as NonNullable<typeof r.firstFill>;
+    r.firstFill = { ...fill, label: `Bowman Lv 60's ${fill.label}`, what: fill.label };
+    expect(view(r).allSet?.detail).toBe("First thing fills up in about 9h: Cedar's inventory");
+  });
   it('one character turning Fix drops the banner: "4 of 5 Ready · fix 1 before you leave"', () => {
     const r = fixture('all-set');
     const c = r.characters[0] as (typeof r.characters)[number];
@@ -344,7 +354,9 @@ describe('US-9 know when I am done', () => {
     const r = fixture('all-set');
     r.firstFill = null;
     r.alreadyFull = 4;
-    expect(view(r).allSet?.detail).toBe("Nothing fills up before you're back · 4 already full");
+    expect(view(r).allSet?.detail).toBe(
+      "Nothing fills up before you're back · 4 things are already full: collect them before you go",
+    );
   });
 });
 

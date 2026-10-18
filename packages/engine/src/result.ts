@@ -195,7 +195,10 @@ export interface Done {
   confirmedAt: number;
 }
 export interface Fill {
+  /** What fills, with its owner's class for a character: "Bowman Lv 60's anvil". */
   label: string;
+  /** What fills without its owner ("anvil"), so a view that names the character doesn't say it twice. */
+  what?: string;
   at: number;
   subject: Subject;
 }
