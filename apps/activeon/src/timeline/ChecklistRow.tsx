@@ -8,7 +8,7 @@
 import type { ChecklistRowView, TimelineFix } from '@idleon-forge/engine/now';
 import { LINK_WORDS, PLACE_WORDS } from '@idleon-forge/engine/now';
 import { PixelArt } from '../design/art/PixelArt';
-import { cx } from '../design/atoms';
+import { Button, cx } from '../design/atoms';
 import { SourceLabel } from '../design/atoms/SourceLabel';
 import { useNowActions } from '../now/context';
 import { formatRoute } from '../shell/route';
@@ -142,14 +142,14 @@ export function ChecklistRow({ r }: { r: ChecklistRowView }) {
         </p>
         <div className="cl-actions">
           {r.manual ? (
-            <button
-              type="button"
-              className={`ghost cl-tick${r.manual.ticked ? ' on' : ''}`}
+            <Button
+              tone="quiet"
+              className={`cl-tick${r.manual.ticked ? ' on' : ''}`}
               aria-pressed={r.manual.ticked}
               onClick={() => actions.tick?.(r.manual?.key ?? '', r.manual?.ticked ? null : until)}
             >
               {r.manual.ticked ? 'Done ✓ · undo' : 'Done'}
-            </button>
+            </Button>
           ) : null}
           {r.manual ? <span className="cl-hint">{r.manual.hint}</span> : null}
           <RowLink r={r} />

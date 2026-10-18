@@ -94,6 +94,10 @@
   gap: var(--space-2);
   min-width: 0;
 }
+.tl-ret .a-seg__option {
+  min-width: var(--tap-min);
+  justify-content: center;
+}
 .tl-ret-l {
   font-size: var(--text-sm);
   color: var(--muted);
@@ -411,7 +415,7 @@
   }
   .tl-bar.end .tl-bar-l {
     left: auto;
-    right: max(0px, calc((1 - var(--x)) * 100% + 12px));
+    right: max(0px, calc((1 - var(--x)) * 100% + 20px));
   }
   .tl-bar.untimed .tl-bar-l {
     left: 14%;
@@ -615,7 +619,9 @@
 .tl-more a {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   min-height: var(--tap-min);
+  min-width: var(--tap-min);
 }
 
 /* ---- FR-T3 the Parallel Slots grid (the Lab's Slot grid) ---- */

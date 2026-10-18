@@ -13,7 +13,6 @@
 // - the lists under it: each lane as a list of text items in time order, with the real "See the fix"
 //   and "See it" links (TR-13). A sentence that repeats on several characters is said once.
 import {
-  type PillView,
   type TimelineBarView,
   type TimelineLane,
   type TimelineView,
@@ -21,7 +20,7 @@ import {
 } from '@idleon-forge/engine/now';
 import { type CSSProperties, Fragment, useEffect, useRef } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
-import { SegmentedControl } from '../design/atoms';
+import { SegmentedControl, VerdictStamp } from '../design/atoms';
 import { type ClassFamily, WhoGlyph } from '../design/who/WhoGlyph';
 import { tabHref } from '../now/character-tabs';
 import { formatRoute } from '../shell/route';
@@ -38,8 +37,6 @@ const familyOf = (s: Session, index: number | null): ClassFamily =>
   (index !== null ? s.view.families?.[index] : undefined) ?? 'beginner';
 const rowOf = (s: Session, index: number | null) =>
   index === null ? undefined : s.view.roster.find((r) => r.index === index);
-
-const pillClass = (p: PillView | null) => (p ? `pill ${p.kind}` : '');
 
 /** The Lab's "Back in" control: the Expected Return chips as one radio group (M10 FR-9, M21 FR-T1). */
 function ReturnControl({ s }: { s: Session }) {
@@ -362,9 +359,7 @@ function LaneList({ lane, s, level }: { lane: TimelineLane; s: Session; level: 4
           {lane.heading}
         </a>
         {lane.detail ? <span className="tl-lane-d"> {lane.detail}</span> : null}
-        {lane.verdict ? (
-          <span className={`${pillClass(lane.verdict)} small`}>{lane.verdict.text}</span>
-        ) : null}
+        {lane.verdict ? <VerdictStamp verdict={lane.verdict.kind} word={lane.verdict.text} /> : null}
       </H>
       {items.length ? (
         <ul className="tl-items">
@@ -417,7 +412,12 @@ export function TimelinePlace({ s }: { s: Session }) {
   }, [takeArrivalFocus]);
   // M21 TR-6: `#slots` and `#daily` open the place at that section (this place mounts late, so it scrolls).
   useEffect(() => {
-    if (section) document.getElementById(section)?.scrollIntoView?.({ block: 'start' });
+    if (!section) return;
+    // After the lazy sections have drawn (their art loads on first draw), so the scroll lands.
+    const id = requestAnimationFrame(() =>
+      document.getElementById(section)?.scrollIntoView?.({ block: 'start' }),
+    );
+    return () => cancelAnimationFrame(id);
   }, [section]);
   const now = v ? nowBar(v) : null;
   return (
