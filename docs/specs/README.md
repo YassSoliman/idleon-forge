@@ -1,6 +1,6 @@
 # ActiveOn MVP spec index
 
-The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), M16 (Star Signs and constellations, a small module of its own) and M17 (the views: navigation shell, Timeline and Systems hub), for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/idleon-forge/issues/1)), read as one whole. Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0009](../adr/).
+The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), M16 (Star Signs and constellations, a small module of its own), M17 (the views: navigation shell, Timeline and Systems hub) and M20 (Skills, Parallel Slots and the Daily & Weekly Checklist), for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/idleon-forge/issues/1)), read as one whole. Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0009](../adr/).
 
 **How to read a spec.** Each spec ends with **Final rulings (Yasser, 2026-10-17)**, which supersede anything above them. The consistency pass of 2026-10-17 rewrote the body text of every spec so it agrees with its own Final rulings and with the other specs, and added a short `Consistency pass (2026-10-17)` section to each one listing what changed. Where two specs still disagree, this index says which one owns the answer (the "Owner" columns below). The few genuine conflicts between rulings are not resolved here; they are listed under [Needs Yasser](#needs-yasser).
 
@@ -25,10 +25,11 @@ The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), M1
 | M15 | [Account depth](M15-account-depth.md) | Five features from the AutoReview deep dive, each built in its owner's folder: Refinery set-up (M6), Construction "build this next" (M6 Check, M2 list), next family-level unlock (M2, M8 obol rows), Talent Book Library (M9), Behind for your Stage (M2) | `refinery.check.auto-refine-off` / `refine-full` / `unlock-next`, `construction.check.build-next`, `construction.priority.build-order`, `metapath.goal.family-unlock`, `library.check.checkout` / `read-book`, `metapath.metapath.stage-expectations`, `metapath.goal.behind` | M1, M2, M6, M8, M9, M11, M14 |
 | M16 | [Star Signs and constellations](M16-star-signs.md) | Fill 3f: the Telescope start, the next constellations with party Walkthroughs (who goes where, what the challenge is), the Star Chart unlock order (Chronus Cosmos, the Hydron chart, Hydron Cosmos) and the sign each character should wear for its AFK Target, as one account line with per-character details | `star-signs.goal.telescope`, `star-signs.goal.constellation@<name>`, `star-signs.goal.signs`, `star-signs.check.activeplay-challenge`, `star-signs.priority.chart-order` / `fit-*`, facts `star-signs.fact.constellations` / `chart` / `rules` | M1, M2, M10, M11, M14 (`holdingsOf`, reachability and kill rates, FR-18's exclusions) |
 | M17 | [Views: navigation shell, Timeline and Systems hub](M17-views.md) | A findable home for every feature: four places (Now, Characters, Systems, Timeline) with bare-anchor routes; the Characters grid and Character pages; the Systems hub (a tile per System, wasting / behind / ok / locked, with unlock conditions) and System pages; the Timeline (lanes and bars to each cap against the return). Views add "See it" links and no advice | No Checks. Owns `Route`, `parseRoute`, `formatRoute`, `SystemSummary`, `BehindSystem`, `TimelineBar`, `buildSystemsView`, `buildSystemPageView`, `buildTimelineView`, `SYSTEM_HOMES`, the `## Systems` and `## Timeline` golden sections | M1, M2 (M15 F5), M3, M6, M7, M10, M11, M13; M8 and M9 tabs |
+| M20 | [Skills, Parallel Slots and the Daily & Weekly Checklist](M20-skills-parallel-slots.md) | One account checklist of every daily and weekly reset item with the account's own reset clocks, done-detection and a progress ring on Now; who should fill each free Parallel Slot (Cog Board seat, worship skull, traps, cauldron seat); the Skills tab per character; the Construction, Worship, Trapping and Alchemy page bodies and the Skill Grid for M17 | `checklist.fact.rows` and its rows, `random-events.check.today`, `killroy.check.room` / `.skulls`, `weekly-battles.check.raid`, `ballot.check.vote`, `pet-tournament.check.register`, `task-board.check.daily`, `guild.check.daily` / `.weekly`, `construction.check.cog-seat-free` (from M3), `worship.check.no-skull`, `trapping.check.start` / `.no-trap-set`, `alchemy.check.liquid-unstaffed`, `slots.priority.fill-order`. Owns `Checklist`, `SystemPicture`, `SkillGrid`, `CharacterSkills`, `SlotPip` | M1, M2, M3, M6 (its fields and Goals), M10, M11, M14 (quest Walkthroughs, printer facts); M17 consumes |
 
 ## Build order
 
-**M1 → M11 → M2 → M10 → M13 → M3 → M6 → M14 (Phase 1) → M15 (Phase 1) → M16 (Phase 1) → M4 → M7 → M8 → M9 (+ M15 F4) → M5 → M14 (Phases 2–3)**, with **M12 alongside** from the start (each module ships to the shared URL when done, #13).
+**M1 → M11 → M2 → M10 → M13 → M3 → M6 → M14 (Phase 1) → M15 (Phase 1) → M16 (Phase 1) → M20 (Phase 1) → M4 → M7 → M8 → M9 (+ M15 F4) → M5 → M14 (Phases 2–3)**, with **M12 alongside** from the start (each module ships to the shared URL when done, #13).
 
 | Step | Module | Why here |
 |---|---|---|
@@ -42,6 +43,7 @@ The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), M1
 | 8 | M14 Phase 1 | Quest Walkthroughs and the printer Parallel Slot Plan: the owner's top ask; needs only M1–M3, M6, M11 (M14 Q3) |
 | 8b | M15 Phase 1 | Refinery set-up, build this next, next family unlock, and Behind for your Stage with the rows whose fix already exists; built in the M6 and M2 folders. F4 (Library) waits for M9's Builds (M15 D-3); each later module adds its own Stage Expectation rows |
 | 8c | M16 Phase 1 | Star Signs and constellations (fill 3f): needs only M1, M2, M11 and M14 Phase 1's Walkthrough view, holdings and reachability. AFK-hours constellations (Phase 2) wait for M14 Phases 2–3 |
+| 8d | M20 Phase 1 | The Daily & Weekly Checklist, the four Parallel Slots beyond the printer and the Skills tab: needs only M1–M3, M6, M10, M11 and M14 Phase 1; its page bodies plug into M17's System pages once M17 Phase 1 ships. Phase 2 (Demand-driven slot choices, the skull ladder, more rows) waits for M14 Phase 2 and M19 |
 | 9 | M4 | Purpose turns Ready into "safe and serving" (until then Ready = safe, M3 D4); adds `walkthrough.contribution.supply` |
 | 10 | M7 | Coins |
 | 11 | M8 | Collections; imports M14's `holdingsOf` |
@@ -50,7 +52,7 @@ The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), M1
 | 14 | M14 Phases 2–3 | Account-wide parallel plans, observed skilling rates, gear, the other Parallel Slots |
 | — | M12 | Alongside: first deploy, Previews, parser sync |
 
-**After release R5 (owner feedback 2026-10-18, M17 D-19):** **M17 Phase 1** (shell, routes, Characters, Systems hub, generic System pages, "See it") → **M17 Phase 2** (Timeline, with the M3 and M6 bar producers) → M16 Phase 1 → the remaining steps above. **M17 Phase 3** (registry growth, FR-35) runs alongside M18–M21, each of which adds its own System page picture or Character page tab through M17's `SYSTEM_HOMES` and `characterTabs`. The Map place is a later phase or its own spec.
+**After release R5 (owner feedback 2026-10-18, M17 D-19):** **M17 Phase 1** (shell, routes, Characters, Systems hub, generic System pages, "See it") → **M17 Phase 2** (Timeline, with the M3 and M6 bar producers) → M16 Phase 1 → M20 Phase 1 → the remaining steps above. **M17 Phase 3** (registry growth, FR-35) runs alongside M18–M21, each of which adds its own System page picture or Character page tab through M17's `SYSTEM_HOMES` and `characterTabs`. The Map place is a later phase or its own spec.
 
 ## Id formats
 
@@ -110,6 +112,9 @@ Every type or function used by more than one module, with the one spec that owns
 | `buildSystemsView`, `buildSystemPageView`, `buildTimelineView`, `renderSystemsText`, `renderTimelineText`, `view-words.ts` | M17 TR-5, TR-6, TR-9, TR-10 | Pure view builders beside `buildNowView`, and the golden sections | M11 goldens, the app |
 | `SYSTEM_HOMES` (`apps/activeon/src/systems/homes.ts`) | M17 TR-7 | Which Systems have a hub tile, a dedicated page or a Character page tab | M8, M9, M16, M18–M21 |
 | System registry `kind`, `unlockFact`; fact table `systems.fact.unlocks` | M17 TR-8 (an M11 TR-9, TR-2b amendment) | Game vs ActiveOn rows; how each game System opens, as a patch-tagged authored fact with a wiki Source (reuses `metapath.fact.town-unlocks`) | M11 `coverage`, M17 |
+| Account State: `characters[].skills`, `characters[].slots`, `cogBoard`, `liquids` (with caps and unlocks), `resets`, `killroy`, `weeklyBattle`, `ballot`, `randomEvents`, `petTournament`, `taskBoardDailies`, `guildTasks` | M20 TR-2 (`cogBoard` replaces M3 TR-2's planned field; `skills` supersedes M14's `skillLevels` for new readers) | Skill levels, Parallel Slot facts, reset items | M3, M14, M17, M20 |
+| `checklist.fact.rows` (row registry) | M20 TR-3 | Every daily and weekly reset row; a module that adds a reset item adds its row | every module with a reset item |
+| `Checklist`, `ChecklistRow`, `CharacterSkills`, `SlotPip`, `SystemPicture`, `SkillGrid`, `EngineResult.slotPictures` | M20 TR-5, TR-6 | The checklist and rings, the Skills tab, slot pips, the dedicated System page bodies (via M17's `SYSTEM_HOMES`, highlight by `NextAction.key`) and the Skill Grid (`#skills` overview, M20 X9); M20's `TimelineBar`s for Killroy skulls and the next Random Event | M10, M17 |
 
 ## Check ownership matrix
 
@@ -130,7 +135,7 @@ One owner per Check. "Pos" is the Priority List position (M2 TR-13): B = Verdict
 | `trapping.check.slots-and-timers` / `finishes-early` | M3 | blocker / next-action | B / +∞ | |
 | `alchemy.check.cauldron-unassigned` | M3 | blocker | B | |
 | `printer.check.sample-blank` | M3 | next-action | 3 (3g) | |
-| `construction.check.cog-seat-free` | M3 | next-action | 3 (3g) | |
+| `construction.check.cog-seat-free` | M20 (from M3, M20 D-9) | next-action | 3 (3g) | Names who to seat (M20 FR-20); at most 2 M20 slot Goals at once |
 | `forge.check.slot-empty` | M3 | blocker if ore owned, else next-action | B | New (M3 Final rulings RT-10) |
 | `arcade.check.balls-cap` (account) | M3 | blocker | B (Account) | M6 has no Arcade Check; cap is 48 h on both fixtures |
 | `alchemy.check.liquid-cap` (account) | M3 | blocker | B (Account) | Water only until liquids 2–4 are verified |
@@ -173,8 +178,12 @@ One owner per Check. "Pos" is the Priority List position (M2 TR-13): B = Verdict
 | `star-signs.goal.constellation@<name>` | M16 | Goal (Account) with a Walkthrough | 3 (3f) | At most 2 at once, quickest first; claim, visit, level and candy kinds (M16 D-2, D-3) |
 | `star-signs.goal.signs` | M16 | Goal (Account) or info line | 3 (3f) | Unlock next sign, empty slot, better non-starter fit; per-character details (#70 A5) |
 | `star-signs.check.activeplay-challenge` | M16 | Active Play | — | Boss, colosseum, barehanded, wave constellations; never a Goal |
+| `worship.check.no-skull`, `trapping.check.start`, `trapping.check.no-trap-set`, `alchemy.check.liquid-unstaffed` | M20 | next-action (Account, per-character details) | 3 (3g) | At most 2 M20 slot Goals at once, by `slots.priority.fill-order` (M20 FR-29); the liquid move is `nice`, confidence M |
+| `random-events.check.today`, `killroy.check.skulls` | M20 | next-action, by urgency | 1 or none | A Goal only while an event is live or within 20 min, and only when skulls would be wiped before the return (M20 FR-9); otherwise checklist rows |
+| `killroy.check.room`, `weekly-battles.check.raid` | M20 | Active Play | — | Plus their checklist rows |
+| `ballot.check.vote`, `pet-tournament.check.register`, `task-board.check.daily`, `guild.check.daily`, `guild.check.weekly` | M20 | checklist row only (`surface: checklist`) | — | Never a Goal (M20 D-4); guild rows are a manual Done tick (D-6) |
 
-**No MVP owner: shown under "Not covered yet"** (M6 Final rulings RT1, applied to every leftover): tools (Leverage 3d), W4+ constellations and Infinite Stars (M16 covers W1–W3, 3f), W4 shop dailies (1i), Random Events, Liquid Shop dailies and cheap daily obols, the Equinox bar, weekly items (Killroy, Ballot, weekly bosses), unfillable slots and caps to raise (trap sets, printer level, anvil Capacity, carry bags), Refinery storage (M3 Final rulings RT-10), Lab, Cooking and Breeding AFK safety, Forge upgrades as a spend, stamp raises that need farming or carry capacity, Worlds 5–7, elite and Journeyman talent builds.
+**No MVP owner: shown under "Not covered yet"** (M6 Final rulings RT1, applied to every leftover): tools (Leverage 3d), W4+ constellations and Infinite Stars (M16 covers W1–W3, 3f), W4 shop dailies (1i), Liquid Shop dailies and cheap daily obols, the Equinox bar, Happy Hour dungeon runs, unfillable slots and caps to raise (printer level, anvil Capacity, carry bags, skulls past the Wax Skull), Refinery storage (M3 Final rulings RT-10), Lab, Cooking and Breeding AFK safety, Forge upgrades as a spend, stamp raises that need farming or carry capacity, Worlds 5–7, elite and Journeyman talent builds.
 
 ## Verify before build
 
@@ -278,6 +287,11 @@ Facts each module must check before (or in) its first build PR. Open facts, not 
 - [ ] The unlock condition, world and wiki page of each game System row, each page opened by the PR author (#74).
 - [ ] `EngineResult` size on the 11-character public save before and after the new fields (M10 TR-12).
 - [ ] FR-35's ten new registry rows: each System still exists at 2.3.540, and its world.
+**M20**
+- [ ] The game's build rate counts board squares only, as Toolbox does (N.js `WorkbenchStuff`, V1); settles M3 TR-12 item 3.
+- [ ] Lord of the Hunt quest 1 gates trap placement per character (V2); `trapping.fact.trap-set-capacity` per set from N.js (V3), which also unblocks M3 FR-21 (i).
+- [ ] The daily-task done field `Tasks[1][w][8]` (V4), `OLA[511]` for Tournament registration (V5), the Weekly Battle and Ballot unlock gates (V6), the W1 Task Board unlock signal (V7).
+- [ ] M11's `surface: checklist` field and the row-registry CI check (M20 X1).
 
 **M12**
 - [ ] Chunk-load behaviour after a redeploy (TR-10, Appendix A step 14).
