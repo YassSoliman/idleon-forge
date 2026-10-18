@@ -4,7 +4,6 @@
 .al-step {
   margin: 0 0 12px;
   padding: 8px 12px;
-  border-left: 4px solid var(--accent);
   background: var(--surface);
   border-radius: var(--radius-card);
 }
@@ -30,10 +29,9 @@
 }
 .al-pot {
   min-width: 0;
-  border: 1px solid var(--line);
   /* R11 QA (owner ask): each cauldron reads in its own colour at a glance: a band in the pot's
      colour and a light wash of it behind the card. */
-  border-top: 6px solid var(--pot, var(--line));
+  box-shadow: inset 0 6px 0 var(--pot, var(--line));
   border-radius: var(--radius-card);
   background: color-mix(in srgb, var(--pot, var(--surface)) 12%, var(--surface));
 }
@@ -66,9 +64,9 @@
   right: 4px;
   bottom: 0;
   height: 36px;
-  border: 3px solid var(--fg);
-  border-radius: 6px 6px 18px 18px;
+  border-radius: 0;
   background: var(--pot);
+  box-shadow: inset 0 0 0 3px var(--fg);
 }
 .al-pot-body::before {
   content: "";
@@ -77,9 +75,9 @@
   right: -7px;
   top: -6px;
   height: 6px;
-  border: 3px solid var(--fg);
   border-radius: 3px;
   background: var(--pot-rim, var(--sunk));
+  box-shadow: inset 0 0 0 3px var(--fg);
 }
 .al-rise {
   position: absolute;
@@ -94,8 +92,8 @@
 .al-rise i {
   width: 6px;
   height: 6px;
-  border: 1px solid var(--fg);
   background: var(--pot);
+  box-shadow: inset 0 0 0 1px var(--fg);
 }
 .al-power {
   --pot: var(--cauldron-power-3);
@@ -118,7 +116,7 @@
   font-weight: 700;
   color: var(--fg);
   background: var(--accent-soft);
-  border-radius: 999px;
+  border-radius: 0;
   padding: 0 8px;
 }
 .al-sheet {
@@ -170,10 +168,10 @@
   display: block;
   width: 14px;
   height: 24px;
-  border: 2px solid var(--line);
-  border-radius: 2px 2px 6px 6px;
+  border-radius: 0;
   background: var(--surface);
   overflow: hidden;
+  box-shadow: inset 0 0 0 2px var(--line);
 }
 .al-glass i,
 .al-tube-g i {
@@ -215,11 +213,11 @@
   display: block;
   width: 26px;
   height: 88px;
-  border: 2px solid var(--fg);
   border-top: 0;
-  border-radius: 0 0 13px 13px;
+  border-radius: 0;
   background: var(--surface);
   overflow: hidden;
+  box-shadow: inset 0 0 0 2px var(--fg);
 }
 .al-tube.locked .al-tube-g {
   border-style: dashed;
@@ -244,7 +242,6 @@
   width: 100%;
   min-height: var(--tap-min);
   padding: var(--space-1) var(--space-2);
-  border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--surface);
   color: var(--fg);
@@ -264,7 +261,7 @@
 .al-bar {
   display: block;
   height: 6px;
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   background: linear-gradient(to right, var(--ok) calc(var(--pct) * 1%), var(--line) 0);
 }
 .al-cell.closed {

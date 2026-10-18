@@ -18,7 +18,6 @@
   min-width: var(--tap-min);
   padding: 0 var(--space-3);
   border-radius: var(--radius-chip);
-  border: 1px solid var(--line);
   background: var(--chip-bg);
   color: var(--fg);
   font: var(--weight-semibold) var(--text-sm) / var(--lh-snug) var(--font-body);
@@ -287,7 +286,7 @@ label.chip {
   display: inline-block;
   width: 8px;
   height: 8px;
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--bad);
 }
 .n-dot.is-ok {
@@ -357,7 +356,6 @@ label.chip {
   gap: var(--space-1);
   min-height: var(--tap-min);
   padding: 0 var(--space-3) 0 var(--space-1);
-  border: 1px solid var(--line);
   border-radius: var(--radius-chip);
   background: var(--surface);
   color: var(--fg);
@@ -424,15 +422,15 @@ label.chip {
   gap: var(--space-2);
   align-items: center;
   min-height: var(--tap-min);
-  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 0 var(--line);
 }
 .n-box {
   flex: none;
   width: 18px;
   height: 18px;
-  border: 2px solid var(--line-strong);
   border-radius: 3px;
   background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--line-strong);
 }
 .n-menu-list {
   list-style: none;
@@ -449,11 +447,11 @@ label.chip {
   width: 100%;
   padding: var(--space-2) var(--space-1);
   border: 0;
-  border-bottom: 1px solid var(--line);
   background: none;
   color: var(--fg);
   font: inherit;
   text-align: left;
+  box-shadow: 0 1px 0 var(--line);
 }
 .n-menu-row {
   cursor: pointer;
@@ -497,7 +495,6 @@ label.chip {
   display: grid;
   gap: var(--space-3);
   padding: var(--card-pad);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--surface);
   box-shadow: var(--shadow-1);
@@ -530,7 +527,7 @@ label.chip {
   font-size: var(--text-sm);
 }
 .n-vb--fix {
-  border-left: 4px solid var(--bad);
+  background: var(--bad-soft);
 }
 .n-vb--fix.is-demoted {
   opacity: 1;
@@ -544,7 +541,6 @@ label.chip {
 }
 .n-vb--ok[data-direction="quest"] {
   background: var(--surface);
-  border: var(--border-width) solid var(--frame);
   box-shadow: var(--shadow-1);
 }
 .n-vb--stale {
@@ -558,9 +554,9 @@ label.chip {
 .n-vb__lastknown {
   margin: 0;
   padding-top: var(--space-2);
-  border-top: 1px dashed var(--line-strong);
   color: var(--muted);
   font-size: var(--text-sm);
+  box-shadow: 0 -1px 0 var(--line-strong);
 }
 .n-first {
   display: grid;
@@ -682,7 +678,6 @@ label.chip {
   display: grid;
   gap: var(--space-2);
   padding: var(--card-pad);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--surface);
 }
@@ -738,7 +733,6 @@ label.chip {
   display: grid;
   gap: var(--space-2);
   padding: var(--space-3);
-  border: var(--border-width) solid var(--frame);
   border-radius: var(--radius-card);
   background: var(--surface);
   color: var(--fg);
@@ -765,7 +759,6 @@ label.chip {
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-3);
-  border: var(--border-width) solid var(--frame);
   border-radius: var(--radius-card);
   background: var(--surface);
   color: var(--fg);
@@ -797,8 +790,6 @@ label.chip {
   display: grid;
   gap: var(--space-2);
   padding: var(--space-3);
-  border: 1px solid var(--line);
-  border-left: 4px solid var(--kind-spend);
   border-radius: var(--radius-card);
   background: var(--surface);
 }
@@ -849,8 +840,6 @@ label.chip {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 0;
-  border: 1px solid var(--line);
-  border-left: 4px solid var(--line-strong);
   border-radius: var(--radius-card);
   background: var(--surface);
 }
@@ -1004,7 +993,6 @@ label.chip {
   display: grid;
   gap: var(--space-3);
   padding: var(--card-pad);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--surface);
 }
@@ -1067,9 +1055,9 @@ label.chip {
   gap: var(--space-2);
   min-height: var(--tap-min);
   padding: var(--space-1) var(--space-2);
-  border-bottom: 1px solid var(--line);
   color: var(--fg);
   text-decoration: none;
+  box-shadow: 0 1px 0 var(--line);
 }
 .n-pager__row > span:nth-child(2) {
   flex: 1;
@@ -1116,7 +1104,6 @@ label.chip {
   gap: var(--space-3);
   align-items: flex-start;
   padding: var(--space-3);
-  border: 1px dashed var(--unk);
   border-radius: var(--radius-card);
 }
 .n-unknown__t {
@@ -1132,7 +1119,6 @@ label.chip {
   padding: var(--space-3);
   border-radius: var(--radius-card);
   background: var(--sunk);
-  border-left: 4px solid var(--info);
 }
 .n-step.is-fix {
   background: var(--bad-soft);
@@ -1235,8 +1221,6 @@ label.chip {
   display: grid;
   gap: var(--space-2);
   padding: var(--space-3);
-  border: 1px solid var(--line);
-  border-left: 4px solid var(--ok);
   border-radius: var(--radius-card);
   background: var(--surface);
 }
@@ -1313,8 +1297,6 @@ label.chip {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: start;
-  border: 1px solid var(--line);
-  border-left: 4px solid var(--kind-grow);
   border-radius: var(--radius-card);
   background: var(--surface);
 }
@@ -1329,7 +1311,6 @@ label.chip {
 }
 .n-goal.is-winner {
   border-color: var(--accent);
-  border-left-width: 4px;
   box-shadow: var(--shadow-1);
 }
 .n-goal__open {
@@ -1472,7 +1453,6 @@ label.chip {
   display: grid;
   gap: var(--space-2);
   padding: var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-control);
   background: var(--sunk);
 }
@@ -1588,7 +1568,6 @@ label.chip {
   display: grid;
   gap: var(--space-2);
   padding: var(--space-1) var(--space-3) var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--surface);
 }
@@ -1596,7 +1575,7 @@ label.chip {
   outline: none;
 }
 .n-account.is-fix {
-  border-left: 4px solid var(--bad);
+  background: var(--bad-soft);
 }
 .n-account__h {
   margin: 0;
@@ -1660,11 +1639,9 @@ label.chip {
   display: grid;
   gap: var(--space-1);
   padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
 }
 .n-sline.is-best {
-  border: 2px solid var(--accent);
   background: var(--spend-best-bg, var(--accent-soft));
 }
 .n-sline.is-save {
@@ -1789,7 +1766,6 @@ label.chip {
   gap: var(--space-2);
   min-height: 56px;
   padding: 0 var(--space-4);
-  border: 1px solid var(--line-strong);
   border-radius: var(--radius-chip);
   background: var(--surface);
   color: var(--fg);
@@ -1853,7 +1829,6 @@ label.chip {
   display: grid;
   gap: var(--space-3);
   padding: var(--card-pad);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--surface);
 }
@@ -1874,7 +1849,7 @@ label.chip {
   font-size: var(--text-xl);
 }
 .n-cantread {
-  border-left: 4px solid var(--bad);
+  background: var(--bad-soft);
 }
 .n-lastgood {
   padding: var(--space-3);
@@ -1934,11 +1909,12 @@ label.chip {
   justify-items: center;
   gap: var(--space-1);
   padding: var(--space-5) var(--space-4);
-  border: 2px dashed var(--line-strong);
   border-radius: var(--radius-card);
   background: var(--sunk);
   text-align: center;
   cursor: pointer;
+  outline: 2px dashed var(--line-strong);
+  outline-offset: -2px;
 }
 .n-drop__title {
   font-family: var(--font-display);
@@ -1949,7 +1925,6 @@ label.chip {
   width: 100%;
   min-height: 64px;
   padding: var(--space-2);
-  border: 1px solid var(--control-border);
   border-radius: var(--radius-control);
   background: var(--surface);
   color: var(--fg);
@@ -1960,7 +1935,6 @@ label.chip {
 }
 .n-paste-fold {
   padding: 0 var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--surface);
 }
@@ -2008,8 +1982,8 @@ label.chip {
   gap: var(--space-2);
   margin-top: var(--space-4);
   padding-top: var(--space-4);
-  border-top: 1px solid var(--line);
   color: var(--muted);
+  box-shadow: 0 -1px 0 var(--line);
 }
 .n-foot p {
   margin: 0;
@@ -2033,7 +2007,6 @@ label.chip {
   gap: var(--space-3);
   margin: 0;
   padding: var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--surface);
   color: var(--fg);
@@ -2071,7 +2044,6 @@ label.chip {
   gap: var(--space-2);
   margin: 0;
   padding: var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
 }
 .n-row-actions {

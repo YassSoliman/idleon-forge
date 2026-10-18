@@ -15,7 +15,6 @@
 .bb-note {
   margin: 0;
   padding: var(--space-3);
-  border-left: 4px solid var(--warn);
   border-radius: var(--radius-control);
   background: var(--surface);
   font-size: var(--text-sm);
@@ -38,7 +37,6 @@
   width: 100%;
   min-height: var(--tap-min);
   padding: var(--space-1) var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-control);
   background: var(--surface);
   color: var(--fg);
@@ -55,7 +53,6 @@
 }
 .bb-bonus.is-next .bb-bonus__row {
   border-color: var(--line-strong);
-  border-left-width: 4px;
 }
 .bb-bonus__next {
   margin: var(--space-1) 0 0 var(--space-3);
@@ -105,9 +102,9 @@
 .bb-pip {
   width: 16px;
   height: 16px;
-  border: 2px solid var(--line-strong);
   border-radius: var(--radius-xs);
   background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--line-strong);
 }
 .bb-pip.is-owned {
   border-color: var(--accent);
@@ -174,8 +171,7 @@
 .bb-tag {
   display: inline-block;
   padding: 0 var(--space-2);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   font-size: var(--text-xs);
   line-height: 18px;
 }

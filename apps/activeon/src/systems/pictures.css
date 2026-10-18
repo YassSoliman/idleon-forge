@@ -21,13 +21,13 @@
   min-height: var(--tap-min);
   padding: 2px;
   border: 0;
-  border-radius: 50%;
+  border-radius: 0;
   background: conic-gradient(var(--accent) calc(var(--pct) * 1%), var(--line) 0);
   color: var(--fg);
   cursor: pointer;
 }
 .sy-stamp > svg {
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--surface);
   padding: 4px;
   box-sizing: content-box;
@@ -38,7 +38,7 @@
   bottom: -2px;
   min-width: 20px;
   padding: 0 4px;
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   background: var(--surface);
   box-shadow: 0 0 0 1px var(--line-strong);
   font: var(--weight-bold) var(--text-xs) / 18px var(--font-numeral);
@@ -143,11 +143,11 @@
   width: 100%;
   min-height: 60px;
   padding: var(--space-1);
-  border: 2px solid var(--line);
   border-radius: var(--radius-control);
   background: var(--surface);
   color: var(--fg);
   cursor: pointer;
+  box-shadow: inset 0 0 0 2px var(--line);
 }
 .sy-statue--g1 {
   border-color: var(--tier-gold-2);
@@ -188,7 +188,7 @@
 }
 .sy-spread__bar {
   height: 8px;
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   background: linear-gradient(to right, var(--accent) calc(var(--pct) * 1%), var(--line) 0);
 }
 
@@ -208,7 +208,6 @@
   display: grid;
   gap: var(--space-1);
   padding: var(--space-2);
-  border-left: 4px solid var(--tier-silver-3);
   border-radius: var(--radius-control);
   background: var(--surface);
 }
@@ -228,10 +227,10 @@
   gap: var(--space-1);
   margin: 0;
   padding: var(--space-1) 0;
-  border-bottom: 2px solid var(--accent);
   color: var(--accent);
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
+  box-shadow: 0 1px 0 var(--accent);
 }
 .sy-floor__rows {
   display: grid;
@@ -248,7 +247,6 @@
   width: 100%;
   min-height: var(--tap-min);
   padding: var(--space-1) var(--space-2);
-  border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--bg);
   color: var(--fg);
@@ -263,7 +261,7 @@
 .sy-vrow__bar {
   display: block;
   height: 4px;
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   background: linear-gradient(to right, var(--ok) calc(var(--pct) * 1%), var(--line) 0);
 }
 .sy-vrow.is-locked {

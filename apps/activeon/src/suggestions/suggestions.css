@@ -42,7 +42,6 @@
   gap: var(--space-1);
   min-height: 88px;
   padding: var(--space-2);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--surface);
   font-weight: var(--weight-semibold);
@@ -51,7 +50,6 @@
   cursor: pointer;
 }
 .sg-kind.on {
-  border: 2px solid var(--accent);
   background: var(--accent-soft);
 }
 .sg-kind:has(input:focus-visible) {
@@ -148,7 +146,6 @@
   display: grid;
   gap: var(--space-1);
   padding-left: var(--space-3);
-  border-left: 3px solid var(--accent);
 }
 .sg-notice {
   color: var(--muted);
@@ -167,7 +164,6 @@
   display: grid;
   gap: var(--space-1);
   padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--surface);
 }
@@ -187,7 +183,6 @@
   display: grid;
   gap: var(--space-1);
   padding: var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   overflow-wrap: anywhere;
 }
@@ -227,7 +222,6 @@
   display: grid;
   gap: var(--space-1);
   padding: var(--space-4) var(--space-3) var(--space-3);
-  border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
   background: var(--surface);
   box-shadow: var(--shadow-1);
@@ -243,7 +237,7 @@
   width: 10px;
   height: 10px;
   margin-left: -5px;
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--bad);
 }
 .sg-note-title {
@@ -252,7 +246,6 @@
 .sg-stamp {
   justify-self: start;
   padding: 2px var(--space-2);
-  border: 2px solid currentColor;
   border-radius: var(--radius-sm);
   font: var(--weight-bold) var(--text-sm) / var(--lh-snug) var(--font-body);
   font-variant-ligatures: var(--font-ligatures);
@@ -277,9 +270,9 @@
   align-items: center;
   min-height: var(--tap-min);
   padding: var(--space-1) var(--space-2);
-  border-bottom: 1px solid var(--line);
   color: var(--fg);
   text-decoration: none;
+  box-shadow: 0 1px 0 var(--line);
 }
 .sg-plain-title {
   overflow-wrap: anywhere;

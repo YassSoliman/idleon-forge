@@ -15,7 +15,6 @@
   gap: var(--space-3);
   min-height: var(--tap-min);
   padding: var(--space-1) var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--surface);
   color: var(--fg);
@@ -67,10 +66,10 @@
   gap: 4px 8px;
   align-items: center;
   min-height: 44px;
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   padding: 4px 10px;
   background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
 }
 .pip.fillable,
 .pip.capped {

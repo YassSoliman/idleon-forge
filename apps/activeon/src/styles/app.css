@@ -81,7 +81,6 @@ code,
 }
 .card {
   background: var(--surface);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
 }
 .primary {
@@ -95,7 +94,6 @@ code,
 }
 .small-btn {
   min-height: var(--tap-min);
-  border: 1px solid var(--control-border);
   background: var(--surface);
   border-radius: var(--radius-control);
   padding: 0 var(--space-3);
@@ -118,7 +116,6 @@ code,
   font-size: var(--text-sm);
 }
 .confirm {
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   padding: var(--space-2) var(--space-3) var(--space-3);
   margin: 0;
@@ -146,7 +143,6 @@ code,
 }
 .r {
   background: var(--surface);
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
 }
 .r.unknown {

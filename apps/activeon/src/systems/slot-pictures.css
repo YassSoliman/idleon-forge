@@ -34,12 +34,14 @@
   background: var(--ok-soft);
 }
 .sy-sq--open {
-  border: 2px dashed var(--accent);
+  outline: 2px dashed var(--accent);
+  outline-offset: -2px;
 }
 .sy-cog .sy-sq.is-now {
-  border: 2px solid var(--accent);
   background: var(--accent-soft);
-  box-shadow: 0 0 0 2px var(--accent);
+  box-shadow:
+    0 0 0 2px var(--accent),
+    inset 0 0 0 2px var(--accent);
 }
 .sy-legend {
   display: flex;
@@ -90,9 +92,9 @@
   place-items: center;
   width: 40px;
   height: 56px;
-  border: 2px solid var(--line-strong);
   border-radius: var(--radius-sm);
   background: linear-gradient(to top, var(--info-soft) calc(var(--pct) * 1%), transparent 0);
+  box-shadow: inset 0 0 0 2px var(--line-strong);
 }
 .sy-tank.is-full .sy-tank__glass {
   border-color: var(--warn);
@@ -127,7 +129,7 @@
 .sy-ruler__bar {
   display: block;
   height: 8px;
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   background: linear-gradient(to right, var(--info) calc(var(--pct) * 1%), var(--line) 0);
 }
 .sy-ruler__v {
@@ -152,7 +154,6 @@
   font-size: var(--text-sm);
 }
 .sy-traprow.is-row-lit {
-  box-shadow: inset 4px 0 0 var(--accent);
 }
 .sy-traprow__head {
   display: flex;

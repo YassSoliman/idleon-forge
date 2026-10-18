@@ -95,7 +95,6 @@
   overflow-wrap: anywhere;
   color: var(--fg);
   background: var(--surface);
-  border: 1px solid var(--line);
 }
 .characters-place .cp-cell[data-level="fix"] {
   background: var(--bad-soft);
@@ -148,7 +147,6 @@
   gap: var(--space-3);
   align-items: flex-start;
   padding: var(--space-3);
-  border: 2px dashed var(--line-strong);
   border-radius: var(--radius-card);
   background: var(--surface);
 }
@@ -197,7 +195,6 @@
   gap: var(--space-1);
   align-content: start;
   padding: var(--space-2);
-  border: 1px solid var(--line);
   border-radius: var(--radius-control);
   background: var(--surface);
 }
@@ -225,7 +222,6 @@
   min-height: var(--tap-min);
   padding: var(--space-2) var(--space-3);
   background: var(--surface);
-  border: 1px solid var(--line);
   border-radius: var(--radius-control);
 }
 .characters-place .cp-fold > summary::-webkit-details-marker {
@@ -249,7 +245,6 @@
   gap: 0 var(--space-2);
   min-height: var(--tap-min);
   padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--line);
   border-radius: var(--radius-control);
   background: var(--surface);
   color: var(--fg);

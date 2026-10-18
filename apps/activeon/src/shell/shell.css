@@ -40,7 +40,6 @@
   background: var(--surface);
   padding: 10px 14px;
   border-radius: var(--radius-control);
-  border: 2px solid var(--focus);
 }
 
 /* ---- The places: a bottom bar under 720 px (FR-2), reserving its own space (FR-3) ---- */
@@ -105,7 +104,7 @@
   min-width: 20px;
   height: 20px;
   padding: 0 5px;
-  border-radius: var(--radius-pill);
+  border-radius: 0;
   font: var(--weight-bold) var(--text-xs) / 20px var(--font-body);
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
@@ -132,8 +131,8 @@
     bottom: 0;
     z-index: 10;
     background: var(--surface);
-    border-top: 1px solid var(--line);
     padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 0 -1px 0 var(--line);
   }
   .app:has(.places) {
     padding-bottom: calc(64px + env(safe-area-inset-bottom));
@@ -143,7 +142,6 @@
 @media (max-width: 719.98px) and (max-height: 479.98px) {
   .places {
     position: static;
-    border: 1px solid var(--line);
     border-radius: var(--radius-card);
     padding-bottom: 0;
   }
@@ -183,7 +181,6 @@
   }
   .place-item.on {
     background: var(--accent-soft);
-    box-shadow: inset 3px 0 0 var(--accent);
   }
   .place-item.on::before {
     content: none;
