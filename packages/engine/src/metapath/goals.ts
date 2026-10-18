@@ -4,6 +4,7 @@
 // why and the per-case Next Action template in `values`), filled with the finding's slots.
 import { type Entry, render, type SlotValue } from '@idleon-forge/knowledge';
 import type { Goal, Milestone, SourceRef, Subject } from '../result';
+import { FAMILY_UNLOCK_ID, type FamilyGate, type FamilyUnlock, OBOL_SLOTS_FACT } from './family';
 import { worldGates } from './knowledge';
 import type { FactLookup, MetaPathGoal, MetaPathKnowledge, MetaPathResult, PushGoal } from './types';
 
@@ -148,6 +149,81 @@ function findingOut(kb: MetaPathKnowledge, g: MetaPathGoal): Goal | null {
         { fields },
       );
   }
+}
+
+/** M15 FR-15: what opens at one gate, from the entry's templates ("character slot 6 for your Hunter"). */
+function gateWhat(v: Entry['values'], g: FamilyGate, line: string | null): string | null {
+  const t = (k: string) => (typeof v[k] === 'string' ? (v[k] as string) : null);
+  const slotT = line ? t('slot-line') : t('slot');
+  const slot =
+    g.characterSlot !== null && slotT ? render(slotT, { slot: g.characterSlot, line: line ?? '' }) : null;
+  const shapes = g.obolShapes;
+  let obol: string | null = null;
+  const one = t('obol');
+  const pair = t('obol-pair');
+  if (shapes.length === 1 && one) obol = render(one, { shape: shapes[0] as string });
+  else if (shapes.length >= 2 && pair)
+    obol = render(pair, { a: shapes.slice(0, -1).join(', '), b: shapes[shapes.length - 1] as string });
+  const both = t('both');
+  if (slot && obol) return both ? render(both, { slot, obol }) : null;
+  return slot ?? obol;
+}
+
+/**
+ * M15 F3 (FR-14 to FR-17): the next family unlock as one Account Goal. Until M4/M5 ship a Class XP Next
+ * Action (FR-15), it is an info line: its text states the gate, the gap and the ETA, with no action.
+ */
+export function familyUnlockGoal(kb: MetaPathKnowledge, u: FamilyUnlock): Goal | null {
+  const e = kb.entries[FAMILY_UNLOCK_ID];
+  if (e?.type !== 'goal') return null;
+  const v = e.values;
+  const t = (k: string) => (typeof v[k] === 'string' ? (v[k] as string) : '');
+  const what = gateWhat(v, u.next, u.line);
+  if (!what) return null;
+  const head = render(e.text, { what, gate: u.next.familyLevel, gap: u.gap });
+  const altar =
+    u.next.obolShapes.length > 0 && u.altarDone === false
+      ? t(u.next.obolShapes.length > 1 ? 'altar-many' : 'altar-one')
+      : '';
+  const eta =
+    u.eta.kind === 'no-history'
+      ? t('eta-none')
+      : u.eta.kind === 'too-long'
+        ? t('eta-long')
+        : u.eta.days === 1
+          ? t('eta-day')
+          : render(t('eta-days'), { days: u.eta.days });
+  const afterWhat = u.after ? gateWhat(v, u.after, null) : null;
+  const after =
+    u.after && afterWhat ? render(t('after'), { what: afterWhat, gate: u.after.familyLevel }) : '';
+  const text = [head, altar, eta].filter(Boolean).join('; ');
+  return {
+    id: FAMILY_UNLOCK_ID,
+    title: e.title,
+    system: e.system,
+    category: e.category,
+    nextAction: {
+      key: `${FAMILY_UNLOCK_ID}@account`,
+      entryId: FAMILY_UNLOCK_ID,
+      text,
+      why: [e.why, after].filter(Boolean).join(' '),
+      sources: sourcesOf(e),
+      stale: false,
+      contested: null,
+      confidence: e.confidence,
+      provenance: {
+        entryIds: [FAMILY_UNLOCK_ID, 'metapath.fact.family-slots', OBOL_SLOTS_FACT],
+        fields: ['account.accountLevel', 'characters[*].classIndex', 'characters[*].quests'],
+      },
+    },
+    milestone: {
+      unit: 'family level',
+      current: u.familyLevel,
+      next: u.next.familyLevel,
+      etaSeconds: null,
+      stopHere: false,
+    },
+  };
 }
 
 /** Every Meta Path Goal of a result, with its subject. Goals whose entry isn't shipped are left out. */

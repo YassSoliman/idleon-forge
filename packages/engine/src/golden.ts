@@ -37,7 +37,7 @@ export interface GoldenEngine {
 }
 
 /** The worker's modules (M2, and M3 when the bundle and registry are there), so goldens show real Verdicts. */
-function goldenModules(input: GoldenInput): readonly EngineModule[] {
+export function goldenModules(input: GoldenInput): readonly EngineModule[] {
   const kb = input.kb.entries ? (input.kb as CompiledKnowledge) : null;
   if (!kb || !input.registries) return DEFAULT_MODULES;
   const facts = lookupOf(kb);

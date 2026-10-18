@@ -13,7 +13,30 @@ import { analyzeRoster } from './roster';
 import { detectStage } from './stage';
 import type { FactLookup, MetaPathKnowledge, MetaPathResult } from './types';
 
+export {
+  BEHIND_ID,
+  type BehindInput,
+  type BehindResult,
+  behindRows,
+  behindStep,
+  DEFAULT_MIN_CHARACTER_LEVEL,
+  EXPECTATIONS_ID,
+  type StageExpectationRow,
+  stageExpectations,
+} from './behind';
 export { METAPATH_DETECTORS } from './detectors';
+export {
+  FAMILY_UNLOCK_ID,
+  type FamilyEta,
+  type FamilyGate,
+  type FamilyPoint,
+  type FamilyUnlock,
+  familyEta,
+  familyGates,
+  familyPace,
+  familyUnlock,
+  obolAltarDone,
+} from './family';
 export {
   ELITE_ORDER,
   elitePending,
@@ -23,6 +46,7 @@ export {
   subclassPending,
   worldTutorial,
 } from './gate-chain';
+export { familyUnlockGoal } from './goals';
 export { lookupOf, MetaPathKnowledgeError } from './knowledge';
 export {
   compareGoals,

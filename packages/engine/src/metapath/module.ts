@@ -3,14 +3,23 @@
 // M2 as an engine-core module (M10 §2): it hands the core the Stage, the resolved Priority List that
 // `compareGoals` ranks every module's Goals against, the Visit Order hints from Roles, and the Meta
 // Path Goals (push, subclass, W3 tutorial, elite, next character, swap token).
-import type { CharacterContribution, EngineModule, ModuleOutput } from '../core/module';
-import { metaPathGoals } from './goals';
+import type { CharacterContribution, EngineHistory, EngineModule, ModuleOutput } from '../core/module';
+import { type FamilyPoint, familyUnlock } from './family';
+import { familyUnlockGoal, metaPathGoals } from './goals';
 import { runMetaPath } from './index';
 import { lookupOf } from './knowledge';
 import type { MetaPathResult } from './types';
 
 /** "Not covered yet" for accounts past W4-entry (M2 FR-5, D2). */
 export const WORLDS_5_7_NOT_COVERED = { systemId: 'worlds-5-7', label: 'Worlds 5–7' } as const;
+
+/** M15 TR-8: each saved history entry as a family-level pace point. */
+export const familyPoints = (history: EngineHistory): FamilyPoint[] =>
+  history.entries.map((e) => ({
+    at: e.lastCloudSave,
+    familyLevel: e.state.account.accountLevel ?? null,
+    characters: e.state.characters.length + e.state.diagnostics.unreadableCharacters.length,
+  }));
 
 /** EngineResult.stage: `unknown` when the Stage can't be told (M10's "Can't tell" banner). */
 export const engineStage = (r: MetaPathResult) => ({
@@ -30,6 +39,12 @@ export const metaPathModule: EngineModule = {
     if (!kb) return {};
     const r = runMetaPath(input.state, kb, input.now);
     const goals = metaPathGoals(kb, lookupOf(kb), r);
+    // M15 F3: the next family unlock replaces M2 FR-9's closed-slot note (FR-17, D-4).
+    const unlock =
+      r.stage.coverage === 'beyond'
+        ? null
+        : familyUnlock(input.state, lookupOf(kb), r.stage, r.roster, familyPoints(input.history), input.now);
+    const unlockGoal = unlock ? familyUnlockGoal(kb, unlock) : null;
     const characters: CharacterContribution[] = [];
     for (const { subject, goal } of goals) {
       if (subject === 'account') continue;
@@ -43,7 +58,12 @@ export const metaPathModule: EngineModule = {
     }
     return {
       characters,
-      account: { goals: goals.filter((g) => g.subject === 'account').map(({ goal }) => ({ goal })) },
+      account: {
+        goals: [
+          ...goals.filter((g) => g.subject === 'account').map(({ goal }) => ({ goal })),
+          ...(unlockGoal ? [{ goal: unlockGoal, rank: { urgency: 'banked' as const } }] : []),
+        ],
+      },
       stage: engineStage(r),
       priorityList: r.list,
       visitHints: r.visitHints,

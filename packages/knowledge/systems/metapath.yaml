@@ -745,7 +745,6 @@ entries:
     values:
       next: "Make a {line:name}: create a character, pick {baseClass:name} at level 10, then {line:name} at Speccius"
       journeyman: "Make a Journeyman, then take Maestro"
-      note: "Next character: {line:name}. Slot {slotNumber:int} opens at family level {opensAt:int} ({gap:int} to go)"
     sources:
       - url: https://github.com/YassSoliman/idleon-forge/blob/research/priority-verification/docs/research/2026-10-17-priority-verification.md
         title: Priority verification, roster adjudication
@@ -799,6 +798,143 @@ entries:
     unit: swap
     progress: { id: metapath/roster }
     milestones: [{ at: 1, reward: "Swapped" }]
+
+  # ---------------------------------------------------------------- M15 F3, F5 (docs/specs/M15-account-depth.md)
+
+  - id: metapath.goal.family-unlock
+    system: metapath
+    type: goal
+    title: Next family unlock
+    text: "Next family unlock: {what} at family level {gate:int} ({gap:int} to go)"
+    why: "Family level is the sum of every character's class level; it opens character slots and family obol slots."
+    values:
+      slot-line: "character slot {slot:int} for your {line:name}"
+      slot: "character slot {slot:int}"
+      obol: "a {shape:name} family obol slot"
+      obol-pair: "a {a:name} and a {b:name} family obol slot"
+      both: "{slot} and {obol}"
+      altar-one: "equip it after the Obol Altar"
+      altar-many: "equip them after the Obol Altar"
+      eta-days: "about {days:int} days at your recent pace"
+      eta-day: "about 1 day at your recent pace"
+      eta-none: "ETA after a few more sessions"
+      eta-long: "more than 3 months at this pace"
+      after: "After that, {what} opens at family level {gate:int}."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Character_Creation", title: "IdleOn Wiki: Character Creation (total family level per character slot)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Obols", title: "IdleOn Wiki: Obols (Family Obol Level Reqs; slots are filled at the Obol Altar)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "IdleOn Toolbox game data: obols (family slot levelReq)", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    scope: account
+    category: nice
+    unit: family level
+    progress: { id: metapath/family-unlock }
+    milestones: [{ at: 1, reward: "Unlocked" }]
+    notes: "M15 F3. Replaces M2 FR-9's closed-slot note (D-4). Gates come from metapath.fact.family-slots and obols.fact.slots, never the save's lock (FR-18). Its Next Action becomes the top classes.goal.level Next Action once M4/M5 ship it (FR-15); until then it is an info line."
+
+  - id: metapath.goal.behind
+    system: metapath
+    type: goal
+    title: Behind for your Stage
+    text: "Behind for your Stage: {system}"
+    why: "Accounts usually finish this well before where you are; it's the earliest thing yours has left."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks", tier: 2, claimDate: 2025-12-24, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - url: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M15-account-depth.md#f5-behind-for-your-stage-m2
+        title: M15 spec, F5 Behind for your Stage (our own Stage Expectations)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    scope: account
+    category: compounding
+    unit: system
+    progress: { id: metapath/behind }
+    milestones: [{ at: 1, reward: "Caught up" }]
+    notes: "M15 F5. Names the one System whose Stage Expectation (metapath.metapath.stage-expectations) is furthest behind; its Next Action is that fix's own top Next Action, and the fix's other findings become its details (FR-28, FR-29, D-6). Idea inspired by IdleOn AutoReview's Pinchy rater (no licence): cited as inspiration only, nothing of it is reused."
+
+  - id: metapath.metapath.stage-expectations
+    system: metapath
+    type: metapath
+    part: expectations
+    title: Stage Expectations
+    text: "By this Stage, this fix should no longer be firing"
+    why: "Our own table from game-data gates, our dossiers and the wiki; AutoReview is the idea's inspiration only."
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M15-account-depth.md#tr-10-stage-expectations-seed-table
+        title: M15 spec, TR-10 seed table
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks", tier: 2, claimDate: 2025-12-24, verified: 2026-10-17, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    expectations:
+      - id: cards-slots-filled
+        system: Cards
+        expectedBy: W1-mid
+        fix: cards.check.empty-slots
+        why: "Card slots come with the character; any card beats an empty slot."
+        sources:
+          - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards (4 card slots per preset)", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - id: anvil-points-spent
+        system: Anvil
+        expectedBy: W1-mid
+        fix: anvil.check.spend-points
+        why: "Each Smithing level gives an anvil point to spend on speed, capacity or experience."
+        sources:
+          - { url: "https://idleon.wiki/wiki/Smithing#Anvil_Points", title: "IdleOn Wiki: Smithing, anvil points (+1 per Smithing level)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - id: stamps-town-shops
+        system: Stamps
+        expectedBy: W1-late
+        fix: stamps.check.shop-now
+        why: "Town shops sell stamps in every world you have reached."
+        sources:
+          - { url: "https://idleon.wiki/wiki/Vendors", title: "IdleOn Wiki: Vendors (stamps sold in each town shop)", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+          - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn Wiki: Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - id: obol-altar
+        system: Obols
+        expectedBy: W2-early
+        fix: obols.check.altar
+        why: "The Obol Altar opens from a class level 30 character; every obol slot is filled there."
+        sources:
+          - { url: "https://idleon.wiki/wiki/Obol_Altar", title: "IdleOn Wiki: Obol Altar (from a class level 30 character)", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - id: presets-set-up
+        system: Talent presets
+        expectedBy: W2-early
+        fix: talent-presets.check.empty
+        why: "Every character has two talent presets: one for fighting, one for skilling."
+        sources:
+          - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks (one preset for fighting, one for skilling)", tier: 2, claimDate: 2025-12-24, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - id: big-bubbles
+        system: Alchemy
+        expectedBy: W2-mid
+        fix: alchemy-bubbles.check.fill-slot
+        why: "Big bubbles give their bonus only when a character equips them."
+        sources:
+          - { url: "https://idleon.wiki/wiki/Alchemy", title: "IdleOn Wiki: Alchemy (big bubbles must be equipped)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - id: post-office
+        system: Post Office
+        expectedBy: W2-late
+        fix: post-office.check.unlock
+        why: "The Post Office opens with Postboy Pablob's quest in the W2 town."
+        sources:
+          - { url: "https://idleon.wiki/wiki/Post_Office", title: "IdleOn Wiki: Post Office (Postboy Pablob's quest)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - id: salts-running
+        system: Refinery
+        expectedBy: W3-early
+        fix: refinery.check.salt-off
+        why: "Salts make nothing until their production is turned on and fuelled."
+        sources:
+          - { url: "https://idleon.wiki/wiki/Construction", title: "IdleOn Wiki: Construction (a salt uses fuel while it is turned on)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+    notes: "M15 TR-10 seed rows whose fix exists on main. printer-per-character (W3-mid, construction.check.build-next) and auto-refine (W3-mid, refinery.check.auto-refine-off) join in the same PR as their fix entries (FR-32)."
 
   # ---------------------------------------------------------------- Priority Lists (M2 TR-13)
   # The shared frame: position 1 the never-skip block, 2 the push, 3 the free-value block, Stage items
@@ -940,7 +1076,7 @@ entries:
       - [{ include: metapath.priority.never-skip }]
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
-      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
 
   - id: metapath.priority.w1-mid
     system: metapath
@@ -971,7 +1107,7 @@ entries:
       - [{ include: metapath.priority.never-skip }]
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
-      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
 
   - id: metapath.priority.w1-late
     system: metapath
@@ -1002,7 +1138,7 @@ entries:
       - [{ include: metapath.priority.never-skip }]
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
-      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
 
   - id: metapath.priority.w2-early
     system: metapath
@@ -1034,7 +1170,7 @@ entries:
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass]
-      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
 
   - id: metapath.priority.w2-mid
     system: metapath
@@ -1066,7 +1202,7 @@ entries:
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass]
-      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
 
   - id: metapath.priority.w2-late
     system: metapath
@@ -1098,7 +1234,7 @@ entries:
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.swap-token]
-      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
 
   - id: metapath.priority.w3-early
     system: metapath
@@ -1132,7 +1268,7 @@ entries:
       - [metapath.goal.subclass, metapath.goal.world-tutorial-w3, metapath.goal.swap-token]
       # M15 TR-6: one building at a time, ordered by construction.fact.build-order (replaces the Leverage model's item 5).
       - [construction.check.build-next]
-      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
 
   - id: metapath.priority.w3-mid
     system: metapath
@@ -1164,7 +1300,7 @@ entries:
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.world-tutorial-w3, metapath.goal.swap-token]
-      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
 
   - id: metapath.priority.w3-late
     system: metapath
@@ -1196,7 +1332,7 @@ entries:
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.world-tutorial-w3, metapath.goal.swap-token]
-      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
 
   - id: metapath.priority.w4-entry
     system: metapath
@@ -1228,4 +1364,4 @@ entries:
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.elite, metapath.goal.swap-token]
-      - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
+      - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]

@@ -9,6 +9,9 @@
 // Return, so `rerun` re-runs only the dependent ones (M3's Verdicts, firstFill, M6 urgencies) and
 // re-assembles, including Visit Order.
 
+import { STAGES, type StageId } from '@idleon-forge/knowledge';
+import { behindStep } from '../metapath/behind';
+import { lookupOf } from '../metapath/knowledge';
 import { metaPathModule } from '../metapath/module';
 import { EMPTY_PRIORITY_LIST } from '../metapath/priority';
 import type {
@@ -21,7 +24,7 @@ import type {
   Verdict,
 } from '../result';
 import { activityLabel, classLabel, mapLabel } from './labels';
-import type { EngineInput, EngineModule, ModuleOutput } from './module';
+import type { EngineHistory, EngineInput, EngineModule, ModuleOutput } from './module';
 import { rankGoals, type TaggedGoal } from './rank';
 import { visitOrder } from './visit-order';
 
@@ -79,6 +82,24 @@ const CANNOT_TELL_VERDICT: Verdict = {
 const earliest = (fills: (Fill | null | undefined)[]): Fill | null =>
   fills.reduce<Fill | null>((best, f) => (f && (best === null || f.at < best.at) ? f : best), null);
 
+const STAGES_KNOWN: ReadonlySet<string> = new Set(STAGES);
+
+/**
+ * M15 FR-26: characters first seen in the current Play Session (absent from the last save before it).
+ * Without history from before the session nobody is new.
+ */
+export function newThisSession(
+  history: EngineHistory,
+  state: Pick<EngineInput['state'], 'characters'>,
+): Set<number> {
+  const start = history.sessionStartedAt;
+  if (start === null) return new Set();
+  const before = history.entries.filter((e) => e.lastCloudSave < start).at(-1);
+  if (!before) return new Set();
+  const had = new Set(before.state.characters.map((c) => c.index));
+  return new Set(state.characters.filter((c) => !had.has(c.index)).map((c) => c.index));
+}
+
 const byConfirmed = (a: Done, b: Done) => a.confirmedAt - b.confirmedAt || (a.key < b.key ? -1 : 1);
 
 export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult {
@@ -93,6 +114,7 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
   const stage = outputs.find((o) => o.output.stage)?.output.stage ?? STAGE_NOT_COVERED;
   const spendPlan = outputs.find((o) => o.output.account?.spendPlan)?.output.account?.spendPlan ?? null;
   const lastPlayed = state.lastPlayedCharacterIndex;
+  const taggedOf = new Map<number, TaggedGoal[]>();
 
   const characters: CharacterResult[] = state.characters.map((c) => {
     const parts = outputs.flatMap(({ module, output }) =>
@@ -101,6 +123,7 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
     const tagged: TaggedGoal[] = parts.flatMap(({ module, x }) =>
       (x.goals ?? []).map((g) => ({ ...g, moduleId: module.id })),
     );
+    taggedOf.set(c.index, tagged);
     const given = parts.find((p) => p.x.verdict)?.x.verdict;
     const verdict: Verdict = blockerFailure
       ? CANNOT_TELL_VERDICT
@@ -117,7 +140,8 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
       isPlaying: lastPlayed !== null && c.index === lastPlayed,
       verdict,
       purpose: parts.flatMap(({ x }) => x.purpose ?? []),
-      goals: rankGoals(tagged, list),
+      // Ranked below, after M15 F5's Behind step (TR-9) may move some of them to the Account section.
+      goals: [],
       higherLeverage: parts.find((p) => p.x.higherLeverage)?.x.higherLeverage ?? null,
       spendChip: chip && chip.lines > 0 ? { lines: chip.lines, coins: chip.coins } : null,
       activePlay: parts.flatMap(({ x }) => x.activePlay ?? []),
@@ -155,11 +179,6 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
   const accountTagged: TaggedGoal[] = outputs.flatMap(({ module, output }) =>
     (output.account?.goals ?? []).map((g) => ({ ...g, moduleId: module.id })),
   );
-  const accountGoals = rankGoals(accountTagged, list);
-  const blockerSet = new Set(outputs.flatMap(({ output }) => output.account?.blockerKeys ?? []));
-  const blockerKeys = accountGoals
-    .filter((g) => g.category === 'blocker' && blockerSet.has(g.nextAction.key))
-    .map((g) => g.nextAction.key);
   const givenSafety = outputs.find((o) => o.output.account?.safety)?.output.account?.safety;
   const safety: EngineResult['account']['safety'] = blockerFailure
     ? 'unknown'
@@ -180,6 +199,36 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
     })),
     outputs.flatMap(({ output }) => output.visitHints ?? []),
   );
+
+  // M15 F5 (TR-9): after every module's findings and before the ranking, the weakest System's fix
+  // findings move into one Behind Goal in the Account section (FR-29, D-6). Not on an account past the
+  // covered Stages (M2 `frameOnly`, P2): the table is calibrated for W1 to W4.
+  const kb = knowledge.kb;
+  const behind =
+    kb && STAGES_KNOWN.has(stage.id) && !list.frameOnly
+      ? behindStep({
+          kb: lookupOf(kb),
+          stage: stage.id as StageId,
+          list,
+          characters: state.characters.map((c) => ({
+            index: c.index,
+            level: c.level,
+            label: `${classLabel(c)} Lv ${c.level}`,
+            goals: taggedOf.get(c.index) ?? [],
+          })),
+          account: accountTagged,
+          visitOrder: order,
+          newCharacters: newThisSession(history, state),
+          unknownEntries: new Set(failures.flatMap((f) => f.entryIds)),
+        })
+      : null;
+  const kept = (gs: readonly TaggedGoal[]) => (behind ? gs.filter((g) => !behind.moved.has(g)) : [...gs]);
+  for (const c of characters) c.goals = rankGoals(kept(taggedOf.get(c.index) ?? []), list);
+  const accountGoals = rankGoals([...kept(accountTagged), ...(behind ? [behind.goal] : [])], list);
+  const blockerSet = new Set(outputs.flatMap(({ output }) => output.account?.blockerKeys ?? []));
+  const blockerKeys = accountGoals
+    .filter((g) => g.category === 'blocker' && blockerSet.has(g.nextAction.key))
+    .map((g) => g.nextAction.key);
 
   const notCovered: NotCoveredItem[] = [];
   const seen = new Set<string>();
