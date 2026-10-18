@@ -17,6 +17,7 @@ import type {
   GoalDetail,
   HigherLeverage,
   InfoLine,
+  NextCharacterCard,
   NotCoveredItem,
   PurposeLine,
   SpendPlan,
@@ -135,6 +136,8 @@ export interface ModuleOutput {
   walkthroughs?: { parentKey: string; view: WalkthroughView }[];
   /** M9 only: the per-character Build roadmaps (the Build view). */
   builds?: BuildRoadmap[];
+  /** M21 owner request (area C): the next character slot card; absent without M9. */
+  nextCharacter?: NextCharacterCard | null;
   /** M8 `cards-view` only: the Cards view (EngineResult.cards). */
   cards?: EngineResult['cards'];
   /** M17 TR-2: Checks that couldn't tell (not for missing history), or whose Detector failed. */

@@ -553,6 +553,30 @@ export interface BuildRoadmap {
   entryIds: string[];
 }
 
+/**
+ * M21 owner request (2026-10-18, area C): the next character slot, known ahead of time. M2 FR-8/FR-9's
+ * next class line with M15 F3's family-level gap and ETA for that slot specifically (not only when it
+ * is the nearest family unlock). Filled by the M9 module; null past the last slot gate.
+ */
+export interface NextCharacterCard {
+  slotNumber: number;
+  /** The class to pick at level 10 ("Archer"), or "Journeyman". */
+  baseClass: string;
+  /** The subclass line to take at Speccius ("Hunter"); equals `baseClass` for the Journeyman. */
+  line: string;
+  slotOpen: boolean;
+  /** Family level that opens the slot; null when it is open. */
+  opensAt: number | null;
+  /** Family levels to go; null when open or unknown. */
+  gap: number | null;
+  /** M15 F3's pace from the save history: whole days to the gate, or why there is none. */
+  eta: { kind: 'days'; days: number } | { kind: 'no-history' } | { kind: 'too-long' } | null;
+  /** M2's reason for this class, in words. */
+  why: string;
+  /** The creation steps, in order (the starting star sign, the class at Lv 10, the subclass). */
+  steps: string[];
+}
+
 export interface NotCoveredItem {
   systemId: string;
   label: string;
@@ -603,6 +627,8 @@ export interface EngineResult {
   diagnostics: { failedDetectors: FailedDetector[] };
   /** M9's Build roadmaps, one per character with talent data (the Build view); absent without M9. */
   builds?: BuildRoadmap[];
+  /** M21 owner request (area C): the next character slot card; absent without M9. */
+  nextCharacter?: NextCharacterCard | null;
   /**
    * M8 Cards view (owner request 2026-10-18): presets, the owned-card recommendation and the reachable
    * grind list per character, plus the account overview. Absent when M8's cards-view module didn't run or lacks its tables.

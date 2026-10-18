@@ -30,6 +30,7 @@ import { type AccountAnalysis, analyzeAccount, wrongPreset } from './analyze';
 import { spent } from './classify';
 import { BUILDS_DETECTORS } from './detectors';
 import { checkoutDetector, readBookDetector } from './library';
+import { nextCharacterCard } from './next-character';
 import { buildRoadmaps } from './roadmap';
 import { starEmptyDetector } from './star';
 
@@ -310,7 +311,20 @@ export function createBuildsModule(deps: BuildsModuleDeps): EngineModule {
       } catch {
         builds = undefined;
       }
-      return { characters, notCovered, account: { goals: account }, ...(builds ? { builds } : {}) };
+      // M21 owner request: the next character slot card. A throw drops only the card.
+      let nextCharacter: ReturnType<typeof nextCharacterCard> = null;
+      try {
+        nextCharacter = nextCharacterCard(state, ctx.facts, input.history, now, (id) => kb.entries[id]);
+      } catch {
+        nextCharacter = null;
+      }
+      return {
+        characters,
+        notCovered,
+        account: { goals: account },
+        ...(builds ? { builds } : {}),
+        nextCharacter,
+      };
     },
   };
 }
