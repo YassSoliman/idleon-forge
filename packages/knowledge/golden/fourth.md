@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #749e78fa · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 991
+# golden v1: fourth · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -96,6 +96,7 @@ W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
+W3 · Bubba · Can't tell · Can't tell from the save
 W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
@@ -152,6 +153,9 @@ step: Level Barley Brew 1 → 2 (100 Iron Bar, 3 Water)
   Dementia: 0 of 7 parts: craft Dementia Helmet
   Void: 0 of 7 parts: craft Void Imperium Helmet
   Chizoar: 1 of 4 parts: craft Chizoar Helmet
+
+## Bubba
+Can't read Bubba from this save
 
 ## Builds
 ### C1 (Voidwalker 476)
@@ -226,6 +230,12 @@ step: Level Barley Brew 1 → 2 (100 Iron Bar, 3 Water)
 | anvil.check.spend-points | anvil/points | C2 | unknown (field-missing) |  |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| bubba.check.boon | bubba/boon | account | unknown (field-missing) |  |
+| bubba.check.charisma-idle | bubba/charisma-idle | account | unknown (field-missing) |  |
+| bubba.check.megaflesh | bubba/megaflesh | account | unknown (field-missing) |  |
+| bubba.check.pat-gift | bubba/pat-gift | account | unknown (field-missing) |  |
+| bubba.check.smoker | bubba/smoker | account | unknown (field-missing) |  |
+| bubba.check.start | bubba/start | account | unknown (field-missing) |  |
 | classes.contribution.exp | classes/exp | C1 | advances yes eta 7253m | exp=56064428209917 expReq=101659246119794 rate=377190580752.46124 saved=476 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
 | construction.check.build-next | construction/build-next | account | fires | building=3D_Printer fullIn=3312676000 held=77204 payTimed=1 salt=Redox_Salts thenNone=1 |
@@ -276,6 +286,7 @@ step: Level Barley Brew 1 → 2 (100 Iron Bar, 3 Water)
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
+| systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
 | systems.yaml#cooking | worlds/reached | account | reached yes |  |

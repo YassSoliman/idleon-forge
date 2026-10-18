@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #749e78fa · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 991
+# golden v1: first · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -141,6 +141,7 @@ W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
+W3 · Bubba · Can't tell · Can't tell from the save
 W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
@@ -261,6 +262,9 @@ step: Use your 13 vial attempts on the W2 town cauldron
   Dementia: 6 of 7 parts: craft Dementia Dicer
   Void: 0 of 7 parts: craft Void Imperium Helmet
   Chizoar: 0 of 4 parts: craft Chizoar Helmet
+
+## Bubba
+Can't read Bubba from this save
 
 ## Builds
 ### C1 (Blood Berserker 96)
@@ -478,6 +482,12 @@ step: Use your 13 vial attempts on the W2 town cauldron
 | anvil.check.spend-points | anvil/points | account | fires | count=3 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | C1 | fires | chizoar=0 daysLost=0 efaunt=2 forestVilla=0 total=2 |
+| bubba.check.boon | bubba/boon | account | unknown (field-missing) |  |
+| bubba.check.charisma-idle | bubba/charisma-idle | account | unknown (field-missing) |  |
+| bubba.check.megaflesh | bubba/megaflesh | account | unknown (field-missing) |  |
+| bubba.check.pat-gift | bubba/pat-gift | account | unknown (field-missing) |  |
+| bubba.check.smoker | bubba/smoker | account | unknown (field-missing) |  |
+| bubba.check.start | bubba/start | account | unknown (field-missing) |  |
 | cards.contribution.fight-mush-p | cards/fight-level | C1 | advances yes eta 15407m | chance=0.00002 complete=0 feeders=9 rate=2726 rule=0 saved=2 target=Purp_Mushroom thenEtaMs=3895818048 |
 | cards.contribution.fight-mush-p | cards/fight-level | C4 | advances yes eta 15407m | chance=0.00002 complete=0 feeders=9 rate=2726 rule=0 saved=2 target=Purp_Mushroom thenEtaMs=3895818048 |
 | classes.contribution.exp | classes/exp | C1 | advances yes eta 504m | exp=632181 expReq=82249809 rate=9711154.535551416 saved=96 |
@@ -539,6 +549,7 @@ step: Use your 13 vial attempts on the W2 town cauldron
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
+| systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
 | systems.yaml#cooking | worlds/reached | account | reached yes |  |

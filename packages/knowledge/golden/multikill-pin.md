@@ -1,4 +1,4 @@
-# golden v1: multikill-pin · knowledge #749e78fa · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 991
+# golden v1: multikill-pin · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -78,7 +78,7 @@ finding: Worship full on 10 · spend
   · Royal Guardian 1307: 9,167 star points unspent on the other preset
   · Bubonic Conjuror 1268: 6,857 star points unspent on the other preset
   · Beginner 1224: 5,921 star points unspent on the other preset
-show more (14)
+show more (15)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -155,6 +155,7 @@ W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
+W3 · Bubba · Nothing to fix · Nothing to fix · 1 to do
 W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
@@ -225,6 +226,8 @@ Account · Arcade
 - Arcade balls full · later · in 2d 0h · 18:20 · after · info · fix none
 Account · Refinery
 - salt fuel runs out · now · before · next-action · fix none
+Account · Bubba
+- Smoker quality stops · now · before · info · fix none
 
 ## Alchemy
 band w3-late · pick Bubble Plan met for your Stage
@@ -286,6 +289,24 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
   Dementia: registered
   Void: registered
   Chizoar: registered
+
+## Bubba
+Step: Train Mindful in Bubba's Charisma Chart
+Account bonuses: +420% Build Rate (high), +21 base critters per trap (mid), +210% Soul Gain (mid), +630% Total Damage (high), +42% All Kills (mid), +168% Class EXP (mid), −120% Atom Cost (high)
+Boosted by Megaflesh: 2x
+Boon 147: −6% Atom Cost · 2.6e146 meat · out of reach
+Megaflesh: 12 owned · Chromatic × 1 · next 12: account bonuses up again · 7.6e21 of 3.6e29 · out of reach
+This run: 41Qa meat a minute · 7.6e21 meat now
+Next type: 3rd Slice opens at 9.6e22 meat made this run
+Next buys: Great Meat (56T meat), Good Meat (63T meat), 1st Slice (113T meat)
+Pats: 21 left · 11 a refill · full when you open Bubba
+Smoker: 16h 11m of 16h 11m · held for Slabcakes
+Charisma: Hustle 120/120 (training, max) 3x, Rizz 0/120, Joy 0/120, Courage 0/120, Mindful 62/120, Savvy 17/120
+Next level: Rizz 0 → 1: −2.64% Costs
+Banked: 149 levels
+Mindful first: 62/120
+Target gameslikefinder (2026-05-27): Hustle met, Rizz 100 to go, Joy 30 to go, Mindful 58 to go, Savvy 3 to go
+Gifts: Slabcakes, Surprise Box
 
 ## Builds
 ### C1 (Siege Breaker 1291)
@@ -563,6 +584,12 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 | anvil.check.spend-points | anvil/points | account | fires | count=11 hours=8 manyMixed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| bubba.check.boon | bubba/boon | — | silent |  |
+| bubba.check.charisma-idle | bubba/charisma-idle | account | fires | banked=120 mindful=1 none=0 selected=1 |
+| bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
+| bubba.check.pat-gift | bubba/pat-gift | — | silent |  |
+| bubba.check.smoker | bubba/smoker | — | silent |  |
+| bubba.check.start | bubba/start | — | silent |  |
 | cards.contribution.fight-mush-g | cards/fight-level | C10 | advances no | chance=0.002 complete=1 feeders=512 rate=1886483522 rule=0 saved=3312911748 target=Green_Mushroom |
 | classes.contribution.exp | classes/exp | C10 | advances yes eta 672808288037m | exp=3.232391806411378e+29 expReq=4.128549083429221e+29 rate=7991791655533847000 saved=1268 |
 | classes.contribution.exp | classes/exp | C9 | advances yes eta 479009996855998m | exp=8.1176933947005e+29 expReq=2.3437430699174437e+30 rate=191892495835481500 saved=1307 |
@@ -631,6 +658,7 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
+| systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
 | systems.yaml#cooking | worlds/reached | account | reached yes |  |
