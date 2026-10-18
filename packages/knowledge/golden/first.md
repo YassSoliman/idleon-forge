@@ -142,6 +142,12 @@ W4 · Breeding · Not covered yet · Not covered yet
 Needs you: Minigames (wasting), Colosseum (wasting), Refinery (wasting), Anvil (behind)
 Other gaps: Journeyman talent builds, Elite talent builds, Stamp cap raises that need farming or carry capacity, W4+ constellations and Infinite Stars
 Wasting: 3
+Report card (W4-entry):
+- Anvil · W1-mid · 8 behind · step: Unspent anvil points on 3 characters → Speed
+- Refinery · W3-early · 3 behind
+Stamps picture: 62 of 121 owned · lit Steve Sword · next 3
+Statues picture: 15 of 32 Gold · 0 Onyx · lit Box (price not checked)
+Printer picture: 14 slots · 0 changed · 14 no change
 
 ## Timeline
 Axis: now to +12h · Back in 8h 00m · 05:16

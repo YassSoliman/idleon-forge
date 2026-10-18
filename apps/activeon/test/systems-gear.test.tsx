@@ -57,7 +57,7 @@ describe('the Gear and Smithy pages', () => {
     const table = container.querySelector('.gd-heat-table') as HTMLTableElement;
     expect(table.querySelectorAll('tbody tr')).toHaveLength(6);
     expect(table.querySelectorAll('thead th')).toHaveLength(10);
-    const lit = table.querySelectorAll('td.lit');
+    const lit = table.querySelectorAll('td.is-now');
     expect(lit).toHaveLength(1);
     expect(lit[0]?.closest('tr')?.querySelector('th')?.textContent).toContain('Bowman 60');
     expect(lit[0]?.textContent).toContain('better one held');

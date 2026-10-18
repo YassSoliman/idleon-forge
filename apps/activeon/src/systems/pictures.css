@@ -1,0 +1,336 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M21 FR-S4: the Stamps book, the Statue wall, the Vault tower and the Printer slot grid. Field Guide
+   tokens only; our own pixel art (ADR 0009); every tile is a 44 px button (DS-15); state classes scoped
+   to their picture (DS-21). */
+
+.sy-pslot > .sy-nowtag {
+  grid-column: 1 / -1;
+}
+
+/* ---- Stamps ---- */
+.sy-stamps__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+  gap: var(--space-1);
+}
+.sy-stamp {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+  padding: 2px;
+  border: 0;
+  border-radius: 50%;
+  background: conic-gradient(var(--accent) calc(var(--pct) * 1%), var(--line) 0);
+  color: var(--fg);
+  cursor: pointer;
+}
+.sy-stamp > svg {
+  border-radius: 50%;
+  background: var(--surface);
+  padding: 4px;
+  box-sizing: content-box;
+}
+.sy-stamp > b {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  min-width: 20px;
+  padding: 0 4px;
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--line-strong);
+  font: var(--weight-bold) var(--text-xs) / 18px var(--font-numeral);
+}
+.sy-stamp--cap {
+  background: conic-gradient(var(--ok) 100%, var(--line) 0);
+}
+.sy-stamp--now,
+.sy-stamp--active,
+.sy-stamp--toward,
+.sy-stamp--later,
+.sy-stamp--unknown {
+  background: var(--line);
+}
+.sy-stamp--now > svg,
+.sy-stamp--active > svg,
+.sy-stamp--toward > svg,
+.sy-stamp--later > svg,
+.sy-stamp--unknown > svg {
+  filter: grayscale(1) brightness(0.6);
+  opacity: 0.6;
+}
+.sy-stamp--now {
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+.sy-stamps .sy-stamp.is-now {
+  grid-column: span 2;
+  border-radius: var(--radius-control);
+  box-shadow:
+    inset 0 0 0 2px var(--accent),
+    0 0 0 3px var(--accent-soft);
+}
+.sy-stamps .sy-stamp.is-now > svg {
+  filter: none;
+  opacity: 1;
+}
+.sy-stamps .sy-stamp.is-now > .sy-nowtag {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.sy-stamp:focus-visible,
+.sy-statue:focus-visible,
+.sy-vrow:focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+.sy-ribbon {
+  display: grid;
+  gap: var(--space-2);
+}
+.sy-ribbon ol {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sy-ribbon__row {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2px var(--space-2);
+  padding: var(--space-2);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+}
+.sy-ribbon__row.is-first {
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+.sy-ribbon__n {
+  font-weight: var(--weight-bold);
+}
+.sy-ribbon__name {
+  font-weight: var(--weight-semibold);
+}
+.sy-ribbon__kind {
+  grid-column: 3;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+/* ---- Statues ---- */
+.sy-statues__wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sy-statue {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  width: 100%;
+  min-height: 60px;
+  padding: var(--space-1);
+  border: 2px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--fg);
+  cursor: pointer;
+}
+.sy-statue--g1 {
+  border-color: var(--tier-gold-2);
+}
+.sy-statue--g2,
+.sy-statue--g3 {
+  border-color: var(--tier-majestic-2);
+}
+.sy-statue__lv {
+  font: var(--weight-semibold) var(--text-xs) / 1 var(--font-numeral);
+}
+.sy-statues__wall > li:has(.is-now) {
+  grid-column: span 2;
+}
+.sy-statues .sy-statue.is-now {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.sy-statues__next {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+.sy-spread ul {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sy-spread__row {
+  display: grid;
+  grid-template-columns: minmax(0, 9em) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+.sy-spread__bar {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(to right, var(--accent) calc(var(--pct) * 1%), var(--line) 0);
+}
+
+/* ---- Vault tower ---- */
+.sy-vault__gap {
+  margin: 0;
+  font-weight: var(--weight-semibold);
+}
+.sy-vault__tower {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sy-floor {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border-left: 4px solid var(--tier-silver-3);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+}
+.sy-floor.is-locked {
+  border-left-style: dashed;
+  border-left-color: var(--line-strong);
+  background: transparent;
+}
+.sy-floor__h {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.sy-floor__here {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+  padding: var(--space-1) 0;
+  border-bottom: 2px solid var(--accent);
+  color: var(--accent);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+}
+.sy-floor__rows {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sy-vrow {
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--fg);
+  text-align: left;
+  font-size: var(--text-xs);
+  cursor: pointer;
+}
+.sy-vrow__name {
+  font-weight: var(--weight-semibold);
+  overflow-wrap: anywhere;
+}
+.sy-vrow__bar {
+  display: block;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(to right, var(--ok) calc(var(--pct) * 1%), var(--line) 0);
+}
+.sy-vrow.is-locked {
+  border-style: dashed;
+  color: var(--muted);
+}
+.sy-vrow__v {
+  color: var(--muted);
+}
+.sy-floor__rows > li:has(.is-now) {
+  grid-column: 1 / -1;
+}
+.sy-vault .sy-vrow.is-now {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  font-size: var(--text-sm);
+}
+
+/* ---- Printer slots ---- */
+.sy-printer__grid {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sy-pslot-row {
+  display: grid;
+  gap: var(--space-1);
+}
+.sy-pslot-row__who {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+.sy-pslot-row__slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sy-pslot {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2px var(--space-2);
+  padding: var(--space-2);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  font-size: var(--text-sm);
+}
+.sy-pslot__item {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  font-weight: var(--weight-semibold);
+}
+.sy-pslot__note {
+  grid-column: 2;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.sy-pslot.is-empty {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.sy-printer .sy-pslot.is-now {
+  box-shadow: inset 0 0 0 2px var(--accent);
+}

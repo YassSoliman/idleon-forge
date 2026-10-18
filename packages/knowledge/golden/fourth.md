@@ -100,6 +100,10 @@ Worlds 5–7: not covered yet
 Needs you: Minigames (wasting), Random Events (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
 Wasting: 2
+Report card: (none)
+Stamps picture: 107 of 121 owned · lit (none) · next 0
+Statues picture: 28 of 32 Gold · 19 Onyx · lit (none)
+Printer picture: 2 slots · 0 changed · 2 no change
 
 ## Timeline
 Axis: now to +12h · Back in 8h 00m · 15:51

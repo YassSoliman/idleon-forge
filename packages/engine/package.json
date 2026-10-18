@@ -25,7 +25,8 @@
     "./alchemy-text": "./src/alchemy/text.ts",
     "./map": "./src/map/index.ts",
     "./session": "./src/session/index.ts",
-    "./pictures": "./src/pictures/index.ts"
+    "./pictures": "./src/pictures/index.ts",
+    "./systems-ui": "./src/pictures/ui.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json"

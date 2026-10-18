@@ -120,6 +120,11 @@ Worlds 5–7: not covered yet
 Needs you: Companions and pets (wasting), Minigames (wasting), Random Events (wasting), Boss keys (wasting), Colosseum (wasting), Alchemy vials (wasting)
 Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
 Wasting: 6
+Report card: (none)
+Stamps picture: 105 of 121 owned · lit (none) · next 0
+Statues picture: 28 of 32 Gold · 18 Onyx · lit (none)
+Vault picture: 6 levels to open Happy Doggy · here 474 · lit (none)
+Printer picture: 6 slots · 0 changed · 6 no change
 
 ## Timeline
 Axis: now to +12h · Back in 8h 00m · 02:41

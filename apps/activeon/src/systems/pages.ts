@@ -8,13 +8,14 @@
 import type { SystemPageView } from '@idleon-forge/engine/now';
 import { type ComponentType, createElement, Fragment } from 'react';
 import { lazyPart, retryable } from '../lazy-part';
-import { StarSignsSystemBody } from '../now/signs/SignsPanel';
 import type { Session } from '../shell/session';
 
 // Each chunk import is `retryable`, so a Retry after a failed fetch re-requests it (lazy-part.tsx).
 const slotPictures = retryable(() => import('./SlotPictures'));
 const gearPages = retryable(() => import('../gear/GearPages'));
 const alchemyLab = retryable(() => import('../alchemy/AlchemyLab'));
+const newPictures = retryable(() => import('./NewPictures'));
+const starChart = retryable(() => import('./StarChartPage'));
 
 export interface SystemPageBodyProps {
   s: Session;
@@ -23,7 +24,7 @@ export interface SystemPageBodyProps {
 
 export const SYSTEM_PAGES: Readonly<Record<string, ComponentType<SystemPageBodyProps>>> = {
   // M16 (R6 QA): the account's Star Chart lives here and in the Account, not on every Signs tab.
-  'star-signs': StarSignsSystemBody,
+  'star-signs': lazyPart(() => starChart().then((m) => m.StarSignsSystemBody)),
   // M20 TR-6: the Parallel Slot pictures.
   'cog-board': lazyPart(() => slotPictures().then((m) => m.CogBoardBody)),
   worship: lazyPart(() => slotPictures().then((m) => m.WorshipBody)),
@@ -32,6 +33,11 @@ export const SYSTEM_PAGES: Readonly<Record<string, ComponentType<SystemPageBodyP
   // M18 FR-26, FR-27: the gear heat strip and the Smithy's set cards.
   gear: lazyPart(() => gearPages().then((m) => m.GearPageBody)),
   'armor-smithy': lazyPart(() => gearPages().then((m) => m.ArmorSmithyBody)),
+  // M21 FR-S4, TR-10: the new System page pictures (area S's `pictures` engine step).
+  stamps: lazyPart(() => newPictures().then((m) => m.StampsBody)),
+  statues: lazyPart(() => newPictures().then((m) => m.StatuesBody)),
+  'upgrade-vault': lazyPart(() => newPictures().then((m) => m.VaultBody)),
+  printer: lazyPart(() => newPictures().then((m) => m.PrinterBody)),
   // M19 FR-18, TR-8: the Alchemy page, its pictures in their own lazy chunk, then M20's cauldron seats.
   'alchemy-lab': lazyPart(() =>
     Promise.all([alchemyLab(), slotPictures()]).then(

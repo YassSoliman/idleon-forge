@@ -1,161 +1,239 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
-/* M20 System page pictures: the Cog Board, charge tanks, traps and cauldron seats. Tokens only; our own
-   boxes, never game art (ADR 0009). Wraps at 320 px with no page-level horizontal scroll. */
-.pic {
-  overflow-wrap: anywhere;
-  min-width: 0;
-  margin: 0 0 12px;
-}
-.cog-board {
+/* M20 System page pictures restyled for M21 FR-S5: the Cog Board heat map, the charge tanks and totem
+   wave rulers, the Trapping strip (G7) and the cauldron seats strip. Field Guide tokens only; our own
+   pixel art (ADR 0009); state classes scoped to their picture (DS-21). Wraps at 320 px with no page
+   scroll. */
+
+/* ---- Cog Board ---- */
+.sy-cog__board {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 2px;
-  max-width: 360px;
-  margin: 8px 0;
+  max-width: 420px;
 }
-.sq {
-  display: inline-block;
+.sy-sq {
+  display: inline-grid;
+  place-items: center;
   aspect-ratio: 1;
-  min-width: 10px;
+  min-width: 12px;
   border-radius: 3px;
-  background: var(--sunk);
+  background: var(--surface);
+  overflow: hidden;
 }
-.pic-legend .sq {
+.sy-sq > svg {
+  width: 100%;
+  height: 100%;
+}
+.sy-sq--locked {
+  background: var(--line);
+}
+.sy-sq--cog {
+  background: var(--tier-silver-2);
+}
+.sy-sq--character {
+  background: var(--ok-soft);
+}
+.sy-sq--open {
+  border: 2px dashed var(--accent);
+}
+.sy-cog .sy-sq.is-now {
+  border: 2px solid var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.sy-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.sy-legend .sy-sq {
   width: 12px;
   vertical-align: middle;
 }
-.sq.cog {
-  background: var(--unk);
-}
-.sq.character {
-  background: var(--ok);
-}
-.sq.open {
-  background: var(--surface);
-  border: 2px dashed var(--coin);
-}
-.sq.lit,
-.chip.lit,
-.tank.lit,
-.trap-row.lit,
-.station.lit {
-  outline: 3px solid var(--coin);
-  outline-offset: 1px;
-}
-.pic-legend {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 12px;
-  padding: 0;
-  margin: 0 0 8px;
-}
-.pic-list {
-  display: grid;
-  gap: 6px;
-  margin: 0 0 8px;
-}
-.pic-list dt {
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-.pic-list dd {
-  margin: 2px 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-.chip {
+.sy-tag {
   display: inline-flex;
-  align-items: center;
-  min-height: 32px;
-  padding: 2px 8px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface);
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-chip);
 }
-.tanks,
-.trap-rows,
-.stations {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 8px;
+.sy-cog .sy-tag.is-now {
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+/* ---- Worship: charge tanks and wave rulers ---- */
+.sy-tanks {
   display: grid;
-  gap: 6px;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
-.tank,
-.trap-row,
-.station {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  min-height: 44px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 6px 10px;
+.sy-tank {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border-radius: var(--radius-control);
   background: var(--surface);
+  text-align: center;
+  font-size: var(--text-xs);
 }
-.trap-row,
-.station {
-  flex-wrap: wrap;
+.sy-tank__glass {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 56px;
+  border: 2px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(to top, var(--info-soft) calc(var(--pct) * 1%), transparent 0);
 }
-.station.locked {
+.sy-tank.is-full .sy-tank__glass {
+  border-color: var(--warn);
+  background: linear-gradient(to top, var(--warn-soft) calc(var(--pct) * 1%), transparent 0);
+}
+.sy-tank__v {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+.sy-tank__t {
   color: var(--muted);
 }
-.tank-bar {
-  flex: none;
-  width: 18px;
-  height: 40px;
-  border: 2px solid var(--line);
-  border-radius: 4px;
-  display: flex;
-  align-items: flex-end;
-  overflow: hidden;
-  background: var(--sunk);
+.sy-worship .sy-tank.is-now,
+.sy-worship .sy-ruler.is-now {
+  box-shadow: inset 0 0 0 2px var(--accent);
 }
-.tank-fill {
+.sy-rulers {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sy-ruler {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  font-size: var(--text-sm);
+}
+.sy-ruler__bar {
   display: block;
-  width: 100%;
-  background: var(--ok);
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(to right, var(--info) calc(var(--pct) * 1%), var(--line) 0);
 }
-.tank.full .tank-fill {
-  background: var(--coin);
+.sy-ruler__v {
+  color: var(--muted);
+  font-size: var(--text-xs);
 }
-.tank-text {
+
+/* ---- G7 the Trapping strip ---- */
+.sy-traps__rows {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sy-traprow {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  font-size: var(--text-sm);
+}
+.sy-traprow.is-row-lit {
+  box-shadow: inset 4px 0 0 var(--accent);
+}
+.sy-traprow__head {
   display: flex;
-  flex-direction: column;
-  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
 }
-.tank-fill.p0 {
-  height: 0%;
+.sy-traprow__set,
+.sy-traprow__line {
+  color: var(--muted);
+  font-size: var(--text-xs);
 }
-.tank-fill.p10 {
-  height: 10%;
+.sy-traprow__cells {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
-.tank-fill.p20 {
-  height: 20%;
+.sy-trap {
+  position: relative;
+  height: 20px;
+  border-radius: var(--radius-xs);
+  background: linear-gradient(to right, var(--line-strong) calc(var(--pct) * 1%), var(--ok-soft) 0);
 }
-.tank-fill.p30 {
-  height: 30%;
+.sy-trap.is-done {
+  background: var(--ok-soft);
+  box-shadow: inset 0 0 0 1px var(--ok);
 }
-.tank-fill.p40 {
-  height: 40%;
+.sy-traps .sy-trap.is-now {
+  grid-column: span 3;
+  box-shadow: inset 0 0 0 2px var(--accent);
 }
-.tank-fill.p50 {
-  height: 50%;
+.sy-trap__now {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
 }
-.tank-fill.p60 {
-  height: 60%;
+.sy-traps__back {
+  display: inline-block;
+  width: 2px;
+  height: 12px;
+  background: var(--return-line);
+  vertical-align: middle;
 }
-.tank-fill.p70 {
-  height: 70%;
+
+/* ---- Cauldron seats: a per-slot strip ---- */
+.sy-seats__strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
-.tank-fill.p80 {
-  height: 80%;
+.sy-seat {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  font-size: var(--text-sm);
 }
-.tank-fill.p90 {
-  height: 90%;
+.sy-seat.is-locked {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--line);
 }
-.tank-fill.p100 {
-  height: 100%;
+.sy-seat__who {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+}
+.sy-seat__v {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.sy-seats .sy-seat.is-now {
+  box-shadow: inset 0 0 0 2px var(--accent);
 }

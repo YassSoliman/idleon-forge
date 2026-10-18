@@ -65,8 +65,8 @@ export function GearPageBody(p: SystemPageBodyProps) {
     return { index: r.index, col: i ? heat.columns[i.k] : null, cell: i?.c ?? null };
   });
   return (
-    <section className="pic gd-heat" aria-labelledby="gd-heat-h">
-      <h3 id="gd-heat-h" className="sub-h">
+    <section className="sy-pic gd-heat" aria-labelledby="gd-heat-h">
+      <h3 id="gd-heat-h" className="sy-h3">
         Gear across the account
       </h3>
       <p className="small muted">Numbers are levels behind the Gear Plan.</p>
@@ -92,7 +92,7 @@ export function GearPageBody(p: SystemPageBodyProps) {
                     c: r.cells[k] ?? { word: '', state: 'none' as const, actionKey: null },
                   }))
                   .map(({ col, c }) => (
-                    <td key={col} className={`hc st-${c.state}${cellLit(c.actionKey) ? ' lit' : ''}`}>
+                    <td key={col} className={`hc st-${c.state}${cellLit(c.actionKey) ? ' is-now' : ''}`}>
                       {c.state === 'none' ? (
                         '—'
                       ) : (
@@ -113,7 +113,7 @@ export function GearPageBody(p: SystemPageBodyProps) {
           {(all ? worst : worst.slice(0, 3)).map((w) => (
             <li
               key={w.index}
-              className={`st-${w.cell?.state ?? 'ok'}${w.cell && w.cell.actionKey === lit ? ' lit' : ''}`}
+              className={`st-${w.cell?.state ?? 'ok'}${w.cell && w.cell.actionKey === lit ? ' is-now' : ''}`}
             >
               {nameOf(p, w.index)}:{' '}
               {w.cell ? (
@@ -127,7 +127,7 @@ export function GearPageBody(p: SystemPageBodyProps) {
           ))}
         </ul>
         {worst.length > 3 ? (
-          <button type="button" className="ghost tiny" onClick={() => setAll(!all)}>
+          <button type="button" className="a-btn a-btn--quiet" onClick={() => setAll(!all)}>
             {all ? 'show fewer' : `show all ${worst.length}`}
           </button>
         ) : null}
@@ -144,8 +144,8 @@ export function ArmorSmithyBody(p: SystemPageBodyProps) {
     sm.sets.map((x) => x.actionKey),
   );
   return (
-    <section className="pic gd-smithy" aria-labelledby="gd-smithy-h">
-      <h3 id="gd-smithy-h" className="sub-h">
+    <section className="sy-pic gd-smithy" aria-labelledby="gd-smithy-h">
+      <h3 id="gd-smithy-h" className="sy-h3">
         Armour sets
       </h3>
       <p className="small">{sm.line}</p>
@@ -153,7 +153,7 @@ export function ArmorSmithyBody(p: SystemPageBodyProps) {
         {sm.sets.map((set) => (
           <li
             key={set.set}
-            className={`gd-set${set.registered ? ' done' : ''}${set.actionKey && set.actionKey === lit ? ' lit' : ''}`}
+            className={`gd-set${set.registered ? ' done' : ''}${set.actionKey && set.actionKey === lit ? ' is-now' : ''}`}
           >
             <p>
               <b>{set.setName}</b> · {set.bonus}
