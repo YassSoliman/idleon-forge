@@ -1,6 +1,6 @@
 # M23 Bubba
 
-Spec for the owner's request of 2026-10-18 ("would be epic"): a module for **Bubba**, the third clicker, part of the map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Status: **ready for owner review**. An independent reviewer red-teamed it: 28 findings (2 P0, 6 P1, 14 P2, 6 P3), every P0, P1 and P2 fixed (section 10). Three product questions are open for the owner (section 8.1). Every other question is self-ruled with research (section 8.2). Terms follow [`GLOSSARY.md`](../../GLOSSARY.md), and decisions follow [ADRs 0001–0009](../adr/).
+Spec for the owner's request of 2026-10-18 ("would be epic"): a module for **Bubba**, the third clicker, part of the map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Status: **ruled, ready to build after X1**. An independent reviewer red-teamed it: 28 findings (2 P0, 6 P1, 14 P2, 6 P3), every P0, P1 and P2 fixed (section 10). The three product questions of section 8.1 were self-ruled by research at the owner's request ("for Bubba, figure it out yourself online"), 2026-10-18; see [Final rulings](#final-rulings), which win over anything above that conflicts. Every other question is self-ruled with research (section 8.2). Terms follow [`GLOSSARY.md`](../../GLOSSARY.md), and decisions follow [ADRs 0001–0009](../adr/).
 
 **Why this exists.** Bubba is the only W3 System that pays seven permanent, account-wide bonuses (Construction Build Rate, Critters, Souls, Total Damage, All Kills, Class EXP, Atom Cost) from a screen most players open and forget. ActiveOn covers Poppy only as a "convert your fish" line (M6 FR-18), Orion not at all (M6 D6), and Bubba not at all. Both private fixtures show the gap:
 - **W3-early account.** Bubba is running (Megaflesh 3, Boon level 11), but the Charisma Chart is training an attribute that is already at its maximum. At the save, more than 50 levels of Charisma XP are banked. The next Megaflesh, about 20 hours away, wipes them.
@@ -53,7 +53,7 @@ M23 is a **new small module** with its own folders.
 | F1 | **Bubba facts and Account State**: the fields, the unlock rule, the generated tables | `packages/account-state/src/bubba.ts`, `bubba-types.ts`; `packages/knowledge/generators/bubba.gen.ts` | `bubba.fact.upgrades`, `bubba.fact.megaflesh`, `bubba.fact.boon`, `bubba.fact.charisma`, `bubba.fact.gifts` (generated); `bubba.fact.unlock` (authored) | Phase 1 |
 | F2 | **Unlock and start**: the System opens; the "not started" and "restart" Goals | `packages/knowledge/systems/bubba.yaml`, `detectors/bubba/` | `bubba.check.start`; Detectors `bubba/unlocked`, `bubba/start` | Phase 1 |
 | F3 | **Run Checks**: Megaflesh, Boon, Smoker, pat then gift | same | `bubba.check.megaflesh`, `bubba.check.boon`, `bubba.check.smoker`, `bubba.check.pat-gift`; Detectors of the same names | Phase 1 |
-| F4 | **Charisma Chart**: the idle-training Check, what the next level buys, the two community targets (Contested), emulsify | same, and `packages/engine/src/bubba/` | `bubba.check.charisma-idle`, `bubba.priority.charisma`; Detector `bubba/charisma-idle` | Phase 1 |
+| F4 | **Charisma Chart**: the idle-training Check, what the next level buys, the two community targets (Contested), Mindful first from Megaflesh 6, emulsify | same, and `packages/engine/src/bubba/` | `bubba.check.charisma-idle`, `bubba.priority.charisma`, `bubba.priority.charisma-mindful`; Detector `bubba/charisma-idle` | Phase 1 |
 | F5 | **Priority Lists**: the run order and the Boon bonus ranking by Stage | `packages/knowledge/systems/bubba.yaml`, `metapath.yaml` (tier rows only) | `bubba.priority.run`, `bubba.priority.boon-bonuses` | Phase 1 |
 | F6 | **One account Goal, Timeline bars** | `packages/engine/src/bubba/` | `bubba.goal.visit`; engine module `bubba` (groups F2–F4, emits `TimelineBar`s) | Phase 1 |
 | F7 | **The Bubba System page** | `apps/activeon/src/bubba/` (lazy chunk) | none (views add no advice) | Phase 1 |
@@ -194,7 +194,7 @@ These are game facts, not judgment. Each one is tier 1 provenance, and the playe
   - Boon 13 and 14 become buys in the Megaflesh 6 run;
   - and so on: about two Boon levels per Megaflesh, each delaying it by under 10%.
 
-  The bonus's Stage rating is FR-17's tag. Q3 asks the owner to confirm the threshold.
+  The bonus's Stage rating is FR-17's tag. The 10% threshold is ruled in Final rulings R-3 (community "Boon farming" when Boon is far cheaper than the Megaflesh).
 - **FR-10 Smoker at max quality.** `bubba.check.smoker` fires when all of these hold:
   - `smokerUnlocked`;
   - the projected smoke time (`smokerSeconds + (now − lastCloudSave)`) ≥ `SMOKER_MAX_QUALITY_SECONDS`;
@@ -227,7 +227,7 @@ These are game facts, not judgment. Each one is tier 1 provenance, and the playe
   - FR-7 is not firing;
   - no attribute is selected (`[0][6] == 0`), or the selected one is at its max (X1's `charismaMaxLevel`, 120 at this patch).
 
-  - **Text:** "Train another attribute in Bubba's Charisma Chart: tap one that isn't maxed". It doesn't name the attribute, because FR-14 is Contested (Q2).
+  - **Text:** "Train another attribute in Bubba's Charisma Chart: tap one that isn't maxed". Before Megaflesh 6 it doesn't name the attribute, because the Hustle-or-Rizz order is Contested (FR-14, Final rulings R-2). **From Megaflesh 6, while Mindful is below its max**, it names it: "Train Mindful in Bubba's Charisma Chart: the guides max it first from Megaflesh 6" (`bubba.priority.charisma-mindful`, R-2). The firing conditions don't change: M23 still never fires only because a different attribute is training.
   - **Why:** "{selected} is at its max of 120. XP keeps banking until you pick another, and the next Megaflesh wipes it". When nothing is selected, the why is "No attribute is training".
   - **Details:** "About {k} levels of XP are waiting", where `k = min(X1's charismaLevelsBanked, max − level of the lowest attribute)`, computed at `now`. X1 exports the uncapped count from the projected XP. Hidden without X1.
   - Category `compounding`, urgency always `banked`. When every attribute is at max, it never fires.
@@ -239,9 +239,10 @@ These are game facts, not judgment. Each one is tier 1 provenance, and the playe
     - Hustle and Rizz at max by Megaflesh 4;
     - from Megaflesh 6: Mindful 120 (emulsified), Rizz 100, Hustle 80, Joy 30;
     - from Megaflesh 9: Savvy 10–20.
-  - **vortexgaming.io** (undated, tier 3): Rizz first, then Hustle, at Megaflesh 1–4.
+  - **vortexgaming.io** (undated, tier 3, a write-up of Kanumar's video of 2025-12-13): Rizz first, then Hustle, at Megaflesh 1–4.
 
-  They disagree on the first attribute, so under ADR 0004's amendment the entry is **Contested**. The page shows the targets as "community targets", with each attribute's gap to them, and no Goal names an attribute (FR-12). The test is the rendered gap per attribute, not a pick.
+  They disagree on the first attribute, so under ADR 0004's amendment the entry is **Contested**. The page shows the targets as "community targets", with each attribute's gap to them, and no Goal names Hustle or Rizz (FR-12). The test is the rendered gap per attribute, not a pick. Final rulings R-2 adds the Kanumar video (2025-12-13, the source the vortexgaming write-up transcribes: Rizz first, then level both evenly) as the Rizz-first side and the dated Sources for Mindful.
+- **FR-14a Mindful first from Megaflesh 6 (`bubba.priority.charisma-mindful`, authored, `status: active`, confidence M).** From Megaflesh 6 the page's Charisma section leads with "Max Mindful first (the guides agree from Megaflesh 6)", with Mindful's gap to its max, above FR-14's contested targets for the other five. FR-12 names Mindful under this entry. Sources: gameslikefinder 2026-05-27, GriffyBit 2026-06-17, Pulse 2026-09-11 (R-2).
 - **FR-15 Emulsify.** From Megaflesh 6 (row 6 owned), when nothing is emulsified (`[0][15] == 0`), the page reads "Emulsify: double-tap your training attribute to make it 3x". The page adds "The gameslikefinder guide emulsifies Mindful from Megaflesh 6", with its Source. Emulsify is never a Now Goal (D-8).
 
 ### 3.5 Priority Lists (F5)
@@ -438,7 +439,7 @@ bubba?: BubbaState | null;
 | `bubba.fact.gifts` | generated from `generalSpelunky[39–41]` | 6 gifts: name, passive and trigger text | same |
 | `bubba.fact.unlock` | authored | `{ map: 50, door: 0, leadsTo: 100 }`, cross-checked against `maps.fact.maps` | N.js `BubbaUnlocked` |
 
-The authored entries in `bubba.yaml` are the six Checks and `bubba.goal.visit` (TR-4), `bubba.priority.run`, `bubba.priority.visit`, `bubba.priority.charisma` and `bubba.priority.boon-bonuses`. Size is about 6 KB raw, inside the Knowledge Base headroom left after M18 and M19 (about 65 KB raw, README).
+The authored entries in `bubba.yaml` are the six Checks and `bubba.goal.visit` (TR-4), `bubba.priority.run`, `bubba.priority.visit`, `bubba.priority.charisma`, `bubba.priority.charisma-mindful` and `bubba.priority.boon-bonuses`. Size is about 6 KB raw, inside the Knowledge Base headroom left after M18 and M19 (about 65 KB raw, README).
 
 ### TR-4 Entries (#11 shape; **A** = authored)
 
@@ -453,6 +454,7 @@ The authored entries in `bubba.yaml` are the six Checks and `bubba.goal.visit` (
 | `bubba.goal.visit` | goal (account, details) **A** | engine module `bubba` | — | FR-18; stable key `bubba.goal.visit@account` |
 | `bubba.priority.run`, `.visit`, `.boon-bonuses` | priority **A** | — | — | FR-16–FR-18 |
 | `bubba.priority.charisma` | priority **A**, `status: contested` | — | — | FR-14; page only |
+| `bubba.priority.charisma-mindful` | priority **A**, `status: active`, from Megaflesh 6 | — | — | FR-14a; names Mindful in FR-12's text (Final rulings R-2) |
 | `bubba/unlocked` | milestone Detector | — | — | FR-2 |
 
 Every Detector declares `examples` (M11): fires, silent and unknown, on `scrubbed-w3`, `latest`, `highend`, `fresh` and the mutations in section 4. Every entry sets `affectsVerdict: false`.
@@ -528,6 +530,7 @@ M23 stores nothing new, and skips and dismissals use M10's store. Nothing leaves
 - **Rotation:** for Boon levels 0–30, the bonus added by level `L + 1` is `(L mod 7) + 1`, and the stack count matches Toolbox's bonus divided by the per-stack value × multiplier (F-f).
 - **Leftover and 10% rules** (FR-7, FR-9): the leftover never spends below the Megaflesh cost, covers any Boon level, and stops at Fun Gifts' cap; the mid-run Boon fires only at ≤ 10% of the next Megaflesh cost; while FR-7 fires, the Smoker, Charisma idle and mid-run Boon Checks are silent.
 - **Gift gates:** pat-gift fires only with Beeg Slice picked; the Smoker Check is silent with Slabcakes picked.
+- **Charisma naming** (FR-12, R-2): at Megaflesh 5 the idle text names no attribute; at Megaflesh 6 with Mindful below its max it names Mindful; at Megaflesh 6 with Mindful maxed it names none; a mutation that names Hustle or Rizz fails.
 - **Timeline units** (FR-20): with `rateBase` = 60 per minute and `cost − meat` = 60, `at = lastCloudSave + 60,000 ms`.
 - **Stable key** (FR-18): skipping the Goal, then changing which Check is on top, keeps it skipped.
 - **Payback** (FR-16): a discount whose cost exceeds its saving on the Megaflesh is never in "Next buys".
@@ -574,6 +577,8 @@ M23 stores nothing new, and skips and dismissals use M10's store. Nothing leaves
 
 ### 8.1 Questions for the owner (at most 3)
 
+**Ruled.** The owner asked for these to be settled by research (2026-10-18). The answers are in [Final rulings](#final-rulings) R-1 to R-3; the questions and first recommendations stay below as the record.
+
 ❓ Q1 - Pats on Now: should ActiveOn ever say "pat Bubba" on its own every hour, or only "pat, then Open Gift" when Beeg Slice is picked and Open Gift is affordable?
 ➡️ Only the combo. Happiness halves in about 9 s (`HappinessLoss = max(1, H/13)` per second), and only Beeg Slice turns it into meat. A pat with nothing to spend on right away is worth almost nothing, and an hourly line would be the noisiest item on Now. The page always shows the pats and the refill time.
 
@@ -589,9 +594,9 @@ M23 stores nothing new, and skips and dismissals use M10's store. Nothing leaves
 - **D-2 Unlock is per character, shown per account.** The game's rule is the logged-in character's door (F-a). The account counts as unlocked when any character qualifies, and FR-6 names that character. *Why:* DS-25, plus a real per-character fact.
 - **D-3 Megaflesh as soon as affordable, after the leftover.** No guide argues for holding. gameslikefinder's per-Megaflesh income figures (10M/min at MF3 up to 3Q/min at MF8) describe when the next one comes, not a reason to wait. Megaflesh rows 2, 4, 7 and 10 raise the account bonuses, and row 1 multiplies meat by total levels. Holding gains nothing permanent, because the meat resets anyway. Before it, the leftover goes to what survives (Boon, then Fun Gifts), and the run Checks a reset wipes go quiet (FR-7). *Why:* the owner's brief ("Megaflesh early"); F-d. Q3 covers the Boon threshold.
 - **D-4 No Goal per upgrade.** A Bubba visit buys dozens of upgrades with "hold to upgrade fast". One Now line per upgrade would be noise against DS-9. The run order lives on the page's "Next buys". *Why:* DS-9, DS-25.
-- **D-5 Pats only in the combo, with Beeg Slice.** See Q1. Self-ruled for the build, with the recommendation as the default. Changing it later is one Detector switch. The double pat needs timing to the second, so it is a page tip, not a Now line.
+- **D-5 Pats only in the combo, with Beeg Slice.** See Q1, ruled in Final rulings R-1. Changing it later is one Detector switch. The double pat needs timing to the second, so it is a page tip, not a Now line.
 - **D-6 No checklist rows.** Nothing in Bubba resets daily or weekly. Hourly rows would never be "done" and would drag the today ring (M20 FR-6). *Why:* M20's band definitions.
-- **D-7 The Charisma targets are Contested and page-only.** The two guides disagree (FR-14), so no Goal names an attribute (Q2). *Why:* ADR 0004's amendment on judgment entries.
+- **D-7 The Hustle-or-Rizz order is Contested and page-only.** The guides disagree (FR-14), so no Goal names Hustle or Rizz (Q2). From Megaflesh 6 the guides agree on Mindful first, so FR-12 names Mindful then (FR-14a, Final rulings R-2). *Why:* ADR 0004's amendment on judgment entries.
 - **D-8 Emulsify is page-only.** It's one tap that the game itself explains in the Megaflesh 6 text. As a Goal it would show up once per run and then be done. *Why:* noise.
 - **D-9 Stage rating changes no purchase.** The next Boon bonus is fixed by rotation (F-f), so the rating only explains value. *Why:* honesty (DS-23: no invented numbers or choices).
 - **D-10 Ask the fork for the numbers instead of writing formulas.** Every game formula M23 needs (pats per hour, the happiness-free rate, Charisma XP and bonuses, the Boon delta, the Megaflesh multiplier, the discount ratio, the constants) is one export from the fork. The owner maintains the fork, the change is about 80 lines with live-verified tests, and ADR 0005 forbids our own game formulas. *Why:* ADR 0005; TR-6.
@@ -656,11 +661,11 @@ An independent reviewer, who had not seen the author's reasoning, read this spec
 - **V-2 X1 lands.** The fork commit and its live-verified tests, then `pnpm sync-parsers`.
 - **V-3 Per-character away time: settled from N.js.** `TimeAway.Forge` is reset whichever character logs in, and the Bubba block inside runs only when that character has the door open. So logging in on a character without it loses that away time for good. FR-6 says so in Phase 1. One save pair on a test account would confirm it; not blocking.
 - **V-4 Critter Gain: settled.** It is a flat +base critters per trap (`/10`, N.js @7764650), not a percent. The page says so (F-f). Toolbox's trapping parser doesn't read it at this pin, so its effect on trapping numbers elsewhere in ActiveOn is a Toolbox gap, not ours.
-- **V-5 Charisma above 120.** Confirm on a live save whether gifts can push an attribute past 120 (the vortexgaming guide says so; the game's level-up stops at 120, but the Numbahs trigger adds +1 LV directly).
+- **V-5 Charisma above 120.** Confirm on a live save whether gifts can push an attribute past 120 (the vortexgaming guide says so, and Kanumar's video shows Rizz at 121 after one Numbahs gift, 2025-12-13 at 12:59; the game's level-up stops at 120, but the Numbahs trigger adds +1 LV directly).
 
 ## Phases and effort
 
-- **Phase 1, one PR after X1.** About 3.5–4.5 agent-days, plus one owner review:
+- **Phase 1, one PR after X1.** About 3.5–4.5 agent-days (the owner questions are ruled, Final rulings):
   - adapter and fields: 0.5 day;
   - entries, seven Detectors, generators and examples: 1 day;
   - engine module and Timeline: 0.5–1 day;
@@ -675,6 +680,26 @@ An independent reviewer, who had not seen the author's reasoning, read this spec
 - **Bubba Boon**: the Bubba upgrade whose levels add Bubba's seven account bonuses in rotation; never resets. _Avoid_: Ring of Greed (the game's internal name), RoG.
 - **Charisma Chart**: Bubba's six trainable attributes; they boost only Bubba and reset at every Megaflesh. _Avoid_: stat points, attributes (bare).
 
+## Final rulings
+
+These supersede anything above that conflicts. The three owner questions (section 8.1) were **self-ruled by research at the owner's request, 2026-10-18** ("for Bubba, figure it out yourself online"). Searched: the IdleOn Wiki Bubba page, r/idleon, the Discord guide sheet, IdleOn Toolbox (site and repo), Steam discussions, and every dated YouTube Bubba guide found, read from its description and its auto-captions. r/idleon could not be read: Reddit returned HTTP 403 to every unauthenticated request, and web search surfaced no r/idleon Bubba thread. The Discord guide sheet (the community "Idleon Guide Sheet") predates Bubba (v1.02, 2025-11-23) and has no Bubba tab. The Wiki page (last edited 2026-10-07) gives mechanics only, no strategy. All the guides below are dated after v1.03 (2025-11-29), so none is Stale on costs.
+
+- **R-1 Pats on Now: only "pat, then Open Gift", with Beeg Slice. Ruled as recommended (Q1, D-5, FR-11).** No Source tells a player to pat on its own. Every Source that pats does it to spend the happiness straight away on gifts:
+  - Pulse, Super Idle, [IdleOn Daily: Bubba, RG Questions & Spelunking](https://www.youtube.com/watch?v=rLwW3ZGz5bE), 2026-09-11, at 7:45: "you can just do hourly clicks ... you click Bubba as fast as you can ... and then you'll just click gift and just do like one". The same video: gifts "one and five", and "one [Beeg Slice] never leaves". That is FR-11 exactly, hourly, with Beeg Slice.
+  - GriffyBit, [IdleOn How To Get MASSIVE MEAT GAINS!? | Bubba Guide](https://www.youtube.com/watch?v=lYZrYL3VZOY), 2026-06-17, at 22:42 and 24:14: "I did not pat my seal whatsoever because I want to keep all that pats for the final push", then "pat 50 times ... and then we're going to start opening gifts".
+  - Jose Garza, [Idleon Bubba's secret technique](https://www.youtube.com/watch?v=LhIG3jt6nlc), 2025-12-09: the double pat, then "that's when you want to spam opening your box".
+  - Kanumar, [Bubba guide - IdleOn Megaflesh 1-6](https://www.youtube.com/watch?v=Tz1ow2H_6aA), 2025-12-13, at 11:52: from Megaflesh 4 "You don't really have to keep patting at this point".
+  - IdleOn Toolbox's own dashboard trackers ([`utility/dashboard/baseTrackers.js`](https://github.com/Morta1/IdleonToolbox/blob/1c25575/utility/dashboard/baseTrackers.js), commit `1c25575`, 2026-10-17) alert on Bubba only for the Megaflesh and the Smoker at max (`megaFleshRestart`, `smokerMax`), never for pats.
+
+  The two strategies differ only on *when* to open gifts (Pulse hourly, GriffyBit and Kanumar saved for the end of a run), never on patting alone. FR-11 fires whenever the combo is affordable, which is Pulse's hourly play; a player saving gifts for the end skips it (Skip today holds the whole Goal, FR-18). No spec change.
+
+- **R-2 Charisma: Hustle or Rizz stays Contested, but from Megaflesh 6 the guides agree on Mindful first (Q2, D-7, FR-12, FR-14, FR-14a). Ruled differently from the first recommendation, in part.**
+  - **Hustle or Rizz first: no agreement, so Contested, as recommended.** Rizz first: Kanumar 2025-12-13, at 1:55 and 5:53 ("focus on Rizz and then Hustle"; "level both of them evenly", then Rizz to 120, then Hustle to 120), the video that the vortexgaming write-up transcribes. Hustle first: gameslikefinder 2026-05-27 ("Hustle max, level 27 Joy and then Rizz max" at Megaflesh 3–4). Split: GriffyBit 2026-06-17, at 4:47 ("a 50/75 split in between Hustle and Rizz"). A helper on GriffyBit TV's stream [Max Megaflesh At Bubbas!](https://www.youtube.com/watch?v=s7rPNNoOOac), 2026-04-08, at about 2:13:00, asked "Hustle first or Rizz first?": "It really doesn't matter." Under ADR 0004's amendment, the entry stays `status: contested`, and no Goal names Hustle or Rizz.
+  - **Mindful first from Megaflesh 6: agreed.** gameslikefinder 2026-05-27 (Megaflesh 6–7 and up: "Mindful max first", targets 80/100/30/0/120/0); GriffyBit 2026-06-17, at 2:44 and 21:15 ("First thing, max out Mindful ... It is more important than Hustle and Rizz"; "Making sure that you Mindful 120 first before you start working on Hustle or Rizz"); Pulse 2026-09-11, at 6:06 ("make sure that you're maxing Mindful first", then Hustle and Savvy, Joy 5–15); the GriffyBit TV stream 2026-04-08 at Megaflesh 8 ("you drop Mindful and you get Mindful to 120"). The reason they give matches the game: a Mindful proc is a free level that doesn't raise the cost (F-g). The one dissent, Jose Garza 2025-12-09 ("I was trying to see if Mindful was actually worth it. I don't feel that it is"), names no Megaflesh, predates every Megaflesh 6 guide, and Kanumar's Megaflesh 1–6 guide never trains Mindful, so before Megaflesh 6 nothing is agreed. **Change:** a new entry `bubba.priority.charisma-mindful` (FR-14a, `status: active`, confidence M), and FR-12 names Mindful from Megaflesh 6 while Mindful is below its max. FR-12's firing conditions don't change.
+  - The Goal text for the rest stays "train an attribute that isn't maxed". Emulsify stays page-only (D-8): the guides emulsify different attributes (gameslikefinder Mindful, GriffyBit Hustle, Pulse Joy for the hourly clicks).
+
+- **R-3 Boon past 7: yes, mid-run when it costs 10% or less of the next Megaflesh (Q3, FR-9). Ruled as recommended.** No Source gives a number, and none argues against mid-run Boon buys. The late-game Sources do the same thing at a much smaller ratio: GriffyBit 2026-06-17, at 29:05: "what people are doing is they're actually farming Bubba Boons ... the Bubba Boon is E25, this one [Megaflesh] is E29. So, probably for my next rotation, I'm actually going to just do some Boon farming"; and at 25:59, with the leftover after the push, "We could go for a Bubba Boon". The GriffyBit TV stream (2026-04-08) calls the same play "Boon runs". A Boon at 10⁻⁴ of the Megaflesh is inside the 10% rule, so FR-9 fires there too. 10% stays the threshold, with FR-9's arithmetic as its reason and confidence M. A dedicated "Boon run" (skipping a Megaflesh to farm Boon) is a Phase 2 idea, not built.
+
 ## Sources
 
 - **Game client:** `N.js`, served 2026-10-18 (Last-Modified 2026-10-17): `_customBlock_Bubbastuff` (`BubbaUnlocked`, `DailyPetting`, `CharismaTraitREQ`, `CharismaTraitSPD`, `CharismaBonus`, `HappinessLoss`, `SpareCoins_*`, `Dice_*`), the Bubba window tick (`ActorEvents_713`), `_customEvent_Bubbathings` (Megaflesh reset, Smoker, Open Gift), `AFKcode` (away time), `runPeriodically(1000)` (online meat). Tier 1.
@@ -683,4 +708,11 @@ An independent reviewer, who had not seen the author's reasoning, read this spec
 - **Steam community:** [where is Bubba which world?](https://steamcommunity.com/app/1476970/discussions/0/690867902968120321/), 2025-11-24. Tier 3, the unlock corroboration.
 - **gameslikefinder:** [Idleon Bubba Seal Guide](https://gameslikefinder.com/article/idleon-bubba-guide/), 2026-05-27. Tier 3, low trust: Charisma targets, gift picks, double pat, Smoker every ~13 h, income per Megaflesh.
 - **vortexgaming.io:** [IdleOn: Bubba's Guide to Megaflesh 1-6](https://vortexgaming.io/en/postdetail/624145), undated. Tier 3: training by tapping, the 120 cap, Rizz first.
+- **YouTube guides** (read from their descriptions and auto-captions on 2026-10-18; timestamps in Final rulings). Tier 3:
+  - Kanumar, [Bubba guide - IdleOn Megaflesh 1-6](https://www.youtube.com/watch?v=Tz1ow2H_6aA), 2025-12-13: Rizz first, then level evenly; pats optional from Megaflesh 4.
+  - Jose Garza, [Idleon Bubba's secret technique](https://www.youtube.com/watch?v=LhIG3jt6nlc), 2025-12-09: double pat, then open gifts; Mindful "not worth it" (no Megaflesh named).
+  - GriffyBit TV, [Max Megaflesh At Bubbas!](https://www.youtube.com/watch?v=s7rPNNoOOac), 2026-04-08: Mindful to 120 at Megaflesh 8; Hustle or Rizz "doesn't matter"; "Boon runs".
+  - GriffyBit, [IdleOn How To Get MASSIVE MEAT GAINS!? | Bubba Guide](https://www.youtube.com/watch?v=lYZrYL3VZOY), 2026-06-17: Mindful first, Hustle/Rizz split, pats saved for the gift push, Boon farming.
+  - Pulse, Super Idle, [IdleOn Daily: Bubba, RG Questions & Spelunking](https://www.youtube.com/watch?v=rLwW3ZGz5bE), 2026-09-11: Mindful first, hourly pat-then-gift, gifts 1 and 5.
+- **IdleOn Toolbox dashboard:** [`utility/dashboard/baseTrackers.js`](https://github.com/Morta1/IdleonToolbox/blob/1c25575/utility/dashboard/baseTrackers.js) at `1c25575` (2026-10-17): Bubba trackers are `megaFleshRestart` and `smokerMax` only. Tier 1 for what Toolbox alerts on.
 - **IdleOn Forge:** Leverage model (`research/leverage-model`), priority verification (`research/priority-verification`), M6, M17, M20 and M21 specs.
