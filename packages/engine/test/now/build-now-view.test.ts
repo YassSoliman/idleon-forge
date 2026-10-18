@@ -505,6 +505,22 @@ describe('US-18 Spend Plan', () => {
     expect(sp?.unavailable).toEqual(["can't price Statue Gold right now"]);
     expect(sp?.goal?.action.text).toBe('Vault upgrade 1');
   });
+  it('a line with more than one purchase shows no level range, never "Lv 65 → 30" (M7 request)', () => {
+    const g = structuredClone(r);
+    const line = g.account.spendPlan?.lines[0];
+    if (!line?.steps[0]) throw new Error('spend-plan fixture has no first line');
+    const one = line.steps[0];
+    line.steps = [
+      { ...one, ref: 'vault:1', fromLevel: 65, toLevel: 66 },
+      { ...one, ref: 'vault:2', fromLevel: 29, toLevel: 30 },
+    ];
+    expect(view(g).account.spendPlan?.lines[0]?.levels).toBeNull();
+    line.steps = [
+      { ...one, ref: 'vault:1', fromLevel: 21, toLevel: 22 },
+      { ...one, ref: 'vault:1', fromLevel: 22, toLevel: 23 },
+    ];
+    expect(view(g).account.spendPlan?.lines[0]?.levels).toBe('Lv 21 → 23');
+  });
   it('the unpriced line reads "cost not checked" with the totals note', () => {
     const all = view(r, { expanded: new Set(['spend']) }).account.spendPlan;
     expect(all?.lines[5]).toMatchObject({

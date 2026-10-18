@@ -741,8 +741,11 @@ function spendPlanView(
   const views: SpendLineView[] = live.map((l) => {
     const first = l.steps[0];
     const last = l.steps[l.steps.length - 1];
+    // A grouped line buys several things (two Vault rows, eight stamps): one "Lv a → b" across them
+    // reads as nonsense ("Lv 65 → 30"), so only a single purchase shows its range (M7 request).
+    const single = new Set(l.steps.map((s) => s.ref)).size === 1;
     const levels =
-      first && last && first.fromLevel !== null && last.toLevel !== null
+      single && first && last && first.fromLevel !== null && last.toLevel !== null
         ? `Lv ${first.fromLevel} → ${last.toLevel}`
         : null;
     let runningTotal: string | null = null;
