@@ -77,6 +77,10 @@
 .map-stack .who + .who {
   margin-left: -4px;
 }
+/* R11 QA: a 16 px chibi carries its letter beside it, so the stack spaces them instead of overlapping. */
+.map-stack .who-s1 + .who-s1 {
+  margin-left: 2px;
+}
 .map-stack-n {
   margin-left: 2px;
   font-size: var(--text-xs);

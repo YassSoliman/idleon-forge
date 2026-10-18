@@ -10,9 +10,15 @@ export const MAP_WORDS = {
   /** "3 of 4 worlds open · 6 characters". */
   summary: (open: number, of: number, characters: number) =>
     `${open} of ${of} worlds open · ${characters} character${characters === 1 ? '' : 's'}`,
-  doorsOpen: (cleared: number, total: number) => `${cleared} of ${total} doors open`,
+  /**
+   * "7 of 7 route doors open · 6 side maps not reached". R11 QA: the count is the route's doors, so the
+   * locked maps off the route are named apart instead of sitting beside "7 of 7" unexplained.
+   */
+  doorsOpen: (cleared: number, total: number, side = 0) =>
+    `${cleared} of ${total} route doors open${side > 0 ? ` · ${side} side map${side === 1 ? '' : 's'} not reached` : ''}`,
   /** A finished world, folded to one line. */
-  fold: (cleared: number, total: number) => `${cleared} of ${total} doors open`,
+  fold: (cleared: number, total: number, side = 0) =>
+    `${cleared} of ${total} route doors open${side > 0 ? ` · ${side} side map${side === 1 ? '' : 's'} not reached` : ''}`,
   opensWith: (item: string) => `Opens with the ${item}`,
   opensAfter: (boss: string) => `Opens after ${boss}`,
   notCovered: 'Worlds 5+ · not covered yet',

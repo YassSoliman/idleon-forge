@@ -295,6 +295,8 @@ export function buildMapView(
         label: parts.join(', '),
       };
     });
+    // R11 QA: the locked maps off the route; the door count is the route's own.
+    const side = nodes.filter((n) => n.state === 'locked' && !n.onRoute).length;
     const g = w.gate;
     const gateState: MapGateView['state'] =
       w.state === 'done' ? 'done' : w.state === 'open' ? 'open' : 'locked';
@@ -320,8 +322,8 @@ export function buildMapView(
             ? W.opensAfter(prev.gate.boss)
             : ''
         : w.state === 'done'
-          ? W.fold(w.cleared, w.total)
-          : W.doorsOpen(w.cleared, w.total);
+          ? W.fold(w.cleared, w.total, side)
+          : W.doorsOpen(w.cleared, w.total, side);
     return {
       world: w.world,
       heading: WORLD_NAMES[w.world] ?? `World ${w.world}`,
