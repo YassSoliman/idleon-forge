@@ -80,9 +80,10 @@ describe('Build view roadmaps', () => {
       'Put the next 40 points into Leaf Thief (to 40 of 100)',
       'Put the next 34 points into Bubble Breakthrough (to 70 of 100)',
     ]);
-    // The fighting preset has nothing waiting: one line per tab says where the next points go.
+    // No points are known on the fighting preset (a bound of 0 can't prove none wait): one line per
+    // tab says where the next points go, never "no points waiting" (fix/build-points).
     expect(r.presets[0]?.next[0]?.text).toBe(
-      'No points waiting in this tab; the next go into Idle Casting (to 50)',
+      'No unspent points known here; the next go into Idle Casting (to 50)',
     );
     // Every Build talent shows current / target, in the Build's step order.
     const tab1 = skilling?.tabs[0]?.rows.map((x) => `${x.label} ${x.current}/${x.target}`);
@@ -119,13 +120,11 @@ describe('Build view roadmaps', () => {
       ...r.path.slice(4).map((p) => `${p.label}:later`),
     ]);
     expect(r.nextClass).toBe('Next class: take Hunter at Speccius');
-    // The fighting preset has spent more than the empty one in every tab: nothing known waiting.
+    // The fighting preset has spent more than the empty one in every tab: no points known waiting.
     const fighting = r.presets.find((p) => p.role === 'fighting');
     const tab2 = fighting?.next.filter((n) => n.tab === 2) ?? [];
     expect(tab2.map((n) => n.text)).toEqual([
-      expect.stringMatching(
-        /^No points waiting in this tab; the next go into High Polymer Limbs \(to \d+\)$/,
-      ),
+      expect.stringMatching(/^No unspent points known here; the next go into High Polymer Limbs \(to \d+\)$/),
     ]);
     expect(r.comingUp).toContain('Taking Hunter opens the Hunter talent tab (tab 3)');
     expect(r.comingUp.some((l) => l.startsWith('Then the Hunter fighting build starts tab 3 with'))).toBe(

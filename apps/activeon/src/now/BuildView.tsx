@@ -4,9 +4,17 @@
 // talent roadmap as the character page's Build tab, and the Builds overview on the Roster. Everything
 // is worded and ordered by the engine (`view.builds`); this only lays it out. Phone first: the two
 // presets are tabbed under 1000 px and side by side above; wide talent tables scroll in their own box.
-import type { BuildRoadmapView, NowView } from '@idleon-forge/engine/now';
-import type { BuildPresetView, BuildTabView } from '@idleon-forge/engine/result';
-import { useState } from 'react';
+import {
+  type BuildRoadmapView,
+  buildKnownLine,
+  buildPartLine,
+  CHARACTERS_WORDS,
+  type NowView,
+} from '@idleon-forge/engine/now';
+import type { BuildPathStepView, BuildPresetView, BuildTabView } from '@idleon-forge/engine/result';
+import { type ReactNode, useState } from 'react';
+import { PixelArt } from '../design/art/PixelArt';
+import { GLYPH, STATUS_GLYPH } from '../design/atoms';
 import { SourceLabel } from '../design/atoms/SourceLabel';
 import type { CharacterTabProps } from './character-tabs';
 import { useNowActions } from './context';
@@ -35,8 +43,77 @@ function ClassPath({ r }: { r: BuildRoadmapView }) {
   );
 }
 
+const PATH = CHARACTERS_WORDS.buildPath;
+
+const BAND_GLYPH: Record<BuildPathStepView['band'], ReactNode> = {
+  done: <PixelArt name={GLYPH.check} decorative />,
+  now: <span aria-hidden="true">+</span>,
+  part: <span aria-hidden="true">+</span>,
+  next: <PixelArt name={GLYPH.arrowRight} decorative />,
+  later: <PixelArt name={STATUS_GLYPH.locked} decorative />,
+};
+
+function PathStep({ s }: { s: BuildPathStepView }) {
+  const points =
+    s.band === 'part' && s.partNow !== null
+      ? `${buildPartLine(s.partNow, s.need)} · +${(s.cumulative ?? 0).toLocaleString('en-US')}`
+      : s.cumulative !== null
+        ? `+${s.cumulative.toLocaleString('en-US')}`
+        : '';
+  const extra = s.condition ?? s.note;
+  return (
+    <li className={`bv-ps bv-ps--${s.band}`}>
+      <span className="bv-ps-glyph">{BAND_GLYPH[s.band]}</span>
+      <span className="bv-ps-main">
+        <span className="bv-ps-name">
+          {s.label}
+          {s.core ? <span className="bv-core"> core</span> : null}
+        </span>
+        <span className="bv-ps-lv num">{s.band === 'done' ? s.goal : `${s.current} → ${s.goal}`}</span>
+        {points ? <span className="bv-ps-pts num">{points}</span> : null}
+        <span className="bv-ps-band small">{PATH.band[s.band]}</span>
+        {extra ? <span className="bv-ps-note small">{extra}</span> : null}
+      </span>
+    </li>
+  );
+}
+
+/**
+ * Every Build step of one tab, in spend order (fix/build-points, M21 FR-C1): done, can add now, part
+ * now, next after these, later. The marker sits where the known points end; with none known it leads.
+ * Minimal on purpose: M21's Characters area restyles it.
+ */
+function BuildPath({ tab }: { tab: BuildTabView }) {
+  const path = tab.path ?? [];
+  const known = tab.known?.points ?? 0;
+  const cut =
+    known > 0 ? path.reduce((m, s, i) => (s.band === 'now' || s.band === 'part' ? i : m), -1) + 1 : 0;
+  const head = path.slice(0, cut);
+  const rest = path.slice(cut);
+  return (
+    <div className="bv-ps-wrap">
+      {head.length > 0 ? (
+        <ol className="bv-ps-list">
+          {head.map((s) => (
+            <PathStep key={s.key} s={s} />
+          ))}
+        </ol>
+      ) : null}
+      <p className="bv-ps-marker small">{known > 0 ? buildKnownLine(known) : PATH.noneKnown}</p>
+      {rest.length > 0 ? (
+        <ol className="bv-ps-list" start={head.length + 1}>
+          {rest.map((s) => (
+            <PathStep key={s.key} s={s} />
+          ))}
+        </ol>
+      ) : null}
+    </div>
+  );
+}
+
 function TalentTable({ tab, presetKey }: { tab: BuildTabView; presetKey: string }) {
   const id = `${presetKey}-t${tab.tab}`;
+  const hasPath = (tab.path?.length ?? 0) > 0;
   return (
     <section className="bv-tab" aria-labelledby={id}>
       <h5 id={id} className="bv-tab-h">
@@ -47,7 +124,8 @@ function TalentTable({ tab, presetKey }: { tab: BuildTabView; presetKey: string 
           {tab.unspent ? ` · ${tab.unspent.toLocaleString('en-US')}+ unspent` : ''}
         </span>
       </h5>
-      {tab.rows.length > 0 ? (
+      {hasPath ? <BuildPath tab={tab} /> : null}
+      {!hasPath && tab.rows.length > 0 ? (
         <div className="bv-scroll">
           <table className="bv-table">
             <thead>

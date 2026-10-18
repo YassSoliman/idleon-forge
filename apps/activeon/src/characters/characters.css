@@ -256,6 +256,78 @@
   vertical-align: middle;
   accent-color: var(--ok);
 }
+/* The Build path (fix/build-points, M21 FR-C1): colour + glyph + word per band. Next steps stay at
+   full-contrast muted text (never lowered opacity): they read as "next", never as "can't". */
+.bv-ps-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 2px;
+}
+.bv-ps {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 6px;
+  align-items: start;
+  padding: 3px 6px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  font-size: 13px;
+}
+.bv-ps-glyph {
+  display: inline-flex;
+  justify-content: center;
+  font-family: var(--mono);
+  font-weight: 700;
+}
+.bv-ps-main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+  align-items: baseline;
+  min-width: 0;
+}
+.bv-ps-name {
+  overflow-wrap: anywhere;
+}
+.bv-ps-lv,
+.bv-ps-pts {
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+.bv-ps-pts {
+  font-weight: 700;
+}
+.bv-ps-band,
+.bv-ps-note {
+  color: var(--muted);
+}
+.bv-ps--done {
+  color: var(--muted);
+}
+.bv-ps--now {
+  background: var(--ok-soft);
+  border-color: var(--ok);
+}
+.bv-ps--part {
+  background: linear-gradient(90deg, var(--ok-soft) 50%, transparent 50%);
+  border-color: var(--ok);
+}
+.bv-ps--next {
+  background: var(--surface);
+  border: 1px dashed var(--line-strong);
+  color: var(--muted);
+}
+.bv-ps--later {
+  color: var(--muted);
+  font-style: italic;
+}
+.bv-ps-marker {
+  margin: 4px 0;
+  font-weight: 700;
+  color: var(--coin);
+}
 .bv-others {
   overflow-wrap: anywhere;
 }

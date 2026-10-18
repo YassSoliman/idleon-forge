@@ -3,7 +3,12 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // The Build view in the DOM (owner request 2026-10-18): the Builds overview and the Build chip on the
 // Roster, the character page's tabs, the `#build-<index>` deep link and the roadmap's parts.
-import type { BuildPresetView, BuildRoadmap, EngineResult } from '@idleon-forge/engine/result';
+import type {
+  BuildPathStepView,
+  BuildPresetView,
+  BuildRoadmap,
+  EngineResult,
+} from '@idleon-forge/engine/result';
 import { act, cleanup, fireEvent, screen, within } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
@@ -176,6 +181,101 @@ describe('Build view', () => {
     expect(bar?.closest('.bv-scroll')).toBeTruthy();
     expect(screen.getByText(/Low-confidence build/)).toBeTruthy();
     expect(screen.getByRole('link', { name: 'IdleOn Wiki: Shaman' })).toBeTruthy();
+    await noAxeViolations(container);
+  });
+
+  it('fix/build-points: every Build step shows, banded, with the marker where known points end', async () => {
+    const step = (
+      key: string,
+      label: string,
+      band: BuildPathStepView['band'],
+      current: number,
+      goal: number,
+      cumulative: number | null,
+      partNow: number | null = null,
+    ): BuildPathStepView => ({
+      key,
+      talentId: key.length,
+      label,
+      page: null,
+      current,
+      goal,
+      need: goal - current,
+      cumulative,
+      band,
+      partNow,
+      core: false,
+      condition: band === 'later' ? 'from World 3, early' : null,
+      note: null,
+    });
+    const tab = (known: number, path: BuildPathStepView[]) => ({
+      tab: 1,
+      name: 'Calm Basics',
+      spent: 250,
+      unspent: known,
+      rows: [],
+      others: [],
+      known: { kind: 'lower-bound' as const, points: known, overBy: null },
+      path,
+    });
+    const r: EngineResult = {
+      ...fixture('mid-session'),
+      builds: [
+        {
+          ...shaman,
+          presets: [
+            preset(0, {
+              tabs: [
+                tab(0, [
+                  step('a', 'Gilded Sword', 'done', 100, 100, null),
+                  step('b', 'Idle Shooting', 'next', 50, 100, 50),
+                  step('c', 'Mana Booster', 'next', 0, 100, 150),
+                ]),
+              ],
+            }),
+            preset(1, {
+              unspent: 70,
+              tabs: [
+                tab(70, [
+                  step('d', 'Idle Shooting', 'now', 50, 100, 50),
+                  step('e', 'Mana Booster', 'part', 0, 100, 150, 20),
+                  step('f', 'Health Booster', 'next', 0, 100, 250),
+                  step('g', 'Refinery Throttle', 'later', 0, 100, null),
+                ]),
+              ],
+            }),
+          ],
+        },
+      ],
+    };
+    const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    fireEvent.click(screen.getByRole('link', { name: 'Birch: build' }));
+    const text = document.body.textContent ?? '';
+    expect(text).not.toMatch(/No points waiting/);
+    // No known points: the marker leads and every unmet step is "next after these" with its total.
+    expect(
+      screen.getByText('No unspent points known from your last save: the totals show where new points go'),
+    ).toBeTruthy();
+    const fighting = document.getElementById('bv-1-p0-panel') as HTMLElement;
+    const rows = [...fighting.querySelectorAll('.bv-ps')].map((li) => li.textContent);
+    expect(rows).toEqual([
+      'Gilded Sword100done',
+      'Idle Shooting50 → 100+50next after these',
+      'Mana Booster0 → 100+150next after these',
+    ]);
+    // Known points: can add now, part now, then the marker, then next and later.
+    const skilling = document.getElementById('bv-1-p1-panel') as HTMLElement;
+    expect(
+      within(skilling).getByText('As of your last save: at least 70 points waiting · they end here'),
+    ).toBeTruthy();
+    const bands = [...skilling.querySelectorAll('.bv-ps')].map((li) =>
+      li.className.replace('bv-ps bv-ps--', ''),
+    );
+    expect(bands).toEqual(['now', 'part', 'next', 'later']);
+    expect(skilling.textContent).toContain('+20 of 100 now · +150');
+    const marker = skilling.querySelector('.bv-ps-marker');
+    expect(marker?.previousElementSibling?.textContent).toContain('Mana Booster');
+    expect(marker?.nextElementSibling?.textContent).toContain('Health Booster');
     await noAxeViolations(container);
   });
 
