@@ -213,7 +213,6 @@ function AppBody({ a, serverBuild }: { a: ActiveOn; serverBuild: number | null }
 
   const [navSlot, setNavSlot] = useState<HTMLDivElement | null>(null);
   const [footer, setFooter] = useState<FooterInfo | null>(null);
-  const renderChips = useCallback((_node: ReactNode) => {}, []);
   const onFooter = useCallback((info: FooterInfo) => setFooter(info), []);
   useEffect(() => {
     if (!shown) setFooter(null);
@@ -423,7 +422,6 @@ function AppBody({ a, serverBuild }: { a: ActiveOn; serverBuild: number | null }
               update={null}
               parserBehind={patch?.parserBehind ?? false}
               onReload={reload}
-              renderChips={renderChips}
               onFooter={onFooter}
             />
           </AdviceBoundary>

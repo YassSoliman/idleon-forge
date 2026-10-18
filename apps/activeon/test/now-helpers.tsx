@@ -67,7 +67,6 @@ export function props(r: EngineResult, save: NowSave, over: Partial<NowScreenPro
     update: null,
     parserBehind: false,
     onReload: () => {},
-    renderChips: () => {},
     onFooter: () => {},
     ...over,
   };
