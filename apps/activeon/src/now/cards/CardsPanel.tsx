@@ -14,6 +14,7 @@ import type { CardChip, GrindItem, PresetRecommendation } from '@idleon-forge/en
 import { useState } from 'react';
 import { PixelArt } from '../../design/art/PixelArt';
 import { GLYPH, Sheet, SourceLabel } from '../../design/atoms';
+import { SeeOnMap } from '../../map/SeeOnMap';
 import type { CharacterTabProps } from '../character-tabs';
 import { useNowActions } from '../context';
 import { CARDS_OPEN } from '../open-keys';
@@ -91,11 +92,11 @@ function GrindItemView({ g, account }: { g: GrindItem; account: boolean }) {
 
 /** "By map": the grind targets grouped under the map that drops them, in the engine's order. */
 function GrindByMap({ items, account = false }: { items: readonly GrindItem[]; account?: boolean }) {
-  const maps: { map: string; world: number; list: GrindItem[] }[] = [];
+  const maps: { map: string; world: number; mapIndex: number; list: GrindItem[] }[] = [];
   for (const g of items) {
     const m = maps.find((x) => x.map === g.map && x.world === g.world);
     if (m) m.list.push(g);
-    else maps.push({ map: g.map, world: g.world, list: [g] });
+    else maps.push({ map: g.map, world: g.world, mapIndex: g.mapIndex, list: [g] });
   }
   return (
     <div className="cv-maps">
@@ -105,6 +106,7 @@ function GrindByMap({ items, account = false }: { items: readonly GrindItem[]; a
             <PixelArt name={GLYPH.where} decorative />
             {m.map} <span className="cv-muted">World {m.world}</span>
           </h4>
+          <SeeOnMap mapIndex={m.mapIndex} label={m.map} />
           <ol className="cv-grind">
             {m.list.map((g) => (
               <GrindItemView key={g.rawName} g={g} account={account} />

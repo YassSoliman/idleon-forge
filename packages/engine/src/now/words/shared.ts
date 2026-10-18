@@ -32,7 +32,10 @@ export const WORLD_NAMES: Record<number, string> = {
 
 export const LINK_WORDS = {
   seeIt: (name: string) => `See it: ${name}`,
-  back: '← back',
+  /** The back link's word; its arrow is the `ui-arrow-left` glyph beside it (V-5), never a text arrow. */
+  back: 'Back',
+  /** M21 FR-M7: a link to the map's sheet on the Map place (`#map-<n>`). */
+  seeOnMap: 'See it on the map',
   toSystems: '→ Systems',
   toCharacters: 'Builds and cards → Characters',
   go: 'go',

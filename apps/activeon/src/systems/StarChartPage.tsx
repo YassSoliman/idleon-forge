@@ -7,6 +7,8 @@ import type { StarSignsNowView } from '@idleon-forge/engine/now';
 import { BODY_WORDS, FRAME_WORDS } from '@idleon-forge/engine/systems-ui';
 import { PixelArt } from '../design/art/PixelArt';
 import { Meter } from '../design/atoms';
+import { constellationMap, SeeOnMap } from '../map/SeeOnMap';
+import { useNowActions } from '../now/context';
 import type { SystemPageBodyProps } from './pages';
 import { CharacterSigns, StarChartBody } from './StarChart';
 
@@ -16,6 +18,7 @@ import { CharacterSigns, StarChartBody } from './StarChart';
  * the best three (DS-20), over a meter of the signs unlocked toward the Hydron chart.
  */
 function StarSky({ s }: { s: StarSignsNowView }) {
+  const actions = useNowActions();
   const first = s.next[0] ?? null;
   return (
     <div className="ss-sky">
@@ -29,6 +32,7 @@ function StarSky({ s }: { s: StarSignsNowView }) {
             <b>{first.name}</b> {first.text}
           </p>
           <p className="ss-sky__pts num">{BODY_WORDS.starPoints(first.points)}</p>
+          <SeeOnMap mapIndex={constellationMap(actions.result, first.name)} label={first.name} />
         </div>
       ) : null}
       <ol className="ss-sky__stars" aria-label={BODY_WORDS.starChart}>

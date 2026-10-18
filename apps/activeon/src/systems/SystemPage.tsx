@@ -108,7 +108,7 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
           }}
         >
           <PixelArt name="ui-arrow-left" decorative />
-          <span>{LINK_WORDS.back.replace(/^←\s*/, '')}</span>
+          <span>{LINK_WORDS.back}</span>
         </a>
       </p>
       <header className={`sy-frame__head sy-tile--${tile.status}`}>

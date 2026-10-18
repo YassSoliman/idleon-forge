@@ -10,8 +10,15 @@ import { PixelArt } from '../design/art/PixelArt';
 import { SourceLabel } from '../design/atoms';
 import { cx } from '../design/atoms/Button';
 import { Meter } from '../design/atoms/Meter';
+import { SeeOnMap } from '../map/SeeOnMap';
 import { ModalSheet as Sheet } from './chrome/ModalSheet';
 import { ReportThis } from './parts';
+
+/** M21 FR-M7: a portal line (`portals.goal.map-<n>`) is about one map; null for every other line. */
+const mapOf = (p: PurposeItemView): number | null => {
+  const m = /^portals\.goal\.map-(\d+)$/.exec(p.goalId);
+  return m ? Number(m[1]) : null;
+};
 
 const report = (p: PurposeItemView) => (
   <ReportThis
@@ -37,6 +44,7 @@ function Line({ p }: { p: PurposeItemView }) {
           <SourceLabel source={p.source} more={false} />
         </span>
       ) : null}
+      <SeeOnMap mapIndex={mapOf(p)} label={p.text} />
       {report(p)}
     </li>
   );
@@ -83,6 +91,7 @@ export function PurposeBlock({ card }: { card: FocusCard }) {
             ))}
           </ol>
         ) : null}
+        <SeeOnMap mapIndex={mapOf(head)} label={head.text} />
       </div>
       {shown.length > 0 ? (
         <ul className="n-quest__rest">

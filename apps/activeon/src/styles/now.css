@@ -1061,6 +1061,13 @@ label.chip {
   color: var(--muted);
   font-size: var(--text-sm);
 }
+/* The back link: the art arrow, then the word (V-5), a 44 px target. */
+.n-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--tap-min);
+}
 .n-focus__now {
   display: grid;
   gap: var(--space-3);

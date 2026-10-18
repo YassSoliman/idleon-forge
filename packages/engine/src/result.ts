@@ -134,6 +134,8 @@ export interface WalkthroughStepView {
   /** Short reason, e.g. why a job goes first on a character (R-Q9a). */
   why: string | null;
   sources: SourceRef[];
+  /** M21 FR-M7: the map a farm or gather step happens on (`#map-<n>`); absent when it has none. */
+  mapIndex?: number;
 }
 /** One line of a Requirement Tree as an indented list (M14 FR-23). */
 export interface WalkthroughTreeLine {

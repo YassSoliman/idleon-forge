@@ -7,12 +7,14 @@
 // text, styles are classes (CSP).
 import type { StarSignsNowView } from '@idleon-forge/engine/now';
 import { SourceLabel } from '../design/atoms';
+import { constellationMap, SeeOnMap } from '../map/SeeOnMap';
 import { useNowActions } from '../now/context';
 import '../now/signs/signs-page.css';
 
 const list = (xs: readonly string[]) => (xs.length ? xs.join(' + ') : 'nothing');
 
 export function StarChartBody({ s, heading = true }: { s: StarSignsNowView; heading?: boolean }) {
+  const actions = useNowActions();
   return (
     <>
       {heading ? <h3 className="ss-h">Star Chart</h3> : null}
@@ -40,6 +42,7 @@ export function StarChartBody({ s, heading = true }: { s: StarSignsNowView; head
                     <span className="pill">on your list</span>
                   </>
                 ) : null}
+                <SeeOnMap mapIndex={constellationMap(actions.result, n.name)} label={n.name} />
               </li>
             ))}
           </ol>
