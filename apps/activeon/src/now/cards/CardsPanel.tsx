@@ -39,9 +39,7 @@ function Card({ card, onOpen }: { card: CardChip | null; onOpen(c: CardChip): vo
       <button type="button" className="cv-card-btn" onClick={() => onOpen(card)}>
         <PixelArt name="v2-character-card" decorative />
         <span className="cv-card-name">{card.name}</span>
-        <span className="cv-pips num" aria-label={levelWords(card)}>
-          {card.level > 0 ? `Lv ${card.level}` : 'none'}
-        </span>
+        <span className="cv-pips num">{levelWords(card)}</span>
       </button>
     </li>
   );
