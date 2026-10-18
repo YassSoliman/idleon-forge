@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8" shape-rendering="crispEdges" class="lab-px-art" style="--p1:var(--now-line, var(--info));--p2:var(--now-line, var(--info));--p3:var(--now-line, var(--info));--p4:var(--now-line, var(--info));--ew:var(--mat-eye-white, #ffffff);--ek:var(--mat-eye-pupil, #141018)">
+<title>Now marker</title>
+<!-- ActiveOn Design Lab, group flows. Our own pixel art (ADR 0009). 8x8 grid, 1 frame(s). Fills are token variables with fallbacks. -->
+<style>.fl-c-ek{fill:var(--ek)}.fl-c-ew{fill:var(--ew)}.fl-c-p1{fill:var(--p1)}.fl-c-p2{fill:var(--p2)}.fl-c-p3{fill:var(--p3)}.fl-c-p4{fill:var(--p4)}.fl-c-q1{fill:var(--q1)}.fl-c-q2{fill:var(--q2)}.fl-c-q3{fill:var(--q3)}.fl-c-q4{fill:var(--q4)}.fl-c-r1{fill:var(--r1)}.fl-c-r2{fill:var(--r2)}.fl-c-r3{fill:var(--r3)}.fl-c-r4{fill:var(--r4)}</style>
+<path class="fl-c-p3" d="M0 0h8v1h-8zM1 1h6v1h-6zM2 2h4v1h-4zM3 3h2v1h-2z"/>
+</svg>

@@ -1,0 +1,922 @@
+/* ActiveOn Design Lab tokens. Private design exploration; not part of the app. */
+/*
+  Structure
+    0. Fonts (Google Fonts only, every family has a fallback stack)
+    1. Shared base on bare :root: spacing, radii, type scale, motion, sizes, tier ramps,
+       world accents, and the page shell colours (light, then dark per ARTIFACT-CONTRACT.md)
+    2. Direction token sets, each scoped by [data-direction="quest" | "field" | "board"],
+       with light values first and dark values via the page theme rules:
+         - @media (prefers-color-scheme: dark) under :root:not([data-theme="light"])
+         - :root[data-theme="dark"]
+       A demo frame can pin its own mode with data-mode="light" | "dark" (for side-by-side
+       light/dark comparisons); a pinned frame ignores the page theme.
+    3. Shared semantic aliases (components read these, never raw hexes)
+    4. Small frame helpers (pixel panel, speech box, outlined heading, pixel art)
+
+  Colour values: research/visual-language.md section 3, all text roles >= 4.5:1 on --surface and
+  --bg and on their own -soft fill (research/palette-check.py). Tokens added here (--on-*, --info
+  for quest/field, world accents) were checked the same way (all >= 4.5:1).
+*/
+
+/* 0. Fonts ---------------------------------------------------------------------------------- */
+@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;600&family=JetBrains+Mono:wght@400;600&family=Jersey+15&family=Pixelify+Sans:wght@500;600;700&family=Silkscreen:wght@400;700&family=Tiny5&family=VT323&display=swap");
+
+/* 1. Shared base ------------------------------------------------------------------------------ */
+:root {
+  /* Font stacks (directions pick from these) */
+  --ff-pixel-display: "Pixelify Sans", "Courier New", monospace;
+  --ff-pixel-label: "Silkscreen", "Pixelify Sans", monospace;
+  --ff-pixel-tiny: "Tiny5", "Silkscreen", monospace;
+  --ff-pixel-numeral: "Jersey 15", "Pixelify Sans", monospace;
+  --ff-pixel-clock: "VT323", "Geist Mono", ui-monospace, monospace;
+  --ff-humanist:
+    "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ff-grotesk: "Geist", "Atkinson Hyperlegible Next", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ff-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --ff-mono-grotesk: "Geist Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  /* Spacing: 4 px steps; --space-px is one art pixel at 2x scale */
+  --space-px: 2px;
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+  --gutter: 16px; /* phone side gutter (contract) */
+
+  /* Radii (directions override --radius-*) */
+  --radius-0: 0;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+
+  /* Type scale: phone-first sizes, 1.2 ratio near the body, integer px so 8 px pixel grids hold */
+  --text-2xs: 11px; /* legal / footer only */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-md: 16px; /* body */
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px; /* verdict sentence on phone */
+  --text-3xl: 32px; /* big numerals ("Back in about 2h 10m") */
+  --text-4xl: 40px;
+  --pixel-label-size: 8px; /* Silkscreen/Tiny5 at their 8 px grid */
+  --pixel-label-size-2x: 16px;
+  --lh-tight: 1.15;
+  --lh-snug: 1.3;
+  --lh-body: 1.5;
+  --tracking-caps: 0.04em;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Motion: UI uses eased tweens; pixel art uses stepped loops (4-6 fps) */
+  --dur-instant: 80ms;
+  --dur-fast: 140ms;
+  --dur-base: 220ms;
+  --dur-slow: 360ms;
+  --dur-celebrate: 900ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --px-frame-4fps: 250ms; /* one frame of a 4 fps loop */
+  --px-frame-6fps: 166ms;
+  --px-steps-2: steps(2, jump-none);
+  --px-steps-4: steps(4, jump-none);
+
+  /* Sizes */
+  --tap-min: 44px;
+  --column: 480px; /* phone column; wide screens add columns, not width */
+  --column-wide: 1120px;
+  --icon-16: 32px; /* a 16x16 pixel icon at 2x */
+  --icon-24: 48px; /* 24x24 motif at 2x */
+  --icon-32: 64px; /* 32x32 illustration at 2x */
+  --icon-inline: 16px; /* a 16x16 icon at 1x, for inline text */
+  --focus-width: 2px;
+  --focus-offset: 2px;
+
+  /* Tier ramps for OUR pixel art (outline, shadow, base, highlight); shifted from the game's on purpose */
+  --tier-bronze-1: #4a2a18;
+  --tier-bronze-2: #a65a2c;
+  --tier-bronze-3: #e0843f;
+  --tier-bronze-4: #ffd9a8;
+  --tier-silver-1: #26323a;
+  --tier-silver-2: #6d7b80;
+  --tier-silver-3: #a9bcc0;
+  --tier-silver-4: #eef8fa;
+  --tier-gold-1: #57390a;
+  --tier-gold-2: #c07d14;
+  --tier-gold-3: #f2c443;
+  --tier-gold-4: #fff6cc;
+  --tier-plat-1: #14284f;
+  --tier-plat-2: #2a78c4;
+  --tier-plat-3: #62c2f5;
+  --tier-plat-4: #dcf6ff;
+  --tier-ruby-1: #5c1230;
+  --tier-ruby-2: #b02a48;
+  --tier-ruby-3: #e85a5a;
+  --tier-ruby-4: #ffd6b8;
+  --tier-majestic-1: #2e0a4a;
+  --tier-majestic-2: #8a1fc0;
+  --tier-majestic-3: #e45cf5;
+  --tier-majestic-4: #ffe0f0;
+
+  /* Neutral pixel materials for our art (wood, stone, leaf, skin of the mascot) */
+  --mat-wood-1: #3b2414;
+  --mat-wood-2: #6e4527;
+  --mat-wood-3: #a8703f;
+  --mat-wood-4: #e2b07a;
+  --mat-stone-1: #22262e;
+  --mat-stone-2: #4d5563;
+  --mat-stone-3: #808b9c;
+  --mat-stone-4: #c9d1dc;
+  --mat-leaf-1: #12331f;
+  --mat-leaf-2: #2c6b3a;
+  --mat-leaf-3: #57a957;
+  --mat-leaf-4: #b5e58c;
+  --mat-blob-1: #1d3b52;
+  --mat-blob-2: #3f7fa8;
+  --mat-blob-3: #7cc6e8;
+  --mat-blob-4: #d8f3ff;
+  --mat-fire-1: #5a1a0c;
+  --mat-fire-2: #d2481c;
+  --mat-fire-3: #ff9f2e;
+  --mat-fire-4: #ffe78a;
+  --mat-eye-white: #ffffff;
+  --mat-eye-pupil: #141018;
+
+  /* Page shell (the lab chrome around demo frames): Field Guide-like neutrals, light */
+  --bg: #f4f1ea;
+  --surface: #ffffff;
+  --sunk: #ebe6db;
+  --fg: #1d2433;
+  --muted: #5a6273;
+  --line: #d9d2c3;
+  --line-strong: #868c99;
+  --frame: #1d2433;
+  --accent: #8a5207;
+  --accent-soft: #f6e6cc;
+  --on-accent: #ffffff;
+  --ok: #0e7369;
+  --ok-soft: #d5efeb;
+  --on-ok: #ffffff;
+  --warn: #875500;
+  --warn-soft: #f8e9c7;
+  --on-warn: #ffffff;
+  --bad: #b4372f;
+  --bad-soft: #f6dcd9;
+  --on-bad: #ffffff;
+  --unk: #5f6478;
+  --unk-soft: #e6e7ef;
+  --info: #0b6aa8;
+  --info-soft: #ddeefa;
+  --speech: #1d2433;
+  --speech-fg: #ffffff;
+  --focus: #8a5207;
+  --shadow-1: 0 1px 2px rgb(29 36 51 / 0.08), 0 1px 1px rgb(29 36 51 / 0.04);
+  --shadow-2: 0 4px 16px rgb(29 36 51 / 0.1), 0 1px 3px rgb(29 36 51 / 0.06);
+  --scrim: rgb(13 16 22 / 0.45);
+
+  /* World accents (our own values, inspired by the world banners); "which character goes where" */
+  --w1: #12854f;
+  --w2: #8a470c;
+  --w3: #156b8d;
+  --w4: #763cb4;
+  --w5: #a52550;
+  --w6: #22733e;
+  --w7: #1f3f8a;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161d;
+    --surface: #1a2029;
+    --sunk: #0d1016;
+    --fg: #e9edf3;
+    --muted: #9aa5b5;
+    --line: #2d3745;
+    --line-strong: #62708a;
+    --frame: #000000;
+    --accent: #f0a63a;
+    --accent-soft: #3a2c14;
+    --on-accent: #1d1407;
+    --ok: #3fc7b7;
+    --ok-soft: #123632;
+    --on-ok: #06201d;
+    --warn: #ffc857;
+    --warn-soft: #3a2d0c;
+    --on-warn: #1d1407;
+    --bad: #ff8a80;
+    --bad-soft: #3d1c1a;
+    --on-bad: #2a0d0b;
+    --unk: #aab0c8;
+    --unk-soft: #262b3d;
+    --info: #5bc8ff;
+    --info-soft: #0f2a3a;
+    --speech: #0a0f4a;
+    --speech-fg: #ffffff;
+    --focus: #f0a63a;
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-2: 0 6px 20px rgb(0 0 0 / 0.45);
+    --scrim: rgb(0 0 0 / 0.6);
+    --w1: #3ccf7e;
+    --w2: #f6c152;
+    --w3: #6ec9ec;
+    --w4: #e995ff;
+    --w5: #ff5a52;
+    --w6: #a1e3d9;
+    --w7: #58c0c2;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161d;
+  --surface: #1a2029;
+  --sunk: #0d1016;
+  --fg: #e9edf3;
+  --muted: #9aa5b5;
+  --line: #2d3745;
+  --line-strong: #62708a;
+  --frame: #000000;
+  --accent: #f0a63a;
+  --accent-soft: #3a2c14;
+  --on-accent: #1d1407;
+  --ok: #3fc7b7;
+  --ok-soft: #123632;
+  --on-ok: #06201d;
+  --warn: #ffc857;
+  --warn-soft: #3a2d0c;
+  --on-warn: #1d1407;
+  --bad: #ff8a80;
+  --bad-soft: #3d1c1a;
+  --on-bad: #2a0d0b;
+  --unk: #aab0c8;
+  --unk-soft: #262b3d;
+  --info: #5bc8ff;
+  --info-soft: #0f2a3a;
+  --speech: #0a0f4a;
+  --speech-fg: #ffffff;
+  --focus: #f0a63a;
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-2: 0 6px 20px rgb(0 0 0 / 0.45);
+  --scrim: rgb(0 0 0 / 0.6);
+  --w1: #3ccf7e;
+  --w2: #f6c152;
+  --w3: #6ec9ec;
+  --w4: #e995ff;
+  --w5: #ff5a52;
+  --w6: #a1e3d9;
+  --w7: #58c0c2;
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+    --dur-celebrate: 0ms;
+    --px-anim-state: paused; /* pixel loops read this as animation-play-state */
+  }
+}
+
+/* 2a. Quest Log: IdleOn-native. Parchment by day, night panel by night. ------------------------- */
+[data-direction="quest"] {
+  --font-display: var(--ff-pixel-display);
+  --font-label: var(--ff-pixel-label);
+  --font-body: var(--ff-humanist);
+  --font-numeral: var(--ff-pixel-numeral);
+  --font-mono: var(--ff-mono);
+  --display-weight: 700;
+  --label-case: uppercase;
+
+  /* Shape: pixel corners via clip-path notch, no smooth radius */
+  --radius-card: 0;
+  --radius-control: 0;
+  --radius-chip: 0;
+  --notch: 4px; /* 2 art pixels at 2x */
+  --panel-clip: polygon(
+    var(--notch) 0,
+    calc(100% - var(--notch)) 0,
+    100% var(--notch),
+    100% calc(100% - var(--notch)),
+    calc(100% - var(--notch)) 100%,
+    var(--notch) 100%,
+    0 calc(100% - var(--notch)),
+    0 var(--notch)
+  );
+  --border-width: 2px;
+
+  /* Density */
+  --density: 1;
+  --card-pad: var(--space-4);
+  --row-pad-y: var(--space-3);
+  --row-pad-x: var(--space-3);
+  --stack-gap: var(--space-3);
+  --row-height: 64px;
+
+  /* Colour: light (parchment and ink) */
+  --bg: #f2e6c8;
+  --surface: #fff7e3;
+  --sunk: #e9d7ad;
+  --fg: #26180b;
+  --muted: #6a5338;
+  --line: #c8a978;
+  --line-strong: #8a6a3e;
+  --frame: #2b1a0e;
+  --bevel-hi: #ffffff;
+  --bevel-lo: #b89a6a;
+  --accent-rule: #c07d14; /* the bright 1 px rule under a panel title */
+  --accent: #8a470c;
+  --accent-soft: #fbe3b0;
+  --on-accent: #ffffff;
+  --ok: #1b6b37;
+  --ok-soft: #d7ecd2;
+  --on-ok: #ffffff;
+  --warn: #8a5600;
+  --warn-soft: #fae6b4;
+  --on-warn: #ffffff;
+  --bad: #a3243f;
+  --bad-soft: #f7d9df;
+  --on-bad: #ffffff;
+  --unk: #5a6466;
+  --unk-soft: #e6e1d4;
+  --info: #1f4f8a;
+  --info-soft: #dfe8f5;
+  --speech: #0a0f4a;
+  --speech-fg: #ffffff; /* NPC speech box is navy in both modes */
+  --speech-gap: #f2e6c8; /* the 1 px gap ring shows the page behind */
+  --focus: #8a470c;
+  --shadow-1: 0 2px 0 #b89a6a; /* hard pixel drop, no blur */
+  --shadow-2: 0 4px 0 #8a6a3e;
+  --scrim: rgb(38 24 11 / 0.5);
+
+  /* Pixel-art defaults for this direction (warm) */
+  --px-outline: var(--tier-bronze-1);
+  --px-shadow: var(--tier-bronze-2);
+  --px-base: var(--tier-bronze-3);
+  --px-hi: var(--tier-bronze-4);
+  --px-ui-ink: #2b1a0e;
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] [data-direction="quest"]:not([data-mode="light"]),
+:root[data-theme="dark"][data-direction="quest"]:not([data-mode="light"]),
+[data-direction="quest"][data-mode="dark"] {
+  --bg: #0b0f1e;
+  --surface: #141a33;
+  --sunk: #0a0d1c;
+  --fg: #f4f6ff;
+  --muted: #a9b3d6;
+  --line: #34406e;
+  --line-strong: #abc2c7;
+  --frame: #000000;
+  --bevel-hi: #abc2c7; /* the game's steel bevel, measured */
+  --bevel-lo: #596777;
+  --accent-rule: #61e461; /* the bright panel rule */
+  --accent: #f7c257;
+  --accent-soft: #3a2c10;
+  --on-accent: #1a1206;
+  --ok: #61e461;
+  --ok-soft: #123a1c;
+  --on-ok: #07210c;
+  --warn: #ffb900;
+  --warn-soft: #3a2a05;
+  --on-warn: #1a1206;
+  --bad: #ff6b63;
+  --bad-soft: #40141a;
+  --on-bad: #2a0a0e;
+  --unk: #b2c7ca;
+  --unk-soft: #22293f;
+  --info: #7fd3ff;
+  --info-soft: #10253f;
+  --speech: #0a0f4a;
+  --speech-fg: #ffffff;
+  --speech-gap: #0b0f1e;
+  --focus: #f7c257;
+  --shadow-1: 0 2px 0 #000000;
+  --shadow-2: 0 4px 0 #000000;
+  --scrim: rgb(0 1 66 / 0.6);
+  --px-ui-ink: #000000;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) [data-direction="quest"]:not([data-mode="light"]),
+  :root:not([data-theme="light"])[data-direction="quest"]:not([data-mode="light"]) {
+    --bg: #0b0f1e;
+    --surface: #141a33;
+    --sunk: #0a0d1c;
+    --fg: #f4f6ff;
+    --muted: #a9b3d6;
+    --line: #34406e;
+    --line-strong: #abc2c7;
+    --frame: #000000;
+    --bevel-hi: #abc2c7;
+    --bevel-lo: #596777;
+    --accent-rule: #61e461;
+    --accent: #f7c257;
+    --accent-soft: #3a2c10;
+    --on-accent: #1a1206;
+    --ok: #61e461;
+    --ok-soft: #123a1c;
+    --on-ok: #07210c;
+    --warn: #ffb900;
+    --warn-soft: #3a2a05;
+    --on-warn: #1a1206;
+    --bad: #ff6b63;
+    --bad-soft: #40141a;
+    --on-bad: #2a0a0e;
+    --unk: #b2c7ca;
+    --unk-soft: #22293f;
+    --info: #7fd3ff;
+    --info-soft: #10253f;
+    --speech: #0a0f4a;
+    --speech-fg: #ffffff;
+    --speech-gap: #0b0f1e;
+    --focus: #f7c257;
+    --shadow-1: 0 2px 0 #000000;
+    --shadow-2: 0 4px 0 #000000;
+    --scrim: rgb(0 1 66 / 0.6);
+    --px-ui-ink: #000000;
+    color-scheme: dark;
+  }
+}
+
+/* 2b. Field Guide: calm modern companion; the default. ------------------------------------------ */
+[data-direction="field"] {
+  --font-display: var(--ff-pixel-display); /* wordmark and section heads only */
+  --font-label: var(--ff-humanist); /* labels stay in the body face; no mono caps */
+  --font-body: var(--ff-humanist);
+  --font-numeral: var(--ff-mono);
+  --font-mono: var(--ff-mono);
+  --display-weight: 500;
+  --label-case: none;
+
+  --radius-card: var(--radius-lg);
+  --radius-control: var(--radius-md);
+  --radius-chip: var(--radius-pill);
+  --notch: 0px;
+  --panel-clip: none;
+  --border-width: 1px;
+
+  --density: 1;
+  --card-pad: var(--space-4);
+  --row-pad-y: var(--space-3);
+  --row-pad-x: var(--space-4);
+  --stack-gap: var(--space-3);
+  --row-height: 64px;
+
+  --bg: #f4f1ea;
+  --surface: #ffffff;
+  --sunk: #ebe6db;
+  --fg: #1d2433;
+  --muted: #5a6273;
+  --line: #d9d2c3;
+  --line-strong: #868c99;
+  --frame: #1d2433;
+  --bevel-hi: transparent;
+  --bevel-lo: transparent;
+  --accent-rule: #8a5207;
+  --accent: #8a5207;
+  --accent-soft: #f6e6cc;
+  --on-accent: #ffffff;
+  --ok: #0e7369;
+  --ok-soft: #d5efeb;
+  --on-ok: #ffffff;
+  --warn: #875500;
+  --warn-soft: #f8e9c7;
+  --on-warn: #ffffff;
+  --bad: #b4372f;
+  --bad-soft: #f6dcd9;
+  --on-bad: #ffffff;
+  --unk: #5f6478;
+  --unk-soft: #e6e7ef;
+  --info: #0b6aa8;
+  --info-soft: #ddeefa;
+  --speech: #1d2433;
+  --speech-fg: #ffffff;
+  --speech-gap: #f4f1ea;
+  --focus: #8a5207;
+  --shadow-1: 0 1px 2px rgb(29 36 51 / 0.08), 0 1px 1px rgb(29 36 51 / 0.04);
+  --shadow-2: 0 4px 16px rgb(29 36 51 / 0.1), 0 1px 3px rgb(29 36 51 / 0.06);
+  --scrim: rgb(13 16 22 / 0.45);
+
+  --px-outline: var(--mat-blob-1);
+  --px-shadow: var(--mat-blob-2);
+  --px-base: var(--mat-blob-3);
+  --px-hi: var(--mat-blob-4);
+  --px-ui-ink: #1d2433;
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] [data-direction="field"]:not([data-mode="light"]),
+:root[data-theme="dark"][data-direction="field"]:not([data-mode="light"]),
+[data-direction="field"][data-mode="dark"] {
+  --bg: #12161d;
+  --surface: #1a2029;
+  --sunk: #0d1016;
+  --fg: #e9edf3;
+  --muted: #9aa5b5;
+  --line: #2d3745;
+  --line-strong: #62708a;
+  --frame: #000000;
+  --accent-rule: #f0a63a;
+  --accent: #f0a63a;
+  --accent-soft: #3a2c14;
+  --on-accent: #1d1407;
+  --ok: #3fc7b7;
+  --ok-soft: #123632;
+  --on-ok: #06201d;
+  --warn: #ffc857;
+  --warn-soft: #3a2d0c;
+  --on-warn: #1d1407;
+  --bad: #ff8a80;
+  --bad-soft: #3d1c1a;
+  --on-bad: #2a0d0b;
+  --unk: #aab0c8;
+  --unk-soft: #262b3d;
+  --info: #5bc8ff;
+  --info-soft: #0f2a3a;
+  --speech: #0a0f4a;
+  --speech-fg: #ffffff;
+  --speech-gap: #12161d;
+  --focus: #f0a63a;
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-2: 0 6px 20px rgb(0 0 0 / 0.45);
+  --scrim: rgb(0 0 0 / 0.6);
+  --px-ui-ink: #e9edf3;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) [data-direction="field"]:not([data-mode="light"]),
+  :root:not([data-theme="light"])[data-direction="field"]:not([data-mode="light"]) {
+    --bg: #12161d;
+    --surface: #1a2029;
+    --sunk: #0d1016;
+    --fg: #e9edf3;
+    --muted: #9aa5b5;
+    --line: #2d3745;
+    --line-strong: #62708a;
+    --frame: #000000;
+    --accent-rule: #f0a63a;
+    --accent: #f0a63a;
+    --accent-soft: #3a2c14;
+    --on-accent: #1d1407;
+    --ok: #3fc7b7;
+    --ok-soft: #123632;
+    --on-ok: #06201d;
+    --warn: #ffc857;
+    --warn-soft: #3a2d0c;
+    --on-warn: #1d1407;
+    --bad: #ff8a80;
+    --bad-soft: #3d1c1a;
+    --on-bad: #2a0d0b;
+    --unk: #aab0c8;
+    --unk-soft: #262b3d;
+    --info: #5bc8ff;
+    --info-soft: #0f2a3a;
+    --speech: #0a0f4a;
+    --speech-fg: #ffffff;
+    --speech-gap: #12161d;
+    --focus: #f0a63a;
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-2: 0 6px 20px rgb(0 0 0 / 0.45);
+    --scrim: rgb(0 0 0 / 0.6);
+    --px-ui-ink: #e9edf3;
+    color-scheme: dark;
+  }
+}
+
+/* 2c. Command Board: dense, dark-first, glanceable grid and timeline. --------------------------- */
+[data-direction="board"] {
+  --font-display: var(--ff-grotesk);
+  --font-label: var(--ff-pixel-label); /* grid column heads, Silkscreen 700 at 8/16 px */
+  --font-body: var(--ff-grotesk);
+  --font-numeral: var(--ff-mono-grotesk);
+  --font-mono: var(--ff-mono-grotesk);
+  --font-clock: var(--ff-pixel-clock); /* optional big session clock, 20 px and up */
+  --display-weight: 600;
+  --label-case: uppercase;
+
+  --radius-card: var(--radius-sm);
+  --radius-control: var(--radius-sm);
+  --radius-chip: var(--radius-xs);
+  --notch: 0px;
+  --panel-clip: none;
+  --border-width: 1px;
+
+  /* Compact density: about 1.6x the rows per screen of the other two */
+  --density: 0.75;
+  --card-pad: var(--space-3);
+  --row-pad-y: var(--space-2);
+  --row-pad-x: var(--space-3);
+  --stack-gap: var(--space-2);
+  --row-height: 40px;
+  --lane-height: 36px; /* AFK Timeline lane */
+  --lane-bar: 10px;
+  --axis-hour: 28px; /* px per hour on the phone timeline (12 h = 336 px) */
+
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --sunk: #eceff3;
+  --fg: #0f141a;
+  --muted: #556170;
+  --line: #d5dbe3;
+  --line-strong: #8792a1;
+  --frame: #0f141a;
+  --bevel-hi: transparent;
+  --bevel-lo: transparent;
+  --accent-rule: #7f5a00;
+  --accent: #7f5a00;
+  --accent-soft: #fbefcf;
+  --on-accent: #ffffff;
+  --ok: #0a7a43;
+  --ok-soft: #d9f2e3;
+  --on-ok: #ffffff;
+  --warn: #8f5600;
+  --warn-soft: #fdebcf;
+  --on-warn: #ffffff;
+  --bad: #b42318;
+  --bad-soft: #fde3e0;
+  --on-bad: #ffffff;
+  --unk: #5b6475;
+  --unk-soft: #e8ebf0;
+  --info: #0b6aa8;
+  --info-soft: #ddeefa;
+  --speech: #0f141a;
+  --speech-fg: #ffffff;
+  --speech-gap: #f6f7f9;
+  --focus: #0b6aa8;
+  --shadow-1: none;
+  --shadow-2: 0 8px 24px rgb(15 20 26 / 0.14);
+  --scrim: rgb(7 9 13 / 0.5);
+  --now-line: #0b6aa8; /* timeline "now" */
+  --return-line: #7f5a00; /* timeline "back at" marker */
+
+  --px-outline: var(--mat-stone-1);
+  --px-shadow: var(--mat-stone-2);
+  --px-base: var(--mat-stone-3);
+  --px-hi: var(--mat-stone-4);
+  --px-ui-ink: #0f141a;
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] [data-direction="board"]:not([data-mode="light"]),
+:root[data-theme="dark"][data-direction="board"]:not([data-mode="light"]),
+[data-direction="board"][data-mode="dark"] {
+  --bg: #07090d;
+  --surface: #0e1218;
+  --sunk: #05070a;
+  --fg: #dfe6ef;
+  --muted: #8592a3;
+  --line: #232c39;
+  --line-strong: #5d6a7e;
+  --frame: #000000;
+  --accent-rule: #ffcc33;
+  --accent: #ffcc33;
+  --accent-soft: #33290a;
+  --on-accent: #1a1400;
+  --ok: #3ddc84;
+  --ok-soft: #0c2e1c;
+  --on-ok: #04190d;
+  --warn: #ffb020;
+  --warn-soft: #33240a;
+  --on-warn: #1a1400;
+  --bad: #ff6b6b;
+  --bad-soft: #3a1416;
+  --on-bad: #250708;
+  --unk: #8b93a7;
+  --unk-soft: #1a1f29;
+  --info: #5bc8ff;
+  --info-soft: #0b2633;
+  --speech: #0a0f4a;
+  --speech-fg: #ffffff;
+  --speech-gap: #07090d;
+  --focus: #5bc8ff;
+  --shadow-1: none;
+  --shadow-2: 0 8px 24px rgb(0 0 0 / 0.6);
+  --scrim: rgb(0 0 0 / 0.65);
+  --now-line: #5bc8ff;
+  --return-line: #ffcc33;
+  --px-ui-ink: #dfe6ef;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) [data-direction="board"]:not([data-mode="light"]),
+  :root:not([data-theme="light"])[data-direction="board"]:not([data-mode="light"]) {
+    --bg: #07090d;
+    --surface: #0e1218;
+    --sunk: #05070a;
+    --fg: #dfe6ef;
+    --muted: #8592a3;
+    --line: #232c39;
+    --line-strong: #5d6a7e;
+    --frame: #000000;
+    --accent-rule: #ffcc33;
+    --accent: #ffcc33;
+    --accent-soft: #33290a;
+    --on-accent: #1a1400;
+    --ok: #3ddc84;
+    --ok-soft: #0c2e1c;
+    --on-ok: #04190d;
+    --warn: #ffb020;
+    --warn-soft: #33240a;
+    --on-warn: #1a1400;
+    --bad: #ff6b6b;
+    --bad-soft: #3a1416;
+    --on-bad: #250708;
+    --unk: #8b93a7;
+    --unk-soft: #1a1f29;
+    --info: #5bc8ff;
+    --info-soft: #0b2633;
+    --speech: #0a0f4a;
+    --speech-fg: #ffffff;
+    --speech-gap: #07090d;
+    --focus: #5bc8ff;
+    --shadow-1: none;
+    --shadow-2: 0 8px 24px rgb(0 0 0 / 0.6);
+    --scrim: rgb(0 0 0 / 0.65);
+    --now-line: #5bc8ff;
+    --return-line: #ffcc33;
+    --px-ui-ink: #dfe6ef;
+    color-scheme: dark;
+  }
+}
+
+/* 3. Shared semantic aliases: components read these. --------------------------------------------- */
+/* Defined once on every direction scope so they resolve against that scope's colours. */
+[data-direction] {
+  /* Verdict (P8: always paired with a glyph and a word) */
+  --verdict-ready-fg: var(--ok);
+  --verdict-ready-bg: var(--ok-soft);
+  --verdict-fix-fg: var(--bad);
+  --verdict-fix-bg: var(--bad-soft);
+  --verdict-unk-fg: var(--unk);
+  --verdict-unk-bg: var(--unk-soft);
+  --verdict-stale-fg: var(--warn);
+  --verdict-stale-bg: var(--warn-soft);
+
+  /* Cap pills (P5: colour = urgency). Full now is amber, not red: caps never change a Verdict. */
+  --cap-now-fg: var(--warn);
+  --cap-now-bg: var(--warn-soft);
+  --cap-soon-fg: var(--warn);
+  --cap-soon-bg: transparent;
+  --cap-soon-border: var(--warn);
+  --cap-fine-fg: var(--muted);
+  --cap-fine-bg: var(--sunk);
+
+  /* Goal kinds (Fix / Spend / Grow / Extra); the kind also gets its own pixel seal */
+  --kind-fix: var(--bad);
+  --kind-spend: var(--accent);
+  --kind-grow: var(--info);
+  --kind-extra: var(--muted);
+
+  /* Walkthrough step states (dispatch grammar: done filled, now bright, after light, skipped dim + Zz) */
+  --step-done: var(--ok);
+  --step-now: var(--accent);
+  --step-after: var(--line-strong);
+  --step-skipped: var(--unk);
+  --req-have: var(--ok); /* three-state requirement checks (Quest Helper) */
+  --req-elsewhere: var(--warn); /* "in Storage: go get it" */
+  --req-missing: var(--bad);
+
+  /* Spend Plan: exactly one winner (Cookie Monster) */
+  --spend-best-fg: var(--ok);
+  --spend-best-bg: var(--ok-soft);
+  --spend-save-fg: var(--warn);
+  --spend-rest-fg: var(--muted);
+
+  /* Deltas ("will give you") */
+  --delta-up: var(--ok);
+  --delta-down: var(--bad);
+
+  /* Surfaces */
+  --card-bg: var(--surface);
+  --card-border: var(--line);
+  --control-border: var(--line-strong);
+  --chip-bg: var(--sunk);
+  --chip-pressed-bg: var(--accent);
+  --chip-pressed-fg: var(--on-accent);
+
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: var(--lh-body);
+}
+
+/* 4. Frame helpers (optional; the signature recipes in one place). ------------------------------- */
+/* Focus ring for all directions */
+[data-direction] :focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+/* Panel: Quest Log gets the measured layered frame (1 px frame, 2 px bevel, accent rule) with
+   notched corners; the other directions get a plain bordered card from the same class. */
+[data-direction] .lab-panel {
+  background: var(--card-bg);
+  border: var(--border-width) solid var(--card-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-1);
+  padding: var(--card-pad);
+}
+[data-direction="quest"] .lab-panel {
+  border: 0;
+  clip-path: var(--panel-clip);
+  box-shadow:
+    inset 0 0 0 2px var(--frame),
+    inset 4px 4px 0 0 var(--bevel-hi),
+    inset -4px -4px 0 0 var(--bevel-lo);
+  padding: calc(var(--card-pad) + 4px);
+}
+[data-direction="quest"] .lab-panel-title {
+  border-bottom: 2px solid var(--accent-rule);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+/* NPC speech box: solid navy, 1 px gap ring one pixel inside, notched corners, stepped tail */
+[data-direction] .lab-speech {
+  position: relative;
+  background: var(--speech);
+  color: var(--speech-fg);
+  font-family: var(--font-body);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-control);
+  box-shadow:
+    inset 0 0 0 2px var(--speech),
+    inset 0 0 0 3px var(--speech-gap);
+}
+[data-direction="quest"] .lab-speech {
+  border-radius: 0;
+  clip-path: var(--panel-clip);
+  box-shadow:
+    inset 0 0 0 2px var(--speech),
+    inset 0 0 0 4px var(--speech-gap);
+}
+
+/* Outlined pixel heading: 4-direction 1 art-pixel text-shadow, not -webkit-text-stroke */
+[data-direction] .lab-px-heading {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--tracking-caps);
+  text-transform: var(--label-case);
+}
+[data-direction="quest"] .lab-px-heading {
+  color: var(--speech-fg);
+  text-shadow:
+    2px 0 0 var(--frame),
+    -2px 0 0 var(--frame),
+    0 2px 0 var(--frame),
+    0 -2px 0 var(--frame),
+    2px 2px 0 var(--frame),
+    -2px 2px 0 var(--frame),
+    2px -2px 0 var(--frame),
+    -2px -2px 0 var(--frame);
+}
+
+/* Pixel micro-label (pills, stamps, column heads): only at the 8 px grid or 16 px */
+[data-direction] .lab-px-label {
+  font-family: var(--font-label);
+  font-size: var(--pixel-label-size-2x);
+  line-height: 1;
+  text-transform: var(--label-case);
+  -webkit-font-smoothing: none;
+}
+[data-direction="field"] .lab-px-label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  -webkit-font-smoothing: auto;
+}
+
+/* Our pixel art: SVG <rect> grids, integer scale only */
+.lab-px-art {
+  image-rendering: pixelated;
+  shape-rendering: crispEdges;
+}
+.lab-px-art--loop {
+  animation-timing-function: var(--px-steps-4);
+  animation-play-state: var(--px-anim-state, running);
+}
+
+/* Tabular numbers everywhere a time or count is shown */
+[data-direction] .lab-num {
+  font-family: var(--font-numeral);
+  font-variant-numeric: tabular-nums;
+}
