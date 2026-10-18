@@ -118,7 +118,7 @@
   white-space: nowrap;
 }
 .sk-grid td.hl {
-  outline: 3px solid var(--coin);
+  outline: 3px solid var(--accent);
   outline-offset: -3px;
 }
 .sk-grid td.best {
@@ -138,14 +138,14 @@
   align-items: center;
   min-height: 44px;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-card);
   padding: 4px 10px;
   background: var(--surface);
 }
 .pip.fillable,
 .pip.capped {
-  border-color: var(--coin);
-  background: var(--coin-soft);
+  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 .pip.locked,
 .pip.unknown,
@@ -163,7 +163,7 @@
 }
 .pip-mini.fillable,
 .pip-mini.capped {
-  background: var(--coin);
+  background: var(--accent);
 }
 .pip-mini.locked,
 .pip-mini.unknown,
