@@ -208,7 +208,23 @@ step: Use your 11 vial attempts on the W2 town cauldron
 Not built yet (M21 area C: the Build path).
 
 ## Map
-Not built yet (M21 area M: the Map place).
+2 of 3 worlds open · 5 characters
+- World 1 · Blunder Hills [done] · 7 of 7 doors open
+  - gate Amarok (done): Desert Topaz handed in; 4 keys waiting · 4 earned a day
+  - Spore Meadows (cleared): C4 Bowman 54
+  - Tunnels Entrance (reached): C2 Squire 43
+  - Poopy Sewers (reached): C1 Barbarian 60
+  - Jungle Perimeter (cleared): C3 Shaman 44
+- World 2 · Yum-Yum Desert [open] · 10 of 10 doors open
+  - gate Efaunt (open, next): Glacier Quartz: 0 of 1 held; No one earns these keys yet
+  - Djonnuttown (locked): C5 Wizard 56
+- World 3 · Frostbite Tundra [next] · Opens with the Glacier Quartz
+- Frontier: none
+- Overlay Route: 10 maps · Every door on the route is open; Efaunt's gate comes next
+- Overlay Constellations: 21 maps · B-1 is on The Mimic Hole, a map you have reached
+- Overlay Death Note: 5 maps · Djonnuttown: 10,359 kills to Death Note rank 1, the closest
+- Overlay Cards: 45 maps · Steep Sheep Ledge: the easiest card you don't have yet
+- Door kills on 21 of 56 maps
 
 ## Findings
 | entry | detector | subject | result | slots |

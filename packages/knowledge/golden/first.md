@@ -261,7 +261,24 @@ step: Use your 13 vial attempts on the W2 town cauldron
 Not built yet (M21 area C: the Build path).
 
 ## Map
-Not built yet (M21 area M: the Map place).
+4 of 4 worlds open · 7 characters
+- World 1 · Blunder Hills [done] · 7 of 7 doors open
+  - gate Amarok (done): Desert Topaz handed in; 0 keys waiting · 7 earned a day
+- World 2 · Yum-Yum Desert [done] · 10 of 10 doors open
+  - gate Efaunt (done): Glacier Quartz handed in; 2 keys waiting · 1 earned a day
+  - YumYum Grotto (town): C7 Maestro 73
+- World 3 · Frostbite Tundra [done] · 11 of 11 doors open
+  - gate Chizoar (done): Galaxial Amethyst handed in; No one earns these keys yet
+- World 4 · Hyperion Nebula [open] · 3 of 3 doors open
+  - gate Massive Troll (open, next)
+  - Outer World Town (town): C2 Bubonic Conjuror 87, C6 Beast Master 87, C3 Siege Breaker 86, C5 Elemental Sorcerer 87
+  - Spaceway Raceway (cleared): C1 Blood Berserker 96, C4 Divine Knight 86
+- Frontier: none
+- Overlay Route: 3 maps · Every door on the route is open; Massive Troll's gate comes next
+- Overlay Constellations: 21 maps · Nothing to ring on this overlay yet
+- Overlay Death Note: 1 maps · Spaceway Raceway: 53,910 kills to Death Note rank 2, the closest
+- Overlay Cards: 58 maps · Crystal Basecamp: the easiest card you don't have yet
+- Door kills on 37 of 71 maps
 
 ## Findings
 | entry | detector | subject | result | slots |
