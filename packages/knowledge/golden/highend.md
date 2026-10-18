@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #9d3dd7ac · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: highend · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -219,8 +219,8 @@ Account · Refinery
 ## Alchemy
 band w3-late · pick Bubble Plan met for your Stage
 - Power: Plan met · about 2 new bubbles
-- Quicc: Plan met · about 0 new bubbles
-- High-IQ: Plan met · about 0 new bubbles
+- Quicc: Plan met
+- High-IQ: Plan met
 - Kazam: Plan met · about 3 new bubbles
 vial: none
 rolls: none
@@ -231,27 +231,27 @@ step: Spend banked brew in 2 cauldrons: about 5 new bubbles
 
 ## Gear
 - C1 · Death Bringer 1701 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok, shoes ok · a trade, ring2 ok, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok, shoes ok · different stats, ring2 ok, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C2 · Siege Breaker 1725 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok, shoes ok · a trade, ring2 ok, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok, shoes ok · different stats, ring2 ok, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C3 · Elemental Sorcerer 1734 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok, shoes ok · a trade, ring2 ok, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok, shoes ok · different stats, ring2 ok, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C4 · Divine Knight 1819 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C5 · Arcane Cultist 1762 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C6 · Wind Walker 1744 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C7 · Divine Knight 1734 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok, shoes ok · a trade, ring2 ok, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok, shoes ok · different stats, ring2 ok, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C8 · Voidwalker 1764 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok, shoes ok · a trade, ring2 ok, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok, shoes ok · different stats, ring2 ok, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C9 · Arcane Cultist 1743 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C10 · Wind Walker 1742 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C11 · Beginner 1717 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - Smithy: Hired
   Copper: registered
   Iron: registered

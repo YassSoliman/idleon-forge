@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #9d3dd7ac · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: first · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -185,10 +185,10 @@ Account · Refinery
 
 ## Alchemy
 band w3-late · pick Roid Ragin 41 → 54 (at least 13)
-- Power: Next: Roid Ragin 41 → 54 · about 0 new bubbles · lit
-- Quicc: Next: Archer Or Bust 17 → 18 · about 0 new bubbles
-- High-IQ: Stable Jenius 31 → 67 · needs Water · about 0 new bubbles
-- Kazam: Prowesessary 15 → 40 · needs Potty Rolls · about 0 new bubbles
+- Power: Next: Roid Ragin 41 → 54 · lit
+- Quicc: Next: Archer Or Bust 17 → 18
+- High-IQ: Stable Jenius 31 → 67 · needs Water
+- Kazam: Prowesessary 15 → 40 · needs Potty Rolls
 vial: Bubonic Burp 1 → 2
 rolls: Sippy Cup 97+ (Sippy Straw), 40-40 Purity 98+ (Contact Lense)
 attempts: 13 of 13 left
@@ -198,44 +198,44 @@ step: Use your 13 vial attempts on the W2 town cauldron
 
 ## Gear
 - C1 · Blood Berserker 96 · weapon 40 levels behind · lit: none
-  helmet ok, weapon 40 levels behind, shirt ok, pendant ok · a trade, pants ok, ring1 ok, shoes ok, ring2 ok · a trade, pickaxe 10 levels behind, hatchet ok, rod 15 levels behind, net 5 levels behind
+  helmet ok, weapon 40 levels behind, shirt ok, pendant ok · different stats, pants ok, ring1 ok, shoes ok, ring2 ok · different stats, pickaxe 10 levels behind, hatchet ok, rod 15 levels behind, net 5 levels behind
   mining: Platinum Pickaxe at Mining 25: you're 33
   chopping: Dementia Dicer at Choppin 25: you're 20
   fishing: Void Imperium Rod at Fishing 40: you're 40
   catching: Golden Net at Catching 15: you're 15
 - C2 · Bubonic Conjuror 87 · better gear held · ring 35 levels behind · lit: helmet
   next: Equip the Dementia Helmet from storage
-  helmet empty · one held, weapon ok, shirt empty · one held, pendant ok · a trade, pants empty · one held, ring1 ok, shoes empty · one held, ring2 35 levels behind, pickaxe ok, hatchet 10 levels behind, rod 6 levels behind, net 11 levels behind
+  helmet empty · one held, weapon ok, shirt empty · one held, pendant ok · different stats, pants empty · one held, ring1 ok, shoes empty · one held, ring2 35 levels behind, pickaxe ok, hatchet 10 levels behind, rod 6 levels behind, net 11 levels behind
   mining: Gold Pickaxe at Mining 15: you're 13
   chopping: Void Imperium Axe at Choppin 30: you're 44
   fishing: Gold Fishing Rod at Fishing 15: you're 15
   catching: Golden Net at Catching 15: you're 15
 - C3 · Siege Breaker 86 · ring 35 levels behind · lit: none
-  helmet ok · a trade, weapon ok, shirt ok, pendant ok · a trade, pants ok, ring1 ok, shoes ok · a trade, ring2 35 levels behind, pickaxe 7 levels behind, hatchet ok, rod 5 levels behind, net 10 levels behind
+  helmet ok · different stats, weapon ok, shirt ok, pendant ok · different stats, pants ok, ring1 ok, shoes ok · different stats, ring2 35 levels behind, pickaxe 7 levels behind, hatchet ok, rod 5 levels behind, net 10 levels behind
   mining: Gold Pickaxe at Mining 15: you're 17
   chopping: Golden Axe at Choppin 15: you're 13
   fishing: Iron Fishing Rod at Fishing 9: you're 9
   catching: Void Imperium Net at Catching 30: you're 37
 - C4 · Divine Knight 86 · ring 35 levels behind · lit: none
-  helmet ok, weapon 25 levels behind, shirt ok, pendant ok · a trade, pants 30 levels behind, ring1 ok, shoes ok, ring2 35 levels behind, pickaxe 8 levels behind, hatchet ok, rod 5 levels behind, net 11 levels behind
+  helmet ok, weapon 25 levels behind, shirt ok, pendant ok · different stats, pants 30 levels behind, ring1 ok, shoes ok, ring2 35 levels behind, pickaxe 8 levels behind, hatchet ok, rod 5 levels behind, net 11 levels behind
   mining: Void Imperium Pik at Mining 45: you're 45
   chopping: Golden Axe at Choppin 15: you're 14
   fishing: Iron Fishing Rod at Fishing 9: you're 14
   catching: Golden Net at Catching 15: you're 15
 - C5 · Elemental Sorcerer 87 · shirt 35 levels behind · lit: none
-  helmet ok · a trade, weapon ok, shirt 35 levels behind, pendant ok · a trade, pants 30 levels behind, ring1 ok, shoes ok · a trade, ring2 35 levels behind, pickaxe 7 levels behind, hatchet 10 levels behind, rod 5 levels behind, net 11 levels behind
+  helmet ok · different stats, weapon ok, shirt 35 levels behind, pendant ok · different stats, pants 30 levels behind, ring1 ok, shoes ok · different stats, ring2 35 levels behind, pickaxe 7 levels behind, hatchet 10 levels behind, rod 5 levels behind, net 11 levels behind
   mining: Gold Pickaxe at Mining 15: you're 19
   chopping: Void Imperium Axe at Choppin 30: you're 44
   fishing: Iron Fishing Rod at Fishing 9: you're 9
   catching: Golden Net at Catching 15: you're 15
 - C6 · Beast Master 87 · shirt 35 levels behind · lit: none
-  helmet ok · a trade, weapon ok, shirt 35 levels behind, pendant ok · a trade, pants 30 levels behind, ring1 ok, shoes ok · a trade, ring2 35 levels behind, pickaxe ok, hatchet 7 levels behind, rod ok, net ok
+  helmet ok · different stats, weapon ok, shirt 35 levels behind, pendant ok · different stats, pants 30 levels behind, ring1 ok, shoes ok · different stats, ring2 35 levels behind, pickaxe ok, hatchet 7 levels behind, rod ok, net ok
   mining: Gold Pickaxe at Mining 15: you're 12
   chopping: Golden Axe at Choppin 15: you're 17
   fishing: Gold Fishing Rod at Fishing 15: you're 11
   catching: Platinet at Catching 20: you're 16
 - C7 · Maestro 73 · ring 35 levels behind · lit: none
-  helmet ok · a trade, weapon 25 levels behind, shirt ok, pendant ok · a trade, pants ok, ring1 35 levels behind, shoes ok · a trade, ring2 ok, pickaxe 10 levels behind, hatchet 10 levels behind, rod 16 levels behind, net 10 levels behind
+  helmet ok · different stats, weapon 25 levels behind, shirt ok, pendant ok · different stats, pants ok, ring1 35 levels behind, shoes ok · different stats, ring2 ok, pickaxe 10 levels behind, hatchet 10 levels behind, rod 16 levels behind, net 10 levels behind
   mining: Platinum Pickaxe at Mining 25: you're 32
   chopping: Void Imperium Axe at Choppin 30: you're 33
   fishing: Plat Fishing Rod at Fishing 25: you're 25

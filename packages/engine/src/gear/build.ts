@@ -653,12 +653,14 @@ export function buildGear(input: GearBuildInput): GearBuildOutput | null {
       for (const h of hs) keyOfSlot.set(`${index}:${h.slot}`, heldKey);
     }
     const text = byChar.size === 1 ? s(ENTRY.held, 'one') : s(ENTRY.held, 'many', { n: byChar.size });
-    const g = goalOf(ENTRY.held, heldKey, text, s(ENTRY.held, 'why'), details, [
-      'characters[].gear',
-      'account.gearItems',
-      'account.storageItems',
-      'characters[].inventoryItems',
-    ]);
+    const g = goalOf(
+      ENTRY.held,
+      heldKey,
+      text,
+      s(ENTRY.held, byChar.size === 1 ? 'why-one' : 'why'),
+      details,
+      ['characters[].gear', 'account.gearItems', 'account.storageItems', 'characters[].inventoryItems'],
+    );
     if (g) account.push({ goal: g, rank: rankOf(3, effort(kb, ENTRY.held) * realHandouts.length) });
   }
 
@@ -724,7 +726,11 @@ export function buildGear(input: GearBuildInput): GearBuildOutput | null {
               : state2 === 'behind'
                 ? x.levelsBehind
                   ? sn('word-behind', { n: x.levelsBehind })
-                  : sn('word-behind-only')
+                  : x.tiersBehind
+                    ? sn(x.tiersBehind === 1 ? 'word-behind-tiers' : 'word-behind-tiers-many', {
+                        n: x.tiersBehind,
+                      })
+                    : sn('word-behind-only')
                 : x.trade
                   ? sn('word-trade')
                   : sn('word-ok');
@@ -843,7 +849,8 @@ export function buildGear(input: GearBuildInput): GearBuildOutput | null {
       slots: views,
       lit: lit?.slot ?? null,
       step,
-      why: litGoal?.nextAction.why ?? null,
+      // One character's page: the account hand-out speaks about this character only (R9 QA).
+      why: litGoal?.id === ENTRY.held ? s(ENTRY.held, 'why-one') : (litGoal?.nextAction.why ?? null),
       ladders: laddersOf(ctx, c, family, worn.get(c.index) ?? [], sn),
       status,
       note: beyond ? sn('note-plan-w3') : null,

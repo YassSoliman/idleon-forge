@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #9d3dd7ac · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: fourth · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -119,10 +119,10 @@ Account · Refinery
 
 ## Alchemy
 band w3-late · pick Bubble Plan met for your Stage
-- Power: Plan met · about 0 new bubbles
-- Quicc: Plan met · about 0 new bubbles
-- High-IQ: Plan met · about 0 new bubbles
-- Kazam: Plan met · about 0 new bubbles
+- Power: Plan met
+- Quicc: Plan met
+- High-IQ: Plan met
+- Kazam: Plan met
 vial: Barley Brew 1 → 2
 rolls: none
 attempts: 18 of 18 left
@@ -132,7 +132,7 @@ step: Level Barley Brew 1 → 2 (100 Iron Bar, 3 Water)
 
 ## Gear
 - C1 · Voidwalker 476 · Gear ok · lit: none
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe ok · different stats, hatchet ok · different stats, rod ok · different stats, net ok · different stats
 - C2 · Beginner 1 · 8 empty · lit: none
   helmet empty, weapon empty, shirt empty, pendant empty, pants empty, ring1 empty, shoes empty, ring2 empty, pickaxe empty, hatchet empty, rod empty, net empty
 - Smithy: Opens in 30 days, or once 2,000 gems were bought

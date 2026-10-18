@@ -231,6 +231,8 @@ export interface SlotJudgement {
   state: 'empty' | 'ok' | 'behind' | 'unknown';
   target: Target | null;
   levelsBehind: number | null;
+  /** Gear Plan tiers between the worn piece and the target, for a behind slot with no level gap (R9 QA). */
+  tiersBehind: number | null;
   /** The worn item is off the Gear Plan and the target doesn't dominate it. */
   trade: boolean;
 }
@@ -244,7 +246,14 @@ export function judgeSlot(
   family: Family | null,
   worn: WornSlot,
 ): SlotJudgement {
-  const base = { slot: worn.slot, item: worn.item, target: null, levelsBehind: null, trade: false };
+  const base = {
+    slot: worn.slot,
+    item: worn.item,
+    target: null,
+    levelsBehind: null,
+    tiersBehind: null,
+    trade: false,
+  };
   if (worn.unknown || family === null || stage === null || gateLevel(c, worn.slot) === null)
     return { ...base, unknown: true, state: 'unknown' };
   const target = targetOf(state, facts, stage, c, family, worn.slot);
@@ -261,6 +270,7 @@ export function judgeSlot(
       state: behind ? 'behind' : 'ok',
       target,
       levelsBehind: behind ? gap : null,
+      tiersBehind: behind ? target.index - at : null,
     };
   }
   const dominated = better(target.piece, worn.item, worn.slot, MAIN_STAT[family]);
@@ -270,6 +280,7 @@ export function judgeSlot(
     state: dominated ? 'behind' : 'ok',
     target,
     levelsBehind: dominated ? gap : null,
+    tiersBehind: dominated ? 1 : null,
     trade: !dominated,
   };
 }

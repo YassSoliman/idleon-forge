@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #9d3dd7ac · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: fresh · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -148,7 +148,7 @@ Account: Can't tell from the save
 band w3-late · pick Bubble Plan met for your Stage
 - Power: Plan met · about 2 new bubbles
 - Quicc: Plan met · about 4 new bubbles
-- High-IQ: Plan met · about 0 new bubbles
+- High-IQ: Plan met
 - Kazam: Plan met · about 1 new bubble
 vial: none
 rolls: none
@@ -160,12 +160,12 @@ step: Use your 18 vial attempts on the W2 town cauldron
 ## Gear
 - C1 · Siege Breaker 478 · better gear held · fishing rod 36 levels behind · lit: pendant
   next: Equip the Chizoars Caustic Scarf from the Blood Berserker Lv 534's bag
-  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant better one held, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe 12 levels behind, hatchet 4 levels behind, rod 36 levels behind, net ok
+  helmet ok · different stats, weapon ok · different stats, shirt ok · different stats, pendant better one held, pants ok · different stats, ring1 ok · different stats, shoes ok · different stats, ring2 ok · different stats, pickaxe 12 levels behind, hatchet 4 levels behind, rod 36 levels behind, net ok
   mining: Gold Pickaxe at Mining 15: you're 15
   chopping: Iron Hatchet at Choppin 8: you're 11
   fishing: Void Imperium Rod at Fishing 40: you're 42
 - C2 · Blood Berserker 534 · hatchet 5 levels behind · lit: none
-  helmet ok, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok, shoes ok · a trade, ring2 ok · a trade, pickaxe ok, hatchet 5 levels behind, rod ok · a trade, net empty
+  helmet ok, weapon ok · different stats, shirt ok · different stats, pendant ok · different stats, pants ok · different stats, ring1 ok, shoes ok · different stats, ring2 ok · different stats, pickaxe ok, hatchet 5 levels behind, rod ok · different stats, net empty
   mining: Void Imperium Pik at Mining 45: you're 41
   chopping: Dementia Dicer at Choppin 25: you're 25
 - C3 · Beginner 1 · Gear ok · lit: none
