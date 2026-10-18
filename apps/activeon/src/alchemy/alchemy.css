@@ -1,0 +1,352 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M19 the Alchemy page (lazy chunk): pots, vial shelf, liquid tubes, Pay 2 Win grid. Tokens only; our own
+   boxes, never game art (ADR 0009). One lit element per picture; wraps at 320 px, no page-level scroll. */
+.al-step {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-left: 4px solid var(--coin);
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+.al-pots,
+.al-tubes,
+.al-shelf,
+.al-cells,
+.al-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.al-pots {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 8px;
+}
+@media (min-width: 720px) {
+  .al-pots {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.al-pot {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.al-pot summary {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 4px;
+  padding: 10px 6px;
+  cursor: pointer;
+  list-style: none;
+  min-height: 44px;
+}
+.al-pot summary::-webkit-details-marker {
+  display: none;
+}
+.al-pot-next {
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}
+.al-pot-art {
+  position: relative;
+  display: block;
+  width: 56px;
+  height: 52px;
+}
+.al-pot-body {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 0;
+  height: 36px;
+  border: 3px solid var(--fg);
+  border-radius: 6px 6px 18px 18px;
+  background: var(--pot);
+}
+.al-pot-body::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  right: -7px;
+  top: -6px;
+  height: 6px;
+  border: 3px solid var(--fg);
+  border-radius: 3px;
+  background: var(--sunk);
+}
+.al-rise {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 0;
+  height: 12px;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+.al-rise i {
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--fg);
+  background: var(--pot);
+}
+.al-power {
+  --pot: var(--bad-soft);
+}
+.al-quicc {
+  --pot: var(--ok-soft);
+}
+.al-high-iq {
+  --pot: var(--unk-soft);
+}
+.al-kazam {
+  --pot: var(--coin-soft);
+}
+.al-now {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--fg);
+  background: var(--coin-soft);
+  border-radius: 999px;
+  padding: 0 8px;
+}
+.al-sheet {
+  padding: 0 10px 10px;
+  text-align: left;
+}
+.al-sheet ol {
+  margin: 4px 0;
+  padding-left: 18px;
+}
+.al-column {
+  margin: 4px 0;
+}
+.al-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 6px 0;
+}
+.al-chips .chip {
+  font-size: 0.875rem;
+}
+.al-chips .chip.plan {
+  border-color: var(--coin);
+}
+.al-chips .chip.locked {
+  color: var(--muted);
+  background: var(--sunk);
+}
+.al-shelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
+  gap: 6px 2px;
+  padding: 8px;
+  border-radius: var(--radius);
+  background: var(--sunk);
+}
+.al-vial {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+.al-vial:has(.al-vlab) {
+  grid-column: span 3;
+}
+.al-glass {
+  position: relative;
+  display: block;
+  width: 14px;
+  height: 24px;
+  border: 2px solid var(--line);
+  border-radius: 2px 2px 6px 6px;
+  background: var(--surface);
+  overflow: hidden;
+}
+.al-glass i,
+.al-tube-g i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--ok);
+}
+.al-vial.have .al-glass {
+  border-color: var(--fg);
+}
+.al-vial.easy .al-glass {
+  border-style: dashed;
+  border-color: var(--fg);
+}
+.al-vlab {
+  font-size: 0.875rem;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.al-tubes {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.al-tube {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 4px;
+  padding: 8px 2px;
+  border-radius: var(--radius);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.al-tube-g {
+  position: relative;
+  display: block;
+  width: 26px;
+  height: 88px;
+  border: 2px solid var(--fg);
+  border-top: 0;
+  border-radius: 0 0 13px 13px;
+  background: var(--surface);
+  overflow: hidden;
+}
+.al-tube.locked .al-tube-g {
+  border-style: dashed;
+  border-color: var(--line);
+}
+.al-tube.locked {
+  color: var(--muted);
+}
+.al-grid {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 8px;
+}
+.al-grid dd {
+  margin: 2px 0 0;
+}
+.al-cells {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.al-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.al-bar {
+  display: block;
+  width: 44px;
+  height: 10px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--sunk);
+  overflow: hidden;
+}
+.al-bar i {
+  display: block;
+  height: 100%;
+  background: var(--ok);
+}
+.al-cell.closed .al-bar {
+  border-style: dashed;
+}
+.al-cell.next .al-bar {
+  border-color: var(--fg);
+}
+.al-list {
+  columns: 2 14em;
+  margin: 6px 0;
+  padding-left: 18px;
+}
+.al-pot.lit,
+.al-tube.lit,
+.al-vial.lit .al-glass,
+.al-cell.lit .al-bar {
+  outline: 3px solid var(--coin);
+  outline-offset: 1px;
+}
+.al-glass i.h0,
+.al-tube-g i.h0 {
+  height: 0%;
+}
+.al-glass i.h10,
+.al-tube-g i.h10 {
+  height: 10%;
+}
+.al-glass i.h20,
+.al-tube-g i.h20 {
+  height: 20%;
+}
+.al-glass i.h30,
+.al-tube-g i.h30 {
+  height: 30%;
+}
+.al-glass i.h40,
+.al-tube-g i.h40 {
+  height: 40%;
+}
+.al-glass i.h50,
+.al-tube-g i.h50 {
+  height: 50%;
+}
+.al-glass i.h60,
+.al-tube-g i.h60 {
+  height: 60%;
+}
+.al-glass i.h70,
+.al-tube-g i.h70 {
+  height: 70%;
+}
+.al-glass i.h80,
+.al-tube-g i.h80 {
+  height: 80%;
+}
+.al-glass i.h90,
+.al-tube-g i.h90 {
+  height: 90%;
+}
+.al-glass i.h100,
+.al-tube-g i.h100 {
+  height: 100%;
+}
+.al-bar i.w0 {
+  width: 0%;
+}
+.al-bar i.w10 {
+  width: 10%;
+}
+.al-bar i.w20 {
+  width: 20%;
+}
+.al-bar i.w30 {
+  width: 30%;
+}
+.al-bar i.w40 {
+  width: 40%;
+}
+.al-bar i.w50 {
+  width: 50%;
+}
+.al-bar i.w60 {
+  width: 60%;
+}
+.al-bar i.w70 {
+  width: 70%;
+}
+.al-bar i.w80 {
+  width: 80%;
+}
+.al-bar i.w90 {
+  width: 90%;
+}
+.al-bar i.w100 {
+  width: 100%;
+}
