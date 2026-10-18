@@ -59,13 +59,20 @@ const kindWord = (tag: string) => tag.split(' · ')[0] ?? tag;
  * Report this (FR-30, US-12; M13 FR-9): opens the in-app Suggest form when the Suggestions provider is
  * there; otherwise two taps, with the public notice in between, to the pre-filled GitHub issue.
  */
-export function ReportThis({ input }: { input: ReportOutput }) {
+export function ReportThis({ input, onOpen }: { input: ReportOutput; onOpen?: () => void }) {
   const actions = useNowActions();
   const [open, setOpen] = useState(false);
   const { openReport } = actions;
   if (openReport)
     return (
-      <Button tone="plain" onClick={() => openReport(input)}>
+      <Button
+        tone="plain"
+        onClick={() => {
+          // The form replaces the sheet it was opened from: a sheet never opens a sheet (DS-4).
+          onOpen?.();
+          openReport(input);
+        }}
+      >
         {CARD_WORDS.report}
       </Button>
     );
@@ -102,12 +109,15 @@ export function ActionControls({
   controls,
   report,
   text,
+  onClose,
 }: {
   actionKey: string;
   controls: ControlsView;
   report: ReportOutput;
   /** The line, for "We won't suggest this again …". */
   text?: string;
+  /** The sheet these controls sit in: Report this closes it before the form opens (DS-4). */
+  onClose?: () => void;
 }) {
   const actions = useNowActions();
   const [more, setMore] = useState(false);
@@ -147,7 +157,7 @@ export function ActionControls({
               </p>
             </>
           ) : null}
-          {controls.report ? <ReportThis input={report} /> : null}
+          {controls.report ? <ReportThis input={report} onOpen={onClose} /> : null}
         </div>
       ) : null}
     </div>
@@ -316,6 +326,7 @@ export function WhySheet({
           controls={action.controls}
           report={reportOf(action)}
           text={action.text}
+          onClose={onClose}
         />
       </div>
     </Sheet>
@@ -387,7 +398,11 @@ export function NextActionItem({
         ) : null}
         <PixelArt name={GLYPH.arrowRight} decorative className="n-goal__chev" />
       </button>
-      {action.controls.skip ? (
+      {/* One control on the face (DS-10): Skip today on a full card; a muted ranked line keeps its
+          "See it" row instead (M17 FR-31), and its Skip today waits in the sheet. */}
+      {compact ? (
+        <span className="n-goal__see">{seeIt}</span>
+      ) : action.controls.skip ? (
         <button type="button" className="a-btn a-btn--quiet n-skip" onClick={() => actions.skip(action.key)}>
           <PixelArt name="cards-zz" scale={2} decorative />
           <span>{CARD_WORDS.skip}</span>
@@ -453,6 +468,9 @@ export function RankedGoals({
                 token={token?.(g)}
                 seeIt={seeIt ? <SeeItLink goal={g} subject={subject} /> : undefined}
               />
+              {/* The winner keeps its "See it" row under the card (M17 FR-31's findability); the rest
+                  carry it in their why sheet (G6). */}
+              {seeIt && n === 0 ? <SeeItLink goal={g} subject={subject} /> : null}
             </li>
           ))}
         </ol>

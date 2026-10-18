@@ -148,8 +148,8 @@ export function Counter({
           {counter.count}
         </span>
         <div className="n-vb__txt">
-          <h2 className="n-vb__title" id="n-vb-title">
-            <span className="sr-only">{counter.count} </span>
+          {/* The big number is drawn beside it (aria-hidden); the heading says the whole line. */}
+          <h2 className="n-vb__title" id="n-vb-title" aria-label={counter.line}>
             {counter.sentence}
           </h2>
           {sub}

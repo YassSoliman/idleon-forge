@@ -205,7 +205,7 @@ describe('US-1 send an idea from Suggest (FR-1 to FR-5, FR-11)', () => {
     render(<Harness store={store} />);
     await openForm();
     fill(/^I want…/, 'a draft I come back to');
-    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+    fireEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Close' }));
     expect(screen.queryByRole('dialog')).toBeNull();
     await openForm();
     await waitFor(() =>
@@ -287,7 +287,11 @@ describe('US-2 Report this (FR-9, FR-10)', () => {
         <NowScreen {...props(r, saveOf(r, 1, 'first', null, 'live'))} />
       </SuggestionsProvider>,
     );
-    fireEvent.click(screen.getAllByRole('button', { name: 'Report this' })[0] as HTMLElement);
+    // M21 FR-N8: Report this is in a Goal's why sheet, in its overflow (DS-10).
+    fireEvent.click(document.querySelector('.n-goal__open') as HTMLElement);
+    const why = screen.getByRole('dialog');
+    fireEvent.click(within(why).getByRole('button', { name: 'More controls' }));
+    fireEvent.click(within(why).getByRole('button', { name: 'Report this' }));
     const dialog = await loaded(await screen.findByRole('dialog', { name: 'Report this line' }));
     expect(await within(dialog).findByRole('radio', { name: "Something's wrong" })).toHaveProperty(
       'checked',

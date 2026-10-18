@@ -43,7 +43,7 @@ export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(functio
       aria-labelledby="account-h"
       tabIndex={-1}
     >
-      <h2 id="account-h" className="n-account__h">
+      <h2 className="n-account__h">
         <button
           type="button"
           className="n-account__toggle"
@@ -51,7 +51,9 @@ export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(functio
           aria-controls="account-body"
           onClick={() => actions.toggle('account-fold')}
         >
-          <span className="n-account__title">{W.title}</span>
+          <span className="n-account__title" id="account-h">
+            {W.title}
+          </span>
           <span className="n-account__sum num">
             <span className={cx('n-dot', fixes > 0 ? 'is-bad' : 'is-ok')} aria-hidden="true" />
             {W.summary(fixes, goals)}
