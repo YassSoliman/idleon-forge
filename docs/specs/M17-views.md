@@ -126,7 +126,7 @@ Every view reads what the advice modules already compute. None of them invents a
   Skips and dismissals:
   - A blocker or urgent Goal that the player skipped (Skip today) or dismissed (Not for me) doesn't make a System wasting. The tile adds "· n skipped" instead, as M10's "Ready · n skipped" does (D-8).
   - A behind row whose every fix finding is skipped or dismissed doesn't make the System behind.
-  - **A locked System with a behind row** stays **locked**, adds "· behind for your Stage" to its reason, and appears in "Needs you" (FR-21). The Post Office on W3-early is this case: its row expects it by W2-late, and its unlock Next Action fires.
+  - **A locked System with a behind row** stays **locked**, adds "· behind for your Stage" to its reason, and stays out of "Needs you" (FR-21; R6 QA ruling: locked Systems never appear there). The Post Office on W3-early is this case: its row expects it by W2-late, and its unlock Next Action fires.
 - **FR-18 Tile content.** Each tile shows the name, a glyph (Design Lab), and the status as a glyph plus a word (never colour alone). Under that is one reason line, built only from counts and fixed words (TR-9):
 
   | Status | Reason line |
@@ -296,7 +296,7 @@ As a W3-early player, I want next-world Systems shown greyed with how they open,
 - Given `scrubbed-w2` (highest world 2) / When the hub renders / Then World 3 shows with its tiles, and World 4 collapses to "Later worlds: 3 Systems".
 - Given `scrubbed-w3` / When the Post Office tile and page render / Then:
   - the tile is **locked**, with the precise condition (its own Detector checks it), "· 1 to do" and "· behind for your Stage";
-  - Post Office appears in "Needs you";
+  - Post Office does not appear in "Needs you" (R6 QA ruling);
   - the page's "How it opens" shows the condition, its Source, and the Next Action in the entry's own words: "Finish Postboy Pablob's quest: 5 Empty Boxes from Anvil Tab 2".
 - Given any unlock fact or view word / When it is linted (TR-9) / Then it starts with "Opens", "Needs" or is a fixed view word, and contains no word from the advice lexicon.
 
