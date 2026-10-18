@@ -1142,13 +1142,6 @@
   color: var(--ok);
 }
 
-/* The hub, the two-preset Build tab and the Timeline may widen to 980 px at 1000 px and up (D-6). */
-@media (min-width: 1000px) {
-  .app:has(.places):has(.timeline-place) {
-    max-width: min(calc(980px + 128px), 100%);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .tl-frame,
   .sg-frame {
