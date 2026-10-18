@@ -43,6 +43,13 @@ export const characterTabs: readonly CharacterTab[] = [
     Component: lazyPart(() => import('./BuildView').then((m) => m.BuildTab)),
     status: (view, index) => view.builds.find((b) => b.index === index)?.status ?? null,
   },
+  // M18 F5 (FR-24): the Gear tab, `#gear-<index>`.
+  {
+    id: 'gear',
+    label: 'Gear',
+    Component: lazyPart(() => import('../gear/GearTab').then((m) => m.GearTab)),
+    status: (view, index) => view.gear?.characters.find((c) => c.index === index)?.status ?? null,
+  },
   {
     id: 'cards',
     label: 'Cards',

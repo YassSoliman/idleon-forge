@@ -12,6 +12,7 @@ import { StarSignsSystemBody } from '../now/signs/SignsPanel';
 import type { Session } from '../shell/session';
 
 const slotPictures = () => import('./SlotPictures');
+const gearPages = () => import('../gear/GearPages');
 
 export interface SystemPageBodyProps {
   s: Session;
@@ -26,12 +27,20 @@ export const SYSTEM_PAGES: Readonly<Record<string, ComponentType<SystemPageBodyP
   worship: lazyPart(() => slotPictures().then((m) => m.WorshipBody)),
   trapping: lazyPart(() => slotPictures().then((m) => m.TrappingBody)),
   'cauldron-seats': lazyPart(() => slotPictures().then((m) => m.CauldronSeatsBody)),
+  // M18 FR-26, FR-27: the gear heat strip and the Smithy's set cards.
+  gear: lazyPart(() => gearPages().then((m) => m.GearPageBody)),
+  'armor-smithy': lazyPart(() => gearPages().then((m) => m.ArmorSmithyBody)),
   // M19 FR-18, TR-8: the Alchemy page, its pictures in their own lazy chunk, then M20's cauldron seats.
   'alchemy-lab': lazyPart(() =>
     Promise.all([import('../alchemy/AlchemyLab'), slotPictures()]).then(
       ([lab, seats]) =>
         function AlchemyPage(p: SystemPageBodyProps) {
-          return createElement(Fragment, null, createElement(lab.default, p), createElement(seats.CauldronSeatsBody, p));
+          return createElement(
+            Fragment,
+            null,
+            createElement(lab.default, p),
+            createElement(seats.CauldronSeatsBody, p),
+          );
         },
     ),
   ),

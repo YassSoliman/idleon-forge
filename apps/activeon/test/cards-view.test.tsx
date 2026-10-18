@@ -150,8 +150,8 @@ async function noAxeViolations(container: HTMLElement) {
 }
 
 describe('Cards tab', () => {
-  it('is registered after Build and parses its deep link', () => {
-    expect(characterTabs.map((t) => t.id).slice(0, 3)).toEqual(['now', 'build', 'cards']);
+  it('is registered after Build and Gear and parses its deep link', () => {
+    expect(characterTabs.map((t) => t.id).slice(0, 4)).toEqual(['now', 'build', 'gear', 'cards']);
     expect(parseTabHash('#cards-2')).toEqual({ tab: 'cards', index: 2 });
     expect(parseTabHash('#cards')).toBeNull();
   });

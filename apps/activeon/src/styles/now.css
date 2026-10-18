@@ -605,7 +605,9 @@ button.cap[aria-expanded="true"] {
 /* ---- The character page's tabs and the Build view (owner request 2026-10-18) ---- */
 .char-tabs {
   display: flex;
-  gap: 4px;
+  /* Six tabs since M18 (Gear): they wrap at 390 px instead of widening the page. */
+  flex-wrap: wrap;
+  gap: 0 2px;
   border-bottom: 1px solid var(--line);
   margin: 4px 0 2px;
 }
@@ -615,7 +617,7 @@ button.cap[aria-expanded="true"] {
   min-height: 36px;
   display: inline-flex;
   align-items: center;
-  padding: 0 14px;
+  padding: 0 10px;
   color: var(--muted);
   text-decoration: none;
   border-bottom: 2px solid transparent;

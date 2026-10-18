@@ -1,0 +1,276 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M18 the Gear tab's paper doll, the Gear page's heat strip and the Smithy's set cards. Tokens only; our
+   own boxes and mannequin, never game art (ADR 0009). A state is a colour, a glyph and a word, never
+   colour alone. Wraps at 320 px with no page-level horizontal scroll. */
+.gd {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.gd-kicker {
+  margin: 0 0 8px;
+}
+.gd-doll {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+}
+.gd-fig {
+  color: var(--line);
+}
+.gd-col,
+.gd-tools {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+.gd-tools {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 8px;
+}
+@media (min-width: 720px) {
+  .gd-tools {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+.gs {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  min-height: 44px;
+  padding: 6px 8px;
+  text-align: left;
+  border-radius: var(--radius);
+  border: 2px solid var(--line);
+  background: var(--surface);
+  color: var(--fg);
+  font: inherit;
+  cursor: pointer;
+  position: relative;
+}
+.gs-t {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.gs-w {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  font-size: 0.85rem;
+}
+.gg {
+  flex: none;
+}
+.gs.st-ok {
+  border-color: var(--ok);
+  background: var(--ok-soft);
+}
+.gs.st-ok .gs-w {
+  color: var(--ok);
+}
+.gs.st-behind {
+  border-color: var(--coin);
+  background: var(--coin-soft);
+}
+.gs.st-behind .gs-w {
+  color: var(--coin);
+}
+.gs.st-empty {
+  border-style: dashed;
+  border-color: var(--bad);
+  background: var(--bad-soft);
+}
+.gs.st-empty .gs-w {
+  color: var(--bad);
+}
+.gs.st-held-upgrade {
+  border-color: var(--ok);
+  background: var(--surface);
+}
+.gs.st-held-upgrade .gs-w {
+  color: var(--ok);
+}
+.gs.st-unknown,
+.gs.st-m20 {
+  border-color: var(--unk);
+  background: var(--unk-soft);
+}
+.gs.lit {
+  outline: 3px solid var(--fg);
+  outline-offset: 2px;
+}
+.gs.open {
+  box-shadow: inset 0 0 0 2px var(--fg);
+}
+.gs-next {
+  position: absolute;
+  top: -8px;
+  right: 6px;
+  font-size: 0.7rem;
+  padding: 0 6px;
+  border-radius: 6px;
+  background: var(--fg);
+  color: var(--surface);
+}
+.gs:focus-visible {
+  outline: 3px solid var(--coin);
+  outline-offset: 2px;
+}
+.gd-sheet:not(:empty) {
+  margin: 10px 0;
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  background: var(--sunk);
+}
+.gd-facts {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 6px;
+}
+.gd-facts dt {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.gd-facts dd {
+  margin: 0;
+}
+.gd-steps {
+  margin: 4px 0;
+  padding-left: 20px;
+}
+.gd-step {
+  margin: 10px 0;
+}
+.gd-step p {
+  margin: 0 0 4px;
+}
+.gd-ladder {
+  margin: 0 0 10px;
+}
+.gd-tiers {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.gd-tier {
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+.gd-tier.can {
+  color: var(--fg);
+}
+.gd-tier.on {
+  border: 2px solid var(--ok);
+  color: var(--ok);
+  font-weight: 700;
+}
+/* The Gear page: the heat strip from 720 px, a list under it. */
+.gd-heat-wide {
+  display: none;
+}
+@media (min-width: 720px) {
+  .gd-heat-wide {
+    display: block;
+    overflow-x: auto;
+  }
+  .gd-heat-narrow {
+    display: none;
+  }
+}
+.gd-heat-table {
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+.gd-heat-table th,
+.gd-heat-table td {
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  text-align: left;
+  white-space: nowrap;
+}
+.hc.st-ok {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+.hc.st-behind {
+  background: var(--coin-soft);
+  color: var(--coin);
+}
+.hc.st-empty {
+  background: var(--bad-soft);
+  color: var(--bad);
+}
+.hc.st-held-upgrade {
+  color: var(--ok);
+}
+.hc.st-unknown {
+  background: var(--unk-soft);
+  color: var(--unk);
+}
+.hc.lit,
+.gd-worst li.lit,
+.gd-set.lit {
+  outline: 3px solid var(--fg);
+  outline-offset: -2px;
+}
+.gd-worst {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 6px;
+  display: grid;
+  gap: 4px;
+}
+.gd-worst li {
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: var(--sunk);
+}
+.gd-sets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+@media (min-width: 720px) {
+  .gd-sets {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.gd-set {
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.gd-set p {
+  margin: 0 0 4px;
+}
+.gd-set.done {
+  border-color: var(--ok);
+}
+.gd-parts {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 4px;
+  display: grid;
+  gap: 2px;
+  font-size: 0.8rem;
+}
+.gp.worn {
+  color: var(--ok);
+}
+.gp.held {
+  color: var(--coin);
+}
+.gp.missing {
+  color: var(--muted);
+}
