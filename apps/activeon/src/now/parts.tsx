@@ -3,7 +3,13 @@
 // The shared pieces of a Next Action (M10 TR-4): Source label with its Stale and Contested marks, the
 // controls (Skip today, Not for me, Report this), and the Goal list with "show more" and undo.
 // All text is React text: no dangerouslySetInnerHTML anywhere (TR-13).
-import type { ControlsView, GoalView, NextActionView, SourceView } from '@idleon-forge/engine/now';
+import type {
+  CapPillView,
+  ControlsView,
+  GoalView,
+  NextActionView,
+  SourceView,
+} from '@idleon-forge/engine/now';
 import { useId, useState } from 'react';
 import { useNowActions } from './context';
 import { PUBLIC_NOTICE } from './report';
@@ -282,5 +288,63 @@ export function GoalList({
         </details>
       ) : null}
     </>
+  );
+}
+
+/** The `expanded` id that keeps a cap pill open across the Roster and Focus (R-PILL-1). */
+export const capOpenId = (key: string) => `cap:${key}`;
+
+/**
+ * R-PILL-1: a character's cap pills in the Focus header ("Anvil full · collect"). Each is a disclosure
+ * button; open, it shows the full text with the refill time, the Why and the Source, with Skip today and
+ * Report this. Never a blocker, never a Fix card.
+ */
+export function CapPills({ caps }: { caps: CapPillView[] }) {
+  const actions = useNowActions();
+  const base = useId();
+  if (caps.length === 0) return null;
+  return (
+    <div className="caps">
+      <ul className="cap-list" aria-label="Quick collects">
+        {caps.map((c, n) => (
+          <li key={c.key}>
+            <button
+              type="button"
+              className={`cap${c.fullNow ? ' full' : ''}`}
+              aria-expanded={actions.expanded.has(capOpenId(c.key))}
+              aria-controls={`${base}-${n}`}
+              onClick={() => actions.toggle(capOpenId(c.key))}
+            >
+              {c.label}
+            </button>
+          </li>
+        ))}
+      </ul>
+      {caps.map((c, n) =>
+        actions.expanded.has(capOpenId(c.key)) ? (
+          <div key={c.key} id={`${base}-${n}`} className="cap-open small">
+            <p className="na-text">{c.text}</p>
+            {c.why ? <p className="why">Why: {c.why}</p> : null}
+            {c.source ? (
+              <div className="na-meta">
+                <SourceLabel source={c.source} />
+              </div>
+            ) : null}
+            <ActionControls
+              actionKey={c.key}
+              controls={{ skip: true, notForMe: false, report: true }}
+              report={{
+                outputKind: 'next-action',
+                entryIds: [c.entryId],
+                fields: [],
+                text: c.text,
+                stale: c.source?.stale ?? false,
+                contested: false,
+              }}
+            />
+          </div>
+        ) : null,
+      )}
+    </div>
   );
 }

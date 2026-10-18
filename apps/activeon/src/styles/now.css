@@ -500,3 +500,56 @@ label.chip {
     scroll-behavior: auto;
   }
 }
+/* R-PILL-1: quick-collect caps as compact pills, before the row's summary; never red, never a Fix card. */
+.r-caps,
+.cap-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-width: 0;
+  margin: 2px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.cap {
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 18px;
+  min-height: 20px;
+  padding: 0 8px;
+  border-radius: 999px;
+  border: 1px solid var(--coin);
+  background: transparent;
+  color: var(--coin);
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+}
+.cap.full {
+  background: var(--coin-soft);
+  border-color: transparent;
+}
+.cap.more {
+  border-color: var(--line);
+  color: var(--muted);
+}
+button.cap {
+  cursor: pointer;
+  min-height: 24px;
+}
+button.cap[aria-expanded="true"] {
+  outline: 1px solid var(--coin);
+}
+.cap-open {
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  background: var(--sunk);
+  display: grid;
+  gap: 4px;
+}
+.cap-open p {
+  margin: 0;
+}

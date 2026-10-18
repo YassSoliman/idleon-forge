@@ -6,7 +6,7 @@
 import type { FocusCard } from '@idleon-forge/engine/now';
 import { forwardRef } from 'react';
 import { useNowActions } from './context';
-import { ActionControls, GoalList, NextActionItem, ReportThis, SourceLabel } from './parts';
+import { ActionControls, CapPills, GoalList, NextActionItem, ReportThis, SourceLabel } from './parts';
 import { Pill } from './Roster';
 
 export interface FocusProps {
@@ -78,6 +78,7 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
         <p className="small muted">
           {card.classLabel} · lv {card.level} · {[card.activity, card.map].filter(Boolean).join(' · ')}
         </p>
+        <CapPills caps={card.caps} />
       </div>
 
       {card.info.length > 0 ? (

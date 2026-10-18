@@ -4,13 +4,39 @@
 // is a button whose accessible name says everything on it (US-1, TR-14).
 import type { NowView, RosterRow } from '@idleon-forge/engine/now';
 import { forwardRef } from 'react';
+import { useNowActions } from './context';
+import { capOpenId } from './parts';
 
 export function Pill({ pill }: { pill: RosterRow['pill'] }) {
   return <span className={`pill ${pill.kind}`}>{pill.text}</span>;
 }
 
+/**
+ * R-PILL-1: the row's cap pills, before the summary, at most 3 then "+n". They sit inside the row's
+ * button, so a tap on one opens Focus with that pill already open (its Why, Source and refill time).
+ */
+function RowCaps({ row }: { row: RosterRow }) {
+  if (row.caps.length === 0) return null;
+  return (
+    <span className="r-caps">
+      {row.caps.map((c) => (
+        <span key={c.key} className={`cap${c.fullNow ? ' full' : ''}`} data-cap={c.key}>
+          {c.label}
+        </span>
+      ))}
+      {row.moreCaps > 0 ? <span className="cap more">+{row.moreCaps}</span> : null}
+    </span>
+  );
+}
+
 const Row = forwardRef<HTMLButtonElement, { row: RosterRow; onOpen(i: number): void; onSpend(): void }>(
   function Row({ row, onOpen, onSpend }, ref) {
+    const actions = useNowActions();
+    const onClick = (e: React.MouseEvent) => {
+      const cap = (e.target as HTMLElement).closest<HTMLElement>('[data-cap]')?.dataset.cap;
+      if (cap && !actions.expanded.has(capOpenId(cap))) actions.toggle(capOpenId(cap));
+      onOpen(row.index);
+    };
     return (
       <li className={`r ${row.pill.kind}`}>
         <button
@@ -19,7 +45,7 @@ const Row = forwardRef<HTMLButtonElement, { row: RosterRow; onOpen(i: number): v
           className="r-btn"
           aria-label={row.accessibleName}
           data-index={row.index}
-          onClick={() => onOpen(row.index)}
+          onClick={onClick}
         >
           <span className="r-top">
             <span className="r-num num">{row.position}</span>
@@ -34,7 +60,8 @@ const Row = forwardRef<HTMLButtonElement, { row: RosterRow; onOpen(i: number): v
             {row.nextUp ? <span className="playing">Next up</span> : null}
             <span className="r-where">{[row.activity, row.map].filter(Boolean).join(' · ')}</span>
           </span>
-          <span className="r-summary">{row.summary}</span>
+          <RowCaps row={row} />
+          {row.summary ? <span className="r-summary">{row.summary}</span> : null}
         </button>
         {row.spendChip ? (
           <button type="button" className="chip spend" onClick={onSpend}>
