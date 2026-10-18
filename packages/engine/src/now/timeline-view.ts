@@ -357,6 +357,16 @@ export interface AfkStrip extends AfkStripView {
   backLabel: string;
   /** How many limits bind before you're back: the Timeline badge's number (US-10). */
   before: number;
+  /** R11 QA: how many of those are full already (bound at or before now). */
+  fullNow: number;
+  /** R11 QA: the first limit that binds after now and before you're back; null when none. */
+  next: { at: number; what: string; who: string | null; when: string } | null;
+  /**
+   * R11 QA (same fact everywhere): the return line's clause and the All set line's detail, both from
+   * `fullNow` and `next`, so Now never says "nothing fills" beside a strip that says "full now".
+   */
+  returnFacts: string;
+  allSetDetail: string | null;
 }
 
 /**
@@ -382,17 +392,35 @@ export function buildAfkStripView(
         : inSpan(at - now);
   const marks: AfkStripMark[] = [];
   let before = 0;
-  let first: { at: number; what: string; who: string } | null = null;
+  let first: { at: number; what: string; who: string | null } | null = null;
+  let fullNow = 0;
+  let next: { at: number; what: string; who: string | null } | null = null;
+  // The first limit after you're back: All set still says it ("First thing fills up in 9h").
+  let later: { at: number; what: string; who: string | null } | null = null;
   for (const lane of timeline.lanes) {
     const row = lane.index === null ? undefined : rows.get(lane.index);
-    if (!row) continue;
-    const who = `${row.classLabel} ${row.level}`;
+    if (!row && lane.kind !== 'account') continue;
+    const who = row ? `${row.classLabel} ${row.level}` : null;
     // A present-state problem (no time, "now") binds now; an untimed bar has no place on the axis.
     const timed = lane.bars
       .filter((b) => b.state === 'open' && !b.untimed)
       .map((b) => ({ b, at: b.at ?? now }))
       .sort((a, z) => a.at - z.at);
-    before += timed.filter((t) => t.b.beforeReturn).length;
+    const binding = timed.filter((t) => t.b.beforeReturn);
+    before += binding.length;
+    for (const t of binding) {
+      if (t.at <= now) fullNow++;
+      else if (!next || t.at < next.at) next = { at: t.at, what: t.b.what, who };
+    }
+    for (const t of timed)
+      if (!t.b.beforeReturn && t.at > now && (!later || t.at < later.at))
+        later = { at: t.at, what: t.b.what, who };
+    // An account lane counts toward the sentence and the facts; only characters get a mark.
+    if (!row) {
+      const h = binding[0];
+      if (h && (!first || h.at < first.at)) first = { at: h.at, what: h.b.what, who: null };
+      continue;
+    }
     const head = timed[0];
     if (!head) continue;
     const what = head.b.label;
@@ -406,7 +434,7 @@ export function buildAfkStripView(
       level: row.level,
       what,
       when,
-      a11y: AFK_STRIP_WORDS.mark(who, what, when, head.b.beforeReturn),
+      a11y: AFK_STRIP_WORDS.mark(`${row.classLabel} ${row.level}`, what, when, head.b.beforeReturn),
     });
     if (head.b.beforeReturn && (!first || head.at < first.at))
       first = { at: head.at, what: head.b.what, who };
@@ -419,5 +447,13 @@ export function buildAfkStripView(
     sentence: first
       ? AFK_STRIP_WORDS.sentence(before, first.what, first.who, whenOf(first.at))
       : AFK_STRIP_WORDS.nothing,
+    fullNow,
+    next: next ? { ...next, when: whenOf(next.at) } : null,
+    returnFacts: AFK_STRIP_WORDS.returnFacts(fullNow, next ? { ...next, when: whenOf(next.at) } : null),
+    allSetDetail: AFK_STRIP_WORDS.allSetDetail(
+      fullNow,
+      next ? { ...next, when: whenOf(next.at) } : null,
+      later ? { ...later, when: whenOf(later.at) } : null,
+    ),
   };
 }

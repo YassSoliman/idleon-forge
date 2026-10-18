@@ -123,6 +123,7 @@ export function NowPlace({ s }: { s: Session }) {
                     s.timeline ? () => s.navigate({ place: 'timeline', section: null }, 'push') : null
                   }
                   fillAt={result.firstFill ? { at: result.firstFill.at, settings } : null}
+                  afkDetail={s.views.afkStrip?.allSetDetail ?? null}
                 />
                 <ReturnLine
                   view={view}
@@ -130,6 +131,7 @@ export function NowPlace({ s }: { s: Session }) {
                   settings={settings}
                   updating={updating}
                   onPick={pick}
+                  facts={s.views.afkStrip?.returnFacts ?? null}
                 />
                 <PauseControl view={sv} onPick={(tab) => setPause({ manual: tab })} />
                 <AfkStrip
