@@ -6,6 +6,7 @@
 // ending in `_*` means that key for every character slot with data.
 import type { SideReadName } from '@idleon-forge/toolbox-parsers';
 import { ALCHEMY_FIELD_RAW_KEYS, ALCHEMY_FIELD_SECTIONS, ALCHEMY_FIELD_SOURCES } from './alchemy-fields';
+import { BUBBA_FIELD_RAW_KEYS, BUBBA_FIELD_SECTIONS, BUBBA_FIELD_SOURCES } from './bubba-fields';
 import {
   COLLECTIONS_FIELD_RAW_KEYS,
   COLLECTIONS_FIELD_SECTIONS,
@@ -107,6 +108,7 @@ export const FIELD_SOURCES: Record<string, string> = {
   ...ALCHEMY_FIELD_SOURCES,
   ...GEAR_FIELD_SOURCES,
   ...REDESIGN_FIELD_SOURCES,
+  ...BUBBA_FIELD_SOURCES,
   ...TALENT_POINT_FIELD_SOURCES,
 };
 
@@ -147,6 +149,7 @@ export const FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {
   ...ALCHEMY_FIELD_RAW_KEYS,
   ...GEAR_FIELD_RAW_KEYS,
   ...REDESIGN_FIELD_RAW_KEYS,
+  ...BUBBA_FIELD_RAW_KEYS,
   ...TALENT_POINT_FIELD_RAW_KEYS,
 };
 
@@ -224,6 +227,7 @@ export const FIELD_SECTIONS: Record<string, string[]> = {
   ...ALCHEMY_FIELD_SECTIONS,
   ...GEAR_FIELD_SECTIONS,
   ...REDESIGN_FIELD_SECTIONS,
+  ...BUBBA_FIELD_SECTIONS,
   // M4 TR-2: the current-map rate is getMaxDamage, which reads the frontier's sections.
   'characters[].fighting': [...FRONTIER_SECTIONS, 'storage'],
 };

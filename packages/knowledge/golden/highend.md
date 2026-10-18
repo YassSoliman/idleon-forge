@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #749e78fa · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 991
+# golden v1: highend · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -143,6 +143,7 @@ W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
+W3 · Bubba · Nothing to fix · Nothing to fix
 W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
@@ -216,6 +217,10 @@ Account · Arcade
 - Arcade balls full · later · in 2d 7h · 04:26 · after · info · fix none
 Account · Refinery
 - salt fuel runs out · now · before · next-action · fix none
+Account · Bubba
+- Bubba's pats ready · in 53m · 22:18 · before · info · fix none
+- Smoker quality stops · in 11h 17m · 08:42 · after · info · fix none
+- Bubba Boon 49 ready · later · in 5d 2h · 00:12 · after · info · fix none
 
 ## Alchemy
 band w3-late · pick Bubble Plan met for your Stage
@@ -263,6 +268,23 @@ step: Spend banked brew in 2 cauldrons: about 5 new bubbles
   Dementia: registered
   Void: registered
   Chizoar: registered
+
+## Bubba
+Nothing to do in Bubba right now · Bubba's pats in 53m
+Account bonuses: +840% Build Rate (high), +42 base critters per trap (mid), +420% Soul Gain (mid), +1.3k% Total Damage (high), +84% All Kills (mid), +336% Class EXP (mid), −216% Atom Cost (high)
+Boosted by Megaflesh: 4x
+Boon 49: −36% Atom Cost · 5.6e44 meat · in 5d 2h
+Megaflesh: 22 owned · Chromatic × 11 · next 12: account bonuses up again · 8.5e43 of 7.2e46 · out of reach
+This run: 6.4e40 meat a minute · 8.5e43 meat now
+Next buys: Great Meat (8e42 meat), Best Meat (2.9e43 meat), 3rd Slice (8.9e43 meat)
+Pats: 0 of 13 · refill in 53m
+Smoker: 4h 54m of 16h 11m
+Charisma: Hustle 60/120 3x, Rizz 84/120 (training), Joy 40/120, Courage 0/120, Mindful 120/120, Savvy 42/120
+Next level: Courage 0 → 1: +3.69% Dice luk
+Banked: 0 levels
+Mindful first: 120/120
+Target gameslikefinder (2026-05-27): Hustle 20 to go, Rizz 16 to go, Joy met, Mindful met, Savvy met
+Gifts: Beeg Slice, Slabcakes
 
 ## Builds
 ### C1 (Death Bringer 1701)
@@ -548,6 +570,12 @@ step: Spend banked brew in 2 cauldrons: about 5 new bubbles
 | anvil.check.spend-points | anvil/points | account | fires | count=11 hours=8 manyMixed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| bubba.check.boon | bubba/boon | — | silent |  |
+| bubba.check.charisma-idle | bubba/charisma-idle | — | silent |  |
+| bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
+| bubba.check.pat-gift | bubba/pat-gift | — | silent |  |
+| bubba.check.smoker | bubba/smoker | — | silent |  |
+| bubba.check.start | bubba/start | — | silent |  |
 | classes.contribution.exp | classes/exp | C10 | advances yes eta 23m | exp=1.8041391742092496e+38 expReq=5.495541910596324e+38 rate=9.509594490413455e+38 saved=1742 |
 | classes.contribution.exp | classes/exp | C5 | advances yes eta 60m | exp=1.9655527828305413e+38 expReq=1.3285618735645738e+39 rate=1.1307126574524973e+39 saved=1762 |
 | classes.contribution.exp | classes/exp | C6 | advances yes eta 0m | exp=5.992239157073712e+38 expReq=6.002780279004503e+38 rate=1.1766637677775168e+39 saved=1744 |
@@ -610,6 +638,7 @@ step: Spend banked brew in 2 cauldrons: about 5 new bubbles
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
+| systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
 | systems.yaml#cooking | worlds/reached | account | reached yes |  |

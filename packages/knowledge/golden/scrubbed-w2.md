@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #749e78fa · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 991
+# golden v1: scrubbed-w2 · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -128,6 +128,7 @@ W3 · Prayers · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Shrines · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Equinox · Locked · Opens in World 3 · Frostbite Tundra
 W3 · Atom Collider · Locked · Opens in World 3 · Frostbite Tundra
+W3 · Bubba · Locked · Opens once a character opens YumYum Grotto's door to Frostbite Tundra (World 3); find it in the Codex
 Later worlds: 3 Systems: Laboratory, Cooking, Breeding
 Needs you: Companions and pets (wasting), Minigames (wasting), Colosseum (wasting), Arcade (wasting), Talent presets (behind), Cards (behind), Gear & Tools (behind), Stamps (behind), Alchemy bubbles (behind)
 Other gaps: Stamp cap raises that need farming or carry capacity
@@ -206,6 +207,9 @@ step: Use your 11 vial attempts on the W2 town cauldron
   Dementia: 0 of 7 parts: craft Dementia Helmet
   Void: 0 of 7 parts: craft Void Imperium Helmet
   Chizoar: 0 of 4 parts: craft Chizoar Helmet
+
+## Bubba
+(no Bubba)
 
 ## Builds
 ### C1 (Barbarian 60)
@@ -377,6 +381,12 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | anvil.check.spend-points | anvil/points | — | silent |  |
 | arcade.check.balls-cap | arcade/balls-cap | account | fires | capsIn=0 fullFor=173852724 |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| bubba.check.boon | bubba/boon | — | silent |  |
+| bubba.check.charisma-idle | bubba/charisma-idle | — | silent |  |
+| bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
+| bubba.check.pat-gift | bubba/pat-gift | — | silent |  |
+| bubba.check.smoker | bubba/smoker | — | silent |  |
+| bubba.check.start | bubba/start | — | silent |  |
 | cards.contribution.fight-mush-g | cards/fight-level | C4 | advances yes eta 63m | chance=0.002 complete=0 feeders=8 rate=1431 rule=0 saved=3 target=Green_Mushroom thenEtaMs=22641509 |
 | cards.contribution.fight-poop-small | cards/fight-level | C1 | advances yes eta 6993m | chance=0.00006 complete=0 feeders=1 rate=1430 rule=0 saved=1 target=Poop thenEtaMs=1678321678 |
 | cards.contribution.fight-slime-g | cards/fight-level | C3 | advances no | chance=0.05 complete=1 feeders=4 rate=1285 rule=0 saved=1379 target=Slime |
@@ -445,6 +455,7 @@ step: Use your 11 vial attempts on the W2 town cauldron
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached no |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
+| systems.yaml#bubba | bubba/unlocked | account | reached no |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached no |  |
 | systems.yaml#cooking | worlds/reached | account | reached no |  |

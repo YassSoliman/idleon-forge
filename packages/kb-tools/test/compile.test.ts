@@ -223,7 +223,7 @@ describe('kb compile on the real Knowledge Base (TR-17 budgets)', () => {
     expect(performance.now() - t).toBeLessThan(5_000);
     // The shipped (packed) form: shapes, strings and repeated subtrees stored once (pack.ts).
     const text = canonicalJson(packKnowledge(kb));
-    // kb-budget.json: 720 KB raw and 160 KB gzipped since release 7 (the worker is served gzipped). The
+    // kb-budget.json: 720 KB raw and 160 KB gzipped since release 7, 165 KB gzipped since M23 (the worker is served gzipped). The
     // compiled Knowledge Base ships only in the parse worker chunk, never on the UI thread.
     const budget = JSON.parse(readFileSync(BUDGET, 'utf8')) as {
       bundleBytes: number;

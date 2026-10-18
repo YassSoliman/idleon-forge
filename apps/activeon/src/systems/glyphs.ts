@@ -66,6 +66,8 @@ const ART: Readonly<Record<string, SystemArt>> = {
   shrines: A('v2-systems-shrine', 'stone'),
   equinox: A('v2-systems-moon', 'majestic'),
   'atom-collider': A('v2-systems-atom', 'stone'),
+  // M23 FR-3: Bubba, a round seal holding a meat slice (our own drawing, ADR 0009).
+  bubba: A('v2-systems-seal', 'silver'),
   lab: A('v2-systems-flask', 'leaf'),
   cooking: A('v2-systems-pan', 'stone'),
   breeding: A('v2-systems-egg', 'leaf'),

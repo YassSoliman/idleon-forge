@@ -1,0 +1,185 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M23 F7: the Bubba page body (FR-22, FR-23). Field Guide tokens only, scoped to `bb-` (DS-21); every
+   control 44 px (DS-15); text 12 px and up; no pixel face below its floor (the headings reuse sy-h3/h4). */
+
+.bb-page {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.bb-idle,
+.bb-cant {
+  margin: 0;
+  font-weight: var(--weight-semibold);
+}
+.bb-note {
+  margin: 0;
+  padding: var(--space-3);
+  border-left: 4px solid var(--warn);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  font-size: var(--text-sm);
+}
+
+/* ---- Bubba's bonuses to your account (a text list, FR-22) ---- */
+.bb-bonuses {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bb-bonus__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--fg);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.bb-bonus__row:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.bb-bonus__text {
+  font-weight: var(--weight-semibold);
+}
+.bb-bonus.is-next .bb-bonus__row {
+  border-color: var(--line-strong);
+  border-left-width: 4px;
+}
+.bb-bonus__next {
+  margin: var(--space-1) 0 0 var(--space-3);
+}
+
+/* ---- Inside Bubba ---- */
+.bb-panel {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+}
+.bb-panel > p,
+.bb-panel ul,
+.bb-panel ol {
+  margin: 0;
+}
+.bb-sub {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+.bb-grid {
+  display: grid;
+  gap: var(--space-3);
+}
+@media (min-width: 720px) {
+  .bb-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .bb-charisma {
+    grid-row: span 2;
+  }
+}
+
+/* Megaflesh track: 11 pips, owned ones filled (FR-23 item 3). */
+.bb-pips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  padding: 0;
+  list-style: none;
+}
+.bb-pip {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  background: var(--surface);
+}
+.bb-pip.is-owned {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+.bb-next {
+  display: grid;
+  gap: var(--space-1);
+}
+.bb-next__label {
+  margin: 0;
+  font-weight: var(--weight-semibold);
+}
+
+.bb-buys {
+  display: grid;
+  gap: var(--space-1);
+  padding-left: var(--space-5);
+  font-size: var(--text-sm);
+}
+.bb-more > summary {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  cursor: pointer;
+}
+.bb-tips {
+  padding-left: var(--space-5);
+}
+
+/* Charisma Chart: six meters of the max (FR-23 item 5). */
+.bb-only {
+  font-weight: var(--weight-semibold);
+}
+.bb-attrs {
+  display: grid;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+.bb-attr {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+}
+.bb-attr__name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+}
+.bb-attr > .a-meter {
+  grid-column: 1 / -1;
+}
+.bb-attr__lv {
+  grid-row: 1;
+  grid-column: 2;
+}
+.bb-attr__next {
+  grid-column: 1 / -1;
+}
+.bb-tag {
+  display: inline-block;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  line-height: 18px;
+}
+.bb-tag--max {
+  border-color: var(--ok);
+  color: var(--ok);
+}

@@ -411,6 +411,14 @@ systems:
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/2026-10-17-w3-systems.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
     unlockFact: systems.fact.unlocks
+  # M23 FR-1: opens per character with YumYum Grotto's door to World 3 (N.js BubbaUnlocked).
+  - id: bubba
+    name: Bubba
+    world: 3
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M23-bubba.md
+    unlocked: { id: bubba/unlocked }
+    unlockFact: systems.fact.unlocks
 
   # ---- World 4 entry ----
   - id: lab

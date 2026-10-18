@@ -197,6 +197,8 @@ describe('toAccountState', () => {
       armorSmithy: null,
       // M21 TR-3: no StuG key.
       statues: null,
+      // M23 TR-2: no Bubba record (a save from before Bubba): null, and not unknown.
+      bubba: null,
     });
     expect(state.characters.map(withoutUnspentCharacter)).toEqual([
       {

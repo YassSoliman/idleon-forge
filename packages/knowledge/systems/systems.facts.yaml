@@ -256,6 +256,15 @@ facts:
         gameVersion: 2.3.540
         sources:
           - { url: https://idleon.wiki/wiki/Atom_Collider, title: "IdleOn Wiki: Atom Collider", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      # M23 FR-1: the game's BubbaUnlocked reads the logged-in character's KillsLeft2Advance[50][0] (N.js).
+      - system: bubba
+        world: 3
+        text: "Opens once a character opens YumYum Grotto's door to Frostbite Tundra (World 3); find it in the Codex"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Changelog/2025, title: "IdleOn Wiki: Changelog 2025, v1.02 Big Bubba (in the Codex, where Orion is)", tier: 2, claimDate: 2025-11-23, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: "https://steamcommunity.com/app/1476970/discussions/0/690867902968120321/", title: "Steam: where is Bubba which world? (in the Codex on entering W3)", tier: 3, claimDate: 2025-11-24, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Bubba, title: "IdleOn Wiki: Bubba the Chonky Seal's Arctic Market of Meats", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
       # ---- World 4 ----
       - system: lab
         world: 4

@@ -1346,6 +1346,8 @@ entries:
       - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
       # M15 TR-6: one building at a time, ordered by construction.fact.build-order (replaces the Leverage model's item 5).
       - [construction.check.build-next]
+      # M23 FR-19: Bubba's one account Goal, after Construction (never above the W3 engine).
+      - [bubba.goal.visit]
       - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining, gear.check.next-piece]
 
   - id: metapath.priority.w3-mid
@@ -1379,6 +1381,8 @@ entries:
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.world-tutorial-w3, metapath.goal.swap-token]
       - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
+      # M23 FR-19: Bubba's one account Goal.
+      - [bubba.goal.visit]
       - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining, gear.check.next-piece]
 
   - id: metapath.priority.w3-late
@@ -1412,6 +1416,8 @@ entries:
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.world-tutorial-w3, metapath.goal.swap-token]
       - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
+      # M23 FR-19: Bubba's one account Goal.
+      - [bubba.goal.visit]
       - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining, gear.check.next-piece]
 
   - id: metapath.priority.w4-entry
@@ -1445,4 +1451,6 @@ entries:
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.elite, metapath.goal.swap-token]
       - [alchemy-bubbles.goal.level-next, alchemy-vials.goal.level-next]
+      # M23 FR-19: Bubba's one account Goal.
+      - [bubba.goal.visit]
       - [metapath.goal.next-character, metapath.goal.family-unlock, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining, gear.check.next-piece]

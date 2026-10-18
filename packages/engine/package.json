@@ -24,6 +24,8 @@
     "./purpose": "./src/purpose/index.ts",
     "./alchemy": "./src/alchemy/index.ts",
     "./alchemy-text": "./src/alchemy/text.ts",
+    "./bubba": "./src/bubba/index.ts",
+    "./bubba-text": "./src/bubba/text.ts",
     "./map": "./src/map/index.ts",
     "./session": "./src/session/index.ts",
     "./pictures": "./src/pictures/index.ts",

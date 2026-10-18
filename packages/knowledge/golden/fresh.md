@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #749e78fa · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 991
+# golden v1: fresh · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -40,7 +40,7 @@ Unknown: can't tell from the save
 - Extra · Today's Random Event: Random Event now on Jar Bridge (Snake Swarm): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
-show more (15)
+show more (16)
 If you have time
 - Run Killroy's Archer room on your Siege Breaker Lv 478 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Warrior room on your Blood Berserker Lv 534 (YumYum Grotto) · about 2m of hands-on play
@@ -116,6 +116,7 @@ W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
+W3 · Bubba · Nothing to fix · Nothing to fix · 1 to do
 W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
@@ -189,6 +190,17 @@ step: Use your 18 vial attempts on the W2 town cauldron
   Dementia: 4 of 7 parts: craft Dementia Shins
   Void: 5 of 7 parts: craft Void Imperium Helmet
   Chizoar: 3 of 4 parts: craft Chizoar Helmet
+
+## Bubba
+Step: Start Bubba: open the Codex, tap Bubba, buy 1st Slice
+Open it on: Blood Berserker Lv 534
+Account bonuses: +0% Build Rate (high), +0 base critters per trap (mid), +0% Soul Gain (mid), +0% Total Damage (high), +0% All Kills (mid), +0% Class EXP (mid), −0% Atom Cost (high)
+Boosted by Megaflesh: 1x
+Megaflesh: 0 owned · next 1: +1% meat per upgrade level · out of reach
+This run: 0 meat a minute · 0 meat now
+Next type: Happi Boi opens at 154 meat made this run
+Next buys: 1st Slice (1 meat)
+Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at Charisma), gifts (Opens at Fun Gifts), dice (Opens at Dice Roll)
 
 ## Builds
 ### C1 (Siege Breaker 478)
@@ -286,6 +298,12 @@ step: Use your 18 vial attempts on the W2 town cauldron
 | anvil.check.spend-points | anvil/points | account | fires | count=2 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | unknown (field-missing) |  |
 | boss-keys.check.collect | boss-keys/banked | C2 | fires | chizoar=6 daysLost=50 efaunt=6 forestVilla=6 total=18 |
+| bubba.check.boon | bubba/boon | — | silent |  |
+| bubba.check.charisma-idle | bubba/charisma-idle | — | silent |  |
+| bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
+| bubba.check.pat-gift | bubba/pat-gift | — | silent |  |
+| bubba.check.smoker | bubba/smoker | — | silent |  |
+| bubba.check.start | bubba/start | account | fires | restart=0 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=3 daysLost=50 total=9 |
 | construction.check.build-next | construction/build-next | account | pass |  |
 | death-note.check.build | death-note/build | — | silent |  |
@@ -336,6 +354,7 @@ step: Use your 18 vial attempts on the W2 town cauldron
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
+| systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
 | systems.yaml#cooking | worlds/reached | account | reached yes |  |

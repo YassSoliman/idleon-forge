@@ -6,6 +6,7 @@
 // A change here needs a note on M10's spec and on the producer module's spec.
 
 import type { AlchemyResult } from './alchemy/types';
+import type { BubbaResult } from './bubba/types';
 import type { Checklist } from './checklist/types';
 import type { CardsView } from './collections/cards-view-types';
 import type { GearResult } from './gear/types';
@@ -23,6 +24,7 @@ export type {
   TubeView,
   VialView,
 } from './alchemy/types';
+export type * from './bubba/types';
 export type { Checklist, ChecklistRow, ResetClock, RowBand, RowState } from './checklist/types';
 export type {
   CardChip,
@@ -671,6 +673,8 @@ export interface EngineResult {
   skillGrid?: SkillGrid | null;
   /** M19 TR-5: the Alchemy page (pots, vial shelf, tubes, Pay 2 Win grid); absent without M19. */
   alchemy?: AlchemyResult | null;
+  /** M23 TR-5: the Bubba System page's data (null when Bubba is locked). */
+  bubba?: BubbaResult | null;
   /** M18 TR-5: the Gear tab, the Gear page's heat strip and the Smithy page; absent without M18. */
   gear?: GearResult | null;
   /**

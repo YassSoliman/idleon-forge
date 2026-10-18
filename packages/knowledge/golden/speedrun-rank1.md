@@ -1,4 +1,4 @@
-# golden v1: speedrun-rank1 · knowledge #749e78fa · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 991
+# golden v1: speedrun-rank1 · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -50,7 +50,7 @@ finding: Worship full on 9 · spend
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (12)
+show more (13)
 If you have time
 - Run Killroy's Archer room on your Wind Walker Lv 1775 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Wind Walker Lv 1775 (YumYum Grotto) · about 2m of hands-on play
@@ -126,6 +126,7 @@ W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
+W3 · Bubba · Nothing to fix · Nothing to fix · 1 to do
 W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
@@ -204,6 +205,9 @@ Account · Arcade
 - Arcade balls full · in 10h 34m · 06:33 · after · info · fix none
 Account · Refinery
 - salt fuel runs out · in 1m · 19:59 · before · next-action · fix none
+Account · Bubba
+- Bubba's pats ready · in 3m · 20:03 · before · next-action · fix none
+- Smoker quality stops · later · in 14h 06m · 10:05 · after · info · fix none
 
 ## Alchemy
 band w3-late · pick Bubble Plan met for your Stage
@@ -253,6 +257,24 @@ step: Spend banked brew in 1 cauldrons: about 2 new bubbles
   Dementia: registered
   Void: registered
   Chizoar: registered
+
+## Bubba
+Step: Pat Bubba 11 times, then buy Open Gift right away
+Account bonuses: +798% Build Rate (high), +39.9 base critters per trap (mid), +399% Soul Gain (mid), +1.2k% Total Damage (high), +79.8% All Kills (mid), +319.2% Class EXP (mid), −205.2% Atom Cost (high)
+Boosted by Megaflesh: 3.8x
+Boon 49: −34.2% Atom Cost · 3.2e48 meat · out of reach
+Megaflesh: 21 owned · Chromatic × 10 · next 12: account bonuses up again · 4.2Qa of 3.3e48 · out of reach
+This run: 50T meat a minute · 4.2Qa meat now
+Next type: Cost Saver opens at 85Qa meat made this run
+Next buys: 1st Slice (8 meat), Good Meat (65 meat), Great Meat (20T meat)
+Pats: 11 of 11 · refill in 3m
+Smoker: 2h 05m of 16h 11m
+Charisma: Hustle 32/120 3x, Rizz 10/120, Joy 19/120 (training), Courage 0/120, Mindful 120/120, Savvy 10/120
+Next level: Courage 0 → 1: +1.27% Dice luk
+Banked: 0 levels
+Mindful first: 120/120
+Target gameslikefinder (2026-05-27): Hustle 48 to go, Rizz 90 to go, Joy 11 to go, Mindful met, Savvy 10 to go
+Gifts: Beeg Slice, Slabcakes
 
 ## Builds
 ### C1 (Death Bringer 1780)
@@ -539,6 +561,12 @@ step: Spend banked brew in 1 cauldrons: about 2 new bubbles
 | anvil.check.spend-points | anvil/points | account | fires | count=10 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| bubba.check.boon | bubba/boon | — | silent |  |
+| bubba.check.charisma-idle | bubba/charisma-idle | — | silent |  |
+| bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
+| bubba.check.pat-gift | bubba/pat-gift | account | fires | pats=11 untilStops=0 |
+| bubba.check.smoker | bubba/smoker | — | silent |  |
+| bubba.check.start | bubba/start | — | silent |  |
 | cards.contribution.skill-catching-bug14 | cards/skill-first-copy | C8 | advances no | rule=0 saved=11106950832 target=Litterbug |
 | classes.contribution.exp | classes/exp | C10 | advances yes eta 1835m | exp=2.5122327786090935e+38 expReq=1.3885053904303932e+39 rate=3.718233320695926e+37 saved=1763 |
 | classes.contribution.exp | classes/exp | C11 | advances yes eta 46m | exp=1.6527244114264493e+39 expReq=1.9763525979052345e+39 rate=4.1951214378336176e+38 saved=1771 |
@@ -607,6 +635,7 @@ step: Spend banked brew in 1 cauldrons: about 2 new bubbles
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
+| systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
 | systems.yaml#cooking | worlds/reached | account | reached yes |  |

@@ -1,6 +1,6 @@
 # M23 Bubba
 
-Spec for the owner's request of 2026-10-18 ("would be epic"): a module for **Bubba**, the third clicker, part of the map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Status: **ruled, ready to build after X1**. An independent reviewer red-teamed it: 28 findings (2 P0, 6 P1, 14 P2, 6 P3), every P0, P1 and P2 fixed (section 10). The three product questions of section 8.1 were self-ruled by research at the owner's request ("for Bubba, figure it out yourself online"), 2026-10-18; see [Final rulings](#final-rulings), which win over anything above that conflicts. Every other question is self-ruled with research (section 8.2). Terms follow [`GLOSSARY.md`](../../GLOSSARY.md), and decisions follow [ADRs 0001–0009](../adr/).
+Spec for the owner's request of 2026-10-18 ("would be epic"): a module for **Bubba**, the third clicker, part of the map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Status: **ruled; X1 landed (#131, ADR 0010)**. An independent reviewer red-teamed it: 28 findings (2 P0, 6 P1, 14 P2, 6 P3), every P0, P1 and P2 fixed (section 10). The three product questions of section 8.1 were self-ruled by research at the owner's request ("for Bubba, figure it out yourself online"), 2026-10-18; see [Final rulings](#final-rulings), which win over anything above that conflicts. Every other question is self-ruled with research (section 8.2). Terms follow [`GLOSSARY.md`](../../GLOSSARY.md), and decisions follow [ADRs 0001–0009](../adr/).
 
 **Why this exists.** Bubba is the only W3 System that pays seven permanent, account-wide bonuses (Construction Build Rate, Critters, Souls, Total Damage, All Kills, Class EXP, Atom Cost) from a screen most players open and forget. ActiveOn covers Poppy only as a "convert your fish" line (M6 FR-18), Orion not at all (M6 D6), and Bubba not at all. Both private fixtures show the gap:
 - **W3-early account.** Bubba is running (Megaflesh 3, Boon level 11), but the Charisma Chart is training an attribute that is already at its maximum. At the save, more than 50 levels of Charisma XP are banked. The next Megaflesh, about 20 hours away, wipes them.
@@ -12,7 +12,7 @@ The owner also allocates Charisma levels and sees them as bonuses on his account
 - ADRs:
   - [0002](../adr/0002-deterministic-advice-ai-built-knowledge.md): deterministic advice.
   - [0004](../adr/0004-source-precedence.md): game data first, then the wiki, then guides.
-  - [0005](../adr/0005-toolbox-numbers-not-our-formulas.md): Toolbox numbers plus arithmetic, no formulas of ours. The three numbers Toolbox doesn't compute are requested from the Toolbox fork (X1), and they are hidden until it lands.
+  - [0005](../adr/0005-toolbox-numbers-not-our-formulas.md): Toolbox numbers plus arithmetic, no formulas of ours. The numbers Toolbox doesn't compute are X1, ported under [ADR 0010](../adr/0010-exact-talent-point-totals.md)'s extension ("Bubba derived values") in `packages/account-state/src/bubba-x1.ts` (#131), and every line that needs one hides when it is null.
   - [0006](../adr/0006-client-only-spa-parsing-in-a-worker.md): Toolbox runs only in the worker.
   - [0007](../adr/0007-generated-facts-authored-judgment.md): tables generated, order authored.
   - [0009](../adr/0009-game-art.md): our own pixel art.
@@ -486,9 +486,9 @@ bubba?: BubbaResult | null;
 
 `buildNowView` passes it through as `view.bubba`, and the lazy chunk only formats it.
 
-### TR-6 X1: the Toolbox fork export (cross-repo request)
+### TR-6 X1: Bubba's derived values (ADR 0010)
 
-One small commit to the owner's fork (`YassSoliman/IdleonToolbox`, the repo `UPSTREAM` pins). It adds these outputs to `parseBubba`, each a call to a function the game defines (cited by its `Bubbastuff` name):
+**Landed in #131, not as a fork commit.** The first plan (one commit to the owner's Toolbox fork) was dropped: a fork-only pin breaks the weekly parser sync and would make the vendored "copied unmodified" notices untrue. [ADR 0010](../adr/0010-exact-talent-point-totals.md)'s extension ("Bubba derived values (M23 X1)") covers them instead. They live in `packages/account-state/src/bubba-x1.ts` (`bubbaX1(rawBubba, account, calls)`), each one citing the `_customBlock_Bubbastuff` function it ports. The happiness-0 rate, the Boon delta and the discount ratios run Toolbox's own `getBubba` on an edited copy of the raw record (`toolboxCalls.bubbaParse`). `scripts/oracle/bubba-oracle.cjs` runs the game's own code on two public saves, and `test/bubba-x1.test.ts` pins every value to 1e-9. The adapter calls it with the worker's `toolboxCalls` (M23 Phase 1). The values:
 - `patsPerHour` (`DailyPetting`; Toolbox's `getDailyPetting` already exists unexported);
 - `meatsliceRateBase`: `MeatsliceRate` with happiness 0 (`HappinessBonus` at H = 0), per minute like `meatsliceRate`;
 - `charismaXpReq` (`CharismaTraitREQ`), `charismaXpPerSec` (`CharismaTraitSPD`), `charismaMaxLevel` (120);
@@ -498,7 +498,7 @@ One small commit to the owner's fork (`YassSoliman/IdleonToolbox`, the repo `UPS
 - `discountNextRatio[3]`: `UpgCost` of any upgrade with the discount at L + 1, divided by at L, for Bargain, Cost Saver and Perma Sale;
 - named constants: `PATS_HOUR_SECONDS` (3600), `BEEG_SLICE_SECONDS` (1200), next to the existing `SMOKER_MAX_QUALITY_SECONDS`.
 
-Each comes with a `live-verified` test in the fork's style (`latest.json`, the account that test already reads). Then `pnpm sync-parsers` picks them up. Until then the fields are `null`, every line that needs them hides that token (DS-3), and a Check whose firing condition needs one is `unknown` (FR-21), except the stated fallbacks (FR-11, F-b). This keeps ADR 0005: the formulas live in Toolbox, and M23 does arithmetic only (comparisons, sums, differences of Toolbox outputs, and time from rate).
+A field is `null` when it can't be computed (no record, no Toolbox calls, a throw, a non-finite result). Then every line that needs it hides that token (DS-3), and a Check whose firing condition needs one is `unknown` (FR-21), except the stated fallbacks (FR-11, F-b). Outside `bubba-x1.ts`, M23 does arithmetic only (comparisons, sums, differences, and time from rate), as ADR 0005 asks.
 
 ### TR-7 Cross-module wiring
 
@@ -557,7 +557,7 @@ M23 stores nothing new, and skips and dismissals use M10's store. Nothing leaves
 | Slabcakes picked, Smoker at max | No Smoker Check; "held for Slabcakes" | FR-10 |
 | X1 not landed | Counts and deltas hidden; Checks that need an X1 number to fire are `unknown`, except the fallbacks | TR-6 |
 | Two tabs, second account | M1 handles both; nothing M23-specific | M1 |
-| Patch changes the rules (the costs in v1.03) | M12's weekly re-sync re-runs the fork's live-verified tests. The generator cross-checks (`bubba.fact.unlock`, the persistent upgrade list 3/8/9) fail CI if the data moves | TR-3 |
+| Patch changes the rules (the costs in v1.03) | M12's weekly re-sync re-runs Toolbox's live-verified tests, and the oracle (`scripts/oracle/bubba-oracle.cjs`) re-checks X1 (ADR 0010). The generator cross-checks (`bubba.fact.unlock`, the persistent upgrade list 3/8/9) fail CI if the data moves | TR-3 |
 
 ## 7. Dependencies
 
@@ -571,7 +571,7 @@ M23 stores nothing new, and skips and dismissals use M10's store. Nothing leaves
 | M17 | Registry, homes, System page, Timeline lanes, hub | `SYSTEM_HOMES`, `SYSTEM_PAGES`, `TimelineBar` |
 | M21 | Atoms, art importer, formatter, area S frame | Phase F |
 | M6 | `account.poppy.unlocked` (Crossover row) | Account State |
-| Toolbox fork | X1 (TR-6) | `account.bubba` |
+| ADR 0010 X1 (#131) | `bubbaX1` (TR-6) | `account.bubba` |
 
 ## 8. Owner review
 
@@ -599,7 +599,7 @@ M23 stores nothing new, and skips and dismissals use M10's store. Nothing leaves
 - **D-7 The Hustle-or-Rizz order is Contested and page-only.** The guides disagree (FR-14), so no Goal names Hustle or Rizz (Q2). From Megaflesh 6 the guides agree on Mindful first, so FR-12 names Mindful then (FR-14a, Final rulings R-2). *Why:* ADR 0004's amendment on judgment entries.
 - **D-8 Emulsify is page-only.** It's one tap that the game itself explains in the Megaflesh 6 text. As a Goal it would show up once per run and then be done. *Why:* noise.
 - **D-9 Stage rating changes no purchase.** The next Boon bonus is fixed by rotation (F-f), so the rating only explains value. *Why:* honesty (DS-23: no invented numbers or choices).
-- **D-10 Ask the fork for the numbers instead of writing formulas.** Every game formula M23 needs (pats per hour, the happiness-free rate, Charisma XP and bonuses, the Boon delta, the Megaflesh multiplier, the discount ratio, the constants) is one export from the fork. The owner maintains the fork, the change is about 80 lines with live-verified tests, and ADR 0005 forbids our own game formulas. *Why:* ADR 0005; TR-6.
+- **D-10 The derived numbers are X1, under ADR 0010.** Every game formula M23 needs (pats per hour, the happiness-free rate, Charisma XP and bonuses, the Boon delta, the Megaflesh multiplier, the discount ratio, the constants) is in `packages/account-state/src/bubba-x1.ts`, under [ADR 0010](../adr/0010-exact-talent-point-totals.md)'s extension, checked against the game's own code by the oracle. The first plan asked the owner's Toolbox fork for them; it was dropped because a fork-only pin breaks the weekly parser sync (#131). *Why:* ADR 0005 as amended by ADR 0010; TR-6.
 - **D-11 Orion stays out.** It is M6 D6's "not covered yet". A shared clicker page waits for an Orion spec. *Why:* one concern per PR (AGENTS.md).
 - **D-13 Smoker and Charisma never make Bubba wasting.** Their loss is time or a bank that survives until the reset, the class R-PILL-1 and M17 FR-17 keep off the wasting count. Only a stalled restart (no production at all) does. *Why:* M3's R-PILL rulings; M17 FR-17.
 - **D-12 Meat is not coins.** Meat uses a plain short-suffix number ("245B meat"), never `formatCoins` or coin tiers. *Why:* M21 FR-F7 reserves coin text for IdleOn coins. Spare Coins are named "Spare Coins" so no one reads them as IdleOn money.
@@ -612,7 +612,7 @@ M23 stores nothing new, and skips and dismissals use M10's store. Nothing leaves
 4. **Noise.** Seven Checks could put seven Bubba lines on Now. *Defence:* one account Goal (FR-18); pats only in the combo (D-5); no per-upgrade Goals (D-4).
 5. **Wasting the leftover at Megaflesh.** *Defence:* FR-9's surplus detail, F-d's evidence.
 6. **Invented numbers.** Banked levels and pats per hour need game formulas. *Defence:* X1, hidden until it lands (DS-3, DS-23).
-7. **Patch day.** A cost rebalance like v1.03 moves every number. *Defence:* all costs come from Toolbox at engine time; the fork's live-verified tests fail on drift; the generator cross-checks.
+7. **Patch day.** A cost rebalance like v1.03 moves every number. *Defence:* all costs come from Toolbox at engine time; the X1 oracle tests (ADR 0010) fail on drift; the generator cross-checks.
 8. **Smoker "max quality" when not affordable.** A claim you can't pay for is a dead end. *Defence:* FR-10 stays silent and the page says how much is missing.
 9. **Losing banked Charisma XP to a Megaflesh.** *Defence:* FR-7's detail warns. (The first draft raised FR-12's urgency when a Megaflesh was ready; the red-team showed that inverted the value, RT-3.)
 
@@ -658,20 +658,20 @@ An independent reviewer, who had not seen the author's reasoning, read this spec
 ## Verify before build
 
 - **V-1 Away cap: settled.** The login loop calls `AFKcode("Forge", GlobalTime − TimeAway.Forge)` with no cap beyond a 10 s minimum (N.js @15027063, @15262417). F-b projects with no cap.
-- **V-2 X1 lands.** The fork commit and its live-verified tests, then `pnpm sync-parsers`.
+- **V-2 X1 lands: settled.** Landed in #131 as `packages/account-state/src/bubba-x1.ts` under ADR 0010's extension, not as a fork commit; no parser sync needed.
 - **V-3 Per-character away time: settled from N.js.** `TimeAway.Forge` is reset whichever character logs in, and the Bubba block inside runs only when that character has the door open. So logging in on a character without it loses that away time for good. FR-6 says so in Phase 1. One save pair on a test account would confirm it; not blocking.
 - **V-4 Critter Gain: settled.** It is a flat +base critters per trap (`/10`, N.js @7764650), not a percent. The page says so (F-f). Toolbox's trapping parser doesn't read it at this pin, so its effect on trapping numbers elsewhere in ActiveOn is a Toolbox gap, not ours.
 - **V-5 Charisma above 120.** Confirm on a live save whether gifts can push an attribute past 120 (the vortexgaming guide says so, and Kanumar's video shows Rizz at 121 after one Numbahs gift, 2025-12-13 at 12:59; the game's level-up stops at 120, but the Numbahs trigger adds +1 LV directly).
 
 ## Phases and effort
 
-- **Phase 1, one PR after X1.** About 3.5–4.5 agent-days (the owner questions are ruled, Final rulings):
+- **Phase 1, one PR after X1 (#131).** About 3.5–4.5 agent-days (the owner questions are ruled, Final rulings):
   - adapter and fields: 0.5 day;
   - entries, seven Detectors, generators and examples: 1 day;
   - engine module and Timeline: 0.5–1 day;
   - the page and two motifs: 1–1.5 days;
   - goldens and QA probe: 0.5 day.
-- **X1** is about 0.5–1 day in the fork (about 80 lines and its live-verified tests).
+- **X1: done in #131** (`bubba-x1.ts`, ADR 0010's extension, the oracle and its tests), instead of the fork commit first planned.
 - **Phase 2:** dice reroll timing, gift picks per Megaflesh, Spare Coins and the Tome row, about 1.5 days.
 
 ## Glossary additions (land with the build PR)

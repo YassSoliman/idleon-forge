@@ -366,8 +366,11 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
         : undefined;
       const skillGrid = pick('skillGrid');
       const alchemy = outputs.find((o) => o.output.alchemy !== undefined)?.output.alchemy;
+      // M23: the Bubba page's data rides through untouched.
+      const bubba = outputs.find((o) => o.output.bubba !== undefined)?.output.bubba;
       return {
         ...(alchemy !== undefined ? { alchemy } : {}),
+        ...(bubba !== undefined ? { bubba } : {}),
         ...(checklist !== undefined ? { checklist } : {}),
         ...(skills !== undefined ? { skills } : {}),
         ...(slotPictures !== undefined ? { slotPictures } : {}),

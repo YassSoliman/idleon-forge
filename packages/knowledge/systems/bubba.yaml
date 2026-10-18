@@ -1,0 +1,339 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M23 Bubba (docs/specs/M23-bubba.md), Phase 1: the six Run Checks, the one account Goal they make, and the
+# Priority Lists behind it. The engine's `bubba` module (packages/engine/src/bubba/) renders every line from
+# these `values` templates with its own slots (the entry `text`/`why` are the defaults), so the words live
+# here and the numbers come from `account.bubba` (Toolbox, ADR 0010's X1). Final rulings R-1 to R-3 apply.
+system: bubba
+entries:
+  - id: bubba.check.start
+    system: bubba
+    type: check
+    title: Start Bubba
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 60
+    detector: { id: bubba/start }
+    text: "{text}"
+    why: "{why}"
+    values:
+      text: "Start Bubba: open the Codex, tap Bubba, buy 1st Slice"
+      why: "Bubba makes Meat Slices even while you're away, and its Boon adds 7 permanent bonuses to your whole account."
+      text-restart: "Buy 1st Slice again: Bubba makes nothing until you do"
+      why-restart: "Megaflesh set every upgrade back to 0, 1st Slice included."
+    notes: "FR-4, FR-5. The restart is losing-now (F-b: no production at all), the one Bubba case that makes the System wasting (D-13)."
+    doneWhen: { field: "account.bubba.levels", change: changed }
+    sources:
+      - { url: "https://idleon.wiki/wiki/Bubba", title: "IdleOn Wiki: Bubba the Chonky Seal's Arctic Market of Meats", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Changelog/2025", title: "IdleOn Wiki: Changelog 2025, v1.02 Big Bubba (in your Codex, where Orion is)", tier: 2, claimDate: 2025-11-23, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/clickers/bubba.ts", title: "IdleOn Toolbox parsers/clickers/bubba.ts", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+
+  - id: bubba.check.megaflesh
+    system: bubba
+    type: check
+    title: Megaflesh ready
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 60
+    detector: { id: bubba/megaflesh }
+    text: "{text}"
+    why: "{why}"
+    values:
+      text: "Buy Megaflesh {next:int}: {label}"
+      why: "The game says: {game}. Leftover meat is lost at the reset, so spend it on what survives first."
+      detail-boon: "First buy Boon {level:int} ({delta}) with the leftover"
+      detail-boon-after: "First buy Boon {level:int} ({delta}, {after} after this Megaflesh) with the leftover"
+      detail-boon-plain: "First buy Boon {level:int} with the leftover"
+      detail-boon-more: "then Boon up to {level:int} with the rest"
+      detail-fun-gifts: "Then buy Fun Gifts {level:int}: it survives the reset too"
+      detail-restart: "Then buy 1st Slice right away to restart"
+      detail-charisma: "Charisma levels and XP reset too"
+      label-1: "+1% meat per upgrade level"
+      label-2: "account bonuses 1.20x"
+      label-3: "pick 2 gifts"
+      label-4: "account bonuses 1.40x"
+      label-5: "+1 die and +5 sides"
+      label-6: "emulsify a Charisma attribute"
+      label-7: "account bonuses 1.60x"
+      label-8: "start each run with 50 pats"
+      label-9: "free Smoker levels"
+      label-10: "account bonuses 1.80x"
+      label-11: "double Spare Coin odds"
+      label-12: "account bonuses up again"
+    notes: "FR-7, FR-9 leftover, D-3 (Megaflesh as soon as affordable). The game text is bubba.fact.megaflesh's; the labels are ours. Megaflesh 9's text says 75%, the code rolls 70%, so no number is printed (F-e). While it fires, the Smoker, Charisma idle and mid-run Boon Checks are silent (FR-7)."
+    doneWhen: { field: "account.bubba.megaflesh", change: higher }
+    sources:
+      - { url: "https://idleon.wiki/wiki/Bubba", title: "IdleOn Wiki: Bubba the Chonky Seal's Arctic Market of Meats", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://www.youtube.com/watch?v=lYZrYL3VZOY", title: "GriffyBit: IdleOn Bubba Guide", tier: 3, claimDate: 2026-06-17, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/clickers/bubba.ts", title: "IdleOn Toolbox parsers/clickers/bubba.ts", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+
+  - id: bubba.check.boon
+    system: bubba
+    type: check
+    title: Bubba Boon level
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 30
+    detector: { id: bubba/boon, params: { share: 0.1 } }
+    text: "{text}"
+    why: "{why}"
+    values:
+      text: "Buy Bubba Boon {level:int}: adds {delta} to your whole account"
+      text-plain: "Buy Bubba Boon {level:int}: adds {bonus} to your whole account"
+      why: "Each of the first 7 levels opens a new permanent bonus, and Boon never resets."
+      why-cheap: "It costs at most 10% of the next Megaflesh, so it barely delays it, and Boon never resets."
+      why-high-note: "{bonus} matters a lot at your Stage."
+    notes: "FR-8, FR-9 (Final rulings R-3: 10% of the next Megaflesh, the `share` param). The bonus is fixed by the rotation, (L mod 7) + 1 (F-f); its Stage rating is bubba.priority.boon-bonuses."
+    doneWhen: { field: "account.bubba.levels", change: changed }
+    sources:
+      - { url: "https://idleon.wiki/wiki/Bubba", title: "IdleOn Wiki: Bubba the Chonky Seal's Arctic Market of Meats", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://www.youtube.com/watch?v=lYZrYL3VZOY", title: "GriffyBit: IdleOn Bubba Guide", tier: 3, claimDate: 2026-06-17, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/clickers/bubba.ts", title: "IdleOn Toolbox parsers/clickers/bubba.ts", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+
+  - id: bubba.check.smoker
+    system: bubba
+    type: check
+    title: Smoker at max quality
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 30
+    detector: { id: bubba/smoker }
+    text: "{text}"
+    why: "{why}"
+    values:
+      text: "Claim the Smoker: buy a Smoker level now"
+      text-free-roll: "Claim the Smoker: buy Smoker levels until its timer resets"
+      why: "Smoked meat quality stops rising after {cap} of smoking."
+      why-lead-free-roll: "From Megaflesh 9 a Smoker level can be free and keep the timer running."
+      timelineKind: time-cap
+      timelineWhat: Smoker quality
+    notes: "FR-10, D-13 (no urgency: only time is lost). Silent with Slabcakes picked (it smokes a meat at the current quality without a reset, F-i) and while a Megaflesh fires."
+    doneWhen: { field: "account.bubba.smoker.seconds", change: lower }
+    sources:
+      - { url: "https://idleon.wiki/wiki/Bubba", title: "IdleOn Wiki: Bubba the Chonky Seal's Arctic Market of Meats", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://gameslikefinder.com/article/idleon-bubba-guide/", title: "gameslikefinder: Idleon Bubba Seal Guide", tier: 3, claimDate: 2026-05-27, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/clickers/bubba.ts", title: "IdleOn Toolbox parsers/clickers/bubba.ts", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+
+  - id: bubba.check.pat-gift
+    system: bubba
+    type: check
+    title: Pat, then Open Gift
+    subject: account
+    effect: next-action
+    category: nice
+    effortSeconds: 60
+    detector: { id: bubba/pat-gift }
+    text: "{text}"
+    why: "{why}"
+    values:
+      text: "Pat Bubba {pats:int} times, then buy Open Gift right away"
+      text-until-stops: "Pat Bubba until he stops, then buy Open Gift right away"
+      why: "With Beeg Slice picked, Open Gift adds 20 minutes of meat at his current happiness."
+      detail-fade: "His happiness fades within seconds, so buy Open Gift straight after"
+    notes: "FR-11, Final rulings R-1 (Pulse 2026-09-11: hourly clicks, then a gift). Only Beeg Slice's trigger reads the happiness-boosted rate; the others are flat (F-h). Pats alone are never a Goal (D-5); the double pat is a page tip."
+    doneWhen: { field: "account.bubba.levels", change: changed }
+    sources:
+      - { url: "https://idleon.wiki/wiki/Bubba", title: "IdleOn Wiki: Bubba the Chonky Seal's Arctic Market of Meats", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://www.youtube.com/watch?v=rLwW3ZGz5bE", title: "Pulse, Super Idle: IdleOn Daily: Bubba", tier: 3, claimDate: 2026-09-11, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/clickers/bubba.ts", title: "IdleOn Toolbox parsers/clickers/bubba.ts", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+
+  - id: bubba.check.charisma-idle
+    system: bubba
+    type: check
+    title: Charisma Chart idle
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 30
+    detector: { id: bubba/charisma-idle }
+    text: "{text}"
+    why: "{why}"
+    values:
+      text: "Train another attribute in Bubba's Charisma Chart: tap one that isn't maxed"
+      text-none: "Pick an attribute to train in Bubba's Charisma Chart"
+      text-mindful: "Train Mindful in Bubba's Charisma Chart"
+      why: "{selected} is at its max of {max:int}. XP keeps banking until you pick another, and the next Megaflesh wipes it."
+      why-none: "No attribute is training. XP keeps banking until you pick one, and the next Megaflesh wipes it."
+      why-lead-mindful: "The guides max Mindful first from Megaflesh 6."
+      detail-banked: "About {banked:int} levels of XP are waiting"
+    notes: "FR-12 (urgency always banked, RT-3). Hustle or Rizz is Contested (bubba.priority.charisma, R-2), so the line names no attribute, except Mindful from Megaflesh 6 (bubba.priority.charisma-mindful). The firing conditions never change with the order."
+    doneWhen: { field: "account.bubba.charisma.selected", change: changed }
+    sources:
+      - { url: "https://vortexgaming.io/en/postdetail/624145", title: "vortexgaming.io: Bubba's Guide to Megaflesh 1-6", tier: 4, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Bubba", title: "IdleOn Wiki: Bubba the Chonky Seal's Arctic Market of Meats", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/clickers/bubba.ts", title: "IdleOn Toolbox parsers/clickers/bubba.ts", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+
+  - id: bubba.goal.visit
+    system: bubba
+    type: goal
+    title: Bubba
+    text: "{text}"
+    why: "{why}"
+    values:
+      text: "Visit Bubba"
+      why: "The most useful thing to do in Bubba right now."
+      detail-also: "Also in Bubba: {title}"
+      detail-more: "+{n:int} more · see Bubba"
+      detail-who: "Open Bubba on your {who}"
+      detail-login: "Bubba collects your away time only when you log in on a character that has opened YumYum Grotto's door"
+      # The game tables the engine module and the page read (they ship because they are named here).
+      fact-upgrades: bubba.fact.upgrades
+      fact-megaflesh: bubba.fact.megaflesh
+      fact-boon: bubba.fact.boon
+      fact-charisma: bubba.fact.charisma
+      fact-gifts: bubba.fact.gifts
+    notes: "FR-18: one account Goal for the whole System (DS-25), its Next Action the top firing Check in bubba.priority.visit, the others its details (at most 2). Its key is stable (bubba.goal.visit@account), so Skip today holds through the day. FR-6: the character line and the login line show while some characters lack the door."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Bubba", title: "IdleOn Wiki: Bubba the Chonky Seal's Arctic Market of Meats", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/clickers/bubba.ts", title: "IdleOn Toolbox parsers/clickers/bubba.ts", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    scope: account
+    category: compounding
+    unit: steps
+    progress: { id: bubba/visit }
+    milestones: [{ at: 1, reward: "Nothing left to do in Bubba right now" }]
+
+  - id: bubba.priority.visit
+    system: bubba
+    type: priority
+    title: Bubba visit order
+    text: "The one step to take in Bubba first"
+    why: "A restart makes nothing until it's done; a Megaflesh beats every run Check its reset wipes."
+    notes: "FR-18, RT-2: start or restart, Megaflesh (it silences 3 to 5), Boon, Smoker, Charisma idle, pat then gift."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Bubba", title: "IdleOn Wiki: Bubba the Chonky Seal's Arctic Market of Meats", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    list: order
+    tiers:
+      - [bubba.check.start]
+      - [bubba.check.megaflesh]
+      - [bubba.check.boon]
+      - [bubba.check.smoker]
+      - [bubba.check.charisma-idle]
+      - [bubba.check.pat-gift]
+
+  - id: bubba.priority.run
+    system: bubba
+    type: priority
+    title: Bubba run order
+    text: "Buy Bubba upgrades in this order each run"
+    why: "Restart first, Megaflesh and Boon when affordable, then production, feature openers, discounts that pay back, and the rest."
+    values:
+      production: "0 7 23 2 11 19 24"
+      openers: "1 6 9 10 12 15 21"
+      discounts: "4 18 26"
+      rest: "5 13 14 16 17 20 22 25 27"
+    notes: "FR-16, D-4 (a page order, never a Goal per upgrade). Tiers 1-3 are the Checks; tiers 4-7 are upgrade indices in values (bubba.fact.upgrades), cheapest open first inside each. A discount pays back when its cost is at most (1 - X1 discountNextRatio) x the next Megaflesh cost: our own rule, from the owner's brief, confidence M."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Bubba", title: "IdleOn Wiki: Bubba the Chonky Seal's Arctic Market of Meats", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://www.youtube.com/watch?v=Tz1ow2H_6aA", title: "Kanumar: Bubba guide, Megaflesh 1-6", tier: 3, claimDate: 2025-12-13, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    list: order
+    tiers:
+      - [bubba.check.start]
+      - [bubba.check.megaflesh]
+      - [bubba.check.boon]
+
+  - id: bubba.priority.boon-bonuses
+    system: bubba
+    type: priority
+    title: Bubba Boon bonuses by Stage
+    text: "How much each Bubba Boon bonus matters at your Stage"
+    why: "Construction is the W3 hub, Worship and Trapping come at W3-mid, the Atom Collider at W3-late, and damage pushes in every Stage."
+    values:
+      # One letter per bonus in rotation order (Build Rate, Critter Gain, Soul Gain, Total Damage, All
+      # Kills, Class EXP, Atom Cost): H high, M mid, L low.
+      W3-early: HMMHLML
+      W3-mid: HMMHMML
+      W3-late: HMMHMMH
+      W4-entry: HMMHMMH
+    notes: "FR-17, D-9: a tag on the page and in the Boon line only; it changes no purchase (the rotation fixes the next bonus). Accounts past W4-entry use the W4-entry row."
+    sources:
+      - url: https://github.com/YassSoliman/idleon-forge/blob/research/leverage-model/docs/research/2026-10-17-leverage-model.md
+        title: Leverage model (W3 Stage table)
+        tier: 3
+        claimDate: 2026-10-17
+        verified: 2026-10-18
+        gameVersion: 2.3.540
+      - { url: "https://idleon.wiki/wiki/Bubba", title: "IdleOn Wiki: Bubba the Chonky Seal's Arctic Market of Meats", tier: 2, claimDate: 2026-10-07, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    list: order
+    tiers:
+      - [bubba.check.boon]
+
+  - id: bubba.priority.charisma
+    system: bubba
+    type: priority
+    title: Charisma Chart community targets
+    text: "Community targets for the Charisma Chart, per run"
+    why: "The guides disagree on Hustle or Rizz first, so both are shown."
+    values:
+      targets: bubba.fact.charisma-targets
+    notes: "FR-14, Final rulings R-2. The targets per Source and Megaflesh are bubba.fact.charisma-targets. Shown muted on the page with each gap; no Goal names Hustle or Rizz."
+    sources:
+      - { url: "https://gameslikefinder.com/article/idleon-bubba-guide/", title: "gameslikefinder: Idleon Bubba Seal Guide", tier: 3, claimDate: 2026-05-27, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://www.youtube.com/watch?v=Tz1ow2H_6aA", title: "Kanumar: Bubba guide, Megaflesh 1-6", tier: 3, claimDate: 2025-12-13, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: L
+    status: contested
+    contested:
+      sides:
+        - position: "Hustle first, about Hustle 45, Rizz 15, Joy 15 at Megaflesh 3"
+          sources:
+            - { url: "https://gameslikefinder.com/article/idleon-bubba-guide/", title: "gameslikefinder: Idleon Bubba Seal Guide", tier: 3, claimDate: 2026-05-27, verified: 2026-10-18, gameVersion: 2.3.540 }
+        - position: "Rizz first, then level Hustle and Rizz evenly to 120"
+          sources:
+            - { url: "https://www.youtube.com/watch?v=Tz1ow2H_6aA", title: "Kanumar: Bubba guide, Megaflesh 1-6", tier: 3, claimDate: 2025-12-13, verified: 2026-10-18, gameVersion: 2.3.540 }
+            - { url: "https://vortexgaming.io/en/postdetail/624145", title: "vortexgaming.io: Bubba's Guide to Megaflesh 1-6", tier: 4, verified: 2026-10-18, gameVersion: 2.3.540 }
+    list: order
+    tiers:
+      - [bubba.check.charisma-idle]
+
+  - id: bubba.priority.charisma-mindful
+    system: bubba
+    type: priority
+    title: Mindful first from Megaflesh 6
+    text: "Max Mindful first (the guides agree from Megaflesh 6)"
+    why: "A Mindful proc is a free level that doesn't raise the cost."
+    values:
+      from: 6
+    notes: "FR-14a, Final rulings R-2: gameslikefinder, GriffyBit and Pulse all max Mindful first from Megaflesh 6. Before it nothing is agreed."
+    sources:
+      - { url: "https://www.youtube.com/watch?v=lYZrYL3VZOY", title: "GriffyBit: IdleOn Bubba Guide", tier: 3, claimDate: 2026-06-17, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://www.youtube.com/watch?v=rLwW3ZGz5bE", title: "Pulse, Super Idle: IdleOn Daily: Bubba", tier: 3, claimDate: 2026-09-11, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://gameslikefinder.com/article/idleon-bubba-guide/", title: "gameslikefinder: Idleon Bubba Seal Guide", tier: 3, claimDate: 2026-05-27, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    list: order
+    tiers:
+      - [bubba.check.charisma-idle]

@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #749e78fa · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 991
+# golden v1: scrubbed-w3 · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -56,7 +56,7 @@ purpose: Mining 29 → 40 opens Echoing Egress
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-show more (31)
+show more (32)
 Spend coins: 15 buys now on 4 characters
   1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before redeeming tickets: 100M coins · Lv 0 → 1 · buy · total 100M coins on C3
   2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 13k coins · buy · total 100M coins on C3
@@ -143,6 +143,7 @@ W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
+W3 · Bubba · Nothing to fix · Nothing to fix · 1 to do
 W4 · Laboratory · Locked · Opens in World 4 · Hyperion Nebula
 W4 · Cooking · Locked · Opens in World 4 · Hyperion Nebula
 W4 · Breeding · Locked · Opens in World 4 · Hyperion Nebula
@@ -199,6 +200,8 @@ Account · Killroy's Slaughterhouse
 - Killroy skulls lost · later · in 28h 05m · 20:17 · after · next-action · fix none
 Account · Refinery
 - salt fuel runs out · later · in 40h 23m · 08:35 · after · info · fix none
+Account · Bubba
+- Megaflesh 4 ready · in 11h 52m · 04:04 · after · info · fix none
 
 ## Alchemy
 band w3 · pick Roid Ragin 12 → 25 (at least 13)
@@ -247,6 +250,24 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
   Dementia: 0 of 7 parts: craft Dementia Helmet
   Void: 0 of 7 parts: craft Void Imperium Helmet
   Chizoar: 0 of 4 parts: craft Chizoar Helmet
+
+## Bubba
+Step: Train another attribute in Bubba's Charisma Chart: tap one that isn't maxed
+Account bonuses: +24% Build Rate (high), +1.2 base critters per trap (mid), +12% Soul Gain (mid), +36% Total Damage (high), +1.2% All Kills (low), +4.8% Class EXP (mid), −3.6% Atom Cost (low)
+Boosted by Megaflesh: 1.2x
+Boon 12: +1.2% All Kills · 1.3T meat · in 4d 5h
+Megaflesh: 3 owned · next 4: account bonuses 1.40x · 102B of 245B · in 11h 52m
+This run: 200M meat a minute · 102B meat now
+Next type: More Dice opens at 3T meat made this run
+Next buys: 2nd Slice (204M meat), 1st Slice (669M meat), Great Meat (1.1B meat)
+Pats: 10 of 10 · full when you open Bubba
+Charisma: Hustle 120/120 (training, max), Rizz 0/120, Joy 0/120, Courage 0/120, Mindful 0/120, Savvy 0/120
+Next level: Rizz 0 → 1: −2.06% Costs
+Banked: 61 levels
+Target gameslikefinder (2026-05-27): Hustle met, Rizz 15 to go, Joy 15 to go
+Target Kanumar (2025-12-13): Hustle met, Rizz 120 to go
+Gifts: Beeg Slice, Beach Ball
+Locked: smoker (Opens at Smoker)
 
 ## Builds
 ### C1 (Wizard 73)
@@ -451,6 +472,12 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
 | anvil.check.spend-points | anvil/points | account | fires | class=Bowman count=1 hours=8 level=60 oneSpeed=1 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | C4 | fires | chizoar=0 daysLost=0 efaunt=2 forestVilla=4 total=6 |
+| bubba.check.boon | bubba/boon | — | silent |  |
+| bubba.check.charisma-idle | bubba/charisma-idle | account | fires | banked=61 mindful=0 none=0 selected=1 |
+| bubba.check.megaflesh | bubba/megaflesh | — | silent |  |
+| bubba.check.pat-gift | bubba/pat-gift | account | fires | pats=10 untilStops=0 |
+| bubba.check.smoker | bubba/smoker | — | silent |  |
+| bubba.check.start | bubba/start | — | silent |  |
 | cards.contribution.fight-sandcastle | cards/fight-level | C6 | advances no | chance=0.006 complete=1 feeders=32 rate=895 rule=0 saved=264 target=Sand_Castle |
 | cards.contribution.fight-sandgiant | cards/fight-level | C3 | advances yes eta 802m | chance=0.001 complete=0 feeders=4 rate=449 rule=0 saved=35 target=Sand_Giant thenEtaMs=448997773 |
 | cards.contribution.fight-stache | cards/fight-level | C1 | advances yes eta 434m | chance=0.004 complete=0 feeders=1 rate=934 rule=0 saved=26 target=Sir_Stache thenEtaMs=88650964 |
@@ -523,6 +550,7 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached no |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
+| systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
 | systems.yaml#cooking | worlds/reached | account | reached no |  |

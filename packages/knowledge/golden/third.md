@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #749e78fa · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 991
+# golden v1: third · knowledge #6e3245e2 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 1003
 
 ## Verdict changes
 
@@ -150,6 +150,7 @@ W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
 W3 · Equinox · Not covered yet · Not covered yet
 W3 · Atom Collider · Not covered yet · Not covered yet
+W3 · Bubba · Can't tell · Can't tell from the save
 W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
@@ -259,6 +260,9 @@ step: Pay 2 Win: buy Player Alchemy Speed and Extra EXP 149 → 150
   Dementia: 0 of 7 parts: craft Dementia Helmet
   Void: 0 of 7 parts: craft Void Imperium Helmet
   Chizoar: 0 of 4 parts: craft Chizoar Helmet
+
+## Bubba
+Can't read Bubba from this save
 
 ## Builds
 ### C1 (Blood Berserker 521)
@@ -542,6 +546,12 @@ step: Pay 2 Win: buy Player Alchemy Speed and Extra EXP 149 → 150
 | anvil.check.spend-points | anvil/points | account | fires | count=9 hours=8 |
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
+| bubba.check.boon | bubba/boon | account | unknown (field-missing) |  |
+| bubba.check.charisma-idle | bubba/charisma-idle | account | unknown (field-missing) |  |
+| bubba.check.megaflesh | bubba/megaflesh | account | unknown (field-missing) |  |
+| bubba.check.pat-gift | bubba/pat-gift | account | unknown (field-missing) |  |
+| bubba.check.smoker | bubba/smoker | account | unknown (field-missing) |  |
+| bubba.check.start | bubba/start | account | unknown (field-missing) |  |
 | cards.contribution.fight-mush-g | cards/fight-level | C10 | advances no | chance=0.002 complete=1 feeders=942 rate=603292699 rule=0 saved=1243935 target=Green_Mushroom |
 | cards.contribution.fight-mush-g | cards/fight-level | C2 | advances no | chance=0.002 complete=1 feeders=942 rate=603292699 rule=0 saved=1243935 target=Green_Mushroom |
 | cards.contribution.fight-mush-g | cards/fight-level | C3 | advances no | chance=0.002 complete=1 feeders=942 rate=603292699 rule=0 saved=1243935 target=Green_Mushroom |
@@ -633,6 +643,7 @@ step: Pay 2 Win: buy Player Alchemy Speed and Extra EXP 149 → 150
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
 | systems.yaml#breeding | worlds/reached | account | reached yes |  |
 | systems.yaml#bribes | worlds/reached | account | reached yes |  |
+| systems.yaml#bubba | bubba/unlocked | account | reached yes |  |
 | systems.yaml#colosseum | worlds/reached | account | reached yes |  |
 | systems.yaml#construction | worlds/reached | account | reached yes |  |
 | systems.yaml#cooking | worlds/reached | account | reached yes |  |

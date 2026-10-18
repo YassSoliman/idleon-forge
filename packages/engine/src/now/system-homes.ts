@@ -41,6 +41,8 @@ export const SYSTEM_HOMES: Readonly<Record<string, SystemHome>> = {
   statues: { page: 'statues' },
   'upgrade-vault': { page: 'upgrade-vault' },
   printer: { page: 'printer' },
+  // M23 FR-3: Bubba's own page (a lazy chunk, apps/activeon/src/bubba/).
+  bubba: { page: 'bubba' },
 };
 
 /** The Character page tab a System's home is, or null for its System page. */
