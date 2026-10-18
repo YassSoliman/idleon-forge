@@ -288,10 +288,10 @@ Facts each module must check before (or in) its first build PR. Open facts, not 
 - [ ] `EngineResult` size on the 11-character public save before and after the new fields (M10 TR-12).
 - [ ] FR-35's ten new registry rows: each System still exists at 2.3.540, and its world.
 **M20**
-- [ ] The game's build rate counts board squares only, as Toolbox does (N.js `WorkbenchStuff`, V1); settles M3 TR-12 item 3.
-- [ ] Lord of the Hunt quest 1 gates trap placement per character (V2); `trapping.fact.trap-set-capacity` per set from N.js (V3), which also unblocks M3 FR-21 (i).
-- [ ] The daily-task done field `Tasks[1][w][8]` (V4), `OLA[511]` for Tournament registration (V5), the Weekly Battle and Ballot unlock gates (V6), the W1 Task Board unlock signal (V7).
-- [ ] M11's `surface: checklist` field and the row-registry CI check (M20 X1).
+- [ ] The game's build rate counts board squares only, as Toolbox does (N.js `WorkbenchStuff`, V1); settles M3 TR-12 item 3. Taken from Toolbox in Phase 1.
+- [x] Lord of the Hunt quest 1 is not a per-character gate: an equipped trap set is (V2); `trapping.fact.trap-set-capacity` is the set's item ID (V3), which also unblocks M3 FR-21 (i).
+- [x] The daily-task done field `Tasks[1][w][8] == 1` (V4), `OLA[511]` for Tournament registration (V5), the W1 Task Board unlock signal (V7). V6 stays the working rule (W2 reached). V8: the server day is the host's, never projected.
+- [x] The row-registry CI check (M20 X1) is `kb-tools/test/m20-facts.test.ts`; the `surface` field was not needed (the M20 module builds every M20 Goal itself).
 
 **M12**
 - [ ] Chunk-load behaviour after a redeploy (TR-10, Appendix A step 14).

@@ -600,3 +600,23 @@ Golden clock (`now` = the save), Expected Return 8 h.
 - System Atlas (design lab, 2026-10-18): entries "Daily and weekly reset checklist", "Killroy's Slaughterhouse", "Weekly Battles", "Bonus Ballot", "Cogs, the Cog Board and flags", "Worship", "Trapping", "Alchemy assignment and brewing", "Skill overview".
 - Toolbox parsers @ `6c37e3d`: `misc.ts` (`getKillRoy`, `getKillRoyClasses`, `getRandomEvents`), `world-3/construction.ts` (`parseFlags`, `SPARE_START_INDEX`), `world-3/constructionOptimizer.ts` (`evaluateBoard`), `world-2/alchemy.ts` (activities), `world-2/voteBallot.ts`, `world-3/worship.ts` (`getTotems`); Toolbox dashboard `utility/dashboard/account.js` L641–667 (Killroy alert).
 - Fixture reads (aggregates only): both private fixtures, 2026-10-18; the 11 public saves for the Lord of the Hunt pattern.
+
+## Build notes (Phase 1, 2026-10-18)
+
+Verify-before-build items settled from N.js (v1.23, the copy read 2026-10-17) and Toolbox at the pin:
+
+- **V2, Lord of the Hunt quest 1 is not a per-character gate.** Critter types are account-wide (`OLA[47]`, which a game migration, `DoOnceREAL` 289.3, raised to at least 9 on every account), and the traps a character can place are its equipped set's item `ID` (`"NumOfTrapsPlaceable"`, N.js @7772714). The real gate is an equipped trap set; quest 1 gives the first one. So `trapping.check.start` fires while no character has the quest done or holds or wears a set, `trapping.check.no-trap-set` fires once Trapping has started anywhere, and FR-25's second detail is dropped.
+- **V3, traps per set** = the set item's `ID` (Cardboard 1 … Royal 7; later sets stay 7), +1 with an Alchemy bonus. `trapping.fact.trap-set-capacity` mirrors Toolbox `items.json`; `kb-tools/test/m20-facts.test.ts` checks it at the pin.
+- **V4, the daily-task done field** is `Tasks[1][w][8] == 1`: the game credits the guild's "W1 Daily Task" only then (N.js @7478502), stops the task's progress then (@8630021), and the daily reset sets it back to 0 (@15113909).
+- **V8, the server day** (Pet Mart, Tournament) is not in N.js: the game asks its host (`getTournamentDay`, `isTournamentRegisterationClosed`), so the rows are never projected and change only on a new save. Registration closed reads the global tournament doc's `C` flag (confidence M).
+- **V1** (build rate counts board squares only) is taken from Toolbox's `totalBuildRate` as the spec says; not re-read in N.js.
+- **V7** (task board unlocks): W1 by any character's Grasslands Gary dialogue above 0, W2 by `Desert_Davey2` done, W3 by `Iceland_Irwin1` done (wiki Tasks agrees on the NPCs).
+
+Corrections found while building:
+
+- **The Wax Skull price.** The wiki Worship page names the Frostbite Towndra vendor but gives no buy price (5,000 is the item's sell price), so the skull line quotes no price and FR-22's buyer line ("coins for 4 of 6") waits for a verified price.
+- **Guild membership** is read from the guild's member list or guild points, never its id or name (both scrubbed identities, TR-14), so the scrubbed W3-early save keeps its guild rows and CI gives the spec's 1 of 11 and 2 of 5.
+- **The Ballot's world-gated note** (FR-16, "you get 1.25× damage instead") is not built: no table says which bonus belongs to which world yet. The row shows the leading bonus in words.
+- **Manual ticks** (FR-15) live in M10's per-account preference store under `checklist@<rowId>@<periodIndex>`; the store's namespace is the account key.
+- **The two M20 engine modules.** `m20-slots` runs with the other modules (so M14's step attaches the Lord of the Hunt Walkthrough to the start Goal), `m20-checklist` runs after them and links rows to the merged Goals (FR-8).
+- **Size.** Skills and slots per character add about 13 KB to the 17-character public save; the history guard is 320 KB.
