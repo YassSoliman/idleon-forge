@@ -1,6 +1,6 @@
 # ActiveOn MVP spec index
 
-The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), M16 (Star Signs and constellations, a small module of its own), M17 (the views: navigation shell, Timeline and Systems hub) and M20 (Skills, Parallel Slots and the Daily & Weekly Checklist), for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/idleon-forge/issues/1)), read as one whole. Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0009](../adr/).
+The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), M16 (Star Signs and constellations, a small module of its own), M17 (the views: navigation shell, Timeline and Systems hub), M18 (Gear & Tools), M19 (Alchemy) and M20 (Skills, Parallel Slots and the Daily & Weekly Checklist), for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/idleon-forge/issues/1)), read as one whole. Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0009](../adr/).
 
 **How to read a spec.** Each spec ends with **Final rulings (Yasser, 2026-10-17)**, which supersede anything above them. The consistency pass of 2026-10-17 rewrote the body text of every spec so it agrees with its own Final rulings and with the other specs, and added a short `Consistency pass (2026-10-17)` section to each one listing what changed. Where two specs still disagree, this index says which one owns the answer (the "Owner" columns below). The few genuine conflicts between rulings are not resolved here; they are listed under [Needs Yasser](#needs-yasser).
 
@@ -25,6 +25,8 @@ The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), M1
 | M15 | [Account depth](M15-account-depth.md) | Five features from the AutoReview deep dive, each built in its owner's folder: Refinery set-up (M6), Construction "build this next" (M6 Check, M2 list), next family-level unlock (M2, M8 obol rows), Talent Book Library (M9), Behind for your Stage (M2) | `refinery.check.auto-refine-off` / `refine-full` / `unlock-next`, `construction.check.build-next`, `construction.priority.build-order`, `metapath.goal.family-unlock`, `library.check.checkout` / `read-book`, `metapath.metapath.stage-expectations`, `metapath.goal.behind` | M1, M2, M6, M8, M9, M11, M14 |
 | M16 | [Star Signs and constellations](M16-star-signs.md) | Fill 3f: the Telescope start, the next constellations with party Walkthroughs (who goes where, what the challenge is), the Star Chart unlock order (Chronus Cosmos, the Hydron chart, Hydron Cosmos) and the sign each character should wear for its AFK Target, as one account line with per-character details | `star-signs.goal.telescope`, `star-signs.goal.constellation@<name>`, `star-signs.goal.signs`, `star-signs.check.activeplay-challenge`, `star-signs.priority.chart-order` / `fit-*`, facts `star-signs.fact.constellations` / `chart` / `rules` | M1, M2, M10, M11, M14 (`holdingsOf`, reachability and kill rates, FR-18's exclusions) |
 | M17 | [Views: navigation shell, Timeline and Systems hub](M17-views.md) | A findable home for every feature: four places (Now, Characters, Systems, Timeline) with bare-anchor routes; the Characters grid and Character pages; the Systems hub (a tile per System, wasting / behind / ok / locked, with unlock conditions) and System pages; the Timeline (lanes and bars to each cap against the return). Views add "See it" links and no advice | No Checks. Owns `Route`, `parseRoute`, `formatRoute`, `SystemSummary`, `BehindSystem`, `TimelineBar`, `buildSystemsView`, `buildSystemPageView`, `buildTimelineView`, `SYSTEM_HOMES`, the `## Systems` and `## Timeline` golden sections | M1, M2 (M15 F5), M3, M6, M7, M10, M11, M13; M8 and M9 tabs |
+| M18 | [Gear & Tools](M18-gear-tools.md) | Per character, which equipment slot and gathering tool is empty or behind the Gear Plan for its level and Stage; held gear handed out; empty slots filled with what can be made now; the next Gear Plan piece with its recipe, anvil tab, unlock and materials (M14 Walkthrough); the Armor-set Smithy; the Gear tab and the Gear and Armor Smithy System pages | `gear.check.equip-held`, `gear.check.empty-slot`, `gear.check.afk-tool`, `gear.goal.next-piece`, `armor-smithy.check.hire` / `.register`, `gear.priority.plan`, facts `gear.fact.ladder` / `.recipes`, `armor-smithy.fact.sets`. Owns `GearResult`, `CharacterGear`, `GearSlotView` | M1, M2, M6, M10, M11, M14, M15, M17; M20 (skull and trap pips) |
+| M19 | [Alchemy](M19-alchemy.md) | The Bubble Plan (which bubble to level next, to what level, per Stage) and the picture rule (which bubble to light); the vial order and today's roll targets; the Pay 2 Win order the Spend Plan follows and Player upgrades behind; where Water goes, the daily gem, the Talent Point; the Alchemy page | `alchemy-bubbles.goal.level-next`, `alchemy-vials.goal.level-next`, `alchemy-p2w.check.player-behind`, `alchemy.check.talent-point`, `alchemy-bubbles.priority.plan`, `alchemy-vials.priority.plan`, `alchemy-p2w.priority.order`, facts `alchemy-bubbles.fact.curves`, `alchemy-vials.fact.catalogue` / `.costs`, `alchemy.fact.liquid-shop`. Owns `AlchemyResult`, `BubblePick` | M1, M2, M3, M6, M7, M8, M10, M11, M14, M15, M17, M20 |
 | M20 | [Skills, Parallel Slots and the Daily & Weekly Checklist](M20-skills-parallel-slots.md) | One account checklist of every daily and weekly reset item with the account's own reset clocks, done-detection and a progress ring on Now; who should fill each free Parallel Slot (Cog Board seat, worship skull, traps, cauldron seat); the Skills tab per character; the Construction, Worship, Trapping and Alchemy page bodies and the Skill Grid for M17 | `checklist.fact.rows` and its rows, `random-events.check.today`, `killroy.check.room` / `.skulls`, `weekly-battles.check.raid`, `ballot.check.vote`, `pet-tournament.check.register`, `task-board.check.daily`, `guild.check.daily` / `.weekly`, `construction.check.cog-seat-free` (from M3), `worship.check.no-skull`, `trapping.check.start` / `.no-trap-set`, `alchemy.check.liquid-unstaffed`, `slots.priority.fill-order`. Owns `Checklist`, `SystemPicture`, `SkillGrid`, `CharacterSkills`, `SlotPip` | M1, M2, M3, M6 (its fields and Goals), M10, M11, M14 (quest Walkthroughs, printer facts); M17 consumes |
 
 ## Build order
@@ -53,6 +55,13 @@ The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), M1
 | — | M12 | Alongside: first deploy, Previews, parser sync |
 
 **After release R5 (owner feedback 2026-10-18, M17 D-19):** **M17 Phase 1** (shell, routes, Characters, Systems hub, generic System pages, "See it") → **M17 Phase 2** (Timeline, with the M3 and M6 bar producers) → M16 Phase 1 → M20 Phase 1 → the remaining steps above. **M17 Phase 3** (registry growth, FR-35) runs alongside M18–M21, each of which adds its own System page picture or Character page tab through M17's `SYSTEM_HOMES` and `characterTabs`. The Map place is a later phase or its own spec.
+
+**M18 and M19 (specs of 2026-10-18).** Both build after M17 Phase 1, in parallel and in their own folders, each a lazy chunk (the main chunk is at 319.05 KB gzip of its 320 KB budget on `4ae879c`). M18 lands two of M17 FR-35's ten Phase 3 registry rows (`equipment`, `armor-smithy`) early. M19 needs M7 built (it reorders M7's Pay 2 Win items, M19 X2) and moves the Alchemy home from M20's `cauldron-seats` to `alchemy-lab` (M20 X6). Together they add about 80 KB raw and 15 KB gzip to the compiled Knowledge Base (574 → about 655 KB of 720 KB raw, 131 → about 146 KB of 160 KB gzip), leaving about 65 KB raw for M5. The main chunk has 0.95 KB of headroom for both modules' lazy stubs; a build that would pass it moves an existing eager import out in the same PR (M18 TR-8).
+
+| Step | Module | Why here |
+|---|---|---|
+| 8e | M18 Phase 1 | Gear & Tools: atlas gap #4. Needs M1, M2, M6, M10, M11, M14 Phase 1, M15 and M17 Phase 1, all built |
+| 8f | M19 Phase 1 | Alchemy: atlas gap #5. Needs M3, M6, M7, M8, M14 Phase 1, M17 Phase 1 and M20 Phase 1, all built |
 
 ## Id formats
 
@@ -114,6 +123,13 @@ Every type or function used by more than one module, with the one spec that owns
 | System registry `kind`, `unlockFact`; fact table `systems.fact.unlocks` | M17 TR-8 (an M11 TR-9, TR-2b amendment) | Game vs ActiveOn rows; how each game System opens, as a patch-tagged authored fact with a wiki Source (reuses `metapath.fact.town-unlocks`) | M11 `coverage`, M17 |
 | Account State: `characters[].skills`, `characters[].slots`, `cogBoard`, `liquids` (with caps and unlocks), `resets`, `killroy`, `weeklyBattle`, `ballot`, `randomEvents`, `petTournament`, `taskBoardDailies`, `guildTasks` | M20 TR-2 (`cogBoard` replaces M3 TR-2's planned field; `skills` supersedes M14's `skillLevels` for new readers) | Skill levels, Parallel Slot facts, reset items | M3, M14, M17, M20 |
 | `checklist.fact.rows` (row registry) | M20 TR-3 | Every daily and weekly reset row; a module that adds a reset item adds its row | every module with a reset item |
+| Account State: `characters[].gear`, `gearHeld`, `anvilRecipes` (raw `AnvilCraftStatus`), `smithingRecipeMerits`, `armorSmithy` | M18 TR-2 | Worn and held gear with item stats; recipe states (-1 locked, 0 available, 1 crafted); boss-set recipe merits; the Smithy | M18 |
+| `GearResult`, `CharacterGear`, `GearSlotView`, `EngineResult.gear` | M18 TR-5 | Slot states, the lit slot, the heat strip, Smithy cards, `unlockWants` for M6's details | M6 (X5), M10 (pass-through), M17 (pages, tab status) |
+| `gear.fact.ladder`, `gear.fact.recipes`, `gear.priority.plan`, `armor-smithy.fact.sets` | M18 TR-3, TR-4 | The W1–W3 gear ladder, recipe tabs and sources, the Gear Plan, Smithy sets | M14 (inline Walkthrough roots, M18 X3) |
+| `Goal.walkthroughRoot`, gate kinds `task-unlock` and `merit` | M14 TR-6 (an addition requested by M18 X3) | An inline Requirement Tree root a module hands M14 instead of an Acquisition id | M18 |
+| Account State: `alchemyPlan` (bubbles with undiscounted next-level costs, vials, Liquid Shop counters, Player Pay 2 Win, best Alchemy level); `toolboxCalls.bubbleCosts` | M19 TR-1, TR-2 | Inputs for the Bubble Plan and vial order; Toolbox's cost function, called in the worker | M19 |
+| `AlchemyResult`, `BubblePick`, `EngineResult.alchemy` | M19 TR-5 | The account and per-pot picks, vial pick, roll targets, tubes, Pay 2 Win grid | M3 (`{pick}`, M19 X4), M6 (`{targets}`, M19 X3), M10, M17 |
+| `alchemy-p2w.priority.order` | M19 TR-4 | The Pay 2 Win order | M7 (its five `p2w` spend items, M19 X2) |
 | `Checklist`, `ChecklistRow`, `CharacterSkills`, `SlotPip`, `SystemPicture`, `SkillGrid`, `EngineResult.slotPictures` | M20 TR-5, TR-6 | The checklist and rings, the Skills tab, slot pips, the dedicated System page bodies (via M17's `SYSTEM_HOMES`, highlight by `NextAction.key`) and the Skill Grid (`#skills` overview, M20 X9); M20's `TimelineBar`s for Killroy skulls and the next Random Event | M10, M17 |
 
 ## Check ownership matrix
@@ -182,8 +198,17 @@ One owner per Check. "Pos" is the Priority List position (M2 TR-13): B = Verdict
 | `random-events.check.today`, `killroy.check.skulls` | M20 | next-action, by urgency | 1 or none | A Goal only while an event is live or within 20 min, and only when skulls would be wiped before the return (M20 FR-9); otherwise checklist rows |
 | `killroy.check.room`, `weekly-battles.check.raid` | M20 | Active Play | — | Plus their checklist rows |
 | `ballot.check.vote`, `pet-tournament.check.register`, `task-board.check.daily`, `guild.check.daily`, `guild.check.weekly` | M20 | checklist row only (`surface: checklist`) | — | Never a Goal (M20 D-4); guild rows are a manual Done tick (D-6) |
+| `gear.check.equip-held` | M18 | next-action (Account, per-character details) | 3 | Held gear handed out by dominance, never a trade (M18 FR-3, FR-6) |
+| `gear.check.empty-slot` | M18 | next-action (character; accessories one Account line) | 3 when it can be made now, else with the next piece | M18 FR-8–FR-10 |
+| `gear.check.afk-tool` | M18 | next-action (character) | 3 when doable now | The AFK Target's tool; M4's tool Purpose line stays M4's |
+| `gear.goal.next-piece` | M18 | Goal (character, Walkthrough) | weapon: after the subclass Goals; armour: last positions | One per character (M18 FR-13) |
+| `armor-smithy.check.hire`, `armor-smithy.check.register` | M18 | next-action (Account) | 3 | Silent while the 30-day wait runs |
+| `alchemy-bubbles.goal.level-next` | M19 | Goal (Account, details) | after the subclass Goals in W2 and W3 lists | The Bubble Plan's account pick; "at least K levels" (undiscounted Toolbox costs) |
+| `alchemy-vials.goal.level-next` | M19 | Goal (Account, details) | next to the bubble Goal | Never takes the Water the bubble pick needs (M19 FR-10) |
+| `alchemy-p2w.check.player-behind` | M19 | next-action (Account, `unpriced`) | 3 | A detail of M7's Pay 2 Win line when that shows (M19 FR-14) |
+| `alchemy.check.talent-point` | M19 | next-action (Account) | 3 | Liquid Shop Talent Point, once Liquid Nitrogen is open |
 
-**No MVP owner: shown under "Not covered yet"** (M6 Final rulings RT1, applied to every leftover): tools (Leverage 3d), W4+ constellations and Infinite Stars (M16 covers W1–W3, 3f), W4 shop dailies (1i), Liquid Shop dailies and cheap daily obols, the Equinox bar, Happy Hour dungeon runs, unfillable slots and caps to raise (printer level, anvil Capacity, carry bags, skulls past the Wax Skull), Refinery storage (M3 Final rulings RT-10), Lab, Cooking and Breeding AFK safety, Forge upgrades as a spend, stamp raises that need farming or carry capacity, Worlds 5–7, elite and Journeyman talent builds.
+**No MVP owner: shown under "Not covered yet"** (M6 Final rulings RT1, applied to every leftover): upgrade stones and the skull and trap ladders past Wax and Cardboard (M18 and M20 Phase 2), cauldron Boosts, Bargain Tags and sigils (M19 Phase 2), W4+ constellations and Infinite Stars (M16 covers W1–W3, 3f), W4 shop dailies (1i), Liquid Shop dailies other than the daily gems (M19) and cheap daily obols, the Equinox bar, Happy Hour dungeon runs, unfillable slots and caps to raise (printer level, anvil Capacity, carry bags, skulls past the Wax Skull), Refinery storage (M3 Final rulings RT-10), Lab, Cooking and Breeding AFK safety, Forge upgrades as a spend, stamp raises that need farming or carry capacity, Worlds 5–7, elite and Journeyman talent builds.
 
 ## Verify before build
 
@@ -287,6 +312,19 @@ Facts each module must check before (or in) its first build PR. Open facts, not 
 - [ ] The unlock condition, world and wiki page of each game System row, each page opened by the PR author (#74).
 - [ ] `EngineResult` size on the 11-character public save before and after the new fields (M10 TR-12).
 - [ ] FR-35's ten new registry rows: each System still exists at 2.3.540, and its world.
+**M18** (settled in M18 §11.4: slot order and item fields, tool levels are skill levels, no gear-swap damage from Toolbox, `AnvilCraftStatus` semantics)
+- [ ] V5: which character's Smithing level the anvil checks for a recipe (N.js craft handler).
+- [ ] V6: whether hiring the Armor-set Smithy costs anything.
+- [ ] V7: whether a set registers only while the logged-in character wears it (N.js `GetSetBonus`).
+- [ ] V8: every Gear Plan rawName and wiki recipe number holds at the pin (generator test).
+- [ ] V9: a world's Task Board Unlocks column needs that world's Task Board open.
+- [ ] V10: one Task Board unlock costs one unlock point.
+
+**M19** (settled in M19 §11.4: curves, bands and Toolbox's cost function; vial costs and roll chance; the Player Pay 2 Win cap)
+- [ ] V3: bubble levels take materials from the chest only, and which `level` argument prices the next level (N.js).
+- [ ] V4: when Pay 2 Win liquid upgrades open (W3-early has Nitrogen open, its upgrades at −1).
+- [ ] V5: the Liquid Shop counters reset on the account's daily reset.
+
 **M20**
 - [ ] The game's build rate counts board squares only, as Toolbox does (N.js `WorkbenchStuff`, V1); settles M3 TR-12 item 3. Taken from Toolbox in Phase 1.
 - [x] Lord of the Hunt quest 1 is not a per-character gate: an equipped trap set is (V2); `trapping.fact.trap-set-capacity` is the set's item ID (V3), which also unblocks M3 FR-21 (i).
