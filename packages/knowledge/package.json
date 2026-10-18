@@ -8,6 +8,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./schema": "./src/schema.ts",
+    "./template": "./src/template.ts",
     "./types": "./src/types.ts",
     "./stages": "./src/stages.ts",
     "./player-sources": "./src/player-sources.ts",

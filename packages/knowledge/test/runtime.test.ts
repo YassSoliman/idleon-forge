@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { buildRegistry, detectors } from '../detectors/index';
 import {
   type CompiledKnowledge,
+  coinTiers,
   coverage,
   defineDetector,
   diffManifests,
@@ -46,10 +47,15 @@ describe('templates (TR-6)', () => {
     expect(formatCompact(1_234_567)).toBe('1.2M');
     expect(render('{map:name}', { map: 'Poopy_Sewers' })).toBe('Poopy Sewers');
     expect(render('{p:pct}', { p: 12.4 })).toBe('12%');
-    expect(formatDuration(35 * 60_000)).toBe('40 min');
-    expect(formatDuration(3 * 3_600_000 + 20 * 60_000)).toBe('3 h');
-    expect(formatDuration(50 * 3_600_000)).toBe('2 d');
-    expect(formatCoins(1_234_567)).toBe('1 platinum 23 gold');
+    expect(formatDuration(35 * 60_000)).toBe('about 35m');
+    expect(formatDuration(3 * 3_600_000 + 20 * 60_000)).toBe('about 3h');
+    expect(formatDuration(150 * 3_600_000)).toBe('about 6d');
+    expect(formatCoins(1_234_567)).toBe('1.2M coins');
+    expect(formatCoins(157_000_000)).toBe('157M coins');
+    expect(coinTiers(1_234_567)).toEqual([
+      { q: 1, name: 'platinum' },
+      { q: 23, name: 'gold' },
+    ]);
   });
 
   it('resolves slots from the scopes in order: finding, built-ins, values, facts', () => {

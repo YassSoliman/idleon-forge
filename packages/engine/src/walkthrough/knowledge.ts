@@ -3,7 +3,7 @@
 // What M14 reads from the compiled Knowledge Base: the generated item and quest Acquisitions, the map
 // graph, the authored fact tables and the entries whose `values` carry every word a step uses.
 import type { Entry, FactTable } from '@idleon-forge/knowledge';
-import { render, type SlotValue } from '@idleon-forge/knowledge';
+import { aboutDuration, render, type SlotValue } from '@idleon-forge/knowledge';
 import { slugify } from '@idleon-forge/knowledge/generators';
 import type { SourceRef } from '../result';
 
@@ -157,14 +157,8 @@ export function say(
 /** "Megalodon_Tooth" / "The_Mimic_Hole" -> spaced, for template slots. */
 export const human = (s: string) => s.replace(/_/g, ' ').trim();
 
-/** Hours to one decimal for "about 2.6 h"; under 6 minutes reads "under 0.1 h". Display only. */
-export function hoursText(seconds: number): string {
-  const h = seconds / 3600;
-  if (h < 0.05) return 'under 0.1 h';
-  if (h < 10) return `${(Math.round(h * 10) / 10).toFixed(1)} h`;
-  if (h < 48) return `${Math.round(h)} h`;
-  return `${Math.round(h / 24)} days`;
-}
+/** "about 3h", "about 40m", "about 4d": the app's one duration format (#111 follow-up). Display only. */
+export const hoursText = (seconds: number): string => aboutDuration(seconds);
 
 /** "21.2%" (a 0..1 chance), "0.0068%" for small ones. */
 export function chanceText(c: number): string {
