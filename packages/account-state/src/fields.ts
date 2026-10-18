@@ -14,6 +14,11 @@ import { SPEND_FIELD_SECTIONS, SPEND_FIELD_SOURCES } from './spend-fields';
 import { TALENT_FIELD_RAW_KEYS, TALENT_FIELD_SECTIONS, TALENT_FIELD_SOURCES } from './talent-fields';
 import type { AccountState } from './types';
 import {
+  WALKTHROUGH_FIELD_RAW_KEYS,
+  WALKTHROUGH_FIELD_SECTIONS,
+  WALKTHROUGH_FIELD_SOURCES,
+} from './walkthrough-fields';
+import {
   UNSPENT_FIELD_RAW_KEYS,
   UNSPENT_FIELD_SECTIONS,
   UNSPENT_FIELD_SIDE_READS,
@@ -82,6 +87,7 @@ export const FIELD_SOURCES: Record<string, string> = {
   ...UNSPENT_FIELD_SOURCES,
   ...TALENT_FIELD_SOURCES,
   ...COLLECTIONS_FIELD_SOURCES,
+  ...WALKTHROUGH_FIELD_SOURCES,
 };
 
 /** The raw save keys each field depends on. A missing or unparseable key makes the field Unknown. */
@@ -113,6 +119,7 @@ export const FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {
   ...UNSPENT_FIELD_RAW_KEYS,
   ...TALENT_FIELD_RAW_KEYS,
   ...COLLECTIONS_FIELD_RAW_KEYS,
+  ...WALKTHROUGH_FIELD_RAW_KEYS,
 };
 
 /** The account sections `getMaxDamage` reads at the pin (damage.ts, 6c37e3d), for `account.frontier`. */
@@ -181,6 +188,7 @@ export const FIELD_SECTIONS: Record<string, string[]> = {
   ...TALENT_FIELD_SECTIONS,
   ...COLLECTIONS_FIELD_SECTIONS,
   ...SPEND_FIELD_SECTIONS,
+  ...WALKTHROUGH_FIELD_SECTIONS,
 };
 
 /** The side reads each field depends on. */

@@ -11,6 +11,7 @@ import type { CollectionsAccountFields, CollectionsCharacterFields } from './col
 import type { SpendInputs } from './spend-types';
 import type { TalentAccountFields, TalentCharacterFields } from './talent-types';
 import type { SaltState, UnspentAccountFields, UnspentCharacterFields } from './unspent-types';
+import type { WalkthroughAccountFields, WalkthroughCharacterFields } from './walkthrough-types';
 
 /**
  * Bumped whenever a field is added, renamed or changes meaning. 1 was slice 1's unversioned shape.
@@ -28,8 +29,10 @@ import type { SaltState, UnspentAccountFields, UnspentCharacterFields } from './
  * 11: M8 TR-15's collections fields (the `CollectionsAccountFields` and `CollectionsCharacterFields`
  *    blocks: stamps, quests, holdings, shop stock, cards with `effect`, card sets and presets, obols).
  * 12: `account.spend` (M7 TR-2, the Spend Plan's wallets and coin sinks).
+ * 13: M14 TR-2's walkthrough fields (the `WalkthroughAccountFields` and `WalkthroughCharacterFields`
+ *    blocks: anvil tabs, Forge output, holdings, the 3D Printer, supply rates, skills, presets).
  */
-export const SCHEMA_VERSION = 12;
+export const SCHEMA_VERSION = 13;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -56,7 +59,8 @@ export interface FoodStack {
 export interface CharacterState
   extends UnspentCharacterFields,
     TalentCharacterFields,
-    CollectionsCharacterFields {
+    CollectionsCharacterFields,
+    WalkthroughCharacterFields {
   /** Slot in the save (0-based), stable across saves. Field paths use it: `characters[<index>].level`. */
   index: number;
   name: string;
@@ -163,7 +167,11 @@ export interface GateQuestProgress {
   inProgressBy: number[];
 }
 
-export interface AccountSummary extends UnspentAccountFields, TalentAccountFields, CollectionsAccountFields {
+export interface AccountSummary
+  extends UnspentAccountFields,
+    TalentAccountFields,
+    CollectionsAccountFields,
+    WalkthroughAccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;
   /** Worlds whose exit has been used (a character met the gatekeeper past it), ascending. */

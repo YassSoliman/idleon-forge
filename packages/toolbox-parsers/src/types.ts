@@ -144,6 +144,17 @@ export interface ToolboxCalls {
   vaultLadders(parsed: ParsedSave, rawLevels: readonly number[], depth?: number): VaultCostRun[];
   /** Every stamp re-evaluated by `updateStamps(account, characters, gilded, reducer, undefined, true)`. */
   stampEvaluations(parsed: ParsedSave, gilded: boolean, reducer?: number): StampEvaluation[];
+  // ---- M14 Walkthroughs & Parallel Slot Plans (TR-2) ----
+  /** `{ value }`: a skill's efficiency ('mining', 'chopping', 'fishing', 'catching'), as equipped. */
+  getSkillEfficiency(
+    skill: string,
+    character: unknown,
+    characters: unknown[],
+    account: unknown,
+    playerInfo: unknown,
+  ): unknown;
+  /** `{ value }`: the 3D Printer multi for the account. */
+  getPrinterMulti(account: unknown, characters: unknown[]): unknown;
 }
 
 /** M7 TR-4: one Vault row's Toolbox `cost` at levels L, L+1, ... (`costs[0]` is the parse's `cost`). */
