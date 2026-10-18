@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #3ba11ec9 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 329
+# golden v1: scrubbed-w2 · knowledge #239d94f5 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 329
 
 ## Verdict changes
 
@@ -30,10 +30,10 @@ Fix before you leave
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 show more (16)
 Spend coins: 9 buys now on 1 character
-  1. Raise 2 stamp caps, then buy their new levels on Barbarian Lv 60: Hatchet Stamp, Shield Stamp, about 1 platinum 31 gold (carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free up inventory space first) · Lv 65 → 30 · 1.3M coins · C1 (Barbarian lv60) · buy · total 1.3M on C1
+  1. Raise 2 stamp caps, then buy their new levels on Barbarian Lv 60: Hatchet Stamp, Shield Stamp, about 1 platinum 31 gold (carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free up inventory space first) · 1.3M coins · C1 (Barbarian lv60) · buy · total 1.3M on C1
   2. Level Bullseye Stamp 0→5 on Barbarian Lv 60: 9 gold 75 silver · Lv 0 → 5 · 98k coins · C1 (Barbarian lv60) · buy · total 1.4M on C1
-  3. Buy 3 Vault upgrades on Barbarian Lv 60: Bubble Money, Vault Mastery, Major Discount, 43 platinum 32 gold · Lv 7 → 46 · 43M coins · C1 (Barbarian lv60) · buy · total 45M on C1
-  4. Buy 2 Vault upgrades on Barbarian Lv 60: Sleepy Time, Drops for Days, 6 platinum 92 gold · Lv 18 → 50 · 6.9M coins · C1 (Barbarian lv60) · buy · total 52M on C1
+  3. Buy 3 Vault upgrades on Barbarian Lv 60: Bubble Money, Vault Mastery, Major Discount, 43 platinum 32 gold · 43M coins · C1 (Barbarian lv60) · buy · total 45M on C1
+  4. Buy 2 Vault upgrades on Barbarian Lv 60: Sleepy Time, Drops for Days, 6 platinum 92 gold · 6.9M coins · C1 (Barbarian lv60) · buy · total 52M on C1
   5. Turn the Kachow statue Gold (cost not checked, see the price in game) · Lv 0 → 1 · cost not checked, see the price in game · cost not checked
      totals below assume you skip the unchecked items
   show more (7)

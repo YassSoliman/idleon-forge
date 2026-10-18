@@ -1,9 +1,9 @@
-# golden v1: second · knowledge #3ba11ec9 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 329
+# golden v1: second · knowledge #239d94f5 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 329
 
 ## Verdict changes
 
 ## Now
-! All set: safe to log off. First thing fills up in about 19h: C10's Barbarian Lv 501's anvil
+! All set: safe to log off. First thing fills up in about 19h: C10's anvil
 safe to log off
 
 ### C3 · Bubonic Conjuror 567 · Ready
