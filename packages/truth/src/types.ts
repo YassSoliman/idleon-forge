@@ -96,6 +96,8 @@ export interface Violation {
   scope: ViolationScope;
   /** The values that disagree, by surface or name. */
   evidence: Record<string, number | string | null>;
+  /** false: reported, but the advice stays (the line claims nothing false, it misses a known fact). */
+  hold?: false;
 }
 
 /** One advice item replaced with "Can't be sure of this one right now". */

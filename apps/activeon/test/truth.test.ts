@@ -83,9 +83,9 @@ describe('M22 on the W2-late save (the scrubbed copy of a real account)', () => 
   const { res } = parse(path.join(SCRUBBED, 'scrubbed-w2.json'), { engine: true, detail: true });
   const result = resultOf(res);
 
-  // On main at a07ef54 this save shows "No points waiting" on two tab-3 lines (the W2-late Shaman's and
-  // Bowman's) while the save has a point left in each. The checks are written as invariants, so they
-  // keep holding once the Build fix (fix/build-points) stops producing those lines.
+  // Before #120 this save showed "No points waiting" on two tab-3 lines (the W2-late Shaman's and
+  // Bowman's) while the save has a point left in each; since #120 they read "No unspent points known
+  // here", which is reported but not held back. The checks are invariants, so they hold either way.
   it('leaves no "No points waiting" line where the save has points left, and holds back only those', () => {
     const v = res.truth?.violations.filter((x) => x.rule === 'no-points-vs-unspent') ?? [];
     const raw = res.truth?.raw;
@@ -104,10 +104,12 @@ describe('M22 on the W2-late save (the scrubbed copy of a real account)', () => 
         ?.find((b) => b.index === x.scope.character)
         ?.presets.find((p) => p.slot === x.scope.slot)
         ?.next.find((n) => n.key === x.scope.itemKey);
-      expect(line?.text).toBe(CANT_BE_SURE);
+      // A false "No points waiting" is held back; the hedged "No unspent points known" (#120) stays.
+      if (x.hold === false) expect(line?.text).toMatch(/no unspent points known/i);
+      else expect(line?.text).toBe(CANT_BE_SURE);
     }
     const held = res.truth?.suppressed.filter((s) => s.kind === 'build-next') ?? [];
-    expect(held).toHaveLength(v.length);
+    expect(held).toHaveLength(v.filter((x) => x.hold !== false).length);
     // Every other line still reads as the engine wrote it.
     const others = (result.builds ?? [])
       .flatMap((b) => b.presets.flatMap((p) => p.next))

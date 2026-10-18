@@ -61,6 +61,15 @@ function buildLines(
   const labels = new Set<string>();
   for (const p of b.presets) {
     if (pick.slot !== undefined && p.slot !== pick.slot) continue;
+    // A Build path step (M21 FR-C1) named by key: its note says so.
+    if (pick.key !== undefined)
+      for (const t of p.tabs)
+        for (const s of t.path ?? [])
+          if (s.key === pick.key) {
+            s.note = CANT_BE_SURE;
+            s.condition = null;
+            ledger.add('build-path', s.key, b.index, rule);
+          }
     for (const n of p.next) {
       if (pick.key !== undefined ? n.key !== pick.key : pick.tab !== undefined && n.tab !== pick.tab)
         continue;
@@ -79,16 +88,23 @@ function buildLines(
   }
 }
 
-/** A talent row whose level the reads disagree on: its note says so (the row is a fact, not advice). */
+/** A talent whose level the reads disagree on: its row and path steps say so (facts, not advice). */
 function talentRow(b: BuildRoadmap, slot: number, id: number, ledger: Ledger, rule: string) {
   for (const p of b.presets) {
     if (p.slot !== slot) continue;
-    for (const t of p.tabs)
+    for (const t of p.tabs) {
       for (const r of t.rows)
         if (r.id === id) {
           r.note = CANT_BE_SURE;
           ledger.add('build-row', `c${b.index}-s${slot}-talent${id}`, b.index, rule);
         }
+      for (const s of t.path ?? [])
+        if (s.talentId === id) {
+          s.note = CANT_BE_SURE;
+          s.condition = null;
+          ledger.add('build-path', s.key, b.index, rule);
+        }
+    }
   }
 }
 
@@ -97,7 +113,7 @@ export function suppress(
   result: EngineResult,
   violations: readonly Violation[],
 ): { result: EngineResult; suppressed: Suppression[] } {
-  const acting = violations.filter((v) => v.scope.kind !== 'items');
+  const acting = violations.filter((v) => v.scope.kind !== 'items' && v.hold !== false);
   if (acting.length === 0) return { result, suppressed: [] };
   const r = structuredClone(result);
   const ledger = new Ledger();

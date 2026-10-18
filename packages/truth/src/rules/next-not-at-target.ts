@@ -82,6 +82,32 @@ export const nextNotAtTarget: Rule = {
             });
         }
       }
+      // M21 FR-C1's Build path: a step's band agrees with the save. Only a talent's first step in a tab
+      // starts from its real level (later ones start from the simulated one); bubble-set steps are done
+      // by rule, and 'later' steps wait on a Stage, so both are left out.
+      for (const p of b.presets)
+        for (const t of p.tabs) {
+          const seen = new Set<number>();
+          for (const s of t.path ?? []) {
+            if (seen.has(s.talentId)) continue;
+            seen.add(s.talentId);
+            if (s.band === 'later' || s.note === 'set by a bubble') continue;
+            const lv = rawLevel(rc, p.slot, s.talentId);
+            if (lv === null) continue;
+            const done = s.band === 'done';
+            if (done ? lv >= s.goal : lv < s.goal) continue;
+            out.push({
+              rule: 'next-not-at-target',
+              key: s.key,
+              message: `${who(rc)} · preset ${p.slot + 1} · tab ${t.tab}: the Build path shows ${s.label} ${
+                done ? 'done' : `still to do (to ${s.goal})`
+              }, the save has it at ${lv}`,
+              severity: done ? 'P1' : 'P2',
+              scope: { kind: 'talents', character: rc.index, slot: p.slot, tab: t.tab, itemKey: s.key },
+              evidence: { talent: s.talentId, raw: lv, goal: s.goal, band: s.band },
+            });
+          }
+        }
       // M9's Goal: "Next talent points: <talent> to <target>".
       const cr = result.characters.find((c) => c.index === b.index);
       for (const g of cr?.goals ?? []) {

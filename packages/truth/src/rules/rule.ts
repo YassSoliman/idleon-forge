@@ -54,4 +54,7 @@ export function takeOf(text: string): number | null {
   return m?.[1] ? Number(m[1].replace(/,/g, '')) : null;
 }
 
+/** A Build line that claims a tab has nothing to spend. */
 export const NO_POINTS = /no points waiting/i;
+/** A Build line that says it doesn't know of any points (M9 lower bound 0, #120): not a claim of none. */
+export const NO_POINTS_KNOWN = /no unspent points known/i;

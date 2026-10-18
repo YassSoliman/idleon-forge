@@ -78,6 +78,24 @@ describe('no-points-vs-unspent', () => {
     expect(out.report.violations.map((x) => x.rule)).toEqual(['no-points-vs-unspent']);
   });
 
+  it('reports, but does not hold back, the hedged "No unspent points known" line (#120)', () => {
+    const live = { ...FULL, 125: 3 };
+    const hedged = 'No unspent points known here; the next go into Precision Power (to 100)';
+    const result = resultOf([
+      roadmap(0, [presetView(0, true, { tabs: [tab(3, { spent: 3 })], next: [{ ...line, text: hedged }] })]),
+    ]);
+    const out = checkTruth({
+      envelope: envelopeOf([{ index: 0, live }]),
+      state: stateOf([{ index: 0, live }]),
+      result,
+    });
+    const v = out.report.violations.filter((x) => x.rule === 'no-points-vs-unspent');
+    expect(v).toHaveLength(1);
+    expect(v[0]).toMatchObject({ hold: false, severity: 'P2' });
+    expect(out.report.suppressed).toEqual([]);
+    expect(out.result?.builds?.[0]?.presets[0]?.next[0]?.text).toBe(hedged);
+  });
+
   it('stays quiet when the tab is fully spent', () => {
     const env = envelopeOf([{ index: 0, live: FULL }]);
     const result = resultOf([
@@ -130,6 +148,41 @@ describe('next-not-at-target', () => {
       result: view('Put the next 4 points into Power Strike (to 54)', 50),
     });
     expect(out.report.violations).toEqual([]);
+  });
+
+  it('checks the Build path: a step shown done must be done in the save (M21 FR-C1)', () => {
+    const step = (band: 'done' | 'now', current: number) => ({
+      key: 'p-s0-t2-0',
+      talentId: 90,
+      label: 'Power Strike',
+      page: null,
+      current,
+      goal: 54,
+      need: band === 'done' ? 0 : 54 - current,
+      cumulative: band === 'done' ? null : 4,
+      band,
+      partNow: null,
+      core: true,
+      condition: null,
+      note: null,
+    });
+    const result = (band: 'done' | 'now', current: number) =>
+      resultOf([
+        roadmap(0, [
+          presetView(0, true, { tabs: [tab(2, { spent: 102, rows: [], path: [step(band, current)] })] }),
+        ]),
+      ]);
+    const state = stateOf([{ index: 0, live: FULL }]); // Power Strike at 50
+    const env = envelopeOf([{ index: 0, live: FULL }]);
+    const wrong = checkTruth({ envelope: env, state, result: result('done', 54) });
+    expect(wrong.report.violations.find((x) => x.rule === 'next-not-at-target')?.evidence).toMatchObject({
+      raw: 50,
+      goal: 54,
+      band: 'done',
+    });
+    expect(wrong.result?.builds?.[0]?.presets[0]?.tabs[0]?.path?.[0]?.note).toBe(CANT_BE_SURE);
+    const right = checkTruth({ envelope: env, state, result: result('now', 50) });
+    expect(right.report.violations).toEqual([]);
   });
 
   it('checks M9’s "Next talent points" Goal against every preset', () => {

@@ -95,6 +95,18 @@ function readBuild() {
         tab: Number(/Tab (\d+)/.exec(h)?.[1]),
         spent: /([\d,]+) spent/.exec(h)?.[1] ?? null,
         unspent: /([\d,]+)\+ unspent/.exec(h)?.[1] ?? null,
+        // M21 FR-C1: the Build path replaces the table when the tab has one ("12 → 50", or "50" when done).
+        path: [...t.querySelectorAll('li.bv-ps')].map((li) => {
+          const lv = li.querySelector('.bv-ps-lv')?.textContent ?? '';
+          const m = /(\d+)\s*→\s*(\d+)/.exec(lv);
+          return {
+            label: (li.querySelector('.bv-ps-name')?.firstChild?.textContent ?? '').trim(),
+            done: li.classList.contains('bv-ps--done'),
+            current: m ? Number(m[1]) : null,
+            goal: m ? Number(m[2]) : Number(lv.trim()) || null,
+            note: li.querySelector('.bv-ps-note')?.textContent ?? null,
+          };
+        }),
         rows: [...t.querySelectorAll('tbody tr')].map((tr) => {
           const th = tr.querySelector('th');
           const cell = tr.querySelector('td.num')?.textContent ?? '';
@@ -206,6 +218,7 @@ function diff(head, dom) {
         const ht = hp?.tabs.find((x) => x.tab === tab);
         return (
           ht?.rows.find((r) => r.label === label)?.id ??
+          ht?.path?.find((s) => s.label === label)?.talentId ??
           hp?.tabs.flatMap((x) => x.rows).find((r) => r.label === label)?.id
         );
       };
@@ -220,6 +233,29 @@ function diff(head, dom) {
             shown: num(t.spent),
             save: rt.spent,
           });
+        const seen = new Set();
+        for (const st of t.path ?? []) {
+          if (seen.has(st.label) || st.note === CANT || st.note === 'set by a bubble') continue;
+          seen.add(st.label);
+          const id = idOf(t.tab, st.label);
+          const lv = id === undefined ? null : rawLv(id);
+          if (lv === null) continue;
+          if (st.done && st.goal !== null && lv < st.goal)
+            add(
+              'P1',
+              `${where} · tab ${t.tab} · ${st.label}`,
+              'Build path shows done, the save is below it',
+              {
+                goal: st.goal,
+                save: lv,
+              },
+            );
+          if (!st.done && st.current !== null && st.current !== lv)
+            add('P1', `${where} · tab ${t.tab} · ${st.label}`, 'Build path level differs from the save', {
+              shown: st.current,
+              save: lv,
+            });
+        }
         for (const r of t.rows) {
           const id = idOf(t.tab, r.label);
           const lv = id === undefined ? null : rawLv(id);
@@ -239,6 +275,16 @@ function diff(head, dom) {
               'P1',
               `${where} · tab ${n.tab}`,
               '"No points waiting" shown, the save has points left there',
+              {
+                line,
+                saveAtLeast: rt.unspentAtLeast,
+              },
+            );
+          if (/no unspent points known/i.test(line) && rt && rt.unspentAtLeast > 0)
+            add(
+              'P2',
+              `${where} · tab ${n.tab}`,
+              '"No unspent points known" shown, the save proves points left',
               {
                 line,
                 saveAtLeast: rt.unspentAtLeast,

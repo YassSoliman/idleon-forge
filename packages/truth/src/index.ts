@@ -8,6 +8,6 @@ export { GAME_SOURCES } from './game-data';
 export { decode, type EnvelopeLike, readRawFacts } from './raw/read';
 export { returnClasses, skillTerms, starTotalFloor, unspentFloor } from './raw/talent-points';
 export { RULES, type Rule, type RuleInput } from './rules';
-export { NO_POINTS, reachOf, takeOf } from './rules/rule';
+export { NO_POINTS, NO_POINTS_KNOWN, reachOf, takeOf } from './rules/rule';
 export { CANT_BE_SURE, CANT_BE_SURE_WHY, suppress } from './suppress';
 export type * from './types';
