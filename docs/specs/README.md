@@ -1,6 +1,6 @@
 # ActiveOn MVP spec index
 
-The 14 module specs for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/idleon-forge/issues/1)), read as one whole. Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0008](../adr/).
+The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/idleon-forge/issues/1)), read as one whole. Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0008](../adr/).
 
 **How to read a spec.** Each spec ends with **Final rulings (Yasser, 2026-10-17)**, which supersede anything above them. The consistency pass of 2026-10-17 rewrote the body text of every spec so it agrees with its own Final rulings and with the other specs, and added a short `Consistency pass (2026-10-17)` section to each one listing what changed. Where two specs still disagree, this index says which one owns the answer (the "Owner" columns below). The few genuine conflicts between rulings are not resolved here; they are listed under [Needs Yasser](#needs-yasser).
 
@@ -22,10 +22,11 @@ The 14 module specs for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/
 | M12 | [Release](M12-release.md) | Production deploy, PR Previews, the weekly parser re-sync, BuildInfo, What's new, governance, headers | No Checks. Owns `BuildInfo`, `whats-new.json`, the workflows, CODEOWNERS, rulesets | M1, M10, M11, M13 |
 | M13 | [Suggestions](M13-suggestions.md) | In-app Suggestions and Report this, filed as GitHub issues by a small Worker; the Claude Code listener | No Checks. Owns `SuggestionContext`, `ReportContext`, the name scrub, the Suggestions Worker | M1, M2, M10, M11, M12 |
 | M14 | [Walkthroughs & Parallel Slot Plans](M14-walkthroughs-and-slot-plans.md) | Breaks quest, unlock and (later) gear Goals into Requirement Trees and ordered steps; Demand across Walkthroughs; Supplies with drop and anvil effort; one job per character within AFK safety and the pusher; the 3D Printer Parallel Slot Plan | `walkthrough.check.assign`, `printer.check.slot-plan`, `walkthrough.contribution.supply`, generated `items.acquisition.*` and `walkthrough.goal.*`. Owns `WalkthroughResult`, `holdingsOf` (M8 TR-6's rule), `SupplyRates`, and builds `reachableFightingMaps` first for M5 | M1, M2, M3, M6, M11; M4 and M5 when present |
+| M15 | [Account depth](M15-account-depth.md) | Five features from the AutoReview deep dive, each built in its owner's folder: Refinery set-up (M6), Construction "build this next" (M6 Check, M2 list), next family-level unlock (M2, M8 obol rows), Talent Book Library (M9), Behind for your Stage (M2) | `refinery.check.auto-refine-off` / `refine-full` / `unlock-next`, `construction.check.build-next`, `construction.priority.build-order`, `metapath.goal.family-unlock`, `library.check.checkout` / `read-book`, `metapath.metapath.stage-expectations`, `metapath.goal.behind` | M1, M2, M6, M8, M9, M11, M14 |
 
 ## Build order
 
-**M1 → M11 → M2 → M10 → M13 → M3 → M6 → M14 (Phase 1) → M4 → M7 → M8 → M9 → M5 → M14 (Phases 2–3)**, with **M12 alongside** from the start (each module ships to the shared URL when done, #13).
+**M1 → M11 → M2 → M10 → M13 → M3 → M6 → M14 (Phase 1) → M15 (Phase 1) → M4 → M7 → M8 → M9 (+ M15 F4) → M5 → M14 (Phases 2–3)**, with **M12 alongside** from the start (each module ships to the shared URL when done, #13).
 
 | Step | Module | Why here |
 |---|---|---|
@@ -37,10 +38,11 @@ The 14 module specs for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/
 | 6 | M3 | Verdicts become real |
 | 7 | M6 | Free value; the first big content set |
 | 8 | M14 Phase 1 | Quest Walkthroughs and the printer Parallel Slot Plan: the owner's top ask; needs only M1–M3, M6, M11 (M14 Q3) |
+| 8b | M15 Phase 1 | Refinery set-up, build this next, next family unlock, and Behind for your Stage with the rows whose fix already exists; built in the M6 and M2 folders. F4 (Library) waits for M9's Builds (M15 D-3); each later module adds its own Stage Expectation rows |
 | 9 | M4 | Purpose turns Ready into "safe and serving" (until then Ready = safe, M3 D4); adds `walkthrough.contribution.supply` |
 | 10 | M7 | Coins |
 | 11 | M8 | Collections; imports M14's `holdingsOf` |
-| 12 | M9 | Builds |
+| 12 | M9 | Builds, plus M15 F4 (Talent Book Library) |
 | 13 | M5 | Needs M1–M4 and the hypothetical sweep; reuses M14's reachability and shares its map reservations |
 | 14 | M14 Phases 2–3 | Account-wide parallel plans, observed skilling rates, gear, the other Parallel Slots |
 | — | M12 | Alongside: first deploy, Previews, parser sync |
@@ -151,8 +153,14 @@ One owner per Check. "Pos" is the Priority List position (M2 TR-13): B = Verdict
 | `walkthrough.check.assign` | M14 | next-action on the assignee's row (Q5 rule) | the parent Goal's position | At most one per character; the Walkthrough itself renders on the parent's card |
 | `printer.check.slot-plan` (Goal `construction.goal.printer-samples`) | M14 | next-action (Account) | W3-early list position of `construction.goal.printer-samples` | M3's `printer.check.sample-blank` names M14's item instead of a second line |
 | `walkthrough.contribution.supply` | M14 (via M4's Contribution engine) | Purpose line | — | Makes an assigned character read as serving |
+| `refinery.check.auto-refine-off`, `refinery.check.unlock-next` | M6 (M15 F1) | next-action | 3 | Auto Refine off below Toolbox `saltMaxSafeRank`; never "turn it on" (M15 D-2) |
+| `refinery.check.refine-full` | M6 (M15 F1) | next-action, by urgency | 1 or 3 | A full bar stops the salt; full means `power ≥ powerCap` |
+| `construction.check.build-next` | M6 (M15 F2), list `construction.priority.build-order` M2 | next-action | W3-early 5 (replaces the Leverage model's AutoReview-sourced item 5) | Defers to `death-note.check.build` at Death Note Lv 0 |
+| `metapath.goal.family-unlock` | M2 (M15 F3) | Goal | last | Replaces M2 FR-9's closed-slot note |
+| `library.check.checkout`, `library.check.read-book` | M9 (M15 F4) | next-action (Account) | 3 | Candidates only from M9 Builds |
+| `metapath.goal.behind` | M2 (M15 F5) | Goal (Account) | its fix's position (ordinary comparator) | Takes over its fix's findings as details (M15 FR-29) |
 
-**No MVP owner: shown under "Not covered yet"** (M6 Final rulings RT1, applied to every leftover): tools (Leverage 3d), constellations and star signs (3f), W4 shop dailies (1i), Random Events, Liquid Shop dailies and cheap daily obols, the Equinox bar, weekly items (Killroy, Ballot, weekly bosses), salt rank-ups and manual refining, unfillable slots and caps to raise (trap sets, printer level, anvil Capacity, carry bags), Refinery storage (M3 Final rulings RT-10), Lab, Cooking and Breeding AFK safety, Forge upgrades as a spend, stamp raises that need farming or carry capacity, Worlds 5–7, elite and Journeyman talent builds.
+**No MVP owner: shown under "Not covered yet"** (M6 Final rulings RT1, applied to every leftover): tools (Leverage 3d), constellations and star signs (3f), W4 shop dailies (1i), Random Events, Liquid Shop dailies and cheap daily obols, the Equinox bar, weekly items (Killroy, Ballot, weekly bosses), unfillable slots and caps to raise (trap sets, printer level, anvil Capacity, carry bags), Refinery storage (M3 Final rulings RT-10), Lab, Cooking and Breeding AFK safety, Forge upgrades as a spend, stamp raises that need farming or carry capacity, Worlds 5–7, elite and Journeyman talent builds.
 
 ## Verify before build
 
@@ -212,7 +220,7 @@ Facts each module must check before (or in) its first build PR. Open facts, not 
 
 **M8**
 - [ ] Which Toolbox field holds a shop's buy price at the pin (TR-8 rule 5).
-- [ ] Whether the stale family-slot lock clears when the player visits the Obol Altar (R10).
+- [ ] Whether the stale family-slot lock clears when the player visits the Obol Altar (R10). Narrowed by M15 V3: the lock is rewritten from the family level in a general UI setup block (`N.js` @7111866) and slots open without the altar; the trigger is still open.
 - [ ] The adapter reads stored obols from raw `ObolInvOr` (the parsed list came back empty, TR-15).
 
 **M9**
@@ -225,6 +233,14 @@ Facts each module must check before (or in) its first build PR. Open facts, not 
 - [ ] The sweep budget on `highend.json` in the first build PR (TR-10: ≤ 300 ms p50, ≤ 800 ms p95 in the worker).
 - [ ] The identity and reachability contract tests pass on all public saves and both private fixtures (TR-4, TR-5).
 - [ ] How "biggest gain" is measured when two characters target one destination with different deciding steps (FR-10, Final rulings RT-8; the spec says: earliest deciding FR-4 step, then the largest margin on it).
+
+**M15** (settled in M15 §11: the Auto Refine rule and the one-bar-per-AFK-Stretch cap, building payments from inventory and chest only, the family thresholds, the Library mechanics)
+- [ ] The Talent Book Library's in-game location wording (M9).
+- [ ] How a chest-stored talent book encodes its talent id (`Speed: 0` on both fixture books) (M9).
+- [ ] `refinery.fact.salt-unlock-costs` read from the unlock handler (M6).
+- [ ] The worker benchmark for the added Toolbox calls (M15 TR-11).
+- [ ] Each Stage Expectation row's wiki page opened by its PR author (#74).
+- [ ] What triggers the family-slot lock rewrite; whether build progress carries over past a full bar; the open build-slot field (M15 §11).
 
 **M14**
 - [ ] Anvil recipe tabs and recipe-unlock state from Toolbox or N.js (`anvil.fact.recipe-tabs` is tier 2 until then).
@@ -308,3 +324,5 @@ Genuine conflicts or open choices the pass did not settle. Each has a recommenda
 ➡️ Confirm the narrow reading and keep D2.
 
 ✅ **N5. M14's open questions (Q1–Q9): resolved.** Yasser accepted every recommendation on 2026-10-17; see [M14 Final rulings](M14-walkthroughs-and-slot-plans.md#final-rulings-yasser-2026-10-17). He does the Liquid Shop price check in game (Q6).
+
+✅ **N6. M15's open questions (D-1 to D-8): resolved.** Yasser accepted every recommendation on 2026-10-17; see [M15 Final rulings](M15-account-depth.md#final-rulings-yasser-2026-10-17).
