@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // What the Now screen's leaf components can do, passed down once instead of through every level.
+import type { TimelineFix } from '@idleon-forge/engine/now';
 import type { EngineResult } from '@idleon-forge/engine/result';
 import { createContext, useContext } from 'react';
 import type { Route } from '../shell/route';
@@ -32,6 +33,11 @@ export interface NowActions {
   expanded: ReadonlySet<string>;
   /** M17: a player move to another place or page (pushState, keyboard focus to its heading). */
   navigate?: (to: Route, opts?: { origin?: string; highlight?: string | null }) => void;
+  /**
+   * M17 FR-27: go to where a Next Action is shown (the account list, or a character's Now tab), unfold
+   * "show more" or its details first, scroll to it and outline it. Absent in leaf tests.
+   */
+  reveal?: (fix: TimelineFix) => void;
   /** M17 FR-4: the place being shown ('now' on a Character page opened from the Roster). */
   place?: 'now' | 'characters' | 'systems' | 'timeline';
   /** The engine result, for "See it" links (M17 FR-31); absent in leaf tests. */

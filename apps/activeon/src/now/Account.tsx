@@ -170,6 +170,7 @@ export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(functio
 });
 
 export function IfYouHaveTime({ view }: { view: NowView }) {
+  const actions = useNowActions();
   if (view.activePlay.length === 0) return null;
   return (
     <section aria-labelledby="iyht-h" className="small">
@@ -178,7 +179,8 @@ export function IfYouHaveTime({ view }: { view: NowView }) {
       </h2>
       <ul>
         {view.activePlay.map((a) => (
-          <li key={a.key}>
+          // Keyed like a Next Action, so the checklist's "If you have time ↓" lands and outlines it.
+          <li key={a.key} data-na-key={a.key} className={actions.highlight === a.key ? 'iyht lit' : 'iyht'}>
             {a.text} · {a.estimate}
             {a.who ? ` · ${a.who}` : ''}
           </li>

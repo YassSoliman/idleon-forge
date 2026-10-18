@@ -484,6 +484,27 @@ export function useSession(props: ShellProps) {
     [prefs, setExpectedReturn],
   );
 
+  /** M17 FR-27: from a Timeline bar to where its Next Action (or pill) is shown, unfolded and outlined. */
+  const toFix = useCallback(
+    (fix: TimelineFix) => {
+      const m = /^c(\d+)$/.exec(fix.subject);
+      const index = m ? Number(m[1]) : null;
+      if (fix.expand === 'show-more')
+        setExpanded((prev) => new Set([...prev, index === null ? 'account' : `c${index}`]));
+      pendingReveal.current = { key: fix.key, details: fix.expand === 'behind-details' };
+      if (fix.where === 'account' || index === null) {
+        navigate({ place: 'now' }, 'push', { highlight: fix.key });
+        return;
+      }
+      setFollow((f) => onTap(f, index, live));
+      navigate({ place: 'character', index, tab: NOW_TAB }, 'push', {
+        highlight: fix.key,
+        origin: '#timeline',
+      });
+    },
+    [navigate, live],
+  );
+
   // ---- actions for the leaves ----
   const focusChar = result.characters.find((c) => c.index === validFocus) ?? null;
   const suggestions = useSuggestions();
@@ -532,6 +553,7 @@ export function useSession(props: ShellProps) {
         }),
       expanded,
       navigate: (to, opts) => navigate(to, 'push', opts),
+      reveal: toFix,
       place,
       result,
       highlight,
@@ -547,6 +569,7 @@ export function useSession(props: ShellProps) {
       suggestions,
       reportScreen,
       navigate,
+      toFix,
       place,
       highlight,
     ],
@@ -558,27 +581,6 @@ export function useSession(props: ShellProps) {
     focusHeading.current = false;
     return true;
   }, []);
-
-  /** M17 FR-27: from a Timeline bar to where its Next Action (or pill) is shown, unfolded and outlined. */
-  const toFix = useCallback(
-    (fix: TimelineFix) => {
-      const m = /^c(\d+)$/.exec(fix.subject);
-      const index = m ? Number(m[1]) : null;
-      if (fix.expand === 'show-more')
-        setExpanded((prev) => new Set([...prev, index === null ? 'account' : `c${index}`]));
-      pendingReveal.current = { key: fix.key, details: fix.expand === 'behind-details' };
-      if (fix.where === 'account' || index === null) {
-        navigate({ place: 'now' }, 'push', { highlight: fix.key });
-        return;
-      }
-      setFollow((f) => onTap(f, index, live));
-      navigate({ place: 'character', index, tab: NOW_TAB }, 'push', {
-        highlight: fix.key,
-        origin: '#timeline',
-      });
-    },
-    [navigate, live],
-  );
 
   const toSpend = useCallback(() => {
     if (route.place !== 'now' && route.place !== 'character') navigate({ place: 'now' }, 'push');
