@@ -23,6 +23,7 @@ import type {
   NotCoveredItem,
   Verdict,
 } from '../result';
+import { classFamilies } from './families';
 import { activityLabel, classLabel, mapLabel } from './labels';
 import type { EngineHistory, EngineInput, EngineModule, ModuleOutput } from './module';
 import { rankGoals, type TaggedGoal } from './rank';
@@ -369,6 +370,17 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
         ...(skillGrid !== undefined ? { skillGrid } : {}),
       };
     })(),
+    // M21 TR-9, TR-11: the Map and Play Session facts ride through untouched (stubs emit null in F).
+    ...(() => {
+      const session = outputs.find((o) => o.output.session !== undefined)?.output.session;
+      const map = outputs.find((o) => o.output.map !== undefined)?.output.map;
+      return {
+        ...(session !== undefined ? { session } : {}),
+        ...(map !== undefined ? { map } : {}),
+      };
+    })(),
+    // M21 FR-F4: the who-glyph families, read here so the UI never imports the Knowledge Base.
+    ...(kb ? { classFamilies: classFamilies(lookupOf(kb), state.characters) } : {}),
   };
   // M17 TR-2: the registry with unlock states, built here in the worker (it runs unlock Detectors).
   if (kb && knowledge.registries)

@@ -1,0 +1,30 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* The who-glyph (M21 FR-F4): the family chibi, a world-tinted frame and the 12 px subclass badge. */
+.who {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  line-height: 0;
+}
+.who-world {
+  border-bottom: 2px solid var(--px-world);
+}
+.who-badge {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  min-width: 16px;
+  padding: 0 2px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--fg);
+  font-family: var(--ff-humanist);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+}

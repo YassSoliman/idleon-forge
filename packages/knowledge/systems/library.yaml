@@ -16,7 +16,7 @@ entries:
     effortSeconds: 30
     detector: { id: library/checkout }
     text: "Check out {talent} for your {who} at the Library"
-    why: "Checkouts: {checkouts:int}; the next is ready in {nextIn:duration}, and each one you keep makes the next slower. A book raises a talent's max level for its reader. Talent Book Library, Frostbite Tundra town: the {page} page."
+    why: "Checkouts: {checkouts:int}; the next is ready {nextIn:in}, and each one you keep makes the next slower. A book raises a talent's max level for its reader. Talent Book Library, Frostbite Tundra town: the {page} page."
     values:
       detail: "then {talent} for your {who}"
       detail-nice: "Your {who} can read the {count:int} {talent} books you hold (no current build uses it; free, but low value)"

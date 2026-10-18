@@ -66,6 +66,9 @@ describe('hand-written-duration', () => {
     ['"Whetstone respec at {hours:int} h"', 'hand-written unit'],
     ['"Play one round (about 2 min)"', 'hand-written "about N h"'],
     ['"Wait 3h for the bar"', 'hand-written duration'],
+    ['"Refinery runs dry in {dryIn:duration}"', 'uses {x:in}'],
+    ['"Ready {readyAt:duration}"', 'uses {x:in}'],
+    ['"{eta:duration} at your recent pace"', 'uses {x:in}'],
   ])('flags %s', (text, message) => {
     const issues = run(check(text));
     expect(issues.map((i) => i.code)).toEqual(['hand-written-duration']);
@@ -74,7 +77,8 @@ describe('hand-written-duration', () => {
 
   it('passes the shared formats and spelled-out game facts', () => {
     for (const text of [
-      '"Refinery runs dry in {dryIn:duration}"',
+      '"Refinery runs dry {dryIn:in}"',
+      '"Its food lasts {lasts:duration}"',
       '"Whetstone respec at {hours:hours}"',
       '"Keys bank for 3 days at most"',
       '"Use a {hours:int}-hour Time Candy"',

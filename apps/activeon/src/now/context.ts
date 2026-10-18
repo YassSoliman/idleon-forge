@@ -4,7 +4,7 @@
 import type { TimelineFix } from '@idleon-forge/engine/now';
 import type { EngineResult } from '@idleon-forge/engine/result';
 import { createContext, useContext } from 'react';
-import type { Route } from '../shell/route';
+import type { Place, Route } from '../shell/route';
 import type { ReportInput } from './report';
 
 /** What a Report this control knows about its output. */
@@ -39,7 +39,7 @@ export interface NowActions {
    */
   reveal?: (fix: TimelineFix) => void;
   /** M17 FR-4: the place being shown ('now' on a Character page opened from the Roster). */
-  place?: 'now' | 'characters' | 'systems' | 'timeline';
+  place?: Place;
   /** The engine result, for "See it" links (M17 FR-31); absent in leaf tests. */
   result?: EngineResult;
   /** The NextAction key to outline (M17 FR-31). */

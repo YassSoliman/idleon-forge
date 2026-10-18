@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8" shape-rendering="crispEdges" class="lab-px-art" style="--p1:var(--warn);--p2:var(--warn);--p3:var(--warn);--p4:var(--warn-soft, #f8e9c7);--ew:var(--mat-eye-white, #ffffff);--ek:var(--mat-eye-pupil, #141018)">
+<title>Overflow spark: full before you're back</title>
+<!-- ActiveOn Design Lab, group flows. Our own pixel art (ADR 0009). 8x8 grid, 1 frame(s). Fills are token variables with fallbacks. -->
+<style>.fl-c-ek{fill:var(--ek)}.fl-c-ew{fill:var(--ew)}.fl-c-p1{fill:var(--p1)}.fl-c-p2{fill:var(--p2)}.fl-c-p3{fill:var(--p3)}.fl-c-p4{fill:var(--p4)}.fl-c-q1{fill:var(--q1)}.fl-c-q2{fill:var(--q2)}.fl-c-q3{fill:var(--q3)}.fl-c-q4{fill:var(--q4)}.fl-c-r1{fill:var(--r1)}.fl-c-r2{fill:var(--r2)}.fl-c-r3{fill:var(--r3)}.fl-c-r4{fill:var(--r4)}</style>
+<path class="fl-c-p3" d="M3 0h1v1h-1zM3 1h1v1h-1zM2 2h1v1h-1zM4 2h1v1h-1zM0 3h2v1h-2zM5 3h3v1h-3zM2 4h1v1h-1zM4 4h1v1h-1zM3 5h1v1h-1zM3 6h1v1h-1z"/><path class="fl-c-p4" d="M3 2h1v1h-1zM2 3h3v1h-3zM3 4h1v1h-1z"/>
+</svg>

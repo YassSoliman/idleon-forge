@@ -43,7 +43,7 @@ entries:
     category: spendable
     detector: { id: spend/stamp-hydrogen }
     text: "Hold stamp cap raises for the Hydrogen discount ({discount}% of {needed}%)"
-    why: "Any cap raise resets the Hydrogen discount, and only the first raise gets it; {stamp} fits in an inventory once the discount reaches {needed}%, in {holdIn:duration}."
+    why: "Any cap raise resets the Hydrogen discount, and only the first raise gets it; {stamp} fits in an inventory once the discount reaches {needed}%, {holdIn:in}."
     sources:
       - { url: "https://idleon.wiki/wiki/Atom_Collider", title: "IdleOn wiki, Atom Collider (Hydrogen)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn wiki, Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }

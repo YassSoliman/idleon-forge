@@ -815,7 +815,7 @@ entries:
       both: "{slot} and {obol}"
       altar-one: "equip it after the Obol Altar"
       altar-many: "equip them after the Obol Altar"
-      eta-days: "{eta:duration} at your recent pace"
+      eta-days: "{eta:in} at your recent pace"
       eta-none: "ETA after a few more sessions"
       eta-long: "more than 3 months at this pace"
       after: "After that, {what} opens at family level {gate:int}."

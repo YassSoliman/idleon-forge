@@ -9,6 +9,7 @@ import { getMaxDamage } from '../vendor/parsers/damage';
 import { getMaxClaimTime } from '../vendor/parsers/dungeons';
 import { getSkillEfficiency } from '../vendor/parsers/efficiency';
 import { getBookLvRange, getItemCapacity } from '../vendor/parsers/misc';
+import { calcTotalStarTalent } from '../vendor/parsers/talents';
 import { getPlayerAnvil, getTimeTillCap } from '../vendor/parsers/world-1/anvil';
 import { getBubbleUpgradeCost } from '../vendor/parsers/world-2/alchemy';
 import { getBuildCost } from '../vendor/parsers/world-3/construction';
@@ -72,4 +73,34 @@ export const toolboxCalls = {
   /** Toolbox `getBubbleUpgradeCost` at `level` (the bubble's current level prices the next one, N.js CauldronCosts). */
   bubbleCost: (rawName: string, bubbleIndex: number, level: number, baseCost: number): number =>
     getBubbleUpgradeCost({ rawName, bubbleIndex, level, baseCost }),
+  // M21 TR-3 (FR-C9): a preset's star talent point total.
+  /**
+   * Toolbox `calcTotalStarTalent` on this character alone. `'other'` calls it on a copy carrying the
+   * other preset's talents (`talentPreset.flatTalents` + `.flatStarTalents`), because Star Player,
+   * Supernova Player and Stonks! add points per preset. null when the character has no other preset or
+   * the result isn't a finite number. Throws what Toolbox throws; the adapter catches it.
+   */
+  starTotal: (character: unknown, account: unknown, preset: 'active' | 'other'): number | null => {
+    const c = character as Record<string, unknown> | null;
+    if (!c || typeof c !== 'object') return null;
+    let subject: Record<string, unknown> = c;
+    if (preset === 'other') {
+      const p = c.talentPreset as Record<string, unknown> | undefined;
+      if (!p || !Array.isArray(p.flatStarTalents)) return null;
+      // Toolbox keeps the other preset's `flatTalents` tab-shaped ({ "0": { orderedTalents } }, with
+      // added levels applied); the active one is a flat list, which is what the bonus lookups read.
+      const tabs = p.flatTalents;
+      const flat = Array.isArray(tabs)
+        ? tabs
+        : tabs && typeof tabs === 'object'
+          ? Object.values(tabs as Record<string, { orderedTalents?: unknown[] }>).flatMap((t) =>
+              Array.isArray(t?.orderedTalents) ? t.orderedTalents : [],
+            )
+          : null;
+      if (!flat) return null;
+      subject = { ...c, flatTalents: flat, flatStarTalents: p.flatStarTalents };
+    }
+    const n = calcTotalStarTalent([subject], account);
+    return typeof n === 'number' && Number.isFinite(n) ? n : null;
+  },
 };

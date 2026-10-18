@@ -7,6 +7,7 @@
 // styles, text only). The trap set and the skull show M20's Parallel Slot pips.
 import type { CharacterGear, GearSlotView } from '@idleon-forge/engine/result';
 import { useState } from 'react';
+import { StateGlyph } from '../design/atoms/StateGlyph';
 import type { CharacterTabProps } from '../now/character-tabs';
 import './gear.css';
 
@@ -30,49 +31,7 @@ const LEFT: readonly GearSlotView['slot'][] = ['helmet', 'shirt', 'pants', 'shoe
 const RIGHT: readonly GearSlotView['slot'][] = ['weapon', 'pendant', 'ring1', 'ring2'];
 const TOOLS: readonly GearSlotView['slot'][] = ['pickaxe', 'hatchet', 'rod', 'net', 'trap', 'skull'];
 
-/** The state's glyph: never colour alone (the word sits next to it). */
-export function StateGlyph({ state }: { state: string }) {
-  if (state === 'ok')
-    return (
-      <svg className="gg" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
-        <path d="M2 6.5 5 9.5 10 3" fill="none" stroke="currentColor" strokeWidth="2" />
-      </svg>
-    );
-  if (state === 'behind')
-    return (
-      <svg className="gg" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
-        <path d="M6 10 1.5 3h9z" fill="currentColor" />
-      </svg>
-    );
-  if (state === 'held-upgrade')
-    return (
-      <svg className="gg" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
-        <path d="M6 1.5 10.5 7H8v3.5H4V7H1.5z" fill="currentColor" />
-      </svg>
-    );
-  if (state === 'empty')
-    return (
-      <svg className="gg" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
-        <rect
-          x="1.5"
-          y="1.5"
-          width="9"
-          height="9"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeDasharray="2 1.5"
-        />
-      </svg>
-    );
-  return (
-    <svg className="gg" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
-      <text x="6" y="10" textAnchor="middle" fontSize="10" fill="currentColor">
-        ?
-      </text>
-    </svg>
-  );
-}
+export { StateGlyph };
 
 /** Our own mannequin (ADR 0009: pixel boxes, never game art). */
 function Mannequin() {

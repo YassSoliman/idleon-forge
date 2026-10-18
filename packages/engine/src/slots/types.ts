@@ -127,7 +127,20 @@ export type SystemPicture =
         }
       >;
       unassigned: number[];
-    };
+    }
+  | M21Picture;
+
+/**
+ * M21 TR-10: the new System page pictures, declared once by Phase F so area S fills them without
+ * editing shared types. The payloads are deliberately minimal (elements with a lit one); area S widens
+ * each variant in `pictures/**` when it builds the body. No module emits them yet.
+ */
+export type M21Picture =
+  | { systemId: 'stamps'; kind: 'stamps'; elements: PictureElement[]; lit: string | null }
+  | { systemId: 'statues'; kind: 'statues'; elements: PictureElement[]; lit: string | null }
+  | { systemId: 'upgrade-vault'; kind: 'vault'; elements: PictureElement[]; lit: string | null }
+  | { systemId: 'printer'; kind: 'printer'; elements: PictureElement[]; lit: string | null }
+  | { systemId: 'alchemy'; kind: 'p2w'; elements: PictureElement[]; lit: string | null };
 
 /** FR-31: the Skill Grid for M17's Characters overview (`#skills`). */
 export interface SkillGrid {

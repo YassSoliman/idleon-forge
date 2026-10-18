@@ -72,7 +72,7 @@ export function Banners({
             <p>
               {b.text.slice(0, b.text.length - (firstFill ?? '').length)}
               <a
-                href={formatRoute({ place: 'timeline' })}
+                href={formatRoute({ place: 'timeline', section: null })}
                 onClick={(e) => {
                   e.preventDefault();
                   onTimeline?.();

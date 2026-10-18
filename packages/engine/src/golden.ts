@@ -14,17 +14,24 @@ import { DEFAULT_MODULES, runEngine } from './core/engine';
 import type { EngineModule, ToolboxPort } from './core/module';
 import { createGearModule } from './gear';
 import { renderGearText } from './gear/render';
+import { createMapModule } from './map';
 import { lookupOf } from './metapath/knowledge';
 import { createMetaPathModule } from './metapath/module';
 import { detectStage } from './metapath/stage';
-import { buildNowView, DEFAULT_UI } from './now/build-now-view';
+import { buildNowView, CHARACTER_GOAL_CAP, DEFAULT_UI } from './now/build-now-view';
+import { buildMapView } from './now/map-view';
 import { EMPTY_PREFS } from './now/prefs';
+import { renderBuildsText } from './now/render-builds-text';
+import { renderMapText } from './now/render-map-text';
+import { renderSystemsText } from './now/render-systems-text';
 import { renderNowText } from './now/render-text';
-import { renderSystemsText, renderTimelineText } from './now/render-views-text';
+import { renderTimelineText } from './now/render-timeline-text';
 import { buildSystemsView } from './now/systems-view';
 import { buildTimelineView } from './now/timeline-view';
+import { createPicturesModule } from './pictures';
 import { classXpActionFor, createPurposeModule, purposeStatusFor, suggestionFor } from './purpose';
 import type { EngineResult } from './result';
+import { createSessionModule } from './session';
 import { createM20Modules } from './slots';
 import { createSpendModule } from './spend';
 import { createStarSignsModule } from './starsigns';
@@ -55,6 +62,35 @@ export interface GoldenEngine {
   renderAlchemy(input: GoldenInput): string;
   /** M18 TR-10: the `## Gear` section (each character's lit slot and slot words, the Smithy). */
   renderGear(input: GoldenInput): string;
+  /** M21 TR-8: the `## Builds` section (area C; a stub line until the Build path ships). */
+  renderBuilds(input: GoldenInput): string;
+  /** M21 TR-9: the `## Map` section (area M; a stub line until the Map ships). */
+  renderMap(input: GoldenInput): string;
+  /**
+   * M21 FR-N3: the Next Action entries shown on 3 or more characters (in their first
+   * CHARACTER_GOAL_CAP Goals), with those characters' indexes. `kb golden` requires a `groupText` on each.
+   */
+  repeatedJobs(input: GoldenInput): RepeatedJob[];
+}
+
+/** M21 FR-N3: one Next Action entry shown on several characters. */
+export interface RepeatedJob {
+  entryId: string;
+  characters: number[];
+}
+
+/** The entries whose Next Action shows on at least `min` characters' visible Goals, by entry id. */
+export function repeatedJobsOf(result: EngineResult, min = 3): RepeatedJob[] {
+  const by = new Map<string, Set<number>>();
+  for (const c of result.characters)
+    for (const g of c.goals.slice(0, CHARACTER_GOAL_CAP)) {
+      const id = g.nextAction.entryId;
+      by.set(id, (by.get(id) ?? new Set()).add(c.index));
+    }
+  return [...by]
+    .filter(([, set]) => set.size >= min)
+    .map(([entryId, set]) => ({ entryId, characters: [...set].sort((a, b) => a - b) }))
+    .sort((a, b) => (a.entryId < b.entryId ? -1 : a.entryId > b.entryId ? 1 : 0));
 }
 
 /** The worker's modules (M2, and M3 when the bundle and registry are there), so goldens show real Verdicts. */
@@ -91,6 +127,10 @@ export function goldenModules(input: GoldenInput): readonly EngineModule[] {
     createStarSignsModule({ kb }),
     ...createM20Modules({ kb }),
     createAlchemyModule({ kb }),
+    // M21 Phase F: the area modules' stubs, registered once (spec §9).
+    createSessionModule(),
+    createMapModule(),
+    createPicturesModule(),
   ];
 }
 
@@ -151,6 +191,25 @@ export const goldenEngine: GoldenEngine = {
     return renderGearText(result.gear, saveOrderLabel(input.state), (i) =>
       c(i) ? `${c(i)?.classLabel} ${c(i)?.level}` : '?',
     );
+  },
+  repeatedJobs: (input) => repeatedJobsOf(goldenResult(input)),
+  renderBuilds: (input) => {
+    const result = goldenResult(input);
+    const c = (i: number) => result.characters.find((x) => x.index === i);
+    return renderBuildsText(result, {
+      label: saveOrderLabel(input.state),
+      classOf: (i) => (c(i) ? `${c(i)?.classLabel} ${c(i)?.level}` : '?'),
+    });
+  },
+  renderMap: (input) => {
+    const result = goldenResult(input);
+    const lastCloudSave = input.state.account.lastCloudSave;
+    const now = buildNowView(result, EMPTY_PREFS, { ...DEFAULT_UI, now: input.now, lastCloudSave });
+    const c = (i: number) => result.characters.find((x) => x.index === i);
+    return renderMapText(buildMapView(result, now), {
+      label: saveOrderLabel(input.state),
+      classOf: (i) => (c(i) ? `${c(i)?.classLabel} ${c(i)?.level}` : '?'),
+    });
   },
   renderTimeline: (input) => {
     const result = goldenResult(input);

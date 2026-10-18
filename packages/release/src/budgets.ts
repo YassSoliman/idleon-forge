@@ -16,13 +16,44 @@ export const BUDGETS = {
   anyFile: 20 * 1024 * 1024,
   fileCount: 5000,
   whatsNew: 64 * 1024,
+  // M21 TR-12: the font files the first screen downloads (FR-F2's five latin faces: Atkinson
+  // Hyperlegible Next 400 and 700, JetBrains Mono 400, Pixelify Sans 500 and 600). Measured at 60.8 KB
+  // in Phase F (2026-10-18); capped at that + 10 KB. Today's first paint was 4 files, about 64 KB.
+  firstPaintFontsRaw: 71 * 1024,
+  // M21 TR-12: the main stylesheet, gzipped: Phase F's measured 14.2 KB (7.5 KB before: the tokens, the
+  // atoms and the art's ramps and frames) + 12 KB. Reported from F, enforced from Integration
+  // (MAIN_CSS_ENFORCED), once the areas have moved onto the atoms and the old styles are gone.
+  mainCssGzip: 26.2 * 1024,
 } as const;
+
+/** Integration turns this on (M21 TR-12, FR-I3). */
+export const MAIN_CSS_ENFORCED = false;
+
+/** The first screen's font files (FR-F2), by their emitted names. */
+export const FIRST_PAINT_FONTS: readonly RegExp[] = [
+  /^assets\/atkinson-hyperlegible-next-latin-400-normal-[\w-]+\.woff2$/,
+  /^assets\/atkinson-hyperlegible-next-latin-700-normal-[\w-]+\.woff2$/,
+  /^assets\/jetbrains-mono-latin-400-normal-[\w-]+\.woff2$/,
+  /^assets\/pixelify-sans-latin-500-normal-[\w-]+\.woff2$/,
+  /^assets\/pixelify-sans-latin-600-normal-[\w-]+\.woff2$/,
+];
+
+/** The entry stylesheet index.html links: assets/index-<hash>.css. */
+export const isMainCss = (p: string): boolean => /^assets\/index-[\w-]+\.css$/.test(p);
+
+/** Raw bytes of the first screen's font files. */
+export const firstPaintFontsRaw = (files: readonly DistFile[]): number =>
+  files.reduce((n, f) => n + (FIRST_PAINT_FONTS.some((re) => re.test(f.path)) ? f.size : 0), 0);
+
+/** Gzipped bytes of the main stylesheet. */
+export const mainCssGzip = (files: readonly DistFile[]): number =>
+  files.reduce((n, f) => n + (isMainCss(f.path) ? (f.gzip ?? 0) : 0), 0);
 
 export interface DistFile {
   /** Path relative to dist/, forward slashes. */
   path: string;
   size: number;
-  /** Gzipped size; needed for the initial chunks only. */
+  /** Gzipped size; needed for the initial chunks and the main stylesheet only. */
   gzip?: number;
   /** The main chunk or a chunk index.html modulepreloads (a first visit runs it). */
   initial?: boolean;
@@ -58,6 +89,12 @@ export function checkBudgets(files: DistFile[]): string[] {
     if (f.path === 'whats-new.json' && f.size > BUDGETS.whatsNew)
       problems.push(`whats-new.json is ${kb(f.size)} (budget ${kb(BUDGETS.whatsNew)})`);
   }
+  const fonts = firstPaintFontsRaw(files);
+  if (fonts > BUDGETS.firstPaintFontsRaw)
+    problems.push(`the first screen's fonts are ${kb(fonts)} (budget ${kb(BUDGETS.firstPaintFontsRaw)})`);
+  const css = mainCssGzip(files);
+  if (MAIN_CSS_ENFORCED && css > BUDGETS.mainCssGzip)
+    problems.push(`the main stylesheet is ${kb(css)} gzipped (budget ${kb(BUDGETS.mainCssGzip)})`);
   const initial = initialJsGzip(files);
   if (initial > BUDGETS.initialJsGzip)
     problems.push(

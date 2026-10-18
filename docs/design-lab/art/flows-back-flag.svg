@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges" class="lab-px-art" style="--p1:var(--frame, #1d2433);--p2:var(--return-line, var(--accent));--p3:var(--return-line, var(--accent));--p4:var(--accent-soft, #f6e6cc);--ew:var(--mat-eye-white, #ffffff);--ek:var(--mat-eye-pupil, #141018)">
+<title>Back-at flag</title>
+<!-- ActiveOn Design Lab, group flows. Our own pixel art (ADR 0009). 16x16 grid, 1 frame(s). Fills are token variables with fallbacks. -->
+<style>.fl-c-ek{fill:var(--ek)}.fl-c-ew{fill:var(--ew)}.fl-c-p1{fill:var(--p1)}.fl-c-p2{fill:var(--p2)}.fl-c-p3{fill:var(--p3)}.fl-c-p4{fill:var(--p4)}.fl-c-q1{fill:var(--q1)}.fl-c-q2{fill:var(--q2)}.fl-c-q3{fill:var(--q3)}.fl-c-q4{fill:var(--q4)}.fl-c-r1{fill:var(--r1)}.fl-c-r2{fill:var(--r2)}.fl-c-r3{fill:var(--r3)}.fl-c-r4{fill:var(--r4)}</style>
+<path class="fl-c-p1" d="M3 1h1v1h-1zM3 2h1v1h-1zM3 3h1v1h-1zM3 4h1v1h-1zM3 5h1v1h-1zM3 6h1v1h-1zM3 7h1v1h-1zM3 8h1v1h-1zM3 9h1v1h-1zM3 10h1v1h-1zM3 11h1v1h-1zM3 12h1v1h-1zM3 13h1v1h-1zM3 14h1v1h-1zM2 15h3v1h-3z"/><path class="fl-c-p3" d="M4 1h9v1h-9zM4 2h2v1h-2zM10 2h3v1h-3zM4 3h8v1h-8zM4 4h9v1h-9zM4 5h8v1h-8z"/><path class="fl-c-p4" d="M6 2h4v1h-4z"/>
+</svg>

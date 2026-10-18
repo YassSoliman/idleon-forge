@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: third · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -6,34 +6,34 @@
 1 of 10 Ready · 9 Unknown
 
 ### C4 · Divine Knight 655 · Unknown
-1 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2h] [Anvil full in about 3h · collect] · Can't tell from the save
+1 · Fighting Green Mushroom · Spore Meadows · [Traps idle in 2h 16m] [Anvil full in 2h 42m · collect] · Can't tell from the save
 
 ### C3 · Bubonic Conjuror 568 · Unknown
-2 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2h] · Can't tell from the save
+2 · Fighting Green Mushroom · Spore Meadows · [Traps idle in 2h 16m] · Can't tell from the save
 
 ### C5 · Beast Master 561 · Unknown
-3 · Fighting Minichief Spirit · Chieftain Stairway · [Traps idle in about 4h] · Can't tell from the save
+3 · Fighting Minichief Spirit · Chieftain Stairway · [Traps idle in 4h 16m] · Can't tell from the save
 
 ### C8 · Divine Knight 558 · Unknown
-4 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2h] [Anvil full in about 3h · collect] · Can't tell from the save
+4 · Fighting Green Mushroom · Spore Meadows · [Traps idle in 2h 16m] [Anvil full in 2h 59m · collect] · Can't tell from the save
 
 ### C6 · Elemental Sorcerer 545 · Unknown
-5 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2h] [Anvil full in about 4h · collect] · Can't tell from the save
+5 · Fighting Green Mushroom · Spore Meadows · [Traps idle in 2h 16m] [Anvil full in 4h 01m · collect] · Can't tell from the save
 
 ### C2 · Siege Breaker 527 · Unknown
-6 · Fighting Green Mushroom · Spore Meadows · [Worship full · spend] [Traps idle in about 4h] · Can't tell from the save
+6 · Fighting Green Mushroom · Spore Meadows · [Worship full · spend] [Traps idle in 4h 16m] · Can't tell from the save
 
 ### C10 · Siege Breaker 522 · Unknown
-7 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 4h] · Can't tell from the save
+7 · Fighting Green Mushroom · Spore Meadows · [Traps idle in 4h 16m] · Can't tell from the save
 
 ### C1 · Blood Berserker 521 · Unknown
-8 · Cooking · Outer World Town · [Traps idle in about 2h] · Not covered yet: Cooking
+8 · Cooking · Outer World Town · [Traps idle in 2h 16m] · Not covered yet: Cooking
 
 ### C9 · Elemental Sorcerer 552 · Unknown
-9 · Fighting Green Mushroom · Spore Meadows · [Traps idle in about 2h] · Can't tell from the save
+9 · Fighting Green Mushroom · Spore Meadows · [Traps idle in 2h 16m] · Can't tell from the save
 
 ### C7 · Voidwalker 523 · Ready
-10 · Mining Godshard · Motherlode Pit · [Traps idle in about 2h]
+10 · Mining Godshard · Motherlode Pit · [Traps idle in 2h 16m]
 purpose: Godshard: stamp material for Forge Stamp
 
 ### Account · nothing to fix
@@ -249,6 +249,12 @@ step: Pay 2 Win: buy Player Alchemy Speed and Extra EXP 149 → 150
   Dementia: 0 of 7 parts: craft Dementia Helmet
   Void: 0 of 7 parts: craft Void Imperium Helmet
   Chizoar: 0 of 4 parts: craft Chizoar Helmet
+
+## Builds
+Not built yet (M21 area C: the Build path).
+
+## Map
+Not built yet (M21 area M: the Map place).
 
 ## Findings
 | entry | detector | subject | result | slots |

@@ -8,6 +8,7 @@ entries:
     type: check
     title: Finished traps sit idle
     text: "Collect and re-place your {traps:int} finished traps"
+    groupText: "Collect and re-place your finished traps"
     values: { timelineKind: timer, timelineWhat: "traps" }
     why: Size the new traps to your return. A finished trap catches nothing until it is collected and placed again. Trap timers stop on the character-select screen, so close the game fully afterwards.
     sources:
@@ -33,12 +34,12 @@ entries:
     system: trapping
     type: check
     title: Traps finish before you're back
-    text: "Traps finish in {finishesIn:duration}, then sit idle until you're back"
+    text: "Traps finish {finishesIn:in}, then sit idle until you're back"
     values:
       timelineKind: timer
       timelineWhat: "traps"
       pill: "Traps idle"
-      pill-soon: "Traps idle in {finishesIn:duration}"
+      pill-soon: "Traps idle {finishesIn:in}"
     why: Pulling a running trap early gives up what it has built, so next time place traps sized to how long you'll be away.
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/traps.ts

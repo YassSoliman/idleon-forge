@@ -1,0 +1,175 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* Area S (M21 §9): the Systems hub and the System pages. Moved from styles/views.css in M21 Phase F,
+   unchanged. */
+.st:focus-visible,
+.chip.ny:focus-visible {
+  outline: 2px solid var(--coin);
+  outline-offset: -2px;
+}
+
+/* ---- The Systems hub (FR-16 to FR-22) ---- */
+.systems-hub {
+  display: grid;
+  gap: 14px;
+}
+.st-group {
+  display: grid;
+  gap: 6px;
+}
+.st-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+.st {
+  display: grid;
+  align-content: start;
+  gap: 2px;
+  min-height: 72px;
+  height: 100%;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left-width: 4px;
+  border-radius: var(--radius);
+  color: var(--fg);
+  text-decoration: none;
+  min-width: 0;
+}
+.st-name {
+  font-weight: 700;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+.st-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font: 12px / 1.3 var(--mono);
+  white-space: nowrap;
+}
+.st-reason {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.st-wasting {
+  border-left-color: var(--bad);
+}
+.st-wasting .st-status {
+  color: var(--bad);
+}
+.st-behind {
+  border-left-color: var(--coin);
+}
+.st-behind .st-status {
+  color: var(--coin);
+}
+.st-ok {
+  border-left-color: var(--ok);
+}
+.st-ok .st-status {
+  color: var(--ok);
+}
+.st-locked,
+.st-cant-tell,
+.st-not-covered {
+  border-left-color: var(--unk);
+}
+.st-locked {
+  background: var(--sunk);
+}
+.st-locked .st-status,
+.st-cant-tell .st-status,
+.st-not-covered .st-status {
+  color: var(--unk);
+}
+.ny-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip.ny {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  text-decoration: none;
+  border-left-width: 4px;
+}
+.st-later > summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.st-gaps ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+/* ---- System pages (FR-23) ---- */
+.system-page {
+  display: grid;
+  gap: 12px;
+}
+.system-page > section {
+  display: grid;
+  gap: 6px;
+}
+.sp-head {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left-width: 4px;
+  border-radius: var(--radius);
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.sp-pills {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.sp-pills li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+}
+a.cap {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  text-decoration: none;
+}
+.sp-opens > summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.sp-opens > summary .sub-h {
+  display: inline;
+  margin: 0;
+}
+.sp-coverage ul {
+  margin: 0;
+  padding-left: 18px;
+}

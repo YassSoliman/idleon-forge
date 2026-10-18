@@ -154,7 +154,7 @@ describe('US-2 food that runs out overnight', () => {
     expect(f?.fixHolds).toBe(true);
     expect(((f?.at ?? 0) - (s.characters[3]?.afk?.afkSince ?? 0)) / HOUR_MS).toBeCloseTo(7.3, 1);
     expect(f?.nextAction.text).toBe('Add more health food from storage');
-    expect(f?.nextAction.why).toMatch(/^It runs out in about 7h \(146 left\)\./);
+    expect(f?.nextAction.why).toMatch(/^It runs out in 7h \d\dm \(146 left\)\./);
   });
 
   it('shows no food blocker at 4 h; the run-out is after the return', () => {
@@ -187,7 +187,7 @@ describe('US-4 anvil that caps, and anvil that cannot be helped (#70 A5, R-PILL-
     expect(pill?.fullNow).toBe(true);
     expect(pill?.key).toBe('anvil.check.caps-before-return@c0');
     expect(pill?.nextAction.text).toBe('Collect Thread from the anvil');
-    expect(pill?.nextAction.why).toMatch(/^Time to cap: now; it refills in about 3h after you collect\./);
+    expect(pill?.nextAction.why).toMatch(/^Full now; it refills in about 3h after you collect\./);
     // Still Fix, but only for its food: the anvil is not one of its blockers.
     expect(blockers(barb.findings)).toEqual(['afk.check.dies-fixable-by-food']);
     for (const i of [1, 2, 3, 4]) expect(capsOf(charOf(r, i))).toEqual([]);
@@ -202,7 +202,7 @@ describe('US-4 anvil that caps, and anvil that cannot be helped (#70 A5, R-PILL-
     expect(bowman?.fromEmptyMs).toBe(7355512);
     const pill = charOf(r, 3).caps.find((p) => p.entryId === 'anvil.check.caps-before-return');
     expect(pill?.fullNow).toBe(false);
-    expect(pill?.label).toMatch(/^Anvil full in about .+ · collect$/);
+    expect(pill?.label).toMatch(/^Anvil full in \d+h \d\dm · collect$/);
     for (const c of r.characters)
       expect(blockers(c.findings)).not.toContain('anvil.check.caps-before-return');
   });
@@ -252,12 +252,12 @@ describe('US-5 worship charge that is already full', () => {
     expect(((charOf(r, 0).firstFill?.at ?? 0) - W3().asOf) / HOUR_MS).toBeCloseTo(73.4, 0);
   });
 
-  it('a skull at 110/120 and an 8 h return: a "Worship full in about X" pill, not a blocker (R-PILL-1)', () => {
+  it('a skull at 110/120 and an 8 h return: a "Worship full in X" pill, not a blocker (R-PILL-1)', () => {
     const r = evaluate(skull(110));
     expect(charOf(r, 0).findings.map((x) => x.entryId)).not.toContain('worship.check.charge-caps-skull');
     const pill = charOf(r, 0).caps.find((x) => x.entryId === 'worship.check.charge-caps-skull');
     expect(pill?.fullNow).toBe(false);
-    expect(pill?.label).toMatch(/^Worship full in about .+ · spend$/);
+    expect(pill?.label).toMatch(/^Worship full in \d+h \d\dm · spend$/);
     expect(charOf(r, 0).safety).toBe('safe');
   });
 
@@ -386,7 +386,7 @@ describe('US-8 empty Parallel Slots and idle traps', () => {
   it('a trap finishing in 3 h against 8 h is a "Traps idle" pill (R-PILL-1); a finished trap blocks', () => {
     const running = charOf(evaluate(trap(3)), 4);
     expect(running.caps.find((p) => p.entryId === 'trapping.check.finishes-early')?.label).toBe(
-      'Traps idle in about 3h',
+      'Traps idle in 3h 00m',
     );
     expect(running.findings.map((f) => f.entryId)).not.toContain('trapping.check.finishes-early');
     // This fisher is also on its fighting preset: M9's wrong-preset blocker joins the pipeline (M9 US-1).

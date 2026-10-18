@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: first · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -6,26 +6,26 @@
 2 of 7 Ready · fix 1 before you leave · 4 Unknown
 
 ### C7 · Maestro 73 · Fix before you leave
-1 · Doing nothing · YumYum Grotto · [Traps idle in about 13m] · Pick an AFK Target before you leave
+1 · Doing nothing · YumYum Grotto · [Traps idle in 13m] · Pick an AFK Target before you leave
 
 ### C2 · Bubonic Conjuror 87 · Unknown
-2 · In the Lab · Outer World Town · [Traps idle in about 5h] · Not covered yet: Laboratory · Spend here: 32 buys, about 3.6B coins → Spend Plan
+2 · In the Lab · Outer World Town · [Traps idle in 4h 33m] · Not covered yet: Laboratory · Spend here: 32 buys, about 3.6B coins → Spend Plan
 
 ### C6 · Beast Master 87 · Unknown
-3 · In the Lab · Outer World Town · [Traps idle in about 5h] · Not covered yet: Laboratory
+3 · In the Lab · Outer World Town · [Traps idle in 4h 33m] · Not covered yet: Laboratory
 
 ### C3 · Siege Breaker 86 · Unknown
-4 · In the Lab · Outer World Town · [Traps idle in about 5h] · Not covered yet: Laboratory
+4 · In the Lab · Outer World Town · [Traps idle in 4h 33m] · Not covered yet: Laboratory
 
 ### C5 · Elemental Sorcerer 87 · Unknown
-5 · In the Lab · Outer World Town · [Anvil full · collect] [Traps idle in about 5h] · Not covered yet: Laboratory
+5 · In the Lab · Outer World Town · [Anvil full · collect] [Traps idle in 4h 33m] · Not covered yet: Laboratory
 
 ### C1 · Blood Berserker 96 · Ready
-6 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in about 5h] · Collect 2 boss keys · Spend here: 1 buy, about 2M coins → Spend Plan
+6 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in 4h 33m] · Collect 2 boss keys · Spend here: 1 buy, about 2M coins → Spend Plan
 purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
 
 ### C4 · Divine Knight 86 · Ready
-7 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in about 5h] · Spend at least 101 talent points on your skilling preset · Spend here: 1 buy, about 935k coins → Spend Plan
+7 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in 4h 33m] · Spend at least 101 talent points on your skilling preset · Spend here: 1 buy, about 935k coins → Spend Plan
 purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
 
 ### Account · nothing to fix
@@ -64,7 +64,7 @@ Spend coins: 34 buys now on 3 characters
   show more (35)
   can't price the Upgrade Vault right now
 If you have time
-- Clear the Sandstone Colosseum on 2 more characters (2 of 4): try your Bubonic Conjuror Lv 87, highest-level not yet done; spends 2 Colosseum Tickets each · about 5m of hands-on play
+- Clear the Sandstone Colosseum on 2 more characters (2 of 4): try your Bubonic Conjuror Lv 87 first (highest level); spends 2 Colosseum Tickets each · about 5m of hands-on play
 
 ## Not covered yet
 Bribes
@@ -250,6 +250,12 @@ step: Use your 13 vial attempts on the W2 town cauldron
   Dementia: 6 of 7 parts: craft Dementia Dicer
   Void: 0 of 7 parts: craft Void Imperium Helmet
   Chizoar: 0 of 4 parts: craft Chizoar Helmet
+
+## Builds
+Not built yet (M21 area C: the Build path).
+
+## Map
+Not built yet (M21 area M: the Map place).
 
 ## Findings
 | entry | detector | subject | result | slots |

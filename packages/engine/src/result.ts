@@ -44,6 +44,7 @@ export type {
 } from './gear/types';
 export type {
   CharacterSkills,
+  M21Picture,
   PictureElement,
   SkillGrid,
   SkillRow,
@@ -439,6 +440,45 @@ export interface BuildTabView {
   rows: BuildTalentRow[];
   /** Talents with points the Build doesn't name, most first. */
   others: { label: string; level: number }[];
+  /**
+   * M21 FR-C2: the points this tab's path can spend now. `lower-bound` (tabs 1–3, M9 TR-7), `exact`
+   * (the star tab, FR-C10) or `none`. `overBy` is set only on an over-budget star tab. Declared by
+   * Phase F; absent until area C fills it (read it as `{ kind: 'none', points: null, overBy: null }`).
+   */
+  known?: BuildKnownPoints;
+  /** M21 FR-C1: every applicable Build step in spend order, banded. Absent until area C fills it. */
+  path?: BuildPathStepView[];
+}
+
+/** M21 FR-C2 (TR-8). */
+export interface BuildKnownPoints {
+  kind: 'lower-bound' | 'exact' | 'none';
+  points: number | null;
+  overBy: number | null;
+}
+
+/** M21 TR-8: one row of a tab's Build path (FR-C1). Filled by area C. */
+export interface BuildPathStepView {
+  key: string;
+  talentId: number;
+  label: string;
+  /** Star pages 1–4; null on tabs 1–3. */
+  page: number | null;
+  current: number;
+  /** min(target or cap, max in this save). */
+  goal: number;
+  /** 0 when done. */
+  need: number;
+  /** Points from now through this step; null for done / later. */
+  cumulative: number | null;
+  band: 'done' | 'now' | 'part' | 'next' | 'later';
+  /** 'part': the known points that land in this step. */
+  partNow: number | null;
+  core: boolean;
+  /** 'later': "from World 3, early", "find its book (…)". */
+  condition: string | null;
+  /** "its max for now", "useful up to 7 (best level 73)". */
+  note: string | null;
 }
 
 export interface BuildNextPoint {
@@ -463,6 +503,11 @@ export interface BuildPresetView {
   /** Lower bound over tabs 1-3; null without a second preset. */
   unspent: number | null;
   tabs: BuildTabView[];
+  /**
+   * M21 FR-C13: the Star Talent tab as one more tab, with its own path (one pool across pages 1–4).
+   * Declared by Phase F; null until area C fills it.
+   */
+  star?: BuildTabView | null;
   /** Attacks on the bar against the Build's; null when the bar can't be read or the role has none. */
   attackBar: { set: string[]; recommended: string[]; missing: string[]; text: string } | null;
   /** The ordered checklist for this preset, by tab (the Build's steps minus current levels). */
@@ -584,4 +629,70 @@ export interface EngineResult {
   alchemy?: AlchemyResult | null;
   /** M18 TR-5: the Gear tab, the Gear page's heat strip and the Smithy page; absent without M18. */
   gear?: GearResult | null;
+  /**
+   * M21 TR-11: Play Session facts for the pause points and the Away card (area N's `session` module).
+   * Phase F registers a stub that emits null.
+   */
+  session?: SessionFacts | null;
+  /** M21 TR-9: the Map place (area M's `map` module). Phase F registers a stub that emits null. */
+  map?: MapResult | null;
+  /**
+   * M21 FR-F4, TR-5: each character's class family, keyed by `CharacterState.index`, from
+   * `classes.fact.class-tree`, so the UI draws its who-glyph without importing the Knowledge Base.
+   * A character whose class isn't in the tree is absent. Absent without a Knowledge Base.
+   */
+  classFamilies?: Record<number, ClassFamily>;
+}
+
+/** M21 FR-F4: the five who-glyph chibi families (DS-13). */
+export type ClassFamily = 'beginner' | 'journeyman' | 'warrior' | 'archer' | 'mage';
+
+/** M21 TR-11: what the save history says about Play Sessions (area N). */
+export interface SessionFacts {
+  sessionStartedAt: number | null;
+  previousSessionEndedAt: number | null;
+  /** The last 10 Play Sessions; null with fewer than 3. */
+  medianSessionMs: number | null;
+  /** Since M9's baseline save. */
+  levelGains: { characterIndex: number; from: number; to: number }[];
+}
+
+/** M21 TR-9: one map node of the Map place (area M). */
+export interface MapNode {
+  mapIndex: number;
+  name: string;
+  kind: 'fight' | 'skill' | 'town' | 'other';
+  doors: { destination: number; requirement: number }[];
+}
+
+/** M21 TR-9: the Map place's data (area M). */
+export interface MapResult {
+  worlds: {
+    world: number;
+    state: 'done' | 'open' | 'next';
+    cleared: number;
+    total: number;
+    gate: {
+      boss: string;
+      bossMap: number | null;
+      keysHeld: number | null;
+      keysPerDay: number | null;
+      crystal: { item: string; held: number | null; need: number } | null;
+    } | null;
+    maps: MapNode[];
+  }[];
+  frontier: {
+    mapIndex: number;
+    door: number;
+    requirement: number;
+    best: { characterIndex: number; killsLeft: number; etaMs: number | null } | null;
+  } | null;
+  markers: { characterIndex: number; mapIndex: number }[];
+  doors: Record<number, { characterIndex: number; door: number; done: number; requirement: number }[]>;
+  overlays: {
+    route: number[];
+    constellations: Record<number, string[]>;
+    deathNote: Record<number, { kills: number; nextRank: string | null; nextAt: number | null }>;
+    cards: Record<number, { cardId: string; level: number | null; baseChance: number | null }>;
+  };
 }

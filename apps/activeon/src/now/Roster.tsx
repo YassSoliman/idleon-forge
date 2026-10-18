@@ -4,13 +4,13 @@
 // is a button whose accessible name says everything on it (US-1, TR-14).
 import { LINK_WORDS, type NowView, type RosterRow } from '@idleon-forge/engine/now';
 import { forwardRef } from 'react';
+import { LegacyPill as Pill } from '../design/atoms/LegacyPill';
 import { formatRoute } from '../shell/route';
 import { useNowActions } from './context';
 import { capOpenId } from './parts';
 
-export function Pill({ pill }: { pill: RosterRow['pill'] }) {
-  return <span className={`pill ${pill.kind}`}>{pill.text}</span>;
-}
+/** Re-exported for now/Focus.tsx until Integration (M21 FR-I3). */
+export { Pill };
 
 /**
  * R-PILL-1: the row's cap pills, before the summary, at most 3 then "+n". They sit inside the row's

@@ -1,0 +1,1761 @@
+{
+  "version": 2,
+  "date": "2026-10-18",
+  "about": "ActiveOn Design Lab v2: the views and components to design, in exactly four groups (character, systems, time, map). Each component lists its purpose, where its data lives in data/v2/*.json (paths into that file; '*' every element, '[i]' or 'c<i>' one character), 2-4 variation ideas that change the UX, the brief.md principles it serves, the System Atlas entries it covers (numbers from research/system-atlas.md section 1), and whether the data comes with advice (adviceStatus). Data is scrubbed (Char1..., class + level only).",
+  "ownerFeedback": [
+    "Builds must be taken into account and visualized; cards too; presets visualized and easy to understand per character, from cards we already have, plus a list of cards to grind for optimal presets, appropriate and possible for our world progress.",
+    "Dig deep into the game's other systems and flesh out their views and components.",
+    "Too linear, everything as cards, too simplified, not enough visuals, graphics and guidance; we don't get the insight to maximize game time efficiency and fun."
+  ],
+  "direction": "Field Guide as the base; Quest Log accents for the why (NPC speech), headings at 16 px+ and celebrations; Command Board as the desktop and power-session layout (lanes, heat grids, ledgers). From critique.md.",
+  "hardConstraints": [
+    "One who-glyph family: the class chibi at 16 px for every character reference; the map pin only for where.",
+    "Pixel faces only at 16 px and up; never for body text or anything under 12 px; no letter-spaced caps on pills.",
+    "44 px minimum tap targets; whole rows are the link.",
+    "Never repeat the row's own name in its action; never truncate the verb's object; group instead.",
+    "Exactly one NOW per plan, list, Walkthrough or picture.",
+    "Honest 'time not known' (or hide the token) instead of invented numbers; no '~' estimates on faces.",
+    "One currency format: coins with a short suffix.",
+    "No tier jargon and no field paths on screen.",
+    "No slot codes (C1..C6) on screen; characters are a chibi + class + level.",
+    "Our own pixel art only (ADR 0009); never embed or trace game sprites.",
+    "Never quote real character names."
+  ],
+  "places": ["Now", "Characters", "Systems", "Timeline", "Map"],
+  "principles": {
+    "P1": "Answer first",
+    "P2": "One next step, and it is the product",
+    "P3": "Who, where, how long, every line",
+    "P4": "Two levels, no more",
+    "P5": "Every warning carries its fix",
+    "P6": "Time is one language",
+    "P7": "One job, many characters: group it",
+    "P8": "Stable places; state by colour plus glyph plus word",
+    "P9": "Hard caps and one winner",
+    "P10": "Quiet, kind controls",
+    "P11": "The save is the checklist, and it is honest about age",
+    "P12": "Earned delight in our own pixel art"
+  },
+  "dataFiles": {
+    "data/v2/scrubbed-w2.json": "W2-late, 5 characters, fresh save (full export)",
+    "data/v2/scrubbed-w3.json": "W3-early, 6 characters, fresh save (full export)",
+    "data/v2/scrubbed-w3-stale.json": "W3-early with the save's own timestamps (about 8.5 h old): caps full",
+    "data/v2/latest.json": "Toolbox public late-game save, 11 characters, W4 entry; names replaced with Char<n>",
+    "data/v2/*.lite.json": "Same, trimmed for embedding (no expanded Now view, slimmer engine result and Account State). Paths in this inventory are into the lite files unless the field is missing there, then use the full file.",
+    "data/v2/*.now.txt": "Golden-style text rendering of the Now screen",
+    "data/v2/kb-reference.json": "Static Knowledge Base game data: maps, portals, world gates, class tree, tools, skill doors, card sets, statues, vault rows, death note tiers, construction and refinery facts",
+    "data/v2/_summary.json": "Per-fixture counts and the scrub check result"
+  },
+  "adviceStatusKey": {
+    "engine": "engine output on main (aa70bc3)",
+    "derived": "derived in the v2 export from M8's card preferences and KB drop rates (not an engine output yet)",
+    "raw": "data available but no advice yet (Toolbox parse, raw.*)"
+  },
+  "groups": [
+    {
+      "id": "character",
+      "name": "Characters",
+      "components": [
+        {
+          "id": "character.overview",
+          "name": "Characters overview grid",
+          "purpose": "The Characters place: every character at once as a tile, so the player sees who is set up right and who is behind on Build, Gear, Cards or Skills before opening a page. Tapping a tile opens that character's page on the tab with the worst status.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "characters[*]",
+              "note": "label (class + level), activity, map, verdict; order = save order"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.builds[*].status",
+              "note": "one Build line per character (M9 Build view)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.plan[*].swap",
+              "note": "derived in the v2 export from M8's card preferences and KB drop rates (not an engine output yet): how many cards a better preset would change"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.characters[*].equipment[*].lvReqToEquip",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): gear level vs character level"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.characters[*].skills",
+              "note": "data available but no advice yet (Toolbox parse, raw.*)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.m15.metapath",
+              "note": "family unlock (next character slot) for the empty-slot tile"
+            },
+            {
+              "file": "data/v2/latest.lite.json",
+              "path": "characters[*]",
+              "note": "11 characters: the grid must still fit a phone"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Health matrix",
+              "idea": "Rows are characters (chibi + class + level), columns are Build / Gear / Cards / Skills / Slots. Each cell is one glyph + word (ok, behind, empty). Tap a cell to open that tab. Scans like a report card; no prose."
+            },
+            {
+              "name": "Class tree roster",
+              "idea": "Characters sit as tiles on the class tree (3 branches, subclass nodes). Empty subclass nodes show as outlined 'no one plays this' slots and duplicates are flagged, so the tree doubles as the 'next character' answer."
+            },
+            {
+              "name": "Roster ribbon of slots",
+              "idea": "11 slot tiles in a row: filled slots show the chibi and the worst tab badge, the next slot shows a family-level progress bar to its unlock, later slots are locked with their threshold."
+            },
+            {
+              "name": "Grouped by Role",
+              "idea": "Tiles grouped under Pusher, Skiller, Card farmer, Unset. Each tile shows only the one thing off for its Role (wrong preset, empty card slot, no tool)."
+            }
+          ],
+          "principles": ["P1", "P7", "P8", "P9"],
+          "atlasSystems": [
+            "#2 Classes and subclasses",
+            "#4 Character slots",
+            "#76 Family bonuses",
+            "#77 Family level",
+            "#98 Skill overview"
+          ],
+          "states": [
+            "all ok",
+            "one tab behind",
+            "empty character slot ready to fill",
+            "11 characters (late save)"
+          ],
+          "adviceStatus": "engine output on main (aa70bc3) (builds, verdicts, family unlock); gear and skills columns are data available but no advice yet (Toolbox parse, raw.*)"
+        },
+        {
+          "id": "character.shell",
+          "name": "Character page shell, tab bar and identity",
+          "purpose": "The frame of every per-character page: who this is (class chibi at 16 px, class, level, map pin and AFK activity), its Verdict, and a five-tab bar (Now, Build, Gear, Cards, Skills) with one badge per tab. Switching characters keeps the tab.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "characters[i]",
+              "note": "label, activity, map, verdict"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.focus.c<i>",
+              "note": "Now tab: Focus card (current step, Purpose, Goals)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.builds[i].status",
+              "note": "Build tab badge"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.plan[i]",
+              "note": "Cards tab badge: swap count, empty slots"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.characters[i].equipment",
+              "note": "Gear tab badge: data available but no advice yet (Toolbox parse, raw.*)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "accountState.characters[i].skillLevels",
+              "note": "Skills tab badge"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Sticky identity strip",
+              "idea": "One 56 px strip: chibi, 'Squire 85', map pin + place, Verdict glyph and word. The tab bar sits under it with a count badge per tab. On scroll the strip shrinks to chibi + name only."
+            },
+            {
+              "name": "Prev / next character rail",
+              "idea": "Left and right chevrons (44 px) flank the identity and show the neighbouring chibis; swipe on phone. The current tab persists across characters, so 'check every Cards tab' is six swipes."
+            },
+            {
+              "name": "Level-gate ruler identity",
+              "idea": "The identity line carries a level bar with labelled gate ticks (preset 2 at 15, tab 3 at 29, next gear tier, next obol slot), answering 'what does the next level give' without opening Build."
+            },
+            {
+              "name": "Menu-tile tabs",
+              "idea": "Tabs drawn as our own pixel menu tiles (16 px glyph + word at 16 px), like the game's character menu, with the badge as a coin-style counter."
+            }
+          ],
+          "principles": ["P1", "P3", "P4", "P8", "P12"],
+          "atlasSystems": [
+            "#5 Character level and Class EXP",
+            "#11 AFK gains and AFK Target",
+            "#2 Classes and subclasses"
+          ],
+          "states": ["Verdict ready", "Verdict fix", "unknown", "playing now"],
+          "adviceStatus": "engine output on main (aa70bc3)",
+          "tabs": ["Now", "Build", "Gear", "Cards", "Skills"]
+        },
+        {
+          "id": "character.now-tab",
+          "name": "Now tab",
+          "purpose": "The character's own session view: its one current step (Focus), its Purpose, and up to three Goals, with a 'See it' link from each Goal to the tab or system page that shows it.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.focus.c<i>",
+              "note": "current step, purpose, goals, blockers"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.engineResult.characters[i].purpose",
+              "note": "Purpose lines"
+            },
+            {
+              "file": "data/v2/scrubbed-w3-stale.lite.json",
+              "path": "engine.focus.c<i>",
+              "note": "stale save: the tab must say the save is old first"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Current step hero",
+              "idea": "v1's pick: one step with who / where / how long and a fill bar from the save; Goals muted below; each Goal gets a 'See it on Cards' chevron link."
+            },
+            {
+              "name": "Purpose ladder",
+              "idea": "The Purpose as a vertical ladder of Milestones (next one lit), with the current step pinned on the lit rung."
+            },
+            {
+              "name": "Before you leave strip",
+              "idea": "Only the unmet AFK Setup items for this character, ticking themselves from the next save; the rest folds."
+            }
+          ],
+          "principles": ["P2", "P3", "P4", "P11"],
+          "atlasSystems": ["#11 AFK gains and AFK Target", "#5 Character level"],
+          "adviceStatus": "engine output on main (aa70bc3)"
+        },
+        {
+          "id": "character.build.class-path",
+          "name": "Class path",
+          "purpose": "Where this character is on Beginner -> base -> subclass -> elite -> master, and what the next class needs and opens (a talent tab, a Role, a family bonus).",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.builds[i].path[*]",
+              "note": "class, label, state (done / now / next / later)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.builds[i].nextClass",
+              "note": "the next class milestone, in words"
+            },
+            {
+              "file": "data/v2/kb-reference.json",
+              "path": "classes",
+              "note": "class tree (promotesFrom / promotesTo, talent tabs)"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Stepping stones",
+              "idea": "A horizontal path of stones; the current class is the lit stone, the next stone carries its requirement ('Eliteus, W4') and what it opens ('talent tab 4')."
+            },
+            {
+              "name": "Branch of the class tree",
+              "idea": "The character's branch drawn from the full tree with the sibling subclass dimmed, so a duplicate subclass on the account is visible right here."
+            },
+            {
+              "name": "Gate ruler",
+              "idea": "Class milestones as ticks on the character's level ruler (class at 10, tab 3 at 29 ...), joining class path and level into one line."
+            }
+          ],
+          "principles": ["P2", "P3", "P12"],
+          "atlasSystems": [
+            "#2 Classes and subclasses",
+            "#3 Secret class path",
+            "#114 W4 bosses and the elite class"
+          ],
+          "states": [
+            "base class, subclass next",
+            "subclass, elite next (W4 horizon)",
+            "Beginner past 15",
+            "Journeyman"
+          ],
+          "adviceStatus": "engine output on main (aa70bc3)"
+        },
+        {
+          "id": "character.build.presets",
+          "name": "Talent presets: current vs target",
+          "purpose": "Both talent presets, each against its Build: per talent tab, every talent the Build names as current / target, the active preset marked and its role (fighting or skilling). The player sees exactly where points are short.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.builds[i].presets[*].tabs[*].rows[*]",
+              "note": "label, current, target, max, met, core, note"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.builds[i].presets[*].{active,role,heading,buildTitle}"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "accountState.characters[i].talentPresets",
+              "note": "raw levels per preset"
+            },
+            {
+              "file": "data/v2/scrubbed-w2.lite.json",
+              "path": "engine.builds[*]",
+              "note": "W2 save: second preset empty on some characters"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Side-by-side diff",
+              "idea": "Fighting and skilling presets as two columns (phone: a segmented switch). Rows whose current differs from target are tinted; the active preset carries an 'on now' tag and the AFK activity, red on a mismatch."
+            },
+            {
+              "name": "Game-tab grid",
+              "idea": "Each talent tab drawn as the game lays it out (a 5 x 3 grid of our own talent tiles), each tile filled to current/target; the next talent to buy is the one outlined tile."
+            },
+            {
+              "name": "Fill-to-target bars",
+              "idea": "A plain list per tab: one bar per talent with a target tick, sorted by step order; met rows collapse into 'and 6 more at target'."
+            },
+            {
+              "name": "Empty preset call-out",
+              "idea": "When preset 2 is empty, the column becomes one card: '1,020 points waiting. Set it up for Mining (free, about 5 min)' with the Build named."
+            }
+          ],
+          "principles": ["P2", "P4", "P5", "P9"],
+          "atlasSystems": ["#7 Talents and talent points", "#8 Talent presets", "#10 Talent resets"],
+          "states": [
+            "both presets set",
+            "preset 2 empty",
+            "wrong preset on for the AFK activity",
+            "no matching Build (note)"
+          ],
+          "adviceStatus": "engine output on main (aa70bc3)"
+        },
+        {
+          "id": "character.build.unspent",
+          "name": "Unspent points",
+          "purpose": "How many talent points sit unspent, per tab and in total, on each preset (lower bounds, as M9 computes them).",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.builds[i].presets[*].unspent"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.builds[i].presets[*].tabs[*].{spent,unspent}"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.characters[i].starTalentsLeft",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): star talent points left"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Tab badges",
+              "idea": "A coin-style count on each talent tab ('12'), and a total on the preset heading; zero shows nothing."
+            },
+            {
+              "name": "Spent / unspent bar",
+              "idea": "One stacked bar per tab (spent vs waiting) so the eye finds the tab with the gap."
+            },
+            {
+              "name": "Points pouch",
+              "idea": "A single pixel pouch with the total, and the one line 'Put them into Idle Brawling first', linking to Next points."
+            }
+          ],
+          "principles": ["P5", "P9", "P12"],
+          "atlasSystems": ["#7 Talents and talent points"],
+          "adviceStatus": "engine output on main (aa70bc3)"
+        },
+        {
+          "id": "character.build.next-points",
+          "name": "Next points checklist",
+          "purpose": "The ordered 'where do my next points go' list per preset and tab, the core step first, that ticks itself as the save shows the points spent.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.builds[i].presets[*].next[*]",
+              "note": "key, tab, text, points"
+            }
+          ],
+          "variations": [
+            {
+              "name": "One step, then the rest",
+              "idea": "Only the first line at full weight ('Put the next 50 points into Idle Casting'), the next two muted; exactly one NOW."
+            },
+            {
+              "name": "Per-tab checklist",
+              "idea": "Three tabs as three short lists with check glyphs; ticked rows fold."
+            },
+            {
+              "name": "Point budget meter",
+              "idea": "A bar of the preset's unspent points with the next steps as segments on it, so the player sees how far today's points reach."
+            }
+          ],
+          "principles": ["P2", "P9", "P11"],
+          "atlasSystems": ["#7 Talents and talent points"],
+          "adviceStatus": "engine output on main (aa70bc3)"
+        },
+        {
+          "id": "character.build.attack-bar",
+          "name": "Attack bar",
+          "purpose": "The attack bar as the game shows it, against the Build's attacks: what is on it, what is missing, and the empty slots.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.builds[i].presets[*].attackBar",
+              "note": "set, recommended, missing, text"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.characters[i].talentsLoadout",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): raw loadout"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Slot row with ghosts",
+              "idea": "A row of 44 px slot tiles; empty slots are dashed with a ghost of the recommended attack; a missing attack pulses once."
+            },
+            {
+              "name": "Missing only",
+              "idea": "One line when something is missing ('Add Whirl to the bar'), nothing at all when the bar is right."
+            },
+            {
+              "name": "Bar vs build",
+              "idea": "Two rows, 'On your bar' and 'The build wants', aligned so the gap reads at a glance."
+            }
+          ],
+          "principles": ["P2", "P5"],
+          "atlasSystems": ["#9 Attack bar"],
+          "adviceStatus": "engine output on main (aa70bc3) (the inactive preset's bar is not parsed by Toolbox)"
+        },
+        {
+          "id": "character.build.coming-up",
+          "name": "Coming up",
+          "purpose": "What opens next for this character's Build: the second preset at Lv 15, the tab the next class opens, stage-gated steps, elite tabs not covered.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.builds[i].comingUp[*]"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.builds[i].{note,stale,sources}",
+              "note": "a stale or low-confidence Build gets a quiet note"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Milestone ladder",
+              "idea": "Next unlocks as rungs above 'you are here', each with its level or Stage gate."
+            },
+            {
+              "name": "Unlock chips",
+              "idea": "A row of small chips ('Tab 3 at Lv 29', 'From W3: Book of the Wise'), tap for the why."
+            },
+            {
+              "name": "Folded footer",
+              "idea": "One line 'Coming up: 3 things' that opens a sheet; keeps the Build tab short."
+            }
+          ],
+          "principles": ["P4", "P9"],
+          "atlasSystems": ["#7 Talents", "#2 Classes"],
+          "adviceStatus": "engine output on main (aa70bc3)"
+        },
+        {
+          "id": "character.cards.preset-rows",
+          "name": "Card preset rows",
+          "purpose": "Each card preset as a row of slots with its equipped cards (level as stars), the selected preset and the card set worn, so the player sees the loadout the way the game shows it.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.plan[i].presets[*].cards[*]",
+              "note": "name, effect, set, level, copies, nextLevelAt"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.plan[i].{selectedPreset,slots,equipped,equippedSet,activity}"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "accountState.characters[i].cardLoadout"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "collections.cardAdvice[i]",
+              "note": "engine output on main (aa70bc3): open slots, passive cards in slots, preset switch/fill"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Card rack",
+              "idea": "Four to eight card frames per preset drawn as our own card-back art with the card name and star pips; empty slots dashed; passive cards marked 'works without a slot'."
+            },
+            {
+              "name": "Preset carousel",
+              "idea": "Presets as swipeable racks tagged with their activity icon (fight, mine, fish); the selected one ringed; a red banner when the AFK activity and the preset disagree."
+            },
+            {
+              "name": "Compact chip row",
+              "idea": "One line per preset: activity icon + card chips; for the Characters overview and desktop side-by-side."
+            }
+          ],
+          "principles": ["P3", "P5", "P8", "P12"],
+          "atlasSystems": ["#80 Cards", "#82 Card presets"],
+          "states": [
+            "slots full",
+            "open slot",
+            "passive card in a slot",
+            "preset mismatch with AFK activity"
+          ],
+          "adviceStatus": "engine output on main (aa70bc3) (slots, set, preset checks)"
+        },
+        {
+          "id": "character.cards.best-swap",
+          "name": "Best preset from owned cards (swap diff)",
+          "purpose": "The best preset this character could wear right now from cards the account owns, shown as a swap against what it wears: which cards go in, which come out. One swap is the next step.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.plan[i].bestFromOwned[*]",
+              "note": "derived in the v2 export from M8's card preferences and KB drop rates (not an engine output yet)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.plan[i].swap.{in,out}",
+              "note": "derived in the v2 export from M8's card preferences and KB drop rates (not an engine output yet)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.plan[i].bestReachable[*]",
+              "note": "derived in the v2 export from M8's card preferences and KB drop rates (not an engine output yet): best preset using owned cards or cards droppable on an opened map"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.plan[i].confidence"
+            },
+            {
+              "file": "data/v2/latest.lite.json",
+              "path": "cards.plan[*].confidence",
+              "note": "past W3 the preferences are not advice: show a quiet note, not a swap"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Before / after racks",
+              "idea": "Two card racks, 'Now' and 'Best you own', with arrows from out-cards to in-cards; unchanged cards greyed. One button-less sentence: 'Swap Jungle Tree for Slime'."
+            },
+            {
+              "name": "Inline diff",
+              "idea": "The current rack with 'out' cards struck and the replacement ghosted above each; the swap count on the tab badge."
+            },
+            {
+              "name": "Three tiers",
+              "idea": "Now -> best you own -> best you can reach, as three short rows, so the player sees what owning one more card would add."
+            }
+          ],
+          "principles": ["P2", "P5", "P9"],
+          "atlasSystems": ["#80 Cards", "#82 Card presets"],
+          "states": [
+            "already best",
+            "1-2 swaps",
+            "whole preset off (wrong activity)",
+            "no card list for this activity"
+          ],
+          "adviceStatus": "derived in the v2 export from M8's card preferences and KB drop rates (not an engine output yet)"
+        },
+        {
+          "id": "character.cards.grind",
+          "name": "Cards to grind",
+          "purpose": "The cards to farm for this character's best reachable preset, appropriate for the account's world progress: first copies first, then the next card level, each with where it drops (map pin), the base drop chance as '1 in N', and an ETA only when a kill rate on that map is in the save (otherwise 'time not known'). Cards that are not reachable yet sit on a separate 'later' shelf with the world that opens them.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.plan[i].grind[*]",
+              "note": "derived in the v2 export from M8's card preferences and KB drop rates (not an engine output yet): why, copiesNeeded, sources[] (map, oneIn, reachable), eta (hours or 'time not known')"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.plan[i].later[*]",
+              "note": "derived in the v2 export from M8's card preferences and KB drop rates (not an engine output yet): opensInWorld"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.catalogue[*]",
+              "note": "every card: copies, level, sources, reachable"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.plan[i].openMaps",
+              "note": "maps a character has opened (the reachability rule)"
+            },
+            {
+              "file": "data/v2/kb-reference.json",
+              "path": "maps",
+              "note": "map names, worlds and targets"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Grind queue",
+              "idea": "A ranked list; the top row is the one NOW ('Farm Plat on Ol' Straightaway: 1 in 12,500, time not known'); a die glyph with '1 in N' and a map pin on every row; the rest muted and numbered."
+            },
+            {
+              "name": "By map",
+              "idea": "Grind targets grouped under the map they drop on, so one AFK Stretch on one map covers several cards; each map shows which characters are already there."
+            },
+            {
+              "name": "Progress rings to next level",
+              "idea": "Each owned preset card as a ring of copies toward its next level, sorted by copies needed; first copies show as hollow card outlines."
+            },
+            {
+              "name": "Later shelf",
+              "idea": "Locked cards for higher worlds, greyed with 'Opens in W3', never above the current Stage."
+            }
+          ],
+          "principles": ["P2", "P3", "P6", "P9"],
+          "atlasSystems": ["#80 Cards", "#81 Card sets", "#18 Crystal mobs and drop rate", "#17 Portals"],
+          "states": [
+            "first copy reachable",
+            "level-up only",
+            "nothing reachable (all later)",
+            "ETA known / time not known"
+          ],
+          "adviceStatus": "derived in the v2 export from M8's card preferences and KB drop rates (not an engine output yet); ETAs are upper bounds at the base drop rate (card drop multiplier not computed)"
+        },
+        {
+          "id": "character.cards.set-progress",
+          "name": "Card set progress",
+          "purpose": "Which card set this character wears and should wear, the set's tier, and how many card levels to the next tier.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.sets[*]",
+              "note": "rawName, name, effect, bonus, tier, points, size"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "collections.cardAdvice[i].{set,setInUse}",
+              "note": "engine output on main (aa70bc3)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.catalogue[*]",
+              "note": "cards per set (set, level)"
+            },
+            {
+              "file": "data/v2/kb-reference.json",
+              "path": "cardSets[*].members"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Tier bar",
+              "idea": "One bar per set (points vs tier ticks), the worn set ringed; '3 card levels to tier 2'."
+            },
+            {
+              "name": "Card wall by set",
+              "idea": "The set's cards as small frames with star pips, owned bright, unowned silhouettes, the cheapest next level outlined."
+            },
+            {
+              "name": "Set badge",
+              "idea": "A badge on the card rack: set name + tier, red with 'switch to Yum Yum' when it doesn't fit the activity or level (Blunder Hills past 50)."
+            }
+          ],
+          "principles": ["P5", "P8", "P12"],
+          "atlasSystems": ["#81 Card sets"],
+          "adviceStatus": "engine output on main (aa70bc3)"
+        },
+        {
+          "id": "character.gear.paper-doll",
+          "name": "Gear paper doll",
+          "purpose": "The character's 8 equipment slots and 6 tool slots on a paper doll, each slot coloured by how far it is behind for the character's level and world (equip level vs character level), empty slots hatched. Answers 'which slot is the weak one'.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.characters[i].equipment[*]",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): displayName, Type, lvReqToEquip, stats, Upgrade_Slots_Left"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.characters[i].tools[*]",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): pickaxe, hatchet, rod, net, trap box, skull"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "characters[i].level"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "stage",
+              "note": "world progress, for 'behind for stage'"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Coloured silhouette",
+              "idea": "A pixel silhouette with 14 slot squares; each square is filled by levels-behind (0-10 fine, 10-30 behind, 30+ far behind) with a glyph and word, never colour alone; one slot is outlined as the next step."
+            },
+            {
+              "name": "Gear heat strip",
+              "idea": "Desktop power layout: all characters x all slots as one grid, cells coloured by gap; the account's worst cell is the highlight."
+            },
+            {
+              "name": "Slot list by gap",
+              "idea": "Phone-first list of slots sorted worst first: 'Boots: Gold (Lv 30) on a Lv 85: 55 behind'."
+            }
+          ],
+          "principles": ["P1", "P5", "P8", "P12"],
+          "atlasSystems": ["#13 Equipment", "#14 Tools", "#15 Upgrade stones", "#66 Armor Smithy"],
+          "states": ["all slots near level", "empty slot", "far behind", "no tool on a skiller"],
+          "adviceStatus": "data available but no advice yet (Toolbox parse, raw.*) (M18 Gear & Tools is proposed, not built)"
+        },
+        {
+          "id": "character.gear.upgrade-path",
+          "name": "Gear upgrade path",
+          "purpose": "For one slot or tool, the tier ladder (Copper -> Iron -> Gold -> Platinum -> Dementia -> Void ...) with the current tier ringed and the next tier's level gate.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.characters[i].equipment[*].lvReqToEquip",
+              "note": "data available but no advice yet (Toolbox parse, raw.*)"
+            },
+            {
+              "file": "data/v2/kb-reference.json",
+              "path": "tools[*].milestones",
+              "note": "tool tiers by skill level (KB generated)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.armorSmithy.sets[*]",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): set pieces and bonus"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Tier ladder",
+              "idea": "A horizontal ladder per slot with our own tier coins; next tier shows its level gate; materials shown only as 'materials not known yet'."
+            },
+            {
+              "name": "Tool ladder per skill",
+              "idea": "Four ladders (mining, choppin, fishing, catching) with the skill level gate as a vertical line and the character's level dot."
+            },
+            {
+              "name": "Set progress",
+              "idea": "Armor Smithy sets as cards with piece slots owned/missing and the set bonus; the reachable set first."
+            }
+          ],
+          "principles": ["P2", "P3", "P12"],
+          "atlasSystems": ["#13 Equipment", "#14 Tools", "#29 Smithing crafting", "#66 Armor Smithy"],
+          "adviceStatus": "data available but no advice yet (Toolbox parse, raw.*)"
+        },
+        {
+          "id": "character.skills.bars",
+          "name": "Skill bars",
+          "purpose": "Every skill level for this character as bars, with the next door, tool and totem gates as ticks, and the class's specialist skill starred.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.characters[i].skills",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): level, exp, expReq per skill"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "accountState.characters[i].{skillLevels,skillEfficiency}"
+            },
+            {
+              "file": "data/v2/kb-reference.json",
+              "path": "{skillDoors,tools}",
+              "note": "gate ticks"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.totalSkillsLevels",
+              "note": "account totals (Skill Mastery later)"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Bar list with gate ticks",
+              "idea": "One bar per skill (length = level on a shared axis), ticks at the next door / tool / totem level, the specialist skill starred."
+            },
+            {
+              "name": "Skill grid row",
+              "idea": "This character's row of the account Skill Grid (level heat colour per skill), so it reads the same as the overview."
+            },
+            {
+              "name": "Next gate first",
+              "idea": "Only the closest gate per skill as a line: 'Fishing 28 / 30: Deepwater Docks opens'."
+            }
+          ],
+          "principles": ["P3", "P6", "P8"],
+          "atlasSystems": [
+            "#98 Skill overview",
+            "#99 Mining",
+            "#100 Smithing",
+            "#101 Choppin",
+            "#102 Fishing",
+            "#103 Catching",
+            "#104 Alchemy",
+            "#105 Trapping",
+            "#106 Construction",
+            "#107 Worship"
+          ],
+          "adviceStatus": "data available but no advice yet (Toolbox parse, raw.*)"
+        },
+        {
+          "id": "character.skills.role-training",
+          "name": "Which skill to train for this Role",
+          "purpose": "Which skill this character should train for its Role and class (Squire: Construction, Wizard: Worship, Shaman: Alchemy, Barbarian: Fishing, Bowman: Catching, Hunter: Trapping, Warrior line: Mining, Mage line: Choppin, Archer line: Smithing), and whether its parallel slots (cog seat, traps, worship charge, cauldron) are used.",
+          "data": [
+            {
+              "file": "data/v2/kb-reference.json",
+              "path": "skillClasses",
+              "note": "class -> skilling talents (KB)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.builds[i].presets[*].role",
+              "note": "fighting / skilling preset role"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "accountState.characters[i].afk.{traps,worship,cauldronAssigned}",
+              "note": "engine output on main (aa70bc3) (M3 facts)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.construction.board[*].cog",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): who sits on the Cog Board"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Specialist card",
+              "idea": "One card: specialist skill icon + 'Train Construction: your Squire is the account's builder', with the 4 parallel-slot pips under it."
+            },
+            {
+              "name": "Role matrix",
+              "idea": "Characters x skills with the specialist cell starred and the 'nobody trains this' column flagged (e.g. no catcher)."
+            },
+            {
+              "name": "Slot pips only",
+              "idea": "Four pips on the identity strip (cog, trap, charge, cauldron), filled or empty, linking to the Parallel Slots board."
+            }
+          ],
+          "principles": ["P2", "P7", "P8"],
+          "atlasSystems": [
+            "#98 Skill overview",
+            "#53 Cog Board",
+            "#58 Worship",
+            "#62 Trapping",
+            "#38 Alchemy assignment"
+          ],
+          "adviceStatus": "class -> skill mapping is the atlas's (no engine check yet); slot use is engine output on main (aa70bc3)"
+        }
+      ]
+    },
+    {
+      "id": "systems",
+      "name": "Systems",
+      "components": [
+        {
+          "id": "systems.hub",
+          "name": "Systems hub",
+          "purpose": "The Systems place: one tile per game system, grouped by world (W1 town, W2, W3, Account, Horizon W4), each with a status (wasting, behind, ok, locked) and, when locked, what unlocks it. Answers 'what am I ignorant of' without nagging. Sorted by 'needs you' on request.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.goalsBySystem",
+              "note": "goals per system: drives wasting (a cap or idle Goal) and the tile's one next step"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.stageExpectations[*]",
+              "note": "behind: dueForThisStage rows whose fix still shows"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.notCovered",
+              "note": "unlocked systems with no advice yet: tile says 'not covered yet'"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "stage",
+              "note": "locked tiles above the next Stage show their unlock only"
+            },
+            {
+              "file": "data/v2/scrubbed-w2.lite.json",
+              "path": "engine.goalsBySystem",
+              "note": "W2 save: W3 tiles locked"
+            }
+          ],
+          "variations": [
+            {
+              "name": "World bands of tiles",
+              "idea": "Four bands of square tiles with our own 16 px system glyphs; status = rim colour + glyph + word; locked tiles dimmed with 'Opens: beat Efaunt'."
+            },
+            {
+              "name": "Needs-you list",
+              "idea": "The same systems as a list sorted wasting > behind > ok > locked; the top row is the one NOW, each row links to its page."
+            },
+            {
+              "name": "Stage report card",
+              "idea": "A horizontal Stage axis (W1-early ... W4-entry) with one row per system: a dot where the account is, a tick where it is expected; worst row expanded with its Next Action."
+            },
+            {
+              "name": "Town map hub",
+              "idea": "Systems placed on schematic town maps (W1 town, W2 town, W3 town) where they live in game, so 'where do I click in game' is the layout itself."
+            }
+          ],
+          "principles": ["P1", "P5", "P8", "P9"],
+          "atlasSystems": [
+            "#97 Behind for your Stage",
+            "#34 W1 town unlocks",
+            "#50 W2 quests",
+            "#68 W3 quests",
+            "all atlas systems as tiles"
+          ],
+          "states": ["wasting", "behind", "ok", "locked with unlock", "not covered yet"],
+          "adviceStatus": "engine output on main (aa70bc3) (statuses come from goals and Stage Expectations; tiles without goals show 'not covered yet')"
+        },
+        {
+          "id": "systems.page-frame",
+          "name": "System page frame",
+          "purpose": "The shared frame for every system page: header (status, the ONE next step, 'behind for Stage' meter), the picture (a simplified view of the in-game screen with the next step highlighted and everything fine dimmed), an 'in order' list of the next 3-5 steps (collapsed), and Sources. Tapping any element opens a side sheet with its value, next value, cost and Source.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.goalsBySystem.<system>[0].nextAction",
+              "note": "the one next step"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.goalsBySystem.<system>[*].nextAction.sources",
+              "note": "Sources"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Picture first",
+              "idea": "The picture fills the first screen with one glowing element; the next step is a single line under it."
+            },
+            {
+              "name": "Step first",
+              "idea": "The next step on top as in the Now screen, the picture below with the same element highlighted."
+            },
+            {
+              "name": "Split desktop",
+              "idea": "Picture left, ordered steps and the tapped element's sheet right (Command Board layout)."
+            }
+          ],
+          "principles": ["P1", "P2", "P4", "P10"],
+          "atlasSystems": ["frame for every system page"],
+          "adviceStatus": "engine output on main (aa70bc3)"
+        },
+        {
+          "id": "systems.alchemy",
+          "name": "Alchemy: bubbles and vials",
+          "purpose": "A picture of the Alchemy screen: four cauldron columns (Power, Quicc, High-IQ, Kazam) of bubble tiles with level badges, brew banked and the next unlock's odds above each column, plus the vial shelf and the four liquid tubes. One element is highlighted: the next step the engine gives (spend brew, fill a bubble slot, a liquid at cap, daily vial attempts).",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.alchemy.bubbles.{power,quicc,high-iq,kazam}[*]",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): level, bubbleName, func, x1, x2, itemReq"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.alchemy.cauldrons.*",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): attempts, unlockedBubbles, newBubble.chance, boosts, brewSpeed, players"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.alchemy.vials[*]",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): level 0-13, mainItem, discoveryScore"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.alchemy.{liquids,liquidCaps}"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "accountState.account.alchemy",
+              "note": "cauldrons: expectedNewBubbles, nextBubble"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.goalsBySystem.alchemy-bubbles",
+              "note": "engine output on main (aa70bc3)"
+            },
+            {
+              "file": "data/v2/scrubbed-w2.lite.json",
+              "path": "engine.goalsBySystem.{alchemy,alchemy-bubbles,alchemy-vials}",
+              "note": "engine output on main (aa70bc3): the W2 save carries all three alchemy systems"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Four cauldron columns",
+              "idea": "Columns of bubble chips 25 deep in the cauldron colours; each chip a level ring; locked chips hollow; a brew gauge on top of each column; one chip or gauge glows."
+            },
+            {
+              "name": "Cauldron pots",
+              "idea": "Four pixel pots with bubbles rising to their level; the pot with banked brew bubbles over (our own art) with 'Spend 12 attempts'."
+            },
+            {
+              "name": "Vial shelf",
+              "idea": "87 vials on shelves grouped by world; fill height = level, gold rim at 13; daily attempts as dice pips; the next roll target highlighted only if the engine names one."
+            },
+            {
+              "name": "Liquid tubes",
+              "idea": "Four vertical tubes filled to current/cap with 'full in 3h 20m' or 'full now'; the one at cap is the highlight."
+            }
+          ],
+          "principles": ["P1", "P2", "P5", "P12"],
+          "atlasSystems": [
+            "#38 Alchemy assignment",
+            "#39 Alchemy bubbles",
+            "#40 Active bubbles",
+            "#41 Liquids",
+            "#42 Vials",
+            "#43 Pay 2 Win",
+            "#104 Alchemy (skill)"
+          ],
+          "states": ["brew banked", "liquid full", "vial attempts left", "nothing to do"],
+          "adviceStatus": "engine output on main (aa70bc3) for spend-brew, big-bubble slots, liquid cap, vial attempts; the bubble levelling order is data available but no advice yet (Toolbox parse, raw.*) (M19 proposed)"
+        },
+        {
+          "id": "systems.construction",
+          "name": "Construction: buildings, Cog Board, salt chain",
+          "purpose": "A picture of W3 Construction: the build slots and the 27 buildings (utilities, towers, shrines) with level rings and salt colour, the 12 x 8 Cog Board with character seats and empty open squares, and the Refinery salt chain (Redox -> Explosive -> Spontaneity ...) with rank, power and Auto Refine state. The one next step is highlighted (build next, a salt short of fuel, Auto Refine on, an empty seat).",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "accountState.account.construction",
+              "note": "engine output on main (aa70bc3) (M15 F2): buildSlots, buildings[*] with level, progress, buildCost, inSlot, saltRawName"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.m15.construction[*]",
+              "note": "build this next"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "accountState.account.refinery.salts[*]",
+              "note": "engine output on main (aa70bc3) (M15 F1): rank, power, powerCap, autoRefine, fullInSeconds"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.m15.refinery[*]",
+              "note": "auto refine off, salt fuel"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.construction.board[*]",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): 96 squares (row, col, open, cog, flagPlaced)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.towers.buildings[*]",
+              "note": "data available but no advice yet (Toolbox parse, raw.*)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.saltLick[*]",
+              "note": "data available but no advice yet (Toolbox parse, raw.*)"
+            },
+            {
+              "file": "data/v2/kb-reference.json",
+              "path": "{construction,refinery}",
+              "note": "building and salt facts"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Salt chain diagram",
+              "idea": "Six salt nodes left to right with 'feeds' arrows; each node a power gauge, rank number and an Auto Refine switch drawn as in game; the salt that needs you glows."
+            },
+            {
+              "name": "Build slot strip + order rail",
+              "idea": "One card per build slot (building glyph, progress bar, 'needs 30 Redox: 17 in chest'), then a rail of the build order with 'next' lit."
+            },
+            {
+              "name": "Cog Board heat map",
+              "idea": "The 12 x 8 board: open squares filled, locked squares greyed, character seats as class chibis, empty open squares outlined; 'seat free' is the highlight."
+            },
+            {
+              "name": "Three-row build menu",
+              "idea": "Utilities / towers / shrines as the game's build menu, tiles tinted by salt colour with level rings and a lock when their salt isn't unlocked."
+            }
+          ],
+          "principles": ["P1", "P2", "P5", "P12"],
+          "atlasSystems": [
+            "#51 Construction",
+            "#52 Buildings and build order",
+            "#53 Cog Board",
+            "#54 Refinery and salts",
+            "#56 Salt Lick",
+            "#57 Atom Collider",
+            "#106 Construction (skill)"
+          ],
+          "states": [
+            "build ready",
+            "salt short",
+            "Auto Refine on below safe rank",
+            "empty seat",
+            "W2 save: locked"
+          ],
+          "adviceStatus": "engine output on main (aa70bc3) (M15 build next, refinery); Cog Board seats are data available but no advice yet (Toolbox parse, raw.*)"
+        },
+        {
+          "id": "systems.stamps",
+          "name": "Stamps: collection grid",
+          "purpose": "The Stamp Book as the game lays it out: three tabs (Combat, Skills, Misc), each stamp a tile with level vs cap and a state (not owned, can level with coins, cap raise ready, blocked by carry capacity); the next stamp to collect or buy pinned above.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.stamps.{combat,skills,misc}[*]",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): displayName, level, maxLevel, goldCost, materialCost, hasMoney, hasMaterials, itemReq"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "collections.stamps",
+              "note": "engine output on main (aa70bc3) (M8): owned, obtainable, byStatus, items"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.goalsBySystem.stamps",
+              "note": "engine output on main (aa70bc3)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.spendPlan",
+              "note": "stamp lines in the Spend Plan"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Stamp book grid",
+              "idea": "Three tabs of 40 tiles in game order; owned tiles show a level ring; unowned tiles are silhouettes with 'how to get' on tap; one tile glows."
+            },
+            {
+              "name": "Next three ribbon",
+              "idea": "Above the grid, the next 3 stamps to collect as a short ranked ribbon (shop, quest, drop), first one NOW."
+            },
+            {
+              "name": "Cap-raise planner",
+              "idea": "A table of capped stamps with the material, need vs held bar and 'fits in one bag' check, behind a tab."
+            }
+          ],
+          "principles": ["P2", "P9", "P12"],
+          "atlasSystems": ["#25 Stamps", "#26 Stamp cap raises"],
+          "adviceStatus": "engine output on main (aa70bc3) (M8 collect / shop / hand-in); cap-raise batching is not built"
+        },
+        {
+          "id": "systems.star-chart",
+          "name": "Star Chart and constellations",
+          "purpose": "A map of the constellations by world (done, reachable now, locked) with the one to clear next, the Star Chart signs (unlocked or not), and each character's worn signs and sign slots.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.constellations[*]",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): name, location, mapIndex, requirement, requiredPlayers, points, done, completedChars"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.starSigns[*]",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): starName, cost, tree, unlocked, bonuses"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.characters[*].starSigns",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): signs worn per character"
+            },
+            {
+              "file": "data/v2/kb-reference.json",
+              "path": "maps",
+              "note": "constellation locations on the map"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Constellation map",
+              "idea": "World tabs; each constellation a star on a schematic of its world at its map, done stars bright, reachable outlined, locked dim; the next one carries who / where / how long or 'time not known'."
+            },
+            {
+              "name": "Constellation board",
+              "idea": "A list per world: type glyph (level, reach, AFK hours, event), requirement, per-character dots (recorded or missing), 'ready to claim' badge."
+            },
+            {
+              "name": "Sign slot strip",
+              "idea": "Per character, its sign slots (1 now, a 2nd from Chronus Cosmos) with the worn sign; empty slots dashed; the 'x of 19 points to a 2nd slot' bar."
+            }
+          ],
+          "principles": ["P2", "P3", "P12"],
+          "atlasSystems": ["#36 Star Signs and constellations"],
+          "adviceStatus": "data available but no advice yet (Toolbox parse, raw.*) (M16 is specced, not built)"
+        },
+        {
+          "id": "systems.statues",
+          "name": "Statues gallery",
+          "purpose": "The 32 statues as a wall in game order: level, tier (none, Gold, Onyx), progress to next level, and, for statues not yet Gold, which characters hold levels (a deposit split that Gold would throw away).",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.statues[*]",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): name, effect, level, progress, onyxStatue"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.statueGrades",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): tier per statue"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.characters[*].statues",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): per-character [level, progress]"
+            },
+            {
+              "file": "data/v2/kb-reference.json",
+              "path": "statues",
+              "note": "gold order and bonus per level"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.spendPlan",
+              "note": "statue Gold lines when the Spend Plan has them"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Statue wall",
+              "idea": "32 tiles of our own statue silhouettes with a tier border and level; split statues carry a small dot row of characters."
+            },
+            {
+              "name": "Gold next",
+              "idea": "Only the cheapest statue to make Gold, as one card with its cost against coins held; the rest folded."
+            },
+            {
+              "name": "Spread chart",
+              "idea": "Per statue a mini bar per character, so 'deposit only on this one' reads at a glance."
+            }
+          ],
+          "principles": ["P5", "P8", "P12"],
+          "atlasSystems": ["#31 Statues", "#18 Crystal mobs"],
+          "adviceStatus": "data available but no advice yet (Toolbox parse, raw.*) (statue Gold is in the Spend Plan; deposits are not covered)"
+        },
+        {
+          "id": "systems.vault",
+          "name": "Upgrade Vault ladder",
+          "purpose": "The Upgrade Vault as a vertical ladder: rows grouped by unlock threshold, a 'you are here' line at the current total, the next locked row and its gap, and level/max bars per row.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.upgradeVault.{totalUpgradeLevels,nextUnlock,costReduction}",
+              "note": "data available but no advice yet (Toolbox parse, raw.*)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.upgradeVault.upgrades[*]",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): row, name, level, maxLevel, unlockLevel, unlocked, cost, bonus"
+            },
+            {
+              "file": "data/v2/kb-reference.json",
+              "path": "upgradeVault"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.spendPlan",
+              "note": "Vault lines in the Spend Plan"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Vault tower",
+              "idea": "Rows stacked bottom to top by unlock level; the 'you are here' line; rows above it dim with their threshold; the next row to buy is the one highlight."
+            },
+            {
+              "name": "Next unlock gap",
+              "idea": "One header: 'Special Talent opens at 2,530 total: 33 levels away', with a bar; the ladder folds below."
+            },
+            {
+              "name": "Cheapest first",
+              "idea": "Rows sorted by cost to next level, each with cost in coins (one currency format), the first affordable one NOW."
+            }
+          ],
+          "principles": ["P2", "P6", "P9"],
+          "atlasSystems": ["#37 Upgrade Vault"],
+          "adviceStatus": "data available but no advice yet (Toolbox parse, raw.*) (Vault lines appear in the Spend Plan; order and next unlock are not covered)"
+        },
+        {
+          "id": "systems.worship-prayers",
+          "name": "Worship and Prayers",
+          "purpose": "Totems with their best wave and Prayer unlock waves, each character's charge tank, and the Prayer loadout per character.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.totems[*]",
+              "note": "data available but no advice yet (Toolbox parse, raw.*)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.prayers[*]",
+              "note": "data available but no advice yet (Toolbox parse, raw.*)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.characters[*].{worship,activePrayers}",
+              "note": "data available but no advice yet (Toolbox parse, raw.*)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3-stale.lite.json",
+              "path": "engine.nowView.roster[*].caps[*]",
+              "note": "engine output on main (aa70bc3): worship.check.charge-caps-* shows as a cap pill (entryId), not a goal"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Charge tanks",
+              "idea": "A row of tanks per character (current/max), skull as the cap icon, 'full now' tanks lit."
+            },
+            {
+              "name": "Wave rulers",
+              "idea": "Per totem a ruler 0 -> best wave -> next Prayer unlock, Prayer icons pinned at their waves."
+            },
+            {
+              "name": "Prayer loadout table",
+              "idea": "Characters x prayer slots with blessing and curse; empty slots dashed."
+            }
+          ],
+          "principles": ["P5", "P8", "P12"],
+          "atlasSystems": ["#58 Worship", "#59 Worship Tower Defence", "#60 Prayers", "#107 Worship (skill)"],
+          "adviceStatus": "engine output on main (aa70bc3) for charge caps; prayers and waves are data available but no advice yet (Toolbox parse, raw.*)"
+        }
+      ]
+    },
+    {
+      "id": "time",
+      "name": "Time",
+      "components": [
+        {
+          "id": "time.timeline",
+          "name": "AFK Timeline",
+          "purpose": "The Timeline place: one lane per character plus account lanes (refinery, liquids, Arcade balls, keys and tickets, worship charge, traps). Bars run from now to each cap on a shared axis against the 'back at' marker set by the return chips; anything that overflows before the return is outlined and carries its fix; after a bar ends the lane is hatched to show earning has stopped.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3-stale.lite.json",
+              "path": "engine.nowView.roster[*].caps[*]",
+              "note": "engine output on main (aa70bc3): label (kind + fix verb), text (time to cap), fullNow"
+            },
+            {
+              "file": "data/v2/scrubbed-w3-stale.lite.json",
+              "path": "engine.engineResult.characters[*].{firstFill,info}",
+              "note": "engine output on main (aa70bc3)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3-stale.lite.json",
+              "path": "engine.engineResult.firstFill",
+              "note": "earliest cap on the account"
+            },
+            {
+              "file": "data/v2/scrubbed-w3-stale.lite.json",
+              "path": "engine.nowView.expectedReturn.chips[*]",
+              "note": "the return marker"
+            },
+            {
+              "file": "data/v2/scrubbed-w3-stale.lite.json",
+              "path": "accountState.characters[*].afk",
+              "note": "engine output on main (aa70bc3) (M3 facts): food, inventory, anvil, worship, traps endsAt"
+            },
+            {
+              "file": "data/v2/scrubbed-w3-stale.lite.json",
+              "path": "accountState.account.afk",
+              "note": "arcade, liquids, salts dryAt"
+            },
+            {
+              "file": "data/v2/scrubbed-w3-stale.lite.json",
+              "path": "accountState.account.refinery.salts[*].fullInSeconds"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.nowView.roster[*].caps",
+              "note": "fresh save: most bars run past the marker"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Lanes with return marker",
+              "idea": "Command Board's hero: lanes with a class chibi at the head, bars to each cap in one colour family per kind (storage, food, time cap, production) plus glyph and word, the 'back at' line draggable on desktop, overflows outlined with 'Collect anvil (Fix)'."
+            },
+            {
+              "name": "Earns-until list",
+              "idea": "Phone layout: one row per character, 'earns until 03:40 · stops: anvil full', thin rail under it; sorted by soonest stop but the order holds through the session."
+            },
+            {
+              "name": "Account lanes first",
+              "idea": "Account caps (refinery, liquids, arcade) as their own band above the characters, since one fix there helps everyone."
+            },
+            {
+              "name": "Hatched waste",
+              "idea": "After each bar ends the lane is hatched up to the marker; the hatched length is the only colour that shouts, so wasted hours read at a glance."
+            }
+          ],
+          "principles": ["P1", "P5", "P6", "P8", "P11"],
+          "atlasSystems": [
+            "#11 AFK gains",
+            "#12 Food",
+            "#16 Inventory",
+            "#28 Anvil",
+            "#41 Liquids",
+            "#44 Arcade",
+            "#54 Refinery",
+            "#58 Worship",
+            "#62 Trapping",
+            "#91 Boss keys"
+          ],
+          "states": [
+            "fresh save, nothing overflows",
+            "stale save, caps full now",
+            "time to cap not known",
+            "11 lanes"
+          ],
+          "adviceStatus": "engine output on main (aa70bc3)"
+        },
+        {
+          "id": "time.daily-weekly",
+          "name": "Daily and Weekly checklist",
+          "purpose": "The no-bank and banking dailies and the weekly trio as one costed checklist with a reset clock: the inner ring is the day (reset in X), the outer ring the week; rows are ticked from the save (done today), grouped No bank / Banks up to N days / Weekly.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "accountState.account.dailyResetInSeconds",
+              "note": "daily reset (account day, not UTC)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "accountState.account.{keys,colosseumTickets,minigames,pets,petMart,postOffice}",
+              "note": "engine output on main (aa70bc3): banked days, plays left, free pull, Mart gems"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.goalsBySystem.{boss-keys,colosseum,minigames,pets,post-office}",
+              "note": "engine output on main (aa70bc3)"
+            },
+            {
+              "file": "data/v2/scrubbed-w2.lite.json",
+              "path": "engine.goalsBySystem.alchemy-vials",
+              "note": "engine output on main (aa70bc3): daily vial attempts (W2 save)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.killroy",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): rooms, classes, skulls"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.currencies",
+              "note": "data available but no advice yet (Toolbox parse, raw.*)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.equinox",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): bar full = wasting"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Two-ring reset clock",
+              "idea": "Day ring inside week ring with 'now' and the reset ticks; next to it three bands of rows with a minutes cost each; done rows collapse. Weekly reset time says 'time not known' until the save gives it."
+            },
+            {
+              "name": "Five-minute plan",
+              "idea": "Pick 5 / 15 / 30 minutes; the list shows only what fits, no-bank items first."
+            },
+            {
+              "name": "Bank pips",
+              "idea": "Each banking row (keys, tickets) shows 0-3 day pips filling, red on the last pip, so 'claim before you lose tomorrow's' is visible."
+            }
+          ],
+          "principles": ["P1", "P5", "P6", "P9", "P11"],
+          "atlasSystems": [
+            "#90 Daily and weekly reset checklist",
+            "#91 Boss keys",
+            "#22 Colosseum",
+            "#85 Skill minigames",
+            "#78 Pets",
+            "#47 Killroy",
+            "#48 Weekly Battles",
+            "#49 Bonus Ballot",
+            "#35 Picnic Stowaway",
+            "#33 Post Office",
+            "#65 Equinox"
+          ],
+          "states": ["all done", "no-bank items left", "keys at 3 days", "weekly reset unknown"],
+          "adviceStatus": "engine output on main (aa70bc3) for keys, tickets, minigames, pets, post office, vial attempts; Killroy, Weekly Battles, Ballot are data available but no advice yet (Toolbox parse, raw.*)"
+        },
+        {
+          "id": "time.parallel-slots",
+          "name": "Parallel Slots board",
+          "purpose": "Everything that runs beside each character's AFK Target, as one board: cauldron seat, traps, worship charge, Cog Board seat, printer sample. What's empty and who should fill it, with one highlighted fill as the next step.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.alchemy.activities",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): cauldron or liquid per character (-1 = none)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "accountState.characters[*].afk.{cauldronAssigned,traps,worship}",
+              "note": "engine output on main (aa70bc3)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.characters[*].traps",
+              "note": "data available but no advice yet (Toolbox parse, raw.*)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.construction.board[*].cog",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): character cogs on the board"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.printer[*].slots",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): stored and active samples per character"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "accountState.account.printer",
+              "note": "engine output on main (aa70bc3) (M14 printer)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.printerGoals",
+              "note": "engine output on main (aa70bc3): the printer slot plan"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Slot grid",
+              "idea": "Characters x five slot columns, each cell a 16 px glyph filled or dashed; empty cells say who should fill them; one cell is the NOW."
+            },
+            {
+              "name": "Unassigned tray",
+              "idea": "Empty slots as cards in a tray ('2 traps free', 'Cog Board: 4 seats free'); drag-free 'send Squire 51 here' lines."
+            },
+            {
+              "name": "Per-slot strips",
+              "idea": "Five strips (cauldrons, traps, worship, cogs, printer), each showing its seats and who sits there, like small in-game screens."
+            }
+          ],
+          "principles": ["P2", "P7", "P8", "P12"],
+          "atlasSystems": [
+            "#38 Alchemy assignment",
+            "#62 Trapping",
+            "#58 Worship",
+            "#53 Cog Board",
+            "#55 3D Printer",
+            "#98 Skill overview"
+          ],
+          "states": ["all filled", "several empty", "slot not unlocked yet (W2 save)"],
+          "adviceStatus": "engine output on main (aa70bc3) for cauldron unassigned, traps, worship charge, printer plan; Cog Board seats are data available but no advice yet (Toolbox parse, raw.*)"
+        }
+      ]
+    },
+    {
+      "id": "map",
+      "name": "Map and navigation",
+      "components": [
+        {
+          "id": "map.world-map",
+          "name": "World Map",
+          "purpose": "The Map place: W1-W3 (W4 dimmed) map nodes joined by portals, each character's marker on its AFK map, a kill-progress ring on the frontier door, boss gates (Amarok, Efaunt, Chizoar) with keys held and per day. Overlays, one at a time: the Walkthrough route, constellations, Death Note skulls. Tapping a map opens a sheet: who is there, kills, the next door, its Death Note rank, constellations there.",
+          "data": [
+            {
+              "file": "data/v2/kb-reference.json",
+              "path": "maps[*]",
+              "note": "index, name, world, doors (destination, requirement), target, afkType"
+            },
+            {
+              "file": "data/v2/kb-reference.json",
+              "path": "portals[*]",
+              "note": "door ladders per map"
+            },
+            {
+              "file": "data/v2/kb-reference.json",
+              "path": "worldGates",
+              "note": "Desert Topaz / Glacier Quartz / Galaxial Amethyst gates"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "characters[*].{mapIndex,label,activity}",
+              "note": "markers"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.characters[*].{killsByMap,nextPortal}",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): kills per map, next portal goal"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "accountState.account.frontier",
+              "note": "engine output on main (aa70bc3) (M2): frontier door, fights (killsPerHour, hitChance)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "accountState.account.keys",
+              "note": "engine output on main (aa70bc3): keys banked and per day"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.walkthroughs[*].walkthrough",
+              "note": "engine output on main (aa70bc3) (M14): steps for the route overlay"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.constellations[*].mapIndex",
+              "note": "data available but no advice yet (Toolbox parse, raw.*)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.deathNote",
+              "note": "data available but no advice yet (Toolbox parse, raw.*): kills per mob per world"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.plan[*].openMaps",
+              "note": "maps opened by any character"
+            }
+          ],
+          "variations": [
+            {
+              "name": "World strip",
+              "idea": "Desktop: four horizontal world bands; map nodes as our own pixel signposts; portal edges with the kill requirement; the frontier edge glows with the pusher's ETA or 'time not known'."
+            },
+            {
+              "name": "Vertical route",
+              "idea": "Phone: one vertical scroll of world bands with maps as stops; markers stack with a count when several characters share a map."
+            },
+            {
+              "name": "Gate-first",
+              "idea": "Only the boss gates and the frontier as big nodes, everything cleared folded into 'W1: 32 maps cleared'; the next gate's need sits on the gate."
+            },
+            {
+              "name": "Overlay switcher",
+              "idea": "A segmented control (Route, Constellations, Death Note, Cards) that recolours the same nodes; never more than one overlay at once."
+            }
+          ],
+          "principles": ["P1", "P2", "P3", "P8", "P12"],
+          "atlasSystems": [
+            "#1 World route",
+            "#17 Portals",
+            "#19 Amarok",
+            "#20 Efaunt",
+            "#21 Chizoar",
+            "#36 Constellations",
+            "#63 Death Note",
+            "#61 Shrines",
+            "#80 Cards (drop maps)"
+          ],
+          "states": ["W2 save", "W3-early save", "late save (W4 entry)", "overlay on"],
+          "adviceStatus": "engine output on main (aa70bc3) for frontier, keys and walkthroughs; constellations and Death Note overlays are data available but no advice yet (Toolbox parse, raw.*)"
+        },
+        {
+          "id": "map.map-sheet",
+          "name": "Map sheet",
+          "purpose": "The sheet that opens from a map node: who is here (chibis), kills per hour if known, the next door and its requirement, the map's card and its drop chance, Death Note rank, constellations here.",
+          "data": [
+            {
+              "file": "data/v2/kb-reference.json",
+              "path": "maps[i]"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "accountState.characters[*].afk.fighting.finalKillsPerHour",
+              "note": "engine output on main (aa70bc3)"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "cards.catalogue[*].sources",
+              "note": "cards dropping here"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "raw.deathNote",
+              "note": "data available but no advice yet (Toolbox parse, raw.*)"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Bottom sheet",
+              "idea": "Phone: a half-height sheet with the who row first, then the next door, then the card."
+            },
+            {
+              "name": "Side panel",
+              "idea": "Desktop: a fixed panel beside the map that updates on hover / tap."
+            },
+            {
+              "name": "Tooltip card",
+              "idea": "A small card anchored to the node with three lines; 'More' opens the full sheet."
+            }
+          ],
+          "principles": ["P3", "P4", "P10"],
+          "atlasSystems": ["#17 Portals", "#63 Death Note", "#80 Cards"],
+          "adviceStatus": "engine output on main (aa70bc3) + data available but no advice yet (Toolbox parse, raw.*)"
+        },
+        {
+          "id": "nav.shell",
+          "name": "Navigation shell",
+          "purpose": "The app shell for five places: Now, Characters, Systems, Timeline, Map. A bottom bar on a phone (5 x 44 px+ targets, glyph + word), a side rail on desktop; each place carries at most one badge (a count of things that need you), and 'See it' links from Now land on the right place with the target highlighted.",
+          "data": [
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.nowView.progress",
+              "note": "Now badge: fixes left"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "characters[*].verdict",
+              "note": "Characters badge"
+            },
+            {
+              "file": "data/v2/scrubbed-w3.lite.json",
+              "path": "engine.goalsBySystem",
+              "note": "Systems badge: wasting systems"
+            },
+            {
+              "file": "data/v2/scrubbed-w3-stale.lite.json",
+              "path": "engine.engineResult.firstFill",
+              "note": "Timeline badge: overflows before return"
+            }
+          ],
+          "variations": [
+            {
+              "name": "Bottom bar + rail",
+              "idea": "Phone bottom bar with 5 glyph + word tabs; at 1000 px it becomes a left rail with the same order; the wordmark moves into the rail."
+            },
+            {
+              "name": "Now-centred bar",
+              "idea": "Now is a larger centre tab (the product), the other four flank it; badges only on Now and Timeline."
+            },
+            {
+              "name": "Top tabs on desktop",
+              "idea": "Desktop: places as top tabs under the header, leaving full width for Timeline and Map lanes."
+            }
+          ],
+          "principles": ["P1", "P8", "P9", "P10"],
+          "atlasSystems": ["view architecture (atlas section 3.2)"],
+          "states": ["badge counts", "a place locked (Map before W2?)", "deep link with highlight"],
+          "adviceStatus": "engine output on main (aa70bc3)"
+        }
+      ]
+    }
+  ]
+}

@@ -2,8 +2,9 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // The header (M10 FR-3): wordmark, the cloud-save age chip (the only part that ticks every second,
 // TR-5, and never a live region, TR-14), the total account level (issue #60), the Expected Return
-// chips and Suggest.
+// chips, Suggest and the light/dark toggle (M21, an owner addition: G10's theme row as a header control).
 import type { AccountState } from '@idleon-forge/account-state';
+import { ThemeToggle } from '../design/atoms/ThemeToggle';
 import { formatAge, freshnessHint } from '../format';
 import { SuggestLink } from '../suggestions/SuggestionsProvider';
 import type { SaveSource, SyncState } from '../use-activeon';
@@ -104,6 +105,7 @@ export function Header({ save, sync, online, lastSnapshotAt, chips, suggestHref,
         <SuggestLink className="suggest small" fallbackHref={suggestHref}>
           Suggest
         </SuggestLink>
+        <ThemeToggle />
       </div>
       <StaleHint save={save} lastSnapshotAt={lastSnapshotAt} />
       {chips ? <div className="top-chips">{chips}</div> : null}

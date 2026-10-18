@@ -12,9 +12,9 @@ import type {
   TimelineFix,
 } from '@idleon-forge/engine/now';
 import { LINK_WORDS, PLACE_WORDS } from '@idleon-forge/engine/now';
+import { SourceLabel } from '../design/atoms/SourceLabel';
 import { formatRoute } from '../shell/route';
 import { useNowActions } from './context';
-import { SourceLabel } from './parts';
 import './checklist.css';
 
 /** The rings: an arc per ring, the counts as text beside them (FR-6). */
@@ -77,10 +77,10 @@ function RowLink({ r }: { r: ChecklistRowView }) {
     return (
       <a
         className="small cl-link"
-        href={formatRoute({ place: 'timeline' })}
+        href={formatRoute({ place: 'timeline', section: null })}
         onClick={(e) => {
           e.preventDefault();
-          actions.navigate?.({ place: 'timeline' });
+          actions.navigate?.({ place: 'timeline', section: null });
         }}
       >
         {LINK_WORDS.seeIt(PLACE_WORDS.timeline)}

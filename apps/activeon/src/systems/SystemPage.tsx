@@ -14,10 +14,11 @@ import {
   SYSTEM_HOMES,
 } from '@idleon-forge/engine/now';
 import { Suspense, useEffect, useMemo } from 'react';
+import { GoalList } from '../design/atoms/GoalList';
+import { SourceLabel } from '../design/atoms/SourceLabel';
 import { Loading } from '../lazy-part';
 import { tabById, tabHref } from '../now/character-tabs';
 import { useNowActions } from '../now/context';
-import { GoalList, SourceLabel } from '../now/parts';
 import { toNowPrefs } from '../now/prefs-store';
 import { buildInfo } from '../now/release';
 import { suggestUrl } from '../now/report';
@@ -183,10 +184,10 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
           </ul>
           <a
             className="small build-link"
-            href={formatRoute({ place: 'timeline' })}
+            href={formatRoute({ place: 'timeline', section: null })}
             onClick={(e) => {
               e.preventDefault();
-              s.navigate({ place: 'timeline' }, 'push');
+              s.navigate({ place: 'timeline', section: null }, 'push');
             }}
           >
             {PAGE_WORDS.timelineLink}

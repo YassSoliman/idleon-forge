@@ -5,7 +5,16 @@ import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { BUDGETS, checkBudgets, initialJsGzip, preloadedChunks } from '../src/budgets.ts';
+import {
+  BUDGETS,
+  checkBudgets,
+  firstPaintFontsRaw,
+  initialJsGzip,
+  isMainCss,
+  MAIN_CSS_ENFORCED,
+  mainCssGzip,
+  preloadedChunks,
+} from '../src/budgets.ts';
 import { checkPr } from '../src/pr-title.ts';
 
 describe('PR title check', () => {
@@ -87,6 +96,37 @@ describe('budgets', () => {
     expect(checkBudgets(split)).toEqual([
       `the first load runs 325.0 KB of JavaScript gzipped (budget 320.0 KB)`,
     ]);
+  });
+});
+
+describe('M21 budget lines', () => {
+  const ok = [
+    { path: 'index.html', size: 1000 },
+    { path: 'version.json', size: 400 },
+    { path: 'assets/index-AbC123.js', size: 900_000, gzip: 265 * 1024 },
+  ];
+  it("counts only the first screen's font files", () => {
+    const fonts = [
+      { path: 'assets/atkinson-hyperlegible-next-latin-400-normal-Ab1.woff2', size: 12_000 },
+      { path: 'assets/atkinson-hyperlegible-next-latin-700-normal-Ab2.woff2', size: 13_000 },
+      { path: 'assets/jetbrains-mono-latin-400-normal-Ab3.woff2', size: 21_000 },
+      { path: 'assets/pixelify-sans-latin-500-normal-Ab4.woff2', size: 8_000 },
+      { path: 'assets/pixelify-sans-latin-600-normal-Ab5.woff2', size: 8_000 },
+      // Not on the first screen: a 600 body face, a .woff fallback.
+      { path: 'assets/atkinson-hyperlegible-next-latin-600-normal-Ab6.woff2', size: 12_000 },
+      { path: 'assets/jetbrains-mono-latin-400-normal-Ab7.woff', size: 27_000 },
+    ];
+    expect(firstPaintFontsRaw(fonts)).toBe(62_000);
+    expect(checkBudgets([...ok, ...fonts])).toEqual([]);
+    const heavy = [...ok, ...fonts.map((f) => ({ ...f, size: f.size * 2 }))];
+    expect(checkBudgets(heavy)).toEqual([expect.stringContaining("first screen's fonts")]);
+  });
+  it('measures the main stylesheet, enforced only from Integration', () => {
+    const css = { path: 'assets/index-Q2.css', size: 90_000, gzip: BUDGETS.mainCssGzip + 1 };
+    expect(isMainCss(css.path)).toBe(true);
+    expect(isMainCss('assets/TimelinePlace-Q4.css')).toBe(false);
+    expect(mainCssGzip([...ok, css])).toBe(BUDGETS.mainCssGzip + 1);
+    expect(checkBudgets([...ok, css]).length).toBe(MAIN_CSS_ENFORCED ? 1 : 0);
   });
 });
 

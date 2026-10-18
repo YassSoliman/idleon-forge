@@ -27,13 +27,16 @@ import { createBuildsModule } from '@idleon-forge/engine/builds';
 import { createCardsViewModule, createCollectionsModule } from '@idleon-forge/engine/collections';
 import { engineDetectors } from '@idleon-forge/engine/detectors';
 import { createGearModule } from '@idleon-forge/engine/gear';
+import { createMapModule } from '@idleon-forge/engine/map';
 import { createMetaPathModule, detectStage, frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
+import { createPicturesModule } from '@idleon-forge/engine/pictures';
 import {
   classXpActionFor,
   createPurposeModule,
   purposeStatusFor,
   suggestionFor,
 } from '@idleon-forge/engine/purpose';
+import { createSessionModule } from '@idleon-forge/engine/session';
 import { createM20Modules } from '@idleon-forge/engine/slots';
 import { createSpendModule } from '@idleon-forge/engine/spend';
 import { createStarSignsModule } from '@idleon-forge/engine/starsigns';
@@ -192,6 +195,10 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
     ...createM20Modules({ kb }),
     // M19: runs after every module (it reads M3's, M6's and M7's merged output).
     createAlchemyModule({ kb }),
+    // M21 Phase F: the area modules' stubs, registered once (spec §9); each area fills its own.
+    createSessionModule(),
+    createMapModule(),
+    createPicturesModule(),
   ];
 }
 

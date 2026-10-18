@@ -6,7 +6,16 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { dirname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { gzipSync } from 'node:zlib';
-import { checkBudgets, type DistFile, initialJsGzip, isMainChunk, preloadedChunks } from '../src/budgets.ts';
+import {
+  checkBudgets,
+  type DistFile,
+  firstPaintFontsRaw,
+  initialJsGzip,
+  isMainChunk,
+  isMainCss,
+  mainCssGzip,
+  preloadedChunks,
+} from '../src/budgets.ts';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../../..');
 const dist = process.argv[2] ?? join(root, 'apps/activeon/dist');
@@ -25,7 +34,7 @@ const files: DistFile[] = walk(dist).map((abs) => {
   const path = relative(dist, abs).split(sep).join('/');
   const size = statSync(abs).size;
   const initial = preloaded.has(path);
-  return isMainChunk(path) || initial
+  return isMainChunk(path) || initial || isMainCss(path)
     ? { path, size, gzip: gzipSync(readFileSync(abs)).length, initial }
     : { path, size };
 });
@@ -33,7 +42,7 @@ const problems = checkBudgets(files);
 const main = files.find((f) => isMainChunk(f.path));
 const kb = (n: number) => `${(n / 1024).toFixed(1)} KB`;
 console.log(
-  `dist/: ${files.length} files; main chunk ${kb(main?.gzip ?? 0)} gzipped; first load ${kb(initialJsGzip(files))} gzipped in ${preloaded.size + 1} chunks`,
+  `dist/: ${files.length} files; main chunk ${kb(main?.gzip ?? 0)} gzipped; first load ${kb(initialJsGzip(files))} gzipped in ${preloaded.size + 1} chunks; main CSS ${kb(mainCssGzip(files))} gzipped; first-screen fonts ${kb(firstPaintFontsRaw(files))}`,
 );
 for (const p of problems) console.log(`::error title=Budget::${p}`);
 process.exit(problems.length ? 1 : 0);

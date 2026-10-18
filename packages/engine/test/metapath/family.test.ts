@@ -154,7 +154,7 @@ describe.each(w3)('US-3 on the W3-early account (%s)', (file) => {
     expect(at401?.why).toMatch(/^Equip it after the Obol Altar\. ETA after a few more sessions\. /);
   });
 
-  it('ETA: 3 Play Sessions over 4 days from 349 to 379 read "about 72h at your recent pace"', () => {
+  it('ETA: 3 Play Sessions over 4 days from 349 to 379 read "in 3d 0h at your recent pace"', () => {
     const last = state.account.lastCloudSave ?? NOW;
     const entry = (daysAgo: number, level: number): EngineHistoryEntry => ({
       lastCloudSave: last - daysAgo * DAY,
@@ -164,7 +164,7 @@ describe.each(w3)('US-3 on the W3-early account (%s)', (file) => {
     const g = unlockOf(engine(state, [entry(4, 349), entry(2, 364)]));
     expect(g?.nextAction.text).toMatch(/\(21 to go\)$/);
     // 3 days through the shared duration formatter (days only from 100 h).
-    expect(g?.nextAction.why).toMatch(/^Equip them after the Obol Altar\. About 72h at your recent pace\. /);
+    expect(g?.nextAction.why).toMatch(/^Equip them after the Obol Altar\. In 3d 0h at your recent pace\. /);
   });
 });
 

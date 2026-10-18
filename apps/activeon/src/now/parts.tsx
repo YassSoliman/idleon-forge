@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// The shared pieces of a Next Action (M10 TR-4): Source label with its Stale and Contested marks, the
-// controls (Skip today, Not for me, Report this), and the Goal list with "show more" and undo.
+// The shared pieces of a Next Action (M10 TR-4): the controls (Skip today, Not for me, Report this).
+// M21 Phase F moved the Source label, the Contested badge, the meta row and the Goal list into
+// design/atoms/; they are re-exported here until Integration (FR-I3).
 // All text is React text: no dangerouslySetInnerHTML anywhere (TR-13).
 import {
   type CapPillView,
@@ -10,106 +11,21 @@ import {
   LINK_WORDS,
   type NextActionView,
   PLACE_WORDS,
-  type SourceView,
   seeItSystem,
   tabHomeOf,
   timelineHome,
 } from '@idleon-forge/engine/now';
 import { useId, useState } from 'react';
+import { ActionMeta } from '../design/atoms/ActionMeta';
+import { SourceLabel } from '../design/atoms/SourceLabel';
 import { formatRoute } from '../shell/route';
 import { type ReportOutput, useNowActions } from './context';
 import { PUBLIC_NOTICE } from './report';
 import { Walkthrough } from './walkthrough/Walkthrough';
 
-export function ExternalLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <a href={href} target="_blank" rel="noopener noreferrer">
-      {children}
-    </a>
-  );
-}
-
-/**
- * The Source line (FR-18, FR-19, #74): the best player-facing Source as a link named for its page
- * ("IdleOn Wiki: Smithing"), then the muted Toolbox credit, linked to the Toolbox website page, never to
- * code. With no wiki or guide, the link is that Toolbox page ("IdleOn Toolbox: Anvil") and the credit
- * stays text. "+n" lists the other player Sources in Focus.
- */
-export function SourceLabel({ source, more = true }: { source: SourceView; more?: boolean }) {
-  const [open, setOpen] = useState(false);
-  const id = useId();
-  const cls = `src${source.stale ? ' stale' : ''}`;
-  if (!source.text && !source.credit && !source.stale) return null;
-  return (
-    <span className="src-wrap">
-      {source.text ? (
-        source.href ? (
-          <a className={cls} href={source.href} target="_blank" rel="noopener noreferrer">
-            {source.text}
-          </a>
-        ) : (
-          <span className={cls}>{source.text}</span>
-        )
-      ) : null}
-      {source.credit ? (
-        <span className="src-credit muted">
-          {source.text ? ' · ' : ''}
-          {source.creditHref ? (
-            <a className="muted" href={source.creditHref} target="_blank" rel="noopener noreferrer">
-              {source.credit}
-            </a>
-          ) : (
-            source.credit
-          )}
-        </span>
-      ) : null}
-      {source.stale ? <span className="src-stale"> · Stale</span> : null}
-      {more && source.more.length > 0 ? (
-        <>
-          <button
-            type="button"
-            className="ghost tiny"
-            aria-expanded={open}
-            aria-controls={id}
-            aria-label={`${source.more.length} more source${source.more.length === 1 ? '' : 's'}`}
-            onClick={() => setOpen((o) => !o)}
-          >
-            +{source.more.length}
-          </button>
-          {open ? (
-            <ul id={id} className="src-more">
-              {source.more.map((m) => (
-                <li key={`${m.text}${m.href}`}>
-                  {m.href ? <ExternalLink href={m.href}>{m.text}</ExternalLink> : m.text}{' '}
-                  <span className="muted">verified {m.verifiedOn}</span>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </>
-      ) : null}
-    </span>
-  );
-}
-
-/** "sources disagree" with both sides behind an expander (FR-20). */
-export function ContestedBadge({ contested }: { contested: NonNullable<NextActionView['contested']> }) {
-  return (
-    <details className="contested">
-      <summary>sources disagree</summary>
-      <ul>
-        {contested.sides.map((s) => (
-          <li key={s.text}>
-            {s.text}{' '}
-            {s.sources.map((src) => (
-              <SourceLabel key={`${src.href}${src.text}${src.credit}`} source={src} more={false} />
-            ))}
-          </li>
-        ))}
-      </ul>
-    </details>
-  );
-}
+export { ActionMeta, ContestedBadge } from '../design/atoms/ActionMeta';
+export { GoalList } from '../design/atoms/GoalList';
+export { ExternalLink, SourceLabel } from '../design/atoms/SourceLabel';
 
 /**
  * Report this (FR-30, US-12; M13 FR-9): opens the in-app Suggest form when the Suggestions provider is
@@ -215,10 +131,7 @@ export function NextActionItem({
       <p className="why small">Why: {action.why}</p>
       <GoalDetails details={details} />
       {walkthrough ? <Walkthrough view={walkthrough} /> : null}
-      <div className="na-meta">
-        <SourceLabel source={action.source} />
-        {action.contested ? <ContestedBadge contested={action.contested} /> : null}
-      </div>
+      <ActionMeta action={action} />
       <ActionControls
         actionKey={action.key}
         controls={action.controls}
@@ -255,10 +168,10 @@ export function SeeItLink({
     return (
       <a
         className="small build-link see-it"
-        href={formatRoute({ place: 'timeline' })}
+        href={formatRoute({ place: 'timeline', section: null })}
         onClick={(e) => {
           e.preventDefault();
-          actions.navigate?.({ place: 'timeline' });
+          actions.navigate?.({ place: 'timeline', section: null });
         }}
       >
         {LINK_WORDS.seeIt(PLACE_WORDS.timeline)}
@@ -283,88 +196,6 @@ export function SeeItLink({
     >
       {LINK_WORDS.seeIt(name)}
     </a>
-  );
-}
-
-export function GoalList({
-  goals,
-  subject,
-  hiddenCount,
-  skipped,
-  dismissed,
-  highlightFirst = false,
-  seeIt = true,
-  who,
-}: {
-  goals: GoalView[];
-  subject: string;
-  hiddenCount: number;
-  /** Keys skipped on this subject, for "n skipped · undo". */
-  skipped: string[];
-  dismissed: { key: string; text: string }[];
-  highlightFirst?: boolean;
-  /** M17 FR-31: never on the System page itself. */
-  seeIt?: boolean;
-  /** M17 FR-23: who each Goal is for, on a System page. */
-  who?: (g: GoalView, n: number) => string | null;
-}) {
-  const actions = useNowActions();
-  const expanded = actions.expanded.has(subject);
-  return (
-    <>
-      <ul className="goals">
-        {goals.map((g, n) => (
-          <li key={g.action.key}>
-            {who?.(g, n) ? <p className="who small">{who(g, n)}</p> : null}
-            <NextActionItem
-              action={g.action}
-              milestone={g.milestone}
-              details={g.details}
-              walkthrough={g.walkthrough}
-              first={highlightFirst && n === 0}
-            />
-            {seeIt ? <SeeItLink goal={g} subject={subject} /> : null}
-          </li>
-        ))}
-      </ul>
-      {hiddenCount > 0 || expanded ? (
-        <button
-          type="button"
-          className="ghost"
-          aria-expanded={expanded}
-          onClick={() => actions.toggle(subject)}
-        >
-          {expanded ? 'show less' : `show more (${hiddenCount})`}
-        </button>
-      ) : null}
-      {skipped.length > 0 ? (
-        // M17 FR-27: a skipped bar's "See the fix" lands here, found by its key and outlined (R6 QA).
-        <p
-          className={`small muted skipped-line${actions.highlight && skipped.includes(actions.highlight) ? ' lit' : ''}`}
-          data-skipped-keys={skipped.join(' ')}
-        >
-          {skipped.length} skipped ·{' '}
-          <button type="button" className="ghost tiny" onClick={() => actions.unskip(skipped)}>
-            undo
-          </button>
-        </p>
-      ) : null}
-      {dismissed.length > 0 ? (
-        <details className="hidden-list small">
-          <summary>Hidden until next patch ({dismissed.length})</summary>
-          <ul>
-            {dismissed.map((d) => (
-              <li key={d.key}>
-                {d.text}{' '}
-                <button type="button" className="ghost tiny" onClick={() => actions.undismiss([d.key])}>
-                  undo
-                </button>
-              </li>
-            ))}
-          </ul>
-        </details>
-      ) : null}
-    </>
   );
 }
 

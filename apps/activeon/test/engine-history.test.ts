@@ -156,14 +156,14 @@ describe('the engine reads real save history (M10 TR-6)', { timeout: 60_000 }, (
       'Next family unlock: character slot 6 for your Hunter at family level 300 (43 to go)',
     );
     expect(why(none)).toContain('ETA after a few more sessions.');
-    // 257 - 227 = 30 levels in 4 days: 7.5 a day; 43 to go is about 6 days.
+    // 257 - 227 = 30 levels in 4 days: 7.5 a day; 43 to go is about 6 days (M21 FR-F6: a moment reads "in 6d 0h").
     const compact = engineHistoryOf(full, { before: savedAt, sessionStartedAt: null });
     expect(compact.every((h) => h.state.account.cards === undefined)).toBe(true);
     const withHistory = run(call(compact, null));
     expect(unlock(withHistory)).toBe(
       'Next family unlock: character slot 6 for your Hunter at family level 300 (43 to go)',
     );
-    expect(why(withHistory)).toContain('About 6d at your recent pace.');
+    expect(why(withHistory)).toContain('In 6d 0h at your recent pace.');
   });
 
   it('M15 F5: a character absent from the last save before the Play Session never leads Behind', () => {

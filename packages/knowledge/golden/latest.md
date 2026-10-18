@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: latest · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -40,7 +40,7 @@
 
 ### Account · fix 1 before you leave
 Fix before you leave
-- Fix · Arcade balls stop building: Claim Arcade balls before you leave (time to the claim cap: now) [IdleOn Wiki: Arcade · Calculated by IdleOn Toolbox · 2.3.540]
+- Fix · Arcade balls stop building: Claim Arcade balls before you leave (at the cap now) [IdleOn Wiki: Arcade · Calculated by IdleOn Toolbox · 2.3.540]
 [checklist] Today 0/12 · Week 0/5 · daily reset in 14h 03m
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Grow · Get the fuel to run a Refinery salt: Get 50 more Magmaspike to run Anionic Salt [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
@@ -251,6 +251,12 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
   Dementia: registered
   Void: registered
   Chizoar: registered
+
+## Builds
+Not built yet (M21 area C: the Build path).
+
+## Map
+Not built yet (M21 area M: the Map place).
 
 ## Findings
 | entry | detector | subject | result | slots |

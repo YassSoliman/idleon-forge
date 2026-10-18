@@ -1,28 +1,17 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M16 Star Signs (docs/specs/M16-star-signs.md): the Star Chart section in the Account (points, unlocked
-// signs, the next constellations), the star-signs System page body and the Signs tab's status line. The
-// tab itself (the signs a character wears and should wear) is SignsTab.tsx, a lazy chunk. The engine
+// signs, the next constellations) and the star-signs System page body (area S). The Signs tab's status
+// line moved to signs-status.ts (area C) in M21 Phase F. The tab itself (the signs a character wears and should wear) is SignsTab.tsx, a lazy chunk. The engine
 // (packages/engine/src/starsigns) builds and words everything; this file only renders it. Text is React
 // text, styles are classes (CSP).
 import type { NowView, StarSignsNowView } from '@idleon-forge/engine/now';
+import { SourceLabel } from '../../design/atoms/SourceLabel';
 import type { SystemPageBodyProps } from '../../systems/pages';
 import { useNowActions } from '../context';
-import { SourceLabel } from '../parts';
-import './signs.css';
+import './signs-page.css';
 
-export const list = (xs: readonly string[]) => (xs.length ? xs.join(' + ') : 'nothing');
-
-/** M17 FR-13: the Signs tab's one status line on the Characters grid. */
-export function signsStatus(view: NowView, index: number): string | null {
-  const c = view.starSigns?.characters.find((x) => x.index === index);
-  if (!c?.activity) return null;
-  const wear = `wear ${list(c.recommended)}${c.matches ? ' ✓' : ''}`;
-  if (c.canChange === true) return `${wear} · can change signs`;
-  return c.killsToTelescope !== null
-    ? `${wear} · Telescope in about ${c.killsToTelescope.toLocaleString('en-US')} kills`
-    : wear;
-}
+const list = (xs: readonly string[]) => (xs.length ? xs.join(' + ') : 'nothing');
 
 function StarChartBody({ s, heading = true }: { s: StarSignsNowView; heading?: boolean }) {
   return (

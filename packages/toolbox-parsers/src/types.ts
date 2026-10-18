@@ -193,6 +193,13 @@ export interface ToolboxCalls {
    * an upper bound of the game's price (M19 F-b).
    */
   bubbleCost(rawName: string, bubbleIndex: number, level: number, baseCost: number): number;
+  // ---- M21 Redesign (TR-3, FR-C9) ----
+  /**
+   * Toolbox `calcTotalStarTalent` on this character alone: the star tab's point total for its active
+   * preset, or (`'other'`) for its other preset, from a copy carrying `talentPreset.flatTalents` and
+   * `.flatStarTalents`. null without an other preset or a finite result. Throws what Toolbox throws.
+   */
+  starTotal(character: unknown, account: unknown, preset: 'active' | 'other'): number | null;
 }
 
 /** M7 TR-4: one Vault row's Toolbox `cost` at levels L, L+1, ... (`costs[0]` is the parse's `cost`). */

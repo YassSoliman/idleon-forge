@@ -35,7 +35,7 @@ entries:
     effortSeconds: 180
     detector: { id: minigames/spiketrap }
     text: "Spiketrap starts at :00: up to {gems:int} gems today"
-    why: "Today's Spiketrap gems are unclaimed and the next round starts in {startsIn:duration}."
+    why: "Today's Spiketrap gems are unclaimed and the next round starts {startsIn:in}."
     doneWhen: { field: "account.minigames.spiketrap.gemsAvailableToday", becomes: false }
     appliesTo: { stages: all }
     confidence: M

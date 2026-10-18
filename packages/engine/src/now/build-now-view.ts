@@ -742,6 +742,8 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
     skillGrid: skillGridView(result),
     // M18 TR-5: one line, no logic (the worker words everything).
     gear: result.gear ?? null,
+    // M21 FR-F4: the who-glyph families, passed through (the UI imports no Knowledge Base).
+    families: result.classFamilies ?? {},
   };
 }
 

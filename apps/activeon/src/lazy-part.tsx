@@ -9,16 +9,20 @@
 // A `lazyPart` is a React.lazy component that also renders the loaded module synchronously once it is
 // in memory, so a view that has loaded once never shows the loading line again. `preload()` fetches
 // it early (Shell prefetches every part when the browser is idle; tests await `preloadParts()`).
+// While a chunk loads, a polite line is read at once and our walking blob shows only after 400 ms
+// (M21 TR-13, D-11); a failed chunk shows the G3 line (the PartFailed atom) with its retry.
 // Vite emits each chunk under assets/, so the CSP's `script-src 'self'` covers them unchanged.
 //
 // A chunk that fails to load (offline, a new deploy) never takes the whole app (R9 QA P1-1). Each part
-// carries its own boundary: "Couldn't load this view" with a Retry, in place of the view only, so the
+// carries its own boundary: "Couldn't load this part" with Try again (G3), in place of the view only, so the
 // navigation stays and no advice from a half-loaded view is shown. Chromium caches a failed `import()`
 // for the life of the page, so calling the importer again never re-requests the chunk. `retryable`
 // remembers the failed chunk's URL and imports it again as `<url>?retry=N`, a new module URL the
 // browser does fetch. If that fails too (a failed shared chunk stays cached), Retry reloads the page
 // once, guarded by a sessionStorage stamp so it can never loop.
+import { PART_WORDS } from '@idleon-forge/engine/now';
 import { Component, type ComponentType, lazy, type ReactNode, useState } from 'react';
+import { PartFailed, Loading as Waiting } from './design/atoms/States';
 
 export interface LazyPart<P> {
   (props: P): React.ReactNode;
@@ -201,12 +205,12 @@ function LoadFailed({ retry, onLoaded }: { retry: () => Promise<void>; onLoaded:
     }
   };
   return (
-    <section className="lazy-failed" role="alert" aria-label="Couldn't load this view">
-      <p>Couldn't load this view. Check your connection.</p>
-      <button type="button" className="small-btn" onClick={onRetry} disabled={busy}>
-        {busy ? 'Retrying…' : 'Retry'}
-      </button>
-    </section>
+    <PartFailed
+      line={`${PART_WORDS.failed} ${PART_WORDS.hint}`}
+      retry={PART_WORDS.retry}
+      busy={busy ? PART_WORDS.retrying : null}
+      onRetry={onRetry}
+    />
   );
 }
 
@@ -222,11 +226,18 @@ export async function preloadParts(): Promise<void> {
   }
 }
 
-/** The one loading state of a lazy view: a polite live line, never a spinner. */
+/**
+ * The one loading state of a lazy view (M21 TR-13, D-11): a polite live line for screen readers at
+ * once, and our walking blob only after 400 ms, so a fast chunk never flashes it (US-14).
+ */
 export function Loading({ what = 'this view', text }: { what?: string; text?: string }) {
+  const line = text ?? `Loading ${what}…`;
   return (
-    <p className="small muted lazy-loading" role="status" aria-live="polite">
-      {text ?? `Loading ${what}…`}
-    </p>
+    <div className="lazy-loading">
+      <p className="sr-only" role="status" aria-live="polite">
+        {line}
+      </p>
+      <Waiting delayMs={400} label={line} quiet />
+    </div>
   );
 }

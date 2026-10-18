@@ -5,7 +5,8 @@
 //
 // - step-words: a step template (an entry's `text`, its `values` step variants, a Spend Plan line) is at
 //   most STEP_WORD_CAP words. The rest of the sentence belongs in the entry's `why`.
-// - hand-written-duration: "about {x:duration}" (the format already says "about"), "{n} h", "about 2 min".
+// - hand-written-duration: "about {x:duration}" (the format already says "about"), "{n} h", "about 2 min",
+//   and a moment slot (`*At`, `*In`, `eta`) through `{x:duration}` instead of `{x:in}` (M21 FR-F6).
 // Justified exceptions live in `packages/knowledge/copy-allowlist.yaml`, one reason each; an allowlist
 // line that no longer matches a problem is itself an error, so the list can only shrink.
 import { readFileSync } from 'node:fs';
@@ -34,6 +35,12 @@ const DURATION_RULES: { re: RegExp; message: string }[] = [
   {
     re: /\babout \{[A-Za-z0-9]+:duration\}/,
     message: '"about {x:duration}": the duration format already says "about"; drop the word',
+  },
+  {
+    // M21 FR-F6, TR-6: one time language. A slot that names a moment (`fullIn`, `readyAt`, `eta`) is a
+    // future time, "in 14h 04m"; `{x:duration}` ("about 14h") is for effort only.
+    re: /\{(?:[A-Za-z0-9]*(?:At|In)|eta):duration\}/,
+    message: 'a moment (a slot named *At, *In or eta) uses {x:in} ("in 14h 04m"); {x:duration} is for effort',
   },
   {
     re: /\{[A-Za-z0-9]+(?::int)?\}\s?(?:h|hrs?|hours?|d|days?|m|mins?|minutes?)\b/,
@@ -68,6 +75,8 @@ export function templatesOf(e: Entry): CopyTemplate[] {
   add(['text'], v.text, e.type !== 'priority');
   add(['why'], v.why, false);
   add(['stopHere'], v.stopHere, false);
+  // M21 FR-N3: the grouped card's sentence is a step a player reads.
+  add(['groupText'], v.groupText, true);
   const values = (v.values ?? {}) as Record<string, unknown>;
   for (const [k, t] of Object.entries(values))
     if (typeof t === 'string' && t.includes(' ')) add(['values', k], t, !NOT_STEP_KEY.test(k));

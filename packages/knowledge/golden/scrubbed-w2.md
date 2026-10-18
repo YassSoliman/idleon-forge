@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #d192e9da · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 988
+# golden v1: scrubbed-w2 · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 988
 
 ## Verdict changes
 
@@ -24,7 +24,7 @@ purpose: Mining 20 → 25 opens The Ol' Straightaway
 
 ### Account · fix 1 before you leave
 Fix before you leave
-- Fix · Arcade balls stop building: Claim Arcade balls before you leave (time to the claim cap: now) [IdleOn Wiki: Arcade · Calculated by IdleOn Toolbox · 2.3.540]
+- Fix · Arcade balls stop building: Claim Arcade balls before you leave (at the cap now) [IdleOn Wiki: Arcade · Calculated by IdleOn Toolbox · 2.3.540]
 [checklist] Today 0/11 · Week 0/3 · daily reset in 23h 42m
   ○ To do: Free pet pull
   ○ To do: Pet Mart free gems · resets with the server day
@@ -194,6 +194,12 @@ step: Use your 11 vial attempts on the W2 town cauldron
   Dementia: 0 of 7 parts: craft Dementia Helmet
   Void: 0 of 7 parts: craft Void Imperium Helmet
   Chizoar: 0 of 4 parts: craft Chizoar Helmet
+
+## Builds
+Not built yet (M21 area C: the Build path).
+
+## Map
+Not built yet (M21 area M: the Map place).
 
 ## Findings
 | entry | detector | subject | result | slots |

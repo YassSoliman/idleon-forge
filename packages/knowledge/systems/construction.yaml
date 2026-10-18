@@ -25,7 +25,7 @@ entries:
       text-slot: "Put the {building:name} in an empty build slot at the Construction Table"
       text-swap: "Swap the {building:name} into the build slot holding the {holder:name}"
       why-lead-collect: "Then check the {building:name} in the Build menu: it upgrades when you have enough."
-      why-lead-pay-timed: "It upgrades when you have its {salt:name}; you have {held:int} in storage. Its bar is full in {fullIn:duration}: refine it then."
+      why-lead-pay-timed: "It upgrades when you have its {salt:name}; you have {held:int} in storage. Its bar is full {fullIn:in}: refine it then."
       why-lead-pay: "It upgrades when you have its {salt:name}; you have {held:int} in storage."
       why-lead-slot-salt-off: "The slot is at the Construction Table. It is paid in {salt:name}, which is not running yet."
       why-then-none: "One building at a time, in the order that pays most now: at the Construction Table in Frostbite Tundra town, on any character. It is the last one on this Stage's list."

@@ -1,0 +1,10 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* M21 Phase F: CSS for the pieces moved verbatim into design/atoms/ (GoalList's "who" line, StateGlyph's
+   12 px glyph). Unchanged rules; Integration folds them into atoms.css (FR-I3). */
+.goals .who {
+  margin: 0 0 2px;
+  color: var(--muted);
+}
+.gg {
+  flex: none;
+}

@@ -78,6 +78,28 @@ describe('checkFirstLoad', () => {
     for (const id of ['now/BuildView.tsx', 'gear/GearTab.tsx', 'systems/SystemPage.tsx', 'timeline/x.tsx'])
       expect(checkFirstLoad([{ fileName: 'assets/now-b.js', moduleIds: [`${app}/${id}`] }])).toHaveLength(1);
   });
+  it('lets the Character page shell into the first load, but not the Characters place (M21)', () => {
+    const shell = [`${app}/characters/CharacterShell.tsx`, `${app}/characters/characters.css`];
+    expect(checkFirstLoad([{ fileName: 'assets/index-a.js', moduleIds: shell }])).toEqual([]);
+    expect(
+      checkFirstLoad([
+        { fileName: 'assets/index-a.js', moduleIds: [`${app}/characters/CharactersPlace.tsx`] },
+      ]),
+    ).toHaveLength(1);
+  });
+  it('keeps every art group but the core motifs out of the first load (M21 TR-12)', () => {
+    const core = [
+      `${app}/design/art/core.ts`,
+      `${app}/design/art/PixelArt.tsx`,
+      `${app}/design/art/names.ts`,
+    ];
+    expect(checkFirstLoad([{ fileName: 'assets/index-a.js', moduleIds: core }])).toEqual([]);
+    expect(
+      checkFirstLoad([
+        { fileName: 'assets/index-a.js', moduleIds: [`${app}/design/art/generated/systems.ts`] },
+      ]),
+    ).toHaveLength(1);
+  });
   it("never flags the engine's own folders of the same name (they run in the worker)", () => {
     const ids = ['/repo/packages/engine/src/gear/plan.ts', '/repo/packages/engine/src/now/view.ts'];
     expect(checkFirstLoad([{ fileName: 'assets/index-a.js', moduleIds: ids }])).toEqual([]);

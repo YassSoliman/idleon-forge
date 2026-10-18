@@ -45,11 +45,15 @@ export const LAZY_ONLY: readonly RegExp[] = [
   /activeon[\\/]src[\\/]now[\\/]cards[\\/]CardsPanel\.tsx$/,
   /activeon[\\/]src[\\/]now[\\/]signs[\\/]SignsTab\.tsx$/,
   /activeon[\\/]src[\\/]now[\\/]SkillsTab\.tsx$/,
-  /activeon[\\/]src[\\/]characters[\\/]/,
+  // M21: CharacterShell (the identity strip and tab bar) and its CSS are first-load, rendered by Focus.
+  /activeon[\\/]src[\\/]characters[\\/](?!CharacterShell\.tsx$|characters\.css$)/,
   /activeon[\\/]src[\\/]systems[\\/](SystemsHub|SystemPage|SlotPictures)\.tsx$/,
   /activeon[\\/]src[\\/]timeline[\\/]/,
   /activeon[\\/]src[\\/]gear[\\/]/,
   /activeon[\\/]src[\\/]alchemy[\\/]/,
+  // M21 TR-12: only the first-screen motifs (design/art/core.ts) ship in the first load; every other
+  // art group is a lazy chunk PixelArt loads when one of its motifs is drawn.
+  /activeon[\\/]src[\\/]design[\\/]art[\\/]generated[\\/]/,
 ];
 
 /** Problems with the first load: the entry chunk and every chunk it imports statically. */

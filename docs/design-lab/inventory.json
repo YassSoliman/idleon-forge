@@ -1,0 +1,1962 @@
+{
+  "version": 1,
+  "date": "2026-10-18",
+  "about": "Every ActiveOn component and view to design in the Design Lab, in three design groups. Each component lists its purpose, where its data lives in data/*.json (paths are into that file; \"*\" means every element), 2-4 variation ideas that change the UX (not just the look), and the brief.md principles it serves. All names in data are scrubbed (Char1…, class + level).",
+  "principles": {
+    "P1": "Answer first",
+    "P2": "One next step, and it is the product",
+    "P3": "Who, where, how long, every line",
+    "P4": "Two levels, no more",
+    "P5": "Every warning carries its fix",
+    "P6": "Time is one language",
+    "P7": "One job, many characters: group it",
+    "P8": "Stable places; state by colour plus glyph plus word",
+    "P9": "Hard caps and one winner",
+    "P10": "Quiet, kind controls",
+    "P11": "The save is the checklist, and it is honest about age",
+    "P12": "Earned delight in our own pixel art"
+  },
+  "dataFiles": {
+    "data/scrubbed-w2.json": "World 2 late, 5 characters, fresh; 4 of 5 Ready, 1 Fix + 1 account blocker; 13-step Walkthrough; 14 Spend lines",
+    "data/scrubbed-w3.json": "World 3 early, 6 characters, fresh; 4 of 6 Ready, 2 Fix (preset swaps); Walkthrough, printer plan, 15 Spend lines",
+    "data/scrubbed-w3-stale.json": "Same as w3 with the save's own timestamps (about 8.5 h old): caps full on nearly every row",
+    "data/latest.json": "Toolbox public late-game save, 11 characters, World 4 entry; 0 Ready, 10 Fix, 1 Unknown; no Spend Plan or Walkthrough"
+  },
+  "directions": ["quest", "field", "board"],
+  "groups": [
+    {
+      "id": "now",
+      "name": "Now screen",
+      "components": [
+        {
+          "id": "now.header",
+          "name": "Header",
+          "purpose": "Who and how fresh: wordmark, Family level, save age with source (live / pasted / last good), Suggest entry. It must never push the verdict below the fold.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "now",
+              "note": "Fixed now; fresh cloud save is 60 s before it (shiftMs moved the save timestamps)"
+            },
+            {
+              "file": "data/scrubbed-w3-stale.json",
+              "path": "now",
+              "note": "Stale case: meta now 2026-10-17T16:12:33Z, cloud save about 8.5 h earlier"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.footer",
+              "note": "Versions, for the overflow menu only"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "engineResult.versions"
+            }
+          ],
+          "states": [
+            "live, fresh",
+            "pasted",
+            "last good save (offline)",
+            "reconnecting",
+            "updating…",
+            "stale (> 1 h)"
+          ],
+          "variations": [
+            {
+              "name": "One-line header",
+              "idea": "Wordmark left, a single save-age chip right (\"save read 1 min ago\"); everything else (Family level, versions, Suggest) moves into one overflow menu. Saves about 60 px on phone."
+            },
+            {
+              "name": "Header that becomes the verdict",
+              "idea": "On scroll the header collapses into a sticky mini-verdict (\"2 fixes · back in 8h\") so the answer never leaves the screen."
+            },
+            {
+              "name": "Freshness as a fuse",
+              "idea": "The save-age chip is a short bar that burns down over an hour, turning amber then grey; tapping it explains \"press Cloud Save in game to refresh\"."
+            }
+          ],
+          "principles": ["P1", "P11"],
+          "today": {
+            "file": "apps/activeon/src/components/Header.tsx",
+            "audit": ["A1", "A11"]
+          },
+          "directions": {
+            "quest": "Pixel wordmark on a wood-and-steel title bar; save age as a tiny hourglass tile.",
+            "field": "Quiet one-line bar, pixel wordmark only.",
+            "board": "Status count badges plus a live mono save timer."
+          }
+        },
+        {
+          "id": "now.stage-badge",
+          "name": "Stage badge",
+          "purpose": "Show where the account is (World 3, early) without jargon, and what the next Stage needs, one tap away.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "stage",
+              "note": "{id,label,needs[]}: \"World 3, early\"; needs \"Build the Death Note to level 1\", \"Finish Hoggindaz 5\""
+            },
+            {
+              "file": "data/scrubbed-w2.json",
+              "path": "stage"
+            },
+            {
+              "file": "data/latest.json",
+              "path": "stage"
+            }
+          ],
+          "states": ["known", "unknown / not covered (hidden today)"],
+          "variations": [
+            {
+              "name": "World crest",
+              "idea": "A small world-coloured crest (our W1-W7 accents) with the world number; tap opens \"To reach World 3, mid: 2 things\" as a mini checklist built from stage.needs."
+            },
+            {
+              "name": "Progress-to-next as two pips",
+              "idea": "Two hollow pips for the two needs, filling as the save shows them done; no words until tapped."
+            },
+            {
+              "name": "Needs as Goals",
+              "idea": "Do not show the Stage at all on the card face; promote stage.needs into the Account section as a \"Next Stage\" Goal with its own Next Action."
+            }
+          ],
+          "principles": ["P1", "P4", "P12"],
+          "today": {
+            "file": "apps/activeon/src/components/Header.tsx (StageLabel)",
+            "audit": ["A11"]
+          },
+          "directions": {
+            "quest": "Hand-lettered-style world banner chip in the world gradient.",
+            "field": "Muted chip \"World 3 · early\" with a world-colour dot.",
+            "board": "Column in the header strip, mono."
+          }
+        },
+        {
+          "id": "now.return-chips",
+          "name": "\"Back in about\" chips",
+          "purpose": "Set the Expected Return and show what it changes: which cap fills first, and when, as relative and clock time.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.expectedReturn.chips[]",
+              "note": "{label,seconds,pressed}: 2h/4h/8h/12h/24h (8h used)"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "engineResult.firstFill",
+              "note": "{label,what,at,subject}: \"Bowman Lv 60's anvil\" at an epoch ms"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "engineResult.expectedReturn",
+              "note": "{usedSeconds,learnedSeconds}"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "engineResult.alreadyFull",
+              "note": "count of caps already full (4 here, 10 in the stale save, 22 in latest)"
+            }
+          ],
+          "states": [
+            "one pressed",
+            "updating…",
+            "learned return (learnedSeconds set)",
+            "nothing fills before return"
+          ],
+          "variations": [
+            {
+              "name": "Chips with consequence",
+              "idea": "Under the chips, one sentence that changes with the choice: \"Plans for 8h · Anvil on Bowman 60 fills first, around 01:40.\" Same format everywhere (P6)."
+            },
+            {
+              "name": "Return-time slider on the timeline",
+              "idea": "A single \"back at\" handle dragged along a 0-24 h axis on which each character's first cap is a tick; ticks left of the handle turn red. Snaps to 2/4/8/12/24 h."
+            },
+            {
+              "name": "Learned default, no picker",
+              "idea": "Default to the learned return (learnedSeconds) and show only \"Back in about 8h · change\"; the chips appear only after tapping change. Opinionated default over a switch."
+            },
+            {
+              "name": "Clock-time toggle once",
+              "idea": "A one-time preference (relative / clock) remembered per viewer; chips then read \"back ~02:00\"."
+            }
+          ],
+          "principles": ["P6", "P1", "P9"],
+          "today": {
+            "file": "apps/activeon/src/now/Chrome.tsx (ExpectedReturnChips)",
+            "audit": ["A18"]
+          },
+          "synthesize": "Clock times: add seconds to the file's now. \"Fills first\" comes from engineResult.firstFill (null in w2 and latest: then say \"nothing fills before you're back\").",
+          "directions": {
+            "quest": "Hourglass tab tiles with caps labels.",
+            "field": "Segmented control plus a consequence sentence.",
+            "board": "The \"back at\" marker on the AFK Timeline axis."
+          }
+        },
+        {
+          "id": "now.verdict-banner",
+          "name": "Verdict banner and progress bar",
+          "purpose": "The 3-second answer: safe to log off or not, the one count that must reach zero, and the first fix; plus the per-character segments.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.progress",
+              "note": "{ready,fix,unknown,total,segments[],label,hidden}: \"4 of 6 Ready · fix 2 before you leave\""
+            },
+            {
+              "file": "data/latest.json",
+              "path": "nowView.progress",
+              "note": "Worst case: 0 of 11 Ready, 10 Fix, 1 Unknown, 1 account fix"
+            },
+            {
+              "file": "data/scrubbed-w2.json",
+              "path": "nowView.progress",
+              "note": "\"fix 1 in Account\" variant"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.allSet",
+              "note": "null in every export (no save is all set)"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.banners[]",
+              "note": "empty in every export"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "engineResult.account.safety",
+              "note": "\"safe\" (w3) / \"unsafe\" (w2, latest)"
+            },
+            {
+              "file": "data/latest.json",
+              "path": "nowView.account.blockers[0]",
+              "note": "Account blocker to lead with: \"Claim Arcade balls before you leave\""
+            }
+          ],
+          "states": [
+            "fixes left (n characters + account)",
+            "all set (covered)",
+            "all set, some skipped",
+            "all set, not covered",
+            "stale save",
+            "unknown safety",
+            "engine error"
+          ],
+          "variations": [
+            {
+              "name": "Counter that reaches zero",
+              "idea": "Big number plus sentence: \"2 fixes before you leave\", the first fix inline as a button-row (\"Bowman 60 · swap to fighting preset · 10 s\"). At zero it flips to \"All set: safe to log off\" with the campfire and the first fill time (YNAB, G7, I2)."
+            },
+            {
+              "name": "Tappable segments",
+              "idea": "The progress bar becomes one labelled segment per character (class glyph + Verdict glyph). Tapping a segment opens that Focus; long-press shows its one-liner. Replaces the decorative bar (A20)."
+            },
+            {
+              "name": "Per-character verdict roll-up",
+              "idea": "Banner expands (one tap) to one line per character: \"Ready · on AFK Target, 11 h before anything fills\". CanIIdle-style yes/no per thing."
+            },
+            {
+              "name": "Stale-first wording",
+              "idea": "When the save is old the banner leads with \"Your save is 8 h old: press Cloud Save, then check again\" and demotes the verdict to \"last known: 2 fixes\". Fixes A14."
+            }
+          ],
+          "principles": ["P1", "P5", "P11", "P8"],
+          "today": {
+            "file": "apps/activeon/src/now/Chrome.tsx (Banners, ProgressBar)",
+            "audit": ["A1", "A14", "A20"]
+          },
+          "synthesize": "All-set state: derive from progress (fix==0 && unknown==0) or render a mock with firstFill and alreadyFull; no export has allSet non-null.",
+          "directions": {
+            "quest": "Framed quest panel, pixel-caps title, campfire or bell motif, Jersey 15 count.",
+            "field": "Sentence card with the first action inline.",
+            "board": "Single status strip with counts as filters."
+          }
+        },
+        {
+          "id": "now.roster",
+          "name": "Roster",
+          "purpose": "The list of characters in Visit Order, each with Verdict and one summary line; the Now screen's main body when nothing is in Focus.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.roster[]",
+              "note": "6 rows"
+            },
+            {
+              "file": "data/latest.json",
+              "path": "nowView.roster[]",
+              "note": "11 rows, 7 share the same traps summary"
+            },
+            {
+              "file": "data/scrubbed-w2.json",
+              "path": "nowView.roster[]",
+              "note": "5 rows"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "engineResult.visitOrder"
+            }
+          ],
+          "states": ["all ready", "mixed", "all fix (latest)", "one playing", "unknown row"],
+          "variations": [
+            {
+              "name": "Grouped jobs on top",
+              "idea": "Before the rows, a \"Same job on 7 characters\" card collapses the repeated summary; rows then show a small marker instead of the sentence (P7, A5)."
+            },
+            {
+              "name": "Needs a fix first, ready folded",
+              "idea": "Default filter \"Needs a fix (2)\", the Ready rows folded into one line of class glyphs \"4 ready\"; All is one tap (YNAB focused views, I7)."
+            },
+            {
+              "name": "Portrait grid",
+              "idea": "A 3-column grid of class portraits with a Verdict rim (filled = Ready, wrench badge = Fix) for accounts with 6+ characters; tap opens Focus (Streaks, Home Assistant tiles)."
+            },
+            {
+              "name": "Lanes",
+              "idea": "Each row carries a thin time bar to its first cap on a shared axis, so \"who needs me first\" is read by length (I4)."
+            }
+          ],
+          "principles": ["P7", "P8", "P9", "P6"],
+          "today": {
+            "file": "apps/activeon/src/now/Roster.tsx",
+            "audit": ["A5", "A9", "A15"]
+          }
+        },
+        {
+          "id": "now.roster-row",
+          "name": "Roster row",
+          "purpose": "One character in one glance: who (class glyph, class, level, slot), what it is doing and where, Verdict, the next action or fix, caps.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.roster[*]",
+              "note": "{position,name,classLabel,level,activity,map,pill,caps[],moreCaps,summary,spendChip,playing,nextUp,accessibleName}"
+            },
+            {
+              "file": "data/scrubbed-w3-stale.json",
+              "path": "nowView.roster[*].caps",
+              "note": "2 pills per row (Anvil, Worship)"
+            },
+            {
+              "file": "data/latest.json",
+              "path": "nowView.roster[0]",
+              "note": "\"Doing nothing\" on Blunder Hills, Royal Guardian 1,307"
+            }
+          ],
+          "states": [
+            "ready",
+            "fix",
+            "unknown",
+            "playing",
+            "next up",
+            "with caps",
+            "with spend chip",
+            "320 px"
+          ],
+          "variations": [
+            {
+              "name": "Three-token line",
+              "idea": "Row = [class glyph + \"Bowman 60\"] [AFK Target icon + map] [Verdict word]; second line is the one fix with its duration. Nothing else on the face."
+            },
+            {
+              "name": "Swipe for the why",
+              "idea": "Swipe or tap the chevron to reveal the why and Skip today inline (level 2), keeping rows one height."
+            },
+            {
+              "name": "Pill-free row with a cap count",
+              "idea": "Caps collapse into one icon stack with a count (\"2 full\") that opens the cap panel; avoids the 320 px wrap (A9)."
+            },
+            {
+              "name": "Ghost last time",
+              "idea": "A ghost line \"last session: Fishing\" when the activity changed, Strong-style, styled so it never reads as current."
+            }
+          ],
+          "principles": ["P3", "P8", "P5", "P2"],
+          "today": {
+            "file": "apps/activeon/src/now/Roster.tsx (Row)",
+            "audit": ["A8", "A9", "A15"]
+          },
+          "directions": {
+            "quest": "Mini panel with a 24 px portrait in a world-colour frame and a pixel stamp.",
+            "field": "Card row with 16 px glyph and Verdict word.",
+            "board": "Grid row in fixed columns."
+          }
+        },
+        {
+          "id": "now.verdict-pill",
+          "name": "Verdict pill",
+          "purpose": "Ready / Fix before you leave / Unknown (+ \"n skipped\"), never colour alone.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.roster[*].pill",
+              "note": "{kind,text}"
+            },
+            {
+              "file": "data/latest.json",
+              "path": "focus.c10.pill",
+              "note": "unknown"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "focus.c*.pill"
+            }
+          ],
+          "states": ["ready", "fix", "unknown", "ready · n skipped"],
+          "variations": [
+            {
+              "name": "Glyph stamp",
+              "idea": "A 16 px pixel glyph (check / wrench-bell / question) plus one short word; text \"Fix\" not \"Fix before you leave\" on the row, full phrase in Focus."
+            },
+            {
+              "name": "Rim instead of pill",
+              "idea": "No pill: the class portrait gets a coloured rim and a corner badge, freeing a line at 320 px."
+            },
+            {
+              "name": "Verdict with time",
+              "idea": "Ready pills carry the safe window (\"Ready · 11h\"), Fix pills the fix time (\"Fix · 10 s\")."
+            }
+          ],
+          "principles": ["P8", "P3"],
+          "today": {
+            "file": "apps/activeon/src/now/Roster.tsx (Pill)",
+            "audit": ["A9"]
+          }
+        },
+        {
+          "id": "now.cap-pills",
+          "name": "Cap pills and cap panel",
+          "purpose": "Something fills or is full; say what, how urgent, and the fix; mark them optional because caps never change a Verdict.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.roster[*].caps[*]",
+              "note": "{key,entryId,label,text,why,source,fullNow}: \"Worship full · spend\""
+            },
+            {
+              "file": "data/scrubbed-w3-stale.json",
+              "path": "focus.c*.caps[*]",
+              "note": "Anvil + Worship on most characters"
+            },
+            {
+              "file": "data/latest.json",
+              "path": "nowView.roster[*].caps[*]",
+              "note": "\"Anvil full · collect\" on all 11 rows"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "focus.c*.info[*]",
+              "note": "\"Anvil full in 5 h at current speed\": the soon state"
+            }
+          ],
+          "states": [
+            "full now",
+            "soon (full in about 40 min)",
+            "fine (grey)",
+            "+n more",
+            "open panel",
+            "skipped today"
+          ],
+          "variations": [
+            {
+              "name": "Severity + kind + verb",
+              "idea": "16 px pixel icon (anvil, worship skull) + colour by urgency + fix verb: \"Anvil · collect\". Full now = filled amber, soon = outlined, fine = grey (YNAB)."
+            },
+            {
+              "name": "Account-level cap finding",
+              "idea": "When a cap is on 3+ characters, show it once at the top as \"Anvil full on 11 · collect on each\" that also filters the Roster (DIM findings as filters)."
+            },
+            {
+              "name": "Fill gauge",
+              "idea": "The pill is a tiny 8-step pixel bar showing fullness and the time to full (\"Anvil ▮▮▮▮▮▮▯▯ 1h40\")."
+            },
+            {
+              "name": "Optional tag",
+              "idea": "A small \"optional\" or \"+value\" label on caps when the Verdict is Ready, so \"All set\" and \"Anvil full\" never contradict (A14)."
+            }
+          ],
+          "principles": ["P5", "P6", "P7", "P8"],
+          "today": {
+            "file": "apps/activeon/src/now/Roster.tsx (RowCaps), now/parts.tsx (CapPills)",
+            "audit": ["A5", "A9", "A14"]
+          },
+          "synthesize": "Soon caps: no export has fullNow=false; build them from focus.c*.info[*].text (\"Anvil full in 5 h\") with fullNow=false."
+        },
+        {
+          "id": "now.spend-chip",
+          "name": "Spend chip",
+          "purpose": "Point from a character to its Spend Plan lines without stealing the row.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.roster[*].spendChip",
+              "note": "\"Spend here: 6 buys, ~589M → Spend Plan\""
+            }
+          ],
+          "states": ["present", "absent"],
+          "variations": [
+            {
+              "name": "Coin badge",
+              "idea": "A pixel coin with a count (\"6\") on the row's right edge; tap opens Spend Plan filtered to this payer."
+            },
+            {
+              "name": "Spend as the row's next step",
+              "idea": "When the row is Ready and has buys, the summary line becomes \"Spend 589M here: 6 buys\" and the chip disappears."
+            },
+            {
+              "name": "Fold into the grouped spend card",
+              "idea": "No per-row chip; Spend Plan shows payers as glyph chips instead."
+            }
+          ],
+          "principles": ["P9", "P2"],
+          "today": {
+            "file": "apps/activeon/src/now/Roster.tsx",
+            "audit": ["A8"]
+          }
+        },
+        {
+          "id": "now.verdict-strip",
+          "name": "Verdict strip (character strip)",
+          "purpose": "Jump between characters inside Focus, in Visit Order, coloured by Verdict.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "focus.c*.strip[]",
+              "note": "{index,label,accessibleName,kind,current}: \"1 · Char3\""
+            }
+          ],
+          "states": ["current", "ready / fix / unknown", "scrolls on phone"],
+          "variations": [
+            {
+              "name": "Portrait strip",
+              "idea": "A row of 24 px class portraits with Verdict rims; current is lifted. No names needed, so it fits 11 on a phone."
+            },
+            {
+              "name": "Pager with the next fix",
+              "idea": "Only \"← prev\" and \"next: Barbarian 56 · fix\" with a dot count; the strip itself is a long-press."
+            },
+            {
+              "name": "Progress strip",
+              "idea": "Doubles as the progress bar: done characters fill, the current one pulses."
+            }
+          ],
+          "principles": ["P8", "P2"],
+          "today": {
+            "file": "apps/activeon/src/now/Focus.tsx",
+            "audit": ["A15"]
+          }
+        },
+        {
+          "id": "now.focus-card",
+          "name": "Focus card",
+          "purpose": "One character's page: identity, Verdict and blockers, the current step, Purpose, up to 3 Goals, better fit, and next character.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "focus.c2",
+              "note": "Fix: \"Swap to your fighting preset before you leave\""
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "focus.c3",
+              "note": "Ready with a Walkthrough Goal and 2 milestones"
+            },
+            {
+              "file": "data/scrubbed-w2.json",
+              "path": "focus.c0",
+              "note": "Fix with a Walkthrough (13 steps)"
+            },
+            {
+              "file": "data/latest.json",
+              "path": "focus.c10",
+              "note": "Unknown: \"AFK safety isn't covered yet\""
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "focus.c*.{position,pill,caps,blockers,purpose,goals,hiddenCount,info,activePlay,done,next}"
+            }
+          ],
+          "states": [
+            "ready",
+            "fix",
+            "unknown",
+            "playing / pending follow",
+            "left (back line)",
+            "last character"
+          ],
+          "variations": [
+            {
+              "name": "Current-step hero",
+              "idea": "Top of the card is one step, Zygor-style: who / where / how long, a fill bar from the save, auto-advancing; the rest is below a divider."
+            },
+            {
+              "name": "Character sheet",
+              "idea": "Game-like sheet: portrait, class, level, AFK Target as an icon tile, then Goals as quest entries; Account content never appended (A3)."
+            },
+            {
+              "name": "Before-you-leave checklist",
+              "idea": "For a Fix character the card is a 1-3 item DO-CONFIRM list that ticks itself after the next save, then \"Next: Barbarian 56 →\"."
+            },
+            {
+              "name": "Bottom sheet",
+              "idea": "On phone, Focus opens as a sheet over the Roster, so context is kept and swiping moves to the next character."
+            }
+          ],
+          "principles": ["P2", "P3", "P4", "P9"],
+          "today": {
+            "file": "apps/activeon/src/now/Focus.tsx",
+            "audit": ["A3", "A15"]
+          },
+          "synthesize": "playing / pendingFollow / left are null in every export: mock playing from engineResult.lastPlayedCharacterIndex."
+        },
+        {
+          "id": "now.focus-identity",
+          "name": "Focus identity and follow line",
+          "purpose": "Anchor the eye: portrait, class, level, activity, map, position (\"6 of 6\"), \"Now playing … go\", \"Left … ✓ 2 done\".",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "focus.c*.{classLabel,level,activity,map,position,playing,left}"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "engineResult.lastPlayedCharacterIndex",
+              "note": "5"
+            }
+          ],
+          "states": ["normal", "playing", "pending follow", "left from"],
+          "variations": [
+            {
+              "name": "Portrait plate",
+              "idea": "32 px class portrait (ours) on a world-colour plate with the map name as a signpost."
+            },
+            {
+              "name": "Plain \"you are here\"",
+              "idea": "No portrait: \"Bowman 60 · Fighting Sand Giant · Sands of Time\" in one line, position as \"1 of 6\"."
+            },
+            {
+              "name": "Follow toast",
+              "idea": "When the game switches characters, a small toast \"Now playing Barbarian 56 · go\" instead of an inline chip."
+            }
+          ],
+          "principles": ["P3", "P8"],
+          "today": {
+            "file": "apps/activeon/src/now/Focus.tsx",
+            "audit": ["A15"]
+          }
+        },
+        {
+          "id": "now.focus-purpose",
+          "name": "Purpose and milestones",
+          "purpose": "What this character's activity is advancing, and the next Milestone.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "focus.c3.goals[*].milestone",
+              "note": "\"19 portal kills · next 15k · about 14h\""
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "focus.c*.purpose[]",
+              "note": "empty in every export"
+            }
+          ],
+          "states": ["with milestone", "stop here", "none"],
+          "variations": [
+            {
+              "name": "Quest line",
+              "idea": "\"Quest: open the next portal · 19 of 15k · about 14h\" with a pixel bar."
+            },
+            {
+              "name": "Stop-here flag",
+              "idea": "When a milestone is reached, a signpost \"You can stop here\" and the better next activity."
+            },
+            {
+              "name": "Milestone ladder",
+              "idea": "Three dots (done / next / later) with the reward step-up on each."
+            }
+          ],
+          "principles": ["P2", "P6"],
+          "synthesize": "Purpose lines: build from milestone strings, since purpose[] is empty in the exports."
+        },
+        {
+          "id": "now.focus-unknown",
+          "name": "Unknown block",
+          "purpose": "Say honestly that we can't judge, why, and the one thing that helps.",
+          "data": [
+            {
+              "file": "data/latest.json",
+              "path": "focus.c10.unknown",
+              "note": "{reason:\"not-covered\",text:\"AFK safety isn't covered yet\",suggestion:null}"
+            }
+          ],
+          "states": ["no purpose", "cannot tell", "not covered", "skipped"],
+          "variations": [
+            {
+              "name": "Magnifier note",
+              "idea": "Magnifying-glass motif, one line, and \"Suggest this\" pre-filled."
+            },
+            {
+              "name": "Best guess",
+              "idea": "Show \"We can't judge Spelunking yet. Likely fine if it's your usual.\" with Skip today."
+            },
+            {
+              "name": "Hidden from the count",
+              "idea": "Unknown characters sit in their own fold so they don't block \"All set\"."
+            }
+          ],
+          "principles": ["P5", "P11"]
+        },
+        {
+          "id": "now.focus-better-fit",
+          "name": "Better fit (higher leverage)",
+          "purpose": "Suggest a different activity or character that advances more, with how it was decided.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "engineResult.higherLeverageStatus",
+              "note": "\"ok\" everywhere; focus.c*.higherLeverage null in every export"
+            }
+          ],
+          "states": ["move", "handoff", "role fit", "paused note"],
+          "variations": [
+            {
+              "name": "Swap card",
+              "idea": "Two portraits with an arrow: \"Barbarian 56 fits Fishing better than Squire 51 · +x/h\"."
+            },
+            {
+              "name": "Will give you",
+              "idea": "PoB-style delta line behind the tap."
+            },
+            {
+              "name": "Quiet hint",
+              "idea": "A single muted line under the current step, never above it."
+            }
+          ],
+          "principles": ["P4", "P10"],
+          "synthesize": "Mock from a cards.goal-card with category compounding, since the exports carry none."
+        },
+        {
+          "id": "now.focus-footer",
+          "name": "Focus footer and Done this session",
+          "purpose": "Move on (\"Next: switch to Char3 →\"), go back, see what was done.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "focus.c*.next",
+              "note": "{index,text}"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "focus.c*.done[]",
+              "note": "empty in exports"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.account.done[]"
+            }
+          ],
+          "states": ["next character", "account", "last"],
+          "variations": [
+            {
+              "name": "Primary next",
+              "idea": "One big \"Next: Barbarian 56 · 1 fix\" button; back is a small link."
+            },
+            {
+              "name": "Session recap",
+              "idea": "\"Done this session (3)\" as a strip of ticked chips with times; a recap at the end (RestedXP report)."
+            },
+            {
+              "name": "Auto-advance prompt",
+              "idea": "After the save shows the fix done: \"Done. Next: Barbarian 56\" slides up."
+            }
+          ],
+          "principles": ["P2", "P12"],
+          "synthesize": "done[]: mock 2-3 struck items from the Goal texts."
+        },
+        {
+          "id": "now.info-lines",
+          "name": "Info lines",
+          "purpose": "Calm facts about this character (\"Anvil full in 5 h at current speed\").",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "focus.c*.info[*]",
+              "note": "{key,text,source}"
+            }
+          ],
+          "states": ["0..n"],
+          "variations": [
+            {
+              "name": "Timeline tick",
+              "idea": "Render info lines as ticks on a tiny per-character timeline instead of text."
+            },
+            {
+              "name": "Fold into caps",
+              "idea": "Make them the \"soon\" state of the matching cap pill."
+            }
+          ],
+          "principles": ["P6", "P9"]
+        },
+        {
+          "id": "now.class-portrait",
+          "name": "Class glyph and portrait (new)",
+          "purpose": "A recognisable anchor per character with no name: our own 16 / 24 / 32 px class portraits, tinted by world.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "characters[*].{slot,classLabel,level}"
+            },
+            {
+              "file": "data/latest.json",
+              "path": "characters[*].classLabel",
+              "note": "11 classes incl. Royal Guardian"
+            }
+          ],
+          "states": ["16 / 24 / 32 px", "playing", "idle"],
+          "variations": [
+            {
+              "name": "Silhouette set",
+              "idea": "One silhouette per class family (warrior, archer, mage, journeyman, beginner) plus a subclass badge."
+            },
+            {
+              "name": "Hat-swap blob",
+              "idea": "Our mascot blob wearing a class hat; cute, consistent, cheap to extend to new classes."
+            },
+            {
+              "name": "Letter tile",
+              "idea": "A pixel letter tile with the class initial for Command Board density."
+            }
+          ],
+          "principles": ["P8", "P12"]
+        }
+      ]
+    },
+    {
+      "id": "cards",
+      "name": "Cards",
+      "components": [
+        {
+          "id": "cards.goal-card",
+          "name": "Goal card (Fix / Spend / Grow / Extra)",
+          "purpose": "One Goal, one Next Action: kind, the action with who / where / how long, an optional milestone, and a \"Why?\" trigger.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "focus.c2.blockers[0]",
+              "note": "Fix (category blocker)"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowViewExpanded.account.goals[*]",
+              "note": "Grow (compounding), Spend (spendable), Extra (nice)"
+            },
+            {
+              "file": "data/scrubbed-w2.json",
+              "path": "nowViewExpanded.account.goals[*]",
+              "note": "21 Grow, 12 Spend, 9 Extra, 1 Fix across the save"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "*.goals[*].action.{tag,text,why,source,contested,controls,stale,provenance}"
+            }
+          ],
+          "states": [
+            "first / highlighted",
+            "blocker",
+            "stale source",
+            "contested",
+            "skipped (Zz)",
+            "with milestone",
+            "with details",
+            "with Walkthrough"
+          ],
+          "variations": [
+            {
+              "name": "Kind seal, no mono tag",
+              "idea": "Pixel seal (bell / coin / star / chest) + kind word; the title is dropped when it repeats the action text (A12)."
+            },
+            {
+              "name": "Action-only card",
+              "idea": "Card face is only the action sentence with three tokens (who / where / time) and a chevron; everything else is level 2."
+            },
+            {
+              "name": "Hold to dismiss",
+              "idea": "Swipe left = Skip today (Zz), hold = Not for me with a \"what changes\" toast."
+            },
+            {
+              "name": "Progress-filled card",
+              "idea": "The card background fills left-to-right as the save shows progress toward the action (Zygor red→green)."
+            }
+          ],
+          "principles": ["P2", "P3", "P4", "P10"],
+          "today": {
+            "file": "apps/activeon/src/now/parts.tsx (NextActionItem)",
+            "audit": ["A6", "A7", "A12", "A13"]
+          },
+          "directions": {
+            "quest": "Quest entry with kind seal; why in the NPC speech box.",
+            "field": "Card with a 4 px kind rule.",
+            "board": "Dense row with kind glyph column."
+          }
+        },
+        {
+          "id": "cards.why-sheet",
+          "name": "Why sheet (why, will give you, Sources, actions)",
+          "purpose": "Level 2 of every Goal: why, the delta, human Sources, Skip today / Not for me / Report this.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "*.action.why"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "*.action.source",
+              "note": "{text,href,credit,creditHref,stale,more[]}"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "engineResult.characters[*].goals[*].nextAction.sources[]",
+              "note": "tiered Sources with verifiedOn and gameVersion"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "*.action.controls",
+              "note": "{skip,notForMe,report}"
+            }
+          ],
+          "states": ["closed", "open", "report confirm"],
+          "variations": [
+            {
+              "name": "NPC speech",
+              "idea": "Our guide NPC says the why in a navy speech box; Sources are signposts under it (Quest Log signature)."
+            },
+            {
+              "name": "Bottom sheet with delta first",
+              "idea": "\"Will give you: +30% anvil output at 8h\" headline, the why paragraph, then Sources as one line each."
+            },
+            {
+              "name": "Inline expand, one level",
+              "idea": "The card grows to show why + one Source line + Skip; \"more Sources\" and Report move into an overflow."
+            }
+          ],
+          "principles": ["P4", "P10"],
+          "today": {
+            "file": "apps/activeon/src/now/parts.tsx",
+            "audit": ["A6", "A7", "A11"]
+          }
+        },
+        {
+          "id": "cards.source-label",
+          "name": "Source label",
+          "purpose": "Human citation: where a fact comes from, with credits and versions one level down.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "*.action.source"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "walkthroughs[0].walkthrough.steps[*].sources[]"
+            }
+          ],
+          "states": ["link", "text", "credit", "stale", "+n"],
+          "variations": [
+            {
+              "name": "One human line",
+              "idea": "\"IdleOn Wiki: Worship\"; \"Calculated by IdleOn Toolbox · 2.3.540\" only in the expanded list."
+            },
+            {
+              "name": "Trust pips",
+              "idea": "A 1-4 pip mark for Source tier, explained once in the footer."
+            },
+            {
+              "name": "Verified date",
+              "idea": "\"checked 17 Oct\" instead of a version string."
+            }
+          ],
+          "principles": ["P10", "P4"],
+          "today": {
+            "audit": ["A6", "A11"]
+          }
+        },
+        {
+          "id": "cards.contested",
+          "name": "Contested badge",
+          "purpose": "When Sources disagree, show both sides and never make it the top action.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowViewExpanded.account.goals[?(@.action.contested)]",
+              "note": "W3 merits: two sides"
+            }
+          ],
+          "states": ["closed", "open"],
+          "variations": [
+            {
+              "name": "Split card",
+              "idea": "Two halves \"Wiki says … / Toolbox says …\" with \"pick either\"."
+            },
+            {
+              "name": "Badge only",
+              "idea": "\"sources disagree\" badge; both sides in the why sheet."
+            }
+          ],
+          "principles": ["P4", "P10"]
+        },
+        {
+          "id": "cards.action-controls",
+          "name": "Skip today / Not for me / Report this",
+          "purpose": "Let the player steer without guilt, and report a wrong line.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "*.action.controls"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "*.skippedKeys / skippedCount / dismissed[]"
+            }
+          ],
+          "states": ["idle", "skipped (Zz)", "not for me (confirmed)", "report confirming"],
+          "variations": [
+            {
+              "name": "Zz snooze",
+              "idea": "Skip today shows a small Zz on the folded Goal and \"2 skipped today · show\"; returns tomorrow silently."
+            },
+            {
+              "name": "Hold-to-confirm Not for me",
+              "idea": "Ring fills while held (Streaks), then says what changes (Fitbod)."
+            },
+            {
+              "name": "Report in overflow",
+              "idea": "Report this lives in the why sheet overflow with the two-tap public notice."
+            }
+          ],
+          "principles": ["P10"],
+          "today": {
+            "file": "apps/activeon/src/now/parts.tsx (ActionControls, ReportThis)",
+            "audit": ["A6"]
+          }
+        },
+        {
+          "id": "cards.goal-details",
+          "name": "Show details (per-character lines)",
+          "purpose": "For account Goals that touch several characters, list who.",
+          "data": [
+            {
+              "file": "data/scrubbed-w2.json",
+              "path": "nowViewExpanded.account.goals[?(@.details.length)].details[]",
+              "note": "\"Barbarian 60\", \"Bowman 54\""
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowViewExpanded.account.goals[*].details[]",
+              "note": "\"Bowman Lv 60: 3 into Speed, 0 into Capacity\""
+            }
+          ],
+          "states": ["collapsed", "open"],
+          "variations": [
+            {
+              "name": "Glyph chips",
+              "idea": "Class glyph chips in a row (\"Wizard 73 · Bowman 60 · Shaman 54\"), each a link to Focus."
+            },
+            {
+              "name": "Checklist",
+              "idea": "Each character a tick-able line that ticks itself from the save."
+            }
+          ],
+          "principles": ["P3", "P7"]
+        },
+        {
+          "id": "cards.goal-list",
+          "name": "Goal list (show more, skipped, hidden until patch)",
+          "purpose": "Cap the list and fold the rest with an honest count.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.account.{goals,hiddenCount,skippedCount,dismissed}",
+              "note": "5 shown, 14 hidden"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowViewExpanded.account.goals[]",
+              "note": "all 19"
+            }
+          ],
+          "states": ["collapsed", "expanded", "with skipped", "with dismissed"],
+          "variations": [
+            {
+              "name": "Today / later sections",
+              "idea": "Things-style: \"Now\", \"Before you log off\", \"Next session\"; show more becomes the Next session section."
+            },
+            {
+              "name": "More as a count chip",
+              "idea": "\"+14 more Goals\" chip that opens a full sheet, never expands inline."
+            },
+            {
+              "name": "Ranked with one winner",
+              "idea": "First Goal highlighted, the rest muted (P9)."
+            }
+          ],
+          "principles": ["P9", "P4"]
+        },
+        {
+          "id": "cards.shared-job",
+          "name": "Shared job card (new)",
+          "purpose": "One job repeated on many characters, shown once with the characters as chips.",
+          "data": [
+            {
+              "file": "data/latest.json",
+              "path": "nowView.roster[*].summary",
+              "note": "7 of 11 rows: \"Collect and re-place your 6 finished traps…\""
+            },
+            {
+              "file": "data/scrubbed-w3-stale.json",
+              "path": "nowView.roster[*].caps[*].label",
+              "note": "Anvil and Worship on most rows"
+            }
+          ],
+          "states": ["n characters", "partially done"],
+          "variations": [
+            {
+              "name": "Batch card",
+              "idea": "\"Traps · 7 characters · about 1 min each\" with glyph chips that tick off from the save."
+            },
+            {
+              "name": "Route card",
+              "idea": "Ordered by map so the player travels once (RestedXP batching)."
+            }
+          ],
+          "principles": ["P7", "P3"],
+          "synthesize": "Group roster summaries and cap labels by exact text."
+        },
+        {
+          "id": "cards.walkthrough",
+          "name": "Walkthrough",
+          "purpose": "Ordered steps from now to done for one Goal, with who goes where, progress per step and the Bottleneck first.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "walkthroughs[0]",
+              "note": "Unlock the Post Office: 4 steps, 8-node tree, 16 other ways"
+            },
+            {
+              "file": "data/scrubbed-w2.json",
+              "path": "walkthroughs[0]",
+              "note": "13 steps"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "walkthroughs[0].walkthrough.{collapsed,steps,tree,otherWays,caveats}"
+            }
+          ],
+          "states": ["collapsed summary", "open", "step now / after / blocked", "finished"],
+          "variations": [
+            {
+              "name": "Path of stones",
+              "idea": "Duolingo path: lit NOW stone, filled done stones, dim AFTER stones; map signposts between groups (Quest Log)."
+            },
+            {
+              "name": "Stepper with three-state needs",
+              "idea": "Vertical stepper; each need is have / in storage, go get it / missing (Quest Helper)."
+            },
+            {
+              "name": "Pinned current step",
+              "idea": "A one-line \"current step\" bar pinned to the Now screen; the full list is a sheet."
+            },
+            {
+              "name": "By character",
+              "idea": "Columns per character: \"Shaman 54 → The Mimic Hole · Megalodon Tooth 1,010/2,000\"."
+            }
+          ],
+          "principles": ["P2", "P3", "P4", "P12"],
+          "today": {
+            "file": "apps/activeon/src/now/walkthrough/Walkthrough.tsx",
+            "audit": ["A16", "A17"]
+          }
+        },
+        {
+          "id": "cards.walkthrough-step",
+          "name": "Walkthrough step",
+          "purpose": "One step: what, who, where, NOW or AFTER, progress held/need, why.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "walkthroughs[0].walkthrough.steps[*]",
+              "note": "{text,when,subject,progress{held,need},why,sources,order,after}"
+            }
+          ],
+          "states": ["now", "after", "done", "blocked", "in the right place"],
+          "variations": [
+            {
+              "name": "Progress bar step",
+              "idea": "Real bar for held/need with numbers in tabular mono."
+            },
+            {
+              "name": "Equip token",
+              "idea": "The one in-game thing to use as an inline token (\"Use: Printer Sampling\")."
+            },
+            {
+              "name": "While you're there",
+              "idea": "\"While you're in The Mimic Hole: grab …\" for later steps on the same map."
+            }
+          ],
+          "principles": ["P3", "P6"]
+        },
+        {
+          "id": "cards.requirement-tree",
+          "name": "Requirement Tree and other ways",
+          "purpose": "Everything the target needs and alternative Supply.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "walkthroughs[0].walkthrough.tree[]",
+              "note": "{depth,text,done}"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "walkthroughs[0].walkthrough.otherWays[]",
+              "note": "16 strings"
+            }
+          ],
+          "states": ["done / missing / unknown"],
+          "variations": [
+            {
+              "name": "Recipe card",
+              "idea": "Items as pixel tiles with counts, missing ones outlined red."
+            },
+            {
+              "name": "Flat need list",
+              "idea": "Collapse the tree to only missing leaves; full tree behind a link (no third level)."
+            }
+          ],
+          "principles": ["P4", "P5"]
+        },
+        {
+          "id": "cards.spend-plan",
+          "name": "Spend Plan",
+          "purpose": "Where stocked coins should go now: ordered buys, who pays, cost, running total, one best buy.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "spendPlan",
+              "note": "15 lines; statuses buy / save-for / unpriced; summary \"10 buys now on 4 characters\""
+            },
+            {
+              "file": "data/scrubbed-w2.json",
+              "path": "spendPlan",
+              "note": "14 lines"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.account.spendPlan",
+              "note": "5 shown, 10 hidden"
+            }
+          ],
+          "states": ["closed", "open", "save-for", "unpriced", "unavailable", "empty (latest has none)"],
+          "variations": [
+            {
+              "name": "Best buy plus save up for",
+              "idea": "Bell Optimizer pair: one green \"Best buy now\", one \"Save up for\", then a muted list."
+            },
+            {
+              "name": "By payer",
+              "idea": "Group lines under each paying character with a coin total per character; carries become a \"bring\" list."
+            },
+            {
+              "name": "Ledger table",
+              "idea": "Columns: what, levels, cost, payer, running total; bar of cost vs coins held."
+            },
+            {
+              "name": "Shopping trip",
+              "idea": "Order by shop and map so one trip buys all (Grow \"New stamps from town shops\")."
+            }
+          ],
+          "principles": ["P9", "P3", "P6"],
+          "today": {
+            "file": "apps/activeon/src/now/Account.tsx (Spend Plan)",
+            "audit": ["A10"]
+          }
+        },
+        {
+          "id": "cards.spend-line",
+          "name": "Spend line",
+          "purpose": "One purchase: text, levels, cost, payer, status, running total, note.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "spendPlan.lines[*]",
+              "note": "{text,levels,cost,payer,status,statusText,runningTotal,note,source,stale,contested}"
+            }
+          ],
+          "states": ["buy", "save-for", "unpriced"],
+          "variations": [
+            {
+              "name": "Split paragraph",
+              "idea": "Pull the \"(carry …)\" part into a \"bring\" sublist; keep the line to the purchase."
+            },
+            {
+              "name": "Tier coins",
+              "idea": "Cost shown as our pixel tier coins (platinum, gold) rather than \"95 platinum 51 gold\"."
+            }
+          ],
+          "principles": ["P3", "P5"],
+          "today": {
+            "audit": ["A10"]
+          }
+        },
+        {
+          "id": "cards.builds",
+          "name": "Builds (talent presets)",
+          "purpose": "Is each preset right for the AFK Target, and the exact steps to fix it.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "builds[]",
+              "note": "9 Goal views from talents and talent-presets"
+            },
+            {
+              "file": "data/scrubbed-w2.json",
+              "path": "builds[]",
+              "note": "10"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "focus.c2.blockers[0]",
+              "note": "\"Swap to your fighting preset before you leave\""
+            }
+          ],
+          "states": ["wrong preset (Fix)", "behind", "fine"],
+          "variations": [
+            {
+              "name": "Named findings",
+              "idea": "DIM-style: \"Wrong preset for Fighting · swap (free)\", \"215 points unspent on skilling\"."
+            },
+            {
+              "name": "In game now vs suggested",
+              "idea": "Badges and a Compare that shows only changed talents."
+            },
+            {
+              "name": "Spellbook page",
+              "idea": "Two preset pages side by side, the one in use bookmarked."
+            }
+          ],
+          "principles": ["P5", "P2"],
+          "today": {
+            "audit": ["A6"]
+          }
+        },
+        {
+          "id": "cards.printer-plan",
+          "name": "3D Printer plan",
+          "purpose": "Which sample to print, take or keep, on whom, and when to change it.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "printer[0]",
+              "note": "\"Visit The Mimic Hole on the Wizard Lv 73 … set Megalodon Tooth active in place of Forest Fibres\""
+            }
+          ],
+          "states": ["plan", "nothing to change"],
+          "variations": [
+            {
+              "name": "Slot grid",
+              "idea": "Printer slots as tiles with current → suggested sample."
+            },
+            {
+              "name": "Three-step mini Walkthrough",
+              "idea": "Go there / sample / set active, each with who/where/time."
+            }
+          ],
+          "principles": ["P3", "P2"]
+        },
+        {
+          "id": "cards.account-section",
+          "name": "Account section",
+          "purpose": "Account-wide Goals any character can do: blockers first, then Goals, Spend Plan, If you have time, Not covered yet.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.account"
+            },
+            {
+              "file": "data/latest.json",
+              "path": "nowView.account.blockers",
+              "note": "Arcade balls"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.activePlay[]",
+              "note": "3 items"
+            }
+          ],
+          "states": ["nothing to fix", "with blockers", "safety unknown"],
+          "variations": [
+            {
+              "name": "Summary header",
+              "idea": "\"Account · 1 fix · 19 Goals\" header with the first one shown and the rest folded (A4)."
+            },
+            {
+              "name": "Any-character tray",
+              "idea": "A tray of account jobs the current character can do while you're there."
+            },
+            {
+              "name": "Daily strip",
+              "idea": "Today-only jobs (Pet Mart gems, Darts, Hoops) as a Paimon-style strip."
+            }
+          ],
+          "principles": ["P9", "P1"],
+          "today": {
+            "file": "apps/activeon/src/now/Account.tsx",
+            "audit": ["A4"]
+          }
+        },
+        {
+          "id": "cards.if-you-have-time",
+          "name": "If you have time (Active Play)",
+          "purpose": "Optional hands-on play with an estimate.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.activePlay[*]",
+              "note": "{text,estimate,who,source}"
+            },
+            {
+              "file": "data/scrubbed-w3-stale.json",
+              "path": "nowView.activePlay[]",
+              "note": "4 items"
+            }
+          ],
+          "states": ["0..n"],
+          "variations": [
+            {
+              "name": "Time-boxed menu",
+              "idea": "Group by length: \"10 min\", \"30 min\", \"1 h+\"."
+            },
+            {
+              "name": "Extra seal",
+              "idea": "Chest seal, muted, below everything."
+            }
+          ],
+          "principles": ["P6", "P9"]
+        },
+        {
+          "id": "cards.not-covered",
+          "name": "Not covered yet",
+          "purpose": "Be honest about what we do not judge, without a 3-line comma list.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.notCovered[]",
+              "note": "18"
+            },
+            {
+              "file": "data/latest.json",
+              "path": "nowView.notCovered[]",
+              "note": "22"
+            }
+          ],
+          "states": ["collapsed", "open"],
+          "variations": [
+            {
+              "name": "Count chip",
+              "idea": "\"18 systems not covered yet\" with a magnifier; opens a list with \"Suggest one\"."
+            },
+            {
+              "name": "Zygor-style omission line",
+              "idea": "\"We leave out things that cost more than they give at your stage.\""
+            }
+          ],
+          "principles": ["P11", "P10"],
+          "today": {
+            "audit": ["A11"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "flows",
+      "name": "Flows and new views",
+      "components": [
+        {
+          "id": "flows.sign-in",
+          "name": "Sign-in",
+          "purpose": "Google device-code sign-in to read the save.",
+          "data": [
+            {
+              "file": "none",
+              "path": "auth/sync state only",
+              "note": "Use copy from apps/activeon/src/components/SignIn.tsx states"
+            }
+          ],
+          "states": [
+            "unconfigured",
+            "restoring",
+            "signed-out (+error)",
+            "requesting code",
+            "device code (copy, countdown)",
+            "signed in (waiting / reconnecting)",
+            "wrong account",
+            "sign-out confirm"
+          ],
+          "variations": [
+            {
+              "name": "Code card",
+              "idea": "Big device code in pixel numerals with a copy button and a countdown fuse."
+            },
+            {
+              "name": "Out of the way",
+              "idea": "Signed-out state is a slim bar below the verdict, never above advice (A2)."
+            },
+            {
+              "name": "Guide NPC onboarding",
+              "idea": "Mascot walks through the 3 steps in speech boxes."
+            }
+          ],
+          "principles": ["P1", "P11"],
+          "today": {
+            "file": "apps/activeon/src/components/SignIn.tsx",
+            "audit": ["A2"]
+          }
+        },
+        {
+          "id": "flows.paste-save",
+          "name": "Paste a save",
+          "purpose": "Read a pasted save when sign-in isn't available.",
+          "data": [
+            {
+              "file": "none",
+              "path": "input only"
+            }
+          ],
+          "states": ["empty", "busy (Reading…)", "error"],
+          "variations": [
+            {
+              "name": "Drop zone",
+              "idea": "One big target \"Paste your save here\" with what to copy from where."
+            },
+            {
+              "name": "Clear failure",
+              "idea": "Genshin Optimizer-style \"This doesn't look like a save\" with the fix."
+            }
+          ],
+          "principles": ["P5", "P11"]
+        },
+        {
+          "id": "flows.loading",
+          "name": "Loading / waiting",
+          "purpose": "Show progress while the save is read; after 30 s say what helps.",
+          "data": [
+            {
+              "file": "none",
+              "path": "timing only"
+            }
+          ],
+          "states": ["short", "long (30 s+)"],
+          "variations": [
+            {
+              "name": "Skeleton of the real layout",
+              "idea": "Verdict + 3 rows skeleton in the direction's shapes."
+            },
+            {
+              "name": "Blob walking",
+              "idea": "Mascot walking 4-frame loop with the Cloud Save hint after 30 s."
+            }
+          ],
+          "principles": ["P11", "P12"]
+        },
+        {
+          "id": "flows.empty",
+          "name": "Empty states",
+          "purpose": "No characters, nothing to do, all Goals skipped.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.roster[]",
+              "note": "set to [] to mock"
+            }
+          ],
+          "states": ["no characters", "all done", "all skipped"],
+          "variations": [
+            {
+              "name": "Sleeping blob",
+              "idea": "\"Nothing to do. Back in about 8h.\" with the first fill."
+            },
+            {
+              "name": "Next action empty",
+              "idea": "Every empty state names the next action (Paimon)."
+            }
+          ],
+          "principles": ["P12", "P1"]
+        },
+        {
+          "id": "flows.cant-read",
+          "name": "Can't read your save (error)",
+          "purpose": "Never show advice from a broken parse; say why and what to try.",
+          "data": [
+            {
+              "file": "none",
+              "path": "failure.kind/message; lastGood age"
+            }
+          ],
+          "states": ["input", "empty", "shape", "crash", "timeout", "updated"],
+          "variations": [
+            {
+              "name": "Gremlin",
+              "idea": "Broken-save gremlin, one sentence per kind, last good save age, paste box."
+            },
+            {
+              "name": "Use last good",
+              "idea": "\"Show advice from your save 3 h ago\" as an explicit, labelled choice."
+            }
+          ],
+          "principles": ["P11", "P5"],
+          "today": {
+            "file": "apps/activeon/src/components/CantRead.tsx"
+          }
+        },
+        {
+          "id": "flows.cant-work-out",
+          "name": "Can't work it out (engine error)",
+          "purpose": "Engine failed: plain character list and Report.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "characters[]",
+              "note": "fallback list"
+            }
+          ],
+          "states": ["engine threw", "render threw"],
+          "variations": [
+            {
+              "name": "Fallback roster",
+              "idea": "The plain list styled as the Roster, with \"advice paused\"."
+            },
+            {
+              "name": "Report prefilled",
+              "idea": "One button, no save data in it."
+            }
+          ],
+          "principles": ["P11"]
+        },
+        {
+          "id": "flows.stale",
+          "name": "Stale / offline / last good",
+          "purpose": "The save is old or the connection dropped; change the verdict wording.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3-stale.json",
+              "path": "nowView",
+              "note": "same advice, every cap full, save about 8.5 h old"
+            }
+          ],
+          "states": ["stale", "offline", "reconnecting", "last good"],
+          "variations": [
+            {
+              "name": "Stale-first banner",
+              "idea": "\"Your save is 8 h old: press Cloud Save\" above a greyed verdict."
+            },
+            {
+              "name": "Faded board",
+              "idea": "The whole Roster desaturates a step with an \"as of 09:42\" watermark."
+            }
+          ],
+          "principles": ["P11"],
+          "today": {
+            "audit": ["A14"]
+          }
+        },
+        {
+          "id": "flows.banners",
+          "name": "Banners (update, patch, stage unknown, offline)",
+          "purpose": "App-level notices, quiet unless they need an action.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.banners[]",
+              "note": "empty in every export: mock kinds update / patch / stage-unknown / offline"
+            }
+          ],
+          "states": ["one", "several (3rd+ compact)"],
+          "variations": [
+            {
+              "name": "Notification tray",
+              "idea": "Low-priority notices go into a tray (Zygor 9.5), only action-required ones show inline."
+            },
+            {
+              "name": "Toast once",
+              "idea": "Update banner as a one-time toast with Reload."
+            }
+          ],
+          "principles": ["P1", "P9"]
+        },
+        {
+          "id": "flows.suggest-form",
+          "name": "Suggest form",
+          "purpose": "When I'm… / I want… / So that…, filed as a GitHub issue.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.footer",
+              "note": "versions to attach"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "stage"
+            }
+          ],
+          "states": ["idea", "something's wrong", "confusing", "sent"],
+          "variations": [
+            {
+              "name": "Three-blank sentence",
+              "idea": "Mad-lib fields for the three parts with examples."
+            },
+            {
+              "name": "Kind picker first",
+              "idea": "Three big tiles (Idea, Something's wrong, Confusing)."
+            }
+          ],
+          "principles": ["P10"]
+        },
+        {
+          "id": "flows.report-form",
+          "name": "Report this",
+          "purpose": "Report a wrong line with entry id and scrubbed context.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "*.action.provenance",
+              "note": "entryIds and fields"
+            }
+          ],
+          "states": ["confirming", "sent"],
+          "variations": [
+            {
+              "name": "Two-tap public notice",
+              "idea": "Shows exactly what will be public before opening the issue."
+            },
+            {
+              "name": "Pick what's wrong",
+              "idea": "Chips: wrong number / wrong advice / confusing words."
+            }
+          ],
+          "principles": ["P10"]
+        },
+        {
+          "id": "flows.your-suggestions",
+          "name": "Your suggestions (new)",
+          "purpose": "See what you filed and what happened to it.",
+          "data": [
+            {
+              "file": "none",
+              "path": "mock a list of 3 Suggestions with states: open, planned, done, wontfix"
+            }
+          ],
+          "states": ["empty", "list"],
+          "variations": [
+            {
+              "name": "Quest board",
+              "idea": "Filed ideas as notes on a board with stamps (planned / done)."
+            },
+            {
+              "name": "Plain list",
+              "idea": "Date, title, status chip, link."
+            }
+          ],
+          "principles": ["P12", "P10"],
+          "synthesize": "No data in exports; invent 3 Suggestions with neutral titles."
+        },
+        {
+          "id": "flows.footer",
+          "name": "Footer",
+          "purpose": "Versions, Clear my data, Suggest, credits and the fan disclaimer.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.footer",
+              "note": "{app,knowledge,game,parserTarget,failedChecks}"
+            }
+          ],
+          "states": ["normal", "failed checks"],
+          "variations": [
+            {
+              "name": "Plain footer",
+              "idea": "One line of credits; versions behind \"About\"."
+            },
+            {
+              "name": "Fan disclaimer",
+              "idea": "\"ActiveOn is a fan-made tool, not affiliated with or endorsed by LavaFlame2.\" (VL§2)."
+            }
+          ],
+          "principles": ["P10", "P11"]
+        },
+        {
+          "id": "flows.clear-my-data",
+          "name": "Clear my data",
+          "purpose": "Delete local data with a confirm.",
+          "data": [
+            {
+              "file": "none",
+              "path": "idle / confirming / done"
+            }
+          ],
+          "states": ["idle", "confirming", "done"],
+          "variations": [
+            {
+              "name": "Hold to clear",
+              "idea": "Hold-to-confirm instead of a fieldset."
+            },
+            {
+              "name": "What it clears",
+              "idea": "A list of what goes and what stays."
+            }
+          ],
+          "principles": ["P10"]
+        },
+        {
+          "id": "flows.whats-new",
+          "name": "What's new",
+          "purpose": "Once per release, what changed since your last visit.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.newCount",
+              "note": "0; mock 3 items"
+            }
+          ],
+          "states": ["shown", "dismissed"],
+          "variations": [
+            {
+              "name": "Patch notes scroll",
+              "idea": "A short scroll with 3 items and Got it."
+            },
+            {
+              "name": "Inline new dots",
+              "idea": "A \"new\" dot on the components that changed, nothing else."
+            }
+          ],
+          "principles": ["P12", "P9"],
+          "synthesize": "Mock 3 release items."
+        },
+        {
+          "id": "flows.session-checklist",
+          "name": "Session Checklist mode (new)",
+          "purpose": "Three pause points: Log in (what changed), Rounds (Goals), Log off (unmet AFK Setup items, max 7, ticked by the next save).",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.roster[*].{pill,summary,caps}",
+              "note": "Log off items"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "engineResult.alreadyFull",
+              "note": "Log in items"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.account.goals[]",
+              "note": "Rounds"
+            }
+          ],
+          "states": ["log in", "rounds", "log off", "all confirmed"],
+          "variations": [
+            {
+              "name": "Quest scroll",
+              "idea": "Wax-seal ticks; ends on the campfire."
+            },
+            {
+              "name": "Pilot checklist",
+              "idea": "\"Traps · 7 characters ........ 3 left\" two-column list."
+            },
+            {
+              "name": "Auto tab",
+              "idea": "The tab is chosen from context; no switch."
+            }
+          ],
+          "principles": ["P11", "P9", "P1"]
+        },
+        {
+          "id": "flows.afk-timeline",
+          "name": "AFK Timeline (new)",
+          "purpose": "A dispatch board: lanes per character, bars to each cap on one axis, now line, \"back at\" marker, overflow outlined.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "focus.c*.info[*]",
+              "note": "fill times"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "engineResult.firstFill"
+            },
+            {
+              "file": "data/scrubbed-w3-stale.json",
+              "path": "nowView.roster[*].caps",
+              "note": "already full"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.expectedReturn"
+            }
+          ],
+          "states": ["all fine", "overflow before return", "unassigned tray"],
+          "variations": [
+            {
+              "name": "Lanes on phone",
+              "idea": "Lanes stack, time scrolls sideways inside its strip, snapped to now."
+            },
+            {
+              "name": "Heat grid",
+              "idea": "Characters × systems grid tinted by urgency (PoB node power)."
+            },
+            {
+              "name": "Compact strip",
+              "idea": "A single combined strip for Field Guide and Quest Log above the Roster."
+            }
+          ],
+          "principles": ["P6", "P8", "P7"],
+          "synthesize": "Fill times are text in info lines (\"full in 5 h\"); parse hours. firstFill.at gives the earliest."
+        },
+        {
+          "id": "flows.away-card",
+          "name": "Away card and While you were away (new)",
+          "purpose": "Live-Activity-style card for the AFK Stretch, and a return summary scaled to time away.",
+          "data": [
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "engineResult.firstFill"
+            },
+            {
+              "file": "data/scrubbed-w3.json",
+              "path": "nowView.progress.segments"
+            },
+            {
+              "file": "data/scrubbed-w3-stale.json",
+              "path": "engineResult.alreadyFull",
+              "note": "10 caps hit while away"
+            }
+          ],
+          "states": ["away", "back < 15 min", "back 15 min - 2 h", "back 8 h+"],
+          "variations": [
+            {
+              "name": "Rotating ticker",
+              "idea": "One heavy line plus a rotating \"char 3 · Anvil · 1h40\"."
+            },
+            {
+              "name": "Scaled welcome",
+              "idea": "Nothing, one line, or a full card by time away (Melvor)."
+            },
+            {
+              "name": "Share image",
+              "idea": "A share-safe card with class glyphs and no names."
+            }
+          ],
+          "principles": ["P6", "P11", "P12"]
+        }
+      ]
+    }
+  ]
+}

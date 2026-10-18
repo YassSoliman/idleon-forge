@@ -6,10 +6,10 @@
 // the Character page on its Now tab; a tab line opens that tab. The Builds and Cards overviews (#97,
 // #99) render under the grid, unchanged (D-7).
 import { CHARACTERS_WORDS, type RosterRow } from '@idleon-forge/engine/now';
+import { LegacyPill as Pill } from '../design/atoms/LegacyPill';
 import { BuildsOverview } from '../now/BuildView';
 import { CardsOverview } from '../now/cards/CardsPanel';
 import { characterTabs, NOW_TAB, tabHref } from '../now/character-tabs';
-import { Pill } from '../now/Roster';
 import { SkillGrid } from '../now/SkillsTab';
 import type { Session } from '../shell/session';
 

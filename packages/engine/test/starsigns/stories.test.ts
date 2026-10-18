@@ -199,7 +199,7 @@ describe('US-3 Claim what is already earned', () => {
     expect(r.account.goals.some((g) => g.nextAction.key.endsWith('@A-9'))).toBe(false);
     const ap = r.account.activePlay.find((a) => a.key === 'star-signs.check.activeplay-challenge@A-9');
     expect(ap?.text).toBe(
-      'Kill Amarok in under 20 seconds on 1 more character (2 of 3): try your Bowman Lv 60, highest-level not yet done; spends 1 Forest Villa Key each',
+      'Kill Amarok in under 20 seconds on 1 more character (2 of 3): try your Bowman Lv 60 first (highest level); spends 1 Forest Villa Key each',
     );
     expect(ap?.text).not.toMatch(/Wizard Lv 73|Squire Lv 85/);
   });

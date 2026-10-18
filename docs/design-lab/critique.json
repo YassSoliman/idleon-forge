@@ -1,0 +1,2922 @@
+[
+  {
+    "component": "now.header",
+    "variant": "one-line",
+    "variant_name": "One-line header",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 4,
+      "who_where_how_long": 5,
+      "why_behind_tap": 4,
+      "no_jargon": 5,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.5,
+    "verdict": "pick",
+    "note": "Verdict starts ~60 px higher; the save-age chip is the only extra. Overflow button is the one sub-44px target."
+  },
+  {
+    "component": "now.header",
+    "variant": "sticky-verdict",
+    "variant_name": "Header that becomes the verdict",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 5,
+      "why_behind_tap": 4,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.2,
+    "verdict": "runner-up",
+    "note": "Good idea for long Rosters, but the expanded header repeats the Roster rows above the Roster."
+  },
+  {
+    "component": "now.header",
+    "variant": "fuse",
+    "variant_name": "Freshness as a fuse",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 3,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 3.6,
+    "verdict": "drop",
+    "note": "A fuse that burns for an hour is decoration: three bars plus a sentence to say the save is old. Stale-first banner says it better."
+  },
+  {
+    "component": "now.stage-badge",
+    "variant": "crest",
+    "variant_name": "World crest",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 3,
+      "why_behind_tap": 4,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.1,
+    "verdict": "pick",
+    "note": "\"World 3, early\" is plain; the 2-step checklist sits behind one tap. Checkbox rows are under 44 px."
+  },
+  {
+    "component": "now.stage-badge",
+    "variant": "two-pips",
+    "variant_name": "Progress as pips",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 3,
+      "who_where_how_long": 3,
+      "why_behind_tap": 3,
+      "no_jargon": 5,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 3.8,
+    "verdict": "keep",
+    "note": "Hollow pips with no words fail the 3-second read; fine as a Command Board micro badge."
+  },
+  {
+    "component": "now.stage-badge",
+    "variant": "needs-as-goal",
+    "variant_name": "Needs as a Goal",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 1,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 2,
+      "accessibility": 2,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 3.6,
+    "verdict": "runner-up",
+    "note": "Right instinct (stage = a Goal) but the card shows 'Any character / place not given / time unknown': three empty tokens; 8 px pixel kicker in Quest Log."
+  },
+  {
+    "component": "now.return-chips",
+    "variant": "consequence",
+    "variant_name": "Chips with consequence",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "runner-up",
+    "note": "The consequence sentence is the best copy on the screen; five chips are a switch the owner asked to avoid."
+  },
+  {
+    "component": "now.return-chips",
+    "variant": "slider",
+    "variant_name": "Return slider on a timeline",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 3,
+      "who_where_how_long": 3,
+      "why_behind_tap": 3,
+      "no_jargon": 3,
+      "phone_fit": 3,
+      "idleon_feel": 2,
+      "accessibility": 3,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.1,
+    "verdict": "drop",
+    "note": "A 24 h slider with stacked portraits is fiddly at 390 px and the Quest Log tick labels drop to 11 px pixel text."
+  },
+  {
+    "component": "now.return-chips",
+    "variant": "learned-default",
+    "variant_name": "Learned default, no picker",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 4,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 5,
+      "idleon_feel": 4,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.7,
+    "verdict": "pick",
+    "note": "Opinionated default over a switch: one line, one Change button. Add the consequence sentence from 'Chips with consequence'."
+  },
+  {
+    "component": "now.return-chips",
+    "variant": "clock-toggle",
+    "variant_name": "Clock time, set once",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 3,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 3,
+      "repetition_control": 5
+    },
+    "mean": 3.5,
+    "verdict": "keep",
+    "note": "Clock time belongs in settings, not on the Now screen; '~02:00' plus '18:00 tmrw' at 10 px is cramped."
+  },
+  {
+    "component": "now.verdict-banner",
+    "variant": "counter",
+    "variant_name": "Counter that reaches zero",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 3,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "pick",
+    "note": "Strongest 3-second answer. But the '~10 s' fix time is a lab estimate, not export data: ship with real time or 'time not known'."
+  },
+  {
+    "component": "now.verdict-banner",
+    "variant": "segments",
+    "variant_name": "Tappable segments",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 5,
+      "phone_fit": 3,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 3,
+      "repetition_control": 5
+    },
+    "mean": 3.9,
+    "verdict": "keep",
+    "note": "Six tappable segments with 2 glyphs each read as noise at a glance; keep as the Focus pager instead."
+  },
+  {
+    "component": "now.verdict-banner",
+    "variant": "rollup",
+    "variant_name": "Per-character roll-up",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 3,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.8,
+    "verdict": "runner-up",
+    "note": "CanIIdle yes/no list is honest and readable; it repeats each row's line the Roster already shows."
+  },
+  {
+    "component": "now.verdict-banner",
+    "variant": "stale-first",
+    "variant_name": "Stale-first wording",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.4,
+    "verdict": "keep",
+    "note": "Not a variant: it is the counter's stale state. Adopt its wording whenever the save is old."
+  },
+  {
+    "component": "now.roster",
+    "variant": "grouped-jobs",
+    "variant_name": "Grouped jobs on top",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 3,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.2,
+    "verdict": "pick",
+    "note": "Only variant that survives the late-game save: 8 identical trap lines become one card. Rows below still say 'Send Royal Guardian Lv 1,307 to ...' (name twice)."
+  },
+  {
+    "component": "now.roster",
+    "variant": "fix-first",
+    "variant_name": "Needs a fix first, ready folded",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 3
+    },
+    "mean": 4.2,
+    "verdict": "runner-up",
+    "note": "Best for 6 characters: fixes up, Ready folded to one line. Pair with grouped jobs for 8+."
+  },
+  {
+    "component": "now.roster",
+    "variant": "portrait-grid",
+    "variant_name": "Portrait grid",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 3,
+      "who_where_how_long": 2,
+      "why_behind_tap": 3,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 3,
+      "repetition_control": 3
+    },
+    "mean": 3.2,
+    "verdict": "keep",
+    "note": "11 portraits with a red slash each is a wall of the same badge; useful only as Command Board overview."
+  },
+  {
+    "component": "now.roster",
+    "variant": "lanes",
+    "variant_name": "Lanes",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 3,
+      "who_where_how_long": 3,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 3,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 3.7,
+    "verdict": "keep",
+    "note": "Lanes on a shared axis are good for Command Board; on phone the Quest Log axis labels drop to 11 px pixel text."
+  },
+  {
+    "component": "now.roster-row",
+    "variant": "three-token",
+    "variant_name": "Three-token line",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 4.1,
+    "verdict": "pick",
+    "note": "Who / where / how long on every row, verb as line two. '~10 s' is an estimate; the class glyph and the map glyph are both pins."
+  },
+  {
+    "component": "now.roster-row",
+    "variant": "swipe-why",
+    "variant_name": "Swipe for the why",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 2,
+      "accessibility": 3,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.6,
+    "verdict": "drop",
+    "note": "Swipe is undiscoverable and the open state doubles row height; chevrons are 20 px targets."
+  },
+  {
+    "component": "now.roster-row",
+    "variant": "cap-count",
+    "variant_name": "Pill-free row with a cap count",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.1,
+    "verdict": "runner-up",
+    "note": "'2 full' coin stack keeps rows one height at 320 px; open panel lists caps marked optional. Good."
+  },
+  {
+    "component": "now.roster-row",
+    "variant": "ghost-last",
+    "variant_name": "Ghost of last time",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 3,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 1,
+      "repetition_control": 4
+    },
+    "mean": 3.3,
+    "verdict": "drop",
+    "note": "The ghost line is invented ('Mock: the exports carry no previous activity'). Data honesty fail."
+  },
+  {
+    "component": "now.verdict-pill",
+    "variant": "glyph-stamp",
+    "variant_name": "Glyph stamp",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 4,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.5,
+    "verdict": "pick",
+    "note": "Passes the greyscale check; long form only in Focus. Quest Log's '1 SKIPPED' is 8 px pixel caps: unreadable."
+  },
+  {
+    "component": "now.verdict-pill",
+    "variant": "rim",
+    "variant_name": "Rim instead of pill",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 3,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.2,
+    "verdict": "keep",
+    "note": "Frees a line at 320 px but the 12 px corner badge is the only non-colour cue."
+  },
+  {
+    "component": "now.verdict-pill",
+    "variant": "with-time",
+    "variant_name": "Verdict with time",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 3,
+      "idleon_feel": 3,
+      "accessibility": 3,
+      "data_honesty": 2,
+      "repetition_control": 5
+    },
+    "mean": 3.7,
+    "verdict": "runner-up",
+    "note": "'Ready · 5h' is useful, but 'Fix · ~10 s' is invented and the Quest Log letter-spaced pill squeezes the action to 4 words a line."
+  },
+  {
+    "component": "now.cap-pills",
+    "variant": "severity-kind-verb",
+    "variant_name": "Urgency + kind + verb",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.2,
+    "verdict": "runner-up",
+    "note": "Clear filled/outlined/grey grammar, but caps on a Ready row still look like warnings without 'optional'."
+  },
+  {
+    "component": "now.cap-pills",
+    "variant": "account-finding",
+    "variant_name": "Account-level cap finding",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "keep",
+    "note": "Right for 3+ characters ('Worship full on 11'): use it as the late-game mode of the pick."
+  },
+  {
+    "component": "now.cap-pills",
+    "variant": "fill-gauge",
+    "variant_name": "Fill gauge",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 3,
+      "no_jargon": 4,
+      "phone_fit": 3,
+      "idleon_feel": 2,
+      "accessibility": 3,
+      "data_honesty": 2,
+      "repetition_control": 4
+    },
+    "mean": 3.2,
+    "verdict": "drop",
+    "note": "8-step gauge uses a lab scale (12 h = full) the export does not give; Quest Log gauge labels are 11 px pixel text."
+  },
+  {
+    "component": "now.cap-pills",
+    "variant": "optional-tag",
+    "variant_name": "Optional tag",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "pick",
+    "note": "Fixes audit A14: 'All set' and 'Anvil full' stop contradicting. Merge with account-finding for 3+ characters."
+  },
+  {
+    "component": "now.spend-chip",
+    "variant": "coin-badge",
+    "variant_name": "Coin badge",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 3,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 3
+    },
+    "mean": 3.4,
+    "verdict": "drop",
+    "note": "A coin with a count on every row is one more badge per row; 4 of 5 targets under 44 px."
+  },
+  {
+    "component": "now.spend-chip",
+    "variant": "spend-as-step",
+    "variant_name": "Spend as the row's next step",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 4.3,
+    "verdict": "runner-up",
+    "note": "Spend becomes the row's one step when Ready: honest, but '~700M here: 1 buy' wraps to two lines."
+  },
+  {
+    "component": "now.spend-chip",
+    "variant": "fold-grouped",
+    "variant_name": "Fold into one spend card",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 3,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "pick",
+    "note": "One Spend card lists payers as chips: no per-row repetition. Payer chips are 28 px tall: make them 44."
+  },
+  {
+    "component": "now.verdict-strip",
+    "variant": "portrait-strip",
+    "variant_name": "Portrait strip",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 3,
+      "data_honesty": 3,
+      "repetition_control": 4
+    },
+    "mean": 3.7,
+    "verdict": "keep",
+    "note": "11 portraits fit, but they are 30 px targets and need the label line to say who."
+  },
+  {
+    "component": "now.verdict-strip",
+    "variant": "pager",
+    "variant_name": "Pager with the next fix",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.4,
+    "verdict": "pick",
+    "note": "'Next: Barbarian 56 · fix' is the one next step; dots carry the count. 'prev' is a quiet link."
+  },
+  {
+    "component": "now.verdict-strip",
+    "variant": "progress-strip",
+    "variant_name": "Progress strip",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 3,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.7,
+    "verdict": "runner-up",
+    "note": "Visited/current fill is a good session progress cue; six 34 px tiles are just under target size."
+  },
+  {
+    "component": "now.focus-card",
+    "variant": "step-hero",
+    "variant_name": "Current-step hero",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 2,
+      "repetition_control": 5
+    },
+    "mean": 4.2,
+    "verdict": "pick",
+    "note": "One step with who/where/how long and a fill bar from the save. Mini-strip buttons are 30 px; '~10 s' is invented; Quest Log kicker is 8 px."
+  },
+  {
+    "component": "now.focus-card",
+    "variant": "char-sheet",
+    "variant_name": "Character sheet",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 3,
+      "idleon_feel": 2,
+      "accessibility": 3,
+      "data_honesty": 3,
+      "repetition_control": 4
+    },
+    "mean": 3.3,
+    "verdict": "drop",
+    "note": "Character-sheet layout repeats the step as a list item and adds two tiles; the hero step disappears below the fold."
+  },
+  {
+    "component": "now.focus-card",
+    "variant": "checklist",
+    "variant_name": "Before-you-leave checklist",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 3,
+      "repetition_control": 5
+    },
+    "mean": 4.2,
+    "verdict": "runner-up",
+    "note": "Do-then-confirm list that ticks from the save is a great Log off moment. 'Next: Shaman 44' uses the W2 save; '~30 s' is an estimate."
+  },
+  {
+    "component": "now.focus-card",
+    "variant": "bottom-sheet",
+    "variant_name": "Bottom sheet",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 5,
+      "phone_fit": 3,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.8,
+    "verdict": "keep",
+    "note": "Sheet over the Roster is the right phone container for whichever Focus layout wins; the peeking next card clips text."
+  },
+  {
+    "component": "now.focus-identity",
+    "variant": "portrait-plate",
+    "variant_name": "Portrait plate",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 3,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.0,
+    "verdict": "runner-up",
+    "note": "Big portrait anchors the eye and is our own art; the 6 mini-strip buttons are 30 px."
+  },
+  {
+    "component": "now.focus-identity",
+    "variant": "plain-here",
+    "variant_name": "Plain \"you are here\"",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 3,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.2,
+    "verdict": "pick",
+    "note": "One line with class, activity, map and '1 of 6 · 5 left'; no extra art."
+  },
+  {
+    "component": "now.focus-identity",
+    "variant": "follow-toast",
+    "variant_name": "Follow toast",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 5,
+      "why_behind_tap": 4,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.2,
+    "verdict": "keep",
+    "note": "Follow toast is a good add-on for the pick, not an identity layout."
+  },
+  {
+    "component": "now.focus-purpose",
+    "variant": "quest-line",
+    "variant_name": "Quest line",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "pick",
+    "note": "'Push World 3 · 19 of 15k · about 14h' is the long game in one line with real numbers."
+  },
+  {
+    "component": "now.focus-purpose",
+    "variant": "stop-here",
+    "variant_name": "Stop-here flag",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 3,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 2,
+      "accessibility": 3,
+      "data_honesty": 2,
+      "repetition_control": 4
+    },
+    "mean": 3.3,
+    "verdict": "drop",
+    "note": "Line split bug (': 19 of 15k' on its own line, fixed in this pass) and the flag itself is a mock."
+  },
+  {
+    "component": "now.focus-purpose",
+    "variant": "ladder",
+    "variant_name": "Milestone ladder",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.1,
+    "verdict": "runner-up",
+    "note": "Done/next/later reads as a climb; the '...' third rung says nothing."
+  },
+  {
+    "component": "now.focus-unknown",
+    "variant": "magnifier",
+    "variant_name": "Magnifier note",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.2,
+    "verdict": "runner-up",
+    "note": "Honest line plus 'Suggest this' prefilled: good; magnifier is our own art."
+  },
+  {
+    "component": "now.focus-unknown",
+    "variant": "best-guess",
+    "variant_name": "Best guess",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 3,
+      "data_honesty": 2,
+      "repetition_control": 3
+    },
+    "mean": 3.5,
+    "verdict": "drop",
+    "note": "'Likely fine if it's your usual' is a guess dressed as advice; it breaks 'never show advice from a broken parse' in spirit."
+  },
+  {
+    "component": "now.focus-unknown",
+    "variant": "own-fold",
+    "variant_name": "Hidden from the count",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 4,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.5,
+    "verdict": "pick",
+    "note": "Unknown characters do not block 'All set' and sit in their own fold: honest and quiet."
+  },
+  {
+    "component": "now.focus-better-fit",
+    "variant": "swap-card",
+    "variant_name": "Swap card",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 3,
+      "why_behind_tap": 4,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 1,
+      "repetition_control": 4
+    },
+    "mean": 3.6,
+    "verdict": "drop",
+    "note": "Two portraits and '+12% fish/h' are a mock: no export carries a better fit."
+  },
+  {
+    "component": "now.focus-better-fit",
+    "variant": "will-give",
+    "variant_name": "Will give you",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 1,
+      "repetition_control": 4
+    },
+    "mean": 3.5,
+    "verdict": "runner-up",
+    "note": "Path of Building deltas are the right shape for the why sheet; all three numbers are mock values."
+  },
+  {
+    "component": "now.focus-better-fit",
+    "variant": "quiet-hint",
+    "variant_name": "Quiet hint",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 3,
+      "repetition_control": 4
+    },
+    "mean": 4.2,
+    "verdict": "pick",
+    "note": "Muted line under the step never competes with it. Ship only when the engine computes a real better fit."
+  },
+  {
+    "component": "now.focus-footer",
+    "variant": "primary-next",
+    "variant_name": "Primary next",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.5,
+    "verdict": "pick",
+    "note": "One big 'Next: Barbarian 56 · 1 fix'. Mini-strip buttons under it are 30 px."
+  },
+  {
+    "component": "now.focus-footer",
+    "variant": "recap",
+    "variant_name": "Session recap",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 1,
+      "repetition_control": 4
+    },
+    "mean": 3.5,
+    "verdict": "keep",
+    "note": "Done this session is a nice end, but done[] is empty in every export: the struck lines are invented."
+  },
+  {
+    "component": "now.focus-footer",
+    "variant": "auto-advance",
+    "variant_name": "Auto-advance prompt",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 3,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "runner-up",
+    "note": "Auto-advance after the save shows the fix done keeps the session flowing. Depends on a fresh save."
+  },
+  {
+    "component": "now.info-lines",
+    "variant": "timeline-ticks",
+    "variant_name": "Timeline tick",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 3,
+      "idleon_feel": 3,
+      "accessibility": 3,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.6,
+    "verdict": "runner-up",
+    "note": "Ticks on a 12 h axis read faster than sentences; tick labels are 10 px (pixel in Quest Log)."
+  },
+  {
+    "component": "now.info-lines",
+    "variant": "fold-into-caps",
+    "variant_name": "Fold into caps",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "pick",
+    "note": "One place for caps, not two: info lines become the 'soon' pill state."
+  },
+  {
+    "component": "now.class-portrait",
+    "variant": "silhouettes",
+    "variant_name": "Family set",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 3,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 3.9,
+    "verdict": "pick",
+    "note": "Family chibi + subclass letter is recognisable and ours. Letter badges are 9 px: draw them at 12 px or drop them."
+  },
+  {
+    "component": "now.class-portrait",
+    "variant": "hat-blob",
+    "variant_name": "Hat-swap blob",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 3,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 3,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 3.8,
+    "verdict": "runner-up",
+    "note": "Cheapest to extend per class and cute, but four blobs differ only by hat at 24 px."
+  },
+  {
+    "component": "now.class-portrait",
+    "variant": "letter-tile",
+    "variant_name": "Letter tile",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 3,
+      "data_honesty": 3,
+      "repetition_control": 4
+    },
+    "mean": 3.5,
+    "verdict": "keep",
+    "note": "'RG 1.3k' tiles are Command Board density only; 10 px level text and two-letter codes are jargon to a new player."
+  },
+  {
+    "component": "cards.goal-card",
+    "variant": "kind-seal",
+    "variant_name": "Kind seal, no mono tag",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.1,
+    "verdict": "runner-up",
+    "note": "Seal + kind word replaces the mono tag well, but each card keeps a visible 'Why?' and grows tall; 'tier 2' leaks on the Grow card."
+  },
+  {
+    "component": "cards.goal-card",
+    "variant": "action-only",
+    "variant_name": "Action-only card",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 4.4,
+    "verdict": "pick",
+    "note": "One sentence and three tokens; five Goals fit on one phone screen. Frame left 200 px blank under the list (fixed)."
+  },
+  {
+    "component": "cards.goal-card",
+    "variant": "hold-dismiss",
+    "variant_name": "Swipe to skip, hold to say no",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.7,
+    "verdict": "keep",
+    "note": "Swipe-to-skip is undiscoverable; keep the hold-to-confirm idea inside the why sheet."
+  },
+  {
+    "component": "cards.goal-card",
+    "variant": "progress-filled",
+    "variant_name": "Progress-filled card",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 2,
+      "accessibility": 3,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.6,
+    "verdict": "drop",
+    "note": "The fill edge cuts through words ('Megalo|don Tooth') and the grey-on-tint text loses contrast."
+  },
+  {
+    "component": "cards.why-sheet",
+    "variant": "npc-speech",
+    "variant_name": "NPC speech",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 3,
+      "phone_fit": 5,
+      "idleon_feel": 5,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 4.1,
+    "verdict": "runner-up",
+    "note": "The most IdleOn thing on the page: our scout-hat blob gives the why. Keep it for Quest Log; dark box is heavy in Field Guide."
+  },
+  {
+    "component": "cards.why-sheet",
+    "variant": "delta-sheet",
+    "variant_name": "Bottom sheet, delta first",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "pick",
+    "note": "Opens on what you get ('about 30% more anvil output at 8 h'), then who/where, why, Sources. Path of Building order."
+  },
+  {
+    "component": "cards.why-sheet",
+    "variant": "inline-expand",
+    "variant_name": "Inline expand, one level",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 4.0,
+    "verdict": "keep",
+    "note": "One inline level is fine on desktop; on phone it pushes the next Goal off-screen."
+  },
+  {
+    "component": "cards.source-label",
+    "variant": "human-line",
+    "variant_name": "One human line",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "runner-up",
+    "note": "'IdleOn Wiki: Typhoon' is readable; '+2' chip is a 24 px target."
+  },
+  {
+    "component": "cards.source-label",
+    "variant": "trust-pips",
+    "variant_name": "Trust pips",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 3,
+      "idleon_feel": 2,
+      "accessibility": 3,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.7,
+    "verdict": "drop",
+    "note": "Pips need a legend in the footer to mean anything: that is jargon by another name."
+  },
+  {
+    "component": "cards.source-label",
+    "variant": "verified-date",
+    "variant_name": "Verified date",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.5,
+    "verdict": "pick",
+    "note": "'checked 17 Oct' instead of '2.3.540' is honest about age in plain words."
+  },
+  {
+    "component": "cards.contested",
+    "variant": "split-card",
+    "variant_name": "Split card",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 5,
+      "repetition_control": 4
+    },
+    "mean": 4.0,
+    "verdict": "runner-up",
+    "note": "Both sides side by side is honest; three-line columns at 390 px are cramped."
+  },
+  {
+    "component": "cards.contested",
+    "variant": "badge-only",
+    "variant_name": "Badge only",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "pick",
+    "note": "'sources disagree' badge keeps the card one line tall; both sides wait in the why."
+  },
+  {
+    "component": "cards.action-controls",
+    "variant": "zz-snooze",
+    "variant_name": "Zz snooze",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.4,
+    "verdict": "pick",
+    "note": "Free, quiet Skip with a Zz and '2 skipped today · show'. Skip buttons are 44 px: good."
+  },
+  {
+    "component": "cards.action-controls",
+    "variant": "hold-confirm",
+    "variant_name": "Hold to confirm Not for me",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.4,
+    "verdict": "runner-up",
+    "note": "Hold 1 s 'not for me' plus what changes: adopt inside the why sheet, never on the card face."
+  },
+  {
+    "component": "cards.action-controls",
+    "variant": "report-overflow",
+    "variant_name": "Report in the overflow",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.4,
+    "verdict": "keep",
+    "note": "Report in the ••• overflow of the why sheet is right; the overflow button is 32 px."
+  },
+  {
+    "component": "cards.goal-details",
+    "variant": "glyph-chips",
+    "variant_name": "Glyph chips",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "pick",
+    "note": "Who as glyph chips with the map under each; one tap opens Focus."
+  },
+  {
+    "component": "cards.goal-details",
+    "variant": "checklist",
+    "variant_name": "Self-ticking checklist",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 2
+    },
+    "mean": 3.8,
+    "verdict": "runner-up",
+    "note": "Self-ticking is good but repeats 'Equip the Yum Yum Desert set' on every character line."
+  },
+  {
+    "component": "cards.goal-list",
+    "variant": "today-later",
+    "variant_name": "Now / Before you log off / Next session",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 4.0,
+    "verdict": "runner-up",
+    "note": "Now / Before you log off / Next session is a time promise; the 'Next session 14' fold is honest."
+  },
+  {
+    "component": "cards.goal-list",
+    "variant": "more-chip",
+    "variant_name": "More as a count chip",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 4.0,
+    "verdict": "keep",
+    "note": "'+14 more Goals' chip is fine but five equal cards still compete."
+  },
+  {
+    "component": "cards.goal-list",
+    "variant": "ranked-winner",
+    "variant_name": "Ranked with one winner",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.5,
+    "verdict": "pick",
+    "note": "One full card, the rest as numbered muted lines: Cookie Monster's one-winner rule. Winner still shows 'place not given · time not known'."
+  },
+  {
+    "component": "cards.shared-job",
+    "variant": "batch-card",
+    "variant_name": "Batch card",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 3,
+      "idleon_feel": 2,
+      "accessibility": 3,
+      "data_honesty": 5,
+      "repetition_control": 4
+    },
+    "mean": 3.8,
+    "verdict": "runner-up",
+    "note": "Grouping is right, but the 2-column chip grid wraps class names onto 3 lines at 390 px."
+  },
+  {
+    "component": "cards.shared-job",
+    "variant": "route-card",
+    "variant_name": "One trip, map by map",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.5,
+    "verdict": "pick",
+    "note": "One trip, map by map, biggest stop first: answers 'where' for the whole batch and never repeats the sentence."
+  },
+  {
+    "component": "cards.walkthrough",
+    "variant": "path-stones",
+    "variant_name": "Path of stones",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 3,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.7,
+    "verdict": "drop",
+    "note": "Two stones marked NOW breaks one next step; big stone art adds height, not meaning."
+  },
+  {
+    "component": "cards.walkthrough",
+    "variant": "stepper-needs",
+    "variant_name": "Stepper with three-state needs",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.9,
+    "verdict": "runner-up",
+    "note": "Have / in storage / missing per step is the right sheet content; long on the Now screen."
+  },
+  {
+    "component": "cards.walkthrough",
+    "variant": "pinned-step",
+    "variant_name": "Pinned current step",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.5,
+    "verdict": "pick",
+    "note": "Only the current step on Now ('step 1 of 4 · 1,010/2,000 · about 2.4 h'); the list is a sheet. Frame had blank space (fixed)."
+  },
+  {
+    "component": "cards.walkthrough",
+    "variant": "by-character",
+    "variant_name": "By character",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 3
+    },
+    "mean": 3.8,
+    "verdict": "keep",
+    "note": "Lanes by character answer 'who goes where' for a W2 Walkthrough; useful as a sheet tab."
+  },
+  {
+    "component": "cards.walkthrough-step",
+    "variant": "progress-bar",
+    "variant_name": "Progress bar step",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.4,
+    "verdict": "pick",
+    "note": "Big tabular held/need and '990 to go'; drop-rate maths muted below."
+  },
+  {
+    "component": "cards.walkthrough-step",
+    "variant": "equip-token",
+    "variant_name": "Equip token",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "runner-up",
+    "note": "'USE Printer Sampling' token says what to click: fold it into the pick."
+  },
+  {
+    "component": "cards.walkthrough-step",
+    "variant": "while-there",
+    "variant_name": "While you're there",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 5,
+      "repetition_control": 4
+    },
+    "mean": 4.3,
+    "verdict": "keep",
+    "note": "'While you're in Alchemy' pickups are great; add to the pick when a second Goal shares the map."
+  },
+  {
+    "component": "cards.requirement-tree",
+    "variant": "recipe-card",
+    "variant_name": "Recipe card",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 5,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.9,
+    "verdict": "runner-up",
+    "note": "Tiles with red frames read fast; '1,010/2,000' under 48 px tiles is small and the tree hides behind the title."
+  },
+  {
+    "component": "cards.requirement-tree",
+    "variant": "flat-needs",
+    "variant_name": "Flat need list",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.4,
+    "verdict": "pick",
+    "note": "Only the missing leaves as '990 more'; full tree and other ways behind two buttons. Frame had blank space (fixed)."
+  },
+  {
+    "component": "cards.spend-plan",
+    "variant": "best-and-save",
+    "variant_name": "Best buy, then save up for",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 3,
+      "repetition_control": 4
+    },
+    "mean": 4.2,
+    "verdict": "pick",
+    "note": "One 'Best buy now', one 'Save up for'. Currency formats mix ('100M coins', '1 dementia', '1 gold 26 silver'): pick one."
+  },
+  {
+    "component": "cards.spend-plan",
+    "variant": "by-payer",
+    "variant_name": "By payer",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 3,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.7,
+    "verdict": "keep",
+    "note": "Grouping by payer is useful but the panel is 1,500 px tall at 390."
+  },
+  {
+    "component": "cards.spend-plan",
+    "variant": "ledger",
+    "variant_name": "Ledger table",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 5,
+      "phone_fit": 2,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.6,
+    "verdict": "keep",
+    "note": "Command Board desktop only: at 390 px the Cost column is clipped and headers are 8 px pixel text in Quest Log and Board."
+  },
+  {
+    "component": "cards.spend-plan",
+    "variant": "one-trip",
+    "variant_name": "One trip",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 5,
+      "repetition_control": 4
+    },
+    "mean": 4.2,
+    "verdict": "runner-up",
+    "note": "Grouping by shop is RestedXP batching; 'Where each shop sits is not in the data yet' is honest."
+  },
+  {
+    "component": "cards.spend-line",
+    "variant": "split-paragraph",
+    "variant_name": "Split paragraph",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 4.2,
+    "verdict": "pick",
+    "note": "Payer + cost on one line, 'Bring first' chips under it. Use one currency format."
+  },
+  {
+    "component": "cards.spend-line",
+    "variant": "tier-coins",
+    "variant_name": "Tier coins",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 3,
+      "repetition_control": 4
+    },
+    "mean": 3.9,
+    "verdict": "runner-up",
+    "note": "Coin icons make tiers readable without the word 'dementia'; needs the legend, which is jargon."
+  },
+  {
+    "component": "cards.builds",
+    "variant": "named-findings",
+    "variant_name": "Named findings",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "pick",
+    "note": "DIM-style 'what is wrong, then the verb'; the two Verdict-changing rows sort first."
+  },
+  {
+    "component": "cards.builds",
+    "variant": "now-vs-suggested",
+    "variant_name": "In game now vs suggested",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 4.2,
+    "verdict": "keep",
+    "note": "Compare table belongs in the why sheet of a named finding."
+  },
+  {
+    "component": "cards.builds",
+    "variant": "spellbook",
+    "variant_name": "Spellbook pages",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 5,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 4.0,
+    "verdict": "runner-up",
+    "note": "Pixel spellbooks are delightful and ours; two tiles per character is tall for 9 findings."
+  },
+  {
+    "component": "cards.printer-plan",
+    "variant": "slot-grid",
+    "variant_name": "Slot grid",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "pick",
+    "note": "'Forest Fibres → Megalodon Tooth' is the one change; other slots say 'no change'."
+  },
+  {
+    "component": "cards.printer-plan",
+    "variant": "mini-walkthrough",
+    "variant_name": "Three-step mini Walkthrough",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 4.1,
+    "verdict": "runner-up",
+    "note": "Three steps, all 'time not known': the step shape is right, the tokens are empty."
+  },
+  {
+    "component": "cards.account-section",
+    "variant": "summary-header",
+    "variant_name": "Summary header",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.4,
+    "verdict": "pick",
+    "note": "'Account · 0 fixes · 19 Goals' collapses the 7,000 px section (audit A3) and a blocker opens it."
+  },
+  {
+    "component": "cards.account-section",
+    "variant": "any-char-tray",
+    "variant_name": "Any-character tray",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 3,
+      "idleon_feel": 3,
+      "accessibility": 3,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.8,
+    "verdict": "runner-up",
+    "note": "'While you're on the Wizard 73, any character can do these' merges lists; the tray cards clip at the edge."
+  },
+  {
+    "component": "cards.account-section",
+    "variant": "daily-strip",
+    "variant_name": "Daily strip",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "keep",
+    "note": "Daily strip of seal tiles is a great add-on for today-only Goals."
+  },
+  {
+    "component": "cards.if-you-have-time",
+    "variant": "time-boxed",
+    "variant_name": "Time-boxed menu",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 4.2,
+    "verdict": "runner-up",
+    "note": "'About 10m: Use today's 4 minigame plays' is a menu by time; good on desktop."
+  },
+  {
+    "component": "cards.if-you-have-time",
+    "variant": "extra-seal",
+    "variant_name": "Extra seal, muted",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "pick",
+    "note": "One muted list at the very bottom, one line each with the time; never competes."
+  },
+  {
+    "component": "cards.not-covered",
+    "variant": "count-chip",
+    "variant_name": "Count chip",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.5,
+    "verdict": "runner-up",
+    "note": "Chip + sheet is honest; the frame showed 500 px of blank (fixed)."
+  },
+  {
+    "component": "cards.not-covered",
+    "variant": "omission-line",
+    "variant_name": "One honest line",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.7,
+    "verdict": "pick",
+    "note": "One sentence that says what we leave out and that it never changes the Verdict."
+  },
+  {
+    "component": "flows.sign-in",
+    "variant": "code-card",
+    "variant_name": "Code card",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "runner-up",
+    "note": "Big code plus a fuse is right for the code state; 'Sign out' chip is 32 px."
+  },
+  {
+    "component": "flows.sign-in",
+    "variant": "out-of-the-way",
+    "variant_name": "Out of the way",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.6,
+    "verdict": "pick",
+    "note": "Sign-in never sits above advice; a pasted save works meanwhile (audit A2)."
+  },
+  {
+    "component": "flows.sign-in",
+    "variant": "guide-npc",
+    "variant_name": "Guide NPC onboarding",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 3,
+      "phone_fit": 5,
+      "idleon_feel": 4,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 4.0,
+    "verdict": "keep",
+    "note": "Guide blob onboarding is charming for Quest Log's first run; three speech boxes are long."
+  },
+  {
+    "component": "flows.paste-save",
+    "variant": "drop-zone",
+    "variant_name": "Drop zone",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.4,
+    "verdict": "pick",
+    "note": "One big target, three numbered steps. Keep the clear-failure copy as its error state."
+  },
+  {
+    "component": "flows.paste-save",
+    "variant": "clear-failure",
+    "variant_name": "Clear failure",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.4,
+    "verdict": "runner-up",
+    "note": "Every failure carries its fix: adopt as the error state of the pick."
+  },
+  {
+    "component": "flows.loading",
+    "variant": "skeleton",
+    "variant_name": "Skeleton of the real layout",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.4,
+    "verdict": "pick",
+    "note": "Skeleton of the real layout, so nothing jumps when the answer lands."
+  },
+  {
+    "component": "flows.loading",
+    "variant": "blob-walking",
+    "variant_name": "Blob walking",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 3,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "runner-up",
+    "note": "Named steps say how far along it is; the walk loop is delight, not a spinner."
+  },
+  {
+    "component": "flows.empty",
+    "variant": "sleeping-blob",
+    "variant_name": "Sleeping blob",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.4,
+    "verdict": "runner-up",
+    "note": "'Nothing to do. Back in about 8h' with our sleeping blob is the campfire moment."
+  },
+  {
+    "component": "flows.empty",
+    "variant": "next-action-empty",
+    "variant_name": "Next action empty",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.6,
+    "verdict": "pick",
+    "note": "Every empty state names the next thing to do."
+  },
+  {
+    "component": "flows.cant-read",
+    "variant": "gremlin",
+    "variant_name": "Gremlin",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "runner-up",
+    "note": "Gremlin + kind + fix; six state chips are a lab control, not app UI."
+  },
+  {
+    "component": "flows.cant-read",
+    "variant": "use-last-good",
+    "variant_name": "Use last good",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.6,
+    "verdict": "pick",
+    "note": "Explicit, labelled fallback to the last good save; never a silent swap."
+  },
+  {
+    "component": "flows.cant-work-out",
+    "variant": "fallback-roster",
+    "variant_name": "Fallback roster",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.5,
+    "verdict": "pick",
+    "note": "Keeps the Roster's shape and order while advice is paused. Uses C1-C6 slot labels the rest of the app does not."
+  },
+  {
+    "component": "flows.cant-work-out",
+    "variant": "report-prefilled",
+    "variant_name": "Report prefilled",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.5,
+    "verdict": "runner-up",
+    "note": "One button, report pre-written with no save data. 'Parser targets 2.3.540' in the body is fine here (it is the bug report)."
+  },
+  {
+    "component": "flows.stale",
+    "variant": "stale-first",
+    "variant_name": "Stale-first banner",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.7,
+    "verdict": "pick",
+    "note": "Save age is the first sentence and carries its fix (audit A14)."
+  },
+  {
+    "component": "flows.stale",
+    "variant": "faded-board",
+    "variant_name": "Faded board",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 2,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.9,
+    "verdict": "runner-up",
+    "note": "Faded roster is a good second signal; the '07:42' clock watermark sits on top of the text."
+  },
+  {
+    "component": "flows.banners",
+    "variant": "tray",
+    "variant_name": "Notification tray",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 4.2,
+    "verdict": "runner-up",
+    "note": "Count + tray; notices compact from the third."
+  },
+  {
+    "component": "flows.banners",
+    "variant": "toast-once",
+    "variant_name": "Toast once",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.6,
+    "verdict": "pick",
+    "note": "One-time toast with Reload / Later, then a dot. Never a nag."
+  },
+  {
+    "component": "flows.suggest-form",
+    "variant": "three-blank",
+    "variant_name": "Three-blank sentence",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.9,
+    "verdict": "runner-up",
+    "note": "Sentence form is friendly, but the three inputs truncate their placeholders at 390 px."
+  },
+  {
+    "component": "flows.suggest-form",
+    "variant": "kind-picker",
+    "variant_name": "Kind picker first",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.5,
+    "verdict": "pick",
+    "note": "Three big pixel tiles sort first, then one question."
+  },
+  {
+    "component": "flows.report-form",
+    "variant": "public-notice",
+    "variant_name": "Two-tap public notice",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 5,
+      "repetition_control": 4
+    },
+    "mean": 4.3,
+    "verdict": "runner-up",
+    "note": "Shows exactly what goes public; the field list (account.currentWorld...) is developer jargon."
+  },
+  {
+    "component": "flows.report-form",
+    "variant": "pick-whats-wrong",
+    "variant_name": "Pick what's wrong",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.7,
+    "verdict": "pick",
+    "note": "Four chips and an optional line: a 5-second job."
+  },
+  {
+    "component": "flows.your-suggestions",
+    "variant": "quest-board",
+    "variant_name": "Quest board",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.2,
+    "verdict": "runner-up",
+    "note": "Notes pinned to a board with DONE/PLANNED stamps is IdleOn-flavoured; stamps are 12 px."
+  },
+  {
+    "component": "flows.your-suggestions",
+    "variant": "plain-list",
+    "variant_name": "Plain list",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.2,
+    "verdict": "pick",
+    "note": "Date, title, status, link scan in a second. Make each row the link (the '#12' links are 4 of 5 small targets)."
+  },
+  {
+    "component": "flows.footer",
+    "variant": "plain",
+    "variant_name": "Plain footer",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.4,
+    "verdict": "runner-up",
+    "note": "One line of links; all six links are under 44 px tall."
+  },
+  {
+    "component": "flows.footer",
+    "variant": "fan-disclaimer",
+    "variant_name": "Fan disclaimer",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.5,
+    "verdict": "pick",
+    "note": "Says who made it and who didn't, plus read-only. Needed for anything shareable."
+  },
+  {
+    "component": "flows.clear-my-data",
+    "variant": "hold-to-clear",
+    "variant_name": "Hold to clear",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "runner-up",
+    "note": "Hold to clear is deliberate; the checkbox row is 24 px."
+  },
+  {
+    "component": "flows.clear-my-data",
+    "variant": "what-it-clears",
+    "variant_name": "What it clears",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.5,
+    "verdict": "pick",
+    "note": "Goes / Stays answers 'will this touch my game?' before the button."
+  },
+  {
+    "component": "flows.whats-new",
+    "variant": "patch-scroll",
+    "variant_name": "Patch notes scroll",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 5,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.3,
+    "verdict": "runner-up",
+    "note": "Three items and one Got it on a little scroll; still a modal moment."
+  },
+  {
+    "component": "flows.whats-new",
+    "variant": "new-dots",
+    "variant_name": "Inline new dots",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 2,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.5,
+    "verdict": "pick",
+    "note": "The change explains itself where it lives; NEW dots are 18 px."
+  },
+  {
+    "component": "flows.session-checklist",
+    "variant": "quest-scroll",
+    "variant_name": "Quest scroll",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 4.0,
+    "verdict": "runner-up",
+    "note": "Wax seals and a campfire ending; the lab state chips crowd the top."
+  },
+  {
+    "component": "flows.session-checklist",
+    "variant": "pilot",
+    "variant_name": "Pilot checklist",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.0,
+    "verdict": "keep",
+    "note": "Dotted leaders fit 11 characters in five lines: Command Board's checklist."
+  },
+  {
+    "component": "flows.session-checklist",
+    "variant": "auto-tab",
+    "variant_name": "Auto tab",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.6,
+    "verdict": "pick",
+    "note": "The pause point is picked from context and says why; nothing to set."
+  },
+  {
+    "component": "flows.afk-timeline",
+    "variant": "lanes",
+    "variant_name": "Lanes on phone",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 3,
+      "phone_fit": 3,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.7,
+    "verdict": "runner-up",
+    "note": "Lanes on a shared axis are the Command Board hero on desktop; at 390 px names truncate ('C5 Barb...') and axis labels clip."
+  },
+  {
+    "component": "flows.afk-timeline",
+    "variant": "heat-grid",
+    "variant_name": "Heat grid",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 3,
+      "idleon_feel": 2,
+      "accessibility": 4,
+      "data_honesty": 5,
+      "repetition_control": 4
+    },
+    "mean": 3.7,
+    "verdict": "keep",
+    "note": "Characters by systems with filter totals: power-session only; 'C9 1,307' slot codes are opaque."
+  },
+  {
+    "component": "flows.afk-timeline",
+    "variant": "compact-strip",
+    "variant_name": "Compact strip",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 4,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.4,
+    "verdict": "pick",
+    "note": "One strip: class marks where caps fill, a flag where you are back, one sentence under it."
+  },
+  {
+    "component": "flows.away-card",
+    "variant": "ticker",
+    "variant_name": "Rotating ticker",
+    "scores": {
+      "glance_3s": 3,
+      "one_next_step": 3,
+      "who_where_how_long": 4,
+      "why_behind_tap": 4,
+      "no_jargon": 4,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 4,
+      "data_honesty": 4,
+      "repetition_control": 4
+    },
+    "mean": 3.7,
+    "verdict": "drop",
+    "note": "Rotating every 3 s is motion for its own sake; one heavy line is enough."
+  },
+  {
+    "component": "flows.away-card",
+    "variant": "scaled-welcome",
+    "variant_name": "Scaled welcome",
+    "scores": {
+      "glance_3s": 5,
+      "one_next_step": 5,
+      "who_where_how_long": 5,
+      "why_behind_tap": 5,
+      "no_jargon": 5,
+      "phone_fit": 4,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 4,
+      "repetition_control": 5
+    },
+    "mean": 4.6,
+    "verdict": "pick",
+    "note": "Nothing / one line / full card by time away: the welcome scales with the absence."
+  },
+  {
+    "component": "flows.away-card",
+    "variant": "share-image",
+    "variant_name": "Share image",
+    "scores": {
+      "glance_3s": 4,
+      "one_next_step": 4,
+      "who_where_how_long": 4,
+      "why_behind_tap": 5,
+      "no_jargon": 4,
+      "phone_fit": 5,
+      "idleon_feel": 3,
+      "accessibility": 5,
+      "data_honesty": 5,
+      "repetition_control": 5
+    },
+    "mean": 4.4,
+    "verdict": "runner-up",
+    "note": "Class marks only, no names: share-safe and ours (ADR 0009)."
+  }
+]

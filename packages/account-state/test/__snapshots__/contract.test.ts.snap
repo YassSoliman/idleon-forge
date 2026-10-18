@@ -1805,6 +1805,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
         33,
       ],
     },
+    "statues": "22/1 14/1 26/1 17/1 27/1 7/1 26/1 14/1 14/1 12/1 8/1 14/1 8/1 9/1 15/1 8/0 12/0 13/0 10/0 4/0 1/0 0/0 0/0 0/0 0/0 0/0 0/0 0/0 0/0 0/0 0/0 0/0",
     "storageItems": {
       "entries": 188,
     },
@@ -1920,6 +1921,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       },
       "classIndex": 10,
       "currentMap": "Spaceway_Raceway",
+      "doorKillsLeft": "298 maps, 61 doors open",
       "foodStacks": [
         {
           "amount": 89,
@@ -2122,6 +2124,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "mushP",
       "telescopeRoute": [
@@ -2147,6 +2153,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "class": "Bubonic_Conjuror",
       "classIndex": 36,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "298 maps, 69 doors open",
       "foodStacks": [
         {
           "amount": 34,
@@ -2347,6 +2354,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Laboratory",
       "telescopeRoute": [
@@ -2372,6 +2383,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "class": "Siege_Breaker",
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "298 maps, 72 doors open",
       "foodStacks": [
         {
           "amount": 1,
@@ -2570,6 +2582,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Laboratory",
       "telescopeRoute": [
@@ -2599,6 +2615,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       },
       "classIndex": 12,
       "currentMap": "Spaceway_Raceway",
+      "doorKillsLeft": "298 maps, 71 doors open",
       "foodStacks": [
         {
           "amount": 1,
@@ -2798,6 +2815,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "mushP",
       "telescopeRoute": [
@@ -2823,6 +2844,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "class": "Elemental_Sorcerer",
       "classIndex": 34,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "298 maps, 71 doors open",
       "foodStacks": [
         {
           "amount": 9,
@@ -3023,6 +3045,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Laboratory",
       "telescopeRoute": [
@@ -3048,6 +3074,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "class": "Beast_Master",
       "classIndex": 25,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "298 maps, 71 doors open",
       "foodStacks": [
         {
           "amount": 2,
@@ -3234,6 +3261,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Laboratory",
       "telescopeRoute": [
@@ -3259,6 +3290,7 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       "class": "Maestro",
       "classIndex": 3,
       "currentMap": "YumYum_Grotto",
+      "doorKillsLeft": "298 maps, 82 doors open",
       "foodStacks": [
         {
           "amount": 44,
@@ -3441,6 +3473,10 @@ exports[`public save first.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -5380,6 +5416,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
         7,
       ],
     },
+    "statues": "134/2 185/2 174/2 174/2 127/2 20/1 160/2 102/2 34/1 119/2 83/2 109/2 95/2 183/2 32/1 29/1 53/1 103/2 14/1 105/2 82/2 69/2 119/2 87/2 95/2 43/1 33/1 38/1 0/0 0/0 0/0 0/0",
     "storageItems": {
       "entries": 305,
     },
@@ -5495,6 +5532,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       },
       "classIndex": 4,
       "currentMap": "Edge_of_the_Valley",
+      "doorKillsLeft": "298 maps, 22 doors open",
       "foodStacks": [
         {
           "amount": 239129,
@@ -5699,6 +5737,10 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "w6a5",
       "telescopeRoute": [
@@ -5724,6 +5766,7 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       "class": "Beginner",
       "classIndex": 1,
       "currentMap": "Blunder_Hills",
+      "doorKillsLeft": "201 maps, 83 doors open",
       "foodStacks": [],
       "freeInventorySlots": 80,
       "gear": "- - - - - - - - - - - -",
@@ -5835,6 +5878,10 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
         "classIndex": 1,
         "other": null,
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -7940,6 +7987,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         58,
       ],
     },
+    "statues": "92/2 132/1 102/2 129/2 95/2 78/2 161/2 79/2 88/1 116/2 100/2 109/2 98/2 128/2 40/1 27/1 28/1 48/1 22/1 78/2 92/2 79/2 133/2 127/2 124/2 74/1 63/1 39/1 0/0 0/0 0/0 0/0",
     "storageItems": {
       "entries": 428,
     },
@@ -8051,6 +8099,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       "class": "Siege_Breaker",
       "classIndex": 22,
       "currentMap": "Frostbite_Towndra",
+      "doorKillsLeft": "298 maps, 28 doors open",
       "foodStacks": [
         {
           "amount": 4379,
@@ -8241,6 +8290,10 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -8266,6 +8319,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       "class": "Blood_Berserker",
       "classIndex": 10,
       "currentMap": "Spirit_Village",
+      "doorKillsLeft": "327 maps, 46 doors open",
       "foodStacks": [
         {
           "amount": 29793,
@@ -8461,6 +8515,10 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -8486,6 +8544,7 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       "class": "Beginner",
       "classIndex": 1,
       "currentMap": "Blunder_Hills",
+      "doorKillsLeft": "327 maps, 137 doors open",
       "foodStacks": [
         {
           "amount": 14941,
@@ -8621,6 +8680,10 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
         "classIndex": 1,
         "other": null,
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -10985,6 +11048,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
         79,
       ],
     },
+    "statues": "727/3 698/3 674/3 700/3 700/3 130/2 674/3 622/3 622/3 623/3 650/3 641/3 665/3 674/3 646/3 670/3 682/3 686/3 669/3 646/3 633/3 646/3 632/3 636/3 619/3 611/3 632/3 602/3 722/3 638/3 522/3 367/3",
     "storageItems": {
       "entries": 577,
     },
@@ -11096,6 +11160,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "class": "Death_Bringer",
       "classIndex": 14,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 16 doors open",
       "foodStacks": [
         {
           "amount": 23299909,
@@ -11320,6 +11385,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -11345,6 +11414,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "class": "Siege_Breaker",
       "classIndex": 22,
       "currentMap": "Middle_of_Nowhere",
+      "doorKillsLeft": "327 maps, 17 doors open",
       "foodStacks": [
         {
           "amount": 21959562,
@@ -11553,6 +11623,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Spelunking2",
       "telescopeRoute": [
@@ -11578,6 +11652,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "class": "Elemental_Sorcerer",
       "classIndex": 34,
       "currentMap": "Middle_of_Nowhere",
+      "doorKillsLeft": "327 maps, 17 doors open",
       "foodStacks": [
         {
           "amount": 21959562,
@@ -11789,6 +11864,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Spelunking2",
       "telescopeRoute": [
@@ -11814,6 +11893,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "class": "Divine_Knight",
       "classIndex": 12,
       "currentMap": "Shimmerfin_Grove",
+      "doorKillsLeft": "327 maps, 17 doors open",
       "foodStacks": [
         {
           "amount": 23087216,
@@ -12019,6 +12099,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -12048,6 +12132,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
       "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
+      "doorKillsLeft": "327 maps, 16 doors open",
       "foodStacks": [
         {
           "amount": 21959562,
@@ -12266,6 +12351,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "w7b1",
       "telescopeRoute": [
@@ -12295,6 +12384,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
       "classIndex": 29,
       "currentMap": "Deep_End_of_the_Koipond",
+      "doorKillsLeft": "327 maps, 16 doors open",
       "foodStacks": [
         {
           "amount": 21959562,
@@ -12527,6 +12617,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "w7b1",
       "telescopeRoute": [
@@ -12552,6 +12646,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "class": "Divine_Knight",
       "classIndex": 12,
       "currentMap": "Blunder_Hills",
+      "doorKillsLeft": "327 maps, 21 doors open",
       "foodStacks": [
         {
           "amount": 22286801,
@@ -12759,6 +12854,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -12784,6 +12883,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "class": "Voidwalker",
       "classIndex": 4,
       "currentMap": "Coralcave_Perimeter",
+      "doorKillsLeft": "327 maps, 16 doors open",
       "foodStacks": [
         {
           "amount": 23602360,
@@ -12984,6 +13084,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Spelunking3",
       "telescopeRoute": [
@@ -13013,6 +13117,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
       "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
+      "doorKillsLeft": "327 maps, 17 doors open",
       "foodStacks": [
         {
           "amount": 21883685,
@@ -13232,6 +13337,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "w7b1",
       "telescopeRoute": [
@@ -13261,6 +13370,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
       "classIndex": 29,
       "currentMap": "Deep_End_of_the_Koipond",
+      "doorKillsLeft": "327 maps, 23 doors open",
       "foodStacks": [
         {
           "amount": 21959562,
@@ -13479,6 +13589,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "w7b1",
       "telescopeRoute": [
@@ -13504,6 +13618,7 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       "class": "Beginner",
       "classIndex": 1,
       "currentMap": "The_Hole",
+      "doorKillsLeft": "327 maps, 22 doors open",
       "foodStacks": [
         {
           "amount": 21997501,
@@ -13657,6 +13772,10 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Bravery_Monument",
       "telescopeRoute": [
@@ -16132,6 +16251,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
         79,
       ],
     },
+    "statues": "363/3 527/3 515/3 517/3 369/3 125/2 514/3 453/3 454/3 453/3 395/3 416/3 397/3 515/3 488/3 157/2 285/2 444/2 65/2 342/3 353/3 387/3 212/3 203/3 220/3 245/3 238/3 183/3 100/2 157/2 372/3 262/2",
     "storageItems": {
       "entries": 555,
     },
@@ -16243,6 +16363,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "class": "Siege_Breaker",
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 27 doors open",
       "foodStacks": [
         {
           "amount": 4439,
@@ -16446,6 +16567,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -16471,6 +16596,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "class": "Death_Bringer",
       "classIndex": 14,
       "currentMap": "Shimmerfin_Grove",
+      "doorKillsLeft": "327 maps, 22 doors open",
       "foodStacks": [
         {
           "amount": 29116534,
@@ -16686,6 +16812,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -16711,6 +16841,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "class": "Elemental_Sorcerer",
       "classIndex": 34,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 28 doors open",
       "foodStacks": [
         {
           "amount": 14941,
@@ -16904,6 +17035,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -16929,6 +17064,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "class": "Divine_Knight",
       "classIndex": 12,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 19 doors open",
       "foodStacks": [
         {
           "amount": 678,
@@ -17127,6 +17263,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -17152,6 +17292,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "class": "Arcane_Cultist",
       "classIndex": 40,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 18 doors open",
       "foodStacks": [
         {
           "amount": 49,
@@ -17355,6 +17496,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -17384,6 +17529,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
       "classIndex": 29,
       "currentMap": "Pirate_Upper_Deck",
+      "doorKillsLeft": "327 maps, 22 doors open",
       "foodStacks": [
         {
           "amount": 20736847,
@@ -17596,6 +17742,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "w7b3",
       "telescopeRoute": [
@@ -17621,6 +17771,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "class": "Voidwalker",
       "classIndex": 4,
       "currentMap": "Magma_Rivertown",
+      "doorKillsLeft": "327 maps, 18 doors open",
       "foodStacks": [
         {
           "amount": 33425,
@@ -17821,6 +17972,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Divinity",
       "telescopeRoute": [
@@ -17846,6 +18001,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "class": "Siege_Breaker",
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 39 doors open",
       "foodStacks": [
         {
           "amount": 2011125,
@@ -18036,6 +18192,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -18061,6 +18221,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "class": "Royal_Guardian",
       "classIndex": 16,
       "currentMap": "Blunder_Hills",
+      "doorKillsLeft": "327 maps, 16 doors open",
       "foodStacks": [
         {
           "amount": 330413,
@@ -18277,6 +18438,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -18306,6 +18471,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
       "classIndex": 36,
       "currentMap": "Spore_Meadows",
+      "doorKillsLeft": "327 maps, 32 doors open",
       "foodStacks": [
         {
           "amount": 18939,
@@ -18508,6 +18674,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "mushG",
       "telescopeRoute": [
@@ -18533,6 +18703,7 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       "class": "Beginner",
       "classIndex": 1,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 88 doors open",
       "foodStacks": [],
       "freeInventorySlots": 34,
       "gear": "EquipmentHats123 EquipmentPunching12 EquipmentShirts41 EquipmentPendant23 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 - - - -",
@@ -18659,6 +18830,10 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -21144,6 +21319,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
         79,
       ],
     },
+    "statues": "290/3 426/3 413/3 415/3 261/3 125/2 413/3 336/3 337/3 335/3 281/3 306/3 286/3 413/3 386/3 156/2 266/2 380/2 65/2 249/3 220/3 261/3 212/3 203/3 218/3 208/3 238/3 183/3 100/2 157/2 312/3 193/2",
     "storageItems": {
       "entries": 546,
     },
@@ -21255,6 +21431,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "class": "Siege_Breaker",
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 27 doors open",
       "foodStacks": [
         {
           "amount": 4439,
@@ -21458,6 +21635,10 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -21483,6 +21664,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "class": "Death_Bringer",
       "classIndex": 14,
       "currentMap": "Blunder_Hills",
+      "doorKillsLeft": "327 maps, 22 doors open",
       "foodStacks": [
         {
           "amount": 29116537,
@@ -21698,6 +21880,10 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -21723,6 +21909,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "class": "Elemental_Sorcerer",
       "classIndex": 34,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 28 doors open",
       "foodStacks": [
         {
           "amount": 14941,
@@ -21916,6 +22103,10 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -21941,6 +22132,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "class": "Divine_Knight",
       "classIndex": 12,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 19 doors open",
       "foodStacks": [
         {
           "amount": 678,
@@ -22139,6 +22331,10 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -22164,6 +22360,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "class": "Arcane_Cultist",
       "classIndex": 40,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 18 doors open",
       "foodStacks": [
         {
           "amount": 49,
@@ -22367,6 +22564,10 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -22392,6 +22593,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "class": "Wind_Walker",
       "classIndex": 29,
       "currentMap": "Frostbite_Towndra",
+      "doorKillsLeft": "327 maps, 22 doors open",
       "foodStacks": [
         {
           "amount": 20745812,
@@ -22600,6 +22802,10 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -22625,6 +22831,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "class": "Voidwalker",
       "classIndex": 4,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 18 doors open",
       "foodStacks": [
         {
           "amount": 33425,
@@ -22825,6 +23032,10 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -22850,6 +23061,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "class": "Siege_Breaker",
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 39 doors open",
       "foodStacks": [
         {
           "amount": 2011125,
@@ -23040,6 +23252,10 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -23065,6 +23281,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "class": "Divine_Knight",
       "classIndex": 12,
       "currentMap": "Shimmerfin_Grove",
+      "doorKillsLeft": "327 maps, 16 doors open",
       "foodStacks": [
         {
           "amount": 330413,
@@ -23261,6 +23478,10 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -23290,6 +23511,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       },
       "classIndex": 36,
       "currentMap": "Spore_Meadows",
+      "doorKillsLeft": "327 maps, 32 doors open",
       "foodStacks": [
         {
           "amount": 18939,
@@ -23492,6 +23714,10 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "mushG",
       "telescopeRoute": [
@@ -23517,6 +23743,7 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       "class": "Beginner",
       "classIndex": 1,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 88 doors open",
       "foodStacks": [],
       "freeInventorySlots": 35,
       "gear": "EquipmentHats123 EquipmentPunching12 EquipmentShirts41 EquipmentPendant23 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 - - - -",
@@ -23643,6 +23870,10 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -26135,6 +26366,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
         79,
       ],
     },
+    "statues": "363/3 527/3 515/3 517/3 369/3 125/2 514/3 453/3 454/3 453/3 395/3 416/3 397/3 515/3 488/3 157/2 285/2 444/2 65/2 360/3 355/3 391/3 212/3 203/3 220/3 245/3 238/3 183/3 100/2 157/2 372/3 262/2",
     "storageItems": {
       "entries": 529,
     },
@@ -26246,6 +26478,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "class": "Siege_Breaker",
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 27 doors open",
       "foodStacks": [
         {
           "amount": 4439,
@@ -26449,6 +26682,10 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -26474,6 +26711,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "class": "Death_Bringer",
       "classIndex": 14,
       "currentMap": "Shimmerfin_Grove",
+      "doorKillsLeft": "327 maps, 22 doors open",
       "foodStacks": [
         {
           "amount": 29116537,
@@ -26689,6 +26927,10 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -26714,6 +26956,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "class": "Elemental_Sorcerer",
       "classIndex": 34,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 28 doors open",
       "foodStacks": [
         {
           "amount": 14941,
@@ -26907,6 +27150,10 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -26932,6 +27179,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "class": "Divine_Knight",
       "classIndex": 12,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 19 doors open",
       "foodStacks": [
         {
           "amount": 678,
@@ -27130,6 +27378,10 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -27155,6 +27407,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "class": "Arcane_Cultist",
       "classIndex": 40,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 18 doors open",
       "foodStacks": [
         {
           "amount": 49,
@@ -27358,6 +27611,10 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -27383,6 +27640,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "class": "Wind_Walker",
       "classIndex": 29,
       "currentMap": "Frostbite_Towndra",
+      "doorKillsLeft": "327 maps, 22 doors open",
       "foodStacks": [
         {
           "amount": 20745812,
@@ -27591,6 +27849,10 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -27616,6 +27878,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "class": "Voidwalker",
       "classIndex": 4,
       "currentMap": "YumYum_Islands",
+      "doorKillsLeft": "327 maps, 18 doors open",
       "foodStacks": [
         {
           "amount": 33425,
@@ -27812,6 +28075,10 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "FishMed",
       "telescopeRoute": [
@@ -27843,6 +28110,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "class": "Siege_Breaker",
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 39 doors open",
       "foodStacks": [
         {
           "amount": 2011125,
@@ -28033,6 +28301,10 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -28062,6 +28334,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
       "classIndex": 16,
       "currentMap": "The_Royal_Castle",
+      "doorKillsLeft": "327 maps, 16 doors open",
       "foodStacks": [
         {
           "amount": 330413,
@@ -28277,6 +28550,10 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "fm_rat",
       "telescopeRoute": [
@@ -28306,6 +28583,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
       "classIndex": 36,
       "currentMap": "Spore_Meadows",
+      "doorKillsLeft": "327 maps, 32 doors open",
       "foodStacks": [
         {
           "amount": 18939,
@@ -28508,6 +28786,10 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "mushG",
       "telescopeRoute": [
@@ -28533,6 +28815,7 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       "class": "Beginner",
       "classIndex": 1,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 88 doors open",
       "foodStacks": [],
       "freeInventorySlots": 33,
       "gear": "EquipmentHats123 EquipmentPunching12 EquipmentShirts41 EquipmentPendant23 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 - - - -",
@@ -28659,6 +28942,10 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -30983,6 +31270,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
         79,
       ],
     },
+    "statues": "42/2 54/2 41/1 54/2 57/2 15/1 50/2 18/1 21/1 25/2 28/1 38/1 33/1 50/2 43/1 26/1 24/1 37/2 21/1 39/1 23/1 16/1 14/1 11/1 31/1 50/1 48/1 28/1 0/0 0/0 0/0 0/0",
     "storageItems": {
       "entries": 444,
     },
@@ -31098,6 +31386,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "classIndex": 25,
       "currentMap": "Signature_Slopes",
+      "doorKillsLeft": "298 maps, 21 doors open",
       "foodStacks": [
         {
           "amount": 163165,
@@ -31307,6 +31596,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "penguin",
       "telescopeRoute": [
@@ -31336,6 +31629,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "classIndex": 12,
       "currentMap": "Signature_Slopes",
+      "doorKillsLeft": "298 maps, 18 doors open",
       "foodStacks": [
         {
           "amount": 1504,
@@ -31544,6 +31838,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "penguin",
       "telescopeRoute": [
@@ -31573,6 +31871,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "classIndex": 36,
       "currentMap": "Signature_Slopes",
+      "doorKillsLeft": "298 maps, 22 doors open",
       "foodStacks": [
         {
           "amount": 135918,
@@ -31779,6 +32078,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "penguin",
       "telescopeRoute": [
@@ -31808,6 +32111,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "classIndex": 10,
       "currentMap": "The_Rift",
+      "doorKillsLeft": "298 maps, 21 doors open",
       "foodStacks": [
         {
           "amount": 479,
@@ -32018,6 +32322,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "riftAll",
       "telescopeRoute": [
@@ -32047,6 +32355,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "classIndex": 32,
       "currentMap": "Signature_Slopes",
+      "doorKillsLeft": "298 maps, 20 doors open",
       "foodStacks": [
         {
           "amount": 189,
@@ -32239,6 +32548,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "penguin",
       "telescopeRoute": [
@@ -32268,6 +32581,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "classIndex": 22,
       "currentMap": "Signature_Slopes",
+      "doorKillsLeft": "298 maps, 23 doors open",
       "foodStacks": [
         {
           "amount": 911,
@@ -32475,6 +32789,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "penguin",
       "telescopeRoute": [
@@ -32504,6 +32822,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "classIndex": 4,
       "currentMap": "Dozey_Dogpark",
+      "doorKillsLeft": "298 maps, 17 doors open",
       "foodStacks": [
         {
           "amount": 11297,
@@ -32708,6 +33027,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "w6c2",
       "telescopeRoute": [
@@ -32737,6 +33060,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "classIndex": 34,
       "currentMap": "Signature_Slopes",
+      "doorKillsLeft": "298 maps, 18 doors open",
       "foodStacks": [
         {
           "amount": 232952,
@@ -32944,6 +33268,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "penguin",
       "telescopeRoute": [
@@ -32973,6 +33301,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "classIndex": 21,
       "currentMap": "Signature_Slopes",
+      "doorKillsLeft": "298 maps, 20 doors open",
       "foodStacks": [
         {
           "amount": 19173,
@@ -33167,6 +33496,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "penguin",
       "telescopeRoute": [
@@ -33196,6 +33529,7 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
       "classIndex": 8,
       "currentMap": "Signature_Slopes",
+      "doorKillsLeft": "298 maps, 20 doors open",
       "foodStacks": [
         {
           "amount": 2260,
@@ -33390,6 +33724,10 @@ exports[`public save second.json > matches the recorded shape (review the diff a
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "penguin",
       "telescopeRoute": [
@@ -35798,6 +36136,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
         79,
       ],
     },
+    "statues": "662/3 621/3 591/3 648/3 659/3 141/2 588/3 535/3 535/3 535/3 645/3 656/3 639/3 586/3 564/3 683/3 633/3 686/3 638/3 607/3 614/3 609/3 600/3 616/3 612/3 595/3 601/3 588/3 686/3 632/3 519/3 365/3",
     "storageItems": {
       "entries": 564,
     },
@@ -35909,6 +36248,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "class": "Death_Bringer",
       "classIndex": 14,
       "currentMap": "Shimmerfin_Grove",
+      "doorKillsLeft": "327 maps, 15 doors open",
       "foodStacks": [
         {
           "amount": 24109486,
@@ -36131,6 +36471,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -36160,6 +36504,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
+      "doorKillsLeft": "327 maps, 16 doors open",
       "foodStacks": [
         {
           "amount": 24455308,
@@ -36379,6 +36724,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "w7b1",
       "telescopeRoute": [
@@ -36404,6 +36753,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "class": "Siege_Breaker",
       "classIndex": 22,
       "currentMap": "Refraction_Bend",
+      "doorKillsLeft": "327 maps, 19 doors open",
       "foodStacks": [
         {
           "amount": 20419395,
@@ -36610,6 +36960,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Spelunking0",
       "telescopeRoute": [
@@ -36639,6 +36993,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "classIndex": 12,
       "currentMap": "Deep_End_of_the_Koipond",
+      "doorKillsLeft": "327 maps, 16 doors open",
       "foodStacks": [
         {
           "amount": 24455308,
@@ -36850,6 +37205,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "w7b1",
       "telescopeRoute": [
@@ -36875,6 +37234,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "class": "Elemental_Sorcerer",
       "classIndex": 34,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 17 doors open",
       "foodStacks": [
         {
           "amount": 22302394,
@@ -37069,6 +37429,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Laboratory",
       "telescopeRoute": [
@@ -37098,6 +37462,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "classIndex": 29,
       "currentMap": "Deep_End_of_the_Koipond",
+      "doorKillsLeft": "327 maps, 15 doors open",
       "foodStacks": [
         {
           "amount": 24455308,
@@ -37328,6 +37693,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "w7b1",
       "telescopeRoute": [
@@ -37353,6 +37722,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "class": "Divine_Knight",
       "classIndex": 12,
       "currentMap": "Frostbite_Towndra",
+      "doorKillsLeft": "327 maps, 15 doors open",
       "foodStacks": [
         {
           "amount": 109941,
@@ -37559,6 +37929,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -37584,6 +37958,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       "class": "Voidwalker",
       "classIndex": 4,
       "currentMap": "Plastic_Basin",
+      "doorKillsLeft": "327 maps, 15 doors open",
       "foodStacks": [
         {
           "amount": 24137859,
@@ -37795,6 +38170,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Bug15",
       "telescopeRoute": [
@@ -37830,6 +38209,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "classIndex": 40,
       "currentMap": "Deep_End_of_the_Koipond",
+      "doorKillsLeft": "327 maps, 15 doors open",
       "foodStacks": [
         {
           "amount": 24455308,
@@ -38051,6 +38431,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "w7b1",
       "telescopeRoute": [
@@ -38080,6 +38464,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "classIndex": 22,
       "currentMap": "The_Hole",
+      "doorKillsLeft": "327 maps, 15 doors open",
       "foodStacks": [
         {
           "amount": 5467993,
@@ -38283,6 +38668,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "caveB",
       "telescopeRoute": [
@@ -38312,6 +38701,7 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
       "classIndex": 12,
       "currentMap": "Deep_End_of_the_Koipond",
+      "doorKillsLeft": "327 maps, 72 doors open",
       "foodStacks": [
         {
           "amount": 24102410,
@@ -38510,6 +38900,10 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "w7b1",
       "telescopeRoute": [
@@ -40773,6 +41167,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
         79,
       ],
     },
+    "statues": "255/2 303/2 283/2 294/2 251/2 126/2 291/2 184/2 96/2 230/2 178/2 202/2 200/2 265/2 105/2 105/2 98/2 248/2 91/2 183/2 178/2 187/2 196/2 184/2 191/2 202/2 188/2 179/2 0/0 0/0 0/0 0/0",
     "storageItems": {
       "entries": 479,
     },
@@ -40884,6 +41279,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "class": "Blood_Berserker",
       "classIndex": 10,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "298 maps, 14 doors open",
       "foodStacks": [
         {
           "amount": 25000,
@@ -41091,6 +41487,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -41120,6 +41520,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "classIndex": 22,
       "currentMap": "Spore_Meadows",
+      "doorKillsLeft": "298 maps, 15 doors open",
       "foodStacks": [
         {
           "amount": 243938,
@@ -41333,6 +41734,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "mushG",
       "telescopeRoute": [
@@ -41362,6 +41767,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "classIndex": 36,
       "currentMap": "Spore_Meadows",
+      "doorKillsLeft": "298 maps, 16 doors open",
       "foodStacks": [
         {
           "amount": 349338,
@@ -41566,6 +41972,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "mushG",
       "telescopeRoute": [
@@ -41595,6 +42005,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "classIndex": 12,
       "currentMap": "Spore_Meadows",
+      "doorKillsLeft": "298 maps, 15 doors open",
       "foodStacks": [
         {
           "amount": 27849,
@@ -41809,6 +42220,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "mushG",
       "telescopeRoute": [
@@ -41838,6 +42253,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "classIndex": 25,
       "currentMap": "Chieftain_Stairway",
+      "doorKillsLeft": "298 maps, 15 doors open",
       "foodStacks": [
         {
           "amount": 155374,
@@ -42052,6 +42468,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "w6d2",
       "telescopeRoute": [
@@ -42081,6 +42501,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "classIndex": 34,
       "currentMap": "Spore_Meadows",
+      "doorKillsLeft": "298 maps, 18 doors open",
       "foodStacks": [
         {
           "amount": 13,
@@ -42301,6 +42722,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "mushG",
       "telescopeRoute": [
@@ -42326,6 +42751,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       "class": "Voidwalker",
       "classIndex": 4,
       "currentMap": "Motherlode_Pit",
+      "doorKillsLeft": "298 maps, 14 doors open",
       "foodStacks": [
         {
           "amount": 25000,
@@ -42527,6 +42953,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Godshard",
       "telescopeRoute": [
@@ -42562,6 +42992,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "classIndex": 12,
       "currentMap": "Spore_Meadows",
+      "doorKillsLeft": "298 maps, 15 doors open",
       "foodStacks": [
         {
           "amount": 342787,
@@ -42770,6 +43201,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "mushG",
       "telescopeRoute": [
@@ -42799,6 +43234,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "classIndex": 34,
       "currentMap": "Spore_Meadows",
+      "doorKillsLeft": "298 maps, 14 doors open",
       "foodStacks": [
         {
           "amount": 25000,
@@ -43005,6 +43441,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "mushG",
       "telescopeRoute": [
@@ -43034,6 +43474,7 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
       "classIndex": 22,
       "currentMap": "Spore_Meadows",
+      "doorKillsLeft": "298 maps, 16 doors open",
       "foodStacks": [
         {
           "amount": 269958,
@@ -43246,6 +43687,10 @@ exports[`public save third.json > matches the recorded shape (review the diff af
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "mushG",
       "telescopeRoute": [
@@ -45738,6 +46183,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
         79,
       ],
     },
+    "statues": "363/3 527/3 515/3 517/3 369/3 125/2 514/3 453/3 454/3 453/3 395/3 416/3 397/3 515/3 488/3 157/2 285/2 444/2 65/2 360/3 355/3 391/3 212/3 203/3 220/3 245/3 238/3 183/3 100/2 157/2 372/3 262/2",
     "storageItems": {
       "entries": 529,
     },
@@ -45849,6 +46295,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "class": "Siege_Breaker",
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 27 doors open",
       "foodStacks": [
         {
           "amount": 4439,
@@ -46052,6 +46499,10 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -46077,6 +46528,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "class": "Death_Bringer",
       "classIndex": 14,
       "currentMap": "Shimmerfin_Grove",
+      "doorKillsLeft": "327 maps, 22 doors open",
       "foodStacks": [
         {
           "amount": 29116537,
@@ -46292,6 +46744,10 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -46317,6 +46773,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "class": "Elemental_Sorcerer",
       "classIndex": 34,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 28 doors open",
       "foodStacks": [
         {
           "amount": 14941,
@@ -46510,6 +46967,10 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -46535,6 +46996,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "class": "Divine_Knight",
       "classIndex": 12,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 19 doors open",
       "foodStacks": [
         {
           "amount": 678,
@@ -46733,6 +47195,10 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -46758,6 +47224,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "class": "Arcane_Cultist",
       "classIndex": 40,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 18 doors open",
       "foodStacks": [
         {
           "amount": 49,
@@ -46961,6 +47428,10 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
           ],
         },
         "selectedPreset": 1,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -46986,6 +47457,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "class": "Wind_Walker",
       "classIndex": 29,
       "currentMap": "Frostbite_Towndra",
+      "doorKillsLeft": "327 maps, 22 doors open",
       "foodStacks": [
         {
           "amount": 20745812,
@@ -47194,6 +47666,10 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Nothing",
       "telescopeRoute": [
@@ -47219,6 +47695,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "class": "Voidwalker",
       "classIndex": 4,
       "currentMap": "YumYum_Islands",
+      "doorKillsLeft": "327 maps, 18 doors open",
       "foodStacks": [
         {
           "amount": 33425,
@@ -47415,6 +47892,10 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "FishMed",
       "telescopeRoute": [
@@ -47446,6 +47927,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "class": "Siege_Breaker",
       "classIndex": 22,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 39 doors open",
       "foodStacks": [
         {
           "amount": 2011125,
@@ -47636,6 +48118,10 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [
@@ -47665,6 +48151,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
       "classIndex": 16,
       "currentMap": "The_Royal_Castle",
+      "doorKillsLeft": "327 maps, 16 doors open",
       "foodStacks": [
         {
           "amount": 330413,
@@ -47880,6 +48367,10 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "fm_rat",
       "telescopeRoute": [
@@ -47909,6 +48400,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
       "classIndex": 36,
       "currentMap": "Spore_Meadows",
+      "doorKillsLeft": "327 maps, 32 doors open",
       "foodStacks": [
         {
           "amount": 18939,
@@ -48111,6 +48603,10 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "mushG",
       "telescopeRoute": [
@@ -48136,6 +48632,7 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       "class": "Beginner",
       "classIndex": 1,
       "currentMap": "Outer_World_Town",
+      "doorKillsLeft": "327 maps, 88 doors open",
       "foodStacks": [],
       "freeInventorySlots": 33,
       "gear": "EquipmentHats123 EquipmentPunching12 EquipmentShirts41 EquipmentPendant23 EquipmentPants32 EquipmentRings18 EquipmentShoes41 EquipmentRings18 - - - -",
@@ -48262,6 +48759,10 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
           ],
         },
         "selectedPreset": 0,
+        "starPoints": {
+          "active": null,
+          "other": null,
+        },
       },
       "targetMonster": "Cooking",
       "telescopeRoute": [

@@ -4,7 +4,22 @@
 // M10 renders it as a text node only, so a template can never inject markup.
 import type { SlotValue } from './types';
 
-export const FORMATS = ['int', 'compact', 'pct', 'coins', 'duration', 'hours', 'name', 'date'] as const;
+/**
+ * M21 FR-F6 (one time language): `duration` is effort ("about 10m"), `in` a future moment ("in 14h 04m")
+ * and `ago` a past one ("8h 30m ago"). All three take milliseconds.
+ */
+export const FORMATS = [
+  'int',
+  'compact',
+  'pct',
+  'coins',
+  'duration',
+  'in',
+  'ago',
+  'hours',
+  'name',
+  'date',
+] as const;
 export type Format = (typeof FORMATS)[number];
 /** The slot type each format accepts. A number slot can't take `name`; a string slot takes only `name`. */
 export const FORMAT_TYPE: Readonly<Record<Format, 'number' | 'string'>> = {
@@ -13,6 +28,8 @@ export const FORMAT_TYPE: Readonly<Record<Format, 'number' | 'string'>> = {
   pct: 'number',
   coins: 'number',
   duration: 'number',
+  in: 'number',
+  ago: 'number',
   name: 'string',
   hours: 'number',
   date: 'number',
@@ -190,6 +207,21 @@ export function span(ms: number): string {
 /** "in 14h 04m": the Timeline's relative time (Design Lab P6). */
 export const inSpan = (ms: number): string => `in ${span(ms)}`;
 
+/** "8h 30m ago": an age (M21 FR-F6, DS-6). */
+export const agoSpan = (ms: number): string => `${span(ms)} ago`;
+
+/** The `{x:in}` format (M21 FR-F6): a moment, ms from now -> "in 14h 04m"; zero or less reads "now". */
+export function formatIn(ms: number): string {
+  if (!Number.isFinite(ms) || ms <= 0) return 'now';
+  return inSpan(ms);
+}
+
+/** The `{x:ago}` format (M21 FR-F6): ms since -> "8h 30m ago"; zero or less reads "just now". */
+export function formatAgo(ms: number): string {
+  if (!Number.isFinite(ms) || ms <= 0) return 'just now';
+  return agoSpan(ms);
+}
+
 /**
  * 7200 -> "2h", 1800 -> "30m", 129600 -> "36h": an exact short time for chips and labels, and the
  * `{x:hours}` format (a slot in hours: a return window, a game's "AFK 12h" requirement).
@@ -228,6 +260,10 @@ export function formatValue(value: SlotValue, format: Format | null): string {
       return formatCoins(value);
     case 'duration':
       return formatDuration(value);
+    case 'in':
+      return formatIn(value);
+    case 'ago':
+      return formatAgo(value);
     case 'hours':
       return shortDuration(value * 3600);
     case 'date':

@@ -15,9 +15,11 @@ import {
   diffManifests,
   type Entry,
   entryReportFields,
+  formatAgo,
   formatCoins,
   formatCompact,
   formatDuration,
+  formatIn,
   isStale,
   KnowledgeUnavailableError,
   knowledgeVersion,
@@ -56,6 +58,26 @@ describe('templates (TR-6)', () => {
       { q: 1, name: 'platinum' },
       { q: 23, name: 'gold' },
     ]);
+  });
+
+  // M21 FR-F6: one time language. A moment is "in 14h 04m", an age "8h 30m ago", effort "about 10m".
+  it.each([
+    ['{t:in}', 14 * 3_600_000 + 4 * 60_000, 'in 14h 04m'],
+    ['{t:in}', 45 * 60_000, 'in 45m'],
+    ['{t:in}', 50 * 3_600_000, 'in 2d 2h'],
+    ['{t:in}', 0, 'now'],
+    ['{t:in}', -5, 'now'],
+    ['{t:ago}', 8 * 3_600_000 + 30 * 60_000, '8h 30m ago'],
+    ['{t:ago}', 0, 'just now'],
+    ['{t:duration}', 10 * 60_000, 'about 10m'],
+  ])('%s of %d ms reads "%s"', (template, t, out) => {
+    expect(render(template, { t })).toBe(out);
+  });
+
+  it('formatIn and formatAgo never print a non-finite time', () => {
+    expect(formatIn(Number.NaN)).toBe('now');
+    expect(formatAgo(Number.POSITIVE_INFINITY)).toBe('just now');
+    expect(() => render('{t:in}', { t: 'soon' })).toThrow(/needs a number/);
   });
 
   it('resolves slots from the scopes in order: finding, built-ins, values, facts', () => {
