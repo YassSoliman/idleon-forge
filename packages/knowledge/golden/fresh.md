@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #9a82f64c · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 8 of 328
+# golden v1: fresh · knowledge #6e6baa89 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 8 of 180
 
 ## Verdict changes
 
@@ -12,7 +12,7 @@
 2 · Doing nothing · Frostbite Towndra · Send Siege Breaker Lv 478 to an AFK Target before you leave
 
 ### C3 · Beginner 1 · Fix before you leave
-3 · Doing nothing · Blunder Hills · Send Beginner Lv 1 to an AFK Target before you leave
+3 · Doing nothing · Blunder Hills · [Traps idle in about 8 h] · Send Beginner Lv 1 to an AFK Target before you leave
 
 ### Account · Unknown
 Unknown: can't tell from the save
@@ -21,12 +21,13 @@ Unknown: can't tell from the save
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (8)
+show more (9)
 
 ## Not covered yet
 Classes and subclasses
 Portals and map doors
 Skills, doors and tools
+Spend Plan
 Upgrade Vault
 Bribes
 Forge
@@ -35,6 +36,7 @@ Statues
 The Owl
 Alchemy Pay 2 Win
 Islands
+3D Printer
 Atom Collider
 Construction
 Equinox
@@ -104,6 +106,7 @@ Laboratory
 | post-office.check.spend-boxes | post-office/state | C1 | fires | boxes=16630 |
 | post-office.check.spend-boxes | post-office/state | C2 | fires | boxes=16127 |
 | post-office.check.spend-boxes | post-office/state | C3 | fires | boxes=23430 |
+| post-office.check.spend-boxes | post-office/state | account | fires | boxes=56187 count=3 |
 | post-office.check.unlock | post-office/state | — | silent |  |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | fires | dryIn=19181 |
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |

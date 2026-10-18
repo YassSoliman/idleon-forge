@@ -1,42 +1,42 @@
-# golden v1: highend · knowledge #9a82f64c · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 8 of 328
+# golden v1: highend · knowledge #6e6baa89 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 8 of 180
 
 ## Verdict changes
 
 ## Now
-0 of 11 Ready · fix 11 before you leave
+6 of 11 Ready · fix 4 before you leave · 1 Unknown
 
 ### C4 · Divine Knight 1819 · Fix before you leave
-1 · Doing nothing · Shimmerfin Grove · Send Divine Knight Lv 1,819 to an AFK Target before you leave
-
-### C8 · Voidwalker 1764 · Fix before you leave
-2 · Spelunking C1 Way Opening · Coralcave Perimeter · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
-
-### C5 · Arcane Cultist 1762 · Fix before you leave
-3 · Fighting Trench Fish · Deep End of the Koipond · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
-
-### C6 · Wind Walker 1744 · Fix before you leave
-4 · Fighting Trench Fish · Deep End of the Koipond · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
-
-### C9 · Arcane Cultist 1743 · Fix before you leave
-5 · Fighting Trench Fish · Deep End of the Koipond · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
+1 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Traps idle in about 3 h] · Send Divine Knight Lv 1,819 to an AFK Target before you leave
 
 ### C10 · Wind Walker 1742 · Fix before you leave
-6 · Fighting Trench Fish · Deep End of the Koipond · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
+2 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Collect and re-place your 1 finished traps, sized to your return, then close the game fully
 
 ### C7 · Divine Knight 1734 · Fix before you leave
-7 · Doing nothing · Blunder Hills · Send Divine Knight Lv 1,734 to an AFK Target before you leave
-
-### C2 · Siege Breaker 1725 · Fix before you leave
-8 · Spelunking Buried Church · Middle of Nowhere · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
+3 · Doing nothing · Blunder Hills · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Send Divine Knight Lv 1,734 to an AFK Target before you leave
 
 ### C11 · Beginner 1717 · Fix before you leave
-9 · Paying respect Bravery · The Hole · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
+4 · Paying respect Bravery · The Hole · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Collect and re-place your 1 finished traps, sized to your return, then close the game fully
 
-### C1 · Death Bringer 1701 · Fix before you leave
-10 · Cooking · Outer World Town · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
+### C1 · Death Bringer 1701 · Unknown
+5 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h] · Not covered yet: AFK safety
 
-### C3 · Elemental Sorcerer 1734 · Fix before you leave
-11 · Spelunking Buried Church · Middle of Nowhere · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
+### C8 · Voidwalker 1764 · Ready
+6 · Spelunking C1 Way Opening · Coralcave Perimeter · [Anvil full · collect] [Traps idle in about 3 h]
+
+### C5 · Arcane Cultist 1762 · Ready
+7 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Traps idle in about 3 h]
+
+### C6 · Wind Walker 1744 · Ready
+8 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h]
+
+### C9 · Arcane Cultist 1743 · Ready
+9 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Traps idle in about 3 h]
+
+### C2 · Siege Breaker 1725 · Ready
+10 · Spelunking Buried Church · Middle of Nowhere · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h]
+
+### C3 · Elemental Sorcerer 1734 · Ready
+11 · Spelunking Buried Church · Middle of Nowhere · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3 h]
 
 ### Account · nothing to fix
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
@@ -55,7 +55,7 @@
   · Arcane Cultist Lv 1743: 0 into Speed, 60 into Capacity
   · Wind Walker Lv 1742: 861 into Speed, 62 into Capacity
   · Beginner Lv 1717: 0 into Speed, 11 into Capacity
-show more (8)
+show more (9)
 If you have time
 - Use today's 20 minigame plays · about 10m of hands-on play
 
@@ -63,6 +63,7 @@ If you have time
 Classes and subclasses
 Portals and map doors
 Skills, doors and tools
+Spend Plan
 Upgrade Vault
 Bribes
 Forge
@@ -71,6 +72,7 @@ Statues
 The Owl
 Alchemy Pay 2 Win
 Islands
+3D Printer
 Atom Collider
 Construction
 Equinox
@@ -193,6 +195,7 @@ Laboratory
 | post-office.check.spend-boxes | post-office/state | C7 | fires | boxes=238852 |
 | post-office.check.spend-boxes | post-office/state | C8 | fires | boxes=238852 |
 | post-office.check.spend-boxes | post-office/state | C9 | fires | boxes=238852 |
+| post-office.check.spend-boxes | post-office/state | account | fires | boxes=2737772 count=11 |
 | post-office.check.unlock | post-office/state | — | silent |  |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | fires | dryIn=0 |
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |

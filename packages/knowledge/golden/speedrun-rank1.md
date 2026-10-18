@@ -1,42 +1,42 @@
-# golden v1: speedrun-rank1 · knowledge #9a82f64c · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 8 of 328
+# golden v1: speedrun-rank1 · knowledge #6e6baa89 · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 8 of 180
 
 ## Verdict changes
 
 ## Now
-0 of 11 Ready · fix 11 before you leave
+1 of 11 Ready · fix 10 before you leave
 
 ### C7 · Divine Knight 1822 · Fix before you leave
-1 · Doing nothing · Frostbite Towndra · Send Divine Knight Lv 1,822 to an AFK Target before you leave
+1 · Doing nothing · Frostbite Towndra · [Anvil full · collect] · Send Divine Knight Lv 1,822 to an AFK Target before you leave
 
 ### C4 · Divine Knight 1787 · Fix before you leave
-2 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
+2 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
 
 ### C9 · Arcane Cultist 1783 · Fix before you leave
-3 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
+3 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
 
 ### C1 · Death Bringer 1780 · Fix before you leave
-4 · Doing nothing · Shimmerfin Grove · Send Death Bringer Lv 1,780 to an AFK Target before you leave
+4 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Worship full · spend] · Send Death Bringer Lv 1,780 to an AFK Target before you leave
 
 ### C6 · Wind Walker 1775 · Fix before you leave
-5 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
+5 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
 
 ### C11 · Divine Knight 1771 · Fix before you leave
-6 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about 20 min after you collect)
+6 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 8 finished traps, sized to your return, then close the game fully
 
 ### C2 · Arcane Cultist 1769 · Fix before you leave
-7 · Fighting Trench Fish · Deep End of the Koipond · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
+7 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
 
 ### C10 · Siege Breaker 1763 · Fix before you leave
-8 · Fighting Gloomie Mushroom · The Hole · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
-
-### C8 · Voidwalker 1754 · Fix before you leave
-9 · Catching Litterbug · Plastic Basin · Collect Purple Screw from the anvil (time to cap: now; it refills about 20 min after you collect)
+8 · Fighting Gloomie Mushroom · The Hole · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
 
 ### C3 · Siege Breaker 1647 · Fix before you leave
-10 · Spelunking Fearful Tunnel · Refraction Bend · Collect Thingymabob from the anvil (time to cap: now; it refills about under 10 min after you collect)
+9 · Spelunking Fearful Tunnel · Refraction Bend · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
 
 ### C5 · Elemental Sorcerer 1700 · Fix before you leave
-11 · In the Lab · Outer World Town · Collect Purple Screw from the anvil (time to cap: now; it refills about under 10 min after you collect)
+10 · In the Lab · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 7 finished traps, sized to your return, then close the game fully
+
+### C8 · Voidwalker 1754 · Ready
+11 · Catching Litterbug · Plastic Basin · [Anvil full · collect]
 
 ### Account · nothing to fix
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
@@ -44,12 +44,13 @@
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (8)
+show more (9)
 
 ## Not covered yet
 Classes and subclasses
 Portals and map doors
 Skills, doors and tools
+Spend Plan
 Upgrade Vault
 Bribes
 Forge
@@ -58,6 +59,7 @@ Statues
 The Owl
 Alchemy Pay 2 Win
 Islands
+3D Printer
 Atom Collider
 Construction
 Equinox
@@ -181,6 +183,7 @@ Laboratory
 | post-office.check.spend-boxes | post-office/state | C7 | fires | boxes=315050 |
 | post-office.check.spend-boxes | post-office/state | C8 | fires | boxes=315050 |
 | post-office.check.spend-boxes | post-office/state | C9 | fires | boxes=315050 |
+| post-office.check.spend-boxes | post-office/state | account | fires | boxes=3465550 count=11 |
 | post-office.check.unlock | post-office/state | — | silent |  |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | fires | dryIn=26 |
 | refinery.check.salt-fuel | refinery/salt-off | — | silent |  |

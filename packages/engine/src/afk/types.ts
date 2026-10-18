@@ -49,10 +49,31 @@ export interface SafetyFinding {
   nextAction: NextAction;
 }
 
+/**
+ * A quick-collect cap shown as a pill, not a Finding (Final rulings R-PILL-1): an entry with a
+ * `values.pill` label (the anvil, worship charge, traps finishing early). It never sets Safety, never
+ * blocks and is never a Goal.
+ */
+export interface CapPill {
+  /** `${entryId}@${subject}`, the same key the old Next Action had, so a Skip today carries over. */
+  key: string;
+  entryId: string;
+  subject: Subject;
+  /** When the cap is reached; at or before `now` is full now. */
+  at: number | null;
+  fullNow: boolean;
+  /** "Anvil full · collect", "Anvil full in about 3h · collect". */
+  label: string;
+  /** The entry's full text (with the refill time), its Why and Sources. */
+  nextAction: NextAction;
+}
+
 export interface SubjectResult {
   safety: Safety;
   /** Blockers first (FR-10), then Next Actions. */
   findings: SafetyFinding[];
+  /** R-PILL-1: full now first, then soonest, then entry id. */
+  caps: CapPill[];
   firstFill: Fill | null;
 }
 
@@ -62,7 +83,7 @@ export interface AfkSafetyResult {
   characters: Array<SubjectResult & { index: number }>;
   account: SubjectResult;
   firstFill: Fill | null;
-  /** Findings already at cap that are Next Actions whose fix holds (FR-11, RT-13). */
+  /** Findings already at cap that are Next Actions whose fix holds (FR-11, RT-13), plus cap pills full now (R-PILL-1). */
   alreadyFull: number;
   /** Detectors that threw (M11 FR-13): their entries count as `unknown`. */
   failedDetectors: Array<{ detectorId: string; entryIds: string[]; message: string }>;

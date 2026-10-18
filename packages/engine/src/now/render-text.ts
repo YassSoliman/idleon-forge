@@ -42,13 +42,17 @@ export function renderNowText(view: NowView, options: RenderTextOptions = {}): s
   for (const row of view.roster) {
     const where = [row.activity, row.map].filter(Boolean).join(' · ');
     lines.push('', `### ${label(row.index)} · ${row.classLabel} ${row.level} · ${row.pill.text}`);
-    lines.push(`${row.position} · ${where} · ${row.summary}${row.spendChip ? ` · ${row.spendChip}` : ''}`);
+    const caps = [...row.caps.map((c) => `[${c.label}]`), ...(row.moreCaps ? [`[+${row.moreCaps}]`] : [])];
+    const tail = [caps.join(' '), row.summary, row.spendChip].filter(Boolean).join(' · ');
+    lines.push(`${row.position} · ${where} · ${tail}`);
   }
 
   const f = view.focus;
   if (f) {
     lines.push('', `FOCUS ${label(f.index)} · ${f.position}${f.playing ? ` · ${f.playing}` : ''}`);
     if (f.left) lines.push(f.left.text);
+    for (const c of f.caps)
+      lines.push(`cap: [${c.label}] ${c.text} ${c.source ? src(c.source) : ''}`.trimEnd());
     if (f.unknown) lines.push(`Unknown: ${f.unknown.text}${f.unknown.skipped ? ' (skipped)' : ''}`);
     if (f.unknown?.suggestion)
       lines.push(`  suggestion: ${f.unknown.suggestion.text} ${src(f.unknown.suggestion.source)}`);

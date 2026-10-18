@@ -33,6 +33,9 @@ entries:
     type: check
     title: Traps finish before you're back
     text: "Traps finish in about {finishesIn:duration}, then sit idle until you're back"
+    values:
+      pill: "Traps idle"
+      pill-soon: "Traps idle in about {finishesIn:duration}"
     why: Pulling a running trap early gives up what it has built, so next time place traps sized to how long you'll be away.
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/traps.ts

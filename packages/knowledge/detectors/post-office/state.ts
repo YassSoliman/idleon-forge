@@ -6,7 +6,9 @@
 //   index); the slot counts the boxes already waiting on that character.
 // - `orders`: unlocked, and a company has no order completed today. Urgency from the Post Office's own
 //   refresh timer, not the shop restock.
-// - `boxes`: unlocked, one finding per character with unspent boxes.
+// - `boxes`: unlocked, ONE account finding ("Spend Post Office boxes on N characters"), plus one character
+//   finding per character with unspent boxes, which the M6 module turns into the account Goal's
+//   per-character detail (R-PILL-1, #70 A5: never the same line on every character).
 import { countdownEnd, eventsBetween, nextEventAfter } from '@idleon-forge/account-state';
 import { z } from 'zod';
 import { accountSubject, characterSubject, isKnown, withAccount } from '../../src/helpers';
@@ -21,7 +23,9 @@ export default defineDetector({
     // Leverage model / W1 dossier: Postboy Pablob offers the quest from class level 50.
     unlockLevel: z.int().positive().default(50),
   }),
-  slots: z.strictObject({ boxes: z.number(), companies: z.number() }).partial(),
+  slots: z
+    .strictObject({ boxes: z.number(), companies: z.number(), count: z.number(), one: z.number() })
+    .partial(),
   reads: [
     'account.postOffice',
     'account.highestLevel',
@@ -49,6 +53,14 @@ export default defineDetector({
         mutate: (s) =>
           withAccount(s, { postOffice: s.account.postOffice && { ...s.account.postOffice, unlocked: true } }),
         expect: { slots: { boxes: 4 } },
+      },
+      // The account line: 4 boxes on each of the 6 characters.
+      {
+        fixture: 'scrubbed-w3',
+        params: { part: 'boxes' },
+        mutate: (s) =>
+          withAccount(s, { postOffice: s.account.postOffice && { ...s.account.postOffice, unlocked: true } }),
+        expect: { slots: { count: 6, boxes: 24 } },
       },
     ],
     silent: [
@@ -93,16 +105,27 @@ export default defineDetector({
       ];
     }
     if (!po.unlocked) return [];
-    if (part === 'boxes')
-      return state.characters
-        .filter((c) => boxesOn(c.index) > 0)
-        .map((c) => ({
+    if (part === 'boxes') {
+      const holders = state.characters.filter((c) => boxesOn(c.index) > 0);
+      if (holders.length === 0) return [];
+      const total = holders.reduce((n, c) => n + boxesOn(c.index), 0);
+      return [
+        {
+          subject: accountSubject,
+          slots: { count: holders.length, boxes: total, ...(holders.length === 1 ? { one: 1 } : {}) },
+          result: 'fires' as const,
+          urgency: 'banked' as const,
+          doneKey: 'post-office-boxes',
+        },
+        ...holders.map((c) => ({
           subject: characterSubject(c.index),
           slots: { boxes: boxesOn(c.index) },
           result: 'fires' as const,
           urgency: 'banked' as const,
           doneKey: `post-office-boxes:${c.index}`,
-        }));
+        })),
+      ];
+    }
     // orders: refreshed on the Post Office's own timer; after a refresh since the save, every company is open again.
     const first = countdownEnd(state, po.refreshInSeconds);
     const saved = state.account.lastCloudSave;

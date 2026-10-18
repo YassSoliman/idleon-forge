@@ -26,6 +26,7 @@ import { BUILDS_DETECTORS } from '../builds/detectors';
 import { returnAtOf } from './expected-return';
 import type {
   AfkSafetyResult,
+  CapPill,
   DemotedBecause,
   ExpectedReturn,
   Fill,
@@ -218,6 +219,42 @@ function fillLabel(entry: CheckEntry, state: AccountState, subject: Subject): st
   return c ? `${humanize(c.class)} Lv ${c.level}'s ${what}` : what;
 }
 
+/**
+ * R-PILL-1 (M3 Final rulings, 2026-10-17): an entry whose `values.pill` is set is a quick-collect cap.
+ * Full now it shows `values.pill` ("Anvil full · collect"); filling before the return it shows
+ * `values.pill-soon` ("Anvil full in about 3 h · collect"), rendered with the finding's slots.
+ */
+function pillOf(
+  entry: CheckEntry,
+  subject: Subject,
+  finding: Extract<CheckFinding, { result: 'fires' }>,
+  state: AccountState,
+  now: number,
+): Omit<CapPill, 'nextAction'> | null {
+  const full = entry.values.pill;
+  if (typeof full !== 'string') return null;
+  const at = finding.at ?? null;
+  const fullNow = at === null || at <= now;
+  const soon = entry.values['pill-soon'];
+  const template = !fullNow && typeof soon === 'string' ? soon : full;
+  return {
+    key: `${entry.id}@${subject}`,
+    entryId: entry.id,
+    subject,
+    at,
+    fullNow,
+    label: render(template, finding.slots, characterBuiltins(state, subject), entry.values),
+  };
+}
+
+/** Full now first, then the soonest, then entry id. */
+function compareCaps(a: CapPill, b: CapPill): number {
+  if (a.fullNow !== b.fullNow) return a.fullNow ? -1 : 1;
+  const at = (a.at ?? 0) - (b.at ?? 0);
+  if (at !== 0) return at;
+  return a.entryId < b.entryId ? -1 : a.entryId > b.entryId ? 1 : 0;
+}
+
 export function evaluateAfkSafety(input: AfkSafetyInput): AfkSafetyResult {
   const { state, now, expectedReturn, kb, registry } = input;
   const returnAt = returnAtOf(now, expectedReturn);
@@ -269,6 +306,7 @@ export function evaluateAfkSafety(input: AfkSafetyInput): AfkSafetyResult {
   }
 
   const findingsBy = new Map<Subject, SafetyFinding[]>();
+  const capsBy = new Map<Subject, CapPill[]>();
   const fillsBy = new Map<Subject, Fill[]>();
   let alreadyFull = 0;
   const stale = new Set(
@@ -288,11 +326,22 @@ export function evaluateAfkSafety(input: AfkSafetyInput): AfkSafetyResult {
       }
       continue;
     }
-    const { role, fixHolds, demotedBecause } = classify(entry, finding, now);
     const fields = [
       ...(findDetector(entry.detector.id, input.registry, input.engineRegistry ?? BLOCKER_ENGINE_DETECTORS)
         ?.reads ?? []),
     ];
+    // R-PILL-1: a quick-collect cap is a pill, never a Finding, a blocker or a Goal.
+    const pill = pillOf(entry, subject, finding, state, now);
+    if (pill) {
+      const cap: CapPill = {
+        ...pill,
+        nextAction: nextActionOf(entry, subject, finding.slots, state, stale.has(entry.id), fields),
+      };
+      if (cap.fullNow) alreadyFull += 1;
+      capsBy.set(subject, [...(capsBy.get(subject) ?? []), cap]);
+      continue;
+    }
+    const { role, fixHolds, demotedBecause } = classify(entry, finding, now);
     const f: SafetyFinding = {
       key: `${entry.id}@${subject}`,
       entryId: entry.id,
@@ -319,7 +368,8 @@ export function evaluateAfkSafety(input: AfkSafetyInput): AfkSafetyResult {
     if (findings.some((f) => f.role === 'blocker')) safety = 'unsafe';
     else if (cannotTell.has(subject)) safety = 'unknown';
     else if (notCovered) safety = 'not-covered';
-    return { safety, findings, firstFill: earliest(fillsBy.get(subject)) };
+    const caps = [...(capsBy.get(subject) ?? [])].sort(compareCaps);
+    return { safety, findings, caps, firstFill: earliest(fillsBy.get(subject)) };
   };
 
   const characters = state.characters.map((c) => ({

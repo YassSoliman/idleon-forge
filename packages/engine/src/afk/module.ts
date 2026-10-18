@@ -12,7 +12,14 @@ import type { InfoLine } from '../result';
 import { type AfkSafetyInput, evaluateAfkSafety } from './evaluate';
 import { HOUR_MS } from './expected-return';
 import { afkInfoLines } from './info';
-import type { AfkSafetyResult, ExpectedReturn, PurposeStatus, SafetyFinding, StageLike } from './types';
+import type {
+  AfkSafetyResult,
+  CapPill,
+  ExpectedReturn,
+  PurposeStatus,
+  SafetyFinding,
+  StageLike,
+} from './types';
 import { composeVerdict } from './verdict';
 
 export interface AfkSafetyModuleDeps {
@@ -40,6 +47,17 @@ const goalOf = (f: SafetyFinding, kb: AfkSafetyModuleDeps['kb']): ModuleGoal => 
   };
 };
 
+/** R-PILL-1: a cap pill as `CharacterResult.info` with kind 'cap'. */
+const capLine = (p: CapPill): InfoLine => ({
+  key: p.key,
+  text: p.nextAction.text,
+  sources: p.nextAction.sources,
+  kind: 'cap',
+  label: p.label,
+  why: p.nextAction.why,
+  at: p.at,
+});
+
 /** The engine output for one evaluation, Verdicts composed (FR-9). */
 export function toModuleOutput(
   result: AfkSafetyResult,
@@ -50,12 +68,14 @@ export function toModuleOutput(
   return {
     characters: result.characters.map((c) => {
       const blockerKeys = c.findings.filter((f) => f.role === 'blocker').map((f) => f.key);
+      // R-PILL-1: cap pills lead the info, then the quiet lines (#70 A1).
+      const lines = [...c.caps.map(capLine), ...(info.get(c.index) ?? [])];
       return {
         index: c.index,
         verdict: composeVerdict(c.safety, purpose(c.index), blockerKeys),
         goals: c.findings.map((f) => goalOf(f, kb)),
         firstFill: c.firstFill,
-        ...(info.get(c.index)?.length ? { info: info.get(c.index) } : {}),
+        ...(lines.length ? { info: lines } : {}),
       };
     }),
     account: {
