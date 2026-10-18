@@ -14,8 +14,8 @@ entries:
       timelineWhat: "worship charge"
       fill: worship charge
       pill: "Worship full · spend"
-      pill-soon: "Worship full in {fullIn:duration} · spend"
-    why: "Charge {charge:int} of {max:int}; time to cap: {fullIn:duration}. Charge stops building at its maximum, so a full bar wastes every hour you're away."
+      pill-soon: "Worship full {fullIn:in} · spend"
+    why: "Charge {charge:int} of {max:int}; full {fullIn:in}. Charge stops building at its maximum, so a full bar wastes every hour you're away."
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts
         title: IdleOn Toolbox, getPlayerWorship (charge, max and rate)
@@ -42,8 +42,8 @@ entries:
       timelineWhat: "worship charge"
       fill: worship charge
       pill: "Worship full · spend"
-      pill-soon: "Worship full in {fullIn:duration} · spend"
-    why: "Time to cap: {fullIn:duration}. Without a skull the bar is small, so this is worth a minute when you have one, but it never blocks."
+      pill-soon: "Worship full {fullIn:in} · spend"
+    why: "Full {fullIn:in}. Without a skull the bar is small, so this is worth a minute when you have one, but it never blocks."
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/worship.ts
         title: IdleOn Toolbox, getPlayerWorship (charge, max and rate)

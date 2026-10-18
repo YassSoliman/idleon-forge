@@ -12,7 +12,7 @@ import type { EngineResult, Goal, Subject, TimelineBar } from '../result';
 import { ACCOUNT_GOAL_CAP, CHARACTER_GOAL_CAP } from './build-now-view';
 import { clockAt, inSpan, span } from './format';
 import { dismissActive, type NowPrefs, type SessionClock, skipActive } from './prefs';
-import type { NowView, TimelineBarView, TimelineFix, TimelineLane, TimelineView } from './view';
+import type { AfkStripView, NowView, TimelineBarView, TimelineFix, TimelineLane, TimelineView } from './view';
 import { KIND_WORDS, TIMELINE_WORDS as W } from './view-words';
 
 export interface TimelineUi {
@@ -24,6 +24,9 @@ export interface TimelineUi {
 }
 
 const HOUR = 3_600_000;
+/** A cap pill's time ("in 14h 04m", "in 45m", "in about 5h", "now"), which a Timeline bar says itself. */
+const PILL_TIME = / (?:in about [^·]+?|in \d+[dhm](?: \d+[dhm])?|now)(?= ·|$)/;
+
 /** M15 F5's Behind Goal (metapath/behind.ts BEHIND_ID; the view layer imports no Knowledge, M10 TR-1). */
 const BEHIND_ID = 'metapath.goal.behind';
 
@@ -146,8 +149,9 @@ export function buildTimelineView(
     const outlined = beforeReturn && state === 'open' && fixable;
     const label =
       b.effect === 'pill'
-        ? // The bar says when, once, in its own format: drop the pill's "in about 5 h" (R6 QA).
-          (pillLabels.get(b.key)?.replace(/ in about [^·]+?(?= ·|$)/, '') ?? `${b.what} ${kindWord}`)
+        ? // The bar says when, once, in its own format: drop the pill's "in 5h 04m" (R6 QA; M21 FR-F6's
+          // `{x:in}`, or a legacy "in about 5h").
+          (pillLabels.get(b.key)?.replace(PILL_TIME, '') ?? `${b.what} ${kindWord}`)
         : presentState
           ? b.what
           : `${b.what} ${kindWord}`;
@@ -308,4 +312,13 @@ export function buildTimelineView(
     empty: all.some((b) => b.outlined) ? null : W.nothingBefore,
     nextExpiry: future.length ? Math.min(...future) : null,
   };
+}
+
+/**
+ * M21 FR-T5: the compact AFK strip on Now, from the Timeline's bars on a shared axis to the Back marker.
+ * Owned by area T (Integration places it on Now). Phase F declares the signature so the shell's view
+ * slot exists; it returns null until area T builds it.
+ */
+export function buildAfkStripView(_timeline: TimelineView | null, _view: NowView): AfkStripView | null {
+  return null;
 }

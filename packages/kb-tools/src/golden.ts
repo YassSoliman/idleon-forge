@@ -29,6 +29,7 @@ import { checkSource, detectorRefsOf } from './check';
 import { compile } from './compile';
 import { discoverDetectors } from './discover';
 import { type FixtureInfo, listFixtures, stateOf } from './fixtures';
+import { groupTextProblems, type RepeatSighting } from './group-text';
 import { loadSource } from './load';
 import { ENGINE, GOLDEN_DIR, PRIVATE_GOLDEN, REPO, readPin, rel } from './paths';
 import { denyMatcher, readDenylist } from './scrub/gates';
@@ -53,6 +54,12 @@ export interface GoldenEngine {
   renderAlchemy?(input: GoldenInput): string;
   /** M18 TR-10: the Gear tab and Smithy as text; the `## Gear` section is left out without it. */
   renderGear?(input: GoldenInput): string;
+  /** M21 TR-8: the Build path as text; the `## Builds` section is left out without it. */
+  renderBuilds?(input: GoldenInput): string;
+  /** M21 TR-9: the Map place as text; the `## Map` section is left out without it. */
+  renderMap?(input: GoldenInput): string;
+  /** M21 FR-N3: the Next Action entries shown on 3 or more characters (each needs a `groupText`). */
+  repeatedJobs?(input: GoldenInput): { entryId: string; characters: number[] }[];
 }
 
 export interface GoldenInput {
@@ -211,6 +218,8 @@ export function renderGolden(
     ...(engine.renderTimeline ? ['## Timeline', engine.renderTimeline(input).trimEnd(), ''] : []),
     ...(engine.renderAlchemy ? ['## Alchemy', engine.renderAlchemy(input).trimEnd(), ''] : []),
     ...(engine.renderGear ? ['## Gear', engine.renderGear(input).trimEnd(), ''] : []),
+    ...(engine.renderBuilds ? ['## Builds', engine.renderBuilds(input).trimEnd(), ''] : []),
+    ...(engine.renderMap ? ['## Map', engine.renderMap(input).trimEnd(), ''] : []),
     '## Findings',
     '| entry | detector | subject | result | slots |',
     '|---|---|---|---|---|',
@@ -249,20 +258,37 @@ export async function goldenContext(): Promise<GoldenContext> {
   };
 }
 
+/** The engine input `kb golden` renders a fixture with. */
+export const goldenInputOf = (
+  f: FixtureInfo,
+  ctx: GoldenContext,
+  state: AccountState = stateOf(f),
+): GoldenInput => ({
+  state,
+  kb: ctx.kb,
+  registries: ctx.registries,
+  now: f.now,
+  expectedReturnMs: DEFAULT_EXPECTED_RETURN_MS,
+  toolbox: { bubbleCost: toolboxCalls.bubbleCost },
+});
+
 export function renderFixture(f: FixtureInfo, ctx: GoldenContext, state: AccountState = stateOf(f)): string {
-  return renderGolden(
-    f.id,
-    {
-      state,
-      kb: ctx.kb,
-      registries: ctx.registries,
-      now: f.now,
-      expectedReturnMs: DEFAULT_EXPECTED_RETURN_MS,
-      toolbox: { bubbleCost: toolboxCalls.bubbleCost },
-    },
-    ctx.engine,
-    ctx.lookupSet,
-  );
+  return renderGolden(f.id, goldenInputOf(f, ctx, state), ctx.engine, ctx.lookupSet);
+}
+
+/** M21 FR-N3: every public fixture's entries shown on 3 or more characters. */
+export function repeatSightings(ctx: GoldenContext, fixtures: readonly FixtureInfo[]): RepeatSighting[] {
+  const jobs = ctx.engine.repeatedJobs;
+  if (!jobs) return [];
+  return fixtures
+    .filter((f) => f.kind !== 'private')
+    .flatMap((f) =>
+      jobs(goldenInputOf(f, ctx)).map((j) => ({
+        fixtureId: f.id,
+        entryId: j.entryId,
+        characters: j.characters.length,
+      })),
+    );
 }
 
 /** A minimal unified diff: the changed lines with their line numbers. */
@@ -363,6 +389,11 @@ export async function runGoldenCommand(opts: {
       if (old !== null && f.kind !== 'private')
         for (const l of lineDiff(old, text).slice(0, 40)) console.error(`  ${l}`);
     }
+  }
+  // M21 FR-N3: a job shown on 3 or more characters needs its grouped sentence.
+  for (const p of groupTextProblems(ctx.kb, repeatSightings(ctx, fixtures))) {
+    console.error(`${p.entryId}: ${p.message} (${p.where})`);
+    failed++;
   }
   if (opts.diffBase) {
     const changes = verdictChanges(rendered, opts.diffBase);

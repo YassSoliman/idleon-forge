@@ -160,6 +160,10 @@ export interface ModuleOutput {
   goalNotes?: { key: string; details: GoalDetail[] }[];
   /** M18 `gear` only (EngineResult.gear). */
   gear?: EngineResult['gear'];
+  /** M21 `session` only (EngineResult.session, TR-11). */
+  session?: EngineResult['session'];
+  /** M21 `map` only (EngineResult.map, TR-9). */
+  map?: EngineResult['map'];
 }
 
 /** An advice module, registered with the core. */

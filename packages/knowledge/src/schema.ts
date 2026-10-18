@@ -203,6 +203,18 @@ export const CheckEntry = Base.extend({
   walkthrough: EntryId.optional(),
   /** Derived at compile time: true exactly for effect 'blocker'. YAML may state it only as an assertion, which CI checks (M6 R9). */
   affectsVerdict: z.boolean().optional(),
+  /**
+   * M21 D-10: the real time a fix takes, in seconds. The Verdict counter shows a fix time only when the
+   * entry has one; otherwise the time token is hidden (DS-3, DS-23). No entry ships a value in R-M21.
+   */
+  fixSeconds: z.int().positive().optional(),
+  /**
+   * M21 FR-N3: the "Same job on N characters" card's sentence when this Check's Next Action shows on 2
+   * or more Roster rows, said once for everyone ("Collect and re-place your finished traps"). Plain
+   * text: per-character numbers go on the glyph chips. Required for a Check that fires on 3 or more
+   * characters on a golden fixture (`kb check`, code group-text).
+   */
+  groupText: z.string().min(1).optional(),
 });
 
 /** M7 TR-6: what a Spend Plan item buys. */

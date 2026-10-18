@@ -9,6 +9,7 @@ import type {
   CharacterCards,
   CharacterSkills,
   ChecklistRow,
+  ClassFamily,
   Done,
   Provenance,
   SkillGrid,
@@ -359,6 +360,12 @@ export interface NowView {
   skillGrid: SkillGridView | null;
   /** M18 TR-5: the Gear tab, heat strip and Smithy cards, passed through as the worker built them. */
   gear: import('../gear/types').GearResult | null;
+  /**
+   * M21 FR-F4: each character's who-glyph family by `CharacterState.index` (EngineResult.classFamilies).
+   * `buildNowView` always sets it (empty without a Knowledge Base); optional only so hand-built views
+   * in tests needn't. A character missing here draws the beginner chibi.
+   */
+  families?: Record<number, ClassFamily>;
 }
 
 // ---- M20 Skills, Parallel Slots and the Daily & Weekly Checklist (TR-5) ----
@@ -646,4 +653,59 @@ export interface TimelineView {
   empty: string | null;
   /** The earliest future `at`, so the caller re-renders when a bar turns full now (TR-6 step 5). */
   nextExpiry: number | null;
+}
+
+// ---- M21 shared types, declared once by Phase F (spec §9) ----
+
+export type { ClassFamily } from '../result';
+
+/**
+ * M21 FR-C7: one tab's health for the Characters health matrix and the Roster tab chip (G4). `word`
+ * always carries a unit ("at least 215 points", "45 levels behind", "1 of 4 slots", "ok"). Severity
+ * order: fix, behind, empty, unknown, ok. Filled per tab by area C (Gear in `gear/`).
+ */
+export interface TabHealth {
+  level: 'fix' | 'behind' | 'empty' | 'ok' | 'unknown';
+  word: string;
+}
+
+/** M21 FR-N6: the three pause points. */
+export type PauseTab = 'login' | 'rounds' | 'logoff';
+
+/** M21 TR-11: what the pause-point view reads from the UI thread (the follow state, the chips). */
+export interface SessionUi {
+  /** Characters opened this Play Session (the follow state's visited set). */
+  visited: readonly number[];
+  /** The Expected Return chips were changed this Play Session. */
+  returnChangedThisSession: boolean;
+  /** A manual pause-point pick; it holds for the Play Session (D-8). */
+  manualTab: PauseTab | null;
+}
+
+/**
+ * M21 FR-N6, FR-N7: the pause point and its lists (area N, `now/session-view.ts`). Minimal in Phase F;
+ * area N widens it.
+ */
+export interface SessionView {
+  tab: PauseTab;
+  /** "Picked Log in: you were away 9h". */
+  why: string;
+  manual: boolean;
+}
+
+/** M21 FR-M1 to FR-M4: the Map place's view (area M, `now/map-view.ts`). Minimal in Phase F. */
+export interface MapView {
+  worlds: { world: number; heading: string; state: 'done' | 'open' | 'next' }[];
+}
+
+/** M21 FR-T3: the Parallel Slots grid (area T, `now/slots-view.ts`). Minimal in Phase F. */
+export interface SlotsView {
+  rows: { index: number; cells: { kind: string; filled: boolean; now: boolean }[] }[];
+}
+
+/** M21 FR-T5: the compact AFK strip on Now (area T builds it, Integration places it). Minimal in F. */
+export interface AfkStripView {
+  marks: { index: number; at: number; beforeReturn: boolean }[];
+  /** "3 limits bind before you're back: the anvil on Bowman 60 first, in 3h 40m". */
+  sentence: string;
 }

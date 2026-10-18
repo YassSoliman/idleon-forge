@@ -198,7 +198,7 @@ entries:
     effect: next-action
     activePlay: { minutes: 5 }
     detector: { id: stamps/status, params: { view: active, quest: Tiki_Chief2 } }
-    text: "Tiki Chief 2 on {who}: drop the flyers on Krunk, Funguy and Mr Pigibank → {stamps}{lookAhead}"
+    text: "Tiki Chief 2 on {who}: drop flyers on Krunk, Funguy and Mr Pigibank → {stamps}{lookAhead}"
     why: "A short errand quest in World 1; do it while you're playing."
     appliesTo: { stages: all }
     confidence: L
@@ -214,7 +214,7 @@ entries:
     effect: next-action
     activePlay: { minutes: 10 }
     detector: { id: stamps/status, params: { view: active, quest: Crystalswine4 } }
-    text: "Crystalswine 1 on {who}: kill every Cryosnake on the map before time runs out → {stamps}{lookAhead}"
+    text: "Crystalswine 1 on {who}: kill every Cryosnake on the map in time → {stamps}{lookAhead}"
     why: "A timed kill quest in the Frostbite Tundra; do it while you're playing."
     appliesTo: { stages: all }
     confidence: L

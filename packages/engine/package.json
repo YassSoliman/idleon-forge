@@ -22,7 +22,10 @@
     "./gear": "./src/gear/index.ts",
     "./purpose": "./src/purpose/index.ts",
     "./alchemy": "./src/alchemy/index.ts",
-    "./alchemy-text": "./src/alchemy/text.ts"
+    "./alchemy-text": "./src/alchemy/text.ts",
+    "./map": "./src/map/index.ts",
+    "./session": "./src/session/index.ts",
+    "./pictures": "./src/pictures/index.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json"

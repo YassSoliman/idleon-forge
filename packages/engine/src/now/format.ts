@@ -7,6 +7,7 @@
 // `{x:duration}` / `{x:coins}` and the engine's own strings print exactly the same words.
 export {
   aboutDuration,
+  agoSpan,
   compact,
   formatCoins,
   inSpan,

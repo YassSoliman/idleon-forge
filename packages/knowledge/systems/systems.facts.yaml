@@ -51,7 +51,7 @@ facts:
           - { url: https://idleon.wiki/wiki/Smithing, title: "IdleOn Wiki: Smithing", tier: 2, claimDate: 2026-10-18, verified: 2026-10-18, gameVersion: 2.3.540 }
       - system: forge
         world: 1
-        text: "Opens once a character reaches class Lv {level}: the Forge is then bought for 10 silver coins in Blunder Hills town"
+        text: "Opens once a character reaches class Lv {level}: the Forge is then bought for 1k coins in Blunder Hills town"
         level: { fact: metapath.fact.town-unlocks, key: forge }
         gameVersion: 2.3.540
         sources:

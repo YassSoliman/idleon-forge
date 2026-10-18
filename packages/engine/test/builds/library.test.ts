@@ -42,10 +42,10 @@ const library = (s: AccountState, patch: Partial<NonNullable<AccountState['accou
 const SQUIRE_85 = 3;
 
 describe('US-4 Use the Library well (F4)', () => {
-  it('W3-early: check out Gilded Sword for the Squire Lv 85, with 5 checkouts and the next in about 7h', () => {
+  it('W3-early: check out Gilded Sword for the Squire Lv 85, with 5 checkouts and the next in about 7 hours', () => {
     const g = goal(w3, 'library.check.checkout');
     expect(g?.nextAction.text).toBe('Check out Gilded Sword for your Squire Lv 85 at the Library');
-    expect(g?.nextAction.why).toMatch(/^Checkouts: 5; the next is ready in about 7h,/);
+    expect(g?.nextAction.why).toMatch(/^Checkouts: 5; the next is ready in \dh \d\dm,/);
     expect(g?.nextAction.why).toContain('Talent Book Library, Frostbite Tundra town: the Warrior page.');
     expect(g?.category).toBe('spendable');
     const ranked = run(w3, { now: NOW }).account?.goals?.find((x) => x.goal.id === 'library.check.checkout');

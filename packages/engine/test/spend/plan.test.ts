@@ -262,7 +262,7 @@ describe("US-4 Don't waste the Hydrogen discount (synthetic: Hydrogen Lv 5, raw 
     expect(held?.hold).toEqual({ discountPct: 40, neededPct: 55, days: 3 });
     const name = (h8.account.spend?.stamps?.find((x) => x.id === 'StampA9')?.name ?? '').replace(/_/g, ' ');
     expect(held?.text).toBe('Hold stamp cap raises for the Hydrogen discount (40% of 55%)');
-    expect(held?.why).toContain(`${name} fits in an inventory once the discount reaches 55%, in about 72h`);
+    expect(held?.why).toContain(`${name} fits in an inventory once the discount reaches 55%, in 3d 0h`);
     expect(p.lines.filter((l) => l.steps.some((s) => s.material) && l.status !== 'hold')).toHaveLength(0);
   });
 

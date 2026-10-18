@@ -91,6 +91,7 @@ entries:
     type: check
     title: Talent points left behind on a preset
     text: "Spend at least {points:int} talent points on your {role} preset"
+    groupText: "Spend the talent points left behind on a preset"
     values:
       text-no-build: "Spend at least {points:int} talent points on your {role} preset"
       why-no-build: "On the {tabs} tabs. Both presets share one point budget per tab, and your other preset spends more there, so these points are already earned."

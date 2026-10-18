@@ -10,6 +10,7 @@ entries:
     type: check
     title: Next talent points
     text: "Next talent points: {talent} to {target:int}"
+    groupText: "Put the next talent points into each Build"
     values:
       text-on-other: "Next talent points: {talent} to {target:int} on your {preset} preset"
       goal: Talents

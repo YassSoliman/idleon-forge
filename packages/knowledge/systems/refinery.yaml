@@ -10,7 +10,7 @@ entries:
     title: Refinery runs dry
     text: "Top up the salt's materials in the Refinery"
     values: { timelineKind: food, timelineWhat: "salt fuel" }
-    why: "The Refinery runs dry in {dryIn:duration}. An active salt stops refining when its materials run out, and nothing refines until you're back."
+    why: "The Refinery runs dry {dryIn:in}. An active salt stops refining when its materials run out, and nothing refines until you're back."
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/refinery.ts
         title: IdleOn Toolbox, getSaltMatsTimeLeft
@@ -78,7 +78,7 @@ entries:
     effortSeconds: 10
     detector: { id: refinery/auto-refine }
     text: "Turn Auto Refine off on {salt:name}"
-    why: "Then refine it only when its bar is full: only a full bar refined by hand ranks a salt up; Auto Refine keeps it at rank {rank:int}. The bar fills in {fullIn:duration}. Refinery: left of the Construction Table in Frostbite Tundra."
+    why: "Then refine it only when its bar is full: only a full bar refined by hand ranks a salt up; Auto Refine keeps it at rank {rank:int}. The bar fills {fullIn:in}. Refinery: left of the Construction Table in Frostbite Tundra."
     values:
       note: "Before a long AFK Stretch, refine a full bar so the stretch has the whole bar to fill."
     doneWhen: { field: "account.refinery.salts[*].autoRefine", becomes: false }

@@ -7,7 +7,7 @@ entries:
     system: arcade
     type: check
     title: Arcade balls stop building
-    text: "Claim Arcade balls before you leave (time to the claim cap: {capsIn:duration})"
+    text: "Claim Arcade balls before you leave (at the cap {capsIn:in})"
     values: { fill: Arcade balls, timelineKind: storage, timelineWhat: "Arcade balls" }
     why: Balls stop building once the time since your last claim passes the max claim time, so a full claim wastes every hour you're away.
     sources:

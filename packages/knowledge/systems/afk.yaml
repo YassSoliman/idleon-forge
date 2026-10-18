@@ -9,6 +9,7 @@ entries:
     type: check
     title: No AFK Target
     text: "Pick an AFK Target before you leave"
+    groupText: "Pick an AFK Target before you leave"
     values: { timelineKind: time-cap, timelineWhat: "no AFK Target" }
     why: A character with no AFK Target earns nothing while you're away.
     sources:
@@ -68,7 +69,7 @@ entries:
     title: Health food runs out before you're back
     text: "Add more health food from storage"
     values: { fill: health food, timelineKind: food, timelineWhat: "health food" }
-    why: "It runs out in {runsOutIn:duration} ({left:int} left). This fighter only survives with health food; once it runs out, it starts dying and its AFK gains drop."
+    why: "It runs out {runsOutIn:in} ({left:int} left). This fighter only survives with health food; once it runs out, it starts dying and its AFK gains drop."
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/damage.ts
         title: IdleOn Toolbox, survivability with and without food

@@ -14,8 +14,8 @@ entries:
       timelineWhat: "anvil"
       fill: anvil
       pill: "Anvil full · collect"
-      pill-soon: "Anvil full in {fullIn:duration} · collect"
-    why: "Time to cap: {fullIn:duration}; it refills in {fromEmpty:duration} after you collect. Anvil production stops at capacity, so every hour past it is lost production and Smithing EXP."
+      pill-soon: "Anvil full {fullIn:in} · collect"
+    why: "Full {fullIn:in}; it refills in {fromEmpty:duration} after you collect. Anvil production stops at capacity, so every hour past it is lost production and Smithing EXP."
     notes: "#70 A5: fires only when it changes the outcome: the product is full now (RT-14), or collecting now keeps it producing until the return. A cap that refills before the return even after collecting is not a per-character line; the account-level point plan (anvil.check.spend-points, anvil.check.respec) covers it. R-PILL-1 (owner, 2026-10-17): it renders as a compact pill on the row and in Focus (values.pill full now, values.pill-soon before the return), never a blocker or a Fix card, and never changes the Verdict."
     sources:
       - url: https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/anvil.ts
@@ -45,7 +45,7 @@ entries:
     effect: next-action
     category: nice
     detector: { id: anvil/fill-time }
-    text: "Anvil full in {fullIn:duration} at current speed"
+    text: "Anvil full {fullIn:in} at current speed"
     values: { timelineKind: storage, timelineWhat: "anvil" }
     why: "Anvil production stops at capacity; this is when the first product with a hammer on it gets there."
     notes: "#70 A1: a quiet per-character info line, never a Goal or Next Action. M3's module emits it as CharacterResult.info; M6 does not run it."

@@ -184,8 +184,8 @@ entries:
     why: "{why}"
     activePlay: { minutes: 5 }
     values:
-      line-one: "{challenge} on 1 more character ({recorded:int} of {players:int}): try your {who}, highest-level not yet done{spends}"
-      line: "{challenge} on {k:int} more characters ({recorded:int} of {players:int}): try your {who}, highest-level not yet done{spends}"
+      line-one: "{challenge} on 1 more character ({recorded:int} of {players:int}): try your {who} first (highest level){spends}"
+      line: "{challenge} on {k:int} more characters ({recorded:int} of {players:int}): try your {who} first (highest level){spends}"
       spends-key: "; spends 1 {key} each"
       spends-ticket: "; spends 1 Colosseum Ticket each"
       spends-tickets: "; spends {tickets:int} Colosseum Tickets each"
