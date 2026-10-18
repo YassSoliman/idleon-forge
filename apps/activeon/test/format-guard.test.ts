@@ -61,6 +61,10 @@ describe('format guard (TR-15)', () => {
     expect(files.filter((f) => !allowed(f)).flatMap(hits)).toEqual([]);
   });
 
+  it('the display allowlist is empty: only non-display arithmetic is allowed (Integration, FR-I3)', () => {
+    expect(DISPLAY_TODAY).toEqual([]);
+  });
+
   it('the display allowlist only shrinks: every listed file still has a use to move', () => {
     expect(DISPLAY_TODAY.filter((f) => !files.includes(f) || hits(f).length === 0)).toEqual([]);
   });
