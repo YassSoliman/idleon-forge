@@ -101,7 +101,7 @@ describe("the Build marker says the save's age (area C's request)", () => {
       'As of your last save (12m ago): at least 70 points waiting · they end here',
     );
     expect(buildKnownLine(70)).toBe('As of your last save: at least 70 points waiting · they end here');
-    const bound = { tab: 1, path: [], known: { kind: 'bound' as const, points: 70, overBy: null } };
+    const bound = { tab: 1, path: [], known: { kind: 'lower-bound' as const, points: 70, overBy: null } };
     expect(pathMarker(bound, 5)).toBe(
       'As of your last save (5m ago): at least 70 points waiting · they end here',
     );
