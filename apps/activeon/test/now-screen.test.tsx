@@ -18,6 +18,17 @@ beforeEach(() => {
 });
 afterEach(() => cleanup());
 
+/** Opens the first Goal card's why sheet (M21 FR-N8) and returns the dialog. */
+function openWhy(n = 0): HTMLElement {
+  const cards = [...document.querySelectorAll<HTMLElement>('.n-goal__open, .n-step__open')];
+  fireEvent.click(cards[n] as HTMLElement);
+  return screen.getByRole('dialog');
+}
+/** The why sheet's overflow (•••): Report this and Not for me live there (DS-10). */
+function openOverflow(dialog: HTMLElement) {
+  fireEvent.click(within(dialog).getByRole('button', { name: 'More controls' }));
+}
+
 async function noAxeViolations(container: HTMLElement) {
   const res = await axe.run(container, {
     rules: { 'color-contrast': { enabled: false }, region: { enabled: false } },
@@ -31,9 +42,8 @@ describe('US-1 / TR-14 Roster', () => {
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const list = container.querySelector('ol.roster') as HTMLElement;
     expect(list.tagName).toBe('OL');
-    const buttons = within(list)
-      .getAllByRole('button')
-      .filter((b) => b.classList.contains('r-btn'));
+    // M21 FR-N2: the Unknown row sits in its own fold list, still a row button in Visit Order.
+    const buttons = [...container.querySelectorAll<HTMLElement>('ol.roster .r-btn')];
     expect(buttons).toHaveLength(5);
     expect(buttons[0]?.getAttribute('aria-label')).toBe(
       '1., Dahlia, Barbarian level 51, Fishing Goldfish, Fishing Camp, Fix before you leave, Food runs out in about 2h',
@@ -63,18 +73,28 @@ describe('Focus: opening, Back and keyboard focus (FR-6, FR-13, TR-5, TR-14)', (
     fireEvent.keyDown(window, { key: 'Escape' });
     expect(screen.queryByRole('heading', { level: 2, name: 'Dahlia' })).toBeNull();
   });
-  it('the Verdict strip is a nav of links with aria-current on the one in Focus', () => {
+  it('the pager: prev and Next, and the dots open every character with aria-current on this one', () => {
     const r = fixture('mid-session');
     window.history.replaceState(null, '', '/?c=4');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const nav = screen.getByRole('navigation', { name: 'Characters in Visit Order' });
-    const links = within(nav).getAllByRole('link');
+    expect(within(nav).getByRole('link', { name: 'Previous: Squire 43' }).getAttribute('href')).toBe(
+      '#now-0',
+    );
+    expect(
+      within(nav)
+        .getByRole('link', { name: /^Next: Shaman 44/ })
+        .getAttribute('href'),
+    ).toBe('#now-1');
+    fireEvent.click(within(nav).getByRole('button', { name: 'Show every character' }));
+    const sheet = screen.getByRole('dialog', { name: 'Characters in Visit Order' });
+    const links = within(sheet).getAllByRole('link');
     expect(links.map((l) => l.textContent)).toEqual([
-      '1 · Dahlia',
-      '2 · Alder',
-      '3 · Elm',
-      '4 · Birch',
-      '5 · Cedar',
+      '1 · DahliaFix',
+      '2 · AlderUnknown',
+      '3 · ElmReady',
+      '4 · BirchReady',
+      '5 · CedarReady',
     ]);
     expect(links[2]?.getAttribute('aria-current')).toBe('true');
     expect(links[0]?.getAttribute('aria-label')).toBe('Dahlia, Fix before you leave');
@@ -142,6 +162,8 @@ describe('US-6 Sources open in a new tab', () => {
     const r = fixture('stale');
     window.history.replaceState(null, '', '/?c=0');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    // M21 FR-N8: the Sources sit in the why sheet.
+    openWhy();
     const link = screen.getByRole('link', { name: 'wiki' });
     expect(link.getAttribute('target')).toBe('_blank');
     expect(link.getAttribute('rel')).toBe('noopener noreferrer');
@@ -152,7 +174,7 @@ describe('US-6 Sources open in a new tab', () => {
 });
 
 describe('Goal.details under an account Goal', () => {
-  it('renders collapsed behind "show details (n)", and opens to one line per character', () => {
+  it('sit in the why sheet as glyph chips, one line per character; a chip opens that character', () => {
     const r = fixture('mid-session');
     const g = r.account.goals[0];
     if (!g) throw new Error('fixture has no account Goal');
@@ -161,16 +183,16 @@ describe('Goal.details under an account Goal', () => {
       { subject: 'c0', text: 'Bowman Lv 60: 1 into Capacity' },
     ];
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const summary = screen.getByText('show details (2)');
-    const box = summary.closest('details');
-    expect(box?.open).toBe(false);
-    fireEvent.click(summary);
-    expect(box?.open).toBe(true);
+    const acct = screen.getByRole('region', { name: 'Account' });
+    fireEvent.click(within(acct).getByRole('button', { name: /Open why and controls$/ }));
+    const list = within(screen.getByRole('dialog')).getByRole('list', { name: '2 characters' });
     expect(
-      within(box as HTMLElement)
+      within(list)
         .getAllByRole('listitem')
         .map((li) => li.textContent),
-    ).toEqual(['Barbarian Lv 51: 2 into Capacity', 'Bowman Lv 60: 1 into Capacity']);
+    ).toEqual(['Barbarian 51Barbarian Lv 51: 2 into Capacity', 'Squire 43Bowman Lv 60: 1 into Capacity']);
+    fireEvent.click(within(list).getByRole('button', { name: 'Barbarian 51' }));
+    expect(window.location.hash).toBe('#now-3');
   });
 });
 
@@ -279,12 +301,25 @@ describe('US-11 Skip today', () => {
     });
     expect(screen.queryByText('Spend 12 talent points on Bowman talents')).toBeNull();
   });
-  it('Not for me lists the Goal under "Hidden until next patch"', () => {
-    const r = fixture('mid-session');
-    window.history.replaceState(null, '', '/?c=2');
-    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getAllByRole('button', { name: 'Not for me' })[0] as HTMLElement);
-    expect(screen.getByText('Hidden until next patch (1)')).toBeTruthy();
+  it('Not for me is a 1 s hold in the why sheet; the Goal is then under "Hidden until next patch"', () => {
+    vi.useFakeTimers();
+    try {
+      const r = fixture('mid-session');
+      window.history.replaceState(null, '', '/?c=2');
+      renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+      const dialog = openWhy();
+      openOverflow(dialog);
+      const hold = within(dialog).getByRole('button', { name: 'Hold: not for me' });
+      fireEvent.pointerDown(hold);
+      act(() => vi.advanceTimersByTime(500));
+      fireEvent.pointerUp(hold); // let go early: nothing happens
+      expect(screen.queryByText('Hidden until next patch (1)')).toBeNull();
+      fireEvent.pointerDown(hold);
+      act(() => vi.advanceTimersByTime(1000));
+      expect(screen.getByText('Hidden until next patch (1)')).toBeTruthy();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });
 
@@ -293,7 +328,11 @@ describe('US-12 Report this', () => {
     const r = fixture('mid-session');
     window.history.replaceState(null, '', '/?c=2');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getAllByRole('button', { name: 'Report this' })[0] as HTMLElement);
+    // DS-10: Report this is in the why sheet's overflow, never on a card face.
+    expect(screen.queryByRole('button', { name: 'Report this' })).toBeNull();
+    const dialog = openWhy();
+    openOverflow(dialog);
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Report this' }));
     expect(screen.getByText(/This will be posted publicly on GitHub/)).toBeTruthy();
     const link = screen.getByRole('link', { name: 'Open the report' });
     expect(link.getAttribute('href')).toMatch(
@@ -325,21 +364,35 @@ describe('US-22 / D9 account stockpiles', () => {
     const r = fixture('account-stockpile');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const acct = screen.getByRole('region', { name: 'Account' });
-    expect(within(acct).getByRole('heading', { name: 'Fix before you leave' })).toBeTruthy();
-    const label = document.querySelector('.progress-label');
-    expect(label?.textContent).toBe('5 of 5 Ready · fix 2 in Account');
-    // R5 QA P2-2: "fix 2 in Account" jumps to the Account's blockers.
-    fireEvent.click(screen.getByRole('button', { name: 'fix 2 in Account' }));
+    // A blocker opens the Account's summary header (`cards.account-section`).
+    expect(within(acct).getByRole('button', { expanded: true, name: /^Account/ })).toBeTruthy();
+    expect(within(acct).getByRole('heading', { name: 'Before you leave' })).toBeTruthy();
+    // M21 FR-N2: the counter counts the 2 account blockers; its first fix jumps to them (R5 QA P2-2).
+    expect(screen.getByRole('heading', { name: '2 fixes before you leave' })).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: /^First/ }));
     expect(document.activeElement?.id).toBe('account-fix');
   });
 });
 
 describe('the Spend Plan chip jumps to the Spend Plan (FR-4)', () => {
-  it('opens the plan', () => {
+  it('the one Spend card lists the payers and opens the plan, unfolding the Account', () => {
     const r = fixture('spend-plan');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('button', { name: 'Spend here: 3 buys, about 4M coins → Spend Plan' }));
-    expect((document.getElementById('spend-plan') as HTMLDetailsElement).open).toBe(true);
+    const card = screen.getByRole('region', { name: 'Spend Plan' });
+    expect(within(card).getAllByRole('button').length).toBeGreaterThan(1);
+    const acct = screen.getByRole('region', { name: 'Account' });
+    expect(
+      within(acct)
+        .getByRole('button', { name: /^Account/ })
+        .getAttribute('aria-expanded'),
+    ).toBe('false');
+    fireEvent.click(within(card).getByRole('button', { name: 'Open the Spend Plan' }));
+    expect(
+      within(acct)
+        .getByRole('button', { name: /^Account/ })
+        .getAttribute('aria-expanded'),
+    ).toBe('true');
+    expect(document.getElementById('spend-plan')).toBeTruthy();
   });
 });
 
@@ -361,14 +414,15 @@ describe('copy pass rule 3: unknown tokens are hidden, never printed', () => {
   it('an unpriced Spend Plan line shows no cost token, only the "cost not checked" pill', () => {
     const r = fixture('spend-plan');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('button', { name: 'Spend here: 3 buys, about 4M coins → Spend Plan' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Open the Spend Plan' }));
     const plan = document.getElementById('spend-plan') as HTMLElement;
-    const more = within(plan).queryByRole('button', { name: /^show more/ });
+    const more = within(plan).queryByRole('button', { name: /^\+\d+ more/ });
     if (more) fireEvent.click(more);
     const line = plan.querySelector('.spend-line.unpriced');
     expect(line).toBeTruthy();
     expect(line?.textContent).not.toContain('see the price in game');
-    expect(line?.querySelector('.pill')?.textContent).toBe('cost not checked');
+    expect(line?.querySelector('.n-sline__status')?.textContent).toBe('cost not checked');
+    expect(line?.querySelector('.n-sline__cost')).toBeNull();
   });
 });
 

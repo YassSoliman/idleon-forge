@@ -24,7 +24,7 @@ import type {
 import { buildsView } from './build-view';
 import { cardsView } from './cards-view';
 import { checklistView } from './checklist-view';
-import { aboutDuration, compact, formatCoins, plural, shortDuration } from './format';
+import { aboutDuration, compact, formatCoins, inSpan, plural, shortDuration } from './format';
 
 /** Copy pass rule 3: an unknown where-token is hidden, never printed ("AFK target unknown"). */
 const shownActivity = (label: string): string | null => (label === UNKNOWN_ACTIVITY ? null : label);
@@ -214,8 +214,9 @@ export function purposeItems(c: Pick<CharacterResult, 'purpose'>): PurposeItemVi
         n < 10_000 ? String(Math.floor(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ',') : compact(n);
       const unit = (n: number) =>
         d.unit === 'level' ? `Lv ${count(n)}` : `${count(n)}${d.unit ? ` ${d.unit}` : ''}`;
+      // M21 FR-F6: a ladder rung is a moment ("in 14h 04m"), never "about 14h".
       const eta = (s: number | null) =>
-        s === null ? '' : `${aboutDuration(s)}${d.mean ? ' on average' : ''}`;
+        s === null ? '' : `${inSpan(s * 1000)}${d.mean ? ' on average' : ''}`;
       // M4 FR-9: a projection at the next step reads "reached, claim to confirm"; the step after is next.
       const reached = d.current >= d.next;
       ladder.push({
@@ -248,7 +249,7 @@ export function purposeItems(c: Pick<CharacterResult, 'purpose'>): PurposeItemVi
 
 export function milestoneText(m: Goal['milestone']): string | null {
   if (!m) return null;
-  const eta = m.etaSeconds === null ? '' : ` · ${aboutDuration(m.etaSeconds)}`;
+  const eta = m.etaSeconds === null ? '' : ` · ${inSpan(m.etaSeconds * 1000)}`;
   return `${compact(m.current)} ${m.unit} · next ${compact(m.next)}${eta}`;
 }
 
@@ -313,6 +314,11 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
   };
   const stageUnknown = result.stage.id === 'unknown';
   const nameOf = (i: number) => result.characters.find((c) => c.index === i)?.name ?? `Character ${i + 1}`;
+  /** M21 DS-13: the who-token, class and level ("Bowman 60"). */
+  const whoOf = (i: number) => {
+    const c = result.characters.find((x) => x.index === i);
+    return c ? `${c.classLabel} ${c.level}` : nameOf(i);
+  };
 
   const filter = (goals: Goal[], blockerKeys: readonly string[]): Filtered => {
     const blockerSet = new Set(blockerKeys);
@@ -383,6 +389,10 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
   );
 
   const order = displayOrder(result, ui.frozenOrder).filter((i) => perChar.has(i));
+  const nextText = (i: number) => {
+    const fixes = perChar.get(i)?.effective === 'fix' ? (perChar.get(i)?.f.blockers.length ?? 0) : 0;
+    return `Next: switch to ${whoOf(i)}${fixes > 0 ? ` · ${plural(fixes, 'fix', 'fixes')}` : ''}`;
+  };
   const total = order.length;
   const hasAnything = (i: number) => {
     const p = perChar.get(i);
@@ -476,8 +486,11 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
   const safetySkipped = safetyUnknown && skipped('unknown@account');
   if (safetySkipped) skippedForAllSet++;
   const afkNotCovered = notCoveredUnknowns > 0;
-  const allSetHolds =
-    fix === 0 && blockingUnknowns === 0 && (!safetyUnknown || safetySkipped) && accountBlockersFiring === 0;
+  // M21 FR-N2, §8 (`now.focus-unknown` Hidden from the count): an Unknown character never blocks All
+  // set; it sits in its own fold, and only what we can judge counts. The account's own safety doubt
+  // (M3 FR-8) still blocks until skipped: it is not a character, and nothing else would say it.
+  void blockingUnknowns;
+  const allSetHolds = fix === 0 && accountBlockersFiring === 0 && (!safetyUnknown || safetySkipped);
 
   let allSet: NowView['allSet'] = null;
   if (allSetHolds) {
@@ -486,12 +499,13 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       allSet = { text: NOT_COVERED_BANNER, detail: null, skipped: skippedForAllSet, covered: false };
     } else {
       const fill = result.firstFill;
+      // M21 FR-F6: a moment reads "in 3h 40m"; the who-token is class and level (DS-13), never a name.
       const who =
         fill && fill.subject !== 'account'
-          ? `${nameOf(Number(fill.subject.slice(1)))}'s ${fill.what ?? fill.label}`
+          ? `the ${fill.what ?? fill.label} on ${whoOf(Number(fill.subject.slice(1)))}`
           : fill?.label;
       const fillText = fill
-        ? `First thing fills up in ${aboutDuration((fill.at - ui.now) / 1000)}: ${who}`
+        ? `First thing fills up ${inSpan(fill.at - ui.now)}: ${who}`
         : "Nothing fills up before you're back";
       // Say what is full: quick-collect caps (the pills) and Next Actions already at their cap (R3 QA P3).
       const n = result.alreadyFull;
@@ -561,7 +575,8 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       }),
       // Only the last position reads "last one"; nothing left to do after an earlier one reads how many
       // come after it, never "3 of 5 · 0 left" (R3 QA P3) nor "last one" on every page (R6 QA).
-      position: `${k} of ${total} in your Visit Order · ${
+      // M21 DS-16: no "Visit Order" on a card face.
+      position: `${k} of ${total} · ${
         k >= total ? 'last one' : left > 0 ? `${left} left` : `${total - k} after it`
       }`,
       playing,
@@ -618,16 +633,17 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
           source: l.sources.length ? sourceView(l.sources, false, l.key) : null,
         })),
       done: c.doneThisSession.map((d) => doneView(d, ui.tzOffsetMinutes)),
+      // M21 `now.focus-footer` Primary next: "Next: switch to Barbarian 56 · 1 fix" (the arrow is art).
       next:
         nextTarget === null
           ? {
               index: null,
               text:
                 k >= total
-                  ? 'Last one: check the Account list ↓'
-                  : 'Nothing left to visit: check the Account list ↓',
+                  ? 'Last one: the Account list is next'
+                  : 'Nothing left to visit: the Account list is next',
             }
-          : { index: nextTarget, text: `Next: switch to ${nameOf(nextTarget)} →` },
+          : { index: nextTarget, text: nextText(nextTarget) },
     };
     return card;
   })();
@@ -728,7 +744,8 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       // versions.knowledge is the Knowledge Base's display string, already "knowledge 2026.10.17.NN".
       knowledge: `knowledge ${result.versions.knowledge.replace(/^knowledge /, '')}`,
       game: `game build ${build ?? '?'}`,
-      parserTarget: `parser targets ${result.versions.parserTarget}`,
+      // M21 DS-16: "parser targets" is jargon; the save reader is named by the game version it reads.
+      parserTarget: `reads game ${result.versions.parserTarget}`,
       failedChecks: result.diagnostics.failedDetectors.length,
     },
     newCount,

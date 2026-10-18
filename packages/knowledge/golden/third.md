@@ -1,9 +1,15 @@
-# golden v1: third · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: third · knowledge #80d1ed78 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
 ## Now
+! Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
 1 of 10 Ready · 9 Unknown
+counter: Nothing ActiveOn checks needs fixing · AFK safety isn't covered yet
+fold: 9 we can't tell: see why
+finding: Traps idle in 2h 16m on 10
+finding: Anvil full in 2h 42m on 3 · collect
+ready fold: 1 character
 
 ### C4 · Divine Knight 655 · Unknown
 1 · Fighting Green Mushroom · Spore Meadows · [Traps idle in 2h 16m] [Anvil full in 2h 42m · collect] · Can't tell from the save

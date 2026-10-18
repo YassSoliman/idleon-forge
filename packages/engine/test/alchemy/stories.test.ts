@@ -98,7 +98,7 @@ describe('US-3 vials', () => {
     const g = goal(w2, 'alchemy-vials.check.daily-attempts');
     expect(g?.nextAction.text).toBe('Use your 11 vial attempts on the W2 town cauldron');
     expect(details(g)[0]).toBe(
-      'Easiest rolls with what you hold: Dieter Drink (40+, Bean Slices), Skinny 0 Cal (60+, Snake Skin), Jungle Juice (60+, Jungle Logs)',
+      'Easiest rolls with what you hold: Dieter Drink (a roll of 40 or more, Bean Slices), Skinny 0 Cal (a roll of 60 or more, Snake Skin), Jungle Juice (a roll of 60 or more, Jungle Logs)',
     );
   });
 

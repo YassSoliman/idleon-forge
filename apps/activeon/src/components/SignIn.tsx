@@ -1,6 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
+// Sign-in (M1 FR-5, FR-6; M21 `flows.sign-in` Out of the way + Code card): signed out with no save, the
+// code card is the content; with a save showing it never sits above the advice: Sign in and Sign out
+// live in the header's overflow menu (G1), and a pasted save gets one slim bar at the foot. The code
+// card is the device-code state: two numbered steps, the code with Copy, and how long it works.
+import { SETUP_WORDS, FLOW_WORDS as W } from '@idleon-forge/engine/now';
 import { useId, useState } from 'react';
+import { PixelArt } from '../design/art/PixelArt';
+import { Button } from '../design/atoms/Button';
 import type { AuthState, SignOutOptions, SyncState } from '../use-activeon';
 import { Countdown } from './Ticking';
 
@@ -17,7 +24,7 @@ export const WRONG_ACCOUNT =
   'No characters found for this account. Is this the Google account you play with?';
 
 /** Sign out, after a confirmation with "Also clear my data on this browser", unchecked (FR-6, D4). */
-function SignOutControl({
+export function SignOutControl({
   onSignOut,
   label = 'Sign out',
 }: {
@@ -29,34 +36,48 @@ function SignOutControl({
   const id = useId();
   if (!confirming) {
     return (
-      <button type="button" className="ghost" onClick={() => setConfirming(true)}>
+      <Button tone="quiet" onClick={() => setConfirming(true)}>
         {label}
-      </button>
+      </Button>
     );
   }
   return (
-    <fieldset className="confirm">
+    <fieldset className="confirm n-confirm">
       <legend>Sign out of ActiveOn?</legend>
-      <label htmlFor={id} className="small">
+      <label htmlFor={id} className="n-check">
         <input id={id} type="checkbox" checked={clearData} onChange={(e) => setClearData(e.target.checked)} />{' '}
         Also clear my data on this browser
       </label>
-      <div className="confirm-row">
-        <button type="button" className="primary" onClick={() => onSignOut({ clearData })}>
+      <div className="confirm-row n-row-actions">
+        <Button tone="primary" onClick={() => onSignOut({ clearData })}>
           Sign out
-        </button>
-        <button
-          type="button"
-          className="ghost"
+        </Button>
+        <Button
+          tone="plain"
           onClick={() => {
             setConfirming(false);
             setClearData(false);
           }}
         >
-          Cancel
-        </button>
+          {SETUP_WORDS.cancel}
+        </Button>
       </div>
     </fieldset>
+  );
+}
+
+function Card({ children, busy }: { children: React.ReactNode; busy?: boolean }) {
+  return (
+    <section className="n-signin signin" aria-label="Sign in" aria-busy={busy || undefined}>
+      <div className="n-signin__head">
+        <PixelArt name="flows-padlock-locked" scale={2} decorative />
+        <div>
+          <h2 className="n-signin__title">{W.signInTitle}</h2>
+          <p className="n-muted n-small">{SETUP_WORDS.signInLead}</p>
+        </div>
+      </div>
+      {children}
+    </section>
   );
 }
 
@@ -66,46 +87,37 @@ export function SignIn({ auth, sync, waitingForSave, onSignIn, onCancel, onSignO
   switch (auth.status) {
     case 'unconfigured':
       return (
-        <section className="card signin" aria-label="Sign in">
-          <p>
-            <b>Live sign-in isn't set up in this build.</b>
-          </p>
-          <p className="muted small">
-            You can still paste your save below. To enable sign-in locally, fill in{' '}
-            <code>apps/activeon/.env.local</code> (see <code>docs/setup/live-sign-in.md</code>).
-          </p>
+        <section className="n-slimbar n-slimbar--muted" aria-label="Sign in">
+          <p>{SETUP_WORDS.unconfigured}</p>
         </section>
       );
     case 'restoring':
       return (
-        <section className="card signin" aria-label="Sign in" aria-busy="true">
-          <p className="muted">Checking for a saved sign-in…</p>
+        <section className="n-signin signin" aria-label="Sign in" aria-busy="true">
+          <p className="n-muted">{SETUP_WORDS.restoring}</p>
         </section>
       );
     case 'signed-out':
       return (
-        <section className="card signin" aria-label="Sign in">
-          <button type="button" className="primary" onClick={onSignIn}>
-            Sign in with Google
-          </button>
-          <p className="muted small">
-            Read-only: ActiveOn never changes your save. Your login stays in this browser.
-          </p>
+        <Card>
+          <Button tone="primary" className="n-wide" onClick={onSignIn}>
+            {SETUP_WORDS.signInWithGoogle}
+          </Button>
           {auth.error ? (
-            <p className="error" role="alert">
+            <p className="error n-error" role="alert">
               {auth.error}
             </p>
           ) : null}
-        </section>
+        </Card>
       );
     case 'requesting-code':
       return (
-        <section className="card signin" aria-label="Sign in" aria-busy="true">
-          <p className="muted">Asking Google for a sign-in code…</p>
-          <button type="button" className="ghost" onClick={onCancel}>
-            Cancel
-          </button>
-        </section>
+        <Card busy>
+          <p className="n-muted">{SETUP_WORDS.asking}</p>
+          <Button tone="plain" onClick={onCancel}>
+            {SETUP_WORDS.cancel}
+          </Button>
+        </Card>
       );
     case 'device-code': {
       const { code } = auth;
@@ -116,55 +128,62 @@ export function SignIn({ auth, sync, waitingForSave, onSignIn, onCancel, onSignO
           .catch(() => setCopied(false));
       };
       return (
-        <section className="card signin device" aria-label="Sign in">
-          <p>
-            Open{' '}
-            <a href={code.verificationUrl} target="_blank" rel="noopener noreferrer">
-              {code.verificationUrl.replace(/^https?:\/\/(www\.)?/, '')}
-            </a>{' '}
-            and enter this code:
-          </p>
-          <div className="code-row">
-            <output className="user-code" aria-label="Sign-in code">
+        <Card>
+          <ol className="n-steps">
+            <li>
+              {SETUP_WORDS.codeStep1}{' '}
+              <a href={code.verificationUrl} target="_blank" rel="noopener noreferrer">
+                {code.verificationUrl.replace(/^https?:\/\/(www\.)?/, '')}
+              </a>
+            </li>
+            <li>{SETUP_WORDS.codeStep2}</li>
+          </ol>
+          <div className="code-row n-code-row">
+            <output className="user-code n-code num" aria-label="Sign-in code">
               {code.userCode}
             </output>
-            <button type="button" className="small-btn" onClick={copy}>
-              {copied ? 'Copied' : 'Copy'}
-            </button>
+            <Button tone="quiet" onClick={copy}>
+              {copied ? SETUP_WORDS.copied : SETUP_WORDS.copy}
+            </Button>
           </div>
-          <p className="muted small">
-            Waiting for you to approve on Google… (code expires in <Countdown until={code.expiresAt} />)
+          <p className="n-muted n-small">
+            {SETUP_WORDS.codeWaiting}{' '}
+            <b className="num">
+              <Countdown until={code.expiresAt} />
+            </b>{' '}
+            {SETUP_WORDS.codeMore}
           </p>
-          <button type="button" className="ghost" onClick={onCancel}>
-            Cancel
-          </button>
-        </section>
+          <Button tone="plain" onClick={onCancel}>
+            {SETUP_WORDS.cancel}
+          </Button>
+        </Card>
       );
     }
     case 'signed-in':
       if (sync.status === 'wrong-account') {
         // FR-5: the message and the way out, together.
         return (
-          <section className="card signin" aria-label="Signed in">
-            <p className="error" role="alert">
+          <section className="n-signin signin" aria-label="Signed in">
+            <p className="error n-alert n-alert--bad" role="alert">
               {WRONG_ACCOUNT}
             </p>
-            <p className="small muted">Signed in{auth.user.email ? ` as ${auth.user.email}` : ''}.</p>
-            <SignOutControl onSignOut={onSignOut} label="Sign out and use another account" />
+            <p className="n-small n-muted">{SETUP_WORDS.signedIn(auth.user.email)}.</p>
+            <SignOutControl onSignOut={onSignOut} label={SETUP_WORDS.useAnother} />
           </section>
         );
       }
+      // Signed in: it lives in the overflow menu; only the wait for the first save shows here.
+      if (!waitingForSave) return null;
       return (
-        <section className="card signin row" aria-label="Signed in">
-          <p className="small">
-            Signed in{auth.user.email ? ` as ${auth.user.email}` : ''}
-            {sync.status === 'reconnecting' && waitingForSave ? (
-              <span className="muted"> · reconnecting…</span>
-            ) : waitingForSave ? (
-              <span className="muted"> · waiting for your save…</span>
-            ) : null}
-          </p>
-          <SignOutControl onSignOut={onSignOut} />
+        <section className="n-signin signin" aria-label="Signed in">
+          <div className="n-signin__head">
+            <PixelArt name="flows-padlock-open" scale={2} decorative />
+            <p>
+              {sync.status === 'reconnecting'
+                ? `${SETUP_WORDS.signedIn(auth.user.email)} · reconnecting…`
+                : SETUP_WORDS.approved}
+            </p>
+          </div>
         </section>
       );
   }

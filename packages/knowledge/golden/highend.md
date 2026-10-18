@@ -1,21 +1,27 @@
-# golden v1: highend · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: highend · knowledge #80d1ed78 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
 ## Now
 0 of 11 Ready · fix 4 before you leave · 7 Unknown
+counter: 4 fixes before you leave
+first: Divine Knight 1819 · Shimmerfin Grove · Pick an AFK Target before you leave
+fold: 7 we can't tell: see why
+finding: Anvil full on 11 · collect
+finding: Traps idle in 3h 09m on 11
+finding: Worship full on 7 · spend
 
 ### C4 · Divine Knight 1819 · Fix before you leave
 1 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Traps idle in 3h 09m] · Pick an AFK Target before you leave
 
 ### C10 · Wind Walker 1742 · Fix before you leave
-2 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] [Traps idle in 3h 09m] · Collect and re-place your 1 finished traps
+2 · Fighting Trench Fish · Deep End of the Koipond · [Anvil full · collect] [Worship full · spend] [Traps idle in 3h 09m] · Collect and re-place your finished traps: 1 ready
 
 ### C7 · Divine Knight 1734 · Fix before you leave
 3 · Doing nothing · Blunder Hills · [Anvil full · collect] [Worship full · spend] [Traps idle in 3h 09m] · Pick an AFK Target before you leave
 
 ### C11 · Beginner 1717 · Fix before you leave
-4 · Paying respect Bravery · The Hole · [Anvil full · collect] [Worship full · spend] [Traps idle in 3h 09m] · Collect and re-place your 1 finished traps
+4 · Paying respect Bravery · The Hole · [Anvil full · collect] [Worship full · spend] [Traps idle in 3h 09m] · Collect and re-place your finished traps: 1 ready
 
 ### C8 · Voidwalker 1764 · Unknown
 5 · Spelunking C1 Way Opening · Coralcave Perimeter · [Anvil full · collect] [Traps idle in 3h 09m] · Not covered yet: Spelunking

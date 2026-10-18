@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // The lazy Suggestions chunk (M13 TR-15): the Suggest form (FR-1 to FR-12) and Your suggestions
-// (FR-16 to FR-19, FR-26 to FR-28), as an overlay that keeps the Now screen underneath.
+// (FR-16 to FR-19, FR-26 to FR-28), in a sheet that keeps the Now screen underneath.
+// M21 FR-N12 (layout only; every word and the scrub stay M13's): `flows.suggest-form` Kind picker first
+// (three big tiles, then one question at a time), `flows.report-form` Pick what's wrong (four chips and
+// the optional line), the Turnstile frame (G9), and Your suggestions as the owner's split: the 3 newest
+// as notes pinned to a quest board with their stamps, the rest as the plain list (D-17).
 
 import type {
   MySuggestion,
@@ -22,6 +26,10 @@ import {
   useRef,
   useState,
 } from 'react';
+import type { ArtName } from '../design/art/names';
+import { PixelArt } from '../design/art/PixelArt';
+import { ago, clockAt, localOffsetMinutes } from '../design/format';
+import { ModalSheet } from '../now/chrome/ModalSheet';
 import { buildInfo } from '../now/release';
 import { fallbackIssueUrl } from '../now/report';
 import {
@@ -114,11 +122,30 @@ export interface PanelProps {
   onToast(t: Toast): void;
 }
 
+/** When it was filed, as an age ("3d 4h ago"): one time language (FR-F6). */
 const dateText = (iso: string) => {
-  const d = new Date(iso);
-  return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString([], { month: 'short', day: 'numeric' });
+  const t = Date.parse(iso);
+  return Number.isNaN(t) ? '' : ago(t, Date.now());
 };
-const timeText = (at: number) => new Date(at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+const timeText = (at: number) => clockAt(at, localOffsetMinutes(at));
+
+/** The kind tiles' own art (DS-12: what kind). */
+const KIND_ART: Record<SuggestionType, ArtName> = {
+  idea: 'flows-lightbulb',
+  wrong: 'flows-cracked-gear',
+  confusing: 'flows-question-cloud',
+};
+
+/** `flows.report-form` Pick what's wrong: four chips; a pick starts "I want…" with its line. */
+export const WRONG_CHIPS: { label: string; iWant: string }[] = [
+  { label: 'Wrong number', iWant: 'the number on this line to match my game' },
+  { label: 'Wrong advice', iWant: 'advice on this line that fits my account' },
+  { label: 'Confusing words', iWant: 'this line in words I can follow' },
+  { label: 'Already done', iWant: 'this line to see that I already did it' },
+];
+
+/** G9: Cloudflare's widget is a third-party frame we can't restyle; one line names it, its height is kept. */
+export const HUMAN_CHECK = "Quick check that you're a person (Cloudflare)";
 
 function useClient(config: SuggestionsConfig): ClientOptions | null {
   return useMemo(
@@ -145,69 +172,39 @@ function useProofReady(proof: ProofRing, signedIn: boolean): boolean | null {
 
 export default function Panel(props: PanelProps) {
   const { panel, setPanel } = props;
-  const titleId = useId();
   const close = useCallback(() => setPanel(null), [setPanel]);
-  const box = useRef<HTMLDivElement | null>(null);
-  const opener = useRef<Element | null>(typeof document === 'undefined' ? null : document.activeElement);
-  useEffect(() => {
-    const first = box.current?.querySelector<HTMLElement>('[data-autofocus], h2');
-    first?.focus();
-    const back = opener.current;
-    return () => {
-      if (back instanceof HTMLElement && back.isConnected) back.focus();
-    };
-  }, []);
+  const title =
+    panel.view === 'list'
+      ? 'Your suggestions'
+      : panel.request.kind === 'report'
+        ? 'Report this line'
+        : 'Suggest';
   return (
-    <div className="sg-overlay">
-      <div
-        ref={box}
-        className="sg-panel card"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        onKeyDown={(e) => {
-          // Esc closes the overlay only, never the Focus card underneath (NowScreen listens on window).
-          if (e.key === 'Escape') {
-            e.stopPropagation();
-            close();
-          }
-        }}
-      >
-        <div className="sg-head">
-          <h2 id={titleId} tabIndex={-1}>
-            {panel.view === 'list'
-              ? 'Your suggestions'
-              : panel.request.kind === 'report'
-                ? 'Report this line'
-                : 'Suggest'}
-          </h2>
-          <div className="sg-head-links">
-            {panel.view === 'form' ? (
-              <button
-                type="button"
-                className="link-btn small"
-                onClick={() => setPanel({ view: 'list', sendNow: null })}
-              >
-                Your suggestions
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="link-btn small"
-                onClick={() =>
-                  setPanel({
-                    view: 'form',
-                    request: { kind: 'suggest', type: 'idea', screen: 'suggestions' },
-                  })
-                }
-              >
-                Suggest
-              </button>
-            )}
-            <button type="button" className="ghost sg-close" aria-label="Close" onClick={close}>
-              ×
+    <ModalSheet open title={title} onClose={close}>
+      <div className="sg-panel">
+        <div className="sg-head-links">
+          {panel.view === 'form' ? (
+            <button
+              type="button"
+              className="n-link-btn"
+              onClick={() => setPanel({ view: 'list', sendNow: null })}
+            >
+              Your suggestions
             </button>
-          </div>
+          ) : (
+            <button
+              type="button"
+              className="n-link-btn"
+              onClick={() =>
+                setPanel({
+                  view: 'form',
+                  request: { kind: 'suggest', type: 'idea', screen: 'suggestions' },
+                })
+              }
+            >
+              Suggest
+            </button>
+          )}
         </div>
         {panel.view === 'form' ? (
           <SuggestForm {...props} request={panel.request} close={close} />
@@ -215,7 +212,7 @@ export default function Panel(props: PanelProps) {
           <YourSuggestions {...props} sendNow={panel.sendNow} />
         )}
       </div>
-    </div>
+    </ModalSheet>
   );
 }
 
@@ -258,6 +255,7 @@ function SuggestForm(props: PanelProps & { request: OpenRequest; close(): void }
   const [conflict, setConflict] = useState<{ kept: Draft; fresh: Draft } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
+  const [step, setStep] = useState(0);
   const client = useClient(config);
   const configured = isConfigured(config) && client !== null;
   const canSend = configured && signedIn;
@@ -360,19 +358,21 @@ function SuggestForm(props: PanelProps & { request: OpenRequest; close(): void }
         void send();
       }}
     >
-      <fieldset className="sg-types">
-        <legend className="small">What is it?</legend>
+      <fieldset className="sg-types sg-kinds">
+        <legend className="sg-q">What kind?</legend>
         {(['idea', 'wrong', 'confusing'] as const).map((t, i) => (
-          <label key={t} className={draft.type === t ? 'on' : ''}>
+          <label key={t} className={`sg-kind${draft.type === t ? ' on' : ''}`}>
             <input
               type="radio"
+              className="sr-only"
               name="sg-type"
               value={t}
               checked={draft.type === t}
               data-autofocus={i === 0 ? true : undefined}
               onChange={() => update({ ...draft, type: t })}
             />
-            {TYPE_LABEL[t]}
+            <PixelArt name={KIND_ART[t]} scale={2} decorative />
+            <span>{TYPE_LABEL[t]}</span>
           </label>
         ))}
       </fieldset>
@@ -381,6 +381,20 @@ function SuggestForm(props: PanelProps & { request: OpenRequest; close(): void }
         <div className="sg-report small">
           <p className="muted">About this advice:</p>
           <p className="sg-quote">{draft.report.renderedText}</p>
+          <fieldset className="sg-chips">
+            <legend className="sr-only">What's wrong</legend>
+            {WRONG_CHIPS.map((c) => (
+              <button
+                key={c.label}
+                type="button"
+                className="a-chip"
+                aria-pressed={draft.text.iWant === c.iWant}
+                onClick={() => update({ ...draft, text: { ...draft.text, iWant: c.iWant } })}
+              >
+                <span>{c.label}</span>
+              </button>
+            ))}
+          </fieldset>
           {draft.report.values ? (
             <label className="sg-check">
               <input
@@ -394,12 +408,15 @@ function SuggestForm(props: PanelProps & { request: OpenRequest; close(): void }
         </div>
       ) : null}
 
-      {FIELDS.map((f) => {
+      <p className="sg-step-count n-muted" aria-live="polite">
+        Question {step + 1} of {FIELDS.length}
+      </p>
+      {FIELDS.map((f, n) => {
         const max = TEXT_LIMITS[f.key].max;
         const left = max - codePoints(draft.text[f.key]);
         const id = `sg-${f.key}`;
         return (
-          <div key={f.key} className="sg-field">
+          <div key={f.key} className={`sg-field${n === step ? ' is-current' : ' is-other'}`}>
             <label htmlFor={id}>
               {f.label}
               {f.key === 'iWant' ? <span className="muted small"> (required)</span> : null}
@@ -421,6 +438,25 @@ function SuggestForm(props: PanelProps & { request: OpenRequest; close(): void }
           </div>
         );
       })}
+
+      <div className="sg-stepper">
+        <button
+          type="button"
+          className="a-btn a-btn--plain"
+          disabled={step === 0}
+          onClick={() => setStep((n) => Math.max(0, n - 1))}
+        >
+          <span>Back</span>
+        </button>
+        <button
+          type="button"
+          className="a-btn a-btn--quiet"
+          disabled={step === FIELDS.length - 1}
+          onClick={() => setStep((n) => Math.min(FIELDS.length - 1, n + 1))}
+        >
+          <span>Next question</span>
+        </button>
+      </div>
 
       <details className="sg-preview small">
         <summary>What gets sent</summary>
@@ -462,7 +498,12 @@ function SuggestForm(props: PanelProps & { request: OpenRequest; close(): void }
         </div>
       ) : null}
       {noNames ? <p className="error">{NAMES_UNAVAILABLE}</p> : null}
-      {canSend && needsToken ? <div className="sg-turnstile" ref={turnstile.ref} /> : null}
+      {canSend && needsToken ? (
+        <div className="sg-turnstile-frame">
+          <p className="n-small">{HUMAN_CHECK}</p>
+          <div className="sg-turnstile" ref={turnstile.ref} />
+        </div>
+      ) : null}
       {canSend && needsToken && turnstile.state === 'blocked' ? (
         <p className="error">Couldn't load the human check. Allow challenges.cloudflare.com and try again.</p>
       ) : null}
@@ -634,49 +675,95 @@ function YourSuggestions(props: PanelProps & { sendNow: string | null }) {
       ) : null}
 
       {items.length > 0 ? (
-        <ul className="sg-list">
-          {items.map((s) => (
-            <li key={s.number} className="sg-item">
-              <p className="sg-item-head small">
-                <span className={`sg-status st-${s.status}`}>{STATUS_LABEL[s.status]}</span>
-                <span className="muted">
+        <>
+          <div className="sg-board-head">
+            <PixelArt name="flows-notice-board" scale={2} decorative />
+            <p className="n-muted">{items.length} filed</p>
+          </div>
+          <ul className="sg-notes">
+            {items.slice(0, BOARD_NOTES).map((s) => (
+              <li key={s.number} className={`sg-note st-${s.status}`}>
+                <span className="sg-pin" aria-hidden="true" />
+                <p className="sg-note-title">{s.iWant}</p>
+                <p className="n-small n-muted">
                   {TYPE_LABEL[s.type]} · {dateText(s.createdAt)}
-                </span>
-              </p>
-              <p>{s.iWant}</p>
-              {s.reply ? (
-                <div className="sg-reply small">
-                  <p className="muted">Reply</p>
-                  <p>{s.reply}</p>
-                </div>
-              ) : null}
-              {s.status === 'info' && s.question ? (
-                <div className="sg-reply small">
-                  <p className="muted">Question for you</p>
-                  <p>{s.question}</p>
-                </div>
-              ) : null}
-              {s.status === 'info' && s.question && s.canAddDetails && !answered.has(s.number) && client ? (
-                <AddDetails
+                </p>
+                <span className={`sg-stamp sg-status st-${s.status}`}>{STATUS_LABEL[s.status]}</span>
+                <Item
                   {...props}
+                  s={s}
                   client={client}
-                  issue={s.number}
-                  onAnswered={() => {
-                    setAnswered((prev) => new Set([...prev, s.number]));
-                    void refresh();
-                  }}
+                  answered={answered}
+                  setAnswered={setAnswered}
+                  refresh={refresh}
                 />
-              ) : null}
-              <p className="small">
-                <a href={s.url} target="_blank" rel="noopener noreferrer">
-                  #{s.number} on GitHub
-                </a>
-              </p>
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
+          {items.length > BOARD_NOTES ? (
+            <ul className="sg-plain">
+              {items.slice(BOARD_NOTES).map((s) => (
+                <li key={s.number} className="sg-plainrow">
+                  <a href={s.url} target="_blank" rel="noopener noreferrer" className="sg-plainrow__link">
+                    <span className="n-small n-muted num">{dateText(s.createdAt)}</span>
+                    <span className="sg-plain-title">{s.iWant}</span>
+                    <span className={`sg-status st-${s.status}`}>{STATUS_LABEL[s.status]}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </>
       ) : null}
     </div>
+  );
+}
+
+/** The notes on the quest board: D-17's "3 most recently changed" are the 3 newest (no change date yet). */
+const BOARD_NOTES = 3;
+
+/** A note's reply, its question with Add details, and its link. */
+function Item(
+  props: PanelProps & {
+    s: MySuggestion;
+    client: ClientOptions | null;
+    answered: ReadonlySet<number>;
+    setAnswered: Dispatch<SetStateAction<ReadonlySet<number>>>;
+    refresh(): Promise<void>;
+  },
+) {
+  const { s, client, answered, setAnswered, refresh } = props;
+  return (
+    <>
+      {s.reply ? (
+        <div className="sg-reply small">
+          <p className="muted">Reply</p>
+          <p>{s.reply}</p>
+        </div>
+      ) : null}
+      {s.status === 'info' && s.question ? (
+        <div className="sg-reply small">
+          <p className="muted">Question for you</p>
+          <p>{s.question}</p>
+        </div>
+      ) : null}
+      {s.status === 'info' && s.question && s.canAddDetails && !answered.has(s.number) && client ? (
+        <AddDetails
+          {...props}
+          client={client}
+          issue={s.number}
+          onAnswered={() => {
+            setAnswered((prev) => new Set([...prev, s.number]));
+            void refresh();
+          }}
+        />
+      ) : null}
+      <p className="small">
+        <a href={s.url} target="_blank" rel="noopener noreferrer" className="sg-note-link">
+          #{s.number} on GitHub
+        </a>
+      </p>
+    </>
   );
 }
 
@@ -714,7 +801,10 @@ function OutboxSender(props: PanelProps & { item: OutboxItem; onDone(t: Toast | 
 
   return (
     <div className="sg-sender">
-      <div className="sg-turnstile" ref={turnstile.ref} />
+      <div className="sg-turnstile-frame">
+        <p className="n-small">{HUMAN_CHECK}</p>
+        <div className="sg-turnstile" ref={turnstile.ref} />
+      </div>
       {error ? (
         <p className="error" role="alert">
           {error}
@@ -805,7 +895,10 @@ function AddDetails(props: PanelProps & { client: ClientOptions; issue: number; 
         <pre>{scrubbed}</pre>
       </details>
       {noNames ? <p className="error">{NAMES_UNAVAILABLE}</p> : null}
-      <div className="sg-turnstile" ref={turnstile.ref} />
+      <div className="sg-turnstile-frame">
+        <p className="n-small">{HUMAN_CHECK}</p>
+        <div className="sg-turnstile" ref={turnstile.ref} />
+      </div>
       {error ? (
         <p className="error" role="alert">
           {error}

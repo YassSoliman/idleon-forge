@@ -26,7 +26,8 @@
     "./map": "./src/map/index.ts",
     "./session": "./src/session/index.ts",
     "./pictures": "./src/pictures/index.ts",
-    "./systems-ui": "./src/pictures/ui.ts"
+    "./systems-ui": "./src/pictures/ui.ts",
+    "./see-it": "./src/now/see-it.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json"

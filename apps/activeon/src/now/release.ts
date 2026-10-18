@@ -19,9 +19,9 @@ const FALLBACK: BuildInfo = {
 /** `__BUILD_INFO__`, compiled in by vite.config.ts (M12 TR-3). */
 export const buildInfo: BuildInfo = typeof __BUILD_INFO__ === 'undefined' ? FALLBACK : __BUILD_INFO__;
 
-/** M12 FR-11: "Preview of PR #N, not the live app", or null in production. */
+/** M12 FR-11, M21 G2: "Preview · PR #N" (a grey pill in the header's chip row), or null in production. */
 export const previewBadge = (b: BuildInfo = buildInfo): string | null =>
-  b.channel === 'preview' ? `Preview of PR #${b.pr ?? '?'}, not the live app` : null;
+  b.channel === 'preview' ? `Preview · PR #${b.pr ?? '?'}` : null;
 
 // ---- What's new (M12 TR-8) ----
 
@@ -156,14 +156,22 @@ export async function liveBuildDiffers(info: BuildInfo = buildInfo): Promise<boo
   }
 }
 
-const CHECK_EVERY_MS = 15 * 60_000;
+/** M21 (owner, 2026-10-18): a tab left open learns of a new build every 30 minutes and on focus. */
+export const CHECK_EVERY_MS = 30 * 60_000;
 const MIN_GAP_MS = 60_000;
 
-/** M12 FR-24: learns about a newer build within 15 minutes or on focus. Never reloads by itself. */
-export function useUpdateAvailable(check: () => Promise<boolean> = liveBuildDiffers) {
+/**
+ * M12 FR-24: learns about a newer build every 30 minutes, when the tab becomes visible and when the
+ * window takes focus (a tab left open behind another window never changes visibility). Never reloads by
+ * itself: the header shows "New version ready · Reload".
+ */
+export function useUpdateAvailable(
+  check: () => Promise<boolean> = liveBuildDiffers,
+  info: Pick<BuildInfo, 'channel'> = buildInfo,
+) {
   const [reason, setReason] = useState<UpdateReason | null>(null);
   useEffect(() => {
-    if (buildInfo.channel === 'local') return;
+    if (info.channel === 'local') return;
     let last = 0;
     let active = true;
     const run = () => {
@@ -178,15 +186,17 @@ export function useUpdateAvailable(check: () => Promise<boolean> = liveBuildDiff
       if (document.visibilityState === 'visible') run();
     };
     document.addEventListener('visibilitychange', onVisible);
+    window.addEventListener('focus', run);
     const timer = setInterval(() => {
       if (document.visibilityState === 'visible') run();
     }, CHECK_EVERY_MS);
     return () => {
       active = false;
       document.removeEventListener('visibilitychange', onVisible);
+      window.removeEventListener('focus', run);
       clearInterval(timer);
     };
-  }, [check]);
+  }, [check, info.channel]);
   const chunkLoadFailed = useCallback(() => setReason('chunk-load-failed'), []);
   return { reason, text: reason ? UPDATE_TEXT[reason] : null, chunkLoadFailed };
 }

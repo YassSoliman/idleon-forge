@@ -167,9 +167,8 @@ describe("US-16 What's new (M12 TR-8)", () => {
 
 describe('M12 FR-11 Preview badge', () => {
   it('shows on a Preview only', () => {
-    expect(previewBadge({ ...build, channel: 'preview', pr: 63 })).toBe(
-      'Preview of PR #63, not the live app',
-    );
+    // M21 G2: a grey pill in the header's chip row.
+    expect(previewBadge({ ...build, channel: 'preview', pr: 63 })).toBe('Preview · PR #63');
     expect(previewBadge(build)).toBeNull();
   });
 });

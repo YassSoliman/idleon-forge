@@ -33,13 +33,8 @@ const NON_DISPLAY: readonly (string | RegExp)[] = [
  * design/format.ts and deletes its line; Integration (FR-I3) checks only NON_DISPLAY is left. A line whose
  * file no longer matches fails below, so the list can only shrink.
  */
-const DISPLAY_TODAY: readonly string[] = [
-  'App.tsx', // the footer's clock
-  'components/CantRead.tsx', // "Last good save: … (09:12)"
-  'components/Header.tsx', // the save-age chip's title
-  'suggestions/Panel.tsx', // timeText and the date of a filed suggestion
-  'format.ts', // formatAge
-];
+// Area N moved all five of its display uses onto design/format.ts (M21): the list is empty.
+const DISPLAY_TODAY: readonly string[] = [];
 
 const walk = (dir: string): string[] =>
   readdirSync(dir, { withFileTypes: true }).flatMap((d) =>

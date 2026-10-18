@@ -1,36 +1,41 @@
-# golden v1: toolbox-raw · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: toolbox-raw · knowledge #80d1ed78 · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
 ## Now
 0 of 11 Ready · fix 9 before you leave · 2 Unknown
+counter: 9 fixes before you leave
+first: Death Bringer 1292 · Shimmerfin Grove · Pick an AFK Target before you leave
+fold: 2 we can't tell: see why
+finding: Anvil full on 11 · collect
+finding: Worship full on 10 · spend
 
 ### C2 · Death Bringer 1292 · Fix before you leave
 1 · Doing nothing · Shimmerfin Grove · [Anvil full · collect] [Worship full · spend] [Traps idle in 6h 36m] · Pick an AFK Target before you leave
 
 ### C1 · Siege Breaker 1291 · Fix before you leave
-2 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
+2 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your finished traps: 6 ready
 
 ### C6 · Wind Walker 1280 · Fix before you leave
 3 · Doing nothing · Frostbite Towndra · [Anvil full · collect] [Worship full · spend] · Pick an AFK Target before you leave
 
 ### C10 · Bubonic Conjuror 1268 · Fix before you leave
-4 · Fighting Green Mushroom · Spore Meadows · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
+4 · Fighting Green Mushroom · Spore Meadows · [Anvil full · collect] [Worship full · spend] · Collect and re-place your finished traps: 6 ready
 
 ### C8 · Siege Breaker 1261 · Fix before you leave
-5 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
+5 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your finished traps: 6 ready
 
 ### C4 · Divine Knight 1240 · Fix before you leave
-6 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
+6 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your finished traps: 6 ready
 
 ### C5 · Arcane Cultist 1231 · Fix before you leave
-7 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
+7 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your finished traps: 6 ready
 
 ### C7 · Voidwalker 1157 · Fix before you leave
-8 · Fishing Medium Fish · YumYum Islands · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
+8 · Fishing Medium Fish · YumYum Islands · [Anvil full · collect] [Worship full · spend] · Collect and re-place your finished traps: 6 ready
 
 ### C3 · Elemental Sorcerer 1259 · Fix before you leave
-9 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your 6 finished traps
+9 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Collect and re-place your finished traps: 6 ready
 
 ### C9 · Royal Guardian 1307 · Unknown
 10 · Fighting Verminous · The Royal Castle · [Anvil full · collect] [Worship full · spend] [Traps idle in 6h 36m] · Can't tell from the save

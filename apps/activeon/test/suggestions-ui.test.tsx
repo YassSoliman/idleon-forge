@@ -205,7 +205,7 @@ describe('US-1 send an idea from Suggest (FR-1 to FR-5, FR-11)', () => {
     render(<Harness store={store} />);
     await openForm();
     fill(/^I want…/, 'a draft I come back to');
-    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+    fireEvent.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Close' }));
     expect(screen.queryByRole('dialog')).toBeNull();
     await openForm();
     await waitFor(() =>
@@ -287,7 +287,11 @@ describe('US-2 Report this (FR-9, FR-10)', () => {
         <NowScreen {...props(r, saveOf(r, 1, 'first', null, 'live'))} />
       </SuggestionsProvider>,
     );
-    fireEvent.click(screen.getAllByRole('button', { name: 'Report this' })[0] as HTMLElement);
+    // M21 FR-N8: Report this is in a Goal's why sheet, in its overflow (DS-10).
+    fireEvent.click(document.querySelector('.n-goal__open') as HTMLElement);
+    const why = screen.getByRole('dialog');
+    fireEvent.click(within(why).getByRole('button', { name: 'More controls' }));
+    fireEvent.click(within(why).getByRole('button', { name: 'Report this' }));
     const dialog = await loaded(await screen.findByRole('dialog', { name: 'Report this line' }));
     expect(await within(dialog).findByRole('radio', { name: "Something's wrong" })).toHaveProperty(
       'checked',
@@ -359,6 +363,66 @@ describe('US-4 no proof yet (FR-12, FR-19)', () => {
     await findToast('Sent. Track it in Your suggestions.');
     expect(calls.filter((c) => c.path === '/v1/suggestions')).toHaveLength(1);
     expect(await store.get('outbox')).toEqual([]);
+  });
+});
+
+describe('M21 FR-N12 the layout (M13 copy and scrub unchanged)', () => {
+  it('opens on three kind tiles, then one question at a time', async () => {
+    render(<Harness />);
+    const dialog = await openForm();
+    const tiles = within(dialog).getAllByRole('radio');
+    expect(tiles.map((t) => t.closest('label')?.classList.contains('sg-kind'))).toEqual([true, true, true]);
+    expect(within(dialog).getByText('Question 1 of 4')).toBeTruthy();
+    const fields = [...dialog.querySelectorAll('.sg-field')];
+    expect(fields.map((f) => f.classList.contains('is-current'))).toEqual([true, false, false, false]);
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Next question' }));
+    expect(within(dialog).getByText('Question 2 of 4')).toBeTruthy();
+    expect(dialog.querySelectorAll('.sg-field')[1]?.classList.contains('is-current')).toBe(true);
+  });
+
+  it("a report picks what's wrong from four chips, which start I want…", async () => {
+    render(<Harness report={report} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Report it' }));
+    const dialog = await loaded(await screen.findByRole('dialog', { name: 'Report this line' }));
+    const chips = within(dialog).getByRole('group', { name: "What's wrong" });
+    expect(
+      within(chips)
+        .getAllByRole('button')
+        .map((b) => b.textContent),
+    ).toEqual(['Wrong number', 'Wrong advice', 'Confusing words', 'Already done']);
+    fireEvent.click(within(chips).getByRole('button', { name: 'Wrong advice' }));
+    expect((within(dialog).getByLabelText(/^I want…/) as HTMLTextAreaElement).value).toBe(
+      'advice on this line that fits my account',
+    );
+    expect(within(chips).getByRole('button', { name: 'Wrong advice' }).getAttribute('aria-pressed')).toBe(
+      'true',
+    );
+  });
+
+  it('Your suggestions: the 3 newest are notes on the quest board, the rest the plain list (US-16)', async () => {
+    mine = [9, 8, 7, 6, 5].map((n) => ({
+      number: n,
+      url: `https://github.com/YassSoliman/idleon-forge/issues/${n}`,
+      type: 'idea' as const,
+      iWant: `idea number ${n}`,
+      createdAt: `2026-10-1${n - 4}T10:00:00Z`,
+      status: 'received' as const,
+    }));
+    render(<Harness />);
+    fireEvent.click(screen.getByRole('button', { name: 'Your suggestions' }));
+    const dialog = await screen.findByRole('dialog', { name: 'Your suggestions' });
+    await within(dialog).findByText('idea number 9');
+    const notes = dialog.querySelectorAll('.sg-note');
+    expect([...notes].map((n) => n.querySelector('.sg-note-title')?.textContent)).toEqual([
+      'idea number 9',
+      'idea number 8',
+      'idea number 7',
+    ]);
+    const plain = dialog.querySelectorAll('.sg-plainrow a');
+    expect([...plain].map((a) => a.getAttribute('href'))).toEqual([
+      'https://github.com/YassSoliman/idleon-forge/issues/6',
+      'https://github.com/YassSoliman/idleon-forge/issues/5',
+    ]);
   });
 });
 

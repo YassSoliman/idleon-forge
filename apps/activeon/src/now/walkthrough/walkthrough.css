@@ -1,49 +1,103 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
-/* M14 Walkthrough under a Goal card (FR-23). Tokens only (tokens.css); wraps at 320 px. */
-.walkthrough {
-  margin: 6px 0 2px;
-  border-left: 2px solid var(--line);
-  padding-left: 8px;
+/* Copyright (C) 2026 IdleOn Forge contributors. */
+/* M14 Walkthrough in the M21 design (`cards.walkthrough` Pinned current step, Progress bar step, Flat
+   need list). Tokens only; wraps at 320 px; one NOW step per Walkthrough (DS-2). */
+.wt-pin {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border-radius: var(--radius-control);
+  background: var(--sunk);
+  font-size: var(--text-sm);
+}
+.wt-pin__top {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  color: var(--muted);
+  font-weight: var(--weight-semibold);
+}
+.wt-pin__line {
   overflow-wrap: anywhere;
 }
-.walkthrough summary {
-  cursor: pointer;
-  min-height: 24px;
+.wt-bar {
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--surface);
+  overflow: hidden;
 }
-.walkthrough .wt-label {
-  font-weight: 700;
+.wt-bar__fill {
+  display: block;
+  height: 100%;
+  width: calc(var(--fill, 0) * 100%);
+  background: var(--accent);
+}
+.walkthrough {
+  display: grid;
+  gap: var(--space-2);
+  overflow-wrap: anywhere;
+}
+.wt-collapsed {
+  margin: 0;
+  font-weight: var(--weight-bold);
 }
 .wt-caveat {
-  margin: 4px 0;
+  margin: 0;
 }
-.wt-steps {
-  margin: 4px 0;
-  padding-left: 20px;
+.wt-steps,
+.wt-needs,
+.wt-tree,
+.wt-other {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
 }
 .wt-step {
-  margin: 2px 0;
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+}
+.wt-step__body {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.wt-step.is-now .wt-text {
+  font-weight: var(--weight-bold);
 }
 .wt-when {
-  display: inline-block;
-  min-width: 3.2em;
-  font-size: 0.85em;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-.wt-after .wt-text {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
   color: var(--muted);
 }
-.wt-tree ul,
-.wt-other ul {
-  list-style: none;
-  margin: 2px 0 4px;
-  padding: 0;
+.wt-step.is-now .wt-when {
+  color: var(--accent);
 }
+.wt-after .wt-text,
+.wt-blocked .wt-text {
+  color: var(--muted);
+}
+.wt-progress {
+  font-size: var(--text-sm);
+}
+.wt-why {
+  font-size: var(--text-sm);
+}
+.wt-needs li,
 .wt-tree li {
-  margin: 1px 0;
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  font-size: var(--text-sm);
 }
-.wt-d0 {
-  padding-left: 0;
+.wt-more {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 .wt-d1 {
   padding-left: 12px;
@@ -63,15 +117,12 @@
 .wt-d6 {
   padding-left: 72px;
 }
-.wt-done .wt-mark {
+.wt-done {
   color: var(--ok);
 }
-.wt-missing .wt-mark {
-  color: var(--coin);
+.wt-missing {
+  color: var(--fg);
 }
-.wt-unknown .wt-mark {
+.wt-unknown {
   color: var(--unk);
-}
-.wt-other li {
-  padding-left: 12px;
 }

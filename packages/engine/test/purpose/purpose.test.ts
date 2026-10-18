@@ -316,7 +316,9 @@ describe('the Focus card’s Purpose block (Design Lab now.focus-purpose: Quest 
     const head = f?.purpose[0];
     expect(head?.text).toBe('Poop kills ~2,995 → 10k for Dirty Money · about 5h · consider stopping here');
     expect(head?.ladder.map((l) => l.state)).toEqual(['done', 'next', 'later']);
-    expect(head?.ladder[1]).toEqual({ state: 'next', label: '10k kills', note: 'about 5h' });
+    // M21 FR-F6: a rung's ETA is a moment ("in 4h 54m"), never "about 5h".
+    expect(head?.ladder[1]).toMatchObject({ state: 'next', label: '10k kills' });
+    expect(head?.ladder[1]?.note).toMatch(/^in \d+h \d\dm$/);
     expect(head?.bar).toEqual({ current: 2995, next: 10_000 });
     expect(f?.purposeStatus).toBe('serving');
   });
@@ -338,7 +340,9 @@ describe('the Focus card’s Purpose block (Design Lab now.focus-purpose: Quest 
     const now = s.asOf + 3 * 3_600_000;
     const f = buildNowView(engineOf(s, { now }), EMPTY_PREFS, { ...DEFAULT_UI, focus: 0, now }).focus;
     const head = f?.purpose.find((p) => p.goalId === 'upgrade-vault.goal.kill-row-map-8');
-    expect(head?.ladder.map((l) => [l.state, l.label, l.note.replace(/about \d+h/, 'ETA')])).toEqual([
+    expect(
+      head?.ladder.map((l) => [l.state, l.label, l.note.replace(/in (\d+d )?\d+h( \d\dm)?/, 'ETA')]),
+    ).toEqual([
       ['done', '10k kills', 'reached, claim to confirm'],
       ['next', '100k kills', 'ETA'],
     ]);

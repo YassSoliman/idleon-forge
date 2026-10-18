@@ -1,9 +1,12 @@
-# golden v1: fourth · knowledge #f038203d · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 988
+# golden v1: fourth · knowledge #80d1ed78 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
 ## Now
 0 of 2 Ready · fix 1 before you leave · 1 Unknown
+counter: 1 fix before you leave
+first: Beginner 1 · Blunder Hills · Pick an AFK Target before you leave
+fold: 1 we can't tell: see why
 
 ### C2 · Beginner 1 · Fix before you leave
 1 · Doing nothing · Blunder Hills · Pick an AFK Target before you leave

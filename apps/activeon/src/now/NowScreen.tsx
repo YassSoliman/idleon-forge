@@ -1,29 +1,70 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// The Now place (M10): the Roster, or a Character page (Focus with its tabs), with the Account section,
-// "If you have time" and "Not covered yet" under it, built from one `NowView` (TR-3). The session state
-// it used to own (the follow state, the frozen Visit Order, `expanded`, the live region) lives in the
-// shell now (M17 FR-10, `shell/session.ts`), so it survives place moves. It never orders or filters
-// advice itself: `buildNowView` does.
-import { PLACE_WORDS } from '@idleon-forge/engine/now';
+// The Now place (M10; M21 FR-N1). Top to bottom on a phone: the stale-first banner when the save is
+// stale, the counter with its first fix, the Expected Return line, the pause-point control, the pause
+// point's content (Log in: the Away card and what changed; Log off: the AFK Setup list), then Rounds'
+// grouped jobs and the Roster, then the Account summary. The compact AFK strip goes between the pause
+// control and its content (Integration places it, FR-I1). A Character page is the same object from every
+// place (M17 FR-15): Focus plus the Account. The session state lives in the shell (M17 FR-10,
+// `shell/session.ts`), so it survives place moves; nothing here orders or filters advice
+// (`buildNowView` and `buildSessionView` do).
+import { FLOW_WORDS, PLACE_WORDS } from '@idleon-forge/engine/now';
+import { useCallback, useMemo, useState } from 'react';
+import { EmptyState } from '../design/atoms/States';
+import { span } from '../design/format';
+import { lazyPart } from '../lazy-part';
 import type { Session } from '../shell/session';
-import { AccountSection, IfYouHaveTime, NotCoveredYet } from './Account';
-import { Focus } from './Focus';
+import { AccountSection } from './Account';
+import { Counter, ReturnLine, StaleBanner, staleAge } from './chrome/Answer';
+import { PauseContent, PauseControl, usePauseState } from './chrome/Pause';
 import { Roster } from './Roster';
-import { buildInfo } from './release';
-import { suggestUrl } from './report';
+import { useNowSettings } from './settings/context';
 
 export type { NowSave, ShellProps as NowScreenProps } from '../shell/session';
 
-/** A Character page is the same object from every place (M17 FR-15): Focus plus Now's sections. */
+/** Focus, the Character page's Now tab, is a lazy part (M21 TR-12): it is prefetched when idle. */
+const Focus = lazyPart(
+  () => import('./Focus'),
+  (m) => m.Focus,
+);
+
+/** When this page first loaded: a pasted save has no Play Session, so a pick holds for the visit. */
+const LOADED_AT = Date.now();
+
 export function NowPlace({ s }: { s: Session }) {
-  const { view, result, focusChar, suggestions, refs } = s;
-  return (
-    <>
-      <div ref={refs.cardRef}>
-        {view.focus ? (
+  const { view, result, refs } = s;
+  const settings = useNowSettings();
+  const session = result.sessionStartedAt;
+  const [pause, setPause] = usePauseState(session);
+  const chosenAt = s.prefs.data.expectedReturn?.chosenAt ?? null;
+  const ui = useMemo(
+    () => ({
+      returnChangedThisSession: chosenAt !== null && chosenAt >= (session ?? LOADED_AT),
+      manualTab: pause.manual,
+    }),
+    [chosenAt, session, pause.manual],
+  );
+  const sv = useMemo(() => s.views.sessionView(ui), [s.views, ui]);
+  const stale = staleAge(s.now, s.lastCloudSave, result.expectedReturn.usedSeconds);
+  const [updating, setUpdating] = useState(false);
+  const pick = useCallback(
+    (seconds: number) => {
+      setUpdating(true);
+      s.pick(seconds);
+      setTimeout(() => setUpdating(false), 1500);
+    },
+    [s],
+  );
+  const back =
+    view.expectedReturn.chips.find((c) => c.pressed)?.label ?? span(result.expectedReturn.usedSeconds * 1000);
+
+  if (view.focus)
+    return (
+      <>
+        {stale !== null ? <StaleBanner ageMs={stale} lastKnown={null} /> : null}
+        <div ref={refs.cardRef}>
           <Focus
-            ref={refs.headingRef}
+            headingRef={refs.headingRef}
             card={view.focus}
             pendingFollow={null}
             showCloudSaveTip={
@@ -42,48 +83,56 @@ export function NowPlace({ s }: { s: Session }) {
               })
             }
             view={view}
-            openConfusing={
-              suggestions
-                ? () =>
-                    suggestions.open({
-                      kind: 'suggest',
-                      type: 'confusing',
-                      screen: 'character',
-                      characterIndex: focusChar?.index ?? null,
-                    })
-                : null
-            }
-            onConfusing={() =>
-              suggestUrl('confusing', {
-                screen: 'character',
-                character: focusChar ? { classLabel: focusChar.classLabel, level: focusChar.level } : null,
-                stage: result.stage.id,
-                knowledge: result.versions.knowledge,
-                gameBuild: result.versions.gameBuild,
-                build: buildInfo,
-              })
-            }
           />
-        ) : (
-          <>
-            <h2 className="sr-only" data-place-heading tabIndex={-1}>
-              {PLACE_WORDS.now}
-            </h2>
-            <Roster
-              view={view}
-              onOpen={(i) => s.open(i)}
-              onSpend={s.toSpend}
-              rowRef={(i, el) => {
-                if (el) refs.rows.current.set(i, el);
-                else refs.rows.current.delete(i);
-              }}
-            />
-          </>
-        )}
+        </div>
+        <AccountSection ref={refs.accountRef} view={view} />
+      </>
+    );
+
+  return (
+    <>
+      <div ref={refs.cardRef} className="n-now">
+        <h2 className="sr-only" data-place-heading tabIndex={-1}>
+          {PLACE_WORDS.now}
+        </h2>
+        {stale !== null ? <StaleBanner ageMs={stale} lastKnown={sv.counter.count} /> : null}
+        <Counter
+          view={view}
+          counter={sv.counter}
+          lastCloudSave={s.lastCloudSave}
+          stale={stale !== null}
+          onFirst={(_key, who) => (who ? s.open(who.index) : s.toAccountFix())}
+          unknownOpen={s.actions.expanded.has('unknown-fold')}
+          onUnknown={() => s.actions.toggle('unknown-fold')}
+          onTimeline={s.timeline ? () => s.navigate({ place: 'timeline', section: null }, 'push') : null}
+          fillAt={result.firstFill ? { at: result.firstFill.at, settings } : null}
+        />
+        <ReturnLine view={view} result={result} settings={settings} updating={updating} onPick={pick} />
+        <PauseControl view={sv} onPick={(tab) => setPause({ manual: tab })} />
+        <PauseContent
+          view={sv}
+          shown={pause.logoff}
+          onShown={(logoff) => setPause({ logoff })}
+          onOpen={(i) => s.open(i)}
+          onBuild={(i) => s.actions.openTab(i, 'build')}
+          back={back}
+        />
+        {view.roster.length === 0 ? (
+          <EmptyState line={FLOW_WORDS.empty(span(result.expectedReturn.usedSeconds * 1000), null)} />
+        ) : null}
+        <Roster
+          view={view}
+          result={result}
+          session={sv}
+          onOpen={(i) => s.open(i)}
+          onSpend={s.toSpend}
+          rowRef={(i, el) => {
+            if (el) refs.rows.current.set(i, el);
+            else refs.rows.current.delete(i);
+          }}
+        />
       </div>
       <AccountSection ref={refs.accountRef} view={view} />
-      <IfYouHaveTime view={view} />
-      <NotCoveredYet view={view} />
     </>
   );
 }

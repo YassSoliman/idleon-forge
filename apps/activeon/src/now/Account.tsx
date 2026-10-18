@@ -1,13 +1,29 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// The Account section (FR-22, FR-23, FR-26), "If you have time" (FR-24) and "Not covered yet".
-import { LINK_WORDS, type NowView } from '@idleon-forge/engine/now';
-import { forwardRef } from 'react';
-import { formatRoute } from '../shell/route';
-import { ChecklistSection } from './Checklist';
+// The Account section (M10 FR-22 to FR-26; M21 FR-N10, `cards.account-section` Summary header): one
+// header, "Account · 0 fixes · 19 Goals", that folds the section; a blocker (or an Unknown account
+// safety) opens it, and so does a link that lands inside it (a Timeline fix, the Spend Plan, a checklist
+// row). The body is a lazy part (TR-12 offset 1, `now/account-parts`): only this header is in the first
+// load. The body stays in the page while folded, so a link that lands in it always finds its target.
+import { type NowView, ACCOUNT_WORDS as W } from '@idleon-forge/engine/now';
+import { forwardRef, Suspense } from 'react';
+import { PixelArt } from '../design/art/PixelArt';
+import { cx } from '../design/atoms/Button';
+import { Loading, lazyPart } from '../lazy-part';
 import { useNowActions } from './context';
-import { GoalList, NextActionItem, ReportThis, SeeItLink, SourceLabel } from './parts';
-import { StarChartSection } from './signs/SignsPanel';
+
+export const AccountBody = lazyPart(
+  () => import('./account-parts/AccountBody'),
+  (m) => m.AccountBody,
+);
+
+/** Whether a link has to land inside the Account (it unfolds the section). */
+function landsInside(view: NowView, highlight: string | null | undefined, expanded: ReadonlySet<string>) {
+  if (expanded.has('account') || expanded.has('spend-open') || expanded.has('spend')) return true;
+  if (!highlight) return false;
+  if (highlight.endsWith('@account')) return true;
+  return view.activePlay.some((a) => a.key === highlight) || view.account.skippedKeys.includes(highlight);
+}
 
 export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(function AccountSection(
   { view },
@@ -15,211 +31,41 @@ export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(functio
 ) {
   const actions = useNowActions();
   const acc = view.account;
-  const sp = acc.spendPlan;
+  const fixes = acc.blockers.length;
+  const goals = acc.goals.length + acc.hiddenCount;
+  const opensItself = fixes > 0 || (acc.safetyUnknown !== null && !acc.safetyUnknown.skipped);
+  const flipped = actions.expanded.has('account-fold');
+  const open = landsInside(view, actions.highlight, actions.expanded) || (opensItself ? !flipped : flipped);
   return (
-    <section ref={ref} className="account" aria-labelledby="account-h" tabIndex={-1}>
-      <h2 id="account-h" className="section-h">
-        Account
-      </h2>
-      {acc.safetyUnknown ? (
-        <div className="verdict unknown">
-          <p>{acc.safetyUnknown.text}</p>
-          <div className="controls">
-            {acc.safetyUnknown.skipped ? (
-              <button
-                type="button"
-                className="ghost tiny"
-                onClick={() => actions.unskip(['unknown@account'])}
-              >
-                skipped · undo
-              </button>
-            ) : (
-              <button type="button" className="ghost tiny" onClick={() => actions.skip('unknown@account')}>
-                Skip today
-              </button>
-            )}
-            <ReportThis
-              input={{
-                outputKind: 'verdict',
-                entryIds: [],
-                fields: [],
-                text: acc.safetyUnknown.text,
-                stale: false,
-                contested: false,
-              }}
-            />
-          </div>
-        </div>
-      ) : null}
-      {acc.blockers.length > 0 ? (
-        <div className="verdict fix" id="account-fix" tabIndex={-1}>
-          <h3 className="sub-h">Fix before you leave</h3>
-          <ul className="goals blockers">
-            {acc.blockers.map((g) => (
-              <li key={g.action.key}>
-                <NextActionItem
-                  action={g.action}
-                  milestone={g.milestone}
-                  details={g.details}
-                  walkthrough={g.walkthrough}
-                />
-                <SeeItLink goal={g} subject="account" />
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
-      <ChecklistSection view={view.checklist} />
-      <GoalList
-        goals={acc.goals}
-        subject="account"
-        hiddenCount={acc.hiddenCount}
-        skipped={acc.skippedKeys}
-        dismissed={acc.dismissed}
-      />
-      {sp ? (
-        <details
-          className="spend card"
-          id="spend-plan"
-          open={actions.expanded.has('spend-open')}
-          onToggle={(e) => {
-            const open = (e.currentTarget as HTMLDetailsElement).open;
-            if (open !== actions.expanded.has('spend-open')) actions.toggle('spend-open');
-          }}
+    <section
+      ref={ref}
+      className={cx('account n-account', fixes > 0 && 'is-fix')}
+      aria-labelledby="account-h"
+      tabIndex={-1}
+    >
+      <h2 className="n-account__h">
+        <button
+          type="button"
+          className="n-account__toggle"
+          aria-expanded={open}
+          aria-controls="account-body"
+          onClick={() => actions.toggle('account-fold')}
         >
-          <summary>
-            <span className="tag">Spend · Spend coins</span> {sp.goal ? sp.goal.action.text : sp.summary}
-          </summary>
-          <ol className="spend-lines">
-            {sp.lines.map((l) => (
-              <li key={l.id} className={`spend-line ${l.status}`}>
-                <p>
-                  <b>{l.text}</b>
-                  {l.levels ? ` · ${l.levels}` : ''}
-                </p>
-                {l.detail ? <p className="small muted spend-detail">{l.detail}</p> : null}
-                <p className="small">
-                  {[l.cost, l.payer, ''].filter((t) => t !== null).join(' · ')}
-                  <span className={`pill s-${l.status}`}>{l.statusText}</span>
-                </p>
-                {l.runningTotal ? <p className="small muted num">{l.runningTotal}</p> : null}
-                {l.source ? <SourceLabel source={l.source} more={false} /> : null}
-                <div className="controls">
-                  <button type="button" className="ghost tiny" onClick={() => actions.skip(l.key)}>
-                    Skip today
-                  </button>
-                  <button type="button" className="ghost tiny" onClick={() => actions.dismiss(l.key)}>
-                    Not for me
-                  </button>
-                  <ReportThis
-                    input={{
-                      outputKind: 'spend-line',
-                      entryIds: [l.key.split('@')[0] ?? l.key],
-                      fields: [],
-                      text: l.text,
-                      stale: l.stale,
-                      contested: l.contested,
-                    }}
-                  />
-                </div>
-                {l.note ? <p className="small muted">{l.note}</p> : null}
-              </li>
-            ))}
-          </ol>
-          {sp.hiddenCount > 0 || actions.expanded.has('spend') ? (
-            <button
-              type="button"
-              className="ghost"
-              aria-expanded={actions.expanded.has('spend')}
-              onClick={() => actions.toggle('spend')}
-            >
-              {actions.expanded.has('spend') ? 'show less' : `show more (${sp.hiddenCount})`}
-            </button>
-          ) : null}
-          {sp.skippedKeys.length ? (
-            <p className="small muted">
-              {sp.skippedKeys.length} skipped ·{' '}
-              <button type="button" className="ghost tiny" onClick={() => actions.unskip(sp.skippedKeys)}>
-                undo
-              </button>
-            </p>
-          ) : null}
-          <p className="small">{sp.summary}</p>
-          {sp.unavailable.map((u) => (
-            <p key={u} className="small muted">
-              {u}
-            </p>
-          ))}
-        </details>
-      ) : null}
-      <StarChartSection view={view} />
-      {acc.done.length > 0 ? (
-        <details className="done small">
-          <summary>Done this session ({acc.done.length})</summary>
-          <ul>
-            {acc.done.map((d) => (
-              <li key={d.key}>
-                <s>{d.text}</s> <span className="muted num">{d.time}</span>
-              </li>
-            ))}
-          </ul>
-        </details>
-      ) : null}
+          <span className="n-account__title" id="account-h">
+            {W.title}
+          </span>
+          <span className="n-account__sum num">
+            <span className={cx('n-dot', fixes > 0 ? 'is-bad' : 'is-ok')} aria-hidden="true" />
+            {W.summary(fixes, goals)}
+          </span>
+          <PixelArt name={open ? 'ui-arrow-left' : 'ui-arrow-right'} decorative className="n-account__chev" />
+        </button>
+      </h2>
+      <div id="account-body" className={cx('n-account__body', !open && 'is-folded')}>
+        <Suspense fallback={<Loading />}>
+          <AccountBody view={view} />
+        </Suspense>
+      </div>
     </section>
   );
 });
-
-export function IfYouHaveTime({ view }: { view: NowView }) {
-  const actions = useNowActions();
-  if (view.activePlay.length === 0) return null;
-  return (
-    <section aria-labelledby="iyht-h" className="small">
-      <h2 id="iyht-h" className="section-h">
-        If you have time
-      </h2>
-      <ul>
-        {view.activePlay.map((a) => (
-          // Keyed like a Next Action, so the checklist's "If you have time ↓" lands and outlines it.
-          <li key={a.key} data-na-key={a.key} className={actions.highlight === a.key ? 'iyht lit' : 'iyht'}>
-            {a.text} · {a.estimate}
-            {a.who ? ` · ${a.who}` : ''}
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}
-
-export function NotCoveredYet({ view }: { view: NowView }) {
-  const actions = useNowActions();
-  if (view.notCovered.length === 0) return null;
-  return (
-    <details className="not-covered small">
-      <summary>
-        Not covered yet: {view.notCovered.join(', ')}
-        {actions.navigate ? (
-          <>
-            {' '}
-            <a
-              href={formatRoute({ place: 'systems' })}
-              className="to-systems"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                actions.navigate?.({ place: 'systems' });
-              }}
-            >
-              {LINK_WORDS.toSystems}
-            </a>
-          </>
-        ) : null}
-      </summary>
-      <p>ActiveOn has no advice for these yet, so you're on your own there.</p>
-      <ul>
-        {view.notCovered.map((n) => (
-          <li key={n}>{n}</li>
-        ))}
-      </ul>
-    </details>
-  );
-}
