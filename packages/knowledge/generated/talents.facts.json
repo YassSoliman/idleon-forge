@@ -10,6 +10,52 @@
           "website-data/items.json",
           "website-data/quests.json",
           "website-data/gemShop.json",
+          "website-data/randomList.json",
+          "utility/wiki/growth.mjs#growth"
+        ]
+      },
+      "id": "talents.fact.book-eligible",
+      "origin": "generated",
+      "rows": {
+        "ineligible": [
+          10,
+          11,
+          12,
+          23,
+          75,
+          79,
+          86,
+          87,
+          266,
+          267,
+          446,
+          447
+        ],
+        "maxIndex": 615
+      },
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: randomList (book-ineligible talents)",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/randomList.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "talents",
+      "title": "Talents the Talent Book Library can raise"
+    },
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "talents",
+        "inputs": [
+          "website-data/talents.json",
+          "website-data/classPromotions.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/gemShop.json",
+          "website-data/randomList.json",
           "utility/wiki/growth.mjs#growth"
         ]
       },
@@ -45,6 +91,7 @@
           "website-data/items.json",
           "website-data/quests.json",
           "website-data/gemShop.json",
+          "website-data/randomList.json",
           "utility/wiki/growth.mjs#growth"
         ]
       },
@@ -523,6 +570,7 @@
           "website-data/items.json",
           "website-data/quests.json",
           "website-data/gemShop.json",
+          "website-data/randomList.json",
           "utility/wiki/growth.mjs#growth"
         ]
       },
@@ -562,6 +610,7 @@
           "website-data/items.json",
           "website-data/quests.json",
           "website-data/gemShop.json",
+          "website-data/randomList.json",
           "utility/wiki/growth.mjs#growth"
         ]
       },
@@ -622,6 +671,7 @@
           "website-data/items.json",
           "website-data/quests.json",
           "website-data/gemShop.json",
+          "website-data/randomList.json",
           "utility/wiki/growth.mjs#growth"
         ]
       },
@@ -654,6 +704,7 @@
           "website-data/items.json",
           "website-data/quests.json",
           "website-data/gemShop.json",
+          "website-data/randomList.json",
           "utility/wiki/growth.mjs#growth"
         ]
       },

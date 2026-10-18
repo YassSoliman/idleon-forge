@@ -1,0 +1,53 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M15 F4 Talent Book Library (docs/specs/M15-account-depth.md FR-20 to FR-25), owned by M9: built on
+# M9's Builds (D-3), so it never suggests a talent no Build uses. One Account Goal for checkouts (the
+# pusher first, then M2's Role order, D-5) and one for reading a held book a Build uses. A book's level
+# is a random roll in the book level range (game code N.js @8875709); holding a book down raises that
+# talent's max level on the reader (@7015346). A held book's talent is its `Speed`, its level `Reach`.
+system: library
+entries:
+  - id: library.check.checkout
+    system: library
+    type: check
+    title: Check out a Library book
+    subject: account
+    effect: next-action
+    category: spendable
+    effortSeconds: 30
+    detector: { id: library/checkout }
+    text: "Library: check out {talent} for your {who} (you have {checkouts:int} checkouts; the next one is ready in about {nextIn:duration})"
+    why: "Books raise a talent's max level for the character who reads it. Each checkout you keep makes the next one slower. Talent Book Library, Frostbite Tundra town: the {page} page."
+    values:
+      detail: "then {talent} for your {who}"
+      detail-nice: "Your {who} can read the {count:int} {talent} books you hold (no current build uses it; free, but low value)"
+    doneWhen: { field: "account.library.heldBooks", change: changed }
+    appliesTo: { stages: [{ from: W3-early, to: W4-entry }] }
+    confidence: M
+    status: active
+    notes: "Only a capped (base == max), book-eligible, target-max step of the Build for the preset the AFK Target needs, below the lowest book level, so every roll raises it (red-team #20). With the Book Reservation System on, only from 20 checkouts (N.js @8875709). Silent with the Library building at Lv 0."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Talent_Book_Library", title: "IdleOn Wiki: Talent Book Library (checkouts slow down as they pile up; book levels 101-125)", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://gist.github.com/shnaps/161a370ed795e6141e0553eb30ddc8fa", title: "shnaps, IdleOn progression gist (Library: prioritize efficiencies and pushing or skilling talents)", tier: 3, claimDate: 2026-09-18, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc.ts#L318", title: "Calculated by IdleOn Toolbox (getBookLvRange, getLibraryBookTimes)", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+  - id: library.check.read-book
+    system: library
+    type: check
+    title: Read a talent book you hold
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 10
+    detector: { id: library/read-book }
+    text: "Read the {talent} book (Lv {level:int}) on your {who}: hold it down from its inventory"
+    why: "A talent book raises that talent's max level on the character who reads it, and their build uses it. Books you can still read: {count:int}."
+    values:
+      text-in-storage: "Read the {talent} book (Lv {level:int}) on your {who}: take it from storage and hold it down"
+      detail: "then the {talent} book (Lv {level:int}) on your {who}"
+    doneWhen: { field: "account.library.heldBooks", change: changed }
+    appliesTo: { stages: [{ from: W3-early, to: W4-entry }] }
+    confidence: M
+    status: active
+    notes: "The reader is the highest-level character of the book's class line whose max level is below the book's (red-team #19); a book no Build of that reader uses is a detail of the checkout Goal instead, never a Next Action."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Talent_Book_Library", title: "IdleOn Wiki: Talent Book Library (a book raises the talent's max level)", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/talents.ts#L452", title: "IdleOn Toolbox: book-eligible talents (isBookEligibleTalent)", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

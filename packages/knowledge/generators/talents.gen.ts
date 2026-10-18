@@ -11,6 +11,9 @@
 // - `talents.fact.tab2-granting` and `talents.fact.bubble-capped`, the two groups M9 names;
 // - `talents.fact.reset-items` and `talents.fact.reset-sources`: the reset potion and fragment items,
 //   the quests that reward the potion, and its gem shop row.
+// - `talents.fact.book-eligible` (M15 TR-3): which talents the Talent Book Library can raise: class
+//   talents below skill index 615 (star talents start there, Toolbox isBookEligibleTalent) outside the
+//   game's RANDOlist[16] (randomList.json #16, the same list as Toolbox's BOOK_INELIGIBLE_INDICES).
 // Talents.json has no default max level per talent, so none is emitted (M9 reads max from the save).
 import type { FactTableT } from '../src/schema';
 import { defineGenerator, generatedBy, generatedSource } from './types';
@@ -45,6 +48,21 @@ export const TAB2_GRANTING = ['BACK_TO_BASICS', 'EARLIER_EDUCATION', 'PREVIOUS_P
 /** The Bottles, Vessels and Flasks talents (M9 TR-5): classified by rawName suffix. */
 export const BUBBLE_CAPPED_RE = /_(BOTTLES|VESSELS|FLASKS)$/;
 export const RESET_ITEMS = ['ResetCompleted', 'ResetFrag'] as const;
+/** Star talents start at skill index 615: no book raises them (Toolbox BOOK_ELIGIBLE_MAX_INDEX at the pin). */
+export const BOOK_MAX_INDEX = 615;
+/** The game's list of talents the Library never offers (CustomLists.RANDOlist[16]). */
+export const BOOK_INELIGIBLE_LIST = 16;
+
+/** `talents.fact.book-eligible` rows from randomList.json. */
+export function bookEligibleRows(randomList: unknown): { maxIndex: number; ineligible: number[] } {
+  const list = Array.isArray(randomList) ? randomList[BOOK_INELIGIBLE_LIST] : null;
+  if (!Array.isArray(list) || list.length === 0)
+    throw new Error(`talents: randomList[${BOOK_INELIGIBLE_LIST}] (book-ineligible talents) is missing`);
+  const ineligible = list.map(Number);
+  if (ineligible.some((n) => !Number.isInteger(n)))
+    throw new Error('talents: randomList[16] holds a non-integer talent index');
+  return { maxIndex: BOOK_MAX_INDEX, ineligible: [...new Set(ineligible)].sort((a, b) => a - b) };
+}
 
 export interface TalentRow {
   rawName: string;
@@ -157,6 +175,7 @@ const generator = defineGenerator({
     'website-data/items.json',
     'website-data/quests.json',
     'website-data/gemShop.json',
+    'website-data/randomList.json',
     'utility/wiki/growth.mjs#growth',
   ],
   constants: { growth: '@utility/wiki/growth.mjs' },
@@ -247,6 +266,15 @@ const generator = defineGenerator({
           'Talent reset items',
           resetItems,
           src('website-data/items.json', 'IdleOn Toolbox game data: items'),
+        ),
+        fact(
+          'talents.fact.book-eligible',
+          'Talents the Talent Book Library can raise',
+          bookEligibleRows(data.randomList),
+          src(
+            'website-data/randomList.json',
+            'IdleOn Toolbox game data: randomList (book-ineligible talents)',
+          ),
         ),
         fact(
           'talents.fact.reset-sources',
