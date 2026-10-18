@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M21 TR-7: the shell's view words (area M): the navigation and its badges.
-/** The navigation (FR-5): badge names and the nav's own label. */
+/** The navigation (FR-5, M21 FR-M6): badge names and the nav's own label. Badges on Now and Timeline only. */
 export const NAV_WORDS = {
   label: 'Places',
   nowBadge: (n: number) => `${n} to fix before you leave`,
-  systemsBadge: (n: number) => `${n} wasting`,
+  timelineBadge: (n: number) => `${n} limit${n === 1 ? '' : 's'} before you're back`,
   playing: (text: string) => `${text} · go`,
 } as const;
 

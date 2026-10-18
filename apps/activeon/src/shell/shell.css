@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
-/* Area M (M21 §9): the shell. The place navigation (a bottom bar under 720 px, a rail from 720 px), the
-   outlet, the skip link and the follow chip. Moved from styles/views.css in M21 Phase F, unchanged. */
+/* Area M (M21 §9): the shell. The place navigation (`nav.shell` "Bottom bar, then rail": five places, a
+   pixel glyph plus a word, a bottom bar under 720 px and a rail from 720 px), the outlet, the skip link
+   and the follow chip. Badges on Now and Timeline only (FR-M6), in Atkinson 700, never a pixel face. */
 
 /* The slot under the header holds only the navigation; it takes no grid row of its own. */
 .nav-slot {
@@ -15,7 +16,7 @@
   outline: none;
 }
 .place-h {
-  font-family: var(--display);
+  font-family: var(--font-display);
   font-size: 22px;
   text-transform: none;
   letter-spacing: 0;
@@ -38,8 +39,8 @@
   z-index: 20;
   background: var(--surface);
   padding: 10px 14px;
-  border-radius: var(--radius);
-  border: 2px solid var(--coin);
+  border-radius: var(--radius-control);
+  border: 2px solid var(--focus);
 }
 
 /* ---- The places: a bottom bar under 720 px (FR-2), reserving its own space (FR-3) ---- */
@@ -48,31 +49,46 @@
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 .place-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: var(--space-1);
   min-height: 56px;
-  min-width: 44px;
-  padding: 6px 4px;
-  color: var(--muted);
+  min-width: var(--tap-min);
+  padding: 6px 2px;
+  color: var(--info);
   text-decoration: none;
-  border-radius: var(--radius);
+  border-radius: var(--radius-control);
+  position: relative;
 }
 .place-item:focus-visible {
-  outline: 2px solid var(--coin);
+  outline: var(--focus-width) solid var(--focus);
   outline-offset: -2px;
 }
 .place-item.on {
-  color: var(--fg);
+  color: var(--accent);
+}
+/* The bar's "you are here" mark: a short accent rule over the current place (the Lab's top tab). */
+.place-item.on::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 32px;
+  height: 3px;
+  margin-left: -16px;
+  border-radius: 0 0 2px 2px;
+  background: var(--accent);
 }
 .place-label {
-  font-size: 12px;
+  font-family: var(--font-label);
+  font-size: var(--text-xs);
   line-height: 1.2;
+  white-space: nowrap;
 }
 .place-item.on .place-label {
   font-weight: 700;
@@ -83,17 +99,26 @@
 }
 .badge {
   position: absolute;
-  top: -6px;
-  right: -14px;
-  min-width: 18px;
-  height: 18px;
+  top: -8px;
+  right: -16px;
+  min-width: 20px;
+  height: 20px;
   padding: 0 5px;
-  border-radius: 999px;
-  background: var(--bad);
-  color: var(--surface);
-  font: 700 11px / 18px var(--mono);
+  border-radius: var(--radius-pill);
+  font: var(--weight-bold) var(--text-xs) / 20px var(--font-body);
   text-align: center;
   font-variant-numeric: tabular-nums;
+}
+/* Now: the count to bring to zero, in the Fix colour. Timeline: limits before you're back, outlined. */
+.badge-now {
+  background: var(--bad);
+  color: var(--on-bad);
+}
+.badge-timeline {
+  background: var(--warn-soft);
+  color: var(--warn);
+  box-shadow: inset 0 0 0 2px var(--warn);
+  line-height: 20px;
 }
 
 @media (max-width: 719.98px) {
@@ -116,7 +141,7 @@
   .places {
     position: static;
     border: 1px solid var(--line);
-    border-radius: var(--radius);
+    border-radius: var(--radius-card);
     padding-bottom: 0;
   }
   .app:has(.places) {
@@ -153,17 +178,21 @@
     padding: 8px 10px;
   }
   .place-item.on {
-    background: var(--surface);
-    box-shadow: inset 3px 0 0 var(--coin);
+    background: var(--accent-soft);
+    box-shadow: inset 3px 0 0 var(--accent);
+  }
+  .place-item.on::before {
+    content: none;
   }
   .place-label {
-    font-size: 14px;
+    font-size: var(--text-sm);
   }
 }
-/* The hub and the two-preset Build tab may widen to 980 px at 1000 px and up (D-6). */
+/* The hub, the two-preset Build tab and the Map's World strip may widen to 980 px at 1000 px and up (D-6). */
 @media (min-width: 1000px) {
   .app:has(.places):has(.systems-hub),
-  .app:has(.places):has(.build-view.two) {
+  .app:has(.places):has(.build-view.two),
+  .app:has(.places):has(.map-place) {
     max-width: min(calc(980px + 128px), 100%);
   }
 }

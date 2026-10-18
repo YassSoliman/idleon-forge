@@ -9,7 +9,6 @@
 import type { AccountState } from '@idleon-forge/account-state';
 import {
   buildAfkStripView,
-  buildMapView,
   buildNowView,
   buildSessionView,
   buildSlotsView,
@@ -164,9 +163,9 @@ export function useSession(props: ShellProps) {
       systems: (result.systems ?? []).filter((s) => s.kind === 'game').map((s) => s.id),
       indexes: result.characters.map((c) => c.index),
       timeline: true,
-      // M21 area M: the Map place and its map indexes (from the Map facts) arrive with it.
-      maps: [],
-      map: false,
+      // M21 FR-M5: the Map place, and the map indexes the worker's Map module knows (W1 to W4).
+      maps: (result.map?.worlds ?? []).flatMap((w) => w.maps.map((m) => m.mapIndex)),
+      map: true,
     }),
     [result],
   );
@@ -291,7 +290,6 @@ export function useSession(props: ShellProps) {
     () => ({
       sessionView: (ui: Omit<SessionUi, 'visited'>) =>
         buildSessionView(view, result, { ...ui, visited: [...visited] }),
-      mapView: buildMapView(result, view),
       slotsView: buildSlotsView(result, view),
       afkStrip: buildAfkStripView(timeline, view),
     }),
@@ -677,10 +675,7 @@ export function useSession(props: ShellProps) {
   };
 }
 
-/**
- * The place names. `map` falls back here until `PLACE_WORDS` (engine words) gains it with the Map
- * place (M21 area M); the engine's word wins once it exists.
- */
-export const PLACE_NAMES: Record<Place, string> = { map: 'Map', ...PLACE_WORDS };
+/** The place names (M21 FR-M6: `PLACE_WORDS` has all five). */
+export const PLACE_NAMES: Record<Place, string> = PLACE_WORDS;
 
 export type Session = ReturnType<typeof useSession>;
