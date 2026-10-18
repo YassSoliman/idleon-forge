@@ -146,6 +146,10 @@ _Avoid_: dots, tabs
 The part of the Now screen for account-wide Goals any character can do: stockpile blockers first, then Goals, the Spend Plan and "Not covered yet".
 _Avoid_: global tasks, shared list
 
+**Daily & Weekly Checklist**:
+The account's list of every item that resets daily or weekly (pet pull, Random Event, keys, Killroy, Weekly Battle, Bonus Ballot…), each timed on the account's own reset clock and ticked done from the next save, with a progress ring for today and for the week.
+_Avoid_: dailies, Session Checklist, Daily Checklist (the wiki page), to-do list
+
 ## Views
 
 **Character page**:
