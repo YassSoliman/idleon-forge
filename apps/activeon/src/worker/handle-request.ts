@@ -23,6 +23,7 @@ import {
 } from '@idleon-forge/engine';
 import { createAfkSafetyModule } from '@idleon-forge/engine/afk';
 import { createAlchemyModule } from '@idleon-forge/engine/alchemy';
+import { createBubbaModule } from '@idleon-forge/engine/bubba';
 import { createBuildsModule } from '@idleon-forge/engine/builds';
 import { createCardsViewModule, createCollectionsModule } from '@idleon-forge/engine/collections';
 import { engineDetectors } from '@idleon-forge/engine/detectors';
@@ -194,6 +195,8 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
     createWalkthroughModule({ kb }),
     createStarSignsModule({ kb }),
     ...createM20Modules({ kb }),
+    // M23: Bubba's one account Goal, its Timeline lane and its page.
+    createBubbaModule({ kb, registry: knowledgeDetectors }),
     // M19: runs after every module (it reads M3's, M6's and M7's merged output).
     createAlchemyModule({ kb }),
     // M21 Phase F: the area modules' stubs, registered once (spec §9); each area fills its own.

@@ -8,6 +8,8 @@ import type { CompiledKnowledge, DetectorRegistry } from '@idleon-forge/knowledg
 import { createAfkSafetyModule } from './afk/module';
 import { createAlchemyModule } from './alchemy/module';
 import { renderAlchemyText } from './alchemy/text';
+import { createBubbaModule } from './bubba/module';
+import { renderBubbaText } from './bubba/text';
 import { createBuildsModule } from './builds/module';
 import { createCollectionsModule } from './collections';
 import { DEFAULT_MODULES, runEngine } from './core/engine';
@@ -62,6 +64,8 @@ export interface GoldenEngine {
   renderAlchemy(input: GoldenInput): string;
   /** M18 TR-10: the `## Gear` section (each character's lit slot and slot words, the Smithy). */
   renderGear(input: GoldenInput): string;
+  /** M23 TR-10: the `## Bubba` section (the step, the bonus list, the next Megaflesh, Charisma). */
+  renderBubba(input: GoldenInput): string;
   /** M21 TR-8: the `## Builds` section (area C; a stub line until the Build path ships). */
   renderBuilds(input: GoldenInput): string;
   /** M21 TR-9: the `## Map` section (area M; a stub line until the Map ships). */
@@ -127,6 +131,7 @@ export function goldenModules(input: GoldenInput): readonly EngineModule[] {
     createStarSignsModule({ kb }),
     ...createM20Modules({ kb }),
     createAlchemyModule({ kb }),
+    createBubbaModule({ kb, registry: input.registries.knowledge }),
     // M21 Phase F: the area modules' stubs, registered once (spec §9).
     createSessionModule(),
     createMapModule(),
@@ -192,6 +197,7 @@ export const goldenEngine: GoldenEngine = {
     );
   },
   renderAlchemy: (input) => renderAlchemyText(goldenResult(input).alchemy ?? null),
+  renderBubba: (input) => renderBubbaText(goldenResult(input).bubba ?? null, input.now),
   renderGear: (input) => {
     const result = goldenResult(input);
     const c = (i: number) => result.characters.find((x) => x.index === i);

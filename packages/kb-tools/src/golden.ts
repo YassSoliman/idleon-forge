@@ -54,6 +54,8 @@ export interface GoldenEngine {
   renderAlchemy?(input: GoldenInput): string;
   /** M18 TR-10: the Gear tab and Smithy as text; the `## Gear` section is left out without it. */
   renderGear?(input: GoldenInput): string;
+  /** M23 TR-10: the Bubba page as text; the `## Bubba` section is left out without it. */
+  renderBubba?(input: GoldenInput): string;
   /** M21 TR-8: the Build path as text; the `## Builds` section is left out without it. */
   renderBuilds?(input: GoldenInput): string;
   /** M21 TR-9: the Map place as text; the `## Map` section is left out without it. */
@@ -218,6 +220,7 @@ export function renderGolden(
     ...(engine.renderTimeline ? ['## Timeline', engine.renderTimeline(input).trimEnd(), ''] : []),
     ...(engine.renderAlchemy ? ['## Alchemy', engine.renderAlchemy(input).trimEnd(), ''] : []),
     ...(engine.renderGear ? ['## Gear', engine.renderGear(input).trimEnd(), ''] : []),
+    ...(engine.renderBubba ? ['## Bubba', engine.renderBubba(input).trimEnd(), ''] : []),
     ...(engine.renderBuilds ? ['## Builds', engine.renderBuilds(input).trimEnd(), ''] : []),
     ...(engine.renderMap ? ['## Map', engine.renderMap(input).trimEnd(), ''] : []),
     '## Findings',
