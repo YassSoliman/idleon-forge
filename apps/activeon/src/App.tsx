@@ -20,7 +20,7 @@ import { ago, clockAt, localOffsetMinutes } from './design/format';
 import { Loading, lazyPart } from './lazy-part';
 import { AdviceBoundary, CantWorkOut } from './now/CantWorkOut';
 import { Waiting } from './now/Chrome';
-import { ModalSheet as Sheet } from './now/chrome/ModalSheet';
+import { LazySheet as Sheet } from './now/chrome/LazySheet';
 import { useNoticeDot } from './now/chrome/notices';
 import { shortHash } from './now/prefs-store';
 import { buildInfo, forgetWhatsNew, previewBadge, useUpdateAvailable } from './now/release';

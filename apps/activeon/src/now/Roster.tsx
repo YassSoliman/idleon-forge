@@ -23,20 +23,26 @@ import {
   type TabHealth,
 } from '@idleon-forge/engine/now';
 import type { EngineResult } from '@idleon-forge/engine/result';
-import { type CSSProperties, forwardRef } from 'react';
+import { type CSSProperties, forwardRef, Suspense } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
 import { cx } from '../design/atoms/Button';
-import { GlyphChip } from '../design/atoms/Chip';
 import { VERDICT_GLYPH } from '../design/atoms/glyphs';
 import { LegacyPill } from '../design/atoms/LegacyPill';
 import { Pill, VerdictStamp } from '../design/atoms/Pill';
-import { coins, inSpan } from '../design/format';
+import { inSpan } from '../design/format';
 import { WhoGlyph } from '../design/who/WhoGlyph';
+import { lazyPart } from '../lazy-part';
 import { formatRoute } from '../shell/route';
 import { type CharacterTab, characterTabs } from './character-tabs';
 import { capGlyph, capOpenId } from './chrome/cap-glyph';
 import { useNowActions } from './context';
-import type { FindingView, GroupedJobView, NowSessionView } from './session/types';
+import type { NowSessionView } from './session/types';
+
+/** The findings, grouped jobs and Spend card: a lazy part, shown only when the save has them. */
+const RosterCards = lazyPart(
+  () => import('./roster-parts/RosterCards'),
+  (m) => m.RosterCards,
+);
 
 /** Re-exported for older importers until Integration (M21 FR-I3). */
 export { LegacyPill as Pill };
@@ -207,98 +213,6 @@ const Row = forwardRef<
   );
 });
 
-function Findings({ findings }: { findings: FindingView[] }) {
-  const actions = useNowActions();
-  if (findings.length === 0) return null;
-  return (
-    <fieldset className="n-findings">
-      <legend className="sr-only">{GROUP_WORDS.findingsLabel}</legend>
-      {findings.map((f) => (
-        <Pill
-          key={f.entryId}
-          urgency={f.fullNow ? 'optional' : 'soon'}
-          glyph={capGlyph(f.label)}
-          verb={f.text}
-          filter={{
-            pressed: actions.expanded.has(`finding:${f.entryId}`),
-            onToggle: () => actions.toggle(`finding:${f.entryId}`),
-          }}
-        />
-      ))}
-    </fieldset>
-  );
-}
-
-function GroupCard({ g, onOpen }: { g: GroupedJobView; onOpen(i: number): void }) {
-  return (
-    <section className={cx('n-group', g.blocker && 'is-fix')} aria-label={g.heading}>
-      <p className="n-group__h">
-        <PixelArt name={capGlyph(g.text)} decorative />
-        {g.heading}
-      </p>
-      <p className="n-group__t">{g.text}</p>
-      <ol className="n-group__stops">
-        {g.stops.map((st) => (
-          <li key={st.map ?? '-'} className="n-group__stop">
-            {st.map ? (
-              <p className="n-group__map">
-                <PixelArt name="now-pin" decorative />
-                {st.map}
-              </p>
-            ) : null}
-            <span className="n-chipset">
-              {st.chips.map((c) => (
-                <GlyphChip
-                  key={c.index}
-                  family={c.family}
-                  label={c.label}
-                  detail={c.detail ?? undefined}
-                  onClick={() => onOpen(c.index)}
-                />
-              ))}
-            </span>
-          </li>
-        ))}
-      </ol>
-    </section>
-  );
-}
-
-/** One Spend card: the payers as glyph chips, then Open Spend Plan (FR-N9's door from the Roster). */
-function SpendCard({ view, result, onSpend }: { view: NowView; result: EngineResult; onSpend(): void }) {
-  const payers = view.roster.flatMap((r) => {
-    const c = result.characters.find((x) => x.index === r.index);
-    return c?.spendChip ? [{ row: r, ...c.spendChip }] : [];
-  });
-  if (payers.length === 0) return null;
-  const lines = payers.reduce((n, p) => n + p.lines, 0);
-  return (
-    <section className="n-spendcard" aria-label="Spend Plan">
-      <p className="n-group__h">
-        <PixelArt name="now-coin" scale={2} decorative />
-        <span>
-          <b>Spend coins</b> · {lines} buys on {payers.length} characters
-        </span>
-      </p>
-      <span className="n-chipset">
-        {payers.map((p) => (
-          <GlyphChip
-            key={p.row.index}
-            family={view.families?.[p.row.index] ?? 'beginner'}
-            label={`${p.row.classLabel} ${p.row.level}`}
-            detail={`${p.lines} · ${coins(p.coins)}`}
-            onClick={onSpend}
-          />
-        ))}
-      </span>
-      <button type="button" className="n-link-btn" onClick={onSpend}>
-        Open the Spend Plan
-        <PixelArt name="ui-arrow-right" decorative />
-      </button>
-    </section>
-  );
-}
-
 export interface RosterProps {
   view: NowView;
   result: EngineResult;
@@ -360,11 +274,13 @@ export function Roster({ view, result, session, onOpen, onSpend, rowRef }: Roste
           </a>
         ) : null}
       </h2>
-      <Findings findings={session.findings} />
-      {session.groups.map((g) => (
-        <GroupCard key={g.entryId} g={g} onOpen={onOpen} />
-      ))}
-      <SpendCard view={view} result={result} onSpend={onSpend} />
+      {session.findings.length > 0 ||
+      session.groups.length > 0 ||
+      result.characters.some((c) => c.spendChip) ? (
+        <Suspense fallback={null}>
+          <RosterCards view={view} result={result} session={session} onOpen={onOpen} onSpend={onSpend} />
+        </Suspense>
+      ) : null}
       <ol className="roster n-rows">{main.map(row)}</ol>
       {folded.length > 0 ? (
         <>

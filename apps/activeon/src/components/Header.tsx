@@ -15,7 +15,7 @@ import { Pill } from '../design/atoms/Pill';
 import { ThemeToggle } from '../design/atoms/ThemeToggle';
 import { ago, clockAt, localOffsetMinutes } from '../design/format';
 import { freshnessHint } from '../format';
-import { ModalSheet as Sheet } from '../now/chrome/ModalSheet';
+import { LazySheet as Sheet } from '../now/chrome/LazySheet';
 import { THEME_EVENT } from '../now/settings/settings-store';
 import type { SaveSource, SyncState } from '../use-activeon';
 import { useNow } from '../use-now';

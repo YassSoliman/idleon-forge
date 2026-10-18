@@ -5,6 +5,10 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { Header } from '../src/components/Header';
+import { preloadParts } from '../src/lazy-part';
+
+// The crest's sheet is a lazy part (LazySheet); load it so it opens synchronously.
+await preloadParts();
 
 afterEach(cleanup);
 const base = {

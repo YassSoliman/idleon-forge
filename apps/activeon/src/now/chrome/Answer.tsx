@@ -24,7 +24,7 @@ import { useNow } from '../../use-now';
 import { ExpectedReturnChips } from '../Chrome';
 import type { CounterView, WhoToken } from '../session/types';
 import type { Settings } from '../settings/settings-store';
-import { ModalSheet as Sheet } from './ModalSheet';
+import { LazySheet as Sheet } from './LazySheet';
 
 /** M10 §6: a save older than the Expected Return is stale; the screen says so before anything is safe. */
 export function staleAge(now: number, lastCloudSave: number | null, expectedReturnSeconds: number) {
