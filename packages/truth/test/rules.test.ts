@@ -41,6 +41,7 @@ describe('registry', () => {
       'raw-matches-state',
       'same-fact-everywhere',
       'star-total-floor',
+      'talent-total-vs-answer-key',
       'next-not-at-target',
       'no-points-vs-unspent',
       'affordable-within-wallet',
