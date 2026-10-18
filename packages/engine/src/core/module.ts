@@ -67,6 +67,11 @@ export type RankHints = Partial<Omit<Rankable, 'entryId' | 'category' | 'stale' 
 export interface ModuleGoal {
   goal: Goal;
   rank?: RankHints;
+  /**
+   * The Detector finding's slots behind this Goal (game identifiers and numbers), for engine steps that
+   * filter on them: M15 F5's Stage Expectation `when` (e.g. F2's `building` is the 3D Printer). Never shown.
+   */
+  slots?: Readonly<Record<string, string | number>>;
 }
 
 export interface CharacterContribution {

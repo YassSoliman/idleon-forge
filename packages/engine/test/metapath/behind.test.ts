@@ -85,6 +85,8 @@ describe('the Stage Expectations table (TR-10)', () => {
       ['big-bubbles', 'W2-mid'],
       ['post-office', 'W2-late'],
       ['salts-running', 'W3-early'],
+      ['printer-per-character', 'W3-mid'],
+      ['auto-refine', 'W3-mid'],
     ]);
     for (const r of rows) {
       expect(ctx.kb.entries[r.fix], r.fix).toBeDefined();
@@ -247,6 +249,19 @@ describe('FR-31 and the unit rules of behindStep', () => {
     expect(behindStep(base([contested, stamps]))?.row.id).toBe('stamps-town-shops');
     const stale = goalFor('cards.check.empty-slots', 'c0', { stale: true });
     expect(behindStep(base([stale]))).toBeNull();
+  });
+
+  it('a `when` row counts only findings whose Detector slot matches (F2 on the 3D Printer)', () => {
+    const late = (goals: TaggedGoal[]) => ({ ...base(goals), stage: 'W3-late' as const });
+    const build = (building: string): TaggedGoal => ({
+      ...goalFor('construction.check.build-next', 'account'),
+      slots: { building },
+    });
+    const i = { ...late([]), characters: [], account: [build('3D_Printer')] };
+    expect(behindStep(i)?.row.id).toBe('printer-per-character');
+    expect(behindStep({ ...i, account: [build('Salt_Lick')] })).toBeNull();
+    const auto = goalFor('refinery.check.auto-refine-off', 'account');
+    expect(behindStep({ ...i, account: [build('Salt_Lick'), auto] })?.row.id).toBe('auto-refine');
   });
 
   it('an unknown fix (its Detector failed) is skipped, never read as met', () => {

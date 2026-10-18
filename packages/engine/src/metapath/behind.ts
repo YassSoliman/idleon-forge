@@ -96,7 +96,11 @@ function findingsOf(row: StageExpectationRow, input: BehindInput): Finding[] {
   const counts = new Map(
     input.characters.map((c) => [c.index, c.level >= min && !input.newCharacters.has(c.index)] as const),
   );
-  const isFix = (g: TaggedGoal) => g.goal.nextAction.entryId === row.fix;
+  // TR-10 `when`: only findings whose Detector slot equals the value count (F2's `building` is the 3D
+  // Printer). The slots ride on the module's Goal (ModuleGoal.slots); a finding without them never counts.
+  const when = row.when;
+  const isFix = (g: TaggedGoal) =>
+    g.goal.nextAction.entryId === row.fix && (!when || g.slots?.[when.findingField] === when.equals);
   const out: Finding[] = [];
   for (const c of input.characters)
     for (const g of c.goals)
@@ -148,9 +152,6 @@ export function behindStep(input: BehindInput): BehindResult | null {
   const rows = behindRows(stageExpectations(input.kb), input.stage);
   const candidates: { row: StageExpectationRow; order: number; findings: Finding[] }[] = [];
   rows.forEach((row, order) => {
-    // TODO(F2): `when` filters on a finding slot (F2's subject building); Goals don't carry slots yet,
-    // so a row with `when` is skipped until construction.check.build-next exposes its subject.
-    if (row.when) return;
     const findings = sortFindings(findingsOf(row, input), input);
     const top = findings[0];
     if (!top || unsafe(row, top, input)) return;

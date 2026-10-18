@@ -934,7 +934,24 @@ entries:
         why: "Salts make nothing until their production is turned on and fuelled."
         sources:
           - { url: "https://idleon.wiki/wiki/Construction", title: "IdleOn Wiki: Construction (a salt uses fuel while it is turned on)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
-    notes: "M15 TR-10 seed rows whose fix exists on main. printer-per-character (W3-mid, construction.check.build-next) and auto-refine (W3-mid, refinery.check.auto-refine-off) join in the same PR as their fix entries (FR-32)."
+      - id: printer-per-character
+        system: Construction
+        expectedBy: W3-mid
+        fix: construction.check.build-next
+        when: { findingField: building, equals: 3D_Printer }
+        why: "Each 3D Printer level lets one more character print; one level per character comes first."
+        sources:
+          - { url: "https://idleon.wiki/wiki/3D_Printer", title: "IdleOn Wiki: 3D Printer (one player slot per level)", tier: 2, claimDate: 2026-10-14, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: "https://idleon.wiki/wiki/Construction", title: "IdleOn Wiki: Construction (build the 3D Printer first)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - id: auto-refine
+        system: Refinery
+        expectedBy: W3-mid
+        fix: refinery.check.auto-refine-off
+        why: "A salt ranks up only when you refine a full bar by hand; Auto Refine keeps it at its rank."
+        sources:
+          - { url: "https://idleon.wiki/wiki/Changelog/2025", title: "IdleOn Wiki: Changelog/2025 (v2.41: Auto Refine refines at any Power)", tier: 2, claimDate: 2025-07-06, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: "https://idleon.wiki/wiki/Construction", title: "IdleOn Wiki: Construction (Refinery ranks)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+    notes: "M15 TR-10 seed rows. printer-per-character counts only F2 findings whose building is the 3D Printer (its Detector slot, carried on the Goal as ModuleGoal.slots). F2 is silent past W3-early until its W3-mid list is authored (D-7), so that row cannot be behind yet."
 
   # ---------------------------------------------------------------- Priority Lists (M2 TR-13)
   # The shared frame: position 1 the never-skip block, 2 the push, 3 the free-value block, Stage items

@@ -13,6 +13,8 @@ import type { RankHints } from './module';
 export interface TaggedGoal {
   goal: Goal;
   rank?: RankHints;
+  /** ModuleGoal.slots: the finding's slots (M15 F5 `when` rows). */
+  slots?: Readonly<Record<string, string | number>>;
   /** The module that emitted it. */
   moduleId: string;
 }

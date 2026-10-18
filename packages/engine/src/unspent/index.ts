@@ -194,6 +194,8 @@ function goalOf(
       framePosition: listed ? null : urgency === 'losing-now' || urgency === 'lost-before-return' ? 1 : 3,
       cost: entry.effortSeconds ? { unit: 'hours', amount: entry.effortSeconds / 3600 } : null,
     },
+    // M15 F5: a Stage Expectation's `when` filters on these (e.g. F2's `building`).
+    slots: f.slots,
   };
 }
 
