@@ -85,9 +85,9 @@ describe('US-2 know where to go next', () => {
       '2 of 5 in your Visit Order · 1 left',
     );
   });
-  it('reads "last one", never "0 left", when nothing after this position needs a visit (R3 QA P3)', () => {
+  it('reads how many come after, never "0 left" nor "last one", when nothing after it needs a visit (R3, R6 QA)', () => {
     const v = view(r, { focus: 0, visited: new Set([1, 2]) });
-    expect(v.focus?.position).toBe('2 of 5 in your Visit Order · last one');
+    expect(v.focus?.position).toBe('2 of 5 in your Visit Order · 3 after it');
   });
   it('playing a different character than suggested only marks that one visited', () => {
     const v = view(r, { focus: 1, visited: new Set([1]) });
