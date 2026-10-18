@@ -93,6 +93,8 @@ entries:
     text: "Spend at least {points:int} talent points on your {role} preset"
     groupText: "Spend the talent points left behind on a preset"
     values:
+      # ADR 0010 (#125): an exact count on every tab with points says the number, as the Build tab does.
+      text-exact: "Spend {points:int} talent points on your {role} preset"
       text-no-build: "Spend at least {points:int} talent points on your {role} preset"
       why-no-build: "On the {tabs} tabs. Both presets share one point budget per tab, and your other preset spends more there, so these points are already earned."
       goal: Talent presets
@@ -107,7 +109,7 @@ entries:
     effect: next-action
     category: spendable
     detector: { id: builds/preset-behind, params: { minPoints: 10 } }
-    notes: FR-9, TR-7. A lower bound from comparing the presets per tab (tab 2 adjusted by the tab-2-granting talents); never an exact count (FR-10). minPoints is judgment.
+    notes: FR-9, TR-7. ADR 0010's exact unspent count when every tab with points has one (the Build tab's chips say the same number, M22 same-fact-everywhere); else the lower bound from comparing the presets per tab (tab 2 adjusted by the tab-2-granting talents), worded "at least". minPoints is judgment.
 
   # M21 FR-C15 (owner Q2, Final rulings DS-25): an empty star tab is account-wide advice, so it is ONE
   # account Goal with one detail per character, at the free-value position M9's preset Goals use. The

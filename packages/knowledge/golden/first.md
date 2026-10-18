@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #a1c3a80b · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 991
+# golden v1: first · knowledge #749e78fa · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 991
 
 ## Verdict changes
 
@@ -30,7 +30,7 @@ ready fold: 2 characters
 purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
 
 ### C4 · Divine Knight 86 · Ready
-7 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in 4h 33m] · Spend at least 101 talent points on your skilling preset · Spend here: 1 buy, about 935k coins → Spend Plan
+7 · Fighting Purp Mushroom · Spaceway Raceway · [Traps idle in 4h 33m] · Spend 109 talent points on your skilling preset · Spend here: 1 buy, about 935k coins → Spend Plan
 purpose: Death Note: Purp Mushroom kills ~47k → 100k · about 19h
 
 ### Account · nothing to fix
@@ -264,14 +264,14 @@ step: Use your 13 vial attempts on the W2 town cauldron
 
 ## Builds
 ### C1 (Blood Berserker 96)
-- Fighting preset (in use): Rage Basics · Warrior (9 points) · Barbarian · Blood Berserker · Star talents (all spent)
+- Fighting preset (in use): Rage Basics · Warrior (9 unspent) · Barbarian · Blood Berserker · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))
     - next after these: Beginner Best Class 6 → 7 · +1 (useful up to 7 (best Beginner-line level 73))
     - done: Attacks On Simmer 50
     - and 6 more
-- Skilling preset: Rage Basics [Start here] (114 points) · Warrior (12 points) · Barbarian (3 points) · Blood Berserker · Star talents (all spent)
+- Skilling preset: Rage Basics [Start here] (114 unspent) · Warrior (12 unspent) · Barbarian (3 unspent) · Blood Berserker · Star talents (all spent)
   - Rage Basics: 114 points waiting · they end here
     - done: Brute Efficiency 126
     - done: Idle Skilling 127
@@ -284,14 +284,14 @@ step: Use your 13 vial attempts on the W2 town cauldron
     - and 5 more
 
 ### C2 (Bubonic Conjuror 87)
-- Fighting preset: Savvy Basics (1 point) · Mage (9 points) · Shaman · Bubonic Conjuror · Star talents (all spent)
+- Fighting preset: Savvy Basics (1 unspent) · Mage (9 unspent) · Shaman · Bubonic Conjuror · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))
     - done: Beginner Best Class 7 (useful up to 7 (best Beginner-line level 73))
     - done: Attacks On Simmer 50
     - and 7 more
-- Skilling preset (in use): Savvy Basics (65 points) · Mage [Start here] (9 points) · Shaman · Bubonic Conjuror · Star talents (all spent)
+- Skilling preset (in use): Savvy Basics (65 unspent) · Mage [Start here] (9 unspent) · Shaman · Bubonic Conjuror · Star talents (all spent)
   - Mage: 9 points waiting · they end here
     - part now: Log On Logs 1 → 100 · +9 of 99 now · +99
     - next after these: Leaf Thief 85 → 100 · +114
@@ -306,14 +306,14 @@ step: Use your 13 vial attempts on the W2 town cauldron
     - and 5 more
 
 ### C3 (Siege Breaker 86)
-- Fighting preset: Calm Basics · Archer (9 points) · Bowman · Siege Breaker · Star talents (all spent)
+- Fighting preset: Calm Basics · Archer (9 unspent) · Bowman · Siege Breaker · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))
     - done: Beginner Best Class 7 (useful up to 7 (best Beginner-line level 73))
     - done: Attacks On Simmer 50
     - and 7 more
-- Skilling preset (in use): Calm Basics [Start here] (162 points) · Archer (9 points) · Bowman · Siege Breaker · Star talents (all spent)
+- Skilling preset (in use): Calm Basics [Start here] (162 unspent) · Archer (9 unspent) · Bowman · Siege Breaker · Star talents (all spent)
   - Calm Basics: 162 points waiting · they end here
     - done: Elusive Efficiency 127
     - can add now: Quickness Boots 118 → 123 · +5
@@ -326,14 +326,14 @@ step: Use your 13 vial attempts on the W2 town cauldron
     - and 5 more
 
 ### C4 (Divine Knight 86)
-- Fighting preset (in use): Rage Basics · Warrior (9 points) · Squire · Divine Knight · Star talents (all spent)
+- Fighting preset (in use): Rage Basics · Warrior (9 unspent) · Squire · Divine Knight · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))
     - done: Beginner Best Class 7 (useful up to 7 (best Beginner-line level 73))
     - done: Attacks On Simmer 50
     - and 7 more
-- Skilling preset: Rage Basics (100 points) · Warrior [Start here] (9 points) · Squire · Divine Knight · Star talents (all spent)
+- Skilling preset: Rage Basics (100 unspent) · Warrior [Start here] (9 unspent) · Squire · Divine Knight · Star talents (all spent)
   - Warrior: 9 points waiting · they end here
     - part now: Big Pick 5 → 100 · +9 of 95 now · +95
     - done: Copper Collector 116
@@ -348,14 +348,14 @@ step: Use your 13 vial attempts on the W2 town cauldron
     - and 5 more
 
 ### C5 (Elemental Sorcerer 87)
-- Fighting preset: Savvy Basics · Mage (9 points) · Wizard · Elemental Sorcerer · Star talents (all spent)
+- Fighting preset: Savvy Basics · Mage (9 unspent) · Wizard · Elemental Sorcerer · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - next after these: Will of the Eldest 8 → 9 · +1 (useful up to 9 (best level 96))
     - done: Beginner Best Class 7 (useful up to 7 (best Beginner-line level 73))
     - done: Attacks On Simmer 50
     - and 7 more
-- Skilling preset (in use): Savvy Basics (49 points) · Mage [Start here] (9 points) · Wizard · Elemental Sorcerer · Star talents (all spent)
+- Skilling preset (in use): Savvy Basics (49 unspent) · Mage [Start here] (9 unspent) · Wizard · Elemental Sorcerer · Star talents (all spent)
   - Mage: 9 points waiting · they end here
     - part now: Log On Logs 1 → 100 · +9 of 99 now · +99
     - next after these: Leaf Thief 84 → 100 · +115
@@ -370,14 +370,14 @@ step: Use your 13 vial attempts on the W2 town cauldron
     - and 6 more
 
 ### C6 (Beast Master 87)
-- Fighting preset: Calm Basics · Archer (9 points) · Hunter · Beast Master · Star talents (all spent)
+- Fighting preset: Calm Basics · Archer (9 unspent) · Hunter · Beast Master · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - done: Stonks! 30
     - done: Will of the Eldest 9 (useful up to 9 (best level 96))
     - done: Beginner Best Class 7 (useful up to 7 (best Beginner-line level 73))
     - done: Attacks On Simmer 50
     - and 7 more
-- Skilling preset (in use): Calm Basics [Start here] (179 points) · Archer (9 points) · Hunter · Beast Master · Star talents (all spent)
+- Skilling preset (in use): Calm Basics [Start here] (179 unspent) · Archer (9 unspent) · Hunter · Beast Master · Star talents (all spent)
   - Calm Basics: 179 points waiting · they end here
     - done: Elusive Efficiency 127
     - done: Broken Time 126

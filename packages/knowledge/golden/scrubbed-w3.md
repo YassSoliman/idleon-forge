@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #a1c3a80b · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 991
+# golden v1: scrubbed-w3 · knowledge #749e78fa · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 991
 
 ## Verdict changes
 
@@ -29,7 +29,7 @@ purpose: Fishing 22 → 30 opens Deepwater Docks
 purpose: Thermister card: first copy (5× drop chance while unowned) · about 2h on average · consider stopping here
 
 ### C2 · Squire 51 · Ready
-6 · Mining Gold · Freefall Caverns · [Anvil full · collect] [Worship full · spend] · Spend at least 115 talent points on your skilling preset
+6 · Mining Gold · Freefall Caverns · [Anvil full · collect] [Worship full · spend] · Spend 173 talent points on your skilling preset
 purpose: Mining 29 → 40 opens Echoing Egress
 
 ### Account · nothing to fix
@@ -250,14 +250,14 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
 
 ## Builds
 ### C1 (Wizard 73)
-- Fighting preset (in use): Savvy Basics (29 points) · Mage (26 points) · Wizard (26 points) · Star talents (13 unspent)
+- Fighting preset (in use): Savvy Basics (29 unspent) · Mage (26 unspent) · Wizard (26 unspent) · Star talents (13 unspent)
   - Star talents: 13 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - can add now: Will of the Eldest 7 → 8 · +1 (useful up to 8 (best level 85))
     - later: Beginner Best Class 0 (find its book (Rocklyte's quest))
     - part now: Tick Tock 4 → 92 · +12 of 88 now · +89
     - and 7 more
-- Skilling preset: Savvy Basics (112 points) · Mage [Start here] (103 points) · Wizard (81 points) · Star talents (55 unspent)
+- Skilling preset: Savvy Basics (112 unspent) · Mage [Start here] (103 unspent) · Wizard (81 unspent) · Star talents (55 unspent)
   - Mage: 103 points waiting · they end here
     - can add now: Log On Logs 1 → 100 · +99
     - part now: Leaf Thief 9 → 100 · +4 of 91 now · +190
@@ -272,7 +272,7 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
     - and 6 more
 
 ### C2 (Squire 51)
-- Skilling preset (in use): Rage Basics (22 points) · Warrior (18 points) · Squire [Start here] (133 points) · Star talents (12 unspent)
+- Skilling preset (in use): Rage Basics (22 unspent) · Warrior (18 unspent) · Squire [Start here] (133 unspent) · Star talents (12 unspent)
   - Squire: 133 points waiting · they end here
     - can add now: Refinery Throttle 0 → 100 · +100
     - part now: Redox Rates 0 → 100 · +33 of 100 now · +200
@@ -285,7 +285,7 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
     - later: Toilet Paper Postage 0 → 100 (find its book (a chat secret (see the wiki)))
     - done: Printer Sampling 1
     - and 5 more
-- Fighting preset: Rage Basics (22 points) · Warrior (18 points) · Squire (18 points) · Star talents (162 unspent)
+- Fighting preset: Rage Basics (22 unspent) · Warrior (18 unspent) · Squire (18 unspent) · Star talents (162 unspent)
   - Star talents: 162 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - can add now: Will of the Eldest 0 → 8 · +8 (useful up to 8 (best level 85))
@@ -294,7 +294,7 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
     - and 7 more
 
 ### C3 (Bowman 60)
-- Skilling preset (in use): Calm Basics (96 points) · Archer [Start here] (47 points) · Bowman (47 points) · Star talents (26 unspent)
+- Skilling preset (in use): Calm Basics (96 unspent) · Archer [Start here] (47 unspent) · Bowman (47 unspent) · Star talents (26 unspent)
   - Archer: 47 points waiting · they end here
     - part now: Garb of Un'agi'ng Quality 0 → 100 · +47 of 100 now · +100
     - next after these: Sanic Speed 0 → 100 · +200
@@ -307,7 +307,7 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
     - later: Toilet Paper Postage 0 → 100 (find its book (a chat secret (see the wiki)))
     - done: Printer Sampling 1
     - and 5 more
-- Fighting preset: Calm Basics (35 points) · Archer (31 points) · Bowman (31 points) · Star talents (15 unspent)
+- Fighting preset: Calm Basics (35 unspent) · Archer (31 unspent) · Bowman (31 unspent) · Star talents (15 unspent)
   - Star talents: 15 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - can add now: Will of the Eldest 0 → 8 · +8 (useful up to 8 (best level 85))
@@ -316,14 +316,14 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
     - and 7 more
 
 ### C4 (Squire 85)
-- Fighting preset (in use): Rage Basics (1 point) · Warrior · Squire · Star talents (all spent)
+- Fighting preset (in use): Rage Basics (1 unspent) · Warrior · Squire · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - next after these: Will of the Eldest 0 → 8 · +8 (useful up to 8 (best level 85))
     - later: Beginner Best Class 0 (find its book (Rocklyte's quest))
     - next after these: Tick Tock 0 → 92 · +100
     - and 7 more
-- Skilling preset: Rage Basics [Start here] (436 points) · Warrior (357 points) · Squire (228 points) · Star talents (182 unspent)
+- Skilling preset: Rage Basics [Start here] (436 unspent) · Warrior (357 unspent) · Squire (228 unspent) · Star talents (182 unspent)
   - Rage Basics: 436 points waiting · they end here
     - can add now: Brute Efficiency 0 → 100 · +100
     - can add now: Idle Skilling 0 → 100 · +200
@@ -338,7 +338,7 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
     - and 5 more
 
 ### C5 (Barbarian 56)
-- Skilling preset: Rage Basics (52 points) · Warrior (72 points) · Barbarian [Start here] (36 points) · Star talents (80 unspent)
+- Skilling preset: Rage Basics (52 unspent) · Warrior (72 unspent) · Barbarian [Start here] (36 unspent) · Star talents (80 unspent)
   - Barbarian: 36 points waiting · they end here
     - part now: Worming Undercover 2 → 100 · +36 of 98 now · +98
     - next after these: Bobbin' Bobbers 12 → 100 · +186
@@ -351,7 +351,7 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
     - later: Toilet Paper Postage 0 → 100 (find its book (a chat secret (see the wiki)))
     - next after these: Printer Sampling 0 → 1 · +94
     - and 5 more
-- Fighting preset (in use): Rage Basics (6 points) · Warrior (3 points) · Barbarian (3 points) · Star talents (6 unspent)
+- Fighting preset (in use): Rage Basics (6 unspent) · Warrior (3 unspent) · Barbarian (3 unspent) · Star talents (6 unspent)
   - Star talents: 6 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - done: Will of the Eldest 8 (useful up to 8 (best level 85))
@@ -360,14 +360,14 @@ step: Spend banked brew in 4 cauldrons: about 7 new bubbles
     - and 7 more
 
 ### C6 (Shaman 54)
-- Fighting preset (in use): Savvy Basics (83 points) · Mage (75 points) · Shaman (75 points) · Star talents (40 unspent)
+- Fighting preset (in use): Savvy Basics (83 unspent) · Mage (75 unspent) · Shaman (75 unspent) · Star talents (40 unspent)
   - Star talents: 40 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - done: Will of the Eldest 8 (useful up to 8 (best level 85))
     - later: Beginner Best Class 0 (find its book (Rocklyte's quest))
     - part now: Tick Tock 0 → 92 · +40 of 92 now · +92
     - and 7 more
-- Skilling preset: Savvy Basics [Start here] (296 points) · Mage (245 points) · Shaman (75 points) · Star talents (40 unspent)
+- Skilling preset: Savvy Basics [Start here] (296 unspent) · Mage (245 unspent) · Shaman (75 unspent) · Star talents (40 unspent)
   - Savvy Basics: 296 points waiting · they end here
     - can add now: Smart Efficiency 0 → 100 · +100
     - can add now: Book of the Wise 0 → 100 · +200

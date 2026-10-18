@@ -17,7 +17,19 @@ import {
 import { lookupOf } from '../../src/metapath/knowledge';
 import { charOf, evaluate, registry, W2, W3 } from '../afk/helpers';
 import { input, publicState } from '../core/helpers';
-import { goalOf, goalsOf, kb, m9, run, setBar, setTalent, swapPresets, TALENT, withItems } from './helpers';
+import {
+  boundOnly,
+  goalOf,
+  goalsOf,
+  kb,
+  m9,
+  run,
+  setBar,
+  setTalent,
+  swapPresets,
+  TALENT,
+  withItems,
+} from './helpers';
 
 const facts = lookupOf(kb);
 const m9Blockers = (s: Parameters<typeof evaluate>[0]) =>
@@ -130,8 +142,9 @@ describe('US-2 set up the empty second preset', () => {
 });
 
 describe('US-3 points left behind on the other preset', () => {
+  // M9's lower bound, on a save without ADR 0010's exact counts.
   it('W2-late: the Shaman Lv 44 (118) and the Squire Lv 43 (17)', () => {
-    const out = run(W2());
+    const out = run(boundOnly(W2()));
     expect(goalOf(out, 2, 'talent-presets.check.behind')?.goal.nextAction.text).toMatch(
       /^Spend at least 118 talent points on your skilling preset/,
     );
@@ -141,7 +154,7 @@ describe('US-3 points left behind on the other preset', () => {
   });
 
   it('W3-early: the Wizard Lv 73 (215) and the Squire Lv 51 (115, all in the Squire tab, Refinery Throttle first)', () => {
-    const out = run(W3());
+    const out = run(boundOnly(W3()));
     expect(goalOf(out, 0, 'talent-presets.check.behind')?.goal.nextAction.text).toMatch(/at least 215 /);
     const behind = goalOf(out, 1, 'talent-presets.check.behind')?.goal.nextAction;
     expect(behind?.text).toBe('Spend at least 115 talent points on your skilling preset');
@@ -149,6 +162,26 @@ describe('US-3 points left behind on the other preset', () => {
     // The Barbarian Lv 56's 148 is suppressed by its wrong-preset blocker.
     expect(goalOf(out, 4, 'talent-presets.check.behind')).toBeUndefined();
     expect(analyzeAccount(W3(), facts).characters.get(4)?.other?.lb?.total).toBe(148);
+  });
+
+  it('with exact counts (ADR 0010) the card says the Build chip\'s number, without "at least"', () => {
+    for (const s of [W2(), W3()]) {
+      const out = run(s);
+      let seen = 0;
+      for (const c of out.characters ?? []) {
+        const g = c.goals?.find((x) => x.goal.id === 'talent-presets.check.behind')?.goal;
+        if (!g) continue;
+        const m = /^Spend (at least )?([\d,]+) talent points on your (\w+) preset/.exec(g.nextAction.text);
+        expect(m, g.nextAction.text).not.toBeNull();
+        const preset = out.builds
+          ?.find((b) => b.index === c.index)
+          ?.presets.find((p) => p.heading.toLowerCase() === `${m?.[3]} preset`);
+        expect(Number(m?.[2]?.replace(/,/g, ''))).toBe(preset?.unspent);
+        if (preset?.tabs.every((t) => t.known?.kind === 'exact')) expect(m?.[1]).toBeUndefined();
+        seen++;
+      }
+      expect(seen).toBeGreaterThan(0);
+    }
   });
 
   it('equal presets leave nothing behind', () => {
