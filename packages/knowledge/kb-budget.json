@@ -1,5 +1,5 @@
 {
-  "description": "M11 TR-17: the shipped bundle budget. kb compile fails at +20 % over bundleBytes; the compile test holds the packed bundle under bundleBytes and its gzip under bundleGzipBytes. Lowered from 1 MB to 720 KB in release 7 (perf/kb-slim): the packed codec (pack.ts) took the bundle from 1,023 KB to 574 KB, so this leaves about 25 % headroom for M5, M18 and M19. The compiled Knowledge Base ships only in the parse worker chunk.",
+  "description": "M11 TR-17: the shipped bundle budget. kb compile fails at +20 % over bundleBytes; the compile test holds the packed bundle under bundleBytes and its gzip under bundleGzipBytes. Lowered from 1 MB to 720 KB in release 7 (perf/kb-slim): the packed codec (pack.ts) took the bundle from 1,023 KB to 574 KB, so this leaves about 25 % headroom for M5, M18 and M19. The compiled Knowledge Base ships only in the parse worker chunk. M23 (Bubba) adds 4.3 KB gzip (the six Checks, the visit Goal, four Priority Lists and six small game tables) to a bundle at 160.9 KB gzip, 2.9 KB under the old 160 KB budget, so the gzip budget moved to 165 KB.",
   "bundleBytes": 737280,
-  "bundleGzipBytes": 163840
+  "bundleGzipBytes": 168960
 }
