@@ -99,7 +99,7 @@ export function starKnownWord(k: BuildKnownPoints): string | null {
 }
 
 /**
- * The tile badge (FR-C3, `character.build.unspent`): "at least 12" for tabs 1–3, the star words for
+ * The tile badge (FR-C3, `character.build.unspent`): "29 unspent" or "at least 12 unspent" for tabs 1–3, the star words for
  * the star tab; null when nothing is known (zero shows nothing).
  */
 export function tabBadge(t: Pick<BuildTabView, 'known' | 'unspent' | 'tab'>): string | null {
@@ -107,10 +107,9 @@ export function tabBadge(t: Pick<BuildTabView, 'known' | 'unspent' | 'tab'>): st
   const k = t.known ?? { kind: 'none', points: t.unspent, overBy: null };
   if (k.kind === 'exact' && t.tab === 0) return starKnownWord(k);
   if (!k.points || k.points <= 0) return null;
-  // Exact class-tab counts (owner ruling, `feat/exact-talent-points`) drop "at least".
-  return k.kind === 'exact'
-    ? `${n(k.points)} ${k.points === 1 ? 'point' : 'points'}`
-    : `at least ${n(k.points)}`;
+  // Exact class-tab counts (owner ruling, `feat/exact-talent-points`) drop "at least". Every tile says
+  // "unspent", like the star tile, so "40 unspent" never sits beside "29 points" (truth run, P3).
+  return k.kind === 'exact' ? `${n(k.points)} unspent` : `at least ${n(k.points)} unspent`;
 }
 
 /**
