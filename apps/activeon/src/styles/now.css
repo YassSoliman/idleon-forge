@@ -118,7 +118,7 @@ label.chip {
 .sub-h {
   font-family: var(--font-display);
   font-weight: var(--display-weight);
-  font-size: var(--text-md);
+  font-size: var(--text-xl);
   color: var(--fg);
 }
 .na-meta,
@@ -261,7 +261,7 @@ label.chip {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--display-weight);
-  font-size: var(--text-md);
+  font-size: var(--text-xl);
   line-height: var(--lh-tight);
 }
 .n-section-h {
@@ -272,7 +272,7 @@ label.chip {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--display-weight);
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
 }
 .n-section-h__link {
   font: var(--weight-semibold) var(--text-sm) / var(--lh-snug) var(--font-body);
@@ -691,7 +691,7 @@ label.chip {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--display-weight);
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
 }
 .n-seals {
   list-style: none;
@@ -774,7 +774,7 @@ label.chip {
   margin: 0;
   font-family: var(--font-display);
   font-weight: var(--display-weight);
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
 }
 
 /* ---- The Roster (`now.roster` Grouped jobs, `now.roster-row` Three-token, findings, spend card) ---- */
@@ -1618,7 +1618,7 @@ label.chip {
 .n-account__title {
   font-family: var(--font-display);
   font-weight: var(--display-weight);
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
 }
 .n-account__sum {
   display: inline-flex;
@@ -1626,6 +1626,9 @@ label.chip {
   gap: var(--space-1);
   margin-left: auto;
   color: var(--muted);
+  /* Inside the h2, so it would inherit the pixel face; Pixelify is for headings at 20 px and up. */
+  font-family: var(--font-body);
+  font-weight: var(--weight-semibold);
   font-size: var(--text-sm);
 }
 .n-account__chev {
@@ -1940,7 +1943,7 @@ label.chip {
 .n-drop__title {
   font-family: var(--font-display);
   font-weight: var(--display-weight);
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
 }
 .n-drop__text {
   width: 100%;

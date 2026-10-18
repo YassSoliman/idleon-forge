@@ -203,6 +203,9 @@
 html {
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
+  /* Pixel-font QA: never fake a bold. A synthetic bold smears Pixelify's one-pixel "c" mouth shut;
+     a rule asking for a weight we don't ship gets the nearest real face instead. */
+  font-synthesis-weight: none;
 }
 
 :root[data-theme="dark"] {
@@ -275,7 +278,8 @@ html {
   --font-body: var(--ff-humanist);
   --font-numeral: var(--ff-mono);
   --font-mono: var(--ff-mono);
-  --display-weight: 500;
+  /* Pixelify Sans is self-hosted at 400 only (design/fonts.ts): heavier instances close the "c". */
+  --display-weight: 400;
   --label-weight: 600;
   --label-case: none;
 
@@ -433,7 +437,7 @@ html {
   --font-body: var(--ff-humanist);
   --font-numeral: var(--ff-pixel-numeral);
   --font-mono: var(--ff-mono);
-  --display-weight: 700;
+  --display-weight: 400;
   --label-weight: 700;
   --label-case: uppercase;
 

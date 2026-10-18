@@ -391,7 +391,7 @@
 .a-speech__name {
   display: block;
   margin-bottom: var(--space-1);
-  font: var(--weight-bold) var(--text-md) / 1 var(--font-display);
+  font: var(--display-weight) var(--text-xl) / 1 var(--font-display);
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
 }
@@ -407,7 +407,7 @@
 }
 .a-section__title {
   margin: 0;
-  font: var(--display-weight) var(--text-lg) / var(--lh-tight) var(--font-display);
+  font: var(--display-weight) var(--text-xl) / var(--lh-tight) var(--font-display);
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
 }
@@ -513,7 +513,7 @@
 }
 .a-sheet__title {
   margin: 0;
-  font: var(--display-weight) var(--text-lg) / var(--lh-tight) var(--font-display);
+  font: var(--display-weight) var(--text-xl) / var(--lh-tight) var(--font-display);
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
 }

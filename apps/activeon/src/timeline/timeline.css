@@ -23,7 +23,7 @@
 .tl-h {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: var(--display-weight);
   font-size: var(--text-xl);
   line-height: var(--lh-tight);
 }

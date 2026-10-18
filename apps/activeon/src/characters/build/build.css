@@ -21,7 +21,7 @@
   margin: 0 0 var(--space-2);
   font-family: var(--font-display);
   font-weight: var(--display-weight);
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
   line-height: var(--lh-tight);
 }
 
