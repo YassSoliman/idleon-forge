@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #f256588d · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: latest · knowledge #0f53b19b · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 342
 
 ## Verdict changes
 
@@ -169,6 +169,7 @@ C3 · Elemental Sorcerer 1259
 C11 · Beginner 1224
 - Anvil full · collect · now · before · pill · fix none
 - Worship full · spend · now · before · pill · fix none
+- In the group above · Anvil full · collect · Worship full · spend
 Account · Alchemy cauldrons and liquids
 - Water full · can't tell when · untimed · info · fix none
 Account · Arcade

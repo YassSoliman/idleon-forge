@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #f256588d · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 342
+# golden v1: second · knowledge #0f53b19b · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 4 of 342
 
 ## Verdict changes
 
@@ -131,38 +131,38 @@ Wasting: 1
 Axis: now to +12h · Back in 8h 00m · 14:05
 Nothing fills up before you're back
 C3 · Bubonic Conjuror 567
-- Traps idle in about 2 h · in 2h 15m · 08:20 · before · pill · fix none · the same on 7 more
+- Traps idle · in 2h 15m · 08:20 · before · pill · fix none · the same on 7 more
 - worship charge caps · later · in 19d 5h · 12:03 · after · info · fix none
 C2 · Divine Knight 544
-- Traps idle in about 2 h · in 2h 15m · 08:20 · before · pill · fix none
+- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - worship charge caps · later · in 14d 15h · 21:18 · after · info · fix none
 C6 · Siege Breaker 530
-- Traps idle in about 2 h · in 2h 14m · 08:19 · before · pill · fix none
+- Traps idle · in 2h 14m · 08:19 · before · pill · fix none
 - worship charge caps · later · in 14d 15h · 21:50 · after · info · fix none
 C7 · Voidwalker 510
-- Traps idle in about 2 h · in 2h 15m · 08:20 · before · pill · fix none
+- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - worship charge caps · later · in 9d 0h · 06:41 · after · info · fix none
 C1 · Beast Master 507
-- Traps idle in about 2 h · in 2h 15m · 08:19 · before · pill · fix none
+- Traps idle · in 2h 15m · 08:19 · before · pill · fix none
 - worship charge caps · later · in 14d 14h · 20:41 · after · info · fix none
 C9 · Hunter 503
-- Traps idle in about 2 h · in 2h 15m · 08:20 · before · pill · fix none
-- Anvil full in about 6 h · collect · in 5h 37m · 11:41 · before · pill · fix none
+- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
+- Anvil full · collect · in 5h 37m · 11:41 · before · pill · fix none
 - worship charge caps · later · in 14d 23h · 05:10 · after · info · fix none
 C4 · Blood Berserker 501
-- Traps idle in about 2 h · in 2h 15m · 08:20 · before · pill · fix none
+- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - anvil full · later · in 24h 50m · 06:55 · after · info · fix none
 - worship charge caps · later · in 14d 14h · 20:15 · after · info · fix none
 C5 · Wizard 501
-- Traps idle in about 2 h · in 2h 15m · 08:20 · before · pill · fix none
-- Anvil full in about 2 h · collect · in 2h 27m · 08:31 · before · pill · fix none
+- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
+- Anvil full · collect · in 2h 27m · 08:31 · before · pill · fix none
 - worship charge caps · later · in 7d 12h · 18:26 · after · info · fix none
 C10 · Barbarian 501
-- Traps idle in about 2 h · in 2h 15m · 08:20 · before · pill · fix none
+- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - anvil full · later · in 19h 09m · 01:14 · after · info · fix none
 - worship charge caps · later · in 14d 8h · 14:26 · after · info · fix none
 C8 · Elemental Sorcerer 525
-- Traps idle in about 2 h · in 2h 15m · 08:20 · before · pill · fix none
+- Traps idle · in 2h 15m · 08:20 · before · pill · fix none
 - worship charge caps · later · in 2d 9h · 15:48 · after · info · fix none
 Account · Alchemy cauldrons and liquids
 - Water full · can't tell when · untimed · info · fix none
