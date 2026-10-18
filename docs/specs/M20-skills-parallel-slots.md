@@ -149,7 +149,7 @@ M20 is a **new module** with its own folders (D-1). It reuses other modules' int
 **Cauldron seats** (`alchemy.check.liquid-unstaffed`)
 
 - **FR-27** Fires when a liquid is unlocked (F-g), holds below half its cap, and nobody is assigned to it, and some bubble cauldron has 2 or more brewers. It names one brewer to move: across every cauldron that has the most brewers, the one with the lowest Alchemy level that does not hold the `alchemy` Role (the Shaman line brews); ties to the lower cauldron index, then the lower character index. Next Action: "Move your Squire Lv 85 from the Power cauldron to Liquid Nitrogen". Why: "Nitrogen is at 0 of 13 with nobody on it; a liquid seat speeds it up and earns that character 2× Alchemy EXP, and the Power cauldron keeps its other brewer." Category `nice`, confidence M. It fires for at most one liquid (the lowest-numbered) per run.
-- **FR-28** An unassigned character stays M3's blocker (`alchemy.check.cauldron-unassigned`); M20 adds nothing for it. When M19 publishes bubble targets, FR-27 yields to M19's plan (section 7, X6).
+- **FR-28** An unassigned character stays M3's blocker (`alchemy.check.cauldron-unassigned`); M20 adds nothing for it. When M19 publishes a cauldron seat plan (M19 Phase 2), FR-27 yields to it (section 7, X6). M19 Phase 1's Bubble Plan is not a seat plan, so FR-27 stays until then ([M19](M19-alchemy.md) §7).
 
 **All slot Goals**
 
@@ -461,7 +461,7 @@ M20 stores nothing of its own. Manual ticks (FR-15) and dismissals use M10's pre
 | **M15** | Stage Expectations | FR-42's two rows, added in M20's PR to `metapath.metapath.stage-expectations` |
 | **M2 / M10** | the Account section's 5-Goal cap | **X7:** a shared position-3 budget for the small fill modules (M16 and M20 together at most 3 Account Goals), tested on W3-early; until it exists, M20's own cap of 2 holds (D-18) |
 | **M17** | routes, `SYSTEM_HOMES`, the generic System page, `SystemPageView.highlight`, `TimelineBar` | M20 adds four `page` homes and one `tab` home, `slotPictures`, the `skills` overview section and two Timeline bars (TR-6). **X9:** `#skills` in the route grammar and `Route.section`; registry rows for M20's seven new Systems and two `activeon` rows |
-| **M19** (proposed) | — | **X6:** when M19 publishes bubble targets, `alchemy.check.liquid-unstaffed` yields to M19's seat plan |
+| **M19** ([spec](M19-alchemy.md)) | — | **X6:** when M19 Phase 2 publishes its seat plan, `alchemy.check.liquid-unstaffed` yields to it; M19 Phase 1 moves the `alchemy` home to `alchemy-lab` and shows the cauldron-seats picture as one of its parts |
 
 ## 8. Owner review (self-ruled; the owner was asleep)
 

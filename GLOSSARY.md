@@ -130,6 +130,14 @@ _Avoid_: active goal, grind task
 The ordered list of purchases that stocked currency should go to right now (Upgrade Vault, stamps, other coin sinks), with each cost checked against what the account has.
 _Avoid_: shopping list, budget
 
+**Gear Plan**:
+The authored, Source-backed list of which piece each equipment slot and gathering tool should hold at each Stage, per class line; a slot is "behind" when its Gear Plan piece is better in every stat it has.
+_Avoid_: best in slot, BiS, gear tier list, gear score
+
+**Bubble Plan**:
+The authored, ordered list of the Alchemy bubbles worth levelling at each Stage for this account's classes and skills, each with a target level (a share of its maximum value); its first affordable row is the bubble ActiveOn lights.
+_Avoid_: bubble tier list, bubble priority (bare), bubble targets
+
 **Stale**:
 Said of a Knowledge Base entry verified on a patch older than the current one; still shown, ranked below fresh entries.
 _Avoid_: outdated, expired
