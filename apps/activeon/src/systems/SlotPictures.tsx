@@ -12,10 +12,10 @@ import type { SystemPicture } from '@idleon-forge/engine/result';
 import { BODY_WORDS, FRAME_WORDS } from '@idleon-forge/engine/systems-ui';
 import type { CSSProperties } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
-import { cx } from '../design/atoms/Button';
 import { WhoGlyph } from '../design/who/WhoGlyph';
 import type { SystemPageBodyProps } from './pages';
 import './slot-pictures.css';
+import { cx } from '../design/atoms';
 
 const labelOf = (p: SystemPageBodyProps, index: number) => {
   const c = p.s.view.roster.find((r) => r.index === index);

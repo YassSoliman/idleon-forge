@@ -10,9 +10,7 @@ import { HUB_WORDS, type TileStatus, type TileView } from '@idleon-forge/engine/
 import { BAND_WORDS, buildSystemsHubView, REPORT_WORDS } from '@idleon-forge/engine/systems-ui';
 import { type CSSProperties, useMemo } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
-import { cx } from '../design/atoms/Button';
-import { StatusGlyph as StatusMark } from '../design/atoms/Marks';
-import { TokenLine } from '../design/atoms/TokenLine';
+import { cx, StatusGlyph as StatusMark, TokenLine } from '../design/atoms';
 import { toNowPrefs } from '../now/prefs-store';
 import { formatRoute } from '../shell/route';
 import type { Session } from '../shell/session';

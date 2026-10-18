@@ -25,12 +25,11 @@ import {
 } from '@idleon-forge/engine/systems-ui';
 import { type CSSProperties, useState } from 'react';
 import { PixelArt, type Ramp } from '../design/art/PixelArt';
-import { cx } from '../design/atoms/Button';
-import { Tabs } from '../design/atoms/Choice';
 import { WhoGlyph } from '../design/who/WhoGlyph';
 import { litOf, usePictureSheet } from './PictureSheet';
 import type { SystemPageBodyProps } from './pages';
 import './pictures.css';
+import { cx, Tabs } from '../design/atoms';
 
 const pictureOf = <T,>(p: SystemPageBodyProps, kind: SystemPicture['kind']): T | null =>
   ((p.s.result.slotPictures ?? []).find((x) => x.kind === kind) as T | undefined) ?? null;

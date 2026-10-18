@@ -7,7 +7,7 @@
 import { PAGE_WORDS } from '@idleon-forge/engine/now';
 import { FRAME_WORDS } from '@idleon-forge/engine/systems-ui';
 import { type ReactNode, useCallback, useState } from 'react';
-import { Sheet } from '../design/atoms/Sheet';
+import { Sheet } from '../design/atoms';
 
 export interface SheetItem {
   title: string;

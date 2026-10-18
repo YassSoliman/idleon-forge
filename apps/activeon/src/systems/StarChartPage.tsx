@@ -2,13 +2,13 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M21 FR-S5: the star-signs System page body (Design Lab v2 `systems.star-chart` "Constellation map"),
 // a lazy chunk. The constellation sky, then M16's Star Chart lines and every character's signs, reused
-// from now/signs/SignsPanel.tsx (the Account keeps its one summary line there, D-9).
+// from systems/StarChart.tsx (the Account keeps its one summary line, D-9).
 import type { StarSignsNowView } from '@idleon-forge/engine/now';
 import { BODY_WORDS, FRAME_WORDS } from '@idleon-forge/engine/systems-ui';
 import { PixelArt } from '../design/art/PixelArt';
-import { Meter } from '../design/atoms/Meter';
-import { CharacterSigns, StarChartBody } from '../now/signs/SignsPanel';
+import { Meter } from '../design/atoms';
 import type { SystemPageBodyProps } from './pages';
+import { CharacterSigns, StarChartBody } from './StarChart';
 
 /**
  * M21 FR-S5 (Design Lab v2 `systems.star-chart` "Constellation map"): the sky of the next constellations

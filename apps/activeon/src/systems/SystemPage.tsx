@@ -8,20 +8,12 @@
 // me and Report this act on the same item as on Now, FR-33), and the Source. From 1000 px the picture
 // sits on the left and the step and order on the right. M17's generic sections follow: quick collects,
 // the Timeline bars, the Spend Plan lines, how it opens, what ActiveOn checks there.
-import {
-  buildSystemPageView,
-  LINK_WORDS,
-  PAGE_WORDS,
-  REASON_WORDS,
-  SYSTEM_HOMES,
-} from '@idleon-forge/engine/now';
+import { LINK_WORDS, PAGE_WORDS, REASON_WORDS, SYSTEM_HOMES } from '@idleon-forge/engine/now';
 import { buildSystemPageFrameView, FRAME_WORDS } from '@idleon-forge/engine/systems-ui';
 import { Suspense, useEffect, useMemo } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
 import { GoalList } from '../design/atoms/GoalList';
-import { Meter } from '../design/atoms/Meter';
 import { SourceLabel } from '../design/atoms/SourceLabel';
-import { TokenLine } from '../design/atoms/TokenLine';
 import { Loading } from '../lazy-part';
 import { tabById, tabHref } from '../now/character-tabs';
 import { useNowActions } from '../now/context';
@@ -34,6 +26,7 @@ import type { Session } from '../shell/session';
 /** M10's Spend Plan anchor on Now. */
 const SPEND_PLAN_ANCHOR = `#${'spend-plan'}`;
 
+import { Meter, TokenLine } from '../design/atoms';
 import { systemArt } from './glyphs';
 import { SYSTEM_PAGES } from './pages';
 import { Reason, StatusGlyph } from './SystemsHub';

@@ -20,10 +20,10 @@ import { formatCoins } from '@idleon-forge/engine/now';
 import type { AlchemyResult, EngineResult, P2wCell, PotView } from '@idleon-forge/engine/result';
 import { BODY_WORDS, FRAME_WORDS } from '@idleon-forge/engine/systems-ui';
 import type { CSSProperties } from 'react';
-import { cx } from '../design/atoms/Button';
 import { usePictureSheet } from '../systems/PictureSheet';
 import type { SystemPageBodyProps } from '../systems/pages';
 import './alchemy.css';
+import { cx } from '../design/atoms';
 
 /** Up to five rising bubbles: about the new bubbles the banked brew gives (M6). */
 const RISE = ['a', 'b', 'c', 'd', 'e'];

@@ -1,139 +1,16 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M16 Star Signs (docs/specs/M16-star-signs.md): the Star Chart section in the Account (points, unlocked
-// signs, the next constellations), and the pieces the star-signs System page body reuses (M21: the body
-// itself is the lazy systems/StarChartPage.tsx, so its art and words stay out of the first load). The Signs tab's status
-// line moved to signs-status.ts (area C) in M21 Phase F. The tab itself (the signs a character wears and should wear) is SignsTab.tsx, a lazy chunk. The engine
-// (packages/engine/src/starsigns) builds and words everything; this file only renders it. Text is React
-// text, styles are classes (CSP).
-import type { NowView, StarSignsNowView } from '@idleon-forge/engine/now';
-import { SourceLabel } from '../../design/atoms/SourceLabel';
-import { useNowActions } from '../context';
-import './signs-page.css';
+// M16 Star Signs: the Star Chart section the Account shows (area S). Since M21 (TR-12) it is a lazy part,
+// so its body (systems/StarChart.tsx) stays out of the first load; the Account keeps importing this name.
+// The Signs tab's status line is signs-status.ts (area C); the tab itself is SignsTab.tsx.
+import type { NowView } from '@idleon-forge/engine/now';
+import { lazyPart, retryable } from '../../lazy-part';
 
-const list = (xs: readonly string[]) => (xs.length ? xs.join(' + ') : 'nothing');
-
-export function StarChartBody({ s, heading = true }: { s: StarSignsNowView; heading?: boolean }) {
-  return (
-    <>
-      {heading ? <h3 className="ss-h">Star Chart</h3> : null}
-      <p className="small">
-        <span className="num">{s.points ?? '?'}</span> points to spend ·{' '}
-        <span className="num">{s.unlockedNodes}</span> signs unlocked (the Hydron chart opens at{' '}
-        <span className="num">{s.hydronAt}</span>) · <span className="num">{s.slots}</span>{' '}
-        {s.slots === 1 ? 'sign slot' : 'sign slots'} per character
-      </p>
-      {s.milestone ? <p className="small">{s.milestone}</p> : null}
-      {s.plan ? <p className="small">{s.plan}</p> : null}
-      {!s.questDone ? (
-        <p className="small muted">Constellations open once the Telescope quest is handed in.</p>
-      ) : null}
-      {s.next.length ? (
-        <>
-          <h3 className="ss-h">Next constellations</h3>
-          <ol className="ss-next">
-            {s.next.map((n) => (
-              <li key={n.name}>
-                <b>{n.name}</b> {n.text} · <span className="num">{n.points}</span> points
-                {n.shown ? (
-                  <>
-                    {' '}
-                    <span className="pill">on your list</span>
-                  </>
-                ) : null}
-              </li>
-            ))}
-          </ol>
-        </>
-      ) : null}
-      {s.later.length ? (
-        <ul className="ss-later small muted">
-          {s.later.map((l) => (
-            <li key={l}>{l}</li>
-          ))}
-        </ul>
-      ) : null}
-      {s.nextCharacter ? <p className="small">{s.nextCharacter}</p> : null}
-      {s.source ? (
-        <div className="ss-sources">
-          <SourceLabel source={s.source} />
-        </div>
-      ) : null}
-    </>
-  );
-}
-
-export const STAR_CHART_OPEN = 'star-chart-open';
+const starChart = retryable(() => import('../../systems/StarChart'));
 
 /** The Star Chart section in the Account: points, unlocked signs, the next constellations, per character. */
-export function StarChartSection({ view }: { view: NowView }) {
-  const actions = useNowActions();
-  const s = view.starSigns;
-  if (!s) return null;
-  return (
-    <details
-      className="ss-account card"
-      id="star-chart"
-      open={actions.expanded.has(STAR_CHART_OPEN)}
-      onToggle={(e) => {
-        const open = (e.currentTarget as HTMLDetailsElement).open;
-        if (open !== actions.expanded.has(STAR_CHART_OPEN)) actions.toggle(STAR_CHART_OPEN);
-      }}
-    >
-      <summary>
-        <span className="tag">Star Signs</span> <span className="num">{s.points ?? '?'}</span> points ·{' '}
-        <span className="num">{s.unlockedNodes}</span> signs unlocked
-        {s.next[0] ? ` · next: ${s.next[0].name}` : ''}
-      </summary>
-      <div className="ss">
-        <StarChartBody s={s} />
-        <CharacterSigns s={s} />
-      </div>
-    </details>
-  );
-}
+export const StarChartSection = lazyPart<{ view: NowView }>(() =>
+  starChart().then((m) => m.StarChartSection),
+);
 
-/**
- * Every character's sign line, with a recommendation shared by several characters said once
- * ("wear The Fuzzy Dice · 6 characters") and each character's own line under "show details" (#70 A5).
- */
-export function CharacterSigns({ s }: { s: StarSignsNowView }) {
-  const actions = useNowActions();
-  const groups = new Map<string, StarSignsNowView['characters']>();
-  for (const c of s.characters) {
-    const id = c.activity ? `wear ${list(c.recommended)}` : c.line;
-    groups.set(id, [...(groups.get(id) ?? []), c]);
-  }
-  const link = (c: StarSignsNowView['characters'][number]) => (
-    <a
-      href={`#signs-${c.index}`}
-      onClick={(e) => {
-        e.preventDefault();
-        actions.openTab(c.index, 'signs');
-      }}
-    >
-      {c.line}
-    </a>
-  );
-  return (
-    <ul className="ss-chars small">
-      {[...groups].map(([id, cs]) =>
-        cs.length > 1 ? (
-          <li key={id}>
-            {id} · <span className="num">{cs.length}</span> characters
-            <details className="ss-group">
-              <summary>show details</summary>
-              <ul>
-                {cs.map((c) => (
-                  <li key={c.index}>{link(c)}</li>
-                ))}
-              </ul>
-            </details>
-          </li>
-        ) : (
-          cs.map((c) => <li key={c.index}>{link(c)}</li>)
-        ),
-      )}
-    </ul>
-  );
-}
+export const STAR_CHART_OPEN = 'star-chart-open';
