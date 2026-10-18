@@ -325,5 +325,4 @@ Genuine conflicts or open choices the pass did not settle. Each has a recommenda
 
 ✅ **N5. M14's open questions (Q1–Q9): resolved.** Yasser accepted every recommendation on 2026-10-17; see [M14 Final rulings](M14-walkthroughs-and-slot-plans.md#final-rulings-yasser-2026-10-17). He does the Liquid Shop price check in game (Q6).
 
-❓ **N6. M15's open questions (D-1 to D-8).** Building salt amounts, never "Auto Refine on", F4 shipping with M9, F3 replacing M2's note, Library order across characters, Behind for your Stage moving its fix's lines, the W3-mid build order, and the cards row at W1-mid. See [M15 section 8](M15-account-depth.md#8-open-questions).
-➡️ Accept every recommendation as written in M15.
+✅ **N6. M15's open questions (D-1 to D-8): resolved.** Yasser accepted every recommendation on 2026-10-17; see [M15 Final rulings](M15-account-depth.md#final-rulings-yasser-2026-10-17).

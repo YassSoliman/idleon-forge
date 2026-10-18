@@ -1,6 +1,6 @@
 # M15 Account depth
 
-Spec for the five features the owner approved on 2026-10-17 from the AutoReview deep dive (`docs/research/2026-10-17-ecosystem-autoreview.md`, scratch copy; its section 3.5 "Recommended next 5"), part of the map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Status: **ready for review**: red-teamed and fixed (section 10); open questions in section 8. Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0008](../adr/).
+Spec for the five features the owner approved on 2026-10-17 from the AutoReview deep dive (`docs/research/2026-10-17-ecosystem-autoreview.md`, scratch copy; its section 3.5 "Recommended next 5"), part of the map [#1](https://github.com/YassSoliman/idleon-forge/issues/1). Status: **ready**: red-teamed and fixed (section 10); section 8 ruled by Yasser on 2026-10-17, every recommendation accepted (Final rulings, at the end). Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0008](../adr/).
 
 M15 is not a new module folder. It is one spec covering five features, each **built inside an existing module's folder** (the ownership table in section 2). It exists as one document because the five share inputs (the W3 Account State, the Stage, the Priority Lists), share the owner's UX principles below, and the fifth feature (Behind for your Stage) reads the output of the other four.
 
@@ -510,3 +510,17 @@ Remaining before build (each owner's first PR):
 - r/idleon thread 1cp1hjq (2024-05-10), via search snippet; r/idleon threads 1tzc5nw, 1vq7e2t, 1v57r29 as recorded in PV 5.2 (not reopened: reddit blocked the fetch).
 - Our research: `research/w3-systems` (`construction.md`), `research/character-builds`, `research/account-wide` (`achievements-tasks-merit.md`), `research/priority-verification` (PV 5.1, 5.2, 8.5), `research/leverage-model` (§3.7), the AutoReview deep dive (2026-10-17).
 - IdleOn AutoReview (inspiration only, no licence): https://github.com/TwoSpookyBoos/IdleOnAutoReviewBot, https://ieautoreview-scoli.pythonanywhere.com/.
+
+## Final rulings (Yasser, 2026-10-17)
+
+These supersede anything above that conflicts with them. Recorded on [PR #84](https://github.com/YassSoliman/idleon-forge/pull/84).
+
+> **Ruled by Yasser (2026-10-17): D-1 to D-8, all exactly as recommended.**
+> - **D-1:** never state a building's salt amount; name the salt and where the player holds it. ADR 0005 stands.
+> - **D-2:** ActiveOn never says "turn Auto Refine on".
+> - **D-3:** F4 (Talent Book Library) ships with M9, using M9's Builds.
+> - **D-4:** F3 replaces M2's closed-slot note and keeps the class in its line ("character slot 6 for your Hunter at family level 300").
+> - **D-5:** Library candidates go pusher first, then M2's Role order.
+> - **D-6:** Behind for your Stage takes over its fix's findings, with the rest behind "show details".
+> - **D-7:** only the W3-early build order is authored in Phase 1; W3-mid and W3-late wait for a dated human Source.
+> - **D-8:** the cards row stays at W1-mid, counting only characters at level 30 or more; revisit after 5 sessions.
