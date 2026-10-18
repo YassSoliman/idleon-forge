@@ -118,7 +118,7 @@ export interface TaskBoardDaily {
 }
 
 export interface GuildTasksState {
-  /** The account is in a guild (Toolbox `guild.id`). */
+  /** The account is in a guild: its member list or guild points (never the id or name). */
   member: boolean;
   daily: Array<{ met: boolean }>;
   weekly: Array<{ met: boolean }>;

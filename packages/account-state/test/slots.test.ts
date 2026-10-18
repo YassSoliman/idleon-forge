@@ -75,8 +75,9 @@ describe('M20 fields on the scrubbed W3-early save', () => {
       [true, false],
       [true, false],
     ]);
-    // The scrub drops the guild id and name, so the scrubbed copy reads as not in a guild.
-    expect(s.account.guildTasks).toEqual({ member: false, daily: [], weekly: [] });
+    expect(s.account.guildTasks?.member).toBe(true);
+    expect(s.account.guildTasks?.daily.filter((t) => t.met)).toHaveLength(2);
+    expect(s.account.guildTasks?.weekly.filter((t) => t.met)).toHaveLength(3);
     expect(s.account.randomEvents?.doneToday).toBe(false);
     expect(s.account.randomEvents?.schedule.length).toBeGreaterThan(0);
   });

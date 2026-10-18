@@ -15,18 +15,18 @@ export const SLOTS_FIELD_SOURCES: Record<string, string> = {
     'account.construction.baseBoard (currentAmount, requiredAmount, cog.name), totalBuildRate, totalExpRate, totalFlaggyRate',
   'account.liquids':
     'account.alchemy.liquids[i], liquidCauldrons[i].maxLiquid, characters[].skillsInfo.alchemy',
-  'account.resets': 'account.accountOptions[39], [191]',
+  'account.resets': 'account.accountOptions[39] and [191] (raw OptLacc)',
   'account.killroy':
     'account.accountOptions[105, 113, 227, 417], getKillRoyClasses(rooms, account, serverVars, true, week), finishedWorlds',
-  'account.weeklyBattle': 'account.accountOptions[189], [190]',
-  'account.ballot': 'account.accountOptions[309], account.voteBallot.selectedBonus',
-  'account.randomEvents': 'account.accountOptions[137], getRandomEvents(account)',
+  'account.weeklyBattle': 'account.accountOptions[189] and [190] (raw OptLacc)',
+  'account.ballot': 'account.accountOptions[309] (raw OptLacc), account.voteBallot.selectedBonus',
+  'account.randomEvents': 'account.accountOptions[137] (raw OptLacc), getRandomEvents(account)',
   'account.petTournament':
-    'account.accountOptions[511], account.tournament.tournamentDay, tournament.global.C, companions.list[].acquired',
+    'account.accountOptions[511] (raw OptLacc), account.tournament.tournamentDay, tournament.global.C, companions.list[].acquired',
   'account.taskBoardDailies':
     'account.tasks[1][w][8], account.tasksDescriptions[w][8].name, characters[].npcDialog / questComplete (Grasslands_Gary, Desert_Davey2, Iceland_Irwin1)',
   'account.guildTasks':
-    'account.guild.id, account.guild.guildTasks.{daily, weekly}[].{progress, requirement}',
+    'account.guild.members (count), account.guild.totalGp, account.guild.guildTasks.{daily, weekly}[].{progress, requirement}',
   'account.totems': 'account.totems[] (getTotems: name, map, skillReq, maxWave, expReward)',
 };
 

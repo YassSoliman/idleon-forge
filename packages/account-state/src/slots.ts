@@ -286,9 +286,9 @@ function readTaskDailies(account: Dict, characters: unknown[], withData: number[
 function readGuild(account: Dict): GuildTasksState | null {
   const g = account.guild;
   if (!isDict(g)) return null;
-  // The guild id, or the guild name in OLA[37] (Toolbox's guild alert gate); neither is kept.
-  const name = Array.isArray(account.accountOptions) ? account.accountOptions[37] : null;
-  const member = (typeof g.id === 'string' && g.id !== '') || (typeof name === 'string' && name !== '');
+  // Members or guild points: the guild id and name are identities (scrubbed, never read, TR-2).
+  const members = Array.isArray(g.members) ? g.members.length : 0;
+  const member = members > 0 || (finite(g.totalGp) ?? 0) > 0;
   const tasks = isDict(g.guildTasks) ? g.guildTasks : {};
   const met = (list: unknown) =>
     (Array.isArray(list) ? list : []).filter(isDict).map((t) => ({
