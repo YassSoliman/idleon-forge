@@ -1,6 +1,6 @@
 # ActiveOn MVP spec index
 
-The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9) and M16 (Star Signs and constellations, a small module of its own), for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/idleon-forge/issues/1)), read as one whole. Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0008](../adr/).
+The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9), M16 (Star Signs and constellations, a small module of its own) and M17 (the views: navigation shell, Timeline and Systems hub), for ActiveOn's MVP ([map #1](https://github.com/YassSoliman/idleon-forge/issues/1)), read as one whole. Terms follow [`GLOSSARY.md`](../../GLOSSARY.md); decisions follow [ADRs 0001–0009](../adr/).
 
 **How to read a spec.** Each spec ends with **Final rulings (Yasser, 2026-10-17)**, which supersede anything above them. The consistency pass of 2026-10-17 rewrote the body text of every spec so it agrees with its own Final rulings and with the other specs, and added a short `Consistency pass (2026-10-17)` section to each one listing what changed. Where two specs still disagree, this index says which one owns the answer (the "Owner" columns below). The few genuine conflicts between rulings are not resolved here; they are listed under [Needs Yasser](#needs-yasser).
 
@@ -24,6 +24,7 @@ The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9) and
 | M14 | [Walkthroughs & Parallel Slot Plans](M14-walkthroughs-and-slot-plans.md) | Breaks quest, unlock and (later) gear Goals into Requirement Trees and ordered steps; Demand across Walkthroughs; Supplies with drop and anvil effort; one job per character within AFK safety and the pusher; the 3D Printer Parallel Slot Plan | `walkthrough.check.assign`, `printer.check.slot-plan`, `walkthrough.contribution.supply`, generated `items.acquisition.*` and `walkthrough.goal.*`. Owns `WalkthroughResult`, `holdingsOf` (M8 TR-6's rule), `SupplyRates`, and builds `reachableFightingMaps` first for M5 | M1, M2, M3, M6, M11; M4 and M5 when present |
 | M15 | [Account depth](M15-account-depth.md) | Five features from the AutoReview deep dive, each built in its owner's folder: Refinery set-up (M6), Construction "build this next" (M6 Check, M2 list), next family-level unlock (M2, M8 obol rows), Talent Book Library (M9), Behind for your Stage (M2) | `refinery.check.auto-refine-off` / `refine-full` / `unlock-next`, `construction.check.build-next`, `construction.priority.build-order`, `metapath.goal.family-unlock`, `library.check.checkout` / `read-book`, `metapath.metapath.stage-expectations`, `metapath.goal.behind` | M1, M2, M6, M8, M9, M11, M14 |
 | M16 | [Star Signs and constellations](M16-star-signs.md) | Fill 3f: the Telescope start, the next constellations with party Walkthroughs (who goes where, what the challenge is), the Star Chart unlock order (Chronus Cosmos, the Hydron chart, Hydron Cosmos) and the sign each character should wear for its AFK Target, as one account line with per-character details | `star-signs.goal.telescope`, `star-signs.goal.constellation@<name>`, `star-signs.goal.signs`, `star-signs.check.activeplay-challenge`, `star-signs.priority.chart-order` / `fit-*`, facts `star-signs.fact.constellations` / `chart` / `rules` | M1, M2, M10, M11, M14 (`holdingsOf`, reachability and kill rates, FR-18's exclusions) |
+| M17 | [Views: navigation shell, Timeline and Systems hub](M17-views.md) | A findable home for every feature: four places (Now, Characters, Systems, Timeline) with bare-anchor routes; the Characters grid and Character pages; the Systems hub (a tile per System, wasting / behind / ok / locked, with unlock conditions) and System pages; the Timeline (lanes and bars to each cap against the return). Views add "See it" links and no advice | No Checks. Owns `Route`, `parseRoute`, `formatRoute`, `SystemSummary`, `BehindSystem`, `TimelineBar`, `buildSystemsView`, `buildSystemPageView`, `buildTimelineView`, `SYSTEM_HOMES`, the `## Systems` and `## Timeline` golden sections | M1, M2 (M15 F5), M3, M6, M7, M10, M11, M13; M8 and M9 tabs |
 
 ## Build order
 
@@ -48,6 +49,8 @@ The 14 module specs, plus M15 (five features built inside M2, M6, M8 and M9) and
 | 13 | M5 | Needs M1–M4 and the hypothetical sweep; reuses M14's reachability and shares its map reservations |
 | 14 | M14 Phases 2–3 | Account-wide parallel plans, observed skilling rates, gear, the other Parallel Slots |
 | — | M12 | Alongside: first deploy, Previews, parser sync |
+
+**After release R5 (owner feedback 2026-10-18, M17 D-19):** **M17 Phase 1** (shell, routes, Characters, Systems hub, generic System pages, "See it") → **M17 Phase 2** (Timeline, with the M3 and M6 bar producers) → M16 Phase 1 → the remaining steps above. **M17 Phase 3** (registry growth, FR-35) runs alongside M18–M21, each of which adds its own System page picture or Character page tab through M17's `SYSTEM_HOMES` and `characterTabs`. The Map place is a later phase or its own spec.
 
 ## Id formats
 
@@ -102,6 +105,11 @@ Every type or function used by more than one module, with the one spec that owns
 | `holdingsOf` (`packages/engine/src/core/holdings.ts`) | M14 TR-11, implementing M8 TR-6's rule plus Forge output | What the account holds of an item, by place | M8, M14 |
 | `SupplyRates`, `reachableFightingMaps` | M14 TR-3 (reachability to M5 TR-4's rules and tests) | Kill and drop rates on supply maps; per-character reachable maps | M5, M14 |
 | Account State: `anvilTabsOwned`, `forgeOutput`, `liquids`, `storageItems`, `characters[].inventoryItems`, `smithingLevel`, `printer` | M14 TR-2 (`storageItems`, `inventoryItems` shared with M8) | Holdings, gates and printer facts | M8, M14 |
+| `Route`, `parseRoute`, `formatRoute` (`apps/activeon/src/shell/route.ts`) | M17 TR-3 | The bare-anchor route grammar (`#now`, `#characters`, `#<tab>-<index>`, `#systems`, `#system-<id>`, `#timeline`); `?c=` is retired | M10, every later view |
+| `SystemSummary`, `BehindSystem`, `UnknownFinding`, `TimelineBar`, `TimelineKind`, `Goal.urgency`, `EngineResult.systems` / `behindSystems` / `unknownFindings` / `timeline` / `returnAt`, `ModuleOutput.timeline` / `behindSystems` / `unknownFindings` | M17 TR-2 (an M10 TR-2 amendment) | Registry summary with unlock state and coverage; every behind Stage Expectation row; time-bound limits as bars | M2 (behind rows), M3 and M6 (bars), M10 |
+| `buildSystemsView`, `buildSystemPageView`, `buildTimelineView`, `renderSystemsText`, `renderTimelineText`, `view-words.ts` | M17 TR-5, TR-6, TR-9, TR-10 | Pure view builders beside `buildNowView`, and the golden sections | M11 goldens, the app |
+| `SYSTEM_HOMES` (`apps/activeon/src/systems/homes.ts`) | M17 TR-7 | Which Systems have a hub tile, a dedicated page or a Character page tab | M8, M9, M16, M18–M21 |
+| System registry `kind`, `unlockFact`; fact table `systems.fact.unlocks` | M17 TR-8 (an M11 TR-9, TR-2b amendment) | Game vs ActiveOn rows; how each game System opens, as a patch-tagged authored fact with a wiki Source (reuses `metapath.fact.town-unlocks`) | M11 `coverage`, M17 |
 
 ## Check ownership matrix
 
@@ -263,6 +271,13 @@ Facts each module must check before (or in) its first build PR. Open facts, not 
 - [ ] The CI cross-check of `star-signs.fact.constellations` and `.chart` against Toolbox `constellations` and `starSigns` passes at the pin (TR-3).
 - [ ] M14 exports FR-18's predicate (X2) and adds the three tree maps to the supply maps (X3); M2 adds `Telescope` to `GATE_NPCS` and the 3f ids (X1, X4).
 - [ ] Whether a character created after the Telescope quest hand-in gets its dialogue another way (V9).
+
+**M17**
+- [ ] Which M3 Checks set `at` on a firing finding and `nextAt` on a pass at the pin; the rest ship as untimed bars (TR-4).
+- [ ] Which M6 by-urgency Detectors set `deadline`, and what it means per Check.
+- [ ] The unlock condition, world and wiki page of each game System row, each page opened by the PR author (#74).
+- [ ] `EngineResult` size on the 11-character public save before and after the new fields (M10 TR-12).
+- [ ] FR-35's ten new registry rows: each System still exists at 2.3.540, and its world.
 
 **M12**
 - [ ] Chunk-load behaviour after a redeploy (TR-10, Appendix A step 14).

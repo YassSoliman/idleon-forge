@@ -91,7 +91,7 @@ _Avoid_: quest (in-game quests are a different thing), task, project
 ## The Now screen
 
 **Now screen**:
-ActiveOn's single working view during a Play Session: one row per character plus an Account section.
+ActiveOn's working view during a Play Session, and the place it opens on: one row per character plus an Account section.
 _Avoid_: dashboard, home, feed
 
 **Verdict**:
@@ -135,8 +135,8 @@ The Now screen's list view: one numbered row per character in Visit Order, each 
 _Avoid_: character list, overview
 
 **Focus**:
-The Now screen's one-character card: Verdict, Purpose, up to three Goals and "Next: switch to …". Keyboard focus is always written out as "keyboard focus".
-_Avoid_: detail view, character page
+The Now tab of a Character page: Verdict, Purpose, up to three Goals and "Next: switch to …". Keyboard focus is always written out as "keyboard focus".
+_Avoid_: detail view
 
 **Verdict strip**:
 The row of labelled links at the top of Focus, one per character in Visit Order, for jumping between characters.
@@ -145,6 +145,24 @@ _Avoid_: dots, tabs
 **Account section**:
 The part of the Now screen for account-wide Goals any character can do: stockpile blockers first, then Goals, the Spend Plan and "Not covered yet".
 _Avoid_: global tasks, shared list
+
+## Views
+
+**Character page**:
+One character's page, with tabs (Now, which is its Focus, then Build, Cards and later ones); reached from the Roster, the Characters grid, the Timeline or a link.
+_Avoid_: profile, character sheet, detail view
+
+**Systems hub**:
+The place listing every game System as a tile, grouped by world, each marked wasting, behind, ok or locked (or honestly "not covered yet" or "can't tell"), with how a locked one opens.
+_Avoid_: dashboard, overview, catalogue
+
+**System page**:
+The page for one System: its status, every Next Action for it across characters and the account, its Timeline bars, how it opens and what ActiveOn does and doesn't check there; it adds no advice of its own.
+_Avoid_: system view, guide page, wiki page
+
+**Timeline**:
+The place showing, for each character and each account System, when each limit binds (a bag fills, food runs out, a cap is reached) against the Expected Return, with anything that binds before the return marked and linked to its fix.
+_Avoid_: schedule, Gantt, AFK timer
 
 ## Walkthroughs
 
