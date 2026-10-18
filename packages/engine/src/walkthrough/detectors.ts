@@ -14,6 +14,19 @@ import type { WalkthroughKnowledge } from './knowledge';
 
 const slots = z.strictObject({ step: z.string(), reason: z.string() });
 
+/**
+ * The planner's judgment values (M14 FR-14, Q4, R-Q9a), as the `walkthrough/plan` Detector's params so a
+ * Knowledge Base PR can tune them: an unrated skilling leaf at or above `unratedBottleneckAt` items counts
+ * as one Expected Return of effort; a job that finishes within `firstJobWithinSeconds` goes first on its
+ * character; two finish times within `tieSeconds` are a tie (the steps show hours to one decimal).
+ */
+export const planParams = z.strictObject({
+  target: z.string().default('quests.acquisition.postboy-pablob1'),
+  unratedBottleneckAt: z.number().positive().default(500),
+  firstJobWithinSeconds: z.number().positive().default(3600),
+  tieSeconds: z.number().nonnegative().default(360),
+});
+
 /** The Knowledge Base as M14 reads it, over a Detector's fact lookup (entries and fact tables by id). */
 export function knowledgeOver(facts: FactLookup): WalkthroughKnowledge {
   const by = (kind: 'entry' | 'fact') =>
@@ -33,7 +46,7 @@ export const walkthroughPlanDetector = defineDetector({
   id: 'walkthrough/plan',
   kind: 'engine',
   system: 'walkthrough',
-  params: z.strictObject({ target: z.string().default('quests.acquisition.postboy-pablob1') }),
+  params: planParams,
   slots,
   reads: [
     'account.storageItems',

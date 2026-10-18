@@ -16,12 +16,8 @@ entries:
     text: "{step}"
     why: "{reason}"
     values:
-      # Judgment (M14 FR-14, Q4, R-Q9a): an unrated skilling leaf at or above this many items counts as one
-      # Expected Return of effort; a job that finishes within firstJobWithinSeconds goes first on its character.
-      unratedBottleneckAt: 500
-      firstJobWithinSeconds: 3600
-      # Two finish times within this many seconds are a tie (the steps show hours to one decimal).
-      tieSeconds: 360
+      # Judgment values (unratedBottleneckAt, firstJobWithinSeconds, tieSeconds) are the walkthrough/plan
+      # Detector's params, with their defaults in packages/engine/src/walkthrough/detectors.ts.
       collapsed: "Steps {done:int} of {total:int} · slowest: {item}"
       collapsed-none: "Steps {done:int} of {total:int}"
       buy-liquid-days: "Buy {missing:int} {item} at the Liquid Shop (W2 Alchemy): the {water:int} Water you hold buys {now:int} now, more later today as Water refills, so up to {days:int} days"

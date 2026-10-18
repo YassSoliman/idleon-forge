@@ -20,26 +20,21 @@ import { PUSH_GOAL_ID, rankPosition } from '../metapath/priority';
 import type { MetaPathResult } from '../metapath/types';
 import type { EngineResult, Goal, GoalDetail, Subject } from '../result';
 import { planWalkthroughs, type WalkthroughParent, who } from './build';
-import {
-  ENTRY,
-  hoursText,
-  human,
-  itemOf,
-  numberValue,
-  say,
-  sourcesOf,
-  type WalkthroughKnowledge,
-} from './knowledge';
+import { planParams } from './detectors';
+import { ENTRY, hoursText, human, itemOf, say, sourcesOf, type WalkthroughKnowledge } from './knowledge';
 import type { PlanValues } from './plan';
 
 /** M2's push Goal and W3 tutorial name a gate quest by NPC and number: their Walkthrough target. */
 const questTarget = (npc: string, n: number) => `quests.acquisition.${slugify(`${npc}${n}`)}`;
 
 export function walkthroughValues(kb: WalkthroughKnowledge, expectedReturnSeconds: number): PlanValues {
+  const e = kb.entries[ENTRY.assign];
+  const p = planParams.safeParse(e?.type === 'check' ? e.detector.params : {});
+  const v = p.success ? p.data : planParams.parse({});
   return {
-    unratedBottleneckAt: numberValue(kb, ENTRY.assign, 'unratedBottleneckAt', 500),
-    firstJobWithinSeconds: numberValue(kb, ENTRY.assign, 'firstJobWithinSeconds', 3600),
-    tieSeconds: numberValue(kb, ENTRY.assign, 'tieSeconds', 360),
+    unratedBottleneckAt: v.unratedBottleneckAt,
+    firstJobWithinSeconds: v.firstJobWithinSeconds,
+    tieSeconds: v.tieSeconds,
     expectedReturnSeconds,
   };
 }
