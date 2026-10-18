@@ -105,6 +105,8 @@ function readBuild() {
         tab: Number(/-t(\d)$/.exec(d.id)?.[1]),
         spent: /([\d,]+) spent/.exec(h)?.[1] ?? null,
         unspent: null,
+        // "70 points waiting · they end here", "40 unspent · …", "As of your last save: at least 70 …".
+        marker: d.querySelector('.bv-marker')?.textContent ?? null,
         // M21 FR-C1: "12 → 50", or "50" when done.
         path: [...d.querySelectorAll('li.bv-ps')].map((li) => {
           const lv = li.querySelector('.bv-ps-lv')?.textContent ?? '';
@@ -120,7 +122,12 @@ function readBuild() {
         rows: [],
       };
     });
-    return { slot, active: !!sec.querySelector('.bv-inuse'), unspent: null, next, tabs };
+    // The tab tiles' badges ("29 points", "at least 12", "13 unspent"), by the tab each one opens.
+    const tiles = [...sec.querySelectorAll('.bv-tile')].map((t) => ({
+      tab: Number(/-t(\d)$/.exec(t.querySelector('button')?.getAttribute('aria-controls') ?? '')?.[1]),
+      badge: t.querySelector('.bv-badge')?.textContent ?? null,
+    }));
+    return { slot, active: !!sec.querySelector('.bv-inuse'), unspent: null, next, tabs, tiles };
   });
   return { status: view.querySelector('.bv-status')?.textContent ?? null, panels };
 }
@@ -222,6 +229,7 @@ function diff(head, dom) {
       };
       for (const t of p.tabs) {
         const rt = rp.tabs.find((x) => x.tab === t.tab);
+        const ht = [...(hp?.tabs ?? []), ...(hp?.star ? [hp.star] : [])].find((x) => x.tab === t.tab);
         if (rt && t.spent !== null && num(t.spent) !== rt.spent)
           add('P1', `${where} · tab ${t.tab}`, 'points spent shown differs from the save', {
             shown: num(t.spent),
@@ -250,6 +258,20 @@ function diff(head, dom) {
               save: lv,
             });
         }
+        // The marker's count is the engine's known count for that tab, and never below the save's floor.
+        const known = ht?.known;
+        const shown = /^([\d,]+) (?:points? waiting|unspent)|at least ([\d,]+)/i.exec(t.marker ?? '');
+        const shownN = shown ? num(shown[1] ?? shown[2]) : null;
+        if (known && known.points !== null && shownN !== null && shownN !== known.points)
+          add('P1', `${where} · tab ${t.tab}`, 'Build marker count differs from the engine’s count', {
+            shown: t.marker,
+            engine: known.points,
+          });
+        if (rt && rt.unspentAtLeast > 0 && known?.kind === 'exact' && (known.points ?? 0) < rt.unspentAtLeast)
+          add('P1', `${where} · tab ${t.tab}`, 'exact unspent count is below the save’s floor', {
+            exact: known.points,
+            floor: rt.unspentAtLeast,
+          });
         for (const r of t.rows) {
           const id = idOf(t.tab, r.label);
           const lv = id === undefined ? null : rawLv(id);
@@ -259,6 +281,16 @@ function diff(head, dom) {
               save: lv,
             });
         }
+      }
+      for (const tile of p.tiles ?? []) {
+        const ht = [...(hp?.tabs ?? []), ...(hp?.star ? [hp.star] : [])].find((x) => x.tab === tile.tab);
+        const m = /([\d,]+) (?:points?|unspent)/.exec(tile.badge ?? '');
+        if (!m || !ht?.known || ht.known.points === null) continue;
+        if (num(m[1]) !== ht.known.points)
+          add('P1', `${where} · tile ${tile.tab}`, 'tab tile badge differs from the engine’s count', {
+            shown: tile.badge,
+            engine: ht.known.points,
+          });
       }
       for (const n of p.next) {
         const rt = rp.tabs.find((x) => x.tab === n.tab);
@@ -346,12 +378,30 @@ async function main() {
   mkdirSync(o.out, { recursive: true });
   let server = null;
   if (o.serve && o.browser) {
+    // A server already on the port would be tested instead of this build: refuse rather than guess.
+    const taken = await fetch(o.base).then(
+      () => true,
+      () => false,
+    );
+    if (taken) {
+      console.error(`--serve: ${o.base} is already answering; stop that server or pass another --base port`);
+      process.exit(2);
+    }
     spawnSync('pnpm', ['build'], { cwd: ROOT, stdio: 'inherit' });
     const port = new URL(o.base).port || '8799';
+    // Its own process group, so wrangler's workerd child goes down with it on exit.
     server = spawn('pnpm', ['exec', 'wrangler', 'dev', '--port', port], {
       cwd: path.join(ROOT, 'apps/activeon'),
       stdio: 'ignore',
+      detached: true,
     });
+    const stop = () => {
+      try {
+        process.kill(-server.pid, 'SIGTERM');
+      } catch {}
+    };
+    process.on('exit', stop);
+    for (const sig of ['SIGINT', 'SIGTERM']) process.on(sig, () => process.exit(130));
     for (let i = 0; i < 60; i++) {
       try {
         if ((await fetch(o.base)).ok) break;
@@ -374,7 +424,10 @@ async function main() {
       runs.push(run);
     }
   } finally {
-    server?.kill();
+    if (server)
+      try {
+        process.kill(-server.pid, 'SIGTERM');
+      } catch {}
   }
   const slim = runs.map((r) => ({
     label: r.label,
