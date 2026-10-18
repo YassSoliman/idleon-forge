@@ -218,7 +218,9 @@ describe('kb compile on the real Knowledge Base (TR-17 budgets)', () => {
     const kb = await compile(loadSource(), { git: null });
     expect(performance.now() - t).toBeLessThan(5_000);
     const text = canonicalJson(kb);
-    expect(Buffer.byteLength(text)).toBeLessThan(400 * 1024);
+    // kb-budget.json's bundleBytes: 1 MB since release 4. The compiled Knowledge Base ships only in the
+    // parse worker chunk (8 MB budget), never on the UI thread.
+    expect(Buffer.byteLength(text)).toBeLessThan(1024 * 1024);
     const t2 = performance.now();
     loadKnowledge(text);
     expect(performance.now() - t2).toBeLessThan(30);
