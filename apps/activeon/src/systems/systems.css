@@ -303,6 +303,14 @@
   outline: var(--focus-width) solid var(--focus);
   outline-offset: var(--focus-offset);
 }
+/* R11 QA: zero specificity on the scope (:where), so a picture's own summary rule (the Alchemy pots'
+   grid, the star chart's fold) always wins; this only sets the 44 px default. */
+:where(.sy-pic, .sy-section) details > summary {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  cursor: pointer;
+}
 .sy-later > summary {
   display: flex;
   align-items: center;
@@ -499,14 +507,6 @@
 }
 .sy-dim {
   color: var(--muted);
-}
-/* R11 QA: zero specificity on the scope (:where), so a picture's own summary rule (the Alchemy pots'
-   grid, the star chart's fold) always wins; this only sets the 44 px default. */
-:where(.sy-pic, .sy-section) details > summary {
-  display: flex;
-  align-items: center;
-  min-height: var(--tap-min);
-  cursor: pointer;
 }
 /* The tap sheet's body. */
 .sy-sheet {
