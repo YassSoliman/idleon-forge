@@ -19,6 +19,8 @@ export {
   goalsServedBy,
 } from './derive';
 export {
+  cardEtas,
+  classXpActionFor,
   createPurposeModule,
   lineOf,
   type PurposeModuleDeps,

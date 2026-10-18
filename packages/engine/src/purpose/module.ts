@@ -7,6 +7,7 @@
 import type { AccountState } from '@idleon-forge/account-state';
 import { type CompiledKnowledge, type DetectorRegistry, type Entry, render } from '@idleon-forge/knowledge';
 import { cardList } from '../collections/cards';
+import { classLabel } from '../core/labels';
 import type { EngineInput, EngineModule, ModuleOutput } from '../core/module';
 import { runMetaPath } from '../metapath';
 import { lookupOf } from '../metapath/knowledge';
@@ -261,5 +262,65 @@ export function createPurposeModule(deps: PurposeModuleDeps): EngineModule {
         unknownFindings: [...new Map(unknownFindings.map((u) => [`${u.entryId}@${u.subject}`, u])).values()],
       };
     },
+  };
+}
+
+/** M4's card ETAs for the Cards view (M8 `cardsView`): per character and card rawName. */
+export function cardEtas(input: EngineInput, deps: PurposeModuleDeps) {
+  const run = purposesFor(input, deps);
+  const out = new Map<string, { hours: number; feeders: number; next: number }>();
+  for (const p of run.purposes)
+    for (const g of p.goals) {
+      if (
+        !g.contributionId.startsWith('cards.contribution.fight-') ||
+        g.eta.kind !== 'time' ||
+        g.next === null
+      )
+        continue;
+      const card = deps.kb.entries[g.goalId]?.values.card;
+      if (typeof card === 'string')
+        out.set(`${p.characterIndex}|${card}`, {
+          hours: g.eta.seconds / 3600,
+          feeders: g.eta.feeders.length,
+          next: g.next,
+        });
+    }
+  return (characterIndex: number, card: string) => out.get(`${characterIndex}|${card}`) ?? null;
+}
+
+/**
+ * M15 FR-15: the account's top Class XP Next Action: the character whose worthwhile Class EXP Goal
+ * reaches its next level soonest ("Level Bowman Lv 54 on Spore Meadows: Lv 55 in about 3h").
+ */
+export function classXpActionFor(deps: PurposeModuleDeps) {
+  return (input: EngineInput): NextAction | null => {
+    const run = purposesFor(input, deps);
+    let best: { g: GoalInstance; seconds: number } | null = null;
+    for (const p of run.purposes)
+      for (const g of p.goals)
+        if (g.goalId === 'classes.goal.level' && g.worthwhile && g.eta.kind === 'time' && g.next !== null)
+          if (!best || g.eta.seconds < best.seconds) best = { g, seconds: g.eta.seconds };
+    if (!best) return null;
+    const entry = deps.kb.entries[best.g.contributionId];
+    const c = input.state.characters.find((x) => x.index === best?.g.characterIndex);
+    const template = entry?.values.action;
+    if (!entry || !c || typeof template !== 'string') return null;
+    const text = render(template, {
+      who: `${classLabel(c)} Lv ${c.level}`,
+      map: c.currentMap ?? '',
+      at: countText(best.g.next ?? c.level + 1),
+      etaText: etaWords(best.seconds),
+    });
+    return {
+      key: `${entry.id}@c${c.index}`,
+      entryId: 'classes.goal.level',
+      text,
+      why: entry.why,
+      sources: sourcesOf(entry),
+      stale: false,
+      contested: null,
+      confidence: entry.confidence,
+      provenance: best.g.provenance,
+    };
   };
 }

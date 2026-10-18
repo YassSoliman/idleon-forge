@@ -25,9 +25,14 @@ import { createAfkSafetyModule } from '@idleon-forge/engine/afk';
 import { createBuildsModule } from '@idleon-forge/engine/builds';
 import { createCardsViewModule, createCollectionsModule } from '@idleon-forge/engine/collections';
 import { engineDetectors } from '@idleon-forge/engine/detectors';
-import { detectStage, frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
+import { createMetaPathModule, detectStage, frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
+import {
+  classXpActionFor,
+  createPurposeModule,
+  purposeStatusFor,
+  suggestionFor,
+} from '@idleon-forge/engine/purpose';
 import { createM20Modules } from '@idleon-forge/engine/slots';
-import { createPurposeModule, purposeStatusFor, suggestionFor } from '@idleon-forge/engine/purpose';
 import { createSpendModule } from '@idleon-forge/engine/spend';
 import { createStarSignsModule } from '@idleon-forge/engine/starsigns';
 import { createUnspentModule } from '@idleon-forge/engine/unspent';
@@ -155,7 +160,8 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
   const facts = lookupOf(kb);
   const purpose = { kb, registry: knowledgeDetectors };
   return [
-    metaPathModule,
+    // M15 FR-15: the next family unlock takes M4's top Class XP Next Action.
+    createMetaPathModule({ classXpAction: classXpActionFor(purpose) }),
     createAfkSafetyModule({
       kb,
       registry: knowledgeDetectors,
@@ -175,7 +181,7 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
     }),
     createBuildsModule({ kb }),
     createCollectionsModule({ kb, registry: engineDetectors }),
-    createCardsViewModule({ kb }),
+    createCardsViewModule({ kb, purpose }),
     createSpendModule({ kb, stage: (state) => detectStage(state, facts) }),
     createWalkthroughModule({ kb }),
     createStarSignsModule({ kb }),
