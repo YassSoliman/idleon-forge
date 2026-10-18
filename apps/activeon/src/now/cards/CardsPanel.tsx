@@ -175,11 +175,7 @@ export function CharacterCardsPanel({ c, cards }: { c: CharacterCardsView; cards
       ) : null}
 
       <h3 className="cv-h">Cards to grind next</h3>
-      {c.grind.length ? (
-        <GrindList items={c.grind} />
-      ) : (
-        <p className="small muted">No card on its list drops on a map it can reach yet.</p>
-      )}
+      {c.grind.length ? <GrindList items={c.grind} /> : <p className="small muted">{c.grindEmpty}</p>}
       {c.grindNote ? <p className="small muted">{c.grindNote}</p> : null}
       <Footer cards={cards} />
     </div>

@@ -11,6 +11,8 @@ import {
   type CharacterCards,
   createCardsViewModule,
   type FactLookup,
+  GRIND_BEYOND,
+  GRIND_NONE,
   hoursText,
   killsFor,
   M8,
@@ -19,7 +21,7 @@ import {
   UNOWNED_MULTIPLIER,
 } from '../../src/collections';
 import { runEngine } from '../../src/core/engine';
-import { input } from '../core/helpers';
+import { input, publicState } from '../core/helpers';
 import { scrubbedFile } from '../walkthrough/helpers';
 import { cardsState, facts, kb } from './cards-helpers';
 
@@ -228,6 +230,20 @@ describe('the grind list never contradicts the best preset (R5 QA P3-1)', () => 
               expect(keeps.has(g.rawName)).toBe(true);
             }
         }
+  });
+});
+
+describe('an account past World 4 (R5 QA P3-2)', () => {
+  it("public latest.json: an empty grind list says the view covers Worlds 1–4, not 'nothing in reach'", () => {
+    const v = buildCardsView(publicState('latest.json'), facts);
+    expect(v?.characters.length).toBeGreaterThan(0);
+    for (const c of v?.characters ?? []) {
+      expect(c.grindEmpty).toBe(GRIND_BEYOND);
+      if (c.grind.length === 0 && !c.unknown) expect(c.overview).toMatch(/covers Worlds 1–4 for now$/);
+    }
+  });
+  it('W3-early keeps the plain wording', () => {
+    for (const c of buildCardsView(w3(), facts)?.characters ?? []) expect(c.grindEmpty).toBe(GRIND_NONE);
   });
 });
 

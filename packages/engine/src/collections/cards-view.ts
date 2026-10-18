@@ -572,6 +572,8 @@ export function buildCardsView(state: AccountState, kb: FactLookup): CardsView |
     }
   })();
   const stageWorld = stage?.id ? STAGE_DEFINITIONS[stage.id].world : null;
+  // Past World 4 the view's card maps run out: say so instead of "nothing in reach" (R5 QA P3-2).
+  const grindEmpty = stage?.coverage === 'beyond' ? GRIND_BEYOND : GRIND_NONE;
   const roles = (() => {
     try {
       const roster = analyzeRoster(state, kb, stage?.id ?? null);
@@ -621,6 +623,7 @@ export function buildCardsView(state: AccountState, kb: FactLookup): CardsView |
       recommendations: [],
       grind: [],
       grindNote: null,
+      grindEmpty,
       overview: '',
       presetFits: null,
     };
@@ -675,7 +678,9 @@ export function buildCardsView(state: AccountState, kb: FactLookup): CardsView |
       empty > 0 ? `${empty} empty ${plural(empty, 'slot')}` : 'slots full',
       top
         ? `next grind: ${top.name} card${top.hours !== null ? ` (${hoursText(top.hours)})` : top.skill ? ` (${top.skill.toLowerCase()})` : ''}`
-        : 'nothing to grind in reach',
+        : grindEmpty === GRIND_BEYOND
+          ? 'grind list covers Worlds 1–4 for now'
+          : 'nothing to grind in reach',
     ].join(' · ');
     return {
       ...base,
@@ -706,6 +711,10 @@ export function buildCardsView(state: AccountState, kb: FactLookup): CardsView |
 
   return { characters, account: { grind: account }, caveats: CARDS_CAVEATS, sources: sourcesOf(kb) };
 }
+
+export const GRIND_NONE = 'No card on its list drops on a map it can reach yet.';
+export const GRIND_BEYOND =
+  'The Cards view covers Worlds 1–4 for now, so it has no cards to grind for this account yet.';
 
 /** At most this many card maps get kill rates in the worker (M14 TR-8's budget, on top of its own). */
 export const CARD_RATE_MAPS = 12;

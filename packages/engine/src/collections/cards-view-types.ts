@@ -139,6 +139,8 @@ export interface CharacterCards {
   grind: GrindItem[];
   /** "3 more cards on its list drop from bosses, crystal mobs or nodes ActiveOn can't place yet". */
   grindNote: string | null;
+  /** What an empty grind list says: nothing in reach yet, or (Stage past World 4) the view's coverage. */
+  grindEmpty: string;
   /** The overview row: "preset fits fighting ✓ · 2 empty slots · next grind: Frost Flake card (about 1.2 h)". */
   overview: string;
   /** Whether the active preset fits the AFK Target; null without a card activity. */
