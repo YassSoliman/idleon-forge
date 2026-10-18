@@ -14,9 +14,9 @@ import { getPrayerBonusAndCurse } from '../vendor/parsers/world-3/prayers';
 import { getPrinterMulti } from '../vendor/parsers/world-3/printer';
 import { getSaltMatsTimeLeft } from '../vendor/parsers/world-3/refinery';
 import { frontierRates, onMap } from './frontier-rates';
+import { itemDisplayName } from './item-names';
 import { shopStockAll } from './shop-stock';
 import { stampEvaluations, vaultLadders } from './spend';
-import { itemDisplayName } from './item-names';
 
 export const toolboxCalls = {
   /** Toolbox damage, hit chance, survivability and kill rates for one character (vendor/parsers/damage.ts). */
