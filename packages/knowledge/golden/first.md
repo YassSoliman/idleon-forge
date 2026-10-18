@@ -1,4 +1,4 @@
-# golden v1: first · knowledge #d6d94d50 · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 338
+# golden v1: first · knowledge #f256588d · parser 6c37e3d (game 2.3.540) · now 2024-06-07T21:16:34.518Z · return 8h · stage W4-entry · stale: 4 of 342
 
 ## Verdict changes
 
@@ -32,7 +32,7 @@
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 13 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-show more (12)
+show more (14)
 Spend coins: 34 buys now on 3 characters
   1. Buy the bribe Photoshopped Dmg Range on Bubonic Conjuror Lv 87: 1 dementia · Lv 0 → 1 · 100M coins · C2 (Bubonic Conjuror lv87) · withdraw 100M from storage on C2, then buy · total 100M on C2
   2. Buy the bribe Glitched Acc Formula on Bubonic Conjuror Lv 87: 3 dementia · Lv 0 → 1 · 300M coins · C2 (Bubonic Conjuror lv87) · withdraw 300M from storage on C2, then buy · total 400M on C2
@@ -41,6 +41,8 @@ Spend coins: 34 buys now on 3 characters
   5. Buy the bribe Guild GP Hack on Blood Berserker Lv 96: 25 dementia · Lv 0 → 1 · 2.5B coins · save for it: 2.5B short
   show more (35)
   can't price the Upgrade Vault right now
+If you have time
+- Clear the Sandstone Colosseum on 2 more characters (2 of 4); try with your Bubonic Conjuror Lv 87, your highest-level character not yet done; spends 2 Colosseum Tickets each · about 5m of hands-on play
 
 ## Not covered yet
 Classes and subclasses
@@ -79,6 +81,7 @@ W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 2 to do
+W1 · Star Signs · Nothing to fix · Nothing to fix · 2 to do
 W1 · Anvil · Behind · Behind for your Stage · 2 to do · 1 full · collect
 W1 · Forge · Not covered yet · Not covered yet
 W1 · Bribes · Not covered yet · Not covered yet · in the Spend Plan
@@ -111,7 +114,7 @@ W4 · Laboratory · Not covered yet · Not covered yet
 W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 Needs you: Minigames (wasting), Colosseum (wasting), Refinery (wasting), Anvil (behind)
-Other gaps: Journeyman talent builds, Elite talent builds, Stamp cap raises that need farming or carry capacity
+Other gaps: Journeyman talent builds, Elite talent builds, Stamp cap raises that need farming or carry capacity, W4+ constellations and Infinite Stars
 Wasting: 3
 
 ## Timeline
@@ -276,6 +279,7 @@ Account · Refinery
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
+| systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |

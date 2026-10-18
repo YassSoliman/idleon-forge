@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #d6d94d50 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 338
+# golden v1: scrubbed-w2 · knowledge #f256588d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 342
 
 ## Verdict changes
 
@@ -28,7 +28,7 @@ Fix before you leave
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (17)
+show more (18)
 Spend coins: 9 buys now on 1 character
   1. Raise 2 stamp caps, then buy their new levels on Barbarian Lv 60: Hatchet Stamp, Shield Stamp, about 1 platinum 31 gold (carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free up inventory space first) · 1.3M coins · C1 (Barbarian lv60) · buy · total 1.3M on C1
   2. Level Bullseye Stamp 0→5 on Barbarian Lv 60: 9 gold 75 silver · Lv 0 → 5 · 98k coins · C1 (Barbarian lv60) · buy · total 1.4M on C1
@@ -70,6 +70,7 @@ W0 · Obols · Nothing to fix · Nothing to fix · 2 to do
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
 W1 · Stamps · Behind · Behind for your Stage · 5 to do
+W1 · Star Signs · Nothing to fix · Nothing to fix · 1 to do
 W1 · Anvil · Nothing to fix · Nothing to fix · 1 full · collect
 W1 · Forge · Not covered yet · Not covered yet
 W1 · Bribes · Not covered yet · Not covered yet
@@ -234,6 +235,7 @@ Account · Arcade
 | systems.yaml#salt-lick | worlds/reached | account | reached no |  |
 | systems.yaml#shrines | worlds/reached | account | reached no |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
+| systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached no |  |
 | systems.yaml#worship | worlds/reached | account | reached no |  |
