@@ -36,6 +36,7 @@
   background: var(--bad-soft);
   color: var(--fg);
   font-weight: var(--weight-semibold);
+  border: 0;
 }
 
 /* ---- class path: stepping stones ---- */
@@ -57,6 +58,7 @@
   border-radius: var(--radius-control);
   background: var(--surface);
   font-size: var(--text-xs);
+  border: 0;
 }
 .build-view .bv-stone b {
   font-size: var(--text-sm);
@@ -68,13 +70,9 @@
 }
 .build-view .bv-stone[data-state="now"] {
   background: var(--accent-soft);
-  border-color: var(--accent);
 }
 .build-view .bv-stone[data-state="next"] {
   box-shadow: 0 0 0 2px var(--accent);
-}
-.build-view .bv-stone[data-state="later"] {
-  border-style: dashed;
 }
 .build-view .bv-stone-opens {
   margin: var(--space-2) 0 0;
@@ -109,6 +107,7 @@
   padding: var(--space-3);
   border-radius: var(--radius-card);
   background: var(--surface);
+  border: 0;
 }
 .build-view .bv-preset-h {
   display: flex;
@@ -185,17 +184,21 @@
   background: var(--bg);
   border-radius: var(--radius-control);
   cursor: pointer;
-  box-shadow: inset 0 0 0 2px var(--line-strong);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line-strong));
+  border: 0;
 }
 .build-view .bv-tile[data-on="yes"] .bv-tile-btn {
-  border-color: var(--accent);
   background: var(--accent-soft);
+  --ring: var(--accent);
 }
 .build-view .bv-tile[data-star="yes"] .bv-tile-btn {
-  border-style: dashed;
+  box-shadow: none;
+  outline: 2px dashed var(--ring, var(--line-strong));
+  outline-offset: -2px;
 }
 .build-view .bv-tile[data-star="yes"][data-on="yes"] .bv-tile-btn {
-  border-style: solid;
+  outline: 0;
+  box-shadow: inset 0 0 0 2px var(--accent);
 }
 .build-view .bv-tile-btn:focus-visible {
   outline: var(--focus-width) solid var(--focus);
@@ -293,7 +296,6 @@
   color: var(--muted);
 }
 .build-view .bv-ps[data-band="done"] {
-  border-left-color: var(--line-strong);
   padding-block: var(--space-1);
 }
 .build-view .bv-ps[data-band="done"] .bv-ps-name {
@@ -304,7 +306,6 @@
 }
 .build-view .bv-ps[data-band="now"] {
   background: var(--ok-soft);
-  border-left-color: var(--ok);
 }
 .build-view .bv-ps[data-band="now"] .bv-ps-band,
 .build-view .bv-ps[data-band="now"] .bv-ps-glyph {
@@ -312,7 +313,6 @@
 }
 .build-view .bv-ps[data-band="part"] {
   background: linear-gradient(90deg, var(--ok-soft) 50%, var(--bg) 50%);
-  border-left-color: var(--ok);
 }
 .build-view .bv-ps[data-band="part"] .bv-ps-band {
   color: var(--ok);
@@ -320,13 +320,13 @@
 /* "next after these": a surface fill and a dashed rule; full-contrast text, never lowered opacity. */
 .build-view .bv-ps[data-band="next"] {
   background: var(--surface);
+  border: 0;
 }
 .build-view .bv-ps[data-band="next"] .bv-ps-band {
   color: var(--fg);
 }
 .build-view .bv-ps[data-band="later"] {
   background: var(--sunk);
-  border-left-color: var(--unk);
 }
 .build-view .bv-ps[data-band="later"] .bv-ps-band {
   color: var(--unk);
@@ -344,11 +344,6 @@
   content: "";
   flex: 1 1 var(--space-4);
   box-shadow: 0 -1px 0 var(--accent);
-}
-.build-view .bv-marker[data-known="no"]::before,
-.build-view .bv-marker[data-known="no"]::after {
-  border-top-style: dashed;
-  border-top-color: var(--line-strong);
 }
 .build-view .bv-marker > span {
   flex: 0 1 auto;
@@ -376,12 +371,15 @@
   border-radius: var(--radius-sm);
   background: var(--bg);
   font-size: var(--text-sm);
-  box-shadow: inset 0 0 0 2px var(--line-strong);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line-strong));
+  border: 0;
 }
 .build-view .bv-atk-slot[data-ghost="yes"] {
-  border-style: dashed;
-  border-color: var(--bad);
   background: var(--surface);
+  --ring: var(--bad);
+  box-shadow: none;
+  outline: 2px dashed var(--ring, var(--line-strong));
+  outline-offset: -2px;
 }
 .build-view .bv-atk-line {
   margin: var(--space-2) 0 0;

@@ -34,6 +34,7 @@
   box-shadow: inset 0 6px 0 var(--pot, var(--line));
   border-radius: var(--radius-card);
   background: color-mix(in srgb, var(--pot, var(--surface)) 12%, var(--surface));
+  border: 0;
 }
 .al-pot summary {
   display: grid;
@@ -67,6 +68,7 @@
   border-radius: 0;
   background: var(--pot);
   box-shadow: inset 0 0 0 3px var(--fg);
+  border: 0;
 }
 .al-pot-body::before {
   content: "";
@@ -78,6 +80,7 @@
   border-radius: 3px;
   background: var(--pot-rim, var(--sunk));
   box-shadow: inset 0 0 0 3px var(--fg);
+  border: 0;
 }
 .al-rise {
   position: absolute;
@@ -94,6 +97,7 @@
   height: 6px;
   background: var(--pot);
   box-shadow: inset 0 0 0 1px var(--fg);
+  border: 0;
 }
 .al-power {
   --pot: var(--cauldron-power-3);
@@ -139,9 +143,6 @@
 .al-chips .chip {
   font-size: var(--text-sm);
 }
-.al-chips .chip.plan {
-  border-color: var(--accent);
-}
 .al-chips .chip.locked {
   color: var(--muted);
   background: var(--sunk);
@@ -171,7 +172,8 @@
   border-radius: 0;
   background: var(--surface);
   overflow: hidden;
-  box-shadow: inset 0 0 0 2px var(--line);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line));
+  border: 0;
 }
 .al-glass i,
 .al-tube-g i {
@@ -182,11 +184,13 @@
   background: var(--ok);
 }
 .al-vial.have .al-glass {
-  border-color: var(--fg);
+  --ring: var(--fg);
 }
 .al-vial.easy .al-glass {
-  border-style: dashed;
-  border-color: var(--fg);
+  --ring: var(--fg);
+  box-shadow: none;
+  outline: 2px dashed var(--ring, var(--line-strong));
+  outline-offset: -2px;
 }
 .al-vlab {
   font-size: var(--text-sm);
@@ -217,11 +221,14 @@
   border-radius: 0;
   background: var(--surface);
   overflow: hidden;
-  box-shadow: inset 0 0 0 2px var(--fg);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--fg));
+  border: 0;
 }
 .al-tube.locked .al-tube-g {
-  border-style: dashed;
-  border-color: var(--line);
+  --ring: var(--line);
+  box-shadow: none;
+  outline: 2px dashed var(--ring, var(--line-strong));
+  outline-offset: -2px;
 }
 .al-tube.locked {
   color: var(--muted);
@@ -250,6 +257,7 @@
   font-feature-settings: var(--font-features);
   text-align: left;
   cursor: pointer;
+  border: 0;
 }
 .al-cell__name {
   font-weight: var(--weight-semibold);
@@ -265,14 +273,13 @@
   background: linear-gradient(to right, var(--ok) calc(var(--pct) * 1%), var(--line) 0);
 }
 .al-cell.closed {
-  border-style: dashed;
   color: var(--muted);
 }
 .al-grid .al-cell.is-now {
   grid-column: 1 / -1;
-  border-color: var(--accent);
   box-shadow: inset 0 0 0 1px var(--accent);
   font-size: var(--text-sm);
+  background: var(--accent-soft);
 }
 .al-cell:focus-visible {
   outline: var(--focus-width) solid var(--focus);

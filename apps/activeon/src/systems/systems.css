@@ -58,6 +58,7 @@
   padding: var(--space-4);
   border-radius: var(--radius-card);
   background: var(--surface);
+  border: 0;
 }
 .sy-card__head {
   display: flex;
@@ -194,6 +195,7 @@
   border-radius: 0;
   background: var(--bad-soft);
   box-shadow: inset 0 0 0 2px var(--bad);
+  border: 0;
 }
 .sy-rc__word {
   grid-column: 2;
@@ -267,26 +269,13 @@
   color: var(--fg);
   text-decoration: none;
   min-width: 0;
+  border: 0;
 }
 .sy-tile__name {
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   line-height: var(--lh-tight);
   overflow-wrap: anywhere;
-}
-.sy-tile--wasting {
-  border-left-color: var(--bad);
-}
-.sy-tile--behind {
-  border-left-color: var(--warn);
-}
-.sy-tile--ok {
-  border-left-color: var(--ok);
-}
-.sy-tile--not-covered,
-.sy-tile--cant-tell {
-  border-left-style: dashed;
-  border-left-color: var(--unk);
 }
 .sy-tile--locked {
   background: var(--sunk);
@@ -340,15 +329,6 @@
   align-items: center;
   gap: var(--space-2) var(--space-3);
   padding-left: var(--space-3);
-}
-.sy-frame__head.sy-tile--wasting {
-  border-left-color: var(--bad);
-}
-.sy-frame__head.sy-tile--behind {
-  border-left-color: var(--warn);
-}
-.sy-frame__head.sy-tile--ok {
-  border-left-color: var(--ok);
 }
 .sy-frame__head > .sy-reason,
 .sy-frame__head > .sy-link,

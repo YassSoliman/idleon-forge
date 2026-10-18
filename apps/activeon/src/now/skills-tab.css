@@ -42,9 +42,11 @@
   border-radius: var(--radius-control);
   background: var(--surface);
   box-shadow: inset 0 0 0 1px var(--line);
+  border: 0;
 }
 .sk-bar[data-lit="yes"] {
   box-shadow: inset 0 0 0 2px var(--accent);
+  border: 0;
 }
 .sk-bar[data-locked="yes"] {
   background: var(--sunk);
@@ -66,6 +68,7 @@
   font-weight: var(--weight-bold);
   border-radius: var(--radius-chip);
   padding: 0 var(--space-1);
+  border: 0;
 }
 .sk-nowtag {
   font-size: var(--text-xs);
@@ -112,15 +115,18 @@
   background: var(--surface);
   min-width: 0;
   overflow-wrap: anywhere;
-  box-shadow: inset 0 0 0 2px var(--line-strong);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line-strong));
+  border: 0;
 }
 .sk-pip[data-state="filled"],
 .sk-pip[data-state="capped"] {
-  border-color: var(--ok);
+  --ring: var(--ok);
 }
 .sk-pip[data-state="fillable"] {
-  border-color: var(--warn);
-  border-style: dashed;
+  --ring: var(--warn);
+  box-shadow: none;
+  outline: 2px dashed var(--ring, var(--line-strong));
+  outline-offset: -2px;
 }
 .sk-pip[data-state="locked"],
 .sk-pip[data-state="not-covered"] {
@@ -210,14 +216,15 @@
   margin-right: 2px;
   border-radius: 2px;
   background: var(--surface);
-  box-shadow: inset 0 0 0 1px var(--line-strong);
+  box-shadow: inset 0 0 0 1px var(--ring, var(--line-strong));
+  border: 0;
 }
 .sk-pip-mini[data-state="filled"],
 .sk-pip-mini[data-state="capped"] {
   background: var(--ok);
-  border-color: var(--ok);
+  --ring: var(--ok);
 }
 .sk-pip-mini[data-state="fillable"] {
   background: var(--warn-soft);
-  border-color: var(--warn);
+  --ring: var(--warn);
 }

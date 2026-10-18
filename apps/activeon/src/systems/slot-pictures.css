@@ -36,12 +36,14 @@
 .sy-sq--open {
   outline: 2px dashed var(--accent);
   outline-offset: -2px;
+  border: 0;
 }
 .sy-cog .sy-sq.is-now {
   background: var(--accent-soft);
   box-shadow:
     0 0 0 2px var(--accent),
     inset 0 0 0 2px var(--accent);
+  border: 0;
 }
 .sy-legend {
   display: flex;
@@ -94,11 +96,12 @@
   height: 56px;
   border-radius: var(--radius-sm);
   background: linear-gradient(to top, var(--info-soft) calc(var(--pct) * 1%), transparent 0);
-  box-shadow: inset 0 0 0 2px var(--line-strong);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line-strong));
+  border: 0;
 }
 .sy-tank.is-full .sy-tank__glass {
-  border-color: var(--warn);
   background: linear-gradient(to top, var(--warn-soft) calc(var(--pct) * 1%), transparent 0);
+  --ring: var(--warn);
 }
 .sy-tank__v {
   font-size: var(--text-sm);
@@ -152,8 +155,6 @@
   border-radius: var(--radius-control);
   background: var(--surface);
   font-size: var(--text-sm);
-}
-.sy-traprow.is-row-lit {
 }
 .sy-traprow__head {
   display: flex;

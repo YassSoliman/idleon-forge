@@ -87,6 +87,10 @@ export function surfaceViolations(css: string): string[] {
     if (!FORM.test(r.selector))
       for (const v of decls(r.body, /^border(-top|-bottom)?(-width)?$/))
         if (hasWidth(v)) out.push(`${r.selector}: border ${v}`);
+    // A border style alone draws the UA's medium (3 px) border.
+    if (!FORM.test(r.selector))
+      for (const v of decls(r.body, /^border(-(top|bottom|left|right))?-style$/))
+        if (!/^(none|hidden)$/.test(v)) out.push(`${r.selector}: border-style ${v}`);
     // 3 and 4. Radii.
     if (!RADIUS_OK.test(r.selector))
       for (const v of decls(r.body, /^border(-[a-z]+)*-radius$/)) {
@@ -108,6 +112,7 @@ describe('surface guard (M21.1 refresh: no AI tells)', () => {
     expect(surfaceViolations('.c { border: 1px solid var(--line); }')).toHaveLength(1);
     expect(surfaceViolations('.c { border-top: var(--border-width) solid var(--line); }')).toHaveLength(1);
     expect(surfaceViolations('.c { border: 0; }')).toEqual([]);
+    expect(surfaceViolations('.c { border-style: dashed; }')).toHaveLength(1);
     expect(surfaceViolations('.c input { border: 1px solid var(--line-strong); }')).toEqual([]);
     expect(surfaceViolations('.c { border-radius: 10px; }')).toHaveLength(1);
     expect(surfaceViolations('.c { border-radius: 999px; }')).toHaveLength(1);

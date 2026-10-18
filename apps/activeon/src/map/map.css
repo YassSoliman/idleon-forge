@@ -113,7 +113,8 @@
   inset: 2px;
   border-radius: 0;
   background: var(--surface);
-  box-shadow: inset 0 0 0 2px var(--line-strong);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line-strong));
+  border: 0;
 }
 .map-dot > * {
   position: relative;
@@ -121,23 +122,26 @@
 [data-st="cleared"] > .map-dot::before,
 [data-st="cleared"] .map-dot::before {
   background: var(--ok-soft);
-  border-color: var(--ok);
+  --ring: var(--ok);
 }
 [data-st="frontier"] > .map-dot::before,
 [data-st="frontier"] .map-dot::before {
   inset: 0;
   background: var(--accent-soft);
   box-shadow: inset 0 0 0 3px var(--accent);
+  border: 0;
 }
 [data-st="locked"] > .map-dot::before,
 [data-st="locked"] .map-dot::before {
   background: var(--sunk);
-  border-style: dashed;
+  box-shadow: none;
+  outline: 2px dashed var(--ring, var(--line-strong));
+  outline-offset: -2px;
 }
 [data-st="town"] > .map-dot::before,
 [data-st="town"] .map-dot::before {
   background: var(--sunk);
-  border-color: var(--line);
+  --ring: var(--line);
 }
 [data-st="reached"] > .map-dot::after,
 [data-st="reached"] .map-dot::after,
@@ -161,6 +165,7 @@
   box-shadow:
     0 0 0 3px var(--info-soft),
     inset 0 0 0 3px var(--info);
+  border: 0;
 }
 .is-picked {
   outline: var(--focus-width) solid var(--info);
@@ -198,15 +203,16 @@
   background: var(--surface);
   border-radius: var(--radius-card);
   min-width: 0;
+  border: 0;
 }
 .map-gf-i[data-st="next"] .map-gf-tile,
 .map-gf-i[data-st="beyond"] .map-gf-tile {
   background: var(--sunk);
-  border-style: dashed;
 }
 .map-gf-i.is-now > .map-gf-tile {
   box-shadow: var(--shadow-2);
   background: var(--accent-soft);
+  border: 0;
 }
 .map-gf-h {
   display: grid;
@@ -288,6 +294,7 @@
   font: inherit;
   font-size: var(--text-sm);
   cursor: pointer;
+  border: 0;
 }
 .map-more:focus-visible {
   outline: var(--focus-width) solid var(--focus);
@@ -296,6 +303,7 @@
 .map-gf-i--gate > .map-gate {
   position: relative;
   margin-left: var(--space-5);
+  border: 0;
 }
 
 /* The Vertical route: each stop a 44 px row. */
@@ -413,11 +421,11 @@
   background: var(--surface);
   border-radius: var(--radius-card);
   min-width: 0;
+  border: 0;
 }
 .map-band[data-st="next"],
 .map-band[data-st="beyond"] {
   background: var(--sunk);
-  border-style: dashed;
 }
 .map-band[data-st="next"] .map-band-body {
   opacity: 0.55;
@@ -562,6 +570,7 @@
   padding: var(--space-3) var(--space-4);
   background: var(--accent-soft);
   border-radius: var(--radius-card);
+  border: 0;
 }
 .map-nowcard-step {
   margin: 0;

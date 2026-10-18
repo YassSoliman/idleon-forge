@@ -43,6 +43,7 @@
   font: inherit;
   text-align: left;
   cursor: pointer;
+  border: 0;
 }
 .bb-bonus__row:focus-visible {
   outline: 2px solid var(--accent);
@@ -50,9 +51,6 @@
 }
 .bb-bonus__text {
   font-weight: var(--weight-semibold);
-}
-.bb-bonus.is-next .bb-bonus__row {
-  border-color: var(--line-strong);
 }
 .bb-bonus__next {
   margin: var(--space-1) 0 0 var(--space-3);
@@ -104,11 +102,12 @@
   height: 16px;
   border-radius: var(--radius-xs);
   background: var(--surface);
-  box-shadow: inset 0 0 0 2px var(--line-strong);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line-strong));
+  border: 0;
 }
 .bb-pip.is-owned {
-  border-color: var(--accent);
   background: var(--accent);
+  --ring: var(--accent);
 }
 .bb-next {
   display: grid;
@@ -174,8 +173,8 @@
   border-radius: 0;
   font-size: var(--text-xs);
   line-height: 18px;
+  border: 0;
 }
 .bb-tag--max {
-  border-color: var(--ok);
   color: var(--ok);
 }

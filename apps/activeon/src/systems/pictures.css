@@ -147,14 +147,15 @@
   background: var(--surface);
   color: var(--fg);
   cursor: pointer;
-  box-shadow: inset 0 0 0 2px var(--line);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line));
+  border: 0;
 }
 .sy-statue--g1 {
-  border-color: var(--tier-gold-2);
+  --ring: var(--tier-gold-2);
 }
 .sy-statue--g2,
 .sy-statue--g3 {
-  border-color: var(--tier-majestic-2);
+  --ring: var(--tier-majestic-2);
 }
 .sy-statue__lv {
   font: var(--weight-semibold) var(--text-xs) / 1 var(--font-numeral);
@@ -165,8 +166,8 @@
   grid-column: span 2;
 }
 .sy-statues .sy-statue.is-now {
-  border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-soft);
+  --ring: var(--accent);
 }
 .sy-statues__next {
   margin: 0;
@@ -212,8 +213,6 @@
   background: var(--surface);
 }
 .sy-floor.is-locked {
-  border-left-style: dashed;
-  border-left-color: var(--line-strong);
   background: transparent;
 }
 .sy-floor__h {
@@ -253,6 +252,7 @@
   text-align: left;
   font-size: var(--text-xs);
   cursor: pointer;
+  border: 0;
 }
 .sy-vrow__name {
   font-weight: var(--weight-semibold);
@@ -265,7 +265,6 @@
   background: linear-gradient(to right, var(--ok) calc(var(--pct) * 1%), var(--line) 0);
 }
 .sy-vrow.is-locked {
-  border-style: dashed;
   color: var(--muted);
 }
 .sy-vrow__v {
@@ -275,9 +274,9 @@
   grid-column: 1 / -1;
 }
 .sy-vault .sy-vrow.is-now {
-  border-color: var(--accent);
   box-shadow: inset 0 0 0 1px var(--accent);
   font-size: var(--text-sm);
+  background: var(--accent-soft);
 }
 
 /* ---- Printer slots ---- */

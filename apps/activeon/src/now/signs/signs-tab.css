@@ -46,11 +46,14 @@
   background: var(--surface);
   font-weight: var(--weight-semibold);
   box-shadow: inset 0 0 0 2px var(--line-strong);
+  border: 0;
 }
 .ss .ss-slot[data-empty="yes"] {
-  border-style: dashed;
   color: var(--muted);
   font-weight: var(--weight-regular);
+  box-shadow: none;
+  outline: 2px dashed var(--ring, var(--line-strong));
+  outline-offset: -2px;
 }
 .ss .ss-line {
   display: flex;
@@ -77,6 +80,7 @@
   background: var(--surface);
   color: var(--fg);
   text-decoration: none;
+  border: 0;
 }
 .ss .ss-chart-link:focus-visible {
   outline: var(--focus-width) solid var(--focus);

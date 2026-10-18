@@ -11,9 +11,7 @@
   color: var(--fg);
   text-decoration: none;
   min-width: 0;
-}
-.afk-strip:hover {
-  border-color: var(--accent);
+  border: 0;
 }
 .afk-axis {
   position: relative;

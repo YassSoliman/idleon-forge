@@ -22,7 +22,7 @@ describe('US-1 the place navigation', () => {
     const r = withSystems();
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const links = within(places()).getAllByRole('link');
-    expect(links.map((l) => l.textContent?.replace(/^\d+/, ''))).toEqual([
+    expect(links.map((l) => l.textContent?.replace(/\d+$/, ''))).toEqual([
       'Now',
       'Characters',
       'Systems',

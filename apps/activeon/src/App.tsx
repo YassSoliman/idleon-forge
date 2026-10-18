@@ -344,9 +344,8 @@ function AppBody({ a, serverBuild }: { a: ActiveOn; serverBuild: number | null }
           dot={noticeDot || failed > 0}
           menuOpen={menuOpen}
           onMenu={setMenuOpen}
+          navRef={setNavSlot}
         />
-        {/* M17 FR-2: the place navigation sits right under the header (the shell fills it, FR-12). */}
-        <div ref={setNavSlot} className="nav-slot" />
 
         {signInAsContent ? signInNode : null}
         <Sheet open={codeInSheet} title={FLOW_WORDS.signInTitle} onClose={a.cancelSignIn}>

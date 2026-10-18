@@ -794,22 +794,23 @@ html {
 [data-direction] {
   /* Verdict (P8: always paired with a glyph and a word) */
   --verdict-ready-fg: var(--ok);
-  --verdict-ready-bg: var(--ok-soft);
+  --verdict-ready-bg: transparent;
   --verdict-fix-fg: var(--bad);
-  --verdict-fix-bg: var(--bad-soft);
+  --verdict-fix-bg: transparent;
   --verdict-unk-fg: var(--unk);
-  --verdict-unk-bg: var(--unk-soft);
+  --verdict-unk-bg: transparent;
   --verdict-stale-fg: var(--warn);
-  --verdict-stale-bg: var(--warn-soft);
+  --verdict-stale-bg: transparent;
 
-  /* Cap pills (P5: colour = urgency). Full now is amber, not red: caps never change a Verdict. */
+  /* Cap pills (P5: colour = urgency). Full now is amber, not red: caps never change a Verdict.
+     M21.1 refresh: pills, stamps and chips have no fill; status is the glyph plus the coloured word. */
   --cap-now-fg: var(--warn);
-  --cap-now-bg: var(--warn-soft);
+  --cap-now-bg: transparent;
   --cap-soon-fg: var(--warn);
   --cap-soon-bg: transparent;
   --cap-soon-border: var(--warn);
   --cap-fine-fg: var(--muted);
-  --cap-fine-bg: var(--sunk);
+  --cap-fine-bg: transparent;
 
   /* Goal kinds (Fix / Spend / Grow / Extra); the kind also gets its own pixel seal */
   --kind-fix: var(--bad);
@@ -840,7 +841,7 @@ html {
   --card-bg: var(--surface);
   --card-border: var(--line);
   --control-border: var(--line-strong);
-  --chip-bg: var(--sunk);
+  --chip-bg: transparent;
   --chip-pressed-bg: var(--accent);
   --chip-pressed-fg: var(--on-accent);
 

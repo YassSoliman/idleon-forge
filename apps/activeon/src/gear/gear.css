@@ -56,7 +56,8 @@
   color: var(--fg);
   font: inherit;
   cursor: pointer;
-  box-shadow: inset 0 0 0 2px var(--line);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line));
+  border: 0;
 }
 .gs-t {
   display: inline-flex;
@@ -73,38 +74,40 @@
   font-weight: var(--weight-semibold);
 }
 .gs.st-ok {
-  border-color: var(--ok);
   background: var(--ok-soft);
+  --ring: var(--ok);
 }
 .gs.st-ok .gs-w {
   color: var(--ok);
 }
 .gs.st-behind {
-  border-color: var(--warn);
   background: var(--warn-soft);
+  --ring: var(--warn);
 }
 .gs.st-behind .gs-w {
   color: var(--warn);
 }
 .gs.st-empty {
-  border-style: dashed;
-  border-color: var(--bad);
   background: var(--bad-soft);
+  --ring: var(--bad);
+  box-shadow: none;
+  outline: 2px dashed var(--ring, var(--line-strong));
+  outline-offset: -2px;
 }
 .gs.st-empty .gs-w {
   color: var(--bad);
 }
 .gs.st-held-upgrade {
-  border-color: var(--ok);
   background: var(--surface);
+  --ring: var(--ok);
 }
 .gs.st-held-upgrade .gs-w {
   color: var(--ok);
 }
 .gs.st-unknown,
 .gs.st-m20 {
-  border-color: var(--unk);
   background: var(--unk-soft);
+  --ring: var(--unk);
 }
 .gs.lit {
   outline: 3px solid var(--accent);
@@ -165,6 +168,7 @@
   background: transparent;
   border-radius: var(--radius-control);
   cursor: pointer;
+  border: 0;
 }
 .gd-step {
   margin: 0;
@@ -194,6 +198,7 @@
   padding: 2px var(--space-2);
   border-radius: var(--radius-sm);
   color: var(--muted);
+  border: 0;
 }
 .gd-tier.can {
   color: var(--fg);
@@ -202,4 +207,5 @@
   color: var(--ok);
   font-weight: var(--weight-bold);
   background: var(--ok-soft);
+  border: 0;
 }

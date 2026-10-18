@@ -48,9 +48,11 @@
   font-size: var(--text-sm);
   text-align: center;
   cursor: pointer;
+  border: 0;
 }
 .sg-kind.on {
   background: var(--accent-soft);
+  border: 0;
 }
 .sg-kind:has(input:focus-visible) {
   outline: var(--focus-width) solid var(--focus);
@@ -114,7 +116,6 @@
 }
 .sg-chips .a-chip[aria-pressed="true"] {
   background: var(--chip-pressed-bg);
-  border-color: var(--chip-pressed-bg);
   color: var(--chip-pressed-fg);
 }
 .sg-check {
@@ -166,6 +167,7 @@
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-card);
   background: var(--surface);
+  border: 0;
 }
 .sg-turnstile {
   min-height: 65px;
@@ -185,6 +187,7 @@
   padding: var(--space-3);
   border-radius: var(--radius-card);
   overflow-wrap: anywhere;
+  border: 0;
 }
 .sg-item-head {
   display: flex;
@@ -226,6 +229,7 @@
   background: var(--surface);
   box-shadow: var(--shadow-1);
   overflow-wrap: anywhere;
+  border: 0;
 }
 .sg-note p {
   margin: 0;
@@ -251,6 +255,7 @@
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
   transform: rotate(-3deg);
+  border: 0;
 }
 .sg-note-link {
   display: inline-flex;

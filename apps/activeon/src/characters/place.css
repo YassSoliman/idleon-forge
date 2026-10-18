@@ -95,20 +95,15 @@
   overflow-wrap: anywhere;
   color: var(--fg);
   background: var(--surface);
+  border: 0;
 }
 .characters-place .cp-cell[data-level="fix"] {
   background: var(--bad-soft);
   color: var(--bad);
-  border-color: var(--bad);
 }
 .characters-place .cp-cell[data-level="behind"] {
   background: var(--warn-soft);
   color: var(--warn);
-  border-color: var(--warn);
-}
-.characters-place .cp-cell[data-level="empty"] {
-  border-style: dashed;
-  border-color: var(--line-strong);
 }
 .characters-place .cp-cell[data-level="unknown"] {
   background: var(--unk-soft);
@@ -149,10 +144,10 @@
   padding: var(--space-3);
   border-radius: var(--radius-card);
   background: var(--surface);
+  border: 0;
 }
 .characters-place .cp-next[data-open="yes"] {
-  border-style: solid;
-  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 /* "Not yet": the chibi drawn in the muted ramp until the slot opens. */
 .characters-place .cp-next[data-open="no"] .cp-next-glyph {
@@ -197,6 +192,7 @@
   padding: var(--space-2);
   border-radius: var(--radius-control);
   background: var(--surface);
+  border: 0;
 }
 .characters-place .cp-tree-h {
   display: flex;
@@ -223,6 +219,7 @@
   padding: var(--space-2) var(--space-3);
   background: var(--surface);
   border-radius: var(--radius-control);
+  border: 0;
 }
 .characters-place .cp-fold > summary::-webkit-details-marker {
   display: none;
@@ -249,6 +246,7 @@
   background: var(--surface);
   color: var(--fg);
   text-decoration: none;
+  border: 0;
 }
 .characters-place .cp-bo-line {
   flex-basis: 100%;

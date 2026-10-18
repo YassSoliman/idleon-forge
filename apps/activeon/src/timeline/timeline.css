@@ -56,9 +56,7 @@
   font-weight: var(--weight-semibold);
   color: var(--fg);
   text-decoration: none;
-}
-.tl-jump-a:hover {
-  border-color: var(--accent);
+  border: 0;
 }
 
 /* §6 stale-first (the Lab's "Hatched waste"): the save's age before anything else. */
@@ -116,6 +114,7 @@
   border-radius: var(--radius-control);
   max-width: 100%;
   min-width: 0;
+  border: 0;
 }
 .tl-frame:focus-visible,
 .sg-frame:focus-visible {
@@ -293,16 +292,17 @@
   background: var(--fam-soft);
   border-radius: 0 4px 4px 0;
   box-shadow: inset 0 0 0 1px var(--fam);
-}
-.tl-bar.later .tl-rail {
-  border-right-style: dashed;
+  border: 0;
 }
 .tl-bar.fx-info .tl-rail {
-  border-style: dashed;
+  box-shadow: none;
+  outline: 1px dashed var(--fam);
+  outline-offset: -1px;
 }
 /* FR-25: full before you're back with a fix: the Fix outline, and stripes up to Back. */
 .tl-bar.outlined .tl-rail {
   box-shadow: inset 0 0 0 2px var(--warn);
+  border: 0;
 }
 .tl-hatch {
   position: absolute;
@@ -314,6 +314,7 @@
 .tl-bar.outlined .tl-hatch {
   background: repeating-linear-gradient(135deg, var(--warn) 0 3px, transparent 3px 7px);
   box-shadow: inset 0 0 0 1px var(--warn);
+  border: 0;
 }
 /* Full before Back without a fix of its own: waste, grey stripes. */
 .tl-bar.waste .tl-hatch {
@@ -374,6 +375,7 @@
   border-radius: 0 4px 4px 0;
   outline: 1px dashed var(--unk);
   outline-offset: -1px;
+  border: 0;
 }
 .tl-bar.muted {
   opacity: 0.55;
@@ -434,11 +436,12 @@
   border-radius: var(--radius-card);
   background: var(--accent-soft);
   min-height: var(--tap-min);
-  box-shadow: inset 0 0 0 2px var(--accent);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--accent));
+  border: 0;
 }
 .tl-next.calm {
-  border-color: var(--line);
   background: var(--sunk);
+  --ring: var(--line);
 }
 .tl-next-a {
   font-weight: var(--weight-bold);
@@ -483,26 +486,28 @@
   border-radius: 3px;
   background: var(--info-soft);
   box-shadow: inset 0 0 0 1px var(--info);
+  border: 0;
 }
 .tl-key.fam-store {
-  border-color: var(--accent);
   background: var(--accent-soft);
+  --ring: var(--accent);
 }
 .tl-key.fam-timer {
-  border-color: var(--unk);
   background: var(--unk-soft);
+  --ring: var(--unk);
 }
 .tl-key.fam-food {
-  border-color: var(--ok);
   background: var(--ok-soft);
+  --ring: var(--ok);
 }
 .tl-key.outlined {
   background: var(--warn-soft);
-  box-shadow: inset 0 0 0 2px var(--warn);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--warn));
+  border: 0;
 }
 .tl-key.hatch {
-  border-color: var(--warn);
   background: repeating-linear-gradient(135deg, var(--warn) 0 3px, transparent 3px 7px);
+  --ring: var(--warn);
 }
 
 /* ---- The lists: the same content as text, with the real links (TR-13) ---- */
@@ -516,6 +521,7 @@
   border-radius: var(--radius-card);
   padding: var(--space-1) var(--space-3) var(--space-2);
   min-width: 0;
+  border: 0;
 }
 .tl-account .tl-lane {
   border: 0;
@@ -631,6 +637,7 @@
   min-width: 0;
   border-radius: var(--radius-control);
   background: var(--surface);
+  border: 0;
 }
 .sg {
   border-collapse: separate;
@@ -710,17 +717,20 @@
 .sg-key.is-filled {
   background: var(--ok-soft);
   box-shadow: inset 0 0 0 1px var(--ok);
+  border: 0;
 }
 .sg-c.is-full,
 .sg-key.is-full {
   background: var(--warn-soft);
   box-shadow: inset 0 0 0 2px var(--warn);
+  border: 0;
 }
 .sg-c.is-empty,
 .sg-key.is-empty {
   background: transparent;
   outline: 2px dashed var(--line-strong);
   outline-offset: -2px;
+  border: 0;
 }
 .sg-c.is-empty .sg-g {
   opacity: 0.5;
@@ -731,6 +741,7 @@
   background: var(--sunk);
   color: var(--muted);
   box-shadow: inset 0 0 0 1px var(--line);
+  border: 0;
 }
 .sg-c.is-closed .sg-g {
   opacity: 0.35;
@@ -760,9 +771,11 @@
   background: var(--surface);
   outline: 2px dashed var(--line-strong);
   outline-offset: -2px;
+  border: 0;
 }
 .sg-tray.is-now {
   box-shadow: inset 0 0 0 2px var(--accent);
+  border: 0;
 }
 .sg-tray-h {
   display: flex;
@@ -904,9 +917,7 @@
   font: inherit;
   text-align: left;
   cursor: pointer;
-}
-.dw-band-b:hover {
-  border-color: var(--accent);
+  border: 0;
 }
 .dw-band-b > .px-art {
   grid-row: 1 / span 2;
@@ -950,18 +961,21 @@
   height: 24px;
   border-radius: var(--radius-sm);
   background: transparent;
-  box-shadow: inset 0 0 0 2px var(--line-strong);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line-strong));
+  border: 0;
 }
 .dw-pip.s-todo {
-  border-color: var(--accent);
+  --ring: var(--accent);
 }
 .dw-pip.s-done {
-  border-color: var(--ok);
   background: var(--ok-soft);
+  --ring: var(--ok);
 }
 .dw-pip.s-waiting,
 .dw-pip.s-unknown {
-  border-style: dashed;
+  box-shadow: none;
+  outline: 2px dashed var(--ring, var(--line-strong));
+  outline-offset: -2px;
 }
 .dw-pip.s-cannot,
 .dw-pip.s-unknown,
@@ -969,8 +983,8 @@
   opacity: 0.6;
 }
 .dw-pip.lost {
-  border-color: var(--bad);
   background: var(--bad-soft);
+  --ring: var(--bad);
 }
 .dw-plan {
   display: grid;
@@ -1021,6 +1035,7 @@
   background: var(--surface);
   min-width: 0;
   overflow-wrap: anywhere;
+  border: 0;
 }
 .cl-ic {
   display: grid;
@@ -1039,12 +1054,9 @@
   background: transparent;
   color: var(--muted);
 }
-.cl-row.s-waiting,
-.cl-row.s-unknown {
-  border-style: dashed;
-}
 .cl-row.lost {
   background: var(--bad-soft);
+  border: 0;
 }
 .cl-head,
 .cl-detail,
@@ -1095,19 +1107,20 @@
   width: 12px;
   height: 12px;
   border-radius: 3px;
-  box-shadow: inset 0 0 0 2px var(--line-strong);
+  box-shadow: inset 0 0 0 2px var(--ring, var(--line-strong));
+  border: 0;
 }
 .cl-pip.is-on {
   background: var(--accent);
-  border-color: var(--accent);
+  --ring: var(--accent);
 }
 .cl-pip.is-last.is-on {
   background: var(--bad);
-  border-color: var(--bad);
+  --ring: var(--bad);
 }
 .cl-pip.is-lost {
-  border-color: var(--bad);
   background: repeating-linear-gradient(135deg, var(--bad) 0 2px, transparent 2px 4px);
+  --ring: var(--bad);
 }
 .cl-lost {
   color: var(--bad);
@@ -1141,6 +1154,7 @@
   .tl-frame,
   .sg-frame {
     scroll-behavior: auto;
+    border: 0;
   }
 }
 
@@ -1201,6 +1215,7 @@
      then its five cells in a wrapping grid, each cell naming its column. */
   .sg-frame {
     overflow-x: visible;
+    border: 0;
   }
   .sg,
   .sg tbody,

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// The one-line header (M21 `now.header` One-line, G1, G2): the wordmark on the left, then the chips (the
+// The top bar (M21.1 refresh, nav option A; M21 `now.header`, G1, G2): the wordmark on the left, the five
+// places, then the status on the right (the
 // Preview badge on a PR Preview, the World crest, the save-age chip, a "New version ready" chip), the
 // light/dark toggle and the 44 px overflow menu (G1). Family level, Settings, Suggest, versions and Sign
 // out live in that menu; a new update or a failed check puts one dot on its button (`flows.banners`).
@@ -47,6 +48,11 @@ export interface HeaderProps {
   /** Closes the overflow sheet from inside (a row that opens something else). */
   menuOpen?: boolean;
   onMenu?(open: boolean): void;
+  /**
+   * M21.1 refresh (nav option A): the place navigation's slot, in the bar between the wordmark and the
+   * status. The shell portals the five places into it; under 720 px they draw as the bottom dock.
+   */
+  navRef?: (el: HTMLDivElement | null) => void;
 }
 
 /** M2 D5: "World 2, late" shows as "World 2 · late". */
@@ -145,7 +151,7 @@ function useThemeVersion(): number {
 }
 
 export function Header(props: HeaderProps) {
-  const { save, sync, online, lastSnapshotAt, busy, stage, preview, update, menu, dot } = props;
+  const { save, sync, online, lastSnapshotAt, busy, stage, preview, update, menu, dot, navRef } = props;
   const [ownOpen, setOwnOpen] = useState(false);
   const menuOpen = props.menuOpen ?? ownOpen;
   const setMenu = props.onMenu ?? setOwnOpen;
@@ -154,9 +160,9 @@ export function Header(props: HeaderProps) {
     <header className="n-hdr">
       <div className="n-hdr__line">
         <h1 className="n-wm">
-          <PixelArt name="now-wordmark" scale={2} decorative />
-          <span className="sr-only">ActiveOn</span>
+          Active<span className="n-wm__on">On</span>
         </h1>
+        {navRef ? <div ref={navRef} className="nav-slot" /> : null}
         <div className="n-hdr__chips">
           {preview ? <Pill urgency="fine" glyph="cards-src-gear" verb={preview} /> : null}
           {stage ? <Crest stage={stage} /> : null}
