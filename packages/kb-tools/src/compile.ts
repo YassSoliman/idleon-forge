@@ -20,8 +20,10 @@ import {
   familyMembers,
   isStale,
   knowledgeVersion,
+  packKnowledge,
   playerVisible,
   type StageId,
+  unpackKnowledge,
 } from '@idleon-forge/knowledge';
 import { detectorRefsOf } from './check';
 import { detectorFiles, discoverDetectors, type Registries } from './discover';
@@ -257,12 +259,16 @@ export async function compile(
 
 export function writeCompiled(kb: CompiledKnowledge, file: string = DIST): { bytes: number } {
   mkdirSync(path.dirname(file), { recursive: true });
-  const text = `${canonicalJson(kb)}\n`;
+  const text = `${canonicalJson(packKnowledge(kb))}\n`;
   writeFileSync(file, text);
   return { bytes: Buffer.byteLength(text) };
 }
 
 export const readCompiled = (file: string = DIST): CompiledKnowledge | null =>
-  existsSync(file) ? (JSON.parse(readFileSync(file, 'utf8')) as CompiledKnowledge) : null;
+  existsSync(file)
+    ? (unpackKnowledge(
+        JSON.parse(readFileSync(file, 'utf8')) as Record<string, unknown>,
+      ) as unknown as CompiledKnowledge)
+    : null;
 
 export const isFactId = (s: string) => FACT_ID_RE.test(s);

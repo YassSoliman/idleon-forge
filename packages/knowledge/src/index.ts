@@ -4,11 +4,13 @@
 // coverage(), diffManifests(), entryReportFields(). It imports nothing that needs Node or a bundler,
 // so it runs in the parser Web Worker (ADR 0006), in Vitest and in the kb CLI alike. The Detector
 // registry is a separate entry point (`@idleon-forge/knowledge/detectors`), discovered by the bundler.
+import { unpackKnowledge } from './pack';
 import type { CompiledKnowledge } from './version';
 
 export { coverage, coveredSystems, systemUnlocked } from './coverage';
 export { familyMembers } from './family';
 export * from './helpers';
+export { packKnowledge, unpackKnowledge } from './pack';
 export { isPlayerSource, playerSources, type SourceLike } from './player-sources';
 export { type EntryReportFields, entryReportFields, type ReportableOutput } from './report';
 export {
@@ -107,7 +109,7 @@ export function loadKnowledge(input: unknown): CompiledKnowledge {
   }
   if (typeof data !== 'object' || data === null || Array.isArray(data))
     throw new KnowledgeUnavailableError('the Knowledge Base bundle is not an object');
-  const kb = data as Record<string, unknown>;
+  const kb = unpackKnowledge(data as Record<string, unknown>);
   const missing = REQUIRED.filter((k) => kb[k] === undefined || kb[k] === null);
   if (missing.length > 0)
     throw new KnowledgeUnavailableError(`the Knowledge Base bundle lacks ${missing.join(', ')}`);
