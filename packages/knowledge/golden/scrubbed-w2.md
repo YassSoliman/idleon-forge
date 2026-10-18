@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #ba1afb20 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 335
+# golden v1: scrubbed-w2 · knowledge #313a8452 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 338
 
 ## Verdict changes
 
@@ -15,7 +15,7 @@
 3 · Fighting Snelbie · Djonnuttown · Set up your second preset for skilling: start with Smart Efficiency, Active AFK'er. At least 592 points are waiting, then swap back to your fighting preset
 
 ### C4 · Bowman 54 · Ready
-4 · Fighting Green Mushroom · Spore Meadows · Equip 4 cards in your empty card slots: Carrotman, Bored Bean, Pincermin and Mashed Potato
+4 · Fighting Green Mushroom · Spore Meadows · Set up your second preset for skilling: start with Elusive Efficiency, Quickness Boots. At least 575 points are waiting, then swap back to your fighting preset
 
 ### C3 · Shaman 44 · Ready
 5 · Fighting Slime · Jungle Perimeter · Equip the Blunder Hills card set (tier 1, +8% EXP if below Lv 50)
@@ -28,7 +28,7 @@ Fix before you leave
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (16)
+show more (17)
 Spend coins: 9 buys now on 1 character
   1. Raise 2 stamp caps, then buy their new levels on Barbarian Lv 60: Hatchet Stamp, Shield Stamp, about 1 platinum 31 gold (carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free up inventory space first) · 1.3M coins · C1 (Barbarian lv60) · buy · total 1.3M on C1
   2. Level Bullseye Stamp 0→5 on Barbarian Lv 60: 9 gold 75 silver · Lv 0 → 5 · 98k coins · C1 (Barbarian lv60) · buy · total 1.4M on C1

@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #ba1afb20 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 335
+# golden v1: scrubbed-w3 · knowledge #313a8452 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 338
 
 ## Verdict changes
 
@@ -18,7 +18,7 @@
 4 · Fighting Thermister · Thermonuclear Climb · [Anvil full · collect] [Worship full · spend] · Collect 6 boss keys · Spend here: 1 buy, ~2B → Spend Plan
 
 ### C2 · Squire 51 · Ready
-5 · Mining Gold · Freefall Caverns · [Anvil full · collect] [Worship full · spend] · Equip 1 card in your empty card slots: Amarok
+5 · Mining Gold · Freefall Caverns · [Anvil full · collect] [Worship full · spend] · Spend at least 115 talent points on your skilling preset (Squire), starting with Refinery Throttle
 
 ### C1 · Wizard 73 · Ready
 6 · Fighting Sir Stache · The Stache Split · [Anvil full · collect] · Swap Molto loggo for Hammer hammer · Spend here: 2 buys, ~1.6B → Spend Plan
@@ -29,7 +29,7 @@
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-show more (18)
+show more (20)
 Spend coins: 10 buys now on 4 characters
   1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before you redeem Colosseum tickets: 1 dementia · Lv 0 → 1 · 100M coins · C3 (Bowman lv60) · buy · total 100M on C3
   2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 1 gold 26 silver (carry 25 Jungle Logs on Wizard Lv 73) · Lv 10 → 20 · 13k coins · C3 (Bowman lv60) · buy · total 100M on C3
