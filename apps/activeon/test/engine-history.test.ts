@@ -84,7 +84,9 @@ function run(engine: EngineCall, input: ParseInput = live, now?: number) {
 const WATER_SLOW = 'takes about 16 h to refill';
 const STOCK_UP = 'and stock up on it';
 
-describe('the engine reads real save history (M10 TR-6)', () => {
+// Each case parses a full save and runs every module; on a loaded CI runner the first case pays the
+// worker-bundle warm-up, so the default 5 s per test is too tight.
+describe('the engine reads real save history (M10 TR-6)', { timeout: 60_000 }, () => {
   it('without history, neither the Water refill nor the food stock-up shows', () => {
     const text = JSON.stringify(run(call([], null)));
     expect(text).not.toContain(WATER_SLOW);
