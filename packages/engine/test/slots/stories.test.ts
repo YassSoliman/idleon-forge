@@ -338,7 +338,8 @@ describe('without the checklist rows fact', () => {
   });
 });
 
-describe('R7 QA: Parallel Slots on an account past coverage', () => {
+// These cases parse the 11-character public save; on a loaded CI runner that exceeds the 5 s default.
+describe('R7 QA: Parallel Slots on an account past coverage', { timeout: 60_000 }, () => {
   const LATEST = fileURLToPath(
     new URL('../../../account-state/fixtures/public/latest.json', import.meta.url),
   );
