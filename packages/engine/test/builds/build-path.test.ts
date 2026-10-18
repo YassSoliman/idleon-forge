@@ -13,10 +13,12 @@ import { pathMarker, tabBadge } from '../../src/now/words/characters';
 import type { BuildPathStepView, BuildPresetView, BuildRoadmap } from '../../src/result';
 import { W2, W3 } from '../afk/helpers';
 
-import { kb } from './helpers';
+import { boundOnly, kb } from './helpers';
 
 const facts = lookupOf(kb);
-const roadmaps = (s: AccountState) => buildRoadmaps(s, facts, { entries: kb.entries });
+// Lower-bound behaviour (M9 TR-7); the exact counts (ADR 0010) are tested on their own below.
+const roadmaps = (s: AccountState) => buildRoadmaps(boundOnly(s), facts, { entries: kb.entries });
+const roadmapsExact = (s: AccountState) => buildRoadmaps(s, facts, { entries: kb.entries });
 const at = (list: BuildRoadmap[], index: number): BuildRoadmap => {
   const r = list.find((x) => x.index === index);
   if (!r) throw new Error(`no roadmap for ${index}`);
@@ -163,7 +165,7 @@ describe('Build path with exact counts (ADR 0010, #125)', () => {
   };
 
   it('an exact count replaces the lower bound: "70 points waiting", and the path bands by it', () => {
-    const r = at(roadmaps(exact(hunter(OWNER_TAB1, 'empty'), { 1: 70, 2: 0, 3: 0 }, true)), 5);
+    const r = at(roadmapsExact(exact(hunter(OWNER_TAB1, 'empty'), { 1: 70, 2: 0, 3: 0 }, true)), 5);
     const f = r.presets.find((p) => p.active) as BuildPresetView;
     const t1 = tab(f, 1);
     expect(t1.known).toEqual({ kind: 'exact', points: 70, overBy: null, verified: true });
@@ -173,7 +175,7 @@ describe('Build path with exact counts (ADR 0010, #125)', () => {
   });
 
   it('an exact 0 says the tab is all spent (never "no points waiting")', () => {
-    const r = at(roadmaps(exact(hunter(OWNER_TAB1, 'empty'), { 1: 0, 2: 0, 3: 0 }, false)), 5);
+    const r = at(roadmapsExact(exact(hunter(OWNER_TAB1, 'empty'), { 1: 0, 2: 0, 3: 0 }, false)), 5);
     const f = r.presets.find((p) => p.active) as BuildPresetView;
     const t1 = tab(f, 1);
     expect(t1.known).toEqual({ kind: 'exact', points: 0, overBy: null, verified: false });

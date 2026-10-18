@@ -9,10 +9,12 @@ import { buildRoadmaps } from '../../src/builds';
 import { lookupOf } from '../../src/metapath/knowledge';
 import type { BuildRoadmap } from '../../src/result';
 import { W2, W3 } from '../afk/helpers';
-import { kb, run } from './helpers';
+import { boundOnly, kb, run } from './helpers';
 
 const facts = lookupOf(kb);
-const roadmaps = (s: AccountState) => buildRoadmaps(s, facts, { entries: kb.entries });
+// Lower-bound behaviour (M9 TR-7); the exact counts (ADR 0010) are tested on their own below.
+const roadmaps = (s: AccountState) => buildRoadmaps(boundOnly(s), facts, { entries: kb.entries });
+const roadmapsExact = (s: AccountState) => buildRoadmaps(s, facts, { entries: kb.entries });
 const at = (list: BuildRoadmap[], index: number): BuildRoadmap => {
   const r = list.find((x) => x.index === index);
   if (!r) throw new Error(`no roadmap for ${index}`);
@@ -185,5 +187,18 @@ describe('Build view roadmaps', () => {
     const b = run(W2()).builds;
     expect(a?.length).toBe(5);
     expect(a).toEqual(b);
+  });
+});
+
+describe('Build view roadmaps with exact counts (ADR 0010)', () => {
+  it('W3-early: where the save gives an exact count, no tab or status says "at least" for it', () => {
+    for (const r of roadmapsExact(W3()))
+      for (const p of r.presets)
+        for (const t of p.tabs)
+          if (t.known?.kind === 'exact') expect(t.known.points).toBeGreaterThanOrEqual(0);
+    const exactly = roadmapsExact(W3()).filter((r) =>
+      r.presets.every((p) => p.tabs.every((t) => t.tab > 3 || t.known?.kind === 'exact')),
+    );
+    for (const r of exactly) expect(r.status).not.toMatch(/at least/);
   });
 });

@@ -94,7 +94,9 @@ export function tabBadge(t: Pick<BuildTabView, 'known' | 'unspent' | 'tab'>): st
   if (k.kind === 'exact' && t.tab === 0) return starKnownWord(k);
   if (!k.points || k.points <= 0) return null;
   // Exact class-tab counts (owner ruling, `feat/exact-talent-points`) drop "at least".
-  return k.kind === 'exact' ? `${n(k.points)} points` : `at least ${n(k.points)}`;
+  return k.kind === 'exact'
+    ? `${n(k.points)} ${k.points === 1 ? 'point' : 'points'}`
+    : `at least ${n(k.points)}`;
 }
 
 /**
@@ -108,7 +110,9 @@ export function pathMarker(t: Pick<BuildTabView, 'known' | 'path' | 'tab'>): str
   const stonks = (t.path ?? []).some((s) => s.talentId === 622 && s.cumulative !== null);
   const tail = stonks ? ` (${w.stonksReturns})` : '';
   if (k.kind === 'exact' && t.tab !== 0)
-    return (k.points ?? 0) > 0 ? `${n(k.points ?? 0)} ${w.exactSuffix} · ${w.knownEnd}` : w.exactNone;
+    return (k.points ?? 0) > 0
+      ? `${n(k.points ?? 0)} ${k.points === 1 ? 'point waiting' : w.exactSuffix} · ${w.knownEnd}`
+      : w.exactNone;
   if (k.kind === 'exact') {
     if (k.overBy !== null) return `Over budget by about ${n(k.overBy)}: the totals show where new points go`;
     if ((k.points ?? 0) > 0) return `${n(k.points ?? 0)} unspent · ${w.knownEnd}${tail}`;

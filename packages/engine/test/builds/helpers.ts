@@ -78,3 +78,30 @@ export function swapPresets(s: AccountState, index: number): AccountState {
 
 export const withItems = (s: AccountState, potions: number, fragments: number) =>
   withAccount(s, { resetItems: { potions, fragments } });
+
+/**
+ * The M9 view of a save: talent point totals as lower bounds only (M9 TR-7), as before ADR 0010. The
+ * Build path tests that pin lower-bound behaviour run on this; the exact counts have their own tests.
+ */
+export function boundOnly(s: AccountState): AccountState {
+  const strip = (p: PresetTalents | null): PresetTalents | null => {
+    if (!p) return p;
+    const { talentPoints: _drop, ...rest } = p;
+    return rest;
+  };
+  return {
+    ...s,
+    characters: s.characters.map((c) =>
+      c.talents
+        ? {
+            ...c,
+            talents: {
+              ...c.talents,
+              active: strip(c.talents.active) as PresetTalents,
+              other: strip(c.talents.other),
+            },
+          }
+        : c,
+    ),
+  };
+}

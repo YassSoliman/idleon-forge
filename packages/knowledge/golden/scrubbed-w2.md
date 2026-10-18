@@ -213,8 +213,8 @@ step: Use your 11 vial attempts on the W2 town cauldron
     - later: Beginner Best Class 0 (find its book (Rocklyte's quest))
     - later: Tick Tock 0 (find its book (Alchemy liquid shop, 50 water droplets))
     - and 7 more
-- Skilling preset: Rage Basics [Start here] (at least 288) · Warrior (at least 242) · Barbarian (at least 110) · Star talents (99 unspent)
-  - Rage Basics: As of your last save: at least 288 points waiting · they end here
+- Skilling preset: Rage Basics [Start here] (288 points) · Warrior (242 points) · Barbarian (110 points) · Star talents (99 unspent)
+  - Rage Basics: 288 points waiting · they end here
     - can add now: Brute Efficiency 0 → 100 · +100
     - can add now: Idle Skilling 0 → 100 · +200
     - part now: Fist of Rage 0 → 100 · +88 of 100 now · +300
@@ -226,8 +226,8 @@ step: Use your 11 vial attempts on the W2 town cauldron
     - and 6 more
 
 ### C2 (Squire 43)
-- Fighting preset: Rage Basics [Start here] (at least 9) · Warrior (at least 4) · Squire (at least 4) · Star talents (10 unspent)
-  - Rage Basics: As of your last save: at least 9 points waiting · they end here
+- Fighting preset: Rage Basics [Start here] (9 points) · Warrior (4 points) · Squire (4 points) · Star talents (10 unspent)
+  - Rage Basics: 9 points waiting · they end here
     - part now: Idle Brawling 0 → 50 · +9 of 50 now · +50
     - next after these: Gilded Sword 55 → 100 · +95
     - done: Sharpened Axe 100
@@ -248,17 +248,17 @@ step: Use your 11 vial attempts on the W2 town cauldron
     - and 6 more
 
 ### C3 (Shaman 44)
-- Fighting preset (in use): Savvy Basics · Mage · Shaman · Star talents (all spent)
+- Fighting preset (in use): Savvy Basics (1 point) · Mage (1 point) · Shaman (1 point) · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - next after these: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
     - later: Beginner Best Class 0 (find its book (Rocklyte's quest))
     - later: Tick Tock 0 (find its book (Alchemy liquid shop, 50 water droplets))
     - and 7 more
-- Skilling preset: Savvy Basics [Start here] (at least 44) · Mage (at least 40) · Shaman (at least 34) · Star talents (101 unspent)
-  - Savvy Basics: As of your last save: at least 44 points waiting · they end here
+- Skilling preset: Savvy Basics [Start here] (45 points) · Mage (41 points) · Shaman (35 points) · Star talents (101 unspent)
+  - Savvy Basics: 45 points waiting · they end here
     - done: Smart Efficiency 100
-    - part now: Book of the Wise 16 → 100 · +44 of 84 now · +84
+    - part now: Book of the Wise 16 → 100 · +45 of 84 now · +84
     - done: Active AFK'er 100
   - Star talents: 101 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
@@ -268,18 +268,18 @@ step: Use your 11 vial attempts on the W2 town cauldron
     - and 6 more
 
 ### C4 (Bowman 54)
-- Fighting preset (in use): Calm Basics · Archer · Bowman · Star talents (all spent)
+- Fighting preset (in use): Calm Basics (1 point) · Archer (1 point) · Bowman (1 point) · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - next after these: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
     - later: Beginner Best Class 0 (find its book (Rocklyte's quest))
     - later: Tick Tock 0 (find its book (Alchemy liquid shop, 50 water droplets))
     - and 7 more
-- Skilling preset: Calm Basics [Start here] (at least 267) · Archer (at least 220) · Bowman (at least 88) · Star talents (88 unspent)
-  - Calm Basics: As of your last save: at least 267 points waiting · they end here
+- Skilling preset: Calm Basics [Start here] (268 points) · Archer (221 points) · Bowman (89 points) · Star talents (88 unspent)
+  - Calm Basics: 268 points waiting · they end here
     - can add now: Elusive Efficiency 0 → 100 · +100
     - can add now: Quickness Boots 0 → 100 · +200
-    - part now: Broken Time 0 → 100 · +67 of 100 now · +300
+    - part now: Broken Time 0 → 100 · +68 of 100 now · +300
   - Star talents: 88 unspent · they end here
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - can add now: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
@@ -288,18 +288,18 @@ step: Use your 11 vial attempts on the W2 town cauldron
     - and 6 more
 
 ### C5 (Wizard 56)
-- Fighting preset (in use): Savvy Basics · Mage · Wizard · Star talents (all spent)
+- Fighting preset (in use): Savvy Basics (1 point) · Mage · Wizard · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
     - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - next after these: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
     - later: Beginner Best Class 0 (find its book (Rocklyte's quest))
     - later: Tick Tock 0 (find its book (Alchemy liquid shop, 50 water droplets))
     - and 7 more
-- Skilling preset: Savvy Basics [Start here] (at least 272) · Mage (at least 226) · Wizard (at least 94) · Star talents (89 unspent)
-  - Savvy Basics: As of your last save: at least 272 points waiting · they end here
+- Skilling preset: Savvy Basics [Start here] (273 points) · Mage (226 points) · Wizard (94 points) · Star talents (89 unspent)
+  - Savvy Basics: 273 points waiting · they end here
     - can add now: Smart Efficiency 0 → 100 · +100
     - can add now: Active AFK'er 0 → 100 · +200
-    - part now: Book of the Wise 0 → 100 · +72 of 100 now · +300
+    - part now: Book of the Wise 0 → 100 · +73 of 100 now · +300
     - next after these: Mana Booster 0 → 100 · +400
     - and 1 more
   - Star talents: 89 unspent · they end here
