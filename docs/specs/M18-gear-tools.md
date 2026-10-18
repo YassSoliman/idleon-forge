@@ -485,6 +485,15 @@ Golden clock (`now` = the save), Expected Return 8 h. Smithy: day 4 of 30 (W2-la
 - **V9** That a world's Task Board Unlocks column needs that world's Task Board open (M20 V7's quest signals), and what the W2-late account sees in the W2 column today. Agent task (N.js Task Board UI); until then FR-14 step 1 assumes it does, which is the safer wording (it names one more step, never one too few).
 - **V10** That one Task Board unlock costs one unlock point (`unlockPointsOwned` minus `unlockedRecipes` = unspent: 2 on W2-late, 10 on W3-early). Agent task (N.js or Toolbox `getPointsReq`).
 
+### 11.5 Build notes (Phase 1 build, 2026-10-18)
+- **V5 settled.** The craft check is `Lv0[2] >= ItemToCraftEXP[tab][n][0]` on the logged-in character (N.js @5356030): the crafter's own Smithing level. FR-16 stands. Recipe numbers and LVs agree with N.js `ItemToCraftNAME` / `ItemToCraftEXP` (V8); crafting Copper Platebody and Platelegs sets the next recipe to 0 (N.js @6964661, F-c's `on-craft`).
+- **V6 for the owner.** The hire button sets `OLA[380] = 1` once `PermaUnlockAfford` is 1 and deducts nothing (N.js @12680370), so hiring looks free; one look in game confirms.
+- **V7 settled.** `GetSetBonus("PartsOn")` reads the logged-in character's `EquipmentOrder`, and a hired Smithy adds a fully worn set to `OLA[379]` (N.js @11088373). The register line says "wear it all, log in, tap a piece".
+- **V9 settled, and it changes FR-14 step 1.** A world's Unlocks column opens when the account owns that world's anvil tab and has unlocked enough recipes in all (N.js `TaskStuff("UnlockColumnsOpened")` @6598822: tab 2 and 7 unlocks for W2, tab 3 and 22 for W3), not on a quest. So the W2-late weapons start with "Craft Anvil Tab 2 to open the W2 Task Board unlocks", and the Squire Lv 85's Ice Breaker with "Craft Anvil Tab 3 to open the W3 Task Board unlocks" (its anvil tab 3 is the bottleneck either way). A contract test checks the rule on every public save.
+- **V10 settled.** Toolbox counts `unlockedRecipes` as the sum of the 0/1 flags, one per unlock row; unspent = owned − unlocked.
+- Ids: entries must start with their System, so the registry System is `gear` (M17 named it `equipment`), and the next-piece entry is `gear.check.next-piece` (a check: it has no Milestone ladder). The Gear Plan is the authored fact `gear.fact.plan` (no item shape in a Priority List, the M15 C4 precedent).
+- Size: held copies are judged at their base stats; an item's stats are stored once per rawName (TR-2's guard moved to 340 KB).
+
 ## 12. Phased build plan
 
 | Phase | Ships | Why first |
