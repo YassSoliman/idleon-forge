@@ -55,16 +55,13 @@ entries:
     unit: family level
     progress: { id: obols/state, params: { view: slots } }
     milestones:
-      - { at: 60, reward: "first family obol slot" }
-      - { at: 200, reward: "first family square slot" }
-      - { at: 400, reward: "first family hexagon slot" }
-      - { at: 650, reward: "first family sparkle slot" }
+      - { at: 1, reward: "the next obol slot opens" }
     text: "{line}"
     why: "Family obol slots open with family level (the sum of every character's class level); obols drop from regular monsters only after the W2 merit."
     appliesTo: { stages: all }
     confidence: H
     status: active
-    notes: "FR-22 (no Milestone when the save's lock disagrees with the gate: anomaly rule, R10) and FR-23 (links M6's merit-shop.check.spend-w2-obols). Show-more line (nice, unlisted)."
+    notes: "The Milestone shown is the next locked slot's gate, read from the save (FR-22; no Milestone when the save's lock disagrees with the gate: anomaly rule, R10) and FR-23 (links M6's merit-shop.check.spend-w2-obols). Show-more line (nice, unlisted)."
     sources:
       - { url: "https://idleon.wiki/wiki/Obols", title: "IdleOn Wiki: Obols (slot gates; the merit 'Monsters now drop Obols')", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "Toolbox game data: obol slot gates", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

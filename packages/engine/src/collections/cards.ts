@@ -11,7 +11,7 @@ import {
 } from '@idleon-forge/account-state';
 import { classTree } from '../metapath/knowledge';
 import { selectPusher } from '../metapath/pusher';
-import { acquisitionId, type FactLookup, factRows, human, M8, orderOf } from './knowledge';
+import { acquisitionId, type FactLookup, factRows, human, M8 } from './knowledge';
 
 /** The AFK types M8 has card advice for. */
 export const CARD_ACTIVITIES = ['FIGHTING', 'MINING', 'CHOPPIN', 'FISHING', 'CATCHING'] as const;
@@ -103,6 +103,7 @@ export function classLine(kb: FactLookup, cls: string): string | null {
 /** `cards.fact.card-preferences` (authored, by card rawName): the preset matrix and the class lines' main-stat cards. */
 export interface CardPreferences {
   matrix: Record<CardActivity, string[][]>;
+  sets: { FIGHTING: string[]; FIGHTING_50: string[]; SKILLING: string[] };
   mainStat: Record<string, string[]>;
 }
 
@@ -119,17 +120,10 @@ export function cardCandidates(
   return [...((line && p.mainStat[line]) || []), ...matrix];
 }
 
-/** FR-14/D3: the set list for an activity and level, as set rawNames. */
+/** FR-14/D3: the set order for an activity and level, as set rawNames, best first. */
 function setOrder(kb: FactLookup, activity: CardActivity, level: number, band: number): string[] {
-  const id =
-    activity === 'FIGHTING' ? (level >= band ? M8.setsFighting50 : M8.setsFighting) : M8.setsSkilling;
-  return orderOf(kb, id)
-    .flat()
-    .map((goalId) => {
-      const e = kb.get(goalId);
-      const v = e && 'values' in e ? e.values.setRawName : undefined;
-      return typeof v === 'string' ? v : '';
-    });
+  const { sets } = factRows<CardPreferences>(kb, M8.cardPreferences);
+  return activity === 'FIGHTING' ? (level >= band ? sets.FIGHTING_50 : sets.FIGHTING) : sets.SKILLING;
 }
 
 /** "+20% All Food Effect" for a set at a tier. */

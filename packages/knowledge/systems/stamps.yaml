@@ -231,7 +231,7 @@ entries:
     effect: next-action
     activePlay: { minutes: 20 }
     detector: { id: stamps/status, params: { view: active, quest: Crystalswine6 } }
-    text: "Crystalswine 3 on {who}: kill every monster between here and the Dedotated Rams (168) before time runs out → {stamps}{lookAhead}"
+    text: "Crystalswine 3 on {who}: kill every monster between here and the Dedotated Rams before time runs out → {stamps}{lookAhead}"
     why: "A long timed kill quest across several Frostbite Tundra maps; do it while you're playing."
     appliesTo: { stages: all }
     confidence: L
@@ -266,7 +266,7 @@ entries:
     appliesTo: { stages: all }
     confidence: L
     status: active
-    notes: "Lists only stamps with a shop or quest route in W1–W3 and the W4 town shop (the routes M8 ships; TR-12 and the bundle budget); every other stamp counts as later. W4 custom-quest stamps have no authored how-to yet. PV 3.6 is unverified."
+    notes: "Lists only stamps with a shop or quest route in W1–W3 (the routes M8 ships; TR-12 and the bundle budget); every other stamp, W4's included, counts as later. PV 3.6 is unverified."
     sources:
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/stamps.md#min-max-by-stage", title: "W1 stamps dossier: min-max by stage", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: unverified, note: "Carry stamps first, then Anvil Zoomer, Fishing Rod and Catch Net (PV 3.6 unverified)." }
       - { url: "https://idleon.wiki/wiki/Stamps", title: "IdleOn Wiki: Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
@@ -282,9 +282,6 @@ entries:
         - stamps.acquisition.stamp-a6
         - stamps.acquisition.stamp-a15
         - stamps.acquisition.stamp-c11
-        - stamps.acquisition.stamp-b38
-        - stamps.acquisition.stamp-b41
-        - stamps.acquisition.stamp-c12
         - stamps.acquisition.stamp-a14
         - stamps.acquisition.stamp-a16
         - stamps.acquisition.stamp-a26

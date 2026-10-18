@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #a95f9242 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 8 of 117
+# golden v1: scrubbed-w2 · knowledge #98161ca1 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late
 
 ## Verdict changes
 
@@ -12,13 +12,13 @@
 2 · Mining Copper · Tunnels Entrance · Equip Wyoming blood in a big-bubble slot
 
 ### C5 · Wizard 56 · Ready
-3 · Fighting Snelbie · Djonnuttown · Set up your second preset for skilling: start with Smart Efficiency, Active AFK'er. At least 592 points are waiting, then swap back to your fighting preset
+3 · Fighting Snelbie · Djonnuttown · Low food: 88 left; can't time it yet
 
 ### C4 · Bowman 54 · Ready
-4 · Fighting Green Mushroom · Spore Meadows · Set up your second preset for skilling: start with Elusive Efficiency, Quickness Boots. At least 575 points are waiting, then swap back to your fighting preset
+4 · Fighting Green Mushroom · Spore Meadows · Equip 4 cards in your empty card slots: Carrotman, Bored Bean, Pincermin and Mashed Potato
 
 ### C3 · Shaman 44 · Ready
-5 · Fighting Slime · Jungle Perimeter · Spend at least 118 talent points on your skilling preset (Savvy Basics, Mage, Shaman), starting with Book of the Wise, Leaf Thief, Bubble Breakthrough
+5 · Fighting Slime · Jungle Perimeter · Equip the Blunder Hills card set (tier 1, +8% EXP if below Lv 50)
 
 ### Account · fix 2 before you leave
 Fix before you leave
@@ -29,20 +29,22 @@ Fix before you leave
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (9)
+show more (15)
+If you have time
+- XxX Cattleprod XxX 1 on Barbarian 60: kill 15 Mafiosos before they respawn → Lil' Mining Baggy Stamp and Catch Net Stamp · about 5m of hands-on play
+- Wellington 1 on Barbarian 60: find the 3 invisible platforms hidden around the game → Arcane Stamp and Brainstew Stamps · about 15m of hands-on play
 
 ## Not covered yet
-Cards
 Classes and subclasses
-Obols
 Portals and map doors
 Skills, doors and tools
 Spend Plan
+Talent presets
+Talents
 Upgrade Vault
 Bribes
 Forge
 Quests
-Stamps
 Statues
 The Owl
 Alchemy Pay 2 Win

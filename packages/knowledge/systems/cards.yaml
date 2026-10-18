@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0-only
 # M8 Collections: cards, card sets and card presets (docs/specs/M8-collections.md FR-13 to FR-19, TR-4,
 # TR-9). M8 owns every card, card-set and card-preset Check (D6); M4 owns card Purpose lines and reads the
-# per-class card lists (FR-18). The card orders (the preset matrix and the class lists) are the authored
-# table cards.fact.card-preferences in cards.facts.yaml, by card rawName, so the ~70 card Acquisitions
-# don't ship in the bundle (TR-12, kb-budget.json); M4 can make them Priority Lists when it ships them.
+# per-class card lists (FR-18). The card and card-set orders (the preset matrix, the class lists and
+# the set per activity, D3) are the authored table cards.fact.card-preferences in cards.facts.yaml, by
+# rawName, so the ~70 card Acquisitions and the set Goals don't ship in the bundle (TR-12,
+# kb-budget.json); M4 can make them Priority Lists when it ships those entries.
 # Card presets live here too (one System, `cards`). The engine module is packages/engine/src/collections (Detectors cards/slots, cards/set,
 # cards/preset). A Check that would repeat across characters renders `values.groupText` once, in the
 # Account section, naming each character by class and level (#70 A5).
@@ -151,53 +152,3 @@ entries:
     sources:
       - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards (card presets from Lv 15)", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/cards-obols/docs/research/systems/2026-10-17-cards-obols.md#card-presets", title: "Cards and obols dossier: card presets", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540 }
-
-  # ---- FR-14, D3: the card set per activity (set Goals from generators/cards.gen.ts) ----
-  - id: cards.priority.set-for-fighting
-    system: cards
-    type: priority
-    title: Card set for fighters below Lv 50
-    list: order
-    text: "Blunder Hills, then Yum Yum Desert"
-    why: "Blunder Hills' EXP bonus is the biggest lever below Lv 50."
-    appliesTo: { stages: all }
-    confidence: L
-    status: active
-    sources:
-      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/cards-obols/docs/research/systems/2026-10-17-cards-obols.md#card-presets", title: "Cards and obols dossier: the preset matrix", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: unverified }
-      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards, card sets", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
-    tiers:
-      - [cards.goal.set-card-set0]
-      - [cards.goal.set-card-set1]
-  - id: cards.priority.set-for-fighting-50
-    system: cards
-    type: priority
-    title: Card set for fighters from Lv 50
-    list: order
-    text: "Yum Yum Desert, then Frostbite Tundra"
-    why: "Yum Yum's food effect for every fighter; Frostbite's accuracy only for the pusher while it misses (D3)."
-    appliesTo: { stages: all }
-    confidence: L
-    status: active
-    sources:
-      - { url: "https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M8-collections.md#8-decisions", title: "M8 spec, D3", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: unverified }
-      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards, card sets", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
-    tiers:
-      - [cards.goal.set-card-set1]
-      - [cards.goal.set-card-set4]
-  - id: cards.priority.set-for-skilling
-    system: cards
-    type: priority
-    title: Card set for skillers
-    list: order
-    text: "Easy Resources, then Medium Resources"
-    why: "Easy Resources gives skill efficiency and reaches its first tier early; Medium Resources needs 31 cards for its first."
-    appliesTo: { stages: all }
-    confidence: L
-    status: active
-    sources:
-      - { url: "https://github.com/YassSoliman/idleon-forge/blob/research/cards-obols/docs/research/systems/2026-10-17-cards-obols.md#card-presets", title: "Cards and obols dossier: the preset matrix", tier: 3, claimDate: 2026-10-17, verified: 2026-10-17, gameVersion: 2.3.540, verification: unverified }
-      - { url: "https://idleon.wiki/wiki/Cards", title: "IdleOn Wiki: Cards, card sets", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
-    tiers:
-      - [cards.goal.set-card-set2]
-      - [cards.goal.set-card-set3]

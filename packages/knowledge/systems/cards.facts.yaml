@@ -51,7 +51,7 @@ facts:
   - id: cards.fact.card-preferences
     system: cards
     origin: authored
-    title: Cards to prefer per activity and per class line
+    title: Cards and card sets to prefer per activity and class line
     rows:
       # The preset matrix (FR-13): per skilling activity, positions in order; a position is a tie.
       matrix:
@@ -67,6 +67,13 @@ facts:
           - [mimicA, Crystal0, speaker, babaMummy]
           - [Crystal1, Crystal2]
           - [sandcastle, mushW, goblinG]
+      # The card set per activity (FR-14, D3), by set rawName, best first; the first at tier 1+ is the pick.
+      # Fighters below Lv 50: Blunder Hills, then Yum Yum. From Lv 50: Yum Yum, then Frostbite (Frostbite
+      # only for the pusher while it misses, D3). Skillers: Easy Resources, then Medium Resources.
+      sets:
+        FIGHTING: [CardSet0, CardSet1]
+        FIGHTING_50: [CardSet1, CardSet4]
+        SKILLING: [CardSet2, CardSet3]
       # cardList(class, stage) for M4 (FR-18): the class line's main-stat cards, then the FIGHTING matrix.
       mainStat:
         Warrior: [plank, steak, flake]
@@ -75,7 +82,7 @@ facts:
         Journeyman: [mushR, shovelR, glass]
     sources:
       - url: https://github.com/YassSoliman/idleon-forge/blob/research/cards-obols/docs/research/systems/2026-10-17-cards-obols.md#card-presets
-        title: "Cards and obols dossier: the preset matrix and per-class main-stat cards"
+        title: "Cards and obols dossier: the preset matrix, card sets and per-class main-stat cards"
         tier: 3
         claimDate: 2026-10-17
         verified: 2026-10-17
