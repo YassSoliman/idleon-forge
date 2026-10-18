@@ -358,6 +358,15 @@ label.chip {
   align-items: center;
   gap: 0;
 }
+/* Phone: the wordmark with the sun and the menu on the first line, the World and the save age under. */
+@media (max-width: 719.98px) {
+  .n-hdr__chips {
+    order: 3;
+    flex: 1 1 100%;
+    justify-content: flex-start;
+    padding-bottom: var(--space-1);
+  }
+}
 @media (min-width: 720px) {
   .n-hdr__line {
     flex-wrap: nowrap;

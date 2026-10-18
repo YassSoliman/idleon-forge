@@ -435,12 +435,15 @@
   border-radius: var(--radius-card);
   background: var(--accent-soft);
   min-height: var(--tap-min);
-  box-shadow: inset 0 0 0 2px var(--ring, var(--accent));
   border: 0;
+}
+/* The Lanes' NOW box is the Timeline's one frame (M21.1 refresh). */
+.tl-next.a-frame {
+  padding: var(--space-4) var(--space-5);
+  background: var(--frame-bg);
 }
 .tl-next.calm {
   background: var(--sunk);
-  --ring: var(--line);
 }
 .tl-next-a {
   font-weight: var(--weight-bold);

@@ -31,7 +31,14 @@
   font-weight: var(--display-weight);
   font-size: var(--text-xl);
   line-height: var(--lh-tight);
-  overflow-wrap: anywhere;
+  /* break-word, not anywhere: the name keeps its min-content width, so the stamp yields first. */
+  overflow-wrap: break-word;
+}
+.cs-strip > .a-stamp {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 9em;
+  white-space: normal;
 }
 .cs-strip .cs-sub {
   display: flex;
