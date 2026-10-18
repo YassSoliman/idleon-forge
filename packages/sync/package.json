@@ -5,6 +5,7 @@
   "license": "GPL-3.0-only",
   "description": "Google device-code sign-in to the game's Firebase and a live, read-only listener on the save.",
   "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": "./src/index.ts"
   },

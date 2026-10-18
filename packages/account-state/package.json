@@ -5,6 +5,7 @@
   "license": "GPL-3.0-only",
   "description": "Typed Account State adapter over IdleOn Toolbox's parser output, with contract tests.",
   "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": "./src/index.ts"
   },

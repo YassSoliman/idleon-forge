@@ -5,6 +5,7 @@
   "license": "GPL-3.0-only",
   "description": "The Knowledge Base: entry schema, Detector contract and registry, generated facts, the compiled runtime bundle.",
   "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
     "./schema": "./src/schema.ts",
