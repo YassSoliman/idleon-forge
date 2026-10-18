@@ -132,6 +132,12 @@ export interface ModuleOutput {
   timeline?: TimelineBar[];
   /** M17 TR-2: when the player is back (M3 only). */
   returnAt?: number;
+  /** M20 `m20-checklist` only (EngineResult.checklist). */
+  checklist?: EngineResult['checklist'];
+  /** M20 `m20-slots` only: the Skills tabs, the System page pictures and the Skill Grid. */
+  skills?: EngineResult['skills'];
+  slotPictures?: EngineResult['slotPictures'];
+  skillGrid?: EngineResult['skillGrid'];
 }
 
 /** An advice module, registered with the core. */
