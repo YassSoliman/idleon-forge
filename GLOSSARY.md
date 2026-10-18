@@ -42,6 +42,14 @@ _Avoid_: side job, secondary AFK
 An account-level label (e.g. W2-mid) derived from the Account State using Meta Path milestones; Priority Lists are keyed by Stage, and per-character differences come from class and level filters instead.
 _Avoid_: progress level, tier, phase
 
+**Family level**:
+The sum of every character's class level; it opens character slots and family obol slots.
+_Avoid_: account level, total level
+
+**Stage Expectation**:
+A Meta Path row saying which fix of ours should no longer be firing by a given Stage (e.g. every card slot filled by W1-mid); the earliest unmet one from a Stage before the current one becomes the "Behind for your Stage" Goal.
+_Avoid_: tier, rating, grade, placement
+
 **Role**:
 The job the Meta Path assigns a class (e.g. Squire = Construction carry, Wizard = Worship), used to judge Purpose and better-fit suggestions.
 _Avoid_: archetype, specialization
