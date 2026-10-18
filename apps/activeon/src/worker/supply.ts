@@ -8,6 +8,7 @@ import {
   type SupplyRates,
 } from '@idleon-forge/account-state';
 import { cardLeavesForRates } from '@idleon-forge/engine/collections';
+import { telescopeRateLeaves } from '@idleon-forge/engine/starsigns';
 import { leavesForRates, rateTargets } from '@idleon-forge/engine/walkthrough';
 import type { CompiledKnowledge } from '@idleon-forge/knowledge';
 import {
@@ -37,6 +38,8 @@ export function supplyRatesOf(
     const leaves = [
       ...leavesForRates(state, kb, rateTargets(state, kb)),
       ...cardLeavesForRates(state, facts),
+      // M16 X3: the three tree maps, so the Telescope Goal's open step has a kill rate.
+      ...telescopeRateLeaves(state),
     ];
     return computeSupplyRates(parsed, envelope, state, {
       leaves,

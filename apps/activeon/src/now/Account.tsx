@@ -6,6 +6,7 @@ import { forwardRef } from 'react';
 import { formatRoute } from '../shell/route';
 import { useNowActions } from './context';
 import { GoalList, NextActionItem, ReportThis, SeeItLink, SourceLabel } from './parts';
+import { StarChartSection } from './signs/SignsPanel';
 
 export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(function AccountSection(
   { view },
@@ -149,6 +150,7 @@ export const AccountSection = forwardRef<HTMLElement, { view: NowView }>(functio
           ))}
         </details>
       ) : null}
+      <StarChartSection view={view} />
       {acc.done.length > 0 ? (
         <details className="done small">
           <summary>Done this session ({acc.done.length})</summary>
