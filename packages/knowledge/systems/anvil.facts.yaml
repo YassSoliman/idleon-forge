@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Authored tier-2 anvil facts (M14 TR-4 `anvil.fact.recipe-tabs`, verify-before-build item 1). Toolbox's
+# crafts.json lists every recipe but not the anvil tab it sits on (its order matches the game's only for
+# tab 1), so each recipe a shipped Walkthrough crafts is listed here with its tab, from its wiki page. A
+# recipe missing from this table reads "check in game" for its tab gate, never "met".
+system: anvil
+facts:
+  - id: anvil.fact.recipe-tabs
+    system: anvil
+    origin: authored
+    title: Anvil tab of each Walkthrough recipe
+    rows: { Quest13: 2, EquipmentSmithingTabs2: 1 }
+    sources:
+      - url: https://idleon.wiki/wiki/Empty_Box
+        title: "IdleOn Wiki: Empty Box (Smithing, tab 2)"
+        tier: 2
+        claimDate: 2026-09-12
+        verified: 2026-10-17
+        gameVersion: 2.3.540
+      - url: https://idleon.wiki/wiki/Anvil_Tab_2
+        title: "IdleOn Wiki: Anvil Tab 2 (Smithing, tab 1; unlocks tab 2 for all anvils)"
+        tier: 2
+        claimDate: 2026-09-12
+        verified: 2026-10-17
+        gameVersion: 2.3.540

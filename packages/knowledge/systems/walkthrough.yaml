@@ -1,0 +1,83 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M14 Walkthroughs (docs/specs/M14-walkthroughs-and-slot-plans.md, Phase 1). One Check carries every
+# word a Walkthrough step uses (its `values` templates, filled by the engine's walkthrough step) and
+# the judgment values the planner reads. Every number in a step is a Toolbox value or plain arithmetic
+# on one (ADR 0005); the templates only place them.
+system: walkthrough
+entries:
+  - id: walkthrough.check.assign
+    system: walkthrough
+    type: check
+    title: Walkthrough step
+    subject: character
+    effect: next-action
+    category: compounding
+    detector: { id: walkthrough/plan }
+    text: "{step}"
+    why: "{reason}"
+    values:
+      # Judgment (M14 FR-14, Q4, R-Q9a): an unrated skilling leaf at or above this many items counts as one
+      # Expected Return of effort; a job that finishes within firstJobWithinSeconds goes first on its character.
+      unratedBottleneckAt: 500
+      firstJobWithinSeconds: 3600
+      # Two finish times within this many seconds are a tie (the steps show hours to one decimal).
+      tieSeconds: 360
+      collapsed: "Steps {done:int} of {total:int} · slowest: {item}"
+      collapsed-none: "Steps {done:int} of {total:int}"
+      buy-liquid-days: "Buy {missing:int} {item} at the Liquid Shop (W2 Alchemy): the {water:int} Water you hold buys {now:int} now, more later today as Water refills, so up to {days:int} days"
+      buy-liquid-today: "Buy {missing:int} {item} at the Liquid Shop (W2 Alchemy) for about {cost:int} Water, if you haven't bought any today"
+      buy-liquid-none: "Buy {missing:int} {item} at the Liquid Shop (W2 Alchemy) as Water refills"
+      buy-shop: "Buy {missing:int} {item} in the {town} shop"
+      farm: "Send the {who} to {map} (W{world:int}) for {item}: {missing:int} needed, about {kills:int} kills at {chance} drop chance x {dropRate} drop rate, about {hours} at {kph:int} kills/h"
+      farm-already: "The {who} already farms {item} at {map}: about {hours} for the {missing:int} still needed"
+      farm-locked: "Farm {missing:int} {item} at {map} (W{world:int}): {who} can walk there now; for anyone else the door from {gateMap} needs {requirement:int} kills first"
+      farm-wait: "Farm {missing:int} {item} at {map} (W{world:int}): no free character, next Play Session"
+      gather: "Send the {who} to {map} (W{world:int}) to gather {item}: {missing:int} needed. {gate}No rate yet (skilling)"
+      gather-already: "The {who} already gathers {item} at {map}: {missing:int} still needed. No rate yet (skilling)"
+      gather-wait: "Gather {missing:int} {item} at {map} (W{world:int}): no free character, next Play Session"
+      gate-efficiency: "{item} needs {skill} efficiency {need:int}, so the first part is levelling {skill}. "
+      produce: "Switch one anvil hammer to {item} on the {who} (Smithing {level:int}): {missing:int} needed, about {hours} per hammer"
+      produce-gate: "Produce {missing:int} {item} on the anvil: needs Smithing {level:int}, which no character has yet"
+      collect: "Collect {amount:int} {item} from the Forge"
+      smelt: "Smelt {missing:int} more {item} in the Forge from the {ore:int} {oreName} you hold"
+      smelt-ore: "Smelt {missing:int} more {item} in the Forge: {oreName} needed first"
+      craft: "Craft {amount:int} {item} at the anvil on any character with Smithing {level:int} or more{bag}"
+      craft-bag: " (the first craft takes its materials from the crafter's bag)"
+      craft-gate: "Craft {amount:int} {item} at the anvil: needs Smithing {level:int}, which no character has yet"
+      unlock: "Use {item} to open anvil tab {tab:int} for every anvil"
+      hand-in: "Hand {items} to {npc} on the {who}"
+      accept: "Accept {npc}'s quest on the {who}"
+      check-in-game: "Check in game: {what}"
+      not-covered: "{item}: not covered yet ({system})"
+      sequence: "On the {who}: {first} (about {firstHours}), then {second}"
+      sequence-plain: "On the {who}: {first}, then {second}"
+      job-gather: "gather {item} at {map} ({missing:int} needed; no rate yet, skilling)"
+      job-farm: "farm {item} at {map} (about {kills:int} kills, about {hours})"
+      sequence-why-short: "The first job finishes within an hour, so it goes first."
+      sequence-why-rank: "Both jobs are kept; {first} serves the higher-ranked Goal, so it goes first."
+      preset-switch: "Switch to talent preset {talent:int} and card preset {card:int} ({activity})"
+      preset-talent-setup: "Set up talent preset {talent:int} for {activity} first"
+      preset-card-fill: "Fill card preset {card:int} for {activity}, then switch to it"
+      preset-step: "On the {who}: {action}"
+      assign: "Move to {map}: {item} for {goal}"
+      assign-why: "Part of the Walkthrough for {goal}: {reason}"
+      reason-bottleneck: "it is the slowest part, so it starts now"
+      reason-start-early: "it is the slowest part, and it is needed once {gate} is done"
+      reason-free: "this character's current activity serves no Goal on the Now screen"
+      reason-moves: "this moves it off {activity}"
+      reason-role: "it is this character's own Role"
+      other-ways: "Other ways: {list}"
+      other-unreachable: "{monster} at {map} (open {gate} first)"
+      other-active: "{monster} (Active Play)"
+      partial: "rates for {n:int} more maps not computed"
+      stale: "as of its last save: switch to it to claim"
+      can-tell-not: "can't tell"
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    sources:
+      - { url: "https://idleon.wiki/wiki/Postboy_Pablob", title: "IdleOn Wiki: Postboy Pablob", tier: 2, claimDate: 2026-09-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Empty_Box", title: "IdleOn Wiki: Empty Box (anvil tab 2 recipe)", tier: 2, claimDate: 2026-09-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Alchemy", title: "IdleOn Wiki: Alchemy, Liquid Shop (x1.37 per buy, daily reset)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/character.ts#L2378", title: "Toolbox getDropRate", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
+    notes: "M14 engine step (TR-1): the Walkthrough, Demand and the one-job planner. Phase 1 opt-ins: post-office.check.unlock, M2's gate-chain push quests. M8's quest-toward stamps and M4's tool Goals opt in when those modules ship."

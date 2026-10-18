@@ -22,7 +22,14 @@
 import { readFileSync } from 'node:fs';
 import type { GeneratedEntryT, SourceT } from '../src/schema';
 import { craftsByRawName, questSteps } from './quest-steps';
-import { defineGenerator, generatedBy, generatedSource, PLACEHOLDER_MAP_NAMES, type Pin, slugify } from './types';
+import {
+  defineGenerator,
+  generatedBy,
+  generatedSource,
+  type Pin,
+  PLACEHOLDER_MAP_NAMES,
+  slugify,
+} from './types';
 import { humanName, mapOfName, npcWorld, worldOfMap } from './world-maps';
 
 const MAX_WORLD = 3;
@@ -106,7 +113,10 @@ const generator = defineGenerator({
     const monsters = data.monsters as Record<string, { Name?: string; AFKtype?: string; mapIndex?: number }>;
     const mapNames = data.mapNames as Record<string, string>;
     const enemies = data.mapEnemiesArray as string[];
-    const anvil = data.anvilProducts as Record<string, { rawName: string; requiredAmount: number; levelReq: number }>;
+    const anvil = data.anvilProducts as Record<
+      string,
+      { rawName: string; requiredAmount: number; levelReq: number }
+    >;
     const shops = data.shops as Record<string, { name: string; items: { rawName: string }[] }>;
     const liquids = data.liquidsShop as { name: string; x1: number; x2: number; index: number }[];
     const placements = data.npcPlacements as Record<string, number[]>;
@@ -132,7 +142,8 @@ const generator = defineGenerator({
       }
     }
     const barOre = new Map<number, string>();
-    for (const [raw, it] of Object.entries(items)) if (it.typeGen === 'bOre' && typeof it.ID === 'number') barOre.set(it.ID, raw);
+    for (const [raw, it] of Object.entries(items))
+      if (it.typeGen === 'bOre' && typeof it.ID === 'number') barOre.set(it.ID, raw);
 
     // The items to generate: every W1–W3 quest requirement, closed over recipes and Forge ores.
     const want = new Set<string>();
@@ -147,6 +158,8 @@ const generator = defineGenerator({
       if (!where || where.world > MAX_WORLD) continue;
       for (const r of s.step.itemReq ?? []) add(r.rawName);
     }
+    // The anvil tab items (Anvil Tab 2 ... 7): an unmet tab gate expands into the tab item's recipe (FR-4).
+    for (const raw of Object.keys(items)) if (/^EquipmentSmithingTabs\d+$/.test(raw)) add(raw);
     const forgeOre = (raw: string) => {
       const it = items[raw];
       return it?.typeGen === 'bBar' && typeof it.ID === 'number' ? (barOre.get(it.ID) ?? null) : null;
@@ -161,7 +174,11 @@ const generator = defineGenerator({
     const by = generatedBy(generator, pin);
     const src = {
       crafts: generatedSource(pin, 'website-data/crafts.json', 'IdleOn Toolbox game data: anvil recipes'),
-      drops: generatedSource(pin, 'website-data/monsterDrops.json', 'IdleOn Toolbox game data: monster drops'),
+      drops: generatedSource(
+        pin,
+        'website-data/monsterDrops.json',
+        'IdleOn Toolbox game data: monster drops',
+      ),
       items: generatedSource(pin, 'website-data/items.json', 'IdleOn Toolbox game data: items'),
     };
     const anvilOf = new Map(Object.entries(anvil).map(([i, p]) => [p.rawName, { index: Number(i), ...p }]));
@@ -216,7 +233,12 @@ const generator = defineGenerator({
           kind: 'recipe',
           requires: materials.map((m) => ({ ref: m.ref, amount: m.amount })),
         });
-      if (ore) methods.push({ how: 'Smelt its ore in the Forge', kind: 'forge', requires: [{ ref: itemAcquisitionId(ore), amount: 1 }] });
+      if (ore)
+        methods.push({
+          how: 'Smelt its ore in the Forge',
+          kind: 'forge',
+          requires: [{ ref: itemAcquisitionId(ore), amount: 1 }],
+        });
       if (product) methods.push({ how: 'Produce it on the anvil', kind: 'anvil', requires: [] });
       if (liquid) methods.push({ how: 'Buy it at the Liquid Shop', kind: 'liquid-shop', requires: [] });
       if (shopRows.length) methods.push({ how: 'Buy it in a town shop', kind: 'shop', requires: [] });
@@ -247,7 +269,9 @@ const generator = defineGenerator({
           wiki: wiki?.url ?? null,
           recipe: materials.length ? { lvReqToCraft: it.lvReqToCraft ?? 0, materials } : null,
           forge: ore ? { ore, ref: itemAcquisitionId(ore) } : null,
-          anvil: product ? { index: product.index, requiredAmount: product.requiredAmount, levelReq: product.levelReq } : null,
+          anvil: product
+            ? { index: product.index, requiredAmount: product.requiredAmount, levelReq: product.levelReq }
+            : null,
           liquidShop: liquid ? { index: liquid.index, x1: liquid.x1, x2: liquid.x2 } : null,
           shops: shopRows,
           node,

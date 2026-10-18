@@ -1281,6 +1281,200 @@
       "confidence": "H",
       "data": {
         "anvil": null,
+        "drops": [
+          {
+            "afkType": "error",
+            "chance": 0.02,
+            "maps": [],
+            "monster": "ChestC5",
+            "monsterName": "Golden Chest(W5)",
+            "printable": false,
+            "quantity": 1500,
+            "table": false,
+            "wiki": null,
+            "world": null
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Dust Mote",
+        "node": {
+          "maps": [],
+          "skill": "CATCHING"
+        },
+        "rawName": "Bug10",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "dBugs",
+        "wiki": "https://idleon.wiki/wiki/Dust_Mote"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.bug10",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        },
+        {
+          "how": "Gather it from a skilling node",
+          "kind": "skill-node",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Dust Mote",
+          "url": "https://idleon.wiki/wiki/Dust_Mote",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Dust Mote",
+      "thing": {
+        "kind": "item",
+        "rawName": "Bug10"
+      },
+      "title": "Get Dust Mote",
+      "type": "acquisition",
+      "values": {
+        "name": "Dust Mote",
+        "rawName": "Bug10"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "error",
+            "chance": 0.02,
+            "maps": [],
+            "monster": "ChestC6",
+            "monsterName": "Golden Chest(W6)",
+            "printable": false,
+            "quantity": 1500,
+            "table": false,
+            "wiki": null,
+            "world": null
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Firefly",
+        "node": {
+          "maps": [],
+          "skill": "CATCHING"
+        },
+        "rawName": "Bug13",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "dBugs",
+        "wiki": "https://idleon.wiki/wiki/Firefly"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.bug13",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        },
+        {
+          "how": "Gather it from a skilling node",
+          "kind": "skill-node",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Firefly",
+          "url": "https://idleon.wiki/wiki/Firefly",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Firefly",
+      "thing": {
+        "kind": "item",
+        "rawName": "Bug13"
+      },
+      "title": "Get Firefly",
+      "type": "acquisition",
+      "values": {
+        "name": "Firefly",
+        "rawName": "Bug13"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
         "drops": [],
         "forge": null,
         "liquidShop": null,
@@ -1643,6 +1837,103 @@
       "values": {
         "name": "Worker Bee",
         "rawName": "Bug7"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "error",
+            "chance": 0.02,
+            "maps": [],
+            "monster": "ChestC4",
+            "monsterName": "Golden Chest(W4)",
+            "printable": false,
+            "quantity": 1500,
+            "table": false,
+            "wiki": null,
+            "world": null
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Fairy",
+        "node": {
+          "maps": [],
+          "skill": "CATCHING"
+        },
+        "rawName": "Bug8",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "dBugs",
+        "wiki": "https://idleon.wiki/wiki/Fairy"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.bug8",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        },
+        {
+          "how": "Gather it from a skilling node",
+          "kind": "skill-node",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Fairy",
+          "url": "https://idleon.wiki/wiki/Fairy",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Fairy",
+      "thing": {
+        "kind": "item",
+        "rawName": "Bug8"
+      },
+      "title": "Get Fairy",
+      "type": "acquisition",
+      "values": {
+        "name": "Fairy",
+        "rawName": "Bug8"
       },
       "why": "Every way the game data knows to get this item."
     },
@@ -2240,6 +2531,86 @@
       "values": {
         "name": "Trusty Nails",
         "rawName": "CraftMat5"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": {
+          "index": 3,
+          "levelReq": 17,
+          "requiredAmount": 700
+        },
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Chain Link",
+        "node": null,
+        "rawName": "CraftMat7",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Chain_Link"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.craft-mat7",
+      "methods": [
+        {
+          "how": "Produce it on the anvil",
+          "kind": "anvil",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: items",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Chain Link",
+          "url": "https://idleon.wiki/wiki/Chain_Link",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Chain Link",
+      "thing": {
+        "kind": "item",
+        "rawName": "CraftMat7"
+      },
+      "title": "Get Chain Link",
+      "type": "acquisition",
+      "values": {
+        "name": "Chain Link",
+        "rawName": "CraftMat7"
       },
       "why": "Every way the game data knows to get this item."
     },
@@ -5147,6 +5518,205 @@
         "anvil": null,
         "drops": [
           {
+            "afkType": "error",
+            "chance": 0.03,
+            "maps": [],
+            "monster": "ChestC5",
+            "monsterName": "Golden Chest(W5)",
+            "printable": false,
+            "quantity": 3000,
+            "table": false,
+            "wiki": null,
+            "world": null
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Dreadlo Ore",
+        "node": {
+          "maps": [],
+          "skill": "MINING"
+        },
+        "rawName": "Dreadlo",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bOre",
+        "wiki": "https://idleon.wiki/wiki/Dreadlo_Ore"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.dreadlo",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        },
+        {
+          "how": "Gather it from a skilling node",
+          "kind": "skill-node",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Dreadlo Ore",
+          "url": "https://idleon.wiki/wiki/Dreadlo_Ore",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Dreadlo Ore",
+      "thing": {
+        "kind": "item",
+        "rawName": "Dreadlo"
+      },
+      "title": "Get Dreadlo Ore",
+      "type": "acquisition",
+      "values": {
+        "name": "Dreadlo Ore",
+        "rawName": "Dreadlo"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "error",
+            "chance": 0.05,
+            "maps": [],
+            "monster": "ChestC5",
+            "monsterName": "Golden Chest(W5)",
+            "printable": false,
+            "quantity": 300,
+            "table": false,
+            "wiki": null,
+            "world": null
+          }
+        ],
+        "forge": {
+          "ore": "Dreadlo",
+          "ref": "items.acquisition.dreadlo"
+        },
+        "liquidShop": null,
+        "name": "Dreadlo Bar",
+        "node": null,
+        "rawName": "DreadloBar",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bBar",
+        "wiki": "https://idleon.wiki/wiki/Dreadlo_Bar"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.dreadlo-bar",
+      "methods": [
+        {
+          "how": "Smelt its ore in the Forge",
+          "kind": "forge",
+          "requires": [
+            {
+              "amount": 1,
+              "ref": "items.acquisition.dreadlo"
+            }
+          ]
+        },
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Dreadlo Bar",
+          "url": "https://idleon.wiki/wiki/Dreadlo_Bar",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Dreadlo Bar",
+      "thing": {
+        "kind": "item",
+        "rawName": "DreadloBar"
+      },
+      "title": "Get Dreadlo Bar",
+      "type": "acquisition",
+      "values": {
+        "name": "Dreadlo Bar",
+        "rawName": "DreadloBar"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
             "afkType": "FIGHTING",
             "chance": 0.3,
             "maps": [],
@@ -5248,6 +5818,131 @@
       "values": {
         "name": "Ripped Tunic",
         "rawName": "EfauntDrop1"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": null,
+            "chance": 0.04,
+            "maps": [],
+            "monster": "Boss6",
+            "monsterName": "Boss6",
+            "printable": true,
+            "quantity": 1,
+            "table": false,
+            "wiki": null,
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.04,
+            "maps": [],
+            "monster": "Boss6A",
+            "monsterName": "Emperor",
+            "printable": true,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Emperor",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.04,
+            "maps": [],
+            "monster": "Boss6B",
+            "monsterName": "Chaotic Emperor",
+            "printable": true,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Chaotic_Emperor",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.04,
+            "maps": [],
+            "monster": "Boss6C",
+            "monsterName": "Sovereign Emperor",
+            "printable": true,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Sovereign_Emperor",
+            "world": null
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Emperor Ribbon",
+        "node": null,
+        "rawName": "EmpPart",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Emperor_Ribbon"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.emp-part",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Emperor Ribbon",
+          "url": "https://idleon.wiki/wiki/Emperor_Ribbon",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Emperor Ribbon",
+      "thing": {
+        "kind": "item",
+        "rawName": "EmpPart"
+      },
+      "title": "Get Emperor Ribbon",
+      "type": "acquisition",
+      "values": {
+        "name": "Emperor Ribbon",
+        "rawName": "EmpPart"
       },
       "why": "Every way the game data knows to get this item."
     },
@@ -7536,6 +8231,708 @@
       "confidence": "H",
       "data": {
         "anvil": null,
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Anvil Tab 2",
+        "node": null,
+        "rawName": "EquipmentSmithingTabs2",
+        "recipe": {
+          "lvReqToCraft": 15,
+          "materials": [
+            {
+              "amount": 100,
+              "rawName": "IronBar",
+              "ref": "items.acquisition.iron-bar"
+            },
+            {
+              "amount": 100,
+              "rawName": "CraftMat7",
+              "ref": "items.acquisition.craft-mat7"
+            },
+            {
+              "amount": 100,
+              "rawName": "JungleTree",
+              "ref": "items.acquisition.jungle-tree"
+            },
+            {
+              "amount": 100,
+              "rawName": "Forest3",
+              "ref": "items.acquisition.forest3"
+            }
+          ]
+        },
+        "shops": [],
+        "typeGen": "dQuest",
+        "wiki": "https://idleon.wiki/wiki/Anvil_Tab_2"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.equipment-smithing-tabs2",
+      "methods": [
+        {
+          "how": "Craft it at the anvil",
+          "kind": "recipe",
+          "requires": [
+            {
+              "amount": 100,
+              "ref": "items.acquisition.iron-bar"
+            },
+            {
+              "amount": 100,
+              "ref": "items.acquisition.craft-mat7"
+            },
+            {
+              "amount": 100,
+              "ref": "items.acquisition.jungle-tree"
+            },
+            {
+              "amount": 100,
+              "ref": "items.acquisition.forest3"
+            }
+          ]
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: anvil recipes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Anvil Tab 2",
+          "url": "https://idleon.wiki/wiki/Anvil_Tab_2",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Anvil Tab 2",
+      "thing": {
+        "kind": "item",
+        "rawName": "EquipmentSmithingTabs2"
+      },
+      "title": "Get Anvil Tab 2",
+      "type": "acquisition",
+      "values": {
+        "name": "Anvil Tab 2",
+        "rawName": "EquipmentSmithingTabs2"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Anvil Tab 3",
+        "node": null,
+        "rawName": "EquipmentSmithingTabs3",
+        "recipe": {
+          "lvReqToCraft": 15,
+          "materials": [
+            {
+              "amount": 2000,
+              "rawName": "PlatBar",
+              "ref": "items.acquisition.plat-bar"
+            },
+            {
+              "amount": 2000,
+              "rawName": "Fish4",
+              "ref": "items.acquisition.fish4"
+            },
+            {
+              "amount": 2000,
+              "rawName": "Bug4",
+              "ref": "items.acquisition.bug4"
+            },
+            {
+              "amount": 1500,
+              "rawName": "DesertC1",
+              "ref": "items.acquisition.desert-c1"
+            }
+          ]
+        },
+        "shops": [],
+        "typeGen": "dQuest",
+        "wiki": "https://idleon.wiki/wiki/Anvil_Tab_3"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.equipment-smithing-tabs3",
+      "methods": [
+        {
+          "how": "Craft it at the anvil",
+          "kind": "recipe",
+          "requires": [
+            {
+              "amount": 2000,
+              "ref": "items.acquisition.plat-bar"
+            },
+            {
+              "amount": 2000,
+              "ref": "items.acquisition.fish4"
+            },
+            {
+              "amount": 2000,
+              "ref": "items.acquisition.bug4"
+            },
+            {
+              "amount": 1500,
+              "ref": "items.acquisition.desert-c1"
+            }
+          ]
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: anvil recipes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Anvil Tab 3",
+          "url": "https://idleon.wiki/wiki/Anvil_Tab_3",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Anvil Tab 3",
+      "thing": {
+        "kind": "item",
+        "rawName": "EquipmentSmithingTabs3"
+      },
+      "title": "Get Anvil Tab 3",
+      "type": "acquisition",
+      "values": {
+        "name": "Anvil Tab 3",
+        "rawName": "EquipmentSmithingTabs3"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Anvil Tab 4",
+        "node": null,
+        "rawName": "EquipmentSmithingTabs4",
+        "recipe": {
+          "lvReqToCraft": 15,
+          "materials": [
+            {
+              "amount": 1000,
+              "rawName": "VoidBar",
+              "ref": "items.acquisition.void-bar"
+            },
+            {
+              "amount": 2500,
+              "rawName": "Soul4",
+              "ref": "items.acquisition.soul4"
+            },
+            {
+              "amount": 10,
+              "rawName": "Critter6A",
+              "ref": "items.acquisition.critter6-a"
+            },
+            {
+              "amount": 400,
+              "rawName": "Refinery3",
+              "ref": "items.acquisition.refinery3"
+            }
+          ]
+        },
+        "shops": [],
+        "typeGen": "dQuest",
+        "wiki": "https://idleon.wiki/wiki/Anvil_Tab_4"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.equipment-smithing-tabs4",
+      "methods": [
+        {
+          "how": "Craft it at the anvil",
+          "kind": "recipe",
+          "requires": [
+            {
+              "amount": 1000,
+              "ref": "items.acquisition.void-bar"
+            },
+            {
+              "amount": 2500,
+              "ref": "items.acquisition.soul4"
+            },
+            {
+              "amount": 10,
+              "ref": "items.acquisition.critter6-a"
+            },
+            {
+              "amount": 400,
+              "ref": "items.acquisition.refinery3"
+            }
+          ]
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: anvil recipes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Anvil Tab 4",
+          "url": "https://idleon.wiki/wiki/Anvil_Tab_4",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Anvil Tab 4",
+      "thing": {
+        "kind": "item",
+        "rawName": "EquipmentSmithingTabs4"
+      },
+      "title": "Get Anvil Tab 4",
+      "type": "acquisition",
+      "values": {
+        "name": "Anvil Tab 4",
+        "rawName": "EquipmentSmithingTabs4"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Anvil Tab 5",
+        "node": null,
+        "rawName": "EquipmentSmithingTabs5",
+        "recipe": {
+          "lvReqToCraft": 15,
+          "materials": [
+            {
+              "amount": 5000,
+              "rawName": "StarfireBar",
+              "ref": "items.acquisition.starfire-bar"
+            },
+            {
+              "amount": 200000,
+              "rawName": "Tree8",
+              "ref": "items.acquisition.tree8"
+            },
+            {
+              "amount": 150000,
+              "rawName": "Bug8",
+              "ref": "items.acquisition.bug8"
+            },
+            {
+              "amount": 600,
+              "rawName": "Refinery6",
+              "ref": "items.acquisition.refinery6"
+            }
+          ]
+        },
+        "shops": [],
+        "typeGen": "dQuest",
+        "wiki": "https://idleon.wiki/wiki/Anvil_Tab_5"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.equipment-smithing-tabs5",
+      "methods": [
+        {
+          "how": "Craft it at the anvil",
+          "kind": "recipe",
+          "requires": [
+            {
+              "amount": 5000,
+              "ref": "items.acquisition.starfire-bar"
+            },
+            {
+              "amount": 200000,
+              "ref": "items.acquisition.tree8"
+            },
+            {
+              "amount": 150000,
+              "ref": "items.acquisition.bug8"
+            },
+            {
+              "amount": 600,
+              "ref": "items.acquisition.refinery6"
+            }
+          ]
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: anvil recipes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Anvil Tab 5",
+          "url": "https://idleon.wiki/wiki/Anvil_Tab_5",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Anvil Tab 5",
+      "thing": {
+        "kind": "item",
+        "rawName": "EquipmentSmithingTabs5"
+      },
+      "title": "Get Anvil Tab 5",
+      "type": "acquisition",
+      "values": {
+        "name": "Anvil Tab 5",
+        "rawName": "EquipmentSmithingTabs5"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Anvil Tab 6",
+        "node": null,
+        "rawName": "EquipmentSmithingTabs6",
+        "recipe": {
+          "lvReqToCraft": 15,
+          "materials": [
+            {
+              "amount": 8500,
+              "rawName": "DreadloBar",
+              "ref": "items.acquisition.dreadlo-bar"
+            },
+            {
+              "amount": 2000000,
+              "rawName": "Tree10",
+              "ref": "items.acquisition.tree10"
+            },
+            {
+              "amount": 1000000,
+              "rawName": "Bug10",
+              "ref": "items.acquisition.bug10"
+            },
+            {
+              "amount": 10,
+              "rawName": "KrukPart2",
+              "ref": "items.acquisition.kruk-part2"
+            }
+          ]
+        },
+        "shops": [],
+        "typeGen": "dQuest",
+        "wiki": "https://idleon.wiki/wiki/Anvil_Tab_6"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.equipment-smithing-tabs6",
+      "methods": [
+        {
+          "how": "Craft it at the anvil",
+          "kind": "recipe",
+          "requires": [
+            {
+              "amount": 8500,
+              "ref": "items.acquisition.dreadlo-bar"
+            },
+            {
+              "amount": 2000000,
+              "ref": "items.acquisition.tree10"
+            },
+            {
+              "amount": 1000000,
+              "ref": "items.acquisition.bug10"
+            },
+            {
+              "amount": 10,
+              "ref": "items.acquisition.kruk-part2"
+            }
+          ]
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: anvil recipes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Anvil Tab 6",
+          "url": "https://idleon.wiki/wiki/Anvil_Tab_6",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Anvil Tab 6",
+      "thing": {
+        "kind": "item",
+        "rawName": "EquipmentSmithingTabs6"
+      },
+      "title": "Get Anvil Tab 6",
+      "type": "acquisition",
+      "values": {
+        "name": "Anvil Tab 6",
+        "rawName": "EquipmentSmithingTabs6"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Anvil Tab 7",
+        "node": null,
+        "rawName": "EquipmentSmithingTabs7",
+        "recipe": {
+          "lvReqToCraft": 15,
+          "materials": [
+            {
+              "amount": 100000,
+              "rawName": "GodshardBar",
+              "ref": "items.acquisition.godshard-bar"
+            },
+            {
+              "amount": 25000000,
+              "rawName": "Tree13",
+              "ref": "items.acquisition.tree13"
+            },
+            {
+              "amount": 25000000,
+              "rawName": "Bug13",
+              "ref": "items.acquisition.bug13"
+            },
+            {
+              "amount": 50,
+              "rawName": "EmpPart",
+              "ref": "items.acquisition.emp-part"
+            }
+          ]
+        },
+        "shops": [],
+        "typeGen": "dQuest",
+        "wiki": "https://idleon.wiki/wiki/Anvil_Tab_7"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.equipment-smithing-tabs7",
+      "methods": [
+        {
+          "how": "Craft it at the anvil",
+          "kind": "recipe",
+          "requires": [
+            {
+              "amount": 100000,
+              "ref": "items.acquisition.godshard-bar"
+            },
+            {
+              "amount": 25000000,
+              "ref": "items.acquisition.tree13"
+            },
+            {
+              "amount": 25000000,
+              "ref": "items.acquisition.bug13"
+            },
+            {
+              "amount": 50,
+              "ref": "items.acquisition.emp-part"
+            }
+          ]
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: anvil recipes",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Anvil Tab 7",
+          "url": "https://idleon.wiki/wiki/Anvil_Tab_7",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Anvil Tab 7",
+      "thing": {
+        "kind": "item",
+        "rawName": "EquipmentSmithingTabs7"
+      },
+      "title": "Get Anvil Tab 7",
+      "type": "acquisition",
+      "values": {
+        "name": "Anvil Tab 7",
+        "rawName": "EquipmentSmithingTabs7"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
         "drops": [
           {
             "afkType": "error",
@@ -9665,6 +11062,199 @@
         "anvil": null,
         "drops": [
           {
+            "afkType": "FIGHTING",
+            "chance": 0.14,
+            "maps": [
+              28
+            ],
+            "monster": "frogBIG",
+            "monsterName": "Gigafrog",
+            "printable": true,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Gigafrog",
+            "world": 1
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Bullfrog Horn",
+        "node": null,
+        "rawName": "Forest3",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Bullfrog_Horn"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.forest3",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Bullfrog Horn",
+          "url": "https://idleon.wiki/wiki/Bullfrog_Horn",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Bullfrog Horn",
+      "thing": {
+        "kind": "item",
+        "rawName": "Forest3"
+      },
+      "title": "Get Bullfrog Horn",
+      "type": "acquisition",
+      "values": {
+        "name": "Bullfrog Horn",
+        "rawName": "Forest3"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "error",
+            "chance": 0.05,
+            "maps": [],
+            "monster": "ChestC6",
+            "monsterName": "Golden Chest(W6)",
+            "printable": false,
+            "quantity": 1000,
+            "table": false,
+            "wiki": null,
+            "world": null
+          }
+        ],
+        "forge": {
+          "ore": "Prehistrium",
+          "ref": "items.acquisition.prehistrium"
+        },
+        "liquidShop": null,
+        "name": "Godshard Bar",
+        "node": null,
+        "rawName": "GodshardBar",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bBar",
+        "wiki": "https://idleon.wiki/wiki/Godshard_Bar"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.godshard-bar",
+      "methods": [
+        {
+          "how": "Smelt its ore in the Forge",
+          "kind": "forge",
+          "requires": [
+            {
+              "amount": 1,
+              "ref": "items.acquisition.prehistrium"
+            }
+          ]
+        },
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Godshard Bar",
+          "url": "https://idleon.wiki/wiki/Godshard_Bar",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Godshard Bar",
+      "thing": {
+        "kind": "item",
+        "rawName": "GodshardBar"
+      },
+      "title": "Get Godshard Bar",
+      "type": "acquisition",
+      "values": {
+        "name": "Godshard Bar",
+        "rawName": "GodshardBar"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
             "afkType": "error",
             "chance": 0.6,
             "maps": [],
@@ -11326,6 +12916,107 @@
       "values": {
         "name": "Carrot Cube",
         "rawName": "Jungle3"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.01,
+            "maps": [],
+            "monster": "Boss5B",
+            "monsterName": "Chaotic Kattlekruk",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Chaotic_Kattlekruk",
+            "world": null
+          },
+          {
+            "afkType": "FIGHTING",
+            "chance": 0.08,
+            "maps": [],
+            "monster": "Boss5C",
+            "monsterName": "Sacrilegious Kattlekruk",
+            "printable": false,
+            "quantity": 1,
+            "table": false,
+            "wiki": "https://idleon.wiki/wiki/Sacrilegious_Kattlekruk",
+            "world": null
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Kruk Cavity Tooth",
+        "node": null,
+        "rawName": "KrukPart2",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bCraft",
+        "wiki": "https://idleon.wiki/wiki/Kruk_Cavity_Tooth"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.kruk-part2",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-09-12",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Kruk Cavity Tooth",
+          "url": "https://idleon.wiki/wiki/Kruk_Cavity_Tooth",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Kruk Cavity Tooth",
+      "thing": {
+        "kind": "item",
+        "rawName": "KrukPart2"
+      },
+      "title": "Get Kruk Cavity Tooth",
+      "type": "acquisition",
+      "values": {
+        "name": "Kruk Cavity Tooth",
+        "rawName": "KrukPart2"
       },
       "why": "Every way the game data knows to get this item."
     },
@@ -15698,6 +17389,85 @@
       "values": {
         "name": "Platinum Bar",
         "rawName": "PlatBar"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Prehistrium Ore",
+        "node": {
+          "maps": [],
+          "skill": "MINING"
+        },
+        "rawName": "Prehistrium",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bOre",
+        "wiki": "https://idleon.wiki/wiki/Prehistrium_Ore"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.prehistrium",
+      "methods": [
+        {
+          "how": "Gather it from a skilling node",
+          "kind": "skill-node",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: items",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Prehistrium Ore",
+          "url": "https://idleon.wiki/wiki/Prehistrium_Ore",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Prehistrium Ore",
+      "thing": {
+        "kind": "item",
+        "rawName": "Prehistrium"
+      },
+      "title": "Get Prehistrium Ore",
+      "type": "acquisition",
+      "values": {
+        "name": "Prehistrium Ore",
+        "rawName": "Prehistrium"
       },
       "why": "Every way the game data knows to get this item."
     },
@@ -25155,6 +26925,201 @@
       "confidence": "H",
       "data": {
         "anvil": null,
+        "drops": [
+          {
+            "afkType": "error",
+            "chance": 0.6,
+            "maps": [],
+            "monster": "ChestB5",
+            "monsterName": "Silver Chest(W5)",
+            "printable": false,
+            "quantity": 5000,
+            "table": false,
+            "wiki": null,
+            "world": null
+          },
+          {
+            "afkType": "error",
+            "chance": 0.03,
+            "maps": [],
+            "monster": "ChestC4",
+            "monsterName": "Golden Chest(W4)",
+            "printable": false,
+            "quantity": 2000,
+            "table": false,
+            "wiki": null,
+            "world": null
+          }
+        ],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Starfire Ore",
+        "node": {
+          "maps": [
+            12
+          ],
+          "skill": "MINING"
+        },
+        "rawName": "Starfire",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bOre",
+        "wiki": "https://idleon.wiki/wiki/Starfire_Ore"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.starfire",
+      "methods": [
+        {
+          "how": "Monsters drop it",
+          "kind": "drop",
+          "requires": []
+        },
+        {
+          "how": "Gather it from a skilling node",
+          "kind": "skill-node",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/monsterDrops.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Starfire Ore",
+          "url": "https://idleon.wiki/wiki/Starfire_Ore",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Starfire Ore",
+      "thing": {
+        "kind": "item",
+        "rawName": "Starfire"
+      },
+      "title": "Get Starfire Ore",
+      "type": "acquisition",
+      "values": {
+        "name": "Starfire Ore",
+        "rawName": "Starfire"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [],
+        "forge": {
+          "ore": "Starfire",
+          "ref": "items.acquisition.starfire"
+        },
+        "liquidShop": null,
+        "name": "Starfire Bar",
+        "node": null,
+        "rawName": "StarfireBar",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bBar",
+        "wiki": "https://idleon.wiki/wiki/Starfire_Bar"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.starfire-bar",
+      "methods": [
+        {
+          "how": "Smelt its ore in the Forge",
+          "kind": "forge",
+          "requires": [
+            {
+              "amount": 1,
+              "ref": "items.acquisition.starfire"
+            }
+          ]
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: items",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Starfire Bar",
+          "url": "https://idleon.wiki/wiki/Starfire_Bar",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Starfire Bar",
+      "thing": {
+        "kind": "item",
+        "rawName": "StarfireBar"
+      },
+      "title": "Get Starfire Bar",
+      "type": "acquisition",
+      "values": {
+        "name": "Starfire Bar",
+        "rawName": "StarfireBar"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
         "drops": [],
         "forge": null,
         "liquidShop": null,
@@ -26490,6 +28455,243 @@
       "values": {
         "name": "Woodular Circle",
         "rawName": "TreeInterior1b"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Dandielogs",
+        "node": {
+          "maps": [],
+          "skill": "CHOPPIN"
+        },
+        "rawName": "Tree10",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bLog",
+        "wiki": "https://idleon.wiki/wiki/Dandielogs"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.tree10",
+      "methods": [
+        {
+          "how": "Gather it from a skilling node",
+          "kind": "skill-node",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: items",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Dandielogs",
+          "url": "https://idleon.wiki/wiki/Dandielogs",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Dandielogs",
+      "thing": {
+        "kind": "item",
+        "rawName": "Tree10"
+      },
+      "title": "Get Dandielogs",
+      "type": "acquisition",
+      "values": {
+        "name": "Dandielogs",
+        "rawName": "Tree10"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Effervescent Logs",
+        "node": {
+          "maps": [],
+          "skill": "CHOPPIN"
+        },
+        "rawName": "Tree13",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bLog",
+        "wiki": "https://idleon.wiki/wiki/Effervescent_Logs"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.tree13",
+      "methods": [
+        {
+          "how": "Gather it from a skilling node",
+          "kind": "skill-node",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: items",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Effervescent Logs",
+          "url": "https://idleon.wiki/wiki/Effervescent_Logs",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Effervescent Logs",
+      "thing": {
+        "kind": "item",
+        "rawName": "Tree13"
+      },
+      "title": "Get Effervescent Logs",
+      "type": "acquisition",
+      "values": {
+        "name": "Effervescent Logs",
+        "rawName": "Tree13"
+      },
+      "why": "Every way the game data knows to get this item."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "data": {
+        "anvil": null,
+        "drops": [],
+        "forge": null,
+        "liquidShop": null,
+        "name": "Cubed Logs",
+        "node": {
+          "maps": [],
+          "skill": "CHOPPIN"
+        },
+        "rawName": "Tree8",
+        "recipe": null,
+        "shops": [],
+        "typeGen": "bLog",
+        "wiki": "https://idleon.wiki/wiki/Cubed_Logs"
+      },
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "items",
+        "inputs": [
+          "website-data/crafts.json",
+          "website-data/items.json",
+          "website-data/quests.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#npcPlacements",
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/shared-data.json#shops",
+          "website-data/shared-data.json#liquidsShop",
+          "website-data/shared-data.json#mapNames",
+          "website-data/shared-data.json#mapEnemiesArray"
+        ]
+      },
+      "id": "items.acquisition.tree8",
+      "methods": [
+        {
+          "how": "Gather it from a skilling node",
+          "kind": "skill-node",
+          "requires": []
+        }
+      ],
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: items",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
+          "verified": "2026-10-17"
+        },
+        {
+          "claimDate": "2026-10-05",
+          "gameVersion": "2.3.540",
+          "tier": 2,
+          "title": "IdleOn Wiki: Cubed Logs",
+          "url": "https://idleon.wiki/wiki/Cubed_Logs",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "items",
+      "text": "Ways to get Cubed Logs",
+      "thing": {
+        "kind": "item",
+        "rawName": "Tree8"
+      },
+      "title": "Get Cubed Logs",
+      "type": "acquisition",
+      "values": {
+        "name": "Cubed Logs",
+        "rawName": "Tree8"
       },
       "why": "Every way the game data knows to get this item."
     },
