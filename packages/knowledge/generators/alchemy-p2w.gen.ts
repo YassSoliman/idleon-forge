@@ -2,7 +2,8 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // Alchemy Pay 2 Win upgrades (M7 TR-6): one generated Acquisition per upgrade,
 // `alchemy-p2w.acquisition.<group>-<upgrade>`: cauldron-<cauldron>-{speed,new-bubble,boost-req},
-// liquid-<liquid>-{regen,capacity} and vials-{attempts,rng}. Names come from Toolbox's exported
+// liquid-<liquid>-{regen,capacity}, vials-{attempts,rng} and player-{speed,extra-exp} (M19 X2: capped at
+// the best Alchemy level, so no maxLevel). Names come from Toolbox's exported
 // CAULDRON_INFO and LIQUID_INFO, max levels from its exported CAULDRONS_MAX_LEVELS (parsers/world-2/
 // alchemy.ts). The `key` value is the Account State P2wUpgrade key (M7 TR-2), "<group>.<name>.<upgrade>".
 //
@@ -56,11 +57,11 @@ const generator = defineGenerator({
       name: string | null,
       display: string,
       upgrade: string,
-      maxKey: string,
+      maxKey: string | null,
       slot: number | null,
     ) => {
-      const maxLevel = max[maxKey];
-      if (typeof maxLevel !== 'number')
+      const maxLevel = maxKey === null ? null : max[maxKey];
+      if (maxKey !== null && typeof maxLevel !== 'number')
         throw new Error(`alchemy-p2w: CAULDRONS_MAX_LEVELS.${maxKey} is not a number`);
       const nameSlug = name === null ? null : slugify(name);
       const slug = [group, nameSlug, slugify(upgrade)].filter(Boolean).join('-');
@@ -73,7 +74,13 @@ const generator = defineGenerator({
         title: `Pay 2 Win: ${display} ${upgrade}`.slice(0, 80),
         text: `Alchemy Pay 2 Win upgrade: ${display} ${upgrade}`.slice(0, 240),
         why: 'Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level.',
-        values: { key, group, upgrade, maxLevel, ...(slot === null ? {} : { slot }) },
+        values: {
+          key,
+          group,
+          upgrade,
+          ...(typeof maxLevel === 'number' ? { maxLevel } : {}),
+          ...(slot === null ? {} : { slot }),
+        },
         sources: [source],
         appliesTo: { stages: 'all' },
         confidence: 'H',
@@ -89,6 +96,8 @@ const generator = defineGenerator({
       for (const [u, k] of LIQUID_UPGRADES) add('liquid', l.name, l.displayName, u, k, i);
     });
     for (const [u, k] of VIAL_UPGRADES) add('vials', null, 'Vials', u, k, null);
+    // M19 X2: the Player upgrades (Toolbox `p2w.player`), capped at the best Alchemy level (wiki Pay 2 Win).
+    for (const u of ['speed', 'extraExp']) add('player', null, 'Player', u, null, null);
     return { entries };
   },
 });

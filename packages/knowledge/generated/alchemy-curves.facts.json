@@ -1,0 +1,2263 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-curves",
+        "inputs": [
+          "website-data/cauldrons.json",
+          "website-data/vials.json",
+          "website-data/items.json",
+          "website-data/shared-data.json#liquidsShop",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#vialCostsArray"
+        ]
+      },
+      "id": "alchemy-bubbles.fact.curves",
+      "origin": "generated",
+      "rows": [
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "power",
+          "func": "addDECAY",
+          "index": 0,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 1,
+              "name": "Copper_Ore",
+              "rawName": "Copper"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "ROID_RAGIN",
+          "rawName": "aUpgradesO0",
+          "x1": 1,
+          "x2": 0
+        },
+        {
+          "bands": [
+            6,
+            13,
+            34
+          ],
+          "cauldron": "power",
+          "func": "decayMulti",
+          "index": 1,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 3,
+              "name": "Spore_Cap",
+              "rawName": "Grasslands1"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "WARRIORS_RULE",
+          "rawName": "aUpgradesO1",
+          "x1": 2,
+          "x2": 50
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "power",
+          "func": "decay",
+          "index": 2,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 5,
+              "name": "Jungle_Logs",
+              "rawName": "JungleTree"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "HEARTY_DIGGY",
+          "rawName": "aUpgradesO2",
+          "x1": 50,
+          "x2": 100
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "power",
+          "func": "bigBase",
+          "index": 3,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 10,
+              "name": "Fly",
+              "rawName": "Bug1"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "WYOMING_BLOOD",
+          "rawName": "aUpgradesO3",
+          "x1": 23.5,
+          "x2": 1.5
+        },
+        {
+          "bands": [
+            9,
+            20,
+            54
+          ],
+          "cauldron": "power",
+          "func": "decay",
+          "index": 4,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 20,
+              "name": "Boring_Brick",
+              "rawName": "CraftMat6"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "REELY_SMART",
+          "rawName": "aUpgradesO4",
+          "x1": 100,
+          "x2": 80
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "power",
+          "func": "addDECAY",
+          "index": 5,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 200,
+              "name": "Furled_Flag",
+              "rawName": "DesertB2"
+            },
+            {
+              "baseCost": 4,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "BIG_MEATY_CLAWS",
+          "rawName": "aUpgradesO5",
+          "x1": 4,
+          "x2": 0
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "power",
+          "func": "bigBase",
+          "index": 6,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 100,
+              "name": "Hermit_Can",
+              "rawName": "Fish2"
+            },
+            {
+              "baseCost": 4,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "SPLOOSH_SPLOOSH",
+          "rawName": "aUpgradesO6",
+          "x1": 23.5,
+          "x2": 1.5
+        },
+        {
+          "bands": [
+            8,
+            18,
+            47
+          ],
+          "cauldron": "power",
+          "func": "decay",
+          "index": 7,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 60,
+              "name": "Platinum_Ore",
+              "rawName": "Plat"
+            },
+            {
+              "baseCost": 4,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "STRONK_TOOLS",
+          "rawName": "aUpgradesO7",
+          "x1": 65,
+          "x2": 70
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "power",
+          "func": "addDECAY",
+          "index": 8,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 50,
+              "name": "Fruitfly",
+              "rawName": "Bug4"
+            },
+            {
+              "baseCost": 5,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "FMJ",
+          "rawName": "aUpgradesO8",
+          "x1": 0.5,
+          "x2": 0
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "power",
+          "func": "decay",
+          "index": 9,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 100,
+              "name": "Pinion_Spur",
+              "rawName": "CraftMat8"
+            },
+            {
+              "baseCost": 5,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "BAPPITY_BOOPITY",
+          "rawName": "aUpgradesO9",
+          "x1": 35,
+          "x2": 100
+        },
+        {
+          "bands": [
+            6,
+            13,
+            34
+          ],
+          "cauldron": "power",
+          "func": "decay",
+          "index": 10,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 10,
+              "name": "Froge",
+              "rawName": "Critter1"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "BRITTLEY_SPEARS",
+          "rawName": "aUpgradesO10",
+          "x1": 40,
+          "x2": 50
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "power",
+          "func": "bigBase",
+          "index": 11,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 120,
+              "name": "Moustache_Comb",
+              "rawName": "SnowA3"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "CALL_ME_BOB",
+          "rawName": "aUpgradesO11",
+          "x1": 25,
+          "x2": 2.5
+        },
+        {
+          "bands": [
+            6,
+            13,
+            34
+          ],
+          "cauldron": "power",
+          "func": "decay",
+          "index": 12,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 3,
+              "name": "Explosive_Salts",
+              "rawName": "Refinery2"
+            },
+            {
+              "baseCost": 4,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "CARPENTER",
+          "rawName": "aUpgradesO12",
+          "x1": 5,
+          "x2": 50
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "power",
+          "func": "bigBase",
+          "index": 13,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 50,
+              "name": "Mousey",
+              "rawName": "Critter4"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "BUFF_BOI_TALENT",
+          "rawName": "aUpgradesO13",
+          "x1": 5,
+          "x2": 1
+        },
+        {
+          "bands": [
+            2,
+            3,
+            8
+          ],
+          "cauldron": "power",
+          "func": "decay",
+          "index": 14,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 30,
+              "name": "Frigid_Soul",
+              "rawName": "Soul4"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "ORANGE_BARGAIN",
+          "rawName": "aUpgradesO14",
+          "x1": 40,
+          "x2": 12
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "quicc",
+          "func": "addDECAY",
+          "index": 0,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 1,
+              "name": "Pocket_Sand",
+              "rawName": "DesertA1"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "SWIFT_STEPPIN",
+          "rawName": "aUpgradesG0",
+          "x1": 1,
+          "x2": 0
+        },
+        {
+          "bands": [
+            6,
+            13,
+            34
+          ],
+          "cauldron": "quicc",
+          "func": "decayMulti",
+          "index": 1,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 3,
+              "name": "Spore_Cap",
+              "rawName": "Grasslands1"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "ARCHER_OR_BUST",
+          "rawName": "aUpgradesG1",
+          "x1": 2,
+          "x2": 50
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "quicc",
+          "func": "bigBase",
+          "index": 2,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 5,
+              "name": "Iron_Ore",
+              "rawName": "Iron"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "HAMMER_HAMMER",
+          "rawName": "aUpgradesG2",
+          "x1": 23,
+          "x2": 2
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "quicc",
+          "func": "decay",
+          "index": 3,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 10,
+              "name": "Goldfish",
+              "rawName": "Fish1"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "LIL_BIG_DAMAGE",
+          "rawName": "aUpgradesG3",
+          "x1": 20,
+          "x2": 100
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "quicc",
+          "func": "decay",
+          "index": 4,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 20,
+              "name": "Forest_Fibres",
+              "rawName": "ForestTree"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "ANVILNOMICS",
+          "rawName": "aUpgradesG4",
+          "x1": 40,
+          "x2": 100
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "quicc",
+          "func": "addDECAY",
+          "index": 5,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 90,
+              "name": "Coconotnotto",
+              "rawName": "DesertB1"
+            },
+            {
+              "baseCost": 4,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "QUICK_SLAP",
+          "rawName": "aUpgradesG5",
+          "x1": 4,
+          "x2": 0
+        },
+        {
+          "bands": [
+            8,
+            18,
+            47
+          ],
+          "cauldron": "quicc",
+          "func": "decay",
+          "index": 6,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 130,
+              "name": "Slime_Sludge",
+              "rawName": "Jungle1"
+            },
+            {
+              "baseCost": 4,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "SANIC_TOOLS",
+          "rawName": "aUpgradesG6",
+          "x1": 65,
+          "x2": 70
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "quicc",
+          "func": "bigBase",
+          "index": 7,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 70,
+              "name": "Sentient_Cereal",
+              "rawName": "Bug3"
+            },
+            {
+              "baseCost": 4,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "BUG]",
+          "rawName": "aUpgradesG7",
+          "x1": 23.5,
+          "x2": 1.5
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "quicc",
+          "func": "addDECAY",
+          "index": 8,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 65,
+              "name": "Bloach",
+              "rawName": "Fish4"
+            },
+            {
+              "baseCost": 5,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "SHAQURACY",
+          "rawName": "aUpgradesG8",
+          "x1": 1,
+          "x2": 0
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "quicc",
+          "func": "decay",
+          "index": 9,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 35,
+              "name": "Mosquisnow",
+              "rawName": "Bug5"
+            },
+            {
+              "baseCost": 5,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "CHEAP_SHOT",
+          "rawName": "aUpgradesG9",
+          "x1": 7,
+          "x2": 100
+        },
+        {
+          "bands": [
+            6,
+            13,
+            34
+          ],
+          "cauldron": "quicc",
+          "func": "decay",
+          "index": 10,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 5,
+              "name": "Forest_Soul",
+              "rawName": "Soul1"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "BOW_JACK",
+          "rawName": "aUpgradesG10",
+          "x1": 40,
+          "x2": 50
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "quicc",
+          "func": "bigBase",
+          "index": 11,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 100,
+              "name": "Tundra_Logs",
+              "rawName": "SaharanFoal"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "CALL_ME_ASH",
+          "rawName": "aUpgradesG11",
+          "x1": 25,
+          "x2": 2
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "quicc",
+          "func": "decayMulti",
+          "index": 12,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 25,
+              "name": "Rooted_Soul",
+              "rawName": "Soul3"
+            },
+            {
+              "baseCost": 4,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "CUZ_I_CATCH_EM_ALL",
+          "rawName": "aUpgradesG12",
+          "x1": 3,
+          "x2": 100
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "quicc",
+          "func": "bigBase",
+          "index": 13,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 120,
+              "name": "Flycicle",
+              "rawName": "Bug6"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "FAST_BOI_TALENT",
+          "rawName": "aUpgradesG13",
+          "x1": 5,
+          "x2": 1
+        },
+        {
+          "bands": [
+            2,
+            3,
+            8
+          ],
+          "cauldron": "quicc",
+          "func": "decay",
+          "index": 14,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 200,
+              "name": "Owlio",
+              "rawName": "Critter5"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "GREEN_BARGAIN",
+          "rawName": "aUpgradesG14",
+          "x1": 40,
+          "x2": 12
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "high-iq",
+          "func": "addDECAY",
+          "index": 0,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 1,
+              "name": "Oak_Logs",
+              "rawName": "OakTree"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "STABLE_JENIUS",
+          "rawName": "aUpgradesP0",
+          "x1": 1,
+          "x2": 0
+        },
+        {
+          "bands": [
+            6,
+            13,
+            34
+          ],
+          "cauldron": "high-iq",
+          "func": "decayMulti",
+          "index": 1,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 3,
+              "name": "Spore_Cap",
+              "rawName": "Grasslands1"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "MAGE_IS_BEST",
+          "rawName": "aUpgradesP1",
+          "x1": 2,
+          "x2": 50
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "high-iq",
+          "func": "decay",
+          "index": 2,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 5,
+              "name": "Trusty_Nails",
+              "rawName": "CraftMat5"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "HOCUS_CHOPPUS",
+          "rawName": "aUpgradesP2",
+          "x1": 50,
+          "x2": 100
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "high-iq",
+          "func": "bigBase",
+          "index": 3,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 10,
+              "name": "Iron_Bar",
+              "rawName": "IronBar"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "MOLTO_LOGGO",
+          "rawName": "aUpgradesP3",
+          "x1": 23.5,
+          "x2": 1.5
+        },
+        {
+          "bands": [
+            7,
+            15,
+            40
+          ],
+          "cauldron": "high-iq",
+          "func": "decay",
+          "index": 4,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 20,
+              "name": "Chain_Link",
+              "rawName": "CraftMat7"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "NOODUBBLE",
+          "rawName": "aUpgradesP4",
+          "x1": 100,
+          "x2": 60
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "high-iq",
+          "func": "addDECAY",
+          "index": 5,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 40,
+              "name": "Gold_Ore",
+              "rawName": "Gold"
+            },
+            {
+              "baseCost": 4,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "NAME_I_GUESS",
+          "rawName": "aUpgradesP5",
+          "x1": 4,
+          "x2": 0
+        },
+        {
+          "bands": [
+            8,
+            18,
+            47
+          ],
+          "cauldron": "high-iq",
+          "func": "decay",
+          "index": 6,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 55,
+              "name": "Sentient_Cereal",
+              "rawName": "Bug3"
+            },
+            {
+              "baseCost": 4,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "LE_BRAIN_TOOLS",
+          "rawName": "aUpgradesP6",
+          "x1": 65,
+          "x2": 70
+        },
+        {
+          "bands": [
+            8,
+            18,
+            47
+          ],
+          "cauldron": "high-iq",
+          "func": "decay",
+          "index": 7,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 75,
+              "name": "Potty_Rolls",
+              "rawName": "ToiletTree"
+            },
+            {
+              "baseCost": 4,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "COOKIN_ROADKILL",
+          "rawName": "aUpgradesP7",
+          "x1": 120,
+          "x2": 70
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "high-iq",
+          "func": "decay",
+          "index": 8,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 150,
+              "name": "High_Steaks",
+              "rawName": "DesertC1"
+            },
+            {
+              "baseCost": 5,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "BREWSTACHIO",
+          "rawName": "aUpgradesP8",
+          "x1": 50,
+          "x2": 100
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "high-iq",
+          "func": "decay",
+          "index": 9,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 100,
+              "name": "Veiny_Logs",
+              "rawName": "StumpTree"
+            },
+            {
+              "baseCost": 5,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "ALL_FOR_KILL",
+          "rawName": "aUpgradesP9",
+          "x1": 40,
+          "x2": 100
+        },
+        {
+          "bands": [
+            6,
+            13,
+            34
+          ],
+          "cauldron": "high-iq",
+          "func": "decay",
+          "index": 10,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 3,
+              "name": "Redox_Salts",
+              "rawName": "Refinery1"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "MATTY_STAFFORD",
+          "rawName": "aUpgradesP10",
+          "x1": 40,
+          "x2": 50
+        },
+        {
+          "bands": [
+            8,
+            18,
+            47
+          ],
+          "cauldron": "high-iq",
+          "func": "decayMulti",
+          "index": 11,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 25,
+              "name": "Crabbo",
+              "rawName": "Critter2"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "CALL_ME_POPE",
+          "rawName": "aUpgradesP11",
+          "x1": 2.4,
+          "x2": 70
+        },
+        {
+          "bands": [
+            4,
+            8,
+            20
+          ],
+          "cauldron": "high-iq",
+          "func": "decay",
+          "index": 12,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 150,
+              "name": "Mosquisnow",
+              "rawName": "Bug5"
+            },
+            {
+              "baseCost": 4,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "GOSPEL_LEADER",
+          "rawName": "aUpgradesP12",
+          "x1": 60,
+          "x2": 30
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "high-iq",
+          "func": "bigBase",
+          "index": 13,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 150,
+              "name": "Sippy_Straw",
+              "rawName": "SnowC1"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "SMART_BOI_TALENT",
+          "rawName": "aUpgradesP13",
+          "x1": 5,
+          "x2": 1
+        },
+        {
+          "bands": [
+            2,
+            3,
+            8
+          ],
+          "cauldron": "high-iq",
+          "func": "decay",
+          "index": 14,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 500,
+              "name": "Forest_Soul",
+              "rawName": "Soul1"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "PURPLE_BARGAIN",
+          "rawName": "aUpgradesP14",
+          "x1": 40,
+          "x2": 12
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "kazam",
+          "func": "addDECAY",
+          "index": 0,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 1,
+              "name": "Thread",
+              "rawName": "CraftMat1"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "LOTTO_SKILLS",
+          "rawName": "aUpgradesY0",
+          "x1": 1,
+          "x2": 0
+        },
+        {
+          "bands": [
+            8,
+            18,
+            47
+          ],
+          "cauldron": "kazam",
+          "func": "decay",
+          "index": 1,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 3,
+              "name": "Goldfish",
+              "rawName": "Fish1"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "DROPPIN_LOADS",
+          "rawName": "aUpgradesY1",
+          "x1": 40,
+          "x2": 70
+        },
+        {
+          "bands": [
+            7,
+            15,
+            40
+          ],
+          "cauldron": "kazam",
+          "func": "decay",
+          "index": 2,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 5,
+              "name": "Bleach_Logs",
+              "rawName": "BirchTree"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "STARTUE_EXP",
+          "rawName": "aUpgradesY2",
+          "x1": 25,
+          "x2": 60
+        },
+        {
+          "bands": [
+            4,
+            8,
+            20
+          ],
+          "cauldron": "kazam",
+          "func": "decay",
+          "index": 3,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 10,
+              "name": "Crabby_Cakey",
+              "rawName": "DesertA3"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "LEVEL_UP_GIFT",
+          "rawName": "aUpgradesY3",
+          "x1": 100,
+          "x2": 30
+        },
+        {
+          "bands": [
+            7,
+            15,
+            40
+          ],
+          "cauldron": "kazam",
+          "func": "decayMulti",
+          "index": 4,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 20,
+              "name": "Potty_Rolls",
+              "rawName": "ToiletTree"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "PROWESESSARY",
+          "rawName": "aUpgradesY4",
+          "x1": 1.5,
+          "x2": 60
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "kazam",
+          "func": "addDECAY",
+          "index": 5,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 45,
+              "name": "Butterfly",
+              "rawName": "Bug2"
+            },
+            {
+              "baseCost": 4,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "STAMP_TRAMP",
+          "rawName": "aUpgradesY5",
+          "x1": 1,
+          "x2": 0
+        },
+        {
+          "bands": [
+            8,
+            18,
+            47
+          ],
+          "cauldron": "kazam",
+          "func": "decay",
+          "index": 6,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 65,
+              "name": "Jellyfish",
+              "rawName": "Fish3"
+            },
+            {
+              "baseCost": 6,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "UNDEVELOPED_COSTS",
+          "rawName": "aUpgradesY6",
+          "x1": 40,
+          "x2": 70
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "kazam",
+          "func": "decay",
+          "index": 7,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 125,
+              "name": "Leather_Hide",
+              "rawName": "CraftMat9"
+            },
+            {
+              "baseCost": 8,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            }
+          ],
+          "name": "DA_DAILY_DRIP",
+          "rawName": "aUpgradesY7",
+          "x1": 30,
+          "x2": 100
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "kazam",
+          "func": "bigBase",
+          "index": 8,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 50,
+              "name": "Liquid1",
+              "rawName": "Liquid1"
+            },
+            {
+              "baseCost": 25,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "GRIND_TIME",
+          "rawName": "aUpgradesY8",
+          "x1": 9.7,
+          "x2": 0.3
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "kazam",
+          "func": "decay",
+          "index": 9,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 50,
+              "name": "Dementia_Ore",
+              "rawName": "Dementia"
+            },
+            {
+              "baseCost": 4,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "LAAARRRRYYYY",
+          "rawName": "aUpgradesY9",
+          "x1": 120,
+          "x2": 100
+        },
+        {
+          "bands": [
+            12,
+            25,
+            67
+          ],
+          "cauldron": "kazam",
+          "func": "addDECAY",
+          "index": 10,
+          "linear": true,
+          "materials": [
+            {
+              "baseCost": 50,
+              "name": "Melty_Cube",
+              "rawName": "SnowA2"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "COGS_FOR_HANDS",
+          "rawName": "aUpgradesY10",
+          "x1": 4,
+          "x2": 0
+        },
+        {
+          "bands": [
+            5,
+            10,
+            27
+          ],
+          "cauldron": "kazam",
+          "func": "decay",
+          "index": 11,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 15,
+              "name": "Dune_Soul",
+              "rawName": "Soul2"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "SAMPLE_IT",
+          "rawName": "aUpgradesY11",
+          "x1": 12,
+          "x2": 40
+        },
+        {
+          "bands": [
+            4,
+            8,
+            20
+          ],
+          "cauldron": "kazam",
+          "func": "decay",
+          "index": 12,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 40,
+              "name": "Scorpie",
+              "rawName": "Critter3"
+            },
+            {
+              "baseCost": 4,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "BIG_GAME_HUNTER",
+          "rawName": "aUpgradesY12",
+          "x1": 60,
+          "x2": 30
+        },
+        {
+          "bands": [
+            7,
+            15,
+            40
+          ],
+          "cauldron": "kazam",
+          "func": "decay",
+          "index": 13,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 120,
+              "name": "Wispy_Lumber",
+              "rawName": "Tree7"
+            },
+            {
+              "baseCost": 2,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "IGNORE_OVERDUES",
+          "rawName": "aUpgradesY13",
+          "x1": 100,
+          "x2": 60
+        },
+        {
+          "bands": [
+            2,
+            3,
+            8
+          ],
+          "cauldron": "kazam",
+          "func": "decay",
+          "index": 14,
+          "linear": false,
+          "materials": [
+            {
+              "baseCost": 250,
+              "name": "Pingy",
+              "rawName": "Critter6"
+            },
+            {
+              "baseCost": 3,
+              "name": "Liquid2",
+              "rawName": "Liquid2"
+            }
+          ],
+          "name": "YELLOW_BARGAIN",
+          "rawName": "aUpgradesY14",
+          "x1": 40,
+          "x2": 12
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: cauldrons",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/cauldrons.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "alchemy-bubbles",
+      "title": "Alchemy bubble curves and band levels"
+    },
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-curves",
+        "inputs": [
+          "website-data/cauldrons.json",
+          "website-data/vials.json",
+          "website-data/items.json",
+          "website-data/shared-data.json#liquidsShop",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#vialCostsArray"
+        ]
+      },
+      "id": "alchemy-vials.fact.catalogue",
+      "origin": "generated",
+      "rows": [
+        {
+          "index": 0,
+          "item": "Copper",
+          "itemName": "Copper_Ore",
+          "liquid": 1,
+          "name": "COPPER_CORONA",
+          "score": 1,
+          "stat": "OrangeBrew"
+        },
+        {
+          "index": 1,
+          "item": "OakTree",
+          "itemName": "Oak_Logs",
+          "liquid": 1,
+          "name": "SIPPY_SPLINTERS",
+          "score": 10,
+          "stat": "GreenBrew"
+        },
+        {
+          "index": 2,
+          "item": "Grasslands1",
+          "itemName": "Spore_Cap",
+          "liquid": 1,
+          "name": "MUSHROOM_SOUP",
+          "score": 20,
+          "stat": "YellowBrew"
+        },
+        {
+          "index": 3,
+          "item": "CraftMat1",
+          "itemName": "Thread",
+          "liquid": 1,
+          "name": "SPOOL_SPRITE",
+          "score": 30,
+          "stat": "PurpleBrew"
+        },
+        {
+          "index": 4,
+          "item": "CopperBar",
+          "itemName": "Copper_Bar",
+          "liquid": 1,
+          "name": "BARIUM_MIXTURE",
+          "score": 40,
+          "stat": "Liquid1Cap"
+        },
+        {
+          "index": 5,
+          "item": "Grasslands3",
+          "itemName": "Bean_Slices",
+          "liquid": 1,
+          "name": "DIETER_DRINK",
+          "score": 40,
+          "stat": "MonsterCash"
+        },
+        {
+          "index": 6,
+          "item": "Jungle2",
+          "itemName": "Snake_Skin",
+          "liquid": 1,
+          "name": "SKINNY_0_CAL",
+          "score": 60,
+          "stat": "StatueDouble"
+        },
+        {
+          "index": 7,
+          "item": "CraftMat5",
+          "itemName": "Trusty_Nails",
+          "liquid": 1,
+          "name": "THUMB_POW",
+          "score": 50,
+          "stat": "ClassEXPconvert"
+        },
+        {
+          "index": 8,
+          "item": "JungleTree",
+          "itemName": "Jungle_Logs",
+          "liquid": 1,
+          "name": "JUNGLE_JUICE",
+          "score": 60,
+          "stat": "LiquidRegen"
+        },
+        {
+          "index": 9,
+          "item": "IronBar",
+          "itemName": "Iron_Bar",
+          "liquid": 1,
+          "name": "BARLEY_BREW",
+          "score": 65,
+          "stat": "AlchBubbleCost"
+        },
+        {
+          "index": 10,
+          "item": "Forest1",
+          "itemName": "Glublin_Ear",
+          "liquid": 1,
+          "name": "ANEARFUL",
+          "score": 70,
+          "stat": "CardDrop"
+        },
+        {
+          "index": 11,
+          "item": "ToiletTree",
+          "itemName": "Potty_Rolls",
+          "liquid": 1,
+          "name": "TEA_WITH_PEA",
+          "score": 75,
+          "stat": "Liquid2Cap"
+        },
+        {
+          "index": 12,
+          "item": "Gold",
+          "itemName": "Gold_Ore",
+          "liquid": 1,
+          "name": "GOLD_GUZZLE",
+          "score": 83,
+          "stat": "ShopSell"
+        },
+        {
+          "index": 13,
+          "item": "Forest3",
+          "itemName": "Bullfrog_Horn",
+          "liquid": 1,
+          "name": "RAMIFICOCTION",
+          "score": 84,
+          "stat": "Tab1Pts"
+        },
+        {
+          "index": 14,
+          "item": "Fish1",
+          "itemName": "Goldfish",
+          "liquid": 1,
+          "name": "SEAWATER",
+          "score": 87,
+          "stat": "MultiKillPlay"
+        },
+        {
+          "index": 15,
+          "item": "Sewers2",
+          "itemName": "Rats_Tail",
+          "liquid": 1,
+          "name": "TAIL_TIME",
+          "score": 91,
+          "stat": "WeaponPOW"
+        },
+        {
+          "index": 16,
+          "item": "Bug1",
+          "itemName": "Fly",
+          "liquid": 1,
+          "name": "FLY_IN_MY_DRINK",
+          "score": 87,
+          "stat": "baseACC"
+        },
+        {
+          "index": 17,
+          "item": "DesertA2",
+          "itemName": "Megalodon_Tooth",
+          "liquid": 1,
+          "name": "MIMICRAUGHT",
+          "score": 90,
+          "stat": "MonsterEXP"
+        },
+        {
+          "index": 18,
+          "item": "Plat",
+          "itemName": "Platinum_Ore",
+          "liquid": 1,
+          "name": "BLUE_FLAV",
+          "score": 93,
+          "stat": "MatCostStamp"
+        },
+        {
+          "index": 19,
+          "item": "Fish2",
+          "itemName": "Hermit_Can",
+          "liquid": 1,
+          "name": "SLUG_SLURP",
+          "score": 89,
+          "stat": "BoxPoints"
+        },
+        {
+          "index": 20,
+          "item": "BobJoePickle",
+          "itemName": "BobJoePickle",
+          "liquid": 2,
+          "name": "PICKLE_JAR",
+          "score": 99,
+          "stat": "Nothing"
+        },
+        {
+          "index": 21,
+          "item": "SnowA1",
+          "itemName": "Floof_Ploof",
+          "liquid": 2,
+          "name": "FUR_REFRESHER",
+          "score": 75,
+          "stat": "Shiny1"
+        },
+        {
+          "index": 22,
+          "item": "Soul1",
+          "itemName": "Forest_Soul",
+          "liquid": 2,
+          "name": "SIPPY_SOUL",
+          "score": 75,
+          "stat": "Tab2Pts"
+        },
+        {
+          "index": 23,
+          "item": "Critter2",
+          "itemName": "Crabbo",
+          "liquid": 2,
+          "name": "CRAB_JUICE",
+          "score": 80,
+          "stat": "TDpts"
+        },
+        {
+          "index": 24,
+          "item": "Void",
+          "itemName": "Void_Ore",
+          "liquid": 2,
+          "name": "VOID_VIAL",
+          "score": 80,
+          "stat": "MinEff"
+        },
+        {
+          "index": 25,
+          "item": "Refinery1",
+          "itemName": "Redox_Salts",
+          "liquid": 2,
+          "name": "RED_MALT",
+          "score": 85,
+          "stat": "RefSpd"
+        },
+        {
+          "index": 26,
+          "item": "Bug5",
+          "itemName": "Mosquisnow",
+          "liquid": 2,
+          "name": "EW_GROSS_GROSS",
+          "score": 86,
+          "stat": "CatchEff"
+        },
+        {
+          "index": 27,
+          "item": "SaharanFoal",
+          "itemName": "Tundra_Logs",
+          "liquid": 2,
+          "name": "THE_SPANISH_SAHARA",
+          "score": 87,
+          "stat": "ChopEff"
+        },
+        {
+          "index": 28,
+          "item": "Critter1A",
+          "itemName": "Poison_Froge",
+          "liquid": 2,
+          "name": "POISON_TINCTURE",
+          "score": 95,
+          "stat": "TrapOvision"
+        },
+        {
+          "index": 29,
+          "item": "SnowB2",
+          "itemName": "Mamooth_Tusk",
+          "liquid": 2,
+          "name": "ETRUSCAN_LAGER",
+          "score": 88,
+          "stat": "FishEff"
+        },
+        {
+          "index": 30,
+          "item": "Soul2",
+          "itemName": "Dune_Soul",
+          "liquid": 2,
+          "name": "CHONKER_CHUG",
+          "score": 90,
+          "stat": "TalBookSpd"
+        },
+        {
+          "index": 31,
+          "item": "Critter4",
+          "itemName": "Mousey",
+          "liquid": 3,
+          "name": "BUBONIC_BURP",
+          "score": 91,
+          "stat": "CogInv"
+        },
+        {
+          "index": 32,
+          "item": "SnowB3",
+          "itemName": "Pen",
+          "liquid": 3,
+          "name": "VISIBLE_INK",
+          "score": 93,
+          "stat": "ConsExp"
+        },
+        {
+          "index": 33,
+          "item": "Refinery2",
+          "itemName": "Explosive_Salts",
+          "liquid": 3,
+          "name": "ORANGE_MALT",
+          "score": 95,
+          "stat": "Shiny2"
+        },
+        {
+          "index": 34,
+          "item": "SnowB5",
+          "itemName": "Snow_Ball",
+          "liquid": 3,
+          "name": "SNOW_SLURRY",
+          "score": 96,
+          "stat": "SampleSize"
+        },
+        {
+          "index": 35,
+          "item": "Soul4",
+          "itemName": "Frigid_Soul",
+          "liquid": 3,
+          "name": "SLOWERGY_DRINK",
+          "score": 97,
+          "stat": "Overkill"
+        },
+        {
+          "index": 36,
+          "item": "SnowC1",
+          "itemName": "Sippy_Straw",
+          "liquid": 3,
+          "name": "SIPPY_CUP",
+          "score": 97,
+          "stat": "CogSpd"
+        },
+        {
+          "index": 37,
+          "item": "Critter7",
+          "itemName": "Bunny",
+          "liquid": 3,
+          "name": "BUNNY_BREW",
+          "score": 98,
+          "stat": "Tab3Pts"
+        },
+        {
+          "index": 38,
+          "item": "SnowC4",
+          "itemName": "Contact_Lense",
+          "liquid": 3,
+          "name": "40-40_PURITY",
+          "score": 98,
+          "stat": "Liquid3Cap"
+        },
+        {
+          "index": 39,
+          "item": "Refinery5",
+          "itemName": "Purple_Salt",
+          "liquid": 3,
+          "name": "SHAVED_ICE",
+          "score": 99,
+          "stat": "GiantMob"
+        },
+        {
+          "index": 40,
+          "item": "Critter9",
+          "itemName": "Honker",
+          "liquid": 3,
+          "name": "GOOSEY_GLUG",
+          "score": 99,
+          "stat": "CritterBASED"
+        },
+        {
+          "index": 41,
+          "item": "BallJoePickle",
+          "itemName": "BallJoePickle",
+          "liquid": 1,
+          "name": "BALL_PICKLE_JAR",
+          "score": 99,
+          "stat": "arcadeBALLZ"
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: vials and items",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/vials.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "alchemy-vials",
+      "title": "W1-W3 vial catalogue"
+    },
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-curves",
+        "inputs": [
+          "website-data/cauldrons.json",
+          "website-data/vials.json",
+          "website-data/items.json",
+          "website-data/shared-data.json#liquidsShop",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#vialCostsArray"
+        ]
+      },
+      "id": "alchemy-vials.fact.costs",
+      "origin": "generated",
+      "rows": {
+        "items": [
+          0,
+          100,
+          1000,
+          2500,
+          10000,
+          50000,
+          100000,
+          500000,
+          1000001,
+          5000000,
+          25000000,
+          100000000,
+          1000000000,
+          50000000000
+        ],
+        "liquidPerLevel": 3
+      },
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox vialCostsArray",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "alchemy-vials",
+      "title": "Vial level costs"
+    },
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-curves",
+        "inputs": [
+          "website-data/cauldrons.json",
+          "website-data/vials.json",
+          "website-data/items.json",
+          "website-data/shared-data.json#liquidsShop",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#vialCostsArray"
+        ]
+      },
+      "id": "alchemy.fact.liquid-shop",
+      "origin": "generated",
+      "rows": [
+        {
+          "index": 0,
+          "name": "MEDIOCRE_OBOLS",
+          "resetsDaily": true,
+          "x1": 10,
+          "x2": 2.2
+        },
+        {
+          "index": 1,
+          "name": "WEAK_UPG_STONE",
+          "resetsDaily": true,
+          "x1": 5,
+          "x2": 2.1
+        },
+        {
+          "index": 2,
+          "name": "DISTILLED_WATER",
+          "resetsDaily": true,
+          "x1": 1,
+          "x2": 1.37
+        },
+        {
+          "index": 3,
+          "name": "ONE_MEASLY_GEM",
+          "resetsDaily": true,
+          "x1": 5,
+          "x2": 7.5
+        },
+        {
+          "index": 4,
+          "name": "STAR_BOOK",
+          "resetsDaily": true,
+          "x1": 50,
+          "x2": 1.3
+        },
+        {
+          "index": 5,
+          "name": "EXP_BALLOON",
+          "resetsDaily": true,
+          "x1": 15,
+          "x2": 2.8
+        },
+        {
+          "index": 6,
+          "name": "SMALL_DONATION",
+          "resetsDaily": false,
+          "x1": 1,
+          "x2": 2
+        },
+        {
+          "index": 7,
+          "name": "DECENT_OBOLS",
+          "resetsDaily": true,
+          "x1": 20,
+          "x2": 2.5
+        },
+        {
+          "index": 8,
+          "name": "TALENT_POINT",
+          "resetsDaily": false,
+          "x1": 3,
+          "x2": 1.3
+        },
+        {
+          "index": 9,
+          "name": "GRAND_OBOLS",
+          "resetsDaily": true,
+          "x1": 5,
+          "x2": 2.2
+        },
+        {
+          "index": 10,
+          "name": "BARGAIN_TAG",
+          "resetsDaily": true,
+          "x1": 1,
+          "x2": 1.19
+        },
+        {
+          "index": 11,
+          "name": "DENSE_WATER",
+          "resetsDaily": true,
+          "x1": 1,
+          "x2": 1.37
+        },
+        {
+          "index": 12,
+          "name": "A_PAIR_OF_GEMS",
+          "resetsDaily": true,
+          "x1": 5,
+          "x2": 10.5
+        },
+        {
+          "index": 13,
+          "name": "EMPTY_SPACE",
+          "resetsDaily": true,
+          "x1": 1,
+          "x2": 1
+        },
+        {
+          "index": 14,
+          "name": "EMPTY_SPACE",
+          "resetsDaily": true,
+          "x1": 10,
+          "x2": 1
+        },
+        {
+          "index": 15,
+          "name": "EMPTY_SPACE",
+          "resetsDaily": true,
+          "x1": 1,
+          "x2": 1
+        },
+        {
+          "index": 16,
+          "name": "LUMINOUS_SHELL",
+          "resetsDaily": true,
+          "x1": 100000,
+          "x2": 3.7
+        },
+        {
+          "index": 17,
+          "name": "TALENT_POINT",
+          "resetsDaily": false,
+          "x1": 3,
+          "x2": 1.27
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: liquidsShop",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "alchemy",
+      "title": "Liquid Shop items"
+    }
+  ],
+  "generator": "alchemy-curves",
+  "system": "alchemy-bubbles"
+}

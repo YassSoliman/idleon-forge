@@ -874,6 +874,88 @@
           "parsers/world-2/alchemy.ts#LIQUID_INFO"
         ]
       },
+      "id": "alchemy-p2w.acquisition.player-extra-exp",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Player extraExp",
+      "thing": {
+        "kind": "other",
+        "rawName": "player.extraExp"
+      },
+      "title": "Pay 2 Win: Player extraExp",
+      "type": "acquisition",
+      "values": {
+        "group": "player",
+        "key": "player.extraExp",
+        "upgrade": "extraExp"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
+      "id": "alchemy-p2w.acquisition.player-speed",
+      "origin": "generated",
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: CAULDRONS_MAX_LEVELS",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-2/alchemy.ts",
+          "verified": "2026-10-17"
+        }
+      ],
+      "status": "active",
+      "system": "alchemy-p2w",
+      "text": "Alchemy Pay 2 Win upgrade: Player speed",
+      "thing": {
+        "kind": "other",
+        "rawName": "player.speed"
+      },
+      "title": "Pay 2 Win: Player speed",
+      "type": "acquisition",
+      "values": {
+        "group": "player",
+        "key": "player.speed",
+        "upgrade": "speed"
+      },
+      "why": "Pay 2 Win upgrades are bought with coins in the Alchemy screen, up to a fixed max level."
+    },
+    {
+      "appliesTo": {
+        "stages": "all"
+      },
+      "confidence": "H",
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "alchemy-p2w",
+        "inputs": [
+          "parsers/world-2/alchemy.ts#CAULDRONS_MAX_LEVELS",
+          "parsers/world-2/alchemy.ts#CAULDRON_INFO",
+          "parsers/world-2/alchemy.ts#LIQUID_INFO"
+        ]
+      },
       "id": "alchemy-p2w.acquisition.vials-attempts",
       "origin": "generated",
       "sources": [
