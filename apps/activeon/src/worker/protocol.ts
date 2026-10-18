@@ -4,6 +4,7 @@
 // import the parser bundle at runtime (it is ~6 MB and patches built-in prototypes).
 import type { AccountState } from '@idleon-forge/account-state';
 import type { EngineResult } from '@idleon-forge/engine/result';
+import type { HistoryEntry } from '@idleon-forge/sync';
 import type { RawSaveEnvelope } from '@idleon-forge/toolbox-parsers';
 
 export type ParseInput =
@@ -31,6 +32,12 @@ export interface EngineCall {
   sessionStartedAt: number | null;
   /** M1's learned Expected Return in seconds; null without enough history. */
   learnedExpectedReturnSeconds: number | null;
+  /**
+   * The earlier saves of this account, oldest first (M1 `SaveHistory.forEngine`): compact, bounded to
+   * 30 days and `ENGINE_HISTORY_MAX_ENTRIES`, all saved before this save. Empty in paste mode (D2) and
+   * without history. The worker drops any entry not saved before the parsed save.
+   */
+  history?: readonly HistoryEntry[];
   /** BuildInfo `knowledge` (the compiled Knowledge Base version once M11 ships its bundle). */
   knowledgeVersion: string;
 }

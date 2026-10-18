@@ -13,6 +13,7 @@ import {
   DEFAULT_EXPECTED_RETURN_MS,
   type DeviceCode,
   DeviceFlowError,
+  type HistoryEntry,
   type ListenerStatus,
   learnedExpectedReturn,
   listenToSave,
@@ -246,6 +247,8 @@ export function useActiveOn(): ActiveOn {
       let withHistory = false;
       let sessionStartedAt: number | null = null;
       let learned: number | null = null;
+      // The earlier saves the engine reads (M10 TR-6): live saves only, never a paste (M1 D2).
+      let earlier: HistoryEntry[] = [];
       const h = historyRef.current;
       if (h && input.kind === 'envelope') {
         const savedAt = cloudSaveTimeOf(input.envelope);
@@ -259,6 +262,7 @@ export function useActiveOn(): ActiveOn {
             latest && savedAt - latest.lastCloudSave >= PLAY_SESSION_GAP_MS
               ? savedAt
               : (start?.lastCloudSave ?? savedAt);
+          earlier = await h.history.forEngine(h.uid, { before: savedAt, sessionStartedAt }).catch(() => []);
         }
         const sessions = await h.history.playSessions(h.uid).catch(() => []);
         const ms = learnedExpectedReturn({
@@ -273,6 +277,7 @@ export function useActiveOn(): ActiveOn {
         expectedReturnSeconds: returnRef.current,
         sessionStartedAt,
         learnedExpectedReturnSeconds: learned,
+        history: earlier,
         knowledgeVersion: buildInfo.knowledge,
       };
       const result = await client.parse(input, { withHistory, engine });

@@ -169,12 +169,24 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
 const errorText = (err: unknown) => (err instanceof Error ? `${err.name}: ${err.message}` : 'unknown error');
 
 /** Runs the engine without ever failing the parse: a throw becomes `{ error }` (FR-39). */
+/**
+ * The earlier saves the engine reads: only those saved before this one, oldest first. A pasted save
+ * reads none (M1 D2: it may be another account, and it never feeds observed rates).
+ */
+export function historyFor(state: AccountState, call: EngineCall): NonNullable<EngineCall['history']> {
+  const saved = state.account.lastCloudSave;
+  if (state.diagnostics.source !== 'live' || saved === null || !call.history) return [];
+  return call.history
+    .filter((h) => h.lastCloudSave < saved)
+    .sort((a, b) => a.lastCloudSave - b.lastCloudSave);
+}
+
 function runEngineSafely(engine: Engine, state: AccountState, call: EngineCall, now: number): EngineOutcome {
   try {
     return engine.run({
       state,
       history: {
-        entries: [],
+        entries: historyFor(state, call),
         sessionStartedAt: call.sessionStartedAt,
         learnedExpectedReturnSeconds: call.learnedExpectedReturnSeconds,
       },
