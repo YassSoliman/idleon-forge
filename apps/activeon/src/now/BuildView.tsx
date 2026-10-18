@@ -7,10 +7,10 @@
 import type { BuildRoadmapView, NowView } from '@idleon-forge/engine/now';
 import type { BuildPresetView, BuildTabView } from '@idleon-forge/engine/result';
 import { useState } from 'react';
+import { SourceLabel } from '../design/atoms/SourceLabel';
 import type { CharacterTabProps } from './character-tabs';
 import { useNowActions } from './context';
 import { BUILDS_OPEN } from './open-keys';
-import { SourceLabel } from './parts';
 
 const pct = (current: number, target: number) => (target > 0 ? Math.min(current, target) : 0);
 

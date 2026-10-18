@@ -6,8 +6,8 @@ import type { StarSignsNowView } from '@idleon-forge/engine/now';
 import { formatRoute } from '../../shell/route';
 import type { CharacterTabProps } from '../character-tabs';
 import { useNowActions } from '../context';
-import { list } from './SignsPanel';
-import './signs.css';
+import { list } from './signs-status';
+import './signs-tab.css';
 
 const STAR_SIGNS = 'star-signs';
 

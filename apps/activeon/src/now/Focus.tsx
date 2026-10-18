@@ -5,8 +5,9 @@
 // the player opened the card, never on an auto-follow.
 import { type FocusCard, LINK_WORDS, type NowView } from '@idleon-forge/engine/now';
 import { forwardRef, Suspense, useEffect, useRef } from 'react';
+import { CharacterShell } from '../characters/CharacterShell';
 import { Loading } from '../lazy-part';
-import { characterTabs, NOW_TAB, tabById, tabHref } from './character-tabs';
+import { NOW_TAB, tabById, tabHref } from './character-tabs';
 import { useNowActions } from './context';
 import { PurposeBlock } from './PurposeBlock';
 import {
@@ -112,34 +113,9 @@ export const Focus = forwardRef<HTMLHeadingElement, FocusProps>(function Focus(
         </p>
       ) : null}
 
-      <div className="hero">
-        <h2 id="focus-h" ref={headingRef} tabIndex={-1}>
-          {card.name}
-        </h2>
-        <p className="small muted">
-          {[`${card.classLabel} · lv ${card.level}`, card.activity, card.map].filter(Boolean).join(' · ')}
-        </p>
+      <CharacterShell ref={headingRef} card={card} tab={tab} onTab={onTab && view ? onTab : null}>
         <CapPills caps={card.caps} />
-      </div>
-
-      {onTab && view ? (
-        <nav aria-label="Character page" className="char-tabs">
-          {characterTabs.map((t) => (
-            <a
-              key={t.id}
-              href={tabHref(t.id, card.index)}
-              className={`char-tab${t.id === tab ? ' on' : ''}`}
-              aria-current={t.id === tab ? 'page' : undefined}
-              onClick={(e) => {
-                e.preventDefault();
-                onTab(t.id);
-              }}
-            >
-              {t.label}
-            </a>
-          ))}
-        </nav>
-      ) : null}
+      </CharacterShell>
 
       {Other && view ? (
         <Suspense fallback={<Loading what={`the ${tabById(tab)?.label ?? ''} tab`} />}>

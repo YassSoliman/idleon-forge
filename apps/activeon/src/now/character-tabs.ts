@@ -14,7 +14,7 @@
 import type { NowView } from '@idleon-forge/engine/now';
 import type { ComponentType } from 'react';
 import { lazyPart } from '../lazy-part';
-import { signsStatus } from './signs/SignsPanel';
+import { signsStatus } from './signs/signs-status';
 
 export interface CharacterTabProps {
   /** The whole Now view (the Build tab reads `view.builds`). */

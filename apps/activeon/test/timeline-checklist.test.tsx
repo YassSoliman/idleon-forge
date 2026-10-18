@@ -1,0 +1,110 @@
+// @vitest-environment jsdom
+// SPDX-License-Identifier: GPL-3.0-only
+// Copyright (C) 2026 IdleOn Forge contributors.
+// M20 in the DOM, area T (M21 §9): the Daily & Weekly Checklist section in the Account (rings with their
+// text, bands, a glyph and a word per state, the Done tick) and its links that land on their Goal (R7
+// QA). Split from m20-view.test.tsx.
+
+import type { Checklist, EngineResult } from '@idleon-forge/engine/result';
+import { cleanup, fireEvent, within } from '@testing-library/react';
+import axe from 'axe-core';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { withM20 } from './helpers/m20-result';
+import { fixture, props, renderNow, saveOf } from './now-helpers';
+
+beforeEach(() => {
+  localStorage.clear();
+  window.history.replaceState(null, '', '/');
+});
+afterEach(() => cleanup());
+
+describe('the Daily & Weekly Checklist section', () => {
+  it('shows both rings as text, the bands, a word per state and the folded done rows', async () => {
+    const r = withM20(fixture('mid-session'));
+    const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const section = document.getElementById('checklist');
+    expect(section?.textContent).toContain('Today 1 of 3 · Week 0 of 1');
+    expect(section?.textContent).toContain('daily reset in 12h');
+    expect(section?.textContent).toContain('No bank: lost at the reset');
+    expect(section?.textContent).toContain('To do');
+    expect(section?.textContent).toContain('lost before you are back');
+    expect(section?.textContent).toContain("Opens later: Post Office orders: finish Postboy Pablob's quest");
+    expect(within(section as HTMLElement).getByRole('button', { name: '1 done · show' })).toBeTruthy();
+    await axe
+      .run(container, { rules: { 'color-contrast': { enabled: false }, region: { enabled: false } } })
+      .then((res) => expect(res.violations.map((v) => v.id)).toEqual([]));
+  });
+
+  it('the Done tick on a row the save can’t judge counts in the today ring', () => {
+    const r = withM20(fixture('mid-session'));
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const section = document.getElementById('checklist') as HTMLElement;
+    fireEvent.click(within(section).getByRole('button', { name: 'Done' }));
+    expect(section.textContent).toContain('Today 2 of 3');
+    fireEvent.click(within(section).getByRole('button', { name: '2 done · show' }));
+    expect(within(section).getByRole('button', { name: 'Done ✓ · undo' })).toBeTruthy();
+  });
+});
+
+/** The Spiketrap row linked to `link`; with `extra` account Goals so the 6th+ sit behind "show more". */
+function linked(link: NonNullable<Checklist['rows'][number]['link']>, extra = 0): EngineResult {
+  const r = withM20(fixture('mid-session'));
+  const base = r.account.goals[0];
+  if (!base || !r.checklist) throw new Error('mid-session has an account Goal and a checklist');
+  const goals = Array.from({ length: extra }, (_, i) => ({
+    ...base,
+    id: `arcade.check.g${i}`,
+    system: 'arcade',
+    nextAction: {
+      ...base.nextAction,
+      key: `arcade.check.g${i}@account`,
+      entryId: `arcade.check.g${i}`,
+      text: `Arcade line ${i}`,
+    },
+  }));
+  return {
+    ...r,
+    account: { ...r.account, goals: [...r.account.goals, ...goals] },
+    checklist: {
+      ...r.checklist,
+      rows: r.checklist.rows.map((x) => (x.id === 'spiketrap' ? { ...x, link, nextAction: null } : x)),
+    },
+  };
+}
+
+const lit = (key: string) =>
+  document.querySelector(`[data-na-key="${CSS.escape(key)}"]`)?.classList.contains('lit') ?? false;
+
+describe('the checklist links land on their Goal (R7 QA)', () => {
+  it('"in your list" opens the account list\'s "show more" when the Goal is behind it, and outlines it', () => {
+    const r = linked({ kind: 'goal', key: 'arcade.check.g5@account' }, 6);
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    expect(document.querySelector('[data-na-key="arcade.check.g5@account"]')).toBeNull();
+    const section = document.getElementById('checklist') as HTMLElement;
+    fireEvent.click(within(section).getByRole('link', { name: 'in your list ↓' }));
+    expect(window.location.hash).toBe('#now');
+    expect(lit('arcade.check.g5@account')).toBe(true);
+  });
+
+  it('a character Goal (@cN) opens that character\'s Now tab, past its "show more", outlined', () => {
+    const key = 'minigames.check.daily-plays@c2';
+    const r = linked({ kind: 'goal', key });
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const section = document.getElementById('checklist') as HTMLElement;
+    fireEvent.click(within(section).getByRole('link', { name: 'in your list ↓' }));
+    expect(window.location.hash).toBe('#now-2');
+    expect(lit(key)).toBe(true);
+  });
+
+  it('"If you have time" lands on the keyed item and outlines it', () => {
+    const key = 'minigames.check.daily-plays@account';
+    const r = linked({ kind: 'active-play', key });
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const section = document.getElementById('checklist') as HTMLElement;
+    fireEvent.click(within(section).getByRole('link', { name: 'If you have time ↓' }));
+    const item = document.querySelector(`[data-na-key="${key}"]`);
+    expect(item?.tagName).toBe('LI');
+    expect(item?.textContent).toContain('Play the Hoops minigame');
+    expect(lit(key)).toBe(true);
+  });
+});

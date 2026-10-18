@@ -1,15 +1,9 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
-/* M16 Star Signs: the Signs tab and the Star Chart section. Tokens only (tokens.css); wraps at 320 px,
-   no page-level horizontal scroll. */
-.ss,
-.ss-account {
+/* M16 Star Signs: the character page's Signs tab (area C, M21 §9). Split from signs.css in M21 Phase F,
+   unchanged rules. Tokens only; wraps at 320 px, no page-level horizontal scroll. */
+.ss {
   overflow-wrap: anywhere;
   min-width: 0;
-}
-.ss-account > summary {
-  cursor: pointer;
-  min-height: 28px;
-  padding: 4px 0;
 }
 .ss-facts {
   display: grid;
@@ -33,26 +27,6 @@
 }
 .ss-yes {
   color: var(--ok);
-}
-.ss-h {
-  margin: 14px 0 6px;
-  font-size: 0.95rem;
-}
-.ss-next,
-.ss-later,
-.ss-chars {
-  margin: 0 0 8px;
-  padding-left: 20px;
-}
-.ss-next li,
-.ss-chars li {
-  margin: 0 0 4px;
-}
-.ss-next .pill {
-  margin-left: 6px;
-}
-.ss-sources {
-  margin-top: 8px;
 }
 @media (min-width: 720px) {
   .ss-facts {

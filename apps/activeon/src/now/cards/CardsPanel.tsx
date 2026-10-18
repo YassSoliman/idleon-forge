@@ -8,10 +8,10 @@
 // and styles are classes, never inline (CSP).
 import type { CardsNowView, CharacterCardsView, NowView } from '@idleon-forge/engine/now';
 import type { CardChip, GrindItem } from '@idleon-forge/engine/result';
+import { SourceLabel } from '../../design/atoms/SourceLabel';
 import type { CharacterTabProps } from '../character-tabs';
 import { useNowActions } from '../context';
 import { CARDS_OPEN } from '../open-keys';
-import { SourceLabel } from '../parts';
 import './cards.css';
 
 const stars = (c: CardChip) =>

@@ -3,16 +3,16 @@
 // M17 Views: the navigation shell. Four places (Now, Characters, Systems and, from Phase 2, the
 // Timeline; FR-1), a bottom bar under 720 px and a side rail from 720 px (FR-2, D-5), each place one
 // bare anchor (FR-7). The Timeline is its own chunk, fetched when the browser is idle (TR-11). The
-// banners, the progress bar and What's new are the same in every place (FR-6). The session state lives
+// banners, the progress bar and What's new are the same in every place (FR-6): area N's NowChrome slot. The session state lives
 // in `useSession` (FR-10), so a place switch never re-runs the engine or loses the Play Session.
-import { LINK_WORDS, NAV_WORDS, PLACE_WORDS } from '@idleon-forge/engine/now';
+import { LINK_WORDS, NAV_WORDS } from '@idleon-forge/engine/now';
 import { Suspense, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Loading, lazyPart, preloadParts } from '../lazy-part';
-import { Banners, ExpectedReturnChips, ProgressBar, WhatsNewCard } from '../now/Chrome';
+import { ExpectedReturnChips } from '../now/Chrome';
+import { NowChrome, NowLiveRegion } from '../now/chrome/NowChrome';
 import { NowActionsContext } from '../now/context';
 import { NowPlace } from '../now/NowScreen';
-import { useWhatsNew } from '../now/release';
 import type { Place, Route } from './route';
 
 // Every place but Now is its own lazy chunk (lazy-part.tsx), prefetched when the browser is idle.
@@ -36,7 +36,7 @@ const SystemPage = lazyPart(
 /** The outlet's id: a plain in-page target, never a route (FR-7 leaves unknown anchors to Now). */
 const CONTENT_ANCHOR = `#${'place-content'}`;
 
-import { type Session, type ShellProps, useSession } from './session';
+import { PLACE_NAMES, type Session, type ShellProps, useSession } from './session';
 
 export type { NowSave, ShellProps } from './session';
 
@@ -105,7 +105,7 @@ const ITEMS: { place: Place; route: Route; href: string }[] = [
   { place: 'now', route: { place: 'now' }, href: '#now' },
   { place: 'characters', route: { place: 'characters', section: null }, href: '#characters' },
   { place: 'systems', route: { place: 'systems' }, href: '#systems' },
-  { place: 'timeline', route: { place: 'timeline' }, href: '#timeline' },
+  { place: 'timeline', route: { place: 'timeline', section: null }, href: '#timeline' },
 ];
 
 /** FR-2, FR-4, FR-5, TR-13: `<nav aria-label="Places">` with a list of links, badges named in words. */
@@ -145,7 +145,7 @@ export function PlacesNav({ s }: { s: Session }) {
                   href={item.href}
                   className={`place-item${on ? ' on' : ''}`}
                   aria-current={on ? (exact ? 'page' : 'true') : undefined}
-                  aria-label={b ? `${PLACE_WORDS[item.place]}, ${b.name}` : undefined}
+                  aria-label={b ? `${PLACE_NAMES[item.place]}, ${b.name}` : undefined}
                   onClick={(e) => {
                     e.preventDefault();
                     s.navigate(item.route, 'push');
@@ -159,7 +159,7 @@ export function PlacesNav({ s }: { s: Session }) {
                       </span>
                     ) : null}
                   </span>
-                  <span className="place-label">{PLACE_WORDS[item.place]}</span>
+                  <span className="place-label">{PLACE_NAMES[item.place]}</span>
                 </a>
               </li>
             );
@@ -187,7 +187,7 @@ function PlaceView({ s }: { s: Session }) {
 
 function Outlet({ s }: { s: Session }) {
   return (
-    <Suspense fallback={<Loading what={PLACE_WORDS[s.place]} />}>
+    <Suspense fallback={<Loading what={PLACE_NAMES[s.place]} />}>
       <PlaceView s={s} />
     </Suspense>
   );
@@ -195,7 +195,6 @@ function Outlet({ s }: { s: Session }) {
 
 export function Shell(props: ShellProps & ShellSlots) {
   const s = useSession(props);
-  const whatsNew = useWhatsNew();
   const { renderChips, onFooter, navSlot } = props;
   useEffect(() => {
     renderChips(
@@ -235,14 +234,7 @@ export function Shell(props: ShellProps & ShellSlots) {
           {NAV_WORDS.playing(s.pendingFollow.text)}
         </button>
       ) : null}
-      <Banners
-        banners={s.view.banners}
-        onReload={props.onReload}
-        firstFill={s.view.allSet?.covered && s.timeline ? s.view.allSet.detail : null}
-        onTimeline={() => s.navigate({ place: 'timeline' }, 'push')}
-      />
-      <ProgressBar progress={s.view.progress} onAccount={s.toAccountFix} />
-      {whatsNew.view ? <WhatsNewCard view={whatsNew.view} onDismiss={whatsNew.dismiss} /> : null}
+      <NowChrome s={s} />
       <div
         ref={s.refs.outletRef}
         id="place-content"
@@ -251,9 +243,7 @@ export function Shell(props: ShellProps & ShellSlots) {
       >
         <Outlet s={s} />
       </div>
-      <p className="sr-only" aria-live="polite">
-        {s.spoken}
-      </p>
+      <NowLiveRegion s={s} />
     </NowActionsContext.Provider>
   );
 }

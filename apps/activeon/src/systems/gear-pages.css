@@ -1,0 +1,105 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* Area S (M21 §9): M18's Gear page heat strip and the Armor Smithy's set cards. Moved from gear/gear.css
+   in M21 Phase F, unchanged. */
+/* The Gear page: the heat strip from 720 px, a list under it. */
+.gd-heat-wide {
+  display: none;
+}
+@media (min-width: 720px) {
+  .gd-heat-wide {
+    display: block;
+    overflow-x: auto;
+  }
+  .gd-heat-narrow {
+    display: none;
+  }
+}
+.gd-heat-table {
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+.gd-heat-table th,
+.gd-heat-table td {
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  text-align: left;
+  white-space: nowrap;
+}
+.hc.st-ok {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+.hc.st-behind {
+  background: var(--coin-soft);
+  color: var(--coin);
+}
+.hc.st-empty {
+  background: var(--bad-soft);
+  color: var(--bad);
+}
+.hc.st-held-upgrade {
+  color: var(--ok);
+}
+.hc.st-unknown {
+  background: var(--unk-soft);
+  color: var(--unk);
+}
+.hc.lit,
+.gd-worst li.lit,
+.gd-set.lit {
+  outline: 3px solid var(--fg);
+  outline-offset: -2px;
+}
+.gd-worst {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 6px;
+  display: grid;
+  gap: 4px;
+}
+.gd-worst li {
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: var(--sunk);
+}
+.gd-sets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+@media (min-width: 720px) {
+  .gd-sets {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.gd-set {
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.gd-set p {
+  margin: 0 0 4px;
+}
+.gd-set.done {
+  border-color: var(--ok);
+}
+.gd-parts {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 4px;
+  display: grid;
+  gap: 2px;
+  font-size: 0.8rem;
+}
+.gp.worn {
+  color: var(--ok);
+}
+.gp.held {
+  color: var(--coin);
+}
+.gp.missing {
+  color: var(--muted);
+}
