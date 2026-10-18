@@ -663,7 +663,7 @@ export type SystemUnlockRowT = z.infer<typeof SystemUnlockRow>;
  * "Spend", "Buy", "Swap", …) or a rating word (P6). View words and unlock conditions never match it.
  */
 export const ADVICE_IMPERATIVES =
-  /(^|[.:;·,]\s*|\s)(Equip|Collect|Claim|Spend|Buy|Swap|Upgrade|Craft|Refine|Kill|Put|Assign|Activate|Fix)\b/;
+  /(^|[.:;·,]\s*|\s)(Equip|Collect|Claim|Spend(?! Plan)|Buy|Swap|Upgrade|Craft|Refine|Kill|Put|Assign|Activate|Fix)\b/;
 export const ADVICE_RATINGS = /\b(tier|tiers|rated|rating|score|scores)\b/i;
 /** True when `text` reads as advice or a rating (M17 TR-9). */
 export const isAdviceShaped = (text: string): boolean =>
