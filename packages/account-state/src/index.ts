@@ -169,11 +169,31 @@ export {
   type SupplyLeaf,
   withSupplyRates,
 } from './supply';
+// Exact talent points (ADR 0010)
+export { checkTab, rawAccountTerms, spentOn } from './talent-points';
+export { TALENT_POINT_SECTIONS } from './talent-points-fields';
+export {
+  clampsAtZero,
+  type RawPointTerms,
+  ROYAL_TAB_CLASSES,
+  skillTerms,
+  starRawFloor,
+  TALENT_POINT_TERMS,
+  type TermSource,
+  type ToolboxPointTerms,
+  tabTotal,
+  termsOfTab,
+  VOID_TAB_CLASS,
+} from './talent-points-formula';
 export type {
   CharacterTalents,
+  PointsConfidence,
   PresetTalents,
   ResetItems,
+  TabKey,
+  TabPoints,
   TalentLevel,
+  TalentPoints,
 } from './talent-types';
 export { ATTACK_BAR_ROWS, attackBarOf, PRESET_LEVEL } from './talents';
 export type {

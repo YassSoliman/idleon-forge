@@ -22,7 +22,44 @@ export interface PresetTalents {
    * `AttackLoadout_<i>` (active) and `AttackLoadoutpre_<i>` (other; Toolbox does not parse it). Null when unreadable.
    */
   attackBar: number[] | null;
+  /**
+   * Exact talent points (ADR 0010): each class tab this preset has (1–5) and the star tab, with the
+   * game's total, this preset's spend and what is left. Set by the adapter when the worker's Toolbox
+   * calls were supplied; absent otherwise, and then only the lower bound (M9 TR-7) is known.
+   */
+  talentPoints?: TalentPoints;
 }
+
+/** A class tab (1–5, in class order) or the star tab. */
+export type TabKey = 1 | 2 | 3 | 4 | 5 | 'star';
+
+/**
+ * How far a tab's numbers can be trusted (ADR 0010):
+ * - `exact-verified`: the formula total equals the save's answer key (the preset that spent more there
+ *   shows 0 left);
+ * - `exact`: nothing in the save contradicts it, but no preset is fully spent there to confirm it;
+ * - `bound`: the formula couldn't run, or the save proves it short (a preset spent more than it): use
+ *   the lower bound (M9 TR-7) instead; `total` and `unspent` are null.
+ */
+export type PointsConfidence = 'exact-verified' | 'exact' | 'bound';
+
+export interface TabPoints {
+  /** The game's TotalTalentPoints total for this tab and preset; null when `confidence` is `bound`. */
+  total: number | null;
+  /** Points bought on this tab in this preset (Σ base levels). */
+  spent: number;
+  /** total − spent (tabs 4 and 5 never below 0, as the game shows them); null when `bound`. */
+  unspent: number | null;
+  confidence: PointsConfidence;
+  /** The formula's total, kept on a mismatch so the truth checks can report it; null when it couldn't run. */
+  formula: number | null;
+  /** The answer key's total (the fuller preset's spend), when one preset spent anything here. */
+  oracle: number | null;
+  /** On a mismatch only: the nonzero Toolbox terms the formula read, by term id (TALENT_POINT_TERMS). */
+  terms?: Record<string, number>;
+}
+
+export type TalentPoints = Partial<Record<TabKey, TabPoints>>;
 
 export interface CharacterTalents {
   classIndex: number;

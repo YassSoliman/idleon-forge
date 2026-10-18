@@ -53,8 +53,9 @@ import type { WalkthroughAccountFields, WalkthroughCharacterFields } from './wal
  *    `account.armorSmithy`).
  * 20: M21 TR-3's redesign fields (`characters[].talents.starPoints`, `characters[].doorKillsLeft`,
  *    `account.statues`; the `RedesignAccountFields` and `RedesignCharacterFields` blocks).
+ * 21: ADR 0010's exact talent points (`characters[].talents.active.talentPoints`, `.other.talentPoints`).
  */
-export const SCHEMA_VERSION = 20;
+export const SCHEMA_VERSION = 21;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
