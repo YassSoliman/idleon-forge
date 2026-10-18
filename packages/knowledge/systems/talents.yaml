@@ -348,9 +348,9 @@ entries:
   - id: talents.build.archer-fighting
     system: "talents"
     type: "build"
-    title: "Archer fighting build (data-backed core)"
+    title: "Archer fighting build"
     text: "Follow the Archer fighting build"
-    why: "The core every current fighting build shares: the two damage talents, 50 in the Idle fighting talent, about 25 in each attack."
+    why: "One point in each attack so the bar works, the two damage talents and 50 in the Idle fighting talent, then High Polymer Limbs and Veins before more attack levels, per the current Archer-line builds."
     classLine: "Archer"
     role: "fighting"
     serves: ["FIGHTING"]
@@ -362,45 +362,66 @@ entries:
           - { talent: "GILDED_SWORD", target: "max" }
           - { talent: "SHARPENED_AXE", target: "max" }
           - { talent: "IDLE_SHOOTING", target: 50, core: true }
+          - { talent: "FIST_OF_RAGE", target: "max", hardCap: true, when: [{ kind: "accuracyShort" }] }
+          - { talent: "QUICKNESS_BOOTS", target: "max" }
       - tab: 2
         steps:
-          - { talent: "PIERCING_ARROW", target: 25, tie: "a" }
-          - { talent: "KUNG_FU_KICK", target: 25, tie: "a" }
+          - { talent: "PIERCING_ARROW", target: 1, tie: "a" }
+          - { talent: "KUNG_FU_KICK", target: 1, tie: "a" }
+          - { talent: "HIGH_POLYMER_LIMBS", target: "max" }
+          - { talent: "VEINS_OF_THE_INFERNAL", target: "max" }
+          - { talent: "PIERCING_ARROW", target: 40, tie: "b" }
+          - { talent: "KUNG_FU_KICK", target: 10, tie: "b" }
+          - { talent: "HAVE_ANOTHER!", target: 40 }
+          - { talent: "STRAFE", target: "max" }
     attacks: ["PIERCING_ARROW", "KUNG_FU_KICK"]
     onePointOk: []
     sources:
-      - { url: "https://idleontoolbox.com/tools/builds/view?id=b0sGrY", title: "Sir_Grimtide, Bowman/Catching (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=b0sGrY", title: "Sir_Grimtide, Bowman/Catching: damage preset tabs 1 and 2 (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=MDGrBz", title: "BigRav01, Beast Master - AFK - W4: Calm Basics and Archer tabs (Toolbox community builds)", tier: 3, claimDate: "2026-10-13", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=KvgS3N", title: "Bowman Build: 1 point in each attack first (Toolbox community builds)", tier: 3, claimDate: "2026-09-29", verified: "2026-10-17", gameVersion: "2.3.530" }
+      - { url: "https://idleon.wiki/wiki/Archer", title: "IdleOn Wiki: Archer (main stat Agility, accuracy stat Strength)", tier: 2, claimDate: "2026-09-03", verified: "2026-10-17", gameVersion: "2.3.527" }
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
     appliesTo: { stages: [{ from: "W1-early", to: "W4-entry" }], classes: ["Archer"], levels: { min: 10 } }
     confidence: L
     status: active
-    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/pull/77" }
+    notes: "No current guide is written for the Archer before its subclass, so tabs 1 and 2 follow the order the Bowman (Sir_Grimtide) and Hunter-line (BigRav01) builds share: both put High Polymer Limbs first and Veins before more attack levels. Featherweight is left out because it feeds the Bowman's Speedna. The 1-point opener keeps an attack on the bar while High Polymer Limbs soaks the early tab 2 points."
 
   - id: talents.build.archer-skilling
     system: "talents"
     type: "build"
-    title: "Archer catching build (data-backed core)"
+    title: "Archer catching build"
     text: "Follow the Archer catching build"
-    why: "The efficiency talent, then the main-stat talent: the Archer line has no Idle Skilling talent."
+    why: "Efficiency and the main-stat talent first, then the AGI and skill EXP talents and the anvil, per the most-liked current Archer-line skilling build."
     classLine: "Archer"
     role: "skilling"
     serves: ["CATCHING"]
     variant: afk
-    tags: ["ELUSIVE_EFFICIENCY", "BROKEN_TIME", "FOCUSED_SOUL", "ACME_ANVIL", "YEA_I_ALREADY_KNOW", "GODLY_CREATION", "SMELTIN'_ERRYDAY"]
+    tags: ["ELUSIVE_EFFICIENCY", "BROKEN_TIME", "FOCUSED_SOUL", "ACME_ANVIL", "YEA_I_ALREADY_KNOW", "GODLY_CREATION", "SMELTIN'_ERRYDAY", "GARB_OF_UN'AGI'NG_QUALITY", "SANIC_SPEED"]
     tabs:
       - tab: 1
         steps:
           - { talent: "ELUSIVE_EFFICIENCY", target: "max" }
           - { talent: "QUICKNESS_BOOTS", target: "max" }
+          - { talent: "BROKEN_TIME", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "GARB_OF_UN'AGI'NG_QUALITY", target: "max" }
+          - { talent: "SANIC_SPEED", target: "max" }
+          - { talent: "FOCUSED_SOUL", target: "max" }
+          - { talent: "ACME_ANVIL", target: "max" }
+          - { talent: "YEA_I_ALREADY_KNOW", target: "max" }
+          - { talent: "GODLY_CREATION", target: "max" }
     attacks: []
     onePointOk: []
     sources:
-      - { url: "https://idleontoolbox.com/tools/builds/view?id=b0sGrY", title: "Sir_Grimtide, Bowman/Catching (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=b0sGrY", title: "Sir_Grimtide, Bowman/Catching: skilling preset tabs 1 and 2 (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://idleon.wiki/wiki/Archer", title: "IdleOn Wiki: Archer (main stat Agility)", tier: 2, claimDate: "2026-09-03", verified: "2026-10-17", gameVersion: "2.3.527" }
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
     appliesTo: { stages: [{ from: "W1-early", to: "W4-entry" }], classes: ["Archer"], levels: { min: 10 } }
     confidence: L
     status: active
-    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/pull/77" }
+    notes: "Tabs 1 and 2 are the Archer-line tabs of Sir_Grimtide's Bowman skilling preset, which an Archer has before its subclass."
 
   - id: talents.build.bowman-fighting
     system: "talents"
@@ -500,52 +521,97 @@ entries:
   - id: talents.build.hunter-fighting
     system: "talents"
     type: "build"
-    title: "Hunter fighting build (data-backed core)"
+    title: "Hunter fighting build"
     text: "Follow the Hunter fighting build"
-    why: "50 in the Idle fighting talent, the one step every current fighting build agrees on."
+    why: "The two damage talents and 50 in the Idle fighting talent, High Polymer Limbs and Veins on tab 2, then Looty Mc Shooty, Bear Trap and Uwu Rawrrr on the Hunter tab, per the current Hunter-line AFK builds."
     classLine: "Hunter"
     role: "fighting"
     serves: ["FIGHTING"]
     variant: afk
-    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_SHOOTING", "FEATHERWEIGHT", "I_SEE_YOU", "FIST_OF_RAGE", "PIERCING_ARROW", "KUNG_FU_KICK", "STRAFE", "HAVE_ANOTHER!", "HIGH_POLYMER_LIMBS", "VEINS_OF_THE_INFERNAL", "HEMA_OVERDRIVE", "ROBBINGHOOD", "360_NOSCOPE", "BEAR_TRAP", "UWU_RAWRRR", "STOP_RIGHT_THERE", "HAVE_ANOTHER..._AGAIN!", "LOOTY_MC_SHOOTY", "VISIBILITY_VESSELS"]
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_SHOOTING", "FEATHERWEIGHT", "I_SEE_YOU", "FIST_OF_RAGE", "MANA_BOOSTER", "HEALTH_BOOSTER", "PIERCING_ARROW", "KUNG_FU_KICK", "STRAFE", "HAVE_ANOTHER!", "HIGH_POLYMER_LIMBS", "VEINS_OF_THE_INFERNAL", "HEMA_OVERDRIVE", "ROBBINGHOOD", "360_NOSCOPE", "BEAR_TRAP", "UWU_RAWRRR", "HAVE_ANOTHER..._AGAIN!", "LOOTY_MC_SHOOTY", "VISIBILITY_VESSELS", "PREVIOUS_POINTS"]
     tabs:
       - tab: 1
         steps:
+          - { talent: "GILDED_SWORD", target: "max" }
+          - { talent: "SHARPENED_AXE", target: "max" }
           - { talent: "IDLE_SHOOTING", target: 50, core: true }
-    attacks: ["PIERCING_ARROW", "KUNG_FU_KICK"]
+          - { talent: "IDLE_SHOOTING", target: "max" }
+          - { talent: "MANA_BOOSTER", target: "max" }
+          - { talent: "FIST_OF_RAGE", target: "max", hardCap: true, when: [{ kind: "accuracyShort" }] }
+          - { talent: "HEALTH_BOOSTER", target: "max", tie: "a" }
+          - { talent: "QUICKNESS_BOOTS", target: "max", tie: "a" }
+      - tab: 2
+        steps:
+          - { talent: "PIERCING_ARROW", target: 1, tie: "a" }
+          - { talent: "KUNG_FU_KICK", target: 1, tie: "a" }
+          - { talent: "HIGH_POLYMER_LIMBS", target: "max" }
+          - { talent: "VEINS_OF_THE_INFERNAL", target: "max" }
+          - { talent: "PIERCING_ARROW", target: "max", tie: "b" }
+          - { talent: "STRAFE", target: "max", tie: "b" }
+          - { talent: "HAVE_ANOTHER!", target: 14, tie: "b" }
+      - tab: 3
+        steps:
+          - { talent: "LOOTY_MC_SHOOTY", target: "max" }
+          - { talent: "BEAR_TRAP", target: "max" }
+          - { talent: "UWU_RAWRRR", target: "max" }
+          - { talent: "HAVE_ANOTHER..._AGAIN!", target: 14 }
+          - { talent: "360_NOSCOPE", target: "max" }
+          - { talent: "PREVIOUS_POINTS", target: "max" }
+    attacks: ["PIERCING_ARROW", "KUNG_FU_KICK", "BEAR_TRAP", "UWU_RAWRRR", "360_NOSCOPE"]
     onePointOk: []
     sources:
-      - { url: "https://idleontoolbox.com/tools/builds/view?id=b0sGrY", title: "Sir_Grimtide, Bowman/Catching (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=MDGrBz", title: "BigRav01, Beast Master - AFK - W4: Calm Basics, Archer and Hunter tabs and the skill bar (Toolbox community builds)", tier: 3, claimDate: "2026-10-13", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=jcQXsb", title: "DeathZon3, Beast Master damage preset (Toolbox community builds)", tier: 3, claimDate: "2026-10-06", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=KvgS3N", title: "Bowman Build: 1 point in each attack first (Toolbox community builds)", tier: 3, claimDate: "2026-09-29", verified: "2026-10-17", gameVersion: "2.3.530" }
+      - { url: "https://idleon.wiki/wiki/Hunter", title: "IdleOn Wiki: Hunter (talents; main stat Agility, accuracy stat Strength)", tier: 2, claimDate: "2026-09-03", verified: "2026-10-17", gameVersion: "2.3.527" }
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
     appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Hunter"] }
     confidence: L
     status: active
-    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/pull/77" }
+    notes: "Order from BigRav01 (tab 1: Gilded Sword > Sharpened Axe > Idle Shooting > Mana Booster, Fist of Rage as accuracy needs, then Health Booster and Quickness Boots; tab 2: High Polymer Limbs > Veins, then Piercing Arrow, Strafe and 14 Have Another!; tab 3: Looty Mc Shooty > Bear Trap > Uwu Rawrrr > 14 Have Another... Again! > 360 Noscope > Previous Points). DeathZon3's damage preset maxes the same core. Both are Beast Master builds, whose tabs 1-3 are the Hunter's. The guide's 360 Noscope sits in its written order but not its payload, hence L."
 
   - id: talents.build.hunter-skilling
     system: "talents"
     type: "build"
-    title: "Hunter trapping build (data-backed core)"
+    title: "Hunter trapping build"
     text: "Follow the Hunter trapping build"
-    why: "Eagle Eye claims and resets every trap for every character; it can live on the second preset."
+    why: "Eagle Eye claims and resets every character's traps; the trapping talents and Stop Right There for Tower Defence go with it on the skilling preset, per the current Hunter-line skilling builds."
     classLine: "Hunter"
     role: "skilling"
     serves: []
     variant: afk
-    tags: ["ELUSIVE_EFFICIENCY", "BROKEN_TIME", "FOCUSED_SOUL", "ACME_ANVIL", "YEA_I_ALREADY_KNOW", "GODLY_CREATION", "SMELTIN'_ERRYDAY", "EAGLE_EYE", "INVASIVE_SPECIES", "SHROOM_BAIT", "REFLECTIVE_EYESIGHT"]
+    tags: ["ELUSIVE_EFFICIENCY", "BROKEN_TIME", "BOOK_OF_THE_WISE", "FOCUSED_SOUL", "ACME_ANVIL", "YEA_I_ALREADY_KNOW", "GODLY_CREATION", "SMELTIN'_ERRYDAY", "SANIC_SPEED", "EAGLE_EYE", "INVASIVE_SPECIES", "STOP_RIGHT_THERE", "SHROOM_BAIT", "REFLECTIVE_EYESIGHT"]
     tabs:
+      - tab: 1
+        steps:
+          - { talent: "ELUSIVE_EFFICIENCY", target: "max" }
+          - { talent: "BROKEN_TIME", target: "max" }
+          - { talent: "BOOK_OF_THE_WISE", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "FOCUSED_SOUL", target: "max" }
+          - { talent: "ACME_ANVIL", target: "max" }
+          - { talent: "YEA_I_ALREADY_KNOW", target: "max" }
+          - { talent: "SANIC_SPEED", target: "max" }
       - tab: 3
         steps:
           - { talent: "EAGLE_EYE", target: "max" }
+          - { talent: "INVASIVE_SPECIES", target: "max" }
+          - { talent: "STOP_RIGHT_THERE", target: "max" }
+          - { talent: "REFLECTIVE_EYESIGHT", target: "max" }
+          - { talent: "SHROOM_BAIT", target: "max" }
     attacks: []
-    onePointOk: []
+    onePointOk: ["360_NOSCOPE"]
     sources:
-      - { url: "https://idleon.wiki/wiki/Trapping", title: "IdleOn Wiki: Trapping (Eagle Eye on a second talent preset)", tier: 2, claimDate: "2026-10-07", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=3gARZB", title: "BigRav01, Beast Master - Skilling - W4: trapping and tower defence tabs (Toolbox community builds)", tier: 3, claimDate: "2026-10-13", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=6w55Am", title: "DeathZon3, Beast Master skilling preset (Toolbox community builds)", tier: 3, claimDate: "2026-10-06", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://idleon.wiki/wiki/Trapping", title: "IdleOn Wiki: Trapping (Eagle Eye collects and resets all traps; it can sit on a second talent preset)", tier: 2, claimDate: "2026-10-07", verified: "2026-10-17", gameVersion: "2.3.531" }
+      - { url: "https://idleon.wiki/wiki/Worship", title: "IdleOn Wiki: Worship, Class Usefulness (Stop Right There roots longer; 360 Noscope: no gain past Lv 1)", tier: 2, claimDate: "2026-10-07", verified: "2026-10-17", gameVersion: "2.3.531" }
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-17", gameVersion: "2.3.540" }
     appliesTo: { stages: [{ from: "W2-early", to: "W4-entry" }], classes: ["Hunter"] }
-    confidence: L
+    confidence: M
     status: active
-    stale: { flaggedAt: "2.3.540", reason: "D4: only the data-backed steps, until a current build for this class line exists", pr: "https://github.com/YassSoliman/idleon-forge/pull/77" }
+    notes: "Order from BigRav01 (tab 1: Elusive Efficiency > Broken Time > Book of the Wise; tab 2: Focused Soul > Acme Anvil > Yea I Already Know > Kung Fu Kick for Tower Defence > Sanic Speed; tab 3: Eagle Eye > Invasive Species > Stop Right There for Tower Defence > Reflective Eyesight > Shroom Bait). DeathZon3's skilling preset maxes the same tab 3 and Elusive Efficiency and Broken Time. Kung Fu Kick is a fighting talent here, so the tab 2 Tower Defence point is left to the player. 360 Noscope at 1 is a Tower Defence point (wiki), never drift."
 
   - id: talents.build.mage-fighting
     system: "talents"
