@@ -15,10 +15,21 @@ const withCalls = (input: unknown): AccountState => {
   });
 };
 
-describe('account.bubba', () => {
+// Each save is parsed once (CI's runners are slow: a full parse with the Toolbox calls takes seconds).
+const cache = new Map<string, AccountState>();
+const stateOf = (dir: string, file: string): AccountState => {
+  const key = dir + file;
+  const hit = cache.get(key);
+  if (hit) return hit;
+  const s = withCalls(readSave(dir, file));
+  cache.set(key, s);
+  return s;
+};
+
+describe('account.bubba', { timeout: 120_000 }, () => {
   it('is null, and not unknown, on the saves from before Bubba (first to fourth)', () => {
     for (const f of ['first.json', 'second.json', 'third.json', 'fourth.json']) {
-      const s = withCalls(readSave(PUBLIC_DIR, f));
+      const s = stateOf(PUBLIC_DIR, f);
       expect(s.account.bubba).toBeNull();
       expect(s.diagnostics.unknownFields).not.toContain('account.bubba');
     }
@@ -26,11 +37,11 @@ describe('account.bubba', () => {
 
   it('is filled on every other public save', () => {
     const others = listJson(PUBLIC_DIR).filter((f) => !/^(first|second|third|fourth)\.json$/.test(f));
-    for (const f of others) expect(withCalls(readSave(PUBLIC_DIR, f)).account.bubba, f).not.toBeNull();
-  }, 60_000);
+    for (const f of others) expect(stateOf(PUBLIC_DIR, f).account.bubba, f).not.toBeNull();
+  });
 
   it('reads latest.json: Toolbox numbers, raw indices and the X1 values', () => {
-    const b = withCalls(readSave(PUBLIC_DIR, 'latest.json')).account.bubba;
+    const b = stateOf(PUBLIC_DIR, 'latest.json').account.bubba;
     expect(b).not.toBeNull();
     if (!b) return;
     expect(b.levels).toHaveLength(28);
@@ -54,7 +65,7 @@ describe('account.bubba', () => {
   });
 
   it('reads the W3-early account (scrubbed-w3): Hustle maxed and training, Megaflesh 3, Boon 11', () => {
-    const b = withCalls(readSave(SCRUBBED, 'scrubbed-w3.json')).account.bubba;
+    const b = stateOf(SCRUBBED, 'scrubbed-w3.json').account.bubba;
     expect(b?.megaflesh).toBe(3);
     expect(b?.levels[3]).toBe(11);
     expect(b?.charisma.levels[0]).toBe(120);
@@ -64,7 +75,7 @@ describe('account.bubba', () => {
   });
 
   it('carries the next Boon and Fun Gifts prices from Toolbox, rising, and Fun Gifts only to its cap', () => {
-    const w3 = withCalls(readSave(SCRUBBED, 'scrubbed-w3.json')).account.bubba;
+    const w3 = stateOf(SCRUBBED, 'scrubbed-w3.json').account.bubba;
     const ahead = w3?.ahead;
     expect(ahead?.boonCosts).toHaveLength(BUBBA_BOON_AHEAD);
     expect(ahead?.boonCosts[0]).toBe(w3?.costs[3]);
@@ -72,14 +83,11 @@ describe('account.bubba', () => {
     for (let k = 1; k < boon.length; k++) expect(boon[k]).toBeGreaterThan((boon[k - 1] ?? 0) * 5);
     // Fun Gifts 2 of 6: four more levels.
     expect(ahead?.funGiftsCosts).toHaveLength(4);
-    expect(withCalls(readSave(PUBLIC_DIR, 'latest.json')).account.bubba?.ahead?.funGiftsCosts).toEqual([]);
+    expect(stateOf(PUBLIC_DIR, 'latest.json').account.bubba?.ahead?.funGiftsCosts).toEqual([]);
   });
 
   it('banks the same levels from the folded XP as X1 does at the save', () => {
-    for (const s of [
-      withCalls(readSave(SCRUBBED, 'scrubbed-w3.json')),
-      withCalls(readSave(PUBLIC_DIR, 'latest.json')),
-    ]) {
+    for (const s of [stateOf(SCRUBBED, 'scrubbed-w3.json'), stateOf(PUBLIC_DIR, 'latest.json')]) {
       const c = s.account.bubba?.charisma;
       const total = (c?.levels ?? []).reduce((a, b) => a + b, 0);
       expect(charismaLevelsFrom(total, c?.xpFolded ?? 0)).toBe(c?.levelsBanked);
@@ -105,7 +113,7 @@ describe('account.bubba', () => {
   });
 
   it('adds about 1.5 KB per save (TR-2)', () => {
-    const b = withCalls(readSave(PUBLIC_DIR, 'highend.json')).account.bubba;
+    const b = stateOf(PUBLIC_DIR, 'highend.json').account.bubba;
     expect(new TextEncoder().encode(JSON.stringify(b)).length).toBeLessThan(2048);
   });
 });
