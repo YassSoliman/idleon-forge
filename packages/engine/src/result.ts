@@ -4,7 +4,19 @@
 // engine core. Plain data only, so it survives `structuredClone` across the worker boundary (TR-6):
 // no functions, Maps, class instances or Dates. All times are epoch ms, all durations seconds.
 // A change here needs a note on M10's spec and on the producer module's spec.
+import type { CardsView } from './collections/cards-view-types';
 import type { SpendPlan } from './spend/types';
+
+export type {
+  CardChip,
+  CardSetChip,
+  CardSwap,
+  CardsView,
+  CharacterCards,
+  GrindItem,
+  PresetRecommendation,
+  PresetRow,
+} from './collections/cards-view-types';
 
 export type {
   SpendHandoff,
@@ -367,4 +379,9 @@ export interface EngineResult {
   diagnostics: { failedDetectors: FailedDetector[] };
   /** M9's Build roadmaps, one per character with talent data (the Build view); absent without M9. */
   builds?: BuildRoadmap[];
+  /**
+   * M8 Cards view (owner request 2026-10-18): presets, the owned-card recommendation and the reachable
+   * grind list per character, plus the account overview. Absent when M8 didn't run or lacks its tables.
+   */
+  cards?: CardsView | null;
 }

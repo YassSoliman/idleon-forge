@@ -292,6 +292,10 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
     },
     diagnostics: { failedDetectors: failures },
     ...buildsOf(outputs),
+    ...(() => {
+      const cards = outputs.find((o) => o.output.cards)?.output.cards;
+      return cards ? { cards } : {};
+    })(),
   };
 }
 
