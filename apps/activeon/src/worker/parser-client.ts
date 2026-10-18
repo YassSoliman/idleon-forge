@@ -10,6 +10,7 @@
 // that one dies too (it failed to load: an old browser, a chunk 404 after a deploy), every later
 // request fails at once instead of waiting forever. When a newer ActiveOn build is live (M12 TR-10),
 // that failure is `updated` instead, so the screen asks for a reload rather than blaming the save.
+import { noteTruth, truthDebug } from '../truth/hook';
 import type {
   EngineCall,
   ParseInput,
@@ -114,9 +115,10 @@ export function createParserClient(options: ParserClientOptions = {}): ParserCli
     const w = create();
     w.addEventListener('message', (event) => {
       if (worker !== w || !inFlight || event.data.id !== inFlight.request.id) return;
-      const { resolve, timer } = inFlight;
+      const { resolve, timer, request } = inFlight;
       clearTimeout(timer);
       inFlight = null;
+      noteTruth(request, event.data); // M22: a no-op unless the URL has ?debug=truth
       if (event.data.ok) restartsLeft = 1; // a working worker earns its restart back
       resolve(event.data);
       sendNext();
@@ -178,6 +180,7 @@ export function createParserClient(options: ParserClientOptions = {}): ParserCli
         now: call.now ?? Date.now(),
         ...(call.withHistory ? { withHistory: true } : {}),
         ...(call.engine ? { engine: call.engine } : {}),
+        ...(truthDebug() ? { truthDetail: true } : {}),
       };
       return new Promise<ParseResult>((resolve) => enqueue(request, resolve as Resolve));
     },
@@ -190,7 +193,13 @@ export function createParserClient(options: ParserClientOptions = {}): ParserCli
         if (engine) pending.request = { ...pending.request, engine: { ...engine, expectedReturnSeconds } };
         return Promise.resolve({ superseded: true });
       }
-      const request: WorkerRequest = { id: nextId++, type: 'rerun', expectedReturnSeconds, now: Date.now() };
+      const request: WorkerRequest = {
+        id: nextId++,
+        type: 'rerun',
+        expectedReturnSeconds,
+        now: Date.now(),
+        ...(truthDebug() ? { truthDetail: true } : {}),
+      };
       return new Promise<RerunResult>((resolve) => enqueue(request, resolve as Resolve));
     },
     dispose() {
