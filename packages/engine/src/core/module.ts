@@ -18,6 +18,7 @@ import type {
   PurposeLine,
   SpendPlan,
   Verdict,
+  WalkthroughView,
 } from '../result';
 
 /** One save of M1's history as the engine sees it (M1 `HistoryEntry`), oldest first. */
@@ -58,7 +59,10 @@ export interface EngineInput {
 }
 
 /** Ranking inputs a module attaches to one of its Goals (M2 TR-14 `Rankable`, minus what a Goal has). */
-export type RankHints = Partial<Omit<Rankable, 'entryId' | 'category' | 'stale' | 'contested'>>;
+export type RankHints = Partial<Omit<Rankable, 'entryId' | 'category' | 'stale' | 'contested'>> & {
+  /** Rank as if it were this entry (M14 FR-21: an assignment ranks at its parent Goal's position). */
+  rankAs?: string;
+};
 
 export interface ModuleGoal {
   goal: Goal;
@@ -104,6 +108,8 @@ export interface ModuleOutput {
   /** M5 only. */
   higherLeverageStatus?: EngineResult['higherLeverageStatus'];
   firstFill?: Fill | null;
+  /** M14 FR-23: Walkthroughs to attach to the Goal whose Next Action key is `parentKey`, wherever it ranks. */
+  walkthroughs?: { parentKey: string; view: WalkthroughView }[];
 }
 
 /** An advice module, registered with the core. */
@@ -122,5 +128,10 @@ export interface EngineModule {
    * every character turns Unknown `cannot-tell` (FR-39); otherwise only its own lines drop.
    */
   affectsVerdict: boolean;
-  run(input: EngineInput): ModuleOutput;
+  /**
+   * M14 TR-1: an engine step that reads other modules' results. It runs after every other module, with
+   * the result they assembled as `prior`; its output is merged and ranked with theirs.
+   */
+  after?: boolean;
+  run(input: EngineInput, prior?: EngineResult): ModuleOutput;
 }

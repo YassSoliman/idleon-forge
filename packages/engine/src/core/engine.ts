@@ -47,9 +47,9 @@ interface Ran {
   failure: FailedDetector | null;
 }
 
-function runModule(module: EngineModule, input: EngineInput): Ran {
+function runModule(module: EngineModule, input: EngineInput, prior?: EngineResult): Ran {
   try {
-    return { module, output: module.run(input), failure: null };
+    return { module, output: module.run(input, prior), failure: null };
   } catch (err) {
     return {
       module,
@@ -192,6 +192,20 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
   for (const item of knowledge.coverage(state)) addGap(item);
   for (const { output } of outputs) for (const item of output.notCovered ?? []) addGap(item);
 
+  // M14 FR-23: a Walkthrough rides on its parent Goal's card, once per parent.
+  const views = new Map(
+    outputs.flatMap(({ output }) => (output.walkthroughs ?? []).map((w) => [w.parentKey, w.view] as const)),
+  );
+  if (views.size > 0) {
+    const attach = (goals: EngineResult['account']['goals']) =>
+      goals.map((g) => {
+        const view = views.get(g.nextAction.key);
+        return view ? { ...g, walkthrough: view } : g;
+      });
+    for (const c of characters) c.goals = attach(c.goals);
+    accountGoals.splice(0, accountGoals.length, ...attach(accountGoals));
+  }
+
   return {
     asOf: state.asOf,
     lastPlayedCharacterIndex: lastPlayed,
@@ -234,23 +248,31 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
 /** One engine per worker: it keeps the last input and the Expected-Return-independent output. */
 export function createEngine(modules: readonly EngineModule[] = DEFAULT_MODULES): Engine {
   let last: { input: EngineInput; stable: Ran[] } | null = null;
+  const first = modules.filter((m) => !m.after);
+  const later = modules.filter((m) => m.after);
   const dependent = (input: EngineInput) =>
-    modules.filter((m) => m.dependsOnExpectedReturn).map((m) => runModule(m, input));
-  const ordered = (ran: Ran[]) => modules.map((m) => ran.find((r) => r.module === m) as Ran);
+    first.filter((m) => m.dependsOnExpectedReturn).map((m) => runModule(m, input));
+  const ordered = (ran: Ran[]) => first.map((m) => ran.find((r) => r.module === m) as Ran);
+  // M14 TR-1: engine steps that read the other modules' assembled result run last, on that result.
+  const finish = (input: EngineInput, ran: Ran[]) => {
+    if (later.length === 0) return assemble(input, ran);
+    const prior = assemble(input, ran);
+    return assemble(input, [...ran, ...later.map((m) => runModule(m, input, prior))]);
+  };
   return {
     get ready() {
       return last !== null;
     },
     run(input) {
-      const stable = modules.filter((m) => !m.dependsOnExpectedReturn).map((m) => runModule(m, input));
+      const stable = first.filter((m) => !m.dependsOnExpectedReturn).map((m) => runModule(m, input));
       last = { input, stable };
-      return assemble(input, ordered([...stable, ...dependent(input)]));
+      return finish(input, ordered([...stable, ...dependent(input)]));
     },
     rerun(expectedReturnSeconds) {
       if (!last) throw new Error('The engine has no parsed save to re-run.');
       const input = { ...last.input, options: { ...last.input.options, expectedReturnSeconds } };
       last = { input, stable: last.stable };
-      return assemble(input, ordered([...last.stable, ...dependent(input)]));
+      return finish(input, ordered([...last.stable, ...dependent(input)]));
     },
   };
 }

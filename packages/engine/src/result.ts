@@ -71,6 +71,41 @@ export interface GoalDetail {
   /** Template already filled by the engine. */
   text: string;
 }
+/** One step of a Walkthrough (M14 FR-22), rendered. */
+export interface WalkthroughStepView {
+  order: number;
+  /** Template already filled by the engine; names a character by class and level only. */
+  text: string;
+  /** 'now': its inputs are ready; 'after': it waits on the steps in `after`. */
+  when: 'now' | 'after' | 'blocked';
+  after: number[];
+  /** Who does it; null for "any character". */
+  subject: Subject | null;
+  progress: { held: number; need: number } | null;
+  /** Short reason, e.g. why a job goes first on a character (R-Q9a). */
+  why: string | null;
+  sources: SourceRef[];
+}
+/** One line of a Requirement Tree as an indented list (M14 FR-23). */
+export interface WalkthroughTreeLine {
+  depth: number;
+  text: string;
+  /** true: held or met; false: missing or unmet; null: can't tell. */
+  done: boolean | null;
+}
+/** M14 TR-6 / M10 TR-2: a Goal's Walkthrough, plain data. */
+export interface WalkthroughView {
+  /** The target Acquisition, e.g. quests.acquisition.postboy-pablob1. */
+  targetId: string;
+  /** "Steps 2 of 9 · slowest: Distilled Water". */
+  collapsed: string;
+  steps: WalkthroughStepView[];
+  tree: WalkthroughTreeLine[];
+  /** Active Play and not-yet-reachable Supplies (FR-8, US-5); never steps. */
+  otherWays: string[];
+  /** "may be out of date", "as of its last save: switch to it to claim", "can't tell". */
+  caveats: string[];
+}
 export interface Goal {
   /** Goal entry id. */
   id: string;
@@ -84,6 +119,8 @@ export interface Goal {
   milestone: Milestone | null;
   /** Account Goals only: per-character detail, in the order to act on (#70 A2, A3). */
   details?: GoalDetail[];
+  /** M14 FR-23: the Goal's Walkthrough, attached by the engine core from the walkthrough module. */
+  walkthrough?: WalkthroughView;
 }
 export interface PurposeLine {
   goalId: string;
