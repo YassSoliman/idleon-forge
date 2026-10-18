@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 340ef2ccfa460673b759369dabf8996eb11d8086.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { commaNotation, lavaLog, lavaLog2, notateNumber, tryToParse } from '@utility/helpers';
@@ -103,13 +103,123 @@ const parseBubba = (rawBubba: any, account: any) => {
     // Smoker (upgrade 15) smoking time: banked seconds [0][14] plus pending idle seconds [0][7],
     // which the game folds into [0][14] next time the Bubba window ticks
     smokerUnlocked: totalUpgTypesAvailable > 15,
-    smokerSeconds: (rawBubba?.[0]?.[14] || 0) + (rawBubba?.[0]?.[7] || 0)
+    smokerSeconds: (rawBubba?.[0]?.[14] || 0) + (rawBubba?.[0]?.[7] || 0),
+    ...getBubbaNextSteps(rawBubba, account, totalUpgTypesAvailable)
   };
 }
 
 // The smoked meat tier roll is floor(5 * rand ^ max(0.1, 9 - 10 * t / (7200 + t))).
 // The exponent bottoms out at 0.1 once t / (7200 + t) = 0.89, so waiting longer gains nothing.
 export const SMOKER_MAX_QUALITY_SECONDS = 0.89 * 7200 / 0.11;
+
+// game: ActorEvents_713 refills the daily pets once Bubba[0][13] reaches 3600 seconds
+export const PATS_HOUR_SECONDS = 3600;
+
+// game: Open Gift with Beeg Slice adds 1200 * Bubbastuff("MeatsliceRate") meat slices (20 minutes of production)
+export const BEEG_SLICE_SECONDS = 1200;
+
+// game: ActorEvents_713 levels the selected attribute only while 120 > Bubba[3][selected - 1]
+export const CHARISMA_MAX_LEVEL = 120;
+
+// Upper bound on the banked levels loop, so a corrupt XP value can't hang the parse
+const CHARISMA_LEVELS_BANKED_LIMIT = 10000;
+
+// Bubba upgrades that make every upgrade cheaper: Bargain, Cost Saver and Perma Sale
+const BUBBA_DISCOUNT_UPGRADES = [4, 18, 26];
+
+// What the next pat, Charisma level, Boon level or discount level is worth, all from the game's own functions.
+// Null without a Bubba record.
+const getBubbaNextSteps = (rawBubba: any, account: any, totalUpgTypesAvailable: number) => {
+  if (!Array.isArray(rawBubba)) {
+    return {
+      patsPerHour: null,
+      meatsliceRateBase: null,
+      charismaMaxLevel: null,
+      charismaXpReq: null,
+      charismaXpPerSec: null,
+      charismaLevelsBanked: null,
+      charismaBonus: null,
+      charismaBonusNext: null,
+      boonNextDelta: null,
+      megafleshMultiplier: null,
+      discountNextRatio: null
+    };
+  }
+  const charismaTraits = generalSpelunky?.[36] || [];
+  return {
+    patsPerHour: getDailyPetting(rawBubba),
+    // MeatsliceRate per minute with no happiness: what the save produces once happiness has decayed
+    meatsliceRateBase: 60 * getMeatsliceRate(rawBubba, account, { happiness: 0 }),
+    charismaMaxLevel: CHARISMA_MAX_LEVEL,
+    charismaXpReq: getCharismaTraitREQ(getCharismaTotal(rawBubba)),
+    charismaXpPerSec: getCharismaTraitSPD(rawBubba),
+    charismaLevelsBanked: getCharismaLevelsBanked(rawBubba, totalUpgTypesAvailable),
+    charismaBonus: charismaTraits.map((_: any, index: number) => getCharismaBonus(rawBubba, index)),
+    charismaBonusNext: charismaTraits.map((_: any, index: number) => getCharismaBonus(withRawValue(rawBubba, 3, index, 1), index)),
+    boonNextDelta: getBoonNextDelta(rawBubba, account),
+    megafleshMultiplier: 1 + getBubbaRoGAll(rawBubba) / 100,
+    discountNextRatio: BUBBA_DISCOUNT_UPGRADES.map((upgradeIndex) => getDiscountNextRatio(rawBubba, account, upgradeIndex))
+  };
+};
+
+// A copy of the raw Bubba record with one value raised by `delta`
+const withRawValue = (rawBubba: any, row: number, index: number, delta: number) => rawBubba.map((values: any, rowIndex: number) => {
+  if (rowIndex !== row) return values;
+  const copy = [...(values || [])];
+  copy[index] = (copy[index] || 0) + delta;
+  return copy;
+});
+
+// Sum of all six Charisma attribute levels, Bubba[3][0..5]
+const getCharismaTotal = (rawBubba: any) => {
+  let total = 0;
+  for (let i = 0; i < 6; i++) {
+    total = Math.round(total + (rawBubba?.[3]?.[i] || 0));
+  }
+  return total;
+};
+
+// game: "CharismaTraitREQ" - XP for the next level of any attribute, from the total of all six levels
+const getCharismaTraitREQ = (charismaTotal: number) => {
+  return 20 * (1 + charismaTotal / 20) * Math.pow(1.03, charismaTotal);
+};
+
+// game: "CharismaTraitSPD" - Charisma XP per second (Numbahs is gift 2)
+const getCharismaTraitSPD = (rawBubba: any) => {
+  return (1 + getTotUpgBonus(rawBubba, 6) / 100) * (1 + getGiftPassiveBonus(rawBubba, 2, true) / 100);
+};
+
+// game: ActorEvents_713 first folds the pending seconds Bubba[0][7] * CharismaTraitSPD into the XP Bubba[0][8]
+// (once TotalUpgTypesAvailable > 5), then each tick spends one CharismaTraitREQ on a level. REQ counts every
+// attribute's level, so the total rises by 1 per level. Uncapped: the selected attribute and the max level are
+// not applied, because the player may pick another attribute.
+const getCharismaLevelsBanked = (rawBubba: any, totalUpgTypesAvailable: number) => {
+  const pendingSeconds = totalUpgTypesAvailable > 5 ? rawBubba?.[0]?.[7] || 0 : 0;
+  let xp = (rawBubba?.[0]?.[8] || 0) + pendingSeconds * getCharismaTraitSPD(rawBubba);
+  let charismaTotal = getCharismaTotal(rawBubba);
+  let levels = 0;
+  while (levels < CHARISMA_LEVELS_BANKED_LIMIT && xp >= getCharismaTraitREQ(charismaTotal)) {
+    xp -= getCharismaTraitREQ(charismaTotal);
+    charismaTotal += 1;
+    levels += 1;
+  }
+  return levels;
+};
+
+// The next Bubba Boon level (upgrade 3) adds one stack to bonus (L mod 7) + 1: BubbaRoG_Bonuses at L + 1 minus at L
+const getBoonNextDelta = (rawBubba: any, account: any) => {
+  const boonLevel = rawBubba?.[1]?.[3] || 0;
+  const ringIndex = (boonLevel % 7) + 1;
+  return getBubbaBonuses(withRawValue(rawBubba, 1, 3, 1), account, ringIndex) - getBubbaBonuses(rawBubba, account, ringIndex);
+};
+
+// game: "UpgCost" of upgrade 0 with the discount one level higher, divided by its cost now. Every upgrade's cost
+// shares the same discount factors, so this is the factor every later cost falls by.
+const getDiscountNextRatio = (rawBubba: any, account: any, discountIndex: number) => {
+  const cost = getUpgradeCost(rawBubba, account, 0);
+  if (!(cost > 0)) return null;
+  return getUpgradeCost(withRawValue(rawBubba, 1, discountIndex, 1), account, 0) / cost;
+};
 
 const getProgressReq = (totalUpgTypesAvailable: any) => {
   return 50 * Math.pow(2.8 + totalUpgTypesAvailable / 3.55, totalUpgTypesAvailable - Math.min(1, Math.floor(totalUpgTypesAvailable / 4)));
@@ -186,8 +296,7 @@ const getTotUpgBonus = (rawBubba: any, upgradeIndex: any) => {
 };
 
 // game: "HappinessBonus"
-const getHappinessBonus = (rawBubba: any) => {
-  const happiness = rawBubba?.[0]?.[1] || 0;
+const getHappinessBonus = (rawBubba: any, happiness: number = rawBubba?.[0]?.[1] || 0) => {
   return 1 + (10 * (lavaLog2(happiness) + 25 * lavaLog(happiness) + Math.pow(happiness, 0.75))) / 100;
 };
 
@@ -268,19 +377,22 @@ const getMegafleshOwned = (rawBubba: any, megafleshIndex: any) => {
   return 0;
 };
 
-// game: "BubbaRoG_Bonuses" - Ring of Greed bonuses
-const getBubbaBonuses = (rawBubba: any, account: any, ringIndex: any) => {
-  const rogBonusesData = generalSpelunky?.[33] || [];
-  const companionBonus = isCompanionBonusActive(account, 51) ? account?.companions?.list?.at(51)?.bonus : 0;
-
-  // Calculate Bubba_RoG_all: 20 * sum of MegafleshOwned for indices 1, 3, 6, 9, 11
-  const bubbaRoGAll = 20 * (
+// game: DNSM "Bubba_RoG_all", set inside BubbaRoG_Bonuses: 20 * sum of MegafleshOwned for indices 1, 3, 6, 9, 11
+const getBubbaRoGAll = (rawBubba: any) => {
+  return 20 * (
     getMegafleshOwned(rawBubba, 1) +
     getMegafleshOwned(rawBubba, 3) +
     getMegafleshOwned(rawBubba, 6) +
     getMegafleshOwned(rawBubba, 9) +
     getMegafleshOwned(rawBubba, 11)
   );
+};
+
+// game: "BubbaRoG_Bonuses" - Ring of Greed bonuses
+const getBubbaBonuses = (rawBubba: any, account: any, ringIndex: any) => {
+  const rogBonusesData = generalSpelunky?.[33] || [];
+  const companionBonus = isCompanionBonusActive(account, 51) ? account?.companions?.list?.at(51)?.bonus : 0;
+  const bubbaRoGAll = getBubbaRoGAll(rawBubba);
 
   // Get the Ring of Greed bonus value for this ring index
   const rogBonusValue = parseFloat(rogBonusesData?.[Math.round(ringIndex)] || '0');
@@ -402,15 +514,15 @@ const formatUpgradeDescription = (rawBubba: any, upgradeIndex: any) => {
   return replaceLineBreaks(description);
 };
 
-// game: "MeatsliceRate"
-const getMeatsliceRate = (rawBubba: any, account: any) => {
+// game: "MeatsliceRate". `happiness` replaces the save's Bubba[0][1] in HappinessBonus
+const getMeatsliceRate = (rawBubba: any, account: any, { happiness }: { happiness?: number } = {}) => {
   const baseRate = getTotUpgBonus(rawBubba, 0) + getTotUpgBonus(rawBubba, 7) + getTotUpgBonus(rawBubba, 23);
   const percentageBonus = (getTotUpgBonus(rawBubba, 2)
     + getTotUpgBonus(rawBubba, 11)
     + getTotUpgBonus(rawBubba, 19)
     + getTotUpgBonus(rawBubba, 24) * lavaLog(account?.accountOptions?.[267] || 1)) / 100;
 
-  const happinessBonus = getHappinessBonus(rawBubba);
+  const happinessBonus = getHappinessBonus(rawBubba, happiness);
   const diceMulti = getDiceMulti(rawBubba);
   const smokeMeatMulti = getSmokeMeatMulti(rawBubba);
   const charismaBonus = getCharismaBonus(rawBubba, 0) / 100;

@@ -11,7 +11,7 @@
         "slot": 10
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "340ef2ccfa460673b759369dabf8996eb11d8086",
         "generator": "vault-kills",
         "inputs": [
           "parsers/misc/upgradeVault.ts#getVaultTotalKills",
@@ -83,8 +83,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox: getVaultTotalKills (VaultKillzTOT)",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc/upgradeVault.ts",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/340ef2ccfa460673b759369dabf8996eb11d8086/parsers/misc/upgradeVault.ts",
+          "verified": "2026-10-18"
         }
       ],
       "status": "active",
@@ -110,7 +110,7 @@
         "slot": 2
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "340ef2ccfa460673b759369dabf8996eb11d8086",
         "generator": "vault-kills",
         "inputs": [
           "parsers/misc/upgradeVault.ts#getVaultTotalKills",
@@ -182,8 +182,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox: getVaultTotalKills (VaultKillzTOT)",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc/upgradeVault.ts",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/340ef2ccfa460673b759369dabf8996eb11d8086/parsers/misc/upgradeVault.ts",
+          "verified": "2026-10-18"
         }
       ],
       "status": "active",
@@ -209,7 +209,7 @@
         "slot": 0
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "340ef2ccfa460673b759369dabf8996eb11d8086",
         "generator": "vault-kills",
         "inputs": [
           "parsers/misc/upgradeVault.ts#getVaultTotalKills",
@@ -281,8 +281,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox: getVaultTotalKills (VaultKillzTOT)",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc/upgradeVault.ts",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/340ef2ccfa460673b759369dabf8996eb11d8086/parsers/misc/upgradeVault.ts",
+          "verified": "2026-10-18"
         }
       ],
       "status": "active",
@@ -308,7 +308,7 @@
         "slot": 1
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "340ef2ccfa460673b759369dabf8996eb11d8086",
         "generator": "vault-kills",
         "inputs": [
           "parsers/misc/upgradeVault.ts#getVaultTotalKills",
@@ -380,8 +380,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox: getVaultTotalKills (VaultKillzTOT)",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc/upgradeVault.ts",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/340ef2ccfa460673b759369dabf8996eb11d8086/parsers/misc/upgradeVault.ts",
+          "verified": "2026-10-18"
         }
       ],
       "status": "active",
@@ -407,7 +407,7 @@
         "slot": 3
       },
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "340ef2ccfa460673b759369dabf8996eb11d8086",
         "generator": "vault-kills",
         "inputs": [
           "parsers/misc/upgradeVault.ts#getVaultTotalKills",
@@ -479,8 +479,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox: getVaultTotalKills (VaultKillzTOT)",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/misc/upgradeVault.ts",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/340ef2ccfa460673b759369dabf8996eb11d8086/parsers/misc/upgradeVault.ts",
+          "verified": "2026-10-18"
         }
       ],
       "status": "active",

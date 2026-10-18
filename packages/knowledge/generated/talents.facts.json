@@ -2,7 +2,7 @@
   "facts": [
     {
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "340ef2ccfa460673b759369dabf8996eb11d8086",
         "generator": "talents",
         "inputs": [
           "website-data/talents.json",
@@ -38,8 +38,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox game data: randomList (book-ineligible talents)",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/randomList.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/340ef2ccfa460673b759369dabf8996eb11d8086/data/website-data/randomList.json",
+          "verified": "2026-10-18"
         }
       ],
       "system": "talents",
@@ -47,7 +47,7 @@
     },
     {
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "340ef2ccfa460673b759369dabf8996eb11d8086",
         "generator": "talents",
         "inputs": [
           "website-data/talents.json",
@@ -74,8 +74,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox game data: talents",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/340ef2ccfa460673b759369dabf8996eb11d8086/data/website-data/talents.json",
+          "verified": "2026-10-18"
         }
       ],
       "system": "talents",
@@ -83,7 +83,7 @@
     },
     {
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "340ef2ccfa460673b759369dabf8996eb11d8086",
         "generator": "talents",
         "inputs": [
           "website-data/talents.json",
@@ -553,8 +553,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox game data: talents",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/340ef2ccfa460673b759369dabf8996eb11d8086/data/website-data/talents.json",
+          "verified": "2026-10-18"
         }
       ],
       "system": "talents",
@@ -562,7 +562,7 @@
     },
     {
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "340ef2ccfa460673b759369dabf8996eb11d8086",
         "generator": "talents",
         "inputs": [
           "website-data/talents.json",
@@ -593,8 +593,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox game data: items",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/items.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/340ef2ccfa460673b759369dabf8996eb11d8086/data/website-data/items.json",
+          "verified": "2026-10-18"
         }
       ],
       "system": "talents",
@@ -602,7 +602,7 @@
     },
     {
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "340ef2ccfa460673b759369dabf8996eb11d8086",
         "generator": "talents",
         "inputs": [
           "website-data/talents.json",
@@ -654,8 +654,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox game data: quests and gem shop",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/quests.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/340ef2ccfa460673b759369dabf8996eb11d8086/data/website-data/quests.json",
+          "verified": "2026-10-18"
         }
       ],
       "system": "talents",
@@ -663,7 +663,7 @@
     },
     {
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "340ef2ccfa460673b759369dabf8996eb11d8086",
         "generator": "talents",
         "inputs": [
           "website-data/talents.json",
@@ -687,8 +687,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox game data: talents",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/340ef2ccfa460673b759369dabf8996eb11d8086/data/website-data/talents.json",
+          "verified": "2026-10-18"
         }
       ],
       "system": "talents",
@@ -696,7 +696,7 @@
     },
     {
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "340ef2ccfa460673b759369dabf8996eb11d8086",
         "generator": "talents",
         "inputs": [
           "website-data/talents.json",
@@ -10590,8 +10590,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox game data: talents",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/340ef2ccfa460673b759369dabf8996eb11d8086/data/website-data/talents.json",
+          "verified": "2026-10-18"
         }
       ],
       "system": "talents",
