@@ -1,4 +1,4 @@
-# golden v1: multikill-pin · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: multikill-pin · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 925
 
 ## Verdict changes
 
@@ -39,11 +39,12 @@
 11 · Cooking · Outer World Town · [Anvil full · collect] [Worship full · spend] · Not covered yet: Cooking
 
 ### Account · nothing to fix
-[checklist] Today 0/11 · Week 0/4 · daily reset in 15h 12m
+[checklist] Today 0/12 · Week 0/4 · daily reset in 15h 12m
   ○ To do: Pet Mart free gems · resets with the server day
   ○ To do: Pet Tournament registration · resets with the server day
   ○ To do: Skill minigame plays · 21 plays left · resets in 15h 12m
   ○ To do: Spiketrap gems · resets in 15h 12m
+  ○ To do: Liquid Shop: One Measly Gem · 5 Water, and A Pair of Gems · resets in 15h 12m
   ○ To do: Post Office orders · 6 companies without an order today · resets in 15h 12m
   ○ To do: Daily tasks · W1: Cant stop my Chop A · W2: Lift with your Back! · W3: But they're so Cute! · resets in 15h 12m
   ○ To do: Guild daily tasks · resets in 15h 12m
@@ -63,7 +64,7 @@
 - Grow · Constellation A-10: Echoing Egress, reach the star on a Mage-line character: On your Bubonic Conjuror Lv 1268: click the star at Echoing Egress (W1) [IdleOn Wiki: Star Signs (constellation requirements and points; Time Candy counts for AFK ones) · Calculated by IdleOn Toolbox · 2.3.540]
   Walkthrough: A-10: 0 of 1 characters · about 3m
     1. On your Bubonic Conjuror Lv 1268: click the star at Echoing Egress (W1)
-show more (10)
+show more (12)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -76,7 +77,6 @@ Forge
 Quests
 Statues
 The Owl
-Alchemy Pay 2 Win
 Islands
 Atom Collider
 Equinox
@@ -118,10 +118,10 @@ W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Nothing to fix · Nothing to fix
 W1 · Poppy · Nothing to fix · Nothing to fix · 1 to do
-W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix
+W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy bubbles · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy vials · Nothing to fix · Nothing to fix
-W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet
+W2 · Alchemy Pay 2 Win · Nothing to fix · Nothing to fix · 1 to do
 W2 · Arcade · Nothing to fix · Nothing to fix
 W2 · Islands · Not covered yet · Not covered yet
 W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
@@ -204,6 +204,19 @@ Account · Arcade
 - Arcade balls full · later · in 2d 0h · 18:20 · after · info · fix none
 Account · Refinery
 - salt fuel runs out · now · before · next-action · fix none
+
+## Alchemy
+band w3-late · pick Bubble Plan met for your Stage
+- Power: Plan met · about 4 new bubbles
+- Quicc: Plan met · about 5 new bubbles
+- High-IQ: Plan met · about 6 new bubbles
+- Kazam: Plan met · about 5 new bubbles
+vial: none
+rolls: none
+attempts: 18 of 18 left
+tubes: Water 488062 of 488062; Liquid Nitrogen 488882 of 488882; Trench Seawater 478256 of 478256; Toxic Mercury 472542 of 472542
+p2w next: Player Speed 152 of 154
+step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 
 ## Findings
 | entry | detector | subject | result | slots |

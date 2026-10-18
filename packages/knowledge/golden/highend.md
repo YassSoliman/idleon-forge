@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: highend · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 925
 
 ## Verdict changes
 
@@ -39,7 +39,7 @@
 11 · Spelunking Buried Church · Middle of Nowhere · [Anvil full · collect] [Worship full · spend] [Traps idle in about 3h] · Not covered yet: Spelunking
 
 ### Account · nothing to fix
-[checklist] Today 5/11 · Week 3/4 · daily reset in 23m
+[checklist] Today 6/12 · Week 3/4 · daily reset in 23m
   ○ To do: Free pet pull
   ○ To do: Pet Tournament registration · resets with the server day
   ○ To do: Skill minigame plays · 20 plays left · resets in 23m · lost before you are back
@@ -49,6 +49,7 @@
   ⊘ Can't: Vial attempts · no vial ingredient held · resets in 23m
   ✓ Done: Pet Mart free gems · resets with the server day
   ✓ Done: Random Event · resets in 23m
+  ✓ Done: Liquid Shop: C1 Measly Gem · 5 Water, and A Pair of Gems · resets in 23m
   ✓ Done: Daily tasks · W1: Baboon Yoda ✓ · W2: Fishin for Fishies B ✓ · W3: Cogs, Crocs, Clocks! ✓ · resets in 23m
   ✓ Done: Boss keys · resets in 23m
   ✓ Done: Colosseum tickets · resets in 23m
@@ -72,7 +73,7 @@
   · Arcane Cultist Lv 1743: 0 into Speed, 60 into Capacity
   · Wind Walker Lv 1742: 861 into Speed, 62 into Capacity
   · Beginner Lv 1717: 0 into Speed, 11 into Capacity
-show more (10)
+show more (11)
 If you have time
 - Use today's 20 minigame plays · about 10m of hands-on play
 
@@ -82,7 +83,6 @@ Forge
 Quests
 Statues
 The Owl
-Alchemy Pay 2 Win
 Islands
 Atom Collider
 Equinox
@@ -124,10 +124,10 @@ W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Nothing to fix · Nothing to fix
 W1 · Poppy · Nothing to fix · Nothing to fix · 1 to do
-W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix
+W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy bubbles · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy vials · Nothing to fix · Nothing to fix
-W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet
+W2 · Alchemy Pay 2 Win · Nothing to fix · Nothing to fix
 W2 · Arcade · Nothing to fix · Nothing to fix
 W2 · Islands · Not covered yet · Not covered yet
 W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
@@ -213,6 +213,19 @@ Account · Arcade
 - Arcade balls full · later · in 2d 7h · 04:26 · after · info · fix none
 Account · Refinery
 - salt fuel runs out · now · before · next-action · fix none
+
+## Alchemy
+band w3-late · pick Bubble Plan met for your Stage
+- Power: Plan met · about 2 new bubbles
+- Quicc: Plan met · about 0 new bubbles
+- High-IQ: Plan met · about 0 new bubbles
+- Kazam: Plan met · about 3 new bubbles
+vial: none
+rolls: none
+attempts: 18 of 18 left
+tubes: Water 554473 of 570138; Liquid Nitrogen 571606 of 571606; Trench Seawater 243915 of 443306; Toxic Mercury 36711 of 465024
+p2w next: none
+step: Spend banked brew in 2 cauldrons: about 5 new bubbles
 
 ## Findings
 | entry | detector | subject | result | slots |

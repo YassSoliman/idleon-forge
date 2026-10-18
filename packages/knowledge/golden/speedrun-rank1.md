@@ -1,4 +1,4 @@
-# golden v1: speedrun-rank1 · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: speedrun-rank1 · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 925
 
 ## Verdict changes
 
@@ -39,13 +39,13 @@
 11 · Catching Litterbug · Plastic Basin · [Anvil full · collect] · What is this character for?
 
 ### Account · nothing to fix
-[checklist] Today 4/11 · Week 2/4 · daily reset in 23h 05m
+[checklist] Today 4/12 · Week 2/4 · daily reset in 23h 05m
 - Spend · Claim the free pet pull: Claim your free pet pull at Doggy [IdleOn Wiki: Pets · Calculated by IdleOn Toolbox · 2.3.540]
 - Grow · Switch on a Refinery salt: Switch on Propagated Salt in the Refinery [IdleOn Wiki: Construction, Refinery · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (10)
+show more (11)
 If you have time
 - Run Killroy's Archer room on your Wind Walker Lv 1775 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Wind Walker Lv 1775 (YumYum Grotto) · about 2m of hands-on play
@@ -57,7 +57,6 @@ Forge
 Quests
 Statues
 The Owl
-Alchemy Pay 2 Win
 Islands
 Atom Collider
 Equinox
@@ -99,10 +98,10 @@ W1 · Quests · Not covered yet · Not covered yet
 W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Nothing to fix · Nothing to fix
 W1 · Poppy · Nothing to fix · Nothing to fix · 1 to do
-W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix
+W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy bubbles · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy vials · Nothing to fix · Nothing to fix
-W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet
+W2 · Alchemy Pay 2 Win · Nothing to fix · Nothing to fix
 W2 · Arcade · Nothing to fix · Nothing to fix
 W2 · Islands · Not covered yet · Not covered yet
 W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
@@ -193,6 +192,19 @@ Account · Arcade
 - Arcade balls full · in 10h 34m · 06:33 · after · info · fix none
 Account · Refinery
 - salt fuel runs out · in 1m · 19:59 · before · next-action · fix none
+
+## Alchemy
+band w3-late · pick Bubble Plan met for your Stage
+- Power: Plan met · about 1 new bubble
+- Quicc: Plan met · about 2 new bubbles
+- High-IQ: Plan met · about 0 new bubbles
+- Kazam: Plan met · about 0 new bubbles
+vial: none
+rolls: none
+attempts: 18 of 18 left
+tubes: Water 5602903 of 5602904; Liquid Nitrogen 5574013 of 5574014; Trench Seawater 5340552 of 5340552; Toxic Mercury 2648738 of 5172766
+p2w next: none
+step: Spend banked brew in 1 cauldrons: about 2 new bubbles
 
 ## Findings
 | entry | detector | subject | result | slots |

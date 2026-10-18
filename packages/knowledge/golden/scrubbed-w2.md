@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 896
+# golden v1: scrubbed-w2 · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 925
 
 ## Verdict changes
 
@@ -6,32 +6,33 @@
 1 of 5 Ready · fix 1 before you leave · 3 Unknown · fix 1 in Account
 
 ### C1 · Barbarian 60 · Fix before you leave
-1 · Fighting Poop · Poopy Sewers · [Anvil full · collect] · Equip Meat Pie before you leave · Spend here: 9 buys, about 180M coins → Spend Plan
+1 · Fighting Poop · Poopy Sewers · [Anvil full · collect] · Equip Meat Pie before you leave · Spend here: 8 buys, about 179M coins → Spend Plan
 purpose: Poop kills ~3,003 → 10k for Dirty Money · about 5h · consider stopping here
 
+### C3 · Shaman 44 · Unknown
+2 · Fighting Slime · Jungle Perimeter · Can't tell from the save · Spend here: 2 buys, about 604k coins → Spend Plan
+
 ### C5 · Wizard 56 · Unknown
-2 · Fighting Snelbie · Djonnuttown · Can't tell from the save
+3 · Fighting Snelbie · Djonnuttown · Can't tell from the save · Spend here: 1 buy, about 206k coins → Spend Plan
 
 ### C4 · Bowman 54 · Unknown
-3 · Fighting Green Mushroom · Spore Meadows · Can't tell from the save
-
-### C3 · Shaman 44 · Unknown
-4 · Fighting Slime · Jungle Perimeter · Can't tell from the save
+4 · Fighting Green Mushroom · Spore Meadows · Can't tell from the save
 
 ### C2 · Squire 43 · Ready
-5 · Mining Copper · Tunnels Entrance · Equip Wyoming blood in a big-bubble slot
+5 · Mining Copper · Tunnels Entrance · Equip Wyoming blood in a big-bubble slot · Spend here: 3 buys, about 124k coins → Spend Plan
 purpose: Mining 20 → 25 opens The Ol' Straightaway
 
 ### Account · fix 1 before you leave
 Fix before you leave
 - Fix · Arcade balls stop building: Claim Arcade balls before you leave (time to the claim cap: now) [IdleOn Wiki: Arcade · Calculated by IdleOn Toolbox · 2.3.540]
-[checklist] Today 0/10 · Week 0/3 · daily reset in 23h 42m
+[checklist] Today 0/11 · Week 0/3 · daily reset in 23h 42m
   ○ To do: Free pet pull
   ○ To do: Pet Mart free gems · resets with the server day
   ○ To do: Pet Tournament registration · resets with the server day
   ○ To do: Skill minigame plays · 5 plays left · resets in 23h 42m
   ○ To do: Spiketrap gems · resets in 23h 42m
   ○ To do: Vial attempts · 11 of 11 left · resets in 23h 42m
+  ○ To do: Liquid Shop: One Measly Gem · 5 Water · resets in 23h 42m
   ○ To do: Daily tasks · W1: Cant stop my Chop C · resets in 23h 42m
   ◷ Waiting: Random Event · Next: Angry Frogs on The Base Of The Bark · resets in 23h 42m
   ○ To do: Boss keys · Forest Villa: 1 day banked · resets in 23h 42m
@@ -44,8 +45,8 @@ Fix before you leave
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (19)
-Spend coins: 9 buys now on 1 character
+show more (21)
+Spend coins: 14 buys now on 4 characters
   1. Raise and level 2 capped stamps on Barbarian Lv 60: about 1.3M coins · buy · total 1.3M coins on C1
      Hatchet Stamp, Shield Stamp · carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free up inventory space first
   2. Level Bullseye Stamp 0→5 on Barbarian Lv 60: 98k coins · Lv 0 → 5 · buy · total 1.4M coins on C1
@@ -55,7 +56,7 @@ Spend coins: 9 buys now on 1 character
      Sleepy Time, Drops for Days
   5. Turn the Kachow statue Gold · Lv 0 → 1 · cost not checked
      totals below assume you skip the unchecked items
-  show more (7)
+  show more (14)
 If you have time
 - XxX Cattleprod XxX 1 on Barbarian 60: kill 15 Mafiosos before they respawn → Lil' Mining Baggy Stamp and Catch Net Stamp · about 5m of hands-on play
 - Wellington 1 on Barbarian 60: find the 3 hidden invisible platforms → Arcane Stamp and Brainstew Stamps · about 15m of hands-on play
@@ -68,7 +69,6 @@ Forge
 Quests
 Statues
 The Owl
-Alchemy Pay 2 Win
 Islands
 
 ## Systems
@@ -103,9 +103,9 @@ W1 · Boss keys · Nothing to fix · Nothing to fix
 W1 · Colosseum · Wasting · 1 to fix before you leave
 W1 · Poppy · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix · 1 to do
-W2 · Alchemy bubbles · Behind · Behind for your Stage · 2 to do
-W2 · Alchemy vials · Nothing to fix · Nothing to fix · 1 to do
-W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet · in the Spend Plan
+W2 · Alchemy bubbles · Behind · Behind for your Stage · 3 to do
+W2 · Alchemy vials · Nothing to fix · Nothing to fix · 2 to do
+W2 · Alchemy Pay 2 Win · Nothing to fix · Nothing to fix
 W2 · Arcade · Wasting · 1 to fix before you leave
 W2 · Islands · Not covered yet · Not covered yet
 W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
@@ -133,13 +133,13 @@ Axis: now to +12h · Back in 8h 00m · 23:47
 C1 · Barbarian 60
 - dies on its map · now · before · blocker · outlined · fix afk.check.dies-fixable-by-food@c0
 - Anvil full · collect · now · before · pill · fix none
+C3 · Shaman 44
+- anvil full · in 1h 35m · 17:22 · before · info · fix none
 C5 · Wizard 56
 - anvil full · in 5h 47m · 21:34 · before · info · fix none
 - health food runs out · can't tell when · untimed · blocker · fix none
 C4 · Bowman 54
 - anvil full · in 1h 49m · 17:35 · before · info · fix none
-C3 · Shaman 44
-- anvil full · in 1h 35m · 17:22 · before · info · fix none
 C2 · Squire 43
 - anvil full · in 1h 22m · 17:08 · before · info · fix none
 Account · Random Events
@@ -150,6 +150,19 @@ Account · Alchemy cauldrons and liquids
 - Water full · now · before · next-action · fix none
 Account · Arcade
 - Arcade balls full · now · before · blocker · outlined · fix arcade.check.balls-cap@account
+
+## Alchemy
+band w2 · pick Roid Ragin 3 → 12 (at least 9)
+- Power: Next: Roid Ragin 3 → 12 · about 0 new bubbles · lit
+- Quicc: Next: Swift Steppin 1 → 8 · about 4 new bubbles
+- High-IQ: Stable Jenius 1 → 12 · needs Water · about 4 new bubbles
+- Kazam: Nothing to level yet · spend brew · about 3 new bubbles
+vial: Copper Corona 1 → 2
+rolls: Dieter Drink 40+ (Bean Slices), Skinny 0 Cal 60+ (Snake Skin), Jungle Juice 60+ (Jungle Logs)
+attempts: 11 of 11 left
+tubes: Water 32 of 32 · full; Liquid Nitrogen opens at Alchemy 20; Trench Seawater opens at Alchemy 35; Toxic Mercury opens at Alchemy 80
+p2w next: Player Speed 10 of 13
+step: Use your 11 vial attempts on the W2 town cauldron
 
 ## Findings
 | entry | detector | subject | result | slots |

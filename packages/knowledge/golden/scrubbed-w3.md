@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 896
+# golden v1: scrubbed-w3 · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 925
 
 ## Verdict changes
 
@@ -6,20 +6,20 @@
 2 of 6 Ready · fix 2 before you leave · 2 Unknown
 
 ### C3 · Bowman 60 · Fix before you leave
-1 · Fighting Sand Giant · Sands of Time · [Anvil full · collect] [Worship full · spend] · Swap to your fighting preset before you leave · Spend here: 6 buys, about 589M coins → Spend Plan
+1 · Fighting Sand Giant · Sands of Time · [Anvil full · collect] [Worship full · spend] · Swap to your fighting preset before you leave · Spend here: 6 buys, about 659M coins → Spend Plan
 
 ### C5 · Barbarian 56 · Fix before you leave
 2 · Fishing Small Fish · Salty Shores · [Anvil full · collect] [Worship full · spend] · Swap to your skilling preset before you leave
 purpose: Fishing 22 → 30 opens Deepwater Docks
 
 ### C6 · Shaman 54 · Unknown
-3 · Fighting Sand Castle · Shifty Sandbox · [Anvil full · collect] · Can't tell from the save · Spend here: 1 buy, about 700M coins → Spend Plan
+3 · Fighting Sand Castle · Shifty Sandbox · [Anvil full · collect] · Can't tell from the save · Spend here: 1 buy, about 804M coins → Spend Plan
 
 ### C1 · Wizard 73 · Unknown
-4 · Fighting Sir Stache · The Stache Split · [Anvil full · collect] · Can't tell from the save · Spend here: 2 buys, about 1.6B coins → Spend Plan
+4 · Fighting Sir Stache · The Stache Split · [Anvil full · collect] · Can't tell from the save · Spend here: 5 buys, about 2.2B coins → Spend Plan
 
 ### C4 · Squire 85 · Ready
-5 · Fighting Thermister · Thermonuclear Climb · [Anvil full · collect] [Worship full · spend] · Collect 6 boss keys · Spend here: 1 buy, about 2B coins → Spend Plan
+5 · Fighting Thermister · Thermonuclear Climb · [Anvil full · collect] [Worship full · spend] · Collect 6 boss keys · Spend here: 3 buys, about 2.5B coins → Spend Plan
 purpose: Thermister card: first copy (5× drop chance while unowned) · about 2h on average · consider stopping here
 
 ### C2 · Squire 51 · Ready
@@ -27,11 +27,12 @@ purpose: Thermister card: first copy (5× drop chance while unowned) · about 2h
 purpose: Mining 29 → 40 opens Echoing Egress
 
 ### Account · nothing to fix
-[checklist] Today 1/11 · Week 2/5 · daily reset in 4h 05m
+[checklist] Today 1/12 · Week 2/5 · daily reset in 4h 05m
   ○ To do: Pet Mart free gems · resets with the server day
   ○ To do: Pet Tournament registration · resets with the server day
   ○ To do: Skill minigame plays · 4 plays left · resets in 4h 05m · lost before you are back
   ○ To do: Spiketrap gems · resets in 4h 05m · lost before you are back
+  ○ To do: Liquid Shop: One Measly Gem · 5 Water · resets in 4h 05m · lost before you are back
   ○ To do: Daily tasks · W1: ... so I started swingin D · W2: Boppin' Spuds · W3: Critter Collector A · resets in 4h 05m · lost before you are back
   ○ To do: Guild daily tasks · resets in 4h 05m · lost before you are back
   ◷ Waiting: Free pet pull
@@ -49,8 +50,8 @@ purpose: Mining 29 → 40 opens Echoing Egress
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-show more (25)
-Spend coins: 10 buys now on 4 characters
+show more (27)
+Spend coins: 15 buys now on 4 characters
   1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before redeeming tickets: 100M coins · Lv 0 → 1 · buy · total 100M coins on C3
   2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 13k coins · Lv 10 → 20 · buy · total 100M coins on C3
      carry 25 Jungle Logs on Wizard Lv 73
@@ -60,7 +61,7 @@ Spend coins: 10 buys now on 4 characters
      Vault Mastery, Major Discount
   5. Turn the Beholder statue Gold · Lv 0 → 1 · cost not checked
      totals below assume you skip the unchecked items
-  show more (10)
+  show more (15)
 If you have time
 - Use today's 4 minigame plays · about 10m of hands-on play
 - XxX Cattleprod XxX 2 on Squire 85: kill 30 Mafiosos and 18 Sand Castles in time → Mason Jar Stamp and Fishhead Stamp · about 10m of hands-on play
@@ -75,7 +76,6 @@ Forge
 Quests
 Statues
 The Owl
-Alchemy Pay 2 Win
 Islands
 Atom Collider
 Equinox
@@ -115,9 +115,9 @@ W1 · Boss keys · Nothing to fix · Nothing to fix · 1 to do
 W1 · Colosseum · Wasting · 1 to fix before you leave
 W1 · Poppy · Nothing to fix · Nothing to fix · 1 to do
 W2 · Alchemy cauldrons and liquids · Nothing to fix · Nothing to fix
-W2 · Alchemy bubbles · Behind · Behind for your Stage · 3 to do
-W2 · Alchemy vials · Nothing to fix · Nothing to fix
-W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet · in the Spend Plan
+W2 · Alchemy bubbles · Behind · Behind for your Stage · 4 to do
+W2 · Alchemy vials · Nothing to fix · Nothing to fix · 1 to do
+W2 · Alchemy Pay 2 Win · Nothing to fix · Nothing to fix
 W2 · Arcade · Nothing to fix · Nothing to fix
 W2 · Islands · Not covered yet · Not covered yet
 W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
@@ -181,6 +181,19 @@ Account · Killroy's Slaughterhouse
 - Killroy skulls lost · later · in 28h 05m · 20:17 · after · next-action · fix none
 Account · Refinery
 - salt fuel runs out · later · in 40h 23m · 08:35 · after · info · fix none
+
+## Alchemy
+band w3 · pick Roid Ragin 12 → 25 (at least 13)
+- Power: Next: Roid Ragin 12 → 25 · about 1 new bubble · lit
+- Quicc: Next: Swift Steppin 1 → 25 · about 2 new bubbles
+- High-IQ: Next: Stable Jenius 9 → 13 · about 3 new bubbles
+- Kazam: Prowesessary 1 → 15 · needs Water · about 1 new bubble
+vial: Copper Corona 1 → 2
+rolls: none
+attempts: 0 of 17 left
+tubes: Water 93 of 138; Liquid Nitrogen 0.08 of 13 (Talent Point needs 1 Liquid Nitrogen); Trench Seawater opens at Alchemy 35; Toxic Mercury opens at Alchemy 80
+p2w next: Player Speed 19 of 20
+step: Spend banked brew in 4 cauldrons: about 7 new bubbles
 
 ## Findings
 | entry | detector | subject | result | slots |

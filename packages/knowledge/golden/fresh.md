@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #9cb1198d · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 896
+# golden v1: fresh · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 925
 
 ## Verdict changes
 
@@ -16,12 +16,13 @@
 
 ### Account · Unknown
 Unknown: can't tell from the save
-[checklist] Today 0/10 · Week 0/4 · daily reset in 4h 38m
+[checklist] Today 0/11 · Week 0/4 · daily reset in 4h 38m
   ○ To do: Pet Mart free gems · resets with the server day
   ○ To do: Random Event · Random Event now on Jar Bridge (Snake Swarm): one a day · resets in 4h 38m · lost before you are back
   ○ To do: Skill minigame plays · 9 plays left · resets in 4h 38m · lost before you are back
   ○ To do: Spiketrap gems · resets in 4h 38m · lost before you are back
   ○ To do: Vial attempts · 18 of 18 left · resets in 4h 38m · lost before you are back
+  ○ To do: Liquid Shop: C1 Measly Gem · 5 Water, and A Pair of Gems · resets in 4h 38m · lost before you are back
   ○ To do: Post Office orders · 6 companies without an order today · resets in 4h 38m · lost before you are back
   ○ To do: Daily tasks · W1: Escapin' the 'laws · W2: Fishin for Fishies D · W3: LMNOP Up in Here · resets in 4h 38m · lost before you are back
   ○ To do: Guild daily tasks · resets in 4h 38m · lost before you are back
@@ -36,7 +37,7 @@ Unknown: can't tell from the save
 - Extra · Today's Random Event: Random Event now on Jar Bridge (Snake Swarm): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
-show more (11)
+show more (12)
 If you have time
 - Run Killroy's Archer room on your Siege Breaker Lv 478 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Warrior room on your Blood Berserker Lv 534 (YumYum Grotto) · about 2m of hands-on play
@@ -48,7 +49,6 @@ Forge
 Quests
 Statues
 The Owl
-Alchemy Pay 2 Win
 Islands
 Atom Collider
 Equinox
@@ -93,7 +93,7 @@ W1 · Poppy · Nothing to fix · Nothing to fix
 W2 · Alchemy cauldrons and liquids · Can't tell · Can't tell from the save
 W2 · Alchemy bubbles · Can't tell · Can't tell from the save
 W2 · Alchemy vials · Wasting · 1 to fix before you leave
-W2 · Alchemy Pay 2 Win · Not covered yet · Not covered yet
+W2 · Alchemy Pay 2 Win · Nothing to fix · Nothing to fix
 W2 · Arcade · Can't tell · Can't tell from the save
 W2 · Islands · Not covered yet · Not covered yet
 W2 · Killroy's Slaughterhouse · Nothing to fix · Nothing to fix
@@ -141,6 +141,19 @@ Account · Alchemy cauldrons and liquids
 Account · Refinery
 - salt fuel runs out · in 1m · 18:42 · before · next-action · fix none
 Account: Can't tell from the save
+
+## Alchemy
+band w3-late · pick Bubble Plan met for your Stage
+- Power: Plan met · about 2 new bubbles
+- Quicc: Plan met · about 4 new bubbles
+- High-IQ: Plan met · about 0 new bubbles
+- Kazam: Plan met · about 1 new bubble
+vial: none
+rolls: none
+attempts: 18 of 18 left
+tubes: Water 1520 of 1523; Liquid Nitrogen 1541 of 1544; Trench Seawater 1328 of 1331; Toxic Mercury 355 of 357
+p2w next: Toxic Mercury Regen 11 of 100
+step: Use your 18 vial attempts on the W2 town cauldron
 
 ## Findings
 | entry | detector | subject | result | slots |
