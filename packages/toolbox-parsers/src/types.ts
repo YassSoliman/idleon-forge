@@ -200,6 +200,18 @@ export interface ToolboxCalls {
    * `.flatStarTalents`. null without an other preset or a finite result. Throws what Toolbox throws.
    */
   starTotal(character: unknown, account: unknown, preset: 'active' | 'other'): number | null;
+  // ---- Exact talent points (ADR 0010) ----
+  /**
+   * The Toolbox-computed terms of the game's `_customBlock_TotalTalentPoints` for one preset, by term id
+   * (bubble, vial1..4, starSign1, stamp1..5, flurbo, arcade16, shiny1..4, vault1/6/40, companion20,
+   * t44/t119/t299/t494/t34/t45y/t8/t17/t622, and the W6/W7 class terms). null without that preset.
+   * Throws what Toolbox throws.
+   */
+  talentPointTerms(
+    character: unknown,
+    account: unknown,
+    preset: 'active' | 'other',
+  ): Record<string, number> | null;
 }
 
 /** M7 TR-4: one Vault row's Toolbox `cost` at levels L, L+1, ... (`costs[0]` is the parse's `cost`). */

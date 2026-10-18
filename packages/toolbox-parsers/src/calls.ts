@@ -22,6 +22,7 @@ import { itemDisplayName } from './item-names';
 import { killroyWeeks, randomEventSchedule } from './resets';
 import { shopStockAll } from './shop-stock';
 import { stampEvaluations, vaultLadders } from './spend';
+import { presetSubject, talentPointTerms } from './talent-points';
 
 export const toolboxCalls = {
   /** Toolbox damage, hit chance, survivability and kill rates for one character (vendor/parsers/damage.ts). */
@@ -81,26 +82,12 @@ export const toolboxCalls = {
    * the result isn't a finite number. Throws what Toolbox throws; the adapter catches it.
    */
   starTotal: (character: unknown, account: unknown, preset: 'active' | 'other'): number | null => {
-    const c = character as Record<string, unknown> | null;
-    if (!c || typeof c !== 'object') return null;
-    let subject: Record<string, unknown> = c;
-    if (preset === 'other') {
-      const p = c.talentPreset as Record<string, unknown> | undefined;
-      if (!p || !Array.isArray(p.flatStarTalents)) return null;
-      // Toolbox keeps the other preset's `flatTalents` tab-shaped ({ "0": { orderedTalents } }, with
-      // added levels applied); the active one is a flat list, which is what the bonus lookups read.
-      const tabs = p.flatTalents;
-      const flat = Array.isArray(tabs)
-        ? tabs
-        : tabs && typeof tabs === 'object'
-          ? Object.values(tabs as Record<string, { orderedTalents?: unknown[] }>).flatMap((t) =>
-              Array.isArray(t?.orderedTalents) ? t.orderedTalents : [],
-            )
-          : null;
-      if (!flat) return null;
-      subject = { ...c, flatTalents: flat, flatStarTalents: p.flatStarTalents };
-    }
+    const subject = presetSubject(character, preset);
+    if (!subject) return null;
     const n = calcTotalStarTalent([subject], account);
     return typeof n === 'number' && Number.isFinite(n) ? n : null;
   },
+  // Exact talent points (ADR 0010): the Toolbox-computed terms of the game's TotalTalentPoints.
+  /** Per term id, for one preset (`talent-points.ts`); null without that preset. Throws what Toolbox throws. */
+  talentPointTerms,
 };

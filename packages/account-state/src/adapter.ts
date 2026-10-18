@@ -20,6 +20,7 @@ import { readRedesign } from './redesign';
 import { readSlotFields } from './slots';
 import { readSpendInputs } from './spend';
 import { readStarSigns } from './starsigns';
+import { readTalentPoints } from './talent-points';
 import { readResetItems, readTalents } from './talents';
 import {
   type AccountState,
@@ -508,6 +509,20 @@ export function toAccountState(
   const gear = readGear({ account, characters, data, states, withData }, c);
   // ---- M21 Redesign (M21 TR-3); after M9's talents, which it extends ----
   const redesign = readRedesign(
+    {
+      account,
+      characters,
+      data,
+      states,
+      failedSections,
+      calls: options.toolbox?.calls ?? null,
+      withFrozenClock: options.toolbox?.withFrozenClock ?? null,
+      asOf,
+    },
+    c,
+  );
+  // ---- Exact talent points (ADR 0010); after M21's star totals, which it reads ----
+  readTalentPoints(
     {
       account,
       characters,

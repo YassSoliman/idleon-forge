@@ -23,6 +23,7 @@ import {
   STARSIGNS_FIELD_SOURCES,
 } from './starsigns-fields';
 import { TALENT_FIELD_RAW_KEYS, TALENT_FIELD_SECTIONS, TALENT_FIELD_SOURCES } from './talent-fields';
+import { TALENT_POINT_FIELD_RAW_KEYS, TALENT_POINT_FIELD_SOURCES } from './talent-points-fields';
 import type { AccountState } from './types';
 import {
   UNSPENT_FIELD_RAW_KEYS,
@@ -106,6 +107,7 @@ export const FIELD_SOURCES: Record<string, string> = {
   ...ALCHEMY_FIELD_SOURCES,
   ...GEAR_FIELD_SOURCES,
   ...REDESIGN_FIELD_SOURCES,
+  ...TALENT_POINT_FIELD_SOURCES,
 };
 
 /** The raw save keys each field depends on. A missing or unparseable key makes the field Unknown. */
@@ -145,6 +147,7 @@ export const FIELD_RAW_KEYS: Record<string, RawKeySpec[]> = {
   ...ALCHEMY_FIELD_RAW_KEYS,
   ...GEAR_FIELD_RAW_KEYS,
   ...REDESIGN_FIELD_RAW_KEYS,
+  ...TALENT_POINT_FIELD_RAW_KEYS,
 };
 
 /** The account sections `getMaxDamage` reads at the pin (damage.ts, 6c37e3d), for `account.frontier`. */

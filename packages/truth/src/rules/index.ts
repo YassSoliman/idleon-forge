@@ -8,11 +8,13 @@ import { rawMatchesState } from './raw-matches-state';
 import type { Rule } from './rule';
 import { sameFactEverywhere } from './same-fact-everywhere';
 import { starTotalFloor } from './star-total-floor';
+import { talentTotalVsAnswerKey } from './talent-total-vs-answer-key';
 
 export const RULES: readonly Rule[] = [
   rawMatchesState,
   sameFactEverywhere,
   starTotalFloor,
+  talentTotalVsAnswerKey,
   nextNotAtTarget,
   noPointsVsUnspent,
   affordableWithinWallet,

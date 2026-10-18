@@ -491,6 +491,10 @@ export interface BuildNextPoint {
   /** "Put the next 12 points into High Polymer Limbs (to 100)", "then 40 into Veins of the Infernal (to 60 of 120)". */
   text: string;
   points: number;
+  /** The talent's id, so the truth checks can match a line without parsing its text (M22). Set by area C. */
+  talentId?: number;
+  /** The level this line takes the talent to ("(to 100)" -> 100). Set by area C. */
+  to?: number;
 }
 
 export interface BuildPresetView {
