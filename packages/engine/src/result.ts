@@ -692,6 +692,11 @@ export interface SessionFacts {
   medianSessionMs: number | null;
   /** Since M9's baseline save. */
   levelGains: { characterIndex: number; from: number; to: number }[];
+  /**
+   * FR-N3: the grouped-job sentence (a Check entry's authored `groupText`) by entry id, for every entry
+   * whose Next Action shows on 2 or more characters. Optional, so a result from before it still reads.
+   */
+  groupTexts?: Record<string, string>;
 }
 
 /** M21 TR-9: one map node of the Map place (area M). */

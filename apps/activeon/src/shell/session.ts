@@ -10,15 +10,11 @@ import type { AccountState } from '@idleon-forge/account-state';
 import {
   buildAfkStripView,
   buildNowView,
-  buildSessionView,
-  buildSlotsView,
-  buildSystemsView,
   buildTimelineView,
   invariantViolations,
   type NowView,
   nextLocalMidnight,
   PLACE_WORDS,
-  type SessionUi,
   type TimelineFix,
 } from '@idleon-forge/engine/now';
 import type { EngineResult } from '@idleon-forge/engine/result';
@@ -272,29 +268,17 @@ export function useSession(props: ShellProps) {
   const validFocus = route.place === 'character' ? route.index : null;
   const pageTab = route.place === 'character' ? route.tab : NOW_TAB;
   const view = useMemo(() => viewFor(validFocus, visited), [viewFor, validFocus, visited]);
-  const systems = useMemo(
-    () => buildSystemsView(result, nowPrefs, { now, lastCloudSave }),
-    [result, nowPrefs, now, lastCloudSave],
-  );
   // M17 TR-6: the Timeline from the same result and the Roster's frozen order; null without M3.
   const timeline = useMemo(
     () => buildTimelineView(result, nowPrefs, view, { now, lastCloudSave, tzOffsetMinutes: tz(now) }),
     [result, nowPrefs, view, now, lastCloudSave],
   );
 
-  // M21 §9 view slots: one per area builder, each calling that area's own view file (session-view.ts N,
-  // map-view.ts M, slots-view.ts T, timeline-view.ts's AFK strip T). After Phase F an area edits only its
-  // builder, never this file. The pause point takes its UI state from area N's component, so it is a
-  // function of that state; the visited set comes from here.
-  const views = useMemo(
-    () => ({
-      sessionView: (ui: Omit<SessionUi, 'visited'>) =>
-        buildSessionView(view, result, { ...ui, visited: [...visited] }),
-      slotsView: buildSlotsView(result, view),
-      afkStrip: buildAfkStripView(timeline, view),
-    }),
-    [result, view, visited, timeline],
-  );
+  // M21 §9 view slots, one per area builder. Only what the first screen and the nav need is built here
+  // (the AFK strip: Now's strip and the Timeline badge). The session view (area N) and the slots grid
+  // (area T) are built where they are drawn, in lazy chunks, so their builders stay out of the first
+  // load (TR-12; M21 Integration).
+  const views = useMemo(() => ({ afkStrip: buildAfkStripView(timeline, view) }), [view, timeline]);
 
   // ---- moving between places (FR-8, FR-11) ----
   const navigate = useCallback(
@@ -638,7 +622,6 @@ export function useSession(props: ShellProps) {
     result,
     prefs,
     view,
-    systems,
     timeline,
     /** M21 §9: the per-area view slots (see `views` above). */
     views,

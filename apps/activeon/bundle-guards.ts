@@ -48,7 +48,8 @@ export const LAZY_ONLY: readonly RegExp[] = [
   // M21: CharacterShell (the identity strip and tab bar) and its CSS are first-load, rendered by Focus.
   /activeon[\\/]src[\\/]characters[\\/](?!CharacterShell\.tsx$|characters\.css$)/,
   /activeon[\\/]src[\\/]systems[\\/](SystemsHub|SystemPage|SlotPictures)\.tsx$/,
-  /activeon[\\/]src[\\/]timeline[\\/]/,
+  // M21 FR-I1: the compact AFK strip (and its CSS) is on Now, so it is first-load; the Timeline isn't.
+  /activeon[\\/]src[\\/]timeline[\\/](?!AfkStrip\.tsx$|afk-strip\.css$)/,
   /activeon[\\/]src[\\/]gear[\\/]/,
   /activeon[\\/]src[\\/]alchemy[\\/]/,
   // M21 TR-12: only the first-screen motifs (design/art/core.ts) ship in the first load; every other

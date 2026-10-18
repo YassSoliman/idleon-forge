@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// The types of area N's session view (engine `now/session-view.ts`), read off `buildSessionView` so the
-// engine barrel (Phase F's, frozen) needn't list them. Type-only: nothing here reaches the bundle.
-import type { buildSessionView } from '@idleon-forge/engine/now';
+// The types of area N's session view (engine `now/session-view.ts`), read off `buildSessionView` (its
+// own lazy subpath, `@idleon-forge/engine/session-view`), so the engine barrel needn't list them.
+// Type-only: nothing here reaches the bundle.
+import type { buildSessionView } from '@idleon-forge/engine/session-view';
 
 export type NowSessionView = ReturnType<typeof buildSessionView>;
 export type CounterView = NowSessionView['counter'];

@@ -3,11 +3,12 @@
 // The Unassigned tray (M21 FR-T3, the Lab's `time.parallel-slots` runner-up): the Slot grid's text partner.
 // One line per slot kind that has an empty or a full slot, with the characters said once (P7), empty
 // first; the NOW kind first. It only groups `buildSlotsView`'s rows (in the lazy chunk, TR-12).
+
+import type { buildSlotsView } from '@idleon-forge/engine/now';
 import type { SlotKind } from '@idleon-forge/engine/result';
-import type { Session } from '../shell/session';
 import { SLOTS_UI_WORDS as W } from './words';
 
-type Grid = NonNullable<Session['views']['slotsView']>;
+type Grid = NonNullable<ReturnType<typeof buildSlotsView>>;
 
 export interface SlotTrayLine {
   kind: SlotKind;

@@ -13,15 +13,6 @@ import type { EngineInput, EngineModule, ModuleOutput } from '../core/module';
 import type { EngineResult, SessionFacts } from '../result';
 import { sessionFacts } from './facts';
 
-/**
- * What `result.session` carries at run time: `SessionFacts` plus the grouped-job sentences by entry id.
- * `groupTexts` is optional on the read side, so a result from before this module still reads.
- * (Integration folds it into `SessionFacts` in result.ts; until then the view narrows it here.)
- */
-export interface SessionOutput extends SessionFacts {
-  groupTexts: Record<string, string>;
-}
-
 /** The grouped-job sentences for every entry shown on 2 or more characters' Goals. */
 export function groupTextsOf(prior: EngineResult | undefined, input: EngineInput): Record<string, string> {
   const kb = input.knowledge.kb;
@@ -50,7 +41,7 @@ export function createSessionModule(): EngineModule {
     affectsVerdict: false,
     after: true,
     run(input, prior): ModuleOutput {
-      const session: SessionOutput = {
+      const session: SessionFacts = {
         ...sessionFacts(input.state, input.history),
         groupTexts: groupTextsOf(prior, input),
       };

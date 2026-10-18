@@ -4,8 +4,9 @@
 // pick "Slot grid". Characters by five slot columns, each cell a 16 px glyph that is solid (in use), dashed
 // (empty: free value) or grey (not open yet), a column count under each, and one NOW cell from M20's fill
 // order with its step under the grid. The runner-up "Unassigned tray" is its text partner: one line per
-// slot kind with the characters said once. It renders `buildSlotsView` and computes nothing.
-import { SLOTS_WORDS } from '@idleon-forge/engine/now';
+// slot kind with the characters said once. It renders `buildSlotsView` (built here, in the lazy chunk) and computes nothing else.
+import { buildSlotsView, SLOTS_WORDS } from '@idleon-forge/engine/now';
+import { useMemo } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
 import { cx } from '../design/atoms';
 import { type ClassFamily, WhoGlyph } from '../design/who/WhoGlyph';
@@ -14,7 +15,7 @@ import { SLOT_ART } from './art';
 import { slotTray } from './slots-tray';
 import { BOARD_WORDS, SLOTS_UI_WORDS as W } from './words';
 
-type Grid = NonNullable<Session['views']['slotsView']>;
+type Grid = NonNullable<ReturnType<typeof buildSlotsView>>;
 type Cell = Grid['rows'][number]['cells'][number];
 
 const familyOf = (s: Session, index: number): ClassFamily => s.view.families?.[index] ?? 'beginner';
@@ -40,7 +41,8 @@ function SlotCell({ c }: { c: Cell }) {
 }
 
 export function ParallelSlots({ s }: { s: Session }) {
-  const v = s.views.slotsView;
+  // Built here, in the lazy Timeline chunk, so the builder stays out of the first load (TR-12).
+  const v = useMemo(() => buildSlotsView(s.result, s.view), [s.result, s.view]);
   const tray = v ? slotTray(v) : [];
   return (
     <section className="tl-section slots" id="slots" aria-labelledby="slots-h">
