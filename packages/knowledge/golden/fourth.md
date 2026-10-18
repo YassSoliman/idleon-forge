@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #94213751 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 328
+# golden v1: fourth · knowledge #3ba11ec9 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 329
 
 ## Verdict changes
 
@@ -58,7 +58,8 @@ Laboratory
 | alchemy-vials.check.daily-attempts | alchemy-vials/attempts | — | silent |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C1 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C2 | unknown (field-missing) |  |
-| alchemy.check.liquid-cap | alchemy/liquid-cap | account | pass |  |
+| alchemy.check.liquid-cap | alchemy/liquid-cap | — | silent |  |
+| alchemy.check.liquid-cap-line | alchemy/liquid-cap | account | pass |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C1 | unknown (field-missing) |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C2 | unknown (field-missing) |  |
 | anvil.check.fill-time | anvil/fill-time | C1 | unknown (field-missing) |  |

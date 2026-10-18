@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #94213751 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 328
+# golden v1: scrubbed-w3 · knowledge #3ba11ec9 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 329
 
 ## Verdict changes
 
@@ -98,7 +98,8 @@ Shrines
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C4 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C5 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C6 | pass |  |
-| alchemy.check.liquid-cap | alchemy/liquid-cap | account | pass |  |
+| alchemy.check.liquid-cap | alchemy/liquid-cap | — | silent |  |
+| alchemy.check.liquid-cap-line | alchemy/liquid-cap | account | pass |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C1 | fires | fromEmpty=17494310 fullIn=0 product=Thread |
 | anvil.check.caps-before-return | anvil/caps-before-return | C2 | fires | fromEmpty=8965705 fullIn=0 product=Thread |
 | anvil.check.caps-before-return | anvil/caps-before-return | C3 | fires | fromEmpty=29437224 fullIn=0 product=Leather_Hide |

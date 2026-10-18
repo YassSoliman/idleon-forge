@@ -83,6 +83,19 @@ describe('US-1 a fighter that would die', () => {
 });
 
 /** Three earlier 2 h AFK Stretches of `index` with Meat Pie equipped, eating `perHour` (R-FOOD-1). */
+/** Saves an hour apart in which Water rose by `perHour` each hour from 0, below its cap (R-PILL-2). */
+function waterHistory(s: AccountState, perHour: number): HistoryEntry[] {
+  return [3, 2, 1].map((k) => {
+    const afk = s.account.afk;
+    const at = s.asOf - k * HOUR_MS;
+    const liquids = (afk?.liquids ?? []).map((l) =>
+      l.index === 0 ? { ...l, current: (3 - k) * perHour } : l,
+    );
+    const state = afk ? { ...s, account: { ...s.account, afk: { ...afk, liquids } } } : s;
+    return { lastCloudSave: at, receivedAt: at, state };
+  });
+}
+
 function eatingHistory(s: AccountState, index: number, perHour: number): HistoryEntry[] {
   const since = s.characters.find((c) => c.index === index)?.afk?.afkSince ?? s.asOf;
   const at = (k: number): HistoryEntry => {
@@ -257,16 +270,41 @@ describe('US-5 worship charge that is already full', () => {
 });
 
 describe('US-6 account stockpiles that cap', () => {
-  it('W2-late at 8 h: two account blockers, Arcade then Water', () => {
+  it('W2-late at 8 h, no history: the Arcade blocks; Water at cap is an account line, not a blocker (R-PILL-2)', () => {
     const r = evaluate(W2());
     expect(r.account.safety).toBe('unsafe');
-    expect(blockers(r.account.findings).sort()).toEqual([
-      'alchemy.check.liquid-cap',
-      'arcade.check.balls-cap',
-    ]);
-    const water = r.account.findings.find((f) => f.entryId === 'alchemy.check.liquid-cap');
+    expect(blockers(r.account.findings)).toEqual(['arcade.check.balls-cap']);
+    const water = r.account.findings.find((f) => f.entryId === 'alchemy.check.liquid-cap-line');
+    expect(water?.role).toBe('next-action');
     expect(water?.nextAction.text).toBe(
-      "Spend Water (bubbles, vials or the Liquid Shop): it's at cap (32 of 32) and may refill before you're back",
+      "Spend Water (bubbles, vials or the Liquid Shop): it's at cap (32 of 32)",
+    );
+    expect(r.account.findings.map((f) => f.entryId)).not.toContain('alchemy.check.liquid-cap');
+  });
+
+  it('R-PILL-2: Water at cap blocks only when save history shows it refilling slower than the return', () => {
+    const s = W2();
+    // 2 Water an hour: 32 takes 16 h to refill, longer than an 8 h return, so the whole return is lost.
+    const slow = evaluate(s, 8, { history: waterHistory(s, 2) });
+    expect(blockers(slow.account.findings)).toContain('alchemy.check.liquid-cap');
+    expect(slow.account.findings.map((f) => f.entryId)).not.toContain('alchemy.check.liquid-cap-line');
+    expect(slow.account.findings.find((f) => f.entryId === 'alchemy.check.liquid-cap')?.nextAction.text).toBe(
+      "Spend Water (bubbles, vials or the Liquid Shop): it's at cap (32 of 32) and your saves show it takes about 16 h to refill, longer than your return",
+    );
+    // At a 24 h return the same 16 h refill is faster than the return: an account line again.
+    const long = evaluate(s, 24, { history: waterHistory(s, 2) });
+    expect(blockers(long.account.findings)).not.toContain('alchemy.check.liquid-cap');
+    // 10 Water an hour: 3.2 h to refill, faster than 8 h: an account line, never a blocker.
+    const fast = evaluate(s, 8, { history: waterHistory(s, 10) });
+    expect(blockers(fast.account.findings)).not.toContain('alchemy.check.liquid-cap');
+    expect(nextActions(fast.account.findings)).toContain('alchemy.check.liquid-cap-line');
+  });
+
+  it('R-PILL-2: a history where Water sat at cap gives no rate, so it never blocks', () => {
+    const s = W2();
+    const capped = waterHistory(s, 2).map((h) => ({ ...h, state: s }));
+    expect(blockers(evaluate(s, 8, { history: capped }).account.findings)).not.toContain(
+      'alchemy.check.liquid-cap',
     );
   });
 
@@ -426,7 +464,8 @@ describe('US-11 the overall verdict', () => {
     expect(out.characters?.[0]?.verdict?.blockerKeys).toEqual(['afk.check.dies-fixable-by-food@c0']);
     const caps = (out.characters?.[0]?.info ?? []).filter((l) => l.kind === 'cap');
     expect(caps.map((l) => l.label)).toEqual(['Anvil full · collect']);
-    expect(out.account?.blockerKeys).toHaveLength(2);
+    // Arcade only: Water at cap is an account line without history (R-PILL-2).
+    expect(out.account?.blockerKeys).toEqual(['arcade.check.balls-cap@account']);
   });
 });
 

@@ -58,6 +58,7 @@ export const AFK_SAFETY_ENTRIES: readonly string[] = [
   'trapping.check.finishes-early',
   'alchemy.check.cauldron-unassigned',
   'alchemy.check.liquid-cap',
+  'alchemy.check.liquid-cap-line',
   'arcade.check.balls-cap',
   'refinery.check.fuel-runs-out',
 ];

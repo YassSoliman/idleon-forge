@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #94213751 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 328
+# golden v1: latest · knowledge #3ba11ec9 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 329
 
 ## Verdict changes
 
@@ -107,7 +107,8 @@ Laboratory
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C7 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C8 | pass |  |
 | alchemy.check.cauldron-unassigned | alchemy/cauldron-unassigned | C9 | pass |  |
-| alchemy.check.liquid-cap | alchemy/liquid-cap | account | pass |  |
+| alchemy.check.liquid-cap | alchemy/liquid-cap | — | silent |  |
+| alchemy.check.liquid-cap-line | alchemy/liquid-cap | account | pass |  |
 | anvil.check.caps-before-return | anvil/caps-before-return | C1 | fires | fromEmpty=84098 fullIn=0 product=Boring_Brick |
 | anvil.check.caps-before-return | anvil/caps-before-return | C10 | fires | fromEmpty=205400 fullIn=0 product=Chain_Link |
 | anvil.check.caps-before-return | anvil/caps-before-return | C11 | fires | fromEmpty=115685 fullIn=0 product=Thread |
