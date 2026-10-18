@@ -1,4 +1,4 @@
-# golden v1: fresh · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 925
+# golden v1: fresh · knowledge #d27ff3c4 · parser 6c37e3d (game 2.3.540) · now 2026-08-20T18:41:58.956Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -37,7 +37,7 @@ Unknown: can't tell from the save
 - Extra · Today's Random Event: Random Event now on Jar Bridge (Snake Swarm): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Use your vial attempts: Use your 18 vial attempts on the W2 town cauldron [IdleOn Wiki: Alchemy/Vials · Calculated by IdleOn Toolbox · 2.3.540]
-show more (12)
+show more (14)
 If you have time
 - Run Killroy's Archer room on your Siege Breaker Lv 478 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Warrior room on your Blood Berserker Lv 534 (YumYum Grotto) · about 2m of hands-on play
@@ -74,6 +74,7 @@ W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
 W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
+W0 · Gear & Tools · Nothing to fix · Nothing to fix · 1 to do
 W0 · Random Events · Wasting · 1 to fix before you leave
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
@@ -106,6 +107,7 @@ W3 · 3D Printer · Nothing to fix · Nothing to fix
 W3 · Worship · Can't tell · Can't tell from the save
 W3 · Trapping · Can't tell · Can't tell from the save · 1 full · collect
 W3 · Death Note · Nothing to fix · Nothing to fix
+W3 · Armor-set Smithy · Nothing to fix · Nothing to fix · 1 to do
 W3 · Salt Lick · Not covered yet · Not covered yet
 W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
@@ -154,6 +156,31 @@ attempts: 18 of 18 left
 tubes: Water 1520 of 1523; Liquid Nitrogen 1541 of 1544; Trench Seawater 1328 of 1331; Toxic Mercury 355 of 357
 p2w next: Toxic Mercury Regen 11 of 100
 step: Use your 18 vial attempts on the W2 town cauldron
+
+## Gear
+- C1 · Siege Breaker 478 · better gear held · fishing rod 36 levels behind · lit: pendant
+  next: Equip the Chizoars Caustic Scarf from the Blood Berserker Lv 534's bag
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant better one held, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe 12 levels behind, hatchet 4 levels behind, rod 36 levels behind, net ok
+  mining: Gold Pickaxe at Mining 15: you're 15
+  chopping: Iron Hatchet at Choppin 8: you're 11
+  fishing: Void Imperium Rod at Fishing 40: you're 42
+- C2 · Blood Berserker 534 · hatchet 5 levels behind · lit: none
+  helmet ok, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok, shoes ok · a trade, ring2 ok · a trade, pickaxe ok, hatchet 5 levels behind, rod ok · a trade, net empty
+  mining: Void Imperium Pik at Mining 45: you're 41
+  chopping: Dementia Dicer at Choppin 25: you're 25
+- C3 · Beginner 1 · Gear ok · lit: none
+  helmet ok, weapon ok, shirt ok, pendant ok, pants ok, ring1 ok, shoes ok, ring2 ok, pickaxe ok, hatchet ok, rod empty, net empty
+  mining: Copper Pickaxe at Mining 3: you're 1
+- Smithy: Ready to hire in Frostbite Towndra
+  Copper: 1 of 4 parts: craft Copper Helmet
+  Iron: 0 of 4 parts: craft Iron Helmet
+  Amarok: 0 of 4 parts: craft Amarok Helmet
+  Gold: 0 of 6 parts: craft Gold Helmet
+  Platinum: 1 of 6 parts: craft Platinum Helmet
+  Efaunt: 1 of 4 parts: the Efaunts Broken Ankles in storage
+  Dementia: 4 of 7 parts: craft Dementia Shins
+  Void: 5 of 7 parts: craft Void Imperium Helmet
+  Chizoar: 3 of 4 parts: craft Chizoar Helmet
 
 ## Findings
 | entry | detector | subject | result | slots |
@@ -230,6 +257,7 @@ step: Use your 18 vial attempts on the W2 town cauldron
 | systems.yaml#alchemy-vials | worlds/reached | account | reached yes |  |
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
+| systems.yaml#armor-smithy | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |

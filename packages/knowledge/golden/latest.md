@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 925
+# golden v1: latest · knowledge #d27ff3c4 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -47,7 +47,7 @@ Fix before you leave
 - Extra · Today's Random Event: Random Event now on Poopy Sewers (Mega Grumblo): one a day [IdleOn Wiki: Random Events · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (15)
+show more (16)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -85,6 +85,7 @@ W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
 W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
+W0 · Gear & Tools · Nothing to fix · Nothing to fix · 1 to do
 W0 · Random Events · Wasting · 1 to fix before you leave
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
@@ -117,6 +118,7 @@ W3 · 3D Printer · Nothing to fix · Nothing to fix
 W3 · Worship · Nothing to fix · Nothing to fix · 11 full · collect
 W3 · Trapping · Wasting · 8 to fix before you leave
 W3 · Death Note · Nothing to fix · Nothing to fix
+W3 · Armor-set Smithy · Nothing to fix · Nothing to fix
 W3 · Salt Lick · Not covered yet · Not covered yet
 W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
@@ -201,6 +203,54 @@ attempts: 18 of 18 left
 tubes: Water 489157 of 489157; Liquid Nitrogen 490325 of 490325; Trench Seawater 479351 of 479351; Toxic Mercury 474100 of 474101
 p2w next: Player Speed 152 of 154
 step: Spend banked brew in 4 cauldrons: about 19 new bubbles
+
+## Gear
+- C1 · Siege Breaker 1291 · better gear held · fishing rod 36 levels behind · lit: pendant
+  next: Equip the Chizoars Caustic Scarf from the Death Bringer Lv 1292's bag
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant better one held, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe 12 levels behind, hatchet 4 levels behind, rod 36 levels behind, net ok · a trade
+  mining: Gold Pickaxe at Mining 15: you're 15
+  chopping: Iron Hatchet at Choppin 8: you're 11
+  fishing: Void Imperium Rod at Fishing 40: you're 42
+- C2 · Death Bringer 1292 · hatchet 5 levels behind · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok, hatchet 5 levels behind, rod ok · a trade, net empty
+  mining: Void Imperium Pik at Mining 45: you're 41
+  chopping: Dementia Dicer at Choppin 25: you're 25
+- C3 · Elemental Sorcerer 1259 · pickaxe 13 levels behind · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe 13 levels behind, hatchet ok · a trade, rod empty, net empty
+  mining: Gold Pickaxe at Mining 15: you're 24
+- C4 · Divine Knight 1240 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok, rod empty, net empty
+  chopping: Copper Chopper at Choppin 4: you're 2
+- C5 · Arcane Cultist 1231 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C6 · Wind Walker 1280 · hatchet 10 levels behind · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok, hatchet 10 levels behind, rod ok, net ok
+  mining: Platinum Pickaxe at Mining 25: you're 18
+  chopping: Dementia Dicer at Choppin 25: you're 25
+  fishing: Plat Fishing Rod at Fishing 25: you're 15
+  catching: Platinet at Catching 20: you're 19
+- C7 · Voidwalker 1158 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok, hatchet ok, rod ok, net ok
+- C8 · Siege Breaker 1261 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe empty, hatchet empty, rod empty, net ok · a trade
+- C9 · Royal Guardian 1307 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C10 · Bubonic Conjuror 1268 · pickaxe 6 levels behind · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe 6 levels behind, hatchet empty, rod empty, net empty
+  mining: Iron Pickaxe at Mining 8: you're 10
+- C11 · Beginner 1224 · better gear held · lit: pendant
+  next: Equip the Bramble of the Emperor from storage
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant better one held, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe empty, hatchet empty, rod empty, net empty
+- Smithy: Hired
+  Copper: registered
+  Iron: registered
+  Amarok: registered
+  Gold: registered
+  Platinum: registered
+  Efaunt: registered
+  Dementia: registered
+  Void: registered
+  Chizoar: registered
 
 ## Findings
 | entry | detector | subject | result | slots |
@@ -326,6 +376,7 @@ step: Spend banked brew in 4 cauldrons: about 19 new bubbles
 | systems.yaml#alchemy-vials | worlds/reached | account | reached yes |  |
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
+| systems.yaml#armor-smithy | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |

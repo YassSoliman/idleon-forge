@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #ec89411c · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 925
+# golden v1: fourth · knowledge #d27ff3c4 · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 988
 
 ## Verdict changes
 
@@ -54,6 +54,7 @@ W0 · Cards · Nothing to fix · Nothing to fix
 W0 · Obols · Nothing to fix · Nothing to fix · 2 to do
 W0 · Portals and map doors · Nothing to fix · Nothing to fix
 W0 · Skills, doors and tools · Nothing to fix · Nothing to fix
+W0 · Gear & Tools · Nothing to fix · Nothing to fix
 W0 · Random Events · Wasting · 1 to fix before you leave
 W0 · Pet Tournament · Nothing to fix · Nothing to fix
 W0 · Daily tasks · Nothing to fix · Nothing to fix
@@ -86,6 +87,7 @@ W3 · 3D Printer · Nothing to fix · Nothing to fix
 W3 · Worship · Can't tell · Can't tell from the save
 W3 · Trapping · Can't tell · Can't tell from the save
 W3 · Death Note · Nothing to fix · Nothing to fix
+W3 · Armor-set Smithy · Nothing to fix · Nothing to fix
 W3 · Salt Lick · Not covered yet · Not covered yet
 W3 · Prayers · Not covered yet · Not covered yet
 W3 · Shrines · Not covered yet · Not covered yet
@@ -127,6 +129,22 @@ attempts: 18 of 18 left
 tubes: Water 521 of 522; Liquid Nitrogen 314 of 314; Trench Seawater 243 of 244; Toxic Mercury 231 of 232
 p2w next: none
 step: Level Barley Brew 1 → 2 (100 Iron Bar, 3 Water)
+
+## Gear
+- C1 · Voidwalker 476 · Gear ok · lit: none
+  helmet ok · a trade, weapon ok · a trade, shirt ok · a trade, pendant ok · a trade, pants ok · a trade, ring1 ok · a trade, shoes ok · a trade, ring2 ok · a trade, pickaxe ok · a trade, hatchet ok · a trade, rod ok · a trade, net ok · a trade
+- C2 · Beginner 1 · 8 empty · lit: none
+  helmet empty, weapon empty, shirt empty, pendant empty, pants empty, ring1 empty, shoes empty, ring2 empty, pickaxe empty, hatchet empty, rod empty, net empty
+- Smithy: Opens in 30 days, or once 2,000 gems were bought
+  Copper: 0 of 4 parts: craft Copper Helmet
+  Iron: 0 of 4 parts: craft Iron Helmet
+  Amarok: 0 of 4 parts: craft Amarok Helmet
+  Gold: 0 of 6 parts: craft Gold Helmet
+  Platinum: 0 of 6 parts: craft Platinum Helmet
+  Efaunt: 0 of 4 parts: craft Efaunt Helmet
+  Dementia: 0 of 7 parts: craft Dementia Helmet
+  Void: 0 of 7 parts: craft Void Imperium Helmet
+  Chizoar: 1 of 4 parts: craft Chizoar Helmet
 
 ## Findings
 | entry | detector | subject | result | slots |
@@ -198,6 +216,7 @@ step: Level Barley Brew 1 → 2 (100 Iron Bar, 3 Water)
 | systems.yaml#alchemy-vials | worlds/reached | account | reached yes |  |
 | systems.yaml#anvil | worlds/reached | account | reached yes |  |
 | systems.yaml#arcade | worlds/reached | account | reached yes |  |
+| systems.yaml#armor-smithy | worlds/reached | account | reached yes |  |
 | systems.yaml#atom-collider | worlds/reached | account | reached yes |  |
 | systems.yaml#ballot | worlds/reached | account | reached yes |  |
 | systems.yaml#boss-keys | worlds/reached | account | reached yes |  |
