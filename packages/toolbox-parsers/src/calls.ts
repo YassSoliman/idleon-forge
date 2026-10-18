@@ -8,11 +8,12 @@ import { getAfkGain, getDropRate, getPlayerFoodBonus } from '../vendor/parsers/c
 import { getMaxDamage } from '../vendor/parsers/damage';
 import { getMaxClaimTime } from '../vendor/parsers/dungeons';
 import { getSkillEfficiency } from '../vendor/parsers/efficiency';
-import { getItemCapacity } from '../vendor/parsers/misc';
+import { getBookLvRange, getItemCapacity } from '../vendor/parsers/misc';
 import { getPlayerAnvil, getTimeTillCap } from '../vendor/parsers/world-1/anvil';
+import { getBuildCost } from '../vendor/parsers/world-3/construction';
 import { getPrayerBonusAndCurse } from '../vendor/parsers/world-3/prayers';
 import { getPrinterMulti } from '../vendor/parsers/world-3/printer';
-import { getSaltMatsTimeLeft } from '../vendor/parsers/world-3/refinery';
+import { calcTimeToRankUp, getSaltMatsTimeLeft, getSaltsBalance } from '../vendor/parsers/world-3/refinery';
 import { frontierRates, onMap } from './frontier-rates';
 import { itemDisplayName } from './item-names';
 import { shopStockAll } from './shop-stock';
@@ -51,4 +52,9 @@ export const toolboxCalls = {
   getPrinterMulti,
   /** An item's Toolbox display name ("Forest_Fibres"), or null. */
   itemDisplayName,
+  // M15 Account depth (TR-1): salt safe ranks and bar times, building costs, the book level range.
+  getSaltsBalance,
+  calcTimeToRankUp,
+  getBuildCost,
+  getBookLvRange,
 };

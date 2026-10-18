@@ -45,6 +45,20 @@ export const UNSPENT_SYSTEMS: readonly string[] = [
   'death-note',
 ];
 
+/** M15 F2 (`construction`): M6 runs only this entry of the Construction System; the cog seat is M3's. */
+export const UNSPENT_EXTRA_ENTRIES: readonly string[] = ['construction.check.build-next'];
+
+/** M15 entries that rank at their Stage list position (M2 authors it; FR-13), not at the free-value 3. */
+const LISTED_ENTRIES: ReadonlySet<string> = new Set(['construction.check.build-next']);
+
+/** M15 entries that never fire on an account past W4-entry (`coverage: 'beyond'`, P2). */
+const NOT_BEYOND: ReadonlySet<string> = new Set([
+  'refinery.check.auto-refine-off',
+  'refinery.check.refine-full',
+  'refinery.check.unlock-next',
+  'construction.check.build-next',
+]);
+
 /** M3's entries share Systems with M6 (anvil, refinery) but are M3's alone: M6 never runs them (#70 A5). */
 const M3_ENTRIES: ReadonlySet<string> = new Set([...AFK_SAFETY_ENTRIES, ...AFK_INFO_ENTRIES]);
 
@@ -73,6 +87,16 @@ const sourceRef = (s: SourceT): SourceRef => ({
   ...(s.claimDate ? { claimDate: s.claimDate } : {}),
   gameVersion: s.gameVersion,
 });
+
+/** The entry's `why-<flag>` variant when that slot is 1 (as `textOf` picks `text-<flag>`), else its why. */
+export function whyOf(entry: Pick<CheckEntryT, 'why' | 'values'>, slots: Record<string, unknown>): string {
+  for (const [key, template] of Object.entries(entry.values)) {
+    if (!key.startsWith('why-') || typeof template !== 'string') continue;
+    const flag = key.slice(4).replace(/-([a-z])/g, (_, ch: string) => ch.toUpperCase());
+    if (slots[flag] === 1) return template;
+  }
+  return entry.why;
+}
 
 const subjectKey = (f: CheckFinding): Subject =>
   f.subject.kind === 'account' ? 'account' : `c${f.subject.index}`;
@@ -125,6 +149,11 @@ function goalOf(
       ? { unit: m.unit, current, next, etaSeconds: null, stopHere: false }
       : null;
   const sources = entry.sources.map(sourceRef);
+  // M15: an account-level tip from `values.note`, one detail line under the Goal (P4).
+  const note: GoalDetail[] =
+    typeof entry.values.note === 'string' && subject === 'account'
+      ? [{ subject: 'account', text: render(entry.values.note, ...scope) }]
+      : [];
   const goal: Goal = {
     id: entry.id,
     title: entry.title,
@@ -134,7 +163,7 @@ function goalOf(
       key: `${entry.id}@${subject}`,
       entryId: entry.id,
       text: render(textOf(entry, f.slots), ...scope),
-      why: render(entry.why, ...scope),
+      why: render(whyOf(entry, f.slots), ...scope),
       sources,
       stale: kb.stale?.includes(entry.id) ?? false,
       contested:
@@ -150,17 +179,19 @@ function goalOf(
       provenance: { entryIds: [entry.id], fields: [...(kb.readsOf?.[d.id] ?? d.reads)] },
     },
     milestone,
-    ...(details.length ? { details } : {}),
+    ...(details.length || note ? { details: [...details, ...note] } : {}),
   };
   const byUrgency = entry.priority?.frame === 'by-urgency';
-  const urgency = byUrgency ? (f.urgency ?? 'banked') : null;
+  const listed = LISTED_ENTRIES.has(entry.id);
+  const urgency = byUrgency ? (f.urgency ?? 'banked') : listed ? 'banked' : null;
   return {
     goal,
     rank: {
       urgency,
       deadline: byUrgency ? (f.deadline ?? null) : null,
       // TR-9: by-urgency entries take position 1 while value is being lost, else 3; the rest sit at 3.
-      framePosition: urgency === 'losing-now' || urgency === 'lost-before-return' ? 1 : 3,
+      // M15 FR-13: a listed entry ranks at its Stage list position instead.
+      framePosition: listed ? null : urgency === 'losing-now' || urgency === 'lost-before-return' ? 1 : 3,
       cost: entry.effortSeconds ? { unit: 'hours', amount: entry.effortSeconds / 3600 } : null,
     },
   };
@@ -180,7 +211,10 @@ export interface UnspentModuleDeps {
 export function createUnspentModule(deps: UnspentModuleDeps): EngineModule {
   const { kb, registry } = deps;
   const entries = Object.values(kb.entries)
-    .filter((e): e is CheckEntryT => e.type === 'check' && UNSPENT_SYSTEMS.includes(e.system))
+    .filter(
+      (e): e is CheckEntryT =>
+        e.type === 'check' && (UNSPENT_SYSTEMS.includes(e.system) || UNSPENT_EXTRA_ENTRIES.includes(e.id)),
+    )
     .filter((e) => !M3_ENTRIES.has(e.id))
     .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
   return {
@@ -199,8 +233,19 @@ export function createUnspentModule(deps: UnspentModuleDeps): EngineModule {
       const account: ModuleGoal[] = [];
       const byCharacter = new Map<number, ModuleGoal[]>();
       const accountPlay: ActivePlay[] = [];
+      let beyond: boolean | undefined;
+      const isBeyond = () => {
+        if (beyond === undefined)
+          try {
+            beyond = detectStage(state, lookupOf(kb)).coverage === 'beyond';
+          } catch {
+            beyond = false;
+          }
+        return beyond;
+      };
       for (const entry of entries) {
         if (!appliesAt(entry, stage)) continue;
+        if (NOT_BEYOND.has(entry.id) && isBeyond()) continue;
         const d = findDetector(entry.detector.id, registry);
         if (d?.kind !== 'check') continue;
         const run = runDetector(d, ctx, entry.detector.params);

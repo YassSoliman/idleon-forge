@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #239d94f5 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 329
+# golden v1: latest · knowledge #ba1afb20 · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 335
 
 ## Verdict changes
 
@@ -61,7 +61,6 @@ The Owl
 Alchemy Pay 2 Win
 Islands
 Atom Collider
-Construction
 Equinox
 Prayers
 Salt Lick
@@ -138,6 +137,7 @@ Laboratory
 | arcade.check.balls-cap | arcade/balls-cap | account | fires | capsIn=0 fullFor=662513255 |
 | boss-keys.check.collect | boss-keys/banked | — | silent |  |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | — | silent |  |
+| construction.check.build-next | construction/build-next | account | pass |  |
 | death-note.check.build | death-note/build | — | silent |  |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
@@ -176,9 +176,12 @@ Laboratory
 | post-office.check.spend-boxes | post-office/state | C9 | fires | boxes=456865 |
 | post-office.check.spend-boxes | post-office/state | account | fires | boxes=5290734 count=11 |
 | post-office.check.unlock | post-office/state | — | silent |  |
+| refinery.check.auto-refine-off | refinery/auto-refine | account | pass |  |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | fires | dryIn=398 |
+| refinery.check.refine-full | refinery/full-bar | account | fires | salt=Explosive_Salts salts=3 |
 | refinery.check.salt-fuel | refinery/salt-off | account | fires | material=Magmaspike more=50 offSalts=1 salt=Anionic_Salt |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
+| refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -197,6 +200,7 @@ Laboratory
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
 | systems.yaml#islands | worlds/reached | account | reached yes |  |
 | systems.yaml#lab | worlds/reached | account | reached yes |  |
+| systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
 | systems.yaml#post-office | post-office/unlocked | account | reached yes |  |

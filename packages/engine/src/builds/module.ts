@@ -25,10 +25,27 @@ import type {
   EngineModule,
   ModuleGoal,
 } from '../core/module';
-import type { Category, Goal, NotCoveredItem, SourceRef } from '../result';
+import type { Category, Goal, GoalDetail, NotCoveredItem, SourceRef } from '../result';
 import { type AccountAnalysis, analyzeAccount, wrongPreset } from './analyze';
 import { spent } from './classify';
 import { BUILDS_DETECTORS } from './detectors';
+import { checkoutDetector, readBookDetector } from './library';
+
+/** M15 F4: the Talent Book Library's Account Goals, in this order (read a held book, then check out). */
+export const LIBRARY_ENTRIES: Readonly<Record<string, AnyDetector>> = {
+  'library.check.read-book': readBookDetector,
+  'library.check.checkout': checkoutDetector,
+};
+
+/** The entry's `detail-<flag>` variant when that slot is 1, else its `detail` template. */
+function detailOf(entry: CheckEntryT, slots: Record<string, SlotValue>): string | null {
+  for (const [key, template] of Object.entries(entry.values)) {
+    if (!key.startsWith('detail-') || typeof template !== 'string') continue;
+    const flag = key.slice(7).replace(/-([a-z])/g, (_, ch: string) => ch.toUpperCase());
+    if (slots[flag] === 1) return template;
+  }
+  return typeof entry.values.detail === 'string' ? entry.values.detail : null;
+}
 
 type CheckEntryT = Extract<Entry, { type: 'check' }>;
 type Fired = Extract<CheckFinding, { result: 'fires' }>;
@@ -220,6 +237,58 @@ export function createBuildsModule(deps: BuildsModuleDeps): EngineModule {
         );
         return { index: c.index, goals, spendCount: goals.length };
       });
+      // M15 F4: the Library's Account Goals (one each, the rest as details, #70 A5).
+      const account: ModuleGoal[] = [];
+      for (const [id, detector] of Object.entries(LIBRARY_ENTRIES)) {
+        const entry = entryOf(id);
+        if (!entry) continue;
+        const run = runDetector(detector, ctx, entry.detector.params);
+        if (!run.ok) continue;
+        const fired = (run.findings as readonly CheckFinding[]).filter(
+          (f): f is Fired => f.result === 'fires',
+        );
+        const head = fired.find((f) => f.subject.kind === 'account');
+        if (!head) continue;
+        const seen = new Set<number>();
+        const details: GoalDetail[] = fired.flatMap((f) => {
+          if (f.subject.kind !== 'character' || seen.has(f.subject.index)) return [];
+          seen.add(f.subject.index);
+          const template = detailOf(entry, f.slots);
+          return template
+            ? [{ subject: `c${f.subject.index}` as const, text: render(template, f.slots, entry.values) }]
+            : [];
+        });
+        const sources = entry.sources.map(sourceRef);
+        account.push({
+          goal: {
+            id: entry.id,
+            title: entry.title,
+            system: entry.system,
+            category: (entry.category ?? 'spendable') as Category,
+            nextAction: {
+              key: `${entry.id}@account`,
+              entryId: entry.id,
+              text: render(textOf(entry, head.slots), head.slots, entry.values),
+              why: render(entry.why, head.slots, entry.values),
+              sources,
+              stale: stale.has(entry.id),
+              contested: null,
+              confidence: entry.confidence,
+              provenance: {
+                entryIds: [entry.id],
+                fields: [...(kb.readsOf?.[detector.id] ?? detector.reads)],
+              },
+            },
+            milestone: null,
+            ...(details.length ? { details } : {}),
+          },
+          rank: {
+            framePosition: 3,
+            urgency: 'banked',
+            cost: entry.effortSeconds ? { unit: 'hours', amount: entry.effortSeconds / 3600 } : null,
+          },
+        });
+      }
       const notCovered: NotCoveredItem[] = [];
       const add = (k: keyof typeof NOT_COVERED) => {
         const item = NOT_COVERED[k] as NotCoveredItem;
@@ -230,7 +299,7 @@ export function createBuildsModule(deps: BuildsModuleDeps): EngineModule {
         for (const reason of acc.notCovered.values()) add(reason as keyof typeof NOT_COVERED);
         if (acc.eliteTabs.length) add('elite');
       }
-      return { characters, notCovered };
+      return { characters, notCovered, account: { goals: account } };
     },
   };
 }

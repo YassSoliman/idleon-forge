@@ -6,11 +6,15 @@ import { type AnyDetector, defineDetector, withCharacter } from '@idleon-forge/k
 import { detectors as globbed } from '@idleon-forge/knowledge/detectors';
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
+import { compile } from '../src/compile';
 import { discoverDetectors } from '../src/discover';
 import { fixtureById, stateOf } from '../src/fixtures';
 import { covered, declarationProblems, hollow, recording, runHarness } from '../src/harness';
+import { loadSource } from '../src/load';
 
 const regs = await discoverDetectors();
+/** The compiled Knowledge Base, as `kb check` runs the examples: Detectors may read fact tables (ctx.facts, M15). */
+const kb = await compile(loadSource(), { git: null });
 
 describe('the registry', () => {
   it('discovers the same Detectors on disk as the bundler does (import.meta.glob)', () => {
@@ -20,7 +24,7 @@ describe('the registry', () => {
 
 describe.each(Object.keys(regs.knowledge))('Detector %s', (id) => {
   it('passes every declared example (fires, silent, unknown), deterministically and purely', () => {
-    const results = runHarness({ [id]: regs.knowledge[id] as AnyDetector }, { kb: null });
+    const results = runHarness({ [id]: regs.knowledge[id] as AnyDetector }, { kb });
     const failed = results.filter((r) => r.status === 'fail');
     expect(failed).toEqual([]);
     for (const r of results.filter((x) => x.status === 'skipped'))

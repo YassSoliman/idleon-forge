@@ -1,0 +1,37 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M15 F2 Construction "build this next" (docs/specs/M15-account-depth.md FR-7 to FR-13), owned by M6;
+# its order is `construction.fact.build-order` (TR-6, M2's list, construction.facts.yaml). One Account
+# Goal naming one building, with one Next Action per FR-9 step (`text-<form>`; the plain `text` is
+# step 3, pay). A building's level is paid in the Build menu from inventory and the storage chest,
+# never from the Refinery's storage (N.js @8779435, @8740784, game 2.3.540); the amount is the game's
+# (D-1). In a slot and building: no Goal. The Death Note's first level is M6's (FR-12).
+system: construction
+entries:
+  - id: construction.check.build-next
+    system: construction
+    type: check
+    title: Build this next
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 30
+    detector: { id: construction/build-next, params: { parts: [W3-early] } }
+    text: "Upgrade the {building:name} in the Build menu when you have its {salt:name}: you have {held:int} in storage"
+    why: "One building at a time, in the order that pays most now: at the Construction Table in Frostbite Tundra town, on any character. Then: {then1:name} to level {then1Level:int}, then {then2:name} to level {then2Level:int}."
+    values:
+      text-collect: "Collect your {salt:name} from the Refinery's storage into the chest, then check the {building:name} in the Build menu: it upgrades when you have enough"
+      text-pay-timed: "Upgrade the {building:name} in the Build menu when you have its {salt:name}: you have {held:int} in storage; its bar is full in about {fullIn:duration}, refine it then"
+      text-slot-salt-off: "Put the {building:name} in an empty build slot at the Construction Table; it is paid in {salt:name}, which is not running yet"
+      text-slot: "Put the {building:name} in an empty build slot at the Construction Table"
+      text-swap: "Swap the {building:name} into the build slot holding the {holder:name}"
+      why-then-none: "One building at a time, in the order that pays most now: at the Construction Table in Frostbite Tundra town, on any character. It is the last one on this Stage's list."
+      why-then-one: "One building at a time, in the order that pays most now: at the Construction Table in Frostbite Tundra town, on any character. Then: {then1:name} to level {then1Level:int}."
+    doneWhen: { field: "account.construction.buildings[*].level", change: higher }
+    appliesTo: { stages: [W3-early] }
+    confidence: M
+    status: active
+    notes: "Silent past W3-early until W3-mid and W3-late orders have a dated human Source (M15 D-7). No urgency escalation (FR-13): the game resets build progress to 0 when a full bar is claimed (N.js @8779435), but whether time past a full bar is lost is not settled, so it stays banked."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Construction", title: "IdleOn Wiki: Construction (build the 3D Printer first)", tier: 2, claimDate: 2026-10-07, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://gist.github.com/shnaps/161a370ed795e6141e0553eb30ddc8fa", title: "shnaps, IdleOn progression gist (Construction buildings order)", tier: 3, claimDate: 2026-09-18, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-3/construction.ts#L433", title: "Calculated by IdleOn Toolbox (getBuildCost, getTowers)", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }

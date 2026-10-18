@@ -842,6 +842,7 @@ entries:
         - { ref: pets.check.mart-gems, byUrgency: true }
         - refinery.check.salt-off
         - death-note.check.build
+        - { ref: refinery.check.refine-full, byUrgency: true }
 
   - id: metapath.priority.free-value-fills
     system: metapath
@@ -885,6 +886,10 @@ entries:
         - talent-presets.check.incomplete
         - printer.check.sample-blank
         - construction.check.cog-seat-free
+        - refinery.check.auto-refine-off
+        - refinery.check.unlock-next
+        - library.check.checkout
+        - library.check.read-book
         - anvil.check.spend-points
         - post-office.check.spend-boxes
         - merit-shop.check.spend-w1
@@ -1125,6 +1130,8 @@ entries:
       - [metapath.goal.push]
       - [{ include: metapath.priority.free-value-fills }]
       - [metapath.goal.subclass, metapath.goal.world-tutorial-w3, metapath.goal.swap-token]
+      # M15 TR-6: one building at a time, ordered by construction.fact.build-order (replaces the Leverage model's item 5).
+      - [construction.check.build-next]
       - [metapath.goal.next-character, classes.goal.level, skills.goal.door-fishing, skills.goal.door-mining]
 
   - id: metapath.priority.w3-mid

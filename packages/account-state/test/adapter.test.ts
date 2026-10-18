@@ -164,6 +164,10 @@ describe('toAccountState', () => {
       resetItems: { potions: 0, fragments: 0 },
       // M7 TR-2: null without the worker's Toolbox functions.
       spend: null,
+      // M15 TR-2: null without the worker's Toolbox functions.
+      refinery: null,
+      construction: null,
+      library: null,
     });
     expect(state.characters.map(withoutUnspentCharacter)).toEqual([
       {

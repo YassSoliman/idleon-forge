@@ -227,6 +227,12 @@ systems:
     scope: account
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w3-systems/docs/research/systems/w3-systems/construction.md
     unlocked: { id: worlds/reached, params: { world: 3 } }
+  - id: library
+    name: Talent Book Library
+    world: 3
+    scope: account
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M15-account-depth.md
+    unlocked: { id: worlds/reached, params: { world: 3 } }
   - id: printer
     name: 3D Printer
     world: 3

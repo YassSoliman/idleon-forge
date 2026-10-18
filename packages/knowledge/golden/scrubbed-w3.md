@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #239d94f5 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 329
+# golden v1: scrubbed-w3 · knowledge #ba1afb20 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 335
 
 ## Verdict changes
 
@@ -29,7 +29,7 @@
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-show more (14)
+show more (18)
 Spend coins: 10 buys now on 4 characters
   1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before you redeem Colosseum tickets: 1 dementia · Lv 0 → 1 · 100M coins · C3 (Bowman lv60) · buy · total 100M on C3
   2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 1 gold 26 silver (carry 25 Jungle Logs on Wizard Lv 73) · Lv 10 → 20 · 13k coins · C3 (Bowman lv60) · buy · total 100M on C3
@@ -57,7 +57,6 @@ The Owl
 Alchemy Pay 2 Win
 Islands
 Atom Collider
-Construction
 Equinox
 Prayers
 Salt Lick
@@ -114,6 +113,7 @@ Shrines
 | arcade.check.balls-cap | arcade/balls-cap | account | pass |  |
 | boss-keys.check.collect | boss-keys/banked | C4 | fires | chizoar=0 daysLost=0 efaunt=2 forestVilla=4 total=6 |
 | colosseum.check.collect-tickets | colosseum/tickets-banked | account | fires | cappedNpcs=1 daysLost=2 total=4 |
+| construction.check.build-next | construction/build-next | account | fires | building=3D_Printer collect=1 salt=Redox_Salts then1=Salt_Lick then1Level=1 then2=Talent_Book_Library then2Level=2 |
 | death-note.check.build | death-note/build | account | fires | cost=10 held=0 |
 | death-note.check.build-slot | death-note/build | — | silent |  |
 | gem-shop.check.printer-buy | gem-shop/unspent | — | silent |  |
@@ -141,9 +141,12 @@ Shrines
 | post-office.check.daily-orders | post-office/state | — | silent |  |
 | post-office.check.spend-boxes | post-office/state | — | silent |  |
 | post-office.check.unlock | post-office/state | C4 | fires | boxes=4 |
+| refinery.check.auto-refine-off | refinery/auto-refine | account | fires | fullIn=45000000 rank=1 salt=Redox_Salts salts=1 |
 | refinery.check.fuel-runs-out | refinery/fuel-runs-out | account | pass |  |
+| refinery.check.refine-full | refinery/full-bar | account | pass |  |
 | refinery.check.salt-fuel | refinery/salt-off | account | fires | material=Bullfrog_Horn more=1 offSalts=1 salt=Explosive_Salts |
 | refinery.check.salt-off | refinery/salt-off | — | silent |  |
+| refinery.check.unlock-next | refinery/unlock-next | — | silent |  |
 | systems.yaml#alchemy | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-bubbles | worlds/reached | account | reached yes |  |
 | systems.yaml#alchemy-p2w | worlds/reached | account | reached yes |  |
@@ -162,6 +165,7 @@ Shrines
 | systems.yaml#forge | worlds/reached | account | reached yes |  |
 | systems.yaml#islands | worlds/reached | account | reached yes |  |
 | systems.yaml#lab | worlds/reached | account | reached no |  |
+| systems.yaml#library | worlds/reached | account | reached yes |  |
 | systems.yaml#owl | worlds/reached | account | reached yes |  |
 | systems.yaml#poppy | worlds/reached | account | reached yes |  |
 | systems.yaml#post-office | post-office/unlocked | account | reached no |  |

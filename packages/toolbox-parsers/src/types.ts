@@ -157,6 +157,25 @@ export interface ToolboxCalls {
   getPrinterMulti(account: unknown, characters: unknown[]): unknown;
   /** An item's display name from Toolbox's game data ("Forest_Fibres"); null when the pin doesn't know it. */
   itemDisplayName(rawName: string): string | null;
+  // ---- M15 Account depth (TR-1): Refinery set-up, build this next, the Talent Book Library ----
+  /** Per salt, in Refinery order: `saltMaxSafeRank` (the predecessor limit) and the printer-capped `maxSafeRank`. */
+  getSaltsBalance(account: unknown, characters: unknown[]): unknown;
+  /** `{ timeLeft, totalTime, ready }`: epoch ms when the salt's bar is full (call inside withFrozenClock). */
+  calcTimeToRankUp(
+    account: unknown,
+    characters: unknown[],
+    lastUpdated: number,
+    refineryData: unknown,
+    includeSquireCycles: boolean,
+    rank: number,
+    powerCap: number,
+    refined: number,
+    index: number,
+  ): unknown;
+  /** Build progress a Construction building needs for its next level (game TowerBuildReq). */
+  getBuildCost(towers: unknown, level: number, bonusInc: number, index: number): number;
+  /** `{ minBookLv, maxBookLv }`: the Talent Book Library's book level range. */
+  getBookLvRange(account: unknown): unknown;
 }
 
 /** M7 TR-4: one Vault row's Toolbox `cost` at levels L, L+1, ... (`costs[0]` is the parse's `cost`). */
