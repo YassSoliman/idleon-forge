@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M21 FR-F5 (moved verbatim from now/parts.tsx in Phase F): the Source line every area shows. The old
-// export in now/parts.tsx re-exports this until Integration.
+// M21 FR-F5 (moved verbatim from now/parts.tsx in Phase F): the Source line every area shows.
 import type { SourceView } from '@idleon-forge/engine/now';
 import { useId, useState } from 'react';
 

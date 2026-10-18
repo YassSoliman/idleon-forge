@@ -6,7 +6,7 @@
 // whose `actionKey` is the page's highlight, or one of its Next Actions, is outlined (M17 FR-31). Names
 // are joined here, on the UI thread, from the view. A lazy chunk with the Gear tab.
 import { useState } from 'react';
-import { StateGlyph } from '../design/atoms/StateGlyph';
+import { StateGlyph } from '../design/atoms';
 import type { SystemPageBodyProps } from '../systems/pages';
 import '../systems/gear-pages.css';
 

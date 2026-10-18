@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // M21 FR-F5 (moved verbatim from now/parts.tsx in Phase F): a Next Action's meta row (its Source line
-// and the "sources disagree" badge). The old exports in now/parts.tsx re-export these until Integration.
+// and the "sources disagree" badge).
 import type { NextActionView } from '@idleon-forge/engine/now';
 import { SourceLabel } from './SourceLabel';
 

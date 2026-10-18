@@ -8,7 +8,7 @@ import { act, cleanup, fireEvent, render, screen, within } from '@testing-librar
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CantRead } from '../src/components/CantRead';
-import { SourceLabel } from '../src/design/atoms/SourceLabel';
+import { SourceLabel } from '../src/design/atoms';
 import { Shell as NowScreenWith } from '../src/shell/Shell';
 import { fixture, props, renderNow, saveOf } from './now-helpers';
 

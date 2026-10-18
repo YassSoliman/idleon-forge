@@ -16,8 +16,8 @@ import {
 } from '@idleon-forge/engine/now';
 import { useState } from 'react';
 import { PixelArt } from '../../design/art/PixelArt';
+import { SourceLabel } from '../../design/atoms';
 import { Button, cx } from '../../design/atoms/Button';
-import { SourceLabel } from '../../design/atoms/SourceLabel';
 import { formatRoute } from '../../shell/route';
 import { ChecklistSection } from '../Checklist';
 import { ModalSheet as Sheet } from '../chrome/ModalSheet';

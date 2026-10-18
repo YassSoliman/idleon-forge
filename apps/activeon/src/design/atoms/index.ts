@@ -35,6 +35,8 @@ export {
 export { Meter, type MeterProps, Ring, type RingProps } from './Meter';
 export { Pill, type PillProps, type Urgency, VerdictStamp, type VerdictStampProps } from './Pill';
 export { Sheet, type SheetProps } from './Sheet';
+export { ExternalLink, SourceLabel } from './SourceLabel';
+export { StateGlyph } from './StateGlyph';
 export {
   EmptyState,
   type EmptyStateProps,

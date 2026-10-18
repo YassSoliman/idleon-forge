@@ -7,10 +7,11 @@
 import { FOCUS_WORDS, type FocusCard, type PurposeItemView } from '@idleon-forge/engine/now';
 import { useState } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
+import { SourceLabel } from '../design/atoms';
 import { cx } from '../design/atoms/Button';
 import { Meter } from '../design/atoms/Meter';
 import { ModalSheet as Sheet } from './chrome/ModalSheet';
-import { ReportThis, SourceLabel } from './parts';
+import { ReportThis } from './parts';
 
 const report = (p: PurposeItemView) => (
   <ReportThis

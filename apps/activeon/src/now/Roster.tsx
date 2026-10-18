@@ -27,7 +27,6 @@ import { type CSSProperties, forwardRef, Suspense } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
 import { cx } from '../design/atoms/Button';
 import { VERDICT_GLYPH } from '../design/atoms/glyphs';
-import { LegacyPill } from '../design/atoms/LegacyPill';
 import { Pill, VerdictStamp } from '../design/atoms/Pill';
 import { inSpan } from '../design/format';
 import { WhoGlyph } from '../design/who/WhoGlyph';
@@ -43,9 +42,6 @@ const RosterCards = lazyPart(
   () => import('./roster-parts/RosterCards'),
   (m) => m.RosterCards,
 );
-
-/** Re-exported for older importers until Integration (M21 FR-I3). */
-export { LegacyPill as Pill };
 
 const STAMP_WORD = { ready: 'Ready', fix: 'Fix', unknown: 'Unknown' } as const;
 

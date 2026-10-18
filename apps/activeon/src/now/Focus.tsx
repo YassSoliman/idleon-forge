@@ -21,10 +21,10 @@ import {
 import { type Ref, Suspense, useState } from 'react';
 import { CharacterShell } from '../characters/CharacterShell';
 import { PixelArt } from '../design/art/PixelArt';
+import { SourceLabel } from '../design/atoms';
 import { Button, cx } from '../design/atoms/Button';
 import { GLYPH, VERDICT_GLYPH } from '../design/atoms/glyphs';
 import { VerdictStamp } from '../design/atoms/Pill';
-import { SourceLabel } from '../design/atoms/SourceLabel';
 import { EmptyState } from '../design/atoms/States';
 import { TokenLine } from '../design/atoms/TokenLine';
 import { span } from '../design/format';
