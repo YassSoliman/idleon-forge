@@ -17,6 +17,10 @@ export function same(a: number | string, b: number | string): boolean {
   return Math.abs(a - b) <= Math.max(0.5, 1e-9 * Math.max(Math.abs(a), Math.abs(b)));
 }
 
+/** M9 FR-9's Goal and its wording: "Spend (at least) 345 talent points on your fighting preset". */
+const BEHIND_GOAL = 'talent-presets.check.behind';
+const BEHIND_TEXT = /^Spend (?:at least )?([\d,]+) talent points on your (\w+) preset/;
+
 const normClass = (s: string | null | undefined) => (s ? s.toUpperCase().replace(/[\s-]+/g, '_') : null);
 
 class Table {
@@ -114,6 +118,17 @@ export function factsOf(raw: RawFacts, state: AccountState, result: EngineResult
           const step = bt?.path?.find((x) => x.talentId === id);
           if (step) t.put(k, label, 'build-path', step.current);
         }
+      }
+      // The preset's unspent class-tab points: the Build tab's chip (BuildPresetView.unspent) and the
+      // "points left behind on a preset" Goal must say the same number (owner's live-save run).
+      if (bp) {
+        const uk = `c${rc.index}.p${rp.slot}.unspent`;
+        const ul = `${pw} · unspent talent points`;
+        t.put(uk, ul, 'build', bp.unspent);
+        const behind = cr?.goals.find((g) => g.id === BEHIND_GOAL);
+        const m = behind ? BEHIND_TEXT.exec(behind.nextAction.text) : null;
+        if (m && `${m[2]} preset` === bp.heading.toLowerCase())
+          t.put(uk, ul, 'goal', Number(m[1]?.replace(/,/g, '')));
       }
       const sk = `c${rc.index}.p${rp.slot}.star.spent`;
       t.put(sk, `${pw} · star talents · points spent`, 'raw', rp.star.spent);
