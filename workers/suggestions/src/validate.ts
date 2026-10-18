@@ -27,6 +27,8 @@ const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f
 const VALUE_STRING = /^[a-z0-9_.-]{1,40}$/;
 /** Ids and save field paths: game-data identifiers, never free text. */
 const ID = /^[A-Za-z0-9_.:/[\]-]{1,160}$/;
+/** Save field paths may also be patterns: Detectors declare reads like `characters[*].afkType` (M11 TR-4). */
+const FIELD_PATH = /^[A-Za-z0-9_.:/[\]*-]{1,160}$/;
 const SHORT = /^[A-Za-z0-9_.:+/-]{1,80}$/;
 
 export function codePoints(s: string): number {
@@ -81,9 +83,9 @@ function bool(v: unknown, field: string): boolean {
   return v;
 }
 
-function ids(v: unknown, field: string, max: number): string[] {
+function ids(v: unknown, field: string, max: number, re: RegExp = ID): string[] {
   if (!Array.isArray(v) || v.length > max) throw new Invalid(field);
-  return v.map((x, i) => pattern(x, `${field}.${i}`, ID));
+  return v.map((x, i) => pattern(x, `${field}.${i}`, re));
 }
 
 function report(v: unknown, field: string): ReportContext {
@@ -98,7 +100,7 @@ function report(v: unknown, field: string): ReportContext {
     renderedText: text(r.renderedText, `${field}.renderedText`, 0, 1000),
     entryIds: ids(r.entryIds, `${field}.entryIds`, 50),
     detectorIds: ids(r.detectorIds, `${field}.detectorIds`, 50),
-    fieldPaths: ids(r.fieldPaths, `${field}.fieldPaths`, 100),
+    fieldPaths: ids(r.fieldPaths, `${field}.fieldPaths`, 100, FIELD_PATH),
     stale: bool(r.stale, `${field}.stale`),
     contested: bool(r.contested, `${field}.contested`),
   };
