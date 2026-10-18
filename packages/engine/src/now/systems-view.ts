@@ -333,13 +333,25 @@ export function buildSystemPageView(
     alwaysOpen: summary.unlockBy === 'always',
     coverage: {
       covered: summary.covered,
-      checks: summary.checks.map((c) => ({ title: c.title, state: c.fired ? 'see-above' : 'nothing-to-do' })),
+      checks: coverageChecks(summary.checks),
     },
     tabHome: tabHomeOf(summary.id),
     wiki: summary.wiki ? safeHref(summary.wiki) : null,
     highlight: ui.highlight,
     stageUnknown,
   };
+}
+
+/**
+ * The coverage list, one row per title (R9 QA): two Checks can share a title ("Water at cap" is a line
+ * and, with a slow refill, a blocker); the row says "see above" when either fired.
+ */
+function coverageChecks(
+  checks: readonly { title: string; fired: boolean }[],
+): { title: string; state: 'nothing-to-do' | 'see-above' }[] {
+  const fired = new Map<string, boolean>();
+  for (const c of checks) fired.set(c.title, (fired.get(c.title) ?? false) || c.fired);
+  return [...fired].map(([title, f]) => ({ title, state: f ? 'see-above' : 'nothing-to-do' }));
 }
 
 /** The System a Next Action's "See it" opens (FR-31), or null when it gets none. */

@@ -55,7 +55,7 @@ function Pot({ pot, lit }: { pot: PotView; lit: boolean }) {
           {lit ? <span className="al-now">Level this</span> : null}
           <b>{name}</b>
           <span className="al-pot-next">{potLine(pot)}</span>
-          <span className="small muted">{brewLine(pot)}</span>
+          {brewLine(pot) ? <span className="small muted">{brewLine(pot)}</span> : null}
         </summary>
         <div className="al-sheet">
           <p className="small">
