@@ -158,6 +158,8 @@ export interface ModuleOutput {
    * (the Water line's pick, the vial attempts' roll targets). The owner's text is never rewritten.
    */
   goalNotes?: { key: string; details: GoalDetail[] }[];
+  /** M18 `gear` only (EngineResult.gear). */
+  gear?: EngineResult['gear'];
 }
 
 /** An advice module, registered with the core. */

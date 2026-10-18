@@ -8,6 +8,7 @@
 // unknown, never amounts (FR-4); an unmet anvil tab gate expands into the tab item's own subtree.
 import { type AccountState, isKnown } from '@idleon-forge/account-state';
 import { questStanding as m8QuestStanding, type QuestStanding } from '../collections/routes';
+import type { WalkthroughRoot } from '../result';
 import { type HoldingsPool, holdingsKnown, holdingsOf } from './holdings';
 import {
   human,
@@ -53,8 +54,8 @@ function smithingGate(ctx: ExpandContext, level: number, depth: number): GateNod
   };
 }
 
-function tabGate(ctx: ExpandContext, raw: string, path: string[], depth: number): GateNode {
-  const tab = recipeTabs(ctx.kb)[raw];
+function tabGate(ctx: ExpandContext, raw: string, path: string[], depth: number, given?: number): GateNode {
+  const tab = given ?? recipeTabs(ctx.kb)[raw];
   const owned = isKnown(ctx.state, 'account.anvilTabsOwned')
     ? (ctx.state.account.anvilTabsOwned ?? null)
     : null;
@@ -117,6 +118,63 @@ export function expandItem(
   return { ...base, children };
 }
 
+/**
+ * M18 X3: an inline root (a gear piece from M18's ladder) as a tree: the copies the receivers wear count
+ * as held (M18 FR-15, an exception to FR-6), then the pool; what is missing expands into its materials
+ * (generated Acquisitions), the earlier pieces it consumes (nested roots) and its gates: the recipe
+ * unlock, the anvil tab and the Smithing level.
+ */
+export function expandRoot(
+  ctx: ExpandContext,
+  root: WalkthroughRoot,
+  need: number,
+  path: readonly string[],
+  depth: number,
+): ItemNode {
+  const holdings = holdingsOf(ctx.state, root.rawName);
+  const known = holdingsKnown(ctx.state);
+  const worn = Math.min(need, root.worn);
+  const held = worn + (known ? ctx.pool.take(root.rawName, need - worn) : 0);
+  const missing = Math.max(0, need - held);
+  const craftable = root.materials.length > 0 || root.pieces.length > 0;
+  const base: ItemNode = {
+    kind: 'item',
+    rawName: root.rawName,
+    name: root.name,
+    need,
+    held,
+    missing,
+    holdings,
+    via: craftable ? 'recipe' : 'leaf',
+    children: [],
+    supplies: [],
+    depth,
+    wiki: null,
+    ...(worn > 0 ? { worn } : {}),
+    ...(known ? {} : { unknown: true as const }),
+  };
+  if (!craftable) return { ...base, notCovered: true };
+  if ((missing === 0 && known) || depth >= MAX_DEPTH || path.includes(root.rawName)) return base;
+  const next = [...path, root.rawName];
+  const crafts = known ? missing : need;
+  const children: ReqNode[] = [
+    ...root.materials.map((m) => expandItem(ctx, m.rawName, m.amount * crafts, next, depth + 1, m.ref)),
+    ...root.pieces.map((p) => expandRoot(ctx, p.root, p.amount * crafts, next, depth + 1)),
+  ];
+  if (root.gate)
+    children.push({
+      kind: 'gate',
+      gate: 'recipe',
+      label: root.gate.label,
+      met: root.gate.met,
+      children: [],
+      depth: depth + 1,
+    });
+  if (root.tab !== null) children.push(tabGate(ctx, root.rawName, next, depth + 1, root.tab));
+  if (root.smithingLv) children.push(smithingGate(ctx, root.smithingLv, depth + 1));
+  return { ...base, children };
+}
+
 /** The quest's standing on one character: M8's `questStanding` (M8 FR-4), unknown when the field is. */
 export function questStanding(
   state: AccountState,
@@ -136,7 +194,12 @@ export interface ExpandedTarget {
 }
 
 /** FR-2: a quest's hand-in items (with their gates), or a craftable item's recipe, as a tree. */
-export function expandTarget(ctx: ExpandContext, targetId: string): ExpandedTarget | null {
+export function expandTarget(
+  ctx: ExpandContext,
+  targetId: string,
+  root?: WalkthroughRoot,
+): ExpandedTarget | null {
+  if (root) return { targetId, quest: null, root: expandRoot(ctx, root, root.need, [], 0) };
   const quest = questOf(ctx.kb, targetId);
   if (quest) {
     if (quest.requires.length === 0) return null;

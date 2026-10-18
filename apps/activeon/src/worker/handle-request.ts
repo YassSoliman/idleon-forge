@@ -26,6 +26,7 @@ import { createAlchemyModule } from '@idleon-forge/engine/alchemy';
 import { createBuildsModule } from '@idleon-forge/engine/builds';
 import { createCardsViewModule, createCollectionsModule } from '@idleon-forge/engine/collections';
 import { engineDetectors } from '@idleon-forge/engine/detectors';
+import { createGearModule } from '@idleon-forge/engine/gear';
 import { createMetaPathModule, detectStage, frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
 import {
   classXpActionFor,
@@ -184,6 +185,8 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
     createCollectionsModule({ kb, registry: engineDetectors }),
     createCardsViewModule({ kb, purpose }),
     createSpendModule({ kb, stage: (state) => detectStage(state, facts) }),
+    // M18: before M14's step, which builds its Goals' Walkthroughs.
+    createGearModule({ kb }),
     createWalkthroughModule({ kb }),
     createStarSignsModule({ kb }),
     ...createM20Modules({ kb }),

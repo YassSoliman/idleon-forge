@@ -11,6 +11,7 @@ import type {
   EngineResult,
   SourceRef,
   Subject,
+  WalkthroughRoot,
   WalkthroughStepView,
   WalkthroughTreeLine,
   WalkthroughView,
@@ -54,6 +55,8 @@ export interface WalkthroughParent {
   subject: Subject;
   title: string;
   targetId: string;
+  /** M18 X3: the inline root the Goal carries, when its target is not an Acquisition. */
+  root?: WalkthroughRoot;
 }
 
 export interface PlanInput {
@@ -120,9 +123,10 @@ function otherWays(kb: WalkthroughKnowledge, supplies: SupplyEval[], world: numb
 function treeLines(node: ReqNode, out: WalkthroughTreeLine[] = []): WalkthroughTreeLine[] {
   if (node.kind === 'item') {
     const held = node.unknown ? '?' : node.held.toLocaleString('en-US');
+    const worn = node.worn ? `, ${node.worn.toLocaleString('en-US')} worn` : '';
     out.push({
       depth: node.depth,
-      text: `${node.need.toLocaleString('en-US')} ${node.name} (${held} held${node.stoppedBecause === 'cycle' ? "; can't expand this (recipe loop)" : ''})`,
+      text: `${node.need.toLocaleString('en-US')} ${node.name} (${held} held${worn}${node.stoppedBecause === 'cycle' ? "; can't expand this (recipe loop)" : ''})`,
       done: node.unknown ? null : node.missing === 0,
     });
   } else
@@ -155,7 +159,7 @@ export function planWalkthroughs(
   for (const parent of input.parents) {
     if (seen.has(parent.targetId)) continue;
     seen.add(parent.targetId);
-    const t = expandTarget(ectx, parent.targetId);
+    const t = expandTarget(ectx, parent.targetId, parent.root);
     if (!t) continue;
     const leaves = missingLeaves(t.root).map((leaf) => {
       const supplies = suppliesOf(sctx, leaf);
@@ -208,10 +212,14 @@ export function planWalkthroughs(
     const steps = stepsOf(input, b, jobOf, rows);
     const total = steps.length + b.doneLeaves;
     const slowest = b.bottleneck?.name ?? null;
+    // M18 FR-15: "you hold everything" is said here, so the Goal and its Walkthrough never disagree.
+    const allHeld = b.parent.root !== undefined && b.leaves.length === 0 && gatesMet(b.root);
     const collapsed =
-      (slowest
-        ? say(kb, ENTRY.assign, 'collapsed', { done: b.doneLeaves, total, item: slowest })
-        : say(kb, ENTRY.assign, 'collapsed-none', { done: b.doneLeaves, total })) ?? '';
+      (allHeld
+        ? say(kb, ENTRY.assign, 'collapsed-all-held', { total })
+        : slowest
+          ? say(kb, ENTRY.assign, 'collapsed', { done: b.doneLeaves, total, item: slowest })
+          : say(kb, ENTRY.assign, 'collapsed-none', { done: b.doneLeaves, total })) ?? '';
     const caveats: string[] = [];
     if (!holdingsKnown(state)) caveats.push(say(kb, ENTRY.assign, 'can-tell-not', {}) ?? "can't tell");
     if (input.prior?.versions.parserBehind) caveats.push('may be out of date');
@@ -258,6 +266,12 @@ export function planWalkthroughs(
   const printer = planPrinter({ state, kb, meta: input.meta, demand, covered, bottlenecks, graph });
 
   return { walkthroughs: views, built: views, demand, jobs, printer, rows };
+}
+
+/** Every gate in a tree is met (an unknown gate is not). */
+function gatesMet(node: ReqNode): boolean {
+  if (node.kind === 'gate' && node.gate !== 'quest' && node.met !== true) return false;
+  return node.children.every(gatesMet);
 }
 
 /** A step's reason and its detail as one Why: "it is the slowest part, so it starts now. 5 needed: ...". */
@@ -632,6 +646,9 @@ function stepsOf(
   const unlockStep = new Map<ReqNode, number>();
   const post = (node: ReqNode) => {
     for (const c of node.children) post(c);
+    // M18 X3: an unmet recipe unlock is its own step; its label is the owner module's words.
+    if (node.kind === 'gate' && node.gate === 'recipe' && node.met === false && node.label)
+      unlockStep.set(node, add({ text: node.label, when: 'now', subject: null, progress: null, why: null }));
     if (node.kind === 'gate' && node.gate === 'anvil-tab' && node.met === false && node.tab) {
       const tabItem = node.children.find((x) => x.kind === 'item');
       unlockStep.set(

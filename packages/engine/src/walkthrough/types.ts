@@ -100,6 +100,8 @@ export type ReqNode =
       unknown?: true;
       /** No generated Acquisition: a W5+ or unknown system (§6). */
       notCovered?: true;
+      /** M18 FR-15: copies the receivers wear, counted in `held`. */
+      worn?: number;
       wiki?: string | null;
       depth: number;
     }

@@ -19,6 +19,7 @@
     "./walkthrough": "./src/walkthrough/index.ts",
     "./starsigns": "./src/starsigns/index.ts",
     "./slots": "./src/slots/index.ts",
+    "./gear": "./src/gear/index.ts",
     "./purpose": "./src/purpose/index.ts",
     "./alchemy": "./src/alchemy/index.ts",
     "./alchemy-text": "./src/alchemy/text.ts"

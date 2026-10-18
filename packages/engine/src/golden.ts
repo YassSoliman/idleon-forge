@@ -12,6 +12,8 @@ import { createBuildsModule } from './builds/module';
 import { createCollectionsModule } from './collections';
 import { DEFAULT_MODULES, runEngine } from './core/engine';
 import type { EngineModule, ToolboxPort } from './core/module';
+import { createGearModule } from './gear';
+import { renderGearText } from './gear/render';
 import { lookupOf } from './metapath/knowledge';
 import { createMetaPathModule } from './metapath/module';
 import { detectStage } from './metapath/stage';
@@ -51,6 +53,8 @@ export interface GoldenEngine {
   renderTimeline(input: GoldenInput): string;
   /** M19 TR-10: the `## Alchemy` section (pick, per-pot picks, vial pick, roll targets). */
   renderAlchemy(input: GoldenInput): string;
+  /** M18 TR-10: the `## Gear` section (each character's lit slot and slot words, the Smithy). */
+  renderGear(input: GoldenInput): string;
 }
 
 /** The worker's modules (M2, and M3 when the bundle and registry are there), so goldens show real Verdicts. */
@@ -81,6 +85,8 @@ export function goldenModules(input: GoldenInput): readonly EngineModule[] {
     createBuildsModule({ kb }),
     createCollectionsModule({ kb, registry: input.registries.engine }),
     createSpendModule({ kb, stage: (s) => detectStage(s, facts) }),
+    // M18: before M14's step, which builds its Goals' Walkthroughs.
+    createGearModule({ kb }),
     createWalkthroughModule({ kb }),
     createStarSignsModule({ kb }),
     ...createM20Modules({ kb }),
@@ -139,6 +145,13 @@ export const goldenEngine: GoldenEngine = {
     return renderSystemsText(buildSystemsView(result, EMPTY_PREFS, { now: input.now }));
   },
   renderAlchemy: (input) => renderAlchemyText(goldenResult(input).alchemy ?? null),
+  renderGear: (input) => {
+    const result = goldenResult(input);
+    const c = (i: number) => result.characters.find((x) => x.index === i);
+    return renderGearText(result.gear, saveOrderLabel(input.state), (i) =>
+      c(i) ? `${c(i)?.classLabel} ${c(i)?.level}` : '?',
+    );
+  },
   renderTimeline: (input) => {
     const result = goldenResult(input);
     const lastCloudSave = input.state.account.lastCloudSave;

@@ -740,6 +740,8 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
     checklist: checklistView(result, prefs, { now: ui.now, tzOffsetMinutes: ui.tzOffsetMinutes }),
     skills: skillsView(result),
     skillGrid: skillGridView(result),
+    // M18 TR-5: one line, no logic (the worker words everything).
+    gear: result.gear ?? null,
   };
 }
 

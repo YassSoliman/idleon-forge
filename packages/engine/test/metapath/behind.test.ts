@@ -83,6 +83,9 @@ describe('the Stage Expectations table (TR-10)', () => {
       ['obol-altar', 'W2-early'],
       ['presets-set-up', 'W2-early'],
       ['big-bubbles', 'W2-mid'],
+      // M18 FR-32: no empty armour or weapon slot by W1-mid, the AFK skill's tool by W1-late.
+      ['gear-no-empty-slots', 'W1-mid'],
+      ['gear-afk-tool', 'W1-late'],
       ['post-office', 'W2-late'],
       ['salts-running', 'W3-early'],
       ['printer-per-character', 'W3-mid'],
@@ -113,12 +116,19 @@ describe.each(w2.map((f) => [f.id, f] as const))('US-5 on the W2-late account (%
   const state = stateOf(f);
   const r = goldenResult(input(state, f.now));
 
-  it('behind rows: cards, stamps, talent presets and big bubbles; post office (W2-late) is on-path', () => {
+  it('behind rows: cards, stamps, talent presets, big bubbles and gear; post office (W2-late) is on-path', () => {
     // Cards moved into the Behind Goal; the other behind rows' fixes still show in their own places.
     const fired = behindRows(stageExpectations(facts), 'W2-late')
       .filter((row) => row.id === 'cards-slots-filled' || fixGoals(r, row.fix).length > 0)
       .map((row) => row.id);
-    expect(fired).toEqual(['cards-slots-filled', 'stamps-town-shops', 'presets-set-up', 'big-bubbles']);
+    // M18: the empty-slot crafts (the Wizard 56's Copper Platelegs, the Bowman 54's pants and shoes) fire too.
+    expect(fired).toEqual([
+      'cards-slots-filled',
+      'stamps-town-shops',
+      'presets-set-up',
+      'big-bubbles',
+      'gear-no-empty-slots',
+    ]);
     expect(fixGoals(r, 'post-office.check.unlock')).toHaveLength(1);
   });
 
