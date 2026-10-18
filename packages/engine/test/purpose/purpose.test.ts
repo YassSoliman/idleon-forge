@@ -6,6 +6,8 @@
 import { withAccount, withCharacter, withUnknown } from '@idleon-forge/knowledge';
 import { describe, expect, it } from 'vitest';
 import { lookupOf } from '../../src/metapath';
+import { buildNowView, DEFAULT_UI } from '../../src/now/build-now-view';
+import { EMPTY_PREFS } from '../../src/now/prefs';
 import {
   cardEtas,
   classXpActionFor,
@@ -298,5 +300,34 @@ describe('cross-module: M8 Cards view and M15 F3', () => {
   it('the shipped bundle has the generated ladders the Contributions name', () => {
     expect(lookupOf(kb).get('upgrade-vault.fact.kill-slots')).toBeDefined();
     expect(kb.entries['portals.contribution.push-map-109']).toBeDefined();
+  });
+});
+
+describe('the Focus card’s Purpose block (Design Lab now.focus-purpose: Quest line + ladder)', () => {
+  const focus = (i: number) => {
+    const s = W2();
+    return buildNowView(engineOf(s), EMPTY_PREFS, { ...DEFAULT_UI, focus: i, now: s.asOf }).focus;
+  };
+  it('one line plus a short ladder: now, next with its ETA, the step after', () => {
+    const f = focus(0);
+    const head = f?.purpose[0];
+    expect(head?.text).toBe('Poop kills ~2,995 → 10k for Dirty Money · about 5h · consider stopping here');
+    expect(head?.ladder.map((l) => l.state)).toEqual(['done', 'next', 'later']);
+    expect(head?.ladder[1]).toEqual({ state: 'next', label: '10k kills', note: 'about 5h' });
+    expect(head?.bar).toEqual({ current: 2995, next: 10_000 });
+    expect(f?.purposeStatus).toBe('serving');
+  });
+  it('copy rules: every line 12 words or fewer, units on numbers, no repeated line', () => {
+    for (const i of [0, 1, 2, 3, 4]) {
+      const lines = focus(i)?.purpose.map((p) => p.text.replace(/ · consider stopping here$/, '')) ?? [];
+      for (const t of lines)
+        expect(t.split(/\s+/).filter((w) => /\w/.test(w)).length, t).toBeLessThanOrEqual(12);
+      expect(new Set(lines).size).toBe(lines.length);
+    }
+  });
+  it('"What is this character for?" carries the reason (FR-14)', () => {
+    const f = focus(2);
+    expect(f?.unknown?.text).toBe('What is this character for?');
+    expect(f?.unknown?.note).toContain('Slime card is complete');
   });
 });

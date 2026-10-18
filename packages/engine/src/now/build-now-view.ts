@@ -402,7 +402,8 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
       caps: p.caps.slice(0, ROW_CAP_PILLS),
       moreCaps: Math.max(0, p.caps.length - ROW_CAP_PILLS),
       summary,
-      purpose: purposeItems(c)[0]?.text ?? null,
+      // FR-11: the row's Purpose headline, only when it serves (an Unknown row says why on its own).
+      purpose: c.purpose[0]?.worthwhile ? (purposeItems(c)[0]?.text ?? null) : null,
       spendChip: spendChipText(c),
       accessibleName: [
         `${k + 1}.`,

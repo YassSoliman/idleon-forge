@@ -169,8 +169,10 @@ function stopHereGoal(p: Purpose, run: PurposeRun, kb: CompiledKnowledge): Goal 
   const g = p.goals.find((x) => x.contributionId === s.contributionId);
   if (entry?.type !== 'contribution' || !entry.stopHere || !g) return null;
   const slots = run.slotsOf.get(`${s.contributionId}@${p.characterIndex}`) ?? {};
+  // A card's first copy has its own words ("first copy drops in …", not "reaches 1 copies").
+  const first = g.saved === 0 && typeof entry.values.stopFirst === 'string' ? entry.values.stopFirst : null;
   const text = render(
-    entry.stopHere,
+    first ?? entry.stopHere,
     {
       at: countText(s.at),
       later: countText(s.following),

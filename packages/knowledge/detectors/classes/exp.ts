@@ -32,6 +32,7 @@ export default defineDetector({
   reads: [
     'characters[*].index',
     'characters[*].afkType',
+    'characters[*].level',
     'characters[*].classExp',
     'characters[*].fighting',
     'diagnostics',

@@ -170,6 +170,7 @@ entries:
       whyNot: "{target:name} card isn't on this class's card list"
       whySlow: "the next {target:name} card level is far off"
       whyComplete: "{target:name} card is complete"
+      stopFirst: "{target:name} card's first copy drops in {etaText} on average. The next level is {laterEtaText} away. Consider stopping here."
     text: "{target:name} card: {now} → {at} copies"
     why: "Each card level raises its bonus. The time is a mean at the base drop chance (five times higher while you own none), so it is likely sooner."
     stopHere: "{target:name} card reaches {at} copies in {etaText}. The next level, {later}, is {laterEtaText} away. Consider stopping here."
