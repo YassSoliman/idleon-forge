@@ -18,7 +18,7 @@ export {
   type WalkthroughKnowledge,
 } from './knowledge';
 export { createWalkthroughModule, parentsOf, rateTargets, walkthroughValues } from './module';
-export { assignJobs, bottleneckOf, leafEffort, type PlanValues } from './plan';
+export { assignJobs, bottleneckOf, isMoveExcluded, leafEffort, type PlanValues } from './plan';
 export { cardPresetFits, presetActions, talentRole } from './presets';
 export { planPrinter } from './printer';
 export { liquidShop, suppliesOf, survivable } from './supply';
