@@ -16,7 +16,8 @@
     "./builds": "./src/builds/index.ts",
     "./collections": "./src/collections/index.ts",
     "./spend": "./src/spend/index.ts",
-    "./walkthrough": "./src/walkthrough/index.ts"
+    "./walkthrough": "./src/walkthrough/index.ts",
+    "./starsigns": "./src/starsigns/index.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json"

@@ -19,6 +19,7 @@ import { renderSystemsText } from './now/render-views-text';
 import { buildSystemsView } from './now/systems-view';
 import type { EngineResult } from './result';
 import { createSpendModule } from './spend';
+import { createStarSignsModule } from './starsigns';
 import { createUnspentModule } from './unspent';
 import { createWalkthroughModule } from './walkthrough';
 
@@ -60,6 +61,7 @@ export function goldenModules(input: GoldenInput): readonly EngineModule[] {
     createCollectionsModule({ kb, registry: input.registries.engine }),
     createSpendModule({ kb, stage: (s) => detectStage(s, facts) }),
     createWalkthroughModule({ kb }),
+    createStarSignsModule({ kb }),
   ];
 }
 

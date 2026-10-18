@@ -309,6 +309,10 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
     })(),
     ...(analysis ? { behindSystems: analysis.rows } : {}),
     ...(outputs.some(({ output }) => output.unknownFindings) ? { unknownFindings } : {}),
+    ...(() => {
+      const o = outputs.find((x) => x.output.starSigns !== undefined)?.output;
+      return o ? { starSigns: o.starSigns ?? null } : {};
+    })(),
   };
   // M17 TR-2: the registry with unlock states, built here in the worker (it runs unlock Detectors).
   if (kb && knowledge.registries)
