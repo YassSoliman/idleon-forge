@@ -11,6 +11,7 @@
 // when the player opened the card, never on an auto-follow.
 import {
   CARD_WORDS,
+  FLOW_WORDS,
   FOCUS_WORDS,
   type FocusCard,
   type GoalView,
@@ -24,7 +25,9 @@ import { Button, cx } from '../design/atoms/Button';
 import { GLYPH, VERDICT_GLYPH } from '../design/atoms/glyphs';
 import { VerdictStamp } from '../design/atoms/Pill';
 import { SourceLabel } from '../design/atoms/SourceLabel';
+import { EmptyState } from '../design/atoms/States';
 import { TokenLine } from '../design/atoms/TokenLine';
+import { span } from '../design/format';
 import { WhoGlyph } from '../design/who/WhoGlyph';
 import { Loading } from '../lazy-part';
 import { NOW_TAB, tabById, tabHref } from './character-tabs';
@@ -191,6 +194,27 @@ function StepHero({ card, goal, family }: { card: FocusCard; goal: GoalView; fam
         token={{ who, where: card.map }}
       />
     </div>
+  );
+}
+
+/**
+ * `flows.empty` Sleeping blob (owner override): nothing left for this character, so the blob sleeps and
+ * says what is next ("Nothing to do now. Back in 8h 10m: the anvil on Bowman 54 fills first.").
+ */
+function Asleep({ card }: { card: FocusCard }) {
+  const actions = useNowActions();
+  const now = Date.now();
+  const c = actions.result?.characters.find((x) => x.index === card.index);
+  const fill = c?.firstFill ?? null;
+  const what = fill ? `the ${fill.what ?? fill.label} on ${card.classLabel} ${card.level} fills first` : null;
+  return (
+    <EmptyState
+      line={
+        fill && fill.at > now
+          ? FLOW_WORDS.empty(span(fill.at - now), what)
+          : FLOW_WORDS.empty(span((actions.result?.expectedReturn.usedSeconds ?? 0) * 1000), null)
+      }
+    />
   );
 }
 
@@ -369,6 +393,7 @@ export function Focus({
           ) : null}
 
           {heroGoal ? <StepHero card={card} goal={heroGoal} family={view?.families} /> : null}
+          {!heroGoal && !card.unknown && card.goals.length === 0 ? <Asleep card={card} /> : null}
           {moreBlockers.length > 0 ? (
             <ul className="goals blockers n-blockers">
               {moreBlockers.map((g) => (

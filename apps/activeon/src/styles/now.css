@@ -942,6 +942,40 @@ label.chip {
   justify-self: start;
   margin: 0 var(--row-pad-x) var(--space-2);
 }
+/* From 1000 px each row carries its first cap as a bar on the return axis (`now.roster` Lanes). */
+.n-row__lane {
+  display: none;
+}
+@media (min-width: 1000px) {
+  .n-row__btn {
+    grid-template-areas:
+      "pt l1 v"
+      "pt l2 l2"
+      "pt caps caps"
+      "pt lane lane";
+  }
+  .n-row__lane {
+    grid-area: lane;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-1);
+  }
+  .n-row__lane-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(
+      to right,
+      var(--accent) calc(var(--at, 0) * 100%),
+      var(--sunk) calc(var(--at, 0) * 100%)
+    );
+  }
+  .n-row__lane-t {
+    font-size: var(--text-xs);
+    color: var(--muted);
+  }
+}
 /* Under 360 px: the cap pills fold to their glyphs (`now.roster-row` Pill-free row with a cap count). */
 @media (max-width: 359.98px) {
   .n-row__cap .a-pill__verb {
@@ -1331,6 +1365,15 @@ label.chip {
 }
 .n-goal__ms {
   font-size: var(--text-sm);
+}
+.n-goal.is-compact {
+  grid-template-columns: minmax(0, 1fr);
+}
+.n-goal__see:empty {
+  display: none;
+}
+.n-goal__see {
+  padding: 0 var(--space-3) var(--space-1);
 }
 .n-goal > .n-skip {
   margin: var(--space-1);

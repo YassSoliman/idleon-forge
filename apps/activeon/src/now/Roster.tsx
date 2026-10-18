@@ -23,14 +23,14 @@ import {
   type TabHealth,
 } from '@idleon-forge/engine/now';
 import type { EngineResult } from '@idleon-forge/engine/result';
-import { forwardRef } from 'react';
+import { type CSSProperties, forwardRef } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
 import { cx } from '../design/atoms/Button';
 import { GlyphChip } from '../design/atoms/Chip';
 import { VERDICT_GLYPH } from '../design/atoms/glyphs';
 import { LegacyPill } from '../design/atoms/LegacyPill';
 import { Pill, VerdictStamp } from '../design/atoms/Pill';
-import { coins } from '../design/format';
+import { coins, inSpan } from '../design/format';
 import { WhoGlyph } from '../design/who/WhoGlyph';
 import { formatRoute } from '../shell/route';
 import { type CharacterTab, characterTabs } from './character-tabs';
@@ -124,9 +124,10 @@ const Row = forwardRef<
     group: boolean;
     inFindings: readonly string[];
     dimmed: boolean;
+    lane: { x: number; text: string } | null;
     onOpen(i: number): void;
   }
->(function Row({ row, view, family, group, inFindings, dimmed, onOpen }, ref) {
+>(function Row({ row, view, family, group, inFindings, dimmed, lane, onOpen }, ref) {
   const actions = useNowActions();
   const chip = rowTabChip(view, row.index);
   const onClick = (e: React.MouseEvent) => {
@@ -180,6 +181,13 @@ const Row = forwardRef<
           )}
         </span>
         <RowCaps row={row} inFindings={inFindings} ready={ready} />
+        {lane ? (
+          // `now.roster` Lanes (the Command Board roster from 1000 px): who needs me first, by length.
+          <span className="n-row__lane" aria-hidden="true" style={{ '--at': lane.x } as CSSProperties}>
+            <span className="n-row__lane-bar" />
+            <span className="n-row__lane-t num">{lane.text}</span>
+          </span>
+        ) : null}
       </button>
       {chip ? (
         <a
@@ -306,6 +314,14 @@ export function Roster({ view, result, session, onOpen, onSpend, rowRef }: Roste
   const filters = session.findings.filter((f) => actions.expanded.has(`finding:${f.entryId}`));
   const dimmed = (i: number) => filters.length > 0 && !filters.some((f) => f.indexes.includes(i));
   const readyFold = new Set(session.readyFold);
+  const now = Date.now();
+  const axis = result.expectedReturn.usedSeconds * 1000;
+  const laneOf = (i: number) => {
+    const f = result.characters.find((c) => c.index === i)?.firstFill;
+    if (!f || axis <= 0) return null;
+    const x = Math.min(1, Math.max(0, (f.at - now) / axis));
+    return { x, text: `${f.what ?? f.label} ${f.at <= now ? 'now' : inSpan(f.at - now)}` };
+  };
   const readyOpen = actions.expanded.has('ready-fold');
   const unknownOpen = actions.expanded.has('unknown-fold');
   const row = (r: RosterRow) => (
@@ -317,6 +333,7 @@ export function Roster({ view, result, session, onOpen, onSpend, rowRef }: Roste
       group={session.marks[r.index]?.group != null}
       inFindings={session.marks[r.index]?.inFindings ?? []}
       dimmed={dimmed(r.index)}
+      lane={laneOf(r.index)}
       onOpen={onOpen}
       ref={(el) => rowRef(r.index, el)}
     />

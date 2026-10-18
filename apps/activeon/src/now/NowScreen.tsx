@@ -8,8 +8,9 @@
 // place (M17 FR-15): Focus plus the Account. The session state lives in the shell (M17 FR-10,
 // `shell/session.ts`), so it survives place moves; nothing here orders or filters advice
 // (`buildNowView` and `buildSessionView` do).
-import { PLACE_WORDS } from '@idleon-forge/engine/now';
+import { FLOW_WORDS, PLACE_WORDS } from '@idleon-forge/engine/now';
 import { useCallback, useMemo, useState } from 'react';
+import { EmptyState } from '../design/atoms/States';
 import { span } from '../design/format';
 import { lazyPart } from '../lazy-part';
 import type { Session } from '../shell/session';
@@ -104,6 +105,7 @@ export function NowPlace({ s }: { s: Session }) {
           unknownOpen={s.actions.expanded.has('unknown-fold')}
           onUnknown={() => s.actions.toggle('unknown-fold')}
           onTimeline={s.timeline ? () => s.navigate({ place: 'timeline', section: null }, 'push') : null}
+          fillAt={result.firstFill ? { at: result.firstFill.at, settings } : null}
         />
         <ReturnLine view={view} result={result} settings={settings} updating={updating} onPick={pick} />
         <PauseControl view={sv} onPick={(tab) => setPause({ manual: tab })} />
@@ -115,6 +117,9 @@ export function NowPlace({ s }: { s: Session }) {
           onBuild={(i) => s.actions.openTab(i, 'build')}
           back={back}
         />
+        {view.roster.length === 0 ? (
+          <EmptyState line={FLOW_WORDS.empty(span(result.expectedReturn.usedSeconds * 1000), null)} />
+        ) : null}
         <Roster
           view={view}
           result={result}

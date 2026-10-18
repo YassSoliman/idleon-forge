@@ -65,6 +65,8 @@ export interface CounterProps {
   onUnknown(): void;
   /** The first-fill line links to the Timeline (M17 FR-32) when the Timeline is there. */
   onTimeline: (() => void) | null;
+  /** G10 "Around 20:10": the first-fill moment as a clock time; null keeps "in 3h 40m". */
+  fillAt?: { at: number; settings: Settings } | null;
 }
 
 export function Counter({
@@ -76,6 +78,7 @@ export function Counter({
   unknownOpen,
   onUnknown,
   onTimeline,
+  fillAt = null,
 }: CounterProps) {
   const p = view.progress;
   const sub = (
@@ -100,7 +103,13 @@ export function Counter({
 
   if (counter.allSet) {
     const a = counter.allSet;
-    const fill = a.firstFill;
+    const fill =
+      a.firstFill && fillAt && fillAt.settings.times === 'clock'
+        ? a.firstFill.replace(
+            /^First thing fills up in [^:]+:/,
+            `First thing fills up ${moment(fillAt.at, Date.now(), 'clock', localOffsetMinutes(fillAt.at))}:`,
+          )
+        : a.firstFill;
     return (
       <section
         className="n-vb n-vb--ok"
