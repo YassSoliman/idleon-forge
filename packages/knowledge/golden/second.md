@@ -1,4 +1,4 @@
-# golden v1: second · knowledge #9c236502 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry
+# golden v1: second · knowledge #e6ac3564 · parser 6c37e3d (game 2.3.540) · now 2024-06-08T06:05:26.262Z · return 8h · stage W4-entry · stale: 8 of 242
 
 ## Verdict changes
 
@@ -41,20 +41,17 @@
 - Extra · Gems unspent: 4,645 gems unspent [IdleOn Wiki: Gem Shop]
   sources disagree: Infinity Hammer first: the universal first buy. | Extra Card Slots and the Crystal 3D Printer first; the hammer is no longer necessary.
 - Spend · Spend task unlock points: Spend 644 task unlock points [IdleOn Wiki: Tasks/Unlocks · Calculated by IdleOn Toolbox · 2.3.540]
+- Extra · Stamps collected: Stamps 109 of 121 · 0 now · 0 with active play · 0 in progress · 12 later [IdleOn Wiki: Stamps · Calculated by IdleOn Toolbox · 2.3.540]
+  109 stamps · next 121
 
 ## Not covered yet
-Cards
 Classes and subclasses
-Obols
 Portals and map doors
 Skills, doors and tools
-Talent presets
-Talents
 Upgrade Vault
 Bribes
 Forge
 Quests
-Stamps
 Statues
 The Owl
 Alchemy Pay 2 Win

@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #9c236502 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early
+# golden v1: scrubbed-w3 · knowledge #e6ac3564 · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 8 of 242
 
 ## Verdict changes
 
@@ -8,17 +8,17 @@
 ### C3 · Bowman 60 · Fix before you leave
 1 · Fighting Sand Giant · Sands of Time · Collect Leather Hide from the anvil (time to cap: now; it refills about 8 h after you collect) · Spend here: 6 buys, ~589M → Spend Plan
 
-### C4 · Squire 85 · Fix before you leave
-2 · Fighting Thermister · Thermonuclear Climb · Collect Thread from the anvil (time to cap: now; it refills about 5 h after you collect) · Spend here: 1 buy, ~2B → Spend Plan
-
 ### C6 · Shaman 54 · Fix before you leave
-3 · Fighting Sand Castle · Shifty Sandbox · Collect Thread from the anvil (time to cap: now; it refills about 3 h after you collect) · Spend here: 1 buy, ~700M → Spend Plan
+2 · Fighting Sand Castle · Shifty Sandbox · Collect Thread from the anvil (time to cap: now; it refills about 3 h after you collect) · Spend here: 1 buy, ~700M → Spend Plan
 
-### C5 · Barbarian 56 · Fix before you leave
-4 · Fishing Small Fish · Salty Shores · Collect Thread from the anvil (time to cap: now; it refills about 6 h after you collect)
+### C4 · Squire 85 · Fix before you leave
+3 · Fighting Thermister · Thermonuclear Climb · Collect Thread from the anvil (time to cap: now; it refills about 5 h after you collect) · Spend here: 1 buy, ~2B → Spend Plan
 
 ### C2 · Squire 51 · Fix before you leave
-5 · Mining Gold · Freefall Caverns · Collect Thread from the anvil (time to cap: now; it refills about 2 h after you collect)
+4 · Mining Gold · Freefall Caverns · Collect Thread from the anvil (time to cap: now; it refills about 2 h after you collect)
+
+### C5 · Barbarian 56 · Fix before you leave
+5 · Fishing Small Fish · Salty Shores · Collect Thread from the anvil (time to cap: now; it refills about 6 h after you collect)
 
 ### C1 · Wizard 73 · Fix before you leave
 6 · Fighting Sir Stache · The Stache Split · Collect Thread from the anvil (time to cap: now; it refills about 5 h after you collect) · Spend here: 2 buys, ~1.6B → Spend Plan
@@ -29,7 +29,7 @@
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-show more (10)
+show more (14)
 Spend coins: 10 buys now on 4 characters
   1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before you redeem Colosseum tickets: 1 dementia · Lv 0 → 1 · 100M coins · C3 (Bowman lv60) · buy · total 100M on C3
   2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 1 gold 26 silver (carry 25 Jungle Logs on Wizard Lv 73) · Lv 10 → 20 · 13k coins · C3 (Bowman lv60) · buy · total 100M on C3
@@ -40,20 +40,18 @@ Spend coins: 10 buys now on 4 characters
   show more (10)
 If you have time
 - Use today's 4 minigame plays · about 10m of hands-on play
+- XxX Cattleprod XxX 2 on Squire 85: kill 30 Mafiosos and 18 Sand Castles before the timer runs out → Mason Jar Stamp and Fishhead Stamp · about 10m of hands-on play
+- Crystalswine 1 on Squire 85: kill every Cryosnake on the map before time runs out → Hermes Stamp · about 10m of hands-on play
+- Wellington 1 on Squire 85: find the 3 invisible platforms hidden around the game → Arcane Stamp and Brainstew Stamps; then: Wellington 2 gives Fly Intel Stamp and Holy Mackerel Stamp, and you already hold the 2,500 High Steaks, Wakka Cherry and Singlecle, but it needs 11 more free inventory slots · about 15m of hands-on play
 
 ## Not covered yet
-Cards
 Classes and subclasses
-Obols
 Portals and map doors
 Skills, doors and tools
-Talent presets
-Talents
 Upgrade Vault
 Bribes
 Forge
 Quests
-Stamps
 Statues
 The Owl
 Alchemy Pay 2 Win

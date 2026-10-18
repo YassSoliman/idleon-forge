@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #9c236502 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry
+# golden v1: highend · knowledge #e6ac3564 · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 8 of 242
 
 ## Verdict changes
 
@@ -44,23 +44,29 @@
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Spend anvil points: Unspent anvil points on 11 characters → Speed and Capacity [IdleOn Wiki: Smithing, anvil points · Calculated by IdleOn Toolbox · 2.3.540]
-show more (7)
+  · Death Bringer Lv 1701: 0 into Speed, 62 into Capacity
+  · Siege Breaker Lv 1725: 0 into Speed, 23 into Capacity
+  · Elemental Sorcerer Lv 1734: 0 into Speed, 60 into Capacity
+  · Divine Knight Lv 1819: 82 into Speed, 0 into Capacity
+  · Arcane Cultist Lv 1762: 0 into Speed, 45 into Capacity
+  · Wind Walker Lv 1744: 1,024 into Speed, 0 into Capacity
+  · Divine Knight Lv 1734: 0 into Speed, 63 into Capacity
+  · Voidwalker Lv 1764: 1 into Speed, 0 into Capacity
+  · Arcane Cultist Lv 1743: 0 into Speed, 60 into Capacity
+  · Wind Walker Lv 1742: 861 into Speed, 62 into Capacity
+  · Beginner Lv 1717: 0 into Speed, 11 into Capacity
+show more (8)
 If you have time
 - Use today's 20 minigame plays · about 10m of hands-on play
 
 ## Not covered yet
-Cards
 Classes and subclasses
-Obols
 Portals and map doors
 Skills, doors and tools
-Talent presets
-Talents
 Upgrade Vault
 Bribes
 Forge
 Quests
-Stamps
 Statues
 The Owl
 Alchemy Pay 2 Win

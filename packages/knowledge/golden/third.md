@@ -1,4 +1,4 @@
-# golden v1: third · knowledge #9c236502 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry
+# golden v1: third · knowledge #e6ac3564 · parser 6c37e3d (game 2.3.540) · now 2024-06-06T19:59:40.215Z · return 8h · stage W4-entry · stale: 8 of 242
 
 ## Verdict changes
 
@@ -41,23 +41,27 @@
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Spend anvil points: Unspent anvil points on 9 characters → Speed [IdleOn Wiki: Smithing, anvil points · Calculated by IdleOn Toolbox · 2.3.540]
-show more (4)
+  · Blood Berserker Lv 521: 11 into Speed, 0 into Capacity
+  · Bubonic Conjuror Lv 568: 10 into Speed, 0 into Capacity
+  · Divine Knight Lv 655: 1 into Speed, 0 into Capacity
+  · Beast Master Lv 561: 27 into Speed, 0 into Capacity
+  · Elemental Sorcerer Lv 545: 12 into Speed, 0 into Capacity
+  · Voidwalker Lv 523: 1 into Speed, 0 into Capacity
+  · Divine Knight Lv 558: 13 into Speed, 0 into Capacity
+  · Elemental Sorcerer Lv 552: 11 into Speed, 0 into Capacity
+  · Siege Breaker Lv 522: 28 into Speed, 0 into Capacity
+show more (5)
 If you have time
 - Use today's 21 minigame plays · about 10m of hands-on play
 
 ## Not covered yet
-Cards
 Classes and subclasses
-Obols
 Portals and map doors
 Skills, doors and tools
-Talent presets
-Talents
 Upgrade Vault
 Bribes
 Forge
 Quests
-Stamps
 Statues
 The Owl
 Alchemy Pay 2 Win
