@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w3 · knowledge #97520dda · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 338
+# golden v1: scrubbed-w3 · knowledge #340a0a3d · parser 6c37e3d (game 2.3.540) · now 2026-10-17T16:12:33.140Z · return 8h · stage W3-early · stale: 4 of 342
 
 ## Verdict changes
 
@@ -29,7 +29,7 @@
 - Grow · Pay for the Death Note's first level: Refine 10 Explosive Salts for the Death Note's first level (have 0) [IdleOn Wiki: Construction · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
-show more (20)
+show more (22)
 Spend coins: 10 buys now on 4 characters
   1. Buy Duplicate Entries (Vault) on Bowman Lv 60 before you redeem Colosseum tickets: 1 dementia · Lv 0 → 1 · 100M coins · C3 (Bowman lv60) · buy · total 100M on C3
   2. Raise the Lil' Mining Baggy Stamp cap, then buy Lv 10→20 on Bowman Lv 60: about 1 gold 26 silver (carry 25 Jungle Logs on Wizard Lv 73) · Lv 10 → 20 · 13k coins · C3 (Bowman lv60) · buy · total 100M on C3
@@ -43,6 +43,7 @@ If you have time
 - XxX Cattleprod XxX 2 on Squire 85: kill 30 Mafiosos and 18 Sand Castles before the timer runs out → Mason Jar Stamp and Fishhead Stamp · about 10m of hands-on play
 - Crystalswine 1 on Squire 85: kill every Cryosnake on the map before time runs out → Hermes Stamp · about 10m of hands-on play
 - Wellington 1 on Squire 85: find the 3 invisible platforms hidden around the game → Arcane Stamp and Brainstew Stamps; then: Wellington 2 gives Fly Intel Stamp and Holy Mackerel Stamp, and you already hold the 2,500 High Steaks, Wakka Cherry and Singlecle, but it needs 11 more free inventory slots · about 15m of hands-on play
+- Kill Amarok in under 20 seconds on 1 more character (2 of 3); try with your Bowman Lv 60, your highest-level character not yet done; spends 1 Forest Villa Key each · about 5m of hands-on play
 
 ## Not covered yet
 Classes and subclasses
@@ -78,6 +79,7 @@ W0 · Obols · Behind · Behind for your Stage · 2 to do
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
 W1 · Stamps · Behind · Behind for your Stage · 6 to do
+W1 · Star Signs · Nothing to fix · Nothing to fix · 2 to do
 W1 · Anvil · Behind · Behind for your Stage · 2 to do · 6 full · collect
 W1 · Forge · Not covered yet · Not covered yet
 W1 · Bribes · Not covered yet · Not covered yet · in the Spend Plan
@@ -227,6 +229,7 @@ Wasting: 6
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
+| systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |

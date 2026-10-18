@@ -125,6 +125,8 @@ export interface ModuleOutput {
   cards?: EngineResult['cards'];
   /** M17 TR-2: Checks that couldn't tell (not for missing history), or whose Detector failed. */
   unknownFindings?: UnknownFinding[];
+  /** M16 only: the Signs tab and Star Chart view (EngineResult.starSigns). */
+  starSigns?: EngineResult['starSigns'];
 }
 
 /** An advice module, registered with the core. */

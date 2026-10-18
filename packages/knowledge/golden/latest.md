@@ -1,4 +1,4 @@
-# golden v1: latest · knowledge #97520dda · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 338
+# golden v1: latest · knowledge #340a0a3d · parser 6c37e3d (game 2.3.540) · now 2026-10-10T19:12:32.605Z · return 8h · stage W4-entry · stale: 4 of 342
 
 ## Verdict changes
 
@@ -46,7 +46,7 @@ Fix before you leave
 - Spend · Play a round of Darts: Play one round of Darts (about 2 min, from any map with the Darts item) [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops (about 2 min) [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
-show more (10)
+show more (11)
 
 ## Not covered yet
 Classes and subclasses
@@ -85,6 +85,7 @@ W0 · Obols · Nothing to fix · Nothing to fix · 1 to do
 W0 · Portals and map doors · Not covered yet · Not covered yet
 W0 · Skills, doors and tools · Not covered yet · Not covered yet
 W1 · Stamps · Nothing to fix · Nothing to fix · 1 to do
+W1 · Star Signs · Nothing to fix · Nothing to fix · 1 to do
 W1 · Anvil · Nothing to fix · Nothing to fix · 2 to do · 11 full · collect
 W1 · Forge · Not covered yet · Not covered yet
 W1 · Bribes · Not covered yet · Not covered yet
@@ -118,7 +119,7 @@ W4 · Cooking · Not covered yet · Not covered yet
 W4 · Breeding · Not covered yet · Not covered yet
 Worlds 5–7: not covered yet
 Needs you: Companions and pets (wasting), Minigames (wasting), Arcade (wasting), Refinery (wasting), Trapping (wasting)
-Other gaps: Talent builds past World 4
+Other gaps: Talent builds past World 4, W4+ constellations and Infinite Stars
 Wasting: 5
 
 ## Findings
@@ -263,6 +264,7 @@ Wasting: 5
 | systems.yaml#salt-lick | worlds/reached | account | reached yes |  |
 | systems.yaml#shrines | worlds/reached | account | reached yes |  |
 | systems.yaml#stamps | worlds/reached | account | reached yes |  |
+| systems.yaml#star-signs | worlds/reached | account | reached yes |  |
 | systems.yaml#statues | worlds/reached | account | reached yes |  |
 | systems.yaml#trapping | worlds/reached | account | reached yes |  |
 | systems.yaml#worship | worlds/reached | account | reached yes |  |

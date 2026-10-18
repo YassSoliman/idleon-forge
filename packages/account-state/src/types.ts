@@ -10,6 +10,7 @@ import type { AccountAfkFacts, CharacterAfkFacts } from './afk-types';
 import type { CollectionsAccountFields, CollectionsCharacterFields } from './collections-types';
 import type { DepthAccountFields } from './depth-types';
 import type { SpendInputs } from './spend-types';
+import type { StarSignsAccountFields, StarSignsCharacterFields } from './starsigns-types';
 import type { TalentAccountFields, TalentCharacterFields } from './talent-types';
 import type { SaltState, UnspentAccountFields, UnspentCharacterFields } from './unspent-types';
 import type { WalkthroughAccountFields, WalkthroughCharacterFields } from './walkthrough-types';
@@ -34,8 +35,10 @@ import type { WalkthroughAccountFields, WalkthroughCharacterFields } from './wal
  *    blocks: anvil tabs, Forge output, holdings, the 3D Printer, supply rates, skills, presets).
  * 14: M15 TR-2's account-depth fields (the `DepthAccountFields` block: `refinery`, `construction`,
  *    `library`).
+ * 15: M16 TR-2's star sign fields (`account.starSigns`, `characters[].starSigns`,
+ *    `characters[].telescopeRoute`) and `Telescope` in `npcDialog` (GATE_NPCS, M16 X1).
  */
-export const SCHEMA_VERSION = 14;
+export const SCHEMA_VERSION = 15;
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -63,7 +66,8 @@ export interface CharacterState
   extends UnspentCharacterFields,
     TalentCharacterFields,
     CollectionsCharacterFields,
-    WalkthroughCharacterFields {
+    WalkthroughCharacterFields,
+    StarSignsCharacterFields {
   /** Slot in the save (0-based), stable across saves. Field paths use it: `characters[<index>].level`. */
   index: number;
   name: string;
@@ -100,7 +104,10 @@ export interface CharacterState
   afk?: CharacterAfkFacts | null;
 }
 
-/** The NPCs a Stage rule (M2 TR-5) or the TR-6a cross-check reads, plus Bellows (M6 TR-7, Chizoar keys). */
+/**
+ * The NPCs a Stage rule (M2 TR-5) or the TR-6a cross-check reads, plus Bellows (M6 TR-7, Chizoar keys)
+ * and the Telescope (M16 X1: a star responds to a click only once `Telescope >= 1`, F-k).
+ */
 export const GATE_NPCS = [
   'Builder_Bird',
   'Constructor_Crow',
@@ -108,6 +115,7 @@ export const GATE_NPCS = [
   'Dog_Bone',
   'Djonnut',
   'Bellows',
+  'Telescope',
 ] as const;
 export type GateNpc = (typeof GATE_NPCS)[number];
 
@@ -175,7 +183,8 @@ export interface AccountSummary
     TalentAccountFields,
     CollectionsAccountFields,
     WalkthroughAccountFields,
-    DepthAccountFields {
+    DepthAccountFields,
+    StarSignsAccountFields {
   /** The world the account is working on (1-based): one past the highest finished world (Toolbox's rule). */
   currentWorld: number | null;
   /** Worlds whose exit has been used (a character met the gatekeeper past it), ascending. */

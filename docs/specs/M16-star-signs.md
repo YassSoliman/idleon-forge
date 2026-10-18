@@ -383,11 +383,20 @@ Read on 2026-10-17 by local scripts over `fixtures/private/*` (not committed). R
 - **V4 Letters:** `Number2Letter` is indexed by slot with images offset by one (`Number2Letter[tab + 1]`, @7679874), and the W3-early save records A-2 on slot 0 as `_` (its quest status is set only there): `_` = slot 0, `a` = slot 1. The build asserts the decoder on both fixtures.
 - **V5 Telescope-only alignment:** menu 24 opens only on map 31 at the Telescope (@5315002).
 - **V6 Second slot:** unlocking Chronus Cosmos appends an empty slot to the playing character's list (@7553600); slot counts use the account rule (F-d).
-- **V7 Open:** whether a colosseum map can be entered without a ticket just to click a claim-ready star (A-8, B-5).
+- **V7 Settled (build, 2026-10-18):** no. The colosseum menu is the only way in; it needs and spends `ColosseumInfo[n][3]` tickets (1 for Dewdrop, A-8; 2 for Sandstone, B-5) before it switches scene (N.js @5497170, `ColosseumInfo` @14032574). A claim step says "spend 1 Colosseum Ticket to enter".
 - **V8 Hydron gate:** chart 2 needs more than 23 unlocked nodes among the first 64 (@7554573).
-- **V9 Open:** whether a character created after the hand-in gets the Telescope dialogue another way (the hand-in code only touches characters that exist then). Until checked, FR-8's talk step applies to it.
+- **V9 Settled (build, 2026-10-18):** yes. `_customEvent_NewCharStuffs` (@19908843) gives a new character every account-wide quest that slot 0 has completed, with `NPCdialogue = 9999`, and a load pass (@19867677) syncs them across characters. FR-8's talk step stays as a guard and fires only when a save shows a character without the dialogue.
 - **V10 Tree route:** doors 3,000 / 2,500 / 5,000 in `maps.fact.maps`; KillsLeft per character on both saves.
 - **V11 Candy limits:** refused for Lab, Cooking and no AFK Target, on non-AFK maps and while moving (@8201286); credits the current map (@5580046).
+
+### 11.4 Build notes (Phase 1, 2026-10-18)
+- **Account State is compact** (M1 TR-16's 300 KB cap): signs are game StarSigns ids, constellations are `claimed` plus `progress` (unclaimed with letters), the tree route is three numbers. `star-signs.fact.chart` maps ids to names.
+- **Chart order and fit lists live on `star-signs.goal.signs` as comma lists**, not Priority Lists: a Priority List holds entry ids, and signs are not entries. CI checks them parent-first, the leg costs (19, 18, 14) and the 24-node gate.
+- **Kills to the Telescope** count all three doors. On the fixtures the four W2-late characters off the tree need about 7,500 (the Wizard Lv 56) or about 10,400 (Jungle Perimeter's door still shut), and the W3-early five about 10,300–10,500; the 7,500–7,600 above left out Jungle Perimeter's door.
+- **W2-late opener:** the Barbarian Lv 60 (about 4,990 kills) is M2's pusher, so FR-2 picks the Wizard Lv 56 (2,500 at The Base of the Bark, then 5,000), with its kill rate from the tree maps (X3).
+- **One trip buys everything the points cover** (D-14): with 21 points after the constellations the Wizard Lv 73 unlocks through Chronus Cosmos and Pie Seas, not stopping at 19. The "Bank your points" line counts banked points too (W3-early: "up to All Rounder").
+- **C-3** (Trapping 15 on 5) is never a task yet: Trapping level is not in the Account State.
+- **Effort** is 3 min per visit, plus 1 per candy or claim: W3-early's A-7 is about 8 min, B-1 about 9.
 
 ## 12. Phased build plan
 

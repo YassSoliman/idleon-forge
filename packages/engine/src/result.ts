@@ -6,6 +6,7 @@
 // A change here needs a note on M10's spec and on the producer module's spec.
 import type { CardsView } from './collections/cards-view-types';
 import type { SpendPlan } from './spend/types';
+import type { StarSignsView } from './starsigns/types';
 
 export type {
   CardChip,
@@ -17,7 +18,6 @@ export type {
   PresetRecommendation,
   PresetRow,
 } from './collections/cards-view-types';
-
 export type {
   SpendHandoff,
   SpendLine,
@@ -26,6 +26,7 @@ export type {
   SpendStatus,
   SpendStep,
 } from './spend/types';
+export type { CharacterSigns, NextConstellation, StarSignsView } from './starsigns/types';
 
 export type VerdictKind = 'ready' | 'fix' | 'unknown';
 export type Category = 'blocker' | 'compounding' | 'spendable' | 'nice';
@@ -438,4 +439,9 @@ export interface EngineResult {
   behindSystems?: BehindSystem[];
   /** M17 TR-2: Checks that returned `unknown` (not for missing history) or whose Detector failed. */
   unknownFindings?: UnknownFinding[];
+  /**
+   * M16 Star Signs: the per-character signs (the Signs tab) and the Star Chart summary (points, unlocked
+   * signs, the next constellations). Absent when M16 didn't run; null below W1-mid or without its data.
+   */
+  starSigns?: StarSignsView | null;
 }

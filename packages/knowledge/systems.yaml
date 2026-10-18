@@ -121,6 +121,13 @@ systems:
     dossier: https://github.com/YassSoliman/idleon-forge/blob/research/w1-systems/docs/research/systems/w1-systems/stamps.md
     unlocked: { id: worlds/reached, params: { world: 1 } }
     unlockFact: systems.fact.unlocks
+  - id: star-signs
+    name: Star Signs
+    world: 1
+    scope: both
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M16-star-signs.md
+    unlocked: { id: worlds/reached, params: { world: 1 } }
+    unlockFact: systems.fact.unlocks
   - id: anvil
     name: Anvil
     world: 1

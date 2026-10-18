@@ -36,6 +36,13 @@ facts:
         sources:
           - { url: https://idleon.wiki/wiki/Stamps, title: "IdleOn Wiki: Stamps", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
           - { url: https://idleon.wiki/wiki/Mr_Pigibank, title: "IdleOn Wiki: Mr Pigibank", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - system: star-signs
+        world: 1
+        text: "Opens at the Telescope, at the top of the big tree in World 1, behind three doors that need kills"
+        gameVersion: 2.3.540
+        sources:
+          - { url: https://idleon.wiki/wiki/Star_Signs, title: "IdleOn Wiki: Star Signs", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+          - { url: https://idleon.wiki/wiki/Telescope, title: "IdleOn Wiki: Telescope", tier: 2, claimDate: 2026-09-27, verified: 2026-10-18, gameVersion: 2.3.540 }
       - system: anvil
         world: 1
         text: "Opens from the start in Blunder Hills town: the Anvil is part of the Smithing skill"

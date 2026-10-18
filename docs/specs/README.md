@@ -275,11 +275,11 @@ Facts each module must check before (or in) its first build PR. Open facts, not 
 - [ ] `MAX_SUPPLY_MAPS = 12` within TR-8 on `highend.json`.
 
 **M16**
-- [ ] The letter decoder (`'_'` = slot 0) asserted on both fixtures (M16 V4).
-- [ ] Whether a colosseum map can be entered without a ticket to click a claim-ready star (V7).
-- [ ] The CI cross-check of `star-signs.fact.constellations` and `.chart` against Toolbox `constellations` and `starSigns` passes at the pin (TR-3).
-- [ ] M14 exports FR-18's predicate (X2) and adds the three tree maps to the supply maps (X3); M2 adds `Telescope` to `GATE_NPCS` and the 3f ids (X1, X4).
-- [ ] Whether a character created after the Telescope quest hand-in gets its dialogue another way (V9).
+- [x] The letter decoder (`'_'` = slot 0) asserted on both fixtures (M16 V4).
+- [x] Whether a colosseum map can be entered without a ticket to click a claim-ready star (V7: no, it spends 1 or 2 tickets).
+- [x] The CI cross-check of `star-signs.fact.constellations` and `.chart` against Toolbox `constellations` and `starSigns` passes at the pin (TR-3).
+- [x] M14 exports FR-18's predicate (X2) and adds the three tree maps to the supply maps (X3); M2 adds `Telescope` to `GATE_NPCS` and the 3f ids (X1, X4).
+- [x] Whether a character created after the Telescope quest hand-in gets its dialogue another way (V9: yes, `NewCharStuffs`).
 
 **M17**
 - [ ] Which M3 Checks set `at` on a firing finding and `nextAt` on a pass at the pin; the rest ship as untimed bars (TR-4).

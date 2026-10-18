@@ -122,6 +122,20 @@ export const ownRoles = (meta: MetaPathResult | null, index: number) =>
       r.role !== PUSHER_ROLE && r.afkType !== null && (SKILLING as readonly string[]).includes(r.afkType),
   );
 
+/**
+ * FR-18's "never move this character" rule, as one predicate for other modules (M16 X2): the pusher on
+ * its push, a Role holder on its own Role activity, a Lab or Cooking character. A move that sends such a
+ * character away for minutes and back (M16's star visits) may still pick it when no one else can.
+ */
+export function isMoveExcluded(
+  c: Pick<CharacterState, 'index' | 'afkType'>,
+  meta: MetaPathResult | null,
+): boolean {
+  if (c.afkType === 'LABORATORY' || c.afkType === 'COOKING') return true;
+  if (meta?.pusher?.index === c.index) return true;
+  return ownRoles(meta, c.index).some((r) => r.active && r.afkType === c.afkType);
+}
+
 export const activityOfSupply = (s: SupplyEval): string =>
   s.kind === 'skill-node' ? (s.where.skill ?? 'SKILLING') : 'FIGHTING';
 

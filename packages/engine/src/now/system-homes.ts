@@ -20,6 +20,7 @@ export const SYSTEM_HOMES: Readonly<Record<string, SystemHome>> = {
   'talent-presets': { tab: 'build' },
   'talent-resets': { tab: 'build' },
   cards: { tab: 'cards' },
+  'star-signs': { tab: 'signs' },
 };
 
 /** The Character page tab a System's home is, or null for its System page. */

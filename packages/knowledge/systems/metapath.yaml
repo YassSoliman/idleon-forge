@@ -1063,6 +1063,9 @@ entries:
         - minigames.check.daily-plays
         - talents.check.next-step
         - talent-resets.check.reset
+        - star-signs.goal.telescope
+        - star-signs.goal.constellation
+        - star-signs.goal.signs
 
   - id: metapath.priority.w1-early
     system: metapath

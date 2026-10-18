@@ -1,0 +1,190 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M16 Star Signs and constellations (docs/specs/M16-star-signs.md, Phase 1). The engine module
+# (packages/engine/src/starsigns) builds every line from these templates and the star-signs facts; every
+# number in a line is game data or plain arithmetic on it (ADR 0005). The chart order and the fit lists
+# are authored judgment (D-5 to D-7), kept as comma lists on star-signs.goal.signs: a Priority List can
+# only hold entry ids, and signs are not entries.
+system: star-signs
+entries:
+  - id: star-signs.goal.telescope
+    system: star-signs
+    type: goal
+    title: "Start Star Signs: the Telescope"
+    text: "{text}"
+    why: "{why}"
+    values:
+      open: "Move your {who} to {map} (W1): {kills:int} more kills open {next}, {eta}"
+      open-eta: "{eta} at its kill rate"
+      open-no-rate: "no kill rate there yet"
+      the-top: "the top of the tree"
+      when-free: ", when it's free"
+      talk: "On your {who}: walk up to Where the Branches End, talk to the Telescope and take its quest"
+      a2-candy: "On your {who}: stand on a monster at Where the Branches End, use a {hours:int}-hour Time Candy, click star A-2 on the bottom-right branch, then send it back to {target}"
+      a2-candy-storage: "On your {who}: withdraw a {hours:int}-hour Time Candy, stand on a monster at Where the Branches End, use it, click star A-2 on the bottom-right branch, then send it back to {target}"
+      a2-wait: "On your {who}: stay AFK at Where the Branches End for at least 1 hour, then click star A-2 on the bottom-right branch"
+      hand-in: "On your {who}: talk to the Telescope again to hand in \"I'm Seeing Stars!\" (free 2 bag slots first): every character can then use constellations"
+      why-start: "The Telescope is at the top of the big tree; you open the way once, on this one character. Constellations pay Star Chart Points that unlock star signs."
+      why-after: "After this, {n:int} constellations are ready, worth {points:int} points: {reach}."
+      reach-cosmos: "enough for Chronus Cosmos, 2 signs on every character"
+      reach-part: "{points:int} of the {need:int} points still needed for Chronus Cosmos"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Telescope", title: "IdleOn Wiki: Telescope (Where the Branches End; the quest I'm Seeing Stars!)", tier: 2, claimDate: 2026-09-27, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Star_Signs", title: "IdleOn Wiki: Star Signs (change signs at the Telescope at the top of the big tree)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "IdleOn Toolbox game data: constellations, starSigns, map doors", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: [{ from: W1-mid, to: W4-entry }] }
+    confidence: H
+    status: active
+    scope: account
+    category: compounding
+    unit: quest
+    progress: { id: star-signs/telescope }
+    milestones: [{ at: 1, reward: "Constellations open for every character" }]
+    notes: "M16 F1 (FR-1 to FR-4). Until the Telescope quest is handed in it replaces the other M16 Goals. The hand-in is an account-wide quest (N.js AccountWideQuests Telescope4)."
+
+  - id: star-signs.goal.constellation
+    system: star-signs
+    type: goal
+    title: Constellation
+    text: "{text}"
+    why: "{why}"
+    values:
+      title: "Constellation {name}: {map}, {what}"
+      headline: "{map}, {what}"
+      what-claim: "claim it"
+      what-visit-many: "reach the star on {players:int} characters"
+      what-visit-one: "reach the star on 1 character"
+      what-class-a-6: "reach the star on an Archer-line character"
+      what-class-a-10: "reach the star on a Mage-line character"
+      what-class-b-2: "reach the star on a Mage-line character"
+      what-level: "Lv {level:int} on {players:int} characters"
+      what-afk: "AFK {hours:int} h on {players:int} characters"
+      task-c-2-short: "a barehanded Sheepie kill on {players:int} characters"
+      task-c-3-short: "Trapping 15 on {players:int} characters"
+      task-c-8-short: "a Bloodbone kill on {players:int} characters"
+      task-c-2: "unequip your weapon, kill one Sheepie at Steep Sheep Ledge (W3), then put the weapon back on"
+      task-c-3: "with Trapping 15 or more, walk into Trappers Folley (W3)"
+      task-c-8: "kill one Bloodbone at Hell Hath Frozen Over (W3)"
+      step-talk: "On your {who}: talk to the Telescope at Where the Branches End first"
+      step-visit: "On your {who}: go to {map} (W{world:int}), click the star, then go back to {target}"
+      step-task: "On your {who}: {task}, click the star, then go back to {target}"
+      step-candy-withdraw: "On your {who}: withdraw a {hours:int}-hour Time Candy from storage"
+      step-candy: "On your {who}: go to {map} (W{world:int}), stand on a monster, use a {hours:int}-hour Time Candy, click the star, then go back to {target}"
+      step-key-withdraw: "On your {who}: withdraw 1 {key} from storage"
+      step-claim-key: "On your {who}: spend 1 {key} to enter {arena}, click the star"
+      step-claim-ticket: "On your {who}: spend 1 Colosseum Ticket to enter {map}, click the star"
+      step-claim-tickets: "On your {who}: spend {tickets:int} Colosseum Tickets to enter {map}, click the star"
+      step-claim: "On your {who}: go to {map} (W{world:int}), click the star, then go back to {target}"
+      recorded: "{who}: done"
+      collapsed: "{name}: {recorded:int} of {players:int} characters · {eta}"
+      reach-unknown: "if you can reach it: map access couldn't be read from this save"
+      done: "Constellation {name}: claimed"
+      why: "Constellation {name} pays {points:int} Star Chart Points once, for the whole account; points unlock star signs at the Telescope."
+    sources:
+      - { url: "https://idleon.wiki/wiki/Star_Signs", title: "IdleOn Wiki: Star Signs (constellation requirements and points; Time Candy counts for AFK ones)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Constellation_Locations", title: "IdleOn Wiki: Constellation Locations (where the star is; edited 2024-08-17)", tier: 4, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/starSigns.ts", title: "IdleOn Toolbox parser: constellations (completedChars, done)", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: [{ from: W1-mid, to: W4-entry }] }
+    confidence: H
+    status: active
+    scope: account
+    category: compounding
+    unit: constellation
+    progress: { id: star-signs/constellations }
+    milestones: [{ at: 1, reward: "Star Chart Points" }]
+    notes: "M16 F2 (FR-5 to FR-14), one instance per constellation (key star-signs.goal.constellation@A-1). Claim, visit, task and candy kinds; AFK-hours ones are Later details until M14's planner takes them (Phase 2)."
+
+  - id: star-signs.goal.signs
+    system: star-signs
+    type: goal
+    title: Star signs
+    text: "{text}"
+    why: "{why}"
+    values:
+      unlock: "On your {who} at the Telescope: unlock {signs} ({cost:int} of your {points:int} points)"
+      unlock-align: "{unlock}, and align {sign}"
+      empty: "On your {who}, at the Telescope: align {sign} in your empty slot"
+      swap: "On your {who}, at the Telescope: swap {worn} for {sign} ({activity})"
+      bank: "Bank your points: after {list} you can unlock up to {sign} in one trip"
+      milestone: "{have:int} of the {need:int} points left for {leg}"
+      leg-1: "Chronus Cosmos (2 signs on every character)"
+      leg-2: "opening the Hydron chart"
+      leg-3: "Hydron Cosmos (3 signs on every character)"
+      leg-4: "the fit signs"
+      char-line: "{who} ({activity}): wear {set}"
+      char-ok: " ✓"
+      char-swap: " (wearing {worn}; swap next time it's at the Telescope)"
+      char-swap-empty: " (wearing nothing; align it next time it's at the Telescope)"
+      char-far: " (wearing {worn}; it can change signs after about {kills} kills to reach the Telescope)"
+      char-far-empty: " (it can change signs after about {kills} kills to reach the Telescope)"
+      char-after: " · after Chronus Cosmos: {set}"
+      char-once: ", {sign} once unlocked"
+      char-none: "{who} ({activity}): no sign advice for {activity} yet"
+      next-character: "Next character: pick The Fuzzy Dice when you create it"
+      also: "Also ready: {list}"
+      also-item: "{name} ({points:int} points, {eta})"
+      later-afk-one: "Later: {name}, AFK {hours:int} h in {map} on 1 more character ({recorded:int} of {players:int})"
+      later-afk: "Later: {name}, AFK {hours:int} h in {map} on {k:int} more characters ({recorded:int} of {players:int})"
+      later-level: "Later: {name}, Lv {level:int} on {players:int}; your {who} is {gap:int} levels short"
+      later-level-more: ", and {more:int} more character after it"
+      why: "Unlock them all, then wear what fits each character's job. Unlocks are account-wide; each character aligns its own signs at the Telescope."
+      chart-leg-1: "Dwarfo_Beardus, Hipster_Logger, Pack_Mule, Pirate_Booty, All_Rounder, Fatty_Doodoo, Robinhood, Ned_Kelly, Chronus_Cosmos"
+      chart-leg-2: "Pie_Seas, Shoe_Fly, The_Fallen_Titan, Activelius, Gum_Drop, Mount_Eaterest, Miniature_Game, Muscle_Man, Fast_Frog, Smart_Stooge, Lucky_Larry"
+      chart-leg-3: "All_Rounderi, Centaurii, Murmollio, Strandissi, Wispommo, Pokaminni, Gor_Bowzor, Hydron_Cosmos"
+      chart-leg-4: "Bob_Build_Guy, The_Big_Comatose, Silly_Snoozer, The_Big_Brain, Sir_Savvy, Grim_Reaper, The_OG_Skiller, Blue_Hedgehog"
+      fit-fighting: "Silly_Snoozer, Pirate_Booty, All_Rounder, Fatty_Doodoo, The_Fallen_Titan, Gum_Drop"
+      fit-mining: "Dwarfo_Beardus, The_Big_Comatose, The_OG_Skiller, Sir_Savvy, Pack_Mule"
+      fit-choppin: "Hipster_Logger, The_Big_Comatose, The_OG_Skiller, Sir_Savvy, Pack_Mule"
+      fit-fishing: "Pie_Seas, The_Big_Comatose, The_OG_Skiller, Sir_Savvy, Pack_Mule"
+      fit-catching: "Shoe_Fly, The_Big_Comatose, The_OG_Skiller, Sir_Savvy, Pack_Mule"
+      maxM16Goals: 2
+      maxCandyHours: 4
+      levelGap: 5
+      maxChallenges: 1
+      talkMinutes: 3
+      visitMinutes: 3
+      claimMinutes: 1
+      candyMinutes: 1
+    sources:
+      - { url: "https://idleon.wiki/wiki/Star_Signs", title: "IdleOn Wiki: Star Signs (Chronus Cosmos first for two signs; the charts and costs)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://www.reddit.com/r/idleon/comments/1v7nja9/", title: "r/idleon: Which star signs should I align in which situations? (unlock them all, wear what fits)", tier: 4, claimDate: 2026-07-27, verified: 2026-10-17, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "IdleOn Toolbox game data: starSigns (cost, bonuses, chart)", tier: 1, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: [{ from: W1-mid, to: W4-entry }] }
+    confidence: M
+    status: active
+    scope: account
+    category: compounding
+    unit: sign
+    progress: { id: star-signs/signs }
+    milestones: [{ at: 1, reward: "A second sign slot" }]
+    notes: "M16 F3 (FR-15 to FR-19, D-5 to D-8, D-14). Chart order: Chronus Cosmos (19), then the cheapest 11 signs to open the Hydron chart at 24 nodes (18), then Hydron Cosmos (14), then fit signs. Never The Forsaken or Mr No Sleep. Judgment values: at most maxM16Goals M16 Goals at once (D-2), Time Candies up to maxCandyHours (D-4)."
+
+  - id: star-signs.check.activeplay-challenge
+    system: star-signs
+    type: check
+    title: Constellation challenge
+    subject: account
+    effect: next-action
+    category: nice
+    detector: { id: star-signs/constellations }
+    text: "{text}"
+    why: "{why}"
+    activePlay: { minutes: 5 }
+    values:
+      line-one: "{challenge} on 1 more character ({recorded:int} of {players:int}); try with your {who}, your highest-level character not yet done{spends}"
+      line: "{challenge} on {k:int} more characters ({recorded:int} of {players:int}); try with your {who}, your highest-level character not yet done{spends}"
+      spends-key: "; spends 1 {key} each"
+      spends-ticket: "; spends 1 Colosseum Ticket each"
+      spends-tickets: "; spends {tickets:int} Colosseum Tickets each"
+      ch-a-5: "Defeat Dr. Defecaus at The Office"
+      ch-a-8: "Clear the Dewdrop Colosseum"
+      ch-a-9: "Kill Amarok in under 20 seconds"
+      ch-b-5: "Clear the Sandstone Colosseum"
+      ch-b-6: "Kill Efaunt on a Beginner-line character"
+      ch-c-5: "Reach Worship wave 11 at Rollin' Tundra"
+    sources:
+      - { url: "https://idleon.wiki/wiki/Star_Signs", title: "IdleOn Wiki: Star Signs (constellation requirements)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-18, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Amarok", title: "IdleOn Wiki: Amarok (1 Forest Villa Key to enter the boss room)", tier: 2, claimDate: 2026-10-02, verified: 2026-10-18, gameVersion: 2.3.540 }
+    appliesTo: { stages: [{ from: W1-mid, to: W4-entry }] }
+    confidence: M
+    status: active
+    notes: "M16 F4 (FR-13, D-3, D-11): fight-skill constellations as If you have time; never ranked, never a Verdict input. The character is the highest-level one not yet recorded, labelled as such; no time prediction (ADR 0005)."

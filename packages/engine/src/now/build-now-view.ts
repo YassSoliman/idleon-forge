@@ -31,6 +31,7 @@ import {
   skipActive,
   skipExpiresAt,
 } from './prefs';
+import { starSignsView } from './star-signs-view';
 import type {
   ActivePlayView,
   Banner,
@@ -656,6 +657,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
     nextExpiry,
     builds: buildsView(result),
     cards: cardsView(result),
+    starSigns: starSignsView(result),
   };
 }
 
