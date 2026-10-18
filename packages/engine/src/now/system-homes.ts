@@ -20,7 +20,7 @@ export const SYSTEM_HOMES: Readonly<Record<string, SystemHome>> = {
   'talent-presets': { tab: 'build' },
   'talent-resets': { tab: 'build' },
   cards: { tab: 'cards' },
-  'star-signs': { tab: 'signs' },
+  'star-signs': { tab: 'signs', page: 'star-signs' },
   // Phase 2: ActiveOn's own AFK concept lives on the Timeline (FR-31).
   afk: { timeline: true },
 };

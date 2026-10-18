@@ -4,8 +4,8 @@
 // header (name, status, reason), every Next Action of the System from every character and the account
 // in engine order (M10's Next Action component, the same keys, so Skip today, Not for me and Report this
 // act on the same item as on Now, FR-33), its quick collects, its Spend Plan lines, how it opens, what
-// ActiveOn checks there, and the Sources. A later module's picture replaces only the body between the
-// header and the Coverage section (FR-23a, `pages.ts`).
+// ActiveOn checks there, and the Sources. A later module's picture is drawn after the Next Actions
+// (FR-23a, `pages.ts`).
 import {
   buildSystemPageView,
   LINK_WORDS,
@@ -103,7 +103,7 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
           <span>{tile.statusWord.text}</span>
         </p>
         <Reason tile={tile} />
-        {tab ? (
+        {tab && (tab.id === 'build' || tab.id === 'cards') ? (
           <p>
             <a
               className="small build-link"
@@ -120,9 +120,7 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
         {page.stageUnknown ? <p className="small muted">{PAGE_WORDS.blockersOnly}</p> : null}
       </header>
 
-      {Body ? (
-        <Body s={s} page={page} />
-      ) : page.locked ? null : (
+      {page.locked ? null : (
         <section aria-labelledby="sp-na-h">
           <h3 id="sp-na-h" className="sub-h">
             {PAGE_WORDS.nextActions}
@@ -130,6 +128,7 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
           {goals}
         </section>
       )}
+      {Body && !page.locked ? <Body s={s} page={page} /> : null}
 
       {page.pills.length > 0 ? (
         <section aria-labelledby="sp-pills-h">

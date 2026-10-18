@@ -48,7 +48,7 @@ export interface StarSignsView {
   slots: number;
   /** Whether the Telescope quest is handed in (constellations work account-wide, F-k). */
   questDone: boolean;
-  /** The milestone line ("21 of the 19 points left for Chronus Cosmos …"); null past the covered legs. */
+  /** The milestone line ("21 points ready, 19 needed for Chronus Cosmos …"); null past the covered legs. */
   milestone: string | null;
   /** "Bank your points: …" or the unlock action, or null. */
   plan: string | null;

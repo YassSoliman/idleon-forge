@@ -160,7 +160,7 @@ describe('US-2 What to clear next (W3-early)', () => {
     const r = run(W3());
     expect(byId(starGoals(r), 'star-signs.goal.signs')).toHaveLength(0);
     expect(r.starSigns?.milestone).toBe(
-      '21 of the 19 points left for Chronus Cosmos (2 signs on every character)',
+      '21 points ready, 19 needed for Chronus Cosmos (2 signs on every character)',
     );
     expect(r.starSigns?.plan).toMatch(/^Bank your points: after A-7 and B-1 you can unlock up to /);
     expect(r.starSigns?.next.filter((n) => !n.shown).map((n) => n.name)).toEqual(['B-4', 'A-1', 'A-3']);
@@ -296,7 +296,7 @@ describe('US-5 Spend points in a sensible order', () => {
     ss.pointsUnspent = 2;
     claimAll(s);
     const r = m16(s);
-    expect(r.view?.milestone).toBe('2 of the 18 points left for opening the Hydron chart');
+    expect(r.view?.milestone).toBe('2 points ready, 18 needed for opening the Hydron chart');
     const ctx = contextOf(s, kb, runMetaPath(s, kb, s.asOf), 3, DEFAULT_VALUES);
     if (!ctx) throw new Error('no context');
     expect(chartState(ctx).count).toBe(13);
