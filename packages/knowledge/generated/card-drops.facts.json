@@ -1,0 +1,3294 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "card-drops",
+        "inputs": [
+          "website-data/cards.json",
+          "website-data/monsterDrops.json",
+          "website-data/monsters.json",
+          "website-data/shared-data.json#mapEnemiesArray",
+          "website-data/shared-data.json#mapNames"
+        ]
+      },
+      "id": "cards.fact.drops",
+      "origin": "generated",
+      "rows": {
+        "AlienTree": {
+          "afkType": "CHOPPIN",
+          "bonus": 8,
+          "chance": 0.00001,
+          "effect": "+{%_Total_Choppin_Efficiency",
+          "maps": [],
+          "monster": "AlienTree",
+          "name": "Alien_Tree",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Bandit_Bob": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 0,
+          "effect": "+{%_Money_from_Monsters",
+          "maps": [],
+          "monster": "Bandit_Bob",
+          "name": "Bandit_Bob",
+          "perTier": 1,
+          "set": "Yum_Yum_Desert"
+        },
+        "BirchTree": {
+          "afkType": "CHOPPIN",
+          "bonus": 5,
+          "chance": 0.00029,
+          "effect": "+{%_Total_Choppin_Efficiency",
+          "maps": [],
+          "monster": "BirchTree",
+          "name": "Birch_Tree",
+          "perTier": 10,
+          "set": "Easy_Resources"
+        },
+        "Boss2A": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.025,
+          "effect": "+{%_EXP_from_monsters",
+          "maps": [],
+          "monster": "Boss2A",
+          "name": "Efaunt",
+          "perTier": 1.5,
+          "set": "Bosses"
+        },
+        "Boss2B": {
+          "afkType": "FIGHTING",
+          "bonus": 3.75,
+          "chance": 0.016,
+          "effect": "+{%_Skill_EXP",
+          "maps": [],
+          "monster": "Boss2B",
+          "name": "Chaotic_Efaunt",
+          "perTier": 1.5,
+          "set": "Bosses"
+        },
+        "Boss2C": {
+          "afkType": "FIGHTING",
+          "bonus": 15,
+          "chance": 0.02,
+          "effect": "+{_Star_Talent_Pts_(Passive)",
+          "maps": [],
+          "monster": "Boss2C",
+          "name": "Gilded_Efaunt",
+          "perTier": 11,
+          "set": "Bosses"
+        },
+        "Boss3A": {
+          "afkType": "FIGHTING",
+          "bonus": 8,
+          "chance": 0.007,
+          "effect": "+{%_Cog_Build_Spd_(Passive)",
+          "maps": [],
+          "monster": "Boss3A",
+          "name": "Chizoar",
+          "perTier": 1.5,
+          "set": "Bosses"
+        },
+        "Boss3B": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.004,
+          "effect": "+{%_Shrine_Effects_(Passive)",
+          "maps": [],
+          "monster": "Boss3B",
+          "name": "Chaotic_Chizoar",
+          "perTier": 1.5,
+          "set": "Bosses"
+        },
+        "Boss3C": {
+          "afkType": "FIGHTING",
+          "bonus": 1.5,
+          "chance": 0.002,
+          "effect": "+{%_All_Stat",
+          "maps": [],
+          "monster": "Boss3C",
+          "name": "Blighted_Chizoar",
+          "perTier": 12,
+          "set": "Bosses"
+        },
+        "Boss4A": {
+          "afkType": "FIGHTING",
+          "bonus": 6,
+          "chance": 0.004,
+          "effect": "+{%_Kitchen_Speed_(Passive)",
+          "maps": [],
+          "monster": "Boss4A",
+          "name": "Massive_Troll",
+          "perTier": 2,
+          "set": "Bosses"
+        },
+        "Boss4B": {
+          "afkType": "FIGHTING",
+          "bonus": 10,
+          "chance": 0.002,
+          "effect": "+{%_All_Skill_Efficiency",
+          "maps": [],
+          "monster": "Boss4B",
+          "name": "Chaotic_Troll",
+          "perTier": 2,
+          "set": "Bosses"
+        },
+        "Boss4C": {
+          "afkType": "FIGHTING",
+          "bonus": 7,
+          "chance": 0.003,
+          "effect": "+{%_Total_Damage",
+          "maps": [],
+          "monster": "Boss4C",
+          "name": "Blitzkrieg_Troll",
+          "perTier": 4,
+          "set": "Bosses"
+        },
+        "Boss5A": {
+          "afkType": "FIGHTING",
+          "bonus": 6,
+          "chance": 0.0008,
+          "effect": "+{%_Sailing_Speed_(Passive)",
+          "maps": [],
+          "monster": "Boss5A",
+          "name": "Kattlekruk",
+          "perTier": 3,
+          "set": "Bosses"
+        },
+        "Boss5B": {
+          "afkType": "FIGHTING",
+          "bonus": 8,
+          "chance": 0.0008,
+          "effect": "+{%_EXP_from_monsters",
+          "maps": [],
+          "monster": "Boss5B",
+          "name": "Chaotic_Kattlekruk",
+          "perTier": 4,
+          "set": "Bosses"
+        },
+        "Boss5C": {
+          "afkType": "FIGHTING",
+          "bonus": 18,
+          "chance": 0.0008,
+          "effect": "+{%_Money_from_Monsters",
+          "maps": [],
+          "monster": "Boss5C",
+          "name": "Sacrilegious_Kattlekruk",
+          "perTier": 5,
+          "set": "Bosses"
+        },
+        "Boss6A": {
+          "afkType": null,
+          "bonus": 12,
+          "chance": 0.001,
+          "effect": "+{%_Total_Drop_Rate",
+          "maps": [],
+          "monster": "Boss6",
+          "name": "Emperor",
+          "perTier": 6,
+          "set": "Bosses"
+        },
+        "Boss6B": {
+          "afkType": "FIGHTING",
+          "bonus": 8,
+          "chance": 0.001,
+          "effect": "+{%_Total_Damage_Multi",
+          "maps": [],
+          "monster": "Boss6A",
+          "name": "Chaotic_Emperor",
+          "perTier": 9,
+          "set": "Bosses"
+        },
+        "Boss6C": {
+          "afkType": "FIGHTING",
+          "bonus": 20,
+          "chance": 0.001,
+          "effect": "+{%_Multikill_per_tier",
+          "maps": [],
+          "monster": "Boss6A",
+          "name": "Sovereign_Emperor",
+          "perTier": 13,
+          "set": "Bosses"
+        },
+        "Bug1": {
+          "afkType": "CATCHING",
+          "bonus": 4,
+          "chance": 0.00042,
+          "effect": "+{%_Monster_EXP_While_Active",
+          "maps": [],
+          "monster": "Bug1",
+          "name": "Flies",
+          "perTier": 10,
+          "set": "Easy_Resources"
+        },
+        "Bug10": {
+          "afkType": "CATCHING",
+          "bonus": 3,
+          "chance": 0.00002,
+          "effect": "+{%_Catching_Away_Gains",
+          "maps": [],
+          "monster": "Bug10",
+          "name": "Dust_Mote",
+          "perTier": 15,
+          "set": "Hard_Resources"
+        },
+        "Bug12": {
+          "afkType": "CATCHING",
+          "bonus": 5,
+          "chance": 0.000005,
+          "effect": "+{%_Total_Catching_Efficiency",
+          "maps": [],
+          "monster": "Bug12",
+          "name": "Ladybug",
+          "perTier": 15,
+          "set": "Hard_Resources"
+        },
+        "Bug13": {
+          "afkType": "CATCHING",
+          "bonus": 5,
+          "chance": 0.000001,
+          "effect": "+{%_Catching_Speed",
+          "maps": [],
+          "monster": "Bug13",
+          "name": "Firefly",
+          "perTier": 15,
+          "set": "Hard_Resources"
+        },
+        "Bug14": {
+          "afkType": "CATCHING",
+          "bonus": 8,
+          "chance": 0.000001,
+          "effect": "+{%_Total_Catching_Efficiency",
+          "maps": [],
+          "monster": "Bug15",
+          "name": "Fractalfly",
+          "perTier": 1000,
+          "set": "Hard_Resources"
+        },
+        "Bug2": {
+          "afkType": "CATCHING",
+          "bonus": 5,
+          "chance": 0.0003,
+          "effect": "+{%_Total_Catching_Efficiency",
+          "maps": [
+            67
+          ],
+          "monster": "Bug2",
+          "name": "Butterflies",
+          "perTier": 10,
+          "set": "Easy_Resources"
+        },
+        "Bug3": {
+          "afkType": "CATCHING",
+          "bonus": 5,
+          "chance": 0.00028,
+          "effect": "+{%_Catching_EXP",
+          "maps": [],
+          "monster": "Bug3",
+          "name": "Sentient_Cereal",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Bug4": {
+          "afkType": "CATCHING",
+          "bonus": 2,
+          "chance": 0.00025,
+          "effect": "+{%_Catching_Away_Gains",
+          "maps": [],
+          "monster": "Bug4",
+          "name": "Fruitflies",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Bug5": {
+          "afkType": "CATCHING",
+          "bonus": 7,
+          "chance": 0.00025,
+          "effect": "+{%_Total_Catching_Efficiency",
+          "maps": [],
+          "monster": "Bug5",
+          "name": "Mosquisnow",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Bug6": {
+          "afkType": "CATCHING",
+          "bonus": 2.5,
+          "chance": 0.00025,
+          "effect": "+{%_Catching_Away_Gains",
+          "maps": [],
+          "monster": "Bug6",
+          "name": "Flycicle",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Bug7": {
+          "afkType": "CATCHING",
+          "bonus": 8,
+          "chance": 0.00005,
+          "effect": "+{%_Total_Catching_Efficiency",
+          "maps": [],
+          "monster": "Bug7",
+          "name": "Bumble_Bee",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Bug8": {
+          "afkType": "CATCHING",
+          "bonus": 4,
+          "chance": 0.00002,
+          "effect": "+{%_Catching_Speed",
+          "maps": [],
+          "monster": "Bug8",
+          "name": "Fairy",
+          "perTier": 10,
+          "set": "Hard_Resources"
+        },
+        "Bug9": {
+          "afkType": "CATCHING",
+          "bonus": 10,
+          "chance": 0.00002,
+          "effect": "+{%_Total_Catching_Efficiency",
+          "maps": [],
+          "monster": "Bug9",
+          "name": "Scarab",
+          "perTier": 12,
+          "set": "Hard_Resources"
+        },
+        "Copper": {
+          "afkType": "MINING",
+          "bonus": 4,
+          "chance": 0.0002,
+          "effect": "+{_Base_accuracy",
+          "maps": [
+            6
+          ],
+          "monster": "Copper",
+          "name": "Copper",
+          "perTier": 10,
+          "set": "Easy_Resources"
+        },
+        "CritterCard1": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0,
+          "effect": "+{%_Shiny_Critter_Chance",
+          "maps": [],
+          "monster": "CritterCard1",
+          "name": "Froge",
+          "perTier": 4,
+          "set": "Medium_Resources"
+        },
+        "CritterCard10": {
+          "afkType": "FIGHTING",
+          "bonus": 8,
+          "chance": 0,
+          "effect": "+{%_Shiny_Critter_Chance",
+          "maps": [],
+          "monster": "CritterCard10",
+          "name": "Blobfish",
+          "perTier": 12,
+          "set": "Hard_Resources"
+        },
+        "CritterCard11": {
+          "afkType": "FIGHTING",
+          "bonus": 15,
+          "chance": 0,
+          "effect": "+{%_Shiny_Critter_Chance",
+          "maps": [],
+          "monster": "CritterCard11",
+          "name": "Tuttle",
+          "perTier": 50,
+          "set": "Hard_Resources"
+        },
+        "CritterCard2": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0,
+          "effect": "+{%_Trapping_Efficiency",
+          "maps": [],
+          "monster": "CritterCard2",
+          "name": "Crabbo",
+          "perTier": 4,
+          "set": "Medium_Resources"
+        },
+        "CritterCard3": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0,
+          "effect": "+{%_Trapping_EXP",
+          "maps": [],
+          "monster": "CritterCard3",
+          "name": "Scorpie",
+          "perTier": 4,
+          "set": "Medium_Resources"
+        },
+        "CritterCard4": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0,
+          "effect": "+{%_Shiny_Critter_Chance",
+          "maps": [],
+          "monster": "CritterCard4",
+          "name": "Mousey",
+          "perTier": 4,
+          "set": "Medium_Resources"
+        },
+        "CritterCard5": {
+          "afkType": "FIGHTING",
+          "bonus": 1.25,
+          "chance": 0,
+          "effect": "+{%_EXP_from_monsters",
+          "maps": [],
+          "monster": "CritterCard5",
+          "name": "Owlio",
+          "perTier": 4,
+          "set": "Medium_Resources"
+        },
+        "CritterCard6": {
+          "afkType": "FIGHTING",
+          "bonus": 6,
+          "chance": 0,
+          "effect": "+{%_Shiny_Critter_Chance",
+          "maps": [],
+          "monster": "CritterCard6",
+          "name": "Pingy",
+          "perTier": 5,
+          "set": "Hard_Resources"
+        },
+        "CritterCard7": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 0,
+          "effect": "+{%_Skill_AFK_gain_rate",
+          "maps": [],
+          "monster": "CritterCard7",
+          "name": "Bunny",
+          "perTier": 6,
+          "set": "Hard_Resources"
+        },
+        "CritterCard8": {
+          "afkType": "FIGHTING",
+          "bonus": 7,
+          "chance": 0,
+          "effect": "+{%_Trapping_Efficiency",
+          "maps": [],
+          "monster": "CritterCard8",
+          "name": "Dung_Beat",
+          "perTier": 7,
+          "set": "Hard_Resources"
+        },
+        "CritterCard9": {
+          "afkType": "FIGHTING",
+          "bonus": 8,
+          "chance": 0,
+          "effect": "+{%_Trapping_EXP",
+          "maps": [],
+          "monster": "CritterCard9",
+          "name": "Honker",
+          "perTier": 9,
+          "set": "Hard_Resources"
+        },
+        "Crystal0": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.01,
+          "effect": "+{%_Total_Drop_Rate",
+          "maps": [],
+          "monster": "Crystal0",
+          "name": "Crystal_Carrot",
+          "perTier": 3,
+          "set": "Blunder_Hills"
+        },
+        "Crystal1": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0.008,
+          "effect": "+{%_EXP_from_monsters",
+          "maps": [],
+          "monster": "Crystal1",
+          "name": "Crystal_Crabal",
+          "perTier": 3,
+          "set": "Yum_Yum_Desert"
+        },
+        "Crystal2": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.008,
+          "effect": "+{%_EXP_from_monsters",
+          "maps": [],
+          "monster": "Crystal2",
+          "name": "Crystal_Cattle",
+          "perTier": 10,
+          "set": "Frostbite_Tundra"
+        },
+        "Crystal3": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0.008,
+          "effect": "+{px_Line_Width_(Passive)",
+          "maps": [],
+          "monster": "Crystal3",
+          "name": "Crystal_Custard",
+          "perTier": 10,
+          "set": "Hyperion_Nebula"
+        },
+        "Crystal4": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.006,
+          "effect": "+{%_Skill_Efficncy_(Passive)",
+          "maps": [],
+          "monster": "Crystal4",
+          "name": "Crystal_Capybara",
+          "perTier": 15,
+          "set": "Smolderin'_Plateau"
+        },
+        "Crystal5": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0.002,
+          "effect": "+{%_Sneaking_Stealth_(Passive)",
+          "maps": [],
+          "monster": "Crystal5",
+          "name": "Crystal_Candalight",
+          "perTier": 5000,
+          "set": "Spirited_Valley"
+        },
+        "Crystal6": {
+          "afkType": "FIGHTING",
+          "bonus": 1.5,
+          "chance": 0.000001,
+          "effect": "+{%_Damage_Multi_(Passive)",
+          "maps": [],
+          "monster": "Crystal6",
+          "name": "Crystal_Cuttlefish",
+          "perTier": 2500000,
+          "set": "Shimmerfin_Deep"
+        },
+        "Dementia": {
+          "afkType": "MINING",
+          "bonus": 4,
+          "chance": 0.00006,
+          "effect": "+{%_Mining_Speed",
+          "maps": [],
+          "monster": "Dementia",
+          "name": "Dementia",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Dreadlo": {
+          "afkType": "MINING",
+          "bonus": 3,
+          "chance": 0.00003,
+          "effect": "+{%_Mining_Away_Gains",
+          "maps": [],
+          "monster": "Dreadlo",
+          "name": "Dreadlo",
+          "perTier": 15,
+          "set": "Hard_Resources"
+        },
+        "EasterEvent1": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 0,
+          "effect": "+{%_Card_Drop_Chance",
+          "maps": [],
+          "monster": "EasterEvent1",
+          "name": "Egggulyte",
+          "perTier": 1.5,
+          "set": "Events"
+        },
+        "EasterEvent2": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 0,
+          "effect": "+{%_Critical_Damage",
+          "maps": [],
+          "monster": "EasterEvent2",
+          "name": "Egg_Capsule",
+          "perTier": 1.5,
+          "set": "Events"
+        },
+        "Fish1": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0,
+          "effect": "+{%_Total_MP",
+          "maps": [],
+          "monster": "Fish1",
+          "name": "Goldfish",
+          "perTier": 10,
+          "set": "Easy_Resources"
+        },
+        "Fish10": {
+          "afkType": "FIGHTING",
+          "bonus": 12,
+          "chance": 0,
+          "effect": "+{%_Total_Fishing_Efficiency",
+          "maps": [],
+          "monster": "Fish10",
+          "name": "Shellfish",
+          "perTier": 18,
+          "set": "Hard_Resources"
+        },
+        "Fish11": {
+          "afkType": "FIGHTING",
+          "bonus": 3.5,
+          "chance": 0,
+          "effect": "+{%_Fishing_Away_Gains",
+          "maps": [],
+          "monster": "Fish11",
+          "name": "Jumbo_Shrimp",
+          "perTier": 24,
+          "set": "Hard_Resources"
+        },
+        "Fish12": {
+          "afkType": "FIGHTING",
+          "bonus": 7,
+          "chance": 0,
+          "effect": "+{%_Fishing_Speed",
+          "maps": [],
+          "monster": "Fish12",
+          "name": "Caulifish",
+          "perTier": 30,
+          "set": "Hard_Resources"
+        },
+        "Fish2": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0,
+          "effect": "+{%_Total_Fishing_Efficiency",
+          "maps": [],
+          "monster": "Fish2",
+          "name": "Hermit_Can",
+          "perTier": 10,
+          "set": "Easy_Resources"
+        },
+        "Fish3": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0,
+          "effect": "+{%_Fishing_EXP",
+          "maps": [],
+          "monster": "Fish3",
+          "name": "Jellyfish",
+          "perTier": 10,
+          "set": "Easy_Resources"
+        },
+        "Fish4": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0,
+          "effect": "+{%_Fishing_Away_Gains",
+          "maps": [],
+          "monster": "Fish4",
+          "name": "Bloach",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Fish5": {
+          "afkType": "FIGHTING",
+          "bonus": 8,
+          "chance": 0,
+          "effect": "+{%_Total_Fishing_Efficiency",
+          "maps": [],
+          "monster": "Fish5",
+          "name": "Skelefish",
+          "perTier": 8,
+          "set": "Medium_Resources"
+        },
+        "Fish6": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0,
+          "effect": "+{%_Fishing_Speed",
+          "maps": [],
+          "monster": "Fish6",
+          "name": "Shark",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Fish7": {
+          "afkType": "FIGHTING",
+          "bonus": 10,
+          "chance": 0,
+          "effect": "+{%_Fishing_EXP",
+          "maps": [],
+          "monster": "Fish7",
+          "name": "Manta_Ray",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Fish8": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0,
+          "effect": "+{%_Fishing_Away_Gains",
+          "maps": [],
+          "monster": "Fish8",
+          "name": "Kraken",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Fish9": {
+          "afkType": "FIGHTING",
+          "bonus": 15,
+          "chance": 0,
+          "effect": "+{%_Fishing_EXP",
+          "maps": [],
+          "monster": "Fish9",
+          "name": "Icefish",
+          "perTier": 15,
+          "set": "Hard_Resources"
+        },
+        "ForestTree": {
+          "afkType": "CHOPPIN",
+          "bonus": 8,
+          "chance": 0.00017,
+          "effect": "+{%_EXP_Conversion_from_Talent",
+          "maps": [],
+          "monster": "ForestTree",
+          "name": "Forest_Tree",
+          "perTier": 10,
+          "set": "Easy_Resources"
+        },
+        "ForgeA": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0,
+          "effect": "+{%_Smithing_EXP_(Passive)",
+          "maps": [],
+          "monster": "ForgeA",
+          "name": "Fire_Forge",
+          "perTier": 10,
+          "set": "Easy_Resources"
+        },
+        "ForgeB": {
+          "afkType": "FIGHTING",
+          "bonus": 7,
+          "chance": 0,
+          "effect": "+{%_Smithing_EXP_(Passive)",
+          "maps": [],
+          "monster": "ForgeB",
+          "name": "Cinder_Forge",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Godshard": {
+          "afkType": "MINING",
+          "bonus": 30,
+          "chance": 0.000002,
+          "effect": "+{%_Forge_Cap_and_SPD_(Passive)",
+          "maps": [
+            32
+          ],
+          "monster": "Godshard",
+          "name": "Godshard",
+          "perTier": 400,
+          "set": "Hard_Resources"
+        },
+        "Gold": {
+          "afkType": "MINING",
+          "bonus": 5,
+          "chance": 0.00011,
+          "effect": "+{%_Mining_EXP",
+          "maps": [],
+          "monster": "Gold",
+          "name": "Gold",
+          "perTier": 10,
+          "set": "Easy_Resources"
+        },
+        "Iron": {
+          "afkType": "MINING",
+          "bonus": 5,
+          "chance": 0.00013,
+          "effect": "+{%_Total_Mining_Efficiency",
+          "maps": [
+            7
+          ],
+          "monster": "Iron",
+          "name": "Iron",
+          "perTier": 10,
+          "set": "Easy_Resources"
+        },
+        "JungleTree": {
+          "afkType": "CHOPPIN",
+          "bonus": 5,
+          "chance": 0.00021,
+          "effect": "+{%_Choppin_EXP",
+          "maps": [],
+          "monster": "JungleTree",
+          "name": "Jungle_Tree",
+          "perTier": 10,
+          "set": "Easy_Resources"
+        },
+        "Lustre": {
+          "afkType": "MINING",
+          "bonus": 5,
+          "chance": 0.00006,
+          "effect": "+{%_Mining_Speed",
+          "maps": [],
+          "monster": "Lustre",
+          "name": "Lustre",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "OakTree": {
+          "afkType": "CHOPPIN",
+          "bonus": 3,
+          "chance": 0.0004,
+          "effect": "+{_Base_Defence",
+          "maps": [],
+          "monster": "OakTree",
+          "name": "Oak_Tree",
+          "perTier": 10,
+          "set": "Easy_Resources"
+        },
+        "PalmTree": {
+          "afkType": "CHOPPIN",
+          "bonus": 2,
+          "chance": 0.00011,
+          "effect": "+{%_Choppin_Away_Gains",
+          "maps": [],
+          "monster": "PalmTree",
+          "name": "Palm_Tree",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Plat": {
+          "afkType": "MINING",
+          "bonus": 2,
+          "chance": 0.00008,
+          "effect": "+{%_Mining_Away_Gains",
+          "maps": [
+            10
+          ],
+          "monster": "Plat",
+          "name": "Plat",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Prehistrium": {
+          "afkType": "MINING",
+          "bonus": 5,
+          "chance": 0.000001,
+          "effect": "+{%_Mining_Away_Gains",
+          "maps": [],
+          "monster": "Prehistrium",
+          "name": "Prehistrium",
+          "perTier": 5000,
+          "set": "Hard_Resources"
+        },
+        "SaharanFoal": {
+          "afkType": "CHOPPIN",
+          "bonus": 2.5,
+          "chance": 0.0001,
+          "effect": "+{%_Choppin_Away_Gains",
+          "maps": [],
+          "monster": "SaharanFoal",
+          "name": "Saharan_Foal",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "SoulCard1": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0,
+          "effect": "+{%_Defence_from_Equipment",
+          "maps": [],
+          "monster": "SoulCard1",
+          "name": "Forest_Soul",
+          "perTier": 3,
+          "set": "Medium_Resources"
+        },
+        "SoulCard2": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0,
+          "effect": "+{_Starting_Pts_in_Worship",
+          "maps": [],
+          "monster": "SoulCard2",
+          "name": "Dune_Soul",
+          "perTier": 3,
+          "set": "Medium_Resources"
+        },
+        "SoulCard3": {
+          "afkType": "FIGHTING",
+          "bonus": 6,
+          "chance": 0,
+          "effect": "+{_Starting_Pts_in_Worship",
+          "maps": [],
+          "monster": "SoulCard3",
+          "name": "Rooted_Soul",
+          "perTier": 3,
+          "set": "Medium_Resources"
+        },
+        "SoulCard4": {
+          "afkType": "FIGHTING",
+          "bonus": 7,
+          "chance": 0,
+          "effect": "+{%_Max_Charge",
+          "maps": [],
+          "monster": "SoulCard4",
+          "name": "Frigid_Soul",
+          "perTier": 4,
+          "set": "Medium_Resources"
+        },
+        "SoulCard5": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0,
+          "effect": "+{%_Charge_Rate",
+          "maps": [],
+          "monster": "SoulCard5",
+          "name": "Squishy_Soul",
+          "perTier": 5,
+          "set": "Hard_Resources"
+        },
+        "SoulCard6": {
+          "afkType": "FIGHTING",
+          "bonus": 10,
+          "chance": 0,
+          "effect": "+{%_Max_Charge",
+          "maps": [],
+          "monster": "SoulCard6",
+          "name": "Oozie_Soul",
+          "perTier": 7,
+          "set": "Hard_Resources"
+        },
+        "SoulCard7": {
+          "afkType": "FIGHTING",
+          "bonus": 7,
+          "chance": 0,
+          "effect": "+{%_Charge_Rate",
+          "maps": [],
+          "monster": "SoulCard7",
+          "name": "Breezy_Soul",
+          "perTier": 7,
+          "set": "Hard_Resources"
+        },
+        "SoulCard8": {
+          "afkType": "FIGHTING",
+          "bonus": 50,
+          "chance": 0,
+          "effect": "+{_Starting_Pts_in_Worship",
+          "maps": [],
+          "monster": "SoulCard8",
+          "name": "Deepsea_Soul",
+          "perTier": 250,
+          "set": "Hard_Resources"
+        },
+        "SpelunkingCard0": {
+          "afkType": "SPELUNKING",
+          "bonus": 4,
+          "chance": 0.0002,
+          "effect": "+{%_Spelunking_EXP",
+          "maps": [],
+          "monster": "Spelunking0",
+          "name": "Fearful_Tunnel",
+          "perTier": 100,
+          "set": "Hard_Resources"
+        },
+        "SpelunkingCard1": {
+          "afkType": "SPELUNKING",
+          "bonus": 8,
+          "chance": 0.00008,
+          "effect": "+{%_Spelunking_Efficiency",
+          "maps": [],
+          "monster": "Spelunking1",
+          "name": "Decaying_Crevasse",
+          "perTier": 300,
+          "set": "Hard_Resources"
+        },
+        "SpelunkingCard2": {
+          "afkType": "SPELUNKING",
+          "bonus": 2,
+          "chance": 0.00003,
+          "effect": "+{%_Spelunking_AFK_Gain",
+          "maps": [],
+          "monster": "Spelunking2",
+          "name": "Buried_Church",
+          "perTier": 3000,
+          "set": "Hard_Resources"
+        },
+        "SpelunkingCard3": {
+          "afkType": "SPELUNKING",
+          "bonus": 8,
+          "chance": 0.000005,
+          "effect": "+{%_Spelunking_EXP",
+          "maps": [],
+          "monster": "Spelunking3",
+          "name": "One_Way_Opening",
+          "perTier": 40000,
+          "set": "Hard_Resources"
+        },
+        "SpelunkingCard4": {
+          "afkType": "SPELUNKING",
+          "bonus": 2,
+          "chance": 0.000001,
+          "effect": "+{%_Spelunking_AFK_Gain",
+          "maps": [],
+          "monster": "Spelunking4",
+          "name": "Plunder_Cranny",
+          "perTier": 150000,
+          "set": "Hard_Resources"
+        },
+        "SpelunkingCard5": {
+          "afkType": "SPELUNKING",
+          "bonus": 15,
+          "chance": 3e-7,
+          "effect": "+{%_Spelunking_EXP",
+          "maps": [],
+          "monster": "Spelunking5",
+          "name": "Kelp_Forest",
+          "perTier": 2500000,
+          "set": "Hard_Resources"
+        },
+        "SpelunkingCard6": {
+          "afkType": "SPELUNKING",
+          "bonus": 30,
+          "chance": 2e-7,
+          "effect": "+{%_Spelunking_EXP",
+          "maps": [],
+          "monster": "Spelunking6",
+          "name": "Burned_Tunnel",
+          "perTier": 4000000,
+          "set": "Hard_Resources"
+        },
+        "Starfire": {
+          "afkType": "MINING",
+          "bonus": 8,
+          "chance": 0.00003,
+          "effect": "+{%_Mining_EXP",
+          "maps": [
+            12
+          ],
+          "monster": "Starfire",
+          "name": "Starfire",
+          "perTier": 12,
+          "set": "Hard_Resources"
+        },
+        "StumpTree": {
+          "afkType": "CHOPPIN",
+          "bonus": 3,
+          "chance": 0.00013,
+          "effect": "+{%_Total_Accuracy",
+          "maps": [],
+          "monster": "StumpTree",
+          "name": "Stump_Tree",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "SummerEvent1": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 0.05,
+          "effect": "+{%_Fishing_Away_Gains",
+          "maps": [],
+          "monster": "SummerEvent1",
+          "name": "Coastiolyte",
+          "perTier": 8,
+          "set": "Events"
+        },
+        "SummerEvent2": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0,
+          "effect": "+{%_Catching_EXP",
+          "maps": [],
+          "monster": "SummerEvent2",
+          "name": "Summer_Spirit",
+          "perTier": 8,
+          "set": "Events"
+        },
+        "ToiletTree": {
+          "afkType": "CHOPPIN",
+          "bonus": 4,
+          "chance": 0.00012,
+          "effect": "+{%_Choppin_Speed",
+          "maps": [],
+          "monster": "ToiletTree",
+          "name": "Toilet_Tree",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Tree10": {
+          "afkType": "CHOPPIN",
+          "bonus": 8,
+          "chance": 0.000005,
+          "effect": "+{%_Choppin_Speed",
+          "maps": [],
+          "monster": "Tree10",
+          "name": "Dandelioli_Tree",
+          "perTier": 15,
+          "set": "Hard_Resources"
+        },
+        "Tree12": {
+          "afkType": "CHOPPIN",
+          "bonus": 10,
+          "chance": 4e-8,
+          "effect": "+{%_Total_Choppin_Efficiency",
+          "maps": [],
+          "monster": "Tree12",
+          "name": "Bamboo",
+          "perTier": 15,
+          "set": "Hard_Resources"
+        },
+        "Tree13": {
+          "afkType": "CHOPPIN",
+          "bonus": 4,
+          "chance": 4e-8,
+          "effect": "+{%_Choppin_Away_Gains",
+          "maps": [],
+          "monster": "Tree13",
+          "name": "Effervescent_Eucalyptus",
+          "perTier": 15,
+          "set": "Hard_Resources"
+        },
+        "Tree14": {
+          "afkType": "CHOPPIN",
+          "bonus": 5,
+          "chance": 1e-8,
+          "effect": "+{%_Choppin_Away_Gains",
+          "maps": [],
+          "monster": "Tree14",
+          "name": "Ancient_Seaweed",
+          "perTier": 1000,
+          "set": "Hard_Resources"
+        },
+        "Tree7": {
+          "afkType": "CHOPPIN",
+          "bonus": 6,
+          "chance": 0.0001,
+          "effect": "+{%_Choppin_Speed",
+          "maps": [],
+          "monster": "Tree7",
+          "name": "Wispy_Tree",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Tree8": {
+          "afkType": "CHOPPIN",
+          "bonus": 7,
+          "chance": 0.00004,
+          "effect": "+{%_Choppin_Speed",
+          "maps": [],
+          "monster": "Tree8",
+          "name": "Cubed_Tree",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "Tree9": {
+          "afkType": "CHOPPIN",
+          "bonus": 3,
+          "chance": 0.00001,
+          "effect": "+{%_Choppin_Away_Gains",
+          "maps": [],
+          "monster": "Tree9",
+          "name": "Maple_Tree",
+          "perTier": 12,
+          "set": "Hard_Resources"
+        },
+        "Void": {
+          "afkType": "MINING",
+          "bonus": 6,
+          "chance": 0.00006,
+          "effect": "+{%_Total_Mining_Efficiency",
+          "maps": [
+            11
+          ],
+          "monster": "Void",
+          "name": "Void",
+          "perTier": 10,
+          "set": "Medium_Resources"
+        },
+        "acorn": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.00005,
+          "effect": "+{%_Money_from_Monsters",
+          "maps": [
+            18,
+            30
+          ],
+          "monster": "acorn",
+          "name": "Nutto",
+          "perTier": 10,
+          "set": "Blunder_Hills"
+        },
+        "anni4Event1": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0,
+          "effect": "+{%_Drop_Rate_(Passive)",
+          "maps": [],
+          "monster": "anni4Event1",
+          "name": "IdleOn_4th_Anniversary",
+          "perTier": 4,
+          "set": "Events"
+        },
+        "anni5Event1": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0,
+          "effect": "+{%_Gold_Food_Effect_(Passive)",
+          "maps": [],
+          "monster": "anni5Event1",
+          "name": "IdleOn_5th_Anniversary",
+          "perTier": 6,
+          "set": "Events"
+        },
+        "babaHour": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.024,
+          "effect": "+{%_Double_AFK_claim_chance",
+          "maps": [],
+          "monster": "babaHour",
+          "name": "Biggie_Hours",
+          "perTier": 1.5,
+          "set": "Bosses"
+        },
+        "babaMummy": {
+          "afkType": "FIGHTING",
+          "bonus": 6,
+          "chance": 0.04,
+          "effect": "+{%_Total_Drop_Rate",
+          "maps": [],
+          "monster": "babaMummy",
+          "name": "King_Doot",
+          "perTier": 1.5,
+          "set": "Bosses"
+        },
+        "babayaga": {
+          "afkType": "FIGHTING",
+          "bonus": 10,
+          "chance": 0.03,
+          "effect": "+{%_Money_from_Monsters",
+          "maps": [],
+          "monster": "babayaga",
+          "name": "Baba_Yaga",
+          "perTier": 1.5,
+          "set": "Bosses"
+        },
+        "beanG": {
+          "afkType": "FIGHTING",
+          "bonus": 7,
+          "chance": 0.004,
+          "effect": "+{_Base_Damage",
+          "maps": [
+            14
+          ],
+          "monster": "beanG",
+          "name": "Bored_Bean",
+          "perTier": 7,
+          "set": "Blunder_Hills"
+        },
+        "bloque": {
+          "afkType": "FIGHTING",
+          "bonus": 7,
+          "chance": 0.002,
+          "effect": "+{_Base_AGI",
+          "maps": [
+            105
+          ],
+          "monster": "bloque",
+          "name": "Bloque",
+          "perTier": 14,
+          "set": "Frostbite_Tundra"
+        },
+        "branch": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.00006,
+          "effect": "+{_Base_WIS",
+          "maps": [
+            13
+          ],
+          "monster": "branch",
+          "name": "Walking_Stick",
+          "perTier": 10,
+          "set": "Blunder_Hills"
+        },
+        "cactus": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0,
+          "effect": "+{%_Dungeon_Boss_Dmg",
+          "maps": [],
+          "monster": "cactus",
+          "name": "Cactopunk",
+          "perTier": 2,
+          "set": "Dungeons"
+        },
+        "carrotO": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0.02,
+          "effect": "+{_Base_AGI",
+          "maps": [
+            24
+          ],
+          "monster": "carrotO",
+          "name": "Carrotman",
+          "perTier": 10,
+          "set": "Blunder_Hills"
+        },
+        "caveB": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0.00005,
+          "effect": "+{%_Villager_EXP_(Passive)",
+          "maps": [],
+          "monster": "caveB",
+          "name": "Gloomie_Mushroom",
+          "perTier": 5000,
+          "set": "Smolderin'_Plateau"
+        },
+        "caveC": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0.00005,
+          "effect": "+{%_Total_Drop_Rate_(Passive)",
+          "maps": [],
+          "monster": "caveC",
+          "name": "Ancient_Golem",
+          "perTier": 10000,
+          "set": "Smolderin'_Plateau"
+        },
+        "caveD": {
+          "afkType": "FIGHTING",
+          "bonus": 6,
+          "chance": 0.05,
+          "effect": "+{%_Total_Drop_Rate_(Passive)",
+          "maps": [],
+          "monster": "caveD",
+          "name": "Crystal_Glunko",
+          "perTier": 1000000,
+          "set": "Smolderin'_Plateau"
+        },
+        "coconut": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.007,
+          "effect": "+{_Base_AGI",
+          "maps": [
+            57
+          ],
+          "monster": "coconut",
+          "name": "Mafioso",
+          "perTier": 10,
+          "set": "Yum_Yum_Desert"
+        },
+        "crabcake": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.008,
+          "effect": "+{%_To_not_consume_Food",
+          "maps": [
+            53
+          ],
+          "monster": "crabcake",
+          "name": "Crabcake",
+          "perTier": 10,
+          "set": "Yum_Yum_Desert"
+        },
+        "crabcakeB": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.03,
+          "effect": "+{%_Total_Drop_Rate",
+          "maps": [],
+          "monster": "crabcakeB",
+          "name": "Mr_Blueberry",
+          "perTier": 4,
+          "set": "Events"
+        },
+        "cropfallEvent1": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0,
+          "effect": "+{%_Gold_Food_Effect_(Passive)",
+          "maps": [],
+          "monster": "cropfallEvent1",
+          "name": "Bort_The_Cornhusk",
+          "perTier": 6,
+          "set": "Events"
+        },
+        "demonP": {
+          "afkType": "FIGHTING",
+          "bonus": 15,
+          "chance": 0.00002,
+          "effect": "+{%_Crystal_Mob_Spawn_Chance",
+          "maps": [
+            154
+          ],
+          "monster": "demonP",
+          "name": "Demon_Genie",
+          "perTier": 19,
+          "set": "Hyperion_Nebula"
+        },
+        "eye": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.0001,
+          "effect": "+{%_Total_Accuracy",
+          "maps": [
+            113,
+            114
+          ],
+          "monster": "eye",
+          "name": "Neyeptune",
+          "perTier": 17,
+          "set": "Frostbite_Tundra"
+        },
+        "fallEvent1": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0,
+          "effect": "+{_Star_Talent_Pts_(Passive)",
+          "maps": [],
+          "monster": "fallEvent1",
+          "name": "Falloween_Pumpkin",
+          "perTier": 3,
+          "set": "Events"
+        },
+        "flake": {
+          "afkType": "FIGHTING",
+          "bonus": 7,
+          "chance": 0.008,
+          "effect": "+{_Base_STR",
+          "maps": [
+            103,
+            115
+          ],
+          "monster": "flake",
+          "name": "Frost_Flake",
+          "perTier": 12,
+          "set": "Frostbite_Tundra"
+        },
+        "fm_rat": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 1e-7,
+          "effect": "+{%_Masterclass_Drops_(Passive)",
+          "maps": [],
+          "monster": "fm_rat",
+          "name": "Verminous",
+          "perTier": 100000000,
+          "set": "Bosses"
+        },
+        "frogBIG": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.01,
+          "effect": "+{%_Card_Drop_Chance",
+          "maps": [
+            28
+          ],
+          "monster": "frogBIG",
+          "name": "Gigafrog",
+          "perTier": 10,
+          "set": "Blunder_Hills"
+        },
+        "frogD": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0,
+          "effect": "+{%_Block_Chance",
+          "maps": [],
+          "monster": "frogD",
+          "name": "Globohopper",
+          "perTier": 2,
+          "set": "Dungeons"
+        },
+        "frogG": {
+          "afkType": "FIGHTING",
+          "bonus": 10,
+          "chance": 0.003,
+          "effect": "+{_Base_MP",
+          "maps": [
+            2,
+            36,
+            39,
+            40
+          ],
+          "monster": "frogG",
+          "name": "Frog",
+          "perTier": 6,
+          "set": "Blunder_Hills"
+        },
+        "frogGG": {
+          "afkType": "FIGHTING",
+          "bonus": 20,
+          "chance": 0,
+          "effect": "{%_to_start_with_RNG_orb_(Passive)",
+          "maps": [],
+          "monster": "frogGG",
+          "name": "Eldritch_Croaker",
+          "perTier": 5,
+          "set": "Dungeons"
+        },
+        "frogGR": {
+          "afkType": "FIGHTING",
+          "bonus": 15,
+          "chance": 0,
+          "effect": "{%_to_start_with_RNG_orb_(Passive)",
+          "maps": [],
+          "monster": "frogGR",
+          "name": "Grandfrogger",
+          "perTier": 1.5,
+          "set": "Dungeons"
+        },
+        "frogGR2": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0,
+          "effect": "+{%_Dungeon_Flurbos",
+          "maps": [],
+          "monster": "frogGR2",
+          "name": "Rotting_Grandfrogger",
+          "perTier": 1.5,
+          "set": "Dungeons"
+        },
+        "frogGR3": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0,
+          "effect": "+{%_Dungeon_Credits",
+          "maps": [],
+          "monster": "frogGR3",
+          "name": "Forlorn_Grandfrogger",
+          "perTier": 1.5,
+          "set": "Dungeons"
+        },
+        "frogGR4": {
+          "afkType": "FIGHTING",
+          "bonus": 7,
+          "chance": 0,
+          "effect": "+{%_Dungeon_Move_Speed",
+          "maps": [],
+          "monster": "frogGR4",
+          "name": "Vengeful_Grandfrogger",
+          "perTier": 1,
+          "set": "Dungeons"
+        },
+        "frogP": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0,
+          "effect": "+{_Base_Dungeon_MP",
+          "maps": [],
+          "monster": "frogP",
+          "name": "Poisonic_Frog",
+          "perTier": 1.5,
+          "set": "Dungeons"
+        },
+        "frogR": {
+          "afkType": "FIGHTING",
+          "bonus": 6,
+          "chance": 0,
+          "effect": "+{%_Dungeon_Card_Chance",
+          "maps": [],
+          "monster": "frogR",
+          "name": "Lava_Slimer",
+          "perTier": 2,
+          "set": "Dungeons"
+        },
+        "frogW": {
+          "afkType": "FIGHTING",
+          "bonus": 2.5,
+          "chance": 0,
+          "effect": "+{%_Dungeon_Credits",
+          "maps": [],
+          "monster": "frogW",
+          "name": "Chromatium_Frog",
+          "perTier": 3,
+          "set": "Dungeons"
+        },
+        "frogY": {
+          "afkType": "FIGHTING",
+          "bonus": 1.5,
+          "chance": 0,
+          "effect": "+{_Base_Dungeon_Damage",
+          "maps": [],
+          "monster": "frogY",
+          "name": "King_Frog",
+          "perTier": 2,
+          "set": "Dungeons"
+        },
+        "ghost": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.05,
+          "effect": "+{%_Monster_EXP_While_Active",
+          "maps": [],
+          "monster": "ghost",
+          "name": "Ghost",
+          "perTier": 2,
+          "set": "Events"
+        },
+        "glass": {
+          "afkType": "FIGHTING",
+          "bonus": 7,
+          "chance": 0.0001,
+          "effect": "+{_Base_LUK",
+          "maps": [
+            110
+          ],
+          "monster": "glass",
+          "name": "Quenchie",
+          "perTier": 17,
+          "set": "Frostbite_Tundra"
+        },
+        "goblinG": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0.018,
+          "effect": "+{%_Total_HP",
+          "maps": [
+            26
+          ],
+          "monster": "goblinG",
+          "name": "Glublin",
+          "perTier": 10,
+          "set": "Blunder_Hills"
+        },
+        "iceBossZ": {
+          "afkType": "FIGHTING",
+          "bonus": 15,
+          "chance": 0,
+          "effect": "+{%_Dungeon_Card_Chance",
+          "maps": [],
+          "monster": "iceBossZ",
+          "name": "Glaciaxus",
+          "perTier": 2,
+          "set": "Dungeons"
+        },
+        "iceBossZ2": {
+          "afkType": "FIGHTING",
+          "bonus": 8,
+          "chance": 0,
+          "effect": "+{%_Dungeon_Credits",
+          "maps": [],
+          "monster": "iceBossZ2",
+          "name": "Golden_Glaciaxus",
+          "perTier": 1.5,
+          "set": "Dungeons"
+        },
+        "iceBossZ3": {
+          "afkType": "FIGHTING",
+          "bonus": 8,
+          "chance": 0,
+          "effect": "+{%_Total_Dungeon_Dmg",
+          "maps": [],
+          "monster": "iceBossZ3",
+          "name": "Caustic_Glaciaxus",
+          "perTier": 1.5,
+          "set": "Dungeons"
+        },
+        "iceknight": {
+          "afkType": "FIGHTING",
+          "bonus": 8,
+          "chance": 0,
+          "effect": "+{%_Dungeon_MP_regen",
+          "maps": [],
+          "monster": "iceknight",
+          "name": "Ice_Guard",
+          "perTier": 8,
+          "set": "Dungeons"
+        },
+        "jarSand": {
+          "afkType": "FIGHTING",
+          "bonus": 12,
+          "chance": 0.01,
+          "effect": "+{%_EXP_Conversion_from_Talent",
+          "maps": [
+            51
+          ],
+          "monster": "jarSand",
+          "name": "Sandy_Pot",
+          "perTier": 10,
+          "set": "Yum_Yum_Desert"
+        },
+        "loveEvent": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0,
+          "effect": "+{%_Total_HP",
+          "maps": [],
+          "monster": "loveEvent",
+          "name": "Loveulyte",
+          "perTier": 1.5,
+          "set": "Events"
+        },
+        "loveEvent2": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0,
+          "effect": "+{%_Boost_Food_Effect",
+          "maps": [],
+          "monster": "loveEvent2",
+          "name": "Chocco_Box",
+          "perTier": 1.5,
+          "set": "Events"
+        },
+        "loveEvent3": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0,
+          "effect": "+{%_EXP_from_monsters",
+          "maps": [],
+          "monster": "loveEvent3",
+          "name": "Giant_Rose",
+          "perTier": 1.5,
+          "set": "Events"
+        },
+        "luckEvent1": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0,
+          "effect": "+{%_Drop_Rate_(Passive)",
+          "maps": [],
+          "monster": "luckEvent1",
+          "name": "Luckulyte",
+          "perTier": 5,
+          "set": "Events"
+        },
+        "luckEvent2": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0,
+          "effect": "+{%_Money_from_Monsters",
+          "maps": [],
+          "monster": "luckEvent2",
+          "name": "Potluck",
+          "perTier": 5,
+          "set": "Events"
+        },
+        "mamoth": {
+          "afkType": "FIGHTING",
+          "bonus": 3.5,
+          "chance": 0.001,
+          "effect": "+{%_Total_HP",
+          "maps": [
+            106
+          ],
+          "monster": "mamoth",
+          "name": "Mamooth",
+          "perTier": 15,
+          "set": "Frostbite_Tundra"
+        },
+        "mimicA": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0.009,
+          "effect": "+{%_Total_Drop_Rate",
+          "maps": [
+            52,
+            68,
+            70,
+            71
+          ],
+          "monster": "mimicA",
+          "name": "Mimic",
+          "perTier": 10,
+          "set": "Yum_Yum_Desert"
+        },
+        "mini3a": {
+          "afkType": "FIGHTING",
+          "bonus": 12,
+          "chance": 0.2,
+          "effect": "+{%_Money_from_Monsters",
+          "maps": [],
+          "monster": "mini3a",
+          "name": "Dilapidated_Slush",
+          "perTier": 5,
+          "set": "Bosses"
+        },
+        "mini4a": {
+          "afkType": "FIGHTING",
+          "bonus": 6,
+          "chance": 0.2,
+          "effect": "+{%_Cooking_EXP_gain",
+          "maps": [],
+          "monster": "mini4a",
+          "name": "Mutated_Mush",
+          "perTier": 5,
+          "set": "Bosses"
+        },
+        "mini5a": {
+          "afkType": "FIGHTING",
+          "bonus": 1.5,
+          "chance": 0.001,
+          "effect": "+{%_Total_Drop_Rate_(Passive)",
+          "maps": [],
+          "monster": "mini5a",
+          "name": "Domeo_Magmus",
+          "perTier": 4,
+          "set": "Bosses"
+        },
+        "mini6a": {
+          "afkType": "FIGHTING",
+          "bonus": 2.5,
+          "chance": 0.001,
+          "effect": "+{%_Fighting_AFK_gain_rate",
+          "maps": [],
+          "monster": "mini6a",
+          "name": "Demented_Spiritlord",
+          "perTier": 5,
+          "set": "Bosses"
+        },
+        "moonman": {
+          "afkType": "FIGHTING",
+          "bonus": 8,
+          "chance": 0.001,
+          "effect": "+{%_Monster_EXP_While_Active",
+          "maps": [
+            63
+          ],
+          "monster": "moonman",
+          "name": "Moonmoon",
+          "perTier": 10,
+          "set": "Yum_Yum_Desert"
+        },
+        "mushG": {
+          "afkType": "FIGHTING",
+          "bonus": 12,
+          "chance": 0.002,
+          "effect": "+{_Base_HP",
+          "maps": [
+            1
+          ],
+          "monster": "mushG",
+          "name": "Green_Mushroom",
+          "perTier": 5,
+          "set": "Blunder_Hills"
+        },
+        "mushP": {
+          "afkType": "FIGHTING",
+          "bonus": 8,
+          "chance": 0.00002,
+          "effect": "+{%_Money_from_Monsters",
+          "maps": [
+            151,
+            164
+          ],
+          "monster": "mushP",
+          "name": "Purp_Mushroom",
+          "perTier": 15,
+          "set": "Hyperion_Nebula"
+        },
+        "mushR": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.1,
+          "effect": "+{_Base_LUK",
+          "maps": [
+            17
+          ],
+          "monster": "mushR",
+          "name": "Red_Mushroom",
+          "perTier": 10,
+          "set": "Blunder_Hills"
+        },
+        "mushW": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.0001,
+          "effect": "+{%_Total_Accuracy",
+          "maps": [
+            31
+          ],
+          "monster": "mushW",
+          "name": "Wood_Mushroom",
+          "perTier": 10,
+          "set": "Blunder_Hills"
+        },
+        "penguin": {
+          "afkType": "FIGHTING",
+          "bonus": 7,
+          "chance": 0.0003,
+          "effect": "+{_Base_WIS",
+          "maps": [
+            108
+          ],
+          "monster": "penguin",
+          "name": "Penguin",
+          "perTier": 15,
+          "set": "Frostbite_Tundra"
+        },
+        "pincermin": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 0.005,
+          "effect": "+{_Weapon_Power",
+          "maps": [
+            59
+          ],
+          "monster": "pincermin",
+          "name": "Pincermin",
+          "perTier": 10,
+          "set": "Yum_Yum_Desert"
+        },
+        "plank": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0.02,
+          "effect": "+{_Base_STR",
+          "maps": [
+            27,
+            29
+          ],
+          "monster": "plank",
+          "name": "Wode_Board",
+          "perTier": 10,
+          "set": "Blunder_Hills"
+        },
+        "poopBig": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.03,
+          "effect": "+{%_Total_Damage",
+          "maps": [],
+          "monster": "poopBig",
+          "name": "Dr_Defecaus",
+          "perTier": 1.5,
+          "set": "Bosses"
+        },
+        "poopD": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 0.0015,
+          "effect": "+{%_Fighting_AFK_gain_rate",
+          "maps": [
+            38
+          ],
+          "monster": "poopD",
+          "name": "Boop",
+          "perTier": 1,
+          "set": "Bosses"
+        },
+        "poopSmall": {
+          "afkType": "FIGHTING",
+          "bonus": 10,
+          "chance": 0.00006,
+          "effect": "+{%_Crystal_Mob_Spawn_Chance",
+          "maps": [
+            8,
+            9
+          ],
+          "monster": "poopSmall",
+          "name": "Poop",
+          "perTier": 10,
+          "set": "Blunder_Hills"
+        },
+        "potato": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.004,
+          "effect": "+{%_Critical_Damage",
+          "maps": [
+            60
+          ],
+          "monster": "potato",
+          "name": "Mashed_Potato",
+          "perTier": 10,
+          "set": "Yum_Yum_Desert"
+        },
+        "potatoB": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0,
+          "effect": "+{%_Dungeon_MP_regen",
+          "maps": [],
+          "monster": "potatoB",
+          "name": "Crescent_Spud",
+          "perTier": 5,
+          "set": "Dungeons"
+        },
+        "ram": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0.0001,
+          "effect": "+{_Weapon_Power",
+          "maps": [
+            116,
+            120
+          ],
+          "monster": "ram",
+          "name": "Dedotated_Ram",
+          "perTier": 20,
+          "set": "Frostbite_Tundra"
+        },
+        "ratB": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 0.00005,
+          "effect": "+{%_Critical_Chance",
+          "maps": [
+            15
+          ],
+          "monster": "ratB",
+          "name": "Rat",
+          "perTier": 10,
+          "set": "Blunder_Hills"
+        },
+        "rocky": {
+          "afkType": "FIGHTING",
+          "bonus": 8,
+          "chance": 0,
+          "effect": "+{%_Dungeon_Card_Chance",
+          "maps": [],
+          "monster": "rocky",
+          "name": "Grumblo",
+          "perTier": 2,
+          "set": "Dungeons"
+        },
+        "sandcastle": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0.006,
+          "effect": "+{%_Total_Accuracy",
+          "maps": [
+            58
+          ],
+          "monster": "sandcastle",
+          "name": "Sand_Castle",
+          "perTier": 10,
+          "set": "Yum_Yum_Desert"
+        },
+        "sandgiant": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0.001,
+          "effect": "+{%_Minimum_Damage",
+          "maps": [
+            64,
+            69
+          ],
+          "monster": "sandgiant",
+          "name": "Sand_Giant",
+          "perTier": 10,
+          "set": "Yum_Yum_Desert"
+        },
+        "sheep": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.01,
+          "effect": "+{%_Defence_from_Equipment",
+          "maps": [
+            101,
+            118,
+            119
+          ],
+          "monster": "sheep",
+          "name": "Sheepie",
+          "perTier": 11,
+          "set": "Frostbite_Tundra"
+        },
+        "sheepB": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.05,
+          "effect": "+{%_MP_regen_rate",
+          "maps": [],
+          "monster": "EasterEvent1",
+          "name": "Floofie",
+          "perTier": 3,
+          "set": "Events"
+        },
+        "shovelR": {
+          "afkType": "FIGHTING",
+          "bonus": 6,
+          "chance": 0.04,
+          "effect": "+{_Base_LUK",
+          "maps": [],
+          "monster": "shovelR",
+          "name": "Dig_Doug",
+          "perTier": 10,
+          "set": "Yum_Yum_Desert"
+        },
+        "shovelY": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0.03,
+          "effect": "+{_Base_Defence",
+          "maps": [],
+          "monster": "shovelY",
+          "name": "Plasti_Doug",
+          "perTier": 4,
+          "set": "Events"
+        },
+        "skele": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 0.01,
+          "effect": "+{%_Critical_Chance",
+          "maps": [],
+          "monster": "skele",
+          "name": "Xylobone",
+          "perTier": 15,
+          "set": "Frostbite_Tundra"
+        },
+        "skele2": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.0001,
+          "effect": "+{%_Total_Damage",
+          "maps": [
+            117
+          ],
+          "monster": "skele2",
+          "name": "Bloodbone",
+          "perTier": 15,
+          "set": "Frostbite_Tundra"
+        },
+        "slimeB": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0.99,
+          "effect": "+{_Weapon_Power",
+          "maps": [],
+          "monster": "slimeB",
+          "name": "Glunko_The_Massive",
+          "perTier": 2,
+          "set": "Bosses"
+        },
+        "slimeG": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0.05,
+          "effect": "+{_Base_WIS",
+          "maps": [
+            16
+          ],
+          "monster": "slimeG",
+          "name": "Slime",
+          "perTier": 8,
+          "set": "Blunder_Hills"
+        },
+        "slimeR": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.085,
+          "effect": "+{%_Defence_from_Equipment",
+          "maps": [],
+          "monster": "slimeR",
+          "name": "Valenslime",
+          "perTier": 2,
+          "set": "Events"
+        },
+        "snailZ": {
+          "afkType": "FIGHTING",
+          "bonus": 8,
+          "chance": 0.001,
+          "effect": "+{%_Card_Drop_Chance",
+          "maps": [
+            65,
+            66
+          ],
+          "monster": "snailZ",
+          "name": "Snelbie",
+          "perTier": 10,
+          "set": "Yum_Yum_Desert"
+        },
+        "snakeB": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.0001,
+          "effect": "+{%_MP_regen_rate",
+          "maps": [
+            111
+          ],
+          "monster": "snakeB",
+          "name": "Cryosnake",
+          "perTier": 17,
+          "set": "Frostbite_Tundra"
+        },
+        "snakeG": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 0.023,
+          "effect": "+{_Move_Spd",
+          "maps": [
+            19
+          ],
+          "monster": "snakeG",
+          "name": "Baby_Boa",
+          "perTier": 9,
+          "set": "Blunder_Hills"
+        },
+        "snakeY": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.05,
+          "effect": "+{_Base_LUK",
+          "maps": [],
+          "monster": "snakeY",
+          "name": "Shell_Snake",
+          "perTier": 3,
+          "set": "Events"
+        },
+        "snakeZ": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0,
+          "effect": "+{%_Dungeon_Drop_Rate",
+          "maps": [],
+          "monster": "snakeZ",
+          "name": "Snakenhotep",
+          "perTier": 1.5,
+          "set": "Dungeons"
+        },
+        "snakeZ2": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0,
+          "effect": "+{%_Total_Dungeon_Dmg",
+          "maps": [],
+          "monster": "snakeZ2",
+          "name": "Enraged_Snakenhotep",
+          "perTier": 1.5,
+          "set": "Dungeons"
+        },
+        "snakeZ3": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0,
+          "effect": "+{%_Dungeon_Flurbos",
+          "maps": [],
+          "monster": "snakeZ3",
+          "name": "Inevitable_Snakenhotep",
+          "perTier": 1.5,
+          "set": "Dungeons"
+        },
+        "snowball": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.0005,
+          "effect": "+{%_Total_Damage",
+          "maps": [
+            107
+          ],
+          "monster": "snowball",
+          "name": "Snowman",
+          "perTier": 15,
+          "set": "Frostbite_Tundra"
+        },
+        "speaker": {
+          "afkType": "FIGHTING",
+          "bonus": 3.5,
+          "chance": 0.0001,
+          "effect": "+{%_Total_Drop_Rate",
+          "maps": [
+            112
+          ],
+          "monster": "speaker",
+          "name": "Bop_Box",
+          "perTier": 17,
+          "set": "Frostbite_Tundra"
+        },
+        "springEvent1": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0,
+          "effect": "+{%_Class_EXP_(Passive)",
+          "maps": [],
+          "monster": "springEvent1",
+          "name": "Bubbulyte",
+          "perTier": 1,
+          "set": "Events"
+        },
+        "springEvent2": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0,
+          "effect": "+{%_All_Skill_EXP_(Passive)",
+          "maps": [],
+          "monster": "springEvent2",
+          "name": "Spring_Splendor",
+          "perTier": 1,
+          "set": "Events"
+        },
+        "stache": {
+          "afkType": "FIGHTING",
+          "bonus": 9,
+          "chance": 0.004,
+          "effect": "+{%_Card_Drop_Chance",
+          "maps": [
+            104
+          ],
+          "monster": "stache",
+          "name": "Sir_Stache",
+          "perTier": 13,
+          "set": "Frostbite_Tundra"
+        },
+        "steak": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.002,
+          "effect": "+{_Base_STR",
+          "maps": [
+            62
+          ],
+          "monster": "steak",
+          "name": "Tyson",
+          "perTier": 10,
+          "set": "Yum_Yum_Desert"
+        },
+        "steakR": {
+          "afkType": "FIGHTING",
+          "bonus": 6,
+          "chance": 0,
+          "effect": "+{%_Dungeon_Money",
+          "maps": [],
+          "monster": "steakR",
+          "name": "Beefie",
+          "perTier": 2,
+          "set": "Dungeons"
+        },
+        "target": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0,
+          "effect": "+{_Base_Dungeon_HP",
+          "maps": [],
+          "monster": "target",
+          "name": "Target",
+          "perTier": 2,
+          "set": "Dungeons"
+        },
+        "thermostat": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0.0001,
+          "effect": "+{%_Critical_Damage",
+          "maps": [
+            109
+          ],
+          "monster": "thermostat",
+          "name": "Thermister",
+          "perTier": 15,
+          "set": "Frostbite_Tundra"
+        },
+        "totem": {
+          "afkType": "FIGHTING",
+          "bonus": 10,
+          "chance": 0,
+          "effect": "+{%_RNG_item_rarity",
+          "maps": [],
+          "monster": "totem",
+          "name": "Lazlo",
+          "perTier": 2,
+          "set": "Dungeons"
+        },
+        "w4a2": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.00002,
+          "effect": "+{%_Breeding_EXP_(Passive)",
+          "maps": [
+            152
+          ],
+          "monster": "w4a2",
+          "name": "TV",
+          "perTier": 17,
+          "set": "Hyperion_Nebula"
+        },
+        "w4a3": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0.00002,
+          "effect": "+{%_Defence_from_Equipment",
+          "maps": [
+            153
+          ],
+          "monster": "w4a3",
+          "name": "Donut",
+          "perTier": 18,
+          "set": "Hyperion_Nebula"
+        },
+        "w4b1": {
+          "afkType": "FIGHTING",
+          "bonus": 12,
+          "chance": 0.00002,
+          "effect": "+{_Base_WIS",
+          "maps": [
+            156
+          ],
+          "monster": "w4b1",
+          "name": "Flying_Worm",
+          "perTier": 21,
+          "set": "Hyperion_Nebula"
+        },
+        "w4b2": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.00002,
+          "effect": "+{_Star_Talent_Pts_(Passive)",
+          "maps": [
+            155
+          ],
+          "monster": "w4b2",
+          "name": "Soda_Can",
+          "perTier": 20,
+          "set": "Hyperion_Nebula"
+        },
+        "w4b3": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0.00002,
+          "effect": "+{%_Lab_EXP_gain",
+          "maps": [
+            157
+          ],
+          "monster": "w4b3",
+          "name": "Gelatinous_Cuboid",
+          "perTier": 22,
+          "set": "Hyperion_Nebula"
+        },
+        "w4b4": {
+          "afkType": "FIGHTING",
+          "bonus": 2.5,
+          "chance": 0.00002,
+          "effect": "+{_Weapon_Power",
+          "maps": [
+            158
+          ],
+          "monster": "w4b4",
+          "name": "Choccie",
+          "perTier": 23,
+          "set": "Hyperion_Nebula"
+        },
+        "w4b5": {
+          "afkType": "FIGHTING",
+          "bonus": 12,
+          "chance": 0.00002,
+          "effect": "+{_Base_AGI",
+          "maps": [
+            159
+          ],
+          "monster": "w4b5",
+          "name": "Biggole_Wurm",
+          "perTier": 24,
+          "set": "Hyperion_Nebula"
+        },
+        "w4c1": {
+          "afkType": "FIGHTING",
+          "bonus": 1.5,
+          "chance": 0.00002,
+          "effect": "+{%_Multikill_per_tier",
+          "maps": [
+            160
+          ],
+          "monster": "w4c1",
+          "name": "Clammie",
+          "perTier": 26,
+          "set": "Hyperion_Nebula"
+        },
+        "w4c2": {
+          "afkType": "FIGHTING",
+          "bonus": 12,
+          "chance": 0.00002,
+          "effect": "+{_Base_STR",
+          "maps": [
+            161
+          ],
+          "monster": "w4c2",
+          "name": "Octodar",
+          "perTier": 27,
+          "set": "Hyperion_Nebula"
+        },
+        "w4c3": {
+          "afkType": "FIGHTING",
+          "bonus": 1.5,
+          "chance": 0.00002,
+          "effect": "+{%_Critical_Chance_(Passive)",
+          "maps": [
+            162
+          ],
+          "monster": "w4c3",
+          "name": "Flombeige",
+          "perTier": 28,
+          "set": "Hyperion_Nebula"
+        },
+        "w4c4": {
+          "afkType": "FIGHTING",
+          "bonus": 0.5,
+          "chance": 0.00002,
+          "effect": "+{%_All_Stat",
+          "maps": [
+            163,
+            165
+          ],
+          "monster": "w4c4",
+          "name": "Stilted_Seeker",
+          "perTier": 30,
+          "set": "Hyperion_Nebula"
+        },
+        "w5a1": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0.00002,
+          "effect": "+{%_Multikill_per_tier",
+          "maps": [
+            201
+          ],
+          "monster": "w5a1",
+          "name": "Suggma",
+          "perTier": 25,
+          "set": "Smolderin'_Plateau"
+        },
+        "w5a2": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.00002,
+          "effect": "+{%_Defence_from_Equipment",
+          "maps": [
+            202,
+            215
+          ],
+          "monster": "w5a2",
+          "name": "Maccie",
+          "perTier": 28,
+          "set": "Smolderin'_Plateau"
+        },
+        "w5a3": {
+          "afkType": "FIGHTING",
+          "bonus": 6,
+          "chance": 0.00002,
+          "effect": "+{%_Total_Drop_Rate",
+          "maps": [
+            203
+          ],
+          "monster": "w5a3",
+          "name": "Mister_Brightside",
+          "perTier": 32,
+          "set": "Smolderin'_Plateau"
+        },
+        "w5a4": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.00002,
+          "effect": "+{%_Skill_EXP_(Passive)",
+          "maps": [
+            204
+          ],
+          "monster": "w5a4",
+          "name": "Cheese_Nub",
+          "perTier": 35,
+          "set": "Smolderin'_Plateau"
+        },
+        "w5a5": {
+          "afkType": "FIGHTING",
+          "bonus": 6,
+          "chance": 0.00002,
+          "effect": "+{%_Divinity_EXP_(Passive)",
+          "maps": [
+            205
+          ],
+          "monster": "w5a5",
+          "name": "Stiltmole",
+          "perTier": 45,
+          "set": "Smolderin'_Plateau"
+        },
+        "w5b1": {
+          "afkType": "FIGHTING",
+          "bonus": 7,
+          "chance": 0.00002,
+          "effect": "+{%_Money_from_mobs_(Passive)",
+          "maps": [
+            206
+          ],
+          "monster": "w5b1",
+          "name": "Molti",
+          "perTier": 48,
+          "set": "Smolderin'_Plateau"
+        },
+        "w5b2": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 0.00002,
+          "effect": "+{_Weapon_Power_(Passive)",
+          "maps": [
+            207
+          ],
+          "monster": "w5b2",
+          "name": "Purgatory_Stalker",
+          "perTier": 52,
+          "set": "Smolderin'_Plateau"
+        },
+        "w5b3": {
+          "afkType": "FIGHTING",
+          "bonus": 4.5,
+          "chance": 0.00002,
+          "effect": "+{%_Total_Damage",
+          "maps": [
+            208
+          ],
+          "monster": "w5b3",
+          "name": "Citringe",
+          "perTier": 60,
+          "set": "Smolderin'_Plateau"
+        },
+        "w5b4": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0.00002,
+          "effect": "+{%_EXP_from_monsters",
+          "maps": [
+            209
+          ],
+          "monster": "w5b4",
+          "name": "Lampar",
+          "perTier": 65,
+          "set": "Smolderin'_Plateau"
+        },
+        "w5b5": {
+          "afkType": "FIGHTING",
+          "bonus": 15,
+          "chance": 0.00002,
+          "effect": "+{_Base_LUK",
+          "maps": [
+            210
+          ],
+          "monster": "w5b5",
+          "name": "Fire_Spirit",
+          "perTier": 70,
+          "set": "Smolderin'_Plateau"
+        },
+        "w5b6": {
+          "afkType": "FIGHTING",
+          "bonus": 6,
+          "chance": 0.00002,
+          "effect": "+{%_Mining_Speed",
+          "maps": [
+            211,
+            214
+          ],
+          "monster": "w5b6",
+          "name": "Biggole_Mole",
+          "perTier": 75,
+          "set": "Smolderin'_Plateau"
+        },
+        "w5c1": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0.00002,
+          "effect": "+{%_Sailing_Speed_(Passive)",
+          "maps": [
+            212
+          ],
+          "monster": "w5c1",
+          "name": "Crawler",
+          "perTier": 80,
+          "set": "Smolderin'_Plateau"
+        },
+        "w5c2": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 0.00002,
+          "effect": "+{%_All_Stat",
+          "maps": [
+            213
+          ],
+          "monster": "w5c2",
+          "name": "Tremor_Wurm",
+          "perTier": 100,
+          "set": "Smolderin'_Plateau"
+        },
+        "w6a1": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.000025,
+          "effect": "+{%_Total_Damage",
+          "maps": [
+            251
+          ],
+          "monster": "w6a1",
+          "name": "Sprout_Spirit",
+          "perTier": 50,
+          "set": "Spirited_Valley"
+        },
+        "w6a2": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.00002,
+          "effect": "+{%_DEF_from_Equips_(Passive)",
+          "maps": [
+            252,
+            265
+          ],
+          "monster": "w6a2",
+          "name": "Ricecake",
+          "perTier": 60,
+          "set": "Spirited_Valley"
+        },
+        "w6a3": {
+          "afkType": "FIGHTING",
+          "bonus": 1.5,
+          "chance": 0.000015,
+          "effect": "+{%_All_Stat",
+          "maps": [
+            253
+          ],
+          "monster": "w6a3",
+          "name": "River_Spirit",
+          "perTier": 75,
+          "set": "Spirited_Valley"
+        },
+        "w6a4": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.00001,
+          "effect": "+{%_Sneaking_EXP_(Passive)",
+          "maps": [
+            254
+          ],
+          "monster": "w6a4",
+          "name": "Baby_Troll",
+          "perTier": 85,
+          "set": "Spirited_Valley"
+        },
+        "w6a5": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.000008,
+          "effect": "+{%_Multikill_per_tier",
+          "maps": [
+            255
+          ],
+          "monster": "w6a5",
+          "name": "Woodlin_Spirit",
+          "perTier": 100,
+          "set": "Spirited_Valley"
+        },
+        "w6b1": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.000006,
+          "effect": "+{%_Summoning_EXP_(Passive)",
+          "maps": [
+            256
+          ],
+          "monster": "w6b1",
+          "name": "Bamboo_Spirit",
+          "perTier": 150,
+          "set": "Spirited_Valley"
+        },
+        "w6b2": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0.000005,
+          "effect": "+{%_Farming_EXP_(Passive)",
+          "maps": [
+            257
+          ],
+          "monster": "w6b2",
+          "name": "Lantern_Spirit",
+          "perTier": 170,
+          "set": "Spirited_Valley"
+        },
+        "w6b3": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0.000003,
+          "effect": "+{%_Skill_AFK_gain_rate",
+          "maps": [
+            258
+          ],
+          "monster": "w6b3",
+          "name": "Mama_Troll",
+          "perTier": 200,
+          "set": "Spirited_Valley"
+        },
+        "w6b4": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0.000002,
+          "effect": "+{%_Jade_Coin_gain_(Passive)",
+          "maps": [
+            259
+          ],
+          "monster": "w6b4",
+          "name": "Leek_Spirit",
+          "perTier": 250,
+          "set": "Spirited_Valley"
+        },
+        "w6c1": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 0.000001,
+          "effect": "+{%_Cooking_Spd_Multi_(Passive)",
+          "maps": [
+            260
+          ],
+          "monster": "w6c1",
+          "name": "Ceramic_Spirit",
+          "perTier": 400,
+          "set": "Spirited_Valley"
+        },
+        "w6c2": {
+          "afkType": "FIGHTING",
+          "bonus": 20,
+          "chance": 8e-7,
+          "effect": "+{_Base_LUK",
+          "maps": [
+            261
+          ],
+          "monster": "w6c2",
+          "name": "Skydoggie_Spirit",
+          "perTier": 500,
+          "set": "Spirited_Valley"
+        },
+        "w6d1": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 6e-7,
+          "effect": "+{%_Fighting_AFK_(Passive)",
+          "maps": [
+            262
+          ],
+          "monster": "w6d1",
+          "name": "Royal_Egg",
+          "perTier": 900,
+          "set": "Spirited_Valley"
+        },
+        "w6d2": {
+          "afkType": "FIGHTING",
+          "bonus": 8,
+          "chance": 5e-7,
+          "effect": "+{%_Total_Drop_Rate",
+          "maps": [
+            263
+          ],
+          "monster": "w6d2",
+          "name": "Minichief_Spirit",
+          "perTier": 1300,
+          "set": "Spirited_Valley"
+        },
+        "w6d3": {
+          "afkType": "FIGHTING",
+          "bonus": 1.5,
+          "chance": 4e-7,
+          "effect": "+{%_All_AFK_Gains(Passive)",
+          "maps": [
+            264,
+            266
+          ],
+          "monster": "w6d3",
+          "name": "Samurai_Guardian",
+          "perTier": 2500,
+          "set": "Spirited_Valley"
+        },
+        "w7a1": {
+          "afkType": "FIGHTING",
+          "bonus": 7,
+          "chance": 0.00001,
+          "effect": "+{%_Spelunking_Efficiency",
+          "maps": [
+            301
+          ],
+          "monster": "w7a1",
+          "name": "Equinox_Broadbass",
+          "perTier": 5000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7a10": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 2e-7,
+          "effect": "+{%_Stamina_Regen_(Passive)",
+          "maps": [
+            310
+          ],
+          "monster": "w7a10",
+          "name": "Spearfish",
+          "perTier": 150000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7a11": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 1.5e-7,
+          "effect": "+{%_Gallery_Bonus_(Passive)",
+          "maps": [
+            311
+          ],
+          "monster": "w7a11",
+          "name": "Coralcave_Crab",
+          "perTier": 250000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7a12": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 1e-7,
+          "effect": "+{%_Drop_Rate_Multi",
+          "maps": [
+            312
+          ],
+          "monster": "w7a12",
+          "name": "Coralcave_Guardian",
+          "perTier": 400000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7a2": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.000006,
+          "effect": "+{%_Total_Damage_Multi",
+          "maps": [
+            302
+          ],
+          "monster": "w7a2",
+          "name": "Doodlefish",
+          "perTier": 7000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7a3": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.0000025,
+          "effect": "+{%_Class_EXP_Multi",
+          "maps": [
+            303
+          ],
+          "monster": "w7a3",
+          "name": "Eamsy_Earl",
+          "perTier": 8500,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7a4": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.0000015,
+          "effect": "+{%_Spelunking_AFK_Gain",
+          "maps": [
+            304
+          ],
+          "monster": "w7a4",
+          "name": "Shellslug",
+          "perTier": 11000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7a5": {
+          "afkType": "FIGHTING",
+          "bonus": 4,
+          "chance": 0.000001,
+          "effect": "+{%_Spelunk_POW_(Passive)",
+          "maps": [
+            305
+          ],
+          "monster": "w7a5",
+          "name": "Balloonfish",
+          "perTier": 15000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7a6": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.00001,
+          "effect": "+{%_Spelunking_EXP",
+          "maps": [
+            306
+          ],
+          "monster": "w7a6",
+          "name": "Noble_Clam",
+          "perTier": 25000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7a7": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 5e-7,
+          "effect": "+{%_Spelunk_Amber_(Passive)",
+          "maps": [
+            307
+          ],
+          "monster": "w7a7",
+          "name": "Litterfish",
+          "perTier": 35000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7a8": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 4e-7,
+          "effect": "+{%_Class_EXP_Multi",
+          "maps": [
+            308
+          ],
+          "monster": "w7a8",
+          "name": "Pufferblob",
+          "perTier": 65000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7a9": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 3e-7,
+          "effect": "+{%_Daily_Coral_(Passive)",
+          "maps": [
+            309
+          ],
+          "monster": "w7a9",
+          "name": "Demonblub",
+          "perTier": 100000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7b1": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 0.00001,
+          "effect": "+{%_Research_EXP_(Passive)",
+          "maps": [
+            315
+          ],
+          "monster": "w7b1",
+          "name": "Trench_Fish",
+          "perTier": 100000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7b10": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 1e-7,
+          "effect": "+{%_Lumi_Hourly_Gains_(Passive)",
+          "maps": [
+            324
+          ],
+          "monster": "w7b10",
+          "name": "Magni_Pufferfin",
+          "perTier": 30000000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7b11": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 1e-7,
+          "effect": "+{%_Research_AFK_gain_(Passive)",
+          "maps": [
+            325
+          ],
+          "monster": "w7b11",
+          "name": "Pirate_Deckhand",
+          "perTier": 20000000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7b12": {
+          "afkType": "FIGHTING",
+          "bonus": 10,
+          "chance": 3e-8,
+          "effect": "+{%_Spelunk_Amber_(Passive)",
+          "maps": [
+            326
+          ],
+          "monster": "w7b12",
+          "name": "Dreadnaught_Captain",
+          "perTier": 40000000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7b2": {
+          "afkType": "FIGHTING",
+          "bonus": 20,
+          "chance": 0.000007,
+          "effect": "+{%_Gaming_Bit_Multi_(Passive)",
+          "maps": [
+            316
+          ],
+          "monster": "w7b2",
+          "name": "Boomy_Mine",
+          "perTier": 300000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7b3": {
+          "afkType": "FIGHTING",
+          "bonus": 10,
+          "chance": 0.000005,
+          "effect": "+{%_Flaggy_Rate_Multi_(Passive)",
+          "maps": [
+            317
+          ],
+          "monster": "w7b3",
+          "name": "Pirate_Underling",
+          "perTier": 500000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7b4": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0.000003,
+          "effect": "+{%_Research_EXP_(Passive)",
+          "maps": [
+            318
+          ],
+          "monster": "w7b4",
+          "name": "Eggroll",
+          "perTier": 900000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7b5": {
+          "afkType": "FIGHTING",
+          "bonus": 50,
+          "chance": 0.0000015,
+          "effect": "+{%_Farming_EVO_Multi_(Passive)",
+          "maps": [
+            319
+          ],
+          "monster": "w7b5",
+          "name": "Jellofish",
+          "perTier": 1500000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7b6": {
+          "afkType": "FIGHTING",
+          "bonus": 5,
+          "chance": 7e-7,
+          "effect": "+{%_Class_EXP_Multi",
+          "maps": [
+            320
+          ],
+          "monster": "w7b6",
+          "name": "Kelpfish",
+          "perTier": 3500000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7b7": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 5e-7,
+          "effect": "+{%_Drop_Rate_Multi",
+          "maps": [
+            321
+          ],
+          "monster": "w7b7",
+          "name": "Mantaray",
+          "perTier": 6000000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7b8": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 2e-7,
+          "effect": "+{%_Research_EXP_(Passive)",
+          "maps": [
+            322
+          ],
+          "monster": "w7b8",
+          "name": "Glowfish",
+          "perTier": 10000000,
+          "set": "Shimmerfin_Deep"
+        },
+        "w7b9": {
+          "afkType": "FIGHTING",
+          "bonus": 1,
+          "chance": 1.5e-7,
+          "effect": "+{%_Drop_Rate_Multi",
+          "maps": [
+            323
+          ],
+          "monster": "w7b9",
+          "name": "Ancientfish",
+          "perTier": 20000000,
+          "set": "Shimmerfin_Deep"
+        },
+        "wolfA": {
+          "afkType": null,
+          "bonus": 2.5,
+          "chance": 0.045,
+          "effect": "+{%_Skill_AFK_gain_rate",
+          "maps": [],
+          "monster": "GrasslandsBoss",
+          "name": "Amarok",
+          "perTier": 1.5,
+          "set": "Bosses"
+        },
+        "wolfB": {
+          "afkType": "FIGHTING",
+          "bonus": 2.5,
+          "chance": 0.02,
+          "effect": "+{%_Fighting_AFK_gain_rate",
+          "maps": [],
+          "monster": "wolfB",
+          "name": "Chaotic_Amarok",
+          "perTier": 1.5,
+          "set": "Bosses"
+        },
+        "wolfC": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.02,
+          "effect": "+{_Weapon_Power",
+          "maps": [],
+          "monster": "wolfC",
+          "name": "Radiant_Amarok",
+          "perTier": 10,
+          "set": "Bosses"
+        },
+        "xmasEvent": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0,
+          "effect": "+{%_Total_Drop_Rate",
+          "maps": [],
+          "monster": "xmasEvent",
+          "name": "Giftmas_Blobulyte",
+          "perTier": 1.5,
+          "set": "Events"
+        },
+        "xmasEvent2": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0.05,
+          "effect": "+{%_Money_from_Monsters",
+          "maps": [],
+          "monster": "SummerEvent2",
+          "name": "Meaning_of_Giftmas",
+          "perTier": 1.5,
+          "set": "Events"
+        },
+        "xmasEvent3": {
+          "afkType": "FIGHTING",
+          "bonus": 3,
+          "chance": 0,
+          "effect": "+{%_Defence_from_Equipment",
+          "maps": [],
+          "monster": "xmasEvent3",
+          "name": "Golden_Giftmas_Box",
+          "perTier": 1,
+          "set": "Events"
+        },
+        "xmasEvent4": {
+          "afkType": "FIGHTING",
+          "bonus": 2,
+          "chance": 0,
+          "effect": "+{%_Catching_Away_Gains",
+          "maps": [],
+          "monster": "xmasEvent4",
+          "name": "Big_Ol_Giftmas_Box",
+          "perTier": 1,
+          "set": "Events"
+        }
+      },
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: cards and monster drops",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/cards.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "cards",
+      "title": "Cards: effect, copies per tier, base drop chance and drop maps"
+    }
+  ],
+  "generator": "card-drops",
+  "system": "cards"
+}
