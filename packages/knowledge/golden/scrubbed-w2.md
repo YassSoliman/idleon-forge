@@ -1,4 +1,4 @@
-# golden v1: scrubbed-w2 · knowledge #a1a8a98c · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 990
+# golden v1: scrubbed-w2 · knowledge #786fcd8a · parser 6c37e3d (game 2.3.540) · now 2026-10-17T15:47:05.447Z · return 8h · stage W2-late · stale: 4 of 991
 
 ## Verdict changes
 
@@ -45,7 +45,7 @@ Fix before you leave
 - Extra · Play Spiketrap Surprise: Spiketrap starts at :00: up to 40 gems today [IdleOn Wiki: Secrets · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-show more (23)
+show more (24)
 Spend coins: 14 buys now on 4 characters
   1. Raise and level 2 capped stamps on Barbarian Lv 60: about 1.3M coins · buy · total 1.3M coins on C1
      Hatchet Stamp, Shield Stamp · carry 3.3k Thread on Barbarian Lv 60; carry 1.8k Iron Ore on Barbarian Lv 60, free up inventory space first
@@ -74,7 +74,7 @@ Islands
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
 W0 · Talents · Nothing to fix · Nothing to fix · 5 to do
-W0 · Talent presets · Behind · Behind for your Stage · 5 to do
+W0 · Talent presets · Behind · Behind for your Stage · 6 to do
 W0 · Talent resets · Nothing to fix · Nothing to fix
 W0 · Upgrade Vault · Nothing to fix · Nothing to fix · 1 to do
 W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do
@@ -208,10 +208,10 @@ step: Use your 11 vial attempts on the W2 town cauldron
 ### C1 (Barbarian 60)
 - Fighting preset (in use): Rage Basics · Warrior · Barbarian · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
-    - later: Stonks! 0 → 30 (find its book)
+    - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - next after these: Will of the Eldest 1 → 6 · +5 (useful up to 6 (best level 60))
-    - later: Beginner Best Class 0 (find its book)
-    - later: Tick Tock 0 (find its book)
+    - later: Beginner Best Class 0 (find its book (Rocklyte's quest))
+    - later: Tick Tock 0 (find its book (Alchemy liquid shop, 50 water droplets))
     - and 7 more
 - Skilling preset: Rage Basics [Start here] (at least 288) · Warrior (at least 242) · Barbarian (at least 110) · Star talents (99 unspent)
   - Rage Basics: As of your last save: at least 288 points waiting · they end here
@@ -219,10 +219,10 @@ step: Use your 11 vial attempts on the W2 town cauldron
     - can add now: Idle Skilling 0 → 100 · +200
     - part now: Fist of Rage 0 → 100 · +88 of 100 now · +300
   - Star talents: 99 unspent · they end here
-    - later: Stonks! 0 → 30 (find its book)
+    - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - can add now: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
-    - later: Tick Tock 0 (find its book)
-    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - later: Tick Tock 0 (find its book (Alchemy liquid shop, 50 water droplets))
+    - later: Toilet Paper Postage 0 → 100 (find its book (a chat secret (see the wiki)))
     - and 6 more
 
 ### C2 (Squire 43)
@@ -234,26 +234,26 @@ step: Use your 11 vial attempts on the W2 town cauldron
     - next after these: Meat Shank 10 → 100 · +185
     - and 5 more
   - Star talents: 10 unspent · they end here
-    - later: Stonks! 0 → 30 (find its book)
+    - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - can add now: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
-    - later: Beginner Best Class 0 (find its book)
-    - later: Tick Tock 0 (find its book)
+    - later: Beginner Best Class 0 (find its book (Rocklyte's quest))
+    - later: Tick Tock 0 (find its book (Alchemy liquid shop, 50 water droplets))
     - and 7 more
 - Skilling preset (in use): Rage Basics · Warrior · Squire · Star talents (97 unspent)
   - Star talents: 97 unspent · they end here
-    - later: Stonks! 0 → 30 (find its book)
+    - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - can add now: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
-    - later: Tick Tock 0 (find its book)
-    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - later: Tick Tock 0 (find its book (Alchemy liquid shop, 50 water droplets))
+    - later: Toilet Paper Postage 0 → 100 (find its book (a chat secret (see the wiki)))
     - and 6 more
 
 ### C3 (Shaman 44)
 - Fighting preset (in use): Savvy Basics · Mage · Shaman · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
-    - later: Stonks! 0 → 30 (find its book)
+    - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - next after these: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
-    - later: Beginner Best Class 0 (find its book)
-    - later: Tick Tock 0 (find its book)
+    - later: Beginner Best Class 0 (find its book (Rocklyte's quest))
+    - later: Tick Tock 0 (find its book (Alchemy liquid shop, 50 water droplets))
     - and 7 more
 - Skilling preset: Savvy Basics [Start here] (at least 44) · Mage (at least 40) · Shaman (at least 34) · Star talents (101 unspent)
   - Savvy Basics: As of your last save: at least 44 points waiting · they end here
@@ -261,19 +261,19 @@ step: Use your 11 vial attempts on the W2 town cauldron
     - part now: Book of the Wise 16 → 100 · +44 of 84 now · +84
     - done: Active AFK'er 100
   - Star talents: 101 unspent · they end here
-    - later: Stonks! 0 → 30 (find its book)
+    - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - can add now: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
-    - later: Tick Tock 0 (find its book)
-    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - later: Tick Tock 0 (find its book (Alchemy liquid shop, 50 water droplets))
+    - later: Toilet Paper Postage 0 → 100 (find its book (a chat secret (see the wiki)))
     - and 6 more
 
 ### C4 (Bowman 54)
 - Fighting preset (in use): Calm Basics · Archer · Bowman · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
-    - later: Stonks! 0 → 30 (find its book)
+    - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - next after these: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
-    - later: Beginner Best Class 0 (find its book)
-    - later: Tick Tock 0 (find its book)
+    - later: Beginner Best Class 0 (find its book (Rocklyte's quest))
+    - later: Tick Tock 0 (find its book (Alchemy liquid shop, 50 water droplets))
     - and 7 more
 - Skilling preset: Calm Basics [Start here] (at least 267) · Archer (at least 220) · Bowman (at least 88) · Star talents (88 unspent)
   - Calm Basics: As of your last save: at least 267 points waiting · they end here
@@ -281,19 +281,19 @@ step: Use your 11 vial attempts on the W2 town cauldron
     - can add now: Quickness Boots 0 → 100 · +200
     - part now: Broken Time 0 → 100 · +67 of 100 now · +300
   - Star talents: 88 unspent · they end here
-    - later: Stonks! 0 → 30 (find its book)
+    - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - can add now: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
-    - later: Tick Tock 0 (find its book)
-    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - later: Tick Tock 0 (find its book (Alchemy liquid shop, 50 water droplets))
+    - later: Toilet Paper Postage 0 → 100 (find its book (a chat secret (see the wiki)))
     - and 6 more
 
 ### C5 (Wizard 56)
 - Fighting preset (in use): Savvy Basics · Mage · Wizard · Star talents (all spent)
   - Star talents: All spent: the totals show where new points go
-    - later: Stonks! 0 → 30 (find its book)
+    - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - next after these: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
-    - later: Beginner Best Class 0 (find its book)
-    - later: Tick Tock 0 (find its book)
+    - later: Beginner Best Class 0 (find its book (Rocklyte's quest))
+    - later: Tick Tock 0 (find its book (Alchemy liquid shop, 50 water droplets))
     - and 7 more
 - Skilling preset: Savvy Basics [Start here] (at least 272) · Mage (at least 226) · Wizard (at least 94) · Star talents (89 unspent)
   - Savvy Basics: As of your last save: at least 272 points waiting · they end here
@@ -303,10 +303,10 @@ step: Use your 11 vial attempts on the W2 town cauldron
     - next after these: Mana Booster 0 → 100 · +400
     - and 1 more
   - Star talents: 89 unspent · they end here
-    - later: Stonks! 0 → 30 (find its book)
+    - later: Stonks! 0 → 30 (find its book (Wellington's quest))
     - can add now: Will of the Eldest 0 → 6 · +6 (useful up to 6 (best level 60))
-    - later: Tick Tock 0 (find its book)
-    - later: Toilet Paper Postage 0 → 100 (find its book)
+    - later: Tick Tock 0 (find its book (Alchemy liquid shop, 50 water droplets))
+    - later: Toilet Paper Postage 0 → 100 (find its book (a chat secret (see the wiki)))
     - and 6 more
 
 ## Map

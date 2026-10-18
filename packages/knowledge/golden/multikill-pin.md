@@ -1,4 +1,4 @@
-# golden v1: multikill-pin · knowledge #a1a8a98c · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 990
+# golden v1: multikill-pin · knowledge #786fcd8a · parser 6c37e3d (game 2.3.540) · now 2026-08-26T17:27:35.771Z · return 8h · stage W4-entry · stale: 4 of 991
 
 ## Verdict changes
 
@@ -61,10 +61,19 @@
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
 - Extra · Claim the free Pet Mart gems: Claim today's free Pet Mart gems [IdleOn Wiki: Daily Checklist · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
-- Grow · Constellation A-10: Echoing Egress, reach the star on a Mage-line character: On your Bubonic Conjuror Lv 1268: click the star at Echoing Egress (W1) [IdleOn Wiki: Star Signs (constellation requirements and points; Time Candy counts for AFK ones) · Calculated by IdleOn Toolbox · 2.3.540]
-  Walkthrough: A-10: 0 of 1 characters · about 3m
-    1. On your Bubonic Conjuror Lv 1268: click the star at Echoing Egress (W1)
-show more (13)
+- Grow · Star talents empty on one preset: Spend your star points on the other preset too [IdleOn Wiki: Special Talents (also called Star Talents)]
+  · Siege Breaker 1291: 6,481 star points unspent on the other preset
+  · Death Bringer 1292: 8,019 star points unspent on the other preset
+  · Elemental Sorcerer 1259: 6,354 star points unspent on the other preset
+  · Divine Knight 1240: 7,857 star points unspent on the other preset
+  · Arcane Cultist 1231: 7,559 star points unspent on the other preset
+  · Wind Walker 1280: 6,901 star points unspent on the other preset
+  · Voidwalker 1157: 7,944 star points unspent on the other preset
+  · Siege Breaker 1261: 6,267 star points unspent on the other preset
+  · Royal Guardian 1307: 9,167 star points unspent on the other preset
+  · Bubonic Conjuror 1268: 6,857 star points unspent on the other preset
+  · Beginner 1224: 5,921 star points unspent on the other preset
+show more (14)
 If you have time
 - Run Killroy's Warrior room on your Royal Guardian Lv 1307 (YumYum Grotto) · about 2m of hands-on play
 - Run Killroy's Archer room on your Siege Breaker Lv 1291 (YumYum Grotto) · about 2m of hands-on play
@@ -90,7 +99,7 @@ Laboratory
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
 W0 · Talents · Nothing to fix · Nothing to fix
-W0 · Talent presets · Nothing to fix · Nothing to fix
+W0 · Talent presets · Nothing to fix · Nothing to fix · 1 to do
 W0 · Talent resets · Nothing to fix · Nothing to fix
 W0 · Upgrade Vault · Nothing to fix · Nothing to fix
 W0 · Gem Shop · Nothing to fix · Nothing to fix · 1 to do

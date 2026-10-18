@@ -1,4 +1,4 @@
-# golden v1: highend · knowledge #a1a8a98c · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 990
+# golden v1: highend · knowledge #786fcd8a · parser 6c37e3d (game 2.3.540) · now 2026-08-10T21:25:42.904Z · return 8h · stage W4-entry · stale: 4 of 991
 
 ## Verdict changes
 
@@ -61,19 +61,9 @@
 - Spend · Fill today's Post Office orders: Fill today's Post Office orders from storage [IdleOn Wiki: Post Office, orders · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Darts: Play one round of Darts [IdleOn Wiki: Minigames, Throwy Darts · Calculated by IdleOn Toolbox · 2.3.540]
 - Spend · Play a round of Hoops: Play one round of Hoops [IdleOn Wiki: Minigames, Swishy Hoops · Calculated by IdleOn Toolbox · 2.3.540]
-- Spend · Spend anvil points: Unspent anvil points on 11 characters → Speed and Capacity [IdleOn Wiki: Smithing, anvil points · Calculated by IdleOn Toolbox · 2.3.540]
-  · Death Bringer Lv 1701: 0 into Speed, 62 into Capacity
-  · Siege Breaker Lv 1725: 0 into Speed, 23 into Capacity
-  · Elemental Sorcerer Lv 1734: 0 into Speed, 60 into Capacity
-  · Divine Knight Lv 1819: 82 into Speed, 0 into Capacity
-  · Arcane Cultist Lv 1762: 0 into Speed, 45 into Capacity
-  · Wind Walker Lv 1744: 1,024 into Speed, 0 into Capacity
-  · Divine Knight Lv 1734: 0 into Speed, 63 into Capacity
-  · Voidwalker Lv 1764: 1 into Speed, 0 into Capacity
-  · Arcane Cultist Lv 1743: 0 into Speed, 60 into Capacity
-  · Wind Walker Lv 1742: 861 into Speed, 62 into Capacity
-  · Beginner Lv 1717: 0 into Speed, 11 into Capacity
-show more (11)
+- Grow · Star talents empty on one preset: Spend your star points on the other preset too [IdleOn Wiki: Special Talents (also called Star Talents)]
+  · Beginner 1717: 10,373 star points unspent on the other preset
+show more (12)
 If you have time
 - Use today's 20 minigame plays · about 10m of hands-on play
 
@@ -96,7 +86,7 @@ Laboratory
 ## Systems
 W0 · Classes and subclasses · Nothing to fix · Nothing to fix
 W0 · Talents · Nothing to fix · Nothing to fix
-W0 · Talent presets · Nothing to fix · Nothing to fix
+W0 · Talent presets · Nothing to fix · Nothing to fix · 1 to do
 W0 · Talent resets · Nothing to fix · Nothing to fix
 W0 · Upgrade Vault · Nothing to fix · Nothing to fix
 W0 · Gem Shop · Nothing to fix · Nothing to fix

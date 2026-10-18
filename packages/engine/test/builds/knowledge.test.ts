@@ -113,7 +113,8 @@ describe('#74 player-facing Sources', () => {
       ).toBe(true);
       // The star Builds (M21 FR-C11) cite player-readable pages only (owner rule for M21: Toolbox
       // website and wiki, never a GitHub file); their talents are checked against generated facts.
-      if (e.type === 'build' && e.variant === 'star') continue;
+      if ((e.type === 'build' && e.variant === 'star') || e.id === 'talent-presets.check.star-empty')
+        continue;
       expect(
         e.sources.some((s) => s.tier === 1),
         e.id,

@@ -1,4 +1,4 @@
-# golden v1: fourth · knowledge #a1a8a98c · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 990
+# golden v1: fourth · knowledge #786fcd8a · parser 6c37e3d (game 2.3.540) · now 2024-05-17T07:51:22.362Z · return 8h · stage W4-entry · stale: 4 of 991
 
 ## Verdict changes
 
@@ -172,10 +172,10 @@ step: Level Barley Brew 1 → 2 (100 Iron Bar, 3 Water)
 - Builds cover World 1 to World 4 for now; these are your plain talent levels
 - Current preset (in use): Beginner · Star talents (243 unspent)
   - Star talents: 243 unspent · they end here
-    - later: Stonks! 0 → 30 (find its book)
-    - later: Will of the Eldest 0 → 47 (find its book)
-    - later: Beginner Best Class 0 → 47 (find its book)
-    - later: Tick Tock 0 (find its book)
+    - later: Stonks! 0 → 30 (find its book (Wellington's quest))
+    - later: Will of the Eldest 0 → 47 (find its book (Scripticus's quest))
+    - later: Beginner Best Class 0 → 47 (find its book (Rocklyte's quest))
+    - later: Tick Tock 0 (find its book (Alchemy liquid shop, 50 water droplets))
     - and 7 more
 
 ## Map

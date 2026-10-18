@@ -1,4 +1,4 @@
-# golden v1: speedrun-rank1 · knowledge #a1a8a98c · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 990
+# golden v1: speedrun-rank1 · knowledge #786fcd8a · parser 6c37e3d (game 2.3.540) · now 2026-08-11T19:59:46.196Z · return 8h · stage W4-entry · stale: 4 of 991
 
 ## Verdict changes
 

@@ -31,11 +31,14 @@ import { spent } from './classify';
 import { BUILDS_DETECTORS } from './detectors';
 import { checkoutDetector, readBookDetector } from './library';
 import { buildRoadmaps } from './roadmap';
+import { starEmptyDetector } from './star';
 
 /** M15 F4: the Talent Book Library's Account Goals, in this order (read a held book, then check out). */
 export const LIBRARY_ENTRIES: Readonly<Record<string, AnyDetector>> = {
   'library.check.read-book': readBookDetector,
   'library.check.checkout': checkoutDetector,
+  // M21 FR-C15 (owner Q2, DS-25): the empty star tab, one account Goal with a detail per character.
+  'talent-presets.check.star-empty': starEmptyDetector,
 };
 
 /** The entry's `detail-<flag>` variant when that slot is 1, else its `detail` template. */
