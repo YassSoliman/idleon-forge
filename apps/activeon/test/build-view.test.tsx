@@ -180,6 +180,25 @@ describe('Build view', () => {
     expect(screen.queryByText('No build yet for this class')).toBeNull();
   });
 
+  it('the same note on every character is one account-level line (#70 A5)', () => {
+    const note = 'Builds cover World 1 to World 4 for now; these are your plain talent levels';
+    const r: EngineResult = {
+      ...fixture('mid-session'),
+      builds: [0, 1, 2].map((index) => ({
+        ...noBuild,
+        index,
+        note,
+        status: 'Builds cover World 1 to World 4 for now',
+      })),
+    };
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    const overview = screen.getByRole('region', { name: 'Builds' });
+    expect(within(overview).queryAllByRole('link')).toHaveLength(0);
+    expect(overview.textContent).toContain(
+      "Builds cover World 1 to World 4 for now. Each character's Build tab shows its plain talent levels.",
+    );
+  });
+
   it('a result without Builds shows no overview and no Build chip', () => {
     const r = fixture('mid-session');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));

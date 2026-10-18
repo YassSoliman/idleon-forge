@@ -215,33 +215,43 @@ export function BuildTab({ view, index }: CharacterTabProps) {
 export function BuildsOverview({ view }: { view: NowView }) {
   const actions = useNowActions();
   if (view.builds.length === 0) return null;
+  // #70 A5: the same note on every character (an account past World 4) is one account-level line.
+  const first = view.builds[0]?.note ?? null;
+  const shared = first !== null && view.builds.every((b) => b.note === first) ? first : null;
   return (
     <section aria-labelledby="builds-h" id="builds" className="builds-overview">
       <h2 id="builds-h" className="section-h">
         Builds
       </h2>
-      <ul className="bo-list">
-        {view.builds.map((b) => (
-          <li key={b.index}>
-            <a
-              href={b.href}
-              className="bo-row"
-              onClick={(e) => {
-                e.preventDefault();
-                actions.openTab(b.index, 'build');
-              }}
-            >
-              <span className="bo-top">
-                <span className="r-name">{b.name}</span>
-                <span className="r-class">
-                  {b.classLabel} · lv {b.level}
+      {shared ? (
+        <p className="small muted bo-shared">
+          {shared.split(';')[0]}. Each character's Build tab shows its plain talent levels.
+        </p>
+      ) : null}
+      {shared ? null : (
+        <ul className="bo-list">
+          {view.builds.map((b) => (
+            <li key={b.index}>
+              <a
+                href={b.href}
+                className="bo-row"
+                onClick={(e) => {
+                  e.preventDefault();
+                  actions.openTab(b.index, 'build');
+                }}
+              >
+                <span className="bo-top">
+                  <span className="r-name">{b.name}</span>
+                  <span className="r-class">
+                    {b.classLabel} · lv {b.level}
+                  </span>
                 </span>
-              </span>
-              <span className="bo-status small">{b.status}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+                <span className="bo-status small">{b.status}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   );
 }

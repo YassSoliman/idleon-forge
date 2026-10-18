@@ -534,3 +534,37 @@ These supersede anything above that conflicts with them.
 > **In-game fact (Yasser, 2026-10-17):** the game just calls them "presets", with no per-preset label. **D5:** on screen, use role names only ("your fighting preset", "your skilling preset", "your other preset"), with no bracketed in-game label.
 
 > **Ruled by Yasser (2026-10-17):** RT1: a core next step keeps position 3 only when that tab's unspent-points lower bound is above 0 or FR-12a's level-up signal fires. Otherwise it goes to the bottom of the list.
+
+## Build view (owner request, 2026-10-18)
+
+> **Owner feedback (2026-10-18):** players couldn't find the character builds. M9 only emitted scattered Now-list Goals ("next points", unspent points, empty preset, wrong preset), with no place to see a character's build. The owner asked for clear per-character skill progression roadmaps adapted to each character's current talent points, with the next steps.
+
+**What it is.** Focus becomes the *character page*, with a tab bar: **Now** (today's Focus content) and **Build**. Other tabs (Cards next) register with one entry in `apps/activeon/src/now/character-tabs.ts`. Each tab deep-links as a bare `#<tab>-<index>` anchor (`#build-3`).
+
+**Entry points.**
+- The Build tab on every character page.
+- A **Build** chip on every Roster row.
+- A **Builds** overview under the Roster, with one line per character ("118+ unspent on the skilling preset · next: Book of the Wise"), plus a "Builds ↓" link in the Roster heading. When every character carries the same note (an account past World 4), the overview shows it once (#70 A5).
+- Every M9 Goal on the Now list ("Talents", "Talent presets", "Talent resets") links to the character's Build tab ("See the full build →"). The Goals themselves don't change.
+
+**Per character** (`packages/engine/src/builds/roadmap.ts`, `buildRoadmaps`; pure, no clock):
+- **Class path.** Beginner → base → subclass → elite → master from `classes.fact.class-tree`, marking done, now, next and later steps. For a base class, the subclass is the line M2's roster holds for that character (tentatively); otherwise both options are listed. The next class milestone reads "Pick X at Promotheus" (with "Lv 10:" below level 10, from Toolbox quest data, Promotheus1), "Next class: take X at Speccius", or "Elite class: X at Eliteus".
+- **Both presets**, tabbed on a phone and side by side from 1000 px. Each preset shows:
+  - its role, from M9's classification (TR-6), named per D5;
+  - the Build it is shown against (empty, incomplete or mixed presets are shown against the role the other preset lacks);
+  - its lower bound of unspent points (TR-7), per tab and in total;
+  - the attack bar against the Build's attacks (plus the AFK skill's skill attack on a skilling preset);
+  - per talent tab, every talent the Build names as "current / target" with a progress bar, in the Build's step order. Steps gated by a later Stage or by accuracy show their condition, and bubble-capped talents say so. Talents with points the Build doesn't name are listed under the table.
+- **Next points.** An ordered checklist per preset and tab: the Build's steps minus current levels, the tab's core step first (FR-11). It reads "Put the next 84 points into Book of the Wise (to 100)", then "then 100 into Leaf Thief (to 100)", at most 3 per tab. A step whose max in the save is below the target reads "(to N, its max for now)".
+- **Coming up.** The second preset at Lv 15. The talent tab the next class opens. The next class line's Build tab-3 opening steps. Stage-gated steps ("From World 3, early: Refinery Throttle"). Elite tabs not covered.
+- **Stale or low-confidence Builds** get a quiet note and their best player-facing Source (#74).
+- **No matching Build** (Journeyman line, a Beginner past Lv 15, past World 4): the plain talent levels per preset and tab, and a note ("No build yet for this class").
+
+**Data.** It reads only what M9 already reads (`characters[].talents`, class, level, afkType) plus M2's class tree and roster. These fields were checked against both private saves, by class and slot only. The W2-late account (Barbarian, Squire, Shaman, Bowman, Wizard) matches the scrubbed W2 fixture exactly, including the Shaman's 118-point lower bound. The W3-early save on disk predates the Lv 15 Archer, so the Archer case is tested on a synthetic Archer built from the W3 Bowman's tabs.
+
+**What the data can't support yet.**
+- No class level for the subclass pick: Speccius's quest asks for items, not a level, so the view says "at Speccius" without "Lv 30".
+- No star-talent recommendations: Builds carry no star steps (dropped in red-team #25).
+- Real unspent points: lower bounds only (TR-7).
+
+**Plumbing.** The M9 module returns `builds` in its output, and the core passes it through as the optional `EngineResult.builds`. `buildNowView` adds `NowView.builds` (names, deep link, Source view). A throw in the roadmap builder drops only the view, never M9's Goals.
