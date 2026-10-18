@@ -242,7 +242,14 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
       parserBehind: false,
     },
     diagnostics: { failedDetectors: failures },
+    ...buildsOf(outputs),
   };
+}
+
+/** M9's Build roadmaps ride through untouched (the Build view); absent when no module emits them. */
+function buildsOf(outputs: readonly { output: ModuleOutput }[]): Pick<EngineResult, 'builds'> {
+  const builds = outputs.find((o) => o.output.builds)?.output.builds;
+  return builds ? { builds } : {};
 }
 
 /** One engine per worker: it keeps the last input and the Expected-Return-independent output. */

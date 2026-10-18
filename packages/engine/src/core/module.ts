@@ -8,6 +8,7 @@ import type { CompiledKnowledge } from '@idleon-forge/knowledge';
 import type { Rankable, ResolvedPriorityList, VisitHint } from '../metapath/types';
 import type {
   ActivePlay,
+  BuildRoadmap,
   Done,
   EngineResult,
   Fill,
@@ -110,6 +111,8 @@ export interface ModuleOutput {
   firstFill?: Fill | null;
   /** M14 FR-23: Walkthroughs to attach to the Goal whose Next Action key is `parentKey`, wherever it ranks. */
   walkthroughs?: { parentKey: string; view: WalkthroughView }[];
+  /** M9 only: the per-character Build roadmaps (the Build view). */
+  builds?: BuildRoadmap[];
 }
 
 /** An advice module, registered with the core. */
