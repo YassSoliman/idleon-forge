@@ -15,6 +15,7 @@ import {
   FACT_ID_RE,
   type FactTableT,
   FORMAT_TYPE,
+  familyMembers,
   isAdviceShaped,
   isPlayerSource,
   parseTemplate,
@@ -235,9 +236,10 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
     if (e.value.type === 'contribution' && e.value.goalFamily) {
       const fam = e.value.goalFamily;
       if (
-        !src.generated.some(
-          (g) => g.value.type === 'goal' && (g.value.id === fam || g.value.id.startsWith(`${fam}-`)),
-        )
+        familyMembers(
+          e.value,
+          src.generated.map((g) => g.value as Entry),
+        ).length === 0
       )
         err(e.file, e.lineOf(['goalFamily']), e.value.id, `goalFamily ${fam} matches no generated Goal`);
     }

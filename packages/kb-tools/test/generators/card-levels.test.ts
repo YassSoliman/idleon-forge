@@ -35,6 +35,10 @@ describe('card-levels generator', () => {
     // 16 + 14 + 16 + 14 monster cards (W1–W4) plus 13 + 31 + 36 resource cards at the pin.
     expect(out.entries.length).toBeGreaterThan(100);
     expect(out.entries.length).toBeLessThan(160);
+    // M4 TR-4: the dropper's AFK type, so a fighting Contribution expands only over fighting cards.
+    const afk = (id: string) => out.entries.find((e) => e.id === id)?.values.afkType;
+    expect(afk('cards.goal.copper')).toBe('MINING');
+    expect(afk('cards.goal.poop-small')).toBe('FIGHTING');
   });
 
   it("gives the same star count as Toolbox's calculateStars on known saves", async () => {

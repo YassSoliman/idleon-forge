@@ -17,6 +17,7 @@ import {
   type EntryTypeName,
   FACT_ID_RE,
   type FactTableT,
+  familyMembers,
   isStale,
   knowledgeVersion,
   playerVisible,
@@ -88,11 +89,8 @@ export async function compile(
   const expanded: Entry[] = [];
   for (const e of src.authored.map((a) => a.value) as Entry[]) {
     if (e.type === 'contribution' && e.goalFamily) {
-      const fam = e.goalFamily;
       const [sys, , slug] = e.id.split('.');
-      for (const g of all
-        .filter((x) => x.type === 'goal' && isGenerated(x) && (x.id === fam || x.id.startsWith(`${fam}-`)))
-        .sort((a, b) => (a.id < b.id ? -1 : 1))) {
+      for (const g of familyMembers(e, all.filter(isGenerated))) {
         const goalSlug = g.id.split('.')[2] as string;
         const { goalFamily: _f, ...rest } = e;
         expanded.push({ ...rest, id: `${sys}.contribution.${slug}-${goalSlug}`, goal: g.id } as Entry);
