@@ -573,6 +573,10 @@ golden.
   previous save" only when one of those sub-fields is missing or fails its schema, not whenever `schemaVersion` differs.
   User-visible consequence, stated once: on the first save after a release that reshapes a compared sub-field, that
   Detector stays silent for one sync.
+  **Built 2026-10-19:** `previousSave(history, fields)` in `packages/knowledge/src/helpers.ts` (Detectors may import
+  it): the newest earlier save, or null only when a declared sub-field is missing or fails its `valid` shape. No live
+  Detector compares with the previous save yet; the Wave 1 Lab chain-broke and the Wave 5 Killroy and Weekly Battles
+  rolls use it, and each declared path must also be added to the history's `compactState` (`packages/sync`).
 - **FR-8 Correctness fixes.** Each ships alone with a regression test: Breeding `nextEggInSeconds` reads banked time as
   remaining (fix), first-breed hint keys off `speciesBred` (fix), multiplier-unlock indices (fix, after V5); Ballot
   label "Active now"; Equinox real unlock; Refinery Throttle effective level; `friendBonusStats`, `hatRack` and
