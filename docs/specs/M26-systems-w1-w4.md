@@ -631,6 +631,12 @@ golden.
 - **FR-0a Stage fixtures.** Wave 0.11 adds `stage-w1-early` and `stage-w3-mid` (Fixtures paragraph) and the per-story
   mutations as each wave needs them. Each wave's goldens include one story per Stage band the wave touches (US-S1 to
   US-S3 plus the wave's own stories), and every wave asserts US-S1 (locked Systems silent on `stage-w1-early`).
+  **Built 2026-10-19:** `pnpm kb stage-fixtures` (`packages/kb-tools/src/stage-fixtures.ts`) writes
+  `packages/knowledge/test/fixtures/m26/stage-w1-early.json` (one Beginner at level 8, no world finished, no World 2+
+  key, no quest done) and `stage-w3-mid.json` (Carpenter Cardinal dialogue and Gobo's quests removed, Nullo Salt
+  locked, no Galaxial Amethyst, every World 4 key removed; the characters keep their elite classes, R11); character
+  names are replaced. A test re-runs it with `--check`: same bytes, a non-empty parse, and the M2 classifier's Stage
+  (W1-early and W3-mid). Per-story mutations are added by each wave.
 - **FR-0b Completeness tests.** (1) Registry: every System in `systems.yaml` has a `SYSTEM_HOMES` entry and a
   `pages.ts` entry, else the build fails (G1). (2) Matrix: every Appendix A row maps to an Account State field, a Check
   or Goal id, a No-advice reason, or a Deferred register row; an unmapped row fails (G2). The mapping lives in
