@@ -22,6 +22,43 @@ import type { ClassFamily, EngineResult, Goal, SystemPicture } from '../result';
 import { isWorld4ReadOnly } from '../world4';
 import { BAND_WORDS, INDEX_WORDS, REPORT_WORDS } from './words';
 
+/** A cap's System: its key's entry id up to the first dot (M17 `systemOfKey`). */
+const systemOfKey = (key: string) => key.split('@')[0]?.split('.')[0] ?? key;
+
+/**
+ * M24 (QA P1-5): this System's quick-collect caps that are full now, counted the way Now counts them
+ * (`capView` fullNow: no time or a time at or before now; skipped ones left out), with the cap's own verb
+ * ("Worship full · spend" -> "spend"). Null when none is full now.
+ */
+export interface CapsNow {
+  count: number;
+  verb: string;
+  what: string;
+}
+export function capsFullNow(
+  result: EngineResult,
+  systemId: string,
+  prefs: { open(key: string): boolean },
+  now: number,
+): CapsNow | null {
+  const lines = result.characters.flatMap((c) =>
+    (c.info ?? []).filter(
+      (l) =>
+        l.kind === 'cap' &&
+        systemOfKey(l.key) === systemId &&
+        prefs.open(l.key) &&
+        (l.at === null || l.at === undefined || l.at <= now),
+    ),
+  );
+  const first = lines[0];
+  if (!first) return null;
+  const label = first.label ?? first.text;
+  const cut = label.lastIndexOf(' · ');
+  const verb = cut >= 0 ? label.slice(cut + ' · '.length) : 'collect';
+  const what = (cut >= 0 ? label.slice(0, cut) : label).replace(/\s+full$/i, '');
+  return { count: lines.length, verb, what };
+}
+
 const NEW_KINDS: ReadonlySet<string> = new Set(['stamps', 'statues', 'vault', 'printer']);
 
 /** M21 FR-S1, FR-S2: the hub with the report card. */
@@ -35,7 +72,7 @@ export function buildSystemsHubView(
   const prefs = readPrefs(result, nowPrefs, ui);
   const facts = goalsBySystem(result);
   const tiles = [...view.groups.flatMap((g) => g.tiles), ...(view.later?.tiles ?? [])];
-  return { ...view, ...hubExtras(result, prefs, facts, tiles, view.groups) };
+  return { ...view, ...hubExtras(result, prefs, facts, tiles, view.groups, ui.now) };
 }
 
 /** Open = neither skipped today nor dismissed (M17's rule, `now/systems-view.ts` readPrefs). */
@@ -217,6 +254,7 @@ function hubExtras(
   facts: Map<string, SystemFacts>,
   tiles: readonly TileView[],
   groups: readonly { world: number; heading: string; tiles: TileView[] }[],
+  now: number,
 ): SystemsHubExtras {
   const wastingNow = groups
     .flatMap((g) => g.tiles)
@@ -238,14 +276,15 @@ function hubExtras(
     report,
     bands,
     pictures: (result.slotPictures ?? []).filter((p) => NEW_KINDS.has(p.kind)),
-    index: indexOf(result, prefs, facts, tiles, groups, report),
+    index: indexOf(result, prefs, facts, tiles, groups, report, now),
   };
 }
 
-const toneOf = (t: TileView): IndexTone =>
+/** A tile's pip: coral wasting; gold behind, or fine with a step to do or a cap full now; mint fine. */
+const toneOf = (t: TileView, capsNow: boolean): IndexTone =>
   t.status === 'wasting'
     ? 'wasting'
-    : t.status === 'behind' || (t.status === 'ok' && (t.counts.toDo ?? 0) > 0)
+    : t.status === 'behind' || (t.status === 'ok' && ((t.counts.toDo ?? 0) > 0 || capsNow))
       ? 'todo'
       : t.status === 'ok'
         ? 'ok'
@@ -259,6 +298,7 @@ function indexOf(
   tiles: readonly TileView[],
   groups: readonly { world: number; heading: string; tiles: TileView[] }[],
   report: StageReportView | null,
+  now: number,
 ): SystemsIndexView {
   const stage = result.stage.id;
   const world = isStage(stage) ? `World ${stage.slice(1, 2)}` : null;
@@ -310,19 +350,23 @@ function indexOf(
   const tileView = (t: TileView): IndexTileView => {
     const open = t.counts.toFix + (t.counts.toDo ?? 0);
     const ro = readOnly(t) && t.status === 'not-covered';
+    const tone: IndexTone = ro ? 'readonly' : toneOf(t, capsFullNow(result, t.id, prefs, now) !== null);
     return {
       id: t.id,
       name: t.name,
       status: t.status,
-      tone: ro ? 'readonly' : toneOf(t),
+      tone,
       count: open > 0 ? open : null,
       sub: ro ? INDEX_WORDS.readOnly : (INDEX_WORDS.tileSub[t.status] ?? null),
       accessibleName: ro ? `${t.name}, ${INDEX_WORDS.readOnlyName}` : t.accessibleName,
-      needsYou: t.status === 'wasting' || t.status === 'behind',
+      // QA P2: one definition with the pips: a coral or gold pip needs you.
+      needsYou: tone === 'wasting' || tone === 'todo',
       readOnly: ro,
     };
   };
+  const tileViews = new Map(tiles.map((t) => [t.id, tileView(t)]));
   const worlds = groups.map((g) => {
+    const views = g.tiles.map((t) => tileViews.get(t.id) ?? tileView(t));
     const locked = g.tiles.filter((t) => t.status === 'locked');
     const allLocked = locked.length > 0 && locked.length === g.tiles.length;
     const unlock = allLocked
@@ -333,13 +377,13 @@ function indexOf(
       heading: g.heading,
       sub: INDEX_WORDS.worldSub(
         g.tiles.length,
-        g.tiles.filter((t) => t.status === 'wasting' || t.status === 'behind').length,
+        views.filter((t) => t.needsYou).length,
         g.tiles.filter((t) => t.status === 'not-covered' && !readOnly(t)).length,
         locked.length,
         g.tiles.filter((t) => t.status === 'not-covered' && readOnly(t)).length,
       ),
       how: unlock?.text ?? null,
-      tiles: g.tiles.map(tileView),
+      tiles: views,
     };
   });
   return {
@@ -347,7 +391,12 @@ function indexOf(
     wasting,
     behindTitle: world ? INDEX_WORDS.behindTitle(world) : null,
     behind,
-    counts: { needs: wastingN + behindN, all: tiles.length, notCovered: notCoveredN, locked: lockedN },
+    counts: {
+      needs: worlds.reduce((n, w) => n + w.tiles.filter((t) => t.needsYou).length, 0),
+      all: tiles.length,
+      notCovered: notCoveredN,
+      locked: lockedN,
+    },
     worlds,
   };
 }

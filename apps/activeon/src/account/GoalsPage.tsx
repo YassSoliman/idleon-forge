@@ -13,6 +13,7 @@ import { ACCOUNT_WORDS } from '@idleon-forge/engine/now';
 import { useMemo, useState } from 'react';
 import { Sprite } from '../art/sprites/Sprite';
 import { cx } from '../design/atoms/Button';
+import { ShortText } from '../design/atoms/ShortText';
 import { WhoGlyph } from '../design/who/WhoGlyph';
 import { useNowActions } from '../now/context';
 import { NextActionItem, SeeItLink } from '../now/parts';
@@ -52,7 +53,7 @@ function TopGoal({ r, n }: { r: GoalRow; n: number }) {
         </span>
       </span>
       <b className="ac-gtop__t">{r.goal.action.text}</b>
-      <span className="ac-sub ac-gtop__why">{r.goal.action.why}</span>
+      <ShortText className="ac-sub ac-gtop__why" text={r.goal.action.why} />
       <span className="ac-gtop__foot">
         <span className="ac-sub">{r.system}</span>
         <SeeItLink goal={r.goal} subject="account" />
@@ -71,7 +72,7 @@ function GoalLine({ r }: { r: GoalRow }) {
       <Mono r={r} />
       <span className="ac-grow__t">
         <b>{r.goal.action.text}</b>
-        <span className="ac-sub">{r.goal.action.why}</span>
+        <ShortText className="ac-sub" text={r.goal.action.why} />
       </span>
       {r.urgency ? (
         <span className="ac-grow__x ac-coral">{r.urgency}</span>

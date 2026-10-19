@@ -730,6 +730,8 @@ textarea.n-drop__text {
 .n-foot {
   margin-inline: calc((100% - min(1136px, 100cqw)) / 2);
   position: relative;
+  /* The footer never widens the page: its content sizes to the column, not the column to it. */
+  contain: inline-size;
   margin-top: var(--space-6);
   padding: var(--space-5) 0 28px;
   color: var(--muted);
@@ -748,18 +750,30 @@ textarea.n-drop__text {
 }
 .n-foot__in {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-1) var(--space-6);
 }
-.n-foot__src,
+/* One line from 720 px (QA P2): the Sources shrink and end in an ellipsis (their full text is the line's
+   title); the legal line (the affiliation disclaimer, on every page), Suggest and Source never shrink or
+   wrap. On a phone: the Sources on one line, then the legal line whole, then Suggest and Source. */
+.n-foot__src {
+  flex: 0 1 auto;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .n-foot__end {
   display: flex;
-  flex-wrap: wrap;
+  flex: none;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 0 var(--space-4);
   margin: 0;
+  white-space: nowrap;
 }
 .n-foot__page:empty {
   display: none;
@@ -781,6 +795,7 @@ textarea.n-drop__text {
   cursor: pointer;
 }
 .n-foot__src a {
+  display: inline;
   min-height: 0;
 }
 .n-foot a:hover,
@@ -792,6 +807,18 @@ textarea.n-drop__text {
 @media (max-width: 719.98px) {
   .n-foot {
     padding: var(--space-2) 0 var(--space-4);
+  }
+  .n-foot__in {
+    flex-wrap: wrap;
+  }
+  .n-foot__src {
+    flex-basis: 100%;
+  }
+  /* The legal line is never cut: on a phone it may wrap whole words, with Suggest and Source after it. */
+  .n-foot__end {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    white-space: normal;
   }
 }
 

@@ -17,7 +17,15 @@ import {
 import { STAGES } from '@idleon-forge/knowledge/stages';
 import type { EngineResult, SystemPicture } from '../result';
 import { isWorld4ReadOnly } from '../world4';
-import { isStage, readPrefs, type SystemStepView, stageLabel, whoToken } from './hub-view';
+import {
+  type CapsNow,
+  capsFullNow,
+  isStage,
+  readPrefs,
+  type SystemStepView,
+  stageLabel,
+  whoToken,
+} from './hub-view';
 import { FRAME_WORDS, PAGE_FRAME_WORDS as W } from './words';
 
 export interface SystemPageExtras {
@@ -85,7 +93,7 @@ export function buildSystemPageFrameView(
     step,
     stageMeter,
     pictures: picturesOf(result, page.tile.id),
-    frame: frameOf(result, page, step),
+    frame: frameOf(result, page, step, capsFullNow(result, page.tile.id, prefs, ui.now)),
   };
 }
 
@@ -104,23 +112,29 @@ export function frameOf(
   result: EngineResult,
   page: SystemPageView,
   step: SystemStepView | null,
+  caps: CapsNow | null = null,
 ): SystemFrameView {
   const { tile } = page;
   const stage = result.stage.id;
   const world = isStage(stage) ? `World ${stage.slice(1, 2)}` : null;
   const parts = tile.reason[0]?.text === tile.statusWord.text ? tile.reason.slice(2) : tile.reason;
-  // The status word says "Behind for World 3" or "Nothing to fix"; the reason doesn't repeat it.
-  const reason = parts
-    .map((p) => p.text)
-    .join('')
+  // The status word says "Behind for World 3" or "Nothing to fix"; the reason doesn't repeat it. The
+  // tile's "6 full · collect" counts caps full by your return with one verb for all; the page says the
+  // caps full now with their own verb (QA P1-5), as Now and the page's tabs count them.
+  const capsWord = caps ? W.capsFull(caps.count, caps.verb) : null;
+  const pills = tile.counts.pillsFull > 0 ? REASON_WORDS.pillsFull(tile.counts.pillsFull) : null;
+  const joined = parts.map((p) => p.text).join('');
+  const reasonParts = (pills ? joined.replace(pills, '') : joined)
     .split(REASON_WORDS.sep)
-    .filter((x) => x && x !== REASON_WORDS.behind && x !== REASON_WORDS.nothingToFix)
-    .join(REASON_WORDS.sep);
+    .filter((x) => x && x !== REASON_WORDS.behind && x !== REASON_WORDS.nothingToFix);
+  const capsOk = capsWord !== null && tile.status === 'ok';
+  if (capsWord && !capsOk) reasonParts.push(capsWord);
+  const reason = reasonParts.join(REASON_WORDS.sep);
   const checksCount = page.coverage.checks.length;
   const todo = page.goals.length > 0;
   const readOnly = tile.status === 'not-covered' && isWorld4ReadOnly(result, tile.id);
   const status: SystemFrameView['status'] = readOnly
-    ? { tone: 'sky', word: W.status.readOnly, reason: W.status.readOnlyReason }
+    ? { tone: 'mut', word: W.status.readOnly, reason: W.status.readOnlyReason }
     : tile.status === 'wasting'
       ? { tone: 'coral', word: W.status.wasting, reason }
       : tile.status === 'behind'
@@ -131,7 +145,9 @@ export function frameOf(
             ? { tone: 'mut', word: checksCount ? W.status.notCovered : W.status.noChecks, reason }
             : tile.status === 'cant-tell'
               ? { tone: 'mut', word: W.status.cantTell, reason }
-              : { tone: 'mint', word: W.status.ok, reason };
+              : capsOk && capsWord
+                ? { tone: 'gold', word: capsWord, reason }
+                : { tone: 'mint', word: W.status.ok, reason };
   const more = Math.max(0, page.goals.length - 1);
   const who = step?.who?.label ?? null;
   const stepSub = [who, more ? W.more(more) : null].filter(Boolean).join(' · ') || null;
@@ -151,7 +167,9 @@ export function frameOf(
               }
             : tile.status === 'cant-tell'
               ? { tone: 'mut', cap: W.cap.cantTell, hero: W.cantTellHero, sub: null }
-              : { tone: 'mint', cap: W.cap.ok, hero: W.okHero, sub: checksCount ? W.okSub : null };
+              : capsOk && caps
+                ? { tone: 'gold', cap: W.cap.todo, hero: W.capsHero(caps.what, caps.count), sub: null }
+                : { tone: 'mint', cap: W.cap.ok, hero: W.okHero, sub: checksCount ? W.okSub : null };
   // A fired check reads coral when one of its Goals is a fix before you leave, gold otherwise.
   const summary = result.systems?.find((x) => x.id === tile.id);
   const fixIds = new Set(page.goals.filter((g) => g.blocker).map((g) => g.id));

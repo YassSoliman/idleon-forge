@@ -231,7 +231,7 @@ describe('M24 the Systems index, the page template and the Anvil page', () => {
     // No character clears the respec Goal's 25% at 8 h, so no Whetstone order.
     expect(a?.whetstone).toEqual([]);
   });
-  it('World 4 read-only pages (isWorld4ReadOnly): a sky "read-only" tile and header, no answer of its own', () => {
+  it('World 4 read-only pages (isWorld4ReadOnly): a grey "read-only" tile and header, no answer of its own', () => {
     const W4 = ['lab', 'cooking', 'breeding'];
     const r = {
       ...W3,
@@ -249,6 +249,69 @@ describe('M24 the Systems index, the page template and the Anvil page', () => {
       { now, id: 'lab', highlight: null },
     );
     expect(page?.frame.readOnly).toBe(true);
-    expect(page?.frame.status).toEqual({ tone: 'sky', word: 'Read-only', reason: 'no checks yet' });
+    expect(page?.frame.status).toEqual({ tone: 'mut', word: 'Read-only', reason: 'no checks yet' });
+  });
+});
+
+describe('M24 QA fixes: caps full now on the page header, one "Needs you" definition', () => {
+  const now = fixture('scrubbed-w3').now;
+  // Worship charge as cap pills (R-PILL-1): five full now, one full later (before the return).
+  const withCaps = (fullNow: number, later: number): EngineResult => ({
+    ...W3,
+    characters: W3.characters.map((c, i) => ({
+      ...c,
+      goals: c.goals.filter((g) => g.system !== 'worship'),
+      info: [
+        ...(c.info ?? []).filter((l) => !l.key.startsWith('worship.')),
+        ...(i < fullNow + later
+          ? [
+              {
+                key: `worship.check.charge-full@c${c.index}`,
+                text: 'Worship charge is full',
+                sources: [],
+                kind: 'cap' as const,
+                label: 'Worship full · spend',
+                at: i < fullNow ? now - 1000 : now + 3_600_000,
+              },
+            ]
+          : []),
+      ],
+    })),
+    account: { ...W3.account, goals: W3.account.goals.filter((g) => g.system !== 'worship') },
+  });
+  it('the header counts the caps full now with their own verb, in gold, and the answer is to do', () => {
+    const r = withCaps(5, 1);
+    const page = buildSystemPageFrameView(
+      r,
+      EMPTY_PREFS,
+      { roster: [] },
+      { now, id: 'worship', highlight: null },
+    );
+    expect(page?.tile.status).toBe('ok');
+    expect(page?.frame.status).toMatchObject({ tone: 'gold', word: '5 full · spend' });
+    expect(page?.frame.status.reason).not.toMatch(/collect|6 full|Nothing to fix/);
+    expect(page?.frame.answer).toMatchObject({
+      tone: 'gold',
+      cap: 'Do this next',
+      hero: 'Worship full on 5 characters',
+    });
+  });
+  it('caps that fill only later are not counted; with none full now the page says nothing to fix', () => {
+    const r = withCaps(0, 2);
+    const page = buildSystemPageFrameView(
+      r,
+      EMPTY_PREFS,
+      { roster: [] },
+      { now, id: 'worship', highlight: null },
+    );
+    expect(page?.frame.status).toMatchObject({ tone: 'mint', word: 'Nothing to fix' });
+  });
+  it('the index: a gold tile (to do or a cap full now) needs you, and the filter counts the pips', () => {
+    const r = withCaps(5, 0);
+    const ix = buildSystemsHubView(r, EMPTY_PREFS, { now }, buildSystemsView(r, EMPTY_PREFS, { now })).index;
+    const tiles = ix.worlds.flatMap((w) => w.tiles);
+    expect(tiles.find((t) => t.id === 'worship')).toMatchObject({ tone: 'todo', needsYou: true });
+    for (const t of tiles) expect(t.needsYou).toBe(t.tone === 'wasting' || t.tone === 'todo');
+    expect(ix.counts.needs).toBe(tiles.filter((t) => t.tone === 'wasting' || t.tone === 'todo').length);
   });
 });

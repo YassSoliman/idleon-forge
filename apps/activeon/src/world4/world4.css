@@ -367,7 +367,8 @@
 }
 .w4-board__prism text {
   fill: var(--info);
-  font: var(--weight-bold) 15px var(--font-body);
+  /* The board draws at about half its game size at 1440, so 24 units read as 12 px or more (QA P2). */
+  font: var(--weight-bold) 24px var(--font-body);
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
 }
@@ -404,9 +405,16 @@
 }
 .w4-board__node text {
   fill: var(--muted);
-  font: var(--weight-regular) 15px var(--font-body);
+  font: var(--weight-regular) 24px var(--font-body);
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
+}
+/* Narrower than the two-column page the board draws too small for any label to read: the list under
+   it names every bonus. */
+@media (max-width: 999.98px) {
+  .w4-board text {
+    display: none;
+  }
 }
 .w4-board__node.is-lit rect {
   fill: var(--ok);

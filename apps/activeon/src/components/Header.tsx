@@ -41,7 +41,7 @@ export interface HeaderProps {
    */
   staleAfterSeconds?: number | null;
   /** EngineResult.stage (M2 D5): the World crest; what the next Stage needs opens in a sheet. */
-  stage?: { id: string; label: string; needs?: string[] } | null;
+  stage?: { id: string; label: string; needs?: string[]; beyond?: true } | null;
   /** G2: "Preview of PR #123, not the live app", on PR Previews only. */
   preview?: string | null;
   /** A newer build is live (M12 FR-24): the quiet "New version ready · Reload" chip. */
@@ -72,7 +72,8 @@ function Crest({ stage }: { stage: NonNullable<HeaderProps['stage']> }) {
   const [open, setOpen] = useState(false);
   if (stage.id === 'not-covered' || stage.id === 'unknown') return null;
   const needs = stage.needs ?? [];
-  const text = stageText(stage.label);
+  // Past World 4 the Stage model has no later Stage: say "World 4 or later", never "entry" (QA P2).
+  const text = stage.beyond ? W.stageBeyond : stageText(stage.label);
   return (
     <>
       <button

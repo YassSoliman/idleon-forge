@@ -203,6 +203,10 @@ export const PAGE_FRAME_WORDS = {
     cantTell: "Can't tell",
   },
   okHero: 'Nothing to do here today',
+  /** QA P1-5: caps full now, with their own verb ("5 full · spend"). */
+  capsFull: (n: number, verb: string) => `${n} full · ${verb}`,
+  /** "Worship full on 5 characters". */
+  capsHero: (what: string, n: number) => `${what} full on ${n === 1 ? '1 character' : `${n} characters`}`,
   okSub: 'Every check here is fine.',
   notCoveredHero: (name: string) => `ActiveOn doesn't check ${name} yet`,
   cantTellHero: "ActiveOn can't tell from your save",
@@ -315,6 +319,7 @@ export const ANVIL_WORDS = {
         ? `Put ${who}'s ${spare} spare anvil ${spare === 1 ? 'point' : 'points'} into Capacity`
         : `Put ${who}'s ${spare} spare anvil points into Speed (${toSpeed}) and Capacity (${toCap})`,
   alsoSpare: (who: string, n: number) => `${who} has ${n} spare ${n === 1 ? 'point' : 'points'} too.`,
+  moreSpare: (n: number) => `${n} more ${n === 1 ? 'character has' : 'characters have'} spare points.`,
   points: 'points',
   doingNothing: 'doing nothing right now',
   everyCharacter: 'every character',

@@ -191,9 +191,16 @@ export function buildAnvilPageView(
     const w = plan ? pick(plan, hours) : null;
     const toS = w?.spend ? w.spend.speed - (plan?.speedPoints ?? 0) : top.spare;
     const toC = w?.spend ? w.spend.capacity - (plan?.capPoints ?? 0) : 0;
-    const others = spareRows
-      .slice(1)
-      .map((r) => W.alsoSpare(r.who?.label ?? W.character(r.index + 1), r.spare));
+    // Rule 3, next three not everything (QA P2: 10 "has N spare points too" made a 468-character wall):
+    // the next one by name, then a count; the point split lists every character.
+    const rest = spareRows.slice(1);
+    const next = rest[0];
+    const others = next
+      ? [
+          W.alsoSpare(next.who?.label ?? W.character(next.index + 1), next.spare),
+          ...(rest.length > 1 ? [W.moreSpare(rest.length - 1)] : []),
+        ]
+      : [];
     hero = {
       hero: W.hero(label(top.index), top.spare, toS, toC),
       sub: [top.gain ? `${top.gain.charAt(0).toUpperCase()}${top.gain.slice(1)}.` : null, ...others]

@@ -38,6 +38,8 @@ export const HEADER_WORDS = {
   signOut: 'Sign out',
   /** The crest's sheet: what the next Stage needs (M2 D5). */
   stageTitle: (label: unknown) => `To move past ${s(label)}`,
+  /** The crest of an account past World 4, the last Stage the model knows. */
+  stageBeyond: 'World 4 or later',
   stageCount: (count: unknown) => plural(count, 'thing'),
   stageHint: 'Each box ticks itself when your save shows it done.',
   stageButton: (label: unknown, count: unknown) => `${s(label)}, ${plural(count, 'thing')} to go`,

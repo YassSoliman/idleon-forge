@@ -110,7 +110,7 @@ export function SpendPlanPage({ s }: { s: Session }) {
     <article className="ac-page" aria-labelledby="ac-spend-h">
       <Crumb s={s} here={W.crumb} back={W.back} />
       {!page ? (
-        <section className="a-frame ac-hero">
+        <section className="a-frame a-frame--gold ac-hero">
           <h2 id="ac-spend-h" className="ac-h1" data-place-heading tabIndex={-1}>
             {W.crumb}
           </h2>
@@ -118,7 +118,7 @@ export function SpendPlanPage({ s }: { s: Session }) {
         </section>
       ) : (
         <>
-          <section className="a-frame ac-hero" aria-labelledby="ac-spend-h">
+          <section className="a-frame a-frame--gold ac-hero" aria-labelledby="ac-spend-h">
             <div className="ac-hero__row">
               <Sprite name="item-coin" size={64} decorative />
               <h2 id="ac-spend-h" className="ac-hero__h" data-place-heading tabIndex={-1}>

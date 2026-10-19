@@ -31,6 +31,7 @@ export function FramedSections({ s, page, sections }: FullPageProps & { sections
       {...(sections.answer ? { answer: sections.answer } : {})}
       tabs={tabs}
       {...(sections.initialTab ? { initialTab: sections.initialTab } : {})}
+      {...(sections.status ? { status: sections.status } : {})}
     />
   );
 }

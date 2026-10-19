@@ -803,3 +803,16 @@
 .gg {
   flex: none;
 }
+
+/* ShortText's "more" / "less" toggle: an inline text button (rule 3, no text walls). */
+.a-more {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--fg2, var(--fg));
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}

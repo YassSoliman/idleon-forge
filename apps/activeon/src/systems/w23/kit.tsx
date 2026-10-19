@@ -44,6 +44,8 @@ export interface PageSections {
   tabs: SectionTab[];
   /** The tab open first (a tab id). */
   initialTab?: string;
+  /** Replaces the header's status when the page's own picture says more than the engine's word. */
+  status?: { tone: Tone; word: string; reason?: string | null };
 }
 
 /** "Bowman 81": class and level, never a name. */
