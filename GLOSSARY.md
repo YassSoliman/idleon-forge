@@ -238,6 +238,10 @@ _Avoid_: source (that is a citation), route, farm spot
 The part of a Walkthrough expected to take longest, which starts first, even before the steps that come earlier in the tree.
 _Avoid_: long pole, blocker (that is a Verdict term), critical path
 
+**Production Plan**:
+What each producer (a character's anvil slots, the forge, the Refinery, a kitchen, a cauldron's brewers, the 3D Printer) should make right now and why: the item whose Demand is largest against its Supply, ranked by the Bottleneck it shortens, with the upgrades that would speed it up as steps.
+_Avoid_: production queue, crafting list, what to AFK (that is an AFK Setup)
+
 **Parallel Slot Plan**:
 What each character's Parallel Slot should be doing to feed the Demand (first the 3D Printer: which sample to print, take or keep), and when to change it.
 _Avoid_: slot plan (bare; that is the Meta Path's character slots), printer schedule, rotation
