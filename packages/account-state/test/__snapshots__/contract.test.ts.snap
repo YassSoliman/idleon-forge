@@ -507,6 +507,13 @@ exports[`public save first.json > matches the recorded shape (review the diff af
     },
     "bankCoins": 4238739531.3400726,
     "bigBubbleSlots": 2,
+    "breeding": {
+      "arenaBestWave": 7,
+      "level": 11,
+      "nest": "1/4",
+      "territories": "fffffnnnnnnnnnnnnnnnnnnn",
+      "upgrades": "1 0 0 0 0 0 0 0 0 0 0 0",
+    },
     "bubba": null,
     "buildings": {
       "atomCollider": 0,
@@ -671,6 +678,12 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       },
     ],
     "construction": null,
+    "cooking": {
+      "kitchens": "recipe cooking cooking cooking locked locked locked locked locked locked",
+      "mealMaxLevel": 30,
+      "mealsFound": "5/74",
+      "spicesFound": "5/24",
+    },
     "currentWorld": 4,
     "dailyResetInSeconds": 61106.3149971962,
     "deathNote": {
@@ -1299,6 +1312,14 @@ exports[`public save first.json > matches the recorded shape (review the diff af
       },
     ],
     "killroy": null,
+    "lab": {
+      "connected": 4,
+      "jewels": "0/24",
+      "lit": 3,
+      "repositoryOpen": true,
+      "spinnerOpen": false,
+      "uploaded": 4,
+    },
     "lastCloudSave": 1717794496023,
     "library": null,
     "liquids": [
@@ -4133,6 +4154,13 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
     },
     "bankCoins": 0,
     "bigBubbleSlots": 3,
+    "breeding": {
+      "arenaBestWave": 201,
+      "level": 55,
+      "nest": "0/14",
+      "territories": "ffffffffffffffwwfwwwwnnn",
+      "upgrades": "12 4 3 4 7 4 4 2 6 0 0 0",
+    },
     "bubba": null,
     "buildings": {
       "atomCollider": 1,
@@ -4277,6 +4305,12 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       },
     ],
     "construction": null,
+    "cooking": {
+      "kitchens": "cooking cooking cooking cooking cooking cooking cooking cooking cooking locked",
+      "mealMaxLevel": 50,
+      "mealsFound": "61/74",
+      "spicesFound": "21/24",
+    },
     "currentWorld": 6,
     "dailyResetInSeconds": 72227.93901824951,
     "deathNote": {},
@@ -4823,6 +4857,14 @@ exports[`public save fourth.json > matches the recorded shape (review the diff a
       },
     ],
     "killroy": null,
+    "lab": {
+      "connected": 1,
+      "jewels": "8/24",
+      "lit": 2,
+      "repositoryOpen": true,
+      "spinnerOpen": true,
+      "uploaded": 1,
+    },
     "lastCloudSave": 1715932274485,
     "library": null,
     "liquids": [
@@ -6669,6 +6711,13 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
     },
     "bankCoins": 9.040726648675453e+23,
     "bigBubbleSlots": 3,
+    "breeding": {
+      "arenaBestWave": 148,
+      "level": 59,
+      "nest": "15/15",
+      "territories": "fffffffffffffffffffffffw",
+      "upgrades": "11 5 5 10 4 4 3 6 3 0 0 0",
+    },
     "bubba": {
       "ahead": null,
       "bonuses": [
@@ -6972,6 +7021,12 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       },
     ],
     "construction": null,
+    "cooking": {
+      "kitchens": "cooking cooking cooking cooking cooking cooking cooking cooking cooking cooking",
+      "mealMaxLevel": 80,
+      "mealsFound": "67/74",
+      "spicesFound": "24/24",
+    },
     "currentWorld": 6,
     "dailyResetInSeconds": 16674.59600110352,
     "deathNote": {},
@@ -7543,6 +7598,14 @@ exports[`public save fresh.json > matches the recorded shape (review the diff af
       },
     ],
     "killroy": null,
+    "lab": {
+      "connected": 2,
+      "jewels": "20/24",
+      "lit": 1,
+      "repositoryOpen": true,
+      "spinnerOpen": true,
+      "uploaded": 2,
+    },
     "lastCloudSave": 1787251303120,
     "library": null,
     "liquids": [
@@ -9736,6 +9799,13 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
     },
     "bankCoins": 5.187338385404762e+55,
     "bigBubbleSlots": 3,
+    "breeding": {
+      "arenaBestWave": 320,
+      "level": 213,
+      "nest": "15/15",
+      "territories": "ffffffffffffffffffffffff",
+      "upgrades": "20 5 10 10 10 27 5 6 3 10 10 208",
+    },
     "bubba": {
       "ahead": null,
       "bonuses": [
@@ -10071,6 +10141,12 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
     ],
     "construction": null,
+    "cooking": {
+      "kitchens": "cooking cooking cooking cooking cooking cooking cooking cooking cooking cooking",
+      "mealMaxLevel": 160,
+      "mealsFound": "74/74",
+      "spicesFound": "24/24",
+    },
     "currentWorld": 7,
     "dailyResetInSeconds": 1543.0130362510681,
     "deathNote": {},
@@ -10780,6 +10856,14 @@ exports[`public save highend.json > matches the recorded shape (review the diff 
       },
     ],
     "killroy": null,
+    "lab": {
+      "connected": 11,
+      "jewels": "24/24",
+      "lit": 17,
+      "repositoryOpen": true,
+      "spinnerOpen": true,
+      "uploaded": 11,
+    },
     "lastCloudSave": 1786397005571,
     "library": null,
     "liquids": [
@@ -14973,6 +15057,13 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
     },
     "bankCoins": 9.040492416252031e+23,
     "bigBubbleSlots": 3,
+    "breeding": {
+      "arenaBestWave": 148,
+      "level": 121,
+      "nest": "15/15",
+      "territories": "ffffffffffffffffffffffff",
+      "upgrades": "12 5 6 10 4 4 3 6 4 8 10 32",
+    },
     "bubba": {
       "ahead": null,
       "bonuses": [
@@ -15308,6 +15399,12 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
     ],
     "construction": null,
+    "cooking": {
+      "kitchens": "cooking cooking cooking cooking cooking cooking cooking cooking cooking cooking",
+      "mealMaxLevel": 150,
+      "mealsFound": "74/74",
+      "spicesFound": "24/24",
+    },
     "currentWorld": 7,
     "dailyResetInSeconds": 51090.541995704174,
     "deathNote": {
@@ -16024,6 +16121,14 @@ exports[`public save latest.json > matches the recorded shape (review the diff a
       },
     ],
     "killroy": null,
+    "lab": {
+      "connected": 11,
+      "jewels": "24/24",
+      "lit": 18,
+      "repositoryOpen": true,
+      "spinnerOpen": true,
+      "uploaded": 11,
+    },
     "lastCloudSave": 1791659018980,
     "library": null,
     "liquids": [
@@ -20187,6 +20292,13 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
     },
     "bankCoins": 9.040492416252031e+23,
     "bigBubbleSlots": 3,
+    "breeding": {
+      "arenaBestWave": 148,
+      "level": 116,
+      "nest": "0/15",
+      "territories": "ffffffffffffffffffffffff",
+      "upgrades": "12 5 6 10 4 4 3 6 4 8 10 32",
+    },
     "bubba": {
       "ahead": null,
       "bonuses": [
@@ -20522,6 +20634,12 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       },
     ],
     "construction": null,
+    "cooking": {
+      "kitchens": "cooking cooking cooking cooking cooking cooking cooking cooking cooking cooking",
+      "mealMaxLevel": 150,
+      "mealsFound": "74/74",
+      "spicesFound": "24/24",
+    },
     "currentWorld": 7,
     "dailyResetInSeconds": 84056.69799226522,
     "deathNote": {
@@ -21259,6 +21377,14 @@ exports[`public save latest-2026-08.json > matches the recorded shape (review th
       },
     ],
     "killroy": null,
+    "lab": {
+      "connected": 11,
+      "jewels": "24/24",
+      "lit": 18,
+      "repositoryOpen": true,
+      "spinnerOpen": true,
+      "uploaded": 11,
+    },
     "lastCloudSave": 1787217361670,
     "library": null,
     "liquids": [
@@ -25383,6 +25509,13 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
     },
     "bankCoins": 9.040492416252031e+23,
     "bigBubbleSlots": 3,
+    "breeding": {
+      "arenaBestWave": 148,
+      "level": 118,
+      "nest": "15/15",
+      "territories": "ffffffffffffffffffffffff",
+      "upgrades": "12 5 6 10 4 4 3 6 4 8 10 32",
+    },
     "bubba": {
       "ahead": null,
       "bonuses": [
@@ -25718,6 +25851,12 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
     ],
     "construction": null,
+    "cooking": {
+      "kitchens": "cooking cooking cooking cooking cooking cooking cooking cooking cooking cooking",
+      "mealMaxLevel": 150,
+      "mealsFound": "74/74",
+      "spicesFound": "24/24",
+    },
     "currentWorld": 7,
     "dailyResetInSeconds": 59914.879991948605,
     "deathNote": {
@@ -26455,6 +26594,14 @@ exports[`public save multikill-pin.json > matches the recorded shape (review the
       },
     ],
     "killroy": null,
+    "lab": {
+      "connected": 11,
+      "jewels": "24/24",
+      "lit": 18,
+      "repositoryOpen": true,
+      "spinnerOpen": true,
+      "uploaded": 11,
+    },
     "lastCloudSave": 1787760034331,
     "library": null,
     "liquids": [
@@ -30563,6 +30710,13 @@ exports[`public save second.json > matches the recorded shape (review the diff a
     },
     "bankCoins": 358942120113447900000,
     "bigBubbleSlots": 3,
+    "breeding": {
+      "arenaBestWave": 215,
+      "level": 66,
+      "nest": "6/15",
+      "territories": "ffffffffffffffwfwfwwwwwn",
+      "upgrades": "20 5 6 10 7 8 5 8 3 8 0 0",
+    },
     "bubba": null,
     "buildings": {
       "atomCollider": 50,
@@ -30739,6 +30893,12 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
     ],
     "construction": null,
+    "cooking": {
+      "kitchens": "cooking cooking cooking cooking cooking cooking cooking cooking cooking cooking",
+      "mealMaxLevel": 80,
+      "mealsFound": "66/74",
+      "spicesFound": "23/24",
+    },
     "currentWorld": 6,
     "dailyResetInSeconds": 41883.07497119925,
     "deathNote": {
@@ -31495,6 +31655,14 @@ exports[`public save second.json > matches the recorded shape (review the diff a
       },
     ],
     "killroy": null,
+    "lab": {
+      "connected": 10,
+      "jewels": "18/24",
+      "lit": 17,
+      "repositoryOpen": true,
+      "spinnerOpen": true,
+      "uploaded": 10,
+    },
     "lastCloudSave": 1717826710239,
     "library": null,
     "liquids": [
@@ -35402,6 +35570,13 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
     },
     "bankCoins": 2.969759244388939e+57,
     "bigBubbleSlots": 3,
+    "breeding": {
+      "arenaBestWave": 343,
+      "level": 178,
+      "nest": "15/15",
+      "territories": "ffffffffffffffffffffffff",
+      "upgrades": "20 5 10 10 10 13 5 2 6 9 10 133",
+    },
     "bubba": {
       "ahead": null,
       "bonuses": [
@@ -35737,6 +35912,12 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
     ],
     "construction": null,
+    "cooking": {
+      "kitchens": "cooking cooking cooking cooking cooking cooking cooking cooking cooking cooking",
+      "mealMaxLevel": 160,
+      "mealsFound": "74/74",
+      "spicesFound": "24/24",
+    },
     "currentWorld": 7,
     "dailyResetInSeconds": 83526.69399833679,
     "deathNote": {},
@@ -36479,6 +36660,14 @@ exports[`public save speedrun-rank1.json > matches the recorded shape (review th
       },
     ],
     "killroy": null,
+    "lab": {
+      "connected": 11,
+      "jewels": "24/24",
+      "lit": 18,
+      "repositoryOpen": true,
+      "spinnerOpen": true,
+      "uploaded": 11,
+    },
     "lastCloudSave": 1786477947662,
     "library": null,
     "liquids": [
@@ -40646,6 +40835,13 @@ exports[`public save third.json > matches the recorded shape (review the diff af
     },
     "bankCoins": 8.562765239609212e+26,
     "bigBubbleSlots": 3,
+    "breeding": {
+      "arenaBestWave": 201,
+      "level": 78,
+      "nest": "5/15",
+      "territories": "ffffffffffffffffffffffww",
+      "upgrades": "11 5 10 10 7 10 3 4 5 4 10 0",
+    },
     "bubba": null,
     "buildings": {
       "atomCollider": 81,
@@ -40822,6 +41018,12 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
     ],
     "construction": null,
+    "cooking": {
+      "kitchens": "cooking cooking cooking cooking cooking cooking cooking cooking cooking cooking",
+      "mealMaxLevel": 90,
+      "mealsFound": "67/74",
+      "spicesFound": "24/24",
+    },
     "currentWorld": 6,
     "dailyResetInSeconds": 12019.833936452676,
     "deathNote": {
@@ -41555,6 +41757,14 @@ exports[`public save third.json > matches the recorded shape (review the diff af
       },
     ],
     "killroy": null,
+    "lab": {
+      "connected": 10,
+      "jewels": "21/24",
+      "lit": 18,
+      "repositoryOpen": true,
+      "spinnerOpen": true,
+      "uploaded": 10,
+    },
     "lastCloudSave": 1717703888098,
     "library": null,
     "liquids": [
@@ -45514,6 +45724,13 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
     },
     "bankCoins": 9.040492416252031e+23,
     "bigBubbleSlots": 3,
+    "breeding": {
+      "arenaBestWave": 148,
+      "level": 118,
+      "nest": "15/15",
+      "territories": "ffffffffffffffffffffffff",
+      "upgrades": "12 5 6 10 4 4 3 6 4 8 10 32",
+    },
     "bubba": {
       "ahead": null,
       "bonuses": [
@@ -45849,6 +46066,12 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
     ],
     "construction": null,
+    "cooking": {
+      "kitchens": "cooking cooking cooking cooking cooking cooking cooking cooking cooking cooking",
+      "mealMaxLevel": 150,
+      "mealsFound": "74/74",
+      "spicesFound": "24/24",
+    },
     "currentWorld": 7,
     "dailyResetInSeconds": 59914.879991948605,
     "deathNote": {
@@ -46586,6 +46809,14 @@ exports[`public save toolbox-raw.json > matches the recorded shape (review the d
       },
     ],
     "killroy": null,
+    "lab": {
+      "connected": 11,
+      "jewels": "24/24",
+      "lit": 18,
+      "repositoryOpen": true,
+      "spinnerOpen": true,
+      "uploaded": 11,
+    },
     "lastCloudSave": 1787760034331,
     "library": null,
     "liquids": [

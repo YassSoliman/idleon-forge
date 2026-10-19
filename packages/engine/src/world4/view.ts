@@ -68,13 +68,18 @@ const bonusOf = (effect: string, value: number) =>
   nice(effect.replace('{', String(Math.round(value * 100) / 100)))
     .replace(/\s+/g, ' ')
     .trim();
+const capOf = (f: Omit<W4Frame, 'cap'>): W4Frame => ({
+  cap: f.tone === 'mint' ? 'All set for now' : f.tone === 'sky' ? 'Coming up' : 'Do this next',
+  ...f,
+});
 const hours = (h: number) => (h * 3600 < 60 ? 'under a minute' : span(h * 3_600_000));
 
 /** The elite a character's subclass becomes (the class tree when the KB loaded, else the wiki table). */
 function eliteOf(cls: string, tree: ClassTree | null): string | null {
   if (!(cls in ELITE_OF)) return null;
   if (tree) {
-    for (const row of tree.byName.values()) if (row.tier === 'elite' && row.promotesFrom === cls) return row.class;
+    for (const row of tree.byName.values())
+      if (row.tier === 'elite' && row.promotesFrom === cls) return row.class;
   }
   return ELITE_OF[cls] ?? null;
 }
@@ -181,7 +186,7 @@ export function buildLabPage(state: AccountState, lab: LabState, tree: ClassTree
   const short = (name: string) => NODE_WORDS[name]?.short ?? nice(name);
   const first = ordered[0];
 
-  let frame: W4Frame;
+  let frame: Omit<W4Frame, 'cap'>;
   if (uploaded.length === 0) {
     const d = first ? Math.round(first.dist) : null;
     frame = {
@@ -240,9 +245,7 @@ export function buildLabPage(state: AccountState, lab: LabState, tree: ClassTree
     const elite = eliteOf(ch.class, tree);
     const note = elite
       ? `becomes ${nice(elite)}${ELITE_NOTE[elite] ? `, ${ELITE_NOTE[elite]}` : ''}`
-      : ELITE_NOTE[ch.class]
-        ? nice(ELITE_NOTE[ch.class] as string).replace(/^The/, 'the')
-        : classLabel(ch);
+      : (ELITE_NOTE[ch.class] ?? '');
     return {
       key: `c${c.index}`,
       label: who(ch),
@@ -328,7 +331,7 @@ export function buildLabPage(state: AccountState, lab: LabState, tree: ClassTree
       }
     : null;
   return {
-    frame,
+    frame: capOf(frame),
     tabs: [
       { id: 'board', label: 'Board', badge: null },
       { id: 'chips', label: 'Chips', badge: `${filled} of ${mine.length * CHIP_SLOT_LEVELS.length} slots` },
@@ -376,7 +379,7 @@ export function buildCookingPage(state: AccountState, ck: CookingState): Cooking
   const spiceName = (i: number) => ck.spices[i]?.name ?? `Spice ${i + 1}`;
   const meals = new Map(ck.meals.map((m) => [m.name, m]));
 
-  let frame: W4Frame;
+  let frame: Omit<W4Frame, 'cap'>;
   if (found.length === 0) {
     frame = {
       title: 'Get your first spice in Breeding, then put it in Kitchen 1',
@@ -414,7 +417,7 @@ export function buildCookingPage(state: AccountState, ck: CookingState): Cooking
 
   const wallet = richestWallet(state);
   const unbought = ck.kitchens.filter((k) => k.status === 'locked');
-  const show = Math.min(ck.kitchens.length, Math.max(5, owned.length + 1));
+  const show = Math.min(ck.kitchens.length, Math.max(5, owned.length + 4));
   const kitchens: KitchenTile[] = ck.kitchens.slice(0, show).map((k) => {
     const [s, f, l] = kitchenSpices(k.index).map(spiceName) as [string, string, string];
     const up = (label: string, lv: number, spice: string) => ({
@@ -542,7 +545,7 @@ export function buildCookingPage(state: AccountState, ck: CookingState): Cooking
     };
   });
   return {
-    frame,
+    frame: capOf(frame),
     tabs: [
       { id: 'kitchens', label: 'Kitchens', badge: `${owned.length} of ${ck.kitchens.length}` },
       { id: 'meals', label: 'Meals', badge: `${foundMeals.length} found` },
@@ -587,7 +590,7 @@ export function buildBreedingPage(br: BreedingState, ck: CookingState | null): B
   const full = br.eggs >= br.eggCapacity;
   const toFull = Math.max(0, br.eggCapacity - br.eggs);
   const fillSeconds = toFull === 0 ? 0 : br.nextEggInSeconds + (toFull - 1) * EGG_SECONDS;
-  const frame: W4Frame = full
+  const frame: Omit<W4Frame, 'cap'> = full
     ? {
         title: `Your nest is full: hatch your ${plural(br.eggs, 'egg')}`,
         why: `A full nest stops laying.${br.speciesBred === 0 ? " The first hatch is always a Green Mushroom, which is Gobo's 1st quest." : ''} A new egg comes every 2 hours, so an empty nest is full again in ${shortDuration(br.eggCapacity * EGG_SECONDS)}.`,
@@ -683,7 +686,7 @@ export function buildBreedingPage(br: BreedingState, ck: CookingState | null): B
     };
   });
   return {
-    frame,
+    frame: capOf(frame),
     tabs: [
       { id: 'nest', label: 'Nest and Mobs', badge: null },
       { id: 'territories', label: 'Territories', badge: `${won.length} of ${br.territories.length}` },
@@ -784,7 +787,7 @@ export function buildWelcome(state: AccountState, tree: ClassTree | null): World
               lab.repositoryOpen ? 'Repository open' : `${held(state, 'Quest65') ?? 0} of 3`,
               lab.spinnerOpen ? 'Spinner open' : `${held(state, 'Quest66') ?? 0} of 7`,
             ].join(' · '),
-      done: lab !== null && lab.repositoryOpen && lab.spinnerOpen,
+      done: lab?.repositoryOpen === true && lab.spinnerOpen,
       home: { label: 'Laboratory', system: 'lab' },
     },
   ];

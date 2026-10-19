@@ -1,0 +1,113 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Copyright (C) 2026 IdleOn Forge contributors.
+// M24 World 4: the pieces the three read-only pages share (the framed answer, a numbered row list, a
+// tag, the class sprite of a character, the Source line). Every word comes from EngineResult.world4.
+import type { W4Frame, W4Row, W4Tone, World4Source } from '@idleon-forge/engine/world4';
+import type { ReactNode } from 'react';
+import { spriteOf } from '../art/sprites';
+import { Sprite } from '../art/sprites/Sprite';
+import { cx, Meter } from '../design/atoms';
+import { formatRoute } from '../shell/route';
+import type { Session } from '../shell/session';
+
+/** A Toolbox class name -> its kit sprite ("Bubonic_Conjuror" -> "class-bubonic-conjurer"). */
+export function classSprite(cls: string): string {
+  const name = `class-${cls.toLowerCase().replace(/_/g, '-').replace('conjuror', 'conjurer')}`;
+  return spriteOf(name) ? name : 'class-beginner';
+}
+
+export const toneClass = (t: W4Tone) => `w4-t--${t}`;
+
+export function Tag({ tone = 'muted', children }: { tone?: W4Tone; children: ReactNode }) {
+  return <span className={cx('w4-tag', toneClass(tone))}>{children}</span>;
+}
+
+/** A link to another System page, as the shell routes it. */
+export function SystemLink({ s, system, children }: { s: Session; system: string; children: ReactNode }) {
+  return (
+    <a
+      className="sy-link"
+      href={formatRoute({ place: 'system', id: system })}
+      onClick={(e) => {
+        e.preventDefault();
+        s.navigate({ place: 'system', id: system }, 'push');
+      }}
+    >
+      {children}
+    </a>
+  );
+}
+
+/** The page's one framed answer (`.a-frame`, DS rule 1). */
+export function Frame({ f, s }: { f: W4Frame; s: Session }) {
+  const meterTone = f.tone === 'coral' ? 'fix' : f.tone === 'mint' ? 'ok' : 'accent';
+  return (
+    <section className={cx('w4-frame a-frame', toneClass(f.tone))} aria-labelledby="w4-frame-h">
+      <div className="w4-frame__text">
+        <span className="w4-cap w4-cap--tone">{f.cap}</span>
+        <h3 id="w4-frame-h" className="w4-frame__title">
+          {f.title}
+        </h3>
+        <p className="w4-muted">{f.why}</p>
+      </div>
+      <div className="w4-frame__num">
+        <span className="w4-big num">
+          {f.value} <span className="w4-big__unit">{f.unit}</span>
+        </span>
+        {f.meter !== null ? (
+          <Meter value={f.meter} max={1} label={`${f.value} ${f.unit}`} tone={meterTone} />
+        ) : null}
+        {f.link ? (
+          <SystemLink s={s} system={f.link.system}>
+            {f.link.label} ›
+          </SystemLink>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+/** A numbered (or plain) hairline list of rows: name and detail, an extra column, a status word. */
+export function Rows({ rows, label, numbered = true }: { rows: W4Row[]; label: string; numbered?: boolean }) {
+  return (
+    <ol className="w4-rows" aria-label={label}>
+      {rows.map((r) => (
+        <li key={r.key} className={cx('w4-row', r.quiet && 'is-quiet')}>
+          {numbered && r.n !== undefined ? (
+            <span className={cx('w4-num', toneClass(r.tone))} aria-hidden="true">
+              {r.n}
+            </span>
+          ) : null}
+          <span className="w4-row__main">
+            <span className="w4-strong">{r.name}</span>
+            {r.detail ? <span className="w4-muted w4-small">{r.detail}</span> : null}
+          </span>
+          {r.extra ? <span className="w4-row__extra w4-muted w4-small num">{r.extra}</span> : null}
+          <span className={cx('w4-row__status w4-small', toneClass(r.tone))}>{r.status}</span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+export function ClassArt({ cls, size = 32 }: { cls: string; size?: 24 | 32 | 48 }) {
+  return <Sprite name={classSprite(cls)} size={size} decorative className="w4-class" />;
+}
+
+/** The one quiet Source line under a page (DS rule 4). */
+export function SourceLine({ sources }: { sources: World4Source[] }) {
+  return (
+    <p className="w4-source w4-small w4-muted">
+      Read-only page, no checks yet ·{' '}
+      {sources.map((x, i) => (
+        <span key={x.url}>
+          {i > 0 ? ' · ' : ''}
+          <a href={x.url} target="_blank" rel="noopener noreferrer">
+            {x.title}
+          </a>
+        </span>
+      ))}{' '}
+      · IdleOn Toolbox 2.3.540
+    </p>
+  );
+}

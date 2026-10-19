@@ -31,6 +31,8 @@ const finite = (v: unknown): number | null => {
   return typeof n === 'number' && Number.isFinite(n) ? n : null;
 };
 const num = (v: unknown, fallback = 0): number => finite(v) ?? fallback;
+/** Four significant digits: the pages show rounded numbers, and the history keeps every save (TR-16). */
+const sig = (n: number): number => (n === 0 ? 0 : Number(n.toPrecision(4)));
 const list = (v: unknown): unknown[] => (Array.isArray(v) ? v : []);
 const str = (v: unknown): string | null => (typeof v === 'string' && v !== '' ? v : null);
 const parsedJson = (v: unknown): unknown => {
@@ -137,7 +139,7 @@ function readLab(input: World4Inputs): LabState {
         connected: connected.has(index),
         x: cord ? num(cord.x) : 0,
         y: cord ? num(cord.y) : 0,
-        lineWidth: cord ? num(cord.lineWidth) : 0,
+        lineWidth: cord ? Math.round(num(cord.lineWidth)) : 0,
         chips,
       },
     ];
@@ -186,7 +188,7 @@ function readCooking(input: World4Inputs): CookingState {
       speedLv: num(row[6]),
       fireLv: num(row[7]),
       luckLv: num(row[8]),
-      mealSpeed: tb && !kitchensFailed ? finite(tb.mealSpeed) : null,
+      mealSpeed: tb && !kitchensFailed ? sig(finite(tb.mealSpeed) ?? 0) || null : null,
     };
   });
   const meals = cooking.meals.flatMap((m): Meal[] => {
@@ -199,8 +201,8 @@ function readCooking(input: World4Inputs): CookingState {
         index,
         name,
         level: num(m.level),
-        amount: num(m.amount),
-        levelCost: num(m.levelCost),
+        amount: sig(num(m.amount)),
+        levelCost: sig(num(m.levelCost)),
         cookReq: num(m.cookReq),
         perLevel: num(m.baseStat),
         effect: str(m.effect) ?? '',
@@ -217,7 +219,7 @@ function readCooking(input: World4Inputs): CookingState {
       {
         index,
         name,
-        held: h === null || h < 0 ? null : h,
+        held: h === null || h < 0 ? null : sig(h),
         toClaim: Math.max(0, num(list(territoryRaw[index])[4])),
       },
     ];
@@ -272,7 +274,7 @@ function readBreeding(input: World4Inputs): BreedingState {
     eggs,
     eggCapacity,
     nextEggInSeconds: full ? 0 : Math.max(0, Math.round(num(b.timeToNextEgg) / 1000)),
-    deadDna: num(b.deadCells),
+    deadDna: sig(num(b.deadCells)),
     arenaBestWave: num(list(account.accountOptions)[OPT.arenaWave]),
     speciesBred,
     territories,

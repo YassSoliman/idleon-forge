@@ -1,0 +1,876 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* Copyright (C) 2026 IdleOn Forge contributors. */
+/* M24 World 4: the read-only Laboratory, Cooking and Breeding pages and the World 4 welcome (boards
+   after/sys/Laboratory, Cooking, Breeding and after/W4Welcome). The boards' ao.css mapped onto the app's
+   tokens: tile = --surface, tile2 = --sunk, hairlines are a 1 px line, colour means one thing (coral
+   --bad losing now, gold --accent do it, mint --ok fine, blue --info a timer, grey --muted later). No
+   borders, rings, stripes or soft radii (surface-guard). Loaded with its lazy chunk only. */
+
+/* The page body spans the frame: World 4 pages have no Next Actions column beside them. */
+@container sy-page (min-width: 860px) {
+  .sy-frame.has-pic:has(.w4-page) {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "pic";
+  }
+}
+
+.w4-page {
+  display: grid;
+  gap: var(--space-6);
+  min-width: 0;
+}
+.w4-panel {
+  display: grid;
+  gap: var(--space-6);
+  min-width: 0;
+}
+.w4-sec {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+  min-width: 0;
+}
+.w4-sec__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+}
+.w4-stack {
+  display: grid;
+  align-self: start;
+  gap: var(--space-2);
+  align-content: start;
+}
+.w4-sec p,
+.w4-stack p,
+.w4-welcome p,
+.w4-page > p {
+  margin: 0;
+}
+
+/* Type: 16 body, 14 secondary, 12 caps (the boards' 13 px rounds to 12). */
+.w4-small {
+  font-size: var(--text-sm);
+  line-height: var(--lh-snug);
+}
+.w4-xs {
+  font-size: var(--text-xs);
+  line-height: var(--lh-snug);
+}
+.w4-muted {
+  color: var(--muted);
+}
+.w4-strong {
+  font-weight: var(--weight-bold);
+}
+.w4-cap {
+  margin: 0;
+  color: var(--muted);
+  font: var(--weight-bold) var(--text-xs) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+.w4-big {
+  font: var(--weight-bold) var(--text-3xl) / 1 var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.w4-big__unit {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+.w4-dim {
+  opacity: 0.45;
+}
+
+/* Tones (text). */
+.w4-t--coral {
+  color: var(--bad);
+}
+.w4-t--gold {
+  color: var(--accent);
+}
+.w4-t--mint {
+  color: var(--ok);
+}
+.w4-t--sky {
+  color: var(--info);
+}
+.w4-t--muted {
+  color: var(--muted);
+}
+
+/* Surfaces. */
+.w4-tile {
+  padding: var(--space-4);
+  background: var(--surface);
+  border-radius: var(--radius-xs);
+  min-width: 0;
+}
+.w4-tile2 {
+  padding: var(--space-3) var(--space-4);
+  background: var(--sunk);
+  border-radius: var(--radius-xs);
+  min-width: 0;
+}
+.w4-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: 2px;
+  background: var(--sunk);
+  color: var(--muted);
+  font: var(--weight-bold) var(--text-xs) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+  white-space: nowrap;
+}
+.w4-tag.w4-t--gold,
+.w4-tag--solid {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.w4-tag.w4-t--coral {
+  background: var(--bad);
+  color: var(--on-bad);
+}
+.w4-tag.w4-t--mint {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+.w4-tag.w4-t--sky {
+  background: var(--info-soft);
+  color: var(--info);
+}
+.w4-pip {
+  display: inline-block;
+  flex: none;
+  width: 10px;
+  height: 10px;
+  background: currentColor;
+}
+
+/* The framed answer: tonal background by meaning, notched by .a-frame. */
+.w4-frame {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+}
+.w4-frame.w4-t--gold,
+.w4-frame.w4-t--muted {
+  background: var(--accent-soft);
+  color: var(--fg);
+}
+.w4-frame.w4-t--coral {
+  background: var(--bad-soft);
+  color: var(--fg);
+}
+.w4-frame.w4-t--mint {
+  background: var(--ok-soft);
+  color: var(--fg);
+}
+.w4-frame.w4-t--sky {
+  background: var(--info-soft);
+  color: var(--fg);
+}
+.w4-frame__text {
+  display: grid;
+  gap: var(--space-2);
+}
+.w4-frame__text p {
+  margin: 0;
+}
+.w4-frame.w4-t--gold .w4-cap--tone {
+  color: var(--accent);
+}
+.w4-frame.w4-t--coral .w4-cap--tone,
+.w4-frame.w4-t--coral .w4-big {
+  color: var(--bad);
+}
+.w4-frame.w4-t--mint .w4-cap--tone {
+  color: var(--ok);
+}
+.w4-frame.w4-t--sky .w4-cap--tone {
+  color: var(--info);
+}
+.w4-frame.w4-t--gold .w4-big {
+  color: var(--accent);
+}
+.w4-frame__title {
+  margin: 0;
+  font: var(--weight-bold) var(--text-2xl) / 1.2 var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.w4-frame__num {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+@media (min-width: 720px) {
+  .w4-frame {
+    grid-template-columns: minmax(0, 1fr) 200px;
+    gap: var(--space-6);
+  }
+  .w4-frame__num {
+    justify-items: end;
+    text-align: right;
+  }
+  .w4-frame__num .a-meter {
+    width: 100%;
+  }
+}
+
+/* Row lists with hairlines. */
+.w4-rows {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.w4-rows > * + * {
+  box-shadow: 0 -1px 0 var(--line);
+}
+.w4-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  padding: var(--space-3) 0;
+  min-width: 0;
+}
+.w4-row.is-quiet {
+  opacity: 0.8;
+}
+.w4-row__main {
+  display: grid;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.w4-row__extra {
+  flex: 0 1 280px;
+  text-align: right;
+}
+.w4-row__status {
+  flex: none;
+  max-width: 45%;
+  text-align: right;
+}
+.w4-row__end {
+  display: grid;
+  justify-items: end;
+  text-align: right;
+}
+.w4-num {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  background: var(--sunk);
+  font: var(--weight-bold) var(--text-sm) / 1 var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.w4-num.w4-t--gold {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.w4-num.w4-t--mint {
+  background: var(--ok);
+  color: var(--on-ok);
+}
+.w4-class {
+  flex: none;
+}
+.w4-who {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+@media (max-width: 719.98px) {
+  .w4-row {
+    flex-wrap: wrap;
+  }
+  .w4-row__extra {
+    flex-basis: 100%;
+    order: 3;
+    text-align: left;
+  }
+}
+
+/* Two columns from desktop: the main list and a 360 px aside. */
+.w4-split,
+.w4-halves {
+  display: grid;
+  gap: var(--space-6);
+  min-width: 0;
+}
+@media (min-width: 1000px) {
+  .w4-split {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: var(--space-8);
+  }
+  .w4-halves {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+/* Cards (Chip Repository, meals to find first). */
+.w4-cards {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 720px) {
+  .w4-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.w4-card {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+.w4-card p {
+  margin: 0;
+}
+.w4-card--lit {
+  background: var(--accent-soft);
+}
+.w4-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.w4-card__head > .w4-strong {
+  flex: 1;
+}
+
+/* Key-value lines. */
+.w4-kv {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+}
+.w4-kv > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.w4-kv dd {
+  margin: 0;
+  text-align: right;
+}
+.w4-kv--rows > div {
+  padding: var(--space-2) 0;
+}
+.w4-kv--rows > * + * {
+  box-shadow: 0 -1px 0 var(--line);
+}
+.w4-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+}
+.w4-line > .w4-small {
+  flex: 1 1 320px;
+}
+
+/* ---- Laboratory: the board ---- */
+.w4-board-wrap {
+  padding: var(--space-3);
+  overflow-x: auto;
+}
+.w4-board {
+  display: block;
+  width: 100%;
+  min-width: 640px;
+  height: auto;
+}
+.w4-board__bg {
+  fill: var(--bg);
+}
+.w4-board__grid {
+  fill: var(--line);
+}
+.w4-board__jewel {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 2;
+}
+.w4-board__jewel.is-owned {
+  fill: var(--sunk);
+  stroke: var(--info);
+}
+.w4-board__jewel.is-lit {
+  fill: var(--info);
+}
+.w4-board__reach {
+  fill: var(--ok);
+  fill-opacity: 0.06;
+  stroke: var(--ok);
+  stroke-opacity: 0.5;
+  stroke-width: 2;
+  stroke-dasharray: 6 6;
+}
+.w4-board__beam {
+  stroke: var(--ok);
+  stroke-width: 4;
+}
+.w4-board__prism rect {
+  fill: var(--info);
+}
+.w4-board__prism text {
+  fill: var(--info);
+  font: var(--weight-bold) 15px var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.w4-loop__box rect {
+  fill: var(--sunk);
+}
+.w4-loop__box rect.is-key {
+  fill: var(--accent-soft);
+}
+.w4-loop__label text {
+  fill: var(--fg);
+  font: var(--weight-bold) 15px var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+  text-anchor: middle;
+}
+.w4-loop__label text.is-key {
+  fill: var(--accent);
+}
+.w4-loop__arrow rect {
+  fill: var(--line-strong);
+}
+.w4-loop__note text {
+  fill: var(--muted);
+  font: var(--weight-regular) 12px var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+  text-anchor: middle;
+}
+.w4-board__node rect {
+  fill: var(--surface);
+  stroke: var(--line-strong);
+  stroke-width: 3;
+}
+.w4-board__node text {
+  fill: var(--muted);
+  font: var(--weight-regular) 15px var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.w4-board__node.is-lit rect {
+  fill: var(--ok);
+  stroke: var(--ok);
+}
+.w4-board__node.is-lit text {
+  fill: var(--ok);
+  font-weight: var(--weight-bold);
+}
+.w4-board__node.is-next rect {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+}
+.w4-board__node.is-next text {
+  fill: var(--accent);
+  font-weight: var(--weight-bold);
+}
+.w4-board__char-bg {
+  fill: var(--surface);
+}
+.w4-board__char.is-on .w4-board__char-bg {
+  fill: var(--ok-soft);
+}
+.w4-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.w4-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.w4-key {
+  display: inline-block;
+  flex: none;
+}
+.w4-key--beam {
+  width: 18px;
+  height: 4px;
+  background: var(--ok);
+}
+.w4-key--reach {
+  width: 14px;
+  height: 14px;
+  background: var(--ok-soft);
+}
+.w4-key--lit {
+  width: 10px;
+  height: 10px;
+  background: var(--ok);
+}
+.w4-key--next {
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+}
+.w4-key--off {
+  width: 10px;
+  height: 10px;
+  background: var(--line-strong);
+}
+.w4-key--jewel {
+  width: 9px;
+  height: 9px;
+  background: var(--sunk);
+  transform: rotate(45deg);
+}
+
+/* Lab chip slots. */
+.w4-slots {
+  width: 100%;
+  border-collapse: collapse;
+}
+.w4-slots caption {
+  padding-bottom: var(--space-2);
+  text-align: left;
+}
+.w4-slots th,
+.w4-slots td {
+  padding: var(--space-2) var(--space-1);
+  text-align: left;
+}
+.w4-slots tbody tr + tr {
+  box-shadow: 0 -1px 0 var(--line);
+}
+.w4-slot span {
+  display: block;
+  padding: 6px var(--space-1);
+  background: var(--sunk);
+  color: var(--muted);
+  text-align: center;
+}
+.w4-slot.is-full span {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+.w4-slot.is-locked span {
+  opacity: 0.5;
+}
+@media (max-width: 719.98px) {
+  .w4-tile:has(> .w4-slots) {
+    overflow-x: auto;
+  }
+}
+
+/* ---- Cooking ---- */
+.w4-kitchens {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 720px) {
+  .w4-kitchens {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1000px) {
+  .w4-kitchens {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+.w4-kitchen {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+.w4-kitchen.w4-t--coral {
+  background: var(--bad-soft);
+  color: var(--fg);
+}
+.w4-kitchen.is-locked.w4-t--gold {
+  background: var(--accent-soft);
+  color: var(--fg);
+}
+.w4-kitchen.is-locked.w4-t--muted {
+  color: var(--fg);
+  opacity: 0.85;
+}
+.w4-kitchen.w4-t--mint,
+.w4-kitchen.w4-t--sky {
+  color: var(--fg);
+}
+.w4-kitchen__name {
+  font: var(--display-weight) var(--text-xl) / var(--lh-tight) var(--font-display);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.w4-kitchen .w4-kv {
+  padding-top: var(--space-3);
+  box-shadow: 0 -1px 0 var(--line);
+}
+.w4-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+.w4-table th,
+.w4-table td {
+  padding: var(--space-2) var(--space-2) var(--space-2) 0;
+  text-align: left;
+  vertical-align: top;
+}
+.w4-table thead th {
+  color: var(--muted);
+  font: var(--weight-bold) var(--text-xs) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  box-shadow: inset 0 -1px 0 var(--line);
+}
+.w4-table tbody tr + tr {
+  box-shadow: 0 -1px 0 var(--line);
+}
+.w4-table tbody th {
+  font-weight: var(--weight-bold);
+}
+.w4-r {
+  text-align: right;
+}
+.w4-table .w4-r {
+  text-align: right;
+  white-space: nowrap;
+}
+@media (max-width: 719.98px) {
+  .w4-table thead th:nth-child(3),
+  .w4-table td:nth-child(3) {
+    display: none;
+  }
+}
+
+/* ---- Breeding ---- */
+.w4-nest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.w4-egg {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+.w4-egg__box {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  background: var(--sunk);
+}
+.w4-egg.is-egg .w4-egg__box {
+  background: var(--accent-soft);
+}
+.w4-egg.is-egg {
+  color: var(--fg);
+}
+.w4-egg.is-empty,
+.w4-egg.is-locked {
+  color: var(--muted);
+}
+.w4-loop {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.w4-track {
+  position: relative;
+  height: 112px;
+  margin: 0 0 var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+.w4-track::before {
+  content: "";
+  position: absolute;
+  top: 30px;
+  right: 0;
+  left: 0;
+  height: 4px;
+  background: var(--line);
+}
+.w4-wave {
+  position: absolute;
+  top: 0;
+  left: calc(var(--at) * 100%);
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  width: 104px;
+  color: var(--muted);
+  text-align: center;
+  transform: translateX(-50%);
+}
+.w4-wave__dot {
+  width: 18px;
+  height: 18px;
+  background: var(--sunk);
+}
+.w4-wave.is-key {
+  color: var(--accent);
+}
+.w4-wave.is-key .w4-wave__dot {
+  background: var(--accent-soft);
+}
+.w4-wave.is-reached .w4-wave__dot {
+  background: var(--ok);
+}
+.w4-wave.is-reached {
+  color: var(--fg);
+}
+.w4-track__note {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  box-shadow: 0 -1px 0 var(--line);
+}
+@media (max-width: 999.98px) {
+  .w4-track {
+    display: grid;
+    height: auto;
+    gap: var(--space-2);
+  }
+  .w4-track::before {
+    display: none;
+  }
+  .w4-wave {
+    position: static;
+    grid-template-columns: 72px 18px 1fr;
+    align-items: center;
+    width: auto;
+    text-align: left;
+    transform: none;
+  }
+}
+
+/* ---- The World 4 welcome on Now ---- */
+.w4-welcome {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-6) var(--space-7);
+}
+.w4-welcome.w4-t--gold {
+  background: var(--accent-soft);
+  color: var(--fg);
+}
+.w4-welcome__head {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-5);
+}
+.w4-welcome__badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+.w4-welcome__title {
+  margin: 0;
+  font: var(--display-weight) 28px / 1.1 var(--font-display);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.w4-steps {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.w4-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: 14px var(--space-4);
+}
+.w4-step.is-now {
+  background: color-mix(in srgb, var(--accent) 12%, var(--accent-soft));
+}
+.w4-step__n {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  background: var(--sunk);
+  color: var(--muted);
+  font: var(--weight-bold) 15px / 1 var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.w4-step.is-now .w4-step__n {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.w4-step.is-done .w4-step__n {
+  background: var(--ok-soft);
+}
+.w4-step__end {
+  display: grid;
+  flex: none;
+  justify-items: end;
+  gap: var(--space-1);
+  width: 160px;
+  text-align: right;
+}
+.w4-step__end a {
+  color: var(--fg);
+}
+@media (max-width: 719.98px) {
+  .w4-welcome {
+    padding: var(--space-5) var(--space-4);
+  }
+  .w4-welcome__head > svg {
+    display: none;
+  }
+  .w4-step {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding: var(--space-3);
+  }
+  .w4-step__end {
+    width: auto;
+    flex-basis: 100%;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    padding-left: calc(32px + var(--space-4));
+  }
+}
+
+.w4-source a {
+  color: var(--muted);
+}

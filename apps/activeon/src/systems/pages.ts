@@ -17,6 +17,7 @@ const alchemyLab = retryable(() => import('../alchemy/AlchemyLab'));
 const newPictures = retryable(() => import('./NewPictures'));
 const starChart = retryable(() => import('./StarChartPage'));
 const bubbaPage = retryable(() => import('../bubba/BubbaPage'));
+const world4Pages = retryable(() => import('../world4/World4Pages'));
 
 export interface SystemPageBodyProps {
   s: Session;
@@ -41,6 +42,10 @@ export const SYSTEM_PAGES: Readonly<Record<string, ComponentType<SystemPageBodyP
   printer: lazyPart(() => newPictures().then((m) => m.PrinterBody)),
   // M23 FR-3: the Bubba page, its own lazy chunk.
   bubba: lazyPart(() => bubbaPage().then((m) => m.default)),
+  // M24: the read-only World 4 pages, one lazy chunk.
+  laboratory: lazyPart(() => world4Pages().then((m) => m.LaboratoryPage)),
+  cooking: lazyPart(() => world4Pages().then((m) => m.CookingPage)),
+  breeding: lazyPart(() => world4Pages().then((m) => m.BreedingPage)),
   // M19 FR-18, TR-8: the Alchemy page, its pictures in their own lazy chunk, then M20's cauldron seats.
   'alchemy-lab': lazyPart(() =>
     Promise.all([alchemyLab(), slotPictures()]).then(

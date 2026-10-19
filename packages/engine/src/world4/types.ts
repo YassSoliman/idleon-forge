@@ -15,6 +15,8 @@ export type W4Tone = 'coral' | 'gold' | 'mint' | 'sky' | 'muted';
 
 /** The page's one framed answer: what the save shows first, with how the game works. */
 export interface W4Frame {
+  /** The small caps label over the title: "Do this next", "Coming up", "All set for now". */
+  cap: string;
   title: string;
   why: string;
   /** The big number and its unit ("3", "of 3 eggs"). */
