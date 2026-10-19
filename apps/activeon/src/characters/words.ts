@@ -10,7 +10,6 @@ const plural = (x: number, one: string, many = `${one}s`) => `${n(x)} ${x === 1 
 export const PAGE_WORDS = {
   strip: 'Characters',
   tabs: 'Character page',
-  state: { ready: 'ready', fix: 'fix before you leave', unknown: 'not known' },
   classPath: 'Class path',
   role: 'Role',
   skillsLink: 'Skills →',

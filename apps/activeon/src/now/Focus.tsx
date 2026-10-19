@@ -43,6 +43,8 @@ import {
   SeeItLink,
   WhySheet,
 } from './parts';
+import { characterStates } from './place/derive';
+import { NOW_PLACE_WORDS } from './place/words';
 import '../characters/now-tab.css';
 
 export interface FocusProps {
@@ -165,7 +167,8 @@ function NextTile({
   const i = card.next.index;
   const r = i === null ? null : view?.roster.find((x) => x.index === i);
   const who = r ? `${r.classLabel} ${r.level}` : null;
-  const kind = i === null ? null : (card.strip.find((s) => s.index === i)?.kind ?? null);
+  // The same state word as Now's cards and the Characters grid (M24 QA P1-10).
+  const state = i === null || !view ? null : (characterStates(view).get(i) ?? null);
   return (
     <button type="button" className="a-tile cp-next" onClick={() => onNext(i)}>
       {r ? (
@@ -175,7 +178,7 @@ function NextTile({
         <b>{who ? PAGE_WORDS.next(who) : card.next.text}</b>
         <span className="cp-xs">
           {card.position}
-          {kind ? ` · ${PAGE_WORDS.state[kind]}` : ''}
+          {state ? ` · ${NOW_PLACE_WORDS.verdict[state]}` : ''}
         </span>
       </span>
       <PixelArt name={GLYPH.arrowRight} decorative />

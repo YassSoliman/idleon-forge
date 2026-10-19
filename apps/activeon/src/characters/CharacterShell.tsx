@@ -11,6 +11,9 @@ import { forwardRef, type ReactNode } from 'react';
 import { Pip, Tag } from '../design/atoms';
 import { characterTabs, NOW_TAB, tabHref } from '../now/character-tabs';
 import { useNowActions } from '../now/context';
+import { type CardState, characterStates, PIP } from '../now/place/derive';
+import { StateWord } from '../now/place/LogOff';
+import { NOW_PLACE_WORDS } from '../now/place/words';
 import { Avatar } from './Avatar';
 import { PAGE_WORDS } from './words';
 import './shell.css';
@@ -28,9 +31,8 @@ export interface CharacterShellProps {
   children?: ReactNode;
 }
 
-type Kind = 'ready' | 'fix' | 'unknown';
-/** Colour means one thing (M24 rule 7): mint fine, coral losing value now, grey not known. */
-const PIP: Record<Kind, 'mint' | 'coral' | undefined> = { ready: 'mint', fix: 'coral', unknown: undefined };
+/** A character's state from its Verdict alone, where the Now view is not at hand (no Collect then). */
+const fromPill = (kind: 'ready' | 'fix' | 'unknown' | undefined): CardState => kind ?? 'unknown';
 
 const LEVEL_WORD = {
   fix: 'fix',
@@ -100,7 +102,11 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
     actions.result?.characters.find((x) => x.index === i)?.classLabel ??
     '';
   const strip = card.strip ?? [];
-  const kind: Kind = card.pill?.kind ?? 'unknown';
+  // One state word and pip for a character everywhere (M24 QA P1-10): the one Now's cards and the
+  // Characters grid show (Fix first, Collect, Ready, Can't tell), not the bare Verdict.
+  const states = view ? characterStates(view) : null;
+  const stateOf = (i: number, fallback: CardState) => states?.get(i) ?? fallback;
+  const state = stateOf(card.index, fromPill(card.pill?.kind));
   const role =
     tab === NOW_TAB ? (view?.skills.find((s) => s.index === card.index)?.train?.text ?? null) : null;
   const go = (i: number) => (tab === NOW_TAB ? actions.open(i) : actions.openTab(i, tab));
@@ -116,7 +122,7 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
                 className="cp-chip"
                 href={tabHref(tab, s.index)}
                 aria-current={s.current ? 'page' : undefined}
-                aria-label={`${who}: ${PAGE_WORDS.state[s.kind]}`}
+                aria-label={`${who}: ${NOW_PLACE_WORDS.verdict[stateOf(s.index, s.kind)]}`}
                 onClick={(e) => {
                   e.preventDefault();
                   if (!s.current) go(s.index);
@@ -124,7 +130,7 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
               >
                 <Avatar family={familyOf(s.index)} classLabel={classOf(s.index)} size={32} />
                 <span className="cp-chip-who">{who}</span>
-                <Pip tone={PIP[s.kind]} />
+                <Pip tone={PIP[stateOf(s.index, s.kind)]} />
               </a>
             );
           })}
@@ -143,7 +149,7 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
             <p className="cp-sub">
               {[card.map, card.activity].filter(Boolean).join(' · ')}
               {card.map || card.activity ? ' · ' : ''}
-              <span className={`cp-state cp-state--${PIP[kind] ?? 'mut'}`}>{PAGE_WORDS.state[kind]}</span>
+              <StateWord state={state} />
               {card.playing ? <span className="cp-playing"> · {card.playing}</span> : null}
             </p>
             {role ? (
@@ -171,7 +177,8 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
         <nav aria-label={PAGE_WORDS.tabs} className="char-tabs">
           {characterTabs.map((t) => {
             const h = view ? (t.health?.(view, card.index) ?? null) : null;
-            const flag = h && h.level !== 'ok' ? h : null;
+            // No badge for fine, nor for "not known" (a bare dot read as gold "do it"; M24 QA P1-9).
+            const flag = h && h.level !== 'ok' && h.level !== 'unknown' ? h : null;
             return (
               <a
                 key={t.id}

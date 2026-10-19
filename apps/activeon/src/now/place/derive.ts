@@ -100,6 +100,17 @@ export function cardState(row: RosterRow, full: ReadonlySet<number>): CardState 
   return full.has(row.index) ? 'collect' : 'ready';
 }
 
+/**
+ * Every character's one state word, keyed by index: the same `cardState` Now's cards and the Characters
+ * grid use, so the Character page's header, strip and Next tile never say "ready" where they say
+ * "Collect" (M24 QA P1-10). Who is full now comes from the Roster's cap pills alone (`fullGroups` only
+ * reads the Timeline for its words), so no Timeline is needed.
+ */
+export function characterStates(view: NowView): Map<number, CardState> {
+  const full = fullSet(fullGroups(null, view));
+  return new Map(view.roster.map((r) => [r.index, cardState(r, full)] as const));
+}
+
 /** The hero's verdict: fixes first; else collect what is full; else ready; Unknown when nothing is judged. */
 export function heroState(
   count: number,
