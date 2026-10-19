@@ -6,7 +6,7 @@
 // grid of tiles by world with filters (Needs you, All, Not covered yet, Locked). Locked and "not covered
 // yet" read differently: a lock glyph and "locked", or "not covered yet". Every word comes from the
 // engine's `buildSystemsHubView` (`index`), never from this component.
-import { HUB_WORDS, type TileStatus, type TileView } from '@idleon-forge/engine/now';
+import { HUB_WORDS } from '@idleon-forge/engine/now';
 import {
   buildSystemsHubView,
   buildSystemsView,
@@ -14,7 +14,6 @@ import {
   type IndexTileView,
 } from '@idleon-forge/engine/systems-ui';
 import { type MouseEvent, useMemo, useState } from 'react';
-import { StatusGlyph as StatusMark } from '../design/atoms';
 import { WhoGlyph } from '../design/who/WhoGlyph';
 import { toNowPrefs } from '../now/prefs-store';
 import { formatRoute } from '../shell/route';
@@ -23,25 +22,6 @@ import { Pip } from './frame/SystemFrame';
 import './hub.css';
 import { SystemIcon } from './frame/SystemIcon';
 import './frame/frame.css';
-
-/** The status glyph and word (DS-8): the design system's StatusGlyph atom. */
-export function StatusGlyph({ status, word }: { status: TileStatus; word: string }) {
-  return <StatusMark status={status} word={word} />;
-}
-
-/** The reason line; a leading piece equal to the status word isn't said twice on screen. */
-export function Reason({ tile }: { tile: TileView }) {
-  const parts = tile.reason[0]?.text === tile.statusWord.text ? tile.reason.slice(2) : tile.reason;
-  if (parts.length === 0) return null;
-  return (
-    <span className="sy-reason">
-      {parts.map((p, i) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: segments are positional and never reorder
-        <span key={i}>{p.text}</span>
-      ))}
-    </span>
-  );
-}
 
 const go = (s: Session, id: string) => (e: MouseEvent) => {
   e.preventDefault();

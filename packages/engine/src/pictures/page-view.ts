@@ -7,10 +7,10 @@
 // in the first load (TR-12): the barrel's modules all bundle into one first-load chunk.
 
 import {
-  REASON_WORDS,
   buildSystemPageView,
   type NowPrefs,
   type NowView,
+  REASON_WORDS,
   type SystemPageView,
   type SystemsUi,
 } from '@idleon-forge/engine/now';
@@ -140,14 +140,17 @@ export function frameOf(
             : tile.status === 'cant-tell'
               ? { tone: 'mut', cap: W.cap.cantTell, hero: W.cantTellHero, sub: null }
               : { tone: 'mint', cap: W.cap.ok, hero: W.okHero, sub: checksCount ? W.okSub : null };
-  const fired = tile.status === 'wasting' ? 'coral' : 'gold';
+  // A fired check reads coral when one of its Goals is a fix before you leave, gold otherwise.
+  const summary = result.systems?.find((x) => x.id === tile.id);
+  const fixIds = new Set(page.goals.filter((g) => g.blocker).map((g) => g.id));
+  const fixTitles = new Set(
+    (summary?.checks ?? []).filter((c) => c.fired && fixIds.has(c.entryId)).map((c) => c.title),
+  );
   const checks = page.coverage.checks.map((c) =>
     c.state === 'see-above'
-      ? {
-          title: c.title,
-          tone: fired as FrameTone,
-          word: fired === 'coral' ? W.check.losing : W.check.todo,
-        }
+      ? fixTitles.has(c.title)
+        ? { title: c.title, tone: 'coral' as FrameTone, word: W.check.losing }
+        : { title: c.title, tone: 'gold' as FrameTone, word: W.check.todo }
       : { title: c.title, tone: 'mint' as FrameTone, word: W.check.fine },
   );
   return {

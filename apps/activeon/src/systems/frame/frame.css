@@ -465,6 +465,21 @@
   font-size: var(--text-sm);
 }
 
+/* The folded steps on a full page. */
+.sf-fold > summary {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  cursor: pointer;
+}
+.sf-fold > summary::after {
+  content: "+";
+  margin-left: var(--space-2);
+}
+.sf-fold[open] > summary::after {
+  content: "\2212";
+}
+
 /* The thin page (SimplePage.tsx): what it is, the steps, what ActiveOn checks. */
 .sf-steps .goals {
   display: grid;

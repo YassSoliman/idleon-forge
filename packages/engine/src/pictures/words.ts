@@ -215,7 +215,13 @@ export const PAGE_FRAME_WORDS = {
     losing: 'losing now',
   },
   checksLine: (titles: readonly string[]) =>
-    titles.length ? `Checks: ${titles.join(', ')}` : 'Checks: none yet',
+    titles.length === 0
+      ? 'Checks: none yet'
+      : titles.length <= 5
+        ? `Checks: ${titles.join(', ')}`
+        : `Checks: ${titles.slice(0, 4).join(', ')} and ${titles.length - 4} more`,
+  moreChecks: (n: number) => `${n} more checks: nothing to do`,
+  everyStep: (n: number) => `Every step in order${n ? ` (${n})` : ''}`,
   toolbox: (v: string) => `Toolbox ${v}`,
   sections: (name: string) => `${name} sections`,
 } as const;
@@ -335,4 +341,194 @@ export const ANVIL_WORDS = {
   fullIn: (t: string) => `full in ${t}`,
   of: (a: string, b: string) => `${a} of ${b}`,
   makesTitle: 'What each anvil makes',
+} as const;
+
+/** M24: the Stamps page (board after/sys/Stamps.dc.html). */
+export const STAMPS_PAGE_WORDS = {
+  tabs: { collect: 'Collect', level: 'Level up', book: 'Stamp book' },
+  nextTitle: 'Next stamps',
+  nextHint: 'in order · now first',
+  bookTitle: 'Your stamp book',
+  stamps: (n: number) => (n === 1 ? 'stamp' : 'stamps'),
+  toCollect: (from: number, to: number, total: number) => `${from} → ${to} of ${total}`,
+  ofTotal: (n: number, total: number) => `${n} of ${total}`,
+  collected: (n: number, total: number) => `${n} of ${total} collected`,
+  later: (n: number) => `${n} more need a new world, an earlier quest or a drop.`,
+  levelTitle: 'Level up',
+  levelInPlan: 'Level up · in the Spend Plan',
+  levelEmpty: 'No stamp level-up is in the Spend Plan right now.',
+  levelRows: 'Stamps to level',
+  nextLevel: (lv: number, cap: number) => `Lv ${lv} of ${cap}`,
+  nextCost: (coins: string) => `next level ${coins}`,
+  capRaise: 'cap raise in the Spend Plan',
+  whenNow: 'Now',
+} as const;
+
+/** M24: the Statues page (board after/sys/Statues.dc.html). */
+export const STATUES_PAGE_WORDS = {
+  tabs: { wall: 'Statue wall', who: 'By character' },
+  inPlan: 'In your Spend Plan',
+  hero: (name: string) => `Turn the ${name} Gold`,
+  subPrice: (coins: string) => `It's the next statue on your wall that isn't Gold yet. Gold costs ${coins}.`,
+  subNoPrice:
+    "It's the next statue on your wall that isn't Gold yet. ActiveOn doesn't know its price, so check it in game.",
+  ofGold: (total: number) => `of ${total} Gold`,
+  onyx: (n: number) => (n === 0 ? 'none Onyx yet' : `${n} Onyx`),
+  legendGold: 'Gold',
+  legendNot: 'not Gold yet',
+  legendNumber: 'Number = highest level on any character',
+  highlighted: (name: string) => `The highlighted statue is ${name}.`,
+  byCharacter: (name: string) => `${name} by character`,
+  perCharacter: 'Statues level up per character.',
+  noSplit: "The save doesn't split this statue's levels by character.",
+  whoTitle: 'Statue levels by character',
+  levelled: (n: number) => `${n} ${n === 1 ? 'statue' : 'statues'} levelled`,
+  highest: (name: string, lv: number) => `highest: ${name} Lv ${lv}`,
+  level: (n: number) => `Lv ${n}`,
+  aria: (name: string, lv: number, grade: string) => `${name}, level ${lv}, ${grade}`,
+} as const;
+
+/** M24: the Upgrade Vault page (board after/sys/UpgradeVault.dc.html). */
+export const VAULT_PAGE_WORDS = {
+  tabs: { tower: 'Tower', plan: 'Spend Plan', all: (n: number) => `All ${n} upgrades` },
+  hero: (level: number, name: string, coins: string) =>
+    level === 0
+      ? `Buy the first level of ${name} for ${coins}`
+      : `Buy level ${level + 1} of ${name} for ${coins}`,
+  sub: (gap: string | null) =>
+    ['Every level counts toward the next floor, whichever upgrade it is.', gap].filter(Boolean).join(' '),
+  gap: (levels: number, name: string) => `${levels} more Vault levels open ${name}.`,
+  coins: 'coins',
+  levelOf: (lv: number, max: number) => `level ${lv} of ${max}`,
+  towerTitle: 'The tower',
+  towerHint: 'newest at the top · each opens at a total of Vault levels',
+  here: 'You are here',
+  levels: (n: string) => `${n} Vault levels`,
+  nextToOpen: (n: number) => `the next to open: ${n} more levels`,
+  opensLater: 'opens later',
+  atLevels: (n: string) => `at ${n} levels`,
+  openedAt: (n: string) => `opened at ${n}`,
+  buyNext: 'buy this next',
+  rowNote: (lv: number, max: number, coins: string | null) =>
+    coins ? `level ${lv} of ${max} · next level ${coins}` : lv >= max ? 'maxed' : `level ${lv} of ${max}`,
+  inPlan: 'In the Spend Plan',
+  cheapest: 'Cheapest levels first: every level counts toward the next floor, whichever upgrade it is.',
+} as const;
+
+/** M24: the Talent presets page (board after/sys/TalentPresets.dc.html). */
+export const PRESETS_PAGE_WORDS = {
+  tabs: { waiting: 'Points waiting', star: 'Star points', on: 'Which preset is on' },
+  characters: (n: number) => (n === 1 ? 'character' : 'characters'),
+  havePoints: 'have points waiting',
+  setUp: 'set up',
+  waiting: 'points waiting',
+  toSpend: (n: number) => `${n.toLocaleString('en-US')} points to spend`,
+  atLeast: (n: number) => `Empty: at least ${n.toLocaleString('en-US')} points`,
+  noneWaiting: 'nothing waiting',
+  startWith: (t: string) => `start with ${t}`,
+  build: 'Build',
+  buildOf: (who: string) => `Open the Build of ${who}`,
+  how: 'How presets work',
+  howLines: [
+    'Each preset spends all your talent points on its own, so a second preset costs nothing.',
+    'Fight on the fighting preset, then swap before you leave a character skilling.',
+    'Star points are spent per preset too.',
+  ],
+  role: { fighting: 'Fighting', skilling: 'Skilling', other: 'Other' } as Readonly<Record<string, string>>,
+  starTitle: 'Star points per preset',
+  starNone: 'No star points waiting.',
+  starPoints: (n: number) => `${n.toLocaleString('en-US')} star points`,
+  onTitle: 'The preset each character is on',
+  active: 'on now',
+  noBuilds: 'ActiveOn has no Build data for your characters yet.',
+} as const;
+
+/** M24: the Gear & Tools page (board after/sys/GearTools.dc.html). */
+export const GEAR_PAGE_WORDS = {
+  tabs: { empty: 'Empty slots', weapons: 'Weapons', worn: 'Everything worn' },
+  emptySlots: (n: number) => (n === 1 ? 'empty slot' : 'empty slots'),
+  onCharacters: (n: number) => `on ${n} ${n === 1 ? 'character' : 'characters'}`,
+  slot: {
+    helmet: 'Helmet',
+    weapon: 'Weapon',
+    shirt: 'Shirt',
+    pendant: 'Pendant',
+    pants: 'Pants',
+    ring1: 'Ring',
+    shoes: 'Shoes',
+    ring2: 'Ring',
+    pickaxe: 'Pickaxe',
+    hatchet: 'Hatchet',
+    rod: 'Fishing rod',
+    net: 'Bug net',
+  } as Readonly<Record<string, string>>,
+  held: (what: string) => `In storage: ${what}`,
+  anyPiece: 'Any piece',
+  noEmpty: 'No empty gear slots.',
+  thenWeapons: 'Then: weapons',
+  unlockLine: 'These recipes open at the Task Board or the Merit Shop first.',
+  unlock: (what: string) => `Unlock ${what}`,
+  where: (kind: 'task-unlock' | 'merit', world: number) =>
+    kind === 'merit' ? `World ${world} Merit Shop` : `World ${world} Task Board, Unlocks tab`,
+  tasksLink: 'Tasks: spend unlock points',
+  weaponsTitle: 'Every weapon',
+  now: (name: string) => `${name} now`,
+  next: (name: string) => `next: ${name}`,
+  noWeapon: 'no weapon',
+  ok: 'fine for now',
+} as const;
+
+/** M24: the Minigames page (board after/sys/Minigames.dc.html). */
+export const MINIGAMES_PAGE_WORDS = {
+  tabs: { today: 'Today', points: 'Points to spend' },
+  rounds: (n: number) => (n === 1 ? 'round' : 'rounds'),
+  readyNow: 'ready now',
+  games: { darts: 'Darts', hoops: 'Hoops', spiketrap: 'Spiketrap Surprise' },
+  play: 'Play a round',
+  ready: 'Ready now',
+  readyIn: (t: string) => `Ready in ${t}`,
+  gems: 'Gems today',
+  nothing: 'Nothing to do',
+  pointsToSpend: 'Points to spend',
+  playsToday: (n: number) => `${n} ${n === 1 ? 'play' : 'plays'} today`,
+  best: (n: number) => `best round ${n}`,
+  dartsTitle: 'Where Darts points go',
+  dartsHint: (points: number, levels: number) => `${points} to spend · ${levels} levels so far`,
+  // From minigames.check.darts-spend's why (Toolbox getDartsData; the Minigames dossier).
+  dartsOrder: [
+    ['DMG', 'until 40 levels in total'],
+    ['TALENT and DMG', 'after that, side by side'],
+    ['VAULT', 'last'],
+  ] as const,
+  hoopsNote: "Hoops points: ActiveOn doesn't show Hoops prices yet, so spend those in game.",
+  plays: (n: number) => `${n} skill minigame ${n === 1 ? 'play' : 'plays'} left today`,
+} as const;
+
+/** M24: the Star Signs page (board after/sys/StarSigns.dc.html). */
+export const SIGNS_PAGE_WORDS = {
+  tabs: { road: 'Road to two signs', who: 'Signs by character', chart: 'Star Chart' },
+  roadTitle: 'Road to two signs',
+  telescope: 'The Telescope',
+  telescopeDone: 'You reached it: constellations count for every character.',
+  telescopeKills: (n: number) => `${n.toLocaleString('en-US')} more kills open the way up`,
+  telescopeOpen: 'Reachable now: hand in the Telescope quest',
+  telescopeWho: (who: string) => `${who} · now`,
+  constellations: 'Constellations',
+  constellationsLine: (n: number, pts: number) =>
+    `${n} ${n === 1 ? 'constellation is' : 'constellations are'} next, worth ${pts} Star Chart points`,
+  noConstellations: 'No constellation in reach right now.',
+  holdPoints: (n: number) => `you have ${n} ${n === 1 ? 'point' : 'points'} now`,
+  cosmos: 'Chronus Cosmos',
+  cosmosDone: 'Unlocked: every character wears 2 signs',
+  cosmosLine: 'Unlock it on the Star Chart: every character wears 2 signs',
+  done: 'done',
+  whoTitle: 'What each character wears',
+  whoHint: 'signs change only at the Telescope',
+  swapTo: (signs: string) => `Swap to ${signs}`,
+  wears: (signs: string) => `wears ${signs}`,
+  right: 'already right',
+  nothingWorn: 'no sign',
+  killsToReach: (n: number) => `about ${n.toLocaleString('en-US')} kills until it can reach the Telescope`,
+  afterCosmos: 'After Chronus Cosmos',
+  chartBadge: (n: number, max: number) => `${n} of ${max}`,
 } as const;

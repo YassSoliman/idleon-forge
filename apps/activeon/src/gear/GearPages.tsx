@@ -24,7 +24,7 @@ const COLUMN: Readonly<Record<string, string>> = {
 
 const nameOf = (p: SystemPageBodyProps, index: number) => {
   const c = p.s.view.roster.find((r) => r.index === index);
-  return c ? `${c.name} (${c.classLabel} ${c.level})` : `Character ${index + 1}`;
+  return c ? `${c.classLabel} ${c.level}` : `Character ${index + 1}`;
 };
 const isLit = (p: SystemPageBodyProps, key: string | null) =>
   key !== null && (p.page.highlight === key || p.page.goals.some((g) => g.action.key === key));

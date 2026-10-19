@@ -5,14 +5,13 @@
 // Not for me and Report this act on the same item as on Now, FR-33), the quick collects, the Timeline
 // bars, the Spend Plan lines and the "What ActiveOn checks" tile.
 
-import type { SystemPageView } from '@idleon-forge/engine/now';
 import { shortDuration } from '@idleon-forge/engine/now';
 import {
+  type buildSystemPageFrameView,
   type FrameTone,
   PAGE_FRAME_WORDS,
   SIMPLE_WORDS,
   SYSTEM_BLURBS,
-  type SystemFrameView,
 } from '@idleon-forge/engine/systems-ui';
 import type { ReactNode } from 'react';
 import { GoalList } from '../../design/atoms/GoalList';
@@ -25,7 +24,7 @@ import type { Session } from '../../shell/session';
 import { type FrameAnswer, Pip, SystemFrame } from './SystemFrame';
 
 /** The engine's System page view plus the M24 frame (buildSystemPageFrameView). */
-export type FullPage = SystemPageView & { frame: SystemFrameView };
+export type FullPage = NonNullable<ReturnType<typeof buildSystemPageFrameView>>;
 
 /** The Characters overview a tab home opens (#builds, #cards). */
 const OVERVIEWS: Record<string, 'builds' | 'cards'> = { build: 'builds', cards: 'cards' };
@@ -79,11 +78,8 @@ export function StepsSection({
       : null;
   if (page.goals.length === 0 && page.skippedKeys.length === 0 && page.dismissed.length === 0 && !opens)
     return null;
-  return (
-    <section className={`sf-sec sf-steps${quiet ? ' sf-steps--quiet' : ''}`} aria-labelledby="sf-steps-h">
-      <span id="sf-steps-h" className="sf-capline">
-        {title ?? (opens && page.goals.length === 0 ? PAGE_FRAME_WORDS.howItOpens : PAGE_FRAME_WORDS.inGame)}
-      </span>
+  const list = (
+    <>
       {opens && page.goals.length === 0 ? (
         <ol className="sf-plain">
           <li>
@@ -101,6 +97,27 @@ export function StepsSection({
         seeIt={false}
         who={(_, n) => page.frame.steps.find((x) => x.key === shown[n]?.action.key)?.who ?? null}
       />
+    </>
+  );
+  // On a full page the picture already says what to do: the steps fold (say it once), and open when a
+  // "See it" lands on one of them (FR-31).
+  if (quiet) {
+    const lands =
+      page.highlight !== null &&
+      (page.goals.some((g) => g.action.key === page.highlight) || page.skippedKeys.includes(page.highlight));
+    return (
+      <details className="sf-sec sf-steps sf-steps--quiet sf-fold" open={lands || undefined}>
+        <summary className="sf-capline">{title ?? PAGE_FRAME_WORDS.everyStep(page.goals.length)}</summary>
+        {list}
+      </details>
+    );
+  }
+  return (
+    <section className="sf-sec sf-steps" aria-labelledby="sf-steps-h">
+      <span id="sf-steps-h" className="sf-capline">
+        {title ?? (opens && page.goals.length === 0 ? PAGE_FRAME_WORDS.howItOpens : PAGE_FRAME_WORDS.inGame)}
+      </span>
+      {list}
     </section>
   );
 }
@@ -211,9 +228,14 @@ const shortWho = (s: Session, index: number) => {
   return c ? `${c.classLabel} ${c.level}` : '';
 };
 
+/** The checks tile lists this many, fired first; the rest are counted. */
+const CHECKS_SHOWN = 6;
+
 /** "What ActiveOn checks": each check with its state, or the suggest link when there are none. */
 export function ChecksTile({ s, page }: { s: Session; page: FullPage }) {
-  const checks = page.frame.checks;
+  const checks = [...page.frame.checks].sort((a, b) => Number(a.tone === 'mint') - Number(b.tone === 'mint'));
+  const shown = checks.slice(0, CHECKS_SHOWN);
+  const more = checks.length - shown.length;
   const suggest = () =>
     s.suggestions?.open({ kind: 'suggest', type: 'idea', screen: 'account', characterIndex: null });
   return (
@@ -223,19 +245,20 @@ export function ChecksTile({ s, page }: { s: Session; page: FullPage }) {
       </span>
       {checks.length > 0 ? (
         <ul className="sf-hair">
-          {checks.map((c) => (
+          {shown.map((c) => (
             <li key={c.title} className="sf-hair__row">
               <Pip tone={c.tone} />
               <span className="sf-grow">{c.title}</span>
               <span className={`sf-xs sf-t--${c.tone}`}>{c.word}</span>
             </li>
           ))}
+          {more > 0 ? <li className="sf-hair__row sf-muted">{PAGE_FRAME_WORDS.moreChecks(more)}</li> : null}
         </ul>
       ) : (
         <>
           <p className="sf-muted">{PAGE_FRAME_WORDS.noChecksYet}</p>
           {s.suggestions ? (
-            <button type="button" className="sf-link a-btn--plain" onClick={suggest}>
+            <button type="button" className="sf-link sf-linkbtn" onClick={suggest}>
               {PAGE_FRAME_WORDS.suggestCheck(page.tile.name)} →
             </button>
           ) : (

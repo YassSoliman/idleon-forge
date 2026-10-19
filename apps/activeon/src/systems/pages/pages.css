@@ -118,3 +118,206 @@
     text-align: left;
   }
 }
+
+/* Stamps ------------------------------------------------------------------------------------------- */
+.st-book {
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* Statues ------------------------------------------------------------------------------------------ */
+.su-wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.su-cell {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-1);
+  padding: 10px 0 8px;
+  background: var(--surface);
+}
+.su-cell > span {
+  min-height: 18px;
+}
+.su-cell--next {
+  background: var(--accent-soft);
+}
+
+/* Upgrade Vault ------------------------------------------------------------------------------------ */
+.uv-li {
+  display: grid;
+  gap: var(--space-1);
+}
+.uv-here {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 6px var(--space-4);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+/* Talent presets ----------------------------------------------------------------------------------- */
+.tp-who {
+  width: 120px;
+}
+.tp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.tp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 4px var(--space-2);
+  background: var(--sunk);
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+.tp-chip--gold {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.tp-chip--mint {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+.tp-chip--on {
+  background: var(--ok-soft);
+  color: var(--fg);
+}
+.tp-how {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  list-style: none;
+}
+.tp-how > li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.tp-how .sf-pip {
+  margin-top: 6px;
+  color: var(--accent);
+}
+
+/* Gear & Tools ------------------------------------------------------------------------------------- */
+.gt-who,
+.gt-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.gt-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.gt-slot {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  padding: 14px var(--space-4);
+  background: var(--surface);
+}
+.gt-slot--held {
+  background: var(--ok-soft);
+}
+.gt-slot__top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.gt-want {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) 0;
+}
+
+/* Minigames ---------------------------------------------------------------------------------------- */
+.mg-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mg-card {
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  background: var(--surface);
+}
+.mg-card--now {
+  background: var(--bad-soft);
+}
+.mg-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.mg-state {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.mg-card__foot {
+  display: flex;
+  justify-content: space-between;
+  padding-top: var(--space-3);
+  box-shadow: 0 -1px 0 var(--line);
+}
+.mg-what {
+  width: 150px;
+}
+
+/* Star Signs --------------------------------------------------------------------------------------- */
+.sg-road {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sg-leg {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--surface);
+}
+.sg-leg--now {
+  background: var(--accent-soft);
+}
+.sg-leg--done {
+  opacity: 0.8;
+}
+.sg-leg__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.sg-leg__title {
+  font-size: var(--text-lg);
+}
+.sg-who {
+  width: 130px;
+}
+.sg-after {
+  flex: 0 1 300px;
+}
