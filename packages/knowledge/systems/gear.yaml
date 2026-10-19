@@ -208,3 +208,44 @@ entries:
     effortSeconds: 300
     detector: { id: gear/plan }
     notes: "FR-13: weapon first among Walkthroughs that can be done now, else the weapon, else the armour slot most levels behind. FR-17: weapons rank with the subclass Goals, armour in the last positions. Words for the Gear tab and the Gear page live here too (word-*, status-*, ladder-*, slot-*)."
+
+  # M26 F-C FR-C10 (Wave C): craft next. Per character, the Gear Plan target (lit or not, any stage) closest
+  # to done that it can craft now: its tab owned, its recipe open, Smithing met (best on the account). And the
+  # pieces 2+ characters want, with every gate met and at least one copy held, as one line each on
+  # #production (the spec's gear.goal.craft-shared, kept as values here: no Milestone ladder).
+  - id: gear.check.craft-next
+    system: gear
+    type: check
+    title: Craft next
+    text: "{text}"
+    why: "{why}"
+    values:
+      craft: "Craft next: {item}"
+      none: "Craft next: nothing left on the Gear Plan"
+      chip-ready: "ready"
+      chip-short: "{n:int} short"
+      why-held: "every material held"
+      why-held-worn: "every material held (it uses the {worn} you wear)"
+      why-short: "{missing:int} {item} short"
+      why-behind: "{slot} {n:int} levels behind"
+      why-none: "It covers Worlds 1-3; every piece it names is worn or out of reach."
+      detail-also: "with {n:int} others: see Craft {k:int} {plural}"
+      detail-also-one: "with 1 other: see Craft {k:int} {plural}"
+      detail-also-label: "Craft {k:int} {plural}"
+      shared: "Craft {k:int} {plural}"
+      detail-shared: "{who} need one each; you hold enough for {enough}"
+      detail-enough-all: "all {k:int}"
+      detail-enough-some: "{n:int} of {k:int} ({item}: {held:int} of {need:int})"
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json", title: "IdleOn Toolbox game data: crafts (every anvil recipe's materials)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Smithing/Anvil_Tab_1", title: "IdleOn Wiki: Smithing, Anvil Tab 1", tier: 2, claimDate: 2026-10-07, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks (the best weapon craftable at all times)", tier: 2, claimDate: 2025-12-24, verified: 2026-10-19, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: H
+    status: active
+    subject: character
+    effect: next-action
+    category: nice
+    effortSeconds: 60
+    detector: { id: gear/craft-next }
+    notes: "Pick: fewest missing materials as a share of the recipe after pooled holdings (the slot's own worn piece counts for its upgrade, M18 FR-15), ties to most levels behind, then slot order. Rendered in the Production Plan and as a craft-next badge on the Gear tab; never a second card next to M18's lit line (claim gear:craft@c{i})."

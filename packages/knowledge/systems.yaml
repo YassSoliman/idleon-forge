@@ -168,6 +168,14 @@ systems:
     dossier: https://github.com/YassSoliman/idleon-forge/blob/main/docs/specs/M4-purpose-milestones.md
     unlocked: always
     kind: activeon
+  # M26 F-C: the Production Plan, what each producer should make now (#production).
+  - id: production-plan
+    name: Production Plan
+    world: 0
+    scope: both
+    dossier: https://github.com/YassSoliman/idleon-forge/blob/research/m26-systems/docs/specs/M26-crafting-guidance.md
+    unlocked: always
+    kind: activeon
 
   # ---- World 1 ----
   - id: stamps

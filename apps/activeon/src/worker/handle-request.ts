@@ -31,6 +31,7 @@ import { createGearModule } from '@idleon-forge/engine/gear';
 import { createMapModule } from '@idleon-forge/engine/map';
 import { createMetaPathModule, detectStage, frontierRoute, lookupOf } from '@idleon-forge/engine/metapath';
 import { createPicturesModule } from '@idleon-forge/engine/pictures';
+import { createProductionModule } from '@idleon-forge/engine/production';
 import {
   classXpActionFor,
   createPurposeModule,
@@ -194,6 +195,8 @@ export function workerModules(kb: CompiledKnowledge | null = shippedKnowledge().
     // M18: before M14's step, which builds its Goals' Walkthroughs.
     createGearModule({ kb }),
     createWalkthroughModule({ kb }),
+    // M26 F-C: the Production Plan, an after-step that reads the Gear Plan and the shown Goals.
+    createProductionModule({ kb }),
     createStarSignsModule({ kb }),
     ...createM20Modules({ kb }),
     // M23: Bubba's one account Goal, its Timeline lane and its page.

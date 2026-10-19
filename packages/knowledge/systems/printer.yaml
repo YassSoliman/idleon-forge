@@ -35,6 +35,11 @@ entries:
       reset-loss: "Taking a sample resets the printer bonus: all printing x{now} to x{after}."
       reset-none: "This account's printer bonus doesn't drop when a sample is taken."
       covered: "{item} is covered: keep this sample"
+      # M26 FR-C11: the Production Plan's printer row when M14's plan changes nothing on a character.
+      row-keep: "Printer: keep {item} in both slots"
+      row-keep-one: "Printer: keep {item} in its slot"
+      row-keep-mixed: "Printer: keep {items}"
+      chip-keep: "keep"
       no-slot: "3D Printer Lv {level:int}: {printing:int} of {characters:int} characters can print"
       no-slot-why: "Construction raises the printer's level."
       no-talent: "Printer Sampling (Star Talent tab 2) is at 0 on the {who}"
