@@ -7,6 +7,10 @@ import type { Entry, FactTable } from '@idleon-forge/knowledge';
 import type { FactLookup } from '../metapath/types';
 
 export type PresetRole = 'fighting' | 'skilling';
+/** A class talent tab: 1-3 up to the subclass, 4 for the elite class, 5 for the master class. */
+export type TabNo = 1 | 2 | 3 | 4 | 5;
+/** Every class tab, in order. */
+export const CLASS_TABS: readonly TabNo[] = [1, 2, 3, 4, 5];
 export const ROLES: readonly PresetRole[] = ['fighting', 'skilling'];
 export const otherRole = (r: PresetRole): PresetRole => (r === 'fighting' ? 'skilling' : 'fighting');
 
@@ -26,14 +30,35 @@ export const FACT = {
 export const buildId = (classLine: string, role: PresetRole) =>
   `talents.build.${classLine.toLowerCase().replace(/_/g, '-')}-${role}`;
 
+/**
+ * M26 (owner ruling 2026-10-19): a class may have more than one skilling Build, one per AFK Target
+ * skill. `talents.build.<classLine>-skilling-<afk>` (e.g. `blood-berserker-skilling-cooking`) is the
+ * Build for a character AFK on that skill; without one, the class's default skilling Build applies.
+ */
+export const skillingVariantId = (classLine: string, afkType: string) =>
+  `${buildId(classLine, 'skilling')}-${afkType.toLowerCase()}`;
+
 export interface ResolvedStep {
   talent: string;
   id: number;
+  /** The class tab the step sits on: its level is read from this tab only (shared rawNames, M26). */
+  tab: TabNo;
   target: number | 'max';
   core: boolean;
   hardCap: boolean;
   when: NonNullable<BuildStepT['when']>;
   tie: string | null;
+  /** M26: the world past the Stage model this step applies from ("W5"); null when the Stages cover it. */
+  stageHint: string | null;
+}
+
+/** How sure a Build is, for its label (M26 owner ruling 2026-10-19: one source is fine, never hidden). */
+export interface BuildConfidence {
+  level: 'H' | 'M' | 'L';
+  /** Independent dated authors behind the order (tiers 2-3; `sourceCount` when the entry states it). */
+  sourceCount: number;
+  /** "sources agree on tab 4", "one source"; null when the entry gives none. */
+  label: string | null;
 }
 
 export interface ResolvedBuild {
@@ -41,13 +66,18 @@ export interface ResolvedBuild {
   role: PresetRole;
   /** Skill indices of `tags` (TR-6). */
   tags: ReadonlySet<number>;
-  tabs: { tab: 1 | 2 | 3; steps: ResolvedStep[] }[];
+  tabs: { tab: TabNo; steps: ResolvedStep[] }[];
   /** Every talent index the Build's steps name. */
   stepIds: ReadonlySet<number>;
   attacks: number[];
   /** Explicitly flagged Stale (D4), or Contested: never used for resets (FR-15, FR-22). */
   stale: boolean;
   contested: boolean;
+  /** M26: the Build whose tabs this one takes (a master Build takes tabs 1-4 from its elite Build); null otherwise. */
+  inherited: BuildEntry | null;
+  /** M26: the world past the Stage model the whole Build applies from ("W6"); null otherwise. */
+  stageHint: string | null;
+  confidence: BuildConfidence;
 }
 
 export interface TalentIndexRows {
@@ -109,15 +139,25 @@ export const starBuildId = (role: PresetRole) => `talents.build.star-${role}`;
 
 export interface BuildsKnowledge {
   talents: TalentFacts;
-  /** The Build for a class line and role, or null when there is none (or it is retired). */
-  build(classLine: string, role: PresetRole): ResolvedBuild | null;
+  /**
+   * The Build for a class line and role, or null when there is none (or it is retired). With an AFK
+   * Target, a skilling Build for that skill wins over the class's default skilling Build (M26).
+   */
+  build(classLine: string, role: PresetRole, afkType?: string | null): ResolvedBuild | null;
+  /** Whether a class has a Build of its own (either role). */
+  hasBuild(cls: string): boolean;
   /** M21 TR-8: the class-agnostic star Build for a role, or null (never part of `build`). */
   starBuild(role: PresetRole): ResolvedStarBuild | null;
   /** The talent tabs of a class (`classes.fact.class-tree`), e.g. ["Beginner", "Journeyman"]; [] when unknown. */
   talentTabsOf(cls: string): readonly string[];
   /** M21 FR-C13: where a star talent's book comes from (`talents.fact.star-books`); null when not listed. */
   starBookOf(rawName: string): string | null;
-  /** The class line whose Builds a class uses (subclass, else base class, else Beginner); null for the Journeyman line or an unknown class. */
+  /**
+   * The class whose Builds a class uses: the class itself when it has a Build (so a Divine Knight gets
+   * the Divine Knight Build, a Voidwalker the Voidwalker one), else the nearest class it promoted from
+   * that has one. Without any, the old rule: subclass, else base class, else Beginner (never a
+   * Journeyman-line class). Null for an unknown class or a Journeyman line with no Build.
+   */
   lineOf(cls: string): string | null;
   /** The class tier ('beginner', 'base', 'subclass', 'elite', 'master'); null when unknown. */
   tierOf(cls: string): string | null;
@@ -162,56 +202,86 @@ export function buildsKnowledge(kb: FactLookup): BuildsKnowledge {
   const classes = new Map(
     ((rowsOf(kb, FACT.classTree) as ClassRow[]) ?? []).map((r) => [r.class, r] as const),
   );
+  const afkEntry = (id: string): BuildEntry | null => {
+    const e = kb.get(id) as Entry | undefined;
+    return e && 'type' in e && e.type === 'build' && e.variant === 'afk' && e.status !== 'retired' ? e : null;
+  };
+  const hasBuild = (cls: string) =>
+    afkEntry(buildId(cls, 'fighting')) !== null || afkEntry(buildId(cls, 'skilling')) !== null;
   const lineOf = (cls: string): string | null => {
-    let row = classes.get(cls);
-    if (!row) return null;
-    if (row.line === 'Journeyman') return null;
-    for (let guard = 0; row && guard < 8; guard++) {
+    const start = classes.get(cls);
+    if (!start) return null;
+    for (let row: ClassRow | undefined = start, guard = 0; row && guard < 8; guard++) {
+      if (hasBuild(row.class)) return row.class;
+      row = row.promotesFrom ? classes.get(row.promotesFrom) : undefined;
+    }
+    if (start.line === 'Journeyman') return null;
+    for (let row: ClassRow | undefined = start, guard = 0; row && guard < 8; guard++) {
       if (row.tier === 'subclass' || row.tier === 'base' || row.tier === 'beginner') return row.class;
       row = row.promotesFrom ? classes.get(row.promotesFrom) : undefined;
     }
     return null;
   };
+  const resolveTabs = (e: BuildEntry) =>
+    e.tabs.map((t) => ({
+      tab: t.tab as TabNo,
+      // A step whose talent is missing from generated data is skipped (section 6, "Stale patch").
+      steps: t.steps.flatMap((s): ResolvedStep[] => {
+        const i = talents.idOf(s.talent);
+        return i === undefined
+          ? []
+          : [
+              {
+                talent: s.talent,
+                id: i,
+                tab: t.tab as TabNo,
+                target: s.target,
+                core: s.core === true,
+                hardCap: s.hardCap === true,
+                when: s.when ?? [],
+                tie: s.tie ?? null,
+                stageHint: s.stageHint ?? null,
+              },
+            ];
+      }),
+    }));
   const builds = new Map<string, ResolvedBuild | null>();
-  const build = (classLine: string, role: PresetRole): ResolvedBuild | null => {
-    const id = buildId(classLine, role);
+  const resolve = (id: string, role: PresetRole): ResolvedBuild | null => {
     if (builds.has(id)) return builds.get(id) ?? null;
-    const e = kb.get(id) as Entry | undefined;
+    const e = afkEntry(id);
     let out: ResolvedBuild | null = null;
-    if (e && 'type' in e && e.type === 'build' && e.variant === 'afk' && e.status !== 'retired') {
-      const tabs = e.tabs.map((t) => ({
-        tab: t.tab,
-        // A step whose talent is missing from generated data is skipped (section 6, "Stale patch").
-        steps: t.steps.flatMap((s): ResolvedStep[] => {
-          const i = talents.idOf(s.talent);
-          return i === undefined
-            ? []
-            : [
-                {
-                  talent: s.talent,
-                  id: i,
-                  target: s.target,
-                  core: s.core === true,
-                  hardCap: s.hardCap === true,
-                  when: s.when ?? [],
-                  tie: s.tie ?? null,
-                },
-              ];
-        }),
-      }));
+    if (e) {
+      // M26: a master Build holds its own tab only and takes the earlier tabs from the Build it names.
+      const base = e.inherits ? afkEntry(e.inherits) : null;
+      const own = resolveTabs(e);
+      const ownTabs = new Set(own.map((t) => t.tab));
+      const tabs = [...(base ? resolveTabs(base).filter((t) => !ownTabs.has(t.tab)) : []), ...own].sort(
+        (x, y) => x.tab - y.tab,
+      );
+      const attacks = e.attacks.length > 0 || !base ? e.attacks : base.attacks;
       out = {
         entry: e,
         role,
-        tags: ids(e.tags),
+        tags: ids([...e.tags, ...(base?.tags ?? [])]),
         tabs,
         stepIds: new Set(tabs.flatMap((t) => t.steps.map((s) => s.id))),
-        attacks: [...ids(e.attacks)],
-        stale: e.stale !== undefined,
+        attacks: [...ids(attacks)],
+        stale: e.stale !== undefined || base?.stale !== undefined,
         contested: e.status === 'contested',
+        inherited: base,
+        stageHint: e.stageHint ?? null,
+        confidence: confidenceOf(e),
       };
     }
     builds.set(id, out);
     return out;
+  };
+  const build = (classLine: string, role: PresetRole, afkType?: string | null): ResolvedBuild | null => {
+    if (role === 'skilling' && afkType) {
+      const v = resolve(skillingVariantId(classLine, afkType), role);
+      if (v?.entry.serves.includes(afkType as never)) return v;
+    }
+    return resolve(buildId(classLine, role), role);
   };
   // Authored and optional: a missing table only drops the book's words from the later band.
   const bookTable = kb.get(FACT.starBooks) as FactTable | undefined;
@@ -262,6 +332,7 @@ export function buildsKnowledge(kb: FactLookup): BuildsKnowledge {
   const out: BuildsKnowledge = {
     talents,
     build,
+    hasBuild,
     starBuild,
     talentTabsOf: (cls) => classes.get(cls)?.talentTabs ?? [],
     starBookOf: (rawName) => books.get(rawName) ?? null,
@@ -270,6 +341,19 @@ export function buildsKnowledge(kb: FactLookup): BuildsKnowledge {
   };
   memo.set(kb, out);
   return out;
+}
+
+/**
+ * A Build's confidence label (M26): the entry's own `sourceCount` when it states one, else its distinct
+ * dated community and wiki Sources (tiers 2-3; game data backs every Build and is not counted).
+ */
+export function confidenceOf(e: BuildEntry): BuildConfidence {
+  const counted = new Set(e.sources.filter((s) => s.tier === 2 || s.tier === 3).map((s) => s.url));
+  return {
+    level: e.confidence,
+    sourceCount: Math.max(1, e.sourceCount ?? counted.size),
+    label: e.confidenceLabel ?? null,
+  };
 }
 
 const SMALL_WORDS = new Set(['OF', 'THE', 'AND', 'FOR']);

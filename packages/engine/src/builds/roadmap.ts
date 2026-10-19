@@ -16,6 +16,7 @@ import { type ClassRow, classTree } from '../metapath/knowledge';
 import { analyzeRoster } from '../metapath/roster';
 import type { FactLookup } from '../metapath/types';
 import type {
+  BuildConfidenceView,
   BuildKnownPoints,
   BuildNextPoint,
   BuildPathStep,
@@ -39,12 +40,24 @@ import { levelOf, maxOf, tabSpent } from './classify';
 import { stepApplies, targetOf, type WalkContext } from './diff';
 import {
   type BuildsKnowledge,
+  CLASS_TABS,
   otherRole,
   type PresetRole,
   type ResolvedBuild,
+  type TabNo,
   talentLabel,
 } from './knowledge';
-import { ACCURACY_NOTE, bandPath, classGroups, MAX_NOTE, type StarContext, starKnown, starTab } from './path';
+import {
+  ACCURACY_NOTE,
+  bandPath,
+  classGroups,
+  laterOf,
+  MAX_NOTE,
+  type StarContext,
+  starKnown,
+  starTab,
+} from './path';
+import { type TabPoints, zeroTabs } from './unspent';
 
 /** "Next points" lines per tab, so the checklist stays short. */
 export const NEXT_PER_TAB = 3;
@@ -82,13 +95,15 @@ interface PresetInput {
   build: ResolvedBuild | null;
   /** Known unspent points per tab: M9 TR-7's lower bound, or exact counts when Account State has them. */
   lb: {
-    byTab: Record<1 | 2 | 3, number>;
+    byTab: TabPoints;
     total: number;
     /** Tabs whose count is the exact one (ADR 0010); the others are M9 TR-7 lower bounds. */
-    exactTabs?: ReadonlySet<1 | 2 | 3>;
+    exactTabs?: ReadonlySet<TabNo>;
     /** Exact tabs the save confirms (`exact-verified`). */
-    verifiedTabs?: ReadonlySet<1 | 2 | 3>;
+    verifiedTabs?: ReadonlySet<TabNo>;
   } | null;
+  /** The class tabs the Builds count points on (1–3, and 4 or 5 once a Build names them). */
+  counted: readonly TabNo[];
   afkType: string | null;
   /** The preset's next step's tab (M9's shared rule, analyze.ts `spendableNext`); leads the list. */
   lead: number | null;
@@ -119,15 +134,14 @@ function tabRows(p: PresetTalents, b: ResolvedBuild, tab: number, ctx: WalkConte
     for (const step of t.steps) {
       const target = targetOf(p, step);
       if (target === null) continue;
-      const max = maxOf(p, step.id);
-      const current = levelOf(p, step.id);
+      const max = maxOf(p, step.id, step.tab);
+      const current = levelOf(p, step.id, step.tab);
       const applies = stepApplies(step, ctx);
       const prev = rows.get(step.id);
       const goal = Math.max(prev?.target ?? 0, target);
       let note: string | null = null;
       if (applies === 'no') {
-        const s = step.when.find((c) => c.kind === 'stageAtLeast');
-        note = s && s.kind === 'stageAtLeast' ? `from ${stageLabel(s.stage)}` : 'later';
+        note = laterOf(step, ctx) ?? 'later';
       } else if (applies === 'unknown') note = 'only if you are short on accuracy';
       else if (kb.talents.bubbleCapped.has(step.id)) note = 'a bubble raises it; no points needed';
       else if (current < goal && current >= max) note = `max for now (the build wants ${goal})`;
@@ -166,12 +180,12 @@ function nextPoints(
   const out: BuildNextPoint[] = [];
   const waiting = lb !== null && lb.total > 0;
   const tabs = b.tabs
-    .filter((t) => !waiting || (t.tab <= 3 && (lb?.byTab[t.tab as 1 | 2 | 3] ?? 0) > 0))
+    .filter((t) => !waiting || (lb?.byTab[t.tab] ?? 0) > 0)
     .sort((x, y) => Number(y.tab === lead) - Number(x.tab === lead) || x.tab - y.tab);
   for (const t of tabs) {
     let k = 0;
     const sim = new Map<number, number>();
-    let budget = waiting ? (lb?.byTab[t.tab as 1 | 2 | 3] ?? 0) : Number.POSITIVE_INFINITY;
+    let budget = waiting ? (lb?.byTab[t.tab] ?? 0) : Number.POSITIVE_INFINITY;
     const none = lb !== null && !waiting;
     for (const group of classGroups(p, b, t.tab, ctx, kb)) {
       if (k >= (none ? 1 : NEXT_PER_TAB) || budget <= 0) break;
@@ -190,7 +204,7 @@ function nextPoints(
         const to = tie.length > 1 ? 'split evenly' : `to ${goal}`;
         // A lower bound of 0 can't prove the tab is empty (fix/build-points): never "no points waiting".
         // An exact 0 (ADR 0010) can: the tab is all spent.
-        const spentOut = lb?.exactTabs?.has(t.tab as 1 | 2 | 3) === true;
+        const spentOut = lb?.exactTabs?.has(t.tab) === true;
         out.push({
           key,
           tab: t.tab,
@@ -277,7 +291,7 @@ function othersOf(p: PresetTalents, tab: number, named: ReadonlySet<number>, kb:
 /** A tab's known points (FR-C2): exact where ADR 0010's count exists, else the lower bound. */
 function knownOf(lbs: PresetInput['lb'], tab: number, points: number | null): BuildKnownPoints {
   if (points === null) return { kind: 'none', points: null, overBy: null };
-  const k = tab as 1 | 2 | 3;
+  const k = tab as TabNo;
   if (lbs?.exactTabs?.has(k))
     return { kind: 'exact', points, overBy: null, verified: lbs.verifiedTabs?.has(k) === true };
   return { kind: 'lower-bound', points, overBy: null };
@@ -286,8 +300,9 @@ function knownOf(lbs: PresetInput['lb'], tab: number, points: number | null): Bu
 function presetOf(x: PresetInput, kb: BuildsKnowledge, ctx: WalkContext): BuildPresetView {
   const { p, build } = x;
   const tabs: BuildTabView[] = p.tabs.map((t) => {
-    const rows = build && t.tab <= 3 ? tabRows(p, build, t.tab, ctx, kb) : [];
-    const lb = x.lb && t.tab <= 3 ? x.lb.byTab[t.tab as 1 | 2 | 3] : null;
+    const counted = x.counted.includes(t.tab);
+    const rows = build && counted ? tabRows(p, build, t.tab, ctx, kb) : [];
+    const lb = x.lb && counted ? x.lb.byTab[t.tab] : null;
     return {
       tab: t.tab,
       name: humanize(t.tabName),
@@ -297,9 +312,7 @@ function presetOf(x: PresetInput, kb: BuildsKnowledge, ctx: WalkContext): BuildP
       others: othersOf(p, t.tab, new Set(rows.map((r) => r.id)), kb),
       known: knownOf(x.lb, t.tab, lb),
       path:
-        build && t.tab <= 3
-          ? bandPath(classGroups(p, build, t.tab, ctx, kb), lb, `p-s${x.slot}-t${t.tab}`)
-          : [],
+        build && counted ? bandPath(classGroups(p, build, t.tab, ctx, kb), lb, `p-s${x.slot}-t${t.tab}`) : [],
     };
   });
   const role = x.role;
@@ -326,6 +339,20 @@ function presetOf(x: PresetInput, kb: BuildsKnowledge, ctx: WalkContext): BuildP
     attackBar: role ? attackBarOf(x, kb) : null,
     next: build ? nextPoints(p, build, ctx, kb, x.slot, x.lb, x.lead) : [],
     star: starOf(x, kb),
+    confidence: build ? confidenceView(build) : null,
+  };
+}
+
+/** "Community build · 6 sources" (M26 owner ruling 2026-10-19: one source is fine, and always labelled). */
+export function confidenceView(b: ResolvedBuild): BuildConfidenceView {
+  const n = b.confidence.sourceCount;
+  const tiers = new Set(b.entry.sources.map((s) => s.tier));
+  const kind = tiers.has(3) ? 'Community build' : tiers.has(2) ? 'Wiki build' : 'Build';
+  return {
+    level: b.confidence.level,
+    sourceCount: n,
+    text: `${kind} · ${n === 1 ? 'one source' : `${n} sources`}`,
+    label: b.confidence.label,
   };
 }
 
@@ -439,7 +466,8 @@ function covered(
         role,
         cls: v.cls,
         build: a.builds[role],
-        lb: knownPoints(v.talents, other?.talents ?? null, kb.talents.tab2Granting) ?? v.lb,
+        lb: knownPoints(v.talents, other?.talents ?? null, kb.talents.tab2Granting, a.tabs) ?? v.lb,
+        counted: a.tabs,
         afkType: c.afkType,
         lead: v.next?.tab ?? null,
         star: {
@@ -462,7 +490,13 @@ function covered(
   const shown = [
     ...new Set(presets.map((p) => (p.role ? a.builds[p.role] : null)).filter((b) => b !== null)),
   ];
-  const stale = shown.some((b) => b.stale || b.contested || opts.stale?.has(b.entry.id) === true);
+  const stale = shown.some(
+    (b) =>
+      b.stale ||
+      b.contested ||
+      opts.stale?.has(b.entry.id) === true ||
+      (b.inherited !== null && opts.stale?.has(b.inherited.id) === true),
+  );
   const lowConfidence = shown.some((b) => b.entry.confidence === 'L');
 
   // ---- coming up ----
@@ -482,24 +516,33 @@ function covered(
       );
     }
     const line = kb.lineOf(next.class);
+    const newTab = theirs.length;
     if (line && line !== a.classLine) {
       for (const role of ['fighting', 'skilling'] as const) {
         const b = kb.build(line, role);
-        const t3 = b?.tabs.find((t) => t.tab === 3)?.steps.slice(0, 2) ?? [];
-        if (b && t3.length)
+        // A Build for a world past the Stage model (a master class) stays out of a W4 account's plan (M26).
+        if (!b || (b.stageHint !== null && !a.walkCtx.beyond)) continue;
+        const first = b.tabs.find((t) => t.tab === newTab)?.steps.slice(0, 2) ?? [];
+        if (first.length)
           comingUp.push(
-            `Then the ${buildName(b)} starts tab 3 with ${t3.map((s) => talentLabel(s.talent)).join(', then ')}`,
+            `Then the ${buildName(b)} starts tab ${newTab} with ${first.map((s) => talentLabel(s.talent)).join(', then ')}`,
           );
       }
     }
-    if (next.tier === 'elite') comingUp.push('Elite talent builds are not covered yet');
+    if ((next.tier === 'elite' || next.tier === 'master') && !kb.hasBuild(next.class))
+      comingUp.push(`${next.tier === 'elite' ? 'Elite' : 'Master'} talent builds are not covered yet`);
   }
   const gated = new Set<string>();
   for (const b of shown)
     for (const t of b.tabs)
       for (const s of t.steps) {
         const w = s.when.find((x) => x.kind === 'stageAtLeast');
-        if (w && w.kind === 'stageAtLeast' && stepApplies(s, a.walkCtx) === 'no')
+        if (stepApplies(s, a.walkCtx) !== 'no') continue;
+        if (s.stageHint && !a.walkCtx.beyond)
+          gated.add(
+            `From World ${s.stageHint.slice(1)}: ${talentLabel(s.talent)} (${b.role} build, tab ${t.tab})`,
+          );
+        else if (w && w.kind === 'stageAtLeast')
           gated.add(`From ${stageLabel(w.stage)}: ${talentLabel(s.talent)} (${b.role} build, tab ${t.tab})`);
       }
   comingUp.push(...gated);
@@ -515,7 +558,7 @@ function covered(
   const emptySlots = new Set(views.filter((v) => v.cls === 'empty').map((v) => v.slot));
   if (most?.unspent) {
     // Exact counts (when Account State has them) drop the "at least" (DS-24 holds for bounds only).
-    const exact = most.tabs.every((t) => t.tab > 3 || t.known?.kind === 'exact');
+    const exact = most.tabs.every((t) => !a.tabs.includes(t.tab as TabNo) || t.known?.kind === 'exact');
     const n = `${exact ? '' : 'at least '}${most.unspent.toLocaleString('en-US')}`;
     parts.push(
       emptySlots.has(most.slot)
@@ -549,8 +592,14 @@ function covered(
         ? 'Low-confidence build, put together from community builds. Check it against the Sources.'
         : null,
     stale,
-    sources: sourcesOf(shown.map((b) => opts.entries?.[b.entry.id] ?? b.entry)),
-    entryIds: shown.map((b) => b.entry.id),
+    sources: sourcesOf(
+      shown.flatMap((b) => [
+        opts.entries?.[b.entry.id] ?? b.entry,
+        ...(b.inherited ? [opts.entries?.[b.inherited.id] ?? b.inherited] : []),
+      ]),
+    ),
+    entryIds: shown.flatMap((b) => [b.entry.id, ...(b.inherited ? [b.inherited.id] : [])]),
+    confidence: shown[0] ? confidenceView(shown[0]) : null,
   };
 }
 
@@ -591,12 +640,13 @@ export function knownPoints(
   p: PresetTalents,
   q: PresetTalents | null,
   granting: ReadonlySet<number>,
+  tabs: readonly TabNo[] = [1, 2, 3],
 ): PresetInput['lb'] {
-  const byTab = { 1: 0, 2: 0, 3: 0 } as Record<1 | 2 | 3, number>;
-  const exactTabs = new Set<1 | 2 | 3>();
-  const verifiedTabs = new Set<1 | 2 | 3>();
+  const byTab = zeroTabs();
+  const exactTabs = new Set<TabNo>();
+  const verifiedTabs = new Set<TabNo>();
   let any = false;
-  for (const t of [1, 2, 3] as const) {
+  for (const t of tabs) {
     const left = pointsLeft(p, q, t, granting);
     if (left.points === null) continue;
     any = true;
@@ -605,7 +655,7 @@ export function knownPoints(
     if (left.verified) verifiedTabs.add(t);
   }
   if (!any) return null;
-  return { byTab, total: byTab[1] + byTab[2] + byTab[3], exactTabs, verifiedTabs };
+  return { byTab, total: CLASS_TABS.reduce((n, t) => n + byTab[t], 0), exactTabs, verifiedTabs };
 }
 
 /**
@@ -644,6 +694,7 @@ function plain(c: CharacterState, acc: AccountAnalysis, path: ClassPath, note: s
         cls: null,
         build: null,
         lb: null,
+        counted: [1, 2, 3],
         afkType: c.afkType,
         lead: null,
         star: {
@@ -678,6 +729,7 @@ function plain(c: CharacterState, acc: AccountAnalysis, path: ClassPath, note: s
     stale: false,
     sources: [],
     entryIds: [],
+    confidence: null,
   };
 }
 

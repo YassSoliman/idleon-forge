@@ -5,18 +5,22 @@
 import type { PresetTalents } from '@idleon-forge/account-state';
 import { type StageId, stageIndex } from '@idleon-forge/knowledge';
 import { levelOf, maxOf } from './classify';
-import type { ResolvedBuild, ResolvedStep } from './knowledge';
+import type { ResolvedBuild, ResolvedStep, TabNo } from './knowledge';
 
 export interface WalkContext {
   /** M2's Stage id; null when unknown (a stage condition then can't be evaluated). */
   stage: StageId | null;
   bubbleCapped: ReadonlySet<number>;
+  /** M26: the account is past World 4 (M2 `coverage: 'beyond'`), so steps with a `stageHint` apply. */
+  beyond?: boolean;
 }
 
 type Applies = 'yes' | 'no' | 'unknown';
 
 /** TR-5: all conditions must hold; one that can't be evaluated makes the step "unknown". */
 export function stepApplies(step: ResolvedStep, ctx: WalkContext): Applies {
+  // M26: a step for World 5 or later stays silent until the account is past World 4.
+  if (step.stageHint && ctx.beyond !== true) return 'no';
   let unknown = false;
   for (const c of step.when) {
     if (c.kind === 'accuracyShort')
@@ -29,13 +33,13 @@ export function stepApplies(step: ResolvedStep, ctx: WalkContext): Applies {
 
 /** The step's target level in this save; null when it can't be reached (no such talent or max ≤ 0). */
 export function targetOf(p: PresetTalents, step: ResolvedStep): number | null {
-  const max = maxOf(p, step.id);
+  const max = maxOf(p, step.id, step.tab);
   if (step.target === 'max') return max > 0 ? max : null;
   return step.target;
 }
 
 export interface StepState {
-  tab: 1 | 2 | 3;
+  tab: TabNo;
   step: ResolvedStep;
   target: number;
   current: number;
@@ -50,7 +54,7 @@ export function walk(p: PresetTalents, b: ResolvedBuild, ctx: WalkContext): Step
       const applies = stepApplies(step, ctx);
       if (applies === 'no') continue;
       const target = targetOf(p, step);
-      const current = levelOf(p, step.id);
+      const current = levelOf(p, step.id, step.tab);
       const forcedMet = applies === 'unknown' || ctx.bubbleCapped.has(step.id) || target === null;
       out.push({
         tab: t.tab,
@@ -90,14 +94,14 @@ export function wrongRolePoints(
     for (const s of t.steps) {
       if (mine.stepIds.has(s.id) || counted.has(s.id) || ctx.bubbleCapped.has(s.id)) continue;
       if (stepApplies(s, ctx) === 'unknown') continue;
-      const points = levelOf(p, s.id);
+      const points = levelOf(p, s.id, s.tab);
       if (points > 0) counted.set(s.id, { talent: s.talent, points });
     }
   for (const t of mine.tabs)
     for (const s of t.steps) {
       if (!s.hardCap || stepApplies(s, ctx) !== 'yes' || ctx.bubbleCapped.has(s.id)) continue;
       const target = targetOf(p, s);
-      const over = target === null ? 0 : levelOf(p, s.id) - target;
+      const over = target === null ? 0 : levelOf(p, s.id, s.tab) - target;
       if (over > 0) counted.set(s.id, { talent: s.talent, points: over + (counted.get(s.id)?.points ?? 0) });
     }
   const talents = [...counted]

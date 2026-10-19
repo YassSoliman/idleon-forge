@@ -285,6 +285,14 @@ export const StepCondition = z.union([
   z.strictObject({ kind: z.literal('stageAtLeast'), stage: StageId }),
   z.strictObject({ kind: z.literal('accuracyShort') }),
 ]);
+/**
+ * M26: a world past the Stage model (Stages end in World 4). A step or Build with a hint applies only
+ * on an account past World 4; the Stage model can't tell W5 from W7 yet, so the hint is the earliest.
+ */
+export const WORLD_HINTS = ['W5', 'W6', 'W7'] as const;
+export const WorldHint = z.enum(WORLD_HINTS);
+/** A class talent tab: 1-3 up to the subclass, 4 the elite class, 5 the master class (M26). */
+export const BuildTab = z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]);
 export const BuildStep = z.strictObject({
   talent: RawName, // a generated talent fact, checked against talents.fact tables
   target: z.union([z.int().positive(), z.literal('max')]),
@@ -293,6 +301,8 @@ export const BuildStep = z.strictObject({
   hardCap: z.boolean().optional(),
   when: z.array(StepCondition).optional(),
   breakpoints: z.array(z.int().positive()).optional(),
+  /** M26: applies only past World 4, from this world (Gaming talents at W5). */
+  stageHint: WorldHint.optional(),
 });
 export const BuildEntry = Base.extend({
   type: z.literal('build'),
@@ -305,13 +315,24 @@ export const BuildEntry = Base.extend({
   tabs: z
     .array(
       z.strictObject({
-        tab: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+        tab: BuildTab,
         steps: z.array(BuildStep).min(1),
       }),
     )
     .min(1),
   attacks: z.array(RawName).default([]),
   onePointOk: z.array(RawName).default([]),
+  /**
+   * M26: the Build whose tabs this one takes for every tab it doesn't list (a master Build lists tab 5
+   * and takes tabs 1-4 from its elite Build).
+   */
+  inherits: EntryId.optional(),
+  /** M26: independent dated authors behind the order, when more than the listed Sources show. */
+  sourceCount: z.int().min(1).optional(),
+  /** M26 (owner ruling 2026-10-19): the confidence words shown with the Build ("one source"). */
+  confidenceLabel: z.string().min(1).max(60).optional(),
+  /** M26: the world past the Stage model the whole Build applies from (master classes: W6). */
+  stageHint: WorldHint.optional(),
 });
 
 /** M21 TR-8 (FR-C12): a useful cap a star step stops at, worked out from save data. */
