@@ -80,8 +80,9 @@ async function loadPlaywright() {
 }
 
 /**
- * Reads one character's Build tab (M24 design): it shows one preset and one talent tab at a time, so
- * this clicks each preset card (`.bd-preset[data-slot]`) and each tab control (`.bd-segbtn[data-tab]`,
+ * Reads one character's Build tab (M24 design, M25 preset tabs): it shows one preset and one talent tab
+ * at a time, so this clicks each preset tab (`.bd-ptabs [role=tab]`, id `…-tab-<slot>`; a lone preset
+ * has no tabs, only its `.bd-preset[data-slot]` answer) and each tab control (`.bd-segbtn[data-tab]`,
  * tab 0 the star tab) and reads that tab's ladder: every Build step's levels ("12 → 50", or "50" when
  * done), the line where the known points end, and the tab control's points. Runs in the page.
  */
@@ -91,14 +92,20 @@ async function readBuild() {
   const tick = () => new Promise((r) => setTimeout(r, 80));
   const n = (x) => Number(String(x).replace(/,/g, ''));
   const panels = [];
-  const slots = [...view.querySelectorAll('.bd-preset')].map((b) => Number(b.getAttribute('data-slot')));
+  const slotOf = (el) => Number(/-tab-(\d+)$/.exec(el.id)?.[1] ?? el.getAttribute('data-slot'));
+  const presetTabs = [...view.querySelectorAll('.bd-ptabs [role="tab"]')];
+  const slots = presetTabs.length
+    ? presetTabs.map(slotOf)
+    : [...view.querySelectorAll('.bd-preset[data-slot]')].map((b) => Number(b.getAttribute('data-slot')));
   for (const slot of slots) {
-    const card = view.querySelector(`.bd-preset[data-slot="${slot}"]`);
-    if (card && card.getAttribute('aria-pressed') !== 'true') {
-      card.click();
+    const tab = presetTabs.find((t) => slotOf(t) === slot) ?? null;
+    if (tab && tab.getAttribute('aria-selected') !== 'true') {
+      tab.click();
       await tick();
     }
-    const active = !!view.querySelector(`.bd-preset[data-slot="${slot}"] .bd-inuse`);
+    const active = !!(tab ?? view.querySelector(`.bd-preset[data-slot="${slot}"]`))?.querySelector(
+      '.bd-inuse',
+    );
     const tabs = [];
     const tiles = [];
     const ids = [...view.querySelectorAll('.bd-segbtn')].map((b) => Number(b.getAttribute('data-tab')));

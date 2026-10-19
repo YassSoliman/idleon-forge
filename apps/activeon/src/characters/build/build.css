@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
-/* M24 (I-character-a): the Build tab, boards `Build` and `BuildPhone`. Lazy, with BuildView. The
+/* M24 (I-character-a): the Build tab, boards `Build` and `BuildPhone`; M25 `BuildPresets(Phone)`. Lazy, with BuildView. The
    selected preset is the screen's one frame; everything else is tonal steps and type (surface guard:
    no rings, no side stripes, radius at most 4 px). The outlined order number is a pixel drawing (SVG). */
 .bd {
@@ -29,22 +29,55 @@
   color: var(--muted);
 }
 
-/* ---- the preset cards ---- */
+/* ---- the presets as tabs (M25): the shared tabs, laid out as two tonal tiles like the strip ---- */
 .bd-presets {
   display: grid;
   gap: var(--space-2);
 }
-.bd-preset {
-  width: 100%;
-  border: 0;
-  font: inherit;
-  color: var(--fg);
-  text-align: left;
-  cursor: pointer;
+.bd-ptabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 300px));
+  gap: var(--space-1);
+  overflow: visible;
 }
-.bd-preset--on {
-  padding: 0;
-  background: none;
+.bd-ptabs .a-tab {
+  min-width: 0;
+  min-height: 64px;
+  background: var(--surface);
+  white-space: normal;
+}
+.bd-ptabs .a-tab--on {
+  background: var(--sunk);
+}
+.bd-ptabs .a-tab:focus-visible {
+  outline: var(--focus-width) solid var(--focus);
+  outline-offset: calc(-1 * var(--focus-width));
+}
+.bd-ptabs .a-tab__line {
+  font-weight: var(--weight-bold);
+}
+.bd-ptab-sub {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 13px;
+  color: var(--muted);
+}
+.bd-ptab-sub.is-open {
+  color: var(--accent);
+  font-weight: var(--weight-bold);
+}
+.bd-ptab-sub.is-fine {
+  color: var(--ok);
+}
+.bd-ptab-sub .a-pip {
+  width: 6px;
+  height: 6px;
+}
+.bd-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
 }
 .bd-preset-frame {
   display: flex;
@@ -58,7 +91,7 @@
   gap: var(--space-2);
   min-width: 0;
 }
-.bd-preset--on .bd-cap {
+.bd-preset .bd-cap {
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
@@ -83,41 +116,12 @@
   line-height: 1;
   color: var(--accent);
 }
+.bd-big .bd-zero {
+  color: var(--fg);
+}
 .bd-big span {
   font-size: 13px;
   color: var(--muted);
-}
-.bd-preset--off {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2) var(--space-3);
-  min-height: var(--tap-min);
-}
-.bd-preset--off:hover {
-  background: var(--sunk);
-}
-.bd-preset:focus-visible {
-  outline: var(--focus-width) solid var(--focus);
-  outline-offset: calc(-1 * var(--focus-width));
-}
-.bd-tile-name {
-  font-weight: var(--weight-bold);
-}
-.bd-tile-facts {
-  flex: 1 1 200px;
-  font-size: var(--text-sm);
-  color: var(--muted);
-}
-.bd-tile-word {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-bold);
-}
-.bd-tile-word.is-fine {
-  color: var(--ok);
-}
-.bd-tile-word.is-open {
-  color: var(--accent);
 }
 
 /* ---- the body: tabs on top, the book, the side panel, the ladder ---- */
@@ -533,6 +537,14 @@ button.bd-tal-btn:focus-visible {
 
 /* ---- phone (BuildPhone) ---- */
 @media (max-width: 719.98px) {
+  /* BuildPresetsPhone: the two preset tabs share the width. */
+  .bd-ptabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .bd-ptabs .a-tab {
+    min-height: 60px;
+    padding: var(--space-2) var(--space-3);
+  }
   .bd-title.a-h1 {
     font-size: 22px;
   }
@@ -598,15 +610,11 @@ button.bd-tal-btn:focus-visible {
   }
 }
 
-/* The preset cards and the tab controls are fieldsets (a named group): no browser frame. */
-fieldset.bd-presets,
+/* The tab controls are fieldsets (a named group): no browser frame. */
 fieldset.bd-seg {
   min-inline-size: 0;
   margin: 0;
   border: 0;
-}
-fieldset.bd-presets {
-  padding: 0;
 }
 /* The "in use" tag sits inside the caps label: it keeps its own case. */
 .bd-inuse {
@@ -618,11 +626,4 @@ fieldset.bd-presets {
 .bd-tal[data-k="plain"] .bd-tal-name,
 .bd-tal-lv[data-k="plain"] {
   color: var(--fg);
-}
-.bd-presets--plain {
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-.bd-presets--plain .bd-preset--off[aria-pressed="true"] {
-  background: var(--sunk);
-  box-shadow: inset 0 -3px 0 var(--accent);
 }
