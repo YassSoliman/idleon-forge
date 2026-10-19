@@ -13,9 +13,13 @@ export const buildHref = (index: number) => `#build-${index}`;
 export function buildsView(result: EngineResult): BuildRoadmapView[] {
   return (result.builds ?? []).map((r) => {
     const c = result.characters.find((x) => x.index === r.index);
-    const { sources, ...rest } = r;
+    const { sources, presets, ...rest } = r;
     return {
       ...rest,
+      presets: presets.map(({ sources: ps, ...p }) => ({
+        ...p,
+        source: ps?.length ? sourceView(ps, r.stale, p.entryId) : null,
+      })),
       name: c?.name ?? `Character ${r.index + 1}`,
       href: buildHref(r.index),
       source: sources.length ? sourceView(sources, r.stale, r.entryIds[0]) : null,

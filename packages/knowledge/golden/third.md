@@ -277,7 +277,7 @@ Can't read Bubba from this save
   - Blood Berserker: As of your last save: at least 27 points waiting · they end here
     - done: Waiting To Cool 270
     - done: Overflowing Ladle 270
-    - done: Symbols of Beyond ~r 1
+    - done: Symbols of Beyond 1
     - done: Apocalypse Chow 299
     - and 3 more
   - Star talents: 305 unspent · they end here

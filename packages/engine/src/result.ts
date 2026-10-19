@@ -554,6 +554,10 @@ export interface BuildPresetView {
   next: BuildNextPoint[];
   /** M26: the preset's Build's confidence label; null (or absent) without a Build. */
   confidence?: BuildConfidenceView | null;
+  /** M26: the Sources of this preset's Build (and the Build it inherits); absent without a Build. */
+  sources?: SourceRef[];
+  /** M26: the preset's Build entry id (provenance). */
+  entryId?: string;
 }
 
 export interface BuildPathStep {
