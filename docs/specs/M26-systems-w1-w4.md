@@ -506,7 +506,9 @@ golden.
   no Priority List of its own reads the W4-entry list.
 - **FR-1 Draft status.** `packages/knowledge/src/schema.ts` accepts `status: draft`; `kb compile` skips drafts, so a
   draft never reaches the engine (owner Q1: yes). Promotion flips an entry to `active` or `contested` in the PR that
-  ships its Detector, after the wave's red team.
+  ships its Detector, after the wave's red team. **Built 2026-10-19:** the loader keeps drafts apart (`KbSource.drafts`),
+  `kb check` schema-checks them and reserves their ids, fails a live entry that references one, and leaves their
+  Detectors and references to their wave.
 - **FR-2 Source tiers: one numbering, the live one.** The KB keeps ADR 0004 and `schema.ts` as they are: **1** game
   data via Toolbox (a permalink at a 40-character sha), **2** the wiki edited after the patch (with `claimDate`), **3** a
   dated community guide (with `claimDate`), **4** anything else. `entryRules` keep keying on these numbers (Verdict

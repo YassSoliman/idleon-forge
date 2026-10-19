@@ -48,7 +48,8 @@ export function loadKb(lists: Record<string, CompiledPriorityList> = {}): MetaPa
       else
         for (const e of (value as { entries: unknown[] }).entries) {
           const parsed = AuthoredEntry.parse(e);
-          entries[parsed.id] = parsed;
+          // Drafts never reach the engine (M26 FR-1), here as in the compiled bundle.
+          if (parsed.status !== 'draft') entries[parsed.id] = parsed;
         }
     }
     const gen = `${KNOWLEDGE}generated/`;
