@@ -2,7 +2,7 @@
   "facts": [
     {
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "3e14ee1dec06800dd5357337f9dc1b347f7a2f58",
         "generator": "bubba",
         "inputs": [
           "website-data/shared-data.json#bubbaUpgrades",
@@ -68,8 +68,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox game data: generalSpelunky 33",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/3e14ee1dec06800dd5357337f9dc1b347f7a2f58/data/website-data/shared-data.json",
+          "verified": "2026-10-19"
         }
       ],
       "system": "bubba",
@@ -77,7 +77,7 @@
     },
     {
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "3e14ee1dec06800dd5357337f9dc1b347f7a2f58",
         "generator": "bubba",
         "inputs": [
           "website-data/shared-data.json#bubbaUpgrades",
@@ -130,8 +130,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox game data: generalSpelunky 35-37",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/3e14ee1dec06800dd5357337f9dc1b347f7a2f58/data/website-data/shared-data.json",
+          "verified": "2026-10-19"
         }
       ],
       "system": "bubba",
@@ -139,7 +139,7 @@
     },
     {
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "3e14ee1dec06800dd5357337f9dc1b347f7a2f58",
         "generator": "bubba",
         "inputs": [
           "website-data/shared-data.json#bubbaUpgrades",
@@ -180,8 +180,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox game data: generalSpelunky 39",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/3e14ee1dec06800dd5357337f9dc1b347f7a2f58/data/website-data/shared-data.json",
+          "verified": "2026-10-19"
         }
       ],
       "system": "bubba",
@@ -189,7 +189,7 @@
     },
     {
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "3e14ee1dec06800dd5357337f9dc1b347f7a2f58",
         "generator": "bubba",
         "inputs": [
           "website-data/shared-data.json#bubbaUpgrades",
@@ -266,8 +266,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox game data: generalSpelunky 38, 42",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/3e14ee1dec06800dd5357337f9dc1b347f7a2f58/data/website-data/shared-data.json",
+          "verified": "2026-10-19"
         }
       ],
       "system": "bubba",
@@ -275,7 +275,7 @@
     },
     {
       "generatedBy": {
-        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "commit": "3e14ee1dec06800dd5357337f9dc1b347f7a2f58",
         "generator": "bubba",
         "inputs": [
           "website-data/shared-data.json#bubbaUpgrades",
@@ -432,8 +432,8 @@
           "gameVersion": "2.3.540",
           "tier": 1,
           "title": "IdleOn Toolbox game data: bubbaUpgrades",
-          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
-          "verified": "2026-10-17"
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/3e14ee1dec06800dd5357337f9dc1b347f7a2f58/data/website-data/shared-data.json",
+          "verified": "2026-10-19"
         }
       ],
       "system": "bubba",

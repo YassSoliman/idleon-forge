@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 3e14ee1dec06800dd5357337f9dc1b347f7a2f58.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { getArcadeBallsToClaim } from '@parsers/dungeons';
@@ -33,6 +33,7 @@ import { isPast } from 'date-fns';
 import { getIsland } from '@parsers/world-2/islands';
 import { getLegendTalentBonus } from '@parsers/world-7/legendTalents';
 import { isSuperbitUnlocked } from '@parsers/world-5/gaming';
+import { getPetMartGems } from '@parsers/world-7/tournament';
 import { MINE_CURRENCY_UPGRADE_INDICES } from '@parsers/world-7/minehead';
 import { isHatRackEligible } from '@parsers/world-3/hatRack';
 import { getGoldCostToMaxLevel, getStampsPerDay } from '@parsers/world-1/stamps';
@@ -41,6 +42,7 @@ import { BOSS_RESPAWN_ALERTS } from './bossRespawns';
 import { getTesseractBonus } from '@parsers/class-specific/tesseract';
 import { getIdleGuards, getMissingWorkers, getSpareWorkers } from '@parsers/class-specific/royalGuardian';
 import { getCompassBonus } from '@parsers/class-specific/compass';
+import { calcTotalItemOwned } from '@parsers/storage';
 
 // The game hard caps Arcanist weapon and ring drops at 100 each per day.
 const ARCANIST_DAILY_DROP_CAP = 100;
@@ -48,7 +50,6 @@ const ARCANIST_DAILY_DROP_CAP = 100;
 // Weekly boss difficulty stops at 5 skulls, and trophies only drop on a new weekly best.
 const MAX_WEEKLY_BOSS_SKULLS = 5;
 // game: claim button gate 0.1 <= getServerVarLoad("GemPM_x")
-const MIN_PET_MART_GEMS_SERVER_VAR = 0.1;
 
 // getAllItems rebuilds a multi-thousand-item array from every inventory, storage and the forge,
 // and useAlerts calls each world's alert function once per checked tracker subgroup with the same
@@ -265,11 +266,9 @@ export const getGeneralAlerts = (account, fields, options, characters, lastUpdat
       }
     }
     if (options?.etc?.petMartGems?.checked) {
-      const lastClaimedShopDay = account?.accountOptions?.[516] ?? 0;
-      const currentShopDay = account?.tournament?.global?.S ?? 0;
-      // The game only offers the claim while the GemPM_x server var is at least 0.1
-      const gemsOffered = Number(account?.serverVars?.GemPM_x) >= MIN_PET_MART_GEMS_SERVER_VAR;
-      if (gemsOffered && currentShopDay >= 1 && lastClaimedShopDay < currentShopDay) {
+      const { claimable } = getPetMartGems(account?.tournament?.global?.S ?? 0,
+        Number(account?.accountOptions?.[516]) || 0, Number(account?.serverVars?.GemPM_x) || 0);
+      if (claimable) {
         etc.petMartGems = true;
       }
     }
@@ -833,6 +832,9 @@ export const getWorld3Alerts = (account, fields, options, characters) => {
         // Without a salt or printer feeding it there is no limit to hit, and a salt on auto refine
         // never banks power to rank up with.
         if (!limitedBy || !unlocked || !active || autoRefinePercentage > 0) return;
+        // A feeder turned off already drains this salt's stock, so neither "room to rank" nor
+        // "would cause a deficit" holds until it is back on.
+        if (!limitedBy.isPrinter && !limitedBy.active) return;
         if (!saltBalance?.props?.value?.[rawName]) return;
         const previousSaltName = limitedBy?.name;
         if (rank < maxSafeRank) {
@@ -1497,8 +1499,54 @@ const pickOutpostEntry = ({ name, mapIndex, world, monsterRawName, monsterName }
 // Same order as the doubler cards on the Menagerie Boosts tab
 const MENAGERIE_DOUBLERS = ['blackStars', 'organicLabels', 'minehead', 'sushi', 'jellyOperator', 'omnijade'];
 
+const MENAGERIE_MISSION_BOOST = 0;
+const MENAGERIE_LUMI_BOOST = 1;
+const PINK_UPGRADES = ['Shell', 'Lumi rate'];
+const SILVER_UPGRADES = ['Obol MISC multi', 'Fragments per auto trash'];
+
+const getAffordableBoost = (menagerie, index) => {
+  const boost = menagerie?.boosts?.[index];
+  return boost?.visible && boost?.affordable ? { index, level: boost.level, cost: boost.cost } : null;
+};
+
+const getJellyAlerts = (menagerie, options, account, characters) => {
+  const result = {};
+  const jellies = menagerie?.jellies;
+  const isUnlocked = (index) => jellies?.sideUnlocked?.[index]?.unlocked;
+  if (options?.pinkJelly?.checked && isUnlocked(0)) {
+    const percent = Math.min(100, Math.max(1, Number(options?.pinkJelly?.props?.value) || 25));
+    const budget = (account?.currencies?.rawMoney ?? 0) * (percent / 100);
+    const upgrades = PINK_UPGRADES.filter((_, index) => (jellies?.pink?.costs?.[index] ?? Infinity) <= budget);
+    if (upgrades.length > 0) result.pinkJelly = upgrades;
+  }
+  if (options?.blueJelly?.checked && isUnlocked(1)) {
+    const ladles = calcTotalItemOwned(account?.storage, characters, 'Ladle');
+    if (ladles > 0) result.blueJelly = ladles;
+  }
+  if (options?.redJelly?.checked && isUnlocked(2)) {
+    const { level = 0, readingMulti = 1, chaptersTracked = 0 } = jellies?.red ?? {};
+    const threshold = Math.max(1, Number(options?.redJelly?.props?.value) || 2);
+    // The Read button does nothing at 0 days rested or with no pages tracked
+    if (level > 0 && chaptersTracked > 0 && readingMulti >= threshold) {
+      result.redJelly = { daysRested: level, readingMulti };
+    }
+  }
+  if (options?.silverJelly?.checked && isUnlocked(3)) {
+    const fragments = account?.currencies?.ObolFragments ?? 0;
+    const silver = jellies?.silver;
+    const upgrades = SILVER_UPGRADES.filter((_, index) => (silver?.levels?.[index] ?? 0) < (silver?.maxLevels?.[index] ?? 0)
+      && (silver?.costs?.[index] ?? Infinity) <= fragments);
+    if (upgrades.length > 0) result.silverJelly = upgrades;
+  }
+  if (options?.yellowJelly?.checked && isUnlocked(4)) {
+    const { progress = 0, requirement = Infinity } = jellies?.yellow ?? {};
+    if (progress >= requirement) result.yellowJelly = true;
+  }
+  return result;
+};
+
 // Hidden rows are still in the parser output (the page dims them), so every alert keeps only the visible ones.
-const getMenagerieAlerts = (menagerie, options) => {
+const getMenagerieAlerts = (menagerie, options, account, characters) => {
   const result = {};
   if (options?.claimableMissions?.checked) {
     const missions = menagerie?.missions?.filter(({ visible, canClaim }) => visible && canClaim) ?? [];
@@ -1518,8 +1566,15 @@ const getMenagerieAlerts = (menagerie, options) => {
       result.affordableBoosts = boosts.map(({ index, level, cost }) => ({ index, level, cost }));
     }
   }
+  const lumiBoost = options?.lumiBoost?.checked && getAffordableBoost(menagerie, MENAGERIE_LUMI_BOOST);
+  if (lumiBoost) result.lumiBoost = lumiBoost;
+  const missionBoost = options?.missionBoost?.checked && getAffordableBoost(menagerie, MENAGERIE_MISSION_BOOST);
+  if (missionBoost) result.missionBoost = missionBoost;
+  Object.assign(result, getJellyAlerts(menagerie, options, account, characters));
   if (options?.unusedDoublers?.checked) {
+    const enabled = options?.unusedDoublers?.props?.value ?? {};
     const doublers = MENAGERIE_DOUBLERS
+      .filter((key) => enabled[key] !== false)
       .map((key) => ({ key, left: menagerie?.doublers?.[key]?.left ?? 0 }))
       .filter(({ left }) => left > 0);
     if (doublers.length > 0) {
@@ -1737,9 +1792,9 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
       }
     }
 
-    if (rgOptions?.idleGuards?.checked) {
+    if (rgOptions?.idleGuards?.checked || rgOptions?.parkedGuards?.checked) {
       const guardRangeBonus = outpostStats?.guardRangeBonus ?? 0;
-      const idleGuards = outposts
+      const guards = outposts
         // An outpost waiting on a rewire to a fresh node in reach may need its Guards to make it,
         // and idleOutposts already reports that one.
         .filter(({ mode, connectedNodes, freshNodeInReach }) => mode === 1 || !(freshNodeInReach
@@ -1748,15 +1803,15 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
           const { spare, parked } = getIdleGuards(outpost, guardRangeBonus);
           // Dropping a link to an empty node only pays when nothing fresh in reach wants the slot.
           return { ...pickOutpostEntry(outpost), spare, parked: outpost.freshNodeInReach ? 0 : parked };
-        })
-        .filter(({ spare, parked }) => spare + parked > 0);
-      if (idleGuards.length > 0) {
-        royalGuardian.idleGuards = {
-          count: idleGuards.length,
-          parked: idleGuards.some(({ parked }) => parked > 0),
-          surveyors,
-          outposts: idleGuards
-        };
+        });
+      const idleGuards = guards.filter(({ spare }) => spare > 0);
+      if (rgOptions?.idleGuards?.checked && idleGuards.length > 0) {
+        royalGuardian.idleGuards = { count: idleGuards.length, surveyors, outposts: idleGuards };
+      }
+      // Its own option: the node refills at the reset, so acting on it is a swap and a rewire every day.
+      const parkedGuards = guards.filter(({ parked }) => parked > 0);
+      if (rgOptions?.parkedGuards?.checked && parkedGuards.length > 0) {
+        royalGuardian.parkedGuards = { count: parkedGuards.length, surveyors, outposts: parkedGuards };
       }
     }
 
@@ -2054,7 +2109,7 @@ export const getWorld7Alerts = (account, fields, options, characters) => {
     }
   }
   if (fields?.menagerie?.checked && account?.menagerie?.unlocked) {
-    const menagerie = getMenagerieAlerts(account.menagerie, options?.menagerie);
+    const menagerie = getMenagerieAlerts(account.menagerie, options?.menagerie, account, characters);
     if (Object.keys(menagerie).length > 0) {
       alerts.menagerie = menagerie;
     }

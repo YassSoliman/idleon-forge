@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 3e14ee1dec06800dd5357337f9dc1b347f7a2f58.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 import { format, getDaysInMonth, getDaysInYear, intervalToDuration, isValid } from 'date-fns';
@@ -1185,4 +1185,12 @@ export const getNextCompanionClaim = (account) => {
   const anchor = account?.companions?.freeClaimAnchor ?? 0;
   if (!isFinite(anchor)) return new Date().getTime();
   return anchor + FREE_COMPANION_CLAIM_ANCHOR_OFFSET_MS;
+};
+
+// The Pet Mart restocks both counters (and the free gems) at 20:00 UTC: the game's "New Pets in"
+// text counts down to the next point where (GlobalTime + 14400) is a whole number of days.
+const PET_MART_RESTOCK_OFFSET_S = 14400;
+export const getNextPetMartRestock = (now = Date.now()) => {
+  const shifted = now / 1000 + PET_MART_RESTOCK_OFFSET_S;
+  return ((Math.floor(shifted / 86400) + 1) * 86400 - PET_MART_RESTOCK_OFFSET_S) * 1000;
 };

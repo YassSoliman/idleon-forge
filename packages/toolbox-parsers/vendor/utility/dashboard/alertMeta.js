@@ -1,4 +1,4 @@
-// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1.
+// Vendored from IdleOn Toolbox (https://github.com/Morta1/IdleonToolbox) @ 3e14ee1dec06800dd5357337f9dc1b347f7a2f58.
 // Copyright (C) Morta1 and IdleOn Toolbox contributors. GPL-3.0-only; see vendor/LICENSE.
 // Copied unmodified by IdleOn Forge's scripts/sync.sh; UI-coupled imports are redirected to shims/ at build time.
 // Alert data keys that differ from the option controlling them. resolveSettingsTarget reads the
@@ -115,7 +115,7 @@ export const alertMeta = {
       },
       familyObols: { label: 'Empty family obol slots', group: 'Account' },
       freeCompanion: { label: 'Free companion to claim', group: 'Events', page: { pathname: '/account/prem-currency/pets', label: 'Pets' } },
-      petMartGems: { label: 'Free Pet Mart gems', group: 'Events', page: { pathname: '/account/misc/tournament', query: { t: 'Pet Mart' }, label: 'Pet Mart' } },
+      petMartGems: { label: 'Free Pet Mart gems', group: 'Events', page: { pathname: '/account/prem-currency/pets', query: { t: 'Pet Mart' }, label: 'Pet Mart' } },
       tournamentRegister: {
         label: 'Not registered for the Pet Tournament',
         help: 'Alerts when you have not registered for the current Pet Tournament.',
@@ -760,7 +760,12 @@ export const alertMeta = {
       },
       idleGuards: {
         label: 'Guards with unneeded range',
-        help: 'Alerts when an outpost has Guards whose range it does not need, so they could be Traders or Surveyors. Also lists Guards that only reach an empty resource: swapping them drops that connection, so rewire it after the daily reset.',
+        help: 'Alerts when an outpost has Guards whose range it does not need, so they could be Traders or Surveyors.',
+        group: 'Units'
+      },
+      parkedGuards: {
+        label: 'Guards on empty resources',
+        help: 'Alerts when an outpost has Guards that only reach an empty resource, so they could be Traders or Surveyors until the daily reset. Swapping them drops that connection, so it has to be rewired after every reset.',
         group: 'Units'
       },
       sharedNodes: {
@@ -918,14 +923,66 @@ export const alertMeta = {
         page: { query: { t: 'Unlocks' }, label: 'Unlocks' }
       },
       affordableBoosts: {
-        label: 'Boosts you can afford',
+        label: 'Any boost you can afford',
         help: 'Lumi builds up every hour and boosts never max, so this one is off by default: some boost is almost always affordable.',
+        group: 'Boosts',
         page: { query: { t: 'Boosts' }, label: 'Boosts' }
+      },
+      lumiBoost: {
+        label: 'Lumi/hr boost affordable',
+        help: 'The boost that raises Lumi/hr for each Menagerie Rank.',
+        group: 'Boosts',
+        page: { query: { t: 'Boosts' }, label: 'Boosts' }
+      },
+      missionBoost: {
+        label: 'Mission boost affordable',
+        help: 'The boost that adds more Menagerie missions.',
+        group: 'Boosts',
+        page: { query: { t: 'Boosts' }, label: 'Boosts' }
+      },
+      pinkJelly: {
+        label: 'Pink jelly upgrades affordable',
+        help: 'Alerts when a Pink jelly upgrade costs at most this percent of your coins.',
+        group: 'Jellies',
+        page: { query: { t: 'Jellies' }, label: 'Jellies' }
+      },
+      blueJelly: {
+        label: 'Ladles to give the Blue jelly',
+        help: 'Ladles the Blue jelly uses still count toward Cooking Mastery.',
+        group: 'Jellies',
+        page: { query: { t: 'Jellies' }, label: 'Jellies' }
+      },
+      redJelly: {
+        label: 'Red jelly reading ready',
+        help: 'Alerts when you have tracked pages and the reading multi from days rested reaches this value. Days rested go up once a day.',
+        group: 'Jellies',
+        page: { query: { t: 'Jellies' }, label: 'Jellies' }
+      },
+      silverJelly: {
+        label: 'Silver jelly upgrades affordable',
+        help: 'Alerts when your Obol Fragments cover a Silver jelly upgrade that is not maxed.',
+        group: 'Jellies',
+        page: { query: { t: 'Jellies' }, label: 'Jellies' }
+      },
+      yellowJelly: {
+        label: 'Yellow jelly purchase ready',
+        help: 'Alerts when the build progress from your 8th build slot covers the next construction purchase.',
+        group: 'Jellies',
+        page: { query: { t: 'Jellies' }, label: 'Jellies' }
       },
       unusedDoublers: {
         label: 'Doublers left to place',
-        help: 'Minehead, Sushi Station and Jelly Operator doublers, Black Stars, Organic Labels and Omnijade you own but have not placed.',
-        page: { query: { t: 'Boosts' }, label: 'Boosts' }
+        help: 'Doublers, Black Stars, Organic Labels and Omnijade you own but have not placed. Each one can be turned off on its own.',
+        group: 'Doublers',
+        page: { query: { t: 'Boosts' }, label: 'Boosts' },
+        itemIcons: {
+          blackStars: 'etc/BlackStar',
+          organicLabels: 'etc/OrganicLabel',
+          minehead: 'etc/MineheadDoubler',
+          sushi: 'etc/SushiDoubler',
+          jellyOperator: 'data/MenaIconP12',
+          omnijade: 'etc/Omnijade'
+        }
       }
     }
   },
