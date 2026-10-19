@@ -105,6 +105,19 @@
   display: grid;
   min-width: 0;
 }
+/* M25: the in-game name under the class label, smaller and lighter (as in the strip). */
+.characters-place .cp-who-l {
+  display: grid;
+  min-width: 0;
+}
+.characters-place .cp-who-name {
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--text-xs);
+  color: var(--muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .characters-place .cp-who-t .np-state {
   font-size: 13px;
 }
