@@ -32,6 +32,7 @@ export type { Checklist, ChecklistRow, ResetClock, RowBand, RowState } from './c
 export type {
   CardChip,
   CardSetChip,
+  CardSetProgress,
   CardSwap,
   CardsView,
   CharacterCards,

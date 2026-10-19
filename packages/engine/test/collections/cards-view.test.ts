@@ -284,3 +284,20 @@ describe('the account overview and the engine result', () => {
     expect(v.grind).toEqual([]);
   });
 });
+
+describe('M24 card sets close to their next tier', () => {
+  it('W3-early: Yum Yum Desert 2 levels from tier 3 first; each set counts its card levels against tier × size', () => {
+    const s = w3();
+    const sets = buildCardsView(s, facts)?.account.sets ?? [];
+    expect(sets.map((x) => [x.name, x.tier, x.points, x.nextAt, x.away])).toEqual([
+      ['Yum Yum Desert', 2, 40, 42, 2],
+      ['Blunder Hills', 2, 38, 48, 10],
+      ['Frostbite Tundra', 1, 21, 32, 11],
+    ]);
+    expect(sets[0]).toMatchObject({ bonus: '+20% All Food Effect', nextBonus: '+30% All Food Effect' });
+    for (const x of sets) {
+      const raw = s.account.cardSets?.find((c) => c.rawName === x.rawName);
+      expect(x.nextAt).toBe(((raw?.tier ?? 0) + 1) * (raw?.size ?? 0));
+    }
+  });
+});
