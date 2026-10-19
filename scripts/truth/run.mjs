@@ -4,7 +4,7 @@
 // M22 Layer 2, the truth run (docs/agents/truth-run.md). Local and dev-only. For each raw save:
 //   1. headless: the whole worker (parser, engine, truth checks) over the save, via Vitest
 //      (apps/activeon/test/truth-run.test.ts), written to <out>/<label>.headless.json;
-//   2. browser: the built app under `wrangler dev` (production headers), the save pasted, every
+//   2. browser: the built app under Wrangler's local server (production headers), the save pasted, every
 //      character's Build, Gear and Cards tabs opened, the shown numbers read off the DOM;
 //   3. diff: the DOM against the raw facts (points spent per tab, talent levels, "no points
 //      waiting" lines, next steps and their start level, class levels).
@@ -13,7 +13,7 @@
 //
 // Usage:
 //   node scripts/truth/run.mjs --out <dir> [--base http://127.0.0.1:8799/] [--serve] [--no-browser] <save.raw.json>...
-//   --serve       build the app and start `wrangler dev` on the --base port for the run
+//   --serve       build the app and serve it with Wrangler (no file watcher) on the --base port for the run
 //   --no-browser  headless only
 // Playwright is not a repo dependency: set PLAYWRIGHT to an installed `playwright` module path
 // (e.g. /tmp/pw/node_modules/playwright/index.js), or have it resolvable from here.
@@ -388,6 +388,18 @@ function markdown(runs) {
   return L.join('\n');
 }
 
+/** Wrangler's local server for apps/activeon/dist, file watcher off (see main). argv[1]: port. */
+const SERVE = `
+import { unstable_startWorker } from 'wrangler';
+const port = Number(process.argv[1]);
+const worker = await unstable_startWorker({
+  config: 'wrangler.jsonc',
+  dev: { watch: false, liveReload: false, inspector: false, server: { hostname: '127.0.0.1', port } },
+});
+await worker.ready;
+for (const sig of ['SIGINT', 'SIGTERM']) process.on(sig, () => worker.dispose().finally(() => process.exit(0)));
+`;
+
 async function main() {
   const o = args(process.argv.slice(2));
   mkdirSync(o.out, { recursive: true });
@@ -403,9 +415,14 @@ async function main() {
       process.exit(2);
     }
     spawnSync('pnpm', ['build'], { cwd: ROOT, stdio: 'inherit' });
-    const port = new URL(o.base).port || '8799';
-    // Its own process group, so wrangler's workerd child goes down with it on exit.
-    server = spawn('pnpm', ['exec', 'wrangler', 'dev', '--port', port], {
+    const port = Number(new URL(o.base).port || '8799');
+    // Not `wrangler dev`: its assets watcher (chokidar) holds one descriptor per file in dist/, and
+    // the game art is ~19.7k files. On macOS a process holding descriptors above OPEN_MAX (10240)
+    // can no longer spawn a piped child (libuv's posix_spawn fails with EBADF), so Wrangler's own
+    // esbuild service dies at start-up. `dev.watch` is not a CLI flag, so the same local server
+    // (Workers static assets, _headers, SPA fallback) is started through the API with the watcher
+    // off. Its own process group, so the workerd child goes down with it on exit.
+    server = spawn(process.execPath, ['--input-type=module', '-e', SERVE, String(port)], {
       cwd: path.join(ROOT, 'apps/activeon'),
       stdio: 'ignore',
       detached: true,
