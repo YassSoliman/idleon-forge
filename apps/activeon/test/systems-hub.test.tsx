@@ -37,10 +37,11 @@ describe('US-5, US-8, US-9 the hub and System pages', () => {
         .getAllByRole('link')
         .map((a) => a.getAttribute('aria-label')),
     ).toEqual(['See the fix: Anvil']);
-    // The filters: Needs you shows only the wasting and behind tiles.
-    fireEvent.click(screen.getByRole('button', { name: /^Needs you/ }));
+    // The filters (M25: toggles, combinable): Wasting now shows only the wasting tiles.
+    fireEvent.click(screen.getByRole('button', { name: /^Wasting now/ }));
     expect(screen.getByRole('link', { name: /^Anvil,/ })).toBeTruthy();
     expect(screen.queryByRole('link', { name: /^Post Office,/ })).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: /^Wasting now/ }));
     fireEvent.click(screen.getByRole('button', { name: /^Locked/ }));
     expect(screen.getByRole('link', { name: /^Post Office,/ })).toBeTruthy();
     expect(screen.queryByRole('link', { name: /^Anvil,/ })).toBeNull();

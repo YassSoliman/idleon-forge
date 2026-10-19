@@ -4,7 +4,8 @@
 //   none, #now           Now
 //   #characters          Characters (#builds, #cards, #skills: Characters scrolled to that overview)
 //   #<tab>-<index>       the Character page of CharacterState.index on that tab (#now-3, #build-3)
-//   #systems             the Systems hub
+//   #systems             the Systems hub (M25: `#systems?q=…&w=…&s=…` keeps its search and filters,
+//                        read by the hub itself, systems/hub-search.ts)
 //   #system-<systemId>   that System page
 //   #timeline            the Timeline (Phase 2; opens Now until then)
 //   #daily, #slots       the Timeline at its Daily & Weekly or Parallel Slots section (M21 TR-6)
@@ -47,6 +48,8 @@ export interface KnownRoutes {
 
 const NOW: Route = { place: 'now' };
 const PLACE_RE = /^#(now|characters|systems|timeline|map)$/;
+/** M25: the Systems hub with its search and filters in the fragment. */
+const SYSTEMS_QUERY_RE = /^#systems\?/;
 const TIMELINE_SECTION_RE = /^#(daily|slots)$/;
 /** Checked before TAB_RE, which `#map-3` would otherwise match as a tab named "map" (RT-27). */
 const MAP_RE = /^#map-(\d+)$/;
@@ -58,6 +61,7 @@ const LEGACY_C = /^\d+$/;
 
 /** The route of one fragment, against what the app knows; Now for anything else (FR-7). */
 export function routeOfHash(hash: string, known: KnownRoutes): Route {
+  if (SYSTEMS_QUERY_RE.test(hash)) return { place: 'systems' };
   const place = PLACE_RE.exec(hash)?.[1];
   if (place === 'now' || hash === '' || hash === '#') return NOW;
   if (place === 'characters') return { place: 'characters', section: null };
