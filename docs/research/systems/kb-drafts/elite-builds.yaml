@@ -1,0 +1,904 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 elite-class Builds (tab 4): Divine Knight, Blood Berserker, Siege Breaker, Beast Master, Elemental Sorcerer, Bubonic Conjuror, Voidwalker.
+# Research note: docs/research/systems/classes/elite-builds.md (claims register, per-class sources and confidence).
+# Target file: packages/knowledge/systems/talents.yaml (append). status: draft. Generated from the Toolbox community builds API
+# snapshot of 2026-10-19 (127 builds) and talents.json at Toolbox 6c37e3d (game 2.3.540); every rawName is checked against the
+# tab it sits on (classPromotions.json talentTabs).
+#
+# Before promotion this needs (see the note, "Converter and engine requirements"):
+#   - schema: BuildEntry tabs[].tab accepts 4 and 5; status draft (M26 FR-1); stages W4-mid / W4-late (FR-3).
+#   - engine: lineOf() returns the elite or master class when a Build exists for it (today it walks up to the subclass and
+#     returns null for the Journeyman line); rawName -> skillIndex resolved within the character's own tabs
+#     (SYMBOLS_OF_BEYOND_~R/~G/~P and THE_FAMILY_GUY repeat across elite tabs).
+#   - Draft-only keys the converter maps or drops: stageHint (the world a Build or step applies from: W5, W6, W7; no W5+
+#     stage may be named yet, FR-3), sourceCount (independent dated authors), confidenceLabel (owner source bar,
+#     2026-10-19: "one source" ships with a label), supersedes, inherits (master-class Builds hold tab 5 only and take
+#     tabs 1-4 from the named Build), patch (third-class Builds extended past W4-entry).
+# Owner source bar (2026-10-19): most upvoted or most recent post-patch community build wins; one strong source is enough
+# with a label; disagreements keep the most upvoted recent one and note the other. No community source states a game
+# version, so gameVersion is the version each claim was checked against (2.3.540).
+system: talents
+entries:
+
+  - id: "talents.build.divine-knight-fighting"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Divine Knight fighting build"
+    text: "Follow the Divine Knight fighting build"
+    why: "Damage and 50 Idle Brawling first, Shockwave Slash and Daggerang now maxed, then Orb of Remembrance and Imbued Shockwaves on tab 4, per the newest W4 Divine Knight build."
+    classLine: "Divine_Knight"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_BRAWLING", "MEAT_SHANK", "FIST_OF_RAGE", "MANA_BOOSTER", "CRITIKILL", "BOOK_OF_THE_WISE", "CARRY_A_BIG_STICK", "FIRMLY_GRASP_IT", "DOUBLE_STRIKE", "ABSOLUTE_UNIT", "WHIRL", "STRENGTH_IN_NUMBERS", "SHOCKWAVE_SLASH", "PRECISION_POWER", "DAGGERANG", "MASTERY_UP", "BRICKY_SKIN", "ORB_OF_REMEMBRANCE", "IMBUED_SHOCKWAVES", "KNIGHTLY_DISCIPLE", "MEGA_MONGORANG", "DIVINE_INTERVENTION", "CHARRED_SKULLS", "THE_FAMILY_GUY", "SYMBOLS_OF_BEYOND_~R", "KING_OF_THE_REMEMBERED", "OVERBLOWN_TESTOSTERONE", "GAMER_STRENGTH"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: "max" }
+          - { talent: "SHARPENED_AXE", target: "max" }
+          - { talent: "IDLE_BRAWLING", target: 50, core: true }
+          - { talent: "MEAT_SHANK", target: "max" }
+          - { talent: "FIST_OF_RAGE", target: "max" }
+          - { talent: "MANA_BOOSTER", target: "max" }
+          - { talent: "CRITIKILL", target: "max" }
+          - { talent: "BOOK_OF_THE_WISE", target: "max", hardCap: true, when: [{ kind: "accuracyShort" }] }
+      - tab: 2
+        steps:
+          - { talent: "CARRY_A_BIG_STICK", target: "max" }
+          - { talent: "FIRMLY_GRASP_IT", target: "max" }
+          - { talent: "DOUBLE_STRIKE", target: 42 }
+          - { talent: "ABSOLUTE_UNIT", target: "max" }
+          - { talent: "WHIRL", target: "max" }
+          - { talent: "STRENGTH_IN_NUMBERS", target: "max" }
+      - tab: 3
+        steps:
+          - { talent: "SHOCKWAVE_SLASH", target: "max" }
+          - { talent: "PRECISION_POWER", target: "max" }
+          - { talent: "DAGGERANG", target: "max" }
+          - { talent: "MASTERY_UP", target: "max" }
+          - { talent: "BRICKY_SKIN", target: 1 }
+      - tab: 4
+        steps:
+          - { talent: "ORB_OF_REMEMBRANCE", target: "max", tie: "a" }
+          - { talent: "IMBUED_SHOCKWAVES", target: "max", tie: "a" }
+          - { talent: "KNIGHTLY_DISCIPLE", target: 1, tie: "b" }
+          - { talent: "MEGA_MONGORANG", target: 1, tie: "b" }
+          - { talent: "DIVINE_INTERVENTION", target: 1, tie: "b" }
+          - { talent: "CHARRED_SKULLS", target: 1, tie: "b" }
+          - { talent: "THE_FAMILY_GUY", target: 1, tie: "b" }
+          - { talent: "SYMBOLS_OF_BEYOND_~R", target: 1, tie: "b" }
+          - { talent: "KNIGHTLY_DISCIPLE", target: "max", tie: "c", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+          - { talent: "MEGA_MONGORANG", target: "max", tie: "c", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+          - { talent: "KING_OF_THE_REMEMBERED", target: "max", tie: "c", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+          - { talent: "OVERBLOWN_TESTOSTERONE", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-late" }] }
+          - { talent: "GAMER_STRENGTH", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-late" }] }
+          - { talent: "SYMBOLS_OF_BEYOND_~R", target: "max", breakpoints: [20, 40, 60, 80, 100, 120, 140, 160], when: [{ kind: "stageAtLeast", stage: "W4-late" }] }
+    attacks: ["KNIGHTLY_DISCIPLE", "SHOCKWAVE_SLASH", "WHIRL", "DAGGERANG", "ORB_OF_REMEMBRANCE", "DIVINE_INTERVENTION"]
+    onePointOk: ["DIVINE_INTERVENTION", "BRICKY_SKIN", "THE_FAMILY_GUY", "CHARRED_SKULLS"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=5vbgk0", title: "BigRav01, Divine Knight - Active - W4 (Toolbox community builds)", tier: 3, claimDate: "2026-10-11", verified: "2026-10-19", gameVersion: "2.3.540", note: "3 likes, 1086 views; created 2026-09-21, updated 2026-10-11; W4; skill bar Orb, Knightly Disciple, Shockwave Slash, Whirl, Daggerang, Divine Intervention, Bricky Skin, Firmly Grasp It" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=be7QEu", title: "Community Guide, Active DK (Toolbox community builds)", tier: 3, claimDate: "2026-10-06", verified: "2026-10-19", gameVersion: "2.3.540", note: "11 likes, 4140 views; created 2026-04-26, updated 2026-10-06; legacy curated import; Knightly Disciple, Mega Mongorang, Imbued Shockwaves 100, excess to Gamer Strength" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=KIfKZY", title: "Airon420, 420 DV Aktiv (Toolbox community builds)", tier: 3, claimDate: "2026-08-25", verified: "2026-10-19", gameVersion: "2.3.540", note: "1 likes, 2714 views; created 2026-05-02, updated 2026-08-25; Orb and King of the Remembered are mid-late game; Symbols of Beyond 1, then in 20-level steps" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=bO4Gxa", title: "Anonymiss, ROYAL GUARDIAN ACTIVE / AFK BUILD 600-800 (Toolbox community builds)", tier: 3, claimDate: "2026-09-21", verified: "2026-10-19", gameVersion: "2.3.540", note: "0 likes, 752 views; created 2026-09-21, updated 2026-09-21; Royal Guardian build; its DK section: AFK takes Charred Skulls, Overblown Testosterone, Gamer Strength, Symbols" }
+      - { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml", title: "Talents guide sheet (Fibster, later Tetsu), linked from the wiki Builds page", tier: 3, claimDate: "2024-07-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "stale; DK fighting: Symbols 1, Divine Intervention 5, Knightly Disciple 5, Imbued 60, Mega 25, Orb max; then Knightly, King, Mega, Imbued max" }
+      - { url: "https://gameslikefinder.com/article/idleon-divine-knight-build-guide/", title: "Gameslikefinder: Divine Knight build guide (damage, AFK and active)", tier: 3, claimDate: "2026-03-09", verified: "2026-10-19", gameVersion: "2.3.540", note: "Divine Intervention 1 > Orb of Remembrance max > Imbued Shockwaves > Knightly Disciple > Mega Mongorang > Symbols > King of the Remembered > Undying Passion" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-entry", to: "W4-late" }], classes: ["Divine_Knight"] }
+    confidence: "M"
+    status: "draft"
+    sourceCount: 6
+    confidenceLabel: "sources agree on tab 4"
+    notes: "Order: BigRav01 W4 (5vbgk0) for tabs 1-4; it skips Idle Brawling (an active build), so the KB core rule (50 Idle Brawling, TR-5) is kept and every other source (be7QEu, KIfKZY, bO4Gxa) maxes it. Steps tie c and later (Knightly Disciple, Mega Mongorang and King of the Remembered to max, Overblown Testosterone, Gamer Strength, Symbols in 20-level steps) are from be7QEu, KIfKZY and the stale wiki-linked sheet, not BigRav01, placed at W4-mid/late by judgment; BigRav01, Gameslikefinder (2026-03-09) and the sheet all lead tab 4 with Orb of Remembrance and Imbued Shockwaves and keep Divine Intervention small, hence M. Disagreement: be7QEu keeps Power Strike and Whirl at 100; BigRav01 drops Power Strike. bO4Gxa (0 likes) says an AFK DK takes Charred Skulls, Overblown Testosterone and Gamer Strength instead of the Orb; kept as the alternative. Gamer Strength scales on Gaming (W5), hence late. Tab 4 needs schema tab: 4 and lineOf() returning Divine_Knight (see the note)."
+
+  - id: "talents.build.divine-knight-skilling"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Divine Knight mining and refinery build"
+    text: "Follow the Divine Knight mining and refinery build"
+    why: "The Squire mining and refinery tabs stay; tab 4 takes one point each in the STR skill talents and Symbols of Beyond, then the Gaming talents once Gaming opens, per the newest DK skilling build."
+    classLine: "Divine_Knight"
+    role: "skilling"
+    serves: ["MINING"]
+    tags: ["BRUTE_EFFICIENCY", "IDLE_SKILLING", "FIST_OF_RAGE", "HEALTH_BOOSTER", "STAR_PLAYER", "BIG_PICK", "COPPER_COLLECTOR", "TOOL_PROFICIENCY", "MOTHERLODE_MINER", "TEMPESTUOUS_EMOTIONS", "ABSOLUTE_UNIT", "FIRMLY_GRASP_IT", "HEALTH_OVERDRIVE", "REFINERY_THROTTLE", "REDOX_RATES", "SHARPER_SAWS", "STR_SUMMORE", "SHIELDIEST_STATUES", "SUPER_SAMPLES", "BACK_TO_BASICS", "SYMBOLS_OF_BEYOND_~R", "SKILL_STRENGTHEN", "OVERBLOWN_TESTOSTERONE", "THE_FAMILY_GUY", "KING_OF_THE_REMEMBERED", "BITTY_LITTY", "1000_HOURS_PLAYED", "UNDYING_PASSION"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "BRUTE_EFFICIENCY", target: "max" }
+          - { talent: "IDLE_SKILLING", target: "max" }
+          - { talent: "FIST_OF_RAGE", target: "max" }
+          - { talent: "HEALTH_BOOSTER", target: "max" }
+          - { talent: "STAR_PLAYER", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "BIG_PICK", target: "max", core: true }
+          - { talent: "COPPER_COLLECTOR", target: "max" }
+          - { talent: "TOOL_PROFICIENCY", target: "max" }
+          - { talent: "MOTHERLODE_MINER", target: "max" }
+          - { talent: "TEMPESTUOUS_EMOTIONS", target: "max" }
+          - { talent: "ABSOLUTE_UNIT", target: "max" }
+          - { talent: "FIRMLY_GRASP_IT", target: "max" }
+          - { talent: "HEALTH_OVERDRIVE", target: "max" }
+      - tab: 3
+        steps:
+          - { talent: "REFINERY_THROTTLE", target: "max" }
+          - { talent: "REDOX_RATES", target: "max" }
+          - { talent: "SHARPER_SAWS", target: "max" }
+          - { talent: "STR_SUMMORE", target: "max" }
+          - { talent: "SHIELDIEST_STATUES", target: "max" }
+          - { talent: "SUPER_SAMPLES", target: "max" }
+          - { talent: "BACK_TO_BASICS", target: "max" }
+      - tab: 4
+        steps:
+          - { talent: "SYMBOLS_OF_BEYOND_~R", target: 1, tie: "a" }
+          - { talent: "SKILL_STRENGTHEN", target: 1, tie: "a" }
+          - { talent: "OVERBLOWN_TESTOSTERONE", target: 1, tie: "a" }
+          - { talent: "THE_FAMILY_GUY", target: 1, tie: "a" }
+          - { talent: "KING_OF_THE_REMEMBERED", target: 1, tie: "a" }
+          - { talent: "KING_OF_THE_REMEMBERED", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+          - { talent: "BITTY_LITTY", target: "max", stageHint: "W5" }
+          - { talent: "1000_HOURS_PLAYED", target: "max", stageHint: "W5" }
+          - { talent: "UNDYING_PASSION", target: "max", stageHint: "W5" }
+    attacks: []
+    onePointOk: ["THE_FAMILY_GUY", "KING_OF_THE_REMEMBERED", "SKILL_STRENGTHEN", "OVERBLOWN_TESTOSTERONE"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=9Rr7r3", title: "BigRav01, Divine Knight - Skilling - W5 (Toolbox community builds)", tier: 3, claimDate: "2026-10-06", verified: "2026-10-19", gameVersion: "2.3.540", note: "1 likes, 432 views; created 2026-09-25, updated 2026-10-06; titled W5; tab 4 Bitty Litty > 1000 Hours Played > Undying Passion, 1 point in the other skill talents" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=GZeKYl", title: "Airon420, 420 DV AFK (Toolbox community builds)", tier: 3, claimDate: "2026-06-21", verified: "2026-10-19", gameVersion: "2.3.540", note: "3 likes, 4134 views; created 2026-05-02, updated 2026-06-21; payload is a DK mining + refinery preset (its text is about ES); tabs 1-3 only" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=CngknO", title: "Sir_Grimtide, Squire/Mining+Construction (Toolbox community builds)", tier: 3, claimDate: "2026-10-19", verified: "2026-10-19", gameVersion: "2.3.540", note: "25 likes, 2965 views; created 2026-06-02, updated 2026-10-19; Squire skilling preset the DK keeps on tabs 1-3" }
+      - { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml", title: "Talents guide sheet (Fibster, later Tetsu), linked from the wiki Builds page", tier: 3, claimDate: "2024-07-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "stale; DK Gaming preset: Symbols 1 > Bitty Litty > Skill Strengthen; then Overblown, Symbols x20, Undying Passion; extra King, 1000 Hours, Family Guy" }
+      - { url: "https://gameslikefinder.com/article/idleon-divine-knight-build-guide/", title: "Gameslikefinder: Divine Knight build guide (Gaming preset, on the mining preset)", tier: 3, claimDate: "2026-03-09", verified: "2026-10-19", gameVersion: "2.3.540", note: "King of the Remembered (max once you have Orb kills) > Bitty Litty > 1000 Hours Played > Symbols > Undying Passion > Skill Strengthen > Overblown" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-entry", to: "W4-late" }], classes: ["Divine_Knight"] }
+    confidence: "L"
+    status: "draft"
+    sourceCount: 4
+    confidenceLabel: "sources disagree"
+    notes: "Tabs 1-3 are the Squire mining + refinery order (9Rr7r3 agrees with CngknO and SFipox). Tab 4: 9Rr7r3 is titled W5 and its three maxed talents are Gaming talents (Gaming is a W5 skill), so they carry stageHint W5 and must not show before then; until W5 the source gives only 1 point each in the skill talents and Symbols. GZeKYl's title and text are about Elemental Sorcerer but its payload is this preset with no tab 4 (an author slip; counted for tabs 1-3 only). King of the Remembered scales on Orb kills (fighting preset) and boosts printer output. Gaming is the DK's skilling specialty per the M26 spec. The stale sheet also leads with Bitty Litty but maxes Skill Strengthen second; BigRav01 (newer) keeps Skill Strengthen at 1. King of the Remembered to max from W4-mid follows Gameslikefinder (printer output; the printer is live from W3) where BigRav01 keeps 1."
+
+  - id: "talents.build.blood-berserker-fighting"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Blood Berserker fighting build"
+    text: "Follow the Blood Berserker fighting build"
+    why: "Damage and Idle Brawling first, Bear Swipe and Axe Hurl now maxed with Monster Decimator, then Ember Bear on tab 4, per the newest W4 Blood Berserker build."
+    classLine: "Blood_Berserker"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_BRAWLING", "MEAT_SHANK", "HEALTH_BOOSTER", "BOOK_OF_THE_WISE", "CARRY_A_BIG_STICK", "STRENGTH_IN_NUMBERS", "FIRMLY_GRASP_IT", "WHIRL", "DOUBLE_STRIKE", "POWER_STRIKE", "MONSTER_DECIMATOR", "AXE_HURL", "BEAR_SWIPE", "EMBER_BEAR", "FEROCITY_STRIKE", "FIRED_UP", "COMBUSTION", "SERRATED_SWIPE", "CHARRED_SKULLS", "SYMBOLS_OF_BEYOND_~R"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: "max" }
+          - { talent: "SHARPENED_AXE", target: "max" }
+          - { talent: "IDLE_BRAWLING", target: 50, core: true }
+          - { talent: "IDLE_BRAWLING", target: "max" }
+          - { talent: "MEAT_SHANK", target: "max" }
+          - { talent: "HEALTH_BOOSTER", target: "max" }
+          - { talent: "BOOK_OF_THE_WISE", target: "max", hardCap: true, when: [{ kind: "accuracyShort" }] }
+      - tab: 2
+        steps:
+          - { talent: "CARRY_A_BIG_STICK", target: "max" }
+          - { talent: "STRENGTH_IN_NUMBERS", target: "max" }
+          - { talent: "FIRMLY_GRASP_IT", target: "max" }
+          - { talent: "WHIRL", target: "max" }
+          - { talent: "DOUBLE_STRIKE", target: 30 }
+          - { talent: "POWER_STRIKE", target: 1 }
+      - tab: 3
+        steps:
+          - { talent: "MONSTER_DECIMATOR", target: "max" }
+          - { talent: "AXE_HURL", target: "max" }
+          - { talent: "BEAR_SWIPE", target: "max" }
+      - tab: 4
+        steps:
+          - { talent: "EMBER_BEAR", target: "max" }
+          - { talent: "FEROCITY_STRIKE", target: 20 }
+          - { talent: "FIRED_UP", target: 1, tie: "a" }
+          - { talent: "COMBUSTION", target: 1, tie: "a" }
+          - { talent: "SERRATED_SWIPE", target: 1, tie: "a" }
+          - { talent: "CHARRED_SKULLS", target: 1, tie: "a" }
+          - { talent: "SYMBOLS_OF_BEYOND_~R", target: 1, tie: "a" }
+    attacks: ["WHIRL", "BEAR_SWIPE", "AXE_HURL", "COMBUSTION", "SERRATED_SWIPE", "POWER_STRIKE"]
+    onePointOk: ["POWER_STRIKE", "FIRED_UP", "COMBUSTION", "SERRATED_SWIPE", "CHARRED_SKULLS", "SYMBOLS_OF_BEYOND_~R"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=cWwA3M", title: "BigRav01, Blood Berserker - AFK - W4 (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "1 likes, 500 views; created 2026-09-20, updated 2026-10-12; W4 AFK; written order per tab, Ember Bear the only tab-4 talent past 20" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=AeQ0Hx", title: "Community Guide, Active Blood Beserker (~150) (Toolbox community builds)", tier: 3, claimDate: "2026-10-06", verified: "2026-10-19", gameVersion: "2.3.540", note: "9 likes, 3516 views; created 2026-04-26, updated 2026-10-06; active ~150, legacy curated import: Ferocity Strike > Fired Up > attacks; Combustion, Serrated Swipe, Ember Bear max" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=DLZQRu", title: "Anonymous, DB for me (Toolbox community builds)", tier: 3, claimDate: "2026-10-11", verified: "2026-10-19", gameVersion: "2.3.540", note: "1 likes, 532 views; created 2026-09-27, updated 2026-10-11; a Death Bringer's levels: every BB talent about 141, Charred Skulls 97, Tough Steaks 42" }
+      - { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml", title: "Talents guide sheet (Fibster, later Tetsu), linked from the wiki Builds page", tier: 3, claimDate: "2024-07-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "stale; BB fighting: Symbols 1 > Fired Up, Serrated Swipe, Combustion 5 > Overblown, Charred Skulls max; then Serrated, Fired Up max, Ember Bear 30" }
+      - { url: "https://gameslikefinder.com/article/idleon-blood-berserker-build-guide/", title: "Gameslikefinder: Blood Berserker build guide (damage)", tier: 3, claimDate: "2026-03-28", verified: "2026-10-19", gameVersion: "2.3.540", note: "Charred Skulls > Fired Up > Combustion > Serrated Swipe > Ember Bear > Symbols > Overblown Testosterone > Tough Steaks > Ferocity Strike" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-entry", to: "W4-late" }], classes: ["Blood_Berserker"] }
+    confidence: "L"
+    status: "draft"
+    sourceCount: 5
+    confidenceLabel: "sources disagree"
+    notes: "Order: BigRav01 W4 AFK (cWwA3M), the only dated AFK BB order. It drops No Pain No Gain, Apocalypse Zow and Str Summore from the Barbarian build, and maxes Bear Swipe and Axe Hurl (25 before). The ~150 Barbarian AFK guide (3HAFdX) keeps No Pain No Gain 160 and Zow 132: that is the alternative for players who already have them. Gameslikefinder (2026-03-28) leads with Charred Skulls and the three inflame attacks, Ember Bear fifth; the stale sheet leads with Overblown Testosterone and Charred Skulls max and keeps Ember Bear at 30 until late. The active guide AeQ0Hx maxes Combustion and Serrated Swipe and puts Ferocity Strike at 80 (active play). Bar order is not given; attacks lists the levelled attack talents. Ember Bear is a passive on Bear Swipe (data)."
+
+  - id: "talents.build.blood-berserker-skilling"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Blood Berserker fishing build"
+    text: "Follow the Blood Berserker fishing build"
+    why: "The Barbarian fishing tabs stay; tab 4 takes Symbols of Beyond, then Overblown Testosterone and Skill Strengthen, and the cooking talents after, per the most-liked current Barbarian build."
+    classLine: "Blood_Berserker"
+    role: "skilling"
+    serves: ["FISHING"]
+    tags: ["BRUTE_EFFICIENCY", "IDLE_SKILLING", "FIST_OF_RAGE", "ABSOLUTE_UNIT", "FIRMLY_GRASP_IT", "'STR'ESS_TESTED_GARB", "HAUNGRY_FOR_GOLD", "TEMPESTUOUS_EMOTIONS", "WORMING_UNDERCOVER", "BOBBIN'_BOBBERS", "ALL_FISH_DIET", "CATCHING_SOME_ZZZ'S", "STR_SUMMORE", "STRONGEST_STATUES", "FISTFUL_OF_OBOL", "SYMBOLS_OF_BEYOND_~R", "OVERBLOWN_TESTOSTERONE", "SKILL_STRENGTHEN", "WAITING_TO_COOL", "OVERFLOWING_LADLE", "APOCALYPSE_CHOW"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "BRUTE_EFFICIENCY", target: "max" }
+          - { talent: "IDLE_SKILLING", target: "max" }
+          - { talent: "FIST_OF_RAGE", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "ABSOLUTE_UNIT", target: "max" }
+          - { talent: "FIRMLY_GRASP_IT", target: "max" }
+          - { talent: "'STR'ESS_TESTED_GARB", target: "max" }
+          - { talent: "HAUNGRY_FOR_GOLD", target: "max" }
+          - { talent: "TEMPESTUOUS_EMOTIONS", target: "max" }
+      - tab: 3
+        steps:
+          - { talent: "WORMING_UNDERCOVER", target: "max", core: true }
+          - { talent: "BOBBIN'_BOBBERS", target: "max" }
+          - { talent: "ALL_FISH_DIET", target: "max" }
+          - { talent: "CATCHING_SOME_ZZZ'S", target: "max" }
+          - { talent: "STR_SUMMORE", target: "max" }
+          - { talent: "STRONGEST_STATUES", target: "max" }
+          - { talent: "FISTFUL_OF_OBOL", target: "max" }
+      - tab: 4
+        steps:
+          - { talent: "SYMBOLS_OF_BEYOND_~R", target: "max" }
+          - { talent: "OVERBLOWN_TESTOSTERONE", target: "max" }
+          - { talent: "SKILL_STRENGTHEN", target: "max" }
+          - { talent: "WAITING_TO_COOL", target: "max" }
+          - { talent: "OVERFLOWING_LADLE", target: "max" }
+          - { talent: "APOCALYPSE_CHOW", target: "max" }
+    attacks: []
+    onePointOk: []
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=ih5wAK", title: "Sir_Grimtide, Barbarian/Fishing (Toolbox community builds)", tier: 3, claimDate: "2026-10-19", verified: "2026-10-19", gameVersion: "2.3.540", note: "41 likes, 5507 views; created 2026-06-01, updated 2026-10-19; skilling preset TAB 4: Symbols of Beyond > Overblown Testosterone > Skill Strengthen; then optional, mostly cooking" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=SzHDi5", title: "BigRav01, Blood Berserker - Skilling - W4 (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "1 likes, 427 views; created 2026-09-20, updated 2026-10-12; W4 skilling: tab 4 Waiting To Cool > Overflowing Ladle; Apocalypse Chow once many maps have 1M kills" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=RF2TZ7", title: "Community Guide, Ultimate Skiller (200+) (Toolbox community builds)", tier: 3, claimDate: "2026-10-06", verified: "2026-10-19", gameVersion: "2.3.540", note: "10 likes, 2338 views; created 2026-04-26, updated 2026-10-06; 200+ skiller, legacy curated import: tab 4 Apocalypse Chow > Waiting To Cool > Taste Test > Overflowing Ladle" }
+      - { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml", title: "Talents guide sheet (Fibster, later Tetsu), linked from the wiki Builds page", tier: 3, claimDate: "2024-07-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "stale; BB Cooking preset: Symbols 1 > Waiting To Cool 60 > Overflowing Ladle max > Apocalypse Chow 60; 'this class is meant to stay in kitchen'" }
+      - { url: "https://gameslikefinder.com/article/idleon-blood-berserker-build-guide/", title: "Gameslikefinder: Blood Berserker build guide (cooking)", tier: 3, claimDate: "2026-03-28", verified: "2026-10-19", gameVersion: "2.3.540", note: "Overflowing Ladle > Waiting To Cool > Apocalypse Chow > Symbols > Skill Strengthen > Overblown Testosterone > Taste Test" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-entry", to: "W4-late" }], classes: ["Blood_Berserker"] }
+    confidence: "M"
+    status: "draft"
+    sourceCount: 5
+    confidenceLabel: "sources disagree"
+    notes: "Kept: Sir_Grimtide (ih5wAK, 41 likes, updated 2026-10-19), the most-liked and newest; its tab 4 ends with 'optional: mostly cooking', so the three cooking steps after it follow BigRav01's order (SzHDi5), which the stale sheet's Cooking preset shares. Alternative: RF2TZ7 (200+, 10 likes) puts Apocalypse Chow first and adds Taste Test; Apocalypse Chow pays per map with 1M kills (data), so it rises late. Supersedes the kb-drafts/talents.yaml draft of the same id (tab 4 only, serves FISHING, MINING, COOKING). A separate cooking preset would need a second skilling Build per line, which the schema does not allow."
+
+  - id: "talents.build.siege-breaker-fighting"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Siege Breaker fighting build"
+    text: "Follow the Siege Breaker fighting build"
+    why: "Damage and Idle Shooting first, Speedna and Homing Arrows on tab 3, then Suppressing Fire and Archlord of the Pirates on tab 4, per the only dated Siege Breaker build."
+    classLine: "Siege_Breaker"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_SHOOTING", "MANA_BOOSTER", "QUICKNESS_BOOTS", "FIST_OF_RAGE", "HIGH_POLYMER_LIMBS", "VEINS_OF_THE_INFERNAL", "HAVE_ANOTHER!", "STRAFE", "PIERCING_ARROW", "SANIC_SPEED", "SPEEDNA", "HOMING_ARROWS", "FLAX_INSTASTRING", "EXTENDO_RANGEO", "MAGIC_SHORTBOW", "SUPPRESSING_FIRE", "ARCHLORD_OF_THE_PIRATES", "PIRATE_FLAG", "CANNONBALL", "FIREBOMB", "PLUNDER_YE_DECEASED", "STACKED_SKULLS", "THE_FAMILY_GUY", "SYMBOLS_OF_BEYOND_~G", "ADAPTATION_REVELATION"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: "max" }
+          - { talent: "SHARPENED_AXE", target: "max" }
+          - { talent: "IDLE_SHOOTING", target: 50, core: true }
+          - { talent: "IDLE_SHOOTING", target: "max" }
+          - { talent: "MANA_BOOSTER", target: "max" }
+          - { talent: "QUICKNESS_BOOTS", target: "max" }
+          - { talent: "FIST_OF_RAGE", target: "max", hardCap: true, when: [{ kind: "accuracyShort" }] }
+      - tab: 2
+        steps:
+          - { talent: "HIGH_POLYMER_LIMBS", target: "max" }
+          - { talent: "VEINS_OF_THE_INFERNAL", target: "max" }
+          - { talent: "HAVE_ANOTHER!", target: 14 }
+          - { talent: "STRAFE", target: "max" }
+          - { talent: "PIERCING_ARROW", target: "max" }
+          - { talent: "SANIC_SPEED", target: "max" }
+      - tab: 3
+        steps:
+          - { talent: "SPEEDNA", target: "max" }
+          - { talent: "HOMING_ARROWS", target: "max" }
+          - { talent: "FLAX_INSTASTRING", target: "max" }
+          - { talent: "EXTENDO_RANGEO", target: "max" }
+          - { talent: "MAGIC_SHORTBOW", target: 1 }
+      - tab: 4
+        steps:
+          - { talent: "SUPPRESSING_FIRE", target: "max" }
+          - { talent: "ARCHLORD_OF_THE_PIRATES", target: "max" }
+          - { talent: "PIRATE_FLAG", target: 1, tie: "a" }
+          - { talent: "CANNONBALL", target: 1, tie: "a" }
+          - { talent: "FIREBOMB", target: 1, tie: "a" }
+          - { talent: "PLUNDER_YE_DECEASED", target: 1, tie: "a" }
+          - { talent: "STACKED_SKULLS", target: 1, tie: "a" }
+          - { talent: "THE_FAMILY_GUY", target: 1, tie: "a" }
+          - { talent: "SYMBOLS_OF_BEYOND_~G", target: 1, tie: "a" }
+          - { talent: "PLUNDER_YE_DECEASED", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+          - { talent: "ADAPTATION_REVELATION", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+          - { talent: "SYMBOLS_OF_BEYOND_~G", target: "max", breakpoints: [20, 40, 60, 80, 100, 120, 140, 160], when: [{ kind: "stageAtLeast", stage: "W4-late" }] }
+    attacks: ["PIRATE_FLAG", "HOMING_ARROWS", "SUPPRESSING_FIRE", "CANNONBALL", "PIERCING_ARROW", "FIREBOMB", "EXTENDO_RANGEO"]
+    onePointOk: ["MAGIC_SHORTBOW", "PIRATE_FLAG", "CANNONBALL", "FIREBOMB", "STACKED_SKULLS", "THE_FAMILY_GUY"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=Z7fjwI", title: "BigRav01, Siege Breaker - AFK - W4 (Toolbox community builds)", tier: 3, claimDate: "2026-10-17", verified: "2026-10-19", gameVersion: "2.3.540", note: "1 likes, 613 views; created 2026-09-20, updated 2026-10-17; W4 AFK; skill bar Pirate Flag, Homing Arrows, Suppressing Fire, Cannonball, Piercing Arrow, Firebomb, Extendo, Strafe" }
+      - { url: "https://gameslikefinder.com/article/idleon-siege-breaker-build-guide/", title: "Gameslikefinder: Siege Breaker build guide (damage preset)", tier: 3, claimDate: "2026-05-26", verified: "2026-10-19", gameVersion: "2.3.540", note: "Pirate Flag 1, Plunder Ye Deceased max, attacks 1 then the rest into Suppressing Fire; Symbols 1 > Archlord > Adaptation Revelation > Stacked Skulls" }
+      - { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml", title: "Talents guide sheet (Fibster, later Tetsu), linked from the wiki Builds page", tier: 3, claimDate: "2024-07-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "stale; SB fighting: Symbols 1 > Pirate Flag 1 > Cannonball = Suppressing Fire = Firebomb 5 > Plunder max; then Archlord max, Symbols x20" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-entry", to: "W4-late" }], classes: ["Siege_Breaker"] }
+    confidence: "L"
+    status: "draft"
+    sourceCount: 3
+    confidenceLabel: "sources disagree"
+    notes: "Kept: BigRav01 (Z7fjwI, 1 like, updated 2026-10-17), the newest and the only W4-labelled order. Agreement across all three: Suppressing Fire is the main attack and Archlord of the Pirates is the long-term talent. Disagreement: Plunder Ye Deceased is maxed early by Gameslikefinder (2026-05-26) and the stale sheet but kept at 1 by BigRav01; it is placed at W4-mid. Adaptation Revelation follows Gameslikefinder and the sheet. A GriffyBit video (2025-11-28, W7 era, URL not captured) says SB move speed is now capped, so Speedna loses value late; not applied at W4. Its written tab-1 order starts Gilded Sword, but the payload omits Gilded Sword: the written order is kept. Fist of Rage is 'as needed' (STR is the Archer accuracy stat). Idle Shooting 50 is the KB core rule. Archlord pays EXP and drop rate to every character per power of 10 Plunderous kills (data), which is why Pirate Flag and Plunder stay at 1. Rift 16 needs a Pirate Flag score of 75 (class-bowman dossier C30)."
+
+  - id: "talents.build.siege-breaker-skilling"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Siege Breaker catching build"
+    text: "Follow the Siege Breaker catching build"
+    why: "The Bowman catching tabs stay; tab 4 takes Symbols of Beyond, then Adaptation Revelation and Skill Ambidexterity, per the most-liked current Bowman build."
+    classLine: "Siege_Breaker"
+    role: "skilling"
+    serves: ["CATCHING"]
+    tags: ["ELUSIVE_EFFICIENCY", "QUICKNESS_BOOTS", "BROKEN_TIME", "GARB_OF_UN'AGI'NG_QUALITY", "SANIC_SPEED", "FOCUSED_SOUL", "ACME_ANVIL", "YEA_I_ALREADY_KNOW", "GODLY_CREATION", "TELEKI'NET'IC_LOGS", "BRIAR_PATCH_RUNNER", "BUG_ENTHUSIAST", "SUNSET_ON_THE_HIVES", "AGI_AGAIN", "SHWIFTY_STATUES", "SYMBOLS_OF_BEYOND_~G", "ADAPTATION_REVELATION", "SKILL_AMBIDEXTERITY", "EXPERTLY_SAILED", "CAPTAIN_PEPTALK", "THE_FAMILY_GUY"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "ELUSIVE_EFFICIENCY", target: "max" }
+          - { talent: "QUICKNESS_BOOTS", target: "max" }
+          - { talent: "BROKEN_TIME", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "GARB_OF_UN'AGI'NG_QUALITY", target: "max" }
+          - { talent: "SANIC_SPEED", target: "max" }
+          - { talent: "FOCUSED_SOUL", target: "max" }
+          - { talent: "ACME_ANVIL", target: "max" }
+          - { talent: "YEA_I_ALREADY_KNOW", target: "max" }
+          - { talent: "GODLY_CREATION", target: "max" }
+      - tab: 3
+        steps:
+          - { talent: "TELEKI'NET'IC_LOGS", target: "max" }
+          - { talent: "BRIAR_PATCH_RUNNER", target: "max" }
+          - { talent: "BUG_ENTHUSIAST", target: "max" }
+          - { talent: "SUNSET_ON_THE_HIVES", target: "max" }
+          - { talent: "AGI_AGAIN", target: "max" }
+          - { talent: "SHWIFTY_STATUES", target: "max" }
+      - tab: 4
+        steps:
+          - { talent: "SYMBOLS_OF_BEYOND_~G", target: "max" }
+          - { talent: "ADAPTATION_REVELATION", target: "max" }
+          - { talent: "SKILL_AMBIDEXTERITY", target: "max" }
+          - { talent: "EXPERTLY_SAILED", target: "max", stageHint: "W5" }
+          - { talent: "CAPTAIN_PEPTALK", target: "max", stageHint: "W5" }
+          - { talent: "THE_FAMILY_GUY", target: "max", stageHint: "W5" }
+    attacks: []
+    onePointOk: []
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=b0sGrY", title: "Sir_Grimtide, Bowman/Catching (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "29 likes, 5223 views; created 2026-06-02, updated 2026-10-12; skilling preset TAB 4: Symbols of Beyond > Adaptation Revelation > Skill Ambidexterity" }
+      - { url: "https://gameslikefinder.com/article/idleon-siege-breaker-build-guide/", title: "Gameslikefinder: Siege Breaker build guide (Sailing preset)", tier: 3, claimDate: "2026-05-26", verified: "2026-10-19", gameVersion: "2.3.540", note: "Sailing preset, paired with the catching preset: Unending Loot Search 0 or max; Expertly Sailed > Captain Peptalk > Symbols > Family Guy > Skill Ambidexterity" }
+      - { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml", title: "Talents guide sheet (Fibster, later Tetsu), linked from the wiki Builds page", tier: 3, claimDate: "2024-07-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "stale; SB skilling: Symbols 1 > Skill Ambidexterity max; then Symbols x20 > Agi Again > Archlord > Family Guy; extra Peptalk, Expertly Sailed" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-entry", to: "W4-late" }], classes: ["Siege_Breaker"] }
+    confidence: "L"
+    status: "draft"
+    sourceCount: 3
+    confidenceLabel: "sources disagree"
+    notes: "Kept: Sir_Grimtide (b0sGrY, 29 likes, updated 2026-10-12), whose tabs 1-3 are the live bowman-skilling Build. The stale sheet puts Skill Ambidexterity before Adaptation Revelation. Sailing opens in W5, so the Sailing steps from Gameslikefinder carry stageHint W5. Unending Loot Search is left to the player: off while hunting artifacts (wiki Tips and Tricks; Jehdrid, 2025-06-03), on for materials. Adaptation Revelation also raises Quickness Boots' max level (data), which the tab-1 step uses."
+
+  - id: "talents.build.beast-master-fighting"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Beast Master fighting build"
+    text: "Follow the Beast Master fighting build"
+    why: "The Hunter fighting tabs stay; tab 4 maxes Whale Wallop with 1 point in the other summons and 14 in Have Yet Anotha One, per the newest W4 Beast Master build."
+    classLine: "Beast_Master"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_SHOOTING", "MANA_BOOSTER", "FIST_OF_RAGE", "HEALTH_BOOSTER", "QUICKNESS_BOOTS", "PIERCING_ARROW", "KUNG_FU_KICK", "HIGH_POLYMER_LIMBS", "VEINS_OF_THE_INFERNAL", "STRAFE", "HAVE_ANOTHER!", "LOOTY_MC_SHOOTY", "BEAR_TRAP", "UWU_RAWRRR", "HAVE_ANOTHER..._AGAIN!", "360_NOSCOPE", "PREVIOUS_POINTS", "WHALE_WALLOP", "HAVE_YET_ANOTHA_ONE", "BALLISTA", "BOAR_RUSH", "NACHO_PARTY", "SYMBOLS_OF_BEYOND_~G", "ADAPTATION_REVELATION", "ANIMALISTIC_FEROCITY", "STACKED_SKULLS"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: "max" }
+          - { talent: "SHARPENED_AXE", target: "max" }
+          - { talent: "IDLE_SHOOTING", target: 50, core: true }
+          - { talent: "IDLE_SHOOTING", target: "max" }
+          - { talent: "MANA_BOOSTER", target: "max" }
+          - { talent: "FIST_OF_RAGE", target: "max", hardCap: true, when: [{ kind: "accuracyShort" }] }
+          - { talent: "HEALTH_BOOSTER", target: "max", tie: "a" }
+          - { talent: "QUICKNESS_BOOTS", target: "max", tie: "a" }
+      - tab: 2
+        steps:
+          - { talent: "PIERCING_ARROW", target: 1, tie: "a" }
+          - { talent: "KUNG_FU_KICK", target: 1, tie: "a" }
+          - { talent: "HIGH_POLYMER_LIMBS", target: "max" }
+          - { talent: "VEINS_OF_THE_INFERNAL", target: "max" }
+          - { talent: "PIERCING_ARROW", target: "max", tie: "b" }
+          - { talent: "STRAFE", target: "max", tie: "b" }
+          - { talent: "HAVE_ANOTHER!", target: 14, tie: "b" }
+      - tab: 3
+        steps:
+          - { talent: "LOOTY_MC_SHOOTY", target: "max" }
+          - { talent: "BEAR_TRAP", target: "max" }
+          - { talent: "UWU_RAWRRR", target: "max" }
+          - { talent: "HAVE_ANOTHER..._AGAIN!", target: 14 }
+          - { talent: "360_NOSCOPE", target: "max" }
+          - { talent: "PREVIOUS_POINTS", target: "max" }
+      - tab: 4
+        steps:
+          - { talent: "WHALE_WALLOP", target: "max" }
+          - { talent: "HAVE_YET_ANOTHA_ONE", target: 14 }
+          - { talent: "BALLISTA", target: 1, tie: "a" }
+          - { talent: "BOAR_RUSH", target: 1, tie: "a" }
+          - { talent: "NACHO_PARTY", target: 1, tie: "a" }
+          - { talent: "SYMBOLS_OF_BEYOND_~G", target: 1, tie: "a" }
+          - { talent: "ADAPTATION_REVELATION", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+          - { talent: "ANIMALISTIC_FEROCITY", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+          - { talent: "STACKED_SKULLS", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-late" }] }
+    attacks: ["UWU_RAWRRR", "WHALE_WALLOP", "BEAR_TRAP", "PIERCING_ARROW", "BALLISTA", "NACHO_PARTY", "BOAR_RUSH"]
+    onePointOk: ["KUNG_FU_KICK", "BALLISTA", "BOAR_RUSH", "NACHO_PARTY", "SYMBOLS_OF_BEYOND_~G"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=MDGrBz", title: "BigRav01, Beast Master - AFK - W4 (Toolbox community builds)", tier: 3, claimDate: "2026-10-13", verified: "2026-10-19", gameVersion: "2.3.540", note: "1 likes, 461 views; created 2026-09-20, updated 2026-10-13; W4 AFK; payload Strafe 'MAX1' (max, in the split with Piercing Arrow and Have Another!), Kung Fu Kick 1" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=jcQXsb", title: "DeathZon3, Damage Preset (Toolbox community builds)", tier: 3, claimDate: "2026-10-06", verified: "2026-10-19", gameVersion: "2.3.540", note: "7 likes, 2553 views; created 2026-04-22, updated 2026-10-06; damage preset, no written order: Ballista, Boar Rush, Whale Wallop, Nacho Party 25 each" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=pNfw12", title: "Community Guide, Beast Master Colosseum Clearer (200+) (Toolbox community builds)", tier: 3, claimDate: "2026-09-06", verified: "2026-10-19", gameVersion: "2.3.540", note: "2 likes, 2042 views; created 2026-04-26, updated 2026-09-06; Colosseum 200+, legacy curated import: Ballista, Boar Rush, Whale Wallop 100, Nacho Party 1" }
+      - { url: "https://gameslikefinder.com/article/idleon-beast-master-build-guide/", title: "Gameslikefinder: Beast Master build guide (damage preset)", tier: 3, claimDate: "2026-05-26", verified: "2026-10-19", gameVersion: "2.3.540", note: "Whale Wallop at least 1 (more if active), Ballista, Boar Rush, Nacho Party 1; then Symbols > Adaptation Revelation > Animalistic Ferocity > Stacked Skulls" }
+      - { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml", title: "Talents guide sheet (Fibster, later Tetsu), linked from the wiki Builds page", tier: 3, claimDate: "2024-07-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "stale; BM fighting: Symbols 1 > the four summons 5 each > Adaptation max; then Boar Rush, Whale, Nacho, Animalistic Ferocity max, Symbols x20" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-entry", to: "W4-late" }], classes: ["Beast_Master"] }
+    confidence: "L"
+    status: "draft"
+    sourceCount: 5
+    confidenceLabel: "sources disagree"
+    notes: "Order: BigRav01 (MDGrBz), the only dated written order; tabs 1-3 equal the live hunter-fighting Build, which was transcribed from the same build. DeathZon3 (jcQXsb, 7 likes, the most liked) gives levels only: 25 in each of the four summons. Kept the ordered source and recorded 25-each as the alternative. The W4-mid steps (Adaptation Revelation, Animalistic Ferocity, then Stacked Skulls) are where Gameslikefinder (2026-05-26) and the stale sheet agree; the sheet maxes all four summons where Gameslikefinder keeps three at 1. Re-read 2026-10-19: MDGrBz has STRAFE 'MAX1' and PIERCING_ARROW 'MAX1' (max, footnote 1 'split between 1 & 4 & 5'), so the kb-drafts patch to Strafe 1 misread it; Strafe max stands."
+
+  - id: "talents.build.beast-master-skilling"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Beast Master trapping and breeding build"
+    text: "Follow the Beast Master trapping and breeding build"
+    why: "The Hunter trapping tabs stay; tab 4 takes Skill Ambidexterity and The Family Guy for trapping, then Curviture of the Paw and Shining Beacon of Egg for breeding, per the newest W4 Beast Master build."
+    classLine: "Beast_Master"
+    role: "skilling"
+    serves: []
+    tags: ["ELUSIVE_EFFICIENCY", "BROKEN_TIME", "BOOK_OF_THE_WISE", "STAR_PLAYER", "FOCUSED_SOUL", "ACME_ANVIL", "YEA_I_ALREADY_KNOW", "SANIC_SPEED", "EAGLE_EYE", "INVASIVE_SPECIES", "STOP_RIGHT_THERE", "REFLECTIVE_EYESIGHT", "SHROOM_BAIT", "SYMBOLS_OF_BEYOND_~G", "SKILL_AMBIDEXTERITY", "THE_FAMILY_GUY", "CURVITURE_OF_THE_PAW", "ARENA_SPIRIT", "SHINING_BEACON_OF_EGG", "I_DREAM_OF_PEACE_AND_EGG", "ADAPTATION_REVELATION"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "ELUSIVE_EFFICIENCY", target: "max" }
+          - { talent: "BROKEN_TIME", target: "max" }
+          - { talent: "BOOK_OF_THE_WISE", target: "max" }
+          - { talent: "STAR_PLAYER", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "FOCUSED_SOUL", target: "max" }
+          - { talent: "ACME_ANVIL", target: "max" }
+          - { talent: "YEA_I_ALREADY_KNOW", target: "max" }
+          - { talent: "SANIC_SPEED", target: "max" }
+      - tab: 3
+        steps:
+          - { talent: "EAGLE_EYE", target: "max" }
+          - { talent: "INVASIVE_SPECIES", target: "max" }
+          - { talent: "STOP_RIGHT_THERE", target: "max" }
+          - { talent: "REFLECTIVE_EYESIGHT", target: "max" }
+          - { talent: "SHROOM_BAIT", target: "max" }
+      - tab: 4
+        steps:
+          - { talent: "SYMBOLS_OF_BEYOND_~G", target: 1 }
+          - { talent: "SKILL_AMBIDEXTERITY", target: "max" }
+          - { talent: "THE_FAMILY_GUY", target: "max" }
+          - { talent: "CURVITURE_OF_THE_PAW", target: "max" }
+          - { talent: "ARENA_SPIRIT", target: 1 }
+          - { talent: "SHINING_BEACON_OF_EGG", target: "max" }
+          - { talent: "ARENA_SPIRIT", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+          - { talent: "I_DREAM_OF_PEACE_AND_EGG", target: "max", tie: "a" }
+          - { talent: "ADAPTATION_REVELATION", target: "max", tie: "a" }
+    attacks: []
+    onePointOk: ["360_NOSCOPE"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=3gARZB", title: "BigRav01, Beast Master - Skilling - W4 (Toolbox community builds)", tier: 3, claimDate: "2026-10-13", verified: "2026-10-19", gameVersion: "2.3.540", note: "2 likes, 397 views; created 2026-09-20, updated 2026-10-13; W4 skilling; tab 4 trapping: Skill Ambidexterity > The Family Guy; breeding: Curviture of the Paw > Arena Spirit > Shining Beacon" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=6w55Am", title: "DeathZon3, Vlegga preset 1 (Toolbox community builds)", tier: 3, claimDate: "2026-10-06", verified: "2026-10-19", gameVersion: "2.3.540", note: "3 likes, 1220 views; created 2026-04-22, updated 2026-10-06; trapping + breeding preset, levels only: also maxes I Dream of Peace and Egg and Adaptation Revelation" }
+      - { url: "https://gameslikefinder.com/article/idleon-beast-master-build-guide/", title: "Gameslikefinder: Beast Master build guide (Breeding preset)", tier: 3, claimDate: "2026-05-26", verified: "2026-10-19", gameVersion: "2.3.540", note: "on the trapping preset: Shining Beacon > Curviture of the Paw > Arena Spirit 1, max Symbols, then finish Arena Spirit > Skill Ambidexterity > Adaptation" }
+      - { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml", title: "Talents guide sheet (Fibster, later Tetsu), linked from the wiki Builds page", tier: 3, claimDate: "2024-07-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "stale; BM skilling: Symbols 1 > Curviture max > Arena Spirit max; then Symbols x20 > Shining Beacon > Skill Ambidexterity > Adaptation" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-entry", to: "W4-late" }], classes: ["Beast_Master"] }
+    confidence: "M"
+    status: "draft"
+    sourceCount: 4
+    confidenceLabel: "sources agree"
+    notes: "Order: BigRav01 (3gARZB), tabs 1-3 equal to the live hunter-skilling Build. Every source puts Curviture of the Paw, Shining Beacon of Egg and Arena Spirit at the top of the breeding talents; Arena Spirit to max from W4-mid follows Gameslikefinder and the sheet. The two tie-a steps are from DeathZon3 (6w55Am, 3 likes), which maxes them with no order; a Cinderbane breeding video (2025-03-22, 68k views, URL not captured) rates I Dream of Peace and Egg low. Kung Fu Kick and Stop Right There are Tower Defence points in 3gARZB; Kung Fu Kick stays the player's choice as in hunter-skilling. Breeding talents work 'no matter which player you hatch eggs on' (data), so one BM per account is enough for them. serves [] like hunter-skilling."
+
+  - id: "talents.build.elemental-sorcerer-fighting"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Elemental Sorcerer fighting build"
+    text: "Follow the Elemental Sorcerer fighting build"
+    why: "The Wizard damage tabs stay, Floor Is Lava and Tornado now high; tab 4 maxes Dimensional Wormhole and Utmost Intellect, then Meteor Shower and Lightning Barrage, per the most-liked ES build."
+    classLine: "Elemental_Sorcerer"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_CASTING", "OVERCLOCKED_ENERGY", "MANA_BOOSTER", "BOOK_OF_THE_WISE", "FARSIGHT", "LUCKY_CLOVER", "POWER_OVERWHELMING", "KNOWLEDGE_IS_POWER", "MANA_OVERDRIVE", "UNT'WIS'TED_ROBES", "INDIVIDUAL_INSIGHT", "MINI_FIREBALL", "YOU'RE_NEXT", "CHOPPIN_IT_UP_EZ", "PAPERWORK,_GREAT...", "WIS_WUMBO", "MANA_IS_LIFE", "FLOOR_IS_LAVA", "TORNADO", "EARLIER_EDUCATION", "DIMENSIONAL_WORMHOLE", "UTMOST_INTELLECT", "METEOR_SHOWER", "LIGHTNING_BARRAGE", "RADIANT_CHAINBOLT", "CHAOTIC_FORCE", "BELIEVER_STRENGTH", "MEMORIAL_SKULLS", "SKILL_WIZ", "THE_FAMILY_GUY", "SYMBOLS_OF_BEYOND_~P", "POLYTHEISM", "WORMHOLE_EMPEROR", "GODS_CHOSEN_CHILDREN"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: "max", tie: "a" }
+          - { talent: "SHARPENED_AXE", target: "max", tie: "a" }
+          - { talent: "IDLE_CASTING", target: 50, core: true }
+          - { talent: "OVERCLOCKED_ENERGY", target: "max", tie: "b" }
+          - { talent: "MANA_BOOSTER", target: "max", tie: "b" }
+          - { talent: "BOOK_OF_THE_WISE", target: "max", tie: "b" }
+          - { talent: "FARSIGHT", target: 1, tie: "c" }
+          - { talent: "LUCKY_CLOVER", target: 1, tie: "c" }
+      - tab: 2
+        steps:
+          - { talent: "POWER_OVERWHELMING", target: "max", tie: "a" }
+          - { talent: "KNOWLEDGE_IS_POWER", target: "max", tie: "a" }
+          - { talent: "MANA_OVERDRIVE", target: "max", tie: "a" }
+          - { talent: "UNT'WIS'TED_ROBES", target: "max", tie: "a" }
+          - { talent: "INDIVIDUAL_INSIGHT", target: "max", tie: "a" }
+          - { talent: "MINI_FIREBALL", target: 1, tie: "b" }
+          - { talent: "YOU'RE_NEXT", target: 1, tie: "b" }
+          - { talent: "CHOPPIN_IT_UP_EZ", target: 1, tie: "b" }
+      - tab: 3
+        steps:
+          - { talent: "PAPERWORK,_GREAT...", target: "max", tie: "a" }
+          - { talent: "WIS_WUMBO", target: "max", tie: "a" }
+          - { talent: "MANA_IS_LIFE", target: "max", tie: "a" }
+          - { talent: "FLOOR_IS_LAVA", target: "max", tie: "a" }
+          - { talent: "TORNADO", target: "max" }
+          - { talent: "EARLIER_EDUCATION", target: 1 }
+      - tab: 4
+        steps:
+          - { talent: "DIMENSIONAL_WORMHOLE", target: "max", tie: "a" }
+          - { talent: "UTMOST_INTELLECT", target: "max", tie: "a" }
+          - { talent: "METEOR_SHOWER", target: "max", tie: "b" }
+          - { talent: "LIGHTNING_BARRAGE", target: "max", tie: "b" }
+          - { talent: "RADIANT_CHAINBOLT", target: 1, tie: "c" }
+          - { talent: "CHAOTIC_FORCE", target: 1, tie: "c" }
+          - { talent: "BELIEVER_STRENGTH", target: 1, tie: "c" }
+          - { talent: "MEMORIAL_SKULLS", target: 1, tie: "c" }
+          - { talent: "SKILL_WIZ", target: 1, tie: "c" }
+          - { talent: "THE_FAMILY_GUY", target: 1, tie: "c" }
+          - { talent: "SYMBOLS_OF_BEYOND_~P", target: 1, tie: "c" }
+          - { talent: "SYMBOLS_OF_BEYOND_~P", target: "max", breakpoints: [20, 40, 60, 80, 100, 120, 140, 160], when: [{ kind: "stageAtLeast", stage: "W4-late" }] }
+          - { talent: "POLYTHEISM", target: "max", stageHint: "W5" }
+          - { talent: "WORMHOLE_EMPEROR", target: "max", stageHint: "W5" }
+          - { talent: "GODS_CHOSEN_CHILDREN", target: "max", stageHint: "W5" }
+    attacks: ["DIMENSIONAL_WORMHOLE", "METEOR_SHOWER", "LIGHTNING_BARRAGE", "RADIANT_CHAINBOLT", "FLOOR_IS_LAVA", "TORNADO"]
+    onePointOk: ["MINI_FIREBALL", "YOU'RE_NEXT", "CHOPPIN_IT_UP_EZ", "EARLIER_EDUCATION", "RADIANT_CHAINBOLT", "CHAOTIC_FORCE", "BELIEVER_STRENGTH", "MEMORIAL_SKULLS", "SKILL_WIZ", "THE_FAMILY_GUY"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=sAE4oV", title: "Community Guide, Combat ES (Mostly Active) (Toolbox community builds)", tier: 3, claimDate: "2026-10-07", verified: "2026-10-19", gameVersion: "2.3.540", note: "10 likes, 3964 views; created 2026-04-26, updated 2026-10-07; mostly active, legacy curated import; levels Max / High / 1, Symbols 1 then multiples of 20, God's Chosen Children only with God Rank" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=O7MPbO", title: "Community Guide, Active ES (Toolbox community builds)", tier: 3, claimDate: "2026-10-06", verified: "2026-10-19", gameVersion: "2.3.540", note: "1 likes, 1459 views; created 2026-04-26, updated 2026-10-06; MAX first, HIGH unlocked then maxed later: Wormhole, Utmost Intellect, Symbols MAX; Meteor, Lightning, Chainbolt, Chaotic Force HIGH" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=Rqcctu", title: "Airon420, 420 ES Aktiv (Toolbox community builds)", tier: 3, claimDate: "2026-06-21", verified: "2026-10-19", gameVersion: "2.3.540", note: "1 likes, 1737 views; created 2026-05-02, updated 2026-06-21; active: Meteor, Lightning, Chainbolt 100; Chaotic Force 17; cast order Wormhole then Chainbolt" }
+      - { url: "https://gameslikefinder.com/article/idleon-elemental-sorcerer-build-guide/", title: "Gameslikefinder: Elemental Sorcerer build guide", tier: 3, claimDate: "2026-03-09", verified: "2026-10-19", gameVersion: "2.3.540", note: "damage preset: Polytheism > Wormhole > Lightning Barrage > Radiant Chainbolt > Meteor 1 > Symbols > Utmost Intellect > Believer Strength" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-entry", to: "W4-late" }], classes: ["Elemental_Sorcerer"] }
+    confidence: "L"
+    status: "draft"
+    sourceCount: 4
+    confidenceLabel: "sources disagree"
+    notes: "Kept: the most-liked ES build (sAE4oV, 10 likes, updated 2026-10-07). It gives levels, not an order, so steps are grouped as ties by its own Max / High / 1 marks (O7MPbO defines MAX before HIGH). Idle Casting 50 is the KB core rule (the source sets 1 and says level it by how often you AFK). Alternative: Gameslikefinder (updated 2026-03-09) puts Polytheism first and Meteor Shower at 1; Polytheism, Wormhole Emperor and God's Chosen Children need Divinity gods or wormhole kills (W5, data and sAE4oV), hence stageHint W5. All dated ES builds are active; no AFK-only order exists."
+
+  - id: "talents.build.elemental-sorcerer-skilling"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Elemental Sorcerer choppin and worship build"
+    text: "Follow the Elemental Sorcerer choppin and worship build"
+    why: "The Wizard choppin and worship tabs stay; tab 4 takes Skill Wiz and 1 point in Symbols of Beyond, then Utmost Intellect and The Family Guy, and Shared Beliefs once Divinity opens."
+    classLine: "Elemental_Sorcerer"
+    role: "skilling"
+    serves: ["CHOPPIN"]
+    tags: ["SMART_EFFICIENCY", "ACTIVE_AFK'ER", "MANA_BOOSTER", "BOOK_OF_THE_WISE", "LOG_ON_LOGS", "LEAF_THIEF", "DEFORESTING_ALL_DOUBT", "INNER_PEACE", "MANA_OVERDRIVE", "UNT'WIS'TED_ROBES", "INDIVIDUAL_INSIGHT", "CHARGE_SYPHON", "SOOOULS", "BLESS_UP", "WIS_WUMBO", "EARLIER_EDUCATION", "STARING_STATUES", "FUSCIA_FLASKS", "OCCULT_OBOLS", "SKILL_WIZ", "SYMBOLS_OF_BEYOND_~P", "UTMOST_INTELLECT", "THE_FAMILY_GUY", "SHARED_BELIEFS", "POLYTHEISM"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "SMART_EFFICIENCY", target: "max", tie: "a" }
+          - { talent: "ACTIVE_AFK'ER", target: "max", tie: "a" }
+          - { talent: "MANA_BOOSTER", target: "max", tie: "b" }
+          - { talent: "BOOK_OF_THE_WISE", target: "max", tie: "b" }
+      - tab: 2
+        steps:
+          - { talent: "LOG_ON_LOGS", target: "max", core: true }
+          - { talent: "LEAF_THIEF", target: "max", tie: "a" }
+          - { talent: "DEFORESTING_ALL_DOUBT", target: "max", tie: "a" }
+          - { talent: "INNER_PEACE", target: "max", tie: "a" }
+          - { talent: "MANA_OVERDRIVE", target: "max", tie: "a" }
+          - { talent: "UNT'WIS'TED_ROBES", target: "max", tie: "b" }
+          - { talent: "INDIVIDUAL_INSIGHT", target: "max", tie: "b" }
+      - tab: 3
+        steps:
+          - { talent: "CHARGE_SYPHON", target: "max", tie: "a" }
+          - { talent: "SOOOULS", target: "max", tie: "a" }
+          - { talent: "BLESS_UP", target: "max", tie: "a" }
+          - { talent: "WIS_WUMBO", target: "max", tie: "a" }
+          - { talent: "EARLIER_EDUCATION", target: "max", tie: "a" }
+          - { talent: "STARING_STATUES", target: "max", tie: "b" }
+          - { talent: "FUSCIA_FLASKS", target: "max", tie: "b" }
+          - { talent: "OCCULT_OBOLS", target: "max", tie: "b" }
+      - tab: 4
+        steps:
+          - { talent: "SKILL_WIZ", target: "max" }
+          - { talent: "SYMBOLS_OF_BEYOND_~P", target: 1 }
+          - { talent: "UTMOST_INTELLECT", target: "max", tie: "a" }
+          - { talent: "THE_FAMILY_GUY", target: "max", tie: "a" }
+          - { talent: "SHARED_BELIEFS", target: "max", stageHint: "W5" }
+          - { talent: "POLYTHEISM", target: "max", stageHint: "W5" }
+    attacks: []
+    onePointOk: ["SYMBOLS_OF_BEYOND_~P"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=dJLLSZ", title: "Airon420, 420 ES AFK (Toolbox community builds)", tier: 3, claimDate: "2026-10-09", verified: "2026-10-19", gameVersion: "2.3.540", note: "7 likes, 2853 views; created 2026-05-02, updated 2026-10-09; titled AFK but a choppin + worship skilling preset: 100s first, *1 MP > WIS, *2 late game; Symbols 1 then 20-level steps" }
+      - { url: "https://gameslikefinder.com/article/idleon-elemental-sorcerer-build-guide/", title: "Gameslikefinder: Elemental Sorcerer build guide (Divinity preset)", tier: 3, claimDate: "2026-03-09", verified: "2026-10-19", gameVersion: "2.3.540", note: "Divinity preset on the choppin/worship preset: Polytheism > Shared Beliefs > Symbols > Skill Wiz > Utmost Intellect > The Family Guy" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-entry", to: "W4-late" }], classes: ["Elemental_Sorcerer"] }
+    confidence: "L"
+    status: "draft"
+    sourceCount: 2
+    confidenceLabel: "few sources"
+    notes: "Tabs 1-4 from Airon420 (dJLLSZ, 7 likes, updated 2026-10-09): its 100-level talents are tie a, its 'late game' ones tie b, as it gives no finer order. Divinity is a W5 skill, so Shared Beliefs and Polytheism carry stageHint W5 (Gameslikefinder puts them first once Divinity is open). Charge Syphon: the wiki Tips page says keep the Journeyman-line character highest in Worship; Gameslikefinder says use it carefully. The M26 brief guessed Lab/Alchemy for ES; no source supports that (Lab is the BC's), so serves CHOPPIN."
+
+  - id: "talents.build.bubonic-conjuror-fighting"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Bubonic Conjuror fighting build"
+    text: "Follow the Bubonic Conjuror fighting build"
+    why: "The Shaman damage tabs stay with Tenteyecle now maxed; tab 4 maxes Chemical Warfare, Flatulent Spirit and Raise Dead, per the dated Bubonic Conjuror builds."
+    classLine: "Bubonic_Conjuror"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    tags: ["GILDED_SWORD", "SHARPENED_AXE", "IDLE_CASTING", "OVERCLOCKED_ENERGY", "MANA_BOOSTER", "QUICKNESS_BOOTS", "POWER_OVERWHELMING", "KNOWLEDGE_IS_POWER", "MANA_OVERDRIVE", "CHOPPIN_IT_UP_EZ", "MINI_FIREBALL", "ENERGY_BOLT", "VIRILE_VIALS", "TENTEYECLE", "SIZZLING_SKULL", "AUSPICIOUS_AURA", "CRAZY_CONCOCTIONS", "SYMBOLS_OF_BEYOND_~P", "CHEMICAL_WARFARE", "FLATULENT_SPIRIT", "RAISE_DEAD", "PLAGUE_STRICKEN", "WIRED_IN_POWER", "MEMORIAL_SKULLS"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "GILDED_SWORD", target: "max" }
+          - { talent: "SHARPENED_AXE", target: "max" }
+          - { talent: "IDLE_CASTING", target: 50, core: true }
+          - { talent: "IDLE_CASTING", target: "max" }
+          - { talent: "OVERCLOCKED_ENERGY", target: "max" }
+          - { talent: "MANA_BOOSTER", target: "max" }
+          - { talent: "QUICKNESS_BOOTS", target: "max", hardCap: true, when: [{ kind: "accuracyShort" }] }
+      - tab: 2
+        steps:
+          - { talent: "POWER_OVERWHELMING", target: "max" }
+          - { talent: "KNOWLEDGE_IS_POWER", target: "max" }
+          - { talent: "MANA_OVERDRIVE", target: "max" }
+          - { talent: "CHOPPIN_IT_UP_EZ", target: "max" }
+          - { talent: "MINI_FIREBALL", target: "max" }
+          - { talent: "ENERGY_BOLT", target: 1 }
+      - tab: 3
+        steps:
+          - { talent: "VIRILE_VIALS", target: "max" }
+          - { talent: "TENTEYECLE", target: "max" }
+          - { talent: "SIZZLING_SKULL", target: "max" }
+          - { talent: "AUSPICIOUS_AURA", target: "max" }
+          - { talent: "CRAZY_CONCOCTIONS", target: 1 }
+      - tab: 4
+        steps:
+          - { talent: "SYMBOLS_OF_BEYOND_~P", target: 1 }
+          - { talent: "CHEMICAL_WARFARE", target: "max", tie: "a" }
+          - { talent: "FLATULENT_SPIRIT", target: "max", tie: "a" }
+          - { talent: "RAISE_DEAD", target: "max", tie: "a" }
+          - { talent: "PLAGUE_STRICKEN", target: 10 }
+          - { talent: "WIRED_IN_POWER", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-mid" }] }
+          - { talent: "MEMORIAL_SKULLS", target: "max", when: [{ kind: "stageAtLeast", stage: "W4-late" }] }
+    attacks: ["RAISE_DEAD", "CHEMICAL_WARFARE", "FLATULENT_SPIRIT", "SIZZLING_SKULL", "AUSPICIOUS_AURA", "MINI_FIREBALL"]
+    onePointOk: ["ENERGY_BOLT", "CRAZY_CONCOCTIONS", "SYMBOLS_OF_BEYOND_~P"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=6zw0dv", title: "BigRav01, Bubonic Conjuror - AFK - W4 (Toolbox community builds)", tier: 3, claimDate: "2026-09-20", verified: "2026-10-19", gameVersion: "2.3.540", note: "0 likes, 563 views; created 2026-09-20, updated 2026-09-20; W4 AFK: tab 4 Chemical Warfare = Flatulent Spirit = Raise Dead, Plague Stricken 10, Symbols 1" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=7wR1WU", title: "Community Guide, Active Bubo (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "7 likes, 3286 views; created 2026-04-26, updated 2026-10-12; active, legacy curated import: the same three at 100, excess to Wired In Power, then Memorial Skulls; Symbols 1" }
+      - { url: "https://gameslikefinder.com/article/idleon-bubonic-conjuror-build-guide/", title: "Gameslikefinder: Bubonic Conjuror build guide", tier: 3, claimDate: "2026-05-05", verified: "2026-10-19", gameVersion: "2.3.540", note: "Symbols 1 > Raise Dead (about 50 on small maps, 100+ elsewhere) > Chemical Warfare > Flatulent Spirit > Utmost Intellect > Wired In Power; bar Raise Dead first" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-entry", to: "W4-late" }], classes: ["Bubonic_Conjuror"] }
+    confidence: "M"
+    status: "draft"
+    sourceCount: 3
+    confidenceLabel: "sources agree"
+    notes: "Three dated sources agree on the tab-4 core (Chemical Warfare, Flatulent Spirit, Raise Dead to max, Symbols 1). Tabs 1-3 are BigRav01's (6zw0dv, 0 likes, 2026-09-20); 7wR1WU (7 likes) maxes the same talents. Wired In Power and Memorial Skulls are the 'excess' steps of 7wR1WU, placed late by judgment. Bar order per Gameslikefinder: Raise Dead first so it is cast first. Gameslikefinder also lists Utmost Intellect before Wired In Power: noted, not taken (one source). Tenteyecle grows after promotion (Gameslikefinder Shaman guide)."
+
+  - id: "talents.build.bubonic-conjuror-skilling"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Bubonic Conjuror lab and alchemy build"
+    text: "Follow the Bubonic Conjuror lab and alchemy build"
+    why: "The Shaman alchemy and choppin tabs stay; tab 4 takes Purple Tube, Upload Squared, Essence Transferral and Green Tube for the Lab, then Utmost Intellect, Skill Wiz and Symbols of Beyond."
+    classLine: "Bubonic_Conjuror"
+    role: "skilling"
+    serves: ["CHOPPIN", "LABORATORY"]
+    tags: ["SMART_EFFICIENCY", "BOOK_OF_THE_WISE", "ACTIVE_AFK'ER", "LOG_ON_LOGS", "LEAF_THIEF", "DEFORESTING_ALL_DOUBT", "INDIVIDUAL_INSIGHT", "MANA_OVERDRIVE", "INNER_PEACE", "BUBBLE_BREAKTHROUGH", "BUSY_BREWIN'", "SHARING_SOME_SMARTS", "WIS_WUMBO", "EARLIER_EDUCATION", "PURPLE_TUBE", "UPLOAD_SQUARED", "ESSENCE_TRANSFERRAL", "GREEN_TUBE", "UTMOST_INTELLECT", "SKILL_WIZ", "SYMBOLS_OF_BEYOND_~P"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "SMART_EFFICIENCY", target: "max" }
+          - { talent: "BOOK_OF_THE_WISE", target: "max" }
+          - { talent: "ACTIVE_AFK'ER", target: "max" }
+      - tab: 2
+        steps:
+          - { talent: "LOG_ON_LOGS", target: "max", core: true }
+          - { talent: "LEAF_THIEF", target: "max" }
+          - { talent: "DEFORESTING_ALL_DOUBT", target: "max" }
+          - { talent: "INDIVIDUAL_INSIGHT", target: "max" }
+          - { talent: "MANA_OVERDRIVE", target: "max" }
+          - { talent: "INNER_PEACE", target: "max" }
+      - tab: 3
+        steps:
+          - { talent: "BUBBLE_BREAKTHROUGH", target: "max" }
+          - { talent: "BUSY_BREWIN'", target: "max" }
+          - { talent: "SHARING_SOME_SMARTS", target: "max" }
+          - { talent: "WIS_WUMBO", target: "max" }
+          - { talent: "EARLIER_EDUCATION", target: "max" }
+      - tab: 4
+        steps:
+          - { talent: "PURPLE_TUBE", target: "max" }
+          - { talent: "UPLOAD_SQUARED", target: "max" }
+          - { talent: "ESSENCE_TRANSFERRAL", target: "max" }
+          - { talent: "GREEN_TUBE", target: "max" }
+          - { talent: "UTMOST_INTELLECT", target: "max" }
+          - { talent: "SKILL_WIZ", target: "max" }
+          - { talent: "SYMBOLS_OF_BEYOND_~P", target: "max" }
+    attacks: []
+    onePointOk: []
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=K4c9A0", title: "Sir_Grimtide, Shaman/Alchemy (Toolbox community builds)", tier: 3, claimDate: "2026-10-15", verified: "2026-10-19", gameVersion: "2.3.540", note: "28 likes, 3545 views; created 2026-06-02, updated 2026-10-15; skilling preset TAB 4: Purple Tube > Upload Squared > Essence Transferral > Green Tube; Utmost Intellect > Skill Wiz > Symbols" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=IGObdE", title: "Community Guide, Ultimate Skiller (200+) (Toolbox community builds)", tier: 3, claimDate: "2026-10-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "14 likes, 2555 views; created 2026-04-26, updated 2026-10-12; 200+ skiller, legacy curated import: tab 4 Purple Tube > Upload Squared > Essence Transferral > Green Tube" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=eYmHZr", title: "BigRav01, Bubonic Conjuror - Skilling - W4 (Toolbox community builds)", tier: 3, claimDate: "2026-10-11", verified: "2026-10-19", gameVersion: "2.3.540", note: "2 likes, 379 views; created 2026-09-20, updated 2026-10-11; W4 skilling: Purple or Green Tube (Green to push Lab EXP, Purple to reach nodes) > Essence Transferral > Upload Squared" }
+      - { url: "https://gameslikefinder.com/article/idleon-bubonic-conjuror-build-guide/", title: "Gameslikefinder: Bubonic Conjuror build guide (Lab preset)", tier: 3, claimDate: "2026-05-05", verified: "2026-10-19", gameVersion: "2.3.540", note: "Lab preset: Green Tube (BC at the far right) > Upload Squared > Essence Transferral > Symbols > Skill Wiz > Utmost Intellect > Purple Tube last" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-entry", to: "W4-late" }], classes: ["Bubonic_Conjuror"] }
+    confidence: "M"
+    status: "draft"
+    sourceCount: 4
+    confidenceLabel: "sources disagree"
+    notes: "Kept: Sir_Grimtide (K4c9A0, 28 likes, updated 2026-10-15), which matches the Community Guide IGObdE (14 likes) exactly. Alternative: Gameslikefinder and BigRav01 lead with Green Tube for Lab EXP; which tube pays depends on where the BC stands in the Lab (Purple reaches players right of the BC, Green those left; lab.ts, elite-classes.check.lab-tubes). Tube talents only pay while the BC is in the Lab, hence serves LABORATORY with CHOPPIN for the Log On Logs core."
+
+  - id: "talents.build.voidwalker-fighting"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Voidwalker speedrun build"
+    text: "Follow the Voidwalker speedrun build"
+    why: "Luck and damage first, One Step Ahead for the Void tab, then Void Trial Rerun, Void Radius, Bossing Vain and Master of the System, per the most-liked Voidwalker build."
+    classLine: "Voidwalker"
+    role: "fighting"
+    serves: ["FIGHTING"]
+    tags: ["SHARPENED_AXE", "GILDED_SWORD", "LUCKY_CLOVER", "HEALTH_BOOSTER", "MANA_BOOSTER", "FIST_OF_RAGE", "QUICKNESS_BOOTS", "BOOK_OF_THE_WISE", "KNUCKLEBUSTER", "FEATHER_FLIGHT", "INDIANA_ATTACK", "LUCKY_HIT", "F'LUK'EY_FABRICS", "LUCKY_HORSESHOE", "TWO_PUNCH_MAN", "ONE_STEP_AHEAD", "COIN_TOSS", "SKILLAGE_DAMAGE", "BLISS_N_CHIPS", "SKILLIEST_STATUE", "CLEVER_CLOVER_OBOLS", "TRIPLE_JAB", "VOID_TRIAL_RERUN", "VOID_RADIUS", "BOSSING_VAIN", "MASTER_OF_THE_SYSTEM", "VOODOO_STATUFICATION", "ENHANCEMENT_ECLIPSE", "ETERNAL_LUK", "ETERNAL_STR", "ETERNAL_AGI", "ETERNAL_WIS", "POWER_ORB", "QUAD_JAB"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "SHARPENED_AXE", target: "max", tie: "a" }
+          - { talent: "GILDED_SWORD", target: "max", tie: "a" }
+          - { talent: "LUCKY_CLOVER", target: "max", tie: "a" }
+          - { talent: "HEALTH_BOOSTER", target: "max", tie: "b" }
+          - { talent: "MANA_BOOSTER", target: "max", tie: "b" }
+          - { talent: "FIST_OF_RAGE", target: "max", tie: "b" }
+          - { talent: "QUICKNESS_BOOTS", target: "max", tie: "b" }
+          - { talent: "BOOK_OF_THE_WISE", target: "max", tie: "b" }
+          - { talent: "KNUCKLEBUSTER", target: "max", tie: "c" }
+          - { talent: "FEATHER_FLIGHT", target: "max", tie: "c" }
+      - tab: 2
+        steps:
+          - { talent: "INDIANA_ATTACK", target: "max", tie: "a" }
+          - { talent: "LUCKY_HIT", target: "max", tie: "a" }
+          - { talent: "F'LUK'EY_FABRICS", target: "max", tie: "a" }
+          - { talent: "LUCKY_HORSESHOE", target: "max" }
+          - { talent: "TWO_PUNCH_MAN", target: 1 }
+      - tab: 3
+        steps:
+          - { talent: "ONE_STEP_AHEAD", target: "max" }
+          - { talent: "COIN_TOSS", target: "max", tie: "a" }
+          - { talent: "SKILLAGE_DAMAGE", target: "max", tie: "a" }
+          - { talent: "BLISS_N_CHIPS", target: "max" }
+          - { talent: "SKILLIEST_STATUE", target: "max" }
+          - { talent: "CLEVER_CLOVER_OBOLS", target: "max" }
+          - { talent: "TRIPLE_JAB", target: 1 }
+      - tab: 4
+        steps:
+          - { talent: "VOID_TRIAL_RERUN", target: 1 }
+          - { talent: "VOID_TRIAL_RERUN", target: "max", tie: "a" }
+          - { talent: "VOID_RADIUS", target: "max", tie: "a" }
+          - { talent: "BOSSING_VAIN", target: "max", tie: "a" }
+          - { talent: "MASTER_OF_THE_SYSTEM", target: "max", tie: "a" }
+          - { talent: "VOODOO_STATUFICATION", target: "max" }
+          - { talent: "ENHANCEMENT_ECLIPSE", target: 250, breakpoints: [25, 50, 75, 100, 125, 150, 175, 200, 225, 250] }
+          - { talent: "ETERNAL_LUK", target: "max" }
+          - { talent: "ETERNAL_STR", target: "max", tie: "b" }
+          - { talent: "ETERNAL_AGI", target: "max", tie: "b" }
+          - { talent: "ETERNAL_WIS", target: "max", tie: "b" }
+          - { talent: "POWER_ORB", target: "max" }
+          - { talent: "QUAD_JAB", target: 1 }
+    attacks: ["VOID_RADIUS", "INDIANA_ATTACK", "COIN_TOSS"]
+    onePointOk: ["TWO_PUNCH_MAN", "TRIPLE_JAB", "QUAD_JAB"]
+    sources:
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=rR2fuk", title: "102939, Speedrun talent setup (Toolbox community builds)", tier: 3, claimDate: "2026-10-02", verified: "2026-10-19", gameVersion: "2.3.540", note: "5 likes, 3534 views; created 2026-04-22, updated 2026-10-02; 1st/2nd/3rd/4th ranks per talent; Void Trial Rerun, Void Radius, Bossing Vain MAX; Enhancement Eclipse 250; Quad Jab 1 (max if extra)" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=MNcLvz", title: "Anonymous, Vman Trapping (Toolbox community builds)", tier: 3, claimDate: "2026-09-20", verified: "2026-10-19", gameVersion: "2.3.540", note: "0 likes, 346 views; created 2026-09-20, updated 2026-09-20; trapping preset: Enhancement Eclipse 220; Eternal AGI, Voodoo Statufication, Species Epoch 231" }
+      - { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml", title: "Talents guide sheet (Fibster, later Tetsu), linked from the wiki Builds page", tier: 3, claimDate: "2024-07-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "stale (last changelog 2024-07-12): speedrun starts Void Trial Rerun 1, One Step Ahead, Void Trial Rerun, Void Radius, Master of the System, Bossing Vain max" }
+      - { url: "https://gameslikefinder.com/article/idleon-voidwalker-build-guide/", title: "Gameslikefinder: Voidwalker build guide (speedrun)", tier: 3, claimDate: "2026-05-26", verified: "2026-10-19", gameVersion: "2.3.540", note: "Void Trial Rerun > Void Radius > Bossing Vain > Quad Jab > Voodoo Statufication > Master of the System > Eternal STR/AGI/WIS/LUK > Power Orb" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-entry", to: "W4-late" }], classes: ["Voidwalker"] }
+    confidence: "L"
+    status: "draft"
+    sourceCount: 3
+    confidenceLabel: "few sources"
+    notes: "Ranks from 102939 (rR2fuk, 5 likes, updated 2026-10-02): its 1st/2nd/3rd marks become ties a/b/c; MAX talents lead tab 4. The sheet (stale, 2024) supplies the order inside tab 4 (Void Trial Rerun 1 first: 'spend 1 point to get any points from speedrun') and puts One Step Ahead first on tab 3. Enhancement Eclipse enhances a talent of another class every 25 points, up to 250 (data). Gameslikefinder (2026-05-26) and the sheet level Quad Jab right after the first three; rR2fuk keeps it at 1: the alternative. This is the active Void Trial setup; no source gives an AFK fighting order for the Voidwalker. lineOf() returns null for the Journeyman line today, so this Build needs that fixed too. Voidwalker has no Symbols of Beyond or The Family Guy (data)."
+
+  - id: "talents.build.voidwalker-skilling"
+    system: "talents"
+    type: "build"
+    variant: "afk"
+    title: "Voidwalker skilling build"
+    text: "Follow the Voidwalker skilling build"
+    why: "Happy Dude and the Maestro skill talents stay; tab 4 takes Void Trial Rerun 1, Blood Marrow and Species Epoch, then Voodoo Statufication, Master of the System and Enhancement Eclipse in 25-point steps."
+    classLine: "Voidwalker"
+    role: "skilling"
+    serves: []
+    tags: ["HAPPY_DUDE", "SLEEPIN'_ON_THE_JOB", "FIST_OF_RAGE", "QUICKNESS_BOOTS", "BOOK_OF_THE_WISE", "ITS_YOUR_BIRTHDAY!", "CURSE_OF_MR_LOOTY_BOOTY", "RARES_EVERYWHERE!", "CARDS_GALORE", "ONE_STEP_AHEAD", "PRINTER_GO_BRRR", "BLISS_N_CHIPS", "RIGHT_HAND_OF_ACTION", "LEFT_HAND_OF_LEARNING", "MAESTRO_TRANSFUSION", "VOID_TRIAL_RERUN", "BLOOD_MARROW", "SPECIES_EPOCH", "VOODOO_STATUFICATION", "MASTER_OF_THE_SYSTEM", "ENHANCEMENT_ECLIPSE", "EXP_CULTIVATION", "ETERNAL_AGI", "ETERNAL_STR", "ETERNAL_WIS"]
+    tabs:
+      - tab: 1
+        steps:
+          - { talent: "HAPPY_DUDE", target: "max" }
+          - { talent: "SLEEPIN'_ON_THE_JOB", target: "max" }
+          - { talent: "FIST_OF_RAGE", target: "max", tie: "a" }
+          - { talent: "QUICKNESS_BOOTS", target: "max", tie: "a" }
+          - { talent: "BOOK_OF_THE_WISE", target: "max", tie: "a" }
+      - tab: 2
+        steps:
+          - { talent: "ITS_YOUR_BIRTHDAY!", target: "max" }
+          - { talent: "CURSE_OF_MR_LOOTY_BOOTY", target: "max", tie: "a" }
+          - { talent: "RARES_EVERYWHERE!", target: "max", tie: "a" }
+          - { talent: "CARDS_GALORE", target: "max", tie: "a" }
+      - tab: 3
+        steps:
+          - { talent: "ONE_STEP_AHEAD", target: "max" }
+          - { talent: "PRINTER_GO_BRRR", target: "max" }
+          - { talent: "BLISS_N_CHIPS", target: "max" }
+          - { talent: "RIGHT_HAND_OF_ACTION", target: "max" }
+          - { talent: "LEFT_HAND_OF_LEARNING", target: "max" }
+          - { talent: "MAESTRO_TRANSFUSION", target: "max" }
+      - tab: 4
+        steps:
+          - { talent: "VOID_TRIAL_RERUN", target: 1 }
+          - { talent: "BLOOD_MARROW", target: "max" }
+          - { talent: "SPECIES_EPOCH", target: "max" }
+          - { talent: "VOODOO_STATUFICATION", target: "max" }
+          - { talent: "MASTER_OF_THE_SYSTEM", target: "max" }
+          - { talent: "ENHANCEMENT_ECLIPSE", target: 250, breakpoints: [25, 50, 75, 100, 125, 150, 175, 200, 225, 250] }
+          - { talent: "EXP_CULTIVATION", target: "max" }
+          - { talent: "ETERNAL_AGI", target: "max", tie: "a" }
+          - { talent: "ETERNAL_STR", target: "max", tie: "a" }
+          - { talent: "ETERNAL_WIS", target: "max", tie: "a" }
+    attacks: []
+    onePointOk: ["VOID_TRIAL_RERUN"]
+    sources:
+      - { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vST3HcgBgeq8H9jztaMhUXZAAAHl120PvDVo_48qJpn6n9qnpa-TWmuG_kN9cmtr66M-OtO482XIOAk/pubhtml", title: "Talents guide sheet (Fibster, later Tetsu), linked from the wiki Builds page", tier: 3, claimDate: "2024-07-12", verified: "2026-10-19", gameVersion: "2.3.540", note: "stale: skilling Void Trial Rerun 1, One Step Ahead, Enhancement Eclipse x25, Species Epoch; then Voodoo, Blood Marrow; then Exp Cultivation, Eternals" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=MNcLvz", title: "Anonymous, Vman Trapping (Toolbox community builds)", tier: 3, claimDate: "2026-09-20", verified: "2026-10-19", gameVersion: "2.3.540", note: "0 likes, 346 views; created 2026-09-20, updated 2026-09-20; trapping preset, 0 likes: Enhancement Eclipse 220; Eternal AGI, Voodoo Statufication, Species Epoch 231; Hands and Transfusion" }
+      - { url: "https://idleontoolbox.com/tools/builds/view?id=mlZMaQ", title: "Community Guide, Maestro Skilling (~100) (Toolbox community builds)", tier: 3, claimDate: "2026-10-13", verified: "2026-10-19", gameVersion: "2.3.540", note: "7 likes, 1704 views; created 2026-04-26, updated 2026-10-13; Maestro skilling ~100, legacy curated import: Happy Dude, Birthday, Looty Booty, Rares, Bliss N Chips, Hands, Printer" }
+      - { url: "https://gameslikefinder.com/article/idleon-voidwalker-build-guide/", title: "Gameslikefinder: Voidwalker build guide (skill build)", tier: 3, claimDate: "2026-05-26", verified: "2026-10-19", gameVersion: "2.3.540", note: "Blood Marrow > Species Epoch > Voodoo Statufication > Master of the System > Enhancement Eclipse (25-point steps up to 250)" }
+      - { url: "https://idleon.wiki/wiki/Tips_and_Tricks", title: "IdleOn Wiki: Tips and Tricks (keep the Voidwalker on a preset with Blood Marrow maxed)", tier: 2, claimDate: "2025-12-24", verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/talents.json", title: "IdleOn Toolbox game data: talents", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/classPromotions.json", title: "IdleOn Toolbox game data: class promotions and talent tabs", tier: 1, verified: "2026-10-19", gameVersion: "2.3.540" }
+    appliesTo: { stages: [{ from: "W4-entry", to: "W4-late" }], classes: ["Voidwalker"] }
+    confidence: "L"
+    status: "draft"
+    sourceCount: 4
+    confidenceLabel: "sources disagree"
+    notes: "Tab 4 from Gameslikefinder (2026-05-26), the newest ordered source: Blood Marrow > Species Epoch > Voodoo > Master of the System > Enhancement Eclipse. The stale sheet puts Enhancement Eclipse second; its Void Trial Rerun 1 and Eternals tail are kept. Tabs 1-3 follow the sheet's skilling columns and the Maestro Skilling guide (mlZMaQ). The Toolbox trapping preset (MNcLvz) agrees on Enhancement Eclipse, Species Epoch and Voodoo. Blood Marrow scales with Dinner Table meals (data); the wiki says keep it maxed for cooking. Eternal stats: 'max on all characters then reset to save points' (sheet). serves [] (account boosts, not one skill)."
