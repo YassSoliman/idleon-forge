@@ -1,0 +1,929 @@
+{
+  "inputs": {
+    "files": 66,
+    "records": 497
+  },
+  "drafts": 327,
+  "edits": 36,
+  "facts": 12,
+  "unconverted": [
+    {
+      "id": "alchemy-bubbles.priority.boost-order",
+      "file": "alchemy-bubbles.yaml",
+      "reasons": [
+        "tiers: Invalid input: expected array, received undefined",
+        "(entry): Unrecognized key: \"detector\""
+      ]
+    },
+    {
+      "id": "alchemy-bubbles.fact.boosts",
+      "file": "alchemy-bubbles.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "anvil.goal.next-tab",
+      "file": "anvil.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "anvil.fact.products",
+      "file": "anvil.yaml",
+      "reasons": [
+        "(entry): generatedBy only, and always, on generated tables"
+      ]
+    },
+    {
+      "id": "anvil.fact.expansions",
+      "file": "anvil.yaml",
+      "reasons": [
+        "(entry): generatedBy only, and always, on generated tables",
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "anvil.goal.next-tab",
+      "file": "anvil.yaml",
+      "reasons": [
+        "edits anvil.goal.next-tab, which is not a live entry"
+      ]
+    },
+    {
+      "id": "arcade.priority.shop",
+      "file": "arcade.yaml",
+      "reasons": [
+        "tiers: Invalid input: expected array, received undefined"
+      ]
+    },
+    {
+      "id": "arcade.goal.ball-rate",
+      "file": "arcade.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "arcade.fact.rate-floor",
+      "file": "arcade.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "armor-smithy.goal.next-set",
+      "file": "armor-smithy.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "armor-smithy.priority.order",
+      "file": "armor-smithy.yaml",
+      "reasons": [
+        "tiers: Invalid input: expected array, received undefined",
+        "(entry): Unrecognized keys: \"subject\", \"effect\", \"category\", \"effortSeconds\", \"detector\""
+      ]
+    },
+    {
+      "id": "atom-collider.priority.order",
+      "file": "atom-collider.yaml",
+      "reasons": [
+        "tiers: Invalid input: expected array, received undefined"
+      ]
+    },
+    {
+      "id": "atom-collider.goal.collider-level",
+      "file": "atom-collider.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "atom-collider.fact.atoms",
+      "file": "atom-collider.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "boss-keys.goal.daily-coverage",
+      "file": "boss-keys.yaml",
+      "reasons": [
+        "milestones.at: Invalid input: expected number, received string"
+      ]
+    },
+    {
+      "id": "boss-keys.fact.bosses",
+      "file": "boss-keys.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "boss-keys.fact.key-sources",
+      "file": "boss-keys.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "breeding.fact.upgrades",
+      "file": "breeding.facts.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "bubba.fact.income-targets",
+      "file": "bubba.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "bubba.fact.charisma-targets",
+      "file": "bubba.yaml",
+      "reasons": [
+        "a live fact table has this id: merge by hand"
+      ]
+    },
+    {
+      "id": "cards.fact.star-cap",
+      "file": "cards.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "classes.fact.exp-level-bands",
+      "file": "classes.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "classes.fact.time-candy",
+      "file": "classes.yaml",
+      "reasons": [
+        "origin: Invalid option: expected one of \"generated\"|\"authored\""
+      ]
+    },
+    {
+      "id": "colosseum.fact.arenas",
+      "file": "colosseum.yaml",
+      "reasons": [
+        "title: Invalid input: expected string, received undefined",
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "construction.fact.cog-board",
+      "file": "construction.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "cooking.goal.discover-meal",
+      "file": "cooking.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "cooking.goal.kitchen-speed",
+      "file": "cooking.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "elite-classes.fact.elites",
+      "file": "elite-classes.facts.yaml",
+      "reasons": [
+        "origin: Invalid option: expected one of \"generated\"|\"authored\""
+      ]
+    },
+    {
+      "id": "elite-classes.fact.troll",
+      "file": "elite-classes.facts.yaml",
+      "reasons": [
+        "origin: Invalid option: expected one of \"generated\"|\"authored\""
+      ]
+    },
+    {
+      "id": "equinox.goal.find-mirror",
+      "file": "equinox.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "equinox.goal.clouds",
+      "file": "equinox.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "equinox.fact.upgrades",
+      "file": "equinox.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "event-shop.fact.items",
+      "file": "event-shop.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "food.goal.nutty-crafter",
+      "file": "food.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "food.fact.golden-foods",
+      "file": "food.yaml",
+      "reasons": [
+        "(entry): generatedBy only, and always, on generated tables"
+      ]
+    },
+    {
+      "id": "forge.fact.barrels",
+      "file": "forge.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "friend-bonuses.goal.friendly-slot",
+      "file": "friend-bonuses.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "friend-bonuses.goal.companion-upgrade",
+      "file": "friend-bonuses.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "friend-bonuses.fact.values",
+      "file": "friend-bonuses.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "achievements.goal.bonus-list",
+      "file": "from-maps.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "achievements.goal.talent-points",
+      "file": "from-maps.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "achievements.goal.arcade-balls",
+      "file": "from-maps.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "achievements.fact.catalogue",
+      "file": "from-maps.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "family.fact.bonuses",
+      "file": "from-maps.yaml",
+      "reasons": [
+        "(entry): generatedBy only, and always, on generated tables"
+      ]
+    },
+    {
+      "id": "guild.goal.join",
+      "file": "from-maps.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "guild.goal.next-level",
+      "file": "from-maps.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "guild.priority.bonus-value",
+      "file": "from-maps.yaml",
+      "reasons": [
+        "tiers: Invalid input: expected array, received undefined",
+        "(entry): Unrecognized keys: \"subject\", \"effect\", \"category\", \"effortSeconds\", \"detector\""
+      ]
+    },
+    {
+      "id": "task-board.goal.open-board",
+      "file": "from-maps.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "task-unlocks.goal.next-column",
+      "file": "from-maps.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "pets.goal.mart-target",
+      "file": "from-maps.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "pets.fact.catalogue",
+      "file": "from-maps.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "islands.fact.access",
+      "file": "islands.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "journeyman-line.fact.ladder",
+      "file": "journeyman-line.facts.yaml",
+      "reasons": [
+        "origin: Invalid option: expected one of \"generated\"|\"authored\"",
+        "sources: Invalid input: expected array, received undefined"
+      ]
+    },
+    {
+      "id": "journeyman-line.fact.eclipse",
+      "file": "journeyman-line.facts.yaml",
+      "reasons": [
+        "origin: Invalid option: expected one of \"generated\"|\"authored\"",
+        "sources: Invalid input: expected array, received undefined"
+      ]
+    },
+    {
+      "id": "journeyman-line.fact.family",
+      "file": "journeyman-line.facts.yaml",
+      "reasons": [
+        "origin: Invalid option: expected one of \"generated\"|\"authored\"",
+        "sources: Invalid input: expected array, received undefined"
+      ]
+    },
+    {
+      "id": "killroy.check.run-upgrades",
+      "file": "killroy.yaml",
+      "reasons": [
+        "activePlay.minutes: Too small: expected number to be >0"
+      ]
+    },
+    {
+      "id": "killroy.priority.run-upgrades",
+      "file": "killroy.yaml",
+      "reasons": [
+        "tiers: Invalid input: expected array, received undefined"
+      ]
+    },
+    {
+      "id": "killroy.priority.skull-shop",
+      "file": "killroy.yaml",
+      "reasons": [
+        "tiers: Invalid input: expected array, received undefined"
+      ]
+    },
+    {
+      "id": "killroy.check.equinox-kills",
+      "file": "killroy.yaml",
+      "reasons": [
+        "effortSeconds: Too small: expected number to be >0"
+      ]
+    },
+    {
+      "id": "killroy.priority.runner",
+      "file": "killroy.yaml",
+      "reasons": [
+        "tiers: Invalid input: expected array, received undefined"
+      ]
+    },
+    {
+      "id": "lab.priority.chip-picks",
+      "file": "lab.yaml",
+      "reasons": [
+        "tiers: Invalid input: expected array, received undefined"
+      ]
+    },
+    {
+      "id": "lab.fact.node-reach",
+      "file": "lab.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "obols.goal.reroll-dr",
+      "file": "obols.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "obols.goal.combine",
+      "file": "obols.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "obols.fact.catalogue",
+      "file": "obols.yaml",
+      "reasons": [
+        "(entry): generatedBy only, and always, on generated tables"
+      ]
+    },
+    {
+      "id": "obols.fact.costs",
+      "file": "obols.yaml",
+      "reasons": [
+        "(entry): generatedBy only, and always, on generated tables",
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "obols.fact.storage",
+      "file": "obols.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "owl.fact.upgrades",
+      "file": "owl.yaml",
+      "reasons": [
+        "(entry): generatedBy only, and always, on generated tables"
+      ]
+    },
+    {
+      "id": "owl.fact.megafeathers",
+      "file": "owl.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "post-office.priority.box-order",
+      "file": "post-office.yaml",
+      "reasons": [
+        "tiers: Invalid input: expected array, received undefined"
+      ]
+    },
+    {
+      "id": "prayers.check.unending-overnight",
+      "file": "prayers.yaml",
+      "reasons": [
+        "confidence: Verdict blockers need confidence H",
+        "priority: Verdict blockers are not list items"
+      ]
+    },
+    {
+      "id": "printer.check.go-brrr-ready",
+      "file": "printer.yaml",
+      "reasons": [
+        "values: timelineKind must be one of storage, food, time-cap, production, bank, timer"
+      ]
+    },
+    {
+      "id": "rift.goal.next-bonus",
+      "file": "rift.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "rift.goal.skill-mastery",
+      "file": "rift.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "salt-lick.goal.caps",
+      "file": "salt-lick.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "salt-lick.fact.upgrades",
+      "file": "salt-lick.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "shrines.goal.equinox-total",
+      "file": "shrines.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "shrines.goal.same-map-total",
+      "file": "shrines.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "sigils.goal.lab-connect",
+      "file": "sigils.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "sigils.fact.speed",
+      "file": "sigils.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "sigils.fact.catalogue",
+      "file": "sigils.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "skills.goal.smithing-mastery",
+      "file": "skills.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "stamps.goal.gilded-roll",
+      "file": "stamps.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "star-signs.goal.signs-w4",
+      "file": "star-signs.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "star-signs.fact.constellations",
+      "file": "star-signs.yaml",
+      "reasons": [
+        "a live fact table has this id: merge by hand"
+      ]
+    },
+    {
+      "id": "stats.fact.class-stats",
+      "file": "stats.yaml",
+      "reasons": [
+        "(entry): generatedBy only, and always, on generated tables"
+      ]
+    },
+    {
+      "id": "statues.goal.monolith-1",
+      "file": "statues.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "statues.goal.onyx-tools",
+      "file": "statues.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "statues.fact.drop-sources",
+      "file": "statues.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "statues.fact.exp-curve",
+      "file": "statues.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "storage.fact.capacity-items",
+      "file": "storage.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "talents.goal.veins-smithing",
+      "file": "talents.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "talents.check.cranium-cooking-ready",
+      "file": "talents.yaml",
+      "reasons": [
+        "values: timelineKind must be one of storage, food, time-cap, production, bank, timer"
+      ]
+    },
+    {
+      "id": "tome.fact.score",
+      "file": "tome.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "tome.goal.unlock-metric",
+      "file": "tome.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "tome.goal.metric-tier",
+      "file": "tome.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "tome.goal.bubble-stack",
+      "file": "tome.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "tome.fact.statue-character",
+      "file": "tome.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "town-shops.fact.base-stock",
+      "file": "town-shops.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "town-shops.fact.pricing",
+      "file": "town-shops.yaml",
+      "reasons": [
+        "sources: generated tables cite a tier 1 permalink; authored tables cite tier 2–3 Sources with claimDate"
+      ]
+    },
+    {
+      "id": "trapping.goal.next-set",
+      "file": "trapping.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "trapping.goal.lord-of-the-hunt",
+      "file": "trapping.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "trapping.fact.trap-rows",
+      "file": "trapping.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "trapping.fact.critters",
+      "file": "trapping.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "trapping.fact.trap-set-recipes",
+      "file": "trapping.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "trapping.fact.lord-of-the-hunt",
+      "file": "trapping.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "trophies-nametags.check.fill-slots",
+      "file": "trophies-nametags.yaml",
+      "reasons": [
+        "priority.frame: Invalid input: expected \"by-urgency\""
+      ]
+    },
+    {
+      "id": "trophies-nametags.goal.quest-trophy",
+      "file": "trophies-nametags.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "trophies-nametags.goal.hat-rack-gate",
+      "file": "trophies-nametags.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "trophies-nametags.goal.found",
+      "file": "trophies-nametags.yaml",
+      "reasons": [
+        "milestones: a Goal needs exactly one of extends or milestones"
+      ]
+    },
+    {
+      "id": "trophies-nametags.fact.hat-rack",
+      "file": "trophies-nametags.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "trophies-nametags.fact.worn-inactive",
+      "file": "trophies-nametags.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "trophies-nametags.fact.keep-duplicates",
+      "file": "trophies-nametags.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "upgrade-vault.fact.major-discount-scope",
+      "file": "upgrade-vault.yaml",
+      "reasons": [
+        "rows: Invalid input"
+      ]
+    },
+    {
+      "id": "weekly-battles.priority.trophy-shop",
+      "file": "weekly-battles.yaml",
+      "reasons": [
+        "tiers: Invalid input: expected array, received undefined"
+      ]
+    }
+  ],
+  "duplicates": [],
+  "notKb": [
+    {
+      "file": "from-maps.yaml",
+      "id": "achievements.info.steam-gems",
+      "why": "type info has no Knowledge Base shape"
+    },
+    {
+      "file": "metapath.patch.yaml",
+      "id": "Build path nextClass text (packages/engine/src/builds/roadmap.ts ~L380)",
+      "why": "a code-change note, not an entry"
+    },
+    {
+      "file": "spend.yaml",
+      "id": "spend.yaml",
+      "why": "a code-change note, not an entry"
+    },
+    {
+      "file": "spend.yaml",
+      "id": "spend.yaml",
+      "why": "a code-change note, not an entry"
+    },
+    {
+      "file": "talents.patch.yaml",
+      "id": "engine/src/builds/diff.ts",
+      "why": "a code-change note, not an entry"
+    },
+    {
+      "file": "talents.patch.yaml",
+      "id": "engine/src/builds/diff.ts",
+      "why": "a code-change note, not an entry"
+    },
+    {
+      "file": "trapping.yaml",
+      "id": "trapping.info.durations",
+      "why": "type info has no Knowledge Base shape"
+    }
+  ],
+  "bySystem": {
+    "achievements": 2,
+    "alchemy": 5,
+    "alchemy-bubbles": 7,
+    "alchemy-vials": 6,
+    "anvil": 5,
+    "arcade": 3,
+    "armor-smithy": 1,
+    "atom-collider": 3,
+    "boss-keys": 7,
+    "breeding": 10,
+    "bribes": 4,
+    "bubba": 6,
+    "cards": 5,
+    "classes": 17,
+    "coins": 4,
+    "colosseum": 4,
+    "construction": 11,
+    "cooking": 9,
+    "death-note": 7,
+    "drop-rate": 4,
+    "elite-classes": 6,
+    "equinox": 1,
+    "event-shop": 1,
+    "family": 1,
+    "food": 2,
+    "forge": 8,
+    "friend-bonuses": 2,
+    "gear": 1,
+    "guild": 1,
+    "islands": 11,
+    "journeyman-line": 11,
+    "killroy": 4,
+    "lab": 12,
+    "library": 4,
+    "merit-shop": 2,
+    "minigames": 5,
+    "obols": 5,
+    "owl": 6,
+    "pets": 6,
+    "poppy": 3,
+    "post-office": 6,
+    "prayers": 7,
+    "printer": 4,
+    "quests": 7,
+    "refinery": 3,
+    "rift": 5,
+    "salt-lick": 3,
+    "shrines": 2,
+    "sigils": 4,
+    "stamps": 7,
+    "star-signs": 9,
+    "stats": 2,
+    "statues": 3,
+    "storage": 8,
+    "talents": 13,
+    "task-board": 1,
+    "tome": 3,
+    "town-shops": 2,
+    "trapping": 4,
+    "trophies-nametags": 2,
+    "upgrade-vault": 4,
+    "weekly-battles": 4,
+    "worship": 12
+  }
+}

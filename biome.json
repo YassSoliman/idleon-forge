@@ -13,6 +13,7 @@
       "!**/generated",
       "!apps/activeon/public/game-art",
       "!packages/knowledge/golden",
+      "!packages/knowledge/drafts",
       "!**/dist",
       "!**/.upstream",
       "!**/.wrangler",
