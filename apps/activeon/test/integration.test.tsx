@@ -68,8 +68,8 @@ describe('FR-I1: the compact AFK strip on Now', () => {
     expect(link.getAttribute('href')).toBe('#timeline');
     // Placement: the pause control, the hero, then "Before you're back", then the cards.
     const now = container.querySelector('.n-now') as HTMLElement;
-    const order = [...now.querySelectorAll('.n-pause, .np-hero, .np-back, .np-cards')].map(
-      (e) => e.className.split(' ')[0],
+    const order = [...now.querySelectorAll('.n-pause, .np-hero, .np-back, .np-cards')].map((e) =>
+      [...e.classList].find((c) => c.startsWith('n-') || c.startsWith('np-')),
     );
     expect(order).toEqual(['n-pause', 'np-hero', 'np-back', 'np-cards']);
     await noAxeViolations(container);

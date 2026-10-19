@@ -40,7 +40,7 @@ async function noAxeViolations(container: HTMLElement) {
 const H = 3_600_000;
 /** M24: the hero (the Log off pause point's one framed block): its title and its verdict word. */
 const counterHeading = () => document.querySelector('.np-hero__title') as HTMLElement;
-const verdict = () => document.querySelector('.np-hero__verdict .np-display')?.textContent;
+const verdict = () => document.querySelector('.np-hero__verdict .a-display')?.textContent;
 /** Picks the Log off pause point (the hero lives there). */
 const logOff = () => fireEvent.click(screen.getByRole('radio', { name: 'Log off' }));
 
@@ -179,7 +179,7 @@ describe('FR-N3 the same job, said once (US-2, M24 Rounds and the hero)', () => 
     expect(screen.getByText(/Also full: anvil on 3 characters/)).toBeTruthy();
     const card = (i: string) => document.querySelector(`.np-card[data-index="${i}"]`) as HTMLElement;
     expect(card('2').querySelector('.np-state')?.textContent).toBe('Collect');
-    expect(card('2').querySelector('.np-state .np-pip--warn')).toBeTruthy();
+    expect(card('2').querySelector('.np-state .a-pip--gold')).toBeTruthy();
     expect(card('4').querySelector('.np-state')?.textContent).not.toBe('Collect');
     expect(card('2').querySelector('.a-pill')).toBeNull();
   });

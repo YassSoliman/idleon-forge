@@ -10,8 +10,9 @@
 // Characters are class + level only (never a character's name). Every fact is the engine's.
 import type { RosterRow, TabHealth } from '@idleon-forge/engine/now';
 import type { ClassFamily, NextCharacterCard } from '@idleon-forge/engine/result';
+import { Blob } from '../design/atoms/Blob';
 import { cx } from '../design/atoms/Button';
-import { WhoGlyph } from '../design/who/WhoGlyph';
+import { Pip } from '../design/atoms/Surfaces';
 import { characterTabs, NOW_TAB, tabHref } from '../now/character-tabs';
 import { type CardState, cardState, fullGroups, fullSet } from '../now/place/derive';
 import { Icon } from '../now/place/icon';
@@ -32,6 +33,8 @@ const TONE: Record<TabHealth['level'], 'warn' | 'ok' | 'muted'> = {
   unknown: 'muted',
 };
 
+const PIP_OF = { warn: 'gold', ok: 'mint', muted: undefined } as const;
+
 /** The tabs that publish health, in tab order, with the anchor a section route lands on. */
 const COLS = characterTabs.filter((t) => TAB_HEALTH[t.id]);
 const ANCHOR: Record<string, string> = { build: 'builds', cards: 'cards' };
@@ -42,7 +45,11 @@ function words(tab: string, h: TabHealth): { big: string; small: string } {
   if (parts.length > 1)
     return { big: parts[parts.length - 1] ?? h.word, small: parts.slice(0, -1).join(' · ') };
   const big = h.level === 'ok' && h.word === 'ok' ? 'Fine' : h.word;
-  return { big: big.charAt(0).toUpperCase() + big.slice(1), small: W.small[tab]?.[h.level] ?? '' };
+  const small = W.small[tab]?.[h.level] ?? '';
+  return {
+    big: big.charAt(0).toUpperCase() + big.slice(1),
+    small: small.toLowerCase() === big.toLowerCase() ? '' : small,
+  };
 }
 
 function Grid({ s, rows }: { s: Session; rows: RosterRow[] }) {
@@ -59,7 +66,8 @@ function Grid({ s, rows }: { s: Session; rows: RosterRow[] }) {
       const g = groups.find((x) => x.indexes.includes(r.index));
       return g ? W.fullWhat(g.what) : '';
     }
-    return W.stateWhy[state as 'fix' | 'ready' | 'unknown'] ?? '';
+    // "Fix first" already says it; Ready and Can't tell say why in a word.
+    return state === 'fix' ? '' : (W.stateWhy[state as 'ready' | 'unknown'] ?? '');
   };
   const activities = rows.map((r) => r.activity?.split(' ')[0] ?? null);
   const sameAfk =
@@ -91,12 +99,7 @@ function Grid({ s, rows }: { s: Session; rows: RosterRow[] }) {
                     onClick={open(r.index, NOW_TAB)}
                   >
                     <span className="cp-n num">{r.position}</span>
-                    <WhoGlyph
-                      family={(families[r.index] ?? 'beginner') as ClassFamily}
-                      classLabel={r.classLabel}
-                      scale={2}
-                      decorative
-                    />
+                    <Blob family={(families[r.index] ?? 'beginner') as ClassFamily} size={40} />
                     <span className="cp-who-t">
                       <b className="num">{who(r)}</b>
                       <span className="cp-xs">
@@ -133,7 +136,7 @@ function Grid({ s, rows }: { s: Session; rows: RosterRow[] }) {
                         aria-label={`${who(r)}, ${t.label}: ${h.word}`}
                       >
                         <span className="cp-col">{W.cols[t.id] ?? t.label}</span>
-                        <span className={cx('cp-pip', `cp-pip--${tone}`)} aria-hidden="true" />
+                        <Pip tone={PIP_OF[tone]} />
                         <span className="cp-cell-t">
                           <b className={cx(loud ? 'cp-loud' : 'cp-sm')}>{w.big}</b>
                           {w.small ? <span className="cp-xs cp-muted">{w.small}</span> : null}
@@ -172,13 +175,13 @@ function NextCharacter({ card }: { card: NextCharacterCard }) {
   const title = card.line === card.baseClass ? card.line : `${card.baseClass} → ${card.line}`;
   return (
     <section className="cp-next a-frame" aria-labelledby="cp-next-h">
-      <span className="cp-cap">{W.nextCap(card.slotNumber)}</span>
+      <span className="a-cap">{W.nextCap(card.slotNumber)}</span>
       <div className="cp-next-top">
         <span className="cp-next-pic">
           <Icon name={classSprite(card.line)} fallback={classSprite(card.baseClass)} size={48} />
         </span>
         <div className="cp-next-t">
-          <h3 id="cp-next-h" className="cp-h2">
+          <h3 id="cp-next-h" className="a-h2">
             {title}
           </h3>
           <span className="cp-sm cp-muted">{card.why}</span>
@@ -218,13 +221,13 @@ function ClassTree({ s, rows, next }: { s: Session; rows: RosterRow[]; next: Nex
   const ghost = next && !groups.some((g) => FAMILY_WORDS[g.f] === next.baseClass && g.list.length === 0);
   return (
     <section className="cp-tree-sec" aria-labelledby="cp-tree-h">
-      <h3 id="cp-tree-h" className="cp-h2">
+      <h3 id="cp-tree-h" className="a-h2">
         {W.tree}
       </h3>
       <ul className="cp-tree">
         {groups.map((g) => (
           <li key={g.f} className="cp-tree-col" data-family={g.f}>
-            <span className="cp-cap cp-fam">{FAMILY_WORDS[g.f]}</span>
+            <span className="a-cap cp-fam">{FAMILY_WORDS[g.f]}</span>
             {g.list.length ? (
               g.list.map((r) => (
                 <span key={r.index} className="cp-sm num">
@@ -238,7 +241,7 @@ function ClassTree({ s, rows, next }: { s: Session; rows: RosterRow[]; next: Nex
         ))}
         {next && ghost ? (
           <li className="cp-tree-col cp-tree-ghost">
-            <span className="cp-cap">{next.line}</span>
+            <span className="a-cap">{next.line}</span>
             <span className="cp-sm cp-muted">{W.ghost(next.slotNumber, next.opensAt)}</span>
           </li>
         ) : null}
@@ -257,7 +260,7 @@ function Skills({ s, rows }: { s: Session; rows: RosterRow[] }) {
   return (
     <section id="skills" className="cp-skills" aria-labelledby="cp-skills-h" tabIndex={-1}>
       <div className="cp-sec-head">
-        <h3 id="cp-skills-h" className="cp-h2">
+        <h3 id="cp-skills-h" className="a-h2">
           {W.skills}
         </h3>
         {noOne.length ? (
@@ -340,7 +343,7 @@ export function CharactersPlace({ s }: { s: Session }) {
     <section className="characters-place" aria-labelledby="characters-h">
       <div className="cp-head">
         <div className="cp-head-t">
-          <h2 id="characters-h" className="cp-title" data-place-heading tabIndex={-1}>
+          <h2 id="characters-h" className="a-h1 cp-title" data-place-heading tabIndex={-1}>
             {W.title}
           </h2>
           <span className="cp-sm cp-muted num">{W.sub(rows.length, family)}</span>
@@ -348,14 +351,14 @@ export function CharactersPlace({ s }: { s: Session }) {
         <span className="cp-legend cp-xs cp-muted" aria-hidden="true">
           {(['warn', 'ok', 'muted'] as const).map((t) => (
             <span key={t}>
-              <span className={`cp-pip cp-pip--${t}`} />
+              <Pip tone={PIP_OF[t]} />
               {W.legend[t === 'warn' ? 'gold' : t === 'ok' ? 'mint' : 'mut']}
             </span>
           ))}
         </span>
       </div>
       <Grid s={s} rows={rows} />
-      <div className="cp-pair">
+      <div className={next ? 'cp-pair' : 'cp-pair cp-pair--one'}>
         {next ? <NextCharacter card={next} /> : null}
         <ClassTree s={s} rows={rows} next={next} />
       </div>

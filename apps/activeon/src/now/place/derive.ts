@@ -62,14 +62,12 @@ export function fullGroups(timeline: TimelineView | null, view: NowView): FullGr
     for (const c of row.caps) {
       if (!c.fullNow) continue;
       const head = (c.label.split(' · ')[0] ?? c.label).replace(/\s+full$/i, '').toLowerCase();
-      const g = by.get(c.entryId) ?? {
-        entryId: c.entryId,
-        what: whatOf.get(c.entryId) ?? head,
-        verb: verbOf(c.label),
-        indexes: [],
-      };
+      // One group per thing that is full: two entries for the same producer ("worship charge" with and
+      // without a skull) are one line.
+      const what = whatOf.get(c.entryId) ?? head;
+      const g = by.get(what) ?? { entryId: c.entryId, what, verb: verbOf(c.label), indexes: [] };
       if (!g.indexes.includes(row.index)) g.indexes.push(row.index);
-      by.set(c.entryId, g);
+      by.set(what, g);
     }
   const order = orderOf(view);
   const pos = (i: number) => order.get(i) ?? 99;
@@ -113,12 +111,20 @@ export function heroState(
   return allSet ? 'ready' : 'unknown';
 }
 
-/** The pip colour of each state word (rule 7). */
-export const STATE_TONE: Record<CardState, 'bad' | 'warn' | 'ok' | 'muted'> = {
-  fix: 'bad',
-  collect: 'warn',
-  ready: 'ok',
+/** The colour of each state word and its pip (rule 7): coral losing now, gold do it, mint fine, grey later. */
+export const STATE_TONE: Record<CardState, 'coral' | 'gold' | 'mint' | 'muted'> = {
+  fix: 'coral',
+  collect: 'gold',
+  ready: 'mint',
   unknown: 'muted',
+};
+
+/** The Pip tone of each state (grey has no tone). */
+export const PIP: Record<CardState, 'coral' | 'gold' | 'mint' | undefined> = {
+  fix: 'coral',
+  collect: 'gold',
+  ready: 'mint',
+  unknown: undefined,
 };
 
 export interface Mark {

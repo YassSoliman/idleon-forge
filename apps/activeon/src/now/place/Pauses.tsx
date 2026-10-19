@@ -8,20 +8,20 @@
 // - Rounds: the framed next character on the round, the round as a numbered strip in Visit Order, the
 //   same job said once ("Same job on 5: spend the full worship charge"), and the way back to Log off.
 import type { NowView, TimelineView } from '@idleon-forge/engine/now';
-import type { CSSProperties } from 'react';
 import { PixelArt } from '../../design/art/PixelArt';
+import { Blob } from '../../design/atoms/Blob';
 import { cx } from '../../design/atoms/Button';
+import { Pip } from '../../design/atoms/Surfaces';
 import { TokenLine } from '../../design/atoms/TokenLine';
-import { type ClassFamily, WhoGlyph } from '../../design/who/WhoGlyph';
+import type { ClassFamily } from '../../design/who/WhoGlyph';
 import { formatRoute } from '../../shell/route';
 import type { LoginRow, NowSessionView } from '../session/types';
-import { cardState, type FullGroup, fullSet, type LossNow, roundNext, STATE_TONE } from './derive';
+import { cardState, type FullGroup, fullSet, type LossNow, PIP, roundNext } from './derive';
 import { Icon, systemSprite } from './icon';
 import { Go } from './LogOff';
 import { rowTabChip } from './tab-chip';
 import { NOW_PLACE_WORDS as W } from './words';
 
-type Vars = CSSProperties & Record<`--${string}`, string | number>;
 const familyOf = (view: NowView, i: number): ClassFamily => view.families?.[i] ?? 'beginner';
 const who = (view: NowView, i: number) => {
   const r = view.roster.find((x) => x.index === i);
@@ -130,8 +130,8 @@ export function LogInView(p: PauseViewProps) {
         <div className="np-welcome__head">
           <PixelArt name="flows-sunrise" scale={2} decorative />
           <div className="np-welcome__t">
-            <span className="np-cap np-t-warn">{W.welcome}</span>
-            <h3 id="np-welcome-h" className="np-h1">
+            <span className="a-cap np-t-gold">{W.welcome}</span>
+            <h3 id="np-welcome-h" className="a-h1">
               {W.filledWhileAway(limits)}
             </h3>
             {sv.away ? <span className="np-muted np-sm">{sv.away.text}</span> : null}
@@ -140,8 +140,8 @@ export function LogInView(p: PauseViewProps) {
         {rows.length > 0 ? <LoginRows rows={rows} p={p} /> : null}
         {sv.login && sv.login.more > 0 ? <p className="np-muted np-sm">+{sv.login.more}</p> : null}
       </section>
-      <section className="np-start a-frame" aria-labelledby="np-start-h">
-        <span className="np-cap np-t-warn">{W.startWith}</span>
+      <section className="np-start a-frame a-frame--gold" aria-labelledby="np-start-h">
+        <span className="a-cap np-t-gold">{W.startWith}</span>
         <div className="np-start__body">
           {first ? (
             <>
@@ -159,7 +159,7 @@ export function LogInView(p: PauseViewProps) {
                 {loss.action ?? loss.label}
               </h3>
               <span className="np-muted np-sm">
-                {W.account1} · <span className="np-t-bad">{W.losingNow}</span>
+                {W.account1} · <span className="np-t-coral">{W.losingNow}</span>
               </span>
             </>
           ) : lead ? (
@@ -198,13 +198,7 @@ export function LogInView(p: PauseViewProps) {
         </span>
         <span className="np-then__who" aria-hidden="true">
           {view.roster.map((r) => (
-            <WhoGlyph
-              key={r.index}
-              family={familyOf(view, r.index)}
-              classLabel={who(view, r.index)}
-              scale={2}
-              decorative
-            />
+            <Blob key={r.index} family={familyOf(view, r.index)} size={32} />
           ))}
         </span>
         <span className="np-go">
@@ -257,18 +251,13 @@ export function RoundsView(p: PauseViewProps) {
   const fullCount = groups.reduce((n, g) => n + g.indexes.length, 0);
   return (
     <>
-      <section className="np-next a-frame" aria-labelledby="np-next-h">
-        <WhoGlyph
-          family={familyOf(view, next.index)}
-          classLabel={who(view, next.index)}
-          scale={3}
-          decorative
-        />
+      <section className="np-next a-frame a-frame--gold" aria-labelledby="np-next-h">
+        <Blob family={familyOf(view, next.index)} size={72} />
         <div className="np-next__t">
-          <span className="np-cap np-t-warn">
+          <span className="a-cap np-t-gold">
             {first ? W.startRound(next.position, total) : W.nextRound(next.position, total)}
           </span>
-          <h3 id="np-next-h" className="np-h1">
+          <h3 id="np-next-h" className="a-h1">
             {who(view, next.index)}
           </h3>
           {next.summary ? <span className="np-next__task">{next.summary}</span> : null}
@@ -281,12 +270,12 @@ export function RoundsView(p: PauseViewProps) {
       </section>
       <section className="np-round-sec" aria-labelledby="np-round-h">
         <div className="np-sec-head">
-          <h3 id="np-round-h" className="np-h2">
+          <h3 id="np-round-h" className="a-h2">
             {W.yourRound}
           </h3>
           <span className="np-muted np-sm">{W.roundSummary(total, maps.size, sv.counter.count)}</span>
         </div>
-        <ol className="np-round" style={{ '--n': Math.min(total, 6) } as Vars}>
+        <ol className="np-round">
           {view.roster.map((r) => {
             const state = cardState(r, full);
             const chip = rowTabChip(view, r.index);
@@ -303,12 +292,7 @@ export function RoundsView(p: PauseViewProps) {
                   )}
                 >
                   <span className="np-stop__pic" aria-hidden="true">
-                    <WhoGlyph
-                      family={familyOf(view, r.index)}
-                      classLabel={who(view, r.index)}
-                      scale={2}
-                      decorative
-                    />
+                    <Blob family={familyOf(view, r.index)} size={44} />
                   </span>
                   <span className="np-stop__who">
                     <span className="np-stop__n num">{r.position}</span>
@@ -317,7 +301,7 @@ export function RoundsView(p: PauseViewProps) {
                   {r.map ? <span className="np-muted np-xs">{r.map}</span> : null}
                   {r.summary ? <span className="np-stop__task np-sm">{r.summary}</span> : null}
                   <span className="np-xs np-stop__chip">
-                    <span className={cx('np-pip', `np-pip--${STATE_TONE[state]}`)} aria-hidden="true" />
+                    <Pip tone={PIP[state]} />
                     <span className="np-muted">
                       {chip ? `${chip.label}${chip.word ? ` · ${chip.word}` : ''}` : ''}
                     </span>
@@ -328,37 +312,38 @@ export function RoundsView(p: PauseViewProps) {
           })}
         </ol>
       </section>
-      {jobs.map((j) => {
-        const m = mapsOf(j.indexes);
-        return (
-          <section key={j.key} className="np-job" aria-label={j.text}>
-            <span className="np-job__ic" aria-hidden="true">
-              <Icon name={j.glyph} size={32} />
-            </span>
-            <span className="np-job__t">
-              <b>{j.text}</b>
-              <span className="np-muted np-sm">
-                {m.length === 1 && m[0] ? W.oneTrip(j.indexes.length, m[0]) : W.trips(m)}
+      {/* Rule 3: the next three jobs, biggest first; the rest stay on each character's card. */}
+      {[...jobs]
+        .sort((a, z) => z.indexes.length - a.indexes.length)
+        .slice(0, 3)
+        .map((j) => {
+          const m = mapsOf(j.indexes);
+          return (
+            <section key={j.key} className="np-job" aria-label={j.text}>
+              <span className="np-job__ic" aria-hidden="true">
+                <Icon name={j.glyph} size={32} />
               </span>
-            </span>
-            <span className="np-job__who">
-              {j.indexes.map((i) => (
-                <Go key={i} href={charHref(i)} onGo={() => p.onOpen(i)} label={who(view, i)}>
-                  <WhoGlyph family={familyOf(view, i)} classLabel={who(view, i)} scale={2} decorative />
-                </Go>
-              ))}
-            </span>
-          </section>
-        );
-      })}
+              <span className="np-job__t">
+                <b>{j.text}</b>
+                <span className="np-muted np-sm">
+                  {m.length === 1 && m[0] ? W.oneTrip(j.indexes.length, m[0]) : W.trips(m)}
+                </span>
+              </span>
+              <span className="np-job__who">
+                {j.indexes.map((i) => (
+                  <Go key={i} href={charHref(i)} onGo={() => p.onOpen(i)} label={who(view, i)}>
+                    <Blob family={familyOf(view, i)} size={32} />
+                  </Go>
+                ))}
+              </span>
+            </section>
+          );
+        })}
       {sv.counter.count > 0 || fullCount > 0 ? (
         <button type="button" className="np-leave" onClick={() => p.onPause('logoff')}>
-          <span
-            className={cx('np-pip', sv.counter.count > 0 ? 'np-pip--bad' : 'np-pip--warn')}
-            aria-hidden="true"
-          />
+          <Pip tone={sv.counter.count > 0 ? 'coral' : 'gold'} />
           <span>{sv.counter.count > 0 ? W.leavingFix(sv.counter.count) : W.leavingSoon(fullCount)}</span>
-          <b className="np-t-warn">
+          <b className="np-t-gold">
             {W.logOff}
             <PixelArt name="ui-arrow-right" decorative />
           </b>

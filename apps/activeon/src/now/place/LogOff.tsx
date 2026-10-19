@@ -9,11 +9,13 @@ import type { NowView, TimelineView } from '@idleon-forge/engine/now';
 import type { EngineResult } from '@idleon-forge/engine/result';
 import { type CSSProperties, Fragment, forwardRef, type ReactNode } from 'react';
 import { PixelArt } from '../../design/art/PixelArt';
+import { Blob } from '../../design/atoms/Blob';
 import { cx } from '../../design/atoms/Button';
 import { SegmentedControl } from '../../design/atoms/Choice';
+import { Frame, Pip } from '../../design/atoms/Surfaces';
 import { TokenLine } from '../../design/atoms/TokenLine';
 import { coins, inSpan } from '../../design/format';
-import { type ClassFamily, WhoGlyph } from '../../design/who/WhoGlyph';
+import type { ClassFamily } from '../../design/who/WhoGlyph';
 import { formatRoute } from '../../shell/route';
 import { capGlyph } from '../chrome/cap-glyph';
 import type { CounterView, NowSessionView } from '../session/types';
@@ -28,6 +30,7 @@ import {
   miniMarks,
   nextLimit,
   type Payer,
+  PIP,
   STATE_TONE,
   untimedOf,
 } from './derive';
@@ -89,7 +92,10 @@ export function Hero(p: HeroProps) {
   const { view, counter, state, groups, losses, back } = p;
   const first = counter.first;
   const head = groups[0];
-  const tone = state === 'fix' ? 'bad' : state === 'collect' ? 'warn' : state === 'ready' ? 'ok' : 'muted';
+  const tone =
+    state === 'fix' ? 'coral' : state === 'collect' ? 'gold' : state === 'ready' ? 'mint' : 'muted';
+  // The frame's tint says what it holds (rule 7): coral a fix (losing if you leave), mint fine, gold collect.
+  const frame = state === 'fix' ? 'coral' : state === 'ready' ? 'ok' : 'gold';
   const title =
     state === 'fix'
       ? (first?.text ?? counter.line)
@@ -107,16 +113,16 @@ export function Hero(p: HeroProps) {
           ? null
           : null;
   return (
-    <section className="np-hero a-frame" data-tone={state} aria-labelledby="np-hero-title">
+    <Frame tone={frame} pad={false} className="np-hero" data-tone={state} aria-labelledby="np-hero-title">
       <p className="np-hero__verdict">
-        <span className={cx('np-display', `np-t-${tone}`)}>{W.verdict[state]}</span>
+        <span className={cx('a-display', `np-t-${tone}`)}>{W.verdict[state]}</span>
         {sub ? <span className="np-hero__then">{sub}</span> : null}
       </p>
       <h3 className="np-hero__title" id="np-hero-title">
         {title}
       </h3>
       {state === 'fix' && first ? (
-        <button type="button" className="n-first np-first" onClick={p.onFirst}>
+        <button type="button" className="np-first" onClick={p.onFirst}>
           <TokenLine
             who={first.who ? { family: first.who.family, label: first.who.label } : null}
             where={first.where}
@@ -139,7 +145,7 @@ export function Hero(p: HeroProps) {
                   onGo={() => p.onOpen(i)}
                   className="np-chip"
                 >
-                  <WhoGlyph family={familyOf(view, i)} classLabel={whoLabel(view, i)} scale={2} decorative />
+                  <Blob family={familyOf(view, i)} size={28} />
                   <span>{whoLabel(view, i)}</span>
                 </Go>
               </li>
@@ -173,9 +179,9 @@ export function Hero(p: HeroProps) {
       ) : null}
       {losses.map((l) => (
         <Go key={l.entryId} href="#daily" onGo={p.onLoss} className="np-loss">
-          <span className="np-pip np-pip--bad" aria-hidden="true" />
+          <Pip tone="coral" />
           <span className="np-loss__t">
-            <b>{l.action ?? l.label}</b> <span className="np-t-bad">· {W.losingNow}</span>
+            <b>{l.action ?? l.label}</b> <span className="np-t-coral">· {W.losingNow}</span>
           </span>
           <span className="np-go">
             {W.how}
@@ -195,7 +201,7 @@ export function Hero(p: HeroProps) {
           <span>{counter.unknown.text}</span>
         </button>
       ) : null}
-    </section>
+    </Frame>
   );
 }
 
@@ -248,7 +254,7 @@ export function BackSection({
   return (
     <section className="np-back" aria-labelledby="np-back-h">
       <div className="np-back__head">
-        <h3 id="np-back-h" className="np-h2">
+        <h3 id="np-back-h" className="a-h2">
           {W.backTitle}
         </h3>
         <div className="np-back__ask">
@@ -284,12 +290,7 @@ export function BackSection({
                   aria-label={m.a11y}
                 >
                   {m.index !== null ? (
-                    <WhoGlyph
-                      family={familyOf(view, m.index)}
-                      classLabel={whoLabel(view, m.index)}
-                      scale={1}
-                      decorative
-                    />
+                    <Blob family={familyOf(view, m.index)} size={18} />
                   ) : (
                     <Icon name={systemSprite(m.system)} size={16} />
                   )}
@@ -349,7 +350,7 @@ const STATE_WORD: Record<CardState, string> = {
 export function StateWord({ state }: { state: CardState }) {
   return (
     <span className={cx('np-state', `np-t-${STATE_TONE[state]}`)}>
-      <span className={cx('np-pip', `np-pip--${STATE_TONE[state]}`)} aria-hidden="true" />
+      <Pip tone={PIP[state]} />
       {STATE_WORD[state]}
     </span>
   );
@@ -383,7 +384,7 @@ export function CharacterCards({
   return (
     <section className="np-cards-sec" aria-labelledby="np-cards-h">
       <div className="np-sec-head">
-        <h3 id="np-cards-h" className="np-h2">
+        <h3 id="np-cards-h" className="a-h2">
           {W.characters}
         </h3>
         <span className="np-muted np-sec-head__sum">
@@ -412,12 +413,14 @@ export function CharacterCards({
                 label={`${r.position}. ${who}${r.map ? `, ${r.map}` : ''}, ${STATE_WORD[state]}${task ? `. ${task}` : ''}`}
               >
                 <span className="np-card__top">
-                  <WhoGlyph family={familyOf(view, r.index)} classLabel={who} scale={2} decorative />
+                  <Blob family={familyOf(view, r.index)} size={40} />
                   <span className="np-card__who">
-                    <b>{who}</b>
+                    <span className="np-card__line">
+                      <b>{who}</b>
+                      <StateWord state={state} />
+                    </span>
                     {r.map ? <span className="np-muted np-xs">{r.map}</span> : null}
                   </span>
-                  <StateWord state={state} />
                 </span>
                 {task ? <span className="np-card__task">{task}</span> : null}
                 <span className="np-card__foot np-xs">
@@ -426,7 +429,7 @@ export function CharacterCards({
                       {chip ? `${chip.label}${chip.word ? ` · ${chip.word}` : ''}` : ''}
                     </span>
                     {timer ? (
-                      <span className="np-t-info num">{W.timer(timer.label, inSpan(timer.at - start))}</span>
+                      <span className="np-t-sky num">{W.timer(timer.label, inSpan(timer.at - start))}</span>
                     ) : null}
                   </span>
                   {untimed ? <span className="np-muted">{untimed}</span> : null}
