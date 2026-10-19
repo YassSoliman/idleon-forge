@@ -206,6 +206,7 @@ describe('toAccountState', () => {
       lab: null,
       cooking: null,
       breeding: null,
+      rift: null,
     });
     expect(state.characters.map(withoutUnspentCharacter)).toEqual([
       {
