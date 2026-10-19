@@ -16,6 +16,7 @@ import { readDepth } from './depth';
 import { FIELD_RAW_KEYS, type RawKind } from './fields';
 import { readGear } from './gear';
 import { metaPathAccountFields, metaPathCharacterFields } from './metapath-fields';
+import { readProduction } from './production';
 import { readPurpose } from './purpose';
 import { readRedesign } from './redesign';
 import { readSlotFields } from './slots';
@@ -510,6 +511,19 @@ export function toAccountState(
   const alchemyPlan = readAlchemyPlan({ account, states, failedSections }, c);
   // ---- M18 Gear & Tools (M18 TR-2) ----
   const gear = readGear({ account, characters, data, states, withData }, c);
+  // ---- M26 F-C the Production Plan's anvil reads (production.ts) ----
+  readProduction(
+    {
+      account,
+      characters,
+      data,
+      states,
+      calls: options.toolbox?.calls ?? null,
+      withFrozenClock: options.toolbox?.withFrozenClock ?? null,
+      asOf,
+    },
+    c,
+  );
   // ---- M21 Redesign (M21 TR-3); after M9's talents, which it extends ----
   const redesign = readRedesign(
     {

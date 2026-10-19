@@ -233,6 +233,8 @@ describe('toAccountState', () => {
         slots: null,
         // M18 TR-2: no EquipOrder key.
         gear: null,
+        // M26 F-C: no AnvilPA key.
+        anvil: null,
         // M21 TR-3: no KillsLeft2Advance key.
         doorKillsLeft: null,
       },
