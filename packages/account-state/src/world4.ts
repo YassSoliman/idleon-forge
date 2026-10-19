@@ -50,7 +50,20 @@ export const LAB_CHIP_SLOTS = 7;
 export const KITCHENS = 10;
 const KITCHEN_STATUS: Record<number, KitchenStatus> = { 1: 'idle', 2: 'cooking', 3: 'recipe' };
 /** `accountOptions` indices: the Lab unlock stage, Mob Arena best wave, spice claims today. */
-const OPT = { labUnlocks: 91, arenaWave: 89, spiceClaims: 100 } as const;
+const OPT = { labUnlocks: 91, arenaWave: 89, spiceClaims: 100, eggBank: 87 } as const;
+
+/**
+ * The egg period before bonuses (game `TotalTimeForEgg` = 7200 / (1 + bonuses / 100)). Bonuses only
+ * shorten it, so `period - bank` is an upper bound on the wait (M26 FR-8).
+ */
+export const EGG_BASE_SECONDS = 7200;
+
+/**
+ * The upgrades that switch on the 2nd to 5th new-Mob chance multipliers, as game `Breeding[2]` indices:
+ * Breedability Mobs, Rarity of the Egg, Pastpresent Brood, Failsafe Restitution Cloud (game client
+ * GenINFO[53], M26 V5). Toolbox's `unlockedBreedingMulti` tests 2/4/6/9, one off; ActiveOn never reads it.
+ */
+export const BREEDING_MULTIPLIER_UPGRADES = [3, 5, 7, 10] as const;
 
 interface Collector {
   unknown(path: string): void;
@@ -269,11 +282,18 @@ function readBreeding(input: World4Inputs): BreedingState {
     .flatMap((row) => list(row))
     .filter((p) => isDict(p) && p.unlocked === true).length;
   const full = eggs >= eggCapacity;
+  // Toolbox's `timeToNextEgg` is raw `OptionsListAccount[87]`: time banked toward the next egg, not
+  // time left (game client: "Next_In" draws TotalTimeForEgg - OLA[87]). M26 FR-8.
+  const eggBankSeconds = Math.max(0, Math.round(num(b.timeToNextEgg) / 1000));
+  const level = Math.max(0, ...levels);
   return {
-    level: Math.max(0, ...levels),
+    level,
+    // Breeding stays at level 0 until the first breed (game client BREED_RIG, M26 dossier C3).
+    started: level > 0,
     eggs,
     eggCapacity,
-    nextEggInSeconds: full ? 0 : Math.max(0, Math.round(num(b.timeToNextEgg) / 1000)),
+    eggBankSeconds,
+    nextEggInSeconds: full ? 0 : Math.max(0, EGG_BASE_SECONDS - eggBankSeconds),
     deadDna: sig(num(b.deadCells)),
     arenaBestWave: num(list(account.accountOptions)[OPT.arenaWave]),
     speciesBred,
