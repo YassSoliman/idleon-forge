@@ -26,7 +26,7 @@
   color: var(--fg);
   cursor: pointer;
 }
-.sy-stamp > svg {
+.sy-stamp > :is(svg, .g-art) {
   border-radius: 0;
   background: var(--surface);
   padding: 4px;
@@ -55,11 +55,11 @@
 .sy-stamp--unknown {
   background: var(--line);
 }
-.sy-stamp--now > svg,
-.sy-stamp--active > svg,
-.sy-stamp--toward > svg,
-.sy-stamp--later > svg,
-.sy-stamp--unknown > svg {
+.sy-stamp--now > :is(svg, .g-art),
+.sy-stamp--active > :is(svg, .g-art),
+.sy-stamp--toward > :is(svg, .g-art),
+.sy-stamp--later > :is(svg, .g-art),
+.sy-stamp--unknown > :is(svg, .g-art) {
   filter: grayscale(1) brightness(0.6);
   opacity: 0.6;
 }
@@ -72,7 +72,7 @@
   border-radius: var(--radius-control);
   box-shadow: inset 0 -3px 0 var(--accent);
 }
-.sy-stamps .sy-stamp.is-now > svg {
+.sy-stamps .sy-stamp.is-now > :is(svg, .g-art) {
   filter: none;
   opacity: 1;
 }
@@ -254,8 +254,15 @@
   border: 0;
 }
 .sy-vrow__name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
   font-weight: var(--weight-semibold);
   overflow-wrap: anywhere;
+}
+.sy-vrow.is-locked .sy-vrow__art {
+  filter: grayscale(1);
+  opacity: 0.5;
 }
 .sy-vrow__bar {
   display: block;

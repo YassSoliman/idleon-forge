@@ -419,3 +419,9 @@ button.w-link {
   justify-content: center;
   min-width: 68px;
 }
+
+/* M25: a game sprite for something not built yet reads as later, like its name. */
+.w23-dim-art {
+  opacity: 0.45;
+  filter: grayscale(1);
+}

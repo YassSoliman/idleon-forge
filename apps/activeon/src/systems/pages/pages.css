@@ -151,6 +151,11 @@
 .su-cell--next {
   background: var(--accent-soft);
 }
+.su-by {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
 
 /* Upgrade Vault ------------------------------------------------------------------------------------ */
 .uv-li {
@@ -323,4 +328,17 @@
 }
 .sg-after {
   flex: 0 1 300px;
+}
+
+/* M25: a game sprite for a row that isn't open yet reads as later, like its words. */
+.uv-later {
+  opacity: 0.45;
+  filter: grayscale(1);
+}
+
+/* M25: an anvil product with its game sprite beside its name. */
+.an-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
 }

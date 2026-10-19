@@ -20,7 +20,8 @@
   background: var(--surface);
   overflow: hidden;
 }
-.sy-sq > svg {
+.sy-sq > svg,
+.sy-sq > .g-art {
   width: 100%;
   height: 100%;
 }
@@ -245,4 +246,9 @@
 }
 .sy-seats .sy-seat:not(.is-locked) {
   background: var(--sunk);
+}
+
+/* M25: a cog square's game cog stays quieter than the characters seated on the board. */
+.sy-sq--cog > .g-art {
+  opacity: 0.6;
 }

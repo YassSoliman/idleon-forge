@@ -5,7 +5,8 @@
 // from minigames.check.darts-spend). Data: `account.minigames` (M6) and this System's Goals.
 import { shortDuration } from '@idleon-forge/engine/now';
 import { MINIGAMES_PAGE_WORDS as W } from '@idleon-forge/engine/systems-ui';
-import { Sprite } from '../../art/sprites/Sprite';
+import { GameIcon } from '../../art/game/GameIcon';
+import { MINIGAME_ART } from '../../art/game/systems-art';
 import { SimplePage, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, type FrameTone, frameAnswer, Pip, SystemFrame } from '../frame/SystemFrame';
 import type { FullPageProps } from '../pages';
@@ -34,7 +35,7 @@ export default function MinigamesPage({ s, page }: FullPageProps) {
     game('darts'),
     game('hoops'),
     {
-      k: 'spiketrap',
+      k: 'spiketrap' as const,
       name: W.games.spiketrap,
       state: fired.has('minigames.check.spiketrap') ? W.gems : W.nothing,
       tone: (fired.has('minigames.check.spiketrap') ? 'gold' : 'mint') as FrameTone,
@@ -84,7 +85,7 @@ export default function MinigamesPage({ s, page }: FullPageProps) {
                 {cards.map((c) => (
                   <li key={c.k} className={`mg-card${c.tone === 'coral' ? ' mg-card--now' : ''}`}>
                     <div className="mg-card__top">
-                      <Sprite name="sys-minigames" size={48} decorative />
+                      <GameIcon art={MINIGAME_ART[c.k]} fallback="sys-minigames" size={48} decorative />
                       <span className={`sf-small sf-strong mg-state sf-t--${c.tone}`}>
                         <Pip tone={c.tone} />
                         {c.state}

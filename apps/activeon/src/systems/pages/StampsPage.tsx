@@ -11,6 +11,8 @@ import {
   type StampTile,
   STAMPS_PAGE_WORDS as W,
 } from '@idleon-forge/engine/systems-ui';
+import { GameIcon } from '../../art/game/GameIcon';
+import { itemArt } from '../../art/game/game-art';
 import { SimplePage, SpendSection, StepsSection } from '../frame/SimplePage';
 import { type FrameAnswer, frameAnswer, SystemFrame } from '../frame/SystemFrame';
 import { StampsBody } from '../NewPictures';
@@ -18,6 +20,19 @@ import type { FullPageProps } from '../pages';
 import './pages.css';
 
 const RANK: Record<StampStatus, number> = { now: 0, active: 1, toward: 2, later: 3, unknown: 4, owned: 5 };
+
+/** A stamp: the game's own stamp sprite, our pixel stamp as the fallback; opens its wiki page. */
+function StampIcon({ t, now }: { t: StampTile; now: boolean }) {
+  return (
+    <GameIcon
+      art={itemArt(t.rawName)}
+      fallback={<StampGlyph now={now} />}
+      size={48}
+      wiki={t.name}
+      decorative
+    />
+  );
+}
 
 function StampGlyph({ now }: { now: boolean }) {
   const edge = now ? 'var(--tier-bronze-3)' : 'var(--line-strong)';
@@ -87,7 +102,7 @@ export default function StampsPage({ s, page }: FullPageProps) {
                           className={`sf-row${now ? ' sf-row--gold' : ''}${t.status === 'later' || t.status === 'unknown' ? ' sf-row--later' : ''}`}
                         >
                           <span className={`sf-n${now ? ' sf-n--gold' : ''}`}>{i + 1}</span>
-                          <StampGlyph now={now} />
+                          <StampIcon t={t} now={now} />
                           <span className="sf-row__main">
                             <span className="sf-strong">{t.name}</span>
                             <span className="sf-muted">{t.route ? STAMP_WORDS.route[t.route] : ''}</span>
@@ -148,7 +163,7 @@ export default function StampsPage({ s, page }: FullPageProps) {
                   <ul className="sf-rows">
                     {levels.map((t) => (
                       <li key={t.id} className="sf-row">
-                        <StampGlyph now={t.raiseInPlan} />
+                        <StampIcon t={t} now={t.raiseInPlan} />
                         <span className="sf-row__main">
                           <span className="sf-strong">{t.name}</span>
                           <span className="sf-muted">{W.nextLevel(t.level, t.cap)}</span>

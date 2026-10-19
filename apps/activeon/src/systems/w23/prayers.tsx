@@ -5,7 +5,8 @@
 // neither page says what to do: "unlock your first prayer" and "build this shrine there" need their
 // own Checks and red team first.
 import type { PrayersPicture } from '@idleon-forge/engine/systems-ui';
-import { Sprite } from '../../art/sprites/Sprite';
+import { GameIcon } from '../../art/game/GameIcon';
+import { prayerArt, shrineArt, totemArt } from '../../art/game/systems-art';
 import type { SystemPageBodyProps } from '../pages';
 import { Head, type PageSections, pictureOf, Tag, Who } from './kit';
 
@@ -41,7 +42,10 @@ function Zone({ pr, zone, only }: { pr: Prayers; zone: string; only?: 'locked' }
   return (
     <div className="w-stack w-stack--8">
       <div className="w-row w-row--between">
-        <span className="w-b">{zone}</span>
+        <span className="w-row">
+          <GameIcon art={totem ? totemArt(pr.totems.indexOf(totem)) : null} size={24} decorative />
+          <span className="w-b">{zone}</span>
+        </span>
         <span className={`w-xs${open ? ' w-t--mint' : ' w-mut'}`}>
           {totem ? (open ? W.openNow(totem.levelReq) : W.needs(totem.levelReq)) : ''}
           {totem && open ? ` · ${W.bestWave(totem.maxWave)}` : ''}
@@ -53,6 +57,7 @@ function Zone({ pr, zone, only }: { pr: Prayers; zone: string; only?: 'locked' }
             <Tag tone={r.unlocked ? 'mint' : open && r === firstLocked ? 'gold' : undefined}>
               {r.unlocked ? W.unlocked(r.level) : W.wave(r.wave)}
             </Tag>
+            <GameIcon art={prayerArt(r.index)} fallback="item-prayer" size={24} wiki={r.name} decorative />
             <span className="w-stack w-stack--4 w-grow">
               <span className="w-sm w-b">{r.name}</span>
               <span className="w-xs">
@@ -86,7 +91,13 @@ function Equipped({ p, pr }: { p: SystemPageBodyProps; pr: Prayers }) {
                 <ul className="w-plain w-sm">
                   {c.prayers.map((n) => (
                     <li key={n} className="w-row">
-                      <Sprite name="item-prayer" size={16} decorative />
+                      <GameIcon
+                        art={prayerArt(pr.prayers.find((x) => x.name === n)?.index ?? -1)}
+                        fallback="item-prayer"
+                        size={16}
+                        wiki={n}
+                        decorative
+                      />
                       {n}
                     </li>
                   ))}
@@ -184,7 +195,13 @@ function OnMaps({ p }: { p: SystemPageBodyProps }) {
                 <ul className="w-plain w-xs">
                   {here.map((s) => (
                     <li key={s.index} className="w-row">
-                      <Sprite name="item-shrine" size={16} decorative />
+                      <GameIcon
+                        art={shrineArt(s.index)}
+                        fallback="item-shrine"
+                        size={16}
+                        wiki={s.name}
+                        decorative
+                      />
                       {s.name} · {s.what}
                     </li>
                   ))}
@@ -213,7 +230,7 @@ function AllShrines({ p }: { p: SystemPageBodyProps }) {
       <ul className="w-grid w-grid--3 w-plain">
         {sh.shrines.map((s) => (
           <li key={s.index} className={`a-tile2 w-tile2 w23-shrine${s.built ? '' : ' is-later'}`}>
-            <Sprite name="item-shrine" size={32} decorative />
+            <GameIcon art={shrineArt(s.index)} fallback="item-shrine" size={32} wiki={s.name} decorative />
             <span className="w-stack w-stack--4 w-grow">
               <span className="w-sm w-b">{s.name}</span>
               <span className="w-xs w-mut2">{s.what}</span>

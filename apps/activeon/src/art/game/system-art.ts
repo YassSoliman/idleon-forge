@@ -24,7 +24,7 @@ export const SYSTEM_ART: Readonly<Record<string, GameArt>> = {
   'merit-shop': e('Merit_4'), // the merit token (Toolbox: merits)
   'task-unlocks': d('PetLockB0'), // the locked signpost (Toolbox: task unlocks)
   pets: d('PetEgg'), // a pet egg (companions and pets)
-  minigames: d('MGfsh1'), // the fishing minigame's fish
+  minigames: d('HoopB'), // the hoops minigame's basketball (the fish read as a dot at 24 px)
   cards: d('2CardsA0'), // the first card, Green Mushroom (Toolbox: cards)
   obols: d('ObolGold1'), // a gold obol
   portals: d('PortalArrow1'), // the map's portal arrow
