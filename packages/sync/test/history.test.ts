@@ -301,21 +301,58 @@ describe.each<Kind>(['indexeddb', 'memory'])('save history (%s)', (kind) => {
     );
     expect(await kept(h, 'u1')).toEqual([at(10), at(11), at(12), at(13)]);
   });
+
+  it('TR-16 (1 MB states): whole states only on the newest save and the newest two Play Sessions', async () => {
+    const h = await open(kind);
+    // Four Play Sessions hours apart, so the oldest ones fall outside the 6 h compaction window.
+    await putAll(h, 'u1', [
+      at(1),
+      at(1, 4),
+      at(1, 8),
+      at(9),
+      at(9, 4),
+      at(9, 8),
+      at(17),
+      at(17, 4),
+      at(17, 8),
+    ]);
+    await putAll(h, 'u1', [at(23), at(23, 4), at(23, 8)]);
+    const records = await h.since('u1', 0);
+    const whole = records.filter((r) => !r.compact).map((r) => r.lastCloudSave);
+    expect(whole).toEqual([at(17), at(17, 8), at(23), at(23, 8)]);
+    // Older kept saves are still there, compact: the history readers' fields only.
+    const old = records.find((r) => r.lastCloudSave === at(1));
+    expect(old?.compact).toBe(true);
+    expect(old?.state.account.lastCloudSave).toBe(at(1));
+    expect(old?.state.characters).toEqual([]);
+    expect(Object.keys(old?.state.account ?? {})).not.toContain('finishedWorlds');
+    // The engine still gets whole states on its two boundary entries.
+    const earlier = await h.forEngine('u1', { before: at(23, 12), sessionStartedAt: at(23) });
+    const wholeFor = earlier.filter((e) => 'finishedWorlds' in e.state.account).map((e) => e.lastCloudSave);
+    expect(wholeFor).toEqual([at(17, 8), at(23)]);
+    expect(earlier.map((e) => e.lastCloudSave)).toEqual(records.map((r) => r.lastCloudSave));
+    expect((await h.latest('u1'))?.compact).toBeUndefined();
+  });
 });
 
 describe('save history at scale (US-8, TR-16, TR-19)', () => {
-  /** Today's largest Account State serializes to ~6 KB; budget for twice that, and the largest raw gzip. */
-  const STATE_BYTES = 12 * 1024;
+  const MB = 1024 * 1024;
+  /** A whole Account State at the cap (1 MB, owner ruling 2026-10-19; the contract test enforces it). */
+  const WHOLE_BYTES = MB;
+  /** A compact copy: a few fields per character; budget for a 17-character account, and the largest raw gzip. */
+  const COMPACT_BYTES = 12 * 1024;
   const RAW_BYTES = 120 * 1024;
   const ROW_BYTES = 150;
-  const MB = 1024 * 1024;
   const budget = async (h: SaveHistory, saves: number) => {
     const states = await h.since('u1', 0);
     const raws = states.filter((r) => r.rawGzip).length;
+    const whole = states.filter((r) => !r.compact).length;
     return {
       states: states.length,
+      whole,
       raws,
-      bytes: states.length * STATE_BYTES + raws * RAW_BYTES + saves * ROW_BYTES,
+      bytes:
+        whole * WHOLE_BYTES + (states.length - whole) * COMPACT_BYTES + raws * RAW_BYTES + saves * ROW_BYTES,
     };
   };
 
@@ -344,6 +381,7 @@ describe('save history at scale (US-8, TR-16, TR-19)', () => {
     // Per 40-minute run: its first save (a leave) and its last (the switch save): 2 of its 10 saves.
     const b = await budget(h, saves);
     expect(b.states).toBeLessThanOrEqual(2_100);
+    expect(b.whole).toBeLessThanOrEqual(5);
     expect(b.raws).toBe(30);
     expect(b.bytes).toBeLessThan(35 * MB);
   }, 120_000);
@@ -359,7 +397,8 @@ describe('save history at scale (US-8, TR-16, TR-19)', () => {
     }
     const b = await budget(h, saves);
     expect(b.states).toBeLessThanOrEqual(30 * 24 + 30);
-    expect(b.bytes).toBeLessThan(15 * MB);
+    expect(b.whole).toBeLessThanOrEqual(5);
+    expect(b.bytes).toBeLessThan(20 * MB);
   }, 120_000);
 
   it('put stays within 50 ms in IndexedDB with days of history behind it (TR-19)', async () => {

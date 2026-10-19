@@ -1144,29 +1144,16 @@ compared sub-fields it reshapes, and only for one sync.
 | 6 | W1 rest | `starSigns.infiniteSlots`; `account.colosseum`; `minigames.penPals`, `account.poppy` (widened); `account.questLog` |
 | 7 | Late account-wide | `characters[].cashMulti/cashBreakdown/coinsPerHour`; `account.achievements`, `achievementTasks`; `account.pets.*`, `petMart`, `petTournament`; `account.familyBonuses`, `characters[].familyClassLevel`; `account.guild`; `account.friendBonuses` (no names); `account.worldTeleports`; `account.eventShop`; `characters[].cosmetics/hatRackActive`, `account.hatRack`; `account.townShops`; checklist readers; `account.orbKills`, `account.looty.found` |
 
-**Size budget (FR-0d).** The cap is **300 KB** for a full Account State in history: M1 TR-16 set 200 KB, and release 4
-raised it to 300 KB once M8 and M9 put the largest public save at about 255 KB (`packages/account-state/test/
-contract.test.ts#L204`, which enforces it; `purpose.ts` and M16 / M20 cite 300 KB). (M10's 200 KB cap is a different
-one, on the `EngineResult`; it is checked too.) Wave 0.13 measures today's baseline on the largest public save. Each
-wave's contract test gets a byte budget, and bulky page-only fields (`deathNotePages`, Cog Board cells, Equinox clouds,
-Tome `metrics[]`, `afkMaps`) stay out of the history record, with a test.
-
-| Wave | Budget (history record, largest public save) | Out of history |
-|---|---|---|
-| baseline | measured in Wave 0.13 (about 255 KB at the last recorded measurement) | |
-| 0 | +1 KB | |
-| 1 | +12 KB | Tome `metrics[]` |
-| 2 | +10 KB | |
-| 3 | +6 KB | `afkMaps` |
-| 4 | +8 KB | `deathNotePages` |
-| 5 | +8 KB | Cog Board cells |
-| 6 | +3 KB | |
-| 7 | +6 KB | |
-| **projected** | about 309 KB | |
-
-These are estimates, not measurements. The projection passes the 300 KB cap, so Q12 asks the owner to either raise
-the cap (an M1 change) or require each wave to come in under budget by rounding and keeping more fields out of
-history. Until Q12 is answered, the 300 KB test stays and any PR that breaks it is held.
+**Size budget (FR-0d).** **Owner ruling 2026-10-19 (Q12): the cap is 1 MB** (1,048,576 bytes) for a full Account
+State, replacing "hold each wave to its budget". The cap had moved 200 KB (M1 TR-16) -> 300 KB (release 4) -> 392 KB
+(M20, M18, M21, M24; `packages/account-state/test/contract.test.ts`, which enforces it; this section's earlier "300
+KB" was stale). Save history lives in IndexedDB, not localStorage; to keep 30 days inside M1 TR-16's 50 MB at the new
+size, it stores a whole state only on the newest save and the boundaries of the newest two Play Sessions, and the
+compact copy elsewhere. So no field has to be rounded or kept out of the history record to fit the cap; a field is
+left out only where a page or the engine does not need it. Each wave's PRs still report the largest public save's
+state size in their description. Baseline (Wave 0.13, 2026-10-19, at the pin): 388,996 bytes on `highend.json`,
+the largest public save (`speedrun-rank1.json` 388,088; `first.json`, the W4 save, 197,074), 3 KB under the old cap. M10's 200 KB `EngineResult` cap is a different
+one and is unchanged, as is the 320 KB first-load JS budget.
 
 ## 7. Knowledge Base entries
 
@@ -1310,7 +1297,7 @@ sprite-kit versions) is settled before `place-telescope`, `item-ticket`, `item-c
 | R3 | Advice from weak Sources | Checks and Goals ship only at H or M; Priorities and Builds need two independent dated post-patch Sources (FR-2c lint); L, single-Source and inferred orderings are display only; Contested where post-patch Sources disagree |
 | R4 | Toolbox false positives read as truth (Equinox unlock, Throttle maxLevel, 16 forge slots, guild unlocked, Toolbox pet simulation) | Authored readers with raw-save tests; truth rules. Killroy rooms already right in ActiveOn (regression test) |
 | R5 | No W1-W3 public save, and the W4 private save is late-W3 | Stage fixtures from `first.json` (FR-0a); fallback goldens on `first.json`, `fourth.json`, `highend.json` (FR-9); unlock guards keyed on unlock facts (FR-6) |
-| R6 | History and state size: the projection passes the 300 KB cap | Per-wave byte budgets in the contract test; bulky fields out of history; Q12 |
+| R6 | History and state size | Owner ruling 2026-10-19 (Q12): the cap is 1 MB; history keeps whole states only on the newest save and the newest two Play Sessions' boundaries |
 | R7 | Pre-patch or unmatched client Sources: the N.js copy is labelled "game v1.23" from an update tag and is not proven to be 2.3.540; Hoops cost, cooldowns, Spiketrap gem formula and the atom order gist are older still | V43 records the N.js hash, Last-Modified and in-client version; N.js-only verdicts (Breeding indices 3/5/7/10, Killroy rooms, Rift display offset, Salt Lick rate) are M at most until matched; "game v1.23" is dropped from the dossiers' labels at conversion; flagged Stale in drafts; no prices printed from pre-patch Sources |
 | R8 | Raw counters tick on locked accounts (islands, equinox bar, guild tasks) | Unlock guards on unlock facts (FR-6); US-S1 |
 | R9 | Concurrent draft files (several areas appended to `classes.yaml`, `lab.yaml`, `metapath.patch.yaml`, `stamps.yaml`) | Area backups in `synth/*-kb-backup/`; one conversion script (FR-10); the duplicate-id check |
@@ -1348,8 +1335,9 @@ message, never a blanket yes.
     rest on N.js byte offsets get the excerpt hash and game version at conversion, or drop to M.
 11. Q11 v2 design glyphs on System pages (telescope, ticket, chest, pouch), or draw the sprite-kit versions
     (recommended)? **Yes: sprite-kit versions.**
-12. Q12 (new) The projected Account State passes the 300 KB history cap (section 6). Raise the cap (an M1 change), or
-    hold each wave to its budget by rounding and keeping more fields out of history (recommended)?
+12. Q12 (new) The projected Account State passes the history cap (section 6). Raise the cap (an M1 change), or
+    hold each wave to its budget by rounding and keeping more fields out of history? **Owner ruled 2026-10-19: raise
+    the cap to 1 MB.**
 
 ## 14. Verify before build
 

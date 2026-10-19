@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
 // The save history the engine receives with each parse (M1 TR-14 `HistoryEntry`, M10 TR-6). A full
-// Account State is about 250 KB, and 30 days of kept saves can be hundreds of them, so the worker gets
-// a compact copy: every entry keeps only the fields the history readers use, and the two entries that
+// Account State can be up to 1 MB (M1 TR-16, owner ruling 2026-10-19), and 30 days of kept saves can
+// be hundreds of them, so the worker gets a compact copy (history stores most of them compact too): every entry keeps only the fields the history readers use, and the two entries that
 // whole-state comparisons need (the first save of this Play Session, for M8's done-this-session, and
 // the last save before it, for M9's level-up baseline) keep their whole state.
 //
