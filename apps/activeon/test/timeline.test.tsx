@@ -254,7 +254,8 @@ describe('US-11: from the bar to the fix (FR-27)', () => {
     expect(
       within(places()).getByRole('link', { current: true }).querySelector('.place-label')?.textContent,
     ).toBe('Timeline');
-    fireEvent.click(screen.getByRole('button', { name: 'Back' }));
+    // M24: no in-page back button (the strip and the places move); Esc goes back to where it came from.
+    fireEvent.keyDown(window, { key: 'Escape' });
     await timelineHeading();
     expect(window.location.hash).toBe('#timeline');
   });

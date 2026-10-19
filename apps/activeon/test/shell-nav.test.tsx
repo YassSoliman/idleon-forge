@@ -75,7 +75,7 @@ describe('US-2 deep links that survive a reload', () => {
     window.history.replaceState(null, '', '/#cards-2');
     const r = withSystems();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    expect(screen.getByRole('heading', { level: 2, name: 'Cedar' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Bowman 38' })).toBeTruthy();
     expect(within(places()).getByRole('link', { current: true }).textContent).toContain('Now');
   });
 
@@ -87,7 +87,7 @@ describe('US-2 deep links that survive a reload', () => {
     expect(window.location.search).toBe('');
     expect(window.location.hash).toBe('#now-3');
     expect(window.history.length).toBe(before);
-    expect(screen.getByRole('heading', { level: 2, name: 'Dahlia' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Barbarian 51' })).toBeTruthy();
   });
 
   it('?c=1#build-1 becomes #build-1', () => {
@@ -141,7 +141,8 @@ describe('US-3 Back goes back', () => {
     window.history.replaceState(null, '', '/#build-1');
     const r = withSystems();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('button', { name: '← All characters' }));
+    // M24: no "All characters" button; Esc goes back.
+    fireEvent.keyDown(window, { key: 'Escape' });
     expect(document.querySelector('ol.roster')).toBeTruthy();
     expect(window.location.hash).toBe('#now');
   });
@@ -153,9 +154,10 @@ describe('US-3 Back goes back', () => {
     fireEvent.click(
       screen.getAllByRole('link').find((a) => a.getAttribute('href') === '#now-2') as HTMLElement,
     );
-    expect(screen.getByRole('heading', { level: 2, name: 'Cedar' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Bowman 38' })).toBeTruthy();
     expect(within(places()).getByRole('link', { current: true }).textContent).toBe('Characters');
-    fireEvent.click(screen.getByRole('button', { name: 'Back' }));
+    // M24: no in-page back button (the strip and the places move); Esc goes back to where it came from.
+    fireEvent.keyDown(window, { key: 'Escape' });
     expect(window.location.hash).toBe('#characters');
   });
 });
@@ -179,7 +181,7 @@ describe('US-4 following the game where it helps, never where it would yank me',
     const r = withSystems();
     const view = render(<Live r={r} seq={1} kind="first" slot={null} />);
     view.rerender(<Live r={r} seq={2} kind="autosave" slot={4} />);
-    expect(screen.getByRole('heading', { level: 2, name: 'Elm' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Wizard 40' })).toBeTruthy();
     expect(within(places()).getByRole('link', { current: true }).textContent).toContain('Now');
   });
 
@@ -202,7 +204,7 @@ describe('US-4 following the game where it helps, never where it would yank me',
     const r = withSystems();
     const view = render(<Live r={r} seq={1} kind="first" slot={null} />);
     view.rerender(<Live r={r} seq={2} kind="autosave" slot={4} />);
-    expect(screen.getByRole('heading', { level: 2, name: 'Cedar' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Bowman 38' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Now playing Elm · go' })).toBeTruthy();
   });
 
@@ -214,7 +216,7 @@ describe('US-4 following the game where it helps, never where it would yank me',
     go(/^Now/);
     fireEvent.click(screen.getAllByRole('button').find((b) => b.dataset.index === '0') as HTMLElement);
     // Dahlia (index 3) was played: "Next" never points back at her.
-    expect(screen.getByRole('button', { name: /^Next: switch to/ }).textContent).not.toContain('Dahlia');
+    expect(screen.getByRole('button', { name: /^Next: / }).textContent).not.toContain('Dahlia');
   });
 });
 

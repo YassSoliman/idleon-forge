@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M4's Purpose in the Focus card (M21 `now.focus-purpose` Quest line, with `character.now-tab`'s Purpose
-// ladder folded to three rungs): one "Quest" line with a bar that fills from the save, then where it is,
-// what is next and the step after. A tap opens its sheet: the Source, the other Purpose lines and Report
-// this, so the face carries no control of its own (DS-10). Every word and number comes from the engine.
-import { FOCUS_WORDS, type FocusCard, type PurposeItemView } from '@idleon-forge/engine/now';
+// The Character page's side column (M24 board `CharNow`): M4's Purpose and the modules' info lines,
+// sorted by what kind of time they carry. "Timers" are real countdowns from the save (blue: the next
+// class level "in 58m", the anvil "full in 5h 08m"); "About, on average" are drop-rate and kill-rate
+// expectations, said as "about" and never drawn as a countdown bar (red team, CharNow). One button opens
+// the sheet with every line's Source and Report this (DS-10). Every word and number is the engine's.
+import type { FocusCard, PurposeItemView } from '@idleon-forge/engine/now';
 import { useState } from 'react';
-import { PixelArt } from '../design/art/PixelArt';
+import { PAGE_WORDS } from '../characters/words';
 import { SourceLabel } from '../design/atoms';
 import { cx } from '../design/atoms/Button';
-import { Meter } from '../design/atoms/Meter';
 import { SeeOnMap } from '../map/SeeOnMap';
 import { ModalSheet as Sheet } from './chrome/ModalSheet';
 import { ReportThis } from './parts';
@@ -50,65 +50,83 @@ function Line({ p }: { p: PurposeItemView }) {
   );
 }
 
+/** A Purpose line whose next rung is a real countdown ("in 58m"), not an average. */
+function timerOf(p: PurposeItemView): { what: string; when: string; detail: string } | null {
+  const next = p.ladder.find((l) => l.state === 'next');
+  if (!next || !/^in\s/.test(next.note)) return null;
+  // "Class level 70 → 71 · about 58m": the countdown says the time, so the line keeps its first part.
+  return { what: next.label, when: next.note, detail: p.text.split(' · ')[0] ?? p.text };
+}
+
 export function PurposeBlock({ card }: { card: FocusCard }) {
   const [open, setOpen] = useState(false);
-  const [head, ...rest] = card.purpose;
-  if (!head) return null;
-  const shown = rest.filter((p) => !p.more);
+  const shown = card.purpose.filter((p) => !p.more);
+  const timers = shown.flatMap((p) => {
+    const t = timerOf(p);
+    return t ? [{ key: p.goalId, ...t }] : [];
+  });
+  const timed = new Set(timers.map((t) => t.key));
+  // A line the hero's Goal already says (the portal push) shows once, in the hero (rule: say it once).
+  const abouts = shown.filter((p) => !timed.has(p.goalId) && !p.echoesGoal);
+  if (timers.length === 0 && card.info.length === 0 && abouts.length === 0) return null;
   return (
-    <section aria-label="Purpose" className="purpose n-quest">
-      <div className={cx('n-quest__line quest', !head.worthwhile && 'quiet')}>
-        <button type="button" className="n-quest__open" aria-haspopup="dialog" onClick={() => setOpen(true)}>
-          <span className="n-quest__k">
-            <PixelArt name="cards-scroll-open-16" decorative />
-            {FOCUS_WORDS.quest}
-          </span>
-          {head.echoesGoal ? (
-            // The first Goal below says this line already: show it once, keep the bar and the ladder.
-            <span className="sr-only">{head.text}</span>
-          ) : (
-            <span className="n-quest__t quest-line">
-              {head.text}
-              {head.detail ? <span className="n-muted"> ({head.detail})</span> : null}
-            </span>
-          )}
-        </button>
-        {head.bar ? (
-          <Meter
-            value={head.bar.current}
-            max={head.bar.next}
-            label={`${Math.round((Math.min(head.bar.current, head.bar.next) / head.bar.next) * 100)}% of the way to the next step`}
-            tone={head.worthwhile ? 'ok' : 'muted'}
-          />
-        ) : null}
-        {head.ladder.length > 0 ? (
-          <ol className="n-ladder ladder" aria-label="Milestones">
-            {head.ladder.slice(0, 3).map((l) => (
-              <li key={l.state} className={`n-ladder__rung is-${l.state}`}>
-                <b className="num">{l.label}</b>
-                {l.note ? <small className="num">{l.note}</small> : null}
+    <aside className="cp-side purpose" aria-label="Purpose">
+      {timers.length > 0 || card.info.length > 0 ? (
+        <section className="cp-side-sec" aria-label={PAGE_WORDS.timers}>
+          <h3 className="cp-cap">{PAGE_WORDS.timers}</h3>
+          {timers.map((t) => (
+            <div key={t.key} className="cp-timer">
+              <p className="cp-timer-top">
+                <b>{t.what}</b>
+                <b className="cp-sky num">{t.when}</b>
+              </p>
+              <p className="cp-xs">{t.detail}</p>
+            </div>
+          ))}
+          {card.info.map((l) => (
+            <div key={l.key} className="cp-timer">
+              <p className="cp-timer-top">
+                <b>{l.text}</b>
+              </p>
+              {l.source ? (
+                <p className="cp-xs">
+                  <SourceLabel source={l.source} more={false} />
+                </p>
+              ) : null}
+            </div>
+          ))}
+        </section>
+      ) : null}
+      {abouts.length > 0 ? (
+        <section className="cp-side-sec" aria-label={PAGE_WORDS.about}>
+          <h3 className="cp-cap">{PAGE_WORDS.about}</h3>
+          <ul className="cp-about">
+            {abouts.map((p) => (
+              <li key={p.goalId} className={cx(!p.worthwhile && 'quiet')}>
+                <span className="cp-about-t">{p.text}</span>
+                {p.detail ? <span className="cp-xs">{p.detail}</span> : null}
               </li>
             ))}
-          </ol>
-        ) : null}
-        <SeeOnMap mapIndex={mapOf(head)} label={head.text} />
-      </div>
-      {shown.length > 0 ? (
-        <ul className="n-quest__rest">
-          {shown.map((p) => (
-            <li key={p.goalId} className={cx(!p.worthwhile && 'quiet')}>
-              {p.text}
-            </li>
-          ))}
-        </ul>
+          </ul>
+        </section>
       ) : null}
-      <Sheet open={open} title={FOCUS_WORDS.quest} onClose={() => setOpen(false)}>
+      {card.purpose.length > 0 ? (
+        <button
+          type="button"
+          className="n-link-btn cp-side-more"
+          aria-haspopup="dialog"
+          onClick={() => setOpen(true)}
+        >
+          {PAGE_WORDS.details}
+        </button>
+      ) : null}
+      <Sheet open={open} title={PAGE_WORDS.details} onClose={() => setOpen(false)}>
         <ul className="n-quest__all">
           {card.purpose.map((p) => (
             <Line key={p.goalId} p={p} />
           ))}
         </ul>
       </Sheet>
-    </section>
+    </aside>
   );
 }

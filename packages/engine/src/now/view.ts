@@ -674,6 +674,8 @@ export type { ClassFamily } from '../result';
 export interface TabHealth {
   level: 'fix' | 'behind' | 'empty' | 'ok' | 'unknown';
   word: string;
+  /** M24: the count the character page's tab badge shows (points, slots, cards); absent when none. */
+  count?: number;
 }
 
 /** M21 FR-N6: the three pause points. */

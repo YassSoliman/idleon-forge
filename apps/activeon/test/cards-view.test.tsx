@@ -188,7 +188,7 @@ describe('Cards tab', () => {
     expect(window.location.hash).toBe('#cards-2');
     const nav = screen.getByRole('navigation', { name: 'Character page' });
     expect(within(nav).getByRole('link', { current: 'page' }).textContent).toBe(
-      'Cards•empty: 2 of 4 slots empty',
+      'Cards2empty: 2 of 4 slots empty',
     );
     const slots = screen.getByRole('list', { name: 'Preset 1 slots' });
     expect(within(slots).getAllByRole('listitem')).toHaveLength(4);
