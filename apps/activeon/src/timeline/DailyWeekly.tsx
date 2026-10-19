@@ -15,8 +15,9 @@ import {
   span,
 } from '@idleon-forge/engine/now';
 import { type CSSProperties, useState } from 'react';
-import { Button, cx, SegmentedControl, Sheet } from '../design/atoms';
+import { Button, cx, Frame, Pip, SegmentedControl, Sheet } from '../design/atoms';
 import { useNowActions } from '../now/context';
+import { PageSources } from '../shell/page-sources';
 import type { Session } from '../shell/session';
 import { ChecklistRow } from './ChecklistRow';
 import { bankPips, planFor, ringFractions } from './daily-model';
@@ -98,7 +99,7 @@ function Plan({ v }: { v: ChecklistView }) {
   return (
     <section className="dw-plan" aria-labelledby="dw-plan-h">
       <div className="dw-plan-top">
-        <h3 id="dw-plan-h" className="tl-h2">
+        <h3 id="dw-plan-h" className="a-h2">
           {W.planTitle}
         </h3>
         <SegmentedControl
@@ -110,7 +111,7 @@ function Plan({ v }: { v: ChecklistView }) {
       </div>
       {plan.rows.length ? (
         <>
-          <div className="dw-strip-t">
+          <div className="a-tile dw-strip-t">
             <p className="dw-fit" aria-live="polite">
               <b>{W.fits(plan.rows.length, minutes)}</b>
               <span className="dw-fit-u">{W.fitsUsed(span(plan.usedSeconds * 1000))}</span>
@@ -161,10 +162,10 @@ function Plan({ v }: { v: ChecklistView }) {
       )}
       {later.length ? (
         <div className="dw-later">
-          <h4 className="tl-cap">{W.later}</h4>
+          <h4 className="a-cap">{W.later}</h4>
           <ul>
             {later.map((r) => (
-              <li key={r.id}>
+              <li key={r.id} className="a-tile2">
                 <b>{r.label}</b>
                 <span className="dw-later-w">{W.laterWhy(W.bandShort[r.band], r.clockText)}</span>
               </li>
@@ -191,7 +192,7 @@ function BandTile({ b, onOpen }: { b: ChecklistBandView; onOpen(): void }) {
         aria-label={`${W.open(b.title)}: ${W.bandCount(todo, all.length)}`}
       >
         <span className="dw-tile-h">
-          <span className="dw-band-k" aria-hidden="true" />
+          <Pip tone={b.band === 'no-bank' ? 'coral' : b.band === 'weekly' ? 'sky' : 'gold'} />
           <b>{title}</b>
           <span className="dw-band-n num">{W.bandCount(todo, all.length)}</span>
         </span>
@@ -295,7 +296,8 @@ export function DailyWeekly({ s }: { s: Session }) {
       <h3 id="daily-h" className="sr-only">
         {W.title}
       </h3>
-      <section className="dw-hero a-frame" aria-label={W.ringKey}>
+      <PageSources>{W.sources}</PageSources>
+      <Frame className="dw-hero" aria-label={W.ringKey}>
         <Clock day={day} week={week} left={left} />
         <div className="dw-hero-b">
           <p className="dw-count">
@@ -307,7 +309,7 @@ export function DailyWeekly({ s }: { s: Session }) {
           </p>
           {losing.map((r) => (
             <p key={r.id} className="dw-losing">
-              <span className="dw-pip-l" aria-hidden="true" />
+              <Pip tone="coral" />
               <b>{W.losingLine(r.label)}</b>
               {r.details.some((d) => / lost$/.test(d)) ? (
                 <span> · {r.details.filter((d) => / lost$/.test(d)).join(' · ')}</span>
@@ -325,11 +327,11 @@ export function DailyWeekly({ s }: { s: Session }) {
             </span>
           </p>
         </div>
-      </section>
+      </Frame>
       <div className="dw-cols">
         <Plan v={v} />
         <aside className="dw-aside" aria-labelledby="dw-aside-h">
-          <h3 id="dw-aside-h" className="tl-cap">
+          <h3 id="dw-aside-h" className="a-cap">
             {W.asideTitle}
           </h3>
           <ul className="dw-tiles">

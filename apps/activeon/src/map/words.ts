@@ -9,6 +9,10 @@ const fmt = (n: number) => Math.round(n).toLocaleString('en-US');
 
 export const MAP_UI_WORDS = {
   tabsLabel: 'Map views',
+  srcRoute: 'Doors and kill counts from your save · numbers by IdleOn Toolbox',
+  srcStars: 'Constellations from your save · IdleOn Wiki: Star Signs',
+  srcDeathNote: 'Kills from your save · IdleOn Wiki: Death Note',
+  srcCards: 'Cards from your save · IdleOn Wiki: Cards · numbers by IdleOn Toolbox',
   worldLabel: 'World',
   worldTab: (w: number) => `World ${w}`,
   // ---- Route ----

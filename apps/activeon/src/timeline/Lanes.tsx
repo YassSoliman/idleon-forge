@@ -17,9 +17,10 @@ import { type CSSProperties, Fragment, useState } from 'react';
 import { spriteOf } from '../art/sprites/index';
 import { Sprite } from '../art/sprites/Sprite';
 import { PixelArt } from '../design/art/PixelArt';
-import { cx, SegmentedControl, VerdictStamp } from '../design/atoms';
+import { cx, Frame, SegmentedControl, VerdictStamp } from '../design/atoms';
 import { type ClassFamily, WhoGlyph } from '../design/who/WhoGlyph';
 import { tabHref } from '../now/character-tabs';
+import { PageSources } from '../shell/page-sources';
 import { formatRoute } from '../shell/route';
 import type { Session } from '../shell/session';
 import { barArt } from './art';
@@ -115,7 +116,11 @@ function LosingNow({ v, s }: { v: TimelineView; s: Session }) {
   const step = now.bar.fix ? naText(s, now.bar.fix.key) : null;
   const where = row ? `${row.classLabel} ${row.level}` : B.accountHead;
   return (
-    <section className={cx('tl-next a-frame', nowish(now.bar) && 'is-losing')} aria-label={B.losingNow}>
+    <Frame
+      tone={nowish(now.bar) ? 'coral' : 'gold'}
+      className={cx('tl-next', nowish(now.bar) && 'is-losing')}
+      aria-label={B.losingNow}
+    >
       <span className="tl-next-ic" aria-hidden="true">
         {row ? (
           <WhoGlyph family={familyOf(s, row.index)} classLabel={row.classLabel} scale={2} decorative />
@@ -126,7 +131,7 @@ function LosingNow({ v, s }: { v: TimelineView; s: Session }) {
         )}
       </span>
       <span className="tl-next-b">
-        <span className="tl-now-badge">{nowish(now.bar) ? B.losingNow : B.beforeBack}</span>
+        <span className="a-cap tl-now-badge">{nowish(now.bar) ? B.losingNow : B.beforeBack}</span>
         <span className="tl-next-a">
           {now.bar.label} · <span className="num">{now.bar.timeText}</span>
         </span>
@@ -141,7 +146,7 @@ function LosingNow({ v, s }: { v: TimelineView; s: Session }) {
         </span>
       </span>
       <FixLink b={now.bar} s={s} className="tl-link tl-next-go" />
-    </section>
+    </Frame>
   );
 }
 
@@ -318,13 +323,13 @@ function Chart({ v, s }: { v: TimelineView; s: Session }) {
       </div>
       {chars.length ? (
         <>
-          <h3 className="tl-grp">{B.characters}</h3>
+          <h3 className="a-cap tl-grp">{B.characters}</h3>
           <ol className="tl-lrs">{chars.map(lane)}</ol>
         </>
       ) : null}
       {account.length ? (
         <>
-          <h3 className="tl-grp">{B.accountHead}</h3>
+          <h3 className="a-cap tl-grp">{B.accountHead}</h3>
           <ol className="tl-lrs">{account.map(lane)}</ol>
         </>
       ) : null}
@@ -492,6 +497,7 @@ export function Lanes({ v, s }: { v: TimelineView; s: Session }) {
   const [mode, setMode] = useState<Mode>('chart');
   return (
     <div className="tl-lanes-part">
+      <PageSources>{B.sources}</PageSources>
       <LosingNow v={v} s={s} />
       <div className="tl-toolbar">
         <ReturnControl s={s} />

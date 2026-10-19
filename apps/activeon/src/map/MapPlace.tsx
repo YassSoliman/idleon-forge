@@ -25,10 +25,11 @@ import type { Goal } from '@idleon-forge/engine/result';
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import { Sprite } from '../art/sprites/Sprite';
 import { PixelArt } from '../design/art/PixelArt';
-import { cx, Meter, SegmentedControl, Sheet, Tabs } from '../design/atoms';
+import { cx, Frame, Meter, SegmentedControl, Sheet, Tabs, Tag } from '../design/atoms';
 import { localOffsetMinutes } from '../design/format';
 import { type ClassFamily, WhoGlyph } from '../design/who/WhoGlyph';
 import { useNowSettings } from '../now/settings/context';
+import { PageSources } from '../shell/page-sources';
 import { formatRoute } from '../shell/route';
 import type { Session } from '../shell/session';
 import './map.css';
@@ -168,10 +169,10 @@ function WorldTile({
 }) {
   if (b.beyond)
     return (
-      <section className="map-tile is-beyond" aria-label={b.heading}>
+      <section className="a-tile map-tile is-beyond" aria-label={b.heading}>
         <div className="map-tile-h">
           <span className="map-crest num">5+</span>
-          <h3 className="map-h3">{b.heading}</h3>
+          <h3 className="a-h2">{b.heading}</h3>
           <span className="map-line">{b.line}</span>
         </div>
       </section>
@@ -183,15 +184,18 @@ function WorldTile({
   const keys = b.gate?.lines.find((l) => l.kind === 'keys');
   const crystal = b.gate?.lines.find((l) => l.kind === 'crystal');
   return (
-    <section className={cx('map-tile', `map-w${worldNo(b.world)}`, `is-${b.state}`)} aria-label={b.heading}>
+    <section
+      className={cx('a-tile map-tile', `map-w${worldNo(b.world)}`, `is-${b.state}`)}
+      aria-label={b.heading}
+    >
       <div className="map-tile-top">
         <div className="map-tile-h">
           <span className="map-crest num">{b.world}</span>
-          <h3 className="map-h3">{b.heading}</h3>
+          <h3 className="a-h2">{b.heading}</h3>
           <span className="map-line">{b.line}</span>
         </div>
         {b.gate ? (
-          <div className="map-boss">
+          <div className="a-tile2 map-boss">
             <Sprite name="item-key" size={32} decorative />
             <span className="map-boss-b">
               <b>{U.boss(b.gate.boss)}</b>
@@ -269,21 +273,21 @@ function RouteHero({ v, view }: { v: MapPlaceView; view: NowView }) {
     const lit = v.worlds.find((b) => b.gate?.lit);
     const ring = v.overlays.find((o) => o.overlay === 'route');
     return (
-      <section className="map-hero a-frame" aria-label={U.heroGateCap}>
+      <Frame tone="gold" className="map-hero" aria-label={U.heroGateCap}>
         <span className="map-hero-b">
-          <span className="map-cap">{U.heroGateCap}</span>
+          <span className="a-cap map-cap">{U.heroGateCap}</span>
           <span className="map-hero-a">
             {lit?.gate ? W.ringGate(lit.gate.boss) : (ring?.ringText ?? W.ringNone)}
           </span>
         </span>
-      </section>
+      </Frame>
     );
   }
   return (
-    <section className="map-hero a-frame" aria-label={U.heroCap}>
+    <Frame tone="gold" className="map-hero" aria-label={U.heroCap}>
       <div className="map-hero-row">
         <span className="map-hero-b">
-          <span className="map-cap">{U.heroCap}</span>
+          <span className="a-cap map-cap">{U.heroCap}</span>
           <span className="map-hero-a">{f.step}</span>
           {f.who ? (
             <span className="map-hero-w">
@@ -303,7 +307,7 @@ function RouteHero({ v, view }: { v: MapPlaceView; view: NowView }) {
         </span>
       </div>
       <Meter value={f.done} max={f.requirement} label={f.killsText} />
-    </section>
+    </Frame>
   );
 }
 
@@ -323,6 +327,7 @@ function RouteTab({
   const bands = world === null ? v.worlds : v.worlds.filter((b) => b.world === world);
   return (
     <div className="map-panel">
+      <PageSources>{U.srcRoute}</PageSources>
       <RouteHero v={v} view={view} />
       <div className="map-legend-row">
         <span className="map-quiet">{W.tapHint}</span>
@@ -389,24 +394,25 @@ function StarsTab({ v, s }: { v: MapPlaceView; s: Session }) {
   const worlds = [...new Set(stars.map((x) => x.world))];
   return (
     <div className="map-panel">
+      <PageSources>{U.srcStars}</PageSources>
       {lead ? (
-        <section className="map-hero a-frame" aria-label={U.starsCap}>
+        <Frame tone="gold" className="map-hero" aria-label={U.starsCap}>
           <div className="map-hero-row">
             <span className="map-hero-ic" aria-hidden="true">
               <Sprite name="sys-star-signs" size={48} decorative />
             </span>
             <span className="map-hero-b">
-              <span className="map-cap">{U.starsCap}</span>
+              <span className="a-cap map-cap">{U.starsCap}</span>
               <span className="map-hero-a">{lead}</span>
               {why ? <span className="map-quiet">{why}</span> : null}
             </span>
             {sv?.milestone ? <span className="map-hero-m">{sv.milestone}</span> : null}
           </div>
-        </section>
+        </Frame>
       ) : null}
       {next.length ? (
         <section className="map-sec" aria-labelledby="ms-next-h">
-          <h3 id="ms-next-h" className="map-h3">
+          <h3 id="ms-next-h" className="a-h2">
             {U.starsNext}
           </h3>
           <ol className="ms-next">
@@ -433,7 +439,7 @@ function StarsTab({ v, s }: { v: MapPlaceView; s: Session }) {
       {stars.length ? (
         <section className="map-sec" aria-labelledby="ms-all-h">
           <div className="map-sec-h">
-            <h3 id="ms-all-h" className="map-h3">
+            <h3 id="ms-all-h" className="a-h2">
               {U.starsAll}
             </h3>
             <ul className="map-legend">
@@ -459,7 +465,7 @@ function StarsTab({ v, s }: { v: MapPlaceView; s: Session }) {
             const these = stars.filter((x) => x.world === w);
             const band = v.worlds.find((b) => b.world === w);
             return (
-              <div key={w} className={cx('map-tile', `map-w${worldNo(w)}`)}>
+              <div key={w} className={cx('a-tile map-tile', `map-w${worldNo(w)}`)}>
                 <div className="map-tile-h">
                   <span className="map-crest num">{w}</span>
                   <h4 className="map-h4">{band?.heading ?? U.worldTab(w)}</h4>
@@ -495,14 +501,15 @@ function DeathNoteTab({ v, s }: { v: MapPlaceView; s: Session }) {
   const ticks = ['0', ...ranks.slice(0, -1).map((r) => (r >= 1e6 ? `${r / 1e6}M` : `${r / 1000}k`))];
   return (
     <div className="map-panel">
+      <PageSources>{U.srcDeathNote}</PageSources>
       {goal || closest ? (
-        <section className="map-hero a-frame" aria-label={goal ? U.dnCap : U.dnCloseCap}>
+        <Frame tone="gold" className="map-hero" aria-label={goal ? U.dnCap : U.dnCloseCap}>
           <div className="map-hero-row">
             <span className="map-hero-ic" aria-hidden="true">
               <Sprite name="sys-death-note" size={48} decorative />
             </span>
             <span className="map-hero-b">
-              <span className="map-cap">{goal ? U.dnCap : U.dnCloseCap}</span>
+              <span className="a-cap map-cap">{goal ? U.dnCap : U.dnCloseCap}</span>
               <span className="map-hero-a">
                 {goal ? goal.nextAction.text : `${closest?.map}: ${closest?.next}`}
               </span>
@@ -515,12 +522,12 @@ function DeathNoteTab({ v, s }: { v: MapPlaceView; s: Session }) {
               </span>
             ) : null}
           </div>
-        </section>
+        </Frame>
       ) : null}
       <div className="map-cols">
         <section className="map-sec" aria-labelledby="dn-h">
           <div className="map-sec-h">
-            <h3 id="dn-h" className="map-h3">
+            <h3 id="dn-h" className="a-h2">
               {U.dnRanks}
             </h3>
             <span className="map-quiet">{U.dnAll}</span>
@@ -538,7 +545,7 @@ function DeathNoteTab({ v, s }: { v: MapPlaceView; s: Session }) {
                     <span className="dn-name">
                       <span className="dn-name-t">
                         <b>{r.map}</b>
-                        {i === 0 ? <span className="map-badge is-gold">{U.dnClosest}</span> : null}
+                        {i === 0 ? <Tag tone="gold">{U.dnClosest}</Tag> : null}
                       </span>
                       <span className="map-quiet">{U.dnFight(r.who.map((w) => w.label))}</span>
                     </span>
@@ -582,7 +589,7 @@ function DeathNoteTab({ v, s }: { v: MapPlaceView; s: Session }) {
         </section>
         {b ? (
           <aside className="map-aside" aria-labelledby="dn-b-h">
-            <h3 id="dn-b-h" className="map-cap">
+            <h3 id="dn-b-h" className="a-cap">
               {U.dnFirst}
             </h3>
             <dl className="dn-facts">
@@ -676,14 +683,15 @@ function CardsTab({
   const farmer = top ? whoOf(top.farmingNow) : null;
   return (
     <div className="map-panel">
+      <PageSources>{U.srcCards}</PageSources>
       {top ? (
-        <section className="map-hero a-frame" aria-label={U.cardsCap}>
+        <Frame tone="gold" className="map-hero" aria-label={U.cardsCap}>
           <div className="map-hero-row">
             <span className="map-hero-ic" aria-hidden="true">
               <Sprite name="item-card-frame" size={48} decorative />
             </span>
             <span className="map-hero-b">
-              <span className="map-cap">{U.cardsCap}</span>
+              <span className="a-cap map-cap">{U.cardsCap}</span>
               <span className="map-hero-a">{U.cardTitle(top.name, top.missing, top.next.label)}</span>
               <span className="map-hero-w">
                 {farmer ? (
@@ -705,11 +713,11 @@ function CardsTab({
             </span>
           </div>
           <Meter value={top.owned} max={top.owned + top.missing} label={U.cardOf(top.owned + top.missing)} />
-        </section>
+        </Frame>
       ) : null}
       {also.length ? (
         <section className="map-sec" aria-labelledby="mc-also-h">
-          <h3 id="mc-also-h" className="map-h3">
+          <h3 id="mc-also-h" className="a-h2">
             {U.alsoClose}
           </h3>
           <ul className="mc-also">
@@ -732,7 +740,7 @@ function CardsTab({
       ) : null}
       <section className="map-sec" aria-labelledby="mc-all-h">
         <div className="map-sec-h">
-          <h3 id="mc-all-h" className="map-h3">
+          <h3 id="mc-all-h" className="a-h2">
             {U.cardsAll}
           </h3>
           <ul className="map-legend">
@@ -762,7 +770,7 @@ function CardsTab({
           if (!cards.length) return null;
           const have = cards.filter((x) => x.c.level !== null).length;
           return (
-            <div key={b.world} className={cx('map-tile', `map-w${worldNo(b.world)}`)}>
+            <div key={b.world} className={cx('a-tile map-tile', `map-w${worldNo(b.world)}`)}>
               <div className="map-tile-h">
                 <span className="map-crest num">{b.world}</span>
                 <h4 className="map-h4">{b.heading}</h4>
@@ -941,13 +949,13 @@ export function MapPlace({ s }: { s: Session }) {
   const cardsHave = cardsAll.filter((n) => v?.sheets[n.mapIndex]?.card?.level != null).length;
   const dnLevel = v?.deathNoteBuilding?.level ?? null;
   const badge = (text: string | null, gold = false) =>
-    text ? <span className={cx('map-badge', gold && 'is-gold')}>{text}</span> : undefined;
+    text ? <Tag tone={gold ? 'gold' : undefined}>{text}</Tag> : undefined;
 
   return (
     <section className="map-place" aria-labelledby="map-h">
       <div className="map-head">
         <div className="map-head-t">
-          <h2 ref={heading} id="map-h" className="place-h map-title" data-place-heading tabIndex={-1}>
+          <h2 ref={heading} id="map-h" className="place-h a-h1 map-title" data-place-heading tabIndex={-1}>
             {W.title}
           </h2>
           {v ? <p className="map-sum">{v.summary}</p> : null}

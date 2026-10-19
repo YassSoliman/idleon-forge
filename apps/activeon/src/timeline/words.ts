@@ -42,6 +42,7 @@ export const BOARD_WORDS = {
   viewLabel: 'Show the limits as',
   chart: 'Chart',
   chartLabel: 'Every limit on one clock',
+  sources: 'Limits from your save · numbers by IdleOn Toolbox',
   list: 'List',
   characters: 'Characters, soonest first',
   accountHead: 'Account',
@@ -77,6 +78,7 @@ export const SLOTS_UI_WORDS = {
   sub: 'Beside each AFK job, every character has 5 slots that earn on their own',
   heroCap: 'One move, more from a slot',
   showWhere: 'Show me where',
+  sources: 'Slots from your save · IdleOn Wiki: Construction · numbers by IdleOn Toolbox',
   alsoTitle: 'Also worth a minute',
   /** "Worship full on 5 characters". */
   alsoLine: (heading: string, count: string) => `${heading}: ${count}`,
@@ -113,6 +115,7 @@ export const DAILY_WORDS = {
   lostBeforeBack: 'lost before you are back',
   // ---- M24 (the Daily & weekly board) ----
   sub: 'Daily jobs are lost at the reset unless they bank; weekly ones wait for their own clock',
+  sources: 'Times from your save · IdleOn Wiki: Daily Checklist · job times are ActiveOn estimates',
   /** The hero's count line: "12" + "things to do before the daily reset". */
   heroCount: (n: number) =>
     n === 1 ? 'thing to do before the daily reset' : 'things to do before the daily reset',

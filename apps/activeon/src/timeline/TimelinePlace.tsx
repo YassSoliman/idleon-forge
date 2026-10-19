@@ -34,7 +34,7 @@ function TabBar({ s, section, badges }: { s: Session; section: Section; badges: 
   const short = [B.tabLanes, B.tabSlotsShort, B.tabDailyShort];
   const go = (to: Section) => s.navigate({ place: 'timeline', section: to }, 'replace');
   return (
-    <nav className="tl-tabs" aria-label={B.tabsLabel}>
+    <nav className="a-tabs tl-tabs" aria-label={B.tabsLabel}>
       {TABS.map((t, i) => {
         const on = t.section === section;
         const n = badges[i];
@@ -45,7 +45,7 @@ function TabBar({ s, section, badges }: { s: Session; section: Section; badges: 
               refs.current[i] = el;
             }}
             href={t.section ? `#${t.section}` : '#timeline'}
-            className={cx('tl-tab', on && 'is-on')}
+            className={cx('a-tab tl-tab', on && 'a-tab--on is-on')}
             aria-current={on ? 'page' : undefined}
             onClick={(e) => {
               e.preventDefault();
@@ -65,7 +65,7 @@ function TabBar({ s, section, badges }: { s: Session; section: Section; badges: 
               {short[i]}
             </span>
             {n !== null && n !== undefined ? (
-              <span className={cx('tl-badge', on && 'is-on')}>
+              <span className={cx('a-badge tl-badge', on ? 'a-badge--gold is-on' : 'a-badge--plain')}>
                 <span className="num">{n}</span>
               </span>
             ) : null}
@@ -91,7 +91,7 @@ export function TimelinePlace({ s }: { s: Session }) {
   const sub = section === 'slots' ? SLOTS_UI_WORDS.sub : section === 'daily' ? DAILY_WORDS.sub : lanesSub(v);
   return (
     <section className="timeline-place" aria-labelledby="timeline-h">
-      <h2 ref={heading} id="timeline-h" className="place-h tl-title" data-place-heading tabIndex={-1}>
+      <h2 ref={heading} id="timeline-h" className="place-h a-h1 tl-title" data-place-heading tabIndex={-1}>
         {B.title}
       </h2>
       {/* §6 and the Design Lab's "Hatched waste": the save's age comes before anything else. */}

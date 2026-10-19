@@ -11,8 +11,9 @@ import type { SlotKind } from '@idleon-forge/engine/result';
 import { useMemo } from 'react';
 import { Sprite } from '../art/sprites/Sprite';
 import { PixelArt } from '../design/art/PixelArt';
-import { cx } from '../design/atoms';
+import { cx, Frame } from '../design/atoms';
 import { type ClassFamily, WhoGlyph } from '../design/who/WhoGlyph';
+import { PageSources } from '../shell/page-sources';
 import type { Session } from '../shell/session';
 import { linkFix } from './ChecklistRow';
 import { slotTray } from './slots-tray';
@@ -94,12 +95,12 @@ function Hero({ v, s }: { v: Grid; s: Session }) {
   if (!now) return null;
   const goal = s.result.account.goals.find((g) => g.nextAction.key === now.key);
   return (
-    <section className="sg-hero a-frame" aria-label={W.heroCap}>
+    <Frame tone="gold" className="sg-hero" aria-label={W.heroCap}>
       <span className="sg-hero-ic" aria-hidden="true">
         <Sprite name={SLOT_SPRITE[now.kind]} size={48} decorative />
       </span>
       <span className="sg-hero-b">
-        <span className="tl-now-badge is-gold">{W.heroCap}</span>
+        <span className="a-cap tl-now-badge">{W.heroCap}</span>
         <span className="sg-hero-a">{now.text}</span>
         <span className="tl-next-tok">
           <span className="tl-who">
@@ -120,7 +121,7 @@ function Hero({ v, s }: { v: Grid; s: Session }) {
         {W.showWhere}
         <PixelArt name="ui-arrow-right" decorative />
       </a>
-    </section>
+    </Frame>
   );
 }
 
@@ -130,7 +131,7 @@ function Also({ v, s }: { v: Grid; s: Session }) {
   if (!tray.length) return null;
   return (
     <section className="sg-side" aria-labelledby="sg-also-h">
-      <h3 id="sg-also-h" className="tl-cap">
+      <h3 id="sg-also-h" className="a-cap">
         {W.alsoTitle}
       </h3>
       <ul className="sg-also">
@@ -181,12 +182,12 @@ function Closed({ v }: { v: Grid }) {
   if (!lines.length) return null;
   return (
     <section className="sg-side" aria-labelledby="sg-closed-h">
-      <h3 id="sg-closed-h" className="tl-cap">
+      <h3 id="sg-closed-h" className="a-cap">
         {W.closedTitle}
       </h3>
       <ul className="sg-closed">
         {lines.map((l) => (
-          <li key={l.kind}>
+          <li key={l.kind} className="a-tile2">
             <b>{l.title}</b>
             <span className="sg-closed-w">{l.why}</span>
           </li>
@@ -204,6 +205,7 @@ export function ParallelSlots({ s }: { s: Session }) {
       <h3 id="slots-h" className="sr-only">
         {W.title}
       </h3>
+      <PageSources>{W.sources}</PageSources>
       {!v ? (
         <p className="tl-quiet">{W.none}</p>
       ) : (
