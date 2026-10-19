@@ -185,6 +185,8 @@ export interface ProductionResult {
   answer: { cap: string; hero: string; sub: string | null } | null;
   /** The keep threshold in use (C-Q1). */
   keepRatio: number;
+  /** Anvil products 0-10 (a hammer's `from`/`to` index): rawName and name. */
+  products: Array<{ rawName: string; name: string }>;
   /** FR-C1: each anvil tab 1-5 as a gate (met: the Recipes tab; unmet: the Walkthrough), by tab - 1. */
   tabGates: GateSpan[];
   /** Display names of every item a recipe or row names, by rawName (shared, so recipes stay small). */

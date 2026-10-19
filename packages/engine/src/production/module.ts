@@ -324,7 +324,7 @@ export function buildProduction(input: BuildInput): ProductionResult | null {
             key: `${key}:hammer-hammer`,
             text: sa('step-hh-on'),
             tone: 'done',
-            icon: 'aUpgradesB2',
+            icon: 'aUpgradesG2',
             link: null,
           }
         : hhLevel !== null && hhLevel > 0
@@ -332,14 +332,14 @@ export function buildProduction(input: BuildInput): ProductionResult | null {
               key: `${key}:hammer-hammer`,
               text: sa('step-hh-equip'),
               tone: 'todo',
-              icon: 'aUpgradesB2',
+              icon: 'aUpgradesG2',
               link: { label: sa('link-alchemy'), href: '#system-alchemy-bubbles' },
             }
           : {
               key: `${key}:hammer-hammer`,
               text: sa('step-hh-locked'),
               tone: 'display',
-              icon: 'aUpgradesB2',
+              icon: 'aUpgradesG2',
               link: { label: sa('link-alchemy'), href: '#system-alchemy-bubbles' },
             },
     );
@@ -465,17 +465,16 @@ export function buildProduction(input: BuildInput): ProductionResult | null {
         : { text: sc('chip-short', { n: missing.length }), tone: 'gold' },
       p.rawName,
       claimKey,
-      missing.length === 0 ? 5 : 20,
+      missing.length === 0 ? 12 : 20,
     );
     r.gate = recipeGate(state, kb, p.rawName, p.name);
     const other = sh ?? sharedFor(c.index, p.rawName);
     if (other) {
       r.also = {
-        text: sc(other.who.length === 2 ? 'detail-also-one' : 'detail-also', {
-          n: other.who.length - 1,
-          k: other.who.length,
-          plural: plural(other.name),
-        }),
+        text: sc(
+          `${other.rawName === p.rawName ? 'detail-also' : 'detail-also-other'}${other.who.length === 2 ? '-one' : ''}`,
+          { n: other.who.length - 1, k: other.who.length, plural: plural(other.name), item: other.name },
+        ),
         label: sc('detail-also-label', { k: other.who.length, plural: plural(other.name) }),
         href: '#production',
       };
@@ -625,6 +624,7 @@ export function buildProduction(input: BuildInput): ProductionResult | null {
     answer,
     keepRatio,
     tabGates: [1, 2, 3, 4, 5].map((t) => tabGate(state, kb, t)),
+    products: products.map((p) => ({ rawName: p.rawName, name: p.name })),
     ...recipeLookups(state, kb, nameOf),
   };
 }
