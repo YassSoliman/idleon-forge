@@ -191,6 +191,16 @@ describe('M23 the Bubba page', () => {
     );
   });
 
+  it("says the pats in the Timeline's words (R12 QA)", () => {
+    const { rerender } = render(<BubbaPage {...props(W3)} />);
+    expect(screen.getByText('10 of 10 · full when you open Bubba')).toBeTruthy();
+    const refillAt = NOW + 51 * 60_000;
+    rerender(<BubbaPage {...props({ ...W3, pats: { left: 10, perHour: 10, refillAt } })} />);
+    expect(screen.getByText('10 of 10 now, refills in 51m')).toBeTruthy();
+    rerender(<BubbaPage {...props({ ...W3, pats: { left: 21, perHour: 11, refillAt } })} />);
+    expect(screen.getByText('21 left · 11 a refill, refills in 51m')).toBeTruthy();
+  });
+
   it("can't read: no numbers (FR-24)", () => {
     const { container } = render(<BubbaPage {...props({ ...W3, state: 'unknown' })} />);
     expect(container.textContent).toBe("Can't read Bubba from this save");
