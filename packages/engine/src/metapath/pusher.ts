@@ -70,12 +70,30 @@ export function choosePusher(
       level(b) - level(a) ||
       a.characterIndex - b.characterIndex,
   )[0] as FrontierFight;
-  // Step 4: the fastest candidate takes over only with at least `margin` x the incumbent's rate.
-  const fastest = [...candidates].sort(
-    (a, b) =>
-      b.finalKillsPerHour - a.finalKillsPerHour || level(b) - level(a) || a.characterIndex - b.characterIndex,
-  )[0] as FrontierFight;
-  const pick = fastest.finalKillsPerHour >= margin * incumbent.finalKillsPerHour ? fastest : incumbent;
+  // Step 4: the challenger takes over only with at least `margin` x the incumbent's pace. Door kills are
+  // per character, so the pace is the time to open the door (kills left over the floored kill rate), not
+  // the rate alone: a character 864 kills from the door is not overtaken by one 7,998 away that kills
+  // 1.3x faster (M24 fix). With equal kills left this is exactly the D1 rate rule; once the incumbent has
+  // no kills left (it is through the door, a `hardest-cleared` frontier), the rate rule applies as before.
+  const byRate = (a: FrontierFight, b: FrontierFight) =>
+    b.finalKillsPerHour - a.finalKillsPerHour || level(b) - level(a) || a.characterIndex - b.characterIndex;
+  let pick: FrontierFight;
+  let challenger: FrontierFight;
+  if (incumbent.killsLeft <= 0) {
+    challenger = [...candidates].sort(byRate)[0] as FrontierFight;
+    pick = challenger.finalKillsPerHour >= margin * incumbent.finalKillsPerHour ? challenger : incumbent;
+  } else {
+    // Soonest first: a.left / a.rate < b.left / b.rate, cross-multiplied so the boundary is exact.
+    challenger = [...candidates].sort(
+      (a, b) =>
+        a.killsLeft * b.finalKillsPerHour - b.killsLeft * a.finalKillsPerHour || byRate(a, b),
+    )[0] as FrontierFight;
+    pick =
+      margin * challenger.killsLeft * incumbent.finalKillsPerHour <=
+      incumbent.killsLeft * challenger.finalKillsPerHour
+        ? challenger
+        : incumbent;
+  }
   return {
     kind: 'pusher',
     frontier,
@@ -83,7 +101,7 @@ export function choosePusher(
       index: pick.characterIndex,
       frontierMap: frontier.mapIndex,
       incumbent: incumbent.characterIndex,
-      fastest: fastest.characterIndex,
+      fastest: challenger.characterIndex,
     },
   };
 }

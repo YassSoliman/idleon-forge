@@ -168,7 +168,7 @@ export interface PusherResult {
   frontierMap: number;
   /** The incumbent (TR-10 step 3), for the "kept the incumbent" explanation. */
   incumbent: number;
-  /** The fastest candidate (TR-10 step 4). */
+  /** The challenger (TR-10 step 4): the candidate soonest through the frontier door (M24 fix). */
   fastest: number;
 }
 
