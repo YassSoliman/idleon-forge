@@ -117,7 +117,7 @@ export function LabBody({ s, v }: { s: Session; v: LabPageView }) {
                 </h3>
                 <span className="w4-muted w4-small">{v.board.summary}</span>
               </header>
-              <div className="w4-tile w4-board-wrap">
+              <div className="a-tile w4-board-wrap">
                 <Board b={v.board} />
               </div>
               <ul className="w4-legend w4-small w4-muted" aria-label="Board key">
@@ -192,7 +192,7 @@ export function LabBody({ s, v }: { s: Session; v: LabPageView }) {
             </header>
             <div className="w4-cards">
               {v.openers.map((o) => (
-                <div key={o.key} className="w4-tile w4-card">
+                <div key={o.key} className="a-tile w4-card">
                   <div className="w4-card__head">
                     <Sprite name={o.key === 'repo' ? 'item-chip' : 'item-jewel'} size={32} decorative />
                     <span className="w4-strong">{o.title}</span>
@@ -211,7 +211,7 @@ export function LabBody({ s, v }: { s: Session; v: LabPageView }) {
                 </div>
               ))}
             </div>
-            <div className="w4-tile">
+            <div className="a-tile">
               <table className="w4-slots">
                 <caption className="w4-small w4-muted">
                   Chip slots per character; the numbers are the Lab level each slot opens at

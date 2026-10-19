@@ -6,19 +6,19 @@
 // reached and until every step is done. It is Now's one framed block while it shows.
 import type { World4Welcome } from '@idleon-forge/engine/world4';
 import { Sprite } from '../art/sprites/Sprite';
-import { cx } from '../design/atoms';
+import { cx, Frame, Tag } from '../design/atoms';
 import { formatRoute } from '../shell/route';
 import type { Session } from '../shell/session';
 import './world4.css';
 
 export function W4Welcome({ s, w }: { s: Session; w: World4Welcome }) {
   return (
-    <section className="w4-welcome a-frame w4-t--gold" aria-labelledby="w4-welcome-h">
+    <Frame tone="gold" pad={false} className="w4-welcome" aria-labelledby="w4-welcome-h">
       <div className="w4-welcome__head">
         <Sprite name="sys-rift" size={64} decorative />
         <div className="w4-stack">
           <span className="w4-welcome__badges">
-            <span className="w4-tag w4-tag--solid">{w.badge}</span>
+            <Tag tone="gold">{w.badge}</Tag>
             <span className="w4-small w4-muted">{w.place}</span>
           </span>
           <h2 id="w4-welcome-h" className="w4-welcome__title">
@@ -81,6 +81,6 @@ export function W4Welcome({ s, w }: { s: Session; w: World4Welcome }) {
         ))}{' '}
         (IdleOn Wiki)
       </p>
-    </section>
+    </Frame>
   );
 }

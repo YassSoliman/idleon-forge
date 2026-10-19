@@ -7,7 +7,7 @@
 import type { BreedingPageView } from '@idleon-forge/engine/world4';
 import { type CSSProperties, useState } from 'react';
 import { Sprite } from '../art/sprites/Sprite';
-import { cx, Tabs } from '../design/atoms';
+import { cx, Pip, Tabs } from '../design/atoms';
 import type { Session } from '../shell/session';
 import { Frame, Rows, SourceLine, Tag } from './parts';
 
@@ -94,7 +94,7 @@ export function BreedingBody({ s, v }: { s: Session; v: BreedingPageView }) {
       >
         {tab === 'nest' ? (
           <div className="w4-halves">
-            <section className="w4-tile w4-sec" aria-labelledby="w4-nest-h">
+            <section className="a-tile w4-sec" aria-labelledby="w4-nest-h">
               <header className="w4-sec__head">
                 <h3 id="w4-nest-h" className="sy-h3">
                   The nest
@@ -118,7 +118,7 @@ export function BreedingBody({ s, v }: { s: Session; v: BreedingPageView }) {
               </ul>
               <p className="w4-small w4-muted">{v.nestNote}</p>
             </section>
-            <section className="w4-tile w4-sec" aria-labelledby="w4-loop-h">
+            <section className="a-tile w4-sec" aria-labelledby="w4-loop-h">
               <header className="w4-sec__head">
                 <h3 id="w4-loop-h" className="sy-h3">
                   Why it matters
@@ -140,7 +140,7 @@ export function BreedingBody({ s, v }: { s: Session; v: BreedingPageView }) {
             </header>
             <div className="w4-split">
               <Rows rows={v.territories} label="Territories in order" />
-              <aside className="w4-tile2 w4-stack">
+              <aside className="a-tile2 w4-stack">
                 <span className="w4-cap">Forage teams</span>
                 <Sprite name="sys-territories" size={48} decorative />
                 <p className="w4-small w4-muted">{v.forageNote}</p>
@@ -157,7 +157,7 @@ export function BreedingBody({ s, v }: { s: Session; v: BreedingPageView }) {
               </h3>
               <span className="w4-muted w4-small">{v.arenaLine}</span>
             </header>
-            <div className="w4-tile">
+            <div className="a-tile">
               <ol className="w4-track" aria-label="Mob Arena wave bonuses">
                 {v.arena.waves.map((w) => (
                   <li
@@ -175,7 +175,7 @@ export function BreedingBody({ s, v }: { s: Session; v: BreedingPageView }) {
                 ))}
               </ol>
               <p className="w4-small w4-muted w4-track__note">
-                <span className="w4-pip w4-t--gold" aria-hidden="true" /> {v.arena.note}
+                <Pip tone="gold" /> {v.arena.note}
               </p>
             </div>
           </section>
@@ -192,11 +192,11 @@ export function BreedingBody({ s, v }: { s: Session; v: BreedingPageView }) {
               <Rows rows={v.upgrades} label="Breeding upgrades" numbered={false} />
             </section>
             <aside className="w4-stack">
-              <div className="w4-tile2 w4-stack">
+              <div className="a-tile2 w4-stack">
                 <span className="w4-cap">World 4 Mobs</span>
                 <p className="w4-small w4-muted">{v.mobsNote}</p>
               </div>
-              <div className="w4-tile2 w4-stack">
+              <div className="a-tile2 w4-stack">
                 <span className="w4-cap">Shiny Mobs · later</span>
                 <p className="w4-small w4-muted">{v.shinyNote}</p>
               </div>

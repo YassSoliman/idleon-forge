@@ -7,7 +7,7 @@
 import type { CookingPageView } from '@idleon-forge/engine/world4';
 import { useState } from 'react';
 import { Sprite } from '../art/sprites/Sprite';
-import { cx, Meter, Tabs } from '../design/atoms';
+import { cx, Meter, Pip, Tabs } from '../design/atoms';
 import type { Session } from '../shell/session';
 import { Frame, SourceLine, Tag, toneClass } from './parts';
 
@@ -50,7 +50,7 @@ export function CookingBody({ s, v }: { s: Session; v: CookingPageView }) {
               {v.kitchens.map((k) => (
                 <li
                   key={k.key}
-                  className={cx('w4-tile w4-kitchen', toneClass(k.tone), k.owned ? 'is-owned' : 'is-locked')}
+                  className={cx('a-tile w4-kitchen', toneClass(k.tone), k.owned ? 'is-owned' : 'is-locked')}
                 >
                   <div className="w4-card__head">
                     <Sprite
@@ -75,8 +75,8 @@ export function CookingBody({ s, v }: { s: Session; v: CookingPageView }) {
               ))}
             </ul>
             {v.buyLine ? (
-              <div className="w4-tile2 w4-line">
-                <span className="w4-pip w4-t--gold" aria-hidden="true" />
+              <div className="a-tile2 w4-line">
+                <Pip tone="gold" />
                 <span className="w4-small">
                   <span className="w4-strong">{v.buyLine.title}</span>{' '}
                   <span className="w4-muted">{v.buyLine.detail}</span>
@@ -103,7 +103,7 @@ export function CookingBody({ s, v }: { s: Session; v: CookingPageView }) {
               {v.nextMeals.length > 0 ? (
                 <ol className="w4-cards">
                   {v.nextMeals.map((m) => (
-                    <li key={m.key} className="w4-tile w4-card w4-card--lit">
+                    <li key={m.key} className="a-tile w4-card w4-card--lit">
                       <div className="w4-card__head">
                         <span className="w4-num w4-t--gold" aria-hidden="true">
                           {m.n}
@@ -162,7 +162,7 @@ export function CookingBody({ s, v }: { s: Session; v: CookingPageView }) {
                 ))}
               </dl>
               {v.closest ? (
-                <div className="w4-tile2 w4-stack">
+                <div className="a-tile2 w4-stack">
                   <span className="w4-small w4-strong">{v.closest.name}</span>
                   <Meter value={v.closest.have} max={v.closest.need} label={v.closest.text} />
                   <span className="w4-xs w4-muted">{v.closest.text}</span>

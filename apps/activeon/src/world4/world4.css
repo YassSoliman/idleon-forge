@@ -88,7 +88,7 @@
   opacity: 0.45;
 }
 
-/* Tones (text). */
+/* Tones (text). Surfaces, tags, pips and the frame are the shell's (design/atoms Surfaces). */
 .w4-t--coral {
   color: var(--bad);
 }
@@ -105,87 +105,17 @@
   color: var(--muted);
 }
 
-/* Surfaces. */
-.w4-tile {
-  padding: var(--space-4);
-  background: var(--surface);
-  border-radius: var(--radius-xs);
-  min-width: 0;
-}
-.w4-tile2 {
-  padding: var(--space-3) var(--space-4);
-  background: var(--sunk);
-  border-radius: var(--radius-xs);
-  min-width: 0;
-}
-.w4-tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 1px 6px;
-  border-radius: 2px;
-  background: var(--sunk);
-  color: var(--muted);
-  font: var(--weight-bold) var(--text-xs) / var(--lh-snug) var(--font-body);
-  font-variant-ligatures: var(--font-ligatures);
-  font-feature-settings: var(--font-features);
-  white-space: nowrap;
-}
-.w4-tag.w4-t--gold,
-.w4-tag--solid {
-  background: var(--accent);
-  color: var(--on-accent);
-}
-.w4-tag.w4-t--coral {
-  background: var(--bad);
-  color: var(--on-bad);
-}
-.w4-tag.w4-t--mint {
-  background: var(--ok-soft);
-  color: var(--ok);
-}
-.w4-tag.w4-t--sky {
-  background: var(--info-soft);
-  color: var(--info);
-}
-.w4-pip {
-  display: inline-block;
-  flex: none;
-  width: 10px;
-  height: 10px;
-  background: currentColor;
-}
-
-/* The framed answer: tonal background by meaning, notched by .a-frame. */
-.w4-frame {
+/* The framed answer: the shell's Frame (its tint says coral, gold or mint); its words keep --fg, and
+   only the label and the big number take the tone. */
+.w4-frame.a-frame {
   display: grid;
   gap: var(--space-4);
   padding: var(--space-5) var(--space-6);
-}
-.w4-frame.w4-t--gold,
-.w4-frame.w4-t--muted {
-  background: var(--accent-soft);
   color: var(--fg);
 }
-.w4-frame.w4-t--coral {
-  background: var(--bad-soft);
-  color: var(--fg);
-}
-.w4-frame.w4-t--mint {
-  background: var(--ok-soft);
-  color: var(--fg);
-}
-.w4-frame.w4-t--sky {
-  background: var(--info-soft);
-  color: var(--fg);
-}
-.w4-frame__text {
-  display: grid;
-  gap: var(--space-2);
-}
-.w4-frame__text p {
-  margin: 0;
-}
-.w4-frame.w4-t--gold .w4-cap--tone {
+.w4-frame.w4-t--gold .w4-cap--tone,
+.w4-frame.w4-t--muted .w4-cap--tone,
+.w4-frame.w4-t--gold .w4-big {
   color: var(--accent);
 }
 .w4-frame.w4-t--coral .w4-cap--tone,
@@ -195,11 +125,16 @@
 .w4-frame.w4-t--mint .w4-cap--tone {
   color: var(--ok);
 }
-.w4-frame.w4-t--sky .w4-cap--tone {
+.w4-frame.w4-t--sky .w4-cap--tone,
+.w4-frame.w4-t--sky .w4-big {
   color: var(--info);
 }
-.w4-frame.w4-t--gold .w4-big {
-  color: var(--accent);
+.w4-frame__text {
+  display: grid;
+  gap: var(--space-2);
+}
+.w4-frame__text p {
+  margin: 0;
 }
 .w4-frame__title {
   margin: 0;
@@ -213,7 +148,7 @@
   align-content: start;
 }
 @media (min-width: 720px) {
-  .w4-frame {
+  .w4-frame.a-frame {
     grid-template-columns: minmax(0, 1fr) 200px;
     gap: var(--space-6);
   }
@@ -342,7 +277,7 @@
 .w4-card p {
   margin: 0;
 }
-.w4-card--lit {
+.a-tile.w4-card--lit {
   background: var(--accent-soft);
 }
 .w4-card__head {
@@ -576,7 +511,7 @@
   opacity: 0.5;
 }
 @media (max-width: 719.98px) {
-  .w4-tile:has(> .w4-slots) {
+  .a-tile:has(> .w4-slots) {
     overflow-x: auto;
   }
 }
@@ -782,10 +717,6 @@
   display: grid;
   gap: var(--space-5);
   padding: var(--space-6) var(--space-7);
-}
-.w4-welcome.w4-t--gold {
-  background: var(--accent-soft);
-  color: var(--fg);
 }
 .w4-welcome__head {
   display: flex;

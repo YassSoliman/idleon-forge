@@ -6,7 +6,8 @@ import type { W4Frame, W4Row, W4Tone, World4Source } from '@idleon-forge/engine/
 import type { ReactNode } from 'react';
 import { spriteOf } from '../art/sprites';
 import { Sprite } from '../art/sprites/Sprite';
-import { cx, Meter } from '../design/atoms';
+import { Frame as AFrame, Tag as ATag, cx, Meter } from '../design/atoms';
+import { PageSources } from '../shell/page-sources';
 import { formatRoute } from '../shell/route';
 import type { Session } from '../shell/session';
 
@@ -18,8 +19,11 @@ export function classSprite(cls: string): string {
 
 export const toneClass = (t: W4Tone) => `w4-t--${t}`;
 
+/** The shell's Tag; sky and grey read as the plain tag (a timer or later is said by its word). */
 export function Tag({ tone = 'muted', children }: { tone?: W4Tone; children: ReactNode }) {
-  return <span className={cx('w4-tag', toneClass(tone))}>{children}</span>;
+  return (
+    <ATag tone={tone === 'gold' || tone === 'coral' || tone === 'mint' ? tone : undefined}>{children}</ATag>
+  );
 }
 
 /** A link to another System page, as the shell routes it. */
@@ -42,7 +46,12 @@ export function SystemLink({ s, system, children }: { s: Session; system: string
 export function Frame({ f, s }: { f: W4Frame; s: Session }) {
   const meterTone = f.tone === 'coral' ? 'fix' : f.tone === 'mint' ? 'ok' : 'accent';
   return (
-    <section className={cx('w4-frame a-frame', toneClass(f.tone))} aria-labelledby="w4-frame-h">
+    <AFrame
+      tone={f.tone === 'coral' ? 'coral' : f.tone === 'mint' ? 'ok' : 'gold'}
+      pad={false}
+      className={cx('w4-frame', toneClass(f.tone))}
+      aria-labelledby="w4-frame-h"
+    >
       <div className="w4-frame__text">
         <span className="w4-cap w4-cap--tone">{f.cap}</span>
         <h3 id="w4-frame-h" className="w4-frame__title">
@@ -63,7 +72,7 @@ export function Frame({ f, s }: { f: W4Frame; s: Session }) {
           </SystemLink>
         ) : null}
       </div>
-    </section>
+    </AFrame>
   );
 }
 
@@ -97,7 +106,7 @@ export function ClassArt({ cls, size = 32 }: { cls: string; size?: 24 | 32 | 48 
 /** The one quiet Source line under a page (DS rule 4). */
 export function SourceLine({ sources }: { sources: World4Source[] }) {
   return (
-    <p className="w4-source w4-small w4-muted">
+    <PageSources>
       Read-only page, no checks yet ·{' '}
       {sources.map((x, i) => (
         <span key={x.url}>
@@ -108,6 +117,6 @@ export function SourceLine({ sources }: { sources: World4Source[] }) {
         </span>
       ))}{' '}
       · IdleOn Toolbox 2.3.540
-    </p>
+    </PageSources>
   );
 }
