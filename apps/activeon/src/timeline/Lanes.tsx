@@ -15,8 +15,9 @@ import {
   TIMELINE_WORDS as W,
 } from '@idleon-forge/engine/now';
 import { type CSSProperties, Fragment, useState } from 'react';
+import { KitSprite } from '../art/game/KitSprite';
+import { systemGameArt } from '../art/game/system-art';
 import { spriteOf } from '../art/sprites/index';
-import { Sprite } from '../art/sprites/Sprite';
 import { PixelArt } from '../design/art/PixelArt';
 import { cx, Frame, SegmentedControl, VerdictStamp } from '../design/atoms';
 import { type ClassFamily, WhoGlyph } from '../design/who/WhoGlyph';
@@ -38,9 +39,9 @@ const rowOf = (s: Session, index: number | null) =>
 export const systemSprite = (id: string | null): string | null => {
   if (!id) return null;
   const name = `sys-${id}`;
-  if (spriteOf(name)) return name;
-  const head = `sys-${id.split('-')[0]}`;
-  return spriteOf(head) ? head : null;
+  if (spriteOf(name) || systemGameArt(id)) return name;
+  const head = id.split('-')[0] ?? '';
+  return spriteOf(`sys-${head}`) || systemGameArt(head) ? `sys-${head}` : null;
 };
 
 const open = (b: TimelineBarView) => b.state === 'open';
@@ -133,7 +134,7 @@ function LosingNow({ v, s }: { v: TimelineView; s: Session }) {
         {row ? (
           <WhoGlyph family={familyOf(s, row.index)} classLabel={row.classLabel} scale={2} decorative />
         ) : sprite ? (
-          <Sprite name={sprite} size={48} decorative />
+          <KitSprite name={sprite} size={48} />
         ) : (
           <PixelArt name={barArt(now.bar)} decorative />
         )}
@@ -256,7 +257,7 @@ function LaneHead({ lane, s }: { lane: TimelineLane; s: Session }) {
       {row ? (
         <WhoGlyph family={familyOf(s, row.index)} classLabel={row.classLabel} scale={1} decorative />
       ) : sprite ? (
-        <Sprite name={sprite} size={24} decorative />
+        <KitSprite name={sprite} size={24} />
       ) : null}
       <span>{row ? `${row.classLabel} ${row.level}` : lane.short}</span>
     </a>

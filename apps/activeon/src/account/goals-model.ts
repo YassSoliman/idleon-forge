@@ -4,8 +4,10 @@
 // (skips and dismissals applied, unfolded), the top three first, then the rest in three groups by the
 // Goal's category, each in rank order. It ranks nothing itself. "On one character" is each character's
 // first Goal that isn't a fix, in Visit Order. M6's urgency (losing now) comes from the engine result.
+
 import type { GoalView, NowView } from '@idleon-forge/engine/now';
 import type { Category, ClassFamily, EngineResult } from '@idleon-forge/engine/result';
+import { systemGameArt } from '../art/game/system-art';
 import { spriteOf } from '../art/sprites';
 import { GOALS_WORDS as W } from './words';
 
@@ -67,7 +69,7 @@ export function goalsPage(result: EngineResult, view: NowView): GoalsPage {
       goal: g,
       system,
       mono: monogram(system),
-      sprite: spriteOf(`sys-${g.system}`) ? `sys-${g.system}` : null,
+      sprite: spriteOf(`sys-${g.system}`) || systemGameArt(g.system) ? `sys-${g.system}` : null,
       tone: u === 'losing-now' ? 'losing' : group === 'nice' ? 'extra' : 'do',
       urgency: u === 'losing-now' ? W.losingNow : u === 'lost-before-return' ? W.lostBefore : null,
       group,

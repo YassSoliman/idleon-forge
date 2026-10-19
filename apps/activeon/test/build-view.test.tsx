@@ -437,8 +437,8 @@ describe('Build view', () => {
     ).toEqual(['Quickness BootsLevel 820', 'FeatherweightLevel 326']);
     // Each talent wears its game sprite (ADR 0009, 2026-10-19), by its skillIndex.
     expect([...book.querySelectorAll('img')].map((i) => i.getAttribute('src'))).toEqual([
-      '/game-art/talents/1.png',
-      '/game-art/talents/2.png',
+      '/game-art/data/UISkillIcon1.webp',
+      '/game-art/data/UISkillIcon2.webp',
     ]);
     fireEvent.click(within(tabs).getByRole('button', { name: /Archer/ }));
     expect(

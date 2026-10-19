@@ -3,6 +3,7 @@
 // The character page's pictures from the M24 sprite kit (our own pixel art, ADR 0009): a character by
 // its class sprite ("class-hunter"), falling back to the family who-glyph for a class the kit doesn't
 // draw yet; a Goal by its System's sprite, falling back to a status sprite.
+import { KitSprite } from '../art/game/KitSprite';
 import { spriteOf } from '../art/sprites';
 import { Sprite } from '../art/sprites/Sprite';
 import { type ClassFamily, WhoGlyph } from '../design/who/WhoGlyph';
@@ -58,6 +59,5 @@ export function Avatar({
 
 /** A Goal's picture: its System's sprite ("sys-cards"), else a warning for a fix or an arrow. */
 export function GoalSprite({ system, fix, size }: { system: string; fix: boolean; size: 32 | 48 }) {
-  const name = spriteOf(`sys-${system}`) ? `sys-${system}` : fix ? 'status-warning' : 'status-arrow';
-  return <Sprite name={name} size={size} decorative />;
+  return <KitSprite name={`sys-${system}`} fallback={fix ? 'status-warning' : 'status-arrow'} size={size} />;
 }

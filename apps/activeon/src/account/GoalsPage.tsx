@@ -9,9 +9,10 @@
 // a Timeline bar, a checklist row or the Now rail (the old Account column on Now is gone): each row is
 // keyed like a Next Action (`data-na-key`), outlined when it is the highlight, and a group opens past
 // its "Show N more" when the highlight is behind it.
+
 import { ACCOUNT_WORDS } from '@idleon-forge/engine/now';
 import { useMemo, useState } from 'react';
-import { Sprite } from '../art/sprites/Sprite';
+import { KitSprite } from '../art/game/KitSprite';
 import { cx } from '../design/atoms/Button';
 import { ShortText } from '../design/atoms/ShortText';
 import { WhoGlyph } from '../design/who/WhoGlyph';
@@ -27,7 +28,7 @@ const SHOWN = 3;
 function Mono({ r, big }: { r: GoalRow; big?: boolean }) {
   return (
     <span className={cx('ac-mono', `is-${r.tone}`, big && 'is-big')} aria-hidden="true">
-      {r.sprite ? <Sprite name={r.sprite} size={big ? 32 : 24} decorative /> : r.mono}
+      {r.sprite ? <KitSprite name={r.sprite} size={big ? 32 : 24} /> : r.mono}
     </span>
   );
 }
