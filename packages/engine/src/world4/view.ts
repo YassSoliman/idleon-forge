@@ -593,7 +593,7 @@ export function buildBreedingPage(br: BreedingState, ck: CookingState | null): B
   const frame: Omit<W4Frame, 'cap'> = full
     ? {
         title: `Your nest is full: hatch your ${plural(br.eggs, 'egg')}`,
-        why: `A full nest stops laying.${br.speciesBred === 0 ? " The first hatch is always a Green Mushroom, which is Gobo's 1st quest." : ''} A new egg comes every 2 hours, so an empty nest is full again in ${shortDuration(br.eggCapacity * EGG_SECONDS)}.`,
+        why: `A full nest stops laying.${br.started === false ? " The first hatch is always a Green Mushroom, which is Gobo's 1st quest." : ''} A new egg comes every 2 hours, so an empty nest is full again in ${shortDuration(br.eggCapacity * EGG_SECONDS)}.`,
         value: String(br.eggs),
         unit: `of ${plural(br.eggCapacity, 'egg')}`,
         tone: 'coral',
@@ -602,7 +602,7 @@ export function buildBreedingPage(br: BreedingState, ck: CookingState | null): B
       }
     : {
         title: `${plural(br.eggs, 'egg')} in the nest · full ${fillSeconds > 0 ? `in ${span(fillSeconds * 1000)}` : 'now'}`,
-        why: `A new egg comes every 2 hours${br.nextEggInSeconds > 0 ? `; the next one in ${span(br.nextEggInSeconds * 1000)}` : ''}. A full nest stops laying.`,
+        why: `A new egg comes every 2 hours, sooner with egg bonuses${br.nextEggInSeconds > 0 ? `; the next one within ${span(br.nextEggInSeconds * 1000)}` : ''}. A full nest stops laying.`,
         value: String(br.eggs),
         unit: `of ${plural(br.eggCapacity, 'egg')}`,
         tone: 'sky',

@@ -5,7 +5,13 @@
 // a save with no World 4 record (null, not unknown) and a broken one (unknown). Never a name.
 import { normalizeEnvelope, parseSave, toolboxCalls, withFrozenClock } from '@idleon-forge/toolbox-parsers';
 import { describe, expect, it } from 'vitest';
-import { type AccountState, KITCHENS, LAB_CHIP_SLOTS, toAccountState } from '../src';
+import {
+  type AccountState,
+  BREEDING_MULTIPLIER_UPGRADES,
+  KITCHENS,
+  LAB_CHIP_SLOTS,
+  toAccountState,
+} from '../src';
 import { editedSave, listJson, NOW, PUBLIC_DIR, readSave } from './helpers';
 
 const stateOf = (input: unknown, toolbox = true): AccountState => {
@@ -97,6 +103,58 @@ describe('first.json, an account early in World 4', () => {
     const bare = stateOf(readSave(PUBLIC_DIR, 'first.json'), false);
     expect(bare.account.lab?.shop).toBeNull();
     expect(bare.account.lab?.bonuses.length).toBe(lab?.bonuses.length);
+  });
+});
+
+describe('Breeding egg timer and first breed (M26 FR-8)', () => {
+  const raw = readSave(PUBLIC_DIR, 'first.json');
+  const base = stateOf(raw).account.breeding;
+  const withBank = (bank: number, eggs?: number[]) =>
+    stateOf(
+      editedSave(raw, (d) => {
+        const o = (typeof d.OptLacc === 'string' ? JSON.parse(d.OptLacc) : d.OptLacc) as number[];
+        o[87] = bank;
+        d.OptLacc = o;
+        if (eggs) {
+          const b = (typeof d.Breeding === 'string' ? JSON.parse(d.Breeding) : d.Breeding) as unknown[];
+          b[0] = eggs;
+          d.Breeding = JSON.stringify(b);
+        }
+      }),
+    ).account.breeding;
+
+  it('reads OptionsListAccount[87] as banked time and the wait as the 2-hour period minus it', () => {
+    // first.json banks 2,014.3 s: Toolbox's `timeToNextEgg` showed that as time left; the game draws
+    // TotalTimeForEgg - OLA[87].
+    expect(base).toMatchObject({ eggBankSeconds: 2014, nextEggInSeconds: 5186 });
+    expect(withBank(7000)).toMatchObject({ eggBankSeconds: 7000, nextEggInSeconds: 200 });
+    expect(withBank(9000)?.nextEggInSeconds).toBe(0);
+    // A full nest lays nothing: 0 whatever is banked.
+    expect(withBank(100, [1, 1, 1, 1, ...Array(16).fill(0)])?.nextEggInSeconds).toBe(0);
+  }, 60_000);
+
+  it('started: false until the first breed (Breeding level 0 on every character)', () => {
+    expect(base?.started).toBe(true);
+    const fresh = stateOf(
+      editedSave(raw, (d) => {
+        for (const k of Object.keys(d).filter((x) => /^Lv0_\d+$/.test(x))) {
+          const lv = (typeof d[k] === 'string' ? JSON.parse(d[k] as string) : d[k]) as number[];
+          lv[11] = 0;
+          d[k] = lv;
+        }
+      }),
+    ).account.breeding;
+    expect(fresh).toMatchObject({ level: 0, started: false });
+  }, 30_000);
+
+  it('the multiplier upgrades are game indices 3/5/7/10, not Toolbox unlockedBreedingMulti 2/4/6/9 (V5)', () => {
+    const names = BREEDING_MULTIPLIER_UPGRADES.map((i) => base?.upgrades.find((u) => u.index === i)?.name);
+    expect(names).toEqual([
+      'Breedability_Mobs',
+      'Rarity_of_the_Egg',
+      'Pastpresent_Brood',
+      'Failsafe_Restitution_Cloud',
+    ]);
   });
 });
 

@@ -35,6 +35,8 @@ describe('before World 4 (scrubbed-w3)', () => {
   });
   it('the fresh records say what to do first, from the save', () => {
     expect(r.world4?.breeding?.frame.title).toBe('Your nest is full: hatch your 3 eggs');
+    // Not bred yet (Breeding level 0): the first-breed hint shows (M26 FR-8; it keyed off speciesBred).
+    expect(r.world4?.breeding?.frame.why).toContain('The first hatch is always a Green Mushroom');
     expect(r.world4?.cooking?.frame.title).toBe('Get your first spice in Breeding, then put it in Kitchen 1');
     expect(r.world4?.lab?.frame.title).toBe('Upload 2 characters and line them up toward Animal Farm');
     expect(r.world4?.lab?.frame.why).toContain('138 px from the prism');
@@ -64,6 +66,8 @@ describe('early World 4 (first)', () => {
       expect.arrayContaining(['recipe', 'cooking']),
     );
     expect(r.world4?.breeding?.frame.title).toMatch(/^1 egg in the nest · full in /);
+    // 2,014 s banked of the 2-hour period: the next egg within 1h 26m (M26 FR-8; it read 33m).
+    expect(r.world4?.breeding?.frame.why).toMatch(/the next one within 1h 2\dm/);
     expect(r.world4?.lab?.frame.title).toBe('3 bonuses lit · next on the board: Animal Farm');
     expect(r.world4?.lab?.board.characters).toHaveLength(4);
   });

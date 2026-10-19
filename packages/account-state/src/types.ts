@@ -65,6 +65,9 @@ import type { World4AccountFields } from './world4-types';
  *    each Refinery salt's `fuel` (its inputs and how many the account holds).
  */
 export const SCHEMA_VERSION = 25;
+// Pending for the next release's one bump (M26 section 6: one bump per wave release, not per PR):
+//  - M26 Wave 0: `account.breeding.eggBankSeconds`, `.started`, and `.nextEggInSeconds` now an upper
+//    bound on time left (it was the banked time).
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [

@@ -284,7 +284,7 @@ export type {
   WalkthroughAccountFields,
   WalkthroughCharacterFields,
 } from './walkthrough-types';
-export { KITCHENS, LAB_CHIP_SLOTS } from './world4';
+export { BREEDING_MULTIPLIER_UPGRADES, EGG_BASE_SECONDS, KITCHENS, LAB_CHIP_SLOTS } from './world4';
 export type {
   BreedingState,
   BreedingUpgrade,
