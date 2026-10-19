@@ -439,6 +439,7 @@ export function RankedGoals({
   dismissed,
   token,
   seeIt = true,
+  from = 0,
 }: {
   goals: GoalView[];
   /** `c<index>` or `account`: the `expanded` id for "+n more" (M10). */
@@ -448,6 +449,11 @@ export function RankedGoals({
   dismissed: { key: string; text: string }[];
   token?: GoalToken;
   seeIt?: boolean;
+  /**
+   * M24: Goals already shown above the list (the character page's hero). With `from` > 0 there is no
+   * winner here: every row is compact and its rank continues after the hero's ("2", "3").
+   */
+  from?: number;
 }) {
   const actions = useNowActions();
   const expanded = actions.expanded.has(subject);
@@ -457,24 +463,27 @@ export function RankedGoals({
     <>
       {goals.length > 0 ? (
         <ol className="goals n-ranked">
-          {goals.map((g, n) => (
-            <li key={g.action.key} className={n === 0 ? 'n-ranked__win' : 'n-ranked__rest'}>
-              <NextActionItem
-                action={g.action}
-                milestone={g.milestone}
-                details={g.details}
-                walkthrough={g.walkthrough}
-                first={n === 0}
-                compact={n > 0}
-                rank={n > 0 ? n + 1 : undefined}
-                token={token?.(g)}
-                seeIt={seeIt ? <SeeItLink goal={g} subject={subject} /> : undefined}
-              />
-              {/* The winner keeps its "See it" row under the card (M17 FR-31's findability); the rest
-                  carry it in their why sheet (G6). */}
-              {seeIt && n === 0 ? <SeeItLink goal={g} subject={subject} /> : null}
-            </li>
-          ))}
+          {goals.map((g, i) => {
+            const n = i + from;
+            return (
+              <li key={g.action.key} className={n === 0 ? 'n-ranked__win' : 'n-ranked__rest'}>
+                <NextActionItem
+                  action={g.action}
+                  milestone={g.milestone}
+                  details={g.details}
+                  walkthrough={g.walkthrough}
+                  first={n === 0}
+                  compact={n > 0}
+                  rank={n > 0 ? n + 1 : undefined}
+                  token={token?.(g)}
+                  seeIt={seeIt ? <SeeItLink goal={g} subject={subject} /> : undefined}
+                />
+                {/* The winner keeps its "See it" row under the card (M17 FR-31's findability); the rest
+                    carry it in their why sheet (G6). */}
+                {seeIt && n === 0 ? <SeeItLink goal={g} subject={subject} /> : null}
+              </li>
+            );
+          })}
         </ol>
       ) : null}
       {hiddenCount > 0 || expanded ? (

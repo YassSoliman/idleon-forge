@@ -117,7 +117,7 @@ describe('Signs tab', () => {
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const nav = screen.getByRole('navigation', { name: 'Character page' });
     expect(within(nav).getByRole('link', { current: 'page' }).textContent).toBe(
-      'Signs•behind: 1 sign to swap',
+      'Signs1behind: 1 sign to swap',
     );
     const answer = screen.getByRole('region', { name: 'Swap a sign · for fighting' });
     expect(

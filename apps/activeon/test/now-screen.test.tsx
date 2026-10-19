@@ -58,46 +58,42 @@ describe('Focus: opening, Back and keyboard focus (FR-6, FR-13, TR-5, TR-14)', (
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const before = window.history.length;
     fireEvent.click(screen.getAllByRole('button').find((b) => b.dataset.index === '2') as HTMLElement);
-    const h = screen.getByRole('heading', { level: 2, name: 'Cedar' });
+    const h = screen.getByRole('heading', { level: 2, name: 'Bowman 38' });
     expect(document.activeElement).toBe(h);
     expect(window.location.hash).toBe('#now-2');
     expect(window.history.length).toBe(before + 1);
-    fireEvent.click(screen.getByRole('button', { name: '← All characters' }));
+    // M24: no "All characters" button; Esc goes back.
+    fireEvent.keyDown(window, { key: 'Escape' });
     expect(document.activeElement?.getAttribute('data-index')).toBe('2');
   });
   it('Esc closes Focus', () => {
     const r = fixture('mid-session');
     window.history.replaceState(null, '', '/?c=3');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    expect(screen.getByRole('heading', { level: 2, name: 'Dahlia' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Barbarian 51' })).toBeTruthy();
     fireEvent.keyDown(window, { key: 'Escape' });
-    expect(screen.queryByRole('heading', { level: 2, name: 'Dahlia' })).toBeNull();
+    expect(screen.queryByRole('heading', { level: 2, name: 'Barbarian 51' })).toBeNull();
   });
-  it('the pager: prev and Next, and the dots open every character with aria-current on this one', () => {
+  it('the character strip: every character in Visit Order by class and level, this one current (M24)', () => {
     const r = fixture('mid-session');
     window.history.replaceState(null, '', '/?c=4');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    const nav = screen.getByRole('navigation', { name: 'Characters in Visit Order' });
-    expect(within(nav).getByRole('link', { name: 'Previous: Squire 43' }).getAttribute('href')).toBe(
-      '#now-0',
-    );
-    expect(
-      within(nav)
-        .getByRole('link', { name: /^Next: Shaman 44/ })
-        .getAttribute('href'),
-    ).toBe('#now-1');
-    fireEvent.click(within(nav).getByRole('button', { name: 'Show every character' }));
-    const sheet = screen.getByRole('dialog', { name: 'Characters in Visit Order' });
-    const links = within(sheet).getAllByRole('link');
+    const nav = screen.getByRole('navigation', { name: 'Characters' });
+    const links = within(nav).getAllByRole('link');
     expect(links.map((l) => l.textContent)).toEqual([
-      '1 · DahliaFix',
-      '2 · AlderUnknown',
-      '3 · ElmReady',
-      '4 · BirchReady',
-      '5 · CedarReady',
+      'Barbarian 51',
+      'Squire 43',
+      'Wizard 40',
+      'Shaman 44',
+      'Bowman 38',
     ]);
-    expect(links[2]?.getAttribute('aria-current')).toBe('true');
-    expect(links[0]?.getAttribute('aria-label')).toBe('Dahlia, Fix before you leave');
+    expect(links[2]?.getAttribute('aria-current')).toBe('page');
+    expect(links[0]?.getAttribute('aria-label')).toBe('Barbarian 51: fix before you leave');
+    expect(nav.textContent).not.toMatch(/Dahlia|Elm|Cedar/);
+    fireEvent.click(links[3] as HTMLElement);
+    expect(window.location.hash).toBe('#now-1');
+    // The one way on at the end of the Now tab: "Next: <class level>".
+    expect(screen.getByRole('button', { name: /^Next: / })).toBeTruthy();
   });
 });
 
@@ -106,11 +102,11 @@ describe('US-3 Focus follows the game (FR-14 as ruled on #38)', () => {
     const r = fixture('mid-session');
     const view = render(<NowScreenRerender r={r} seq={1} kind="autosave" slot={3} />);
     // First load: the stamped character, fresh save: Focus opens on it.
-    expect(screen.getByRole('heading', { level: 2, name: 'Dahlia' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Barbarian 51' })).toBeTruthy();
     expect(screen.getByText(/you are on this character/)).toBeTruthy();
     const length = window.history.length;
     view.rerender(<NowScreenRerender r={r} seq={2} kind="switch-leave" slot={3} />);
-    expect(screen.getByRole('heading', { level: 2, name: 'Alder' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Squire 43' })).toBeTruthy();
     expect(screen.getByText(/Left Dahlia ✓ 1 done · Fix before you leave/)).toBeTruthy();
     expect(screen.getByText(/Next up/)).toBeTruthy();
     expect(screen.getByText(/press Cloud Save in the game/)).toBeTruthy();
@@ -123,7 +119,7 @@ describe('US-3 Focus follows the game (FR-14 as ruled on #38)', () => {
     view.rerender(<NowScreenRerender r={r} seq={3} kind="switch-leave" slot={1} />);
     // The player went to Birch instead: a save that stamps Birch as current wins.
     view.rerender(<NowScreenRerender r={r} seq={4} kind="autosave" slot={1} />);
-    expect(screen.getByRole('heading', { level: 2, name: 'Birch' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Shaman 44' })).toBeTruthy();
     expect(screen.getByText(/you are on this character/)).toBeTruthy();
   });
   it('a save with no stamped slot never moves the view', () => {
@@ -140,20 +136,20 @@ describe('US-3 Focus follows the game (FR-14 as ruled on #38)', () => {
     const skip = screen.getAllByRole('button', { name: 'Skip today' })[0] as HTMLElement;
     skip.focus();
     view.rerender(<NowScreenRerender r={r} seq={2} kind="autosave" slot={4} />);
-    expect(screen.getByRole('heading', { level: 2, name: 'Cedar' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Bowman 38' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Now playing Elm · go' })).toBeTruthy();
     expect(document.activeElement).toBe(skip);
   });
   it('an old save (game closed) opens the Roster with no "● playing" marker', () => {
     const r = fixture('mid-session');
     renderNow(props(r, saveOf(r, 1, 'autosave', 3, 'live', 45 * 60_000)));
-    expect(screen.queryByRole('heading', { level: 2, name: 'Dahlia' })).toBeNull();
+    expect(screen.queryByRole('heading', { level: 2, name: 'Barbarian 51' })).toBeNull();
     expect(screen.queryByText('● playing')).toBeNull();
   });
   it('paste mode never auto-opens', () => {
     const r = fixture('mid-session');
     renderNow(props(r, saveOf(r, 1, 'autosave', 3, 'paste')));
-    expect(screen.queryByRole('heading', { level: 2, name: 'Dahlia' })).toBeNull();
+    expect(screen.queryByRole('heading', { level: 2, name: 'Barbarian 51' })).toBeNull();
   });
 });
 
@@ -394,7 +390,9 @@ describe('copy pass rule 3: unknown tokens are hidden, never printed', () => {
     const row = screen.getAllByRole('button').find((b) => b.dataset.index === '2') as HTMLElement;
     expect(row.textContent).not.toContain('AFK target unknown');
     fireEvent.click(row);
-    const hero = screen.getByRole('heading', { level: 2, name: 'Cedar' }).closest('.hero') as HTMLElement;
+    const hero = screen
+      .getByRole('heading', { level: 2, name: 'Bowman 38' })
+      .closest('.cp-head') as HTMLElement;
     expect(hero.textContent).not.toContain('AFK target unknown');
     expect(hero.textContent).not.toMatch(/·\s*$/);
   });

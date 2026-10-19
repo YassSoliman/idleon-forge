@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// Focus, the Character page's Now tab (M10 FR-10 to FR-14; M21 FR-N5, `now.focus-card` Current-step hero,
-// `now.verdict-strip` Pager with the next fix, `now.focus-identity` Plain "you are here",
-// `now.focus-better-fit` Quiet hint, `now.focus-footer` Primary next with its Session recap fold).
-// Top to bottom: the pager (← prev · dots · Next), "you are here", the identity strip and tab bar (area
-// C's CharacterShell), then on the Now tab the current-step hero (one step: who · where · how long, its
-// fill from the save, "See it"), the Purpose quest line, the ranked Goals (one winner), the quiet Better
-// fit hint, the character's "If you have time" lines, the Done fold and the one Next button.
-// "Something confusing here?" moved to the header's overflow (G1). The <h2> takes keyboard focus only
-// when the player opened the card, never on an auto-follow.
+// Focus, the Character page's Now tab (M10 FR-10 to FR-14; M21 FR-N5; M24 board `CharNow`).
+// Top to bottom: the character page shell (the strip, the header, the cap pills and the tabs, in
+// characters/CharacterShell.tsx), then on the Now tab two columns: the answer in the screen's one frame
+// (the first blocker, else the first Goal: what, the step and its fill, "See it" and Skip today), "Then"
+// with the next ranked Goals, the quiet Better fit hint, "If you have time" and the Done fold; beside it
+// the side column (Timers, About on average: PurposeBlock). Last, one "Next: <character>" tile. The
+// strip replaced the old pager, "you are here", the arrows, "Next: switch to" and "All characters"
+// (M24 rule 5). The <h2> takes keyboard focus only when the player opened the card.
 import {
   CARD_WORDS,
   FLOW_WORDS,
@@ -19,16 +18,17 @@ import {
   type NowView,
 } from '@idleon-forge/engine/now';
 import { type Ref, Suspense, useState } from 'react';
+import { Avatar, GoalSprite } from '../characters/Avatar';
 import { CharacterShell } from '../characters/CharacterShell';
+import { PAGE_WORDS } from '../characters/words';
 import { PixelArt } from '../design/art/PixelArt';
-import { SourceLabel } from '../design/atoms';
+import { Frame, SourceLabel, Tag } from '../design/atoms';
 import { Button, cx } from '../design/atoms/Button';
 import { GLYPH, VERDICT_GLYPH } from '../design/atoms/glyphs';
+import { Meter } from '../design/atoms/Meter';
 import { VerdictStamp } from '../design/atoms/Pill';
 import { EmptyState } from '../design/atoms/States';
-import { TokenLine } from '../design/atoms/TokenLine';
 import { span } from '../design/format';
-import { WhoGlyph } from '../design/who/WhoGlyph';
 import { Loading } from '../lazy-part';
 import { NOW_TAB, tabById, tabHref } from './character-tabs';
 import { ModalSheet as Sheet } from './chrome/ModalSheet';
@@ -43,6 +43,7 @@ import {
   SeeItLink,
   WhySheet,
 } from './parts';
+import '../characters/now-tab.css';
 
 export interface FocusProps {
   card: FocusCard;
@@ -50,6 +51,7 @@ export interface FocusProps {
   pendingFollow: { index: number; text: string } | null;
   /** G5: the in-game Cloud Save tip, only while the screen is guessing who is played (M10 FR-14). */
   showCloudSaveTip: boolean;
+  /** The shell's Esc and history keep it (M17); the page draws no back button (M24 rule 5). */
   onBack(): void;
   onNext(index: number | null): void;
   /** The character page's tab (`character-tabs.ts`); "now" is this card's own content. */
@@ -57,133 +59,86 @@ export interface FocusProps {
   onTab?: (id: string) => void;
   /** The whole Now view, for the other tabs and the who-glyphs. */
   view?: NowView;
-  /** The identity strip's <h2>: it takes keyboard focus when the player opens the page. */
+  /** The header's <h2>: it takes keyboard focus when the player opens the page. */
   headingRef?: Ref<HTMLHeadingElement>;
 }
 
 const STAMP_WORD = { ready: 'Ready', fix: 'Fix', unknown: 'Unknown' } as const;
 
-/** `now.verdict-strip` Pager: "← prev", the dots (a tap opens every character as 44 px rows), "Next". */
-function Pager({ card, view }: { card: FocusCard; view?: NowView }) {
-  const actions = useNowActions();
-  const [open, setOpen] = useState(false);
-  const at = card.strip.findIndex((s) => s.current);
-  const prev = at > 0 ? card.strip[at - 1] : undefined;
-  const next = at >= 0 && at < card.strip.length - 1 ? card.strip[at + 1] : undefined;
-  const who = (i: number) => {
-    const r = view?.roster.find((x) => x.index === i);
-    return r ? `${r.classLabel} ${r.level}` : '';
-  };
-  return (
-    <nav className="n-pager strip" aria-label="Characters in Visit Order">
-      {prev ? (
-        <a
-          className="a-btn a-btn--plain n-pager__prev"
-          href={tabHref(NOW_TAB, prev.index)}
-          aria-label={FOCUS_WORDS.prevName(who(prev.index))}
-          onClick={(e) => {
-            e.preventDefault();
-            actions.open(prev.index);
-          }}
-        >
-          <PixelArt name={GLYPH.arrowLeft} decorative />
-          <span>{FOCUS_WORDS.prev}</span>
-        </a>
-      ) : (
-        <span className="n-pager__prev is-off" aria-hidden="true" />
-      )}
-      <button
-        type="button"
-        className="n-dots"
-        aria-label={FOCUS_WORDS.dotsOpen}
-        aria-haspopup="dialog"
-        onClick={() => setOpen(true)}
-      >
-        {card.strip.map((s) => (
-          <i key={s.index} className={cx(`is-${s.kind}`, s.current && 'is-cur')} />
-        ))}
-      </button>
-      {next ? (
-        <a
-          className="a-btn a-btn--quiet n-pager__next"
-          href={tabHref(NOW_TAB, next.index)}
-          onClick={(e) => {
-            e.preventDefault();
-            actions.open(next.index);
-          }}
-        >
-          <span>
-            {`Next: ${who(next.index)}`}
-            {next.kind === 'fix' ? ` · ${STAMP_WORD.fix.toLowerCase()}` : ''}
-          </span>
-          <PixelArt name={GLYPH.arrowRight} decorative />
-        </a>
-      ) : null}
-      <Sheet open={open} title={FOCUS_WORDS.pagerTitle} onClose={() => setOpen(false)}>
-        <ol className="n-pager__list">
-          {card.strip.map((s) => (
-            <li key={s.index}>
-              <a
-                className={cx('n-pager__row strip-item', s.kind, s.current && 'is-cur')}
-                href={tabHref(NOW_TAB, s.index)}
-                aria-label={s.accessibleName}
-                aria-current={s.current ? 'true' : undefined}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setOpen(false);
-                  actions.open(s.index);
-                }}
-              >
-                <WhoGlyph
-                  family={view?.families?.[s.index] ?? 'beginner'}
-                  classLabel={who(s.index)}
-                  scale={1}
-                  decorative
-                />
-                <span>{s.label}</span>
-                <VerdictStamp verdict={s.kind} word={STAMP_WORD[s.kind]} />
-              </a>
-            </li>
-          ))}
-        </ol>
-      </Sheet>
-    </nav>
-  );
-}
+/** "Grow · A passive card in a slot" -> "Grow": the Goal's kind, the hero's badge. */
+const kindOf = (tag: string) => tag.split(' · ')[0] ?? tag;
+const n = (x: number) => x.toLocaleString('en-US');
 
-/** The current-step hero: one step with who · where · how long, its fill from the save, and "See it". */
-function StepHero({ card, goal, family }: { card: FocusCard; goal: GoalView; family: NowView['families'] }) {
+/**
+ * The answer in the screen's one frame (M24 rule 1): the first blocker, else the first Goal. Its kind,
+ * what to do, the step with its fill from the save, "See it" and Skip today. A tap on the text opens
+ * the why sheet (Sources, Report this).
+ */
+function StepHero({ card, goal }: { card: FocusCard; goal: GoalView }) {
   const actions = useNowActions();
   const [open, setOpen] = useState(false);
   const a = goal.action;
   const fix = goal.blocker;
-  const who = { family: family?.[card.index] ?? 'beginner', label: `${card.classLabel} ${card.level}` };
-  const step = goal.walkthrough?.steps.find((s) => s.when === 'now') ?? null;
+  const steps = goal.walkthrough?.steps ?? [];
+  const at = steps.findIndex((s) => s.when === 'now');
+  const step = at >= 0 ? steps[at] : null;
   const progress = step?.progress && step.progress.need > 0 ? step.progress : null;
   return (
-    <div
-      className={cx('n-step a-frame', fix ? 'is-fix' : 'is-now', actions.highlight === a.key && 'lit')}
+    <Frame
+      as="section"
+      tone={fix ? 'coral' : 'gold'}
+      className={cx('n-step cp-hero', fix ? 'is-fix' : 'is-now', actions.highlight === a.key && 'lit')}
       data-na-key={a.key}
+      aria-label={fix ? FOCUS_WORDS.beforeYouLeave : PAGE_WORDS.heroHint}
     >
-      <button type="button" className="n-step__open" aria-haspopup="dialog" onClick={() => setOpen(true)}>
-        <span className="n-step__k">
-          <PixelArt name={fix ? VERDICT_GLYPH.fix : 'cards-stone-now'} decorative />
-          {fix ? FOCUS_WORDS.beforeYouLeave : FOCUS_WORDS.current}
+      <p className="cp-hero-k">
+        <Tag tone={fix ? 'coral' : 'gold'}>{kindOf(a.tag)}</Tag>
+        <span className="cp-xs">{fix ? FOCUS_WORDS.beforeYouLeave : PAGE_WORDS.heroHint}</span>
+      </p>
+      <button
+        type="button"
+        className="n-step__open cp-hero-open"
+        aria-haspopup="dialog"
+        onClick={() => setOpen(true)}
+      >
+        <span className="cp-hero-ic" aria-hidden="true">
+          <GoalSprite system={goal.system} fix={fix} size={48} />
         </span>
-        <span className="n-step__t na-text">{a.text}</span>
-        <TokenLine who={who} where={card.map} />
-        {progress ? (
-          <span className="n-step__fill num">{`${progress.held.toLocaleString('en-US')} of ${progress.need.toLocaleString('en-US')}`}</span>
-        ) : null}
+        <span className="cp-hero-text">
+          <span className="cp-hero-t a-h1 na-text">{a.text}</span>
+          <span className="cp-hero-where">{[goal.title, card.map].filter(Boolean).join(' · ')}</span>
+        </span>
       </button>
-      {fix ? <p className="n-step__hint">{FOCUS_WORDS.ticksItself}</p> : null}
-      <SeeItLink goal={goal} subject={`c${card.index}`} />
-      {a.controls.skip ? (
-        <button type="button" className="a-btn a-btn--quiet n-skip" onClick={() => actions.skip(a.key)}>
-          <PixelArt name="cards-zz" scale={2} decorative />
-          <span>{CARD_WORDS.skip}</span>
-        </button>
+      {step ? (
+        <div className="cp-hero-step">
+          <p className="cp-hero-steprow">
+            <span>
+              {PAGE_WORDS.stepOf(at + 1, steps.length)} · {step.text}
+            </span>
+            {progress ? (
+              <b className="n-step__fill num">{`${n(progress.held)} of ${n(progress.need)}`}</b>
+            ) : null}
+          </p>
+          {progress ? (
+            <Meter
+              value={Math.min(progress.held, progress.need)}
+              max={progress.need}
+              label={`${n(progress.held)} of ${n(progress.need)}`}
+              tone={fix ? 'coral' : 'gold'}
+            />
+          ) : null}
+        </div>
       ) : null}
+      {fix ? <p className="n-step__hint cp-xs">{FOCUS_WORDS.ticksItself}</p> : null}
+      <div className="cp-hero-acts">
+        <SeeItLink goal={goal} subject={`c${card.index}`} />
+        {a.controls.skip ? (
+          <button type="button" className="a-btn a-btn--quiet n-skip" onClick={() => actions.skip(a.key)}>
+            <PixelArt name="cards-zz" scale={2} decorative />
+            <span>{CARD_WORDS.skip}</span>
+          </button>
+        ) : null}
+      </div>
       <WhySheet
         open={open}
         onClose={() => setOpen(false)}
@@ -191,9 +146,40 @@ function StepHero({ card, goal, family }: { card: FocusCard; goal: GoalView; fam
         milestone={goal.milestone}
         details={goal.details}
         walkthrough={goal.walkthrough}
-        token={{ who, where: card.map }}
+        token={{ where: card.map }}
       />
-    </div>
+    </Frame>
+  );
+}
+
+/** "Next: Barbarian 74": the one way on, at the end of the Now tab (M24 rule 5). */
+function NextTile({
+  card,
+  view,
+  onNext,
+}: {
+  card: FocusCard;
+  view?: NowView;
+  onNext(i: number | null): void;
+}) {
+  const i = card.next.index;
+  const r = i === null ? null : view?.roster.find((x) => x.index === i);
+  const who = r ? `${r.classLabel} ${r.level}` : null;
+  const kind = i === null ? null : (card.strip.find((s) => s.index === i)?.kind ?? null);
+  return (
+    <button type="button" className="a-tile cp-next" onClick={() => onNext(i)}>
+      {r ? (
+        <Avatar family={view?.families?.[r.index] ?? 'beginner'} classLabel={r.classLabel} size={48} />
+      ) : null}
+      <span className="cp-next-text">
+        <b>{who ? PAGE_WORDS.next(who) : card.next.text}</b>
+        <span className="cp-xs">
+          {card.position}
+          {kind ? ` · ${PAGE_WORDS.state[kind]}` : ''}
+        </span>
+      </span>
+      <PixelArt name={GLYPH.arrowRight} decorative />
+    </button>
   );
 }
 
@@ -287,7 +273,6 @@ export function Focus({
   card,
   pendingFollow,
   showCloudSaveTip,
-  onBack,
   onNext,
   tab = NOW_TAB,
   onTab,
@@ -300,27 +285,20 @@ export function Focus({
     e.preventDefault();
     actions.open(index);
   };
-  const [hero, ...moreBlockers] = card.blockers;
-  const heroGoal = hero ?? null;
+  // The answer: the first blocker, else the first Goal; the rest follow under "Then", ranked on.
+  const [blocker, ...moreBlockers] = card.blockers;
+  const heroGoal = blocker ?? card.goals[0] ?? null;
+  const restGoals = blocker ? card.goals : card.goals.slice(1);
+  // The hero is #1, so the list's ranks continue from 2 (blockers above it keep their own rows).
+  const from = heroGoal ? 1 : 0;
+  const hasThen =
+    moreBlockers.length > 0 || restGoals.length > 0 || card.hiddenCount > 0 || card.skippedKeys.length > 0;
   return (
-    <section className={cx('focus n-focus', `is-${card.pill.kind}`)} aria-labelledby="focus-h">
-      <Pager card={card} view={view} />
-
+    <section className={cx('focus n-focus cp-page', `is-${card.pill.kind}`)} aria-labelledby="focus-h">
       {pendingFollow ? (
         <button type="button" className="a-chip follow" onClick={() => actions.open(pendingFollow.index)}>
           {pendingFollow.text} · go
         </button>
-      ) : null}
-
-      <p className="n-here">
-        {card.position}
-        {card.playing ? ` · ${card.playing}` : ''}
-      </p>
-      {showCloudSaveTip ? (
-        <p className="n-tip">
-          <PixelArt name={GLYPH.howLong} decorative />
-          {FOCUS_WORDS.cloudSaveTip}
-        </p>
       ) : null}
       {card.left ? (
         <p className="n-left left-line">
@@ -330,7 +308,6 @@ export function Focus({
             href={tabHref(NOW_TAB, card.left.index)}
             onClick={(e) => go(e, card.left?.index ?? card.index)}
           >
-            <PixelArt name={GLYPH.arrowLeft} decorative />
             {LINK_WORDS.back}
           </a>
         </p>
@@ -340,148 +317,135 @@ export function Focus({
         <CapPills caps={card.caps} ready={card.pill.kind === 'ready'} />
       </CharacterShell>
 
+      {showCloudSaveTip ? <p className="n-tip">{FOCUS_WORDS.cloudSaveTip}</p> : null}
+
       {Other && view ? (
         <Suspense fallback={<Loading what={`the ${tabById(tab)?.label ?? ''} tab`} />}>
           <Other view={view} index={card.index} />
         </Suspense>
       ) : (
-        <div className="n-focus__now">
-          {card.info.length > 0 ? (
-            <ul className="info-lines n-info" aria-label="Info">
-              {card.info.map((l) => (
-                <li key={l.key}>
-                  {l.text} {l.source ? <SourceLabel source={l.source} more={false} /> : null}
-                </li>
-              ))}
-            </ul>
-          ) : null}
-
-          {card.unknown ? (
-            <div className="n-unknown unknown">
-              <PixelArt name="now-magnifier" scale={2} decorative />
-              <div>
-                <p className="n-unknown__t">
-                  <VerdictStamp verdict="unknown" word={STAMP_WORD.unknown} /> {card.unknown.text}
-                </p>
-                {card.unknown.note ? <p className="n-muted n-small">{card.unknown.note}</p> : null}
-                {card.unknown.suggestion ? <NextActionItem action={card.unknown.suggestion} first /> : null}
-                {card.unknown.skipKey ? (
-                  <div className="controls n-controls">
-                    {card.unknown.skipped ? (
-                      <Button tone="plain" onClick={() => actions.unskip([card.unknown?.skipKey ?? ''])}>
-                        skipped · undo
-                      </Button>
-                    ) : (
-                      <button
-                        type="button"
-                        className="a-btn a-btn--quiet n-skip"
-                        onClick={() => actions.skip(card.unknown?.skipKey ?? '')}
-                      >
-                        <PixelArt name="cards-zz" scale={2} decorative />
-                        <span>{CARD_WORDS.skip}</span>
-                      </button>
-                    )}
-                    <ReportThis
-                      input={{
-                        outputKind: 'verdict',
-                        entryIds: [],
-                        fields: [],
-                        text: card.unknown.text,
-                        stale: false,
-                        contested: false,
-                      }}
-                    />
+        <>
+          <div className="n-focus__now cp-now">
+            <div className="cp-main">
+              {card.unknown ? (
+                <div className="n-unknown unknown">
+                  <PixelArt name="now-magnifier" scale={2} decorative />
+                  <div>
+                    <p className="n-unknown__t">
+                      <VerdictStamp verdict="unknown" word={STAMP_WORD.unknown} /> {card.unknown.text}
+                    </p>
+                    {card.unknown.note ? <p className="n-muted n-small">{card.unknown.note}</p> : null}
+                    {card.unknown.suggestion ? (
+                      <NextActionItem action={card.unknown.suggestion} first />
+                    ) : null}
+                    {card.unknown.skipKey ? (
+                      <div className="controls n-controls">
+                        {card.unknown.skipped ? (
+                          <Button tone="plain" onClick={() => actions.unskip([card.unknown?.skipKey ?? ''])}>
+                            skipped · undo
+                          </Button>
+                        ) : (
+                          <button
+                            type="button"
+                            className="a-btn a-btn--quiet n-skip"
+                            onClick={() => actions.skip(card.unknown?.skipKey ?? '')}
+                          >
+                            <PixelArt name="cards-zz" scale={2} decorative />
+                            <span>{CARD_WORDS.skip}</span>
+                          </button>
+                        )}
+                        <ReportThis
+                          input={{
+                            outputKind: 'verdict',
+                            entryIds: [],
+                            fields: [],
+                            text: card.unknown.text,
+                            stale: false,
+                            contested: false,
+                          }}
+                        />
+                      </div>
+                    ) : null}
                   </div>
-                ) : null}
-              </div>
-            </div>
-          ) : null}
+                </div>
+              ) : null}
 
-          {heroGoal ? <StepHero card={card} goal={heroGoal} family={view?.families} /> : null}
-          {!heroGoal && !card.unknown && card.goals.length === 0 ? <Asleep card={card} /> : null}
-          {moreBlockers.length > 0 ? (
-            <ul className="goals blockers n-blockers">
-              {moreBlockers.map((g) => (
-                <li key={g.action.key}>
-                  <NextActionItem
-                    action={g.action}
-                    milestone={g.milestone}
-                    details={g.details}
-                    walkthrough={g.walkthrough}
-                    seeIt={<SeeItLink goal={g} subject={`c${card.index}`} />}
+              {heroGoal ? <StepHero card={card} goal={heroGoal} /> : null}
+              {!heroGoal && !card.unknown ? <Asleep card={card} /> : null}
+
+              {hasThen ? (
+                <section
+                  className="n-goals cp-then"
+                  aria-label={FOCUS_WORDS.goals(`${card.classLabel} ${card.level}`)}
+                >
+                  <h3 className="a-cap cp-cap">{PAGE_WORDS.thenHeading}</h3>
+                  {moreBlockers.length > 0 ? (
+                    <ul className="goals blockers n-blockers">
+                      {moreBlockers.map((g) => (
+                        <li key={g.action.key}>
+                          <NextActionItem
+                            action={g.action}
+                            milestone={g.milestone}
+                            details={g.details}
+                            walkthrough={g.walkthrough}
+                            seeIt={<SeeItLink goal={g} subject={`c${card.index}`} />}
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                  <RankedGoals
+                    goals={restGoals}
+                    subject={`c${card.index}`}
+                    hiddenCount={card.hiddenCount}
+                    skipped={card.skippedKeys}
+                    dismissed={card.dismissed}
+                    from={from}
                   />
-                </li>
-              ))}
-            </ul>
-          ) : null}
+                </section>
+              ) : null}
 
-          {card.purpose.length > 0 ? <PurposeBlock card={card} /> : null}
+              <BetterFit card={card} />
 
-          {card.goals.length > 0 || card.hiddenCount > 0 || card.skippedKeys.length > 0 ? (
-            <section className="n-goals" aria-label={FOCUS_WORDS.goals(`${card.classLabel} ${card.level}`)}>
-              <h3 className="n-sub-h">{FOCUS_WORDS.goals(`${card.classLabel} ${card.level}`)}</h3>
-              <RankedGoals
-                goals={card.goals}
-                subject={`c${card.index}`}
-                hiddenCount={card.hiddenCount}
-                skipped={card.skippedKeys}
-                dismissed={card.dismissed}
-              />
-            </section>
-          ) : null}
+              {card.activePlay.length > 0 ? (
+                <section aria-label={FOCUS_WORDS.ifYouHaveTime} className="n-extra">
+                  <h3 className="a-cap cp-cap">{FOCUS_WORDS.ifYouHaveTime}</h3>
+                  <ul>
+                    {card.activePlay.map((a) => (
+                      <li
+                        key={a.key}
+                        data-na-key={a.key}
+                        className={cx('iyht', actions.highlight === a.key && 'lit')}
+                      >
+                        <PixelArt name="cards-seal-chest" decorative />
+                        <span>
+                          {a.text} <span className="n-muted num">· {a.estimate}</span>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ) : null}
 
-          <BetterFit card={card} />
-
-          {card.activePlay.length > 0 ? (
-            <section aria-label={FOCUS_WORDS.ifYouHaveTime} className="n-extra">
-              <h3 className="n-sub-h">{FOCUS_WORDS.ifYouHaveTime}</h3>
-              <ul>
-                {card.activePlay.map((a) => (
-                  <li
-                    key={a.key}
-                    data-na-key={a.key}
-                    className={cx('iyht', actions.highlight === a.key && 'lit')}
-                  >
-                    <PixelArt name="cards-seal-chest" decorative />
-                    <span>
-                      {a.text} <span className="n-muted num">· {a.estimate}</span>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
-
-          {card.done.length > 0 ? (
-            <details className="done n-done">
-              <summary>{FOCUS_WORDS.doneThisSession(card.done.length)}</summary>
-              <ul>
-                {card.done.map((d) => (
-                  <li key={d.key}>
-                    <PixelArt name={VERDICT_GLYPH.ready} decorative />
-                    <s>{d.text}</s> <span className="n-muted num">{d.time}</span>
-                  </li>
-                ))}
-              </ul>
-            </details>
-          ) : null}
-        </div>
+              {card.done.length > 0 ? (
+                <details className="done n-done">
+                  <summary>{FOCUS_WORDS.doneThisSession(card.done.length)}</summary>
+                  <ul>
+                    {card.done.map((d) => (
+                      <li key={d.key}>
+                        <PixelArt name={VERDICT_GLYPH.ready} decorative />
+                        <s>{d.text}</s> <span className="n-muted num">{d.time}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              ) : null}
+            </div>
+            <PurposeBlock card={card} />
+          </div>
+          <NextTile card={card} view={view} onNext={onNext} />
+        </>
       )}
-
-      <div className="focus-foot n-focus__foot">
-        <button type="button" className="a-btn a-btn--primary n-wide" onClick={() => onNext(card.next.index)}>
-          <span>{card.next.text}</span>
-          <PixelArt name={GLYPH.arrowRight} decorative />
-        </button>
-        <Button tone="plain" onClick={onBack}>
-          {actions.place === undefined || actions.place === 'now' ? null : (
-            <PixelArt name={GLYPH.arrowLeft} decorative />
-          )}
-          {actions.place === undefined || actions.place === 'now'
-            ? FOCUS_WORDS.allCharacters
-            : LINK_WORDS.back}
-        </Button>
-      </div>
     </section>
   );
 }
