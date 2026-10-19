@@ -7,6 +7,7 @@ export {
   buildMapView,
   MAP_OVERLAYS,
   type MapBandView,
+  type MapDeathNoteRow,
   type MapFrontierView,
   type MapGateView,
   type MapNodeState,
@@ -16,6 +17,7 @@ export {
   type MapPlaceView,
   type MapSheetDoorRow,
   type MapSheetView,
+  type MapStarView,
   type MapViewOptions,
   type MapWho,
 } from './view';

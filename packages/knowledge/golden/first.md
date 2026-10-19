@@ -419,7 +419,7 @@ Can't read Bubba from this save
   - YumYum Grotto (town): C7 Maestro 73
 - World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 4 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; No one earns these keys yet
-- World 4 · Hyperion Nebula [open] · 3 of 3 route doors open · 10 side maps not reached
+- World 4 · Hyperion Nebula [open] · 3 of 3 route doors open · 1 side map not reached
   - gate Massive Troll (open, next)
   - Outer World Town (town): C2 Bubonic Conjuror 87, C6 Beast Master 87, C3 Siege Breaker 86, C5 Elemental Sorcerer 87
   - Spaceway Raceway (cleared): C1 Blood Berserker 96, C4 Divine Knight 86

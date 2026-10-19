@@ -257,7 +257,7 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 - World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 3 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; 6 keys waiting · 2 earned a day
   - Frostbite Towndra (town): C1 Siege Breaker 478
-- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 2 side maps not reached
+- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 1 side map not reached
   - gate Massive Troll (done)
 - Worlds 5+ · Not covered yet
 - Frontier: none

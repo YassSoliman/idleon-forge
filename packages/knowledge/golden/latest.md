@@ -481,7 +481,7 @@ Gifts: Slabcakes, Surprise Box
   - gate Efaunt (done): Glacier Quartz handed in; 6 keys waiting · 6 earned a day
 - World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 3 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; 9 keys waiting · 9 earned a day
-- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 2 side maps not reached
+- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 1 side map not reached
   - gate Massive Troll (done)
   - Outer World Town (town): C1 Siege Breaker 1291, C8 Siege Breaker 1261, C4 Divine Knight 1240, C5 Arcane Cultist 1231, C3 Elemental Sorcerer 1259, C11 Beginner 1224
 - Worlds 5+ · Not covered yet

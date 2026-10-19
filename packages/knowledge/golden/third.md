@@ -444,7 +444,7 @@ Can't read Bubba from this save
   - gate Efaunt (done): Glacier Quartz handed in; 0 keys waiting · 10 earned a day
 - World 3 · Frostbite Tundra [done] · 11 of 11 route doors open · 3 side maps not reached
   - gate Chizoar (done): Galaxial Amethyst handed in; 0 keys waiting · 10 earned a day
-- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 2 side maps not reached
+- World 4 · Hyperion Nebula [done] · 3 of 3 route doors open · 1 side map not reached
   - gate Massive Troll (done)
   - Outer World Town (town): C1 Blood Berserker 521
 - Worlds 5+ · Not covered yet

@@ -333,3 +333,49 @@ describe('facts', () => {
     expect(MAP_WORDS.keysWaiting(0, 0)).toBe('No one earns these keys yet');
   });
 });
+
+describe('M24: the Route rows, the constellation grid and the Death Note tab (scrubbed-w3)', () => {
+  const { v } = run('scrubbed-w3');
+
+  it('lays each world out as its route path in walking order, town first, then side and skilling maps', () => {
+    const w3 = v?.worlds.find((b) => b.world === 3);
+    expect(w3?.route[0]?.node.state).toBe('town');
+    expect(w3?.route[0]?.need).toBeNull();
+    // The door kills sit on the map after the door: the Waterlogged Entrance stop carries 15k.
+    expect(w3?.route.find((r) => r.node.name === 'Waterlogged Entrance')?.need).toBe('15k');
+    const onRoute = new Set(w3?.route.map((r) => r.node.mapIndex));
+    expect(w3?.side.every((n) => n.kind === 'fight' && !onRoute.has(n.mapIndex))).toBe(true);
+    expect(w3?.skill.every((n) => n.kind === 'skill')).toBe(true);
+  });
+
+  it('gives every W1 to W3 constellation one state from the save, claimed ones included', () => {
+    const stars = v?.stars ?? [];
+    expect(stars).toHaveLength(26);
+    expect(stars.find((x) => x.code === 'A-2')?.state).toBe('claimed');
+    expect(stars.find((x) => x.code === 'C-2')?.progress).toBe('2 of 4');
+    expect(new Set(stars.map((x) => x.state))).toEqual(new Set(['claimed', 'reach', 'far']));
+  });
+
+  it('lists the Death Note maps closest to their next rank first, with the 7 ranks and the building', () => {
+    const dn = v?.deathNote ?? [];
+    expect(dn.length).toBe(5);
+    expect(dn[0]?.ranks).toEqual([25_000, 100_000, 250_000, 500_000, 1_000_000, 5_000_000, 100_000_000]);
+    const left = dn.map((r) => r.left ?? 0);
+    expect(left).toEqual([...left].sort((a, b) => a - b));
+    expect(v?.deathNoteBuilding).toEqual({
+      level: 0,
+      inBuildSlot: true,
+      cost: { item: 'Explosive Salts', amount: 10, held: 0 },
+    });
+  });
+});
+
+describe('M24: the World 4 door ladder (a W4 account, MapW4)', () => {
+  it("walks past the gate path's third map door by door, to the 300k door", () => {
+    const { v } = run('first');
+    const w4 = v?.worlds.find((b) => b.world === 4);
+    expect(w4?.route.length).toBeGreaterThanOrEqual(13);
+    expect(w4?.route.map((r) => r.need)).toContain('300k');
+    expect(w4?.side.length).toBeLessThan(3);
+  });
+});

@@ -94,6 +94,8 @@ export const MAP_WORDS = {
   skillMaps: 'Skilling maps',
   empty: 'The map shows once your save names a current world.',
   ringLabel: 'Ringed',
+  /** M24: a constellation's progress, "5 of 3". */
+  starProgress: (done: number, of: number) => `${done} of ${of}`,
 } as const;
 
 function fmt(n: number): string {
