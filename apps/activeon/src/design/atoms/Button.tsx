@@ -7,7 +7,8 @@ import type { ArtName } from '../art/names';
 import { PixelArt } from '../art/PixelArt';
 import { GLYPH } from './glyphs';
 
-export type ButtonTone = 'primary' | 'quiet' | 'plain';
+/** M24 adds `ghost` (the canvas's .btn.ghost: a quiet filled button on the sunk step). */
+export type ButtonTone = 'primary' | 'quiet' | 'plain' | 'ghost';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   tone?: ButtonTone;

@@ -54,7 +54,8 @@ describe('the shell width (layout jitter)', () => {
   it('sets one wide shell width, for every place, from 1000 px', () => {
     const shell = readFileSync(join(SRC, 'shell/shell.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
     const wide = /@media \(min-width: 1000px\)\s*\{\s*\.app:has\(\.places\)\s*\{([^}]*)\}/.exec(shell);
-    expect(wide?.[1]).toMatch(/max-width:\s*min\(calc\(980px \+ 128px\), 100%\)/);
+    // M24: the canvas's content column (a 1200 px wrap less its two 32 px gutters).
+    expect(wide?.[1]).toMatch(/max-width:\s*min\(1136px, 100%\)/);
   });
 
   it('keeps the scrollbar gutter, so a short place and a tall one have the same width', () => {

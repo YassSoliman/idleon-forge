@@ -27,7 +27,7 @@
   border-radius: var(--radius-control);
   background: var(--surface);
   color: var(--fg);
-  font: var(--weight-semibold) var(--text-md) / var(--lh-snug) var(--font-body);
+  font: var(--weight-bold) 15px / var(--lh-snug) var(--font-body);
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
   cursor: pointer;
@@ -43,6 +43,13 @@
 .a-btn--plain {
   background: transparent;
   color: var(--accent);
+}
+.a-btn--ghost {
+  background: var(--sunk);
+  color: var(--fg);
+}
+.a-btn--ghost:hover {
+  background: var(--raised);
 }
 .a-btn:disabled {
   cursor: default;
@@ -117,6 +124,123 @@
   .a-frame {
     --frame-notch: 5px;
   }
+}
+/* M24 (the canvas's .frame): the frame's tint says what it holds. Coral by default (losing value now),
+   gold for "do it", mint for "done or fine". `--pad` is the canvas's 24 x 28 padding. */
+.a-frame--gold {
+  background: var(--frame-gold);
+}
+.a-frame--ok {
+  background: var(--frame-ok);
+}
+.a-frame--pad {
+  padding: var(--space-6) 28px;
+}
+@media (max-width: 719.98px) {
+  .a-frame--pad {
+    padding: var(--space-4) var(--space-5);
+  }
+}
+
+/* Tiles (M24, the canvas's .tile and .tile2): the tonal steps that hold everything that isn't the
+   answer. No border, no radius, no ring: hierarchy is the tone. */
+.a-tile {
+  background: var(--surface);
+  padding: var(--space-4) 18px;
+}
+.a-tile2 {
+  background: var(--sunk);
+  padding: var(--space-3) 14px;
+}
+
+/* Pips (M24): a 10 px square of meaning beside a word, never alone. */
+.a-pip {
+  display: inline-block;
+  flex: none;
+  width: 10px;
+  height: 10px;
+  background: var(--pip-later);
+}
+.a-pip--gold {
+  background: var(--accent);
+}
+.a-pip--coral {
+  background: var(--bad);
+}
+.a-pip--mint {
+  background: var(--ok);
+}
+.a-pip--sky {
+  background: var(--info);
+}
+
+/* Tags (M24, the canvas's .badge): a short word or count on a quiet square. Filled gold and coral
+   only where the word is the call to act; mint on its soft tint for "in use" and "done". */
+.a-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  background: var(--raised);
+  color: var(--fg2);
+  font: var(--weight-bold) var(--text-xs) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.a-tag--gold {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.a-tag--coral {
+  background: var(--bad);
+  color: var(--on-bad);
+}
+.a-tag--mint {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+
+/* The blob avatar (M24): our own guide blob with a class-family hat, drawn as crisp SVG rects. */
+.a-blob {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--blob-size, 36px);
+  height: var(--blob-size, 36px);
+}
+.a-blob svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Type (M24 rule 6): 40 / 28 / 22 pixel display; 16 body, 14 secondary, 12 caps label. */
+.a-display {
+  margin: 0;
+  font: var(--display-weight) var(--text-4xl) / 1 var(--font-display);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.a-h1 {
+  margin: 0;
+  font: var(--display-weight) 28px / 1.1 var(--font-display);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.a-h2 {
+  margin: 0;
+  font: var(--display-weight) 22px / 1.15 var(--font-display);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.a-cap {
+  color: var(--muted);
+  font: var(--weight-bold) var(--text-xs) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
 }
 
 /* Pills and the Verdict stamp ------------------------------------------------------------------- */
@@ -249,6 +373,22 @@
   font-feature-settings: var(--font-features);
   font-variant-numeric: tabular-nums;
 }
+/* M24 tones: a coral count is losing value now (the default), a gold one is "do it", a plain one is
+   only a count, and `--text` is the canvas's bare gold number (the Timeline's limits). */
+.a-badge--gold {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.a-badge--plain {
+  background: var(--raised);
+  color: var(--fg2);
+}
+.a-badge--text {
+  min-width: 0;
+  padding: 0 2px;
+  background: transparent;
+  color: var(--accent);
+}
 
 /* The token line: who · where · how long --------------------------------------------------------- */
 .a-token-line {
@@ -282,9 +422,9 @@
 /* Meters and rings ------------------------------------------------------------------------------- */
 .a-meter {
   position: relative;
-  height: 8px;
+  height: 6px;
   border-radius: 0;
-  background: var(--sunk);
+  background: var(--raised);
   overflow: hidden;
 }
 .a-meter__fill {
@@ -302,6 +442,19 @@
 }
 .a-meter--muted .a-meter__fill {
   background: var(--line-strong);
+}
+/* M24: the canvas's meter tones (rule 7): gold do it, coral losing now, mint done, sky a timer. */
+.a-meter--gold .a-meter__fill {
+  background: var(--accent);
+}
+.a-meter--coral .a-meter__fill {
+  background: var(--bad);
+}
+.a-meter--mint .a-meter__fill {
+  background: var(--ok);
+}
+.a-meter--sky .a-meter__fill {
+  background: var(--info);
 }
 .a-meter--dashed {
   background: transparent;
@@ -327,17 +480,18 @@
 /* Segmented control and tabs -------------------------------------------------------------------- */
 .a-seg {
   display: inline-flex;
+  gap: 2px;
   margin: 0;
-  padding: 2px;
+  padding: 3px;
   border-radius: var(--radius-control);
-  background: var(--sunk);
+  background: var(--surface);
   border: 0;
 }
 .a-seg__option {
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
-  padding: 0 var(--space-3);
+  padding: 0 14px;
   border-radius: calc(var(--radius-control) - 2px);
   color: var(--muted);
   font: var(--weight-semibold) var(--text-sm) / 1 var(--font-body);
@@ -346,9 +500,8 @@
   cursor: pointer;
 }
 .a-seg__option--on {
-  background: var(--surface);
+  background: var(--raised);
   color: var(--fg);
-  box-shadow: var(--shadow-1);
 }
 .a-seg__option:focus-within {
   outline: var(--focus-width) solid var(--focus);
@@ -358,21 +511,25 @@
   display: flex;
   gap: var(--space-1);
   overflow-x: auto;
-  box-shadow: 0 1px 0 var(--line);
+  box-shadow: inset 0 -1px 0 var(--line);
 }
 .a-tab {
   display: inline-flex;
+  flex: none;
   align-items: center;
-  gap: var(--space-1);
-  padding: 0 var(--space-3);
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
   border: 0;
   background: transparent;
   color: var(--muted);
-  font: var(--weight-semibold) var(--text-sm) / 1 var(--font-body);
+  font: var(--weight-semibold) 15px / 1 var(--font-body);
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
+  white-space: nowrap;
   cursor: pointer;
-  box-shadow: 0 1px 0 var(--line);
+}
+.a-tab:hover {
+  color: var(--fg);
 }
 .a-tab--on {
   color: var(--fg);
@@ -462,37 +619,86 @@
   display: grid;
   justify-items: center;
   gap: var(--space-3);
-  padding: var(--space-6) var(--space-4);
+  padding: 28px var(--space-5);
+  background: var(--surface);
   text-align: center;
 }
 .a-empty__line {
   margin: 0;
-  max-width: 32ch;
+  max-width: 36ch;
+  font-weight: var(--weight-bold);
+}
+.a-empty__next {
+  font-size: var(--text-sm);
 }
 .a-loading {
   position: relative;
   display: grid;
   gap: var(--space-3);
 }
+/* M24 States board: the full-screen wait is a tile: the walking blob and its step, the named steps
+   with pips, the skeleton, then the Cloud Save hint in the timer's blue. */
+.a-loading:not(.a-loading--part, .a-loading--pending) {
+  gap: var(--space-6);
+  padding: var(--space-7);
+  background: var(--surface);
+}
 .a-loading--pending {
   min-height: var(--tap-min);
 }
 .a-loading__skeleton {
+  order: 2;
   opacity: 0.5;
 }
 .a-loading__blob {
+  order: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: var(--space-3);
   color: var(--muted);
 }
+.a-loading:not(.a-loading--part) .a-loading__step {
+  color: var(--fg);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
 .a-loading--part .a-loading__blob {
   justify-content: center;
+  align-items: center;
   padding: var(--space-4);
 }
-.a-loading__hint {
+.a-loading__steps {
+  order: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
   margin: 0;
+  padding: 0;
+  list-style: none;
   color: var(--muted);
+  font-size: var(--text-sm);
+}
+.a-loading__steps li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.a-loading__steps li + li::before {
+  content: "›";
+  margin-right: var(--space-2);
+  color: var(--muted);
+}
+.a-loading__steps li.is-on {
+  color: var(--fg);
+  font-weight: var(--weight-bold);
+}
+.a-loading__hint {
+  order: 3;
+  margin: 0;
+  padding: var(--space-3) 14px;
+  background: var(--info-soft);
+  color: var(--fg);
   font-size: var(--text-sm);
 }
 .a-part-failed {
@@ -500,10 +706,15 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-2) var(--space-3);
-  padding: var(--space-3);
+  padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-card);
+  background: var(--surface);
   color: var(--fg);
+  font-size: var(--text-sm);
   border: 0;
+}
+.a-part-failed > span {
+  flex: 1;
 }
 .a-toast {
   display: flex;

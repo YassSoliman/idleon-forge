@@ -10,6 +10,8 @@ import './design/base.css';
 import './design/atoms/atoms.css';
 import './styles/app.css';
 import './styles/now.css';
+// M24: the chrome around every place (the bar, the menu, the footer, first run, the flow states).
+import './styles/chrome.css';
 // The places' shared CSS, in their old cascade order (M21 FR-I3: styles/views.css only imported these).
 import './shell/shell.css';
 import './characters/characters.css';
