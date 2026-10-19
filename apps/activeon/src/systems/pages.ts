@@ -13,7 +13,7 @@ import type { SystemPageView } from '@idleon-forge/engine/now';
 import type { ComponentType } from 'react';
 import { lazyPart, retryable } from '../lazy-part';
 import type { Session } from '../shell/session';
-import type { FullPage } from './frame/SimplePage';
+import { type FullPage, SimplePage } from './frame/SimplePage';
 
 // Each chunk import is `retryable`, so a Retry after a failed fetch re-requests it (lazy-part.tsx).
 const slotPictures = retryable(() => import('./SlotPictures'));
@@ -61,6 +61,28 @@ export const FULL_PAGES: Readonly<Record<string, ComponentType<FullPageProps>>> 
   refinery: w23Page('RefineryPage'),
   prayers: w23Page('PrayersPage'),
   shrines: w23Page('ShrinesPage'),
+  // M26 FR-0b, Wave 1: one file each, the thin page until the wave draws it.
+  rift: full(() => import('./pages/RiftPage')),
+  tome: full(() => import('./pages/TomePage')),
+  'elite-classes': full(() => import('./pages/EliteClassesPage')),
+  // M26 FR-0b: the other Wave 0 registry rows, the thin page itself until their wave (spec section 9).
+  ...Object.fromEntries(
+    [
+      'sigils',
+      'stats',
+      'food',
+      'storage',
+      'drop-rate',
+      'dungeons',
+      'coins',
+      'achievements',
+      'family',
+      'friend-bonuses',
+      'event-shop',
+      'trophies-nametags',
+      'town-shops',
+    ].map((id) => [id, SimplePage]),
+  ),
 };
 
 export interface SystemPageBodyProps {
