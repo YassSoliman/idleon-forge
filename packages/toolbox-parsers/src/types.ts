@@ -244,6 +244,8 @@ export interface ToolboxCalls {
   bubbaParse(rawBubba: unknown, account: unknown): ToolboxBubba | null;
   /** The Charisma and gift tables, and Toolbox's Smoker cap constant. */
   bubbaTables(): ToolboxBubbaTables;
+  /** M24: each live shrine's bonus at level 1 and per level, in `account.shrines` order. */
+  shrineBonuses(): Array<{ baseBonus: number; bonusPerLevel: number }>;
 }
 
 /** M7 TR-4: one Vault row's Toolbox `cost` at levels L, L+1, ... (`costs[0]` is the parse's `cost`). */
