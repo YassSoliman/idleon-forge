@@ -24,6 +24,7 @@ import { usePictureSheet } from '../systems/PictureSheet';
 import type { SystemPageBodyProps } from '../systems/pages';
 import './alchemy.css';
 import { cx } from '../design/atoms';
+import { VialTries } from './VialTries';
 
 /** Up to five rising bubbles: about the new bubbles the banked brew gives (M6). */
 const RISE = ['a', 'b', 'c', 'd', 'e'];
@@ -144,6 +145,10 @@ export default function AlchemyLab(p: SystemPageBodyProps) {
   const { open, sheet } = usePictureSheet(p.page.wiki ?? null);
   if (!a) return null;
   const lit = litKey(a, p.page.highlight);
+  const who = (i: number) => {
+    const c = p.s.result.characters.find((x) => x.index === i);
+    return c ? `${c.classLabel} ${c.level}` : `Character ${i + 1}`;
+  };
   // G8: exactly one lit bar: the highlight's cell, else M19's next.
   const litCell = a.p2w.find((c) => lit !== null && c.actionKey === lit) ?? a.p2w.find((c) => c.next) ?? null;
   const labelled = new Set([
@@ -199,6 +204,7 @@ export default function AlchemyLab(p: SystemPageBodyProps) {
             Next vial: {a.vialPick.name} {a.vialPick.from} → {a.vialPick.to}
           </p>
         ) : null}
+        <VialTries a={a} who={who} />
         <details>
           <summary className="small">Every vial</summary>
           <ul className="small al-list">

@@ -370,25 +370,17 @@ describe('US-22 / D9 account stockpiles', () => {
   });
 });
 
-describe('the Spend Plan chip jumps to the Spend Plan (FR-4)', () => {
-  it('the one Spend card lists the payers and opens the plan, unfolding the Account', () => {
+describe('the Spend Plan chip opens the Spend Plan page (FR-4, M24)', () => {
+  it('the one Spend card lists the payers and opens #spend, the page with the plan in order', async () => {
     const r = fixture('spend-plan');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     const card = screen.getByRole('region', { name: 'Spend Plan' });
     expect(within(card).getAllByRole('button').length).toBeGreaterThan(1);
-    const acct = screen.getByRole('region', { name: 'Account' });
-    expect(
-      within(acct)
-        .getByRole('button', { name: /^Account/ })
-        .getAttribute('aria-expanded'),
-    ).toBe('false');
     fireEvent.click(within(card).getByRole('button', { name: 'Open the Spend Plan' }));
-    expect(
-      within(acct)
-        .getByRole('button', { name: /^Account/ })
-        .getAttribute('aria-expanded'),
-    ).toBe('true');
-    expect(document.getElementById('spend-plan')).toBeTruthy();
+    expect(window.location.hash).toBe('#spend');
+    const page = await screen.findByRole('article', { name: /buys? your coins cover today/ });
+    expect(within(page).getByRole('heading', { name: 'In this order' })).toBeTruthy();
+    expect(within(page).getByRole('navigation', { name: 'Breadcrumb' }).textContent).toContain('Spend Plan');
   });
 });
 
@@ -410,7 +402,8 @@ describe('copy pass rule 3: unknown tokens are hidden, never printed', () => {
   it('an unpriced Spend Plan line shows no cost token, only the "cost not checked" pill', () => {
     const r = fixture('spend-plan');
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
-    fireEvent.click(screen.getByRole('button', { name: 'Open the Spend Plan' }));
+    const acct = screen.getByRole('region', { name: 'Account' });
+    fireEvent.click(within(acct).getByRole('button', { name: /^Account/ }));
     const plan = document.getElementById('spend-plan') as HTMLElement;
     const more = within(plan).queryByRole('button', { name: /^\+\d+ more/ });
     if (more) fireEvent.click(more);

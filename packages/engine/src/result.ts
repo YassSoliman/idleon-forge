@@ -22,6 +22,9 @@ export type {
   P2wCell,
   PotView,
   TubeView,
+  VialHolding,
+  VialMissing,
+  VialTry,
   VialView,
 } from './alchemy/types';
 export type * from './bubba/types';

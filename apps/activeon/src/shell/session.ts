@@ -266,7 +266,17 @@ export function useSession(props: ShellProps) {
   );
   const validFocus = route.place === 'character' ? route.index : null;
   const pageTab = route.place === 'character' ? route.tab : NOW_TAB;
-  const view = useMemo(() => viewFor(validFocus, visited), [viewFor, validFocus, visited]);
+  // M24: the Spend Plan and Goals pages show every line and every Goal, so the view is built unfolded there.
+  const accountPage = route.place === 'account';
+  const view = useMemo(
+    () =>
+      viewFor(
+        validFocus,
+        visited,
+        accountPage ? { expanded: new Set([...expanded, 'account', 'spend']) } : {},
+      ),
+    [viewFor, validFocus, visited, accountPage, expanded],
+  );
   // M17 TR-6: the Timeline from the same result and the Roster's frozen order; null without M3.
   // M21 G10: the Timeline and the AFK strip say times in the player's Times setting.
   const { times } = useNowSettings();
@@ -600,11 +610,8 @@ export function useSession(props: ShellProps) {
     return true;
   }, []);
 
-  const toSpend = useCallback(() => {
-    if (route.place !== 'now' && route.place !== 'character') navigate({ place: 'now' }, 'push');
-    setExpanded((prev) => new Set([...prev, 'spend-open']));
-    requestAnimationFrame(() => document.getElementById('spend-plan')?.scrollIntoView({ block: 'start' }));
-  }, [route, navigate]);
+  // M24: the Spend Plan has its own page (canvas board SpendPlan).
+  const toSpend = useCallback(() => navigate({ place: 'account', page: 'spend' }, 'push'), [navigate]);
   const onNext = (index: number | null) => {
     if (index === null) {
       accountRef.current?.focus();

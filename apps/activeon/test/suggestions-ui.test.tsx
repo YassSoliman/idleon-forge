@@ -12,6 +12,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Shell as NowScreen } from '../src/shell/Shell';
 import type { SuggestionsConfig } from '../src/suggestions/config';
 import type { ReportSource, Scene } from '../src/suggestions/context';
+import { NOTICE } from '../src/suggestions/Panel';
 import {
   SuggestionsProvider,
   SuggestLink,
@@ -153,7 +154,7 @@ const loaded = async (dialog: HTMLElement) => {
 };
 const openForm = async () => {
   fireEvent.click(screen.getByRole('button', { name: 'Suggest' }));
-  return loaded(await screen.findByRole('dialog', { name: 'Suggest' }));
+  return loaded(await screen.findByRole('dialog', { name: 'Suggest something' }));
 };
 const fill = (label: RegExp, value: string) =>
   fireEvent.change(screen.getByLabelText(label), { target: { value } });
@@ -367,17 +368,17 @@ describe('US-4 no proof yet (FR-12, FR-19)', () => {
 });
 
 describe('M21 FR-N12 the layout (M13 copy and scrub unchanged)', () => {
-  it('opens on three kind tiles, then one question at a time', async () => {
+  it('opens on the notice and three kind tiles, then the three questions at once, the example folded (M24)', async () => {
     render(<Harness />);
     const dialog = await openForm();
     const tiles = within(dialog).getAllByRole('radio');
     expect(tiles.map((t) => t.closest('label')?.classList.contains('sg-kind'))).toEqual([true, true, true]);
-    expect(within(dialog).getByText('Question 1 of 4')).toBeTruthy();
-    const fields = [...dialog.querySelectorAll('.sg-field')];
-    expect(fields.map((f) => f.classList.contains('is-current'))).toEqual([true, false, false, false]);
-    fireEvent.click(within(dialog).getByRole('button', { name: 'Next question' }));
-    expect(within(dialog).getByText('Question 2 of 4')).toBeTruthy();
-    expect(dialog.querySelectorAll('.sg-field')[1]?.classList.contains('is-current')).toBe(true);
+    const fields = [...dialog.querySelectorAll('.sg-fields > .sg-field label')].map((l) => l.textContent);
+    expect(fields).toEqual(["When I'm…", 'I want… (required)', 'So that…']);
+    const example = dialog.querySelector('details.sg-example') as HTMLDetailsElement;
+    expect(example.open).toBe(false);
+    expect(example.querySelector('summary')?.textContent).toBe('Add a game example (optional)');
+    expect(dialog.querySelector('.sg-notice--top')?.textContent).toBe(NOTICE);
   });
 
   it("a report picks what's wrong from four chips, which start I want…", async () => {
@@ -399,7 +400,7 @@ describe('M21 FR-N12 the layout (M13 copy and scrub unchanged)', () => {
     );
   });
 
-  it('Your suggestions: the 3 newest are notes on the quest board, the rest the plain list (US-16)', async () => {
+  it('Your suggestions: every suggestion a tile, newest first, with its progress bar (US-16, M24)', async () => {
     mine = [9, 8, 7, 6, 5].map((n) => ({
       number: n,
       url: `https://github.com/YassSoliman/idleon-forge/issues/${n}`,
@@ -417,12 +418,11 @@ describe('M21 FR-N12 the layout (M13 copy and scrub unchanged)', () => {
       'idea number 9',
       'idea number 8',
       'idea number 7',
+      'idea number 6',
+      'idea number 5',
     ]);
-    const plain = dialog.querySelectorAll('.sg-plainrow a');
-    expect([...plain].map((a) => a.getAttribute('href'))).toEqual([
-      'https://github.com/YassSoliman/idleon-forge/issues/6',
-      'https://github.com/YassSoliman/idleon-forge/issues/5',
-    ]);
+    expect(notes[0]?.querySelectorAll('.sg-steps > i.on')).toHaveLength(1);
+    expect(within(dialog).getByText('5 sent')).toBeTruthy();
   });
 });
 
