@@ -67,9 +67,9 @@ describe('the Gear tab', () => {
     expect(container.querySelectorAll('.gd-slot[data-lit="yes"]')).toHaveLength(1);
     const helmet = screen.getByRole('button', { name: /^Helmet.*Equip the Gold Helmet from storage.*Next$/ });
     expect(helmet.getAttribute('aria-expanded')).toBe('false');
-    // A slot behind names the piece, where it comes from, and the level to wear it.
+    // A slot behind names the piece and where it comes from; no "Lv 50 to wear" for a Lv 60 (M24 QA P3).
     const weapon = screen.getByRole('button', {
-      name: /^Weapon · wearing Carrot LauncherGet Pharaoh BowUnlock Spiked Menace at the W2 Task Board \(Unlocks tab\)Lv 50to wear$/,
+      name: /^Weapon · wearing Carrot LauncherGet Pharaoh BowUnlock Spiked Menace at the W2 Task Board \(Unlocks tab\)$/,
     });
     expect(screen.queryByText(/levels behind/)).toBeNull();
     fireEvent.click(weapon);

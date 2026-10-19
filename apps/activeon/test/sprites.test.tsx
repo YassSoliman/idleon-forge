@@ -107,3 +107,16 @@ describe('sprite kit', () => {
     expect(container.querySelector('title')).toBeNull();
   });
 });
+
+describe('character avatars (M24 QA P3: a strip never mixes class sprites with blobs)', async () => {
+  const { Avatar, classSprite } = await import('../src/characters/Avatar');
+  it('reads the game spelling "Bubonic Conjuror" as the kit\'s conjurer sprite', () => {
+    expect(classSprite('Bubonic Conjuror')).toBe('class-bubonic-conjurer');
+  });
+  it("draws a class the kit doesn't have yet with its family's sprite, not a blob", () => {
+    expect(classSprite('Death Bringer')).toBeNull();
+    const { container } = render(<Avatar classLabel="Death Bringer" family="warrior" size={32} />);
+    expect(container.querySelector('svg.spr-art')).toBeTruthy();
+    expect(container.querySelector('.cp-avatar--who')).toBeNull();
+  });
+});

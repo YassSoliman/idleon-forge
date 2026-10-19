@@ -298,10 +298,14 @@ export function GearTab({ view, index }: CharacterTabProps) {
   const byId = (slot: SlotId) => g.slots.find((x) => x.slot === slot) ?? null;
   const armour = [...LEFT, ...RIGHT].map(byId).filter((x): x is GearSlotView => x !== null);
   const looks = new Map(
-    armour.map((v) => [
-      v.slot,
-      lookOf(v, g.lit === v.slot, g.step, v.actionKey ? (goals.get(v.actionKey) ?? null) : null),
-    ]),
+    armour.map((v) => {
+      const look = lookOf(v, g.lit === v.slot, g.step, v.actionKey ? (goals.get(v.actionKey) ?? null) : null);
+      // "Lv 30 to wear" only while the character is below it (M24 QA P3).
+      return [
+        v.slot,
+        who && look.lv !== null && who.level >= look.lv ? { ...look, lv: null } : look,
+      ] as const;
+    }),
   );
   const count = (k: Kind) => armour.filter((v) => kindOf(v) === k).length;
   const litView = g.lit ? byId(g.lit) : null;
