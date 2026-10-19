@@ -115,7 +115,7 @@ export default function VaultPage({ s, page }: FullPageProps) {
               <div className="sf-col">
                 <section className="sf-sec" aria-labelledby="uv-h">
                   <div className="sf-sec__head">
-                    <h3 id="uv-h" className="sf-h">
+                    <h3 id="uv-h" className="a-h2">
                       {W.towerTitle}
                     </h3>
                     <span className="sf-hint">{W.towerHint}</span>
@@ -176,7 +176,7 @@ export default function VaultPage({ s, page }: FullPageProps) {
 function Here({ total }: { total: number }) {
   return (
     <div className="uv-here">
-      <span className="sf-cap sf-t--gold">{W.here}</span>
+      <span className="a-cap sf-t--gold">{W.here}</span>
       <span className="sf-small sf-strong sf-t--gold">{W.levels(n(total))}</span>
     </div>
   );

@@ -126,7 +126,7 @@ export default function TalentPresetsPage({ s, page }: FullPageProps) {
               </section>
               <aside className="sf-col">
                 <section className="sf-sec" aria-labelledby="tp-how-h">
-                  <span id="tp-how-h" className="sf-capline">
+                  <span id="tp-how-h" className="a-cap">
                     {W.how}
                   </span>
                   <ul className="tp-how">
@@ -149,7 +149,7 @@ export default function TalentPresetsPage({ s, page }: FullPageProps) {
           badge: starRows.length || null,
           render: () => (
             <section className="sf-sec" aria-labelledby="tp-star-h">
-              <h3 id="tp-star-h" className="sf-h">
+              <h3 id="tp-star-h" className="a-h2">
                 {W.starTitle}
               </h3>
               {starRows.length === 0 ? <p className="sf-muted">{W.starNone}</p> : null}
@@ -178,7 +178,7 @@ export default function TalentPresetsPage({ s, page }: FullPageProps) {
           label: W.tabs.on,
           render: () => (
             <section className="sf-sec" aria-labelledby="tp-on-h">
-              <h3 id="tp-on-h" className="sf-h">
+              <h3 id="tp-on-h" className="a-h2">
                 {W.onTitle}
               </h3>
               <ul className="sf-rows">

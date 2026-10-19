@@ -209,9 +209,8 @@
   align-items: flex-start;
   gap: var(--space-3);
 }
-.tp-how .sf-pip {
+.tp-how .a-pip {
   margin-top: 6px;
-  color: var(--accent);
 }
 
 /* Gear & Tools ------------------------------------------------------------------------------------- */

@@ -6,8 +6,9 @@
 
 import { EMPTY_PREFS } from '@idleon-forge/engine/now';
 import { buildSystemsHubView, buildSystemsView, INDEX_WORDS } from '@idleon-forge/engine/systems-ui';
-import { cleanup, fireEvent, screen, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { Tabs } from '../src/systems/frame/SystemFrame';
 import { noAxeViolations, places, withSystems } from './helpers/views';
 import { props, renderNow, saveOf } from './now-helpers';
 
@@ -69,20 +70,43 @@ describe('US-5, US-8, US-9 the hub and System pages', () => {
     const r = withSystems();
     renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     expect(screen.getByText("ActiveOn doesn't check Equinox yet")).toBeTruthy();
-    expect(screen.getByRole('link', { name: 'IdleOn Wiki: Equinox' }).getAttribute('href')).toBe(
+    expect(screen.getByRole('link', { name: 'IdleOn Wiki: Equinox ↗' }).getAttribute('href')).toBe(
       'https://idleon.wiki/wiki/Equinox',
     );
     expect(screen.queryByText('Nothing to fix')).toBeNull();
   });
 
-  it('the template: one frame, real tabs with arrow keys, and the footer line', async () => {
+  it('the template: one frame, the back link to its world and the wiki link', async () => {
     window.history.replaceState(null, '', '/#system-stamps');
     const r = withSystems();
     const { container } = renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
     await screen.findByRole('heading', { level: 2, name: 'Stamps' });
     expect(container.querySelectorAll('.a-frame')).toHaveLength(1);
-    expect(container.querySelector('.sf-foot')?.textContent).toContain('Checks:');
+    expect(screen.getByRole('link', { name: /^IdleOn Wiki: / })).toBeTruthy();
     expect(screen.getByRole('link', { name: /^Systems · World 1/ })).toBeTruthy();
+  });
+
+  it('the template tabs: one tab stop, arrow keys move and open, the panel follows', () => {
+    render(
+      <Tabs
+        name="Anvil"
+        tabs={[
+          { id: 'a', label: 'Point split', render: () => <p>split body</p> },
+          { id: 'b', label: 'What each anvil makes', badge: 6, render: () => <p>makes body</p> },
+        ]}
+      />,
+    );
+    const list = screen.getByRole('tablist', { name: 'Anvil sections' });
+    const [a, b] = within(list).getAllByRole('tab');
+    expect(a?.getAttribute('aria-selected')).toBe('true');
+    expect(b?.getAttribute('tabindex')).toBe('-1');
+    expect(screen.getByRole('tabpanel').textContent).toBe('split body');
+    fireEvent.keyDown(a as HTMLElement, { key: 'ArrowRight' });
+    expect(b?.getAttribute('aria-selected')).toBe('true');
+    expect(document.activeElement).toBe(b);
+    expect(screen.getByRole('tabpanel').textContent).toBe('makes body');
+    fireEvent.keyDown(b as HTMLElement, { key: 'Home' });
+    expect(a?.getAttribute('aria-selected')).toBe('true');
   });
 
   it('TR-9: every text the hub shows is a builder string, a view word, a count or a registry name', () => {

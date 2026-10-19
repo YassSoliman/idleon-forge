@@ -16,6 +16,8 @@ import type { FrameTone, SystemFrameView } from '@idleon-forge/engine/systems-ui
 import { PAGE_FRAME_WORDS } from '@idleon-forge/engine/systems-ui';
 import { type KeyboardEvent, type ReactNode, useId, useRef, useState } from 'react';
 import { PixelArt } from '../../design/art/PixelArt';
+import { Frame, Pip as SharedPip } from '../../design/atoms/Surfaces';
+import { PageSources } from '../../shell/page-sources';
 import { formatRoute } from '../../shell/route';
 import type { Session } from '../../shell/session';
 import { SystemIcon } from './SystemIcon';
@@ -107,12 +109,12 @@ export function SystemFrame({
           <SystemIcon id={tile.id} size={48} />
         </span>
         <div className="sf-head__text">
-          <h2 id="system-h" className="sf-title" data-place-heading tabIndex={-1}>
+          <h2 id="system-h" className="a-h1 sf-title" data-place-heading tabIndex={-1}>
             {tile.name}
           </h2>
           <p className="sf-status">
             <span className={`sf-status__word ${toneClass(status.tone)}`}>
-              <span className={`sf-pip ${toneClass(status.tone)}`} aria-hidden="true" />
+              <Pip tone={status.tone} />
               {status.word}
             </span>
             {status.reason ? (
@@ -137,29 +139,32 @@ export function SystemFrame({
         <div className="sf-body">{children}</div>
       )}
 
-      <p className="sf-foot">
-        <span>{checksLine}</span>
-        {page.wiki ? (
-          <>
-            <span aria-hidden="true"> · </span>
-            <a href={page.wiki} target="_blank" rel="noopener noreferrer">
-              {PAGE_FRAME_WORDS.wiki(wikiName(page.wiki, tile.name))}
-            </a>
-          </>
-        ) : null}
-        {toolbox ? (
-          <>
-            <span aria-hidden="true"> · </span>
-            <span>{PAGE_FRAME_WORDS.toolbox(toolbox)}</span>
-          </>
-        ) : null}
-      </p>
+      {/* Rule 8: the page's checks and Sources are the one-line footer's left half (shell/page-sources). */}
+      <PageSources>
+        <span className="sf-foot">
+          <span>{checksLine}</span>
+          {page.wiki ? (
+            <>
+              <span aria-hidden="true"> · </span>
+              <a href={page.wiki} target="_blank" rel="noopener noreferrer">
+                {PAGE_FRAME_WORDS.wiki(wikiName(page.wiki, tile.name))}
+              </a>
+            </>
+          ) : null}
+          {toolbox ? (
+            <>
+              <span aria-hidden="true"> · </span>
+              <span>{PAGE_FRAME_WORDS.toolbox(toolbox)}</span>
+            </>
+          ) : null}
+        </span>
+      </PageSources>
     </article>
   );
 }
 
 /** "https://idleon.wiki/wiki/Talent_Book_Library" -> "Talent Book Library". */
-function wikiName(href: string, fallback: string): string {
+export function wikiName(href: string, fallback: string): string {
   try {
     const last = new URL(href).pathname.split('/').pop() ?? '';
     const name = decodeURIComponent(last).replace(/_/g, ' ').replace(/#.*$/, '');
@@ -173,9 +178,14 @@ export function Answer({ answer }: { answer: FrameAnswer }) {
   const big = answer.big;
   const bigTone = big?.tone ?? answer.tone;
   return (
-    <section className={`a-frame sf-answer ${toneClass(answer.tone)}`} aria-label={answer.cap}>
+    <Frame
+      tone={answer.tone === 'gold' ? 'gold' : answer.tone === 'mint' ? 'ok' : 'coral'}
+      pad
+      className={`sf-answer${answer.tone === 'sky' || answer.tone === 'mut' ? ` ${toneClass(answer.tone)}` : ''}`}
+      aria-label={answer.cap}
+    >
       <div className="sf-answer__text">
-        <span className={`sf-cap ${toneClass(answer.tone)}`}>{answer.cap}</span>
+        <span className={`a-cap sf-cap ${toneClass(answer.tone)}`}>{answer.cap}</span>
         <p className="sf-hero">{answer.hero}</p>
         {answer.sub ? <p className="sf-sub">{answer.sub}</p> : null}
       </div>
@@ -193,7 +203,7 @@ export function Answer({ answer }: { answer: FrameAnswer }) {
           {big.note ? <span className="sf-big__note">{big.note}</span> : null}
         </div>
       ) : null}
-    </section>
+    </Frame>
   );
 }
 
@@ -265,7 +275,7 @@ export function Tabs({ name, tabs, initial }: { name: string; tabs: FrameTab[]; 
   );
 }
 
-/** A small coloured square, the index's and the pages' status pip. */
+/** The shared pip (design/atoms Surfaces), keyed by the frame's tones: grey ('mut') is "later". */
 export function Pip({ tone }: { tone: FrameTone }) {
-  return <span className={`sf-pip ${toneClass(tone)}`} aria-hidden="true" />;
+  return <SharedPip {...(tone === 'mut' ? {} : { tone: tone === 'mint' ? 'mint' : tone })} />;
 }

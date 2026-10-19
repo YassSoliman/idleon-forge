@@ -21,7 +21,7 @@ import { buildInfo } from '../../now/release';
 import { suggestUrl } from '../../now/report';
 import { formatRoute } from '../../shell/route';
 import type { Session } from '../../shell/session';
-import { type FrameAnswer, Pip, SystemFrame } from './SystemFrame';
+import { type FrameAnswer, Pip, SystemFrame, wikiName } from './SystemFrame';
 
 /** The engine's System page view plus the M24 frame (buildSystemPageFrameView). */
 export type FullPage = NonNullable<ReturnType<typeof buildSystemPageFrameView>>;
@@ -107,14 +107,14 @@ export function StepsSection({
       (page.goals.some((g) => g.action.key === page.highlight) || page.skippedKeys.includes(page.highlight));
     return (
       <details className="sf-sec sf-steps sf-steps--quiet sf-fold" open={lands || undefined}>
-        <summary className="sf-capline">{title ?? PAGE_FRAME_WORDS.everyStep(page.goals.length)}</summary>
+        <summary className="a-cap">{title ?? PAGE_FRAME_WORDS.everyStep(page.goals.length)}</summary>
         {list}
       </details>
     );
   }
   return (
     <section className="sf-sec sf-steps" aria-labelledby="sf-steps-h">
-      <span id="sf-steps-h" className="sf-capline">
+      <span id="sf-steps-h" className="a-cap">
         {title ?? (opens && page.goals.length === 0 ? PAGE_FRAME_WORDS.howItOpens : PAGE_FRAME_WORDS.inGame)}
       </span>
       {list}
@@ -144,7 +144,7 @@ export function ExtrasSections({ s, page }: { s: Session; page: FullPage }) {
       ) : null}
       {page.pills.length > 0 ? (
         <section className="sf-sec" aria-labelledby="sf-pills-h">
-          <span id="sf-pills-h" className="sf-capline">
+          <span id="sf-pills-h" className="a-cap">
             {SIMPLE_WORDS.quickCollects}
           </span>
           <ul className="sf-plain">
@@ -168,7 +168,7 @@ export function ExtrasSections({ s, page }: { s: Session; page: FullPage }) {
       ) : null}
       {bars.length > 0 ? (
         <section className="sf-sec" aria-labelledby="sf-tl-h">
-          <span id="sf-tl-h" className="sf-capline">
+          <span id="sf-tl-h" className="a-cap">
             {SIMPLE_WORDS.onTimeline}
           </span>
           <ul className="sf-hair">
@@ -206,7 +206,7 @@ export function SpendSection({ s, page, title }: { s: Session; page: FullPage; t
   if (page.spendLines.length === 0) return null;
   return (
     <section className="sf-sec" aria-labelledby="sf-spend-h">
-      <span id="sf-spend-h" className="sf-capline">
+      <span id="sf-spend-h" className="a-cap">
         {title ?? SIMPLE_WORDS.spendPlan}
       </span>
       <ul className="sf-hair">
@@ -239,8 +239,8 @@ export function ChecksTile({ s, page }: { s: Session; page: FullPage }) {
   const suggest = () =>
     s.suggestions?.open({ kind: 'suggest', type: 'idea', screen: 'account', characterIndex: null });
   return (
-    <aside className="sf-tile sf-checks" aria-labelledby="sf-checks-h">
-      <span id="sf-checks-h" className="sf-capline">
+    <aside className="a-tile sf-tile sf-checks" aria-labelledby="sf-checks-h">
+      <span id="sf-checks-h" className="a-cap">
         {PAGE_FRAME_WORDS.whatChecks}
       </span>
       {checks.length > 0 ? (
@@ -280,6 +280,11 @@ export function ChecksTile({ s, page }: { s: Session; page: FullPage }) {
           )}
         </>
       )}
+      {page.wiki ? (
+        <a className="sf-link sf-link--quiet" href={page.wiki} target="_blank" rel="noopener noreferrer">
+          {PAGE_FRAME_WORDS.wiki(wikiName(page.wiki, page.tile.name))} ↗
+        </a>
+      ) : null}
     </aside>
   );
 }
@@ -302,7 +307,7 @@ export function SimplePage({ s, page, body }: { s: Session; page: FullPage; body
         <div className="sf-col">
           {blurb ? (
             <section className="sf-sec" aria-labelledby="sf-what-h">
-              <span id="sf-what-h" className="sf-capline">
+              <span id="sf-what-h" className="a-cap">
                 {SIMPLE_WORDS.whatItIs}
               </span>
               <p className="sf-text">{blurb}</p>

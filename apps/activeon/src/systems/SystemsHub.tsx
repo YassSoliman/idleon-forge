@@ -14,6 +14,7 @@ import {
   type IndexTileView,
 } from '@idleon-forge/engine/systems-ui';
 import { type MouseEvent, useMemo, useState } from 'react';
+import { Frame } from '../design/atoms/Surfaces';
 import { WhoGlyph } from '../design/who/WhoGlyph';
 import { toNowPrefs } from '../now/prefs-store';
 import { formatRoute } from '../shell/route';
@@ -105,7 +106,7 @@ export function SystemsHub({ s }: { s: Session }) {
   return (
     <section className="systems-hub sx" aria-labelledby="systems-h">
       <div className="sx-title">
-        <h2 id="systems-h" className="sx-h1" data-place-heading tabIndex={-1}>
+        <h2 id="systems-h" className="a-h1" data-place-heading tabIndex={-1}>
           {HUB_WORDS.title}
         </h2>
         <p className="sf-muted">{ix.summary}</p>
@@ -114,9 +115,9 @@ export function SystemsHub({ s }: { s: Session }) {
       {ix.wasting.length > 0 || ix.behind.length > 0 ? (
         <div className={`sx-top${ix.wasting.length > 0 && ix.behind.length > 0 ? ' sx-top--two' : ''}`}>
           {ix.wasting.length > 0 ? (
-            <section className="a-frame sx-waste" aria-labelledby="sy-wasting-h">
+            <Frame tone="coral" pad className="sx-waste" aria-labelledby="sy-wasting-h">
               <div className="sf-sec__head">
-                <h3 id="sy-wasting-h" className="sf-cap sf-t--coral">
+                <h3 id="sy-wasting-h" className="a-cap sf-t--coral">
                   {INDEX_WORDS.wastingTitle}
                 </h3>
                 <span className="sf-muted">{INDEX_WORDS.wastingHint}</span>
@@ -134,7 +135,7 @@ export function SystemsHub({ s }: { s: Session }) {
                       </span>
                     </span>
                     <a
-                      className={`a-btn ${i === 0 ? 'a-btn--primary' : 'a-btn--quiet'} sx-waste__go`}
+                      className={`a-btn ${i === 0 ? 'a-btn--primary' : 'a-btn--ghost'} sx-waste__go`}
                       href={formatRoute({ place: 'system', id: w.id })}
                       onClick={go(s, w.id)}
                       aria-label={`${i === 0 ? INDEX_WORDS.seeFix : INDEX_WORDS.open}: ${w.name}`}
@@ -154,12 +155,12 @@ export function SystemsHub({ s }: { s: Session }) {
                   {allWaste ? INDEX_WORDS.fewer : INDEX_WORDS.moreWasting(ix.wasting.length - WASTE_FOLD)}
                 </button>
               ) : null}
-            </section>
+            </Frame>
           ) : null}
           {ix.behind.length > 0 && ix.behindTitle ? (
             <section className="sf-sec sx-behind" aria-labelledby="sx-behind-h">
               <div className="sf-sec__head">
-                <h3 id="sx-behind-h" className="sf-h">
+                <h3 id="sx-behind-h" className="a-h2">
                   {ix.behindTitle}
                 </h3>
                 <span className="sf-hint">{INDEX_WORDS.behindHint}</span>
@@ -209,7 +210,7 @@ export function SystemsHub({ s }: { s: Session }) {
 
       <section className="sx-all" aria-labelledby="sy-all-h">
         <div className="sx-all__head">
-          <h3 id="sy-all-h" className="sf-h" tabIndex={-1}>
+          <h3 id="sy-all-h" className="a-h2" tabIndex={-1}>
             {INDEX_WORDS.allTitle}
           </h3>
           <fieldset className="a-seg sx-seg">

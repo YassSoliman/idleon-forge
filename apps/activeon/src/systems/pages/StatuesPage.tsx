@@ -99,7 +99,7 @@ export default function StatuesPage({ s, page }: FullPageProps) {
               <aside className="sf-col">
                 {lit ? (
                   <section className="sf-sec" aria-labelledby="su-by-h">
-                    <span id="su-by-h" className="sf-capline">
+                    <span id="su-by-h" className="a-cap">
                       {W.byCharacter(lit.name)}
                     </span>
                     {lit.byCharacter ? (
@@ -135,7 +135,7 @@ export default function StatuesPage({ s, page }: FullPageProps) {
             const idx = pic.elements[0]?.characterIndices ?? [];
             return (
               <section className="sf-sec" aria-labelledby="su-who-h">
-                <h3 id="su-who-h" className="sf-h">
+                <h3 id="su-who-h" className="a-h2">
                   {W.whoTitle}
                 </h3>
                 <ul className="sf-rows">

@@ -106,7 +106,7 @@ export default function StarSignsPage({ s, page }: FullPageProps) {
           render: () => (
             <section className="sf-sec" aria-labelledby="sg-who-h">
               <div className="sf-sec__head">
-                <h3 id="sg-who-h" className="sf-h">
+                <h3 id="sg-who-h" className="a-h2">
                   {W.whoTitle}
                 </h3>
                 <span className="sf-hint">{W.whoHint}</span>

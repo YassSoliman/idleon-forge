@@ -73,7 +73,7 @@ export default function StampsPage({ s, page }: FullPageProps) {
               <div className="sf-col">
                 <section className="sf-sec" aria-labelledby="st-next-h">
                   <div className="sf-sec__head">
-                    <h3 id="st-next-h" className="sf-h">
+                    <h3 id="st-next-h" className="a-h2">
                       {W.nextTitle}
                     </h3>
                     <span className="sf-hint">{W.nextHint}</span>
@@ -106,7 +106,7 @@ export default function StampsPage({ s, page }: FullPageProps) {
               </div>
               <aside className="sf-col">
                 <section className="sf-sec" aria-labelledby="st-book-h">
-                  <span id="st-book-h" className="sf-capline">
+                  <span id="st-book-h" className="a-cap">
                     {W.bookTitle}
                   </span>
                   {pic.tabs.map((t) => (
@@ -126,7 +126,7 @@ export default function StampsPage({ s, page }: FullPageProps) {
                   {laterCount > 0 ? <p className="sf-hint">{W.later(laterCount)}</p> : null}
                 </section>
                 {page.spendLines.length > 0 ? (
-                  <div className="sf-tile">
+                  <div className="a-tile sf-tile">
                     <SpendSection s={s} page={page} title={W.levelInPlan} />
                   </div>
                 ) : null}
@@ -142,7 +142,7 @@ export default function StampsPage({ s, page }: FullPageProps) {
           render: () => (
             <div className="sf-split">
               <section className="sf-sec" aria-labelledby="st-lv-h">
-                <h3 id="st-lv-h" className="sf-h">
+                <h3 id="st-lv-h" className="a-h2">
                   {W.levelRows}
                 </h3>
                 {levels.length > 0 ? (

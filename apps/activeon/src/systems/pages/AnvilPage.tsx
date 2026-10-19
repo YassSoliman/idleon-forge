@@ -51,7 +51,7 @@ export default function AnvilPage({ s, page }: FullPageProps) {
                 {v.products.length > 0 ? (
                   <section className="sf-sec" aria-labelledby="an-work-h">
                     <div className="sf-sec__head">
-                      <h3 id="an-work-h" className="sf-h">
+                      <h3 id="an-work-h" className="a-h2">
                         {W.workTitle}
                       </h3>
                       <span className="sf-hint">{W.workHint}</span>
@@ -80,7 +80,7 @@ export default function AnvilPage({ s, page }: FullPageProps) {
                 ) : null}
                 <section className="sf-sec" aria-labelledby="an-split-h">
                   <div className="sf-sec__head">
-                    <h3 id="an-split-h" className="sf-h">
+                    <h3 id="an-split-h" className="a-h2">
                       {W.splitTitle}
                     </h3>
                     <div className="an-away">
@@ -161,7 +161,7 @@ export default function AnvilPage({ s, page }: FullPageProps) {
                 <StepsSection page={page} quiet />
               </div>
               <aside className="sf-col">
-                <section className="sf-tile" aria-labelledby="an-ws-h">
+                <section className="a-tile sf-tile" aria-labelledby="an-ws-h">
                   <div className="an-ws__head">
                     <svg
                       aria-hidden="true"
@@ -196,7 +196,7 @@ export default function AnvilPage({ s, page }: FullPageProps) {
                       <dd className="sf-strong">{W.howManyValue}</dd>
                     </div>
                   </dl>
-                  <span className="sf-capline">{W.worthOn}</span>
+                  <span className="a-cap">{W.worthOn}</span>
                   {v.whetstone.length > 0 ? (
                     <ol className="an-worth">
                       {v.whetstone.map((w, i) => (
@@ -223,7 +223,7 @@ export default function AnvilPage({ s, page }: FullPageProps) {
           badge: makers,
           render: () => (
             <section className="sf-sec" aria-labelledby="an-makes-h">
-              <h3 id="an-makes-h" className="sf-h">
+              <h3 id="an-makes-h" className="a-h2">
                 {W.makesTitle}
               </h3>
               <ul className="sf-rows">

@@ -52,7 +52,7 @@ export default function MinigamesPage({ s, page }: FullPageProps) {
   const order = (
     <section className="sf-sec" aria-labelledby="mg-order-h">
       <div className="sf-sec__head">
-        <h3 id="mg-order-h" className="sf-h">
+        <h3 id="mg-order-h" className="a-h2">
           {W.dartsTitle}
         </h3>
         <span className="sf-hint">{W.dartsHint(mg.darts.points, dartsLevels)}</span>
@@ -91,7 +91,7 @@ export default function MinigamesPage({ s, page }: FullPageProps) {
                       </span>
                     </div>
                     <div className="sf-row__main">
-                      <span className="sf-h">{c.name}</span>
+                      <span className="a-h2">{c.name}</span>
                       <span className="sf-muted">{c.sub}</span>
                     </div>
                     {c.points !== null ? (

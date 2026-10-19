@@ -109,7 +109,7 @@ export default function GearToolsPage({ s, page }: FullPageProps) {
               <aside className="sf-col">
                 {gear.unlockWants.length > 0 ? (
                   <section className="sf-sec" aria-labelledby="gt-then-h">
-                    <span id="gt-then-h" className="sf-capline">
+                    <span id="gt-then-h" className="a-cap">
                       {W.thenWeapons}
                     </span>
                     <p className="sf-muted">{W.unlockLine}</p>
@@ -144,7 +144,7 @@ export default function GearToolsPage({ s, page }: FullPageProps) {
           badge: behindWeapons || null,
           render: () => (
             <section className="sf-sec" aria-labelledby="gt-w-h">
-              <h3 id="gt-w-h" className="sf-h">
+              <h3 id="gt-w-h" className="a-h2">
                 {W.weaponsTitle}
               </h3>
               <ul className="sf-rows">
