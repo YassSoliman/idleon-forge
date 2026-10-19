@@ -74,7 +74,7 @@ describe('the M6 engine module', () => {
     }
   });
 
-  it('W3-early: one account anvil line with per-character detail, and the Whetstone respec (#70 A2, A3)', () => {
+  it('W3-early: one account anvil line with per-character detail, and no Whetstone respec (#70 A2, A3, M24)', () => {
     // With the AFK facts (the worker passes Toolbox's calls), where the anvil plan lives.
     const s = afkW3();
     const out = m6.run(input(s, { now: at(s) }));
@@ -83,13 +83,9 @@ describe('the M6 engine module', () => {
     expect(spend?.nextAction.text).toBe('Unspent anvil points on Bowman Lv 60 → Speed');
     expect(spend?.details).toEqual([{ subject: 'c2', text: 'Bowman Lv 60: 3 into Speed, 0 into Capacity' }]);
     expect(spend?.nextAction.why).toMatch(/in 8h from empty/);
-    const respec = goal('anvil.check.respec');
-    expect(respec?.nextAction.text).toBe('Whetstone respec → about 30% more anvil output at 8h');
-    // One character to respec: no "Start with the first character." (R3 QA P3).
-    expect(respec?.nextAction.why).not.toMatch(/first character/);
-    expect(respec?.details).toEqual([
-      { subject: 'c0', text: 'Wizard Lv 73: respec to 7 Speed / 23 Capacity, about 30% more' },
-    ]);
+    // M24: weighted by work, no character gains the 25% a Whetstone needs (it read "about 30% more"
+    // for the Wizard Lv 73 when the plan scored Thread's item count).
+    expect(goal('anvil.check.respec')).toBeUndefined();
     // Never a character Goal.
     for (const c of out.characters ?? [])
       expect((c.goals ?? []).map((g) => g.goal.system)).not.toContain('anvil');

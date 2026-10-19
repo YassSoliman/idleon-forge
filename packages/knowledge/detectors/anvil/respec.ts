@@ -7,8 +7,8 @@
 // materials objective only, A4), for the window of the player's Expected Return ("Back in about",
 // 8 h by default).
 // It fires when the W3 town is reached, coins cover a Whetstone, and at least one character would make
-// `minGain` more items (default 25%) than its current split with its unspent points placed. One
-// character finding per such character, best gain first, is the Goal's per-character detail.
+// `minGain` more anvil work (default 25%; each item weighted by its requiredAmount, M24) than its
+// current split with its unspent points placed. One character finding per such character, best gain first, is the Goal's per-character detail.
 import { anvilPlanWindow } from '@idleon-forge/account-state';
 import { z } from 'zod';
 import { accountSubject, characterSubject, isKnown, withAccount } from '../../src/helpers';
@@ -44,15 +44,21 @@ export default defineDetector({
     .partial(),
   reads: ['characters[*].index', 'characters[*].afk', 'account.afk', 'account.currentWorld', 'diagnostics'],
   examples: {
-    // W3-early: the town is reached and the account has the coins.
-    fires: [{ fixture: 'scrubbed-w3' }],
+    // W2-late with the W3 town reached: four Thread-only characters gain about 2x.
+    fires: [{ fixture: 'scrubbed-w2', mutate: (s) => withAccount(s, { currentWorld: 3 }) }],
     silent: [
       // W2-late: the Frostbite Towndra shop isn't reached yet.
       { fixture: 'scrubbed-w2' },
+      // W3-early: weighted by work (M24), no character gains 25% at 8 h.
+      { fixture: 'scrubbed-w3' },
       // Not enough coins for a Whetstone.
       {
-        fixture: 'scrubbed-w3',
-        mutate: (s) => withAccount(s, { afk: s.account.afk ? { ...s.account.afk, coins: 1_000 } : null }),
+        fixture: 'scrubbed-w2',
+        mutate: (s) =>
+          withAccount(s, {
+            currentWorld: 3,
+            afk: s.account.afk ? { ...s.account.afk, coins: 1_000 } : null,
+          }),
       },
     ],
     unknown: [

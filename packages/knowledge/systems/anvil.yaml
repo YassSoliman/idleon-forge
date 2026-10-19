@@ -72,7 +72,7 @@ entries:
       text-one-capacity: "Unspent anvil points on {class:name} Lv {level:int} → Capacity"
       text-one-mixed: "Unspent anvil points on {class:name} Lv {level:int} → Speed and Capacity"
       detail: "{character}: {speed:int} into Speed, {capacity:int} into Capacity"
-    why: "Unspent anvil points do nothing. The split makes the most items in {hours:hours} from empty: Speed until a product would fill sooner, Capacity after that."
+    why: "Unspent anvil points do nothing. The split makes the most anvil work in {hours:hours} from empty: Speed until a product would fill sooner, Capacity after that."
     notes: "#70 A2: one account line replaces the per-character Goals. The split is a brute force over every integer split, scored with Toolbox getPlayerAnvil (characters[].afk.anvilPlan.spend); ties go to Speed. Exp points are never touched (A4)."
     doneWhen: { field: "characters[*].anvilPointsAvailable", change: lower }
     appliesTo: { stages: all }

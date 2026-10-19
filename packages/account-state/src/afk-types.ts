@@ -63,7 +63,11 @@ export interface AfkAnvilProduct {
 export interface AfkAnvilSplit {
   speed: number;
   capacity: number;
-  /** Items made over the window from empty, summed over producing products: sum of min(rate x T, capacity). */
+  /**
+   * Anvil progress made over the window from empty: the sum over producing products of
+   * min(rate x T, capacity) x requiredAmount, each item weighted by its work (M24), so ratios between
+   * splits compare work done, not item counts.
+   */
   output: number;
 }
 
