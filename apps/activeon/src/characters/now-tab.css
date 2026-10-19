@@ -217,6 +217,10 @@
     width: 44px;
     height: 44px;
   }
+  .cp-hero-ic .spr-art {
+    width: 32px;
+    height: 32px;
+  }
   .cp-next {
     padding: var(--space-4);
   }

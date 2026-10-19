@@ -8,9 +8,9 @@
 // number with its unit read out). Class and level everywhere, never a character's name (M24 rule 4).
 import type { FocusCard, NowView, TabHealth } from '@idleon-forge/engine/now';
 import { forwardRef, type ReactNode } from 'react';
-import { WhoGlyph } from '../design/who/WhoGlyph';
 import { characterTabs, NOW_TAB, tabHref } from '../now/character-tabs';
 import { useNowActions } from '../now/context';
+import { Avatar } from './Avatar';
 import { PAGE_WORDS } from './words';
 import './shell.css';
 
@@ -94,6 +94,10 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
     const c = actions.result?.characters.find((x) => x.index === i);
     return c ? `${c.classLabel} ${c.level}` : '';
   };
+  const classOf = (i: number) =>
+    view?.roster.find((x) => x.index === i)?.classLabel ??
+    actions.result?.characters.find((x) => x.index === i)?.classLabel ??
+    '';
   const strip = card.strip ?? [];
   const kind: Kind = card.pill?.kind ?? 'unknown';
   const role =
@@ -117,7 +121,7 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
                   if (!s.current) go(s.index);
                 }}
               >
-                <WhoGlyph family={familyOf(s.index)} classLabel={who} scale={1} decorative />
+                <Avatar family={familyOf(s.index)} classLabel={classOf(s.index)} size={32} />
                 <span className="cp-chip-who">{who}</span>
                 <span className={`cp-pip cp-pip--${PIP[s.kind]}`} aria-hidden="true" />
               </a>
@@ -129,7 +133,7 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
       <section className="cp-head">
         <div className="cp-id">
           <span className="cp-blob">
-            <WhoGlyph family={familyOf(card.index)} classLabel={whoOf(card.index)} scale={3} decorative />
+            <Avatar family={familyOf(card.index)} classLabel={card.classLabel} size={64} />
           </span>
           <div className="cp-id-text">
             <h2 id="focus-h" ref={headingRef} tabIndex={-1} className="cp-name">

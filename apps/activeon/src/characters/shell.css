@@ -43,6 +43,9 @@
   width: 32px;
   height: 32px;
 }
+.cp-avatar {
+  flex: none;
+}
 .cp-pip {
   width: 10px;
   height: 10px;
@@ -81,7 +84,8 @@
   width: 64px;
   height: 64px;
 }
-.cp-blob .who svg {
+.cp-blob .who svg,
+.cp-blob .spr-art {
   width: 64px;
   height: 64px;
 }
@@ -227,7 +231,8 @@
     height: 6px;
   }
   .cp-blob,
-  .cp-blob .who svg {
+  .cp-blob .who svg,
+  .cp-blob .spr-art {
     width: 48px;
     height: 48px;
   }

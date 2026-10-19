@@ -18,6 +18,7 @@ import {
   type NowView,
 } from '@idleon-forge/engine/now';
 import { type Ref, Suspense, useState } from 'react';
+import { Avatar, GoalSprite } from '../characters/Avatar';
 import { CharacterShell } from '../characters/CharacterShell';
 import { PAGE_WORDS } from '../characters/words';
 import { PixelArt } from '../design/art/PixelArt';
@@ -28,7 +29,6 @@ import { Meter } from '../design/atoms/Meter';
 import { VerdictStamp } from '../design/atoms/Pill';
 import { EmptyState } from '../design/atoms/States';
 import { span } from '../design/format';
-import { WhoGlyph } from '../design/who/WhoGlyph';
 import { Loading } from '../lazy-part';
 import { NOW_TAB, tabById, tabHref } from './character-tabs';
 import { ModalSheet as Sheet } from './chrome/ModalSheet';
@@ -106,7 +106,7 @@ function StepHero({ card, goal }: { card: FocusCard; goal: GoalView }) {
         onClick={() => setOpen(true)}
       >
         <span className="cp-hero-ic" aria-hidden="true">
-          <PixelArt name={fix ? VERDICT_GLYPH.fix : 'cards-stone-now'} scale={2} decorative />
+          <GoalSprite system={goal.system} fix={fix} size={48} />
         </span>
         <span className="cp-hero-text">
           <span className="cp-hero-t na-text">{a.text}</span>
@@ -173,12 +173,7 @@ function NextTile({
   return (
     <button type="button" className="cp-next" onClick={() => onNext(i)}>
       {r ? (
-        <WhoGlyph
-          family={view?.families?.[r.index] ?? 'beginner'}
-          classLabel={who ?? ''}
-          scale={2}
-          decorative
-        />
+        <Avatar family={view?.families?.[r.index] ?? 'beginner'} classLabel={r.classLabel} size={48} />
       ) : null}
       <span className="cp-next-text">
         <b>{who ? PAGE_WORDS.next(who) : card.next.text}</b>
