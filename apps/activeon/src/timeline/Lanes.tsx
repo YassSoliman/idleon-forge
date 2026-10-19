@@ -15,6 +15,7 @@ import {
   TIMELINE_WORDS as W,
 } from '@idleon-forge/engine/now';
 import { type CSSProperties, Fragment, useState } from 'react';
+import { GameIcon } from '../art/game/GameIcon';
 import { KitSprite } from '../art/game/KitSprite';
 import { systemGameArt } from '../art/game/system-art';
 import { spriteOf } from '../art/sprites/index';
@@ -25,7 +26,7 @@ import { tabHref } from '../now/character-tabs';
 import { PageSources } from '../shell/page-sources';
 import { formatRoute } from '../shell/route';
 import type { Session } from '../shell/session';
-import { barArt } from './art';
+import { barArt, barGameArt } from './art';
 import { BOARD_WORDS as B } from './words';
 
 type Vars = CSSProperties & Record<`--${string}`, string | number>;
@@ -136,7 +137,12 @@ function LosingNow({ v, s }: { v: TimelineView; s: Session }) {
         ) : sprite ? (
           <KitSprite name={sprite} size={48} />
         ) : (
-          <PixelArt name={barArt(now.bar)} decorative />
+          <GameIcon
+            art={barGameArt(now.bar)}
+            fallback={<PixelArt name={barArt(now.bar)} decorative />}
+            size={48}
+            decorative
+          />
         )}
       </span>
       <span className="tl-next-b">
@@ -404,7 +410,12 @@ function Item({ b, s }: { b: TimelineBarView; s: Session }) {
   return (
     <li className={`tl-item${b.outlined ? ' outlined' : ''}${b.state !== 'open' ? ' muted' : ''}`}>
       <span className="tl-glyph">
-        <PixelArt name={barArt(b)} decorative />
+        <GameIcon
+          art={barGameArt(b)}
+          fallback={<PixelArt name={barArt(b)} decorative />}
+          size={32}
+          decorative
+        />
       </span>
       <div className="tl-item-body">
         <p className="tl-item-text">

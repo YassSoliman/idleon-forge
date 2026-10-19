@@ -1411,3 +1411,18 @@
 .cl-tick.on {
   color: var(--ok);
 }
+
+/* M25: a Daily & Weekly job wears its game sprite (ADR 0009 as amended). */
+.dw-job-ic {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+}
+.dw-wk-l {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+}

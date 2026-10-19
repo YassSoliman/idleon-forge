@@ -15,10 +15,13 @@ import {
   span,
 } from '@idleon-forge/engine/now';
 import { type CSSProperties, useState } from 'react';
+import { GameIcon } from '../art/game/GameIcon';
+import { PixelArt } from '../design/art/PixelArt';
 import { Button, cx, Frame, Pip, SegmentedControl, Sheet } from '../design/atoms';
 import { useNowActions } from '../now/context';
 import { PageSources } from '../shell/page-sources';
 import type { Session } from '../shell/session';
+import { rowArt, rowGameArt } from './art';
 import { ChecklistRow } from './ChecklistRow';
 import { bankPips, planFor, ringFractions } from './daily-model';
 import { DAILY_WORDS as W } from './words';
@@ -146,6 +149,14 @@ function Plan({ v }: { v: ChecklistView }) {
                 <span className={cx('dw-n', toneOf(r))} aria-hidden="true">
                   {i + 1}
                 </span>
+                <span className="dw-job-ic" aria-hidden="true">
+                  <GameIcon
+                    art={rowGameArt(r.id)}
+                    fallback={<PixelArt name={rowArt(r.id)} decorative animate={false} />}
+                    size={24}
+                    decorative
+                  />
+                </span>
                 <span className="dw-jobb">
                   <b>{r.label}</b>
                   {r.lostBeforeReturn || r.details.length ? (
@@ -243,7 +254,15 @@ function BandTile({ b, onOpen }: { b: ChecklistBandView; onOpen(): void }) {
           <span className="dw-weekly" aria-hidden="true">
             {all.map((r) => (
               <span key={r.id} className={cx('dw-wk', r.lostBeforeReturn && 'is-lost')}>
-                <span>{r.label}</span>
+                <span className="dw-wk-l">
+                  <GameIcon
+                    art={rowGameArt(r.id)}
+                    fallback={<PixelArt name={rowArt(r.id)} decorative animate={false} />}
+                    size={16}
+                    decorative
+                  />
+                  <span>{r.label}</span>
+                </span>
                 <span className="dw-wk-c">{r.clockText}</span>
               </span>
             ))}
