@@ -193,14 +193,54 @@ describe('Cards tab', () => {
     const slots = screen.getByRole('list', { name: 'Preset 1 slots' });
     expect(within(slots).getAllByRole('listitem')).toHaveLength(4);
     expect(within(slots).getAllByText('empty slot')).toHaveLength(2);
-    expect(screen.getByText('in use')).toBeTruthy();
-    expect(screen.getByText('In your active card preset 1')).toBeTruthy();
-    expect(screen.getByText('Mimic')).toBeTruthy();
+    // M24: the swaps first, as card tiles before → after with what each gives.
+    const answer = screen.getByRole('region', { name: 'Card preset 1 · in use · for fighting' });
+    expect(within(answer).getByText('Swap 2 cards for fighting')).toBeTruthy();
     expect(
-      screen.getByText('about 1.2 h at the base drop chance (likely sooner)', { exact: false }),
+      within(answer).getByText('In your active card preset 1 · from cards you already own'),
     ).toBeTruthy();
+    const swaps = within(answer).getByRole('list', { name: 'Swaps' });
+    expect(
+      within(swaps).getByRole('listitem', { name: 'Swap Copper → Mimic: +4% Total Drop Rate' }),
+    ).toBeTruthy();
+    expect(within(swaps).getByText('Mimic')).toBeTruthy();
+    expect(within(swaps).getByText('+4%')).toBeTruthy();
+    // Stars, the game's word: never "Lv".
+    expect(screen.queryByText(/^Lv \d/)).toBeNull();
+    expect(screen.getByText('about 1.2 h')).toBeTruthy();
     expect(screen.getByRole('link', { name: 'IdleOn Wiki: Cards' })).toBeTruthy();
     await noAxeViolations(container);
+  });
+
+  it('M24: the card sets closest to their next tier, as tiles with a meter', () => {
+    const base = withCards();
+    const r = {
+      ...base,
+      cards: {
+        ...cards,
+        account: {
+          ...cards.account,
+          sets: [
+            {
+              rawName: 'CardSet2',
+              name: 'Easy Resources',
+              tier: 0,
+              bonus: null,
+              points: 8,
+              nextAt: 13,
+              away: 5,
+              nextBonus: '+8% Skill Efficiency',
+            },
+          ],
+        },
+      },
+    };
+    window.history.replaceState(null, '', '/#cards-2');
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    expect(screen.getByRole('heading', { name: 'Card sets close to their next tier' })).toBeTruthy();
+    expect(screen.getByRole('meter', { name: 'Easy Resources: 8 of 13 card levels' })).toBeTruthy();
+    expect(screen.getByText('5 card levels')).toBeTruthy();
+    expect(screen.getByText('to tier 1: +8% Skill Efficiency')).toBeTruthy();
   });
 
   it("a card Goal on the Now list sees its character's Cards tab (M17 FR-31, FR-23a)", () => {
