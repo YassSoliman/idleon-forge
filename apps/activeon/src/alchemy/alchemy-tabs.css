@@ -4,18 +4,22 @@
 
 .al2-power {
   --pot-c: var(--cauldron-power-3);
+  --pot-ink: var(--cauldron-power-ink);
 }
 .al2-quicc {
   --pot-c: var(--cauldron-quicc-3);
+  --pot-ink: var(--cauldron-quicc-ink);
 }
 .al2-high-iq {
   --pot-c: var(--cauldron-highiq-3);
+  --pot-ink: var(--cauldron-highiq-ink);
 }
 .al2-kazam {
   --pot-c: var(--cauldron-kazam-3);
+  --pot-ink: var(--cauldron-kazam-ink);
 }
 .al2-name {
-  color: var(--pot-c, var(--fg));
+  color: var(--pot-ink, var(--fg));
 }
 .al2-pots {
   align-items: start;

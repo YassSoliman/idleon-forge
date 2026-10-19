@@ -188,6 +188,11 @@
   --cauldron-kazam-2: #6b5a00;
   --cauldron-kazam-3: #8f7a00;
   --cauldron-kazam-4: #fff59a;
+  /* A cauldron's name as text (QA P2): 4.5:1 on the page and its tiles; light mode uses the shadow step. */
+  --cauldron-power-ink: var(--cauldron-power-2);
+  --cauldron-quicc-ink: var(--cauldron-quicc-2);
+  --cauldron-highiq-ink: var(--cauldron-highiq-2);
+  --cauldron-kazam-ink: var(--cauldron-kazam-2);
 
   /* World accents (our own values): "which character goes where", the who-glyph's frame tint */
   --w1: #12854f;
@@ -232,6 +237,10 @@ html {
   --cauldron-kazam-2: #b8ac10;
   --cauldron-kazam-3: #f6f031;
   --cauldron-kazam-4: #fffbc8;
+  --cauldron-power-ink: var(--cauldron-power-3);
+  --cauldron-quicc-ink: var(--cauldron-quicc-3);
+  --cauldron-highiq-ink: var(--cauldron-highiq-3);
+  --cauldron-kazam-ink: var(--cauldron-kazam-3);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -258,6 +267,10 @@ html {
     --cauldron-kazam-2: #b8ac10;
     --cauldron-kazam-3: #f6f031;
     --cauldron-kazam-4: #fffbc8;
+    --cauldron-power-ink: var(--cauldron-power-3);
+    --cauldron-quicc-ink: var(--cauldron-quicc-3);
+    --cauldron-highiq-ink: var(--cauldron-highiq-3);
+    --cauldron-kazam-ink: var(--cauldron-kazam-3);
   }
 }
 
@@ -364,7 +377,7 @@ html {
   --surface: #1a1d24;
   --sunk: #21252e;
   --fg: #ede6d6;
-  --muted: #969083;
+  --muted: #a29c8f;
   --line: #272b34;
   --line-strong: #77736a;
   --frame: #000000;
@@ -416,7 +429,7 @@ html {
     --surface: #1a1d24;
     --sunk: #21252e;
     --fg: #ede6d6;
-    --muted: #969083;
+    --muted: #a29c8f;
     --line: #272b34;
     --line-strong: #77736a;
     --frame: #000000;
