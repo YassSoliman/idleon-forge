@@ -6,6 +6,7 @@
 // Alchemy System page's Vials section can place it wherever its layout puts it. It only lays out
 // `AlchemyResult.vialTries` (built in the worker); it adds no advice. Our own boxes (ADR 0009).
 import type { AlchemyResult, VialHolding, VialTry } from '@idleon-forge/engine/result';
+import { Sprite } from '../art/sprites/Sprite';
 import './vial-tries.css';
 
 export const VIAL_TRY_WORDS = {
@@ -57,25 +58,6 @@ export function whereLine(v: VialTry, who: (i: number) => string): string {
   return out.join(' · ');
 }
 
-function VialGlyph() {
-  return (
-    <svg
-      aria-hidden="true"
-      width="28"
-      height="28"
-      viewBox="0 0 10 12"
-      shapeRendering="crispEdges"
-      className="vt-glyph"
-    >
-      <rect x="3" y="0" width="4" height="2" className="vt-g1" />
-      <rect x="4" y="2" width="2" height="2" className="vt-g2" />
-      <rect x="2" y="4" width="6" height="1" className="vt-g2" />
-      <rect x="1" y="5" width="8" height="6" className="vt-g2" />
-      <rect x="2" y="7" width="6" height="3" className="vt-g3" />
-    </svg>
-  );
-}
-
 export function VialTries({ a, who }: VialTriesProps) {
   const t = a.vialTries;
   if (!t) return null;
@@ -95,7 +77,7 @@ export function VialTries({ a, who }: VialTriesProps) {
             {t.tryable.map((v) => (
               <li key={v.index} className="vt-row">
                 <span className="vt-vial">
-                  <VialGlyph />
+                  <Sprite name="item-vial" size={32} decorative />
                 </span>
                 <span className="vt-name">
                   <b>{v.name}</b>

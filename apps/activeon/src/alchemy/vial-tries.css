@@ -69,16 +69,6 @@
   place-items: center;
   background: var(--surface);
 }
-.vt-g1 {
-  fill: var(--muted);
-}
-.vt-g2 {
-  fill: var(--fg);
-  opacity: 0.7;
-}
-.vt-g3 {
-  fill: var(--sunk, var(--bg));
-}
 .vt-name {
   grid-area: name;
   display: grid;
