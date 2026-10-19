@@ -610,6 +610,11 @@ golden.
   minutes), and both private fixtures re-parsed at the pin. **Fallback:** if the fresh save is not in by the first
   Wave 1 golden PR, goldens are recorded on `first.json` (W4-entry), `fourth.json` and `highend.json` (past W4) and their
   mutations, and the fresh save is added as a local truth case when it arrives. Wave 1 is never blocked on it.
+  **Done 2026-10-19:** the fresh save of the W4 test account arrived (local only) and is a truth case: `currentWorld` 4,
+  World 3 finished, Stage W4-entry, 7 characters; the truth run's headless half finds 0 violations in 848 facts, as on
+  the older save of it (701 facts; it reads W3-early, not "late-W3") and the W2 test account (590). All three parse at
+  the pin with no failed section: no adapter or parse problem. The truth run's browser half can't run locally since the
+  M25 sprite import (19.7k asset files): `wrangler dev` dies with `spawn EBADF`.
 - **FR-10 Draft conversion (not copy).** The drafts are research notes, not loadable KB: of 390 type-bearing draft
   entries run through the real `AuthoredEntry` schema with status mapped to active, 122 pass and 268 fail (191 on
   structure alone: Goals without `progress`, `unit` or `scope`; categories outside compounding / spendable / nice;
@@ -1462,6 +1467,15 @@ goldens are recorded. Each blocks the named entries; until it is settled the ent
 | V43 | 0 | The N.js copy's real game version: file hash, Last-Modified, an in-client version marker; match to 2.3.540 | the local `N.js`, the live client | every N.js-only verdict above M (R7, FR-2b) |
 | V44 | 1 | Eliteus step detection: `Eliteus1` / `Eliteus2` keys, the picker classes 8/9/20/21/32/33, no level gate, re-entry sets the count to 10 (dossier C5: tier 3, conf L, older N.js) | N.js at the pin, raw saves | `characters[].eliteStep` at H, the "pick" text |
 | V45 | 1 | Lab souped-tube keying (dossier C2, Disputed) | Toolbox `lab.ts`, N.js | `lab.soupedSlots` reading |
+
+**V2 settled 2026-10-19 (N.js, the build recorded in `docs/research/game-client/builds.json`): neither is gated, and
+Toolbox is right.** `RiftStuff("RiftSkillETC", b)` starts its total at 7 and adds each skill's tier bonus through
+`RiftStuff("RiftSkillBonus,<skill>")`, which alone returns 0 while `Rift[0] < 15`: the base 7 applies on every account.
+`RiftStuff("KillroyDMG")` is `floor((sum of KRbest over the Death Note mobs) ^ 0.4)` with no Rift test, and the damage
+formula multiplies by `1 + min(2, KillroyDMG / 100)` ungated; the Rift 50 gate is `RiftStuff("KillroyXtra")`, which
+opens the extra Killroy room that records `KRbest`. So no damage or printer change follows (FR-8 b stays "not a fix"),
+and the W4 synthesis line ("likely gated") is wrong. **V43 settled 2026-10-19:** see FR-2b (matched to 2.3.540 by
+content and date).
 
 In-game checks (owner, credential-bound, minutes each) are listed in MASTER.md section 7. The table's wave column
 follows the revised waves (section 3).
