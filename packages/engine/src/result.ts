@@ -617,7 +617,8 @@ export interface EngineResult {
   expectedReturn: { usedSeconds: number; learnedSeconds: number | null };
   /** M2: `unknown` (Can't tell banner), `not-covered` (no Stage module or Knowledge Base), or a Stage id.
    *  `needs`: what the next Stage needs (M2 FR-4, D5), one line each. */
-  stage: { id: string; label: string; needs?: string[] };
+  /** `beyond`: past the last Stage the model knows (World 4 finished); the id and label stay W4-entry. */
+  stage: { id: string; label: string; needs?: string[]; beyond?: true };
   /** In save order. */
   characters: CharacterResult[];
   /** CharacterState.index values, worst Verdict first, then most to spend; M10 freezes it per Play Session (D6). */
