@@ -6,6 +6,9 @@
 // (three big tiles, then one question at a time), `flows.report-form` Pick what's wrong (four chips and
 // the optional line), the Turnstile frame (G9), and Your suggestions as the owner's split: the 3 newest
 // as notes pinned to a quest board with their stamps, the rest as the plain list (D-17).
+// M24 (canvas boards Suggest and YourSuggestions): a side drawer with a one-line subtitle; the public
+// notice first; the three questions at once with the game example folded; Your suggestions as one
+// tile per suggestion with a five-step progress bar, the ones that need your answer framed on top.
 
 import type {
   MySuggestion,
@@ -97,9 +100,9 @@ export const STATUS_LABEL: Record<SuggestionStatus, string> = {
 
 const FIELDS: { key: keyof SuggestionText; label: string; rows: number }[] = [
   { key: 'whenIm', label: "When I'm…", rows: 1 },
-  { key: 'iWant', label: 'I want…', rows: 3 },
+  { key: 'iWant', label: 'I want…', rows: 2 },
   { key: 'soThat', label: 'So that…', rows: 2 },
-  { key: 'example', label: 'Game example (optional)', rows: 3 },
+  { key: 'example', label: 'Game example', rows: 3 },
 ];
 
 export interface PanelProps {
@@ -169,10 +172,17 @@ export default function Panel(props: PanelProps) {
       ? 'Your suggestions'
       : panel.request.kind === 'report'
         ? 'Report this line'
-        : 'Suggest';
+        : 'Suggest something';
+  const subtitle =
+    panel.view === 'list'
+      ? 'What you sent, and what became of it'
+      : panel.request.kind === 'report'
+        ? null
+        : 'An idea, a mistake, or something unclear';
   return (
     <ModalSheet open title={title} onClose={close}>
       <div className="sg-panel">
+        {subtitle ? <p className="sg-subtitle">{subtitle}</p> : null}
         <div className="sg-head-links">
           {panel.view === 'form' ? (
             <button
@@ -240,13 +250,51 @@ const sameReport = (a: Draft['report'], b: Draft['report']) =>
   (a?.renderedText ?? null) === (b?.renderedText ?? null) &&
   (a?.entryIds ?? []).join() === (b?.entryIds ?? []).join();
 
+/** One question of the form, its counter under it (M13 FR-2's limits). */
+function Field({
+  f,
+  draft,
+  update,
+  iWantShort,
+}: {
+  f: (typeof FIELDS)[number];
+  draft: Draft;
+  update(d: Draft): void;
+  iWantShort: boolean;
+}) {
+  const max = TEXT_LIMITS[f.key].max;
+  const left = max - codePoints(draft.text[f.key]);
+  const id = `sg-${f.key}`;
+  return (
+    <div className="sg-field">
+      <label htmlFor={id}>
+        {f.label}
+        {f.key === 'iWant' ? <span className="muted small"> (required)</span> : null}
+      </label>
+      <textarea
+        id={id}
+        rows={f.rows}
+        value={draft.text[f.key]}
+        placeholder={PLACEHOLDER[draft.type][f.key]}
+        aria-describedby={`${id}-count`}
+        aria-invalid={left < 0 || undefined}
+        onChange={(e) => update({ ...draft, text: { ...draft.text, [f.key]: e.target.value } })}
+      />
+      <p id={`${id}-count`} className={`sg-count small ${left < 0 ? 'error' : 'muted'}`}>
+        {f.key === 'iWant' && iWantShort
+          ? `At least ${TEXT_LIMITS.iWant.min} characters · ${left} left`
+          : `${left} left`}
+      </p>
+    </div>
+  );
+}
+
 function SuggestForm(props: PanelProps & { request: OpenRequest; close(): void }) {
   const { request, store, config, signedIn } = props;
   const [draft, setDraft] = useState<Draft | null>(null);
   const [conflict, setConflict] = useState<{ kept: Draft; fresh: Draft } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
-  const [step, setStep] = useState(0);
   const client = useClient(config);
   const configured = isConfigured(config) && client !== null;
   const canSend = configured && signedIn;
@@ -349,6 +397,10 @@ function SuggestForm(props: PanelProps & { request: OpenRequest; close(): void }
         void send();
       }}
     >
+      <p className="sg-notice sg-notice--top small">
+        <span className="sg-pip" aria-hidden="true" />
+        <span>{NOTICE}</span>
+      </p>
       <fieldset className="sg-types sg-kinds">
         <legend className="sg-q">What kind?</legend>
         {(['idea', 'wrong', 'confusing'] as const).map((t, i) => (
@@ -399,55 +451,18 @@ function SuggestForm(props: PanelProps & { request: OpenRequest; close(): void }
         </div>
       ) : null}
 
-      <p className="sg-step-count n-muted" aria-live="polite">
-        Question {step + 1} of {FIELDS.length}
-      </p>
-      {FIELDS.map((f, n) => {
-        const max = TEXT_LIMITS[f.key].max;
-        const left = max - codePoints(draft.text[f.key]);
-        const id = `sg-${f.key}`;
-        return (
-          <div key={f.key} className={`sg-field${n === step ? ' is-current' : ' is-other'}`}>
-            <label htmlFor={id}>
-              {f.label}
-              {f.key === 'iWant' ? <span className="muted small"> (required)</span> : null}
-            </label>
-            <textarea
-              id={id}
-              rows={f.rows}
-              value={draft.text[f.key]}
-              placeholder={PLACEHOLDER[draft.type][f.key]}
-              aria-describedby={`${id}-count`}
-              aria-invalid={left < 0 || undefined}
-              onChange={(e) => update({ ...draft, text: { ...draft.text, [f.key]: e.target.value } })}
-            />
-            <p id={`${id}-count`} className={`sg-count small ${left < 0 ? 'error' : 'muted'}`}>
-              {f.key === 'iWant' && iWantShort
-                ? `At least ${TEXT_LIMITS.iWant.min} characters · ${left} left`
-                : `${left} left`}
-            </p>
-          </div>
-        );
-      })}
-
-      <div className="sg-stepper">
-        <button
-          type="button"
-          className="a-btn a-btn--plain"
-          disabled={step === 0}
-          onClick={() => setStep((n) => Math.max(0, n - 1))}
-        >
-          <span>Back</span>
-        </button>
-        <button
-          type="button"
-          className="a-btn a-btn--quiet"
-          disabled={step === FIELDS.length - 1}
-          onClick={() => setStep((n) => Math.min(FIELDS.length - 1, n + 1))}
-        >
-          <span>Next question</span>
-        </button>
+      <div className="sg-fields">
+        {FIELDS.filter((f) => f.key !== 'example').map((f) => (
+          <Field key={f.key} f={f} draft={draft} update={update} iWantShort={iWantShort} />
+        ))}
+        <details className="sg-example" open={draft.text.example.trim() !== '' || undefined}>
+          <summary>Add a game example (optional)</summary>
+          {FIELDS.filter((f) => f.key === 'example').map((f) => (
+            <Field key={f.key} f={f} draft={draft} update={update} iWantShort={iWantShort} />
+          ))}
+        </details>
       </div>
+      <p className="sg-names small muted">Character names become [character] before it's sent.</p>
 
       <details className="sg-preview small">
         <summary>What gets sent</summary>
@@ -504,7 +519,6 @@ function SuggestForm(props: PanelProps & { request: OpenRequest; close(): void }
         </p>
       ) : null}
 
-      <p className="sg-notice small">{NOTICE}</p>
       <div className="sg-actions">
         <button type="submit" className="primary" disabled={!ready}>
           {sending ? 'Sending…' : 'Send'}
@@ -521,6 +535,8 @@ function SuggestForm(props: PanelProps & { request: OpenRequest; close(): void }
         </button>
         {canSend && needsToken && !turnstile.token && turnstile.state !== 'blocked' ? (
           <span className="small muted">Checking you're human…</span>
+        ) : canSend ? (
+          <span className="sg-follow small muted">Signed in, so you can follow it in Your suggestions</span>
         ) : null}
       </div>
     </form>
@@ -607,6 +623,9 @@ function YourSuggestions(props: PanelProps & { sendNow: string | null }) {
   }
 
   const items = list.status === 'loading' ? [] : list.items;
+  // M24: the ones waiting on your answer sit on top, framed; the rest keep their order (newest first).
+  const asking = items.filter((x) => x.status === 'info' && x.question && !answered.has(x.number));
+  const rest = items.filter((x) => !asking.includes(x));
   return (
     <div className="sg-body">
       {outbox.length > 0 ? (
@@ -669,18 +688,18 @@ function YourSuggestions(props: PanelProps & { sendNow: string | null }) {
         <>
           <div className="sg-board-head">
             <PixelArt name="flows-notice-board" scale={2} decorative />
-            <p className="n-muted">{items.length} filed</p>
+            <p className="sg-board-count">
+              {items.length} sent
+              {asking.length
+                ? ` · ${asking.length} ${asking.length === 1 ? 'needs' : 'need'} your answer`
+                : ''}
+            </p>
           </div>
-          <ul className="sg-notes">
-            {items.slice(0, BOARD_NOTES).map((s) => (
-              <li key={s.number} className={`sg-note st-${s.status}`}>
-                <span className="sg-pin" aria-hidden="true" />
-                <p className="sg-note-title">{s.iWant}</p>
-                <p className="n-small n-muted">
-                  {TYPE_LABEL[s.type]} · {dateText(s.createdAt)}
-                </p>
-                <span className={`sg-stamp sg-status st-${s.status}`}>{STATUS_LABEL[s.status]}</span>
-                <Item
+          {asking.length ? (
+            <section className="sg-asking" aria-label="Needs your answer">
+              {asking.map((s) => (
+                <Note
+                  key={s.number}
                   {...props}
                   s={s}
                   client={client}
@@ -688,41 +707,80 @@ function YourSuggestions(props: PanelProps & { sendNow: string | null }) {
                   setAnswered={setAnswered}
                   refresh={refresh}
                 />
-              </li>
-            ))}
-          </ul>
-          {items.length > BOARD_NOTES ? (
-            <ul className="sg-plain">
-              {items.slice(BOARD_NOTES).map((s) => (
-                <li key={s.number} className="sg-plainrow">
-                  <a href={s.url} target="_blank" rel="noopener noreferrer" className="sg-plainrow__link">
-                    <span className="n-small n-muted num">{dateText(s.createdAt)}</span>
-                    <span className="sg-plain-title">{s.iWant}</span>
-                    <span className={`sg-status st-${s.status}`}>{STATUS_LABEL[s.status]}</span>
-                  </a>
-                </li>
               ))}
-            </ul>
+            </section>
           ) : null}
+          <ol className="sg-notes">
+            {rest.map((s) => (
+              <Note
+                key={s.number}
+                {...props}
+                s={s}
+                client={client}
+                answered={answered}
+                setAnswered={setAnswered}
+                refresh={refresh}
+                as="li"
+              />
+            ))}
+          </ol>
+          <p className="sg-legend small muted">
+            {STEPS.map((x) => STATUS_LABEL[x]).join(' › ')}, or {STATUS_LABEL.wontdo}
+          </p>
         </>
       ) : null}
     </div>
   );
 }
 
-/** The notes on the quest board: D-17's "3 most recently changed" are the 3 newest (no change date yet). */
-const BOARD_NOTES = 3;
+/** The five steps of the progress bar (M24 board YourSuggestions). */
+const STEPS: readonly SuggestionStatus[] = ['received', 'looking', 'decision', 'planned', 'done'];
+/** How far along the bar a status reads; "Needs your answer" sits at "Being looked at". */
+const STEP_OF: Record<SuggestionStatus, number> = {
+  received: 1,
+  looking: 2,
+  info: 2,
+  decision: 3,
+  planned: 4,
+  done: 5,
+  wontdo: 5,
+};
+
+type ItemProps = PanelProps & {
+  s: MySuggestion;
+  client: ClientOptions | null;
+  answered: ReadonlySet<number>;
+  setAnswered: Dispatch<SetStateAction<ReadonlySet<number>>>;
+  refresh(): Promise<void>;
+};
+
+/** One suggestion as a tile: its kind and status, what it asked for, the progress bar, then Item. */
+function Note(props: ItemProps & { as?: 'li' }) {
+  const { s } = props;
+  const asking = s.status === 'info' && !!s.question && !props.answered.has(s.number);
+  const Tag = props.as ?? 'div';
+  const step = STEP_OF[s.status];
+  return (
+    <Tag className={`sg-note st-${s.status}${asking ? ' a-frame is-asking' : ''}`}>
+      <p className="sg-note-head small">
+        <span className="muted">
+          {TYPE_LABEL[s.type]} · {dateText(s.createdAt)}
+        </span>
+        <span className={`sg-stamp sg-status st-${s.status}`}>{STATUS_LABEL[s.status]}</span>
+      </p>
+      <p className="sg-note-title">{s.iWant}</p>
+      <span className="sg-steps" aria-hidden="true">
+        {STEPS.map((x, i) => (
+          <i key={x} className={i < step ? 'on' : undefined} />
+        ))}
+      </span>
+      <Item {...props} />
+    </Tag>
+  );
+}
 
 /** A note's reply, its question with Add details, and its link. */
-function Item(
-  props: PanelProps & {
-    s: MySuggestion;
-    client: ClientOptions | null;
-    answered: ReadonlySet<number>;
-    setAnswered: Dispatch<SetStateAction<ReadonlySet<number>>>;
-    refresh(): Promise<void>;
-  },
-) {
+function Item(props: ItemProps) {
   const { s, client, answered, setAnswered, refresh } = props;
   return (
     <>
@@ -751,7 +809,7 @@ function Item(
       ) : null}
       <p className="small">
         <a href={s.url} target="_blank" rel="noopener noreferrer" className="sg-note-link">
-          #{s.number} on GitHub
+          #{s.number} on GitHub ↗
         </a>
       </p>
     </>

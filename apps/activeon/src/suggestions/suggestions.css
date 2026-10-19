@@ -4,7 +4,9 @@
    (`flows.suggest-form` Kind picker), one question at a time, the report chips (`flows.report-form` Pick
    what's wrong), the Turnstile frame (G9) and Your suggestions as a quest board plus the plain list
    (`flows.your-suggestions`, owner override). The stamps' words are 14 px Atkinson, never a pixel face
-   (DS-14). No text under 12 px; every target 44 px. */
+   (DS-14). No text under 12 px; every target 44 px.
+   M24 (canvas boards Suggest and YourSuggestions): a 500 px drawer from 1000 px, the notice first, the
+   three questions at once in one tile, every suggestion a tile with a five-step progress bar. */
 .sg-panel {
   display: grid;
   gap: var(--space-3);
@@ -58,19 +60,9 @@
   outline: var(--focus-width) solid var(--focus);
   outline-offset: var(--focus-offset);
 }
-.sg-step-count {
-  margin: 0;
-  font-size: var(--text-sm);
-}
 .sg-field {
   display: grid;
   gap: var(--space-1);
-}
-.sg-field.is-other {
-  display: none;
-}
-.sg-field label {
-  font-weight: var(--weight-bold);
 }
 .sg-field textarea,
 .sg-details textarea {
@@ -89,11 +81,6 @@
 .sg-count {
   text-align: right;
   margin: 0;
-}
-.sg-stepper {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-2);
 }
 .sg-report {
   display: grid;
@@ -201,9 +188,18 @@
 .sg-status.st-info {
   color: var(--warn);
 }
-.sg-status.st-done,
-.sg-status.st-planned {
+.sg-status.st-done {
   color: var(--ok);
+}
+.sg-status.st-planned,
+.sg-status.st-decision {
+  color: var(--accent);
+}
+.sg-status.st-looking {
+  color: var(--info);
+}
+.sg-stamp {
+  background: var(--surface);
 }
 .sg-board-head {
   display: flex;
@@ -223,26 +219,56 @@
 .sg-note {
   position: relative;
   display: grid;
-  gap: var(--space-1);
-  padding: var(--space-4) var(--space-3) var(--space-3);
+  gap: var(--space-2);
+  padding: var(--space-4);
   border-radius: var(--radius-sm);
-  background: var(--surface);
-  box-shadow: var(--shadow-1);
+  background: var(--sunk);
   overflow-wrap: anywhere;
   border: 0;
 }
-.sg-note p {
+.sg-note.is-asking {
+  padding: var(--space-5);
+}
+.sg-note-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.sg-steps {
+  display: flex;
+  gap: var(--space-1);
+}
+.sg-steps > i {
+  flex: 1;
+  height: 6px;
+  background: var(--line);
+}
+.st-received .sg-steps > i.on,
+.st-wontdo .sg-steps > i.on {
+  background: var(--muted);
+}
+.st-looking .sg-steps > i.on,
+.st-info .sg-steps > i.on {
+  background: var(--info);
+}
+.st-decision .sg-steps > i.on,
+.st-planned .sg-steps > i.on {
+  background: var(--accent);
+}
+.st-done .sg-steps > i.on {
+  background: var(--ok);
+}
+.sg-asking {
+  display: grid;
+  gap: var(--space-3);
+}
+.sg-legend {
   margin: 0;
 }
-.sg-pin {
-  position: absolute;
-  top: var(--space-1);
-  left: 50%;
-  width: 10px;
-  height: 10px;
-  margin-left: -5px;
-  border-radius: 0;
-  background: var(--bad);
+.sg-note p {
+  margin: 0;
 }
 .sg-note-title {
   font-weight: var(--weight-bold);
@@ -254,7 +280,6 @@
   font: var(--weight-bold) var(--text-sm) / var(--lh-snug) var(--font-body);
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
-  transform: rotate(-3deg);
   border: 0;
 }
 .sg-note-link {
@@ -295,4 +320,68 @@
 .sg-sender {
   display: grid;
   gap: var(--space-2);
+}
+
+/* ---- M24 the drawer and the form (canvas board Suggest) ---- */
+@media (min-width: 1000px) {
+  .a-sheet-host--auto .a-sheet:has(.sg-panel) {
+    width: min(500px, 100vw);
+  }
+}
+.sg-subtitle {
+  margin: calc(-1 * var(--space-1)) 0 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.sg-notice--top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--accent-soft);
+  color: var(--fg);
+}
+.sg-pip {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+}
+.sg-fields {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+.sg-fields .sg-field textarea {
+  background: var(--bg);
+}
+.sg-field label {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 22px;
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.sg-field label .small {
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+}
+.sg-example summary {
+  min-height: var(--tap-min);
+  display: flex;
+  align-items: center;
+  color: var(--accent);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+}
+.sg-names {
+  margin: 0;
+}
+.sg-board-count {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
 }
