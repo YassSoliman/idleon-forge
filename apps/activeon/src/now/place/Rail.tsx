@@ -62,7 +62,7 @@ export function Rail({ view, tab, payers, losses, fixes, goals, onGoals, onDaily
         <span>
           <b>{fixes}</b> <span className="np-muted">{W.fixes(fixes)}</span>
         </span>
-        <Go href="#account-body" onGo={onGoals} className="np-rail__goals">
+        <Go href="#goals" onGo={onGoals} className="np-rail__goals">
           <b>{goals}</b> <span className="np-t-gold">{W.goals(goals)} →</span>
         </Go>
       </p>
@@ -109,7 +109,7 @@ export function Rail({ view, tab, payers, losses, fixes, goals, onGoals, onDaily
               const losing = lossIds.has(g.action.entryId);
               return (
                 <li key={g.id}>
-                  <Go href="#account-body" onGo={onGoals} className="np-rail__row">
+                  <Go href="#goals" onGo={onGoals} className="np-rail__row">
                     <Pip tone={losing ? 'coral' : 'gold'} />
                     <span className="np-rail__rt">
                       <b className="np-sm">{g.action.text}</b>

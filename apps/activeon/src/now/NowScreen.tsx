@@ -148,10 +148,7 @@ function NowRail({ s }: { s: Session }) {
       losses={losses}
       fixes={view.account.blockers.length}
       goals={goals}
-      onGoals={() => {
-        if (!s.actions.expanded.has('account-fold')) s.actions.toggle('account-fold');
-        s.refs.accountRef.current?.scrollIntoView({ block: 'start' });
-      }}
+      onGoals={() => s.navigate({ place: 'account', page: 'goals' }, 'push')}
       onDaily={() => s.navigate({ place: 'timeline', section: 'daily' }, 'push')}
       onSpend={s.toSpend}
     />

@@ -457,7 +457,7 @@ export function CoinsRow({
   const buys = payers.reduce((n, p) => n + p.lines, 0);
   if (compact)
     return (
-      <Go href="#spend-plan" onGo={onSpend} className="np-coins np-coins--compact">
+      <Go href="#spend" onGo={onSpend} className="np-coins np-coins--compact">
         <Icon name="item-coin" size={32} />
         <span className="np-coins__t">
           <b>{W.coinsShort(buys, payers.length)}</b>
