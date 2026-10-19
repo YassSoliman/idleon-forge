@@ -1,17 +1,21 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 IdleOn Forge contributors.
-// M20 F3 the character page's Skills tab (docs/specs/M20-skills-parallel-slots.md FR-33 to FR-38) and FR-31
-// the Skill Grid on the Characters place (`#skills`), drawn as the Design Lab picks (M21 FR-C8):
-// - the Skills tab: "Bar list with gate ticks", one bar per W1–W3 skill against its next gate, the
-//   skill the character trains lit, then the Parallel Slot pips;
-// - the Skill Grid: "Role matrix", the account's skills per character with specialists starred, and
-//   one line naming the skills no one is built for.
+// The character page's Skills tab, M24 board `Skills` (I-character-b; M20 F3 FR-33 to FR-38), and FR-31
+// the Skill Grid on the Characters place (`#skills`, M21 "Role matrix"):
+// - the Skills tab: the Role (or specialty) answer first. When the Role's Parallel Slot can't be filled
+//   yet (Trapping before Lord of the Hunt's quest), the answer is that prerequisite as step 1 and the
+//   training as step 2, never "train it" on its own (red team #5). Then the skills as a 3x3 of tiles
+//   (level, a bar through the level, the account's best, what the next level opens) and the Parallel
+//   Slots as tiles, each in one state;
+// - the Skill Grid: the account's skills per character with specialists starred.
 // The engine words everything; this file only renders.
-import { compact, type SkillGridView, type SkillRowView } from '@idleon-forge/engine/now';
+import type { SkillGridView, SkillRowView } from '@idleon-forge/engine/now';
 import type { SlotPip } from '@idleon-forge/engine/result';
 import { useEffect, useRef, useState } from 'react';
+import { Sprite } from '../art/sprites/Sprite';
+import { Answer, GoalLink, pipTone, StepNo, type Tone, upper, useGoal } from '../characters/tabs/kit';
 import { PixelArt } from '../design/art/PixelArt';
-import { Meter } from '../design/atoms';
+import { Meter, Pip } from '../design/atoms';
 import type { CharacterTabProps } from './character-tabs';
 import { useNowActions } from './context';
 import './skills-tab.css';
@@ -33,101 +37,194 @@ const STATE_WORDS: Record<SlotPip['state'], string> = {
   'not-covered': 'not covered yet',
 };
 
-function Pips({ pips }: { pips: SlotPip[] }) {
-  const actions = useNowActions();
+const SLOT_SPRITE: Record<SlotPip['kind'], string> = {
+  cog: 'skill-construction',
+  worship: 'skill-worship',
+  trap: 'skill-trapping',
+  cauldron: 'sys-alchemy',
+  printer: 'sys-printer',
+};
+/** The Parallel Slot a skill trains in (M20 FR-35), for "step 1 above opens it". */
+const SLOT_OF_SKILL: Partial<Record<string, SlotPip['kind']>> = {
+  construction: 'cog',
+  worship: 'worship',
+  alchemy: 'cauldron',
+  trapping: 'trap',
+};
+
+/** One Parallel Slot tile: one state (a fix waiting makes it gold, never mint and gold at once). */
+function SlotTile({ p, opensAbove }: { p: SlotPip; opensAbove: boolean }) {
+  const goal = useGoal(p.linkKey);
+  const noSkull = p.kind === 'worship' ? /^no skull \(max (\d+)\)$/.exec(p.text) : null;
+  const shut = p.state === 'unfillable' || p.state === 'locked' || p.state === 'not-covered';
+  const tone: Tone =
+    goal || p.state === 'fillable' ? 'gold' : p.state === 'filled' || p.state === 'capped' ? 'ok' : 'plain';
+  const state = noSkull
+    ? `No skull: charge stops at ${noSkull[1]}`
+    : opensAbove
+      ? 'Not yet · step 1 above opens it'
+      : shut
+        ? `Not yet · ${p.text}`
+        : p.state === 'capped'
+          ? `Full · ${p.text}`
+          : upper(p.text);
   return (
-    <ul className="sk-pips" aria-label="Parallel Slots">
-      {pips.map((p) => {
-        const goal = p.linkKey
-          ? actions.result?.account.goals.find((g) => g.nextAction.key === p.linkKey)
-          : undefined;
-        return (
-          <li key={p.kind} className="sk-pip" data-state={p.state}>
-            <span className="sk-pip-top">
-              <b>{SLOT_WORDS[p.kind]}</b>
-              <span className="sk-pip-state">{STATE_WORDS[p.state]}</span>
-            </span>
-            <span className="sk-muted">{p.text}</span>
-            {goal && actions.navigate ? (
-              <a
-                className="sk-fill"
-                href={`#system-${goal.system}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  actions.navigate?.(
-                    { place: 'system', id: goal.system },
-                    { highlight: goal.nextAction.key },
-                  );
-                }}
-              >
-                Fill it: {goal.nextAction.text}
-              </a>
-            ) : null}
-          </li>
-        );
-      })}
-    </ul>
+    <li className="a-tile sk-slot" data-tone={tone}>
+      <span className="sk-slot__top">
+        <Sprite name={SLOT_SPRITE[p.kind]} size={24} decorative />
+        <b>{SLOT_WORDS[p.kind]}</b>
+        <Pip tone={pipTone(tone)} />
+        <span className="sr-only">{STATE_WORDS[p.state]}</span>
+      </span>
+      <span className="tb-xs">{state}</span>
+      {goal ? <GoalLink actionKey={goal.nextAction.key} text={goal.nextAction.text} /> : null}
+    </li>
   );
 }
 
-/** One skill as a bar against its next gate, with the gate as a tick at the bar's end. */
-function SkillBar({ r, lit }: { r: SkillRowView; lit: boolean }) {
-  const level = r.level ?? 0;
-  const gate = r.nextGate?.atLevel ?? null;
+/** One skill tile: level, the bar through this level, the account's best, and what the next level opens. */
+function SkillTile({
+  r,
+  index,
+  lit,
+  tag,
+}: {
+  r: SkillRowView;
+  index: number;
+  lit: boolean;
+  tag: string | null;
+}) {
+  const best = r.accountBest;
   return (
-    <li className="sk-bar" data-lit={lit ? 'yes' : 'no'} data-locked={r.locked ? 'yes' : 'no'}>
-      <span className="sk-bar-top">
-        <span className="sk-bar-name">
-          {r.name}
-          {r.specialty ? <PixelArt name="v2-character-star" decorative /> : null}
+    <li className="a-tile sk-tile" data-tone={lit ? 'gold' : 'plain'}>
+      <span className="sk-tile__top">
+        <span className="tb-ic" data-tone={lit ? 'gold' : 'plain'}>
+          <Sprite name={`skill-${r.skill}`} size={32} decorative />
         </span>
-        <span className="num">{r.level === null ? 'level not known' : `Lv ${level}`}</span>
-        {r.roleText ? <span className="sk-tag">{r.roleText}</span> : null}
-        {r.specialty ? <span className="sk-tag">specialty</span> : null}
-        {lit ? <span className="sk-nowtag">training</span> : null}
+        <span className="sk-tile__name">
+          <b>{r.name}</b>
+          {tag ? <span className={lit ? 'tb-xs tb-gold' : 'tb-xs'}>{tag}</span> : null}
+        </span>
+        <span className="sk-tile__lv">
+          <span className="sk-big">{r.level ?? '?'}</span>
+          {best ? (
+            <span className="tb-xs">
+              {best.index === index ? 'account best' : `account best ${best.level}`}
+            </span>
+          ) : null}
+        </span>
       </span>
       {r.locked ? (
-        <span className="sk-muted">{r.locked.text}</span>
-      ) : gate !== null ? (
+        <span className="tb-xs">{r.locked.text}</span>
+      ) : (
         <>
-          <span className="sk-track">
-            <Meter
-              value={level}
-              max={gate}
-              label={`${r.name}: level ${level} of ${gate}`}
-              tone={lit ? 'accent' : 'ok'}
-            />
-            <span className="sk-tick" aria-hidden="true" />
-          </span>
-          <span className="sk-muted">{r.gateText}</span>
+          <Meter
+            value={Math.round((r.progress ?? 0) * 100)}
+            max={100}
+            label={`${r.name}: ${Math.floor((r.progress ?? 0) * 100)}% through level ${r.level ?? '?'}`}
+            tone={lit ? 'accent' : 'muted'}
+          />
+          <span className="tb-xs">{r.gateText ? `Next: ${r.gateText}` : 'Nothing new opens soon'}</span>
         </>
-      ) : null}
-      <span className="sk-meta">
-        {r.progress !== null && !r.locked ? <span>{Math.floor(r.progress * 100)}% to next level</span> : null}
-        {r.efficiency !== null ? (
-          <span>
-            efficiency <span className="num">{compact(r.efficiency)}</span>
-          </span>
-        ) : null}
-        {r.bestText ? <span>{r.bestText}</span> : null}
-      </span>
+      )}
     </li>
   );
 }
 
 export function SkillsTab({ view, index }: CharacterTabProps) {
   const t = view.skills.find((s) => s.index === index);
-  if (!t) return <p className="sk-muted">No skill data for this character yet.</p>;
+  if (!t) return <p className="tb tb-note">No skill data for this character yet.</p>;
+  const train = t.train;
+  const blocked = train?.blocked ?? null;
+  const trainRow = train ? t.rows.find((r) => r.skill === train.skill) : undefined;
+  const skillName = trainRow?.name ?? '';
+  const capOf = () =>
+    train?.via === 'specialty' || (train && trainRow?.specialty && !trainRow.role)
+      ? `This character's specialty · ${skillName}`
+      : `This character's Role · ${skillName}`;
+  const opensSlot = blocked && train ? SLOT_OF_SKILL[train.skill] : undefined;
+  const filled = t.slots.filter((p) => p.state === 'filled' || p.state === 'capped').length;
+  const tagOf = (r: SkillRowView): string | null => {
+    if (blocked && r.skill === train?.skill) return `${r.roleText ?? 'Role'} · locked until step 1`;
+    if (r.roleText) return r.roleText;
+    if (r.specialty) return `${t.classLabel} specialty`;
+    return null;
+  };
   return (
-    <div className="sk">
-      {t.train ? <p className="sk-train">{t.train.text}</p> : null}
-      <ol className="sk-bars" aria-label="Skills">
-        {t.rows.map((r) => (
-          <SkillBar key={r.skill} r={r} lit={t.train?.skill === r.skill} />
-        ))}
-      </ol>
-      <h3 className="sk-h">Parallel Slots</h3>
-      <Pips pips={t.slots} />
+    <div className="tb sk">
+      {train && blocked ? (
+        <Answer
+          tone="gold"
+          icon={`skill-${train.skill}`}
+          cap={capOf()}
+          title={blocked.step ?? `Unlock ${skillName} first: it ${blocked.text}`}
+          sub={`${t.classLabel} ${t.level} can't train ${skillName} until then`}
+        >
+          <ol className="tb-list tb-steps">
+            <li>
+              <StepNo n={1} now={true} />
+              <span>{blocked.why ?? upper(blocked.text)}</span>
+            </li>
+            <li>
+              <StepNo n={2} now={false} />
+              <span>
+                <b>Then train {skillName}</b>
+                <span className="tb-note">
+                  {' · '}
+                  {train.text.split(' · ').slice(1).join(' · ')}
+                  {trainRow?.gateText ? ` · ${trainRow.gateText}` : ''}
+                </span>
+              </span>
+            </li>
+          </ol>
+        </Answer>
+      ) : train ? (
+        <Answer
+          tone="gold"
+          icon={`skill-${train.skill}`}
+          cap={capOf()}
+          title={train.text}
+          sub={trainRow?.gateText ? `Next: ${trainRow.gateText}` : null}
+          action={<GoalLink actionKey={train.linkKey} />}
+        />
+      ) : (
+        <Answer
+          tone="plain"
+          icon="sys-skills"
+          cap="Skills"
+          title={upper(t.status || 'No skill to train on this character right now')}
+        />
+      )}
+
+      <section className="tb-sec" aria-labelledby={`sk-${index}-skills`}>
+        <div className="tb-sec-head">
+          <h2 id={`sk-${index}-skills`} className="a-h2">
+            Skills
+          </h2>
+          <span className="tb-note">Bar: progress through this level</span>
+        </div>
+        <ol className="tb-list sk-tiles" aria-label="Skills">
+          {t.rows.map((r) => (
+            <SkillTile key={r.skill} r={r} index={index} lit={train?.skill === r.skill} tag={tagOf(r)} />
+          ))}
+        </ol>
+      </section>
+
+      <section className="tb-sec" aria-labelledby={`sk-${index}-slots`}>
+        <div className="tb-sec-head">
+          <h2 id={`sk-${index}-slots`} className="a-h2">
+            Parallel slots
+          </h2>
+          <span className="tb-note">
+            {filled} of {t.slots.length} filled · they earn beside the AFK job
+          </span>
+        </div>
+        <ul className="tb-list sk-slots" aria-label="Parallel Slots">
+          {t.slots.map((p) => (
+            <SlotTile key={p.kind} p={p} opensAbove={opensSlot === p.kind} />
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }

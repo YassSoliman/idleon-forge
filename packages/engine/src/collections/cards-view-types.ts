@@ -31,6 +31,24 @@ export interface CardSetChip {
   bonus: string;
 }
 
+/** One card set's way to its next tier (M24 Cards tab). */
+export interface CardSetProgress {
+  rawName: string;
+  /** "Yum Yum Desert". */
+  name: string;
+  /** 0 before the first tier. */
+  tier: number;
+  /** The bonus now ("+20% All Food Effect"), or null at tier 0. */
+  bonus: string | null;
+  /** Card levels in the set now, and at the next tier. */
+  points: number;
+  nextAt: number;
+  /** Card levels still missing for the next tier. */
+  away: number;
+  /** The bonus at the next tier. */
+  nextBonus: string;
+}
+
 /** One stored card preset. */
 export interface PresetRow {
   /** 1-based, as the game shows it. */
@@ -152,6 +170,12 @@ export interface CardsView {
   account: {
     /** Merged across characters, one line per card. Capped. */
     grind: GrindItem[];
+    /**
+     * M24: the card sets closest to their next tier, fewest card levels away first (capped). Read from
+     * `account.cardSets` (Toolbox getCardSets): a tier is every card level in the set divided by its size,
+     * so each new card or star counts 1. Only sets with a card owned and below the base max tier.
+     */
+    sets?: CardSetProgress[];
   };
   /** How ETAs are computed, shown once. */
   caveats: string[];

@@ -39,6 +39,7 @@ import {
 import type {
   CardChip,
   CardSetChip,
+  CardSetProgress,
   CardSwap,
   CardsView,
   CharacterCards,
@@ -190,6 +191,31 @@ function chip(ctx: Ctx, raw: string): CardChip {
     stars: level > 0 ? level - 1 : 0,
     passive: isPassive(effect),
   };
+}
+
+/** The card sets on the Cards tab (M24). */
+export const SET_PROGRESS_CAP = 3;
+
+/** The sets closest to their next tier: a card owned, below the base max tier, fewest levels away first. */
+export function setProgress(sets: readonly CardSetState[] | null): CardSetProgress[] {
+  if (!sets) return [];
+  return sets
+    .filter((s) => s.points > 0 && s.size > 0 && s.tier < BASE_MAX_LEVEL)
+    .map((s) => {
+      const nextAt = (s.tier + 1) * s.size;
+      return {
+        rawName: s.rawName,
+        name: human(s.name),
+        tier: s.tier,
+        bonus: s.tier > 0 ? setBonus(s) : null,
+        points: s.points,
+        nextAt,
+        away: nextAt - s.points,
+        nextBonus: setBonus(s, s.tier + 1),
+      };
+    })
+    .sort((a, b) => a.away - b.away || a.rawName.localeCompare(b.rawName))
+    .slice(0, SET_PROGRESS_CAP);
 }
 
 function setChip(s: CardSetState | null): CardSetChip | null {
@@ -729,7 +755,12 @@ export function buildCardsView(
     .slice(0, ACCOUNT_GRIND_CAP)
     .map(({ rank: _r, ...item }) => item);
 
-  return { characters, account: { grind: account }, caveats: CARDS_CAVEATS, sources: sourcesOf(kb) };
+  return {
+    characters,
+    account: { grind: account, sets: setProgress(state.account.cardSets ?? null) },
+    caveats: CARDS_CAVEATS,
+    sources: sourcesOf(kb),
+  };
 }
 
 export const GRIND_NONE = 'No card on its list drops on a map it can reach yet.';

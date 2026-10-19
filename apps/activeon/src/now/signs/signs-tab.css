@@ -1,86 +1,120 @@
 /* SPDX-License-Identifier: GPL-3.0-only */
-/* M16 Star Signs: the character page's Signs tab (area C, M21 FR-C8), the Design Lab's "Sign slot
-   strip" in Field Guide tokens. Wraps at 320 px, no page-level horizontal scroll. */
-.ss {
+/* M24 (I-character-b): the Signs tab, board `Signs`. Slot tiles (worn: a gold icon square; the locked
+   second slot: a grey "2"), the slot-2 steps with a points meter, and two hairline rows. Tonal steps
+   only (surface guard). The Star Chart page's styles are signs-page.css. */
+.ss-grid {
   display: grid;
-  gap: var(--space-4);
-  margin-top: var(--space-3);
-  overflow-wrap: anywhere;
-  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: start;
 }
-.ss .ss-muted {
-  margin: 0;
-  color: var(--muted);
-  font-size: var(--text-sm);
-}
-.ss .ss-h {
+.ss-slots {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-2);
-  margin: 0 0 var(--space-2);
-  font-size: var(--text-md);
+  gap: var(--space-3);
 }
-.ss .ss-milestone {
-  margin: 0;
-  padding: var(--space-2) var(--space-3);
-  background: var(--accent-soft);
-  border-radius: var(--radius-sm);
-  font-weight: var(--weight-semibold);
-}
-.ss .ss-strip {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.ss-slot {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: var(--space-2);
+  justify-items: center;
+  align-content: start;
+  gap: var(--space-3);
+  width: 200px;
+  padding: var(--space-5);
+  background: var(--surface);
+  text-align: center;
 }
-.ss .ss-slot {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: var(--tap-min);
-  padding: var(--space-2);
-  border-radius: var(--radius-control);
+.ss-slot__ic {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
   background: var(--sunk);
-  font-weight: var(--weight-semibold);
-  border: 0;
 }
-.ss .ss-slot[data-empty="yes"] {
+.ss-slot__ic[data-tone="gold"] {
+  background: var(--accent);
+}
+.ss-slot__ic--n {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 28px;
   color: var(--muted);
-  font-weight: var(--weight-regular);
-  box-shadow: none;
-  background: repeating-linear-gradient(45deg, var(--sunk) 0 4px, transparent 4px 8px);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
 }
-.ss .ss-line {
+.ss-slot[data-locked="yes"] b,
+.ss-slot[data-empty="yes"] b {
+  color: var(--muted);
+}
+.ss-inline {
+  min-height: 0;
+  display: inline;
+}
+.ss-meter {
+  display: grid;
+  gap: var(--space-2);
+}
+.ss-big {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 28px;
+  line-height: 1;
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+}
+.ss-after {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--surface);
+}
+.ss-chips {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-2);
-  margin: 0 0 var(--space-1);
 }
-.ss .ss-line[data-ok="yes"] {
-  color: var(--ok);
-}
-.ss .ss-yes {
-  color: var(--ok);
-  font-weight: var(--weight-semibold);
-}
-.ss .ss-chart-link {
+.ss-chip {
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--space-2);
-  min-height: var(--tap-min);
-  padding: 0 var(--space-3);
-  border-radius: var(--radius-control);
-  background: var(--surface);
-  color: var(--fg);
-  text-decoration: none;
-  border: 0;
+  padding: 6px 10px 6px 6px;
+  background: var(--sunk);
+  font-size: var(--text-sm);
 }
-.ss .ss-chart-link:focus-visible {
-  outline: var(--focus-width) solid var(--focus);
-  outline-offset: var(--focus-offset);
+.ss-rows > li {
+  box-shadow: 0 -1px 0 var(--line);
+}
+.ss-rows > li:last-child {
+  box-shadow:
+    0 -1px 0 var(--line),
+    0 1px 0 var(--line);
+}
+.ss-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  min-height: var(--tap-min);
+  padding: var(--space-3) 0;
+  color: var(--fg);
+}
+.ss-row--link {
+  text-decoration: none;
+}
+.ss-row--link:hover .ss-row__main {
+  text-decoration: underline;
+}
+.ss-row__main {
+  flex: 1 1 280px;
+}
+
+@media (max-width: 719.98px) {
+  .ss-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+  }
+  .ss-slot {
+    width: calc(50% - var(--space-2));
+    padding: var(--space-4);
+  }
 }
