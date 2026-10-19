@@ -291,7 +291,8 @@ describe('US-9 the Map place (FR-M1, FR-M2, FR-M5)', () => {
     const front = container.querySelector('.map-hero.a-frame') as HTMLElement;
     expect(front.textContent).toContain('Kill 380 more here');
     expect(front.textContent).toContain('120');
-    expect(front.textContent).toContain('in 2h 00m');
+    // QA P3: "in about 2h 00m", never "about in 2h 00m".
+    expect(front.textContent).toContain('is there · in about 2h 00m at its kill rate');
     expect(container.querySelectorAll('.map-place .a-frame')).toHaveLength(1);
     // TR-17: the map's nodes are buttons named in words (map, state, who, door).
     expect(

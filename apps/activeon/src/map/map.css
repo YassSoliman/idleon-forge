@@ -79,13 +79,14 @@
 .map-w3 {
   --wc: var(--info);
 }
+/* QA P2 (light contrast): the theme's violet and muted, not fixed hexes, so the crest's number reads. */
 .map-w4 {
-  --wc: #b79cf2;
+  --wc: var(--violet, #b79cf2);
 }
 .map-w5,
 .map-w6,
 .map-w7 {
-  --wc: var(--line-strong);
+  --wc: var(--muted);
 }
 .map-crest {
   display: inline-grid;
@@ -95,7 +96,7 @@
   height: 22px;
   padding: 0 4px;
   border-radius: var(--radius-xs);
-  background: var(--wc, var(--line-strong));
+  background: var(--wc, var(--muted));
   color: var(--bg);
   font-size: var(--text-xs);
   font-weight: var(--weight-bold);
@@ -474,6 +475,10 @@
   font-size: var(--text-xs);
   line-height: 1.25;
   color: var(--muted);
+}
+/* QA P2 (dark contrast): muted on the mint tint is under 4.5:1; the second ink is not. */
+.ms-star.is-claimed .ms-short {
+  color: var(--fg2, var(--fg));
 }
 .ms-star.is-ready .ms-short {
   color: var(--accent);

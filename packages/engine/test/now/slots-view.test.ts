@@ -10,7 +10,7 @@ import { goldenResult } from '../../src/golden';
 import { buildNowView, DEFAULT_UI } from '../../src/now/build-now-view';
 import { EMPTY_PREFS } from '../../src/now/prefs';
 import { buildSlotsView, SLOT_KINDS } from '../../src/now/slots-view';
-import { buildAfkStripView, buildTimelineView } from '../../src/now/timeline-view';
+import { buildAfkStripView, buildTimelineView, limitsBeforeBack } from '../../src/now/timeline-view';
 import { AFK_STRIP_WORDS, SLOTS_WORDS } from '../../src/now/words/time';
 
 const ctx = await goldenContext();
@@ -94,9 +94,14 @@ describe('FR-T5 the compact AFK strip', () => {
     expect(strip?.sentence).toMatch(
       /^\d+ limits bind before you're back: the .+ on .+ first, (full now|in \d)/,
     );
-    // It reads only the Timeline's own bars: the badge count is the bars before the return.
-    const before = timeline?.lanes.flatMap((l) => l.bars).filter((b) => b.state === 'open' && b.beforeReturn);
-    expect(strip?.before).toBe(before?.length);
+    // It reads only the Timeline's own bars: the badge count is the bars before the return, on the
+    // character lanes and the account lanes alike, already-full ones included (QA P1-6: one count).
+    const before = [...(timeline?.lanes ?? []), ...(timeline?.accountLanes ?? [])]
+      .flatMap((l) => l.bars)
+      .filter((b) => b.state === 'open' && !b.untimed && b.beforeReturn);
+    expect(strip?.before).toBe(before.length);
+    if (timeline) expect(strip?.before).toBe(limitsBeforeBack(timeline));
+    expect(timeline?.accountLanes.some((l) => l.bars.some((b) => b.beforeReturn))).toBe(true);
   });
 
   it('is null without a Timeline, and says nothing binds when nothing does', () => {
@@ -104,7 +109,11 @@ describe('FR-T5 the compact AFK strip', () => {
     expect(buildAfkStripView(null, view)).toBeNull();
     const { timeline } = on('scrubbed-w3');
     if (!timeline) throw new Error('scrubbed-w3 has a Timeline');
-    const quiet = { ...timeline, lanes: timeline.lanes.map((l) => ({ ...l, bars: [] })) };
+    const quiet = {
+      ...timeline,
+      lanes: timeline.lanes.map((l) => ({ ...l, bars: [] })),
+      accountLanes: timeline.accountLanes.map((l) => ({ ...l, bars: [] })),
+    };
     expect(buildAfkStripView(quiet, view)?.sentence).toBe(AFK_STRIP_WORDS.nothing);
   });
 });
@@ -115,7 +124,7 @@ describe('R11 QA: the return line, All set and the AFK strip say the same facts'
     const strip = buildAfkStripView(timeline, view);
     if (!strip || !timeline) throw new Error('scrubbed-w3 has a strip');
     const now = timeline.axis.start;
-    const binding = timeline.lanes
+    const binding = [...timeline.lanes, ...timeline.accountLanes]
       .flatMap((l) => l.bars)
       .filter((b) => b.state === 'open' && !b.untimed && b.beforeReturn);
     expect(strip.fullNow).toBe(binding.filter((b) => (b.at ?? now) <= now).length);

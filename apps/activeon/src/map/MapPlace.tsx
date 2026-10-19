@@ -384,6 +384,19 @@ function StarTile({ x }: { x: MapStarView }) {
   );
 }
 
+/**
+ * QA P2 (no text walls): the hero's why line keeps its first sentences up to about two lines; the rest
+ * (how Star Chart Points work, what comes after) is the Star Signs page's to say.
+ */
+export function leadOf(text: string, max = 200): string {
+  let out = '';
+  for (const p of text.split(/(?<=[.!?])\s+/)) {
+    if (out && out.length + 1 + p.length > max) break;
+    out = out ? `${out} ${p}` : p;
+  }
+  return out;
+}
+
 function StarsTab({ v, s }: { v: MapPlaceView; s: Session }) {
   const sv = s.result.starSigns ?? null;
   const stars = v.stars ?? [];
@@ -404,7 +417,7 @@ function StarsTab({ v, s }: { v: MapPlaceView; s: Session }) {
             <span className="map-hero-b">
               <span className="a-cap map-cap">{U.starsCap}</span>
               <span className="map-hero-a">{lead}</span>
-              {why ? <span className="map-quiet">{why}</span> : null}
+              {why ? <span className="map-quiet">{leadOf(why)}</span> : null}
             </span>
             {sv?.milestone ? <span className="map-hero-m">{sv.milestone}</span> : null}
           </div>

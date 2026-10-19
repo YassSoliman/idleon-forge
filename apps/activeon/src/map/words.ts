@@ -18,13 +18,17 @@ export const MAP_UI_WORDS = {
   // ---- Route ----
   heroCap: 'Next door on the route',
   heroGateCap: 'Every route door is open',
+  /** "Bowman 81 is there · in about 26m at its kill rate" (QA P3: never "about in 26m"). */
   heroWho: (who: string, when: string | null) =>
-    when ? `${who} is there · about ${when} at its kill rate` : `${who} is there`,
+    when
+      ? `${who} is there · ${/^in /.test(when) ? `in about ${when.slice(3)}` : `about ${when}`} at its kill rate`
+      : `${who} is there`,
   heroOf: (need: number) => `of ${fmt(need)} kills`,
   legendOpen: 'door open',
   legendShut: 'door shut · kills needed',
   legendSide: 'side map not reached',
-  legendNoDoor: 'no door or not known',
+  /** QA P3: the skilling maps' plain squares are this key (their door is a skill level, shown above them). */
+  legendNoDoor: 'skill-level door, no door or not known',
   sideMaps: 'Side maps',
   skillMaps: 'Skilling maps',
   boss: (name: string) => `Boss · ${name}`,

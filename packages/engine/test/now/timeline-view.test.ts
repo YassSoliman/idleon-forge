@@ -16,7 +16,7 @@ import { buildNowView, DEFAULT_UI } from '../../src/now/build-now-view';
 import { inSpan, span } from '../../src/now/format';
 import { EMPTY_PREFS, type NowPrefs } from '../../src/now/prefs';
 import { renderTimelineText } from '../../src/now/render-views-text';
-import { buildTimelineView, timelineAxisEnd } from '../../src/now/timeline-view';
+import { buildTimelineView, limitsBeforeBack, timelineAxisEnd } from '../../src/now/timeline-view';
 import type { TimelineView } from '../../src/now/view';
 import { KIND_WORDS } from '../../src/now/view-words';
 import type { CharacterResult, EngineResult, Goal, InfoLine, TimelineBar } from '../../src/result';
@@ -175,6 +175,22 @@ describe('FR-28: lanes', () => {
     expect(v.lanes.map((l) => l.index)).toEqual([2, 0, 1]);
     expect(v.lanes.map((l) => l.position)).toEqual([1, 2, 3]);
     expect(v.accountLanes.map((l) => l.systemId)).toEqual(['arcade', 'alchemy']);
+  });
+
+  it('QA P1-6: one count of limits before you are back, account lanes and already-full ones included', () => {
+    const r = result({
+      systems: [{ ...sys('arcade'), world: 2 }],
+      timeline: [
+        bar('anvil.check.caps', 'c0', { at: NOW - H }), // full already: counts
+        bar('worship.check.full', 'c1', { at: NOW + H }), // before you're back: counts
+        bar('afk.check.food', 'c2', { at: NOW + 100 * H }), // after you're back: not counted
+        bar('afk.check.no-target', 'c2', { at: null, what: 'no AFK Target' }), // present state: counts
+        bar('afk.check.food-untimed', 'c1', { at: null, untimed: true }), // can't tell when: not counted
+        bar('arcade.check.balls', 'account', { at: NOW + H }), // an account System: counts
+      ],
+    });
+    const v = timeline(r);
+    expect(limitsBeforeBack(v)).toBe(4);
   });
 });
 
@@ -389,14 +405,20 @@ describe('Design Lab: repeats are said once', () => {
     expect(pills[0]).toEqual({
       first: true,
       more: [
-        { index: 0, name: 'Char0', key: 'anvil.check.caps@c0' },
-        { index: 1, name: 'Char1', key: 'anvil.check.caps@c1' },
+        // Rule 4 (QA P1-8): the class + level label, never the character's name.
+        { index: 0, name: 'Squire 40', key: 'anvil.check.caps@c0' },
+        { index: 1, name: 'Squire 41', key: 'anvil.check.caps@c1' },
       ],
     });
     expect(pills.slice(1)).toEqual([
       { first: false, more: [] },
       { first: false, more: [] },
     ]);
+    // QA P1-8: no lane says a character's name; the heading is the Visit Order number, class and level.
+    expect(v.lanes.map((l) => l.heading)).toEqual(
+      v.lanes.map((l) => `${l.position} · Squire ${40 + (l.index ?? 0)}`),
+    );
+    expect(JSON.stringify(v)).not.toMatch(/Char\d/);
     expect(v.lanes.map((l) => l.bars.find((b) => b.entryId === 'afk.check.no-target')?.group)).toEqual([
       null,
       null,
@@ -542,14 +564,15 @@ describe('TR-4 producers on scrubbed-w3 (W3-early, 6 characters)', () => {
       expect(pill).toMatchObject({ effect: 'pill', outlined: false, x: 0, label: 'Anvil full · collect' });
     }
     const first = v.lanes[0];
-    expect(first?.detail).toMatch(/^Bowman lv 60/);
+    expect(first?.heading).toMatch(/^\d+ · Bowman 60$/);
+    expect(first?.detail).toMatch(/^Fighting /);
     expect(first?.bars[0]).toMatchObject({ entryId: 'talent-presets.check.wrong-preset', outlined: true });
     expect(first?.bars[0]?.fix?.where).toBe('focus');
   });
 
   it('US-10: the Wizard 73 health food reads "can\'t tell when" once', () => {
     const v = viewOn(r, now, null);
-    const wizard = v.lanes.find((l) => /^Wizard lv 73/.test(l.detail ?? ''));
+    const wizard = v.lanes.find((l) => / · Wizard 73$/.test(l.heading));
     expect(wizard?.untimed.filter((b) => b.what === 'health food')).toHaveLength(1);
     expect(wizard?.bars.some((b) => b.what === 'health food')).toBe(false);
   });
@@ -567,7 +590,7 @@ describe('TR-4 producers on scrubbed-w2 (W2-late, 5 characters)', () => {
   const v = viewOn(r, now, null);
 
   it('US-10: the Barbarian 60 lane starts with the outlined dies-on-its-map marker', () => {
-    const barb = v.lanes.find((l) => /^Barbarian lv 60/.test(l.detail ?? ''));
+    const barb = v.lanes.find((l) => / · Barbarian 60$/.test(l.heading));
     expect(barb?.bars[0]).toMatchObject({ entryId: 'afk.check.dies-fixable-by-food', outlined: true });
     expect(barb?.bars[0]?.fix?.key).toMatch(/^afk\.check\.dies-fixable-by-food@c/);
   });

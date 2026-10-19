@@ -189,7 +189,17 @@ describe('US-10: lanes, the Back marker and what binds before it', () => {
     const r = withTimeline();
     const { container } = await openTimeline(r);
     const heads = [...lists().querySelectorAll('.tl-lane-link')].map((a) => a.textContent);
-    expect(heads).toEqual(['1 · Dahlia', '2 · Alder', '3 · Elm', '4 · Birch', '5 · Cedar', 'Arcade']);
+    // QA P1-8 (rule 4): class + level, never a character's name.
+    expect(heads).toEqual([
+      '1 · Barbarian 51',
+      '2 · Squire 43',
+      '3 · Wizard 40',
+      '4 · Shaman 44',
+      '5 · Bowman 38',
+      'Arcade',
+    ]);
+    for (const name of ['Dahlia', 'Alder', 'Elm', 'Birch', 'Cedar'])
+      expect(lists().textContent).not.toContain(name);
     // The Times setting's default, "in 3h 10m" (G10); the clock form is tested below.
     expect(screen.getByText(/^Back in 8h 00m$/)).toBeTruthy();
     await noAxeViolations(container);
@@ -197,7 +207,7 @@ describe('US-10: lanes, the Back marker and what binds before it', () => {
 
   it('outlines the blocker before Back with the words and a fix link, and reads the US-10 sentence', async () => {
     await openTimeline(withTimeline());
-    const lane = screen.getByRole('region', { name: '1 · Dahlia' });
+    const lane = screen.getByRole('region', { name: '1 · Barbarian 51' });
     const item = lane.querySelector('.tl-item.outlined') as HTMLElement;
     expect(item.textContent).toContain('health food runs out · in 2h 00m');
     expect(item.textContent).toContain("before you're back");
@@ -233,7 +243,7 @@ describe('US-10: lanes, the Back marker and what binds before it', () => {
 
   it('lists an untimed limit as "can\'t tell when", with no bar', async () => {
     await openTimeline(withTimeline());
-    const lane = screen.getByRole('region', { name: '3 · Elm' });
+    const lane = screen.getByRole('region', { name: '3 · Wizard 40' });
     expect(within(lane).getByText("health food runs out, can't tell when")).toBeTruthy();
   });
 
@@ -254,6 +264,47 @@ describe('US-10: lanes, the Back marker and what binds before it', () => {
     expect(document.querySelector('.tl-chart')).toBeNull();
     expect(document.querySelector('.tl-lists')).not.toBeNull();
     await noAxeViolations(container);
+  });
+});
+
+describe('M24 QA: the Chart and the counts', () => {
+  it('P1-7: a lane whose limit is full already draws no earning rail, its stripes start at now', async () => {
+    await openTimeline(withTimeline(), 30_000, false);
+    const chart = screen.getByRole('region', { name: BOARD_WORDS.chartLabel });
+    const rows = [...chart.querySelectorAll('.tl-lr')];
+    const full = rows.filter((l) => /Anvil full · collect · now/.test(l.textContent ?? ''));
+    expect(full.length).toBe(3);
+    for (const l of full)
+      expect((l.querySelector('.tl-lr-t') as HTMLElement).style.getPropertyValue('--stop')).toBe('0');
+    // ...and they come first ("soonest first"): full now is sooner than any later limit.
+    expect(rows.slice(0, 3)).toEqual(full);
+  });
+
+  it('P1-6: the nav badge, the Lanes tab badge and the subtitle say the same count', async () => {
+    await openTimeline(withTimeline(), 30_000, false);
+    const nav = within(places())
+      .getByRole('link', { name: /^Timeline/ })
+      .querySelector('.badge')?.textContent;
+    const tab = document.querySelector('.tl-tab .tl-badge')?.textContent;
+    const sub = document.querySelector('.tl-sub')?.textContent?.match(/^(\d+) limits?/)?.[1];
+    // 3 anvils full now, the health food before Back, and the account's Arcade balls before Back.
+    expect([nav, tab, sub]).toEqual(['5', '5', '5']);
+  });
+
+  it('P2: a "can\'t tell when" line on several lanes is said once, "the same on n more"', async () => {
+    const r = withTimeline();
+    const food = r.timeline?.find((b) => b.untimed);
+    if (!food) throw new Error('withTimeline has an untimed bar');
+    r.timeline = [...(r.timeline ?? []), { ...food, barId: 'food@c0', key: 'food@c0', subject: 'c0' }];
+    await openTimeline(r, 30_000, false);
+    const chart = screen.getByRole('region', { name: BOARD_WORDS.chartLabel });
+    const lines = [...chart.querySelectorAll('.tl-ln')].filter((l) =>
+      /can't tell when/.test(l.textContent ?? ''),
+    );
+    expect(lines).toHaveLength(1);
+    expect(lines[0]?.textContent).toContain("health food runs out · can't tell when · the same on 1 more");
+    // Both lanes keep their own "?" mark on the chart.
+    expect(chart.querySelectorAll('.tl-mk.is-unknown')).toHaveLength(2);
   });
 });
 

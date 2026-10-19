@@ -8,6 +8,7 @@
 // soonest first, then the account Systems. It renders `TimelineView` and computes only positions.
 import {
   inSpan,
+  limitsBeforeBack,
   type TimelineBarView,
   type TimelineLane,
   type TimelineView,
@@ -51,12 +52,17 @@ const firstTimed = (lane: TimelineLane): number | null => {
   const xs = lane.bars.filter((b) => open(b) && !nowish(b) && b.x !== null).map((b) => b.x as number);
   return xs.length ? Math.min(...xs) : null;
 };
-/** Where a lane stops earning on the axis (0 to 1). */
-const stopOf = (lane: TimelineLane): number => (lane.bars.some(losing) ? 0 : (firstTimed(lane) ?? 1));
+/** A lane with a limit that is full already (or a present-state problem): it is not earning from now. */
+const fullAlready = (lane: TimelineLane): boolean => lane.bars.some((b) => open(b) && nowish(b));
+/**
+ * Where a lane stops earning on the axis (0 to 1). QA P1-7: a lane whose limit is already full ("Anvil
+ * full · now") draws its stripes from now, whether or not that limit has its own fix link.
+ */
+const stopOf = (lane: TimelineLane): number => (fullAlready(lane) ? 0 : (firstTimed(lane) ?? 1));
 
 /** Characters soonest first (the Visit Order breaks ties); the account by how urgent its first limit is. */
 function ordered(v: TimelineView) {
-  const at = (l: TimelineLane) => firstTimed(l) ?? Number.POSITIVE_INFINITY;
+  const at = (l: TimelineLane) => (fullAlready(l) ? -1 : (firstTimed(l) ?? Number.POSITIVE_INFINITY));
   const chars = v.lanes.map((l, i) => ({ l, i })).sort((a, z) => at(a.l) - at(z.l) || a.i - z.i);
   const urgency = (l: TimelineLane) =>
     l.bars.some(losing) ? -2 : l.bars.some((b) => open(b) && nowish(b)) ? -1 : at(l);
@@ -195,7 +201,7 @@ function Mark({ b }: { b: TimelineBarView }) {
   );
 }
 
-function Line({ b }: { b: TimelineBarView }) {
+function Line({ b, more = 0 }: { b: TimelineBarView; more?: number }) {
   const tone = b.untimed
     ? 'is-muted'
     : nowish(b)
@@ -209,14 +215,21 @@ function Line({ b }: { b: TimelineBarView }) {
     <li className={cx('tl-ln', tone)}>
       <span aria-hidden="true">
         {b.untimed ? (
-          B.untimed(b.label)
+          more > 0 ? (
+            `${B.untimed(b.label)} · ${W.sameOn(more)}`
+          ) : (
+            B.untimed(b.label)
+          )
         ) : (
           <>
             {b.label} · <span className="num">{b.timeText}</span>
           </>
         )}
       </span>
-      <span className="sr-only">{b.a11y}</span>
+      <span className="sr-only">
+        {b.a11y}
+        {more > 0 ? `, ${W.sameOn(more)}` : ''}
+      </span>
     </li>
   );
 }
@@ -279,22 +292,43 @@ function ChartRow({
   );
 }
 
+/**
+ * QA P2 (say it once): a "can't tell when" line that repeats on several lanes ("health food runs out")
+ * is written on the first of them with "the same on n more"; the other lanes keep only its `?` mark.
+ */
+function untimedOnce(lanes: readonly TimelineLane[]): Map<string, number> {
+  const seen = new Map<string, string[]>();
+  for (const l of lanes)
+    for (const b of l.untimed.filter(open)) seen.set(b.label, [...(seen.get(b.label) ?? []), b.barId]);
+  const first = new Map<string, number>();
+  for (const ids of seen.values()) if (ids.length > 1 && ids[0]) first.set(ids[0], ids.length - 1);
+  for (const ids of seen.values()) if (ids.length > 1) for (const id of ids.slice(1)) first.set(id, -1);
+  return first;
+}
+
 function Chart({ v, s }: { v: TimelineView; s: Session }) {
   const { chars, account } = ordered(v);
   const reset = resetOf(v, s);
   const pressed = s.view.expectedReturn.chips.find((c) => c.pressed);
+  const once = untimedOnce(chars);
   const lane = (l: TimelineLane) => {
     const bars = [...l.bars, ...l.untimed].filter(open);
+    const said = bars.filter((b) => (once.get(b.barId) ?? 0) >= 0);
+    const elsewhere = bars.filter((b) => once.get(b.barId) === -1);
     return (
       <li key={l.id} className="tl-lr">
         <LaneHead lane={l} s={s} />
         <ChartRow lane={l} v={v} reset={reset} s={s} />
         <ul className="tl-lns">
-          {bars.length ? (
-            bars.map((b) => <Line key={b.barId} b={b} />)
-          ) : (
-            <li className="tl-ln is-muted">{W.nothingTimed}</li>
-          )}
+          {said.map((b) => (
+            <Line key={b.barId} b={b} more={once.get(b.barId) ?? 0} />
+          ))}
+          {!said.length && elsewhere.length ? (
+            <li className="tl-ln is-muted">
+              {[W.inGroupAbove, ...elsewhere.map((b) => b.label)].join(' · ')}
+            </li>
+          ) : null}
+          {!bars.length ? <li className="tl-ln is-muted">{W.nothingTimed}</li> : null}
         </ul>
       </li>
     );
@@ -489,9 +523,11 @@ function Lists({ v, s }: { v: TimelineView; s: Session }) {
   );
 }
 
-/** The limits before you're back, as the tab badge and the subtitle count them. */
-export const limitsBefore = (v: TimelineView): number =>
-  [...v.lanes, ...v.accountLanes].flatMap((l) => l.bars).filter((b) => open(b) && b.beforeReturn).length;
+/**
+ * The limits before you're back, as the tab badge and the subtitle count them: the engine's one count
+ * (QA P1-6), the same number as the nav badge and Now's "N limits in all".
+ */
+export const limitsBefore = (v: TimelineView): number => limitsBeforeBack(v);
 
 export function Lanes({ v, s }: { v: TimelineView; s: Session }) {
   const [mode, setMode] = useState<Mode>('chart');

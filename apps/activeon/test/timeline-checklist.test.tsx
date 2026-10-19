@@ -53,6 +53,31 @@ describe("Now's Account: the one ring line (FR-T2)", () => {
 });
 
 describe('the Daily & Weekly section on the Timeline (FR-T2)', () => {
+  it('QA P1-2: after a long break, at most 3 lost-day boxes and the rest in words, inside the column', async () => {
+    const r = withM20(fixture('mid-session'));
+    const cl = r.checklist as Checklist;
+    const base = cl.rows[0];
+    if (!base) throw new Error('withM20 has rows');
+    r.checklist = {
+      ...cl,
+      rows: [
+        ...cl.rows,
+        {
+          ...base,
+          id: 'colosseum',
+          band: 'banks',
+          label: 'Colosseum tickets',
+          details: ['Lonely Hunter: 3 days banked, 860 lost'],
+        },
+      ],
+    };
+    const { section } = await daily(r);
+    const bank = section.querySelector('.dw-band-bank .dw-bank') as HTMLElement;
+    expect(bank.querySelectorAll('.dw-pip.s-banked')).toHaveLength(3);
+    expect(bank.querySelectorAll('.dw-pip.s-lostday')).toHaveLength(3);
+    expect(bank.querySelector('.dw-bank-more')?.textContent).toBe('857 more days lost');
+  });
+
   it('draws the clock with its words, the bands as pip rows, and passes axe', async () => {
     const r = withM20(fixture('mid-session'));
     const { container, section } = await daily(r);
