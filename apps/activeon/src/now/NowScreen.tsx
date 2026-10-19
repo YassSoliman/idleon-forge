@@ -108,7 +108,7 @@ export function NowPlace({ s }: { s: Session }) {
             view={view}
           />
         </div>
-        <AccountSection ref={refs.accountRef} view={view} />
+        {/* M24 rule 8: the Account summary lives only on Now, never under a character's tabs. */}
       </>
     );
 

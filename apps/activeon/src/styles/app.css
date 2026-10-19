@@ -26,6 +26,9 @@ body {
   font-feature-settings: var(--font-features);
   padding: var(--gutter);
   overflow-x: hidden;
+  /* M24: the body is the inline-size container, so the top bar spans the window by container units
+     (chrome.css) whatever the content column's width. */
+  container-type: inline-size;
 }
 .app {
   max-width: var(--column);
@@ -152,7 +155,4 @@ code,
 }
 .broken .detail {
   overflow-wrap: anywhere;
-}
-.foot {
-  text-align: left;
 }

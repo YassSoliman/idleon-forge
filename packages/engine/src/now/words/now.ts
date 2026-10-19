@@ -12,8 +12,8 @@ const plural = (count: unknown, one: string, many = `${one}s`) =>
 
 /** The header (`now.header` One-line, G1 overflow menu, `now.stage-badge` crest). */
 export const HEADER_WORDS = {
-  /** The save-age chip ("save read 1 min ago"). */
-  read: (ago: unknown) => `save read ${s(ago)}`,
+  /** The save's freshness in the top bar ("saved 1 min ago", M24 canvas). */
+  read: (ago: unknown) => `saved ${s(ago)}`,
   pasted: (ago: unknown) => `pasted · ${s(ago)}`,
   lastGood: (ago: unknown) => `last good save · ${s(ago)}`,
   noSave: 'no save yet',

@@ -6,14 +6,18 @@
 //
 // M21 (area N): the one-line header with its overflow menu (G1) and Settings (G10), sign-in out of the
 // way (`flows.sign-in`), the walking blob while waiting, the gremlin with a labelled "use your last good
-// save", the fallback Roster, and the fan-disclaimer footer. A newer build shows as the header's quiet
-// "New version ready · Reload" chip; a pasted save is kept across that reload (this tab only).
+// save", the fallback Roster. A newer build shows as the header's quiet "New version ready · Reload"
+// line; a pasted save is kept across that reload (this tab only).
+// M24 (the UX rework, rule 8): the footer is one line; paste, sign-in, Settings and Clear my data live in
+// the ••• menu; first run is its own screen (sign in or paste) before any save.
 
-import { FLOW_WORDS, HEADER_WORDS } from '@idleon-forge/engine/now';
+import { FLOW_WORDS, FOOTER_WORDS, HEADER_WORDS } from '@idleon-forge/engine/now';
 import type { EngineResult } from '@idleon-forge/engine/result';
 import { PATCH_FOOTER_NOTE, preferencePrefix } from '@idleon-forge/sync';
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Footer } from './components/Footer';
 import { Header, type HeaderSave } from './components/Header';
+import type { MenuSaveKind } from './components/HeaderMenu';
 import { PixelArt } from './design/art/PixelArt';
 import { Button } from './design/atoms/Button';
 import { ago, clockAt, localOffsetMinutes } from './design/format';
@@ -26,6 +30,7 @@ import { shortHash } from './now/prefs-store';
 import { buildInfo, forgetWhatsNew, previewBadge, useUpdateAvailable } from './now/release';
 import { suggestUrl } from './now/report';
 import { SettingsNamespace } from './now/settings/context';
+import { PageSourcesSlot } from './shell/page-sources';
 import { Shell } from './shell/Shell';
 import { readSuggestionsConfig } from './suggestions/config';
 import type { Scene } from './suggestions/context';
@@ -42,9 +47,15 @@ const HeaderMenu = lazyPart(
   () => import('./components/HeaderMenu'),
   (m) => m.HeaderMenu,
 );
-const Footer = lazyPart(
-  () => import('./components/Footer'),
-  (m) => m.Footer,
+// Clear my data lives in the ••• menu (M24): it loads with the menu, never on first load.
+const ClearMyData = lazyPart(
+  () => import('./components/ClearMyData'),
+  (m) => m.ClearMyData,
+);
+// First run (M24): only before any save, so a returning player never downloads it.
+const FirstRun = lazyPart(
+  () => import('./components/FirstRun'),
+  (m) => m.FirstRun,
 );
 // Sign-in is the first screen only when signed out; signed in, it lives in the overflow menu.
 const SignIn = lazyPart(
@@ -190,6 +201,7 @@ function AppBody({ a, serverBuild }: { a: ActiveOn; serverBuild: number | null }
   }, [save.status]);
 
   const [navSlot, setNavSlot] = useState<HTMLDivElement | null>(null);
+  const [sourcesSlot, setSourcesSlot] = useState<HTMLSpanElement | null>(null);
   const [footer, setFooter] = useState<FooterInfo | null>(null);
   const onFooter = useCallback((info: FooterInfo) => setFooter(info), []);
   useEffect(() => {
@@ -233,9 +245,8 @@ function AppBody({ a, serverBuild }: { a: ActiveOn; serverBuild: number | null }
     [okResult, serverBuild],
   );
 
-  // ---- the header's overflow menu (G1) and Settings (G10) ----
+  // ---- the ••• menu (M24 Menu boards; G1, G10): your save, Look, Tell us, your data, links ----
   const [menuOpen, setMenuOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
   const noticeDot = useNoticeDot();
   const failed = footer?.failedChecks ?? 0;
   const closeThen = (fn: () => void) => () => {
@@ -243,7 +254,9 @@ function AppBody({ a, serverBuild }: { a: ActiveOn; serverBuild: number | null }
     fn();
   };
   const openIssue = (href: string) => window.open(href, '_blank', 'noopener,noreferrer');
+  const gameVersion = footer?.parserTarget.replace(/^reads game /, '') ?? null;
   const versions = [
+    shown && gameVersion ? `game ${gameVersion}` : null,
     `ActiveOn ${buildInfo.app}`,
     footer?.knowledge ?? `knowledge ${buildInfo.knowledge}`,
     shown ? `game build ${serverBuild ?? '?'}` : null,
@@ -251,11 +264,37 @@ function AppBody({ a, serverBuild }: { a: ActiveOn; serverBuild: number | null }
     .filter(Boolean)
     .join(' · ');
   const signedIn = auth.status === 'signed-in';
+  const saveKind: MenuSaveKind = signedIn ? 'live' : shown?.source === 'paste' ? 'paste' : 'none';
+  // Before any save the first-run screen is the paste box; afterwards it lives here (rule 8).
+  const pasteHere = shown !== null || save.status === 'broken';
   const menu = (
     <Suspense fallback={<Loading />}>
       <HeaderMenu
         familyLevel={headerSave?.state.account.accountLevel ?? null}
-        onSettings={closeThen(() => setSettingsOpen(true))}
+        save={{
+          kind: saveKind,
+          action: signedIn ? (
+            <Suspense fallback={null}>
+              <SignOutControl onSignOut={a.signOut} />
+            </Suspense>
+          ) : auth.status === 'signed-out' && shown ? (
+            <Button tone="ghost" onClick={closeThen(a.signIn)}>
+              {HEADER_WORDS.signIn}
+            </Button>
+          ) : null,
+        }}
+        paste={
+          pasteHere ? (
+            <Suspense fallback={<Loading />}>
+              <PasteSave busy={busy} error={pasteError} onPaste={paste} plain />
+            </Suspense>
+          ) : null
+        }
+        settings={
+          <Suspense fallback={<Loading />}>
+            <SettingsBody namespace={namespace} persistent={footer ? footer.persistent : true} />
+          </Suspense>
+        }
         onSuggest={closeThen(() =>
           suggestions ? suggestions.open({ kind: 'suggest' }) : openIssue(suggestHref),
         )}
@@ -287,15 +326,16 @@ function AppBody({ a, serverBuild }: { a: ActiveOn; serverBuild: number | null }
               }
             : null
         }
-        account={
+        clear={
           signedIn ? (
             <Suspense fallback={null}>
-              <SignOutControl onSignOut={a.signOut} />
+              <ClearMyData
+                onClear={async (options) => {
+                  forgetWhatsNew();
+                  await a.clearMyData(options);
+                }}
+              />
             </Suspense>
-          ) : auth.status === 'signed-out' && shown ? (
-            <Button tone="quiet" className="n-wide" onClick={closeThen(a.signIn)}>
-              {HEADER_WORDS.signIn}
-            </Button>
           ) : null
         }
       />
@@ -321,122 +361,110 @@ function AppBody({ a, serverBuild }: { a: ActiveOn; serverBuild: number | null }
   );
 
   const badge = previewBadge();
+  // First run (M24 FirstRun board): no save yet and not signed in, waiting or parsing a first paste.
+  const firstRun = signInAsContent && auth.status !== 'signed-in' && save.status !== 'parsing';
+  const credit = firstRun || !shown ? FOOTER_WORDS.firstRun : FOOTER_WORDS.credit(gameVersion);
   return (
     <SettingsNamespace.Provider value={namespace}>
-      <main className="app n-app">
-        <Header
-          save={headerSave}
-          sync={sync}
-          online={online}
-          lastSnapshotAt={lastSnapshotAt}
-          busy={busy && ready !== null}
-          stage={okResult ? okResult.stage : null}
-          preview={badge}
-          update={
-            updateText
-              ? {
-                  text: dropWarned ? HEADER_WORDS.newVersionDrops : HEADER_WORDS.newVersion,
-                  onReload: reload,
-                }
-              : null
-          }
-          menu={menu}
-          dot={noticeDot || failed > 0}
-          menuOpen={menuOpen}
-          onMenu={setMenuOpen}
-          navRef={setNavSlot}
-        />
-
-        {signInAsContent ? signInNode : null}
-        <Sheet open={codeInSheet} title={FLOW_WORDS.signInTitle} onClose={a.cancelSignIn}>
-          {codeInSheet ? signInNode : null}
-        </Sheet>
-
-        <ReadyToSend />
-
-        {save.status === 'broken' && !useLast ? (
-          <Suspense fallback={<Loading />}>
-            <CantRead
-              failure={save}
-              lastGood={lastGood?.state ?? null}
-              busy={busy}
-              onPaste={paste}
-              onUseLastGood={lastReady.current ? () => setUseLast(true) : null}
-            />
-          </Suspense>
-        ) : null}
-        {save.status === 'broken' && useLast && lastReady.current ? (
-          <p className="n-oldbanner" role="status">
-            <PixelArt name="now-glyph-stale" decorative />
-            <LastGoodLine at={lastReady.current.state.account.lastCloudSave} />
-          </p>
-        ) : null}
-
-        {save.status === 'waiting' ? <Waiting long={waitingLong} step={1} /> : null}
-        {save.status === 'parsing' && !shown ? <Waiting long={false} step={2} /> : null}
-
-        {shown && result && 'error' in result ? (
-          <CantWorkOut message={result.error} state={shown.state} />
-        ) : null}
-        {shown && okResult ? (
-          <AdviceBoundary state={shown.state} resetKey={okResult}>
-            <Shell
-              navSlot={navSlot}
-              result={okResult}
-              save={shown}
-              namespace={namespace}
-              expectedReturnSeconds={a.expectedReturnSeconds}
-              setExpectedReturn={a.setExpectedReturn}
-              updating={a.updating}
-              connection={null}
-              update={null}
-              parserBehind={patch?.parserBehind ?? false}
-              onReload={reload}
-              onFooter={onFooter}
-            />
-          </AdviceBoundary>
-        ) : null}
-
-        {signInAsContent ? (
-          <Suspense fallback={<Loading />}>
-            <PasteSave busy={busy} error={pasteError} onPaste={paste} />
-          </Suspense>
-        ) : save.status !== 'broken' ? (
-          <details className="n-paste-fold fallback" open={pasteError !== null}>
-            <summary>{FLOW_WORDS.pasteOpen}</summary>
-            <Suspense fallback={<Loading />}>
-              <PasteSave busy={busy} error={pasteError} onPaste={paste} />
-            </Suspense>
-          </details>
-        ) : null}
-
-        {shown?.source === 'paste' && auth.status === 'signed-out' ? (
-          <section className="n-slimbar" aria-label={HEADER_WORDS.signIn}>
-            <span>{FLOW_WORDS.pastedBar}</span>
-            <Button tone="quiet" onClick={a.signIn}>
-              {HEADER_WORDS.signIn}
-            </Button>
-          </section>
-        ) : null}
-
-        <Suspense fallback={null}>
-          <Footer
-            persistent={footer ? footer.persistent : true}
-            signedIn={signedIn}
-            onSuggest={() => (suggestions ? suggestions.open({ kind: 'suggest' }) : openIssue(suggestHref))}
-            onYourSuggestions={signedIn && suggestions ? () => suggestions.openList() : null}
-            onClear={async (options) => {
-              forgetWhatsNew();
-              await a.clearMyData(options);
-            }}
+      <PageSourcesSlot.Provider value={sourcesSlot}>
+        <main className="app n-app">
+          <Header
+            save={headerSave}
+            sync={sync}
+            online={online}
+            lastSnapshotAt={lastSnapshotAt}
+            busy={busy && ready !== null}
+            stage={okResult ? okResult.stage : null}
+            staleAfterSeconds={okResult ? okResult.expectedReturn.usedSeconds : null}
+            preview={badge}
+            update={
+              updateText
+                ? {
+                    text: dropWarned ? HEADER_WORDS.newVersionDrops : HEADER_WORDS.newVersion,
+                    onReload: reload,
+                  }
+                : null
+            }
+            menu={menu}
+            dot={noticeDot || failed > 0}
+            menuOpen={menuOpen}
+            onMenu={setMenuOpen}
+            navRef={setNavSlot}
           />
-        </Suspense>
-        <Sheet open={settingsOpen} title={HEADER_WORDS.settings} onClose={() => setSettingsOpen(false)}>
-          <Suspense fallback={<Loading />}>
-            <SettingsBody namespace={namespace} persistent={footer ? footer.persistent : true} />
-          </Suspense>
-        </Sheet>
-      </main>
+
+          {firstRun ? (
+            <Suspense fallback={<Loading />}>
+              <FirstRun
+                signedOut={auth.status === 'signed-out'}
+                onSignIn={a.signIn}
+                signIn={auth.status === 'signed-out' ? null : signInNode}
+                error={auth.status === 'signed-out' ? auth.error : null}
+                paste={
+                  <Suspense fallback={<Loading />}>
+                    <PasteSave busy={busy} error={pasteError} onPaste={paste} plain />
+                  </Suspense>
+                }
+              />
+            </Suspense>
+          ) : signInAsContent ? (
+            signInNode
+          ) : null}
+          <Sheet open={codeInSheet} title={FLOW_WORDS.signInTitle} onClose={a.cancelSignIn}>
+            {codeInSheet ? signInNode : null}
+          </Sheet>
+
+          <ReadyToSend />
+
+          {save.status === 'broken' && !useLast ? (
+            <Suspense fallback={<Loading />}>
+              <CantRead
+                failure={save}
+                lastGood={lastGood?.state ?? null}
+                busy={busy}
+                onPaste={paste}
+                onUseLastGood={lastReady.current ? () => setUseLast(true) : null}
+              />
+            </Suspense>
+          ) : null}
+          {save.status === 'broken' && useLast && lastReady.current ? (
+            <p className="n-oldbanner" role="status">
+              <PixelArt name="now-glyph-stale" decorative />
+              <LastGoodLine at={lastReady.current.state.account.lastCloudSave} />
+            </p>
+          ) : null}
+
+          {save.status === 'waiting' ? <Waiting long={waitingLong} step={1} /> : null}
+          {save.status === 'parsing' && !shown ? <Waiting long={false} step={2} /> : null}
+
+          {shown && result && 'error' in result ? (
+            <CantWorkOut message={result.error} state={shown.state} />
+          ) : null}
+          {shown && okResult ? (
+            <AdviceBoundary state={shown.state} resetKey={okResult}>
+              <Shell
+                navSlot={navSlot}
+                result={okResult}
+                save={shown}
+                namespace={namespace}
+                expectedReturnSeconds={a.expectedReturnSeconds}
+                setExpectedReturn={a.setExpectedReturn}
+                updating={a.updating}
+                connection={null}
+                update={null}
+                parserBehind={patch?.parserBehind ?? false}
+                onReload={reload}
+                onFooter={onFooter}
+              />
+            </AdviceBoundary>
+          ) : null}
+
+          <Footer
+            credit={credit}
+            slotRef={setSourcesSlot}
+            onSuggest={() => (suggestions ? suggestions.open({ kind: 'suggest' }) : openIssue(suggestHref))}
+          />
+        </main>
+      </PageSourcesSlot.Provider>
     </SettingsNamespace.Provider>
   );
 }

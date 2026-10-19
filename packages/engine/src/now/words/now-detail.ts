@@ -111,6 +111,8 @@ export const SETUP_WORDS = {
   pasteStep2: 'Press Copy for support (or Copy raw data)',
   pasteStep3: 'Come back and paste',
   pasteRead: 'Read this save',
+  pasteLabel: 'Your save',
+  pastePlaceholder: 'Paste here',
   pasteBusy: 'Reading…',
   /** Footer (`flows.footer` Fan disclaimer). */
   fanMade: 'Fan-made.',
@@ -155,4 +157,18 @@ export const SETUP_WORDS = {
   signedIn: (email: unknown) => (email ? `Signed in as ${s(email)}` : 'Signed in'),
   useAnother: 'Sign out and use another account',
   unconfigured: "Live sign-in isn't set up in this build. Paste your save instead.",
+} as const;
+
+/** M24 rule 8: the one-line footer. The full disclaimer is in the ••• menu (MENU_WORDS.legal). */
+export const FOOTER_WORDS = {
+  legal: 'Fan-made, read-only, not affiliated with LavaFlame2',
+  suggest: 'Suggest',
+  source: 'Source',
+  /** The default Sources line when a page sets none ("Numbers by IdleOn Toolbox 2.3.540 · …"). */
+  credit: (gameVersion: unknown) =>
+    gameVersion
+      ? `Numbers by IdleOn Toolbox ${s(gameVersion)} · facts from the IdleOn Wiki`
+      : 'Facts from the IdleOn Wiki',
+  /** First run, before any save. */
+  firstRun: 'Save reading by IdleOn Toolbox (GPL-3.0) · facts from the IdleOn Wiki',
 } as const;

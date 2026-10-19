@@ -32,7 +32,8 @@
     "./systems-ui": "./src/pictures/ui.ts",
     "./see-it": "./src/now/see-it.ts",
     "./session-view": "./src/now/session-view.ts",
-    "./characters-ui": "./src/now/characters-ui.ts"
+    "./characters-ui": "./src/now/characters-ui.ts",
+    "./menu-text": "./src/now/words/menu.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json"

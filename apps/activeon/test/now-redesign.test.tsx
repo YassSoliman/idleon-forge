@@ -11,6 +11,7 @@ import { act, cleanup, fireEvent, render, screen, within } from '@testing-librar
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { keepPasteForReload, takeKeptPaste } from '../src/App';
+import { Footer } from '../src/components/Footer';
 import { Header } from '../src/components/Header';
 import { HeaderMenu } from '../src/components/HeaderMenu';
 import { WhatsNewDock } from '../src/now/chrome/WhatsNew';
@@ -274,6 +275,40 @@ describe('G1 the header and its overflow menu, G10 Settings', () => {
     expect(sheet.textContent).toContain('ActiveOn 0.1.0 · knowledge #ec89 · game build 142');
     fireEvent.click(within(sheet).getByRole('button', { name: 'Settings' }));
     expect(settings).toHaveBeenCalled();
+  });
+
+  it('M24 menu: your save, the paste box on demand, Look inline, the full disclaimer', () => {
+    render(
+      menu({
+        save: { kind: 'paste', action: <button type="button">Sign in</button> },
+        paste: <p>the paste box</p>,
+        settings: <p>the theme rows</p>,
+      }),
+    );
+    expect(screen.getByRole('region', { name: 'Your save' }).textContent).toContain(
+      'Pasted save · this tab only',
+    );
+    expect(screen.queryByText('the paste box')).toBeNull();
+    const open = screen.getByRole('button', { name: /Paste a save instead/ });
+    fireEvent.click(open);
+    expect(open.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getByText('the paste box')).toBeTruthy();
+    expect(screen.getByRole('region', { name: 'Look' }).textContent).toContain('the theme rows');
+    expect(screen.getByText(/not affiliated with or endorsed by LavaFlame2/)).toBeTruthy();
+    expect(screen.getByRole('link', { name: /Source code \(GPL-3\.0\)/ }).getAttribute('target')).toBe(
+      '_blank',
+    );
+  });
+
+  it('M24 footer: one line, the page Sources slot over the default credit, the legal line kept', () => {
+    render(
+      <Footer credit="Numbers by IdleOn Toolbox 2.3.540 · facts from the IdleOn Wiki" onSuggest={() => {}} />,
+    );
+    const foot = screen.getByRole('contentinfo');
+    expect(foot.textContent).toContain('Numbers by IdleOn Toolbox 2.3.540');
+    expect(foot.textContent).toContain('Fan-made, read-only, not affiliated with LavaFlame2');
+    expect(within(foot).getByRole('button', { name: 'Suggest' })).toBeTruthy();
+    expect(within(foot).queryByText(/Paste/)).toBeNull();
   });
 
   it('shows "New version ready · Reload" as a quiet chip that reloads', () => {
