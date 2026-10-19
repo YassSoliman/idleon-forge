@@ -36,7 +36,6 @@ export function SourceLabel({ source, more = true }: { source: SourceView; more?
       ) : null}
       {source.credit ? (
         <span className="src-credit muted">
-          {source.text ? ' · ' : ''}
           {source.creditHref ? (
             <a className="muted" href={source.creditHref} target="_blank" rel="noopener noreferrer">
               {source.credit}

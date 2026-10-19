@@ -125,6 +125,21 @@ function Run({ b }: { b: BubbaResult }) {
   );
 }
 
+/**
+ * The pats in the Timeline's words (R12 QA): "10 of 10 now, refills in 51m"; "full when you open
+ * Bubba" when no refill is due.
+ */
+function patsLine(p: NonNullable<BubbaResult['pats']>, now: number): string {
+  const count = p.left === null || p.perHour === null ? null : patsText(p);
+  if (p.refillAt === null) return count ? `${count} · ${W.patsFull}` : W.patsFull;
+  const refills = `refills ${when(p.refillAt, now)}`;
+  if (!count) return refills;
+  // "21 left · 11 a refill" (Megaflesh's head start) already reads as a count, so no "now" after it.
+  return p.left !== null && p.perHour !== null && p.left > p.perHour
+    ? `${count}, ${refills}`
+    : `${count} now, ${refills}`;
+}
+
 function Pats({ b, now }: { b: BubbaResult; now: number }) {
   const p = b.pats;
   return (
@@ -134,14 +149,7 @@ function Pats({ b, now }: { b: BubbaResult; now: number }) {
       </h4>
       {p ? (
         <>
-          <p className="num">
-            {[
-              p.left === null || p.perHour === null ? null : patsText(p),
-              p.refillAt === null ? W.patsFull : W.patsRefill(when(p.refillAt, now)),
-            ]
-              .filter(Boolean)
-              .join(' · ')}
-          </p>
+          <p className="num">{patsLine(p, now)}</p>
           <ul className="small muted bb-tips">
             <li>{W.patTip}</li>
             <li>{W.doublePatTip}</li>

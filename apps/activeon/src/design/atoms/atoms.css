@@ -252,19 +252,31 @@
 
 /* The token line: who · where · how long --------------------------------------------------------- */
 .a-token-line {
+  --token-sep: 20px;
   display: inline-flex;
+  max-width: 100%;
+  overflow-x: clip;
+  color: var(--fg);
+}
+.a-token-line__in {
+  display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-1) var(--space-2);
-  color: var(--fg);
+  row-gap: var(--space-1);
+  margin-left: calc(-1 * var(--token-sep));
 }
 .a-token {
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
 }
-.a-token-sep {
+.a-token-line .a-token::before {
+  content: "·";
+  flex: none;
+  width: var(--token-sep);
+  margin-right: calc(-1 * var(--space-1));
   color: var(--muted);
+  text-align: center;
 }
 
 /* Meters and rings ------------------------------------------------------------------------------- */
@@ -413,11 +425,9 @@
   flex: 1;
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-control);
-  background: var(--speech);
-  color: var(--speech-fg);
-  box-shadow:
-    inset 0 0 0 2px var(--speech),
-    inset 0 0 0 3px var(--speech-gap);
+  /* R12 QA: a tonal bubble in the page's own ink, never a navy box with a ring. */
+  background: var(--sunk);
+  color: var(--fg);
   clip-path: var(--panel-clip);
   font: var(--weight-regular) var(--text-md) / var(--lh-body) var(--font-body);
   font-variant-ligatures: var(--font-ligatures);

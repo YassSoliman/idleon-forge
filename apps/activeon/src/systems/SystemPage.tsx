@@ -157,10 +157,15 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
               <span className="sy-meter__v">{page.stageMeter.text}</span>
             </div>
           ) : null}
-          {page.locked ? null : (
+          {/* R12 QA: an open page with a picture and nothing to do shows no empty "Next actions"
+              section under its headline: the picture says it. */}
+          {page.locked || (Body && page.goals.length === 0 && page.skippedKeys.length === 0) ? null : (
             <section className="sy-order" aria-labelledby="sp-na-h">
               <h3 id="sp-na-h" className="sy-h3">
-                {page.goals.length > 0 ? FRAME_WORDS.inOrder(page.goals.length) : PAGE_WORDS.nextActions}
+                {/* One Goal under a "Next step" box would repeat its name: it stays "Next Actions". */}
+                {page.goals.length > 1 || (page.goals.length === 1 && !page.step)
+                  ? FRAME_WORDS.inOrder(page.goals.length)
+                  : PAGE_WORDS.nextActions}
               </h3>
               {goals}
             </section>
@@ -249,8 +254,9 @@ export function SystemPage({ s, id }: { s: Session; id: string }) {
         </section>
       ) : null}
 
-      {/* R7 QA: no empty "How it opens" on an open System with no unlock line. */}
-      {page.alwaysOpen || page.unlock || page.locked ? (
+      {/* R7 QA: no empty "How it opens" on an open System with no unlock line. R12 QA: render it only
+          when it has something to show: the always-open line, an unlock line, or a locked page's Goals. */}
+      {page.alwaysOpen || page.unlock?.text || (page.locked && page.goals.length > 0) ? (
         <details className="sy-section sp-opens" open={page.locked}>
           <summary>
             <h3 className="sy-h3">{PAGE_WORDS.howItOpens}</h3>

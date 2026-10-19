@@ -20,6 +20,12 @@
 .ss-chars li {
   margin: 0 0 4px;
 }
+/* R12 QA: each character's line is a 44 px target. */
+.ss-chars li > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+}
 .ss-next .pill {
   margin-left: 6px;
 }
@@ -44,8 +50,7 @@
   gap: var(--space-1);
   padding: var(--space-3);
   border-radius: var(--radius-card);
-  background: var(--surface);
-  box-shadow: inset 0 0 0 2px var(--accent);
+  background: var(--accent-soft);
 }
 .ss-sky__act,
 .ss-sky__pts {

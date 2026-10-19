@@ -137,7 +137,13 @@ label.chip {
 .src-stale {
   color: var(--unk);
 }
+/* R12 QA: the link and the muted credit are two flex items with a gap, so a wrap never leaves a dangling
+   "·" at a line's end. */
 .src-wrap {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--space-2);
   min-width: 0;
   overflow-wrap: anywhere;
   font-size: var(--text-sm);
@@ -156,6 +162,9 @@ label.chip {
   margin: var(--space-1) 0 0;
   padding-left: var(--space-5);
   font-size: var(--text-xs);
+}
+.src-wrap > .src-more {
+  flex-basis: 100%;
 }
 .contested summary,
 .hidden-list summary,
@@ -331,17 +340,33 @@ label.chip {
   gap: var(--space-2) var(--space-4);
   min-height: 56px;
 }
+/* The wordmark (owner request, R12): parchment "Active" and coin-gold "On" with IdleOn's chunky hard
+   pixel shadow (2 px, no blur). Dark: #f5b335 on the bar is 9.0:1. Light: a deeper gold, #9a6200 on the
+   parchment bar is 4.1:1 (large text: the wordmark is 24 px), under a faint ink shadow. Scoped here, not tokens: only the wordmark uses them. */
 .n-wm {
+  --wm-on: #9a6200;
+  --wm-shadow: rgba(30, 28, 24, 0.14);
   margin: 0 auto 0 0;
   font: var(--display-weight) var(--text-2xl) / 1 var(--font-display);
   font-variant-ligatures: var(--font-ligatures);
   font-feature-settings: var(--font-features);
   letter-spacing: 0.02em;
   color: var(--fg);
+  text-shadow: 2px 2px 0 var(--wm-shadow);
   white-space: nowrap;
 }
+:root[data-theme="dark"] .n-wm {
+  --wm-on: #f5b335;
+  --wm-shadow: #07080b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .n-wm {
+    --wm-on: #f5b335;
+    --wm-shadow: #07080b;
+  }
+}
 .n-wm__on {
-  color: var(--accent);
+  color: var(--wm-on);
 }
 .n-hdr__chips {
   display: flex;
@@ -358,13 +383,50 @@ label.chip {
   align-items: center;
   gap: 0;
 }
-/* Phone: the wordmark with the sun and the menu on the first line, the World and the save age under. */
+/* Phone (R12 QA, the Phone canvas): one 56 px line: the wordmark, a compact "W3 · 5m ago", the sun and
+   the menu. A Preview badge or a "New version" chip, when there is one, wraps under. */
+.n-short {
+  display: none;
+}
 @media (max-width: 719.98px) {
+  .n-hdr__line {
+    flex-wrap: nowrap;
+    gap: var(--space-2);
+  }
+  .n-hdr:has(.n-hdr__chips > :not(.n-crest, .n-agechip)) .n-hdr__line {
+    flex-wrap: wrap;
+  }
+  .n-wm {
+    margin-right: 0;
+  }
   .n-hdr__chips {
-    order: 3;
-    flex: 1 1 100%;
-    justify-content: flex-start;
-    padding-bottom: var(--space-1);
+    flex: 1 1 auto;
+    flex-wrap: nowrap;
+    gap: var(--space-1);
+    font-size: 13px;
+  }
+  .n-hdr__chips .n-long,
+  .n-hdr__chips .n-crest__count {
+    display: none;
+  }
+  .n-hdr__chips .n-short,
+  .n-hdr__chips .n-agechip.is-warn .n-long {
+    display: inline;
+  }
+  .n-hdr__chips .n-crest {
+    min-width: var(--tap-min);
+    justify-content: center;
+    font-size: 13px;
+  }
+  .n-hdr__chips .n-crest + .n-agechip::before {
+    content: "·";
+    margin-right: var(--space-1);
+  }
+  .n-agechip.is-warn {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 @media (min-width: 720px) {
@@ -462,7 +524,6 @@ label.chip {
   top: 8px;
   right: 6px;
   background: var(--bad);
-  box-shadow: 0 0 0 2px var(--bg);
 }
 .n-hint:empty {
   display: none;
@@ -493,9 +554,9 @@ label.chip {
   flex: none;
   width: 18px;
   height: 18px;
-  border-radius: 3px;
-  background: var(--surface);
-  box-shadow: inset 0 0 0 2px var(--line-strong);
+  border-radius: 0;
+  /* An empty tick box as a sunk square (R12 QA: no ring). */
+  background: var(--line-strong);
   border: 0;
 }
 .n-menu-list {
@@ -869,21 +930,6 @@ label.chip {
   margin: 0;
   font-weight: var(--weight-bold);
 }
-.n-allset {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: 0;
-  border-radius: var(--radius-card);
-  color: var(--fg);
-  border: 0;
-}
-.n-allset__title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: var(--display-weight);
-  font-size: var(--text-xl);
-}
 
 /* ---- The Roster (`now.roster` Grouped jobs, `now.roster-row` Three-token, findings, spend card) ---- */
 .n-roster {
@@ -1145,10 +1191,9 @@ label.chip {
 .n-dots i.is-ready {
   background: var(--ok);
 }
+/* The current page's dot is bigger, not ringed (R12 QA). */
 .n-dots i.is-cur {
-  box-shadow:
-    0 0 0 2px var(--surface),
-    0 0 0 4px var(--fg);
+  transform: scale(1.5);
 }
 .n-pager__list {
   list-style: none;
@@ -1631,7 +1676,7 @@ label.chip {
   cursor: pointer;
 }
 .n-cap-btn[aria-expanded="true"] .a-pill {
-  box-shadow: inset 0 0 0 1px currentColor;
+  box-shadow: inset 0 -3px 0 currentColor;
 }
 .n-cap-btn.lit .a-pill {
   box-shadow: inset 0 -3px 0 var(--focus);
@@ -1931,7 +1976,14 @@ label.chip {
   font-weight: var(--display-weight);
   font-size: var(--text-xl);
 }
+/* R12 QA: no box around the paste box. Only the head carries the red tone; the drop target and the
+   last-good panel are the one tonal step under it. */
 .n-cantread {
+  padding: 0;
+  background: transparent;
+}
+.n-cantread .n-cantread__head {
+  padding: var(--space-3) var(--space-4);
   background: var(--bad-soft);
 }
 .n-lastgood {
@@ -1996,9 +2048,10 @@ label.chip {
   background: var(--sunk);
   text-align: center;
   cursor: pointer;
-  outline: 2px dashed var(--line-strong);
-  outline-offset: -2px;
   border: 0;
+}
+.n-drop__target:hover {
+  background: var(--accent-soft);
 }
 .n-drop__title {
   font-family: var(--font-display);
@@ -2151,4 +2204,99 @@ label.chip {
     column-gap: 56px;
     align-items: start;
   }
+}
+
+/* R12 QA: the side column's glance (the Main canvas's aside): no boxes, type and space only. It shows
+   only where the Account is a side column; the phone and the Character page keep the folded section. */
+.n-glance {
+  display: none;
+}
+@media (min-width: 1000px) {
+  .outlet.place-now:has(> .n-now) .n-glance {
+    display: grid;
+    gap: var(--space-6);
+    padding-bottom: var(--space-4);
+  }
+  .outlet.place-now:has(> .n-now) .n-account__sum {
+    display: none;
+  }
+  .outlet.place-now:has(> .n-now) .n-account__chev {
+    margin-left: auto;
+  }
+}
+.n-glance__counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-md);
+}
+.n-glance__counts b {
+  color: var(--fg);
+  font-size: 22px;
+  font-weight: var(--weight-bold);
+}
+.n-glance__part {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  color: inherit;
+  text-decoration: none;
+}
+.n-glance__h {
+  margin: 0;
+  color: var(--muted);
+  font: var(--weight-semibold) var(--text-sm) / var(--lh-snug) var(--font-body);
+  font-variant-ligatures: var(--font-ligatures);
+  font-feature-settings: var(--font-features);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.n-glance__bar {
+  display: block;
+  height: 8px;
+  background: var(--sunk);
+}
+.n-glance__bar i {
+  display: block;
+  height: 100%;
+  background: var(--ok);
+}
+.n-glance__daily {
+  min-height: var(--tap-min);
+}
+.n-glance__sub {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+.n-glance__daily:hover .n-glance__sub {
+  color: var(--fg);
+}
+.n-glance__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+.n-glance__item {
+  display: grid;
+  gap: 2px;
+  align-content: center;
+  color: var(--fg);
+  font-size: var(--text-md);
+  line-height: var(--lh-snug);
+  text-decoration: none;
+}
+a.n-glance__item {
+  min-height: var(--tap-min);
+}
+a.n-glance__item:hover b {
+  color: var(--accent);
+}
+.n-glance__more {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
 }

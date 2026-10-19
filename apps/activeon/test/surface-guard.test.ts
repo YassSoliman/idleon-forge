@@ -8,7 +8,10 @@
 // 2. no border on a container: a border is allowed only on form inputs (input, textarea, select);
 //    focus rings are outlines;
 // 3. no soft radius: border-radius at most 4 px, except the phone dock and the pixel frame;
-// 4. no pill: never 999 px / var(--radius-pill), never a percentage radius.
+// 4. no pill: never 999 px / var(--radius-pill), never a percentage radius;
+// 5. no ring around a container (R12 QA, 2026-10-18): a ring is a border by another name, so no
+//    `box-shadow: [inset] 0 0 0 Npx` spread ring and no solid, dashed or dotted `outline`. Allowed:
+//    focus rings (a :focus selector) and the game's own drawings, listed by name in DRAWINGS below.
 import { readdirSync, readFileSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -72,6 +75,36 @@ const hasWidth = (value: string): boolean =>
   /(\d*\.?\d+px|var\(--border-width\)|thin|medium|thick)/.test(value);
 
 const FORM = /\b(input|textarea|select)\b/;
+const FOCUS = /:focus(-visible|-within)?\b/;
+
+/**
+ * Game drawings that may keep a ring or a dashed outline, because the ring is part of the pixel
+ * drawing itself, not a box around content. Each entry is the selector prefix and why.
+ */
+export const DRAWINGS: ReadonlyArray<readonly [RegExp, string]> = [
+  [/^\.px-/, 'pixel-art sprites (the art library)'],
+  [/\.(bb-pip|dw-pip|cl-pip)\b/, 'pips: one game tick each, drawn as a filled or hollow square'],
+  [/\.al-(pot|glass|rise|tube|vial)\b/, 'alchemy pots, vials and tubes: game objects'],
+  [/\.map-(dot|stop)\b/, 'map nodes: the town dots on the world map'],
+  [/\.sg-g\b/, 'Parallel Slots state glyphs (the per-cell icon)'],
+  [
+    /\.tl-(rail|hatch|bar-g|key)\b|\.tl-bar\.untimed::before/,
+    'Timeline bar drawings and their legend swatches',
+  ],
+  [/\.sy-tank__glass\b/, 'the slot picture tanks: game objects'],
+  [/\.a-meter\b/, 'meter fills (the bar drawing, not a box)'],
+];
+
+/** The widest spread ring among a box-shadow's layers: `[inset] 0 0 0 Npx <color> [inset]`. */
+const ringPx = (value: string): number => {
+  let worst = 0;
+  for (const layer of value.split(/,(?![^(]*\))/)) {
+    const m = /^(?:inset\s+)?0(?:px)?\s+0(?:px)?\s+0(?:px)?\s+(\d*\.?\d+)px/.exec(layer.trim());
+    // Only px spreads: a 100vmax spread is a full-bleed band, not a ring.
+    if (m) worst = Math.max(worst, Number(m[1]));
+  }
+  return worst;
+};
 const RADIUS_OK = /\.places\b|\.a-frame\b/;
 
 export function surfaceViolations(css: string): string[] {
@@ -91,6 +124,17 @@ export function surfaceViolations(css: string): string[] {
     if (!FORM.test(r.selector))
       for (const v of decls(r.body, /^border(-(top|bottom|left|right))?-style$/))
         if (!/^(none|hidden)$/.test(v)) out.push(`${r.selector}: border-style ${v}`);
+    // 5. Rings: a spread box-shadow or an outline around a container.
+    // Every selector in the list must be a focus ring or a drawing, so a container can't hide in a list.
+    const allowed = r.selector
+      .split(',')
+      .every((part) => FOCUS.test(part) || DRAWINGS.some(([re]) => re.test(part.trim())));
+    if (!allowed) {
+      for (const v of decls(r.body, /^box-shadow$/))
+        if (ringPx(v) > 0) out.push(`${r.selector}: ring (box-shadow ${v.replace(/\s+/g, ' ')})`);
+      for (const v of decls(r.body, /^outline(-style)?$/))
+        if (/\b(solid|dashed|dotted|double)\b/.test(v)) out.push(`${r.selector}: outline ${v}`);
+    }
     // 3 and 4. Radii.
     if (!RADIUS_OK.test(r.selector))
       for (const v of decls(r.body, /^border(-[a-z]+)*-radius$/)) {
@@ -123,12 +167,28 @@ describe('surface guard (M21.1 refresh: no AI tells)', () => {
     expect(surfaceViolations('.places .x { border-radius: 8px; }')).toEqual([]);
   });
 
+  it('finds rings and outlines on containers, but not focus rings or game drawings', () => {
+    expect(surfaceViolations('.c { box-shadow: inset 0 0 0 2px var(--warn); }')).toHaveLength(1);
+    expect(surfaceViolations('.c { box-shadow: 0 0 0 2px var(--accent); }')).toHaveLength(1);
+    expect(surfaceViolations('.c { box-shadow: 0 2px 0 var(--ink), inset 0 0 0 1px red; }')).toHaveLength(1);
+    expect(surfaceViolations('.c { outline: 2px dashed var(--line-strong); }')).toHaveLength(1);
+    expect(surfaceViolations('.c { outline: 1px solid var(--fam); }')).toHaveLength(1);
+    expect(surfaceViolations('.c { outline: none; }')).toEqual([]);
+    expect(surfaceViolations('.c { box-shadow: 0 1px 0 var(--line); }')).toEqual([]);
+    expect(surfaceViolations('.c { box-shadow: 2px 2px 0 var(--ink); }')).toEqual([]);
+    expect(surfaceViolations('.c:focus-visible { outline: 3px solid var(--focus); }')).toEqual([]);
+    expect(surfaceViolations('.c:focus-visible { box-shadow: inset 0 0 0 3px var(--focus); }')).toEqual([]);
+    expect(surfaceViolations('.bb-pip { box-shadow: inset 0 0 0 2px var(--line-strong); }')).toEqual([]);
+    expect(surfaceViolations('.map-dot::before { outline: 2px dashed var(--line); }')).toEqual([]);
+    expect(surfaceViolations('.c, .bb-pip { box-shadow: inset 0 0 0 2px red; }')).toHaveLength(1);
+  });
+
   it('the shared radius tokens are square', () => {
     for (const t of ['radius-card', 'radius-control', 'radius-chip'])
       expect(radiusPx(`var(--${t})`), t).toBeLessThanOrEqual(4);
   });
 
-  it('no stylesheet has a side stripe, a container border, a soft radius or a pill', () => {
+  it('no stylesheet has a side stripe, a container border or ring, a soft radius or a pill', () => {
     const bad = files.flatMap((f) =>
       surfaceViolations(readFileSync(join(SRC, f), 'utf8')).map((v) => `${f}: ${v}`),
     );

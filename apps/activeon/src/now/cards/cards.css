@@ -246,7 +246,8 @@
   font-size: var(--text-sm);
 }
 
-/* ---- the overview on Characters ---- */
+/* ---- the overview on Characters ----
+   R12 QA: a hairline row, not a bar, and hairline rows inside it (no boxes in a box). */
 .cv-fold > summary {
   list-style: none;
   cursor: pointer;
@@ -255,9 +256,8 @@
   align-items: baseline;
   gap: var(--space-2);
   min-height: var(--tap-min);
-  padding: var(--space-2) var(--space-3);
-  background: var(--surface);
-  border-radius: var(--radius-control);
+  padding: var(--space-2) 0;
+  box-shadow: 0 1px 0 var(--line);
   border: 0;
 }
 .cv-fold > summary::-webkit-details-marker {
@@ -271,8 +271,7 @@
 }
 .cv-rows {
   display: grid;
-  gap: var(--space-1);
-  margin: var(--space-2) 0;
+  margin: 0 0 var(--space-2);
 }
 .cv-row {
   display: flex;
@@ -280,12 +279,14 @@
   align-items: baseline;
   gap: 0 var(--space-2);
   min-height: var(--tap-min);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-control);
-  background: var(--surface);
+  padding: var(--space-2) 0;
   color: var(--fg);
   text-decoration: none;
+  box-shadow: 0 1px 0 var(--line);
   border: 0;
+}
+.cv-row:hover {
+  background: var(--sunk);
 }
 .cv-row-name {
   font-weight: var(--weight-semibold);

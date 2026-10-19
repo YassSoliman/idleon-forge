@@ -31,8 +31,11 @@
   font-weight: var(--display-weight);
   font-size: var(--text-xl);
   line-height: var(--lh-tight);
-  /* break-word, not anywhere: the name keeps its min-content width, so the stamp yields first. */
-  overflow-wrap: break-word;
+  /* R12 QA: one line, never broken inside a word; a name too long for the strip ends in an ellipsis. */
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .cs-strip > .a-stamp {
   flex: 0 1 auto;
@@ -157,7 +160,7 @@
 @media (max-width: 479px) {
   .cs-strip {
     display: grid;
-    grid-template-columns: var(--tap-min) auto minmax(0, 1fr) auto var(--tap-min);
+    grid-template-columns: var(--tap-min) auto minmax(0, max-content) minmax(5.5em, 1fr) var(--tap-min);
     grid-template-areas:
       "prev glyph name stamp next"
       "sub sub sub sub sub";
@@ -187,6 +190,7 @@
   }
   .cs-strip > .a-stamp {
     grid-area: stamp;
+    justify-self: end;
     max-width: none;
   }
 }

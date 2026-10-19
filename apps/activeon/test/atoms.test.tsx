@@ -180,7 +180,12 @@ describe('TokenLine (DS-3)', () => {
     const { container } = render(
       <TokenLine who={{ family: 'archer', label: 'Bowman 60' }} where="Sands of Time" howLong="in 3h 40m" />,
     );
-    expect(container.textContent?.replace(/\s+/g, ' ')).toBe('Bowman 60·Sands of Time·in 3h 40m');
+    // R12 QA: the "·" separators are drawn by CSS (so a wrap never leaves one dangling).
+    expect([...container.querySelectorAll('.a-token')].map((t) => t.textContent?.trim())).toEqual([
+      'Bowman 60',
+      'Sands of Time',
+      'in 3h 40m',
+    ]);
   });
   it('renders nothing when every token is unknown', () => {
     const { container } = render(<TokenLine />);

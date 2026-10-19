@@ -79,7 +79,9 @@ function Crest({ stage }: { stage: NonNullable<HeaderProps['stage']> }) {
         disabled={needs.length === 0}
       >
         <PixelArt name="now-crest" w={worldOf(stage.label)} decorative />
-        <span>{text}</span>
+        <span className="n-long">{text}</span>
+        {/* R12 QA: the phone bar is one 56 px line, so the World shortens to "W3" there (Phone canvas). */}
+        {worldOf(stage.label) ? <span className="n-short">W{worldOf(stage.label)}</span> : null}
         {needs.length ? <span className="n-crest__count num">{W.stageToGo(needs.length)}</span> : null}
       </button>
       <Sheet open={open} title={W.stageTitle(stage.label)} onClose={() => setOpen(false)}>
@@ -115,7 +117,8 @@ function SaveAge({ save, sync, online }: Pick<HeaderProps, 'save' | 'sync' | 'on
   return (
     <span className={save.tag === 'last-good' ? 'n-agechip is-warn' : 'n-agechip'}>
       <PixelArt name={GLYPH.howLong} decorative />
-      <span className="num">{text}</span>
+      <span className="num n-long">{text}</span>
+      {save.tag === 'last-good' ? null : <span className="num n-short">{age}</span>}
     </span>
   );
 }

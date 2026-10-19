@@ -323,7 +323,9 @@
 .tl-bar-g {
   position: absolute;
   top: -1px;
-  left: max(0px, calc(var(--x) * 100% - 8px));
+  /* Centred on its time, but never past either end of the lane: a glyph at the axis end overflowed
+     the frame by 8 px (R12). */
+  left: clamp(0px, calc(var(--x) * 100% - 8px), calc(100% - 16px));
   z-index: 1;
   display: inline-flex;
   line-height: 0;
@@ -487,8 +489,11 @@
   height: 10px;
   border-radius: 3px;
   background: var(--info-soft);
-  box-shadow: inset 0 0 0 1px var(--info);
   border: 0;
+}
+/* A Timeline key is a small bar drawing: it keeps the bar's ring. */
+.tl-key {
+  box-shadow: inset 0 0 0 1px var(--info);
 }
 .tl-key.fam-store {
   background: var(--accent-soft);
@@ -715,23 +720,21 @@
   overflow-wrap: anywhere;
   color: var(--muted);
 }
+/* Slot states are fills, never outlined cells (R12): in use is green, full is amber, empty is a
+   hatched gap, can't-fill-yet is a sunk grey. The legend keys wear the same fills. */
 .sg-c.is-filled,
 .sg-key.is-filled {
   background: var(--ok-soft);
-  box-shadow: inset 0 0 0 1px var(--ok);
   border: 0;
 }
 .sg-c.is-full,
 .sg-key.is-full {
   background: var(--warn-soft);
-  box-shadow: inset 0 0 0 2px var(--warn);
   border: 0;
 }
 .sg-c.is-empty,
 .sg-key.is-empty {
-  background: transparent;
-  outline: 2px dashed var(--line-strong);
-  outline-offset: -2px;
+  background: repeating-linear-gradient(45deg, var(--sunk) 0 4px, transparent 4px 8px);
   border: 0;
 }
 .sg-c.is-empty .sg-g {
@@ -742,15 +745,15 @@
 .sg-key.is-closed {
   background: var(--sunk);
   color: var(--muted);
-  box-shadow: inset 0 0 0 1px var(--line);
   border: 0;
 }
 .sg-c.is-closed .sg-g {
   opacity: 0.35;
   filter: grayscale(1);
 }
+/* The "Now" cell: an accent bar along its foot, under the Now tag. */
 .sg-c.is-now {
-  box-shadow: 0 0 0 3px var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 .sg-nowtag {
   position: absolute;
@@ -1194,16 +1197,23 @@
     min-height: 4px;
     padding-top: 0;
   }
+  /* The label sits over the now and Back lines on its own surface, so the dashed Back line never
+     runs through its words (R12). */
   .tl-bar-l,
   .tl-bar.end .tl-bar-l {
-    position: static;
+    position: relative;
+    inset: auto;
+    z-index: 3;
     display: block;
+    width: fit-content;
+    max-width: 100%;
     white-space: normal;
     overflow-wrap: anywhere;
     padding: 0 2px 2px;
-    background: none;
+    background: var(--surface);
   }
   .tl-bar.end .tl-bar-l {
+    margin-left: auto;
     text-align: right;
   }
   .tl-nowtag {

@@ -167,9 +167,13 @@
     inset 0 0 0 3px var(--info);
   border: 0;
 }
-.is-picked {
-  outline: var(--focus-width) solid var(--info);
-  outline-offset: -2px;
+/* The picked map: a tonal info fill, never an outline box (R12). */
+.map-stop.is-picked,
+.map-n-b.is-picked {
+  background: var(--info-soft);
+}
+.map-n-b.is-picked .map-n-lbl {
+  color: var(--fg);
 }
 
 /* ---- Gate-first (phone, and up to 999 px) ---- */
@@ -478,7 +482,7 @@
   gap: 2px;
   min-width: var(--tap-min);
   min-height: 72px;
-  padding: 18px 2px 2px;
+  padding: 18px var(--space-1) var(--space-1);
   border: 0;
   background: transparent;
   color: var(--fg);

@@ -9,7 +9,7 @@
 // The engine words everything; this file only renders.
 import { compact, type SkillGridView, type SkillRowView } from '@idleon-forge/engine/now';
 import type { SlotPip } from '@idleon-forge/engine/result';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PixelArt } from '../design/art/PixelArt';
 import { Meter } from '../design/atoms';
 import type { CharacterTabProps } from './character-tabs';
@@ -137,6 +137,29 @@ export function SkillGrid({ grid }: { grid: SkillGridView | null }) {
   const actions = useNowActions();
   const wrap = useRef<HTMLDivElement>(null);
   const highlight = grid?.highlight ?? null;
+  // R12 QA: when the table is wider than its frame, say so: a fade on the side with more columns and
+  // a "scroll" hint, both gone once the last column is in view.
+  const [more, setMore] = useState(false);
+  const [scrolls, setScrolls] = useState(false);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: re-measure when the grid (the table's columns) changes.
+  useEffect(() => {
+    const box = wrap.current;
+    if (!box) return;
+    const read = () => {
+      const over = box.scrollWidth > box.clientWidth + 1;
+      setScrolls(over);
+      setMore(over && box.scrollLeft + box.clientWidth < box.scrollWidth - 1);
+    };
+    read();
+    box.addEventListener('scroll', read, { passive: true });
+    const ro = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(read);
+    ro?.observe(box);
+    if (box.firstElementChild) ro?.observe(box.firstElementChild);
+    return () => {
+      box.removeEventListener('scroll', read);
+      ro?.disconnect();
+    };
+  }, [grid]);
   // The outlined cell scrolls into the frame (its first column stays put), never off to the right.
   useEffect(() => {
     const box = wrap.current;
@@ -151,90 +174,97 @@ export function SkillGrid({ grid }: { grid: SkillGridView | null }) {
   const noOne = grid.skills.filter((s) => !grid.rows.some((r) => r.cells[s].specialty));
   return (
     <section id="skills" className="sk-grid-sec" aria-labelledby="skills-h" tabIndex={-1}>
-      <h3 id="skills-h" className="sk-h">
+      <h3 id="skills-h" className="sk-grid-h">
         Skills
       </h3>
       {noOne.length ? (
         <p className="sk-muted">No one is built for {noOne.map((s) => grid.names[s]).join(', ')}.</p>
       ) : null}
-      <div className="sk-grid-wrap" ref={wrap}>
-        <table className="sk-grid">
-          <thead>
-            <tr>
-              <th scope="col">Character</th>
-              {grid.skills.map((s) => (
-                <th key={s} scope="col">
-                  {grid.names[s]}
-                </th>
-              ))}
-              <th scope="col">Slots</th>
-            </tr>
-          </thead>
-          <tbody>
-            {grid.rows.map((r) => {
-              const w = grid.who.find((x) => x.index === r.index);
-              return (
-                <tr key={r.id}>
-                  <th scope="row">
-                    <a
-                      href={`#skills-${r.index}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        actions.openTab(r.index, 'skills');
-                      }}
-                    >
-                      {w?.name}
-                    </a>
-                    <span className="sk-muted"> {w ? `${w.classLabel} ${w.level}` : ''}</span>
+      {scrolls ? (
+        <p className="sk-grid-hint" aria-hidden="true">
+          scroll →
+        </p>
+      ) : null}
+      <div className="sk-grid-frame" data-more={more ? 'yes' : 'no'}>
+        <div className="sk-grid-wrap" ref={wrap}>
+          <table className="sk-grid">
+            <thead>
+              <tr>
+                <th scope="col">Character</th>
+                {grid.skills.map((s) => (
+                  <th key={s} scope="col">
+                    {grid.names[s]}
                   </th>
-                  {grid.skills.map((s) => {
-                    const cell = r.cells[s];
-                    const id = `cell-${r.index}-${s}`;
-                    const marks = [
-                      cell.best ? 'best' : '',
-                      cell.role ? 'Role' : '',
-                      cell.specialty ? 'specialist' : '',
-                      r.afkSkill === s ? 'AFK' : '',
-                    ]
-                      .filter(Boolean)
-                      .join(', ');
-                    return (
-                      <td
-                        key={s}
-                        className={
-                          [
-                            grid.highlight === id ? 'hl' : '',
-                            cell.best ? 'best' : '',
-                            cell.specialty ? 'spec' : '',
-                          ]
-                            .filter(Boolean)
-                            .join(' ') || undefined
-                        }
+                ))}
+                <th scope="col">Slots</th>
+              </tr>
+            </thead>
+            <tbody>
+              {grid.rows.map((r) => {
+                const w = grid.who.find((x) => x.index === r.index);
+                return (
+                  <tr key={r.id}>
+                    <th scope="row">
+                      <a
+                        href={`#skills-${r.index}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          actions.openTab(r.index, 'skills');
+                        }}
                       >
-                        {cell.specialty ? <PixelArt name="v2-character-star" decorative /> : null}
-                        <span className="num">{cell.level ?? '?'}</span>
-                        {marks ? <span className="sk-mark"> {marks}</span> : null}
-                      </td>
-                    );
-                  })}
-                  <td>
-                    {r.slots.map((p) => (
-                      <span
-                        key={p.kind}
-                        className="sk-pip-mini"
-                        data-state={p.state}
-                        title={`${SLOT_WORDS[p.kind]}: ${p.text}`}
-                      />
-                    ))}
-                    <span className="sr-only">
-                      {r.slots.map((p) => `${SLOT_WORDS[p.kind]} ${STATE_WORDS[p.state]}`).join(', ')}
-                    </span>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                        {w?.name}
+                      </a>
+                      <span className="sk-muted"> {w ? `${w.classLabel} ${w.level}` : ''}</span>
+                    </th>
+                    {grid.skills.map((s) => {
+                      const cell = r.cells[s];
+                      const id = `cell-${r.index}-${s}`;
+                      const marks = [
+                        cell.best ? 'best' : '',
+                        cell.role ? 'Role' : '',
+                        cell.specialty ? 'specialist' : '',
+                        r.afkSkill === s ? 'AFK' : '',
+                      ]
+                        .filter(Boolean)
+                        .join(', ');
+                      return (
+                        <td
+                          key={s}
+                          className={
+                            [
+                              grid.highlight === id ? 'hl' : '',
+                              cell.best ? 'best' : '',
+                              cell.specialty ? 'spec' : '',
+                            ]
+                              .filter(Boolean)
+                              .join(' ') || undefined
+                          }
+                        >
+                          {cell.specialty ? <PixelArt name="v2-character-star" decorative /> : null}
+                          <span className="num">{cell.level ?? '?'}</span>
+                          {marks ? <span className="sk-mark"> {marks}</span> : null}
+                        </td>
+                      );
+                    })}
+                    <td>
+                      {r.slots.map((p) => (
+                        <span
+                          key={p.kind}
+                          className="sk-pip-mini"
+                          data-state={p.state}
+                          title={`${SLOT_WORDS[p.kind]}: ${p.text}`}
+                        />
+                      ))}
+                      <span className="sr-only">
+                        {r.slots.map((p) => `${SLOT_WORDS[p.kind]} ${STATE_WORDS[p.state]}`).join(', ')}
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   );

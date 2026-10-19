@@ -114,6 +114,9 @@ function LogOff({ view, shown, onShown, onOpen, back }: PausePointProps) {
       ...added.map((i) => ({ key: i.key, text: i.text, who: i.who?.label ?? null, item: i, ticked: false })),
     ];
   const allTicked = current.length === 0;
+  // R12 QA: nothing was ever on the list, so the counter's "All set: safe to log off" already says it all;
+  // a second "Safe to log off" banner under it was a duplicate.
+  if (allTicked && items.length === 0) return null;
   return (
     <section className="n-pause-card" aria-label={PAUSE_WORDS.tabs.logoff}>
       <h3 className="n-pause-card__title">{PAUSE_WORDS.logoffTitle}</h3>
@@ -150,10 +153,7 @@ function LogOff({ view, shown, onShown, onOpen, back }: PausePointProps) {
       ) : null}
       {view.logoff.more > 0 ? <p className="n-muted">{PAUSE_WORDS.more(view.logoff.more)}</p> : null}
       {allTicked ? (
-        <div className="n-allset" data-direction="quest">
-          <PixelArt name="flows-campfire" scale={2} decorative />
-          <p className="n-allset__title">{PAUSE_WORDS.safe(back)}</p>
-        </div>
+        <p className="n-muted n-small">{PAUSE_WORDS.safe(back)}</p>
       ) : (
         <p className="n-muted n-small">{PAUSE_WORDS.logoffHint}</p>
       )}

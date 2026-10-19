@@ -154,7 +154,7 @@ export default function AlchemyLab(p: SystemPageBodyProps) {
     <>
       {a.topStep ? <p className="al-step">{a.topStep.text}</p> : null}
 
-      <section className="sy-pic" aria-labelledby="al-pots-h">
+      <section className="sy-pic al-panel" aria-labelledby="al-pots-h">
         <h3 id="al-pots-h" className="sy-h3">
           Cauldrons
         </h3>
@@ -170,7 +170,7 @@ export default function AlchemyLab(p: SystemPageBodyProps) {
         ))}
       </section>
 
-      <section className="sy-pic" aria-labelledby="al-vials-h">
+      <section className="sy-pic al-panel" aria-labelledby="al-vials-h">
         <h3 id="al-vials-h" className="sy-h3">
           Vials
         </h3>
@@ -211,7 +211,7 @@ export default function AlchemyLab(p: SystemPageBodyProps) {
         </details>
       </section>
 
-      <section className="sy-pic" aria-labelledby="al-tubes-h">
+      <section className="sy-pic al-panel" aria-labelledby="al-tubes-h">
         <h3 id="al-tubes-h" className="sy-h3">
           Liquids
         </h3>
@@ -238,7 +238,7 @@ export default function AlchemyLab(p: SystemPageBodyProps) {
       </section>
 
       {a.p2w.length ? (
-        <section className="sy-pic" aria-labelledby="al-p2w-h">
+        <section className="sy-pic al-panel" aria-labelledby="al-p2w-h">
           <h3 id="al-p2w-h" className="sy-h3">
             {BODY_WORDS.p2w}
           </h3>

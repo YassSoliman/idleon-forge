@@ -93,7 +93,7 @@ export const CharacterShell = forwardRef<HTMLHeadingElement, CharacterShellProps
         <Arrow dir="prev" to={prev} tab={tab} />
         <WhoGlyph family={family} classLabel={card.classLabel} level={card.level} scale={2} decorative />
         <div className="cs-ident">
-          <h2 id="focus-h" ref={headingRef} tabIndex={-1} className="cs-name">
+          <h2 id="focus-h" ref={headingRef} tabIndex={-1} className="cs-name" title={card.name}>
             {card.name}
           </h2>
           <p className="cs-sub">
