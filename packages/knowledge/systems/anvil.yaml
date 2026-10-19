@@ -107,3 +107,57 @@ entries:
       - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/anvil.ts", title: "IdleOn Toolbox, getPlayerAnvil anvilSpeed and anvilCapacity", tier: 1, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Smithing#Anvil_Points", title: "IdleOn Wiki: Smithing, anvil points and the Anvil Reset Whetstone", tier: 2, claimDate: 2026-10-05, verified: 2026-10-17, gameVersion: 2.3.540 }
       - { url: "https://idleon.wiki/wiki/Vendors", title: "IdleOn Wiki: Vendors, Frostbite Towndra (Whetstone: 1 platinum 20 gold, 1 a day)", tier: 2, claimDate: 2026-10-12, verified: 2026-10-17, gameVersion: 2.3.540 }
+  # M26 F-C FR-C4 (Wave C, pulled forward from FR-57): the next anvil tab as a Walkthrough on the Anvil page
+  # (page scope only: it never adds a Now card and never feeds Now's Demand), and a free hammer. The spec's
+  # anvil.goal.next-tab is a check here (no Milestone ladder).
+  - id: anvil.check.next-tab
+    system: anvil
+    type: check
+    title: Next anvil tab
+    text: "{text}"
+    why: "{why}"
+    values:
+      answer: "Craft Anvil Tab {tab:int}: {ready:int} of {of:int} materials ready"
+      answer-short: "Craft Anvil Tab {tab:int}: {ready:int} of {of:int} ready"
+      cap: "Do this next"
+      tab-card: "Craft Anvil Tab {tab:int} once and every anvil gets it"
+      detail-tab-locked: "{n:int} open recipes wait behind it"
+      detail-smithing: "Smithing {lv:int} (wiki)"
+      detail-smithing-best: "Best Smithing on the account: {best:int}. The game data has no Smithing level per recipe, so the wiki's is shown."
+      gate-ready: "{ready:int} of {of:int} ready"
+      why: "A tab is crafted once and opens its recipes on every anvil."
+      open: "Open the Walkthrough"
+      all-owned: "Every W1-W4 anvil tab is owned"
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/crafts.json", title: "IdleOn Toolbox game data: crafts (Anvil_Tab_2 to Anvil_Tab_4 recipes)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Smithing", title: "IdleOn Wiki: Smithing (anvil tabs and the Smithing level each needs)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-19, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    subject: account
+    effect: next-action
+    category: compounding
+    effortSeconds: 120
+    detector: { id: anvil/next-tab }
+    doneWhen: { field: "account.anvilTabsOwned", change: higher }
+  - id: anvil.check.hammers
+    system: anvil
+    type: check
+    title: Free anvil hammer
+    text: "{text}"
+    why: "{why}"
+    values:
+      text-free: "Pick a product for the free anvil hammer on your {who}"
+      detail-free: "It has {used:int} of {n:int} hammers on a product; a free hammer makes nothing."
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/anvil.ts", title: "IdleOn Toolbox, getAnvil (AnvilPAselect: one product per hammer, -1 none)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Smithing#Anvil_Production", title: "IdleOn Wiki: Smithing, anvil production (hammers)", tier: 2, claimDate: 2026-10-05, verified: 2026-10-19, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    subject: character
+    effect: next-action
+    category: spendable
+    effortSeconds: 30
+    detector: { id: anvil/hammers }
+    notes: "Reads the raw AnvilPAselect_i list (save order, V33): a -1 entry is a free hammer (seen on the public saves). The draft anvil.check.empty-hammer is retired into it. Rendered as the anvil row of the Production Plan in Wave C."

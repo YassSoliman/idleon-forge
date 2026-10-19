@@ -1,0 +1,79 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# M26 F-C Crafting guidance and Production Plans (docs/specs/M26-crafting-guidance.md on research/m26-systems,
+# sections 7 to 9), Wave C: the anvil producer. The engine module `production` (packages/engine/src/production)
+# builds every line from these entries' `values`; numbers, reasons and per-hammer lines go in the `why` and
+# `detail` keys. Names a character by class and level only. The product table is generated
+# (production-plan.gen.ts: production-plan.fact.anvil-exp).
+system: production-plan
+entries:
+  # FR-C7, section 7: what each character's anvil should make now. Demand first (a shown Walkthrough, the next
+  # anvil tab, a craft-next piece), then the Smithing EXP fallback (7.4), kept unless at least
+  # values.keepRatio better (7.5, owner question C-Q1).
+  - id: production-plan.check.anvil-switch
+    system: production-plan
+    type: check
+    title: What each anvil makes
+    text: "{text}"
+    why: "{why}"
+    values:
+      keepRatio: 1.1
+      switch: "Anvil: switch to {products}"
+      keep: "Anvil: keep {products}"
+      demand: "Anvil: put {n:int} {hammers} on {product} for {target}"
+      capped: "Anvil: collect {product}, it is full"
+      free: "Anvil: pick a product for {n:int} free {hammers}"
+      unknown: "Anvil: can't tell from this save"
+      hammer: "hammer"
+      hammers: "hammers"
+      chip-ratio: "about {ratio}x the Smithing EXP"
+      chip-keep: "keep"
+      chip-demand: "{missing:int} more"
+      chip-full: "full"
+      why-idle: "Nothing you're working toward needs {products} ({held} held)."
+      why-cap: "{product} would fill this anvil ({capacity:int}) before you're back."
+      why-keep: "Switching would gain less than {pct}: not worth the visit."
+      why-keep-best: "This is already the most Smithing EXP by your return."
+      why-demand: "{target} needs {missing:int} more {product}: about {time:hours} on {n:int} {hammers}."
+      why-capped: "{amount:int} of {capacity:int}: a full product stops making items and EXP."
+      why-free: "It has {used:int} of {n:int} hammers on a product; a free hammer makes nothing."
+      why-unknown: "The save doesn't say which products its hammers are on."
+      detail-made: "{made:int} made by your return (room {room:int})"
+      detail-shared: "two hammers share one {product} stock"
+      detail-free: "free: makes nothing"
+      step-switch: "Switch the hammers as above"
+      detail-step-stamp-cap: "Anvil Zoomer Stamp is {level:int} of {max:int}: raise its cap (each level adds about {pct} anvil speed here)"
+      detail-step-stamp: "Level Anvil Zoomer Stamp ({level:int} of {max:int}): each level adds about {pct} anvil speed here"
+      step-hh-on: "Hammer Hammer is on: its extra hammer and speed count"
+      step-hh-equip: "Equip Hammer Hammer (Quicc): one more hammer and speed"
+      step-hh-locked: "Hammer Hammer: not unlocked yet (Alchemy)"
+      step-points: "{n:int} anvil {points} unspent: put {them} in {where}"
+      point: "point"
+      points: "points"
+      it: "it"
+      them: "them"
+      link-points: "Points"
+      link-stamps: "Stamps"
+      link-alchemy: "Alchemy"
+      link-how: "How to switch"
+      account-line: "{switching:int} of {total:int} anvils should switch"
+      account-none: "Every anvil is on its best mix"
+      detail-account: "about {ratio}x the Smithing EXP across the account by your return"
+      detail-account-keeps: "{who} keeps"
+      footer-infinity: "Infinity Hammer: {owned}"
+      owned: "owned"
+      not-owned: "not owned"
+    sources:
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/parsers/world-1/anvil.ts", title: "IdleOn Toolbox, getPlayerAnvil (anvilSpeed, anvilCapacity, the speed terms) and calcAnvilExp", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json", title: "IdleOn Toolbox game data: anvilProducts (requiredAmount, levelReq, exp)", tier: 1, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Beginner_Guide", title: "IdleOn Wiki: Beginner Guide (idle hammers on the anvil make Smithing EXP; start producing Thread)", tier: 2, claimDate: 2026-09-14, verified: 2026-10-19, gameVersion: 2.3.540 }
+      - { url: "https://idleon.wiki/wiki/Smithing#Anvil_Production", title: "IdleOn Wiki: Smithing, anvil production", tier: 2, claimDate: 2026-10-05, verified: 2026-10-19, gameVersion: 2.3.540 }
+    appliesTo: { stages: all }
+    confidence: M
+    status: active
+    subject: character
+    effect: next-action
+    category: nice
+    effortSeconds: 30
+    usesExpectedReturn: true
+    detector: { id: production-plan/anvil }
+    notes: "Supersedes the draft anvil.check.product-exp (switch to Thread per hammer, no cap). The fallback is arithmetic on tier-1 numbers (section 7.4); owner question C-Q6 may ship it display only. values.keepRatio is owner question C-Q1 (recommended 10%). Rendered in the Production Plan (a Character's Now tab, the Anvil page, #production), never as a Now card in Wave C."

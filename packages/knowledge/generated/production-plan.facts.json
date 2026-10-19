@@ -1,0 +1,130 @@
+{
+  "facts": [
+    {
+      "generatedBy": {
+        "commit": "6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1",
+        "generator": "production-plan",
+        "inputs": [
+          "website-data/shared-data.json#anvilProducts",
+          "website-data/items.json"
+        ]
+      },
+      "id": "production-plan.fact.anvil-exp",
+      "origin": "generated",
+      "rows": [
+        {
+          "exp": 6,
+          "expPer1000": 60,
+          "index": 0,
+          "levelReq": 1,
+          "name": "Thread",
+          "rawName": "CraftMat1",
+          "requiredAmount": 100
+        },
+        {
+          "exp": 10,
+          "expPer1000": 50,
+          "index": 1,
+          "levelReq": 5,
+          "name": "Trusty Nails",
+          "rawName": "CraftMat5",
+          "requiredAmount": 200
+        },
+        {
+          "exp": 16,
+          "expPer1000": 46,
+          "index": 2,
+          "levelReq": 12,
+          "name": "Boring Brick",
+          "rawName": "CraftMat6",
+          "requiredAmount": 350
+        },
+        {
+          "exp": 25,
+          "expPer1000": 36,
+          "index": 3,
+          "levelReq": 17,
+          "name": "Chain Link",
+          "rawName": "CraftMat7",
+          "requiredAmount": 700
+        },
+        {
+          "exp": 35,
+          "expPer1000": 29,
+          "index": 4,
+          "levelReq": 25,
+          "name": "Leather Hide",
+          "rawName": "CraftMat9",
+          "requiredAmount": 1200
+        },
+        {
+          "exp": 50,
+          "expPer1000": 25,
+          "index": 5,
+          "levelReq": 30,
+          "name": "Pinion Spur",
+          "rawName": "CraftMat8",
+          "requiredAmount": 2000
+        },
+        {
+          "exp": 65,
+          "expPer1000": 22,
+          "index": 6,
+          "levelReq": 35,
+          "name": "Lugi Bracket",
+          "rawName": "CraftMat10",
+          "requiredAmount": 3000
+        },
+        {
+          "exp": 75,
+          "expPer1000": 19,
+          "index": 7,
+          "levelReq": 43,
+          "name": "Purple Screw",
+          "rawName": "CraftMat11",
+          "requiredAmount": 4000
+        },
+        {
+          "exp": 90,
+          "expPer1000": 15,
+          "index": 8,
+          "levelReq": 50,
+          "name": "Thingymabob",
+          "rawName": "CraftMat12",
+          "requiredAmount": 6000
+        },
+        {
+          "exp": 110,
+          "expPer1000": 13,
+          "index": 9,
+          "levelReq": 60,
+          "name": "Tangled Cords",
+          "rawName": "CraftMat13",
+          "requiredAmount": 8500
+        },
+        {
+          "exp": 140,
+          "expPer1000": 12,
+          "index": 10,
+          "levelReq": 70,
+          "name": "PVC Pipe",
+          "rawName": "CraftMat14",
+          "requiredAmount": 12000
+        }
+      ],
+      "sources": [
+        {
+          "gameVersion": "2.3.540",
+          "tier": 1,
+          "title": "IdleOn Toolbox game data: anvilProducts",
+          "url": "https://github.com/Morta1/IdleonToolbox/blob/6c37e3dac38e3cb79f8b6b56f6968ded7614b7d1/data/website-data/shared-data.json",
+          "verified": "2026-10-17"
+        }
+      ],
+      "system": "production-plan",
+      "title": "Anvil products: work per item, level and Smithing EXP"
+    }
+  ],
+  "generator": "production-plan",
+  "system": "production-plan"
+}

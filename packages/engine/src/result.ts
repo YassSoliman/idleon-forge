@@ -10,6 +10,7 @@ import type { BubbaResult } from './bubba/types';
 import type { Checklist } from './checklist/types';
 import type { CardsView } from './collections/cards-view-types';
 import type { GearResult } from './gear/types';
+import type { ProductionResult } from './production/types';
 import type { CharacterSkills, SkillGrid, SystemPicture } from './slots/types';
 import type { SpendPlan } from './spend/types';
 import type { StarSignsView } from './starsigns/types';
@@ -708,6 +709,8 @@ export interface EngineResult {
   world4?: World4View | null;
   /** M18 TR-5: the Gear tab, the Gear page's heat strip and the Smithy page; absent without M18. */
   gear?: GearResult | null;
+  /** M26 F-C: the Production Plan, the Anvil page's Recipes and Walkthrough tabs (production module). */
+  production?: ProductionResult | null;
   /**
    * M21 TR-11: Play Session facts for the pause points and the Away card (area N's `session` module).
    * Phase F registers a stub that emits null.

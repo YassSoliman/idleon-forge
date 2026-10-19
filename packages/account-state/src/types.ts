@@ -12,6 +12,7 @@ import type { BubbaAccountFields } from './bubba-types';
 import type { CollectionsAccountFields, CollectionsCharacterFields } from './collections-types';
 import type { DepthAccountFields } from './depth-types';
 import type { GearAccountFields, GearCharacterFields } from './gear-types';
+import type { ProductionCharacterFields } from './production-types';
 import type { PurposeAccountFields, PurposeCharacterFields } from './purpose-types';
 import type { RedesignAccountFields, RedesignCharacterFields } from './redesign-types';
 import type { SlotsAccountFields, SlotsCharacterFields } from './slots-types';
@@ -69,6 +70,8 @@ export const SCHEMA_VERSION = 25;
 //  - M26 Wave 0: `account.breeding.eggBankSeconds`, `.started`, and `.nextEggInSeconds` now an upper
 //    bound on time left (it was the banked time).
 //  - M26 Wave 0: `account.equinoxUnlocked` (authored reader, FR-8).
+//  - M26 Wave C: `characters[].anvil` (the `ProductionCharacterFields` block: hammers in save order,
+//    stock of every product, capacity, speed terms).
 
 /** The AFK types Toolbox's monster data uses, plus its two "no rate" values. */
 export const KNOWN_AFK_TYPES = [
@@ -101,6 +104,7 @@ export interface CharacterState
     SlotsCharacterFields,
     PurposeCharacterFields,
     GearCharacterFields,
+    ProductionCharacterFields,
     RedesignCharacterFields {
   /** Slot in the save (0-based), stable across saves. Field paths use it: `characters[<index>].level`. */
   index: number;

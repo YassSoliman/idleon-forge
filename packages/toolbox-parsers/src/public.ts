@@ -14,6 +14,7 @@ import type {
 export { InvalidSaveInputError, normalizeEnvelope, parseEnvelopeText } from './envelope';
 export { withFrozenClock } from './frozen-clock';
 export type {
+  AnvilSpeedTerms,
   MapKillRate,
   ParsedSave,
   ParseOptions,

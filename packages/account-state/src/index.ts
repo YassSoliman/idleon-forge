@@ -118,6 +118,9 @@ export {
   type GearStats,
   type GearWorn,
 } from './gear-types';
+// M24 the World 3 System pages (prayers, shrines)
+export { ANVIL_PRODUCTS, hammersOf, stockOf } from './production';
+export type { AnvilProduction, AnvilSpeedParts, ProductionCharacterFields } from './production-types';
 export { PURPOSE_SKILLS } from './purpose';
 export type {
   ClassExp,

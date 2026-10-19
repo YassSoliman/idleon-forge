@@ -87,9 +87,13 @@ export function leafEffort(leaf: ItemNode, supplies: SupplyEval[], v: PlanValues
   return { kind: pick.kind, seconds: pick.seconds, supply: pick.supply };
 }
 
-/** FR-15: the missing leaf with the largest effort; unknown-small after every rated one; ties to the deeper node, then rawName. */
+/**
+ * FR-15 with M26 FR-C12 (one Bottleneck rule): the rated missing leaf with the largest effort; ties to the
+ * deeper node, then rawName. A blocked leaf (no Supply) or an unrated one (a Supply without hours) is never
+ * the Bottleneck: with no rated leaf there is none, and the Walkthrough says it can't tell yet.
+ */
 export function bottleneckOf(leaves: { leaf: ItemNode; effort: LeafEffort }[]): ItemNode | null {
-  const usable = leaves.filter((l) => l.effort.kind !== 'blocked');
+  const usable = leaves.filter((l) => l.effort.kind !== 'blocked' && l.effort.seconds !== null);
   usable.sort((a, b) => {
     const sa = a.effort.seconds;
     const sb = b.effort.seconds;
@@ -101,6 +105,10 @@ export function bottleneckOf(leaves: { leaf: ItemNode; effort: LeafEffort }[]): 
   });
   return usable[0]?.leaf ?? null;
 }
+
+/** FR-C12: missing leaves with no source or no time estimate (blocked or unrated). */
+export const unratedCount = (leaves: { effort: LeafEffort }[]): number =>
+  leaves.filter((l) => l.effort.kind === 'blocked' || l.effort.seconds === null).length;
 
 export interface PlanContext {
   state: AccountState;

@@ -376,6 +376,11 @@ export function assemble(input: EngineInput, ran: readonly Ran[]): EngineResult 
       const o = outputs.find((x) => x.output.gear !== undefined)?.output;
       return o ? { gear: o.gear ?? null } : {};
     })(),
+    // M26 F-C: the Production Plan rides through untouched.
+    ...(() => {
+      const o = outputs.find((x) => x.output.production !== undefined)?.output;
+      return o ? { production: o.production ?? null } : {};
+    })(),
     // M20: the checklist, Skills tabs, pictures and Skill Grid ride through untouched.
     ...(() => {
       const pick = <K extends 'checklist' | 'skills' | 'slotPictures' | 'skillGrid'>(k: K) =>

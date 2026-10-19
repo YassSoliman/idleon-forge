@@ -20,6 +20,9 @@ entries:
       # Detector's params, with their defaults in packages/engine/src/walkthrough/detectors.ts.
       collapsed: "Steps {done:int} of {total:int} · slowest: {item}"
       collapsed-none: "Steps {done:int} of {total:int}"
+      # M26 FR-C12: one Bottleneck rule (blocked and unrated leaves both count as "no source or time estimate").
+      collapsed-known: "Steps {done:int} of {total:int} · slowest known: {item} ({n:int} lack a time estimate)"
+      collapsed-unknown: "Steps {done:int} of {total:int} · slowest: can't tell ({n:int} lack a time estimate)"
       # M18 FR-15: an inline root whose every material is held and every gate met.
       collapsed-all-held: "You hold everything · {total:int} steps"
       # A step is at most 12 words with one verb (kb check step-words); its numbers and conditions go in
@@ -53,10 +56,11 @@ entries:
       smelt-why: "From the {ore:int} {oreName} you hold."
       smelt-ore: "Smelt {missing:int} more {item} in the Forge: {oreName} needed first"
       craft: "Craft {amount:int} {item} at the anvil"
-      craft-why: "On any character with Smithing {level:int} or more{bag}."
+      craft-why: "On any character with Smithing {level:int} (wiki) or more{bag}."
+      craft-why-unknown: "On a character with the Smithing level it needs (check in game){bag}."
       craft-bag: " (the first craft takes its materials from the crafter's bag)"
       craft-gate: "Craft {amount:int} {item} at the anvil"
-      craft-gate-why: "It needs Smithing {level:int}, which no character has yet."
+      craft-gate-why: "It needs Smithing {level:int} (wiki), which no character has yet."
       unlock: "Use {item} to open anvil tab {tab:int} for every anvil"
       hand-in: "Hand {items} to {npc} on the {who}"
       accept: "Accept {npc}'s quest on the {who}"
