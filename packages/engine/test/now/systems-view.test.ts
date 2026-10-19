@@ -532,6 +532,8 @@ describe('US-5 to US-7 on scrubbed-w3 (W3-early, 6 characters)', () => {
 
   it('marks exactly the golden "Not covered yet" Systems not covered (M4 covers Classes, Portals, Skills, the Vault)', () => {
     const notCovered = [...tiles.values()].filter((t) => t.status === 'not-covered').map((t) => t.name);
+    // M26 FR-6: the account-wide registry rows are not covered until their pages land; Equinox is locked
+    // (no Mirror, no Dream Upgrade), no longer "not covered".
     expect(notCovered.sort()).toEqual(
       [
         'Bribes',
@@ -541,10 +543,21 @@ describe('US-5 to US-7 on scrubbed-w3 (W3-early, 6 characters)', () => {
         'The Owl',
         'Islands',
         'Atom Collider',
-        'Equinox',
         'Prayers',
         'Salt Lick',
         'Shrines',
+        'Achievements',
+        'Coins',
+        'Drop rate',
+        'Dungeons',
+        'Event Shop',
+        'Family bonuses',
+        'Food',
+        'Friend bonuses',
+        'Stats and damage',
+        'Storage and inventory',
+        'Town shops',
+        'Trophies and nametags',
       ].sort(),
     );
     expect(text(tiles.get('upgrade-vault'))).toBe('Nothing to fix');
@@ -553,7 +566,8 @@ describe('US-5 to US-7 on scrubbed-w3 (W3-early, 6 characters)', () => {
   it('US-6: World 4 is locked by world, no World 5+ group, and the Post Office is locked and behind', () => {
     for (const id of ['lab', 'cooking', 'breeding']) {
       expect(tiles.get(id)?.status).toBe('locked');
-      expect(text(tiles.get(id))).toBe('Opens in World 4 · Hyperion Nebula');
+      // M26 FR-6: keyed on their own unlock fact, so the tile says how that System opens.
+      expect(text(tiles.get(id))).toMatch(/^Opens on reaching the Hyperion Nebula town \(World 4\)/);
       expect(tiles.get(id)?.counts.toDo).toBe(0);
     }
     const v = hubOf(r, now);
@@ -605,10 +619,10 @@ describe('US-5 to US-7 on scrubbed-w3 (W3-early, 6 characters)', () => {
     expect(page?.pills.map((p) => p.label)).toEqual(Array(6).fill('Anvil full · collect'));
   });
 
-  it('US-9: Equinox is not covered and says so', () => {
+  it('US-9: Equinox is not covered and says so; with no Mirror it reads locked (M26 FR-6)', () => {
     const page = buildSystemPageView(r, EMPTY_PREFS, { roster: [] }, { now, id: 'equinox', highlight: null });
     expect(page?.coverage.covered).toBe(false);
-    expect(page?.tile.status).toBe('not-covered');
+    expect(page?.tile.status).toBe('locked');
     expect(page?.wiki).toBe('https://idleon.wiki/wiki/Equinox');
   });
 
@@ -656,8 +670,8 @@ describe('US-5 and US-7 on scrubbed-w2 (W2-late, 5 characters)', () => {
     expect(cards?.status).not.toBe('behind');
   });
 
-  it('US-6: World 4 folds into "Later worlds: 3 Systems"', () => {
-    expect(hubOf(r, now).later?.label).toBe('Later worlds: 3 Systems');
+  it('US-6: World 4 folds into "Later worlds: 7 Systems" (M26 FR-6 adds Sigils, the Rift, the Tome, Elite classes)', () => {
+    expect(hubOf(r, now).later?.label).toBe('Later worlds: 7 Systems');
   });
 });
 

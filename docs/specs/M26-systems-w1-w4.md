@@ -561,6 +561,13 @@ golden.
   Islands: `islands/unlocked`), with `currentWorld` only as the fallback when the fact is null. Every Check of a System
   with an unlock fact returns silent while locked. Registry rows added in Wave 0 (MASTER 0.8), with
   `islands.unlocked` changed to `islands/unlocked` and `prayers` scope `both`.
+  **Built 2026-10-19:** `unlocked(system, state)` in `packages/knowledge/src/unlock.ts` (Lab: a character uploaded;
+  Breeding: `started`; Cooking: a kitchen in use, all locked = no; Sigils: Lab node 12 lit or a sigil seat; Equinox:
+  `account.equinoxUnlocked`; Rift and Islands: world fallback until their readers land), the `systems/unlocked` milestone
+  Detector for the registry, and the engine core dropping a guarded System's Goals while it reads 'no' ('unknown' keeps
+  them). Registry rows added as listed, `unlocked: always` for the account-wide ones; until their pages land they show in
+  "Not covered yet". `islands` keys on `systems/unlocked` (there is no `islands/unlocked` Detector yet; it falls back to
+  World 2). Poppy's world stays an in-game check.
 - **FR-7 Previous-save Detectors, per sub-field.** A Detector that compares with the previous save (Lab chain-broke,
   Killroy week roll, Weekly Battles week roll) declares the sub-fields it compares; the previous state counts as "no
   previous save" only when one of those sub-fields is missing or fails its schema, not whenever `schemaVersion` differs.

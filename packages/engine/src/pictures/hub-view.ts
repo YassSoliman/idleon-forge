@@ -369,8 +369,12 @@ function indexOf(
     const views = g.tiles.map((t) => tileViews.get(t.id) ?? tileView(t));
     const locked = g.tiles.filter((t) => t.status === 'locked');
     const allLocked = locked.length > 0 && locked.length === g.tiles.length;
+    // The world's opener: the first locked tile that opens with the world (M26 FR-6 keys some on their
+    // own fact, whose text says how that System opens, not the world).
     const unlock = allLocked
-      ? result.systems?.find((s) => s.id === locked[0]?.id && s.unlockBy === 'world')?.unlock
+      ? locked
+          .map((t) => result.systems?.find((s) => s.id === t.id && s.unlockBy === 'world'))
+          .find((s) => s?.unlock)?.unlock
       : null;
     return {
       world: g.world,

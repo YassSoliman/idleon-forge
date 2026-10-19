@@ -7,6 +7,8 @@ import type { AccountState, CharacterState } from '@idleon-forge/account-state';
 import { isKnown } from '@idleon-forge/account-state';
 import type { Subject } from './types';
 
+// M26 FR-6: the shared unlock guard, here so Detectors may use it (M11 TR-1 import rule).
+export { hasUnlockRule, UNLOCK_RULES, type UnlockState, unlocked } from './unlock';
 export { isKnown };
 
 /** The readable characters, in save order. */

@@ -217,7 +217,12 @@ describe('M24 the Systems index, the page template and the Anvil page', () => {
       { roster: [] },
       { now, id: 'equinox', highlight: null },
     );
-    expect(eq?.frame.answer).toMatchObject({ tone: 'mut', hero: "ActiveOn doesn't check Equinox yet" });
+    // M26 FR-6: no Mirror and no Dream Upgrade on this save, so Equinox reads locked, with how it opens.
+    expect(eq?.frame.answer).toMatchObject({
+      tone: 'mut',
+      hero: "Equinox isn't open yet",
+      cap: 'How it opens',
+    });
   });
   it('the Anvil page: the Bowman Lv 60 puts its 3 spare points into Speed; splits by work', () => {
     const { state } = fixture('scrubbed-w3');
