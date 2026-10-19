@@ -562,7 +562,10 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
     // "n left" counts what is still to do after this position, so it never exceeds the positions left
     // ("5 of 5 · 4 left" read as a contradiction); the last position reads "last one".
     const left = order.slice(k).filter((j) => !ui.visited.has(j) && hasAnything(j)).length;
-    const nextTarget = order.find((j) => j !== i && !ui.visited.has(j) && hasAnything(j)) ?? null;
+    // Next is the next character after this one in Visit Order that still has something to do; past the
+    // last one it is null and the page leads back to Now (M24 QA P1-4: it used to search from the start,
+    // so every page but the first pointed back at position 1).
+    const nextTarget = order.slice(k).find((j) => !ui.visited.has(j) && hasAnything(j)) ?? null;
     const playing =
       ui.playing?.index === i
         ? ui.playing.status === 'next-up'
@@ -654,10 +657,7 @@ export function buildNowView(result: EngineResult, prefs: NowPrefs, ui: NowUi): 
         nextTarget === null
           ? {
               index: null,
-              text:
-                k >= total
-                  ? 'Last one: the Account list is next'
-                  : 'Nothing left to visit: the Account list is next',
+              text: k >= total ? 'Last one: back to Now' : 'Nothing left to visit: back to Now',
             }
           : { index: nextTarget, text: nextText(nextTarget) },
     };

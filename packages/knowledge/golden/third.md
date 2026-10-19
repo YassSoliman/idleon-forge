@@ -266,7 +266,7 @@ Can't read Bubba from this save
 
 ## Builds
 ### C1 (Blood Berserker 521)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (437 unspent)
   - Star talents: 437 unspent · they end here
     - done: Stonks! 30
@@ -283,7 +283,7 @@ Can't read Bubba from this save
     - and 7 more
 
 ### C2 (Siege Breaker 527)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (531 unspent)
   - Star talents: 531 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
@@ -300,7 +300,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C3 (Bubonic Conjuror 568)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Star talents (42 unspent)
   - Star talents: 42 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
@@ -317,7 +317,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C4 (Divine Knight 655)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (294 unspent)
   - Star talents: 294 unspent · they end here
     - done: Stonks! 30
@@ -334,7 +334,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C5 (Beast Master 561)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Calm Basics · Archer · Hunter · Beast Master · Star talents (462 unspent)
   - Star talents: 462 unspent · they end here
     - done: Stonks! 30
@@ -351,7 +351,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C6 (Elemental Sorcerer 545)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (256 unspent)
   - Star talents: 256 unspent · they end here
     - done: Stonks! 30
@@ -368,7 +368,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C7 (Voidwalker 523)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Beginner · Journeyman · Maestro · Voidwalker · Star talents (631 unspent)
   - Star talents: 631 unspent · they end here
     - done: Stonks! 30
@@ -385,7 +385,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C8 (Divine Knight 558)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (820 unspent)
   - Star talents: 820 unspent · they end here
     - done: Stonks! 30
@@ -402,7 +402,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C9 (Elemental Sorcerer 552)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (403 unspent)
   - Star talents: 403 unspent · they end here
     - done: Stonks! 30
@@ -419,7 +419,7 @@ Can't read Bubba from this save
     - and 6 more
 
 ### C10 (Siege Breaker 522)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (511 unspent)
   - Star talents: 511 unspent · they end here
     - done: Stonks! 30

@@ -91,7 +91,8 @@ describe('Focus: opening, Back and keyboard focus (FR-6, FR-13, TR-5, TR-14)', (
       'Bowman 38',
     ]);
     expect(links[2]?.getAttribute('aria-current')).toBe('page');
-    expect(links[0]?.getAttribute('aria-label')).toBe('Barbarian 51: fix before you leave');
+    // The same state word as Now's cards and the Characters grid (M24 QA P1-10).
+    expect(links[0]?.getAttribute('aria-label')).toBe('Barbarian 51: Fix first');
     expect(nav.textContent).not.toMatch(/Dahlia|Elm|Cedar/);
     fireEvent.click(links[3] as HTMLElement);
     expect(window.location.hash).toBe('#now-1');

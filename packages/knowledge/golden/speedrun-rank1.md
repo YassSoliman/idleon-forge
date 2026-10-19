@@ -278,7 +278,7 @@ Gifts: Beeg Slice, Slabcakes
 
 ## Builds
 ### C1 (Death Bringer 1780)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Rage Basics · Warrior · Barbarian · Blood Berserker · Death Bringer · Star talents (6,255 unspent)
   - Star talents: 6,255 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
@@ -295,7 +295,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C2 (Arcane Cultist 1769)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (4,401 unspent)
   - Star talents: 4,401 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
@@ -312,7 +312,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C3 (Siege Breaker 1647)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (3,309 unspent)
   - Star talents: 3,309 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
@@ -329,7 +329,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C4 (Divine Knight 1787)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (7,429 unspent)
   - Star talents: 7,429 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
@@ -346,7 +346,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C5 (Elemental Sorcerer 1700)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (5,465 unspent)
   - Star talents: 5,465 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
@@ -363,7 +363,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C6 (Wind Walker 1775)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (6,195 unspent)
   - Star talents: 6,195 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
@@ -380,7 +380,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C7 (Divine Knight 1822)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (6,805 unspent)
   - Star talents: 6,805 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
@@ -397,7 +397,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C8 (Voidwalker 1754)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Beginner · Journeyman · Maestro · Voidwalker · Star talents (7,631 unspent)
   - Star talents: 7,631 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
@@ -414,7 +414,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C9 (Arcane Cultist 1783)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (6,516 unspent)
   - Star talents: 6,516 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
@@ -431,7 +431,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C10 (Siege Breaker 1763)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Calm Basics · Archer · Bowman · Siege Breaker · Star talents (6,284 unspent)
   - Star talents: 6,284 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 27 → 30 · +3 (pays for itself: it returns star points as it levels)
@@ -448,7 +448,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C11 (Divine Knight 1771)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Rage Basics · Warrior · Squire · Divine Knight · Star talents (6,938 unspent)
   - Star talents: 6,938 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)

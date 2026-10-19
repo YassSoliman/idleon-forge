@@ -20,7 +20,8 @@ describe('renderNowText on the view fixtures', () => {
     const text = renderNowText(view(r, { focus: 2, leftFrom: 3 }));
     expect(text).toContain('FOCUS <c2> · 5 of 5 · last one');
     expect(text).toContain('Left <c3> ✓ 1 done · Fix before you leave');
-    expect(text).toContain('Next: switch to Barbarian 51 · 1 fix');
+    // The last position leads back to Now (M24 QA P1-4).
+    expect(text).toContain('Last one: back to Now');
     for (const c of r.characters) expect(text).not.toContain(c.name);
   });
   it('has the "### <label> · <Class> <level> · <Verdict>" lines M11 diffs Verdicts on', () => {

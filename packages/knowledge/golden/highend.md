@@ -288,7 +288,7 @@ Gifts: Beeg Slice, Slabcakes
 
 ## Builds
 ### C1 (Death Bringer 1701)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Death Bringer · Star talents (5,983 unspent)
   - Star talents: 5,983 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 20 → 30 · +10 (pays for itself: it returns star points as it levels)
@@ -305,7 +305,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C2 (Siege Breaker 1725)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (5,415 unspent)
   - Star talents: 5,415 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 20 → 30 · +10 (pays for itself: it returns star points as it levels)
@@ -322,7 +322,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C3 (Elemental Sorcerer 1734)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Savvy Basics · Mage · Wizard · Elemental Sorcerer · Star talents (4,211 unspent)
   - Star talents: 4,211 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 18 → 30 · +12 (pays for itself: it returns star points as it levels)
@@ -339,7 +339,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C4 (Divine Knight 1819)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (668 unspent)
   - Star talents: 668 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 20 → 30 · +10 (pays for itself: it returns star points as it levels)
@@ -356,7 +356,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C5 (Arcane Cultist 1762)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (5,154 unspent)
   - Star talents: 5,154 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 20 → 30 · +10 (pays for itself: it returns star points as it levels)
@@ -373,7 +373,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C6 (Wind Walker 1744)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (6,292 unspent)
   - Star talents: 6,292 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 17 → 30 · +13 (pays for itself: it returns star points as it levels)
@@ -390,7 +390,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C7 (Divine Knight 1734)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Rage Basics · Warrior · Squire · Divine Knight · Star talents (4,108 unspent)
   - Star talents: 4,108 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 25 → 30 · +5 (pays for itself: it returns star points as it levels)
@@ -407,7 +407,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C8 (Voidwalker 1764)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Beginner · Journeyman · Maestro · Voidwalker · Star talents (7,748 unspent)
   - Star talents: 7,748 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 18 → 30 · +12 (pays for itself: it returns star points as it levels)
@@ -424,7 +424,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 7 more
 
 ### C9 (Arcane Cultist 1743)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Savvy Basics · Mage · Shaman · Bubonic Conjuror · Arcane Cultist · Star talents (3,296 unspent)
   - Star talents: 3,296 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 18 → 30 · +12 (pays for itself: it returns star points as it levels)
@@ -441,7 +441,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C10 (Wind Walker 1742)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Calm Basics · Archer · Hunter · Beast Master · Wind Walker · Star talents (5,723 unspent)
   - Star talents: 5,723 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 22 → 30 · +8 (pays for itself: it returns star points as it levels)
@@ -458,7 +458,7 @@ Gifts: Beeg Slice, Slabcakes
     - and 6 more
 
 ### C11 (Beginner 1717)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Beginner · Star talents (5,319 unspent)
   - Star talents: 5,319 unspent · they end here
     - done: Stonks! 30

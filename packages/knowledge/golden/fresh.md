@@ -204,7 +204,7 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
 
 ## Builds
 ### C1 (Siege Breaker 478)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Calm Basics · Archer · Bowman · Siege Breaker · Star talents (1,534 unspent)
   - Star talents: 1,534 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
@@ -221,7 +221,7 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
     - and 6 more
 
 ### C2 (Blood Berserker 534)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Other preset: Rage Basics · Warrior · Barbarian · Blood Berserker · Star talents (1,835 unspent)
   - Star talents: 1,835 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)
@@ -238,7 +238,7 @@ Locked: pats (Opens at Happi Boi), smoker (Opens at Smoker), charisma (Opens at 
     - and 7 more
 
 ### C3 (Beginner 1)
-- Builds cover World 1 to World 4 for now; these are your plain talent levels
+- No build for this stage yet (builds cover World 1 to World 4): these are your talent levels
 - Current preset (in use): Beginner · Star talents (413 unspent)
   - Star talents: 413 unspent · they end here (Stonks! returns more as it levels)
     - can add now: Stonks! 0 → 30 · +30 (pays for itself: it returns star points as it levels)

@@ -66,12 +66,19 @@ const gear: Health = (view, index) => {
   return s.every((x) => x.state === 'unknown') ? h('unknown', 'not known') : OK;
 };
 
-/** Cards (M8): the wrong preset worn, then empty slots, then better cards owned. */
+/**
+ * Cards (M8): the wrong preset worn, then empty slots, then better cards owned. "Wrong preset" only when
+ * the Cards tab itself says to switch: its AFK-target recommendation puts the cards in another preset.
+ * An empty or mixed active preset that the tab fills in place is its empty slots or its swaps, never
+ * "switch it" (M24 QA P1-11: `presetFits` is false for an empty preset too).
+ */
 const cards: Health = (view, index) => {
   const c = view.cards?.characters.find((x) => x.index === index);
   if (!c) return null;
   if (c.unknown) return h('unknown', 'not known');
-  if (c.presetFits === false) return h('fix', 'wrong preset');
+  const afk = c.recommendations.find((r) => r.reason === 'afk-target');
+  if (c.presetFits === false && afk?.preset != null && afk.preset !== c.activePreset)
+    return h('fix', 'wrong preset');
   const slots = of(c.slotCount, 'slot');
   if (c.emptySlots > 0) return h('empty', `${n(c.emptySlots)} of ${slots} empty`, c.emptySlots);
   const swaps = c.recommendations.reduce((s, r) => s + (r.done ? 0 : r.swaps.length), 0);
@@ -82,7 +89,10 @@ const cards: Health = (view, index) => {
 const signs: Health = (view, index) => {
   const c = view.starSigns?.characters.find((x) => x.index === index);
   if (!c?.activity) return null;
-  return c.matches ? OK : h('behind', `${of(c.recommended.length, 'sign')} to swap`, c.recommended.length);
+  // Nothing to swap to is fine, never a "0" badge (M24 QA, end-game save).
+  return c.matches || c.recommended.length === 0
+    ? OK
+    : h('behind', `${of(c.recommended.length, 'sign')} to swap`, c.recommended.length);
 };
 
 /** Skills (M20): Parallel Slots this character could fill now. */

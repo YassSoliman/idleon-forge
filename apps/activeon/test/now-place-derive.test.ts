@@ -7,6 +7,7 @@ import { describe, expect, it } from 'vitest';
 import {
   awayParts,
   cardState,
+  characterStates,
   dailyPart,
   fullGroups,
   fullSet,
@@ -144,6 +145,14 @@ describe('the hero and the cards agree (red-team #2)', () => {
   it('a card says Fix first over Collect, Collect when full, Ready otherwise, never Ready beside a full cap', () => {
     const full = fullSet(fullGroups(timeline, view));
     expect(view.roster.map((r) => cardState(r, full))).toEqual(['collect', 'fix', 'ready', 'unknown']);
+  });
+
+  it("the Character page's states are the cards' states, with or without the Timeline (M24 QA P1-10)", () => {
+    const full = fullSet(fullGroups(timeline, view));
+    const states = characterStates(view);
+    for (const r of view.roster) expect(states.get(r.index)).toBe(cardState(r, full));
+    // A Ready Verdict with a full cap is Collect on the page too, never "ready".
+    expect(states.get(2)).toBe('collect');
   });
 });
 

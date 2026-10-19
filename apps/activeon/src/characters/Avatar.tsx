@@ -13,13 +13,26 @@ const slug = (label: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
 
+/** The game spells it "Conjuror"; the kit's sprite is "conjurer". */
+const ALIAS: Readonly<Record<string, string>> = { 'bubonic-conjuror': 'bubonic-conjurer' };
+
 /** "Beast Master" -> "class-beast-master" when the kit draws it, else null. */
 export const classSprite = (classLabel: string): string | null => {
-  const name = `class-${slug(classLabel)}`;
+  const s = slug(classLabel);
+  const name = `class-${ALIAS[s] ?? s}`;
   return spriteOf(name) ? name : null;
 };
 
-/** A character's picture: its class sprite, or the family who-glyph. Always decorative (a label sits beside it). */
+/**
+ * The class family's own sprite ("class-warrior") for a class the kit doesn't draw yet, so a strip of
+ * end-game classes never mixes class sprites with blobs (M24 QA P3).
+ */
+const familySprite = (family: ClassFamily): string | null => {
+  const name = `class-${family}`;
+  return spriteOf(name) ? name : null;
+};
+
+/** A character's picture: its class sprite, else its family's, else the family who-glyph. Always decorative. */
 export function Avatar({
   classLabel,
   family,
@@ -29,7 +42,7 @@ export function Avatar({
   family: ClassFamily;
   size: 32 | 48 | 64;
 }) {
-  const name = classSprite(classLabel);
+  const name = classSprite(classLabel) ?? familySprite(family);
   if (name) return <Sprite name={name} size={size} decorative className="cp-avatar" />;
   return (
     <span className="cp-avatar cp-avatar--who" data-size={size}>

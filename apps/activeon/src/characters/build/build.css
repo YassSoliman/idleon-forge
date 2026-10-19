@@ -613,3 +613,16 @@ fieldset.bd-presets {
   letter-spacing: 0;
   text-transform: none;
 }
+
+/* No Build for this class or stage (M24 QA P1-9): the talent levels as they are, no order. */
+.bd-tal[data-k="plain"] .bd-tal-name,
+.bd-tal-lv[data-k="plain"] {
+  color: var(--fg);
+}
+.bd-presets--plain {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.bd-presets--plain .bd-preset--off[aria-pressed="true"] {
+  background: var(--sunk);
+  box-shadow: inset 0 -3px 0 var(--accent);
+}

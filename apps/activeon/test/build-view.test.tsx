@@ -366,8 +366,73 @@ describe('Build view', () => {
     expect(screen.queryByText('No build yet for this class')).toBeNull();
   });
 
+  it('an end-game character with no Build still shows its talent tabs and levels (M24 QA P1-9)', () => {
+    const tab = (t: number, name: string, spent: number, others: { label: string; level: number }[]) => ({
+      tab: t,
+      name,
+      spent,
+      unspent: null,
+      rows: [],
+      others,
+      known: { kind: 'none' as const, points: null, overBy: null },
+      path: [],
+    });
+    const plain: BuildRoadmap = {
+      ...noBuild,
+      classLabel: 'Siege Breaker',
+      level: 1291,
+      note: 'No build for this stage yet (builds cover World 1 to World 4): these are your talent levels',
+      presets: [
+        preset(0, {
+          active: false,
+          role: null,
+          heading: 'Other preset',
+          tabs: [tab(1, 'Calm Basics', 0, [])],
+        }),
+        preset(1, {
+          active: true,
+          role: null,
+          heading: 'Current preset',
+          tabs: [
+            tab(1, 'Calm Basics', 1146, [
+              { label: 'Quickness Boots', level: 820 },
+              { label: 'Featherweight', level: 326 },
+            ]),
+            tab(2, 'Archer', 208, [{ label: 'Some Archer Talent', level: 208 }]),
+          ],
+        }),
+      ],
+    };
+    window.history.replaceState(null, '', '/#build-2');
+    const r: EngineResult = { ...fixture('mid-session'), builds: [shaman, plain] };
+    renderNow(props(r, saveOf(r, 1, 'first', null, 'paste')));
+    expect(screen.getByText(plain.note ?? '')).toBeTruthy();
+    // The preset with points opens first; the empty one says so.
+    const presets = screen.getByRole('group', { name: 'Talent presets' });
+    expect(within(presets).getByRole('button', { pressed: true }).textContent).toContain('1,354 points in');
+    expect(within(presets).getByRole('button', { pressed: false }).textContent).toContain('empty');
+    // The talent tabs, the one shown pressed, and its talents with their levels.
+    const tabs = screen.getByRole('group', { name: 'Preset 2: talent tabs' });
+    expect(within(tabs).getByRole('button', { pressed: true }).textContent).toBe('Calm Basics');
+    const book = screen.getByRole('list', { name: 'Calm Basics tab talents' });
+    expect(
+      within(book)
+        .getAllByRole('listitem')
+        .map((li) => li.textContent),
+    ).toEqual(['QBQuickness BootsLevel 820', 'FEFeatherweightLevel 326']);
+    fireEvent.click(within(tabs).getByRole('button', { name: /Archer/ }));
+    expect(
+      within(screen.getByRole('list', { name: 'Archer tab talents' })).getByText('Some Archer Talent'),
+    ).toBeTruthy();
+    // No build: no points to spend, no gold dot on the Build tab.
+    expect(screen.queryByText(/Spend /)).toBeNull();
+    const nav = screen.getByRole('navigation', { name: 'Character page' });
+    expect(within(nav).getByRole('link', { current: 'page' }).textContent).toBe('Build');
+  });
+
   it('the same note on every character is one account-level line (#70 A5)', () => {
-    const note = 'Builds cover World 1 to World 4 for now; these are your plain talent levels';
+    const note =
+      'No build for this stage yet (builds cover World 1 to World 4): these are your talent levels';
     const r: EngineResult = {
       ...fixture('mid-session'),
       builds: [0, 1, 2].map((index) => ({
