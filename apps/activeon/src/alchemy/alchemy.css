@@ -372,3 +372,18 @@
 .al-bar i.w100 {
   width: 100%;
 }
+
+/* R12 QA (boxes in boxes): the Alchemy page's sections are open, not filled panels. The pots stay as
+   game objects and the Pay 2 Win cells are the only tiles; a hairline parts the sections. */
+.sy-pic.al-panel {
+  padding: var(--space-3) 0 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: inset 0 1px 0 var(--line);
+}
+.al-panel .al-cell {
+  background: var(--sunk);
+}
+.al-panel .al-cell.is-now {
+  background: var(--accent-soft);
+}
