@@ -169,3 +169,37 @@ describe('TR-9: the Time area words are not advice', () => {
     expect(strings.filter(isAdviceShaped)).toEqual([]);
   });
 });
+
+describe('M24 fix: the NOW cell sits on the character the step names', () => {
+  it('on a synthetic seat Goal naming the third linked character, the cell is on that row', () => {
+    const { r, view } = on('scrubbed-w3');
+    const order = view.roster.map((x) => x.index);
+    const [a, b, c] = order as [number, number, number];
+    const key = 'construction.check.cog-seat-free@account';
+    // Three characters on the shelf, all linked to the seat Goal; its Next Action names the third.
+    const skills = (r.skills ?? []).map((s) => ({
+      ...s,
+      slots: s.slots.map((p) =>
+        p.kind === 'cog'
+          ? [a, b, c].includes(s.index)
+            ? { ...p, state: 'filled' as const, text: 'on the shelf: makes cogs', linkKey: key }
+            : { ...p, state: 'filled' as const, text: 'builds on the Cog Board', linkKey: null }
+          : { ...p, linkKey: null },
+      ),
+    }));
+    const goal = r.account.goals.find((g) => g.nextAction.key === key) ?? r.account.goals[0];
+    if (!goal) throw new Error('scrubbed-w3 has Goals');
+    const seat = {
+      ...goal,
+      nextAction: { ...goal.nextAction, key, text: 'Seat the third one' },
+      details: [
+        { subject: `c${a}` as const, text: 'Seat the first one' },
+        { subject: `c${b}` as const, text: 'Seat the second one' },
+      ],
+    };
+    const v = buildSlotsView({ ...r, skills, account: { ...r.account, goals: [seat] } }, view);
+    expect(v?.now?.index).toBe(c);
+    const cells = v?.rows.flatMap((x) => x.cells.filter((k) => k.now).map(() => x.index));
+    expect(cells).toEqual([c]);
+  });
+});
