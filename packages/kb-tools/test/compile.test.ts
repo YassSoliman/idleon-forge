@@ -2,7 +2,8 @@
 // Copyright (C) 2026 IdleOn Forge contributors.
 // `kb compile` (M11 TR-7, TR-12, TR-13, FR-21 to FR-23, TR-17).
 
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
 import { gzipSync } from 'node:zlib';
 import { canonicalJson, diffManifests, loadKnowledge, packKnowledge } from '@idleon-forge/knowledge';
 import { describe, expect, it } from 'vitest';
@@ -149,6 +150,30 @@ const tree = (opts: { milestone2?: number; sourceUrl?: string; text?: string; re
 const build = async (root: string) => compile(loadSource(root), { git: null }, regs);
 
 describe('kb compile on a throwaway tree', () => {
+  it('never ships a draft (M26 FR-1)', async () => {
+    const root = tree();
+    const before = await build(root);
+    writeFileSync(
+      path.join(root, 'systems/drafts.yaml'),
+      file(
+        'alchemy',
+        entry({
+          id: 'alchemy.check.draft-only',
+          system: 'alchemy',
+          type: 'check',
+          subject: 'account',
+          effect: 'next-action',
+          confidence: 'M',
+          status: 'draft',
+          detector: '{ id: alchemy/not-built }',
+        }),
+      ),
+    );
+    const after = await build(root);
+    expect(after.entries['alchemy.check.draft-only']).toBeUndefined();
+    expect(canonicalJson(after)).toBe(canonicalJson(before));
+  });
+
   it('is deterministic: same source, same bytes', async () => {
     const root = tree();
     expect(canonicalJson(await build(root))).toBe(canonicalJson(await build(root)));

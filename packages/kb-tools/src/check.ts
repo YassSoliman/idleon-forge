@@ -170,6 +170,19 @@ export async function checkSource(src: KbSource, registries?: Registries): Promi
       err(e.file, e.lineOf(['id']), e.value.id, `duplicate id (also in ${prev.file}:${prev.lineOf(['id'])})`);
     else byId.set(e.value.id, e);
   }
+  // Drafts (M26 FR-1): their ids are taken, and nothing live may depend on one. Nothing else here
+  // reads them: they ship nothing, so their Detectors and references are their wave's to settle.
+  const draftIds = new Map<string, KbSource['drafts'][number]>();
+  for (const d of src.drafts) {
+    const prev = byId.get(d.value.id) ?? draftIds.get(d.value.id);
+    if (prev)
+      err(d.file, d.lineOf(['id']), d.value.id, `duplicate id (also in ${prev.file}:${prev.lineOf(['id'])})`);
+    else draftIds.set(d.value.id, d);
+  }
+  for (const e of all)
+    for (const ref of referencesOf(e.value))
+      if (!byId.has(ref.id) && draftIds.has(ref.id))
+        err(e.file, e.lineOf(ref.where), e.value.id, `references ${ref.id}, which is a draft (M26 FR-1)`);
   const facts = new Map<string, Located<FactTableT>>();
   for (const f of src.facts) {
     if (facts.has(f.value.id) || byId.has(f.value.id))

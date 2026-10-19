@@ -77,6 +77,8 @@ export interface KbSource {
   systems: Located<SystemDefT>[];
   majors: z.infer<typeof MajorsFile>['majors'];
   authored: Located<AuthoredEntryT>[];
+  /** `status: draft` entries (M26 FR-1): schema-checked, id-checked, never compiled or checked as live. */
+  drafts: Located<AuthoredEntryT>[];
   generated: Located<GeneratedEntryT>[];
   facts: Located<FactTableT>[];
   patches: string[];
@@ -134,6 +136,7 @@ export function loadSource(root: string = KNOWLEDGE): KbSource {
     systems: [],
     majors: [],
     authored: [],
+    drafts: [],
     generated: [],
     facts: [],
     patches: [],
@@ -249,7 +252,12 @@ export function loadSource(root: string = KNOWLEDGE): KbSource {
           id: value.id,
           message: 'authored entries never set origin or generatedBy',
         });
-      src.authored.push({ file: y.file, value, lineOf: (p = []) => y.lineOf(['entries', i, ...p]) });
+      const located: Located<AuthoredEntryT> = {
+        file: y.file,
+        value,
+        lineOf: (p = []) => y.lineOf(['entries', i, ...p]),
+      };
+      (value.status === 'draft' ? src.drafts : src.authored).push(located);
     });
   }
 

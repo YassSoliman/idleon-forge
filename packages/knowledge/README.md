@@ -52,6 +52,13 @@ values), on the live pinned data (invariants) and against a known save (the raw-
 Generated entries whose Detector isn't registered yet show as `pending-detector` warnings until the
 owner module adds the Detector.
 
+## Drafts
+
+An authored entry may set `status: draft` (M26 FR-1). `kb check` validates it against the schema and
+reserves its id, `kb compile` never ships it, and no live entry may reference it. Its Detector,
+references and template slots are checked only once it is promoted to `active` or `contested`, in the
+PR that ships its Detector, after its wave's red team.
+
 ## Goldens
 
 `golden/<fixture>.md`, rendered by `pnpm kb golden` (`-u` rewrites, `--only <id>`, `--diff-base <ref>`

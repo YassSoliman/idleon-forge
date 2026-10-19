@@ -115,7 +115,11 @@ const Base = z.strictObject({
   sources: z.array(Source).min(1),
   appliesTo: AppliesTo,
   confidence: z.enum(['H', 'M', 'L']),
-  status: z.enum(['active', 'contested', 'retired']),
+  /**
+   * `draft` (M26 FR-1, owner Q1): validated like any entry but never compiled, so it never reaches the
+   * engine; promotion flips it to `active` or `contested` in the PR that ships its Detector.
+   */
+  status: z.enum(['active', 'contested', 'retired', 'draft']),
   contested: z.strictObject({ sides: z.array(Side).min(2) }).optional(),
   retired: z.strictObject({ reason: z.string().min(1), replacedBy: EntryId.optional() }).optional(),
   /** Set only by the staleness pass (TR-11). */
