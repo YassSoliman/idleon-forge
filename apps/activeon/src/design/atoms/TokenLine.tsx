@@ -35,18 +35,11 @@ export function TokenLine({ who, where, howLong }: TokenLineProps) {
     ) : null,
   ].filter((t) => t !== null);
   if (tokens.length === 0) return null;
+  // R12 QA: each token draws its own "·" before it, and the line clips the one at the start of every
+  // row, so a wrap never leaves a dangling "·" at a line's end.
   return (
     <span className="a-token-line">
-      {tokens.flatMap((t, i) =>
-        i === 0
-          ? [t]
-          : [
-              <span key={`sep-${t.key}`} className="a-token-sep" aria-hidden="true">
-                ·
-              </span>,
-              t,
-            ],
-      )}
+      <span className="a-token-line__in">{tokens}</span>
     </span>
   );
 }
