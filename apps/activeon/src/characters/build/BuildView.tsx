@@ -510,16 +510,21 @@ function AttackBar({ p }: { p: BuildPresetView }) {
       <h3 className="a-cap bd-cap">{title}</h3>
       <ol className="bd-atk-row">
         {bar.set.map((a) => (
-          <li key={`s-${a}`} className="bd-slot" title={a}>
-            <TalentFace id={null} label={a} />
-            <span className="sr-only">{a}</span>
+          <li key={`s-${a}`} className="bd-atk-it">
+            <span className="bd-slot" aria-hidden="true">
+              <TalentFace id={null} label={a} />
+            </span>
+            <span className="bd-atk-name">{a}</span>
           </li>
         ))}
         {bar.missing.map((a) => (
-          <li key={`m-${a}`} className="bd-slot" data-ghost="yes" title={B.wants(a)}>
-            <GameIcon art={talentArtOf(null, a)} fallback={<>+</>} size={32} decorative />
-            <span className="sr-only">
-              {W.attackBar.empty}, {B.wants(a)}
+          <li key={`m-${a}`} className="bd-atk-it" data-ghost="yes">
+            <span className="bd-slot" data-ghost="yes" aria-hidden="true">
+              <GameIcon art={talentArtOf(null, a)} fallback={<>+</>} size={32} decorative />
+            </span>
+            <span className="bd-atk-name">
+              <span className="sr-only">{W.attackBar.empty}, </span>
+              {B.wants(a)}
             </span>
           </li>
         ))}
