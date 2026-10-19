@@ -16,7 +16,7 @@ import type { EngineResult } from '@idleon-forge/engine/result';
 import { PATCH_FOOTER_NOTE, preferencePrefix } from '@idleon-forge/sync';
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Footer } from './components/Footer';
-import { Header, type HeaderSave } from './components/Header';
+import { Header, type HeaderSave, SaveAgeLine } from './components/Header';
 import type { MenuSaveKind } from './components/HeaderMenu';
 import { PixelArt } from './design/art/PixelArt';
 import { Button } from './design/atoms/Button';
@@ -273,6 +273,7 @@ function AppBody({ a, serverBuild }: { a: ActiveOn; serverBuild: number | null }
         familyLevel={headerSave?.state.account.accountLevel ?? null}
         save={{
           kind: saveKind,
+          age: headerSave ? <SaveAgeLine save={headerSave} /> : null,
           action: signedIn ? (
             <Suspense fallback={null}>
               <SignOutControl onSignOut={a.signOut} />
